@@ -1,0 +1,5 @@
+{
+  "name": "HSC AI Writing Evaluator",
+  "description": "An AI-powered tool to evaluate, mark, and provide feedback on NESA HSC Software Engineering writing samples, using official syllabus content and marking criteria.",
+  "requestFramePermissions": []
+}

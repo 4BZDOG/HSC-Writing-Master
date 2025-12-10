@@ -1,0 +1,53 @@
+[
+  {
+    "id": "course-template-01",
+    "name": "My Example Course (Template)",
+    "outcomes": [
+      {
+        "code": "EX-01",
+        "description": "A sample course outcome description goes here."
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-template-01",
+        "name": "Example Topic 1",
+        "subTopics": [
+          {
+            "id": "subTopic-template-01",
+            "name": "Example Sub-Topic 1.1",
+            "dotPoints": [
+              {
+                "id": "dp-template-01",
+                "description": "Describe an example concept from the syllabus.",
+                "prompts": [
+                  {
+                    "id": "prompt-template-01",
+                    "question": "Describe the key features of [a specific concept].",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "scenario": "A short, relevant, real-world scenario that provides context for the question.",
+                    "keywords": [
+                      "keyword1",
+                      "keyword2",
+                      "relevant term"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies a basic feature.\n- 2 marks: Describes one feature with some detail.\n- 3 marks: Describes two features clearly.\n- 4 marks: Provides a detailed description of multiple key features with appropriate terminology.",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-template-01",
+                        "band": 5,
+                        "mark": 4,
+                        "answer": "A well-structured sample answer that meets the criteria for the specified mark. It should correctly use the keywords and address the command verb 'Describe' by providing detailed characteristics and features."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

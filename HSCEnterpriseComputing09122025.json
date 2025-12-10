@@ -1,0 +1,2999 @@
+[
+  {
+    "id": "course-ec-01",
+    "name": "HSC Enterprise Computing",
+    "outcomes": [
+      {
+        "code": "EC-01",
+        "description": "A student evaluates the role of enterprise systems in processing data and enabling business functions."
+      },
+      {
+        "code": "EC-02",
+        "description": "A student analyses the impact of data scale, quality, and management on enterprise systems."
+      },
+      {
+        "code": "EC-03",
+        "description": "A student applies computational thinking and software tools to process, present, and query data in an enterprise context."
+      },
+      {
+        "code": "EC-04",
+        "description": "A student assesses the legal, social, and ethical responsibilities associated with the use and management of enterprise data."
+      },
+      {
+        "code": "EC-05",
+        "description": "A student investigates and explains the function and operation of intelligent systems in various enterprise contexts."
+      },
+      {
+        "code": "EC-06",
+        "description": "A student applies project management principles and development methodologies to the design and implementation of an enterprise system."
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-dv-main",
+        "name": "Data visualisation",
+        "subTopics": [
+          {
+            "id": "subTopic-dv-01",
+            "name": "Using data to tell a story",
+            "dotPoints": [
+              {
+                "id": "dp-dv-01",
+                "description": "Explain the purposes of data visualisation, including simplifying understanding, telling a story, and highlighting significant results.",
+                "prompts": [
+                  {
+                    "id": "prompt-dv-01-2m",
+                    "question": "Identify two main purposes of data visualisation.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "scenario": "A business analyst needs to present quarterly sales figures to company executives.",
+                    "linkedOutcomes": [
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "data visualisation",
+                      "purpose",
+                      "storytelling"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies one correct purpose (e.g., to simplify complex data). -\n1 mark: Identifies a second correct purpose (e.g., to tell a story or highlight key results).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-01-2m",
+                        "band": 2,
+                        "answer": "Two main purposes of data visualisation are to simplify complex datasets, making them easier to understand at a glance, and to tell a story by guiding the audience through the data to a specific conclusion or insight.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-dv-01-4m",
+                    "question": "Explain how a well-designed data visualisation can be more effective at highlighting significant results than a raw table of data.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "scenario": "An environmental scientist has collected thousands of data points on rising sea levels and needs to present the findings to policymakers.",
+                    "linkedOutcomes": [
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "data visualisation",
+                      "storytelling",
+                      "simplifying understanding",
+                      "highlighting results"
+                    ],
+                    "markingCriteria": "- 2 marks: Explains that visual elements like colour, size, and position can be used to create visual contrast and draw attention to key points (e.g., using red for a sharp increase). -\n2 marks: Explains that the human brain processes visual information more quickly than text, allowing an audience to instantly grasp trends, outliers, or patterns in a chart that would be hidden in a table of numbers.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-01-4m",
+                        "band": 5,
+                        "answer": "A data visualisation is more effective because it uses visual cues to draw the audience's attention to what is important. For example, a line chart can use a steeply rising line and a contrasting colour like red to immediately highlight a dramatic increase in sea levels. This creates an instant visual impact that a table of numbers cannot.\n\nFurthermore, visualisations leverage pre-attentive attributes that our brains process very quickly. An audience can spot a trend or an outlier in a graph in seconds, whereas finding the same significant result in a large table of raw data would require careful and time-consuming reading and comparison, making the message less impactful and harder to grasp.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-dv-02",
+                "description": "Describe how features of software contribute to a better understanding of datasets through data visualisation, including spreadsheets, creative design applications and combining applications to track trends and forecast.",
+                "prompts": [
+                  {
+                    "id": "prompt-dv-02-2m",
+                    "question": "Identify two features of spreadsheet software that can be used to create data visualisations.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "scenario": "A student needs to create a chart from a table of data.",
+                    "linkedOutcomes": [
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "spreadsheet",
+                      "features",
+                      "data visualisation"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies one correct feature (e.g., chart/graphing tools). -\n1 mark: Identifies a second correct feature (e.g., conditional formatting).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-02-2m",
+                        "band": 2,
+                        "answer": "Two features of spreadsheet software used for data visualisation are its built-in charting tools, which can create various graphs like bar, line, and pie charts, and conditional formatting, which automatically changes the appearance of cells (e.g., their colour) based on the data they contain.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-dv-02-4m",
+                    "question": "Describe how an analyst could combine a spreadsheet application with a creative design application to produce a high-quality infographic.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "scenario": "A marketing team wants to create a compelling infographic about customer demographics for a presentation.",
+                    "linkedOutcomes": [
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "spreadsheet",
+                      "creative design",
+                      "applications",
+                      "infographic"
+                    ],
+                    "markingCriteria": "- 2 marks: Describes the role of the spreadsheet application: to analyse the raw data, perform calculations, and generate initial charts or tables to identify key insights. -\n2 marks: Describes the role of the creative design application: to import the key insights and charts from the spreadsheet and arrange them with custom graphics, icons, and text to create a visually appealing and narrative-driven infographic.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-02-4m",
+                        "band": 3,
+                        "answer": "An analyst would first use the spreadsheet application to process and analyse the raw customer data. They could use pivot tables to summarise the data and create basic charts, like a bar chart showing the age distribution, to understand the key trends. This step is for analysis and finding the story in the data.\n\nNext, they would export these key charts and figures into a creative design application like Adobe Illustrator or Canva. In this application, they would not be limited by the spreadsheet's formatting. They could integrate the charts into a custom layout, use brand colours, add illustrative icons, and write compelling text to build a narrative, resulting in a professional and highly engaging infographic that tells a clear story.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-dv-03",
+                "description": "Identify patterns in data by interpreting and comparing datasets for an enterprise, social or ethical issue to highlight trends and for predictive data analytics.",
+                "prompts": [
+                  {
+                    "id": "prompt-dv-03-2m",
+                    "question": "In data analytics, what is the difference between a pattern and a trend?",
+                    "totalMarks": 2,
+                    "scenario": "Analysing historical sales data.",
+                    "linkedOutcomes": [
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "patterns",
+                      "trends",
+                      "data analytics"
+                    ],
+                    "markingCriteria": "- 1 mark: Defines a trend as a general direction of data over a long period (e.g., increasing/decreasing). -\n1 mark: Defines a pattern as a recurring, predictable regularity in the data (e.g., seasonality).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-03-2m",
+                        "band": 3,
+                        "answer": "A trend is the long-term direction in which data is moving, for example, a company's sales consistently increasing year over year. A pattern is a repeating, cyclical regularity in the data, such as a retail store's sales always peaking in December each year (a seasonal pattern).",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-dv-03-4m",
+                    "question": "A city council is comparing datasets on public transport usage and air quality levels over the past five years. Explain how identifying a pattern or trend in this data could be used for predictive data analytics.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "scenario": "A city council is using data to inform its environmental policy.",
+                    "linkedOutcomes": [
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "patterns",
+                      "trends",
+                      "predictive data analytics",
+                      "comparing datasets"
+                    ],
+                    "markingCriteria": "- 2 marks: Explains how the council could identify a trend or correlation, such as observing that as public transport usage increases, air pollution levels consistently decrease. -\n2 marks: Explains how this identified relationship can be used for prediction. For example, they could model and predict that a 10% increase in bus and train usage would lead to a measurable improvement in air quality, allowing them to justify investment in public transport.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-03-4m",
+                        "band": 5,
+                        "answer": "By visually comparing the two datasets, for instance by overlaying two line graphs, the city council might identify a negative correlation: a trend showing that as public transport usage has increased over the five years, the trend for air pollution has decreased. They might also identify a recurring pattern, such as pollution dropping significantly on weekends when commuter traffic is lower.\n\nThis identified relationship is the basis for predictive data analytics. The council can use this historical data to build a model that predicts future outcomes. They could forecast that if they introduce a new train line that is projected to increase public transport usage by 20%, it will likely lead to a 5% reduction in key pollutants, providing a data-driven justification for the project.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-dv-04",
+                "description": "Investigate the impact of the evolution of hardware and software on the field of data analytics.",
+                "prompts": [
+                  {
+                    "id": "prompt-dv-04-2m",
+                    "question": "Outline how the evolution of processing power (CPU/GPU) has impacted data analytics.",
+                    "totalMarks": 2,
+                    "verb": "OUTLINE",
+                    "scenario": "Considering the history of computing.",
+                    "linkedOutcomes": [
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "hardware",
+                      "processing power",
+                      "data analytics"
+                    ],
+                    "markingCriteria": "- 2 marks: Provides a clear outline, stating that increased processing power allows for the analysis of much larger datasets and the use of more complex algorithms (like machine learning) in a shorter amount of time.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-04-2m",
+                        "band": 3,
+                        "answer": "The evolution of processing power, particularly with multi-core CPUs and powerful GPUs, has massively impacted data analytics. It has enabled analysts to process and query huge datasets (big data) much faster and to run computationally intensive machine learning algorithms that would have been impractical on older hardware.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-dv-04-4m",
+                    "question": "Investigate how advancements in BOTH storage/memory and communication media have enabled modern cloud-based data analytics.",
+                    "totalMarks": 4,
+                    "scenario": "A business is using a cloud service like Google BigQuery or Amazon S3 for its data needs.",
+                    "linkedOutcomes": [
+                      "EC-01"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "hardware",
+                      "storage",
+                      "memory",
+                      "communication media",
+                      "data analytics"
+                    ],
+                    "markingCriteria": "- 2 marks: Investigates the impact of storage/memory, explaining that the falling cost and increasing density of storage (SSDs, cloud storage) and RAM allows for vast datasets to be stored affordably and accessed quickly. -\n2 marks: Investigates the impact of communication media, explaining that high-speed fibre optic networks allow massive datasets to be transferred quickly to and from the cloud, making remote processing and analysis feasible.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-04-4m",
+                        "band": 3,
+                        "answer": "Advancements in storage and memory, such as the development of high-speed solid-state drives (SSDs) and the decreasing cost of cloud object storage, have made it economically feasible for enterprises to store petabytes of data. Increased RAM allows for larger datasets to be held in memory for rapid processing.\n\nThese storage advancements are enabled by the evolution of communication media. The widespread availability of high-bandwidth fibre optic internet allows enterprises to quickly transfer these massive datasets to cloud data centres for processing and analysis. Without fast communication media, the benefits of cheap, vast cloud storage would be negated by slow data transfer speeds, making modern cloud-based analytics impractical.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-dv-05",
+                "description": "Describe online analytical processing (OLAP).",
+                "prompts": [
+                  {
+                    "id": "prompt-dv-05-2m",
+                    "question": "What is the primary function of an OLAP system?",
+                    "totalMarks": 2,
+                    "scenario": "A business manager wants to analyse sales data interactively.",
+                    "linkedOutcomes": [
+                      "EC-01"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "OLAP",
+                      "data analysis"
+                    ],
+                    "markingCriteria": "- 2 marks: Describes the primary function as enabling fast, multi-dimensional analysis of large amounts of data, often from a data warehouse.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-05-2m",
+                        "band": 3,
+                        "answer": "The primary function of an Online Analytical Processing (OLAP) system is to allow users to perform fast and complex analysis on large volumes of data, typically from a data warehouse. It enables users to view and query the data from multiple dimensions or perspectives.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-dv-05-4m",
+                    "question": "Describe how an OLAP cube would allow a retail manager to analyse sales data. Use the dimensions of 'Product', 'Time', and 'Location' in your answer.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "scenario": "A national retail chain wants to understand its sales performance in detail.",
+                    "linkedOutcomes": [
+                      "EC-01"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "OLAP",
+                      "OLAP cube",
+                      "multi-dimensional analysis"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies that the OLAP cube pre-aggregates data along the dimensions. -\n3 marks: Describes how the manager can perform operations like 'slicing' (viewing sales for one product), 'dicing' (viewing sales for a specific product in a specific location), and 'drilling down' (moving from annual sales to quarterly sales) to explore the data interactively.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-05-4m",
+                        "band": 3,
+                        "answer": "An OLAP cube would pre-calculate and store sales data across the dimensions of Product, Time, and Location. This allows the retail manager to perform multi-dimensional analysis with near-instantaneous results. For example, they could 'slice' the cube to view total sales for a single 'Product' across all times and locations. They could 'dice' the cube to look at a very specific intersection, like sales of 'Laptops' in 'Sydney' during 'December'. They could also 'drill down' on the 'Time' dimension to move from viewing total annual sales to breaking it down by quarter, month, and then day, all without writing complex database queries.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-dv-06",
+                "description": "Assess data integrity in the development of a data visualisation, including ownership, source, validation, and risk.",
+                "prompts": [
+                  {
+                    "id": "prompt-dv-06-2m",
+                    "question": "In the context of data integrity, what is the difference between data source and data validation?",
+                    "totalMarks": 2,
+                    "scenario": "Preparing data for a visualisation.",
+                    "linkedOutcomes": [
+                      "EC-02"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "data integrity",
+                      "source",
+                      "validation"
+                    ],
+                    "markingCriteria": "- 1 mark: Defines source as where the data originates from. -\n1 mark: Defines validation as the process of checking the accuracy and quality of the data.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-06-2m",
+                        "band": 3,
+                        "answer": "The data source refers to the origin of the data—where it was collected or who created it. Data validation is the process performed after obtaining the data to check for its accuracy, completeness, and correctness, ensuring it is fit for use.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-dv-06-4m",
+                    "question": "Assess the risk to an enterprise that creates a public-facing data visualisation based on data from an unverified third-party source.",
+                    "totalMarks": 4,
+                    "verb": "ASSESS",
+                    "scenario": "A company finds a dataset on the internet and uses it in their marketing materials without checking it.",
+                    "linkedOutcomes": [
+                      "EC-02"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "data integrity",
+                      "risk",
+                      "source",
+                      "validation"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies the primary risk as presenting inaccurate information. -\n3 marks: Assesses the consequences of this risk, such as damage to the company's reputation, loss of customer trust, making poor business decisions based on the flawed data, and potential legal issues if the data is copyrighted.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-06-4m",
+                        "band": 6,
+                        "answer": "The risk to the enterprise is extremely high. By using an unverified source, the data's integrity is unknown, and it may be inaccurate, biased, or outdated. If the enterprise publishes a visualisation based on this flawed data, it risks misleading its audience. This can lead to significant reputational damage and a loss of trust from customers and stakeholders. Furthermore, making strategic business decisions based on this visualisation would be dangerous, potentially leading to financial losses. There is also a legal risk if the third-party data was protected by copyright, leading to infringement claims.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-dv-07",
+                "description": "Explain the impact of enterprise data warehousing on data visualisation, including analysis of historical data and correlation with current data.",
+                "prompts": [
+                  {
+                    "id": "prompt-dv-07-2m",
+                    "question": "Outline one major benefit a data warehouse provides for data visualisation.",
+                    "totalMarks": 2,
+                    "verb": "OUTLINE",
+                    "scenario": "An enterprise wants to create a single dashboard showing data from its sales, marketing, and HR systems.",
+                    "linkedOutcomes": [
+                      "EC-01"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "data warehousing",
+                      "data visualisation"
+                    ],
+                    "markingCriteria": "- 2 marks: Outlines that a data warehouse provides a single, centralised, and cleaned source of truth by integrating data from many different operational systems.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-07-2m",
+                        "band": 3,
+                        "answer": "A major benefit of a data warehouse is that it provides a 'single source of truth'. It integrates and cleans data from multiple disparate sources across the enterprise, providing a consistent and reliable dataset that can be used to create comprehensive and accurate data visualisations.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-dv-07-4m",
+                    "question": "Explain how a data warehouse enables an enterprise to create visualisations that correlate historical data trends with current data.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "scenario": "A retail company wants to create a dashboard comparing this month's sales to the sales from the same month over the last 10 years.",
+                    "linkedOutcomes": [
+                      "EC-01"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "data warehousing",
+                      "historical data",
+                      "data visualisation",
+                      "trends"
+                    ],
+                    "markingCriteria": "- 2 marks: Explains that data warehouses are specifically designed to store and manage vast amounts of historical data, unlike operational databases which typically only hold current data. -\n2 marks: Explains that because the warehouse contains both historical and current data in a structured, integrated format, visualisation tools can easily query and combine both datasets to show trends over time and make direct comparisons.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-07-4m",
+                        "band": 5,
+                        "answer": "Data warehouses are architected specifically to store large volumes of historical data over many years, which is something operational databases are not designed for. They collect and archive snapshots of data over time.\n\nThis has a direct impact on visualisation, as it allows analysts to query this rich historical data alongside up-to-the-minute current data. A visualisation tool can therefore easily be connected to the warehouse to create a chart that plots a 10-year sales trend and overlays the current month's performance. This provides vital context, allowing the business to identify long-term patterns, seasonality, and assess if current performance is genuinely good or just part of a recurring cycle.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-dv-08",
+                "description": "Explain how big data affects the design and development of data visualisation, including the scope of visible information and types of insight.",
+                "prompts": [
+                  {
+                    "id": "prompt-dv-08-2m",
+                    "question": "Identify two design challenges that big data creates for data visualisation.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "scenario": "A designer needs to create a chart from a dataset with billions of data points.",
+                    "linkedOutcomes": [
+                      "EC-02"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "big data",
+                      "data visualisation",
+                      "design"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies one challenge (e.g., overplotting/visual clutter). -\n1 mark: Identifies a second challenge (e.g., performance/load times).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-08-2m",
+                        "band": 2,
+                        "answer": "Two design challenges created by big data are managing visual clutter, where plotting millions of data points on a single chart makes it unreadable, and ensuring performance, as visualisations can become slow and unresponsive when trying to process and render massive datasets.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-dv-08-4m",
+                    "question": "Explain how visualising 'big data' can provide deeper and different types of insight compared to visualising a small dataset. Use an example in your answer.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "scenario": "Comparing the analysis of a small customer survey to the analysis of all customer transactions nationwide.",
+                    "linkedOutcomes": [
+                      "EC-02"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "big data",
+                      "data visualisation",
+                      "insight",
+                      "scope"
+                    ],
+                    "markingCriteria": "- 2 marks: Explains that big data allows for the identification of subtle, large-scale patterns and correlations that are statistically insignificant or invisible in small samples. -\n2 marks: Provides a relevant example, such as a small survey showing a general preference, while big data analysis reveals specific regional or demographic micro-trends.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-08-4m",
+                        "band": 5,
+                        "answer": "Visualising big data can reveal complex, large-scale patterns that are impossible to detect in a small dataset. While a small sample might show an average trend, a big data visualisation can show the variation and outliers with much higher confidence. \n\nFor example, visualising a survey of 100 customers might suggest that 'Product A' is popular. However, visualising big data from millions of transactions might reveal a deeper insight: 'Product A' is extremely popular, but only with customers aged 18-24 in metropolitan areas, and its sales have a strong correlation with social media marketing campaigns. This type of granular, multi-faceted insight is only possible with the scope and depth provided by big data.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-dv-09",
+                "description": "Evaluate bias in data collection, storage and analysis when developing visualisations, including accuracy, audience, data source, and unconscious bias.",
+                "prompts": [
+                  {
+                    "id": "prompt-dv-09-2m",
+                    "question": "Distinguish between bias from a data source and audience bias in the context of a data visualisation.",
+                    "totalMarks": 2,
+                    "verb": "DISTINGUISH",
+                    "scenario": "Analysing a chart in a news article.",
+                    "linkedOutcomes": [
+                      "EC-04"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "bias",
+                      "data source",
+                      "audience"
+                    ],
+                    "markingCriteria": "- 1 mark: Defines data source bias as a systematic flaw in the data collection that over- or under-represents a group. -\n1 mark: Defines audience bias as the tendency of the viewer to interpret the visualisation based on their pre-existing beliefs.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-09-2m",
+                        "band": 5,
+                        "answer": "Bias from a data source refers to a flaw in the data itself, for example, if a political poll only surveyed people in a single wealthy city, its results would be biased. Audience bias, or confirmation bias, relates to the person viewing the visualisation, who may interpret it in a way that confirms their own existing opinions, regardless of what the data actually shows.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-dv-09-6m",
+                    "question": "A tech company creates a data visualisation to show that its hiring process is fair. However, the data was collected via an opt-in survey sent only to current employees. Evaluate how unconscious bias and bias in the data source could lead to an inaccurate and misleading visualisation.",
+                    "totalMarks": 6,
+                    "verb": "EVALUATE",
+                    "scenario": "A company is trying to prove its hiring process is fair using a visualisation based on an internal survey.",
+                    "linkedOutcomes": [
+                      "EC-04",
+                      "EC-02"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "bias",
+                      "unconscious bias",
+                      "data source",
+                      "accuracy",
+                      "evaluate"
+                    ],
+                    "markingCriteria": "- 2 marks: Evaluates the bias in the data source, identifying it as selection bias because it excludes people who were not hired and is opt-in, meaning unhappy employees may not respond. -\n2 marks: Evaluates the role of unconscious bias, suggesting the analysts creating the visualisation may unintentionally choose metrics or chart types that portray the company in a more positive light. -\n2 marks: Makes a clear judgement that these biases make the resulting visualisation highly inaccurate and misleading, as it is based on a fundamentally flawed and unrepresentative sample of the hiring process.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-09-6m",
+                        "band": 6,
+                        "answer": "The data source is fundamentally biased. By only surveying current employees, the data completely excludes the perspectives of applicants who were rejected. This is a severe form of selection bias, as the people who may have actually experienced unfairness are not represented. Furthermore, because the survey is opt-in, employees who are content are more likely to respond, further skewing the results.\n\nUnconscious bias from the data analysts could also influence the outcome. They might, without malicious intent, choose to visualise metrics that look positive (e.g., diversity in a single department) while avoiding those that look negative (e.g., overall application-to-hire ratios for different demographics). \n\nUltimately, any visualisation developed from this data would be highly misleading. It would present an inaccurate picture of fairness based on a biased, unrepresentative dataset, creating a false narrative that ignores the most critical data points.",
+                        "mark": 6,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subTopic-dv-02",
+            "name": "Interpreting data visualisations",
+            "dotPoints": [
+              {
+                "id": "dp-dv-10",
+                "description": "Evaluate the effectiveness of software tools used to develop data visualisations, including spreadsheets, presentation software, business analytics services, and custom software solutions.",
+                "prompts": [
+                  {
+                    "id": "prompt-dv-10-2m",
+                    "question": "Identify one advantage and one disadvantage of using a spreadsheet to develop a data visualisation dashboard.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "scenario": "A small business owner wants to create a simple sales dashboard.",
+                    "linkedOutcomes": [
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "spreadsheets",
+                      "dashboards",
+                      "evaluate",
+                      "Spreadsheet software",
+                      "Data visualisation",
+                      "Dashboard development",
+                      "Data analysis"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies an advantage (e.g., widely available, low cost, easy for simple tasks). -\n1 mark: Identifies a disadvantage (e.g., limited interactivity, poor performance with large data, not easily shared).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-7509d9bb-e8a6-42dd-80a7-117f9de66e75",
+                        "band": 1,
+                        "answer": "Spreadsheet software allows Data analysis to happen. For Data visualisation in dashboards, spreadsheets can be used but it requires Dashboard development skill. We can evaluate the data.",
+                        "mark": 0,
+                        "source": "AI"
+                      },
+                      {
+                        "id": "sa-af4326fb-24ae-4dfc-ae30-8ef21034a96e",
+                        "band": 2,
+                        "answer": "An advantage of using `spreadsheet software` for `data visualisation` dashboards is its widespread availability and familiarity, making it an accessible and low-cost tool for basic `data analysis`.",
+                        "mark": 1,
+                        "source": "AI"
+                      },
+                      {
+                        "id": "sa-3a78bf6b-d22e-47d1-9c15-0ef335ac26a9",
+                        "band": 2,
+                        "answer": "An advantage of utilising spreadsheet software for data visualisation dashboard development is its widespread availability and user familiarity, which can significantly lower initial training costs and simplify data analysis for basic dashboards. Conversely, a disadvantage is that spreadsheets often have performance limitations and reduced interactivity when handling large datasets, thereby impeding sophisticated data analysis and limiting the dynamic capabilities often required for advanced data visualisation dashboards.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-dv-10-5m",
+                    "question": "Evaluate the effectiveness of using a business analytics service (e.g., Power BI, Tableau) compared to a custom software solution for a large enterprise's data visualisation needs.",
+                    "totalMarks": 5,
+                    "verb": "EVALUATE",
+                    "scenario": "A large bank needs to provide secure, complex, and highly specialised data visualisations to its financial analysts.",
+                    "linkedOutcomes": [
+                      "EC-01",
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "business analytics services",
+                      "custom software solutions",
+                      "evaluate"
+                    ],
+                    "markingCriteria": "- 2 marks: Evaluates the business analytics service, noting its effectiveness in terms of rapid development, lower initial cost, and broad feature set, but a lack of perfect customisation. -\n2 marks: Evaluates the custom software solution, noting its high cost and long development time, but its effectiveness in meeting highly specific security, branding, and functional requirements. -\n1 mark: Provides a final judgement, concluding that for a large enterprise with very specific needs, a custom solution is likely more effective in the long run despite the higher cost.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-10-5m",
+                        "band": 6,
+                        "answer": "A business analytics service like Tableau is highly effective for rapid deployment. It offers a powerful suite of tools out-of-the-box, allowing the enterprise to quickly build and share sophisticated dashboards with lower upfront costs compared to custom development. However, it may not be able to meet every unique business process or stringent security protocol the bank has.\n\nA custom software solution is less effective in terms of speed and initial cost, as it would require a significant investment in development time and resources. However, its primary strength is its effectiveness in being tailored to the bank's exact needs. The visualisations can be perfectly integrated with proprietary systems, enforce specific data governance rules, and offer unique features not available in off-the-shelf products.\n\nFor a large bank with complex and specific requirements, a custom solution, while more expensive, would ultimately be more effective as it can provide a secure and perfectly aligned tool for its analysts.",
+                        "mark": 5,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-dv-11",
+                "description": "Interrogate data from a data visualisation, including interpreting what you see, aggregation, filtering, the effect of outliers, and reasoning.",
+                "prompts": [
+                  {
+                    "id": "prompt-dv-11-2m",
+                    "question": "In a data visualisation, what is the difference between aggregation and filtering?",
+                    "totalMarks": 2,
+                    "scenario": "A user is interacting with an interactive sales dashboard.",
+                    "linkedOutcomes": [
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "aggregation",
+                      "filtering",
+                      "interrogate data"
+                    ],
+                    "markingCriteria": "- 1 mark: Defines aggregation as summarising data (e.g., calculating a total or average). -\n1 mark: Defines filtering as removing data points that do not meet a certain criterion.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-11-2m",
+                        "band": 3,
+                        "answer": "Aggregation involves summarising multiple data points into a single value, for example, calculating the total sales for a month from all the individual daily sales data. Filtering involves selectively showing a subset of the data, for example, showing the sales data for only one specific product and hiding all the others.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-dv-11-4m",
+                    "question": "A bar chart shows the average monthly rainfall. One month is an extreme outlier, with a value five times higher than any other. Explain the effect of this outlier on the visualisation and the reasoning process of the viewer.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "scenario": "A viewer is trying to understand a region's typical climate from a rainfall chart.",
+                    "linkedOutcomes": [
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "outliers",
+                      "interpreting",
+                      "reasoning"
+                    ],
+                    "markingCriteria": "- 2 marks: Explains the effect on the visualisation: the outlier will make the bar for that month extremely tall, forcing the y-axis to rescale and making the variation between the other, 'normal' months difficult to see. -\n2 marks: Explains the effect on reasoning: it can mislead the viewer into thinking the average rainfall is higher than it typically is. A critical viewer should reason that this outlier is an unusual event and may need to be investigated or excluded to understand the normal pattern.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-11-4m",
+                        "band": 5,
+                        "answer": "The effect of the extreme outlier on the bar chart would be to dramatically skew the visual scale. The bar representing the outlier month will be so tall that the y-axis will have to stretch to accommodate it. As a result, the bars for all the other months will appear comparatively small and flattened, making it very difficult for the viewer to discern the more subtle variations between them.\n\nThis impacts the viewer's reasoning. A superficial look might lead to the incorrect conclusion that the region experiences extremely high rainfall. An effective interrogation of the data would require the viewer to reason that this outlier is an exceptional event (perhaps a cyclone) and not representative of a typical month. To truly understand the normal pattern, the viewer might need to mentally (or with filtering tools) exclude the outlier.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subTopic-dv-03",
+            "name": "Designing for user experience",
+            "dotPoints": [
+              {
+                "id": "dp-dv-12",
+                "description": "Explain how user experience (UX) influences the development of effective data visualisations, including relevance to the audience, customisation and live analysis.",
+                "prompts": [
+                  {
+                    "id": "prompt-dv-12-2m",
+                    "question": "Why must a data visualisation be relevant to its intended audience?",
+                    "totalMarks": 2,
+                    "scenario": "Designing a dashboard for two different users: a CEO and a data scientist.",
+                    "linkedOutcomes": [
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "user experience (UX)",
+                      "audience",
+                      "relevance"
+                    ],
+                    "markingCriteria": "- 2 marks: Explains that different audiences have different goals and levels of data literacy, so a visualisation must be tailored to their needs to be understandable and useful.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-12-2m",
+                        "band": 3,
+                        "answer": "A visualisation must be relevant to its audience because different users have different needs, goals, and levels of technical expertise. A high-level summary dashboard that is effective for a CEO would be useless for a data scientist who needs a detailed, granular view of the data for deep analysis.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-dv-12-4m",
+                    "question": "Explain how incorporating 'customisation' and 'live analysis' features can improve the user experience of a data visualisation dashboard.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "scenario": "A company is developing an interactive dashboard for its sales team.",
+                    "linkedOutcomes": [
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "user experience (UX)",
+                      "customisation",
+                      "live analysis"
+                    ],
+                    "markingCriteria": "- 2 marks: Explains how customisation (e.g., allowing users to choose which metrics to display) makes the dashboard more relevant and personal, improving user satisfaction and adoption. -\n2 marks: Explains how live analysis (e.g., data updating in real-time) makes the dashboard more useful for decision-making by providing the most current information, enhancing the user's sense of control and confidence in the data.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-12-4m",
+                        "band": 5,
+                        "answer": "Allowing customisation significantly improves UX by giving users control. A salesperson might customise their dashboard to show only the metrics relevant to their own region and targets, filtering out the noise. This makes the tool more efficient and personally relevant, which increases user engagement.\n\nIncorporating live analysis, where the data updates in real-time, enhances the UX by making the dashboard a vital tool for immediate decision-making. Seeing live sales data as it comes in allows the team to react quickly to opportunities or problems. This provides a much better experience than working with a static report that is already outdated by the time it is read.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-dv-13",
+                "description": "Develop and implement criteria for evaluating the effectiveness of user experiences.",
+                "prompts": [
+                  {
+                    "id": "prompt-dv-13-2m",
+                    "question": "Identify two criteria that could be used to evaluate the user experience (UX) of a data visualisation.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "scenario": "Reviewing a newly created dashboard.",
+                    "linkedOutcomes": [
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "evaluating",
+                      "user experience (UX)",
+                      "criteria"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies one valid criterion (e.g., clarity, efficiency, accuracy). -\n1 mark: Identifies a second valid criterion (e.g., user satisfaction, accessibility).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-13-2m",
+                        "band": 2,
+                        "answer": "Two criteria for evaluating the UX of a data visualisation are clarity (how quickly and easily can a user understand the information being presented?) and efficiency (how quickly can a user find the specific information they need or complete their intended task?).",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-dv-13-4m",
+                    "question": "A company has created a new dashboard for its factory floor managers. Describe how you would evaluate the effectiveness of this dashboard's UX using the criteria of 'efficiency' and 'audience interpretation'.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "scenario": "A new data visualisation needs to be tested to see if it is effective for its users.",
+                    "linkedOutcomes": [
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "evaluating",
+                      "user experience (UX)",
+                      "criteria",
+                      "efficiency",
+                      "audience interpretation"
+                    ],
+                    "markingCriteria": "- 2 marks: Describes how to evaluate 'efficiency', for example, by timing how long it takes a manager to find a critical piece of information (e.g., a production line stoppage) using the dashboard. -\n2 marks: Describes how to evaluate 'audience interpretation', for example, by showing a manager a chart and asking them to explain what it means, to check if their interpretation matches the intended message.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-13-4m",
+                        "band": 3,
+                        "answer": "To evaluate 'efficiency', I would conduct user testing with the factory floor managers. I would give them specific tasks, such as 'Find out which production line had the most downtime yesterday', and time how long it takes them to find the answer using the dashboard. A lower time would indicate a more efficient design.\n\nTo evaluate 'audience interpretation', I would use qualitative methods. I would show a manager a specific chart or a key performance indicator on the dashboard and ask them open-ended questions like, 'What does this tell you?' or 'What action would you take based on this information?'. This would reveal if the managers are correctly and consistently interpreting the visualisations as intended by the designers.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-dv-14",
+                "description": "Investigate the impact of emerging hardware and software technologies on user interface (UI) and UX design and development.",
+                "prompts": [
+                  {
+                    "id": "prompt-dv-14-2m",
+                    "question": "Identify one emerging hardware technology and briefly state how it could change UI design for data visualisation.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "scenario": "Thinking about the future of data interaction.",
+                    "linkedOutcomes": [
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "emerging technologies",
+                      "hardware",
+                      "user interface (UI)"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies an emerging hardware technology (e.g., AR/VR headsets, large multi-touch surfaces). -\n1 mark: States a plausible impact on UI design (e.g., moving from 2D charts to 3D immersive environments).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-14-2m",
+                        "band": 2,
+                        "answer": "An emerging hardware technology is Augmented Reality (AR) glasses. This could change UI design for data visualisation by moving beyond 2D screens and allowing interactive charts and data to be overlaid onto the real world, creating immersive, contextual data experiences.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-dv-14-4m",
+                    "question": "Investigate how emerging AI-powered software could impact the user experience (UX) of data analytics tools.",
+                    "totalMarks": 4,
+                    "scenario": "A data analytics platform is planning to integrate Artificial Intelligence features.",
+                    "linkedOutcomes": [
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "emerging technologies",
+                      "software",
+                      "AI",
+                      "user experience (UX)"
+                    ],
+                    "markingCriteria": "- 2 marks: Investigates one impact, such as using Natural Language Query, allowing users to ask questions in plain English instead of writing code, making analysis more accessible and improving UX. -\n2 marks: Investigates a second impact, such as automated insights, where the AI automatically analyses the data and suggests interesting visualisations or points out significant trends, reducing the user's workload.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-14-4m",
+                        "band": 3,
+                        "answer": "AI-powered software is set to dramatically improve the UX of data analytics. One major impact is through Natural Language Query (NLQ). Instead of needing to learn a complex interface or a query language, users could simply type or speak a question like 'Show me the top 5 selling products in NSW last quarter'. The AI would interpret the question and generate the correct visualisation, making data analysis accessible to a much wider, non-technical audience.\n\nAnother impact is the automation of insight generation. An AI could proactively analyse a dataset and automatically highlight significant findings, correlations, or anomalies that a human analyst might have missed. This enhances the UX by reducing manual effort and helping users discover valuable insights more quickly.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subTopic-dv-04",
+            "name": "Creating data visualisations",
+            "dotPoints": [
+              {
+                "id": "dp-dv-15",
+                "description": "Design and develop a data visualisation for a specific scenario to represent trends, patterns and relationships, and illustrate predictive analysis incorporating big data.",
+                "prompts": [
+                  {
+                    "id": "prompt-dv-15-2m",
+                    "question": "You need to create a visualisation to show the relationship between two continuous numerical variables. What type of chart is most appropriate?",
+                    "totalMarks": 2,
+                    "scenario": "An analyst wants to see if there is a correlation between advertising spend and sales revenue.",
+                    "linkedOutcomes": [
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "design",
+                      "data visualisation",
+                      "relationships"
+                    ],
+                    "markingCriteria": "- 2 marks: Correctly identifies a scatter plot as the most appropriate chart type.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-15-2m",
+                        "band": 3,
+                        "answer": "The most appropriate chart type to show the relationship or correlation between two continuous numerical variables, such as advertising spend and sales revenue, is a scatter plot.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-dv-15-5m",
+                    "question": "Design a concept for an interactive data visualisation that shows the pattern of electricity usage in a city, using big data from smart meters. Your design should also illustrate a predictive analysis.",
+                    "totalMarks": 5,
+                    "scenario": "An energy company wants a dashboard to understand and predict electricity demand.",
+                    "linkedOutcomes": [
+                      "EC-03",
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "design",
+                      "data visualisation",
+                      "patterns",
+                      "predictive analysis",
+                      "big data"
+                    ],
+                    "markingCriteria": "- 2 marks: Designs a core visualisation to show patterns, such as a heat map of the city showing usage by area, combined with a line chart showing usage over a 24-hour cycle. -\n1 mark: Incorporates interactivity, such as filters for weather conditions or day of the week. -\n2 marks: Describes how predictive analysis would be illustrated, for example, by showing a dotted line on the chart that forecasts the expected energy demand for the next 24 hours based on the weather forecast.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-15-5m",
+                        "band": 3,
+                        "answer": "My design concept would be an interactive dashboard. The main feature would be a heat map of the city, showing real-time electricity demand by suburb, with colours ranging from green (low usage) to red (high usage). Alongside this, a line chart would display the typical 24-hour demand cycle for the selected area.\n\nTo represent patterns, the user could filter the data by conditions such as 'Weekday', 'Weekend', or 'Hot Day', and see how the usage patterns change. To illustrate predictive analysis, the 24-hour line chart would feature a second, dotted line extending into the future. This line would represent the AI-powered forecast of electricity demand for the next 24 hours, based on historical big data from the smart meters and external data like the weather forecast.",
+                        "mark": 5,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-dv-16",
+                "description": "Investigate and implement methods to maintain data security, including cybersecurity and data backup.",
+                "prompts": [
+                  {
+                    "id": "prompt-dv-16-2m",
+                    "question": "Distinguish between cybersecurity measures and data backup as methods for maintaining data security.",
+                    "totalMarks": 2,
+                    "verb": "DISTINGUISH",
+                    "scenario": "An organisation is developing a data security plan.",
+                    "linkedOutcomes": [
+                      "EC-02"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "data security",
+                      "cybersecurity",
+                      "data backup"
+                    ],
+                    "markingCriteria": "- 1 mark: Describes cybersecurity as proactive measures to prevent unauthorised access or attacks. -\n1 mark: Describes data backup as a reactive measure to recover data after a loss event.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-16-2m",
+                        "band": 5,
+                        "answer": "Cybersecurity measures, like firewalls and access controls, are proactive methods designed to prevent data from being breached or compromised by unauthorised users. Data backup is a reactive method focused on data recovery; it involves creating copies of data so that it can be restored in the event of data loss due to hardware failure, cyberattack, or accidental deletion.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-dv-16-4m",
+                    "question": "An enterprise stores sensitive customer data in a central data warehouse, which is used to power its business intelligence visualisations. Explain why BOTH strong cybersecurity and a robust data backup strategy are essential.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "scenario": "A company needs to protect the sensitive data used in its analytics.",
+                    "linkedOutcomes": [
+                      "EC-02"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "data security",
+                      "cybersecurity",
+                      "data backup"
+                    ],
+                    "markingCriteria": "- 2 marks: Explains the need for cybersecurity, focusing on preventing data breaches of sensitive customer information through measures like encryption, access controls, and network security to maintain confidentiality and meet legal obligations. -\n2 marks: Explains the need for a backup strategy, focusing on ensuring business continuity by being able to restore the data warehouse after an event like a ransomware attack or hardware failure, so that the visualisations and analytics can continue to function.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-dv-16-4m",
+                        "band": 5,
+                        "answer": "Strong cybersecurity is essential to protect the confidentiality of the sensitive customer data. Measures like encryption of data at rest and in transit, and strict role-based access controls, are needed to prevent unauthorised access and data breaches, which could lead to massive fines and reputational damage.\n\nHowever, cybersecurity alone is not enough. A robust backup strategy is also essential for business continuity. If the data warehouse is compromised by a ransomware attack that encrypts all the data, or a critical hardware failure occurs, cybersecurity measures cannot help. Only a recent, secure backup can be used to restore the data warehouse, ensuring that the business intelligence visualisations can be brought back online quickly with minimal data loss.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ds-main",
+        "name": "Data science",
+        "subTopics": [
+          {
+            "id": "subTopic-ec-01",
+            "name": "Collecting, storing and analysing data",
+            "dotPoints": [
+              {
+                "id": "dp-ec-01",
+                "description": "Explore the difference between quantitative and qualitative data and determine which data types are used to represent them.",
+                "prompts": [
+                  {
+                    "id": "prompt-ec-01-2m",
+                    "question": "Identify the two main categories of data and state a data type commonly used to represent each.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "scenario": "A business is collecting customer feedback.",
+                    "linkedOutcomes": [
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "quantitative",
+                      "qualitative",
+                      "data types"
+                    ],
+                    "markingCriteria": "- 1 mark: Correctly identifies quantitative and qualitative data. -\n1 mark: Correctly identifies a suitable data type for each (e.g., Integer for quantitative, String for qualitative).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-01-2m",
+                        "band": 2,
+                        "answer": "The two main categories are quantitative data (numerical) and qualitative data (descriptive). Quantitative data can be represented by Integer or Float data types, while qualitative data is typically represented by a String data type.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-ec-01-4m",
+                    "question": "A streaming service tracks how many hours a user watches per month and also collects their written reviews for shows. Explain the difference between these two pieces of data and identify an appropriate data type for storing each.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "scenario": "A streaming service is analysing user engagement by tracking viewing hours and written reviews.",
+                    "linkedOutcomes": [
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "quantitative",
+                      "qualitative",
+                      "integer",
+                      "string",
+                      "data types"
+                    ],
+                    "markingCriteria": "- 1 mark: Defines quantitative data. -\n1 mark: Defines qualitative data. -\n1 mark: Correctly links 'hours watched' to quantitative and 'reviews' to qualitative. -\n1 mark: Identifies appropriate data types (e.g., Integer/Float for hours, String/Text for reviews).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-01-4m",
+                        "band": 5,
+                        "answer": "Quantitative data is numerical information that can be measured and is used for statistical analysis. In this scenario, the 'hours a user watches' is quantitative data, as it is a measurable number. This would be stored using an Integer or Float data type.\n\nQualitative data is descriptive, non-numerical information that provides context and insight. The 'written reviews' are qualitative data because they describe a user's opinion and cannot be easily measured. This would be stored using a String or Text data type.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-ec-02",
+                "description": "Explore nominal, ordinal, interval and ratio levels of measurement applied to data.",
+                "prompts": [
+                  {
+                    "id": "prompt-ec-02-2m",
+                    "question": "Distinguish between nominal and ordinal levels of measurement.",
+                    "totalMarks": 2,
+                    "verb": "DISTINGUISH",
+                    "scenario": "Data is being organised into categories.",
+                    "linkedOutcomes": [
+                      "EC-02"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "nominal",
+                      "ordinal",
+                      "levels of measurement"
+                    ],
+                    "markingCriteria": "- 1 mark: Provides a correct definition for nominal data (categories with no order). -\n1 mark: Provides a correct definition for ordinal data (categories with a meaningful order).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-02-2m",
+                        "band": 5,
+                        "answer": "Nominal data involves categories that do not have a natural order or ranking, such as eye colour or brand names. Ordinal data consists of categories that have a meaningful order or rank, but the differences between the ranks are not necessarily equal, such as clothing sizes (Small, Medium, Large).",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-ec-02-4m",
+                    "question": "A hotel collects the following data from guests: their city of origin, their room number, and their satisfaction rating (1-5 stars). For each piece of data, identify and describe its level of measurement (nominal, ordinal, interval, or ratio).",
+                    "totalMarks": 4,
+                    "verb": "IDENTIFY",
+                    "scenario": "A hotel is analysing guest data to improve its services.",
+                    "linkedOutcomes": [
+                      "EC-02"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "nominal",
+                      "ordinal",
+                      "interval",
+                      "measurement"
+                    ],
+                    "markingCriteria": "- 1 mark: Correctly identifies and describes 'city of origin' as nominal. -\n1 mark: Correctly identifies and describes 'room number' as nominal (or interval with justification). -\n2 marks: Correctly identifies and provides a clear description of 'satisfaction rating' as ordinal.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-02-4m",
+                        "band": 2,
+                        "answer": "The 'city of origin' is at the nominal level of measurement. The cities are distinct categories, but there is no intrinsic order or ranking between them. \n\nThe 'room number' is also nominal. While it is a number, it acts as a label to identify a room and performing mathematical operations like finding an average room number would be meaningless. \n\nThe 'satisfaction rating' is at the ordinal level. The star ratings have a clear order (5 stars is better than 4), but the difference in satisfaction between 1 and 2 stars is not necessarily the same as between 4 and 5 stars.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-ec-03",
+                "description": "Investigate data sampling, including manual and computerised methods of active and passive data collection.",
+                "prompts": [
+                  {
+                    "id": "prompt-ec-03-2m",
+                    "question": "Distinguish between active and passive data collection.",
+                    "totalMarks": 2,
+                    "verb": "DISTINGUISH",
+                    "scenario": "A mobile app is gathering user data.",
+                    "linkedOutcomes": [
+                      "EC-04"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "active data collection",
+                      "passive data collection",
+                      "data sampling"
+                    ],
+                    "markingCriteria": "- 1 mark: Describes active data collection as requiring direct user input. -\n1 mark: Describes passive data collection as collecting data in the background without direct user action.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-03-2m",
+                        "band": 5,
+                        "answer": "Active data collection requires the user to consciously provide information, such as filling out a form or answering a survey. Passive data collection gathers information in the background without direct user engagement, such as an app collecting location data or website analytics tracking clicks.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-ec-03-4m",
+                    "question": "A fitness tracker company collects data by asking users to log their meals (active) and by automatically tracking their heart rate (passive). Explain why both methods are used and describe one benefit of using computerised methods for this data collection.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "scenario": "A fitness company uses its wearable device and app to collect user health data.",
+                    "linkedOutcomes": [
+                      "EC-02"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "active",
+                      "passive",
+                      "data collection",
+                      "computerised methods"
+                    ],
+                    "markingCriteria": "- 1 mark: Explains the purpose of active collection (user-specific, contextual data). -\n1 mark: Explains the purpose of passive collection (continuous, objective data). -\n2 marks: Describes a clear benefit of computerised collection, such as efficiency, accuracy, or scale.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-03-4m",
+                        "band": 5,
+                        "answer": "The company uses both methods to get a complete picture of a user's health. Active data collection, like logging meals, is necessary to gather subjective information that a device cannot know on its own. Passive collection, like tracking heart rate, provides continuous, objective data without requiring effort from the user. \n\nA key benefit of using computerised methods for this is efficiency and scale. The device can automatically and continuously sample heart rate data from thousands of users simultaneously, a task that would be impossible to perform manually. This allows for large-scale data analysis and the identification of broad health trends.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-ec-04",
+                "description": "Assess the relevance, accuracy, validity and reliability of primary and secondary data.",
+                "prompts": [
+                  {
+                    "id": "prompt-ec-04-2m",
+                    "question": "Outline the difference between primary and secondary data.",
+                    "totalMarks": 2,
+                    "verb": "OUTLINE",
+                    "scenario": "A researcher is gathering information for a report.",
+                    "linkedOutcomes": [
+                      "EC-02"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "primary data",
+                      "secondary data"
+                    ],
+                    "markingCriteria": "- 1 mark: Defines primary data as data collected firsthand. -\n1 mark: Defines secondary data as data collected by someone else.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-04-2m",
+                        "band": 3,
+                        "answer": "Primary data is original data collected directly by a researcher for a specific purpose, for example, through surveys or interviews they conduct themselves. Secondary data is data that was collected by someone else for a different purpose, which the researcher then reuses, such as census data or information from a published study.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-ec-04-4m",
+                    "question": "A business is planning to launch a new product. They use customer surveys they conducted (primary data) and market trend reports from a 5-year-old industry publication (secondary data). Assess the potential issues with the secondary data in terms of its relevance and validity.",
+                    "totalMarks": 4,
+                    "verb": "ASSESS",
+                    "scenario": "A company is using its own surveys and an old industry report for market research.",
+                    "linkedOutcomes": [
+                      "EC-02"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "relevance",
+                      "validity",
+                      "accuracy",
+                      "secondary data"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies relevance as a potential issue. -\n1 mark: Explains why a 5-year-old report may not be relevant (outdated). -\n1 mark: Identifies validity as a potential issue. -\n1 mark: Explains why the report's validity might be low (e.g., different market conditions, different purpose).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-04-4m",
+                        "band": 6,
+                        "answer": "The secondary data from the 5-year-old publication poses significant data quality issues. Its relevance is low because market trends and consumer behaviour can change drastically over five years, meaning the report's findings may no longer apply to the current market. This directly impacts its validity, which is the extent to which the data measures what it claims to measure. The data may have been valid for the market conditions five years ago, but it is not valid for making decisions about a new product launch today. Using this outdated data could lead to inaccurate conclusions and poor business strategy.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-ec-05",
+                "description": "Explain how blockchain technology is used to manage and verify data.",
+                "prompts": [
+                  {
+                    "id": "prompt-ec-05-2m",
+                    "question": "Identify two key features of blockchain technology that make it suitable for verifying data.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "scenario": "A system is required for secure recordkeeping.",
+                    "linkedOutcomes": [
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "blockchain",
+                      "verify data",
+                      "immutable"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies immutability (cannot be changed). -\n1 mark: Identifies decentralisation (distributed ledger).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-05-2m",
+                        "band": 2,
+                        "answer": "Two key features of blockchain that make it suitable for verifying data are immutability and decentralisation. Immutability means that once a transaction or record is added to the chain, it cannot be altered or deleted. Decentralisation means the ledger is copied and spread across many computers, so there is no single point of failure and records can be verified by consensus.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-ec-05-4m",
+                    "question": "Explain how blockchain technology could be used to create a trustworthy system for tracking items of value, such as luxury goods, through a supply chain.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "scenario": "A luxury brand wants to prevent counterfeit products by tracking its goods from manufacturing to the customer.",
+                    "linkedOutcomes": [
+                      "EC-01"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "blockchain",
+                      "supply chain",
+                      "tracking",
+                      "recordkeeping",
+                      "verify"
+                    ],
+                    "markingCriteria": "- 1 mark: States that each step in the supply chain is a transaction. -\n1 mark: Explains that each transaction is added as a block to the chain. -\n1 mark: Links immutability to preventing fraudulent records. -\n1 mark: Links transparency/decentralisation to how different parties can verify the item's history.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-05-4m",
+                        "band": 5,
+                        "answer": "Blockchain can create a transparent and secure digital ledger for tracking luxury goods. Each time an item moves in the supply chain—from the manufacturer to the shipper, to the retailer—a new transaction is recorded. This transaction, containing details like timestamp and location, is added as a permanent 'block' to the item's unique digital chain.\n\nBecause the blockchain is immutable, these historical records cannot be altered, which prevents criminals from faking the item's provenance. As the ledger is decentralised, all authorised parties in the supply chain can view this history, allowing them to independently verify the item's journey and confirm its authenticity before it is sold to the customer.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-ec-06",
+                "description": "Explore the use of big data and data warehousing, considering volume, variety and velocity.",
+                "prompts": [
+                  {
+                    "id": "prompt-ec-06-2m",
+                    "question": "Outline what is meant by the 'volume' and 'velocity' characteristics of big data.",
+                    "totalMarks": 2,
+                    "verb": "OUTLINE",
+                    "scenario": "An enterprise is dealing with a large influx of data.",
+                    "linkedOutcomes": [
+                      "EC-02"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "big data",
+                      "volume",
+                      "velocity"
+                    ],
+                    "markingCriteria": "- 1 mark: Defines volume as the large amount of data. -\n1 mark: Defines velocity as the high speed at which data is generated and processed.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-06-2m",
+                        "band": 3,
+                        "answer": "In the context of big data, 'volume' refers to the enormous scale or quantity of data being generated and stored, often in terabytes or petabytes. 'Velocity' refers to the high speed at which this data is created, processed, and analysed, such as in real-time streaming from social media or financial markets.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-ec-06-4m",
+                    "question": "An international retail company collects sales data from thousands of stores worldwide, social media comments, and website traffic logs. Explain how the 'volume', 'variety', and 'velocity' of this data create challenges that a data warehouse is designed to solve.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "scenario": "A global retail company is managing diverse and large-scale data from multiple sources.",
+                    "linkedOutcomes": [
+                      "EC-02"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "big data",
+                      "volume",
+                      "variety",
+                      "velocity",
+                      "data warehouse"
+                    ],
+                    "markingCriteria": "- 1 mark: Links 'volume' to the need for large, optimised storage. -\n1 mark: Links 'variety' (structured sales data, unstructured social media) to the need for a system that can integrate different data types. -\n1 mark: Links 'velocity' (real-time logs) to the need for efficient processing. -\n1 mark: States that a data warehouse is a centralised repository designed for analysis of such data.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-06-4m",
+                        "band": 5,
+                        "answer": "The company deals with high 'volume' from its thousands of stores, creating massive datasets that require optimised storage. It also has high 'variety', as it collects structured sales data, unstructured social media comments, and semi-structured weblogs. Finally, the data has high 'velocity', arriving in real-time from website traffic.\n\nA data warehouse is designed to solve these challenges. It acts as a large, centralised repository that can handle the massive volume of data. It uses processes to transform the varied data into a standardised format, allowing structured and unstructured data to be analysed together. This enables the company to perform complex queries and gain business intelligence from all its data sources in one place.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subTopic-ec-02",
+            "name": "Data quality",
+            "dotPoints": [
+              {
+                "id": "dp-ec-07",
+                "description": "Explore social, ethical and legal issues associated with using data, including bias, accuracy, intellectual property and privacy.",
+                "prompts": [
+                  {
+                    "id": "prompt-ec-07-2m",
+                    "question": "Identify one ethical and one legal issue a company must consider when collecting customer data.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "scenario": "A business is collecting personal information from its customers.",
+                    "linkedOutcomes": [
+                      "EC-04"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "ethical",
+                      "legal",
+                      "privacy",
+                      "bias"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies a relevant ethical issue (e.g., fairness, bias, transparency). -\n1 mark: Identifies a relevant legal issue (e.g., privacy laws, copyright).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-07-2m",
+                        "band": 2,
+                        "answer": "An ethical issue is ensuring the data collection method is not biased against certain groups of people, leading to unfair outcomes. A legal issue is complying with legislation such as the Privacy Act 1988, which governs how personal information must be handled securely and with consent.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-ec-07-4m",
+                    "question": "A company uses an algorithm to screen job applications. The algorithm was trained on data from the company's past hiring decisions, which mostly favoured male applicants. Explain the ethical issue of bias in this context and suggest one strategy to mitigate it.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "scenario": "An automated hiring system appears to be unfairly rejecting female candidates.",
+                    "linkedOutcomes": [
+                      "EC-04"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "bias",
+                      "accuracy",
+                      "ethical issue",
+                      "algorithm"
+                    ],
+                    "markingCriteria": "- 2 marks: Clearly explains how training an algorithm on biased historical data leads to discriminatory outcomes. -\n1 mark: Links the biased outcome to a lack of fairness and accuracy. -\n1 mark: Suggests a reasonable mitigation strategy (e.g., auditing the data, using a more balanced dataset, implementing fairness checks).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-07-4m",
+                        "band": 5,
+                        "answer": "The ethical issue here is data bias. Because the algorithm was trained on historical data that reflects a bias towards hiring men, it has 'learned' to associate male characteristics with successful applications. This creates a discriminatory system where the algorithm unfairly penalises female applicants, perpetuating past inequalities and producing inaccurate and unethical hiring recommendations.\n\nTo mitigate this, the company could audit its training dataset to identify and remove sources of bias. They could ensure the data is more representative of the desired workforce demographics or use specialised techniques during the algorithm's training to enforce fairness and ensure it does not use gender-related proxies in its decision-making.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subTopic-ec-03",
+            "name": "Processing and presenting data",
+            "dotPoints": [
+              {
+                "id": "dp-ec-08",
+                "description": "Apply computational thinking to design a relational database with appropriate user views, including linking tables via key fields and using SQL.",
+                "prompts": [
+                  {
+                    "id": "prompt-ec-08-2m",
+                    "question": "What is the purpose of a primary key and a foreign key in a relational database?",
+                    "totalMarks": 2,
+                    "scenario": "Designing a database to store related information.",
+                    "linkedOutcomes": [
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "primary key",
+                      "foreign key",
+                      "relational database"
+                    ],
+                    "markingCriteria": "- 1 mark: Defines a primary key as a unique identifier for a record in a table. -\n1 mark: Defines a foreign key as a field that links to the primary key of another table.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-08-2m",
+                        "band": 3,
+                        "answer": "A primary key is a field that uniquely identifies each record in a database table, ensuring no two rows are the same. A foreign key is a field in one table that refers to the primary key in another table, creating a link or relationship between the two tables.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-ec-08-4m",
+                    "question": "A database for a local sports club has a 'Players' table (PlayerID, PlayerName, TeamID) and a 'Teams' table (TeamID, TeamName). Outline how these tables are related and write a simple SQL query to list the names of all players on the 'Sharks' team.",
+                    "totalMarks": 4,
+                    "verb": "OUTLINE",
+                    "scenario": "A sports club needs to retrieve a list of players for a specific team from its database.",
+                    "linkedOutcomes": [
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "relational database",
+                      "linking tables",
+                      "key fields",
+                      "SQL",
+                      "computational thinking"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies 'TeamID' as the primary key in Teams and foreign key in Players. -\n1 mark: Explains that this key links a player to their team. -\n2 marks: Provides a correct SQL query that joins the two tables and filters by 'TeamName'.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-08-4m",
+                        "band": 3,
+                        "answer": "The tables are related through the 'TeamID' field. 'TeamID' is the primary key in the 'Teams' table, uniquely identifying each team. It is used as a foreign key in the 'Players' table to create a link, assigning each player to a specific team.\n\nThe SQL query to list the players on the 'Sharks' team would be:\n```sql\nSELECT Players.PlayerName \nFROM Players \nINNER JOIN Teams ON Players.TeamID = Teams.TeamID \nWHERE Teams.TeamName = 'Sharks';\n```",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-is-main",
+        "name": "Intelligent systems",
+        "subTopics": [
+          {
+            "id": "subTopic-is-01",
+            "name": "Systems and their applications",
+            "dotPoints": [
+              {
+                "id": "dp-is-01",
+                "description": "Investigate applications of decision support systems.",
+                "prompts": [
+                  {
+                    "id": "prompt-is-01-2m",
+                    "question": "Identify two applications of decision support systems (DSS) in an enterprise.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "scenario": "A large retail company is looking for ways to use technology to improve its business choices.",
+                    "linkedOutcomes": [
+                      "EC-01"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "decision support system",
+                      "DSS",
+                      "applications"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies one valid application (e.g., inventory management). -\n1 mark: Identifies a second valid application (e.g., financial planning, medical diagnosis).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-is-01-2m",
+                        "band": 2,
+                        "answer": "Two applications of decision support systems in an enterprise are clinical DSS in hospitals, which help doctors diagnose patients by analysing symptoms and patient data, and financial DSS, which assist managers in making investment decisions by modelling market data.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-is-01-4m",
+                    "question": "Explain how a decision support system could be used by a logistics manager to optimise delivery routes.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "scenario": "A courier company wants to reduce fuel costs and delivery times by improving its route planning.",
+                    "linkedOutcomes": [
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "decision support system",
+                      "DSS",
+                      "optimisation",
+                      "logistics"
+                    ],
+                    "markingCriteria": "- 2 marks: Explains how the DSS would gather and model data from various sources (e.g., traffic data, delivery locations, vehicle capacity, weather). -\n2 marks: Explains how the DSS would present several optimised route options to the manager, allowing them to use their judgement to make the final, informed decision based on the system's analysis.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-is-01-4m",
+                        "band": 5,
+                        "answer": "A decision support system for a logistics manager would integrate and analyse data from multiple sources. It would take into account the list of delivery addresses, real-time traffic information, weather conditions, and the capacity of each delivery vehicle. The system would process this information using algorithms to model various potential routes.\n\nInstead of providing a single 'best' route, the DSS would present a few optimised options to the manager. For example, it might show one route that is the shortest distance but has potential traffic delays, and another that is slightly longer but avoids congestion. This allows the manager to use their human expertise and judgement to assess the trade-offs and make the final, well-informed decision.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-is-02",
+                "description": "Describe categories of decision-making within decision support systems, including unstructured, semi-structured, and structured.",
+                "prompts": [
+                  {
+                    "id": "prompt-is-02-3m",
+                    "question": "Describe the three categories of decision-making supported by a DSS.",
+                    "totalMarks": 3,
+                    "verb": "DESCRIBE",
+                    "scenario": "A manager is classifying different types of business problems.",
+                    "linkedOutcomes": [
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "unstructured",
+                      "semi-structured",
+                      "structured",
+                      "decision-making"
+                    ],
+                    "markingCriteria": "- 1 mark: Describes structured decisions as routine and having clear rules. -\n1 mark: Describes unstructured decisions as complex and requiring human judgement. -\n1 mark: Describes semi-structured as having elements of both.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-is-02-3m",
+                        "band": 3,
+                        "answer": "Structured decisions are repetitive and routine, and can be fully automated because they are based on a clear, finite set of rules (e.g., reordering stock when it falls below a set level). Unstructured decisions are complex, non-routine problems where the rules are not known and human intuition and judgement are critical (e.g., designing a new marketing campaign). Semi-structured decisions are in the middle, where a DSS can provide analysis and data, but the final choice still requires human judgement.",
+                        "mark": 3,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-is-02-6m",
+                    "question": "For each category of decision-making (structured, semi-structured, unstructured), provide a specific enterprise example and explain how a DSS would be involved in each.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "scenario": "An enterprise uses different intelligent systems to assist with decisions at various levels of the organisation.",
+                    "linkedOutcomes": [
+                      "EC-01",
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "structured",
+                      "semi-structured",
+                      "unstructured",
+                      "DSS",
+                      "automated"
+                    ],
+                    "markingCriteria": "- 2 marks: Provides a clear example of a structured decision (e.g., approving a loan application based on credit score) and explains that the DSS would make an automated decision. -\n2 marks: Provides a clear example of a semi-structured decision (e.g., setting a marketing budget) and explains how the DSS provides analysis to support the manager's final judgement. -\n2 marks: Provides a clear example of an unstructured decision (e.g., deciding whether to merge with another company) and explains the DSS's role is limited to providing data and models for exploration.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-is-02-6m",
+                        "band": 5,
+                        "answer": "**Structured:** A bank deciding whether to approve a personal loan application. The decision is based on a finite set of instructions: if the applicant's credit score is above 700 and their income is above $50,000, the loan is automatically approved. The DSS performs this automated decision without human intervention.\n\n**Semi-structured:** A retail manager deciding how to price a new product. The DSS can analyse historical sales data, competitor pricing, and production costs to suggest an optimal price range. However, the manager must use their judgement to make the final decision, considering factors like brand positioning and marketing strategy.\n\n**Unstructured:** A board of directors deciding whether to launch a new, innovative product line in an emerging market. There is no precedent for this decision. A DSS can only provide data exploration tools and financial models to simulate potential outcomes, but the final decision relies heavily on the board's experience, judgement, and strategic vision.",
+                        "mark": 6,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-is-03",
+                "description": "Describe key features of an expert system, including knowledge base, inference engine, and user interface.",
+                "prompts": [
+                  {
+                    "id": "prompt-is-03-3m",
+                    "question": "Describe the function of the knowledge base, the inference engine, and the user interface in an expert system.",
+                    "totalMarks": 3,
+                    "verb": "DESCRIBE",
+                    "scenario": "Explaining the architecture of an expert system.",
+                    "linkedOutcomes": [
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "expert system",
+                      "knowledge base",
+                      "inference engine",
+                      "user interface"
+                    ],
+                    "markingCriteria": "- 1 mark: Describes the knowledge base as storing facts and rules. -\n1 mark: Describes the inference engine as the 'brain' that applies logic. -\n1 mark: Describes the user interface as the component for user interaction.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-is-03-3m",
+                        "band": 3,
+                        "answer": "The knowledge base is the component that stores the facts and rules about a specific domain, captured from human experts. The inference engine is the reasoning component or 'brain' of the system; it applies logical rules to the knowledge base to draw conclusions and solve problems. The user interface (UI) is the layer that allows a non-expert user to query the system and receive advice or answers.",
+                        "mark": 3,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-is-03-5m",
+                    "question": "Explain the roles of the knowledge base and the inference engine in a vehicle mechanic expert system. In your answer, distinguish between forward chaining and backward chaining.",
+                    "totalMarks": 5,
+                    "verb": "EXPLAIN",
+                    "scenario": "A mechanic is using an expert system to diagnose a problem with a car that won't start.",
+                    "linkedOutcomes": [
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "knowledge base",
+                      "inference engine",
+                      "forward chaining",
+                      "backward chaining",
+                      "diagnosis"
+                    ],
+                    "markingCriteria": "- 1 mark: Explains the role of the knowledge base (stores rules like 'IF battery is flat THEN car won't start'). -\n1 mark: Explains the role of the inference engine (applies logic to the rules). -\n1 mark: Explains forward chaining as data-driven (starts with facts to reach a conclusion). -\n1 mark: Explains backward chaining as goal-driven (starts with a hypothesis and works backward). -\n1 mark: Correctly applies chaining to the scenario (backward chaining is best for diagnosis).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-is-03-5m",
+                        "band": 5,
+                        "answer": "In a vehicle mechanic expert system, the knowledge base would contain facts (e.g., 'A battery has terminals') and rules from expert mechanics (e.g., 'IF the engine does not crank AND the lights are dim, THEN the battery is likely flat'). The inference engine uses this knowledge to reason about a problem.\n\n**Forward chaining** is a data-driven approach. The mechanic would input all the known symptoms (the facts), and the inference engine would fire all applicable rules until it reaches a conclusion about the fault.\n\n**Backward chaining** is a goal-driven approach, more suitable for diagnosis. The system would start with a hypothesis (e.g., 'The problem is the battery'). It would then work backward, checking the knowledge base to see if the rules supporting this conclusion are met by asking the mechanic questions (e.g., 'Are the lights dim?'). It continues this until the hypothesis is proven or disproven.",
+                        "mark": 5,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-is-04",
+                "description": "Investigate social and ethical issues to be considered when developing, implementing and using intelligent systems.",
+                "prompts": [
+                  {
+                    "id": "prompt-is-04-2m",
+                    "question": "Identify one social issue and one ethical issue arising from the widespread use of intelligent systems.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "scenario": "Considering the societal impact of artificial intelligence.",
+                    "linkedOutcomes": [
+                      "EC-04"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "social issue",
+                      "ethical issue",
+                      "AI",
+                      "intelligent system"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies a valid social issue (e.g., job displacement due to automation). -\n1 mark: Identifies a valid ethical issue (e.g., algorithmic bias, lack of accountability).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-is-04-2m",
+                        "band": 2,
+                        "answer": "A major social issue is the potential for large-scale job displacement as intelligent systems automate tasks previously done by humans. A key ethical issue is algorithmic bias, where an AI system makes unfair or discriminatory decisions because it was trained on biased historical data.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-is-04-5m",
+                    "question": "An intelligent system is used by a court to predict the likelihood of a defendant reoffending, which influences their bail hearing. Investigate the ethical issues of accountability and bias in this context.",
+                    "totalMarks": 5,
+                    "scenario": "An AI is being used in the justice system to help make decisions about defendants.",
+                    "linkedOutcomes": [
+                      "EC-04"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "ethical issues",
+                      "bias",
+                      "accountability",
+                      "AI",
+                      "intelligent system"
+                    ],
+                    "markingCriteria": "- 2 marks: Investigates the issue of bias, explaining how the AI could be biased if trained on historical data that reflects societal prejudices, leading to harsher predictions for certain demographics. -\n2 marks: Investigates the issue of accountability, questioning who is responsible if the AI makes a flawed prediction that leads to an unjust outcome—the developer, the court, or the data provider? -\n1 mark: Provides a concluding statement on the seriousness of using such systems for life-altering decisions.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-is-04-5m",
+                        "band": 3,
+                        "answer": "The ethical issue of bias is critical here. If the historical arrest and conviction data used to train the system reflects past societal or institutional biases against certain racial or socio-economic groups, the intelligent system will learn and perpetuate these biases. It might unfairly predict a higher reoffending risk for individuals from these groups, even if their individual circumstances suggest otherwise, leading to discriminatory bail decisions.\n\nThe issue of accountability is also profound. If the system makes a demonstrably wrong prediction that results in a person being unfairly denied bail, it is not clear who is responsible. Is it the software developers who wrote the algorithm, the data scientists who trained it, or the judge who relied on its recommendation? This lack of a clear chain of accountability, often called the 'black box' problem, is a major ethical barrier to the use of such systems in high-stakes environments like the justice system.",
+                        "mark": 5,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subTopic-is-02",
+            "name": "Data and intelligent systems",
+            "dotPoints": [
+              {
+                "id": "dp-is-05",
+                "description": "Investigate the infrastructure requirements for an intelligent network in an enterprise with devices linked through an Internet of Things (IoT).",
+                "prompts": [
+                  {
+                    "id": "prompt-is-05-2m",
+                    "question": "Identify two key infrastructure components required for an enterprise IoT network.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "scenario": "A factory is planning to install thousands of smart sensors on its machinery.",
+                    "linkedOutcomes": [
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "infrastructure",
+                      "IoT",
+                      "network"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies one component (e.g., end-point devices/sensors). -\n1 mark: Identifies a second component (e.g., network connectivity, cloud storage/servers).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-is-05-2m",
+                        "band": 2,
+                        "answer": "Two key infrastructure components for an enterprise IoT network are the end-point devices themselves (the sensors and actuators that collect and act on data) and robust communication links (like Wi-Fi, 5G, or LoRaWAN) to transmit the data from these devices.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-is-05-4m",
+                    "question": "Explain the role of local servers (edge computing) versus cloud storage in an intelligent IoT network for a smart factory.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "scenario": "A smart factory needs to process data from thousands of high-speed sensors on its assembly line.",
+                    "linkedOutcomes": [
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "IoT",
+                      "infrastructure",
+                      "cloud storage",
+                      "servers",
+                      "edge computing"
+                    ],
+                    "markingCriteria": "- 2 marks: Explains the role of local servers (edge computing) for real-time processing, making low-latency decisions on the factory floor without needing to send data to the cloud. -\n2 marks: Explains the role of cloud storage for long-term data aggregation, storage, and large-scale analysis to identify historical trends and train machine learning models.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-is-05-4m",
+                        "band": 5,
+                        "answer": "In a smart factory, local servers used for edge computing play a critical role in immediate processing. Data from a sensor that detects a critical failure on the assembly line needs to be acted upon in milliseconds. An edge server on the factory floor can process this data instantly and trigger an actuator to shut down the machine, avoiding the delay (latency) of sending the data to the cloud and back.\n\nCloud storage serves a different purpose. It acts as a central repository for all the data collected over time from all sensors. This aggregated historical data is then used for large-scale analysis, such as identifying long-term maintenance trends, optimising overall factory performance, and training the machine learning models that are then deployed to the edge servers.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-is-06",
+                "description": "Explain the role of intelligent systems in surveillance, including CCTV, biometric scanning, and fraud prevention.",
+                "prompts": [
+                  {
+                    "id": "prompt-is-06-2m",
+                    "question": "Identify two ways an intelligent system can enhance traditional CCTV surveillance.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "scenario": "A shopping centre is upgrading its security camera system.",
+                    "linkedOutcomes": [
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "intelligent system",
+                      "surveillance",
+                      "CCTV"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies one way (e.g., facial recognition). -\n1 mark: Identifies a second way (e.g., anomaly detection).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-is-06-2m",
+                        "band": 2,
+                        "answer": "An intelligent system can enhance traditional CCTV by adding automated facial recognition to identify persons of interest in a crowd, and by using anomaly detection to automatically alert security staff to unusual behaviour, such as a person running or an abandoned package.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-is-06-4m",
+                    "question": "Explain how a bank uses intelligent systems for fraud prevention when a customer uses their credit card.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "scenario": "A customer makes an unusually large online purchase from an overseas website, and their bank sends them a verification alert.",
+                    "linkedOutcomes": [
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "intelligent system",
+                      "fraud prevention",
+                      "AI",
+                      "surveillance"
+                    ],
+                    "markingCriteria": "- 2 marks: Explains that the intelligent system builds a profile of the customer's normal spending habits (patterns, locations, amounts). -\n2 marks: Explains that when a new transaction occurs, the system analyses it in real-time against this profile. If the transaction is an anomaly (e.g., different country, unusually high amount), it flags it as potentially fraudulent and triggers an automated action like blocking the card or sending an alert.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-is-06-4m",
+                        "band": 5,
+                        "answer": "A bank's intelligent fraud prevention system continuously analyses a customer's transaction data to build a sophisticated model of their typical spending behaviour. This includes factors like the usual time of day for purchases, common locations, average transaction amounts, and types of merchants.\n\nWhen the customer attempts a new transaction, the intelligent system assesses it in real-time against this established profile. A transaction that deviates significantly from the norm—such as a large purchase from a new overseas website—is flagged as an anomaly. The system then automatically assigns a risk score, and if it exceeds a certain threshold, it can instantly decline the transaction and trigger a security alert to the customer for verification, preventing the fraud before it is completed.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subTopic-is-03",
+            "name": "Creating intelligent systems",
+            "dotPoints": [
+              {
+                "id": "dp-is-07",
+                "description": "Develop a set of rules and facts that could be used within an expert system to draw conclusions.",
+                "prompts": [
+                  {
+                    "id": "prompt-is-07-2m",
+                    "question": "Provide one fact and one IF-THEN rule for a simple expert system designed to recommend a pet.",
+                    "totalMarks": 2,
+                    "scenario": "Designing the knowledge base for a 'Perfect Pet Finder' expert system.",
+                    "linkedOutcomes": [
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "rules",
+                      "facts",
+                      "expert system",
+                      "knowledge base"
+                    ],
+                    "markingCriteria": "- 1 mark: Provides a valid fact (e.g., 'A dog needs a backyard'). -\n1 mark: Provides a valid, related IF-THEN rule (e.g., 'IF user_lives_in = apartment THEN pet_recommendation != dog').",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-is-07-2m",
+                        "band": 3,
+                        "answer": "**Fact:** A golden retriever is a large dog.\n**Rule:** IF pet_size_preference = 'small' AND pet_type = 'dog' THEN pet_recommendation != 'golden retriever'.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-is-07-4m",
+                    "question": "Develop a set of at least three IF-THEN rules and any necessary facts for an expert system that provides basic technical support for a home Wi-Fi network.",
+                    "totalMarks": 4,
+                    "scenario": "An ISP wants to create a simple online troubleshooting tool for customers with internet problems.",
+                    "linkedOutcomes": [
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "rules",
+                      "facts",
+                      "expert system",
+                      "knowledge base",
+                      "IF-THEN"
+                    ],
+                    "markingCriteria": "- 1 mark: Provides one logical IF-THEN rule. -\n1 mark: Provides a second logical IF-THEN rule. -\n1 mark: Provides a third logical IF-THEN rule that builds on the others. -\n1 mark: The set of rules follows a coherent diagnostic process.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-is-07-4m",
+                        "band": 3,
+                        "answer": "This expert system could use the following rules:\n\n*   **Rule 1:** IF internet_working = 'no' AND router_lights_on = 'no' THEN suggestion = 'Check if the router is plugged into power and switched on.'\n*   **Rule 2:** IF internet_working = 'no' AND router_lights_on = 'yes' THEN suggestion = 'Try turning the router off and on again. Wait 30 seconds before turning it on.'\n*   **Rule 3:** IF suggestion = 'Try turning the router off and on again' AND internet_working = 'no' AFTER_RESTART THEN suggestion = 'Please contact technical support.'",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-is-08",
+                "description": "Design and model an automated smart system using a range of inputs and outputs.",
+                "prompts": [
+                  {
+                    "id": "prompt-is-08-2m",
+                    "question": "Identify one input sensor and one output actuator for an automated smart home security light.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "scenario": "Designing a basic smart home device.",
+                    "linkedOutcomes": [
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "automated",
+                      "smart system",
+                      "inputs",
+                      "outputs",
+                      "sensor",
+                      "actuator"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies a suitable input sensor (e.g., motion sensor, light sensor). -\n1 mark: Identifies a suitable output actuator (e.g., a light/LED).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-is-08-2m",
+                        "band": 2,
+                        "answer": "The input sensor would be a passive infrared (PIR) motion sensor to detect movement. The output actuator would be the light-emitting diode (LED) light itself, which is turned on or off.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-is-08-5m",
+                    "question": "Design a model for an automated smart window blind system for a home office. Describe the inputs, the processing logic, and the outputs required for the system to operate intelligently.",
+                    "totalMarks": 5,
+                    "scenario": "A homeowner wants their office blinds to open and close automatically to manage light and temperature.",
+                    "linkedOutcomes": [
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "design",
+                      "model",
+                      "automated",
+                      "smart system",
+                      "inputs",
+                      "outputs"
+                    ],
+                    "markingCriteria": "- 2 marks: Describes at least two inputs (e.g., light sensor, time-of-day clock, temperature sensor). -\n1 mark: Describes the outputs (the motor to open/close the blinds). -\n2 marks: Describes the processing logic that connects the inputs to the outputs (e.g., IF it is after 9am AND the light sensor detects bright sun AND the internal temperature is rising, THEN close the blinds).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-is-08-5m",
+                        "band": 3,
+                        "answer": "This automated smart blind system would have several inputs and one primary output.\n\n**Inputs:**\n1.  A light sensor (photodiode) to measure the brightness of the sunlight outside.\n2.  A real-time clock to know the time of day.\n3.  An internal room temperature sensor.\n\n**Outputs:**\n1.  An electric motor (actuator) connected to the blinds to open or close them.\n\n**Processing Logic:** The system's microcontroller would run an algorithm with rules such as:\n*   IF time is between 7am and 9am, THEN open blinds (to let in morning light).\n*   IF time is after 9am AND light_sensor_reading > threshold_A AND temperature > 24°C, THEN close blinds (to block heat and glare during the day).\n*   IF time is after 6pm, THEN open blinds (to let in evening light before closing for the night).",
+                        "mark": 5,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-is-09",
+                "description": "Explain how expert systems contribute to the efficiency of intelligent systems, including autonomous vehicles and streaming services.",
+                "prompts": [
+                  {
+                    "id": "prompt-is-09-2m",
+                    "question": "Outline how an expert system contributes to the efficiency of a media streaming service.",
+                    "totalMarks": 2,
+                    "verb": "OUTLINE",
+                    "scenario": "A user gets a recommendation for a new TV show that matches their tastes perfectly.",
+                    "linkedOutcomes": [
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "expert system",
+                      "efficiency",
+                      "streaming services"
+                    ],
+                    "markingCriteria": "- 2 marks: Outlines that an expert system (in the form of a recommendation engine) uses rules based on user viewing history and content metadata to efficiently suggest relevant content, improving user engagement and retention.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-is-09-2m",
+                        "band": 3,
+                        "answer": "An expert system in a streaming service acts as a recommendation engine. It uses a knowledge base of rules about movie genres, actors, and user preferences to efficiently analyse a user's viewing history. It then suggests content the user is highly likely to enjoy, which increases user engagement and makes it easier for them to find content without endless searching.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-is-09-6m",
+                    "question": "Explain how multiple expert systems work together within an autonomous vehicle to contribute to its overall safety and efficiency.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "scenario": "An autonomous vehicle is navigating a busy city street with traffic lights, pedestrians, and other cars.",
+                    "linkedOutcomes": [
+                      "EC-05"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "expert system",
+                      "efficiency",
+                      "autonomous vehicles",
+                      "intelligent system"
+                    ],
+                    "markingCriteria": "- 2 marks: Explains the role of a perception expert system that interprets sensor data (from LiDAR, cameras) to identify objects like pedestrians and traffic lights. -\n2 marks: Explains the role of a path planning expert system that uses rules about road laws and vehicle dynamics to decide on a safe and efficient path. -\n2 marks: Explains how these systems work together in real-time, with the perception system's output (facts) being fed into the planning system's inference engine to make continuous, efficient, and safe driving decisions.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-is-09-6m",
+                        "band": 5,
+                        "answer": "An autonomous vehicle is a complex intelligent system that relies on multiple, specialised expert systems working in concert. \n\nOne critical component is the **perception system**. This expert system takes data from sensors like cameras and LiDAR and uses a knowledge base of rules to identify and classify objects. For example, a rule might be 'IF an object has two legs and is moving at 5 km/h, THEN it is a pedestrian'. This efficiently turns raw sensor data into meaningful facts.\n\nThese facts are then fed into a second **path planning and decision-making system**. This expert system's knowledge base contains the rules of the road, principles of defensive driving, and the vehicle's physical limitations. Its inference engine uses the facts from the perception system (e.g., 'there is a pedestrian ahead') to make efficient decisions like 'decrease speed' or 'change lanes'.\n\nThese systems work together in a continuous loop. The perception system constantly updates the facts about the environment, and the planning system constantly reassesses its decisions. This integration is crucial for the vehicle's ability to navigate safely and efficiently through complex and dynamic environments.",
+                        "mark": 6,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ep-main",
+        "name": "Enterprise project",
+        "subTopics": [
+          {
+            "id": "subTopic-ep-01",
+            "name": "Identifying and defining",
+            "dotPoints": [
+              {
+                "id": "dp-ep-01",
+                "description": "Describe the tools and processes used to manage and document the development of an enterprise system, including problem definition, time and resource management, an iterative approach, and testing and evaluation.",
+                "prompts": [
+                  {
+                    "id": "prompt-ep-01-2m",
+                    "question": "Identify one tool used for time management and one process used for project development.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "scenario": "A project manager is beginning to plan a new software development project.",
+                    "linkedOutcomes": [
+                      "EC-06"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "Gantt chart",
+                      "iterative approach",
+                      "tools",
+                      "processes"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies a valid time management tool (e.g., Gantt chart). -\n1 mark: Identifies a valid development process (e.g., iterative approach, agile methodology).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ep-01-2m",
+                        "band": 2,
+                        "answer": "A tool used for time management is a Gantt chart, which visually represents the project schedule. A process used for project development is an iterative approach, where the project is built in repeated cycles of development and testing.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-ep-01-5m",
+                    "question": "Describe how an iterative approach and a Gantt chart are used to manage the development of a new enterprise system.",
+                    "totalMarks": 5,
+                    "verb": "DESCRIBE",
+                    "scenario": "A software development team is building a new customer relationship management (CRM) system for a large company.",
+                    "linkedOutcomes": [
+                      "EC-06"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "iterative approach",
+                      "Gantt chart",
+                      "time management",
+                      "resource management",
+                      "project management"
+                    ],
+                    "markingCriteria": "- 2 marks: Describes an iterative approach, explaining that the system is developed in small, repeated cycles (iterations) of planning, design, building, and testing, allowing for flexibility and feedback. -\n2 marks: Describes the purpose and features of a Gantt chart, including tasks, durations, dependencies, and milestones, to track progress against a schedule. -\n1 mark: Links the two, explaining that the Gantt chart would be used to plan and track the tasks within each iteration.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ep-01-5m",
+                        "band": 3,
+                        "answer": "An iterative approach is a process where the enterprise system is developed in a series of repeated cycles or 'iterations'. In each cycle, a small portion of the system is designed, built, and tested. This allows the development team to get regular feedback from the client and make adjustments, which is more flexible than building the entire system at once.\n\nA Gantt chart is a project management tool used for time and resource management. It is a horizontal bar chart that visually displays the project schedule. It lists all required tasks, their start and end dates, their durations, and their dependencies (which tasks must be completed before others can begin). The team would use the Gantt chart to plan the specific tasks and allocate resources for each iteration, and to track progress against the project's overall timeline and deadlines.",
+                        "mark": 5,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-ep-02",
+                "description": "Explain the effect of the changing nature of enterprise on the development of projects, including offshore development, working remotely, freelance work, and the growth of start-ups.",
+                "prompts": [
+                  {
+                    "id": "prompt-ep-02-2m",
+                    "question": "Identify one benefit and one challenge of using offshore development for a project.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "scenario": "An Australian company is considering hiring a software development team in another country.",
+                    "linkedOutcomes": [
+                      "EC-06"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "offshore development",
+                      "enterprise",
+                      "projects"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies a valid benefit (e.g., lower labour costs, access to a larger talent pool). -\n1 mark: Identifies a valid challenge (e.g., time zone differences, communication barriers).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ep-02-2m",
+                        "band": 2,
+                        "answer": "A benefit of offshore development is often a significant reduction in labour costs. A challenge is managing communication and collaboration effectively across different time zones and cultural contexts.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-ep-02-4m",
+                    "question": "Explain how the trends of 'working remotely' and the growth of 'freelance work' have affected how enterprise projects are resourced and managed.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "scenario": "A technology start-up needs to build a team to develop a new mobile application.",
+                    "linkedOutcomes": [
+                      "EC-06"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "working remotely",
+                      "freelance work",
+                      "enterprise",
+                      "project management"
+                    ],
+                    "markingCriteria": "- 2 marks: Explains the effect of working remotely, focusing on the need for strong online collaboration tools and changes to management style (e.g., focusing on outcomes rather than hours worked). -\n2 marks: Explains the effect of freelance work, focusing on how projects can be resourced with specialised skills on a flexible, as-needed basis, but this requires clear contracts and well-defined tasks.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ep-02-4m",
+                        "band": 5,
+                        "answer": "The trend of 'working remotely' has meant that enterprise projects are no longer limited by geography when sourcing talent. However, it requires a heavy reliance on online collaboration tools like Slack, Zoom, and Jira for communication and task management. Project managers must adapt their style to manage a distributed team, focusing more on clear documentation and measurable outcomes.\n\nThe growth of 'freelance work' (the gig economy) has affected resourcing by allowing enterprises, especially start-ups, to access highly specialised skills for specific parts of a project without hiring a full-time employee. A project might hire a freelance UI designer for two months, for example. This is cost-effective but requires project managers to be skilled at breaking down the project into discrete tasks and managing contracts.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subTopic-ep-02",
+            "name": "Researching and planning",
+            "dotPoints": [
+              {
+                "id": "dp-ep-03",
+                "description": "Investigate tools that support the design and development of an enterprise system, including online collaboration, budget, system flowcharts, and data flow diagrams.",
+                "prompts": [
+                  {
+                    "id": "prompt-ep-03-2m",
+                    "question": "Distinguish between a system flowchart and a data flow diagram (DFD).",
+                    "totalMarks": 2,
+                    "verb": "DISTINGUISH",
+                    "scenario": "A system analyst is documenting how a proposed new system will work.",
+                    "linkedOutcomes": [
+                      "EC-06"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "system flowchart",
+                      "data flow diagram",
+                      "design tools"
+                    ],
+                    "markingCriteria": "- 1 mark: Describes a system flowchart as showing the flow of control and processing steps in a system. -\n1 mark: Describes a DFD as showing how data moves through a system, but not the processing logic.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ep-03-2m",
+                        "band": 5,
+                        "answer": "A system flowchart shows the sequence of operations and the flow of control in a system, including processing steps, decisions, and inputs/outputs. A data flow diagram (DFD) focuses only on the movement of data through a system; it shows where data comes from, how it is transformed, and where it is stored, but it does not show processing logic like loops or decisions.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-ep-03-4m",
+                    "question": "Describe how an 'online collaboration' tool and a 'budget' are used to support the planning phase of an enterprise system.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "scenario": "A project team is in the early stages of planning a new enterprise software project.",
+                    "linkedOutcomes": [
+                      "EC-06"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "online collaboration",
+                      "budget",
+                      "planning",
+                      "tools"
+                    ],
+                    "markingCriteria": "- 2 marks: Describes how an online collaboration tool (e.g., Microsoft Teams, Google Workspace) is used to facilitate communication, share documents (like planning documents and diagrams), and coordinate tasks among the team, especially if they are remote. -\n2 marks: Describes how a budget is a critical planning tool used to estimate and allocate financial resources for all aspects of the project, such as hardware, software licenses, and staff salaries, and to track spending against the plan.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ep-03-4m",
+                        "band": 3,
+                        "answer": "During the planning phase, an online collaboration tool like Google Workspace is essential for team coordination. It allows the project team to work together on planning documents in real-time, store design diagrams like flowcharts in a central repository, and communicate effectively through chat and video calls, ensuring everyone is aligned on the project goals and plan.\n\nA budget is a fundamental planning tool that defines the financial constraints of the project. It involves estimating the costs for all necessary resources, including developer salaries, software licenses, hardware infrastructure, and training. The budget is used to secure funding and acts as a baseline throughout the project to monitor and control spending, ensuring the project remains financially viable.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-ep-04",
+                "description": "Describe how computational, design and systems thinking skills are used in the design and development of an enterprise system.",
+                "prompts": [
+                  {
+                    "id": "prompt-ep-04-3m",
+                    "question": "Briefly describe the three key skills of computational thinking, design thinking, and systems thinking.",
+                    "totalMarks": 3,
+                    "verb": "DESCRIBE",
+                    "scenario": "A project leader is explaining the different mindsets needed to build a successful system.",
+                    "linkedOutcomes": [
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "computational thinking",
+                      "design thinking",
+                      "systems thinking"
+                    ],
+                    "markingCriteria": "- 1 mark: Describes computational thinking (breaking down problems logically). -\n1 mark: Describes design thinking (focusing on human needs and empathy). -\n1 mark: Describes systems thinking (understanding the whole system and its interconnections).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ep-04-3m",
+                        "band": 3,
+                        "answer": "Computational thinking is a problem-solving approach that involves breaking a complex problem down into smaller parts (decomposition) and developing a step-by-step solution (algorithm). Design thinking is a human-centred approach that focuses on empathy for the user to create solutions that are desirable and meet their needs. Systems thinking is a holistic approach that focuses on understanding how all the different parts of a system interact with each other to produce the overall result.",
+                        "mark": 3,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-ep-04-6m",
+                    "question": "Describe how computational, design, and systems thinking would be applied in the development of a new online banking application.",
+                    "totalMarks": 6,
+                    "verb": "DESCRIBE",
+                    "scenario": "A bank is creating a new mobile app for its customers.",
+                    "linkedOutcomes": [
+                      "EC-06",
+                      "EC-03"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "computational thinking",
+                      "design thinking",
+                      "systems thinking",
+                      "enterprise system"
+                    ],
+                    "markingCriteria": "- 2 marks: Describes the application of design thinking, such as conducting user research to understand customer needs, and creating prototypes to design an intuitive and easy-to-use interface. -\n2 marks: Describes the application of computational thinking, such as developers using decomposition to break the app into modules (e.g., login, transfer funds) and writing algorithms for each function. -\n2 marks: Describes the application of systems thinking, such as understanding how the app (the front-end) must securely connect with the bank's core banking servers, fraud detection systems, and other financial networks (the back-end).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ep-04-6m",
+                        "band": 3,
+                        "answer": "**Design thinking** would be applied first to ensure the app meets user needs. The team would interview customers to understand their banking habits and pain points. They would then create user personas and journey maps, and develop interactive prototypes of the app's interface to test with users, ensuring it is intuitive and solves real problems for them.\n\n**Computational thinking** would be used by the software developers to build the app. They would use decomposition to break the complex application down into smaller, manageable modules like 'user authentication', 'view balance', and 'transfer funds'. For each module, they would develop precise, step-by-step algorithms to handle the logic and data processing.\n\n**Systems thinking** would be essential to understand the entire ecosystem. The developers must consider how the mobile app (one part of the system) interacts with all the other components. This includes ensuring secure communication with the bank's central database, integrating with third-party fraud detection systems, and connecting to payment networks, understanding that a change in one part of the system can have consequences for another.",
+                        "mark": 6,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subTopic-ep-03",
+            "name": "Producing and implementing",
+            "dotPoints": [
+              {
+                "id": "dp-ep-05",
+                "description": "Apply tools to inform the requirements and limitations of an enterprise system, including interviews, surveys, analytical reports, and prototypes.",
+                "prompts": [
+                  {
+                    "id": "prompt-ep-05-2m",
+                    "question": "Distinguish between using an interview and a survey as tools to gather system requirements.",
+                    "totalMarks": 2,
+                    "verb": "DISTINGUISH",
+                    "scenario": "A business analyst needs to understand what users want from a new software system.",
+                    "linkedOutcomes": [
+                      "EC-06"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "interviews",
+                      "surveys",
+                      "requirements"
+                    ],
+                    "markingCriteria": "- 1 mark: Describes interviews as a tool for gathering deep, qualitative insights from a small number of people. -\n1 mark: Describes surveys as a tool for gathering quantitative data from a large number of people.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ep-05-2m",
+                        "band": 5,
+                        "answer": "Interviews are a qualitative tool used to gather in-depth information and understand the 'why' behind user needs from a small number of stakeholders. Surveys are a quantitative tool used to gather specific, structured data from a large group of users to identify broad trends and priorities.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-ep-05-4m",
+                    "question": "Explain how a software development team would use a 'prototype' and an 'analytical report' to define the requirements and limitations of a new system.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "scenario": "A team is in the process of defining the scope for a new enterprise project.",
+                    "linkedOutcomes": [
+                      "EC-06"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "prototype",
+                      "analytical report",
+                      "requirements",
+                      "limitations"
+                    ],
+                    "markingCriteria": "- 2 marks: Explains that a prototype (an early, interactive model of the system) is shown to users to get concrete feedback on the user interface and functionality, helping to clarify and refine requirements. -\n2 marks: Explains that an analytical report (e.g., a feasibility study) is used to research and define the system's technical and financial limitations, such as budget constraints, hardware capabilities, or integration challenges with existing systems.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ep-05-4m",
+                        "band": 5,
+                        "answer": "A prototype is a preliminary, interactive model of the proposed system. The team would use it as a tool to inform requirements by showing it to end-users. By clicking through the prototype, users can provide specific, tangible feedback on the layout and features, helping the team to understand and clarify what the system needs to do. This is far more effective than just discussing abstract ideas.\n\nAn analytical report, such as a technical feasibility report, is used to inform the system's limitations. The team would research and document factors like the performance of existing servers, the budget allocated for new hardware, and the complexity of integrating with legacy databases. This report provides a clear, data-driven understanding of the technical and financial constraints that the new system must operate within.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-ep-06",
+                "description": "Explore and apply the most suitable development approach to develop, modify and implement an enterprise system, including waterfall, agile, prototyping, and outsourcing.",
+                "prompts": [
+                  {
+                    "id": "prompt-ep-06-2m",
+                    "question": "Distinguish between the waterfall and agile development approaches.",
+                    "totalMarks": 2,
+                    "verb": "DISTINGUISH",
+                    "scenario": "A project manager is choosing a methodology for a new project.",
+                    "linkedOutcomes": [
+                      "EC-06"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "waterfall",
+                      "agile",
+                      "development approach"
+                    ],
+                    "markingCriteria": "- 1 mark: Describes waterfall as a linear, sequential approach where each phase must be completed before the next begins. -\n1 mark: Describes agile as an iterative and incremental approach that focuses on flexibility and customer feedback.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ep-06-2m",
+                        "band": 5,
+                        "answer": "The waterfall approach is a rigid, sequential development model where the project progresses through distinct phases (e.g., requirements, design, implementation, testing) in a linear order. The agile approach is an iterative model where the project is broken into small increments or 'sprints', with each sprint involving a full cycle of development and allowing for requirements to change and evolve.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-ep-06-6m",
+                    "question": "A start-up is developing a new, innovative mobile app where the final requirements are not yet fully understood. In contrast, a government agency is building a large payroll system where the legal requirements are fixed and well-documented. Evaluate the suitability of the agile and waterfall approaches for EACH of these projects.",
+                    "totalMarks": 6,
+                    "verb": "EVALUATE",
+                    "scenario": "Two different organisations with very different projects are selecting a development methodology.",
+                    "linkedOutcomes": [
+                      "EC-06"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "waterfall",
+                      "agile",
+                      "prototyping",
+                      "development approach",
+                      "evaluate"
+                    ],
+                    "markingCriteria": "- 2 marks: Evaluates the approaches for the start-up, making a clear judgement that agile is highly suitable due to its flexibility in handling changing requirements and its focus on user feedback. -\n2 marks: Evaluates the approaches for the government agency, making a clear judgement that waterfall is more suitable because the requirements are stable and well-defined, allowing for detailed upfront planning and documentation. -\n2 marks: Provides clear reasoning for both judgements, linking the characteristics of the methodology to the specific needs of each project.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ep-06-6m",
+                        "band": 6,
+                        "answer": "For the start-up developing an innovative mobile app, the agile approach is far more suitable. Because the requirements are unknown and likely to change as user feedback is gathered, agile's iterative nature is a major advantage. It allows the team to build a minimum viable product, test it with real users, and adapt the app's features in subsequent sprints. Waterfall would be completely unsuitable here, as its rigid structure requires all requirements to be defined upfront, which is impossible.\n\nFor the government agency building a payroll system, the waterfall approach is more suitable. The requirements are fixed by legal and financial regulations and are not expected to change. This stability allows for a detailed upfront design and documentation process, which is a strength of the waterfall model and often a requirement for government projects needing strict oversight and accountability. The linear, structured nature of waterfall provides predictability and control, which is highly valued in this type of project.",
+                        "mark": 6,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subTopic-ep-04",
+            "name": "Testing and evaluating",
+            "dotPoints": [
+              {
+                "id": "dp-ep-07",
+                "description": "Verify and validate an enterprise computing system, including evaluating test data, trialling documentation, and reviewing the impact of system implementation.",
+                "prompts": [
+                  {
+                    "id": "prompt-ep-07-2m",
+                    "question": "Distinguish between system verification and system validation.",
+                    "totalMarks": 2,
+                    "verb": "DISTINGUISH",
+                    "scenario": "A quality assurance engineer is testing a new piece of software.",
+                    "linkedOutcomes": [
+                      "EC-06"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "verify",
+                      "validate",
+                      "testing"
+                    ],
+                    "markingCriteria": "- 1 mark: Defines verification as checking if the system was built correctly (to specifications). -\n1 mark: Defines validation as checking if the right system was built (if it meets user needs).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ep-07-2m",
+                        "band": 5,
+                        "answer": "Verification is the process of checking that the system is built correctly according to its design and specifications. It answers the question, 'Are we building the product right?'. Validation is the process of checking that the system meets the actual needs and expectations of the user. It answers the question, 'Are we building the right product?'.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-ep-07-4m",
+                    "question": "Explain how 'evaluating test data' and 'trialling the operation and maintenance documentation' contribute to the verification and validation of a new enterprise system.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "scenario": "A new accounting system is undergoing its final phase of testing before it is launched.",
+                    "linkedOutcomes": [
+                      "EC-06"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "verify",
+                      "validate",
+                      "test data",
+                      "documentation",
+                      "testing"
+                    ],
+                    "markingCriteria": "- 2 marks: Explains that evaluating test data (checking actual output against expected output for given inputs) is a primary method of verification, as it confirms the system's logic and calculations adhere to the technical specifications. -\n2 marks: Explains that trialling the documentation with end-users is a key part of validation, as it helps confirm that the system is usable and that users can successfully learn and operate it to meet their business needs.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ep-07-4m",
+                        "band": 5,
+                        "answer": "Evaluating test data is a core activity for verification. Testers create a set of test cases with specific inputs and pre-calculated expected outputs. They run these inputs through the system and compare the actual output to the expected output. If they match, it verifies that the system's code and logic have been implemented correctly according to the design specifications.\n\nTrialling the operation and maintenance documentation is crucial for validation. A support team or end-user might be asked to follow the user manual to perform a task. If the documentation is clear, accurate, and allows the user to successfully operate the system to achieve their business goal, it helps validate that the right product has been built for the user's needs.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              },
+              {
+                "id": "dp-ep-08",
+                "description": "testing, evaluating and maintaining the developed enterprise computing system",
+                "prompts": [
+                  {
+                    "id": "prompt-ep-08-2m",
+                    "question": "Identify and briefly describe two types of software maintenance.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "scenario": "A software system has been in operation for one year and requires updates.",
+                    "linkedOutcomes": [
+                      "EC-06"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "maintenance",
+                      "evaluating",
+                      "testing"
+                    ],
+                    "markingCriteria": "- 1 mark: Identifies and describes one type (e.g., corrective maintenance). -\n1 mark: Identifies and describes a second type (e.g., adaptive or perfective maintenance).",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ep-08-2m",
+                        "band": 2,
+                        "answer": "Two types of software maintenance are corrective maintenance, which involves fixing bugs and defects discovered after the system is released, and perfective maintenance, which involves adding new features or improving existing functionality based on user feedback.",
+                        "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-ep-08-4m",
+                    "question": "Explain why ongoing evaluation and maintenance are essential for the long-term success of an enterprise computing system.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "scenario": "A large e-commerce website was launched two years ago and is still actively managed.",
+                    "linkedOutcomes": [
+                      "EC-06"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [],
+                    "commonStudentErrors": [],
+                    "keywords": [
+                      "evaluating",
+                      "maintaining",
+                      "enterprise system",
+                      "testing"
+                    ],
+                    "markingCriteria": "- 2 marks: Explains the need for ongoing evaluation, focusing on how business needs, user expectations, and technology change over time, requiring the system to be continually assessed to ensure it remains effective and relevant. -\n2 marks: Explains the need for ongoing maintenance, such as adaptive maintenance to ensure the system works with new operating systems or browsers, and corrective maintenance to fix security vulnerabilities and bugs that emerge over time.",
+                    "targetPerformanceBands": [],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ep-08-4m",
+                        "band": 5,
+                        "answer": "Ongoing evaluation is essential because the business environment is not static. An enterprise system that was effective at launch may become less so as business goals evolve, new competitors emerge, and user expectations change. Continuous evaluation, through user feedback and performance monitoring, allows the enterprise to identify where the system is no longer meeting its needs, informing future updates.\n\nMaintenance is crucial for keeping the system operational and secure. Adaptive maintenance is required to make the system compatible with new technologies, like updated web browsers or operating systems. Corrective maintenance is vital for fixing bugs and, most importantly, patching security vulnerabilities that are discovered over time. Without ongoing maintenance, the system would become unstable, insecure, and eventually obsolete.",
+                        "mark": 4,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
