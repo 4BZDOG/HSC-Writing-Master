@@ -18,6 +18,6 @@ if (!rootElement) {
       </React.StrictMode>
     );
   } catch (e) {
-    console.error("Error during React mounting:", e);
+    console.error('Error during React mounting:', e);
   }
 }

@@ -11,6 +11,7 @@
 The HSC AI Evaluator project demonstrates **solid component engineering** with strong visual design and thoughtful educational features. The codebase has a well-organized hierarchy with good separation of concerns, but shows gaps in form validation, error recovery, and keyboard accessibility.
 
 **Overall Ratings:**
+
 - **Reliability**: ⭐⭐⭐⭐ (3.8/5) — Good foundation with error handling gaps
 - **Functionality**: ⭐⭐⭐⭐ (3.9/5) — Core features complete, missing nice-to-have features
 - **Consistency**: ⭐⭐⭐⭐ (4.0/5) — Strong design system adherence
@@ -22,19 +23,22 @@ The HSC AI Evaluator project demonstrates **solid component engineering** with s
 ## 1. Layout & Structure (⭐⭐⭐⭐ 4.0/5)
 
 ### Component Inventory
-| Component | Purpose | Score | Key Issues |
-|-----------|---------|-------|-----------|
-| **App.tsx** | Root container with auth flow, theme, modals | 4/5 | Heavy prop drilling, no fallback UI on hook failure |
-| **Workspace.tsx** | Two-column editor layout with height sync | 4/5 | ResizeObserver brittle, keyboard shortcuts buried |
-| **AppModals.tsx** | Modal router (20+ modals) | 3/5 | No prop validation, modal dependencies silent failures |
-| **Breadcrumb.tsx** | Navigation path display | 4/5 | ✅ Excellent auto-scroll, responsive truncation |
+
+| Component          | Purpose                                      | Score | Key Issues                                             |
+| ------------------ | -------------------------------------------- | ----- | ------------------------------------------------------ |
+| **App.tsx**        | Root container with auth flow, theme, modals | 4/5   | Heavy prop drilling, no fallback UI on hook failure    |
+| **Workspace.tsx**  | Two-column editor layout with height sync    | 4/5   | ResizeObserver brittle, keyboard shortcuts buried      |
+| **AppModals.tsx**  | Modal router (20+ modals)                    | 3/5   | No prop validation, modal dependencies silent failures |
+| **Breadcrumb.tsx** | Navigation path display                      | 4/5   | ✅ Excellent auto-scroll, responsive truncation        |
 
 ### Strengths
+
 ✅ Clear separation: App (global state) → Workspace (layout) → children (local state)
 ✅ Good use of useRef for DOM measurements
 ✅ Responsive grid layout handles mobile
 
 ### Weaknesses
+
 ❌ AppModals has no validation of activeModals and modalProps before rendering
 ❌ Complex prop passing through 3+ levels (prop drilling)
 ❌ Height sync relies on ResizeObserver (no fallback)
@@ -47,20 +51,21 @@ The HSC AI Evaluator project demonstrates **solid component engineering** with s
 
 ### Component Inventory
 
-| Component | Type | Score | Status |
-|-----------|------|-------|--------|
-| **Editor.tsx** | Rich textarea | ⭐⭐⭐⭐⭐ 5/5 | ✅ Exemplary |
-| **Combobox.tsx** | Dropdown | ⭐⭐⭐⭐ 4/5 | ⚠️ No keyboard nav, no search |
-| **PromptSelector.tsx** | 5-level hierarchy | ⭐⭐⭐⭐ 4/5 | ✅ Beautiful, theme color duplication |
-| **KeywordEditor.tsx** | Tag manager | ⭐⭐⭐ 3/5 | ⚠️ No validation |
-| **CourseCreatorModal.tsx** | Form | ⭐⭐⭐ 3/5 | ⚠️ No duplicate checking, double-submit risk |
-| **TopicCreatorModal.tsx** | Form | ⭐⭐⭐ 3/5 | ⚠️ Missing validation, no unsaved warning |
-| **ManualPromptModal.tsx** | Question editor | ⭐⭐⭐ 3/5 | ⚠️ No preview, complex validation missing |
-| **RenameModal.tsx** | Inline editor | ⭐⭐⭐ 3/5 | ⚠️ No duplicate check, no loading state |
+| Component                  | Type              | Score          | Status                                       |
+| -------------------------- | ----------------- | -------------- | -------------------------------------------- |
+| **Editor.tsx**             | Rich textarea     | ⭐⭐⭐⭐⭐ 5/5 | ✅ Exemplary                                 |
+| **Combobox.tsx**           | Dropdown          | ⭐⭐⭐⭐ 4/5   | ⚠️ No keyboard nav, no search                |
+| **PromptSelector.tsx**     | 5-level hierarchy | ⭐⭐⭐⭐ 4/5   | ✅ Beautiful, theme color duplication        |
+| **KeywordEditor.tsx**      | Tag manager       | ⭐⭐⭐ 3/5     | ⚠️ No validation                             |
+| **CourseCreatorModal.tsx** | Form              | ⭐⭐⭐ 3/5     | ⚠️ No duplicate checking, double-submit risk |
+| **TopicCreatorModal.tsx**  | Form              | ⭐⭐⭐ 3/5     | ⚠️ Missing validation, no unsaved warning    |
+| **ManualPromptModal.tsx**  | Question editor   | ⭐⭐⭐ 3/5     | ⚠️ No preview, complex validation missing    |
+| **RenameModal.tsx**        | Inline editor     | ⭐⭐⭐ 3/5     | ⚠️ No duplicate check, no loading state      |
 
 ### Editor.tsx — Exemplary Implementation (5/5)
 
 **Strengths:**
+
 - ✅ Grid-stacking layout for auto-height (no layout shift)
 - ✅ Live progress band visualization (0-6 color coding)
 - ✅ Keyword highlighting overlay with SVG rendering
@@ -74,12 +79,14 @@ The HSC AI Evaluator project demonstrates **solid component engineering** with s
 ### Combobox.tsx — Good but Limited (4/5)
 
 **Strengths:**
+
 - ✅ Tier-aware coloring (blue/purple/indigo/pink/green)
 - ✅ Custom option rendering with icons
 - ✅ Click-outside detection
 - ✅ Disabled state support
 
 **Gaps:**
+
 - ❌ No keyboard navigation (arrow keys, Enter, Escape)
 - ❌ No search/filter functionality
 - ❌ No option grouping support
@@ -89,6 +96,7 @@ The HSC AI Evaluator project demonstrates **solid component engineering** with s
 ### Form Modals — Consistent Gaps (3/5)
 
 **Common Issues Across CourseCreator, TopicCreator, PromptGenerator, etc.:**
+
 - ❌ No duplicate name validation
 - ❌ Form submit button not disabled during submission → double-submit risk
 - ❌ No unsaved changes warning on navigation
@@ -96,6 +104,7 @@ The HSC AI Evaluator project demonstrates **solid component engineering** with s
 - ❌ Generic error messages
 
 **Recommendation**: Create `useFormValidation` hook with:
+
 ```typescript
 {
   isDirty: boolean;
@@ -109,21 +118,23 @@ The HSC AI Evaluator project demonstrates **solid component engineering** with s
 
 ## 3. Display & Results Components (⭐⭐⭐⭐ 4.0/5)
 
-| Component | Purpose | Score | Status |
-|-----------|---------|-------|--------|
-| **PromptDisplay.tsx** | Question viewer with metadata | 4/5 | ✅ Rich features, admin inline editing |
-| **EvaluationDisplay.tsx** | Marking feedback | 4/5 | ✅ Clear structure, band coloring |
-| **EvaluationResultModal.tsx** | Full-screen results | 4/5 | ⚠️ Portal edge case, no unsaved warning |
-| **SampleAnswersAccordion.tsx** | Reference answers carousel | 4/5 | ✅ Excellent UX, missing keyboard nav |
-| **WritingMetricsDashboard.tsx** | Progress analytics | 4/5 | ✅ Live timer, metrics, should pause on blur |
+| Component                       | Purpose                       | Score | Status                                       |
+| ------------------------------- | ----------------------------- | ----- | -------------------------------------------- |
+| **PromptDisplay.tsx**           | Question viewer with metadata | 4/5   | ✅ Rich features, admin inline editing       |
+| **EvaluationDisplay.tsx**       | Marking feedback              | 4/5   | ✅ Clear structure, band coloring            |
+| **EvaluationResultModal.tsx**   | Full-screen results           | 4/5   | ⚠️ Portal edge case, no unsaved warning      |
+| **SampleAnswersAccordion.tsx**  | Reference answers carousel    | 4/5   | ✅ Excellent UX, missing keyboard nav        |
+| **WritingMetricsDashboard.tsx** | Progress analytics            | 4/5   | ✅ Live timer, metrics, should pause on blur |
 
 ### Strengths
+
 ✅ Clear visual hierarchy with tier coloring
 ✅ Rich metadata display (outcomes, keywords, marking guide)
 ✅ Smooth animations and transitions
 ✅ Excellent progress visualization
 
 ### Weaknesses
+
 ❌ PromptDisplay inline editing doesn't warn on navigation
 ❌ SampleAnswersAccordion carousel lacks arrow key support
 ❌ WritingMetricsDashboard timer doesn't pause on blur (fairness issue)
@@ -135,20 +146,22 @@ The HSC AI Evaluator project demonstrates **solid component engineering** with s
 
 ## 4. Navigation & Selection (⭐⭐⭐⭐ 4.0/5)
 
-| Component | Purpose | Score | Issues |
-|-----------|---------|-------|--------|
-| **SelectionTree.tsx** | Hierarchical tree | 4/5 | No keyboard nav |
-| **CommandVerbHierarchy.tsx** | Cognitive complexity ladder | 4/5 | Auto-scroll logic complex |
-| **CommandTermGuideModal.tsx** | Verb definitions | 4/5 | ✅ Clear, accessible |
-| **PromptSelector.tsx** | 5-level guided selection | 4/5 | Visual excellence, theme duplication |
+| Component                     | Purpose                     | Score | Issues                               |
+| ----------------------------- | --------------------------- | ----- | ------------------------------------ |
+| **SelectionTree.tsx**         | Hierarchical tree           | 4/5   | No keyboard nav                      |
+| **CommandVerbHierarchy.tsx**  | Cognitive complexity ladder | 4/5   | Auto-scroll logic complex            |
+| **CommandTermGuideModal.tsx** | Verb definitions            | 4/5   | ✅ Clear, accessible                 |
+| **PromptSelector.tsx**        | 5-level guided selection    | 4/5   | Visual excellence, theme duplication |
 
 ### Strengths
+
 ✅ Clear visual connectors in tree
 ✅ Color-coded by cognitive level
 ✅ Auto-scroll to active items
 ✅ Responsive collapsible sections
 
 ### Gaps
+
 ❌ SelectionTree: No arrow key navigation, checkbox selection only
 ❌ Combobox (used in PromptSelector): No search/filter
 ❌ CommandVerbHierarchy: Complex scroll alignment logic
@@ -159,17 +172,18 @@ The HSC AI Evaluator project demonstrates **solid component engineering** with s
 
 ## 5. Admin & Advanced Features (⭐⭐⭐ 3.2/5)
 
-| Component | Purpose | Score | Risk Level |
-|-----------|---------|-------|-----------|
-| **DataManagerModal.tsx** | Import/export/reorder | 3/5 | 🔴 HIGH |
-| **ContentAuditModal.tsx** | Curriculum scanner | 3/5 | 🟡 MEDIUM |
-| **PromptGeneratorModal.tsx** | AI question creation | 3/5 | 🟡 MEDIUM |
-| **ConflictResolutionView.tsx** | Duplicate handler | 3/5 | 🔴 HIGH |
-| **DatabaseDashboard.tsx** | Admin health monitor | 3/5 | 🟢 LOW |
+| Component                      | Purpose               | Score | Risk Level |
+| ------------------------------ | --------------------- | ----- | ---------- |
+| **DataManagerModal.tsx**       | Import/export/reorder | 3/5   | 🔴 HIGH    |
+| **ContentAuditModal.tsx**      | Curriculum scanner    | 3/5   | 🟡 MEDIUM  |
+| **PromptGeneratorModal.tsx**   | AI question creation  | 3/5   | 🟡 MEDIUM  |
+| **ConflictResolutionView.tsx** | Duplicate handler     | 3/5   | 🔴 HIGH    |
+| **DatabaseDashboard.tsx**      | Admin health monitor  | 3/5   | 🟢 LOW     |
 
 ### DataManagerModal — High Risk (3/5)
 
 **Critical Issues:**
+
 - 🔴 No rollback on import failure → data corruption risk
 - 🔴 Conflict resolution UI unclear (hard to understand what will be overwritten)
 - 🔴 No atomic transactions (all-or-nothing)
@@ -178,6 +192,7 @@ The HSC AI Evaluator project demonstrates **solid component engineering** with s
 - 🟡 No progress indication on large imports
 
 **Recommendation**: Implement atomic import:
+
 ```typescript
 1. Save backup of current courses
 2. Validate ALL items before importing ANY
@@ -188,6 +203,7 @@ The HSC AI Evaluator project demonstrates **solid component engineering** with s
 ### PromptGeneratorModal — Preview Missing (3/5)
 
 **Issues:**
+
 - ❌ User generates question but can't preview before saving
 - ❌ Can't regenerate if unhappy with result
 - ❌ No inline validation of marks/outcomes
@@ -197,6 +213,7 @@ The HSC AI Evaluator project demonstrates **solid component engineering** with s
 ### ContentAuditModal — Reports But Doesn't Fix (3/5)
 
 **Gaps:**
+
 - Reports problems: "Question missing scenario"
 - But can't fix them: no inline "Generate scenario" button
 - No action buttons per issue
@@ -207,17 +224,18 @@ The HSC AI Evaluator project demonstrates **solid component engineering** with s
 
 ## 6. Utility & Feedback Components (⭐⭐⭐⭐ 4.0/5)
 
-| Component | Purpose | Score | Status |
-|-----------|---------|-------|--------|
-| **LoadingIndicator.tsx** | Contextual spinner | ⭐⭐⭐⭐⭐ 5/5 | ✅ Exemplary |
-| **Toast.tsx** | Notifications | ⭐⭐⭐⭐⭐ 5/5 | ✅ Exemplary |
-| **LoginPage.tsx** | Auth form | ⭐⭐⭐⭐ 4/5 | ⚠️ No "Remember Me" |
-| **ErrorBoundary.tsx** | Error catcher | ⭐⭐⭐⭐ 4/5 | ⚠️ Doesn't catch async errors |
-| **ApiStatusIndicator.tsx** | System health | ⭐⭐⭐ 3/5 | ⚠️ Admin only, UI floods possible |
+| Component                  | Purpose            | Score          | Status                            |
+| -------------------------- | ------------------ | -------------- | --------------------------------- |
+| **LoadingIndicator.tsx**   | Contextual spinner | ⭐⭐⭐⭐⭐ 5/5 | ✅ Exemplary                      |
+| **Toast.tsx**              | Notifications      | ⭐⭐⭐⭐⭐ 5/5 | ✅ Exemplary                      |
+| **LoginPage.tsx**          | Auth form          | ⭐⭐⭐⭐ 4/5   | ⚠️ No "Remember Me"               |
+| **ErrorBoundary.tsx**      | Error catcher      | ⭐⭐⭐⭐ 4/5   | ⚠️ Doesn't catch async errors     |
+| **ApiStatusIndicator.tsx** | System health      | ⭐⭐⭐ 3/5     | ⚠️ Admin only, UI floods possible |
 
 ### LoadingIndicator.tsx — Exemplary (5/5)
 
 **Strengths:**
+
 - ✅ Task-specific phases (evaluation/generation/enrichment)
 - ✅ Animated rings (ping, spin, active) smooth
 - ✅ Progress bar 0-98% (never 100% until complete)
@@ -228,6 +246,7 @@ The HSC AI Evaluator project demonstrates **solid component engineering** with s
 ### Toast.tsx — Exemplary (5/5)
 
 **Strengths:**
+
 - ✅ Auto-close timer (4s) with pause-on-hover
 - ✅ Progress bar showing remaining time
 - ✅ 4 types (success/error/warning/info)
@@ -238,12 +257,14 @@ The HSC AI Evaluator project demonstrates **solid component engineering** with s
 ### LoginPage.tsx — Good But Limited (4/5)
 
 **Strengths:**
+
 - ✅ Field validation (empty checks)
 - ✅ Error states with visual feedback
 - ✅ Loading indicator during auth
 - ✅ Guest login option
 
 **Gaps:**
+
 - ❌ No "Remember Me" checkbox
 - ❌ No session persistence
 - ❌ No "Forgot Password" link
@@ -264,6 +285,7 @@ App.tsx
 ```
 
 ### Issues
+
 - ❌ No validation of modalProps shape
 - ❌ Silent failures if modal depends on missing context
 - ❌ Difficult to debug (which modal is open?)
@@ -352,6 +374,7 @@ const ModalContext = createContext<ModalState | null>(null);
 ### Design System ✅
 
 **Strong adherence to:**
+
 - ✅ Color tiers (blue/purple/indigo/pink/green/orange)
 - ✅ Glassmorphism design (backdrop blur + semi-transparent backgrounds)
 - ✅ Smooth animations (fade-in-up, spin, ping)
@@ -361,6 +384,7 @@ const ModalContext = createContext<ModalState | null>(null);
 ### Code Patterns ✅
 
 **Consistent patterns:**
+
 - ✅ Component composition (small, focused components)
 - ✅ Props interface per component
 - ✅ useCallback for event handlers
@@ -370,20 +394,24 @@ const ModalContext = createContext<ModalState | null>(null);
 ### Inconsistencies ⚠️
 
 - ⚠️ **Theme colors in PromptSelector**: Duplicates Tailwind classes as strings:
+
   ```typescript
   const themeColors: Record<SyllabusLevel, string> = {
     course: 'bg-blue-500',
     topic: 'bg-purple-500',
     // ...
-  }
+  };
   ```
+
   Should use CSS variables instead.
 
 - ⚠️ **Modal styling**: Some use one pattern, others use different styles
 - ⚠️ **Error handling**: Mixed approaches (some throw, some return null)
 
 ### Recommendation
+
 Extract shared theme/design constants to `theme.ts`:
+
 ```typescript
 export const TIER_COLORS = {
   course: { bg: 'bg-blue-500', text: 'text-blue-100' },
@@ -421,22 +449,23 @@ export const TIER_COLORS = {
 
 ## Usability Scores by Component Type
 
-| Type | Intuitive? | Discoverable? | Learnable? | Score |
-|------|-----------|---------------|-----------|-------|
-| Editor | ✅ Yes | ✅ Yes | ✅ Easy | ⭐⭐⭐⭐⭐ |
-| PromptSelector | ✅ Yes | ✅ Yes | ✅ Easy | ⭐⭐⭐⭐⭐ |
-| Toast | ✅ Yes | ✅ Yes | ✅ Easy | ⭐⭐⭐⭐⭐ |
-| LoadingIndicator | ✅ Yes | ✅ Yes | ✅ Easy | ⭐⭐⭐⭐⭐ |
-| Combobox | ✅ Yes | ✅ Yes | ⚠️ Medium (no search) | ⭐⭐⭐⭐ |
-| SelectionTree | ⚠️ Maybe | ⚠️ Maybe | ⚠️ Moderate | ⭐⭐⭐ |
-| DataManager | ❌ Complex | ❌ Hard | ❌ Difficult | ⭐⭐⭐ |
-| Modals (Forms) | ✅ Yes | ✅ Yes | ⚠️ Medium (validation unclear) | ⭐⭐⭐ |
+| Type             | Intuitive? | Discoverable? | Learnable?                     | Score      |
+| ---------------- | ---------- | ------------- | ------------------------------ | ---------- |
+| Editor           | ✅ Yes     | ✅ Yes        | ✅ Easy                        | ⭐⭐⭐⭐⭐ |
+| PromptSelector   | ✅ Yes     | ✅ Yes        | ✅ Easy                        | ⭐⭐⭐⭐⭐ |
+| Toast            | ✅ Yes     | ✅ Yes        | ✅ Easy                        | ⭐⭐⭐⭐⭐ |
+| LoadingIndicator | ✅ Yes     | ✅ Yes        | ✅ Easy                        | ⭐⭐⭐⭐⭐ |
+| Combobox         | ✅ Yes     | ✅ Yes        | ⚠️ Medium (no search)          | ⭐⭐⭐⭐   |
+| SelectionTree    | ⚠️ Maybe   | ⚠️ Maybe      | ⚠️ Moderate                    | ⭐⭐⭐     |
+| DataManager      | ❌ Complex | ❌ Hard       | ❌ Difficult                   | ⭐⭐⭐     |
+| Modals (Forms)   | ✅ Yes     | ✅ Yes        | ⚠️ Medium (validation unclear) | ⭐⭐⭐     |
 
 ---
 
 ## Priority Improvement Roadmap
 
 ### Phase 1: Critical Fixes (1-2 weeks)
+
 - [ ] Add form validation to all modals (prevent duplicates)
 - [ ] Disable submit buttons during loading
 - [ ] Implement rollback for imports
@@ -444,6 +473,7 @@ export const TIER_COLORS = {
 - [ ] Fix timer leak bug in useGemini.ts ✅ (already done)
 
 ### Phase 2: Usability (2-3 weeks)
+
 - [ ] Add keyboard navigation (arrow keys, Enter, Escape)
 - [ ] Implement unsaved changes warning
 - [ ] Add modal focus trap
@@ -451,6 +481,7 @@ export const TIER_COLORS = {
 - [ ] Add previews before generation
 
 ### Phase 3: Polish (1-2 weeks)
+
 - [ ] Virtualize long lists
 - [ ] Add undo/redo to DataManager
 - [ ] Refactor theme colors to CSS variables
@@ -464,6 +495,7 @@ export const TIER_COLORS = {
 ### Current Status: FAIR (⭐⭐⭐ 3/5)
 
 **Good practices:**
+
 - ✅ Semantic HTML (buttons, inputs, labels)
 - ✅ Color not sole differentiator (icons + text)
 - ✅ Focus visible on all interactive elements
@@ -471,6 +503,7 @@ export const TIER_COLORS = {
 - ✅ Keyboard shortcuts documented
 
 **Gaps:**
+
 - ❌ No keyboard navigation in Combobox/Tree/Carousel
 - ❌ Modal focus not trapped
 - ❌ Some inputs not labeled properly (LoginPage)
@@ -496,17 +529,17 @@ With targeted improvements to these areas, the project would achieve **5-star re
 
 ## Component Scorecard Summary
 
-| Category | Count | Avg Score | Status |
-|----------|-------|-----------|--------|
-| **Exemplary (5/5)** | 2 | Editor, Toast, LoadingIndicator | 🟢 Perfect |
-| **Very Good (4/5)** | 18 | Workspace, Combobox, Prompt* | 🟢 Good |
-| **Fair (3/5)** | 35 | Most modals, admin features | 🟡 Needs work |
-| **Poor (2/5)** | 15 | Complex workflows, missing UX | 🔴 Critical gaps |
-| **Not Present (1/5)** | 2 | Keyboard nav, rollback | ⚫ Missing |
+| Category              | Count | Avg Score                       | Status           |
+| --------------------- | ----- | ------------------------------- | ---------------- |
+| **Exemplary (5/5)**   | 2     | Editor, Toast, LoadingIndicator | 🟢 Perfect       |
+| **Very Good (4/5)**   | 18    | Workspace, Combobox, Prompt\*   | 🟢 Good          |
+| **Fair (3/5)**        | 35    | Most modals, admin features     | 🟡 Needs work    |
+| **Poor (2/5)**        | 15    | Complex workflows, missing UX   | 🔴 Critical gaps |
+| **Not Present (1/5)** | 2     | Keyboard nav, rollback          | ⚫ Missing       |
 
 **Total Components Analyzed**: 72
 **Recommended for Immediate Action**: 8 critical issues + 4 high-priority gaps
 
 ---
 
-*Update this report as components are improved. Track resolution of issues in ProjectHealth.md.*
+_Update this report as components are improved. Track resolution of issues in ProjectHealth.md._

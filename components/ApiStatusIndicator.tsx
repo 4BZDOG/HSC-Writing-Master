@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { ShieldAlert } from 'lucide-react';
 import { useApiStatus } from '../hooks/useApiStatus';
@@ -46,18 +45,22 @@ const ApiStatusIndicator: React.FC = () => {
       aria-live="assertive"
     >
       <div className="flex-shrink-0 p-3 rounded-full bg-red-500/20 light:bg-red-100 text-red-400 light:text-red-600 border border-red-500/30 light:border-red-200 animate-pulse">
-          <ShieldAlert className="w-6 h-6" />
+        <ShieldAlert className="w-6 h-6" />
       </div>
-      
+
       <div className="flex-grow min-w-0">
-        <h3 className="font-bold text-base text-red-200 light:text-red-900">API Temporarily Paused</h3>
+        <h3 className="font-bold text-base text-red-200 light:text-red-900">
+          API Temporarily Paused
+        </h3>
         <p className="text-xs text-red-300/80 light:text-red-700/80 mt-1 leading-relaxed">
-          {blockReason || "High error rate detected. Cooling down to prevent API lockout."}
+          {blockReason || 'High error rate detected. Cooling down to prevent API lockout.'}
         </p>
       </div>
-      
+
       <div className="flex-shrink-0 text-center pl-4 border-l border-red-500/20 light:border-red-200">
-        <p className="text-[10px] font-bold text-red-400 light:text-red-600 uppercase tracking-wider mb-0.5">Resuming</p>
+        <p className="text-[10px] font-bold text-red-400 light:text-red-600 uppercase tracking-wider mb-0.5">
+          Resuming
+        </p>
         <p className="font-mono text-xl font-black text-white light:text-red-900 tracking-tight">
           {formatTime(timeLeft)}
         </p>

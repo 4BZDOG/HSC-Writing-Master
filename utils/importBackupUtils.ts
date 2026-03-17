@@ -39,7 +39,10 @@ export const isSnapshotValid = (snapshot: ImportSnapshot): boolean => {
  * Store a snapshot in localStorage for recovery
  * @returns true if successfully stored
  */
-export const storeBackupSnapshot = (snapshot: ImportSnapshot, key: string = 'lastImportBackup'): boolean => {
+export const storeBackupSnapshot = (
+  snapshot: ImportSnapshot,
+  key: string = 'lastImportBackup'
+): boolean => {
   try {
     const serialized = JSON.stringify({
       ...snapshot,
@@ -125,10 +128,14 @@ export const validateImportData = (courses: Course[]): string[] => {
       // Validate nested subTopics
       topic.subTopics?.forEach((subTopic, subTopicIndex) => {
         if (!subTopic.id || !subTopic.name) {
-          errors.push(`Course ${index}, Topic ${topicIndex}, SubTopic ${subTopicIndex}: Invalid subTopic structure`);
+          errors.push(
+            `Course ${index}, Topic ${topicIndex}, SubTopic ${subTopicIndex}: Invalid subTopic structure`
+          );
         }
         if (!Array.isArray(subTopic.dotPoints)) {
-          errors.push(`Course ${index}, Topic ${topicIndex}, SubTopic ${subTopicIndex}: DotPoints must be an array`);
+          errors.push(
+            `Course ${index}, Topic ${topicIndex}, SubTopic ${subTopicIndex}: DotPoints must be an array`
+          );
         }
       });
     });
@@ -146,7 +153,7 @@ const generateDataHash = (data: Course[]): string => {
   let hash = 0;
   for (let i = 0; i < sortedData.length; i++) {
     const char = sortedData.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = (hash << 5) - hash + char;
     hash = hash & hash; // Convert to 32-bit integer
   }
   return Math.abs(hash).toString(36);
@@ -163,9 +170,9 @@ export const mergeImportedCourses = (
 ): Course[] => {
   const merged = [...existingCourses];
 
-  newCourses.forEach(newCourse => {
+  newCourses.forEach((newCourse) => {
     const resolution = conflictResolutions.get(newCourse.id) || 'merge';
-    const existingIndex = merged.findIndex(c => c.id === newCourse.id);
+    const existingIndex = merged.findIndex((c) => c.id === newCourse.id);
 
     if (existingIndex === -1) {
       // No conflict, add new course
@@ -175,8 +182,8 @@ export const mergeImportedCourses = (
       const existingCourse = merged[existingIndex];
       const mergedTopics = [...existingCourse.topics];
 
-      newCourse.topics.forEach(newTopic => {
-        const existingTopicIndex = mergedTopics.findIndex(t => t.id === newTopic.id);
+      newCourse.topics.forEach((newTopic) => {
+        const existingTopicIndex = mergedTopics.findIndex((t) => t.id === newTopic.id);
         if (existingTopicIndex === -1) {
           mergedTopics.push(newTopic);
         }
@@ -211,15 +218,15 @@ export const generateImportDiff = (
   let topicsAdded = 0;
   let questionsAdded = 0;
 
-  afterCourses.forEach(afterCourse => {
-    const before = beforeCourses.find(c => c.id === afterCourse.id);
+  afterCourses.forEach((afterCourse) => {
+    const before = beforeCourses.find((c) => c.id === afterCourse.id);
 
     if (!before) {
       coursesAdded++;
       // Count all nested items
-      afterCourse.topics.forEach(topic => {
+      afterCourse.topics.forEach((topic) => {
         topicsAdded++;
-        topic.subTopics.forEach(subTopic => {
+        topic.subTopics.forEach((subTopic) => {
           questionsAdded += subTopic.dotPoints.reduce((acc, dp) => acc + dp.prompts.length, 0);
         });
       });
@@ -233,14 +240,14 @@ export const generateImportDiff = (
       }
 
       // Count new questions
-      afterCourse.topics.forEach(afterTopic => {
-        const beforeTopic = before.topics.find(t => t.id === afterTopic.id);
+      afterCourse.topics.forEach((afterTopic) => {
+        const beforeTopic = before.topics.find((t) => t.id === afterTopic.id);
         if (beforeTopic) {
-          afterTopic.subTopics.forEach(afterSubTopic => {
-            const beforeSubTopic = beforeTopic.subTopics.find(st => st.id === afterSubTopic.id);
+          afterTopic.subTopics.forEach((afterSubTopic) => {
+            const beforeSubTopic = beforeTopic.subTopics.find((st) => st.id === afterSubTopic.id);
             if (beforeSubTopic) {
-              afterSubTopic.dotPoints.forEach(afterDP => {
-                const beforeDP = beforeSubTopic.dotPoints.find(dp => dp.id === afterDP.id);
+              afterSubTopic.dotPoints.forEach((afterDP) => {
+                const beforeDP = beforeSubTopic.dotPoints.find((dp) => dp.id === afterDP.id);
                 if (!beforeDP) {
                   questionsAdded += afterDP.prompts.length;
                 } else {

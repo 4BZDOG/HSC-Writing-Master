@@ -325,7 +325,11 @@ export const migrateData = async <T = any>(
     // Read original data
     const original = await readFromDb<T>(db, fromStore, key);
     if (!original) {
-      return { success: false, itemsMigrated: 0, error: new Error(`No data found in ${fromStore}`) };
+      return {
+        success: false,
+        itemsMigrated: 0,
+        error: new Error(`No data found in ${fromStore}`),
+      };
     }
 
     // Create backup
@@ -349,7 +353,9 @@ export const migrateData = async <T = any>(
 /**
  * Check database health
  */
-export const checkDbHealth = async (db: IDBDatabase): Promise<{
+export const checkDbHealth = async (
+  db: IDBDatabase
+): Promise<{
   healthy: boolean;
   storeStatus: Record<string, { accessible: boolean; count?: number }>;
   lastError?: string;
@@ -382,7 +388,7 @@ export const checkDbHealth = async (db: IDBDatabase): Promise<{
     }
 
     return {
-      healthy: Object.values(storeStatus).every(s => s.accessible),
+      healthy: Object.values(storeStatus).every((s) => s.accessible),
       storeStatus,
     };
   } catch (error) {

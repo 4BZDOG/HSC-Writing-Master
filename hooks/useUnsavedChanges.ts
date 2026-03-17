@@ -18,14 +18,17 @@ export const useUnsavedChanges = (
 ) => {
   const isNavigatingRef = useRef(false);
 
-  const handleBeforeUnload = useCallback((e: BeforeUnloadEvent) => {
-    if (isDirty && !isNavigatingRef.current) {
-      e.preventDefault();
-      // Different browsers require different properties
-      e.returnValue = '';
-      return '';
-    }
-  }, [isDirty]);
+  const handleBeforeUnload = useCallback(
+    (e: BeforeUnloadEvent) => {
+      if (isDirty && !isNavigatingRef.current) {
+        e.preventDefault();
+        // Different browsers require different properties
+        e.returnValue = '';
+        return '';
+      }
+    },
+    [isDirty]
+  );
 
   useEffect(() => {
     window.addEventListener('beforeunload', handleBeforeUnload);

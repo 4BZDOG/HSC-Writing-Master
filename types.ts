@@ -1,15 +1,44 @@
-
 // types.ts
 
-export type PromptVerb = 
-  | 'IDENTIFY' | 'STATE' | 'RECALL' | 'DEFINE' | 'EXTRACT' | 'RECOUNT'
-  | 'OUTLINE' | 'DESCRIBE' | 'CLARIFY' | 'SUMMARISE' | 'CLASSIFY'
-  | 'CALCULATE' | 'APPLY' | 'DEMONSTRATE' | 'CONSTRUCT'
-  | 'COMPARE' | 'CONTRAST' | 'DISTINGUISH' | 'EXPLAIN' | 'INTERPRET' 
-  | 'DEDUCE' | 'EXTRAPOLATE' | 'PREDICT' | 'ANALYSE' | 'EXAMINE' | 'ACCOUNT'
-  | 'DISCUSS' | 'PROPOSE' | 'INVESTIGATE' | 'SYNTHESISE'
-  | 'ASSESS' | 'EVALUATE' | 'APPRECIATE' | 'JUSTIFY' | 'RECOMMEND' 
-  | 'CRITICALLY ANALYSE' | 'CRITICALLY EVALUATE' | 'DIFFERENTIATE';
+export type PromptVerb =
+  | 'IDENTIFY'
+  | 'STATE'
+  | 'RECALL'
+  | 'DEFINE'
+  | 'EXTRACT'
+  | 'RECOUNT'
+  | 'OUTLINE'
+  | 'DESCRIBE'
+  | 'CLARIFY'
+  | 'SUMMARISE'
+  | 'CLASSIFY'
+  | 'CALCULATE'
+  | 'APPLY'
+  | 'DEMONSTRATE'
+  | 'CONSTRUCT'
+  | 'COMPARE'
+  | 'CONTRAST'
+  | 'DISTINGUISH'
+  | 'EXPLAIN'
+  | 'INTERPRET'
+  | 'DEDUCE'
+  | 'EXTRAPOLATE'
+  | 'PREDICT'
+  | 'ANALYSE'
+  | 'EXAMINE'
+  | 'ACCOUNT'
+  | 'DISCUSS'
+  | 'PROPOSE'
+  | 'INVESTIGATE'
+  | 'SYNTHESISE'
+  | 'ASSESS'
+  | 'EVALUATE'
+  | 'APPRECIATE'
+  | 'JUSTIFY'
+  | 'RECOMMEND'
+  | 'CRITICALLY ANALYSE'
+  | 'CRITICALLY EVALUATE'
+  | 'DIFFERENTIATE';
 
 export interface CourseOutcome {
   code: string;
@@ -107,12 +136,14 @@ export interface EvaluationResult {
   strengths: string[];
   improvements: string[];
   criteria: EvaluationCriterion[];
-  revisedAnswer?: string | {
-    text: string;
-    mark: number;
-    band?: number;
-    keyChanges: string[];
-  };
+  revisedAnswer?:
+    | string
+    | {
+        text: string;
+        mark: number;
+        band?: number;
+        keyChanges: string[];
+      };
   userFeedback?: UserFeedback;
 }
 

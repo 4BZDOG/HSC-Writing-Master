@@ -85,11 +85,7 @@ export const cleanupBackups = (
   retained: string[];
   freedSpaceMb: number;
 } => {
-  const {
-    maxBackups = 10,
-    maxStorageMb = 50,
-    minRetentionDays = 7,
-  } = options;
+  const { maxBackups = 10, maxStorageMb = 50, minRetentionDays = 7 } = options;
 
   const result = {
     deleted: [] as string[],
@@ -99,7 +95,7 @@ export const cleanupBackups = (
 
   // Sort by priority and age
   const sorted = [...backups]
-    .map(b => ({
+    .map((b) => ({
       ...b,
       ageDays: (Date.now() - b.timestamp) / (1000 * 60 * 60 * 24),
       priorityScore:
@@ -115,8 +111,7 @@ export const cleanupBackups = (
   // Phase 1: Remove old auto-backups
   for (const backup of sorted) {
     if (backup.type === 'auto' && backup.ageDays > minRetentionDays) {
-      const shouldDelete =
-        sorted.length > maxBackups || totalSize / 1024 / 1024 > maxStorageMb;
+      const shouldDelete = sorted.length > maxBackups || totalSize / 1024 / 1024 > maxStorageMb;
 
       if (shouldDelete) {
         result.deleted.push(backup.id);
@@ -129,7 +124,7 @@ export const cleanupBackups = (
 
   // Phase 2: Force-remove oldest if still over quota
   if (totalSize / 1024 / 1024 > maxStorageMb || sorted.length > maxBackups) {
-    const remaining = sorted.filter(b => !result.deleted.includes(b.id));
+    const remaining = sorted.filter((b) => !result.deleted.includes(b.id));
     for (let i = remaining.length - 1; i >= 0 && sorted.length - deleteCount > 2; i--) {
       if (remaining[i].retention.autoDelete !== false) {
         result.deleted.push(remaining[i].id);
@@ -141,7 +136,7 @@ export const cleanupBackups = (
   }
 
   // Retained = all except deleted
-  result.retained = sorted.filter(b => !result.deleted.includes(b.id)).map(b => b.id);
+  result.retained = sorted.filter((b) => !result.deleted.includes(b.id)).map((b) => b.id);
 
   return result;
 };
@@ -250,10 +245,9 @@ export const compareBackups = (
 } => {
   const courseDiff = backup2.metadata.courseCount - backup1.metadata.courseCount;
   const questionDiff = backup2.metadata.questionCount - backup1.metadata.questionCount;
-  const answerDiff =
-    backup2.metadata.sampleAnswerCount - backup1.metadata.sampleAnswerCount;
+  const answerDiff = backup2.metadata.sampleAnswerCount - backup1.metadata.sampleAnswerCount;
   const sizeDiff = backup2.size - backup1.size;
-  const percentChange = ((sizeDiff / backup1.size) * 100);
+  const percentChange = (sizeDiff / backup1.size) * 100;
 
   return {
     added: Math.max(0, courseDiff, questionDiff, answerDiff),
@@ -284,7 +278,10 @@ export const createLightweightBackup = (
 /**
  * Archive old backups to cold storage (localStorage) for long-term retention
  */
-export const archiveBackup = (backup: EnhancedBackup, key: string = 'archived_backups'): boolean => {
+export const archiveBackup = (
+  backup: EnhancedBackup,
+  key: string = 'archived_backups'
+): boolean => {
   try {
     const archived = JSON.parse(localStorage.getItem(key) || '[]');
     archived.push({
@@ -321,7 +318,7 @@ const generateChecksum = (data: string): string => {
   let hash = 0;
   for (let i = 0; i < data.length; i++) {
     const char = data.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = (hash << 5) - hash + char;
     hash = hash & hash;
   }
   return Math.abs(hash).toString(36);
@@ -335,12 +332,7 @@ const countQuestions = (courses: Course[]): number => {
         (acc2, t) =>
           acc2 +
           t.subTopics.reduce(
-            (acc3, st) =>
-              acc3 +
-              st.dotPoints.reduce(
-                (acc4, dp) => acc4 + dp.prompts.length,
-                0
-              ),
+            (acc3, st) => acc3 + st.dotPoints.reduce((acc4, dp) => acc4 + dp.prompts.length, 0),
             0
           ),
         0
@@ -351,11 +343,11 @@ const countQuestions = (courses: Course[]): number => {
 
 const countSampleAnswers = (courses: Course[]): number => {
   let total = 0;
-  courses.forEach(c => {
-    c.topics.forEach(t => {
-      t.subTopics.forEach(st => {
-        st.dotPoints.forEach(dp => {
-          dp.prompts.forEach(p => {
+  courses.forEach((c) => {
+    c.topics.forEach((t) => {
+      t.subTopics.forEach((st) => {
+        st.dotPoints.forEach((dp) => {
+          dp.prompts.forEach((p) => {
             total += p.sampleAnswers?.length || 0;
           });
         });

@@ -41,7 +41,7 @@ export const deepCloneWithDepth = <T extends Record<string, any>>(
 
   // Handle arrays
   if (Array.isArray(obj)) {
-    return obj.map(item =>
+    return obj.map((item) =>
       item !== null && typeof item === 'object'
         ? deepCloneWithDepth(item, maxDepth, currentDepth + 1)
         : item
@@ -71,19 +71,17 @@ export const deepCloneWithDepth = <T extends Record<string, any>>(
  * @returns Cloned courses array
  */
 export const cloneCourses = (courses: Course[]): Course[] => {
-  return courses.map(course => ({
+  return courses.map((course) => ({
     ...course,
-    topics: course.topics.map(topic => ({
+    topics: course.topics.map((topic) => ({
       ...topic,
-      subTopics: topic.subTopics.map(subTopic => ({
+      subTopics: topic.subTopics.map((subTopic) => ({
         ...subTopic,
-        dotPoints: subTopic.dotPoints.map(dotPoint => ({
+        dotPoints: subTopic.dotPoints.map((dotPoint) => ({
           ...dotPoint,
-          prompts: dotPoint.prompts.map(prompt => ({
+          prompts: dotPoint.prompts.map((prompt) => ({
             ...prompt,
-            sampleAnswers: prompt.sampleAnswers
-              ? [...prompt.sampleAnswers]
-              : undefined,
+            sampleAnswers: prompt.sampleAnswers ? [...prompt.sampleAnswers] : undefined,
             keywords: prompt.keywords ? [...prompt.keywords] : undefined,
             targetPerformanceBands: prompt.targetPerformanceBands
               ? [...prompt.targetPerformanceBands]
@@ -92,9 +90,7 @@ export const cloneCourses = (courses: Course[]): Course[] => {
         })),
       })),
     })),
-    courseOutcomes: course.courseOutcomes
-      ? [...course.courseOutcomes]
-      : undefined,
+    courseOutcomes: course.courseOutcomes ? [...course.courseOutcomes] : undefined,
   }));
 };
 
@@ -104,17 +100,15 @@ export const cloneCourses = (courses: Course[]): Course[] => {
 export const cloneCourse = (course: Course): Course => {
   return {
     ...course,
-    topics: course.topics.map(topic => ({
+    topics: course.topics.map((topic) => ({
       ...topic,
-      subTopics: topic.subTopics.map(subTopic => ({
+      subTopics: topic.subTopics.map((subTopic) => ({
         ...subTopic,
-        dotPoints: subTopic.dotPoints.map(dotPoint => ({
+        dotPoints: subTopic.dotPoints.map((dotPoint) => ({
           ...dotPoint,
-          prompts: dotPoint.prompts.map(prompt => ({
+          prompts: dotPoint.prompts.map((prompt) => ({
             ...prompt,
-            sampleAnswers: prompt.sampleAnswers
-              ? [...prompt.sampleAnswers]
-              : undefined,
+            sampleAnswers: prompt.sampleAnswers ? [...prompt.sampleAnswers] : undefined,
             keywords: prompt.keywords ? [...prompt.keywords] : undefined,
           })),
         })),
@@ -133,23 +127,23 @@ export const clonePartialCourse = (
 ): Course => {
   return {
     ...course,
-    topics: course.topics.map(topic => {
-      const shouldClone = paths.some(p => p.topicId === topic.id);
+    topics: course.topics.map((topic) => {
+      const shouldClone = paths.some((p) => p.topicId === topic.id);
       if (!shouldClone) return topic;
 
       return {
         ...topic,
-        subTopics: topic.subTopics.map(subTopic => {
+        subTopics: topic.subTopics.map((subTopic) => {
           const shouldCloneSubTopic = paths.some(
-            p => p.topicId === topic.id && p.subTopicId === subTopic.id
+            (p) => p.topicId === topic.id && p.subTopicId === subTopic.id
           );
           if (!shouldCloneSubTopic) return subTopic;
 
           return {
             ...subTopic,
-            dotPoints: subTopic.dotPoints.map(dotPoint => {
+            dotPoints: subTopic.dotPoints.map((dotPoint) => {
               const shouldCloneDotPoint = paths.some(
-                p =>
+                (p) =>
                   p.topicId === topic.id &&
                   p.subTopicId === subTopic.id &&
                   p.dotPointId === dotPoint.id
@@ -158,11 +152,9 @@ export const clonePartialCourse = (
 
               return {
                 ...dotPoint,
-                prompts: dotPoint.prompts.map(prompt => ({
+                prompts: dotPoint.prompts.map((prompt) => ({
                   ...prompt,
-                  sampleAnswers: prompt.sampleAnswers
-                    ? [...prompt.sampleAnswers]
-                    : undefined,
+                  sampleAnswers: prompt.sampleAnswers ? [...prompt.sampleAnswers] : undefined,
                 })),
               };
             }),
@@ -218,10 +210,10 @@ export const cloneForComparison = (course: Course): any => {
   return {
     id: course.id,
     name: course.name,
-    topics: course.topics.map(t => ({
+    topics: course.topics.map((t) => ({
       id: t.id,
       name: t.name,
-      subTopics: t.subTopics.map(st => ({
+      subTopics: t.subTopics.map((st) => ({
         id: st.id,
         name: st.name,
         dotPoints: st.dotPoints.length,
@@ -256,12 +248,12 @@ export const cloneWithFilter = <T extends Record<string, any>>(
       value !== null && typeof value === 'object' && !Array.isArray(value)
         ? cloneWithFilter(value, fieldsToInclude, fieldsToExclude)
         : Array.isArray(value)
-        ? value.map(item =>
-            item !== null && typeof item === 'object'
-              ? cloneWithFilter(item, fieldsToInclude, fieldsToExclude)
-              : item
-          )
-        : value;
+          ? value.map((item) =>
+              item !== null && typeof item === 'object'
+                ? cloneWithFilter(item, fieldsToInclude, fieldsToExclude)
+                : item
+            )
+          : value;
   }
 
   return result;
@@ -292,14 +284,14 @@ export const benchmarkCloning = (courses: Course[]): Record<string, number> => {
   // Shallow clone
   const start3 = performance.now();
   for (let i = 0; i < iterations; i++) {
-    courses.map(c => ({ ...c }));
+    courses.map((c) => ({ ...c }));
   }
   results['Shallow clone'] = (performance.now() - start3) / iterations;
 
   // Comparison clone
   const start4 = performance.now();
   for (let i = 0; i < iterations; i++) {
-    courses.map(c => cloneForComparison(c));
+    courses.map((c) => cloneForComparison(c));
   }
   results['Comparison clone'] = (performance.now() - start4) / iterations;
 
@@ -329,10 +321,7 @@ export const estimateMemoryUsage = (obj: any, depth: number = 0): number => {
   if (type === 'object') {
     return (
       24 +
-      Object.keys(obj).reduce(
-        (sum, key) => sum + 40 + estimateMemoryUsage(obj[key], depth + 1),
-        0
-      )
+      Object.keys(obj).reduce((sum, key) => sum + 40 + estimateMemoryUsage(obj[key], depth + 1), 0)
     );
   }
 

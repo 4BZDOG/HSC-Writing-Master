@@ -37,10 +37,10 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
   }, [isOpen, sampleToEdit]);
 
   const handleMarkChange = (val: number) => {
-      setMark(val);
-      // Auto-calculate suggested band based on mark, but user can override
-      const suggestedBand = getBandForMark(val, prompt.totalMarks, commandTermInfo.tier);
-      setBand(suggestedBand);
+    setMark(val);
+    // Auto-calculate suggested band based on mark, but user can override
+    const suggestedBand = getBandForMark(val, prompt.totalMarks, commandTermInfo.tier);
+    setBand(suggestedBand);
   };
 
   const handleSave = () => {
@@ -62,18 +62,18 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
   if (!isOpen || !sampleToEdit) return null;
 
   return createPortal(
-    <div 
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4" 
+    <div
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
       onClick={onClose}
     >
-      <div 
+      <div
         className="
           bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl 
           w-full max-w-3xl border border-[rgb(var(--color-border-secondary))]
           animate-fade-in-up overflow-hidden
           flex flex-col max-h-[90vh]
-        " 
-        onClick={e => e.stopPropagation()}
+        "
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-inset))]/30">
@@ -83,12 +83,16 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
                 <Save className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))]">Edit Sample Answer</h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))]">Manually adjust the answer details and performance level.</p>
+                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))]">
+                  Edit Sample Answer
+                </h2>
+                <p className="text-sm text-[rgb(var(--color-text-muted))]">
+                  Manually adjust the answer details and performance level.
+                </p>
               </div>
             </div>
-            <button 
-              onClick={onClose} 
+            <button
+              onClick={onClose}
               className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200 flex items-center justify-center group"
             >
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text-primary))]" />
@@ -99,7 +103,12 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
         {/* Content */}
         <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8">
           <div>
-            <label htmlFor="answer-text" className="block text-sm font-bold text-gray-400 uppercase tracking-wider mb-2">Answer Text</label>
+            <label
+              htmlFor="answer-text"
+              className="block text-sm font-bold text-gray-400 uppercase tracking-wider mb-2"
+            >
+              Answer Text
+            </label>
             <textarea
               id="answer-text"
               value={answerText}
@@ -110,59 +119,63 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
-                <label htmlFor="mark-input" className="block text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">
-                  Mark ({`out of ${prompt.totalMarks}`})
-                </label>
-                <div className="flex items-center gap-4">
-                    <input
-                      id="mark-input"
-                      type="number"
-                      value={mark}
-                      onChange={(e) => handleMarkChange(parseInt(e.target.value, 10) || 0)}
-                      min="0"
-                      max={prompt.totalMarks}
-                      className="w-24 bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-xl py-3 px-4 text-center text-lg font-black text-white focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] transition"
-                    />
-                    <div className="h-1.5 flex-1 bg-white/5 rounded-full overflow-hidden border border-white/5">
-                        <div 
-                            className="h-full bg-indigo-500 transition-all duration-500" 
-                            style={{ width: `${(mark / prompt.totalMarks) * 100}%` }}
-                        />
-                    </div>
+            <div>
+              <label
+                htmlFor="mark-input"
+                className="block text-sm font-bold text-gray-400 uppercase tracking-wider mb-3"
+              >
+                Mark ({`out of ${prompt.totalMarks}`})
+              </label>
+              <div className="flex items-center gap-4">
+                <input
+                  id="mark-input"
+                  type="number"
+                  value={mark}
+                  onChange={(e) => handleMarkChange(parseInt(e.target.value, 10) || 0)}
+                  min="0"
+                  max={prompt.totalMarks}
+                  className="w-24 bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-xl py-3 px-4 text-center text-lg font-black text-white focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] transition"
+                />
+                <div className="h-1.5 flex-1 bg-white/5 rounded-full overflow-hidden border border-white/5">
+                  <div
+                    className="h-full bg-indigo-500 transition-all duration-500"
+                    style={{ width: `${(mark / prompt.totalMarks) * 100}%` }}
+                  />
                 </div>
               </div>
+            </div>
 
-              <div>
-                <label className="block text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">
-                  Performance Band
-                </label>
-                <div className="flex items-center gap-1.5">
-                    {[1, 2, 3, 4, 5, 6].map(b => {
-                        const isSelected = band === b;
-                        const bConfig = getBandConfig(b);
-                        return (
-                            <button
-                                key={b}
-                                onClick={() => setBand(b)}
-                                type="button"
-                                className={`
+            <div>
+              <label className="block text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">
+                Performance Band
+              </label>
+              <div className="flex items-center gap-1.5">
+                {[1, 2, 3, 4, 5, 6].map((b) => {
+                  const isSelected = band === b;
+                  const bConfig = getBandConfig(b);
+                  return (
+                    <button
+                      key={b}
+                      onClick={() => setBand(b)}
+                      type="button"
+                      className={`
                                     w-9 h-10 rounded-lg text-sm font-black transition-all duration-200
-                                    ${isSelected 
-                                        ? `${bConfig.solidBg} text-white shadow-lg scale-110 z-10 border border-white/20` 
+                                    ${
+                                      isSelected
+                                        ? `${bConfig.solidBg} text-white shadow-lg scale-110 z-10 border border-white/20`
                                         : 'bg-white/5 text-slate-500 hover:bg-white/10 hover:text-slate-300'
                                     }
                                 `}
-                            >
-                                {b}
-                            </button>
-                        );
-                    })}
-                </div>
-                <p className="mt-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
-                    <Award className="w-3 h-3" /> Manually Overridable
-                </p>
+                    >
+                      {b}
+                    </button>
+                  );
+                })}
               </div>
+              <p className="mt-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
+                <Award className="w-3 h-3" /> Manually Overridable
+              </p>
+            </div>
           </div>
 
           {error && (
@@ -175,14 +188,14 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
 
         {/* Footer */}
         <div className="px-6 py-5 border-t border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-inset))]/30 flex items-center justify-end gap-3">
-          <button 
-            onClick={onClose} 
+          <button
+            onClick={onClose}
             className="py-2.5 px-6 rounded-xl font-bold text-[10px] uppercase tracking-widest text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200"
           >
             Cancel
           </button>
-          <button 
-            onClick={handleSave} 
+          <button
+            onClick={handleSave}
             className="py-2.5 px-8 rounded-xl font-bold text-white bg-gradient-to-r from-indigo-600 to-sky-600 hover:shadow-lg hover:shadow-indigo-500/20 active:scale-[0.98] transition-all duration-200 flex items-center gap-2 text-[10px] uppercase tracking-widest"
           >
             <Save className="w-4 h-4" />

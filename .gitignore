@@ -12,6 +12,18 @@ dist
 dist-ssr
 *.local
 
+# Test artifacts
+coverage
+.nyc_output
+playwright-report
+test-results
+dist-test
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

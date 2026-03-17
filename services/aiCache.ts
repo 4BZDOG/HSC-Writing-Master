@@ -1,4 +1,3 @@
-
 import { openDB, DBSchema, IDBPDatabase } from 'idb';
 
 // IndexedDB schema for AI cache
@@ -27,7 +26,7 @@ export class AICache {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
       const char = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
+      hash = (hash << 5) - hash + char;
       hash = hash & hash; // Convert to 32bit integer
     }
     return Math.abs(hash).toString(16);
@@ -36,7 +35,7 @@ export class AICache {
   // Initialize the database
   private static async initDB(): Promise<IDBPDatabase<AICacheDB>> {
     if (this.db) return this.db;
-    
+
     this.db = await openDB<AICacheDB>(DB_NAME, DB_VERSION, {
       upgrade(db) {
         // Create cache store if it doesn't exist
@@ -45,10 +44,10 @@ export class AICache {
         }
       },
     });
-    
+
     // Clean up expired entries on init
     await this.cleanup();
-    
+
     return this.db;
   }
 
@@ -57,21 +56,21 @@ export class AICache {
     try {
       const db = await this.initDB();
       const entry = await db.get(STORE_NAME, key);
-      
+
       if (!entry) return null;
-      
+
       // Check if expired
       if (Date.now() - entry.timestamp > CACHE_TTL) {
         await this.delete(key);
         return null;
       }
-      
+
       // Check version compatibility
       if (entry.version !== this.dataVersion) {
         await this.delete(key);
         return null;
       }
-      
+
       return entry.data as T;
     } catch (error) {
       console.error(`Cache get error for key ${key}:`, error);
@@ -86,7 +85,7 @@ export class AICache {
       const entry = {
         data,
         timestamp: Date.now(),
-        version: this.dataVersion
+        version: this.dataVersion,
       };
       await db.put(STORE_NAME, entry, key);
     } catch (error) {
@@ -121,10 +120,10 @@ export class AICache {
       const db = await this.initDB();
       const tx = db.transaction(STORE_NAME, 'readwrite');
       const store = tx.objectStore(STORE_NAME);
-      
+
       const keys = await store.getAllKeys();
       const now = Date.now();
-      
+
       let deleted = 0;
       for (const key of keys) {
         const entry = await store.get(key);
@@ -133,7 +132,7 @@ export class AICache {
           deleted++;
         }
       }
-      
+
       await tx.done;
       if (deleted > 0) {
         console.log(`Cache cleanup: removed ${deleted} expired entries`);
@@ -149,23 +148,23 @@ export class AICache {
       const db = await this.initDB();
       const tx = db.transaction(STORE_NAME, 'readonly');
       const store = tx.objectStore(STORE_NAME);
-      
+
       const entries = await store.getAll();
       const now = Date.now();
-      
+
       const stats = {
         total: entries.length,
         size: 0,
-        expired: 0
+        expired: 0,
       };
-      
-      entries.forEach(entry => {
+
+      entries.forEach((entry) => {
         stats.size += JSON.stringify(entry).length;
         if (now - entry.timestamp > CACHE_TTL) {
           stats.expired++;
         }
       });
-      
+
       return stats;
     } catch (error) {
       console.error('Cache stats error:', error);
@@ -196,42 +195,42 @@ export class AICache {
   }
 
   static generateImproveKey(promptId: string, answer: string, targetBand: number): string {
-      return `improve:${promptId}:${this.hash(answer)}:${targetBand}`;
+    return `improve:${promptId}:${this.hash(answer)}:${targetBand}`;
   }
 
   static generateReviseKey(promptId: string, answer: string, targetMark: number): string {
-      return `revise:${promptId}:${this.hash(answer)}:${targetMark}`;
+    return `revise:${promptId}:${this.hash(answer)}:${targetMark}`;
   }
 
   static generateSampleAnswerKey(promptId: string, mark: number): string {
-      return `sample:${promptId}:${mark}`;
+    return `sample:${promptId}:${mark}`;
   }
 
   static generateQualityCheckKey(content: string, type: string): string {
-      return `quality:${type}:${this.hash(content)}`;
+    return `quality:${type}:${this.hash(content)}`;
   }
 
   static generateTopicKey(courseName: string, existingTopics: string[]): string {
-      return `topic:${this.hash(courseName)}:${this.hash(existingTopics.join(','))}`;
+    return `topic:${this.hash(courseName)}:${this.hash(existingTopics.join(','))}`;
   }
 
   static generateDotPointsKey(courseName: string, topicName: string, subTopicName: string): string {
-      return `dotpoints:${this.hash(courseName + topicName + subTopicName)}`;
+    return `dotpoints:${this.hash(courseName + topicName + subTopicName)}`;
   }
 
   static generateParsingKey(text: string, type: 'outcomes' | 'structure'): string {
-      return `parse:${type}:${this.hash(text)}`;
+    return `parse:${type}:${this.hash(text)}`;
   }
 
   static generateExplanationKey(question: string, outcomeCode: string): string {
-      return `explain:${outcomeCode}:${this.hash(question)}`;
+    return `explain:${outcomeCode}:${this.hash(question)}`;
   }
-  
+
   static generateOutcomeSuggestionKey(question: string): string {
-      return `suggest_outcomes:${this.hash(question)}`;
+    return `suggest_outcomes:${this.hash(question)}`;
   }
-  
+
   static generateFetchUrlKey(url: string): string {
-      return `fetch:${this.hash(url)}`;
+    return `fetch:${this.hash(url)}`;
   }
 }
