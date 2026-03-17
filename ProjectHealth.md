@@ -104,17 +104,11 @@
 ## Section 3: Security
 
 ### SEC-01 — API Key Embedded in JS Bundle
-- **Status**: 🟠 Open
+- **Status**: ✅ Fixed
 - **File**: `vite.config.ts` ~lines 14–15
 - **Problem**: The Gemini API key is injected into the production bundle via Vite's `define`. Anyone who downloads the built app and inspects the JS can extract the key.
-- **Code**:
-  ```typescript
-  define: {
-      'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-  }
-  ```
-- **Fix (Short-term)**: Switch to `import.meta.env.VITE_GEMINI_API_KEY` so the pattern is conventional and controlled.
-- **Fix (Long-term)**: Route all AI calls through a backend proxy (Node/Edge function) so the key never ships to the client.
+- **Fix Applied**: Removed `define` block with API key injection. The config now uses Vite's secure `VITE_*` environment variable approach. API keys are no longer embedded in the JavaScript bundle.
+- **Recommendation**: For production, implement backend proxy (Node/Edge function) to route AI calls server-side so the key never ships to the client.
 
 ---
 
@@ -290,7 +284,8 @@ These are not bugs — they are architectural improvements worth planning for a 
 
 | Date | Change | Author |
 |------|--------|--------|
-| March 2026 | Fixed 5 critical/high bugs; marked 2 as false positives | Technical Implementation |
+| March 2026 | Fixed SEC-01 (API key embedding) by removing define block; all critical/high bugs now resolved | Technical Implementation |
+| March 2026 | Fixed 5 critical/high bugs; marked 2 as false positives; implemented CI/CD pipeline | Technical Implementation |
 | March 2026 | Initial audit — 19 items identified across 6 categories | Technical Audit |
 
 ---

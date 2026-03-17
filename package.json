@@ -1,12 +1,27 @@
 {
   "name": "hsc-ai-writing-evaluator",
   "private": true,
-  "version": "0.0.0",
+  "version": "2.2.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css,md}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css,md}\"",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug",
+    "test:all": "npm run lint && npm run test -- --run && npm run type-check",
+    "backup": "node scripts/backup.js",
+    "cleanup:storage": "node scripts/cleanup-storage.js",
+    "check:api-health": "node scripts/check-api-health.js"
   },
   "dependencies": {
     "@google/genai": "^1.28.0",
@@ -16,12 +31,34 @@
     "immer": "^10.2.0",
     "idb": "^8.0.3",
     "lucide-react": "^0.553.0",
-    "zod": "^4.2.1"
+    "zod": "^4.2.1",
+    "@sentry/react": "^7.84.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^3.1.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.2",
+    "vitest": "^1.1.0",
+    "@vitest/ui": "^1.1.0",
+    "jsdom": "^23.0.1",
+    "@testing-library/react": "^14.1.2",
+    "@testing-library/user-event": "^14.5.1",
+    "@testing-library/dom": "^9.3.4",
+    "@playwright/test": "^1.40.1",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": ["eslint --fix", "prettier --write"],
+    "*.{css,md,json}": ["prettier --write"]
   }
 }
