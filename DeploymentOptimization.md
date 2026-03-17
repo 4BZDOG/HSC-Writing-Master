@@ -9,8 +9,10 @@
 ## Priority 1: Immediate Fixes (Week 1 - 8 hours)
 
 ### 1.1 API Key Security Fix ✅ CRITICAL
+
 **File**: `vite.config.ts`
 **Current Issue**: API key embedded in JavaScript bundle
+
 ```typescript
 // UNSAFE - key visible in DevTools
 define: {
@@ -19,6 +21,7 @@ define: {
 ```
 
 **Solution**: Use Vite's secure env variable approach
+
 ```typescript
 // SAFE - only VITE_* variables are exposed
 define: {
@@ -27,12 +30,14 @@ define: {
 ```
 
 **Steps**:
+
 1. Update vite.config.ts to use `VITE_*` prefix
 2. Add `.env.example` documenting required variables
 3. Update deployment docs (Vercel/Netlify env setup)
 4. Create backend proxy (Phase 2)
 
 ### 1.2 Create `.env.example` ✅ LOW EFFORT
+
 **Creates**: `/home/user/HSC-Writing-Master/.env.example`
 
 ```env
@@ -50,11 +55,13 @@ VITE_ENABLE_DEBUG_MODE=false
 ```
 
 **Benefits**:
+
 - New developers know what to setup
 - Prevents missing env var errors
 - Documents all configuration options
 
 ### 1.3 GitHub Actions CI Pipeline ✅ LOW EFFORT
+
 **Creates**: `/home/user/HSC-Writing-Master/.github/workflows/build.yml`
 
 ```yaml
@@ -87,6 +94,7 @@ jobs:
 ```
 
 **Benefits**:
+
 - Automatic build verification on every push
 - Prevents broken builds from being deployed
 - Clear CI status on pull requests
@@ -96,11 +104,13 @@ jobs:
 ## Priority 2: Code Quality (Week 1-2 - 12 hours)
 
 ### 2.1 ESLint Configuration ✅ MEDIUM EFFORT
+
 ```bash
 npm install -D eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-plugin-react eslint-plugin-react-hooks
 ```
 
 **Create**: `.eslintrc.json`
+
 ```json
 {
   "parser": "@typescript-eslint/parser",
@@ -121,6 +131,7 @@ npm install -D eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser
 ```
 
 **Add to package.json**:
+
 ```json
 {
   "scripts": {
@@ -131,11 +142,13 @@ npm install -D eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser
 ```
 
 ### 2.2 Prettier Code Formatter ✅ QUICK
+
 ```bash
 npm install -D prettier eslint-config-prettier eslint-plugin-prettier
 ```
 
 **Create**: `.prettierrc.json`
+
 ```json
 {
   "semi": true,
@@ -148,6 +161,7 @@ npm install -D prettier eslint-config-prettier eslint-plugin-prettier
 ```
 
 **Add to package.json**:
+
 ```json
 {
   "scripts": {
@@ -157,12 +171,14 @@ npm install -D prettier eslint-config-prettier eslint-plugin-prettier
 ```
 
 ### 2.3 Pre-commit Hooks ✅ MEDIUM EFFORT
+
 ```bash
 npm install -D husky lint-staged
 npx husky install
 ```
 
 **Create**: `.husky/pre-commit`
+
 ```bash
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
@@ -170,6 +186,7 @@ npx lint-staged
 ```
 
 **Update package.json**:
+
 ```json
 {
   "lint-staged": {
@@ -180,6 +197,7 @@ npx lint-staged
 ```
 
 **Benefits**:
+
 - Prevents committing code with lint errors
 - Auto-formats on commit
 - Consistent code style across team
@@ -189,11 +207,13 @@ npx lint-staged
 ## Priority 3: Testing Infrastructure (Week 2-3 - 24 hours)
 
 ### 3.1 Unit Testing with Vitest ✅ MEDIUM EFFORT
+
 ```bash
 npm install -D vitest @vitest/ui jsdom @testing-library/react @testing-library/user-event
 ```
 
 **Create**: `vitest.config.ts`
+
 ```typescript
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
@@ -221,6 +241,7 @@ export default defineConfig({
 ```
 
 **Add to package.json**:
+
 ```json
 {
   "scripts": {
@@ -232,6 +253,7 @@ export default defineConfig({
 ```
 
 **Test Priority Files** (Effort: 12 hours):
+
 1. `utils/errorHandler.ts` - Error categorization
 2. `utils/dataCloneUtils.ts` - Cloning performance
 3. `hooks/useRetry.ts` - Retry logic
@@ -239,6 +261,7 @@ export default defineConfig({
 5. `utils/idbTransactions.ts` - Transaction handling
 
 **Example Test**:
+
 ```typescript
 // src/utils/__tests__/errorHandler.test.ts
 import { categorizeError, getUserErrorMessage } from '../errorHandler';
@@ -261,12 +284,14 @@ describe('errorHandler', () => {
 ```
 
 ### 3.2 E2E Testing with Playwright ✅ HIGHER EFFORT
+
 ```bash
 npm install -D @playwright/test
 npx playwright install
 ```
 
 **Create**: `playwright.config.ts`
+
 ```typescript
 import { defineConfig, devices } from '@playwright/test';
 
@@ -296,6 +321,7 @@ export default defineConfig({
 ```
 
 **Add to package.json**:
+
 ```json
 {
   "scripts": {
@@ -307,6 +333,7 @@ export default defineConfig({
 ```
 
 **Critical E2E Tests** (Effort: 10 hours):
+
 1. **Evaluation Flow**: Upload answer → Get feedback
 2. **Course Creation**: Create course → topic → prompt
 3. **Export Round-Trip**: Export course → import → verify data
@@ -314,6 +341,7 @@ export default defineConfig({
 5. **Offline Support**: Make changes → close browser → reopen → verify changes
 
 **Example E2E Test**:
+
 ```typescript
 // tests/e2e/evaluation.spec.ts
 import { test, expect } from '@playwright/test';
@@ -347,11 +375,13 @@ test('evaluate student answer workflow', async ({ page }) => {
 ## Priority 4: Monitoring & Error Tracking (Week 3 - 8 hours)
 
 ### 4.1 Sentry Integration ✅ MEDIUM EFFORT
+
 ```bash
 npm install @sentry/react
 ```
 
 **Create**: `src/services/sentry.ts`
+
 ```typescript
 import * as Sentry from '@sentry/react';
 
@@ -377,6 +407,7 @@ export const captureException = (error: Error, context?: Record<string, any>) =>
 ```
 
 **Update `src/main.tsx`**:
+
 ```typescript
 import { initSentry } from './services/sentry';
 
@@ -387,18 +418,22 @@ const App = () => <Sentry.ErrorBoundary><AppComponent /></Sentry.ErrorBoundary>;
 ```
 
 **Add env variable**:
+
 ```env
 VITE_SENTRY_DSN=https://key@sentry.io/project-id
 ```
 
 **Benefits**:
+
 - Automatic error tracking
 - Session replay on errors
 - Performance monitoring
 - Release tracking
 
 ### 4.2 Custom Analytics ✅ QUICK
+
 **Create**: `src/services/analytics.ts`
+
 ```typescript
 export interface AnalyticsEvent {
   event: string;
@@ -446,6 +481,7 @@ export const analytics = {
 ## Priority 5: Backend Infrastructure (Week 4-5 - 32 hours)
 
 ### 5.1 API Key Protection with Netlify Edge Functions
+
 **Creates**: `netlify/edge-functions/api-proxy.ts`
 
 ```typescript
@@ -462,14 +498,18 @@ export default async (request: Request) => {
   }
 
   try {
-    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + apiKey, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: messages }] }],
-        systemPrompt,
-      }),
-    });
+    const response = await fetch(
+      'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' +
+        apiKey,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: messages }] }],
+          systemPrompt,
+        }),
+      }
+    );
 
     return response;
   } catch (error) {
@@ -482,17 +522,20 @@ export default async (request: Request) => {
 ```
 
 **Benefits**:
+
 - API key never exposed to client
 - Rate limiting per user
 - Request logging
 - Cost tracking
 
 ### 5.2 Authentication with Supabase ✅ MEDIUM EFFORT
+
 ```bash
 npm install @supabase/supabase-js
 ```
 
 **Create**: `src/services/auth.ts`
+
 ```typescript
 import { createClient } from '@supabase/supabase-js';
 
@@ -527,12 +570,14 @@ export const auth = {
 ```
 
 **Add env variables**:
+
 ```env
 VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your-anon-key
 ```
 
 **Benefits**:
+
 - Real authentication (replaces mock)
 - Per-user data isolation
 - Session management
@@ -543,12 +588,14 @@ VITE_SUPABASE_ANON_KEY=your-anon-key
 ## Priority 6: Documentation & Runbooks (Week 5-6 - 16 hours)
 
 ### 6.1 Architecture Documentation
+
 **Create**: `/docs/ARCHITECTURE.md`
 
 ```markdown
 # System Architecture
 
 ## Overview
+
 - **Frontend**: React 19 SPA with Vite
 - **State**: Immer + custom hooks (no Redux)
 - **Storage**: IndexedDB with localStorage fallback
@@ -556,24 +603,27 @@ VITE_SUPABASE_ANON_KEY=your-anon-key
 - **Deployment**: Static hosting (Vercel/Netlify)
 
 ## Component Hierarchy
+
 App.tsx
 ├── Layout Components
-│   ├── Workspace.tsx
-│   ├── Sidebar.tsx
-│   └── AppModals.tsx
+│ ├── Workspace.tsx
+│ ├── Sidebar.tsx
+│ └── AppModals.tsx
 ├── Feature Modules
-│   ├── PromptSelector.tsx
-│   ├── Editor.tsx
-│   └── EvaluationDisplay.tsx
+│ ├── PromptSelector.tsx
+│ ├── Editor.tsx
+│ └── EvaluationDisplay.tsx
 └── Utilities
-    ├── hooks/ (useGemini, useSyllabusData, etc.)
-    ├── services/ (geminiService, aiCore, etc.)
-    └── utils/ (dataClone, errorHandler, etc.)
+├── hooks/ (useGemini, useSyllabusData, etc.)
+├── services/ (geminiService, aiCore, etc.)
+└── utils/ (dataClone, errorHandler, etc.)
 
 ## Data Flow
+
 User Action → Hook Update → Immer Mutation → IndexedDB Save → Optional API Call
 
 ## Storage Hierarchy
+
 IndexedDB (Persistent)
 ├── main_store: courses_data
 ├── backups_store: Timestamped backups
@@ -581,9 +631,10 @@ IndexedDB (Persistent)
 └── sync_queue: Pending changes
 
 LocalStorage (Fallback)
-└── hsc-ai-evaluator-*: Config, auth state
+└── hsc-ai-evaluator-\*: Config, auth state
 
 ## API Integration
+
 Gemini API
 ├── Evaluation: evaluate student responses
 ├── Generation: create questions & answers
@@ -594,12 +645,14 @@ Rate Limiting: 5 concurrent, 2-min cooldown after errors
 ```
 
 ### 6.2 Deployment Runbook
+
 **Create**: `/docs/DEPLOYMENT_RUNBOOK.md`
 
 ```markdown
 # Deployment & Release Runbook
 
 ## Pre-Deployment Checklist
+
 - [ ] All tests pass (`npm run test`)
 - [ ] No ESLint errors (`npm run lint`)
 - [ ] Build succeeds (`npm run build`)
@@ -609,6 +662,7 @@ Rate Limiting: 5 concurrent, 2-min cooldown after errors
 - [ ] Security review completed
 
 ## Production Deployment (Netlify)
+
 1. Push to `main` branch
 2. GitHub Actions runs CI pipeline
 3. Build artifacts uploaded
@@ -616,6 +670,7 @@ Rate Limiting: 5 concurrent, 2-min cooldown after errors
 5. Production URL: https://hsc-ai-evaluator.netlify.app
 
 ## Rollback Procedure
+
 1. Identify bad deployment via Sentry/monitoring
 2. Revert commit: `git revert <commit-sha>`
 3. Push to main (auto-redeploy)
@@ -623,18 +678,21 @@ Rate Limiting: 5 concurrent, 2-min cooldown after errors
 5. Notify stakeholders
 
 ## Database Migration
+
 1. Create backup: `npm run backup`
 2. Run migration: `npm run migrate`
 3. Verify data integrity
 4. Keep backup for 30 days
 
 ## Monitoring After Deploy
+
 - [ ] Sentry error rate <0.5%
 - [ ] API call latency <500ms
 - [ ] No auth errors
 - [ ] Web Vitals: CLS <0.1, LCP <2.5s
 
 ## Hotfix Procedure (Critical)
+
 1. Create hotfix branch: `git checkout -b hotfix/issue-name`
 2. Fix the issue
 3. Merge to main immediately
@@ -643,6 +701,7 @@ Rate Limiting: 5 concurrent, 2-min cooldown after errors
 ```
 
 ### 6.3 Troubleshooting Guide
+
 **Create**: `/docs/TROUBLESHOOTING.md`
 
 ```markdown
@@ -651,32 +710,40 @@ Rate Limiting: 5 concurrent, 2-min cooldown after errors
 ## Common Issues
 
 ### Issue: "API Key Error"
+
 **Cause**: Missing or invalid GEMINI_API_KEY
 **Solution**:
+
 1. Check `.env` file exists
 2. Verify key format: `sk-...`
 3. Test key validity: `npm run test:api`
 4. Check Sentry for rate limit errors
 
 ### Issue: "IndexedDB Quota Exceeded"
+
 **Cause**: Too many backups or large course library
 **Solution**:
+
 1. Run cleanup: `npm run cleanup:storage`
 2. Export old courses for archival
 3. Increase quota limits
 4. Monitor storage usage
 
 ### Issue: "Slow Evaluation Response"
+
 **Cause**: Network latency or API overload
 **Solution**:
+
 1. Check network tab for latency
 2. Verify API status: `npm run check:api-health`
 3. Increase timeout: Set `VITE_API_TIMEOUT=30000`
 4. Check Sentry for rate limit errors
 
 ### Issue: "Offline Changes Lost"
+
 **Cause**: Sync queue corrupted or browser crashed
 **Solution**:
+
 1. Check sync queue stats: `console.log(localStorage.getItem('sync_queue'))`
 2. Restore from backup if needed
 3. Clear cache and reload
@@ -684,18 +751,21 @@ Rate Limiting: 5 concurrent, 2-min cooldown after errors
 ## Performance Optimization
 
 ### Slow Initial Load
+
 1. Check bundle size: `npm run build:analyze`
 2. Enable code splitting
 3. Optimize images
 4. Enable gzip compression
 
 ### High Memory Usage
+
 1. Monitor with DevTools
 2. Use profiler to identify leaks
 3. Check for circular references
 4. Verify cleanup in useEffect
 
 ## Monitoring Dashboard
+
 - Error rates: https://sentry.io/hsc-ai/dashboard
 - Performance: https://vercel.com/analytics
 - Uptime: https://status.hsc-ai.dev
@@ -739,15 +809,15 @@ Week 5-6: 🔵 Documentation
 
 After implementation, you should achieve:
 
-| Metric | Before | Target | Status |
-|--------|--------|--------|--------|
-| **CI/CD Time** | None | <5min | 🔵 In progress |
-| **Test Coverage** | 0% | >70% | 🔵 In progress |
-| **Deployment Time** | Manual | <2min | 🔵 In progress |
-| **Error Detection** | Console logs | Sentry | 🔵 In progress |
-| **API Key Security** | Exposed | Protected | 🔵 High priority |
-| **Uptime SLA** | N/A | 99.9% | 🔵 With monitoring |
-| **Deploy Frequency** | 1/month | Daily | 🔵 With CI/CD |
+| Metric               | Before       | Target    | Status             |
+| -------------------- | ------------ | --------- | ------------------ |
+| **CI/CD Time**       | None         | <5min     | 🔵 In progress     |
+| **Test Coverage**    | 0%           | >70%      | 🔵 In progress     |
+| **Deployment Time**  | Manual       | <2min     | 🔵 In progress     |
+| **Error Detection**  | Console logs | Sentry    | 🔵 In progress     |
+| **API Key Security** | Exposed      | Protected | 🔵 High priority   |
+| **Uptime SLA**       | N/A          | 99.9%     | 🔵 With monitoring |
+| **Deploy Frequency** | 1/month      | Daily     | 🔵 With CI/CD      |
 
 ---
 

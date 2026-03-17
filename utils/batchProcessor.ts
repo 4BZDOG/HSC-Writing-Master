@@ -1,4 +1,3 @@
-
 import { apiGuard } from '../services/geminiService';
 
 export interface BatchTask<T> {
@@ -31,10 +30,10 @@ export const runBatchOperations = async <T>(
   const logs: string[] = [];
 
   const addLog = (msg: string) => {
-      const timestamp = new Date().toLocaleTimeString();
-      logs.unshift(`[${timestamp}] ${msg}`);
-      // Keep log size manageable
-      if (logs.length > 100) logs.pop();
+    const timestamp = new Date().toLocaleTimeString();
+    logs.unshift(`[${timestamp}] ${msg}`);
+    // Keep log size manageable
+    if (logs.length > 100) logs.pop();
   };
 
   const updateProgress = (currentTaskName?: string) => {
@@ -45,15 +44,15 @@ export const runBatchOperations = async <T>(
       currentTask: currentTaskName,
       isComplete: completed + failed === tasks.length,
       errors,
-      logs: [...logs] // Pass a copy
+      logs: [...logs], // Pass a copy
     });
   };
 
   return new Promise((resolve, reject) => {
     const runNext = async () => {
       if (signal?.aborted) {
-        addLog("Batch operation cancelled by user.");
-        updateProgress("Cancelled");
+        addLog('Batch operation cancelled by user.');
+        updateProgress('Cancelled');
         resolve();
         return;
       }
@@ -66,8 +65,8 @@ export const runBatchOperations = async <T>(
 
       // If API Guard is blocked, wait and retry
       if (apiGuard.isBlocked()) {
-        addLog("API limit reached. Pausing for cooldown...");
-        updateProgress("Waiting for API cooldown...");
+        addLog('API limit reached. Pausing for cooldown...');
+        updateProgress('Waiting for API cooldown...');
         setTimeout(runNext, 5000);
         return;
       }
@@ -82,26 +81,26 @@ export const runBatchOperations = async <T>(
 
       try {
         // Add a small artificial delay to prevent burst rate limiting
-        await new Promise(r => setTimeout(r, 1500)); 
-        
-        if (signal?.aborted) throw new Error("Aborted");
+        await new Promise((r) => setTimeout(r, 1500));
+
+        if (signal?.aborted) throw new Error('Aborted');
 
         await task.action();
         completed++;
         addLog(`Success: ${task.description}`);
       } catch (err) {
         if ((err as Error).message === 'Aborted') {
-             // Silent fail on abort
+          // Silent fail on abort
         } else {
-            console.error(`Batch task failed [${task.id}]:`, err);
-            failed++;
-            const errMsg = err instanceof Error ? err.message : 'Unknown error';
-            errors.push(`${task.description}: ${errMsg}`);
-            addLog(`Failed: ${task.description} - ${errMsg}`);
+          console.error(`Batch task failed [${task.id}]:`, err);
+          failed++;
+          const errMsg = err instanceof Error ? err.message : 'Unknown error';
+          errors.push(`${task.description}: ${errMsg}`);
+          addLog(`Failed: ${task.description} - ${errMsg}`);
         }
       } finally {
         active--;
-        updateProgress(tasks[index]?.description || "Finishing up...");
+        updateProgress(tasks[index]?.description || 'Finishing up...');
         runNext();
       }
     };

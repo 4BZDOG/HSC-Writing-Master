@@ -27,10 +27,10 @@ const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
   }, [isOpen]);
 
   useEffect(() => {
-    if (existingNames.some(name => name.toLowerCase() === newItemName.trim().toLowerCase())) {
-        setValidationError(`A sub-topic with this name already exists.`);
+    if (existingNames.some((name) => name.toLowerCase() === newItemName.trim().toLowerCase())) {
+      setValidationError(`A sub-topic with this name already exists.`);
     } else {
-        setValidationError(null);
+      setValidationError(null);
     }
   }, [newItemName, existingNames]);
 
@@ -45,21 +45,26 @@ const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
   if (!isOpen) {
     return null;
   }
-  
+
   const isButtonDisabled = !newItemName.trim() || !!validationError;
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={onClose}>
-      <div 
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-md border border-[rgb(var(--color-border-secondary))] light:border-slate-300 animate-fade-in-up overflow-hidden" 
+    <div
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      onClick={onClose}
+    >
+      <div
+        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-md border border-[rgb(var(--color-border-secondary))] light:border-slate-300 animate-fade-in-up overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50">
-           {/* Cubic Mesh Texture Overlay */}
-           <div 
-             className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
-             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='%23ffffff' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E")` }}
-           />
+          {/* Cubic Mesh Texture Overlay */}
+          <div
+            className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='%23ffffff' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E")`,
+            }}
+          />
 
           <div className="flex items-center justify-between relative z-10">
             <div className="flex items-center gap-3">
@@ -67,20 +72,30 @@ const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
                 <Folder className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">Add New Sub-Topic</h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">Manually create a new syllabus item.</p>
+                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
+                  Add New Sub-Topic
+                </h2>
+                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                  Manually create a new syllabus item.
+                </p>
               </div>
             </div>
-            <button onClick={onClose} className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group">
+            <button
+              onClick={onClose}
+              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
+            >
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900" />
             </button>
           </div>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="bg-[rgb(var(--color-bg-surface))] light:bg-white">
           <div className="p-6 space-y-4">
             <div>
-              <label htmlFor="item-name" className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-700 mb-2">
+              <label
+                htmlFor="item-name"
+                className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-700 mb-2"
+              >
                 Sub-Topic Name
               </label>
               <input
@@ -92,30 +107,40 @@ const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
                 placeholder="e.g., Inquiry Question 1"
                 autoFocus
               />
-              {validationError && <p className="text-red-400 light:text-red-600 text-xs mt-2">{validationError}</p>}
+              {validationError && (
+                <p className="text-red-400 light:text-red-600 text-xs mt-2">{validationError}</p>
+              )}
             </div>
 
             <div className="pt-2">
               <label className="flex items-center space-x-3 text-sm text-[rgb(var(--color-text-secondary))] light:text-slate-600 cursor-pointer p-3 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-100 transition-colors border border-transparent light:border-slate-200">
-                  <input 
-                    type="checkbox" 
-                    checked={shouldGenerate} 
-                    onChange={e => setShouldGenerate(e.target.checked)} 
-                    className="h-4 w-4 rounded bg-gray-700 light:bg-white border-gray-600 light:border-slate-300 text-[rgb(var(--color-accent))] focus:ring-[rgb(var(--color-accent))]/50" 
-                  />
-                  <span className="flex items-center gap-2 font-medium">
-                    <Sparkles className="w-4 h-4 text-[rgb(var(--color-accent))]" />
-                    Generate dot points with AI
-                  </span>
+                <input
+                  type="checkbox"
+                  checked={shouldGenerate}
+                  onChange={(e) => setShouldGenerate(e.target.checked)}
+                  className="h-4 w-4 rounded bg-gray-700 light:bg-white border-gray-600 light:border-slate-300 text-[rgb(var(--color-accent))] focus:ring-[rgb(var(--color-accent))]/50"
+                />
+                <span className="flex items-center gap-2 font-medium">
+                  <Sparkles className="w-4 h-4 text-[rgb(var(--color-accent))]" />
+                  Generate dot points with AI
+                </span>
               </label>
             </div>
           </div>
 
           <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end space-x-3">
-            <button type="button" onClick={onClose} className="py-2 px-4 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition">
+            <button
+              type="button"
+              onClick={onClose}
+              className="py-2 px-4 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+            >
               Cancel
             </button>
-            <button type="submit" disabled={isButtonDisabled} className="py-2 px-4 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50">
+            <button
+              type="submit"
+              disabled={isButtonDisabled}
+              className="py-2 px-4 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50"
+            >
               Add Sub-Topic
             </button>
           </div>

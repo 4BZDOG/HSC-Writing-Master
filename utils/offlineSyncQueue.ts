@@ -113,10 +113,7 @@ export const getPendingChanges = async (db: IDBDatabase): Promise<PendingChange[
 /**
  * Mark a change as synced
  */
-export const markChangeSynced = async (
-  db: IDBDatabase,
-  changeId: string
-): Promise<boolean> => {
+export const markChangeSynced = async (db: IDBDatabase, changeId: string): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     try {
       const tx = db.transaction(['sync_queue'], 'readwrite');
@@ -202,9 +199,7 @@ export const applyPendingChanges = (
 /**
  * Get sync queue statistics
  */
-export const getSyncQueueStats = async (
-  db: IDBDatabase
-): Promise<SyncQueueStats> => {
+export const getSyncQueueStats = async (db: IDBDatabase): Promise<SyncQueueStats> => {
   return new Promise((resolve) => {
     try {
       const tx = db.transaction(['sync_queue'], 'readonly');
@@ -213,14 +208,12 @@ export const getSyncQueueStats = async (
 
       request.onsuccess = () => {
         const changes = request.result || [];
-        const pending = changes.filter(c => c.status === 'pending');
-        const synced = changes.filter(c => c.status === 'synced');
-        const failed = changes.filter(c => c.status === 'failed');
+        const pending = changes.filter((c) => c.status === 'pending');
+        const synced = changes.filter((c) => c.status === 'synced');
+        const failed = changes.filter((c) => c.status === 'failed');
         const totalRetries = changes.reduce((sum, c) => sum + c.retries, 0);
 
-        const oldestPending = pending.length > 0
-          ? Math.min(...pending.map(c => c.timestamp))
-          : 0;
+        const oldestPending = pending.length > 0 ? Math.min(...pending.map((c) => c.timestamp)) : 0;
         const oldestAge = oldestPending ? Date.now() - oldestPending : 0;
 
         resolve({
@@ -308,15 +301,9 @@ export const retryFailedChanges = async (
         const changes = request.result || [];
 
         for (const change of changes) {
-          if (
-            change.status === 'pending' &&
-            change.retries < maxRetries
-          ) {
+          if (change.status === 'pending' && change.retries < maxRetries) {
             retryable.push(change);
-          } else if (
-            change.status === 'failed' &&
-            change.retries < maxRetries
-          ) {
+          } else if (change.status === 'failed' && change.retries < maxRetries) {
             change.status = 'pending';
             change.lastError = undefined;
             store.put(change);
@@ -341,7 +328,7 @@ const generateChecksum = (data: any): string => {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
     const char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = (hash << 5) - hash + char;
     hash = hash & hash;
   }
   return Math.abs(hash).toString(36);

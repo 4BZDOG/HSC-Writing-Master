@@ -7,6 +7,7 @@
 ## 1. Architecture Overview
 
 ### Tech Stack
+
 - **Frontend**: React 19 + TypeScript + Vite
 - **State**: use-immer (immutable state management)
 - **Styling**: Tailwind CSS
@@ -15,7 +16,9 @@
 - **Dependencies**: ESM via CDN (aistudiocdn.com, esm.sh)
 
 ### Deployment Model
+
 This is a **static SPA (Single Page Application)** with:
+
 - No backend server required
 - No database requirements
 - All data stored client-side (IndexedDB)
@@ -27,6 +30,7 @@ This is a **static SPA (Single Page Application)** with:
 ## 2. Deployment Options
 
 ### Option A: Vercel (Recommended)
+
 **Best for**: Optimal performance, built-in CI/CD, serverless functions (future)
 
 ```bash
@@ -41,19 +45,16 @@ vercel
 ```
 
 **Configuration** (`vercel.json`):
+
 ```json
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "env": [
-    "VITE_GOOGLE_API_KEY"
-  ],
+  "env": ["VITE_GOOGLE_API_KEY"],
   "headers": [
     {
       "source": "/index.html",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=3600" }
-      ]
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
     },
     {
       "source": "/(.*)",
@@ -68,6 +69,7 @@ vercel
 ```
 
 ### Option B: Netlify
+
 **Best for**: Git-based workflows, easy rollbacks
 
 ```bash
@@ -80,6 +82,7 @@ netlify deploy
 ```
 
 **Configuration** (`netlify.toml`):
+
 ```toml
 [build]
   command = "npm run build"
@@ -99,6 +102,7 @@ netlify deploy
 ```
 
 ### Option C: GitHub Pages
+
 **Best for**: Free hosting, no extra credits
 
 ```bash
@@ -118,9 +122,11 @@ git push
 ```
 
 ### Option D: AWS + CloudFront
+
 **Best for**: Enterprise, custom domain, advanced analytics
 
 1. Build and upload to S3:
+
    ```bash
    npm run build
    aws s3 sync dist/ s3://hsc-evaluator-prod/
@@ -130,6 +136,7 @@ git push
 3. Point custom domain to CloudFront endpoint
 
 ### Option E: Self-Hosted
+
 **Requirements**: Node.js 18+, HTTPS
 
 ```bash
@@ -171,16 +178,19 @@ VITE_GEMINI_THINKING_BUDGET=8000
 ### Setup Instructions by Platform
 
 **Vercel**:
+
 ```
 Dashboard → Project Settings → Environment Variables → Add Variables
 ```
 
 **Netlify**:
+
 ```
 Site settings → Build & deploy → Environment → Edit variables
 ```
 
 **GitHub Pages**:
+
 ```
 Settings → Secrets and variables → Actions → New repository secret
 # Then reference in workflow: secrets.VITE_GOOGLE_API_KEY
@@ -191,6 +201,7 @@ Settings → Secrets and variables → Actions → New repository secret
 ## 4. Build & Deploy Pipeline
 
 ### Local Build
+
 ```bash
 npm install
 npm run build
@@ -206,9 +217,9 @@ name: Deploy to Production
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build-and-deploy:
@@ -260,8 +271,8 @@ jobs:
 Update `vite.config.ts`:
 
 ```typescript
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
@@ -272,13 +283,13 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'vendor': ['react', 'react-dom'],
-          'ai': ['@google/genai'],
-        }
-      }
-    }
-  }
-})
+          vendor: ['react', 'react-dom'],
+          ai: ['@google/genai'],
+        },
+      },
+    },
+  },
+});
 ```
 
 ### Content Delivery Strategy
@@ -291,9 +302,9 @@ export default defineConfig({
 Update `index.html`:
 
 ```html
-<link rel="preconnect" href="https://aistudiocdn.com">
-<link rel="preconnect" href="https://generativelanguage.googleapis.com">
-<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://aistudiocdn.com" />
+<link rel="preconnect" href="https://generativelanguage.googleapis.com" />
+<link rel="dns-prefetch" href="https://fonts.googleapis.com" />
 ```
 
 ---
@@ -320,19 +331,22 @@ Update `index.html`:
 ### Monitoring Stack
 
 **Option 1: Vercel Analytics** (built-in)
+
 - Enable in Vercel dashboard
 - Real User Monitoring (RUM)
 
 **Option 2: Sentry**
 
 Install and configure:
+
 ```bash
 npm install @sentry/react @sentry/tracing
 ```
 
 In `index.tsx`:
+
 ```typescript
-import * as Sentry from "@sentry/react";
+import * as Sentry from '@sentry/react';
 
 Sentry.init({
   dsn: process.env.VITE_SENTRY_DSN,
@@ -350,7 +364,9 @@ Sentry.init({
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag() {
+    dataLayer.push(arguments);
+  }
   gtag('js', new Date());
   gtag('config', 'G-XXXXXXXXXX');
 </script>
@@ -363,11 +379,13 @@ Sentry.init({
 ### API Key Management
 
 ❌ **DON'T**:
+
 - Commit `.env` files
 - Expose keys in client-side code (visible in network tab)
 - Use development keys in production
 
 ✅ **DO**:
+
 - Use platform-specific secret management (Vercel, Netlify, AWS Secrets)
 - Rotate keys quarterly
 - Monitor API key usage in Google Cloud Console
@@ -376,13 +394,17 @@ Sentry.init({
 ### HTTPS & CSP
 
 Ensure deployment platform provides:
+
 - [ ] HTTPS by default (all platforms do)
 - [ ] HTTP → HTTPS redirect
 - [ ] HSTS header: `Strict-Transport-Security: max-age=31536000`
 
 Content Security Policy (`index.html` or header):
+
 ```html
-<meta http-equiv="Content-Security-Policy" content="
+<meta
+  http-equiv="Content-Security-Policy"
+  content="
   default-src 'self';
   script-src 'self' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://aistudiocdn.com https://www.googletagmanager.com;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
@@ -390,7 +412,8 @@ Content Security Policy (`index.html` or header):
   connect-src 'self' https://generativelanguage.googleapis.com https://aistudiocdn.com;
   img-src 'self' data: https:;
   frame-ancestors 'none';
-">
+"
+/>
 ```
 
 ### Data Privacy
@@ -405,6 +428,7 @@ Content Security Policy (`index.html` or header):
 ## 8. Scaling Considerations
 
 ### Current Limitations
+
 - Single user per browser (IndexedDB is per-origin)
 - No multi-device sync (would require backend)
 - Google Gemini API quota limits (check Google Cloud Console)
@@ -432,6 +456,7 @@ If scaling beyond single-user:
 ```
 
 **Backend Requirements**:
+
 - User authentication (OAuth2)
 - Curriculum data sync
 - Evaluation history storage
@@ -442,6 +467,7 @@ If scaling beyond single-user:
 ## 9. Rollback Strategy
 
 ### Vercel
+
 ```bash
 # View deployments
 vercel deployments
@@ -451,12 +477,14 @@ vercel rollback
 ```
 
 ### GitHub Pages
+
 ```bash
 git revert <commit-hash>
 git push origin main
 ```
 
 ### Manual Rollback
+
 1. Keep previous `dist/` snapshot
 2. Re-upload previous version
 3. Point DNS/CDN to old version
@@ -469,22 +497,26 @@ git push origin main
 ### Custom Domain Setup
 
 **Vercel**:
+
 - Dashboard → Project Settings → Domains
 - Add custom domain
 - Follow DNS instructions
 
 **Netlify**:
+
 - Site settings → Domain management
 - Add custom domain
 - Auto-managed SSL via Let's Encrypt
 
 **Self-Hosted**:
+
 ```bash
 # Use certbot for Let's Encrypt
 sudo certbot certonly --webroot -w /var/www/hsc-evaluator/dist -d hsc-evaluator.edu.au
 ```
 
 ### DNS Configuration
+
 ```
 Type    Name                        Value
 A       hsc-evaluator.edu.au        <platform-ip>
@@ -496,16 +528,19 @@ CNAME   www.hsc-evaluator.edu.au    <platform-cname>
 ## 11. Backup & Disaster Recovery
 
 ### User Data Protection
+
 - **Automatic Exports**: Implement hourly `idb` snapshots to localStorage
 - **Download Feature**: Enable data export (already implemented)
 - **Time Machine**: Keep 30-day rolling backup of IndexedDB
 
 ### Source Code
+
 - [ ] GitHub repository (primary)
 - [ ] Automated backups to S3/Backblaze
 - [ ] Version tags for each release
 
 ### Disaster Recovery Procedures
+
 1. **Lost API Key**: Regenerate in Google Cloud Console (automatic)
 2. **Compromised Deployment**: Revert to previous GitHub tag
 3. **Data Corruption**: Users export from their IndexedDB locally
@@ -515,25 +550,30 @@ CNAME   www.hsc-evaluator.edu.au    <platform-cname>
 ## 12. Maintenance Schedule
 
 ### Daily
+
 - Monitor API health (alert on 429 errors)
 - Check deployment logs for errors
 
 ### Weekly
+
 - Review Sentry error reports
 - Check Google Cloud API quota usage
 - Test evaluation engine with sample inputs
 
 ### Monthly
+
 - Update dependencies: `npm update`
 - Review performance metrics (LCP, CLS)
 - Audit security (check for vulnerable packages)
 
 ### Quarterly
+
 - Rotate API keys
 - Security audit of CSP and headers
 - Performance profiling with Lighthouse
 
 ### Annually
+
 - Full security assessment
 - Load testing simulation
 - Disaster recovery drill
@@ -544,24 +584,27 @@ CNAME   www.hsc-evaluator.edu.au    <platform-cname>
 ## 13. Cost Estimation
 
 ### Deployment Platform
-| Platform | Cost | Notes |
-|----------|------|-------|
-| Vercel (Hobby) | $0 | Perfect for production use |
-| Netlify (Starter) | $0 | 300 build minutes/month |
-| GitHub Pages | $0 | Unlimited |
-| AWS (CloudFront) | $0.085/GB | Lowest bandwidth cost at scale |
+
+| Platform          | Cost      | Notes                          |
+| ----------------- | --------- | ------------------------------ |
+| Vercel (Hobby)    | $0        | Perfect for production use     |
+| Netlify (Starter) | $0        | 300 build minutes/month        |
+| GitHub Pages      | $0        | Unlimited                      |
+| AWS (CloudFront)  | $0.085/GB | Lowest bandwidth cost at scale |
 
 ### Google Gemini API
+
 - **Free Tier**: 60 requests/minute, 1.5M tokens/day
 - **Paid**: $0.075-0.30 per 1M input tokens (varies by model)
 - **Estimate**: 500 users × 10 evals/day × 2000 tokens = ~10M tokens/day = ~$3/day
 
 ### Domain & SSL
-| Item | Cost |
-|------|------|
-| Custom domain (.edu.au) | $15/year |
-| SSL certificate | Free (Let's Encrypt) |
-| Email (optional) | $0-10/month |
+
+| Item                    | Cost                 |
+| ----------------------- | -------------------- |
+| Custom domain (.edu.au) | $15/year             |
+| SSL certificate         | Free (Let's Encrypt) |
+| Email (optional)        | $0-10/month          |
 
 **Total Monthly Cost**: $0-100 (mostly API usage)
 
@@ -570,18 +613,21 @@ CNAME   www.hsc-evaluator.edu.au    <platform-cname>
 ## 14. Pre-Launch Checklist
 
 ### Code Quality
+
 - [ ] TypeScript strict mode enabled
 - [ ] No `any` types in critical paths
 - [ ] Unit tests for evaluation engine
 - [ ] E2E tests for core workflows
 
 ### Performance
+
 - [ ] Bundle size < 2MB
 - [ ] Lighthouse score > 90
 - [ ] First Contentful Paint < 2s
 - [ ] Largest Contentful Paint < 3s
 
 ### Security
+
 - [ ] No API keys in source
 - [ ] CSP headers configured
 - [ ] HTTPS enforced
@@ -589,12 +635,14 @@ CNAME   www.hsc-evaluator.edu.au    <platform-cname>
 - [ ] Dependency audit passed (`npm audit`)
 
 ### Monitoring
+
 - [ ] Sentry/error tracking configured
 - [ ] Analytics enabled
 - [ ] Uptime monitoring configured
 - [ ] Alerts set for API failures
 
 ### Documentation
+
 - [ ] Deployment guide complete
 - [ ] Runbook for common issues
 - [ ] API key rotation procedure documented
@@ -605,6 +653,7 @@ CNAME   www.hsc-evaluator.edu.au    <platform-cname>
 ## 15. Troubleshooting Guide
 
 ### Build Failures
+
 ```bash
 # Clear cache and rebuild
 rm -rf node_modules dist
@@ -616,17 +665,20 @@ node --version
 ```
 
 ### API Rate Limiting (429 Errors)
+
 - Check `ApiGuard` circuit breaker is active
 - Verify API key quota in Google Cloud Console
 - Implement exponential backoff (already in `services/`)
 - Consider increasing quota limits
 
 ### IndexedDB Issues
+
 - User needs to clear browser storage and reload
 - Implement data migration for schema changes
 - Test in incognito mode (fresh IndexedDB)
 
 ### Slow Performance
+
 ```bash
 # Profile with Vite
 npm run build -- --profile
@@ -639,6 +691,7 @@ du -sh dist/
 ```
 
 ### Domain/SSL Issues
+
 - DNS propagation takes 24-48 hours
 - Clear browser DNS cache: `chrome://net-internals/#dns`
 - Verify certificate with: `openssl s_client -connect domain:443`
@@ -648,17 +701,20 @@ du -sh dist/
 ## 16. Contacts & Resources
 
 ### Key Links
+
 - [Vite Docs](https://vitejs.dev/)
 - [Google Gemini API](https://ai.google.dev/)
 - [React 19 Docs](https://react.dev/)
 - [Vercel Deployment Docs](https://vercel.com/docs)
 
 ### Team Contacts
+
 - **API Key Rotation**: Google Cloud Console owner
 - **Domain Management**: Registrar admin
 - **Emergency Access**: GitHub repo admin
 
 ### Support
+
 - Vercel: [vercel.com/support](https://vercel.com/support)
 - Netlify: [support.netlify.com](https://support.netlify.com)
 - Google: [ai.google.dev/help](https://ai.google.dev/help)

@@ -31,10 +31,7 @@ interface RetryState {
  *   const result = await execute();
  * };
  */
-export const useRetry = <T,>(
-  fn: () => Promise<T>,
-  options: RetryOptions = {}
-) => {
+export const useRetry = <T>(fn: () => Promise<T>, options: RetryOptions = {}) => {
   const {
     maxAttempts = 3,
     initialDelayMs = 1000,
@@ -56,7 +53,7 @@ export const useRetry = <T,>(
       const max = overrideMaxAttempts || maxAttempts;
 
       if (attemptsRef.current > 0) {
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
           isRetrying: true,
           attempt: attemptsRef.current,
@@ -77,9 +74,7 @@ export const useRetry = <T,>(
         const categorized = categorizeError(error);
 
         // Check if we should retry
-        const customShouldRetry = shouldRetry
-          ? shouldRetry(error)
-          : categorized.isRetryable;
+        const customShouldRetry = shouldRetry ? shouldRetry(error) : categorized.isRetryable;
 
         if (!customShouldRetry || attemptsRef.current >= max - 1) {
           // Don't retry or max attempts reached
@@ -99,7 +94,7 @@ export const useRetry = <T,>(
         onRetry?.(attemptsRef.current, error);
 
         // Wait before retrying
-        await new Promise(resolve => setTimeout(resolve, delayMs));
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
 
         // Recursive call
         return execute(max);
@@ -130,7 +125,7 @@ export const useRetry = <T,>(
  * Simple delay utility for use with retries
  */
 export const delay = (ms: number): Promise<void> => {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
 /**

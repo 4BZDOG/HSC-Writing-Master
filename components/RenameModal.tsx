@@ -29,14 +29,16 @@ const RenameModal: React.FC<RenameModalProps> = ({
   }, [isOpen, initialName]);
 
   useEffect(() => {
-      const trimmedNewName = newName.trim();
-      if (trimmedNewName.toLowerCase() !== initialName.toLowerCase() && existingNames.some(name => name.toLowerCase() === trimmedNewName.toLowerCase())) {
-          setError(`A ${targetType.toLowerCase()} with this name already exists.`);
-      } else {
-          setError(null);
-      }
+    const trimmedNewName = newName.trim();
+    if (
+      trimmedNewName.toLowerCase() !== initialName.toLowerCase() &&
+      existingNames.some((name) => name.toLowerCase() === trimmedNewName.toLowerCase())
+    ) {
+      setError(`A ${targetType.toLowerCase()} with this name already exists.`);
+    } else {
+      setError(null);
+    }
   }, [newName, initialName, existingNames, targetType]);
-
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,9 +55,12 @@ const RenameModal: React.FC<RenameModalProps> = ({
   const isButtonDisabled = !newName.trim() || !!error;
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={onClose}>
-      <div 
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl w-full max-w-md border border-[rgb(var(--color-border-secondary))] animate-fade-in-up overflow-hidden" 
+    <div
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      onClick={onClose}
+    >
+      <div
+        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl w-full max-w-md border border-[rgb(var(--color-border-secondary))] animate-fade-in-up overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))]">
@@ -65,19 +70,29 @@ const RenameModal: React.FC<RenameModalProps> = ({
                 <Edit3 className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))]">Rename {targetType}</h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))] truncate max-w-xs">"{initialName}"</p>
+                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))]">
+                  Rename {targetType}
+                </h2>
+                <p className="text-sm text-[rgb(var(--color-text-muted))] truncate max-w-xs">
+                  "{initialName}"
+                </p>
               </div>
             </div>
-            <button onClick={onClose} className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200 flex items-center justify-center group">
+            <button
+              onClick={onClose}
+              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200 flex items-center justify-center group"
+            >
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text-primary))]" />
             </button>
           </div>
         </div>
-        
+
         <form onSubmit={handleSubmit}>
           <div className="p-6">
-            <label htmlFor="rename-input" className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] mb-2">
+            <label
+              htmlFor="rename-input"
+              className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] mb-2"
+            >
               New Name
             </label>
             <input
@@ -93,10 +108,18 @@ const RenameModal: React.FC<RenameModalProps> = ({
           </div>
 
           <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 border-t border-[rgb(var(--color-border-secondary))] flex justify-end space-x-3">
-            <button type="button" onClick={onClose} className="py-2 px-4 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-light))] hover:bg-[rgb(var(--color-border-secondary))] transition">
+            <button
+              type="button"
+              onClick={onClose}
+              className="py-2 px-4 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-light))] hover:bg-[rgb(var(--color-border-secondary))] transition"
+            >
               Cancel
             </button>
-            <button type="submit" disabled={isButtonDisabled} className="py-2 px-4 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50">
+            <button
+              type="submit"
+              disabled={isButtonDisabled}
+              className="py-2 px-4 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50"
+            >
               Save Changes
             </button>
           </div>

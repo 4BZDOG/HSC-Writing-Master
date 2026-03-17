@@ -22,6 +22,7 @@ This document outlines critical improvements made to the HSC AI Evaluator UI com
 ## 1. Keyboard Navigation Enhancements
 
 ### Problem
+
 - Dropdowns and trees couldn't be operated without a mouse
 - Power users and accessibility-dependent users had limited functionality
 - No support for standard keyboard shortcuts (arrow keys, Enter, Escape)
@@ -29,7 +30,9 @@ This document outlines critical improvements made to the HSC AI Evaluator UI com
 ### Solution
 
 #### Combobox.tsx - Full Keyboard Support
+
 **Added**:
+
 - Arrow key navigation (↑ ↓) to move through options
 - Enter key to select highlighted option or open dropdown
 - Escape key to close dropdown
@@ -38,6 +41,7 @@ This document outlines critical improvements made to the HSC AI Evaluator UI com
 - Proper focus management
 
 **Code Changes**:
+
 ```typescript
 // New keyboard handler
 const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
@@ -62,7 +66,9 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
 **Impact**: Combobox now fully keyboard-accessible (4/5 → 5/5 reliability)
 
 #### SelectionTree.tsx - Keyboard and Tree Navigation
+
 **Added**:
+
 - Space/Enter to toggle checkbox selection
 - Right arrow to expand items (if has children)
 - Left arrow to collapse items
@@ -70,6 +76,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
 - Focus restoration on keyboard interactions
 
 **Code Changes**:
+
 ```typescript
 const handleCheckboxKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
   if (e.key === ' ' || e.key === 'Enter') {
@@ -91,6 +98,7 @@ const handleCheckboxKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 ## 2. Unsaved Changes Management
 
 ### Problem
+
 - Users could lose unsaved work when navigating away
 - No warning dialogs before page unload
 - Inline editors in modals had no dirty state tracking
@@ -99,7 +107,9 @@ const handleCheckboxKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 ### Solution
 
 #### useUnsavedChanges.ts Hook
+
 **Features**:
+
 - beforeunload event handling for page navigation warnings
 - Confirmation dialog before losing changes
 - Optional callback before unload
@@ -107,6 +117,7 @@ const handleCheckboxKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 - useFormDirty() helper to compare form data
 
 **Usage Example**:
+
 ```typescript
 const [formData, setFormData] = useState({...});
 const [initialData] = useState({...});
@@ -119,6 +130,7 @@ if (!checkUnsavedChanges()) return;
 ```
 
 **Integration Points**:
+
 - PromptDisplay.tsx - Inline question editing
 - RenameModal.tsx - Rename operations
 - All creator modals - Form data changes
@@ -131,6 +143,7 @@ if (!checkUnsavedChanges()) return;
 ## 3. Improved Error Handling
 
 ### Problem
+
 - Generic "System Interruption" messages
 - No distinction between different error types
 - No automatic retry for transient failures
@@ -139,7 +152,9 @@ if (!checkUnsavedChanges()) return;
 ### Solution
 
 #### errorHandler.ts - Error Categorization
+
 **Features**:
+
 - 7 error categories: NETWORK, SERVER, AUTH, NOT_FOUND, VALIDATION, RATE_LIMIT, UNKNOWN
 - User-friendly messages for each category
 - Automatic retry eligibility detection
@@ -156,6 +171,7 @@ if (!checkUnsavedChanges()) return;
 | SERVER | 5xx | "Server error. Our team has been notified. Please try again shortly." |
 
 **API**:
+
 ```typescript
 const categorized = categorizeError(error);
 const userMessage = getUserErrorMessage(error);
@@ -165,7 +181,9 @@ const canRetry = isRetryableError(error);
 **Impact**: Better user guidance, 20-30% reduction in user confusion
 
 #### useRetry.ts Hook - Automatic Retry with Backoff
+
 **Features**:
+
 - Exponential backoff for transient failures
 - Configurable retry attempts and initial delay
 - Custom shouldRetry logic
@@ -173,16 +191,14 @@ const canRetry = isRetryableError(error);
 - Tracks attempt count and error state
 
 **Configuration**:
+
 ```typescript
-const { execute, isRetrying, attempt, error } = useRetry(
-  async () => fetchData(),
-  {
-    maxAttempts: 3,          // Retry up to 3 times
-    initialDelayMs: 1000,    // Start with 1s delay
-    backoffFactor: 2,        // Double delay each time (1s → 2s → 4s)
-    shouldRetry: (err) => categorizeError(err).isRetryable,
-  }
-);
+const { execute, isRetrying, attempt, error } = useRetry(async () => fetchData(), {
+  maxAttempts: 3, // Retry up to 3 times
+  initialDelayMs: 1000, // Start with 1s delay
+  backoffFactor: 2, // Double delay each time (1s → 2s → 4s)
+  shouldRetry: (err) => categorizeError(err).isRetryable,
+});
 ```
 
 **Impact**: Automatic recovery from network glitches, 50% fewer manual retries needed
@@ -192,6 +208,7 @@ const { execute, isRetrying, attempt, error } = useRetry(
 ## 4. Import Safety & Rollback
 
 ### Problem
+
 - Imports could fail halfway through, leaving corrupted state
 - No backup mechanism
 - No way to undo failed imports
@@ -200,7 +217,9 @@ const { execute, isRetrying, attempt, error } = useRetry(
 ### Solution
 
 #### importBackupUtils.ts - Backup & Restore System
+
 **Features**:
+
 - Pre-import snapshots with deep cloning
 - localStorage-based persistence
 - Data integrity checking with hashes
@@ -209,6 +228,7 @@ const { execute, isRetrying, attempt, error } = useRetry(
 - Import diff reporting
 
 **Core Functions**:
+
 ```typescript
 // Create backup before import
 const backup = createBackupSnapshot(courses, 'Pre-bulk-import');
@@ -232,6 +252,7 @@ const diff = generateImportDiff(courses, merged);
 ```
 
 **Validation Coverage**:
+
 - ✅ Course ID/name validation
 - ✅ Recursive topic/subtopic validation
 - ✅ Data structure integrity
@@ -239,6 +260,7 @@ const diff = generateImportDiff(courses, merged);
 - ✅ Duplicate ID detection
 
 **Merge Strategies**:
+
 - `merge`: Combine imported items with existing (no overwrites)
 - `skip`: Keep existing data, ignore imported
 
@@ -251,6 +273,7 @@ const diff = generateImportDiff(courses, merged);
 ### New Files Created
 
 #### Hooks
+
 1. **useUnsavedChanges.ts** (68 lines)
    - Detects form changes
    - Prevents accidental navigation
@@ -262,6 +285,7 @@ const diff = generateImportDiff(courses, merged);
    - Custom retry conditions
 
 #### Utilities
+
 1. **errorHandler.ts** (212 lines)
    - Error categorization
    - User message generation
@@ -277,17 +301,18 @@ const diff = generateImportDiff(courses, merged);
 
 ## 6. Component Changes Summary
 
-| Component | Change | Before | After | Impact |
-|-----------|--------|--------|-------|--------|
-| **Combobox.tsx** | Keyboard navigation | 4/5 | 5/5 | Full accessibility |
-| **SelectionTree.tsx** | Keyboard navigation | 3/5 | 4.5/5 | Better usability |
-| **All modals** | Ready for unsaved warnings | - | Framework in place | Data loss prevention |
+| Component             | Change                     | Before | After              | Impact               |
+| --------------------- | -------------------------- | ------ | ------------------ | -------------------- |
+| **Combobox.tsx**      | Keyboard navigation        | 4/5    | 5/5                | Full accessibility   |
+| **SelectionTree.tsx** | Keyboard navigation        | 3/5    | 4.5/5              | Better usability     |
+| **All modals**        | Ready for unsaved warnings | -      | Framework in place | Data loss prevention |
 
 ---
 
 ## 7. Testing Recommendations
 
 ### Unit Tests
+
 - [ ] Combobox keyboard navigation (↑/↓/Enter/Escape)
 - [ ] SelectionTree keyboard support (Space/→/←)
 - [ ] useUnsavedChanges dirty detection
@@ -296,12 +321,14 @@ const diff = generateImportDiff(courses, merged);
 - [ ] importBackupUtils validation
 
 ### Integration Tests
+
 - [ ] Modal + unsaved changes flow
 - [ ] Import with backup/restore
 - [ ] Error retry in network requests
 - [ ] Keyboard navigation across components
 
 ### Accessibility Tests
+
 - [ ] Screen reader announcement of keyboard shortcuts
 - [ ] ARIA labels in updated components
 - [ ] Focus management in dropdowns
@@ -312,6 +339,7 @@ const diff = generateImportDiff(courses, merged);
 ## 8. Future Integration Guide
 
 ### Using useUnsavedChanges in a Modal
+
 ```typescript
 import { useUnsavedChanges } from '../hooks/useUnsavedChanges';
 
@@ -332,14 +360,14 @@ const MyModal: React.FC = ({ isOpen, onClose }) => {
 ```
 
 ### Using useRetry for API Calls
+
 ```typescript
 import { useRetry } from '../hooks/useRetry';
 
 const MyComponent: React.FC = () => {
-  const { execute, isRetrying, attempt } = useRetry(
-    () => evaluateAnswer(response),
-    { maxAttempts: 3 }
-  );
+  const { execute, isRetrying, attempt } = useRetry(() => evaluateAnswer(response), {
+    maxAttempts: 3,
+  });
 
   const handleEvaluate = async () => {
     try {
@@ -353,12 +381,13 @@ const MyComponent: React.FC = () => {
 ```
 
 ### Using importBackupUtils in DataManager
+
 ```typescript
 import {
   createBackupSnapshot,
   storeBackupSnapshot,
   validateImportData,
-  mergeImportedCourses
+  mergeImportedCourses,
 } from '../utils/importBackupUtils';
 
 const handleImport = async (importedCourses: Course[]) => {
@@ -383,13 +412,13 @@ const handleImport = async (importedCourses: Course[]) => {
 
 ## 9. Performance Impact
 
-| Improvement | Memory | CPU | Network |
-|-------------|--------|-----|---------|
-| Keyboard nav | Negligible | Negligible | None |
-| Unsaved changes | ~1KB per modal | Minimal (JSON.stringify) | None |
-| Error handling | ~5KB (enum + helpers) | Minimal | None |
-| Import backup | 10-50MB (depends on data) | Moderate (validation) | None |
-| Retry logic | Minimal | Moderate (waits) | Potential savings (fewer manual retries) |
+| Improvement     | Memory                    | CPU                      | Network                                  |
+| --------------- | ------------------------- | ------------------------ | ---------------------------------------- |
+| Keyboard nav    | Negligible                | Negligible               | None                                     |
+| Unsaved changes | ~1KB per modal            | Minimal (JSON.stringify) | None                                     |
+| Error handling  | ~5KB (enum + helpers)     | Minimal                  | None                                     |
+| Import backup   | 10-50MB (depends on data) | Moderate (validation)    | None                                     |
+| Retry logic     | Minimal                   | Moderate (waits)         | Potential savings (fewer manual retries) |
 
 **Overall**: Negligible performance impact, significant UX improvements
 
@@ -411,12 +440,14 @@ const handleImport = async (importedCourses: Course[]) => {
 ## 11. Known Limitations & Future Improvements
 
 ### Limitations
+
 1. **useUnsavedChanges**: Doesn't support auto-save
 2. **useRetry**: No max retry duration limit
 3. **importBackupUtils**: localStorage quota limited (~5-50MB)
 4. **Keyboard nav**: Combobox doesn't support search/filter yet
 
 ### Future Enhancements
+
 1. Add search/filter to keyboard-navigable Combobox
 2. Implement auto-save in forms with periodic syncing
 3. Add undo/redo history with localStorage persistence
@@ -428,6 +459,7 @@ const handleImport = async (importedCourses: Course[]) => {
 ## 12. Summary of Reliability Improvements
 
 **Before Improvements**
+
 - Form submissions could double-submit
 - Users could lose work on navigation
 - Generic error messages confusing
@@ -435,6 +467,7 @@ const handleImport = async (importedCourses: Course[]) => {
 - Imports could corrupt data
 
 **After Improvements**
+
 - ✅ Proper button disabling prevents double-submit
 - ✅ Unsaved changes warnings prevent data loss
 - ✅ Error categorization guides user actions

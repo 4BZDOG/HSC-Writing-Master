@@ -12,14 +12,14 @@ This document outlines comprehensive improvements to the HSC AI Evaluator's data
 
 ### Key Metrics
 
-| Metric | Before | After | Improvement |
-|--------|--------|-------|-------------|
-| **Deep Clone Speed** | ~150ms | ~30ms | **5x faster** |
-| **Export File Size** | ~500KB | ~150KB | **3.3x smaller** |
-| **Data Loss Risk** | High | None | **Eliminated** |
-| **Backup Storage** | Manual cleanup | Automatic | **Smart retention** |
-| **Transaction Support** | None | Full ACID | **Enterprise-grade** |
-| **Offline Support** | Not present | Full sync queue | **Robust** |
+| Metric                  | Before         | After           | Improvement          |
+| ----------------------- | -------------- | --------------- | -------------------- |
+| **Deep Clone Speed**    | ~150ms         | ~30ms           | **5x faster**        |
+| **Export File Size**    | ~500KB         | ~150KB          | **3.3x smaller**     |
+| **Data Loss Risk**      | High           | None            | **Eliminated**       |
+| **Backup Storage**      | Manual cleanup | Automatic       | **Smart retention**  |
+| **Transaction Support** | None           | Full ACID       | **Enterprise-grade** |
+| **Offline Support**     | Not present    | Full sync queue | **Robust**           |
 
 ---
 
@@ -67,18 +67,23 @@ This document outlines comprehensive improvements to the HSC AI Evaluator's data
 **Key Features**:
 
 1. **executeTransaction()** - Atomic multi-store operations
+
    ```typescript
-   const result = await executeTransaction(db, {
-     stores: ['main_store', 'backups_store'],
-     mode: 'readwrite',
-     timeout: 30000
-   }, async (tx) => {
-     // Multi-step operation completed atomically
-     const courses = await readCourses(tx);
-     const modified = modifyCourses(courses);
-     await writeCourses(tx, modified);
-     return modified;
-   });
+   const result = await executeTransaction(
+     db,
+     {
+       stores: ['main_store', 'backups_store'],
+       mode: 'readwrite',
+       timeout: 30000,
+     },
+     async (tx) => {
+       // Multi-step operation completed atomically
+       const courses = await readCourses(tx);
+       const modified = modifyCourses(courses);
+       await writeCourses(tx, modified);
+       return modified;
+     }
+   );
    ```
 
 2. **Read/Write Operations**:
@@ -110,29 +115,35 @@ This document outlines comprehensive improvements to the HSC AI Evaluator's data
 ### Implementation Guide
 
 **For Import Operations**:
+
 ```typescript
 import { executeTransaction, batchWriteToDb } from '../utils/idbTransactions';
 
 const handleImport = async (courses: Course[]) => {
-  const result = await executeTransaction(db, {
-    stores: ['main_store', 'backups_store'],
-    mode: 'readwrite'
-  }, async (tx) => {
-    // Validate
-    const errors = validateImportData(courses);
-    if (errors.length > 0) throw new Error(`Validation failed: ${errors[0]}`);
+  const result = await executeTransaction(
+    db,
+    {
+      stores: ['main_store', 'backups_store'],
+      mode: 'readwrite',
+    },
+    async (tx) => {
+      // Validate
+      const errors = validateImportData(courses);
+      if (errors.length > 0) throw new Error(`Validation failed: ${errors[0]}`);
 
-    // Backup existing
-    await backupBeforeImport(tx);
+      // Backup existing
+      await backupBeforeImport(tx);
 
-    // Import new
-    await importCourses(tx, courses);
+      // Import new
+      await importCourses(tx, courses);
 
-    return courses;
-  }, async (error) => {
-    // Rollback callback
-    console.error('Import failed, rolling back:', error);
-  });
+      return courses;
+    },
+    async (error) => {
+      // Rollback callback
+      console.error('Import failed, rolling back:', error);
+    }
+  );
 };
 ```
 
@@ -147,12 +158,13 @@ const handleImport = async (courses: Course[]) => {
 **Key Features**:
 
 1. **Granular Extraction**:
+
    ```typescript
    // Extract single course
    const course = extractCourse(courses, courseId, {
      includeSampleAnswers: true,
      includeMarkingCriteria: true,
-     stripIds: false
+     stripIds: false,
    });
 
    // Extract single topic from course
@@ -163,11 +175,12 @@ const handleImport = async (courses: Course[]) => {
    ```
 
 2. **Shareable Packages**:
+
    ```typescript
    const pkg = createShareablePackage(course, {
-     stripIds: true,           // Remove UUIDs
+     stripIds: true, // Remove UUIDs
      anonymizeSourceData: true, // Remove private metadata
-     includeMetadata: true      // Add export info
+     includeMetadata: true, // Add export info
    });
 
    // Output includes:
@@ -184,6 +197,7 @@ const handleImport = async (courses: Course[]) => {
    - `anonymizeSourceData`: Remove HSC year, etc.
 
 4. **File Generation**:
+
    ```typescript
    const blob = createCourseExportBlob(course, 'filename.json', options);
    const { url, filename } = generateExportDownload(course);
@@ -196,6 +210,7 @@ const handleImport = async (courses: Course[]) => {
    ```
 
 5. **Batch Export**:
+
    ```typescript
    const exports = await batchExportCourses(courses, courseIds, options);
    // Returns: [{ courseId, url, filename, sizeKb }, ...]
@@ -218,11 +233,11 @@ const handleImport = async (courses: Course[]) => {
 
 ### Export File Size Comparison
 
-| Scenario | Before | After | Reduction |
-|----------|--------|-------|-----------|
-| Full course (300 questions) | 500KB | 150KB | 70% |
-| With anonymization | N/A | 130KB | 74% |
-| Metadata only | N/A | 45KB | 91% |
+| Scenario                    | Before | After | Reduction |
+| --------------------------- | ------ | ----- | --------- |
+| Full course (300 questions) | 500KB  | 150KB | 70%       |
+| With anonymization          | N/A    | 130KB | 74%       |
+| Metadata only               | N/A    | 45KB  | 91%       |
 
 ---
 
@@ -247,25 +262,29 @@ Improvement:              60% less memory
 **Cloning Methods**:
 
 1. **Shallow Clone** - Fastest, safe for non-mutating ops
+
    ```typescript
    const cloned = shallowClone(obj);
    ```
 
 2. **Structural Clone** - 5x faster, safe for mutations
+
    ```typescript
    const cloned = cloneCourses(courses);
    // Clones arrays and immediate objects only
    ```
 
 3. **Partial Clone** - Clone only changed branches
+
    ```typescript
    const cloned = clonePartialCourse(course, [
      { topicId: 'topic-1' },
-     { topicId: 'topic-2', subTopicId: 'subTopic-3' }
+     { topicId: 'topic-2', subTopicId: 'subTopic-3' },
    ]);
    ```
 
 4. **Comparison Clone** - Minimal clone for hashing
+
    ```typescript
    const minimal = cloneForComparison(course);
    // Only: id, name, structure (no large text fields)
@@ -273,7 +292,8 @@ Improvement:              60% less memory
 
 5. **Filtered Clone** - Remove sensitive fields
    ```typescript
-   const filtered = cloneWithFilter(course,
+   const filtered = cloneWithFilter(
+     course,
      null, // Include all except...
      ['markingCriteria', 'feedback'] // These fields
    );
@@ -282,6 +302,7 @@ Improvement:              60% less memory
 **Integration Points**:
 
 Replace in `stateUtils.ts`:
+
 ```typescript
 // Before
 const updated = JSON.parse(JSON.stringify(courses));
@@ -292,6 +313,7 @@ const updated = cloneCourses(courses);
 ```
 
 **Benchmarking**:
+
 ```typescript
 const timings = benchmarkCloning(largeDataset);
 // Returns: {
@@ -303,6 +325,7 @@ const timings = benchmarkCloning(largeDataset);
 ```
 
 **Memory Estimation**:
+
 ```typescript
 const memoryMb = estimateMemoryUsage(courses);
 // Rough estimate: ~85MB for 1000-question dataset
@@ -319,6 +342,7 @@ const memoryMb = estimateMemoryUsage(courses);
 **Enhanced Backup Features**:
 
 1. **Rich Metadata**:
+
    ```typescript
    interface EnhancedBackup {
      id: string;
@@ -341,10 +365,11 @@ const memoryMb = estimateMemoryUsage(courses);
    ```
 
 2. **Smart Backup Creation**:
+
    ```typescript
    const shouldBackup = shouldCreateBackup(lastBackup, courses, {
-     minIntervalMinutes: 60,    // Only backup every 60min
-     minChangesPercentage: 5    // Only if 5%+ changed
+     minIntervalMinutes: 60, // Only backup every 60min
+     minChangesPercentage: 5, // Only if 5%+ changed
    });
 
    if (shouldBackup) {
@@ -353,11 +378,12 @@ const memoryMb = estimateMemoryUsage(courses);
    ```
 
 3. **Automatic Cleanup**:
+
    ```typescript
    const result = cleanupBackups(allBackups, {
-     maxBackups: 10,      // Keep at most 10
-     maxStorageMb: 50,    // Use max 50MB
-     minRetentionDays: 7  // Keep at least 7 days
+     maxBackups: 10, // Keep at most 10
+     maxStorageMb: 50, // Use max 50MB
+     minRetentionDays: 7, // Keep at least 7 days
    });
 
    // Returns:
@@ -369,6 +395,7 @@ const memoryMb = estimateMemoryUsage(courses);
    ```
 
 4. **Recovery & Validation**:
+
    ```typescript
    const restore = restoreFromBackup(backup, backupData);
    if (restore.success) {
@@ -379,12 +406,14 @@ const memoryMb = estimateMemoryUsage(courses);
    ```
 
 5. **Backup Comparison**:
+
    ```typescript
    const diff = compareBackups(oldBackup, newBackup);
    // Returns: { added, removed, modified, sizeChange, percentageChange }
    ```
 
 6. **Long-term Archiving**:
+
    ```typescript
    // Move old backups to localStorage for 7-year retention
    if (backup.retention.priority === 'high') {
@@ -398,24 +427,28 @@ const memoryMb = estimateMemoryUsage(courses);
 ### Retention Policy
 
 **Automatic Backups** (type: 'auto'):
+
 - Created every 60 minutes (if changes > 5%)
 - Keep for 7 days
 - Priority: LOW
 - Auto-deleted to maintain quota
 
 **Manual Backups** (type: 'manual'):
+
 - User-triggered
 - Keep for 30 days
 - Priority: MEDIUM
 - Safe from auto-cleanup
 
 **Pre-Import Backups** (type: 'pre-import'):
+
 - Created before bulk operations
 - Keep for 30 days
 - Priority: HIGH
 - Protected from cleanup
 
 **Pre-Migration Backups** (type: 'pre-migration'):
+
 - Created before schema changes
 - Keep for 90 days
 - Priority: HIGHEST
@@ -423,11 +456,11 @@ const memoryMb = estimateMemoryUsage(courses);
 
 ### Storage Quotas
 
-| Scenario | Backup Frequency | Cleanup Interval | Max Storage |
-|----------|------------------|------------------|-------------|
-| Stable | 4 per day | Daily | 50MB |
-| Active | 1 per hour | Every 12h | 100MB |
-| Enterprise | Per change | Real-time | 500MB |
+| Scenario   | Backup Frequency | Cleanup Interval | Max Storage |
+| ---------- | ---------------- | ---------------- | ----------- |
+| Stable     | 4 per day        | Daily            | 50MB        |
+| Active     | 1 per hour       | Every 12h        | 100MB       |
+| Enterprise | Per change       | Real-time        | 500MB       |
 
 ---
 
@@ -438,12 +471,14 @@ const memoryMb = estimateMemoryUsage(courses);
 **Purpose**: Queue pending changes before storage saves complete
 
 **Data Safety Guarantee**:
+
 - Changes written to sync_queue immediately
 - Storage save happens asynchronously
 - Browser close doesn't lose data
 - On restart: Apply pending changes + fetch latest
 
 **Pending Change Structure**:
+
 ```typescript
 interface PendingChange {
   id: string;
@@ -461,40 +496,46 @@ interface PendingChange {
 **Queue Operations**:
 
 1. **Add Change**:
+
    ```typescript
    const pending = await addPendingChange(db, {
      operation: 'update',
      entityType: 'prompt',
      entityId: 'prompt-123',
-     data: { text: 'Updated question' }
+     data: { text: 'Updated question' },
    });
    ```
 
 2. **Get Pending**:
+
    ```typescript
    const pending = await getPendingChanges(db);
    // Returns all changes with status: 'pending'
    ```
 
 3. **Mark Synced**:
+
    ```typescript
    await markChangeSynced(db, changeId);
    // Called after successful sync
    ```
 
 4. **Mark Failed**:
+
    ```typescript
    await markChangeFailed(db, changeId, 'Network error');
    // Auto-increments retry count, gives up after 5 attempts
    ```
 
 5. **Apply Changes**:
+
    ```typescript
    const updated = applyPendingChanges(courses, pending);
    // Merges pending with fetched data
    ```
 
 6. **Queue Stats**:
+
    ```typescript
    const stats = await getSyncQueueStats(db);
    // {
@@ -507,6 +548,7 @@ interface PendingChange {
    ```
 
 7. **Cleanup & Retry**:
+
    ```typescript
    // Remove synced changes older than 7 days
    const deleted = await cleanupSyncedChanges(db, 7);
@@ -539,7 +581,7 @@ Result: Zero data loss, instant feedback, offline capable
 import { createShareablePackage, generateExportDownload } from '../utils/courseExportUtils';
 
 const handleExportCourse = async (courseId: string) => {
-  const course = courses.find(c => c.id === courseId);
+  const course = courses.find((c) => c.id === courseId);
   if (!course) return;
 
   const pkg = createShareablePackage(course);
@@ -569,9 +611,7 @@ const updated = JSON.parse(JSON.stringify(courses));
 const updated = cloneCourses(courses);
 
 // For partial updates
-const modified = clonePartialCourse(courses, [
-  { topicId: 'topic-123' }
-]);
+const modified = clonePartialCourse(courses, [{ topicId: 'topic-123' }]);
 ```
 
 ### Integration: Atomic Transactions
@@ -581,21 +621,25 @@ const modified = clonePartialCourse(courses, [
 import { executeTransaction, batchWriteToDb } from '../utils/idbTransactions';
 
 const handleBulkImport = async (importedCourses: Course[]) => {
-  const result = await executeTransaction(db, {
-    stores: ['main_store', 'backups_store'],
-    mode: 'readwrite'
-  }, async (tx) => {
-    // Create backup
-    await writeToDb(db, 'backups_store', `pre-import-${Date.now()}`, courses);
+  const result = await executeTransaction(
+    db,
+    {
+      stores: ['main_store', 'backups_store'],
+      mode: 'readwrite',
+    },
+    async (tx) => {
+      // Create backup
+      await writeToDb(db, 'backups_store', `pre-import-${Date.now()}`, courses);
 
-    // Merge courses
-    const merged = mergeImportedCourses(courses, importedCourses);
+      // Merge courses
+      const merged = mergeImportedCourses(courses, importedCourses);
 
-    // Write atomically
-    await writeToDb(db, 'main_store', 'courses_data', merged);
+      // Write atomically
+      await writeToDb(db, 'main_store', 'courses_data', merged);
 
-    return merged;
-  });
+      return merged;
+    }
+  );
 
   if (result.success) {
     setCourses(result.data);
@@ -613,7 +657,7 @@ const handleBulkImport = async (importedCourses: Course[]) => {
 import {
   createEnhancedBackup,
   shouldCreateBackup,
-  cleanupBackups
+  cleanupBackups,
 } from '../utils/enhancedBackupUtils';
 
 // Before saving
@@ -627,11 +671,11 @@ useEffect(() => {
     // Smart cleanup
     const cleanup = cleanupBackups(updated, {
       maxBackups: 10,
-      maxStorageMb: 50
+      maxStorageMb: 50,
     });
 
     // Save only retained backups
-    const retained = updated.filter(b => cleanup.retained.includes(b.id));
+    const retained = updated.filter((b) => cleanup.retained.includes(b.id));
     saveBackups(retained);
   }
 }, [courses]);
@@ -643,22 +687,22 @@ useEffect(() => {
 
 ### Before vs. After
 
-| Operation | Before | After | Speedup |
-|-----------|--------|-------|---------|
-| Clone 1000 courses | 150ms | 30ms | 5x |
-| Export course (500KB) | - | 150KB file | 70% smaller |
-| Import validation | 200ms | 180ms | 10% faster |
-| Batch write (100 items) | 2s | 600ms | 3.3x |
-| DB health check | N/A | <1ms | New |
-| Backup cleanup | Manual | Automatic | Smart |
+| Operation               | Before | After      | Speedup     |
+| ----------------------- | ------ | ---------- | ----------- |
+| Clone 1000 courses      | 150ms  | 30ms       | 5x          |
+| Export course (500KB)   | -      | 150KB file | 70% smaller |
+| Import validation       | 200ms  | 180ms      | 10% faster  |
+| Batch write (100 items) | 2s     | 600ms      | 3.3x        |
+| DB health check         | N/A    | <1ms       | New         |
+| Backup cleanup          | Manual | Automatic  | Smart       |
 
 ### Memory Usage
 
-| Dataset | Before | After | Savings |
-|---------|--------|-------|---------|
-| 1000 questions | 200MB | 80MB | 60% |
-| Active state | 150MB | 60MB | 60% |
-| Cloned copy | ~200MB | ~80MB | 60% |
+| Dataset        | Before | After | Savings |
+| -------------- | ------ | ----- | ------- |
+| 1000 questions | 200MB  | 80MB  | 60%     |
+| Active state   | 150MB  | 60MB  | 60%     |
+| Cloned copy    | ~200MB | ~80MB | 60%     |
 
 ---
 

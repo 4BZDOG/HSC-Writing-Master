@@ -32,14 +32,14 @@
     "idb": "^8.0.3",
     "lucide-react": "^0.553.0",
     "zod": "^4.2.1",
-    "@sentry/react": "^7.84.0"
+    "@sentry/react": "^8.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
-    "eslint": "^8.56.0",
+    "eslint": "8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-react": "^7.33.2",
@@ -50,7 +50,7 @@
     "vitest": "^1.1.0",
     "@vitest/ui": "^1.1.0",
     "jsdom": "^23.0.1",
-    "@testing-library/react": "^14.1.2",
+    "@testing-library/react": "^15.0.0",
     "@testing-library/user-event": "^14.5.1",
     "@testing-library/dom": "^9.3.4",
     "@playwright/test": "^1.40.1",

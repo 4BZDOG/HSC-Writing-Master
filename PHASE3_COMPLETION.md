@@ -15,11 +15,13 @@ Phase 3 successfully implements a production-ready CI/CD pipeline, automated tes
 **6 Parallel Jobs** ensuring code quality before production:
 
 #### 1. **Lint Job** (2 min)
+
 - ESLint: TypeScript and React code quality
 - Prettier: Consistent code formatting
 - tsc: Type checking (catches type errors early)
 
 #### 2. **Build Job** (3 min)
+
 - Vite build with code splitting:
   - `vendor` chunk: React, React DOM
   - `gemini` chunk: @google/genai SDK
@@ -28,11 +30,13 @@ Phase 3 successfully implements a production-ready CI/CD pipeline, automated tes
 - Terser minification
 
 #### 3. **Test Job** (2 min)
+
 - Vitest unit tests
 - Coverage reports (70% threshold minimum)
 - Codecov integration for tracking coverage trends
 
 #### 4. **E2E Job** (3 min)
+
 - Playwright tests across 5 browsers:
   - Desktop: Chrome, Firefox, Safari
   - Mobile: Pixel 5, iPhone 12
@@ -41,10 +45,12 @@ Phase 3 successfully implements a production-ready CI/CD pipeline, automated tes
 - HTML report upload
 
 #### 5. **Security Job** (1 min)
+
 - npm audit for known vulnerabilities
 - Non-blocking (audit-level=moderate)
 
 #### 6. **Deploy Job** (2 min) — Only on main
+
 - Waits for: build + test + e2e + security ✅
 - Deploys to Netlify automatically
 - Enables: git push → test → deploy → live
@@ -57,12 +63,12 @@ Phase 3 successfully implements a production-ready CI/CD pipeline, automated tes
 
 ### Configuration Files
 
-| File | Purpose |
-|------|---------|
-| `.eslintrc.json` | ESLint rules (TypeScript, React, React Hooks) |
-| `.prettierrc.json` | Code formatting (100 char line width, 2-space indent) |
-| `.prettierignore` | Exclude node_modules, dist, minified files |
-| `.husky/pre-commit` | Auto-run lint-staged on commit |
+| File                | Purpose                                               |
+| ------------------- | ----------------------------------------------------- |
+| `.eslintrc.json`    | ESLint rules (TypeScript, React, React Hooks)         |
+| `.prettierrc.json`  | Code formatting (100 char line width, 2-space indent) |
+| `.prettierignore`   | Exclude node_modules, dist, minified files            |
+| `.husky/pre-commit` | Auto-run lint-staged on commit                        |
 
 ### Pre-commit Enforcement
 
@@ -79,13 +85,13 @@ npx lint-staged
 
 ### npm Scripts
 
-| Script | Purpose | Command |
-|--------|---------|---------|
-| `npm run lint` | Check code quality | `eslint . --ext .ts,.tsx` |
-| `npm run lint:fix` | Auto-fix lint issues | `eslint . --ext .ts,.tsx --fix` |
-| `npm run format` | Format code | `prettier --write ...` |
-| `npm run format:check` | Check formatting | `prettier --check ...` |
-| `npm run type-check` | TypeScript validation | `tsc --noEmit` |
+| Script                 | Purpose               | Command                         |
+| ---------------------- | --------------------- | ------------------------------- |
+| `npm run lint`         | Check code quality    | `eslint . --ext .ts,.tsx`       |
+| `npm run lint:fix`     | Auto-fix lint issues  | `eslint . --ext .ts,.tsx --fix` |
+| `npm run format`       | Format code           | `prettier --write ...`          |
+| `npm run format:check` | Check formatting      | `prettier --check ...`          |
+| `npm run type-check`   | TypeScript validation | `tsc --noEmit`                  |
 
 ---
 
@@ -94,6 +100,7 @@ npx lint-staged
 ### Unit Tests (Vitest)
 
 **Config**: `vitest.config.ts`
+
 - Environment: jsdom (browser-like)
 - Coverage threshold: **70% minimum**
   - Lines, functions, branches, statements
@@ -127,6 +134,7 @@ npx lint-staged
    - 8 test cases
 
 **Run Tests**:
+
 ```bash
 npm test                    # Run once
 npm test -- --watch       # Watch mode
@@ -137,12 +145,14 @@ npm run test:coverage     # With coverage report
 ### E2E Tests (Playwright)
 
 **Config**: `playwright.config.ts`
+
 - Browsers: Chrome, Firefox, Safari, Pixel 5, iPhone 12
 - Base URL: `http://localhost:3000`
 - Reporter: HTML with video/screenshot on failure
 - Trace: On first retry
 
 **Example Test Suite**: `evaluation-flow.spec.ts`
+
 - Evaluate student answer end-to-end
 - Display evaluation results
 - Error message handling
@@ -156,6 +166,7 @@ npm run test:coverage     # With coverage report
 - ARIA labels validation
 
 **Run E2E Tests**:
+
 ```bash
 npm run test:e2e          # Run all browsers
 npm run test:e2e:ui       # Visual test runner
@@ -178,6 +189,7 @@ npm run test:coverage
 ### SEC-01: API Key Exposure — ✅ FIXED
 
 **Before**:
+
 ```javascript
 // vite.config.ts — UNSAFE
 define: {
@@ -187,6 +199,7 @@ define: {
 ```
 
 **After**:
+
 ```javascript
 // vite.config.ts — SECURE
 define: {
@@ -221,6 +234,7 @@ VITE_SENTRY_RELEASE=2.2.2
 ```
 
 **Setup**:
+
 ```bash
 cp .env.example .env.local
 # Edit .env.local with your actual values
@@ -233,17 +247,17 @@ cp .env.example .env.local
 
 All critical and high-priority bugs have been verified as fixed:
 
-| Bug | Status | File | Details |
-|-----|--------|------|---------|
-| BUG-01: Null crash in AppModals | ✅ Fixed | AppModals.tsx:78 | Null guard added |
-| BUG-02: Timer leak in useGemini | ✅ Fixed | useGemini.ts:413 | clearTimeout before set |
-| BUG-03: JSON parse in ErrorBoundary | ✅ False Positive | ErrorBoundary.tsx | Already handled safely |
-| BUG-04: Enrichment effect cleanup | ✅ Fixed | useGemini.ts:262 | Abort flag + cleanup |
-| BUG-05: Missing useEffect deps | ✅ Fixed via abort | useGemini.ts:302 | Dependency array correct |
-| BUG-06: Stale error state | ✅ False Positive | Workspace.tsx | Cleared on prompt change |
-| BUG-07: No-candidates response | ✅ Fixed | aiCore.ts:374 | Throws descriptive error |
-| BUG-08: Criteria marks bounds | ✅ Fixed | geminiService.ts:129 | Clamped to valid range |
-| SEC-01: API key in bundle | ✅ Fixed | vite.config.ts:13 | Removed from define block |
+| Bug                                 | Status             | File                 | Details                   |
+| ----------------------------------- | ------------------ | -------------------- | ------------------------- |
+| BUG-01: Null crash in AppModals     | ✅ Fixed           | AppModals.tsx:78     | Null guard added          |
+| BUG-02: Timer leak in useGemini     | ✅ Fixed           | useGemini.ts:413     | clearTimeout before set   |
+| BUG-03: JSON parse in ErrorBoundary | ✅ False Positive  | ErrorBoundary.tsx    | Already handled safely    |
+| BUG-04: Enrichment effect cleanup   | ✅ Fixed           | useGemini.ts:262     | Abort flag + cleanup      |
+| BUG-05: Missing useEffect deps      | ✅ Fixed via abort | useGemini.ts:302     | Dependency array correct  |
+| BUG-06: Stale error state           | ✅ False Positive  | Workspace.tsx        | Cleared on prompt change  |
+| BUG-07: No-candidates response      | ✅ Fixed           | aiCore.ts:374        | Throws descriptive error  |
+| BUG-08: Criteria marks bounds       | ✅ Fixed           | geminiService.ts:129 | Clamped to valid range    |
+| SEC-01: API key in bundle           | ✅ Fixed           | vite.config.ts:13    | Removed from define block |
 
 See `ProjectHealth.md` for detailed analysis.
 
@@ -252,7 +266,9 @@ See `ProjectHealth.md` for detailed analysis.
 ## 7. Documentation
 
 ### TESTING.md
+
 Complete guide for developers:
+
 - How to run tests (unit, E2E, all)
 - Coverage report generation
 - Pre-commit hooks
@@ -261,12 +277,15 @@ Complete guide for developers:
 - Performance tips
 
 ### .env.example
+
 Documents environment variables:
+
 - Gemini API key configuration
 - Sentry error tracking setup
 - GitHub Actions secrets
 
 ### Updated ProjectHealth.md
+
 - All bug fixes documented
 - Status indicators (✅ Fixed, 🟠 Open, etc.)
 - Changelog entries
@@ -342,15 +361,15 @@ git merge --ff pr/feature-x
 
 ## 9. Performance Metrics
 
-| Stage | Time | Status |
-|-------|------|--------|
-| Lint | ~2 min | Pass/Fail |
-| Build | ~3 min | Artifact upload (5-day retention) |
-| Unit Tests | ~2 min | Coverage report |
-| E2E Tests | ~3 min | Playwright report |
-| Security | ~1 min | Vulnerability scan |
-| Deploy | ~2 min | Live on Netlify |
-| **Total** | **~8 min** | **Production live** |
+| Stage      | Time       | Status                            |
+| ---------- | ---------- | --------------------------------- |
+| Lint       | ~2 min     | Pass/Fail                         |
+| Build      | ~3 min     | Artifact upload (5-day retention) |
+| Unit Tests | ~2 min     | Coverage report                   |
+| E2E Tests  | ~3 min     | Playwright report                 |
+| Security   | ~1 min     | Vulnerability scan                |
+| Deploy     | ~2 min     | Live on Netlify                   |
+| **Total**  | **~8 min** | **Production live**               |
 
 ---
 

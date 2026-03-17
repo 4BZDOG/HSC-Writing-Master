@@ -1,17 +1,16 @@
-
 import { Course, StatePath, SubTopic, Topic, DotPoint, Prompt } from '../types';
 
 /**
  * Helper to find an item in an array by ID. Returns undefined if not found.
  */
 const findItem = <T extends { id: string }>(items: T[], id: string): T | undefined => {
-  return items.find(i => i.id === id);
+  return items.find((i) => i.id === id);
 };
 
 /**
  * Safely traverses a draft of the course structure and applies an updater function
  * to the target item identified by the path.
- * 
+ *
  * Designed to be used within an Immer `produce` block.
  * Returns early if any part of the path is missing or invalid, preventing crashes.
  */
@@ -61,8 +60,8 @@ export const findAndUpdateItem = (
 
   const dotPoint = findItem<DotPoint>(subTopic.dotPoints, path.dotPointId);
   if (!dotPoint) {
-     console.debug(`findAndUpdateItem: DotPoint ${path.dotPointId} not found.`);
-     return;
+    console.debug(`findAndUpdateItem: DotPoint ${path.dotPointId} not found.`);
+    return;
   }
 
   if (!path.promptId) {
@@ -72,16 +71,15 @@ export const findAndUpdateItem = (
 
   const prompt = findItem<Prompt>(dotPoint.prompts, path.promptId);
   if (!prompt) {
-      console.debug(`findAndUpdateItem: Prompt ${path.promptId} not found.`);
-      return;
+    console.debug(`findAndUpdateItem: Prompt ${path.promptId} not found.`);
+    return;
   }
 
   updater(prompt);
 };
 
-
 /**
- * Deletes a syllabus item immutably. 
+ * Deletes a syllabus item immutably.
  */
 export const deleteSyllabusItem = (
   courses: Course[],
@@ -146,15 +144,20 @@ export const deleteSyllabusItem = (
 
   const subTopic = topic.subTopics.find((st: SubTopic) => st.id === currentPath.subTopicId);
   if (!subTopic) return { updatedCourses: coursesCopy, newPath };
-  
+
   if (type === 'dotPoint') {
     const index = subTopic.dotPoints.findIndex((dp: DotPoint) => dp.id === idToDelete);
     if (index > -1) {
-        subTopic.dotPoints.splice(index, 1);
-        if (currentPath.dotPointId === idToDelete) {
-            const nextDotPoint = getNextSelection(subTopic.dotPoints, index);
-            newPath = { courseId: course.id, topicId: topic.id, subTopicId: subTopic.id, dotPointId: nextDotPoint?.id };
-        }
+      subTopic.dotPoints.splice(index, 1);
+      if (currentPath.dotPointId === idToDelete) {
+        const nextDotPoint = getNextSelection(subTopic.dotPoints, index);
+        newPath = {
+          courseId: course.id,
+          topicId: topic.id,
+          subTopicId: subTopic.id,
+          dotPointId: nextDotPoint?.id,
+        };
+      }
     }
     return { updatedCourses: coursesCopy, newPath };
   }
@@ -165,11 +168,11 @@ export const deleteSyllabusItem = (
   if (type === 'prompt') {
     const index = dotPoint.prompts.findIndex((p: Prompt) => p.id === idToDelete);
     if (index > -1) {
-        dotPoint.prompts.splice(index, 1);
-        if (currentPath.promptId === idToDelete) {
-            const nextPrompt = getNextSelection(dotPoint.prompts, index);
-            newPath = { ...currentPath, promptId: nextPrompt?.id };
-        }
+      dotPoint.prompts.splice(index, 1);
+      if (currentPath.promptId === idToDelete) {
+        const nextPrompt = getNextSelection(dotPoint.prompts, index);
+        newPath = { ...currentPath, promptId: nextPrompt?.id };
+      }
     }
   }
 

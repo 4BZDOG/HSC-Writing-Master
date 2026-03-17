@@ -50,7 +50,7 @@ const AppModals: React.FC<AppModalsProps> = ({
   setNewlyAddedIds,
   user,
   onUpdateUser,
-  onLogout
+  onLogout,
 }) => {
   const { currentCourse, currentTopic, currentSubTopic, currentDotPoint } = currentSelection;
 
@@ -63,11 +63,11 @@ const AppModals: React.FC<AppModalsProps> = ({
         isOpen={isModalOpen('courseCreator')}
         onClose={() => closeModal('courseCreator')}
         onCourseCreated={(name, outcomes) => {
-            const newCourse = syllabusHandlers.handleCreateCourse(name, outcomes);
-            if (newCourse) {
-              setStatePath({ courseId: newCourse.id });
-              setNewlyAddedIds(prev => new Set(prev).add(newCourse.id));
-            }
+          const newCourse = syllabusHandlers.handleCreateCourse(name, outcomes);
+          if (newCourse) {
+            setStatePath({ courseId: newCourse.id });
+            setNewlyAddedIds((prev) => new Set(prev).add(newCourse.id));
+          }
         }}
       />
 
@@ -78,12 +78,18 @@ const AppModals: React.FC<AppModalsProps> = ({
           if (!currentCourse) return;
           const newTopic = syllabusHandlers.handleCreateTopic(currentCourse.id, name);
           if (newTopic) {
-            setStatePath({ ...statePath, topicId: newTopic.id, subTopicId: undefined, dotPointId: undefined, promptId: undefined });
+            setStatePath({
+              ...statePath,
+              topicId: newTopic.id,
+              subTopicId: undefined,
+              dotPointId: undefined,
+              promptId: undefined,
+            });
           }
         }}
-        existingNames={currentCourse?.topics.map(t => t.name) || []}
+        existingNames={currentCourse?.topics.map((t) => t.name) || []}
       />
-      
+
       <SubTopicCreatorModal
         isOpen={isModalOpen('subTopicCreator')}
         onClose={() => closeModal('subTopicCreator')}
@@ -91,18 +97,27 @@ const AppModals: React.FC<AppModalsProps> = ({
           const newSubTopic = syllabusHandlers.handleCreateSubTopic(statePath, name);
           if (newSubTopic) {
             if (generateDotPoints && currentCourse && currentTopic) {
-              const generatedDotPoints = await geminiHandlers.generateDotPointsForSubTopic(currentCourse.name, currentTopic.name, newSubTopic.name);
+              const generatedDotPoints = await geminiHandlers.generateDotPointsForSubTopic(
+                currentCourse.name,
+                currentTopic.name,
+                newSubTopic.name
+              );
               if (generatedDotPoints) {
                 const pathForNewSubTopic = { ...statePath, subTopicId: newSubTopic.id };
                 syllabusHandlers.handleAddDotPoints(pathForNewSubTopic, generatedDotPoints);
               }
             }
-            setStatePath({ ...statePath, subTopicId: newSubTopic.id, dotPointId: undefined, promptId: undefined });
+            setStatePath({
+              ...statePath,
+              subTopicId: newSubTopic.id,
+              dotPointId: undefined,
+              promptId: undefined,
+            });
           }
         }}
-        existingNames={currentTopic?.subTopics.map(st => st.name) || []}
+        existingNames={currentTopic?.subTopics.map((st) => st.name) || []}
       />
-      
+
       <PromptGeneratorModal
         isOpen={isModalOpen('promptGenerator')}
         onClose={() => closeModal('promptGenerator')}
@@ -110,7 +125,7 @@ const AppModals: React.FC<AppModalsProps> = ({
           const newPrompt = await syllabusHandlers.handleGeneratePrompt(statePath, prompt);
           if (newPrompt) {
             setStatePath({ ...statePath, promptId: newPrompt.id });
-            setNewlyAddedIds(prev => new Set(prev).add(newPrompt.id));
+            setNewlyAddedIds((prev) => new Set(prev).add(newPrompt.id));
           }
         }}
         courseName={currentCourse?.name || ''}
@@ -131,51 +146,59 @@ const AppModals: React.FC<AppModalsProps> = ({
           showToast={showToast}
         />
       )}
-      
+
       <DataManagerModal
         isOpen={isModalOpen('dataManager')}
         onClose={() => closeModal('dataManager')}
         courses={courses}
         onImportCourses={(importedCourses, conflictResolutions) => {
-            const newIds = syllabusHandlers.handleImportCourses(importedCourses, conflictResolutions);
-            if (newIds && newIds.length > 0) {
-              setStatePath({ courseId: newIds[0], topicId: undefined, subTopicId: undefined, dotPointId: undefined, promptId: undefined });
-              setNewlyAddedIds(prev => {
-                const newSet = new Set(prev);
-                newIds.forEach(id => newSet.add(id));
-                return newSet;
-              });
-            }
+          const newIds = syllabusHandlers.handleImportCourses(importedCourses, conflictResolutions);
+          if (newIds && newIds.length > 0) {
+            setStatePath({
+              courseId: newIds[0],
+              topicId: undefined,
+              subTopicId: undefined,
+              dotPointId: undefined,
+              promptId: undefined,
+            });
+            setNewlyAddedIds((prev) => {
+              const newSet = new Set(prev);
+              newIds.forEach((id) => newSet.add(id));
+              return newSet;
+            });
+          }
         }}
         onImportTopic={syllabusHandlers.handleImportTopic}
         onClearAll={() => {
-            modalHandlers.showConfirmation({
-                title: "Clear All Data?",
-                message: "This will permanently delete all your courses and questions. This action cannot be undone.",
-                confirmButtonText: "Yes, Clear Everything",
-                isDestructive: true,
-                onConfirm: () => {
-                    syllabusHandlers.handleClearAllData();
-                    setStatePath({});
-                }
-            })
+          modalHandlers.showConfirmation({
+            title: 'Clear All Data?',
+            message:
+              'This will permanently delete all your courses and questions. This action cannot be undone.',
+            confirmButtonText: 'Yes, Clear Everything',
+            isDestructive: true,
+            onConfirm: () => {
+              syllabusHandlers.handleClearAllData();
+              setStatePath({});
+            },
+          });
         }}
         onResetToDefault={() => {
-            modalHandlers.showConfirmation({
-                title: "Reset to Default Data?",
-                message: "This will delete all your current data and load the default sample courses. This action cannot be undone.",
-                confirmButtonText: "Yes, Reset Data",
-                isDestructive: true,
-                onConfirm: () => {
-                    syllabusHandlers.handleResetToDefault();
-                    setStatePath({});
-                }
-            })
+          modalHandlers.showConfirmation({
+            title: 'Reset to Default Data?',
+            message:
+              'This will delete all your current data and load the default sample courses. This action cannot be undone.',
+            confirmButtonText: 'Yes, Reset Data',
+            isDestructive: true,
+            onConfirm: () => {
+              syllabusHandlers.handleResetToDefault();
+              setStatePath({});
+            },
+          });
         }}
         onResetApiStats={syllabusHandlers.onResetApiStats}
         showToast={showToast}
       />
-      
+
       <SyllabusImportModal
         isOpen={isModalOpen('fullSyllabusImport')}
         onClose={() => closeModal('fullSyllabusImport')}
@@ -191,30 +214,36 @@ const AppModals: React.FC<AppModalsProps> = ({
             const topicWithNewIds = regenerateTopicIds(topic);
             const newTopic = syllabusHandlers.handleImportTopic(currentCourse.id, topicWithNewIds);
             if (newTopic) {
-              setStatePath({ ...statePath, topicId: newTopic.id, subTopicId: undefined, dotPointId: undefined, promptId: undefined });
+              setStatePath({
+                ...statePath,
+                topicId: newTopic.id,
+                subTopicId: undefined,
+                dotPointId: undefined,
+                promptId: undefined,
+              });
             }
           }}
         />
       )}
-      
+
       {modalProps.qualityCheckProps && (
-          <QualityCheckModal 
-             isOpen={isModalOpen('qualityCheck')}
-             onClose={() => closeModal('qualityCheck')}
-             content={modalProps.qualityCheckProps.content}
-             contentType={modalProps.qualityCheckProps.type}
-             onUpdateContent={modalProps.qualityCheckProps.onUpdate}
-          />
+        <QualityCheckModal
+          isOpen={isModalOpen('qualityCheck')}
+          onClose={() => closeModal('qualityCheck')}
+          content={modalProps.qualityCheckProps.content}
+          contentType={modalProps.qualityCheckProps.type}
+          onUpdateContent={modalProps.qualityCheckProps.onUpdate}
+        />
       )}
 
       {user && (
-          <UserProfileModal
-             isOpen={isModalOpen('userProfile')}
-             onClose={() => closeModal('userProfile')}
-             user={user}
-             onUpdateUser={onUpdateUser}
-             onLogout={onLogout}
-          />
+        <UserProfileModal
+          isOpen={isModalOpen('userProfile')}
+          onClose={() => closeModal('userProfile')}
+          user={user}
+          onUpdateUser={onUpdateUser}
+          onLogout={onLogout}
+        />
       )}
 
       {modalProps.renameTarget && (
@@ -227,15 +256,15 @@ const AppModals: React.FC<AppModalsProps> = ({
           existingNames={[]}
         />
       )}
-      
+
       {modalProps.deleteTarget && (
         <ConfirmationModal
           isOpen={isModalOpen('deleteConfirmation')}
           onClose={modalHandlers.cancelDelete}
           onConfirm={() => {
-              const newPath = syllabusHandlers.confirmDelete(statePath, modalProps.deleteTarget);
-              setStatePath(newPath);
-              modalHandlers.cancelDelete();
+            const newPath = syllabusHandlers.confirmDelete(statePath, modalProps.deleteTarget);
+            setStatePath(newPath);
+            modalHandlers.cancelDelete();
           }}
           title={`Delete ${modalProps.deleteTarget.type}?`}
           message={`Are you sure you want to delete "${modalProps.deleteTarget.name}"? This action cannot be undone.`}
@@ -252,62 +281,78 @@ const AppModals: React.FC<AppModalsProps> = ({
           {...modalProps.confirmationProps}
         />
       )}
-      
+
       {currentTopic && (
         <TopicSyllabusImportModal
-            isOpen={isModalOpen('topicSyllabusImport')}
-            onClose={() => closeModal('topicSyllabusImport')}
-            courseName={currentCourse?.name || ''}
-            topicName={currentTopic.name}
-            onImport={(newSubTopics: SubTopic[]) => {
-                syllabusHandlers.updateCourses((draft: Draft<Course[]>) => {
-                    const course = draft.find(c => c.id === currentCourse?.id);
-                    if (!course) return;
-                    const topic = course.topics.find(t => t.id === currentTopic?.id);
-                    if (topic) {
-                        topic.subTopics.push(...newSubTopics);
-                    }
-                });
+          isOpen={isModalOpen('topicSyllabusImport')}
+          onClose={() => closeModal('topicSyllabusImport')}
+          courseName={currentCourse?.name || ''}
+          topicName={currentTopic.name}
+          onImport={(newSubTopics: SubTopic[]) => {
+            syllabusHandlers.updateCourses((draft: Draft<Course[]>) => {
+              const course = draft.find((c) => c.id === currentCourse?.id);
+              if (!course) return;
+              const topic = course.topics.find((t) => t.id === currentTopic?.id);
+              if (topic) {
+                topic.subTopics.push(...newSubTopics);
+              }
+            });
 
-                const subTopicCount = newSubTopics.length;
-                const dotPointCount = newSubTopics.reduce((acc, st) => acc + (st.dotPoints?.length || 0), 0);
-                showToast(`Imported ${subTopicCount} sub-topics and ${dotPointCount} dot points for "${currentTopic.name}".`, 'success');
+            const subTopicCount = newSubTopics.length;
+            const dotPointCount = newSubTopics.reduce(
+              (acc, st) => acc + (st.dotPoints?.length || 0),
+              0
+            );
+            showToast(
+              `Imported ${subTopicCount} sub-topics and ${dotPointCount} dot points for "${currentTopic.name}".`,
+              'success'
+            );
 
-                if (newSubTopics.length > 0) {
-                    setStatePath({ ...statePath, subTopicId: newSubTopics[0].id, dotPointId: undefined, promptId: undefined });
-                }
-            }}
+            if (newSubTopics.length > 0) {
+              setStatePath({
+                ...statePath,
+                subTopicId: newSubTopics[0].id,
+                dotPointId: undefined,
+                promptId: undefined,
+              });
+            }
+          }}
         />
       )}
 
-       {currentCourse && (
+      {currentCourse && (
         <TopicGeneratorModal
-            isOpen={isModalOpen('topicGenerator')}
-            onClose={() => closeModal('topicGenerator')}
-            courseName={currentCourse.name}
-            existingTopics={currentCourse.topics.map(t => t.name)}
-            onTopicGenerated={(name) => {
-                const newTopic = syllabusHandlers.handleCreateTopic(currentCourse.id, name);
-                if (newTopic) {
-                  setStatePath({ ...statePath, topicId: newTopic.id, subTopicId: undefined, dotPointId: undefined, promptId: undefined });
-                }
-            }}
+          isOpen={isModalOpen('topicGenerator')}
+          onClose={() => closeModal('topicGenerator')}
+          courseName={currentCourse.name}
+          existingTopics={currentCourse.topics.map((t) => t.name)}
+          onTopicGenerated={(name) => {
+            const newTopic = syllabusHandlers.handleCreateTopic(currentCourse.id, name);
+            if (newTopic) {
+              setStatePath({
+                ...statePath,
+                topicId: newTopic.id,
+                subTopicId: undefined,
+                dotPointId: undefined,
+                promptId: undefined,
+              });
+            }
+          }}
         />
-       )}
-       
-       {currentSubTopic && (
-        <DotPointGeneratorModal
-            isOpen={isModalOpen('dotPointGenerator')}
-            onClose={() => closeModal('dotPointGenerator')}
-            courseName={currentCourse?.name || ''}
-            topicName={currentTopic?.name || ''}
-            subTopicName={currentSubTopic.name}
-            onDotPointsGenerated={(dotPoints) => {
-                syllabusHandlers.handleAddDotPoints(statePath, dotPoints);
-            }}
-        />
-       )}
+      )}
 
+      {currentSubTopic && (
+        <DotPointGeneratorModal
+          isOpen={isModalOpen('dotPointGenerator')}
+          onClose={() => closeModal('dotPointGenerator')}
+          courseName={currentCourse?.name || ''}
+          topicName={currentTopic?.name || ''}
+          subTopicName={currentSubTopic.name}
+          onDotPointsGenerated={(dotPoints) => {
+            syllabusHandlers.handleAddDotPoints(statePath, dotPoints);
+          }}
+        />
+      )}
     </>
   );
 };

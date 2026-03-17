@@ -60,7 +60,7 @@ export const extractCourse = (
   courseId: string,
   options: ExportOptions = {}
 ): Course | null => {
-  const course = courses.find(c => c.id === courseId);
+  const course = courses.find((c) => c.id === courseId);
   if (!course) return null;
 
   return processCourse(course, options);
@@ -75,7 +75,7 @@ export const extractCourses = (
   options: ExportOptions = {}
 ): Course[] => {
   return courseIds
-    .map(id => extractCourse(courses, id, options))
+    .map((id) => extractCourse(courses, id, options))
     .filter((c): c is Course => c !== null);
 };
 
@@ -88,10 +88,10 @@ export const extractTopic = (
   topicId: string,
   options: ExportOptions = {}
 ): Topic | null => {
-  const course = courses.find(c => c.id === courseId);
+  const course = courses.find((c) => c.id === courseId);
   if (!course) return null;
 
-  const topic = course.topics.find(t => t.id === topicId);
+  const topic = course.topics.find((t) => t.id === topicId);
   if (!topic) return null;
 
   return processTopic(topic, options);
@@ -121,7 +121,7 @@ export const createShareablePackage = (
       name: processedCourse.name,
       itemCount: processedCourse.topics.length,
     },
-    topics: processedCourse.topics.map(t => ({
+    topics: processedCourse.topics.map((t) => ({
       id: t.id,
       name: t.name,
       subTopicCount: t.subTopics.length,
@@ -180,7 +180,9 @@ export const generateExportDownload = (
 /**
  * Create a summary report without exporting full data
  */
-export const generateCourseReport = (course: Course): {
+export const generateCourseReport = (
+  course: Course
+): {
   summary: string;
   statistics: ExportManifest['statistics'];
   warnings: string[];
@@ -193,9 +195,7 @@ export const generateCourseReport = (course: Course): {
     warnings.push(`Warning: ${stats.questionsWithoutAnswers} questions lack sample answers`);
   }
 
-  const topicsWithoutQuestions = course.topics.filter(
-    t => countQuestionsInTopic(t) === 0
-  );
+  const topicsWithoutQuestions = course.topics.filter((t) => countQuestionsInTopic(t) === 0);
   if (topicsWithoutQuestions.length > 0) {
     warnings.push(`${topicsWithoutQuestions.length} topics have no questions`);
   }
@@ -205,7 +205,7 @@ Course: ${course.name}
 Topics: ${course.topics.length}
 Questions: ${stats.totalQuestions}
 Sample Answers: ${stats.totalSampleAnswers}
-Data Quality: ${((stats.totalQuestions - stats.questionsWithoutAnswers) / stats.totalQuestions * 100).toFixed(1)}% covered
+Data Quality: ${(((stats.totalQuestions - stats.questionsWithoutAnswers) / stats.totalQuestions) * 100).toFixed(1)}% covered
   `;
 
   return {
@@ -223,18 +223,20 @@ export const batchExportCourses = async (
   courseIds: string[],
   options: ExportOptions = {}
 ): Promise<Array<{ courseId: string; url: string; filename: string; sizeKb: number }>> => {
-  return courseIds.map(courseId => {
-    const course = courses.find(c => c.id === courseId);
-    if (!course) {
-      console.warn(`Course ${courseId} not found`);
-      return null;
-    }
+  return courseIds
+    .map((courseId) => {
+      const course = courses.find((c) => c.id === courseId);
+      if (!course) {
+        console.warn(`Course ${courseId} not found`);
+        return null;
+      }
 
-    const { url, filename } = generateExportDownload(course, undefined, options);
-    const sizeKb = Math.ceil(JSON.stringify(course).length / 1024);
+      const { url, filename } = generateExportDownload(course, undefined, options);
+      const sizeKb = Math.ceil(JSON.stringify(course).length / 1024);
 
-    return { courseId, url, filename, sizeKb };
-  }).filter((item): item is any => item !== null);
+      return { courseId, url, filename, sizeKb };
+    })
+    .filter((item): item is any => item !== null);
 };
 
 /**
@@ -263,7 +265,7 @@ export const importExportedPackage = (pkg: CourseExportPackage): Course => {
     return {
       ...pkg.course,
       id: pkg.course.id || `course-${Date.now()}`,
-      topics: pkg.course.topics.map(t => ({
+      topics: pkg.course.topics.map((t) => ({
         ...t,
         id: t.id || `topic-${Date.now()}-${Math.random()}`,
       })),
@@ -282,7 +284,7 @@ const processCourse = (course: Course, options: ExportOptions): Course => {
   return {
     ...course,
     ...(options.stripIds && { id: 'stripped' }),
-    topics: course.topics.map(t => processTopic(t, options)),
+    topics: course.topics.map((t) => processTopic(t, options)),
   };
 };
 
@@ -293,7 +295,7 @@ const processTopic = (topic: Topic, options: ExportOptions): Topic => {
   return {
     ...topic,
     ...(options.stripIds && { id: 'stripped' }),
-    subTopics: topic.subTopics.map(st => processSubTopic(st, options)),
+    subTopics: topic.subTopics.map((st) => processSubTopic(st, options)),
   };
 };
 
@@ -304,7 +306,7 @@ const processSubTopic = (subTopic: SubTopic, options: ExportOptions): SubTopic =
   return {
     ...subTopic,
     ...(options.stripIds && { id: 'stripped' }),
-    dotPoints: subTopic.dotPoints.map(dp => processDotPoint(dp, options)),
+    dotPoints: subTopic.dotPoints.map((dp) => processDotPoint(dp, options)),
   };
 };
 
@@ -315,7 +317,7 @@ const processDotPoint = (dotPoint: DotPoint, options: ExportOptions): DotPoint =
   return {
     ...dotPoint,
     ...(options.stripIds && { id: 'stripped' }),
-    prompts: dotPoint.prompts.map(p => processPrompt(p, options)),
+    prompts: dotPoint.prompts.map((p) => processPrompt(p, options)),
   };
 };
 
@@ -332,10 +334,11 @@ const processPrompt = (prompt: Prompt, options: ExportOptions): Prompt => {
   if (!options.includeSampleAnswers) {
     processed.sampleAnswers = [];
   } else if (options.stripIds) {
-    processed.sampleAnswers = prompt.sampleAnswers?.map(sa => ({
-      ...sa,
-      id: 'stripped',
-    })) || [];
+    processed.sampleAnswers =
+      prompt.sampleAnswers?.map((sa) => ({
+        ...sa,
+        id: 'stripped',
+      })) || [];
   }
 
   if (!options.includeMarkingCriteria) {
@@ -362,9 +365,7 @@ const countQuestions = (course: Course): number => {
  */
 const countQuestionsInTopic = (topic: Topic): number => {
   return topic.subTopics.reduce(
-    (acc, st) =>
-      acc +
-      st.dotPoints.reduce((acc2, dp) => acc2 + dp.prompts.length, 0),
+    (acc, st) => acc + st.dotPoints.reduce((acc2, dp) => acc2 + dp.prompts.length, 0),
     0
   );
 };
@@ -374,10 +375,10 @@ const countQuestionsInTopic = (topic: Topic): number => {
  */
 const countSampleAnswers = (course: Course): number => {
   let total = 0;
-  course.topics.forEach(t => {
-    t.subTopics.forEach(st => {
-      st.dotPoints.forEach(dp => {
-        dp.prompts.forEach(p => {
+  course.topics.forEach((t) => {
+    t.subTopics.forEach((st) => {
+      st.dotPoints.forEach((dp) => {
+        dp.prompts.forEach((p) => {
           total += p.sampleAnswers?.length || 0;
         });
       });
@@ -397,10 +398,10 @@ const generateStatistics = (course: Course): ExportManifest['statistics'] => {
     byCognitiveLevel: {},
   };
 
-  course.topics.forEach(topic => {
-    topic.subTopics.forEach(subTopic => {
-      subTopic.dotPoints.forEach(dotPoint => {
-        dotPoint.prompts.forEach(prompt => {
+  course.topics.forEach((topic) => {
+    topic.subTopics.forEach((subTopic) => {
+      subTopic.dotPoints.forEach((dotPoint) => {
+        dotPoint.prompts.forEach((prompt) => {
           stats.totalQuestions++;
 
           if (!prompt.sampleAnswers || prompt.sampleAnswers.length === 0) {
@@ -427,7 +428,7 @@ const generateChecksum = (course: Course): string => {
   let hash = 0;
   for (let i = 0; i < data.length; i++) {
     const char = data.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = (hash << 5) - hash + char;
     hash = hash & hash;
   }
   return Math.abs(hash).toString(36);

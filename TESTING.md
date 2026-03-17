@@ -120,25 +120,30 @@ npm run type-check
 ## Troubleshooting
 
 **Tests fail with "Cannot find module"**
+
 - Ensure `npm install` was run: `npm install`
 - Check that TypeScript types are generated: `npm run type-check`
 
 **Playwright tests timeout**
+
 - Ensure dev server is running: `npm run dev`
 - Check server is accessible at `http://localhost:3000`
 - Increase timeout in `playwright.config.ts` if needed
 
 **Coverage not generating**
+
 - Delete old coverage: `rm -rf coverage`
 - Run: `npm run test:coverage -- --run`
 
 **Husky hooks not running**
+
 - Install Husky: `npx husky install`
 - Make hook executable: `chmod +x .husky/pre-commit`
 
 ## CI/CD Testing
 
 Tests run automatically on:
+
 - Every push to `main`, `develop`, or `claude/*` branches
 - Every pull request to `main` or `develop`
 

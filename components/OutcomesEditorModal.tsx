@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { CourseOutcome } from '../types';
 import { parseOutcomesFromText } from '../services/geminiService';
@@ -26,10 +25,14 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
   const [pastedText, setPastedText] = useState('');
   const [isParsing, setIsParsing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   useEffect(() => {
     if (isOpen) {
-      setOutcomes(initialOutcomes.length > 0 ? [...initialOutcomes].sort((a,b) => a.code.localeCompare(b.code)) : [{ code: '', description: '' }]);
+      setOutcomes(
+        initialOutcomes.length > 0
+          ? [...initialOutcomes].sort((a, b) => a.code.localeCompare(b.code))
+          : [{ code: '', description: '' }]
+      );
       setPastedText('');
       setError(null);
     }
@@ -48,19 +51,24 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
     newOutcomes[index][field] = value;
     setOutcomes(newOutcomes);
   };
-  
+
   const handleParseText = async () => {
     if (!pastedText.trim()) return;
     setIsParsing(true);
     setError(null);
     try {
       const parsed = await parseOutcomesFromText(pastedText);
-      const manualOutcomes = outcomes.filter(o => o.code.trim() && o.description.trim());
-      const newOutcomeCodes = new Set(manualOutcomes.map(o => o.code.toLowerCase()));
-      const filteredParsed = parsed.filter(p => !newOutcomeCodes.has(p.code.toLowerCase()));
-      setOutcomes([...manualOutcomes, ...filteredParsed].sort((a,b) => a.code.localeCompare(b.code)));
+      const manualOutcomes = outcomes.filter((o) => o.code.trim() && o.description.trim());
+      const newOutcomeCodes = new Set(manualOutcomes.map((o) => o.code.toLowerCase()));
+      const filteredParsed = parsed.filter((p) => !newOutcomeCodes.has(p.code.toLowerCase()));
+      setOutcomes(
+        [...manualOutcomes, ...filteredParsed].sort((a, b) => a.code.localeCompare(b.code))
+      );
       setPastedText(''); // Clear text area on success
-      showToast(`Successfully parsed and added ${filteredParsed.length} new outcome(s).`, 'success');
+      showToast(
+        `Successfully parsed and added ${filteredParsed.length} new outcome(s).`,
+        'success'
+      );
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to parse outcomes.';
       setError(message);
@@ -70,11 +78,11 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
   };
 
   const handleSave = () => {
-    const validOutcomes = outcomes.filter(o => o.code.trim() && o.description.trim());
+    const validOutcomes = outcomes.filter((o) => o.code.trim() && o.description.trim());
     onSave(validOutcomes);
     onClose();
   };
-  
+
   const handleClose = () => {
     if (isParsing) return;
     onClose();
@@ -85,9 +93,12 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
   }
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={handleClose}>
-      <div 
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]" 
+    <div
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      onClick={handleClose}
+    >
+      <div
+        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))]">
@@ -97,20 +108,29 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                 <Target className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))]">Edit Outcomes for {courseName}</h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))]">Add outcomes manually or paste text to parse with AI.</p>
+                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))]">
+                  Edit Outcomes for {courseName}
+                </h2>
+                <p className="text-sm text-[rgb(var(--color-text-muted))]">
+                  Add outcomes manually or paste text to parse with AI.
+                </p>
               </div>
             </div>
-            <button onClick={onClose} className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200 flex items-center justify-center group">
+            <button
+              onClick={onClose}
+              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200 flex items-center justify-center group"
+            >
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text-primary))]" />
             </button>
           </div>
         </div>
-        
+
         <div className="flex-grow grid grid-cols-1 md:grid-cols-3 gap-6 p-6 overflow-hidden">
           {/* AI Parser */}
           <div className="md:col-span-1 flex flex-col h-full">
-            <h3 className="text-base font-semibold text-gray-200 mb-2 flex-shrink-0">Parse from Text</h3>
+            <h3 className="text-base font-semibold text-gray-200 mb-2 flex-shrink-0">
+              Parse from Text
+            </h3>
             <div className="flex-grow flex flex-col bg-[rgb(var(--color-bg-surface-inset))]/50 p-4 rounded-lg border border-[rgb(var(--color-border-secondary))]">
               <textarea
                 value={pastedText}
@@ -118,7 +138,11 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                 placeholder="Paste syllabus outcomes here..."
                 className="flex-grow bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-md py-2 px-3 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] text-sm resize-none"
               />
-              <button onClick={handleParseText} disabled={isParsing || !pastedText.trim()} className="mt-3 w-full py-2.5 px-4 rounded-lg text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] text-sm font-semibold disabled:opacity-50 flex items-center justify-center gap-2">
+              <button
+                onClick={handleParseText}
+                disabled={isParsing || !pastedText.trim()}
+                className="mt-3 w-full py-2.5 px-4 rounded-lg text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] text-sm font-semibold disabled:opacity-50 flex items-center justify-center gap-2"
+              >
                 <Sparkles className="w-4 h-4" />
                 {isParsing ? 'Parsing...' : 'Parse with AI'}
               </button>
@@ -128,7 +152,9 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
 
           {/* Manual Editor */}
           <div className="md:col-span-2 flex flex-col h-full">
-            <h3 className="text-base font-semibold text-gray-200 mb-2 flex-shrink-0">Outcomes List ({outcomes.length})</h3>
+            <h3 className="text-base font-semibold text-gray-200 mb-2 flex-shrink-0">
+              Outcomes List ({outcomes.length})
+            </h3>
             <div className="flex-grow overflow-y-auto pr-2 -mr-2 space-y-2 bg-[rgb(var(--color-bg-surface-inset))]/50 p-4 rounded-lg border border-[rgb(var(--color-border-secondary))]">
               {outcomes.map((outcome, index) => (
                 <div key={index} className="flex items-start space-x-2">
@@ -146,12 +172,20 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                     rows={1}
                     className="bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-md py-2 px-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-3/4 text-sm resize-y min-h-[42px]"
                   />
-                  <button type="button" onClick={() => handleDeleteOutcome(index)} className="p-2 text-gray-500 hover:text-red-400 transition rounded-md h-full flex items-center bg-[rgb(var(--color-bg-surface-light))] hover:bg-red-500/10">
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteOutcome(index)}
+                    className="p-2 text-gray-500 hover:text-red-400 transition rounded-md h-full flex items-center bg-[rgb(var(--color-bg-surface-light))] hover:bg-red-500/10"
+                  >
                     <Trash2 className="h-4 w-4" />
                   </button>
                 </div>
               ))}
-              <button type="button" onClick={handleAddOutcome} className="w-full py-2 mt-2 rounded-lg text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/10 hover:bg-[rgb(var(--color-accent))]/20 transition text-sm font-semibold border border-dashed border-[rgb(var(--color-accent))]/30">
+              <button
+                type="button"
+                onClick={handleAddOutcome}
+                className="w-full py-2 mt-2 rounded-lg text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/10 hover:bg-[rgb(var(--color-accent))]/20 transition text-sm font-semibold border border-dashed border-[rgb(var(--color-accent))]/30"
+              >
                 <Plus className="inline w-4 h-4 mr-1" /> Add Outcome
               </button>
             </div>
@@ -159,10 +193,18 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
         </div>
 
         <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 border-t border-[rgb(var(--color-border-secondary))] flex justify-end space-x-3">
-          <button type="button" onClick={handleClose} className="py-2 px-4 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-light))] hover:bg-[rgb(var(--color-border-secondary))] transition">
+          <button
+            type="button"
+            onClick={handleClose}
+            className="py-2 px-4 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-light))] hover:bg-[rgb(var(--color-border-secondary))] transition"
+          >
             Cancel
           </button>
-          <button type="button" onClick={handleSave} className="py-2 px-4 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition">
+          <button
+            type="button"
+            onClick={handleSave}
+            className="py-2 px-4 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition"
+          >
             Save Changes
           </button>
         </div>

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Zap, Hash, BarChart, X, RotateCcw } from 'lucide-react';
 import { useApiMonitor } from '../hooks/useApiMonitor';
@@ -57,13 +56,16 @@ const ApiMonitorDisplay: React.FC = () => {
           aria-labelledby="api-monitor-title"
         >
           <div className="flex justify-between items-center mb-4 border-b border-[rgb(var(--color-border-secondary))]/50 pb-3">
-            <h3 id="api-monitor-title" className="flex items-center gap-2 text-sm font-black text-[rgb(var(--color-accent))] uppercase tracking-wide">
+            <h3
+              id="api-monitor-title"
+              className="flex items-center gap-2 text-sm font-black text-[rgb(var(--color-accent))] uppercase tracking-wide"
+            >
               <BarChart className="w-4 h-4" />
               API Telemetry
             </h3>
-            <button 
-                onClick={() => setIsExpanded(false)} 
-                className="p-1.5 rounded-lg hover:bg-[rgb(var(--color-bg-surface-light))] text-[rgb(var(--color-text-muted))] hover:text-white transition-colors"
+            <button
+              onClick={() => setIsExpanded(false)}
+              className="p-1.5 rounded-lg hover:bg-[rgb(var(--color-bg-surface-light))] text-[rgb(var(--color-text-muted))] hover:text-white transition-colors"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -71,32 +73,42 @@ const ApiMonitorDisplay: React.FC = () => {
 
           <div className="space-y-3">
             <div className="bg-[rgb(var(--color-bg-surface-inset))]/50 rounded-xl p-3 border border-[rgb(var(--color-border-secondary))]/30">
-                <div className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-2 flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
-                    Current Session
-                </div>
-                <div className="flex justify-between items-center mb-1.5">
-                    <span className="text-xs text-[rgb(var(--color-text-secondary))] font-medium">Requests</span>
-                    <span className="font-mono text-sm font-bold text-white">{sessionCalls}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                    <span className="text-xs text-[rgb(var(--color-text-secondary))] font-medium">Tokens</span>
-                    <span className="font-mono text-sm font-bold text-[rgb(var(--color-accent))]">{formatTokens(sessionTokens)}</span>
-                </div>
+              <div className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-2 flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                Current Session
+              </div>
+              <div className="flex justify-between items-center mb-1.5">
+                <span className="text-xs text-[rgb(var(--color-text-secondary))] font-medium">
+                  Requests
+                </span>
+                <span className="font-mono text-sm font-bold text-white">{sessionCalls}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-[rgb(var(--color-text-secondary))] font-medium">
+                  Tokens
+                </span>
+                <span className="font-mono text-sm font-bold text-[rgb(var(--color-accent))]">
+                  {formatTokens(sessionTokens)}
+                </span>
+              </div>
             </div>
 
             <div className="px-3 pt-1">
-                <div className="flex justify-between items-center mb-1.5">
-                    <span className="text-xs text-[rgb(var(--color-text-dim))]">Lifetime Calls</span>
-                    <span className="font-mono text-xs font-semibold text-[rgb(var(--color-text-secondary))]">{totalCalls}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                    <span className="text-xs text-[rgb(var(--color-text-dim))]">Lifetime Tokens</span>
-                    <span className="font-mono text-xs font-semibold text-[rgb(var(--color-text-secondary))]">{formatTokens(totalTokens)}</span>
-                </div>
+              <div className="flex justify-between items-center mb-1.5">
+                <span className="text-xs text-[rgb(var(--color-text-dim))]">Lifetime Calls</span>
+                <span className="font-mono text-xs font-semibold text-[rgb(var(--color-text-secondary))]">
+                  {totalCalls}
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-[rgb(var(--color-text-dim))]">Lifetime Tokens</span>
+                <span className="font-mono text-xs font-semibold text-[rgb(var(--color-text-secondary))]">
+                  {formatTokens(totalTokens)}
+                </span>
+              </div>
             </div>
           </div>
-          
+
           <button
             onClick={handleResetSession}
             className="w-full mt-4 text-xs font-bold flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[rgb(var(--color-bg-surface-light))] text-[rgb(var(--color-text-secondary))] hover:text-white hover:bg-[rgb(var(--color-border-secondary))] transition-all active:scale-95 hover:shadow-md border border-[rgb(var(--color-border-secondary))]/30"

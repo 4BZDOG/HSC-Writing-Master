@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { SubTopic } from '../types';
 import { generateSubTopicsAndDotPoints } from '../services/geminiService';
@@ -26,7 +25,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
 
   const handleImport = async () => {
     if (!syllabusText.trim()) {
-      setError("Please paste the syllabus content.");
+      setError('Please paste the syllabus content.');
       return;
     }
     setIsLoading(true);
@@ -42,7 +41,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
       setIsLoading(false);
     }
   };
-  
+
   const handleClose = () => {
     if (isLoading) return;
     setSyllabusText('');
@@ -51,15 +50,17 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
     onClose();
   };
 
-
   if (!isOpen) {
     return null;
   }
-  
+
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={handleClose}>
-      <div 
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] animate-fade-in-up overflow-hidden relative flex flex-col max-h-[90vh]" 
+    <div
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      onClick={handleClose}
+    >
+      <div
+        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] animate-fade-in-up overflow-hidden relative flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -70,11 +71,18 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))]">Import Sub-Topics for "{topicName}"</h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))]">Let AI extract sub-topics and dot points from text.</p>
+                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))]">
+                  Import Sub-Topics for "{topicName}"
+                </h2>
+                <p className="text-sm text-[rgb(var(--color-text-muted))]">
+                  Let AI extract sub-topics and dot points from text.
+                </p>
               </div>
             </div>
-            <button onClick={handleClose} className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200 flex items-center justify-center group">
+            <button
+              onClick={handleClose}
+              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200 flex items-center justify-center group"
+            >
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text-primary))]" />
             </button>
           </div>
@@ -82,7 +90,9 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
 
         {/* Content */}
         <div className="p-6 flex-1 flex flex-col overflow-y-auto">
-          <label htmlFor="topic-syllabus-text" className="sr-only">Syllabus Content</label>
+          <label htmlFor="topic-syllabus-text" className="sr-only">
+            Syllabus Content
+          </label>
           <textarea
             id="topic-syllabus-text"
             value={syllabusText}
@@ -91,14 +101,18 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
             className="w-full flex-1 bg-[rgb(var(--color-bg-surface-inset))]/50 border border-[rgb(var(--color-border-secondary))] rounded-md p-3 text-sm focus:ring-teal-500 focus:border-teal-500 resize-none"
             autoFocus
           />
-          {error && <p className="text-red-400 mt-4 text-sm bg-red-900/30 p-3 rounded-md">{error}</p>}
+          {error && (
+            <p className="text-red-400 mt-4 text-sm bg-red-900/30 p-3 rounded-md">{error}</p>
+          )}
         </div>
-
 
         {/* Footer */}
         <div className="px-6 py-5 border-t border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-inset))]/30 flex items-center justify-end">
           <div className="flex items-center gap-3">
-            <button onClick={handleClose} className="py-2.5 px-5 rounded-lg font-medium text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200">
+            <button
+              onClick={handleClose}
+              className="py-2.5 px-5 rounded-lg font-medium text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200"
+            >
               Cancel
             </button>
             <button
@@ -116,9 +130,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
         {isLoading && (
           <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-sm flex items-center justify-center">
             <div className="w-full max-w-md mx-6">
-              <LoadingSpinner 
-                message="Analysing syllabus text..."
-              />
+              <LoadingSpinner message="Analysing syllabus text..." />
             </div>
           </div>
         )}

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useRef } from 'react';
 import { CheckCircle, XCircle, Info, X, AlertTriangle } from 'lucide-react';
 
@@ -48,7 +47,7 @@ const Toast: React.FC<ToastProps> = ({ message, onClose, type = 'info', duration
   const [isPaused, setIsPaused] = useState(false);
   const [remaining, setRemaining] = useState(duration);
   const lastUpdateRef = useRef(Date.now());
-  
+
   const config = toastConfig[type] || toastConfig.info;
 
   // Timer logic that supports pausing
@@ -79,7 +78,7 @@ const Toast: React.FC<ToastProps> = ({ message, onClose, type = 'info', duration
   const progressPercent = Math.max(0, (remaining / duration) * 100);
 
   return (
-    <div 
+    <div
       role="alert"
       aria-live="assertive"
       onMouseEnter={() => setIsPaused(true)}
@@ -109,9 +108,9 @@ const Toast: React.FC<ToastProps> = ({ message, onClose, type = 'info', duration
         </div>
 
         {/* Close Button */}
-        <button 
-          onClick={onClose} 
-          aria-label="Close notification" 
+        <button
+          onClick={onClose}
+          aria-label="Close notification"
           className="
             flex-shrink-0 p-1.5 rounded-lg -mt-1 -mr-1
             text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] 
@@ -124,7 +123,7 @@ const Toast: React.FC<ToastProps> = ({ message, onClose, type = 'info', duration
 
       {/* Progress Bar */}
       <div className="absolute bottom-0 left-0 h-0.5 w-full bg-[rgb(var(--color-bg-surface-inset))]">
-        <div 
+        <div
           className={`h-full transition-all duration-100 ease-linear ${config.progressBar}`}
           style={{ width: `${progressPercent}%` }}
         />

@@ -24,7 +24,7 @@ export const useToast = () => {
     setToast({ id: toastId, message, type });
 
     setTimeout(() => {
-      setToast(prev => (prev?.id === toastId ? null : prev));
+      setToast((prev) => (prev?.id === toastId ? null : prev));
     }, TOAST_DURATION);
   }, []);
 

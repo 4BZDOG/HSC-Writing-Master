@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Wifi, WifiOff, AlertTriangle } from 'lucide-react';
 import { useApiStatus } from '../hooks/useApiStatus';
@@ -55,12 +54,14 @@ const ApiHealthIndicator: React.FC = () => {
       role="status"
     >
       <config.Icon className={`w-4 h-4 ${config.color}`} />
-      
+
       {config.content && (
-        <div className={`
+        <div
+          className={`
             absolute -top-1 -right-1 flex items-center justify-center w-3.5 h-3.5 rounded-full text-white shadow-sm border border-white/10
             ${state === 'DEGRADED' ? 'bg-amber-500' : 'bg-red-500'}
-        `}>
+        `}
+        >
           {config.content}
         </div>
       )}

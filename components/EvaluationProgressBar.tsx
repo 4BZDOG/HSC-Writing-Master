@@ -1,15 +1,14 @@
-
 import React, { useEffect, useState } from 'react';
 
 const MICRO_LOGS = [
-  "parsing_command_verb...",
-  "mapping_nesa_glossary...",
-  "evaluating_causal_links...",
-  "measuring_lexical_density...",
-  "detecting_structural_signposts...",
-  "validating_exemplar_alignment...",
-  "synthesising_band_justification...",
-  "finalising_marker_persona..."
+  'parsing_command_verb...',
+  'mapping_nesa_glossary...',
+  'evaluating_causal_links...',
+  'measuring_lexical_density...',
+  'detecting_structural_signposts...',
+  'validating_exemplar_alignment...',
+  'synthesising_band_justification...',
+  'finalising_marker_persona...',
 ];
 
 const EvaluationProgressBar: React.FC = () => {
