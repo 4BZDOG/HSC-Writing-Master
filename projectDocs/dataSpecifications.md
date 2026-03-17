@@ -1,4 +1,4 @@
-# HSC AI Evaluator - Data Specifications (v2.2.1)
+# HSC AI Evaluator - Data Specifications (v2.2.2)
 
 ## 1. Data Philosophy
 The system relies on an **Offline-First**, **Validated-Always** approach. All user curriculum data is stored in the browser's IndexedDB.
