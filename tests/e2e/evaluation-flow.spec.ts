@@ -1,3 +1,4 @@
+/// <reference types="@playwright/test" />
 import { test, expect, Page } from '@playwright/test';
 
 test.describe('Evaluation Flow', () => {

@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { executeTransaction, TransactionResult } from '../../utils/idbTransactions';
 

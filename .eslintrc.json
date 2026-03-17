@@ -24,6 +24,14 @@
       "version": "detect"
     }
   },
+  "ignorePatterns": [
+    "node_modules/",
+    "dist/",
+    "tests/",
+    "coverage/",
+    ".git/",
+    "build/"
+  ],
   "rules": {
     "@typescript-eslint/explicit-function-return-types": "warn",
     "@typescript-eslint/no-unused-vars": "error",
