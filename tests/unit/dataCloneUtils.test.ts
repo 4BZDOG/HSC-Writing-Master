@@ -1,4 +1,3 @@
-/// <reference types="vitest" />
 import { describe, it, expect } from 'vitest';
 import { shallowClone, deepCloneWithDepth, cloneCourses } from '../../utils/dataCloneUtils';
 import { Course } from '../../types';
