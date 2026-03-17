@@ -75,6 +75,7 @@ const AppModals: React.FC<AppModalsProps> = ({
         isOpen={isModalOpen('topicCreator')}
         onClose={() => closeModal('topicCreator')}
         onItemCreated={(name) => {
+          if (!currentCourse) return;
           const newTopic = syllabusHandlers.handleCreateTopic(currentCourse.id, name);
           if (newTopic) {
             setStatePath({ ...statePath, topicId: newTopic.id, subTopicId: undefined, dotPointId: undefined, promptId: undefined });

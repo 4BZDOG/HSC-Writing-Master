@@ -371,7 +371,7 @@ export const generateContentWithRetry = async (request: any): Promise<GenerateCo
     }
     
     if (!response?.candidates || response.candidates.length === 0) {
-       console.warn("[Gemini] Response contained no candidates.");
+       throw new Error("The AI returned an empty response. This may be due to high demand or content restrictions. Please try again.");
     }
 
     return response;

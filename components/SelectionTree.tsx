@@ -34,26 +34,46 @@ const TreeItemComponent: React.FC<TreeItemComponentProps> = ({ item, selectedIds
   const hasChildren = item.children && item.children.length > 0;
   const style = itemTypeStyles[item.type] || { icon: '▪️', color: 'text-gray-400' };
 
+  const handleCheckboxKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Space/Enter to toggle selection
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      onToggleSelect(item.id, !isSelected);
+    }
+    // Right arrow to expand (if has children and not expanded)
+    if (e.key === 'ArrowRight' && hasChildren && !isExpanded) {
+      e.preventDefault();
+      onToggleExpand(item.id);
+    }
+    // Left arrow to collapse (if expanded)
+    if (e.key === 'ArrowLeft' && isExpanded) {
+      e.preventDefault();
+      onToggleExpand(item.id);
+    }
+  };
+
   return (
     <div className="relative">
        {level > 0 && <div className="absolute left-0 top-0 bottom-0 w-px bg-[rgb(var(--color-border-secondary))]/30 light:bg-slate-300/50 ml-[11px]" style={{ left: `${(level-1) * 20}px` }}></div>}
-       
-      <div 
+
+      <div
         className={`flex items-center py-1.5 px-2 rounded-lg hover:bg-[rgb(var(--color-bg-surface-light))]/50 light:hover:bg-slate-100 transition-colors group mb-0.5 ${isSelected ? 'bg-[rgb(var(--color-accent))]/5 light:bg-sky-50' : ''}`}
         style={{ paddingLeft: `${level * 20 + 8}px` }}
       >
-        <button 
-            onClick={() => onToggleExpand(item.id)} 
+        <button
+            onClick={() => onToggleExpand(item.id)}
             className={`mr-1 p-0.5 rounded hover:bg-white/10 light:hover:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-400 transition-colors ${hasChildren ? 'opacity-100' : 'opacity-0'}`}
         >
             <ChevronRight className={`h-3 w-3 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} />
         </button>
-        
+
         <input
           type="checkbox"
           checked={isSelected}
           onChange={(e) => onToggleSelect(item.id, e.target.checked)}
+          onKeyDown={handleCheckboxKeyDown}
           className="h-3.5 w-3.5 rounded border-gray-600 light:border-slate-400 bg-[rgb(var(--color-bg-surface-inset))] light:bg-white text-[rgb(var(--color-accent))] focus:ring-[rgb(var(--color-accent))] mr-2.5 cursor-pointer"
+          aria-label={`Select ${item.label}`}
         />
         
         <span className={`mr-2.5 ${style.color} opacity-80 group-hover:opacity-100 transition-opacity`}>{style.icon}</span>

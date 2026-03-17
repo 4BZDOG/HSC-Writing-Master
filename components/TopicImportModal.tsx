@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
-import { Topic, DataValidationResult } from '../../types';
-import { analyzeAndSanitizeImportData, generateValidationReport, buildTree, regenerateTopicIds } from '../../utils/dataManagerUtils';
+import { Topic, DataValidationResult } from '../types';
+import { analyzeAndSanitizeImportData, generateValidationReport, buildTree, regenerateTopicIds } from '../utils/dataManagerUtils';
 import FileDropzone from './dataManager/FileDropzone';
 import ValidationSummary from './dataManager/ValidationSummary';
 import { ModalHeader, ActionButtons } from './dataManager/common';
