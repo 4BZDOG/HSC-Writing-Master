@@ -1,4 +1,3 @@
-/// <reference types="vitest" />
 import { describe, it, expect } from 'vitest';
 import { categorizeError, ErrorCategory } from '../../utils/errorHandler';
 

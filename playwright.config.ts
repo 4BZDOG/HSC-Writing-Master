@@ -1,4 +1,3 @@
-/// <reference types="@playwright/test" />
 import { defineConfig, devices } from '@playwright/test';
 
 /**
