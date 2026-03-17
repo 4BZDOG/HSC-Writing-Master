@@ -18,7 +18,7 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - run: npm ci
+      - run: npm ci --legacy-peer-deps
 
       - name: Run ESLint
         run: npm run lint
@@ -41,7 +41,7 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - run: npm ci
+      - run: npm ci --legacy-peer-deps
 
       - name: Build
         run: npm run build
@@ -65,7 +65,7 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - run: npm ci
+      - run: npm ci --legacy-peer-deps
 
       - name: Run tests
         run: npm run test -- --run
@@ -92,7 +92,7 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - run: npm ci
+      - run: npm ci --legacy-peer-deps
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
@@ -119,7 +119,7 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - run: npm ci
+      - run: npm ci --legacy-peer-deps
 
       - name: Check for known vulnerabilities
         run: npm audit --audit-level=moderate || true
@@ -137,7 +137,7 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - run: npm ci
+      - run: npm ci --legacy-peer-deps
 
       - name: Build
         run: npm run build
