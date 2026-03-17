@@ -258,16 +258,18 @@ export const useGemini = ({ showToast, updateCourses, statePath, currentPrompt, 
       enrichmentAttempted.current.add(promptId);
       return;
     }
-    
+
+    let aborted = false;
+
     const enrich = async () => {
       enrichingRef.current.add(promptId);
       setIsEnriching(true);
       setEnrichError(null);
-      
+
       try {
         const result = await gemini.enrichPromptDetails(currentPrompt, { name: currentCourse.name, outcomes: currentCourse.outcomes });
-        
-        if (result) {
+
+        if (result && !aborted && isMounted.current) {
             await AICache.set(`enrich:${promptId}`, result);
             updateCourses(draft => {
                 findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
@@ -281,20 +283,22 @@ export const useGemini = ({ showToast, updateCourses, statePath, currentPrompt, 
         }
       } catch (error) {
           const message = handleApiError(error);
-          if (isMounted.current && currentPrompt?.id === promptId) {
+          if (!aborted && isMounted.current && currentPrompt?.id === promptId) {
             setEnrichError(message);
           }
       } finally {
         enrichingRef.current.delete(promptId);
         enrichmentAttempted.current.add(promptId);
-        
-        if (enrichingRef.current.size === 0) {
+
+        if (enrichingRef.current.size === 0 && !aborted) {
             setIsEnriching(false);
         }
       }
     };
     enrich();
-    
+
+    return () => { aborted = true; };
+
   }, [currentPrompt?.id, currentCourse?.id, updateCourses, handleApiError, statePath]);
 
 
@@ -406,11 +410,12 @@ export const useGemini = ({ showToast, updateCourses, statePath, currentPrompt, 
         
         showToast(`Imported "${courseName}" with ${stats.topics} topics, ${stats.subTopics} sub-topics, and ${stats.dotPoints} dot points.`, 'success');
 
+        if (cleanupTimeoutRef.current) clearTimeout(cleanupTimeoutRef.current);
         cleanupTimeoutRef.current = window.setTimeout(() => {
             if(isMounted.current) {
                 setActiveBackgroundTask(null)
             }
-        }, 3000);
+        }, BG_TASK_CLEANUP_DELAY);
     }
     return newCourse;
   }, [updateCourses, showToast]);

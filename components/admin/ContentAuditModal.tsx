@@ -771,7 +771,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({ isOpen, onClose, 
                         </div>
                     </div>
                     <div className="flex-1 bg-black/40 rounded-3xl border border-white/5 p-6 overflow-y-auto font-mono text-xs text-indigo-300/60 space-y-2 custom-scrollbar shadow-inner">
-                        {progress.logs.map((log, i) => <div key={i} className="animate-fade-in truncate">> {log}</div>)}
+                        {progress.logs.map((log, i) => <div key={i} className="animate-fade-in truncate">{`> ${log}`}</div>)}
                         <div ref={logsEndRef} />
                     </div>
                 </div>

@@ -123,10 +123,25 @@ export const evaluateAnswer = async (answer: string, prompt: Prompt, tierInfo?: 
     const response = await generateContentWithRetry(request);
     const data = safeJsonParse<EvaluationResult>(response.text || "");
     if (!data) throw new Error("Evaluation failed.");
-    
-    // Sanity checks
+
+    // Sanity checks - comprehensive bounds validation
     data.overallMark = Math.max(0, Math.min(data.overallMark, prompt.totalMarks));
-    
+    data.overallBand = Math.max(1, Math.min(data.overallBand, 6));
+
+    // Validate criteria marks are within bounds
+    if (Array.isArray(data.criteria)) {
+        for (const c of data.criteria) {
+            if (typeof c.maxMark === 'number' && typeof c.mark === 'number') {
+                c.mark = Math.max(0, Math.min(c.mark, c.maxMark));
+            }
+        }
+    }
+
+    // Ensure required arrays exist
+    if (!Array.isArray(data.strengths)) data.strengths = [];
+    if (!Array.isArray(data.improvements)) data.improvements = [];
+    if (!Array.isArray(data.criteria)) data.criteria = [];
+
     return data;
 };
 
