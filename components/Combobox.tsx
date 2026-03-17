@@ -87,10 +87,12 @@ const colorStyles: Record<ComboboxColor, {
 
 const Combobox: React.FC<ComboboxProps> = ({ options, value, onChange, label, placeholder = 'Select...', disabled = false, color = 'default' }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const selectedOption = options.find(opt => opt.id === value);
   const labelId = useId();
-  
+
   const theme = colorStyles[color] || colorStyles.default;
 
   useEffect(() => {
@@ -102,6 +104,49 @@ const Combobox: React.FC<ComboboxProps> = ({ options, value, onChange, label, pl
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // Keyboard navigation handler
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (disabled) return;
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        if (!isOpen) {
+          setIsOpen(true);
+        } else {
+          setHighlightedIndex((prev) => (prev + 1) % options.length);
+        }
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        if (isOpen) {
+          setHighlightedIndex((prev) => (prev - 1 + options.length) % options.length);
+        }
+        break;
+      case 'Enter':
+        e.preventDefault();
+        if (isOpen && options.length > 0) {
+          onChange(options[highlightedIndex].id);
+          setIsOpen(false);
+        } else if (!isOpen) {
+          setIsOpen(true);
+        }
+        break;
+      case 'Escape':
+        e.preventDefault();
+        setIsOpen(false);
+        break;
+    }
+  };
+
+  // Reset highlighted index when opening
+  useEffect(() => {
+    if (isOpen) {
+      const currentIndex = options.findIndex(opt => opt.id === value);
+      setHighlightedIndex(currentIndex >= 0 ? currentIndex : 0);
+    }
+  }, [isOpen, value, options]);
 
   const getListItemClasses = (option: ComboboxOption, isSelected: boolean): string => {
       let tier = option.tier;
@@ -154,8 +199,10 @@ const Combobox: React.FC<ComboboxProps> = ({ options, value, onChange, label, pl
             </label>
         )}
       <button
+        ref={buttonRef}
         type="button"
         onClick={() => !disabled && setIsOpen(!isOpen)}
+        onKeyDown={handleKeyDown}
         disabled={disabled}
         className={`${baseInputStyles} ${stateStyles}`}
         aria-haspopup="listbox"
@@ -172,12 +219,18 @@ const Combobox: React.FC<ComboboxProps> = ({ options, value, onChange, label, pl
 
       {isOpen && (
         <ul className={`absolute z-[100] mt-2 w-full max-h-80 rounded-xl py-1 overflow-auto animate-fade-in custom-scrollbar border ${listStateStyles}`}>
-          {options.length > 0 ? options.map((option) => (
+          {options.length > 0 ? options.map((option, index) => (
             <li
               key={option.id}
               onClick={() => { onChange(option.id); setIsOpen(false); }}
-              className={`cursor-pointer select-none relative py-3 pr-9 ${getListItemClasses(option, option.id === value)}`}
+              onMouseEnter={() => setHighlightedIndex(index)}
+              className={`cursor-pointer select-none relative py-3 pr-9 transition-colors ${
+                index === highlightedIndex
+                  ? `${getListItemClasses(option, true)}`
+                  : `${getListItemClasses(option, option.id === value)} bg-opacity-30`
+              }`}
               role="option"
+              aria-selected={option.id === value}
             >
               <div className="flex items-center whitespace-normal w-full">
                 {option.renderLabel || option.label}
