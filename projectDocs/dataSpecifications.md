@@ -1,74 +1,39 @@
-# HSC AI Evaluator - Data Specifications
+# HSC AI Evaluator - Data Specifications (v2.2.1)
 
-## 1. Core Data Philosophy
-The HSC AI Evaluator relies on a strictly hierarchical, schema-validated data structure designed to mirror the NESA (New South Wales Education Standards Authority) syllabus format. Data integrity is paramount, ensuring that every AI interaction is grounded in official curriculum standards.
+## 1. Data Philosophy
+The system relies on an **Offline-First**, **Validated-Always** approach. All user curriculum data is stored in the browser's IndexedDB.
 
-## 2. Hierarchical Structure
-The application uses a 5-level deep hierarchy. All IDs must be unique strings, typically generated via `crypto.randomUUID()` or a timestamp fallback.
+## 2. Technical Hierarchy
+A 5-level recursive structure enforced by Zod schemas:
+`Course (Root) -> Topic -> SubTopic -> DotPoint -> Prompt (Leaf)`
 
-`Course -> Topic -> SubTopic -> DotPoint -> Prompt`
+### Migration & Versioning
+*   **DATA_VERSION**: Currently `2.2.1`.
+*   **Automated Migrations**: On app load, `runMigrations()` checks the stored version and applies necessary patches (e.g., recalculating Band scores, repairing verbs, or formatting rubrics).
 
-### Level 1: Course
-The root container for a subject.
-*   **id** (string): Unique identifier (e.g., `course-software-engineering`).
-*   **name** (string): Official course name (e.g., "Software Engineering").
-*   **outcomes** (array): List of `CourseOutcome` objects defining the high-level goals.
-*   **topics** (array): List of `Topic` objects.
+## 3. The Discovery System (Manifest)
+The app utilizes a `/courseData/manifest.json` file to discover "Standard Library" courses.
+*   Allows the UI to suggest "Wollemi" or "Enterprise Computing" modules to new users.
+*   Synchronizes local IDB with static JSON assets on demand.
 
-### Level 2: Topic
-Represents a major module or unit of work.
-*   **id** (string): Unique identifier.
-*   **name** (string): Topic title (e.g., "Secure Software Architecture").
-*   **subTopics** (array): List of `SubTopic` objects.
-*   **performanceBandDescriptors** (array, optional): List of Band 1-6 descriptors specific to this topic.
+## 4. Field-Level Requirements
 
-### Level 3: SubTopic
-A sub-section of a topic.
-*   **id** (string): Unique identifier.
-*   **name** (string): Sub-topic title (e.g., "Designing Software").
-*   **dotPoints** (array): List of `DotPoint` objects.
+### Prompt (The Practice Question)
+*   **Verb**: Must be upper-case normalized (e.g., "EVALUATE"). Must exist in the `CommandTermInfo` map.
+*   **Marks**: Integer (1-20).
+*   **Scenario**: Recommended for Tier 3+. Must be > 15 characters to be considered "Complete" by the Audit Studio.
+*   **Marking Criteria**: Stored as raw text but parsed via RegEx into a visual hierarchy. Supports "[Mark] marks: [Descriptor]" formatting.
 
-### Level 4: DotPoint
-A specific syllabus "learn to" or "learn about" statement. This is the granular unit of curriculum coverage.
-*   **id** (string): Unique identifier.
-*   **description** (string): The verbatim syllabus text (e.g., "Describe the benefits of developing secure software").
-*   **prompts** (array): List of `Prompt` objects (Exam Questions).
+### Sample Answer
+*   **Source**: `AI` (Generated), `USER` (Saved), or `HSC_EXEMPLAR` (Pre-seeded).
+*   **Band**: Strictly calculated by `getBandForMark(mark, total, tier)`. The Band is CAPPED by the cognitive tier (e.g., an "Identify" question can never yield a Band 6 result).
 
-### Level 5: Prompt (The Question)
-The core interactive unit. Represents a specific exam-style question derived from a Dot Point.
-*   **id** (string): Unique identifier.
-*   **question** (string): The full text of the question.
-*   **verb** (string): The NESA command verb (e.g., "EVALUATE", "EXPLAIN"). *Must be a valid key in the Command Term Dictionary.*
-*   **totalMarks** (number): The maximum marks available (Integer).
-*   **markingCriteria** (string): A detailed rubric or marking guide.
-*   **keywords** (string[]): Syllabus terminology required for a Band 6 response.
-*   **sampleAnswers** (array): List of `SampleAnswer` objects (AI or User generated).
-*   **scenario** (string, optional): A real-world context/stimulus for the question.
-*   **linkedOutcomes** (string[]): Array of Outcome Codes (e.g., `['SE-12-01']`) linked to this question.
-*   **userDraft** (string, optional): Transient storage for the user's work-in-progress answer.
-*   **isPastHSC** (boolean): Flag indicating if this is an official past paper question.
-*   **hscYear** (number, optional): Year of the past paper.
+## 5. Storage Architecture
+*   **main_store**: Active courses and curriculum.
+*   **backups_store**: Automated hourly snapshots (Last 7 kept).
+*   **library_store**: Saved "Templates" for quick loading.
+*   **users_store**: User profiles, XP, and preferences.
+*   **cache**: AICache (TTL 30 days) for heavy reasoning tasks.
 
-## 3. Validation Rules
-All data imported into the system undergoes strict validation using Zod schemas.
-
-1.  **Verb Integrity:** The `verb` field in a Prompt MUST match one of the standard NESA command terms (e.g., Identify, Describe, Explain, Analyse, Evaluate). If an invalid verb is found, the system attempts to normalize it (e.g., "explain" -> "EXPLAIN").
-2.  **Mark Logic:** `totalMarks` must be a positive integer.
-3.  **Sample Answer Bands:** Sample answers must have a `band` (1-6) and `mark`. The system enforces a strict calculation where the `band` cannot exceed the cognitive Tier of the command verb (e.g., an "Identify" question is capped at Band 2/3 logic regardless of marks).
-4.  **Outcome Linking:** Linked outcomes must correspond to valid codes defined in the parent `Course` object.
-
-## 4. AI Content Generation Standards
-When the AI generates content (questions, answers, criteria), it adheres to these specifications:
-
-*   **Strict JSON Output:** All AI responses are forced into a valid JSON schema structure to prevent parsing errors.
-*   **Tier-Based Complexity:**
-    *   *Tier 1 (Identify/Recall)*: Simple, direct answers.
-    *   *Tier 4 (Explain/Analyse)*: Cause-and-effect relationships, linking concepts.
-    *   *Tier 6 (Evaluate/Justify)*: Judgement based on criteria, nuanced arguments.
-*   **Mark Alignment:** Generated sample answers must deliberately target specific mark ranges (e.g., "Write a 3/5 answer") by omitting specific details or keywords found in a full-mark response.
-
-## 5. Import/Export Format
-The application uses a standard JSON format for portability.
-*   **File Extension:** `.json`
-*   **Structure:** Array of `Course` objects.
-*   **Conflict Resolution:** The importer detects duplicate IDs and offers "Merge" (update existing) or "Skip" strategies.
+## 6. Export Schema
+Portability is maintained via a standard JSON array of `Course` objects. The importer handles duplicate IDs via a interactive resolution UI.

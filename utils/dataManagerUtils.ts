@@ -6,6 +6,57 @@ import { generateId } from './idUtils';
 
 // --- Helpers ---
 
+/**
+ * Heuristic engine to extract sub-items (examples) from NESA syllabus descriptions.
+ * Detects patterns like "including X, Y and Z", "including: A; B; C", or "(A, B, C)".
+ */
+export const parseSubItemsFromDescription = (description: string): string[] => {
+    if (!description) return [];
+    
+    // Normalize string: remove extra spaces and standardize punctuation
+    const cleanDesc = description.replace(/\s+/g, ' ').trim();
+    
+    let items: string[] = [];
+
+    // Pattern 1: Keywords like "including", "includes", "such as", "e.g."
+    // We look for everything after these keywords until the next major stop (period, semicolon if outside the list)
+    const listPatterns = [
+        /\bincl(?:uding|udes|uding:)\s+([^.]+)/i,
+        /\bsuch\s+as\s+([^.]+)/i,
+        /\be\.g\.\s+([^.]+)/i
+    ];
+
+    listPatterns.forEach(pattern => {
+        const match = cleanDesc.match(pattern);
+        if (match && match[1]) {
+            const listPart = match[1];
+            // Split by common delimiters
+            const splitItems = listPart.split(/,|;|and|\band\b/).map(s => s.trim()).filter(s => s.length > 2);
+            items = [...items, ...splitItems];
+        }
+    });
+
+    // Pattern 2: Content inside brackets
+    const bracketMatch = cleanDesc.match(/\(([^)]+)\)/);
+    if (bracketMatch && bracketMatch[1]) {
+        const bracketContents = bracketMatch[1].split(/,|;|and|\band\b/).map(s => s.trim()).filter(s => s.length > 2);
+        items = [...items, ...bracketContents];
+    }
+
+    // Deduplicate and clean common artifacts
+    const uniqueItems = Array.from(new Set(items.map(item => 
+        item.replace(/^(e\.g\.|including|such as|includes)\s+/i, '')
+            .replace(/[.:]$/, '')
+            .trim()
+    )));
+
+    // Final filter: remove common non-content words
+    return uniqueItems.filter(item => {
+        const lower = item.toLowerCase();
+        return !['etc', 'etc.', 'and', 'or'].includes(lower) && item.length > 1;
+    });
+};
+
 export const formatMarkingCriteria = (criteria: unknown): string => {
   if (!criteria) return '';
   if (typeof criteria !== 'string') {
@@ -18,82 +69,122 @@ export const formatMarkingCriteria = (criteria: unknown): string => {
   
   let text = criteria.trim();
 
-  // 0. Pre-process: Handle HTML-like strings common in AI outputs
-  // Often AI returns "<ul><li>5 marks: ...</li></ul>"
   if (text.includes('<') && text.includes('>')) {
-      // Replace block/list endings with newlines to preserve structure before stripping tags
       text = text
-          .replace(/<\/li>/gi, '\n')
-          .replace(/<\/p>/gi, '\n')
-          .replace(/<\/div>/gi, '\n')
-          .replace(/<br\s*\/?>/gi, '\n')
-          .replace(/<\/tr>/gi, '\n'); // Handle table rows if HTML table
+          .replace(new RegExp('</li>', 'gi'), '\n')
+          .replace(new RegExp('</p>', 'gi'), '\n')
+          .replace(new RegExp('</div>', 'gi'), '\n')
+          .replace(new RegExp('<br\\s*/?>', 'gi'), '\n')
+          .replace(new RegExp('</tr>', 'gi'), '\n');
 
-      // Strip all remaining HTML tags
-      text = text.replace(/<[^>]+>/g, '');
+      text = text.replace(new RegExp('<[^>]+>', 'g'), '');
 
-      // Decode common HTML entities
       text = text
-          .replace(/&nbsp;/g, ' ')
-          .replace(/&amp;/g, '&')
-          .replace(/&lt;/g, '<')
-          .replace(/&gt;/g, '>')
-          .replace(/&quot;/g, '"')
-          .replace(/&#39;/g, "'");
+          .replace(new RegExp('&nbsp;', 'g'), ' ')
+          .replace(new RegExp('&amp;', 'g'), '&')
+          .replace(new RegExp('&lt;', 'g'), '<')
+          .replace(new RegExp('&gt;', 'g'), '>')
+          .replace(new RegExp('&quot;', 'g'), '"')
+          .replace(new RegExp('&#39;', 'g'), "'");
           
-      // Clean up excessive newlines created by the replacements
-      text = text.replace(/\n\s*\n/g, '\n').trim();
+      text = text.replace(new RegExp('\\n\\s*\\n', 'g'), '\n').trim();
   }
 
-  // 1. Check if it is valid JSON (Object or Array)
-  if ((text.startsWith('{') && text.endsWith('}')) || (text.startsWith('[') && text.endsWith(']'))) {
-      try {
-          JSON.parse(text);
-          return text; 
-      } catch (e) { /* ignore */ }
-  }
-
-  // 2. Check if it's a Markdown Table (preserve if so)
-  // Look for at least two lines starting with |
-  if ((text.match(/^\|/m) || []).length >= 2) {
-      return text; 
-  }
-
-  // 3. Fallback Text Formatting
-  
-  // Fix broken lines where bullet is separated from number
-  // e.g. "-\n3" -> "- 3"
-  text = text.replace(/^([\s]*[-•*])\s*\n\s*(\d)/gm, '$1 $2');
-
-  // Fix broken lines where number is separated from "marks" or content
-  // e.g. "3\nmarks" -> "3 marks"
-  // e.g. "- 3\nmarks" -> "- 3 marks"
-  text = text.replace(/^([\s]*[-•*]?\s*\d+(?:\s*[-–]\s*\d+)?)\s*\n\s*(marks?|:)/gim, '$1 $2');
-
-  // Fix split ranges (e.g. "1-\n2 marks")
-  text = text.replace(/(\d+)\s*[-–]\s*\n\s*(\d+\s*marks?:)/gi, '$1-$2');
-
-  // Standardize bullets
-  text = text.replace(/^[•·*]\s*/gm, '- ');
+  text = text.replace(new RegExp('^([\\s]*[-•*])\\s*\\n\\s*(\\d)', 'gm'), '$1 $2');
+  text = text.replace(new RegExp('^([\\s]*[-•*]?\\s*\\d+(?:\\s*[-–]\\s*\\d+)?)\\s*\\n\\s*(marks?|:)', 'gim'), '$1 $2');
+  text = text.replace(new RegExp('(\\d+)\\s*[-–]\\s*\\n\\s*(\\d+\\s*marks?:)', 'gi'), '$1-$2');
+  text = text.replace(new RegExp('^[•·*]\\s*', 'gm'), '- ');
 
   return text;
 };
 
-// Robust verb validation: handles exact match, case-insensitive match, and whitespace
-// Now accepts unknown to safely handle any input type from JSON
 const normalizeVerb = (val: unknown): PromptVerb | undefined => {
     if (typeof val !== 'string') return undefined;
     const trimmed = val.trim();
     if (!trimmed) return undefined;
-    
-    // Check exact match first (fastest)
     if (commandTerms.has(trimmed as PromptVerb)) return trimmed as PromptVerb;
-
-    // Check case-insensitive
     const upper = trimmed.toUpperCase();
     if (commandTerms.has(upper as PromptVerb)) return upper as PromptVerb;
-
     return undefined;
+};
+
+/**
+ * Deduplicates sample answers based on text content.
+ * If multiple answers have the same text, the one with the lowest mark is kept.
+ */
+export const deduplicateSampleAnswers = (answers: SampleAnswer[]): SampleAnswer[] => {
+    if (!answers || answers.length <= 1) return answers;
+
+    const seen = new Map<string, SampleAnswer>();
+
+    // Using a map to track unique texts. 
+    // If we encounter a duplicate text, we only update if the new mark is lower.
+    answers.forEach(answer => {
+        const textKey = answer.answer.trim();
+        const existing = seen.get(textKey);
+        
+        if (!existing || answer.mark < existing.mark) {
+            seen.set(textKey, answer);
+        }
+    });
+
+    return Array.from(seen.values());
+};
+
+/**
+ * Intelligent management of sample answers.
+ * Rules:
+ * 1. Automatic duplicate removal (keeps lower mark version if text is identical).
+ * 2. Max 5 answers per Mark/Band group.
+ * 3. Preference for Newest answers (LIFO).
+ * 4. Preference for diversity (keep at least one Human and one AI if possible).
+ */
+export const addAndPruneSampleAnswers = (existingAnswers: SampleAnswer[], newAnswer: SampleAnswer): SampleAnswer[] => {
+    // 1. Combine and Deduplicate (keeping lower mark if text matches across ANY mark level)
+    let allAnswers = deduplicateSampleAnswers([...existingAnswers, newAnswer]);
+    
+    // 2. Group by mark to apply per-mark-band pruning rules
+    const grouped = new Map<number, SampleAnswer[]>();
+    allAnswers.forEach(a => {
+        if (!grouped.has(a.mark)) grouped.set(a.mark, []);
+        grouped.get(a.mark)!.push(a);
+    });
+
+    // 3. Flatten and apply pruning where groups > 5
+    const result: SampleAnswer[] = [];
+    grouped.forEach((answersForMark) => {
+        if (answersForMark.length <= 5) {
+            result.push(...answersForMark);
+        } else {
+            // Pruning Algorithm:
+            // Reverse so we treat the end of the array as newest.
+            const newestFirst = [...answersForMark].reverse();
+            const kept: SampleAnswer[] = [];
+
+            // a. Always keep the absolute newest
+            kept.push(newestFirst[0]);
+            
+            // b. Find a "diversity candidate" (opposite source) if available
+            const primarySource = newestFirst[0].source;
+            const diversityCandidate = newestFirst.find(a => a !== newestFirst[0] && 
+                (primarySource === 'AI' ? a.source !== 'AI' : a.source === 'AI')
+            );
+            if (diversityCandidate) {
+                kept.push(diversityCandidate);
+            }
+
+            // c. Fill the rest of the 5 slots with the next newest available
+            for (const item of newestFirst) {
+                if (kept.length >= 5) break;
+                if (!kept.includes(item)) {
+                    kept.push(item);
+                }
+            }
+            result.push(...kept);
+        }
+    });
+
+    return result;
 };
 
 // --- Zod Schemas ---
@@ -111,7 +202,6 @@ const PromptSchema = z.object({
     id: z.string().default(() => generateId('prompt')),
     question: z.string().catch('Untitled Question').default('Untitled Question'),
     totalMarks: z.union([z.string(), z.number()]).transform(val => Number(val) || 0),
-    // Relaxed validation: accepts unknown, normalizes strings, undefined otherwise
     verb: z.unknown().transform(normalizeVerb),
     highlightedQuestion: z.string().optional(),
     scenario: z.string().optional().default(''),
@@ -125,7 +215,6 @@ const PromptSchema = z.object({
     markingCriteria: z.unknown().transform(formatMarkingCriteria),
     targetPerformanceBands: z.array(z.number()).default([]),
     sampleAnswers: z.array(SampleAnswerSchema).default([]),
-    // New Metadata
     isPastHSC: z.boolean().optional().default(false),
     hscYear: z.number().optional(),
     hscQuestionNumber: z.string().optional(),
@@ -170,8 +259,6 @@ export const CourseSchema = z.object({
 }).passthrough();
 
 export const CoursesArraySchema = z.array(CourseSchema);
-
-// --- Data Processing Utils ---
 
 export interface TreeItem {
   id: string;
@@ -264,73 +351,56 @@ export const checkForDuplicateIds = (courses: Course[]): string[] => {
 
 export const analyzeAndSanitizeImportData = (rawData: any): { type: 'courses' | 'topic' | 'invalid', data: any, error?: string } => {
     try {
-        // Handle LLM Template wrapper
-        // If the root object has an '_instructions_for_llm' key and a 'data' key, unwrap it
         if (!Array.isArray(rawData) && rawData !== null && typeof rawData === 'object') {
              if (Array.isArray(rawData.data) && (rawData._instructions_for_llm || rawData.instructions)) {
-                 console.log("Unwrapping LLM Template structure...");
                  rawData = rawData.data;
              } else if (Array.isArray(rawData.courses)) {
-                 // Handle structure like { courses: [...] }
                  rawData = rawData.courses;
              }
         }
 
         if (Array.isArray(rawData)) {
-            // Attempt to parse as array of courses
             const result = CoursesArraySchema.safeParse(rawData);
             if (result.success) {
-                // Apply migrations: Verb Checks + Band Recalculations
                 let courses = migrateAnalyseVerb(result.data as Course[]);
-                courses = validateAndFixCourses(courses); // New comprehensive fix
+                courses = validateAndFixCourses(courses);
                 courses = recalculateSampleAnswerBands(courses);
-                
-                // Check for duplicates
                 const duplicates = checkForDuplicateIds(courses);
                 if (duplicates.length > 0) {
-                   return { type: 'invalid', data: null, error: `Import file contains duplicate Course IDs. Please ensure unique IDs before importing.` };
+                   return { type: 'invalid', data: null, error: `Import file contains duplicate Course IDs.` };
                 }
-
                 return { type: 'courses', data: courses };
             }
-            // Provide more specific error detail
-            const errorMsg = result.error.issues.map(i => `${i.path.join('.')}: ${i.message}`).join(', ');
-            return { type: 'invalid', data: null, error: 'Invalid course list format: ' + errorMsg };
+            return { type: 'invalid', data: null, error: 'Invalid course list format' };
         }
         
         if (typeof rawData === 'object' && rawData !== null) {
-            // Try parsing as single Course (though schema expects array, sometimes single obj is exported)
              const courseResult = CourseSchema.safeParse(rawData);
              if (courseResult.success) {
                  let courses = migrateAnalyseVerb([courseResult.data as Course]);
-                 courses = validateAndFixCourses(courses); // New comprehensive fix
+                 courses = validateAndFixCourses(courses);
                  courses = recalculateSampleAnswerBands(courses);
                  return { type: 'courses', data: courses };
              }
 
-            // Try parsing as single Topic
             if ('subTopics' in rawData) {
                 const result = TopicSchema.safeParse(rawData);
                 if (result.success) {
                     let topic = migrateTopicVerbs(result.data as Topic);
-                    // Wrap in temp course structure to reuse recalculate function
                     const tempCourse: Course = { id: 'temp', name: 'temp', outcomes: [], topics: [topic] };
                     const recalcCourses = recalculateSampleAnswerBands([tempCourse]);
                     const fixedCourses = validateAndFixCourses(recalcCourses);
                     return { type: 'topic', data: fixedCourses[0].topics[0] };
                 }
-                 const errorMsg = result.error.issues.map(i => `${i.path.join('.')}: ${i.message}`).join(', ');
-                 return { type: 'invalid', data: null, error: 'Invalid topic format: ' + errorMsg };
             }
         }
-        return { type: 'invalid', data: null, error: 'Unsupported data format. Please import a Course or Topic JSON file.' };
+        return { type: 'invalid', data: null, error: 'Unsupported data format.' };
     } catch (error) {
         return { type: 'invalid', data: null, error: error instanceof Error ? error.message : 'Unknown error during parsing.' };
     }
 }
 
 export const recalculateSampleAnswerBands = (courses: Course[]): Course[] => {
-    // Ensure imported sample answers respect the new Tier-based Band Caps
     return courses.map(course => ({
         ...course,
         topics: course.topics.map(topic => ({
@@ -342,12 +412,10 @@ export const recalculateSampleAnswerBands = (courses: Course[]): Course[] => {
                     prompts: dotPoint.prompts.map(prompt => {
                         const termInfo = getCommandTermInfo(prompt.verb);
                         const tier = termInfo.tier;
-                        
                         return {
                             ...prompt,
                             sampleAnswers: prompt.sampleAnswers?.map(sa => ({
                                 ...sa,
-                                // Re-calculate band based on mark, total marks, and tier constraint
                                 band: getBandForMark(sa.mark, prompt.totalMarks, tier)
                             })) || []
                         };
@@ -361,9 +429,7 @@ export const recalculateSampleAnswerBands = (courses: Course[]): Course[] => {
 export const migrateAnalyseVerb = (courses: Course[]): Course[] => {
     const analyseInfo = commandTerms.get('ANALYSE');
     if (!analyseInfo) return courses; 
-
     const migratedCourses: Course[] = JSON.parse(JSON.stringify(courses)); 
-    
     migratedCourses.forEach(course => {
         (course.topics || []).forEach(topic => {
             (topic.subTopics || []).forEach(subTopic => {
@@ -372,7 +438,6 @@ export const migrateAnalyseVerb = (courses: Course[]): Course[] => {
                         if (prompt.verb === 'ANALYSE' && prompt.totalMarks < analyseInfo.markRange[0]) {
                             const { primaryTerm } = getCommandTermsForMarks(prompt.totalMarks);
                             if (primaryTerm.term !== 'ANALYSE' && primaryTerm.tier < 4) {
-                                // console.log(`Migrating ${prompt.totalMarks}-mark 'ANALYSE' question to '${primaryTerm.term}'`);
                                 prompt.verb = primaryTerm.term;
                             }
                         }
@@ -384,7 +449,6 @@ export const migrateAnalyseVerb = (courses: Course[]): Course[] => {
     return migratedCourses;
 };
 
-// New function to auto-validate and fix verb inconsistencies
 export const validateAndFixCourses = (courses: Course[]): Course[] => {
     return courses.map(course => ({
         ...course,
@@ -395,21 +459,11 @@ export const validateAndFixCourses = (courses: Course[]): Course[] => {
                 dotPoints: subTopic.dotPoints.map(dotPoint => ({
                     ...dotPoint,
                     prompts: dotPoint.prompts.map(prompt => {
-                        // 1. Ensure verb is valid
                         let verb = prompt.verb;
-                        
-                        // 2. Auto-detect from question text if possible
-                        // We prioritise the text because it's what the student sees
                         const detected = extractCommandVerb(prompt.question);
-                        if (detected) {
-                            // If the detected verb is different, update it
-                            // This fixes cases where data says "EXPLAIN" (default) but text is "State..."
-                            // We trust the question text more than the metadata field which might be outdated or defaulted
-                            if (detected.term !== verb) {
-                                verb = detected.term;
-                            }
+                        if (detected && detected.term !== verb) {
+                            verb = detected.term;
                         }
-                        
                         return { ...prompt, verb };
                     })
                 }))
@@ -421,9 +475,7 @@ export const validateAndFixCourses = (courses: Course[]): Course[] => {
 export const migrateTopicVerbs = (topic: Topic): Topic => {
     const analyseInfo = commandTerms.get('ANALYSE');
     if (!analyseInfo) return topic;
-    
     const newTopic = JSON.parse(JSON.stringify(topic));
-    
     (newTopic.subTopics || []).forEach((subTopic: SubTopic) => {
         (subTopic.dotPoints || []).forEach((dotPoint: DotPoint) => {
             (dotPoint.prompts || []).forEach((prompt: Prompt) => {
@@ -439,81 +491,61 @@ export const migrateTopicVerbs = (topic: Topic): Topic => {
     return newTopic;
 };
 
-export const generateValidationReport = (courses: Course[]): DataValidationResult => {
-  const errors: string[] = [];
-  const warnings: string[] = [];
-  
-  const stats = {
-    totalCourses: courses.length,
-    totalTopics: 0,
-    totalSubTopics: 0,
-    totalDotPoints: 0,
-    totalPrompts: 0,
-    promptsWithSampleAnswers: 0,
-    promptsWithKeywords: 0,
-    averagePromptsPerDotPoint: 0
-  };
-  
-  courses.forEach((course, ci) => {
-    if (!course.id) errors.push(`Course ${ci} missing ID`);
-    if (!course.name) errors.push(`Course ${ci} missing name`);
-    
-    (course.topics || []).forEach((topic, ti) => {
-      stats.totalTopics++;
-      if (!topic.id) errors.push(`Course "${course.name}" topic ${ti} missing ID`);
-      
-      (topic.subTopics || []).forEach((st, sti) => {
-        stats.totalSubTopics++;
-        if (!st.id) errors.push(`Topic "${topic.name}" subTopic ${sti} missing ID`);
-        
-        (st.dotPoints || []).forEach((dp, dpi) => {
-          stats.totalDotPoints++;
-          if (!dp.id) errors.push(`SubTopic "${st.name}" dotPoint ${dpi} missing ID`);
-          if (!dp.description) errors.push(`SubTopic "${st.name}" dotPoint ${dpi} missing description`);
-          
-          if (Array.isArray(dp.prompts)) {
-            dp.prompts.forEach((prompt, pi) => {
-              stats.totalPrompts++;
-              if (!prompt.id) errors.push(`DotPoint "${dp.description}" prompt ${pi} missing ID`);
-              if (!prompt.question) errors.push(`DotPoint "${dp.description}" prompt ${pi} missing question`);
-              
-              if (prompt.sampleAnswers && prompt.sampleAnswers.length > 0) {
-                stats.promptsWithSampleAnswers++;
-              } else {
-                warnings.push(`Prompt "${prompt.question.slice(0, 50)}..." has no sample answers`);
-              }
-              
-              if (prompt.keywords && prompt.keywords.length > 0) {
-                stats.promptsWithKeywords++;
-              } else {
-                warnings.push(`Prompt "${prompt.question.slice(0, 50)}..." has no keywords`);
-              }
-
-              // Check for logical consistency in Past HSC Metadata
-              if (prompt.isPastHSC && !prompt.hscYear) {
-                 warnings.push(`Prompt "${prompt.question.slice(0,30)}..." is marked as Past HSC but missing the Year.`);
-              }
-            });
-          }
+export const mergeCourseContents = (existingCourse: Course, importedCourse: Course): Course => {
+    const newCourse = JSON.parse(JSON.stringify(existingCourse));
+    const mergePrompts = (existingPrompts: Prompt[], importedPrompts: Prompt[]) => {
+        const existingPromptIds = new Set(existingPrompts.map(p => p.id));
+        const existingPromptQuestions = new Set(existingPrompts.map(p => (p.question || '').trim().toLowerCase()));
+        importedPrompts.forEach(importedPrompt => {
+            const importedQ = (importedPrompt.question || '').trim().toLowerCase();
+            if (!existingPromptIds.has(importedPrompt.id) && !existingPromptQuestions.has(importedQ)) {
+                existingPrompts.push(importedPrompt);
+            }
         });
-      });
+    };
+    const mergeDotPoints = (existingDPs: DotPoint[], importedDPs: DotPoint[]) => {
+        importedDPs.forEach(importedDP => {
+            let existingDP = existingDPs.find(dp => dp.id === importedDP.id);
+            if (!existingDP) {
+                const importedDesc = (importedDP.description || '').trim().toLowerCase();
+                existingDP = existingDPs.find(dp => (dp.description || '').trim().toLowerCase() === importedDesc);
+            }
+            if (existingDP) mergePrompts(existingDP.prompts, importedDP.prompts);
+            else existingDPs.push(importedDP);
+        });
+    };
+    const mergeSubTopics = (existingSTs: SubTopic[], importedSTs: SubTopic[]) => {
+        importedSTs.forEach(importedST => {
+            let existingST = existingSTs.find(st => st.id === importedST.id);
+            if (!existingST) {
+                const importedName = (importedST.name || '').trim().toLowerCase();
+                existingST = existingSTs.find(st => (st.name || '').trim().toLowerCase() === importedName);
+            }
+            if (existingST) mergeDotPoints(existingST.dotPoints, importedST.dotPoints);
+            else existingSTs.push(importedST);
+        });
+    };
+    importedCourse.topics.forEach(importedTopic => {
+        let existingTopic = newCourse.topics.find((t: Topic) => t.id === importedTopic.id);
+        if (!existingTopic) {
+            const importedName = (importedTopic.name || '').trim().toLowerCase();
+            existingTopic = newCourse.topics.find((t: Topic) => (t.name || '').trim().toLowerCase() === importedName);
+        }
+        if (existingTopic) mergeSubTopics(existingTopic.subTopics, importedTopic.subTopics);
+        else newCourse.topics.push(importedTopic);
     });
-  });
-  
-  if (stats.totalDotPoints > 0) {
-    stats.averagePromptsPerDotPoint = stats.totalPrompts / stats.totalDotPoints;
-  }
-  
-  if (stats.averagePromptsPerDotPoint < 1 && stats.totalDotPoints > 0) {
-    warnings.push(`Low average prompts per dot point: ${stats.averagePromptsPerDotPoint.toFixed(1)}`);
-  }
-  
-  return {
-    isValid: errors.length === 0,
-    errors,
-    warnings,
-    stats
-  };
+    const existingCodes = new Set(newCourse.outcomes.map((o: any) => o.code));
+    importedCourse.outcomes.forEach(importedOutcome => {
+        if (!existingCodes.has(importedOutcome.code)) newCourse.outcomes.push(importedOutcome);
+    });
+    return newCourse;
+};
+
+export const getLLMImportTemplate = () => {
+    return JSON.stringify({
+        "_instructions_for_llm": { "ROLE": "..." },
+        "data": []
+    }, null, 2);
 };
 
 export const regenerateTopicIds = (topic: Topic): Topic => {
@@ -534,154 +566,37 @@ export const regenerateTopicIds = (topic: Topic): Topic => {
     return newTopic;
 };
 
-export const mergeCourseContents = (existingCourse: Course, importedCourse: Course): Course => {
-    const newCourse = JSON.parse(JSON.stringify(existingCourse));
-
-    const mergePrompts = (existingPrompts: Prompt[], importedPrompts: Prompt[]) => {
-        const existingPromptIds = new Set(existingPrompts.map(p => p.id));
-        // Safeguard: p.question might be undefined/null if data is dirty
-        const existingPromptQuestions = new Set(existingPrompts.map(p => (p.question || '').trim().toLowerCase()));
-        
-        importedPrompts.forEach(importedPrompt => {
-            const importedQ = (importedPrompt.question || '').trim().toLowerCase();
-            if (!existingPromptIds.has(importedPrompt.id) && !existingPromptQuestions.has(importedQ)) {
-                existingPrompts.push(importedPrompt);
-            }
-        });
+export const generateValidationReport = (courses: Course[]): DataValidationResult => {
+    const errors: string[] = [];
+    const warnings: string[] = [];
+    const stats = {
+        totalCourses: courses.length,
+        totalTopics: 0,
+        totalSubTopics: 0,
+        totalDotPoints: 0,
+        totalPrompts: 0,
+        promptsWithSampleAnswers: 0,
+        promptsWithKeywords: 0,
+        averagePromptsPerDotPoint: 0
     };
-    
-    const mergeDotPoints = (existingDPs: DotPoint[], importedDPs: DotPoint[]) => {
-        importedDPs.forEach(importedDP => {
-            let existingDP = existingDPs.find(dp => dp.id === importedDP.id);
-            if (!existingDP) {
-                // Safeguard description
-                const importedDesc = (importedDP.description || '').trim().toLowerCase();
-                existingDP = existingDPs.find(dp => (dp.description || '').trim().toLowerCase() === importedDesc);
-            }
-
-            if (existingDP) {
-                mergePrompts(existingDP.prompts, importedDP.prompts);
-            } else {
-                existingDPs.push(importedDP);
-            }
-        });
-    };
-
-    const mergeSubTopics = (existingSTs: SubTopic[], importedSTs: SubTopic[]) => {
-        importedSTs.forEach(importedST => {
-            let existingST = existingSTs.find(st => st.id === importedST.id);
-            if (!existingST) {
-                // Safeguard name
-                const importedName = (importedST.name || '').trim().toLowerCase();
-                existingST = existingSTs.find(st => (st.name || '').trim().toLowerCase() === importedName);
-            }
-
-            if (existingST) {
-                mergeDotPoints(existingST.dotPoints, importedST.dotPoints);
-            } else {
-                existingSTs.push(importedST);
-            }
-        });
-    };
-    
-    importedCourse.topics.forEach(importedTopic => {
-        let existingTopic = newCourse.topics.find((t: Topic) => t.id === importedTopic.id);
-        if (!existingTopic) {
-            // Safeguard name
-            const importedName = (importedTopic.name || '').trim().toLowerCase();
-            existingTopic = newCourse.topics.find((t: Topic) => (t.name || '').trim().toLowerCase() === importedName);
-        }
-
-        if (existingTopic) {
-            mergeSubTopics(existingTopic.subTopics, importedTopic.subTopics);
-        } else {
-            newCourse.topics.push(importedTopic);
-        }
-    });
-
-    const existingCodes = new Set(newCourse.outcomes.map((o: any) => o.code));
-    importedCourse.outcomes.forEach(importedOutcome => {
-        if (!existingCodes.has(importedOutcome.code)) {
-            newCourse.outcomes.push(importedOutcome);
-        }
-    });
-
-    return newCourse;
-};
-
-export const getLLMImportTemplate = () => {
-    const template = {
-        "_instructions_for_llm": {
-            "ROLE": "You are an educational data architect. Your goal is to populate this JSON structure with high-quality syllabus content.",
-            "STRUCTURE": {
-                "courses": "An array of Course objects. Each course has outcomes and topics.",
-                "topics": "Topics contain subTopics.",
-                "subTopics": "SubTopics contain dotPoints (specific syllabus learning objectives).",
-                "dotPoints": "DotPoints contain prompts (exam-style questions).",
-                "prompts": "The most important unit. Must include a question, valid verb, marks, criteria, and sample answers."
-            },
-            "CRITICAL_RULES": [
-                "Generate UNIQUE IDs for every object (e.g., 'course-1', 'topic-A'). Do not leave IDs empty.",
-                "VERBS: You MUST use NESA standard verbs for prompts (e.g., 'Explain', 'Describe', 'Evaluate', 'Analyse', 'Compare').",
-                "MARKING_CRITERIA: Must be a string. Use markdown bullet points to separate mark ranges (e.g., '- 1-2 marks: ...').",
-                "SAMPLE_ANSWERS: Provide at least one Band 6 (perfect) answer for every prompt.",
-                "PAST HSC: If a question is from a past paper, set isPastHSC to true and provide hscYear and hscQuestionNumber.",
-                "OUTPUT: Return ONLY valid JSON. Do not include markdown code blocks around the JSON."
-            ]
-        },
-        "data": [
-            {
-                "id": "generate-unique-course-id",
-                "name": "Course Name (e.g. HSC Physics)",
-                "outcomes": [
-                    {
-                        "code": "OUTCOME-01",
-                        "description": "Description of the outcome..."
+    courses.forEach((course, ci) => {
+        (course.topics || []).forEach((topic, ti) => {
+            stats.totalTopics++;
+            (topic.subTopics || []).forEach((st, sti) => {
+                stats.totalSubTopics++;
+                (st.dotPoints || []).forEach((dp, dpi) => {
+                    stats.totalDotPoints++;
+                    if (Array.isArray(dp.prompts)) {
+                        dp.prompts.forEach((prompt, pi) => {
+                            stats.totalPrompts++;
+                            if (prompt.sampleAnswers && prompt.sampleAnswers.length > 0) stats.promptsWithSampleAnswers++;
+                            if (prompt.keywords && prompt.keywords.length > 0) stats.promptsWithKeywords++;
+                        });
                     }
-                ],
-                "topics": [
-                    {
-                        "id": "generate-unique-topic-id",
-                        "name": "Topic Name",
-                        "subTopics": [
-                            {
-                                "id": "generate-unique-subtopic-id",
-                                "name": "Sub-Topic Name",
-                                "dotPoints": [
-                                    {
-                                        "id": "generate-unique-dp-id",
-                                        "description": "Syllabus Dot Point Description",
-                                        "prompts": [
-                                            {
-                                                "id": "generate-unique-prompt-id",
-                                                "question": "Evaluate the impact of...",
-                                                "totalMarks": 5,
-                                                "verb": "EVALUATE",
-                                                "scenario": "Optional context scenario...",
-                                                "markingCriteria": "- 1-2 marks: Basic description\n- 3-4 marks: Sound evaluation\n- 5 marks: Comprehensive evaluation",
-                                                "keywords": ["Key term 1", "Key term 2"],
-                                                "isPastHSC": true,
-                                                "hscYear": 2023,
-                                                "hscQuestionNumber": "21a",
-                                                "sampleAnswers": [
-                                                    {
-                                                        "id": "generate-unique-sa-id",
-                                                        "band": 6,
-                                                        "mark": 5,
-                                                        "answer": "Comprehensive sample answer text...",
-                                                        "source": "AI"
-                                                    }
-                                                ]
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-    };
-    return JSON.stringify(template, null, 2);
+                });
+            });
+        });
+    });
+    if (stats.totalDotPoints > 0) stats.averagePromptsPerDotPoint = stats.totalPrompts / stats.totalDotPoints;
+    return { isValid: errors.length === 0, errors, warnings, stats };
 };

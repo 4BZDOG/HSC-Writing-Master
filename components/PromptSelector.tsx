@@ -1,13 +1,15 @@
-
 import React, { useMemo } from 'react';
 import { Course, StatePath, UserRole, PromptVerb } from '../types';
 import Combobox from './Combobox';
 import { 
   Plus, Edit3, Trash2, Sparkles, Settings, Upload, BookOpen, 
-  Layers, FolderOpen, List, FileQuestion, ChevronDown, Book
+  Layers, FolderOpen, List, FileQuestion, ChevronDown, Book,
+  ListFilter, Target, X, Check, Filter, RotateCcw, Database,
+  PenTool
 } from 'lucide-react';
 import { getCommandTermInfo, extractCommandVerb } from '../data/commandTerms';
 import { getBandConfig } from '../utils/renderUtils';
+import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
 
 interface PromptSelectorProps {
   courses: Course[];
@@ -17,7 +19,9 @@ interface PromptSelectorProps {
   onAddTopic: () => void;
   onAddSubTopic: () => void;
   onGeneratePrompt: () => void;
+  onManualEntry: () => void;
   onEditOutcomes: () => void;
+  onOpenDataManager: () => void;
   onRenameItem: (type: 'course' | 'topic' | 'subTopic' | 'dotPoint' | 'prompt', id: string, name: string) => void;
   onDeleteItem: (target: { type: 'course' | 'topic' | 'subTopic' | 'dotPoint' | 'prompt'; id: string; name: string }) => void;
   onAddTopicFromSyllabus: () => void;
@@ -28,15 +32,61 @@ interface PromptSelectorProps {
   userRole: UserRole;
 }
 
+// Static lookup map for Tailwind classes to ensure they are not purged
+const THEMES: Record<string, any> = {
+    blue: {
+        activeBorder: 'border-blue-500/30 light:border-blue-600',
+        activeShadow: 'shadow-blue-900/10',
+        selectedBorder: 'border-blue-500/20',
+        nodeComplete: 'bg-blue-500 border-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]',
+        nodeSelected: 'bg-[rgb(var(--color-bg-surface))] light:bg-white border-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.4)]',
+        headerIcon: 'bg-blue-500/10 text-blue-400 light:bg-blue-100 light:text-blue-700 border-blue-500/20'
+    },
+    purple: {
+        activeBorder: 'border-purple-500/30 light:border-purple-600',
+        activeShadow: 'shadow-purple-900/10',
+        selectedBorder: 'border-purple-500/20',
+        nodeComplete: 'bg-purple-500 border-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.6)]',
+        nodeSelected: 'bg-[rgb(var(--color-bg-surface))] light:bg-white border-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.4)]',
+        headerIcon: 'bg-purple-500/10 text-purple-400 light:bg-purple-100 light:text-purple-700 border-purple-500/20'
+    },
+    indigo: {
+        activeBorder: 'border-indigo-500/30 light:border-indigo-600',
+        activeShadow: 'shadow-indigo-900/10',
+        selectedBorder: 'border-indigo-500/20',
+        nodeComplete: 'bg-indigo-500 border-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.6)]',
+        nodeSelected: 'bg-[rgb(var(--color-bg-surface))] light:bg-white border-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.4)]',
+        headerIcon: 'bg-indigo-500/10 text-indigo-400 light:bg-indigo-100 light:text-indigo-700 border-indigo-500/20'
+    },
+    pink: {
+        activeBorder: 'border-pink-500/30 light:border-pink-600',
+        activeShadow: 'shadow-pink-900/10',
+        selectedBorder: 'border-pink-500/20',
+        nodeComplete: 'bg-pink-500 border-pink-500 shadow-[0_0_8px_rgba(236,72,153,0.6)]',
+        nodeSelected: 'bg-[rgb(var(--color-bg-surface))] light:bg-white border-pink-500 shadow-[0_0_8px_rgba(236,72,153,0.4)]',
+        headerIcon: 'bg-pink-500/10 text-pink-400 light:bg-pink-100 light:text-pink-700 border-pink-500/20'
+    },
+    green: {
+        activeBorder: 'border-emerald-500/30 light:border-emerald-600',
+        activeShadow: 'shadow-emerald-900/10',
+        selectedBorder: 'border-emerald-500/20',
+        nodeComplete: 'bg-emerald-500 border-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]',
+        nodeSelected: 'bg-[rgb(var(--color-bg-surface))] light:bg-white border-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]',
+        headerIcon: 'bg-emerald-500/10 text-emerald-400 light:bg-emerald-100 light:text-emerald-700 border-emerald-500/20'
+    }
+};
+
 const PromptSelector: React.FC<PromptSelectorProps> = ({
-  courses,
-  statePath,
+  courses = [],
+  statePath = {} as StatePath,
   onPathChange,
   onAddCourse,
   onAddTopic,
   onAddSubTopic,
   onGeneratePrompt,
+  onManualEntry,
   onEditOutcomes,
+  onOpenDataManager,
   onRenameItem,
   onDeleteItem,
   onAddTopicFromSyllabus,
@@ -48,21 +98,25 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
 }) => {
   const isAdmin = userRole === 'admin';
 
-  // Selection Resolution
   const selectedCourse = courses.find(c => c.id === statePath.courseId);
-  const selectedTopic = selectedCourse?.topics.find(t => t.id === statePath.topicId);
-  const selectedSubTopic = selectedTopic?.subTopics.find(st => st.id === statePath.subTopicId);
-  const selectedDotPoint = selectedSubTopic?.dotPoints.find(dp => dp.id === statePath.dotPointId);
-  const selectedPrompt = selectedDotPoint?.prompts.find(p => p.id === statePath.promptId);
+  const selectedTopic = selectedCourse?.topics?.find(t => t.id === statePath.topicId);
+  const selectedSubTopic = selectedTopic?.subTopics?.find(st => st.id === statePath.subTopicId);
+  const selectedDotPoint = selectedSubTopic?.dotPoints?.find(dp => dp.id === statePath.dotPointId);
+  const selectedPrompt = selectedDotPoint?.prompts?.find(p => p.id === statePath.promptId);
 
-  // Selection State Booleans
   const isCourseSelected = !!selectedCourse;
   const isTopicSelected = !!selectedTopic;
   const isSubTopicSelected = !!selectedSubTopic;
   const isDotPointSelected = !!selectedDotPoint;
   const isPromptSelected = !!selectedPrompt;
 
-  // Options Memos with Rich Icons
+  const subItems = useMemo(() => {
+      return selectedDotPoint?.description ? parseSubItemsFromDescription(selectedDotPoint.description) : [];
+  }, [selectedDotPoint]);
+
+  const hasSubItems = subItems.length > 0;
+  const activeFocusCount = statePath.selectedSubItems?.length || 0;
+
   const courseOptions = useMemo(() => courses.map(c => ({ 
       id: c.id, 
       label: c.name, 
@@ -77,7 +131,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       )
   })), [courses, newlyAddedIds]);
 
-  const topicOptions = useMemo(() => selectedCourse?.topics.map(t => ({ 
+  const topicOptions = useMemo(() => selectedCourse?.topics?.map(t => ({ 
       id: t.id, 
       label: t.name, 
       isNew: newlyAddedIds.has(t.id),
@@ -91,7 +145,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       )
   })) || [], [selectedCourse, newlyAddedIds]);
 
-  const subTopicOptions = useMemo(() => selectedTopic?.subTopics.map(st => ({ 
+  const subTopicOptions = useMemo(() => selectedTopic?.subTopics?.map(st => ({ 
       id: st.id, 
       label: st.name, 
       isNew: newlyAddedIds.has(st.id),
@@ -105,7 +159,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       )
   })) || [], [selectedTopic, newlyAddedIds]);
 
-  const dotPointOptions = useMemo(() => selectedSubTopic?.dotPoints.map(dp => ({ 
+  const dotPointOptions = useMemo(() => selectedSubTopic?.dotPoints?.map(dp => ({ 
       id: dp.id, 
       label: dp.description, 
       isNew: newlyAddedIds.has(dp.id),
@@ -119,19 +173,43 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       )
   })) || [], [selectedSubTopic, newlyAddedIds]);
 
+  const subItemOptions = useMemo(() => {
+    return subItems.map(item => {
+        const isSelected = statePath.selectedSubItems?.includes(item);
+        return {
+            id: item,
+            label: item,
+            renderLabel: (
+                <div className="flex items-center justify-between w-full">
+                    <div className="flex items-center gap-3">
+                        <div className={`p-1.5 rounded-md border transition-all ${isSelected ? 'bg-emerald-500 text-white border-emerald-400/30' : 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'}`}>
+                            <Target className="w-4 h-4" />
+                        </div>
+                        <span className={`font-medium ${isSelected ? 'text-white' : ''}`}>{item}</span>
+                    </div>
+                    {isSelected && <Check className="w-4 h-4 text-emerald-400" />}
+                </div>
+            )
+        };
+    });
+  }, [subItems, statePath.selectedSubItems]);
+
+  const handleSubItemToggle = (id: string) => {
+      const current = statePath.selectedSubItems || [];
+      const updated = current.includes(id) 
+          ? current.filter(x => x !== id)
+          : [...current, id];
+      
+      onPathChange({ selectedSubItems: updated.length > 0 ? updated : undefined });
+  };
+
   const promptOptions = useMemo(() => {
       if (!selectedDotPoint?.prompts) return [];
-      
-      // Helper to robustly find verb info
       const resolveVerbInfo = (verb?: string, question?: string) => {
           if (verb) {
               const normalized = verb.toUpperCase() as PromptVerb;
               const info = getCommandTermInfo(normalized);
-              if (info.term === 'EXPLAIN' && normalized !== 'EXPLAIN') {
-                   // Continue to extraction to see if we can find a better match
-              } else {
-                  return info;
-              }
+              if (info.term !== 'EXPLAIN' || normalized === 'EXPLAIN') return info;
           }
           if (question) {
               const extracted = extractCommandVerb(question);
@@ -140,21 +218,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           return getCommandTermInfo('EXPLAIN');
       };
 
-      // Sort questions: Tier (asc) -> Marks (asc) -> ID (asc)
-      const sortedPrompts = [...selectedDotPoint.prompts].sort((a, b) => {
-          const infoA = resolveVerbInfo(a.verb, a.question);
-          const infoB = resolveVerbInfo(b.verb, b.question);
-          
-          if (infoA.tier !== infoB.tier) {
-              return infoA.tier - infoB.tier;
-          }
-          if (a.totalMarks !== b.totalMarks) {
-              return a.totalMarks - b.totalMarks;
-          }
-          return a.id.localeCompare(b.id);
-      });
-
-      return sortedPrompts.map(p => {
+      return [...selectedDotPoint.prompts].sort((a, b) => a.totalMarks - b.totalMarks).map(p => {
           const verbInfo = resolveVerbInfo(p.verb, p.question);
           const safeTier = Math.max(1, Math.min(6, Math.floor(verbInfo.tier || 4)));
           const tierConfig = getBandConfig(safeTier);
@@ -167,33 +231,17 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               tier: safeTier,
               isNew: newlyAddedIds.has(p.id),
               renderLabel: (
-                <div className="flex items-start gap-3 w-full overflow-hidden">
-                   {/* Solid, Tier-coded Icon Box - Using solidBg + text-white for guaranteed visibility */}
-                   <div className={`
-                       w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 border
-                       ${tierConfig.solidBg} ${tierConfig.border}
-                       transition-colors duration-200 shadow-sm
-                   `}>
+                <div className={`flex items-start gap-3 w-full overflow-hidden p-2 rounded-lg transition-colors ${tierConfig.bg}`}>
+                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 border ${tierConfig.solidBg} ${tierConfig.border} shadow-sm`}>
                        <FileQuestion className="w-5 h-5 text-white" />
                    </div>
                    <div className="flex flex-col min-w-0 flex-1">
-                     <span 
-                        className="leading-snug font-medium line-clamp-2 block break-words"
-                        title={p.question}
-                     >
-                        {p.question}
-                     </span>
+                     <span className={`leading-snug font-bold line-clamp-2 block break-words ${tierConfig.text}`}>{p.question}</span>
                      <div className="flex items-center gap-2 mt-1.5">
-                        {/* Solid Pill for Verb - Ensures color pop regardless of row selection state */}
-                        <span className={`
-                            text-[9px] font-black uppercase tracking-wider px-1.5 py-px rounded border
-                            ${tierConfig.solidBg} text-white ${tierConfig.border} shadow-sm
-                        `}>
+                        <span className={`text-[9px] font-black uppercase tracking-wider px-1.5 py-px rounded border ${tierConfig.solidBg} text-white ${tierConfig.border} shadow-sm`}>
                             {verbInfo.term}
                         </span>
-                        <span className="text-[10px] opacity-70 font-mono font-medium">
-                            • {p.totalMarks} Marks
-                        </span>
+                        <span className={`text-[10px] opacity-70 font-mono font-black ${tierConfig.text}`}>• {p.totalMarks} Marks</span>
                      </div>
                    </div>
                 </div>
@@ -202,92 +250,88 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       });
   }, [selectedDotPoint, newlyAddedIds]);
 
-  // Style Helpers
-  const getContainerClasses = (isSelected: boolean, isActive: boolean, zIndex: string) => `
-    relative transition-all duration-500 ease-in-out w-full
-    ${zIndex}
-    ${isSelected 
-      ? 'mb-1' // Tight spacing when locked in
-      : 'mb-6' // Room to breathe when active
-    }
+  const getContainerClasses = (isSelected: boolean, zIndex: string) => `
+    relative transition-all duration-500 ease-in-out w-full ${zIndex} ${isSelected ? 'mb-1' : 'mb-6'}
   `;
 
-  const getBoxClasses = (isSelected: boolean, isActive: boolean) => `
-    relative rounded-2xl transition-all duration-500 ease-out w-full
-    ${isSelected 
-      ? 'bg-[rgb(var(--color-bg-surface))]/60 light:bg-white/80 border border-[rgb(var(--color-primary))]/20 light:border-slate-300 py-3 px-4 shadow-sm z-10' 
-      : isActive
-        ? 'bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 border-[rgb(var(--color-primary))] light:border-indigo-500 shadow-xl py-6 px-6 scale-[1.01] z-20'
-        : 'bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/50 light:border-slate-200 py-4 px-6 opacity-60 grayscale hover:grayscale-0 hover:opacity-100'
+  const getBoxClasses = (isSelected: boolean, isActive: boolean, colorKey: string) => {
+    const theme = THEMES[colorKey] || THEMES.blue; // Defensive fallback
+    if (isSelected) {
+        return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface))]/60 light:bg-white border ${theme.selectedBorder} light:border-slate-300 light:shadow-sm py-3 px-4 z-10`;
     }
-  `;
+    if (isActive) {
+        return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 ${theme.activeBorder} shadow-xl ${theme.activeShadow} py-6 px-6 scale-[1.01] z-20`;
+    }
+    return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-white/5 light:border-slate-300 py-4 px-6 opacity-60 grayscale hover:grayscale-0 hover:opacity-100`;
+  };
 
-  const getNodeClasses = (isSelected: boolean, isComplete: boolean) => `
-      absolute -left-[0.85rem] md:-left-[0.85rem] top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 transition-all duration-500 z-10
-      ${isComplete
-        ? 'bg-purple-500 border-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.6)] scale-100'
-        : isSelected
-          ? 'bg-[rgb(var(--color-bg-surface))] border-[rgb(var(--color-accent))] shadow-[0_0_8px_rgba(14,165,233,0.4)] scale-125'
-          : 'bg-[rgb(var(--color-bg-surface))] border-[rgb(var(--color-text-muted))] scale-90 opacity-50'
+  const getNodeClasses = (isSelected: boolean, isComplete: boolean, colorKey: string) => {
+      const theme = THEMES[colorKey] || THEMES.blue; // Defensive fallback
+      if (isComplete) {
+          return `absolute -left-[0.85rem] md:-left-[0.85rem] top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 transition-all duration-500 z-10 ${theme.nodeComplete}`;
       }
-  `;
+      if (isSelected) {
+          return `absolute -left-[0.85rem] md:-left-[0.85rem] top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 transition-all duration-500 z-10 scale-125 ${theme.nodeSelected}`;
+      }
+      return `absolute -left-[0.85rem] md:-left-[0.85rem] top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 transition-all duration-500 z-10 bg-[rgb(var(--color-bg-surface))] light:bg-slate-200 border-white/20 light:border-slate-400 scale-90 opacity-50`;
+  };
 
-  const StepHeader = ({ icon: Icon, label, isSelected, colorClass }: any) => (
-    <div className={`flex items-center gap-2 mb-3 transition-all duration-300 ${isSelected ? 'opacity-70 scale-95 origin-left' : 'opacity-100'}`}>
-        <div className={`p-1.5 rounded-md ${isSelected ? 'bg-transparent' : `bg-${colorClass}-500/10 text-${colorClass}-400`}`}>
-            <Icon className={`w-4 h-4 ${isSelected ? 'text-[rgb(var(--color-text-secondary))]' : `text-${colorClass}-400`}`} />
+  const StepHeader = ({ icon: Icon, label, colorKey }: any) => {
+    const theme = THEMES[colorKey] || THEMES.blue; // Defensive fallback
+    return (
+        <div className="flex items-center gap-2 mb-3">
+            <div className={`p-1.5 rounded-md ${theme.headerIcon}`}>
+                {Icon && <Icon className="w-4 h-4" />}
+            </div>
+            <span className="text-xs font-black uppercase tracking-widest text-[rgb(var(--color-text-primary))] light:text-slate-900">
+                {label}
+            </span>
         </div>
-        <span className={`text-xs font-black uppercase tracking-widest ${isSelected ? 'text-[rgb(var(--color-text-secondary))]' : 'text-[rgb(var(--color-text-primary))] light:text-slate-800'}`}>
-            {label}
-        </span>
-        {isSelected && <div className="h-px flex-grow bg-[rgb(var(--color-border-secondary))]/50 ml-2"></div>}
-    </div>
-  );
+    );
+  };
 
   const ActionButton = ({ onClick, icon: Icon, title, variant = 'default' }: any) => (
       <button 
         onClick={onClick} 
-        className={`p-2 rounded-lg transition-all duration-200 flex-shrink-0 hover:scale-105 active:scale-95 ${
-            variant === 'danger' 
-            ? 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-red-50 hover:bg-red-500/10 text-[rgb(var(--color-text-secondary))] light:text-red-600 hover:text-red-400' 
-            : variant === 'special'
-            ? 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-amber-50 hover:bg-[rgb(var(--color-bg-surface-light))] text-yellow-400 light:text-amber-600'
-            : variant === 'primary'
-            ? 'bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] text-white shadow-md hover:shadow-lg'
-            : variant === 'info'
-            ? 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-blue-50 hover:bg-[rgb(var(--color-bg-surface-light))] text-blue-400 light:text-blue-600'
-            : 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 hover:bg-[rgb(var(--color-bg-surface-light))] text-[rgb(var(--color-text-secondary))] light:text-slate-600'
+        className={`p-2 rounded-lg transition-all duration-200 flex-shrink-0 hover:scale-105 active:scale-95 border ${
+            variant === 'danger' ? 'bg-red-500/10 border-red-500/20 text-red-400 light:text-red-600' : 
+            variant === 'special' ? 'bg-amber-500/10 border-amber-500/20 text-yellow-400 light:text-amber-600' :
+            variant === 'primary' ? 'bg-gradient-to-r from-indigo-500 to-sky-500 border-transparent text-white shadow-md' : 
+            variant === 'vault' ? 'bg-blue-600/10 border-blue-600/20 text-blue-400' :
+            'bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border border-white/5 light:border-slate-400 text-[rgb(var(--color-text-secondary))] light:text-slate-600'
         }`} 
         title={title}
       >
-         <Icon className="w-4 h-4" />
+         {Icon && <Icon className="w-4 h-4" />}
       </button>
   );
 
   return (
-    <div className="flex flex-col pl-4 md:pl-12 relative">
-      <div className="absolute left-[1.35rem] md:left-[2.35rem] top-0 bottom-0 w-px bg-[rgb(var(--color-border-secondary))]/20 z-0"></div>
+    <div className="flex flex-col pl-4 md:pl-12 relative animate-fade-in">
+      <div className="absolute left-[1.35rem] md:left-[2.35rem] top-0 bottom-0 w-px bg-white/5 light:bg-slate-400 z-0"></div>
       
-      {/* Course Level */}
-      <div className={getContainerClasses(isCourseSelected, !isCourseSelected, 'z-50')}>
-        <div className={getBoxClasses(isCourseSelected, !isCourseSelected)}>
+      {/* 1. Course Selection */}
+      <div className={getContainerClasses(isCourseSelected, 'z-50')}>
+        <div className={getBoxClasses(isCourseSelected, !isCourseSelected, 'blue')}>
             <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
-                <div className={getNodeClasses(isCourseSelected, isTopicSelected)} />
+                <div className={getNodeClasses(isCourseSelected, isTopicSelected, 'blue')} />
             </div>
-            {!isCourseSelected && <StepHeader icon={BookOpen} label="Course Selection" isSelected={false} colorClass="blue" />}
-            <div className="flex flex-col md:flex-row gap-4 items-center">
-                <div className="flex-1 min-w-0 w-full">
+            {!isCourseSelected && <StepHeader icon={BookOpen} label="Course" colorKey="blue" />}
+            <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
+                <div className="flex-1 w-full">
                     <Combobox
-                        label={isCourseSelected ? null : ""}
+                        label={null}
                         options={courseOptions}
                         value={statePath.courseId || ''}
-                        onChange={(id) => onPathChange({ courseId: id, topicId: undefined, subTopicId: undefined, dotPointId: undefined, promptId: undefined })}
+                        onChange={(id) => onPathChange({ courseId: id, topicId: undefined, subTopicId: undefined, dotPointId: undefined, promptId: undefined, selectedSubItems: undefined })}
                         placeholder="Select Course..."
+                        color="blue"
                     />
                 </div>
                 {isAdmin && (
-                    <div className={`flex items-center gap-2 ${!isCourseSelected ? 'mt-6 md:mt-0' : ''}`}>
+                    <div className="flex items-center gap-2 flex-wrap justify-end">
                         <ActionButton onClick={onAddCourse} icon={Plus} title="Add Course" />
+                        <ActionButton onClick={onOpenDataManager} icon={Database} title="Data Vault (Import/Export/Reorder)" variant="vault" />
                         {selectedCourse && (
                         <>
                             <ActionButton onClick={onEditOutcomes} icon={Settings} title="Edit Outcomes" />
@@ -301,26 +345,27 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
         </div>
       </div>
 
-      {/* Topic Level */}
+      {/* 2. Topic Selection */}
       {selectedCourse && (
-        <div className={`${getContainerClasses(isTopicSelected, isCourseSelected && !isTopicSelected, 'z-40')} animate-fade-in-up`}>
-           <div className={getBoxClasses(isTopicSelected, isCourseSelected && !isTopicSelected)}>
+        <div className={getContainerClasses(isTopicSelected, 'z-40')}>
+           <div className={getBoxClasses(isTopicSelected, !isTopicSelected, 'purple')}>
                <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
-                    <div className={getNodeClasses(isTopicSelected, isSubTopicSelected)} />
+                    <div className={getNodeClasses(isTopicSelected, isSubTopicSelected, 'purple')} />
                </div>
-               {!isTopicSelected && <StepHeader icon={Layers} label="Topic / Module" isSelected={false} colorClass="purple" />}
-               <div className="flex flex-col md:flex-row gap-4 items-center">
-                  <div className="flex-1 min-w-0 w-full">
+               {!isTopicSelected && <StepHeader icon={Layers} label="Topic" colorKey="purple" />}
+               <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
+                  <div className="flex-1 w-full">
                      <Combobox
-                        label={isTopicSelected ? null : ""}
+                        label={null}
                         options={topicOptions}
                         value={statePath.topicId || ''}
-                        onChange={(id) => onPathChange({ topicId: id, subTopicId: undefined, dotPointId: undefined, promptId: undefined })}
+                        onChange={(id) => onPathChange({ topicId: id, subTopicId: undefined, dotPointId: undefined, promptId: undefined, selectedSubItems: undefined })}
                         placeholder="Select Topic..."
+                        color="purple"
                      />
                   </div>
                   {isAdmin && (
-                     <div className={`flex items-center gap-2 ${!isTopicSelected ? 'mt-6 md:mt-0' : ''}`}>
+                     <div className="flex items-center gap-2 flex-wrap justify-end">
                         {selectedTopic ? (
                            <>
                               <ActionButton onClick={() => onRenameItem('topic', selectedTopic.id, selectedTopic.name)} icon={Edit3} title="Rename" />
@@ -328,9 +373,8 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                            </>
                         ) : (
                            <>
-                              <ActionButton onClick={onAddTopic} icon={Plus} title="Add Manually" />
-                              <ActionButton onClick={onGenerateSuggestedTopic} icon={Sparkles} title="Suggest with AI" variant="special" />
-                              <ActionButton onClick={onImportTopic} icon={Upload} title="Import JSON" variant="info" />
+                              <ActionButton onClick={onAddTopic} icon={Plus} title="Add" />
+                              <ActionButton onClick={onGenerateSuggestedTopic} icon={Sparkles} title="AI Suggest" variant="special" />
                            </>
                         )}
                      </div>
@@ -340,36 +384,34 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
         </div>
       )}
 
-      {/* SubTopic Level */}
+      {/* 3. Sub-Topic Selection */}
       {selectedTopic && (
-        <div className={`${getContainerClasses(isSubTopicSelected, isTopicSelected && !isSubTopicSelected, 'z-30')} animate-fade-in-up`}>
-           <div className={getBoxClasses(isSubTopicSelected, isTopicSelected && !isSubTopicSelected)}>
+        <div className={getContainerClasses(isSubTopicSelected, 'z-30')}>
+           <div className={getBoxClasses(isSubTopicSelected, !isSubTopicSelected, 'indigo')}>
                 <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
-                    <div className={getNodeClasses(isSubTopicSelected, isDotPointSelected)} />
+                    <div className={getNodeClasses(isSubTopicSelected, isDotPointSelected, 'indigo')} />
                </div>
-               {!isSubTopicSelected && <StepHeader icon={FolderOpen} label="Sub-Topic / Inquiry" isSelected={false} colorClass="indigo" />}
-               <div className="flex flex-col md:flex-row gap-4 items-center">
-                  <div className="flex-1 min-w-0 w-full">
+               {!isSubTopicSelected && <StepHeader icon={FolderOpen} label="Sub-Topic" colorKey="indigo" />}
+               <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
+                  <div className="flex-1 w-full">
                      <Combobox
-                        label={isSubTopicSelected ? null : ""}
+                        label={null}
                         options={subTopicOptions}
                         value={statePath.subTopicId || ''}
-                        onChange={(id) => onPathChange({ subTopicId: id, dotPointId: undefined, promptId: undefined })}
+                        onChange={(id) => onPathChange({ subTopicId: id, dotPointId: undefined, promptId: undefined, selectedSubItems: undefined })}
                         placeholder="Select Sub-Topic..."
+                        color="indigo"
                      />
                   </div>
                   {isAdmin && (
-                     <div className={`flex items-center gap-2 ${!isSubTopicSelected ? 'mt-6 md:mt-0' : ''}`}>
+                     <div className="flex items-center gap-2 flex-wrap justify-end">
                         {selectedSubTopic ? (
                            <>
                               <ActionButton onClick={() => onRenameItem('subTopic', selectedSubTopic.id, selectedSubTopic.name)} icon={Edit3} title="Rename" />
                               <ActionButton onClick={() => onDeleteItem({ type: 'subTopic', id: selectedSubTopic.id, name: selectedSubTopic.name })} icon={Trash2} title="Delete" variant="danger" />
                            </>
                         ) : (
-                           <>
-                              <ActionButton onClick={onAddSubTopic} icon={Plus} title="Add Manually" />
-                              <ActionButton onClick={onAddTopicFromSyllabus} icon={BookOpen} title="Parse Syllabus" variant="info" />
-                           </>
+                           <ActionButton onClick={onAddSubTopic} icon={Plus} title="Add" />
                         )}
                      </div>
                   )}
@@ -378,70 +420,119 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
         </div>
       )}
 
-      {/* Dot Point Level */}
+      {/* 4. Dot Point & Syllabus Focus (Merged Row) */}
       {selectedSubTopic && (
-        <div className={`${getContainerClasses(isDotPointSelected, isSubTopicSelected && !isDotPointSelected, 'z-20')} animate-fade-in-up`}>
-           <div className={getBoxClasses(isDotPointSelected, isSubTopicSelected && !isDotPointSelected)}>
+        <div className={getContainerClasses(isDotPointSelected, 'z-20')}>
+           <div className={getBoxClasses(isDotPointSelected, !isDotPointSelected, 'pink')}>
                 <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
-                    <div className={getNodeClasses(isDotPointSelected, isPromptSelected)} />
+                    <div className={getNodeClasses(isDotPointSelected, isPromptSelected, 'pink')} />
                </div>
-               {!isDotPointSelected && <StepHeader icon={List} label="Syllabus Dot Point" isSelected={false} colorClass="pink" />}
-               <div className="flex flex-col md:flex-row gap-4 items-center">
-                  <div className="flex-1 min-w-0 w-full">
+               {!isDotPointSelected && <StepHeader icon={List} label="Syllabus Content" colorKey="pink" />}
+               
+               <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-start">
+                  {/* Main Dot Point Selector - Grows to take most space */}
+                  <div className="flex-[3] w-full min-w-0">
                      <Combobox
-                        label={isDotPointSelected ? null : ""}
+                        label={isDotPointSelected && hasSubItems ? "Syllabus Point" : null}
                         options={dotPointOptions}
                         value={statePath.dotPointId || ''}
-                        onChange={(id) => onPathChange({ dotPointId: id, promptId: undefined })}
+                        onChange={(id) => onPathChange({ dotPointId: id, promptId: undefined, selectedSubItems: undefined })}
                         placeholder="Select Dot Point..."
+                        color="pink"
                      />
                   </div>
+
+                  {/* Syllabus Focus Selector - Rendered side-by-side if dot point selected and has sub-items */}
+                  {selectedDotPoint && hasSubItems && (
+                      <div className="flex-1 w-full lg:min-w-[240px] animate-fade-in">
+                          <Combobox
+                              label="Active Focus"
+                              options={subItemOptions}
+                              value={activeFocusCount > 0 ? 'MULTIPLE' : ''}
+                              onChange={handleSubItemToggle}
+                              placeholder="Refine Scope..."
+                              color="green"
+                          />
+                      </div>
+                  )}
+
+                  {/* Admin Actions */}
                   {isAdmin && (
-                     <div className={`flex items-center gap-2 ${!isDotPointSelected ? 'mt-6 md:mt-0' : ''}`}>
+                     <div className="flex items-center gap-2 pt-2 lg:pt-0 flex-wrap justify-end lg:self-center">
                         {selectedDotPoint ? (
                            <>
-                              <ActionButton onClick={() => onRenameItem('dotPoint', selectedDotPoint.id, selectedDotPoint.description)} icon={Edit3} title="Edit Text" />
+                              {hasSubItems && activeFocusCount > 0 && (
+                                  <button 
+                                      onClick={() => onPathChange({ selectedSubItems: undefined })}
+                                      className="p-2 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all shadow-sm"
+                                      title="Reset Focus"
+                                  >
+                                      <RotateCcw className="w-4 h-4" />
+                                  </button>
+                              )}
+                              <ActionButton onClick={() => onRenameItem('dotPoint', selectedDotPoint.id, selectedDotPoint.description)} icon={Edit3} title="Rename" />
                               <ActionButton onClick={() => onDeleteItem({ type: 'dotPoint', id: selectedDotPoint.id, name: selectedDotPoint.description })} icon={Trash2} title="Delete" variant="danger" />
                            </>
                         ) : (
-                           <ActionButton onClick={onGenerateDotPoints} icon={Sparkles} title="Auto-Generate" variant="special" />
+                           <ActionButton onClick={onGenerateDotPoints} icon={Sparkles} title="Generate" variant="special" />
                         )}
                      </div>
                   )}
                </div>
+
+               {/* Focus Pills - Displayed beneath selectors in the same container */}
+               {activeFocusCount > 0 && (
+                  <div className="mt-3 flex flex-wrap gap-2 animate-fade-in pl-1">
+                      {statePath.selectedSubItems?.map(item => (
+                          <div key={item} className="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 light:text-emerald-800 text-[10px] font-black uppercase border border-emerald-500/20">
+                              {item}
+                              <button onClick={() => handleSubItemToggle(item)} className="hover:text-red-400 transition-colors">
+                                  <X className="w-3 h-3" />
+                              </button>
+                          </div>
+                      ))}
+                  </div>
+               )}
             </div>
         </div>
       )}
 
-      {/* Question Level */}
+      {/* 5. Question Selection */}
       {selectedDotPoint && (
-        <div className={`${getContainerClasses(isPromptSelected, isDotPointSelected && !isPromptSelected, 'z-10')} animate-fade-in-up`}>
-           <div className={getBoxClasses(isPromptSelected, isDotPointSelected && !isPromptSelected)}>
+        <div className={getContainerClasses(isPromptSelected, 'z-10')}>
+           <div className={getBoxClasses(isPromptSelected, !isPromptSelected, 'green')}>
                <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
-                    <div className={getNodeClasses(isPromptSelected, false)} />
+                    <div className={getNodeClasses(isPromptSelected, false, 'green')} />
                </div>
-               {!isPromptSelected && <StepHeader icon={FileQuestion} label="Challenge Question" isSelected={false} colorClass="green" />}
-               <div className="flex flex-col md:flex-row gap-4 items-center">
-                  <div className="flex-1 min-w-0 w-full">
+               {!isPromptSelected && <StepHeader icon={FileQuestion} label="Question" colorKey="green" />}
+               <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
+                  <div className="flex-1 w-full">
                      <Combobox
-                        label={isPromptSelected ? null : ""}
+                        label={null}
                         options={promptOptions}
                         value={statePath.promptId || ''}
                         onChange={(id) => onPathChange({ promptId: id })}
                         placeholder="Select Question..."
+                        color="green"
                      />
                   </div>
                   {isAdmin && (
-                     <div className={`flex items-center gap-2 ${!isPromptSelected ? 'mt-6 md:mt-0' : ''}`}>
+                     <div className="flex items-center gap-2 flex-wrap justify-end">
                         {selectedPrompt ? (
                            <>
-                               <ActionButton onClick={onGeneratePrompt} icon={Sparkles} title="Generate Another Question" variant="primary" />
+                               <ActionButton onClick={onGeneratePrompt} icon={Sparkles} title="Generate New" variant="primary" />
+                               <ActionButton onClick={onManualEntry} icon={PenTool} title="Manual Input" variant="special" />
                                <ActionButton onClick={() => onDeleteItem({ type: 'prompt', id: selectedPrompt.id, name: selectedPrompt.question })} icon={Trash2} title="Delete" variant="danger" />
                            </>
                         ) : (
-                           <button onClick={onGeneratePrompt} className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] text-white font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all" title="Generate New Question">
-                              <Sparkles className="w-4 h-4" /> Generate
-                           </button>
+                           <div className="flex gap-2 flex-wrap justify-end">
+                               <button onClick={onManualEntry} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 font-bold text-xs uppercase tracking-widest border border-purple-500/30 transition-all">
+                                  <PenTool className="w-4 h-4" /> Manual
+                               </button>
+                               <button onClick={onGeneratePrompt} className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all">
+                                  <Sparkles className="w-4 h-4" /> Generate
+                               </button>
+                           </div>
                         )}
                      </div>
                   )}
@@ -449,7 +540,6 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             </div>
         </div>
       )}
-
     </div>
   );
 };

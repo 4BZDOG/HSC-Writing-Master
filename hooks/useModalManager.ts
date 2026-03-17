@@ -21,7 +21,8 @@ export type ModalName =
   | 'qualityCheck'
   | 'userProfile'
   | 'databaseDashboard'
-  | 'manifestImport';
+  | 'manifestImport'
+  | 'manualPrompt';
 
 export type RenameTarget = { type: 'course' | 'topic' | 'subTopic' | 'dotPoint' | 'prompt'; id: string; name: string };
 export type DeleteTarget = { type: 'course' | 'topic' | 'subTopic' | 'dotPoint' | 'prompt'; id: string; name: string };

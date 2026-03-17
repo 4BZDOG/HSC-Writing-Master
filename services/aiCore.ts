@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
 import { safeSetItem, safeGetItem, STORAGE_KEYS } from '../utils/storageUtils';
 
@@ -103,7 +102,7 @@ export class ApiGuard {
     const errorCount = this.errors.length;
     let blockReason = null;
 
-    if (status === 429 || errorMsg.includes('429') || /resource_exhausted|quota/i.test(errorMsg)) {
+    if (status === 429 || errorMsg.includes('429') || new RegExp('resource_exhausted|quota', 'i').test(errorMsg)) {
         blockReason = "API Quota Exceeded. Pausing requests to reset limits.";
     }
 
@@ -320,7 +319,7 @@ const callGeminiWithRetry = async <T>(apiCall: () => Promise<T>, maxRetries: num
           throw error;
       }
 
-      const isQuotaError = status === 429 || errorMsg.includes('429') || /rate limit|resource_exhausted|quota/i.test(errorMsg);
+      const isQuotaError = status === 429 || errorMsg.includes('429') || new RegExp('rate limit|resource_exhausted|quota', 'i').test(errorMsg);
 
       if (attempt < maxRetries) {
            attempt++;
@@ -381,36 +380,68 @@ export const generateContentWithRetry = async (request: any): Promise<GenerateCo
 export const safeJsonParse = <T>(jsonString: string): T | null => {
   if (!jsonString) return null;
   
+  // 1. Try parsing directly
   try {
     return JSON.parse(jsonString);
-  } catch (e) {
-    const markdownMatch = jsonString.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
-    if (markdownMatch && markdownMatch[1]) {
-      try { return JSON.parse(markdownMatch[1]); } catch { /* ignore */ }
-    }
+  } catch (e) { /* continue */ }
 
-    const firstBrace = jsonString.indexOf('{');
-    const firstBracket = jsonString.indexOf('[');
-    
-    let start = -1;
-    if (firstBrace === -1) start = firstBracket;
-    else if (firstBracket === -1) start = firstBrace;
-    else start = Math.min(firstBrace, firstBracket);
-    
-    if (start === -1) return null;
-
-    const lastBrace = jsonString.lastIndexOf('}');
-    const lastBracket = jsonString.lastIndexOf(']');
-    const end = Math.max(lastBrace, lastBracket);
-
-    if (end === -1 || end < start) return null;
-
-    const potentialJson = jsonString.substring(start, end + 1);
+  // 2. Try extracting from markdown code blocks
+  const markdownMatch = jsonString.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+  if (markdownMatch && markdownMatch[1]) {
     try {
-        return JSON.parse(potentialJson);
-    } catch (finalError) {
-        console.error("JSON parsing error:", finalError);
-        return null;
-    }
+      return JSON.parse(markdownMatch[1]);
+    } catch (e) { /* continue */ }
   }
+
+  // 3. Robust Extraction: Search for valid JSON objects by finding matching braces
+  // This handles cases where thinking traces (which might contain braces) appear before the JSON.
+  
+  let currentStart = jsonString.indexOf('{');
+  while (currentStart !== -1) {
+      let bracketCount = 0;
+      let inString = false;
+      let escape = false;
+
+      for (let i = currentStart; i < jsonString.length; i++) {
+          const char = jsonString[i];
+          
+          if (escape) {
+              escape = false;
+              continue;
+          }
+          
+          if (char === '\\') {
+              escape = true;
+              continue;
+          }
+
+          if (char === '"') {
+              inString = !inString;
+              continue;
+          }
+
+          if (!inString) {
+              if (char === '{') bracketCount++;
+              else if (char === '}') {
+                  bracketCount--;
+                  if (bracketCount === 0) {
+                      // Found a balanced block
+                      const candidate = jsonString.substring(currentStart, i + 1);
+                      try {
+                          return JSON.parse(candidate);
+                      } catch (e) {
+                          // Not valid JSON, continue searching
+                          break; 
+                      }
+                  }
+              }
+          }
+      }
+      
+      // If we are here, we didn't find a matching brace or parsing failed.
+      // Try next opening brace
+      currentStart = jsonString.indexOf('{', currentStart + 1);
+  }
+
+  return null;
 };

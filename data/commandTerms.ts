@@ -1,4 +1,3 @@
-
 import { CommandTermInfo, PromptVerb } from '../types';
 
 const TIER_COLORS = [
@@ -456,7 +455,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
 export const commandTerms = new Map<PromptVerb, CommandTermInfo>(
   commandTermsList.map(term => [
     term.term,
-    { ...term, tailwind: TIER_COLORS[term.tier] }
+    { ...term, tailwind: TIER_COLORS[term.tier] } as CommandTermInfo
   ])
 );
 
@@ -523,7 +522,7 @@ export const getCommandTermsForMarks = (marks: number): { terms: CommandTermInfo
 
   const idealMatches = commandTermsList.filter(
     term => marks >= term.markRange[0] && marks <= term.markRange[1]
-  ).map(term => ({ ...term, tailwind: TIER_COLORS[term.tier] }));
+  ).map(term => ({ ...term, tailwind: TIER_COLORS[term.tier] } as CommandTermInfo));
 
   if (idealMatches.length > 0) {
     const sortedMatches = idealMatches.sort((a, b) => {
@@ -558,7 +557,7 @@ export const getCommandTermsForMarks = (marks: number): { terms: CommandTermInfo
     }
   });
 
-  const primaryTerm = { ...closestTerm, tailwind: TIER_COLORS[closestTerm.tier] };
+  const primaryTerm = { ...closestTerm, tailwind: TIER_COLORS[closestTerm.tier] } as CommandTermInfo;
   return { terms: [primaryTerm], primaryTerm: primaryTerm };
 };
 

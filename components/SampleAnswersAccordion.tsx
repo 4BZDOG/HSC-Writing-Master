@@ -1,42 +1,53 @@
 
-import React, { useState, useMemo, KeyboardEvent, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Prompt, SampleAnswer, UserRole } from '../types';
-import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
+import { renderFormattedText, getBandConfig, cleanMarkdown } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import SampleAnswerGeneratorModal from './SampleAnswerGeneratorModal';
 import SampleAnswerRevisionModal from './SampleAnswerRevisionModal';
 import SampleAnswerEditorModal from './SampleAnswerEditorModal';
-import { ChevronDown, FileText, Sparkles, Award, Edit3, Repeat, Trash2, Pencil, ChevronLeft, ChevronRight, BadgeAlert, User as UserIcon, BookOpen } from 'lucide-react';
+import { 
+  ChevronDown, FileText, Sparkles, Award, Edit3, Repeat, 
+  Trash2, Pencil, ChevronLeft, ChevronRight, 
+  User as UserIcon, BookOpen, Layers, Zap, Copy, Check, Bookmark,
+  ZoomIn, ZoomOut, Lightbulb, RefreshCw
+} from 'lucide-react';
 import { useAnswerMetrics } from '../hooks/useAnswerMetrics';
 import AnswerMetricsDisplay from './AnswerMetricsDisplay';
 
-// Grouped type for rendering
+// --- Shared Internal Components ---
+
+const MeshOverlay = ({ opacity = "opacity-[0.05]" }: { opacity?: string }) => (
+  <div 
+      className={`absolute inset-0 ${opacity} light:opacity-[0.08] pointer-events-none mix-blend-overlay z-0 transition-opacity duration-500`}
+      style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v12M0 1h12' stroke='%23ffffff' stroke-width='0.5' fill='none'/%3E%3C/svg%3E")` }}
+  />
+);
+
 interface GroupedSampleAnswers {
     mark: number;
     answers: SampleAnswer[];
     band: number;
-    calculatedBand: number; // To check against strict criteria
+    calculatedBand: number; 
 }
 
 const SourceBadge: React.FC<{ source?: string }> = ({ source }) => {
-    if (source === 'USER') {
-        return (
-            <span className="inline-flex items-center gap-1 text-[9px] font-black bg-blue-500/10 light:bg-blue-50 text-blue-400 light:text-blue-700 px-1.5 py-0.5 rounded border border-blue-500/20 light:border-blue-200 uppercase tracking-wider">
-                <UserIcon className="w-2.5 h-2.5" /> Student
-            </span>
-        );
-    }
-    if (source === 'HSC_EXEMPLAR') {
-        return (
-            <span className="inline-flex items-center gap-1 text-[9px] font-black bg-amber-500/10 light:bg-amber-50 text-amber-400 light:text-amber-700 px-1.5 py-0.5 rounded border border-amber-500/20 light:border-amber-200 uppercase tracking-wider">
-                <BookOpen className="w-2.5 h-2.5" /> HSC
-            </span>
-        );
-    }
-    // Default AI
+    const isAi = source === 'AI';
+    const isUser = source === 'USER';
+    const isHsc = source === 'HSC_EXEMPLAR';
+
+    const config = isAi
+        ? 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-white/5 dark:text-slate-400 dark:border-white/10'
+        : isUser
+            ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' 
+            : 'bg-amber-500/10 text-amber-500 border-amber-500/20';
+            
+    const Icon = isUser ? UserIcon : isHsc ? BookOpen : Sparkles;
+    const label = isUser ? 'Student' : isHsc ? 'Official' : 'AI Model';
+
     return (
-        <span className="inline-flex items-center gap-1 text-[9px] font-black bg-purple-500/10 light:bg-purple-50 text-purple-400 light:text-purple-700 px-1.5 py-0.5 rounded border border-purple-500/20 light:border-purple-200 uppercase tracking-wider">
-            <Sparkles className="w-2.5 h-2.5" /> AI
+        <span className={`inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${config}`}>
+            <Icon className="w-2.5 h-2.5" /> {label}
         </span>
     );
 };
@@ -51,10 +62,11 @@ const CarouselAccordionItem: React.FC<{
   onEdit: (sample: SampleAnswer) => void;
   onDelete: (id: string) => void;
   canModify: boolean;
-}> = React.memo(({ group, prompt, isOpen, onToggle, onUseSample, onRevise, onEdit, onDelete, canModify }) => {
+  fontSize: number;
+}> = React.memo(({ group, prompt, isOpen, onToggle, onUseSample, onRevise, onEdit, onDelete, canModify, fontSize }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isCopied, setIsCopied] = useState(false);
   
-  // Reset index when group length changes (e.g., deletion)
   useEffect(() => {
     if (currentIndex >= group.answers.length && group.answers.length > 0) {
         setCurrentIndex(group.answers.length - 1);
@@ -62,32 +74,12 @@ const CarouselAccordionItem: React.FC<{
   }, [group.answers.length, currentIndex]);
 
   const currentSample = group.answers[currentIndex];
-
-  // Determine safe values for hooks to ensure they run unconditionally
   const safeAnswer = currentSample?.answer || "";
   const safeBand = currentSample?.band || 1;
-
   const bandConfig = useMemo(() => getBandConfig(safeBand), [safeBand]);
-  
-  const renderedAnswer = useMemo(() => {
-    if (!currentSample) return null;
-    if (typeof currentSample.answer !== 'string') {
-      return <p className="text-red-400 italic">[Error: Invalid sample answer format]</p>;
-    }
-    return renderFormattedText(currentSample.answer, prompt.keywords, prompt.verb);
-  }, [currentSample, prompt.keywords, prompt.verb]);
-
   const metrics = useAnswerMetrics(safeAnswer, prompt.keywords);
 
-  // Safe to return early now that all hooks have been called
   if (!currentSample) return null;
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      onToggle();
-    }
-  };
 
   const handleNext = (e: React.MouseEvent) => {
       e.stopPropagation();
@@ -98,177 +90,148 @@ const CarouselAccordionItem: React.FC<{
       e.stopPropagation();
       setCurrentIndex((prev) => (prev - 1 + group.answers.length) % group.answers.length);
   };
-  
-  const isBandMismatch = group.band !== group.calculatedBand;
+
+  const handleUseSample = () => {
+    const cleanText = cleanMarkdown(currentSample.answer);
+    onUseSample(cleanText);
+  };
+
+  const handleCopy = async () => {
+      await navigator.clipboard.writeText(cleanMarkdown(currentSample.answer));
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+  };
 
   return (
-    <div 
-      className={`
-        group rounded-xl transition-all duration-300 ease-out transform
-        ${isOpen ? bandConfig.bg : 'bg-[rgb(var(--color-bg-surface))]/80 light:bg-white'}
-        border ${bandConfig.border}
-        ${isOpen 
-          ? `shadow-lg ${bandConfig.glow} scale-[1.01]` 
-          : 'border-opacity-40 light:border-opacity-100 hover:border-opacity-60 light:hover:border-slate-300 light:shadow-sm hover:shadow-md hover-lift'
-        }
-      `}
-    >
+    <div className={`group border-b border-slate-100 dark:border-white/5 last:border-0 transition-all duration-500 ${isOpen ? `bg-opacity-10 ${bandConfig.bg}` : ''}`}>
       <button 
         onClick={onToggle}
-        onKeyDown={handleKeyDown}
-        aria-expanded={isOpen}
-        className={`
-          w-full p-4 flex items-center justify-between
-          transition-all duration-200 ease-out
-          focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]/50 rounded-xl
-        `}
+        className={`w-full py-4 px-6 flex items-center justify-between transition-all duration-300 relative overflow-hidden`}
       >
-        <div className="flex items-center gap-4 flex-1 min-w-0">
-          <div className={`
-            w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0
-            transition-all duration-200 ease-out
-            ${isOpen 
-              ? `bg-gradient-to-br ${bandConfig.gradient} shadow-md text-white` 
-              : `${bandConfig.iconBg} border ${bandConfig.border} ${bandConfig.text}`
-            }
-          `}>
-            <Award className="w-5 h-5" />
-          </div>
-          
-          <div className="flex flex-col items-start">
-            <div className="flex items-center gap-2">
-                <span className={`font-bold text-base leading-none ${bandConfig.text}`}>
-                Band {currentSample.band}
-                </span>
-                {isBandMismatch && (
-                    <div className="group/tooltip relative">
-                         <BadgeAlert className="w-4 h-4 text-amber-400" />
-                         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-gray-900 text-xs text-gray-200 rounded shadow-lg border border-gray-700 opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none whitespace-normal z-10">
-                            Based on the mark ({group.mark}), this aligns more closely with Band {group.calculatedBand}.
-                         </div>
-                    </div>
-                )}
-            </div>
-            <span className="text-[rgb(var(--color-text-dim))] light:text-slate-500 text-xs font-medium font-mono">
-              {group.mark}/{prompt.totalMarks} marks
-            </span>
-          </div>
-        </div>
-        
-        <div className="flex items-center gap-3">
-             {/* Preview Badges for contained sources */}
-             <div className="flex -space-x-1">
-                {group.answers.map((ans, i) => {
-                    if (i > 3) return null;
-                    // Tiny dot indicator
-                    let color = 'bg-purple-400';
-                    if (ans.source === 'USER') color = 'bg-blue-400';
-                    if (ans.source === 'HSC_EXEMPLAR') color = 'bg-amber-400';
-                    return <div key={ans.id} className={`w-2 h-2 rounded-full border border-[rgb(var(--color-bg-surface))] light:border-white ${color}`} />
-                })}
-             </div>
+        {/* Active Indicator Bar */}
+        <div className={`absolute left-0 top-0 bottom-0 w-1 transition-all duration-500 ${isOpen ? bandConfig.solidBg : 'bg-transparent'}`} />
 
-             {group.answers.length > 1 && (
-                <span className="text-[10px] font-bold bg-black/20 light:bg-slate-100 px-2 py-1 rounded-full text-[rgb(var(--color-text-secondary))] light:text-slate-600 border border-white/5 light:border-slate-300">
-                    {group.answers.length} Variations
-                </span>
-             )}
-             <ChevronDown className={`w-5 h-5 text-[rgb(var(--color-text-muted))] light:text-slate-400 transition-transform duration-200 ease-out flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
+        <div className="flex items-center gap-5">
+            {/* Band Badge - Styled with tier colors */}
+            <div className={`
+                flex flex-col items-center justify-center w-14 h-14 rounded-2xl border transition-all duration-500 relative overflow-hidden
+                ${isOpen 
+                    ? `${bandConfig.bg} ${bandConfig.border} shadow-lg scale-105` 
+                    : `bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 group-hover:border-slate-300 dark:group-hover:border-white/20`}
+            `}>
+                <div className={`absolute inset-0 bg-gradient-to-br ${bandConfig.gradient} ${isOpen ? 'opacity-15' : 'opacity-5 group-hover:opacity-10'}`} />
+                <span className={`text-[8px] font-black uppercase tracking-widest mb-0.5 relative z-10 ${isOpen ? bandConfig.text : 'text-slate-400 dark:text-slate-500'}`}>Band</span>
+                <span className={`text-2xl font-black leading-none relative z-10 ${bandConfig.text}`}>{group.band}</span>
+            </div>
+
+            <div className="text-left">
+                <div className="flex items-center gap-3">
+                    <span className={`text-sm font-bold tracking-tight transition-colors duration-300 ${isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-400'}`}>
+                        {group.mark}/{prompt.totalMarks} Marks
+                    </span>
+                    {group.answers.length > 1 && (
+                         <span className="flex items-center gap-1 text-[9px] font-bold text-slate-400 uppercase tracking-wider bg-slate-200/50 dark:bg-white/10 px-1.5 py-0.5 rounded-md">
+                            <Layers className="w-2.5 h-2.5" /> {group.answers.length}
+                         </span>
+                    )}
+                </div>
+                <div className="flex items-center gap-2 mt-1.5 opacity-90">
+                     <SourceBadge source={currentSample.source} />
+                     <span className="text-[10px] font-mono text-slate-400">#{currentSample.id.split('-').pop()?.slice(0,4)}</span>
+                </div>
+            </div>
+        </div>
+
+        <div className="flex items-center gap-4">
+             {isOpen && group.answers.length > 1 && (
+                <div className="flex items-center gap-1 bg-white dark:bg-black/20 rounded-lg p-0.5 border border-slate-200 dark:border-white/10 shadow-sm" onClick={e => e.stopPropagation()}>
+                    <button onClick={handlePrev} className="p-1 hover:bg-slate-100 dark:hover:bg-white/10 rounded text-slate-500 transition-colors"><ChevronLeft className="w-3.5 h-3.5" /></button>
+                    <span className="text-[9px] font-bold w-4 text-center text-slate-600 dark:text-slate-300">{currentIndex + 1}</span>
+                    <button onClick={handleNext} className="p-1 hover:bg-slate-100 dark:hover:bg-white/10 rounded text-slate-500 transition-colors"><ChevronRight className="w-3.5 h-3.5" /></button>
+                </div>
+            )}
+            <ChevronDown className={`w-4 h-4 transition-transform duration-500 ${isOpen ? 'rotate-180 text-slate-600 dark:text-white' : 'text-slate-400'}`} />
         </div>
       </button>
       
-      {isOpen && (
-        <div className="px-5 pb-5 pt-0 animate-fade-in-up-sm">
+      {/* Smooth Expansion Animation Container */}
+      <div className={`grid transition-all duration-500 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+        <div className="overflow-hidden">
+          <div className="px-6 pb-6">
+            <div className={`relative rounded-2xl bg-slate-50 dark:bg-[#0f1115] border ${bandConfig.border} border-opacity-30 overflow-hidden shadow-inner`}>
+                {/* Controls Bar */}
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 border-b border-slate-200 dark:border-white/5 bg-white/50 dark:bg-white/[0.02]">
+                    
+                    <AnswerMetricsDisplay metrics={metrics} showLabel={false} className="opacity-100 scale-95 origin-left" tier={group.band} />
+                    
+                    <div className="flex items-center gap-2 ml-auto">
+                          <button
+                              onClick={handleUseSample}
+                              className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-500/30 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-all flex items-center gap-1.5"
+                          >
+                              <Copy className="w-3 h-3" /> Use
+                          </button>
+                          <button
+                              onClick={handleCopy}
+                              className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/10 hover:bg-slate-200 dark:hover:bg-white/10 transition-all flex items-center gap-1.5"
+                          >
+                              {isCopied ? <Check className="w-3 h-3" /> : <FileText className="w-3 h-3" />}
+                              {isCopied ? 'Copied' : 'Copy'}
+                          </button>
+                          {canModify && (
+                              <div className="w-px h-4 bg-slate-300 dark:bg-white/10 mx-1" />
+                          )}
+                          {canModify && (
+                              <>
+                                  <button onClick={() => onRevise(currentSample)} className="p-1.5 rounded-lg text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all" title="Revise with AI"><Repeat className="w-3.5 h-3.5" /></button>
+                                  <button onClick={() => onEdit(currentSample)} className="p-1.5 rounded-lg text-slate-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-all" title="Edit manually"><Pencil className="w-3.5 h-3.5" /></button>
+                                  <button onClick={() => onDelete(currentSample.id)} className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all" title="Delete"><Trash2 className="w-3.5 h-3.5" /></button>
+                              </>
+                          )}
+                    </div>
+                </div>
+
+                {/* Content */}
+                <div 
+                    className="p-6 font-serif leading-loose text-slate-700 dark:text-slate-300 whitespace-pre-wrap transition-all duration-200"
+                    style={{ fontSize: `${fontSize}px`, lineHeight: 1.6 }}
+                >
+                    {renderFormattedText(currentSample.answer, prompt.keywords, prompt.verb)}
+                </div>
+            </div>
             
-          {/* Controls and Metrics Header */}
-          <div className="mb-4 pt-4 border-t border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-             <div className="flex flex-col gap-2">
-                 <SourceBadge source={currentSample.source} />
-                 <AnswerMetricsDisplay metrics={metrics} showLabel={true} />
-             </div>
-             
-             <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-                {group.answers.length > 1 && (
-                    <div className="flex items-center gap-1 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-white/50 rounded-lg p-0.5 border border-[rgb(var(--color-border-secondary))] light:border-slate-200 mr-auto sm:mr-0">
-                        <button 
-                            onClick={handlePrev} 
-                            className="p-1 hover:bg-white/10 light:hover:bg-slate-100 rounded text-[rgb(var(--color-text-secondary))] light:text-slate-600 transition-colors"
-                            title="Previous Variation"
-                        >
-                            <ChevronLeft className="w-4 h-4" />
-                        </button>
-                        <span className="text-[10px] font-mono w-12 text-center text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                            {currentIndex + 1} / {group.answers.length}
-                        </span>
-                        <button 
-                            onClick={handleNext} 
-                            className="p-1 hover:bg-white/10 light:hover:bg-slate-100 rounded text-[rgb(var(--color-text-secondary))] light:text-slate-600 transition-colors"
-                            title="Next Variation"
-                        >
-                            <ChevronRight className="w-4 h-4" />
-                        </button>
+            {/* Feedback and Coach's Tip */}
+            <div className="space-y-3 mt-3">
+                 {currentSample.quickTip && (
+                    <div className={`px-4 py-3 rounded-xl border border-indigo-100 dark:border-indigo-500/20 bg-indigo-50 dark:bg-indigo-900/10 flex items-start gap-3`}>
+                        <div className="mt-0.5 p-1 rounded-full bg-indigo-100 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 shrink-0">
+                            <Lightbulb className="w-3 h-3" />
+                        </div>
+                        <div>
+                            <p className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-1">Coach's Tip</p>
+                            <p className="text-xs text-indigo-900 dark:text-indigo-200/90 leading-relaxed font-medium">{currentSample.quickTip}</p>
+                        </div>
                     </div>
                 )}
-
-                <div className="flex items-center gap-2 ml-auto">
-                    <button
-                        onClick={(e) => { e.stopPropagation(); onUseSample(currentSample.answer); }}
-                        disabled={typeof currentSample.answer !== 'string'}
-                        className="text-xs font-bold px-3 py-1.5 rounded-lg bg-emerald-500/10 light:bg-emerald-100 text-emerald-400 light:text-emerald-700 hover:bg-emerald-500/20 light:hover:bg-emerald-200 border border-emerald-500/30 light:border-emerald-300 transition-all flex items-center gap-1.5 hover-scale"
-                        title="Copy to editor"
-                    >
-                        <Edit3 className="w-3.5 h-3.5" /> Use
-                    </button>
-                    {canModify && (
-                        <>
-                            <button
-                                onClick={(e) => { e.stopPropagation(); onRevise(currentSample); }}
-                                className="text-xs font-bold px-2 py-1.5 rounded-lg bg-blue-500/10 light:bg-blue-100 text-blue-400 light:text-blue-700 hover:bg-blue-500/20 light:hover:bg-blue-200 border border-blue-500/30 light:border-blue-300 transition-all flex items-center gap-1.5 hover-scale"
-                                title="Revise with AI"
-                            >
-                                <Repeat className="w-3.5 h-3.5" />
-                            </button>
-                            <button
-                                onClick={(e) => { e.stopPropagation(); onEdit(currentSample); }}
-                                className="text-xs font-bold px-2 py-1.5 rounded-lg bg-yellow-500/10 light:bg-yellow-100 text-yellow-400 light:text-yellow-700 hover:bg-yellow-500/20 light:hover:bg-yellow-200 border border-yellow-500/30 light:border-yellow-300 transition-all flex items-center gap-1.5 hover-scale"
-                                title="Edit Manually"
-                            >
-                                <Pencil className="w-3.5 h-3.5" />
-                            </button>
-                            <button
-                                onClick={(e) => { e.stopPropagation(); onDelete(currentSample.id); }}
-                                className="text-xs font-bold px-2 py-1.5 rounded-lg bg-red-500/10 light:bg-red-100 text-red-400 light:text-red-700 hover:bg-red-500/20 light:hover:bg-red-200 border border-red-500/30 light:border-red-300 transition-all flex items-center hover-scale"
-                                title="Delete"
-                            >
-                                <Trash2 className="w-3.5 h-3.5" />
-                            </button>
-                        </>
-                    )}
-                </div>
-             </div>
-          </div>
-          
-          <div className="bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-white p-5 rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 font-serif relative overflow-hidden min-h-[100px] shadow-inner light:shadow-none">
-             {/* Quote decorative icon */}
-             <div className="absolute top-2 left-3 text-6xl text-[rgb(var(--color-text-muted))]/5 light:text-slate-300/20 font-serif leading-none select-none">“</div>
-            <div className="prose prose-sm max-w-none text-[rgb(var(--color-text-secondary))] light:text-slate-800 leading-relaxed relative z-10">
-              {renderedAnswer}
+                
+                {currentSample.feedback && (
+                    <div className="px-4 py-3 rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-500/20 flex items-start gap-3">
+                        <div className="mt-0.5 p-1 rounded-full bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 shrink-0">
+                            <BookOpen className="w-3 h-3" />
+                        </div>
+                        <div>
+                            <p className="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider mb-1">Feedback</p>
+                            <p className="text-xs text-amber-800 dark:text-amber-200/80 leading-relaxed">{currentSample.feedback}</p>
+                        </div>
+                    </div>
+                )}
             </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 });
-
-interface SampleAnswersAccordionProps {
-  prompt: Prompt;
-  onSampleAnswerGenerated: (answer: SampleAnswer) => void;
-  onUseSampleAnswer: (text: string) => void;
-  onDeleteSampleAnswer: (id: string) => void;
-  onUpdateSampleAnswer: (answer: SampleAnswer) => void;
-  userRole: UserRole;
-}
 
 const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   prompt,
@@ -277,18 +240,27 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   onDeleteSampleAnswer,
   onUpdateSampleAnswer,
   userRole,
+  onRecalibrate
 }) => {
   const [openGroupMark, setOpenGroupMark] = useState<number | null>(null);
   const [isGeneratorOpen, setIsGeneratorOpen] = useState(false);
   const [revisionTarget, setRevisionTarget] = useState<SampleAnswer | null>(null);
   const [editorTarget, setEditorTarget] = useState<SampleAnswer | null>(null);
+  const [fontSize, setFontSize] = useState(13);
+  const [isRecalibrating, setIsRecalibrating] = useState(false);
 
   const isAdmin = userRole === 'admin';
+  const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
+  
+  // Calculate maximum possible band for this question based on its cognitive Tier
+  const maxPossibleBand = useMemo(() => {
+    return getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier);
+  }, [prompt.totalMarks, commandTermInfo.tier]);
+
+  const maxBandConfig = useMemo(() => getBandConfig(maxPossibleBand), [maxPossibleBand]);
 
   const groupedAnswers = useMemo(() => {
     const groups: Record<number, GroupedSampleAnswers> = {};
-    const commandTermInfo = getCommandTermInfo(prompt.verb);
-    
     (prompt.sampleAnswers || []).forEach(sa => {
         if (!groups[sa.mark]) {
             groups[sa.mark] = {
@@ -300,31 +272,88 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
         }
         groups[sa.mark].answers.push(sa);
     });
-
     return Object.values(groups).sort((a, b) => b.mark - a.mark);
-  }, [prompt.sampleAnswers, prompt.totalMarks, prompt.verb]);
+  }, [prompt.sampleAnswers, prompt.totalMarks, prompt.verb, commandTermInfo.tier]);
+
+  const handleRecalibrate = async () => {
+      if (onRecalibrate) {
+          setIsRecalibrating(true);
+          await onRecalibrate();
+          setIsRecalibrating(false);
+      }
+  };
 
   return (
-    <div className="space-y-4">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 uppercase tracking-wider flex items-center gap-2">
-                <FileText className="w-4 h-4 text-[rgb(var(--color-accent))]" />
-                Sample Answers
-            </h3>
-            {isAdmin && (
-                <button 
-                    onClick={() => setIsGeneratorOpen(true)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 transition-all hover-scale"
-                >
-                    <Sparkles className="w-3.5 h-3.5 text-yellow-400" />
-                    Generate
-                </button>
-            )}
+    <div className="bg-white dark:bg-[rgb(var(--color-bg-surface))] rounded-[24px] border border-slate-200 dark:border-white/10 shadow-sm overflow-hidden flex flex-col">
+        {/* Header - Styled with highest possible tier color to indicate the question's potential */}
+        <div className={`px-6 py-4 border-b border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-white/[0.02] flex items-center justify-between relative overflow-hidden`}>
+            {/* Ambient Background Gradient matching the question's Max Band */}
+            <div className={`absolute inset-0 opacity-[0.03] bg-gradient-to-r ${maxBandConfig.gradient} pointer-events-none`} />
+
+            <div className="flex items-center gap-3 relative z-10">
+                <div className={`p-2 rounded-xl transition-colors duration-500 ${maxBandConfig.bg} ${maxBandConfig.text} border ${maxBandConfig.border} border-opacity-30 shadow-sm`}>
+                    <Bookmark className="w-4 h-4" />
+                </div>
+                <div>
+                    <h3 className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-[0.2em]">Sample Answers</h3>
+                    <p className={`text-[10px] font-bold uppercase tracking-wider opacity-80 ${maxBandConfig.text}`}>
+                        {groupedAnswers.length > 0 ? `${groupedAnswers.length} Performance Levels` : 'No models available'}
+                        {` • Max Tier Cap: Band ${maxPossibleBand}`}
+                    </p>
+                </div>
+            </div>
+
+            <div className="flex items-center gap-3 relative z-10">
+                <div className="flex items-center gap-1 bg-white dark:bg-black/20 p-1 rounded-lg border border-slate-200 dark:border-white/10 shadow-sm">
+                     <button 
+                        onClick={(e) => { e.stopPropagation(); setFontSize(Math.max(10, fontSize - 1)); }}
+                        className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors rounded-md hover:bg-slate-100 dark:hover:bg-white/10"
+                        title="Decrease text size"
+                     >
+                        <ZoomOut className="w-3.5 h-3.5" />
+                     </button>
+                     <span className="text-[10px] font-mono font-bold text-slate-400 w-6 text-center select-none">
+                        {fontSize}
+                     </span>
+                     <button 
+                        onClick={(e) => { e.stopPropagation(); setFontSize(Math.min(24, fontSize + 1)); }}
+                        className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors rounded-md hover:bg-slate-100 dark:hover:bg-white/10"
+                        title="Increase text size"
+                     >
+                        <ZoomIn className="w-3.5 h-3.5" />
+                     </button>
+                </div>
+
+                {isAdmin && (
+                    <>
+                        {onRecalibrate && (
+                            <button
+                                onClick={handleRecalibrate}
+                                disabled={isRecalibrating || !prompt.sampleAnswers?.length}
+                                className={`
+                                    p-2 rounded-lg bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 
+                                    text-slate-500 hover:text-indigo-500 disabled:opacity-50 transition-all
+                                    ${isRecalibrating ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-500 border-indigo-200' : ''}
+                                `}
+                                title="Recalibrate All Samples with AI"
+                            >
+                                <RefreshCw className={`w-3.5 h-3.5 ${isRecalibrating ? 'animate-spin' : ''}`} />
+                            </button>
+                        )}
+                        <button 
+                            onClick={() => setIsGeneratorOpen(true)}
+                            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-indigo-500/30 text-xs font-bold text-slate-600 dark:text-slate-300 shadow-sm hover:shadow transition-all"
+                        >
+                            <Zap className="w-3.5 h-3.5 text-amber-400" />
+                            <span>Generate</span>
+                        </button>
+                    </>
+                )}
+            </div>
         </div>
 
-        {/* List */}
-        <div className="space-y-3">
+        {/* Content List */}
+        <div>
             {groupedAnswers.length > 0 ? (
                 groupedAnswers.map(group => (
                     <CarouselAccordionItem 
@@ -338,24 +367,23 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
                         onEdit={(sa) => setEditorTarget(sa)}
                         onDelete={onDeleteSampleAnswer}
                         canModify={isAdmin}
+                        fontSize={fontSize}
                     />
                 ))
             ) : (
-                <div className="p-6 rounded-xl border border-dashed border-[rgb(var(--color-border-secondary))]/50 light:border-slate-300 bg-[rgb(var(--color-bg-surface-inset))]/20 light:bg-slate-50 text-center">
-                    <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 italic">
-                        No sample answers yet. 
-                        {isAdmin ? " Generate one to get started." : " Check back later."}
-                    </p>
+                <div className="py-12 flex flex-col items-center text-center opacity-60">
+                    <FileText className="w-8 h-8 text-slate-300 dark:text-slate-600 mb-3" />
+                    <p className="text-xs font-medium text-slate-500">No model responses available yet.</p>
+                    {isAdmin && <p className="text-[10px] text-slate-400 mt-1">Click generate to create exemplary answers.</p>}
                 </div>
             )}
         </div>
 
-        {/* Modals */}
         <SampleAnswerGeneratorModal
             isOpen={isGeneratorOpen}
             onClose={() => setIsGeneratorOpen(false)}
             prompt={prompt}
-            onSampleAnswerGenerated={(answer) => onSampleAnswerGenerated(answer)}
+            onSampleAnswerGenerated={onSampleAnswerGenerated}
         />
         
         {revisionTarget && (
@@ -365,8 +393,8 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
                 prompt={prompt}
                 sampleToRevise={revisionTarget}
                 existingMarks={groupedAnswers.map(g => g.mark)}
-                onRevisionComplete={(revisedAnswer) => {
-                    onSampleAnswerGenerated(revisedAnswer);
+                onRevisionComplete={(sa) => {
+                    onSampleAnswerGenerated(sa);
                     setRevisionTarget(null);
                 }}
             />
@@ -378,8 +406,8 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
                 onClose={() => setEditorTarget(null)}
                 prompt={prompt}
                 sampleToEdit={editorTarget}
-                onSave={(updatedAnswer) => {
-                    onUpdateSampleAnswer(updatedAnswer);
+                onSave={(updated) => {
+                    onUpdateSampleAnswer(updated);
                     setEditorTarget(null);
                 }}
             />
@@ -387,5 +415,15 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
     </div>
   );
 };
+
+interface SampleAnswersAccordionProps {
+  prompt: Prompt;
+  onSampleAnswerGenerated: (answer: SampleAnswer) => void;
+  onUseSampleAnswer: (text: string) => void;
+  onDeleteSampleAnswer: (id: string) => void;
+  onUpdateSampleAnswer: (answer: SampleAnswer) => void;
+  userRole: UserRole;
+  onRecalibrate?: () => Promise<void>;
+}
 
 export default SampleAnswersAccordion;

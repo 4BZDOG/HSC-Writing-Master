@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect } from 'react';
 import { ChevronRight, BookOpen, Layers, Folder, Hash, FileText } from 'lucide-react';
 
@@ -32,7 +31,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
   };
 
   return (
-    <nav className="w-full overflow-hidden rounded-xl border border-[rgb(var(--color-border-secondary))]/20 light:border-slate-200 bg-[rgb(var(--color-bg-surface-elevated))]/40 light:bg-white backdrop-blur-md shadow-sm hover:border-[rgb(var(--color-border-secondary))]/30 transition-colors" aria-label="Breadcrumb">
+    <nav className="w-full overflow-hidden rounded-xl border border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface-elevated))]/40 light:bg-white backdrop-blur-md shadow-sm hover:border-white/10 transition-colors" aria-label="Breadcrumb">
       <ol ref={scrollRef} className="flex items-center overflow-x-auto scrollbar-hide py-3 px-4">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
@@ -49,7 +48,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
                     flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium
                     whitespace-nowrap border transition-all duration-200
                     ${isLast 
-                        ? 'bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-primary))] border-[rgb(var(--color-border-secondary))] shadow-sm font-bold' 
+                        ? 'bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-primary))] border-white/10 light:border-slate-200 shadow-sm font-bold' 
                         : 'bg-transparent text-[rgb(var(--color-text-secondary))] border-transparent hover:bg-[rgb(var(--color-bg-surface-light))]/50 hover:text-[rgb(var(--color-text-primary))]'
                     }
                     ${item.onClick && !isLast ? 'cursor-pointer' : 'cursor-default'}

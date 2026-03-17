@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { 
@@ -24,13 +23,12 @@ interface DatabaseDashboardProps {
 
 type DashboardView = 'overview' | 'snapshots' | 'inspector';
 
-// Helper to render the preview of a snapshot
 const SnapshotPreview: React.FC<{ data: Course[] | null }> = ({ data }) => {
     if (!data) return null;
     return (
         <div className="mt-3 p-4 bg-[rgb(var(--color-bg-surface-inset))] rounded-xl border border-[rgb(var(--color-border-secondary))] animate-fade-in">
             <h4 className="text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-3 flex items-center gap-2">
-                <Eye className="w-3 h-3" /> Snapshot Contents Preview
+                <Eye className="w-3 h-3" /> Backup Contents Preview
             </h4>
             <div className="space-y-2 max-h-60 overflow-y-auto custom-scrollbar pr-2">
                 {data.map(course => (
@@ -51,7 +49,7 @@ const SnapshotPreview: React.FC<{ data: Course[] | null }> = ({ data }) => {
                         </div>
                     </div>
                 ))}
-                {data.length === 0 && <p className="text-sm text-[rgb(var(--color-text-muted))] italic">Empty database snapshot.</p>}
+                {data.length === 0 && <p className="text-sm text-[rgb(var(--color-text-muted))] italic">Empty backup.</p>}
             </div>
         </div>
     );
@@ -63,20 +61,16 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({ isOpen, onClose, 
   const [isLoading, setIsLoading] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
   
-  // Snapshots State
   const [backups, setBackups] = useState<any[]>([]);
   const [isLoadingBackups, setIsLoadingBackups] = useState(false);
   const [previewData, setPreviewData] = useState<Course[] | null>(null);
   const [previewId, setPreviewId] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Inspector State
   const [inspectStoreName, setInspectStoreName] = useState<string | null>(null);
   const [inspectData, setInspectData] = useState<any[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-
-  // --- Data Fetching ---
 
   const fetchStats = async () => {
     setIsLoading(true);
@@ -103,16 +97,12 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({ isOpen, onClose, 
       }
   };
 
-  // --- Effects ---
-
   useEffect(() => {
     if (isOpen) {
         if (view === 'overview') fetchStats();
         if (view === 'snapshots') fetchBackups();
     }
   }, [isOpen, view]);
-
-  // --- Handlers: Overview ---
 
   const handleForceSync = async () => {
     setIsSyncing(true);
@@ -138,8 +128,6 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({ isOpen, onClose, 
       }
     }
   };
-
-  // --- Handlers: Snapshots ---
 
   const handlePreviewBackup = async (key: string) => {
       if (previewId === key) {
@@ -183,7 +171,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({ isOpen, onClose, 
   };
 
   const handleDeleteBackup = async (key: string) => {
-      if (window.confirm("Delete this snapshot?")) {
+      if (window.confirm("Delete this backup?")) {
           try {
               await deleteBackup(key);
               await fetchBackups();
@@ -191,9 +179,9 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({ isOpen, onClose, 
                   setPreviewId(null);
                   setPreviewData(null);
               }
-              showToast("Snapshot deleted.", "success");
+              showToast("Backup deleted.", "success");
           } catch (e) {
-              showToast("Failed to delete snapshot.", "error");
+              showToast("Failed to delete backup.", "error");
           }
       }
   };
@@ -227,20 +215,17 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({ isOpen, onClose, 
           try {
               const json = event.target?.result as string;
               const courses = importDataFromJSON(json);
-              // Create a new backup with this data
               await createBackup(courses);
               await fetchBackups();
-              showToast("Snapshot imported successfully.", "success");
+              showToast("Backup imported successfully.", "success");
           } catch (err) {
-              showToast("Failed to import snapshot: Invalid file.", "error");
+              showToast("Failed to import backup: Invalid file.", "error");
           }
           if (fileInputRef.current) fileInputRef.current.value = '';
       };
       reader.readAsText(file);
   };
 
-  // --- Handlers: Inspector ---
-  
   const handleInspectStore = async (storeName: string) => {
       setInspectStoreName(storeName);
       setView('inspector');
@@ -266,12 +251,8 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({ isOpen, onClose, 
       setView('overview');
   };
 
-  // --- Derived State ---
-  
   const filteredInspectData = useMemo(() => {
       if (!searchQuery) return JSON.stringify(inspectData, null, 2);
-      
-      // Simple filter: Check if the item stringified contains the search query
       if (Array.isArray(inspectData)) {
           const filtered = inspectData.filter(item => 
               JSON.stringify(item).toLowerCase().includes(searchQuery.toLowerCase())
@@ -280,8 +261,6 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({ isOpen, onClose, 
       }
       return JSON.stringify(inspectData, null, 2);
   }, [inspectData, searchQuery]);
-
-  // --- Render Helpers ---
 
   if (!isOpen) return null;
 
@@ -299,15 +278,20 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({ isOpen, onClose, 
         className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]" 
         onClick={e => e.stopPropagation()}
       >
-        {/* Header */}
-        <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50">
-          <div className="flex items-center justify-between">
+        <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 relative">
+           {/* Cubic Mesh Texture Overlay */}
+           <div 
+             className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
+             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='%23ffffff' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E")` }}
+           />
+           
+          <div className="flex items-center justify-between relative z-10">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 shadow-lg flex items-center justify-center">
                 <Database className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">System Database</h2>
+                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">Database Manager</h2>
                 <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">Storage Management & Recovery</p>
               </div>
             </div>
@@ -317,10 +301,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({ isOpen, onClose, 
           </div>
         </div>
 
-        {/* Layout */}
         <div className="flex flex-1 overflow-hidden">
-            
-            {/* Sidebar Navigation */}
             <div className="w-64 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border-r border-[rgb(var(--color-border-secondary))] light:border-slate-200 p-4 flex flex-col gap-2 flex-shrink-0">
                 <button 
                     onClick={() => setView('overview')}
@@ -332,19 +313,17 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({ isOpen, onClose, 
                     onClick={() => setView('snapshots')}
                     className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all duration-200 ${view === 'snapshots' ? 'bg-purple-500/10 light:bg-purple-100 text-purple-400 light:text-purple-700' : 'text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200'}`}
                 >
-                    <History className="w-4 h-4" /> Time Machine
+                    <History className="w-4 h-4" /> Backups
                 </button>
                 <button 
                     onClick={() => { setInspectStoreName('main_store'); handleInspectStore('main_store'); }}
                     className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all duration-200 ${view === 'inspector' ? 'bg-amber-500/10 light:bg-amber-100 text-amber-400 light:text-amber-700' : 'text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200'}`}
                 >
-                    <FileJson className="w-4 h-4" /> Data Inspector
+                    <FileJson className="w-4 h-4" /> Data Browser
                 </button>
             </div>
 
-            {/* Main Content Area */}
             <div className="flex-1 overflow-y-auto p-8 bg-[rgb(var(--color-bg-surface))]/50 light:bg-white relative">
-                
                 {view === 'overview' && (
                     <>
                         {isLoading && !stats ? (
@@ -353,7 +332,6 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({ isOpen, onClose, 
                             </div>
                         ) : stats ? (
                             <div className="space-y-8 animate-fade-in">
-                                {/* Status Cards */}
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div className={`p-5 rounded-xl border ${stats.isConnected ? 'border-emerald-500/30 bg-emerald-500/10 light:bg-emerald-50 light:border-emerald-200' : 'border-red-500/30 bg-red-500/10 light:bg-red-50'} flex flex-col`}>
                                         <div className="flex items-center gap-2 mb-2">
@@ -388,7 +366,6 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({ isOpen, onClose, 
                                     </div>
                                 </div>
 
-                                {/* Store List */}
                                 <div>
                                     <h3 className="text-lg font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 mb-4 flex items-center gap-2">
                                         <Archive className="w-5 h-5 text-[rgb(var(--color-accent))]" /> Object Stores
@@ -419,7 +396,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({ isOpen, onClose, 
                                                                     onClick={() => handleClearStore(store.name)}
                                                                     className="text-red-400 light:text-red-600 hover:bg-red-500/10 light:hover:bg-red-50 px-3 py-1.5 rounded-lg transition-colors text-xs font-bold flex items-center gap-1"
                                                                 >
-                                                                    <Trash2 className="w-3.5 h-3.5" /> Purge
+                                                                    <Trash2 className="w-3.5 h-3.5" /> Clear
                                                                 </button>
                                                             </div>
                                                         </td>
@@ -441,7 +418,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({ isOpen, onClose, 
                         <div className="flex items-center justify-between">
                              <div>
                                 <h3 className="text-lg font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 flex items-center gap-2">
-                                    <History className="w-5 h-5 text-purple-400" /> Available Snapshots
+                                    <History className="w-5 h-5 text-purple-400" /> Available Backups
                                 </h3>
                                 <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
                                     Backups are created automatically every hour during activity.
@@ -460,7 +437,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({ isOpen, onClose, 
                                     onClick={() => fileInputRef.current?.click()}
                                     className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/30 hover:bg-purple-500/20 transition-all text-xs font-bold"
                                 >
-                                    <UploadCloud className="w-4 h-4" /> Upload Snapshot
+                                    <UploadCloud className="w-4 h-4" /> Upload Backup
                                 </button>
                              </div>
                         </div>
@@ -472,8 +449,8 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({ isOpen, onClose, 
                         ) : backups.length === 0 ? (
                             <div className="text-center py-12 bg-[rgb(var(--color-bg-surface-inset))]/20 light:bg-slate-50 rounded-xl border border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300">
                                 <History className="w-12 h-12 text-[rgb(var(--color-text-muted))] light:text-slate-300 mx-auto mb-3" />
-                                <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-medium">No snapshots found.</p>
-                                <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">Snapshots will appear here as you work.</p>
+                                <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-medium">No backups found.</p>
+                                <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">Backups will appear here as you work.</p>
                             </div>
                         ) : (
                             <div className="space-y-3">
@@ -585,7 +562,6 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({ isOpen, onClose, 
             </div>
         </div>
 
-        {/* Footer */}
         <div className="px-6 py-5 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-between items-center">
             <div className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-500">
                 Local Database: {isLoading ? 'Busy...' : 'Ready'}
@@ -606,7 +582,6 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({ isOpen, onClose, 
                 </button>
             </div>
         </div>
-
       </div>
     </div>,
     document.body

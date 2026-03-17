@@ -1,11 +1,13 @@
+
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { Draft } from 'immer';
 import { Course, StatePath, EvaluationResult, Prompt, DotPoint, SubTopic, Topic, CourseOutcome, BackgroundTask, CommandTermInfo, User, UserFeedback, SampleAnswer } from '../types';
 import * as gemini from '../services/geminiService';
 import { AICache } from '../services/aiCache';
 import { findAndUpdateItem } from '../utils/stateUtils';
-import { getCommandTermsForMarks } from '../data/commandTerms';
+import { getCommandTermsForMarks, getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { generateId } from '../utils/idUtils';
+import { addAndPruneSampleAnswers } from '../utils/dataManagerUtils';
 
 const BG_TASK_CLEANUP_DELAY = 5000;
 
@@ -79,21 +81,64 @@ export const useGemini = ({ showToast, updateCourses, statePath, currentPrompt, 
   const evaluate = useCallback(async (answer: string, prompt: Prompt) => {
     setIsEvaluating(true);
     setEvaluationError(null);
-    setImprovedAnswer(null); // Clear previous improvements on new eval
+    setImprovedAnswer(null); 
     setOriginalAnswerForImprovement(null);
     try {
       const result = await gemini.evaluateAnswer(answer, prompt);
+      
+      // Auto-save logic: Save both user attempt and AI initial revision to prompt library
+      updateCourses(draft => {
+          findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
+              if (!p.sampleAnswers) p.sampleAnswers = [];
+              
+              // 1. Save User Attempt
+              const userSample: SampleAnswer = {
+                  id: generateId('sa'),
+                  answer: answer,
+                  mark: result.overallMark,
+                  band: result.overallBand,
+                  source: 'USER',
+                  feedback: result.overallFeedback,
+                  quickTip: result.quickTip // Save the tip!
+              };
+              p.sampleAnswers = addAndPruneSampleAnswers(p.sampleAnswers, userSample);
+
+              // 2. Save initial AI Revised Answer if provided by the evaluation model
+              if (result.revisedAnswer) {
+                  const revisedText = typeof result.revisedAnswer === 'string' 
+                      ? result.revisedAnswer 
+                      : result.revisedAnswer.text;
+                  
+                  const revisedMark = typeof result.revisedAnswer === 'object' 
+                      ? result.revisedAnswer.mark 
+                      : Math.min(prompt.totalMarks, result.overallMark + 1);
+
+                  const aiSample: SampleAnswer = {
+                      id: generateId('sa'),
+                      answer: revisedText,
+                      mark: revisedMark,
+                      band: typeof result.revisedAnswer === 'object' && result.revisedAnswer.band 
+                          ? result.revisedAnswer.band 
+                          : getBandForMark(revisedMark, prompt.totalMarks, getCommandTermInfo(prompt.verb).tier),
+                      source: 'AI',
+                      feedback: "Automated revision generated during evaluation."
+                  };
+                  p.sampleAnswers = addAndPruneSampleAnswers(p.sampleAnswers, aiSample);
+              }
+          });
+      });
+
       await AICache.set(`evaluate:${prompt.id}:${answer.slice(0, 100)}`, result);
       setEvaluationResult(result);
+      showToast("Marking complete. Results auto-saved to library.", "success");
     } catch (error) {
       const message = handleApiError(error);
       setEvaluationError(message);
     } finally {
       setIsEvaluating(false);
     }
-  }, [handleApiError]);
+  }, [handleApiError, updateCourses, statePath, showToast]);
 
-  // Reset evaluation state. Useful for modal closure or navigation.
   const resetEvaluation = useCallback(() => {
       setEvaluationResult(null);
       setEvaluationError(null);
@@ -103,7 +148,6 @@ export const useGemini = ({ showToast, updateCourses, statePath, currentPrompt, 
       setIsImproving(false);
   }, []);
 
-  // Auto-reset evaluation when the prompt ID changes (Navigation)
   useEffect(() => {
       resetEvaluation();
   }, [currentPrompt?.id, resetEvaluation]);
@@ -118,42 +162,29 @@ export const useGemini = ({ showToast, updateCourses, statePath, currentPrompt, 
         const targetBand = Math.min(6, evaluation.overallBand + 1);
         const improved = await gemini.improveAnswer(originalAnswer, prompt, evaluation, targetBand);
         
-        // Auto-Save Logic:
+        // Auto-Save Logic for the specific improved answer
         updateCourses(draft => {
             findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
                 if (!p.sampleAnswers) p.sampleAnswers = [];
+                
+                const aiSampleMark = Math.min(prompt.totalMarks, Math.ceil(prompt.totalMarks * (targetBand/6)));
 
-                // 1. Auto-save Student's Original (Prevent duplicates)
-                const existingUserAnswer = p.sampleAnswers.find(sa => sa.answer === originalAnswer && sa.source === 'USER');
-                if (!existingUserAnswer) {
-                    p.sampleAnswers.push({
-                        id: generateId('sa'),
-                        answer: originalAnswer,
-                        mark: evaluation.overallMark,
-                        band: evaluation.overallBand,
-                        source: 'USER',
-                        feedback: evaluation.overallFeedback
-                    });
-                }
+                const aiSample: SampleAnswer = {
+                     id: generateId('sa'),
+                     answer: improved,
+                     mark: aiSampleMark,
+                     band: targetBand,
+                     source: 'AI',
+                     feedback: `Auto-generated improvement targeting Band ${targetBand}.`
+                };
 
-                // 2. Auto-save AI Improved Version (Prevent duplicates)
-                const existingAiAnswer = p.sampleAnswers.find(sa => sa.answer === improved && sa.source === 'AI');
-                if (!existingAiAnswer) {
-                    p.sampleAnswers.push({
-                         id: generateId('sa'),
-                         answer: improved,
-                         mark: Math.min(prompt.totalMarks, Math.ceil(prompt.totalMarks * (targetBand/6))), // Approximate mark based on band
-                         band: targetBand,
-                         source: 'AI',
-                         feedback: `Auto-generated improvement targeting Band ${targetBand}.`
-                    });
-                }
+                p.sampleAnswers = addAndPruneSampleAnswers(p.sampleAnswers, aiSample);
             });
         });
 
         setImprovedAnswer(improved);
         setOriginalAnswerForImprovement(originalAnswer);
-        showToast(`Generated and saved Band ${targetBand} improvement.`, 'success');
+        showToast(`Auto-saved Band ${targetBand} exemplar to library.`, 'success');
         return improved;
     } catch (error) {
         const message = handleApiError(error);
@@ -164,6 +195,52 @@ export const useGemini = ({ showToast, updateCourses, statePath, currentPrompt, 
     }
   }, [showToast, handleApiError, updateCourses, statePath]);
   
+  const recalibrateSamples = useCallback(async (prompt: Prompt) => {
+      const samples = prompt.sampleAnswers || [];
+      if (samples.length === 0) return;
+
+      showToast(`Recalibrating ${samples.length} sample answers...`, 'info');
+
+      // Create a "Clean" prompt context with no existing samples.
+      // This forces the AI to grade purely against the rubric, preventing circular validation
+      // where it might otherwise use a bad sample as a benchmark for itself.
+      const calibrationPrompt = { ...prompt, sampleAnswers: [] };
+
+      let updatedCount = 0;
+      const updates: SampleAnswer[] = [];
+      
+      // Process sequentially to avoid API limits on batch ops
+      for (const sample of samples) {
+          try {
+              // We reuse evaluateAnswer as it provides robust marking logic including thinking blocks
+              const result = await gemini.evaluateAnswer(sample.answer, calibrationPrompt);
+              
+              updates.push({
+                  ...sample,
+                  mark: result.overallMark,
+                  band: result.overallBand,
+                  feedback: result.overallFeedback,
+                  quickTip: result.quickTip
+              });
+              updatedCount++;
+          } catch (e) {
+              console.error(`Failed to recalibrate sample ${sample.id}`, e);
+              updates.push(sample); // Keep original on failure
+          }
+      }
+      
+      if (updatedCount > 0) {
+          updateCourses(draft => {
+              findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
+                  p.sampleAnswers = updates;
+              });
+          });
+          showToast(`Recalibration complete. Updated ${updatedCount} answers.`, 'success');
+      } else {
+          showToast("Failed to recalibrate samples. Check API connection.", 'error');
+      }
+  }, [updateCourses, statePath, showToast]);
+
   useEffect(() => {
     setEnrichError(null);
   }, [currentPrompt?.id]);
@@ -299,7 +376,6 @@ export const useGemini = ({ showToast, updateCourses, statePath, currentPrompt, 
     const taskId = generateId('task');
     const newCourse: Course = { id: generateId('course'), name: courseName, topics: [], outcomes };
     
-    // 1. Convert structure to full Course object synchronously
     structure.forEach(topicNode => {
         const topic: Topic = {
             id: generateId('topic'),
@@ -320,7 +396,6 @@ export const useGemini = ({ showToast, updateCourses, statePath, currentPrompt, 
     updateCourses(draft => { draft.push(newCourse) });
     
     if (isMounted.current) {
-        // Mock progress for immediate feedback
         setActiveBackgroundTask({ id: taskId, name: `Importing ${courseName}`, status: 'completed', progress: 100, message: `Imported successfully!`, courseId: newCourse.id });
         
         const stats = { 
@@ -345,8 +420,6 @@ export const useGemini = ({ showToast, updateCourses, statePath, currentPrompt, 
           if (!prev) return null;
           return { ...prev, userFeedback: feedback };
       });
-      // In a real app, you would also send this to the backend here.
-      // e.g., await api.sendFeedback({ ...feedback, promptId, answerId });
       showToast("Thank you for your feedback!", "success");
   }, [showToast]);
 
@@ -363,7 +436,7 @@ export const useGemini = ({ showToast, updateCourses, statePath, currentPrompt, 
     improvedAnswer, 
     setImprovedAnswer,
     originalAnswerForImprovement,
-    setOriginalAnswerForImprovement, // Now correctly exported
+    setOriginalAnswerForImprovement,
     isGeneratingScenario,
     generateScenarioError,
     isRegeneratingKeywords,
@@ -377,8 +450,10 @@ export const useGemini = ({ showToast, updateCourses, statePath, currentPrompt, 
     handleGenerateScenario,
     handleRegenerateKeywords,
     handleSuggestKeywords,
+    suggestOutcomesForPrompt: gemini.suggestOutcomesForPrompt,
     generateDotPointsForSubTopic,
     handleStartFullSyllabusImport,
-    handleFeedbackSubmit
+    handleFeedbackSubmit,
+    recalibrateSamples
   };
 };

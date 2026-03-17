@@ -1,3 +1,4 @@
+
 import { Course } from '../types';
 import { NESA_PERFORMANCE_BAND_DESCRIPTORS } from './performanceBands';
 
@@ -65,13 +66,17 @@ export const preseededCourses: Course[] = [
                         id: 'sa-seed-1',
                         band: 6,
                         answer: "DNA replication ensures genetic continuity through its **semi-conservative** mechanism, where each new DNA molecule consists of one original and one newly synthesized strand. The process begins with **helicase** unwinding the double helix, creating two template strands. **DNA polymerase** then adds complementary nucleotides (A-T, G-C) to each template in a 5' to 3' direction. On the leading strand, synthesis is continuous, while the lagging strand is synthesized discontinuously in Okazaki fragments. **DNA ligase** joins these fragments. Crucially, DNA polymerase has **proofreading** ability, correcting errors to maintain genetic fidelity. This ensures that each daughter cell receives an exact copy of the parent DNA, preserving genetic information across generations.",
-                        mark: 7
+                        mark: 7,
+                        // Fixed: Added missing source property
+                        source: 'AI'
                       },
                       {
                         id: 'sa-seed-2',
                         band: 1,
                         answer: "DNA replication is when cells copy their DNA before dividing.",
-                        mark: 0
+                        mark: 0,
+                        // Fixed: Added missing source property
+                        source: 'AI'
                       }
                     ],
                     targetPerformanceBands: [5, 6]
@@ -88,7 +93,9 @@ export const preseededCourses: Course[] = [
                         id: 'sa-seed-3',
                         band: 6,
                         answer: "DNA replication involves three main steps. First, the double helix **unwinds** as **helicase** breaks the hydrogen bonds between base pairs, creating two template strands. Second, **DNA polymerase** reads each template and adds complementary **nucleotides** (A with T, G with C) to build new strands. Third, these new nucleotides are joined together to form complete DNA molecules, with each final molecule containing one original and one new strand.",
-                        mark: 4
+                        mark: 4,
+                        // Fixed: Added missing source property
+                        source: 'AI'
                       }
                     ],
                     targetPerformanceBands: [4, 5]
@@ -128,7 +135,9 @@ export const preseededCourses: Course[] = [
                         id: 'sa-seed-4',
                         band: 6,
                         answer: "The relationship between DNA, mRNA, and protein synthesis represents the **central dogma** of molecular biology. **DNA** contains the genetic code in its sequence of nucleotides. During **transcription**, a specific gene is copied into **mRNA** by RNA polymerase, with introns removed and exons spliced together. This mRNA then travels to the cytoplasm where **translation** occurs. **Ribosomes** read the mRNA in codons (triplets of nucleotides), each specifying a particular **amino acid**. tRNA molecules bring the correct amino acids, which are joined together to form a polypeptide chain that folds into a functional **protein**. Thus, DNA's information is transcribed into mRNA and then translated into protein, creating the direct link between genotype and phenotype.",
-                        mark: 8
+                        mark: 8,
+                        // Fixed: Added missing source property
+                        source: 'AI'
                       }
                     ],
                     targetPerformanceBands: [5, 6]
@@ -181,7 +190,9 @@ export const preseededCourses: Course[] = [
                         id: 'sa-seed-5',
                         band: 6,
                         answer: "PCR has revolutionized biotechnology since its development in the 1980s, with **significant** applications across multiple fields. In **forensics**, PCR enables DNA profiling from minute crime scene samples, solving cold cases and exonerating the innocent. In **medicine**, it diagnoses genetic disorders and infectious diseases by detecting pathogen DNA, as seen in COVID-19 testing. **Quantitative PCR** allows precise measurement of gene expression, advancing cancer research. However, limitations exist. PCR is highly sensitive to **contamination**—a single DNA molecule can create false positives. It requires high-quality, intact DNA templates and expensive **thermocycler** equipment. Additionally, PCR amplifies specific sequences but doesn't provide functional context. Despite these limitations, its ability to generate millions of DNA copies rapidly makes PCR indispensable, though results must be interpreted alongside other molecular techniques for robust conclusions.",
-                        mark: 10
+                        mark: 10,
+                        // Fixed: Added missing source property
+                        source: 'AI'
                       }
                     ],
                     targetPerformanceBands: [5, 6]
@@ -254,7 +265,9 @@ export const preseededCourses: Course[] = [
                         id: 'sa-seed-6',
                         band: 6,
                         answer: "According to **Brønsted-Lowry** theory, a **conjugate acid-base pair** consists of two species that differ by a single proton (H⁺). In the equilibrium: NH₃ + H₂O ⇌ NH₄⁺ + OH⁻, NH₃ is the base because it **accepts** a proton from water to become NH₄⁺. The NH₄⁺ ion is the **conjugate acid** of NH₃. Similarly, H₂O acts as an acid by donating a proton to become OH⁻, which is its **conjugate base**. Conjugate pairs are always present in acid-base reactions, with the acid donating a proton to form its conjugate base, and the base accepting a proton to form its conjugate acid. This reciprocal relationship is fundamental to understanding acid-base equilibria.",
-                        mark: 5
+                        mark: 5,
+                        // Fixed: Added missing source property
+                        source: 'AI'
                       }
                     ],
                     targetPerformanceBands: [5, 6]

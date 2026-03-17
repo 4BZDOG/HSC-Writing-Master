@@ -161,7 +161,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
         aggregatedPreview.forEach((t: any, idx: number) => initialExpand.add(`topic-${idx}`));
         setExpandedPreviewIds(initialExpand);
     } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to analyze syllabus structure.');
+        setError(err instanceof Error ? err.message : 'Failed to analyse syllabus structure.');
     } finally {
         setIsAnalyzing(false);
     }
@@ -404,7 +404,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                     </div>
                     <div className="mt-4 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 text-xs text-blue-200 flex items-start gap-2">
                          <Sparkles className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                         <p>Check the structure above. If topics or dot points are missing, try editing the raw text in the previous step to be cleaner before analyzing again.</p>
+                         <p>Check the structure above. If topics or dot points are missing, try editing the raw text in the previous step to be cleaner before analysing again.</p>
                     </div>
                 </div>
             )}
@@ -423,7 +423,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                     className="py-2.5 px-5 rounded-lg text-white font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg transition disabled:opacity-50 flex items-center gap-2"
                 >
                     <Sparkles className="w-4 h-4"/>
-                    {isAnalyzing ? 'Analyzing All Topics...' : 'Analyze Syllabus'}
+                    {isAnalyzing ? 'Analysing All Topics...' : 'Analyse Syllabus'}
                 </button>
               </>
           ) : (

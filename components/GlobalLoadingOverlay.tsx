@@ -11,6 +11,12 @@ interface GlobalLoadingOverlayProps {
 
 const GlobalLoadingOverlay: React.FC<GlobalLoadingOverlayProps> = ({ message, error }) => {
   const [showError, setShowError] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
   
   // Auto-show/hide error state
   useEffect(() => {
@@ -26,7 +32,8 @@ const GlobalLoadingOverlay: React.FC<GlobalLoadingOverlayProps> = ({ message, er
   const isErrorState = !!(error && showError);
   const shouldShow = (message || isErrorState);
 
-  if (!shouldShow) return null;
+  // Guard against rendering before body is available or component is mounted
+  if (!shouldShow || !mounted || typeof document === 'undefined' || !document.body) return null;
 
   return createPortal(
     <div className="fixed inset-0 z-[2000] bg-[rgb(var(--color-bg-base))]/60 light:bg-slate-50/60 backdrop-blur-sm flex items-center justify-center animate-fade-in cursor-wait">

@@ -13,6 +13,9 @@ interface ErrorBoundaryState {
   error?: Error;
 }
 
+/**
+ * ErrorBoundary component to catch rendering errors in the component tree.
+ */
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
   public state: ErrorBoundaryState = {
     hasError: false,
@@ -20,10 +23,12 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   };
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    // Update state so the next render will show the fallback UI.
     return { hasError: true, error };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    // Log the error to an error reporting service or console
     console.group('🚨 Error Boundary Caught Exception');
     console.error('Error Message:', error.message);
     console.error('Stack Trace:', error.stack);
@@ -35,8 +40,6 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
             if (statePathRaw) {
                 const statePath = JSON.parse(statePathRaw);
                 console.error('Current Navigation Context (StatePath):', statePath);
-            } else {
-                console.warn('No StatePath found in localStorage.');
             }
         }
     } catch (e) {
@@ -46,21 +49,27 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     console.groupEnd();
   }
 
+  /**
+   * Resets the error boundary state to allow re-rendering of children.
+   */
   handleReset = () => {
     this.setState({ hasError: false, error: undefined });
   };
 
-  render() {
-    if (this.state.hasError) {
-      return this.props.fallback || (
+  render(): ReactNode {
+    const { hasError, error } = this.state;
+    const { fallback, children } = this.props;
+
+    if (hasError) {
+      return fallback || (
         <div className="w-full p-6 rounded-2xl border border-red-500/30 bg-[rgb(var(--color-bg-surface))]/50 backdrop-blur-sm text-red-200 flex flex-col items-center text-center gap-4 shadow-lg animate-fade-in">
             <div className="p-4 rounded-full bg-red-500/10 border border-red-500/20 shadow-inner">
-                <AlertTriangle className="w-8 h-8 text-red-400" />
+                <AlertTriangle className="w-8 h-8" />
             </div>
             <div>
                 <h3 className="text-lg font-bold text-white">Component Error</h3>
                 <p className="text-sm text-red-300/80 mt-2 max-w-md mx-auto font-mono bg-black/20 p-2 rounded break-words">
-                    {this.state.error?.message || 'An unexpected error occurred while rendering.'}
+                    {error?.message || 'An unexpected error occurred while rendering.'}
                 </p>
                 <p className="text-xs text-red-400/60 mt-1">
                     Check console for debug details.
@@ -77,7 +86,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
       );
     }
 
-    return this.props.children;
+    return children;
   }
 }
 

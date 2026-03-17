@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { BookOpen, Folder, X } from 'lucide-react';
 
@@ -55,29 +56,32 @@ const SyllabusItemCreatorModal: React.FC<SyllabusItemCreatorModalProps> = ({
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={onClose}>
       <div 
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl w-full max-w-md border border-[rgb(var(--color-border-secondary))] animate-fade-in-up overflow-hidden" 
+        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-md border border-[rgb(var(--color-border-secondary))] light:border-slate-200 animate-fade-in-up overflow-hidden" 
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))]">
-          <div className="flex items-center justify-between">
+        <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50">
+           {/* Texture */}
+           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03] light:opacity-[0.05] pointer-events-none mix-blend-overlay"></div>
+
+          <div className="flex items-center justify-between relative z-10">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] flex items-center justify-center shadow-lg">
                 {icon}
               </div>
               <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))]">Add New {itemType}</h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))]">Manually create a new syllabus item.</p>
+                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">Add New {itemType}</h2>
+                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">Manually create a new syllabus item.</p>
               </div>
             </div>
-            <button onClick={onClose} className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200 flex items-center justify-center group">
-              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text-primary))]" />
+            <button onClick={onClose} className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group">
+              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900" />
             </button>
           </div>
         </div>
         
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="bg-[rgb(var(--color-bg-surface))] light:bg-white">
           <div className="p-6">
-            <label htmlFor="item-name" className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] mb-2">
+            <label htmlFor="item-name" className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-700 mb-2">
               {itemType} Name
             </label>
             <input
@@ -85,15 +89,15 @@ const SyllabusItemCreatorModal: React.FC<SyllabusItemCreatorModalProps> = ({
               id="item-name"
               value={newItemName}
               onChange={(e) => setNewItemName(e.target.value)}
-              className={`block w-full bg-[rgb(var(--color-bg-surface-light))] border rounded-lg shadow-sm py-3 px-4 focus:outline-none transition ${validationError ? 'border-red-500 ring-1 ring-red-500' : 'border-[rgb(var(--color-border-secondary))] focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]'}`}
+              className={`block w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border rounded-lg shadow-sm py-3 px-4 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none transition ${validationError ? 'border-red-500 ring-1 ring-red-500' : 'border-[rgb(var(--color-border-secondary))] light:border-slate-300 focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]'}`}
               placeholder={placeholder}
               autoFocus
             />
-            {validationError && <p className="text-red-400 text-xs mt-2">{validationError}</p>}
+            {validationError && <p className="text-red-400 light:text-red-600 text-xs mt-2">{validationError}</p>}
           </div>
 
-          <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 border-t border-[rgb(var(--color-border-secondary))] flex justify-end space-x-3">
-            <button type="button" onClick={onClose} className="py-2 px-4 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-light))] hover:bg-[rgb(var(--color-border-secondary))] transition">
+          <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end space-x-3">
+            <button type="button" onClick={onClose} className="py-2 px-4 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition">
               Cancel
             </button>
             <button type="submit" disabled={isButtonDisabled} className="py-2 px-4 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50">

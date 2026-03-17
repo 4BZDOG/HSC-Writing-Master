@@ -1,56 +1,36 @@
 
 // types.ts
 
-// Declare global variable for html2pdf loaded via CDN
-declare global {
-  var html2pdf: any;
-}
-
-export interface HierarchyContext {
-    course: string;
-    topic: string;
-    subTopic: string;
-    dotPoint: string;
-}
-
-export interface Course {
-  id: string;
-  name: string;
-  outcomes: CourseOutcome[];
-  topics: Topic[];
-}
+export type PromptVerb = 
+  | 'IDENTIFY' | 'STATE' | 'RECALL' | 'DEFINE' | 'EXTRACT' | 'RECOUNT'
+  | 'OUTLINE' | 'DESCRIBE' | 'CLARIFY' | 'SUMMARISE' | 'CLASSIFY'
+  | 'CALCULATE' | 'APPLY' | 'DEMONSTRATE' | 'CONSTRUCT'
+  | 'COMPARE' | 'CONTRAST' | 'DISTINGUISH' | 'EXPLAIN' | 'INTERPRET' 
+  | 'DEDUCE' | 'EXTRAPOLATE' | 'PREDICT' | 'ANALYSE' | 'EXAMINE' | 'ACCOUNT'
+  | 'DISCUSS' | 'PROPOSE' | 'INVESTIGATE' | 'SYNTHESISE'
+  | 'ASSESS' | 'EVALUATE' | 'APPRECIATE' | 'JUSTIFY' | 'RECOMMEND' 
+  | 'CRITICALLY ANALYSE' | 'CRITICALLY EVALUATE' | 'DIFFERENTIATE';
 
 export interface CourseOutcome {
   code: string;
   description: string;
 }
 
-export interface Topic {
+export interface SampleAnswer {
   id: string;
-  name: string;
-  subTopics: SubTopic[];
-  performanceBandDescriptors?: PerformanceBandDescriptor[];
+  band: number;
+  answer: string;
+  mark: number;
+  source: 'AI' | 'USER' | 'HSC_EXEMPLAR';
+  feedback?: string;
+  quickTip?: string;
 }
-
-export interface SubTopic {
-  id: string;
-  name: string;
-  dotPoints: DotPoint[];
-}
-
-export interface DotPoint {
-  id: string;
-  description: string;
-  prompts: Prompt[];
-}
-
-export type SampleAnswerSource = 'AI' | 'USER' | 'HSC_EXEMPLAR';
 
 export interface Prompt {
   id: string;
   question: string;
   totalMarks: number;
-  verb?: PromptVerb;
+  verb: PromptVerb;
   highlightedQuestion?: string;
   scenario?: string;
   linkedOutcomes?: string[];
@@ -61,68 +41,24 @@ export interface Prompt {
   commonStudentErrors?: string[];
   keywords?: string[];
   markingCriteria?: string;
-  sampleAnswers?: SampleAnswer[];
   targetPerformanceBands?: number[];
-  
-  // Past HSC Metadata
+  sampleAnswers?: SampleAnswer[];
   isPastHSC?: boolean;
   hscYear?: number;
   hscQuestionNumber?: string;
-
-  // Editor Draft State
   userDraft?: string;
 }
 
-export interface SampleAnswer {
-  id: string; // Unique identifier for each answer
-  band: number;
-  answer: string;
-  mark: number;
-  source?: SampleAnswerSource;
-  feedback?: string; // Optional specific feedback for stored user responses
+export interface DotPoint {
+  id: string;
+  description: string;
+  prompts: Prompt[];
 }
 
-export interface StatePath {
-  courseId?: string;
-  topicId?: string;
-  subTopicId?: string;
-  dotPointId?: string;
-  promptId?: string;
-}
-
-export type PromptVerb = 
-  // Level 1: Retrieving & Recalling
-  | 'IDENTIFY' | 'RECALL' | 'DEFINE' | 'EXTRACT' | 'RECOUNT' | 'STATE'
-  // Level 2: Comprehending & Describing
-  | 'OUTLINE' | 'DESCRIBE' | 'CLARIFY' | 'SUMMARISE' | 'CLASSIFY'
-  // Level 3: Applying & Demonstrating
-  | 'CALCULATE' | 'APPLY' | 'DEMONSTRATE' | 'CONSTRUCT'
-  // Level 4: Analysing & Connecting
-  | 'COMPARE' | 'CONTRAST' | 'DISTINGUISH' | 'EXPLAIN' | 'INTERPRET' 
-  | 'DEDUCE' | 'EXTRAPOLATE' | 'PREDICT' | 'ANALYSE' | 'EXAMINE' | 'ACCOUNT'
-  // Level 5: Synthesising & Arguing
-  | 'DISCUSS' | 'PROPOSE' | 'INVESTIGATE' | 'SYNTHESISE'
-  // Level 6: Evaluating & Judging
-  | 'ASSESS' | 'EVALUATE' | 'APPRECIATE' | 'JUSTIFY' | 'RECOMMEND' 
-  | 'CRITICALLY ANALYSE' | 'CRITICALLY EVALUATE'
-  // Legacy/Aliases
-  | 'DIFFERENTIATE';
-
-export interface CommandTermInfo {
-  term: PromptVerb;
-  definition: string;
-  tier: number;
-  markRange: [number, number];
-  targetBands: string;
-  bandDiscrimination: string;
-  genericMarkingGuide: string[];
-  tailwind: {
-    color: string;
-    bg: string;
-  };
-  writingStrategies?: string;
-  structuralKeywords?: string[];
-  exampleQuestion?: string; 
+export interface SubTopic {
+  id: string;
+  name: string;
+  dotPoints: DotPoint[];
 }
 
 export interface PerformanceBandDescriptor {
@@ -132,28 +68,28 @@ export interface PerformanceBandDescriptor {
   description: string;
 }
 
-export interface UserFeedback {
-  rating: 'positive' | 'negative';
-  reason?: string;
-  timestamp: number;
+export interface Topic {
+  id: string;
+  name: string;
+  subTopics: SubTopic[];
+  performanceBandDescriptors?: PerformanceBandDescriptor[];
 }
 
-export interface EvaluationResult {
-  overallMark: number;
-  overallBand: number;
-  overallFeedback: string;
-  criteria: EvaluationCriterion[];
-  // Updated revisedAnswer to support structured data or legacy string
-  revisedAnswer?: string | {
-      text: string;
-      mark: number;
-      band: number;
-      keyChanges: string[];
-  };
-  strengths: string[];
-  improvements: string[];
-  exemplar?: string;
-  userFeedback?: UserFeedback;
+export interface Course {
+  id: string;
+  name: string;
+  subject?: string;
+  outcomes: CourseOutcome[];
+  topics: Topic[];
+}
+
+export interface StatePath {
+  courseId?: string;
+  topicId?: string;
+  subTopicId?: string;
+  dotPointId?: string;
+  promptId?: string;
+  selectedSubItems?: string[];
 }
 
 export interface EvaluationCriterion {
@@ -163,14 +99,94 @@ export interface EvaluationCriterion {
   feedback: string;
 }
 
+export interface EvaluationResult {
+  overallMark: number;
+  overallBand: number;
+  overallFeedback: string;
+  quickTip?: string; // New field for short, punchy feedback
+  strengths: string[];
+  improvements: string[];
+  criteria: EvaluationCriterion[];
+  revisedAnswer?: string | {
+    text: string;
+    mark: number;
+    band?: number;
+    keyChanges: string[];
+  };
+  userFeedback?: UserFeedback;
+}
+
+export interface UserFeedback {
+  rating: 'positive' | 'negative';
+  reason: string;
+  timestamp: number;
+}
+
+export interface HierarchyContext {
+  course: string;
+  topic: string;
+  subTopic: string;
+  dotPoint: string;
+}
+
+export type UserRole = 'admin' | 'user' | 'guest';
+
+export interface UserStats {
+  xp: number;
+  level: number;
+  questionsAnswered: number;
+  totalWordsWritten: number;
+  averageBand: number;
+  lastActive: number;
+  streakDays: number;
+}
+
+export interface UserPreferences {
+  defaultFocusMode: boolean;
+  autoSave: boolean;
+  highContrast: boolean;
+  showTips: boolean;
+  theme: 'dark' | 'light';
+}
+
+export interface User {
+  username: string;
+  role: UserRole;
+  displayName: string;
+  preferences: UserPreferences;
+  stats: UserStats;
+}
+
 export interface BackgroundTask {
   id: string;
   name: string;
   status: 'running' | 'completed' | 'error';
   progress: number;
   message: string;
-  courseId?: string;
   error?: string;
+  courseId?: string;
+}
+
+export interface LibraryItem {
+  id: string;
+  type: 'course' | 'topic' | 'subTopic';
+  title: string;
+  data: Course | Topic | SubTopic;
+  timestamp: number;
+}
+
+export interface QualityCheckIssue {
+  severity: 'critical' | 'warning' | 'info';
+  message: string;
+  suggestion: string;
+}
+
+export interface QualityCheckResult {
+  status: 'PASS' | 'FAIL' | 'WARN';
+  score: number;
+  summary: string;
+  issues: QualityCheckIssue[];
+  refinedContent?: string;
 }
 
 export interface DataValidationResult {
@@ -189,55 +205,18 @@ export interface DataValidationResult {
   };
 }
 
-// --- Quality Check Types ---
-export interface QualityCheckResult {
-  status: 'PASS' | 'FAIL' | 'WARN';
-  score: number; // 0-100
-  summary: string;
-  issues: {
-    severity: 'critical' | 'warning' | 'info';
-    message: string;
-    suggestion: string;
-  }[];
-  refinedContent?: string; // An auto-fixed version of the content
-}
-
-
-// --- Library Types ---
-export interface LibraryItem {
-  id: string;
-  type: 'course' | 'topic' | 'subTopic';
-  title: string;
-  data: any; // Course | Topic | SubTopic
-  addedAt: number;
-  description?: string;
-}
-
-// --- Auth & Profile Types ---
-export type UserRole = 'admin' | 'user' | 'guest';
-
-export interface UserPreferences {
-  defaultFocusMode: boolean;
-  autoSave: boolean;
-  highContrast: boolean;
-  showTips: boolean;
-  theme: 'dark' | 'light'; // Added theme preference
-}
-
-export interface UserStats {
-  xp: number;
-  level: number;
-  questionsAnswered: number;
-  totalWordsWritten: number;
-  averageBand: number;
-  lastActive: number;
-  streakDays: number;
-}
-
-export interface User {
-  username: string;
-  role: UserRole;
-  displayName: string;
-  preferences: UserPreferences;
-  stats: UserStats;
+export interface CommandTermInfo {
+  term: PromptVerb;
+  definition: string;
+  tier: number;
+  markRange: [number, number];
+  targetBands: string;
+  bandDiscrimination: string;
+  genericMarkingGuide: string[];
+  structuralKeywords: string[];
+  exampleQuestion: string;
+  tailwind: {
+    color: string;
+    bg: string;
+  };
 }

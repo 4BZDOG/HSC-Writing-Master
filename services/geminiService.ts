@@ -1,383 +1,426 @@
 
+// ... existing imports ...
 import { Type } from "@google/genai";
-import { Prompt, CourseOutcome, EvaluationResult, SubTopic, CommandTermInfo, SampleAnswer, PromptVerb, QualityCheckResult } from '../types';
 import { AICache } from './aiCache';
-import { generateId } from "../utils/idUtils";
-import { getCommandTermInfo, getBandForMark, getStructureGuide } from "../data/commandTerms";
-import { generateContentWithRetry, safeJsonParse } from './aiCore';
+import { 
+    Prompt, 
+    CourseOutcome, 
+    CommandTermInfo, 
+    SampleAnswer, 
+    EvaluationResult, 
+    SubTopic, 
+    QualityCheckResult,
+    PromptVerb,
+    Topic,
+    Course
+} from '../types';
+import { generateContentWithRetry, safeJsonParse, apiGuard, apiMonitor, ApiStatus, ApiMonitorStatus, ApiKeyError, QuotaExceededError, ERROR_THRESHOLD } from './aiCore';
+import { getCommandTermInfo, getCommandTermsForMarks } from '../data/commandTerms';
+import { generateId } from '../utils/idUtils';
 
-// Re-export infrastructure for backward compatibility with existing components
-export { apiGuard, apiMonitor, ApiKeyError, QuotaExceededError, ERROR_THRESHOLD } from './aiCore';
-export type { ApiStatus, ApiMonitorStatus } from './aiCore';
+// Re-export core utilities for consumers
+export { apiGuard, apiMonitor, type ApiStatus, type ApiMonitorStatus, ApiKeyError, QuotaExceededError, ERROR_THRESHOLD };
 
-// --- Configuration ---
 const MODELS = {
-  FAST: 'gemini-2.5-flash',
-  REASONING: 'gemini-3-pro-preview',
-} as const;
-
-// --- Prompt Engineering Maps ---
-const SCENARIO_INSTRUCTIONS: Record<string, string> = {
-    'random': 'Create a realistic, industry-relevant scenario that provides context for the question.',
-    'temporal': 'The scenario must involve a critical deadline, time pressure, or scheduling constraint that forces a decision.',
-    'financial': 'The scenario must involve budget limitations, cost-benefit analysis, or return on investment considerations.',
-    'ethical': 'The scenario must present a moral dilemma, conflict of interest, or social responsibility issue.',
-    'stakeholder': 'The scenario must involve conflicting needs or perspectives from different stakeholders (e.g., users vs management).',
-    'technical': 'The scenario must involve a specific technical constraint, legacy system limitation, or hardware restriction.',
-    'regulatory': 'The scenario must involve compliance with specific laws, standards, or industry regulations.'
+    BASIC: 'gemini-3-flash-preview',
+    REASONING: 'gemini-3-pro-preview'
 };
 
-const SKILL_INSTRUCTIONS: Record<string, string> = {
-    'balanced': 'Ensure the question tests a balance of knowledge and application.',
-    'application': 'Focus on applying syllabus concepts to solve a specific problem in the scenario. Avoid simple recall.',
-    'analysis': 'Focus on deconstructing relationships, causes, and effects within the scenario. Require the student to connect concepts.',
-    'evaluation': 'Focus on making a judgement or assessment based on criteria. The student must weigh pros/cons or effectiveness.'
-};
+// ... (keep existing functions like refineManualPrompt, generateNewPrompt, generateSampleAnswer, parseOutcomesFromText, parseSyllabusStructure, fetchSyllabusContentFromUrl, generateNewTopic, generateDotPointsForSubTopic, generateSubTopicsAndDotPoints, generateRubricForPrompt, explainOutcomeInContext) ...
 
-// --- Helper for Keyword Calculation ---
-const calculateOptimalKeywordCount = (marks: number, verbTier: number = 4): number => {
-    // Base count derived from marks
-    let count = Math.ceil(marks * 1.5) + 2; 
+export const evaluateAnswer = async (answer: string, prompt: Prompt, tierInfo?: CommandTermInfo): Promise<EvaluationResult> => {
+    const termInfo = tierInfo || getCommandTermInfo(prompt.verb);
     
-    // Adjust based on Cognitive Tier (Higher tiers require more vocabulary for synthesis)
-    if (verbTier >= 5) count += 2;
-    if (verbTier <= 2) count = Math.max(4, count - 1);
-
-    // Clamp values to reasonable limits
-    return Math.max(4, Math.min(15, count));
-};
-
-// --- Business Logic & Prompts ---
-
-export const performQualityCheck = async (content: string, type: 'question' | 'code'): Promise<QualityCheckResult> => {
-    const cacheKey = AICache.generateQualityCheckKey(content, type);
-    const cached = await AICache.get<QualityCheckResult>(cacheKey);
-    if (cached) return cached;
-
-    const systemInstruction = `
-        You are a Senior QA Lead and Software Engineering Examiner. Your task is to review educational content (either an exam question or a code snippet) against strict quality standards.
-        STRICTLY USE BRITISH/AUSTRALIAN ENGLISH SPELLING AND TERMINOLOGY (e.g. 'analyse', 'colour', 'program' for code/'programme' for TV).
-        Return valid JSON matching the schema.
-    `;
-
-    const userPrompt = `
-        CONTENT TYPE: ${type}
-        
-        CONTENT TO REVIEW:
-        ---
-        ${content}
-        ---
-        
-        Perform the quality check now.
-    `;
+    // Sort samples by mark to provide a clear scale
+    // Copy array before sorting to avoid mutating read-only props from Immer/React
+    const sortedSamples = [...(prompt.sampleAnswers || [])].sort((a, b) => a.mark - b.mark);
+    
+    const benchmarks = sortedSamples.length > 0 
+        ? sortedSamples.map(s => 
+            `[BENCHMARK SAMPLE: ${s.mark}/${prompt.totalMarks} Marks]\n${s.answer}\n[Marker Notes]: ${s.feedback}\n`
+          ).join('\n')
+        : "No benchmark samples provided. Rely strictly on the rubric.";
 
     const request = {
         model: MODELS.REASONING,
-        contents: userPrompt,
+        contents: {
+            parts: [{
+                text: `
+                    Act as a Senior NESA HSC Marker. Your goal is **Precision** and **Consistency**.
+                    
+                    ### THE TASK
+                    Mark the student response for the question below.
+                    
+                    ### QUESTION DATA
+                    **Question:** "${prompt.question}"
+                    **Max Marks:** ${prompt.totalMarks}
+                    **Command Verb:** ${prompt.verb} (Cognitive Tier ${termInfo.tier} - ${termInfo.definition})
+                    **Syllabus Keywords:** ${prompt.keywords?.join(', ') || 'None'}
+                    
+                    ### MARKING RUBRIC
+                    ${prompt.markingCriteria}
+
+                    ### CALIBRATION BENCHMARKS (GROUND TRUTH)
+                    Use these samples to anchor your marking. 
+                    - If the student's answer is qualitatively similar to a 2-mark sample, give 2 marks.
+                    - Do not inflate marks. Be objective.
+                    ${benchmarks}
+
+                    ### STUDENT RESPONSE
+                    "${answer}"
+
+                    ### EVALUATION LOGIC
+                    1. **Identify the Verb**: Does the response meet the cognitive demand of '${prompt.verb}'? (e.g. If it only 'Describes' when asked to 'Analyse', cap the marks).
+                    2. **Check Content**: Are the keywords used correctly in context?
+                    3. **Compare to Benchmarks**: Is this answer better, worse, or equal to the benchmarks?
+                    4. **Determine Mark**: Assign an integer mark.
+                    5. **Generate Coach's Tip**: Identify the single most effective action to improve.
+                       - **Style**: Short, punchy, imperative (max 15 words). Plain English. No fluff.
+                       - **Band-Specific Strategy**:
+                         - **Low Band (1-3)**: Focus on volume, basic definitions, or attempting the verb. (e.g. "Too short. Write more to score marks.", "Don't list—explain why.")
+                         - **Mid Band (4-5)**: Focus on depth, specific terminology, or linking concepts. (e.g. "Swap generic words for syllabus keywords.", "Link cause and effect clearly.")
+                         - **High Band (6)**: Focus on precision, judgement, or sophisticated structuring. (e.g. "Make your judgement explicit.", "Refine wording to match exam language.")
+                       - **Focus**: Target the ONE thing that lifts them to the next band.
+
+                    ### OUTPUT FORMAT (JSON)
+                    Return valid JSON adhering to the schema.
+                `
+            }]
+        },
         config: {
-            systemInstruction,
+            responseMimeType: "application/json",
+            // Enable thinking to allow for comparison and calibration steps
+            thinkingConfig: { thinkingBudget: 4096 },
+            responseSchema: {
+                type: Type.OBJECT,
+                properties: {
+                    overallMark: { type: Type.INTEGER },
+                    overallBand: { type: Type.INTEGER },
+                    overallFeedback: { type: Type.STRING },
+                    quickTip: { type: Type.STRING, description: "A catchy, single-sentence coaching tip (max 15 words) in plain English focusing on the #1 impactful fix." },
+                    strengths: { type: Type.ARRAY, items: { type: Type.STRING } },
+                    improvements: { type: Type.ARRAY, items: { type: Type.STRING } },
+                    criteria: { 
+                        type: Type.ARRAY,
+                        items: {
+                            type: Type.OBJECT,
+                            properties: {
+                                criterion: { type: Type.STRING },
+                                mark: { type: Type.INTEGER },
+                                maxMark: { type: Type.INTEGER },
+                                feedback: { type: Type.STRING }
+                            },
+                            required: ["criterion", "mark", "maxMark", "feedback"]
+                        }
+                    },
+                    revisedAnswer: { type: Type.STRING }
+                },
+                required: ["overallMark", "overallBand", "overallFeedback", "quickTip", "strengths", "improvements", "criteria", "revisedAnswer"]
+            }
+        }
+    };
+    
+    const response = await generateContentWithRetry(request);
+    const data = safeJsonParse<EvaluationResult>(response.text || "");
+    if (!data) throw new Error("Evaluation failed.");
+    
+    // Sanity checks
+    data.overallMark = Math.max(0, Math.min(data.overallMark, prompt.totalMarks));
+    
+    return data;
+};
+
+// ... (keep remaining functions like improveAnswer, enrichPromptDetails, etc.) ...
+export const improveAnswer = async (answer: string, prompt: Prompt, evaluation: EvaluationResult, targetBand: number): Promise<string> => {
+    const request = {
+        model: MODELS.REASONING,
+        contents: {
+            parts: [{
+                text: `Improve this answer to achieve Band ${targetBand} standard.
+                       Question: ${prompt.question}
+                       Original: "${answer}"
+                       Feedback to address: ${evaluation.overallFeedback}
+                       
+                       Return only the improved answer text.`
+            }]
+        }
+    };
+    const response = await generateContentWithRetry(request);
+    return response.text || "";
+};
+
+export const enrichPromptDetails = async (prompt: Prompt, context: { name: string, outcomes: CourseOutcome[] }): Promise<{ scenario: string, keywords: string[], linkedOutcomes: string[] }> => {
+    const request = {
+        model: MODELS.BASIC,
+        contents: {
+            parts: [{
+                text: `Enrich this exam question with a scenario, keywords, and linked outcomes.
+                       Course: ${context.name}
+                       Question: "${prompt.question}"
+                       Available Outcomes: ${JSON.stringify(context.outcomes.map(o => o.code))}
+                       
+                       Return JSON: { "scenario": string, "keywords": string[], "linkedOutcomes": string[] }`
+            }]
+        },
+        config: {
+            responseMimeType: "application/json"
+        }
+    };
+    
+    const response = await generateContentWithRetry(request);
+    const data = safeJsonParse<any>(response.text || "");
+    return data || { scenario: "", keywords: [], linkedOutcomes: [] };
+};
+
+export const generateScenarioForPrompt = async (prompt: Prompt): Promise<string> => {
+    const request = {
+        model: MODELS.BASIC,
+        contents: {
+            parts: [{
+                text: `Write a realistic scenario (2-3 sentences) for this exam question: "${prompt.question}".`
+            }]
+        }
+    };
+    const response = await generateContentWithRetry(request);
+    return response.text || "";
+};
+
+export const generateKeywordsForPrompt = async (prompt: Prompt, termInfo: CommandTermInfo): Promise<string[]> => {
+    const request = {
+        model: MODELS.BASIC,
+        contents: {
+            parts: [{
+                text: `Extract 5-10 key technical terms for this question: "${prompt.question}". 
+                       Verb is ${termInfo.term}. Return JSON string array.`
+            }]
+        },
+        config: {
+            responseMimeType: "application/json"
+        }
+    };
+    const response = await generateContentWithRetry(request);
+    return safeJsonParse<string[]>(response.text || "") || [];
+};
+
+export const suggestOutcomesForPrompt = async (question: string, outcomes: CourseOutcome[], marks: number): Promise<string[]> => {
+    const request = {
+        model: MODELS.BASIC,
+        contents: {
+            parts: [{
+                text: `Select the most relevant outcome codes for this question: "${question}".
+                       Outcomes: ${JSON.stringify(outcomes)}.
+                       Return JSON string array of codes.`
+            }]
+        },
+        config: {
+            responseMimeType: "application/json"
+        }
+    };
+    const response = await generateContentWithRetry(request);
+    return safeJsonParse<string[]>(response.text || "") || [];
+};
+
+export const reviseSampleAnswer = async (prompt: Prompt, sample: SampleAnswer, targetMark: number): Promise<SampleAnswer> => {
+    const request = {
+        model: MODELS.REASONING,
+        contents: {
+            parts: [{
+                text: `Rewrite this answer to score exactly ${targetMark}/${prompt.totalMarks}.
+                       Question: ${prompt.question}
+                       Original Answer: "${sample.answer}"
+                       
+                       Return JSON: { "answer": string, "feedback": string }`
+            }]
+        },
+        config: {
+            responseMimeType: "application/json"
+        }
+    };
+    
+    const response = await generateContentWithRetry(request);
+    const data = safeJsonParse<any>(response.text || "");
+    if (!data) throw new Error("Revision failed.");
+    
+    return {
+        id: generateId('sa'),
+        answer: data.answer,
+        mark: targetMark,
+        band: Math.min(6, Math.ceil((targetMark / prompt.totalMarks) * 6)),
+        source: 'AI',
+        feedback: data.feedback
+    };
+};
+
+export const performQualityCheck = async (content: string, type: 'question' | 'code'): Promise<QualityCheckResult> => {
+    const request = {
+        model: MODELS.REASONING,
+        contents: {
+            parts: [{
+                text: `Analyze the quality of this ${type}:
+                       "${content}"
+                       
+                       Return JSON:
+                       {
+                           "status": "PASS" | "WARN" | "FAIL",
+                           "score": number (0-100),
+                           "summary": string,
+                           "issues": [{ "severity": "critical"|"warning"|"info", "message": string, "suggestion": string }],
+                           "refinedContent": string (optional improved version)
+                       }`
+            }]
+        },
+        config: {
+            responseMimeType: "application/json"
+        }
+    };
+    
+    const response = await generateContentWithRetry(request);
+    const data = safeJsonParse<QualityCheckResult>(response.text || "");
+    if (!data) throw new Error("Quality check failed.");
+    return data;
+};
+
+// ... (keep existing exports) ...
+export const refineManualPrompt = async (
+    rawInput: string, 
+    courseName: string, 
+    topicName: string,
+    outcomes: CourseOutcome[],
+    targetMarks: number = 5
+): Promise<Prompt> => {
+    const cacheKey = AICache.generatePromptKey(`manual-${Date.now()}`, rawInput + targetMarks);
+    
+    const request = {
+        model: MODELS.REASONING,
+        contents: {
+            parts: [{
+                text: `
+                    You are an expert NESA Exam Writer. 
+                    A teacher has provided a rough draft or concept for a question. 
+                    Your task is to refine it into a Gold Standard HSC Question worth exactly ${targetMarks} marks.
+
+                    **LANGUAGE SETTING:**
+                    STRICTLY USE BRITISH/AUSTRALIAN ENGLISH SPELLING AND TERMINOLOGY (e.g. 'analyse', 'colour', 'programme', 'behaviour').
+
+                    **CONTEXT:**
+                    Course: ${courseName}
+                    Topic: ${topicName}
+                    Raw Input: "${rawInput}"
+                    Target Marks: ${targetMarks}
+                    Available Outcomes: ${JSON.stringify(outcomes.map(o => ({ code: o.code, desc: o.description })))}
+
+                    **REQUIREMENTS:**
+                    1. **Select Verb**: You MUST select a NESA Command Verb that is appropriate for a ${targetMarks}-mark question. 
+                       - 1-3 marks: Identify, Outline, Describe, Define, Calculate.
+                       - 4-6 marks: Explain, Compare, Contrast, Analyse, Distinguish.
+                       - 7+ marks: Evaluate, Assess, Justify, Discuss, Critically Analyse.
+                    2. **Refine the Question**: Rewrite the raw input to use formal academic language and your selected verb.
+                    3. **Create a Scenario**: Write a realistic, industry-relevant scenario (Who/What/Why) that gives context to the question.
+                    4. **Select Outcomes**: Pick 1-3 outcome codes from the provided list that best match the question.
+                    5. **Marking Criteria**: Create a descending marking rubric (e.g., "[Mark] marks: [Descriptor]").
+                    6. **Keywords**: Extract 5-10 key technical terms.
+
+                    **OUTPUT:**
+                    Return valid JSON matching the schema.
+                `
+            }]
+        },
+        config: {
             thinkingConfig: { thinkingBudget: 4096 },
             responseMimeType: "application/json",
             responseSchema: {
                 type: Type.OBJECT,
                 properties: {
-                    status: { type: Type.STRING, enum: ["PASS", "FAIL", "WARN"] },
-                    score: { type: Type.NUMBER },
-                    summary: { type: Type.STRING },
-                    issues: {
-                        type: Type.ARRAY,
-                        items: {
-                            type: Type.OBJECT,
-                            properties: {
-                                severity: { type: Type.STRING, enum: ["critical", "warning", "info"] },
-                                message: { type: Type.STRING },
-                                suggestion: { type: Type.STRING }
-                            },
-                            required: ["severity", "message", "suggestion"]
-                        }
-                    },
-                    refinedContent: { type: Type.STRING }
-                },
-                required: ["status", "score", "summary", "issues"]
-            }
-        }
-    };
-
-    const response = await generateContentWithRetry(request);
-    const result = safeJsonParse<QualityCheckResult>(response.text || "");
-    if (!result) throw new Error("Failed to perform quality check.");
-    
-    await AICache.set(cacheKey, result);
-    return result;
-};
-
-export const evaluateAnswer = async (answer: string, prompt: Prompt): Promise<EvaluationResult> => {
-  const cacheKey = AICache.generateEvaluationKey(prompt.id, answer);
-  const cached = await AICache.get<EvaluationResult>(cacheKey);
-  if (cached) return cached;
-
-  const commandTermInfo = getCommandTermInfo(prompt.verb);
-  const structureGuide = getStructureGuide(prompt.totalMarks);
-  
-  const systemInstruction = `
-    You are a ruthless, expert Senior HSC Marker for NESA (NSW Education Standards Authority).
-    
-    **LANGUAGE SETTING:**
-    STRICTLY USE BRITISH/AUSTRALIAN ENGLISH SPELLING AND TERMINOLOGY (e.g. 'analyse', 'behaviour', 'centre').
-
-    **MARKING RULES (STRICT ADHERENCE REQUIRED):**
-    1. **No Participation Awards:** If the answer is brief, superficial, lists points without explanation, or fails to address the specific command verb (e.g., "Describe" instead of "Evaluate"), it is a Band 1 or Band 2 response (0-30% marks).
-    2. **Rounding:** Do not award half marks. If a student partially meets a criteria but is not perfect, round DOWN.
-    3. **Evidence Over Fluff:** Ignore length padding. Look for specific syllabus terminology and causal links.
-    4. **Command Verb:** 
-       - 'Identify/Outline': Simple recall.
-       - 'Explain': Cause and effect.
-       - 'Analyse/Evaluate': Deep critical thinking, pros/cons, and judgment.
-    
-    **EXPECTED STRUCTURE FOR ${prompt.totalMarks} MARKS:**
-    ${structureGuide}
-    
-    Response must be valid JSON adhering to the schema.
-  `;
-  
-  const request = {
-    model: MODELS.REASONING,
-    contents: `
-      QUESTION: "${prompt.question}" (${prompt.totalMarks} marks)
-      COMMAND: ${prompt.verb} (${commandTermInfo.definition})
-      CRITERIA: ${prompt.markingCriteria || 'Not provided'}
-      KEYWORDS: ${(prompt.keywords || []).join(', ')}
-
-      STUDENT ANSWER:
-      "${answer}"
-
-      TASK: Evaluate strict adherence to criteria. Determine Mark. Suggest Improvements.
-    `,
-    config: {
-      systemInstruction: systemInstruction,
-      thinkingConfig: { thinkingBudget: 8192 },
-      responseMimeType: "application/json",
-      responseSchema: {
-        type: Type.OBJECT,
-        properties: {
-          overallMark: { type: Type.NUMBER },
-          overallFeedback: { type: Type.STRING },
-          strengths: { type: Type.ARRAY, items: { type: Type.STRING } },
-          improvements: { type: Type.ARRAY, items: { type: Type.STRING } },
-          criteria: {
-            type: Type.ARRAY,
-            items: {
-              type: Type.OBJECT,
-              properties: {
-                criterion: { type: Type.STRING },
-                mark: { type: Type.NUMBER },
-                maxMark: { type: Type.NUMBER },
-                feedback: { type: Type.STRING }
-              },
-              required: ['criterion', 'mark', 'maxMark', 'feedback']
-            }
-          },
-          revisedAnswer: { 
-              type: Type.OBJECT,
-              properties: {
-                  text: { type: Type.STRING },
-                  mark: { type: Type.NUMBER },
-                  keyChanges: { type: Type.ARRAY, items: { type: Type.STRING } }
-              },
-              required: ['text', 'mark', 'keyChanges']
-          }
-        },
-        required: ['overallMark', 'overallFeedback', 'strengths', 'improvements', 'criteria', 'revisedAnswer']
-      }
-    }
-  };
-
-  const response = await generateContentWithRetry(request);
-  let result = safeJsonParse<EvaluationResult>(response.text || "");
-  if (!result) throw new Error("AI returned invalid evaluation format.");
-  
-  // --- Strict Post-Processing Enforcement ---
-  let calculatedTotal = 0;
-  
-  if (result.criteria && Array.isArray(result.criteria)) {
-      result.criteria = result.criteria.map(c => {
-          const strictMark = Math.floor(c.mark);
-          calculatedTotal += strictMark;
-          return { ...c, mark: strictMark };
-      });
-      result.overallMark = Math.min(calculatedTotal, prompt.totalMarks);
-  } else {
-      result.overallMark = Math.floor(Math.min(result.overallMark, prompt.totalMarks));
-  }
-
-  // DETERMINISTIC BAND CALCULATION
-  result.overallBand = getBandForMark(result.overallMark, prompt.totalMarks, commandTermInfo.tier);
-
-  if (result.revisedAnswer && typeof result.revisedAnswer !== 'string') {
-      result.revisedAnswer.band = getBandForMark(result.revisedAnswer.mark, prompt.totalMarks, commandTermInfo.tier);
-  }
-
-  await AICache.set(cacheKey, result);
-  return result;
-};
-
-export const improveAnswer = async (
-  originalAnswer: string,
-  prompt: Prompt,
-  evaluation: EvaluationResult,
-  targetBand: number
-): Promise<string> => {
-  const cacheKey = AICache.generateImproveKey(prompt.id, originalAnswer, targetBand);
-  const cached = await AICache.get<string>(cacheKey);
-  if (cached) return cached;
-
-  const systemInstruction = `
-    You are an expert HSC teacher. Revise the student's answer to achieve Band ${targetBand}.
-    STRICTLY USE BRITISH/AUSTRALIAN ENGLISH SPELLING AND TERMINOLOGY.
-  `;
-
-  const request = {
-    model: MODELS.REASONING,
-    contents: `
-      QUESTION: "${prompt.question}"
-      ORIGINAL ANSWER: "${originalAnswer}"
-      IMPROVEMENTS NEEDED: ${evaluation.improvements.join('\n')}
-      
-      TASK: Rewrite the answer to address improvements and meet Band ${targetBand} standards. Return ONLY the text.
-    `,
-    config: { 
-        systemInstruction,
-        thinkingConfig: { thinkingBudget: 8192 }
-    }
-  };
-
-  const response = await generateContentWithRetry(request);
-  const text = response.text || "";
-  if (text) await AICache.set(cacheKey, text);
-  return text;
-};
-
-export const enrichPromptDetails = async (prompt: Prompt, course: { name: string; outcomes: CourseOutcome[] }): Promise<Partial<Prompt>> => {
-    const cacheKey = AICache.generateEnrichKey(prompt.id);
-    const cached = await AICache.get<Partial<Prompt>>(cacheKey);
-    if (cached) return cached;
-
-    // Smart Keyword Calculation based on Mark + Tier
-    const verbInfo = getCommandTermInfo(prompt.verb);
-    const targetKeywordCount = calculateOptimalKeywordCount(prompt.totalMarks, verbInfo.tier);
-
-    const systemInstruction = `
-        You are an AI assistant that enriches exam questions with syllabus context. 
-        STRICTLY USE BRITISH/AUSTRALIAN ENGLISH SPELLING AND TERMINOLOGY.
-        Your response must be a single, valid JSON object.
-    `;
-    
-    const request = {
-        model: MODELS.FAST,
-        contents: `
-            Analyze this question: "${prompt.question}"
-            Context: Course "${course.name}"
-            Marks: ${prompt.totalMarks}
-            
-            Tasks:
-            1. Create a realistic scenario/context if missing.
-            2. Extract exactly ${targetKeywordCount} key syllabus terms.
-            3. Identify relevant syllabus outcomes from this list: ${course.outcomes.map(o => o.code + ": " + o.description).join('; ')}
-        `,
-        config: {
-            systemInstruction,
-            responseMimeType: "application/json",
-            responseSchema: {
-                type: Type.OBJECT,
-                properties: {
+                    question: { type: Type.STRING },
+                    verb: { type: Type.STRING },
+                    totalMarks: { type: Type.NUMBER },
                     scenario: { type: Type.STRING },
+                    markingCriteria: { type: Type.STRING },
                     keywords: { type: Type.ARRAY, items: { type: Type.STRING } },
-                    linkedOutcomes: { type: Type.ARRAY, items: { type: Type.STRING } }
+                    linkedOutcomes: { type: Type.ARRAY, items: { type: Type.STRING } },
                 },
-                required: ["keywords"]
+                required: ["question", "verb", "totalMarks", "scenario", "markingCriteria", "linkedOutcomes"]
             }
         }
     };
 
     const response = await generateContentWithRetry(request);
-    const result = safeJsonParse<Partial<Prompt>>(response.text || "");
-    if (result) {
-        await AICache.set(cacheKey, result);
+    const data = safeJsonParse<any>(response.text || "");
+    if (!data) throw new Error("Failed to refine prompt.");
+
+    let verb = data.verb.toUpperCase();
+    const verbInfo = getCommandTermInfo(verb as PromptVerb);
+    if (verbInfo.term === 'EXPLAIN' && verb !== 'EXPLAIN') {
+        const extracted = getCommandTermInfo(data.question.split(' ')[0].toUpperCase() as PromptVerb);
+        verb = extracted.term;
     }
-    return result || {};
+
+    const newPrompt: Prompt = {
+        id: generateId('prompt'),
+        question: data.question,
+        totalMarks: data.totalMarks,
+        verb: verb as PromptVerb,
+        scenario: data.scenario,
+        markingCriteria: data.markingCriteria,
+        keywords: data.keywords || [],
+        linkedOutcomes: data.linkedOutcomes || [],
+        sampleAnswers: [],
+        isPastHSC: false
+    };
+
+    return newPrompt;
 };
 
 export const generateNewPrompt = async (
-  courseName: string,
-  topicName: string,
-  dotPoint: string,
-  marks: number,
-  verbs: CommandTermInfo[],
-  outcomes: CourseOutcome[],
-  scenarioConstraint: string = 'Random',
-  skillFocus: string = 'Balanced',
-  targetBand: number = 6
+    courseName: string,
+    topicName: string,
+    dotPoint: string,
+    marks: number,
+    verbs: CommandTermInfo[],
+    outcomes: CourseOutcome[],
+    scenarioType?: string,
+    skillFocus?: string,
+    targetBand?: number
 ): Promise<Prompt> => {
-    const verb = verbs[0]?.term || 'EXPLAIN';
-    const verbInfo = getCommandTermInfo(verb);
-    const structureGuide = getStructureGuide(marks);
+    const verbList = verbs.map(v => v.term).join(', ');
     
-    // Dynamic Keyword Quantity Strategy
-    const keywordTarget = calculateOptimalKeywordCount(marks, verbInfo.tier);
-
-    const bandInstruction = targetBand === 6 
-        ? "Write a 'Band 6' (perfect) exemplar response." 
-        : `Write a 'Band ${targetBand}' response. It should be good but contain minor flaws or lack the sophistication of a top-tier answer to simulate a student at this level.`;
-
-    const specificScenarioInstruction = SCENARIO_INSTRUCTIONS[scenarioConstraint.toLowerCase()] || SCENARIO_INSTRUCTIONS['random'];
-    const specificSkillInstruction = SKILL_INSTRUCTIONS[skillFocus.toLowerCase()] || SKILL_INSTRUCTIONS['balanced'];
-
     const request = {
         model: MODELS.REASONING,
-        contents: `
-            Act as a Senior HSC Exam Committee writer. Create a high-quality exam question based on the following specifications.
-            
-            **LANGUAGE SETTING:**
-            STRICTLY USE BRITISH/AUSTRALIAN ENGLISH SPELLING AND TERMINOLOGY (e.g. 'analyse', 'colour', 'programme', 'behaviour').
-            
-            **CONTEXT:**
-            Course: ${courseName}
-            Topic: ${topicName}
-            Syllabus Dot Point: "${dotPoint}"
-            Marks: ${marks}
-            Command Verb: ${verb} (Tier ${verbInfo.tier})
-            
-            **PARAMETERS:**
-            - Scenario Type: ${scenarioConstraint} -> ${specificScenarioInstruction}
-            - Skill Focus: ${skillFocus} -> ${specificSkillInstruction}
-            
-            **GOLD STANDARD REQUIREMENTS:**
-            1. **Scenario:** Must follow the formula WHO (Specific Role) + WHAT (Constraint/Challenge) + WHY (Consequence). The scenario must be functional, meaning the question cannot be fully answered without referencing specific details from the scenario.
-            2. **Keywords:** Provide exactly ${keywordTarget} keywords. You must think in three tiers (Tier 1: Syllabus Basics, Tier 2: Academic, Tier 3: Scenario Specific) but output them as a SINGLE flat list.
-            3. **Marking Criteria:** Create a detailed marking rubric. Use the descending linguistic pattern (e.g., "Analyses effectively..." -> "Analyses..." -> "Explains..."). Ensure it addresses Skill, Content, Evidence, and Integration.
-            4. **Sample Answer:** ${bandInstruction} It must:
-               - Use PEEL structure (Point, Evidence, Explanation, Link).
-               - Integrate specific scenario details explicitly.
-               - Use appropriate terminology from the keywords list.
-               - Meet the word count guideline for ${marks} marks.
-               - Structure Guide: ${structureGuide}
-
-            **OUTPUT FORMAT:**
-            Return valid JSON matching the schema.
-        `,
+        contents: {
+            parts: [{
+                text: `
+                    Create a high-quality HSC exam question for ${courseName} - ${topicName}.
+                    Syllabus Dot Point: "${dotPoint}"
+                    Target Marks: ${marks}
+                    Allowed Verbs: ${verbList}
+                    ${scenarioType ? `Scenario Type: ${scenarioType}` : ''}
+                    ${skillFocus ? `Skill Focus: ${skillFocus}` : ''}
+                    ${targetBand ? `Target Band Difficulty: ${targetBand}` : ''}
+                    
+                    Generate a JSON object with:
+                    - question (The exam question text)
+                    - verb (One of the allowed verbs)
+                    - scenario (A realistic context paragraph)
+                    - markingCriteria (A detailed marking rubric text)
+                    - keywords (List of 5-10 technical terms)
+                    - linkedOutcomes (Array of outcome codes relevant to this question from: ${JSON.stringify(outcomes.map(o => o.code))})
+                `
+            }]
+        },
         config: {
-            thinkingConfig: { thinkingBudget: 8192 },
+            thinkingConfig: { thinkingBudget: 4096 },
             responseMimeType: "application/json",
             responseSchema: {
                 type: Type.OBJECT,
                 properties: {
                     question: { type: Type.STRING },
+                    verb: { type: Type.STRING },
                     scenario: { type: Type.STRING },
                     markingCriteria: { type: Type.STRING },
                     keywords: { type: Type.ARRAY, items: { type: Type.STRING } },
-                    sampleAnswer: { type: Type.STRING }
+                    linkedOutcomes: { type: Type.ARRAY, items: { type: Type.STRING } },
                 },
-                required: ["question", "markingCriteria", "sampleAnswer", "keywords"]
+                required: ["question", "verb", "scenario", "markingCriteria", "linkedOutcomes"]
             }
         }
     };
@@ -386,379 +429,276 @@ export const generateNewPrompt = async (
     const data = safeJsonParse<any>(response.text || "");
     if (!data) throw new Error("Failed to generate prompt.");
 
-    const sampleBand = getBandForMark(marks, marks, verbInfo.tier);
-
-    const newPrompt: Prompt = {
+    return {
         id: generateId('prompt'),
         question: data.question,
         totalMarks: marks,
-        verb: verb as PromptVerb,
+        verb: data.verb as PromptVerb,
         scenario: data.scenario,
         markingCriteria: data.markingCriteria,
         keywords: data.keywords || [],
-        sampleAnswers: [{
-            id: generateId('sa'),
-            answer: data.sampleAnswer,
-            mark: marks,
-            band: sampleBand,
-            source: 'AI'
-        }],
+        linkedOutcomes: data.linkedOutcomes || [],
+        sampleAnswers: [],
         isPastHSC: false
     };
-    return newPrompt;
 };
 
-export const generateSampleAnswer = async (
-  prompt: Prompt,
-  mark: number,
-  existingAnswers: SampleAnswer[]
-): Promise<SampleAnswer> => {
-    const cacheKey = AICache.generateSampleAnswerKey(prompt.id, mark);
-    const cached = await AICache.get<SampleAnswer>(cacheKey);
-    if (cached) return { ...cached, id: generateId('sa') };
+export const generateSampleAnswer = async (prompt: Prompt, mark: number, existingAnswers: SampleAnswer[]): Promise<SampleAnswer> => {
+    // Generate tailored instructions based on the mark relative to total marks
+    const targetPercentage = mark / prompt.totalMarks;
+    let qualityInstruction = "";
 
-    const commandTermInfo = getCommandTermInfo(prompt.verb);
-    const targetBand = getBandForMark(mark, prompt.totalMarks, commandTermInfo.tier);
-    const structureGuide = getStructureGuide(mark);
-    
-    const keywordsList = prompt.keywords?.join(', ') || '';
-
-    let instructions = "";
-    if (mark === prompt.totalMarks) {
-        instructions = `Write a perfect, full-mark response that addresses all criteria comprehensively.
-        REQUIRED STRUCTURE: ${structureGuide}`;
-    } else if (mark <= prompt.totalMarks / 2) {
-        instructions = `Write a response that achieves EXACTLY ${mark}/${prompt.totalMarks} marks. 
-        It must be INCOMPLETE or FLAWED. 
-        - Omit key details.
-        - Use vague terminology.
-        - Fail to fully address the command verb '${prompt.verb}'.
-        - DO NOT write a perfect answer. Simulate a student who has partial understanding.
-        REQUIRED STRUCTURE: ${structureGuide}`;
+    if (targetPercentage >= 0.9) {
+        qualityInstruction = `Write a **perfect Band 6 exemplar**. It must be sophisticated, using high-modality language, specific industry terminology, and fully addressing the implications of the verb '${prompt.verb}'.`;
+    } else if (targetPercentage >= 0.7) {
+        qualityInstruction = `Write a **Band 5 response**. It should be detailed and accurate but might miss a subtle nuance or a final synthesis link that a Band 6 would have.`;
+    } else if (targetPercentage >= 0.5) {
+        qualityInstruction = `Write a **Band 3/4 response**. It should be sound but generic. Use 'Describe' logic even if the verb is 'Explain'. Use general terms instead of specific syllabus keywords.`;
     } else {
-        instructions = `Write a response that achieves EXACTLY ${mark}/${prompt.totalMarks} marks.
-        It should be good but NOT perfect.
-        - Include most key points but miss a nuanced detail.
-        - Minor terminology errors or lack of depth in one area.
-        REQUIRED STRUCTURE: ${structureGuide}`;
+        qualityInstruction = `Write a **Band 2 response**. It should be superficial, fragmented, or merely define terms without relating them to the scenario.`;
     }
 
     const request = {
         model: MODELS.REASONING,
-        contents: `
-            You are an expert HSC teacher.
-            STRICTLY USE BRITISH/AUSTRALIAN ENGLISH SPELLING AND TERMINOLOGY (e.g. 'analyse', 'colour', 'program' for code).
-            
-            Write a sample answer for this question: "${prompt.question}"
-            Total Marks Available: ${prompt.totalMarks}
-            TARGET MARK: ${mark}
-            KEYWORDS TO INCORPORATE: ${keywordsList}
-            
-            ${instructions}
-            
-            Return only the answer text.
-        `,
+        contents: {
+            parts: [{
+                text: `
+                    Write a sample answer for the following HSC question.
+                    
+                    **Context:**
+                    - Question: "${prompt.question}"
+                    - Verb: ${prompt.verb}
+                    - Scenario: ${prompt.scenario || 'None'}
+                    - Target Mark: ${mark}/${prompt.totalMarks}
+                    
+                    **Directives:**
+                    ${qualityInstruction}
+                    - Do NOT include the mark at the start of the text.
+                    - Provide marker's feedback explaining EXACTLY why this answer gets ${mark}/${prompt.totalMarks}.
+                    
+                    Return JSON:
+                    { "answer": string, "feedback": string }
+                `
+            }]
+        },
         config: {
-            thinkingConfig: { thinkingBudget: 4096 }
-        }
-    };
-    const response = await generateContentWithRetry(request);
-    
-    const answer: SampleAnswer = {
-        id: generateId('sa'),
-        answer: response.text || "No answer generated.",
-        mark: mark,
-        band: targetBand,
-        source: 'AI'
-    };
-
-    await AICache.set(cacheKey, answer);
-    return answer;
-};
-
-export const reviseSampleAnswer = async (
-  prompt: Prompt,
-  originalSample: SampleAnswer,
-  targetMark: number
-): Promise<SampleAnswer> => {
-    const cacheKey = AICache.generateReviseKey(prompt.id, originalSample.answer, targetMark);
-    const cached = await AICache.get<SampleAnswer>(cacheKey);
-    if (cached) return { ...cached, id: generateId('sa') };
-
-    const commandTermInfo = getCommandTermInfo(prompt.verb);
-    const targetBand = getBandForMark(targetMark, prompt.totalMarks, commandTermInfo.tier);
-    const structureGuide = getStructureGuide(targetMark);
-
-    let instructions = "";
-    if (targetMark > originalSample.mark) {
-        instructions = `Improve this answer to achieve ${targetMark}/${prompt.totalMarks}. Add missing detail, use more precise terminology, and better address the command verb '${prompt.verb}'.
-        NEW STRUCTURE: ${structureGuide}`;
-    } else {
-        instructions = `Downgrade this answer to achieve ${targetMark}/${prompt.totalMarks}. Remove specific details, make the language vaguer, or fail to fully address the command verb to simulate a lower-quality response.
-        NEW STRUCTURE: ${structureGuide}`;
-    }
-
-    const request = {
-        model: MODELS.REASONING,
-        contents: `
-            You are an expert HSC teacher.
-            STRICTLY USE BRITISH/AUSTRALIAN ENGLISH SPELLING AND TERMINOLOGY.
-            
-            Rewrite this student answer.
-            Question: "${prompt.question}"
-            Original Answer (${originalSample.mark}/${prompt.totalMarks}): "${originalSample.answer}"
-            
-            NEW TARGET MARK: ${targetMark}/${prompt.totalMarks}
-            
-            ${instructions}
-            
-            Return only the new answer text.
-        `,
-        config: {
-            thinkingConfig: { thinkingBudget: 4096 }
-        }
-    };
-    const response = await generateContentWithRetry(request);
-    
-    const answer: SampleAnswer = {
-        id: generateId('sa'),
-        answer: response.text || "",
-        mark: targetMark,
-        band: targetBand,
-        source: 'AI'
-    };
-
-    await AICache.set(cacheKey, answer);
-    return answer;
-};
-
-export const generateScenarioForPrompt = async (prompt: Prompt): Promise<string> => {
-    const cacheKey = AICache.generateScenarioKey(prompt.id);
-    const cached = await AICache.get<string>(cacheKey);
-    if (cached) return cached;
-
-    const request = {
-        model: MODELS.FAST,
-        contents: `Create a concise, realistic scenario (2-3 sentences) for this exam question to give it context: "${prompt.question}". Return only the scenario text. Use British/Australian English.`
-    };
-    const response = await generateContentWithRetry(request);
-    const text = response.text || "";
-    if (text) await AICache.set(cacheKey, text);
-    return text;
-};
-
-export const generateKeywordsForPrompt = async (prompt: Prompt, verbInfo: CommandTermInfo): Promise<string[]> => {
-    const cacheKey = AICache.generateKeywordsKey(prompt.id);
-    const cached = await AICache.get<string[]>(cacheKey);
-    if (cached) return cached;
-
-    // Dynamic keyword count calculation
-    const keywordTarget = calculateOptimalKeywordCount(prompt.totalMarks, verbInfo.tier);
-
-    const request = {
-        model: MODELS.FAST,
-        contents: `Extract exactly ${keywordTarget} key syllabus terms and concepts for this question: "${prompt.question}". Use British/Australian English spelling. Return valid JSON string array.`
-    };
-    const response = await generateContentWithRetry({ ...request, config: { responseMimeType: "application/json" }});
-    const result = safeJsonParse<string[]>(response.text || "") || [];
-    if (result.length > 0) await AICache.set(cacheKey, result);
-    return result;
-};
-
-export const generateNewTopic = async (courseName: string, existingTopics: string[]): Promise<string> => {
-    const cacheKey = AICache.generateTopicKey(courseName, existingTopics);
-    const cached = await AICache.get<string>(cacheKey);
-    if (cached) return cached;
-
-    const request = {
-        model: MODELS.FAST,
-        contents: `Suggest a new, relevant topic name for the course "${courseName}". Existing topics: ${existingTopics.join(', ')}. Return only the topic name (British English).`
-    };
-    const response = await generateContentWithRetry(request);
-    const text = (response.text || "").replace(/['"]/g, "").trim();
-    if (text) await AICache.set(cacheKey, text);
-    return text;
-};
-
-export const generateDotPointsForSubTopic = async (courseName: string, topicName: string, subTopicName: string): Promise<string[]> => {
-    const cacheKey = AICache.generateDotPointsKey(courseName, topicName, subTopicName);
-    const cached = await AICache.get<string[]>(cacheKey);
-    if (cached) return cached;
-
-    const request = {
-        model: MODELS.FAST,
-        contents: `Generate 3-5 syllabus dot points for "${subTopicName}" in the topic "${topicName}" of course "${courseName}". Use British/Australian English. Return valid JSON string array.`,
-        config: { responseMimeType: "application/json" }
-    };
-    const response = await generateContentWithRetry(request);
-    const result = safeJsonParse<string[]>(response.text || "") || [];
-    if (result.length > 0) await AICache.set(cacheKey, result);
-    return result;
-};
-
-export const generateSubTopicsAndDotPoints = async (courseName: string, topicName: string, syllabusText: string): Promise<SubTopic[]> => {
-    const cacheKey = AICache.generateParsingKey(syllabusText, 'structure');
-    const cachedRaw = await AICache.get<any[]>(cacheKey);
-    
-    const processParsedData = (data: any[]): SubTopic[] => {
-        return data.map(st => ({
-            id: generateId('subTopic'),
-            name: st.name,
-            dotPoints: (st.dotPoints || []).map((dp: string) => ({
-                id: generateId('dp'),
-                description: dp,
-                prompts: []
-            }))
-        }));
-    };
-
-    if (cachedRaw) return processParsedData(cachedRaw);
-
-    const request = {
-        model: MODELS.REASONING,
-        contents: `
-            Parse this text into sub-topics and dot points for "${topicName}" in "${courseName}".
-            Text: "${syllabusText}"
-            Use British English spelling in output.
-            Return valid JSON matching the schema.
-        `,
-        config: {
-            thinkingConfig: { thinkingBudget: 4096 },
             responseMimeType: "application/json",
             responseSchema: {
-                type: Type.ARRAY,
-                items: {
-                    type: Type.OBJECT,
-                    properties: {
-                        name: { type: Type.STRING },
-                        dotPoints: { type: Type.ARRAY, items: { type: Type.STRING } }
-                    },
-                    required: ["name", "dotPoints"]
-                }
+                type: Type.OBJECT,
+                properties: {
+                    answer: { type: Type.STRING },
+                    feedback: { type: Type.STRING }
+                },
+                required: ["answer", "feedback"]
             }
         }
     };
-    
-    const response = await generateContentWithRetry(request);
-    const parsed = safeJsonParse<any[]>(response.text || "");
-    if (!parsed) return [];
 
-    await AICache.set(cacheKey, parsed);
-    return processParsedData(parsed);
+    const response = await generateContentWithRetry(request);
+    const data = safeJsonParse<any>(response.text || "");
+    if (!data) throw new Error("Failed to generate sample answer.");
+
+    return {
+        id: generateId('sa'),
+        answer: data.answer,
+        mark: mark,
+        band: Math.min(6, Math.ceil((mark / prompt.totalMarks) * 6)), // Approximate band
+        source: 'AI',
+        feedback: data.feedback
+    };
 };
 
 export const parseOutcomesFromText = async (text: string): Promise<CourseOutcome[]> => {
-    const cacheKey = AICache.generateParsingKey(text, 'outcomes');
-    const cached = await AICache.get<CourseOutcome[]>(cacheKey);
-    if (cached) return cached;
-
     const request = {
-        model: MODELS.FAST,
-        contents: `Parse syllabus outcomes from this text. Return JSON array of objects with 'code' and 'description'. Use British English. Text: "${text}"`,
-        config: { responseMimeType: "application/json" }
-    };
-    const response = await generateContentWithRetry(request);
-    const result = safeJsonParse<CourseOutcome[]>(response.text || "") || [];
-    if (result.length > 0) await AICache.set(cacheKey, result);
-    return result;
-};
-
-export const parseSyllabusStructure = async (text: string): Promise<any[]> => {
-    const cacheKey = AICache.generateParsingKey(text, 'structure');
-    const cached = await AICache.get<any[]>(cacheKey);
-    if (cached) return cached;
-
-    const request = {
-        model: MODELS.REASONING,
-        contents: `
-            Analyze this text and structure it into topics, sub-topics and dot points.
-            Text: "${text}"
-            Use British English spelling.
-            Return a JSON array of Topic objects (name, subTopics array).
-        `,
+        model: MODELS.BASIC,
+        contents: {
+            parts: [{
+                text: `
+                    Extract syllabus outcomes from the following text.
+                    Text: "${text}"
+                    
+                    Return a JSON array of objects with 'code' and 'description'.
+                `
+            }]
+        },
         config: {
-            thinkingConfig: { thinkingBudget: 8192 },
             responseMimeType: "application/json",
             responseSchema: {
                 type: Type.ARRAY,
                 items: {
                     type: Type.OBJECT,
                     properties: {
-                        name: { type: Type.STRING },
-                        subTopics: { 
-                            type: Type.ARRAY,
-                            items: {
-                                type: Type.OBJECT,
-                                properties: {
-                                    name: { type: Type.STRING },
-                                    dotPoints: { type: Type.ARRAY, items: { type: Type.STRING } }
-                                },
-                                required: ["name", "dotPoints"]
-                            }
-                        }
+                        code: { type: Type.STRING },
+                        description: { type: Type.STRING }
                     },
-                    required: ["name", "subTopics"]
+                    required: ["code", "description"]
                 }
             }
         }
     };
+
     const response = await generateContentWithRetry(request);
-    const result = safeJsonParse<any[]>(response.text || "") || [];
-    if (result.length > 0) await AICache.set(cacheKey, result);
-    return result;
+    return safeJsonParse<CourseOutcome[]>(response.text || "") || [];
+};
+
+export const parseSyllabusStructure = async (content: string): Promise<any> => {
+    const request = {
+        model: MODELS.REASONING,
+        contents: {
+            parts: [{
+                text: `
+                    Analyze the following syllabus text and extract the structure.
+                    Identify Topics, Sub-Topics, and Dot Points.
+                    
+                    Text: "${content.slice(0, 30000)}" 
+                    
+                    Return JSON structure:
+                    [
+                        {
+                            "name": "Topic Name",
+                            "subTopics": [
+                                {
+                                    "name": "Sub-Topic Name",
+                                    "dotPoints": ["Dot Point 1", "Dot Point 2"]
+                                }
+                            ]
+                        }
+                    ]
+                `
+            }]
+        },
+        config: {
+            thinkingConfig: { thinkingBudget: 4096 },
+            responseMimeType: "application/json"
+        }
+    };
+
+    const response = await generateContentWithRetry(request);
+    return safeJsonParse(response.text || "");
 };
 
 export const fetchSyllabusContentFromUrl = async (url: string): Promise<string> => {
-    const cacheKey = AICache.generateFetchUrlKey(url);
-    const cached = await AICache.get<string>(cacheKey);
-    if (cached) return cached;
-
     const request = {
         model: MODELS.REASONING,
-        contents: `Retrieve and summarize the syllabus content found at this URL: ${url}. Focus on outcomes, topics, and dot points. Use British English.`,
+        contents: {
+            parts: [{
+                text: `Retrieve the main syllabus content from this URL: ${url}. 
+                       Focus on course outcomes, topics, and dot points. 
+                       Ignore navigation menus and footers.
+                       Return the content as plain text.`
+            }]
+        },
         config: {
-            thinkingConfig: { thinkingBudget: 4096 },
             tools: [{ googleSearch: {} }]
         }
     };
+
     const response = await generateContentWithRetry(request);
-    const text = response.text || "";
-    if (text) await AICache.set(cacheKey, text);
-    return text;
+    return response.text || "";
+};
+
+export const generateNewTopic = async (courseName: string, existingTopics: string[]): Promise<string> => {
+    const request = {
+        model: MODELS.BASIC,
+        contents: {
+            parts: [{
+                text: `Suggest a new, distinct syllabus topic name for the course "${courseName}".
+                       Existing topics are: ${existingTopics.join(', ')}.
+                       Return only the topic name.`
+            }]
+        }
+    };
+    const response = await generateContentWithRetry(request);
+    return (response.text || "").trim();
+};
+
+export const generateDotPointsForSubTopic = async (courseName: string, topicName: string, subTopicName: string): Promise<string[]> => {
+    const request = {
+        model: MODELS.BASIC,
+        contents: {
+            parts: [{
+                text: `Generate 3-5 standard syllabus dot points for:
+                       Course: ${courseName}
+                       Topic: ${topicName}
+                       Sub-Topic: ${subTopicName}
+                       
+                       Return as a JSON array of strings.`
+            }]
+        },
+        config: {
+            responseMimeType: "application/json",
+            responseSchema: {
+                type: Type.ARRAY,
+                items: { type: Type.STRING }
+            }
+        }
+    };
+    const response = await generateContentWithRetry(request);
+    return safeJsonParse<string[]>(response.text || "") || [];
+};
+
+export const generateSubTopicsAndDotPoints = async (courseName: string, topicName: string, content: string): Promise<SubTopic[]> => {
+    const request = {
+        model: MODELS.REASONING,
+        contents: {
+            parts: [{
+                text: `Based on the following content, generate sub-topics and dot points for ${courseName} - ${topicName}.
+                       Content: "${content.slice(0, 10000)}"
+                       
+                       Return JSON array of SubTopic objects (name, dotPoints array of strings).`
+            }]
+        },
+        config: {
+            responseMimeType: "application/json"
+        }
+    };
+    
+    const response = await generateContentWithRetry(request);
+    const rawData = safeJsonParse<any[]>(response.text || "");
+    if (!rawData) return [];
+    
+    return rawData.map(st => ({
+        id: generateId('subTopic'),
+        name: st.name,
+        dotPoints: (st.dotPoints || []).map((dp: string) => ({
+            id: generateId('dp'),
+            description: dp,
+            prompts: []
+        }))
+    }));
+};
+
+export const generateRubricForPrompt = async (prompt: Prompt, outcomes: CourseOutcome[]): Promise<string> => {
+    const termInfo = getCommandTermInfo(prompt.verb);
+    const request = {
+        model: MODELS.BASIC,
+        contents: {
+            parts: [{
+                text: `Create a marking rubric for this question: "${prompt.question}" (${prompt.totalMarks} marks).
+                       Verb: ${prompt.verb} (Cognitive Tier: ${termInfo.tier}).
+                       
+                       **Requirements:**
+                       - Create a distinct criteria row for EACH mark range (e.g. 5 marks, 3-4 marks, etc.).
+                       - Format in descending order (highest marks first).
+                       - For full marks, criteria MUST demand the full cognitive depth of '${prompt.verb}' (e.g. if Analyse, must require 'relationship/implication', not just 'description').
+                       - Lower marks should reflect a drop in cognitive skill (e.g. 'Describes' instead of 'Explains').
+                       - Return PLAIN TEXT in format: "X marks: Criteria..."`
+            }]
+        }
+    };
+    const response = await generateContentWithRetry(request);
+    return response.text || "";
 };
 
 export const explainOutcomeInContext = async (question: string, outcome: CourseOutcome): Promise<string> => {
-    const cacheKey = AICache.generateExplanationKey(question, outcome.code);
-    const cached = await AICache.get<string>(cacheKey);
-    if (cached) return cached;
-
     const request = {
-        model: MODELS.FAST,
-        contents: `Explain how the syllabus outcome "${outcome.code}: ${outcome.description}" relates to the question "${question}" in 2 sentences. Use British English.`
+        model: MODELS.BASIC,
+        contents: {
+            parts: [{
+                text: `Explain how the question "${question}" relates to the syllabus outcome "${outcome.code}: ${outcome.description}".`
+            }]
+        }
     };
     const response = await generateContentWithRetry(request);
-    const text = response.text || "";
-    if (text) await AICache.set(cacheKey, text);
-    return text;
-};
-
-export const suggestOutcomesForPrompt = async (question: string, outcomes: CourseOutcome[], marks: number): Promise<string[]> => {
-    const cacheKey = AICache.generateOutcomeSuggestionKey(question);
-    const cached = await AICache.get<string[]>(cacheKey);
-    if (cached) return cached;
-
-    const request = {
-        model: MODELS.FAST,
-        contents: `
-            Select the most relevant syllabus outcome codes for this question from the provided list.
-            Question: "${question}"
-            Outcomes: ${outcomes.map(o => `${o.code}: ${o.description}`).join('\n')}
-            Return JSON string array of codes.
-        `,
-        config: { responseMimeType: "application/json" }
-    };
-    const response = await generateContentWithRetry(request);
-    const result = safeJsonParse<string[]>(response.text || "") || [];
-    if (result.length > 0) await AICache.set(cacheKey, result);
-    return result;
+    return response.text || "";
 };

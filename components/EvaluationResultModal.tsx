@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { EvaluationResult, Prompt, UserFeedback, HierarchyContext } from '../types';
 import EvaluationDisplay from './EvaluationDisplay';
-import { X, Save, AlertTriangle, FileText } from 'lucide-react';
+import { X, Save, AlertTriangle, FileCheck, ArrowLeft, Check } from 'lucide-react';
 
 interface EvaluationResultModalProps {
   isOpen: boolean;
@@ -20,6 +20,13 @@ interface EvaluationResultModalProps {
   hierarchy?: HierarchyContext;
 }
 
+const MeshOverlay = ({ opacity = "opacity-[0.05]" }: { opacity?: string }) => (
+  <div 
+      className={`absolute inset-0 ${opacity} pointer-events-none mix-blend-overlay z-0 transition-opacity duration-500`}
+      style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v12M0 1h12' stroke='%23ffffff' stroke-width='0.5' fill='none'/%3E%3C/svg%3E")` }}
+  />
+);
+
 const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
   isOpen,
   onClose,
@@ -34,22 +41,15 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
   onFeedbackSubmit,
   hierarchy
 }) => {
-  const [hasSaved, setHasSaved] = useState(false);
-  const [showUnsavedAlert, setShowUnsavedAlert] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  // Ensure we are on the client to avoid hydration/SSR errors with portals
   useEffect(() => {
     setMounted(true);
     return () => setMounted(false);
   }, []);
 
-  // Body scroll locking
   useEffect(() => {
     if (isOpen && mounted) {
-      setHasSaved(false);
-      setShowUnsavedAlert(false);
-      // Save current style to restore later (in case it wasn't 'unset')
       const originalStyle = window.getComputedStyle(document.body).overflow;
       document.body.style.overflow = 'hidden';
       
@@ -59,69 +59,51 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
     }
   }, [isOpen, result, mounted]);
 
-  const handleSaveWrapper = () => {
-      onSaveToSamples();
-      setHasSaved(true);
-  };
-
-  const handleCloseRequest = () => {
-    if (!hasSaved) {
-        setShowUnsavedAlert(true);
-    } else {
-        onClose();
-    }
-  };
-
-  const confirmDiscard = () => {
-      setShowUnsavedAlert(false);
-      onClose();
-  };
-
-  // Safe guard: ensure document exists and component is mounted to prevent React Error #299
   if (!isOpen || !mounted || typeof document === 'undefined' || !document.body) return null;
 
   return createPortal(
     <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-       <div className="w-full max-w-6xl min-h-[80vh] max-h-[95vh] bg-[rgb(var(--color-bg-surface))] rounded-3xl shadow-2xl border border-[rgb(var(--color-border-secondary))] flex flex-col relative animate-fade-in-up overflow-hidden">
+       <div className="w-full max-w-6xl min-h-[80vh] max-h-[95vh] bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] shadow-2xl border border-white/10 light:border-slate-300 flex flex-col relative animate-fade-in-up overflow-hidden">
            
-           <div className="px-6 py-4 border-b border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-elevated))] flex justify-between items-center shrink-0 z-20">
-               <div className="flex items-center gap-3">
-                   <div className="p-2 rounded-lg bg-[rgb(var(--color-primary))]/10 text-[rgb(var(--color-primary))]">
-                       <FileText className="w-5 h-5" />
+           <div className="px-8 py-5 border-b border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-50 flex justify-between items-center shrink-0 z-20 relative overflow-hidden">
+               <MeshOverlay opacity="opacity-[0.03]" />
+               
+               <div className="flex items-center gap-4 relative z-10">
+                   <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 light:bg-indigo-100 flex items-center justify-center border border-indigo-500/20 light:border-indigo-200 text-indigo-400 light:text-indigo-600 shadow-inner">
+                       <FileCheck className="w-6 h-6" />
                    </div>
                    <div>
-                       <h2 className="font-bold text-[rgb(var(--color-text-primary))]">Evaluation Report</h2>
-                       <p className="text-xs text-[rgb(var(--color-text-muted))]">{prompt.verb} • {prompt.totalMarks} Marks</p>
+                       <h2 className="text-xl font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 tracking-tight leading-none">Marking Feedback</h2>
+                       <div className="flex items-center gap-2 mt-1.5">
+                           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                               {prompt.verb}
+                           </span>
+                           <span className="w-1 h-1 rounded-full bg-white/20 light:bg-slate-300"></span>
+                           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                               {prompt.totalMarks} Marks
+                           </span>
+                       </div>
                    </div>
                </div>
 
-               <div className="flex items-center gap-3">
-                   {!hasSaved ? (
-                        <button 
-                            onClick={handleSaveWrapper}
-                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all font-bold text-xs hover:scale-105"
-                        >
-                            <Save className="w-4 h-4" /> Save Result
-                        </button>
-                   ) : (
-                       <span className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[rgb(var(--color-bg-surface-inset))] text-emerald-500 text-xs font-bold border border-emerald-500/20">
-                           <Save className="w-4 h-4" /> Saved
-                       </span>
-                   )}
+               <div className="flex items-center gap-3 relative z-10">
+                   <div className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500/10 light:bg-emerald-50 text-emerald-500 light:text-emerald-700 text-xs font-bold uppercase tracking-wider border border-emerald-500/20 light:border-emerald-200">
+                       <Check className="w-4 h-4" /> Auto-Saved to Library
+                   </div>
 
-                   <div className="w-px h-6 bg-[rgb(var(--color-border-secondary))] mx-1"></div>
+                   <div className="w-px h-8 bg-white/10 light:bg-slate-300 mx-2"></div>
 
                    <button 
-                        onClick={handleCloseRequest}
-                        className="p-2 rounded-xl hover:bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] transition-colors"
-                        title="Close"
+                        onClick={onClose}
+                        className="p-2.5 rounded-xl hover:bg-[rgb(var(--color-bg-surface-inset))] light:hover:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900 transition-colors"
+                        title="Close Feedback"
                    >
                        <X className="w-5 h-5" />
                    </button>
                </div>
            </div>
 
-           <div className="flex-1 overflow-y-auto p-4 sm:p-8 custom-scrollbar bg-[rgb(var(--color-bg-base))]/50">
+           <div className="flex-1 overflow-y-auto p-6 sm:p-10 custom-scrollbar bg-[rgb(var(--color-bg-base))]/50 light:bg-slate-50">
                 <EvaluationDisplay 
                     result={result} 
                     prompt={prompt}
@@ -130,46 +112,11 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
                     onImproveAnswer={onImproveAnswer}
                     isImproving={isImproving}
                     improveAnswerError={improveAnswerError}
-                    onSaveToSamples={!hasSaved ? handleSaveWrapper : undefined}
+                    onSaveToSamples={undefined}
                     onFeedbackSubmit={onFeedbackSubmit}
                     hierarchy={hierarchy}
                 />
            </div>
-
-           {showUnsavedAlert && (
-               <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center animate-fade-in">
-                   <div className="bg-[rgb(var(--color-bg-surface-elevated))] p-8 rounded-2xl border border-amber-500/30 shadow-2xl max-w-md w-full mx-4 text-center transform scale-100 transition-all">
-                       <div className="w-16 h-16 rounded-full bg-amber-500/10 flex items-center justify-center mx-auto mb-6 text-amber-400 border border-amber-500/20">
-                           <AlertTriangle className="w-8 h-8" />
-                       </div>
-                       <h3 className="text-xl font-bold text-white mb-2">Unsaved Evaluation</h3>
-                       <p className="text-sm text-[rgb(var(--color-text-secondary))] mb-8 leading-relaxed">
-                           You haven't saved this result to your Sample Answers. If you close now, this feedback and the generated exemplar will be discarded.
-                       </p>
-                       <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                           <button 
-                            onClick={() => setShowUnsavedAlert(false)}
-                            className="px-6 py-3 rounded-xl bg-[rgb(var(--color-bg-surface-light))] hover:bg-[rgb(var(--color-border-secondary))] text-sm font-bold text-[rgb(var(--color-text-secondary))] transition-colors"
-                           >
-                               Go Back
-                           </button>
-                            <button 
-                            onClick={handleSaveWrapper}
-                            className="px-6 py-3 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 border border-emerald-500/30 text-sm font-bold transition-colors"
-                           >
-                               Save & Close
-                           </button>
-                           <button 
-                            onClick={confirmDiscard}
-                            className="px-6 py-3 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 text-sm font-bold transition-colors"
-                           >
-                               Discard
-                           </button>
-                       </div>
-                   </div>
-               </div>
-           )}
-
        </div>
     </div>,
     document.body

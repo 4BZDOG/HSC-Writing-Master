@@ -1,0 +1,150 @@
+HSC AI Feedback Strategies (Coach’s Tips)
+
+This document defines the logic, constraints, and tone of the “Quick Tip” feedback system.
+These tips act as in-the-moment coaching prompts — fast, directive, and practical — designed to support students who struggle with sustained attention or delayed feedback.
+
+The goal is immediate mark improvement, not comprehensive commentary. This system supplements (not replaces) detailed teacher feedback.
+
+Core Principles
+	1.	Directness: Use clear imperative verbs (e.g., “Link,” “Use,” “Explain”). No hedging.
+	2.	Brevity: Maximum 15 words. Ideal range is 8–10 words for cognitive load control.
+	3.	One Thing: Target the single highest-impact improvement for the student’s current response.
+	4.	Plain English: Avoid meta-language and assessment jargon unless explicitly required by the syllabus.
+
+Trigger Conditions & Example Tips
+
+1. Volume & Detail Issues
+	•	Trigger: Response is insufficiently developed for the allocated mark value.
+
+Band 4 Tips (Foundation / Underwritten)
+	•	“Too short. Write more to score marks.”
+	•	“This answer stops early. Keep going.”
+	•	“One idea isn’t enough here.”
+	•	“You’ve barely started — expand this.”
+	•	“Marks need detail. Add more.”
+
+Band 5 Tips (Developing / Partial)
+	•	“Good start. Develop your idea with explanation.”
+	•	“You need another sentence of detail.”
+	•	“Expand this point to match the mark value.”
+	•	“Add depth — explain your point further.”
+	•	“This needs evidence or example.”
+
+Band 6 Tips (Refinement / Depth)
+	•	“Strong idea. Add depth to maximise marks.”
+	•	“Extend this with a clear consequence or impact.”
+	•	“One more layer of explanation lifts this.”
+	•	“Push this idea further for full marks.”
+	•	“Detail here separates Band 5 from Band 6.”
+
+⸻
+
+2. Terminology Issues
+	•	Trigger: Limited or incorrect use of syllabus-aligned terminology.
+
+Band 4 Tips (Everyday Language)
+	•	“Use proper syllabus terms, not everyday words.”
+	•	“This sounds casual. Use technical language.”
+	•	“Name the concept properly.”
+	•	“Markers want keywords — add them.”
+	•	“Use subject terms, not vague wording.”
+
+Band 5 Tips (Partial Terminology)
+	•	“Swap generic words for syllabus keywords.”
+	•	“You know the term — use it.”
+	•	“Add technical vocabulary to lift this.”
+	•	“Use precise terms for higher marks.”
+	•	“Sound more like the syllabus.”
+
+Band 6 Tips (Precision & Accuracy)
+	•	“Excellent idea — tighten terminology.”
+	•	“Use the exact syllabus term here.”
+	•	“Technical accuracy lifts this to Band 6.”
+	•	“Refine wording to match exam language.”
+	•	“Small word choices matter at the top end.”
+
+⸻
+
+3. Structural/Verb Issues
+	•	Trigger: Response does not meet the cognitive demand of the command verb.
+
+Band 4 Tips (Misreading the Verb)
+	•	“You described it — the question wants more.”
+	•	“This answers the topic, not the verb.”
+	•	“Explain, don’t list.”
+	•	“You missed the command verb.”
+	•	“This needs thinking, not retelling.”
+
+Band 5 Tips (Partial Verb Control)
+	•	“Analyse means explain impact, not just features.”
+	•	“Start making judgements, not summaries.”
+	•	“Go beyond what happened — explain why.”
+	•	“Link cause and effect clearly.”
+	•	“Answer the verb directly.”
+
+Band 6 Tips (Judgement & Control)
+	•	“Make your judgement explicit.”
+	•	“Weigh strengths and weaknesses clearly.”
+	•	“Your evaluation needs a clearer verdict.”
+	•	“Show significance, not just process.”
+	•	“Command verb is met — sharpen the judgement.”
+
+⸻
+
+4. Scenario Application Issues
+	•	Trigger: Answer remains generic instead of addressing the given stimulus or case study.
+
+Band 4 Tips (Generic Responses)
+	•	“This ignores the scenario.”
+	•	“Mention the company or system.”
+	•	“Don’t answer generally — use the case.”
+	•	“This could be any question.”
+	•	“Read the scenario again.”
+
+Band 5 Tips (Surface Application)
+	•	“Apply this directly to the scenario.”
+	•	“Use details from the case study.”
+	•	“Tie your explanation to the example.”
+	•	“Good theory — now make it specific.”
+	•	“Show how this works in this case.”
+
+Band 6 Tips (Precision Application)
+	•	“Excellent theory — sharpen scenario detail.”
+	•	“Link each point explicitly to the case.”
+	•	“Use specific features from the stimulus.”
+	•	“Make the marker see the scenario.”
+	•	“Specific application lifts this to full marks.”
+
+⸻
+
+5. Clarity & Flow
+	•	Trigger: Meaning is obscured by poor sentence structure or unnecessary filler.
+
+Band 4 Tips (Unclear / Rambling)
+	•	“This is hard to follow.”
+	•	“Say your point clearly.”
+	•	“Too much waffle.”
+	•	“Shorten your sentences.”
+	•	“Get to the point.”
+
+Band 5 Tips (Mostly Clear)
+	•	“Reorder this for clarity.”
+	•	“Lead with your main point.”
+	•	“Tighten your explanation.”
+	•	“Structure this more clearly.”
+	•	“Clean up sentence flow.”
+
+Band 6 Tips (Polish & Efficiency)
+	•	“Clear idea — refine expression.”
+	•	“Streamline wording for impact.”
+	•	“Improve flow between sentences.”
+	•	“Precision here earns top marks.”
+	•	“Make this effortless to read.”
+
+⸻
+
+Implementation Note
+
+The AI (Gemini 3 Pro) prioritises feedback categories using its internal thinkingBudget, identifying the primary limiting factor in the response before generating a single, focused tip.
+
+Band selection is based on overall response quality, not student identity, and only one tip is delivered at a time to minimise overload and maximise immediate action.

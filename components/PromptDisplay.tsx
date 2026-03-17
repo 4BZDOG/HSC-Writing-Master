@@ -1,33 +1,51 @@
 
-import React, { useMemo, useState, KeyboardEvent, useRef, useEffect } from 'react';
-import { Prompt, CommandTermInfo, CourseOutcome, UserRole } from '../types';
-import { Sparkles, HelpCircle, Hash, Target, FileText, Globe, Minus, Plus, Loader2, AlertCircle, Pencil, Check, X, Award, ShieldCheck, Type } from 'lucide-react';
-import { getCommandTermInfo, getCommandTermsForMarks } from '../data/commandTerms';
-import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
-import ErrorBoundary from './ErrorBoundary';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { Prompt, UserRole, CourseOutcome } from '../types';
+import { 
+  Edit3, Save, X, Sparkles, RefreshCw, AlertTriangle, 
+  BookOpen, Link2, Wand2, Award, ShieldCheck, Info,
+  Clock, Quote, FileQuestion, ZoomIn, ZoomOut
+} from 'lucide-react';
+import { getBandConfig, renderFormattedText } from '../utils/renderUtils';
+import { getCommandTermInfo } from '../data/commandTerms';
+import OutcomeDetailModal from './OutcomeDetailModal';
 
 interface PromptDisplayProps {
   prompt: Prompt;
   isEnriching: boolean;
-  enrichError?: string | null;
+  enrichError: string | null;
   onVerbClick: () => void;
   onGenerateScenario: () => void;
   onUpdatePrompt: (updates: Partial<Prompt>) => void;
   isGeneratingScenario: boolean;
-  generateScenarioError: React.ReactNode | null;
+  generateScenarioError: string | null;
   courseOutcomes: CourseOutcome[];
   onOutcomeClick: (outcome: CourseOutcome) => void;
   userRole: UserRole;
-  onDismissEnrichError?: () => void;
-  onRunQualityCheck?: (content: string, type: 'question' | 'code') => void;
+  onDismissEnrichError: () => void;
+  onRunQualityCheck: (content: string, type: 'question' | 'code') => void;
+  onSuggestOutcomes: () => void;
+  isSuggestingOutcomes: boolean;
+  fontSize: number;
+  onFontSizeChange: (size: number) => void;
+  onHeaderResize?: (height: number) => void;
+  minHeaderHeight?: number;
+  onTotalHeightChange?: (height: number) => void;
 }
 
-const PromptDisplayContent: React.FC<PromptDisplayProps> = ({ 
-  prompt, 
-  isEnriching, 
+const MeshOverlay = ({ opacity = "opacity-[0.03]", color = "%23ffffff" }: { opacity?: string, color?: string }) => (
+  <div 
+      className={`absolute inset-0 ${opacity} pointer-events-none mix-blend-overlay z-0 transition-opacity duration-500`}
+      style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v10M0 1h10' stroke='${color}' stroke-width='0.5' fill='none'/%3E%3C/svg%3E")` }}
+  />
+);
+
+const PromptDisplay: React.FC<PromptDisplayProps> = ({
+  prompt,
+  isEnriching,
   enrichError,
-  onVerbClick, 
-  onGenerateScenario, 
+  onVerbClick,
+  onGenerateScenario,
   onUpdatePrompt,
   isGeneratingScenario,
   generateScenarioError,
@@ -35,530 +53,402 @@ const PromptDisplayContent: React.FC<PromptDisplayProps> = ({
   onOutcomeClick,
   userRole,
   onDismissEnrichError,
-  onRunQualityCheck
+  onRunQualityCheck,
+  onSuggestOutcomes,
+  isSuggestingOutcomes,
+  fontSize,
+  onFontSizeChange,
+  onHeaderResize,
+  minHeaderHeight,
+  onTotalHeightChange
 }) => {
-  const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
-  const bandConfig = useMemo(() => getBandConfig(commandTermInfo.tier), [commandTermInfo.tier]);
-  const [isPressed, setIsPressed] = useState(false);
-  const [sizeIndex, setSizeIndex] = useState(1); // 0=Normal, 1=Large (Default), 2=Extra Large
-  
+  const [isEditingQuestion, setIsEditingQuestion] = useState(false);
+  const [editQuestionText, setEditQuestionText] = useState(prompt.question);
+  const [isEditingScenario, setIsEditingScenario] = useState(false);
+  const [editScenarioText, setEditScenarioText] = useState(prompt.scenario || '');
+  const [selectedOutcome, setSelectedOutcome] = useState<CourseOutcome | null>(null);
+
+  const headerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const isAdmin = userRole === 'admin';
+  const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
+  // Use the verb's Tier to determine the band config (color) for the header
+  const bandConfig = useMemo(() => getBandConfig(verbInfo.tier), [verbInfo.tier]);
 
-  // Editing States
-  const [editingField, setEditingField] = useState<'question' | 'scenario' | 'marks' | 'metadata' | null>(null);
-  const [tempValue, setTempValue] = useState<string | number>('');
-  
-  // Metadata temp states
-  const [tempIsPastHSC, setTempIsPastHSC] = useState(prompt.isPastHSC || false);
-  const [tempHscYear, setTempHscYear] = useState(prompt.hscYear || new Date().getFullYear());
-  const [tempHscQuestionNumber, setTempHscQuestionNumber] = useState(prompt.hscQuestionNumber || '');
-
-  const editInputRef = useRef<HTMLTextAreaElement | HTMLInputElement>(null);
-
-  // Focus input when editing starts
-  useEffect(() => {
-    if (editingField && editInputRef.current) {
-        editInputRef.current.focus();
-    }
-    // Init metadata temps when entering metadata edit mode
-    if (editingField === 'metadata') {
-        setTempIsPastHSC(prompt.isPastHSC || false);
-        setTempHscYear(prompt.hscYear || new Date().getFullYear());
-        setTempHscQuestionNumber(prompt.hscQuestionNumber || '');
-    }
-  }, [editingField, prompt.isPastHSC, prompt.hscYear, prompt.hscQuestionNumber]);
-
-  const startEditing = (field: 'question' | 'scenario' | 'marks', value: string | number) => {
-      if (!isAdmin) return;
-      setEditingField(field);
-      setTempValue(value);
-  };
-  
-  const startEditingMetadata = () => {
-      if (!isAdmin) return;
-      setEditingField('metadata');
-  };
-
-  const saveEdit = () => {
-      if (!editingField || !isAdmin) return;
-      
-      const updates: Partial<Prompt> = {};
-      if (editingField === 'marks') {
-          const numVal = Number(tempValue);
-          if (!isNaN(numVal) && numVal > 0) updates.totalMarks = numVal;
-      } else if (editingField === 'metadata') {
-          updates.isPastHSC = tempIsPastHSC;
-          updates.hscYear = tempHscYear;
-          updates.hscQuestionNumber = tempHscQuestionNumber;
-      } else {
-          // @ts-ignore
-          updates[editingField] = tempValue;
-      }
-      
-      onUpdatePrompt(updates);
-      setEditingField(null);
-  };
-
-  const cancelEdit = () => {
-      setEditingField(null);
-      setTempValue('');
-  };
-  
-  const handleEditKeyDown = (e: React.KeyboardEvent) => {
-      if (e.key === 'Escape') cancelEdit();
-      if (e.key === 'Enter' && (e.metaKey || e.ctrlKey || editingField === 'marks')) {
-          e.preventDefault();
-          saveEdit();
-      }
-  };
-  
-  // Typography Scales
-  const questionSizes = ['text-lg', 'text-xl', 'text-2xl'];
-  const scenarioSizes = ['text-base', 'text-lg', 'text-xl'];
-
-  // Render question with keyword highlighting
-  const renderedQuestion = useMemo(() => {
-    return renderFormattedText(prompt.question, prompt.keywords, prompt.verb);
-  }, [prompt.question, prompt.keywords, prompt.verb]);
-
-  // Render scenario with keyword highlighting
-  const renderedScenario = useMemo(() => {
-    if (!prompt.scenario) return null;
-    return renderFormattedText(prompt.scenario, prompt.keywords, prompt.verb);
-  }, [prompt.scenario, prompt.keywords, prompt.verb]);
-  
   const linkedOutcomes = useMemo(() => {
-    if (!prompt.linkedOutcomes || !Array.isArray(prompt.linkedOutcomes)) return [];
-    return courseOutcomes.filter(co => prompt.linkedOutcomes!.includes(co.code));
-  }, [prompt.linkedOutcomes, courseOutcomes]);
+    if (!prompt.linkedOutcomes) return [];
+    return courseOutcomes.filter(o => prompt.linkedOutcomes?.includes(o.code));
+  }, [courseOutcomes, prompt.linkedOutcomes]);
 
-  const handleVerbKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      onVerbClick();
+  useEffect(() => {
+    setEditQuestionText(prompt.question);
+  }, [prompt.question]);
+
+  useEffect(() => {
+    setEditScenarioText(prompt.scenario || '');
+  }, [prompt.scenario]);
+
+  // Header height observation
+  useEffect(() => {
+    if (!headerRef.current || !onHeaderResize) return;
+    
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.target === headerRef.current) {
+             onHeaderResize(entry.borderBoxSize[0].blockSize);
+        }
+      }
+    });
+
+    observer.observe(headerRef.current);
+    return () => observer.disconnect();
+  }, [onHeaderResize, prompt.question, prompt.verb, prompt.totalMarks]);
+
+  // Total height observation
+  useEffect(() => {
+    if (!containerRef.current || !onTotalHeightChange) return;
+
+    const observer = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+            if (entry.target === containerRef.current) {
+                onTotalHeightChange(entry.borderBoxSize[0].blockSize);
+            }
+        }
+    });
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [onTotalHeightChange, prompt.question, prompt.scenario, fontSize]);
+
+  const handleSaveQuestion = () => {
+    if (editQuestionText.trim() !== prompt.question) {
+        onUpdatePrompt({ question: editQuestionText.trim() });
     }
+    setIsEditingQuestion(false);
+  };
+
+  const handleSaveScenario = () => {
+    if (editScenarioText.trim() !== prompt.scenario) {
+        onUpdatePrompt({ scenario: editScenarioText.trim() });
+    }
+    setIsEditingScenario(false);
+  };
+
+  const handleOutcomeClickInternal = (outcome: CourseOutcome) => {
+      setSelectedOutcome(outcome);
+      onOutcomeClick(outcome);
   };
 
   return (
     <div 
-      className={`
-        relative
-        bg-[rgb(var(--color-bg-surface))]/80 rounded-2xl p-6 
-        border-2 ${bandConfig.border} border-opacity-40 light:border-opacity-60
-        light:bg-white light:shadow-[0_8px_30px_rgb(0,0,0,0.04)]
-        shadow-2xl transition-all duration-300 ease-out
-        hover:border-opacity-60 light:hover:border-opacity-80 ${bandConfig.glow}
-        backdrop-blur-sm hover-lift
-      `}
+        ref={containerRef}
+        className={`
+            relative overflow-hidden rounded-[32px] 
+            bg-[rgb(var(--color-bg-surface))] light:bg-white 
+            border-2 ${bandConfig.border} ${bandConfig.glow}
+            transition-all duration-500 group/prompt flex flex-col h-full
+        `}
     >
-      {/* Enrichment Loading Overlay */}
-      {isEnriching && (
-        <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/80 light:bg-white/80 backdrop-blur-sm flex items-center justify-center rounded-2xl z-10 animate-fade-in">
-          <div className="flex flex-col items-center gap-4 text-center p-6">
-            <div className="w-12 h-12 rounded-full border-2 border-[rgb(var(--color-accent))]/30 border-t-[rgb(var(--color-accent))] animate-spin"></div>
-            <div className="text-[rgb(var(--color-text-secondary))] light:text-slate-600">
-              <p className="font-semibold text-lg text-[rgb(var(--color-text-primary))] light:text-slate-900">Enriching Prompt...</p>
-              <p className="text-sm">Fetching keywords, scenario, and outcomes with AI.</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Enrichment Error Banner */}
-      {enrichError && (
-          <div className="absolute top-0 left-0 right-0 bg-red-900/80 light:bg-red-100 backdrop-blur-md border-b border-red-500/30 light:border-red-200 p-3 rounded-t-2xl z-20 flex items-center justify-between gap-3 animate-slide-in">
-              <div className="flex items-center gap-2 text-red-200 light:text-red-800 text-xs font-medium">
-                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                  <span>Enrichment failed: {enrichError}</span>
-              </div>
-              {onDismissEnrichError && (
-                <button 
-                    onClick={onDismissEnrichError}
-                    className="p-1 hover:bg-red-800/50 light:hover:bg-red-200/50 rounded transition-colors text-red-300 light:text-red-600 hover:text-white light:hover:text-red-900"
-                    title="Dismiss error"
-                >
-                    <X className="w-4 h-4" />
-                </button>
-              )}
-          </div>
-      )}
-      
-      {/* Header */}
-      <div className={`flex justify-between items-start mb-5 gap-4 ${enrichError ? 'mt-8' : ''}`}>
-        <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-3 mb-2 flex-wrap">
-                <h3 className="text-2xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
-                    ✍️ Question Details
-                </h3>
-                {/* NESA PAST HSC Badge */}
-                {prompt.isPastHSC && !editingField && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-amber-500/20 light:bg-amber-100 border border-amber-500/40 light:border-amber-300 text-amber-400 light:text-amber-700 text-[11px] font-black uppercase tracking-wider shadow-[0_0_10px_rgba(245,158,11,0.2)] whitespace-nowrap">
-                        <Award className="w-4 h-4 fill-amber-400/20 light:fill-amber-600/20" />
-                        Past HSC {prompt.hscYear || ''} {prompt.hscQuestionNumber ? `Q${prompt.hscQuestionNumber}` : ''}
-                    </span>
-                )}
-                {/* Admin Edit Metadata Button */}
-                {isAdmin && !editingField && (
-                     <button 
-                        onClick={startEditingMetadata}
-                        className="p-1 rounded hover:bg-white/10 light:hover:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-400 hover:text-white light:hover:text-slate-600 transition-colors"
-                        title="Edit Question Metadata"
-                    >
-                        <Pencil className="w-3.5 h-3.5" />
-                    </button>
-                )}
-            </div>
-            
-            {/* Metadata Editor */}
-            {editingField === 'metadata' && isAdmin && (
-                 <div className="mb-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 p-3 rounded-lg border border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex flex-wrap items-center gap-4 animate-fade-in">
-                     <label className="flex items-center gap-2 text-sm font-medium text-white light:text-slate-800 cursor-pointer select-none">
-                         <input 
-                             type="checkbox" 
-                             checked={tempIsPastHSC}
-                             onChange={e => setTempIsPastHSC(e.target.checked)}
-                             className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-[rgb(var(--color-accent))] focus:ring-[rgb(var(--color-accent))]"
-                         />
-                         Is Past HSC Question?
-                     </label>
-                     
-                     {tempIsPastHSC && (
-                         <>
-                             <div className="flex items-center gap-2">
-                                 <span className="text-xs text-gray-400 light:text-slate-500">Year:</span>
-                                 <input 
-                                     type="number" 
-                                     value={tempHscYear} 
-                                     onChange={e => setTempHscYear(parseInt(e.target.value))}
-                                     className="w-20 bg-black/20 light:bg-white border border-gray-600 light:border-slate-300 rounded px-2 py-1 text-sm text-white light:text-slate-900"
-                                 />
-                             </div>
-                             <div className="flex items-center gap-2">
-                                 <span className="text-xs text-gray-400 light:text-slate-500">Question #:</span>
-                                 <input 
-                                     type="text" 
-                                     value={tempHscQuestionNumber} 
-                                     onChange={e => setTempHscQuestionNumber(e.target.value)}
-                                     className="w-20 bg-black/20 light:bg-white border border-gray-600 light:border-slate-300 rounded px-2 py-1 text-sm text-white light:text-slate-900"
-                                 />
-                             </div>
-                         </>
-                     )}
-                     
-                     <div className="ml-auto flex gap-2">
-                         <button onClick={cancelEdit} className="text-xs text-red-400 hover:text-white light:hover:text-red-600"><X className="w-4 h-4"/></button>
-                         <button onClick={saveEdit} className="text-xs text-green-400 hover:text-white light:hover:text-green-600"><Check className="w-4 h-4"/></button>
+       
+       {/* Header Container */}
+       <div 
+         ref={headerRef}
+         className={`px-8 py-5 bg-gradient-to-r ${bandConfig.gradient} text-white flex justify-between items-center relative overflow-hidden flex-shrink-0`}
+         style={{ minHeight: minHeaderHeight ? `${minHeaderHeight}px` : 'auto' }}
+       >
+             <MeshOverlay opacity="opacity-20" />
+             
+             {/* Content */}
+             <div className="relative z-10 w-full flex justify-between items-center">
+                 {/* Left: Title & Icon */}
+                 <div className="flex items-center gap-4">
+                     <div className="w-11 h-11 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shadow-lg group flex-shrink-0">
+                        <FileQuestion className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
+                     </div>
+                     <div>
+                        <h3 className="text-lg md:text-xl font-black tracking-tight leading-none flex items-center gap-2">
+                            Writing Prompt
+                        </h3>
+                        <div className="flex items-center gap-2 mt-1.5">
+                             <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">
+                                Tier {verbInfo.tier} • Cognitive Challenge
+                             </span>
+                        </div>
                      </div>
                  </div>
-            )}
 
-          <div className="flex flex-wrap items-center gap-4 text-sm">
-            {/* Marks Display / Editor */}
-            {editingField === 'marks' && isAdmin ? (
-                <div className="flex items-center gap-2">
-                    <input
-                        ref={editInputRef as React.RefObject<HTMLInputElement>}
-                        type="number"
-                        value={tempValue}
-                        onChange={(e) => setTempValue(e.target.value)}
-                        onKeyDown={handleEditKeyDown}
-                        onBlur={saveEdit}
-                        className="w-16 bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border border-[rgb(var(--color-accent))] rounded px-2 py-1 text-white light:text-slate-900 font-mono text-sm focus:outline-none"
-                        min="1"
-                    />
-                    <button onClick={saveEdit} className="text-green-400 hover:text-green-300 light:text-green-600 light:hover:text-green-700 hover-scale"><Check className="w-4 h-4"/></button>
-                    <button onClick={cancelEdit} className="text-red-400 hover:text-red-300 light:text-red-600 light:hover:text-red-700 hover-scale"><X className="w-4 h-4"/></button>
-                </div>
-            ) : (
-                <button 
-                    onClick={() => startEditing('marks', prompt.totalMarks)}
-                    disabled={!isAdmin}
-                    className={`flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]/50 rounded px-1 -ml-1 ${isAdmin ? 'hover:bg-[rgb(var(--color-bg-surface-light))]/50 light:hover:bg-slate-100 cursor-pointer hover-scale' : 'cursor-default'} transition-all`}
-                    title={isAdmin ? "Click to edit marks" : "Marks"}
-                >
-                    <Hash className="w-4 h-4 text-[rgb(var(--color-text-dim))] light:text-slate-400" />
-                    <span className={`font-mono font-bold ${bandConfig.text} ${isAdmin ? 'group-hover:underline decoration-dashed underline-offset-4' : ''}`}>
-                        {prompt.totalMarks} marks
-                    </span>
-                    {isAdmin && <Pencil className="w-3 h-3 text-[rgb(var(--color-text-muted))] opacity-0 group-hover:opacity-100 transition-opacity" />}
-                </button>
-            )}
+                 {/* Right: Directive, Time, Marks */}
+                 <div className="flex flex-col items-end gap-2 flex-shrink-0">
+                     <div className="flex items-center gap-4">
+                         <button 
+                            onClick={onVerbClick}
+                            className="group/vbtn flex items-center gap-2 transition-transform hover:scale-105 active:scale-95"
+                            title="View Verb Definition"
+                         >
+                             <div className="text-right">
+                                 <span className="block text-[9px] font-bold uppercase tracking-[0.3em] opacity-60 mb-0.5">Directive</span>
+                                 <span className="block text-xl md:text-2xl font-black uppercase tracking-widest leading-none drop-shadow-sm group-hover/vbtn:text-white/90">
+                                     {prompt.verb}
+                                 </span>
+                             </div>
+                         </button>
+                     </div>
+                     
+                     <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest bg-black/20 rounded-lg px-2 py-1 border border-white/10 shadow-inner">
+                         <span className="flex items-center gap-1.5 opacity-90">
+                            <Clock className="w-3 h-3 text-white/70" /> {Math.round(prompt.totalMarks * 1.5)} min
+                         </span>
+                         <span className="w-px h-3 bg-white/20"></span>
+                         <span className="flex items-center gap-1.5 opacity-90">
+                            <Award className="w-3 h-3 text-white/70" /> {prompt.totalMarks} Marks
+                         </span>
+                     </div>
+                 </div>
+             </div>
+       </div>
 
-            <span className="w-1 h-1 rounded-full bg-[rgb(var(--color-text-dim))]/30 light:bg-slate-400/50" />
-            <div className="flex items-center gap-2">
-              <Target className="w-4 h-4 text-[rgb(var(--color-accent))]" />
-              <span className={`
-                font-semibold ${bandConfig.text}
-              `}>
-                Tier {commandTermInfo.tier}
-              </span>
-            </div>
-          </div>
-        </div>
-        
-        <div className="flex items-center gap-2">
-            {/* Font Size Controls */}
-            <div className="flex items-center gap-1 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100 rounded-lg p-1 border border-[rgb(var(--color-border-secondary))] light:border-slate-300">
-                <button 
-                    onClick={() => setSizeIndex(s => Math.max(s - 1, 0))} 
-                    disabled={sizeIndex === 0}
-                    className="p-1.5 rounded-md text-gray-400 light:text-slate-500 hover:text-white light:hover:text-slate-900 hover:bg-gray-700 light:hover:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed transition hover-scale"
-                    title="Decrease text size"
-                >
-                    <Type className="w-3 h-3 scale-75" />
-                </button>
-                <div className="w-px h-3 bg-[rgb(var(--color-border-secondary))] light:bg-slate-300" />
-                <button 
-                    onClick={() => setSizeIndex(s => Math.min(s + 1, 2))} 
-                    disabled={sizeIndex === 2}
-                    className="p-1.5 rounded-md text-gray-400 light:text-slate-500 hover:text-white light:hover:text-slate-900 hover:bg-gray-700 light:hover:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed transition hover-scale"
-                    title="Increase text size"
-                >
-                    <Type className="w-4 h-4" />
-                </button>
-            </div>
+       {/* Ambient Tier Glow & Gradient Background */}
+       <div className={`absolute inset-0 bg-gradient-to-br ${bandConfig.gradient} opacity-[0.03] pointer-events-none`} />
+       
+       <div className="flex-1 flex flex-col min-h-0">
+           <div className="p-8 sm:p-10 pb-4 relative z-10 flex flex-col gap-8">
+               
+               {/* Question Section - "The Canvas" */}
+               <div className="group/question relative pt-2">
+                   {isEditingQuestion ? (
+                       <div className="animate-fade-in space-y-3 p-2 bg-[rgb(var(--color-bg-surface-inset))] light:bg-white rounded-3xl border border-white/10 light:border-slate-300 shadow-inner">
+                           <textarea
+                               value={editQuestionText}
+                               onChange={(e) => setEditQuestionText(e.target.value)}
+                               className="w-full bg-transparent border-none p-4 font-serif font-medium outline-none text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-500 min-h-[120px]"
+                               style={{ fontSize: `${fontSize * 1.2}px`, lineHeight: 1.3 }}
+                               autoFocus
+                           />
+                           <div className="flex justify-end gap-2 px-4 pb-2">
+                               <button onClick={() => setIsEditingQuestion(false)} className="px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">Cancel</button>
+                               <button onClick={handleSaveQuestion} className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-95">
+                                   <Save className="w-3.5 h-3.5" /> Save Changes
+                                </button>
+                           </div>
+                       </div>
+                   ) : (
+                       <div className="relative pl-2">
+                           <h2 
+                                className="font-medium text-[rgb(var(--color-text-primary))] light:text-slate-900 font-serif tracking-tight"
+                                style={{ fontSize: `${fontSize * 1.2}px`, lineHeight: 1.3 }}
+                           >
+                               {renderFormattedText(prompt.question, prompt.keywords, prompt.verb)}
+                           </h2>
+                           {isAdmin && (
+                               <div className="absolute -right-4 -top-10 opacity-0 group-hover/question:opacity-100 transition-opacity flex gap-2">
+                                   <button 
+                                       onClick={() => onRunQualityCheck(prompt.question, 'question')} 
+                                       className="p-2.5 rounded-xl bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-300 text-emerald-400 hover:text-emerald-300 shadow-xl hover:scale-110 transition-all"
+                                       title="Run Quality Check"
+                                   >
+                                       <ShieldCheck className="w-4 h-4" />
+                                   </button>
+                                   <button 
+                                       onClick={() => setIsEditingQuestion(true)} 
+                                       className="p-2.5 rounded-xl bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-300 text-slate-400 hover:text-white light:hover:text-indigo-600 shadow-xl hover:scale-110 transition-all"
+                                       title="Edit Question"
+                                   >
+                                       <Edit3 className="w-4 h-4" />
+                                   </button>
+                               </div>
+                           )}
+                       </div>
+                   )}
+               </div>
 
-          {prompt.verb && (
-            <button 
-              onClick={onVerbClick}
-              onKeyDown={handleVerbKeyDown}
-              onTouchStart={() => setIsPressed(true)}
-              onTouchEnd={() => setIsPressed(false)}
-              className={`
-                text-xs font-bold px-4 py-3 rounded-xl transition-all duration-200
-                bg-gradient-to-br ${bandConfig.gradient} text-white
-                hover:shadow-lg ${bandConfig.glow} active:scale-[0.98]
-                focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]/50
-                flex items-center gap-2 flex-shrink-0 hover-scale
-                ${isPressed ? 'scale-95' : ''}
-              `}
-              title={`${commandTermInfo.definition} (Tier ${commandTermInfo.tier})`}
-            >
-              <HelpCircle className="w-4 h-4" />
-              <span className="hidden sm:inline">{prompt.verb}</span>
-            </button>
-          )}
-        </div>
-      </div>
+               {/* Scenario Section - "The Context" */}
+               <div className="relative group/scenario">
+                   <div className="flex items-center justify-between mb-4">
+                       <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500 light:text-slate-400 flex items-center gap-2">
+                           <BookOpen className="w-3.5 h-3.5" /> Context Scenario
+                       </h3>
+                       {isAdmin && !isEditingScenario && (
+                           <div className="flex gap-2 opacity-0 group-hover/prompt:opacity-100 transition-opacity">
+                               <button 
+                                   onClick={onGenerateScenario}
+                                   disabled={isGeneratingScenario}
+                                   className="p-1.5 rounded-lg text-indigo-400 hover:bg-indigo-500/10 transition-colors"
+                                   title="Regenerate Scenario"
+                               >
+                                   <RefreshCw className={`w-3.5 h-3.5 ${isGeneratingScenario ? 'animate-spin' : ''}`} />
+                               </button>
+                               <button 
+                                   onClick={() => setIsEditingScenario(true)}
+                                   className="p-1.5 rounded-lg text-slate-400 hover:text-white light:hover:text-indigo-600 hover:bg-white/10 transition-colors"
+                                   title="Edit Scenario"
+                               >
+                                   <Edit3 className="w-3.5 h-3.5" />
+                               </button>
+                           </div>
+                       )}
+                   </div>
 
-      {/* Content */}
-      <div className="space-y-5">
-        {/* Question - Styled with bandConfig colors to differentiate from scenario */}
-        <div className={`
-          p-6 rounded-xl border-2 border-opacity-40 light:border-opacity-60 
-          ${bandConfig.bg} ${bandConfig.border}
-          transition-all duration-200
-          hover:border-opacity-60 light:hover:border-opacity-80 hover:shadow-md ${bandConfig.glow}
-          relative group
-        `}>
-            {/* Question Header/Actions */}
-            <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-3">
-                    <FileText className="w-5 h-5 text-[rgb(var(--color-accent))]" />
-                    <span className="text-sm font-bold text-[rgb(var(--color-text-primary))] light:text-slate-800 uppercase tracking-wide">Question</span>
-                </div>
-                {editingField !== 'question' && isAdmin && (
-                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        {onRunQualityCheck && (
+                   {isEditingScenario ? (
+                       <div className="animate-fade-in space-y-3 p-2 bg-[rgb(var(--color-bg-surface-inset))] light:bg-white rounded-2xl border border-white/10 light:border-slate-300">
+                           <textarea
+                               value={editScenarioText}
+                               onChange={(e) => setEditScenarioText(e.target.value)}
+                               className="w-full bg-transparent border-none p-4 font-medium outline-none text-[rgb(var(--color-text-primary))] light:text-slate-900 resize-none font-serif leading-relaxed"
+                               style={{ fontSize: `${fontSize}px` }}
+                               rows={4}
+                           />
+                           <div className="flex justify-end gap-2 px-2 pb-2">
+                               <button onClick={handleSaveScenario} className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 flex items-center gap-2 shadow-md hover:scale-105 active:scale-95 transition-all">
+                                   <Save className="w-3.5 h-3.5" /> Save Scenario
+                               </button>
+                           </div>
+                       </div>
+                   ) : (
+                       <div className={`
+                           relative p-6 rounded-2xl transition-all duration-300
+                           ${prompt.scenario 
+                               ? `bg-black/20 light:bg-slate-100 border-2 border-white/10 light:border-slate-300 shadow-inner` 
+                               : 'bg-transparent border-dashed border border-slate-700/50 light:border-slate-300'
+                           }
+                       `}>
+                           {prompt.scenario ? (
+                               <div className="relative">
+                                   {/* Decorative Quote Icon */}
+                                   <Quote className="absolute -top-3 -left-2 w-6 h-6 text-slate-500/20 light:text-slate-400/30 transform rotate-180" />
+                                   <p 
+                                       className="text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-relaxed font-serif italic pl-6 pr-2"
+                                       style={{ fontSize: `${fontSize}px` }}
+                                   >
+                                       {renderFormattedText(prompt.scenario, prompt.keywords, prompt.verb)}
+                                   </p>
+                               </div>
+                           ) : (
+                               <div className="flex flex-col items-center justify-center py-8 text-center gap-3">
+                                   <p className="text-xs text-slate-500 mb-1 font-medium">No scenario provided.</p>
+                                   {isAdmin && (
+                                       <button 
+                                           onClick={onGenerateScenario}
+                                           disabled={isGeneratingScenario}
+                                           className="px-5 py-2.5 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-bold hover:bg-indigo-500/20 transition-all flex items-center gap-2 hover:scale-105"
+                                       >
+                                           <Sparkles className="w-3.5 h-3.5" /> Generate Context
+                                       </button>
+                                   )}
+                               </div>
+                           )}
+                           {isGeneratingScenario && (
+                               <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/80 light:bg-white/80 backdrop-blur-sm flex items-center justify-center rounded-2xl z-10">
+                                   <div className="flex items-center gap-3 text-sm font-bold text-indigo-400">
+                                       <Sparkles className="w-4 h-4 animate-pulse" /> Generating Context...
+                                   </div>
+                               </div>
+                           )}
+                       </div>
+                   )}
+                   
+                   {generateScenarioError && (
+                       <div className="mt-3 text-xs text-red-400 flex items-center gap-2 bg-red-500/10 p-3 rounded-xl border border-red-500/20 animate-fade-in">
+                           <AlertTriangle className="w-3.5 h-3.5" /> {generateScenarioError}
+                       </div>
+                   )}
+               </div>
+
+               {/* Enrich Error Banner */}
+               {enrichError && (
+                   <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-between animate-fade-in">
+                       <div className="flex items-center gap-2 text-xs font-bold text-amber-400">
+                           <Info className="w-3.5 h-3.5" />
+                           <span>Context Enrichment Failed: {enrichError}</span>
+                       </div>
+                       <button onClick={onDismissEnrichError} className="p-1 hover:bg-amber-500/20 rounded text-amber-400">
+                           <X className="w-3.5 h-3.5" />
+                       </button>
+                   </div>
+               )}
+           </div>
+
+           {/* Outcomes Footer - "The Evidence" */}
+           <div className="relative z-10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border-t border-white/5 light:border-slate-200/50 px-6 py-3 flex flex-col sm:flex-row sm:items-center gap-6 backdrop-blur-sm mt-auto flex-shrink-0">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 flex-1 min-w-0">
+                    <div className="flex items-center justify-between sm:justify-start gap-4 flex-shrink-0 min-w-[140px]">
+                        <div className="flex items-center gap-3 group/link">
+                            <div className={`
+                                p-2.5 rounded-xl border shadow-sm backdrop-blur-sm transition-all duration-300
+                                ${bandConfig.bg} border-white/10 group-hover/link:scale-110
+                            `}>
+                                <Link2 className={`w-4 h-4 ${bandConfig.text}`} />
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 light:text-slate-500 leading-none mb-1">
+                                    Syllabus
+                                </span>
+                                <span className={`text-xs font-bold ${bandConfig.text}`}>
+                                    Outcome Link
+                                </span>
+                            </div>
+                        </div>
+                        {isAdmin && onSuggestOutcomes && (
                             <button 
-                                onClick={() => onRunQualityCheck(prompt.question, 'question')}
-                                className="text-xs flex items-center gap-1 text-emerald-400 light:text-emerald-600 hover:text-emerald-300 light:hover:text-emerald-800 bg-emerald-900/20 light:bg-emerald-100 hover:bg-emerald-900/40 light:hover:bg-emerald-200 px-2 py-1 rounded transition-all hover-scale border border-emerald-500/20"
-                                title="Check quality standards"
+                                onClick={onSuggestOutcomes}
+                                disabled={isSuggestingOutcomes}
+                                className={`p-2 rounded-lg bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/20 transition-all ${isSuggestingOutcomes ? 'animate-pulse' : 'hover:scale-110'}`}
+                                title="Auto-link Outcomes with AI"
                             >
-                                <ShieldCheck className="w-3 h-3" /> QA
+                                <Wand2 className={`w-3.5 h-3.5 ${isSuggestingOutcomes ? 'animate-spin' : ''}`} />
                             </button>
                         )}
-                        <button 
-                            onClick={() => startEditing('question', prompt.question)}
-                            className="text-xs flex items-center gap-1 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900 bg-[rgb(var(--color-bg-surface))]/50 light:bg-slate-100 hover:bg-[rgb(var(--color-bg-surface))] light:hover:bg-slate-200 px-2 py-1 rounded transition-all hover-scale"
-                        >
-                            <Pencil className="w-3 h-3" /> Edit
-                        </button>
                     </div>
-                )}
-            </div>
-
-            {/* Question Content */}
-            {editingField === 'question' && isAdmin ? (
-                 <div className="animate-fade-in">
-                    <textarea
-                        ref={editInputRef as React.RefObject<HTMLTextAreaElement>}
-                        value={tempValue}
-                        onChange={(e) => setTempValue(e.target.value)}
-                        onKeyDown={handleEditKeyDown}
-                        className="w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 text-[rgb(var(--color-text-primary))] light:text-slate-900 border border-[rgb(var(--color-accent))] rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]/50 min-h-[100px] resize-y font-serif leading-relaxed whitespace-pre-wrap"
-                    />
-                    <div className="flex justify-end gap-2 mt-2">
-                        <button onClick={cancelEdit} className="text-xs px-3 py-1.5 rounded bg-[rgb(var(--color-bg-surface))] light:bg-white hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 transition-colors hover-scale">Cancel</button>
-                        <button onClick={saveEdit} className="text-xs px-3 py-1.5 rounded bg-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent-dark))] text-white transition-colors font-semibold flex items-center gap-1 hover-scale"><Check className="w-3 h-3"/> Save</button>
-                    </div>
-                </div>
-            ) : (
-                <div className={`text-[rgb(var(--color-text-secondary))] light:text-slate-800 font-serif leading-relaxed transition-all duration-200 whitespace-pre-wrap ${questionSizes[sizeIndex]}`}>
-                    {renderedQuestion}
-                </div>
-            )}
-        </div>
-        
-        {/* Scenario - Differentiated with dashed border and neutral styling */}
-        {(prompt.scenario || (editingField === 'scenario' && isAdmin)) && (
-          <div 
-            className={`
-              p-6 rounded-xl border-2 border-dashed
-              border-[rgb(var(--color-border-secondary))] border-opacity-40
-              light:border-slate-300 light:bg-slate-50/80
-              bg-[rgb(var(--color-bg-surface-inset))]/30
-              transition-all duration-200 hover:border-opacity-50 light:hover:border-slate-400
-              relative group
-            `}
-          >
-             <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-3">
-                    <Globe className="w-5 h-5 text-[rgb(var(--color-accent))]" />
-                    <span className="text-sm font-bold text-[rgb(var(--color-text-primary))] light:text-slate-700 uppercase tracking-wide">Scenario Context</span>
-                </div>
-                 {editingField !== 'scenario' && isAdmin && (
-                   <div className="flex items-center gap-1">
-                     <button 
-                        onClick={onGenerateScenario}
-                        disabled={isGeneratingScenario}
-                        className="text-xs flex items-center gap-1 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-[rgb(var(--color-accent))] bg-[rgb(var(--color-bg-surface))]/50 light:bg-white hover:bg-[rgb(var(--color-bg-surface))] light:hover:bg-slate-100 px-2 py-1 rounded transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 hover-scale"
-                        title="Regenerate Scenario"
-                    >
-                        <Sparkles className={`w-3 h-3 ${isGeneratingScenario ? 'animate-spin' : ''}`} />
-                    </button>
-                    <button 
-                        onClick={() => startEditing('scenario', prompt.scenario || '')}
-                        className="text-xs flex items-center gap-1 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900 bg-[rgb(var(--color-bg-surface))]/50 light:bg-white hover:bg-[rgb(var(--color-bg-surface))] light:hover:bg-slate-100 px-2 py-1 rounded transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 hover-scale"
-                    >
-                        <Pencil className="w-3 h-3" /> Edit
-                    </button>
-                   </div>
-                )}
-            </div>
-
-             {editingField === 'scenario' && isAdmin ? (
-                 <div className="animate-fade-in">
-                    <textarea
-                        ref={editInputRef as React.RefObject<HTMLTextAreaElement>}
-                        value={tempValue}
-                        onChange={(e) => setTempValue(e.target.value)}
-                        onKeyDown={handleEditKeyDown}
-                        className="w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-900 border border-[rgb(var(--color-accent))] rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]/50 min-h-[100px] resize-y font-serif leading-relaxed italic whitespace-pre-wrap"
-                        placeholder="Enter a scenario..."
-                    />
-                    <div className="flex justify-end gap-2 mt-2">
-                        <button onClick={cancelEdit} className="text-xs px-3 py-1.5 rounded bg-[rgb(var(--color-bg-surface))] light:bg-white hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-600 transition-colors hover-scale">Cancel</button>
-                        <button onClick={saveEdit} className="text-xs px-3 py-1.5 rounded bg-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent-dark))] text-white transition-colors font-semibold flex items-center gap-1 hover-scale"><Check className="w-3 h-3"/> Save</button>
-                    </div>
-                </div>
-            ) : (
-                <div className={`text-[rgb(var(--color-text-secondary))] light:text-slate-700 italic leading-relaxed font-serif transition-all duration-200 whitespace-pre-wrap ${scenarioSizes[sizeIndex]}`}>
-                    {renderedScenario}
-                </div>
-            )}
-          </div>
-        )}
-        
-        {/* Generate Scenario Button - Only show if no scenario and not editing, AND is admin */}
-        {!prompt.scenario && editingField !== 'scenario' && isAdmin && (
-          generateScenarioError && !isGeneratingScenario ? (
-            <div className="bg-red-900/30 light:bg-red-100 p-3 rounded-lg border border-red-500/50 light:border-red-300 flex items-center justify-between gap-4">
-              <div className="flex items-start gap-2">
-                <AlertCircle className="w-5 h-5 text-red-400 light:text-red-600 flex-shrink-0 mt-0.5" />
-                <div className="text-sm text-red-300 light:text-red-700">{generateScenarioError}</div>
-              </div>
-              <button 
-                onClick={onGenerateScenario} 
-                className="text-xs font-semibold text-white bg-red-600/50 hover:bg-red-600 px-4 py-1.5 rounded-md transition flex-shrink-0 hover-scale"
-              >
-                Retry
-              </button>
-            </div>
-          ) : (
-             <div className="flex gap-3">
-                 <button 
-                  onClick={onGenerateScenario} 
-                  disabled={isGeneratingScenario}
-                  className={`
-                    flex-1 text-sm font-semibold py-4 px-4 rounded-xl
-                    bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 text-[rgb(var(--color-text-muted))] light:text-slate-600
-                    hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900 
-                    transition-all duration-200 flex items-center justify-center gap-3
-                    border-2 border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300
-                    hover:border-[rgb(var(--color-accent))] hover:border-solid hover-lift
-                    disabled:opacity-50 disabled:cursor-not-allowed
-                    ${isGeneratingScenario ? 'animate-pulse' : ''}
-                  `}
-                >
-                  {isGeneratingScenario ? (
-                    <>
-                      <div className="w-5 h-5 rounded-full border-2 border-[rgb(var(--color-text-muted))]/30 border-t-[rgb(var(--color-accent))] animate-spin" />
-                      <span>Generating scenario...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="w-5 h-5 text-[rgb(var(--color-accent))]" />
-                      <span>Enhance with AI Scenario</span>
-                    </>
-                  )}
-                </button>
-                 <button 
-                  onClick={() => startEditing('scenario', '')}
-                  className={`
-                    text-sm font-semibold py-4 px-4 rounded-xl
-                    bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 text-[rgb(var(--color-text-muted))] light:text-slate-600
-                    hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900 
-                    transition-all duration-200 flex items-center justify-center gap-2
-                    border-2 border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300
-                    hover:border-[rgb(var(--color-accent))] hover:border-solid hover-lift
-                  `}
-                  title="Manually add scenario"
-                >
-                    <Pencil className="w-4 h-4" />
-                </button>
-             </div>
-          )
-        )}
-
-        {/* Linked Outcomes Section */}
-        <div className="pt-6 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 border-opacity-40">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
-                <h4 className="text-xs font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider flex items-center gap-2 flex-shrink-0">
-                    <Target className="w-3.5 h-3.5 text-[rgb(var(--color-accent))]" />
-                    Linked Outcomes
-                </h4>
-                
-                {linkedOutcomes.length > 0 ? (
-                    <div className="flex flex-wrap gap-2">
-                        {linkedOutcomes.map(outcome => (
-                            <div key={outcome.code} className="relative group">
-                                <button 
-                                    onClick={() => onOutcomeClick(outcome)}
-                                    className="inline-flex items-center justify-center px-3 py-1 text-xs font-bold rounded-full transition-all duration-200 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-accent))] light:text-sky-700 border border-[rgb(var(--color-accent))]/20 light:border-sky-200 hover:bg-[rgb(var(--color-accent))] light:hover:bg-sky-600 hover:text-white hover:shadow-md cursor-default select-none hover-scale"
-                                >
-                                    {outcome.code}
-                                </button>
-                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-3 text-xs text-left font-normal leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-700 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg shadow-xl light:shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10 backdrop-blur-md">
-                                    {outcome.description}
+                    
+                    <div className="flex flex-wrap gap-2.5">
+                        {linkedOutcomes.length > 0 ? (
+                            linkedOutcomes.map(outcome => (
+                                <div key={outcome.code} className="relative group/outcome">
+                                    <button 
+                                        onClick={() => handleOutcomeClickInternal(outcome)}
+                                        className={`
+                                            flex items-center gap-2 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider
+                                            bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/5 light:border-slate-200
+                                            text-slate-400 light:text-slate-600 transition-all duration-300
+                                            hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-50 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900 hover:border-white/10 light:hover:border-slate-300 hover:scale-105 hover:shadow-md
+                                            active:scale-95
+                                        `}
+                                    >
+                                        {outcome.code}
+                                    </button>
+                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 p-4 text-xs text-left font-medium leading-relaxed text-white light:text-slate-800 bg-[rgb(var(--color-bg-surface-elevated))]/95 light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-2xl shadow-2xl opacity-0 group-hover/outcome:opacity-100 transition-all duration-300 pointer-events-none z-50 backdrop-blur-xl translate-y-2 group-hover/outcome:translate-y-0">
+                                        <div className={`flex items-center gap-2 mb-2 ${bandConfig.text}`}>
+                                            <Award className="w-3.5 h-3.5" />
+                                            <span className="font-black uppercase tracking-widest text-[10px]">Objective</span>
+                                        </div>
+                                        {outcome.description}
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))
+                        ) : (
+                            <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400 italic font-medium py-2 opacity-60">No specific outcomes linked.</span>
+                        )}
                     </div>
-                ) : (
-                     <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400 italic">None identified.</span>
-                )}
-            </div>
-        </div>
-      </div>
+                </div>
+
+                <div className="flex items-center gap-1 bg-black/10 light:bg-slate-200/50 backdrop-blur-xl p-1 rounded-lg border border-white/10 light:border-slate-300 shadow-inner ml-auto flex-shrink-0">
+                     <button onClick={() => onFontSizeChange(Math.max(12, fontSize - 2))} className="p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-md transition-colors" title="Decrease font size"><ZoomOut className="w-3.5 h-3.5" /></button>
+                     <span className="text-[10px] font-mono font-bold text-[rgb(var(--color-text-muted))] w-6 text-center select-none">{fontSize}</span>
+                     <button onClick={() => onFontSizeChange(Math.min(48, fontSize + 2))} className="p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-md transition-colors" title="Increase font size"><ZoomIn className="w-3.5 h-3.5" /></button>
+                </div>
+           </div>
+       </div>
+
+       {selectedOutcome && (
+           <OutcomeDetailModal 
+                isOpen={!!selectedOutcome}
+                onClose={() => setSelectedOutcome(null)}
+                outcome={selectedOutcome}
+                question={prompt.question}
+           />
+       )}
     </div>
   );
 };
-
-const PromptDisplay: React.FC<PromptDisplayProps> = (props) => (
-    <ErrorBoundary>
-        <PromptDisplayContent {...props} />
-    </ErrorBoundary>
-);
 
 export default PromptDisplay;

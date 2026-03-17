@@ -18,6 +18,7 @@ import TopicImportModal from './TopicImportModal';
 import QualityCheckModal from './QualityCheckModal';
 import UserProfileModal from './UserProfileModal';
 import DatabaseDashboard from './admin/DatabaseDashboard';
+import ManualPromptModal from './ManualPromptModal';
 import ManifestImportModal from './ManifestImportModal';
 import { regenerateTopicIds } from '../utils/dataManagerUtils';
 import { findAndUpdateItem } from '../utils/stateUtils';
@@ -123,6 +124,22 @@ const AppModals: React.FC<AppModalsProps> = ({
         courseOutcomes={currentCourse?.outcomes || []}
       />
 
+      <ManualPromptModal
+        isOpen={isModalOpen('manualPrompt')}
+        onClose={() => closeModal('manualPrompt')}
+        onSave={async (prompt) => {
+            const newPrompt = await syllabusHandlers.handleGeneratePrompt(statePath, prompt);
+            if (newPrompt) {
+                setStatePath({ ...statePath, promptId: newPrompt.id });
+                setNewlyAddedIds(prev => new Set(prev).add(newPrompt.id));
+                showToast("Manual prompt refined and saved.", "success");
+            }
+        }}
+        courseName={currentCourse?.name || ''}
+        topicName={currentTopic?.name || ''}
+        outcomes={currentCourse?.outcomes || []}
+      />
+
       {currentCourse && (
         <OutcomesEditorModal
           isOpen={isModalOpen('outcomesEditor')}
@@ -178,21 +195,14 @@ const AppModals: React.FC<AppModalsProps> = ({
         onMoveTopic={syllabusHandlers.handleMoveTopic}
         showToast={showToast}
       />
-      
+
       <DatabaseDashboard
-          isOpen={isModalOpen('databaseDashboard')}
-          onClose={() => closeModal('databaseDashboard')}
-          courses={courses}
-          showToast={showToast}
+        isOpen={isModalOpen('databaseDashboard')}
+        onClose={() => closeModal('databaseDashboard')}
+        courses={courses}
+        showToast={showToast}
       />
-
-      <ManifestImportModal
-          isOpen={isModalOpen('manifestImport')}
-          onClose={() => closeModal('manifestImport')}
-          discoveredDocs={syllabusHandlers.discoveredDocs}
-          onImport={syllabusHandlers.importDiscoveredDocs}
-      />
-
+      
       <SyllabusImportModal
         isOpen={isModalOpen('fullSyllabusImport')}
         onClose={() => closeModal('fullSyllabusImport')}
@@ -213,6 +223,13 @@ const AppModals: React.FC<AppModalsProps> = ({
           }}
         />
       )}
+      
+      <ManifestImportModal
+          isOpen={isModalOpen('manifestImport')}
+          onClose={() => closeModal('manifestImport')}
+          discoveredDocs={syllabusHandlers.discoveredDocs}
+          onImport={syllabusHandlers.importDiscoveredDocs}
+      />
       
       {modalProps.qualityCheckProps && (
           <QualityCheckModal 

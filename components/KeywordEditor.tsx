@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { Prompt, UserRole } from '../types';
-import { AlertCircle, Sparkles, RefreshCw, Plus, X, Tag, Check, Copy } from 'lucide-react';
+import { AlertCircle, Sparkles, RefreshCw, Plus, X, Check } from 'lucide-react';
 import { getCommandTermInfo } from '../data/commandTerms';
 import { getBandConfig, getKeywordVariants, escapeRegExp } from '../utils/renderUtils';
 
@@ -27,7 +26,7 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
   onRegenerate, 
   isRegenerating,
   regenerateError,
-  onSuggest,
+  onSuggest, 
   isSuggesting,
   suggestError,
   userRole,
@@ -38,8 +37,9 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
   const [newKeyword, setNewKeyword] = useState('');
   const isAdmin = userRole === 'admin';
 
-  const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
-  const bandConfig = useMemo(() => getBandConfig(commandTermInfo.tier), [commandTermInfo.tier]);
+  // Get color config based on question type (tier)
+  const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
+  const bandConfig = useMemo(() => getBandConfig(verbInfo.tier), [verbInfo.tier]);
 
   useEffect(() => {
     setKeywords(prompt.keywords || []);
@@ -62,172 +62,108 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
     onKeywordsChange(updatedKeywords);
   };
   
-  // Usage tracking logic
   const usageMap = useMemo(() => {
     const map = new Map<string, boolean>();
     const textLower = userAnswer.toLowerCase();
-    
     keywords.forEach(kw => {
         const variants = getKeywordVariants(kw);
         const isUsed = variants.some(v => {
-            try {
-                return new RegExp(`\\b${escapeRegExp(v)}\\b`, 'i').test(textLower);
-            } catch { return false; }
+            try { return new RegExp(`\\b${escapeRegExp(v)}\\b`, 'i').test(textLower); } catch { return false; }
         });
         map.set(kw, isUsed);
     });
-    
     return map;
   }, [userAnswer, keywords]);
-  
-  const usedCount = Array.from(usageMap.values()).filter(Boolean).length;
   
   const isLoading = isEnriching || isSuggesting || isRegenerating;
   const error = regenerateError || suggestError;
 
   return (
-    <div className={`
-      rounded-xl overflow-hidden border border-[rgb(var(--color-border-secondary))]/50
-      bg-[rgb(var(--color-bg-surface-inset))]/30
-    `}>
-        {/* Header Toolbar */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-[rgb(var(--color-border-secondary))]/30">
-            <div className="flex items-center gap-2">
-                <Tag className={`w-4 h-4 ${bandConfig.text}`} />
-                <h4 className="text-sm font-bold text-[rgb(var(--color-text-primary))]">
-                    Syllabus Keywords
-                </h4>
-                {/* Styled Count Chip */}
-                <div className="flex items-center text-[10px] font-bold bg-[rgb(var(--color-bg-surface-elevated))] rounded-full border border-[rgb(var(--color-border-secondary))] overflow-hidden">
-                    <span className="px-1.5 py-0.5 text-emerald-400 bg-emerald-500/10 border-r border-[rgb(var(--color-border-secondary))]">{usedCount}</span>
-                    <span className="px-1.5 py-0.5 text-[rgb(var(--color-text-dim))]">{keywords.length}</span>
-                </div>
-            </div>
-            {isAdmin && (
-             <div className="flex space-x-1">
-                <button
-                    onClick={onSuggest}
-                    disabled={isLoading}
-                    className={`
-                        p-1.5 rounded-lg transition-all duration-200 hover-scale
-                        text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]
-                        hover:bg-[rgb(var(--color-bg-surface-light))]
-                        disabled:opacity-50
-                    `}
-                    title="Suggest more keywords with AI"
-                >
-                    <Sparkles className={`w-4 h-4 ${isSuggesting ? 'animate-pulse text-[rgb(var(--color-accent))]' : ''}`} />
-                </button>
-                 <button
-                    onClick={onRegenerate}
-                    disabled={isLoading}
-                    title="Regenerate keywords from scratch"
-                    className={`
-                        p-1.5 rounded-lg transition-all duration-200 hover-scale
-                        text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]
-                        hover:bg-[rgb(var(--color-bg-surface-light))]
-                        disabled:opacity-50
-                    `}
-                >
-                    <RefreshCw className={`w-4 h-4 ${isRegenerating ? 'animate-spin text-[rgb(var(--color-accent))]' : ''}`} />
-                </button>
-             </div>
-            )}
-        </div>
+    <div className="space-y-5">
+        <div className="flex flex-wrap gap-2">
+            {keywords.map(kw => {
+                const isUsed = usageMap.get(kw);
+                
+                // Use tier-based coloring if used, or a neutral state if not
+                const styleClass = isUsed 
+                    ? `${bandConfig.bg} ${bandConfig.text} ${bandConfig.border} shadow-sm` 
+                    : 'bg-slate-100/50 dark:bg-white/[0.03] text-slate-600 dark:text-slate-400 border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 hover:bg-slate-100 dark:hover:bg-white/[0.06]';
 
-        <div className="p-4 space-y-4">
-            {error && !isLoading && (
-              <div className="bg-red-900/30 p-3 rounded-lg border border-red-500/50 flex items-start gap-2">
-                <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
-                <div className="text-xs text-red-300 leading-relaxed">{error}</div>
+                return (
+                    <button 
+                        key={kw} 
+                        onClick={() => onAddWord && onAddWord(kw)}
+                        className={`
+                          group relative inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-[11px] font-semibold tracking-tight transition-all duration-300 border
+                          ${styleClass}
+                          hover:scale-[1.02] active:scale-[0.98]
+                        `}
+                    >
+                        {isUsed ? (
+                          <Check className="w-3 h-3" strokeWidth={3} />
+                        ) : (
+                          <div className={`w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600 group-hover:bg-indigo-400 transition-colors`} />
+                        )}
+                        <span>{kw}</span>
+                        {isAdmin && (
+                            <div 
+                              onClick={(e) => { e.stopPropagation(); handleRemoveKeyword(kw); }}
+                              className="ml-1 p-0.5 rounded-full hover:bg-red-500/10 hover:text-red-500 transition-all opacity-0 group-hover:opacity-100"
+                            >
+                                <X className="w-2.5 h-2.5" strokeWidth={3} />
+                            </div>
+                        )}
+                    </button>
+                );
+            })}
+            {keywords.length === 0 && (
+              <div className="w-full py-4 text-center border-2 border-dashed border-slate-200 dark:border-white/5 rounded-2xl">
+                <span className="text-[11px] font-medium text-slate-400 uppercase tracking-widest">No syllabus terms defined</span>
               </div>
             )}
-          
-            {isEnriching && !prompt.keywords?.length ? (
-                <div className="flex flex-col items-center justify-center py-6 text-[rgb(var(--color-text-dim))] gap-2">
-                    <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin opacity-50" />
-                    <p className="text-xs italic">Analysing question context...</p>
-                </div>
-            ) : (
-                <>
-                    <div className="flex flex-wrap gap-2">
-                        {keywords.map(kw => {
-                            const isUsed = usageMap.get(kw);
-                            return (
-                                <button 
-                                    key={kw} 
-                                    onClick={() => onAddWord && onAddWord(kw)}
-                                    title={onAddWord ? "Click to insert" : undefined}
-                                    className={`
-                                        group inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200
-                                        border shadow-sm
-                                        ${isUsed 
-                                            ? `bg-emerald-500/10 text-emerald-400 border-emerald-500/30` 
-                                            : `bg-[rgb(var(--color-bg-surface))] text-[rgb(var(--color-text-secondary))] border-[rgb(var(--color-border-secondary))] hover:border-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-text-primary))]`
-                                        }
-                                        ${onAddWord ? 'cursor-pointer hover:scale-105 active:scale-95' : 'cursor-default'}
-                                    `}
-                                >
-                                    {isUsed && <Check className="w-3 h-3 flex-shrink-0" />}
-                                    <span>{kw}</span>
-                                    {isAdmin && (
-                                        <div 
-                                            onClick={(e) => { e.stopPropagation(); handleRemoveKeyword(kw); }} 
-                                            className={`
-                                                p-0.5 rounded-full opacity-0 group-hover:opacity-50 hover:!opacity-100 transition-opacity
-                                                hover:bg-red-500/20 hover:text-red-400 -mr-1 ml-1 cursor-pointer
-                                            `}
-                                            title="Remove"
-                                        >
-                                            <X className="w-3 h-3" />
-                                        </div>
-                                    )}
-                                </button>
-                            );
-                        })}
-                        {keywords.length === 0 && (
-                            <p className="text-sm text-[rgb(var(--color-text-muted))] italic py-2 w-full text-center">
-                                No keywords defined. {isAdmin ? "Add some below or use AI to suggest." : ""}
-                            </p>
-                        )}
-                    </div>
-                    
-                    {isAdmin && (
-                        <form onSubmit={handleAddKeyword} className="relative group">
-                            <input
-                                type="text"
-                                value={newKeyword}
-                                onChange={(e) => setNewKeyword(e.target.value)}
-                                placeholder="Add a specific term..."
-                                className="
-                                    w-full bg-[rgb(var(--color-bg-surface-light))]/50 
-                                    border border-[rgb(var(--color-border-secondary))] 
-                                    rounded-lg py-2 pl-3 pr-10 text-sm 
-                                    focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-transparent 
-                                    focus:bg-[rgb(var(--color-bg-surface-light))]
-                                    transition-all duration-200
-                                    placeholder:text-[rgb(var(--color-text-dim))]
-                                "
-                            />
-                            <button 
-                                type="submit" 
-                                disabled={!newKeyword.trim()}
-                                className={`
-                                    absolute right-1 top-1 bottom-1 px-2 rounded-md 
-                                    flex items-center justify-center transition-all duration-200 hover-scale active:scale-95
-                                    ${newKeyword.trim() 
-                                        ? 'bg-[rgb(var(--color-accent))] text-white hover:bg-[rgb(var(--color-accent-dark))]' 
-                                        : 'text-[rgb(var(--color-text-muted))] hover:bg-[rgb(var(--color-border-secondary))] cursor-default'
-                                    }
-                                `}
-                            >
-                                <Plus className="w-4 h-4" />
-                            </button>
-                        </form>
-                    )}
-                </>
-            )}
         </div>
+        
+        {isAdmin && (
+            <div className="flex gap-2">
+                <form onSubmit={handleAddKeyword} className="flex-1 relative">
+                    <input
+                        type="text"
+                        value={newKeyword}
+                        onChange={(e) => setNewKeyword(e.target.value)}
+                        placeholder="Add new term..."
+                        className="w-full bg-slate-100/50 dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-xl py-2 px-4 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500/50 outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600"
+                    />
+                    <button type="submit" disabled={!newKeyword.trim()} className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-indigo-500 dark:hover:text-white disabled:opacity-0 transition-colors">
+                      <Plus className="w-4 h-4" strokeWidth={2.5} />
+                    </button>
+                </form>
+                <div className="flex gap-1.5">
+                    <button 
+                      onClick={onSuggest} 
+                      disabled={isLoading} 
+                      className="p-2 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-200 dark:hover:border-indigo-500/30 transition-all shadow-sm active:scale-90" 
+                      title="Suggest with AI"
+                    >
+                      <Sparkles className={`w-4 h-4 ${isSuggesting ? 'animate-pulse' : ''}`} />
+                    </button>
+                    <button 
+                      onClick={onRegenerate} 
+                      disabled={isLoading} 
+                      className="p-2 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-200 dark:hover:border-indigo-500/30 transition-all shadow-sm active:scale-90" 
+                      title="Regenerate all"
+                    >
+                      <RefreshCw className={`w-4 h-4 ${isRegenerating ? 'animate-spin' : ''}`} />
+                    </button>
+                </div>
+            </div>
+        )}
+
+        {error && (
+          <div className="p-3 rounded-xl bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-500/20 text-[10px] font-bold text-red-600 dark:text-red-400 flex items-center gap-2 animate-fade-in">
+            <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" /> 
+            {error}
+          </div>
+        )}
     </div>
   );
 };

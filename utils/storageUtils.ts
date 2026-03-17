@@ -2,10 +2,10 @@
 import { openDB, DBSchema, IDBPDatabase } from 'idb';
 import { Course, LibraryItem, User } from '../types';
 import { generateId } from './idUtils';
-import { migrateAnalyseVerb, formatMarkingCriteria, CoursesArraySchema, recalculateSampleAnswerBands, validateAndFixCourses } from './dataManagerUtils';
+import { migrateAnalyseVerb, formatMarkingCriteria, CoursesArraySchema, recalculateSampleAnswerBands, validateAndFixCourses, deduplicateSampleAnswers } from './dataManagerUtils';
 
 // Current data version - increment when structure changes
-export const DATA_VERSION = '2.2.0';
+export const DATA_VERSION = '2.2.2';
 
 export const STORAGE_KEYS = {
   COURSES: 'hsc-ai-evaluator-courses', // Legacy key for migration check
@@ -509,12 +509,31 @@ export const runMigrations = (courses: Course[], fromVersion: string): Course[] 
       migrated = recalculateSampleAnswerBands(migrated);
   }
 
-  // NEW: Version 2.2.1 Migration
-  // Force a validation and fix of verbs on all prompts to ensure they match the text
-  // This solves the issue where imported data might have generic verbs (Explain) but specific text (State/Describe)
   if (fromVersion < '2.2.1') {
       console.log("Applying v2.2.1 migration: Validating and repairing prompt verbs...");
       migrated = validateAndFixCourses(migrated);
+  }
+
+  // NEW: Version 2.2.2 Migration
+  // Automatically deduplicate sample answers within all prompts, preferring the lower mark version.
+  if (fromVersion < '2.2.2') {
+      console.log("Applying v2.2.2 migration: Automatically removing duplicate sample answers (keeping lower mark)...");
+      migrated = migrated.map(course => ({
+          ...course,
+          topics: course.topics.map(topic => ({
+              ...topic,
+              subTopics: topic.subTopics.map(subTopic => ({
+                  ...subTopic,
+                  dotPoints: subTopic.dotPoints.map(dotPoint => ({
+                      ...dotPoint,
+                      prompts: dotPoint.prompts.map(prompt => ({
+                          ...prompt,
+                          sampleAnswers: deduplicateSampleAnswers(prompt.sampleAnswers || [])
+                      }))
+                  }))
+              }))
+          }))
+      }));
   }
 
   return migrated;

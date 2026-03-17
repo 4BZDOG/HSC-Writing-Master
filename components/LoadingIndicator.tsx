@@ -1,203 +1,181 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { Loader2, BrainCircuit, Sparkles, Layers, Search, Database, Cpu, FileCode, PenTool } from 'lucide-react';
-import { getBandConfig } from '../utils/renderUtils';
-import { TIER_GROUPS } from '../data/commandTerms';
+import { Sparkles, AlertTriangle, PenTool, ScanSearch, BrainCircuit, Layers } from 'lucide-react';
 
-interface LoadingIndicatorProps {
-  messages: string[];
-  duration: number;
-  className?: string;
-  readonly band?: number;
+interface LoadingSpinnerProps {
+  message?: string | null;
+  error?: string | null;
+  isError?: boolean;
+  duration?: number; // Estimated duration in seconds for progress bar
+  band?: number;
+  messages?: string[];
 }
 
-// "Technical" micro-logs to display underneath the main message
-// Differentiated by complexity to match the Band/Tier
-const MICRO_LOGS = {
-  low: [
-    "accessing_syllabus_db...",
-    "retrieving_definitions...",
-    "formatting_text_output...",
-    "checking_spelling...",
-    "finalising_response...",
-    "allocating_tokens..."
+// Educational & Technical phases for the "Studio" feel
+const COGNITIVE_PHASES: Record<string, string[]> = {
+  evaluation: [
+    "Deconstructing response structure...",
+    "Mapping against NESA criteria...",
+    "Evaluating causal reasoning...",
+    "Calibrating performance band...",
+    "Synthesising marker feedback..."
   ],
-  mid: [
-    "parsing_command_verb...",
-    "scanning_knowledge_base...",
-    "linking_concepts...",
-    "structuring_paragraphs...",
-    "validating_examples...",
-    "optimising_flow...",
-    "checking_word_count..."
+  generation: [
+    "Consulting syllabus outcomes...",
+    "Designing authentic scenario...",
+    "Aligning cognitive complexity...",
+    "Refining academic vocabulary...",
+    "Finalising marking rubric..."
   ],
-  high: [
-    "synthesising_arguments...",
-    "evaluating_evidence_weight...",
-    "cross_referencing_criteria...",
-    "applying_critical_lens...",
-    "refining_vocabulary_matrix...",
-    "checking_logical_cohesion...",
-    "generating_nuance...",
-    "polishing_rhetoric..."
+  enrichment: [
+    "Indexing syllabus context...",
+    "Extracting domain terminology...",
+    "Optimising heuristic constraints...",
+    "Validating content alignment...",
+    "Enhancing pedagogical value..."
+  ],
+  default: [
+    "Initialising neural engine...",
+    "Allocating compute resources...",
+    "Processing linguistic models...",
+    "Verifying output integrity...",
+    "Finalising synthesis..."
   ]
 };
 
-const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({ 
-  messages, 
-  duration, 
-  className = '', 
-  band = 6 
-}) => {
-  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
-  const [currentLog, setCurrentLog] = useState("");
+const MeshOverlay = ({ opacity = "opacity-[0.05]" }: { opacity?: string }) => (
+  <div 
+      className={`absolute inset-0 ${opacity} pointer-events-none mix-blend-overlay z-0`}
+      style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v12M0 1h12' stroke='%23000000' stroke-width='0.5' fill='none'/%3E%3C/svg%3E")` }}
+  />
+);
+
+const LoadingIndicator: React.FC<LoadingSpinnerProps> = ({ message, error, isError = false, duration = 5, band = 4, messages }) => {
+  const [phaseIndex, setPhaseIndex] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [elapsedTime, setElapsedTime] = useState(0);
 
-  const bandConfig = getBandConfig(band);
-  const tierInfo = useMemo(() => TIER_GROUPS.find(g => g.tier === band), [band]);
+  // Determine the task type based on the message string
+  const taskType = useMemo(() => {
+    const msg = message?.toLowerCase() || '';
+    if (msg.includes('evaluat')) return 'evaluation';
+    if (msg.includes('generat') || msg.includes('drafting')) return 'generation';
+    if (msg.includes('enrich') || msg.includes('analyzing') || msg.includes('analysing')) return 'enrichment';
+    return 'default';
+  }, [message]);
 
-  // 1. Main Message Rotation (Slow)
+  const phases = messages || COGNITIVE_PHASES[taskType] || COGNITIVE_PHASES.default;
+
   useEffect(() => {
-    if (messages.length > 0) {
-      // Ensure we show the first message immediately
-      const interval = setInterval(() => {
-        setCurrentMessageIndex((prev) => (prev + 1) % messages.length);
-      }, 3000); // Rotate every 3s
-      return () => clearInterval(interval);
-    }
-  }, [messages]);
-
-  // 2. Micro Log Rotation (Fast)
-  useEffect(() => {
-    const logs = band <= 2 ? MICRO_LOGS.low : band <= 4 ? MICRO_LOGS.mid : MICRO_LOGS.high;
-    
+    if (isError) return;
     const interval = setInterval(() => {
-      const randomLog = logs[Math.floor(Math.random() * logs.length)];
-      setCurrentLog(`> ${randomLog}`);
-    }, 400); // Update every 400ms
-
+      setPhaseIndex(prev => (prev + 1) % phases.length);
+    }, 2200);
     return () => clearInterval(interval);
-  }, [band]);
+  }, [phases, isError]);
 
-  // 3. Progress & Time
   useEffect(() => {
-    const startTime = Date.now();
-    const timer = setInterval(() => {
-      const elapsed = (Date.now() - startTime) / 1000;
-      setElapsedTime(elapsed);
-      
-      // Non-linear progress for realism (fast start, slow end)
-      const calculatedProgress = Math.min(
-        (elapsed / duration) * 100, 
-        99
-      );
-      
-      setProgress(calculatedProgress);
-    }, 50);
+      if (isError) return;
+      const startTime = Date.now();
+      const interval = setInterval(() => {
+          const elapsed = (Date.now() - startTime) / 1000;
+          const p = Math.min(98, (elapsed / duration) * 100);
+          setProgress(p);
+      }, 100);
+      return () => clearInterval(interval);
+  }, [duration, isError]);
 
-    return () => clearInterval(timer);
-  }, [duration]);
-  
-  const remainingTime = Math.max(duration - elapsedTime, 0);
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
-
-  // Contextual Icon
-  const Icon = useMemo(() => {
-      if (band <= 2) return Search;
-      if (band <= 4) return Layers;
-      return BrainCircuit; 
-  }, [band]);
-
-  // Phase Calculation
-  const totalPhases = messages.length;
-  const currentPhase = currentMessageIndex + 1;
+  const theme = isError 
+    ? {
+        icon: AlertTriangle,
+        ring: 'border-red-500/30',
+        glow: 'shadow-red-500/20',
+        iconColor: 'text-red-500',
+        textColor: 'text-red-600',
+        bg: 'bg-red-50/90'
+      }
+    : {
+        icon: taskType === 'evaluation' ? ScanSearch : taskType === 'generation' ? PenTool : Sparkles,
+        ring: 'border-indigo-500/30',
+        glow: 'shadow-indigo-500/20',
+        iconColor: 'text-indigo-600 dark:text-indigo-400',
+        textColor: 'text-slate-800 dark:text-slate-100',
+        bg: 'bg-white/90 dark:bg-slate-900/90'
+      };
 
   return (
-    <div 
-      className={`
-        relative flex flex-col items-center justify-center w-full
-        bg-[rgb(var(--color-bg-surface))]/90 backdrop-blur-xl
-        border-2 ${bandConfig.border}
-        rounded-3xl shadow-2xl ${bandConfig.glow}
-        p-8 overflow-hidden
-        transition-all duration-500 animate-fade-in-up
-        ${className}
-      `}
-    >
-      {/* Background Mesh Effect */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${bandConfig.gradient} opacity-5 pointer-events-none`} />
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 mix-blend-overlay pointer-events-none" />
+    <div className={`
+        relative overflow-hidden
+        ${theme.bg} backdrop-blur-3xl
+        rounded-[32px] shadow-2xl ${theme.glow}
+        border border-white/20 dark:border-white/10
+        p-8 w-[340px] flex flex-col items-center justify-center gap-6
+        transition-all duration-500 animate-in fade-in zoom-in-95
+    `}>
+      <MeshOverlay opacity="opacity-[0.03] dark:opacity-[0.05]" />
 
-      {/* Header Section */}
-      <div className="relative z-10 flex flex-col items-center mb-6">
-        <div className="relative">
-            <div className={`
-                w-16 h-16 rounded-2xl flex items-center justify-center
-                bg-gradient-to-br ${bandConfig.gradient} shadow-lg text-white
-                relative z-10
-            `}>
-                <Icon className="w-8 h-8 animate-pulse" />
-            </div>
-            {/* Orbital Ring */}
-            <div className="absolute inset-0 -m-2 border-2 border-[rgb(var(--color-border-secondary))] rounded-3xl animate-spin-slow opacity-30" />
-        </div>
+      {/* Central Animation Hub */}
+      <div className="relative w-20 h-20 flex items-center justify-center z-10">
+        {/* Pulsing Outer Ring */}
+        <div className={`absolute inset-0 rounded-full border-2 ${theme.ring} opacity-20 animate-ping`} />
         
-        {tierInfo && (
-             <div className={`mt-4 px-3 py-1 rounded-full bg-[rgb(var(--color-bg-surface-inset))] border ${bandConfig.border} flex items-center gap-2`}>
-                 <span className={`w-2 h-2 rounded-full ${bandConfig.solidBg} animate-pulse`}></span>
-                 <span className={`text-[10px] font-black uppercase tracking-widest ${bandConfig.text}`}>
-                    Tier {tierInfo.tier}: {tierInfo.title}
-                 </span>
+        {/* Rotating Dashed Ring */}
+        <div className={`absolute inset-0 rounded-full border-2 border-dashed ${theme.ring} animate-spin-slow`} />
+        
+        {/* Inner Active Ring */}
+        <div className={`
+            absolute inset-1 rounded-full border-2 border-transparent 
+            border-t-current ${theme.iconColor} opacity-50
+            animate-spin
+        `} style={{ animationDuration: '1.5s' }} />
+
+        {/* Center Icon */}
+        <div className={`
+            relative w-12 h-12 rounded-2xl flex items-center justify-center
+            bg-gradient-to-br from-white to-slate-100 dark:from-slate-800 dark:to-slate-900 
+            shadow-lg border border-white/40 dark:border-white/10
+        `}>
+          <theme.icon className={`w-6 h-6 ${theme.iconColor} ${isError ? '' : 'animate-pulse'}`} />
+        </div>
+      </div>
+
+      {/* Status Text */}
+      <div className="text-center z-10 w-full space-y-2">
+        <h3 className={`text-lg font-bold tracking-tight ${theme.textColor}`}>
+            {isError ? 'System Interruption' : (message || 'Processing')}
+        </h3>
+        
+        <div className="h-6 flex items-center justify-center overflow-hidden w-full px-4">
+            <p className={`
+                text-[10px] font-bold uppercase tracking-widest 
+                text-slate-400 dark:text-slate-500 
+                animate-fade-in-up key-${phaseIndex}
+                truncate w-full
+            `}>
+                {isError ? (error || 'Operation failed.') : phases[phaseIndex]}
+            </p>
+        </div>
+      </div>
+
+      {/* Progress Indicators */}
+      {!isError && (
+        <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden relative z-10">
+            <div className={`h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-300 ease-out`} style={{ width: `${progress}%` }} />
+        </div>
+      )}
+
+      {/* Micro-Metadata Footer */}
+      {!isError && (
+        <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-4 opacity-30">
+             <div className="flex items-center gap-1">
+                 <BrainCircuit className="w-2.5 h-2.5" />
+                 <span className="text-[8px] font-mono font-bold">GEMINI-3-PRO</span>
              </div>
-        )}
-      </div>
-
-      {/* Main Content */}
-      <div className="w-full max-w-xs relative z-10 text-center space-y-6">
-          
-          {/* Macro Message */}
-          <div className="h-14 flex flex-col items-center justify-center">
-              <p className="text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wide mb-1">
-                  Step {currentPhase} of {totalPhases}
-              </p>
-              <p className="text-lg font-bold text-white leading-tight animate-fade-in key-{currentMessageIndex}">
-                  {messages[currentMessageIndex]}
-              </p>
-          </div>
-
-          {/* Progress Bar */}
-          <div className="relative">
-              <div className="flex justify-between text-xs font-medium text-[rgb(var(--color-text-muted))] mb-1.5">
-                  <span className="font-mono">{Math.round(progress)}%</span>
-                  <span className="font-mono">{formatTime(remainingTime)}</span>
-              </div>
-              <div className="h-2 w-full bg-[rgb(var(--color-bg-surface-inset))] rounded-full overflow-hidden border border-[rgb(var(--color-border-secondary))]">
-                  <div 
-                      className={`h-full bg-gradient-to-r ${bandConfig.gradient} transition-all duration-200 ease-out relative`}
-                      style={{ width: `${progress}%` }}
-                  >
-                      <div className="absolute inset-0 bg-white/30 animate-shimmer" />
-                  </div>
-              </div>
-          </div>
-
-          {/* Micro Log Terminal */}
-          <div className="w-full bg-black/40 rounded-lg border border-[rgb(var(--color-border-secondary))]/50 p-2.5 text-left overflow-hidden">
-              <div className="flex items-center gap-2 mb-1 border-b border-white/5 pb-1">
-                  <Cpu className="w-3 h-3 text-[rgb(var(--color-accent))]" />
-                  <span className="text-[9px] font-bold text-[rgb(var(--color-text-muted))] uppercase">System Activity</span>
-              </div>
-              <p className="font-mono text-[10px] text-[rgb(var(--color-text-secondary))] h-4 truncate animate-pulse">
-                  {currentLog}
-              </p>
-          </div>
-      </div>
-
+             <div className="flex items-center gap-1">
+                 <Layers className="w-2.5 h-2.5" />
+                 <span className="text-[8px] font-mono font-bold">REASONING</span>
+             </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -27,7 +27,6 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
 
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
   
-  // Map existing counts per mark
   const existingCounts = useMemo(() => {
     const counts = new Map<number, number>();
     (prompt.sampleAnswers || []).forEach(sa => {
@@ -38,7 +37,6 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
   
   const tierInfo = useMemo(() => TIER_GROUPS.find(t => t.tier === commandTermInfo.tier), [commandTermInfo.tier]);
 
-  // Generate options for every possible mark (0 to Total)
   const markOptions = useMemo(() => {
     return Array.from({ length: prompt.totalMarks + 1 }, (_, i) => i).map(mark => {
       const band = getBandForMark(mark, prompt.totalMarks, commandTermInfo.tier);
@@ -54,7 +52,6 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
 
   useEffect(() => {
     if (isOpen) {
-      // Default to full marks if not set
       if (selectedMark === null) {
           setSelectedMark(prompt.totalMarks);
       }
@@ -92,11 +89,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
   if (!isOpen) return null;
   
   const selectedBand = selectedMark !== null ? getBandForMark(selectedMark, prompt.totalMarks, commandTermInfo.tier) : 1;
-  
-  // Use the band config of the SELECTED mark to theme the modal
   const activeBandConfig = getBandConfig(selectedBand);
-  
-  // Determine if the band is capped by the tier
   const potentialBand = selectedMark !== null ? getBandForMark(selectedMark, prompt.totalMarks, 6) : 1;
   const isCapped = tierInfo && selectedBand < potentialBand;
 
@@ -107,17 +100,21 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
     >
       <div 
         className={`
-          bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl 
-          w-full max-w-3xl border-2 ${activeBandConfig.border} border-opacity-50
-          animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]
+          bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl 
+          w-full max-w-3xl border-2 ${activeBandConfig.border}
+          animate-fade-in-up overflow-hidden flex flex-col h-[85vh] sm:h-[650px]
           ${activeBandConfig.glow}
         `}
         onClick={e => e.stopPropagation()}
       >
-        {/* Hero Header */}
-        <div className={`relative px-8 py-6 border-b border-[rgb(var(--color-border-secondary))] overflow-hidden`}>
-            {/* Dynamic Background Gradient */}
-            <div className={`absolute inset-0 opacity-10 bg-gradient-to-r ${activeBandConfig.gradient}`} />
+        <div className={`relative px-8 py-6 border-b-2 ${activeBandConfig.border} border-opacity-30 overflow-hidden bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50`}>
+            <div className={`absolute inset-0 opacity-10 light:opacity-5 bg-gradient-to-r ${activeBandConfig.gradient}`} />
+            
+            {/* Cubic Mesh Texture Overlay */}
+            <div 
+              className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
+              style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='%23ffffff' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E")` }}
+            />
             
             <div className="flex items-center justify-between relative z-10">
                 <div className="flex items-center gap-4">
@@ -128,9 +125,9 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                         <Sparkles className="w-6 h-6" />
                     </div>
                     <div>
-                        <h2 className="text-2xl font-bold text-white tracking-tight">Generate Sample Answer</h2>
-                        <div className="flex items-center gap-2 mt-1 text-sm font-medium text-[rgb(var(--color-text-secondary))]">
-                            <span className={`px-2 py-0.5 rounded text-xs font-black uppercase tracking-wider bg-white/10 border border-white/20`}>
+                        <h2 className="text-2xl font-bold text-white light:text-slate-900 tracking-tight">Generate Sample Answer</h2>
+                        <div className="flex items-center gap-2 mt-1 text-sm font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-600">
+                            <span className={`px-2 py-0.5 rounded text-xs font-black uppercase tracking-wider bg-white/10 light:bg-white/60 border border-white/20 light:border-slate-300/50`}>
                                 Tier {commandTermInfo.tier}
                             </span>
                             <span className="opacity-50">•</span>
@@ -141,19 +138,16 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                 <button 
                     onClick={handleClose} 
                     disabled={isLoading}
-                    className="p-2 rounded-xl hover:bg-white/10 text-[rgb(var(--color-text-muted))] hover:text-white transition-colors disabled:opacity-50"
+                    className="p-2 rounded-xl hover:bg-white/10 light:hover:bg-slate-200 text-[rgb(var(--color-text-muted))] hover:text-white light:hover:text-slate-900 transition-colors disabled:opacity-50"
                 >
                     <X className="w-5 h-5" />
                 </button>
             </div>
         </div>
 
-        {/* Content Layout */}
-        <div className="flex flex-col flex-1 overflow-hidden p-8 space-y-8">
-            
-            {/* Mark Selection Grid */}
+        <div className="flex flex-col flex-1 overflow-y-auto custom-scrollbar p-8 space-y-8 bg-[rgb(var(--color-bg-surface))] light:bg-white">
             <div>
-                 <h3 className="text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-widest mb-4 flex items-center gap-2">
+                 <h3 className="text-xs font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2">
                     <Target className="w-3.5 h-3.5" /> Select Target Mark
                  </h3>
                  
@@ -169,24 +163,22 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                                 onClick={() => !isLoading && setSelectedMark(option.mark)}
                                 disabled={isLoading}
                                 className={`
-                                    relative w-16 h-20 rounded-2xl border-2 transition-all duration-200 ease-out
+                                    relative w-16 h-20 rounded-2xl border transition-all duration-200 ease-out
                                     flex flex-col items-center justify-center gap-1 group
                                     ${isSelected
-                                        ? `${optionBandConfig.bg} ${optionBandConfig.border} ${optionBandConfig.glow} transform scale-110 z-10 shadow-lg`
-                                        : `bg-[rgb(var(--color-bg-surface-inset))]/50 border-[rgb(var(--color-border-secondary))]/50 opacity-70 hover:opacity-100 hover:scale-105 hover:border-[rgb(var(--color-border-secondary))]`
+                                        ? `${optionBandConfig.bg} ${optionBandConfig.border} border-2 light:border-2 ${optionBandConfig.glow} transform scale-110 z-10 shadow-lg`
+                                        : `bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-[rgb(var(--color-border-secondary))]/50 light:border-slate-200 opacity-70 light:opacity-100 hover:opacity-100 hover:scale-[1.05] hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 light:shadow-sm`
                                     }
                                 `}
                             >
-                                <span className={`text-2xl font-black font-mono ${isSelected ? optionBandConfig.text : 'text-[rgb(var(--color-text-secondary))]'}`}>
+                                <span className={`text-2xl font-black font-mono ${isSelected ? optionBandConfig.text : 'text-[rgb(var(--color-text-secondary))] light:text-slate-600'}`}>
                                     {option.mark}
                                 </span>
-                                <span className={`text-[9px] font-black uppercase tracking-wider ${isSelected ? optionBandConfig.text : 'text-[rgb(var(--color-text-muted))]'}`}>
+                                <span className={`text-[9px] font-black uppercase tracking-wider ${isSelected ? optionBandConfig.text : 'text-[rgb(var(--color-text-muted))] light:text-slate-400'}`}>
                                     Band {option.band}
                                 </span>
-                                
-                                {/* Indicators */}
                                 {hasAnswers && !isSelected && (
-                                    <div className="absolute -top-1.5 -right-1.5 flex items-center justify-center w-4 h-4 bg-[rgb(var(--color-bg-surface))] rounded-full text-[9px] border border-[rgb(var(--color-border-secondary))] shadow-sm text-emerald-400">
+                                    <div className="absolute -top-1.5 -right-1.5 flex items-center justify-center w-4 h-4 bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-full text-[9px] border border-[rgb(var(--color-border-secondary))] light:border-slate-300 shadow-sm text-emerald-400 light:text-emerald-600">
                                         <Check className="w-2.5 h-2.5" />
                                     </div>
                                 )}
@@ -201,12 +193,11 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                  </div>
             </div>
             
-            {/* Context Panel */}
             <div className={`
-                flex-1 rounded-2xl border p-6 relative overflow-hidden transition-all duration-500
+                flex-1 rounded-2xl border-2 p-6 relative overflow-hidden transition-all duration-500
                 ${selectedMark !== null 
-                    ? `${activeBandConfig.bg} ${activeBandConfig.border}` 
-                    : 'bg-[rgb(var(--color-bg-surface-inset))]/30 border-[rgb(var(--color-border-secondary))] border-dashed'
+                    ? `${activeBandConfig.bg} ${activeBandConfig.border} light:bg-opacity-50` 
+                    : 'bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200 border-dashed'
                 }
             `}>
                 {selectedMark !== null ? (
@@ -214,14 +205,14 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                          <div className="flex flex-wrap items-center gap-3 mb-4">
                             <span className={`
                                 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm
-                                bg-[rgb(var(--color-bg-surface))] border ${activeBandConfig.border} ${activeBandConfig.text}
+                                bg-[rgb(var(--color-bg-surface))] light:bg-white border ${activeBandConfig.border} ${activeBandConfig.text}
                             `}>
                                 <Award className="w-3.5 h-3.5" />
                                 Expected Result: Band {selectedBand}
                             </span>
                             
                             {isCapped && (
-                                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500/10 border border-amber-500/20 text-amber-400">
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500/10 light:bg-amber-50 border border-amber-500/20 light:border-amber-200 text-amber-400 light:text-amber-700">
                                     <AlertTriangle className="w-3.5 h-3.5" />
                                     Tier Capped
                                 </span>
@@ -237,10 +228,10 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                          </p>
 
                          {isCapped && selectedMark > 0 && (
-                             <div className="mt-4 p-3 rounded-lg bg-amber-900/20 border border-amber-500/20 text-amber-200/80 text-xs leading-relaxed flex gap-3">
-                                 <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-400" />
+                             <div className="mt-4 p-3 rounded-lg bg-amber-900/20 light:bg-amber-50 border border-amber-500/20 light:border-amber-200 text-amber-200/80 light:text-amber-800 text-xs leading-relaxed flex gap-3">
+                                 <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-400 light:text-amber-600" />
                                  <div>
-                                     <strong className="text-amber-400 block mb-1">Why is this capped?</strong>
+                                     <strong className="text-amber-400 light:text-amber-700 block mb-1">Why is this capped?</strong>
                                      The verb '{prompt.verb}' (Tier {commandTermInfo.tier}) limits the maximum complexity. Even with full marks, the response inherently represents a Band {tierInfo?.maxBand} level of cognitive skill.
                                  </div>
                              </div>
@@ -248,25 +239,24 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     </div>
                 ) : (
                     <div className="h-full flex flex-col items-center justify-center text-center opacity-40">
-                        <Info className="w-10 h-10 mb-3" />
-                        <p className="text-sm font-medium">Select a mark above to configure the generator.</p>
+                        <Info className="w-10 h-10 mb-3 text-[rgb(var(--color-text-muted))] light:text-slate-400" />
+                        <p className="text-sm font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-500">Select a mark above to configure the generator.</p>
                     </div>
                 )}
             </div>
 
             {error && (
-                <div className="p-4 rounded-xl border border-red-500/50 bg-red-500/10 flex items-start gap-3 animate-fade-in">
-                    <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                <div className="p-4 rounded-xl border border-red-500/50 bg-red-500/10 light:bg-red-50 light:border-red-200 flex items-start gap-3 animate-fade-in">
+                    <AlertTriangle className="w-5 h-5 text-red-400 light:text-red-600 flex-shrink-0 mt-0.5" />
                     <div className="flex-1">
-                        <p className="text-sm font-bold text-red-400">Generation Failed</p>
-                        <p className="text-xs text-red-300 mt-1 opacity-90">{error}</p>
+                        <p className="text-sm font-bold text-red-400 light:text-red-700">Generation Failed</p>
+                        <p className="text-xs text-red-300 light:text-red-600 mt-1 opacity-90">{error}</p>
                     </div>
                 </div>
             )}
         </div>
 
-        {/* Footer Action */}
-        <div className="p-6 border-t border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface))]/80 backdrop-blur-md">
+        <div className={`p-6 border-t-2 ${activeBandConfig.border} border-opacity-30 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50/80 backdrop-blur-md`}>
             <button 
                 onClick={handleGenerate}
                 disabled={isLoading || selectedMark === null}
@@ -275,7 +265,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     transition-all duration-300 flex items-center justify-center gap-3
                     shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0
                     ${selectedMark === null 
-                        ? 'bg-[rgb(var(--color-bg-surface-light))] text-[rgb(var(--color-text-muted))] cursor-not-allowed' 
+                        ? 'bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-400 cursor-not-allowed' 
                         : `bg-gradient-to-r ${activeBandConfig.gradient} shadow-[rgba(0,0,0,0.2)] hover:shadow-[rgb(var(--color-accent))/0.2]`
                     }
                 `}
@@ -294,9 +284,8 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
             </button>
         </div>
         
-        {/* Loading Overlay */}
         {isLoading && (
-          <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/90 backdrop-blur-md flex items-center justify-center z-50 animate-fade-in">
+          <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/90 light:bg-white/90 backdrop-blur-md flex items-center justify-center z-50 animate-fade-in">
             <div className="w-full max-w-md mx-8">
               <LoadingIndicator 
                 messages={[
