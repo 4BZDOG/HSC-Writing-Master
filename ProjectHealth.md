@@ -22,7 +22,7 @@
 ## Section 1: Critical Bugs
 
 ### BUG-01 — Null Crash in AppModals.tsx
-- **Status**: 🔴 Open
+- **Status**: ✅ Fixed
 - **File**: `AppModals.tsx` ~line 82
 - **Problem**: `currentCourse.id` is accessed without a null guard. If the user deletes a course while a modal is open, `currentCourse` becomes undefined and the app throws a runtime error.
 - **Code**:
@@ -36,7 +36,7 @@
 ---
 
 ### BUG-02 — Timer Leak in useGemini.ts
-- **Status**: 🔴 Open
+- **Status**: ✅ Fixed
 - **File**: `hooks/useGemini.ts` ~line 409
 - **Problem**: A `window.setTimeout` is stored in a ref but may not be cleared if the component unmounts before the 3-second delay fires. This triggers a "setState on unmounted component" warning and is a memory leak.
 - **Code**:
@@ -52,7 +52,7 @@
 ---
 
 ### BUG-03 — JSON Parse Inside Error Boundary Can Fail
-- **Status**: 🔴 Open
+- **Status**: ✅ False Positive (already handled safely)
 - **File**: `components/ErrorBoundary.tsx` ~line 41
 - **Problem**: `JSON.parse(statePathRaw)` runs inside the error boundary's recovery logic. If localStorage contains corrupted JSON, this throws a secondary exception inside the boundary itself, potentially breaking error reporting entirely.
 - **Fix**: Wrap in its own try/catch with a safe fallback value (e.g., empty array or null).
@@ -62,7 +62,7 @@
 ## Section 2: High Priority
 
 ### BUG-04 — Unhandled Promise (Fire-and-Forget Async)
-- **Status**: 🟠 Open
+- **Status**: ✅ Fixed
 - **File**: `hooks/useGemini.ts` ~line 296
 - **Problem**: `enrich()` is an async function called without `await`. If enrichment completes after component unmount, React warnings occur and state updates are lost silently.
 - **Fix**: Either await it inside an async effect or add `.catch()` for error handling. Confirm `isMounted` is checked at the very start of the async function body.
@@ -70,7 +70,7 @@
 ---
 
 ### BUG-05 — Missing `useEffect` Dependencies (Enrichment Effect)
-- **Status**: 🟠 Open
+- **Status**: ✅ Fixed via abort mechanism
 - **File**: `hooks/useGemini.ts` ~lines 248–298
 - **Problem**: The enrichment `useEffect` uses `currentPrompt?.id` as a primitive dependency, but the full `currentPrompt` object is not in the array. If the object reference changes while the ID stays the same (common after imports), the effect won't re-run, causing stale enrichment data.
 - **Fix**: Add `currentPrompt` to the dependency array or restructure with `useCallback`.
@@ -78,7 +78,7 @@
 ---
 
 ### BUG-06 — Stale Error State in Workspace
-- **Status**: 🟠 Open
+- **Status**: ✅ False Positive (already cleared on prompt change)
 - **File**: `components/Workspace.tsx`
 - **Problem**: Evaluation errors persist in state when the user switches between prompts. If the user returns to a previously-errored prompt, the old error message is displayed even though no new evaluation has run.
 - **Fix**: Clear error state when `currentPrompt` changes (e.g., in a `useEffect` that watches `currentPrompt?.id`).
@@ -86,7 +86,7 @@
 ---
 
 ### BUG-07 — `safeJsonParse` Returns Unvalidated JSON
-- **Status**: 🟠 Open
+- **Status**: ✅ Partially fixed (validation added to geminiService.ts)
 - **File**: `services/aiCore.ts` ~lines 429–435
 - **Problem**: The function successfully extracts valid JSON from AI responses but doesn't validate it against the expected schema. It could return an array or an unrelated object instead of the expected `EvaluationResult`, causing downstream property access errors.
 - **Fix**: Pass an optional Zod schema to `safeJsonParse` and validate before returning. Reject and continue searching if validation fails.
@@ -94,7 +94,7 @@
 ---
 
 ### BUG-08 — Criteria Marks Not Bounds-Checked
-- **Status**: 🟠 Open
+- **Status**: ✅ Fixed
 - **File**: `services/geminiService.ts` ~lines 110–128
 - **Problem**: `overallMark` is clamped to `totalMarks`, but individual criteria marks in the response array are not validated. An AI hallucination could return a criterion with marks exceeding its allocated value.
 - **Fix**: Add per-criterion bounds check mirroring the `overallMark` clamp.
@@ -290,6 +290,7 @@ These are not bugs — they are architectural improvements worth planning for a 
 
 | Date | Change | Author |
 |------|--------|--------|
+| March 2026 | Fixed 5 critical/high bugs; marked 2 as false positives | Technical Implementation |
 | March 2026 | Initial audit — 19 items identified across 6 categories | Technical Audit |
 
 ---
