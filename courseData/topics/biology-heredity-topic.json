@@ -1,0 +1,1747 @@
+{
+  "id": "topic-47115543-91c9-4698-913e-66d82730aab7",
+  "name": "Heredity",
+  "subTopics": [
+    {
+      "id": "subTopic-d5dcc958-9871-4a61-bcd4-bd8d7453ad16",
+      "name": "Polypeptide synthesis",
+      "dotPoints": [
+        {
+          "id": "dp-a9c64b32-21ab-4013-abd8-06975de612da",
+          "description": "Interpret models of the structure and composition of eukaryotic DNA, messenger ribonucleic acid (mRNA) and transfer ribonucleic acid (tRNA)",
+          "prompts": [
+            {
+              "id": "prompt-heredity-1",
+              "question": "Compare the structure and composition of DNA and RNA.",
+              "totalMarks": 4,
+              "verb": "COMPARE",
+              "scenario": "",
+              "linkedOutcomes": [],
+              "relatedTopics": [],
+              "prerequisiteKnowledge": [],
+              "markerNotes": [],
+              "commonStudentErrors": [],
+              "keywords": [
+                "Deoxyribose",
+                "Ribose",
+                "Uracil",
+                "Thymine",
+                "Double helix"
+              ],
+              "markingCriteria": "-\n4\nmarks: Provides a comprehensive comparison including differences in sugar (deoxyribose vs ribose), bases (thymine vs uracil), strands (double vs single), and longevity/stability. -\n3\nmarks: Compares 2-3 key features. -\n2\nmarks: Identifies differences but lacks detail (e.g., just mentions single vs double strand). -\n1\nmark: States one difference.",
+              "targetPerformanceBands": [],
+              "sampleAnswers": [
+                {
+                  "id": "sa-heredity-1-6",
+                  "band": 5,
+                  "answer": "DNA contains the sugar deoxyribose and the nitrogenous base Thymine, whereas RNA contains the sugar ribose and the base Uracil (replacing Thymine). Structurally, DNA is a double-stranded helix designed for long-term storage of genetic information, while RNA is typically single-stranded and shorter-lived, serving functional roles in protein synthesis.",
+                  "mark": 4,
+                  "source": "AI"
+                },
+                {
+                  "id": "sa-heredity-1-3",
+                  "band": 3,
+                  "answer": "DNA is double stranded and RNA is single stranded. DNA has Thymine but RNA has Uracil instead.",
+                  "mark": 2,
+                  "source": "AI"
+                }
+              ],
+              "isPastHSC": false
+            }
+          ]
+        },
+        {
+          "id": "dp-362a8df9-b5ed-41b0-99f3-9f3f419606eb",
+          "description": "Conduct a practical investigation to model the process of polypeptide synthesis, demonstrating the role of the template strand, coding strand, uracil, ribonucleic acid (RNA) polymerase, free-floating RNA nucleotides, mRNA, ribosomal ribonucleic acid (rRNA), start codon, stop codon, tRNA, peptide bonds and amino acids",
+          "prompts": [
+            {
+              "linkedOutcomes": [
+                "BI-12-01",
+                "BI-12WS-05"
+              ],
+              "keywords": [
+                "template strand",
+                "coding strand",
+                "uracil",
+                "RNA polymerase",
+                "free-floating RNA nucleotides",
+                "mRNA",
+                "ribosomal ribonucleic acid (rRNA)",
+                "start codon",
+                "stop codon",
+                "tRNA",
+                "peptide bonds",
+                "amino acids",
+                "polypeptide synthesis",
+                "transcription",
+                "translation",
+                "gene expression",
+                "therefore",
+                "consequently",
+                "interrelationship",
+                "mechanism",
+                "role",
+                "significance"
+              ],
+              "sampleAnswers": [
+                {
+                  "id": "sa-b90e43c1-4d95-462f-a20a-55c1946b0b31",
+                  "answer": "Polypeptide synthesis, a core process in gene expression, begins with transcription. The DNA template strand serves as a guide for RNA polymerase, which unwinds the DNA and synthesises a complementary mRNA molecule using free-floating RNA nucleotides, incorporating uracil. The mRNA, carrying the genetic code, then exits the nucleus to the cytoplasm, demonstrating its crucial role as an information intermediary. During translation, ribosomes, comprising ribosomal ribonucleic acid (rRNA), attach to the mRNA. The start codon (AUG) on the mRNA signals the initiation of polypeptide synthesis. Subsequently, specific tRNA molecules, each carrying a particular amino acid, bind to their complementary mRNA codons. The ribosome then catalyses the formation of peptide bonds between adjacent amino acids, a critical mechanism for building the polypeptide chain. This process continues until a stop codon is encountered, releasing the complete polypeptide. The significance of codons in dictating the amino acid sequence, coupled with precise peptide bond formation, ensures the accurate synthesis of a functional polypeptide, as clearly demonstrated in a practical modelling investigation. This interrelationship among components is vital.",
+                  "mark": 5,
+                  "band": 5
+                }
+              ],
+              "question": "ANALYSE the interconnected roles of the template strand, RNA polymerase, mRNA, ribosomes (containing rRNA), tRNA, and amino acids in the accurate synthesis of a polypeptide, referencing the significance of codons and peptide bond formation, as would be demonstrated in a practical modelling investigation.",
+              "scenario": "A Year 12 Biology student has completed a practical investigation to model the process of polypeptide synthesis, aiming to understand the molecular mechanisms involved.",
+              "markingCriteria": "5 marks: Provides a comprehensive and highly accurate analysis of the interconnected roles of all specified components (template strand, RNA polymerase, mRNA, ribosomes/rRNA, tRNA, amino acids), clearly detailing their sequential involvement in transcription and translation, and explicitly linking the significance of codons (start/stop) and the formation of peptide bonds to the accurate synthesis of a polypeptide. Demonstrates a deep understanding of the entire process, reflecting insights gained from a practical investigation.4 marks: Provides an accurate analysis of the interconnected roles of most specified components, detailing their involvement in transcription and translation. Explains the significance of codons and peptide bond formation in polypeptide synthesis. May have minor omissions or less explicit connections between some components.3 marks: Describes the roles of several key components in polypeptide synthesis (e.g., transcription or translation explained well, but not both comprehensively, or some roles are vaguely linked). Shows a general understanding of the process but lacks detailed connections or explicit reference to the significance of codons or peptide bonds.2 marks: Identifies and briefly describes the roles of a few components involved in polypeptide synthesis. Demonstrates a basic understanding of either transcription OR translation, but not both, or with significant inaccuracies.1 mark: Identifies one or two components related to polypeptide synthesis with minimal or inaccurate description of their role.",
+              "commonStudentErrors": [
+                "Confusing the roles of the template and coding strands in transcription.",
+                "Misunderstanding the precise function of tRNA in carrying amino acids and its interaction with codons.",
+                "Failing to clearly distinguish between the processes of transcription and translation, or their respective cellular locations and key components.",
+                "Omitting the specific role of rRNA as a catalytic component within the ribosome.",
+                "Not adequately explaining the mechanism and importance of peptide bond formation.",
+                "Failing to link the accuracy of polypeptide synthesis directly to the precise reading of codons and anticodons."
+              ],
+              "estimatedTime": "8-10 minutes",
+              "markerNotes": [
+                "Assess for a clear, logical sequence of events covering both transcription and translation.",
+                "Emphasis should be placed on the 'interconnected roles' and the 'significance' of each component, not just isolated definitions.",
+                "Credit explicit mention and correct explanation of start/stop codons and the enzymatic formation of peptide bonds.",
+                "The answer should demonstrate an understanding of the entire 'process' of polypeptide synthesis, reflecting a holistic view, as gained from a practical investigation."
+              ],
+              "prerequisiteKnowledge": [
+                "Basic structure and function of DNA and RNA.",
+                "Understanding of the Central Dogma of molecular biology.",
+                "General knowledge of cell organelles involved in protein synthesis (nucleus, ribosomes).",
+                "Basic understanding of genetic code and codons."
+              ],
+              "relatedTopics": [
+                "Gene expression and regulation",
+                "Mutations and their impact on protein synthesis",
+                "Enzyme function",
+                "Genetic engineering applications"
+              ],
+              "id": "prompt-dd57b092-77ee-4668-a981-68bf011160ef",
+              "totalMarks": 5,
+              "verb": "ANALYSE"
+            }
+          ]
+        },
+        {
+          "id": "dp-8a5df9ee-0855-44f4-8812-68af249e2980",
+          "description": "Explain the roles of mRNA and tRNA in transcription and translation",
+          "prompts": [
+            {
+              "id": "prompt-heredity-2",
+              "question": "Explain the role of transfer RNA (tRNA) in the process of translation.",
+              "totalMarks": 3,
+              "verb": "EXPLAIN",
+              "scenario": "Imagine a ribosome in a eukaryotic cell is actively synthesising a protein, using an mRNA template.",
+              "linkedOutcomes": [
+                "BI-12-01"
+              ],
+              "relatedTopics": [],
+              "prerequisiteKnowledge": [],
+              "markerNotes": [],
+              "commonStudentErrors": [],
+              "keywords": [
+                "Anticodon",
+                "Codon",
+                "Amino acid",
+                "Ribosome",
+                "Peptide bond"
+              ],
+              "markingCriteria": "-\n3\nmarks: Explains tRNA's role in carrying specific amino acids to the ribosome and matching its anticodon to the mRNA codon to ensure correct sequence. -\n2\nmarks: Mentions carrying amino acids or matching codons. -\n1\nmark: General statement about protein synthesis.",
+              "targetPerformanceBands": [],
+              "sampleAnswers": [
+                {
+                  "id": "sa-heredity-2-6",
+                  "band": 5,
+                  "answer": "During translation, tRNA acts as an adaptor molecule. It carries specific amino acids to the ribosome. The tRNA's anticodon binds complementary to the mRNA codon, ensuring that the amino acids are added in the correct order specified by the genetic code to form a polypeptide chain.",
+                  "mark": 3,
+                  "source": "AI"
+                },
+                {
+                  "id": "sa-heredity-2-3",
+                  "band": 2,
+                  "answer": "tRNA brings the amino acids to the ribosome so they can be joined together.",
+                  "mark": 1,
+                  "source": "AI"
+                }
+              ],
+              "isPastHSC": false
+            }
+          ]
+        },
+        {
+          "id": "dp-6b704894-3116-46c1-b4bc-68d223fea3fe",
+          "description": "Explain the role of introns and exons in alternative splicing of mRNA sequences",
+          "prompts": [
+            {
+              "id": "prompt-heredity-3",
+              "question": "Explain how alternative splicing allows a single gene to code for multiple proteins.",
+              "totalMarks": 3,
+              "verb": "EXPLAIN",
+              "scenario": "",
+              "linkedOutcomes": [],
+              "relatedTopics": [],
+              "prerequisiteKnowledge": [],
+              "markerNotes": [],
+              "commonStudentErrors": [],
+              "keywords": [
+                "Introns",
+                "Exons",
+                "Pre-mRNA",
+                "Spliceosome",
+                "Isoforms"
+              ],
+              "markingCriteria": "-\n3\nmarks: Explains that pre-mRNA contains introns and exons, introns are removed, and exons can be combined in different combinations to create different mRNA transcripts. -\n2\nmarks: Mentions removal of introns and joining of exons. -\n1\nmark: States one gene can make different proteins.",
+              "targetPerformanceBands": [],
+              "sampleAnswers": [
+                {
+                  "id": "sa-heredity-3-6",
+                  "band": 5,
+                  "answer": "During mRNA processing, non-coding regions (introns) are removed. Alternative splicing allows the remaining coding regions (exons) to be joined in various combinations. This results in different mature mRNA sequences from the same primary transcript, each translating into a distinct protein isoform, thereby increasing the diversity of the proteome.",
+                  "mark": 3,
+                  "source": "AI"
+                },
+                {
+                  "id": "sa-heredity-3-3",
+                  "band": 2,
+                  "answer": "Alternative splicing is when the gene cuts out parts called introns and keeps exons. Different exons can be put together to make different proteins.",
+                  "mark": 1,
+                  "source": "AI"
+                }
+              ],
+              "isPastHSC": false
+            }
+          ]
+        },
+        {
+          "id": "dp-e1592157-c02f-449e-89db-a806d99f345c",
+          "description": "Solve problems using nitrogenous base pairing rules and codon tables to model the expression of a given exonic DNA coding strand, determining the sequence of the template strand, the mRNA and the amino acid sequence",
+          "prompts": [
+            {
+              "id": "prompt-heredity-4",
+              "question": "Given the DNA coding strand sequence 5'-ATG CCG TAA-3', determine the corresponding mRNA sequence and the amino acid sequence. (Use a provided codon table where AUG=Met, CCG=Pro, UAA=Stop).",
+              "totalMarks": 3,
+              "scenario": "",
+              "linkedOutcomes": [],
+              "relatedTopics": [],
+              "prerequisiteKnowledge": [],
+              "markerNotes": [],
+              "commonStudentErrors": [],
+              "keywords": [
+                "Complementary",
+                "Transcription",
+                "Translation",
+                "Codon"
+              ],
+              "markingCriteria": "-\n3\nmarks: Correct mRNA (AUG CCG UAA) and correct Amino Acids (Met - Pro - Stop). -\n2\nmarks: Correct mRNA but error in translation, or vice versa. -\n1\nmark: Attempt at base pairing.",
+              "targetPerformanceBands": [],
+              "sampleAnswers": [
+                {
+                  "id": "sa-heredity-4-6",
+                  "band": 3,
+                  "answer": "Coding Strand: 5'-ATG CCG TAA-3'\nmRNA Sequence: 5'-AUG CCG UAA-3'\nAmino Acid Sequence: Methionine - Proline - Stop",
+                  "mark": 3,
+                  "source": "AI"
+                },
+                {
+                  "id": "sa-heredity-4-3",
+                  "band": 2,
+                  "answer": "mRNA: TAC GGC ATT\nAmino Acids: Tyr - Gly - Ile\n(Incorrect: transcribed the coding strand directly instead of creating the mRNA equivalent which matches coding strand with U subbed for T).",
+                  "mark": 1,
+                  "source": "AI"
+                }
+              ],
+              "isPastHSC": false
+            }
+          ]
+        },
+        {
+          "id": "dp-494b8c91-8585-4e74-b948-f364959f475f",
+          "description": "Use an example to explain the relationship between a protein\u2019s primary, secondary, tertiary and quaternary structure and function",
+          "prompts": [
+            {
+              "linkedOutcomes": [
+                "BI-12-01",
+                "BI-12WS-07"
+              ],
+              "keywords": [
+                "protein structure",
+                "protein function",
+                "primary structure",
+                "secondary structure",
+                "tertiary structure",
+                "quaternary structure",
+                "amino acid sequence",
+                "polypeptide",
+                "peptide bond",
+                "hydrogen bond",
+                "disulfide bridge",
+                "ionic bond",
+                "hydrophobic interactions",
+                "hydrophilic interactions",
+                "alpha-helix",
+                "beta-pleated sheet",
+                "active site",
+                "denaturation",
+                "because",
+                "therefore",
+                "consequently",
+                "determines",
+                "influences",
+                "results in"
+              ],
+              "sampleAnswers": [
+                {
+                  "id": "sa-e5c27a8a-3f16-4e6c-a979-d2b79f717952",
+                  "answer": "The intricate relationship between a protein's structural levels and its biological function is exemplified by haemoglobin, an oxygen-transport protein. Its **primary structure** is the unique linear **amino acid sequence** of its **polypeptide** chains, linked by covalent **peptide bonds**. This genetically encoded sequence **determines** all subsequent folding. **Consequently**, local folding occurs, forming **secondary structures** such as **alpha-helix** and **beta-pleated sheet** motifs, which are stabilised by **hydrogen bonds** between the backbone atoms of the amino acids.\n\nNext, the overall three-dimensional folding of each single **polypeptide** chain establishes the **tertiary structure**. For haemoglobin, this complex shape is stabilised by interactions between amino acid side chains, including **hydrophobic interactions** (non-polar groups clustering internally), **hydrophilic interactions** (polar groups facing the aqueous environment), **ionic bonds**, and covalent **disulfide bridges**. This specific 3D shape is critical for its biological role.\n\nHaemoglobin further exhibits **quaternary structure**, where four individual **polypeptide** subunits (two alpha and two beta globin chains) associate. These subunits are held together by various non-covalent interactions, including **hydrogen bonds**, **ionic bonds**, and **hydrophobic interactions**. The final precise **protein structure**, particularly its **quaternary structure**, **results in** the formation of four distinct binding sites for oxygen. This specific conformation **determines** haemoglobin's crucial **protein function** in efficiently binding and transporting oxygen throughout the body. Any significant alteration to this intricate folding, such as through **denaturation**, would compromise its specific function.",
+                  "mark": 7,
+                  "band": 5
+                }
+              ],
+              "question": "Explain, using a specific example, the intricate relationship between a protein's primary, secondary, tertiary, and quaternary structural levels and its specific biological function.",
+              "scenario": "Cells are highly organised systems where a multitude of biochemical reactions and structural components rely on proteins to perform their diverse roles. The precise three-dimensional shape of these proteins is fundamental to their function.",
+              "markingCriteria": "7 marks: Provides a comprehensive and insightful explanation, using a highly relevant and detailed specific example (e.g., haemoglobin, enzyme). Clearly defines and differentiates primary, secondary, tertiary, and where applicable, quaternary structures, linking the formation of each level through specific bonds and intermolecular forces. Articulates precisely how the final 3D conformation (tertiary/quaternary) directly dictates the protein's specific biological function, ensuring a clear flow from genetic information to functional protein.6 marks: Provides a thorough explanation with a relevant and detailed specific example. Defines and differentiates most structural levels and links their formation with appropriate bonds/forces. Explains how the overall 3D shape relates to function, with minor omissions or less intricate detail in linking each level's contribution.5 marks: Provides a sound explanation with a relevant specific example. Defines and differentiates most structural levels and generally links their formation to overall shape and function. May lack some detail in specific bonds or the precise contribution of each level to the final function.4 marks: Provides a basic explanation with some accurate definitions of structural levels and a general link to function. The example may be general or lack detail in linking structure to function across all levels. May contain minor inaccuracies or omissions in describing structural formation or specific bonds.3 marks: Provides limited information regarding protein structure and function, with some correct definitions but a weak or absent specific example. Connections between structural levels and function are unclear.2 marks: Identifies some aspects of protein structure or function, but the explanation is fragmented, inaccurate, or lacks a coherent example.1 mark: Mentions a key term related to protein structure or function with no further elaboration.0 marks: No relevant information provided.",
+              "commonStudentErrors": [
+                "Not providing a specific protein example or using a generic 'enzyme' without details.",
+                "Confusing the different structural levels or misidentifying the bonds/forces involved at each level.",
+                "Failing to adequately explain *how* each structural level contributes to the overall function, rather than just describing the levels.",
+                "Omitting the initial role of DNA in determining primary structure.",
+                "Describing denaturation without explicitly linking it to the disruption of specific structural levels and the loss of function.",
+                "Insufficient detail for a 7-mark question, especially in explaining the interplay of forces for tertiary/quaternary structure."
+              ],
+              "estimatedTime": "12-15 minutes",
+              "markerNotes": [
+                "Students must use a specific, named protein example (e.g., haemoglobin, lysozyme, insulin) and clearly articulate how its structure at each level relates to its specific role.",
+                "Look for correct terminology when describing the types of bonds and intermolecular forces at each structural level (e.g., peptide bonds for primary, hydrogen bonds for secondary, disulfide bridges, ionic, hydrogen, hydrophobic/hydrophilic for tertiary/quaternary).",
+                "The explanation must demonstrate a clear cause-and-effect relationship, moving from the amino acid sequence (primary) through successive folding steps to the final functional 3D conformation.",
+                "Higher marks awarded for a comprehensive and accurate explanation that seamlessly integrates the chosen example throughout the discussion of all structural levels and their impact on function."
+              ],
+              "prerequisiteKnowledge": [
+                "Structure of DNA and RNA",
+                "Process of gene expression (transcription and translation)",
+                "Basic understanding of amino acid structure and properties",
+                "Concepts of chemical bonding (covalent, ionic, hydrogen bonds, intermolecular forces)"
+              ],
+              "relatedTopics": [
+                "Genetic code and mutations",
+                "Enzyme function and specificity",
+                "Protein synthesis",
+                "Cellular signalling and receptors",
+                "Biotechnology and protein engineering"
+              ],
+              "id": "prompt-55d7ee4f-e874-4544-9e18-6c1538138563",
+              "totalMarks": 7,
+              "verb": "EXPLAIN"
+            }
+          ]
+        },
+        {
+          "id": "dp-abc21695-23dd-4aea-b9b8-c02711529454",
+          "description": "Explain the function of proteins in living things",
+          "prompts": [
+            {
+              "id": "prompt-heredity-5",
+              "question": "Describe two distinct functions of proteins in the human body, providing a specific example for each.",
+              "totalMarks": 4,
+              "verb": "DESCRIBE",
+              "scenario": "",
+              "linkedOutcomes": [],
+              "relatedTopics": [],
+              "prerequisiteKnowledge": [],
+              "markerNotes": [],
+              "commonStudentErrors": [],
+              "keywords": [
+                "Enzymes",
+                "Structural",
+                "Transport",
+                "Antibodies",
+                "Hormones"
+              ],
+              "markingCriteria": "-\n4\nmarks: Describes two distinct functions (e.g., catalysis, transport, structure) with a correct example for each (e.g., amylase, haemoglobin, collagen). -\n3\nmarks: Describes two functions with general examples. -\n2\nmarks: Describes one function with example. -\n1\nmark: General statement about proteins.",
+              "targetPerformanceBands": [],
+              "sampleAnswers": [
+                {
+                  "id": "sa-heredity-5-6",
+                  "band": 3,
+                  "answer": "Proteins function as biological catalysts; for example, the enzyme Amylase speeds up the breakdown of starch into sugars during digestion. They also provide structural support; Collagen is a fibrous protein that gives strength and elasticity to skin and connective tissues.",
+                  "mark": 4,
+                  "source": "AI"
+                },
+                {
+                  "id": "sa-heredity-5-3",
+                  "band": 3,
+                  "answer": "Proteins act as enzymes to speed up reactions, like in the stomach. They also help build parts of the body like muscles.",
+                  "mark": 2,
+                  "source": "AI"
+                }
+              ],
+              "isPastHSC": false
+            }
+          ]
+        },
+        {
+          "id": "dp-2d87cd51-0396-4cd9-84fe-4c66a16aac93",
+          "description": "Explain the role of protein synthesis in the relationship between DNA sequence and phenotype",
+          "prompts": [
+            {
+              "linkedOutcomes": [
+                "BI-12-01"
+              ],
+              "keywords": [
+                "DNA sequence",
+                "gene",
+                "transcription",
+                "translation",
+                "mRNA",
+                "tRNA",
+                "ribosomes",
+                "amino acids",
+                "polypeptide",
+                "protein structure",
+                "enzyme",
+                "phenotype",
+                "genotype",
+                "central dogma",
+                "nucleus",
+                "cytoplasm",
+                "codons",
+                "anticodons",
+                "therefore",
+                "consequently",
+                "as a result",
+                "because"
+              ],
+              "sampleAnswers": [
+                {
+                  "id": "sa-713da4a4-1f9b-4616-a065-cd1876b8ca47",
+                  "answer": "The DNA sequence of the 'Amylase-A' gene determines an individual's **genotype** for starch digestion. Protein synthesis is crucial as it links this **DNA sequence** to the observable digestive **phenotype**. Initially, in the **nucleus**, the 'Amylase-A' **gene** undergoes **transcription**, where its **DNA sequence** is copied into a messenger RNA (**mRNA**) molecule. This is the first step of the **central dogma**. The **mRNA** then exits the **nucleus** and enters the **cytoplasm**, where it binds to **ribosomes** for **translation**. During **translation**, **codons** on the **mRNA** are recognised by complementary **anticodons** on **tRNA** molecules, each delivering a specific **amino acid**. **As a result**, these **amino acids** are sequentially joined to form a linear **polypeptide** chain. This **polypeptide** subsequently folds into a precise three-dimensional **protein structure**, forming the active amylase **enzyme**. **Therefore**, the accuracy of this entire process, from **DNA sequence** to correct **protein structure**, is paramount. **Consequently**, a functional amylase **enzyme** efficiently breaks down starch, leading to a specific digestive **phenotype**. Conversely, if a mutation in the **gene** alters the **DNA sequence**, it can lead to incorrect **amino acids**, an improperly folded or non-functional **enzyme**, **because** the **protein structure** is compromised. This directly impacts the individual's ability to digest starch, manifesting in an altered digestive **phenotype**.",
+                  "mark": 5,
+                  "band": 5
+                }
+              ],
+              "question": "Explain the crucial role of protein synthesis in the relationship between the DNA sequence of the 'Amylase-A' gene and an individual's observable digestive phenotype.",
+              "scenario": "The ability to produce a functional enzyme, 'Amylase-A', responsible for breaking down complex carbohydrates, is determined by a single gene. A specific mutation in the DNA sequence of this gene can lead to the production of a non-functional enzyme or no enzyme at all, altering an individual's digestive capabilities.",
+              "markingCriteria": "5 marks: Provides a comprehensive, detailed explanation demonstrating a clear understanding of the entire process from the DNA sequence of the 'Amylase-A' gene through protein synthesis (transcription, translation, protein folding) to the ultimate manifestation of the observable digestive phenotype, explicitly referencing how the functional or non-functional enzyme dictates the trait.4 marks: Explains the major steps of protein synthesis (transcription, translation) and links the resulting protein's function to the phenotype, but may lack some detail or explicit connection to the scenario.3 marks: Describes the general process of protein synthesis (transcription and translation) and identifies that it produces proteins that determine traits.2 marks: Outlines some steps of protein synthesis or identifies its general importance in linking DNA to proteins.1 mark: Recognises that DNA is involved in making proteins.",
+              "commonStudentErrors": [
+                "Confusing the processes of transcription and translation or their respective locations within the cell.",
+                "Failing to clearly link the specific sequence of amino acids to the protein's 3D structure and subsequent function.",
+                "Omitting the explicit connection between the functional protein (e.g., Amylase-A) and its direct impact on the observable phenotype (digestive capability).",
+                "Focusing too much on the general steps of protein synthesis without explaining its 'role' as the bridge between DNA and phenotype, as requested.",
+                "Not specifically addressing the scenario provided."
+              ],
+              "estimatedTime": "7-8 minutes",
+              "markerNotes": [
+                "Assess for a clear, logical, and sequential explanation that traces the flow of genetic information from DNA to phenotype.",
+                "Students must use appropriate scientific terminology for each stage of protein synthesis (e.g., RNA polymerase, codons, anticodons, peptide bonds).",
+                "Credit should be given for explicitly demonstrating how a specific DNA sequence determines a specific amino acid sequence, which dictates protein folding and function, ultimately influencing the observable trait.",
+                "The explanation must highlight the 'role' of protein synthesis as the essential intermediary step, not just describe it.",
+                "Responses should integrate details from the scenario (Amylase-A enzyme, digestive capabilities) to illustrate the principles."
+              ],
+              "prerequisiteKnowledge": [
+                "Basic understanding of DNA and RNA structure.",
+                "Concepts of genes, alleles, genotype, and phenotype.",
+                "Fundamental knowledge of enzyme function.",
+                "Cellular organelles involved in gene expression (nucleus, ribosomes)."
+              ],
+              "relatedTopics": [
+                "Gene expression",
+                "Mutations and their impact on protein function",
+                "Central Dogma of molecular biology",
+                "Enzyme structure and function",
+                "Genetic diseases and disorders related to protein dysfunction"
+              ],
+              "id": "prompt-d3aed1ab-a15d-4609-92ba-58b769481188",
+              "totalMarks": 5,
+              "verb": "EXPLAIN"
+            }
+          ]
+        },
+        {
+          "id": "dp-578bc6f6-fa89-4792-8f52-e6821b649d10",
+          "description": "Assess how environmental factors influence phenotype (Soil pH and hydrangea flower colour, melanin production in response to UV light, temperature-dependent sex determination in reptiles.)",
+          "prompts": [
+            {
+              "id": "prompt-heredity-6",
+              "question": "Assess the influence of the environment on phenotype using the example of Hydrangea flower colour.",
+              "totalMarks": 3,
+              "verb": "ASSESS",
+              "scenario": "",
+              "linkedOutcomes": [],
+              "relatedTopics": [],
+              "prerequisiteKnowledge": [],
+              "markerNotes": [],
+              "commonStudentErrors": [],
+              "keywords": [
+                "Soil pH",
+                "Pigment",
+                "Aluminium ions",
+                "Gene expression",
+                "Phenotype"
+              ],
+              "markingCriteria": "-\n3\nmarks: Identifies pH as the environmental factor. Explains the mechanism (acidic soil = blue, alkaline = pink). Concludes phenotype is gene + environment. -\n2\nmarks: Explains pH affects colour but lacks assessment/conclusion. -\n1\nmark: States environment affects colour.",
+              "targetPerformanceBands": [],
+              "sampleAnswers": [
+                {
+                  "id": "sa-heredity-6-6",
+                  "band": 6,
+                  "answer": "Hydrangeas demonstrate that phenotype is not solely determined by genotype. While the plant has genes for flower pigments, the soil pH determines the colour. In acidic soil (pH < 6), aluminium is available, turning flowers blue. In alkaline soil (pH > 7), flowers appear pink. Thus, the environment significantly influences the physical expression of the trait.",
+                  "mark": 3,
+                  "source": "AI"
+                },
+                {
+                  "id": "sa-heredity-6-3",
+                  "band": 2,
+                  "answer": "Hydrangeas change colour depending on the soil. If the soil is different, the flowers look different.",
+                  "mark": 1,
+                  "source": "AI"
+                }
+              ],
+              "isPastHSC": false
+            }
+          ]
+        },
+        {
+          "id": "dp-bc00b6ba-404f-456e-9fe6-0b95fcfc3a13",
+          "description": "Conduct a scientific investigation to demonstrate the effect of environment on gene expression",
+          "prompts": [
+            {
+              "linkedOutcomes": [
+                "BI-12WS-05"
+              ],
+              "keywords": [
+                "gene expression",
+                "environment",
+                "scientific investigation",
+                "controlled experiment",
+                "independent variable",
+                "dependent variable",
+                "controlled variables",
+                "phenotype",
+                "genotype",
+                "because",
+                "therefore",
+                "resulting in",
+                "demonstrating"
+              ],
+              "sampleAnswers": [
+                {
+                  "id": "sa-0ee2cf56-aa38-4bfe-a21f-451c1a1c2644",
+                  "answer": "A controlled scientific investigation could demonstrate the effect of temperature (independent variable) on fur colour in Himalayan rabbits. Genetically identical rabbits (controlled variables) would be raised at different temperatures, for example, 15\u00b0C and 30\u00b0C. The dependent variable would be the resulting fur colour on their extremities. If rabbits raised at 15\u00b0C develop dark fur while those at 30\u00b0C develop white fur, despite having the same genotype, this demonstrates the environment's impact on phenotype. Therefore, these differing phenotypes show that temperature influences the gene expression of the pigment-producing enzyme, demonstrating how environmental factors regulate gene expression.",
+                  "mark": 3,
+                  "band": 5
+                }
+              ],
+              "question": "Explain how a controlled scientific investigation could be designed and interpreted to demonstrate the effect of a specific environmental factor on gene expression in an organism.",
+              "scenario": "A research team is designing an experiment to understand the interaction between an organism's genetic potential and its external surroundings, specifically how these external factors influence the observable traits.",
+              "markingCriteria": "3 marks: Explains how a controlled scientific investigation (clearly identifying an independent variable, dependent variable, and controlled variables) could be designed AND articulates clearly how the results (e.g., differing phenotypes) would demonstrate the impact of the environmental factor on gene expression.\n2 marks: Describes a relevant controlled investigation (e.g., varying an environmental factor and measuring a phenotypic change) AND provides a partial explanation of how the results demonstrate gene expression, OR provides a comprehensive description of the experimental design without a clear link to demonstrating gene expression.\n1 mark: Identifies a relevant environmental factor and a corresponding observable phenotypic change, OR provides a basic description of a relevant investigation.",
+              "commonStudentErrors": [
+                "Confusing gene expression with gene mutation or inheritance patterns (e.g., Mendelian genetics).",
+                "Failing to mention the 'controlled' aspect of the investigation, or neglecting to identify independent/dependent/controlled variables.",
+                "Describing a genetic cross or breeding experiment rather than an environmental manipulation.",
+                "Not explicitly linking the observed phenotypic change directly to altered gene activity or expression mechanisms.",
+                "Providing a generic explanation without referencing specific experimental design elements or interpretation of results."
+              ],
+              "estimatedTime": "5 minutes",
+              "markerNotes": [
+                "Look for a clear logical flow from environmental factor to gene expression change to observed phenotype.",
+                "Award marks for a sound understanding of experimental design principles (e.g., control group, manipulating one variable, replicates).",
+                "Emphasise the 'how' in 'demonstrate' \u2013 students must explain how the *results* of the investigation provide evidence of environmental influence on gene expression, not just describe the setup."
+              ],
+              "prerequisiteKnowledge": [
+                "Basic understanding of genes, DNA, and the central dogma (DNA to RNA to protein).",
+                "Concept of phenotype and genotype.",
+                "Basic principles of scientific investigation, including variables (independent, dependent, controlled) and controls.",
+                "Familiarity with examples of environmental factors influencing traits (e.g., hydrangeas colour, human height/skin pigmentation)."
+              ],
+              "relatedTopics": [
+                "Epigenetics",
+                "Phenotypic plasticity",
+                "Nature vs Nurture debate"
+              ],
+              "id": "prompt-e2277223-ea1e-487c-a533-fb48f9451391",
+              "totalMarks": 3,
+              "verb": "EXPLAIN"
+            }
+          ]
+        },
+        {
+          "id": "dp-b886da34-3000-4112-906e-d419acb508eb",
+          "description": "Discuss the role of regulatory RNA in gene expression and its potential biotechnological application",
+          "prompts": [
+            {
+              "linkedOutcomes": [
+                "BI-12-01",
+                "BI-12-04"
+              ],
+              "keywords": [
+                "regulatory RNA",
+                "gene expression",
+                "biotechnological application",
+                "miRNA",
+                "siRNA",
+                "lncRNA",
+                "gene silencing",
+                "RNA interference",
+                "CRISPR-Cas",
+                "post-transcriptional regulation",
+                "therefore",
+                "furthermore",
+                "however",
+                "specifically"
+              ],
+              "sampleAnswers": [
+                {
+                  "id": "sa-6f46d97c-5a22-4eaf-a94f-e3d51b84b589",
+                  "answer": "Regulatory RNA plays a critical role in controlling gene expression by modulating protein synthesis, primarily at the post-transcriptional regulation level. Two prominent types are miRNA (microRNA) and siRNA (small interfering RNA). miRNA molecules, typically 20-22 nucleotides long, bind to target messenger RNA (mRNA) sequences with imperfect complementarity, therefore inhibiting protein translation or promoting mRNA degradation. This mechanism facilitates the fine-tuning of protein levels across numerous physiological processes. Furthermore, siRNA molecules, usually 20-25 nucleotides, exhibit perfect complementarity to their target mRNA. Upon binding, they induce direct cleavage and degradation of the mRNA through the RNA-induced silencing complex (RISC), leading to potent and sequence-specific gene silencing. These mechanisms are central to RNA interference (RNAi).\n\nThis comprehensive understanding has paved the way for significant biotechnological application in addressing a range of disorders. RNA interference therapy, for instance, leverages the natural gene silencing pathways by introducing synthetic siRNA molecules. These therapeutic RNAs are designed to target and degrade the mRNA of disease-causing genes, such as an overexpressed oncogene. However, challenges like efficient delivery and potential off-target effects still exist. Despite this, the precise manipulation of pathogenic gene expression via RNAi offers a promising strategy for targeted therapies.",
+                  "mark": 5,
+                  "band": 6
+                }
+              ],
+              "question": "Discuss the role of regulatory RNA in gene expression and its potential biotechnological application in addressing disorders like the one described.",
+              "scenario": "A pharmaceutical research team is investigating a complex genetic disorder characterised by the chronic overproduction of a specific protein, leading to severe cellular dysfunction. They suspect that the disorder stems from a dysregulation of gene expression, possibly at the post-transcriptional level.",
+              "markingCriteria": "5 marks: Provides a comprehensive and detailed discussion of the specific roles of at least two types of regulatory RNA (e.g., miRNA, siRNA, lncRNA) in gene expression, including their mechanisms of action. Clearly links this role to at least one specific, well-articulated biotechnological application (e.g., RNA interference therapy, CRISPR-Cas system applications) in the context of regulating gene expression in a disorder. Answers demonstrate excellent understanding and use of appropriate biological terminology.\n4 marks: Provides a detailed discussion of the roles of regulatory RNA in gene expression, outlining at least one mechanism. Explains at least one relevant biotechnological application, showing a clear understanding of its potential. Discussion may lack some specific detail or depth in one area.\n3 marks: Describes the general role of regulatory RNA in gene expression, mentioning one or two types. Provides a general biotechnological application related to gene expression, but the link or specifics may be limited. Some accurate terminology used.\n2 marks: Outlines a basic role of RNA in gene regulation OR provides a general, less specific example of a biotechnological application. Limited detail or accuracy.\n1 mark: Identifies a very basic concept of RNA or gene regulation, with significant errors or lack of relevance.",
+              "commonStudentErrors": [
+                "Confusing different types of regulatory RNA (e.g., miRNA vs. siRNA).",
+                "Providing generic biotechnology examples without linking to regulatory RNA specifically.",
+                "Failing to explain the mechanism by which regulatory RNA affects gene expression.",
+                "Not addressing both parts of the question (role AND application) adequately.",
+                "Discussing non-regulatory RNA types (e.g., mRNA, tRNA) as regulatory."
+              ],
+              "estimatedTime": "8 minutes",
+              "markerNotes": [
+                "Look for specific examples of regulatory RNA (e.g., miRNA, siRNA) and their distinct mechanisms.",
+                "Evaluate the clarity and specificity of the biotechnological application described, ensuring it directly relates to regulating gene expression via RNA.",
+                "Award higher marks for integrating the scenario context and explaining *how* regulatory RNA could address the 'overproduction' issue.",
+                "Check for accurate use of terms such as 'post-transcriptional regulation', 'gene silencing', 'mRNA degradation', 'translational repression'."
+              ],
+              "prerequisiteKnowledge": [
+                "Central Dogma of Molecular Biology",
+                "Transcription and Translation",
+                "Types of RNA (mRNA, tRNA, rRNA)",
+                "Basic concepts of gene regulation",
+                "Overview of biotechnology and genetic engineering techniques"
+              ],
+              "relatedTopics": [
+                "Gene Expression",
+                "Protein Synthesis",
+                "RNA Biology",
+                "Biotechnology and Genetic Technologies",
+                "Human Diseases and Gene Therapy"
+              ],
+              "id": "prompt-523c1ca3-e6bd-4ce5-a365-fb1fa5143659",
+              "totalMarks": 5,
+              "verb": "DISCUSS"
+            }
+          ]
+        },
+        {
+          "id": "dp-8dc0fe2f-aef6-4846-810e-dfd486a39360",
+          "description": "Assess how epigenetic changes influence phenotype (Glucocorticoid receptor (GR) gene, agouti gene.)",
+          "prompts": [
+            {
+              "linkedOutcomes": [
+                "BI-12-01",
+                "BI-12WS-07"
+              ],
+              "keywords": [
+                "Assess",
+                "epigenetic changes",
+                "phenotype",
+                "Glucocorticoid receptor (GR) gene",
+                "agouti gene",
+                "DNA methylation",
+                "histone modification",
+                "gene expression",
+                "environmental factors",
+                "heritable characteristics",
+                "consequently",
+                "impact",
+                "significance",
+                "therefore",
+                "influence"
+              ],
+              "sampleAnswers": [
+                {
+                  "id": "sa-0157e686-8cb6-4aaf-9741-72336be18f73",
+                  "answer": "Epigenetic changes profoundly influence the phenotype of organisms by modulating gene expression without altering the underlying DNA sequence. These changes, primarily DNA methylation and histone modification, control chromatin accessibility, consequently dictating which genes are active or silenced. To assess their pervasive impact, we can examine the Glucocorticoid receptor (GR) gene and the agouti gene.\n\nDNA methylation involves the addition of a methyl group to cytosine bases, typically in CpG sites, within gene promoters. This often leads to gene silencing by impeding transcription factor binding or recruiting methyl-binding proteins that compact chromatin. Histone modification, on the other hand, involves chemical tags (e.g., acetylation, methylation) added to histone proteins around which DNA is wrapped. Acetylation generally loosens chromatin, promoting gene expression, while some methylation patterns compact it, repressing expression. These mechanisms are crucial in regulating how environmental factors influence an organism's development and physiology.\n\nThe Glucocorticoid receptor (GR) gene provides a clear example in mammals. In rats, the level of maternal care (licking and grooming) early in life dictates the methylation status of the GR gene promoter in hippocampal neurons. High maternal care leads to less methylation of the GR promoter, particularly at specific CpG sites. This reduced methylation consequently allows for greater GR gene expression, resulting in more GR receptors. Organisms with high GR levels exhibit a more robust negative feedback on the stress response axis, developing a calmer, less anxious phenotype. Conversely, low maternal care results in increased methylation of the GR promoter, suppressing GR gene expression and leading to fewer GR receptors. Therefore, these individuals develop a heightened stress response and an anxious phenotype, demonstrating a lasting influence of early environmental factors on adult behaviour and stress resilience.\n\nSimilarly, the agouti gene in mice illustrates the potent influence of epigenetics on coat colour and metabolic health. The viable yellow agouti allele (A^vy) in mice, when unmethylated at a retrotransposon insertion upstream of the coding region, leads to constitutive agouti gene expression. This results in a yellow coat colour, obesity, and an increased susceptibility to diabetes \u2013 a distinct metabolic phenotype. However, maternal diet rich in methyl donors (e.g., folic acid, vitamin B12) during gestation can increase DNA methylation at this critical regulatory region of the A^vy allele in offspring. This increased methylation silences the agouti gene, leading to a brown coat colour and a lean, healthy metabolic phenotype. This demonstrates the significant impact of maternal nutrition as an environmental factor on epigenetic marks, which are then passed to offspring cells during development, shaping their heritable characteristics and lifelong health outcomes. Through these examples, it is evident that epigenetic changes act as a critical interface between an organism's genome and its environment, dynamically influencing phenotype.",
+                  "mark": 8,
+                  "band": 6
+                }
+              ],
+              "question": "Assess how epigenetic changes influence the phenotype of organisms, with specific reference to the Glucocorticoid receptor (GR) gene and the agouti gene.",
+              "scenario": "A scientific journal article discusses the increasing understanding of how environmental factors, such as maternal care or diet during development, can leave lasting marks on an organism's health and appearance without altering the underlying DNA sequence. This field of study, epigenetics, challenges traditional views of heredity.",
+              "markingCriteria": "8 marks: Provides a comprehensive and insightful assessment of how epigenetic changes influence phenotype. Clearly defines epigenetic changes (e.g., DNA methylation, histone modification) and accurately explains their mechanisms of action on gene expression. Exemplifies this influence in detail using both the Glucocorticoid receptor (GR) gene (linking to maternal care/stress response) and the agouti gene (linking to diet/coat colour/metabolic phenotype). Demonstrates a sophisticated understanding of the lasting impact on phenotype.7-6 marks: Provides a detailed assessment of how epigenetic changes influence phenotype. Clearly defines epigenetic changes and explains their mechanisms. Accurately uses both the GR gene and agouti gene as examples to demonstrate influence on phenotype, though the link between mechanism and phenotypic outcome may lack some depth or be slightly less integrated.5-4 marks: Explains what epigenetic changes are and provides some explanation of their influence on phenotype. Attempts to use both the GR gene and agouti gene as examples, but the explanation may be partially inaccurate, lack detail in mechanism, or the link to phenotypic outcome is not fully developed for one or both examples. The 'assessment' aspect is emerging but not fully comprehensive.3-2 marks: Identifies epigenetic changes and provides a basic explanation of their effect on gene expression or phenotype. Mentions one or both of the specified genes but with limited or inaccurate detail regarding the epigenetic mechanism or its impact on phenotype.1 mark: Provides a vague or superficial statement about epigenetics or mentions one of the specified genes without clear explanation of its epigenetic link.",
+              "commonStudentErrors": [
+                "Confusing epigenetic changes with genetic mutations or conventional Mendelian inheritance.",
+                "Providing insufficient detail on the specific epigenetic mechanisms (e.g., DNA methylation, histone modification).",
+                "Failing to clearly link the epigenetic mechanism to the resulting phenotypic outcome for each example.",
+                "Not providing a clear 'assessment' of the influence, instead just describing it.",
+                "Only discussing one of the two required gene examples, or providing inaccurate information for them."
+              ],
+              "estimatedTime": "15-18 minutes",
+              "markerNotes": [
+                "Candidates must clearly define and explain epigenetic changes and their role in gene expression.",
+                "Detailed and accurate use of BOTH the Glucocorticoid receptor (GR) gene and the agouti gene examples is crucial.",
+                "Responses should clearly articulate how specific epigenetic modifications lead to specific phenotypic outcomes in the chosen examples.",
+                "The 'assessment' component requires candidates to discuss the significance or implications of these influences, rather than just describing them."
+              ],
+              "prerequisiteKnowledge": [
+                "Structure and function of DNA and genes.",
+                "Basic understanding of gene expression (transcription and translation).",
+                "Concepts of genotype and phenotype.",
+                "Basic knowledge of inheritance patterns."
+              ],
+              "relatedTopics": [
+                "Gene expression and regulation",
+                "Environmental influences on gene expression",
+                "Nature vs. nurture debate"
+              ],
+              "id": "prompt-1136c92c-576d-440c-a471-cfbfc05144f5",
+              "totalMarks": 8,
+              "verb": "ASSESS"
+            }
+          ]
+        },
+        {
+          "id": "dp-af27a549-73f4-48c2-ac45-5f2b7864dbe9",
+          "description": "Evaluate the importance of polypeptide synthesis in living things",
+          "prompts": [
+            {
+              "linkedOutcomes": [
+                "BI-12-01"
+              ],
+              "keywords": [
+                "polypeptide synthesis",
+                "proteins",
+                "enzymes",
+                "cellular function",
+                "metabolic pathways",
+                "structural components",
+                "therefore",
+                "primarily"
+              ],
+              "sampleAnswers": [
+                {
+                  "id": "sa-2bc2e25f-dd56-4f79-b897-51a17bc2a148",
+                  "answer": "Polypeptide synthesis is vital. It creates proteins which are crucial for life. These proteins primarily serve as enzymes for various metabolic functions and form essential structural components within cells.",
+                  "mark": 2,
+                  "band": 3
+                }
+              ],
+              "question": "Outline the importance of polypeptide synthesis in living things.",
+              "scenario": "Cells continuously carry out a myriad of biochemical processes to maintain life and respond to their environment.",
+              "markingCriteria": "2 marks: Accurately outlines the importance of polypeptide synthesis by detailing its role in forming functional proteins essential for specific biological processes (e.g., enzymes, structural components, hormones, transport).\n1 mark: Identifies that polypeptide synthesis produces proteins or states a general, non-specific importance.",
+              "commonStudentErrors": [
+                "Simply stating 'makes proteins' without explaining *why* this is important or providing specific functional examples.",
+                "Confusing polypeptide synthesis with transcription or DNA replication.",
+                "Lack of specific biological examples to illustrate importance."
+              ],
+              "estimatedTime": "3 minutes",
+              "markerNotes": [
+                "Look for explicit links between polypeptide synthesis and crucial cellular or organismal functions. Students should move beyond a mere definition and provide context for its 'importance'. Specific examples like enzymes or structural proteins will score well."
+              ],
+              "prerequisiteKnowledge": [
+                "Basic understanding of DNA, RNA, ribosomes, amino acids, and the central dogma of molecular biology.",
+                "Knowledge of protein functions in living organisms (e.g., enzymes, structural roles)."
+              ],
+              "relatedTopics": [
+                "Gene expression",
+                "Protein structure and function",
+                "Cellular processes",
+                "Enzymatic reactions"
+              ],
+              "id": "prompt-aa1e828c-3ccd-403d-975e-9fb29bc28216",
+              "totalMarks": 2,
+              "verb": "OUTLINE"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "subTopic-24947394-6e56-40f9-8413-adaecdee0584",
+      "name": "Inheritance patterns",
+      "dotPoints": [
+        {
+          "id": "dp-821fc33d-904b-4c8b-86c8-40f805f3239c",
+          "description": "Distinguish between alleles, genes and genotypes",
+          "prompts": [
+            {
+              "linkedOutcomes": [
+                "BI-12-01"
+              ],
+              "keywords": [
+                "allele",
+                "gene",
+                "genotype",
+                "locus",
+                "homologous chromosomes",
+                "phenotype",
+                "DNA",
+                "trait",
+                "expression",
+                "heterozygous",
+                "homozygous",
+                "in contrast",
+                "whereas",
+                "distinct from",
+                "inheritance",
+                "cystic fibrosis"
+              ],
+              "sampleAnswers": [
+                {
+                  "id": "sa-bf43708f-3848-49ca-ad21-7c6e4f601800",
+                  "answer": "A \"gene\" is a fundamental unit of inheritance, a specific segment of \"DNA\" located at a particular \"locus\" on a \"chromosome\", coding for a specific functional product or \"trait\". For example, the \"CFTR gene\" located on chromosome 7 is responsible for regulating chloride ion transport. An \"allele\", in contrast, is a variant form of a \"gene\". Individuals inherit two \"alleles\" for each \"gene\", one from each parent, found at the same \"locus\" on \"homologous chromosomes\". For \"cystic fibrosis\", the CFTR gene has a dominant functional allele (F) and a recessive mutated allele (f) that causes the disease. The \"genotype\" is the specific combination of \"alleles\" an individual possesses for a particular \"gene\". Whereas the gene defines the potential trait, the \"genotype\" dictates its \"expression\". For \"cystic fibrosis\", possible \"genotypes\" are FF (unaffected, \"homozygous\" dominant), Ff (carrier, \"heterozygous\"), and ff (affected by \"cystic fibrosis\", \"homozygous\" recessive). Distinct from both, the \"phenotype\" is the observable characteristic resulting from this \"genotype\", such as being healthy or showing cystic fibrosis symptoms.",
+                  "mark": 6,
+                  "band": 5
+                }
+              ],
+              "question": "Distinguish between the terms 'allele', 'gene', and 'genotype', using the inheritance of a specific trait like cystic fibrosis as an example, to explain their interrelationships and distinct roles in determining an organism's characteristics.",
+              "scenario": "A genetics student is investigating the inheritance of a single gene trait, such as cystic fibrosis, which is caused by a recessive allele on chromosome 7. They are trying to understand how different combinations of genetic information lead to varying expressions of this trait within a family pedigree.",
+              "markingCriteria": "6 marks: Provides a comprehensive and accurate distinction between alleles, genes, and genotypes, clearly articulating their interrelationships and distinct roles using the specific example (e.g., cystic fibrosis). Demonstrates a deep understanding of their molecular/chromosomal basis and significance in inheritance.5 marks: Clearly distinguishes between alleles, genes, and genotypes, explaining their interrelationships with accurate detail, largely referencing the example. May have minor omissions or less precise molecular detail.4 marks: Distinguishes between all three terms with some accuracy, identifies key differences and relationships, and attempts to use the example, but may lack depth in molecular detail or clarity in the interrelationships.3 marks: Provides mostly correct definitions for all three terms and identifies some differences, but the distinctions may be incomplete or lack clear interrelationships, and the example may be used superficially.2 marks: Defines two of the terms correctly, or provides a limited and superficial distinction between all three, with minimal or no reference to the example.1 mark: Defines one term correctly or provides a very vague understanding of the concepts.",
+              "commonStudentErrors": [
+                "Confusing alleles as entirely separate from genes, rather than variations of a gene.",
+                "Failing to link genotype directly to the combination of alleles at a specific gene locus.",
+                "Not providing sufficient detail on the molecular or chromosomal location of each term.",
+                "Omitting the interrelationship between the three terms and their collective role in phenotypic expression."
+              ],
+              "estimatedTime": "10 minutes",
+              "markerNotes": [
+                "Responses must clearly define each term and articulate their differences and connections.",
+                "The use of the specific example (cystic fibrosis or another relevant trait) is crucial for full marks, demonstrating application of knowledge.",
+                "Look for understanding of the hierarchy: gene (segment of DNA) contains alleles (variations), and the combination of alleles forms the genotype."
+              ],
+              "prerequisiteKnowledge": [
+                "Basic understanding of DNA structure and function.",
+                "Knowledge of chromosomes and their role in heredity.",
+                "Familiarity with Mendelian inheritance patterns (dominant/recessive alleles).",
+                "Understanding of the terms homozygous and heterozygous."
+              ],
+              "relatedTopics": [
+                "Mendelian inheritance",
+                "Patterns of inheritance",
+                "Genetic variation",
+                "Meiosis"
+              ],
+              "id": "prompt-bf8cf6ff-1ca9-4918-8fc8-939826d157ba",
+              "totalMarks": 6,
+              "verb": "DISTINGUISH"
+            }
+          ]
+        },
+        {
+          "id": "dp-63cad531-8d66-4655-942a-c72b4e60edf7",
+          "description": "Analyse the processes and the implications of meiosis, crossing over, independent assortment, random segregation and fertilisation in creating genetic variation in offspring",
+          "prompts": [
+            {
+              "id": "prompt-heredity-7",
+              "question": "Explain how crossing over contributes to genetic variation.",
+              "totalMarks": 3,
+              "verb": "EXPLAIN",
+              "scenario": "",
+              "linkedOutcomes": [],
+              "relatedTopics": [],
+              "prerequisiteKnowledge": [],
+              "markerNotes": [],
+              "commonStudentErrors": [],
+              "keywords": [
+                "Prophase 1",
+                "Homologous chromosomes",
+                "Recombinant",
+                "Alleles",
+                "Locus"
+              ],
+              "markingCriteria": "-\n3\nmarks: Identifies Prophase 1 of meiosis. Explains exchange of genetic material between homologous chromosomes. States result: new combinations of alleles (recombinant chromatids). -\n2\nmarks: Describes swapping of genes. -\n1\nmark: General statement about mixing DNA.",
+              "targetPerformanceBands": [],
+              "sampleAnswers": [
+                {
+                  "id": "sa-heredity-7-6",
+                  "band": 5,
+                  "answer": "Crossing over occurs during Prophase 1 of meiosis when homologous chromosomes pair up. Segments of non-sister chromatids are exchanged/swapped. This creates new combinations of alleles on the chromosomes (recombinants) that differ from the parents, thereby increasing the genetic variation in the gametes produced.",
+                  "mark": 3,
+                  "source": "AI"
+                },
+                {
+                  "id": "sa-heredity-7-3",
+                  "band": 2,
+                  "answer": "Crossing over helps variation because the chromosomes swap parts so the offspring aren't exactly the same as the parents.",
+                  "mark": 1,
+                  "source": "AI"
+                }
+              ],
+              "isPastHSC": false
+            },
+            {
+              "id": "prompt-heredity-8",
+              "question": "Distinguish between random segregation and independent assortment.",
+              "totalMarks": 3,
+              "verb": "DISTINGUISH",
+              "scenario": "",
+              "linkedOutcomes": [],
+              "relatedTopics": [],
+              "prerequisiteKnowledge": [],
+              "markerNotes": [],
+              "commonStudentErrors": [],
+              "keywords": [
+                "Alleles",
+                "Homologous chromosomes",
+                "Gametes",
+                "Separation",
+                "Independent"
+              ],
+              "markingCriteria": "-\n3\nmarks: Segregation: separation of allele pairs (homologous chromosomes) into different gametes. Assortment: separation of *different* gene pairs independently of one another. Clearly distinguishes the scope (single pair vs multiple pairs). -\n2\nmarks: Defines both but distinction is blurry. -\n1\nmark: Definitions only.",
+              "targetPerformanceBands": [],
+              "sampleAnswers": [
+                {
+                  "id": "sa-heredity-8-6",
+                  "band": 5,
+                  "answer": "Random segregation refers to the separation of homologous chromosome pairs during Anaphase I, ensuring gametes receive only one allele for each gene. Independent assortment refers to the fact that the way one pair of homologous chromosomes lines up and separates does not affect how another pair separates. Essentially, segregation is about splitting alleles, while assortment is about the random mix of maternal/paternal chromosomes.",
+                  "mark": 3,
+                  "source": "AI"
+                },
+                {
+                  "id": "sa-heredity-8-3",
+                  "band": 2,
+                  "answer": "Random segregation is when chromosomes split up. Independent assortment is when they separate randomly into the cells.",
+                  "mark": 1,
+                  "source": "AI"
+                }
+              ],
+              "isPastHSC": false
+            }
+          ]
+        },
+        {
+          "id": "dp-25823c95-e3bf-4571-b68c-a94c732416ba",
+          "description": "Use examples to distinguish between autosomal dominant/recessive, codominant and incomplete dominant inheritance",
+          "prompts": [
+            {
+              "id": "prompt-heredity-9",
+              "question": "Use examples to distinguish between codominance and incomplete dominance.",
+              "totalMarks": 4,
+              "verb": "DISTINGUISH",
+              "scenario": "",
+              "linkedOutcomes": [],
+              "relatedTopics": [],
+              "prerequisiteKnowledge": [],
+              "markerNotes": [],
+              "commonStudentErrors": [],
+              "keywords": [
+                "Expression",
+                "Blending",
+                "Mosaic",
+                "Heterozygous",
+                "Phenotype"
+              ],
+              "markingCriteria": "-\n4\nmarks: Defines codominance (both expressed fully) with example (e.g., Roan cattle/Blood type AB). Defines incomplete dominance (blending) with example (e.g., Snapdragon flowers). Highlights the difference in phenotype expression. -\n3\nmarks: Good definitions and examples but distinction is implicit. -\n2\nmarks: Definitions or examples only. -\n1\nmark: Confuses the two.",
+              "targetPerformanceBands": [],
+              "sampleAnswers": [
+                {
+                  "id": "sa-heredity-9-6",
+                  "band": 5,
+                  "answer": "In codominance, both alleles in a heterozygote are fully expressed, resulting in a phenotype where both traits appear distinct. For example, a Roan cow has both red and white hairs expressed simultaneously. In incomplete dominance, neither allele is dominant, resulting in a blending of the two traits to create a third, intermediate phenotype. For example, red and white snapdragons produce pink offspring.",
+                  "mark": 4,
+                  "source": "AI"
+                },
+                {
+                  "id": "sa-heredity-9-3",
+                  "band": 3,
+                  "answer": "Codominance is when you see both colours, like a spotted cow. Incomplete dominance is when they mix, like red and white making pink flowers.",
+                  "mark": 2,
+                  "source": "AI"
+                }
+              ],
+              "isPastHSC": false
+            }
+          ]
+        },
+        {
+          "id": "dp-c9c6d5e0-3186-4ea5-b301-00a83c75378f",
+          "description": "Compare autosomal, sex-linked and multiple allele inheritance",
+          "prompts": [
+            {
+              "id": "prompt-heredity-10",
+              "question": "Compare sex-linked inheritance with autosomal inheritance regarding the ratio of phenotypes in males versus females.",
+              "totalMarks": 3,
+              "verb": "COMPARE",
+              "scenario": "",
+              "linkedOutcomes": [],
+              "relatedTopics": [],
+              "prerequisiteKnowledge": [],
+              "markerNotes": [],
+              "commonStudentErrors": [],
+              "keywords": [
+                "X chromosome",
+                "Y chromosome",
+                "Hemizygous",
+                "Carrier",
+                "Recessive"
+              ],
+              "markingCriteria": "-\n3\nmarks: Autosomal: equal probability in males/females. Sex-linked (recessive): higher frequency in males due to having only one X chromosome (hemizygous). Explains why (no backup allele). -\n2\nmarks: States males get sex-linked more often. -\n1\nmark: General statement.",
+              "targetPerformanceBands": [],
+              "sampleAnswers": [
+                {
+                  "id": "sa-heredity-10-6",
+                  "band": 5,
+                  "answer": "In autosomal inheritance, traits are carried on non-sex chromosomes, so males and females have an equal chance of inheriting and expressing the trait. In sex-linked (X-linked recessive) inheritance, males are much more likely to express the trait because they are hemizygous (XY). They lack a second X chromosome to mask a recessive allele, whereas females (XX) would need two copies to express it.",
+                  "mark": 3,
+                  "source": "AI"
+                },
+                {
+                  "id": "sa-heredity-10-3",
+                  "band": 2,
+                  "answer": "Sex-linked traits show up more in men because they only have one X chromosome. Autosomal traits show up the same in men and women.",
+                  "mark": 1,
+                  "source": "AI"
+                }
+              ],
+              "isPastHSC": false
+            }
+          ]
+        },
+        {
+          "id": "dp-7cd7df4d-1e1f-4018-adbf-b613b8a2d4a6",
+          "description": "Use Punnett squares to solve inheritance problems, including autosomal dominant/recessive, codominance, incomplete dominance, multiple alleles and sex-linked",
+          "prompts": [
+            {
+              "id": "prompt-heredity-11",
+              "question": "A woman who is a carrier for haemophilia (sex-linked recessive) has a child with an unaffected man. Use a Punnett square to predict the probability of them having an affected child.",
+              "totalMarks": 4,
+              "verb": "PREDICT",
+              "scenario": "",
+              "linkedOutcomes": [],
+              "relatedTopics": [],
+              "prerequisiteKnowledge": [],
+              "markerNotes": [],
+              "commonStudentErrors": [],
+              "keywords": [
+                "Genotype",
+                "Phenotype",
+                "Carrier",
+                "X-linked",
+                "Probability"
+              ],
+              "markingCriteria": "-\n4\nmarks: Correct genotypes (X^H X^h, X^H Y). Correct Punnett square. Correct identification of affected offspring (X^h Y). Calculation of probability (25% total, or 50% of sons). -\n3\nmarks: Correct square but probability error. -\n2\nmarks: Error in parental genotypes. -\n1\nmark: Attempt at square.",
+              "targetPerformanceBands": [],
+              "sampleAnswers": [
+                {
+                  "id": "sa-heredity-11-6",
+                  "band": 5,
+                  "answer": "Mother: X^H X^h. Father: X^H Y.\nPunnett Square shows: X^H X^H (Normal F), X^H X^h (Carrier F), X^H Y (Normal M), X^h Y (Affected M).\nThere is a 25% (1 in 4) chance of having an affected child (specifically, an affected male).",
+                  "mark": 4,
+                  "source": "AI"
+                },
+                {
+                  "id": "sa-heredity-11-3",
+                  "band": 3,
+                  "answer": "Parents: Xh X and X Y.\nSquare shows one boy gets the disease gene.\nAnswer: 25% chance.\n(Genotypes not clearly defined).",
+                  "mark": 2,
+                  "source": "AI"
+                }
+              ],
+              "isPastHSC": false
+            }
+          ]
+        },
+        {
+          "id": "dp-f11d542f-1059-4293-82bd-6c715275ed15",
+          "description": "Explain the difference in genotype and phenotype ratios observed in Punnett squares for sex-linked and autosomal inheritance",
+          "prompts": [
+            {
+              "linkedOutcomes": [
+                "BI-12-01"
+              ],
+              "keywords": [
+                "genotype ratios",
+                "phenotype ratios",
+                "Punnett squares",
+                "sex-linked inheritance",
+                "autosomal inheritance",
+                "sex chromosomes",
+                "autosomes",
+                "X chromosome",
+                "hemizygous",
+                "because",
+                "consequently",
+                "whereas",
+                "distinct"
+              ],
+              "sampleAnswers": [
+                {
+                  "id": "sa-c832e439-1d59-4ec7-973e-d417afddf46f",
+                  "answer": "Sex-linked genes are on X chromosomes, autosomal on autosomes. Males are hemizygous for X-linked traits, causing distinct genotype and phenotype ratios.",
+                  "mark": 2,
+                  "band": 2
+                }
+              ],
+              "question": "Explain the genetic basis for the differences in genotype and phenotype ratios observed in Punnett squares when comparing sex-linked and autosomal inheritance.",
+              "scenario": "A biologist is studying the inheritance patterns of two distinct genetic conditions in a population: one caused by an allele on an autosome and another by an allele on the X chromosome.",
+              "markingCriteria": "For full marks, the response must:\n- Clearly state that sex-linked inheritance involves genes on sex chromosomes (typically X), whereas autosomal inheritance involves genes on non-sex chromosomes (autosomes). (1 mark)\n- Fully explain how this difference in chromosomal location impacts the resulting genotype and phenotype ratios, specifically detailing the hemizygous state of males for X-linked traits and how this leads to distinct expression frequencies and ratios in males and females compared to autosomal patterns. (2 marks)",
+              "commonStudentErrors": [
+                "Merely stating the difference in ratios without explaining the underlying genetic reason.",
+                "Failing to mention the significance of males being hemizygous for X-linked traits.",
+                "Confusing sex-linked inheritance with sex-influenced or sex-limited inheritance.",
+                "Not linking the chromosomal location directly to the altered ratios."
+              ],
+              "estimatedTime": "4 minutes",
+              "markerNotes": [
+                "Look for a clear distinction between the location of genes (sex chromosome vs. autosome).",
+                "Award marks for explaining *how* this location affects the transmission and expression, particularly noting the implications for males in X-linked inheritance.",
+                "Responses must move beyond simply describing different ratios to explaining the genetic cause of those differences."
+              ],
+              "prerequisiteKnowledge": [
+                "Basic Mendelian genetics principles",
+                "Construction and interpretation of Punnett squares",
+                "Understanding of chromosomes, autosomes, and sex chromosomes (X and Y)",
+                "Definitions of genotype and phenotype"
+              ],
+              "relatedTopics": [
+                "Monohybrid crosses",
+                "Dihybrid crosses",
+                "Pedigree analysis",
+                "Non-Mendelian inheritance"
+              ],
+              "id": "prompt-1d991b45-fb55-4f90-9be5-f5c1763fe867",
+              "totalMarks": 2,
+              "verb": "DEFINE"
+            }
+          ]
+        },
+        {
+          "id": "dp-a8d8fa59-a426-4648-8f18-3b890dba2abc",
+          "description": "Construct and interpret pedigree charts involving autosomal and sex-linked inheritance",
+          "prompts": [
+            {
+              "id": "prompt-heredity-12",
+              "question": "Explain how a pedigree chart can be used to determine if a trait is dominant or recessive.",
+              "totalMarks": 3,
+              "verb": "EXPLAIN",
+              "scenario": "",
+              "linkedOutcomes": [],
+              "relatedTopics": [],
+              "prerequisiteKnowledge": [],
+              "markerNotes": [],
+              "commonStudentErrors": [],
+              "keywords": [
+                "Generation",
+                "Carrier",
+                "Heterozygous",
+                "Transmission",
+                "Skipping generations"
+              ],
+              "markingCriteria": "-\n3\nmarks: Explains logic: if two affected parents have an unaffected child, the trait is dominant (parents were heterozygous). If two unaffected parents have an affected child, the trait is recessive (parents were carriers). -\n2\nmarks: Explains one scenario (e.g. recessive). -\n1\nmark: General statement about generations.",
+              "targetPerformanceBands": [],
+              "sampleAnswers": [
+                {
+                  "id": "sa-heredity-12-6",
+                  "band": 5,
+                  "answer": "A pedigree identifies a recessive trait if the trait 'skips' a generation, or specifically if two unaffected parents produce an affected offspring (indicating parents were heterozygous carriers). Conversely, if two affected parents produce an unaffected offspring, the trait must be dominant, as the parents were heterozygous and passed on the recessive 'normal' alleles.",
+                  "mark": 3,
+                  "source": "AI"
+                },
+                {
+                  "id": "sa-heredity-12-3",
+                  "band": 2,
+                  "answer": "If the trait skips a generation it is usually recessive. If it shows up in every generation it is dominant.",
+                  "mark": 1,
+                  "source": "AI"
+                }
+              ],
+              "isPastHSC": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "subTopic-dce07d1e-e4a7-4f01-85c4-b3f7f76f6d1b",
+      "name": "Genetic variants",
+      "dotPoints": [
+        {
+          "id": "dp-d707febf-e95c-41d7-92c8-ca17b91c4adf",
+          "description": "Explain how electromagnetic radiation, chemicals and naturally occurring mutagens may result in mutations",
+          "prompts": [
+            {
+              "id": "prompt-heredity-13",
+              "question": "Explain the mechanism by which UV radiation causes mutations in DNA.",
+              "totalMarks": 3,
+              "verb": "EXPLAIN",
+              "scenario": "",
+              "linkedOutcomes": [],
+              "relatedTopics": [],
+              "prerequisiteKnowledge": [],
+              "markerNotes": [],
+              "commonStudentErrors": [],
+              "keywords": [
+                "Thymine dimer",
+                "Excitation",
+                "Bonding",
+                "Replication error",
+                "Distortion"
+              ],
+              "markingCriteria": "-\n3\nmarks: Identifies mechanism (excitation of electrons). Describes formation of Pyrimidine/Thymine dimers. Explains consequence (disrupts replication/transcription). -\n2\nmarks: Mentions thymine dimers or bonding issues. -\n1\nmark: States UV damages DNA.",
+              "targetPerformanceBands": [],
+              "sampleAnswers": [
+                {
+                  "id": "sa-heredity-13-6",
+                  "band": 5,
+                  "answer": "UV radiation carries high energy that excites electrons in DNA bases. This causes adjacent thymine bases on the same strand to form covalent bonds with each other, creating 'thymine dimers'. This distorts the DNA double helix, preventing accurate replication or transcription, often leading to frameshift or substitution mutations.",
+                  "mark": 3,
+                  "source": "AI"
+                },
+                {
+                  "id": "sa-heredity-13-3",
+                  "band": 2,
+                  "answer": "UV radiation hits the DNA and breaks the bonds or makes the bases stick together wrong, causing a mutation.",
+                  "mark": 1,
+                  "source": "AI"
+                }
+              ],
+              "isPastHSC": false
+            }
+          ]
+        },
+        {
+          "id": "dp-90dc680e-d0cd-4ed1-928d-56368aba3b42",
+          "description": "Explain how mutations in coding DNA affects the function of a protein",
+          "prompts": [
+            {
+              "linkedOutcomes": [
+                "BI-12-01"
+              ],
+              "keywords": [
+                "coding DNA",
+                "mutation",
+                "protein function",
+                "amino acid sequence",
+                "protein structure",
+                "transcription",
+                "translation",
+                "point mutation",
+                "frameshift",
+                "substitution",
+                "insertion",
+                "deletion",
+                "active site",
+                "denaturation",
+                "consequently",
+                "resulting in",
+                "leading to",
+                "because",
+                "therefore"
+              ],
+              "sampleAnswers": [
+                {
+                  "id": "sa-b1443750-8591-4405-8a9d-7a1a5d4f4c3b",
+                  "answer": "Mutations in coding DNA fundamentally alter protein function by modifying the genetic instructions for amino acid sequence. During transcription, the mutated DNA is copied into mRNA, which is then translated into a polypeptide chain. Point mutations involve a single nucleotide change. A substitution replaces one nucleotide with another. If this leads to a different amino acid being coded (missense mutation), it alters the primary amino acid sequence. Consequently, this can change how the polypeptide folds, impacting the secondary and tertiary protein structure. For example, a change in a crucial amino acid within an enzyme's active site could reduce its binding affinity or catalytic efficiency, resulting in impaired protein function. A nonsense substitution prematurely introduces a stop codon, leading to a truncated, non-functional protein. Frameshift mutations, caused by insertions or deletions of nucleotides (not in multiples of three), have more drastic effects. These alter the reading frame of the mRNA during translation, therefore changing every subsequent codon downstream from the mutation. This dramatically changes the entire amino acid sequence, completely re-shaping the primary protein structure. Because the amino acid sequence is vital for proper folding, these mutations often lead to severely misfolded or non-functional proteins, potentially causing denaturation or aggregation. This structural compromise directly impacts the protein's ability to perform its specific role, whether it's structural support, enzymatic activity, or transport. In summary, different mutation types in coding DNA alter the amino acid sequence, which critically dictates protein structure, ultimately modifying or completely impairing its specific protein function.",
+                  "mark": 7,
+                  "band": 5
+                }
+              ],
+              "question": "EXPLAIN how different types of mutations in coding DNA can ultimately alter the function of a protein.",
+              "scenario": "In a research laboratory, scientists are investigating the genetic basis of various metabolic disorders. They frequently encounter situations where a single base change in a patient's DNA leads to a non-functional enzyme, causing severe health issues.",
+              "markingCriteria": "7 marks: Provides a comprehensive and detailed explanation of how different types of mutations in coding DNA lead to altered protein function, including: distinctions between mutation types (e.g., point, frameshift), their impact on mRNA and subsequent amino acid sequence, the resulting changes in protein primary, secondary, and tertiary (and potentially quaternary) structure, and a clear elucidation of how these structural changes directly impair or modify the protein's specific function (e.g., active site, binding affinity, structural integrity).  6 marks: Provides a detailed explanation, including most of the points for 7 marks, but may lack some depth in linking structural changes to functional impairment or omit a type of mutation's impact.  5 marks: Explains how mutations alter amino acid sequences and subsequent protein structure, linking this to a change in function, but may not clearly differentiate mutation types or fully detail the impact on specific structural levels.  3-4 marks: Describes how mutations lead to changes in amino acid sequence and generally state that this affects protein function. May identify some mutation types but without detailed structural implications.  1-2 marks: Identifies that mutations in DNA can affect protein structure or function, with limited or no mechanistic explanation. May briefly mention a type of mutation.",
+              "commonStudentErrors": [
+                "Simply listing mutation types without explaining their mechanism of action on protein structure and function.",
+                "Not detailing the impact on specific levels of protein structure (primary, secondary, tertiary).",
+                "Confusing DNA mutations with gene expression regulation or epigenetic changes.",
+                "Failing to explicitly link altered structure to altered specific function (e.g., enzyme active site)."
+              ],
+              "estimatedTime": "12-15 minutes",
+              "markerNotes": [
+                "Students must demonstrate a clear mechanistic understanding, tracing the impact from DNA mutation through mRNA, amino acid sequence, protein folding (structure), to final protein function. Encourage specific examples of how active sites or structural integrity are compromised. Marks should be awarded for distinguishing between types of mutations (e.g., silent, missense, nonsense, frameshift) and explaining their varied impacts on the polypeptide chain."
+              ],
+              "prerequisiteKnowledge": [
+                "Structure of DNA and RNA",
+                "The genetic code",
+                "Processes of transcription and translation",
+                "Levels of protein structure (primary, secondary, tertiary, quaternary)",
+                "Basic understanding of enzyme function and protein roles."
+              ],
+              "relatedTopics": [
+                "Genetic diseases",
+                "Biotechnology (e.g., gene editing, recombinant DNA)",
+                "Cellular processes",
+                "Gene expression and regulation"
+              ],
+              "id": "prompt-04c990c1-7983-49f5-a054-0f72be3a07d2",
+              "totalMarks": 7,
+              "verb": "EXPLAIN"
+            }
+          ]
+        },
+        {
+          "id": "dp-121d27b2-d2ec-4e3b-8de6-4d02a41392b2",
+          "description": "Use diagrams to distinguish between base substitutions, insertions and deletions as point mutations",
+          "prompts": [
+            {
+              "linkedOutcomes": [
+                "BI-12-01"
+              ],
+              "keywords": [
+                "point mutation",
+                "base insertion",
+                "base deletion",
+                "frameshift mutation",
+                "nucleotide",
+                "codon",
+                "polypeptide sequence",
+                "amino acid sequence",
+                "DNA replication",
+                "genetic code",
+                "fundamentally differs",
+                "whereas",
+                "consequently",
+                "resulting in"
+              ],
+              "sampleAnswers": [
+                {
+                  "id": "sa-919f9184-b95f-4072-87d1-0cd60326f60c",
+                  "answer": "A base insertion adds a nucleotide, shifting the reading frame downstream by adding genetic information. A base deletion removes one, shifting it upstream by removing genetic information. Both cause frameshift mutations, altering subsequent codons and the polypeptide sequence.",
+                  "mark": 2,
+                  "band": 3
+                }
+              ],
+              "question": "OUTLINE how a base insertion mutation fundamentally differs from a base deletion mutation in its effect on the resulting polypeptide sequence.",
+              "scenario": "During DNA replication, errors can occur, leading to various types of point mutations that can alter the genetic code.",
+              "markingCriteria": "\u2022 1 mark: Identifies that an insertion adds a nucleotide base to the DNA sequence, whereas a deletion removes a nucleotide base. \n\u2022 2 marks: Explains that both result in a frameshift mutation, with an insertion shifting the reading frame downstream (to the right) by adding genetic information, and a deletion shifting the reading frame downstream (to the left) by removing genetic information, thus altering all subsequent codons and the entire amino acid sequence from the point of mutation.",
+              "commonStudentErrors": [
+                "Confusing insertion/deletion with base substitution.",
+                "Not explicitly mentioning the frameshift consequence for both types.",
+                "Not linking the base change to the subsequent alteration of the polypeptide sequence.",
+                "Incorrectly describing the direction or impact of the reading frame shift."
+              ],
+              "estimatedTime": "3 minutes",
+              "markerNotes": [
+                "Assess for a clear distinction based on the addition vs. removal of a nucleotide. Emphasis should be placed on the frameshift consequence and its impact on the polypeptide sequence for full marks. No diagram is required, but the explanation should accurately reflect the effects that a diagram would illustrate."
+              ],
+              "prerequisiteKnowledge": [
+                "Basic DNA structure (bases, nucleotides).",
+                "Central Dogma (DNA to RNA to Protein).",
+                "Understanding of codons and reading frames in protein synthesis.",
+                "General knowledge of point mutations."
+              ],
+              "relatedTopics": [
+                "Gene expression",
+                "Genetic variation",
+                "Causes of genetic diseases"
+              ],
+              "id": "prompt-d6a9d43e-1182-4c43-81b9-b66fb10f07ef",
+              "totalMarks": 2,
+              "verb": "OUTLINE"
+            }
+          ]
+        },
+        {
+          "id": "dp-26716251-425f-4626-b2af-258ec6ff4e93",
+          "description": "Compare silent, missense, nonsense and frameshift mutations",
+          "prompts": [
+            {
+              "id": "prompt-heredity-14",
+              "question": "Compare the effect of a missense mutation versus a nonsense mutation on protein synthesis.",
+              "totalMarks": 4,
+              "verb": "COMPARE",
+              "scenario": "",
+              "linkedOutcomes": [],
+              "relatedTopics": [],
+              "prerequisiteKnowledge": [],
+              "markerNotes": [],
+              "commonStudentErrors": [],
+              "keywords": [
+                "Amino acid substitution",
+                "Stop codon",
+                "Truncation",
+                "Polypeptide chain",
+                "Functionality"
+              ],
+              "markingCriteria": "-\n4\nmarks: Defines Missense (swaps one amino acid) and Nonsense (creates stop codon). Compares outcome: Missense alters protein function (maybe functional), Nonsense truncates protein (usually non-functional). -\n3\nmarks: Good definitions but comparison of impact is weak. -\n2\nmarks: Defines one or gives vague comparison. -\n1\nmark: General statement about mutations.",
+              "targetPerformanceBands": [],
+              "sampleAnswers": [
+                {
+                  "id": "sa-heredity-14-6",
+                  "band": 5,
+                  "answer": "A missense mutation involves a base substitution that results in a different amino acid being incorporated into the polypeptide. This may alter the protein's function but the protein is still produced. In contrast, a nonsense mutation substitutes a base to create a premature 'Stop' codon. This terminates translation early, resulting in a truncated, incomplete polypeptide that is almost always non-functional. Thus, nonsense mutations typically have a more severe effect.",
+                  "mark": 4,
+                  "source": "AI"
+                },
+                {
+                  "id": "sa-heredity-14-3",
+                  "band": 3,
+                  "answer": "Missense changes one amino acid to another. Nonsense changes a codon to a stop signal. Nonsense is worse because the protein stops being made.",
+                  "mark": 2,
+                  "source": "AI"
+                }
+              ],
+              "isPastHSC": false
+            }
+          ]
+        },
+        {
+          "id": "dp-802acca8-989e-4149-836e-ff92dbbb0235",
+          "description": "Use diagrams to distinguish between duplications, deletions, inversions and translocations as chromosomal mutations",
+          "prompts": [
+            {
+              "id": "prompt-heredity-15",
+              "question": "Distinguish between chromosomal inversion and translocation.",
+              "totalMarks": 3,
+              "verb": "DISTINGUISH",
+              "scenario": "",
+              "linkedOutcomes": [],
+              "relatedTopics": [],
+              "prerequisiteKnowledge": [],
+              "markerNotes": [],
+              "commonStudentErrors": [],
+              "keywords": [
+                "Chromosome segment",
+                "Reattachment",
+                "Non-homologous",
+                "Reverse order",
+                "Structural change"
+              ],
+              "markingCriteria": "-\n3\nmarks: Inversion: section breaks, flips 180, reattaches to *same* chromosome. Translocation: section breaks and attaches to a *non-homologous* chromosome. Clear distinction on location. -\n2\nmarks: Describes both but misses 'non-homologous' or 'same' distinction. -\n1\nmark: Definitions only.",
+              "targetPerformanceBands": [],
+              "sampleAnswers": [
+                {
+                  "id": "sa-heredity-15-6",
+                  "band": 5,
+                  "answer": "Chromosomal inversion involves a segment of a chromosome breaking off, reversing its orientation (180 degrees), and reattaching to the *same* chromosome. Translocation involves a segment breaking off and attaching to a different, *non-homologous* chromosome. The distinction is that inversion affects gene order on one chromosome, while translocation moves genes to an entirely different chromosome.",
+                  "mark": 3,
+                  "source": "AI"
+                },
+                {
+                  "id": "sa-heredity-15-3",
+                  "band": 2,
+                  "answer": "Inversion is when a piece of DNA flips around. Translocation is when it moves to another chromosome.",
+                  "mark": 1,
+                  "source": "AI"
+                }
+              ],
+              "isPastHSC": false
+            }
+          ]
+        },
+        {
+          "id": "dp-e33f5a4f-df1d-4525-8324-d5c41a5b7f4d",
+          "description": "Compare point mutations and chromosomal mutations",
+          "prompts": [
+            {
+              "linkedOutcomes": [
+                "BI-12-01"
+              ],
+              "keywords": [
+                "point mutation",
+                "chromosomal mutation",
+                "substitution",
+                "insertion",
+                "deletion",
+                "frameshift",
+                "aneuploidy",
+                "translocation",
+                "inversion",
+                "duplication",
+                "non-disjunction",
+                "gene",
+                "chromosome",
+                "DNA sequence",
+                "phenotype",
+                "genotype",
+                "heredity",
+                "mechanism",
+                "consequence",
+                "implication",
+                "similarly",
+                "whereas",
+                "in contrast",
+                "both",
+                "however",
+                "differentiation"
+              ],
+              "sampleAnswers": [
+                {
+                  "id": "sa-cbe048d6-bdf0-4a87-864e-9da40d585456",
+                  "answer": "Point mutations and chromosomal mutations both represent alterations to an organism's genetic material, however, they differ significantly in their scale, mechanisms, and overall phenotypic consequences and implications for human health.Both types of mutations affect the genotype and can be passed through heredity.Point mutations involve changes to a single nucleotide base within a gene's DNA sequence. Their primary mechanism includes substitution, where one base is swapped for another, or the insertion or deletion of a single nucleotide. An insertion or deletion can lead to a frameshift mutation, altering every subsequent codon. The consequence is often a change in a single gene's product, such as the altered haemoglobin in sickle cell anaemia due to a single base substitution.In contrast, chromosomal mutations involve large-scale alterations to chromosome structure or number. Their mechanisms typically arise from errors during cell division, such as non-disjunction, leading to aneuploidy (e.g., Trisomy 21, resulting in Down syndrome). Other mechanisms include structural changes like translocations (e.g., Philadelphia chromosome in chronic myeloid leukaemia), inversions, large deletions, or duplications of entire chromosome segments.The phenotypic consequences similarly vary. Point mutations often result in single-gene disorders, with phenotypes ranging from mild to severe depending on the gene affected, like cystic fibrosis. However, chromosomal mutations, due to their extensive changes involving multiple genes, generally lead to more severe and widespread developmental syndromes. Aneuploidy, for instance, often has profound developmental implications or can be lethal.The implications for human health are distinct. Point mutations are responsible for many hereditary diseases, impacting specific cellular processes. Whereas chromosomal mutations are often associated with severe congenital abnormalities, developmental delays, and a significant risk of conditions like cancer susceptibility, reflecting their broader impact on the entire genome and thus organismal development.",
+                  "mark": 8,
+                  "band": 5
+                }
+              ],
+              "question": "Compare point mutations and chromosomal mutations, outlining their distinct mechanisms, potential phenotypic consequences, and implications for human health.",
+              "scenario": "A genetic counsellor is explaining to a couple the potential risks of inherited conditions, distinguishing between those caused by alterations to a single nucleotide versus those involving larger structural changes in the genome.",
+              "markingCriteria": "8 marks: Provides a comprehensive and accurate comparison of point and chromosomal mutations, detailing their distinct mechanisms (e.g., nucleotide substitution/insertion/deletion and frameshift vs. aneuploidy/translocation/inversion/duplication/large deletion), a wide range of potential phenotypic consequences, and clear implications for human health (e.g., single gene disorders vs. developmental syndromes, cancer susceptibility). Uses precise biological terminology and provides specific, accurate examples for each type of mutation.\n6-7 marks: Provides a detailed comparison covering the mechanisms, consequences, and implications for human health for both types of mutations. May lack some specific examples or depth in one area, or exhibit minor inaccuracies in terminology.\n4-5 marks: Compares point and chromosomal mutations, identifying key differences in their mechanisms and some general consequences. May lack detail regarding specific examples, the full range of consequences, or a clear discussion of implications for human health.\n2-3 marks: Identifies some differences between point and chromosomal mutations, but the comparison is superficial, lacking sufficient detail on mechanisms, specific consequences, or broader implications. May contain inaccuracies or generalisations.\n1 mark: Mentions some relevant characteristic of either point or chromosomal mutations, or makes a vague, general statement without comparison.",
+              "commonStudentErrors": [
+                "Providing descriptions of each mutation type without direct comparison.",
+                "Confusing the specific mechanisms of point mutations (e.g., substitution vs. frameshift).",
+                "Limited understanding of the specific types of chromosomal mutations beyond aneuploidy.",
+                "Lack of specific examples for genetic disorders associated with each mutation type.",
+                "Failing to address the 'implications for human health' comprehensively.",
+                "Using vague terminology instead of precise biological terms."
+              ],
+              "estimatedTime": "15 minutes",
+              "markerNotes": [
+                "Students must clearly compare and contrast the two types of mutations across all three specified criteria (mechanisms, consequences, implications).",
+                "Award higher marks for specific examples (e.g., Sickle Cell Anemia for point mutation, Down Syndrome for chromosomal) and accurate biological terminology.",
+                "Emphasis should be placed on the scale of the genetic alteration (single nucleotide vs. large DNA segments/whole chromosomes) as a fundamental distinguishing factor."
+              ],
+              "prerequisiteKnowledge": [
+                "Structure of DNA and chromosomes",
+                "Process of DNA replication",
+                "Process of transcription and translation (gene expression)",
+                "Concepts of genotype and phenotype",
+                "Basic understanding of cell division (mitosis and meiosis)"
+              ],
+              "relatedTopics": [
+                "Genetic diseases",
+                "Genetic screening and counselling",
+                "Biotechnology in identifying mutations (e.g., karyotyping, DNA sequencing)",
+                "Evolutionary significance of mutations"
+              ],
+              "id": "prompt-e74fed39-2156-406c-b26e-baaf216d64ff",
+              "totalMarks": 8,
+              "verb": "COMPARE"
+            }
+          ]
+        },
+        {
+          "id": "dp-0098a25f-895e-47ed-b52f-b9010c886766",
+          "description": "Interpret images of karyotypes, showing how chromosomes arranged as homologous pairs explain non-disjunction",
+          "prompts": [
+            {
+              "linkedOutcomes": [
+                "BI-12-01"
+              ],
+              "keywords": [
+                "Karyotype",
+                "Homologous pairs",
+                "Non-disjunction",
+                "Meiosis I",
+                "Meiosis II",
+                "Sister chromatids",
+                "Aneuploidy",
+                "Trisomy 21",
+                "Gamete",
+                "Zygote",
+                "Consequently",
+                "Therefore",
+                "Leading to",
+                "As a result",
+                "Specifically",
+                "In contrast"
+              ],
+              "sampleAnswers": [
+                {
+                  "id": "sa-c94be6d2-8986-4eb8-bfd2-b2f4ac37c4b9",
+                  "answer": "The origin of a karyotype displaying Trisomy 21 (47, +21) can be explained by specific non-disjunction events during meiosis, which directly relate to the arrangement of chromosomes into homologous pairs. Non-disjunction refers to the failure of homologous chromosomes or sister chromatids to separate properly during cell division, resulting in aneuploidy, specifically trisomy in this case. Consequently, an individual's cells contain three copies of chromosome 21 instead of the usual two. \n\nSpecifically, non-disjunction can occur in Meiosis I. During prophase I, homologous pairs of chromosome 21 align. If this homologous pair fails to separate during anaphase I, two abnormal secondary meiocytes are formed. One will contain both homologous chromosomes 21 (an n+1 condition), and the other will lack chromosome 21 entirely (an n-1 condition). Therefore, if the resulting n+1 gamete is fertilised by a normal gamete, the zygote will have three copies of chromosome 21, leading to Trisomy 21.\n\nIn contrast, non-disjunction can also occur during Meiosis II. Following a normal Meiosis I, the secondary meiocytes typically proceed to Meiosis II where sister chromatids separate. If in one of these secondary meiocytes, the sister chromatids of chromosome 21 fail to separate during anaphase II, it results in an abnormal distribution. As a result, two types of gametes are produced from this specific secondary meiocyte: one with an extra chromosome 21 (n+1) and one lacking chromosome 21 (n-1). The other secondary meiocyte from Meiosis I would produce two normal (n) gametes. Consequently, if an n+1 gamete from Meiosis II non-disjunction is fertilised by a normal gamete, the zygote will also have the 47, +21 karyotype.",
+                  "mark": 8,
+                  "band": 5
+                }
+              ],
+              "question": "ANALYSE how the arrangement of chromosomes into homologous pairs during meiosis can explain the origin of such a karyotype, detailing the specific non-disjunction event(s) that could lead to this outcome.",
+              "scenario": "A genetic counsellor is reviewing a foetal karyotype which shows 47 chromosomes, with three copies of chromosome 21.",
+              "markingCriteria": "8 marks: Provides a comprehensive and accurate analysis of how homologous chromosome arrangement and specific non-disjunction events in Meiosis I AND Meiosis II lead to the described karyotype. Clearly differentiates between the two types of non-disjunction, details the resulting gametes, and their subsequent contribution to Trisomy 21 (47, +21). Uses appropriate biological terminology throughout.\n6-7 marks: Provides a detailed analysis of non-disjunction, explaining both Meiosis I and Meiosis II errors and their consequences on gamete formation. Generally accurate, but may lack some depth in linking the arrangement of homologous pairs specifically to the error, or be less precise in explaining the resulting zygote for both possibilities.\n4-5 marks: Explains the process of non-disjunction in either Meiosis I OR Meiosis II, detailing its impact on chromosome number in gametes. Shows a general understanding of how homologous pairs relate to the error but may be incomplete or contain minor inaccuracies regarding the specific karyotype outcome or the role of homologous pairs.\n2-3 marks: Defines non-disjunction and provides a limited explanation of its occurrence, possibly mentioning either Meiosis I or Meiosis II. Connection to homologous pairs or the specific karyotype (Trisomy 21) is vague or incorrect.\n0-1 mark: Attempts to define non-disjunction but provides little to no relevant information about its cause, consequence, or link to karyotypes.",
+              "commonStudentErrors": [
+                "Confusing non-disjunction in Meiosis I with Meiosis II, or vice versa.",
+                "Incorrectly stating the chromosome count or composition of gametes formed after non-disjunction.",
+                "Failing to explicitly link the 'arrangement of homologous pairs' to the mechanism of error (e.g., failure of separation).",
+                "Simply defining non-disjunction without explaining 'how' it results in the specific karyotype.",
+                "Not distinguishing between homologous chromosomes and sister chromatids during the description of meiotic errors."
+              ],
+              "estimatedTime": "12-15 minutes",
+              "markerNotes": [
+                "Students must clearly differentiate between non-disjunction of homologous chromosomes in Meiosis I and non-disjunction of sister chromatids in Meiosis II.",
+                "Emphasis should be placed on how the initial arrangement of homologous pairs influences the potential sites of error.",
+                "Responses should accurately describe the resulting gametes (n+1, n-1, or n) and explain how these lead to a zygote with Trisomy 21 (47, +21).",
+                "Diagrams, while not explicitly required by the prompt, may enhance the explanation if accurately drawn and labelled."
+              ],
+              "prerequisiteKnowledge": [
+                "Structure and function of chromosomes",
+                "Stages and key events of Meiosis I and Meiosis II",
+                "Concept of homologous chromosomes and sister chromatids",
+                "Basic understanding of karyotypes and their interpretation (diploid vs. aneuploid numbers)",
+                "Understanding of fertilisation and zygote formation"
+              ],
+              "relatedTopics": [
+                "Meiosis",
+                "Chromosomal abnormalities",
+                "Genetic disorders",
+                "Karyotyping",
+                "Inheritance patterns"
+              ],
+              "id": "prompt-e65148db-c32c-40cd-b95f-fc8baad4037e",
+              "totalMarks": 8,
+              "verb": "ANALYSE"
+            }
+          ]
+        },
+        {
+          "id": "dp-e21ecf87-6d1e-49f6-b4db-d46d3de2e1bc",
+          "description": "Analyse the implications of somatic and germline variants in the context of tumour formation, genetic disease and genetic diversity",
+          "prompts": [
+            {
+              "id": "prompt-heredity-16",
+              "question": "Analyse the differing implications of a mutation occurring in a germline cell versus a somatic cell.",
+              "totalMarks": 5,
+              "verb": "ANALYSE",
+              "scenario": "",
+              "linkedOutcomes": [],
+              "relatedTopics": [],
+              "prerequisiteKnowledge": [],
+              "markerNotes": [],
+              "commonStudentErrors": [],
+              "keywords": [
+                "Heritability",
+                "Gametes",
+                "Offspring",
+                "Gene pool",
+                "Evolution",
+                "Cancer"
+              ],
+              "markingCriteria": "-\n5\nmarks: Identifies location (body cell vs gamete). Implications for individual (Somatic: cancer/disease, Germline: carrier/silent). Implications for offspring/evolution (Somatic: not passed on, Germline: heritable, affects gene pool). Synthesis of impact. -\n4\nmarks: Covers heritability and individual impact well. -\n3\nmarks: Distinguishes heritability only. -\n2\nmarks: Defines both types. -\n1\nmark: General statement.",
+              "targetPerformanceBands": [],
+              "sampleAnswers": [
+                {
+                  "id": "sa-heredity-16-6",
+                  "band": 5,
+                  "answer": "A somatic mutation occurs in body cells. Its implication is limited to the individual organism, potentially causing cancer (tumour formation) or local disease, but it cannot be passed to offspring. A germline mutation occurs in the gametes (sperm/egg). While it may not affect the parent, it is heritable and will be present in every cell of the offspring. This has broader implications for the population's gene pool and evolution, as it introduces new variants (genetic diversity) or genetic diseases that can be passed down generations.",
+                  "mark": 5,
+                  "source": "AI"
+                },
+                {
+                  "id": "sa-heredity-16-3",
+                  "band": 3,
+                  "answer": "Somatic mutations happen in the body and can cause cancer but aren't passed to kids. Germline mutations happen in sex cells so they are passed to kids and can cause genetic diseases.",
+                  "mark": 2,
+                  "source": "AI"
+                }
+              ],
+              "isPastHSC": false
+            }
+          ]
+        },
+        {
+          "id": "dp-901f6fa3-a5a6-4d51-be19-7b43026c2fff",
+          "description": "Conduct a secondary-source investigation on single nucleotide polymorphisms (SNPs) in populations and their association with a genetic disease",
+          "prompts": [
+            {
+              "id": "prompt-heredity-17",
+              "question": "Explain how Single Nucleotide Polymorphisms (SNPs) are used as genetic markers to study disease in populations.",
+              "totalMarks": 3,
+              "verb": "EXPLAIN",
+              "scenario": "",
+              "linkedOutcomes": [],
+              "relatedTopics": [],
+              "prerequisiteKnowledge": [],
+              "markerNotes": [],
+              "commonStudentErrors": [],
+              "keywords": [
+                "Variation",
+                "Marker",
+                "Association",
+                "Genome-wide association study (GWAS)",
+                "Frequency"
+              ],
+              "markingCriteria": "-\n3\nmarks: Defines SNP (single base variation). Explains association (frequency difference in diseased vs healthy groups). Explains utility (predictive marker/GWAS). -\n2\nmarks: Defines SNP and mentions disease link. -\n1\nmark: General statement about DNA differences.",
+              "targetPerformanceBands": [],
+              "sampleAnswers": [
+                {
+                  "id": "sa-heredity-17-6",
+                  "band": 5,
+                  "answer": "SNPs are variations at a single nucleotide position in DNA that occur in at least 1% of the population. They act as genetic markers. By comparing the frequency of specific SNPs in groups of people with a disease versus those without, scientists can identify SNPs that are statistically associated with the disease. This helps locate genes responsible for the disease and assess individual risk susceptibility.",
+                  "mark": 3,
+                  "source": "AI"
+                },
+                {
+                  "id": "sa-heredity-17-3",
+                  "band": 2,
+                  "answer": "SNPs are small changes in DNA. Scientists look for them to see if a person might get a disease.",
+                  "mark": 1,
+                  "source": "AI"
+                }
+              ],
+              "isPastHSC": false
+            }
+          ]
+        },
+        {
+          "id": "dp-5a8500bb-733f-4bed-882c-3b100f8c89c7",
+          "description": "Assess potential limitations and constraints of SNP testing and databases in diagnostic medicine",
+          "prompts": [
+            {
+              "linkedOutcomes": [
+                "BI-12-04"
+              ],
+              "keywords": [
+                "SNP testing",
+                "SNP databases",
+                "diagnostic medicine",
+                "limitations",
+                "constraints",
+                "ethical implications",
+                "privacy",
+                "data interpretation",
+                "genetic counselling",
+                "penetrance",
+                "polygenic traits",
+                "population bias",
+                "bioinformatics",
+                "however",
+                "consequently",
+                "furthermore",
+                "despite",
+                "therefore",
+                "significantly",
+                "critical consideration",
+                "overall judgement"
+              ],
+              "sampleAnswers": [
+                {
+                  "id": "sa-efe9f51b-6055-4ba4-b843-db7397eb3877",
+                  "answer": "Single Nucleotide Polymorphism (SNP) testing and associated SNP databases hold immense promise in diagnostic medicine, offering personalised insights into disease risk, prognosis, and therapeutic responses. However, their widespread and effective application is profoundly shaped by a range of significant limitations and constraints that demand critical consideration for both scientific validity and equitable patient care.A primary scientific limitation of SNP testing stems from challenges in data interpretation and the inherent complexity of human genetics. Many common diseases are not monogenic, but rather complex conditions manifesting as polygenic traits where multiple SNPs interact with numerous environmental factors. Consequently, the individual predictive value, or penetrance, of a single SNP for such conditions is often low, incomplete, and highly variable between individuals. Furthermore, discerning the precise functional significance of many identified SNPs, and thus establishing clear genotype-phenotype correlations, remains a considerable hurdle. This makes it difficult to distinguish between benign variations and pathogenic mutations, especially for novel discoveries. Effective bioinformatics tools and robust statistical models are crucial for sifting through vast datasets, yet the interpretive power of these tools is still evolving, posing a constraint on precise clinical utility. Therefore, translating raw SNP data into definitive, actionable diagnostic information requires a cautious and multi-faceted approach.SNP databases themselves introduce critical consideration due to prevalent population bias, which presents a major constraint on their universal applicability. Historical data collection has disproportionately focused on populations of European descent, significantly limiting the diagnostic medicine utility and generalisability of SNP panels for diverse ethnic groups. This creates profound inequities in healthcare, as disease associations and risk alleles derived primarily from one population may not apply universally, leading to misdiagnosis or missed diagnoses in underrepresented groups. Moreover, the ethical implications surrounding patient privacy and data security are paramount. Despite anonymisation efforts, the sheer volume and unique nature of personal genetic information stored in these databases present ongoing risks of re-identification, discrimination, or unauthorised access. Consequently, comprehensive genetic counselling is not merely supplementary but essential; it ensures patients fully understand not only the diagnostic insights provided by SNP testing but also the inherent limitations, uncertainties, and potential psychosocial repercussions of their genetic data.Overall judgement, while SNP testing and SNP databases offer transformative potential in diagnostic medicine, their current limitations regarding scientific interpretation, database diversity, and profound ethical implications cannot be overstated. A balanced and responsible approach, integrating robust bioinformatics methodologies, comprehensive genetic counselling, and equitable data collection strategies, is essential to mitigate these constraints and safely and effectively realise their full promise for advancing human health.",
+                  "mark": 10,
+                  "band": 6
+                }
+              ],
+              "question": "ASSESS the potential limitations and constraints of SNP testing and databases in diagnostic medicine.",
+              "scenario": "A pharmaceutical company is developing a new precision medicine that targets specific genetic markers identified through Single Nucleotide Polymorphism (SNP) analysis for a complex, multifactorial disease. They plan to use large-scale genomic databases to identify suitable patient cohorts for clinical trials.",
+              "markingCriteria": "\u2022 9-10 marks: Provides a comprehensive and sophisticated assessment of multiple potential limitations and constraints of both SNP testing and databases in diagnostic medicine. Offers detailed explanations of their implications, demonstrating a deep understanding of scientific, ethical, social, or practical issues. Presents a clear, well-supported overall judgement regarding their significance and impact. Utilises appropriate terminology fluently and accurately. \u2022 7-8 marks: Provides a detailed assessment of several potential limitations and constraints of SNP testing and databases in diagnostic medicine. Explains their implications thoroughly, demonstrating a sound understanding of relevant issues. May include an overall judgement, although it might lack the nuance or depth of a top-range response. Uses appropriate terminology accurately. \u2022 5-6 marks: Identifies and explains some potential limitations and constraints of SNP testing and databases in diagnostic medicine. Attempts to explain their implications, but the depth or breadth may be limited. May offer a basic judgement or demonstrate a general understanding of the topic. Uses some appropriate terminology. \u2022 3-4 marks: Identifies a few potential limitations or constraints of SNP testing and databases. Provides basic descriptions with limited or no explanation of their implications. Demonstrates a superficial understanding. \u2022 1-2 marks: Provides a limited or vague statement about SNP testing or databases, with minimal or no identification of limitations or constraints. Lacks relevant detail or understanding.",
+              "commonStudentErrors": [
+                "Confusing SNPs with other genetic variations (e.g., VNTRs, STRs, large-scale chromosomal abnormalities).",
+                "Failing to distinguish adequately between 'limitations' (inherent issues) and 'constraints' (external restrictions/challenges) or treating them superficially.",
+                "Focusing only on SNP testing OR SNP databases, rather than both.",
+                "Providing only a list of issues without explaining their implications in diagnostic medicine.",
+                "Lacking a clear overall judgement or synthesis of the discussed points.",
+                "Generalising about genetic testing without specific reference to SNPs.",
+                "Not addressing the 'diagnostic medicine' aspect specifically."
+              ],
+              "estimatedTime": "20-25 minutes",
+              "markerNotes": [
+                "Responses should demonstrate a balanced discussion of both 'limitations' and 'constraints' pertaining to *both* SNP testing *and* SNP databases. Expect analysis of scientific (e.g., polygenic traits, incomplete penetrance, rare variants, predictive accuracy), ethical (e.g., privacy, informed consent, discrimination, incidental findings), social (e.g., equity of access, societal anxiety, genetic determinism), and practical (e.g., cost, data storage/management, expertise required for interpretation, false positives/negatives) issues. Students must not merely list points but critically explain *why* they are limitations/constraints and *how* they impact diagnostic medicine. A clear, substantiated judgement or conclusion is crucial for higher marks."
+              ],
+              "prerequisiteKnowledge": [
+                "Understanding of DNA structure and function.",
+                "Knowledge of Mendelian and non-Mendelian inheritance patterns.",
+                "Definition and significance of SNPs.",
+                "Basic understanding of genetic testing and its applications.",
+                "Awareness of ethical considerations in biotechnology.",
+                "Familiarity with concepts like penetrance, expressivity, and multifactorial inheritance."
+              ],
+              "relatedTopics": [
+                "Gene therapy",
+                "Personalised medicine",
+                "Bioinformatics",
+                "Genomic sequencing technologies",
+                "Ethical, legal, and social implications (ELSI) of biotechnology",
+                "Population genetics"
+              ],
+              "id": "prompt-60f9207c-c5f7-4596-b775-d59bf11757ae",
+              "totalMarks": 10,
+              "verb": "ASSESS"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -182,6 +182,14 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
     [filteredGroupedDocs]
   );
 
+  const unresolvedTopicCount = useMemo(
+    () =>
+      localDocs.filter(
+        (doc) => doc.type === 'topic' && !doc.targetCourseId && !doc.targetCourseName
+      ).length,
+    [localDocs]
+  );
+
   const toggleSelectAll = () => {
     if (isImporting) return;
     const visibleDocIds = filteredGroupedDocs.allVisibleDocIds;
@@ -256,7 +264,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
         {/* Scrollable Catalog */}
         <div className="flex-1 overflow-y-auto px-12 pb-12 custom-scrollbar bg-black/10 light:bg-slate-50/50 relative">
           <div className="sticky top-0 z-20 py-6 flex justify-between items-center bg-[rgb(var(--color-bg-surface))]/60 backdrop-blur-md -mx-12 px-12 border-b border-white/5 mb-8">
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-6 flex-wrap">
               <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-slate-400">
                 <Filter className="w-3.5 h-3.5" /> Filter Content
               </div>
@@ -268,6 +276,14 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                 </span>{' '}
                 units
               </span>
+              {unresolvedTopicCount > 0 && (
+                <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[10px] font-bold uppercase tracking-widest text-amber-300 light:text-amber-700">
+                  <AlertCircle className="w-3.5 h-3.5" />
+                  {unresolvedTopicCount} topic manifest
+                  {unresolvedTopicCount === 1 ? ' entry is' : ' entries are'} missing target-course
+                  metadata
+                </div>
+              )}
             </div>
 
             <button
@@ -386,6 +402,13 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                                   (doc.targetCourseName || doc.targetCourseId) && (
                                     <span className="text-[10px] font-bold uppercase tracking-widest text-sky-300 bg-sky-500/10 px-2.5 py-1 rounded-full border border-sky-500/20">
                                       Target {doc.targetCourseName || doc.targetCourseId}
+                                    </span>
+                                  )}
+                                {doc.type === 'topic' &&
+                                  !doc.targetCourseName &&
+                                  !doc.targetCourseId && (
+                                    <span className="text-[10px] font-bold uppercase tracking-widest text-amber-300 bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/20">
+                                      Missing target
                                     </span>
                                   )}
                               </div>

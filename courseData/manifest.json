@@ -1,8 +1,37 @@
 {
-  "files": [
-    "HSCEnterpriseComputing09122025.json",
-    "HSCSoftwareEngineering09122025.json",
-    "HSCBiology.json",
-    "templateCourseData.json"
+  "entries": [
+    {
+      "file": "HSCEnterpriseComputing09122025.json",
+      "type": "course",
+      "subject": "TAS"
+    },
+    {
+      "file": "HSCSoftwareEngineering09122025.json",
+      "type": "course",
+      "subject": "TAS"
+    },
+    {
+      "file": "HSCBiology.json",
+      "type": "course",
+      "subject": "Science"
+    },
+    {
+      "file": "templateCourseData.json",
+      "type": "course",
+      "subject": "Other"
+    },
+    {
+      "file": "topics/biology-heredity-topic.json",
+      "type": "topic",
+      "subject": "Science",
+      "targetCourseName": "HSC Biology",
+      "selected": true
+    },
+    {
+      "file": "topics/software-engineering-secure-architecture-topic.json",
+      "type": "topic",
+      "subject": "TAS",
+      "targetCourseName": "HSC Software Engineering"
+    }
   ]
 }
