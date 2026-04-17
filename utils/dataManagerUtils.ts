@@ -559,56 +559,181 @@ export const migrateTopicVerbs = (topic: Topic): Topic => {
   return newTopic;
 };
 
+const normalizeText = (value?: string) => (value || '').trim().toLowerCase();
+
+const dedupeStringArray = (values: string[] = []) =>
+  Array.from(new Set(values.map((value) => value.trim()).filter(Boolean)));
+
+const mergeScalarText = (existing?: string, imported?: string) => {
+  if (!existing?.trim()) return imported;
+  if (!imported?.trim()) return existing;
+  return imported.length > existing.length ? imported : existing;
+};
+
+const mergeSampleAnswerCollections = (
+  existingAnswers: SampleAnswer[] = [],
+  importedAnswers: SampleAnswer[] = []
+) => {
+  const merged = [...existingAnswers];
+  const seenIds = new Set(existingAnswers.map((answer) => answer.id));
+  const seenAnswerText = new Set(existingAnswers.map((answer) => normalizeText(answer.answer)));
+
+  importedAnswers.forEach((importedAnswer) => {
+    const normalizedAnswer = normalizeText(importedAnswer.answer);
+    if (seenIds.has(importedAnswer.id) || seenAnswerText.has(normalizedAnswer)) return;
+    merged.push(importedAnswer);
+    seenIds.add(importedAnswer.id);
+    seenAnswerText.add(normalizedAnswer);
+  });
+
+  return deduplicateSampleAnswers(merged);
+};
+
+const mergePromptContent = (existingPrompt: Prompt, importedPrompt: Prompt): Prompt => ({
+  ...existingPrompt,
+  ...importedPrompt,
+  id: existingPrompt.id,
+  question:
+    mergeScalarText(existingPrompt.question, importedPrompt.question) || existingPrompt.question,
+  highlightedQuestion: mergeScalarText(
+    existingPrompt.highlightedQuestion,
+    importedPrompt.highlightedQuestion
+  ),
+  scenario: mergeScalarText(existingPrompt.scenario, importedPrompt.scenario),
+  estimatedTime: mergeScalarText(existingPrompt.estimatedTime, importedPrompt.estimatedTime),
+  markingCriteria: mergeScalarText(existingPrompt.markingCriteria, importedPrompt.markingCriteria),
+  hscQuestionNumber: mergeScalarText(
+    existingPrompt.hscQuestionNumber,
+    importedPrompt.hscQuestionNumber
+  ),
+  linkedOutcomes: dedupeStringArray([
+    ...(existingPrompt.linkedOutcomes || []),
+    ...(importedPrompt.linkedOutcomes || []),
+  ]),
+  relatedTopics: dedupeStringArray([
+    ...(existingPrompt.relatedTopics || []),
+    ...(importedPrompt.relatedTopics || []),
+  ]),
+  prerequisiteKnowledge: dedupeStringArray([
+    ...(existingPrompt.prerequisiteKnowledge || []),
+    ...(importedPrompt.prerequisiteKnowledge || []),
+  ]),
+  markerNotes: dedupeStringArray([
+    ...(existingPrompt.markerNotes || []),
+    ...(importedPrompt.markerNotes || []),
+  ]),
+  commonStudentErrors: dedupeStringArray([
+    ...(existingPrompt.commonStudentErrors || []),
+    ...(importedPrompt.commonStudentErrors || []),
+  ]),
+  keywords: dedupeStringArray([
+    ...(existingPrompt.keywords || []),
+    ...(importedPrompt.keywords || []),
+  ]),
+  targetPerformanceBands: Array.from(
+    new Set([
+      ...(existingPrompt.targetPerformanceBands || []),
+      ...(importedPrompt.targetPerformanceBands || []),
+    ])
+  ),
+  sampleAnswers: mergeSampleAnswerCollections(
+    existingPrompt.sampleAnswers || [],
+    importedPrompt.sampleAnswers || []
+  ),
+});
+
+const mergePromptCollections = (existingPrompts: Prompt[], importedPrompts: Prompt[]) => {
+  const promptMatches = new Map<string, Prompt>();
+
+  existingPrompts.forEach((prompt) => {
+    promptMatches.set(`id:${prompt.id}`, prompt);
+    promptMatches.set(`question:${normalizeText(prompt.question)}`, prompt);
+  });
+
+  importedPrompts.forEach((importedPrompt) => {
+    const matchedPrompt =
+      promptMatches.get(`id:${importedPrompt.id}`) ||
+      promptMatches.get(`question:${normalizeText(importedPrompt.question)}`);
+
+    if (matchedPrompt) {
+      const mergedPrompt = mergePromptContent(matchedPrompt, importedPrompt);
+      const promptIndex = existingPrompts.findIndex((prompt) => prompt.id === matchedPrompt.id);
+      existingPrompts[promptIndex] = mergedPrompt;
+      promptMatches.set(`id:${mergedPrompt.id}`, mergedPrompt);
+      promptMatches.set(`question:${normalizeText(mergedPrompt.question)}`, mergedPrompt);
+      return;
+    }
+
+    existingPrompts.push(importedPrompt);
+    promptMatches.set(`id:${importedPrompt.id}`, importedPrompt);
+    promptMatches.set(`question:${normalizeText(importedPrompt.question)}`, importedPrompt);
+  });
+};
+
+const mergeDotPointCollections = (existingDPs: DotPoint[], importedDPs: DotPoint[]) => {
+  importedDPs.forEach((importedDP) => {
+    let existingDP = existingDPs.find((dp) => dp.id === importedDP.id);
+    if (!existingDP) {
+      existingDP = existingDPs.find(
+        (dp) => normalizeText(dp.description) === normalizeText(importedDP.description)
+      );
+    }
+
+    if (existingDP) {
+      existingDP.description =
+        mergeScalarText(existingDP.description, importedDP.description) || existingDP.description;
+      mergePromptCollections(existingDP.prompts, importedDP.prompts);
+    } else {
+      existingDPs.push(importedDP);
+    }
+  });
+};
+
+const mergeSubTopicCollections = (existingSTs: SubTopic[], importedSTs: SubTopic[]) => {
+  importedSTs.forEach((importedST) => {
+    let existingST = existingSTs.find((st) => st.id === importedST.id);
+    if (!existingST) {
+      existingST = existingSTs.find(
+        (st) => normalizeText(st.name) === normalizeText(importedST.name)
+      );
+    }
+
+    if (existingST) {
+      existingST.name = mergeScalarText(existingST.name, importedST.name) || existingST.name;
+      mergeDotPointCollections(existingST.dotPoints, importedST.dotPoints);
+    } else {
+      existingSTs.push(importedST);
+    }
+  });
+};
+
+export const mergeTopicContents = (existingTopic: Topic, importedTopic: Topic): Topic => {
+  const mergedTopic = JSON.parse(JSON.stringify(existingTopic)) as Topic;
+  mergedTopic.name = mergeScalarText(existingTopic.name, importedTopic.name) || existingTopic.name;
+  mergedTopic.performanceBandDescriptors = importedTopic.performanceBandDescriptors?.length
+    ? importedTopic.performanceBandDescriptors
+    : existingTopic.performanceBandDescriptors;
+  mergeSubTopicCollections(mergedTopic.subTopics, importedTopic.subTopics);
+  return mergedTopic;
+};
+
 export const mergeCourseContents = (existingCourse: Course, importedCourse: Course): Course => {
   const newCourse = JSON.parse(JSON.stringify(existingCourse));
-  const mergePrompts = (existingPrompts: Prompt[], importedPrompts: Prompt[]) => {
-    const existingPromptIds = new Set(existingPrompts.map((p) => p.id));
-    const existingPromptQuestions = new Set(
-      existingPrompts.map((p) => (p.question || '').trim().toLowerCase())
-    );
-    importedPrompts.forEach((importedPrompt) => {
-      const importedQ = (importedPrompt.question || '').trim().toLowerCase();
-      if (!existingPromptIds.has(importedPrompt.id) && !existingPromptQuestions.has(importedQ)) {
-        existingPrompts.push(importedPrompt);
-      }
-    });
-  };
-  const mergeDotPoints = (existingDPs: DotPoint[], importedDPs: DotPoint[]) => {
-    importedDPs.forEach((importedDP) => {
-      let existingDP = existingDPs.find((dp) => dp.id === importedDP.id);
-      if (!existingDP) {
-        const importedDesc = (importedDP.description || '').trim().toLowerCase();
-        existingDP = existingDPs.find(
-          (dp) => (dp.description || '').trim().toLowerCase() === importedDesc
-        );
-      }
-      if (existingDP) mergePrompts(existingDP.prompts, importedDP.prompts);
-      else existingDPs.push(importedDP);
-    });
-  };
-  const mergeSubTopics = (existingSTs: SubTopic[], importedSTs: SubTopic[]) => {
-    importedSTs.forEach((importedST) => {
-      let existingST = existingSTs.find((st) => st.id === importedST.id);
-      if (!existingST) {
-        const importedName = (importedST.name || '').trim().toLowerCase();
-        existingST = existingSTs.find(
-          (st) => (st.name || '').trim().toLowerCase() === importedName
-        );
-      }
-      if (existingST) mergeDotPoints(existingST.dotPoints, importedST.dotPoints);
-      else existingSTs.push(importedST);
-    });
-  };
+  newCourse.name = mergeScalarText(existingCourse.name, importedCourse.name) || existingCourse.name;
+  newCourse.subject = mergeScalarText(existingCourse.subject, importedCourse.subject);
   importedCourse.topics.forEach((importedTopic) => {
     let existingTopic = newCourse.topics.find((t: Topic) => t.id === importedTopic.id);
     if (!existingTopic) {
-      const importedName = (importedTopic.name || '').trim().toLowerCase();
-      existingTopic = newCourse.topics.find(
-        (t: Topic) => (t.name || '').trim().toLowerCase() === importedName
-      );
+      const importedName = normalizeText(importedTopic.name);
+      existingTopic = newCourse.topics.find((t: Topic) => normalizeText(t.name) === importedName);
     }
-    if (existingTopic) mergeSubTopics(existingTopic.subTopics, importedTopic.subTopics);
-    else newCourse.topics.push(importedTopic);
+    if (existingTopic) {
+      const mergedTopic = mergeTopicContents(existingTopic, importedTopic);
+      const topicIndex = newCourse.topics.findIndex(
+        (topic: Topic) => topic.id === existingTopic!.id
+      );
+      newCourse.topics[topicIndex] = mergedTopic;
+    } else newCourse.topics.push(importedTopic);
   });
   const existingCodes = new Set(newCourse.outcomes.map((o: any) => o.code));
   importedCourse.outcomes.forEach((importedOutcome) => {

@@ -31,18 +31,34 @@ import { AICache } from '../services/aiCache';
 import { generateId } from '../utils/idUtils';
 import {
   mergeCourseContents,
+  mergeTopicContents,
   analyzeAndSanitizeImportData,
   migrateAnalyseVerb,
   regenerateTopicIds,
 } from '../utils/dataManagerUtils';
+
+type DiscoveredDocType = 'course' | 'topic';
 
 export interface DiscoveredDoc {
   id: string;
   name: string;
   source: string;
   subject?: string;
-  data: Course;
+  type: DiscoveredDocType;
+  data: Course | Topic;
   selected: boolean;
+  targetCourseId?: string;
+  targetCourseName?: string;
+}
+
+interface ManifestDocEntry {
+  file: string;
+  type?: DiscoveredDocType;
+  selected?: boolean;
+  subject?: string;
+  name?: string;
+  targetCourseId?: string;
+  targetCourseName?: string;
 }
 
 const detectSubjectArea = (name: string): string => {
@@ -83,6 +99,47 @@ const detectSubjectArea = (name: string): string => {
   if (n.includes('pdhpe') || n.includes('health') || n.includes('sport') || n.includes('movement'))
     return 'PDHPE';
   return 'Other';
+};
+
+const normalizeText = (value?: string) => (value || '').trim().toLowerCase();
+
+const parseManifestEntries = (manifest: {
+  files?: Array<string | ManifestDocEntry>;
+  entries?: Array<string | ManifestDocEntry>;
+}): ManifestDocEntry[] => {
+  const rawEntries = manifest.entries || manifest.files || [];
+  return rawEntries
+    .map((entry) => (typeof entry === 'string' ? { file: entry } : entry))
+    .filter((entry): entry is ManifestDocEntry => Boolean(entry?.file));
+};
+
+const resolveTopicTargetCourse = (
+  doc: DiscoveredDoc,
+  availableCourses: Course[]
+): Course | undefined => {
+  if (doc.targetCourseId) {
+    return availableCourses.find((course) => course.id === doc.targetCourseId);
+  }
+
+  if (doc.targetCourseName) {
+    return availableCourses.find(
+      (course) => normalizeText(course.name) === normalizeText(doc.targetCourseName)
+    );
+  }
+
+  const subjectMatches = doc.subject
+    ? availableCourses.filter(
+        (course) =>
+          normalizeText(course.subject || detectSubjectArea(course.name)) ===
+          normalizeText(doc.subject)
+      )
+    : [];
+
+  if (subjectMatches.length === 1) {
+    return subjectMatches[0];
+  }
+
+  return undefined;
 };
 
 export const useSyllabusData = ({
@@ -127,10 +184,11 @@ export const useSyllabusData = ({
 
           preseededCourses.forEach((c) => {
             potentialDocs.push({
-              id: c.id,
+              id: `course:${c.id}`,
               name: c.name,
               source: 'Built-in Samples',
               subject: detectSubjectArea(c.name),
+              type: 'course',
               data: c,
               selected: true,
             });
@@ -140,30 +198,49 @@ export const useSyllabusData = ({
             const manifestRes = await fetch('/courseData/manifest.json');
             if (manifestRes.ok) {
               const manifest = await manifestRes.json();
-              if (manifest.files && Array.isArray(manifest.files)) {
+              const manifestEntries = parseManifestEntries(manifest);
+              if (manifestEntries.length > 0) {
                 await Promise.all(
-                  manifest.files.map(async (filename: string) => {
+                  manifestEntries.map(async (entry) => {
                     try {
-                      const res = await fetch(`/courseData/${filename}`);
+                      const res = await fetch(`/courseData/${entry.file}`);
                       if (!res.ok) return;
                       const rawData = await res.json();
                       const analysis = analyzeAndSanitizeImportData(rawData);
                       if (analysis.type === 'courses' && analysis.data) {
                         (analysis.data as Course[]).forEach((c) => {
-                          if (!potentialDocs.some((existing) => existing.id === c.id)) {
+                          const docId = `course:${c.id}`;
+                          if (!potentialDocs.some((existing) => existing.id === docId)) {
                             potentialDocs.push({
-                              id: c.id,
-                              name: c.name,
-                              source: filename,
-                              subject: c.subject || detectSubjectArea(c.name),
+                              id: docId,
+                              name: entry.name || c.name,
+                              source: entry.file,
+                              subject: entry.subject || c.subject || detectSubjectArea(c.name),
+                              type: 'course',
                               data: c,
-                              selected: false,
+                              selected: entry.selected ?? false,
                             });
                           }
                         });
+                      } else if (analysis.type === 'topic' && analysis.data) {
+                        const topic = analysis.data as Topic;
+                        const docId = `topic:${entry.file}:${topic.id}`;
+                        if (!potentialDocs.some((existing) => existing.id === docId)) {
+                          potentialDocs.push({
+                            id: docId,
+                            name: entry.name || topic.name,
+                            source: entry.file,
+                            subject: entry.subject || detectSubjectArea(topic.name),
+                            type: 'topic',
+                            data: topic,
+                            selected: entry.selected ?? false,
+                            targetCourseId: entry.targetCourseId,
+                            targetCourseName: entry.targetCourseName,
+                          });
+                        }
                       }
                     } catch (e) {
-                      console.warn(`[Discovery] Skipping ${filename}:`, e);
+                      console.warn(`[Discovery] Skipping ${entry.file}:`, e);
                     }
                   })
                 );
@@ -191,18 +268,78 @@ export const useSyllabusData = ({
   const importDiscoveredDocs = useCallback(
     async (docsToImport: DiscoveredDoc[]): Promise<boolean> => {
       try {
-        if (docsToImport.length > 0) {
-          updateCourses((draft) => {
-            docsToImport.forEach((doc) => {
-              if (!draft.some((existing) => existing.id === doc.id)) {
-                draft.push({ ...doc.data, subject: doc.subject });
-              }
-            });
+        if (docsToImport.length === 0) return false;
+
+        let importedCount = 0;
+        let skippedTopics = 0;
+
+        updateCourses((draft) => {
+          const courseDocs = docsToImport.filter((doc) => doc.type === 'course');
+          const topicDocs = docsToImport.filter((doc) => doc.type === 'topic');
+
+          courseDocs.forEach((doc) => {
+            const importedCourse = { ...(doc.data as Course), subject: doc.subject };
+            const existingCourseIndex = draft.findIndex(
+              (course) =>
+                course.id === importedCourse.id ||
+                normalizeText(course.name) === normalizeText(importedCourse.name)
+            );
+
+            if (existingCourseIndex !== -1) {
+              draft[existingCourseIndex] = mergeCourseContents(
+                draft[existingCourseIndex],
+                importedCourse
+              );
+            } else {
+              draft.push(importedCourse);
+            }
+
+            importedCount++;
           });
-          showToast(`Synchronized ${docsToImport.length} units to workspace.`, 'success');
-          setDiscoveredDocs([]);
+
+          topicDocs.forEach((doc) => {
+            const targetCourse = resolveTopicTargetCourse(doc, draft);
+            if (!targetCourse) {
+              skippedTopics++;
+              return;
+            }
+
+            const importedTopic = regenerateTopicIds(doc.data as Topic);
+            const existingTopicIndex = targetCourse.topics.findIndex(
+              (topic) =>
+                topic.id === importedTopic.id ||
+                normalizeText(topic.name) === normalizeText(importedTopic.name)
+            );
+
+            if (existingTopicIndex !== -1) {
+              targetCourse.topics[existingTopicIndex] = mergeTopicContents(
+                targetCourse.topics[existingTopicIndex],
+                importedTopic
+              );
+            } else {
+              targetCourse.topics.push(importedTopic);
+            }
+
+            importedCount++;
+          });
+        });
+
+        setDiscoveredDocs((existingDocs) =>
+          existingDocs.filter(
+            (existingDoc) => !docsToImport.some((doc) => doc.id === existingDoc.id)
+          )
+        );
+
+        if (importedCount > 0) {
+          const syncMessage =
+            skippedTopics > 0
+              ? `Synchronized ${importedCount} items. ${skippedTopics} topic file${skippedTopics === 1 ? '' : 's'} still need a target course in manifest metadata.`
+              : `Synchronized ${importedCount} items to workspace.`;
+          showToast(syncMessage, skippedTopics > 0 ? 'info' : 'success');
           return true;
         }
+
+        showToast('No discovered JSON files could be imported.', 'info');
         return false;
       } catch (error) {
         showToast('Data synthesis failed.', 'error');
@@ -441,7 +578,20 @@ export const useSyllabusData = ({
     (courseId: string, topic: Topic) => {
       updateCourses((draft) => {
         findAndUpdateItem(draft, { courseId }, (course: Draft<Course>) => {
-          course.topics.push(topic);
+          const existingTopicIndex = course.topics.findIndex(
+            (existingTopic) =>
+              existingTopic.id === topic.id ||
+              normalizeText(existingTopic.name) === normalizeText(topic.name)
+          );
+
+          if (existingTopicIndex !== -1) {
+            course.topics[existingTopicIndex] = mergeTopicContents(
+              course.topics[existingTopicIndex],
+              topic
+            );
+          } else {
+            course.topics.push(topic);
+          }
         });
       });
       return topic;

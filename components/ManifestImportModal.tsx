@@ -378,6 +378,17 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                               >
                                 {doc.name}
                               </h4>
+                              <div className="flex flex-wrap items-center gap-2 mb-3">
+                                <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-300 bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-500/20">
+                                  {doc.type === 'topic' ? 'Topic JSON' : 'Course JSON'}
+                                </span>
+                                {doc.type === 'topic' &&
+                                  (doc.targetCourseName || doc.targetCourseId) && (
+                                    <span className="text-[10px] font-bold uppercase tracking-widest text-sky-300 bg-sky-500/10 px-2.5 py-1 rounded-full border border-sky-500/20">
+                                      Target {doc.targetCourseName || doc.targetCourseId}
+                                    </span>
+                                  )}
+                              </div>
                               <p className="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
                                 <Database className="w-3 h-3" /> {doc.source}
                               </p>
