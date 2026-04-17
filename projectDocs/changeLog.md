@@ -1,5 +1,12 @@
 # HSC AI Evaluator - Change Log
 
+## [2.2.2] - 2026-03-17
+### 📖 Documentation
+*   **Version Alignment**: Updated all documentation files to reflect current version 2.2.2.
+*   **Status**: Ready for deployment on macOS.
+
+---
+
 ## [2.2.1] - 2025-05-23
 ### 🚀 Features
 *   **Gemini 3 Pro Integration**: Upgraded evaluation and generation to `gemini-3-pro-preview`.

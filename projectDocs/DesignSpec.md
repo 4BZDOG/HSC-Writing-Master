@@ -1,4 +1,4 @@
-# Design Language & Style Specification (v2.2.1)
+# Design Language & Style Specification (v2.2.2)
 
 ## 1. Design Philosophy
 
