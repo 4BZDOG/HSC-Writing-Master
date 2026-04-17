@@ -35,6 +35,8 @@
     "@sentry/react": "^8.0.0"
   },
   "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
@@ -47,12 +49,13 @@
     "prettier": "^3.1.1",
     "husky": "^8.0.3",
     "lint-staged": "^15.2.2",
-    "vitest": "^1.1.0",
-    "@vitest/ui": "^1.1.0",
+    "vitest": "^4.1.4",
+    "@vitest/ui": "^4.1.4",
+    "@vitest/coverage-v8": "^4.1.4",
     "jsdom": "^23.0.1",
-    "@testing-library/react": "^15.0.0",
+    "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.5.1",
-    "@testing-library/dom": "^9.3.4",
+    "@testing-library/dom": "^10.4.1",
     "@playwright/test": "^1.40.1",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"

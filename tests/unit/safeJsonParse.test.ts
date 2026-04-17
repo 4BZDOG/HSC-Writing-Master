@@ -85,6 +85,13 @@ describe('safeJsonParse', () => {
     expect(result?.score).toBe(85);
   });
 
+  it('should extract JSON arrays from standalone lines after model prose', () => {
+    const jsonString = `Here are the generated keywords:\n["analysis", "evidence", "judgement"]`;
+    const result = safeJsonParse<string[]>(jsonString);
+
+    expect(result).toEqual(['analysis', 'evidence', 'judgement']);
+  });
+
   it('should preserve data types in parsed JSON', () => {
     const jsonString = '{"count": 42, "enabled": true, "rate": 3.14, "nullable": null}';
     const result = safeJsonParse<any>(jsonString);

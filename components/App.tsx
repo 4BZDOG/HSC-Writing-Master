@@ -7,9 +7,7 @@ import ApiMonitorDisplay from './ApiMonitorDisplay';
 import ApiStatusIndicator from './ApiStatusIndicator';
 import BackgroundTaskIndicator from './BackgroundTaskIndicator';
 import GlobalLoadingOverlay from './GlobalLoadingOverlay';
-import AppModals from './AppModals';
 import LoginPage from './LoginPage';
-import ContentAuditModal from './admin/ContentAuditModal';
 import { useNavigation } from '../hooks/useNavigation';
 import { useSyllabusData } from '../hooks/useSyllabusData';
 import { useGemini } from '../hooks/useGemini';
@@ -21,8 +19,11 @@ import { authService } from '../services/authService';
 import { User } from '../types';
 import { Compass, Sparkles, Database, Layers, Sun, Moon, HardDrive, Activity } from 'lucide-react';
 import { apiMonitor, ApiStatus } from '../services/geminiService';
-import CommandVerbHierarchy from './CommandVerbHierarchy';
 import { loadUserProfile } from '../utils/storageUtils';
+
+const AppModals = React.lazy(() => import('./AppModals'));
+const ContentAuditModal = React.lazy(() => import('./admin/ContentAuditModal'));
+const CommandVerbHierarchy = React.lazy(() => import('./CommandVerbHierarchy'));
 
 const AnimatedBackground: React.FC = () => {
   return (
@@ -477,7 +478,9 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
 
       {!isFocusMode && (
         <div className="mb-4">
-          <CommandVerbHierarchy currentVerb={currentPrompt?.verb} />
+          <React.Suspense fallback={null}>
+            <CommandVerbHierarchy currentVerb={currentPrompt?.verb} />
+          </React.Suspense>
         </div>
       )}
 
@@ -529,33 +532,37 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         </div>
       )}
 
-      <AppModals
-        activeModals={activeModals}
-        modalProps={modalProps}
-        modalHandlers={modalHandlers}
-        syllabusHandlers={syllabusHandlers}
-        geminiHandlers={geminiHandlers}
-        currentSelection={currentSelection}
-        statePath={statePath}
-        courses={courses}
-        setStatePath={setStatePath}
-        showToast={showToast}
-        setNewlyAddedIds={setNewlyAddedIds}
-        user={user}
-        onUpdateUser={onUpdateUser}
-        onLogout={handleLogout}
-      />
+      <React.Suspense fallback={null}>
+        <AppModals
+          activeModals={activeModals}
+          modalProps={modalProps}
+          modalHandlers={modalHandlers}
+          syllabusHandlers={syllabusHandlers}
+          geminiHandlers={geminiHandlers}
+          currentSelection={currentSelection}
+          statePath={statePath}
+          courses={courses}
+          setStatePath={setStatePath}
+          showToast={showToast}
+          setNewlyAddedIds={setNewlyAddedIds}
+          user={user}
+          onUpdateUser={onUpdateUser}
+          onLogout={handleLogout}
+        />
+      </React.Suspense>
       <GlobalLoadingOverlay message={globalLoadingMessage} error={quotaError} />
       <BackgroundTaskIndicator task={activeBackgroundTask} />
       {user.role === 'admin' && <ApiMonitorDisplay />}
       {isAuditModalOpen && (
-        <ContentAuditModal
-          isOpen={isAuditModalOpen}
-          onClose={() => setIsAuditModalOpen(false)}
-          courses={courses}
-          updateCourses={updateCourses}
-          showToast={showToast}
-        />
+        <React.Suspense fallback={null}>
+          <ContentAuditModal
+            isOpen={isAuditModalOpen}
+            onClose={() => setIsAuditModalOpen(false)}
+            courses={courses}
+            updateCourses={updateCourses}
+            showToast={showToast}
+          />
+        </React.Suspense>
       )}
     </div>
   );

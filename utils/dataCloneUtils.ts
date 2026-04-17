@@ -90,7 +90,7 @@ export const cloneCourses = (courses: Course[]): Course[] => {
         })),
       })),
     })),
-    courseOutcomes: course.courseOutcomes ? [...course.courseOutcomes] : undefined,
+    outcomes: [...course.outcomes],
   }));
 };
 
@@ -173,7 +173,7 @@ export const structuralMerge = <T extends Record<string, any>>(
   source: T,
   updates: Partial<T>
 ): T => {
-  const result = { ...source };
+  const result = { ...source } as T;
 
   for (const key in updates) {
     if (updates.hasOwnProperty(key)) {
@@ -192,7 +192,7 @@ export const structuralMerge = <T extends Record<string, any>>(
         result[key] = structuralMerge(sourceValue, updateValue);
       } else if (Array.isArray(sourceValue) && Array.isArray(updateValue)) {
         // Clone array
-        result[key] = [...updateValue];
+        result[key] = [...updateValue] as T[Extract<keyof T, string>];
       } else {
         result[key] = updateValue;
       }

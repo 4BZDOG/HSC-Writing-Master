@@ -414,34 +414,21 @@ export const generateContentWithRetry = async (request: any): Promise<GenerateCo
 export const safeJsonParse = <T>(jsonString: string): T | null => {
   if (!jsonString) return null;
 
-  // 1. Try parsing directly
-  try {
-    return JSON.parse(jsonString);
-  } catch (e) {
-    /* continue */
-  }
-
-  // 2. Try extracting from markdown code blocks
-  const markdownMatch = jsonString.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
-  if (markdownMatch && markdownMatch[1]) {
+  const tryParseCandidate = (candidate: string): T | null => {
     try {
-      return JSON.parse(markdownMatch[1]);
-    } catch (e) {
-      /* continue */
+      return JSON.parse(candidate);
+    } catch {
+      return null;
     }
-  }
+  };
 
-  // 3. Robust Extraction: Search for valid JSON objects by finding matching braces
-  // This handles cases where thinking traces (which might contain braces) appear before the JSON.
-
-  let currentStart = jsonString.indexOf('{');
-  while (currentStart !== -1) {
-    let bracketCount = 0;
+  const extractBalancedJson = (source: string, startIndex: number): string | null => {
+    const stack: string[] = [];
     let inString = false;
     let escape = false;
 
-    for (let i = currentStart; i < jsonString.length; i++) {
-      const char = jsonString[i];
+    for (let i = startIndex; i < source.length; i++) {
+      const char = source[i];
 
       if (escape) {
         escape = false;
@@ -458,27 +445,62 @@ export const safeJsonParse = <T>(jsonString: string): T | null => {
         continue;
       }
 
-      if (!inString) {
-        if (char === '{') bracketCount++;
-        else if (char === '}') {
-          bracketCount--;
-          if (bracketCount === 0) {
-            // Found a balanced block
-            const candidate = jsonString.substring(currentStart, i + 1);
-            try {
-              return JSON.parse(candidate);
-            } catch (e) {
-              // Not valid JSON, continue searching
-              break;
-            }
-          }
+      if (inString) continue;
+
+      if (char === '{' || char === '[') {
+        stack.push(char);
+        continue;
+      }
+
+      if (char === '}' || char === ']') {
+        const last = stack.pop();
+        if (!last) return null;
+
+        const isMatch = (last === '{' && char === '}') || (last === '[' && char === ']');
+        if (!isMatch) return null;
+
+        if (stack.length === 0) {
+          return source.slice(startIndex, i + 1);
         }
       }
     }
 
-    // If we are here, we didn't find a matching brace or parsing failed.
-    // Try next opening brace
-    currentStart = jsonString.indexOf('{', currentStart + 1);
+    return null;
+  };
+
+  // 1. Try parsing directly
+  const directParse = tryParseCandidate(jsonString);
+  if (directParse !== null) return directParse;
+
+  // 2. Try extracting from markdown code blocks
+  const markdownMatch = jsonString.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+  if (markdownMatch && markdownMatch[1]) {
+    const markdownParse = tryParseCandidate(markdownMatch[1]);
+    if (markdownParse !== null) {
+      return markdownParse;
+    }
+  }
+
+  // 3. Search line starts for standalone JSON payloads after model prose or thinking traces.
+  for (let i = 0; i < jsonString.length; i++) {
+    const isLineStart = i === 0 || jsonString[i - 1] === '\n' || jsonString[i - 1] === '\r';
+    if (!isLineStart) continue;
+
+    let candidateStart = i;
+    while (candidateStart < jsonString.length && /\s/.test(jsonString[candidateStart])) {
+      candidateStart++;
+    }
+
+    const openingChar = jsonString[candidateStart];
+    if (openingChar !== '{' && openingChar !== '[') continue;
+
+    const candidate = extractBalancedJson(jsonString, candidateStart);
+    if (!candidate) continue;
+
+    const parsedCandidate = tryParseCandidate(candidate);
+    if (parsedCandidate !== null) {
+      return parsedCandidate;
+    }
   }
 
   return null;

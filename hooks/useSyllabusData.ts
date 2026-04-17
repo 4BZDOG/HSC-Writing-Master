@@ -27,7 +27,6 @@ import {
   fetchLibrary,
   deleteFromLibrary,
 } from '../utils/storageUtils';
-import { preseededCourses } from '../data/seedData';
 import { AICache } from '../services/aiCache';
 import { generateId } from '../utils/idUtils';
 import {
@@ -124,6 +123,7 @@ export const useSyllabusData = ({
         setStorageStatus('IndexedDB');
         try {
           const potentialDocs: DiscoveredDoc[] = [];
+          const { preseededCourses } = await import('../data/seedData');
 
           preseededCourses.forEach((c) => {
             potentialDocs.push({
@@ -456,6 +456,7 @@ export const useSyllabusData = ({
 
   const handleResetToDefault = useCallback(async () => {
     await AICache.clear();
+    const { preseededCourses } = await import('../data/seedData');
     updateCourses(() => preseededCourses);
     showToast('Factory reset successful.', 'success');
   }, [updateCourses, showToast]);
