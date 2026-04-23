@@ -419,11 +419,11 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                   const next = user.preferences.theme === 'light' ? 'dark' : 'light';
                   onUpdateUser({
                     ...user,
-                    preferences: { ...user.preferences, theme: next as any },
+                    preferences: { ...user.preferences, theme: next as 'dark' | 'light' },
                   });
                   authService.updateUser({
                     ...user,
-                    preferences: { ...user.preferences, theme: next as any },
+                    preferences: { ...user.preferences, theme: next as 'dark' | 'light' },
                   });
                 }}
                 className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all"

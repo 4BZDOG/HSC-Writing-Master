@@ -73,7 +73,6 @@ export class AICache {
 
       return entry.data as T;
     } catch (error) {
-      console.error(`Cache get error for key ${key}:`, error);
       return null;
     }
   }
@@ -89,7 +88,7 @@ export class AICache {
       };
       await db.put(STORE_NAME, entry, key);
     } catch (error) {
-      console.error(`Cache set error for key ${key}:`, error);
+      // Silently handle cache set errors
     }
   }
 
@@ -99,7 +98,7 @@ export class AICache {
       const db = await this.initDB();
       await db.delete(STORE_NAME, key);
     } catch (error) {
-      console.error(`Cache delete error for key ${key}:`, error);
+      // Silently handle cache delete errors
     }
   }
 
@@ -108,9 +107,8 @@ export class AICache {
     try {
       const db = await this.initDB();
       await db.clear(STORE_NAME);
-      console.log('AI Cache cleared');
     } catch (error) {
-      console.error('Cache clear error:', error);
+      // Silently handle cache clear errors
     }
   }
 
@@ -134,11 +132,8 @@ export class AICache {
       }
 
       await tx.done;
-      if (deleted > 0) {
-        console.log(`Cache cleanup: removed ${deleted} expired entries`);
-      }
     } catch (error) {
-      console.error('Cache cleanup error:', error);
+      // Silently handle cache cleanup errors
     }
   }
 
@@ -167,7 +162,6 @@ export class AICache {
 
       return stats;
     } catch (error) {
-      console.error('Cache stats error:', error);
       return { total: 0, size: 0, expired: 0 };
     }
   }

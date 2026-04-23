@@ -41,8 +41,8 @@ const useKeyboardShortcuts = (shortcuts: { [key: string]: (e: KeyboardEvent) => 
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown as any);
-    return () => window.removeEventListener('keydown', handleKeyDown as any);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [shortcuts]);
 };
 
