@@ -43,6 +43,6 @@
     "no-console": "off",
     "no-prototype-builtins": "off",
     "no-constant-condition": "off",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "error"
   }
 }

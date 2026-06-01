@@ -84,7 +84,10 @@ export const useNavigation = (courses: Course[]) => {
 
       return pathChanged ? newPath : currentPath;
     });
-  }, [courses]); // Re-run only when courses data changes
+    // statePath is read via the functional updater arg (currentPath), not the
+    // closure, so it is intentionally omitted — re-run only when courses change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [courses]);
 
   return {
     statePath,

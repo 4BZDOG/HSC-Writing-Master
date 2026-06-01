@@ -192,6 +192,10 @@ const Workspace: React.FC<WorkspaceProps> = ({
 
   useEffect(() => {
     setUserAnswer(currentPrompt?.userDraft || '');
+    // Load the saved draft only when switching to a different prompt (id change).
+    // userDraft is intentionally omitted — re-running on every draft update would
+    // clobber the user's in-progress edits.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPrompt?.id, setUserAnswer]);
 
   const handleDevMockEvaluation = () => {

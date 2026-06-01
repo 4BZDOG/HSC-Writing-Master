@@ -41,6 +41,10 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
       setIsLoading(true);
       runCheck();
     }
+    // runCheck is intentionally not a dependency: the quality check should fire
+    // only when the modal opens or its content changes, not when the (inline,
+    // per-render) runCheck closure is recreated.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, content]);
 
   const runCheck = async () => {

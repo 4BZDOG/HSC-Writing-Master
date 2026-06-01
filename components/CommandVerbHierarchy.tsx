@@ -46,6 +46,10 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
       setActiveVerb(currentVerb);
       if (!isOpen) setIsOpen(true);
     }
+    // React only to a change of currentVerb. `isOpen` is read but intentionally
+    // omitted — including it would re-open the panel right after the user closes
+    // it while a verb is still selected.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentVerb]);
 
   const { sortedVerbsByGroup, activeTermInfo } = useMemo(() => {

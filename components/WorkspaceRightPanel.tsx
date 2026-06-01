@@ -111,7 +111,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
 
     // Weighted score: 60% volume, 40% keywords
     return wordProg * 0.6 + keyProg * 0.4;
-  }, [debouncedUserAnswer, currentPrompt, commandTermInfo, maxBand]);
+  }, [debouncedUserAnswer, currentPrompt, maxBand]);
 
   // Dynamic Action Button Theme - Using shared getBandConfig for perfect consistency
   const buttonConfig = useMemo(() => {

@@ -377,7 +377,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
       groups[sa.mark].answers.push(sa);
     });
     return Object.values(groups).sort((a, b) => b.mark - a.mark);
-  }, [prompt.sampleAnswers, prompt.totalMarks, prompt.verb, commandTermInfo.tier]);
+  }, [prompt.sampleAnswers, prompt.totalMarks, commandTermInfo.tier]);
 
   const handleRecalibrate = async () => {
     if (onRecalibrate) {

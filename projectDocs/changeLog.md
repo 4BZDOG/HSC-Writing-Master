@@ -11,7 +11,7 @@
 - **Data integrity**: Programmatic and discovered-doc imports are now validated against Zod schemas before touching state, making batch imports all-or-nothing per item (UX-01, UX-02).
 - **Error UX**: Added CORS and timeout error categories (UX-05); safety-blocked AI responses now use a dedicated `SafetyBlockError` with rephrase-and-retry guidance (UX-03); silent local-save failures now surface a toast (QUAL-03).
 - **Enrichment UX**: Background enrichment no longer triggers the full-screen blocking overlay — it shows a subtle inline badge instead (UX-04).
-- **Cleanup**: Removed the orphaned duplicate `components/App.tsx`; re-enabled `react-hooks/exhaustive-deps` as a warning; gated demo credentials behind `VITE_ENABLE_MOCK_AUTH` (SEC-02).
+- **Cleanup**: Removed the orphaned duplicate `components/App.tsx`; resolved all `react-hooks/exhaustive-deps` findings and promoted the rule to `error`; gated demo credentials behind `VITE_ENABLE_MOCK_AUTH` (SEC-02).
 - **Tests**: Added `stateUtils` unit tests; extended `errorHandler` and `dataManagerUtils` coverage (66 unit tests passing).
 
 ## [2.2.1] - 2025-05-23

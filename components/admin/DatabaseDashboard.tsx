@@ -143,6 +143,9 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
       if (view === 'overview') fetchStats();
       if (view === 'snapshots') fetchBackups();
     }
+    // fetchStats/fetchBackups are inline async helpers recreated each render;
+    // we intentionally fetch only when the dashboard opens or the view changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, view]);
 
   const handleForceSync = async () => {

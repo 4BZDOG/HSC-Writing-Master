@@ -279,6 +279,9 @@ const Editor = forwardRef<
       };
       window.addEventListener('insert-text', handleCustomInsert);
       return () => window.removeEventListener('insert-text', handleCustomInsert);
+      // The listener is intentionally re-bound on `value` changes so the
+      // insertText closure always splices into the current editor content.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value]);
 
     const handleKeyDown = (e: React.KeyboardEvent) => {

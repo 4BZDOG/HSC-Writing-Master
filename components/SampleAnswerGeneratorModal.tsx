@@ -60,6 +60,9 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
       setIsLoading(false);
       setError(null);
     }
+    // selectedMark is read only to seed it once when the modal opens; including
+    // it would re-run this initialiser every time the user picks a mark.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, prompt.totalMarks]);
 
   const handleGenerate = async () => {

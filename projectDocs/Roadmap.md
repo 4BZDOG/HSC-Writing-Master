@@ -48,8 +48,8 @@ See `changeLog.md` [2.2.2] for the full list.
 ### Phase A — Finish stabilization (next)
 
 1. **Real E2E coverage (IDEA-06)** — replace the placeholder Playwright specs with workflow tests: guest login → navigator → create course/topic/subtopic/prompt → evaluate; import/export round-trip; error states (API down, quota, safety block). _Must be authored and run in an environment with Playwright browsers + dev server so CI stays green._
-2. **Raise the `exhaustive-deps` warnings to fixes** — work through the ~10 surfaced warnings (notably `useGemini` enrichment effect and `useNavigation`), then consider promoting the rule to `error`.
-3. **Tighten remaining `any` / lint rules** — once the codebase is clean, flip `@typescript-eslint/no-explicit-any` and `no-unused-vars` to `warn`.
+2. ✅ **Done** — `react-hooks/exhaustive-deps` resolved across all 10 sites (unused deps removed; intentional omissions documented with `eslint-disable` + rationale) and promoted from `warn` to `error`.
+3. **Tighten remaining `any` / lint rules** — incrementally remove `any` from non-critical modules, then flip `@typescript-eslint/no-explicit-any` and `no-unused-vars` to `warn` (deferred until the codebase is clean enough that the rule isn't pure noise).
 
 ### Phase B — Production-readiness for real users
 

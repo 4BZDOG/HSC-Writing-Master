@@ -380,6 +380,11 @@ export const useGemini = ({
     return () => {
       aborted = true;
     };
+    // Intentionally keyed off `?.id` rather than the full currentPrompt/
+    // currentCourse objects: enrichment must run once per prompt id, not every
+    // time the object reference changes (which happens after we write the
+    // enriched fields back — including the objects would loop). See BUG-05.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPrompt?.id, currentCourse?.id, updateCourses, handleApiError, statePath]);
 
   const handleGenerateScenario = useCallback(async () => {
