@@ -26,10 +26,23 @@ const DEFAULT_STATS: UserStats = {
   streakDays: 1,
 };
 
-const MOCK_USERS: Record<string, { password: string; role: UserRole; name: string }> = {
-  admin: { password: 'admin', role: 'admin', name: 'Administrator' },
-  user: { password: 'user', role: 'user', name: 'Student User' },
-};
+/**
+ * TODO: REMOVE BEFORE PRODUCTION (SEC-02)
+ * These are plaintext demo credentials for local development and the public
+ * demo only. They are gated behind `VITE_ENABLE_MOCK_AUTH` so they are NOT
+ * active in a production build unless that flag is explicitly set. Before any
+ * real-user deployment, replace this with a proper auth provider (Supabase,
+ * Firebase Auth, Clerk, etc.). See ProjectHealth.md → SEC-02 / IDEA-02.
+ */
+const MOCK_AUTH_ENABLED = import.meta.env.DEV || import.meta.env.VITE_ENABLE_MOCK_AUTH === 'true';
+
+const MOCK_USERS: Record<string, { password: string; role: UserRole; name: string }> =
+  MOCK_AUTH_ENABLED
+    ? {
+        admin: { password: 'admin', role: 'admin', name: 'Administrator' },
+        user: { password: 'user', role: 'user', name: 'Student User' },
+      }
+    : {};
 
 // Helper to calculate daily streak
 const calculateStreak = (stats: UserStats): UserStats => {
@@ -175,7 +188,6 @@ const supabaseLogin = async (email: string, password: string): Promise<User> => 
 
 export const authService = {
   login: async (username: string, password: string): Promise<User> => {
-    // In Supabase mode the username field is treated as the account email.
     if (isSupabaseConfigured && supabase) {
       return supabaseLogin(username, password);
     }

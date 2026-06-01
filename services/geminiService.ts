@@ -22,6 +22,7 @@ import {
   ApiMonitorStatus,
   ApiKeyError,
   QuotaExceededError,
+  SafetyBlockError,
   ERROR_THRESHOLD,
 } from './aiCore';
 import { getCommandTermInfo, getCommandTermsForMarks } from '../data/commandTerms';
@@ -41,6 +42,7 @@ export {
   type ApiMonitorStatus,
   ApiKeyError,
   QuotaExceededError,
+  SafetyBlockError,
   ERROR_THRESHOLD,
 };
 

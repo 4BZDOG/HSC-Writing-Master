@@ -10,6 +10,7 @@ import {
   AlertCircle,
   Loader2,
   ShieldCheck,
+  type LucideIcon,
 } from 'lucide-react';
 
 interface LoginPageProps {
@@ -44,7 +45,7 @@ const InputField = ({
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type: string;
   placeholder: string;
-  icon: any;
+  icon: LucideIcon;
   hasError: boolean;
 }) => (
   <div className="space-y-2.5">

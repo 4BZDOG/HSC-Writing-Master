@@ -1,8 +1,8 @@
-# HSC AI Evaluator (v2.2.1)
+# HSC AI Evaluator (v2.2.2)
 
 > "An AI-powered cognitive engine that transforms NESA syllabus content into rigorous, exam-ready assessment tasks using Google's Gemini 3 architecture."
 
-![Version](https://img.shields.io/badge/version-2.2.1-indigo) ![AI](https://img.shields.io/badge/AI-Gemini_3_Pro-purple) ![Status](https://img.shields.io/badge/status-Production_Ready-emerald)
+![Version](https://img.shields.io/badge/version-2.2.2-indigo) ![AI](https://img.shields.io/badge/AI-Gemini_3_Pro-purple) ![Status](https://img.shields.io/badge/status-Production_Ready-emerald)
 
 ## 🏗️ The Vision
 
@@ -51,6 +51,12 @@ The **HSC AI Evaluator** is not a simple chatbot. It is a structured pedagogical
     ```
 3.  **Authenticate**:
     The application utilizes Google's secure AI Studio integration. You will be prompted to select your API Key context upon launching the evaluation engine.
+
+## 🔐 Security & Demo Authentication
+
+> ⚠️ **The built-in login uses plaintext demo credentials** (`admin`/`admin`, `user`/`user`) for local development and the public demo only.
+
+These mock credentials are gated behind the `VITE_ENABLE_MOCK_AUTH` flag. They are **automatically enabled in `npm run dev`** but **disabled in production builds** unless you explicitly set `VITE_ENABLE_MOCK_AUTH=true`. Before any real-user or school-facing deployment, replace the mock auth in `services/authService.ts` with a proper auth provider (Supabase, Firebase Auth, Clerk). See `ProjectHealth.md → SEC-02` for details.
 
 ## 📚 Documentation Suite
 

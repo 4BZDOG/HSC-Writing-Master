@@ -58,6 +58,10 @@ export const useGemini = ({
   const [evaluationError, setEvaluationError] = useState<string | null>(null);
 
   const [isEnriching, setIsEnriching] = useState(false);
+  // Tracks which prompt IDs are currently being enriched so the UI can render a
+  // per-prompt "Enriching…" badge. Backed by state (not just the ref below) so
+  // changes trigger re-renders.
+  const [enrichingPromptIds, setEnrichingPromptIds] = useState<Set<string>>(new Set());
   const [enrichError, setEnrichError] = useState<string | null>(null);
 
   const [isImproving, setIsImproving] = useState(false);
@@ -100,6 +104,12 @@ export const useGemini = ({
         showToast(error.message, 'error');
         return error.message;
       }
+      if (error instanceof gemini.SafetyBlockError) {
+        // Safety blocks are recoverable: the user's answer is preserved in the
+        // editor, so guide them to rephrase and retry rather than dead-ending.
+        showToast(error.message, 'info');
+        return error.message;
+      }
       return error instanceof Error ? error.message : 'An unknown API error occurred.';
     },
     [onApiKeyInvalid, showToast]
@@ -115,8 +125,9 @@ export const useGemini = ({
         const result = await gemini.evaluateAnswer(answer, prompt);
 
         // Auto-save logic: Save both user attempt and AI initial revision to prompt library
+        let saved = false;
         updateCourses((draft) => {
-          findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
+          saved = findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
             if (!p.sampleAnswers) p.sampleAnswers = [];
 
             // 1. Save User Attempt
@@ -163,9 +174,16 @@ export const useGemini = ({
           });
         });
 
-        await AICache.set(`evaluate:${prompt.id}:${answer.slice(0, 100)}`, result);
+        // Only persist to the cache when the prompt still exists in state.
+        // It may have been deleted while marking ran in the background.
+        if (saved) {
+          await AICache.set(`evaluate:${prompt.id}:${answer.slice(0, 100)}`, result);
+        }
         setEvaluationResult(result);
-        showToast('Marking complete. Results auto-saved to library.', 'success');
+        showToast(
+          saved ? 'Marking complete. Results auto-saved to library.' : 'Marking complete.',
+          'success'
+        );
       } catch (error) {
         const message = handleApiError(error);
         setEvaluationError(message);
@@ -312,6 +330,7 @@ export const useGemini = ({
 
     const enrich = async () => {
       enrichingRef.current.add(promptId);
+      setEnrichingPromptIds((prev) => new Set(prev).add(promptId));
       setIsEnriching(true);
       setEnrichError(null);
 
@@ -322,9 +341,9 @@ export const useGemini = ({
         });
 
         if (result && !aborted && isMounted.current) {
-          await AICache.set(`enrich:${promptId}`, result);
+          let applied = false;
           updateCourses((draft) => {
-            findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
+            applied = findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
               if (p.id === promptId) {
                 if (result.scenario && !p.scenario) p.scenario = result.scenario;
                 if (result.keywords && (!p.keywords || p.keywords.length === 0))
@@ -334,6 +353,8 @@ export const useGemini = ({
               }
             });
           });
+          // Skip the cache write if the prompt was deleted mid-enrichment.
+          if (applied) await AICache.set(`enrich:${promptId}`, result);
         }
       } catch (error) {
         const message = handleApiError(error);
@@ -343,6 +364,11 @@ export const useGemini = ({
       } finally {
         enrichingRef.current.delete(promptId);
         enrichmentAttempted.current.add(promptId);
+        setEnrichingPromptIds((prev) => {
+          const next = new Set(prev);
+          next.delete(promptId);
+          return next;
+        });
 
         if (enrichingRef.current.size === 0 && !aborted) {
           setIsEnriching(false);
@@ -363,13 +389,16 @@ export const useGemini = ({
     try {
       const scenario = await gemini.generateScenarioForPrompt(currentPrompt);
       if (scenario) {
-        await AICache.set(`scenario:${currentPrompt.id}`, scenario);
-        updateCourses((draft) =>
-          findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
+        let applied = false;
+        updateCourses((draft) => {
+          applied = findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
             p.scenario = scenario;
-          })
-        );
-        showToast('New scenario generated.', 'success');
+          });
+        });
+        if (applied) {
+          await AICache.set(`scenario:${currentPrompt.id}`, scenario);
+          showToast('New scenario generated.', 'success');
+        }
       }
     } catch (error) {
       const message = handleApiError(error);
@@ -387,13 +416,16 @@ export const useGemini = ({
       const { primaryTerm: commandTermInfo } = getCommandTermsForMarks(currentPrompt.totalMarks);
       const keywords = await gemini.generateKeywordsForPrompt(currentPrompt, commandTermInfo);
       if (keywords) {
-        await AICache.set(`keywords:${currentPrompt.id}`, keywords);
-        updateCourses((draft) =>
-          findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
+        let applied = false;
+        updateCourses((draft) => {
+          applied = findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
             p.keywords = keywords;
-          })
-        );
-        showToast('Keywords have been regenerated.', 'success');
+          });
+        });
+        if (applied) {
+          await AICache.set(`keywords:${currentPrompt.id}`, keywords);
+          showToast('Keywords have been regenerated.', 'success');
+        }
       }
     } catch (error) {
       const message = handleApiError(error);
@@ -411,13 +443,14 @@ export const useGemini = ({
       const { primaryTerm: commandTermInfo } = getCommandTermsForMarks(currentPrompt.totalMarks);
       const generated = await gemini.generateKeywordsForPrompt(currentPrompt, commandTermInfo);
       if (generated) {
-        updateCourses((draft) =>
-          findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
+        let applied = false;
+        updateCourses((draft) => {
+          applied = findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
             const updatedKeywords = [...new Set([...(p.keywords || []), ...generated])];
             p.keywords = updatedKeywords;
-          })
-        );
-        showToast('Suggested keywords added.', 'success');
+          });
+        });
+        if (applied) showToast('Suggested keywords added.', 'success');
       }
     } catch (error) {
       const message = handleApiError(error);
@@ -531,6 +564,7 @@ export const useGemini = ({
     isEvaluating,
     evaluationError,
     isEnriching,
+    isPromptEnriching: (promptId: string) => enrichingPromptIds.has(promptId),
     enrichError,
     setEnrichError,
     isImproving,

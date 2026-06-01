@@ -1,6 +1,6 @@
 # HSC AI Evaluator — Project Health Tracker
 
-**Version**: 2.2.1 | **Last Reviewed**: March 2026 | **Reviewer**: Technical Audit
+**Version**: 2.2.2 | **Last Reviewed**: June 2026 | **Reviewer**: Technical Audit
 
 > This document tracks known bugs, required fixes, and improvement opportunities found in the live codebase. Items are prioritized by impact. Update status fields as work progresses.
 
@@ -23,7 +23,7 @@
 
 ### BUG-01 — Null Crash in AppModals.tsx
 
-- **Status**: ✅ Fixed
+- **Status**: ✅ Fixed (June 2026 — the original "fix" was incomplete; the unguarded `currentCourse.id` at the `TopicCreatorModal.onItemCreated` callback was still live and is now guarded with an early return + toast)
 - **File**: `AppModals.tsx` ~line 82
 - **Problem**: `currentCourse.id` is accessed without a null guard. If the user deletes a course while a modal is open, `currentCourse` becomes undefined and the app throws a runtime error.
 - **Code**:
@@ -123,7 +123,7 @@
 
 ### SEC-02 — Hardcoded Mock Credentials in authService.ts
 
-- **Status**: 🟡 Open (acceptable for demo, not for production)
+- **Status**: ✅ Mitigated (June 2026 — credentials gated behind `VITE_ENABLE_MOCK_AUTH`, disabled in prod builds; prominent TODO + README warning added. Full replacement with a real auth provider remains IDEA-02)
 - **File**: `services/authService.ts` ~lines 23–26
 - **Problem**: Usernames and passwords are hardcoded as plaintext in source code (`admin`/`admin`, `user`/`user`). These will be visible in any public repository.
 - **Note**: If this app is ever deployed with real users, this must be replaced with a proper auth provider (Supabase, Firebase Auth, etc.).
@@ -135,7 +135,7 @@
 
 ### PERF-01 — Synchronous Deep Clone on Delete
 
-- **Status**: 🟡 Open
+- **Status**: ✅ Fixed (June 2026 — `deleteSyllabusItem` now uses `cloneCourses` from `dataCloneUtils`)
 - **File**: `utils/stateUtils.ts` ~line 93
 - **Problem**: `JSON.parse(JSON.stringify(courses))` creates a full deep clone of the entire course array on every delete. For large datasets this is slow and blocks the main thread.
 - **Fix**: Use Immer's `produce` for structural sharing, or use `Array.filter()` to return a new array without cloning the full tree.
@@ -164,7 +164,7 @@
 
 ### PERF-03 — IndexedDB Connection Never Closed
 
-- **Status**: 🔵 Open
+- **Status**: ✅ Fixed (June 2026 — added `AICache.closeDB()` wired to `import.meta.hot.dispose`)
 - **File**: `services/aiCache.ts` ~line 37
 - **Problem**: The DB connection is opened once and cached statically but never explicitly closed. On rapid app reloads (HMR), multiple open connections can accumulate.
 - **Fix**: Add a `closeDB()` method and call it in an app-level cleanup handler.
@@ -175,7 +175,7 @@
 
 ### QUAL-01 — Widespread Use of `any` Type
 
-- **Status**: 🟡 Open
+- **Status**: ✅ Fixed (June 2026 — handler bundles + `currentSelection` typed via `types/handlers.ts` using `Pick` from the source hooks; `LoginPage` icon typed as `LucideIcon`)
 - **Files**: `AppModals.tsx` (props interface), `App.tsx` (~line 63), `components/LoginPage.tsx` (~line 36)
 - **Problem**: Handler objects (`geminiHandlers`, `modalHandlers`, `syllabusHandlers`, `currentSelection`) are all typed as `any`, removing TypeScript's protection across the most critical boundaries of the app.
 - **Fix**: Define explicit interfaces for each handler group. Start with `AppModalsProps` — replacing its `any` fields will surface any mismatches in consuming components.
@@ -184,7 +184,7 @@
 
 ### QUAL-02 — Inconsistent Null-Safety Pattern in AppModals.tsx
 
-- **Status**: 🟡 Open
+- **Status**: ✅ Fixed (June 2026 — guard-first pattern applied to the unguarded creator callback; see BUG-01)
 - **File**: `AppModals.tsx`
 - **Problem**: Some render paths guard with `{currentCourse && ...}` while others access `.id` directly. The inconsistency is easy to miss in code review and will cause crashes in edge cases.
 - **Fix**: Standardize on guard-first pattern for all `currentCourse`, `currentTopic`, `currentSubTopic` accesses.
@@ -193,7 +193,7 @@
 
 ### QUAL-03 — Inconsistent Error Handling (Silent Failures)
 
-- **Status**: 🟡 Open
+- **Status**: ✅ Mitigated (June 2026 — silent local-save failures now surface a toast via the autosave effect; import errors toast through Zod validation. Remaining low-priority catch blocks tracked individually)
 - **Files**: `utils/dataManagerUtils.ts` (~lines 63–67), `utils/StorageUtils.ts` (multiple catch blocks), `components/ManualPromptModal.tsx`
 - **Problem**: Some catch blocks log to console but show no user feedback. Errors silently disappear, making debugging in production very difficult.
 - **Fix**: Establish a standard pattern — every catch block should either propagate the error upward or call the app's toast/notification handler with a user-readable message.
@@ -202,7 +202,7 @@
 
 ### QUAL-04 — Immer Draft Updates Without Path Existence Check
 
-- **Status**: 🔵 Open
+- **Status**: ✅ Fixed (June 2026 — `findAndUpdateItem` returns a success boolean; `useGemini` callers check it before cache writes)
 - **Files**: `hooks/useGemini.ts` (~line 91), `hooks/useSyllabusData.ts`
 - **Problem**: `findAndUpdateItem` applies a mutating callback, but if the path isn't found, the callback may still be invoked on a stale draft. TypeScript doesn't enforce the invariant.
 - **Fix**: Verify the return value of `findAndUpdateItem` before assuming the mutation applied. Log a warning if the path is not found.
@@ -213,7 +213,7 @@
 
 ### UX-01 — No Rollback on Failed Batch Import
 
-- **Status**: 🟡 Open
+- **Status**: ✅ Fixed (June 2026 — all docs validated before the single `updateCourses` commit; invalid items skipped, not partially written)
 - **File**: `hooks/useSyllabusData.ts`
 - **Problem**: When importing multiple courses and one fails partway, partial data is committed to IndexedDB with no rollback. The app ends up in an inconsistent state with orphaned data.
 - **Fix**: Wrap batch imports in a transaction-style pattern — validate all items before writing any.
@@ -222,7 +222,7 @@
 
 ### UX-02 — Import Does Not Validate Schema
 
-- **Status**: 🟡 Open
+- **Status**: ✅ Fixed (June 2026 — programmatic + discovered-doc imports validated against `CourseSchema`/`TopicSchema` before merge, with a descriptive toast on rejection)
 - **File**: `components/DataManagerModal.tsx` (import flow)
 - **Problem**: Imported JSON files are parsed but not validated against the expected data schema. A malformed import can silently corrupt state or cause a hard crash on next render.
 - **Fix**: Run imported data through Zod schema validation before merging. Show a descriptive error listing which fields are missing or malformed.
@@ -231,7 +231,7 @@
 
 ### UX-03 — Safety-Blocked AI Responses Give No Recovery Path
 
-- **Status**: 🟡 Open
+- **Status**: ✅ Fixed (June 2026 — dedicated `SafetyBlockError`; `handleApiError` shows a rephrase-and-retry toast and the answer is preserved in the editor)
 - **File**: `services/aiCore.ts` ~lines 362–370
 - **Problem**: When the Gemini API blocks a response for safety reasons, the app throws an error with no retry or user guidance. The user is left with a dead end.
 - **Fix**: Show a toast explaining the safety block and offer one-click retry with a simplified prompt, or let users edit their question before retrying.
@@ -240,7 +240,7 @@
 
 ### UX-04 — No Enrichment Progress Feedback
 
-- **Status**: 🔵 Open
+- **Status**: ✅ Fixed (June 2026 — enrichment removed from the blocking overlay and now shows a subtle inline badge in `PromptDisplay`; `useGemini` exposes `isPromptEnriching`)
 - **File**: `hooks/useGemini.ts`, related UI components
 - **Problem**: When background enrichment is running for a prompt, there is no subtle indicator in the UI. Users may re-trigger enrichment manually or be confused by delayed content appearing.
 - **Fix**: Show a small spinner or "Enriching..." badge on the prompt card while `enrichingRef.current.has(promptId)` is true.
@@ -249,7 +249,7 @@
 
 ### UX-05 — No CORS or Network Timeout Feedback
 
-- **Status**: 🔵 Open
+- **Status**: ✅ Fixed (June 2026 — `errorHandler` adds `CORS` and `TIMEOUT` categories with distinct user messages)
 - **File**: `services/aiCore.ts`
 - **Problem**: CORS errors and network timeouts fall through to a generic "API Service Unavailable" message. Users have no idea whether the issue is their connection, API quota, or a configuration problem.
 - **Fix**: Detect CORS errors by checking `error.message.includes('CORS')` or `fetch` failure type, and display a more specific message.
@@ -298,6 +298,7 @@ These are not bugs — they are architectural improvements worth planning for a 
 
 ### IDEA-06 — E2E Tests for Core Workflows
 
+- **Status**: ⏳ Still Open — the existing Playwright specs in `tests/e2e/` remain smoke/placeholder assertions. A real rewrite was deferred during the June 2026 hardening pass because Playwright browsers/dev-server could not be run in that environment; shipping unverified E2E specs would risk breaking CI. This is the top remaining item.
 - **Priority**: 🟡 Medium
 - **Tools**: Playwright (recommended for Vite apps)
 - **Key workflows to cover**:
@@ -310,11 +311,12 @@ These are not bugs — they are architectural improvements worth planning for a 
 
 ## Changelog
 
-| Date       | Change                                                                                         | Author                   |
-| ---------- | ---------------------------------------------------------------------------------------------- | ------------------------ |
-| March 2026 | Fixed SEC-01 (API key embedding) by removing define block; all critical/high bugs now resolved | Technical Implementation |
-| March 2026 | Fixed 5 critical/high bugs; marked 2 as false positives; implemented CI/CD pipeline            | Technical Implementation |
-| March 2026 | Initial audit — 19 items identified across 6 categories                                        | Technical Audit          |
+| Date       | Change                                                                                                                                                                                                                             | Author                   |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
+| June 2026  | Stabilization pass: closed PERF-01/03, QUAL-01/02/03/04, UX-01..05, mitigated SEC-02, fixed residual BUG-01, removed dead `components/App.tsx`, re-enabled `exhaustive-deps` (warn), added tests. IDEA-06 (real E2E) remains open. | Technical Implementation |
+| March 2026 | Fixed SEC-01 (API key embedding) by removing define block; all critical/high bugs now resolved                                                                                                                                     | Technical Implementation |
+| March 2026 | Fixed 5 critical/high bugs; marked 2 as false positives; implemented CI/CD pipeline                                                                                                                                                | Technical Implementation |
+| March 2026 | Initial audit — 19 items identified across 6 categories                                                                                                                                                                            | Technical Audit          |
 
 ---
 

@@ -20,15 +20,20 @@ import DatabaseDashboard from './admin/DatabaseDashboard';
 import ManualPromptModal from './ManualPromptModal';
 import ManifestImportModal from './ManifestImportModal';
 import { regenerateTopicIds } from '../utils/dataManagerUtils';
-import { findAndUpdateItem } from '../utils/stateUtils';
+import {
+  CurrentSelection,
+  ModalHandlers,
+  SyllabusHandlers,
+  GeminiHandlers,
+} from '../types/handlers';
 
 interface AppModalsProps {
   activeModals: Set<string>;
   modalProps: any;
-  modalHandlers: any;
-  syllabusHandlers: any;
-  geminiHandlers: any;
-  currentSelection: any;
+  modalHandlers: ModalHandlers;
+  syllabusHandlers: SyllabusHandlers;
+  geminiHandlers: GeminiHandlers;
+  currentSelection: CurrentSelection;
   statePath: StatePath;
   courses: Course[];
   setStatePath: (path: Partial<StatePath>) => void;
@@ -78,6 +83,12 @@ const AppModals: React.FC<AppModalsProps> = ({
         isOpen={isModalOpen('topicCreator')}
         onClose={() => closeModal('topicCreator')}
         onItemCreated={(name) => {
+          // Guard: currentCourse can be undefined if the course was deleted
+          // while this modal was open (BUG-01 / QUAL-02).
+          if (!currentCourse) {
+            showToast('Select a course before adding a topic.', 'error');
+            return;
+          }
           const newTopic = syllabusHandlers.handleCreateTopic(currentCourse.id, name);
           if (newTopic) {
             setStatePath({

@@ -1,6 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { Course, Topic } from '../../types';
-import { mergeCourseContents, mergeTopicContents } from '../../utils/dataManagerUtils';
+import {
+  mergeCourseContents,
+  mergeTopicContents,
+  CourseSchema,
+} from '../../utils/dataManagerUtils';
 
 const buildTopic = (): Topic => ({
   id: 'topic-cells',
@@ -128,5 +132,33 @@ describe('dataManagerUtils merge helpers', () => {
     expect(mergedCourse.topics).toHaveLength(1);
     expect(mergedCourse.topics[0].subTopics).toHaveLength(2);
     expect(mergedCourse.outcomes.map((outcome) => outcome.code)).toEqual(['BIO1', 'BIO2']);
+  });
+});
+
+describe('CourseSchema validation (programmatic import guard)', () => {
+  it('rejects a non-object payload', () => {
+    expect(CourseSchema.safeParse('not a course').success).toBe(false);
+    expect(CourseSchema.safeParse(42).success).toBe(false);
+    expect(CourseSchema.safeParse(null).success).toBe(false);
+  });
+
+  it('rejects a course whose outcomes are malformed', () => {
+    const bad = {
+      id: 'c1',
+      name: 'Broken',
+      outcomes: [{ description: 'missing code' }],
+      topics: [],
+    };
+    expect(CourseSchema.safeParse(bad).success).toBe(false);
+  });
+
+  it('accepts and coerces a minimal valid course', () => {
+    const result = CourseSchema.safeParse({ name: 'Minimal' });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.name).toBe('Minimal');
+      expect(Array.isArray(result.data.topics)).toBe(true);
+      expect(typeof result.data.id).toBe('string');
+    }
   });
 });

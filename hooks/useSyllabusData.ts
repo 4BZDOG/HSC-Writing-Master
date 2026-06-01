@@ -35,6 +35,8 @@ import {
   analyzeAndSanitizeImportData,
   migrateAnalyseVerb,
   regenerateTopicIds,
+  CourseSchema,
+  TopicSchema,
 } from '../utils/dataManagerUtils';
 
 type DiscoveredDocType = 'course' | 'topic';
@@ -155,6 +157,9 @@ export const useSyllabusData = ({
   const [isDiscoveryInProgress, setIsDiscoveryInProgress] = useState(false);
 
   const initAttempted = useRef(false);
+  // Tracks whether we have already warned the user about a persistence failure,
+  // so a sustained outage doesn't spam a toast on every autosave (QUAL-03).
+  const persistenceErrorNotified = useRef(false);
 
   useEffect(() => {
     const loadInitialData = async () => {
@@ -273,9 +278,32 @@ export const useSyllabusData = ({
         let importedCount = 0;
         let skippedTopics = 0;
 
+        // Validate all docs up-front so malformed data never enters the immer
+        // draft. Only validated docs are committed, keeping the import
+        // all-or-nothing per item (UX-01 + UX-02).
+        let rejected = 0;
+        const validDocs = docsToImport.filter((doc) => {
+          const schema = doc.type === 'course' ? CourseSchema : TopicSchema;
+          const result = schema.safeParse(doc.data);
+          if (!result.success) {
+            rejected++;
+            console.warn(`Rejected malformed ${doc.type} "${doc.name}":`, result.error.issues);
+            return false;
+          }
+          return true;
+        });
+
+        if (rejected > 0) {
+          showToast(
+            `Skipped ${rejected} file${rejected === 1 ? '' : 's'} that failed validation.`,
+            'error'
+          );
+        }
+        if (validDocs.length === 0) return false;
+
         updateCourses((draft) => {
-          const courseDocs = docsToImport.filter((doc) => doc.type === 'course');
-          const topicDocs = docsToImport.filter((doc) => doc.type === 'topic');
+          const courseDocs = validDocs.filter((doc) => doc.type === 'course');
+          const topicDocs = validDocs.filter((doc) => doc.type === 'topic');
 
           courseDocs.forEach((doc) => {
             const importedCourse = { ...(doc.data as Course), subject: doc.subject };
@@ -325,9 +353,7 @@ export const useSyllabusData = ({
         });
 
         setDiscoveredDocs((existingDocs) =>
-          existingDocs.filter(
-            (existingDoc) => !docsToImport.some((doc) => doc.id === existingDoc.id)
-          )
+          existingDocs.filter((existingDoc) => !validDocs.some((doc) => doc.id === existingDoc.id))
         );
 
         if (importedCount > 0) {
@@ -354,12 +380,24 @@ export const useSyllabusData = ({
     const handler = setTimeout(async () => {
       const status = await saveCoursesToDB(courses);
       setStorageStatus(status);
-      if (courses.length > 0 && status !== 'Error') {
-        createBackup(courses).catch((err) => console.error('Backup failed:', err));
+      if (status === 'Error') {
+        // Surface the otherwise-silent persistence failure to the user (QUAL-03).
+        if (!persistenceErrorNotified.current) {
+          persistenceErrorNotified.current = true;
+          showToast(
+            'Unable to save changes locally. Your work may be lost if you close the app — try exporting your data.',
+            'error'
+          );
+        }
+      } else {
+        persistenceErrorNotified.current = false;
+        if (courses.length > 0) {
+          createBackup(courses).catch((err) => console.error('Backup failed:', err));
+        }
       }
     }, 1000);
     return () => clearTimeout(handler);
-  }, [courses, isReady]);
+  }, [courses, isReady, showToast]);
 
   const handleCreateCourse = useCallback(
     (name: string, outcomes: CourseOutcome[]) => {
@@ -555,9 +593,31 @@ export const useSyllabusData = ({
 
   const handleImportCourses = useCallback(
     (imported: Course[], resolutions: Map<string, 'merge' | 'skip'>): string[] => {
+      // Validate every course before touching state so a malformed payload can't
+      // partially commit and leave the workspace inconsistent (UX-01 + UX-02).
+      const validated: Course[] = [];
+      let rejected = 0;
+      imported.forEach((course) => {
+        const result = CourseSchema.safeParse(course);
+        if (result.success) {
+          validated.push(result.data as Course);
+        } else {
+          rejected++;
+          console.warn('Rejected malformed course during import:', result.error.issues);
+        }
+      });
+
+      if (rejected > 0) {
+        showToast(
+          `Skipped ${rejected} course${rejected === 1 ? '' : 's'} that failed validation.`,
+          'error'
+        );
+      }
+      if (validated.length === 0) return [];
+
       const newCourseIds: string[] = [];
       updateCourses((draft) => {
-        imported.forEach((importedCourse) => {
+        validated.forEach((importedCourse) => {
           const existingIdx = draft.findIndex((c) => c.id === importedCourse.id);
           if (existingIdx !== -1) {
             if (resolutions.get(importedCourse.id) === 'merge') {
@@ -571,7 +631,7 @@ export const useSyllabusData = ({
       });
       return newCourseIds;
     },
-    [updateCourses]
+    [updateCourses, showToast]
   );
 
   const handleImportTopic = useCallback(

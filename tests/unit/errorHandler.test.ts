@@ -54,6 +54,32 @@ describe('errorHandler', () => {
       expect(result.isRetryable).toBe(true);
     });
 
+    it('should categorize CORS errors', () => {
+      const error = new TypeError('Failed to fetch due to CORS policy');
+      const result = categorizeError(error);
+
+      expect(result.category).toBe(ErrorCategory.CORS);
+      expect(result.isRetryable).toBe(false);
+      expect(result.userMessage).toContain('CORS');
+    });
+
+    it('should categorize AbortError as a timeout', () => {
+      const error = new Error('The operation was aborted');
+      error.name = 'AbortError';
+      const result = categorizeError(error);
+
+      expect(result.category).toBe(ErrorCategory.TIMEOUT);
+      expect(result.isRetryable).toBe(true);
+      expect(result.userMessage).toContain('timed out');
+    });
+
+    it('should categorize timeout messages', () => {
+      const result = categorizeError(new Error('Request timeout after 90000ms'));
+
+      expect(result.category).toBe(ErrorCategory.TIMEOUT);
+      expect(result.isRetryable).toBe(true);
+    });
+
     it('should handle unknown error types', () => {
       const result = categorizeError({});
 

@@ -28,6 +28,20 @@ export class QuotaExceededError extends Error {
   }
 }
 
+/**
+ * Raised when the model refuses to answer for safety/recitation reasons.
+ * Distinct from a transport error so the UI can offer a "rephrase and retry"
+ * recovery path rather than a dead-end error (UX-03).
+ */
+export class SafetyBlockError extends Error {
+  readonly reason: string;
+  constructor(message: string, reason: string) {
+    super(message);
+    this.name = 'SafetyBlockError';
+    this.reason = reason;
+  }
+}
+
 // --- API Guard (Circuit Breaker) ---
 interface ErrorRecord {
   timestamp: number;
@@ -492,12 +506,16 @@ const executeGenerateContent = async (request: any): Promise<GenerateContentResp
     if (candidate.finishReason && candidate.finishReason !== 'STOP') {
       console.warn(`[Gemini] Candidate finished with reason: ${candidate.finishReason}`);
       if (candidate.finishReason === 'SAFETY') {
-        throw new Error(
-          'The AI response was blocked due to safety settings. Please modify your prompt and try again.'
+        throw new SafetyBlockError(
+          'The AI response was blocked due to safety settings. Try rephrasing your prompt and submitting again.',
+          'SAFETY'
         );
       }
       if (candidate.finishReason === 'RECITATION') {
-        throw new Error('The AI response was blocked due to recitation (copyright) checks.');
+        throw new SafetyBlockError(
+          'The AI response was blocked due to recitation (copyright) checks. Try rephrasing your prompt and submitting again.',
+          'RECITATION'
+        );
       }
     }
   }

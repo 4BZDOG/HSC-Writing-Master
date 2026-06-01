@@ -1,6 +1,6 @@
 # HSC AI Evaluator - Feature Roadmap
 
-## 1. Current Capabilities (v2.2.1)
+## 1. Current Capabilities (v2.2.2)
 
 ### 🧭 Intelligent Syllabus Navigator
 *   **Hierarchical Browsing**: Course > Topic > Sub-Topic > Dot Point > Question.

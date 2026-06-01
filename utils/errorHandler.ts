@@ -3,6 +3,8 @@
  */
 export enum ErrorCategory {
   NETWORK = 'NETWORK',
+  CORS = 'CORS',
+  TIMEOUT = 'TIMEOUT',
   SERVER = 'SERVER',
   AUTH = 'AUTH',
   NOT_FOUND = 'NOT_FOUND',
@@ -24,8 +26,35 @@ export interface CategorizedError {
  * Categorize and provide user-friendly messages for errors
  */
 export const categorizeError = (error: unknown): CategorizedError => {
+  // Aborted/timed-out requests surface as an AbortError or a message mentioning
+  // a timeout. Detect these before the generic fetch handling (UX-05).
+  if (error instanceof Error) {
+    if (error.name === 'AbortError' || /timeout|timed out/i.test(error.message)) {
+      return {
+        category: ErrorCategory.TIMEOUT,
+        message: error.message,
+        userMessage:
+          'The request timed out. The AI service may be busy — please wait a moment and try again.',
+        isRetryable: true,
+        originalError: error,
+      };
+    }
+  }
+
   // Handle Fetch API errors
   if (error instanceof TypeError) {
+    // A CORS rejection is the most common cause of an opaque "Failed to fetch"
+    // when the message explicitly references CORS.
+    if (error.message.includes('CORS')) {
+      return {
+        category: ErrorCategory.CORS,
+        message: error.message,
+        userMessage:
+          'The browser blocked this request (CORS). This is usually a configuration issue with the API endpoint rather than your connection.',
+        isRetryable: false,
+        originalError: error,
+      };
+    }
     if (error.message.includes('fetch') || error.message.includes('Failed to fetch')) {
       return {
         category: ErrorCategory.NETWORK,

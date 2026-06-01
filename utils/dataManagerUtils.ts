@@ -279,7 +279,7 @@ const PerformanceBandDescriptorSchema = z.object({
   description: z.string(),
 });
 
-const TopicSchema = z
+export const TopicSchema = z
   .object({
     id: z.string().default(() => generateId('topic')),
     name: z.string().catch('Untitled Topic').default('Untitled Topic'),

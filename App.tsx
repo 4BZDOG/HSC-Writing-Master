@@ -19,6 +19,12 @@ import { useDebounce } from './hooks/useDebounce';
 import { useApiStatus } from './hooks/useApiStatus';
 import { authService } from './services/authService';
 import { User } from './types';
+import {
+  CurrentSelection,
+  ModalHandlers,
+  SyllabusHandlers,
+  GeminiHandlers,
+} from './types/handlers';
 import { Compass, Sparkles, Database, Layers, Sun, Moon, HardDrive, Activity } from 'lucide-react';
 import { apiMonitor, ApiStatus } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
@@ -141,7 +147,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     currentDotPoint,
     currentPrompt,
   } = useNavigation(courses);
-  const currentSelection = {
+  const currentSelection: CurrentSelection = {
     currentCourse,
     currentTopic,
     currentSubTopic,
@@ -227,7 +233,9 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   const globalLoadingMessage = useMemo(() => {
     if (isEvaluating) return 'Synthesising feedback...';
     if (isImproving) return 'Drafting upgrade path...';
-    if (isEnriching) return 'Indexing context...';
+    // Note: enrichment runs automatically in the background and must NOT trigger
+    // the full-screen blocking overlay. It surfaces via an inline badge in
+    // PromptDisplay instead (UX-04).
     if (isGeneratingScenario) return 'Modelling environment...';
     if (isRegeneratingKeywords) return 'Analysing syllabus keywords...';
     if (isSuggestingKeywords) return 'Discovering terminology...';
@@ -235,7 +243,6 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   }, [
     isEvaluating,
     isImproving,
-    isEnriching,
     isGeneratingScenario,
     isRegeneratingKeywords,
     isSuggestingKeywords,
@@ -288,7 +295,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     }
   }, [user.preferences.theme]);
 
-  const modalHandlers = {
+  const modalHandlers: ModalHandlers = {
     isModalOpen,
     openModal,
     closeModal,
@@ -303,7 +310,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     cancelConfirmation,
     showQualityCheck,
   };
-  const syllabusHandlers = {
+  const syllabusHandlers: SyllabusHandlers = {
     handleCreateCourse,
     handleCreateTopic,
     handleCreateSubTopic,
@@ -325,7 +332,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     handleMoveTopic,
     onResetApiStats: () => apiMonitor.resetAll(),
   };
-  const geminiHandlers = {
+  const geminiHandlers: GeminiHandlers = {
     evaluationResult,
     setEvaluationResult,
     handleGenerateScenario,

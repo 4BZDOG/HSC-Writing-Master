@@ -51,6 +51,18 @@ export class AICache {
     return this.db;
   }
 
+  /**
+   * Close the cached IndexedDB connection and release it. Prevents stale
+   * connections accumulating across Vite HMR reloads in development, where the
+   * module is re-evaluated but the old connection is never closed (PERF-03).
+   */
+  static closeDB(): void {
+    if (this.db) {
+      this.db.close();
+      this.db = null;
+    }
+  }
+
   // Get an item from cache
   static async get<T>(key: string): Promise<T | null> {
     try {
@@ -233,4 +245,10 @@ export class AICache {
   static generateFetchUrlKey(url: string): string {
     return `fetch:${this.hash(url)}`;
   }
+}
+
+// In development, close the cached IDB connection before this module is replaced
+// so HMR reloads don't leak open connections (PERF-03).
+if (import.meta.hot) {
+  import.meta.hot.dispose(() => AICache.closeDB());
 }

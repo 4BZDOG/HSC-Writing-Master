@@ -394,6 +394,14 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             )}
           </div>
 
+          {/* Enrichment In-Progress Badge (UX-04) */}
+          {isEnriching && !enrichError && (
+            <div className="p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center gap-2 text-xs font-bold text-indigo-300 animate-fade-in">
+              <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+              <span>Enriching context — keywords, scenario and outcomes…</span>
+            </div>
+          )}
+
           {/* Enrich Error Banner */}
           {enrichError && (
             <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-between animate-fade-in">
