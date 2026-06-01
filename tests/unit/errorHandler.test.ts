@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { categorizeError, ErrorCategory } from '../../utils/errorHandler';
+import {
+  categorizeError,
+  ErrorCategory,
+  isRetryableError,
+  getUserErrorMessage,
+} from '../../utils/errorHandler';
 
 describe('errorHandler', () => {
   describe('categorizeError', () => {
@@ -92,6 +97,53 @@ describe('errorHandler', () => {
       const result = categorizeError(originalError);
 
       expect(result.originalError).toBe(originalError);
+    });
+
+    it('should categorize 403 Forbidden errors', () => {
+      const result = categorizeError(new Error('HTTP 403 Forbidden'));
+      expect(result.category).toBe(ErrorCategory.AUTH);
+      expect(result.statusCode).toBe(403);
+      expect(result.isRetryable).toBe(false);
+    });
+
+    it('should categorize generic 5xx server errors', () => {
+      const result = categorizeError(new Error('HTTP 503 Service Unavailable'));
+      expect(result.category).toBe(ErrorCategory.SERVER);
+      expect(result.isRetryable).toBe(true);
+    });
+
+    it('should categorize a bare numeric status code', () => {
+      const result = categorizeError(404);
+      expect(result.category).toBe(ErrorCategory.NOT_FOUND);
+      expect(result.statusCode).toBe(404);
+    });
+
+    it('should categorize a generic 4xx client status code', () => {
+      const result = categorizeError(418);
+      expect(result.category).toBe(ErrorCategory.VALIDATION);
+      expect(result.isRetryable).toBe(false);
+    });
+  });
+
+  describe('isRetryableError', () => {
+    it('returns true for retryable categories', () => {
+      expect(isRetryableError(new TypeError('Failed to fetch'))).toBe(true);
+      expect(isRetryableError(new Error('HTTP 429 Too Many Requests'))).toBe(true);
+    });
+
+    it('returns false for non-retryable categories', () => {
+      expect(isRetryableError(new Error('HTTP 401 Unauthorized'))).toBe(false);
+      expect(isRetryableError({})).toBe(false);
+    });
+  });
+
+  describe('getUserErrorMessage', () => {
+    it('returns the user-facing message for an error', () => {
+      expect(getUserErrorMessage(new Error('HTTP 404 Not Found'))).toContain('could not be found');
+    });
+
+    it('falls back to a generic message for unknown error shapes', () => {
+      expect(getUserErrorMessage({})).toContain('unexpected error');
     });
   });
 });
