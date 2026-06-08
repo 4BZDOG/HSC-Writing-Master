@@ -35,18 +35,18 @@ These map directly to the scripts in `package.json` (`"build": "vite build"`) an
 
 The app reads configuration from `VITE_*` environment variables (see `.env.example`). Only the Gemini key is required.
 
-> **Important:** Vite inlines `VITE_*` variables into the client bundle at build time. They are **public** — visible to anyone who inspects the deployed JavaScript. Use an API key with appropriate restrictions/quotas, and never put server-side secrets in a `VITE_*` variable.
+> **Important:** Vite inlines `VITE_*` variables into the client bundle at build time. They are **public** — visible to anyone who inspects the deployed JavaScript. The Gemini key is therefore **not** a `VITE_*` variable: it is read only by the serverless proxy at `/api/gemini` (`api/gemini.ts`), so it never reaches the browser.
 
 In **Vercel → Project → Settings → Environment Variables**, add:
 
-| Variable                  | Required | Example / Notes                          |
-| ------------------------- | -------- | ---------------------------------------- |
-| `VITE_GEMINI_API_KEY`     | ✅ Yes   | Your Gemini API key                      |
-| `VITE_SENTRY_DSN`         | Optional | Sentry DSN for error tracking            |
-| `VITE_SENTRY_ENVIRONMENT` | Optional | `production`                             |
-| `VITE_SENTRY_RELEASE`     | Optional | e.g. `2.2.2` (match `package.json`)      |
+| Variable                  | Required | Example / Notes                                             |
+| ------------------------- | -------- | ---------------------------------------------------------- |
+| `GEMINI_API_KEY`          | ✅ Yes   | Your Gemini API key — server-side only, read by `/api/gemini` |
+| `VITE_SENTRY_DSN`         | Optional | Sentry DSN for error tracking                              |
+| `VITE_SENTRY_ENVIRONMENT` | Optional | `production`                                               |
+| `VITE_SENTRY_RELEASE`     | Optional | e.g. `2.2.2` (match `package.json`)                        |
 
-Set each variable for the **Production**, **Preview**, and **Development** environments as needed. After changing a variable you must **redeploy** for it to take effect (Vite bakes them in at build time).
+Set each variable for the **Production**, **Preview**, and **Development** environments as needed. After changing a variable you must **redeploy** for it to take effect.
 
 ---
 
@@ -55,7 +55,7 @@ Set each variable for the **Production**, **Preview**, and **Development** envir
 1. Go to [vercel.com/new](https://vercel.com/new).
 2. **Import** this Git repository.
 3. Vercel detects the **Vite** preset automatically — confirm the build settings from section 2.
-4. Expand **Environment Variables** and add `VITE_GEMINI_API_KEY` (plus any optional Sentry vars).
+4. Expand **Environment Variables** and add `GEMINI_API_KEY` (plus any optional Sentry vars).
 5. Click **Deploy**.
 
 Vercel runs `npm install` → `npm run build`, publishes `dist/`, and gives you a `*.vercel.app` URL. Every push to the production branch triggers a new production deploy; every pull request gets its own preview URL.
@@ -75,7 +75,7 @@ vercel login
 vercel link
 
 # Add the API key (you'll be prompted for the value and environments)
-vercel env add VITE_GEMINI_API_KEY
+vercel env add GEMINI_API_KEY
 
 # Deploy a preview build
 vercel
@@ -126,7 +126,7 @@ This is a client-side SPA. A [`vercel.json`](./vercel.json) is already committed
 After the first deploy, confirm:
 
 - [ ] The app loads at the `*.vercel.app` URL.
-- [ ] The Gemini-powered features (evaluation, prompt generation) work — a failure here usually means `VITE_GEMINI_API_KEY` is missing or wasn't applied before the build. Redeploy after adding it.
+- [ ] The Gemini-powered features (evaluation, prompt generation) work — a failure here usually means `GEMINI_API_KEY` is missing from the Vercel environment. Add it and redeploy. (Check the `/api/gemini` function logs in the Vercel dashboard if calls fail.)
 - [ ] No `process.env`/missing-key errors in the browser console.
 - [ ] If using Sentry, a test error appears in your Sentry dashboard.
 
@@ -176,7 +176,7 @@ It requires three repository secrets (**Settings → Secrets and variables → A
 | Symptom                              | Likely Cause / Fix                                                                 |
 | ------------------------------------ | ---------------------------------------------------------------------------------- |
 | Build fails on `npm run build`       | Run `npm run build` locally; fix TypeScript/lint errors. Check the Node version.   |
-| App loads but AI features fail       | `VITE_GEMINI_API_KEY` missing or set after the build — add it, then **redeploy**.  |
+| App loads but AI features fail       | `GEMINI_API_KEY` missing from the Vercel environment — add it, then **redeploy**. Inspect `/api/gemini` logs. |
 | Blank page / 404 on refresh of route | Add the SPA `rewrites` rule in `vercel.json` (section 6).                           |
 | Old content after deploy             | Hard refresh; ensure `index.html` isn't being cached by a custom header.           |
 | Env var change not reflected         | `VITE_*` vars are build-time — trigger a new deployment.                            |

@@ -1,5 +1,9 @@
-import { GoogleGenAI, GenerateContentResponse } from '@google/genai';
+import { GenerateContentResponse } from '@google/genai';
 import { safeSetItem, safeGetItem, STORAGE_KEYS } from '../utils/storageUtils';
+
+// All Gemini calls go through a server-side proxy so the API key never
+// reaches the browser bundle. See api/gemini.ts and api/_lib/generate.ts.
+const GEMINI_PROXY_ENDPOINT = '/api/gemini';
 
 // --- Constants ---
 export const ERROR_THRESHOLD = 15;
@@ -444,18 +448,40 @@ export const generateContentWithRetry = async (request: any): Promise<GenerateCo
   }
 };
 
-const executeGenerateContent = async (request: any): Promise<GenerateContentResponse> => {
-  if (!process.env.API_KEY) {
-    throw new ApiKeyError(
-      'API Key is missing. Please configure your API Key via the selection dialog.'
-    );
+// Posts a single request to the server-side proxy. Errors are shaped with a
+// `.status` field so the existing ApiGuard / retry logic can classify them
+// exactly as it did when the SDK threw status-bearing errors directly.
+const callProxy = async (request: any): Promise<GenerateContentResponse> => {
+  let res: Response;
+  try {
+    res = await fetch(GEMINI_PROXY_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(request),
+    });
+  } catch {
+    // Network-level failure — treat as a transient (retryable) error.
+    throw new Error('Network error contacting the AI service. Please try again.');
   }
 
-  const client = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  if (!res.ok) {
+    let detail = '';
+    try {
+      const errBody = await res.json();
+      detail = errBody?.error || errBody?.message || '';
+    } catch {
+      /* response had no JSON body */
+    }
+    const error: any = new Error(detail || `AI service error (${res.status}).`);
+    error.status = res.status;
+    throw error;
+  }
 
-  const response = await callGeminiWithRetry<GenerateContentResponse>(() =>
-    client.models.generateContent(request)
-  );
+  return (await res.json()) as GenerateContentResponse;
+};
+
+const executeGenerateContent = async (request: any): Promise<GenerateContentResponse> => {
+  const response = await callGeminiWithRetry<GenerateContentResponse>(() => callProxy(request));
 
   if (response?.usageMetadata) {
     apiMonitor.recordCall(response.usageMetadata);
