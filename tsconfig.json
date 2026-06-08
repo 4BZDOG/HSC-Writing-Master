@@ -30,6 +30,7 @@
     "App.tsx",
     "index.tsx",
     "types.ts",
+    "vite-env.d.ts",
     "playwright.config.ts",
     "vite.config.ts",
     "vitest.config.ts",

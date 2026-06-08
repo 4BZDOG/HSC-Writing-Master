@@ -6,6 +6,7 @@ import {
   saveUserProfile,
   STORAGE_KEYS,
 } from '../utils/storageUtils';
+import { supabase, isSupabaseConfigured } from './supabaseClient';
 
 const DEFAULT_PREFERENCES: UserPreferences = {
   defaultFocusMode: false,
@@ -61,39 +62,124 @@ const calculateStreak = (stats: UserStats): UserStats => {
   };
 };
 
+// ----------------------------------------------------------------------------
+// Supabase role / profile mapping
+// ----------------------------------------------------------------------------
+
+interface ProfileRow {
+  username?: string | null;
+  display_name?: string | null;
+  role?: string | null;
+  preferences?: Partial<UserPreferences> | null;
+  stats?: Partial<UserStats> | null;
+}
+
+/**
+ * Supabase uses `admin | teacher | student`; the app uses `admin | user |
+ * guest`. Teachers curate content, so they map to the app's admin
+ * capabilities. (Adjust here if teachers should be restricted.)
+ */
+export const mapSupabaseRole = (role?: string | null): UserRole => {
+  switch (role) {
+    case 'admin':
+    case 'teacher':
+      return 'admin';
+    case 'student':
+      return 'user';
+    default:
+      return 'user';
+  }
+};
+
+export const mapProfileToUser = (
+  authEmail: string | undefined,
+  profile: ProfileRow | null
+): User => {
+  const username = profile?.username || authEmail || 'user';
+  return {
+    username,
+    role: mapSupabaseRole(profile?.role),
+    displayName: profile?.display_name || username,
+    preferences: { ...DEFAULT_PREFERENCES, ...(profile?.preferences || {}) },
+    stats: { ...DEFAULT_STATS, ...(profile?.stats || {}) },
+  };
+};
+
+// ----------------------------------------------------------------------------
+// Mock auth (used when Supabase is not configured) — unchanged behaviour
+// ----------------------------------------------------------------------------
+
+const mockLogin = async (username: string, password: string): Promise<User> => {
+  // Simulate network delay
+  await new Promise((resolve) => setTimeout(resolve, 800));
+
+  const userLower = username.toLowerCase();
+  const mockUser = MOCK_USERS[userLower];
+
+  if (mockUser && mockUser.password === password) {
+    // Try to load existing profile from IndexedDB to get persistent stats/prefs
+    let fullUser = await loadUserProfile(userLower);
+
+    if (!fullUser) {
+      // Initialize new profile for first-time login
+      fullUser = {
+        username: userLower,
+        role: mockUser.role,
+        displayName: mockUser.name,
+        preferences: { ...DEFAULT_PREFERENCES },
+        stats: { ...DEFAULT_STATS },
+      };
+    }
+
+    // Update streak and last active
+    fullUser.stats = calculateStreak(fullUser.stats);
+
+    await saveUserProfile(fullUser);
+    safeSetItem(STORAGE_KEYS.AUTH_USER, fullUser);
+
+    return fullUser;
+  } else {
+    throw new Error('Invalid username or password');
+  }
+};
+
+// ----------------------------------------------------------------------------
+// Supabase auth (used when configured)
+// ----------------------------------------------------------------------------
+
+const supabaseLogin = async (email: string, password: string): Promise<User> => {
+  const client = supabase!;
+  const { data, error } = await client.auth.signInWithPassword({ email, password });
+  if (error || !data.user) {
+    throw new Error('Invalid username or password');
+  }
+
+  const { data: profile } = await client
+    .from('profiles')
+    .select('username, display_name, role, preferences, stats')
+    .eq('id', data.user.id)
+    .single();
+
+  const user = mapProfileToUser(data.user.email ?? email, profile as ProfileRow | null);
+  user.stats = calculateStreak(user.stats);
+
+  // Persist the refreshed streak/preferences back to the profile (best-effort).
+  await client
+    .from('profiles')
+    .update({ stats: user.stats, preferences: user.preferences })
+    .eq('id', data.user.id);
+
+  safeSetItem(STORAGE_KEYS.AUTH_USER, user);
+  return user;
+};
+
 export const authService = {
   login: async (username: string, password: string): Promise<User> => {
-    // Simulate network delay
-    await new Promise((resolve) => setTimeout(resolve, 800));
-
-    const userLower = username.toLowerCase();
-    const mockUser = MOCK_USERS[userLower];
-
-    if (mockUser && mockUser.password === password) {
-      // Try to load existing profile from IndexedDB to get persistent stats/prefs
-      let fullUser = await loadUserProfile(userLower);
-
-      if (!fullUser) {
-        // Initialize new profile for first-time login
-        fullUser = {
-          username: userLower,
-          role: mockUser.role,
-          displayName: mockUser.name,
-          preferences: { ...DEFAULT_PREFERENCES },
-          stats: { ...DEFAULT_STATS },
-        };
-      }
-
-      // Update streak and last active
-      fullUser.stats = calculateStreak(fullUser.stats);
-
-      await saveUserProfile(fullUser);
-      safeSetItem(STORAGE_KEYS.AUTH_USER, fullUser);
-
-      return fullUser;
-    } else {
-      throw new Error('Invalid username or password');
+    // In Supabase mode the username field is treated as the account email.
+    if (isSupabaseConfigured && supabase) {
+      return supabaseLogin(username, password);
     }
+    return mockLogin(username, password);
   },
 
   loginAsGuest: async (): Promise<User> => {
@@ -112,6 +198,10 @@ export const authService = {
   },
 
   logout: (): void => {
+    if (isSupabaseConfigured && supabase) {
+      // Fire-and-forget; the local cache clear below is what gates the UI.
+      void supabase.auth.signOut();
+    }
     if (typeof window !== 'undefined') {
       window.localStorage.removeItem(STORAGE_KEYS.AUTH_USER);
     }
@@ -133,15 +223,26 @@ export const authService = {
       updatedStats.lastActive !== user.stats.lastActive
     ) {
       const updatedUser = { ...user, stats: updatedStats };
-      await saveUserProfile(updatedUser);
-      safeSetItem(STORAGE_KEYS.AUTH_USER, updatedUser);
+      await authService.updateUser(updatedUser);
       return updatedUser;
     }
     return user;
   },
 
   updateUser: async (user: User): Promise<void> => {
-    if (user.role !== 'guest') {
+    if (isSupabaseConfigured && supabase && user.role !== 'guest') {
+      const { data } = await supabase.auth.getUser();
+      if (data.user) {
+        await supabase
+          .from('profiles')
+          .update({
+            display_name: user.displayName,
+            preferences: user.preferences,
+            stats: user.stats,
+          })
+          .eq('id', data.user.id);
+      }
+    } else if (user.role !== 'guest') {
       await saveUserProfile(user);
     }
     safeSetItem(STORAGE_KEYS.AUTH_USER, user);
