@@ -111,6 +111,7 @@ interface CriteriaRowProps {
   feedback: string;
   bandConfig: any;
   prompt: Prompt;
+  index?: number;
 }
 
 const CriteriaRow: React.FC<CriteriaRowProps> = ({
@@ -120,13 +121,17 @@ const CriteriaRow: React.FC<CriteriaRowProps> = ({
   feedback,
   bandConfig,
   prompt,
+  index = 0,
 }) => {
   const percentage = maxMark > 0 ? (mark / maxMark) * 100 : 0;
   const isSuccess = percentage === 100;
   const isFailure = percentage === 0;
 
   return (
-    <div className="group relative p-6 rounded-3xl bg-white dark:bg-white/5 border border-slate-100 dark:border-white/5 hover:border-slate-200 dark:hover:border-white/10 transition-all duration-300 shadow-sm hover:shadow-md CriteriaRow">
+    <div
+      className="group relative p-6 rounded-3xl bg-white dark:bg-white/5 border border-slate-100 dark:border-white/5 hover:border-slate-200 dark:hover:border-white/10 transition-all duration-300 shadow-sm hover:shadow-md animate-fade-in-up-sm CriteriaRow"
+      style={{ animationDelay: `${Math.min(index, 8) * 60}ms` }}
+    >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-3">
         <h4 className="font-bold text-sm text-slate-900 dark:text-slate-100 pr-4 leading-snug flex-1">
           {criterion.criterion}
@@ -395,7 +400,8 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             {result.strengths.map((s, i) => (
               <li
                 key={i}
-                className="flex gap-4 text-sm text-slate-700 dark:text-slate-300 leading-relaxed group"
+                className="flex gap-4 text-sm text-slate-700 dark:text-slate-300 leading-relaxed group animate-fade-in-up-sm"
+                style={{ animationDelay: `${Math.min(i, 8) * 60}ms` }}
               >
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-2 shrink-0 group-hover:scale-125 transition-transform" />
                 <span>{renderFormattedText(s, prompt.keywords)}</span>
@@ -411,7 +417,8 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             {result.improvements.map((im, i) => (
               <li
                 key={i}
-                className="flex gap-4 text-sm text-slate-700 dark:text-slate-300 leading-relaxed group"
+                className="flex gap-4 text-sm text-slate-700 dark:text-slate-300 leading-relaxed group animate-fade-in-up-sm"
+                style={{ animationDelay: `${Math.min(i, 8) * 60}ms` }}
               >
                 <div className="w-1.5 h-1.5 rounded-full bg-rose-400 mt-2 shrink-0 group-hover:scale-125 transition-transform" />
                 <span>{renderFormattedText(im, prompt.keywords)}</span>
@@ -433,6 +440,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           {result.criteria.map((criterion, idx) => (
             <CriteriaRow
               key={idx}
+              index={idx}
               criterion={criterion}
               maxMark={criterion.maxMark}
               mark={criterion.mark}
