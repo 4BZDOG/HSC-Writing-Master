@@ -229,7 +229,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
             <div className="mt-8">
               <button
                 onClick={handleGuestLogin}
-                className="w-full py-4 rounded-2xl font-bold text-xs uppercase tracking-[0.1em] text-slate-300 light:text-slate-600 bg-white/5 light:bg-slate-100 border-2 border-white/5 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-200 transition-all flex items-center justify-center gap-3 shadow-inner"
+                className="w-full py-4 rounded-2xl font-bold text-xs uppercase tracking-[0.1em] text-slate-300 light:text-slate-600 bg-white/5 light:bg-slate-100 border-2 border-white/5 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-200 active:scale-[0.98] transition-all flex items-center justify-center gap-3 shadow-inner"
               >
                 <BookOpen className="w-4 h-4" /> Continue as Guest
               </button>
