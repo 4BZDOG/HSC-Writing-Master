@@ -88,30 +88,36 @@ vercel --prod
 
 ## 6. SPA Routing & Caching (`vercel.json`)
 
-This is a client-side SPA. If you add client-side routing later, deep links (e.g. `/some/route`) must fall back to `index.html`. Create a `vercel.json` in the project root:
+This is a client-side SPA. A [`vercel.json`](./vercel.json) is already committed at the project root with the build settings plus SPA/caching rules:
 
 ```json
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install --legacy-peer-deps",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
   "headers": [
     {
       "source": "/assets/(.*)",
       "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
       ]
     }
   ]
 }
 ```
 
-- **`rewrites`** ensures any path serves the SPA shell so the app can render the right view.
-- **`headers`** caches Vite's content-hashed `assets/*` aggressively (they're immutable per build), while `index.html` stays uncached so new deploys are picked up immediately.
-
-> If you rely purely on the app's internal (non-URL) navigation, the rewrite is harmless but optional.
+- **`installCommand`** uses `--legacy-peer-deps` to match this project's CI (React 19 peer ranges).
+- **`rewrites`** ensures any deep link serves the SPA shell so the app can render the right view.
+- **`headers`** caches Vite's content-hashed `assets/*` aggressively (immutable per build), while `index.html` is revalidated every load so new deploys are picked up immediately.
 
 ---
 
@@ -134,7 +140,26 @@ Once the Git integration is connected:
 - **Previews**: every branch / pull request gets an isolated preview URL with the same env vars (Preview scope).
 - **Rollbacks**: use **Deployments → ⋯ → Promote to Production** on a previous build to roll back instantly.
 
-To run the existing CI checks (lint, tests, type-check) before Vercel builds, keep them in your GitHub Actions workflow (`.github/`); Vercel will still build only after your branch is pushed.
+### Option A — Vercel's native Git integration (simplest)
+
+Connect the repo at [vercel.com/new](https://vercel.com/new) and Vercel handles preview + production deploys automatically. No secrets or workflow needed; configure env vars in the Vercel dashboard.
+
+### Option B — GitHub Actions workflow (committed)
+
+A [`.github/workflows/vercel-deploy.yml`](./.github/workflows/vercel-deploy.yml) workflow is included for teams that prefer driving deploys from CI:
+
+- **Pull requests** → isolated **Preview** deployment.
+- **Pushes to `main`** → promoted to **Production**.
+
+It requires three repository secrets (**Settings → Secrets and variables → Actions**):
+
+| Secret              | Where to find it                                            |
+| ------------------- | ---------------------------------------------------------- |
+| `VERCEL_TOKEN`      | [vercel.com/account/tokens](https://vercel.com/account/tokens) |
+| `VERCEL_ORG_ID`     | `.vercel/project.json` after running `vercel link`         |
+| `VERCEL_PROJECT_ID` | `.vercel/project.json` after running `vercel link`         |
+
+> Use **either** Option A or B, not both, to avoid duplicate deployments. If you use the Actions workflow, disable the project's automatic Git deployments in Vercel (**Settings → Git**). The existing `build.yml` Netlify deploy job is independent — remove it if Vercel is now your sole host.
 
 ---
 
