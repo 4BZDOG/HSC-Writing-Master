@@ -52,6 +52,37 @@ export class ApiGuard {
   private listeners: ApiGuardListener[] = [];
   private unblockTimeout: number | null = null;
 
+  constructor() {
+    this.restorePersistedBlock();
+  }
+
+  // Restore an in-progress cooldown across reloads so we don't immediately
+  // thrash the API with requests that are still rate-limited.
+  private restorePersistedBlock() {
+    const persisted = safeGetItem<{ blockedUntil: number; blockReason: string | null } | null>(
+      STORAGE_KEYS.API_GUARD,
+      null
+    );
+
+    if (persisted && Date.now() < persisted.blockedUntil) {
+      this.status = {
+        ...this.status,
+        state: 'BLOCKED',
+        isBlocked: true,
+        blockedUntil: persisted.blockedUntil,
+        blockReason: persisted.blockReason,
+      };
+
+      const remaining = persisted.blockedUntil - Date.now();
+      this.unblockTimeout = window.setTimeout(() => {
+        this.reset();
+      }, remaining + 500);
+    } else if (persisted) {
+      // Stale cooldown — clear it.
+      safeSetItem(STORAGE_KEYS.API_GUARD, null);
+    }
+  }
+
   public subscribe(listener: ApiGuardListener): () => void {
     this.listeners.push(listener);
     listener(this.status);
@@ -122,6 +153,12 @@ export class ApiGuard {
         blockReason: blockReason || 'Too many system errors. Pausing API calls.',
       });
 
+      // Persist the cooldown so a page reload keeps respecting it.
+      safeSetItem(STORAGE_KEYS.API_GUARD, {
+        blockedUntil,
+        blockReason: this.status.blockReason,
+      });
+
       console.error(`[ApiGuard] Circuit breaker tripped. Reason: ${this.status.blockReason}`);
 
       if (this.unblockTimeout) clearTimeout(this.unblockTimeout);
@@ -153,6 +190,8 @@ export class ApiGuard {
       clearTimeout(this.unblockTimeout);
       this.unblockTimeout = null;
     }
+    // Clear any persisted cooldown.
+    safeSetItem(STORAGE_KEYS.API_GUARD, null);
     this.updateStatus({
       state: 'HEALTHY',
       errorCount: 0,
@@ -370,7 +409,42 @@ const callGeminiWithRetry = async <T>(
   }
 };
 
+// --- Request De-duplication ---
+// Collapses concurrent identical requests (e.g. a double-clicked "Evaluate")
+// into a single in-flight API call so we never pay for the same call twice.
+const inFlightRequests = new Map<string, Promise<GenerateContentResponse>>();
+
+const hashRequest = (request: any): string => {
+  const str = JSON.stringify(request);
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return Math.abs(hash).toString(16);
+};
+
 export const generateContentWithRetry = async (request: any): Promise<GenerateContentResponse> => {
+  const key = hashRequest(request);
+
+  const existing = inFlightRequests.get(key);
+  if (existing) {
+    console.log('[AI] Reusing in-flight identical request (de-duplicated).');
+    return existing;
+  }
+
+  const promise = executeGenerateContent(request);
+  inFlightRequests.set(key, promise);
+
+  try {
+    return await promise;
+  } finally {
+    inFlightRequests.delete(key);
+  }
+};
+
+const executeGenerateContent = async (request: any): Promise<GenerateContentResponse> => {
   if (!process.env.API_KEY) {
     throw new ApiKeyError(
       'API Key is missing. Please configure your API Key via the selection dialog.'
