@@ -82,6 +82,7 @@ const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
             </div>
             <button
               onClick={onClose}
+              aria-label="Close"
               className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900" />

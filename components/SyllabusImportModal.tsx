@@ -222,6 +222,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({ isOpen, onClo
             </div>
             <button
               onClick={onClose}
+              aria-label="Close"
               className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200 flex items-center justify-center group"
             >
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text-primary))]" />

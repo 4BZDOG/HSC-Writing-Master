@@ -72,6 +72,7 @@ const ToolbarButton: React.FC<{
     }}
     disabled={disabled}
     title={tooltip}
+    aria-label={tooltip}
     className={`
             p-2 rounded-lg transition-all duration-200 
             ${
