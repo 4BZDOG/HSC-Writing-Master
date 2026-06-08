@@ -130,6 +130,18 @@
         --color-text-primary: 243 244 246;
         --color-text-secondary: 209 213 219;
         --color-text-muted: 156 163 175;
+        --color-text-dim: 107 114 128;
+        /* Previously-referenced-but-undefined tokens (hover surfaces, accents,
+           semantic colours). Without these, many hover/colour declarations
+           resolved to an invalid value and were silently dropped. */
+        --color-bg-surface-light: 51 65 85;
+        --color-accent-dark: 2 132 199;
+        --color-accent-glow: 56 189 248;
+        --color-border-primary: 71 85 105;
+        --color-border-accent: 14 165 233;
+        --color-danger: 239 68 68;
+        --color-amber: 245 158 11;
+        --color-yellow: 234 179 8;
       }
 
       [data-theme="light"] {
@@ -144,6 +156,15 @@
         --color-text-primary: 15 23 42;
         --color-text-secondary: 51 65 85;
         --color-text-muted: 100 116 139;
+        --color-text-dim: 148 163 184;
+        --color-bg-surface-light: 226 232 240;
+        --color-accent-dark: 3 105 161;
+        --color-accent-glow: 14 165 233;
+        --color-border-primary: 148 163 184;
+        --color-border-accent: 2 132 199;
+        --color-danger: 220 38 38;
+        --color-amber: 217 119 6;
+        --color-yellow: 202 138 4;
       }
 
       body {
@@ -179,6 +200,28 @@
       .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
       .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
       [data-theme="light"] .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.1); }
+
+      /* Interaction affordances referenced across components but previously
+         undefined (so they did nothing). Transform-only → GPU-composited, and
+         neutralised by the prefers-reduced-motion rule above. */
+      .hover-lift {
+        transition:
+          transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 0.2s ease;
+      }
+      .hover-lift:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.35);
+      }
+      .hover-scale {
+        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .hover-scale:hover {
+        transform: scale(1.03);
+      }
+      .hover-scale:active {
+        transform: scale(0.98);
+      }
 
       .glass-card {
         background: rgba(var(--color-bg-surface), 0.7);
