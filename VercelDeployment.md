@@ -39,12 +39,12 @@ The app reads configuration from `VITE_*` environment variables (see `.env.examp
 
 In **Vercel → Project → Settings → Environment Variables**, add:
 
-| Variable                  | Required | Example / Notes                                             |
-| ------------------------- | -------- | ---------------------------------------------------------- |
+| Variable                  | Required | Example / Notes                                               |
+| ------------------------- | -------- | ------------------------------------------------------------- |
 | `GEMINI_API_KEY`          | ✅ Yes   | Your Gemini API key — server-side only, read by `/api/gemini` |
-| `VITE_SENTRY_DSN`         | Optional | Sentry DSN for error tracking                              |
-| `VITE_SENTRY_ENVIRONMENT` | Optional | `production`                                               |
-| `VITE_SENTRY_RELEASE`     | Optional | e.g. `2.2.2` (match `package.json`)                        |
+| `VITE_SENTRY_DSN`         | Optional | Sentry DSN for error tracking                                 |
+| `VITE_SENTRY_ENVIRONMENT` | Optional | `production`                                                  |
+| `VITE_SENTRY_RELEASE`     | Optional | e.g. `2.2.2` (match `package.json`)                           |
 
 Set each variable for the **Production**, **Preview**, and **Development** environments as needed. After changing a variable you must **redeploy** for it to take effect.
 
@@ -101,15 +101,11 @@ This is a client-side SPA. A [`vercel.json`](./vercel.json) is already committed
   "headers": [
     {
       "source": "/assets/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     },
     {
       "source": "/index.html",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
-      ]
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
     }
   ]
 }
@@ -153,11 +149,11 @@ A [`.github/workflows/vercel-deploy.yml`](./.github/workflows/vercel-deploy.yml)
 
 It requires three repository secrets (**Settings → Secrets and variables → Actions**):
 
-| Secret              | Where to find it                                            |
-| ------------------- | ---------------------------------------------------------- |
+| Secret              | Where to find it                                               |
+| ------------------- | -------------------------------------------------------------- |
 | `VERCEL_TOKEN`      | [vercel.com/account/tokens](https://vercel.com/account/tokens) |
-| `VERCEL_ORG_ID`     | `.vercel/project.json` after running `vercel link`         |
-| `VERCEL_PROJECT_ID` | `.vercel/project.json` after running `vercel link`         |
+| `VERCEL_ORG_ID`     | `.vercel/project.json` after running `vercel link`             |
+| `VERCEL_PROJECT_ID` | `.vercel/project.json` after running `vercel link`             |
 
 > Use **either** Option A or B, not both, to avoid duplicate deployments. If you use the Actions workflow, disable the project's automatic Git deployments in Vercel (**Settings → Git**). The existing `build.yml` Netlify deploy job is independent — remove it if Vercel is now your sole host.
 
@@ -173,13 +169,13 @@ It requires three repository secrets (**Settings → Secrets and variables → A
 
 ## 10. Troubleshooting
 
-| Symptom                              | Likely Cause / Fix                                                                 |
-| ------------------------------------ | ---------------------------------------------------------------------------------- |
-| Build fails on `npm run build`       | Run `npm run build` locally; fix TypeScript/lint errors. Check the Node version.   |
+| Symptom                              | Likely Cause / Fix                                                                                            |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| Build fails on `npm run build`       | Run `npm run build` locally; fix TypeScript/lint errors. Check the Node version.                              |
 | App loads but AI features fail       | `GEMINI_API_KEY` missing from the Vercel environment — add it, then **redeploy**. Inspect `/api/gemini` logs. |
-| Blank page / 404 on refresh of route | Add the SPA `rewrites` rule in `vercel.json` (section 6).                           |
-| Old content after deploy             | Hard refresh; ensure `index.html` isn't being cached by a custom header.           |
-| Env var change not reflected         | `VITE_*` vars are build-time — trigger a new deployment.                            |
+| Blank page / 404 on refresh of route | Add the SPA `rewrites` rule in `vercel.json` (section 6).                                                     |
+| Old content after deploy             | Hard refresh; ensure `index.html` isn't being cached by a custom header.                                      |
+| Env var change not reflected         | `VITE_*` vars are build-time — trigger a new deployment.                                                      |
 
 ---
 

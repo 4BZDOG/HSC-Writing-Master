@@ -26,6 +26,12 @@ import {
 } from './aiCore';
 import { getCommandTermInfo, getCommandTermsForMarks } from '../data/commandTerms';
 import { generateId } from '../utils/idUtils';
+import {
+  EvaluationResponseSchema,
+  GeneratedPromptResponseSchema,
+  SampleAnswerResponseSchema,
+  validateAiResponse,
+} from './aiSchemas';
 
 // Re-export core utilities for consumers
 export {
@@ -161,26 +167,24 @@ export const evaluateAnswer = async (
   };
 
   const response = await generateContentWithRetry(request);
-  const data = safeJsonParse<EvaluationResult>(response.text || '');
-  if (!data) throw new Error('Evaluation failed.');
+  const parsed = safeJsonParse<unknown>(response.text || '');
+  if (!parsed) throw new Error('Evaluation failed: no parseable response from the AI.');
+
+  // Validate structure before trusting it — throws a clear error if malformed.
+  const data = validateAiResponse(
+    EvaluationResponseSchema,
+    parsed,
+    'evaluation'
+  ) as EvaluationResult;
 
   // Sanity checks - comprehensive bounds validation
   data.overallMark = Math.max(0, Math.min(data.overallMark, prompt.totalMarks));
   data.overallBand = Math.max(1, Math.min(data.overallBand, 6));
 
-  // Validate criteria marks are within bounds
-  if (Array.isArray(data.criteria)) {
-    for (const c of data.criteria) {
-      if (typeof c.maxMark === 'number' && typeof c.mark === 'number') {
-        c.mark = Math.max(0, Math.min(c.mark, c.maxMark));
-      }
-    }
+  // Clamp criteria marks within their bounds (structure is schema-guaranteed).
+  for (const c of data.criteria) {
+    c.mark = Math.max(0, Math.min(c.mark, c.maxMark));
   }
-
-  // Ensure required arrays exist
-  if (!Array.isArray(data.strengths)) data.strengths = [];
-  if (!Array.isArray(data.improvements)) data.improvements = [];
-  if (!Array.isArray(data.criteria)) data.criteria = [];
 
   return data;
 };
@@ -528,8 +532,10 @@ export const generateNewPrompt = async (
   };
 
   const response = await generateContentWithRetry(request);
-  const data = safeJsonParse<any>(response.text || '');
-  if (!data) throw new Error('Failed to generate prompt.');
+  const parsed = safeJsonParse<unknown>(response.text || '');
+  if (!parsed) throw new Error('Failed to generate prompt: no parseable response from the AI.');
+
+  const data = validateAiResponse(GeneratedPromptResponseSchema, parsed, 'prompt');
 
   return {
     id: generateId('prompt'),
@@ -603,8 +609,11 @@ export const generateSampleAnswer = async (
   };
 
   const response = await generateContentWithRetry(request);
-  const data = safeJsonParse<any>(response.text || '');
-  if (!data) throw new Error('Failed to generate sample answer.');
+  const parsed = safeJsonParse<unknown>(response.text || '');
+  if (!parsed)
+    throw new Error('Failed to generate sample answer: no parseable response from the AI.');
+
+  const data = validateAiResponse(SampleAnswerResponseSchema, parsed, 'sample answer');
 
   return {
     id: generateId('sa'),
