@@ -19,6 +19,7 @@ export const STORAGE_KEYS = {
   DATA_VERSION: 'hsc-ai-evaluator-version',
   BACKUP_PREFIX: 'hsc-ai-evaluator-backup-', // Legacy key
   API_STATS: 'hsc-ai-evaluator-api-stats',
+  API_GUARD: 'hsc-ai-evaluator-api-guard', // Persisted circuit-breaker cooldown
   AUTH_USER: 'hsc-ai-auth-user-v2',
 } as const;
 
