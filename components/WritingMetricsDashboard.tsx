@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Prompt } from '../types';
 import { BAND_METRICS, getCommandTermInfo, TIER_GROUPS } from '../data/commandTerms';
 import { escapeRegExp, getBandConfig, getKeywordVariants, BandConfig } from '../utils/renderUtils';
+import { analyzeText, buildWritingInsights, InsightTone } from '../utils/writingAnalysis';
 import {
   ChevronDown,
   Play,
@@ -14,7 +15,33 @@ import {
   Type,
   Check,
   Sparkles,
+  Lightbulb,
+  CheckCircle2,
+  AlertTriangle,
+  Info,
 } from 'lucide-react';
+
+const TONE_STYLES: Record<
+  InsightTone,
+  { container: string; icon: string; Icon: React.ElementType }
+> = {
+  positive: {
+    container:
+      'bg-emerald-50/60 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-500/20',
+    icon: 'text-emerald-500 dark:text-emerald-400',
+    Icon: CheckCircle2,
+  },
+  warning: {
+    container: 'bg-amber-50/60 dark:bg-amber-900/10 border-amber-200 dark:border-amber-500/20',
+    icon: 'text-amber-500 dark:text-amber-400',
+    Icon: AlertTriangle,
+  },
+  info: {
+    container: 'bg-sky-50/60 dark:bg-sky-900/10 border-sky-200 dark:border-sky-500/20',
+    icon: 'text-sky-500 dark:text-sky-400',
+    Icon: Info,
+  },
+};
 
 interface PillProps {
   label: string;
@@ -144,6 +171,28 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
       };
     }, [userAnswer, prompt.keywords]);
 
+    // How many of this verb's logic connectors are present in the draft.
+    const connectorsUsed = useMemo(() => {
+      const connectors = commandTermInfo.structuralKeywords || [];
+      const lower = userAnswer.toLowerCase();
+      return connectors.filter((kw) => lower.includes(kw.toLowerCase())).length;
+    }, [userAnswer, commandTermInfo]);
+
+    // Live, prioritised, actionable writing feedback.
+    const insights = useMemo(
+      () =>
+        buildWritingInsights({
+          analysis: analyzeText(userAnswer),
+          targetWordCount: progressInfo.targetCount,
+          targetLabel: progressInfo.targetLabel,
+          keywordsTotal: prompt.keywords?.length || 0,
+          keywordsUsed: keywordStats.used.length,
+          missingKeywords: keywordStats.missed,
+          connectorsUsed,
+        }),
+      [userAnswer, progressInfo, prompt.keywords, keywordStats, connectorsUsed]
+    );
+
     const formatTime = (s: number) =>
       `${Math.floor(s / 60)
         .toString()
@@ -228,6 +277,35 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                   />
                 </div>
               </div>
+
+              {insights.length > 0 && (
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-3 px-1">
+                    <Lightbulb className="w-4 h-4 text-amber-500 dark:text-amber-400" />
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500">
+                      Live Insights
+                    </h4>
+                  </div>
+                  <ul className="flex flex-col gap-2">
+                    {insights.map((insight, i) => {
+                      const tone = TONE_STYLES[insight.tone];
+                      const ToneIcon = tone.Icon;
+                      return (
+                        <li
+                          key={insight.id}
+                          className={`flex items-start gap-3 p-3 rounded-2xl border animate-fade-in-up-sm ${tone.container}`}
+                          style={{ animationDelay: `${Math.min(i, 4) * 50}ms` }}
+                        >
+                          <ToneIcon className={`w-4 h-4 mt-0.5 shrink-0 ${tone.icon}`} />
+                          <span className="text-xs leading-relaxed text-slate-700 dark:text-slate-300">
+                            {insight.message}
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="flex flex-col gap-4">
