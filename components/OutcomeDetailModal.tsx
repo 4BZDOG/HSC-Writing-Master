@@ -89,6 +89,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
             </div>
             <button
               onClick={onClose}
+              aria-label="Close"
               className="w-9 h-9 rounded-lg bg-white/20 hover:bg-white/30 transition-all duration-200 flex items-center justify-center group backdrop-blur-sm"
             >
               <X className="w-5 h-5 text-white" />

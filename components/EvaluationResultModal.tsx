@@ -97,6 +97,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
 
             <button
               onClick={onClose}
+              aria-label="Close feedback"
               className="p-2.5 rounded-xl hover:bg-[rgb(var(--color-bg-surface-inset))] light:hover:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900 transition-colors"
               title="Close Feedback"
             >

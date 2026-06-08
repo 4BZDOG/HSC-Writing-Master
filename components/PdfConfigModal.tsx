@@ -52,6 +52,7 @@ const PdfConfigModal: React.FC<PdfConfigModalProps> = ({
           </h3>
           <button
             onClick={onClose}
+            aria-label="Close"
             className="p-1 rounded-lg hover:bg-[rgb(var(--color-bg-surface-light))] text-[rgb(var(--color-text-muted))] transition-colors"
           >
             <X className="w-5 h-5" />
@@ -61,11 +62,15 @@ const PdfConfigModal: React.FC<PdfConfigModalProps> = ({
         <div className="p-6 space-y-6">
           {/* File Settings */}
           <div className="space-y-3">
-            <label className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))]">
+            <label
+              htmlFor="pdf-filename"
+              className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))]"
+            >
               File Details
             </label>
             <div>
               <input
+                id="pdf-filename"
                 type="text"
                 value={config.filename}
                 onChange={(e) => handleChange('filename', e.target.value)}

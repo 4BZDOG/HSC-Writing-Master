@@ -111,8 +111,8 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
     onUpdateUser(updatedUser);
     setIsEditingName(false);
     authService.updateUser(updatedUser);
-    if (tempPrefs.theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
-    else document.documentElement.removeAttribute('data-theme');
+    // Theme is applied centrally by the effect in App.tsx (which toggles both
+    // the `data-theme` attribute and the `dark` class) when preferences change.
   };
 
   const togglePref = (key: keyof UserPreferences) => {
