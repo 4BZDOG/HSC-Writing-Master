@@ -2,7 +2,7 @@
 
 This guide walks through deploying the **HSC AI Evaluator** — a React 19 + TypeScript + Vite single-page application — to [Vercel](https://vercel.com).
 
-The app is a **static SPA**: there is no backend server, no database, and all user data is stored client-side in IndexedDB. Vercel serves the built `dist/` folder over its global CDN.
+The app is a **React SPA** served as static assets from Vercel's global CDN, plus **one serverless function** (`api/gemini.ts`) that proxies Google Gemini so the API key stays server-side. User data is stored client-side in IndexedDB by default; an **optional Supabase** backend can be enabled for real multi-user auth and a shared library (see section 3).
 
 ---
 
@@ -11,7 +11,7 @@ The app is a **static SPA**: there is no backend server, no database, and all us
 - A [Vercel account](https://vercel.com/signup) (free Hobby tier is sufficient).
 - A Google Gemini API key — get one at [aistudio.google.com/app/apikeys](https://aistudio.google.com/app/apikeys).
 - This repository pushed to GitHub (or GitLab / Bitbucket).
-- Node.js 18+ locally if you want to test builds before deploying.
+- Node.js 20+ locally if you want to test builds before deploying.
 
 ---
 
@@ -19,13 +19,13 @@ The app is a **static SPA**: there is no backend server, no database, and all us
 
 Vercel auto-detects Vite, but confirm these settings match the project:
 
-| Setting              | Value           |
-| -------------------- | --------------- |
-| **Framework Preset** | Vite            |
-| **Build Command**    | `npm run build` |
-| **Output Directory** | `dist`          |
-| **Install Command**  | `npm install`   |
-| **Node.js Version**  | 22.x (or 20.x)  |
+| Setting              | Value                            |
+| -------------------- | -------------------------------- |
+| **Framework Preset** | Vite                             |
+| **Build Command**    | `npm run build`                  |
+| **Output Directory** | `dist`                           |
+| **Install Command**  | `npm install --legacy-peer-deps` |
+| **Node.js Version**  | 22.x (or 20.x)                   |
 
 These map directly to the scripts in `package.json` (`"build": "vite build"`) and Vite's default `dist/` output.
 
@@ -42,11 +42,15 @@ In **Vercel → Project → Settings → Environment Variables**, add:
 | Variable                  | Required | Example / Notes                                               |
 | ------------------------- | -------- | ------------------------------------------------------------- |
 | `GEMINI_API_KEY`          | ✅ Yes   | Your Gemini API key — server-side only, read by `/api/gemini` |
+| `VITE_SUPABASE_URL`       | Optional | Supabase project URL — enables real auth + shared backend     |
+| `VITE_SUPABASE_ANON_KEY`  | Optional | Supabase anon (public) key — pairs with the URL above         |
 | `VITE_SENTRY_DSN`         | Optional | Sentry DSN for error tracking                                 |
 | `VITE_SENTRY_ENVIRONMENT` | Optional | `production`                                                  |
 | `VITE_SENTRY_RELEASE`     | Optional | e.g. `2.2.2` (match `package.json`)                           |
 
 Set each variable for the **Production**, **Preview**, and **Development** environments as needed. After changing a variable you must **redeploy** for it to take effect.
+
+> **Supabase is opt-in.** Leave `VITE_SUPABASE_*` unset and the app runs entirely client-side with local mock auth — nothing breaks. Set **both** to switch login over to Supabase Auth (apply `supabase/schema.sql` first; see `supabase/README.md`). The anon key is designed to be public; Row-Level Security protects the data.
 
 ---
 
@@ -97,7 +101,7 @@ This is a client-side SPA. A [`vercel.json`](./vercel.json) is already committed
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "installCommand": "npm install --legacy-peer-deps",
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+  "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }],
   "headers": [
     {
       "source": "/assets/(.*)",
@@ -112,8 +116,10 @@ This is a client-side SPA. A [`vercel.json`](./vercel.json) is already committed
 ```
 
 - **`installCommand`** uses `--legacy-peer-deps` to match this project's CI (React 19 peer ranges).
-- **`rewrites`** ensures any deep link serves the SPA shell so the app can render the right view.
+- **`rewrites`** sends any deep link to the SPA shell **except** `/api/*`, so the `api/gemini.ts` serverless function stays reachable instead of being swallowed by the SPA fallback.
 - **`headers`** caches Vite's content-hashed `assets/*` aggressively (immutable per build), while `index.html` is revalidated every load so new deploys are picked up immediately.
+
+> **Serverless function:** any file under `api/` is deployed by Vercel as a serverless function automatically — no extra config. Here that's `api/gemini.ts` (the Gemini proxy); `api/_lib/` is shared code and is ignored as a route because of the leading underscore.
 
 ---
 
