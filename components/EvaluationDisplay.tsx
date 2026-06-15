@@ -51,7 +51,7 @@ import LoadingIndicator from './LoadingIndicator';
 import ResponseFeedback from './ResponseFeedback';
 import { useAnswerMetrics } from '../hooks/useAnswerMetrics';
 import AnswerMetricsDisplay from './AnswerMetricsDisplay';
-import PdfConfigModal, { PdfConfig } from './PdfConfigModal';
+import { exportEvaluationPdf } from '../pdf';
 
 const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
   <div
@@ -167,6 +167,7 @@ interface EvaluationDisplayProps {
   onFeedbackSubmit?: (feedback: UserFeedback) => void;
   hierarchy?: HierarchyContext;
   userName?: string;
+  showToast?: (message: string, type?: 'success' | 'error' | 'info') => void;
 }
 
 const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
@@ -181,10 +182,15 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
   onFeedbackSubmit,
   hierarchy,
   userName = 'Student',
+  showToast,
 }) => {
   const bandConfig = getBandConfig(result.overallBand);
   const termInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
   const reportRef = useRef<HTMLDivElement>(null);
+
+  // Vector-PDF export state (guards double-clicks, drives the button spinner).
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportStatus, setExportStatus] = useState('');
 
   const revisedText = useMemo(() => {
     if (!result.revisedAnswer) return '';
@@ -216,6 +222,49 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
     });
     return { keywordsUsedCount: used.length };
   }, [userAnswer, prompt.keywords]);
+
+  const handleExportPdf = async () => {
+    if (isExporting) return; // guard double-clicks
+    setIsExporting(true);
+    setExportStatus('Starting…');
+    try {
+      await exportEvaluationPdf({
+        data: {
+          question: stripHtmlTags(prompt.question),
+          verb: prompt.verb,
+          totalMarks: prompt.totalMarks,
+          overallMark: result.overallMark,
+          overallBand: result.overallBand,
+          overallFeedback: stripHtmlTags(result.overallFeedback || ''),
+          quickTip: result.quickTip ? stripHtmlTags(result.quickTip) : undefined,
+          strengths: (result.strengths || []).map(stripHtmlTags),
+          improvements: (result.improvements || []).map(stripHtmlTags),
+          criteria: (result.criteria || []).map((c) => ({
+            criterion: stripHtmlTags(c.criterion),
+            mark: c.mark,
+            maxMark: c.maxMark,
+            feedback: stripHtmlTags(c.feedback),
+          })),
+          revisedAnswer: revisedText ? stripHtmlTags(revisedText) : undefined,
+          exemplarBand,
+          wordCount,
+          keywordsUsed: keywordsUsedCount,
+          keywordsTotal: prompt.keywords?.length || 0,
+        },
+        filename: `HSC-${prompt.verb}-Band${result.overallBand}-Feedback`,
+        subtitle: hierarchy
+          ? `${hierarchy.topic} — ${hierarchy.subTopic}`
+          : 'Marking Feedback Report',
+        onToast: showToast,
+        onProgress: (_fraction, label) => setExportStatus(label),
+      });
+    } catch {
+      // The exporter already surfaces a toast on engine-load failure.
+    } finally {
+      setIsExporting(false);
+      setExportStatus('');
+    }
+  };
 
   return (
     <div ref={reportRef} className="flex flex-col gap-8 max-w-5xl mx-auto pb-20 EvaluationDisplay">
@@ -293,10 +342,21 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
 
             <div className="flex flex-wrap gap-3 no-print">
               <button
-                onClick={() => window.print()}
-                className="px-5 py-3 rounded-2xl bg-white/20 hover:bg-white/30 text-white text-xs font-bold shadow-sm transition-all hover:scale-105 border border-white/20 backdrop-blur-sm flex items-center gap-2"
+                onClick={handleExportPdf}
+                disabled={isExporting}
+                aria-busy={isExporting}
+                className="px-5 py-3 rounded-2xl bg-white/20 hover:bg-white/30 text-white text-xs font-bold shadow-sm transition-all hover:scale-105 border border-white/20 backdrop-blur-sm flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
-                <FileDown className="w-4 h-4" /> Export PDF
+                {isExporting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>{exportStatus || 'Exporting…'}</span>
+                  </>
+                ) : (
+                  <>
+                    <FileDown className="w-4 h-4" /> Export PDF
+                  </>
+                )}
               </button>
               {onSaveToSamples && (
                 <button
