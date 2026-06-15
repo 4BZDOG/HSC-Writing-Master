@@ -80,19 +80,40 @@ export const measureBlock = (
 ): MeasuredBlock => {
   const padTop = (block.basePadTop ?? 0) * pScale;
   const padBottom = (block.basePadBottom ?? 0) * pScale;
+  const primaryPt = (block.runs[0]?.baseFontPt ?? 9) * pScale;
+  const lineHeightMm = measurer.lineHeight(primaryPt, block.runs[0]?.lineHeightFactor ?? 1.15);
 
   if (block.kind === 'divider') {
-    return { ...block, wrapped: [], height: padTop + padBottom + 0.4 * pScale };
+    return {
+      ...block,
+      wrapped: [],
+      padTopMm: padTop,
+      padBottomMm: padBottom,
+      lineHeightMm: 0,
+      height: padTop + padBottom + 0.4 * pScale,
+    };
   }
   if (block.kind === 'spacer') {
-    return { ...block, wrapped: [], height: padTop + padBottom };
+    return {
+      ...block,
+      wrapped: [],
+      padTopMm: padTop,
+      padBottomMm: padBottom,
+      lineHeightMm: 0,
+      height: padTop + padBottom,
+    };
   }
 
-  // A criterion reserves a label/chip line above its feedback runs.
-  const labelLineMm =
-    block.kind === 'criterion' && (block.label || block.chip)
-      ? measurer.lineHeight(Math.max(...block.runs.map((r) => r.baseFontPt)) * pScale, 1.3)
-      : 0;
+  // A criterion reserves wrapped label/chip lines above its feedback runs.
+  let labelWrapped: string[] | undefined;
+  let labelHeightMm = 0;
+  if (block.kind === 'criterion' && block.label) {
+    const labelPt = (block.runs[0]?.baseFontPt ?? 9) * pScale;
+    const indent = 4 * pScale;
+    const chipReserve = block.chip ? 18 * pScale : 0;
+    labelWrapped = measurer.wrap(block.label, columnWidth - indent - chipReserve, labelPt, 'bold');
+    labelHeightMm = labelWrapped.length * measurer.lineHeight(labelPt, 1.3);
+  }
 
   const wrapped: string[][] = [];
   let body = 0;
@@ -108,7 +129,11 @@ export const measureBlock = (
   return {
     ...block,
     wrapped,
-    height: padTop + labelLineMm + body + padBottom,
+    labelWrapped,
+    padTopMm: padTop,
+    padBottomMm: padBottom,
+    lineHeightMm,
+    height: padTop + labelHeightMm + body + padBottom,
   };
 };
 
@@ -119,6 +144,51 @@ export const measureBlocks = (
   geo: ColumnGeometry,
   pScale: number
 ): MeasuredBlock[] => blocks.map((b) => measureBlock(b, measurer, geo.columnWidth, pScale));
+
+/**
+ * Split single-run breakable blocks that are taller than a full column into
+ * column-sized fragments so prose never overflows the footer / page edge.
+ * Non-breakable or already-fitting blocks pass through untouched.
+ */
+export const splitOversized = (blocks: MeasuredBlock[], columnHeight: number): MeasuredBlock[] => {
+  const out: MeasuredBlock[] = [];
+  for (const b of blocks) {
+    const splittable =
+      b.breakable &&
+      b.kind === 'paragraph' &&
+      b.wrapped.length === 1 &&
+      b.wrapped[0].length > 1 &&
+      b.lineHeightMm > 0;
+
+    if (!splittable || b.height <= columnHeight + 1e-6) {
+      out.push(b);
+      continue;
+    }
+
+    const lines = b.wrapped[0];
+    let index = 0;
+    let firstFragment = true;
+    while (index < lines.length) {
+      const padTop = firstFragment ? b.padTopMm : 0;
+      // Reserve bottom padding only if the remainder will fit in this fragment.
+      const linesThatFit = Math.max(1, Math.floor((columnHeight - padTop) / b.lineHeightMm));
+      const chunk = lines.slice(index, index + linesThatFit);
+      index += chunk.length;
+      const isLast = index >= lines.length;
+      const padBottom = isLast ? b.padBottomMm : 0;
+      out.push({
+        ...b,
+        id: firstFragment ? b.id : `${b.id}-cont${index}`,
+        wrapped: [chunk],
+        padTopMm: padTop,
+        padBottomMm: padBottom,
+        height: padTop + chunk.length * b.lineHeightMm + padBottom,
+      });
+      firstFragment = false;
+    }
+  }
+  return out;
+};
 
 export interface FlowResult {
   placements: PlacedBlock[];
@@ -177,6 +247,23 @@ export const flowBlocks = (blocks: MeasuredBlock[], geo: ColumnGeometry): FlowRe
   };
 };
 
+export interface LayoutPlan {
+  /** Measured + oversize-split blocks in draw order. */
+  blocks: MeasuredBlock[];
+  flow: FlowResult;
+}
+
+/** Measure → split oversized prose → flow. The single source of layout truth. */
+export const planLayout = (
+  blocks: ContentBlock[],
+  measurer: TextMeasurer,
+  geo: ColumnGeometry,
+  pScale: number
+): LayoutPlan => {
+  const measured = splitOversized(measureBlocks(blocks, measurer, geo, pScale), geo.columnHeight);
+  return { blocks: measured, flow: flowBlocks(measured, geo) };
+};
+
 export interface ScaleChoice {
   pScale: number;
   pageCount: number;
@@ -199,8 +286,7 @@ export const chooseScale = (
   let smallest: ScaleChoice | null = null;
   for (const pScale of scales) {
     const geo = geoFor(pScale);
-    const measured = measureBlocks(blocks, measurer, geo, pScale);
-    const { pageCount } = flowBlocks(measured, geo);
+    const { pageCount } = planLayout(blocks, measurer, geo, pScale).flow;
     const choice: ScaleChoice = { pScale, pageCount, fitsTarget: pageCount <= maxPages };
     if (choice.fitsTarget) return choice;
     smallest = choice; // keep last (smallest, since descending)

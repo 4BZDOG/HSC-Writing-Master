@@ -16,7 +16,7 @@ import {
   ToastFn,
 } from './types';
 import { buildEvaluationBlocks, COLORS, EvaluationExportData } from './buildBlocks';
-import { chooseScale, columnLeft, computeGeometry, flowBlocks, measureBlocks } from './layout';
+import { chooseScale, columnLeft, computeGeometry, planLayout } from './layout';
 import {
   createMeasurer,
   drawFooter,
@@ -97,7 +97,7 @@ const drawBlock = (
   pScale: number
 ): void => {
   const colW = geo.columnWidth;
-  const padTop = (block.basePadTop ?? 0) * pScale;
+  const padTop = block.padTopMm;
   const y = yTop + padTop;
 
   if (block.kind === 'spacer') return;
@@ -164,7 +164,7 @@ const drawBlock = (
   if (block.accent) {
     // Left accent bar spanning the paragraph body (tip / exemplar).
     const c = block.accent;
-    const barH = block.height - padTop - (block.basePadBottom ?? 0) * pScale;
+    const barH = block.height - padTop - block.padBottomMm;
     doc.setFillColor(c[0], c[1], c[2]);
     doc.rect(xLeft, y, 1 * pScale, Math.max(barH, pt * MM_PER_PT), 'F');
     textX = xLeft + 3 * pScale;
@@ -190,8 +190,8 @@ const drawScoreSummary = (
   geo: ColumnGeometry,
   pScale: number
 ): void => {
-  const padTop = (block.basePadTop ?? 0) * pScale;
-  const padBottom = (block.basePadBottom ?? 0) * pScale;
+  const padTop = block.padTopMm;
+  const padBottom = block.padBottomMm;
   const top = yTop + padTop;
   const boxH = block.height - padTop - padBottom;
   const colW = geo.columnWidth;
@@ -249,25 +249,26 @@ const drawCriterion = (
   geo: ColumnGeometry,
   pScale: number
 ): void => {
-  const padTop = (block.basePadTop ?? 0) * pScale;
+  const padTop = block.padTopMm;
   const colW = geo.columnWidth;
   const accent = block.accent ?? COLORS.accent;
   const indent = 4 * pScale;
   const y = yTop + padTop;
 
-  // Label line (bold) + chip on the right.
+  // Label lines (bold, wrapped) + chip on the right of the first line.
   const r = block.runs[0];
   const labelPt = r.baseFontPt * pScale;
-  const chipW = block.chip ? 16 * pScale : 0;
+  const labelLineMm = labelPt * 1.3 * MM_PER_PT;
+  const labelLines = block.labelWrapped ?? [block.label ?? ''];
   const labelBaseline = y + ascentMm(labelPt);
-  const labelLines = doc.splitTextToSize(block.label ?? '', colW - indent - chipW - 2 * pScale);
-  drawLines(doc, [labelLines[0] ?? block.label ?? ''], {
+  drawLines(doc, labelLines, {
     ...ctx,
     x: xLeft + indent,
     y: labelBaseline,
     fontPt: labelPt,
     style: 'bold',
     color: COLORS.ink,
+    lineHeightFactor: 1.3,
   });
   if (block.chip) {
     drawLines(doc, [block.chip], {
@@ -282,8 +283,7 @@ const drawCriterion = (
   }
 
   // Left accent bar beside the feedback.
-  const labelLineMm = labelPt * 1.3 * MM_PER_PT;
-  const feedbackTop = y + labelLineMm;
+  const feedbackTop = y + labelLines.length * labelLineMm;
   const feedbackPt = r.baseFontPt * pScale;
   const feedbackHeight =
     (block.wrapped[0]?.length ?? 1) * feedbackPt * (r.lineHeightFactor ?? 1.3) * MM_PER_PT;
@@ -358,8 +358,9 @@ export const exportEvaluationPdf = async (
   );
   const pScale = choice.pScale;
   const geo = geometryFor(pageSize, pScale);
-  const measured = measureBlocks(blocks, measurer, geo, pScale);
-  const { placements, pageCount } = flowBlocks(measured, geo);
+  const {
+    flow: { placements, pageCount },
+  } = planLayout(blocks, measurer, geo, pScale);
 
   // Group placements by page for drawing.
   const byPage: MeasuredBlockPlacement[][] = Array.from({ length: pageCount }, () => []);

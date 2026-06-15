@@ -81,6 +81,14 @@ export interface MeasuredBlock extends ContentBlock {
   height: number;
   /** Pre-wrapped lines per run (parallel to `runs`). */
   wrapped: string[][];
+  /** Top padding resolved to mm (basePadTop * pScale). */
+  padTopMm: number;
+  /** Bottom padding resolved to mm (basePadBottom * pScale). */
+  padBottomMm: number;
+  /** Line height (mm) of the primary run — used for drawing and splitting. */
+  lineHeightMm: number;
+  /** Pre-wrapped label lines (criterion titles can span multiple lines). */
+  labelWrapped?: string[];
 }
 
 /** Result of placing a block during the column-major flow. */

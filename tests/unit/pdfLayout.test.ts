@@ -4,6 +4,7 @@ import {
   flowBlocks,
   chooseScale,
   measureBlocks,
+  splitOversized,
   columnLeft,
 } from '../../pdf/layout';
 import { ContentBlock, MeasuredBlock, TextMeasurer } from '../../pdf/types';
@@ -14,6 +15,9 @@ const block = (height: number, kind: MeasuredBlock['kind'] = 'paragraph'): Measu
   id: `b-${Math.random()}`,
   runs: [],
   wrapped: [],
+  padTopMm: 0,
+  padBottomMm: 0,
+  lineHeightMm: 0,
   height,
 });
 
@@ -89,6 +93,44 @@ describe('flowBlocks (column-major)', () => {
     // Both blocks stack in column 0: 120 + 90 = 210mm deep.
     const { deepestPerPage } = flowBlocks([block(120), block(90)], geo);
     expect(deepestPerPage[0]).toBeCloseTo(210, 5);
+  });
+});
+
+describe('splitOversized', () => {
+  const oversized = (lines: number, lineHeightMm: number): MeasuredBlock => ({
+    kind: 'paragraph',
+    id: 'big',
+    runs: [{ text: 'x', baseFontPt: 10 }],
+    wrapped: [Array.from({ length: lines }, (_, i) => `line ${i}`)],
+    breakable: true,
+    padTopMm: 2,
+    padBottomMm: 3,
+    lineHeightMm,
+    height: 2 + lines * lineHeightMm + 3,
+  });
+
+  it('splits a breakable paragraph taller than a column into fragments that fit', () => {
+    // 100 lines * 5mm = 500mm body; column height 200mm.
+    const fragments = splitOversized([oversized(100, 5)], 200);
+    expect(fragments.length).toBeGreaterThan(1);
+    fragments.forEach((f) => expect(f.height).toBeLessThanOrEqual(200 + 1e-6));
+    // No lines lost across the split.
+    const total = fragments.reduce((n, f) => n + f.wrapped[0].length, 0);
+    expect(total).toBe(100);
+    // Top padding only on the first fragment, bottom only on the last.
+    expect(fragments[0].padTopMm).toBe(2);
+    expect(fragments[fragments.length - 1].padBottomMm).toBe(3);
+    expect(fragments[1].padTopMm).toBe(0);
+  });
+
+  it('leaves blocks that already fit untouched', () => {
+    const fit = oversized(5, 5);
+    expect(splitOversized([fit], 200)).toEqual([fit]);
+  });
+
+  it('does not split non-breakable blocks', () => {
+    const fixed = { ...oversized(100, 5), breakable: false };
+    expect(splitOversized([fixed], 200)).toHaveLength(1);
   });
 });
 
