@@ -10,7 +10,6 @@
     />
     <title>HSC Writing Studio — AI Writing Coach for NSW HSC</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script type="importmap">
 {
   "imports": {
@@ -237,115 +236,11 @@
         background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='rgba(255,255,255,0.03)' stroke-width='0.5' fill='none'/%3E%3C/svg%3E");
       }
 
-      /* Print Specification v2.2.1 */
-      @media print {
-        @page {
-          margin: 15mm;
-          size: auto;
-        }
-
-        html, body {
-          background: white !important;
-          color: black !important;
-          font-family: 'Newsreader', serif !important;
-          overflow: visible !important;
-          height: auto !important;
-        }
-
-        /* Hide all UI elements from standard flow */
-        header, 
-        nav, 
-        aside, 
-        footer, 
-        .no-print, 
-        button, 
-        .toast-container,
-        #api-health-indicator,
-        .mesh-overlay {
-          display: none !important;
-        }
-
-        /* Hide the background app when a modal is open for printing */
-        #root > div:not(.portal-root) {
-            display: none !important;
-        }
-
-        /* Ensure portaled modal content fills the page */
-        .fixed.inset-0 {
-          position: absolute !important;
-          top: 0 !important;
-          left: 0 !important;
-          width: 100% !important;
-          height: auto !important;
-          background: white !important;
-          display: block !important;
-          overflow: visible !important;
-          z-index: auto !important;
-        }
-
-        /* Modal content normalization */
-        .max-h-\[95vh\] {
-            max-height: none !important;
-            height: auto !important;
-            overflow: visible !important;
-        }
-
-        .bg-\[rgb\(var\(--color-bg-surface\)\)\] {
-          background: white !important;
-          border: none !important;
-          box-shadow: none !important;
-        }
-
-        /* Type Formatting */
-        h1, h2, h3, h4, h5, h6 {
-            color: black !important;
-            font-family: 'Inter', sans-serif !important;
-        }
-
-        .text-white {
-            color: black !important;
-        }
-
-        .text-slate-400, .text-slate-500, .text-\[rgb\(var\(--color-text-muted\)\)\] {
-            color: #444 !important;
-        }
-
-        /* Restore visibility to key components */
-        .EvaluationDisplay {
-            display: block !important;
-            width: 100% !important;
-        }
-
-        /* Placard Gradients -> High Contrast */
-        .bg-gradient-to-br, .bg-gradient-to-r {
-            background: #f8fafc !important;
-            border: 2px solid #e2e8f0 !important;
-            color: black !important;
-        }
-
-        /* Spacing for print */
-        .gap-8 { gap: 1rem !important; }
-        .p-10, .p-8 { padding: 1rem !important; }
-
-        /* Ensure Page Breaks */
-        section {
-            page-break-inside: avoid;
-            margin-bottom: 2rem;
-        }
-
-        .CriteriaRow {
-            page-break-inside: avoid;
-            border-bottom: 1px solid #eee;
-        }
-
-        /* Force serif in the response blocks */
-        .prose, .font-serif {
-            font-family: 'Newsreader', serif !important;
-            font-size: 11pt !important;
-            line-height: 1.6 !important;
-            color: black !important;
-        }
-      }
+      /*
+       * PDF export is handled entirely client-side by the jsPDF vector
+       * exporter in /pdf (see EvaluationDisplay "Export PDF"). The previous
+       * window.print() + @media print stylesheet approach has been removed.
+       */
     </style>
   </head>
   <body>

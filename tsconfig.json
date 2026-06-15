@@ -39,6 +39,7 @@
     "hooks/**/*.ts",
     "services/**/*.ts",
     "utils/**/*.ts",
+    "pdf/**/*.ts",
     "api/**/*.ts"
   ],
   "exclude": [
