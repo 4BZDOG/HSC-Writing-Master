@@ -408,7 +408,8 @@ export const exportEvaluationPdf = async (
         pScale,
         margin: PAGE_MARGIN_MM,
         pageWidth: dims.width,
-        showFields: opts.showFields ?? true,
+        // Name/Class/Date fill-in fields belong on the first page only.
+        showFields: (opts.showFields ?? true) && page === 0,
       });
 
       for (const { block, column, top } of byPage[page]) {

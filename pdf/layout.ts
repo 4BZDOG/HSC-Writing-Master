@@ -176,46 +176,92 @@ export const measureBlocks = (
   pScale: number
 ): MeasuredBlock[] => blocks.map((b) => measureBlock(b, measurer, geo.columnWidth, pScale));
 
+/** Split a single-run paragraph's lines into column-sized fragments. */
+const splitParagraph = (b: MeasuredBlock, columnHeight: number): MeasuredBlock[] => {
+  const out: MeasuredBlock[] = [];
+  const lines = b.wrapped[0];
+  let index = 0;
+  let firstFragment = true;
+  while (index < lines.length) {
+    const padTop = firstFragment ? b.padTopMm : 0;
+    const linesThatFit = Math.max(1, Math.floor((columnHeight - padTop) / b.lineHeightMm));
+    const chunk = lines.slice(index, index + linesThatFit);
+    index += chunk.length;
+    const isLast = index >= lines.length;
+    const padBottom = isLast ? b.padBottomMm : 0;
+    out.push({
+      ...b,
+      id: firstFragment ? b.id : `${b.id}-cont${index}`,
+      wrapped: [chunk],
+      padTopMm: padTop,
+      padBottomMm: padBottom,
+      height: padTop + chunk.length * b.lineHeightMm + padBottom,
+    });
+    firstFragment = false;
+  }
+  return out;
+};
+
 /**
- * Split single-run breakable blocks that are taller than a full column into
- * column-sized fragments so prose never overflows the footer / page edge.
- * Non-breakable or already-fitting blocks pass through untouched.
+ * Split an oversized criterion: the first fragment keeps the label + chip and
+ * as many feedback lines as fit; remaining feedback continues as paragraph
+ * fragments (label/chip dropped) that still carry the accent bar. Label and
+ * feedback share the same line height, so one metric drives both.
+ */
+const splitCriterion = (b: MeasuredBlock, columnHeight: number): MeasuredBlock[] => {
+  const lh = b.lineHeightMm;
+  const labelLines = b.labelWrapped?.length ?? 1;
+  const feedback = b.wrapped[0];
+  const firstFit = Math.max(1, Math.floor((columnHeight - b.padTopMm - labelLines * lh) / lh));
+  const head = feedback.slice(0, firstFit);
+  const rest = feedback.slice(firstFit);
+  const out: MeasuredBlock[] = [];
+
+  const headIsLast = rest.length === 0;
+  out.push({
+    ...b,
+    wrapped: [head],
+    padBottomMm: headIsLast ? b.padBottomMm : 0,
+    height: b.padTopMm + labelLines * lh + head.length * lh + (headIsLast ? b.padBottomMm : 0),
+  });
+
+  // Continuation lines render as plain paragraphs (no label) with the bar.
+  if (rest.length) {
+    const cont: MeasuredBlock = {
+      ...b,
+      kind: 'paragraph',
+      label: undefined,
+      chip: undefined,
+      labelWrapped: undefined,
+      id: `${b.id}-feedcont`,
+      wrapped: [rest],
+      padTopMm: 0,
+      height: rest.length * lh + b.padBottomMm,
+    };
+    out.push(...splitParagraph(cont, columnHeight));
+  }
+  return out;
+};
+
+/**
+ * Split breakable blocks that are taller than a full column into column-sized
+ * fragments so prose never overflows the footer / page edge. Non-breakable or
+ * already-fitting blocks pass through untouched.
  */
 export const splitOversized = (blocks: MeasuredBlock[], columnHeight: number): MeasuredBlock[] => {
   const out: MeasuredBlock[] = [];
   for (const b of blocks) {
-    const splittable =
-      b.breakable &&
-      b.kind === 'paragraph' &&
-      b.wrapped.length === 1 &&
-      b.wrapped[0].length > 1 &&
-      b.lineHeightMm > 0;
+    const fits = b.height <= columnHeight + 1e-6;
+    const canSplit = b.breakable && b.lineHeightMm > 0 && b.wrapped.length === 1;
 
-    if (!splittable || b.height <= columnHeight + 1e-6) {
+    if (fits || !canSplit) {
       out.push(b);
-      continue;
-    }
-
-    const lines = b.wrapped[0];
-    let index = 0;
-    let firstFragment = true;
-    while (index < lines.length) {
-      const padTop = firstFragment ? b.padTopMm : 0;
-      // Reserve bottom padding only if the remainder will fit in this fragment.
-      const linesThatFit = Math.max(1, Math.floor((columnHeight - padTop) / b.lineHeightMm));
-      const chunk = lines.slice(index, index + linesThatFit);
-      index += chunk.length;
-      const isLast = index >= lines.length;
-      const padBottom = isLast ? b.padBottomMm : 0;
-      out.push({
-        ...b,
-        id: firstFragment ? b.id : `${b.id}-cont${index}`,
-        wrapped: [chunk],
-        padTopMm: padTop,
-        padBottomMm: padBottom,
-        height: padTop + chunk.length * b.lineHeightMm + padBottom,
-      });
-      firstFragment = false;
+    } else if (b.kind === 'paragraph' && b.wrapped[0].length > 1) {
+      out.push(...splitParagraph(b, columnHeight));
+    } else if (b.kind === 'criterion' && b.wrapped[0].length >= 1) {
+      out.push(...splitCriterion(b, columnHeight));
+    } else {
+      out.push(b);
     }
   }
   return out;
