@@ -149,6 +149,39 @@ describe('splitOversized', () => {
     const fixed = { ...oversized(100, 5), breakable: false };
     expect(splitOversized([fixed], 200)).toHaveLength(1);
   });
+
+  it('splits an oversized criterion, keeping the label on the first fragment only', () => {
+    const crit: MeasuredBlock = {
+      kind: 'criterion',
+      id: 'crit',
+      label: '1. A long criterion title',
+      labelWrapped: ['1. A long criterion', 'title'],
+      chip: '2 / 3',
+      runs: [{ text: 'x', baseFontPt: 9 }],
+      wrapped: [Array.from({ length: 100 }, (_, i) => `fb ${i}`)],
+      breakable: true,
+      accent: [0, 0, 0],
+      padTopMm: 1,
+      padBottomMm: 2,
+      lineHeightMm: 5,
+      height: 1 + 2 * 5 + 100 * 5 + 2, // label(2 lines) + 100 feedback lines
+    };
+    const frags = splitOversized([crit], 200);
+    expect(frags.length).toBeGreaterThan(1);
+    // First fragment is still a criterion and keeps the label + chip.
+    expect(frags[0].kind).toBe('criterion');
+    expect(frags[0].label).toBe('1. A long criterion title');
+    // Continuations are label-less paragraphs that keep the accent bar.
+    frags.slice(1).forEach((f) => {
+      expect(f.kind).toBe('paragraph');
+      expect(f.label).toBeUndefined();
+      expect(f.accent).toEqual([0, 0, 0]);
+    });
+    // Every fragment fits a column, and no feedback lines are lost.
+    frags.forEach((f) => expect(f.height).toBeLessThanOrEqual(200 + 1e-6));
+    const totalFeedback = frags.reduce((n, f) => n + f.wrapped[0].length, 0);
+    expect(totalFeedback).toBe(100);
+  });
 });
 
 // A deterministic measurer: wrap by char-budget, line height proportional to size.
