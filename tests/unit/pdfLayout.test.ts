@@ -147,6 +147,17 @@ describe('splitOversized', () => {
     expect(splitOversized([fit], 200)).toEqual([fit]);
   });
 
+  it('avoids a lone widow line as the final fragment', () => {
+    // 5mm lines, 200mm column, 2mm top pad => 39 lines fit the first fragment;
+    // 40 lines would naively leave a single widow line in the second fragment.
+    const frags = splitOversized([oversized(40, 5)], 200);
+    expect(frags).toHaveLength(2);
+    expect(frags[frags.length - 1].wrapped[0].length).toBeGreaterThanOrEqual(2);
+    // No lines are lost when the widow is pulled down.
+    const total = frags.reduce((n, f) => n + f.wrapped[0].length, 0);
+    expect(total).toBe(40);
+  });
+
   it('does not split non-breakable blocks', () => {
     const fixed = { ...oversized(100, 5), breakable: false };
     expect(splitOversized([fixed], 200)).toHaveLength(1);
