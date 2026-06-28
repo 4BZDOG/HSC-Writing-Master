@@ -141,6 +141,66 @@ export const toText = (input: string): string => {
   return s;
 };
 
+// --- HTML stripping (whitelist-based, comparison-safe) ---------------------
+
+// Only real HTML element names are stripped, so code/maths like `List<T>` or
+// `x < y` (no whitelisted tag name) survive untouched.
+const HTML_TAG_NAMES =
+  'p|br|hr|div|span|strong|b|em|i|u|s|ul|ol|li|h[1-6]|a|code|pre|blockquote|sup|sub|table|thead|tbody|tr|td|th|small|mark';
+const BLOCK_CLOSERS = new RegExp(`</\\s*(?:p|div|li|h[1-6]|tr|blockquote|ul|ol)\\s*>`, 'gi');
+const BR_TAG = /<\s*br\s*\/?\s*>/gi;
+const ANY_HTML_TAG = new RegExp(`</?\\s*(?:${HTML_TAG_NAMES})(?:\\s[^>]*)?/?>`, 'gi');
+
+const NAMED_ENTITIES: Record<string, string> = {
+  '&lt;': '<',
+  '&gt;': '>',
+  '&amp;': '&',
+  '&nbsp;': ' ',
+  '&quot;': '"',
+  '&apos;': "'",
+  '&#39;': "'",
+  '&mdash;': '—',
+  '&ndash;': '–',
+  '&hellip;': '…',
+  '&times;': '×',
+  '&deg;': '°',
+};
+
+/**
+ * Remove whitelisted HTML tags and decode common entities WITHOUT corrupting
+ * bare `<`/`>` used in prose, code, or maths. Block-level closers and <br>
+ * become newlines so structure is preserved as plain text.
+ */
+export const stripBasicHtml = (input: string): string => {
+  if (!input) return '';
+  let s = input.replace(BR_TAG, '\n').replace(BLOCK_CLOSERS, '\n').replace(ANY_HTML_TAG, '');
+
+  for (const [entity, ch] of Object.entries(NAMED_ENTITIES)) {
+    if (s.includes(entity)) s = s.split(entity).join(ch);
+  }
+  // Numeric entities (&#160; / &#x41;).
+  s = s.replace(/&#(\d+);/g, (_m, n: string) => safeCodePoint(parseInt(n, 10)));
+  s = s.replace(/&#x([0-9a-f]+);/gi, (_m, n: string) => safeCodePoint(parseInt(n, 16)));
+
+  // Collapse runs of blank lines and trim trailing spaces per line.
+  return s
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+};
+
+const safeCodePoint = (cp: number): string => {
+  if (!Number.isFinite(cp) || cp < 0 || cp > 0x10ffff) return '';
+  try {
+    return String.fromCodePoint(cp);
+  } catch {
+    return '';
+  }
+};
+
+/** Normalise host content for the PDF: strip HTML, then markup -> Unicode. */
+export const normalizeContent = (input: string): string => toText(stripBasicHtml(input ?? ''));
+
 // --- ASCII degradation -----------------------------------------------------
 
 const SUPERSCRIPT_TO_ASCII: Record<string, string> = invert(SUPERSCRIPTS);

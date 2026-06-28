@@ -13,6 +13,7 @@ import {
   PAGE_DIMENSIONS,
   PAGE_MARGIN_MM,
   ProgressFn,
+  SCORE_SUMMARY,
   ToastFn,
 } from './types';
 import { buildEvaluationBlocks, COLORS, EvaluationExportData } from './buildBlocks';
@@ -196,16 +197,17 @@ const drawScoreSummary = (
   const boxH = block.height - padTop - padBottom;
   const colW = geo.columnWidth;
   const accent = block.accent ?? COLORS.accent;
-  const pad = 3 * pScale;
+  const pad = SCORE_SUMMARY.innerPadBaseMm * pScale;
+  const bar = SCORE_SUMMARY.accentBarBaseMm * pScale;
 
   doc.setDrawColor(accent[0], accent[1], accent[2]);
   doc.setLineWidth(0.4 * pScale);
   doc.roundedRect(xLeft, top, colW, boxH, 2 * pScale, 2 * pScale, 'S');
   doc.setFillColor(accent[0], accent[1], accent[2]);
-  doc.rect(xLeft, top, 1.6 * pScale, boxH, 'F');
+  doc.rect(xLeft, top, bar, boxH, 'F');
 
   // Big score chip, right-aligned.
-  const chipPt = 17 * pScale;
+  const chipPt = SCORE_SUMMARY.chipPt * pScale;
   drawLines(doc, [block.chip ?? ''], {
     ...ctx,
     x: xLeft + colW - pad,
@@ -217,10 +219,11 @@ const drawScoreSummary = (
   });
 
   // Label + metrics, left.
-  const labelPt = 7 * pScale;
+  const labelPt = SCORE_SUMMARY.labelPt * pScale;
+  const textX = xLeft + pad + bar;
   drawLines(doc, [(block.label ?? '').toUpperCase()], {
     ...ctx,
-    x: xLeft + pad + 1.6 * pScale,
+    x: textX,
     y: top + pad + ascentMm(labelPt),
     fontPt: labelPt,
     style: 'bold',
@@ -231,11 +234,12 @@ const drawScoreSummary = (
     const pt = r.baseFontPt * pScale;
     drawLines(doc, block.wrapped[0] ?? [r.text], {
       ...ctx,
-      x: xLeft + pad + 1.6 * pScale,
-      y: top + pad + labelPt * 1.6 * MM_PER_PT + ascentMm(pt),
+      x: textX,
+      y: top + pad + labelPt * SCORE_SUMMARY.labelLineFactor * MM_PER_PT + ascentMm(pt),
       fontPt: pt,
       style: r.style ?? 'bold',
       color: r.color ?? COLORS.body,
+      lineHeightFactor: SCORE_SUMMARY.metricsLineFactor,
     });
   }
 };

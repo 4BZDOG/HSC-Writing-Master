@@ -228,24 +228,26 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
     setIsExporting(true);
     setExportStatus('Starting…');
     try {
+      // Pass raw content through; the pdf module normalises HTML/markup safely
+      // (a whitelist strip that preserves bare `<`/`>` in code and maths).
       await exportEvaluationPdf({
         data: {
-          question: stripHtmlTags(prompt.question),
+          question: prompt.question,
           verb: prompt.verb,
           totalMarks: prompt.totalMarks,
           overallMark: result.overallMark,
           overallBand: result.overallBand,
-          overallFeedback: stripHtmlTags(result.overallFeedback || ''),
-          quickTip: result.quickTip ? stripHtmlTags(result.quickTip) : undefined,
-          strengths: (result.strengths || []).map(stripHtmlTags),
-          improvements: (result.improvements || []).map(stripHtmlTags),
+          overallFeedback: result.overallFeedback || '',
+          quickTip: result.quickTip,
+          strengths: result.strengths || [],
+          improvements: result.improvements || [],
           criteria: (result.criteria || []).map((c) => ({
-            criterion: stripHtmlTags(c.criterion),
+            criterion: c.criterion,
             mark: c.mark,
             maxMark: c.maxMark,
-            feedback: stripHtmlTags(c.feedback),
+            feedback: c.feedback,
           })),
-          revisedAnswer: revisedText ? stripHtmlTags(revisedText) : undefined,
+          revisedAnswer: revisedText || undefined,
           exemplarBand,
           wordCount,
           keywordsUsed: keywordsUsedCount,

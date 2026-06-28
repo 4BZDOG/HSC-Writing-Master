@@ -23,6 +23,7 @@ import {
   PAGE_MARGIN_MM,
   PageSizeName,
   PlacedBlock,
+  SCORE_SUMMARY,
   TextMeasurer,
   TextRun,
   MM_PER_PT,
@@ -101,6 +102,36 @@ export const measureBlock = (
       padBottomMm: padBottom,
       lineHeightMm: 0,
       height: padTop + padBottom,
+    };
+  }
+
+  // The score-summary box must be tall enough for its chip + label + metrics.
+  if (block.kind === 'scoreSummary') {
+    const pad = SCORE_SUMMARY.innerPadBaseMm * pScale;
+    const bar = SCORE_SUMMARY.accentBarBaseMm * pScale;
+    const chipH = SCORE_SUMMARY.chipPt * pScale * MM_PER_PT;
+    const labelH = SCORE_SUMMARY.labelPt * pScale * SCORE_SUMMARY.labelLineFactor * MM_PER_PT;
+    const metricsRun = block.runs[0];
+    const metricsPt = (metricsRun?.baseFontPt ?? 9) * pScale;
+    const chipReserve = SCORE_SUMMARY.chipReserveBaseMm * pScale;
+    const metricsLines = metricsRun
+      ? measurer.wrap(
+          metricsRun.text,
+          columnWidth - pad * 2 - bar - chipReserve,
+          metricsPt,
+          metricsRun.style ?? 'bold'
+        )
+      : [];
+    const metricsH =
+      metricsLines.length * measurer.lineHeight(metricsPt, SCORE_SUMMARY.metricsLineFactor);
+    const inner = Math.max(chipH, labelH + metricsH);
+    return {
+      ...block,
+      wrapped: [metricsLines],
+      padTopMm: padTop,
+      padBottomMm: padBottom,
+      lineHeightMm,
+      height: padTop + pad * 2 + inner + padBottom,
     };
   }
 
@@ -224,12 +255,23 @@ export const flowBlocks = (blocks: MeasuredBlock[], geo: ColumnGeometry): FlowRe
     }
   };
 
-  for (const block of blocks) {
+  for (let i = 0; i < blocks.length; i++) {
+    const block = blocks[i];
     const atColumnTop = cursor === 0;
     // Never start a column with whitespace.
     if (atColumnTop && block.kind === 'spacer') continue;
 
-    const fits = cursor + block.height <= geo.columnHeight + 1e-6;
+    // Keep-with-next: a heading must not be orphaned at the foot of a column.
+    // Require room for the heading plus at least the first line of what follows.
+    let required = block.height;
+    if (block.kind === 'heading') {
+      const next = blocks[i + 1];
+      if (next && next.kind !== 'spacer') {
+        required += Math.min(next.height, next.lineHeightMm || next.height);
+      }
+    }
+
+    const fits = cursor + required <= geo.columnHeight + 1e-6;
     if (!fits && !atColumnTop) {
       advanceColumn();
       // A spacer that triggers a break is redundant — the break separates.

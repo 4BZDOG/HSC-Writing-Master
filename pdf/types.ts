@@ -27,6 +27,21 @@ export const MM_PER_PT = 25.4 / 72;
 export type FontStyle = 'normal' | 'bold' | 'italic' | 'bolditalic';
 
 /**
+ * Geometry of the score-summary box, shared by the measurer (layout) and the
+ * drawer (orchestrator) so the box is always tall enough for its contents.
+ * All *Pt values are base point sizes (pre-scale); *Mm values are base mm.
+ */
+export const SCORE_SUMMARY = {
+  innerPadBaseMm: 3,
+  accentBarBaseMm: 1.6,
+  chipPt: 17,
+  labelPt: 7,
+  labelLineFactor: 1.6,
+  metricsLineFactor: 1.3,
+  chipReserveBaseMm: 22,
+};
+
+/**
  * A logical run of styled text within a block. Text uses the app's in-house
  * markup (**bold**, *italic*, ^sup, _sub) which `toText()` converts to
  * selectable Unicode at draw time.
