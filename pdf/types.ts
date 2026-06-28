@@ -192,6 +192,13 @@ export interface JsPdfLike {
   getFontList(): Record<string, string[]>;
   setGState(gState: unknown): JsPdfLike;
   GState: new (opts: { opacity: number }) => unknown;
+  setProperties(props: {
+    title?: string;
+    subject?: string;
+    author?: string;
+    keywords?: string;
+    creator?: string;
+  }): JsPdfLike;
   save(filename: string): void;
 }
 

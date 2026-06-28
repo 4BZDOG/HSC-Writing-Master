@@ -381,6 +381,21 @@ export const exportEvaluationPdf = async (
     `${opts.data.verb} · ${opts.data.totalMarks} marks · Band ${opts.data.overallBand}`;
   const watermarkText = opts.watermarkText ?? 'HSC WRITING MASTER';
 
+  // Document metadata (shown in the viewer title bar / file properties).
+  try {
+    doc.setProperties({
+      title: `${title} — ${subtitle}`,
+      subject: instruction,
+      author: title,
+      creator: 'HSC Writing Master PDF Exporter',
+      keywords: ['HSC', 'marking feedback', opts.data.verb, `Band ${opts.data.overallBand}`].join(
+        ', '
+      ),
+    });
+  } catch {
+    // setProperties is non-essential; ignore engines that lack it.
+  }
+
   const totalPages = pageCount * copies;
   let pageNo = 0;
   let first = true;

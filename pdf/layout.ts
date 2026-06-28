@@ -219,6 +219,22 @@ const splitParagraph = (b: MeasuredBlock, columnHeight: number): MeasuredBlock[]
     });
     firstFragment = false;
   }
+
+  // Widow control: never strand a single line as the final fragment. Pull one
+  // line down from the previous fragment so the tail has at least two — as long
+  // as two lines still fit a column.
+  if (out.length >= 2) {
+    const last = out[out.length - 1];
+    const prev = out[out.length - 2];
+    const twoLinesFit = 2 * b.lineHeightMm + last.padBottomMm <= columnHeight + 1e-6;
+    if (last.wrapped[0].length === 1 && prev.wrapped[0].length >= 2 && twoLinesFit) {
+      const moved = prev.wrapped[0][prev.wrapped[0].length - 1];
+      prev.wrapped[0] = prev.wrapped[0].slice(0, -1);
+      last.wrapped[0] = [moved, ...last.wrapped[0]];
+      prev.height = prev.padTopMm + prev.wrapped[0].length * b.lineHeightMm + prev.padBottomMm;
+      last.height = last.padTopMm + last.wrapped[0].length * b.lineHeightMm + last.padBottomMm;
+    }
+  }
   return out;
 };
 
