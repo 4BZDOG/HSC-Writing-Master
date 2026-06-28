@@ -23,6 +23,7 @@ import {
   PAGE_MARGIN_MM,
   PageSizeName,
   PlacedBlock,
+  LAYOUT,
   SCORE_SUMMARY,
   TextMeasurer,
   TextRun,
@@ -84,6 +85,14 @@ export const measureBlock = (
   const primaryPt = (block.runs[0]?.baseFontPt ?? 9) * pScale;
   const lineHeightMm = measurer.lineHeight(primaryPt, block.runs[0]?.lineHeightFactor ?? 1.15);
 
+  // Bullets, criterion text, and accented paragraphs share one indent so they
+  // align and (crucially) wrap to the same width they're drawn at.
+  const indented =
+    block.kind === 'listItem' ||
+    block.kind === 'criterion' ||
+    (block.kind === 'paragraph' && !!block.accent);
+  const textIndentMm = indented ? LAYOUT.contentIndentBaseMm * pScale : 0;
+
   if (block.kind === 'divider') {
     return {
       ...block,
@@ -91,6 +100,7 @@ export const measureBlock = (
       padTopMm: padTop,
       padBottomMm: padBottom,
       lineHeightMm: 0,
+      textIndentMm: 0,
       height: padTop + padBottom + 0.4 * pScale,
     };
   }
@@ -101,6 +111,7 @@ export const measureBlock = (
       padTopMm: padTop,
       padBottomMm: padBottom,
       lineHeightMm: 0,
+      textIndentMm: 0,
       height: padTop + padBottom,
     };
   }
@@ -131,6 +142,7 @@ export const measureBlock = (
       padTopMm: padTop,
       padBottomMm: padBottom,
       lineHeightMm,
+      textIndentMm: 0,
       height: padTop + pad * 2 + inner + padBottom,
     };
   }
@@ -140,9 +152,13 @@ export const measureBlock = (
   let labelHeightMm = 0;
   if (block.kind === 'criterion' && block.label) {
     const labelPt = (block.runs[0]?.baseFontPt ?? 9) * pScale;
-    const indent = 4 * pScale;
-    const chipReserve = block.chip ? 18 * pScale : 0;
-    labelWrapped = measurer.wrap(block.label, columnWidth - indent - chipReserve, labelPt, 'bold');
+    const chipReserve = block.chip ? LAYOUT.criterionChipReserveBaseMm * pScale : 0;
+    labelWrapped = measurer.wrap(
+      block.label,
+      columnWidth - textIndentMm - chipReserve,
+      labelPt,
+      'bold'
+    );
     labelHeightMm = labelWrapped.length * measurer.lineHeight(labelPt, 1.3);
   }
 
@@ -150,9 +166,12 @@ export const measureBlock = (
   let body = 0;
   for (const run of block.runs) {
     const fontPt = run.baseFontPt * pScale;
-    // Indent list/criterion text slightly to leave room for the marker/bar.
-    const indent = block.kind === 'listItem' || block.kind === 'criterion' ? 4 * pScale : 0;
-    const lines = measurer.wrap(run.text, columnWidth - indent, fontPt, run.style ?? 'normal');
+    const lines = measurer.wrap(
+      run.text,
+      columnWidth - textIndentMm,
+      fontPt,
+      run.style ?? 'normal'
+    );
     wrapped.push(lines);
     body += lines.length * runLineHeight(measurer, run, pScale);
   }
@@ -164,6 +183,7 @@ export const measureBlock = (
     padTopMm: padTop,
     padBottomMm: padBottom,
     lineHeightMm,
+    textIndentMm,
     height: padTop + labelHeightMm + body + padBottom,
   };
 };

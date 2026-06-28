@@ -42,6 +42,20 @@ export const SCORE_SUMMARY = {
 };
 
 /**
+ * Shared indentation / accent-bar geometry (base mm, pre-scale) used by both
+ * the measurer and the drawer so list bullets, criterion text, and accented
+ * paragraphs align and wrap to the same width.
+ */
+export const LAYOUT = {
+  /** Indent for bullets, criterion label/feedback, and accented paragraphs. */
+  contentIndentBaseMm: 4,
+  /** Width of the left accent bar drawn in the indent gutter. */
+  accentBarBaseMm: 0.9,
+  /** Criterion chip reserve so the title wraps before the mark chip. */
+  criterionChipReserveBaseMm: 18,
+};
+
+/**
  * A logical run of styled text within a block. Text uses the app's in-house
  * markup (**bold**, *italic*, ^sup, _sub) which `toText()` converts to
  * selectable Unicode at draw time.
@@ -102,6 +116,8 @@ export interface MeasuredBlock extends ContentBlock {
   padBottomMm: number;
   /** Line height (mm) of the primary run — used for drawing and splitting. */
   lineHeightMm: number;
+  /** Horizontal indent (mm) applied to body text; matches the wrap width. */
+  textIndentMm: number;
   /** Pre-wrapped label lines (criterion titles can span multiple lines). */
   labelWrapped?: string[];
 }
