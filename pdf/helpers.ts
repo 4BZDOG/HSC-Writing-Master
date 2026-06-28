@@ -333,19 +333,40 @@ export interface FooterOptions extends TextStyleCtx {
   pageHeight: number;
   margin: number;
   pScale: number;
+  /** 1-based page number within the current copy. */
+  pageNumber?: number;
+  /** Total pages in a single copy. */
+  pageTotal?: number;
 }
 
-/** Draw a small right-aligned export ID + date footer on the current page. */
+/**
+ * Footer: a left-aligned "Page X of Y" and a right-aligned export ID + date,
+ * drawn on the current page.
+ */
 export const drawFooter = (doc: JsPdfLike, opts: FooterOptions): void => {
   const fontPt = 6.5 * opts.pScale;
   const y = opts.pageHeight - opts.margin + 4 * opts.pScale;
+  const color: [number, number, number] = [156, 163, 175];
+
+  if (opts.pageNumber && opts.pageTotal) {
+    drawText(doc, `Page ${opts.pageNumber} of ${opts.pageTotal}`, {
+      ...opts,
+      x: opts.margin,
+      y,
+      fontPt,
+      style: 'normal',
+      color,
+      align: 'left',
+    });
+  }
+
   drawText(doc, `${opts.exportId}  ·  ${opts.dateStr}`, {
     ...opts,
     x: opts.pageWidth - opts.margin,
     y,
     fontPt,
     style: 'normal',
-    color: [156, 163, 175],
+    color,
     align: 'right',
   });
 };

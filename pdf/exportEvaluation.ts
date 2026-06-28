@@ -13,6 +13,7 @@ import {
   PAGE_DIMENSIONS,
   PAGE_MARGIN_MM,
   ProgressFn,
+  LAYOUT,
   SCORE_SUMMARY,
   ToastFn,
 } from './types';
@@ -136,7 +137,7 @@ const drawBlock = (
   if (block.kind === 'listItem') {
     const r = block.runs[0];
     const pt = r.baseFontPt * pScale;
-    const indent = 4 * pScale;
+    const indent = block.textIndentMm;
     const c = block.accent ?? COLORS.accent;
     const baseline = y + ascentMm(pt);
     doc.setFillColor(c[0], c[1], c[2]);
@@ -161,14 +162,14 @@ const drawBlock = (
   // paragraph
   const r = block.runs[0];
   const pt = r.baseFontPt * pScale;
-  let textX = xLeft;
+  const textX = xLeft + block.textIndentMm;
   if (block.accent) {
-    // Left accent bar spanning the paragraph body (tip / exemplar).
+    // Left accent bar spanning the paragraph body (tip / exemplar / criterion
+    // continuation). Bar geometry matches criterion feedback for consistency.
     const c = block.accent;
     const barH = block.height - padTop - block.padBottomMm;
     doc.setFillColor(c[0], c[1], c[2]);
-    doc.rect(xLeft, y, 1 * pScale, Math.max(barH, pt * MM_PER_PT), 'F');
-    textX = xLeft + 3 * pScale;
+    doc.rect(xLeft, y, LAYOUT.accentBarBaseMm * pScale, Math.max(barH, pt * MM_PER_PT), 'F');
   }
   drawLines(doc, block.wrapped[0] ?? [r.text], {
     ...ctx,
@@ -178,7 +179,6 @@ const drawBlock = (
     style: r.style ?? 'normal',
     color: r.color ?? COLORS.body,
     lineHeightFactor: r.lineHeightFactor ?? 1.3,
-    maxWidthMm: colW - (textX - xLeft),
   });
 };
 
@@ -256,7 +256,7 @@ const drawCriterion = (
   const padTop = block.padTopMm;
   const colW = geo.columnWidth;
   const accent = block.accent ?? COLORS.accent;
-  const indent = 4 * pScale;
+  const indent = block.textIndentMm;
   const y = yTop + padTop;
 
   // Label lines (bold, wrapped) + chip on the right of the first line.
@@ -292,7 +292,7 @@ const drawCriterion = (
   const feedbackHeight =
     (block.wrapped[0]?.length ?? 1) * feedbackPt * (r.lineHeightFactor ?? 1.3) * MM_PER_PT;
   doc.setFillColor(accent[0], accent[1], accent[2]);
-  doc.rect(xLeft, feedbackTop, 0.8 * pScale, feedbackHeight, 'F');
+  doc.rect(xLeft, feedbackTop, LAYOUT.accentBarBaseMm * pScale, feedbackHeight, 'F');
   drawLines(doc, block.wrapped[0] ?? [r.text], {
     ...ctx,
     x: xLeft + indent,
@@ -425,6 +425,8 @@ export const exportEvaluationPdf = async (
         pageHeight: dims.height,
         margin: PAGE_MARGIN_MM,
         pScale,
+        pageNumber: page + 1,
+        pageTotal: pageCount,
       });
 
       // Let the progress UI repaint between pages.

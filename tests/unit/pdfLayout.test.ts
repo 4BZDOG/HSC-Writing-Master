@@ -18,6 +18,7 @@ const block = (height: number, kind: MeasuredBlock['kind'] = 'paragraph'): Measu
   padTopMm: 0,
   padBottomMm: 0,
   lineHeightMm: 0,
+  textIndentMm: 0,
   height,
 });
 
@@ -123,6 +124,7 @@ describe('splitOversized', () => {
     padTopMm: 2,
     padBottomMm: 3,
     lineHeightMm,
+    textIndentMm: 0,
     height: 2 + lines * lineHeightMm + 3,
   });
 
@@ -164,6 +166,7 @@ describe('splitOversized', () => {
       padTopMm: 1,
       padBottomMm: 2,
       lineHeightMm: 5,
+      textIndentMm: 4,
       height: 1 + 2 * 5 + 100 * 5 + 2, // label(2 lines) + 100 feedback lines
     };
     const frags = splitOversized([crit], 200);
@@ -283,6 +286,28 @@ describe('buildEvaluationBlocks + measureBlocks integration', () => {
     const chipMm = 17 * 0.3528;
     const innerH = (score?.height ?? 0) - (score?.padTopMm ?? 0) - (score?.padBottomMm ?? 0);
     expect(innerH).toBeGreaterThan(chipMm);
+  });
+
+  it('indents accented paragraphs and bullets so they wrap at the drawn width', () => {
+    const blocks = buildEvaluationBlocks(data);
+    const geo = computeGeometry({
+      size: 'a4',
+      columnsPerPage: 2,
+      columnGap: 7,
+      headerHeight: 30,
+      footerHeight: 8,
+      margin: 10,
+    });
+    const measured = measureBlocks(blocks, fakeMeasurer(), geo, 1);
+    // The Coach's Tip paragraph carries an accent, so it must be indented.
+    const tip = measured.find((b) => b.id.startsWith('tip'));
+    expect(tip?.textIndentMm).toBeGreaterThan(0);
+    // The plain commentary paragraph has no accent and is flush-left.
+    const comm = measured.find((b) => b.id.startsWith('comm'));
+    expect(comm?.textIndentMm).toBe(0);
+    // List items (strengths) are indented for their bullet.
+    const str = measured.find((b) => b.id.startsWith('str'));
+    expect(str?.textIndentMm).toBeGreaterThan(0);
   });
 
   it('measures every block to a positive height', () => {
