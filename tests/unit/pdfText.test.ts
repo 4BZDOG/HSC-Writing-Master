@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { toText, degradeToAscii, containsEmoji } from '../../pdf/text';
+import {
+  toText,
+  degradeToAscii,
+  containsEmoji,
+  stripBasicHtml,
+  normalizeContent,
+} from '../../pdf/text';
 
 describe('toText', () => {
   it('converts ^digits to Unicode superscripts', () => {
@@ -59,6 +65,43 @@ describe('degradeToAscii', () => {
 
   it('leaves plain ASCII untouched', () => {
     expect(degradeToAscii('Plain text 123.')).toBe('Plain text 123.');
+  });
+});
+
+describe('stripBasicHtml', () => {
+  it('removes whitelisted HTML tags', () => {
+    expect(stripBasicHtml('<p>Hello <strong>world</strong></p>')).toBe('Hello world');
+  });
+
+  it('preserves bare comparison/generics that are not HTML tags', () => {
+    expect(stripBasicHtml('x < y and a > b')).toBe('x < y and a > b');
+    expect(stripBasicHtml('List<T> and Map<K,V>')).toBe('List<T> and Map<K,V>');
+    expect(stripBasicHtml('if a<b then')).toBe('if a<b then');
+  });
+
+  it('converts <br> and block closers to newlines', () => {
+    expect(stripBasicHtml('a<br>b')).toBe('a\nb');
+    expect(stripBasicHtml('<li>one</li><li>two</li>')).toBe('one\ntwo');
+  });
+
+  it('decodes common named and numeric entities', () => {
+    expect(stripBasicHtml('&lt;tag&gt; &amp; more')).toBe('<tag> & more');
+    expect(stripBasicHtml('a&#38;b')).toBe('a&b');
+    expect(stripBasicHtml('&#x3c;ok&#x3e;')).toBe('<ok>');
+  });
+
+  it('returns empty string for empty input', () => {
+    expect(stripBasicHtml('')).toBe('');
+  });
+});
+
+describe('normalizeContent', () => {
+  it('strips HTML then converts markup to Unicode', () => {
+    expect(normalizeContent('<p>x^2 &amp; **bold**</p>')).toBe('x² & bold');
+  });
+
+  it('keeps code comparisons selectable and intact', () => {
+    expect(normalizeContent('Use arr[i] < arr[j] to compare')).toBe('Use arr[i] < arr[j] to compare');
   });
 });
 

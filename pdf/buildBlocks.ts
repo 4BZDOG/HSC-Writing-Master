@@ -5,7 +5,7 @@
 // toText() here so downstream drawing/measurement is plain-text.
 
 import { ContentBlock, TextRun } from './types';
-import { toText } from './text';
+import { normalizeContent } from './text';
 
 /** Brand palette (RGB 0-255). */
 export const COLORS = {
@@ -52,7 +52,7 @@ let seq = 0;
 const nid = (p: string) => `${p}-${seq++}`;
 
 const run = (text: string, baseFontPt: number, extra: Partial<TextRun> = {}): TextRun => ({
-  text: toText(text ?? ''),
+  text: normalizeContent(text ?? ''),
   baseFontPt,
   ...extra,
 });
@@ -194,7 +194,7 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
       blocks.push({
         kind: 'criterion',
         id: nid('crit'),
-        label: `${i + 1}. ${toText(c.criterion)}`,
+        label: `${i + 1}. ${normalizeContent(c.criterion)}`,
         chip: `${c.mark} / ${c.maxMark}`,
         runs: [run(c.feedback, 9, { color: COLORS.body, lineHeightFactor: 1.3 })],
         accent: COLORS.accent,

@@ -89,6 +89,23 @@ describe('flowBlocks (column-major)', () => {
     expect(placements[1]).toMatchObject({ column: 1, top: 0 });
   });
 
+  it('keeps a heading with its following block (no orphan at column foot)', () => {
+    // 200mm block leaves ~39mm; a heading whose next block needs 50mm cannot
+    // stay here, so the heading moves to the top of column 1 with its content.
+    const heading = block(10, 'heading');
+    const blocks = [block(200), heading, block(50)];
+    const { placements } = flowBlocks(blocks, geo);
+    expect(placements[0]).toMatchObject({ column: 0, top: 0 });
+    expect(placements[1]).toMatchObject({ column: 1, top: 0 }); // the heading
+    expect(placements[2]).toMatchObject({ column: 1 }); // its content follows
+  });
+
+  it('does not gratuitously break a heading that fits with its content', () => {
+    const heading = block(10, 'heading');
+    const { placements } = flowBlocks([block(50), heading, block(50)], geo);
+    expect(placements[1]).toMatchObject({ column: 0, top: 50 });
+  });
+
   it('records deepest extent per page', () => {
     // Both blocks stack in column 0: 120 + 90 = 210mm deep.
     const { deepestPerPage } = flowBlocks([block(120), block(90)], geo);
@@ -215,6 +232,24 @@ describe('buildEvaluationBlocks + measureBlocks integration', () => {
     const q = blocks.find((b) => b.id.startsWith('q'));
     expect(q?.runs[0].text).toContain('x²');
     expect(q?.runs[0].text).toContain('a/b');
+  });
+
+  it('measures the score-summary box tall enough for its chip + label + metrics', () => {
+    const blocks = buildEvaluationBlocks(data);
+    const geo = computeGeometry({
+      size: 'a4',
+      columnsPerPage: 2,
+      columnGap: 7,
+      headerHeight: 30,
+      footerHeight: 8,
+      margin: 10,
+    });
+    const measured = measureBlocks(blocks, fakeMeasurer(), geo, 1);
+    const score = measured.find((b) => b.kind === 'scoreSummary');
+    // The 17pt chip alone is ~6mm tall; the box (minus padding) must exceed it.
+    const chipMm = 17 * 0.3528;
+    const innerH = (score?.height ?? 0) - (score?.padTopMm ?? 0) - (score?.padBottomMm ?? 0);
+    expect(innerH).toBeGreaterThan(chipMm);
   });
 
   it('measures every block to a positive height', () => {

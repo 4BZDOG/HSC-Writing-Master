@@ -161,18 +161,19 @@ export const drawLines = (doc: JsPdfLike, lines: string[], opts: DrawLinesOption
     if (containsEmoji(line)) {
       const img = renderEmojiToImage(line, fontPt, opts.emojiSupersample ?? 3);
       if (img) {
+        // Clamp the raster to the available width so it can't overrun the column.
+        let w = img.widthMm;
+        let h = img.heightMm;
+        if (opts.maxWidthMm && opts.maxWidthMm > 0 && w > opts.maxWidthMm) {
+          const k = opts.maxWidthMm / w;
+          w *= k;
+          h *= k;
+        }
         let imgX = x;
-        if (align === 'center') imgX = x - img.widthMm / 2;
-        else if (align === 'right') imgX = x - img.widthMm;
+        if (align === 'center') imgX = x - w / 2;
+        else if (align === 'right') imgX = x - w;
         // y is a baseline; nudge the image up so it sits on the text line.
-        doc.addImage(
-          img.dataUrl,
-          'PNG',
-          imgX,
-          cursorY - img.heightMm * 0.8,
-          img.widthMm,
-          img.heightMm
-        );
+        doc.addImage(img.dataUrl, 'PNG', imgX, cursorY - h * 0.8, w, h);
         cursorY += lineMm;
         continue;
       }

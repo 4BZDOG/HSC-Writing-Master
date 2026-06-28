@@ -4,7 +4,13 @@ export { exportEvaluationPdf, sanitizeFilename } from './exportEvaluation';
 export type { ExportEvaluationOptions } from './exportEvaluation';
 export { buildEvaluationBlocks, bandColor, COLORS } from './buildBlocks';
 export type { EvaluationExportData } from './buildBlocks';
-export { toText, degradeToAscii, containsEmoji } from './text';
+export {
+  toText,
+  degradeToAscii,
+  containsEmoji,
+  stripBasicHtml,
+  normalizeContent,
+} from './text';
 export {
   computeGeometry,
   flowBlocks,
