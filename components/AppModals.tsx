@@ -229,7 +229,20 @@ const AppModals: React.FC<AppModalsProps> = ({
         isOpen={isModalOpen('fullSyllabusImport')}
         onClose={() => closeModal('fullSyllabusImport')}
         courses={courses}
-        onImport={geminiHandlers.handleStartFullSyllabusImport}
+        onImport={async (courseName, structure, outcomes, targetCourseId, targetTopicId) => {
+          const courseId = await geminiHandlers.handleStartFullSyllabusImport(
+            courseName,
+            structure,
+            outcomes,
+            targetCourseId,
+            targetTopicId
+          );
+          // Land the user on a freshly created course; leave an in-progress
+          // selection untouched when merging into an existing course.
+          if (!targetCourseId && courseId) {
+            setStatePath({ courseId });
+          }
+        }}
       />
 
       {currentCourse && (
