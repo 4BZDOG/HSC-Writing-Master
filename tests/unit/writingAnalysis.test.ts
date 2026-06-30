@@ -75,6 +75,22 @@ describe('buildWritingInsights', () => {
     expect(insights.some((i) => i.id === 'connectors-none')).toBe(true);
   });
 
+  it('does not nag about connectors for low-tier verbs that do not require linking', () => {
+    const text = Array.from({ length: 40 }, () => 'word').join(' ') + '.';
+    const insights = buildWritingInsights(
+      baseInput({ analysis: analyzeText(text), connectorsUsed: 0, tier: 1 })
+    );
+    expect(insights.some((i) => i.id === 'connectors-none')).toBe(false);
+  });
+
+  it('still nudges about connectors for analytical (Tier 3+) verbs', () => {
+    const text = Array.from({ length: 40 }, () => 'word').join(' ') + '.';
+    const insights = buildWritingInsights(
+      baseInput({ analysis: analyzeText(text), connectorsUsed: 0, tier: 4 })
+    );
+    expect(insights.some((i) => i.id === 'connectors-none')).toBe(true);
+  });
+
   it('flags a run-on sentence', () => {
     const longSentence = Array.from({ length: 60 }, () => 'word').join(' ') + '.';
     const insights = buildWritingInsights(baseInput({ analysis: analyzeText(longSentence) }));

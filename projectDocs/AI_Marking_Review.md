@@ -65,6 +65,28 @@ The sections below remain as the rationale and failure cases behind each change.
 
 ---
 
+## Live writing feedback (pre‑submission)
+
+Separate from on‑demand marking, the app shows **live, in‑editor feedback** while a
+student writes (`components/WritingMetricsDashboard.tsx`,
+`utils/writingAnalysis.ts`, `hooks/useAnswerMetrics.ts`): a word/keyword/timer
+strip, a "Target Standard: Band X" progress bar, prioritised "Live Insights," and
+clickable syllabus‑term / logic‑connector pills. Review of this surface found three
+issues, now fixed on this branch:
+
+| Issue | Detail | Status |
+| --- | --- | --- |
+| Connector match used substring `.includes()` | Short connectors like `is`/`are` (Tier‑1 `structuralKeywords`) matched inside words such as **analysis**, **this**, **compare**, lighting up the "Logic Connectors" pills and inflating the connector count — a false signal that suppressed the genuine "add a connector" nudge. The marking/keyword code already uses word‑boundary matching; live feedback did not. | **Fixed** — whole‑word regex (`\bkw\b`, escaped, with a safe fallback) for both the count and the pills (`WritingMetricsDashboard.tsx`). |
+| Connector advice was tier‑blind | "Link your ideas with a logic connector" fired for any verb once the draft passed 30 words, including Identify/State/Define (Tier 1–2) tasks that don't require linking — contradicting the verb's cognitive demand. | **Fixed** — `buildWritingInsights` now takes the question `tier` and only nudges for linking verbs (Tier 3+); `writingAnalysis.ts`, with new unit tests. |
+| Second source of truth for the tier ceiling | The live "Target Standard" band came from `TIER_GROUPS.maxBand`, a parallel table to the `getBandForMark` ceiling now used by marking and the criteria panel. They agree today but could drift. | **Fixed** — the dashboard now derives the target band from `getBandForMark(totalMarks, totalMarks, tier)`, the single source of truth. |
+
+Net effect: the live target band a student writes toward, and the band their answer
+is ultimately marked against, are now computed by the same tier‑aware function, and
+the structural nudges (connectors) respect the command verb's cognitive demand
+rather than firing generically.
+
+---
+
 ## Critical / High
 
 ### 1. The overall band is not reconciled with the mark or the cognitive tier
