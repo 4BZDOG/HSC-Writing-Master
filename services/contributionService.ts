@@ -218,3 +218,70 @@ export const approvePrompt = (id: string) => callModerationRpc('approve_prompt',
 export const rejectPrompt = (id: string) => callModerationRpc('reject_prompt', id);
 export const approveSampleAnswer = (id: string) => callModerationRpc('approve_sample_answer', id);
 export const rejectSampleAnswer = (id: string) => callModerationRpc('reject_sample_answer', id);
+
+// --- Review queue (reviewer-facing) ------------------------------------------
+
+export interface ModerationItem {
+  kind: 'prompt' | 'sample_answer';
+  id: string;
+  title: string;
+  createdAt: string | null;
+}
+
+interface PendingPromptRow {
+  id: string;
+  question: string;
+  created_at: string | null;
+}
+interface PendingAnswerRow {
+  id: string;
+  answer: string;
+  created_at: string | null;
+}
+
+const truncate = (text: string, max = 140): string =>
+  text.length > max ? `${text.slice(0, max).trimEnd()}…` : text;
+
+/**
+ * Pure assembler: flatten the two pending-row sets into a single, newest-first
+ * review list. IO-free so it can be unit-tested directly.
+ */
+export const toQueueItems = (
+  prompts: PendingPromptRow[],
+  answers: PendingAnswerRow[]
+): ModerationItem[] => {
+  const items: ModerationItem[] = [
+    ...prompts.map((p) => ({
+      kind: 'prompt' as const,
+      id: p.id,
+      title: truncate(p.question),
+      createdAt: p.created_at,
+    })),
+    ...answers.map((a) => ({
+      kind: 'sample_answer' as const,
+      id: a.id,
+      title: truncate(a.answer),
+      createdAt: a.created_at,
+    })),
+  ];
+  return items.sort((a, b) => (b.createdAt ?? '').localeCompare(a.createdAt ?? ''));
+};
+
+/**
+ * Fetch everything awaiting review. RLS returns `pending` rows only to the
+ * author and to reviewers, so for an admin/teacher this is the full queue.
+ */
+export const fetchModerationQueue = async (): Promise<ModerationItem[]> => {
+  const client = requireClient();
+  const [prompts, answers] = await Promise.all([
+    client.from('prompts').select('id, question, created_at').eq('status', 'pending'),
+    client.from('sample_answers').select('id, answer, created_at').eq('status', 'pending'),
+  ]);
+  if (prompts.error) throw new Error(`Failed to load review queue: ${prompts.error.message}`);
+  if (answers.error) throw new Error(`Failed to load review queue: ${answers.error.message}`);
+
+  return toQueueItems(
+    (prompts.data ?? []) as PendingPromptRow[],
+    (answers.data ?? []) as PendingAnswerRow[]
+  );
+};

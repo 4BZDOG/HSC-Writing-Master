@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { promptToRow, sampleAnswerToRow } from '../../services/contributionService';
+import { promptToRow, sampleAnswerToRow, toQueueItems } from '../../services/contributionService';
 import { Prompt, SampleAnswer } from '../../types';
 
 describe('promptToRow (app Prompt -> DB insert row)', () => {
@@ -86,5 +86,28 @@ describe('sampleAnswerToRow (app SampleAnswer -> DB insert row)', () => {
     const row = sampleAnswerToRow(answer, 'p', 'u', 'pending');
     expect(row.source).toBe('AI');
     expect(row.status).toBe('pending');
+  });
+});
+
+describe('toQueueItems (pending rows -> review list)', () => {
+  it('merges prompts and answers, newest first, with truncated titles', () => {
+    const longAnswer = 'x'.repeat(200);
+    const items = toQueueItems(
+      [{ id: 'p1', question: 'A question', created_at: '2026-01-01T00:00:00Z' }],
+      [{ id: 'a1', answer: longAnswer, created_at: '2026-06-01T00:00:00Z' }]
+    );
+
+    expect(items).toHaveLength(2);
+    // Newer (the answer) sorts first.
+    expect(items[0].kind).toBe('sample_answer');
+    expect(items[0].id).toBe('a1');
+    expect(items[0].title.endsWith('…')).toBe(true);
+    expect(items[0].title.length).toBeLessThan(longAnswer.length);
+    expect(items[1].kind).toBe('prompt');
+    expect(items[1].title).toBe('A question');
+  });
+
+  it('returns an empty list when nothing is pending', () => {
+    expect(toQueueItems([], [])).toEqual([]);
   });
 });

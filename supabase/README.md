@@ -58,9 +58,10 @@ Roles (`app_role`): `admin` (you), `teacher` (trusted reviewers), `student`.
    owned by that user. RLS guarantees `created_by = auth.uid()`.
 2. **Submit** — `submitToLibrary()` flips the draft to `pending`, putting it in
    the review queue (still only the author + reviewers can see it).
-3. **Moderate** — a reviewer calls `approvePrompt()` / `rejectPrompt()` (and the
-   sample-answer equivalents), which invoke the server-side RPCs. Approved
-   content becomes visible to everyone through the read path
+3. **Moderate** — an admin opens the **Review Queue** (header shield icon) and
+   approves/rejects each item; under the hood this calls `approvePrompt()` /
+   `rejectPrompt()` (and the sample-answer equivalents → the server-side RPCs).
+   Approved content becomes visible to everyone through the read path
    (`curriculumService.ts`).
 
 This is how the bank grows over time without becoming noise: anyone can
@@ -69,10 +70,14 @@ answers ride the same rails (`source = 'AI'`); a future enhancement is to run
 the app's Quality Check automatically before queueing, so reviewers triage by a
 quality score.
 
-> **Wiring status:** the service layer + moderation gate are in place and
-> tested. The remaining UI work is the "Submit to library" actions in the
-> editor modals and an admin review-queue screen (the `ContentAuditModal` under
-> `components/admin/` is the natural home for it).
+> **Wiring status:** the full loop is usable when Supabase is configured. A
+> **"Submit to shared library"** action appears on the selected question (any
+> signed-in, non-guest user), and admins get a **Review Queue** (the shield
+> icon in the header → `components/admin/ReviewQueueModal.tsx`) to approve or
+> reject pending contributions. Approved content then flows to everyone via the
+> read path. Still to come: a submit action on individual sample answers, and an
+> optional AI Quality-Check pre-screen that scores contributions before they
+> reach the queue.
 
 ### Why role changes can't be self-served
 

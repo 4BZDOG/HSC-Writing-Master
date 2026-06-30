@@ -10,6 +10,7 @@ import GlobalLoadingOverlay from './components/GlobalLoadingOverlay';
 import AppModals from './components/AppModals';
 import LoginPage from './components/LoginPage';
 import ContentAuditModal from './components/admin/ContentAuditModal';
+import ReviewQueueModal from './components/admin/ReviewQueueModal';
 import { useNavigation } from './hooks/useNavigation';
 import { useSyllabusData } from './hooks/useSyllabusData';
 import { useGemini } from './hooks/useGemini';
@@ -18,8 +19,21 @@ import { useToast } from './hooks/useToast';
 import { useDebounce } from './hooks/useDebounce';
 import { useApiStatus } from './hooks/useApiStatus';
 import { authService } from './services/authService';
+import { isCurriculumRemote } from './services/curriculumService';
+import { savePromptContribution } from './services/contributionService';
 import { User } from './types';
-import { Compass, Sparkles, Database, Layers, Sun, Moon, HardDrive, Activity } from 'lucide-react';
+import {
+  Compass,
+  Sparkles,
+  Database,
+  Layers,
+  Sun,
+  Moon,
+  HardDrive,
+  Activity,
+  ShieldCheck,
+  UploadCloud,
+} from 'lucide-react';
 import { apiMonitor, ApiStatus } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
 import { loadUserProfile } from './utils/storageUtils';
@@ -151,6 +165,25 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
 
   const [isFocusMode, setIsFocusMode] = useState(false);
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
+  const [isReviewQueueOpen, setIsReviewQueueOpen] = useState(false);
+  const [isSubmittingPrompt, setIsSubmittingPrompt] = useState(false);
+
+  // Shared-library contribution is only meaningful when Supabase is configured
+  // and the caller has a real account (guests have no session to attribute to).
+  const canContribute = isCurriculumRemote() && user.role !== 'guest';
+
+  const handleSubmitPromptToLibrary = async () => {
+    if (!currentPrompt || !statePath.dotPointId) return;
+    setIsSubmittingPrompt(true);
+    try {
+      await savePromptContribution(statePath.dotPointId, currentPrompt, 'pending');
+      showToast('Question submitted to the shared library for review.', 'success');
+    } catch (e) {
+      showToast(e instanceof Error ? e.message : 'Submission failed.', 'error');
+    } finally {
+      setIsSubmittingPrompt(false);
+    }
+  };
 
   const {
     activeModals,
@@ -388,6 +421,15 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                   >
                     <Activity className="w-4 h-4" />
                   </button>
+                  {isCurriculumRemote() && (
+                    <button
+                      onClick={() => setIsReviewQueueOpen(true)}
+                      className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
+                      title="Review Queue (approve/reject contributions)"
+                    >
+                      <ShieldCheck className="w-4 h-4" />
+                    </button>
+                  )}
                   <button
                     onClick={() => openModal('databaseDashboard')}
                     className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
@@ -481,6 +523,20 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         </div>
       )}
 
+      {currentPrompt && canContribute && !isFocusMode && (
+        <div className="-mt-2 flex justify-end">
+          <button
+            onClick={handleSubmitPromptToLibrary}
+            disabled={isSubmittingPrompt}
+            title="Submit this question to the shared library for reviewer approval"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all text-xs font-bold disabled:opacity-50"
+          >
+            <UploadCloud className={`w-3.5 h-3.5 ${isSubmittingPrompt ? 'animate-pulse' : ''}`} />
+            {isSubmittingPrompt ? 'Submitting…' : 'Submit to shared library'}
+          </button>
+        </div>
+      )}
+
       {currentPrompt ? (
         <Workspace
           courses={courses}
@@ -554,6 +610,13 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           onClose={() => setIsAuditModalOpen(false)}
           courses={courses}
           updateCourses={updateCourses}
+          showToast={showToast}
+        />
+      )}
+      {user.role === 'admin' && (
+        <ReviewQueueModal
+          isOpen={isReviewQueueOpen}
+          onClose={() => setIsReviewQueueOpen(false)}
           showToast={showToast}
         />
       )}
