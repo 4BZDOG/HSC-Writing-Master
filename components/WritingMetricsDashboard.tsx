@@ -132,16 +132,20 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
       setIsTimerActive(false);
     }, [recommendedTime]);
     useEffect(() => {
-      if (isTimerActive && remainingTime > 0) {
-        timerIntervalRef.current = setInterval(
-          () => setRemainingTime((p) => Math.max(0, p - 1)),
-          1000
-        );
-      }
+      if (!isTimerActive) return;
+      timerIntervalRef.current = setInterval(() => {
+        setRemainingTime((p) => {
+          if (p <= 1) {
+            setIsTimerActive(false);
+            return 0;
+          }
+          return p - 1;
+        });
+      }, 1000);
       return () => {
         if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
       };
-    }, [isTimerActive, remainingTime]);
+    }, [isTimerActive]);
 
     const progressInfo = useMemo(() => {
       // Single source of truth for the tier ceiling — same helper the marking
@@ -149,7 +153,12 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
       // drift from the band a student is actually awarded.
       const maxBand = getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier);
       const targetMetric = BAND_METRICS.find((b) => b.band === maxBand) || BAND_METRICS[0];
-      const targetCount = Math.ceil(prompt.totalMarks * targetMetric.wordCountMultiplier.min);
+      // Guard against a malformed/zero-mark prompt producing a 0 target,
+      // which would turn the percentage into NaN and render "NaN%".
+      const targetCount = Math.max(
+        1,
+        Math.ceil(prompt.totalMarks * targetMetric.wordCountMultiplier.min)
+      );
       return {
         targetLabel: `Band ${maxBand}`,
         targetCount,

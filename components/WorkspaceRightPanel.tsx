@@ -90,7 +90,12 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     const wordCount = debouncedUserAnswer.trim().split(/\s+/).filter(Boolean).length;
     // Use metrics target for the Max Band of this prompt
     const targetMetric = BAND_METRICS.find((b) => b.band === maxBand) || BAND_METRICS[0];
-    const targetCount = Math.ceil(currentPrompt.totalMarks * targetMetric.wordCountMultiplier.min);
+    // Guard against a malformed/zero-mark prompt producing a 0 target, which
+    // would turn the progress ratio into NaN/Infinity and render "NaN%".
+    const targetCount = Math.max(
+      1,
+      Math.ceil(currentPrompt.totalMarks * targetMetric.wordCountMultiplier.min)
+    );
 
     // Allow progression to go slightly over 1.0 for "Exemplar" feel
     const wordProg = Math.min(1.1, wordCount / targetCount);
