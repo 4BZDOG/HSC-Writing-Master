@@ -632,6 +632,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                   <div className="flex items-center gap-3">
                     <button
                       onClick={handleBackToStats}
+                      aria-label="Back to stats"
                       className="p-1.5 rounded-lg hover:bg-[rgb(var(--color-bg-surface-inset))] light:hover:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 transition-colors"
                     >
                       <ArrowLeft className="w-5 h-5" />

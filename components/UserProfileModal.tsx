@@ -160,6 +160,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   />
                   <button
                     onClick={handleSaveSettings}
+                    aria-label="Save"
                     className="p-2 bg-indigo-500 text-white rounded-xl"
                   >
                     <Save className="w-5 h-5" />

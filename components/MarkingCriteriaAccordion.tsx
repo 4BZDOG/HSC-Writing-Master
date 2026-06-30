@@ -178,12 +178,14 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
               <div className="flex gap-1.5">
                 <button
                   onClick={handleCancel}
+                  aria-label="Cancel edit"
                   className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
                 >
                   <X className="w-4 h-4" />
                 </button>
                 <button
                   onClick={handleSave}
+                  aria-label="Save"
                   className="p-1.5 rounded-lg text-green-500 hover:bg-green-50 dark:hover:bg-green-900/20"
                 >
                   <Save className="w-4 h-4" />

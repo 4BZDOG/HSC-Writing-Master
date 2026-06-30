@@ -218,7 +218,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
                             ${
                               isEvaluating || !userAnswer.trim()
                                 ? 'bg-slate-800 text-slate-500 cursor-not-allowed border border-white/5 opacity-50 shadow-none'
-                                : `bg-gradient-to-r ${buttonConfig.gradient} ${buttonConfig.shadow} hover:shadow-2xl active:scale-95 border ${buttonConfig.border}`
+                                : `bg-gradient-to-r ${buttonConfig.gradient} shadow-xl ${buttonConfig.shadow} hover:shadow-2xl active:scale-95 border ${buttonConfig.border}`
                             }
                         `}
             >

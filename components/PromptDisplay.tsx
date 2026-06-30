@@ -167,7 +167,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
       className={`
             clip-stable relative overflow-hidden rounded-[32px]
             bg-[rgb(var(--color-bg-surface))] light:bg-white
-            border-2 ${bandConfig.border} ${bandConfig.glow}
+            border-2 ${bandConfig.border} shadow-2xl ${bandConfig.glow}
             transition-all duration-500 group/prompt flex flex-col h-full
         `}
     >
@@ -403,6 +403,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               </div>
               <button
                 onClick={onDismissEnrichError}
+                aria-label="Dismiss"
                 className="p-1 hover:bg-amber-500/20 rounded text-amber-400"
               >
                 <X className="w-3.5 h-3.5" />

@@ -334,7 +334,7 @@ const Editor = forwardRef<
 
     return (
       <div
-        className={`clip-stable flex flex-col w-full h-auto bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] overflow-hidden border-2 ${chroma.border} ${chroma.glow} transition-all duration-700 ease-in-out ${className}`}
+        className={`clip-stable flex flex-col w-full h-auto bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] overflow-hidden border-2 ${chroma.border} shadow-2xl ${chroma.glow} transition-all duration-700 ease-in-out ${className}`}
         style={{ minHeight: minTotalHeight || '300px' }}
       >
         {/* Header */}
@@ -413,6 +413,8 @@ const Editor = forwardRef<
               {onToggleFocusMode && (
                 <button
                   onClick={onToggleFocusMode}
+                  aria-label={isFocusMode ? 'Exit focus mode' : 'Enter focus mode'}
+                  aria-pressed={isFocusMode}
                   className={`ml-2 px-3 h-8 rounded-xl transition-all font-black text-[10px] uppercase tracking-wider flex items-center gap-2 ${isFocusMode ? 'bg-amber-500 text-white shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'}`}
                 >
                   {isFocusMode ? (

@@ -202,6 +202,7 @@ const CarouselAccordionItem: React.FC<{
               >
                 <button
                   onClick={handlePrev}
+                  aria-label="Previous sample"
                   className="p-1 hover:bg-slate-100 dark:hover:bg-white/10 rounded text-slate-500 transition-colors"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
@@ -211,6 +212,7 @@ const CarouselAccordionItem: React.FC<{
                 </span>
                 <button
                   onClick={handleNext}
+                  aria-label="Next sample"
                   className="p-1 hover:bg-slate-100 dark:hover:bg-white/10 rounded text-slate-500 transition-colors"
                 >
                   <ChevronRight className="w-3.5 h-3.5" />
