@@ -41,6 +41,30 @@ recommended fix.
 
 ---
 
+## Implementation status
+
+The Critical/High and most Medium findings have now been addressed in code on this
+branch (`services/geminiService.ts`, `services/aiSchemas.ts`, and the integration
+test). Summary:
+
+| # | Finding | Status |
+| --- | --- | --- |
+| 1 | Band not reconciled with mark/tier | **Fixed** — `overallBand` is now derived deterministically via `getBandForMark(overallMark, totalMarks, tier)` after clamping. |
+| 2 | Tier ceiling not given to marker | **Fixed** — prompt now states the max achievable band + `bandDiscrimination`. |
+| 3 | Three conflicting band methods | **Fixed** — `generateSampleAnswer`/`reviseSampleAnswer` and the evaluation path all route through `getBandForMark`; linear `ceil(...*6)` removed. |
+| 4 | Rubric not guaranteed | **Fixed** — falls back to the verb's `genericMarkingGuide` + `bandDiscrimination`; no bare `undefined`. |
+| 5 | Hardcoded 6-mark "band" strategy | **Fixed** — replaced with a mark-relative (thirds) strategy keyed to `totalMarks`. |
+| 6 | Criteria not reconciled to overall | **Partially** — model is now instructed that per-criterion marks must sum to the overall mark (not yet hard-validated). |
+| 7 | Revised answer always required | **Fixed** — now optional (skipped at full marks) and validated by the Zod schema. |
+| 8 | Prompt-injection / gaming | **Fixed** — student answer is fenced with explicit untrusted-data markers and an ignore-instructions directive. |
+| 9 | en-AU only for authoring | **Fixed** — added to `evaluateAnswer`, `generateSampleAnswer`, `improveAnswer`, `generateRubricForPrompt`. |
+| 10 | AI-marked samples as ground truth | **Fixed** — only `HSC_EXEMPLAR` samples are labelled ground truth; others are downgraded to loose "reference samples". |
+| 11–16 | Lower-priority items | **Open** — consistency knobs (temperature/thinking), structured `improveAnswer`, fallback-tier ceiling, length signal, half-marks. |
+
+The sections below remain as the rationale and failure cases behind each change.
+
+---
+
 ## Critical / High
 
 ### 1. The overall band is not reconciled with the mark or the cognitive tier

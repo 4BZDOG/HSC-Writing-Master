@@ -54,7 +54,7 @@ describe('evaluateAnswer (service integration, mocked proxy)', () => {
         overallMark: 7,
         overallBand: 5,
         overallFeedback: 'Strong response with clear terminology.',
-        quickTip: 'Add a case study to reach Band 6.',
+        quickTip: 'Add a case study to reach the top band.',
         strengths: ['Clear terminology'],
         improvements: ['Add more depth'],
         criteria: [{ criterion: 'Accuracy', mark: 4, maxMark: 5, feedback: 'Good' }],
@@ -69,18 +69,20 @@ describe('evaluateAnswer (service integration, mocked proxy)', () => {
       expect.objectContaining({ method: 'POST' })
     );
     expect(result.overallMark).toBe(7);
-    expect(result.overallBand).toBe(5);
+    // The band is derived from mark + cognitive tier, not taken from the model.
+    // 'Describe' resolves to the Tier-2 fallback (max Band 3); 7/10 (0.70) -> Band 2.
+    expect(result.overallBand).toBe(2);
     expect(result.overallFeedback).toBe('Strong response with clear terminology.');
     expect(result.strengths).toContain('Clear terminology');
     expect(result.improvements).toContain('Add more depth');
     expect(result.criteria[0]).toMatchObject({ criterion: 'Accuracy', mark: 4, maxMark: 5 });
   });
 
-  it('clamps out-of-range marks to their bounds', async () => {
+  it('clamps out-of-range marks and derives the band from the tier ceiling', async () => {
     fetchMock.mockResolvedValue(
       makeProxyResponse({
         overallMark: 99, // beyond totalMarks (10)
-        overallBand: 9, // beyond band 6
+        overallBand: 9, // model over-reaches; ignored in favour of derivation
         overallFeedback: 'x',
         quickTip: 't',
         strengths: [],
@@ -92,7 +94,8 @@ describe('evaluateAnswer (service integration, mocked proxy)', () => {
     const result = await evaluateAnswer('answer', basePrompt);
 
     expect(result.overallMark).toBe(10); // clamped to totalMarks
-    expect(result.overallBand).toBe(6); // clamped to max band
+    // 10/10 on a Tier-2 'Describe' question caps at Band 3 (not Band 6).
+    expect(result.overallBand).toBe(3);
     expect(result.criteria[0].mark).toBe(5); // clamped to maxMark
   });
 
