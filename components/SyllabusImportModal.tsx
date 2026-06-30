@@ -317,7 +317,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
       onClick={handleClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl w-full max-w-6xl border border-[rgb(var(--color-border-secondary))] animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl w-full max-w-6xl border border-[rgb(var(--color-border-secondary))] clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

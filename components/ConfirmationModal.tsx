@@ -40,7 +40,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl w-full max-w-md border border-[rgb(var(--color-border-secondary))] animate-fade-in-up overflow-hidden"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl w-full max-w-md border border-[rgb(var(--color-border-secondary))] clip-stable animate-fade-in-up overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-6">

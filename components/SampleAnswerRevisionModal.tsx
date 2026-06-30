@@ -96,7 +96,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
         className={`
           bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl 
           w-full max-w-4xl border-2 ${bandConfig.border} border-opacity-50
-          animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]
+          clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]
         `}
         onClick={(e) => e.stopPropagation()}
       >

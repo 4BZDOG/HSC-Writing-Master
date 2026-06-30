@@ -126,7 +126,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
   return createPortal(
     <div className="fixed inset-0 bg-black/90 backdrop-blur-2xl flex items-center justify-center z-[500] p-6 transition-all duration-700 animate-fade-in">
       <div
-        className="bg-[rgb(var(--color-bg-base))] light:bg-white rounded-[48px] shadow-[0_64px_128px_-24px_rgba(0,0,0,0.8)] w-full max-w-6xl border border-white/10 light:border-slate-200 animate-fade-in-up overflow-hidden flex flex-col md:flex-row h-[85vh] relative"
+        className="bg-[rgb(var(--color-bg-base))] light:bg-white rounded-[48px] shadow-[0_64px_128px_-24px_rgba(0,0,0,0.8)] w-full max-w-6xl border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col md:flex-row h-[85vh] relative"
         onClick={(e) => e.stopPropagation()}
       >
         <MeshOverlay opacity="opacity-[0.05]" />

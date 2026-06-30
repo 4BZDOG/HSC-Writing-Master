@@ -98,7 +98,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
       onClick={handleClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))]">

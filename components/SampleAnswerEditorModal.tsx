@@ -70,7 +70,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
         className="
           bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl 
           w-full max-w-3xl border border-[rgb(var(--color-border-secondary))]
-          animate-fade-in-up overflow-hidden
+          clip-stable animate-fade-in-up overflow-hidden
           flex flex-col max-h-[90vh]
         "
         onClick={(e) => e.stopPropagation()}

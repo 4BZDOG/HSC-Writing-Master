@@ -207,7 +207,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
 
   return createPortal(
     <div className="fixed inset-0 bg-black/80 backdrop-blur-2xl flex items-center justify-center z-[200] p-6 transition-all duration-700 animate-fade-in">
-      <div className="bg-[rgb(var(--color-bg-surface))]/90 light:bg-white/95 rounded-[48px] shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-[1200px] border border-white/10 light:border-slate-200 animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh] relative group">
+      <div className="bg-[rgb(var(--color-bg-surface))]/90 light:bg-white/95 rounded-[48px] shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-[1200px] border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh] relative group">
         <MeshOverlay opacity="opacity-[0.03]" />
 
         {/* Global Banner Glow */}
