@@ -223,7 +223,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
         .padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
 
     return (
-      <div className="rounded-[32px] border-2 border-slate-300 dark:border-white/20 bg-white dark:bg-black/40 overflow-hidden shadow-2xl transition-all duration-500">
+      <div className="clip-stable rounded-[32px] border-2 border-slate-300 dark:border-white/20 bg-white dark:bg-black/40 overflow-hidden shadow-2xl transition-all duration-500">
         <div className="flex flex-col sm:flex-row items-stretch border-b-2 border-slate-300 dark:border-white/10">
           <div className="flex flex-1 items-center bg-slate-50 dark:bg-black/60">
             <StatBox

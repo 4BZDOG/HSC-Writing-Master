@@ -101,7 +101,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
 
   return (
     <div
-      className={`relative overflow-hidden rounded-[32px] border-4 ${containerBorderClass} bg-[rgb(var(--color-bg-surface))]/60 light:bg-white/90 backdrop-blur-3xl shadow-xl transition-all duration-700 ease-out animate-fade-in`}
+      className={`clip-stable relative overflow-hidden rounded-[32px] border-4 ${containerBorderClass} bg-[rgb(var(--color-bg-surface))]/60 light:bg-white/90 backdrop-blur-3xl shadow-xl transition-all duration-700 ease-out animate-fade-in`}
     >
       {/* Header Button */}
       <button

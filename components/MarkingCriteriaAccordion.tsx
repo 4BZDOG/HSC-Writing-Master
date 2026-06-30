@@ -131,7 +131,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
   };
 
   return (
-    <div className="bg-white dark:bg-[rgb(var(--color-bg-surface))] rounded-[24px] border border-slate-200 dark:border-white/10 shadow-sm overflow-hidden flex flex-col">
+    <div className="clip-stable bg-white dark:bg-[rgb(var(--color-bg-surface))] rounded-[24px] border border-slate-200 dark:border-white/10 shadow-sm overflow-hidden flex flex-col">
       {/* Header - Matching Sample Answers Style */}
       <div className="px-6 py-4 border-b border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-white/[0.02] flex items-center justify-between">
         <div className="flex items-center gap-3">

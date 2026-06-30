@@ -511,7 +511,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         />
       ) : (
         <div className="min-h-[50vh] flex flex-col items-center justify-center animate-fade-in">
-          <div className="text-center p-12 rounded-[48px] bg-[rgb(var(--color-bg-surface))]/40 light:bg-white border border-white/5 light:border-slate-300 relative group overflow-hidden">
+          <div className="clip-stable text-center p-12 rounded-[48px] bg-[rgb(var(--color-bg-surface))]/40 light:bg-white border border-white/10 light:border-slate-300 relative group overflow-hidden">
             <MeshOverlay opacity="opacity-[0.05]" />
             <Compass className="w-20 h-20 text-indigo-500 mx-auto mb-8 opacity-40 group-hover:rotate-45 transition-transform duration-700" />
             <h3 className="text-3xl font-black text-white light:text-slate-900 mb-4 tracking-tighter uppercase italic">

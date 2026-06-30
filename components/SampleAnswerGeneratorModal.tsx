@@ -102,7 +102,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
     >
       <div
         className={`
-          bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl 
+          clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl
           w-full max-w-3xl border-2 ${activeBandConfig.border}
           animate-fade-in-up overflow-hidden flex flex-col h-[85vh] sm:h-[650px]
           ${activeBandConfig.glow}

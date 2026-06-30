@@ -51,7 +51,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
     >
       <div
         className={`
-          bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl 
+          clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl
           w-full max-w-6xl border-2 ${bandConfig.border} border-opacity-50
           animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]
         `}

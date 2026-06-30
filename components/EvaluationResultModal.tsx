@@ -64,8 +64,8 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
 
   return createPortal(
     <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-      <div className="w-full max-w-6xl min-h-[80vh] max-h-[95vh] bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] shadow-2xl border border-white/10 light:border-slate-300 flex flex-col relative animate-fade-in-up overflow-hidden">
-        <div className="px-8 py-5 border-b border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-50 flex justify-between items-center shrink-0 z-20 relative overflow-hidden">
+      <div className="clip-stable w-full max-w-6xl min-h-[80vh] max-h-[95vh] bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] shadow-2xl border border-white/10 light:border-slate-300 flex flex-col relative animate-fade-in-up overflow-hidden">
+        <div className="px-8 py-5 border-b border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-50 flex justify-between items-center shrink-0 z-20 relative overflow-hidden">
           <MeshOverlay opacity="opacity-[0.03]" />
 
           <div className="flex items-center gap-4 relative z-10">

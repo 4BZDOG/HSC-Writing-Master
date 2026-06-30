@@ -57,7 +57,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
     >
       <div
         className={`
-          bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl 
+          clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl
           w-full max-w-2xl border-2 ${bandConfig.border} ${bandConfig.glow}
           animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]
         `}

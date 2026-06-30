@@ -50,7 +50,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
     >
       <div
         className={`
-        w-full max-w-3xl rounded-2xl
+        clip-stable w-full max-w-3xl rounded-2xl
         border-2 ${bandConfig.border} ${bandConfig.glow}
         bg-[rgb(var(--color-bg-surface))]/95
         animate-fade-in-up
