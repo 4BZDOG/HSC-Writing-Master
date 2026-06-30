@@ -24,7 +24,12 @@ import {
   QuotaExceededError,
   ERROR_THRESHOLD,
 } from './aiCore';
-import { getCommandTermInfo, getCommandTermsForMarks, getBandForMark } from '../data/commandTerms';
+import {
+  getCommandTermInfo,
+  getCommandTermsForMarks,
+  getBandForMark,
+  getStructureGuide,
+} from '../data/commandTerms';
 import { generateId } from '../utils/idUtils';
 import {
   EvaluationResponseSchema,
@@ -115,6 +120,7 @@ export const evaluateAnswer = async (
                     **Command Verb:** ${prompt.verb} (Cognitive Tier ${termInfo.tier} - ${termInfo.definition})
                     **Band Discrimination:** ${termInfo.bandDiscrimination}
                     **Maximum Achievable Band:** Band ${maxBand}. The cognitive demand of '${prompt.verb}' caps performance here — an answer that perfectly satisfies a '${prompt.verb}' task cannot demonstrate the higher-order skills required beyond Band ${maxBand}. Do NOT award credit for skills the verb does not ask for.
+                    **Expected Response for Full Marks (${prompt.totalMarks}/${prompt.totalMarks}):** ${getStructureGuide(prompt.totalMarks)} Use this to judge whether the response has the depth and length the marks demand — a response far shorter or thinner than this cannot reach the top marks, but do not reward padding either.
                     **Syllabus Keywords:** ${prompt.keywords?.join(', ') || 'None'}
 
                     ### MARKING RUBRIC
@@ -157,6 +163,10 @@ export const evaluateAnswer = async (
     },
     config: {
       responseMimeType: 'application/json',
+      // Marking must be repeatable: pin a low temperature so the same answer
+      // doesn't swing between marks across runs (the prompt's stated goal is
+      // "Precision and Consistency"). Kept just above 0 to avoid degenerate output.
+      temperature: 0.2,
       // Enable thinking to allow for comparison and calibration steps
       thinkingConfig: { thinkingBudget: 4096 },
       responseSchema: {

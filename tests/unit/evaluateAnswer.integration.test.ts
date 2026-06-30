@@ -99,6 +99,31 @@ describe('evaluateAnswer (service integration, mocked proxy)', () => {
     expect(result.criteria[0].mark).toBe(5); // clamped to maxMark
   });
 
+  it('marks with a pinned low temperature and grounds the prompt in tier/length', async () => {
+    fetchMock.mockResolvedValue(
+      makeProxyResponse({
+        overallMark: 5,
+        overallBand: 4,
+        overallFeedback: 'ok',
+        quickTip: 't',
+        strengths: [],
+        improvements: [],
+        criteria: [],
+      })
+    );
+
+    await evaluateAnswer('answer', basePrompt);
+
+    const body = JSON.parse(fetchMock.mock.calls[0][1].body as string);
+    // Consistency: marking is pinned to a low temperature so the same answer
+    // doesn't swing between marks across runs.
+    expect(body.config.temperature).toBeLessThanOrEqual(0.3);
+    // The prompt is grounded in the tier ceiling and the expected full-mark length.
+    const promptText = body.contents.parts[0].text as string;
+    expect(promptText).toMatch(/Maximum Achievable Band/);
+    expect(promptText).toMatch(/Expected Response for Full Marks/);
+  });
+
   it('throws a clear error when the response is structurally invalid', async () => {
     fetchMock.mockResolvedValue(
       makeProxyResponse({ overallBand: 5, overallFeedback: 'missing overallMark' })
