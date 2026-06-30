@@ -49,10 +49,12 @@ export {
   ERROR_THRESHOLD,
 };
 
-const MODELS = {
-  BASIC: 'gemini-3-flash-preview',
-  REASONING: 'gemini-3-pro-preview',
-};
+import { resolveTarget } from './aiConfig';
+
+// Resolves a logical role to the active provider + model, spread onto each
+// request as `{ model, provider }`. The proxy routes by `provider`; defaults to
+// Gemini until an admin switches engines (see services/aiConfig.ts).
+const aiTarget = (role: 'basic' | 'reasoning') => resolveTarget(role);
 
 // ... (keep existing functions like refineManualPrompt, generateNewPrompt, generateSampleAnswer, parseOutcomesFromText, parseSyllabusStructure, fetchSyllabusContentFromUrl, generateNewTopic, generateDotPointsForSubTopic, generateSubTopicsAndDotPoints, generateRubricForPrompt, explainOutcomeInContext) ...
 
@@ -101,7 +103,7 @@ export const evaluateAnswer = async (
       : 'No benchmark samples provided. Rely strictly on the rubric.';
 
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
@@ -262,7 +264,7 @@ export const improveAnswer = async (
   targetBand: number
 ): Promise<string> => {
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
@@ -286,7 +288,7 @@ export const enrichPromptDetails = async (
   context: { name: string; outcomes: CourseOutcome[] }
 ): Promise<{ scenario: string; keywords: string[]; linkedOutcomes: string[] }> => {
   const request = {
-    model: MODELS.BASIC,
+    ...aiTarget('basic'),
     contents: {
       parts: [
         {
@@ -311,7 +313,7 @@ export const enrichPromptDetails = async (
 
 export const generateScenarioForPrompt = async (prompt: Prompt): Promise<string> => {
   const request = {
-    model: MODELS.BASIC,
+    ...aiTarget('basic'),
     contents: {
       parts: [
         {
@@ -329,7 +331,7 @@ export const generateKeywordsForPrompt = async (
   termInfo: CommandTermInfo
 ): Promise<string[]> => {
   const request = {
-    model: MODELS.BASIC,
+    ...aiTarget('basic'),
     contents: {
       parts: [
         {
@@ -352,7 +354,7 @@ export const suggestOutcomesForPrompt = async (
   marks: number
 ): Promise<string[]> => {
   const request = {
-    model: MODELS.BASIC,
+    ...aiTarget('basic'),
     contents: {
       parts: [
         {
@@ -376,7 +378,7 @@ export const reviseSampleAnswer = async (
   targetMark: number
 ): Promise<SampleAnswer> => {
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
@@ -412,7 +414,7 @@ export const performQualityCheck = async (
   type: 'question' | 'code'
 ): Promise<QualityCheckResult> => {
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
@@ -452,7 +454,7 @@ export const refineManualPrompt = async (
   const cacheKey = AICache.generatePromptKey(`manual-${Date.now()}`, rawInput + targetMarks);
 
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
@@ -555,7 +557,7 @@ export const generateNewPrompt = async (
   const verbList = verbs.map((v) => v.term).join(', ');
 
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
@@ -641,7 +643,7 @@ export const generateSampleAnswer = async (
   }
 
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
@@ -697,7 +699,7 @@ export const generateSampleAnswer = async (
 
 export const parseOutcomesFromText = async (text: string): Promise<CourseOutcome[]> => {
   const request = {
-    model: MODELS.BASIC,
+    ...aiTarget('basic'),
     contents: {
       parts: [
         {
@@ -732,7 +734,7 @@ export const parseOutcomesFromText = async (text: string): Promise<CourseOutcome
 
 export const parseSyllabusStructure = async (content: string): Promise<any> => {
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
@@ -770,7 +772,7 @@ export const parseSyllabusStructure = async (content: string): Promise<any> => {
 
 export const fetchSyllabusContentFromUrl = async (url: string): Promise<string> => {
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
@@ -795,7 +797,7 @@ export const generateNewTopic = async (
   existingTopics: string[]
 ): Promise<string> => {
   const request = {
-    model: MODELS.BASIC,
+    ...aiTarget('basic'),
     contents: {
       parts: [
         {
@@ -816,7 +818,7 @@ export const generateDotPointsForSubTopic = async (
   subTopicName: string
 ): Promise<string[]> => {
   const request = {
-    model: MODELS.BASIC,
+    ...aiTarget('basic'),
     contents: {
       parts: [
         {
@@ -847,7 +849,7 @@ export const generateSubTopicsAndDotPoints = async (
   content: string
 ): Promise<SubTopic[]> => {
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
@@ -884,7 +886,7 @@ export const generateRubricForPrompt = async (
 ): Promise<string> => {
   const termInfo = getCommandTermInfo(prompt.verb);
   const request = {
-    model: MODELS.BASIC,
+    ...aiTarget('basic'),
     contents: {
       parts: [
         {
@@ -911,7 +913,7 @@ export const explainOutcomeInContext = async (
   outcome: CourseOutcome
 ): Promise<string> => {
   const request = {
-    model: MODELS.BASIC,
+    ...aiTarget('basic'),
     contents: {
       parts: [
         {

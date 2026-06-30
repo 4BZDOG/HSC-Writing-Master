@@ -21,6 +21,7 @@ export const STORAGE_KEYS = {
   API_STATS: 'hsc-ai-evaluator-api-stats',
   API_GUARD: 'hsc-ai-evaluator-api-guard', // Persisted circuit-breaker cooldown
   AUTH_USER: 'hsc-ai-auth-user-v2',
+  AI_CONFIG: 'hsc-ai-evaluator-ai-config', // Active AI engine per role (basic/reasoning)
 } as const;
 
 export type StorageStatus = 'IndexedDB' | 'LocalStorage' | 'Error' | 'Loading';
