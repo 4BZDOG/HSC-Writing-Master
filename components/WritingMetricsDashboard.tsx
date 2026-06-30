@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Prompt } from '../types';
-import { BAND_METRICS, getCommandTermInfo, TIER_GROUPS } from '../data/commandTerms';
+import { BAND_METRICS, getCommandTermInfo, getBandForMark } from '../data/commandTerms';
 import { escapeRegExp, getBandConfig, getKeywordVariants, BandConfig } from '../utils/renderUtils';
 import { analyzeText, buildWritingInsights, InsightTone } from '../utils/writingAnalysis';
 import {
@@ -144,8 +144,10 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     }, [isTimerActive, remainingTime]);
 
     const progressInfo = useMemo(() => {
-      const tierGroup = TIER_GROUPS.find((g) => g.tier === commandTermInfo.tier);
-      const maxBand = tierGroup ? tierGroup.maxBand : 6;
+      // Single source of truth for the tier ceiling — same helper the marking
+      // path and the marking-criteria panel use, so the live target band can't
+      // drift from the band a student is actually awarded.
+      const maxBand = getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier);
       const targetMetric = BAND_METRICS.find((b) => b.band === maxBand) || BAND_METRICS[0];
       const targetCount = Math.ceil(prompt.totalMarks * targetMetric.wordCountMultiplier.min);
       return {
@@ -172,11 +174,25 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     }, [userAnswer, prompt.keywords]);
 
     // How many of this verb's logic connectors are present in the draft.
-    const connectorsUsed = useMemo(() => {
-      const connectors = commandTermInfo.structuralKeywords || [];
+    // Whole-word match (not substring) so short connectors like "is"/"are" don't
+    // falsely register inside words such as "analysis" or "compare".
+    const connectorMatches = useMemo(() => {
       const lower = userAnswer.toLowerCase();
-      return connectors.filter((kw) => lower.includes(kw.toLowerCase())).length;
+      const matchesConnector = (kw: string) => {
+        try {
+          return new RegExp(`\\b${escapeRegExp(kw)}\\b`, 'i').test(lower);
+        } catch {
+          return lower.includes(kw.toLowerCase());
+        }
+      };
+      return new Map(
+        (commandTermInfo.structuralKeywords || []).map((kw) => [kw, matchesConnector(kw)])
+      );
     }, [userAnswer, commandTermInfo]);
+    const connectorsUsed = useMemo(
+      () => Array.from(connectorMatches.values()).filter(Boolean).length,
+      [connectorMatches]
+    );
 
     // Live, prioritised, actionable writing feedback.
     const insights = useMemo(
@@ -189,8 +205,16 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
           keywordsUsed: keywordStats.used.length,
           missingKeywords: keywordStats.missed,
           connectorsUsed,
+          tier: commandTermInfo.tier,
         }),
-      [userAnswer, progressInfo, prompt.keywords, keywordStats, connectorsUsed]
+      [
+        userAnswer,
+        progressInfo,
+        prompt.keywords,
+        keywordStats,
+        connectorsUsed,
+        commandTermInfo.tier,
+      ]
     );
 
     const formatTime = (s: number) =>
@@ -336,16 +360,14 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                     </h4>
                   </div>
                   <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto custom-scrollbar pr-2">
-                    {getCommandTermInfo(prompt.verb).structuralKeywords?.map((kw) => {
-                      const isUsed = userAnswer.toLowerCase().includes(kw.toLowerCase());
+                    {commandTermInfo.structuralKeywords?.map((kw) => {
+                      const isUsed = connectorMatches.get(kw) ?? false;
                       return (
                         <Pill
                           key={kw}
                           label={kw}
                           active={isUsed}
-                          theme={
-                            isUsed ? getBandConfig(getCommandTermInfo(prompt.verb).tier) : undefined
-                          }
+                          theme={isUsed ? getBandConfig(commandTermInfo.tier) : undefined}
                           onClick={() => onAddWord(kw)}
                           icon="zap"
                         />

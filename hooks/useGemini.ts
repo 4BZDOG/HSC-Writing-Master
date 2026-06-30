@@ -18,7 +18,12 @@ import {
 import * as gemini from '../services/geminiService';
 import { AICache } from '../services/aiCache';
 import { findAndUpdateItem } from '../utils/stateUtils';
-import { getCommandTermsForMarks, getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import {
+  getCommandTermsForMarks,
+  getBandForMark,
+  getCommandTermInfo,
+  markForBand,
+} from '../data/commandTerms';
 import { generateId } from '../utils/idUtils';
 import { addAndPruneSampleAnswers } from '../utils/dataManagerUtils';
 
@@ -197,7 +202,12 @@ export const useGemini = ({
       setOriginalAnswerForImprovement(null);
 
       try {
-        const targetBand = Math.min(6, evaluation.overallBand + 1);
+        // Cap the improvement target at the question's tier ceiling — a verb
+        // like 'Describe' (Tier 2) cannot reach Band 4+, so targeting one band
+        // above the current band must not exceed what the question can award.
+        const tier = getCommandTermInfo(prompt.verb).tier;
+        const maxBand = getBandForMark(prompt.totalMarks, prompt.totalMarks, tier);
+        const targetBand = Math.min(maxBand, evaluation.overallBand + 1);
         const improved = await gemini.improveAnswer(originalAnswer, prompt, evaluation, targetBand);
 
         // Auto-Save Logic for the specific improved answer
@@ -205,10 +215,9 @@ export const useGemini = ({
           findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
             if (!p.sampleAnswers) p.sampleAnswers = [];
 
-            const aiSampleMark = Math.min(
-              prompt.totalMarks,
-              Math.ceil(prompt.totalMarks * (targetBand / 6))
-            );
+            // Smallest mark that still maps to the target band on this question,
+            // so the saved exemplar's mark and band agree with getBandForMark.
+            const aiSampleMark = markForBand(targetBand, prompt.totalMarks, tier);
 
             const aiSample: SampleAnswer = {
               id: generateId('sa'),

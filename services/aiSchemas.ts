@@ -38,6 +38,21 @@ export const EvaluationResponseSchema = z
           .passthrough()
       )
       .default([]),
+    // Optional: the model omits this when the answer already scores full marks.
+    // Accepts the plain-string form or the structured object the UI also supports.
+    revisedAnswer: z
+      .union([
+        z.string(),
+        z
+          .object({
+            text: z.string(),
+            mark: finiteNumber.optional(),
+            band: finiteNumber.optional(),
+            keyChanges: z.array(z.string()).default([]),
+          })
+          .passthrough(),
+      ])
+      .optional(),
   })
   .passthrough();
 

@@ -46,7 +46,7 @@ import {
   Clock,
   Lightbulb,
 } from 'lucide-react';
-import { getCommandTermInfo } from '../data/commandTerms';
+import { getCommandTermInfo, getBandForMark } from '../data/commandTerms';
 import LoadingIndicator from './LoadingIndicator';
 import ResponseFeedback from './ResponseFeedback';
 import { useAnswerMetrics } from '../hooks/useAnswerMetrics';
@@ -199,12 +199,18 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
       : result.revisedAnswer.text;
   }, [result.revisedAnswer]);
 
+  // The question's tier caps how high an exemplar can realistically sit.
+  const maxBand = useMemo(
+    () => getBandForMark(prompt.totalMarks, prompt.totalMarks, termInfo.tier),
+    [prompt.totalMarks, termInfo.tier]
+  );
+
   const exemplarBand = useMemo(() => {
     if (typeof result.revisedAnswer === 'object' && result.revisedAnswer.band) {
       return result.revisedAnswer.band;
     }
-    return Math.min(6, result.overallBand + 1);
-  }, [result.revisedAnswer, result.overallBand]);
+    return Math.min(maxBand, result.overallBand + 1);
+  }, [result.revisedAnswer, result.overallBand, maxBand]);
 
   const exemplarConfig = getBandConfig(exemplarBand);
 
@@ -549,7 +555,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             </div>
 
             <div className="flex gap-3 no-print">
-              {result.overallBand < 6 && (
+              {result.overallBand < maxBand && (
                 <button
                   onClick={onImproveAnswer}
                   disabled={isImproving}
