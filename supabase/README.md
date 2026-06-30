@@ -117,8 +117,14 @@ Once the database is seeded, the app changes happen in roughly this order:
    cache so offline-first still works.
 3. **Write path + moderation:** "Submit to library" sets `pending`; an admin
    review queue calls `approve_prompt()` / `reject_prompt()`.
-4. **Secure AI:** move Gemini calls into a serverless/edge function so the API
-   key lives server-side (also enables per-user rate limiting and logging).
+4. **Secure AI:** ✅ Gemini/Claude calls already run through the server-side
+   `/api/gemini` proxy so the provider key never reaches the browser. The proxy
+   now also **authenticates the caller**: set `SUPABASE_URL` and
+   `SUPABASE_ANON_KEY` (the non-`VITE_` server-side names) in the deployment
+   env and every AI request must carry a valid Supabase bearer token
+   (`api/_lib/auth.ts`). Leave them unset to keep the proxy open for local /
+   keyless dev. ⚠️ Once enabled, **guest sessions cannot make AI calls** — they
+   have no Supabase token; this is deliberate anonymous-abuse protection.
 5. **Responses:** persist student drafts + AI feedback to the `responses` table.
 
 ## ⚠️ Privacy & data residency (important)
