@@ -27,7 +27,7 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
 
   return (
     <div
-      className={`border border-slate-300 dark:border-white/20 rounded-[20px] overflow-hidden mb-3 last:mb-0 bg-white/60 dark:bg-[rgb(var(--color-bg-surface))]/30 light:bg-white shadow-sm transition-all duration-300`}
+      className={`clip-stable border border-slate-300 dark:border-white/20 rounded-[20px] overflow-hidden mb-3 last:mb-0 bg-white/60 dark:bg-[rgb(var(--color-bg-surface))]/30 light:bg-white shadow-sm transition-all duration-300`}
     >
       <button
         onClick={() => setIsOpen(!isOpen)}

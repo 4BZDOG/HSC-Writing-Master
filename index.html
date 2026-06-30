@@ -237,6 +237,21 @@
       }
 
       /*
+       * Stabilise rounded-corner clipping during transitions/animations.
+       * On a `border-radius` + `overflow:hidden` container, browsers create
+       * the rounded clip layer lazily the moment a transition or a composited
+       * child (backdrop-blur, animated gradients) kicks in — flashing square
+       * corners for a frame before the radius is applied. Forcing the
+       * compositing layer up front makes the rounded mask apply from the first
+       * frame, eliminating the "square then rounded" artifact.
+       */
+      .clip-stable {
+        transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+      }
+
+      /*
        * PDF export is handled entirely client-side by the jsPDF vector
        * exporter in /pdf (see EvaluationDisplay "Export PDF"). The previous
        * window.print() + @media print stylesheet approach has been removed.

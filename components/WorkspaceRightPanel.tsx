@@ -182,7 +182,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     >
       <div className="relative group">
         <div className="flex flex-col relative transition-all duration-700 shadow-2xl rounded-[32px]">
-          <div className="absolute inset-0 z-[30] pointer-events-none rounded-[32px] overflow-hidden">
+          <div className="clip-stable absolute inset-0 z-[30] pointer-events-none rounded-[32px] overflow-hidden">
             {isEvaluating && <EvaluationProgressBar />}
           </div>
 
