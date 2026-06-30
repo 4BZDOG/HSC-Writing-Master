@@ -814,6 +814,65 @@ export const fetchSyllabusContentFromUrl = async (url: string): Promise<string> 
   return response.text || '';
 };
 
+/**
+ * Splits a block of syllabus text into its top-level topics/modules, returning
+ * each topic's heading and the verbatim text that belongs to it. Used to turn a
+ * single pasted/fetched blob into one editable tab per topic before structural
+ * analysis. Returns [] when it can't confidently split (caller keeps one tab).
+ */
+export const splitSyllabusIntoTopics = async (
+  text: string
+): Promise<{ name: string; content: string }[]> => {
+  const request = {
+    ...aiTarget('basic'),
+    contents: {
+      parts: [
+        {
+          text: `Split the following syllabus text into its top-level topics or modules.
+                       For each topic return its heading name and the FULL verbatim text that
+                       belongs to it — do NOT summarise, reword, or drop dot points.
+                       If the text is clearly a single topic, return one item.
+                       Use British/Australian English.
+
+                       Text:
+                       """
+                       ${text.slice(0, 60000)}
+                       """`,
+        },
+      ],
+    },
+    config: {
+      responseMimeType: 'application/json',
+      responseSchema: {
+        type: Type.ARRAY,
+        items: {
+          type: Type.OBJECT,
+          properties: {
+            name: { type: Type.STRING },
+            content: { type: Type.STRING },
+          },
+          required: ['name', 'content'],
+        },
+      },
+    },
+  };
+
+  const response = await generateContentWithRetry(request);
+  const parsed = safeJsonParse<unknown>(response.text || '');
+  if (!Array.isArray(parsed)) return [];
+
+  return parsed
+    .map((t) => {
+      const o = (t || {}) as Record<string, unknown>;
+      return {
+        name: typeof o.name === 'string' ? o.name.trim() : '',
+        content: typeof o.content === 'string' ? o.content.trim() : '',
+      };
+    })
+    .filter((t) => t.content.length > 0)
+    .map((t) => ({ name: t.name || 'Untitled Topic', content: t.content }));
+};
+
 export const generateNewTopic = async (
   courseName: string,
   existingTopics: string[]

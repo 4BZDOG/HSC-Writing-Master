@@ -24,11 +24,20 @@ for both new and existing courses, plus a review of the navigation selectors.
 
 ## UX
 
-- **New *and* existing courses.** The import modal has an "Import Into" selector:
+- **New _and_ existing courses.** The import modal has an "Import Into" selector:
   create a new course, or **merge into an existing one**. Merging reuses
   `mergeCourseContents` — topics with matching names have their sub-topics/dot
   points merged, new topics are appended, and outcomes merge by code (no
   duplicate courses/topics).
+- **Target a specific topic.** When merging into an existing course, a second
+  selector lets you funnel _all_ parsed content into one chosen topic ("Add
+  everything into one topic"), or leave it on "Auto" to match topic names / add
+  new topics. Targeted merges use `mergeTopicContents` and report
+  "Added N sub-topics… to «topic»".
+- **Auto-split into topics.** A single pasted (or URL-fetched) blob can be split
+  by AI into one editable tab per topic — via the "Auto-split topics" button on
+  the editor, and automatically after a URL fetch (`splitSyllabusIntoTopics`).
+  Falls back to a single tab when it can't confidently split.
 - **Editable preview.** Before importing, users can prune anything the AI got
   wrong — remove a topic, sub-topic, or individual dot point (hover a row for the
   delete control). Live counts update; Confirm is disabled when nothing remains.

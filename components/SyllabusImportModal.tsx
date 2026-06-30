@@ -4,6 +4,7 @@ import {
   parseOutcomesFromText,
   parseSyllabusStructure,
   fetchSyllabusContentFromUrl,
+  splitSyllabusIntoTopics,
 } from '../services/geminiService';
 import type { SyllabusPreviewNode } from '../utils/dataManagerUtils';
 import LoadingSpinner from './LoadingSpinner';
@@ -17,6 +18,7 @@ import {
   Trash2,
   Globe,
   GitMerge,
+  Wand2,
 } from 'lucide-react';
 import { generateId } from '../utils/idUtils';
 
@@ -27,11 +29,13 @@ interface SyllabusImportModalProps {
   onClose: () => void;
   courses: Course[];
   // targetCourseId set → merge into that existing course; otherwise create new.
+  // targetTopicId set (with a course) → merge everything into that one topic.
   onImport: (
     courseName: string,
     structure: PreviewNode[],
     outcomes: CourseOutcome[],
-    targetCourseId?: string
+    targetCourseId?: string,
+    targetTopicId?: string
   ) => void;
 }
 
@@ -50,6 +54,9 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
   const [courseName, setCourseName] = useState('');
   // null → create a new course; otherwise merge into this existing course.
   const [targetCourseId, setTargetCourseId] = useState<string | null>(null);
+  // null → auto (match topic names / create); otherwise merge all into this topic.
+  const [targetTopicId, setTargetTopicId] = useState<string | null>(null);
+  const [isSplitting, setIsSplitting] = useState(false);
   const [outcomesText, setOutcomesText] = useState('');
   const [parsedOutcomes, setParsedOutcomes] = useState<CourseOutcome[]>([]);
   const [isParsingOutcomes, setIsParsingOutcomes] = useState(false);
@@ -71,13 +78,22 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
 
   const activeTab = topicTabs.find((t) => t.id === activeTabId) || topicTabs[0];
   const targetCourse = targetCourseId ? courses.find((c) => c.id === targetCourseId) : undefined;
+  const targetTopic = targetCourse?.topics.find((t) => t.id === targetTopicId);
   // The course name the import will actually use (existing course's name when merging).
   const effectiveCourseName = targetCourse ? targetCourse.name : courseName;
+  const isBusy = isParsingOutcomes || isAnalyzing || isFetchingUrl || isSplitting;
+
+  // Switching target course invalidates any chosen target topic.
+  const handleChangeTargetCourse = (id: string | null) => {
+    setTargetCourseId(id);
+    setTargetTopicId(null);
+  };
 
   const handleClose = () => {
-    if (isParsingOutcomes || isAnalyzing || isFetchingUrl) return;
+    if (isBusy) return;
     setCourseName('');
     setTargetCourseId(null);
+    setTargetTopicId(null);
     setOutcomesText('');
     setTopicTabs([{ id: generateId('tab'), name: 'Topic 1', content: '' }]);
     setParsedOutcomes([]);
@@ -124,21 +140,57 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
     setTopicTabs((prev) => prev.map((t) => (t.id === activeTabId ? { ...t, [field]: value } : t)));
   };
 
+  const tabsFromTopics = (topics: { name: string; content: string }[]): TopicTab[] =>
+    topics.map((t) => ({ id: generateId('tab'), name: t.name, content: t.content }));
+
   const handleFetchFromUrl = async () => {
     if (!urlInput.trim()) return;
     setIsFetchingUrl(true);
     setError(null);
     try {
-      // Use AI to "read" the webpage via search grounding
+      // Use AI to "read" the webpage via search grounding, then split it into
+      // one editable tab per topic (falling back to a single tab).
       const content = await fetchSyllabusContentFromUrl(urlInput);
-
-      // Simple heuristic: if the AI returns a huge block, put it in the current tab
-      // Ideally, we could ask the AI to split it, but for now, let's just dump it into the active tab
-      handleUpdateTab('content', content);
+      const topics = await splitSyllabusIntoTopics(content).catch(() => []);
+      if (topics.length > 1) {
+        const newTabs = tabsFromTopics(topics);
+        setTopicTabs(newTabs);
+        setActiveTabId(newTabs[0].id);
+      } else {
+        handleUpdateTab('content', content);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch syllabus content.');
     } finally {
       setIsFetchingUrl(false);
+    }
+  };
+
+  // Split the active tab's pasted text into one tab per detected topic.
+  const handleSplitActiveTab = async () => {
+    if (!activeTab.content.trim()) return;
+    setIsSplitting(true);
+    setError(null);
+    try {
+      const topics = await splitSyllabusIntoTopics(activeTab.content);
+      if (topics.length <= 1) {
+        setError(
+          'Could not detect multiple topics in this tab. Add clear topic headings, or split it manually.'
+        );
+        return;
+      }
+      const newTabs = tabsFromTopics(topics);
+      setTopicTabs((prev) => {
+        const idx = prev.findIndex((t) => t.id === activeTabId);
+        const copy = [...prev];
+        copy.splice(idx === -1 ? prev.length : idx, idx === -1 ? 0 : 1, ...newTabs);
+        return copy;
+      });
+      setActiveTabId(newTabs[0].id);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to split topics.');
+    } finally {
+      setIsSplitting(false);
     }
   };
 
@@ -240,7 +292,13 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
 
   const handleConfirmImport = () => {
     if (previewData.length === 0) return;
-    onImport(effectiveCourseName, previewData, parsedOutcomes, targetCourseId ?? undefined);
+    onImport(
+      effectiveCourseName,
+      previewData,
+      parsedOutcomes,
+      targetCourseId ?? undefined,
+      targetTopicId ?? undefined
+    );
     handleClose();
   };
 
@@ -308,7 +366,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                     id="import-target"
                     value={targetCourseId ?? '__new__'}
                     onChange={(e) =>
-                      setTargetCourseId(e.target.value === '__new__' ? null : e.target.value)
+                      handleChangeTargetCourse(e.target.value === '__new__' ? null : e.target.value)
                     }
                     className="w-full bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
                   >
@@ -323,11 +381,36 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                       </optgroup>
                     )}
                   </select>
-                  {targetCourseId ? (
-                    <p className="mt-2 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
-                      <GitMerge className="w-3.5 h-3.5 text-[rgb(var(--color-accent))]" />
-                      Topics with matching names will be merged; new ones added.
-                    </p>
+                  {targetCourse ? (
+                    <>
+                      {targetCourse.topics.length > 0 && (
+                        <select
+                          aria-label="Target topic"
+                          value={targetTopicId ?? '__auto__'}
+                          onChange={(e) =>
+                            setTargetTopicId(e.target.value === '__auto__' ? null : e.target.value)
+                          }
+                          className="mt-2 w-full bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-lg py-2 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
+                        >
+                          <option value="__auto__">
+                            Auto — match topic names / add new topics
+                          </option>
+                          <optgroup label="Add everything into one topic">
+                            {targetCourse.topics.map((t) => (
+                              <option key={t.id} value={t.id}>
+                                {t.name}
+                              </option>
+                            ))}
+                          </optgroup>
+                        </select>
+                      )}
+                      <p className="mt-2 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
+                        <GitMerge className="w-3.5 h-3.5 text-[rgb(var(--color-accent))]" />
+                        {targetTopic
+                          ? `All sub-topics will be added to "${targetTopic.name}".`
+                          : 'Topics with matching names will be merged; new ones added.'}
+                      </p>
+                    </>
                   ) : (
                     <input
                       type="text"
@@ -458,9 +541,20 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                     />
                   </div>
                   <div className="flex-1 flex flex-col min-h-0">
-                    <label className="block text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1.5">
-                      Paste Syllabus Content for "{activeTab.name}"
-                    </label>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="block text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
+                        Paste Syllabus Content for "{activeTab.name}"
+                      </label>
+                      <button
+                        onClick={handleSplitActiveTab}
+                        disabled={isBusy || !activeTab.content.trim()}
+                        title="Use AI to split this text into one tab per topic"
+                        className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/20 hover:bg-[rgb(var(--color-accent))]/20 transition disabled:opacity-40 disabled:cursor-not-allowed"
+                      >
+                        <Wand2 className="w-3.5 h-3.5" />
+                        Auto-split topics
+                      </button>
+                    </div>
                     <textarea
                       value={activeTab.content}
                       onChange={(e) => handleUpdateTab('content', e.target.value)}
@@ -603,7 +697,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
               </button>
               <button
                 onClick={handleAnalyze}
-                disabled={isAnalyzing || isFetchingUrl}
+                disabled={isBusy}
                 className="py-2.5 px-5 rounded-lg text-white font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg transition disabled:opacity-50 flex items-center gap-2"
               >
                 <Sparkles className="w-4 h-4" />
@@ -634,15 +728,17 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
           )}
         </div>
 
-        {(isParsingOutcomes || isAnalyzing || isFetchingUrl) && (
+        {isBusy && (
           <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-sm flex items-center justify-center rounded-2xl z-10">
             <LoadingSpinner
               message={
                 isFetchingUrl
-                  ? 'Visiting URL & Extracting...'
-                  : isAnalyzing
-                    ? 'Analysing Syllabus Structure...'
-                    : 'Parsing Outcomes...'
+                  ? 'Visiting URL & splitting into topics...'
+                  : isSplitting
+                    ? 'Splitting into topics...'
+                    : isAnalyzing
+                      ? 'Analysing Syllabus Structure...'
+                      : 'Parsing Outcomes...'
               }
             />
           </div>

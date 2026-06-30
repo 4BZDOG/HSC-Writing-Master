@@ -28,6 +28,7 @@ import { generateId } from '../utils/idUtils';
 import {
   addAndPruneSampleAnswers,
   mergeCourseContents,
+  mergeTopicContents,
   type SyllabusPreviewNode,
 } from '../utils/dataManagerUtils';
 
@@ -459,7 +460,8 @@ export const useGemini = ({
       courseName: string,
       structure: PreviewNode[],
       outcomes: CourseOutcome[],
-      targetCourseId?: string
+      targetCourseId?: string,
+      targetTopicId?: string
     ) => {
       const taskId = generateId('task');
 
@@ -490,25 +492,50 @@ export const useGemini = ({
       let resolvedCourseId = '';
       let resolvedCourseName = courseName;
       let merged = false;
+      let targetTopicName = '';
 
       updateCourses((draft) => {
         const existing = targetCourseId ? draft.find((c) => c.id === targetCourseId) : undefined;
         if (existing) {
-          // Merge into the existing course: topics with a matching name have
-          // their sub-topics/dot points merged; new topics are appended;
-          // outcomes are merged by code (see mergeCourseContents).
-          const importedCourse: Course = {
-            id: existing.id,
-            name: existing.name,
-            topics: builtTopics,
-            outcomes,
-          };
-          const mergedCourse = mergeCourseContents(existing, importedCourse);
           const idx = draft.findIndex((c) => c.id === existing.id);
-          draft[idx] = mergedCourse;
           resolvedCourseId = existing.id;
           resolvedCourseName = existing.name;
           merged = true;
+
+          const targetTopic = targetTopicId
+            ? existing.topics.find((t) => t.id === targetTopicId)
+            : undefined;
+
+          if (targetTopic) {
+            // Funnel everything into one existing topic: flatten all parsed
+            // sub-topics into it and merge (matching sub-topic names combine).
+            targetTopicName = targetTopic.name;
+            const importedTopic: Topic = {
+              id: targetTopic.id,
+              name: targetTopic.name,
+              subTopics: builtTopics.flatMap((t) => t.subTopics),
+            };
+            const mergedTopic = mergeTopicContents(targetTopic, importedTopic);
+            const tIdx = existing.topics.findIndex((t) => t.id === targetTopic.id);
+            draft[idx].topics[tIdx] = mergedTopic;
+
+            // Merge any new outcomes by code.
+            const codes = new Set(draft[idx].outcomes.map((o) => o.code));
+            outcomes.forEach((o) => {
+              if (!codes.has(o.code)) draft[idx].outcomes.push(o);
+            });
+          } else {
+            // Merge into the course: topics with a matching name have their
+            // sub-topics/dot points merged; new topics are appended; outcomes
+            // are merged by code (see mergeCourseContents).
+            const importedCourse: Course = {
+              id: existing.id,
+              name: existing.name,
+              topics: builtTopics,
+              outcomes,
+            };
+            draft[idx] = mergeCourseContents(existing, importedCourse);
+          }
         } else {
           const newCourse: Course = {
             id: generateId('course'),
@@ -531,11 +558,19 @@ export const useGemini = ({
           courseId: resolvedCourseId,
         });
 
-        showToast(
-          `${merged ? 'Merged into' : 'Imported'} "${resolvedCourseName}": ` +
-            `${stats.topics} topics, ${stats.subTopics} sub-topics, ${stats.dotPoints} dot points.`,
-          'success'
-        );
+        if (targetTopicName) {
+          showToast(
+            `Added ${stats.subTopics} sub-topics and ${stats.dotPoints} dot points to ` +
+              `"${targetTopicName}".`,
+            'success'
+          );
+        } else {
+          showToast(
+            `${merged ? 'Merged into' : 'Imported'} "${resolvedCourseName}": ` +
+              `${stats.topics} topics, ${stats.subTopics} sub-topics, ${stats.dotPoints} dot points.`,
+            'success'
+          );
+        }
 
         if (cleanupTimeoutRef.current) clearTimeout(cleanupTimeoutRef.current);
         cleanupTimeoutRef.current = window.setTimeout(() => {
