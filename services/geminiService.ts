@@ -224,17 +224,32 @@ export const evaluateAnswer = async (
   // Sanity checks - comprehensive bounds validation
   data.overallMark = Math.max(0, Math.min(data.overallMark, prompt.totalMarks));
 
-  // Single source of truth for the band: derive it deterministically from the
-  // (clamped) mark and the question's cognitive tier rather than trusting the
-  // model's free choice. This guarantees the band can never exceed the tier
-  // ceiling and stays consistent with getBandForMark everywhere else in the app
-  // (sample answers, the marking-criteria panel, recalibration).
-  data.overallBand = getBandForMark(data.overallMark, prompt.totalMarks, termInfo.tier);
-
   // Clamp criteria marks within their bounds (structure is schema-guaranteed).
   for (const c of data.criteria) {
     c.mark = Math.max(0, Math.min(c.mark, c.maxMark));
   }
+
+  // Reconcile the overall mark with additive criteria. When the criteria
+  // partition the paper (their maxMarks sum to totalMarks), the sum of the
+  // awarded criterion marks *is* the overall mark — so make the score placard
+  // agree with the breakdown instead of letting the model's holistic number
+  // contradict the per-criterion marks shown directly beneath it. When the
+  // criteria don't partition the total (e.g. a single illustrative row), the
+  // model's overall mark is left untouched.
+  if (data.criteria.length > 0) {
+    const maxSum = data.criteria.reduce((sum, c) => sum + c.maxMark, 0);
+    if (maxSum === prompt.totalMarks) {
+      const markSum = data.criteria.reduce((sum, c) => sum + c.mark, 0);
+      data.overallMark = Math.max(0, Math.min(markSum, prompt.totalMarks));
+    }
+  }
+
+  // Single source of truth for the band: derive it deterministically from the
+  // (reconciled) mark and the question's cognitive tier rather than trusting the
+  // model's free choice. This guarantees the band can never exceed the tier
+  // ceiling and stays consistent with getBandForMark everywhere else in the app
+  // (sample answers, the marking-criteria panel, recalibration).
+  data.overallBand = getBandForMark(data.overallMark, prompt.totalMarks, termInfo.tier);
 
   return data;
 };

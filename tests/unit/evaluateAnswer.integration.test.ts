@@ -99,6 +99,47 @@ describe('evaluateAnswer (service integration, mocked proxy)', () => {
     expect(result.criteria[0].mark).toBe(5); // clamped to maxMark
   });
 
+  it('reconciles the overall mark to the criteria sum when criteria partition the total', async () => {
+    fetchMock.mockResolvedValue(
+      makeProxyResponse({
+        overallMark: 4, // model's holistic number disagrees with its own breakdown
+        overallBand: 3,
+        overallFeedback: 'ok',
+        quickTip: 't',
+        strengths: [],
+        improvements: [],
+        // maxMarks sum to totalMarks (10) -> additive criteria; marks sum to 7.
+        criteria: [
+          { criterion: 'Accuracy', mark: 4, maxMark: 5, feedback: 'f' },
+          { criterion: 'Depth', mark: 3, maxMark: 5, feedback: 'f' },
+        ],
+      })
+    );
+
+    const result = await evaluateAnswer('answer', basePrompt);
+
+    expect(result.overallMark).toBe(7); // corrected to the sum of criterion marks
+  });
+
+  it('leaves the overall mark untouched when criteria do not partition the total', async () => {
+    fetchMock.mockResolvedValue(
+      makeProxyResponse({
+        overallMark: 6,
+        overallBand: 4,
+        overallFeedback: 'ok',
+        quickTip: 't',
+        strengths: [],
+        improvements: [],
+        // A single illustrative row whose maxMark (5) != totalMarks (10).
+        criteria: [{ criterion: 'Accuracy', mark: 4, maxMark: 5, feedback: 'f' }],
+      })
+    );
+
+    const result = await evaluateAnswer('answer', basePrompt);
+
+    expect(result.overallMark).toBe(6); // model's mark preserved (not additive)
+  });
+
   it('marks with a pinned low temperature and grounds the prompt in tier/length', async () => {
     fetchMock.mockResolvedValue(
       makeProxyResponse({

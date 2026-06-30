@@ -813,6 +813,21 @@ export const getBandForMark = (mark: number, totalMarks: number, tier: number = 
   return 1;
 };
 
+/**
+ * Inverse of getBandForMark: the smallest integer mark (1..totalMarks) that maps
+ * to `targetBand` on a question of the given tier. Used when we know the band we
+ * want an exemplar to demonstrate and need a concrete, consistent mark to store
+ * alongside it. Falls back to the closest achievable mark if the exact band is
+ * not reachable (e.g. a band above the tier ceiling).
+ */
+export const markForBand = (targetBand: number, totalMarks: number, tier: number = 4): number => {
+  if (totalMarks <= 0) return 0;
+  for (let mark = 1; mark <= totalMarks; mark++) {
+    if (getBandForMark(mark, totalMarks, tier) >= targetBand) return mark;
+  }
+  return totalMarks;
+};
+
 export const TIER_WORD_COUNT_MULTIPLIERS: { [key: number]: number } = {
   1: 0.8,
   2: 1.0,
