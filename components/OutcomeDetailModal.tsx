@@ -65,7 +65,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
       >
         <div
           className={`
-            px-6 py-5 border-b-2 ${bandConfig.border} border-opacity-40
+            px-6 py-5 border-b-2 ${bandConfig.border}
             bg-gradient-to-r ${bandConfig.gradient} relative overflow-hidden
         `}
         >
@@ -100,7 +100,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
         <div className="p-6 space-y-6 overflow-y-auto flex-1 bg-[rgb(var(--color-bg-surface))] light:bg-white">
           <div
             className={`
-                p-5 rounded-xl border-2 ${bandConfig.border} border-opacity-30 
+                p-5 rounded-xl border-2 ${bandConfig.border}
                 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 relative
             `}
           >

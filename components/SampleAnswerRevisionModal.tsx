@@ -95,7 +95,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
       <div
         className={`
           bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl 
-          w-full max-w-4xl border-2 ${bandConfig.border} border-opacity-50
+          w-full max-w-4xl border-2 ${bandConfig.border}
           clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]
         `}
         onClick={(e) => e.stopPropagation()}
@@ -103,7 +103,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
         {/* Header */}
         <div
           className={`
-            px-6 py-5 border-b-2 ${bandConfig.border} border-opacity-40
+            px-6 py-5 border-b-2 ${bandConfig.border}
             ${bandConfig.bg}
           `}
         >
@@ -134,7 +134,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
                 flex items-center justify-center group disabled:opacity-50 disabled:cursor-not-allowed
               "
             >
-              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text-primary))]" />
+              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text-primary))] transition-colors" />
             </button>
           </div>
         </div>
@@ -155,7 +155,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
                 className="
                 flex-1 bg-[rgb(var(--color-bg-surface-inset))]/50 p-4 rounded-lg border border-[rgb(var(--color-border-secondary))]
                 overflow-y-auto text-sm text-[rgb(var(--color-text-secondary))] font-serif
-                transition-all duration-200 hover:border-opacity-50 min-h-[12rem]
+                transition-all duration-200 min-h-[12rem]
               "
               >
                 {sampleToRevise.answer}

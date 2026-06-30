@@ -106,7 +106,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
               aria-label="Close"
               className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200 flex items-center justify-center group"
             >
-              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text-primary))]" />
+              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text-primary))] transition-colors" />
             </button>
           </div>
         </div>
@@ -177,7 +177,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <span
-                      className={`text-sm font-bold px-2 py-0.5 rounded ${getStatusColor(result.status)} border-opacity-50 bg-opacity-20`}
+                      className={`text-sm font-bold px-2 py-0.5 rounded ${getStatusColor(result.status)}`}
                     >
                       {result.status}
                     </span>

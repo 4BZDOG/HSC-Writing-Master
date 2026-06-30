@@ -52,7 +52,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
       <div
         className={`
           clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl
-          w-full max-w-6xl border-2 ${bandConfig.border} border-opacity-50
+          w-full max-w-6xl border-2 ${bandConfig.border}
           animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]
         `}
         onClick={(e) => e.stopPropagation()}
@@ -132,7 +132,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
 
           <div className="flex-1 flex flex-col min-h-0 bg-[rgb(var(--color-bg-surface))] light:bg-white">
             <div
-              className={`px-6 py-3 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-opacity-10 ${bandConfig.bg} flex flex-col gap-2 flex-shrink-0`}
+              className={`px-6 py-3 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 ${bandConfig.bg} flex flex-col gap-2 flex-shrink-0`}
             >
               <div className="flex items-center gap-2">
                 <Sparkles className={`w-4 h-4 ${bandConfig.text}`} />

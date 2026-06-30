@@ -174,8 +174,8 @@ const Combobox: React.FC<ComboboxProps> = ({
 
     const bandConfig = getBandConfig(tier);
     return isSelected
-      ? `${bandConfig.bg} light:bg-opacity-20 pl-3 border-l-4 ${bandConfig.border} text-[rgb(var(--color-text-primary))] light:text-slate-900 font-bold`
-      : `${bandConfig.bg} bg-opacity-5 hover:bg-opacity-20 light:bg-opacity-5 light:hover:bg-opacity-15 text-[rgb(var(--color-text-secondary))] light:text-slate-700 pl-3 border-l-4 border-transparent`;
+      ? `${bandConfig.bg} pl-3 border-l-4 ${bandConfig.border} text-[rgb(var(--color-text-primary))] light:text-slate-900 font-bold`
+      : `${bandConfig.bg} text-[rgb(var(--color-text-secondary))] light:text-slate-700 pl-3 border-l-4 border-transparent`;
   };
 
   const baseInputStyles = `
@@ -252,7 +252,7 @@ const Combobox: React.FC<ComboboxProps> = ({
                 className={`cursor-pointer select-none relative py-3 pr-9 transition-colors ${
                   index === highlightedIndex
                     ? `${getListItemClasses(option, true)}`
-                    : `${getListItemClasses(option, option.id === value)} bg-opacity-30`
+                    : getListItemClasses(option, option.id === value)
                 }`}
                 role="option"
                 aria-selected={option.id === value}

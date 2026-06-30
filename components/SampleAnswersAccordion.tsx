@@ -136,7 +136,7 @@ const CarouselAccordionItem: React.FC<{
 
     return (
       <div
-        className={`group border-b border-slate-100 dark:border-white/10 last:border-0 transition-all duration-500 ${isOpen ? `bg-opacity-10 ${bandConfig.bg}` : ''}`}
+        className={`group border-b border-slate-100 dark:border-white/10 last:border-0 transition-all duration-500 ${isOpen ? bandConfig.bg : ''}`}
       >
         <button
           onClick={onToggle}
@@ -232,7 +232,7 @@ const CarouselAccordionItem: React.FC<{
           <div className="overflow-hidden">
             <div className="px-6 pb-6">
               <div
-                className={`relative rounded-2xl bg-slate-50 dark:bg-[#0f1115] border ${bandConfig.border} border-opacity-30 overflow-hidden shadow-inner`}
+                className={`relative rounded-2xl bg-slate-50 dark:bg-[#0f1115] border ${bandConfig.border} overflow-hidden shadow-inner`}
               >
                 {/* Controls Bar */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 border-b border-slate-200 dark:border-white/10 bg-white/50 dark:bg-white/[0.02]">
@@ -402,7 +402,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
 
         <div className="flex items-center gap-3 relative z-10">
           <div
-            className={`p-2 rounded-xl transition-colors duration-500 ${maxBandConfig.bg} ${maxBandConfig.text} border ${maxBandConfig.border} border-opacity-30 shadow-sm`}
+            className={`p-2 rounded-xl transition-colors duration-500 ${maxBandConfig.bg} ${maxBandConfig.text} border ${maxBandConfig.border} shadow-sm`}
           >
             <Bookmark className="w-4 h-4" />
           </div>

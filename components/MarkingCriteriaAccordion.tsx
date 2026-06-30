@@ -213,10 +213,10 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                 return (
                   <div
                     key={idx}
-                    className={`flex items-stretch rounded-xl border ${itemConfig.border} bg-white dark:bg-black/20 overflow-hidden group shadow-sm transition-all border-opacity-40 hover:border-opacity-100`}
+                    className={`flex items-stretch rounded-xl border ${itemConfig.border} bg-white dark:bg-black/20 overflow-hidden group shadow-sm transition-all`}
                   >
                     <div
-                      className={`w-14 flex flex-col items-center justify-center p-2 border-r ${itemConfig.border} ${itemConfig.bg} bg-opacity-20 border-opacity-20 flex-shrink-0`}
+                      className={`w-14 flex flex-col items-center justify-center p-2 border-r ${itemConfig.border} ${itemConfig.bg} flex-shrink-0`}
                     >
                       <span className={`text-lg font-black ${itemConfig.text} leading-none`}>
                         {item.markLabel}

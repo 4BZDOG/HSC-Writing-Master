@@ -110,7 +110,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
         onClick={(e) => e.stopPropagation()}
       >
         <div
-          className={`relative px-8 py-6 border-b-2 ${activeBandConfig.border} border-opacity-30 overflow-hidden bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50`}
+          className={`relative px-8 py-6 border-b-2 ${activeBandConfig.border} overflow-hidden bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50`}
         >
           <div
             className={`absolute inset-0 opacity-10 light:opacity-5 bg-gradient-to-r ${activeBandConfig.gradient}`}
@@ -220,7 +220,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                 flex-1 rounded-2xl border-2 p-6 relative overflow-hidden transition-all duration-500
                 ${
                   selectedMark !== null
-                    ? `${activeBandConfig.bg} ${activeBandConfig.border} light:bg-opacity-50`
+                    ? `${activeBandConfig.bg} ${activeBandConfig.border}`
                     : 'bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200 border-dashed'
                 }
             `}
@@ -297,7 +297,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
         </div>
 
         <div
-          className={`p-6 border-t-2 ${activeBandConfig.border} border-opacity-30 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50/80 backdrop-blur-md`}
+          className={`p-6 border-t-2 ${activeBandConfig.border} bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50/80 backdrop-blur-md`}
         >
           <button
             onClick={handleGenerate}
