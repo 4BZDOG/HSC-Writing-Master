@@ -753,6 +753,93 @@ export const getLLMImportTemplate = () => {
   );
 };
 
+/**
+ * The clean, structured shape produced by AI syllabus analysis and consumed by
+ * the import preview/handler. Kept here as the single source of truth so the
+ * modal and the import hook don't drift.
+ */
+export interface SyllabusPreviewNode {
+  name: string;
+  subTopics: { name: string; dotPoints: string[] }[];
+}
+
+/** Coerce a single dot-point of unknown shape (string or { description|text|... }) to text. */
+const coerceDotPoint = (dp: unknown): string | null => {
+  if (typeof dp === 'string') return dp.trim() || null;
+  if (dp && typeof dp === 'object') {
+    const o = dp as Record<string, unknown>;
+    const text = o.description ?? o.text ?? o.name ?? o.point ?? o.value;
+    if (typeof text === 'string') return text.trim() || null;
+  }
+  return null;
+};
+
+const coerceDotPoints = (raw: unknown): string[] => {
+  if (!Array.isArray(raw)) return [];
+  return raw.map(coerceDotPoint).filter((x): x is string => !!x);
+};
+
+/**
+ * Defensively normalises whatever the AI returns for a syllabus analysis into a
+ * clean `SyllabusPreviewNode[]`. The model can return the topics array directly,
+ * wrapped under `topics`/`data`, a single topic object, dot points at the topic
+ * level (no sub-topic), bare-string sub-topics, or renamed/missing fields — and
+ * occasionally junk. This unwraps the common shapes, trims, drops empties, and
+ * NEVER throws, so a malformed response degrades to "fewer/zero nodes" instead
+ * of crashing the import.
+ */
+export const normalizeSyllabusStructure = (raw: unknown): SyllabusPreviewNode[] => {
+  let topics: unknown[] = [];
+  if (Array.isArray(raw)) {
+    topics = raw;
+  } else if (raw && typeof raw === 'object') {
+    const o = raw as Record<string, unknown>;
+    if (Array.isArray(o.topics)) topics = o.topics;
+    else if (Array.isArray(o.data)) topics = o.data;
+    else if (typeof o.name === 'string') topics = [o]; // a single topic object
+  }
+
+  const result: SyllabusPreviewNode[] = [];
+
+  for (const t of topics) {
+    if (!t || typeof t !== 'object') continue;
+    const topic = t as Record<string, unknown>;
+    const name = typeof topic.name === 'string' ? topic.name.trim() : '';
+
+    const rawSubs = Array.isArray(topic.subTopics)
+      ? topic.subTopics
+      : Array.isArray(topic.subtopics)
+        ? topic.subtopics
+        : [];
+
+    const subTopics: { name: string; dotPoints: string[] }[] = [];
+    for (const s of rawSubs) {
+      if (typeof s === 'string') {
+        const stName = s.trim();
+        if (stName) subTopics.push({ name: stName, dotPoints: [] });
+        continue;
+      }
+      if (!s || typeof s !== 'object') continue;
+      const sub = s as Record<string, unknown>;
+      const subName = typeof sub.name === 'string' ? sub.name.trim() : '';
+      const dotPoints = coerceDotPoints(sub.dotPoints ?? sub.dotpoints ?? sub.points);
+      if (!subName && dotPoints.length === 0) continue;
+      subTopics.push({ name: subName || 'General', dotPoints });
+    }
+
+    // Some syllabi list dot points directly under a topic, with no sub-topic.
+    if (subTopics.length === 0) {
+      const topLevel = coerceDotPoints(topic.dotPoints ?? topic.dotpoints ?? topic.points);
+      if (topLevel.length > 0) subTopics.push({ name: 'General', dotPoints: topLevel });
+    }
+
+    if (!name && subTopics.length === 0) continue;
+    result.push({ name: name || 'Untitled Topic', subTopics });
+  }
+
+  return result;
+};
+
 export const regenerateTopicIds = (topic: Topic): Topic => {
   const newTopic = JSON.parse(JSON.stringify(topic));
   newTopic.id = generateId('topic');

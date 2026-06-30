@@ -31,6 +31,7 @@ import {
   getStructureGuide,
 } from '../data/commandTerms';
 import { generateId } from '../utils/idUtils';
+import { normalizeSyllabusStructure, type SyllabusPreviewNode } from '../utils/dataManagerUtils';
 import {
   EvaluationResponseSchema,
   GeneratedPromptResponseSchema,
@@ -732,30 +733,26 @@ export const parseOutcomesFromText = async (text: string): Promise<CourseOutcome
   return safeJsonParse<CourseOutcome[]>(response.text || '') || [];
 };
 
-export const parseSyllabusStructure = async (content: string): Promise<any> => {
+export const parseSyllabusStructure = async (content: string): Promise<SyllabusPreviewNode[]> => {
   const request = {
     ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
           text: `
-                    Analyze the following syllabus text and extract the structure.
-                    Identify Topics, Sub-Topics, and Dot Points.
-                    
-                    Text: "${content.slice(0, 30000)}" 
-                    
-                    Return JSON structure:
-                    [
-                        {
-                            "name": "Topic Name",
-                            "subTopics": [
-                                {
-                                    "name": "Sub-Topic Name",
-                                    "dotPoints": ["Dot Point 1", "Dot Point 2"]
-                                }
-                            ]
-                        }
-                    ]
+                    Analyse the following syllabus text and extract its structure as
+                    Topics → Sub-Topics → Dot Points. Use British/Australian English.
+
+                    Rules:
+                    - Preserve the wording of dot points; do not summarise or invent content.
+                    - If the text has no explicit sub-topics, group related dot points under a
+                      sensibly named sub-topic (or one called "General").
+                    - Return ONLY the JSON array described by the schema — no commentary.
+
+                    Text:
+                    """
+                    ${content.slice(0, 60000)}
+                    """
                 `,
         },
       ],
@@ -763,11 +760,36 @@ export const parseSyllabusStructure = async (content: string): Promise<any> => {
     config: {
       thinkingConfig: { thinkingBudget: 4096 },
       responseMimeType: 'application/json',
+      responseSchema: {
+        type: Type.ARRAY,
+        items: {
+          type: Type.OBJECT,
+          properties: {
+            name: { type: Type.STRING },
+            subTopics: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  name: { type: Type.STRING },
+                  dotPoints: { type: Type.ARRAY, items: { type: Type.STRING } },
+                },
+                required: ['name', 'dotPoints'],
+              },
+            },
+          },
+          required: ['name', 'subTopics'],
+        },
+      },
     },
   };
 
   const response = await generateContentWithRetry(request);
-  return safeJsonParse(response.text || '');
+  const parsed = safeJsonParse<unknown>(response.text || '');
+  // Defensively normalise: the model can drift from the schema (wrapping the
+  // array, renaming fields, topic-level dot points). This guarantees the import
+  // receives clean, crash-proof data rather than raw model output.
+  return normalizeSyllabusStructure(parsed);
 };
 
 export const fetchSyllabusContentFromUrl = async (url: string): Promise<string> => {
@@ -866,13 +888,17 @@ export const generateSubTopicsAndDotPoints = async (
   };
 
   const response = await generateContentWithRetry(request);
-  const rawData = safeJsonParse<any[]>(response.text || '');
-  if (!rawData) return [];
+  const rawData = safeJsonParse<unknown>(response.text || '');
 
-  return rawData.map((st) => ({
+  // Reuse the same defensive normaliser as the full import so dot points that
+  // arrive as objects (or fields renamed/missing) don't corrupt the result.
+  const normalised = normalizeSyllabusStructure([{ name: topicName, subTopics: rawData }]);
+  const subTopics = normalised[0]?.subTopics || [];
+
+  return subTopics.map((st) => ({
     id: generateId('subTopic'),
     name: st.name,
-    dotPoints: (st.dotPoints || []).map((dp: string) => ({
+    dotPoints: st.dotPoints.map((dp) => ({
       id: generateId('dp'),
       description: dp,
       prompts: [],

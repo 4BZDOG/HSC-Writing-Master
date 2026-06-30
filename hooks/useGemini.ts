@@ -25,17 +25,15 @@ import {
   markForBand,
 } from '../data/commandTerms';
 import { generateId } from '../utils/idUtils';
-import { addAndPruneSampleAnswers } from '../utils/dataManagerUtils';
+import {
+  addAndPruneSampleAnswers,
+  mergeCourseContents,
+  type SyllabusPreviewNode,
+} from '../utils/dataManagerUtils';
 
 const BG_TASK_CLEANUP_DELAY = 5000;
 
-interface PreviewNode {
-  name: string;
-  subTopics: {
-    name: string;
-    dotPoints: string[];
-  }[];
-}
+type PreviewNode = SyllabusPreviewNode;
 
 interface GeminiHookProps {
   showToast: (message: string, type?: 'success' | 'error' | 'info') => void;
@@ -457,57 +455,85 @@ export const useGemini = ({
   );
 
   const handleStartFullSyllabusImport = useCallback(
-    async (courseName: string, structure: PreviewNode[], outcomes: CourseOutcome[]) => {
+    async (
+      courseName: string,
+      structure: PreviewNode[],
+      outcomes: CourseOutcome[],
+      targetCourseId?: string
+    ) => {
       const taskId = generateId('task');
-      const newCourse: Course = {
-        id: generateId('course'),
-        name: courseName,
-        topics: [],
-        outcomes,
+
+      // Build fresh topics from the (already-normalised) preview structure.
+      const builtTopics: Topic[] = structure.map((topicNode) => ({
+        id: generateId('topic'),
+        name: topicNode.name,
+        subTopics: (topicNode.subTopics || []).map((stNode) => ({
+          id: generateId('subTopic'),
+          name: stNode.name,
+          dotPoints: (stNode.dotPoints || []).map((dpText) => ({
+            id: generateId('dp'),
+            description: dpText,
+            prompts: [],
+          })),
+        })),
+      }));
+
+      const stats = {
+        topics: builtTopics.length,
+        subTopics: builtTopics.reduce((a, t) => a + t.subTopics.length, 0),
+        dotPoints: builtTopics.reduce(
+          (a, t) => a + t.subTopics.reduce((b, st) => b + st.dotPoints.length, 0),
+          0
+        ),
       };
 
-      structure.forEach((topicNode) => {
-        const topic: Topic = {
-          id: generateId('topic'),
-          name: topicNode.name,
-          subTopics: topicNode.subTopics.map((stNode) => ({
-            id: generateId('subTopic'),
-            name: stNode.name,
-            dotPoints: stNode.dotPoints.map((dpText) => ({
-              id: generateId('dp'),
-              description: dpText,
-              prompts: [],
-            })),
-          })),
-        };
-        newCourse.topics.push(topic);
-      });
+      let resolvedCourseId = '';
+      let resolvedCourseName = courseName;
+      let merged = false;
 
       updateCourses((draft) => {
-        draft.push(newCourse);
+        const existing = targetCourseId ? draft.find((c) => c.id === targetCourseId) : undefined;
+        if (existing) {
+          // Merge into the existing course: topics with a matching name have
+          // their sub-topics/dot points merged; new topics are appended;
+          // outcomes are merged by code (see mergeCourseContents).
+          const importedCourse: Course = {
+            id: existing.id,
+            name: existing.name,
+            topics: builtTopics,
+            outcomes,
+          };
+          const mergedCourse = mergeCourseContents(existing, importedCourse);
+          const idx = draft.findIndex((c) => c.id === existing.id);
+          draft[idx] = mergedCourse;
+          resolvedCourseId = existing.id;
+          resolvedCourseName = existing.name;
+          merged = true;
+        } else {
+          const newCourse: Course = {
+            id: generateId('course'),
+            name: courseName,
+            topics: builtTopics,
+            outcomes,
+          };
+          draft.push(newCourse);
+          resolvedCourseId = newCourse.id;
+        }
       });
 
       if (isMounted.current) {
         setActiveBackgroundTask({
           id: taskId,
-          name: `Importing ${courseName}`,
+          name: merged ? `Updating ${resolvedCourseName}` : `Importing ${resolvedCourseName}`,
           status: 'completed',
           progress: 100,
-          message: `Imported successfully!`,
-          courseId: newCourse.id,
+          message: merged ? 'Merged successfully!' : 'Imported successfully!',
+          courseId: resolvedCourseId,
         });
 
-        const stats = {
-          topics: newCourse.topics.length,
-          subTopics: newCourse.topics.reduce((a, t) => a + t.subTopics.length, 0),
-          dotPoints: newCourse.topics.reduce(
-            (a, t) => a + t.subTopics.reduce((b, st) => b + st.dotPoints.length, 0),
-            0
-          ),
-        };
-
         showToast(
-          `Imported "${courseName}" with ${stats.topics} topics, ${stats.subTopics} sub-topics, and ${stats.dotPoints} dot points.`,
+          `${merged ? 'Merged into' : 'Imported'} "${resolvedCourseName}": ` +
+            `${stats.topics} topics, ${stats.subTopics} sub-topics, ${stats.dotPoints} dot points.`,
           'success'
         );
 
@@ -518,7 +544,7 @@ export const useGemini = ({
           }
         }, BG_TASK_CLEANUP_DELAY);
       }
-      return newCourse;
+      return resolvedCourseId;
     },
     [updateCourses, showToast]
   );

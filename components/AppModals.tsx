@@ -228,6 +228,7 @@ const AppModals: React.FC<AppModalsProps> = ({
       <SyllabusImportModal
         isOpen={isModalOpen('fullSyllabusImport')}
         onClose={() => closeModal('fullSyllabusImport')}
+        courses={courses}
         onImport={geminiHandlers.handleStartFullSyllabusImport}
       />
 
