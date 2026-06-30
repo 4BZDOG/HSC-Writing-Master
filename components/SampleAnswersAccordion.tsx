@@ -136,7 +136,7 @@ const CarouselAccordionItem: React.FC<{
 
     return (
       <div
-        className={`group border-b border-slate-100 dark:border-white/5 last:border-0 transition-all duration-500 ${isOpen ? `bg-opacity-10 ${bandConfig.bg}` : ''}`}
+        className={`group border-b border-slate-100 dark:border-white/10 last:border-0 transition-all duration-500 ${isOpen ? bandConfig.bg : ''}`}
       >
         <button
           onClick={onToggle}
@@ -202,6 +202,7 @@ const CarouselAccordionItem: React.FC<{
               >
                 <button
                   onClick={handlePrev}
+                  aria-label="Previous sample"
                   className="p-1 hover:bg-slate-100 dark:hover:bg-white/10 rounded text-slate-500 transition-colors"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
@@ -211,6 +212,7 @@ const CarouselAccordionItem: React.FC<{
                 </span>
                 <button
                   onClick={handleNext}
+                  aria-label="Next sample"
                   className="p-1 hover:bg-slate-100 dark:hover:bg-white/10 rounded text-slate-500 transition-colors"
                 >
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -230,10 +232,10 @@ const CarouselAccordionItem: React.FC<{
           <div className="overflow-hidden">
             <div className="px-6 pb-6">
               <div
-                className={`relative rounded-2xl bg-slate-50 dark:bg-[#0f1115] border ${bandConfig.border} border-opacity-30 overflow-hidden shadow-inner`}
+                className={`relative rounded-2xl bg-slate-50 dark:bg-[#0f1115] border ${bandConfig.border} overflow-hidden shadow-inner`}
               >
                 {/* Controls Bar */}
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 border-b border-slate-200 dark:border-white/5 bg-white/50 dark:bg-white/[0.02]">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 border-b border-slate-200 dark:border-white/10 bg-white/50 dark:bg-white/[0.02]">
                   <AnswerMetricsDisplay
                     metrics={metrics}
                     showLabel={false}
@@ -388,7 +390,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   };
 
   return (
-    <div className="bg-white dark:bg-[rgb(var(--color-bg-surface))] rounded-[24px] border border-slate-200 dark:border-white/10 shadow-sm overflow-hidden flex flex-col">
+    <div className="clip-stable bg-white dark:bg-[rgb(var(--color-bg-surface))] rounded-[24px] border border-slate-200 dark:border-white/10 shadow-sm overflow-hidden flex flex-col">
       {/* Header - Styled with highest possible tier color to indicate the question's potential */}
       <div
         className={`px-6 py-4 border-b border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-white/[0.02] flex items-center justify-between relative overflow-hidden`}
@@ -400,7 +402,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
 
         <div className="flex items-center gap-3 relative z-10">
           <div
-            className={`p-2 rounded-xl transition-colors duration-500 ${maxBandConfig.bg} ${maxBandConfig.text} border ${maxBandConfig.border} border-opacity-30 shadow-sm`}
+            className={`p-2 rounded-xl transition-colors duration-500 ${maxBandConfig.bg} ${maxBandConfig.text} border ${maxBandConfig.border} shadow-sm`}
           >
             <Bookmark className="w-4 h-4" />
           </div>

@@ -50,7 +50,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
     >
       <div
         className={`
-        w-full max-w-3xl rounded-2xl
+        clip-stable w-full max-w-3xl rounded-2xl shadow-2xl
         border-2 ${bandConfig.border} ${bandConfig.glow}
         bg-[rgb(var(--color-bg-surface))]/95
         animate-fade-in-up
@@ -61,7 +61,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
         {/* Hero Header - Matching PromptGeneratorModal Style */}
         <div
           className={`
-          px-6 py-5 border-b-2 ${bandConfig.border} border-opacity-40
+          px-6 py-5 border-b-2 ${bandConfig.border}
           bg-gradient-to-r ${bandConfig.gradient} relative overflow-hidden flex-shrink-0
         `}
         >
@@ -105,9 +105,9 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
           {/* Definition */}
           <div
             className={`
-            p-5 rounded-xl border-2 ${bandConfig.border} border-opacity-30 
+            p-5 rounded-xl border-2 ${bandConfig.border}
             bg-[rgb(var(--color-bg-surface-inset))]/30
-            transition-all duration-200 hover:border-opacity-50 hover:shadow-md ${bandConfig.glow}
+            transition-all duration-200 hover:shadow-md ${bandConfig.glow}
           `}
           >
             <div className="flex items-center gap-3 mb-3">
@@ -126,7 +126,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
             <div
               className={`
               p-4 rounded-xl border ${bandConfig.border} bg-[rgb(var(--color-bg-surface-inset))]/50
-              text-center transition-all duration-200 hover:border-opacity-100
+              text-center transition-all duration-200
             `}
             >
               <div
@@ -143,7 +143,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
             <div
               className={`
               p-4 rounded-xl border ${bandConfig.border} bg-[rgb(var(--color-bg-surface-inset))]/50
-              text-center transition-all duration-200 hover:border-opacity-100
+              text-center transition-all duration-200
             `}
             >
               <div
@@ -162,7 +162,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
             <div
               className={`
               p-4 rounded-xl border ${bandConfig.border} bg-[rgb(var(--color-bg-surface-inset))]/50
-              text-center transition-all duration-200 hover:border-opacity-100
+              text-center transition-all duration-200
             `}
             >
               <div
@@ -209,7 +209,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
                   className={`
                     flex items-start gap-3 p-3 rounded-lg
                     bg-[rgb(var(--color-bg-surface))]/80
-                    border-l-4 ${bandConfig.border} border-opacity-60
+                    border-l-4 ${bandConfig.border}
                     transition-all duration-200 hover:translate-x-1 shadow-sm
                   `}
                 >

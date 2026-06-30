@@ -37,7 +37,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
 
   return (
     <nav
-      className="w-full overflow-hidden rounded-xl border border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface-elevated))]/40 light:bg-white backdrop-blur-md shadow-sm hover:border-white/10 transition-colors"
+      className="w-full overflow-hidden rounded-xl border border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface-elevated))]/40 light:bg-white backdrop-blur-md shadow-sm hover:border-white/20 transition-colors"
       aria-label="Breadcrumb"
     >
       <ol ref={scrollRef} className="flex items-center overflow-x-auto scrollbar-hide py-3 px-4">

@@ -131,7 +131,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
   };
 
   return (
-    <div className="bg-white dark:bg-[rgb(var(--color-bg-surface))] rounded-[24px] border border-slate-200 dark:border-white/10 shadow-sm overflow-hidden flex flex-col">
+    <div className="clip-stable bg-white dark:bg-[rgb(var(--color-bg-surface))] rounded-[24px] border border-slate-200 dark:border-white/10 shadow-sm overflow-hidden flex flex-col">
       {/* Header - Matching Sample Answers Style */}
       <div className="px-6 py-4 border-b border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-white/[0.02] flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -178,12 +178,14 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
               <div className="flex gap-1.5">
                 <button
                   onClick={handleCancel}
+                  aria-label="Cancel edit"
                   className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
                 >
                   <X className="w-4 h-4" />
                 </button>
                 <button
                   onClick={handleSave}
+                  aria-label="Save"
                   className="p-1.5 rounded-lg text-green-500 hover:bg-green-50 dark:hover:bg-green-900/20"
                 >
                   <Save className="w-4 h-4" />
@@ -211,10 +213,10 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                 return (
                   <div
                     key={idx}
-                    className={`flex items-stretch rounded-xl border ${itemConfig.border} bg-white dark:bg-black/20 overflow-hidden group shadow-sm transition-all border-opacity-40 hover:border-opacity-100`}
+                    className={`flex items-stretch rounded-xl border ${itemConfig.border} bg-white dark:bg-black/20 overflow-hidden group shadow-sm transition-all`}
                   >
                     <div
-                      className={`w-14 flex flex-col items-center justify-center p-2 border-r ${itemConfig.border} ${itemConfig.bg} bg-opacity-20 border-opacity-20 flex-shrink-0`}
+                      className={`w-14 flex flex-col items-center justify-center p-2 border-r ${itemConfig.border} ${itemConfig.bg} flex-shrink-0`}
                     >
                       <span className={`text-lg font-black ${itemConfig.text} leading-none`}>
                         {item.markLabel}

@@ -90,7 +90,12 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     const wordCount = debouncedUserAnswer.trim().split(/\s+/).filter(Boolean).length;
     // Use metrics target for the Max Band of this prompt
     const targetMetric = BAND_METRICS.find((b) => b.band === maxBand) || BAND_METRICS[0];
-    const targetCount = Math.ceil(currentPrompt.totalMarks * targetMetric.wordCountMultiplier.min);
+    // Guard against a malformed/zero-mark prompt producing a 0 target, which
+    // would turn the progress ratio into NaN/Infinity and render "NaN%".
+    const targetCount = Math.max(
+      1,
+      Math.ceil(currentPrompt.totalMarks * targetMetric.wordCountMultiplier.min)
+    );
 
     // Allow progression to go slightly over 1.0 for "Exemplar" feel
     const wordProg = Math.min(1.1, wordCount / targetCount);
@@ -182,7 +187,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     >
       <div className="relative group">
         <div className="flex flex-col relative transition-all duration-700 shadow-2xl rounded-[32px]">
-          <div className="absolute inset-0 z-[30] pointer-events-none rounded-[32px] overflow-hidden">
+          <div className="clip-stable absolute inset-0 z-[30] pointer-events-none rounded-[32px] overflow-hidden">
             {isEvaluating && <EvaluationProgressBar />}
           </div>
 
@@ -218,7 +223,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
                             ${
                               isEvaluating || !userAnswer.trim()
                                 ? 'bg-slate-800 text-slate-500 cursor-not-allowed border border-white/5 opacity-50 shadow-none'
-                                : `bg-gradient-to-r ${buttonConfig.gradient} ${buttonConfig.shadow} hover:shadow-2xl active:scale-95 border ${buttonConfig.border}`
+                                : `bg-gradient-to-r ${buttonConfig.gradient} shadow-xl ${buttonConfig.shadow} hover:shadow-2xl active:scale-95 border ${buttonConfig.border}`
                             }
                         `}
             >

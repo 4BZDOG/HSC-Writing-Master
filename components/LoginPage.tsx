@@ -171,7 +171,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         className="w-full max-w-[420px] relative z-10 animate-fade-in-up"
         style={{ animationDelay: '200ms' }}
       >
-        <div className="bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 border-white/20 light:border-slate-200 rounded-[44px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] light:shadow-2xl overflow-hidden relative">
+        <div className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 border-white/20 light:border-slate-200 rounded-[44px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] light:shadow-2xl overflow-hidden relative">
           <MeshOverlay opacity="opacity-[0.04] light:opacity-[0.06]" />
 
           <div className="p-10 relative z-10">

@@ -310,7 +310,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         {/* Main Vibrant Placard */}
         <div
-          className={`lg:col-span-7 relative rounded-[40px] overflow-hidden p-8 md:p-10 shadow-2xl transition-all duration-500 bg-gradient-to-br ${bandConfig.gradient}`}
+          className={`clip-stable lg:col-span-7 relative rounded-[40px] overflow-hidden p-8 md:p-10 shadow-2xl transition-all duration-500 bg-gradient-to-br ${bandConfig.gradient}`}
         >
           <MeshOverlay opacity="opacity-[0.15]" />
 
@@ -523,7 +523,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
       {/* Improved Response (Exemplar) */}
       {revisedText && (
         <section
-          className={`relative rounded-[40px] border-2 ${exemplarConfig.border} overflow-hidden shadow-2xl transition-all duration-500 group mt-8`}
+          className={`clip-stable relative rounded-[40px] border-2 ${exemplarConfig.border} overflow-hidden shadow-2xl transition-all duration-500 group mt-8`}
         >
           <div
             className={`absolute inset-0 ${exemplarConfig.bg} opacity-[0.03] pointer-events-none no-print`}

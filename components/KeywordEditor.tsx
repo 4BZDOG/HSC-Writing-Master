@@ -147,6 +147,7 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
             <button
               type="submit"
               disabled={!newKeyword.trim()}
+              aria-label="Add term"
               className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-indigo-500 dark:hover:text-white disabled:opacity-0 transition-colors"
             >
               <Plus className="w-4 h-4" strokeWidth={2.5} />

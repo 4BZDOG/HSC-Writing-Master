@@ -952,6 +952,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             </div>
             <button
               onClick={onClose}
+              aria-label="Close"
               className="p-4 rounded-full hover:bg-white/5 text-slate-500 transition-colors ml-4 mr-2"
             >
               <X className="w-8 h-8" />

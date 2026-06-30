@@ -165,16 +165,16 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
     <div
       ref={containerRef}
       className={`
-            relative overflow-hidden rounded-[32px] 
-            bg-[rgb(var(--color-bg-surface))] light:bg-white 
-            border-2 ${bandConfig.border} ${bandConfig.glow}
+            clip-stable relative overflow-hidden rounded-[32px]
+            bg-[rgb(var(--color-bg-surface))] light:bg-white
+            border-2 ${bandConfig.border} shadow-2xl ${bandConfig.glow}
             transition-all duration-500 group/prompt flex flex-col h-full
         `}
     >
       {/* Header Container */}
       <div
         ref={headerRef}
-        className={`px-8 py-5 bg-gradient-to-r ${bandConfig.gradient} text-white flex justify-between items-center relative overflow-hidden flex-shrink-0`}
+        className={`px-8 py-5 bg-gradient-to-r ${bandConfig.gradient} text-white flex justify-between items-center relative overflow-hidden flex-shrink-0 rounded-t-[30px]`}
         style={{ minHeight: minHeaderHeight ? `${minHeaderHeight}px` : 'auto' }}
       >
         <MeshOverlay opacity="opacity-20" />
@@ -403,6 +403,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               </div>
               <button
                 onClick={onDismissEnrichError}
+                aria-label="Dismiss"
                 className="p-1 hover:bg-amber-500/20 rounded text-amber-400"
               >
                 <X className="w-3.5 h-3.5" />
@@ -412,7 +413,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
         </div>
 
         {/* Outcomes Footer - "The Evidence" */}
-        <div className="relative z-10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border-t border-white/5 light:border-slate-200/50 px-6 py-3 flex flex-col sm:flex-row sm:items-center gap-6 backdrop-blur-sm mt-auto flex-shrink-0">
+        <div className="relative z-10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border-t border-white/10 light:border-slate-200/50 px-6 py-3 flex flex-col sm:flex-row sm:items-center gap-6 backdrop-blur-sm mt-auto flex-shrink-0 rounded-b-[30px]">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 flex-1 min-w-0">
             <div className="flex items-center justify-between sm:justify-start gap-4 flex-shrink-0 min-w-[140px]">
               <div className="flex items-center gap-3 group/link">
@@ -451,7 +452,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       onClick={() => handleOutcomeClickInternal(outcome)}
                       className={`
                                             flex items-center gap-2 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider
-                                            bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/5 light:border-slate-200
+                                            bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-200
                                             text-slate-400 light:text-slate-600 transition-all duration-300
                                             hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-50 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900 hover:border-white/10 light:hover:border-slate-300 hover:scale-105 hover:shadow-md
                                             active:scale-95

@@ -221,7 +221,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
       onClick={handleClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-base))] light:bg-white rounded-[40px] shadow-2xl w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 animate-fade-in-up overflow-hidden flex flex-col max-h-[95vh] relative"
+        className="bg-[rgb(var(--color-bg-base))] light:bg-white rounded-[40px] shadow-2xl w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[95vh] relative"
         onClick={(e) => e.stopPropagation()}
       >
         <div
@@ -258,6 +258,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
           <button
             onClick={handleClose}
             disabled={isLoading}
+            aria-label="Close"
             className="p-4 rounded-full hover:bg-white/10 light:hover:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-400 hover:text-white transition-colors"
           >
             <X className="w-8 h-8" />

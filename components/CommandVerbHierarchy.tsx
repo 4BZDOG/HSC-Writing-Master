@@ -101,7 +101,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
 
   return (
     <div
-      className={`relative overflow-hidden rounded-[32px] border-4 ${containerBorderClass} bg-[rgb(var(--color-bg-surface))]/60 light:bg-white/90 backdrop-blur-3xl shadow-xl transition-all duration-700 ease-out animate-fade-in`}
+      className={`clip-stable relative overflow-hidden rounded-[32px] border-4 ${containerBorderClass} bg-[rgb(var(--color-bg-surface))]/60 light:bg-white/90 backdrop-blur-3xl shadow-xl transition-all duration-700 ease-out animate-fade-in`}
     >
       {/* Header Button */}
       <button
@@ -241,7 +241,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                     cardStyle = `scale-110 z-20 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)] opacity-100 ring-4 ring-white/10 dark:ring-white/5 ${transformOrigin}`;
                   } else {
                     // Added colored border specific to the tier for visual cue
-                    cardStyle = `scale-90 opacity-50 hover:opacity-100 hover:scale-95 border-2 ${tierConfig.border} border-opacity-30 hover:border-opacity-100 z-0 ${transformOrigin}`;
+                    cardStyle = `scale-90 opacity-50 hover:opacity-100 hover:scale-95 border-2 ${tierConfig.border} z-0 ${transformOrigin}`;
                   }
                 }
 
@@ -315,7 +315,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                                             ${
                                               isSelected
                                                 ? `${tierConfig.solidBg} text-white shadow-lg scale-105 border-transparent`
-                                                : `bg-transparent border ${tierConfig.border} ${tierConfig.text} hover:${tierConfig.bg} hover:border-opacity-80`
+                                                : `bg-transparent border ${tierConfig.border} ${tierConfig.text}`
                                             }
                                         `}
                             >

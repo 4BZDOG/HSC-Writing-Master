@@ -134,7 +134,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
           className={`
                         bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] shadow-2xl 
                         w-full max-w-4xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300
-                        animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh] relative
+                        clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh] relative
                     `}
           onClick={(e) => e.stopPropagation()}
         >
@@ -159,6 +159,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
               </div>
               <button
                 onClick={handleClose}
+                aria-label="Close"
                 className="p-3 rounded-xl hover:bg-white/10 text-slate-500 hover:text-white transition-colors"
               >
                 <X className="w-6 h-6" />

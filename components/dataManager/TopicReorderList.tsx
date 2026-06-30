@@ -27,7 +27,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
       {courses.map((course) => (
         <div
           key={course.id}
-          className={`rounded-[32px] overflow-hidden transition-all duration-500 border ${expandedCourseId === course.id ? 'bg-black/40 border-indigo-500/30 shadow-2xl' : 'bg-white/[0.03] border-white/5'}`}
+          className={`clip-stable rounded-[32px] overflow-hidden transition-all duration-500 border ${expandedCourseId === course.id ? 'bg-black/40 border-indigo-500/30 shadow-2xl' : 'bg-white/[0.03] border-white/5'}`}
         >
           <button
             onClick={() => toggleCourse(course.id)}

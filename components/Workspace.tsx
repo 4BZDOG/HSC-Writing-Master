@@ -268,7 +268,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
                 onTotalHeightChange={setPromptTotalHeight}
               />
             </div>
-            <div className="border border-white/10 rounded-3xl overflow-hidden flex-shrink-0">
+            <div className="flex-shrink-0">
               <ReferenceMaterials
                 prompt={currentPrompt}
                 topic={currentTopic}

@@ -334,13 +334,13 @@ const Editor = forwardRef<
 
     return (
       <div
-        className={`flex flex-col w-full h-auto bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] overflow-hidden border-2 ${chroma.border} ${chroma.glow} transition-all duration-700 ease-in-out ${className}`}
+        className={`clip-stable flex flex-col w-full h-auto bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] overflow-hidden border-2 ${chroma.border} shadow-2xl ${chroma.glow} transition-all duration-700 ease-in-out ${className}`}
         style={{ minHeight: minTotalHeight || '300px' }}
       >
         {/* Header */}
         <div
           ref={headerRef}
-          className={`px-8 py-5 text-white flex justify-between items-center relative overflow-hidden flex-shrink-0 transition-all duration-1000 ease-in-out`}
+          className={`px-8 py-5 text-white flex justify-between items-center relative overflow-hidden flex-shrink-0 rounded-t-[30px] transition-all duration-1000 ease-in-out`}
           style={{
             minHeight: minHeaderHeight ? `${minHeaderHeight}px` : 'auto',
             background: chroma.background,
@@ -413,6 +413,8 @@ const Editor = forwardRef<
               {onToggleFocusMode && (
                 <button
                   onClick={onToggleFocusMode}
+                  aria-label={isFocusMode ? 'Exit focus mode' : 'Enter focus mode'}
+                  aria-pressed={isFocusMode}
                   className={`ml-2 px-3 h-8 rounded-xl transition-all font-black text-[10px] uppercase tracking-wider flex items-center gap-2 ${isFocusMode ? 'bg-amber-500 text-white shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'}`}
                 >
                   {isFocusMode ? (
@@ -478,7 +480,7 @@ const Editor = forwardRef<
 
         {/* Footer Metrics */}
         <div
-          className={`px-6 py-3 flex justify-between items-center border-t border-white/5 bg-[rgb(var(--color-bg-surface))]/80 transition-all duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
+          className={`px-6 py-3 flex justify-between items-center border-t border-white/10 bg-[rgb(var(--color-bg-surface))]/80 rounded-b-[30px] transition-all duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
         >
           <div className="flex items-center gap-6 text-[10px] text-[rgb(var(--color-text-dim))] font-black uppercase tracking-widest select-none">
             <span className="flex items-center gap-1.5">
