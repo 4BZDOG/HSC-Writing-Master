@@ -21,8 +21,9 @@ begin;
 insert into public.profiles (id, username, display_name, role)
 values
   ('00000000-0000-0000-0000-0000000000a1', 'rls_test_student_a', 'RLS Test A', 'student'),
-  ('00000000-0000-0000-0000-0000000000a2', 'rls_test_student_b', 'RLS Test B', 'student')
-on conflict (id) do update set role = 'student';
+  ('00000000-0000-0000-0000-0000000000a2', 'rls_test_student_b', 'RLS Test B', 'student'),
+  ('00000000-0000-0000-0000-0000000000a9', 'rls_test_admin',     'RLS Test Admin', 'admin')
+on conflict (id) do update set role = excluded.role;
 commit;
 
 -- ---- 1. A student cannot self-promote to admin ------------------------------
@@ -112,10 +113,51 @@ exception
 end $$;
 rollback;
 
+-- ---- 5. A student cannot promote anyone via the set_user_role() RPC ----------
+begin;
+set local role authenticated;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}';
+
+do $$
+begin
+  perform public.set_user_role('00000000-0000-0000-0000-0000000000a1', 'admin');
+  raise exception 'TEST FAILED: student promoted themselves via set_user_role()';
+exception
+  when others then
+    if sqlerrm = 'TEST FAILED: student promoted themselves via set_user_role()' then
+      raise;
+    end if;
+    raise notice 'PASS: set_user_role() rejects non-admin callers (%, %)', sqlstate, sqlerrm;
+end $$;
+rollback;
+
+-- ---- 6. POSITIVE CONTROL: an admin CAN change another user's role ------------
+-- Proves the trigger blocks self-escalation without over-blocking the
+-- legitimate admin path — otherwise tests 1/5 would "pass" simply because role
+-- changes are impossible for everyone.
+begin;
+set local role authenticated;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000a9","role":"authenticated"}';
+
+do $$
+declare v_role app_role;
+begin
+  perform public.set_user_role('00000000-0000-0000-0000-0000000000a2', 'teacher');
+  -- The admin is a reviewer, so profiles_read lets them read the row back.
+  select role into v_role from public.profiles
+   where id = '00000000-0000-0000-0000-0000000000a2';
+  if v_role is distinct from 'teacher' then
+    raise exception 'TEST FAILED: admin could not promote student to teacher (got %)', v_role;
+  end if;
+  raise notice 'PASS: admin promoted student to teacher via set_user_role()';
+end $$;
+rollback;
+
 -- ---- Cleanup ------------------------------------------------------------------
 begin;
 delete from public.profiles where id in (
   '00000000-0000-0000-0000-0000000000a1',
-  '00000000-0000-0000-0000-0000000000a2'
+  '00000000-0000-0000-0000-0000000000a2',
+  '00000000-0000-0000-0000-0000000000a9'
 );
 commit;

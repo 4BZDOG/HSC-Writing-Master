@@ -577,17 +577,23 @@ const App: React.FC = () => {
   useEffect(() => {
     const storedUser = authService.getCurrentUser();
     if (storedUser) {
-      loadUserProfile(storedUser.username).then((fullProfile) => {
-        authService.refreshSession(fullProfile || storedUser).then((refreshedUser) => {
+      loadUserProfile(storedUser.username)
+        .then((fullProfile) => authService.refreshSession(fullProfile || storedUser))
+        .then((refreshedUser) => {
           if (!refreshedUser) {
             authService.logout();
             setUser(null);
           } else {
             setUser(refreshedUser);
           }
-          setIsLoadingAuth(false);
-        });
-      });
+        })
+        .catch(() => {
+          // Never get stuck on a blank screen: if the profile load or session
+          // refresh throws (IndexedDB/network error), fall back to login.
+          authService.logout();
+          setUser(null);
+        })
+        .finally(() => setIsLoadingAuth(false));
     } else setIsLoadingAuth(false);
   }, []);
 
