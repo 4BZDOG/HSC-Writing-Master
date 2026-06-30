@@ -28,6 +28,7 @@ import {
   deleteFromLibrary,
 } from '../utils/storageUtils';
 import { AICache } from '../services/aiCache';
+import { fetchRemoteCourses, isCurriculumRemote } from '../services/curriculumService';
 import { generateId } from '../utils/idUtils';
 import {
   mergeCourseContents,
@@ -161,6 +162,29 @@ export const useSyllabusData = ({
       if (initAttempted.current) return;
       initAttempted.current = true;
       setIsDiscoveryInProgress(true);
+
+      // Remote-first: when Supabase is configured, the approved library there is
+      // the source of truth. Cache it to IndexedDB so offline still works, and
+      // fall through to the local cache / seed discovery on any failure.
+      if (isCurriculumRemote()) {
+        try {
+          const remoteCourses = await fetchRemoteCourses();
+          if (remoteCourses.length > 0) {
+            updateCourses(() => remoteCourses);
+            setStorageStatus('Supabase');
+            saveCoursesToDB(remoteCourses).catch((err) =>
+              console.warn('[Curriculum] Failed to cache remote courses locally:', err)
+            );
+            setIsDiscoveryInProgress(false);
+            setIsReady(true);
+            fetchLibrary().then(setLibraryItems).catch(console.error);
+            return;
+          }
+          // Configured but empty (not seeded yet) — fall back to local seeds.
+        } catch (err) {
+          console.warn('[Curriculum] Supabase load failed; using local cache.', err);
+        }
+      }
 
       const loadResult = await loadCoursesFromDB();
 

@@ -24,7 +24,7 @@ export const STORAGE_KEYS = {
   AI_CONFIG: 'hsc-ai-evaluator-ai-config', // Active AI engine per role (basic/reasoning)
 } as const;
 
-export type StorageStatus = 'IndexedDB' | 'LocalStorage' | 'Error' | 'Loading';
+export type StorageStatus = 'IndexedDB' | 'LocalStorage' | 'Supabase' | 'Error' | 'Loading';
 
 // --- IndexedDB Configuration ---
 

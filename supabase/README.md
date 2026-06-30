@@ -112,9 +112,14 @@ edit your JSON and re-seed to refresh the built-in content.
 
 Once the database is seeded, the app changes happen in roughly this order:
 
-1. **Auth:** replace the mock `services/authService.ts` with Supabase Auth.
-2. **Read path:** load the approved library from Supabase; keep IndexedDB as a
-   cache so offline-first still works.
+1. **Auth:** ✅ `services/authService.ts` uses Supabase Auth when configured,
+   falling back to the local mock accounts otherwise.
+2. **Read path:** ✅ `services/curriculumService.ts` loads the approved library
+   from Supabase and `useSyllabusData` treats it as the source of truth when
+   configured, caching to IndexedDB and falling back to that cache (then the
+   bundled seeds) on any failure or when the database is empty. Writes still go
+   to the local cache only — pushing edits back to Supabase is the next phase
+   (write path + moderation, below).
 3. **Write path + moderation:** "Submit to library" sets `pending`; an admin
    review queue calls `approve_prompt()` / `reject_prompt()`.
 4. **Secure AI:** ✅ Gemini/Claude calls already run through the server-side
