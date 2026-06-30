@@ -37,11 +37,42 @@ Every piece of library content (`courses`, `prompts`, `sample_answers`) has a
 | `rejected` | Reviewed and declined (kept for audit)             | Reviewers               |
 | `archived` | Retired                                            | Reviewers               |
 
-Publishing is **only** possible via the `approve_prompt()` / `reject_prompt()`
-database functions, which check that the caller is an admin or teacher. This is
-enforced in the database, not just the UI, so the gate can't be bypassed.
+New content **starts `private`** (the column default) and a non-reviewer can
+only ever move their own content between `private` and `pending`. Reaching
+`approved` / `rejected` / `archived` is reviewer-only — enforced two ways in the
+database, not just the UI, so the gate can't be bypassed:
+
+- the `enforce_content_status_authority` trigger blocks any non-reviewer session
+  from setting a published status (on insert or update), and
+- the sanctioned path is the reviewer-gated RPCs: `approve_prompt()` /
+  `reject_prompt()` / `approve_sample_answer()` / `reject_sample_answer()`.
 
 Roles (`app_role`): `admin` (you), `teacher` (trusted reviewers), `student`.
+
+### How content flows in from users and AI (the growth loop)
+
+`services/contributionService.ts` is the client write path that drives this:
+
+1. **Draft** — a user (or an AI-generated answer the user keeps) is saved via
+   `savePromptContribution()` / `saveSampleAnswerContribution()` as `private`,
+   owned by that user. RLS guarantees `created_by = auth.uid()`.
+2. **Submit** — `submitToLibrary()` flips the draft to `pending`, putting it in
+   the review queue (still only the author + reviewers can see it).
+3. **Moderate** — a reviewer calls `approvePrompt()` / `rejectPrompt()` (and the
+   sample-answer equivalents), which invoke the server-side RPCs. Approved
+   content becomes visible to everyone through the read path
+   (`curriculumService.ts`).
+
+This is how the bank grows over time without becoming noise: anyone can
+contribute, but only reviewed content reaches the shared library. AI-authored
+answers ride the same rails (`source = 'AI'`); a future enhancement is to run
+the app's Quality Check automatically before queueing, so reviewers triage by a
+quality score.
+
+> **Wiring status:** the service layer + moderation gate are in place and
+> tested. The remaining UI work is the "Submit to library" actions in the
+> editor modals and an admin review-queue screen (the `ContentAuditModal` under
+> `components/admin/` is the natural home for it).
 
 ### Why role changes can't be self-served
 
@@ -107,6 +138,30 @@ edit your JSON and re-seed to refresh the built-in content.
 > ⚠️ The **service role key bypasses RLS**. Use it only for this server-side
 > seed, never in the frontend, and never commit it. Add it to your shell or a
 > local `.env` that is git-ignored.
+
+### 5. Growing the example bank over time
+
+The seed pipeline is the curated, version-controlled half of "grow the project
+over time" (the contribution loop above is the organic half). To add more
+courses and worked samples as reusable examples:
+
+1. Drop a new course JSON file into `courseData/` (same shape as the existing
+   files — a `Course[]` array, or a single `Course`).
+2. Add an entry to `courseData/manifest.json` (`{ "file": "...", "type":
+   "course", "subject": "..." }`).
+3. Re-run `node supabase/seed.mjs`. Because it upserts on `legacy_id`, existing
+   content is refreshed in place and only the new material is added — re-running
+   never duplicates.
+
+Seeded content is owned by the admin and inserted as `approved`, so it shows up
+immediately for everyone via the read path. Two natural follow-ups:
+
+- **Promote community content into the seed set:** once a user/AI contribution
+  is approved and proven useful, export it back into a `courseData/*.json` file
+  so it becomes part of the canonical, version-controlled bank (a small
+  `approved → JSON` exporter would automate this).
+- Keep curated example courses in git so the example library is reviewable and
+  reproducible across environments, independent of any one database.
 
 ## Connecting the app (next phase — not done here)
 

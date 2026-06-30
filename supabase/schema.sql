@@ -69,7 +69,10 @@ create table if not exists public.courses (
   legacy_id   text,
   name        text not null,
   subject     text,
-  status      content_status not null default 'approved',
+  -- New content starts private; only a reviewer can publish it (see the
+  -- status-authority trigger in section 9). The seed script sets 'approved'
+  -- explicitly via the service role, which bypasses that trigger.
+  status      content_status not null default 'private',
   created_by  uuid references public.profiles (id) on delete set null,
   created_at  timestamptz not null default now(),
   updated_at  timestamptz not null default now()
@@ -132,8 +135,8 @@ create table if not exists public.prompts (
   is_past_hsc              boolean not null default false,
   hsc_year                 int,
   hsc_question_number      text,
-  -- moderation + provenance
-  status                   content_status not null default 'approved',
+  -- moderation + provenance (new content starts private — see section 9)
+  status                   content_status not null default 'private',
   created_by               uuid references public.profiles (id) on delete set null,
   reviewed_by              uuid references public.profiles (id) on delete set null,
   reviewed_at              timestamptz,
@@ -152,7 +155,7 @@ create table if not exists public.sample_answers (
   source      answer_source not null default 'AI',
   feedback    text,
   quick_tip   text,
-  status      content_status not null default 'approved',
+  status      content_status not null default 'private',
   created_by  uuid references public.profiles (id) on delete set null,
   created_at  timestamptz not null default now()
 );
@@ -316,6 +319,46 @@ begin
   update public.profiles set role = p_role where id = p_user_id;
 end; $$;
 
+-- The library-content update policies (below) let an owner update their own
+-- row, which is row-level only — it cannot stop them setting the `status`
+-- *column* to 'approved'. Without this trigger a normal user could publish
+-- their own content (or insert it pre-approved, since that used to be the
+-- default), bypassing the reviewer gate entirely. This closes that column-level
+-- gap on every status-bearing table: a real end-user session (auth.uid() not
+-- null) may only move content to/within the un-published states
+-- (private/pending). Reaching approved/rejected/archived requires a reviewer.
+-- auth.uid() is null for the SQL editor and the service-role seed, so those
+-- still publish freely.
+create or replace function public.enforce_content_status_authority()
+returns trigger language plpgsql as $$
+begin
+  if new.status in ('approved', 'rejected', 'archived')
+     and (tg_op = 'INSERT' or new.status is distinct from old.status)
+     and auth.uid() is not null
+     and not public.is_reviewer() then
+    raise exception 'Only admins/teachers can publish, reject, or archive content';
+  end if;
+  return new;
+end; $$;
+
+do $$
+declare t text;
+begin
+  foreach t in array array['courses','prompts','sample_answers']
+  loop
+    execute format('drop trigger if exists trg_%1$s_status_authority on public.%1$s;', t);
+    execute format(
+      'create trigger trg_%1$s_status_authority
+         before insert or update on public.%1$s
+         for each row execute function public.enforce_content_status_authority();', t);
+  end loop;
+end $$;
+
+-- Make the safer default idempotent for databases created before this change.
+alter table public.courses        alter column status set default 'private';
+alter table public.prompts        alter column status set default 'private';
+alter table public.sample_answers alter column status set default 'private';
+
 -- Generic "library content" policy applied to the curriculum tables.
 -- Visible if approved, OR you created it, OR you're a reviewer.
 do $$
@@ -397,9 +440,10 @@ create policy responses_write on public.responses for all
   using (user_id = auth.uid()) with check (user_id = auth.uid());
 
 -- ----------------------------------------------------------------------------
--- 10. Moderation RPCs — the ONLY sanctioned way to publish/reject content.
---     Restricting publish to a SECURITY DEFINER function (rather than a raw
---     UPDATE on status) keeps the approval gate enforceable server-side.
+-- 10. Moderation RPCs — the sanctioned way for reviewers to publish/reject.
+--     These set reviewer metadata and re-check the caller; the
+--     enforce_content_status_authority trigger (section 9) is the backstop that
+--     blocks any *other* path to a published status for non-reviewers.
 -- ----------------------------------------------------------------------------
 create or replace function public.approve_prompt(p_id uuid)
 returns void language plpgsql security definer set search_path = public as $$
@@ -421,6 +465,25 @@ begin
   update public.prompts
      set status = 'rejected', reviewed_by = auth.uid(), reviewed_at = now()
    where id = p_id;
+end; $$;
+
+-- Sample answers (no reviewed_by/reviewed_at columns, so status only).
+create or replace function public.approve_sample_answer(p_id uuid)
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can approve content';
+  end if;
+  update public.sample_answers set status = 'approved' where id = p_id;
+end; $$;
+
+create or replace function public.reject_sample_answer(p_id uuid)
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can reject content';
+  end if;
+  update public.sample_answers set status = 'rejected' where id = p_id;
 end; $$;
 
 -- =============================================================================

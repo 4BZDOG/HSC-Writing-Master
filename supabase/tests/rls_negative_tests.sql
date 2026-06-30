@@ -58,6 +58,13 @@ insert into public.dot_points (id, sub_topic_id, description)
   values ('00000000-0000-0000-0000-0000000000c4',
           '00000000-0000-0000-0000-0000000000c3', 'RLS Test DotPoint')
   on conflict (id) do nothing;
+-- A committed PENDING prompt owned by student a1, for the publish-authority
+-- tests (self-approve must fail; reviewer approve must succeed).
+insert into public.prompts (id, dot_point_id, question, status, created_by)
+  values ('00000000-0000-0000-0000-0000000000c5',
+          '00000000-0000-0000-0000-0000000000c4', 'Seeded pending prompt', 'pending',
+          '00000000-0000-0000-0000-0000000000a1')
+  on conflict (id) do nothing;
 commit;
 
 -- ---- 1. A student cannot self-promote to admin ------------------------------
@@ -184,6 +191,66 @@ begin
     raise exception 'TEST FAILED: admin could not promote student to teacher (got %)', v_role;
   end if;
   raise notice 'PASS: admin promoted student to teacher via set_user_role()';
+end $$;
+rollback;
+
+-- ---- 7. A student cannot insert pre-approved content -------------------------
+begin;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}';
+set local role authenticated;
+
+do $$
+begin
+  insert into public.prompts (dot_point_id, question, status, created_by)
+  values ('00000000-0000-0000-0000-0000000000c4', 'Sneaky pre-approved prompt',
+          'approved', '00000000-0000-0000-0000-0000000000a1');
+  raise exception 'TEST FAILED: student inserted content as already-approved';
+exception
+  when others then
+    if sqlerrm = 'TEST FAILED: student inserted content as already-approved' then
+      raise;
+    end if;
+    raise notice 'PASS: pre-approved insert blocked (%, %)', sqlstate, sqlerrm;
+end $$;
+rollback;
+
+-- ---- 8. A student cannot self-publish their own pending prompt (direct UPDATE)-
+-- This is the moderation-bypass hole the status-authority trigger closes: the
+-- update policy lets the owner change their row, but the trigger blocks moving
+-- `status` to 'approved' from a non-reviewer session.
+begin;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}';
+set local role authenticated;
+
+do $$
+begin
+  update public.prompts set status = 'approved'
+   where id = '00000000-0000-0000-0000-0000000000c5';
+  raise exception 'TEST FAILED: student self-published their own prompt';
+exception
+  when others then
+    if sqlerrm = 'TEST FAILED: student self-published their own prompt' then
+      raise;
+    end if;
+    raise notice 'PASS: self-publish via direct update blocked (%, %)', sqlstate, sqlerrm;
+end $$;
+rollback;
+
+-- ---- 9. POSITIVE CONTROL: a reviewer CAN approve a pending prompt ------------
+begin;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000a9","role":"authenticated"}';
+set local role authenticated;
+
+do $$
+declare v_status content_status;
+begin
+  perform public.approve_prompt('00000000-0000-0000-0000-0000000000c5');
+  select status into v_status from public.prompts
+   where id = '00000000-0000-0000-0000-0000000000c5';
+  if v_status is distinct from 'approved' then
+    raise exception 'TEST FAILED: reviewer approve did not publish (got %)', v_status;
+  end if;
+  raise notice 'PASS: reviewer approved a pending prompt via approve_prompt()';
 end $$;
 rollback;
 
