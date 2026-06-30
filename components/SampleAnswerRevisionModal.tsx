@@ -127,8 +127,9 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
             <button
               onClick={handleClose}
               disabled={isLoading}
+              aria-label="Close"
               className="
-                w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 
+                w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50
                 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200 
                 flex items-center justify-center group disabled:opacity-50 disabled:cursor-not-allowed
               "

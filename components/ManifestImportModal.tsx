@@ -252,6 +252,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
+                  aria-label="Clear search"
                   className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-white/10 text-slate-500 hover:text-white transition-colors"
                 >
                   <X className="h-4 w-4" />

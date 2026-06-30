@@ -258,6 +258,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
           <button
             onClick={handleClose}
             disabled={isLoading}
+            aria-label="Close"
             className="p-4 rounded-full hover:bg-white/10 light:hover:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-400 hover:text-white transition-colors"
           >
             <X className="w-8 h-8" />

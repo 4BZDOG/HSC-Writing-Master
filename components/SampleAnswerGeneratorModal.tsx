@@ -152,6 +152,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
             <button
               onClick={handleClose}
               disabled={isLoading}
+              aria-label="Close"
               className="p-2 rounded-xl hover:bg-white/10 light:hover:bg-slate-200 text-[rgb(var(--color-text-muted))] hover:text-white light:hover:text-slate-900 transition-colors disabled:opacity-50"
             >
               <X className="w-5 h-5" />

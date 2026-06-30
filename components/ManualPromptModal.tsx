@@ -159,6 +159,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
               </div>
               <button
                 onClick={handleClose}
+                aria-label="Close"
                 className="p-3 rounded-xl hover:bg-white/10 text-slate-500 hover:text-white transition-colors"
               >
                 <X className="w-6 h-6" />
