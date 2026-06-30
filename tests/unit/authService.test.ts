@@ -15,6 +15,39 @@ describe('Supabase gating (safety: defaults to mock auth)', () => {
   });
 });
 
+describe('local admin/guest test accounts (always available without Supabase)', () => {
+  it('logs in as the local admin account', async () => {
+    const user = await authService.login('admin', 'admin');
+    expect(user.role).toBe('admin');
+    expect(user.username).toBe('admin');
+  });
+
+  it('logs in as the local student account', async () => {
+    const user = await authService.login('user', 'user');
+    expect(user.role).toBe('user');
+  });
+
+  it('logs in as guest without any credentials', async () => {
+    const user = await authService.loginAsGuest();
+    expect(user.role).toBe('guest');
+    expect(user.username).toBe('guest');
+  });
+
+  it('refreshSession never invalidates a guest session', async () => {
+    const guest = await authService.loginAsGuest();
+    const refreshed = await authService.refreshSession(guest);
+    expect(refreshed).not.toBeNull();
+    expect(refreshed?.role).toBe('guest');
+  });
+
+  it('refreshSession keeps a local admin session valid (mock mode, not Supabase)', async () => {
+    const admin = await authService.login('admin', 'admin');
+    const refreshed = await authService.refreshSession(admin);
+    expect(refreshed).not.toBeNull();
+    expect(refreshed?.role).toBe('admin');
+  });
+});
+
 describe('mapSupabaseRole', () => {
   it('maps admin and teacher to the app admin role', () => {
     expect(mapSupabaseRole('admin')).toBe('admin');

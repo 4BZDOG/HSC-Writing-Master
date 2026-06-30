@@ -572,7 +572,15 @@ const App: React.FC = () => {
     if (storedUser) {
       loadUserProfile(storedUser.username).then((fullProfile) => {
         authService.refreshSession(fullProfile || storedUser).then((refreshedUser) => {
-          setUser(refreshedUser);
+          // null means a cached Supabase session is no longer valid
+          // (expired/revoked) — send the user back to the login screen
+          // instead of trusting stale local data.
+          if (!refreshedUser) {
+            authService.logout();
+            setUser(null);
+          } else {
+            setUser(refreshedUser);
+          }
           setIsLoadingAuth(false);
         });
       });

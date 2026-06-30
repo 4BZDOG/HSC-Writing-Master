@@ -579,7 +579,12 @@ const App: React.FC = () => {
     if (storedUser) {
       loadUserProfile(storedUser.username).then((fullProfile) => {
         authService.refreshSession(fullProfile || storedUser).then((refreshedUser) => {
-          setUser(refreshedUser);
+          if (!refreshedUser) {
+            authService.logout();
+            setUser(null);
+          } else {
+            setUser(refreshedUser);
+          }
           setIsLoadingAuth(false);
         });
       });

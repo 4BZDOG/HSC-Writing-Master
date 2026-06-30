@@ -43,6 +43,23 @@ enforced in the database, not just the UI, so the gate can't be bypassed.
 
 Roles (`app_role`): `admin` (you), `teacher` (trusted reviewers), `student`.
 
+### Why role changes can't be self-served
+
+Role lives in `public.profiles.role`, a server-side table — never in
+`auth.users.user_metadata` (which end users can edit themselves via the
+client SDK). On top of that, a `before update` trigger
+(`prevent_role_self_escalation`, see `schema.sql`) blocks any authenticated
+end-user session from changing its own `role` column, even though the
+`profiles_update_self` policy otherwise lets you update your own row (display
+name, preferences, stats). Only an admin — or the SQL editor / a
+service-role script, which run outside a user JWT — can change a role.
+Admins can also call `select public.set_user_role('<user-id>', 'teacher');`
+from the app instead of a raw `update`.
+
+Run `supabase/tests/rls_negative_tests.sql` in the SQL editor after applying
+`schema.sql` to verify this (and a few other authorisation boundaries) hold —
+see that file for what it checks and why.
+
 ## Setup steps
 
 ### 1. Create a Supabase project

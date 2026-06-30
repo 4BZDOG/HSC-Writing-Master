@@ -270,14 +270,51 @@ alter table public.sample_answers enable row level security;
 alter table public.responses      enable row level security;
 
 -- Profiles ---------------------------------------------------------------
+-- Full profile rows (incl. stats/preferences) are personal data — only the
+-- owner and reviewers (who need authorship context for moderation) can read
+-- them. Nothing in the app needs to browse other users' profiles wholesale.
 drop policy if exists profiles_read on public.profiles;
 create policy profiles_read on public.profiles
-  for select using (true);                       -- display names are public
+  for select using (id = auth.uid() or public.is_reviewer());
 
 drop policy if exists profiles_update_self on public.profiles;
 create policy profiles_update_self on public.profiles
   for update using (id = auth.uid() or public.is_admin())
   with check (id = auth.uid() or public.is_admin());
+
+-- The policy above is row-level only — Postgres RLS cannot stop a user from
+-- updating their OWN row's `role` column. Without this trigger, any signed-in
+-- user could run `update profiles set role = 'admin' where id = auth.uid()`
+-- via the client SDK and self-promote. The trigger closes that column-level
+-- gap: a real end-user session (auth.uid() is not null) may only change
+-- `role` if they are already an admin. `auth.uid()` is null for the SQL
+-- editor and the service-role key, so bootstrapping/admin scripts still work.
+create or replace function public.prevent_role_self_escalation()
+returns trigger language plpgsql as $$
+begin
+  if new.role is distinct from old.role
+     and auth.uid() is not null
+     and not public.is_admin() then
+    raise exception 'Only admins can change a profile''s role';
+  end if;
+  return new;
+end; $$;
+
+drop trigger if exists trg_profiles_block_role_escalation on public.profiles;
+create trigger trg_profiles_block_role_escalation
+  before update on public.profiles
+  for each row execute function public.prevent_role_self_escalation();
+
+-- Sanctioned path for an admin to change someone else's role from the app
+-- (re-checks the caller server-side rather than trusting a UI gate).
+create or replace function public.set_user_role(p_user_id uuid, p_role app_role)
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can change roles';
+  end if;
+  update public.profiles set role = p_role where id = p_user_id;
+end; $$;
 
 -- Generic "library content" policy applied to the curriculum tables.
 -- Visible if approved, OR you created it, OR you're a reviewer.
@@ -300,7 +337,7 @@ create policy courses_read on public.courses for select
   using (status = 'approved' or created_by = auth.uid() or public.is_reviewer());
 drop policy if exists courses_insert on public.courses;
 create policy courses_insert on public.courses for insert
-  with check (auth.uid() is not null);
+  with check (auth.uid() is not null and created_by = auth.uid());
 drop policy if exists courses_modify on public.courses;
 create policy courses_modify on public.courses for update
   using (created_by = auth.uid() or public.is_reviewer());
@@ -343,7 +380,7 @@ create policy answers_read on public.sample_answers for select
   using (status = 'approved' or created_by = auth.uid() or public.is_reviewer());
 drop policy if exists answers_insert on public.sample_answers;
 create policy answers_insert on public.sample_answers for insert
-  with check (auth.uid() is not null);
+  with check (auth.uid() is not null and created_by = auth.uid());
 drop policy if exists answers_modify on public.sample_answers;
 create policy answers_modify on public.sample_answers for update
   using (created_by = auth.uid() or public.is_reviewer());
