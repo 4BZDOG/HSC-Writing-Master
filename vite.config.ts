@@ -32,12 +32,15 @@ function geminiDevProxy(env: Record<string, string>): Plugin {
           return;
         }
 
-        const { runGeminiProxy } = await import('./api/_lib/generate');
+        const { runAiProxy } = await import('./api/_lib/providers');
         // Prefer .env files (loadEnv), but fall back to a real injected
         // process env var (e.g. AI Studio's API_KEY).
-        const apiKey =
-          env.GEMINI_API_KEY || env.API_KEY || process.env.GEMINI_API_KEY || process.env.API_KEY;
-        const result = await runGeminiProxy(apiKey, body);
+        const keys = {
+          gemini:
+            env.GEMINI_API_KEY || env.API_KEY || process.env.GEMINI_API_KEY || process.env.API_KEY,
+          anthropic: env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY,
+        };
+        const result = await runAiProxy(body, keys);
 
         res.statusCode = result.status;
         res.setHeader('Content-Type', 'application/json');

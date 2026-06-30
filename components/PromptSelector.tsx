@@ -457,6 +457,15 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               <div className={getNodeClasses(isTopicSelected, isSubTopicSelected, 'purple')} />
             </div>
             {!isTopicSelected && <StepHeader icon={Layers} label="Topic" colorKey="purple" />}
+            {topicOptions.length === 0 && (
+              <p className="mb-3 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
+                <Upload className="w-3.5 h-3.5" />
+                No topics yet.{' '}
+                {isAdmin
+                  ? 'Add one, use AI Suggest, or import a syllabus via the Data Vault.'
+                  : 'Ask an admin to add content for this course.'}
+              </p>
+            )}
             <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
               <div className="flex-1 w-full">
                 <Combobox
@@ -704,6 +713,13 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             </div>
             {!isPromptSelected && (
               <StepHeader icon={FileQuestion} label="Question" colorKey="green" />
+            )}
+            {promptOptions.length === 0 && (
+              <p className="mb-3 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
+                <FileQuestion className="w-3.5 h-3.5" />
+                No questions for this syllabus point yet.{' '}
+                {isAdmin ? 'Generate one or add it manually.' : 'Check back soon.'}
+              </p>
             )}
             <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
               <div className="flex-1 w-full">

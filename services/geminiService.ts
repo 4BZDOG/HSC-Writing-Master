@@ -31,6 +31,7 @@ import {
   getStructureGuide,
 } from '../data/commandTerms';
 import { generateId } from '../utils/idUtils';
+import { normalizeSyllabusStructure, type SyllabusPreviewNode } from '../utils/dataManagerUtils';
 import {
   EvaluationResponseSchema,
   GeneratedPromptResponseSchema,
@@ -49,10 +50,12 @@ export {
   ERROR_THRESHOLD,
 };
 
-const MODELS = {
-  BASIC: 'gemini-3-flash-preview',
-  REASONING: 'gemini-3-pro-preview',
-};
+import { resolveTarget } from './aiConfig';
+
+// Resolves a logical role to the active provider + model, spread onto each
+// request as `{ model, provider }`. The proxy routes by `provider`; defaults to
+// Gemini until an admin switches engines (see services/aiConfig.ts).
+const aiTarget = (role: 'basic' | 'reasoning') => resolveTarget(role);
 
 // ... (keep existing functions like refineManualPrompt, generateNewPrompt, generateSampleAnswer, parseOutcomesFromText, parseSyllabusStructure, fetchSyllabusContentFromUrl, generateNewTopic, generateDotPointsForSubTopic, generateSubTopicsAndDotPoints, generateRubricForPrompt, explainOutcomeInContext) ...
 
@@ -101,7 +104,7 @@ export const evaluateAnswer = async (
       : 'No benchmark samples provided. Rely strictly on the rubric.';
 
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
@@ -262,7 +265,7 @@ export const improveAnswer = async (
   targetBand: number
 ): Promise<string> => {
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
@@ -286,7 +289,7 @@ export const enrichPromptDetails = async (
   context: { name: string; outcomes: CourseOutcome[] }
 ): Promise<{ scenario: string; keywords: string[]; linkedOutcomes: string[] }> => {
   const request = {
-    model: MODELS.BASIC,
+    ...aiTarget('basic'),
     contents: {
       parts: [
         {
@@ -311,7 +314,7 @@ export const enrichPromptDetails = async (
 
 export const generateScenarioForPrompt = async (prompt: Prompt): Promise<string> => {
   const request = {
-    model: MODELS.BASIC,
+    ...aiTarget('basic'),
     contents: {
       parts: [
         {
@@ -329,7 +332,7 @@ export const generateKeywordsForPrompt = async (
   termInfo: CommandTermInfo
 ): Promise<string[]> => {
   const request = {
-    model: MODELS.BASIC,
+    ...aiTarget('basic'),
     contents: {
       parts: [
         {
@@ -352,7 +355,7 @@ export const suggestOutcomesForPrompt = async (
   marks: number
 ): Promise<string[]> => {
   const request = {
-    model: MODELS.BASIC,
+    ...aiTarget('basic'),
     contents: {
       parts: [
         {
@@ -376,7 +379,7 @@ export const reviseSampleAnswer = async (
   targetMark: number
 ): Promise<SampleAnswer> => {
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
@@ -412,7 +415,7 @@ export const performQualityCheck = async (
   type: 'question' | 'code'
 ): Promise<QualityCheckResult> => {
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
@@ -452,7 +455,7 @@ export const refineManualPrompt = async (
   const cacheKey = AICache.generatePromptKey(`manual-${Date.now()}`, rawInput + targetMarks);
 
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
@@ -555,7 +558,7 @@ export const generateNewPrompt = async (
   const verbList = verbs.map((v) => v.term).join(', ');
 
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
@@ -641,7 +644,7 @@ export const generateSampleAnswer = async (
   }
 
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
@@ -697,7 +700,7 @@ export const generateSampleAnswer = async (
 
 export const parseOutcomesFromText = async (text: string): Promise<CourseOutcome[]> => {
   const request = {
-    model: MODELS.BASIC,
+    ...aiTarget('basic'),
     contents: {
       parts: [
         {
@@ -730,30 +733,26 @@ export const parseOutcomesFromText = async (text: string): Promise<CourseOutcome
   return safeJsonParse<CourseOutcome[]>(response.text || '') || [];
 };
 
-export const parseSyllabusStructure = async (content: string): Promise<any> => {
+export const parseSyllabusStructure = async (content: string): Promise<SyllabusPreviewNode[]> => {
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
           text: `
-                    Analyze the following syllabus text and extract the structure.
-                    Identify Topics, Sub-Topics, and Dot Points.
-                    
-                    Text: "${content.slice(0, 30000)}" 
-                    
-                    Return JSON structure:
-                    [
-                        {
-                            "name": "Topic Name",
-                            "subTopics": [
-                                {
-                                    "name": "Sub-Topic Name",
-                                    "dotPoints": ["Dot Point 1", "Dot Point 2"]
-                                }
-                            ]
-                        }
-                    ]
+                    Analyse the following syllabus text and extract its structure as
+                    Topics → Sub-Topics → Dot Points. Use British/Australian English.
+
+                    Rules:
+                    - Preserve the wording of dot points; do not summarise or invent content.
+                    - If the text has no explicit sub-topics, group related dot points under a
+                      sensibly named sub-topic (or one called "General").
+                    - Return ONLY the JSON array described by the schema — no commentary.
+
+                    Text:
+                    """
+                    ${content.slice(0, 60000)}
+                    """
                 `,
         },
       ],
@@ -761,16 +760,41 @@ export const parseSyllabusStructure = async (content: string): Promise<any> => {
     config: {
       thinkingConfig: { thinkingBudget: 4096 },
       responseMimeType: 'application/json',
+      responseSchema: {
+        type: Type.ARRAY,
+        items: {
+          type: Type.OBJECT,
+          properties: {
+            name: { type: Type.STRING },
+            subTopics: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  name: { type: Type.STRING },
+                  dotPoints: { type: Type.ARRAY, items: { type: Type.STRING } },
+                },
+                required: ['name', 'dotPoints'],
+              },
+            },
+          },
+          required: ['name', 'subTopics'],
+        },
+      },
     },
   };
 
   const response = await generateContentWithRetry(request);
-  return safeJsonParse(response.text || '');
+  const parsed = safeJsonParse<unknown>(response.text || '');
+  // Defensively normalise: the model can drift from the schema (wrapping the
+  // array, renaming fields, topic-level dot points). This guarantees the import
+  // receives clean, crash-proof data rather than raw model output.
+  return normalizeSyllabusStructure(parsed);
 };
 
 export const fetchSyllabusContentFromUrl = async (url: string): Promise<string> => {
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
@@ -790,12 +814,71 @@ export const fetchSyllabusContentFromUrl = async (url: string): Promise<string> 
   return response.text || '';
 };
 
+/**
+ * Splits a block of syllabus text into its top-level topics/modules, returning
+ * each topic's heading and the verbatim text that belongs to it. Used to turn a
+ * single pasted/fetched blob into one editable tab per topic before structural
+ * analysis. Returns [] when it can't confidently split (caller keeps one tab).
+ */
+export const splitSyllabusIntoTopics = async (
+  text: string
+): Promise<{ name: string; content: string }[]> => {
+  const request = {
+    ...aiTarget('basic'),
+    contents: {
+      parts: [
+        {
+          text: `Split the following syllabus text into its top-level topics or modules.
+                       For each topic return its heading name and the FULL verbatim text that
+                       belongs to it — do NOT summarise, reword, or drop dot points.
+                       If the text is clearly a single topic, return one item.
+                       Use British/Australian English.
+
+                       Text:
+                       """
+                       ${text.slice(0, 60000)}
+                       """`,
+        },
+      ],
+    },
+    config: {
+      responseMimeType: 'application/json',
+      responseSchema: {
+        type: Type.ARRAY,
+        items: {
+          type: Type.OBJECT,
+          properties: {
+            name: { type: Type.STRING },
+            content: { type: Type.STRING },
+          },
+          required: ['name', 'content'],
+        },
+      },
+    },
+  };
+
+  const response = await generateContentWithRetry(request);
+  const parsed = safeJsonParse<unknown>(response.text || '');
+  if (!Array.isArray(parsed)) return [];
+
+  return parsed
+    .map((t) => {
+      const o = (t || {}) as Record<string, unknown>;
+      return {
+        name: typeof o.name === 'string' ? o.name.trim() : '',
+        content: typeof o.content === 'string' ? o.content.trim() : '',
+      };
+    })
+    .filter((t) => t.content.length > 0)
+    .map((t) => ({ name: t.name || 'Untitled Topic', content: t.content }));
+};
+
 export const generateNewTopic = async (
   courseName: string,
   existingTopics: string[]
 ): Promise<string> => {
   const request = {
-    model: MODELS.BASIC,
+    ...aiTarget('basic'),
     contents: {
       parts: [
         {
@@ -816,7 +899,7 @@ export const generateDotPointsForSubTopic = async (
   subTopicName: string
 ): Promise<string[]> => {
   const request = {
-    model: MODELS.BASIC,
+    ...aiTarget('basic'),
     contents: {
       parts: [
         {
@@ -847,7 +930,7 @@ export const generateSubTopicsAndDotPoints = async (
   content: string
 ): Promise<SubTopic[]> => {
   const request = {
-    model: MODELS.REASONING,
+    ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
@@ -864,13 +947,17 @@ export const generateSubTopicsAndDotPoints = async (
   };
 
   const response = await generateContentWithRetry(request);
-  const rawData = safeJsonParse<any[]>(response.text || '');
-  if (!rawData) return [];
+  const rawData = safeJsonParse<unknown>(response.text || '');
 
-  return rawData.map((st) => ({
+  // Reuse the same defensive normaliser as the full import so dot points that
+  // arrive as objects (or fields renamed/missing) don't corrupt the result.
+  const normalised = normalizeSyllabusStructure([{ name: topicName, subTopics: rawData }]);
+  const subTopics = normalised[0]?.subTopics || [];
+
+  return subTopics.map((st) => ({
     id: generateId('subTopic'),
     name: st.name,
-    dotPoints: (st.dotPoints || []).map((dp: string) => ({
+    dotPoints: st.dotPoints.map((dp) => ({
       id: generateId('dp'),
       description: dp,
       prompts: [],
@@ -884,7 +971,7 @@ export const generateRubricForPrompt = async (
 ): Promise<string> => {
   const termInfo = getCommandTermInfo(prompt.verb);
   const request = {
-    model: MODELS.BASIC,
+    ...aiTarget('basic'),
     contents: {
       parts: [
         {
@@ -911,7 +998,7 @@ export const explainOutcomeInContext = async (
   outcome: CourseOutcome
 ): Promise<string> => {
   const request = {
-    model: MODELS.BASIC,
+    ...aiTarget('basic'),
     contents: {
       parts: [
         {

@@ -1,14 +1,17 @@
-import { runGeminiProxy } from './_lib/generate';
+import { runAiProxy } from './_lib/providers';
 
 /**
  * Vercel serverless function: POST /api/gemini
  *
- * Proxies Gemini generateContent calls so the API key stays server-side.
- * The client (services/aiCore.ts) posts the full request object here; this
- * function injects the key from the environment and returns the response.
+ * Proxies AI generateContent calls so provider keys stay server-side. The
+ * client (services/aiCore.ts) posts the full request object here — tagged with
+ * a `provider` — and this function routes to the matching provider, injecting
+ * the key from the environment and returning the response. The path is named
+ * `/api/gemini` for backwards compatibility but serves every provider.
  *
- * Configure `GEMINI_API_KEY` in the Vercel project's Environment Variables.
- * (`API_KEY` is accepted as a fallback for the AI Studio convention.)
+ * Configure `GEMINI_API_KEY` (Gemini) and optionally `ANTHROPIC_API_KEY`
+ * (Claude) in the Vercel project's Environment Variables. (`API_KEY` is
+ * accepted as a Gemini fallback for the AI Studio convention.)
  */
 
 // Minimal structural types so we don't need the @vercel/node dependency.
@@ -27,7 +30,10 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     return;
   }
 
-  const apiKey = process.env.GEMINI_API_KEY || process.env.API_KEY;
-  const result = await runGeminiProxy(apiKey, req.body);
+  const keys = {
+    gemini: process.env.GEMINI_API_KEY || process.env.API_KEY,
+    anthropic: process.env.ANTHROPIC_API_KEY,
+  };
+  const result = await runAiProxy(req.body, keys);
   res.status(result.status).json(result.body);
 }
