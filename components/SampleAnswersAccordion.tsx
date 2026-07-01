@@ -27,6 +27,7 @@ import {
   ZoomOut,
   Lightbulb,
   RefreshCw,
+  UploadCloud,
 } from 'lucide-react';
 import { useAnswerMetrics } from '../hooks/useAnswerMetrics';
 import AnswerMetricsDisplay from './AnswerMetricsDisplay';
@@ -81,6 +82,7 @@ const CarouselAccordionItem: React.FC<{
   onRevise: (sample: SampleAnswer) => void;
   onEdit: (sample: SampleAnswer) => void;
   onDelete: (id: string) => void;
+  onContribute?: (sample: SampleAnswer) => void;
   canModify: boolean;
   fontSize: number;
 }> = React.memo(
@@ -93,9 +95,11 @@ const CarouselAccordionItem: React.FC<{
     onRevise,
     onEdit,
     onDelete,
+    onContribute,
     canModify,
     fontSize,
   }) => {
+    const [isContributing, setIsContributing] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isCopied, setIsCopied] = useState(false);
 
@@ -132,6 +136,13 @@ const CarouselAccordionItem: React.FC<{
       await navigator.clipboard.writeText(cleanMarkdown(currentSample.answer));
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 2000);
+    };
+
+    const handleContribute = () => {
+      if (!onContribute || isContributing) return;
+      setIsContributing(true);
+      // The handler runs its own AI screen + toast; resolve either shape.
+      Promise.resolve(onContribute(currentSample)).finally(() => setIsContributing(false));
     };
 
     return (
@@ -257,6 +268,17 @@ const CarouselAccordionItem: React.FC<{
                       {isCopied ? <Check className="w-3 h-3" /> : <FileText className="w-3 h-3" />}
                       {isCopied ? 'Copied' : 'Copy'}
                     </button>
+                    {onContribute && (
+                      <button
+                        onClick={handleContribute}
+                        disabled={isContributing}
+                        title="Submit this sample answer to the shared library for review"
+                        className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-500/30 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 transition-all flex items-center gap-1.5 disabled:opacity-50"
+                      >
+                        <UploadCloud className="w-3 h-3" />{' '}
+                        {isContributing ? 'Submitting…' : 'Submit'}
+                      </button>
+                    )}
                     {canModify && <div className="w-px h-4 bg-slate-300 dark:bg-white/10 mx-1" />}
                     {canModify && (
                       <>
@@ -345,6 +367,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   onUseSampleAnswer,
   onDeleteSampleAnswer,
   onUpdateSampleAnswer,
+  onContributeSampleAnswer,
   userRole,
   onRecalibrate,
 }) => {
@@ -490,6 +513,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
               onRevise={(sa) => setRevisionTarget(sa)}
               onEdit={(sa) => setEditorTarget(sa)}
               onDelete={onDeleteSampleAnswer}
+              onContribute={onContributeSampleAnswer}
               canModify={isAdmin}
               fontSize={fontSize}
             />
@@ -550,6 +574,7 @@ interface SampleAnswersAccordionProps {
   onUseSampleAnswer: (text: string) => void;
   onDeleteSampleAnswer: (id: string) => void;
   onUpdateSampleAnswer: (answer: SampleAnswer) => void;
+  onContributeSampleAnswer?: (answer: SampleAnswer) => void | Promise<void>;
   userRole: UserRole;
   onRecalibrate?: () => Promise<void>;
 }

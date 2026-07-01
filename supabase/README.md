@@ -56,8 +56,10 @@ Roles (`app_role`): `admin` (you), `teacher` (trusted reviewers), `student`.
 1. **Draft** — a user (or an AI-generated answer the user keeps) is saved via
    `savePromptContribution()` / `saveSampleAnswerContribution()` as `private`,
    owned by that user. RLS guarantees `created_by = auth.uid()`.
-2. **Submit** — `submitToLibrary()` flips the draft to `pending`, putting it in
-   the review queue (still only the author + reviewers can see it).
+2. **Submit** — the "Submit to shared library" button on a question, or the
+   Submit button on an individual sample answer, saves it as `pending` (also
+   attaching the AI pre-screen score); `submitToLibrary()` can also flip an
+   existing draft. Still only the author + reviewers can see pending items.
 3. **Moderate** — an admin opens the **Review Queue** (header shield icon) and
    approves/rejects each item; under the hood this calls `approvePrompt()` /
    `rejectPrompt()` (and the sample-answer equivalents → the server-side RPCs).
@@ -82,8 +84,9 @@ unscored.
 > icon in the header → `components/admin/ReviewQueueModal.tsx`) to approve or
 > reject pending contributions — sorted lowest-quality-first with a colour-coded
 > AI score badge (the submit step runs the Quality Check and stores the score).
-> Approved content then flows to everyone via the read path. Still to come: a
-> submit action on individual sample answers.
+> Both **questions** (button under the selected question) and individual
+> **sample answers** (Submit button on each answer in the accordion) can be
+> contributed. Approved content then flows to everyone via the read path.
 
 ### Why role changes can't be self-served
 
@@ -167,10 +170,22 @@ courses and worked samples as reusable examples:
 Seeded content is owned by the admin and inserted as `approved`, so it shows up
 immediately for everyone via the read path. Two natural follow-ups:
 
-- **Promote community content into the seed set:** once a user/AI contribution
-  is approved and proven useful, export it back into a `courseData/*.json` file
-  so it becomes part of the canonical, version-controlled bank (a small
-  `approved → JSON` exporter would automate this).
+- **Promote community content into the seed set:** once user/AI contributions
+  are approved and proven useful, run the exporter to pull the approved library
+  back into `courseData/*.json`, then move the files you want into the canonical,
+  version-controlled bank:
+
+  ```bash
+  export SUPABASE_URL="https://<project>.supabase.co"
+  export SUPABASE_SERVICE_ROLE_KEY="<service-role-key>"   # bypasses RLS
+  node supabase/export.mjs                                # writes courseData/exported/
+  ```
+
+  It writes one JSON file per approved course (plus a `manifest.fragment.json`)
+  in the app's native shape, keyed on the same `legacy_id`s — so re-seeding the
+  files you promote is a safe, duplicate-free upsert. `courseData/exported/` is
+  git-ignored; move the files you want to keep into `courseData/` and add them
+  to `manifest.json`.
 - Keep curated example courses in git so the example library is reviewable and
   reproducible across environments, independent of any one database.
 

@@ -444,6 +444,23 @@ export const performQualityCheck = async (
   return data;
 };
 
+/**
+ * Convenience wrapper used by the shared-library contribution flow: run the AI
+ * pre-screen and return just the score + summary, or `undefined` if screening
+ * is unavailable (so submission can proceed unscored rather than fail).
+ */
+export const screenContentQuality = async (
+  content: string,
+  type: 'question' | 'code' = 'question'
+): Promise<{ score: number; notes: string } | undefined> => {
+  try {
+    const result = await performQualityCheck(content, type);
+    return { score: result.score, notes: result.summary };
+  } catch {
+    return undefined;
+  }
+};
+
 // ... (keep existing exports) ...
 export const refineManualPrompt = async (
   rawInput: string,

@@ -8,6 +8,7 @@ import EvaluationProgressBar from './EvaluationProgressBar';
 import { Loader2, Settings, AlertTriangle, Sparkles } from 'lucide-react';
 import { getCommandTermInfo, BAND_METRICS, TIER_GROUPS } from '../data/commandTerms';
 import { getBandConfig, getKeywordVariants, escapeRegExp } from '../utils/renderUtils';
+import { isCurriculumRemote } from '../services/curriculumService';
 
 interface WorkspaceRightPanelProps {
   isFocusMode: boolean;
@@ -260,6 +261,11 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
         onDeleteSampleAnswer={(id) => syllabusHandlers.handleDeleteSampleAnswer(statePath, id)}
         onUpdateSampleAnswer={(answer) =>
           syllabusHandlers.handleUpdateSampleAnswer(statePath, answer)
+        }
+        onContributeSampleAnswer={
+          isCurriculumRemote() && userRole !== 'guest'
+            ? (answer) => syllabusHandlers.handleContributeSampleAnswer(statePath, answer)
+            : undefined
         }
         userRole={userRole}
         onRecalibrate={() => geminiHandlers.recalibrateSamples(currentPrompt)}

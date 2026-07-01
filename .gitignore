@@ -34,3 +34,6 @@ dist-test
 *.njsproj
 *.sln
 *.sw?
+
+# Supabase export output — review, then move desired files into courseData/
+courseData/exported/

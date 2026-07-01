@@ -29,6 +29,8 @@ import {
 } from '../utils/storageUtils';
 import { AICache } from '../services/aiCache';
 import { fetchRemoteCourses, isCurriculumRemote } from '../services/curriculumService';
+import { saveSampleAnswerContribution } from '../services/contributionService';
+import { screenContentQuality } from '../services/geminiService';
 import { generateId } from '../utils/idUtils';
 import {
   mergeCourseContents,
@@ -559,6 +561,28 @@ export const useSyllabusData = ({
     [updateCourses, showToast]
   );
 
+  // Submit a single sample answer to the shared Supabase library for review.
+  // AI-pre-screens it (score attached for reviewers), then saves as `pending`.
+  // No-op outside Supabase mode; the button that calls this is only shown then.
+  const handleContributeSampleAnswer = useCallback(
+    async (path: StatePath, answer: SampleAnswer) => {
+      if (!isCurriculumRemote() || !path.promptId) return;
+      try {
+        const quality = await screenContentQuality(answer.answer, 'code');
+        await saveSampleAnswerContribution(path.promptId, answer, 'pending', quality);
+        showToast(
+          quality
+            ? `Sample answer submitted for review (AI quality score ${quality.score}/100).`
+            : 'Sample answer submitted to the shared library for review.',
+          'success'
+        );
+      } catch (e) {
+        showToast(e instanceof Error ? e.message : 'Submission failed.', 'error');
+      }
+    },
+    [showToast]
+  );
+
   const handleMoveTopic = useCallback(
     (courseId: string, topicId: string, direction: 'up' | 'down') => {
       updateCourses((draft) => {
@@ -693,6 +717,7 @@ export const useSyllabusData = ({
     handleSampleAnswerGenerated,
     handleUpdateSampleAnswer,
     handleDeleteSampleAnswer,
+    handleContributeSampleAnswer,
     handleImportCourses,
     handleImportTopic,
     handleClearAllData,
