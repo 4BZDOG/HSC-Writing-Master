@@ -1,15 +1,15 @@
 /**
- * Read path: load the approved curriculum library from Supabase and map the
- * relational rows back into the app's nested `Course[]` shape (the inverse of
- * supabase/seed.mjs). The fetch filters to `status = 'approved'` so the shared
- * library shows only published content — pending/private drafts (which RLS
- * would still surface to their author or a reviewer) stay out of the tree and
- * live in the review queue instead.
+ * Read path: load the curriculum library from Supabase and map the relational
+ * rows back into the app's nested `Course[]` shape (the inverse of
+ * supabase/seed.mjs). The fetch shows published (`approved`) content plus the
+ * caller's OWN pending/private contributions — so an author's just-submitted
+ * work stays visible to them — while everyone else's drafts stay out of the
+ * tree and live in the review queue instead.
  *
  * IndexedDB stays the offline cache; useSyllabusData treats Supabase as the
  * source of truth when configured and falls back to the cache on failure.
  */
-import { supabase, isSupabaseConfigured } from './supabaseClient';
+import { supabase, isSupabaseConfigured, fetchAllRows } from './supabaseClient';
 import {
   Course,
   Topic,
@@ -227,43 +227,66 @@ export const isCurriculumRemote = (): boolean => isSupabaseConfigured && Boolean
 
 /**
  * Loads the full visible curriculum from Supabase and assembles it into
- * `Course[]`. Fetches each table in parallel and joins in memory (rather than
- * deep PostgREST embeds) so ordering and RLS filtering stay simple. Throws on
- * any query error so the caller can fall back to the local cache.
+ * `Course[]`. Fetches each table in parallel (paged past PostgREST's row cap)
+ * and joins in memory rather than using deep PostgREST embeds, so ordering and
+ * filtering stay simple. Throws on any query error so the caller can fall back
+ * to the local cache.
  */
 export const fetchRemoteCourses = async (): Promise<Course[]> => {
   if (!supabase) return [];
   const client = supabase;
 
-  // The shared library view is the APPROVED content only. RLS would also return
-  // a reviewer's view of every pending/private draft (and a user's own drafts),
-  // which would pollute the curriculum tree — so filter to approved explicitly
-  // on the status-bearing tables. Unpublished contributions live in the review
-  // queue, not the library.
+  // Visibility rule for the status-bearing tables: everything APPROVED, plus
+  // the caller's OWN rows — so a just-submitted (pending) contribution doesn't
+  // vanish from its author's tree while it waits for review. Signed-out
+  // callers get approved-only. Other users' drafts stay out of the tree (and
+  // RLS wouldn't serve them anyway); reviewers see the full drafts list in the
+  // review queue, not here. The uid comes from the Auth server, so it is safe
+  // to interpolate into the filter.
+  const { data: auth } = await client.auth.getUser();
+  const uid = auth.user?.id;
+  const visible = (table: string, columns: string) => {
+    const query = client.from(table).select(columns);
+    return uid
+      ? query.or(`status.eq.approved,created_by.eq.${uid}`)
+      : query.eq('status', 'approved');
+  };
+
+  const label = 'Curriculum load failed';
   const [courses, outcomes, topics, subTopics, dotPoints, prompts, sampleAnswers] =
     await Promise.all([
-      client.from('courses').select('id, legacy_id, name, subject').eq('status', 'approved'),
-      client.from('course_outcomes').select('course_id, code, description, position'),
-      client.from('topics').select('id, course_id, legacy_id, name, position, band_descriptors'),
-      client.from('sub_topics').select('id, topic_id, legacy_id, name, position'),
-      client.from('dot_points').select('id, sub_topic_id, legacy_id, description, position'),
-      client.from('prompts').select('*').eq('status', 'approved'),
-      client.from('sample_answers').select('*').eq('status', 'approved'),
+      fetchAllRows<CourseRow>(() => visible('courses', 'id, legacy_id, name, subject'), label),
+      fetchAllRows<OutcomeRow>(
+        () => client.from('course_outcomes').select('course_id, code, description, position'),
+        label
+      ),
+      fetchAllRows<TopicRow>(
+        () =>
+          client
+            .from('topics')
+            .select('id, course_id, legacy_id, name, position, band_descriptors'),
+        label
+      ),
+      fetchAllRows<SubTopicRow>(
+        () => client.from('sub_topics').select('id, topic_id, legacy_id, name, position'),
+        label
+      ),
+      fetchAllRows<DotPointRow>(
+        () =>
+          client.from('dot_points').select('id, sub_topic_id, legacy_id, description, position'),
+        label
+      ),
+      fetchAllRows<PromptRow>(() => visible('prompts', '*'), label),
+      fetchAllRows<SampleAnswerRow>(() => visible('sample_answers', '*'), label),
     ]);
 
-  const results = [courses, outcomes, topics, subTopics, dotPoints, prompts, sampleAnswers];
-  const failed = results.find((r) => r.error);
-  if (failed?.error) {
-    throw new Error(`Curriculum load failed: ${failed.error.message}`);
-  }
-
   return assembleCourses({
-    courses: (courses.data ?? []) as CourseRow[],
-    outcomes: (outcomes.data ?? []) as OutcomeRow[],
-    topics: (topics.data ?? []) as TopicRow[],
-    subTopics: (subTopics.data ?? []) as SubTopicRow[],
-    dotPoints: (dotPoints.data ?? []) as DotPointRow[],
-    prompts: (prompts.data ?? []) as PromptRow[],
-    sampleAnswers: (sampleAnswers.data ?? []) as SampleAnswerRow[],
+    courses,
+    outcomes,
+    topics,
+    subTopics,
+    dotPoints,
+    prompts,
+    sampleAnswers,
   });
 };

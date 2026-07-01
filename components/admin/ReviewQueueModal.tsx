@@ -29,7 +29,7 @@ const QualityBadge: React.FC<{ score: number | null }> = ({ score }) => {
   return (
     <span
       className={`px-1.5 py-0.5 rounded-md border text-[10px] font-bold ${tone}`}
-      title="AI quality pre-screen score"
+      title="AI quality pre-screen score (client-reported — advisory only, review the content itself)"
     >
       AI {score}/100
     </span>

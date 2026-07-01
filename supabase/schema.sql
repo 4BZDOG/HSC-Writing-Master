@@ -338,6 +338,18 @@ end; $$;
 create or replace function public.enforce_content_status_authority()
 returns trigger language plpgsql as $$
 begin
+  -- Demote-on-edit: when a non-reviewer end-user session touches an APPROVED
+  -- row (the owner fixing their published content — RLS already limits
+  -- non-reviewers to their own rows), pull it back into the review queue.
+  -- Without this, an author could get benign content approved and then edit
+  -- its text while it stays published, bypassing review entirely.
+  if tg_op = 'UPDATE'
+     and old.status = 'approved'
+     and auth.uid() is not null
+     and not public.is_reviewer() then
+    new.status := 'pending';
+  end if;
+
   if new.status in ('approved', 'rejected', 'archived')
      and (tg_op = 'INSERT' or new.status is distinct from old.status)
      and auth.uid() is not null
@@ -370,6 +382,17 @@ alter table public.prompts        add column if not exists quality_score int;
 alter table public.prompts        add column if not exists quality_notes text;
 alter table public.sample_answers add column if not exists quality_score int;
 alter table public.sample_answers add column if not exists quality_notes text;
+
+-- The client write path upserts contributions keyed on (legacy_id, created_by)
+-- with a select-then-insert, which can race into duplicates. Back it with a
+-- partial unique index so the database guarantees what the client assumes.
+-- (Seeded rows with a null created_by are exempt: NULLs are distinct.)
+create unique index if not exists uniq_prompts_legacy_owner
+  on public.prompts (legacy_id, created_by)
+  where legacy_id is not null and created_by is not null;
+create unique index if not exists uniq_answers_legacy_owner
+  on public.sample_answers (legacy_id, created_by)
+  where legacy_id is not null and created_by is not null;
 
 -- Generic "library content" policy applied to the curriculum tables.
 -- Visible if approved, OR you created it, OR you're a reviewer.

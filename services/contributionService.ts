@@ -14,7 +14,7 @@
  * Publishing goes exclusively through the reviewer-gated RPCs below. This
  * client code is a convenience layer, NOT the security boundary.
  */
-import { supabase } from './supabaseClient';
+import { supabase, fetchAllRows } from './supabaseClient';
 import { Prompt, SampleAnswer } from '../types';
 
 export type ContributionStatus = 'private' | 'pending';
@@ -140,6 +140,12 @@ const currentUserId = async (): Promise<string> => {
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
+// PostgREST parses `.or()` filter values positionally, so a value containing
+// `,` or parentheses would corrupt the filter. Double-quote it (escaping
+// embedded quotes/backslashes) per PostgREST's quoting rules.
+const quoteFilterValue = (value: string): string =>
+  `"${value.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
+
 /**
  * Resolve a table row's uuid from an app-facing id, which may be either the
  * original `legacy_id` (seeded content, e.g. "prompt-ec-01") or the uuid
@@ -152,9 +158,10 @@ const resolveRowId = async (
   table: 'dot_points' | 'prompts',
   appId: string
 ): Promise<string | null> => {
+  const quoted = quoteFilterValue(appId);
   const filter = UUID_RE.test(appId)
-    ? `legacy_id.eq.${appId},id.eq.${appId}`
-    : `legacy_id.eq.${appId}`;
+    ? `legacy_id.eq.${quoted},id.eq.${appId}`
+    : `legacy_id.eq.${quoted}`;
   const { data, error } = await requireClient().from(table).select('id').or(filter).maybeSingle();
   if (error) throw new Error(`Could not look up ${table}: ${error.message}`);
   return (data as { id: string } | null)?.id ?? null;
@@ -307,21 +314,25 @@ export const toQueueItems = (
  */
 export const fetchModerationQueue = async (): Promise<ModerationItem[]> => {
   const client = requireClient();
+  const label = 'Failed to load review queue';
   const [prompts, answers] = await Promise.all([
-    client
-      .from('prompts')
-      .select('id, question, created_at, quality_score')
-      .eq('status', 'pending'),
-    client
-      .from('sample_answers')
-      .select('id, answer, created_at, quality_score')
-      .eq('status', 'pending'),
+    fetchAllRows<PendingPromptRow>(
+      () =>
+        client
+          .from('prompts')
+          .select('id, question, created_at, quality_score')
+          .eq('status', 'pending'),
+      label
+    ),
+    fetchAllRows<PendingAnswerRow>(
+      () =>
+        client
+          .from('sample_answers')
+          .select('id, answer, created_at, quality_score')
+          .eq('status', 'pending'),
+      label
+    ),
   ]);
-  if (prompts.error) throw new Error(`Failed to load review queue: ${prompts.error.message}`);
-  if (answers.error) throw new Error(`Failed to load review queue: ${answers.error.message}`);
 
-  return toQueueItems(
-    (prompts.data ?? []) as PendingPromptRow[],
-    (answers.data ?? []) as PendingAnswerRow[]
-  );
+  return toQueueItems(prompts, answers);
 };

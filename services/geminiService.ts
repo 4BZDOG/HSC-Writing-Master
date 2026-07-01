@@ -412,7 +412,7 @@ export const reviseSampleAnswer = async (
 
 export const performQualityCheck = async (
   content: string,
-  type: 'question' | 'code'
+  type: 'question' | 'code' | 'sample answer'
 ): Promise<QualityCheckResult> => {
   const request = {
     ...aiTarget('reasoning'),
@@ -451,7 +451,7 @@ export const performQualityCheck = async (
  */
 export const screenContentQuality = async (
   content: string,
-  type: 'question' | 'code' = 'question'
+  type: 'question' | 'code' | 'sample answer' = 'question'
 ): Promise<{ score: number; notes: string } | undefined> => {
   try {
     const result = await performQualityCheck(content, type);

@@ -51,12 +51,21 @@ const slugify = (s) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '') || 'course';
 
+// Page past PostgREST's response cap (Supabase "Max rows", 1000 by default) —
+// without this a grown library would be silently truncated. Ordered by id so
+// pages are stable.
+const PAGE_SIZE = 1000;
 const fetchAll = async (table, columns, filterApproved) => {
-  let query = db.from(table).select(columns);
-  if (filterApproved) query = query.eq('status', 'approved');
-  const { data, error } = await query;
-  if (error) throw new Error(`${table} fetch failed: ${error.message}`);
-  return data ?? [];
+  const rows = [];
+  for (let from = 0; ; from += PAGE_SIZE) {
+    let query = db.from(table).select(columns);
+    if (filterApproved) query = query.eq('status', 'approved');
+    const { data, error } = await query.order('id').range(from, from + PAGE_SIZE - 1);
+    if (error) throw new Error(`${table} fetch failed: ${error.message}`);
+    rows.push(...(data ?? []));
+    if ((data ?? []).length < PAGE_SIZE) break;
+  }
+  return rows;
 };
 
 const groupBy = (rows, key) => {

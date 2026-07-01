@@ -1,4 +1,4 @@
-import { useImmer } from 'use-immer';
+import { useImmer, type Updater } from 'use-immer';
 import { useCallback, useEffect, useState, useRef } from 'react';
 import { Draft } from 'immer';
 import {
@@ -41,6 +41,20 @@ import {
 } from '../utils/dataManagerUtils';
 
 type DiscoveredDocType = 'course' | 'topic';
+
+/**
+ * The slice of this hook's handlers that the Workspace component tree
+ * consumes. Typed (rather than `any`) so App's handler bag is structurally
+ * checked at the JSX callsite — a missing member is a compile error instead of
+ * a runtime crash when the button is clicked.
+ */
+export interface WorkspaceSyllabusHandlers {
+  updateCourses: Updater<Course[]>;
+  handleSampleAnswerGenerated: (path: StatePath, answer: SampleAnswer) => void;
+  handleUpdateSampleAnswer: (path: StatePath, answer: SampleAnswer) => void;
+  handleDeleteSampleAnswer: (path: StatePath, id: string) => void;
+  handleContributeSampleAnswer: (path: StatePath, answer: SampleAnswer) => void | Promise<void>;
+}
 
 export interface DiscoveredDoc {
   id: string;
@@ -568,7 +582,7 @@ export const useSyllabusData = ({
     async (path: StatePath, answer: SampleAnswer) => {
       if (!isCurriculumRemote() || !path.promptId) return;
       try {
-        const quality = await screenContentQuality(answer.answer, 'question');
+        const quality = await screenContentQuality(answer.answer, 'sample answer');
         await saveSampleAnswerContribution(path.promptId, answer, 'pending', quality);
         showToast(
           quality
