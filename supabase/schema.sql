@@ -69,7 +69,10 @@ create table if not exists public.courses (
   legacy_id   text,
   name        text not null,
   subject     text,
-  status      content_status not null default 'approved',
+  -- New content starts private; only a reviewer can publish it (see the
+  -- status-authority trigger in section 9). The seed script sets 'approved'
+  -- explicitly via the service role, which bypasses that trigger.
+  status      content_status not null default 'private',
   created_by  uuid references public.profiles (id) on delete set null,
   created_at  timestamptz not null default now(),
   updated_at  timestamptz not null default now()
@@ -132,8 +135,12 @@ create table if not exists public.prompts (
   is_past_hsc              boolean not null default false,
   hsc_year                 int,
   hsc_question_number      text,
-  -- moderation + provenance
-  status                   content_status not null default 'approved',
+  -- moderation + provenance (new content starts private — see section 9)
+  status                   content_status not null default 'private',
+  -- AI pre-screen score (0-100) + summary, attached at submission time so
+  -- reviewers can triage the queue by quality.
+  quality_score            int,
+  quality_notes            text,
   created_by               uuid references public.profiles (id) on delete set null,
   reviewed_by              uuid references public.profiles (id) on delete set null,
   reviewed_at              timestamptz,
@@ -152,7 +159,9 @@ create table if not exists public.sample_answers (
   source      answer_source not null default 'AI',
   feedback    text,
   quick_tip   text,
-  status      content_status not null default 'approved',
+  status      content_status not null default 'private',
+  quality_score int,
+  quality_notes text,
   created_by  uuid references public.profiles (id) on delete set null,
   created_at  timestamptz not null default now()
 );
@@ -270,14 +279,97 @@ alter table public.sample_answers enable row level security;
 alter table public.responses      enable row level security;
 
 -- Profiles ---------------------------------------------------------------
+-- Full profile rows (incl. stats/preferences) are personal data — only the
+-- owner and reviewers (who need authorship context for moderation) can read
+-- them. Nothing in the app needs to browse other users' profiles wholesale.
 drop policy if exists profiles_read on public.profiles;
 create policy profiles_read on public.profiles
-  for select using (true);                       -- display names are public
+  for select using (id = auth.uid() or public.is_reviewer());
 
 drop policy if exists profiles_update_self on public.profiles;
 create policy profiles_update_self on public.profiles
   for update using (id = auth.uid() or public.is_admin())
   with check (id = auth.uid() or public.is_admin());
+
+-- The policy above is row-level only — Postgres RLS cannot stop a user from
+-- updating their OWN row's `role` column. Without this trigger, any signed-in
+-- user could run `update profiles set role = 'admin' where id = auth.uid()`
+-- via the client SDK and self-promote. The trigger closes that column-level
+-- gap: a real end-user session (auth.uid() is not null) may only change
+-- `role` if they are already an admin. `auth.uid()` is null for the SQL
+-- editor and the service-role key, so bootstrapping/admin scripts still work.
+create or replace function public.prevent_role_self_escalation()
+returns trigger language plpgsql as $$
+begin
+  if new.role is distinct from old.role
+     and auth.uid() is not null
+     and not public.is_admin() then
+    raise exception 'Only admins can change a profile''s role';
+  end if;
+  return new;
+end; $$;
+
+drop trigger if exists trg_profiles_block_role_escalation on public.profiles;
+create trigger trg_profiles_block_role_escalation
+  before update on public.profiles
+  for each row execute function public.prevent_role_self_escalation();
+
+-- Sanctioned path for an admin to change someone else's role from the app
+-- (re-checks the caller server-side rather than trusting a UI gate).
+create or replace function public.set_user_role(p_user_id uuid, p_role app_role)
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can change roles';
+  end if;
+  update public.profiles set role = p_role where id = p_user_id;
+end; $$;
+
+-- The library-content update policies (below) let an owner update their own
+-- row, which is row-level only — it cannot stop them setting the `status`
+-- *column* to 'approved'. Without this trigger a normal user could publish
+-- their own content (or insert it pre-approved, since that used to be the
+-- default), bypassing the reviewer gate entirely. This closes that column-level
+-- gap on every status-bearing table: a real end-user session (auth.uid() not
+-- null) may only move content to/within the un-published states
+-- (private/pending). Reaching approved/rejected/archived requires a reviewer.
+-- auth.uid() is null for the SQL editor and the service-role seed, so those
+-- still publish freely.
+create or replace function public.enforce_content_status_authority()
+returns trigger language plpgsql as $$
+begin
+  if new.status in ('approved', 'rejected', 'archived')
+     and (tg_op = 'INSERT' or new.status is distinct from old.status)
+     and auth.uid() is not null
+     and not public.is_reviewer() then
+    raise exception 'Only admins/teachers can publish, reject, or archive content';
+  end if;
+  return new;
+end; $$;
+
+do $$
+declare t text;
+begin
+  foreach t in array array['courses','prompts','sample_answers']
+  loop
+    execute format('drop trigger if exists trg_%1$s_status_authority on public.%1$s;', t);
+    execute format(
+      'create trigger trg_%1$s_status_authority
+         before insert or update on public.%1$s
+         for each row execute function public.enforce_content_status_authority();', t);
+  end loop;
+end $$;
+
+-- Make the safer default idempotent for databases created before this change.
+alter table public.courses        alter column status set default 'private';
+alter table public.prompts        alter column status set default 'private';
+alter table public.sample_answers alter column status set default 'private';
+
+-- AI pre-screen columns (idempotent for databases created before this change).
+alter table public.prompts        add column if not exists quality_score int;
+alter table public.prompts        add column if not exists quality_notes text;
+alter table public.sample_answers add column if not exists quality_score int;
+alter table public.sample_answers add column if not exists quality_notes text;
 
 -- Generic "library content" policy applied to the curriculum tables.
 -- Visible if approved, OR you created it, OR you're a reviewer.
@@ -300,7 +392,7 @@ create policy courses_read on public.courses for select
   using (status = 'approved' or created_by = auth.uid() or public.is_reviewer());
 drop policy if exists courses_insert on public.courses;
 create policy courses_insert on public.courses for insert
-  with check (auth.uid() is not null);
+  with check (auth.uid() is not null and created_by = auth.uid());
 drop policy if exists courses_modify on public.courses;
 create policy courses_modify on public.courses for update
   using (created_by = auth.uid() or public.is_reviewer());
@@ -343,7 +435,7 @@ create policy answers_read on public.sample_answers for select
   using (status = 'approved' or created_by = auth.uid() or public.is_reviewer());
 drop policy if exists answers_insert on public.sample_answers;
 create policy answers_insert on public.sample_answers for insert
-  with check (auth.uid() is not null);
+  with check (auth.uid() is not null and created_by = auth.uid());
 drop policy if exists answers_modify on public.sample_answers;
 create policy answers_modify on public.sample_answers for update
   using (created_by = auth.uid() or public.is_reviewer());
@@ -360,9 +452,10 @@ create policy responses_write on public.responses for all
   using (user_id = auth.uid()) with check (user_id = auth.uid());
 
 -- ----------------------------------------------------------------------------
--- 10. Moderation RPCs — the ONLY sanctioned way to publish/reject content.
---     Restricting publish to a SECURITY DEFINER function (rather than a raw
---     UPDATE on status) keeps the approval gate enforceable server-side.
+-- 10. Moderation RPCs — the sanctioned way for reviewers to publish/reject.
+--     These set reviewer metadata and re-check the caller; the
+--     enforce_content_status_authority trigger (section 9) is the backstop that
+--     blocks any *other* path to a published status for non-reviewers.
 -- ----------------------------------------------------------------------------
 create or replace function public.approve_prompt(p_id uuid)
 returns void language plpgsql security definer set search_path = public as $$
@@ -384,6 +477,25 @@ begin
   update public.prompts
      set status = 'rejected', reviewed_by = auth.uid(), reviewed_at = now()
    where id = p_id;
+end; $$;
+
+-- Sample answers (no reviewed_by/reviewed_at columns, so status only).
+create or replace function public.approve_sample_answer(p_id uuid)
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can approve content';
+  end if;
+  update public.sample_answers set status = 'approved' where id = p_id;
+end; $$;
+
+create or replace function public.reject_sample_answer(p_id uuid)
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can reject content';
+  end if;
+  update public.sample_answers set status = 'rejected' where id = p_id;
 end; $$;
 
 -- =============================================================================

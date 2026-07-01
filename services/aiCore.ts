@@ -1,5 +1,6 @@
 import { GenerateContentResponse } from '@google/genai';
 import { safeSetItem, safeGetItem, STORAGE_KEYS } from '../utils/storageUtils';
+import { supabase, isSupabaseConfigured } from './supabaseClient';
 
 // All Gemini calls go through a server-side proxy so the API key never
 // reaches the browser bundle. See api/gemini.ts and api/_lib/generate.ts.
@@ -448,6 +449,24 @@ export const generateContentWithRetry = async (request: any): Promise<GenerateCo
   }
 };
 
+// Builds the request headers, attaching the caller's Supabase access token
+// when a session exists so the server-side proxy can authenticate the request.
+// In mock mode (Supabase unconfigured) or for guests with no session, only the
+// content-type header is sent and the proxy's auth gate is correspondingly off.
+const buildProxyHeaders = async (): Promise<Record<string, string>> => {
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const { data } = await supabase.auth.getSession();
+      const token = data.session?.access_token;
+      if (token) headers.Authorization = `Bearer ${token}`;
+    } catch {
+      /* no session available — send unauthenticated and let the server decide */
+    }
+  }
+  return headers;
+};
+
 // Posts a single request to the server-side proxy. Errors are shaped with a
 // `.status` field so the existing ApiGuard / retry logic can classify them
 // exactly as it did when the SDK threw status-bearing errors directly.
@@ -456,7 +475,7 @@ const callProxy = async (request: any): Promise<GenerateContentResponse> => {
   try {
     res = await fetch(GEMINI_PROXY_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: await buildProxyHeaders(),
       body: JSON.stringify(request),
     });
   } catch {

@@ -28,6 +28,9 @@ import {
   deleteFromLibrary,
 } from '../utils/storageUtils';
 import { AICache } from '../services/aiCache';
+import { fetchRemoteCourses, isCurriculumRemote } from '../services/curriculumService';
+import { saveSampleAnswerContribution } from '../services/contributionService';
+import { screenContentQuality } from '../services/geminiService';
 import { generateId } from '../utils/idUtils';
 import {
   mergeCourseContents,
@@ -161,6 +164,29 @@ export const useSyllabusData = ({
       if (initAttempted.current) return;
       initAttempted.current = true;
       setIsDiscoveryInProgress(true);
+
+      // Remote-first: when Supabase is configured, the approved library there is
+      // the source of truth. Cache it to IndexedDB so offline still works, and
+      // fall through to the local cache / seed discovery on any failure.
+      if (isCurriculumRemote()) {
+        try {
+          const remoteCourses = await fetchRemoteCourses();
+          if (remoteCourses.length > 0) {
+            updateCourses(() => remoteCourses);
+            setStorageStatus('Supabase');
+            saveCoursesToDB(remoteCourses).catch((err) =>
+              console.warn('[Curriculum] Failed to cache remote courses locally:', err)
+            );
+            setIsDiscoveryInProgress(false);
+            setIsReady(true);
+            fetchLibrary().then(setLibraryItems).catch(console.error);
+            return;
+          }
+          // Configured but empty (not seeded yet) — fall back to local seeds.
+        } catch (err) {
+          console.warn('[Curriculum] Supabase load failed; using local cache.', err);
+        }
+      }
 
       const loadResult = await loadCoursesFromDB();
 
@@ -535,6 +561,28 @@ export const useSyllabusData = ({
     [updateCourses, showToast]
   );
 
+  // Submit a single sample answer to the shared Supabase library for review.
+  // AI-pre-screens it (score attached for reviewers), then saves as `pending`.
+  // No-op outside Supabase mode; the button that calls this is only shown then.
+  const handleContributeSampleAnswer = useCallback(
+    async (path: StatePath, answer: SampleAnswer) => {
+      if (!isCurriculumRemote() || !path.promptId) return;
+      try {
+        const quality = await screenContentQuality(answer.answer, 'question');
+        await saveSampleAnswerContribution(path.promptId, answer, 'pending', quality);
+        showToast(
+          quality
+            ? `Sample answer submitted for review (AI quality score ${quality.score}/100).`
+            : 'Sample answer submitted to the shared library for review.',
+          'success'
+        );
+      } catch (e) {
+        showToast(e instanceof Error ? e.message : 'Submission failed.', 'error');
+      }
+    },
+    [showToast]
+  );
+
   const handleMoveTopic = useCallback(
     (courseId: string, topicId: string, direction: 'up' | 'down') => {
       updateCourses((draft) => {
@@ -669,6 +717,7 @@ export const useSyllabusData = ({
     handleSampleAnswerGenerated,
     handleUpdateSampleAnswer,
     handleDeleteSampleAnswer,
+    handleContributeSampleAnswer,
     handleImportCourses,
     handleImportTopic,
     handleClearAllData,

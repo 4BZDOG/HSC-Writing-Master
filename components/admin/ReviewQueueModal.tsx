@@ -1,0 +1,200 @@
+import React, { useState, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
+import { X, ShieldCheck, Check, Ban, RefreshCw, Inbox, FileQuestion, FileText } from 'lucide-react';
+import {
+  fetchModerationQueue,
+  approvePrompt,
+  rejectPrompt,
+  approveSampleAnswer,
+  rejectSampleAnswer,
+  type ModerationItem,
+} from '../../services/contributionService';
+import LoadingIndicator from '../LoadingIndicator';
+
+interface ReviewQueueModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  showToast: (message: string, type: 'success' | 'error' | 'info') => void;
+}
+
+/** AI pre-screen score badge; colour-coded so reviewers can triage at a glance. */
+const QualityBadge: React.FC<{ score: number | null }> = ({ score }) => {
+  if (score == null) return null;
+  const tone =
+    score >= 75
+      ? 'bg-emerald-500/15 text-emerald-500 border-emerald-500/30'
+      : score >= 50
+        ? 'bg-amber-500/15 text-amber-500 border-amber-500/30'
+        : 'bg-red-500/15 text-red-400 border-red-500/30';
+  return (
+    <span
+      className={`px-1.5 py-0.5 rounded-md border text-[10px] font-bold ${tone}`}
+      title="AI quality pre-screen score"
+    >
+      AI {score}/100
+    </span>
+  );
+};
+
+/**
+ * Admin/teacher review queue for the shared-library contribution loop. Lists
+ * `pending` prompts and sample answers (RLS returns these only to reviewers and
+ * the author) and approves/rejects them through the server-side RPCs. The
+ * server re-checks the caller in every RPC, so this UI is a convenience, not
+ * the security boundary.
+ */
+const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, showToast }) => {
+  const [items, setItems] = useState<ModerationItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [busyId, setBusyId] = useState<string | null>(null);
+
+  const load = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      setItems(await fetchModerationQueue());
+    } catch (e) {
+      showToast(e instanceof Error ? e.message : 'Failed to load the review queue.', 'error');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [showToast]);
+
+  useEffect(() => {
+    if (isOpen) load();
+  }, [isOpen, load]);
+
+  const handleDecision = async (item: ModerationItem, decision: 'approve' | 'reject') => {
+    setBusyId(item.id);
+    try {
+      if (item.kind === 'prompt') {
+        await (decision === 'approve' ? approvePrompt(item.id) : rejectPrompt(item.id));
+      } else {
+        await (decision === 'approve' ? approveSampleAnswer(item.id) : rejectSampleAnswer(item.id));
+      }
+      // Drop the resolved item locally so the list stays responsive.
+      setItems((prev) => prev.filter((i) => i.id !== item.id));
+      showToast(
+        decision === 'approve' ? 'Published to the shared library.' : 'Contribution rejected.',
+        decision === 'approve' ? 'success' : 'info'
+      );
+    } catch (e) {
+      showToast(e instanceof Error ? e.message : 'Action failed.', 'error');
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <div
+        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 shadow-lg flex items-center justify-center">
+              <ShieldCheck className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
+                Review Queue
+              </h2>
+              <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                Approve or reject contributions to the shared library
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={load}
+              disabled={isLoading}
+              aria-label="Refresh"
+              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
+            >
+              <RefreshCw
+                className={`w-4 h-4 text-[rgb(var(--color-text-muted))] ${isLoading ? 'animate-spin' : ''}`}
+              />
+            </button>
+            <button
+              onClick={onClose}
+              aria-label="Close"
+              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
+            >
+              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
+            </button>
+          </div>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
+          {isLoading ? (
+            <div className="h-40 flex items-center justify-center">
+              <LoadingIndicator messages={['Loading review queue…']} duration={2} band={3} />
+            </div>
+          ) : items.length === 0 ? (
+            <div className="text-center py-16">
+              <Inbox className="w-12 h-12 text-[rgb(var(--color-text-muted))] light:text-slate-300 mx-auto mb-3" />
+              <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-medium">
+                Nothing awaiting review.
+              </p>
+              <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                Submitted prompts and sample answers will appear here.
+              </p>
+            </div>
+          ) : (
+            <ul className="space-y-3">
+              {items.map((item) => (
+                <li
+                  key={`${item.kind}:${item.id}`}
+                  className="flex items-start gap-4 p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200"
+                >
+                  <div className="mt-0.5 text-[rgb(var(--color-text-muted))]">
+                    {item.kind === 'prompt' ? (
+                      <FileQuestion className="w-5 h-5" />
+                    ) : (
+                      <FileText className="w-5 h-5" />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))]">
+                        {item.kind === 'prompt' ? 'Question' : 'Sample Answer'}
+                      </span>
+                      <QualityBadge score={item.qualityScore} />
+                    </div>
+                    <p className="text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 break-words">
+                      {item.title}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <button
+                      onClick={() => handleDecision(item, 'approve')}
+                      disabled={busyId === item.id}
+                      className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all text-xs font-bold disabled:opacity-50"
+                    >
+                      <Check className="w-3.5 h-3.5" /> Approve
+                    </button>
+                    <button
+                      onClick={() => handleDecision(item, 'reject')}
+                      disabled={busyId === item.id}
+                      className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-500/10 text-red-400 border border-red-500/30 hover:bg-red-500/20 transition-all text-xs font-bold disabled:opacity-50"
+                    >
+                      <Ban className="w-3.5 h-3.5" /> Reject
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    </div>,
+    document.body
+  );
+};
+
+export default ReviewQueueModal;

@@ -147,6 +147,15 @@ const mockLogin = async (username: string, password: string): Promise<User> => {
 // Supabase auth (used when configured)
 // ----------------------------------------------------------------------------
 
+const fetchProfile = async (userId: string): Promise<ProfileRow | null> => {
+  const { data: profile } = await supabase!
+    .from('profiles')
+    .select('username, display_name, role, preferences, stats')
+    .eq('id', userId)
+    .maybeSingle();
+  return profile as ProfileRow | null;
+};
+
 const supabaseLogin = async (email: string, password: string): Promise<User> => {
   const client = supabase!;
   const { data, error } = await client.auth.signInWithPassword({ email, password });
@@ -154,16 +163,41 @@ const supabaseLogin = async (email: string, password: string): Promise<User> => 
     throw new Error('Invalid username or password');
   }
 
-  const { data: profile } = await client
-    .from('profiles')
-    .select('username, display_name, role, preferences, stats')
-    .eq('id', data.user.id)
-    .single();
-
-  const user = mapProfileToUser(data.user.email ?? email, profile as ProfileRow | null);
+  const profile = await fetchProfile(data.user.id);
+  const user = mapProfileToUser(data.user.email ?? email, profile);
   user.stats = calculateStreak(user.stats);
 
   // Persist the refreshed streak/preferences back to the profile (best-effort).
+  await client
+    .from('profiles')
+    .update({ stats: user.stats, preferences: user.preferences })
+    .eq('id', data.user.id);
+
+  safeSetItem(STORAGE_KEYS.AUTH_USER, user);
+  return user;
+};
+
+/**
+ * Re-validates against the live Supabase session rather than trusting the
+ * cached localStorage user. Two things this catches that the cache alone
+ * cannot: (1) a session that expired/was revoked since the last visit, and
+ * (2) a role change made server-side (e.g. an admin promotion) — the cached
+ * `role` is otherwise stale until the next full login.
+ *
+ * Returns `null` if there is no valid Supabase session, signalling the
+ * caller should fall back to the login screen.
+ */
+const supabaseRefreshSession = async (cachedUser: User): Promise<User | null> => {
+  const client = supabase!;
+  const { data, error } = await client.auth.getUser();
+  if (error || !data.user) {
+    return null;
+  }
+
+  const profile = await fetchProfile(data.user.id);
+  const user = mapProfileToUser(data.user.email ?? cachedUser.username, profile);
+  user.stats = calculateStreak(user.stats);
+
   await client
     .from('profiles')
     .update({ stats: user.stats, preferences: user.preferences })
@@ -211,9 +245,15 @@ export const authService = {
     return safeGetItem<User | null>(STORAGE_KEYS.AUTH_USER, null);
   },
 
-  // Called on app mount to ensure streak is updated even if user didn't explicitly log out
-  refreshSession: async (user: User): Promise<User> => {
+  // Called on app mount to ensure streak is updated even if user didn't explicitly log out.
+  // Returns null when a cached Supabase user no longer has a valid session
+  // (expired/revoked) — the caller should send them back to the login screen.
+  refreshSession: async (user: User): Promise<User | null> => {
     if (user.role === 'guest') return user;
+
+    if (isSupabaseConfigured && supabase) {
+      return supabaseRefreshSession(user);
+    }
 
     const updatedStats = calculateStreak(user.stats);
 

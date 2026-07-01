@@ -37,11 +37,73 @@ Every piece of library content (`courses`, `prompts`, `sample_answers`) has a
 | `rejected` | Reviewed and declined (kept for audit)             | Reviewers               |
 | `archived` | Retired                                            | Reviewers               |
 
-Publishing is **only** possible via the `approve_prompt()` / `reject_prompt()`
-database functions, which check that the caller is an admin or teacher. This is
-enforced in the database, not just the UI, so the gate can't be bypassed.
+New content **starts `private`** (the column default) and a non-reviewer can
+only ever move their own content between `private` and `pending`. Reaching
+`approved` / `rejected` / `archived` is reviewer-only — enforced two ways in the
+database, not just the UI, so the gate can't be bypassed:
+
+- the `enforce_content_status_authority` trigger blocks any non-reviewer session
+  from setting a published status (on insert or update), and
+- the sanctioned path is the reviewer-gated RPCs: `approve_prompt()` /
+  `reject_prompt()` / `approve_sample_answer()` / `reject_sample_answer()`.
 
 Roles (`app_role`): `admin` (you), `teacher` (trusted reviewers), `student`.
+
+### How content flows in from users and AI (the growth loop)
+
+`services/contributionService.ts` is the client write path that drives this:
+
+1. **Draft** — a user (or an AI-generated answer the user keeps) is saved via
+   `savePromptContribution()` / `saveSampleAnswerContribution()` as `private`,
+   owned by that user. RLS guarantees `created_by = auth.uid()`.
+2. **Submit** — the "Submit to shared library" button on a question, or the
+   Submit button on an individual sample answer, saves it as `pending` (also
+   attaching the AI pre-screen score); `submitToLibrary()` can also flip an
+   existing draft. Still only the author + reviewers can see pending items.
+3. **Moderate** — an admin opens the **Review Queue** (header shield icon) and
+   approves/rejects each item; under the hood this calls `approvePrompt()` /
+   `rejectPrompt()` (and the sample-answer equivalents → the server-side RPCs).
+   Approved content becomes visible to everyone through the read path
+   (`curriculumService.ts`).
+
+This is how the bank grows over time without becoming noise: anyone can
+contribute, but only reviewed content reaches the shared library. AI-authored
+answers ride the same rails (`source = 'AI'`).
+
+**AI pre-screen:** on submit, the app runs its Quality Check over the content
+and stores the resulting score (`quality_score` 0–100) + summary
+(`quality_notes`) on the row. A low score never blocks submission — the score
+rides along and the reviewer decides — but the Review Queue is sorted
+**lowest-score-first** and shows a colour-coded badge, so reviewers triage the
+riskiest submissions first. If screening is unavailable the item is submitted
+unscored.
+
+> **Wiring status:** the full loop is usable when Supabase is configured. A
+> **"Submit to shared library"** action appears on the selected question (any
+> signed-in, non-guest user), and admins get a **Review Queue** (the shield
+> icon in the header → `components/admin/ReviewQueueModal.tsx`) to approve or
+> reject pending contributions — sorted lowest-quality-first with a colour-coded
+> AI score badge (the submit step runs the Quality Check and stores the score).
+> Both **questions** (button under the selected question) and individual
+> **sample answers** (Submit button on each answer in the accordion) can be
+> contributed. Approved content then flows to everyone via the read path.
+
+### Why role changes can't be self-served
+
+Role lives in `public.profiles.role`, a server-side table — never in
+`auth.users.user_metadata` (which end users can edit themselves via the
+client SDK). On top of that, a `before update` trigger
+(`prevent_role_self_escalation`, see `schema.sql`) blocks any authenticated
+end-user session from changing its own `role` column, even though the
+`profiles_update_self` policy otherwise lets you update your own row (display
+name, preferences, stats). Only an admin — or the SQL editor / a
+service-role script, which run outside a user JWT — can change a role.
+Admins can also call `select public.set_user_role('<user-id>', 'teacher');`
+from the app instead of a raw `update`.
+
+Run `supabase/tests/rls_negative_tests.sql` in the SQL editor after applying
+`schema.sql` to verify this (and a few other authorisation boundaries) hold —
+see that file for what it checks and why.
 
 ## Setup steps
 
@@ -91,17 +153,64 @@ edit your JSON and re-seed to refresh the built-in content.
 > seed, never in the frontend, and never commit it. Add it to your shell or a
 > local `.env` that is git-ignored.
 
+### 5. Growing the example bank over time
+
+The seed pipeline is the curated, version-controlled half of "grow the project
+over time" (the contribution loop above is the organic half). To add more
+courses and worked samples as reusable examples:
+
+1. Drop a new course JSON file into `courseData/` (same shape as the existing
+   files — a `Course[]` array, or a single `Course`).
+2. Add an entry to `courseData/manifest.json` (`{ "file": "...", "type":
+   "course", "subject": "..." }`).
+3. Re-run `node supabase/seed.mjs`. Because it upserts on `legacy_id`, existing
+   content is refreshed in place and only the new material is added — re-running
+   never duplicates.
+
+Seeded content is owned by the admin and inserted as `approved`, so it shows up
+immediately for everyone via the read path. Two natural follow-ups:
+
+- **Promote community content into the seed set:** once user/AI contributions
+  are approved and proven useful, run the exporter to pull the approved library
+  back into `courseData/*.json`, then move the files you want into the canonical,
+  version-controlled bank:
+
+  ```bash
+  export SUPABASE_URL="https://<project>.supabase.co"
+  export SUPABASE_SERVICE_ROLE_KEY="<service-role-key>"   # bypasses RLS
+  node supabase/export.mjs                                # writes courseData/exported/
+  ```
+
+  It writes one JSON file per approved course (plus a `manifest.fragment.json`)
+  in the app's native shape, keyed on the same `legacy_id`s — so re-seeding the
+  files you promote is a safe, duplicate-free upsert. `courseData/exported/` is
+  git-ignored; move the files you want to keep into `courseData/` and add them
+  to `manifest.json`.
+- Keep curated example courses in git so the example library is reviewable and
+  reproducible across environments, independent of any one database.
+
 ## Connecting the app (next phase — not done here)
 
 Once the database is seeded, the app changes happen in roughly this order:
 
-1. **Auth:** replace the mock `services/authService.ts` with Supabase Auth.
-2. **Read path:** load the approved library from Supabase; keep IndexedDB as a
-   cache so offline-first still works.
+1. **Auth:** ✅ `services/authService.ts` uses Supabase Auth when configured,
+   falling back to the local mock accounts otherwise.
+2. **Read path:** ✅ `services/curriculumService.ts` loads the approved library
+   from Supabase and `useSyllabusData` treats it as the source of truth when
+   configured, caching to IndexedDB and falling back to that cache (then the
+   bundled seeds) on any failure or when the database is empty. Writes still go
+   to the local cache only — pushing edits back to Supabase is the next phase
+   (write path + moderation, below).
 3. **Write path + moderation:** "Submit to library" sets `pending`; an admin
    review queue calls `approve_prompt()` / `reject_prompt()`.
-4. **Secure AI:** move Gemini calls into a serverless/edge function so the API
-   key lives server-side (also enables per-user rate limiting and logging).
+4. **Secure AI:** ✅ Gemini/Claude calls already run through the server-side
+   `/api/gemini` proxy so the provider key never reaches the browser. The proxy
+   now also **authenticates the caller**: set `SUPABASE_URL` and
+   `SUPABASE_ANON_KEY` (the non-`VITE_` server-side names) in the deployment
+   env and every AI request must carry a valid Supabase bearer token
+   (`api/_lib/auth.ts`). Leave them unset to keep the proxy open for local /
+   keyless dev. ⚠️ Once enabled, **guest sessions cannot make AI calls** — they
+   have no Supabase token; this is deliberate anonymous-abuse protection.
 5. **Responses:** persist student drafts + AI feedback to the `responses` table.
 
 ## ⚠️ Privacy & data residency (important)
