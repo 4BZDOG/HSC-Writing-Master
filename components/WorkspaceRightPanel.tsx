@@ -9,6 +9,7 @@ import { Loader2, Settings, AlertTriangle, Sparkles } from 'lucide-react';
 import { getCommandTermInfo, BAND_METRICS, TIER_GROUPS } from '../data/commandTerms';
 import { getBandConfig, getKeywordVariants, escapeRegExp } from '../utils/renderUtils';
 import { isCurriculumRemote } from '../services/curriculumService';
+import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 
 interface WorkspaceRightPanelProps {
   isFocusMode: boolean;
@@ -26,7 +27,7 @@ interface WorkspaceRightPanelProps {
   improveAnswerError: string | null;
   evaluatedAnswer: string;
   geminiHandlers: any;
-  syllabusHandlers: any;
+  syllabusHandlers: WorkspaceSyllabusHandlers;
   statePath: any;
   userRole: UserRole;
   breadcrumbItems: { label: string }[];

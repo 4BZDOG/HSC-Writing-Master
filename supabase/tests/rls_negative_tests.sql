@@ -254,6 +254,54 @@ begin
 end $$;
 rollback;
 
+-- ---- 10. An author's edit to their APPROVED row demotes it back to pending ---
+-- Without demote-on-edit, an author could get benign content approved and then
+-- rewrite its text while it stays published, bypassing review entirely.
+begin;
+-- Approve the seeded pending prompt first (superuser bypasses the trigger's
+-- auth.uid() guard, mirroring the SQL editor / service role).
+update public.prompts set status = 'approved'
+ where id = '00000000-0000-0000-0000-0000000000c5';
+
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}';
+set local role authenticated;
+
+do $$
+declare v_status content_status;
+begin
+  update public.prompts set question = 'Edited after approval'
+   where id = '00000000-0000-0000-0000-0000000000c5';
+  select status into v_status from public.prompts
+   where id = '00000000-0000-0000-0000-0000000000c5';
+  if v_status is distinct from 'pending' then
+    raise exception 'TEST FAILED: author edit left approved content published (got %)', v_status;
+  end if;
+  raise notice 'PASS: author edit on approved content demoted it to pending';
+end $$;
+rollback;
+
+-- ---- 11. POSITIVE CONTROL: a reviewer's edit keeps the row approved ----------
+begin;
+update public.prompts set status = 'approved'
+ where id = '00000000-0000-0000-0000-0000000000c5';
+
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000a9","role":"authenticated"}';
+set local role authenticated;
+
+do $$
+declare v_status content_status;
+begin
+  update public.prompts set question = 'Reviewer touch-up'
+   where id = '00000000-0000-0000-0000-0000000000c5';
+  select status into v_status from public.prompts
+   where id = '00000000-0000-0000-0000-0000000000c5';
+  if v_status is distinct from 'approved' then
+    raise exception 'TEST FAILED: reviewer edit demoted approved content (got %)', v_status;
+  end if;
+  raise notice 'PASS: reviewer edit kept the row approved';
+end $$;
+rollback;
+
 -- ---- Cleanup ------------------------------------------------------------------
 begin;
 -- Deleting the course cascades to its topics/sub_topics/dot_points/prompts;

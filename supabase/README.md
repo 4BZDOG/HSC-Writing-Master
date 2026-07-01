@@ -44,6 +44,9 @@ database, not just the UI, so the gate can't be bypassed:
 
 - the `enforce_content_status_authority` trigger blocks any non-reviewer session
   from setting a published status (on insert or update), and
+- the same trigger **demotes on edit**: if an author touches their own row
+  after it was approved, it drops back to `pending` for re-review — published
+  content can never be silently rewritten, and
 - the sanctioned path is the reviewer-gated RPCs: `approve_prompt()` /
   `reject_prompt()` / `approve_sample_answer()` / `reject_sample_answer()`.
 
@@ -77,6 +80,13 @@ rides along and the reviewer decides — but the Review Queue is sorted
 **lowest-score-first** and shows a colour-coded badge, so reviewers triage the
 riskiest submissions first. If screening is unavailable the item is submitted
 unscored.
+
+> ⚠️ **The score is advisory, not a security control.** It is computed in the
+> author's browser and written to a row the author owns, so a malicious client
+> could forge a high score. Reviewers must judge the content itself; the badge
+> only orders the queue. Hardening this would mean moving the screen
+> server-side (e.g. an edge function that scores on submission), which is a
+> possible future step.
 
 > **Wiring status:** the full loop is usable when Supabase is configured. A
 > **"Submit to shared library"** action appears on the selected question (any
@@ -195,11 +205,14 @@ Once the database is seeded, the app changes happen in roughly this order:
 
 1. **Auth:** ✅ `services/authService.ts` uses Supabase Auth when configured,
    falling back to the local mock accounts otherwise.
-2. **Read path:** ✅ `services/curriculumService.ts` loads the approved library
-   from Supabase and `useSyllabusData` treats it as the source of truth when
+2. **Read path:** ✅ `services/curriculumService.ts` loads the published library
+   (plus the caller's own pending/private contributions, so submitted work
+   never vanishes from its author's tree) from Supabase, paging past the
+   PostgREST row cap; `useSyllabusData` treats it as the source of truth when
    configured, caching to IndexedDB and falling back to that cache (then the
-   bundled seeds) on any failure or when the database is empty. Writes still go
-   to the local cache only — pushing edits back to Supabase is the next phase
+   bundled seeds) on any failure or when the database is empty. Structural
+   edits (courses/topics/dot points) still go to the local cache only —
+   pushing those back to Supabase is the next phase
    (write path + moderation, below).
 3. **Write path + moderation:** "Submit to library" sets `pending`; an admin
    review queue calls `approve_prompt()` / `reject_prompt()`.

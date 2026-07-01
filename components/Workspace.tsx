@@ -16,6 +16,7 @@ import Breadcrumb from './Breadcrumb';
 import { getCommandTermInfo } from '../data/commandTerms';
 import { findAndUpdateItem } from '../utils/stateUtils';
 import WorkspaceRightPanel from './WorkspaceRightPanel';
+import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 
 const useKeyboardShortcuts = (shortcuts: { [key: string]: (e: KeyboardEvent) => void }) => {
   useEffect(() => {
@@ -75,7 +76,7 @@ interface WorkspaceProps {
   handleEvaluate: () => void;
   geminiHandlers: any;
   modalHandlers: any;
-  syllabusHandlers: any;
+  syllabusHandlers: WorkspaceSyllabusHandlers;
   userRole: UserRole;
   isFocusMode: boolean;
   onToggleFocusMode: () => void;

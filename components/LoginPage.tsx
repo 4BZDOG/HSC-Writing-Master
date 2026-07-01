@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { User } from '../types';
 import { authService } from '../services/authService';
+import { isSupabaseConfigured } from '../services/supabaseClient';
 import {
   Lock,
   User as UserIcon,
@@ -247,30 +248,33 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           </div>
         </div>
 
-        {/* Identity Hint Section */}
-        <div className="mt-10 text-center animate-fade-in" style={{ animationDelay: '500ms' }}>
-          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">
-            Demo Accounts
-          </p>
-          <div className="flex justify-center gap-10">
-            <div className="flex flex-col items-center">
-              <span className="text-white light:text-slate-800 text-xs font-mono font-bold tracking-tight px-3 py-1 rounded-lg bg-white/5 light:bg-slate-200 border border-white/10 light:border-slate-300 shadow-lg">
-                admin
-              </span>
-              <span className="text-[10px] text-slate-500 uppercase mt-2 font-bold tracking-wider">
-                Admin
-              </span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="text-white light:text-slate-800 text-xs font-mono font-bold tracking-tight px-3 py-1 rounded-lg bg-white/5 light:bg-slate-200 border border-white/10 light:border-slate-300 shadow-lg">
-                user
-              </span>
-              <span className="text-[10px] text-slate-500 uppercase mt-2 font-bold tracking-wider">
-                Student
-              </span>
+        {/* Identity Hint Section — only for the local mock accounts; in Supabase
+            mode logins are real email accounts and these hints would mislead. */}
+        {!isSupabaseConfigured && (
+          <div className="mt-10 text-center animate-fade-in" style={{ animationDelay: '500ms' }}>
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">
+              Demo Accounts
+            </p>
+            <div className="flex justify-center gap-10">
+              <div className="flex flex-col items-center">
+                <span className="text-white light:text-slate-800 text-xs font-mono font-bold tracking-tight px-3 py-1 rounded-lg bg-white/5 light:bg-slate-200 border border-white/10 light:border-slate-300 shadow-lg">
+                  admin
+                </span>
+                <span className="text-[10px] text-slate-500 uppercase mt-2 font-bold tracking-wider">
+                  Admin
+                </span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-white light:text-slate-800 text-xs font-mono font-bold tracking-tight px-3 py-1 rounded-lg bg-white/5 light:bg-slate-200 border border-white/10 light:border-slate-300 shadow-lg">
+                  user
+                </span>
+                <span className="text-[10px] text-slate-500 uppercase mt-2 font-bold tracking-wider">
+                  Student
+                </span>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

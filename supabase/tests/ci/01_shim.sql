@@ -37,15 +37,17 @@ create table if not exists auth.users (
 -- auth.uid(): resolve the 'sub' claim from the request.jwt.claims GUC, exactly
 -- as Supabase's PostgREST sets it per request. Returns null when unset (the SQL
 -- editor / a service-role connection), which the role-escalation trigger and
--- the RLS policies rely on.
+-- the RLS policies rely on. The inner nullif matters: once a custom GUC has
+-- been `set local` in an earlier transaction, it resets to the EMPTY STRING
+-- (not null) for the rest of the session, and ''::jsonb is an error.
 create or replace function auth.uid() returns uuid
   language sql stable as $$
-  select nullif(current_setting('request.jwt.claims', true)::jsonb ->> 'sub', '')::uuid;
+  select nullif(nullif(current_setting('request.jwt.claims', true), '')::jsonb ->> 'sub', '')::uuid;
 $$;
 
 create or replace function auth.role() returns text
   language sql stable as $$
-  select coalesce(current_setting('request.jwt.claims', true)::jsonb ->> 'role', 'anon');
+  select coalesce(nullif(current_setting('request.jwt.claims', true), '')::jsonb ->> 'role', 'anon');
 $$;
 
 grant usage on schema auth to anon, authenticated, service_role;
