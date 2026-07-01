@@ -137,6 +137,48 @@ describe('assembleCourses (Supabase relational rows -> Course[])', () => {
     expect(course.id).toBe('c');
   });
 
+  it('dedupes prompts that share an app id (e.g. a re-contributed legacy id)', () => {
+    const rows = emptyRows();
+    rows.courses = [{ id: 'c', legacy_id: null, name: 'C', subject: null }];
+    rows.topics = [
+      { id: 't', course_id: 'c', legacy_id: null, name: 'T', position: 0, band_descriptors: null },
+    ];
+    rows.subTopics = [{ id: 's', topic_id: 't', legacy_id: null, name: 'S', position: 0 }];
+    rows.dotPoints = [
+      { id: 'd', sub_topic_id: 's', legacy_id: null, description: 'D', position: 0 },
+    ];
+    const basePrompt = {
+      dot_point_id: 'd',
+      legacy_id: 'prompt-dup',
+      question: 'Q',
+      highlighted_question: null,
+      total_marks: 0,
+      verb: 'EXPLAIN',
+      scenario: null,
+      marking_criteria: null,
+      linked_outcomes: [],
+      related_topics: [],
+      prerequisite_knowledge: [],
+      marker_notes: [],
+      common_student_errors: [],
+      keywords: [],
+      target_performance_bands: [],
+      estimated_time: null,
+      is_past_hsc: false,
+      hsc_year: null,
+      hsc_question_number: null,
+    };
+    // Two DB rows, different uuids, same legacy_id → same app id.
+    rows.prompts = [
+      { ...basePrompt, id: 'p-uuid-1' },
+      { ...basePrompt, id: 'p-uuid-2' },
+    ];
+
+    const prompts = assembleCourses(rows)[0].topics[0].subTopics[0].dotPoints[0].prompts;
+    expect(prompts).toHaveLength(1);
+    expect(prompts[0].id).toBe('prompt-dup');
+  });
+
   it('defaults a missing verb and null sample-answer source to safe values', () => {
     const rows = emptyRows();
     rows.courses = [{ id: 'c', legacy_id: null, name: 'C', subject: null }];

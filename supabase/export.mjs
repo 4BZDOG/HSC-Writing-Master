@@ -125,7 +125,7 @@ async function main() {
   const answersByPrompt = groupBy(sampleAnswers, 'prompt_id');
   const promptsByDot = groupBy(prompts, 'dot_point_id');
   const dotsBySub = groupBy(dotPoints, 'sub_topic_id');
-  const subsByTopic = groupBy(topics.length ? subTopics : [], 'topic_id');
+  const subsByTopic = groupBy(subTopics, 'topic_id');
   const topicsByCourse = groupBy(topics, 'course_id');
   const outcomesByCourse = groupBy(outcomes, 'course_id');
 

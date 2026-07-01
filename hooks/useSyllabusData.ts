@@ -568,7 +568,7 @@ export const useSyllabusData = ({
     async (path: StatePath, answer: SampleAnswer) => {
       if (!isCurriculumRemote() || !path.promptId) return;
       try {
-        const quality = await screenContentQuality(answer.answer, 'code');
+        const quality = await screenContentQuality(answer.answer, 'question');
         await saveSampleAnswerContribution(path.promptId, answer, 'pending', quality);
         showToast(
           quality

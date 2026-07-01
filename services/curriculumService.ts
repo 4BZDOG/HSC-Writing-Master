@@ -1,10 +1,10 @@
 /**
  * Read path: load the approved curriculum library from Supabase and map the
  * relational rows back into the app's nested `Course[]` shape (the inverse of
- * supabase/seed.mjs). Only rows the caller is allowed to see come back — Row
- * Level Security does the filtering (approved content, plus the user's own
- * drafts / reviewer visibility), so this client code trusts RLS rather than
- * re-implementing any access check.
+ * supabase/seed.mjs). The fetch filters to `status = 'approved'` so the shared
+ * library shows only published content — pending/private drafts (which RLS
+ * would still surface to their author or a reviewer) stay out of the tree and
+ * live in the review queue instead.
  *
  * IndexedDB stays the offline cache; useSyllabusData treats Supabase as the
  * source of truth when configured and falls back to the cache on failure.
@@ -122,6 +122,14 @@ const groupBy = <T, K extends string>(rows: T[], keyFn: (row: T) => K): Map<K, T
 const byPosition = <T extends { position?: number }>(a: T, b: T): number =>
   (a.position ?? 0) - (b.position ?? 0);
 
+// Guard against duplicate app-facing ids (React keys). Two rows can share a
+// legacy_id if, e.g., a user contributes a copy of already-seeded content and
+// both get approved; keep the first so the UI never renders duplicate keys.
+const dedupeById = <T extends { id: string }>(items: T[]): T[] => {
+  const seen = new Set<string>();
+  return items.filter((item) => (seen.has(item.id) ? false : (seen.add(item.id), true)));
+};
+
 const mapSampleAnswer = (row: SampleAnswerRow): SampleAnswer => ({
   id: appId(row),
   band: row.band,
@@ -153,10 +161,12 @@ const mapPrompt = (row: PromptRow, answers: SampleAnswerRow[]): Prompt => ({
   isPastHSC: row.is_past_hsc ?? false,
   hscYear: row.hsc_year ?? undefined,
   hscQuestionNumber: row.hsc_question_number ?? undefined,
-  sampleAnswers: answers
-    .slice()
-    .sort((a, b) => a.band - b.band)
-    .map(mapSampleAnswer),
+  sampleAnswers: dedupeById(
+    answers
+      .slice()
+      .sort((a, b) => a.band - b.band)
+      .map(mapSampleAnswer)
+  ),
 });
 
 /**
@@ -176,10 +186,12 @@ export const assembleCourses = (rows: CurriculumRows): Course[] => {
     id: appId(row),
     description: row.description,
     // The prompts table has no position column; sort by id for a stable order.
-    prompts: (promptsByDot.get(row.id) ?? [])
-      .slice()
-      .sort((a, b) => appId(a).localeCompare(appId(b)))
-      .map((p) => mapPrompt(p, answersByPrompt.get(p.id) ?? [])),
+    prompts: dedupeById(
+      (promptsByDot.get(row.id) ?? [])
+        .slice()
+        .sort((a, b) => appId(a).localeCompare(appId(b)))
+        .map((p) => mapPrompt(p, answersByPrompt.get(p.id) ?? []))
+    ),
   });
 
   const buildSubTopic = (row: SubTopicRow): SubTopic => ({
@@ -223,15 +235,20 @@ export const fetchRemoteCourses = async (): Promise<Course[]> => {
   if (!supabase) return [];
   const client = supabase;
 
+  // The shared library view is the APPROVED content only. RLS would also return
+  // a reviewer's view of every pending/private draft (and a user's own drafts),
+  // which would pollute the curriculum tree — so filter to approved explicitly
+  // on the status-bearing tables. Unpublished contributions live in the review
+  // queue, not the library.
   const [courses, outcomes, topics, subTopics, dotPoints, prompts, sampleAnswers] =
     await Promise.all([
-      client.from('courses').select('id, legacy_id, name, subject'),
+      client.from('courses').select('id, legacy_id, name, subject').eq('status', 'approved'),
       client.from('course_outcomes').select('course_id, code, description, position'),
       client.from('topics').select('id, course_id, legacy_id, name, position, band_descriptors'),
       client.from('sub_topics').select('id, topic_id, legacy_id, name, position'),
       client.from('dot_points').select('id, sub_topic_id, legacy_id, description, position'),
-      client.from('prompts').select('*'),
-      client.from('sample_answers').select('*'),
+      client.from('prompts').select('*').eq('status', 'approved'),
+      client.from('sample_answers').select('*').eq('status', 'approved'),
     ]);
 
   const results = [courses, outcomes, topics, subTopics, dotPoints, prompts, sampleAnswers];

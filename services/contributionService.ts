@@ -138,19 +138,25 @@ const currentUserId = async (): Promise<string> => {
   return data.user.id;
 };
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 /**
  * Resolve a table row's uuid from an app-facing id, which may be either the
- * original `legacy_id` (seeded content) or the uuid itself (DB-native rows).
+ * original `legacy_id` (seeded content, e.g. "prompt-ec-01") or the uuid
+ * itself. We only compare against the `id` (uuid) column when the value is
+ * actually a uuid — otherwise Postgres rejects the whole query with
+ * "invalid input syntax for type uuid", which would break every lookup keyed
+ * on a legacy/app id.
  */
 const resolveRowId = async (
   table: 'dot_points' | 'prompts',
   appId: string
 ): Promise<string | null> => {
-  const { data } = await requireClient()
-    .from(table)
-    .select('id')
-    .or(`legacy_id.eq.${appId},id.eq.${appId}`)
-    .maybeSingle();
+  const filter = UUID_RE.test(appId)
+    ? `legacy_id.eq.${appId},id.eq.${appId}`
+    : `legacy_id.eq.${appId}`;
+  const { data, error } = await requireClient().from(table).select('id').or(filter).maybeSingle();
+  if (error) throw new Error(`Could not look up ${table}: ${error.message}`);
   return (data as { id: string } | null)?.id ?? null;
 };
 
