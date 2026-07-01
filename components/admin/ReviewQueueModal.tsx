@@ -17,6 +17,25 @@ interface ReviewQueueModalProps {
   showToast: (message: string, type: 'success' | 'error' | 'info') => void;
 }
 
+/** AI pre-screen score badge; colour-coded so reviewers can triage at a glance. */
+const QualityBadge: React.FC<{ score: number | null }> = ({ score }) => {
+  if (score == null) return null;
+  const tone =
+    score >= 75
+      ? 'bg-emerald-500/15 text-emerald-500 border-emerald-500/30'
+      : score >= 50
+        ? 'bg-amber-500/15 text-amber-500 border-amber-500/30'
+        : 'bg-red-500/15 text-red-400 border-red-500/30';
+  return (
+    <span
+      className={`px-1.5 py-0.5 rounded-md border text-[10px] font-bold ${tone}`}
+      title="AI quality pre-screen score"
+    >
+      AI {score}/100
+    </span>
+  );
+};
+
 /**
  * Admin/teacher review queue for the shared-library contribution loop. Lists
  * `pending` prompts and sample answers (RLS returns these only to reviewers and
@@ -141,9 +160,12 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))]">
-                      {item.kind === 'prompt' ? 'Question' : 'Sample Answer'}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))]">
+                        {item.kind === 'prompt' ? 'Question' : 'Sample Answer'}
+                      </span>
+                      <QualityBadge score={item.qualityScore} />
+                    </div>
                     <p className="text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 break-words">
                       {item.title}
                     </p>

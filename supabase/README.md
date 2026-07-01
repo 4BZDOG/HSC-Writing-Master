@@ -66,18 +66,24 @@ Roles (`app_role`): `admin` (you), `teacher` (trusted reviewers), `student`.
 
 This is how the bank grows over time without becoming noise: anyone can
 contribute, but only reviewed content reaches the shared library. AI-authored
-answers ride the same rails (`source = 'AI'`); a future enhancement is to run
-the app's Quality Check automatically before queueing, so reviewers triage by a
-quality score.
+answers ride the same rails (`source = 'AI'`).
+
+**AI pre-screen:** on submit, the app runs its Quality Check over the content
+and stores the resulting score (`quality_score` 0–100) + summary
+(`quality_notes`) on the row. A low score never blocks submission — the score
+rides along and the reviewer decides — but the Review Queue is sorted
+**lowest-score-first** and shows a colour-coded badge, so reviewers triage the
+riskiest submissions first. If screening is unavailable the item is submitted
+unscored.
 
 > **Wiring status:** the full loop is usable when Supabase is configured. A
 > **"Submit to shared library"** action appears on the selected question (any
 > signed-in, non-guest user), and admins get a **Review Queue** (the shield
 > icon in the header → `components/admin/ReviewQueueModal.tsx`) to approve or
-> reject pending contributions. Approved content then flows to everyone via the
-> read path. Still to come: a submit action on individual sample answers, and an
-> optional AI Quality-Check pre-screen that scores contributions before they
-> reach the queue.
+> reject pending contributions — sorted lowest-quality-first with a colour-coded
+> AI score badge (the submit step runs the Quality Check and stores the score).
+> Approved content then flows to everyone via the read path. Still to come: a
+> submit action on individual sample answers.
 
 ### Why role changes can't be self-served
 

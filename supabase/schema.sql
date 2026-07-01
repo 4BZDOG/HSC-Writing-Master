@@ -137,6 +137,10 @@ create table if not exists public.prompts (
   hsc_question_number      text,
   -- moderation + provenance (new content starts private — see section 9)
   status                   content_status not null default 'private',
+  -- AI pre-screen score (0-100) + summary, attached at submission time so
+  -- reviewers can triage the queue by quality.
+  quality_score            int,
+  quality_notes            text,
   created_by               uuid references public.profiles (id) on delete set null,
   reviewed_by              uuid references public.profiles (id) on delete set null,
   reviewed_at              timestamptz,
@@ -156,6 +160,8 @@ create table if not exists public.sample_answers (
   feedback    text,
   quick_tip   text,
   status      content_status not null default 'private',
+  quality_score int,
+  quality_notes text,
   created_by  uuid references public.profiles (id) on delete set null,
   created_at  timestamptz not null default now()
 );
@@ -358,6 +364,12 @@ end $$;
 alter table public.courses        alter column status set default 'private';
 alter table public.prompts        alter column status set default 'private';
 alter table public.sample_answers alter column status set default 'private';
+
+-- AI pre-screen columns (idempotent for databases created before this change).
+alter table public.prompts        add column if not exists quality_score int;
+alter table public.prompts        add column if not exists quality_notes text;
+alter table public.sample_answers add column if not exists quality_score int;
+alter table public.sample_answers add column if not exists quality_notes text;
 
 -- Generic "library content" policy applied to the curriculum tables.
 -- Visible if approved, OR you created it, OR you're a reviewer.

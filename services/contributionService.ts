@@ -19,6 +19,12 @@ import { Prompt, SampleAnswer } from '../types';
 
 export type ContributionStatus = 'private' | 'pending';
 
+/** AI pre-screen result attached to a contribution so reviewers can triage. */
+export interface QualityScreen {
+  score: number;
+  notes: string;
+}
+
 // --- Row shapes written to Postgres (snake_case) -----------------------------
 
 export interface PromptInsertRow {
@@ -42,6 +48,8 @@ export interface PromptInsertRow {
   hsc_year: number | null;
   hsc_question_number: string | null;
   status: ContributionStatus;
+  quality_score: number | null;
+  quality_notes: string | null;
   created_by: string;
 }
 
@@ -55,6 +63,8 @@ export interface SampleAnswerInsertRow {
   feedback: string | null;
   quick_tip: string | null;
   status: ContributionStatus;
+  quality_score: number | null;
+  quality_notes: string | null;
   created_by: string;
 }
 
@@ -64,7 +74,8 @@ export const promptToRow = (
   prompt: Prompt,
   dotPointId: string,
   userId: string,
-  status: ContributionStatus
+  status: ContributionStatus,
+  quality?: QualityScreen
 ): PromptInsertRow => ({
   dot_point_id: dotPointId,
   // Preserve the app's id as legacy_id so the read path maps the row back to
@@ -88,6 +99,8 @@ export const promptToRow = (
   hsc_year: prompt.hscYear ?? null,
   hsc_question_number: prompt.hscQuestionNumber ?? null,
   status,
+  quality_score: quality?.score ?? null,
+  quality_notes: quality?.notes ?? null,
   created_by: userId,
 });
 
@@ -95,7 +108,8 @@ export const sampleAnswerToRow = (
   answer: SampleAnswer,
   promptId: string,
   userId: string,
-  status: ContributionStatus
+  status: ContributionStatus,
+  quality?: QualityScreen
 ): SampleAnswerInsertRow => ({
   prompt_id: promptId,
   legacy_id: answer.id,
@@ -106,6 +120,8 @@ export const sampleAnswerToRow = (
   feedback: answer.feedback ?? null,
   quick_tip: answer.quickTip ?? null,
   status,
+  quality_score: quality?.score ?? null,
+  quality_notes: quality?.notes ?? null,
   created_by: userId,
 });
 
@@ -175,24 +191,29 @@ const upsertOwned = async (
 export const savePromptContribution = async (
   dotPointAppId: string,
   prompt: Prompt,
-  status: ContributionStatus = 'private'
+  status: ContributionStatus = 'private',
+  quality?: QualityScreen
 ): Promise<string> => {
   const userId = await currentUserId();
   const dotPointId = await resolveRowId('dot_points', dotPointAppId);
   if (!dotPointId) throw new Error('Could not find the dot point to attach this prompt to.');
-  return upsertOwned('prompts', promptToRow(prompt, dotPointId, userId, status));
+  return upsertOwned('prompts', promptToRow(prompt, dotPointId, userId, status, quality));
 };
 
 /** Save a sample answer the user authored under the given prompt. Returns its uuid. */
 export const saveSampleAnswerContribution = async (
   promptAppId: string,
   answer: SampleAnswer,
-  status: ContributionStatus = 'private'
+  status: ContributionStatus = 'private',
+  quality?: QualityScreen
 ): Promise<string> => {
   const userId = await currentUserId();
   const promptId = await resolveRowId('prompts', promptAppId);
   if (!promptId) throw new Error('Could not find the prompt to attach this answer to.');
-  return upsertOwned('sample_answers', sampleAnswerToRow(answer, promptId, userId, status));
+  return upsertOwned(
+    'sample_answers',
+    sampleAnswerToRow(answer, promptId, userId, status, quality)
+  );
 };
 
 /** Move one of the user's own rows into the review queue (private -> pending). */
@@ -226,17 +247,20 @@ export interface ModerationItem {
   id: string;
   title: string;
   createdAt: string | null;
+  qualityScore: number | null;
 }
 
 interface PendingPromptRow {
   id: string;
   question: string;
   created_at: string | null;
+  quality_score: number | null;
 }
 interface PendingAnswerRow {
   id: string;
   answer: string;
   created_at: string | null;
+  quality_score: number | null;
 }
 
 const truncate = (text: string, max = 140): string =>
@@ -256,15 +280,19 @@ export const toQueueItems = (
       id: p.id,
       title: truncate(p.question),
       createdAt: p.created_at,
+      qualityScore: p.quality_score,
     })),
     ...answers.map((a) => ({
       kind: 'sample_answer' as const,
       id: a.id,
       title: truncate(a.answer),
       createdAt: a.created_at,
+      qualityScore: a.quality_score,
     })),
   ];
-  return items.sort((a, b) => (b.createdAt ?? '').localeCompare(a.createdAt ?? ''));
+  // Lowest quality first so reviewers see the riskiest submissions up top;
+  // items with no score (older/manual) sort after scored ones.
+  return items.sort((a, b) => (a.qualityScore ?? 101) - (b.qualityScore ?? 101));
 };
 
 /**
@@ -274,8 +302,14 @@ export const toQueueItems = (
 export const fetchModerationQueue = async (): Promise<ModerationItem[]> => {
   const client = requireClient();
   const [prompts, answers] = await Promise.all([
-    client.from('prompts').select('id, question, created_at').eq('status', 'pending'),
-    client.from('sample_answers').select('id, answer, created_at').eq('status', 'pending'),
+    client
+      .from('prompts')
+      .select('id, question, created_at, quality_score')
+      .eq('status', 'pending'),
+    client
+      .from('sample_answers')
+      .select('id, answer, created_at, quality_score')
+      .eq('status', 'pending'),
   ]);
   if (prompts.error) throw new Error(`Failed to load review queue: ${prompts.error.message}`);
   if (answers.error) throw new Error(`Failed to load review queue: ${answers.error.message}`);

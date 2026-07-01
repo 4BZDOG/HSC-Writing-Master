@@ -21,6 +21,7 @@ import { useApiStatus } from './hooks/useApiStatus';
 import { authService } from './services/authService';
 import { isCurriculumRemote } from './services/curriculumService';
 import { savePromptContribution } from './services/contributionService';
+import { performQualityCheck } from './services/geminiService';
 import { User } from './types';
 import {
   Compass,
@@ -176,8 +177,30 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     if (!currentPrompt || !statePath.dotPointId) return;
     setIsSubmittingPrompt(true);
     try {
-      await savePromptContribution(statePath.dotPointId, currentPrompt, 'pending');
-      showToast('Question submitted to the shared library for review.', 'success');
+      // AI pre-screen: score the question so reviewers can triage the queue.
+      // A failed screen doesn't block submission — the score rides along and a
+      // reviewer makes the final call — but we surface it to the author.
+      let quality: { score: number; notes: string } | undefined;
+      try {
+        const result = await performQualityCheck(currentPrompt.question, 'question');
+        quality = { score: result.score, notes: result.summary };
+      } catch {
+        // If screening is unavailable, submit unscored rather than blocking.
+        quality = undefined;
+      }
+
+      await savePromptContribution(statePath.dotPointId, currentPrompt, 'pending', quality);
+
+      if (quality && quality.score < 50) {
+        showToast(
+          `Submitted for review — AI quality score ${quality.score}/100, so a reviewer will take a close look.`,
+          'info'
+        );
+      } else if (quality) {
+        showToast(`Submitted for review (AI quality score ${quality.score}/100).`, 'success');
+      } else {
+        showToast('Submitted to the shared library for review.', 'success');
+      }
     } catch (e) {
       showToast(e instanceof Error ? e.message : 'Submission failed.', 'error');
     } finally {

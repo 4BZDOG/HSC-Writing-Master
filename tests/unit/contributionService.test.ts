@@ -21,7 +21,10 @@ describe('promptToRow (app Prompt -> DB insert row)', () => {
       hscQuestionNumber: '7b',
     };
 
-    const row = promptToRow(prompt, 'dot-uuid', 'user-uuid', 'pending');
+    const row = promptToRow(prompt, 'dot-uuid', 'user-uuid', 'pending', {
+      score: 82,
+      notes: 'Solid question',
+    });
 
     expect(row.dot_point_id).toBe('dot-uuid');
     expect(row.created_by).toBe('user-uuid');
@@ -32,6 +35,8 @@ describe('promptToRow (app Prompt -> DB insert row)', () => {
     expect(row.is_past_hsc).toBe(true);
     expect(row.hsc_year).toBe(2024);
     expect(row.linked_outcomes).toEqual(['O1']);
+    expect(row.quality_score).toBe(82);
+    expect(row.quality_notes).toBe('Solid question');
   });
 
   it('defaults optional fields to null/empty and status to caller value', () => {
@@ -51,6 +56,9 @@ describe('promptToRow (app Prompt -> DB insert row)', () => {
     expect(row.is_past_hsc).toBe(false);
     expect(row.keywords).toEqual([]);
     expect(row.target_performance_bands).toEqual([]);
+    // No quality screen passed → null (unscored).
+    expect(row.quality_score).toBeNull();
+    expect(row.quality_notes).toBeNull();
   });
 });
 
@@ -90,21 +98,33 @@ describe('sampleAnswerToRow (app SampleAnswer -> DB insert row)', () => {
 });
 
 describe('toQueueItems (pending rows -> review list)', () => {
-  it('merges prompts and answers, newest first, with truncated titles', () => {
+  it('merges prompts and answers, lowest quality score first, with truncated titles', () => {
     const longAnswer = 'x'.repeat(200);
     const items = toQueueItems(
-      [{ id: 'p1', question: 'A question', created_at: '2026-01-01T00:00:00Z' }],
-      [{ id: 'a1', answer: longAnswer, created_at: '2026-06-01T00:00:00Z' }]
+      [{ id: 'p1', question: 'A question', created_at: '2026-01-01T00:00:00Z', quality_score: 80 }],
+      [{ id: 'a1', answer: longAnswer, created_at: '2026-06-01T00:00:00Z', quality_score: 30 }]
     );
 
     expect(items).toHaveLength(2);
-    // Newer (the answer) sorts first.
+    // Riskiest (lowest score) sorts first.
     expect(items[0].kind).toBe('sample_answer');
     expect(items[0].id).toBe('a1');
+    expect(items[0].qualityScore).toBe(30);
     expect(items[0].title.endsWith('…')).toBe(true);
     expect(items[0].title.length).toBeLessThan(longAnswer.length);
     expect(items[1].kind).toBe('prompt');
     expect(items[1].title).toBe('A question');
+  });
+
+  it('sorts unscored items after scored ones', () => {
+    const items = toQueueItems(
+      [
+        { id: 'scored', question: 'q', created_at: null, quality_score: 90 },
+        { id: 'unscored', question: 'q', created_at: null, quality_score: null },
+      ],
+      []
+    );
+    expect(items.map((i) => i.id)).toEqual(['scored', 'unscored']);
   });
 
   it('returns an empty list when nothing is pending', () => {
