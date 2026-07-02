@@ -34,34 +34,77 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        launchOptions: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
+          ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH }
+          : {},
+      },
+      testIgnore: /contribution-loop/,
     },
 
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
+      testIgnore: /contribution-loop/,
     },
 
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
+      testIgnore: /contribution-loop/,
     },
 
     /* Test against mobile viewports. */
     {
       name: 'Mobile Chrome',
       use: { ...devices['Pixel 5'] },
+      testIgnore: /contribution-loop/,
     },
     {
       name: 'Mobile Safari',
       use: { ...devices['iPhone 12'] },
+      testIgnore: /contribution-loop/,
+    },
+
+    /* Supabase-mode app (second dev server below) with every Supabase/AI call
+       stubbed via page.route — exercises the shared-library contribution loop
+       UI without a live backend. Chromium only: the flows are not
+       browser-sensitive and one deterministic run keeps CI fast.
+       PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH lets environments with a
+       preinstalled Chromium (but a different Playwright build pin) run the
+       spec without downloading browsers; unset in CI. */
+    {
+      name: 'supabase-chromium',
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: 'http://localhost:3100',
+        launchOptions: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
+          ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH }
+          : {},
+      },
+      testMatch: /contribution-loop/,
     },
   ],
 
-  /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
-  },
+  /* Dev servers: the default mock-mode app, plus a Supabase-configured
+     instance (Vite bakes VITE_* env at serve time, so a separate server is the
+     only way to get isSupabaseConfigured=true). The stub URL never resolves —
+     the spec intercepts all requests to it. */
+  webServer: [
+    {
+      command: 'npm run dev',
+      url: 'http://localhost:3000',
+      reuseExistingServer: !process.env.CI,
+    },
+    {
+      command: 'npm run dev -- --port 3100',
+      url: 'http://localhost:3100',
+      reuseExistingServer: !process.env.CI,
+      env: {
+        VITE_SUPABASE_URL: 'https://stub.supabase.test',
+        VITE_SUPABASE_ANON_KEY: 'stub-anon-key',
+      },
+    },
+  ],
 });

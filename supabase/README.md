@@ -97,6 +97,11 @@ unscored.
 > Both **questions** (button under the selected question) and individual
 > **sample answers** (Submit button on each answer in the accordion) can be
 > contributed. Approved content then flows to everyone via the read path.
+> The whole loop is exercised in CI by a stubbed Playwright e2e
+> (`tests/e2e/contribution-loop.spec.ts`): a second, Supabase-configured dev
+> server runs the real UI while every Supabase/AI request is intercepted with
+> deterministic fakes — login, deep-link, submit (with the AI score attached),
+> queue triage, and approve are all asserted without a live backend.
 
 ### Why role changes can't be self-served
 
