@@ -3,11 +3,12 @@ import {
   computeGeometry,
   flowBlocks,
   chooseScale,
+  measureBlock,
   measureBlocks,
   splitOversized,
   columnLeft,
 } from '../../pdf/layout';
-import { ContentBlock, MeasuredBlock, TextMeasurer } from '../../pdf/types';
+import { ContentBlock, LAYOUT, MeasuredBlock, TextMeasurer } from '../../pdf/types';
 import { buildEvaluationBlocks, EvaluationExportData } from '../../pdf/buildBlocks';
 
 const block = (height: number, kind: MeasuredBlock['kind'] = 'paragraph'): MeasuredBlock => ({
@@ -211,6 +212,22 @@ const fakeMeasurer = (charsPerMm = 1): TextMeasurer => ({
   },
 });
 
+describe('measureBlock line-height default', () => {
+  it('falls back to LAYOUT.defaultLineFactor for a run with no lineHeightFactor', () => {
+    // Pinned to the same constant pdf/helpers.ts:drawLines defaults to — the
+    // two must never drift apart or a block paints taller than it was
+    // measured and flowed at, overflowing its column/page silently.
+    const measurer = fakeMeasurer();
+    const b: ContentBlock = {
+      kind: 'paragraph',
+      id: 'p',
+      runs: [{ text: 'hello', baseFontPt: 10 }],
+    };
+    const measured = measureBlock(b, measurer, 100, 1);
+    expect(measured.lineHeightMm).toBeCloseTo(measurer.lineHeight(10, LAYOUT.defaultLineFactor), 6);
+  });
+});
+
 describe('chooseScale', () => {
   const geoFor = (pScale: number) =>
     computeGeometry({
@@ -332,8 +349,6 @@ describe('buildEvaluationBlocks + measureBlocks integration', () => {
       margin: 10,
     });
     const measured = measureBlocks(blocks, fakeMeasurer(), geo, 1);
-    measured
-      .filter((b) => b.kind !== 'spacer')
-      .forEach((b) => expect(b.height).toBeGreaterThan(0));
+    measured.filter((b) => b.kind !== 'spacer').forEach((b) => expect(b.height).toBeGreaterThan(0));
   });
 });
