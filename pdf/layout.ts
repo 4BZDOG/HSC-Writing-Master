@@ -68,7 +68,7 @@ export const columnLeft = (geo: ColumnGeometry, column: number): number =>
   geo.contentLeft + column * (geo.columnWidth + geo.columnGap);
 
 const runLineHeight = (m: TextMeasurer, run: TextRun, pScale: number): number =>
-  m.lineHeight(run.baseFontPt * pScale, run.lineHeightFactor ?? 1.15);
+  m.lineHeight(run.baseFontPt * pScale, run.lineHeightFactor ?? LAYOUT.defaultLineFactor);
 
 /**
  * Measure one block's rendered height (mm) at `pScale`, pre-wrapping each run
@@ -83,7 +83,10 @@ export const measureBlock = (
   const padTop = (block.basePadTop ?? 0) * pScale;
   const padBottom = (block.basePadBottom ?? 0) * pScale;
   const primaryPt = (block.runs[0]?.baseFontPt ?? 9) * pScale;
-  const lineHeightMm = measurer.lineHeight(primaryPt, block.runs[0]?.lineHeightFactor ?? 1.15);
+  const lineHeightMm = measurer.lineHeight(
+    primaryPt,
+    block.runs[0]?.lineHeightFactor ?? LAYOUT.defaultLineFactor
+  );
 
   // Bullets, criterion text, and accented paragraphs share one indent so they
   // align and (crucially) wrap to the same width they're drawn at.

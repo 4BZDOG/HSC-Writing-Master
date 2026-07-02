@@ -53,6 +53,11 @@ export const LAYOUT = {
   accentBarBaseMm: 0.9,
   /** Criterion chip reserve so the title wraps before the mark chip. */
   criterionChipReserveBaseMm: 18,
+  /**
+   * Leading used when a run omits `lineHeightFactor`. Measurement and drawing
+   * MUST share this default or block heights drift from what gets painted.
+   */
+  defaultLineFactor: 1.15,
 };
 
 /**

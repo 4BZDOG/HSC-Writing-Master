@@ -4,7 +4,7 @@
 // transforms live in ./text and are re-exported here so callers have one
 // import surface. Anything DOM-dependent (emoji canvas, toast) is guarded.
 
-import { FontStyle, JsPdfLike, MM_PER_PT, TextMeasurer } from './types';
+import { FontStyle, JsPdfLike, LAYOUT, MM_PER_PT, TextMeasurer } from './types';
 import { containsEmoji, degradeToAscii, toText } from './text';
 
 export { toText, degradeToAscii, containsEmoji };
@@ -151,7 +151,7 @@ export const drawLines = (doc: JsPdfLike, lines: string[], opts: DrawLinesOption
     style = 'normal',
     color = [0, 0, 0],
     align = 'left',
-    lineHeightFactor = 1.15,
+    lineHeightFactor = LAYOUT.defaultLineFactor,
   } = opts;
   const lineMm = fontPt * lineHeightFactor * MM_PER_PT;
   let cursorY = y;

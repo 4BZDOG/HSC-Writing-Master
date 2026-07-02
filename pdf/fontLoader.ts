@@ -1,11 +1,12 @@
 // pdf/fontLoader.ts
 //
-// Lazy engine + font loading. Nothing here runs on page load — the jsPDF
-// bundle is only fetched the first time an export is requested, then cached.
+// Lazy engine + font loading. Nothing here runs on page load — jsPDF is a
+// code-split chunk that is only imported the first time an export is
+// requested, then cached. Bundling it (instead of a runtime CDN <script>)
+// keeps the export working offline and on networks that block CDNs.
 //
-//  - loadJsPdf():   inject the CDN <script> with Subresource Integrity +
-//                   crossOrigin="anonymous"; resolve the jsPDF constructor or
-//                   reject with a clear error.
+//  - loadJsPdf():   dynamic-import the bundled jsPDF module and resolve its
+//                   constructor, or reject with a clear error.
 //  - loadInterFont(): fetch a TTF/OTF (10s AbortController timeout), validate
 //                   the sfnt magic number, base64-encode in <=8190-byte chunks,
 //                   register normal+bold weights. Never throws fatally — returns
@@ -17,13 +18,6 @@ import { JsPdfLike } from './types';
 // jsPDF engine
 // ---------------------------------------------------------------------------
 
-export const JSPDF_VERSION = '2.5.2';
-export const JSPDF_CDN_URL = `https://cdnjs.cloudflare.com/ajax/libs/jspdf/${JSPDF_VERSION}/jspdf.umd.min.js`;
-
-// Replaced at build time with the real `sha384-...` value. When left as the
-// sentinel we skip the integrity attribute rather than guaranteeing a failure.
-export const JSPDF_SRI = '__JSPDF_SRI_PLACEHOLDER__';
-
 export type JsPdfConstructor = new (opts: {
   unit: string;
   format: string | number[];
@@ -34,65 +28,29 @@ export type JsPdfConstructor = new (opts: {
 let cachedCtor: JsPdfConstructor | null = null;
 let inflight: Promise<JsPdfConstructor> | null = null;
 
-interface JsPdfGlobal {
-  jspdf?: { jsPDF: JsPdfConstructor };
-  jsPDF?: JsPdfConstructor;
-}
-
-const readGlobalCtor = (): JsPdfConstructor | null => {
-  const g = globalThis as unknown as JsPdfGlobal;
-  return g.jspdf?.jsPDF ?? g.jsPDF ?? null;
-};
-
-/** Lazily load (and cache) the jsPDF constructor from the CDN. */
+/** Lazily import (and cache) the bundled jsPDF constructor. */
 export const loadJsPdf = (): Promise<JsPdfConstructor> => {
   if (cachedCtor) return Promise.resolve(cachedCtor);
   if (inflight) return inflight;
 
-  inflight = new Promise<JsPdfConstructor>((resolve, reject) => {
-    // Already present (e.g. preloaded or a second call after attach).
-    const existing = readGlobalCtor();
-    if (existing) {
-      cachedCtor = existing;
-      resolve(existing);
-      return;
-    }
-
-    if (typeof document === 'undefined') {
-      reject(new Error('PDF engine can only be loaded in a browser environment.'));
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.src = JSPDF_CDN_URL;
-    script.async = true;
-    script.crossOrigin = 'anonymous';
-    if (JSPDF_SRI && !JSPDF_SRI.includes('PLACEHOLDER')) {
-      script.integrity = JSPDF_SRI;
-    }
-
-    script.onload = () => {
-      const ctor = readGlobalCtor();
-      if (ctor) {
-        cachedCtor = ctor;
-        resolve(ctor);
-      } else {
-        reject(new Error('PDF engine loaded but the jsPDF constructor was not found.'));
+  inflight = import('jspdf')
+    .then((mod) => {
+      const ctor = mod.jsPDF as unknown as JsPdfConstructor | undefined;
+      if (!ctor) {
+        throw new Error('PDF engine loaded but the jsPDF constructor was not found.');
       }
-    };
-    script.onerror = () => {
+      cachedCtor = ctor;
+      return ctor;
+    })
+    .catch((err) => {
+      // Allow a retry on the next export attempt (e.g. transient chunk-load
+      // failure right after a redeploy).
       inflight = null;
-      reject(
-        new Error('Failed to load the PDF engine from the CDN. Check your network connection.')
-      );
-    };
+      if (err instanceof Error && err.message.includes('constructor')) throw err;
+      throw new Error('Failed to load the PDF engine. Please try the export again.');
+    });
 
-    document.head.appendChild(script);
-  });
-
-  return inflight.finally(() => {
-    if (!cachedCtor) inflight = null;
-  });
+  return inflight;
 };
 
 // ---------------------------------------------------------------------------

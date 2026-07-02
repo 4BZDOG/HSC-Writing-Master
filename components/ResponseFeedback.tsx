@@ -56,7 +56,7 @@ const ResponseFeedback: React.FC<ResponseFeedbackProps> = ({
   }
 
   return (
-    <div className="mt-8 p-5 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/20 border border-[rgb(var(--color-border-secondary))]/50 backdrop-blur-sm transition-all duration-300 hover:bg-[rgb(var(--color-bg-surface-inset))]/30 no-print">
+    <div className="mt-8 p-5 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/20 border border-[rgb(var(--color-border-secondary))]/50 backdrop-blur-sm transition-all duration-300 hover:bg-[rgb(var(--color-bg-surface-inset))]/30">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <h4 className="text-sm font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider flex items-center gap-2">

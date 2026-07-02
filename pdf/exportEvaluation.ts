@@ -129,7 +129,8 @@ const drawBlock = (
       fontPt: pt,
       style: r.style ?? 'bold',
       color: r.color ?? COLORS.muted,
-      lineHeightFactor: r.lineHeightFactor ?? 1.15,
+      lineHeightFactor: r.lineHeightFactor ?? LAYOUT.defaultLineFactor,
+      maxWidthMm: colW,
     });
     return;
   }
@@ -149,7 +150,8 @@ const drawBlock = (
       fontPt: pt,
       style: r.style ?? 'normal',
       color: r.color ?? COLORS.body,
-      lineHeightFactor: r.lineHeightFactor ?? 1.3,
+      lineHeightFactor: r.lineHeightFactor ?? LAYOUT.defaultLineFactor,
+      maxWidthMm: colW - indent,
     });
     return;
   }
@@ -178,7 +180,8 @@ const drawBlock = (
     fontPt: pt,
     style: r.style ?? 'normal',
     color: r.color ?? COLORS.body,
-    lineHeightFactor: r.lineHeightFactor ?? 1.3,
+    lineHeightFactor: r.lineHeightFactor ?? LAYOUT.defaultLineFactor,
+    maxWidthMm: colW - block.textIndentMm,
   });
 };
 
@@ -265,6 +268,7 @@ const drawCriterion = (
   const labelLineMm = labelPt * 1.3 * MM_PER_PT;
   const labelLines = block.labelWrapped ?? [block.label ?? ''];
   const labelBaseline = y + ascentMm(labelPt);
+  const chipReserve = block.chip ? LAYOUT.criterionChipReserveBaseMm * pScale : 0;
   drawLines(doc, labelLines, {
     ...ctx,
     x: xLeft + indent,
@@ -273,6 +277,7 @@ const drawCriterion = (
     style: 'bold',
     color: COLORS.ink,
     lineHeightFactor: 1.3,
+    maxWidthMm: colW - indent - chipReserve,
   });
   if (block.chip) {
     drawLines(doc, [block.chip], {
@@ -290,7 +295,10 @@ const drawCriterion = (
   const feedbackTop = y + labelLines.length * labelLineMm;
   const feedbackPt = r.baseFontPt * pScale;
   const feedbackHeight =
-    (block.wrapped[0]?.length ?? 1) * feedbackPt * (r.lineHeightFactor ?? 1.3) * MM_PER_PT;
+    (block.wrapped[0]?.length ?? 1) *
+    feedbackPt *
+    (r.lineHeightFactor ?? LAYOUT.defaultLineFactor) *
+    MM_PER_PT;
   doc.setFillColor(accent[0], accent[1], accent[2]);
   doc.rect(xLeft, feedbackTop, LAYOUT.accentBarBaseMm * pScale, feedbackHeight, 'F');
   drawLines(doc, block.wrapped[0] ?? [r.text], {
@@ -300,7 +308,8 @@ const drawCriterion = (
     fontPt: feedbackPt,
     style: r.style ?? 'normal',
     color: r.color ?? COLORS.body,
-    lineHeightFactor: r.lineHeightFactor ?? 1.3,
+    lineHeightFactor: r.lineHeightFactor ?? LAYOUT.defaultLineFactor,
+    maxWidthMm: colW - indent,
   });
 };
 
@@ -310,7 +319,8 @@ const drawCriterion = (
 
 /**
  * Generate and save a vector PDF of the marking-feedback report. Resolves with
- * a summary {pages, copies}; rejects only if the engine itself cannot load.
+ * a summary {pages, copies}. Every failure path surfaces an error toast before
+ * the promise rejects, so callers need no user messaging of their own.
  */
 export const exportEvaluationPdf = async (
   opts: ExportEvaluationOptions
@@ -330,133 +340,138 @@ export const exportEvaluationPdf = async (
     throw err;
   }
 
-  const dims = PAGE_DIMENSIONS[pageSize];
-  const doc = new JsPDF({
-    unit: 'mm',
-    format: [dims.width, dims.height],
-    orientation: 'portrait',
-    compress: true,
-  }) as unknown as JsPdfLike;
-
-  // Custom font (non-fatal).
-  progress(0.15, 'Preparing fonts…');
-  const customFontAvailable = await loadInterFont(doc, opts.fontSources);
-  if (!customFontAvailable) {
-    toast('Custom font unavailable — exporting with the built-in font.', 'info');
-  }
-  const ctx: TextStyleCtx = {
-    family: customFontAvailable ? FONT_FAMILY : HELVETICA,
-    customFontAvailable,
-  };
-
-  // Build + measure + choose a scale that fits the target page budget.
-  progress(0.25, 'Laying out content…');
-  const blocks = buildEvaluationBlocks(opts.data);
-  const measurer = createMeasurer(doc, ctx);
-  const choice = chooseScale(
-    blocks,
-    measurer,
-    (s) => geometryFor(pageSize, s),
-    SCALE_CANDIDATES,
-    TARGET_PAGES
-  );
-  const pScale = choice.pScale;
-  const geo = geometryFor(pageSize, pScale);
-  const {
-    flow: { placements, pageCount },
-  } = planLayout(blocks, measurer, geo, pScale);
-
-  // Group placements by page for drawing.
-  const byPage: MeasuredBlockPlacement[][] = Array.from({ length: pageCount }, () => []);
-  for (const p of placements) {
-    byPage[p.page].push({ block: p.block, column: p.column, top: p.top });
-  }
-
-  const exportId = makeExportId();
-  const dateStr = formatDate();
-  const title = opts.title ?? 'HSC Writing Master';
-  const subtitle = opts.subtitle ?? 'Marking Feedback Report';
-  const instruction =
-    opts.instruction ??
-    `${opts.data.verb} · ${opts.data.totalMarks} marks · Band ${opts.data.overallBand}`;
-  const watermarkText = opts.watermarkText ?? 'HSC WRITING MASTER';
-
-  // Document metadata (shown in the viewer title bar / file properties).
   try {
-    doc.setProperties({
-      title: `${title} — ${subtitle}`,
-      subject: instruction,
-      author: title,
-      creator: 'HSC Writing Master PDF Exporter',
-      keywords: ['HSC', 'marking feedback', opts.data.verb, `Band ${opts.data.overallBand}`].join(
-        ', '
-      ),
-    });
-  } catch {
-    // setProperties is non-essential; ignore engines that lack it.
-  }
+    const dims = PAGE_DIMENSIONS[pageSize];
+    const doc = new JsPDF({
+      unit: 'mm',
+      format: [dims.width, dims.height],
+      orientation: 'portrait',
+      compress: true,
+    }) as unknown as JsPdfLike;
 
-  const totalPages = pageCount * copies;
-  let pageNo = 0;
-  let first = true;
-
-  for (let copy = 0; copy < copies; copy++) {
-    for (let page = 0; page < pageCount; page++) {
-      if (!first) doc.addPage();
-      first = false;
-      pageNo++;
-      progress(0.3 + (0.65 * pageNo) / totalPages, `Rendering page ${pageNo} of ${totalPages}…`);
-
-      drawWatermark(doc, {
-        ...ctx,
-        text: watermarkText,
-        pageWidth: dims.width,
-        pageHeight: dims.height,
-      });
-
-      drawHeader(doc, {
-        ...ctx,
-        title,
-        subtitle,
-        instruction,
-        accent: COLORS.accent,
-        pScale,
-        margin: PAGE_MARGIN_MM,
-        pageWidth: dims.width,
-        // Name/Class/Date fill-in fields belong on the first page only.
-        showFields: (opts.showFields ?? true) && page === 0,
-      });
-
-      for (const { block, column, top } of byPage[page]) {
-        const xLeft = columnLeft(geo, column);
-        drawBlock(doc, ctx, block, xLeft, geo.contentTop + top, geo, pScale);
-      }
-
-      drawFooter(doc, {
-        ...ctx,
-        exportId,
-        dateStr,
-        pageWidth: dims.width,
-        pageHeight: dims.height,
-        margin: PAGE_MARGIN_MM,
-        pScale,
-        pageNumber: page + 1,
-        pageTotal: pageCount,
-      });
-
-      // Let the progress UI repaint between pages.
-      await repaint();
+    // Custom font (non-fatal).
+    progress(0.15, 'Preparing fonts…');
+    const customFontAvailable = await loadInterFont(doc, opts.fontSources);
+    if (!customFontAvailable) {
+      toast('Custom font unavailable — exporting with the built-in font.', 'info');
     }
+    const ctx: TextStyleCtx = {
+      family: customFontAvailable ? FONT_FAMILY : HELVETICA,
+      customFontAvailable,
+    };
+
+    // Build + measure + choose a scale that fits the target page budget.
+    progress(0.25, 'Laying out content…');
+    const blocks = buildEvaluationBlocks(opts.data);
+    const measurer = createMeasurer(doc, ctx);
+    const choice = chooseScale(
+      blocks,
+      measurer,
+      (s) => geometryFor(pageSize, s),
+      SCALE_CANDIDATES,
+      TARGET_PAGES
+    );
+    const pScale = choice.pScale;
+    const geo = geometryFor(pageSize, pScale);
+    const {
+      flow: { placements, pageCount },
+    } = planLayout(blocks, measurer, geo, pScale);
+
+    // Group placements by page for drawing.
+    const byPage: MeasuredBlockPlacement[][] = Array.from({ length: pageCount }, () => []);
+    for (const p of placements) {
+      byPage[p.page].push({ block: p.block, column: p.column, top: p.top });
+    }
+
+    const exportId = makeExportId();
+    const dateStr = formatDate();
+    const title = opts.title ?? 'HSC Writing Master';
+    const subtitle = opts.subtitle ?? 'Marking Feedback Report';
+    const instruction =
+      opts.instruction ??
+      `${opts.data.verb} · ${opts.data.totalMarks} marks · Band ${opts.data.overallBand}`;
+    const watermarkText = opts.watermarkText ?? 'HSC WRITING MASTER';
+
+    // Document metadata (shown in the viewer title bar / file properties).
+    try {
+      doc.setProperties({
+        title: `${title} — ${subtitle}`,
+        subject: instruction,
+        author: title,
+        creator: 'HSC Writing Master PDF Exporter',
+        keywords: ['HSC', 'marking feedback', opts.data.verb, `Band ${opts.data.overallBand}`].join(
+          ', '
+        ),
+      });
+    } catch {
+      // setProperties is non-essential; ignore engines that lack it.
+    }
+
+    const totalPages = pageCount * copies;
+    let pageNo = 0;
+    let first = true;
+
+    for (let copy = 0; copy < copies; copy++) {
+      for (let page = 0; page < pageCount; page++) {
+        if (!first) doc.addPage();
+        first = false;
+        pageNo++;
+        progress(0.3 + (0.65 * pageNo) / totalPages, `Rendering page ${pageNo} of ${totalPages}…`);
+
+        drawWatermark(doc, {
+          ...ctx,
+          text: watermarkText,
+          pageWidth: dims.width,
+          pageHeight: dims.height,
+        });
+
+        drawHeader(doc, {
+          ...ctx,
+          title,
+          subtitle,
+          instruction,
+          accent: COLORS.accent,
+          pScale,
+          margin: PAGE_MARGIN_MM,
+          pageWidth: dims.width,
+          // Name/Class/Date fill-in fields belong on the first page only.
+          showFields: (opts.showFields ?? true) && page === 0,
+        });
+
+        for (const { block, column, top } of byPage[page]) {
+          const xLeft = columnLeft(geo, column);
+          drawBlock(doc, ctx, block, xLeft, geo.contentTop + top, geo, pScale);
+        }
+
+        drawFooter(doc, {
+          ...ctx,
+          exportId,
+          dateStr,
+          pageWidth: dims.width,
+          pageHeight: dims.height,
+          margin: PAGE_MARGIN_MM,
+          pScale,
+          pageNumber: page + 1,
+          pageTotal: pageCount,
+        });
+
+        // Let the progress UI repaint between pages.
+        await repaint();
+      }
+    }
+
+    progress(0.98, 'Saving…');
+    doc.save(sanitizeFilename(opts.filename ?? 'HSC-Marking-Feedback'));
+    progress(1, 'Done');
+
+    const copySuffix = copies > 1 ? ` × ${copies} copies` : '';
+    toast(`PDF exported — ${pageCount} page${pageCount === 1 ? '' : 's'}${copySuffix}.`, 'success');
+
+    return { pages: pageCount, copies };
+  } catch (err) {
+    toast('PDF export failed — please try again.', 'error');
+    throw err;
   }
-
-  progress(0.98, 'Saving…');
-  doc.save(sanitizeFilename(opts.filename ?? 'HSC-Marking-Feedback'));
-  progress(1, 'Done');
-
-  const copySuffix = copies > 1 ? ` × ${copies} copies` : '';
-  toast(`PDF exported — ${pageCount} page${pageCount === 1 ? '' : 's'}${copySuffix}.`, 'success');
-
-  return { pages: pageCount, copies };
 };
 
 interface MeasuredBlockPlacement {

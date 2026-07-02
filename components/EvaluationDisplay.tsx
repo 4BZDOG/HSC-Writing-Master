@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   EvaluationResult,
   Prompt,
@@ -55,7 +55,7 @@ import { exportEvaluationPdf } from '../pdf';
 
 const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
   <div
-    className={`absolute inset-0 ${opacity} pointer-events-none mix-blend-overlay z-0 transition-opacity duration-500 no-print`}
+    className={`absolute inset-0 ${opacity} pointer-events-none mix-blend-overlay z-0 transition-opacity duration-500`}
     style={{
       backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v10M0 1h10' stroke='%23ffffff' stroke-width='0.5' fill='none'/%3E%3C/svg%3E")`,
     }}
@@ -145,7 +145,7 @@ const CriteriaRow: React.FC<CriteriaRowProps> = ({
         </div>
       </div>
       <div className="relative">
-        <div className="absolute left-0 top-1 bottom-1 w-0.5 rounded-full bg-slate-200 dark:bg-white/10 group-hover:bg-indigo-500 transition-colors no-print"></div>
+        <div className="absolute left-0 top-1 bottom-1 w-0.5 rounded-full bg-slate-200 dark:bg-white/10 group-hover:bg-indigo-500 transition-colors"></div>
         <p className="text-[13px] leading-relaxed text-slate-600 dark:text-slate-400 pl-4 font-medium">
           {renderFormattedText(feedback, prompt.keywords, prompt.verb)}
         </p>
@@ -186,7 +186,6 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
 }) => {
   const bandConfig = getBandConfig(result.overallBand);
   const termInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
-  const reportRef = useRef<HTMLDivElement>(null);
 
   // Vector-PDF export state (guards double-clicks, drives the button spinner).
   const [isExporting, setIsExporting] = useState(false);
@@ -267,7 +266,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
         onProgress: (_fraction, label) => setExportStatus(label),
       });
     } catch {
-      // The exporter already surfaces a toast on engine-load failure.
+      // The exporter surfaces a toast on every failure path.
     } finally {
       setIsExporting(false);
       setExportStatus('');
@@ -275,9 +274,9 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
   };
 
   return (
-    <div ref={reportRef} className="flex flex-col gap-8 max-w-5xl mx-auto pb-20 EvaluationDisplay">
+    <div className="flex flex-col gap-8 max-w-5xl mx-auto pb-20 EvaluationDisplay">
       {isImproving && (
-        <div className="absolute inset-0 bg-white/80 dark:bg-[#0a0f1a]/80 backdrop-blur-md flex items-center justify-center z-50 rounded-[32px] h-full transition-all duration-500 no-print">
+        <div className="absolute inset-0 bg-white/80 dark:bg-[#0a0f1a]/80 backdrop-blur-md flex items-center justify-center z-50 rounded-[32px] h-full transition-all duration-500">
           <div className="w-full max-w-md transform scale-100 animate-in fade-in zoom-in duration-300">
             <LoadingIndicator
               messages={[
@@ -336,7 +335,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 </p>
               </div>
               <div
-                className={`w-20 h-20 rounded-[24px] flex items-center justify-center bg-white/20 backdrop-blur-md border border-white/20 shadow-xl no-print`}
+                className={`w-20 h-20 rounded-[24px] flex items-center justify-center bg-white/20 backdrop-blur-md border border-white/20 shadow-xl`}
               >
                 {result.overallBand >= 5 ? (
                   <Trophy className="w-10 h-10 text-white" />
@@ -348,7 +347,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-3 no-print">
+            <div className="flex flex-wrap gap-3">
               <button
                 onClick={handleExportPdf}
                 disabled={isExporting}
@@ -450,7 +449,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             className={`absolute left-0 top-0 bottom-0 w-1 rounded-full bg-gradient-to-b ${bandConfig.gradient} opacity-50`}
           ></div>
           <Quote
-            className={`absolute top-0 left-4 w-6 h-6 ${bandConfig.text} opacity-20 transform -scale-x-100 no-print`}
+            className={`absolute top-0 left-4 w-6 h-6 ${bandConfig.text} opacity-20 transform -scale-x-100`}
           />
           <div className="prose prose-lg prose-slate dark:prose-invert max-w-none font-serif italic text-xl leading-relaxed text-slate-700 dark:text-slate-300 pl-6">
             {renderFormattedText(result.overallFeedback, prompt.keywords, prompt.verb)}
@@ -498,7 +497,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
 
       {/* Criteria Breakdown */}
       <section>
-        <div className="flex items-center gap-3 mb-6 no-print">
+        <div className="flex items-center gap-3 mb-6">
           <ClipboardList className="w-4 h-4 text-slate-400" />
           <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-[0.2em]">
             Criteria Breakdown
@@ -526,7 +525,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           className={`clip-stable relative rounded-[40px] border-2 ${exemplarConfig.border} overflow-hidden shadow-2xl transition-all duration-500 group mt-8`}
         >
           <div
-            className={`absolute inset-0 ${exemplarConfig.bg} opacity-[0.03] pointer-events-none no-print`}
+            className={`absolute inset-0 ${exemplarConfig.bg} opacity-[0.03] pointer-events-none`}
           />
           <MeshOverlay />
 
@@ -546,7 +545,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                     Band {exemplarBand} Standard
                   </span>
                   {result.overallBand < exemplarBand && (
-                    <span className="px-2 py-0.5 rounded-lg bg-white/20 text-white text-[9px] font-black uppercase tracking-wider backdrop-blur-sm no-print">
+                    <span className="px-2 py-0.5 rounded-lg bg-white/20 text-white text-[9px] font-black uppercase tracking-wider backdrop-blur-sm">
                       Upgrade Available
                     </span>
                   )}
@@ -554,7 +553,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
               </div>
             </div>
 
-            <div className="flex gap-3 no-print">
+            <div className="flex gap-3">
               {result.overallBand < maxBand && (
                 <button
                   onClick={onImproveAnswer}
@@ -584,7 +583,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
       )}
 
       {/* Feedback Footer */}
-      <div className="mt-8 flex justify-center no-print">
+      <div className="mt-8 flex justify-center">
         <div className="w-full max-w-2xl bg-slate-50 dark:bg-white/5 rounded-3xl p-1 border border-slate-200 dark:border-white/5">
           <ResponseFeedback
             onFeedbackSubmit={onFeedbackSubmit}
