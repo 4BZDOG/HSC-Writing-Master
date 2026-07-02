@@ -75,7 +75,9 @@ const InputField = ({
         type={type}
         value={value}
         onChange={onChange}
-        autoComplete={id === 'username' ? 'username' : 'current-password'}
+        autoComplete={
+          id === 'username' ? (isSupabaseConfigured ? 'email' : 'username') : 'current-password'
+        }
         className="block w-full pl-3 pr-4 py-4 bg-transparent text-white light:text-slate-900 placeholder-slate-600 outline-none focus:outline-none focus:ring-0 border-none font-medium text-sm"
         placeholder={placeholder}
       />
@@ -179,14 +181,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
             <form onSubmit={handleSubmit} className="space-y-7">
               <InputField
                 id="username"
-                label="Username"
+                label={isSupabaseConfigured ? 'Email' : 'Username'}
                 value={username}
                 onChange={(e) => {
                   setUsername(e.target.value);
                   setUsernameError(false);
                 }}
-                type="text"
-                placeholder="Enter username"
+                type={isSupabaseConfigured ? 'email' : 'text'}
+                placeholder={isSupabaseConfigured ? 'Enter email address' : 'Enter username'}
                 icon={UserIcon}
                 hasError={usernameError}
               />

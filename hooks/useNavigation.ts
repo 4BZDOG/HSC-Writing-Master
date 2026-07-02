@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Course, StatePath, Topic, SubTopic, DotPoint, Prompt } from '../types';
 import { STORAGE_KEYS, safeGetItem, safeSetItem, validateStatePath } from '../utils/storageUtils';
 
-export const useNavigation = (courses: Course[]) => {
+export const useNavigation = (courses: Course[], isDataReady: boolean = true) => {
   const [statePath, setStatePath] = useState<StatePath>(() => {
     // Initialize with first course if available and no path is saved
     const defaultPath = courses.length > 0 ? { courseId: courses[0].id } : {};
@@ -37,6 +37,11 @@ export const useNavigation = (courses: Course[]) => {
 
   // Path validation and auto-selection logic to handle data changes gracefully
   useEffect(() => {
+    // Courses load asynchronously; until they have, `courses` is [] and
+    // validating against it would WIPE the path restored from localStorage —
+    // losing the user's saved position on every reload.
+    if (!isDataReady) return;
+
     if (courses.length === 0) {
       if (Object.keys(statePath).length > 0) setStatePath({});
       return;
@@ -84,7 +89,7 @@ export const useNavigation = (courses: Course[]) => {
 
       return pathChanged ? newPath : currentPath;
     });
-  }, [courses]); // Re-run only when courses data changes
+  }, [courses, isDataReady]); // Re-run when courses data changes or finishes loading
 
   return {
     statePath,

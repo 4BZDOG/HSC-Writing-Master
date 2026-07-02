@@ -147,13 +147,29 @@ const mockLogin = async (username: string, password: string): Promise<User> => {
 // Supabase auth (used when configured)
 // ----------------------------------------------------------------------------
 
+/**
+ * Reads the caller's profile row. THROWS on a failed read (network/REST error)
+ * and returns null only when the row genuinely does not exist. The distinction
+ * matters: callers write stats/preferences back to this row, and treating a
+ * transient read failure as "no profile" would overwrite the user's real data
+ * with defaults (and downgrade a cached admin to 'user').
+ */
 const fetchProfile = async (userId: string): Promise<ProfileRow | null> => {
-  const { data: profile } = await supabase!
+  const { data: profile, error } = await supabase!
     .from('profiles')
     .select('username, display_name, role, preferences, stats')
     .eq('id', userId)
     .maybeSingle();
+  if (error) throw new Error(`Profile fetch failed: ${error.message}`);
   return profile as ProfileRow | null;
+};
+
+/** Best-effort write-back of streak/preferences; only call with real data. */
+const persistProfileState = async (userId: string, user: User): Promise<void> => {
+  await supabase!
+    .from('profiles')
+    .update({ stats: user.stats, preferences: user.preferences })
+    .eq('id', userId);
 };
 
 const supabaseLogin = async (email: string, password: string): Promise<User> => {
@@ -163,19 +179,35 @@ const supabaseLogin = async (email: string, password: string): Promise<User> => 
     throw new Error('Invalid username or password');
   }
 
-  const profile = await fetchProfile(data.user.id);
+  let profile: ProfileRow | null = null;
+  let profileReadOk = true;
+  try {
+    profile = await fetchProfile(data.user.id);
+  } catch {
+    // Transient read failure: continue the login with session defaults, but
+    // remember NOT to write those defaults over the real row.
+    profileReadOk = false;
+  }
+
   const user = mapProfileToUser(data.user.email ?? email, profile);
   user.stats = calculateStreak(user.stats);
 
-  // Persist the refreshed streak/preferences back to the profile (best-effort).
-  await client
-    .from('profiles')
-    .update({ stats: user.stats, preferences: user.preferences })
-    .eq('id', data.user.id);
+  if (profileReadOk) {
+    await persistProfileState(data.user.id, user);
+  }
 
   safeSetItem(STORAGE_KEYS.AUTH_USER, user);
   return user;
 };
+
+/**
+ * Auth errors that indicate a transient network problem rather than a
+ * rejected/expired session. supabase-js raises AuthRetryableFetchError (status
+ * 0 or undefined) when the Auth server is unreachable — being offline must NOT
+ * log the user out; the whole point of the IndexedDB cache is offline use.
+ */
+const isTransientAuthError = (error: { name?: string; status?: number }): boolean =>
+  (error.name ?? '').includes('Retryable') || error.status === 0 || error.status === undefined;
 
 /**
  * Re-validates against the live Supabase session rather than trusting the
@@ -184,24 +216,34 @@ const supabaseLogin = async (email: string, password: string): Promise<User> => 
  * (2) a role change made server-side (e.g. an admin promotion) — the cached
  * `role` is otherwise stale until the next full login.
  *
- * Returns `null` if there is no valid Supabase session, signalling the
- * caller should fall back to the login screen.
+ * Returns `null` only when the session is positively invalid (rejected by the
+ * Auth server), signalling the caller to fall back to the login screen. On
+ * transient failures (offline, flaky network) the cached user is returned
+ * unchanged so the app keeps working from the local cache.
  */
 const supabaseRefreshSession = async (cachedUser: User): Promise<User | null> => {
   const client = supabase!;
   const { data, error } = await client.auth.getUser();
-  if (error || !data.user) {
+  if (error) {
+    return isTransientAuthError(error) ? cachedUser : null;
+  }
+  if (!data.user) {
     return null;
   }
 
-  const profile = await fetchProfile(data.user.id);
+  let profile: ProfileRow | null;
+  try {
+    profile = await fetchProfile(data.user.id);
+  } catch {
+    // Session is valid but the profile read failed — keep the cached user
+    // (role, stats, preferences intact) and skip the write-back.
+    return cachedUser;
+  }
+
   const user = mapProfileToUser(data.user.email ?? cachedUser.username, profile);
   user.stats = calculateStreak(user.stats);
 
-  await client
-    .from('profiles')
-    .update({ stats: user.stats, preferences: user.preferences })
-    .eq('id', data.user.id);
+  await persistProfileState(data.user.id, user);
 
   safeSetItem(STORAGE_KEYS.AUTH_USER, user);
   return user;

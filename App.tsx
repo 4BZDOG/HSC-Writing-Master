@@ -156,7 +156,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     currentSubTopic,
     currentDotPoint,
     currentPrompt,
-  } = useNavigation(courses);
+  } = useNavigation(courses, isReady);
   const currentSelection = {
     currentCourse,
     currentTopic,

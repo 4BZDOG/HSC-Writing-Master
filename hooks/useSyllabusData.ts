@@ -393,7 +393,12 @@ export const useSyllabusData = ({
     if (!isReady) return;
     const handler = setTimeout(async () => {
       const status = await saveCoursesToDB(courses);
-      setStorageStatus(status);
+      // In Supabase mode the badge reports the source of truth; the local save
+      // is just the offline cache, so don't let it overwrite 'Supabase' —
+      // unless the cache write actually failed, which is worth surfacing.
+      if (!isCurriculumRemote() || status === 'Error') {
+        setStorageStatus(status);
+      }
       if (courses.length > 0 && status !== 'Error') {
         createBackup(courses).catch((err) => console.error('Backup failed:', err));
       }
