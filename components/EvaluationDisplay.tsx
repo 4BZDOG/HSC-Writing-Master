@@ -357,7 +357,9 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 {isExporting ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>{exportStatus || 'Exporting…'}</span>
+                    <span role="status" aria-live="polite">
+                      {exportStatus || 'Exporting…'}
+                    </span>
                   </>
                 ) : (
                   <>
