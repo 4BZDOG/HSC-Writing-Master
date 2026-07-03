@@ -35,13 +35,19 @@ import {
   saveImportedBackup,
   importDataFromJSON,
 } from '../../utils/storageUtils';
-import { validateAndFixCourses, recalculateSampleAnswerBands } from '../../utils/dataManagerUtils';
+import {
+  validateAndFixCourses,
+  recalculateSampleAnswerBands,
+  migrateAnalyseVerb,
+} from '../../utils/dataManagerUtils';
 import { Course } from '../../types';
 import LoadingIndicator from '../LoadingIndicator';
 
 interface BackupSummary {
   key: string;
   date: string;
+  timestamp: number;
+  isImported: boolean;
   size: number;
   courseCount: number;
 }
@@ -186,10 +192,13 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
         await clearStore(storeName);
         await fetchStats();
         showToast(`Store '${storeName}' cleared.`, 'success');
-        // The app still holds courses/user state in memory; the next autosave
-        // would just re-write the store we just cleared. Reload so the app
-        // re-reads the now-empty store as its source of truth.
-        setTimeout(() => window.location.reload(), 1200);
+        // The courses and user-profile stores are mirrored in app memory; the
+        // next autosave would just re-write the store we cleared. Reload so
+        // the app re-reads the now-empty store as its source of truth. The
+        // backups/library stores have no in-memory mirror, so no reload.
+        if (storeName === 'main_store' || storeName === 'users_store') {
+          setTimeout(() => window.location.reload(), 1200);
+        }
       } catch (e) {
         showToast(`Failed to clear store '${storeName}'.`, 'error');
       }
@@ -209,6 +218,8 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
       if (data) {
         setPreviewData(data);
         setPreviewId(key);
+      } else {
+        showToast('Failed to load preview.', 'error');
       }
     } catch (e) {
       showToast('Failed to load preview.', 'error');
@@ -232,8 +243,11 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
         }
         // Backups may predate later data-version migrations/validation fixes
         // (e.g. band recalculation) — run them through the same pipeline as a
-        // file import rather than writing the raw snapshot straight back.
-        const fixedData = recalculateSampleAnswerBands(validateAndFixCourses(rawData));
+        // file import (migrate → validate/fix → recalculate bands) rather
+        // than writing the raw snapshot straight back.
+        const fixedData = recalculateSampleAnswerBands(
+          validateAndFixCourses(migrateAnalyseVerb(rawData))
+        );
         const status = await saveCoursesToDB(fixedData);
         if (status === 'Error') {
           showToast('Failed to restore backup: could not write to storage.', 'error');
@@ -301,13 +315,18 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
         await fetchBackups();
         showToast('Backup imported successfully.', 'success');
       } catch (err) {
+        // Thrown messages here are already self-describing ("Failed to
+        // import data: …", "Backup file contains no courses.") — don't
+        // stack another prefix on top.
         showToast(
-          err instanceof Error
-            ? `Failed to import backup: ${err.message}`
-            : 'Failed to import backup: Invalid file.',
+          err instanceof Error ? err.message : 'Failed to import backup: Invalid file.',
           'error'
         );
       }
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    };
+    reader.onerror = () => {
+      showToast('Failed to read the selected file.', 'error');
       if (fileInputRef.current) fileInputRef.current.value = '';
     };
     reader.readAsText(file);
@@ -421,10 +440,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
               <History className="w-4 h-4" /> Backups
             </button>
             <button
-              onClick={() => {
-                setInspectStoreName('main_store');
-                handleInspectStore('main_store');
-              }}
+              onClick={() => handleInspectStore('main_store')}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all duration-200 ${view === 'inspector' ? 'bg-amber-500/10 light:bg-amber-100 text-amber-400 light:text-amber-700' : 'text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200'}`}
             >
               <FileJson className="w-4 h-4" /> Data Browser
@@ -621,8 +637,18 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                               <Calendar className="w-5 h-5" />
                             </div>
                             <div>
-                              <p className="text-sm font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
+                              <p className="text-sm font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 flex items-center gap-2">
                                 {backup.date}
+                                {backup.timestamp > 0 && (
+                                  <span className="font-normal text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                                    {new Date(backup.timestamp).toLocaleTimeString()}
+                                  </span>
+                                )}
+                                {backup.isImported && (
+                                  <span className="px-1.5 py-0.5 rounded-md border border-purple-500/30 bg-purple-500/10 text-purple-400 light:text-purple-700 text-[10px] font-bold uppercase tracking-wider">
+                                    Imported
+                                  </span>
+                                )}
                               </p>
                               <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 font-mono">
                                 {backup.courseCount} Courses • {formatBytes(backup.size)}

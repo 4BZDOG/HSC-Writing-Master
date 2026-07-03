@@ -317,13 +317,18 @@ export const getBackupsList = async () => {
         return {
           key: k.toString(),
           date: item.dateStr,
+          timestamp: item.timestamp ?? 0,
+          // Imported snapshots share a dateStr with that day's automatic
+          // backup — the flag lets the UI tell the two apart.
+          isImported: k.toString().startsWith('import-'),
           size: JSON.stringify(item.data).length,
           courseCount: item.data.length,
         };
       })
     );
-    // Sort by date descending
-    return backups.filter(Boolean).sort((a, b) => b!.date.localeCompare(a!.date));
+    // Newest first; unlike dateStr, the timestamp also orders entries that
+    // share a date (e.g. the daily backup plus a same-day import).
+    return backups.filter(Boolean).sort((a, b) => b!.timestamp - a!.timestamp);
   } catch (error) {
     console.error('Failed to list backups:', error);
     return [];
