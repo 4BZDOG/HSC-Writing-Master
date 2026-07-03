@@ -1,5 +1,6 @@
 import React, { useRef, useMemo } from 'react';
 import { Prompt, EvaluationResult, UserRole, HierarchyContext } from '../types';
+import { isSystemAdmin } from '../utils/permissions';
 import Editor from './Editor';
 import WritingMetricsDashboard from './WritingMetricsDashboard';
 import SampleAnswersAccordion from './SampleAnswersAccordion';
@@ -306,7 +307,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           />
         )}
 
-        {userRole === 'admin' && !evaluationResult && (
+        {isSystemAdmin(userRole) && !evaluationResult && (
           <div className="mt-12 p-6 rounded-[32px] bg-[rgb(var(--color-bg-surface-inset))]/30 border border-dashed border-[rgb(var(--color-border-secondary))] flex items-center justify-between opacity-40 hover:opacity-100 transition-all duration-500">
             <div className="flex items-center gap-4">
               <div className="p-2.5 rounded-xl bg-black/40">

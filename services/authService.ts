@@ -28,6 +28,7 @@ const DEFAULT_STATS: UserStats = {
 
 const MOCK_USERS: Record<string, { password: string; role: UserRole; name: string }> = {
   admin: { password: 'admin', role: 'admin', name: 'Administrator' },
+  teacher: { password: 'teacher', role: 'teacher', name: 'Teacher User' },
   user: { password: 'user', role: 'user', name: 'Student User' },
 };
 
@@ -75,15 +76,18 @@ interface ProfileRow {
 }
 
 /**
- * Supabase uses `admin | teacher | student`; the app uses `admin | user |
- * guest`. Teachers curate content, so they map to the app's admin
- * capabilities. (Adjust here if teachers should be restricted.)
+ * Supabase uses `admin | teacher | student`; the app uses `admin | teacher |
+ * user | guest`. Teachers keep their own role: they can curate content and
+ * moderate the review queue (the server's `is_reviewer()` covers both roles)
+ * but do NOT get system-administration tools — see utils/permissions.ts for
+ * the capability mapping.
  */
 export const mapSupabaseRole = (role?: string | null): UserRole => {
   switch (role) {
     case 'admin':
-    case 'teacher':
       return 'admin';
+    case 'teacher':
+      return 'teacher';
     case 'student':
       return 'user';
     default:

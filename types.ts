@@ -160,7 +160,12 @@ export interface HierarchyContext {
   dotPoint: string;
 }
 
-export type UserRole = 'admin' | 'user' | 'guest';
+/**
+ * App roles. `teacher` curates content and moderates the review queue but has
+ * no system-administration access (Database Manager, Data Vault, bulk AI
+ * tools) — see utils/permissions.ts for the capability mapping.
+ */
+export type UserRole = 'admin' | 'teacher' | 'user' | 'guest';
 
 export interface UserStats {
   xp: number;

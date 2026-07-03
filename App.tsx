@@ -23,6 +23,7 @@ import { isCurriculumRemote } from './services/curriculumService';
 import { savePromptContribution } from './services/contributionService';
 import { screenContentQuality } from './services/geminiService';
 import { User } from './types';
+import { canModerate, isSystemAdmin } from './utils/permissions';
 import {
   Compass,
   Sparkles,
@@ -423,23 +424,27 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
               </div>
             </div>
             <div className="flex items-center gap-4">
-              {user.role === 'admin' && (
+              {(isSystemAdmin(user.role) || canModerate(user.role)) && (
                 <div className="flex items-center gap-2 mr-2">
-                  <button
-                    onClick={() => openModal('dataManager')}
-                    className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
-                    title="Data Vault (Import/Export/Reorder)"
-                  >
-                    <Database className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={() => setIsAuditModalOpen(true)}
-                    className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
-                    title="Syllabus Audit Studio"
-                  >
-                    <Activity className="w-4 h-4" />
-                  </button>
-                  {isCurriculumRemote() && (
+                  {isSystemAdmin(user.role) && (
+                    <>
+                      <button
+                        onClick={() => openModal('dataManager')}
+                        className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
+                        title="Data Vault (Import/Export/Reorder)"
+                      >
+                        <Database className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => setIsAuditModalOpen(true)}
+                        className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
+                        title="Syllabus Audit Studio"
+                      >
+                        <Activity className="w-4 h-4" />
+                      </button>
+                    </>
+                  )}
+                  {canModerate(user.role) && isCurriculumRemote() && (
                     <button
                       onClick={() => setIsReviewQueueOpen(true)}
                       className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
@@ -448,13 +453,15 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                       <ShieldCheck className="w-4 h-4" />
                     </button>
                   )}
-                  <button
-                    onClick={() => openModal('databaseDashboard')}
-                    className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
-                    title="Internal Database Health"
-                  >
-                    <HardDrive className="w-4 h-4" />
-                  </button>
+                  {isSystemAdmin(user.role) && (
+                    <button
+                      onClick={() => openModal('databaseDashboard')}
+                      className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
+                      title="Internal Database Health"
+                    >
+                      <HardDrive className="w-4 h-4" />
+                    </button>
+                  )}
                 </div>
               )}
               <div className="hidden lg:flex items-center gap-6 px-5 py-2 rounded-2xl bg-black/20 backdrop-blur-md border border-white/10">
@@ -621,8 +628,8 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       />
       <GlobalLoadingOverlay message={globalLoadingMessage} error={quotaError} />
       <BackgroundTaskIndicator task={activeBackgroundTask} />
-      {user.role === 'admin' && <ApiMonitorDisplay />}
-      {isAuditModalOpen && (
+      {isSystemAdmin(user.role) && <ApiMonitorDisplay />}
+      {isSystemAdmin(user.role) && isAuditModalOpen && (
         <ContentAuditModal
           isOpen={isAuditModalOpen}
           onClose={() => setIsAuditModalOpen(false)}
@@ -631,7 +638,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           showToast={showToast}
         />
       )}
-      {user.role === 'admin' && (
+      {canModerate(user.role) && (
         <ReviewQueueModal
           isOpen={isReviewQueueOpen}
           onClose={() => setIsReviewQueueOpen(false)}

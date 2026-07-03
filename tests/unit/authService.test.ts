@@ -22,6 +22,11 @@ describe('local admin/guest test accounts (always available without Supabase)', 
     expect(user.username).toBe('admin');
   });
 
+  it('logs in as the local teacher account', async () => {
+    const user = await authService.login('teacher', 'teacher');
+    expect(user.role).toBe('teacher');
+  });
+
   it('logs in as the local student account', async () => {
     const user = await authService.login('user', 'user');
     expect(user.role).toBe('user');
@@ -49,9 +54,11 @@ describe('local admin/guest test accounts (always available without Supabase)', 
 });
 
 describe('mapSupabaseRole', () => {
-  it('maps admin and teacher to the app admin role', () => {
+  it('maps admin to admin and teacher to the distinct teacher role', () => {
     expect(mapSupabaseRole('admin')).toBe('admin');
-    expect(mapSupabaseRole('teacher')).toBe('admin');
+    // Teachers curate and moderate but are NOT system admins — they must not
+    // inherit the Database Manager / Data Vault / bulk-AI tooling.
+    expect(mapSupabaseRole('teacher')).toBe('teacher');
   });
 
   it('maps student to the app user role', () => {
@@ -76,7 +83,7 @@ describe('mapProfileToUser', () => {
     });
 
     expect(user.username).toBe('jsmith');
-    expect(user.role).toBe('admin'); // teacher -> admin
+    expect(user.role).toBe('teacher');
     expect(user.displayName).toBe('J. Smith');
     expect(user.preferences.theme).toBe('light');
     // Defaults are merged for unspecified fields.

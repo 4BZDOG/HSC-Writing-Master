@@ -282,6 +282,30 @@ export const createBackup = async (courses: Course[]) => {
   }
 };
 
+/**
+ * Save an explicitly user-provided snapshot (e.g. a file the admin uploaded).
+ * Unlike createBackup(), this always writes under a unique key — it must never
+ * be silently dropped by the once-an-hour daily-rollup throttle, and must
+ * never overwrite today's automatic snapshot.
+ */
+export const saveImportedBackup = async (courses: Course[]): Promise<void> => {
+  if (courses.length === 0) throw new Error('Backup file contains no courses.');
+  const db = await getDB();
+  const timestamp = Date.now();
+  const dateStr = new Date().toISOString().split('T')[0];
+  const key = `import-${timestamp}`;
+  await db.put(
+    STORE_BACKUPS,
+    {
+      timestamp,
+      dateStr,
+      data: courses,
+    },
+    key
+  );
+  await cleanupOldBackups();
+};
+
 export const getBackupsList = async () => {
   try {
     const db = await getDB();
@@ -293,13 +317,18 @@ export const getBackupsList = async () => {
         return {
           key: k.toString(),
           date: item.dateStr,
+          timestamp: item.timestamp ?? 0,
+          // Imported snapshots share a dateStr with that day's automatic
+          // backup — the flag lets the UI tell the two apart.
+          isImported: k.toString().startsWith('import-'),
           size: JSON.stringify(item.data).length,
           courseCount: item.data.length,
         };
       })
     );
-    // Sort by date descending
-    return backups.filter(Boolean).sort((a, b) => b!.date.localeCompare(a!.date));
+    // Newest first; unlike dateStr, the timestamp also orders entries that
+    // share a date (e.g. the daily backup plus a same-day import).
+    return backups.filter(Boolean).sort((a, b) => b!.timestamp - a!.timestamp);
   } catch (error) {
     console.error('Failed to list backups:', error);
     return [];

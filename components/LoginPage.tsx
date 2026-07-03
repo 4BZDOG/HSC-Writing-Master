@@ -268,6 +268,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
               </div>
               <div className="flex flex-col items-center">
                 <span className="text-white light:text-slate-800 text-xs font-mono font-bold tracking-tight px-3 py-1 rounded-lg bg-white/5 light:bg-slate-200 border border-white/10 light:border-slate-300 shadow-lg">
+                  teacher
+                </span>
+                <span className="text-[10px] text-slate-500 uppercase mt-2 font-bold tracking-wider">
+                  Teacher
+                </span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-white light:text-slate-800 text-xs font-mono font-bold tracking-tight px-3 py-1 rounded-lg bg-white/5 light:bg-slate-200 border border-white/10 light:border-slate-300 shadow-lg">
                   user
                 </span>
                 <span className="text-[10px] text-slate-500 uppercase mt-2 font-bold tracking-wider">

@@ -49,11 +49,22 @@ export const runBatchOperations = async <T>(
   };
 
   return new Promise((resolve, reject) => {
+    let cancelledLogged = false;
+
     const runNext = async () => {
       if (signal?.aborted) {
-        addLog('Batch operation cancelled by user.');
-        updateProgress('Cancelled');
-        resolve();
+        // Stop dispatching new tasks, but only resolve once every already
+        // in-flight task has actually finished — otherwise the caller sees
+        // the batch as "stopped" while a task is still running in the
+        // background and mutates state after the fact.
+        if (!cancelledLogged) {
+          cancelledLogged = true;
+          addLog('Batch operation cancelled by user.');
+        }
+        if (active === 0) {
+          updateProgress('Cancelled');
+          resolve();
+        }
         return;
       }
 

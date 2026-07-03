@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Prompt, UserRole } from '../types';
+import { canCurateContent } from '../utils/permissions';
 import { AlertCircle, Sparkles, RefreshCw, Plus, X, Check } from 'lucide-react';
 import { getCommandTermInfo } from '../data/commandTerms';
 import { getBandConfig, getKeywordVariants, escapeRegExp } from '../utils/renderUtils';
@@ -35,7 +36,7 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
 }) => {
   const [keywords, setKeywords] = useState<string[]>(prompt.keywords || []);
   const [newKeyword, setNewKeyword] = useState('');
-  const isAdmin = userRole === 'admin';
+  const canCurate = canCurateContent(userRole);
 
   // Get color config based on question type (tier)
   const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
@@ -47,7 +48,7 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
 
   const handleAddKeyword = (e: React.FormEvent) => {
     e.preventDefault();
-    if (newKeyword.trim() && !keywords.includes(newKeyword.trim()) && isAdmin) {
+    if (newKeyword.trim() && !keywords.includes(newKeyword.trim()) && canCurate) {
       const updatedKeywords = [...keywords, newKeyword.trim()];
       setKeywords(updatedKeywords);
       onKeywordsChange(updatedKeywords);
@@ -56,7 +57,7 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
   };
 
   const handleRemoveKeyword = (keywordToRemove: string) => {
-    if (!isAdmin) return;
+    if (!canCurate) return;
     const updatedKeywords = keywords.filter((kw) => kw !== keywordToRemove);
     setKeywords(updatedKeywords);
     onKeywordsChange(updatedKeywords);
@@ -111,7 +112,7 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
                 />
               )}
               <span>{kw}</span>
-              {isAdmin && (
+              {canCurate && (
                 <div
                   onClick={(e) => {
                     e.stopPropagation();
@@ -134,7 +135,7 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
         )}
       </div>
 
-      {isAdmin && (
+      {canCurate && (
         <div className="flex gap-2">
           <form onSubmit={handleAddKeyword} className="flex-1 relative">
             <input

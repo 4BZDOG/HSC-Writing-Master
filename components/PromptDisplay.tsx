@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Prompt, UserRole, CourseOutcome } from '../types';
+import { canCurateContent } from '../utils/permissions';
 import {
   Edit3,
   Save,
@@ -92,7 +93,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   const headerRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const isAdmin = userRole === 'admin';
+  const canCurate = canCurateContent(userRole);
   const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
   // Use the verb's Tier to determine the band config (color) for the header
   const bandConfig = useMemo(() => getBandConfig(verbInfo.tier), [verbInfo.tier]);
@@ -272,7 +273,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 >
                   {renderFormattedText(prompt.question, prompt.keywords, prompt.verb)}
                 </h2>
-                {isAdmin && (
+                {canCurate && (
                   <div className="absolute -right-4 -top-10 opacity-0 group-hover/question:opacity-100 transition-opacity flex gap-2">
                     <button
                       onClick={() => onRunQualityCheck(prompt.question, 'question')}
@@ -300,7 +301,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500 light:text-slate-400 flex items-center gap-2">
                 <BookOpen className="w-3.5 h-3.5" /> Context Scenario
               </h3>
-              {isAdmin && !isEditingScenario && (
+              {canCurate && !isEditingScenario && (
                 <div className="flex gap-2 opacity-0 group-hover/prompt:opacity-100 transition-opacity">
                   <button
                     onClick={onGenerateScenario}
@@ -366,7 +367,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 ) : (
                   <div className="flex flex-col items-center justify-center py-8 text-center gap-3">
                     <p className="text-xs text-slate-500 mb-1 font-medium">No scenario provided.</p>
-                    {isAdmin && (
+                    {canCurate && (
                       <button
                         onClick={onGenerateScenario}
                         disabled={isGeneratingScenario}
@@ -432,7 +433,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   <span className={`text-xs font-bold ${bandConfig.text}`}>Outcome Link</span>
                 </div>
               </div>
-              {isAdmin && onSuggestOutcomes && (
+              {canCurate && onSuggestOutcomes && (
                 <button
                   onClick={onSuggestOutcomes}
                   disabled={isSuggestingOutcomes}

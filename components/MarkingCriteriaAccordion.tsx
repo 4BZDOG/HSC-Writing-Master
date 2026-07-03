@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Prompt, UserRole, CourseOutcome } from '../types';
+import { canCurateContent } from '../utils/permissions';
 import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { Edit3, Save, X, Target, Sparkles, Loader2, ListChecks } from 'lucide-react';
@@ -34,7 +35,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
   const [editText, setEditText] = useState(markingCriteria);
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const isAdmin = userRole === 'admin';
+  const canCurate = canCurateContent(userRole);
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
 
   const maxPossibleBand = useMemo(() => {
@@ -148,7 +149,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
           </div>
         </div>
 
-        {isAdmin && (
+        {canCurate && (
           <div className="flex gap-2">
             {!isEditing ? (
               <>
