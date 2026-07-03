@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Course, StatePath, UserRole, PromptVerb } from '../types';
+import { canCurateContent, isSystemAdmin } from '../utils/permissions';
 import Combobox from './Combobox';
 import {
   Plus,
@@ -131,7 +132,8 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   newlyAddedIds,
   userRole,
 }) => {
-  const isAdmin = userRole === 'admin';
+  const canCurate = canCurateContent(userRole);
+  const isAdmin = isSystemAdmin(userRole);
 
   const selectedCourse = courses.find((c) => c.id === statePath.courseId);
   const selectedTopic = selectedCourse?.topics?.find((t) => t.id === statePath.topicId);
@@ -412,15 +414,17 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 color="blue"
               />
             </div>
-            {isAdmin && (
+            {canCurate && (
               <div className="flex items-center gap-2 flex-wrap justify-end">
                 <ActionButton onClick={onAddCourse} icon={Plus} title="Add Course" />
-                <ActionButton
-                  onClick={onOpenDataManager}
-                  icon={Database}
-                  title="Data Vault (Import/Export/Reorder)"
-                  variant="vault"
-                />
+                {isAdmin && (
+                  <ActionButton
+                    onClick={onOpenDataManager}
+                    icon={Database}
+                    title="Data Vault (Import/Export/Reorder)"
+                    variant="vault"
+                  />
+                )}
                 {selectedCourse && (
                   <>
                     <ActionButton onClick={onEditOutcomes} icon={Settings} title="Edit Outcomes" />
@@ -463,7 +467,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 No topics yet.{' '}
                 {isAdmin
                   ? 'Add one, use AI Suggest, or import a syllabus via the Data Vault.'
-                  : 'Ask an admin to add content for this course.'}
+                  : canCurate
+                    ? 'Add one or use AI Suggest.'
+                    : 'Ask a teacher or admin to add content for this course.'}
               </p>
             )}
             <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
@@ -485,7 +491,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   color="purple"
                 />
               </div>
-              {isAdmin && (
+              {canCurate && (
                 <div className="flex items-center gap-2 flex-wrap justify-end">
                   {selectedTopic ? (
                     <>
@@ -553,7 +559,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   color="indigo"
                 />
               </div>
-              {isAdmin && (
+              {canCurate && (
                 <div className="flex items-center gap-2 flex-wrap justify-end">
                   {selectedSubTopic ? (
                     <>
@@ -632,7 +638,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               )}
 
               {/* Admin Actions */}
-              {isAdmin && (
+              {canCurate && (
                 <div className="flex items-center gap-2 pt-2 lg:pt-0 flex-wrap justify-end lg:self-center">
                   {selectedDotPoint ? (
                     <>
@@ -718,7 +724,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               <p className="mb-3 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
                 <FileQuestion className="w-3.5 h-3.5" />
                 No questions for this syllabus point yet.{' '}
-                {isAdmin ? 'Generate one or add it manually.' : 'Check back soon.'}
+                {canCurate ? 'Generate one or add it manually.' : 'Check back soon.'}
               </p>
             )}
             <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
@@ -732,7 +738,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   color="green"
                 />
               </div>
-              {isAdmin && (
+              {canCurate && (
                 <div className="flex items-center gap-2 flex-wrap justify-end">
                   {selectedPrompt ? (
                     <>

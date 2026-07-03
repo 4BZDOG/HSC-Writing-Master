@@ -109,7 +109,10 @@ describe('supabase refreshSession (cache-preserving failure modes)', () => {
 
     const result = await authService.refreshSession(cachedAdmin);
 
-    expect(result?.role).toBe('admin'); // teacher -> app admin
+    // This also covers the server-side role-change path: the cached user was
+    // an admin, the live profile says teacher, and the refresh downgrades the
+    // session to the distinct (non-system-admin) teacher role.
+    expect(result?.role).toBe('teacher');
     expect(result?.stats.xp).toBe(5000);
     expect(updateMock).toHaveBeenCalledTimes(1);
     const payload = updateMock.mock.calls[0][0] as { stats: { xp: number } };

@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { CourseOutcome, Prompt } from '../types';
 import { refineManualPrompt } from '../services/geminiService';
 import { getBandConfig } from '../utils/renderUtils';
+import { getCommandTermsForMarks, getCommandTermInfo, TIER_GROUPS } from '../data/commandTerms';
 import { X, Sparkles, PenTool, Save, Wand2, Target } from 'lucide-react';
 import LoadingIndicator from './LoadingIndicator';
 
@@ -95,6 +96,16 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
     }
   };
 
+  // Preview which verb tier the AI will target for this mark value — the
+  // same heuristic (getCommandTermsForMarks) the generators and audit studio
+  // use, so "AI will select a verb to match this difficulty" is concrete
+  // rather than a promise. (Must run before the early returns: hooks rule.)
+  const { primaryTerm: suggestedVerb } = useMemo(() => getCommandTermsForMarks(marks), [marks]);
+  const suggestedTierInfo = TIER_GROUPS.find((t) => t.tier === suggestedVerb.tier);
+  const markTierConfig = getBandConfig(suggestedVerb.tier);
+  const markBandColor = markTierConfig.text;
+  const markGradient = markTierConfig.gradient;
+
   // --- Safety Checks ---
 
   if (!isOpen) return null;
@@ -103,26 +114,6 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
 
   const targetContainer = document.body;
   if (!targetContainer) return null;
-
-  const bandConfig = getBandConfig(result ? 6 : 3); // Dynamic color based on state
-
-  // Heuristic for band color based on marks selected
-  const markBandColor =
-    marks >= 15
-      ? 'text-purple-400'
-      : marks >= 10
-        ? 'text-blue-400'
-        : marks >= 5
-          ? 'text-emerald-400'
-          : 'text-orange-400';
-  const markGradient =
-    marks >= 15
-      ? 'from-purple-500 to-indigo-500'
-      : marks >= 10
-        ? 'from-blue-500 to-sky-500'
-        : marks >= 5
-          ? 'from-emerald-500 to-teal-500'
-          : 'from-orange-500 to-amber-500';
 
   try {
     return createPortal(
@@ -183,7 +174,15 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                           Allocated Marks
                         </h4>
                         <p className="text-[10px] text-slate-500 font-medium">
-                          AI will select a verb to match this difficulty.
+                          AI targets a{' '}
+                          <span className={`font-bold ${markBandColor}`}>
+                            Tier {suggestedVerb.tier}
+                          </span>{' '}
+                          verb like{' '}
+                          <span className={`font-bold ${markBandColor}`}>
+                            '{suggestedVerb.term}'
+                          </span>{' '}
+                          — {suggestedTierInfo?.title}.
                         </p>
                       </div>
                     </div>
@@ -264,6 +263,11 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     </div>
                     <div className="px-3 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 text-[10px] font-black uppercase tracking-widest border border-indigo-500/20">
                       {result.totalMarks} Marks
+                    </div>
+                    <div className="px-3 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 text-[10px] font-black uppercase tracking-widest border border-indigo-500/20">
+                      Tier {getCommandTermInfo(result.verb).tier} • Max Band{' '}
+                      {TIER_GROUPS.find((t) => t.tier === getCommandTermInfo(result.verb).tier)
+                        ?.maxBand ?? 6}
                     </div>
                   </div>
                 </div>

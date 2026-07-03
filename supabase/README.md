@@ -51,6 +51,9 @@ database, not just the UI, so the gate can't be bypassed:
   `reject_prompt()` / `approve_sample_answer()` / `reject_sample_answer()`.
 
 Roles (`app_role`): `admin` (you), `teacher` (trusted reviewers), `student`.
+In the app, teachers get content curation and the review queue but NOT the
+system-administration tools (Database Manager, Data Vault, Content Audit
+Studio, API monitor) — see `utils/permissions.ts` for the capability mapping.
 
 ### How content flows in from users and AI (the growth loop)
 

@@ -52,15 +52,17 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
     });
   }, [prompt.totalMarks, existingCounts, commandTermInfo.tier]);
 
+  // Reset on every open: this modal stays mounted while the user navigates
+  // between prompts, so a mark selected for a previous (larger) question
+  // would otherwise silently persist — and could even exceed the current
+  // question's totalMarks.
   useEffect(() => {
     if (isOpen) {
-      if (selectedMark === null) {
-        setSelectedMark(prompt.totalMarks);
-      }
+      setSelectedMark(prompt.totalMarks);
       setIsLoading(false);
       setError(null);
     }
-  }, [isOpen, prompt.totalMarks]);
+  }, [isOpen, prompt.id, prompt.totalMarks]);
 
   const handleGenerate = async () => {
     if (selectedMark === null) return;

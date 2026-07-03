@@ -27,6 +27,14 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
 
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
 
+  // The verb's cognitive tier caps the achievable band (same rule the
+  // generator and the audit studio's recalibration enforce): full marks on a
+  // Tier-2 'Describe' question is still not a Band 6 response.
+  const tierMaxBand = useMemo(
+    () => getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier),
+    [prompt.totalMarks, commandTermInfo.tier]
+  );
+
   useEffect(() => {
     if (isOpen && sampleToEdit) {
       setAnswerText(sampleToEdit.answer);
@@ -153,18 +161,27 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
               <div className="flex items-center gap-1.5">
                 {[1, 2, 3, 4, 5, 6].map((b) => {
                   const isSelected = band === b;
+                  const isCappedOut = b > tierMaxBand;
                   const bConfig = getBandConfig(b);
                   return (
                     <button
                       key={b}
-                      onClick={() => setBand(b)}
+                      onClick={() => !isCappedOut && setBand(b)}
+                      disabled={isCappedOut && !isSelected}
                       type="button"
+                      title={
+                        isCappedOut
+                          ? `'${prompt.verb}' (Tier ${commandTermInfo.tier}) caps this question at Band ${tierMaxBand}`
+                          : `Band ${b}`
+                      }
                       className={`
                                     w-9 h-10 rounded-lg text-sm font-black transition-all duration-200
                                     ${
                                       isSelected
-                                        ? `${bConfig.solidBg} text-white shadow-lg scale-110 z-10 border border-white/20`
-                                        : 'bg-white/5 text-slate-500 hover:bg-white/10 hover:text-slate-300'
+                                        ? `${bConfig.solidBg} text-white shadow-lg scale-110 z-10 border border-white/20 ${isCappedOut ? 'ring-2 ring-amber-500/60' : ''}`
+                                        : isCappedOut
+                                          ? 'bg-white/[0.02] text-slate-700 cursor-not-allowed line-through'
+                                          : 'bg-white/5 text-slate-500 hover:bg-white/10 hover:text-slate-300'
                                     }
                                 `}
                     >
@@ -173,9 +190,17 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
                   );
                 })}
               </div>
-              <p className="mt-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
-                <Award className="w-3 h-3" /> Manually Overridable
-              </p>
+              {band > tierMaxBand ? (
+                <p className="mt-2 text-[10px] font-bold text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
+                  <AlertCircle className="w-3 h-3" /> Above the Band {tierMaxBand} cap for '
+                  {prompt.verb}' — recalibration will lower it
+                </p>
+              ) : (
+                <p className="mt-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
+                  <Award className="w-3 h-3" /> Manually overridable up to Band {tierMaxBand} (
+                  {`'${prompt.verb}'`} tier cap)
+                </p>
+              )}
             </div>
           </div>
 

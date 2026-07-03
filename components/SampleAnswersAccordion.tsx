@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Prompt, SampleAnswer, UserRole } from '../types';
+import { canCurateContent } from '../utils/permissions';
 import { renderFormattedText, getBandConfig, cleanMarkdown } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import SampleAnswerGeneratorModal from './SampleAnswerGeneratorModal';
@@ -378,7 +379,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   const [fontSize, setFontSize] = useState(13);
   const [isRecalibrating, setIsRecalibrating] = useState(false);
 
-  const isAdmin = userRole === 'admin';
+  const canCurate = canCurateContent(userRole);
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
 
   // Calculate maximum possible band for this question based on its cognitive Tier
@@ -471,7 +472,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             </button>
           </div>
 
-          {isAdmin && (
+          {canCurate && (
             <>
               {onRecalibrate && (
                 <button
@@ -514,7 +515,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
               onEdit={(sa) => setEditorTarget(sa)}
               onDelete={onDeleteSampleAnswer}
               onContribute={onContributeSampleAnswer}
-              canModify={isAdmin}
+              canModify={canCurate}
               fontSize={fontSize}
             />
           ))
@@ -522,7 +523,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           <div className="py-12 flex flex-col items-center text-center opacity-60">
             <FileText className="w-8 h-8 text-slate-300 dark:text-slate-600 mb-3" />
             <p className="text-xs font-medium text-slate-500">No model responses available yet.</p>
-            {isAdmin && (
+            {canCurate && (
               <p className="text-[10px] text-slate-400 mt-1">
                 Click generate to create exemplary answers.
               </p>
