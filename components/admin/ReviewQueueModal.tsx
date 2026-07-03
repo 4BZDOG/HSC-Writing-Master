@@ -1,6 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { X, ShieldCheck, Check, Ban, RefreshCw, Inbox, FileQuestion, FileText } from 'lucide-react';
+import {
+  X,
+  ShieldCheck,
+  Check,
+  Ban,
+  RefreshCw,
+  Inbox,
+  FileQuestion,
+  FileText,
+  ChevronDown,
+  ChevronUp,
+} from 'lucide-react';
 import {
   fetchModerationQueue,
   approvePrompt,
@@ -47,6 +58,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
   const [items, setItems] = useState<ModerationItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setIsLoading(true);
@@ -64,6 +76,14 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
   }, [isOpen, load]);
 
   const handleDecision = async (item: ModerationItem, decision: 'approve' | 'reject') => {
+    // Rejection has no undo in this UI (rejected rows don't reappear in the
+    // queue), so confirm before firing it — approval is the low-risk path.
+    if (
+      decision === 'reject' &&
+      !window.confirm('Reject this contribution? This cannot be undone from here.')
+    ) {
+      return;
+    }
     setBusyId(item.id);
     try {
       if (item.kind === 'prompt') {
@@ -73,6 +93,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
       }
       // Drop the resolved item locally so the list stays responsive.
       setItems((prev) => prev.filter((i) => i.id !== item.id));
+      setExpandedId((prev) => (prev === item.id ? null : prev));
       showToast(
         decision === 'approve' ? 'Published to the shared library.' : 'Contribution rejected.',
         decision === 'approve' ? 'success' : 'info'
@@ -166,9 +187,25 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
                       </span>
                       <QualityBadge score={item.qualityScore} />
                     </div>
-                    <p className="text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 break-words">
-                      {item.title}
+                    <p className="text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 break-words whitespace-pre-wrap">
+                      {expandedId === item.id ? item.fullText : item.title}
                     </p>
+                    {item.fullText.length > item.title.length && (
+                      <button
+                        onClick={() => setExpandedId(expandedId === item.id ? null : item.id)}
+                        className="mt-1 flex items-center gap-1 text-[11px] font-bold text-[rgb(var(--color-accent))] hover:underline"
+                      >
+                        {expandedId === item.id ? (
+                          <>
+                            <ChevronUp className="w-3 h-3" /> Show less
+                          </>
+                        ) : (
+                          <>
+                            <ChevronDown className="w-3 h-3" /> Show full content
+                          </>
+                        )}
+                      </button>
+                    )}
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <button

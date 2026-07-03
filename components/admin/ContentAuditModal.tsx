@@ -32,33 +32,20 @@ import {
   ChevronDown,
   CheckSquare,
   Square,
-  Sparkles,
   FileText,
   X,
   Folder,
   Layers,
   Hash,
   BookOpen,
-  Database,
-  Zap,
-  BarChart3,
-  Play,
-  Square as StopSquare,
   Filter,
-  AlertTriangle,
   Terminal,
   PieChart,
-  Link,
-  Download,
-  Cpu,
   Activity,
-  ShieldCheck,
-  ListChecks,
   Link2,
   Search,
   RotateCcw,
   Scale,
-  Gauge,
 } from 'lucide-react';
 
 // --- Shared Components ---
@@ -333,6 +320,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isStopping, setIsStopping] = useState(false);
   const [progress, setProgress] = useState<BatchProgress | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<VisibilityFilter>(null);
@@ -442,11 +430,33 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     return treeData.map((node) => filterNode(node)).filter(Boolean) as TreeNode[];
   }, [treeData, searchQuery, activeFilter]);
 
+  // Ids currently visible in the (search + filter) narrowed tree, so "Select
+  // All Filtered" only ever selects what's actually on screen.
+  const filteredIds = useMemo(() => {
+    const ids = new Set<string>();
+    const traverse = (nodes: TreeNode[]) => {
+      nodes.forEach((n) => {
+        ids.add(n.id);
+        if (n.children) traverse(n.children);
+      });
+    };
+    traverse(filteredTreeData);
+    return ids;
+  }, [filteredTreeData]);
+
+  // Auto-expand top-level courses once when the modal opens. Using a ref
+  // (rather than "expandedIds.size === 0") means a user who deliberately
+  // collapses everything stays collapsed instead of being snapped back open.
+  const hasAutoExpandedRef = useRef(false);
   useEffect(() => {
-    if (isOpen && expandedIds.size === 0) {
+    if (isOpen && !hasAutoExpandedRef.current) {
       setExpandedIds(new Set(treeData.map((c) => c.id)));
+      hasAutoExpandedRef.current = true;
     }
-  }, [isOpen, treeData, expandedIds.size]);
+    if (!isOpen) {
+      hasAutoExpandedRef.current = false;
+    }
+  }, [isOpen, treeData]);
 
   useEffect(() => {
     if (logsEndRef.current) {
@@ -501,6 +511,10 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     const newExpanded = new Set<string>(expandedIds);
 
     flatMap.forEach((node) => {
+      // Only select items currently visible under the active search + filter,
+      // not every match in the whole library.
+      if (!filteredIds.has(node.id)) return;
+
       let match = false;
       if (criteria === 'emptyDotPoints' && node.type === 'dotPoint' && node.stats.questions === 0)
         match = true;
@@ -549,9 +563,13 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   const handleStop = () => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
-      showToast('Optimisation engine stopped.', 'info');
+      // Don't clear isProcessing here — a task may still be in flight and
+      // its AI result would otherwise land after the UI claims we've
+      // stopped. runBatchOperations now waits for in-flight tasks to drain
+      // before resolving; handleBulkAction clears isProcessing then.
+      setIsStopping(true);
+      showToast('Stopping… waiting for the current task to finish.', 'info');
     }
-    setIsProcessing(false);
   };
 
   const handleBulkAction = async (
@@ -627,7 +645,10 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 ?.topics.find((x: any) => x.id === path.topicId)
                 ?.subTopics.find((x: any) => x.id === path.subTopicId)
                 ?.dotPoints.find((x: any) => x.id === path.dotPointId);
-              if (dp) dp.prompts.push(prompt);
+              if (dp) {
+                if (!dp.prompts) dp.prompts = [];
+                dp.prompts.push(prompt);
+              }
             });
           },
         });
@@ -769,6 +790,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
     await runBatchOperations(tasks, 1, (prog) => setProgress(prog), controller.signal);
     setIsProcessing(false);
+    setIsStopping(false);
     abortControllerRef.current = null;
   };
 
@@ -1025,6 +1047,15 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             </span>
           </button>
           <button
+            onClick={() => handleFilterToggle('missingOutcomes')}
+            className={`group relative overflow-hidden px-6 h-12 rounded-2xl border text-xs font-black uppercase tracking-widest transition-all flex items-center gap-4 ${activeFilter === 'missingOutcomes' ? 'bg-pink-500/20 border-pink-500/40 text-pink-400 shadow-lg' : 'bg-pink-500/5 border-pink-500/10 text-pink-400 hover:bg-pink-500/10'}`}
+          >
+            <span>Missing Outcomes</span>
+            <span className="bg-black/40 px-2 py-0.5 rounded-lg text-[10px]">
+              {counts.missingOutcomes}
+            </span>
+          </button>
+          <button
             onClick={() => handleFilterToggle('hasSamples')}
             className={`group relative overflow-hidden px-6 h-12 rounded-2xl border text-xs font-black uppercase tracking-widest transition-all flex items-center gap-4 ${activeFilter === 'hasSamples' ? 'bg-teal-500/20 border-teal-500/40 text-teal-400 shadow-lg' : 'bg-teal-500/5 border-teal-500/10 text-teal-400 hover:bg-teal-500/10'}`}
           >
@@ -1105,16 +1136,19 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
               <div className="flex-1 h-3 bg-black/40 rounded-full overflow-hidden border border-white/5 p-0.5">
                 <div
                   className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 transition-all duration-500 relative rounded-full"
-                  style={{ width: `${(progress.completed / progress.total) * 100}%` }}
+                  style={{
+                    width: `${((progress.completed + progress.failed) / progress.total) * 100}%`,
+                  }}
                 >
                   <div className="absolute inset-0 bg-white/20 animate-shimmer" />
                 </div>
               </div>
               <button
                 onClick={handleStop}
-                className="px-10 h-10 rounded-xl bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white text-[10px] font-black uppercase tracking-widest transition-all"
+                disabled={isStopping}
+                className="px-10 h-10 rounded-xl bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Stop Process
+                {isStopping ? 'Stopping…' : 'Stop Process'}
               </button>
             </div>
           ) : (
@@ -1142,6 +1176,14 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   className="px-6 h-12 rounded-[20px] bg-sky-600 text-white font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale"
                 >
                   Generate Rubrics
+                </button>
+                <button
+                  onClick={handleBulkAction.bind(null, 'linkOutcomes')}
+                  disabled={selectedIds.size === 0}
+                  className="px-6 h-12 rounded-[20px] bg-pink-600 text-white font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale flex items-center gap-2"
+                >
+                  <Link2 className="w-4 h-4" />
+                  Link Outcomes
                 </button>
                 <button
                   onClick={handleBulkAction.bind(null, 'generateSamples')}

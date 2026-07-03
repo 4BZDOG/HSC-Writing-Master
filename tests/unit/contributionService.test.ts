@@ -116,6 +116,20 @@ describe('toQueueItems (pending rows -> review list)', () => {
     expect(items[1].title).toBe('A question');
   });
 
+  it('carries the untruncated source text in fullText for reviewer expand/collapse', () => {
+    const longAnswer = 'x'.repeat(200);
+    const items = toQueueItems(
+      [{ id: 'p1', question: 'A question', created_at: null, quality_score: 80 }],
+      [{ id: 'a1', answer: longAnswer, created_at: null, quality_score: 30 }]
+    );
+
+    const answerItem = items.find((i) => i.id === 'a1')!;
+    const promptItem = items.find((i) => i.id === 'p1')!;
+    // fullText is never truncated, even when the title is.
+    expect(answerItem.fullText).toBe(longAnswer);
+    expect(promptItem.fullText).toBe('A question');
+  });
+
   it('sorts unscored items after scored ones', () => {
     const items = toQueueItems(
       [

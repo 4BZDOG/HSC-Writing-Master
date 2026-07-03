@@ -32,11 +32,19 @@ import {
   getBackupsList,
   restoreBackup,
   deleteBackup,
-  createBackup,
+  saveImportedBackup,
   importDataFromJSON,
 } from '../../utils/storageUtils';
+import { validateAndFixCourses, recalculateSampleAnswerBands } from '../../utils/dataManagerUtils';
 import { Course } from '../../types';
 import LoadingIndicator from '../LoadingIndicator';
+
+interface BackupSummary {
+  key: string;
+  date: string;
+  size: number;
+  courseCount: number;
+}
 
 interface DatabaseDashboardProps {
   isOpen: boolean;
@@ -101,8 +109,9 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
   const [stats, setStats] = useState<DBStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
+  const [isRestoring, setIsRestoring] = useState(false);
 
-  const [backups, setBackups] = useState<any[]>([]);
+  const [backups, setBackups] = useState<BackupSummary[]>([]);
   const [isLoadingBackups, setIsLoadingBackups] = useState(false);
   const [previewData, setPreviewData] = useState<Course[] | null>(null);
   const [previewId, setPreviewId] = useState<string | null>(null);
@@ -148,9 +157,18 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
   const handleForceSync = async () => {
     setIsSyncing(true);
     try {
-      await saveCoursesToDB(courses);
-      await fetchStats();
-      showToast('Database synced successfully.', 'success');
+      const status = await saveCoursesToDB(courses);
+      if (status === 'Error') {
+        showToast('Failed to sync database.', 'error');
+      } else {
+        await fetchStats();
+        showToast(
+          status === 'LocalStorage'
+            ? 'Synced to LocalStorage (IndexedDB unavailable).'
+            : 'Database synced successfully.',
+          'success'
+        );
+      }
     } catch (e) {
       showToast('Failed to sync database.', 'error');
     } finally {
@@ -168,6 +186,10 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
         await clearStore(storeName);
         await fetchStats();
         showToast(`Store '${storeName}' cleared.`, 'success');
+        // The app still holds courses/user state in memory; the next autosave
+        // would just re-write the store we just cleared. Reload so the app
+        // re-reads the now-empty store as its source of truth.
+        setTimeout(() => window.location.reload(), 1200);
       } catch (e) {
         showToast(`Failed to clear store '${storeName}'.`, 'error');
       }
@@ -201,20 +223,28 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
         `WARNING: Restoring this backup from ${date} will OVERWRITE all current data. This cannot be undone. Are you sure?`
       )
     ) {
-      setIsLoading(true);
+      setIsRestoring(true);
       try {
-        const data = await restoreBackup(key);
-        if (data) {
-          await saveCoursesToDB(data);
-          showToast('Backup restored. Reloading application...', 'success');
-          setTimeout(() => window.location.reload(), 1500);
-        } else {
+        const rawData = await restoreBackup(key);
+        if (!rawData) {
           showToast('Failed to load backup data.', 'error');
-          setIsLoading(false);
+          return;
         }
+        // Backups may predate later data-version migrations/validation fixes
+        // (e.g. band recalculation) — run them through the same pipeline as a
+        // file import rather than writing the raw snapshot straight back.
+        const fixedData = recalculateSampleAnswerBands(validateAndFixCourses(rawData));
+        const status = await saveCoursesToDB(fixedData);
+        if (status === 'Error') {
+          showToast('Failed to restore backup: could not write to storage.', 'error');
+          return;
+        }
+        showToast('Backup restored. Reloading application...', 'success');
+        setTimeout(() => window.location.reload(), 1500);
       } catch (e) {
         showToast('Error during restoration.', 'error');
-        setIsLoading(false);
+      } finally {
+        setIsRestoring(false);
       }
     }
   };
@@ -264,11 +294,19 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
       try {
         const json = event.target?.result as string;
         const courses = importDataFromJSON(json);
-        await createBackup(courses);
+        // Uses a distinct key so it can never be silently dropped by
+        // createBackup()'s once-an-hour daily rollup, or overwrite today's
+        // automatic snapshot.
+        await saveImportedBackup(courses);
         await fetchBackups();
         showToast('Backup imported successfully.', 'success');
       } catch (err) {
-        showToast('Failed to import backup: Invalid file.', 'error');
+        showToast(
+          err instanceof Error
+            ? `Failed to import backup: ${err.message}`
+            : 'Failed to import backup: Invalid file.',
+          'error'
+        );
       }
       if (fileInputRef.current) fileInputRef.current.value = '';
     };
@@ -291,15 +329,6 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
     }
   };
 
-  const handleCopyData = () => {
-    navigator.clipboard.writeText(JSON.stringify(inspectData, null, 2));
-    showToast('Data copied to clipboard.', 'success');
-  };
-
-  const handleBackToStats = () => {
-    setView('overview');
-  };
-
   const filteredInspectData = useMemo(() => {
     if (!searchQuery) return JSON.stringify(inspectData, null, 2);
     if (Array.isArray(inspectData)) {
@@ -310,6 +339,20 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
     }
     return JSON.stringify(inspectData, null, 2);
   }, [inspectData, searchQuery]);
+
+  const handleCopyData = async () => {
+    try {
+      // Copy what's actually on screen (the filtered view), not the full store.
+      await navigator.clipboard.writeText(filteredInspectData);
+      showToast('Data copied to clipboard.', 'success');
+    } catch (e) {
+      showToast('Failed to copy data to clipboard.', 'error');
+    }
+  };
+
+  const handleBackToStats = () => {
+    setView('overview');
+  };
 
   if (!isOpen) return null;
 
@@ -435,12 +478,12 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                         <p className="text-2xl font-black text-[rgb(var(--color-text-primary))] light:text-slate-900">
                           {stats.quota ? formatBytes(stats.quota.usage) : 'Unknown'}
                         </p>
-                        {stats.quota && (
+                        {stats.quota && stats.quota.quota > 0 && (
                           <div className="w-full bg-gray-700 light:bg-slate-300 h-1.5 rounded-full mt-2 overflow-hidden">
                             <div
                               className="bg-blue-500 h-full transition-all duration-1000"
                               style={{
-                                width: `${Math.max(1, (stats.quota.usage / stats.quota.quota) * 100)}%`,
+                                width: `${Math.min(100, Math.max(1, (stats.quota.usage / stats.quota.quota) * 100))}%`,
                               }}
                             ></div>
                           </div>
@@ -603,15 +646,19 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                             </button>
                             <button
                               onClick={() => handleRestoreBackup(backup.key, backup.date)}
-                              className="p-2 rounded-lg hover:bg-blue-500/10 light:hover:bg-blue-100 text-blue-400 light:text-blue-600 transition-colors"
+                              disabled={isRestoring}
+                              className="p-2 rounded-lg hover:bg-blue-500/10 light:hover:bg-blue-100 text-blue-400 light:text-blue-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                               title="Restore this version"
                             >
-                              <RotateCcw className="w-4 h-4" />
+                              <RotateCcw
+                                className={`w-4 h-4 ${isRestoring ? 'animate-spin' : ''}`}
+                              />
                             </button>
                             <div className="w-px h-4 bg-[rgb(var(--color-border-secondary))] light:bg-slate-300 mx-1"></div>
                             <button
                               onClick={() => handleDeleteBackup(backup.key)}
-                              className="p-2 rounded-lg hover:bg-red-500/10 light:hover:bg-red-100 text-red-400 light:text-red-600 transition-colors"
+                              disabled={isRestoring}
+                              className="p-2 rounded-lg hover:bg-red-500/10 light:hover:bg-red-100 text-red-400 light:text-red-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                               title="Delete snapshot"
                             >
                               <Trash2 className="w-4 h-4" />
@@ -688,7 +735,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
 
         <div className="px-6 py-5 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-between items-center">
           <div className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-500">
-            Local Database: {isLoading ? 'Busy...' : 'Ready'}
+            Local Database: {isLoading || isRestoring ? 'Busy...' : 'Ready'}
           </div>
           <div className="flex gap-3">
             {view === 'overview' && (

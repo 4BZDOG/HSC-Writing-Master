@@ -282,6 +282,30 @@ export const createBackup = async (courses: Course[]) => {
   }
 };
 
+/**
+ * Save an explicitly user-provided snapshot (e.g. a file the admin uploaded).
+ * Unlike createBackup(), this always writes under a unique key — it must never
+ * be silently dropped by the once-an-hour daily-rollup throttle, and must
+ * never overwrite today's automatic snapshot.
+ */
+export const saveImportedBackup = async (courses: Course[]): Promise<void> => {
+  if (courses.length === 0) throw new Error('Backup file contains no courses.');
+  const db = await getDB();
+  const timestamp = Date.now();
+  const dateStr = new Date().toISOString().split('T')[0];
+  const key = `import-${timestamp}`;
+  await db.put(
+    STORE_BACKUPS,
+    {
+      timestamp,
+      dateStr,
+      data: courses,
+    },
+    key
+  );
+  await cleanupOldBackups();
+};
+
 export const getBackupsList = async () => {
   try {
     const db = await getDB();

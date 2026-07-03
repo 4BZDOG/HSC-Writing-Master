@@ -259,6 +259,8 @@ export interface ModerationItem {
   kind: 'prompt' | 'sample_answer';
   id: string;
   title: string;
+  /** Untruncated source text, so reviewers can expand before deciding. */
+  fullText: string;
   createdAt: string | null;
   qualityScore: number | null;
 }
@@ -280,8 +282,9 @@ const truncate = (text: string, max = 140): string =>
   text.length > max ? `${text.slice(0, max).trimEnd()}…` : text;
 
 /**
- * Pure assembler: flatten the two pending-row sets into a single, newest-first
- * review list. IO-free so it can be unit-tested directly.
+ * Pure assembler: flatten the two pending-row sets into a single review list,
+ * lowest quality-score first (riskiest submissions surface first; unscored
+ * items sort last). IO-free so it can be unit-tested directly.
  */
 export const toQueueItems = (
   prompts: PendingPromptRow[],
@@ -292,6 +295,7 @@ export const toQueueItems = (
       kind: 'prompt' as const,
       id: p.id,
       title: truncate(p.question),
+      fullText: p.question,
       createdAt: p.created_at,
       qualityScore: p.quality_score,
     })),
@@ -299,6 +303,7 @@ export const toQueueItems = (
       kind: 'sample_answer' as const,
       id: a.id,
       title: truncate(a.answer),
+      fullText: a.answer,
       createdAt: a.created_at,
       qualityScore: a.quality_score,
     })),
