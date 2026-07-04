@@ -19,6 +19,7 @@ import {
   generateRubricForPrompt,
   suggestOutcomesForPrompt,
   evaluateAnswer,
+  screenContentQuality,
 } from '../../services/geminiService';
 import {
   getCommandTermsForMarks,
@@ -54,6 +55,7 @@ import {
   Cpu,
   Wrench,
   UploadCloud,
+  Gauge,
 } from 'lucide-react';
 
 // --- Shared Components ---
@@ -137,6 +139,7 @@ type VisibilityFilter =
   | 'missingRubrics'
   | 'rubricNotDescending'
   | 'hasSamples'
+  | 'lowQuality'
   | null;
 
 type BulkActionType =
@@ -145,6 +148,7 @@ type BulkActionType =
   | 'generateRubrics'
   | 'linkOutcomes'
   | 'recalibrateSamples'
+  | 'screenQuality'
   | 'fixAllGaps';
 
 // Gap predicates shared by the task assembly, the button target counts, and
@@ -155,6 +159,13 @@ const needsRubric = (n: TreeNode) =>
   n.type === 'prompt' && (n.stats.missingMarkingCriteria > 0 || n.stats.rubricNotDescending > 0);
 const needsOutcomes = (n: TreeNode) => n.type === 'prompt' && n.stats.missingOutcomes > 0;
 const hasSamplesToRecalibrate = (n: TreeNode) => n.type === 'prompt' && n.stats.samples > 0;
+const qualityOf = (n: TreeNode): number | null =>
+  n.type === 'prompt' ? ((n.dataRef as Prompt).qualityScore ?? null) : null;
+// Thresholds match the Review Queue's QualityBadge: <50 needs a close look.
+const isLowQuality = (n: TreeNode) => {
+  const q = qualityOf(n);
+  return q !== null && q < 50;
+};
 
 const GAP_BADGE_BASE =
   'px-1.5 py-0.5 rounded-md border text-[8px] font-black uppercase tracking-wider whitespace-nowrap';
@@ -197,6 +208,20 @@ const GapBadges: React.FC<{ node: TreeNode }> = ({ node }) => {
         label: 'No Outcomes',
         tone: 'bg-pink-500/10 border-pink-500/30 text-pink-400',
         title: 'No syllabus outcomes linked',
+      });
+    const q = qualityOf(node);
+    if (q !== null)
+      badges.push({
+        label: `AI ${q}`,
+        tone:
+          q >= 75
+            ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
+            : q >= 50
+              ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
+              : 'bg-rose-500/10 border-rose-500/30 text-rose-400',
+        title:
+          (node.dataRef as Prompt).qualityNotes ||
+          'AI quality pre-screen score (advisory — review the content itself)',
       });
   }
 
@@ -453,6 +478,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     let missingRubrics = 0;
     let nonStandardRubrics = 0;
     let hasSamples = 0;
+    let lowQuality = 0;
 
     flatMap.forEach((node) => {
       if (node.type === 'dotPoint' && node.stats.questions === 0) emptyDotPoints++;
@@ -463,6 +489,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         if (node.stats.missingMarkingCriteria > 0) missingRubrics++;
         if (node.stats.rubricNotDescending > 0) nonStandardRubrics++;
         if (node.stats.samples > 0) hasSamples++;
+        if (isLowQuality(node)) lowQuality++;
       }
     });
 
@@ -474,6 +501,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       missingRubrics,
       nonStandardRubrics,
       hasSamples,
+      lowQuality,
     };
   }, [flatMap]);
 
@@ -486,6 +514,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     let samples = 0;
     let outcomes = 0;
     let recalibrations = 0;
+    let screenings = 0;
 
     selectedIds.forEach((id) => {
       const node = flatMap.get(id);
@@ -498,6 +527,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         // Count what the task builder will actually iterate (every stored
         // sample), not just the "valid" ones the stats tally.
         recalibrations += (node.dataRef as Prompt).sampleAnswers?.length || 0;
+      if (node.type === 'prompt') screenings++;
     });
 
     return {
@@ -506,6 +536,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       samples,
       outcomes,
       recalibrations,
+      screenings,
       allGaps: questions + rubrics + samples + outcomes,
     };
   }, [selectedIds, flatMap]);
@@ -532,6 +563,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           matchesGap = node.type === 'prompt' && node.stats.rubricNotDescending > 0;
         else if (activeFilter === 'hasSamples')
           matchesGap = node.type === 'prompt' && node.stats.samples > 0;
+        else if (activeFilter === 'lowQuality') matchesGap = isLowQuality(node);
       }
 
       // Recursive check for children
@@ -687,6 +719,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         match = true;
       if (criteria === 'hasSamples' && node.type === 'prompt' && node.stats.samples > 0)
         match = true;
+      if (criteria === 'lowQuality' && isLowQuality(node)) match = true;
 
       if (match) {
         newSelected.add(node.id);
@@ -882,6 +915,31 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     }));
   };
 
+  /**
+   * AI quality pre-screen for an existing question. Structural gaps are caught
+   * by the badges; this catches content that EXISTS but is weak. The score is
+   * stored on the prompt (persisted locally, shown as an inline badge, and
+   * carried to the shared library on sync so reviewers can triage).
+   */
+  const makeScreeningTask = (node: TreeNode): BatchTask<void> => ({
+    id: `screen-${node.id}`,
+    description: `Screening quality: ${node.label.slice(0, 30)}...`,
+    action: async () => {
+      const prompt = node.dataRef as Prompt;
+      const quality = await screenContentQuality(prompt.question, 'question');
+      // screenContentQuality swallows its own errors; surface that as a
+      // failed task rather than silently recording nothing.
+      if (!quality) throw new Error('Quality screening returned no result.');
+      updateCourses((draft) => {
+        const p = findDraftPrompt(draft, node.path);
+        if (p) {
+          p.qualityScore = quality.score;
+          p.qualityNotes = quality.notes;
+        }
+      });
+    },
+  });
+
   const buildTasks = (actionType: BulkActionType): BatchTask<void>[] => {
     const tasks: BatchTask<void>[] = [];
     const all = actionType === 'fixAllGaps';
@@ -900,6 +958,8 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         tasks.push(makeSampleTask(node));
       if (actionType === 'recalibrateSamples' && hasSamplesToRecalibrate(node))
         tasks.push(...makeRecalibrationTasks(node));
+      if (actionType === 'screenQuality' && node.type === 'prompt')
+        tasks.push(makeScreeningTask(node));
     });
 
     return tasks;
@@ -988,7 +1048,13 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         const prompt = node?.dataRef as Prompt | undefined;
         if (!prompt) throw new Error('Prompt no longer exists locally.');
 
-        await savePromptContribution(t.dotPointAppId, prompt, 'pending');
+        // Carry the AI pre-screen (if this prompt has been scored) so the
+        // review queue can triage the pushed repair.
+        const quality =
+          prompt.qualityScore != null
+            ? { score: prompt.qualityScore, notes: prompt.qualityNotes ?? '' }
+            : undefined;
+        await savePromptContribution(t.dotPointAppId, prompt, 'pending', quality);
         for (const sa of prompt.sampleAnswers ?? []) {
           await saveSampleAnswerContribution(prompt.id, sa, 'pending');
         }
@@ -1303,6 +1369,16 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
               {counts.hasSamples}
             </span>
           </button>
+          <button
+            onClick={() => handleFilterToggle('lowQuality')}
+            title="Questions whose AI quality pre-screen scored below 50 (run Screen Quality to score content)"
+            className={`group relative overflow-hidden px-6 h-12 rounded-2xl border text-xs font-black uppercase tracking-widest transition-all flex items-center gap-4 ${activeFilter === 'lowQuality' ? 'bg-rose-500/20 border-rose-500/40 text-rose-400 shadow-lg' : 'bg-rose-500/5 border-rose-500/10 text-rose-400 hover:bg-rose-500/10'}`}
+          >
+            <span>Low Quality</span>
+            <span className="bg-black/40 px-2 py-0.5 rounded-lg text-[10px]">
+              {counts.lowQuality}
+            </span>
+          </button>
 
           <div className="flex-1" />
 
@@ -1496,6 +1572,15 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 >
                   <Scale className="w-4 h-4" />
                   Recalibrate ({selectionTargets.recalibrations})
+                </button>
+                <button
+                  onClick={handleBulkAction.bind(null, 'screenQuality')}
+                  disabled={selectionTargets.screenings === 0}
+                  title="AI-score every selected question (0–100) so weak content is flagged, filterable, and triaged in the review queue"
+                  className="px-5 h-12 rounded-[20px] bg-rose-600 text-white font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale flex items-center gap-2"
+                >
+                  <Gauge className="w-4 h-4" />
+                  Screen Quality ({selectionTargets.screenings})
                 </button>
                 <div className="w-px h-8 bg-white/10 self-center" />
                 <button

@@ -261,6 +261,8 @@ export interface ModerationItem {
   title: string;
   /** Untruncated source text, so reviewers can expand before deciding. */
   fullText: string;
+  /** For sample answers: the parent question, so reviewers judge in context. */
+  context: string | null;
   createdAt: string | null;
   qualityScore: number | null;
 }
@@ -276,6 +278,9 @@ interface PendingAnswerRow {
   answer: string;
   created_at: string | null;
   quality_score: number | null;
+  /** PostgREST embed of the parent prompt (object for a to-one relation, but
+   *  tolerate the array shape some client versions produce). */
+  prompts?: { question: string } | { question: string }[] | null;
 }
 
 const truncate = (text: string, max = 140): string =>
@@ -296,6 +301,7 @@ export const toQueueItems = (
       id: p.id,
       title: truncate(p.question),
       fullText: p.question,
+      context: null,
       createdAt: p.created_at,
       qualityScore: p.quality_score,
     })),
@@ -304,6 +310,7 @@ export const toQueueItems = (
       id: a.id,
       title: truncate(a.answer),
       fullText: a.answer,
+      context: (Array.isArray(a.prompts) ? a.prompts[0]?.question : a.prompts?.question) ?? null,
       createdAt: a.created_at,
       qualityScore: a.quality_score,
     })),
@@ -333,7 +340,8 @@ export const fetchModerationQueue = async (): Promise<ModerationItem[]> => {
       () =>
         client
           .from('sample_answers')
-          .select('id, answer, created_at, quality_score')
+          // Embed the parent question so reviewers see answers in context.
+          .select('id, answer, created_at, quality_score, prompts(question)')
           .eq('status', 'pending'),
       label
     ),

@@ -61,6 +61,8 @@ const fixture: Course[] = [
                     verb: 'Explain',
                     linkedOutcomes: ['FC-1'],
                     keywords: ['sync'],
+                    qualityScore: 42,
+                    qualityNotes: 'Needs a stronger scenario.',
                     scenario: 'A scenario long enough to count as enriched.',
                     sampleAnswers: [
                       {
@@ -116,10 +118,12 @@ describe('Content Audit Studio — sync repairs to the shared library', () => {
     fireEvent.click(syncBtn);
     await waitFor(
       () =>
+        // The stored AI pre-screen rides along so the review queue can triage.
         expect(contributionService.savePromptContribution).toHaveBeenCalledWith(
           'dp1',
           expect.objectContaining({ id: 'pr1' }),
-          'pending'
+          'pending',
+          { score: 42, notes: 'Needs a stronger scenario.' }
         ),
       { timeout: 8000 }
     );

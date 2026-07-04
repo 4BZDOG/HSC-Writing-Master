@@ -29,6 +29,7 @@ const queueFixture: contributionService.ModerationItem[] = [
     id: 'p1',
     title: 'A pending question',
     fullText: 'A pending question',
+    context: null,
     createdAt: null,
     qualityScore: 40,
   },
@@ -37,6 +38,7 @@ const queueFixture: contributionService.ModerationItem[] = [
     id: 'a1',
     title: 'A pending sample answer',
     fullText: 'A pending sample answer',
+    context: 'The parent question text',
     createdAt: null,
     qualityScore: 80,
   },
@@ -126,6 +128,35 @@ describe('ReviewQueueModal UX', () => {
     fireEvent.click(within(dialog).getByRole('button', { name: /^Reject$/ }));
     await waitFor(() => expect(contributionService.rejectPrompt).toHaveBeenCalledWith('p1'));
     expect(confirmSpy).not.toHaveBeenCalled();
+  });
+
+  it('shows the parent question as context on sample answers', async () => {
+    renderQueue();
+    await waitFor(() => expect(screen.getByText('A pending sample answer')).toBeTruthy());
+    expect(screen.getByText('For: The parent question text')).toBeTruthy();
+  });
+
+  it('bulk-approves everything visible through a confirmation dialog', async () => {
+    renderQueue();
+    await waitFor(() => expect(screen.getByText('A pending question')).toBeTruthy());
+
+    // Filter to questions only — Approve All must respect the filter.
+    fireEvent.click(screen.getByText('Questions (1)'));
+    fireEvent.click(screen.getByRole('button', { name: /approve all \(1\)/i }));
+
+    // Confirmation first; nothing approved yet.
+    expect(screen.getByText(/Approve all 1 visible item\?/)).toBeTruthy();
+    expect(contributionService.approvePrompt).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole('button', { name: /approve & publish/i }));
+    await waitFor(() => expect(contributionService.approvePrompt).toHaveBeenCalledWith('p1'));
+    // The filtered-out sample answer was NOT approved.
+    expect(contributionService.approveSampleAnswer).not.toHaveBeenCalled();
+
+    // The approved item left the queue; the sample answer remains.
+    fireEvent.click(screen.getByText(/All \(1\)/));
+    expect(screen.queryByText('A pending question')).toBeNull();
+    expect(screen.getByText('A pending sample answer')).toBeTruthy();
   });
 
   it('closes on Escape when idle, but not while the reject dialog is open', async () => {

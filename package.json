@@ -24,6 +24,9 @@
     "check:api-health": "node scripts/check-api-health.js"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/jetbrains-mono": "^5.2.8",
+    "@fontsource/newsreader": "^5.2.10",
     "@google/genai": "^1.28.0",
     "@sentry/react": "^8.0.0",
     "@supabase/supabase-js": "^2.107.0",
