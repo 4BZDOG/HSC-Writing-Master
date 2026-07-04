@@ -11,6 +11,8 @@ import {
   SampleAnswer,
 } from '../../types';
 import { BatchTask, runBatchOperations, BatchProgress } from '../../utils/batchProcessor';
+import { setBatchModelOverride } from '../../services/aiConfig';
+import { AI_MODELS } from '../../services/aiModels';
 import {
   generateNewPrompt,
   generateSampleAnswer,
@@ -24,9 +26,7 @@ import {
   getBandForMark,
   getCommandTermInfo,
 } from '../../data/commandTerms';
-import { getBandConfig, escapeRegExp } from '../../utils/renderUtils';
-import { filterDataBySelection } from '../../utils/dataManagerUtils';
-import CognitiveSpectrum from '../CognitiveSpectrum';
+import { useEscapeKey } from '../../hooks/useEscapeKey';
 import {
   ChevronRight,
   ChevronDown,
@@ -46,6 +46,8 @@ import {
   Search,
   RotateCcw,
   Scale,
+  Cpu,
+  Wrench,
 } from 'lucide-react';
 
 // --- Shared Components ---
@@ -130,6 +132,79 @@ type VisibilityFilter =
   | 'rubricNotDescending'
   | 'hasSamples'
   | null;
+
+type BulkActionType =
+  | 'generateQuestions'
+  | 'generateSamples'
+  | 'generateRubrics'
+  | 'linkOutcomes'
+  | 'recalibrateSamples'
+  | 'fixAllGaps';
+
+// Gap predicates shared by the task assembly, the button target counts, and
+// the tree badges — one definition of "what counts as a gap".
+const isEmptyDotPoint = (n: TreeNode) => n.type === 'dotPoint' && n.stats.questions === 0;
+const needsSamples = (n: TreeNode) => n.type === 'prompt' && n.stats.samples === 0;
+const needsRubric = (n: TreeNode) =>
+  n.type === 'prompt' && (n.stats.missingMarkingCriteria > 0 || n.stats.rubricNotDescending > 0);
+const needsOutcomes = (n: TreeNode) => n.type === 'prompt' && n.stats.missingOutcomes > 0;
+const hasSamplesToRecalibrate = (n: TreeNode) => n.type === 'prompt' && n.stats.samples > 0;
+
+const GAP_BADGE_BASE =
+  'px-1.5 py-0.5 rounded-md border text-[8px] font-black uppercase tracking-wider whitespace-nowrap';
+
+/**
+ * Inline data-quality flags on tree rows, colour-matched to the filter chips
+ * above, so problem content is identifiable while browsing — not only after
+ * toggling a filter.
+ */
+const GapBadges: React.FC<{ node: TreeNode }> = ({ node }) => {
+  const badges: { label: string; tone: string; title: string }[] = [];
+
+  if (isEmptyDotPoint(node))
+    badges.push({
+      label: 'No Questions',
+      tone: 'bg-red-500/10 border-red-500/30 text-red-400',
+      title: 'This dot point has no questions yet',
+    });
+  if (node.type === 'prompt') {
+    if (node.stats.missingMarkingCriteria > 0)
+      badges.push({
+        label: 'No Rubric',
+        tone: 'bg-indigo-500/10 border-indigo-500/30 text-indigo-400',
+        title: 'No marking guide',
+      });
+    else if (node.stats.rubricNotDescending > 0)
+      badges.push({
+        label: 'Rubric ⚠',
+        tone: 'bg-orange-500/10 border-orange-500/30 text-orange-400',
+        title: 'Non-standard rubric format (marks not in descending bands)',
+      });
+    if (needsSamples(node))
+      badges.push({
+        label: 'No Samples',
+        tone: 'bg-amber-500/10 border-amber-500/30 text-amber-400',
+        title: 'No sample answers',
+      });
+    if (needsOutcomes(node))
+      badges.push({
+        label: 'No Outcomes',
+        tone: 'bg-pink-500/10 border-pink-500/30 text-pink-400',
+        title: 'No syllabus outcomes linked',
+      });
+  }
+
+  if (badges.length === 0) return null;
+  return (
+    <span className="hidden md:flex items-center gap-1.5 shrink-0">
+      {badges.map((b) => (
+        <span key={b.label} title={b.title} className={`${GAP_BADGE_BASE} ${b.tone}`}>
+          {b.label}
+        </span>
+      ))}
+    </span>
+  );
+};
 
 // --- Helpers ---
 
@@ -321,12 +396,19 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const [isProcessing, setIsProcessing] = useState(false);
   const [isStopping, setIsStopping] = useState(false);
+  // 'default' = the app's per-role engine selection; otherwise an AI_MODELS
+  // id that every call in the batch is routed to.
+  const [batchEngine, setBatchEngine] = useState<string>('default');
   const [progress, setProgress] = useState<BatchProgress | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<VisibilityFilter>(null);
 
   const abortControllerRef = useRef<AbortController | null>(null);
   const logsEndRef = useRef<HTMLDivElement>(null);
+
+  // Escape closes the studio — but never while a batch is running (that
+  // needs an explicit Stop so no run is abandoned by a stray key press).
+  useEscapeKey(isOpen && !isProcessing, onClose);
 
   const treeData = useMemo(() => buildAuditTree(courses), [courses]);
 
@@ -373,6 +455,39 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       hasSamples,
     };
   }, [flatMap]);
+
+  // How many items the CURRENT SELECTION actually targets, per action — so
+  // the footer buttons can show what a click will do (and disable when it
+  // would do nothing) instead of failing with a toast after the fact.
+  const selectionTargets = useMemo(() => {
+    let questions = 0;
+    let rubrics = 0;
+    let samples = 0;
+    let outcomes = 0;
+    let recalibrations = 0;
+
+    selectedIds.forEach((id) => {
+      const node = flatMap.get(id);
+      if (!node) return;
+      if (isEmptyDotPoint(node)) questions++;
+      if (needsRubric(node)) rubrics++;
+      if (needsSamples(node)) samples++;
+      if (needsOutcomes(node)) outcomes++;
+      if (hasSamplesToRecalibrate(node))
+        // Count what the task builder will actually iterate (every stored
+        // sample), not just the "valid" ones the stats tally.
+        recalibrations += (node.dataRef as Prompt).sampleAnswers?.length || 0;
+    });
+
+    return {
+      questions,
+      rubrics,
+      samples,
+      outcomes,
+      recalibrations,
+      allGaps: questions + rubrics + samples + outcomes,
+    };
+  }, [selectedIds, flatMap]);
 
   const filteredTreeData = useMemo(() => {
     if (!searchQuery && !activeFilter) return treeData;
@@ -487,6 +602,16 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     setExpandedIds(newExpanded);
   };
 
+  const expandAll = () => {
+    const all = new Set<string>();
+    flatMap.forEach((_, id) => all.add(id));
+    setExpandedIds(all);
+  };
+
+  const collapseAll = () => setExpandedIds(new Set());
+
+  const clearSelection = () => setSelectedIds(new Set());
+
   const handleFilterToggle = (criteria: VisibilityFilter) => {
     if (activeFilter === criteria) {
       setActiveFilter(null);
@@ -572,215 +697,193 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     }
   };
 
-  const handleBulkAction = async (
-    actionType:
-      | 'generateQuestions'
-      | 'generateSamples'
-      | 'generateRubrics'
-      | 'linkOutcomes'
-      | 'recalibrateSamples'
-  ) => {
-    setIsProcessing(true);
-    setProgress(null);
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
+  // --- Per-node task builders --------------------------------------------
+  // Each returns the batch task(s) that repair one kind of gap on one node.
+  // Both the single-action buttons and "Fix All Gaps" compose from these.
 
-    const tasks: BatchTask<any>[] = [];
+  const findDraftPrompt = (draft: any, path: StatePath) =>
+    draft
+      .find((x: any) => x.id === path.courseId)
+      ?.topics.find((x: any) => x.id === path.topicId)
+      ?.subTopics.find((x: any) => x.id === path.subTopicId)
+      ?.dotPoints.find((x: any) => x.id === path.dotPointId)
+      ?.prompts.find((x: any) => x.id === path.promptId);
+
+  const makeQuestionTask = (node: TreeNode): BatchTask<void> => ({
+    id: `q-${node.id}`,
+    description: `Generating question: ${node.label.slice(0, 30)}...`,
+    action: async () => {
+      const path = node.path;
+      const course = courses.find((c) => c.id === path.courseId);
+      const topic = course?.topics.find((t) => t.id === path.topicId);
+      if (!course || !topic) return;
+
+      const description = node.dataRef.description;
+      const syllabusVerbInfo = extractCommandVerb(description);
+      let targetMarks = 5;
+      let verbsToUse: CommandTermInfo[] = [];
+
+      if (syllabusVerbInfo) {
+        const maxTier = syllabusVerbInfo.tier;
+        const tierRanges: Record<number, [number, number]> = {
+          1: [1, 2],
+          2: [3, 4],
+          3: [4, 6],
+          4: [5, 8],
+          5: [6, 10],
+          6: [8, 12],
+        };
+        const range = tierRanges[maxTier] || [4, 8];
+        targetMarks = Math.floor(Math.random() * (range[1] - range[0] + 1)) + range[0];
+        const { terms } = getCommandTermsForMarks(targetMarks);
+        verbsToUse = terms;
+        if (!verbsToUse.find((v) => v.term === syllabusVerbInfo.term))
+          verbsToUse.unshift(syllabusVerbInfo);
+      } else {
+        const { terms } = getCommandTermsForMarks(5);
+        verbsToUse = terms;
+      }
+
+      const prompt = await generateNewPrompt(
+        course.name,
+        topic.name,
+        description,
+        targetMarks,
+        verbsToUse,
+        course.outcomes
+      );
+      updateCourses((draft) => {
+        const dp = draft
+          .find((x: any) => x.id === path.courseId)
+          ?.topics.find((x: any) => x.id === path.topicId)
+          ?.subTopics.find((x: any) => x.id === path.subTopicId)
+          ?.dotPoints.find((x: any) => x.id === path.dotPointId);
+        if (dp) {
+          if (!dp.prompts) dp.prompts = [];
+          dp.prompts.push(prompt);
+        }
+      });
+    },
+  });
+
+  const makeSampleTask = (node: TreeNode): BatchTask<void> => ({
+    id: `sa-${node.id}`,
+    description: `Drafting sample answer: ${node.label.slice(0, 30)}...`,
+    action: async () => {
+      const prompt = node.dataRef as Prompt;
+      const answer = await generateSampleAnswer(prompt, prompt.totalMarks, []);
+      updateCourses((draft) => {
+        const p = findDraftPrompt(draft, node.path);
+        if (p) {
+          if (!p.sampleAnswers) p.sampleAnswers = [];
+          p.sampleAnswers.push(answer);
+        }
+      });
+    },
+  });
+
+  const makeRubricTask = (node: TreeNode): BatchTask<void> => ({
+    id: `rubric-${node.id}`,
+    description: `Synthesising rubric: ${node.label.slice(0, 30)}...`,
+    action: async () => {
+      const prompt = node.dataRef as Prompt;
+      const course = courses.find((c) => c.id === node.path.courseId);
+      if (!course) return;
+      const rubric = await generateRubricForPrompt(prompt, course.outcomes);
+      updateCourses((draft) => {
+        const p = findDraftPrompt(draft, node.path);
+        if (p) p.markingCriteria = rubric;
+      });
+    },
+  });
+
+  const makeOutcomeTask = (node: TreeNode): BatchTask<void> => ({
+    id: `link-${node.id}`,
+    description: `Linking outcomes: ${node.label.slice(0, 30)}...`,
+    action: async () => {
+      const prompt = node.dataRef as Prompt;
+      const course = courses.find((c) => c.id === node.path.courseId);
+      if (!course) return;
+      const suggested = await suggestOutcomesForPrompt(
+        prompt.question,
+        course.outcomes,
+        prompt.totalMarks
+      );
+      updateCourses((draft) => {
+        const p = findDraftPrompt(draft, node.path);
+        if (p) p.linkedOutcomes = suggested;
+      });
+    },
+  });
+
+  const makeRecalibrationTasks = (node: TreeNode): BatchTask<void>[] => {
+    const prompt = node.dataRef as Prompt;
+    // Calculate strict constraints based on the Prompt's Verb
+    const verbInfo = getCommandTermInfo(prompt.verb);
+    const verbTier = verbInfo.tier;
+    if (!prompt.sampleAnswers || prompt.sampleAnswers.length === 0) return [];
+
+    return prompt.sampleAnswers.map((sample) => ({
+      id: `recal-${sample.id}`,
+      description: `Recalibrating sample (Tier ${verbTier} rules): ${node.label.slice(0, 20)}...`,
+      action: async () => {
+        // 1. Create a clean calibration prompt without existing samples to prevent bias
+        const calibrationPrompt = { ...prompt, sampleAnswers: [] };
+
+        // 2. Ask AI to evaluate the Mark (quality), passing the Tier context
+        const result = await evaluateAnswer(sample.answer, calibrationPrompt, verbInfo);
+
+        // 3. Enforce STRICT band calculation based on the AI's Mark and the Question's Tier.
+        // This overrides any band hallucinated by the AI, ensuring structural consistency across the dataset.
+        const strictBand = getBandForMark(result.overallMark, prompt.totalMarks, verbTier);
+
+        updateCourses((draft) => {
+          const p = findDraftPrompt(draft, node.path);
+          if (p && p.sampleAnswers) {
+            const targetSample = p.sampleAnswers.find((s: SampleAnswer) => s.id === sample.id);
+            if (targetSample) {
+              targetSample.mark = result.overallMark;
+              targetSample.band = strictBand; // Apply strict band
+              targetSample.feedback = result.overallFeedback;
+              targetSample.quickTip = result.quickTip;
+            }
+          }
+        });
+      },
+    }));
+  };
+
+  const buildTasks = (actionType: BulkActionType): BatchTask<void>[] => {
+    const tasks: BatchTask<void>[] = [];
+    const all = actionType === 'fixAllGaps';
 
     selectedIds.forEach((id) => {
       const node = flatMap.get(id);
       if (!node) return;
 
-      if (
-        actionType === 'generateQuestions' &&
-        node.type === 'dotPoint' &&
-        node.stats.questions === 0
-      ) {
-        tasks.push({
-          id: `q-${node.id}`,
-          description: `Generating question: ${node.label.slice(0, 30)}...`,
-          action: async () => {
-            const path = node.path;
-            const course = courses.find((c) => c.id === path.courseId);
-            const topic = course?.topics.find((t) => t.id === path.topicId);
-            if (!course || !topic) return;
-
-            const description = node.dataRef.description;
-            const syllabusVerbInfo = extractCommandVerb(description);
-            let targetMarks = 5;
-            let verbsToUse: CommandTermInfo[] = [];
-
-            if (syllabusVerbInfo) {
-              const maxTier = syllabusVerbInfo.tier;
-              const tierRanges: Record<number, [number, number]> = {
-                1: [1, 2],
-                2: [3, 4],
-                3: [4, 6],
-                4: [5, 8],
-                5: [6, 10],
-                6: [8, 12],
-              };
-              const range = tierRanges[maxTier] || [4, 8];
-              targetMarks = Math.floor(Math.random() * (range[1] - range[0] + 1)) + range[0];
-              const { terms } = getCommandTermsForMarks(targetMarks);
-              verbsToUse = terms;
-              if (!verbsToUse.find((v) => v.term === syllabusVerbInfo.term))
-                verbsToUse.unshift(syllabusVerbInfo);
-            } else {
-              const { terms } = getCommandTermsForMarks(5);
-              verbsToUse = terms;
-            }
-
-            const prompt = await generateNewPrompt(
-              course.name,
-              topic.name,
-              description,
-              targetMarks,
-              verbsToUse,
-              course.outcomes
-            );
-            updateCourses((draft) => {
-              const dp = draft
-                .find((x: any) => x.id === path.courseId)
-                ?.topics.find((x: any) => x.id === path.topicId)
-                ?.subTopics.find((x: any) => x.id === path.subTopicId)
-                ?.dotPoints.find((x: any) => x.id === path.dotPointId);
-              if (dp) {
-                if (!dp.prompts) dp.prompts = [];
-                dp.prompts.push(prompt);
-              }
-            });
-          },
-        });
-      }
-
-      if (actionType === 'generateSamples' && node.type === 'prompt' && node.stats.samples === 0) {
-        tasks.push({
-          id: `sa-${node.id}`,
-          description: `Drafting sample answer: ${node.label.slice(0, 30)}...`,
-          action: async () => {
-            const prompt = node.dataRef as Prompt;
-            const answer = await generateSampleAnswer(prompt, prompt.totalMarks, []);
-            updateCourses((draft) => {
-              const p = draft
-                .find((x: any) => x.id === node.path.courseId)
-                ?.topics.find((x: any) => x.id === node.path.topicId)
-                ?.subTopics.find((x: any) => x.id === node.path.subTopicId)
-                ?.dotPoints.find((x: any) => x.id === node.path.dotPointId)
-                ?.prompts.find((x: any) => x.id === node.path.promptId);
-              if (p) {
-                if (!p.sampleAnswers) p.sampleAnswers = [];
-                p.sampleAnswers.push(answer);
-              }
-            });
-          },
-        });
-      }
-
-      if (
-        actionType === 'generateRubrics' &&
-        node.type === 'prompt' &&
-        (node.stats.missingMarkingCriteria > 0 || node.stats.rubricNotDescending > 0)
-      ) {
-        tasks.push({
-          id: `rubric-${node.id}`,
-          description: `Synthesising rubric: ${node.label.slice(0, 30)}...`,
-          action: async () => {
-            const prompt = node.dataRef as Prompt;
-            const course = courses.find((c) => c.id === node.path.courseId);
-            if (!course) return;
-            const rubric = await generateRubricForPrompt(prompt, course.outcomes);
-            updateCourses((draft) => {
-              const p = draft
-                .find((x: any) => x.id === node.path.courseId)
-                ?.topics.find((x: any) => x.id === node.path.topicId)
-                ?.subTopics.find((x: any) => x.id === node.path.subTopicId)
-                ?.dotPoints.find((x: any) => x.id === node.path.dotPointId)
-                ?.prompts.find((x: any) => x.id === node.path.promptId);
-              if (p) p.markingCriteria = rubric;
-            });
-          },
-        });
-      }
-
-      if (
-        actionType === 'linkOutcomes' &&
-        node.type === 'prompt' &&
-        node.stats.missingOutcomes > 0
-      ) {
-        tasks.push({
-          id: `link-${node.id}`,
-          description: `Linking outcomes: ${node.label.slice(0, 30)}...`,
-          action: async () => {
-            const prompt = node.dataRef as Prompt;
-            const course = courses.find((c) => c.id === node.path.courseId);
-            if (!course) return;
-            const suggested = await suggestOutcomesForPrompt(
-              prompt.question,
-              course.outcomes,
-              prompt.totalMarks
-            );
-            updateCourses((draft) => {
-              const p = draft
-                .find((x: any) => x.id === node.path.courseId)
-                ?.topics.find((x: any) => x.id === node.path.topicId)
-                ?.subTopics.find((x: any) => x.id === node.path.subTopicId)
-                ?.dotPoints.find((x: any) => x.id === node.path.dotPointId)
-                ?.prompts.find((x: any) => x.id === node.path.promptId);
-              if (p) p.linkedOutcomes = suggested;
-            });
-          },
-        });
-      }
-
-      if (actionType === 'recalibrateSamples' && node.type === 'prompt' && node.stats.samples > 0) {
-        const prompt = node.dataRef as Prompt;
-        // Calculate strict constraints based on the Prompt's Verb
-        const verbInfo = getCommandTermInfo(prompt.verb);
-        const verbTier = verbInfo.tier;
-
-        // Only recalibrate existing samples
-        if (prompt.sampleAnswers && prompt.sampleAnswers.length > 0) {
-          prompt.sampleAnswers.forEach((sample) => {
-            tasks.push({
-              id: `recal-${sample.id}`,
-              description: `Recalibrating sample (Tier ${verbTier} rules): ${node.label.slice(0, 20)}...`,
-              action: async () => {
-                // 1. Create a clean calibration prompt without existing samples to prevent bias
-                const calibrationPrompt = { ...prompt, sampleAnswers: [] };
-
-                // 2. Ask AI to evaluate the Mark (quality), passing the Tier context
-                const result = await evaluateAnswer(sample.answer, calibrationPrompt, verbInfo);
-
-                // 3. Enforce STRICT band calculation based on the AI's Mark and the Question's Tier.
-                // This overrides any band hallucinated by the AI, ensuring structural consistency across the dataset.
-                const strictBand = getBandForMark(result.overallMark, prompt.totalMarks, verbTier);
-
-                updateCourses((draft) => {
-                  const p = draft
-                    .find((x: any) => x.id === node.path.courseId)
-                    ?.topics.find((x: any) => x.id === node.path.topicId)
-                    ?.subTopics.find((x: any) => x.id === node.path.subTopicId)
-                    ?.dotPoints.find((x: any) => x.id === node.path.dotPointId)
-                    ?.prompts.find((x: any) => x.id === node.path.promptId);
-                  if (p && p.sampleAnswers) {
-                    const targetSample = p.sampleAnswers.find(
-                      (s: SampleAnswer) => s.id === sample.id
-                    );
-                    if (targetSample) {
-                      targetSample.mark = result.overallMark;
-                      targetSample.band = strictBand; // Apply strict band
-                      targetSample.feedback = result.overallFeedback;
-                      targetSample.quickTip = result.quickTip;
-                    }
-                  }
-                });
-              },
-            });
-          });
-        }
-      }
+      if ((all || actionType === 'generateQuestions') && isEmptyDotPoint(node))
+        tasks.push(makeQuestionTask(node));
+      if ((all || actionType === 'generateRubrics') && needsRubric(node))
+        tasks.push(makeRubricTask(node));
+      if ((all || actionType === 'linkOutcomes') && needsOutcomes(node))
+        tasks.push(makeOutcomeTask(node));
+      if ((all || actionType === 'generateSamples') && needsSamples(node))
+        tasks.push(makeSampleTask(node));
+      if (actionType === 'recalibrateSamples' && hasSamplesToRecalibrate(node))
+        tasks.push(...makeRecalibrationTasks(node));
     });
+
+    return tasks;
+  };
+
+  const handleBulkAction = async (actionType: BulkActionType) => {
+    if (isProcessing) return; // a batch is already running
+    setIsProcessing(true);
+    setProgress(null);
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
+    const tasks = buildTasks(actionType);
 
     if (tasks.length === 0) {
       showToast('No target items found in current selection.', 'info');
@@ -788,10 +891,38 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       return;
     }
 
-    await runBatchOperations(tasks, 1, (prog) => setProgress(prog), controller.signal);
-    setIsProcessing(false);
-    setIsStopping(false);
-    abortControllerRef.current = null;
+    // Route every AI call in this batch to the engine the admin picked for
+    // the run (or leave the app's per-role defaults when 'default').
+    setBatchModelOverride(batchEngine === 'default' ? null : batchEngine);
+    let finalProgress: BatchProgress | null = null;
+    try {
+      await runBatchOperations(
+        tasks,
+        1,
+        (prog) => {
+          finalProgress = prog;
+          setProgress(prog);
+        },
+        controller.signal
+      );
+    } finally {
+      setBatchModelOverride(null);
+      setIsProcessing(false);
+      setIsStopping(false);
+      abortControllerRef.current = null;
+    }
+
+    // Summarise the run — the processing terminal collapses when the batch
+    // ends, so the outcome must survive as a toast.
+    const done = finalProgress?.completed ?? 0;
+    const failed = finalProgress?.failed ?? 0;
+    if (controller.signal.aborted) {
+      showToast(`Batch stopped — ${done} of ${tasks.length} completed.`, 'info');
+    } else if (failed > 0) {
+      showToast(`Batch finished: ${done} succeeded, ${failed} failed.`, 'error');
+    } else {
+      showToast(`Batch complete: ${done} item${done === 1 ? '' : 's'} updated.`, 'success');
+    }
   };
 
   const renderNode = (node: TreeNode, level: number = 0) => {
@@ -819,6 +950,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         >
           <button
             onClick={() => toggleSelect(node.id, !isSelected)}
+            aria-label={`${isSelected ? 'Deselect' : 'Select'} ${node.label}`}
             className={`mr-4 transition-all ${isSelected ? 'opacity-100 scale-110' : 'opacity-30 group-hover:opacity-100'}`}
           >
             {isSelected ? (
@@ -829,6 +961,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           </button>
           <button
             onClick={() => toggleExpand(node.id)}
+            aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${node.label}`}
             className={`mr-2 p-1 text-slate-500 ${hasChildren ? 'visible' : 'invisible'}`}
           >
             {isExpanded ? (
@@ -848,6 +981,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             >
               {node.label}
             </span>
+            <GapBadges node={node} />
           </div>
           {node.type !== 'prompt' && (
             <div
@@ -1008,6 +1142,24 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             )}
           </div>
 
+          <div className="flex items-center bg-black/20 rounded-2xl p-1.5 border border-white/5">
+            <button
+              onClick={expandAll}
+              title="Expand every branch of the tree"
+              className="px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white flex items-center gap-1.5 transition-colors"
+            >
+              <ChevronDown className="w-3.5 h-3.5" /> Expand All
+            </button>
+            <div className="w-px h-4 bg-white/5" />
+            <button
+              onClick={collapseAll}
+              title="Collapse the whole tree"
+              className="px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white flex items-center gap-1.5 transition-colors"
+            >
+              <ChevronRight className="w-3.5 h-3.5" /> Collapse All
+            </button>
+          </div>
+
           <div className="h-8 w-px bg-white/5 mx-2" />
 
           <button
@@ -1067,6 +1219,15 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
           <div className="flex-1" />
 
+          {selectedIds.size > 0 && (
+            <button
+              onClick={clearSelection}
+              disabled={isProcessing}
+              className="px-5 h-12 rounded-2xl bg-white/5 border border-white/10 text-slate-400 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 hover:text-white transition-all flex items-center gap-2 disabled:opacity-40"
+            >
+              <Square className="w-4 h-4" /> Clear Selection ({selectedIds.size})
+            </button>
+          )}
           {activeFilter && (
             <button
               onClick={() => handleSmartSelect(activeFilter)}
@@ -1112,6 +1273,12 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40 italic">
                   Processing Log
                 </span>
+                <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-black/40 border border-white/10 text-[9px] font-black uppercase tracking-widest text-indigo-400">
+                  <Cpu className="w-3 h-3" />
+                  {batchEngine === 'default'
+                    ? 'App Default'
+                    : (AI_MODELS.find((m) => m.id === batchEngine)?.label ?? batchEngine)}
+                </span>
               </div>
               <div className="flex gap-8 text-[10px] font-black uppercase tracking-widest">
                 <span className="text-emerald-400">Completed: {progress.completed}</span>
@@ -1152,53 +1319,95 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
               </button>
             </div>
           ) : (
-            <div className="flex items-center justify-between w-full">
-              <div className="flex items-center gap-4">
+            <div className="flex items-center justify-between w-full gap-6">
+              <div className="flex items-center gap-4 shrink-0">
                 <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-white font-black text-2xl tracking-tighter italic">
                   {selectedIds.size.toString().padStart(2, '0')}
                 </div>
                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">
-                  Selected for Optimisation
+                  Selected
                 </span>
+
+                <div className="flex flex-col gap-1 ml-4">
+                  <label
+                    htmlFor="audit-engine"
+                    className="text-[9px] font-black uppercase tracking-[0.3em] text-white/30 flex items-center gap-1.5"
+                  >
+                    <Cpu className="w-3 h-3" /> Batch Engine
+                  </label>
+                  <select
+                    id="audit-engine"
+                    value={batchEngine}
+                    onChange={(e) => setBatchEngine(e.target.value)}
+                    title={
+                      batchEngine === 'default'
+                        ? 'Uses the app-wide engine selection per call type'
+                        : AI_MODELS.find((m) => m.id === batchEngine)?.description
+                    }
+                    className="bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-xs font-bold text-white focus:outline-none focus:border-indigo-500/50 cursor-pointer"
+                  >
+                    <option value="default">App Default</option>
+                    {AI_MODELS.map((m) => (
+                      <option key={m.id} value={m.id}>
+                        {m.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex gap-3 flex-wrap justify-end">
                 <button
                   onClick={handleBulkAction.bind(null, 'generateQuestions')}
-                  disabled={selectedIds.size === 0}
-                  className="px-6 h-12 rounded-[20px] bg-indigo-600 text-white font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale"
+                  disabled={selectionTargets.questions === 0}
+                  title="Generate a question for each selected empty dot point"
+                  className="px-5 h-12 rounded-[20px] bg-indigo-600 text-white font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale"
                 >
-                  Generate Questions
+                  Questions ({selectionTargets.questions})
                 </button>
                 <button
                   onClick={handleBulkAction.bind(null, 'generateRubrics')}
-                  disabled={selectedIds.size === 0}
-                  className="px-6 h-12 rounded-[20px] bg-sky-600 text-white font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale"
+                  disabled={selectionTargets.rubrics === 0}
+                  title="Generate a rubric for each selected question with a missing or non-standard marking guide"
+                  className="px-5 h-12 rounded-[20px] bg-sky-600 text-white font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale"
                 >
-                  Generate Rubrics
+                  Rubrics ({selectionTargets.rubrics})
                 </button>
                 <button
                   onClick={handleBulkAction.bind(null, 'linkOutcomes')}
-                  disabled={selectedIds.size === 0}
-                  className="px-6 h-12 rounded-[20px] bg-pink-600 text-white font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale flex items-center gap-2"
+                  disabled={selectionTargets.outcomes === 0}
+                  title="Suggest syllabus outcomes for each selected question with none linked"
+                  className="px-5 h-12 rounded-[20px] bg-pink-600 text-white font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale flex items-center gap-2"
                 >
                   <Link2 className="w-4 h-4" />
-                  Link Outcomes
+                  Outcomes ({selectionTargets.outcomes})
                 </button>
                 <button
                   onClick={handleBulkAction.bind(null, 'generateSamples')}
-                  disabled={selectedIds.size === 0}
-                  className="px-6 h-12 rounded-[20px] bg-purple-600 text-white font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale"
+                  disabled={selectionTargets.samples === 0}
+                  title="Draft a full-mark sample answer for each selected question with none"
+                  className="px-5 h-12 rounded-[20px] bg-purple-600 text-white font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale"
                 >
-                  Generate Samples
+                  Samples ({selectionTargets.samples})
                 </button>
                 <button
                   onClick={handleBulkAction.bind(null, 'recalibrateSamples')}
-                  disabled={selectedIds.size === 0}
-                  className="px-6 h-12 rounded-[20px] bg-teal-600 text-white font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale flex items-center gap-2"
+                  disabled={selectionTargets.recalibrations === 0}
+                  title="Re-mark every existing sample answer under the strict tier/band rules"
+                  className="px-5 h-12 rounded-[20px] bg-teal-600 text-white font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale flex items-center gap-2"
                 >
                   <Scale className="w-4 h-4" />
-                  Recalibrate Samples
+                  Recalibrate ({selectionTargets.recalibrations})
+                </button>
+                <div className="w-px h-8 bg-white/10 self-center" />
+                <button
+                  onClick={handleBulkAction.bind(null, 'fixAllGaps')}
+                  disabled={selectionTargets.allGaps === 0}
+                  title="One run that fills every gap in the selection: missing questions, rubrics, outcomes and samples"
+                  className="px-6 h-12 rounded-[20px] bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale flex items-center gap-2"
+                >
+                  <Wrench className="w-4 h-4" />
+                  Fix All Gaps ({selectionTargets.allGaps})
                 </button>
               </div>
             </div>

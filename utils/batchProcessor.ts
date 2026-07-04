@@ -51,6 +51,12 @@ export const runBatchOperations = async <T>(
   return new Promise((resolve, reject) => {
     let cancelledLogged = false;
 
+    // Emit immediately so the caller's UI can switch into its "processing"
+    // state at once — otherwise nothing is reported until the FIRST task
+    // settles (pre-task delay + call time), during which the UI looks idle.
+    addLog(`Starting batch of ${tasks.length} task${tasks.length === 1 ? '' : 's'}...`);
+    updateProgress(tasks[0]?.description);
+
     const runNext = async () => {
       if (signal?.aborted) {
         // Stop dispatching new tasks, but only resolve once every already

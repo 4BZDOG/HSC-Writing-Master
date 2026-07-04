@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { CourseOutcome, Prompt } from '../types';
 import { refineManualPrompt } from '../services/geminiService';
@@ -33,10 +33,6 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
   topicName,
   outcomes,
 }) => {
-  // Diagnostic Logging
-  const renderId = useRef(Math.random().toString(36).substr(2, 5));
-  // console.log(`[ManualPromptModal:${renderId.current}] Render cycle. isOpen=${isOpen}`);
-
   const [step, setStep] = useState<'input' | 'preview'>('input');
   const [draftQuestion, setDraftQuestion] = useState('');
   const [marks, setMarks] = useState<number>(5); // Default to 5 marks
@@ -82,7 +78,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
       setResult(refinedPrompt);
       setStep('preview');
     } catch (err) {
-      console.error(`[ManualPromptModal:${renderId.current}] Gemini Error:`, err);
+      console.error('[ManualPromptModal] Refinement failed:', err);
       setError(err instanceof Error ? err.message : 'Refinement failed.');
     } finally {
       setIsRefining(false);
@@ -362,10 +358,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
       targetContainer
     );
   } catch (portalError) {
-    console.error(
-      `[ManualPromptModal:${renderId.current}] FATAL: createPortal failed.`,
-      portalError
-    );
+    console.error('[ManualPromptModal] FATAL: createPortal failed.', portalError);
     return null;
   }
 };

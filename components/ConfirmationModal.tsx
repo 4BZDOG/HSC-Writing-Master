@@ -1,5 +1,6 @@
 import React from 'react';
 import { AlertTriangle } from 'lucide-react';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -20,6 +21,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   confirmButtonText = 'Confirm',
   isDestructive = false,
 }) => {
+  useEscapeKey(isOpen, onClose);
+
   if (!isOpen) {
     return null;
   }
@@ -41,7 +44,12 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       // own z-[500] overlay), so it must out-rank every other modal/overlay
       // in the app or the confirmation renders invisibly behind its caller.
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[2200] p-4"
-      onClick={onClose}
+      onClick={(e) => {
+        // Don't let the click bubble to a parent overlay (this dialog can be
+        // nested inside another modal's backdrop) — it would close both.
+        e.stopPropagation();
+        onClose();
+      }}
     >
       <div
         className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl w-full max-w-md border border-[rgb(var(--color-border-secondary))] clip-stable animate-fade-in-up overflow-hidden"
