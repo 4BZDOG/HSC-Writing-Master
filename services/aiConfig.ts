@@ -45,8 +45,28 @@ export const setSelectedModel = (role: AIRole, id: string): void => {
   listeners.forEach((l) => l());
 };
 
+// ----------------------------------------------------------------------------
+// Batch override — lets a bulk operation (e.g. the Content Audit Studio)
+// route EVERY AI call it makes to one explicitly chosen engine, regardless of
+// role, without touching the persisted per-role selection. Set it before the
+// batch and clear it in a finally: it is deliberately non-persistent.
+// ----------------------------------------------------------------------------
+
+let batchOverride: string | null = null;
+
+/** Route all AI calls to this model until cleared. Pass null to clear. */
+export const setBatchModelOverride = (id: string | null): void => {
+  batchOverride = id && getModelById(id) ? id : null;
+};
+
+export const getBatchModelOverride = (): string | null => batchOverride;
+
 /** Resolves a role to the concrete provider + model the request should target. */
 export const resolveTarget = (role: AIRole): { provider: AIProvider; model: string } => {
+  if (batchOverride) {
+    const forced = getModelById(batchOverride);
+    if (forced) return { provider: forced.provider, model: forced.model };
+  }
   const option = getModelById(selection[role]) || getModelById(DEFAULT_SELECTION[role])!;
   return { provider: option.provider, model: option.model };
 };

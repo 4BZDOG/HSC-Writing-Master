@@ -1,5 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { resolveTarget, setSelectedModel, getSelectionSnapshot } from '../../services/aiConfig';
+import {
+  resolveTarget,
+  setSelectedModel,
+  getSelectionSnapshot,
+  setBatchModelOverride,
+  getBatchModelOverride,
+} from '../../services/aiConfig';
 import { modelsForRole } from '../../services/aiModels';
 
 /**
@@ -58,5 +64,39 @@ describe('aiConfig — provider/model switching', () => {
     expect(a).toBe(b); // referential stability for useSyncExternalStore
     setSelectedModel('basic', 'claude-haiku');
     expect(getSelectionSnapshot()).not.toBe(a);
+  });
+});
+
+describe('aiConfig — batch model override (Content Audit Studio)', () => {
+  afterEach(() => setBatchModelOverride(null));
+
+  it('routes EVERY role to the override while set, regardless of role fit', () => {
+    // claude-haiku is basic-only, but a batch override is an explicit admin
+    // choice for the whole run — reasoning calls follow it too.
+    setBatchModelOverride('claude-haiku');
+    expect(resolveTarget('reasoning')).toEqual({ provider: 'anthropic', model: 'claude-haiku-4-5' });
+    expect(resolveTarget('basic')).toEqual({ provider: 'anthropic', model: 'claude-haiku-4-5' });
+  });
+
+  it('restores the persisted per-role selection when cleared', () => {
+    setBatchModelOverride('claude-sonnet');
+    expect(resolveTarget('reasoning').provider).toBe('anthropic');
+    setBatchModelOverride(null);
+    expect(resolveTarget('reasoning')).toEqual({
+      provider: 'gemini',
+      model: 'gemini-3-pro-preview',
+    });
+  });
+
+  it('rejects unknown model ids instead of breaking resolution', () => {
+    setBatchModelOverride('not-a-model');
+    expect(getBatchModelOverride()).toBeNull();
+    expect(resolveTarget('basic').provider).toBe('gemini');
+  });
+
+  it('does not touch the persisted selection', () => {
+    const before = getSelectionSnapshot();
+    setBatchModelOverride('claude-sonnet');
+    expect(getSelectionSnapshot()).toBe(before);
   });
 });
