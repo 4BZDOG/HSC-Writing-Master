@@ -13,7 +13,7 @@
  * behaviour is unchanged until an admin switches it.
  */
 
-export type AIProvider = 'gemini' | 'anthropic';
+export type AIProvider = 'gemini' | 'anthropic' | 'openrouter';
 export type AIRole = 'basic' | 'reasoning';
 
 export interface AIModelOption {
@@ -66,6 +66,46 @@ export const AI_MODELS: AIModelOption[] = [
     description: 'Fast and economical Claude tier. Requires ANTHROPIC_API_KEY.',
     roles: ['basic'],
     keyEnv: 'ANTHROPIC_API_KEY',
+  },
+
+  // --- Open-source models via OpenRouter -----------------------------------
+  // One OPENROUTER_API_KEY (openrouter.ai/keys) unlocks the whole catalogue;
+  // add more by copying an entry and changing `model` to any OpenRouter slug.
+  {
+    id: 'openrouter-glm',
+    provider: 'openrouter',
+    model: 'z-ai/glm-4.6',
+    label: 'GLM 4.6 (OpenRouter)',
+    description: 'Zhipu AI open model with strong reasoning. Requires OPENROUTER_API_KEY.',
+    roles: ['basic', 'reasoning'],
+    keyEnv: 'OPENROUTER_API_KEY',
+  },
+  {
+    id: 'openrouter-deepseek',
+    provider: 'openrouter',
+    model: 'deepseek/deepseek-chat',
+    label: 'DeepSeek V3 (OpenRouter)',
+    description: 'Capable open reasoning model at low cost. Requires OPENROUTER_API_KEY.',
+    roles: ['basic', 'reasoning'],
+    keyEnv: 'OPENROUTER_API_KEY',
+  },
+  {
+    id: 'openrouter-qwen',
+    provider: 'openrouter',
+    model: 'qwen/qwen-2.5-72b-instruct',
+    label: 'Qwen 2.5 72B (OpenRouter)',
+    description: 'Alibaba open model, strong all-rounder. Requires OPENROUTER_API_KEY.',
+    roles: ['basic', 'reasoning'],
+    keyEnv: 'OPENROUTER_API_KEY',
+  },
+  {
+    id: 'openrouter-llama',
+    provider: 'openrouter',
+    model: 'meta-llama/llama-3.3-70b-instruct',
+    label: 'Llama 3.3 70B (OpenRouter)',
+    description: 'Meta open model, fast and economical. Requires OPENROUTER_API_KEY.',
+    roles: ['basic'],
+    keyEnv: 'OPENROUTER_API_KEY',
   },
 ];
 

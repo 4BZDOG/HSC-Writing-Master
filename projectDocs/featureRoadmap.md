@@ -13,7 +13,7 @@ _Last updated: 2026-07-04 · reflects v2.3.0._
 - **Reasoning-tier marking**: strict NESA-verb adherence, no "participation marks" for off-verb responses.
 - **Dynamic Rubric Synthesis**: generates descending 1–N mark rubrics on demand for any question.
 - **The Improvement Loop**: guided "N+1" band upgrades with side-by-side comparison.
-- **Selectable AI engines**: every AI action can target a chosen engine (Gemini Flash/Pro, Claude Sonnet/Haiku) via the runtime registry (`services/aiModels.ts` + `services/aiConfig.ts`); batch runs can override the engine non-persistently.
+- **Selectable AI engines**: every AI action can target a chosen engine — Gemini Flash/Pro, Claude Sonnet/Haiku, and open-source models via OpenRouter (GLM, DeepSeek, Qwen, Llama) — through the runtime registry (`services/aiModels.ts` + `services/aiConfig.ts`); batch runs can override the engine non-persistently, and admins can paste keys at runtime for local testing.
 - **Secure AI proxy**: all provider calls go through the server-side `/api/gemini` proxy so keys never reach the browser; the proxy authenticates the caller and enforces daily quotas.
 
 ### ✍️ Writing Workspace

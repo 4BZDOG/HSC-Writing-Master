@@ -20,6 +20,7 @@
 export interface RuntimeKeys {
   gemini?: string;
   anthropic?: string;
+  openrouter?: string;
 }
 
 const SESSION_KEY = 'hsc-ai-runtime-keys';
@@ -38,7 +39,7 @@ const listeners = new Set<() => void>();
 
 const persist = (): void => {
   try {
-    if (!keys.gemini && !keys.anthropic) sessionStorage.removeItem(SESSION_KEY);
+    if (!keys.gemini && !keys.anthropic && !keys.openrouter) sessionStorage.removeItem(SESSION_KEY);
     else sessionStorage.setItem(SESSION_KEY, JSON.stringify(keys));
   } catch {
     /* sessionStorage unavailable (SSR/tests) — keep the in-memory copy */
@@ -56,13 +57,15 @@ export const getRuntimeKeyOverride = (): RuntimeKeys | null => {
   const out: RuntimeKeys = {};
   if (keys.gemini) out.gemini = keys.gemini;
   if (keys.anthropic) out.anthropic = keys.anthropic;
-  return out.gemini || out.anthropic ? out : null;
+  if (keys.openrouter) out.openrouter = keys.openrouter;
+  return out.gemini || out.anthropic || out.openrouter ? out : null;
 };
 
 export const setRuntimeKeys = (next: RuntimeKeys): void => {
   keys = {
     gemini: next.gemini?.trim() || undefined,
     anthropic: next.anthropic?.trim() || undefined,
+    openrouter: next.openrouter?.trim() || undefined,
   };
   persist();
   listeners.forEach((l) => l());

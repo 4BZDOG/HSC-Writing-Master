@@ -71,6 +71,19 @@ describe('RuntimeKeyModal', () => {
     expect(getRuntimeKeyOverride()).toEqual({ gemini: 'existing-gemini', anthropic: 'sk-ant-new' });
   });
 
+  it('saves an OpenRouter key and links out to openrouter.ai', () => {
+    render(<RuntimeKeyModal isOpen={true} onClose={vi.fn()} showToast={showToast} />);
+    const link = screen.getByRole('link', { name: /openrouter\.ai/i }) as HTMLAnchorElement;
+    expect(link.href).toContain('openrouter.ai/keys');
+    expect(link.target).toBe('_blank');
+
+    fireEvent.change(screen.getByLabelText('OpenRouter API key'), {
+      target: { value: 'sk-or-TEST' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /save keys/i }));
+    expect(getRuntimeKeyOverride()).toEqual({ openrouter: 'sk-or-TEST' });
+  });
+
   it('clears keys from the footer button', () => {
     setRuntimeKeys({ gemini: 'to-be-cleared' });
     render(<RuntimeKeyModal isOpen={true} onClose={vi.fn()} showToast={showToast} />);

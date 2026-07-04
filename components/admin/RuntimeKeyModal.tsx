@@ -1,6 +1,16 @@
 import React, { useState, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
-import { X, KeyRound, Eye, EyeOff, Trash2, Check, ShieldAlert, Cpu } from 'lucide-react';
+import {
+  X,
+  KeyRound,
+  Eye,
+  EyeOff,
+  Trash2,
+  Check,
+  ShieldAlert,
+  Cpu,
+  ExternalLink,
+} from 'lucide-react';
 import {
   getRuntimeKeys,
   setRuntimeKeys,
@@ -33,6 +43,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
   const current = useSyncExternalStore(subscribeRuntimeKeys, getRuntimeKeys, getRuntimeKeys);
   const [gemini, setGemini] = useState('');
   const [anthropic, setAnthropic] = useState('');
+  const [openrouter, setOpenrouter] = useState('');
   const [reveal, setReveal] = useState(false);
 
   useEscapeKey(isOpen, onClose);
@@ -40,18 +51,20 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
   if (!isOpen) return null;
 
   const handleSave = () => {
-    if (!gemini.trim() && !anthropic.trim()) {
+    if (!gemini.trim() && !anthropic.trim() && !openrouter.trim()) {
       showToast('Enter at least one key, or use Clear to remove the current keys.', 'error');
       return;
     }
     // Preserve a provider's existing key when its field is left blank, so you
-    // can set one without wiping the other.
+    // can set one without wiping the others.
     setRuntimeKeys({
       gemini: gemini.trim() || current.gemini,
       anthropic: anthropic.trim() || current.anthropic,
+      openrouter: openrouter.trim() || current.openrouter,
     });
     setGemini('');
     setAnthropic('');
+    setOpenrouter('');
     showToast('Runtime keys saved for this browser tab.', 'success');
   };
 
@@ -59,6 +72,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
     clearRuntimeKeys();
     setGemini('');
     setAnthropic('');
+    setOpenrouter('');
     showToast('Runtime keys cleared — the server key applies again.', 'info');
   };
 
@@ -162,12 +176,45 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
             </div>
           </label>
 
+          {/* OpenRouter */}
+          <label className="block">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
+              OpenRouter API key
+            </span>
+            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-400">
+              optional · current: {maskKey(current.openrouter)}
+            </span>
+            <div className="relative mt-1">
+              <input
+                type={inputType}
+                autoComplete="off"
+                aria-label="OpenRouter API key"
+                placeholder={current.openrouter ? 'leave blank to keep current' : 'sk-or-…'}
+                value={openrouter}
+                onChange={(e) => setOpenrouter(e.target.value)}
+                className={fieldClass}
+              />
+            </div>
+            <span className="mt-1 flex items-center gap-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+              One key runs GLM, DeepSeek, Qwen, Llama and more —
+              <a
+                href="https://openrouter.ai/keys"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-0.5 text-[rgb(var(--color-accent))] hover:underline"
+              >
+                get one at openrouter.ai <ExternalLink className="w-3 h-3" />
+              </a>
+            </span>
+          </label>
+
           {/* Model note */}
           <div className="flex gap-2 items-start text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
             <Cpu className="w-3.5 h-3.5 shrink-0 mt-0.5" />
             <span>
               Choose which model each key drives from the <strong>AI Engine</strong> selector in the
-              API usage widget (bottom-right).
+              API usage widget (bottom-right) — Gemini, Claude and the OpenRouter open models all
+              appear there.
             </span>
           </div>
         </div>
