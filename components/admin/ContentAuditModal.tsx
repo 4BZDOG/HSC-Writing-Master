@@ -26,9 +26,6 @@ import {
   getBandForMark,
   getCommandTermInfo,
 } from '../../data/commandTerms';
-import { getBandConfig, escapeRegExp } from '../../utils/renderUtils';
-import { filterDataBySelection } from '../../utils/dataManagerUtils';
-import CognitiveSpectrum from '../CognitiveSpectrum';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
 import {
   ChevronRight,
