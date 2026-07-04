@@ -1,6 +1,7 @@
 import { GenerateContentResponse } from '@google/genai';
 import { safeSetItem, safeGetItem, STORAGE_KEYS } from '../utils/storageUtils';
 import { supabase, isSupabaseConfigured } from './supabaseClient';
+import { getRuntimeKeyOverride } from './runtimeKeys';
 
 // All Gemini calls go through a server-side proxy so the API key never
 // reaches the browser bundle. See api/gemini.ts and api/_lib/generate.ts.
@@ -478,12 +479,18 @@ const buildProxyHeaders = async (): Promise<Record<string, string>> => {
 // `.status` field so the existing ApiGuard / retry logic can classify them
 // exactly as it did when the SDK threw status-bearing errors directly.
 const callProxy = async (request: any): Promise<GenerateContentResponse> => {
+  // Attach an admin-supplied runtime key (local-testing affordance) as a
+  // per-request override. Omitted entirely in the common case so normal
+  // traffic is unchanged and the server env key is used. See services/runtimeKeys.ts.
+  const keyOverride = getRuntimeKeyOverride();
+  const payload = keyOverride ? { ...request, __keyOverride: keyOverride } : request;
+
   let res: Response;
   try {
     res = await fetch(GEMINI_PROXY_ENDPOINT, {
       method: 'POST',
       headers: await buildProxyHeaders(),
-      body: JSON.stringify(request),
+      body: JSON.stringify(payload),
     });
   } catch {
     // Network-level failure — treat as a transient (retryable) error.
