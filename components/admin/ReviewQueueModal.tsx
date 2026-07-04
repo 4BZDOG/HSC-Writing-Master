@@ -20,7 +20,11 @@ import {
   rejectSampleAnswer,
   type ModerationItem,
 } from '../../services/contributionService';
+import { useEscapeKey } from '../../hooks/useEscapeKey';
+import ConfirmationModal from '../ConfirmationModal';
 import LoadingIndicator from '../LoadingIndicator';
+
+type KindFilter = 'all' | 'prompt' | 'sample_answer';
 
 interface ReviewQueueModalProps {
   isOpen: boolean;
@@ -59,6 +63,10 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
   const [isLoading, setIsLoading] = useState(true);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [kindFilter, setKindFilter] = useState<KindFilter>('all');
+  const [rejectTarget, setRejectTarget] = useState<ModerationItem | null>(null);
+
+  useEscapeKey(isOpen && !busyId && !rejectTarget, onClose);
 
   const load = useCallback(async () => {
     setIsLoading(true);
@@ -75,15 +83,14 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
     if (isOpen) load();
   }, [isOpen, load]);
 
+  const counts = {
+    all: items.length,
+    prompt: items.filter((i) => i.kind === 'prompt').length,
+    sample_answer: items.filter((i) => i.kind === 'sample_answer').length,
+  };
+  const visibleItems = kindFilter === 'all' ? items : items.filter((i) => i.kind === kindFilter);
+
   const handleDecision = async (item: ModerationItem, decision: 'approve' | 'reject') => {
-    // Rejection has no undo in this UI (rejected rows don't reappear in the
-    // queue), so confirm before firing it — approval is the low-risk path.
-    if (
-      decision === 'reject' &&
-      !window.confirm('Reject this contribution? This cannot be undone from here.')
-    ) {
-      return;
-    }
     setBusyId(item.id);
     try {
       if (item.kind === 'prompt') {
@@ -122,8 +129,13 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
               <ShieldCheck className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
+              <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 flex items-center gap-2">
                 Review Queue
+                {!isLoading && counts.all > 0 && (
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 text-xs font-bold">
+                    {counts.all} pending
+                  </span>
+                )}
               </h2>
               <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
                 Approve or reject contributions to the shared library
@@ -152,23 +164,49 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
         </div>
 
         <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
+          {!isLoading && counts.all > 0 && (
+            <div className="flex items-center gap-2 mb-4">
+              {(
+                [
+                  { id: 'all', label: `All (${counts.all})` },
+                  { id: 'prompt', label: `Questions (${counts.prompt})` },
+                  { id: 'sample_answer', label: `Sample Answers (${counts.sample_answer})` },
+                ] as { id: KindFilter; label: string }[]
+              ).map((f) => (
+                <button
+                  key={f.id}
+                  onClick={() => setKindFilter(f.id)}
+                  className={`px-3 py-1.5 rounded-lg border text-xs font-bold transition-all ${
+                    kindFilter === f.id
+                      ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-500'
+                      : 'bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-100 border-[rgb(var(--color-border-secondary))] light:border-slate-200 text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]'
+                  }`}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
+          )}
+
           {isLoading ? (
             <div className="h-40 flex items-center justify-center">
               <LoadingIndicator messages={['Loading review queue…']} duration={2} band={3} />
             </div>
-          ) : items.length === 0 ? (
+          ) : visibleItems.length === 0 ? (
             <div className="text-center py-16">
               <Inbox className="w-12 h-12 text-[rgb(var(--color-text-muted))] light:text-slate-300 mx-auto mb-3" />
               <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-medium">
-                Nothing awaiting review.
+                {counts.all === 0 ? 'Nothing awaiting review.' : 'Nothing of this kind is pending.'}
               </p>
               <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                Submitted prompts and sample answers will appear here.
+                {counts.all === 0
+                  ? 'Submitted prompts and sample answers will appear here.'
+                  : 'Switch the filter above to see the rest of the queue.'}
               </p>
             </div>
           ) : (
             <ul className="space-y-3">
-              {items.map((item) => (
+              {visibleItems.map((item) => (
                 <li
                   key={`${item.kind}:${item.id}`}
                   className="flex items-start gap-4 p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200"
@@ -216,7 +254,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
                       <Check className="w-3.5 h-3.5" /> Approve
                     </button>
                     <button
-                      onClick={() => handleDecision(item, 'reject')}
+                      onClick={() => setRejectTarget(item)}
                       disabled={busyId === item.id}
                       className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-500/10 text-red-400 border border-red-500/30 hover:bg-red-500/20 transition-all text-xs font-bold disabled:opacity-50"
                     >
@@ -229,6 +267,18 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
           )}
         </div>
       </div>
+
+      <ConfirmationModal
+        isOpen={rejectTarget !== null}
+        onClose={() => setRejectTarget(null)}
+        onConfirm={() => {
+          if (rejectTarget) handleDecision(rejectTarget, 'reject');
+        }}
+        title={`Reject this ${rejectTarget?.kind === 'prompt' ? 'question' : 'sample answer'}?`}
+        message={`"${rejectTarget?.title ?? ''}" will be removed from the review queue. This cannot be undone from here.`}
+        confirmButtonText="Reject"
+        isDestructive
+      />
     </div>,
     document.body
   );

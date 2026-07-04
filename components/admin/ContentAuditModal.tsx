@@ -29,6 +29,7 @@ import {
 import { getBandConfig, escapeRegExp } from '../../utils/renderUtils';
 import { filterDataBySelection } from '../../utils/dataManagerUtils';
 import CognitiveSpectrum from '../CognitiveSpectrum';
+import { useEscapeKey } from '../../hooks/useEscapeKey';
 import {
   ChevronRight,
   ChevronDown,
@@ -408,6 +409,10 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   const abortControllerRef = useRef<AbortController | null>(null);
   const logsEndRef = useRef<HTMLDivElement>(null);
 
+  // Escape closes the studio — but never while a batch is running (that
+  // needs an explicit Stop so no run is abandoned by a stray key press).
+  useEscapeKey(isOpen && !isProcessing, onClose);
+
   const treeData = useMemo(() => buildAuditTree(courses), [courses]);
 
   const flatMap = useMemo(() => {
@@ -599,6 +604,16 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     else newExpanded.add(id);
     setExpandedIds(newExpanded);
   };
+
+  const expandAll = () => {
+    const all = new Set<string>();
+    flatMap.forEach((_, id) => all.add(id));
+    setExpandedIds(all);
+  };
+
+  const collapseAll = () => setExpandedIds(new Set());
+
+  const clearSelection = () => setSelectedIds(new Set());
 
   const handleFilterToggle = (criteria: VisibilityFilter) => {
     if (activeFilter === criteria) {
@@ -882,13 +897,34 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     // Route every AI call in this batch to the engine the admin picked for
     // the run (or leave the app's per-role defaults when 'default').
     setBatchModelOverride(batchEngine === 'default' ? null : batchEngine);
+    let finalProgress: BatchProgress | null = null;
     try {
-      await runBatchOperations(tasks, 1, (prog) => setProgress(prog), controller.signal);
+      await runBatchOperations(
+        tasks,
+        1,
+        (prog) => {
+          finalProgress = prog;
+          setProgress(prog);
+        },
+        controller.signal
+      );
     } finally {
       setBatchModelOverride(null);
       setIsProcessing(false);
       setIsStopping(false);
       abortControllerRef.current = null;
+    }
+
+    // Summarise the run — the processing terminal collapses when the batch
+    // ends, so the outcome must survive as a toast.
+    const done = finalProgress?.completed ?? 0;
+    const failed = finalProgress?.failed ?? 0;
+    if (controller.signal.aborted) {
+      showToast(`Batch stopped — ${done} of ${tasks.length} completed.`, 'info');
+    } else if (failed > 0) {
+      showToast(`Batch finished: ${done} succeeded, ${failed} failed.`, 'error');
+    } else {
+      showToast(`Batch complete: ${done} item${done === 1 ? '' : 's'} updated.`, 'success');
     }
   };
 
@@ -1109,6 +1145,24 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             )}
           </div>
 
+          <div className="flex items-center bg-black/20 rounded-2xl p-1.5 border border-white/5">
+            <button
+              onClick={expandAll}
+              title="Expand every branch of the tree"
+              className="px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white flex items-center gap-1.5 transition-colors"
+            >
+              <ChevronDown className="w-3.5 h-3.5" /> Expand All
+            </button>
+            <div className="w-px h-4 bg-white/5" />
+            <button
+              onClick={collapseAll}
+              title="Collapse the whole tree"
+              className="px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white flex items-center gap-1.5 transition-colors"
+            >
+              <ChevronRight className="w-3.5 h-3.5" /> Collapse All
+            </button>
+          </div>
+
           <div className="h-8 w-px bg-white/5 mx-2" />
 
           <button
@@ -1168,6 +1222,15 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
           <div className="flex-1" />
 
+          {selectedIds.size > 0 && (
+            <button
+              onClick={clearSelection}
+              disabled={isProcessing}
+              className="px-5 h-12 rounded-2xl bg-white/5 border border-white/10 text-slate-400 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 hover:text-white transition-all flex items-center gap-2 disabled:opacity-40"
+            >
+              <Square className="w-4 h-4" /> Clear Selection ({selectedIds.size})
+            </button>
+          )}
           {activeFilter && (
             <button
               onClick={() => handleSmartSelect(activeFilter)}

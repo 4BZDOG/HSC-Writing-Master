@@ -41,6 +41,8 @@ import {
   migrateAnalyseVerb,
 } from '../../utils/dataManagerUtils';
 import { Course } from '../../types';
+import { useEscapeKey } from '../../hooks/useEscapeKey';
+import ConfirmationModal from '../ConfirmationModal';
 import LoadingIndicator from '../LoadingIndicator';
 
 interface BackupSummary {
@@ -128,6 +130,18 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
+  // In-app confirmation (replaces window.confirm); null = closed.
+  const [confirmAction, setConfirmAction] = useState<{
+    title: string;
+    message: string;
+    confirmButtonText: string;
+    onConfirm: () => void;
+  } | null>(null);
+
+  // Escape closes the dashboard, but never mid-operation — and never while
+  // the confirmation dialog is up (its own Escape handler wants that event).
+  useEscapeKey(isOpen && !isRestoring && !isSyncing && !confirmAction, onClose);
+
   const fetchStats = async () => {
     setIsLoading(true);
     try {
@@ -182,27 +196,31 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
     }
   };
 
-  const handleClearStore = async (storeName: string) => {
-    if (
-      window.confirm(
-        `Are you sure you want to clear the '${storeName}' store? This action cannot be undone.`
-      )
-    ) {
-      try {
-        await clearStore(storeName);
-        await fetchStats();
-        showToast(`Store '${storeName}' cleared.`, 'success');
-        // The courses and user-profile stores are mirrored in app memory; the
-        // next autosave would just re-write the store we cleared. Reload so
-        // the app re-reads the now-empty store as its source of truth. The
-        // backups/library stores have no in-memory mirror, so no reload.
-        if (storeName === 'main_store' || storeName === 'users_store') {
-          setTimeout(() => window.location.reload(), 1200);
+  const handleClearStore = (storeName: string) => {
+    const reloads = storeName === 'main_store' || storeName === 'users_store';
+    setConfirmAction({
+      title: `Clear '${storeName}'?`,
+      message: `Every record in the '${storeName}' store will be permanently deleted. This cannot be undone.${
+        reloads ? ' The app will reload afterwards so it re-reads the empty store.' : ''
+      }`,
+      confirmButtonText: 'Clear Store',
+      onConfirm: async () => {
+        try {
+          await clearStore(storeName);
+          await fetchStats();
+          showToast(`Store '${storeName}' cleared.`, 'success');
+          // The courses and user-profile stores are mirrored in app memory;
+          // the next autosave would just re-write the store we cleared.
+          // Reload so the app re-reads the now-empty store as its source of
+          // truth. The backups/library stores have no in-memory mirror.
+          if (reloads) {
+            setTimeout(() => window.location.reload(), 1200);
+          }
+        } catch (e) {
+          showToast(`Failed to clear store '${storeName}'.`, 'error');
         }
-      } catch (e) {
-        showToast(`Failed to clear store '${storeName}'.`, 'error');
-      }
-    }
+      },
+    });
   };
 
   const handlePreviewBackup = async (key: string) => {
@@ -228,55 +246,62 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
     }
   };
 
-  const handleRestoreBackup = async (key: string, date: string) => {
-    if (
-      window.confirm(
-        `WARNING: Restoring this backup from ${date} will OVERWRITE all current data. This cannot be undone. Are you sure?`
-      )
-    ) {
-      setIsRestoring(true);
-      try {
-        const rawData = await restoreBackup(key);
-        if (!rawData) {
-          showToast('Failed to load backup data.', 'error');
-          return;
+  const handleRestoreBackup = (key: string, date: string) => {
+    setConfirmAction({
+      title: `Restore backup from ${date}?`,
+      message:
+        'All current course data will be OVERWRITTEN by this backup and the app will reload. This cannot be undone.',
+      confirmButtonText: 'Restore & Reload',
+      onConfirm: async () => {
+        setIsRestoring(true);
+        try {
+          const rawData = await restoreBackup(key);
+          if (!rawData) {
+            showToast('Failed to load backup data.', 'error');
+            return;
+          }
+          // Backups may predate later data-version migrations/validation
+          // fixes (e.g. band recalculation) — run them through the same
+          // pipeline as a file import (migrate → validate/fix → recalculate
+          // bands) rather than writing the raw snapshot straight back.
+          const fixedData = recalculateSampleAnswerBands(
+            validateAndFixCourses(migrateAnalyseVerb(rawData))
+          );
+          const status = await saveCoursesToDB(fixedData);
+          if (status === 'Error') {
+            showToast('Failed to restore backup: could not write to storage.', 'error');
+            return;
+          }
+          showToast('Backup restored. Reloading application...', 'success');
+          setTimeout(() => window.location.reload(), 1500);
+        } catch (e) {
+          showToast('Error during restoration.', 'error');
+        } finally {
+          setIsRestoring(false);
         }
-        // Backups may predate later data-version migrations/validation fixes
-        // (e.g. band recalculation) — run them through the same pipeline as a
-        // file import (migrate → validate/fix → recalculate bands) rather
-        // than writing the raw snapshot straight back.
-        const fixedData = recalculateSampleAnswerBands(
-          validateAndFixCourses(migrateAnalyseVerb(rawData))
-        );
-        const status = await saveCoursesToDB(fixedData);
-        if (status === 'Error') {
-          showToast('Failed to restore backup: could not write to storage.', 'error');
-          return;
-        }
-        showToast('Backup restored. Reloading application...', 'success');
-        setTimeout(() => window.location.reload(), 1500);
-      } catch (e) {
-        showToast('Error during restoration.', 'error');
-      } finally {
-        setIsRestoring(false);
-      }
-    }
+      },
+    });
   };
 
-  const handleDeleteBackup = async (key: string) => {
-    if (window.confirm('Delete this backup?')) {
-      try {
-        await deleteBackup(key);
-        await fetchBackups();
-        if (previewId === key) {
-          setPreviewId(null);
-          setPreviewData(null);
+  const handleDeleteBackup = (key: string, date: string) => {
+    setConfirmAction({
+      title: `Delete backup from ${date}?`,
+      message: 'This snapshot will be permanently removed. This cannot be undone.',
+      confirmButtonText: 'Delete Backup',
+      onConfirm: async () => {
+        try {
+          await deleteBackup(key);
+          await fetchBackups();
+          if (previewId === key) {
+            setPreviewId(null);
+            setPreviewData(null);
+          }
+          showToast('Backup deleted.', 'success');
+        } catch (e) {
+          showToast('Failed to delete backup.', 'error');
         }
-        showToast('Backup deleted.', 'success');
-      } catch (e) {
-        showToast('Failed to delete backup.', 'error');
-      }
-    }
+      },
+    });
   };
 
   const handleDownloadBackup = async (key: string, date: string) => {
@@ -682,7 +707,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                             </button>
                             <div className="w-px h-4 bg-[rgb(var(--color-border-secondary))] light:bg-slate-300 mx-1"></div>
                             <button
-                              onClick={() => handleDeleteBackup(backup.key)}
+                              onClick={() => handleDeleteBackup(backup.key, backup.date)}
                               disabled={isRestoring}
                               className="p-2 rounded-lg hover:bg-red-500/10 light:hover:bg-red-100 text-red-400 light:text-red-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                               title="Delete snapshot"
@@ -711,11 +736,25 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                       <ArrowLeft className="w-5 h-5" />
                     </button>
                     <div>
-                      <h3 className="text-lg font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 font-mono tracking-tight">
-                        {inspectStoreName}
-                      </h3>
+                      <select
+                        aria-label="Object store"
+                        value={inspectStoreName ?? 'main_store'}
+                        onChange={(e) => handleInspectStore(e.target.value)}
+                        className="bg-transparent text-lg font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 font-mono tracking-tight cursor-pointer focus:outline-none border-b border-dashed border-[rgb(var(--color-border-secondary))] hover:border-[rgb(var(--color-accent))]"
+                      >
+                        {(
+                          stats?.stores.map((s) => s.name) ?? [inspectStoreName ?? 'main_store']
+                        ).map((name) => (
+                          <option key={name} value={name}>
+                            {name}
+                          </option>
+                        ))}
+                      </select>
                       <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                        Raw Data View
+                        Raw Data View ·{' '}
+                        {isLoadingData
+                          ? '…'
+                          : `${inspectData.length} record${inspectData.length === 1 ? '' : 's'}`}
                       </p>
                     </div>
                   </div>
@@ -783,6 +822,16 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
           </div>
         </div>
       </div>
+
+      <ConfirmationModal
+        isOpen={confirmAction !== null}
+        onClose={() => setConfirmAction(null)}
+        onConfirm={() => confirmAction?.onConfirm()}
+        title={confirmAction?.title ?? ''}
+        message={confirmAction?.message ?? ''}
+        confirmButtonText={confirmAction?.confirmButtonText}
+        isDestructive
+      />
     </div>,
     document.body
   );

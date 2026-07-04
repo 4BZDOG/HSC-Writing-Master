@@ -118,4 +118,44 @@ describe('ContentAuditModal — gap visibility and batch targeting', () => {
     fireEvent.change(select, { target: { value: 'claude-sonnet' } });
     expect(select.value).toBe('claude-sonnet');
   });
+
+  it('expands and collapses the whole tree from the toolbar', () => {
+    renderStudio();
+    // Only the course level is auto-expanded — prompts are not visible yet.
+    expect(screen.queryByText('Explain the fixture concept.')).toBeNull();
+
+    fireEvent.click(screen.getByRole('button', { name: /expand all/i }));
+    expect(screen.getByText('Explain the fixture concept.')).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('button', { name: /collapse all/i }));
+    expect(screen.queryByText('Explain the fixture concept.')).toBeNull();
+    // The collapse must stick — no auto re-expand snapping it back open.
+    expect(screen.queryByText('Fixture Topic')).toBeNull();
+  });
+
+  it('clears the selection from the toolbar', () => {
+    renderStudio();
+    selectWholeCourse();
+    expect(screen.getByText('Fix All Gaps (4)')).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('button', { name: /clear selection/i }));
+    expect(screen.getByText('Fix All Gaps (0)')).toBeTruthy();
+    // Button disappears once there is nothing to clear.
+    expect(screen.queryByRole('button', { name: /clear selection/i })).toBeNull();
+  });
+
+  it('closes on Escape only while no batch is running', () => {
+    const onClose = vi.fn();
+    render(
+      <ContentAuditModal
+        isOpen={true}
+        onClose={onClose}
+        courses={fixture}
+        updateCourses={vi.fn()}
+        showToast={vi.fn()}
+      />
+    );
+    fireEvent.keyDown(window, { key: 'Escape' });
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
 });
