@@ -1,5 +1,6 @@
 import { runAiProxy } from './_lib/providers';
-import { verifyRequestAuth } from './_lib/auth';
+import { verifyRequestAuth, extractBearerToken } from './_lib/auth';
+import { consumeAiQuota } from './_lib/quota';
 
 /**
  * Vercel serverless function: POST /api/gemini
@@ -40,10 +41,27 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     return;
   }
 
-  const auth = await verifyRequestAuth(headerValue(req.headers?.authorization));
+  const authHeader = headerValue(req.headers?.authorization);
+  const auth = await verifyRequestAuth(authHeader);
   if (!auth.ok) {
     res.status(auth.status ?? 401).json({ error: auth.error ?? 'Unauthorized.' });
     return;
+  }
+
+  // Quota gate: one unit of the caller's daily budget per proxied call
+  // (per-user override → role/group default; see supabase/schema.sql §11).
+  // Only meaningful for authenticated callers — when auth is disabled
+  // (no Supabase) there is no identity to meter, matching the auth gate.
+  if (auth.userId) {
+    const token = extractBearerToken(authHeader);
+    const quota = token ? await consumeAiQuota(token) : null;
+    if (quota && !quota.allowed) {
+      res.status(429).json({
+        error: `Daily AI limit reached (${quota.used}/${quota.limit} calls used today). Your allowance resets at midnight UTC — ask an admin if you need more.`,
+        quota,
+      });
+      return;
+    }
   }
 
   const keys = {

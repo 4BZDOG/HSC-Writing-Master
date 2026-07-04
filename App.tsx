@@ -11,6 +11,7 @@ import AppModals from './components/AppModals';
 import LoginPage from './components/LoginPage';
 import ContentAuditModal from './components/admin/ContentAuditModal';
 import ReviewQueueModal from './components/admin/ReviewQueueModal';
+import UsageDashboard from './components/admin/UsageDashboard';
 import { useNavigation } from './hooks/useNavigation';
 import { useSyllabusData } from './hooks/useSyllabusData';
 import { useGemini } from './hooks/useGemini';
@@ -35,6 +36,7 @@ import {
   Activity,
   ShieldCheck,
   UploadCloud,
+  Gauge,
 } from 'lucide-react';
 import { apiMonitor, ApiStatus } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
@@ -169,6 +171,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   const [isFocusMode, setIsFocusMode] = useState(false);
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
   const [isReviewQueueOpen, setIsReviewQueueOpen] = useState(false);
+  const [isUsageDashboardOpen, setIsUsageDashboardOpen] = useState(false);
   const [isSubmittingPrompt, setIsSubmittingPrompt] = useState(false);
 
   // Shared-library contribution is only meaningful when Supabase is configured
@@ -454,13 +457,22 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                     </button>
                   )}
                   {isSystemAdmin(user.role) && (
-                    <button
-                      onClick={() => openModal('databaseDashboard')}
-                      className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
-                      title="Internal Database Health"
-                    >
-                      <HardDrive className="w-4 h-4" />
-                    </button>
+                    <>
+                      <button
+                        onClick={() => openModal('databaseDashboard')}
+                        className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
+                        title="Internal Database Health"
+                      >
+                        <HardDrive className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => setIsUsageDashboardOpen(true)}
+                        className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
+                        title="AI Usage Dashboard (monitor & adjust quotas)"
+                      >
+                        <Gauge className="w-4 h-4" />
+                      </button>
+                    </>
                   )}
                 </div>
               )}
@@ -642,6 +654,13 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         <ReviewQueueModal
           isOpen={isReviewQueueOpen}
           onClose={() => setIsReviewQueueOpen(false)}
+          showToast={showToast}
+        />
+      )}
+      {isSystemAdmin(user.role) && (
+        <UsageDashboard
+          isOpen={isUsageDashboardOpen}
+          onClose={() => setIsUsageDashboardOpen(false)}
           showToast={showToast}
         />
       )}

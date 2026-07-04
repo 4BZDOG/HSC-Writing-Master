@@ -28,7 +28,7 @@ export interface AuthResult {
   userId?: string;
 }
 
-const extractBearerToken = (header: string | undefined): string | null => {
+export const extractBearerToken = (header: string | undefined): string | null => {
   if (!header) return null;
   const match = /^Bearer\s+(.+)$/i.exec(header.trim());
   return match ? match[1] : null;

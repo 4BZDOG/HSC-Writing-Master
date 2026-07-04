@@ -1,9 +1,18 @@
-import React, { useState, useSyncExternalStore } from 'react';
-import { Zap, Hash, BarChart, X, RotateCcw, Cpu } from 'lucide-react';
+import React, { useState, useEffect, useSyncExternalStore } from 'react';
+import { Zap, Hash, BarChart, X, RotateCcw, Cpu, Gauge } from 'lucide-react';
 import { useApiMonitor } from '../hooks/useApiMonitor';
 import { apiMonitor } from '../services/geminiService';
 import { getSelectionSnapshot, setSelectedModel, subscribeAiConfig } from '../services/aiConfig';
 import { modelsForRole, type AIRole } from '../services/aiModels';
+import { isCurriculumRemote } from '../services/curriculumService';
+import {
+  fetchMyQuotaStatus,
+  fetchRoleQuotas,
+  setRoleQuota,
+  setUserQuotaOverride,
+  type QuotaStatus,
+  type QuotaRole,
+} from '../services/quotaService';
 
 const ROLE_LABELS: Record<AIRole, string> = {
   reasoning: 'Marking & reasoning',
@@ -46,6 +55,207 @@ const AiEngineSelector: React.FC = () => {
       <p className="mt-2 text-[9px] leading-relaxed text-[rgb(var(--color-text-dim))]">
         Applies to new requests. Non-Gemini engines require their server-side API key.
       </p>
+    </div>
+  );
+};
+
+const QUOTA_ROLE_LABELS: Record<QuotaRole, string> = {
+  admin: 'Admins',
+  teacher: 'Teachers',
+  student: 'Students',
+};
+
+/**
+ * Admin console for the server-side AI quotas (per role/group, with per-user
+ * overrides — supabase/schema.sql §11). Only rendered in remote mode: without
+ * Supabase there is no identity to meter, so the proxy doesn't enforce.
+ */
+const AiQuotaPanel: React.FC = () => {
+  const [myStatus, setMyStatus] = useState<QuotaStatus | null>(null);
+  const [limits, setLimits] = useState<Record<QuotaRole, string>>({
+    admin: '',
+    teacher: '',
+    student: '',
+  });
+  const [overrideUser, setOverrideUser] = useState('');
+  const [overrideLimit, setOverrideLimit] = useState('');
+  const [message, setMessage] = useState<string | null>(null);
+  const [isBusy, setIsBusy] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const [status, roleQuotas] = await Promise.all([fetchMyQuotaStatus(), fetchRoleQuotas()]);
+        if (cancelled) return;
+        setMyStatus(status);
+        const next = { admin: '', teacher: '', student: '' } as Record<QuotaRole, string>;
+        roleQuotas.forEach((q) => {
+          next[q.role] = String(q.daily_limit);
+        });
+        setLimits(next);
+      } catch (e) {
+        if (!cancelled) {
+          setMessage(e instanceof Error ? e.message : 'Failed to load quota data.');
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const report = (text: string) => setMessage(text);
+
+  const handleSaveLimits = async () => {
+    setIsBusy(true);
+    setMessage(null);
+    try {
+      for (const role of ['admin', 'teacher', 'student'] as QuotaRole[]) {
+        const parsed = Number.parseInt(limits[role], 10);
+        if (!Number.isFinite(parsed) || parsed < 0) {
+          throw new Error(`${QUOTA_ROLE_LABELS[role]}: enter a non-negative number.`);
+        }
+        await setRoleQuota(role, parsed);
+      }
+      report('Group limits saved.');
+    } catch (e) {
+      report(e instanceof Error ? e.message : 'Failed to save limits.');
+    } finally {
+      setIsBusy(false);
+    }
+  };
+
+  const handleSetOverride = async (clear: boolean) => {
+    const username = overrideUser.trim();
+    if (!username) {
+      report('Enter a username for the override.');
+      return;
+    }
+    const parsed = clear ? null : Number.parseInt(overrideLimit, 10);
+    if (!clear && (!Number.isFinite(parsed as number) || (parsed as number) < 0)) {
+      report('Enter a non-negative daily limit, or use Clear.');
+      return;
+    }
+    setIsBusy(true);
+    setMessage(null);
+    try {
+      await setUserQuotaOverride(username, parsed);
+      report(
+        clear
+          ? `Override cleared for ${username} (role default applies).`
+          : `${username} now has a personal limit of ${parsed}/day.`
+      );
+    } catch (e) {
+      report(e instanceof Error ? e.message : 'Failed to update the override.');
+    } finally {
+      setIsBusy(false);
+    }
+  };
+
+  const inputClass =
+    'w-16 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 border border-[rgb(var(--color-border-secondary))]/40 text-[rgb(var(--color-text-secondary))] px-2 py-1 outline-none focus:border-[rgb(var(--color-accent))]/60 transition-colors text-right font-mono';
+
+  return (
+    <div className="mt-4 pt-4 border-t border-[rgb(var(--color-border-secondary))]/30">
+      <div className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-2 flex items-center gap-2">
+        <Gauge className="w-3.5 h-3.5" />
+        Daily AI Quotas
+      </div>
+
+      {myStatus && (
+        <div className="mb-3">
+          <div className="flex justify-between items-center text-xs mb-1">
+            <span className="text-[rgb(var(--color-text-secondary))]">My usage today</span>
+            <span className="font-mono font-bold text-white">
+              {myStatus.used}/{myStatus.limit}
+            </span>
+          </div>
+          <div className="h-1.5 rounded-full bg-black/40 overflow-hidden border border-white/5">
+            <div
+              className={`h-full transition-all ${myStatus.remaining === 0 ? 'bg-red-500' : 'bg-[rgb(var(--color-accent))]'}`}
+              style={{
+                width: `${myStatus.limit > 0 ? Math.min(100, (myStatus.used / myStatus.limit) * 100) : 100}%`,
+              }}
+            />
+          </div>
+        </div>
+      )}
+
+      <div className="space-y-1.5">
+        {(['admin', 'teacher', 'student'] as QuotaRole[]).map((role) => (
+          <label key={role} className="flex items-center justify-between gap-2">
+            <span className="text-[10px] text-[rgb(var(--color-text-dim))]">
+              {QUOTA_ROLE_LABELS[role]}
+            </span>
+            <input
+              type="number"
+              min={0}
+              aria-label={`${QUOTA_ROLE_LABELS[role]} daily limit`}
+              value={limits[role]}
+              onChange={(e) => setLimits((prev) => ({ ...prev, [role]: e.target.value }))}
+              className={inputClass}
+            />
+          </label>
+        ))}
+      </div>
+      <button
+        onClick={handleSaveLimits}
+        disabled={isBusy}
+        className="w-full mt-2 text-[10px] font-bold uppercase tracking-widest py-1.5 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 transition-all disabled:opacity-50"
+      >
+        Save Group Limits
+      </button>
+
+      <div className="mt-3 pt-3 border-t border-[rgb(var(--color-border-secondary))]/20">
+        <span className="text-[10px] text-[rgb(var(--color-text-dim))] block mb-1.5">
+          Per-user override (beats the group limit)
+        </span>
+        <div className="flex gap-1.5">
+          <input
+            type="text"
+            placeholder="username"
+            aria-label="Override username"
+            value={overrideUser}
+            onChange={(e) => setOverrideUser(e.target.value)}
+            className="flex-1 min-w-0 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 border border-[rgb(var(--color-border-secondary))]/40 text-[rgb(var(--color-text-secondary))] px-2 py-1 outline-none focus:border-[rgb(var(--color-accent))]/60"
+          />
+          <input
+            type="number"
+            min={0}
+            placeholder="limit"
+            aria-label="Override daily limit"
+            value={overrideLimit}
+            onChange={(e) => setOverrideLimit(e.target.value)}
+            className={inputClass}
+          />
+        </div>
+        <div className="flex gap-1.5 mt-1.5">
+          <button
+            onClick={() => handleSetOverride(false)}
+            disabled={isBusy}
+            className="flex-1 text-[10px] font-bold uppercase tracking-widest py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-light))] text-[rgb(var(--color-text-secondary))] hover:text-white transition-all disabled:opacity-50 border border-[rgb(var(--color-border-secondary))]/30"
+          >
+            Set Override
+          </button>
+          <button
+            onClick={() => handleSetOverride(true)}
+            disabled={isBusy}
+            className="flex-1 text-[10px] font-bold uppercase tracking-widest py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-light))] text-[rgb(var(--color-text-muted))] hover:text-white transition-all disabled:opacity-50 border border-[rgb(var(--color-border-secondary))]/30"
+          >
+            Clear
+          </button>
+        </div>
+      </div>
+
+      {message && (
+        <p
+          className="mt-2 text-[10px] leading-relaxed text-[rgb(var(--color-text-secondary))]"
+          role="status"
+        >
+          {message}
+        </p>
+      )}
     </div>
   );
 };
@@ -157,6 +367,8 @@ const ApiMonitorDisplay: React.FC = () => {
           </div>
 
           <AiEngineSelector />
+
+          {isCurriculumRemote() && <AiQuotaPanel />}
 
           <button
             onClick={handleResetSession}

@@ -377,6 +377,13 @@ const callGeminiWithRetry = async <T>(
         );
       }
 
+      // The proxy's per-user daily quota (429 "Daily AI limit reached…") is a
+      // hard budget, not a transient rate limit — retrying just re-spends
+      // nothing and delays the message. Surface it immediately, verbatim.
+      if (status === 429 && /daily ai limit/i.test(errorMsg)) {
+        throw new QuotaExceededError(errorMsg);
+      }
+
       if (!isRetryableError(error)) {
         console.error(`[API Fatal] Non-retryable error: ${errorMsg}`);
         throw error;
