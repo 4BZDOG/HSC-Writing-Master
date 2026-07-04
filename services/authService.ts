@@ -32,6 +32,15 @@ const MOCK_USERS: Record<string, { password: string; role: UserRole; name: strin
   user: { password: 'user', role: 'user', name: 'Student User' },
 };
 
+/**
+ * The demo (mock) accounts exist for local development and evaluation. A
+ * production build only offers them when explicitly opted in — otherwise a
+ * deploy that forgot its Supabase env vars would silently ship a working
+ * admin/admin login. Guest access (read-only, local-only) is not gated.
+ */
+export const isDemoAuthEnabled = (): boolean =>
+  Boolean(import.meta.env.DEV) || import.meta.env.VITE_ENABLE_DEMO_AUTH === 'true';
+
 // Helper to calculate daily streak
 const calculateStreak = (stats: UserStats): UserStats => {
   const now = new Date();
@@ -114,6 +123,14 @@ export const mapProfileToUser = (
 // ----------------------------------------------------------------------------
 
 const mockLogin = async (username: string, password: string): Promise<User> => {
+  if (!isDemoAuthEnabled()) {
+    throw new Error(
+      'Sign-in is not configured for this deployment. Configure Supabase ' +
+        '(VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY) or explicitly enable the ' +
+        'demo accounts with VITE_ENABLE_DEMO_AUTH=true.'
+    );
+  }
+
   // Simulate network delay
   await new Promise((resolve) => setTimeout(resolve, 800));
 

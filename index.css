@@ -1,0 +1,207 @@
+/*
+ * App stylesheet — compiled by Tailwind at build time (tailwind.config.js).
+ * This replaces the former cdn.tailwindcss.com runtime script plus the inline
+ * <style> block in index.html, so the app renders fully styled without any
+ * runtime CDN dependency. The web-font @import degrades gracefully offline.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: 99 102 241;
+  --color-accent: 14 165 233;
+  --color-bg-base: 10 15 26;
+  --color-bg-surface: 18 24 38;
+  --color-bg-surface-elevated: 30 41 59;
+  /* Added for component support */
+  --color-bg-surface-inset: 13 18 29;
+  --color-border-secondary: 255 255 255;
+
+  --color-text-primary: 243 244 246;
+  --color-text-secondary: 209 213 219;
+  --color-text-muted: 156 163 175;
+  --color-text-dim: 107 114 128;
+  /* Previously-referenced-but-undefined tokens (hover surfaces, accents,
+     semantic colours). Without these, many hover/colour declarations
+     resolved to an invalid value and were silently dropped. */
+  --color-bg-surface-light: 51 65 85;
+  --color-accent-dark: 2 132 199;
+  --color-accent-glow: 56 189 248;
+  --color-border-primary: 71 85 105;
+  --color-border-accent: 14 165 233;
+  --color-danger: 239 68 68;
+  --color-amber: 245 158 11;
+  --color-yellow: 234 179 8;
+}
+
+[data-theme='light'] {
+  --color-primary: 79 70 229;
+  --color-accent: 2 132 199;
+  --color-bg-base: 248 250 252;
+  --color-bg-surface: 255 255 255;
+  --color-bg-surface-elevated: 255 255 255;
+  --color-bg-surface-inset: 241 245 249;
+  --color-border-secondary: 203 213 225;
+
+  --color-text-primary: 15 23 42;
+  --color-text-secondary: 51 65 85;
+  --color-text-muted: 100 116 139;
+  --color-text-dim: 148 163 184;
+  --color-bg-surface-light: 226 232 240;
+  --color-accent-dark: 3 105 161;
+  --color-accent-glow: 14 165 233;
+  --color-border-primary: 148 163 184;
+  --color-border-accent: 2 132 199;
+  --color-danger: 220 38 38;
+  --color-amber: 217 119 6;
+  --color-yellow: 202 138 4;
+}
+
+body {
+  background-color: rgb(var(--color-bg-base));
+  color: rgb(var(--color-text-primary));
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Respect users who prefer reduced motion: neutralise animations and
+   transitions (also stops infinite loops like spin/shimmer/pulse-glow
+   from burning CPU/battery for these users). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Suppress the default outline for pointer interaction only. Keyboard
+   users still get a clear focus ring via :focus-visible below, so this
+   no longer silently fails WCAG 2.4.7 the way a blanket `outline:none`
+   did. */
+input:focus,
+textarea:focus,
+select:focus,
+button:focus,
+a:focus,
+[tabindex]:focus {
+  outline: none;
+}
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+button:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible,
+[role='button']:focus-visible {
+  outline: 2px solid rgb(var(--color-accent));
+  outline-offset: 2px;
+}
+
+/* Slim, themed scrollbar. Previously the track rule was declared twice
+   (the second actually styling the thumb) and there was no default
+   thumb rule, so the dark theme fell back to the chunky native bar. */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+[data-theme='light'] .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+}
+[data-theme='light'] .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.28);
+}
+/* Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+[data-theme='light'] .custom-scrollbar {
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
+
+/* `scrollbar-hide` is referenced by the main workspace column, the
+   breadcrumb rail and the verb hierarchy carousel. */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Interaction affordances referenced across components. Transform-only →
+   GPU-composited, and neutralised by the prefers-reduced-motion rule above. */
+.hover-lift {
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.35);
+}
+.hover-scale {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-scale:hover {
+  transform: scale(1.03);
+}
+.hover-scale:active {
+  transform: scale(0.98);
+}
+
+.glass-card {
+  background: rgba(var(--color-bg-surface), 0.7);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+[data-theme='light'] .glass-card {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.mesh-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='rgba(255,255,255,0.03)' stroke-width='0.5' fill='none'/%3E%3C/svg%3E");
+}
+
+/*
+ * Stabilise rounded-corner clipping during transitions/animations.
+ * On a `border-radius` + `overflow:hidden` container, browsers create
+ * the rounded clip layer lazily the moment a transition or a composited
+ * child (backdrop-blur, animated gradients) kicks in — flashing square
+ * corners for a frame before the radius is applied. Forcing the
+ * compositing layer up front makes the rounded mask apply from the first
+ * frame, eliminating the "square then rounded" artifact.
+ */
+.clip-stable {
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/*
+ * PDF export is handled entirely client-side by the jsPDF vector
+ * exporter in /pdf (see EvaluationDisplay "Export PDF"). The previous
+ * window.print() + @media print stylesheet approach has been removed.
+ */
