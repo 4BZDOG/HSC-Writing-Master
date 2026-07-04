@@ -521,6 +521,158 @@ begin
   update public.sample_answers set status = 'rejected' where id = p_id;
 end; $$;
 
+-- ----------------------------------------------------------------------------
+-- 11. AI usage quotas — per role (group) with per-user overrides.
+--     The AI proxy (api/gemini.ts) consumes one unit per call via
+--     consume_ai_quota(); when a user's daily budget is spent the proxy
+--     returns 429 instead of forwarding to the paid provider. Enforcement is
+--     server-side and atomic; the client only displays state.
+--     Precedence: profiles.daily_ai_quota (per-user override) beats
+--     ai_quota_limits.daily_limit (role default) beats the built-in 50.
+-- ----------------------------------------------------------------------------
+
+create table if not exists public.ai_quota_limits (
+  role        app_role primary key,
+  daily_limit integer not null check (daily_limit >= 0)
+);
+
+-- Sensible defaults; adjust with set_role_ai_quota() (admin-only).
+insert into public.ai_quota_limits (role, daily_limit) values
+  ('admin', 1000),
+  ('teacher', 400),
+  ('student', 60)
+on conflict (role) do nothing;
+
+-- Per-user override: null = use the role default.
+alter table public.profiles add column if not exists daily_ai_quota integer
+  check (daily_ai_quota is null or daily_ai_quota >= 0);
+
+-- One counter row per user per UTC day. No retention job needed at this
+-- scale; rows are tiny and old days are simply never read.
+create table if not exists public.ai_usage (
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  day     date not null default (now() at time zone 'utc')::date,
+  calls   integer not null default 0,
+  primary key (user_id, day)
+);
+
+alter table public.ai_quota_limits enable row level security;
+alter table public.ai_usage        enable row level security;
+
+-- Limits are visible to any signed-in user (the UI shows your allowance);
+-- there is deliberately NO write policy — changes go through the admin RPC.
+drop policy if exists quota_limits_read on public.ai_quota_limits;
+create policy quota_limits_read on public.ai_quota_limits
+  for select using (auth.uid() is not null);
+
+-- Usage: your own row, or any row for reviewers (usage oversight).
+drop policy if exists ai_usage_read on public.ai_usage;
+create policy ai_usage_read on public.ai_usage
+  for select using (user_id = auth.uid() or public.is_reviewer());
+-- No insert/update policies: the only write path is consume_ai_quota().
+
+-- Effective daily limit for a user (override → role default → 50).
+create or replace function public.resolve_ai_quota(p_user uuid)
+returns integer language sql stable security definer set search_path = public as $$
+  select coalesce(p.daily_ai_quota, l.daily_limit, 50)
+  from public.profiles p
+  left join public.ai_quota_limits l on l.role = p.role
+  where p.id = p_user;
+$$;
+
+-- Atomically consume one call from the caller's daily budget. The
+-- conditional ON CONFLICT update makes check-and-increment a single
+-- statement, so concurrent calls cannot double-spend the last unit.
+create or replace function public.consume_ai_quota()
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare
+  v_user  uuid := auth.uid();
+  v_limit integer;
+  v_used  integer;
+begin
+  if v_user is null then
+    raise exception 'Not authenticated';
+  end if;
+
+  v_limit := coalesce(public.resolve_ai_quota(v_user), 50);
+
+  if v_limit <= 0 then
+    return jsonb_build_object('allowed', false, 'used', 0, 'limit', 0);
+  end if;
+
+  insert into public.ai_usage (user_id, day, calls)
+  values (v_user, (now() at time zone 'utc')::date, 1)
+  on conflict (user_id, day) do update
+    set calls = ai_usage.calls + 1
+    where ai_usage.calls < v_limit
+  returning calls into v_used;
+
+  if v_used is null then
+    -- Conditional update matched nothing: the budget is already spent.
+    select calls into v_used
+      from public.ai_usage
+     where user_id = v_user and day = (now() at time zone 'utc')::date;
+    return jsonb_build_object('allowed', false, 'used', coalesce(v_used, v_limit), 'limit', v_limit);
+  end if;
+
+  return jsonb_build_object('allowed', true, 'used', v_used, 'limit', v_limit);
+end; $$;
+
+-- Read-only status for UI display (does not consume).
+create or replace function public.get_ai_quota_status()
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_user  uuid := auth.uid();
+  v_limit integer;
+  v_used  integer;
+begin
+  if v_user is null then
+    raise exception 'Not authenticated';
+  end if;
+  v_limit := coalesce(public.resolve_ai_quota(v_user), 50);
+  select calls into v_used
+    from public.ai_usage
+   where user_id = v_user and day = (now() at time zone 'utc')::date;
+  return jsonb_build_object(
+    'used', coalesce(v_used, 0),
+    'limit', v_limit,
+    'remaining', greatest(v_limit - coalesce(v_used, 0), 0)
+  );
+end; $$;
+
+-- Admin management ---------------------------------------------------------
+
+create or replace function public.set_role_ai_quota(p_role app_role, p_limit integer)
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can change quota limits';
+  end if;
+  if p_limit is null or p_limit < 0 then
+    raise exception 'Limit must be a non-negative integer';
+  end if;
+  insert into public.ai_quota_limits (role, daily_limit)
+  values (p_role, p_limit)
+  on conflict (role) do update set daily_limit = excluded.daily_limit;
+end; $$;
+
+-- Per-user override, addressed by username for admin-console usability.
+-- Pass null to clear the override (fall back to the role default).
+create or replace function public.set_user_ai_quota(p_username text, p_limit integer)
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can change quota limits';
+  end if;
+  if p_limit is not null and p_limit < 0 then
+    raise exception 'Limit must be null (clear) or a non-negative integer';
+  end if;
+  update public.profiles set daily_ai_quota = p_limit where username = p_username;
+  if not found then
+    raise exception 'No user with username "%"', p_username;
+  end if;
+end; $$;
+
 -- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.

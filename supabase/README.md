@@ -123,6 +123,27 @@ Run `supabase/tests/rls_negative_tests.sql` in the SQL editor after applying
 `schema.sql` to verify this (and a few other authorisation boundaries) hold —
 see that file for what it checks and why.
 
+### AI usage quotas (per user and per group)
+
+Schema §11 adds server-enforced daily AI budgets. Every call through the AI
+proxy (`api/gemini.ts`) spends one unit of the caller's allowance via the
+atomic `consume_ai_quota()` RPC; when it's gone the proxy answers 429 and the
+paid provider is never contacted.
+
+- **Group (role) defaults** live in `ai_quota_limits` — seeded to
+  admin 1000 / teacher 400 / student 60 per UTC day. Change them with
+  `select set_role_ai_quota('student', 80);` (admin-only) or from the app's
+  API telemetry widget (admin header → the floating usage pill → Daily AI
+  Quotas).
+- **Per-user overrides** beat the group default:
+  `select set_user_ai_quota('jsmith', 200);` — pass `null` to clear.
+- **Usage** is one row per user per day in `ai_usage`; users can read their
+  own row, reviewers can read all. The only write path is the
+  SECURITY DEFINER consume function, so clients cannot forge counters.
+- The proxy **fails open** if §11 hasn't been applied yet (a warning is
+  logged) so deploying code ahead of the migration can't brick AI features;
+  the auth gate still blocks anonymous spending in that window.
+
 ## Setup steps
 
 ### 1. Create a Supabase project
