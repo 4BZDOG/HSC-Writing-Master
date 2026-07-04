@@ -673,6 +673,39 @@ begin
   end if;
 end; $$;
 
+-- Usage report for the admin dashboard: per-user, per-day rows over the last
+-- p_days days with each user's EFFECTIVE limit (override → role default →
+-- built-in 50). Reviewer-gated: teachers/admins can see who is using what.
+create or replace function public.get_ai_usage_report(p_days integer default 7)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days   integer := least(greatest(coalesce(p_days, 7), 1), 31);
+  v_result jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can view the usage report';
+  end if;
+
+  select coalesce(jsonb_agg(row_obj order by row_obj->>'day' desc, (row_obj->>'calls')::int desc), '[]'::jsonb)
+    into v_result
+  from (
+    select jsonb_build_object(
+      'username', p.username,
+      'role', p.role,
+      'day', u.day,
+      'calls', u.calls,
+      'limit', coalesce(p.daily_ai_quota, l.daily_limit, 50),
+      'override', p.daily_ai_quota
+    ) as row_obj
+    from public.ai_usage u
+    join public.profiles p on p.id = u.user_id
+    left join public.ai_quota_limits l on l.role = p.role
+    where u.day > (now() at time zone 'utc')::date - v_days
+  ) sub;
+
+  return v_result;
+end; $$;
+
 -- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.

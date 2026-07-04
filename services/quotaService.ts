@@ -66,3 +66,22 @@ export const setUserQuotaOverride = async (
   });
   if (error) throw new Error(`Could not update ${username}'s quota: ${error.message}`);
 };
+
+/** One row per user per UTC day, with the user's effective limit. */
+export interface UsageReportRow {
+  username: string;
+  role: QuotaRole;
+  /** ISO date, UTC (matches the server-side counter day). */
+  day: string;
+  calls: number;
+  limit: number;
+  /** The per-user override if one is set (already folded into `limit`). */
+  override: number | null;
+}
+
+/** Reviewer-gated usage report over the last `days` UTC days (1–31). */
+export const fetchUsageReport = async (days = 7): Promise<UsageReportRow[]> => {
+  const { data, error } = await requireClient().rpc('get_ai_usage_report', { p_days: days });
+  if (error) throw new Error(`Could not load the usage report: ${error.message}`);
+  return (data ?? []) as UsageReportRow[];
+};
