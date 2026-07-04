@@ -26,6 +26,11 @@ import {
   getBandForMark,
   getCommandTermInfo,
 } from '../../data/commandTerms';
+import { isCurriculumRemote } from '../../services/curriculumService';
+import {
+  savePromptContribution,
+  saveSampleAnswerContribution,
+} from '../../services/contributionService';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
 import {
   ChevronRight,
@@ -48,6 +53,7 @@ import {
   Scale,
   Cpu,
   Wrench,
+  UploadCloud,
 } from 'lucide-react';
 
 // --- Shared Components ---
@@ -399,6 +405,21 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   // 'default' = the app's per-role engine selection; otherwise an AI_MODELS
   // id that every call in the batch is routed to.
   const [batchEngine, setBatchEngine] = useState<string>('default');
+
+  // Prompts changed by batch runs but not yet pushed to the shared Supabase
+  // library. Repairs land in local IndexedDB first (updateCourses); in remote
+  // mode the admin then syncs them through contributionService as `pending`
+  // contributions, keeping the moderation loop as the single publish path.
+  // Keyed by prompt app-id so repeated repairs to one prompt dedupe.
+  const touchedRef = useRef<
+    Map<string, { promptAppId: string; dotPointAppId: string; label: string }>
+  >(new Map());
+  const [pendingSyncCount, setPendingSyncCount] = useState(0);
+
+  const recordTouch = (promptAppId: string, dotPointAppId: string, label: string) => {
+    touchedRef.current.set(promptAppId, { promptAppId, dotPointAppId, label });
+    setPendingSyncCount(touchedRef.current.size);
+  };
   const [progress, setProgress] = useState<BatchProgress | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<VisibilityFilter>(null);
@@ -574,9 +595,8 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   }, [isOpen, treeData]);
 
   useEffect(() => {
-    if (logsEndRef.current) {
-      logsEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
+    // Optional call: scrollIntoView is missing in some environments (jsdom).
+    logsEndRef.current?.scrollIntoView?.({ behavior: 'smooth' });
   }, [progress?.logs]);
 
   const toggleSelect = (id: string, checked: boolean) => {
@@ -763,6 +783,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           dp.prompts.push(prompt);
         }
       });
+      if (path.dotPointId) recordTouch(prompt.id, path.dotPointId, prompt.question);
     },
   });
 
@@ -779,6 +800,8 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           p.sampleAnswers.push(answer);
         }
       });
+      if (node.path.promptId && node.path.dotPointId)
+        recordTouch(node.path.promptId, node.path.dotPointId, node.label);
     },
   });
 
@@ -794,6 +817,8 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         const p = findDraftPrompt(draft, node.path);
         if (p) p.markingCriteria = rubric;
       });
+      if (node.path.promptId && node.path.dotPointId)
+        recordTouch(node.path.promptId, node.path.dotPointId, node.label);
     },
   });
 
@@ -813,6 +838,8 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         const p = findDraftPrompt(draft, node.path);
         if (p) p.linkedOutcomes = suggested;
       });
+      if (node.path.promptId && node.path.dotPointId)
+        recordTouch(node.path.promptId, node.path.dotPointId, node.label);
     },
   });
 
@@ -849,6 +876,8 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             }
           }
         });
+        if (node.path.promptId && node.path.dotPointId)
+          recordTouch(node.path.promptId, node.path.dotPointId, node.label);
       },
     }));
   };
@@ -876,24 +905,20 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     return tasks;
   };
 
-  const handleBulkAction = async (actionType: BulkActionType) => {
-    if (isProcessing) return; // a batch is already running
+  /**
+   * Shared batch runner: progress wiring, stop handling, cleanup, and an
+   * end-of-run summary (the processing terminal collapses when the batch
+   * ends, so the outcome must survive as a toast).
+   */
+  const executeBatch = async (
+    tasks: BatchTask<void>[],
+    summarise: (done: number, failed: number, aborted: boolean) => void
+  ) => {
     setIsProcessing(true);
     setProgress(null);
     const controller = new AbortController();
     abortControllerRef.current = controller;
 
-    const tasks = buildTasks(actionType);
-
-    if (tasks.length === 0) {
-      showToast('No target items found in current selection.', 'info');
-      setIsProcessing(false);
-      return;
-    }
-
-    // Route every AI call in this batch to the engine the admin picked for
-    // the run (or leave the app's per-role defaults when 'default').
-    setBatchModelOverride(batchEngine === 'default' ? null : batchEngine);
     let finalProgress: BatchProgress | null = null;
     try {
       await runBatchOperations(
@@ -906,23 +931,85 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         controller.signal
       );
     } finally {
-      setBatchModelOverride(null);
       setIsProcessing(false);
       setIsStopping(false);
       abortControllerRef.current = null;
     }
 
-    // Summarise the run — the processing terminal collapses when the batch
-    // ends, so the outcome must survive as a toast.
-    const done = finalProgress?.completed ?? 0;
-    const failed = finalProgress?.failed ?? 0;
-    if (controller.signal.aborted) {
-      showToast(`Batch stopped — ${done} of ${tasks.length} completed.`, 'info');
-    } else if (failed > 0) {
-      showToast(`Batch finished: ${done} succeeded, ${failed} failed.`, 'error');
-    } else {
-      showToast(`Batch complete: ${done} item${done === 1 ? '' : 's'} updated.`, 'success');
+    summarise(finalProgress?.completed ?? 0, finalProgress?.failed ?? 0, controller.signal.aborted);
+  };
+
+  const handleBulkAction = async (actionType: BulkActionType) => {
+    if (isProcessing) return; // a batch is already running
+
+    const tasks = buildTasks(actionType);
+    if (tasks.length === 0) {
+      showToast('No target items found in current selection.', 'info');
+      return;
     }
+
+    // Route every AI call in this batch to the engine the admin picked for
+    // the run (or leave the app's per-role defaults when 'default').
+    setBatchModelOverride(batchEngine === 'default' ? null : batchEngine);
+    try {
+      await executeBatch(tasks, (done, failed, aborted) => {
+        if (aborted) {
+          showToast(`Batch stopped — ${done} of ${tasks.length} completed.`, 'info');
+        } else if (failed > 0) {
+          showToast(`Batch finished: ${done} succeeded, ${failed} failed.`, 'error');
+        } else {
+          showToast(`Batch complete: ${done} item${done === 1 ? '' : 's'} updated.`, 'success');
+        }
+      });
+    } finally {
+      setBatchModelOverride(null);
+    }
+  };
+
+  /**
+   * Push everything the studio has repaired to the shared Supabase library
+   * through the sanctioned contribution write path. Content lands as
+   * `pending`, flowing through the same review queue as user submissions —
+   * the moderation loop stays the single road to `approved`. Items are only
+   * removed from the outbox on success, so a failed push is retryable.
+   */
+  const handleSyncToLibrary = async () => {
+    if (isProcessing) return;
+    const entries = Array.from(touchedRef.current.values());
+    if (entries.length === 0) return;
+
+    const tasks: BatchTask<void>[] = entries.map((t) => ({
+      id: `sync-${t.promptAppId}`,
+      description: `Syncing to library: ${t.label.slice(0, 30)}...`,
+      action: async () => {
+        // Read the CURRENT prompt from the tree — it carries every repair
+        // applied since the touch was recorded.
+        const node = flatMap.get(t.promptAppId);
+        const prompt = node?.dataRef as Prompt | undefined;
+        if (!prompt) throw new Error('Prompt no longer exists locally.');
+
+        await savePromptContribution(t.dotPointAppId, prompt, 'pending');
+        for (const sa of prompt.sampleAnswers ?? []) {
+          await saveSampleAnswerContribution(prompt.id, sa, 'pending');
+        }
+
+        touchedRef.current.delete(t.promptAppId);
+        setPendingSyncCount(touchedRef.current.size);
+      },
+    }));
+
+    await executeBatch(tasks, (done, failed, aborted) => {
+      if (aborted) {
+        showToast(`Sync stopped — ${done} of ${tasks.length} pushed.`, 'info');
+      } else if (failed > 0) {
+        showToast(`Sync finished: ${done} pushed, ${failed} failed (kept in the outbox).`, 'error');
+      } else {
+        showToast(
+          `Synced ${done} item${done === 1 ? '' : 's'} to the shared library — now pending review.`,
+          'success'
+        );
+      }
+    });
   };
 
   const renderNode = (node: TreeNode, level: number = 0) => {
@@ -1354,6 +1441,17 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                     ))}
                   </select>
                 </div>
+
+                {isCurriculumRemote() && pendingSyncCount > 0 && (
+                  <button
+                    onClick={handleSyncToLibrary}
+                    title="Push the questions repaired by this studio to the shared library as pending contributions — they go through the review queue before publishing"
+                    className="ml-2 px-5 h-12 rounded-[20px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 font-black text-xs uppercase tracking-[0.15em] transition-all flex items-center gap-2"
+                  >
+                    <UploadCloud className="w-4 h-4" />
+                    Sync to Library ({pendingSyncCount})
+                  </button>
+                )}
               </div>
 
               <div className="flex gap-3 flex-wrap justify-end">
