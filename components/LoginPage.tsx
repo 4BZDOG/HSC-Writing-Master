@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { User } from '../types';
-import { authService } from '../services/authService';
+import { authService, isDemoAuthEnabled } from '../services/authService';
 import { isSupabaseConfigured } from '../services/supabaseClient';
 import {
   Lock,
@@ -122,7 +122,12 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       const user = await authService.login(trimmedUsername, trimmedPassword);
       onLogin(user);
     } catch (err) {
-      setError('Invalid credentials. Access denied.');
+      // Configuration problems (e.g. demo auth disabled in production) carry
+      // an actionable message — don't flatten those into "bad password".
+      const message = err instanceof Error ? err.message : '';
+      setError(
+        message.includes('not configured') ? message : 'Invalid credentials. Access denied.'
+      );
     } finally {
       setIsLoading(false);
     }
@@ -250,9 +255,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           </div>
         </div>
 
-        {/* Identity Hint Section — only for the local mock accounts; in Supabase
-            mode logins are real email accounts and these hints would mislead. */}
-        {!isSupabaseConfigured && (
+        {/* Identity Hint Section — only when the local demo accounts actually
+            work (dev builds, or VITE_ENABLE_DEMO_AUTH=true). In Supabase mode
+            logins are real email accounts and these hints would mislead. */}
+        {!isSupabaseConfigured && isDemoAuthEnabled() && (
           <div className="mt-10 text-center animate-fade-in" style={{ animationDelay: '500ms' }}>
             <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">
               Demo Accounts

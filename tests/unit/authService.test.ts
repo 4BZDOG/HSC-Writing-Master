@@ -1,5 +1,10 @@
-import { describe, it, expect } from 'vitest';
-import { authService, mapSupabaseRole, mapProfileToUser } from '../../services/authService';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import {
+  authService,
+  mapSupabaseRole,
+  mapProfileToUser,
+  isDemoAuthEnabled,
+} from '../../services/authService';
 import { isSupabaseConfigured } from '../../services/supabaseClient';
 
 describe('Supabase gating (safety: defaults to mock auth)', () => {
@@ -50,6 +55,36 @@ describe('local admin/guest test accounts (always available without Supabase)', 
     const refreshed = await authService.refreshSession(admin);
     expect(refreshed).not.toBeNull();
     expect(refreshed?.role).toBe('admin');
+  });
+});
+
+describe('demo-auth production gating', () => {
+  afterEach(() => vi.unstubAllEnvs());
+
+  it('demo auth is enabled in dev builds (the test env is a dev build)', () => {
+    expect(isDemoAuthEnabled()).toBe(true);
+  });
+
+  it('demo auth is DISABLED in a production build without the opt-in', async () => {
+    vi.stubEnv('DEV', false);
+    expect(isDemoAuthEnabled()).toBe(false);
+    // The credential login must refuse with an actionable message, not
+    // accept admin/admin.
+    await expect(authService.login('admin', 'admin')).rejects.toThrow(/not configured/i);
+  });
+
+  it('VITE_ENABLE_DEMO_AUTH=true opts a production build back in', async () => {
+    vi.stubEnv('DEV', false);
+    vi.stubEnv('VITE_ENABLE_DEMO_AUTH', 'true');
+    expect(isDemoAuthEnabled()).toBe(true);
+    const user = await authService.login('admin', 'admin');
+    expect(user.role).toBe('admin');
+  });
+
+  it('guest access is never gated', async () => {
+    vi.stubEnv('DEV', false);
+    const guest = await authService.loginAsGuest();
+    expect(guest.role).toBe('guest');
   });
 });
 
