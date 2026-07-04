@@ -76,6 +76,13 @@ export interface Prompt {
   hscYear?: number;
   hscQuestionNumber?: string;
   userDraft?: string;
+  /**
+   * AI quality pre-screen (0–100 + reviewer notes), set by the audit studio's
+   * "Screen Quality" batch action. Advisory triage data: rides along when the
+   * prompt syncs to the shared library so reviewers see it in the queue.
+   */
+  qualityScore?: number;
+  qualityNotes?: string;
 }
 
 export interface DotPoint {

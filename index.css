@@ -2,10 +2,9 @@
  * App stylesheet — compiled by Tailwind at build time (tailwind.config.js).
  * This replaces the former cdn.tailwindcss.com runtime script plus the inline
  * <style> block in index.html, so the app renders fully styled without any
- * runtime CDN dependency. The web-font @import degrades gracefully offline.
+ * runtime CDN dependency. Fonts are self-hosted via @fontsource (imported in
+ * index.tsx), so there is no fonts.googleapis.com request either.
  */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

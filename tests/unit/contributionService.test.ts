@@ -144,4 +144,33 @@ describe('toQueueItems (pending rows -> review list)', () => {
   it('returns an empty list when nothing is pending', () => {
     expect(toQueueItems([], [])).toEqual([]);
   });
+
+  it('surfaces the parent question as context for sample answers', () => {
+    const items = toQueueItems(
+      [{ id: 'p1', question: 'A question', created_at: null, quality_score: 50 }],
+      [
+        {
+          id: 'a-obj',
+          answer: 'embed as object',
+          created_at: null,
+          quality_score: 40,
+          prompts: { question: 'Parent Q (object)' },
+        },
+        {
+          id: 'a-arr',
+          answer: 'embed as array',
+          created_at: null,
+          quality_score: 30,
+          prompts: [{ question: 'Parent Q (array)' }],
+        },
+        { id: 'a-none', answer: 'no embed', created_at: null, quality_score: 20 },
+      ]
+    );
+
+    const byId = Object.fromEntries(items.map((i) => [i.id, i]));
+    expect(byId['p1'].context).toBeNull(); // questions have no parent context
+    expect(byId['a-obj'].context).toBe('Parent Q (object)');
+    expect(byId['a-arr'].context).toBe('Parent Q (array)');
+    expect(byId['a-none'].context).toBeNull();
+  });
 });

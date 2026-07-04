@@ -65,8 +65,10 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [kindFilter, setKindFilter] = useState<KindFilter>('all');
   const [rejectTarget, setRejectTarget] = useState<ModerationItem | null>(null);
+  const [approveAllOpen, setApproveAllOpen] = useState(false);
+  const [isBulkApproving, setIsBulkApproving] = useState(false);
 
-  useEscapeKey(isOpen && !busyId && !rejectTarget, onClose);
+  useEscapeKey(isOpen && !busyId && !rejectTarget && !approveAllOpen && !isBulkApproving, onClose);
 
   const load = useCallback(async () => {
     setIsLoading(true);
@@ -89,6 +91,35 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
     sample_answer: items.filter((i) => i.kind === 'sample_answer').length,
   };
   const visibleItems = kindFilter === 'all' ? items : items.filter((i) => i.kind === kindFilter);
+
+  /**
+   * Approve everything currently visible (i.e. respecting the kind filter) —
+   * built for clearing a batch of audit-studio repairs you have already
+   * checked. Sequential so one failure doesn't abort the rest; failures stay
+   * in the queue.
+   */
+  const handleApproveAllVisible = async () => {
+    setIsBulkApproving(true);
+    let done = 0;
+    let failed = 0;
+    for (const item of visibleItems) {
+      try {
+        if (item.kind === 'prompt') await approvePrompt(item.id);
+        else await approveSampleAnswer(item.id);
+        done++;
+        setItems((prev) => prev.filter((i) => i.id !== item.id));
+      } catch {
+        failed++;
+      }
+    }
+    setIsBulkApproving(false);
+    showToast(
+      failed > 0
+        ? `Approved ${done}; ${failed} failed and remain in the queue.`
+        : `Published ${done} item${done === 1 ? '' : 's'} to the shared library.`,
+      failed > 0 ? 'error' : 'success'
+    );
+  };
 
   const handleDecision = async (item: ModerationItem, decision: 'approve' | 'reject') => {
     setBusyId(item.id);
@@ -185,6 +216,16 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
                   {f.label}
                 </button>
               ))}
+              <div className="flex-1" />
+              <button
+                onClick={() => setApproveAllOpen(true)}
+                disabled={isBulkApproving || visibleItems.length === 0}
+                title="Approve everything currently visible (respects the kind filter)"
+                className="px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20 text-xs font-bold transition-all flex items-center gap-1.5 disabled:opacity-50"
+              >
+                <Check className="w-3.5 h-3.5" />
+                {isBulkApproving ? 'Approving…' : `Approve All (${visibleItems.length})`}
+              </button>
             </div>
           )}
 
@@ -225,6 +266,14 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
                       </span>
                       <QualityBadge score={item.qualityScore} />
                     </div>
+                    {item.context && (
+                      <p
+                        className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 italic truncate"
+                        title={item.context}
+                      >
+                        For: {item.context}
+                      </p>
+                    )}
                     <p className="text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 break-words whitespace-pre-wrap">
                       {expandedId === item.id ? item.fullText : item.title}
                     </p>
@@ -248,14 +297,14 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <button
                       onClick={() => handleDecision(item, 'approve')}
-                      disabled={busyId === item.id}
+                      disabled={busyId === item.id || isBulkApproving}
                       className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all text-xs font-bold disabled:opacity-50"
                     >
                       <Check className="w-3.5 h-3.5" /> Approve
                     </button>
                     <button
                       onClick={() => setRejectTarget(item)}
-                      disabled={busyId === item.id}
+                      disabled={busyId === item.id || isBulkApproving}
                       className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-500/10 text-red-400 border border-red-500/30 hover:bg-red-500/20 transition-all text-xs font-bold disabled:opacity-50"
                     >
                       <Ban className="w-3.5 h-3.5" /> Reject
@@ -267,6 +316,15 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
           )}
         </div>
       </div>
+
+      <ConfirmationModal
+        isOpen={approveAllOpen}
+        onClose={() => setApproveAllOpen(false)}
+        onConfirm={handleApproveAllVisible}
+        title={`Approve all ${visibleItems.length} visible item${visibleItems.length === 1 ? '' : 's'}?`}
+        message="Everything currently listed will be published to the shared library and become visible to all users. Items that fail stay in the queue."
+        confirmButtonText="Approve & Publish"
+      />
 
       <ConfirmationModal
         isOpen={rejectTarget !== null}
