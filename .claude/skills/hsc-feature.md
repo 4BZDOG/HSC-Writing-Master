@@ -36,7 +36,7 @@ All entities have a string `id` from `generateId()` in `utils/idUtils.ts`. Never
 
 ### 2. State Management with use-immer
 
-All top-level course state is managed with `useImmer` in `components/App.tsx`. Mutations must use the Immer draft pattern — never assign directly to props passed down from a parent.
+All top-level course state is managed with `useImmer` in `App.tsx` (repo root, **not** `components/App.tsx`). Mutations must use the Immer draft pattern — never assign directly to props passed down from a parent.
 
 ```typescript
 // CORRECT — mutate via draft inside updateCourse / setData callbacks
@@ -58,14 +58,20 @@ const sorted = [...(prompt.sampleAnswers ?? [])].sort((a, b) => a.mark - b.mark)
 
 ### 3. Adding an AI Feature
 
-#### Choose the right model
+#### Choose the right model role, not a hard-coded model
 
-| Task | Model constant | Reason |
+AI engine selection is a **runtime registry**, not a constant. `services/aiModels.ts` defines the available engines (`gemini-flash` → `gemini-3-flash-preview`, `gemini-pro` → `gemini-3-pro-preview`, `claude-sonnet`, `claude-haiku`) and the default role mapping (`basic` → `gemini-flash`, `reasoning` → `gemini-pro`). `services/aiConfig.ts` resolves a **role** to the currently selected provider+model via `resolveTarget(role)`, honouring the admin's engine choice and any non-persistent batch override (`setBatchModelOverride`).
+
+| Task | Role | Reason |
 |---|---|---|
-| Marking, rubric generation, sample answers | `MODELS.REASONING` (`gemini-3-pro-preview`) | Needs thinking budget |
-| Keyword extraction, scenario generation, quick suggestions | `MODELS.BASIC` (`gemini-3-flash-preview`) | Speed-sensitive |
+| Marking, rubric generation, sample answers | `reasoning` | Needs thinking budget |
+| Keyword extraction, scenario generation, quick suggestions | `basic` | Speed-sensitive |
 
-The constants live at the top of `services/geminiService.ts`. Never hard-code model strings.
+Never hard-code a model string or bypass `resolveTarget` — that's how the selectable-engine feature and batch overrides stay honoured.
+
+#### All provider calls go through the `/api/gemini` proxy
+
+The client never talks to Gemini/Anthropic directly. `services/aiCore.ts` posts to the server-side `/api/gemini` proxy (`api/gemini.ts`), which injects the provider key, authenticates the caller (Supabase bearer token when configured), and **spends one unit of the caller's daily AI quota** before contacting the provider (returns 429 when exhausted). Keep new AI features on this path — do not add a direct SDK call.
 
 #### Wrap every API call in apiGuard
 
@@ -100,6 +106,18 @@ These rules are **enforced everywhere** — never bypass them:
 - **PromptVerb must be uppercase** and must exist in the `PromptVerb` union in `types.ts`. The `commandTerms.ts` data file maps each verb to its tier.
 - **The Verb Gate**: If a student's response uses a lower cognitive verb than required, the evaluator caps the band at 50% (Band 3). This logic is in `services/geminiService.ts:evaluateAnswer` and must be mirrored in any custom evaluation path.
 - **PEEL structure** is required for 4+ mark questions in sample answers (Point, Evidence, Explanation, Link).
+
+---
+
+### 4b. Roles, Moderation & Quotas (Supabase backend)
+
+The app runs against Supabase when configured and degrades gracefully to IndexedDB/localStorage "mock mode" otherwise. Feature work that touches users, shared content, or AI spend must respect these boundaries:
+
+- **Roles & capabilities**: `UserRole = 'admin' | 'teacher' | 'user' | 'guest'`. Never gate UI on a raw role string — use the helpers in `utils/permissions.ts`: `canCurateContent`, `canModerate` (both admin+teacher), and `isSystemAdmin` (admin only). Teachers get curation + the Review Queue but **not** the system-admin tools (Database Manager, Data Vault, Audit Studio, API monitor, Usage Dashboard). This mirrors the schema's `is_reviewer()` / `is_admin()`.
+- **Content lifecycle**: library content (`courses` / `prompts` / `sample_answers`) has a `status`: `private → pending → approved` (plus `rejected` / `archived`). New content starts `private`. Reaching a published status is reviewer-only, enforced by the `enforce_content_status_authority` trigger — the DB is the authority, not the UI.
+- **Write path**: always contribute through `services/contributionService.ts` (`savePromptContribution` / `saveSampleAnswerContribution` / `submitToLibrary`), never by writing rows directly. Reviewer approval goes through the gated RPCs (`approve_prompt()` / `reject_prompt()` etc.), surfaced in `components/admin/ReviewQueueModal.tsx`.
+- **AI quotas** (schema §11): daily budgets are enforced **server-side** in the proxy. Read/adjust via `services/quotaService.ts` (`fetchMyQuotaStatus`, `fetchRoleQuotas`, `setRoleQuota`, `setUserQuotaOverride`, `fetchUsageReport`) and the admin surfaces (`components/admin/UsageDashboard.tsx`, the API-monitor quota panel). `quotaService` is a display/management convenience layer — it is **not** the enforcement point; never treat a client-side check as the gate.
+- **Mock-mode parity**: guard remote-only features with `isCurriculumRemote()` and provide a sensible local fallback/empty state (e.g. the Usage Dashboard shows a "requires Supabase" explainer in mock mode).
 
 ---
 
