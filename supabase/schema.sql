@@ -199,6 +199,11 @@ create index if not exists idx_prompts_created_by  on public.prompts (created_by
 create index if not exists idx_answers_prompt      on public.sample_answers (prompt_id);
 create index if not exists idx_responses_user      on public.responses (user_id);
 create index if not exists idx_responses_prompt    on public.responses (prompt_id);
+-- One row per (student, prompt): the latest attempt + AI feedback. Lets the
+-- client upsert on each evaluation (see services/responseService.ts) and is the
+-- substrate for longitudinal analytics. Per-attempt history is a future step.
+create unique index if not exists uq_responses_user_prompt
+  on public.responses (user_id, prompt_id);
 
 -- ----------------------------------------------------------------------------
 -- 6. updated_at maintenance

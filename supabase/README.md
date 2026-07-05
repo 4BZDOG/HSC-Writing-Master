@@ -261,7 +261,13 @@ Once the database is seeded, the app changes happen in roughly this order:
    (`api/_lib/auth.ts`). Leave them unset to keep the proxy open for local /
    keyless dev. ⚠️ Once enabled, **guest sessions cannot make AI calls** — they
    have no Supabase token; this is deliberate anonymous-abuse protection.
-5. **Responses:** persist student drafts + AI feedback to the `responses` table.
+5. **Responses:** ✅ each completed evaluation upserts the student's draft + AI
+   feedback (mark/band/evaluation JSON, plus a thumbs rating) to the `responses`
+   table — one row per `(student, prompt)` via `uq_responses_user_prompt`.
+   Best-effort and Supabase-mode only (`services/responseService.ts`); writes are
+   confined to the caller's own rows by the `responses_write` RLS policy and
+   reviewers may read all for analytics. This is the substrate for the
+   longitudinal features (progress radar, weakness heatmap).
 
 ## ⚠️ Privacy & data residency (important)
 
