@@ -28,6 +28,15 @@ export interface AIModelOption {
   roles: AIRole[];
   /** Server-side env var that must hold the provider's key for this to work. */
   keyEnv: string;
+  /**
+   * Rough USD cost of ONE proxied call, for the admin dashboard's spend
+   * estimate. The quota system counts calls, not tokens, so this is a blended
+   * estimate for a typical marking-sized exchange (~2k input + ~1k output
+   * tokens) at the provider's Jan-2026 list price — good enough to compare
+   * engines and sanity-check a day's spend, not an invoice. Update alongside
+   * the model when prices move.
+   */
+  estCostPerCall: number;
 }
 
 export const AI_MODELS: AIModelOption[] = [
@@ -39,6 +48,7 @@ export const AI_MODELS: AIModelOption[] = [
     description: 'Fast and economical. Good for generation, parsing and suggestions.',
     roles: ['basic'],
     keyEnv: 'GEMINI_API_KEY',
+    estCostPerCall: 0.0008,
   },
   {
     id: 'gemini-pro',
@@ -48,6 +58,7 @@ export const AI_MODELS: AIModelOption[] = [
     description: 'Higher-order reasoning. Used for marking and exemplar generation.',
     roles: ['basic', 'reasoning'],
     keyEnv: 'GEMINI_API_KEY',
+    estCostPerCall: 0.006,
   },
   {
     id: 'claude-sonnet',
@@ -57,6 +68,7 @@ export const AI_MODELS: AIModelOption[] = [
     description: 'Strong reasoning with a good speed/cost balance. Requires ANTHROPIC_API_KEY.',
     roles: ['basic', 'reasoning'],
     keyEnv: 'ANTHROPIC_API_KEY',
+    estCostPerCall: 0.009,
   },
   {
     id: 'claude-haiku',
@@ -66,6 +78,7 @@ export const AI_MODELS: AIModelOption[] = [
     description: 'Fast and economical Claude tier. Requires ANTHROPIC_API_KEY.',
     roles: ['basic'],
     keyEnv: 'ANTHROPIC_API_KEY',
+    estCostPerCall: 0.0022,
   },
 
   // --- Open-source models via OpenRouter -----------------------------------
@@ -79,6 +92,7 @@ export const AI_MODELS: AIModelOption[] = [
     description: 'Zhipu AI open model with strong reasoning. Requires OPENROUTER_API_KEY.',
     roles: ['basic', 'reasoning'],
     keyEnv: 'OPENROUTER_API_KEY',
+    estCostPerCall: 0.0015,
   },
   {
     id: 'openrouter-deepseek',
@@ -88,6 +102,7 @@ export const AI_MODELS: AIModelOption[] = [
     description: 'Capable open reasoning model at low cost. Requires OPENROUTER_API_KEY.',
     roles: ['basic', 'reasoning'],
     keyEnv: 'OPENROUTER_API_KEY',
+    estCostPerCall: 0.001,
   },
   {
     id: 'openrouter-qwen',
@@ -97,6 +112,7 @@ export const AI_MODELS: AIModelOption[] = [
     description: 'Alibaba open model, strong all-rounder. Requires OPENROUTER_API_KEY.',
     roles: ['basic', 'reasoning'],
     keyEnv: 'OPENROUTER_API_KEY',
+    estCostPerCall: 0.0009,
   },
   {
     id: 'openrouter-llama',
@@ -106,6 +122,7 @@ export const AI_MODELS: AIModelOption[] = [
     description: 'Meta open model, fast and economical. Requires OPENROUTER_API_KEY.',
     roles: ['basic'],
     keyEnv: 'OPENROUTER_API_KEY',
+    estCostPerCall: 0.0007,
   },
 ];
 
@@ -120,3 +137,7 @@ export const getModelById = (id: string | undefined): AIModelOption | undefined 
 
 export const modelsForRole = (role: AIRole): AIModelOption[] =>
   AI_MODELS.filter((m) => m.roles.includes(role));
+
+/** Estimated USD-per-call for a model id (0 when the id is unknown). */
+export const estCostForModelId = (id: string | undefined): number =>
+  getModelById(id)?.estCostPerCall ?? 0;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import {
   X,
@@ -11,6 +11,8 @@ import {
   Info,
   Check,
   RotateCcw,
+  Download,
+  DollarSign,
 } from 'lucide-react';
 import {
   fetchMyQuotaStatus,
@@ -23,6 +25,9 @@ import {
   type UsageReportRow,
 } from '../../services/quotaService';
 import { isCurriculumRemote } from '../../services/curriculumService';
+import { getSelectionSnapshot, subscribeAiConfig } from '../../services/aiConfig';
+import { estCostForModelId, getModelById } from '../../services/aiModels';
+import { usageReportToCsv, estimateCostRange, formatCostRange } from '../../utils/usageReport';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
 import LoadingIndicator from '../LoadingIndicator';
 
@@ -170,6 +175,46 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
 
   const callsToday = todayRows.reduce((sum, r) => sum + r.calls, 0);
 
+  // The active engines set the price band for the spend estimate. Because the
+  // quota counter records calls (not which model served each one), the best we
+  // can do is bound the cost between the configured basic and reasoning
+  // engines — see utils/usageReport.estimateCostRange.
+  const selection = useSyncExternalStore(subscribeAiConfig, getSelectionSnapshot);
+  const engines = useMemo(() => {
+    const basic = getModelById(selection.basic);
+    const reasoning = getModelById(selection.reasoning);
+    const prices = [estCostForModelId(selection.basic), estCostForModelId(selection.reasoning)];
+    const labels = Array.from(
+      new Set([basic?.label, reasoning?.label].filter(Boolean) as string[])
+    );
+    return { prices, labels };
+  }, [selection]);
+  const costToday = useMemo(
+    () => estimateCostRange(callsToday, engines.prices),
+    [callsToday, engines.prices]
+  );
+
+  const handleExportCsv = () => {
+    if (report.length === 0) {
+      showToast('No usage data to export yet.', 'info');
+      return;
+    }
+    try {
+      const blob = new Blob([usageReportToCsv(report)], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `hsc_ai_usage_${today}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      showToast(`Exported ${report.length} usage row(s) to CSV.`, 'success');
+    } catch {
+      showToast('Failed to prepare the CSV download.', 'error');
+    }
+  };
+
   const handleSaveLimits = async () => {
     setIsBusy(true);
     try {
@@ -262,6 +307,15 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
           </div>
           <div className="flex items-center gap-2">
             <button
+              onClick={handleExportCsv}
+              disabled={isLoading || isBusy || !remote || report.length === 0}
+              aria-label="Export usage report as CSV"
+              title="Download the usage report (CSV)"
+              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-50"
+            >
+              <Download className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
+            </button>
+            <button
               onClick={load}
               disabled={isLoading || isBusy || !remote}
               aria-label="Refresh"
@@ -320,6 +374,16 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   label="My Remaining"
                   value={myStatus ? String(myStatus.remaining) : '—'}
                   sub={myStatus ? `of ${myStatus.limit} today` : undefined}
+                />
+                <StatTile
+                  icon={<DollarSign className="w-3.5 h-3.5" />}
+                  label="Est. Cost Today"
+                  value={`~${formatCostRange(costToday)}`}
+                  sub={
+                    engines.labels.length > 0
+                      ? `est. @ ${engines.labels.join(' / ')}`
+                      : 'estimate — call price × calls'
+                  }
                 />
               </div>
 

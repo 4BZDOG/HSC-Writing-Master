@@ -1,6 +1,6 @@
 # HSC AI Evaluator — Feature Roadmap
 
-_Last updated: 2026-07-04 · reflects v2.3.0._
+_Last updated: 2026-07-05 · reflects v2.3.2._
 
 ## 1. Current Capabilities (v2.3.0)
 
@@ -30,7 +30,7 @@ _Last updated: 2026-07-04 · reflects v2.3.0._
 - **Content Audit Studio**: batch-generate/repair questions, rubrics, samples, and outcome links across a whole selection with a selectable AI engine, "Fix All Gaps", inline data-quality badges, and "Sync to Library" (repairs flow through the review queue).
 - **Data Vault**: backups (Time Machine) + full JSON Import/Export with conflict resolution.
 - **Database Manager**: internal storage health, force-sync, restore, data browser.
-- **AI Usage Dashboard**: monitor spend (calls today, active users, 7-day trend, per-user meters) and adjust per-user + per-group daily quotas inline (Supabase mode).
+- **AI Usage Dashboard**: monitor spend (calls today, active users, 7-day trend, per-user meters), an **estimated daily cost** bounded by the active basic/reasoning engines' per-call prices, one-click **CSV export** of the usage report, and inline adjustment of per-user + per-group daily quotas (Supabase mode).
 - **Circuit Breaker**: API Guard monitoring error rates (429s) to prevent lockout.
 
 ### 🏭 Production Hardening
@@ -46,7 +46,7 @@ _Last updated: 2026-07-04 · reflects v2.3.0._
 
 ### Near-term — finish the loops we started
 - **Server-side quality screening**: move the contribution pre-screen from the author's browser to an edge function so the score can't be forged (currently advisory only — see `supabase/README.md`). Hardens the moderation flow.
-- **Dashboard depth**: the quota system emits usage no one aggregates yet. Add a cost estimate (calls × per-model price), a per-model breakdown, and CSV export of the usage report.
+- **Dashboard depth**: ✅ _shipped in v2.3.2_ — the dashboard now shows an estimated daily cost (calls × per-call price, bounded by the active engines) and exports the full usage report to CSV. **Remaining**: a true per-model breakdown, which needs the proxy/quota counter to record which engine served each call (today `ai_usage` counts calls only) — a small `ai_model_usage` reporting table incremented alongside `consume_ai_quota` is the natural next step.
 - **e2e coverage for quotas**: add the 429-enforcement + dashboard-override path to the stubbed Playwright suite. It gates spend, so it's the highest-value flow to protect.
 
 ### Mid-term — close the "next phase" gaps
