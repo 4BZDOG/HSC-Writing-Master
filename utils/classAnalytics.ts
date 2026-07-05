@@ -46,3 +46,44 @@ export const rankByWeakness = (
 /** Compact band label: one decimal, or an em dash when unscored. */
 export const formatBand = (band: number | null | undefined): string =>
   band == null || !Number.isFinite(band) ? '—' : band.toFixed(1);
+
+/** The six cognitive tiers, always shown in full so gaps read as "not attempted". */
+export const COGNITIVE_TIERS = [1, 2, 3, 4, 5, 6] as const;
+
+export interface TierProfile {
+  tier: number;
+  attempts: number;
+  /** Attempt-weighted average band across the verbs in this tier, or null. */
+  avgBand: number | null;
+}
+
+/**
+ * Fold per-verb aggregates into the six cognitive tiers for the student
+ * progress profile. Each tier's band is the attempt-weighted mean of its verbs'
+ * average bands, so a verb answered many times counts proportionally. Verbs
+ * that aren't known command terms (no tier) or have no scored attempts are
+ * skipped. All six tiers are returned — an un-attempted tier reads as 0
+ * attempts / null band rather than vanishing.
+ */
+export const foldVerbsIntoTiers = (
+  rows: DimensionAnalytics[],
+  tierOf: (label: string) => number | null
+): TierProfile[] => {
+  const acc = new Map<number, { attempts: number; bandSum: number }>();
+  for (const r of rows) {
+    const tier = tierOf(r.label);
+    if (tier == null || r.attempts <= 0 || r.avg_band == null) continue;
+    const cur = acc.get(tier) ?? { attempts: 0, bandSum: 0 };
+    cur.attempts += r.attempts;
+    cur.bandSum += r.avg_band * r.attempts;
+    acc.set(tier, cur);
+  }
+  return COGNITIVE_TIERS.map((tier) => {
+    const a = acc.get(tier);
+    return {
+      tier,
+      attempts: a?.attempts ?? 0,
+      avgBand: a && a.attempts > 0 ? a.bandSum / a.attempts : null,
+    };
+  });
+};

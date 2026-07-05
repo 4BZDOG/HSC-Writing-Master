@@ -14,6 +14,7 @@ import ReviewQueueModal from './components/admin/ReviewQueueModal';
 import UsageDashboard from './components/admin/UsageDashboard';
 import RuntimeKeyModal from './components/admin/RuntimeKeyModal';
 import ClassInsightsModal from './components/admin/ClassInsightsModal';
+import StudentProgressModal from './components/admin/StudentProgressModal';
 import { useNavigation } from './hooks/useNavigation';
 import { useSyllabusData } from './hooks/useSyllabusData';
 import { useGemini } from './hooks/useGemini';
@@ -42,6 +43,7 @@ import {
   Gauge,
   KeyRound,
   BarChart3,
+  LineChart,
 } from 'lucide-react';
 import { apiMonitor, ApiStatus } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
@@ -179,6 +181,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   const [isUsageDashboardOpen, setIsUsageDashboardOpen] = useState(false);
   const [isRuntimeKeyOpen, setIsRuntimeKeyOpen] = useState(false);
   const [isClassInsightsOpen, setIsClassInsightsOpen] = useState(false);
+  const [isStudentProgressOpen, setIsStudentProgressOpen] = useState(false);
   const [isSubmittingPrompt, setIsSubmittingPrompt] = useState(false);
 
   // Shared-library contribution is only meaningful when Supabase is configured
@@ -470,6 +473,13 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                       >
                         <BarChart3 className="w-4 h-4" />
                       </button>
+                      <button
+                        onClick={() => setIsStudentProgressOpen(true)}
+                        className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
+                        title="Student Progress (one student across cognitive tiers)"
+                      >
+                        <LineChart className="w-4 h-4" />
+                      </button>
                     </>
                   )}
                   {isSystemAdmin(user.role) && (
@@ -684,6 +694,13 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         <ClassInsightsModal
           isOpen={isClassInsightsOpen}
           onClose={() => setIsClassInsightsOpen(false)}
+          showToast={showToast}
+        />
+      )}
+      {canModerate(user.role) && (
+        <StudentProgressModal
+          isOpen={isStudentProgressOpen}
+          onClose={() => setIsStudentProgressOpen(false)}
           showToast={showToast}
         />
       )}

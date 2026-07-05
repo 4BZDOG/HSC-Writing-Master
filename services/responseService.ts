@@ -64,6 +64,35 @@ export const fetchClassAnalytics = async (days = 30): Promise<ClassAnalytics> =>
   return (data as ClassAnalytics | null) ?? EMPTY_ANALYTICS;
 };
 
+/** One student's per-verb progress + totals (from `get_student_progress`). */
+export interface StudentProgress {
+  username: string;
+  byVerb: DimensionAnalytics[];
+  totals: {
+    total_attempts: number;
+    active_students: number;
+    avg_band: number | null;
+  };
+}
+
+/**
+ * Reviewer-gated progress for a single student (by username) over the last
+ * `days` days: their per-verb attempt counts and average mark/band. The client
+ * folds the verbs into the six cognitive tiers for the progress profile.
+ */
+export const fetchStudentProgress = async (
+  username: string,
+  days = 30
+): Promise<StudentProgress> => {
+  if (!supabase) throw new Error('Supabase is not configured.');
+  const { data, error } = await supabase.rpc('get_student_progress', {
+    p_username: username,
+    p_days: days,
+  });
+  if (error) throw new Error(error.message);
+  return data as StudentProgress;
+};
+
 export interface ResponsePersistInput {
   draft: string;
   wordCount: number;

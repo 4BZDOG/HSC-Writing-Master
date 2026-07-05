@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { rankByWeakness, formatBand, NO_TIER } from '../../utils/classAnalytics';
+import {
+  rankByWeakness,
+  formatBand,
+  NO_TIER,
+  foldVerbsIntoTiers,
+} from '../../utils/classAnalytics';
 import type { DimensionAnalytics } from '../../services/responseService';
 
 const dim = (over: Partial<DimensionAnalytics>): DimensionAnalytics => ({
@@ -65,6 +70,48 @@ describe('rankByWeakness', () => {
       tierOf
     );
     expect(ranked.map((r) => r.label)).toEqual(['Describe']);
+  });
+});
+
+describe('foldVerbsIntoTiers', () => {
+  it('always returns all six tiers in order', () => {
+    const tiers = foldVerbsIntoTiers([], tierOf);
+    expect(tiers.map((t) => t.tier)).toEqual([1, 2, 3, 4, 5, 6]);
+    expect(tiers.every((t) => t.attempts === 0 && t.avgBand === null)).toBe(true);
+  });
+
+  it('places a verb in its cognitive tier', () => {
+    const tiers = foldVerbsIntoTiers(
+      [dim({ label: 'Evaluate', attempts: 3, avg_band: 4 })],
+      tierOf
+    );
+    expect(tiers.find((t) => t.tier === 6)).toEqual({ tier: 6, attempts: 3, avgBand: 4 });
+    expect(tiers.find((t) => t.tier === 2)!.attempts).toBe(0);
+  });
+
+  it('attempt-weights the band when multiple verbs share a tier', () => {
+    // Both map to tier 2 via the stub? Only Describe=2. Use two rows both Describe-tier.
+    const local = (v: string): number | null => ({ A: 3, B: 3 })[v] ?? null;
+    const tiers = foldVerbsIntoTiers(
+      [
+        dim({ label: 'A', attempts: 1, avg_band: 6 }),
+        dim({ label: 'B', attempts: 3, avg_band: 2 }),
+      ],
+      local
+    );
+    // (1*6 + 3*2) / 4 = 3
+    expect(tiers.find((t) => t.tier === 3)).toEqual({ tier: 3, attempts: 4, avgBand: 3 });
+  });
+
+  it('skips unknown-tier verbs and unscored rows', () => {
+    const tiers = foldVerbsIntoTiers(
+      [
+        dim({ label: 'Unspecified', attempts: 5, avg_band: 1 }), // no tier
+        dim({ label: 'Evaluate', attempts: 2, avg_band: null }), // unscored
+      ],
+      tierOf
+    );
+    expect(tiers.every((t) => t.attempts === 0)).toBe(true);
   });
 });
 

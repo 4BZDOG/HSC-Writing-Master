@@ -1,6 +1,6 @@
 # HSC AI Evaluator — Feature Roadmap
 
-_Last updated: 2026-07-05 · reflects v2.3.7._
+_Last updated: 2026-07-05 · reflects v2.3.8._
 
 ## 1. Current Capabilities (v2.3.0)
 
@@ -32,6 +32,7 @@ _Last updated: 2026-07-05 · reflects v2.3.7._
 - **Database Manager**: internal storage health, force-sync, restore, data browser.
 - **AI Usage Dashboard**: monitor spend (calls today, active users, 7-day trend, per-user meters), an **estimated daily cost** (exact once per-engine attribution exists, otherwise bounded by the active engines' per-call prices), a **per-engine spend breakdown**, one-click **CSV export** of the usage report, and inline adjustment of per-user + per-group daily quotas (Supabase mode).
 - **Class Insights**: reviewer-gated (teacher + admin) view of where a cohort is struggling — cohort headline numbers plus a weakest-first table (attempts, students, average band, struggle rate) broken down **by command verb or by topic**, over a 30d/90d/1y window. Aggregated server-side from persisted responses; no raw student work leaves the database.
+- **Student Progress**: reviewer-gated profile of one student across the six cognitive tiers (per-tier average band + attempts) plus a per-verb breakdown, over a 30d/90d/1y window. Same server-side aggregation.
 - **Circuit Breaker**: API Guard monitoring error rates (429s) to prevent lockout.
 
 ### 🏭 Production Hardening
@@ -57,8 +58,8 @@ _Last updated: 2026-07-05 · reflects v2.3.7._
 
 ### Longer-term — deployment gate & payoff
 - **Privacy & data residency** (hard gate before real students): Australian region, pseudonymisation of student work, DoE third-party-tool policy sign-off.
-- **Longitudinal analytics**: Weakness Heatmap of difficult verbs ✅ _first cut in v2.3.6_ (Class Insights ranks command verbs by cohort struggle rate). **Remaining**: Student Progress **Radar** across cognitive tiers — needs per-attempt history (responses are currently latest-only) to plot a trend per student.
-- **Teacher-facing class analytics**: ✅ _v2.3.6–2.3.7_ — the reviewer-gated Class Insights panel shows who's struggling and the common weak bands, broken down **by command verb or by topic/module**. **Next**: drill into an individual student (the Progress Radar), which needs per-attempt history.
+- **Longitudinal analytics**: Weakness Heatmap of difficult verbs/topics ✅ _v2.3.6–2.3.7_ (Class Insights). Student Progress across cognitive tiers ✅ _snapshot in v2.3.8_ (Student Progress modal — per-tier average band for one student). **Remaining**: turn the tier snapshot into a **trend over time**, which needs per-attempt history (responses are currently latest-only).
+- **Teacher-facing class analytics**: ✅ _v2.3.6–2.3.8_ — the reviewer-gated Class Insights panel (cohort, by verb or topic) plus the Student Progress modal (one student across the cognitive tiers). **Next**: a cohort roster/picker so teachers don't have to type usernames, and per-attempt trend lines.
 
 ### Exploratory
 - **Multimodal OCR**: photograph handwritten papers for transcription + marking.

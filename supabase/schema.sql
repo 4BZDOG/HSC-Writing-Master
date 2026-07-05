@@ -855,6 +855,59 @@ begin
   return jsonb_build_object('byVerb', v_byverb, 'byTopic', v_bytopic, 'totals', v_totals);
 end; $$;
 
+-- Per-student progress for teachers/admins ----------------------------------
+-- One student's persisted responses, aggregated by command verb over the last
+-- p_days days, so a teacher can see where an individual sits across the
+-- cognitive ladder (the client folds these verbs into the six tiers). Same
+-- reviewer gate and server-side aggregation as get_class_analytics — only
+-- counts/averages leave the database, never the student's writing. Addressed
+-- by username so teachers don't need UUIDs.
+create or replace function public.get_student_progress(p_username text, p_days integer default 30)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days   integer := least(greatest(coalesce(p_days, 30), 1), 365);
+  v_since  timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_user   uuid;
+  v_byverb jsonb;
+  v_totals jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can view student progress';
+  end if;
+
+  select id into v_user from public.profiles where username = p_username;
+  if v_user is null then
+    raise exception 'No user with username "%"', p_username;
+  end if;
+
+  select coalesce(jsonb_agg(row_obj order by (row_obj->>'attempts')::int desc), '[]'::jsonb)
+    into v_byverb
+  from (
+    select jsonb_build_object(
+      'label', coalesce(nullif(btrim(p.verb), ''), 'Unspecified'),
+      'attempts', count(*),
+      'students', 1,
+      'avg_mark', round(avg(r.overall_mark)::numeric, 1),
+      'avg_band', round(avg(r.overall_band)::numeric, 2),
+      'low_band_rate', round(avg((r.overall_band <= 3)::int)::numeric, 3)
+    ) as row_obj
+    from public.responses r
+    join public.prompts p on p.id = r.prompt_id
+    where r.user_id = v_user and r.created_at >= v_since and r.overall_band is not null
+    group by coalesce(nullif(btrim(p.verb), ''), 'Unspecified')
+  ) sub;
+
+  select jsonb_build_object(
+    'total_attempts', count(*),
+    'active_students', case when count(*) > 0 then 1 else 0 end,
+    'avg_band', round(avg(r.overall_band)::numeric, 2)
+  ) into v_totals
+  from public.responses r
+  where r.user_id = v_user and r.created_at >= v_since and r.overall_band is not null;
+
+  return jsonb_build_object('username', p_username, 'byVerb', v_byverb, 'totals', v_totals);
+end; $$;
+
 -- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.
