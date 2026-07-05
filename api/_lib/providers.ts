@@ -11,10 +11,12 @@
 
 import { runGeminiProxy, type ProxyResult } from './generate';
 import { runAnthropicProxy } from './anthropic';
+import { runOpenRouterProxy } from './openrouter';
 
 export interface ProviderKeys {
   gemini?: string;
   anthropic?: string;
+  openrouter?: string;
 }
 
 export const runAiProxy = async (request: unknown, keys: ProviderKeys): Promise<ProxyResult> => {
@@ -22,12 +24,25 @@ export const runAiProxy = async (request: unknown, keys: ProviderKeys): Promise<
     return { status: 400, body: { error: 'Invalid request body.' } };
   }
 
+  // `__keyOverride` is an optional per-request key supplied by an admin's
+  // runtime-key modal (services/runtimeKeys.ts). When present it wins over the
+  // server env key for THIS call only; it is stripped here so it never reaches
+  // a provider SDK. It cannot expose the server key — the client can only pass
+  // a key it already holds — and the auth/quota gates upstream still apply.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { provider, ...rest } = request as any;
+  const { provider, __keyOverride, ...rest } = request as any;
+  const effective: ProviderKeys = {
+    gemini: __keyOverride?.gemini || keys.gemini,
+    anthropic: __keyOverride?.anthropic || keys.anthropic,
+    openrouter: __keyOverride?.openrouter || keys.openrouter,
+  };
 
   if (provider === 'anthropic') {
-    return runAnthropicProxy(keys.anthropic, rest);
+    return runAnthropicProxy(effective.anthropic, rest);
+  }
+  if (provider === 'openrouter') {
+    return runOpenRouterProxy(effective.openrouter, rest);
   }
   // Default + explicit 'gemini'
-  return runGeminiProxy(keys.gemini, rest);
+  return runGeminiProxy(effective.gemini, rest);
 };

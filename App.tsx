@@ -12,6 +12,7 @@ import LoginPage from './components/LoginPage';
 import ContentAuditModal from './components/admin/ContentAuditModal';
 import ReviewQueueModal from './components/admin/ReviewQueueModal';
 import UsageDashboard from './components/admin/UsageDashboard';
+import RuntimeKeyModal from './components/admin/RuntimeKeyModal';
 import { useNavigation } from './hooks/useNavigation';
 import { useSyllabusData } from './hooks/useSyllabusData';
 import { useGemini } from './hooks/useGemini';
@@ -37,6 +38,7 @@ import {
   ShieldCheck,
   UploadCloud,
   Gauge,
+  KeyRound,
 } from 'lucide-react';
 import { apiMonitor, ApiStatus } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
@@ -172,6 +174,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
   const [isReviewQueueOpen, setIsReviewQueueOpen] = useState(false);
   const [isUsageDashboardOpen, setIsUsageDashboardOpen] = useState(false);
+  const [isRuntimeKeyOpen, setIsRuntimeKeyOpen] = useState(false);
   const [isSubmittingPrompt, setIsSubmittingPrompt] = useState(false);
 
   // Shared-library contribution is only meaningful when Supabase is configured
@@ -472,6 +475,13 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                       >
                         <Gauge className="w-4 h-4" />
                       </button>
+                      <button
+                        onClick={() => setIsRuntimeKeyOpen(true)}
+                        className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
+                        title="Runtime AI Keys (paste a key to test models)"
+                      >
+                        <KeyRound className="w-4 h-4" />
+                      </button>
                     </>
                   )}
                 </div>
@@ -661,6 +671,13 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         <UsageDashboard
           isOpen={isUsageDashboardOpen}
           onClose={() => setIsUsageDashboardOpen(false)}
+          showToast={showToast}
+        />
+      )}
+      {isSystemAdmin(user.role) && (
+        <RuntimeKeyModal
+          isOpen={isRuntimeKeyOpen}
+          onClose={() => setIsRuntimeKeyOpen(false)}
           showToast={showToast}
         />
       )}

@@ -67,6 +67,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   const keys = {
     gemini: process.env.GEMINI_API_KEY || process.env.API_KEY,
     anthropic: process.env.ANTHROPIC_API_KEY,
+    openrouter: process.env.OPENROUTER_API_KEY,
   };
   const result = await runAiProxy(req.body, keys);
   res.status(result.status).json(result.body);
