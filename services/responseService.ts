@@ -86,7 +86,15 @@ export const fetchResponseStudents = async (days = 30): Promise<RosterStudent[]>
   return (data ?? []) as RosterStudent[];
 };
 
-/** One student's per-verb progress + totals (from `get_student_progress`). */
+/** One recorded attempt in a student's band trend (from `response_events`). */
+export interface TrendPoint {
+  /** ISO timestamp of the attempt. */
+  at: string;
+  band: number | null;
+  mark: number | null;
+}
+
+/** One student's per-verb progress, totals, and band trend (from `get_student_progress`). */
 export interface StudentProgress {
   username: string;
   byVerb: DimensionAnalytics[];
@@ -95,6 +103,8 @@ export interface StudentProgress {
     active_students: number;
     avg_band: number | null;
   };
+  /** Oldest→newest scored attempts (empty until history accrues). */
+  trend: TrendPoint[];
 }
 
 /**
@@ -112,7 +122,10 @@ export const fetchStudentProgress = async (
     p_days: days,
   });
   if (error) throw new Error(error.message);
-  return data as StudentProgress;
+  const progress = data as StudentProgress;
+  // `trend` is absent on a database that predates the history table — treat it
+  // as empty rather than undefined so the UI can rely on the array.
+  return { ...progress, trend: progress.trend ?? [] };
 };
 
 export interface ResponsePersistInput {
@@ -150,6 +163,28 @@ export const buildResponseRow = (
   updated_at: now.toISOString(),
 });
 
+/** Append-only history row for `public.response_events` (no draft text). */
+export interface ResponseEventRow {
+  prompt_id: string;
+  user_id: string;
+  mark: number;
+  band: number;
+  word_count: number;
+}
+
+/** Pure app-shape → event-row mapper for the band-trend history. */
+export const buildEventRow = (
+  promptId: string,
+  userId: string,
+  input: ResponsePersistInput
+): ResponseEventRow => ({
+  prompt_id: promptId,
+  user_id: userId,
+  mark: input.result.overallMark,
+  band: input.result.overallBand,
+  word_count: Math.max(0, Math.trunc(input.wordCount) || 0),
+});
+
 /** The signed-in user's id, or null when there is no usable session. */
 const currentUserId = async (): Promise<string | null> => {
   if (!supabase) return null;
@@ -181,6 +216,13 @@ export const persistResponse = async (
         onConflict: 'user_id,prompt_id',
       });
     if (error) console.warn('[responses] persist failed (ignored):', error.message);
+
+    // Append to the per-attempt history for the band trend. Independent and
+    // best-effort — a lost event only shortens the trend, never the mark.
+    const { error: evError } = await supabase
+      .from('response_events')
+      .insert(buildEventRow(promptId, userId, input) as never);
+    if (evError) console.warn('[responses] history append failed (ignored):', evError.message);
   } catch (e) {
     console.warn('[responses] persist failed (ignored):', e);
   }

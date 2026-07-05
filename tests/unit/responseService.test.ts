@@ -4,6 +4,7 @@ import type { EvaluationResult } from '../../types';
 // --- Mocks: a chainable Supabase stub + toggleable "remote" mode ------------
 const getUserMock = vi.fn();
 const upsertMock = vi.fn();
+const insertMock = vi.fn();
 const updateEqEqMock = vi.fn();
 const resolvePromptRowIdMock = vi.fn();
 const isRemoteMock = vi.fn();
@@ -11,8 +12,9 @@ const isRemoteMock = vi.fn();
 vi.mock('../../services/supabaseClient', () => ({
   supabase: {
     auth: { getUser: (...a: unknown[]) => getUserMock(...a) },
-    from: () => ({
+    from: (table: string) => ({
       upsert: (row: unknown, opts: unknown) => upsertMock(row, opts),
+      insert: (row: unknown) => insertMock(table, row),
       update: (payload: unknown) => ({
         eq: () => ({ eq: () => updateEqEqMock(payload) }),
       }),
@@ -28,6 +30,7 @@ vi.mock('../../services/contributionService', () => ({
 
 import {
   buildResponseRow,
+  buildEventRow,
   persistResponse,
   saveResponseFeedback,
 } from '../../services/responseService';
@@ -68,13 +71,29 @@ describe('buildResponseRow', () => {
   });
 });
 
+describe('buildEventRow', () => {
+  it('maps to the append-only event shape (no draft text)', () => {
+    expect(
+      buildEventRow('prompt-uuid', 'user-uuid', { draft: 'x', wordCount: 12, result })
+    ).toEqual({
+      prompt_id: 'prompt-uuid',
+      user_id: 'user-uuid',
+      mark: 7,
+      band: 5,
+      word_count: 12,
+    });
+  });
+});
+
 describe('persistResponse', () => {
   beforeEach(() => {
     getUserMock.mockReset();
     upsertMock.mockReset();
+    insertMock.mockReset();
     resolvePromptRowIdMock.mockReset();
     isRemoteMock.mockReset();
     upsertMock.mockResolvedValue({ error: null });
+    insertMock.mockResolvedValue({ error: null });
   });
 
   it('no-ops in local mode (never touches the client)', async () => {
@@ -82,6 +101,7 @@ describe('persistResponse', () => {
     await persistResponse('prompt-1', { draft: 'x', wordCount: 1, result });
     expect(getUserMock).not.toHaveBeenCalled();
     expect(upsertMock).not.toHaveBeenCalled();
+    expect(insertMock).not.toHaveBeenCalled();
   });
 
   it('no-ops when there is no signed-in user', async () => {
@@ -114,6 +134,18 @@ describe('persistResponse', () => {
       overall_band: 5,
     });
     expect(opts).toEqual({ onConflict: 'user_id,prompt_id' });
+
+    // …and appends a history event to response_events.
+    expect(insertMock).toHaveBeenCalledTimes(1);
+    const [table, eventRow] = insertMock.mock.calls[0];
+    expect(table).toBe('response_events');
+    expect(eventRow).toEqual({
+      prompt_id: 'prompt-uuid',
+      user_id: 'user-1',
+      mark: 7,
+      band: 5,
+      word_count: 1,
+    });
   });
 
   it('never throws when the write fails', async () => {

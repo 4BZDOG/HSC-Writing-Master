@@ -1,6 +1,6 @@
 # HSC AI Evaluator — Feature Roadmap
 
-_Last updated: 2026-07-05 · reflects v2.3.9._
+_Last updated: 2026-07-05 · reflects v2.3.10._
 
 ## 1. Current Capabilities (v2.3.0)
 
@@ -32,7 +32,7 @@ _Last updated: 2026-07-05 · reflects v2.3.9._
 - **Database Manager**: internal storage health, force-sync, restore, data browser.
 - **AI Usage Dashboard**: monitor spend (calls today, active users, 7-day trend, per-user meters), an **estimated daily cost** (exact once per-engine attribution exists, otherwise bounded by the active engines' per-call prices), a **per-engine spend breakdown**, one-click **CSV export** of the usage report, and inline adjustment of per-user + per-group daily quotas (Supabase mode).
 - **Class Insights**: reviewer-gated (teacher + admin) view of where a cohort is struggling — cohort headline numbers plus a weakest-first table (attempts, students, average band, struggle rate) broken down **by command verb or by topic**, over a 30d/90d/1y window. Aggregated server-side from persisted responses; no raw student work leaves the database.
-- **Student Progress**: reviewer-gated profile of one student across the six cognitive tiers (per-tier average band + attempts) plus a per-verb breakdown, over a 30d/90d/1y window; opens to a clickable roster of students so teachers pick from a list. Same server-side aggregation.
+- **Student Progress**: reviewer-gated profile of one student across the six cognitive tiers (per-tier average band + attempts), a **band trend sparkline** over time, and a per-verb breakdown, over a 30d/90d/1y window; opens to a clickable roster of students so teachers pick from a list. Server-side aggregation + an append-only per-attempt history (`response_events`).
 - **Circuit Breaker**: API Guard monitoring error rates (429s) to prevent lockout.
 
 ### 🏭 Production Hardening
@@ -58,7 +58,7 @@ _Last updated: 2026-07-05 · reflects v2.3.9._
 
 ### Longer-term — deployment gate & payoff
 - **Privacy & data residency** (hard gate before real students): Australian region, pseudonymisation of student work, DoE third-party-tool policy sign-off.
-- **Longitudinal analytics**: Weakness Heatmap of difficult verbs/topics ✅ _v2.3.6–2.3.7_ (Class Insights). Student Progress across cognitive tiers ✅ _snapshot in v2.3.8_ (Student Progress modal — per-tier average band for one student). **Remaining**: turn the tier snapshot into a **trend over time**, which needs per-attempt history (responses are currently latest-only).
+- **Longitudinal analytics**: Weakness Heatmap of difficult verbs/topics ✅ _v2.3.6–2.3.7_ (Class Insights). Student Progress across cognitive tiers ✅ _v2.3.8_ plus a **band trend over time** ✅ _v2.3.10_ (append-only `response_events` history + a sparkline). The core longitudinal loop is now in place; remaining polish is cohort-level trends and richer per-attempt drill-down.
 - **Teacher-facing class analytics**: ✅ _v2.3.6–2.3.9_ — the reviewer-gated Class Insights panel (cohort, by verb or topic), the Student Progress modal (one student across the cognitive tiers), and a **student roster/picker** so teachers pick from a list instead of typing usernames. **Next**: per-attempt trend lines (needs response history).
 
 ### Exploratory

@@ -70,6 +70,35 @@ export const formatLastActive = (
   return `${Math.floor(days / 365)}y ago`;
 };
 
+export interface SparklineOpts {
+  width: number;
+  height: number;
+  min: number;
+  max: number;
+}
+
+const round1 = (n: number): number => Math.round(n * 10) / 10;
+
+/**
+ * SVG polyline `points` for a sparkline: values are spread evenly across
+ * `width` (a single value sits centred) and mapped into `[min, max]` on an
+ * inverted y-axis (higher value = higher on screen), clamped to that range.
+ * Returns '' for an empty series. Pure geometry — unit-tested.
+ */
+export const sparklinePoints = (values: number[], opts: SparklineOpts): string => {
+  const { width, height, min, max } = opts;
+  if (values.length === 0) return '';
+  const span = max - min || 1;
+  return values
+    .map((v, i) => {
+      const x = values.length === 1 ? width / 2 : (i / (values.length - 1)) * width;
+      const clamped = Math.min(max, Math.max(min, v));
+      const y = height - ((clamped - min) / span) * height;
+      return `${round1(x)},${round1(y)}`;
+    })
+    .join(' ');
+};
+
 /** The six cognitive tiers, always shown in full so gaps read as "not attempted". */
 export const COGNITIVE_TIERS = [1, 2, 3, 4, 5, 6] as const;
 

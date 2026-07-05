@@ -6,6 +6,7 @@ import {
   fetchResponseStudents,
   type StudentProgress,
   type RosterStudent,
+  type TrendPoint,
 } from '../../services/responseService';
 import { isCurriculumRemote } from '../../services/curriculumService';
 import { commandTerms } from '../../data/commandTerms';
@@ -15,6 +16,7 @@ import {
   rankByWeakness,
   formatBand,
   formatLastActive,
+  sparklinePoints,
   type TierProfile,
 } from '../../utils/classAnalytics';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
@@ -95,6 +97,70 @@ const TierRow: React.FC<{ profile: TierProfile }> = ({ profile }) => {
   );
 };
 
+const TREND_W = 320;
+const TREND_H = 60;
+
+/** Band-over-time sparkline from the per-attempt history (oldest→newest). The
+ *  raw band sequence is exposed via aria-label, so it isn't colour/shape-alone. */
+const BandTrend: React.FC<{ points: TrendPoint[] }> = ({ points }) => {
+  const bands = points.map((p) => p.band).filter((b): b is number => b != null);
+  if (bands.length < 2) return null;
+
+  const line = sparklinePoints(bands, { width: TREND_W, height: TREND_H, min: 1, max: 6 });
+  const coords = line.split(' ').map((s) => s.split(',').map(Number) as [number, number]);
+  const first = bands[0];
+  const last = bands[bands.length - 1];
+  const delta = last - first;
+  const tone =
+    delta > 0
+      ? 'text-emerald-500'
+      : delta < 0
+        ? 'text-red-500'
+        : 'text-[rgb(var(--color-text-muted))]';
+  const y3 = TREND_H - ((3 - 1) / 5) * TREND_H; // band-3 (struggling) reference line
+
+  return (
+    <div>
+      <svg
+        viewBox={`0 0 ${TREND_W} ${TREND_H}`}
+        width="100%"
+        role="img"
+        aria-label={`Band trend across ${bands.length} attempts, oldest to newest: ${bands.join(', ')}`}
+        className="rounded-lg bg-black/20 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-200"
+      >
+        <line
+          x1={0}
+          y1={y3}
+          x2={TREND_W}
+          y2={y3}
+          strokeDasharray="4 4"
+          className="stroke-[rgb(var(--color-border-secondary))]"
+        />
+        <polyline
+          points={line}
+          fill="none"
+          strokeWidth={2.5}
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          className="stroke-[rgb(var(--color-accent))]"
+        />
+        {coords.map(([x, y], i) => (
+          <circle key={i} cx={x} cy={y} r={3} className="fill-[rgb(var(--color-accent))]" />
+        ))}
+      </svg>
+      <div className="mt-1.5 flex items-center gap-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+        <span>
+          Band {formatBand(first)} → {formatBand(last)}
+        </span>
+        <span className={`font-bold ${tone}`}>
+          {delta > 0 ? `▲ +${delta}` : delta < 0 ? `▼ ${delta}` : '● no change'}
+        </span>
+        <span>· {bands.length} attempts</span>
+      </div>
+    </div>
+  );
+};
+
 /**
  * Per-student progress across the six cognitive tiers (teacher/admin view). A
  * teacher enters a username; the reviewer-gated get_student_progress RPC returns
@@ -160,6 +226,10 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
 
   const tiers = useMemo(() => foldVerbsIntoTiers(data?.byVerb ?? [], tierOf), [data]);
   const verbRows = useMemo(() => rankByWeakness(data?.byVerb ?? [], tierOf), [data]);
+  const trendBands = useMemo(
+    () => (data?.trend ?? []).filter((p) => p.band != null).length,
+    [data]
+  );
   const totals = data?.totals;
 
   if (!isOpen) return null;
@@ -357,6 +427,20 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                       been attempted in this window.
                     </p>
                   </section>
+
+                  {/* Band trend over time (from the per-attempt history) */}
+                  {trendBands >= 2 && (
+                    <section>
+                      <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
+                        Band trend
+                      </h3>
+                      <BandTrend points={data.trend} />
+                      <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                        Each point is a marked attempt in this window, oldest to newest; the dashed
+                        line is band 3 (the struggling threshold).
+                      </p>
+                    </section>
+                  )}
 
                   {/* Per-verb detail */}
                   {verbRows.length > 0 && (

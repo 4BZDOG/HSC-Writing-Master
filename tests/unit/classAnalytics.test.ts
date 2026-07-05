@@ -5,6 +5,7 @@ import {
   NO_TIER,
   foldVerbsIntoTiers,
   formatLastActive,
+  sparklinePoints,
 } from '../../utils/classAnalytics';
 import type { DimensionAnalytics } from '../../services/responseService';
 
@@ -126,6 +127,32 @@ describe('formatBand', () => {
     expect(formatBand(null)).toBe('—');
     expect(formatBand(undefined)).toBe('—');
     expect(formatBand(NaN)).toBe('—');
+  });
+});
+
+describe('sparklinePoints', () => {
+  const opts = { width: 100, height: 30, min: 1, max: 6 };
+
+  it('is empty for no values', () => {
+    expect(sparklinePoints([], opts)).toBe('');
+  });
+
+  it('centres a single value on x and maps it on the inverted y-axis', () => {
+    // band 6 = top (y=0); x centred
+    expect(sparklinePoints([6], opts)).toBe('50,0');
+    // band 1 = bottom (y=height)
+    expect(sparklinePoints([1], opts)).toBe('50,30');
+  });
+
+  it('spreads values from x=0 to x=width, newest last', () => {
+    const pts = sparklinePoints([1, 6], opts).split(' ');
+    expect(pts[0]).toBe('0,30'); // first, band 1 → bottom-left
+    expect(pts[1]).toBe('100,0'); // last, band 6 → top-right
+  });
+
+  it('clamps out-of-range values into [min, max]', () => {
+    expect(sparklinePoints([0], opts)).toBe('50,30'); // below min → floor
+    expect(sparklinePoints([9], opts)).toBe('50,0'); // above max → ceil
   });
 });
 

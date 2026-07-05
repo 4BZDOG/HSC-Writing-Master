@@ -781,6 +781,38 @@ begin
   return v_result;
 end; $$;
 
+-- Per-attempt response history ----------------------------------------------
+-- `responses` (§4) keeps only the LATEST attempt per (student, prompt) so the
+-- current-standing views stay simple. This append-only log records every
+-- evaluation as it happens — the substrate for progress-over-time (a student's
+-- band trend). Deliberately separate, mirroring ai_model_usage beside ai_usage:
+-- the client appends here best-effort alongside the responses upsert, so a lost
+-- event only means a shorter trend, never a broken mark. Tiny rows (no draft
+-- text), so no retention job is needed at this scale.
+create table if not exists public.response_events (
+  id         uuid primary key default gen_random_uuid(),
+  prompt_id  uuid not null references public.prompts (id) on delete cascade,
+  user_id    uuid not null references public.profiles (id) on delete cascade,
+  mark       int,
+  band       int,
+  word_count int not null default 0,
+  created_at timestamptz not null default now()
+);
+create index if not exists idx_response_events_user   on public.response_events (user_id, created_at);
+create index if not exists idx_response_events_prompt on public.response_events (prompt_id);
+
+alter table public.response_events enable row level security;
+
+-- Same visibility as responses: your own events, or any for reviewers (analytics).
+drop policy if exists response_events_read on public.response_events;
+create policy response_events_read on public.response_events for select
+  using (user_id = auth.uid() or public.is_reviewer());
+-- Append-only: you may insert your own events; there is deliberately NO update
+-- or delete policy, so history cannot be rewritten.
+drop policy if exists response_events_insert on public.response_events;
+create policy response_events_insert on public.response_events for insert
+  with check (user_id = auth.uid());
+
 -- Class analytics for teachers/admins ---------------------------------------
 -- Aggregates persisted responses (§4) over the last p_days days along two
 -- dimensions — the prompt's command verb and its owning topic (module) — so a
@@ -870,6 +902,7 @@ declare
   v_user   uuid;
   v_byverb jsonb;
   v_totals jsonb;
+  v_trend  jsonb;
 begin
   if not public.is_reviewer() then
     raise exception 'Only admins/teachers can view student progress';
@@ -905,7 +938,25 @@ begin
   from public.responses r
   where r.user_id = v_user and r.created_at >= v_since and r.overall_band is not null;
 
-  return jsonb_build_object('username', p_username, 'byVerb', v_byverb, 'totals', v_totals);
+  -- Band trend from the append-only history (oldest→newest), capped to the most
+  -- recent 100 scored events in the window so the sparkline stays bounded.
+  select coalesce(
+           jsonb_agg(jsonb_build_object('at', e.created_at, 'band', e.band, 'mark', e.mark)
+                     order by e.created_at asc),
+           '[]'::jsonb
+         )
+    into v_trend
+  from (
+    select created_at, band, mark
+    from public.response_events
+    where user_id = v_user and created_at >= v_since and band is not null
+    order by created_at desc
+    limit 100
+  ) e;
+
+  return jsonb_build_object(
+    'username', p_username, 'byVerb', v_byverb, 'totals', v_totals, 'trend', v_trend
+  );
 end; $$;
 
 -- Student roster for the Student Progress picker -----------------------------
