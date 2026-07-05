@@ -781,6 +781,56 @@ begin
   return v_result;
 end; $$;
 
+-- Class analytics for teachers/admins ---------------------------------------
+-- Aggregates persisted responses (§4) by the prompt's command verb over the
+-- last p_days days so a teacher can see where a cohort is struggling: which
+-- verbs draw the lowest bands, how many students attempted them, and the
+-- overall average band. Reviewer-gated (is_reviewer = admin+teacher); reads
+-- only what the responses_read policy already exposes to reviewers, but
+-- aggregates server-side so no raw student work leaves the database. "Low
+-- band" = band ≤ 3 (below the HSC "sound" tier), the struggling signal.
+create or replace function public.get_class_analytics(p_days integer default 30)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days   integer := least(greatest(coalesce(p_days, 30), 1), 365);
+  v_since  timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_byverb jsonb;
+  v_totals jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can view class analytics';
+  end if;
+
+  select coalesce(jsonb_agg(row_obj order by (row_obj->>'attempts')::int desc), '[]'::jsonb)
+    into v_byverb
+  from (
+    select jsonb_build_object(
+      'verb', coalesce(nullif(btrim(p.verb), ''), 'Unspecified'),
+      'attempts', count(*),
+      'students', count(distinct r.user_id),
+      'avg_mark', round(avg(r.overall_mark)::numeric, 1),
+      'avg_band', round(avg(r.overall_band)::numeric, 2),
+      'low_band_rate', round(avg((r.overall_band <= 3)::int)::numeric, 3)
+    ) as row_obj
+    from public.responses r
+    join public.prompts p on p.id = r.prompt_id
+    where r.created_at >= v_since
+      and r.overall_band is not null
+    group by coalesce(nullif(btrim(p.verb), ''), 'Unspecified')
+  ) sub;
+
+  select jsonb_build_object(
+    'total_attempts', count(*),
+    'active_students', count(distinct r.user_id),
+    'avg_band', round(avg(r.overall_band)::numeric, 2)
+  ) into v_totals
+  from public.responses r
+  where r.created_at >= v_since
+    and r.overall_band is not null;
+
+  return jsonb_build_object('byVerb', v_byverb, 'totals', v_totals);
+end; $$;
+
 -- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.

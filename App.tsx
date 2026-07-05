@@ -13,6 +13,7 @@ import ContentAuditModal from './components/admin/ContentAuditModal';
 import ReviewQueueModal from './components/admin/ReviewQueueModal';
 import UsageDashboard from './components/admin/UsageDashboard';
 import RuntimeKeyModal from './components/admin/RuntimeKeyModal';
+import ClassInsightsModal from './components/admin/ClassInsightsModal';
 import { useNavigation } from './hooks/useNavigation';
 import { useSyllabusData } from './hooks/useSyllabusData';
 import { useGemini } from './hooks/useGemini';
@@ -40,6 +41,7 @@ import {
   UploadCloud,
   Gauge,
   KeyRound,
+  BarChart3,
 } from 'lucide-react';
 import { apiMonitor, ApiStatus } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
@@ -176,6 +178,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   const [isReviewQueueOpen, setIsReviewQueueOpen] = useState(false);
   const [isUsageDashboardOpen, setIsUsageDashboardOpen] = useState(false);
   const [isRuntimeKeyOpen, setIsRuntimeKeyOpen] = useState(false);
+  const [isClassInsightsOpen, setIsClassInsightsOpen] = useState(false);
   const [isSubmittingPrompt, setIsSubmittingPrompt] = useState(false);
 
   // Shared-library contribution is only meaningful when Supabase is configured
@@ -452,13 +455,22 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                     </>
                   )}
                   {canModerate(user.role) && isCurriculumRemote() && (
-                    <button
-                      onClick={() => setIsReviewQueueOpen(true)}
-                      className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
-                      title="Review Queue (approve/reject contributions)"
-                    >
-                      <ShieldCheck className="w-4 h-4" />
-                    </button>
+                    <>
+                      <button
+                        onClick={() => setIsReviewQueueOpen(true)}
+                        className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
+                        title="Review Queue (approve/reject contributions)"
+                      >
+                        <ShieldCheck className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => setIsClassInsightsOpen(true)}
+                        className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
+                        title="Class Insights (where the cohort is struggling)"
+                      >
+                        <BarChart3 className="w-4 h-4" />
+                      </button>
+                    </>
                   )}
                   {isSystemAdmin(user.role) && (
                     <>
@@ -665,6 +677,13 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         <ReviewQueueModal
           isOpen={isReviewQueueOpen}
           onClose={() => setIsReviewQueueOpen(false)}
+          showToast={showToast}
+        />
+      )}
+      {canModerate(user.role) && (
+        <ClassInsightsModal
+          isOpen={isClassInsightsOpen}
+          onClose={() => setIsClassInsightsOpen(false)}
           showToast={showToast}
         />
       )}

@@ -20,6 +20,46 @@ import { isCurriculumRemote } from './curriculumService';
 import { resolvePromptRowId } from './contributionService';
 import type { EvaluationResult, UserFeedback } from '../types';
 
+// --- Class analytics (reviewer-facing read path over persisted responses) ----
+
+/** One aggregated row per command verb from `get_class_analytics`. */
+export interface VerbAnalytics {
+  verb: string;
+  attempts: number;
+  students: number;
+  /** Averages are null only when no scored attempts exist for the verb. */
+  avg_mark: number | null;
+  avg_band: number | null;
+  /** Fraction of attempts scoring band ≤ 3 (0–1) — the struggling signal. */
+  low_band_rate: number;
+}
+
+export interface ClassAnalytics {
+  byVerb: VerbAnalytics[];
+  totals: {
+    total_attempts: number;
+    active_students: number;
+    avg_band: number | null;
+  };
+}
+
+const EMPTY_ANALYTICS: ClassAnalytics = {
+  byVerb: [],
+  totals: { total_attempts: 0, active_students: 0, avg_band: null },
+};
+
+/**
+ * Reviewer-gated cohort analytics over the last `days` days (1–365): per-verb
+ * attempt counts, average mark/band and the low-band (struggling) rate, plus
+ * overall totals. Aggregated server-side so no raw student work is transferred.
+ */
+export const fetchClassAnalytics = async (days = 30): Promise<ClassAnalytics> => {
+  if (!supabase) throw new Error('Supabase is not configured.');
+  const { data, error } = await supabase.rpc('get_class_analytics', { p_days: days });
+  if (error) throw new Error(`Could not load class analytics: ${error.message}`);
+  return (data as ClassAnalytics | null) ?? EMPTY_ANALYTICS;
+};
+
 export interface ResponsePersistInput {
   draft: string;
   wordCount: number;
