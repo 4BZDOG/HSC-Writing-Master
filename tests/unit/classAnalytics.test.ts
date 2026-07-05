@@ -4,6 +4,8 @@ import {
   formatBand,
   NO_TIER,
   foldVerbsIntoTiers,
+  formatLastActive,
+  sparklinePoints,
 } from '../../utils/classAnalytics';
 import type { DimensionAnalytics } from '../../services/responseService';
 
@@ -125,5 +127,55 @@ describe('formatBand', () => {
     expect(formatBand(null)).toBe('—');
     expect(formatBand(undefined)).toBe('—');
     expect(formatBand(NaN)).toBe('—');
+  });
+});
+
+describe('sparklinePoints', () => {
+  const opts = { width: 100, height: 30, min: 1, max: 6 };
+
+  it('is empty for no values', () => {
+    expect(sparklinePoints([], opts)).toBe('');
+  });
+
+  it('centres a single value on x and maps it on the inverted y-axis', () => {
+    // band 6 = top (y=0); x centred
+    expect(sparklinePoints([6], opts)).toBe('50,0');
+    // band 1 = bottom (y=height)
+    expect(sparklinePoints([1], opts)).toBe('50,30');
+  });
+
+  it('spreads values from x=0 to x=width, newest last', () => {
+    const pts = sparklinePoints([1, 6], opts).split(' ');
+    expect(pts[0]).toBe('0,30'); // first, band 1 → bottom-left
+    expect(pts[1]).toBe('100,0'); // last, band 6 → top-right
+  });
+
+  it('clamps out-of-range values into [min, max]', () => {
+    expect(sparklinePoints([0], opts)).toBe('50,30'); // below min → floor
+    expect(sparklinePoints([9], opts)).toBe('50,0'); // above max → ceil
+  });
+});
+
+describe('formatLastActive', () => {
+  const now = new Date('2026-07-05T12:00:00Z');
+  const ago = (days: number) =>
+    new Date(now.getTime() - days * 86_400_000 - 3_600_000).toISOString(); // +1h margin
+
+  it('handles today and yesterday', () => {
+    expect(formatLastActive(now.toISOString(), now)).toBe('today');
+    expect(formatLastActive(ago(1), now)).toBe('yesterday');
+  });
+
+  it('scales the unit with age', () => {
+    expect(formatLastActive(ago(3), now)).toBe('3d ago');
+    expect(formatLastActive(ago(10), now)).toBe('1w ago');
+    expect(formatLastActive(ago(45), now)).toBe('1mo ago');
+    expect(formatLastActive(ago(400), now)).toBe('1y ago');
+  });
+
+  it('returns an em dash for missing or bad input', () => {
+    expect(formatLastActive(null, now)).toBe('—');
+    expect(formatLastActive(undefined, now)).toBe('—');
+    expect(formatLastActive('not-a-date', now)).toBe('—');
   });
 });

@@ -1,6 +1,20 @@
-import { describe, it, expect } from 'vitest';
-import { promptToRow, sampleAnswerToRow, toQueueItems } from '../../services/contributionService';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import {
+  promptToRow,
+  sampleAnswerToRow,
+  toQueueItems,
+  moderateStructure,
+  topicToRow,
+  subTopicToRow,
+  dotPointToRow,
+} from '../../services/contributionService';
 import { Prompt, SampleAnswer } from '../../types';
+
+const rpcMock = vi.fn();
+vi.mock('../../services/supabaseClient', () => ({
+  supabase: { rpc: (...a: unknown[]) => rpcMock(...a) },
+  fetchAllRows: vi.fn(),
+}));
 
 describe('promptToRow (app Prompt -> DB insert row)', () => {
   it('maps all fields and preserves the app id as legacy_id', () => {
@@ -172,5 +186,107 @@ describe('toQueueItems (pending rows -> review list)', () => {
     expect(byId['a-obj'].context).toBe('Parent Q (object)');
     expect(byId['a-arr'].context).toBe('Parent Q (array)');
     expect(byId['a-none'].context).toBeNull();
+  });
+});
+
+describe('moderateStructure (reviewer structure moderation)', () => {
+  beforeEach(() => rpcMock.mockReset());
+
+  it('routes approve through set_structure_status with the kind + status', async () => {
+    rpcMock.mockResolvedValue({ error: null });
+    await moderateStructure('topic', 'topic-uuid', 'approved');
+    expect(rpcMock).toHaveBeenCalledWith('set_structure_status', {
+      p_kind: 'topic',
+      p_id: 'topic-uuid',
+      p_status: 'approved',
+    });
+  });
+
+  it('routes reject for a dot point', async () => {
+    rpcMock.mockResolvedValue({ error: null });
+    await moderateStructure('dot_point', 'dp-uuid', 'rejected');
+    expect(rpcMock).toHaveBeenCalledWith('set_structure_status', {
+      p_kind: 'dot_point',
+      p_id: 'dp-uuid',
+      p_status: 'rejected',
+    });
+  });
+
+  it('surfaces an RPC error', async () => {
+    rpcMock.mockResolvedValue({ error: { message: 'not a reviewer' } });
+    await expect(moderateStructure('sub_topic', 'st-uuid', 'approved')).rejects.toThrow(
+      /not a reviewer/
+    );
+  });
+});
+
+describe('structural mappers (app -> DB row)', () => {
+  it('topicToRow carries course, legacy id, band descriptors and status', () => {
+    const row = topicToRow(
+      {
+        id: 'topic-1',
+        name: 'Networks',
+        subTopics: [],
+        performanceBandDescriptors: [{ band: 6 }],
+      } as never,
+      'course-uuid',
+      'user-uuid',
+      'pending'
+    );
+    expect(row).toMatchObject({
+      course_id: 'course-uuid',
+      legacy_id: 'topic-1',
+      name: 'Networks',
+      status: 'pending',
+      created_by: 'user-uuid',
+    });
+    expect(row.band_descriptors).toEqual([{ band: 6 }]);
+  });
+
+  it('subTopicToRow and dotPointToRow carry their parent + label', () => {
+    const st = subTopicToRow(
+      { id: 'st-1', name: 'Subnetting', dotPoints: [] } as never,
+      't-uuid',
+      'u',
+      'pending'
+    );
+    expect(st).toMatchObject({
+      topic_id: 't-uuid',
+      legacy_id: 'st-1',
+      name: 'Subnetting',
+      status: 'pending',
+    });
+    const dp = dotPointToRow(
+      { id: 'dp-1', description: 'Explain CIDR', prompts: [] } as never,
+      'st-uuid',
+      'u',
+      'pending'
+    );
+    expect(dp).toMatchObject({
+      sub_topic_id: 'st-uuid',
+      legacy_id: 'dp-1',
+      description: 'Explain CIDR',
+      status: 'pending',
+    });
+  });
+});
+
+describe('toQueueItems with structure', () => {
+  it('includes structural nodes, labelled by kind and sorted after scored items', () => {
+    const items = toQueueItems(
+      [{ id: 'p1', question: 'Scored Q', created_at: null, quality_score: 90 }],
+      [],
+      [
+        { id: 't1', kind: 'topic', label: 'A Topic', created_at: null },
+        { id: 'd1', kind: 'dot_point', label: 'A dot point', created_at: null },
+      ]
+    );
+    // Scored prompt first; structure (no score) after.
+    expect(items[0].id).toBe('p1');
+    const topic = items.find((i) => i.id === 't1')!;
+    expect(topic.kind).toBe('topic');
+    expect(topic.context).toBe('Topic');
+    expect(topic.qualityScore).toBeNull();
+    expect(items.find((i) => i.id === 'd1')!.context).toBe('Dot point');
   });
 });

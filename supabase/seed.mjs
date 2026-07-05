@@ -102,6 +102,8 @@ async function importCourse(course, subject) {
       name: topic.name,
       position: ti,
       band_descriptors: topic.performanceBandDescriptors ?? [],
+      // Structure is now moderated (default 'private'); seeds are canonical.
+      status: 'approved',
     });
     nTopics++;
 
@@ -111,6 +113,7 @@ async function importCourse(course, subject) {
         legacy_id: sub.id,
         name: sub.name,
         position: si,
+        status: 'approved',
       });
 
       for (const [di, dp] of arr(sub.dotPoints).entries()) {
@@ -119,6 +122,7 @@ async function importCourse(course, subject) {
           legacy_id: dp.id,
           description: dp.description,
           position: di,
+          status: 'approved',
         });
 
         for (const prompt of arr(dp.prompts)) {

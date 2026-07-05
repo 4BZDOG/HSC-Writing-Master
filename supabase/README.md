@@ -263,11 +263,14 @@ Once the database is seeded, the app changes happen in roughly this order:
    have no Supabase token; this is deliberate anonymous-abuse protection.
 5. **Responses:** ✅ each completed evaluation upserts the student's draft + AI
    feedback (mark/band/evaluation JSON, plus a thumbs rating) to the `responses`
-   table — one row per `(student, prompt)` via `uq_responses_user_prompt`.
-   Best-effort and Supabase-mode only (`services/responseService.ts`); writes are
-   confined to the caller's own rows by the `responses_write` RLS policy and
-   reviewers may read all for analytics. This is the substrate for the
-   longitudinal features (progress radar, weakness heatmap).
+   table — one row per `(student, prompt)` via `uq_responses_user_prompt` — and
+   also appends a tiny row to the **append-only `response_events`** history table
+   (mark/band/word count, no draft text) that powers the band-trend sparkline.
+   Both writes are best-effort and Supabase-mode only (`services/responseService.ts`);
+   `responses` writes are confined to the caller's own rows and `response_events`
+   is own-insert / no-update-or-delete, with reviewers able to read all for
+   analytics. This is the substrate for the longitudinal features (Class
+   Insights, Student Progress + trend).
 
 ## ⚠️ Privacy & data residency (important)
 

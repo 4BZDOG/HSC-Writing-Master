@@ -218,7 +218,7 @@ end; $$;
 do $$
 declare t text;
 begin
-  foreach t in array array['profiles','courses','topics','prompts','responses']
+  foreach t in array array['profiles','courses','topics','sub_topics','dot_points','prompts','responses']
   loop
     execute format(
       'drop trigger if exists trg_%1$s_updated on public.%1$s;
@@ -367,7 +367,7 @@ end; $$;
 do $$
 declare t text;
 begin
-  foreach t in array array['courses','prompts','sample_answers']
+  foreach t in array array['courses','topics','sub_topics','dot_points','prompts','sample_answers']
   loop
     execute format('drop trigger if exists trg_%1$s_status_authority on public.%1$s;', t);
     execute format(
@@ -387,6 +387,43 @@ alter table public.prompts        add column if not exists quality_score int;
 alter table public.prompts        add column if not exists quality_notes text;
 alter table public.sample_answers add column if not exists quality_score int;
 alter table public.sample_answers add column if not exists quality_notes text;
+
+-- Structural moderation (topics/sub_topics/dot_points): bring the syllabus
+-- STRUCTURE into the same contribute→moderate model as prompts, so users can
+-- push locally-authored structure to the shared library for review. Added
+-- idempotently. Existing seeded structure is canonical content that predates
+-- these columns, so backfill it to 'approved'; new user-created rows default to
+-- 'private' (and the enforce trigger + RLS below gate the rest).
+do $struct$
+declare t text;
+begin
+  foreach t in array array['topics', 'sub_topics', 'dot_points']
+  loop
+    execute format(
+      'alter table public.%1$s add column if not exists status content_status not null default ''private'';', t);
+    execute format(
+      'alter table public.%1$s add column if not exists created_by uuid references public.profiles(id) on delete set null;', t);
+    -- updated_at so the maintenance trigger (below) has a column to write.
+    -- topics has long been in that trigger's list without the column — a latent
+    -- bug that only surfaced once structure became updatable; add it everywhere.
+    execute format(
+      'alter table public.%1$s add column if not exists updated_at timestamptz not null default now();', t);
+    -- Seeded rows have no creator and predate the column → approved canonical.
+    execute format(
+      'update public.%1$s set status = ''approved'' where created_by is null and status = ''private'';', t);
+  end loop;
+end $struct$;
+
+-- Race-proof the client's (legacy_id, created_by) upsert, as for prompts.
+create unique index if not exists uniq_topics_legacy_owner
+  on public.topics (legacy_id, created_by)
+  where legacy_id is not null and created_by is not null;
+create unique index if not exists uniq_subtopics_legacy_owner
+  on public.sub_topics (legacy_id, created_by)
+  where legacy_id is not null and created_by is not null;
+create unique index if not exists uniq_dotpoints_legacy_owner
+  on public.dot_points (legacy_id, created_by)
+  where legacy_id is not null and created_by is not null;
 
 -- The client write path upserts contributions keyed on (legacy_id, created_by)
 -- with a select-then-insert, which can race into duplicates. Back it with a
@@ -428,20 +465,44 @@ drop policy if exists courses_delete on public.courses;
 create policy courses_delete on public.courses for delete
   using (created_by = auth.uid() or public.is_admin());
 
--- Structural tables (outcomes/topics/sub_topics/dot_points): readable by any
--- authenticated user, writable by reviewers (or the creator of the course).
-do $$
+-- Course outcomes: not part of the contribute model (no status), so keep the
+-- simple rule — readable by any authenticated user, writable by reviewers.
+drop policy if exists course_outcomes_read on public.course_outcomes;
+create policy course_outcomes_read on public.course_outcomes for select
+  using (auth.uid() is not null);
+drop policy if exists course_outcomes_write on public.course_outcomes;
+create policy course_outcomes_write on public.course_outcomes for all
+  using (public.is_reviewer()) with check (public.is_reviewer());
+
+-- Structural tables (topics/sub_topics/dot_points) are now status-bearing, so
+-- they take the same library-content policy as prompts: visible if approved, or
+-- yours, or you're a reviewer; you may create/edit your own; the enforce trigger
+-- keeps non-reviewers out of the published states.
+do $struct_rls$
 declare t text;
 begin
-  foreach t in array array['course_outcomes','topics','sub_topics','dot_points']
+  foreach t in array array['topics', 'sub_topics', 'dot_points']
   loop
     execute format('drop policy if exists %1$s_read on public.%1$s;', t);
-    execute format('create policy %1$s_read on public.%1$s for select using (auth.uid() is not null);', t);
+    execute format(
+      'create policy %1$s_read on public.%1$s for select
+         using (status = ''approved'' or created_by = auth.uid() or public.is_reviewer());', t);
+    execute format('drop policy if exists %1$s_insert on public.%1$s;', t);
+    execute format(
+      'create policy %1$s_insert on public.%1$s for insert
+         with check (auth.uid() is not null and created_by = auth.uid());', t);
+    execute format('drop policy if exists %1$s_modify on public.%1$s;', t);
+    execute format(
+      'create policy %1$s_modify on public.%1$s for update
+         using (created_by = auth.uid() or public.is_reviewer());', t);
+    execute format('drop policy if exists %1$s_delete on public.%1$s;', t);
+    execute format(
+      'create policy %1$s_delete on public.%1$s for delete
+         using (created_by = auth.uid() or public.is_admin());', t);
+    -- Drop the old permissive policies from before structure was moderated.
     execute format('drop policy if exists %1$s_write on public.%1$s;', t);
-    execute format('create policy %1$s_write on public.%1$s for all
-                    using (public.is_reviewer()) with check (public.is_reviewer());', t);
   end loop;
-end $$;
+end $struct_rls$;
 
 -- Prompts (status-bearing)
 drop policy if exists prompts_read on public.prompts;
@@ -524,6 +585,36 @@ begin
     raise exception 'Only admins/teachers can reject content';
   end if;
   update public.sample_answers set status = 'rejected' where id = p_id;
+end; $$;
+
+-- Structure moderation: one reviewer-gated entry point for the three structural
+-- tables (topic / sub_topic / dot_point). `p_kind` is validated against a fixed
+-- allowlist before it reaches the dynamic UPDATE, so it can't be used to touch
+-- an arbitrary table; `p_status` must be a publishable/rejected state.
+create or replace function public.set_structure_status(
+  p_kind text, p_id uuid, p_status content_status
+)
+returns void language plpgsql security definer set search_path = public as $$
+declare
+  v_table text;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can moderate structure';
+  end if;
+  v_table := case p_kind
+    when 'topic'     then 'topics'
+    when 'sub_topic' then 'sub_topics'
+    when 'dot_point' then 'dot_points'
+    else null
+  end;
+  if v_table is null then
+    raise exception 'Unknown structure kind: %', p_kind;
+  end if;
+  if p_status not in ('approved', 'rejected', 'archived') then
+    raise exception 'set_structure_status only sets a moderation state, not %', p_status;
+  end if;
+  execute format('update public.%I set status = $1 where id = $2', v_table)
+    using p_status, p_id;
 end; $$;
 
 -- ----------------------------------------------------------------------------
@@ -781,6 +872,38 @@ begin
   return v_result;
 end; $$;
 
+-- Per-attempt response history ----------------------------------------------
+-- `responses` (§4) keeps only the LATEST attempt per (student, prompt) so the
+-- current-standing views stay simple. This append-only log records every
+-- evaluation as it happens — the substrate for progress-over-time (a student's
+-- band trend). Deliberately separate, mirroring ai_model_usage beside ai_usage:
+-- the client appends here best-effort alongside the responses upsert, so a lost
+-- event only means a shorter trend, never a broken mark. Tiny rows (no draft
+-- text), so no retention job is needed at this scale.
+create table if not exists public.response_events (
+  id         uuid primary key default gen_random_uuid(),
+  prompt_id  uuid not null references public.prompts (id) on delete cascade,
+  user_id    uuid not null references public.profiles (id) on delete cascade,
+  mark       int,
+  band       int,
+  word_count int not null default 0,
+  created_at timestamptz not null default now()
+);
+create index if not exists idx_response_events_user   on public.response_events (user_id, created_at);
+create index if not exists idx_response_events_prompt on public.response_events (prompt_id);
+
+alter table public.response_events enable row level security;
+
+-- Same visibility as responses: your own events, or any for reviewers (analytics).
+drop policy if exists response_events_read on public.response_events;
+create policy response_events_read on public.response_events for select
+  using (user_id = auth.uid() or public.is_reviewer());
+-- Append-only: you may insert your own events; there is deliberately NO update
+-- or delete policy, so history cannot be rewritten.
+drop policy if exists response_events_insert on public.response_events;
+create policy response_events_insert on public.response_events for insert
+  with check (user_id = auth.uid());
+
 -- Class analytics for teachers/admins ---------------------------------------
 -- Aggregates persisted responses (§4) over the last p_days days along two
 -- dimensions — the prompt's command verb and its owning topic (module) — so a
@@ -870,6 +993,7 @@ declare
   v_user   uuid;
   v_byverb jsonb;
   v_totals jsonb;
+  v_trend  jsonb;
 begin
   if not public.is_reviewer() then
     raise exception 'Only admins/teachers can view student progress';
@@ -905,7 +1029,63 @@ begin
   from public.responses r
   where r.user_id = v_user and r.created_at >= v_since and r.overall_band is not null;
 
-  return jsonb_build_object('username', p_username, 'byVerb', v_byverb, 'totals', v_totals);
+  -- Band trend from the append-only history (oldest→newest), capped to the most
+  -- recent 100 scored events in the window so the sparkline stays bounded.
+  select coalesce(
+           jsonb_agg(jsonb_build_object('at', e.created_at, 'band', e.band, 'mark', e.mark)
+                     order by e.created_at asc),
+           '[]'::jsonb
+         )
+    into v_trend
+  from (
+    select created_at, band, mark
+    from public.response_events
+    where user_id = v_user and created_at >= v_since and band is not null
+    order by created_at desc
+    limit 100
+  ) e;
+
+  return jsonb_build_object(
+    'username', p_username, 'byVerb', v_byverb, 'totals', v_totals, 'trend', v_trend
+  );
+end; $$;
+
+-- Student roster for the Student Progress picker -----------------------------
+-- The students who have at least one scored response in the last p_days days,
+-- with attempt count, average band and when they were last active — so a
+-- teacher can pick from a list instead of typing a username. Reviewer-gated;
+-- exposes only usernames + aggregates, never the responses themselves (the same
+-- usernames reviewers already see in the Review Queue / Usage Dashboard).
+create or replace function public.get_response_students(p_days integer default 30)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days   integer := least(greatest(coalesce(p_days, 30), 1), 365);
+  v_since  timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_result jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can view the student roster';
+  end if;
+
+  select coalesce(
+           jsonb_agg(row_obj order by (row_obj->>'attempts')::int desc, row_obj->>'username'),
+           '[]'::jsonb
+         )
+    into v_result
+  from (
+    select jsonb_build_object(
+      'username', pr.username,
+      'attempts', count(*),
+      'avg_band', round(avg(r.overall_band)::numeric, 2),
+      'last_active', max(r.created_at)
+    ) as row_obj
+    from public.responses r
+    join public.profiles pr on pr.id = r.user_id
+    where r.created_at >= v_since and r.overall_band is not null
+    group by pr.username
+  ) sub;
+
+  return v_result;
 end; $$;
 
 -- =============================================================================

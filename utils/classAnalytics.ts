@@ -47,6 +47,58 @@ export const rankByWeakness = (
 export const formatBand = (band: number | null | undefined): string =>
   band == null || !Number.isFinite(band) ? '—' : band.toFixed(1);
 
+const DAY_MS = 86_400_000;
+
+/**
+ * Compact "last active" label for the roster ("today", "yesterday", "3d ago",
+ * "2w ago", …). Coarse by design — the roster only needs recency at a glance.
+ * `now` is injectable for testing. Returns an em dash for missing/bad input.
+ */
+export const formatLastActive = (
+  iso: string | null | undefined,
+  now: Date = new Date()
+): string => {
+  if (!iso) return '—';
+  const then = new Date(iso).getTime();
+  if (Number.isNaN(then)) return '—';
+  const days = Math.floor((now.getTime() - then) / DAY_MS);
+  if (days <= 0) return 'today';
+  if (days === 1) return 'yesterday';
+  if (days < 7) return `${days}d ago`;
+  if (days < 30) return `${Math.floor(days / 7)}w ago`;
+  if (days < 365) return `${Math.floor(days / 30)}mo ago`;
+  return `${Math.floor(days / 365)}y ago`;
+};
+
+export interface SparklineOpts {
+  width: number;
+  height: number;
+  min: number;
+  max: number;
+}
+
+const round1 = (n: number): number => Math.round(n * 10) / 10;
+
+/**
+ * SVG polyline `points` for a sparkline: values are spread evenly across
+ * `width` (a single value sits centred) and mapped into `[min, max]` on an
+ * inverted y-axis (higher value = higher on screen), clamped to that range.
+ * Returns '' for an empty series. Pure geometry — unit-tested.
+ */
+export const sparklinePoints = (values: number[], opts: SparklineOpts): string => {
+  const { width, height, min, max } = opts;
+  if (values.length === 0) return '';
+  const span = max - min || 1;
+  return values
+    .map((v, i) => {
+      const x = values.length === 1 ? width / 2 : (i / (values.length - 1)) * width;
+      const clamped = Math.min(max, Math.max(min, v));
+      const y = height - ((clamped - min) / span) * height;
+      return `${round1(x)},${round1(y)}`;
+    })
+    .join(' ');
+};
+
 /** The six cognitive tiers, always shown in full so gaps read as "not attempted". */
 export const COGNITIVE_TIERS = [1, 2, 3, 4, 5, 6] as const;
 
