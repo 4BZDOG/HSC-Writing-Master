@@ -1,6 +1,6 @@
 # HSC AI Evaluator — Feature Roadmap
 
-_Last updated: 2026-07-05 · reflects v2.3.3._
+_Last updated: 2026-07-05 · reflects v2.3.4._
 
 ## 1. Current Capabilities (v2.3.0)
 
@@ -52,7 +52,7 @@ _Last updated: 2026-07-05 · reflects v2.3.3._
 ### Mid-term — close the "next phase" gaps
 - **Structural write path + moderation** for courses/topics/dot points (today only leaf prompts/samples sync back; structure is local-only).
 - **Persist responses**: write student drafts + AI feedback to the `responses` table (schema exists, unused) — the prerequisite for any longitudinal feature.
-- **Quota-exhaustion notification**: warn the user at 80% / 100% instead of a silent wall (in-app, optionally email).
+- **Quota-exhaustion notification**: ✅ _shipped in v2.3.4_ — in-app toast at 80% / 100% (deduped once per threshold per UTC day), fed by the caller usage the proxy now echoes on each response. Optional **email** notification still outstanding.
 
 ### Longer-term — deployment gate & payoff
 - **Privacy & data residency** (hard gate before real students): Australian region, pseudonymisation of student work, DoE third-party-tool policy sign-off.

@@ -1,6 +1,6 @@
 import { runAiProxy } from './_lib/providers';
 import { verifyRequestAuth, extractBearerToken } from './_lib/auth';
-import { consumeAiQuota, recordAiModelUsage } from './_lib/quota';
+import { consumeAiQuota, recordAiModelUsage, type QuotaVerdict } from './_lib/quota';
 
 /**
  * Vercel serverless function: POST /api/gemini
@@ -60,9 +60,10 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   // (per-user override → role/group default; see supabase/schema.sql §11).
   // Only meaningful for authenticated callers — when auth is disabled
   // (no Supabase) there is no identity to meter, matching the auth gate.
+  let quota: QuotaVerdict | null = null;
   if (auth.userId) {
     const token = extractBearerToken(authHeader);
-    const quota = token ? await consumeAiQuota(token) : null;
+    quota = token ? await consumeAiQuota(token) : null;
     if (quota && !quota.allowed) {
       res.status(429).json({
         error: `Daily AI limit reached (${quota.used}/${quota.limit} calls used today). Your allowance resets at midnight UTC — ask an admin if you need more.`,
@@ -85,5 +86,21 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     openrouter: process.env.OPENROUTER_API_KEY,
   };
   const result = await runAiProxy(req.body, keys);
-  res.status(result.status).json(result.body);
+
+  // Echo the caller's post-call usage on success so the client can warn as the
+  // budget runs low (80% / 100%) without a separate round trip. Additive and
+  // ignored by provider-response consumers; only attached to a plain object
+  // response (never overwrites an array/error body).
+  const body =
+    quota &&
+    result.status === 200 &&
+    result.body &&
+    typeof result.body === 'object' &&
+    !Array.isArray(result.body)
+      ? {
+          ...(result.body as Record<string, unknown>),
+          __quota: { used: quota.used, limit: quota.limit },
+        }
+      : result.body;
+  res.status(result.status).json(body);
 }

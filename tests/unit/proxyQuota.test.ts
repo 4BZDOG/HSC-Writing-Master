@@ -31,9 +31,8 @@ const ORIGINAL_ENV = { ...process.env };
 
 // consumeAiQuota/recordAiModelUsage are mocked at module level for the handler
 // tests; grab the real implementations for the unit tests below.
-const realQuota = await vi.importActual<typeof import('../../api/_lib/quota')>(
-  '../../api/_lib/quota'
-);
+const realQuota =
+  await vi.importActual<typeof import('../../api/_lib/quota')>('../../api/_lib/quota');
 const realConsume = realQuota.consumeAiQuota;
 const realRecord = realQuota.recordAiModelUsage;
 
@@ -110,7 +109,9 @@ describe('recordAiModelUsage (proxy model-tally module)', () => {
     it('calls record_ai_model_usage with the model tag', async () => {
       rpcMock.mockResolvedValue({ error: null });
       await realRecord('token', 'claude-sonnet-4-6');
-      expect(rpcMock).toHaveBeenCalledWith('record_ai_model_usage', { p_model: 'claude-sonnet-4-6' });
+      expect(rpcMock).toHaveBeenCalledWith('record_ai_model_usage', {
+        p_model: 'claude-sonnet-4-6',
+      });
     });
 
     it('skips the RPC entirely for an empty model tag', async () => {
@@ -190,6 +191,28 @@ describe('AI proxy handler quota gate', () => {
     expect(res.statusCode).toBe(200);
   });
 
+  it('echoes the caller usage as __quota on a successful response', async () => {
+    verifyMock.mockResolvedValue({ ok: true, userId: 'user-1' });
+    consumeMock.mockResolvedValue({ allowed: true, used: 48, limit: 60 });
+
+    const res = makeRes();
+    await handler(request(), res as never);
+
+    const body = res.body as { text: string; __quota?: { used: number; limit: number } };
+    expect(body.text).toBe('ok');
+    expect(body.__quota).toEqual({ used: 48, limit: 60 });
+  });
+
+  it('does not attach __quota when quotas are unenforceable (verdict null)', async () => {
+    verifyMock.mockResolvedValue({ ok: true, userId: 'user-1' });
+    consumeMock.mockResolvedValue(null);
+
+    const res = makeRes();
+    await handler(request(), res as never);
+
+    expect(res.body).toEqual({ text: 'ok' });
+  });
+
   it('records the request model for the usage breakdown when allowed', async () => {
     verifyMock.mockResolvedValue({ ok: true, userId: 'user-1' });
     consumeMock.mockResolvedValue({ allowed: true, used: 3, limit: 60 });
@@ -217,7 +240,11 @@ describe('AI proxy handler quota gate', () => {
 
     const res = makeRes();
     await handler(
-      { method: 'POST', headers: { authorization: 'Bearer jwt-token' }, body: { provider: 'gemini' } },
+      {
+        method: 'POST',
+        headers: { authorization: 'Bearer jwt-token' },
+        body: { provider: 'gemini' },
+      },
       res as never
     );
 

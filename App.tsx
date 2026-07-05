@@ -21,6 +21,7 @@ import { useToast } from './hooks/useToast';
 import { useDebounce } from './hooks/useDebounce';
 import { useApiStatus } from './hooks/useApiStatus';
 import { authService } from './services/authService';
+import { subscribeQuotaWarnings } from './services/quotaNotifier';
 import { isCurriculumRemote } from './services/curriculumService';
 import { savePromptContribution } from './services/contributionService';
 import { screenContentQuality } from './services/geminiService';
@@ -690,6 +691,15 @@ const App: React.FC = () => {
   const apiStatus = useApiStatus();
   const [user, setUser] = useState<User | null>(null);
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
+
+  // Surface daily-AI-quota warnings (80% / 100%) as toasts. The proxy feeds
+  // usage back through aiCore → quotaNotifier on every call; dedupe is handled
+  // there so this fires at most once per threshold per UTC day.
+  useEffect(
+    () =>
+      subscribeQuotaWarnings((w) => showToast(w.message, w.level === 'reached' ? 'error' : 'info')),
+    [showToast]
+  );
 
   useEffect(() => {
     const storedUser = authService.getCurrentUser();
