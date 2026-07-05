@@ -1,7 +1,7 @@
 {
   "name": "hsc-ai-writing-evaluator",
   "private": true,
-  "version": "2.3.1",
+  "version": "2.3.8",
   "type": "module",
   "scripts": {
     "dev": "vite",

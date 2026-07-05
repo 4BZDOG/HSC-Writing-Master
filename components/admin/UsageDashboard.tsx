@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import {
   X,
@@ -11,18 +11,31 @@ import {
   Info,
   Check,
   RotateCcw,
+  Download,
+  DollarSign,
 } from 'lucide-react';
 import {
   fetchMyQuotaStatus,
   fetchRoleQuotas,
   fetchUsageReport,
+  fetchModelUsageReport,
   setRoleQuota,
   setUserQuotaOverride,
   type QuotaStatus,
   type QuotaRole,
   type UsageReportRow,
+  type ModelUsageRow,
 } from '../../services/quotaService';
 import { isCurriculumRemote } from '../../services/curriculumService';
+import { getSelectionSnapshot, subscribeAiConfig } from '../../services/aiConfig';
+import { estCostForModelId, getModelById, getModelByProviderModel } from '../../services/aiModels';
+import {
+  usageReportToCsv,
+  estimateCostRange,
+  formatCostRange,
+  formatUsd,
+  aggregateModelCosts,
+} from '../../utils/usageReport';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
 import LoadingIndicator from '../LoadingIndicator';
 
@@ -107,6 +120,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
   const [isLoading, setIsLoading] = useState(true);
   const [isBusy, setIsBusy] = useState(false);
   const [report, setReport] = useState<UsageReportRow[]>([]);
+  const [modelUsage, setModelUsage] = useState<ModelUsageRow[]>([]);
   const [myStatus, setMyStatus] = useState<QuotaStatus | null>(null);
   const [limits, setLimits] = useState<Record<QuotaRole, string>>({
     admin: '',
@@ -146,6 +160,17 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
     } finally {
       setIsLoading(false);
     }
+
+    // Per-model breakdown is a progressive enhancement: it reads a table the
+    // proxy fills best-effort and an RPC that may be absent on a not-yet-
+    // migrated database. Fetch it separately so any failure just hides the
+    // breakdown (falling back to the call-count estimate) instead of breaking
+    // the whole dashboard.
+    try {
+      setModelUsage(await fetchModelUsageReport(7));
+    } catch {
+      setModelUsage([]);
+    }
   }, [remote, showToast]);
 
   useEffect(() => {
@@ -169,6 +194,71 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
   }, [report]);
 
   const callsToday = todayRows.reduce((sum, r) => sum + r.calls, 0);
+
+  // The active engines set the price band for the spend estimate. Because the
+  // quota counter records calls (not which model served each one), the best we
+  // can do is bound the cost between the configured basic and reasoning
+  // engines — see utils/usageReport.estimateCostRange.
+  const selection = useSyncExternalStore(subscribeAiConfig, getSelectionSnapshot);
+  const engines = useMemo(() => {
+    const basic = getModelById(selection.basic);
+    const reasoning = getModelById(selection.reasoning);
+    const prices = [estCostForModelId(selection.basic), estCostForModelId(selection.reasoning)];
+    const labels = Array.from(
+      new Set([basic?.label, reasoning?.label].filter(Boolean) as string[])
+    );
+    return { prices, labels };
+  }, [selection]);
+  const costRangeToday = useMemo(
+    () => estimateCostRange(callsToday, engines.prices),
+    [callsToday, engines.prices]
+  );
+
+  // Price a recorded provider-model string from the registry (unknown models
+  // keep their raw string and cost nothing, so the breakdown never hides them).
+  const modelMeta = useCallback((model: string) => {
+    const opt = getModelByProviderModel(model);
+    return { label: opt?.label ?? model, price: opt?.estCostPerCall ?? 0 };
+  }, []);
+
+  // Exact spend from the per-model tally: today for the headline tile, and over
+  // the whole 7-day window for the breakdown section. Empty when the breakdown
+  // is unavailable (pre-migration or no calls yet) — the tile then falls back
+  // to the call-count range.
+  const modelCostToday = useMemo(
+    () =>
+      aggregateModelCosts(
+        modelUsage.filter((r) => r.day === today),
+        modelMeta
+      ),
+    [modelUsage, today, modelMeta]
+  );
+  const modelCost7d = useMemo(
+    () => aggregateModelCosts(modelUsage, modelMeta),
+    [modelUsage, modelMeta]
+  );
+  const hasExactToday = modelCostToday.totalCalls > 0;
+
+  const handleExportCsv = () => {
+    if (report.length === 0) {
+      showToast('No usage data to export yet.', 'info');
+      return;
+    }
+    try {
+      const blob = new Blob([usageReportToCsv(report)], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `hsc_ai_usage_${today}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      showToast(`Exported ${report.length} usage row(s) to CSV.`, 'success');
+    } catch {
+      showToast('Failed to prepare the CSV download.', 'error');
+    }
+  };
 
   const handleSaveLimits = async () => {
     setIsBusy(true);
@@ -262,6 +352,15 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
           </div>
           <div className="flex items-center gap-2">
             <button
+              onClick={handleExportCsv}
+              disabled={isLoading || isBusy || !remote || report.length === 0}
+              aria-label="Export usage report as CSV"
+              title="Download the usage report (CSV)"
+              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-50"
+            >
+              <Download className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
+            </button>
+            <button
               onClick={load}
               disabled={isLoading || isBusy || !remote}
               aria-label="Refresh"
@@ -321,6 +420,22 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   value={myStatus ? String(myStatus.remaining) : '—'}
                   sub={myStatus ? `of ${myStatus.limit} today` : undefined}
                 />
+                <StatTile
+                  icon={<DollarSign className="w-3.5 h-3.5" />}
+                  label="Est. Cost Today"
+                  value={
+                    hasExactToday
+                      ? formatUsd(modelCostToday.totalCost)
+                      : `~${formatCostRange(costRangeToday)}`
+                  }
+                  sub={
+                    hasExactToday
+                      ? `${modelCostToday.totalCalls} call(s) priced by engine`
+                      : engines.labels.length > 0
+                        ? `est. @ ${engines.labels.join(' / ')}`
+                        : 'estimate — call price × calls'
+                  }
+                />
               </div>
 
               {/* 7-day trend */}
@@ -351,6 +466,63 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   ))}
                 </div>
               </section>
+
+              {/* Spend by engine — only rendered once the proxy has recorded
+                  per-model usage (best-effort; absent on an un-migrated DB). */}
+              {modelCost7d.rows.length > 0 && (
+                <section>
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                    <DollarSign className="w-3.5 h-3.5" /> Spend by engine — last 7 days
+                  </h3>
+                  <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden">
+                    <table className="w-full text-left text-sm">
+                      <thead className="bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 uppercase text-[10px] font-bold">
+                        <tr>
+                          <th className="px-4 py-2.5">Engine</th>
+                          <th className="px-4 py-2.5 text-right">Calls</th>
+                          <th className="px-4 py-2.5 text-right">Est. Cost</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-[rgb(var(--color-border-secondary))]/30 light:divide-slate-200">
+                        {modelCost7d.rows.map((r) => (
+                          <tr
+                            key={r.model}
+                            className="hover:bg-[rgb(var(--color-bg-surface-light))]/10 light:hover:bg-slate-50"
+                          >
+                            <td className="px-4 py-2.5 text-[rgb(var(--color-text-primary))] light:text-slate-800">
+                              {r.label}
+                              <span className="ml-2 font-mono text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                                {r.model}
+                              </span>
+                            </td>
+                            <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-secondary))] light:text-slate-700">
+                              {r.calls}
+                            </td>
+                            <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-secondary))] light:text-slate-700">
+                              {formatUsd(r.cost)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                      <tfoot className="bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 text-[rgb(var(--color-text-primary))] light:text-slate-900 font-bold">
+                        <tr>
+                          <td className="px-4 py-2.5">Total</td>
+                          <td className="px-4 py-2.5 text-right font-mono tabular-nums">
+                            {modelCost7d.totalCalls}
+                          </td>
+                          <td className="px-4 py-2.5 text-right font-mono tabular-nums">
+                            {formatUsd(modelCost7d.totalCost)}
+                          </td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                  <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                    Estimated at each engine's blended per-call price (see the engine registry) —
+                    good for comparing engines and sanity-checking spend, not an invoice.
+                  </p>
+                </section>
+              )}
 
               {/* Per-user usage today, with inline override editing */}
               <section>

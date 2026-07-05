@@ -199,6 +199,11 @@ create index if not exists idx_prompts_created_by  on public.prompts (created_by
 create index if not exists idx_answers_prompt      on public.sample_answers (prompt_id);
 create index if not exists idx_responses_user      on public.responses (user_id);
 create index if not exists idx_responses_prompt    on public.responses (prompt_id);
+-- One row per (student, prompt): the latest attempt + AI feedback. Lets the
+-- client upsert on each evaluation (see services/responseService.ts) and is the
+-- substrate for longitudinal analytics. Per-attempt history is a future step.
+create unique index if not exists uq_responses_user_prompt
+  on public.responses (user_id, prompt_id);
 
 -- ----------------------------------------------------------------------------
 -- 6. updated_at maintenance
@@ -704,6 +709,203 @@ begin
   ) sub;
 
   return v_result;
+end; $$;
+
+-- Per-model usage tally, for the dashboard's cost breakdown ------------------
+-- REPORTING ONLY. Which model served a call does not change the allowance it
+-- spends, so this lives entirely apart from consume_ai_quota()'s enforcement:
+-- the proxy records here best-effort AFTER a unit is spent, and a failure here
+-- can never block a request or corrupt a budget. One row per user/day/model.
+create table if not exists public.ai_model_usage (
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  day     date not null default (now() at time zone 'utc')::date,
+  model   text not null,
+  calls   integer not null default 0,
+  primary key (user_id, day, model)
+);
+
+alter table public.ai_model_usage enable row level security;
+
+-- Same visibility as ai_usage: your own rows, or any row for reviewers.
+drop policy if exists ai_model_usage_read on public.ai_model_usage;
+create policy ai_model_usage_read on public.ai_model_usage
+  for select using (user_id = auth.uid() or public.is_reviewer());
+-- No insert/update policy: the only write path is record_ai_model_usage().
+
+-- Best-effort per-model increment, called by the proxy after a call is
+-- authorised and a quota unit is spent. Deliberately forgiving — a blank or
+-- oversized model tag is ignored rather than raised, so a bad/spoofed tag
+-- never fails the user's request. Scopes to auth.uid() so a caller can only
+-- ever record against their own tally.
+create or replace function public.record_ai_model_usage(p_model text)
+returns void language plpgsql security definer set search_path = public as $$
+declare
+  v_user  uuid := auth.uid();
+  v_model text := nullif(btrim(p_model), '');
+begin
+  if v_user is null or v_model is null then
+    return;
+  end if;
+  v_model := left(v_model, 100); -- bound an untrusted request-body value
+  insert into public.ai_model_usage (user_id, day, model, calls)
+  values (v_user, (now() at time zone 'utc')::date, v_model, 1)
+  on conflict (user_id, day, model) do update
+    set calls = ai_model_usage.calls + 1;
+end; $$;
+
+-- Reviewer-gated per-model, per-day usage over the last p_days days (1–31),
+-- mirroring get_ai_usage_report so the dashboard can filter "today" vs the
+-- whole window client-side and price each model from the engine registry.
+create or replace function public.get_ai_model_usage_report(p_days integer default 7)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days   integer := least(greatest(coalesce(p_days, 7), 1), 31);
+  v_result jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can view the usage report';
+  end if;
+
+  select coalesce(jsonb_agg(row_obj order by row_obj->>'day' desc, (row_obj->>'calls')::int desc), '[]'::jsonb)
+    into v_result
+  from (
+    select jsonb_build_object(
+      'model', m.model,
+      'day', m.day,
+      'calls', m.calls
+    ) as row_obj
+    from public.ai_model_usage m
+    where m.day > (now() at time zone 'utc')::date - v_days
+  ) sub;
+
+  return v_result;
+end; $$;
+
+-- Class analytics for teachers/admins ---------------------------------------
+-- Aggregates persisted responses (§4) over the last p_days days along two
+-- dimensions — the prompt's command verb and its owning topic (module) — so a
+-- teacher can see where a cohort is struggling: which verbs/topics draw the
+-- lowest bands, how many students attempted them, and the overall average.
+-- Both dimensions share a `label` field so the client ranks them with one code
+-- path. Reviewer-gated (is_reviewer = admin+teacher); reads only what the
+-- responses_read policy already exposes to reviewers, but aggregates
+-- server-side so no raw student work leaves the database. "Low band" = band ≤ 3
+-- (below the HSC "sound" tier), the struggling signal.
+create or replace function public.get_class_analytics(p_days integer default 30)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days    integer := least(greatest(coalesce(p_days, 30), 1), 365);
+  v_since   timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_byverb  jsonb;
+  v_bytopic jsonb;
+  v_totals  jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can view class analytics';
+  end if;
+
+  select coalesce(jsonb_agg(row_obj order by (row_obj->>'attempts')::int desc), '[]'::jsonb)
+    into v_byverb
+  from (
+    select jsonb_build_object(
+      'label', coalesce(nullif(btrim(p.verb), ''), 'Unspecified'),
+      'attempts', count(*),
+      'students', count(distinct r.user_id),
+      'avg_mark', round(avg(r.overall_mark)::numeric, 1),
+      'avg_band', round(avg(r.overall_band)::numeric, 2),
+      'low_band_rate', round(avg((r.overall_band <= 3)::int)::numeric, 3)
+    ) as row_obj
+    from public.responses r
+    join public.prompts p on p.id = r.prompt_id
+    where r.created_at >= v_since
+      and r.overall_band is not null
+    group by coalesce(nullif(btrim(p.verb), ''), 'Unspecified')
+  ) sub;
+
+  select coalesce(jsonb_agg(row_obj order by (row_obj->>'attempts')::int desc), '[]'::jsonb)
+    into v_bytopic
+  from (
+    select jsonb_build_object(
+      'label', coalesce(nullif(btrim(t.name), ''), 'Uncategorised'),
+      'attempts', count(*),
+      'students', count(distinct r.user_id),
+      'avg_mark', round(avg(r.overall_mark)::numeric, 1),
+      'avg_band', round(avg(r.overall_band)::numeric, 2),
+      'low_band_rate', round(avg((r.overall_band <= 3)::int)::numeric, 3)
+    ) as row_obj
+    from public.responses r
+    join public.prompts p    on p.id = r.prompt_id
+    join public.dot_points d on d.id = p.dot_point_id
+    join public.sub_topics s on s.id = d.sub_topic_id
+    join public.topics t     on t.id = s.topic_id
+    where r.created_at >= v_since
+      and r.overall_band is not null
+    group by coalesce(nullif(btrim(t.name), ''), 'Uncategorised')
+  ) sub;
+
+  select jsonb_build_object(
+    'total_attempts', count(*),
+    'active_students', count(distinct r.user_id),
+    'avg_band', round(avg(r.overall_band)::numeric, 2)
+  ) into v_totals
+  from public.responses r
+  where r.created_at >= v_since
+    and r.overall_band is not null;
+
+  return jsonb_build_object('byVerb', v_byverb, 'byTopic', v_bytopic, 'totals', v_totals);
+end; $$;
+
+-- Per-student progress for teachers/admins ----------------------------------
+-- One student's persisted responses, aggregated by command verb over the last
+-- p_days days, so a teacher can see where an individual sits across the
+-- cognitive ladder (the client folds these verbs into the six tiers). Same
+-- reviewer gate and server-side aggregation as get_class_analytics — only
+-- counts/averages leave the database, never the student's writing. Addressed
+-- by username so teachers don't need UUIDs.
+create or replace function public.get_student_progress(p_username text, p_days integer default 30)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days   integer := least(greatest(coalesce(p_days, 30), 1), 365);
+  v_since  timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_user   uuid;
+  v_byverb jsonb;
+  v_totals jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can view student progress';
+  end if;
+
+  select id into v_user from public.profiles where username = p_username;
+  if v_user is null then
+    raise exception 'No user with username "%"', p_username;
+  end if;
+
+  select coalesce(jsonb_agg(row_obj order by (row_obj->>'attempts')::int desc), '[]'::jsonb)
+    into v_byverb
+  from (
+    select jsonb_build_object(
+      'label', coalesce(nullif(btrim(p.verb), ''), 'Unspecified'),
+      'attempts', count(*),
+      'students', 1,
+      'avg_mark', round(avg(r.overall_mark)::numeric, 1),
+      'avg_band', round(avg(r.overall_band)::numeric, 2),
+      'low_band_rate', round(avg((r.overall_band <= 3)::int)::numeric, 3)
+    ) as row_obj
+    from public.responses r
+    join public.prompts p on p.id = r.prompt_id
+    where r.user_id = v_user and r.created_at >= v_since and r.overall_band is not null
+    group by coalesce(nullif(btrim(p.verb), ''), 'Unspecified')
+  ) sub;
+
+  select jsonb_build_object(
+    'total_attempts', count(*),
+    'active_students', case when count(*) > 0 then 1 else 0 end,
+    'avg_band', round(avg(r.overall_band)::numeric, 2)
+  ) into v_totals
+  from public.responses r
+  where r.user_id = v_user and r.created_at >= v_since and r.overall_band is not null;
+
+  return jsonb_build_object('username', p_username, 'byVerb', v_byverb, 'totals', v_totals);
 end; $$;
 
 -- =============================================================================

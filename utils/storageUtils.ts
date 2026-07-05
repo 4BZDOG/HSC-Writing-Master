@@ -22,6 +22,7 @@ export const STORAGE_KEYS = {
   API_GUARD: 'hsc-ai-evaluator-api-guard', // Persisted circuit-breaker cooldown
   AUTH_USER: 'hsc-ai-auth-user-v2',
   AI_CONFIG: 'hsc-ai-evaluator-ai-config', // Active AI engine per role (basic/reasoning)
+  QUOTA_WARNINGS: 'hsc-ai-evaluator-quota-warnings', // Per-UTC-day dedupe of 80%/100% quota toasts
 } as const;
 
 export type StorageStatus = 'IndexedDB' | 'LocalStorage' | 'Supabase' | 'Error' | 'Loading';

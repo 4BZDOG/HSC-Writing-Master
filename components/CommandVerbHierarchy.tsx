@@ -159,7 +159,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
           {/* Active Verb Detail Card */}
           {activeTermInfo && activeConfig && (
             <div
-              className={`relative overflow-hidden rounded-[32px] p-6 border-2 ${activeConfig.border} ${activeConfig.bg} shadow-2xl animate-fade-in-up transition-all duration-500 group/hero`}
+              className={`clip-stable relative overflow-hidden rounded-[32px] p-6 border-2 ${activeConfig.border} ${activeConfig.bg} shadow-2xl animate-fade-in-up transition-all duration-500 group/hero`}
             >
               <MeshOverlay opacity="opacity-[0.06]" />
               <div
@@ -255,7 +255,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       if (group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
                     }}
                     className={`
-                      flex-shrink-0 w-[280px] h-[240px] snap-center relative overflow-hidden rounded-[32px] border-2 transition-all duration-700 cubic-bezier(0.34, 1.56, 0.64, 1) cursor-pointer flex flex-col group/card
+                      clip-stable flex-shrink-0 w-[280px] h-[240px] snap-center relative overflow-hidden rounded-[32px] border-2 transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer flex flex-col group/card
                       ${
                         isCurrentTier
                           ? `${tierConfig.border} ${tierConfig.bg} light:bg-white`

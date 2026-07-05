@@ -167,6 +167,13 @@ const resolveRowId = async (
   return (data as { id: string } | null)?.id ?? null;
 };
 
+/**
+ * Resolve a prompt's DB uuid from an app-facing id (legacy id or uuid).
+ * Shared with responseService so response rows FK to the right prompt.
+ */
+export const resolvePromptRowId = (appId: string): Promise<string | null> =>
+  resolveRowId('prompts', appId);
+
 /** Upsert a row owned by the current user, keyed on (legacy_id, created_by). */
 const upsertOwned = async (
   table: 'prompts' | 'sample_answers',

@@ -85,3 +85,26 @@ export const fetchUsageReport = async (days = 7): Promise<UsageReportRow[]> => {
   if (error) throw new Error(`Could not load the usage report: ${error.message}`);
   return (data ?? []) as UsageReportRow[];
 };
+
+/** One row per model per UTC day. `model` is the provider model string the
+ *  proxy recorded (e.g. `gemini-3-pro-preview`); price it via the registry. */
+export interface ModelUsageRow {
+  model: string;
+  /** ISO date, UTC. */
+  day: string;
+  calls: number;
+}
+
+/**
+ * Reviewer-gated per-model usage over the last `days` UTC days (1–31), for the
+ * dashboard's cost breakdown. This reads a table the proxy populates
+ * best-effort, so it can legitimately be empty (or the RPC absent on a
+ * not-yet-migrated database) — callers should treat a failure as "no
+ * breakdown available" and fall back to the call-count estimate rather than
+ * surfacing an error.
+ */
+export const fetchModelUsageReport = async (days = 7): Promise<ModelUsageRow[]> => {
+  const { data, error } = await requireClient().rpc('get_ai_model_usage_report', { p_days: days });
+  if (error) throw new Error(`Could not load the model usage report: ${error.message}`);
+  return (data ?? []) as ModelUsageRow[];
+};

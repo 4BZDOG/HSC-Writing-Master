@@ -1,6 +1,6 @@
 # HSC AI Evaluator — Feature Roadmap
 
-_Last updated: 2026-07-04 · reflects v2.3.0._
+_Last updated: 2026-07-05 · reflects v2.3.8._
 
 ## 1. Current Capabilities (v2.3.0)
 
@@ -30,7 +30,9 @@ _Last updated: 2026-07-04 · reflects v2.3.0._
 - **Content Audit Studio**: batch-generate/repair questions, rubrics, samples, and outcome links across a whole selection with a selectable AI engine, "Fix All Gaps", inline data-quality badges, and "Sync to Library" (repairs flow through the review queue).
 - **Data Vault**: backups (Time Machine) + full JSON Import/Export with conflict resolution.
 - **Database Manager**: internal storage health, force-sync, restore, data browser.
-- **AI Usage Dashboard**: monitor spend (calls today, active users, 7-day trend, per-user meters) and adjust per-user + per-group daily quotas inline (Supabase mode).
+- **AI Usage Dashboard**: monitor spend (calls today, active users, 7-day trend, per-user meters), an **estimated daily cost** (exact once per-engine attribution exists, otherwise bounded by the active engines' per-call prices), a **per-engine spend breakdown**, one-click **CSV export** of the usage report, and inline adjustment of per-user + per-group daily quotas (Supabase mode).
+- **Class Insights**: reviewer-gated (teacher + admin) view of where a cohort is struggling — cohort headline numbers plus a weakest-first table (attempts, students, average band, struggle rate) broken down **by command verb or by topic**, over a 30d/90d/1y window. Aggregated server-side from persisted responses; no raw student work leaves the database.
+- **Student Progress**: reviewer-gated profile of one student across the six cognitive tiers (per-tier average band + attempts) plus a per-verb breakdown, over a 30d/90d/1y window. Same server-side aggregation.
 - **Circuit Breaker**: API Guard monitoring error rates (429s) to prevent lockout.
 
 ### 🏭 Production Hardening
@@ -46,18 +48,18 @@ _Last updated: 2026-07-04 · reflects v2.3.0._
 
 ### Near-term — finish the loops we started
 - **Server-side quality screening**: move the contribution pre-screen from the author's browser to an edge function so the score can't be forged (currently advisory only — see `supabase/README.md`). Hardens the moderation flow.
-- **Dashboard depth**: the quota system emits usage no one aggregates yet. Add a cost estimate (calls × per-model price), a per-model breakdown, and CSV export of the usage report.
+- **Dashboard depth**: ✅ _shipped (v2.3.2 + v2.3.3)_ — estimated daily cost, a **per-engine spend breakdown**, and CSV export of the usage report. The proxy now attributes each call to its engine via a reporting-only `ai_model_usage` table (`record_ai_model_usage()`, best-effort and fully separate from budget enforcement), so the cost figure is exact once attributed data exists and falls back to the bounded estimate otherwise.
 - **e2e coverage for quotas**: add the 429-enforcement + dashboard-override path to the stubbed Playwright suite. It gates spend, so it's the highest-value flow to protect.
 
 ### Mid-term — close the "next phase" gaps
 - **Structural write path + moderation** for courses/topics/dot points (today only leaf prompts/samples sync back; structure is local-only).
-- **Persist responses**: write student drafts + AI feedback to the `responses` table (schema exists, unused) — the prerequisite for any longitudinal feature.
-- **Quota-exhaustion notification**: warn the user at 80% / 100% instead of a silent wall (in-app, optionally email).
+- **Persist responses**: ✅ _shipped in v2.3.5_ — each evaluation upserts the student's draft + AI feedback (mark/band/evaluation JSON, and thumbs rating) to the `responses` table, one row per `(student, prompt)`. Best-effort, Supabase-mode only. **Next**: per-attempt history (currently latest-only) if the analytics want a trend line rather than current standing.
+- **Quota-exhaustion notification**: ✅ _shipped in v2.3.4_ — in-app toast at 80% / 100% (deduped once per threshold per UTC day), fed by the caller usage the proxy now echoes on each response. Optional **email** notification still outstanding.
 
 ### Longer-term — deployment gate & payoff
 - **Privacy & data residency** (hard gate before real students): Australian region, pseudonymisation of student work, DoE third-party-tool policy sign-off.
-- **Longitudinal analytics**: Student Progress Radar across cognitive tiers; Weakness Heatmap of difficult verbs/modules (unlocked by persisted responses).
-- **Teacher-facing class analytics**: who's struggling, common weak bands — the feature that makes this a teaching tool, not just a marking toy.
+- **Longitudinal analytics**: Weakness Heatmap of difficult verbs/topics ✅ _v2.3.6–2.3.7_ (Class Insights). Student Progress across cognitive tiers ✅ _snapshot in v2.3.8_ (Student Progress modal — per-tier average band for one student). **Remaining**: turn the tier snapshot into a **trend over time**, which needs per-attempt history (responses are currently latest-only).
+- **Teacher-facing class analytics**: ✅ _v2.3.6–2.3.8_ — the reviewer-gated Class Insights panel (cohort, by verb or topic) plus the Student Progress modal (one student across the cognitive tiers). **Next**: a cohort roster/picker so teachers don't have to type usernames, and per-attempt trend lines.
 
 ### Exploratory
 - **Multimodal OCR**: photograph handwritten papers for transcription + marking.

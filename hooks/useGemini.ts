@@ -17,6 +17,7 @@ import {
 } from '../types';
 import * as gemini from '../services/geminiService';
 import { AICache } from '../services/aiCache';
+import { persistResponse, saveResponseFeedback } from '../services/responseService';
 import { findAndUpdateItem } from '../utils/stateUtils';
 import {
   getCommandTermsForMarks,
@@ -170,6 +171,15 @@ export const useGemini = ({
         await AICache.set(`evaluate:${prompt.id}:${answer.slice(0, 100)}`, result);
         setEvaluationResult(result);
         showToast('Marking complete. Results auto-saved to library.', 'success');
+
+        // Persist the attempt + AI feedback to the responses table for
+        // longitudinal analytics (Supabase mode only). Best-effort and
+        // non-blocking — persistResponse swallows its own failures.
+        void persistResponse(prompt.id, {
+          draft: answer,
+          wordCount: answer.trim().split(/\s+/).filter(Boolean).length,
+          result,
+        });
       } catch (error) {
         const message = handleApiError(error);
         setEvaluationError(message);
@@ -590,9 +600,12 @@ export const useGemini = ({
         if (!prev) return null;
         return { ...prev, userFeedback: feedback };
       });
+      // Mirror the rating onto the persisted response (Supabase mode only;
+      // best-effort). No-ops if the response was never stored.
+      if (currentPrompt) void saveResponseFeedback(currentPrompt.id, feedback);
       showToast('Thank you for your feedback!', 'success');
     },
-    [showToast]
+    [showToast, currentPrompt]
   );
 
   return {

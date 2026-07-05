@@ -143,6 +143,14 @@ paid provider is never contacted.
 - The proxy **fails open** if §11 hasn't been applied yet (a warning is
   logged) so deploying code ahead of the migration can't brick AI features;
   the auth gate still blocks anonymous spending in that window.
+- **Per-engine cost breakdown** (reporting only): `ai_model_usage` tallies one
+  row per user/day/model, incremented **best-effort** by `record_ai_model_usage()`
+  after a unit is spent. It is intentionally separate from `consume_ai_quota()`
+  — the model a call uses doesn't change the allowance it spends — so a failure
+  here never blocks a call or affects a budget. The dashboard reads it via the
+  reviewer-gated `get_ai_model_usage_report()` and prices each model from the
+  engine registry (`services/aiModels.ts`); it degrades gracefully to the
+  call-count cost estimate when the table is empty or the RPC is absent.
 
 ## Setup steps
 
@@ -253,7 +261,13 @@ Once the database is seeded, the app changes happen in roughly this order:
    (`api/_lib/auth.ts`). Leave them unset to keep the proxy open for local /
    keyless dev. ⚠️ Once enabled, **guest sessions cannot make AI calls** — they
    have no Supabase token; this is deliberate anonymous-abuse protection.
-5. **Responses:** persist student drafts + AI feedback to the `responses` table.
+5. **Responses:** ✅ each completed evaluation upserts the student's draft + AI
+   feedback (mark/band/evaluation JSON, plus a thumbs rating) to the `responses`
+   table — one row per `(student, prompt)` via `uq_responses_user_prompt`.
+   Best-effort and Supabase-mode only (`services/responseService.ts`); writes are
+   confined to the caller's own rows by the `responses_write` RLS policy and
+   reviewers may read all for analytics. This is the substrate for the
+   longitudinal features (progress radar, weakness heatmap).
 
 ## ⚠️ Privacy & data residency (important)
 

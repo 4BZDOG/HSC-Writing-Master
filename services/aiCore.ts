@@ -2,6 +2,7 @@ import { GenerateContentResponse } from '@google/genai';
 import { safeSetItem, safeGetItem, STORAGE_KEYS } from '../utils/storageUtils';
 import { supabase, isSupabaseConfigured } from './supabaseClient';
 import { getRuntimeKeyOverride } from './runtimeKeys';
+import { observeQuota } from './quotaNotifier';
 
 // All Gemini calls go through a server-side proxy so the API key never
 // reaches the browser bundle. See api/gemini.ts and api/_lib/generate.ts.
@@ -502,6 +503,9 @@ const callProxy = async (request: any): Promise<GenerateContentResponse> => {
     try {
       const errBody = await res.json();
       detail = errBody?.error || errBody?.message || '';
+      // A 429 carries the caller's spent budget — surface it as the "limit
+      // reached" notification instead of just a raw error string.
+      if (res.status === 429) observeQuota(errBody?.quota);
     } catch {
       /* response had no JSON body */
     }
@@ -510,7 +514,15 @@ const callProxy = async (request: any): Promise<GenerateContentResponse> => {
     throw error;
   }
 
-  return (await res.json()) as GenerateContentResponse;
+  const json = (await res.json()) as GenerateContentResponse & { __quota?: unknown };
+  // The proxy stamps the caller's post-call usage onto every authenticated
+  // response so the client can warn as the budget runs low (80% / 100%)
+  // without a separate round trip. Ignored downstream; consumers read the
+  // provider fields (text / candidates / usageMetadata).
+  if (json && typeof json === 'object' && json.__quota) {
+    observeQuota(json.__quota as { used: number; limit: number });
+  }
+  return json as GenerateContentResponse;
 };
 
 const executeGenerateContent = async (request: any): Promise<GenerateContentResponse> => {
