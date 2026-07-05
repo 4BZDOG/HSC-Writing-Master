@@ -9,6 +9,7 @@ import {
   Inbox,
   FileQuestion,
   FileText,
+  Layers,
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
@@ -18,13 +19,37 @@ import {
   rejectPrompt,
   approveSampleAnswer,
   rejectSampleAnswer,
+  moderateStructure,
   type ModerationItem,
+  type StructureKind,
 } from '../../services/contributionService';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
 import ConfirmationModal from '../ConfirmationModal';
 import LoadingIndicator from '../LoadingIndicator';
 
-type KindFilter = 'all' | 'prompt' | 'sample_answer';
+type KindFilter = 'all' | 'prompt' | 'sample_answer' | 'structure';
+
+const STRUCTURE_KINDS: StructureKind[] = ['topic', 'sub_topic', 'dot_point'];
+const isStructureKind = (k: ModerationItem['kind']): k is StructureKind =>
+  (STRUCTURE_KINDS as string[]).includes(k);
+
+/** Human label for an item's kind (badge + empty-state copy). */
+const KIND_LABEL: Record<ModerationItem['kind'], string> = {
+  prompt: 'Question',
+  sample_answer: 'Sample Answer',
+  topic: 'Topic',
+  sub_topic: 'Sub-topic',
+  dot_point: 'Dot point',
+};
+
+/** Dispatch approve/reject to the right server-side RPC for the item's kind. */
+const decideItem = (item: ModerationItem, decision: 'approve' | 'reject'): Promise<void> => {
+  if (item.kind === 'prompt')
+    return decision === 'approve' ? approvePrompt(item.id) : rejectPrompt(item.id);
+  if (item.kind === 'sample_answer')
+    return decision === 'approve' ? approveSampleAnswer(item.id) : rejectSampleAnswer(item.id);
+  return moderateStructure(item.kind, item.id, decision === 'approve' ? 'approved' : 'rejected');
+};
 
 interface ReviewQueueModalProps {
   isOpen: boolean;
@@ -89,8 +114,14 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
     all: items.length,
     prompt: items.filter((i) => i.kind === 'prompt').length,
     sample_answer: items.filter((i) => i.kind === 'sample_answer').length,
+    structure: items.filter((i) => isStructureKind(i.kind)).length,
   };
-  const visibleItems = kindFilter === 'all' ? items : items.filter((i) => i.kind === kindFilter);
+  const visibleItems =
+    kindFilter === 'all'
+      ? items
+      : kindFilter === 'structure'
+        ? items.filter((i) => isStructureKind(i.kind))
+        : items.filter((i) => i.kind === kindFilter);
 
   /**
    * Approve everything currently visible (i.e. respecting the kind filter) —
@@ -104,8 +135,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
     let failed = 0;
     for (const item of visibleItems) {
       try {
-        if (item.kind === 'prompt') await approvePrompt(item.id);
-        else await approveSampleAnswer(item.id);
+        await decideItem(item, 'approve');
         done++;
         setItems((prev) => prev.filter((i) => i.id !== item.id));
       } catch {
@@ -124,11 +154,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
   const handleDecision = async (item: ModerationItem, decision: 'approve' | 'reject') => {
     setBusyId(item.id);
     try {
-      if (item.kind === 'prompt') {
-        await (decision === 'approve' ? approvePrompt(item.id) : rejectPrompt(item.id));
-      } else {
-        await (decision === 'approve' ? approveSampleAnswer(item.id) : rejectSampleAnswer(item.id));
-      }
+      await decideItem(item, decision);
       // Drop the resolved item locally so the list stays responsive.
       setItems((prev) => prev.filter((i) => i.id !== item.id));
       setExpandedId((prev) => (prev === item.id ? null : prev));
@@ -202,6 +228,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
                   { id: 'all', label: `All (${counts.all})` },
                   { id: 'prompt', label: `Questions (${counts.prompt})` },
                   { id: 'sample_answer', label: `Sample Answers (${counts.sample_answer})` },
+                  { id: 'structure', label: `Structure (${counts.structure})` },
                 ] as { id: KindFilter; label: string }[]
               ).map((f) => (
                 <button
@@ -241,7 +268,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
               </p>
               <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
                 {counts.all === 0
-                  ? 'Submitted prompts and sample answers will appear here.'
+                  ? 'Submitted questions, sample answers and structure will appear here.'
                   : 'Switch the filter above to see the rest of the queue.'}
               </p>
             </div>
@@ -255,6 +282,8 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
                   <div className="mt-0.5 text-[rgb(var(--color-text-muted))]">
                     {item.kind === 'prompt' ? (
                       <FileQuestion className="w-5 h-5" />
+                    ) : isStructureKind(item.kind) ? (
+                      <Layers className="w-5 h-5" />
                     ) : (
                       <FileText className="w-5 h-5" />
                     )}
@@ -262,7 +291,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))]">
-                        {item.kind === 'prompt' ? 'Question' : 'Sample Answer'}
+                        {KIND_LABEL[item.kind]}
                       </span>
                       <QualityBadge score={item.qualityScore} />
                     </div>

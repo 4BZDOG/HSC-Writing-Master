@@ -15,7 +15,7 @@
  * client code is a convenience layer, NOT the security boundary.
  */
 import { supabase, fetchAllRows } from './supabaseClient';
-import { Prompt, SampleAnswer } from '../types';
+import { Prompt, SampleAnswer, Topic, SubTopic, DotPoint } from '../types';
 
 export type ContributionStatus = 'private' | 'pending';
 
@@ -125,6 +125,77 @@ export const sampleAnswerToRow = (
   created_by: userId,
 });
 
+// --- Structural row shapes + pure mappers (topics/sub-topics/dot points) ------
+
+export interface TopicInsertRow {
+  course_id: string;
+  legacy_id: string;
+  name: string;
+  position: number;
+  band_descriptors: unknown[];
+  status: ContributionStatus;
+  created_by: string;
+}
+export interface SubTopicInsertRow {
+  topic_id: string;
+  legacy_id: string;
+  name: string;
+  position: number;
+  status: ContributionStatus;
+  created_by: string;
+}
+export interface DotPointInsertRow {
+  sub_topic_id: string;
+  legacy_id: string;
+  description: string;
+  position: number;
+  status: ContributionStatus;
+  created_by: string;
+}
+
+export const topicToRow = (
+  topic: Topic,
+  courseId: string,
+  userId: string,
+  status: ContributionStatus
+): TopicInsertRow => ({
+  course_id: courseId,
+  legacy_id: topic.id,
+  name: topic.name,
+  position: 0,
+  band_descriptors: topic.performanceBandDescriptors ?? [],
+  status,
+  created_by: userId,
+});
+
+export const subTopicToRow = (
+  sub: SubTopic,
+  topicId: string,
+  userId: string,
+  status: ContributionStatus
+): SubTopicInsertRow => ({
+  topic_id: topicId,
+  legacy_id: sub.id,
+  name: sub.name,
+  position: 0,
+  status,
+  created_by: userId,
+});
+
+export const dotPointToRow = (
+  dp: DotPoint,
+  subTopicId: string,
+  userId: string,
+  status: ContributionStatus
+): DotPointInsertRow => ({
+  sub_topic_id: subTopicId,
+  legacy_id: dp.id,
+  description: dp.description,
+  position: 0,
+  status,
+  created_by: userId,
+});
+
 // --- Orchestration (resolves ids + writes via Supabase) ----------------------
 
 const requireClient = () => {
@@ -155,7 +226,7 @@ const quoteFilterValue = (value: string): string =>
  * on a legacy/app id.
  */
 const resolveRowId = async (
-  table: 'dot_points' | 'prompts',
+  table: 'courses' | 'topics' | 'sub_topics' | 'dot_points' | 'prompts',
   appId: string
 ): Promise<string | null> => {
   const quoted = quoteFilterValue(appId);
@@ -174,10 +245,17 @@ const resolveRowId = async (
 export const resolvePromptRowId = (appId: string): Promise<string | null> =>
   resolveRowId('prompts', appId);
 
+type OwnedInsertRow =
+  | PromptInsertRow
+  | SampleAnswerInsertRow
+  | TopicInsertRow
+  | SubTopicInsertRow
+  | DotPointInsertRow;
+
 /** Upsert a row owned by the current user, keyed on (legacy_id, created_by). */
 const upsertOwned = async (
-  table: 'prompts' | 'sample_answers',
-  row: PromptInsertRow | SampleAnswerInsertRow
+  table: 'prompts' | 'sample_answers' | 'topics' | 'sub_topics' | 'dot_points',
+  row: OwnedInsertRow
 ): Promise<string> => {
   const client = requireClient();
   const { data: existing } = await client
@@ -236,6 +314,42 @@ export const saveSampleAnswerContribution = async (
   );
 };
 
+/** Save a topic the user authored under the given course. Returns its uuid. */
+export const saveTopicContribution = async (
+  courseAppId: string,
+  topic: Topic,
+  status: ContributionStatus = 'pending'
+): Promise<string> => {
+  const userId = await currentUserId();
+  const courseId = await resolveRowId('courses', courseAppId);
+  if (!courseId) throw new Error('That topic’s course is not in the shared library yet.');
+  return upsertOwned('topics', topicToRow(topic, courseId, userId, status));
+};
+
+/** Save a sub-topic the user authored under the given topic. Returns its uuid. */
+export const saveSubTopicContribution = async (
+  topicAppId: string,
+  sub: SubTopic,
+  status: ContributionStatus = 'pending'
+): Promise<string> => {
+  const userId = await currentUserId();
+  const topicId = await resolveRowId('topics', topicAppId);
+  if (!topicId) throw new Error('That sub-topic’s topic is not in the shared library yet.');
+  return upsertOwned('sub_topics', subTopicToRow(sub, topicId, userId, status));
+};
+
+/** Save a dot point the user authored under the given sub-topic. Returns its uuid. */
+export const saveDotPointContribution = async (
+  subTopicAppId: string,
+  dp: DotPoint,
+  status: ContributionStatus = 'pending'
+): Promise<string> => {
+  const userId = await currentUserId();
+  const subTopicId = await resolveRowId('sub_topics', subTopicAppId);
+  if (!subTopicId) throw new Error('That dot point’s sub-topic is not in the shared library yet.');
+  return upsertOwned('dot_points', dotPointToRow(dp, subTopicId, userId, status));
+};
+
 /** The tables a user can submit their own content to the review queue from. */
 export type SubmittableTable =
   | 'prompts'
@@ -292,7 +406,7 @@ export const moderateStructure = async (
 // --- Review queue (reviewer-facing) ------------------------------------------
 
 export interface ModerationItem {
-  kind: 'prompt' | 'sample_answer';
+  kind: 'prompt' | 'sample_answer' | StructureKind;
   id: string;
   title: string;
   /** Untruncated source text, so reviewers can expand before deciding. */
@@ -301,6 +415,15 @@ export interface ModerationItem {
   context: string | null;
   createdAt: string | null;
   qualityScore: number | null;
+}
+
+/** A pending structural node awaiting review (topic/sub-topic/dot point). */
+export interface PendingStructureRow {
+  id: string;
+  kind: StructureKind;
+  /** Topic/sub-topic name, or dot-point description. */
+  label: string;
+  created_at: string | null;
 }
 
 interface PendingPromptRow {
@@ -329,8 +452,14 @@ const truncate = (text: string, max = 140): string =>
  */
 export const toQueueItems = (
   prompts: PendingPromptRow[],
-  answers: PendingAnswerRow[]
+  answers: PendingAnswerRow[],
+  structure: PendingStructureRow[] = []
 ): ModerationItem[] => {
+  const STRUCTURE_CONTEXT: Record<StructureKind, string> = {
+    topic: 'Topic',
+    sub_topic: 'Sub-topic',
+    dot_point: 'Dot point',
+  };
   const items: ModerationItem[] = [
     ...prompts.map((p) => ({
       kind: 'prompt' as const,
@@ -350,9 +479,19 @@ export const toQueueItems = (
       createdAt: a.created_at,
       qualityScore: a.quality_score,
     })),
+    ...structure.map((s) => ({
+      kind: s.kind,
+      id: s.id,
+      title: truncate(s.label),
+      fullText: s.label,
+      // Structure has no AI pre-screen; label the kind so reviewers see it.
+      context: STRUCTURE_CONTEXT[s.kind],
+      createdAt: s.created_at,
+      qualityScore: null,
+    })),
   ];
   // Lowest quality first so reviewers see the riskiest submissions up top;
-  // items with no score (older/manual) sort after scored ones.
+  // items with no score (structure, older/manual) sort after scored ones.
   return items.sort((a, b) => (a.qualityScore ?? 101) - (b.qualityScore ?? 101));
 };
 
@@ -363,7 +502,26 @@ export const toQueueItems = (
 export const fetchModerationQueue = async (): Promise<ModerationItem[]> => {
   const client = requireClient();
   const label = 'Failed to load review queue';
-  const [prompts, answers] = await Promise.all([
+  const pendingStructure = async (
+    table: 'topics' | 'sub_topics' | 'dot_points',
+    kind: StructureKind,
+    labelCol: 'name' | 'description'
+  ): Promise<PendingStructureRow[]> => {
+    const rows = await fetchAllRows<
+      { id: string; created_at: string | null } & Record<string, unknown>
+    >(
+      () => client.from(table).select(`id, ${labelCol}, created_at`).eq('status', 'pending'),
+      label
+    );
+    return rows.map((r) => ({
+      id: r.id,
+      kind,
+      label: String(r[labelCol] ?? ''),
+      created_at: r.created_at,
+    }));
+  };
+
+  const [prompts, answers, topics, subTopics, dotPoints] = await Promise.all([
     fetchAllRows<PendingPromptRow>(
       () =>
         client
@@ -381,7 +539,10 @@ export const fetchModerationQueue = async (): Promise<ModerationItem[]> => {
           .eq('status', 'pending'),
       label
     ),
+    pendingStructure('topics', 'topic', 'name'),
+    pendingStructure('sub_topics', 'sub_topic', 'name'),
+    pendingStructure('dot_points', 'dot_point', 'description'),
   ]);
 
-  return toQueueItems(prompts, answers);
+  return toQueueItems(prompts, answers, [...topics, ...subTopics, ...dotPoints]);
 };

@@ -29,7 +29,12 @@ import {
 } from '../utils/storageUtils';
 import { AICache } from '../services/aiCache';
 import { fetchRemoteCourses, isCurriculumRemote } from '../services/curriculumService';
-import { saveSampleAnswerContribution } from '../services/contributionService';
+import {
+  saveSampleAnswerContribution,
+  saveTopicContribution,
+  saveSubTopicContribution,
+  saveDotPointContribution,
+} from '../services/contributionService';
 import { screenContentQuality } from '../services/geminiService';
 import { generateId } from '../utils/idUtils';
 import {
@@ -427,6 +432,14 @@ export const useSyllabusData = ({
         });
       });
       showToast(`Topic "${name}" created.`, 'success');
+      // In Supabase mode, also push it to the shared library for review
+      // (best-effort; silently skipped if the parent course isn't in the
+      // library yet or the user has no session).
+      if (isCurriculumRemote()) {
+        saveTopicContribution(courseId, newItem)
+          .then(() => showToast('Topic submitted to the shared library for review.', 'info'))
+          .catch(() => {});
+      }
       return newItem;
     },
     [updateCourses, showToast]
@@ -445,6 +458,11 @@ export const useSyllabusData = ({
         );
       });
       showToast(`Sub-Topic "${name}" created.`, 'success');
+      if (isCurriculumRemote() && path.topicId) {
+        saveSubTopicContribution(path.topicId, newItem)
+          .then(() => showToast('Sub-topic submitted to the shared library for review.', 'info'))
+          .catch(() => {});
+      }
       return newItem;
     },
     [updateCourses, showToast]
@@ -467,6 +485,15 @@ export const useSyllabusData = ({
         );
       });
       showToast(`${newDotPoints.length} dot points added.`, 'success');
+      if (isCurriculumRemote() && path.subTopicId) {
+        Promise.allSettled(
+          newDotPoints.map((dp) => saveDotPointContribution(path.subTopicId as string, dp))
+        ).then((results) => {
+          if (results.some((r) => r.status === 'fulfilled')) {
+            showToast('Dot point(s) submitted to the shared library for review.', 'info');
+          }
+        });
+      }
     },
     [updateCourses, showToast]
   );
