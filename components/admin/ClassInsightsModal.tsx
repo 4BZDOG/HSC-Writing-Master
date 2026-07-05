@@ -5,7 +5,7 @@ import { fetchClassAnalytics, type ClassAnalytics } from '../../services/respons
 import { isCurriculumRemote } from '../../services/curriculumService';
 import { commandTerms } from '../../data/commandTerms';
 import { getBandConfig } from '../../utils/renderUtils';
-import { rankVerbWeakness, formatBand } from '../../utils/classAnalytics';
+import { rankByWeakness, formatBand, NO_TIER } from '../../utils/classAnalytics';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
 import type { PromptVerb } from '../../types';
 import LoadingIndicator from '../LoadingIndicator';
@@ -17,6 +17,11 @@ interface ClassInsightsModalProps {
 }
 
 const WINDOWS = [30, 90, 365] as const;
+type Dimension = 'verb' | 'topic';
+const DIMENSIONS: { id: Dimension; label: string }[] = [
+  { id: 'verb', label: 'By verb' },
+  { id: 'topic', label: 'By topic' },
+];
 
 /** Cognitive tier for a verb, or null when it isn't a known command term.
  *  The RPC returns free-form verb strings (incl. "Unspecified"); the Map is
@@ -72,6 +77,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
   const remote = isCurriculumRemote();
   const [isLoading, setIsLoading] = useState(true);
   const [days, setDays] = useState<(typeof WINDOWS)[number]>(30);
+  const [dimension, setDimension] = useState<Dimension>('verb');
   const [data, setData] = useState<ClassAnalytics | null>(null);
 
   useEscapeKey(isOpen, onClose);
@@ -95,7 +101,10 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
     if (isOpen) load();
   }, [isOpen, load]);
 
-  const rows = useMemo(() => rankVerbWeakness(data?.byVerb ?? [], tierOf), [data]);
+  const rows = useMemo(() => {
+    const source = dimension === 'verb' ? data?.byVerb : data?.byTopic;
+    return rankByWeakness(source ?? [], dimension === 'verb' ? tierOf : NO_TIER);
+  }, [data, dimension]);
   const totals = data?.totals;
 
   if (!isOpen) return null;
@@ -120,7 +129,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                 Class Insights
               </h2>
               <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                Where the cohort is struggling, by command verb
+                Where the cohort is struggling, by verb or topic
               </p>
             </div>
           </div>
@@ -160,24 +169,44 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
             </div>
           ) : (
             <>
-              {/* Window selector */}
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-400">
-                  Window
-                </span>
-                {WINDOWS.map((w) => (
-                  <button
-                    key={w}
-                    onClick={() => setDays(w)}
-                    className={`px-3 py-1 rounded-lg text-xs font-bold border transition-all ${
-                      days === w
-                        ? 'bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border-[rgb(var(--color-accent))]/30'
-                        : 'bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100 text-[rgb(var(--color-text-muted))] border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))]'
-                    }`}
-                  >
-                    {w === 365 ? '1y' : `${w}d`}
-                  </button>
-                ))}
+              {/* Window + dimension selectors */}
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                    Window
+                  </span>
+                  {WINDOWS.map((w) => (
+                    <button
+                      key={w}
+                      onClick={() => setDays(w)}
+                      className={`px-3 py-1 rounded-lg text-xs font-bold border transition-all ${
+                        days === w
+                          ? 'bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border-[rgb(var(--color-accent))]/30'
+                          : 'bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100 text-[rgb(var(--color-text-muted))] border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))]'
+                      }`}
+                    >
+                      {w === 365 ? '1y' : `${w}d`}
+                    </button>
+                  ))}
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                    Break down
+                  </span>
+                  {DIMENSIONS.map((d) => (
+                    <button
+                      key={d.id}
+                      onClick={() => setDimension(d.id)}
+                      className={`px-3 py-1 rounded-lg text-xs font-bold border transition-all ${
+                        dimension === d.id
+                          ? 'bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border-[rgb(var(--color-accent))]/30'
+                          : 'bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100 text-[rgb(var(--color-text-muted))] border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))]'
+                      }`}
+                    >
+                      {d.label}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {isLoading ? (
@@ -208,10 +237,11 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                     />
                   </div>
 
-                  {/* Per-verb weakness table */}
+                  {/* Per-dimension weakness table */}
                   <section>
                     <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
-                      <AlertTriangle className="w-3.5 h-3.5" /> Struggle by command verb
+                      <AlertTriangle className="w-3.5 h-3.5" />
+                      {dimension === 'verb' ? 'Struggle by command verb' : 'Struggle by topic'}
                     </h3>
                     {rows.length === 0 ? (
                       <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 italic py-4">
@@ -222,7 +252,9 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                         <table className="w-full text-left text-sm">
                           <thead className="bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 uppercase text-[10px] font-bold">
                             <tr>
-                              <th className="px-4 py-2.5">Verb</th>
+                              <th className="px-4 py-2.5">
+                                {dimension === 'verb' ? 'Verb' : 'Topic'}
+                              </th>
                               <th className="px-4 py-2.5 text-right">Attempts</th>
                               <th className="px-4 py-2.5 text-right">Students</th>
                               <th className="px-4 py-2.5 text-right">Avg Band</th>
@@ -234,12 +266,12 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                               const cfg = r.tier ? getBandConfig(r.tier) : null;
                               return (
                                 <tr
-                                  key={r.verb}
+                                  key={r.label}
                                   className="hover:bg-[rgb(var(--color-bg-surface-light))]/10 light:hover:bg-slate-50"
                                 >
                                   <td className="px-4 py-2.5">
                                     <span className="text-[rgb(var(--color-text-primary))] light:text-slate-800 font-semibold">
-                                      {r.verb}
+                                      {r.label}
                                     </span>
                                     {cfg && (
                                       <span

@@ -22,12 +22,13 @@ import type { EvaluationResult, UserFeedback } from '../types';
 
 // --- Class analytics (reviewer-facing read path over persisted responses) ----
 
-/** One aggregated row per command verb from `get_class_analytics`. */
-export interface VerbAnalytics {
-  verb: string;
+/** One aggregated row for an analytics dimension (a verb or a topic). */
+export interface DimensionAnalytics {
+  /** The verb or topic name this row aggregates. */
+  label: string;
   attempts: number;
   students: number;
-  /** Averages are null only when no scored attempts exist for the verb. */
+  /** Averages are null only when no scored attempts exist for the row. */
   avg_mark: number | null;
   avg_band: number | null;
   /** Fraction of attempts scoring band ≤ 3 (0–1) — the struggling signal. */
@@ -35,7 +36,8 @@ export interface VerbAnalytics {
 }
 
 export interface ClassAnalytics {
-  byVerb: VerbAnalytics[];
+  byVerb: DimensionAnalytics[];
+  byTopic: DimensionAnalytics[];
   totals: {
     total_attempts: number;
     active_students: number;
@@ -45,13 +47,15 @@ export interface ClassAnalytics {
 
 const EMPTY_ANALYTICS: ClassAnalytics = {
   byVerb: [],
+  byTopic: [],
   totals: { total_attempts: 0, active_students: 0, avg_band: null },
 };
 
 /**
  * Reviewer-gated cohort analytics over the last `days` days (1–365): per-verb
- * attempt counts, average mark/band and the low-band (struggling) rate, plus
- * overall totals. Aggregated server-side so no raw student work is transferred.
+ * and per-topic attempt counts, average mark/band and the low-band (struggling)
+ * rate, plus overall totals. Aggregated server-side so no raw student work is
+ * transferred.
  */
 export const fetchClassAnalytics = async (days = 30): Promise<ClassAnalytics> => {
   if (!supabase) throw new Error('Supabase is not configured.');

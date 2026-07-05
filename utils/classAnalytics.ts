@@ -1,38 +1,46 @@
 /**
- * Pure shaping for the Class Insights panel (featureRoadmap.md → Longer-term →
- * "Teacher-facing class analytics"). Takes the raw per-verb aggregates from
- * `get_class_analytics` and ranks them by where a cohort is struggling most,
- * enriched with each verb's cognitive tier. Kept free of React/data imports so
- * the ranking is unit-testable; the component supplies `tierOf`.
+ * Pure shaping for the Class Insights panel (featureRoadmap.md → Teacher-facing
+ * class analytics). Takes the raw per-dimension aggregates from
+ * `get_class_analytics` (verb OR topic — both share the `label`/`low_band_rate`
+ * shape) and ranks them by where a cohort is struggling most. For the verb
+ * dimension each row is enriched with the verb's cognitive tier. Kept free of
+ * React/data imports so the ranking is unit-testable; the component supplies
+ * `tierOf`.
  */
-import type { VerbAnalytics } from '../services/responseService';
+import type { DimensionAnalytics } from '../services/responseService';
 
-export interface RankedVerbRow extends VerbAnalytics {
-  /** Cognitive tier (1–6) for the verb, or null if it isn't a known command term. */
+export interface RankedRow extends DimensionAnalytics {
+  /** Cognitive tier (1–6) for a verb, or null (topics, or unknown verbs). */
   tier: number | null;
   /** low_band_rate as an integer percentage (0–100). */
   lowBandPct: number;
 }
 
+/** Never enrich with a tier (used for the topic dimension). */
+export const NO_TIER = (): number | null => null;
+
 /**
- * Rank verbs weakest-first: highest struggling rate, then most attempts (more
- * evidence), then alphabetically for a stable order. Verbs with no attempts are
- * dropped — an empty aggregate carries no signal.
+ * Rank dimension rows weakest-first: highest struggling rate, then most
+ * attempts (more evidence), then alphabetically for a stable order. Rows with
+ * no attempts are dropped — an empty aggregate carries no signal. `tierOf`
+ * enriches verb rows with a cognitive tier; pass NO_TIER for topics.
  */
-export const rankVerbWeakness = (
-  rows: VerbAnalytics[],
-  tierOf: (verb: string) => number | null
-): RankedVerbRow[] =>
+export const rankByWeakness = (
+  rows: DimensionAnalytics[],
+  tierOf: (label: string) => number | null = NO_TIER
+): RankedRow[] =>
   rows
     .filter((r) => r.attempts > 0)
     .map((r) => ({
       ...r,
-      tier: tierOf(r.verb),
+      tier: tierOf(r.label),
       lowBandPct: Math.round((Number.isFinite(r.low_band_rate) ? r.low_band_rate : 0) * 100),
     }))
     .sort(
       (a, b) =>
-        b.low_band_rate - a.low_band_rate || b.attempts - a.attempts || a.verb.localeCompare(b.verb)
+        b.low_band_rate - a.low_band_rate ||
+        b.attempts - a.attempts ||
+        a.label.localeCompare(b.label)
     );
 
 /** Compact band label: one decimal, or an em dash when unscored. */
