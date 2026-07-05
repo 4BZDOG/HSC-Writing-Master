@@ -1,6 +1,17 @@
-import { describe, it, expect } from 'vitest';
-import { promptToRow, sampleAnswerToRow, toQueueItems } from '../../services/contributionService';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import {
+  promptToRow,
+  sampleAnswerToRow,
+  toQueueItems,
+  moderateStructure,
+} from '../../services/contributionService';
 import { Prompt, SampleAnswer } from '../../types';
+
+const rpcMock = vi.fn();
+vi.mock('../../services/supabaseClient', () => ({
+  supabase: { rpc: (...a: unknown[]) => rpcMock(...a) },
+  fetchAllRows: vi.fn(),
+}));
 
 describe('promptToRow (app Prompt -> DB insert row)', () => {
   it('maps all fields and preserves the app id as legacy_id', () => {
@@ -172,5 +183,36 @@ describe('toQueueItems (pending rows -> review list)', () => {
     expect(byId['a-obj'].context).toBe('Parent Q (object)');
     expect(byId['a-arr'].context).toBe('Parent Q (array)');
     expect(byId['a-none'].context).toBeNull();
+  });
+});
+
+describe('moderateStructure (reviewer structure moderation)', () => {
+  beforeEach(() => rpcMock.mockReset());
+
+  it('routes approve through set_structure_status with the kind + status', async () => {
+    rpcMock.mockResolvedValue({ error: null });
+    await moderateStructure('topic', 'topic-uuid', 'approved');
+    expect(rpcMock).toHaveBeenCalledWith('set_structure_status', {
+      p_kind: 'topic',
+      p_id: 'topic-uuid',
+      p_status: 'approved',
+    });
+  });
+
+  it('routes reject for a dot point', async () => {
+    rpcMock.mockResolvedValue({ error: null });
+    await moderateStructure('dot_point', 'dp-uuid', 'rejected');
+    expect(rpcMock).toHaveBeenCalledWith('set_structure_status', {
+      p_kind: 'dot_point',
+      p_id: 'dp-uuid',
+      p_status: 'rejected',
+    });
+  });
+
+  it('surfaces an RPC error', async () => {
+    rpcMock.mockResolvedValue({ error: { message: 'not a reviewer' } });
+    await expect(moderateStructure('sub_topic', 'st-uuid', 'approved')).rejects.toThrow(
+      /not a reviewer/
+    );
   });
 });

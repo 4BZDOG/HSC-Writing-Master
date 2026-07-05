@@ -1,6 +1,6 @@
 # HSC AI Evaluator — Feature Roadmap
 
-_Last updated: 2026-07-05 · reflects v2.3.10._
+_Last updated: 2026-07-05 · reflects v2.3.11._
 
 ## 1. Current Capabilities (v2.3.0)
 
@@ -52,7 +52,7 @@ _Last updated: 2026-07-05 · reflects v2.3.10._
 - **e2e coverage for quotas**: add the 429-enforcement + dashboard-override path to the stubbed Playwright suite. It gates spend, so it's the highest-value flow to protect.
 
 ### Mid-term — close the "next phase" gaps
-- **Structural write path + moderation** for courses/topics/dot points (today only leaf prompts/samples sync back; structure is local-only).
+- **Structural write path + moderation** for courses/topics/dot points: 🚧 _backend shipped in v2.3.11_ — topics/sub-topics/dot points now carry the full status/created_by moderation model, status-gated RLS, and a reviewer-gated `set_structure_status` RPC (all verified on Postgres); `submitToLibrary`/`moderateStructure` service API in place. **Remaining**: the UI wiring — a "submit to library" action in the structure creators and structural items in the Review Queue.
 - **Persist responses**: ✅ _shipped in v2.3.5_ — each evaluation upserts the student's draft + AI feedback (mark/band/evaluation JSON, and thumbs rating) to the `responses` table, one row per `(student, prompt)`. Best-effort, Supabase-mode only. **Next**: per-attempt history (currently latest-only) if the analytics want a trend line rather than current standing.
 - **Quota-exhaustion notification**: ✅ _shipped in v2.3.4_ — in-app toast at 80% / 100% (deduped once per threshold per UTC day), fed by the caller usage the proxy now echoes on each response. Optional **email** notification still outstanding.
 

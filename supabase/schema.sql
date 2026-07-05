@@ -218,7 +218,7 @@ end; $$;
 do $$
 declare t text;
 begin
-  foreach t in array array['profiles','courses','topics','prompts','responses']
+  foreach t in array array['profiles','courses','topics','sub_topics','dot_points','prompts','responses']
   loop
     execute format(
       'drop trigger if exists trg_%1$s_updated on public.%1$s;
@@ -367,7 +367,7 @@ end; $$;
 do $$
 declare t text;
 begin
-  foreach t in array array['courses','prompts','sample_answers']
+  foreach t in array array['courses','topics','sub_topics','dot_points','prompts','sample_answers']
   loop
     execute format('drop trigger if exists trg_%1$s_status_authority on public.%1$s;', t);
     execute format(
@@ -387,6 +387,43 @@ alter table public.prompts        add column if not exists quality_score int;
 alter table public.prompts        add column if not exists quality_notes text;
 alter table public.sample_answers add column if not exists quality_score int;
 alter table public.sample_answers add column if not exists quality_notes text;
+
+-- Structural moderation (topics/sub_topics/dot_points): bring the syllabus
+-- STRUCTURE into the same contribute→moderate model as prompts, so users can
+-- push locally-authored structure to the shared library for review. Added
+-- idempotently. Existing seeded structure is canonical content that predates
+-- these columns, so backfill it to 'approved'; new user-created rows default to
+-- 'private' (and the enforce trigger + RLS below gate the rest).
+do $struct$
+declare t text;
+begin
+  foreach t in array array['topics', 'sub_topics', 'dot_points']
+  loop
+    execute format(
+      'alter table public.%1$s add column if not exists status content_status not null default ''private'';', t);
+    execute format(
+      'alter table public.%1$s add column if not exists created_by uuid references public.profiles(id) on delete set null;', t);
+    -- updated_at so the maintenance trigger (below) has a column to write.
+    -- topics has long been in that trigger's list without the column — a latent
+    -- bug that only surfaced once structure became updatable; add it everywhere.
+    execute format(
+      'alter table public.%1$s add column if not exists updated_at timestamptz not null default now();', t);
+    -- Seeded rows have no creator and predate the column → approved canonical.
+    execute format(
+      'update public.%1$s set status = ''approved'' where created_by is null and status = ''private'';', t);
+  end loop;
+end $struct$;
+
+-- Race-proof the client's (legacy_id, created_by) upsert, as for prompts.
+create unique index if not exists uniq_topics_legacy_owner
+  on public.topics (legacy_id, created_by)
+  where legacy_id is not null and created_by is not null;
+create unique index if not exists uniq_subtopics_legacy_owner
+  on public.sub_topics (legacy_id, created_by)
+  where legacy_id is not null and created_by is not null;
+create unique index if not exists uniq_dotpoints_legacy_owner
+  on public.dot_points (legacy_id, created_by)
+  where legacy_id is not null and created_by is not null;
 
 -- The client write path upserts contributions keyed on (legacy_id, created_by)
 -- with a select-then-insert, which can race into duplicates. Back it with a
@@ -428,20 +465,44 @@ drop policy if exists courses_delete on public.courses;
 create policy courses_delete on public.courses for delete
   using (created_by = auth.uid() or public.is_admin());
 
--- Structural tables (outcomes/topics/sub_topics/dot_points): readable by any
--- authenticated user, writable by reviewers (or the creator of the course).
-do $$
+-- Course outcomes: not part of the contribute model (no status), so keep the
+-- simple rule — readable by any authenticated user, writable by reviewers.
+drop policy if exists course_outcomes_read on public.course_outcomes;
+create policy course_outcomes_read on public.course_outcomes for select
+  using (auth.uid() is not null);
+drop policy if exists course_outcomes_write on public.course_outcomes;
+create policy course_outcomes_write on public.course_outcomes for all
+  using (public.is_reviewer()) with check (public.is_reviewer());
+
+-- Structural tables (topics/sub_topics/dot_points) are now status-bearing, so
+-- they take the same library-content policy as prompts: visible if approved, or
+-- yours, or you're a reviewer; you may create/edit your own; the enforce trigger
+-- keeps non-reviewers out of the published states.
+do $struct_rls$
 declare t text;
 begin
-  foreach t in array array['course_outcomes','topics','sub_topics','dot_points']
+  foreach t in array array['topics', 'sub_topics', 'dot_points']
   loop
     execute format('drop policy if exists %1$s_read on public.%1$s;', t);
-    execute format('create policy %1$s_read on public.%1$s for select using (auth.uid() is not null);', t);
+    execute format(
+      'create policy %1$s_read on public.%1$s for select
+         using (status = ''approved'' or created_by = auth.uid() or public.is_reviewer());', t);
+    execute format('drop policy if exists %1$s_insert on public.%1$s;', t);
+    execute format(
+      'create policy %1$s_insert on public.%1$s for insert
+         with check (auth.uid() is not null and created_by = auth.uid());', t);
+    execute format('drop policy if exists %1$s_modify on public.%1$s;', t);
+    execute format(
+      'create policy %1$s_modify on public.%1$s for update
+         using (created_by = auth.uid() or public.is_reviewer());', t);
+    execute format('drop policy if exists %1$s_delete on public.%1$s;', t);
+    execute format(
+      'create policy %1$s_delete on public.%1$s for delete
+         using (created_by = auth.uid() or public.is_admin());', t);
+    -- Drop the old permissive policies from before structure was moderated.
     execute format('drop policy if exists %1$s_write on public.%1$s;', t);
-    execute format('create policy %1$s_write on public.%1$s for all
-                    using (public.is_reviewer()) with check (public.is_reviewer());', t);
   end loop;
-end $$;
+end $struct_rls$;
 
 -- Prompts (status-bearing)
 drop policy if exists prompts_read on public.prompts;
@@ -524,6 +585,36 @@ begin
     raise exception 'Only admins/teachers can reject content';
   end if;
   update public.sample_answers set status = 'rejected' where id = p_id;
+end; $$;
+
+-- Structure moderation: one reviewer-gated entry point for the three structural
+-- tables (topic / sub_topic / dot_point). `p_kind` is validated against a fixed
+-- allowlist before it reaches the dynamic UPDATE, so it can't be used to touch
+-- an arbitrary table; `p_status` must be a publishable/rejected state.
+create or replace function public.set_structure_status(
+  p_kind text, p_id uuid, p_status content_status
+)
+returns void language plpgsql security definer set search_path = public as $$
+declare
+  v_table text;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can moderate structure';
+  end if;
+  v_table := case p_kind
+    when 'topic'     then 'topics'
+    when 'sub_topic' then 'sub_topics'
+    when 'dot_point' then 'dot_points'
+    else null
+  end;
+  if v_table is null then
+    raise exception 'Unknown structure kind: %', p_kind;
+  end if;
+  if p_status not in ('approved', 'rejected', 'archived') then
+    raise exception 'set_structure_status only sets a moderation state, not %', p_status;
+  end if;
+  execute format('update public.%I set status = $1 where id = $2', v_table)
+    using p_status, p_id;
 end; $$;
 
 -- ----------------------------------------------------------------------------

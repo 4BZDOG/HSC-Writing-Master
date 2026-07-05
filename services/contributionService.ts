@@ -236,11 +236,16 @@ export const saveSampleAnswerContribution = async (
   );
 };
 
+/** The tables a user can submit their own content to the review queue from. */
+export type SubmittableTable =
+  | 'prompts'
+  | 'sample_answers'
+  | 'topics'
+  | 'sub_topics'
+  | 'dot_points';
+
 /** Move one of the user's own rows into the review queue (private -> pending). */
-export const submitToLibrary = async (
-  table: 'prompts' | 'sample_answers',
-  rowId: string
-): Promise<void> => {
+export const submitToLibrary = async (table: SubmittableTable, rowId: string): Promise<void> => {
   const { error } = await requireClient().from(table).update({ status: 'pending' }).eq('id', rowId);
   if (error) throw new Error(`Failed to submit for review: ${error.message}`);
 };
@@ -259,6 +264,30 @@ export const approvePrompt = (id: string) => callModerationRpc('approve_prompt',
 export const rejectPrompt = (id: string) => callModerationRpc('reject_prompt', id);
 export const approveSampleAnswer = (id: string) => callModerationRpc('approve_sample_answer', id);
 export const rejectSampleAnswer = (id: string) => callModerationRpc('reject_sample_answer', id);
+
+/** Structural moderation kinds, matching set_structure_status's allowlist. */
+export type StructureKind = 'topic' | 'sub_topic' | 'dot_point';
+
+/**
+ * Reviewer moderation for structure (topics/sub-topics/dot points), routed
+ * through the single reviewer-gated `set_structure_status` RPC. The server
+ * re-checks the caller and validates the kind, so this is a convenience wrapper.
+ */
+export const moderateStructure = async (
+  kind: StructureKind,
+  id: string,
+  status: 'approved' | 'rejected'
+): Promise<void> => {
+  const { error } = await requireClient().rpc('set_structure_status', {
+    p_kind: kind,
+    p_id: id,
+    p_status: status,
+  });
+  if (error)
+    throw new Error(
+      `Failed to ${status === 'approved' ? 'approve' : 'reject'} ${kind}: ${error.message}`
+    );
+};
 
 // --- Review queue (reviewer-facing) ------------------------------------------
 

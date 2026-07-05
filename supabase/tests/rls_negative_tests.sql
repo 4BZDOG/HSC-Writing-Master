@@ -46,17 +46,19 @@ insert into public.courses (id, name, status, created_by)
   values ('00000000-0000-0000-0000-0000000000c1', 'RLS Test Course', 'approved',
           '00000000-0000-0000-0000-0000000000a9')
   on conflict (id) do nothing;
-insert into public.topics (id, course_id, name)
+-- Structure is now status-bearing (moderated like prompts); seed it as approved
+-- canonical content so the authenticated test sessions can see it downstream.
+insert into public.topics (id, course_id, name, status)
   values ('00000000-0000-0000-0000-0000000000c2',
-          '00000000-0000-0000-0000-0000000000c1', 'RLS Test Topic')
+          '00000000-0000-0000-0000-0000000000c1', 'RLS Test Topic', 'approved')
   on conflict (id) do nothing;
-insert into public.sub_topics (id, topic_id, name)
+insert into public.sub_topics (id, topic_id, name, status)
   values ('00000000-0000-0000-0000-0000000000c3',
-          '00000000-0000-0000-0000-0000000000c2', 'RLS Test SubTopic')
+          '00000000-0000-0000-0000-0000000000c2', 'RLS Test SubTopic', 'approved')
   on conflict (id) do nothing;
-insert into public.dot_points (id, sub_topic_id, description)
+insert into public.dot_points (id, sub_topic_id, description, status)
   values ('00000000-0000-0000-0000-0000000000c4',
-          '00000000-0000-0000-0000-0000000000c3', 'RLS Test DotPoint')
+          '00000000-0000-0000-0000-0000000000c3', 'RLS Test DotPoint', 'approved')
   on conflict (id) do nothing;
 -- A committed PENDING prompt owned by student a1, for the publish-authority
 -- tests (self-approve must fail; reviewer approve must succeed).
@@ -299,6 +301,75 @@ begin
     raise exception 'TEST FAILED: reviewer edit demoted approved content (got %)', v_status;
   end if;
   raise notice 'PASS: reviewer edit kept the row approved';
+end $$;
+rollback;
+
+-- ---- 12. Structure moderation: a non-reviewer cannot self-publish structure --
+begin;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}';
+set local role authenticated;
+do $$
+begin
+  -- Own private topic is fine…
+  insert into public.topics (id, course_id, name, status, created_by)
+    values ('00000000-0000-0000-0000-0000000000d2',
+            '00000000-0000-0000-0000-0000000000c1', 'Author Topic Draft', 'private',
+            '00000000-0000-0000-0000-0000000000a1');
+  -- …but publishing it (insert pre-approved) must be blocked by the trigger.
+  begin
+    insert into public.topics (id, course_id, name, status, created_by)
+      values ('00000000-0000-0000-0000-0000000000d3',
+              '00000000-0000-0000-0000-0000000000c1', 'Author Topic Cheat', 'approved',
+              '00000000-0000-0000-0000-0000000000a1');
+    raise exception 'TEST FAILED: a non-reviewer self-published a topic';
+  exception when others then
+    if sqlerrm not like '%publish, reject%' then raise; end if;
+  end;
+  raise notice 'PASS: non-reviewer self-publish of structure blocked';
+end $$;
+rollback;
+
+-- ---- 13. set_structure_status is reviewer-gated and kind-validated -----------
+begin;
+insert into public.topics (id, course_id, name, status, created_by)
+  values ('00000000-0000-0000-0000-0000000000d4',
+          '00000000-0000-0000-0000-0000000000c1', 'Pending Topic', 'pending',
+          '00000000-0000-0000-0000-0000000000a1')
+  on conflict (id) do nothing;
+
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}';
+set local role authenticated;
+do $$
+begin
+  perform public.set_structure_status('topic', '00000000-0000-0000-0000-0000000000d4', 'approved');
+  raise exception 'TEST FAILED: a non-reviewer moderated structure';
+exception when others then
+  if sqlerrm like '%moderate structure%' then
+    raise notice 'PASS: non-reviewer structure moderation blocked';
+  else raise; end if;
+end $$;
+rollback;
+
+-- ---- 14. POSITIVE CONTROL: a reviewer approves a pending topic ---------------
+begin;
+insert into public.topics (id, course_id, name, status, created_by)
+  values ('00000000-0000-0000-0000-0000000000d5',
+          '00000000-0000-0000-0000-0000000000c1', 'Pending Topic 2', 'pending',
+          '00000000-0000-0000-0000-0000000000a1')
+  on conflict (id) do nothing;
+
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000a9","role":"authenticated"}';
+set local role authenticated;
+do $$
+declare v_status content_status;
+begin
+  perform public.set_structure_status('topic', '00000000-0000-0000-0000-0000000000d5', 'approved');
+  select status into v_status from public.topics
+   where id = '00000000-0000-0000-0000-0000000000d5';
+  if v_status is distinct from 'approved' then
+    raise exception 'TEST FAILED: reviewer approval did not stick (got %)', v_status;
+  end if;
+  raise notice 'PASS: reviewer approved a pending topic via set_structure_status()';
 end $$;
 rollback;
 
