@@ -4,6 +4,7 @@ import {
   formatBand,
   NO_TIER,
   foldVerbsIntoTiers,
+  formatLastActive,
 } from '../../utils/classAnalytics';
 import type { DimensionAnalytics } from '../../services/responseService';
 
@@ -125,5 +126,29 @@ describe('formatBand', () => {
     expect(formatBand(null)).toBe('—');
     expect(formatBand(undefined)).toBe('—');
     expect(formatBand(NaN)).toBe('—');
+  });
+});
+
+describe('formatLastActive', () => {
+  const now = new Date('2026-07-05T12:00:00Z');
+  const ago = (days: number) =>
+    new Date(now.getTime() - days * 86_400_000 - 3_600_000).toISOString(); // +1h margin
+
+  it('handles today and yesterday', () => {
+    expect(formatLastActive(now.toISOString(), now)).toBe('today');
+    expect(formatLastActive(ago(1), now)).toBe('yesterday');
+  });
+
+  it('scales the unit with age', () => {
+    expect(formatLastActive(ago(3), now)).toBe('3d ago');
+    expect(formatLastActive(ago(10), now)).toBe('1w ago');
+    expect(formatLastActive(ago(45), now)).toBe('1mo ago');
+    expect(formatLastActive(ago(400), now)).toBe('1y ago');
+  });
+
+  it('returns an em dash for missing or bad input', () => {
+    expect(formatLastActive(null, now)).toBe('—');
+    expect(formatLastActive(undefined, now)).toBe('—');
+    expect(formatLastActive('not-a-date', now)).toBe('—');
   });
 });

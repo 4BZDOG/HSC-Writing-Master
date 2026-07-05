@@ -908,6 +908,44 @@ begin
   return jsonb_build_object('username', p_username, 'byVerb', v_byverb, 'totals', v_totals);
 end; $$;
 
+-- Student roster for the Student Progress picker -----------------------------
+-- The students who have at least one scored response in the last p_days days,
+-- with attempt count, average band and when they were last active — so a
+-- teacher can pick from a list instead of typing a username. Reviewer-gated;
+-- exposes only usernames + aggregates, never the responses themselves (the same
+-- usernames reviewers already see in the Review Queue / Usage Dashboard).
+create or replace function public.get_response_students(p_days integer default 30)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days   integer := least(greatest(coalesce(p_days, 30), 1), 365);
+  v_since  timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_result jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can view the student roster';
+  end if;
+
+  select coalesce(
+           jsonb_agg(row_obj order by (row_obj->>'attempts')::int desc, row_obj->>'username'),
+           '[]'::jsonb
+         )
+    into v_result
+  from (
+    select jsonb_build_object(
+      'username', pr.username,
+      'attempts', count(*),
+      'avg_band', round(avg(r.overall_band)::numeric, 2),
+      'last_active', max(r.created_at)
+    ) as row_obj
+    from public.responses r
+    join public.profiles pr on pr.id = r.user_id
+    where r.created_at >= v_since and r.overall_band is not null
+    group by pr.username
+  ) sub;
+
+  return v_result;
+end; $$;
+
 -- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.

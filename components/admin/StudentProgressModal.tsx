@@ -1,7 +1,12 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { X, LineChart, Search, Users, Layers, Gauge } from 'lucide-react';
-import { fetchStudentProgress, type StudentProgress } from '../../services/responseService';
+import {
+  fetchStudentProgress,
+  fetchResponseStudents,
+  type StudentProgress,
+  type RosterStudent,
+} from '../../services/responseService';
 import { isCurriculumRemote } from '../../services/curriculumService';
 import { commandTerms } from '../../data/commandTerms';
 import { getBandConfig } from '../../utils/renderUtils';
@@ -9,6 +14,7 @@ import {
   foldVerbsIntoTiers,
   rankByWeakness,
   formatBand,
+  formatLastActive,
   type TierProfile,
 } from '../../utils/classAnalytics';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
@@ -105,6 +111,8 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
   const [days, setDays] = useState<(typeof WINDOWS)[number]>(30);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<StudentProgress | null>(null);
+  const [roster, setRoster] = useState<RosterStudent[]>([]);
+  const [isRosterLoading, setIsRosterLoading] = useState(false);
 
   useEscapeKey(isOpen && !isLoading, onClose);
 
@@ -115,6 +123,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
         showToast('Enter a student username.', 'info');
         return;
       }
+      setUsername(trimmed);
       setIsLoading(true);
       try {
         setData(await fetchStudentProgress(trimmed, window));
@@ -127,6 +136,27 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
     },
     [showToast]
   );
+
+  // The roster (who to pick from) refreshes with the window; it's a separate,
+  // non-blocking fetch so a slow/empty roster never holds up a direct lookup.
+  const loadRoster = useCallback(
+    async (window: number) => {
+      if (!remote) return;
+      setIsRosterLoading(true);
+      try {
+        setRoster(await fetchResponseStudents(window));
+      } catch {
+        setRoster([]);
+      } finally {
+        setIsRosterLoading(false);
+      }
+    },
+    [remote]
+  );
+
+  useEffect(() => {
+    if (isOpen) loadRoster(days);
+  }, [isOpen, days, loadRoster]);
 
   const tiers = useMemo(() => foldVerbsIntoTiers(data?.byVerb ?? [], tierOf), [data]);
   const verbRows = useMemo(() => rankByWeakness(data?.byVerb ?? [], tierOf), [data]);
@@ -232,16 +262,65 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                   <LoadingIndicator messages={['Loading progress…']} duration={2} band={3} />
                 </div>
               ) : !data ? (
-                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 italic py-8 text-center">
-                  Enter a student username and look up their progress.
-                </p>
+                <section>
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                    <Users className="w-3.5 h-3.5" /> Students · pick one
+                  </h3>
+                  {isRosterLoading ? (
+                    <div className="h-24 flex items-center justify-center">
+                      <LoadingIndicator messages={['Loading roster…']} duration={1} band={3} />
+                    </div>
+                  ) : roster.length === 0 ? (
+                    <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 italic py-6 text-center">
+                      No students have submitted marked responses in this window. You can still look
+                      up a username directly above.
+                    </p>
+                  ) : (
+                    <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden divide-y divide-[rgb(var(--color-border-secondary))]/30 light:divide-slate-200">
+                      {roster.map((s) => (
+                        <button
+                          key={s.username}
+                          onClick={() => load(s.username, days)}
+                          className="w-full px-4 py-2.5 flex items-center gap-3 text-left hover:bg-[rgb(var(--color-bg-surface-light))]/10 light:hover:bg-slate-50 transition-colors"
+                        >
+                          <span className="flex-1 font-mono text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800">
+                            {s.username}
+                          </span>
+                          <span className="text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 tabular-nums">
+                            {s.attempts} {s.attempts === 1 ? 'response' : 'responses'}
+                          </span>
+                          <span className="w-16 text-right font-mono text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 tabular-nums">
+                            B{formatBand(s.avg_band)}
+                          </span>
+                          <span className="w-16 text-right text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                            {formatLastActive(s.last_active)}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </section>
               ) : totals && totals.total_attempts === 0 ? (
-                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 italic py-8 text-center">
-                  No marked responses for <span className="font-mono">{data.username}</span> in this
-                  window.
-                </p>
+                <div>
+                  <button
+                    onClick={() => setData(null)}
+                    className="mb-3 text-xs font-bold text-[rgb(var(--color-accent))] hover:underline"
+                  >
+                    ← Back to students
+                  </button>
+                  <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 italic py-8 text-center">
+                    No marked responses for <span className="font-mono">{data.username}</span> in
+                    this window.
+                  </p>
+                </div>
               ) : (
                 <>
+                  <button
+                    onClick={() => setData(null)}
+                    className="-mt-1 text-xs font-bold text-[rgb(var(--color-accent))] hover:underline"
+                  >
+                    ← Back to students
+                  </button>
                   {/* Headline */}
                   <div className="flex flex-wrap gap-3">
                     <StatTile

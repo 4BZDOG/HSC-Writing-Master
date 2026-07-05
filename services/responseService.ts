@@ -64,6 +64,28 @@ export const fetchClassAnalytics = async (days = 30): Promise<ClassAnalytics> =>
   return (data as ClassAnalytics | null) ?? EMPTY_ANALYTICS;
 };
 
+/** One roster entry (from `get_response_students`) — a student who has
+ *  submitted at least one scored response in the window. */
+export interface RosterStudent {
+  username: string;
+  attempts: number;
+  avg_band: number | null;
+  /** ISO timestamp of their most recent response, or null. */
+  last_active: string | null;
+}
+
+/**
+ * Reviewer-gated roster of students with scored responses over the last `days`
+ * days (attempts desc, then username), so the Student Progress picker can list
+ * them instead of requiring a typed username.
+ */
+export const fetchResponseStudents = async (days = 30): Promise<RosterStudent[]> => {
+  if (!supabase) throw new Error('Supabase is not configured.');
+  const { data, error } = await supabase.rpc('get_response_students', { p_days: days });
+  if (error) throw new Error(`Could not load the student roster: ${error.message}`);
+  return (data ?? []) as RosterStudent[];
+};
+
 /** One student's per-verb progress + totals (from `get_student_progress`). */
 export interface StudentProgress {
   username: string;
