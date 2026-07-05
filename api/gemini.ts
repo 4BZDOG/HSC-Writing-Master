@@ -1,6 +1,6 @@
 import { runAiProxy } from './_lib/providers';
 import { verifyRequestAuth, extractBearerToken } from './_lib/auth';
-import { consumeAiQuota } from './_lib/quota';
+import { consumeAiQuota, recordAiModelUsage } from './_lib/quota';
 
 /**
  * Vercel serverless function: POST /api/gemini
@@ -35,6 +35,14 @@ interface ResponseLike {
 const headerValue = (raw: string | string[] | undefined): string | undefined =>
   Array.isArray(raw) ? raw[0] : raw;
 
+/** The provider model string the client stamped on the request (aiConfig
+ *  spreads `{ provider, model }` onto every call). Used only for the usage
+ *  tally; absent/non-string bodies yield undefined and are simply not counted. */
+const requestModel = (body: unknown): string | undefined => {
+  const model = (body as { model?: unknown } | null | undefined)?.model;
+  return typeof model === 'string' ? model : undefined;
+};
+
 export default async function handler(req: RequestLike, res: ResponseLike): Promise<void> {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed. Use POST.' });
@@ -61,6 +69,13 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
         quota,
       });
       return;
+    }
+    // The call is going ahead and a unit has been spent — tally which model it
+    // was for the dashboard's cost breakdown. Best-effort and reporting-only:
+    // recordAiModelUsage swallows its own failures and never blocks the call.
+    if (token) {
+      const model = requestModel(req.body);
+      if (model) await recordAiModelUsage(token, model);
     }
   }
 

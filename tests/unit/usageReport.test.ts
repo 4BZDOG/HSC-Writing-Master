@@ -4,6 +4,7 @@ import {
   estimateCostRange,
   formatUsd,
   formatCostRange,
+  aggregateModelCosts,
 } from '../../utils/usageReport';
 import type { UsageReportRow } from '../../services/quotaService';
 
@@ -95,5 +96,54 @@ describe('formatCostRange', () => {
 
   it('shows a dash-separated range otherwise', () => {
     expect(formatCostRange({ low: 0.08, high: 0.9 })).toBe('$0.080–$0.900');
+  });
+});
+
+describe('aggregateModelCosts', () => {
+  const meta = (model: string) =>
+    ({
+      'gemini-3-pro-preview': { label: 'Gemini 3 Pro', price: 0.006 },
+      'claude-sonnet-4-6': { label: 'Claude Sonnet 4.6', price: 0.009 },
+    })[model] ?? { label: model, price: 0 };
+
+  it('sums calls across days and prices each model', () => {
+    const summary = aggregateModelCosts(
+      [
+        { model: 'gemini-3-pro-preview', calls: 10 },
+        { model: 'gemini-3-pro-preview', calls: 5 },
+        { model: 'claude-sonnet-4-6', calls: 4 },
+      ],
+      meta
+    );
+    expect(summary.totalCalls).toBe(19);
+    expect(summary.totalCost).toBeCloseTo(15 * 0.006 + 4 * 0.009);
+    const gemini = summary.rows.find((r) => r.model === 'gemini-3-pro-preview')!;
+    expect(gemini.calls).toBe(15);
+    expect(gemini.cost).toBeCloseTo(0.09);
+  });
+
+  it('sorts dearest-first even when a cheaper model has more calls', () => {
+    const summary = aggregateModelCosts(
+      [
+        { model: 'gemini-3-pro-preview', calls: 20 }, // 20 * 0.006 = 0.12
+        { model: 'claude-sonnet-4-6', calls: 15 }, // 15 * 0.009 = 0.135
+      ],
+      meta
+    );
+    expect(summary.rows.map((r) => r.model)).toEqual(['claude-sonnet-4-6', 'gemini-3-pro-preview']);
+  });
+
+  it('keeps an unknown model, labelled by its raw string at zero cost', () => {
+    const summary = aggregateModelCosts([{ model: 'mystery/model', calls: 3 }], meta);
+    expect(summary.rows).toEqual([
+      { model: 'mystery/model', label: 'mystery/model', calls: 3, cost: 0 },
+    ]);
+    expect(summary.totalCost).toBe(0);
+  });
+
+  it('ignores blank model tags', () => {
+    const summary = aggregateModelCosts([{ model: '', calls: 9 }], meta);
+    expect(summary.rows).toEqual([]);
+    expect(summary.totalCalls).toBe(0);
   });
 });

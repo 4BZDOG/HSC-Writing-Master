@@ -2,10 +2,11 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 // vi.mock factories are hoisted above const declarations, so the mock fns
 // they capture must be hoisted too.
-const { rpcMock, verifyMock, consumeMock, runAiProxyMock } = vi.hoisted(() => ({
+const { rpcMock, verifyMock, consumeMock, recordMock, runAiProxyMock } = vi.hoisted(() => ({
   rpcMock: vi.fn(),
   verifyMock: vi.fn(),
   consumeMock: vi.fn(),
+  recordMock: vi.fn(),
   runAiProxyMock: vi.fn(),
 }));
 
@@ -19,7 +20,7 @@ vi.mock('../../api/_lib/auth', async (importOriginal) => {
 });
 vi.mock('../../api/_lib/quota', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../api/_lib/quota')>();
-  return { ...actual, consumeAiQuota: consumeMock };
+  return { ...actual, consumeAiQuota: consumeMock, recordAiModelUsage: recordMock };
 });
 vi.mock('../../api/_lib/providers', () => ({ runAiProxy: runAiProxyMock }));
 
@@ -28,11 +29,13 @@ import handler from '../../api/gemini';
 
 const ORIGINAL_ENV = { ...process.env };
 
-// consumeAiQuota is mocked at module level for the handler tests; grab the
-// real implementation for the unit tests below.
-const realConsume = (await vi.importActual<typeof import('../../api/_lib/quota')>(
+// consumeAiQuota/recordAiModelUsage are mocked at module level for the handler
+// tests; grab the real implementations for the unit tests below.
+const realQuota = await vi.importActual<typeof import('../../api/_lib/quota')>(
   '../../api/_lib/quota'
-)).consumeAiQuota;
+);
+const realConsume = realQuota.consumeAiQuota;
+const realRecord = realQuota.recordAiModelUsage;
 
 describe('consumeAiQuota (proxy quota module)', () => {
   beforeEach(() => {
@@ -83,6 +86,50 @@ describe('consumeAiQuota (proxy quota module)', () => {
   });
 });
 
+describe('recordAiModelUsage (proxy model-tally module)', () => {
+  beforeEach(() => {
+    rpcMock.mockReset();
+    delete process.env.SUPABASE_URL;
+    delete process.env.SUPABASE_ANON_KEY;
+  });
+  afterEach(() => {
+    process.env = { ...ORIGINAL_ENV };
+  });
+
+  it('no-ops (no RPC) when Supabase is unconfigured', async () => {
+    await realRecord('token', 'gemini-3-pro-preview');
+    expect(rpcMock).not.toHaveBeenCalled();
+  });
+
+  describe('when Supabase IS configured', () => {
+    beforeEach(() => {
+      process.env.SUPABASE_URL = 'https://example.supabase.co';
+      process.env.SUPABASE_ANON_KEY = 'anon-key';
+    });
+
+    it('calls record_ai_model_usage with the model tag', async () => {
+      rpcMock.mockResolvedValue({ error: null });
+      await realRecord('token', 'claude-sonnet-4-6');
+      expect(rpcMock).toHaveBeenCalledWith('record_ai_model_usage', { p_model: 'claude-sonnet-4-6' });
+    });
+
+    it('skips the RPC entirely for an empty model tag', async () => {
+      await realRecord('token', '');
+      expect(rpcMock).not.toHaveBeenCalled();
+    });
+
+    it('swallows an RPC error (reporting is best-effort)', async () => {
+      rpcMock.mockResolvedValue({ error: { message: 'function does not exist' } });
+      await expect(realRecord('token', 'gemini-3-pro-preview')).resolves.toBeUndefined();
+    });
+
+    it('swallows a thrown client error', async () => {
+      rpcMock.mockRejectedValue(new Error('network down'));
+      await expect(realRecord('token', 'gemini-3-pro-preview')).resolves.toBeUndefined();
+    });
+  });
+});
+
 describe('AI proxy handler quota gate', () => {
   const makeRes = () => {
     const res: { statusCode?: number; body?: unknown; status: any; json: any } = {
@@ -100,12 +147,14 @@ describe('AI proxy handler quota gate', () => {
   const request = (auth = 'Bearer jwt-token') => ({
     method: 'POST',
     headers: { authorization: auth },
-    body: { provider: 'gemini', contents: 'x' },
+    body: { provider: 'gemini', model: 'gemini-3-pro-preview', contents: 'x' },
   });
 
   beforeEach(() => {
     verifyMock.mockReset();
     consumeMock.mockReset();
+    recordMock.mockReset();
+    recordMock.mockResolvedValue(undefined);
     runAiProxyMock.mockReset();
     runAiProxyMock.mockResolvedValue({ status: 200, body: { text: 'ok' } });
   });
@@ -125,6 +174,8 @@ describe('AI proxy handler quota gate', () => {
     expect(body.error).toContain('60/60');
     expect(body.quota).toEqual({ allowed: false, used: 60, limit: 60 });
     expect(runAiProxyMock).not.toHaveBeenCalled();
+    // A rejected call spent no unit, so nothing should be tallied for it.
+    expect(recordMock).not.toHaveBeenCalled();
   });
 
   it('forwards to the provider when the quota allows', async () => {
@@ -137,6 +188,41 @@ describe('AI proxy handler quota gate', () => {
     expect(consumeMock).toHaveBeenCalledWith('jwt-token');
     expect(runAiProxyMock).toHaveBeenCalledTimes(1);
     expect(res.statusCode).toBe(200);
+  });
+
+  it('records the request model for the usage breakdown when allowed', async () => {
+    verifyMock.mockResolvedValue({ ok: true, userId: 'user-1' });
+    consumeMock.mockResolvedValue({ allowed: true, used: 3, limit: 60 });
+
+    const res = makeRes();
+    await handler(request(), res as never);
+
+    expect(recordMock).toHaveBeenCalledWith('jwt-token', 'gemini-3-pro-preview');
+  });
+
+  it('still records the model when quotas are unenforceable (verdict null)', async () => {
+    verifyMock.mockResolvedValue({ ok: true, userId: 'user-1' });
+    consumeMock.mockResolvedValue(null);
+
+    const res = makeRes();
+    await handler(request(), res as never);
+
+    expect(recordMock).toHaveBeenCalledWith('jwt-token', 'gemini-3-pro-preview');
+    expect(res.statusCode).toBe(200);
+  });
+
+  it('skips recording when the request carries no model tag', async () => {
+    verifyMock.mockResolvedValue({ ok: true, userId: 'user-1' });
+    consumeMock.mockResolvedValue({ allowed: true, used: 3, limit: 60 });
+
+    const res = makeRes();
+    await handler(
+      { method: 'POST', headers: { authorization: 'Bearer jwt-token' }, body: { provider: 'gemini' } },
+      res as never
+    );
+
+    expect(runAiProxyMock).toHaveBeenCalledTimes(1);
+    expect(recordMock).not.toHaveBeenCalled();
   });
 
   it('forwards when quotas are unenforceable (fail-open verdict null)', async () => {
@@ -156,6 +242,7 @@ describe('AI proxy handler quota gate', () => {
     await handler(request(''), res as never);
 
     expect(consumeMock).not.toHaveBeenCalled();
+    expect(recordMock).not.toHaveBeenCalled();
     expect(runAiProxyMock).toHaveBeenCalledTimes(1);
   });
 
@@ -166,6 +253,7 @@ describe('AI proxy handler quota gate', () => {
 
     expect(res.statusCode).toBe(401);
     expect(consumeMock).not.toHaveBeenCalled();
+    expect(recordMock).not.toHaveBeenCalled();
     expect(runAiProxyMock).not.toHaveBeenCalled();
   });
 });

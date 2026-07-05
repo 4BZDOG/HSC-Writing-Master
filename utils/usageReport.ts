@@ -71,3 +71,50 @@ export const formatUsd = (amount: number): string => {
 /** "$0.01–$0.09" for a range, or a single "$0.05" when the bounds coincide. */
 export const formatCostRange = ({ low, high }: CostRange): string =>
   low === high ? formatUsd(low) : `${formatUsd(low)}–${formatUsd(high)}`;
+
+export interface ModelCostRow {
+  /** Provider model string as recorded (e.g. `gemini-3-pro-preview`). */
+  model: string;
+  /** Human label from the registry, or the raw model string if unknown. */
+  label: string;
+  calls: number;
+  cost: number;
+}
+
+export interface ModelCostSummary {
+  rows: ModelCostRow[];
+  totalCalls: number;
+  totalCost: number;
+}
+
+/**
+ * Fold per-model usage rows (which may span several days) into one priced row
+ * per model, sorted dearest-first. `meta` maps a provider model string to its
+ * display label and per-call price — the dashboard supplies this from the
+ * engine registry, so a model missing from the registry still shows (labelled
+ * by its raw string) at zero cost rather than vanishing.
+ */
+export const aggregateModelCosts = (
+  rows: { model: string; calls: number }[],
+  meta: (model: string) => { label: string; price: number }
+): ModelCostSummary => {
+  const byModel = new Map<string, number>();
+  for (const r of rows) {
+    if (!r.model) continue;
+    byModel.set(r.model, (byModel.get(r.model) ?? 0) + r.calls);
+  }
+
+  let totalCalls = 0;
+  let totalCost = 0;
+  const out: ModelCostRow[] = [];
+  for (const [model, calls] of byModel) {
+    const { label, price } = meta(model);
+    const cost = calls * (Number.isFinite(price) && price > 0 ? price : 0);
+    out.push({ model, label: label || model, calls, cost });
+    totalCalls += calls;
+    totalCost += cost;
+  }
+
+  out.sort((a, b) => b.cost - a.cost || b.calls - a.calls || a.label.localeCompare(b.label));
+  return { rows: out, totalCalls, totalCost };
+};

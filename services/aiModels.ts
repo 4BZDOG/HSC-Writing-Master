@@ -141,3 +141,11 @@ export const modelsForRole = (role: AIRole): AIModelOption[] =>
 /** Estimated USD-per-call for a model id (0 when the id is unknown). */
 export const estCostForModelId = (id: string | undefined): number =>
   getModelById(id)?.estCostPerCall ?? 0;
+
+/**
+ * Look up a registry entry by its provider model STRING (the `model` field,
+ * e.g. `gemini-3-pro-preview`) rather than its `id`. The usage tally records
+ * the provider string, so this is how the dashboard prices/labels a row.
+ */
+export const getModelByProviderModel = (model: string | undefined): AIModelOption | undefined =>
+  AI_MODELS.find((m) => m.model === model);

@@ -56,3 +56,33 @@ export const consumeAiQuota = async (accessToken: string): Promise<QuotaVerdict 
     return null;
   }
 };
+
+/**
+ * Best-effort per-model usage tally for the admin dashboard's cost breakdown.
+ * REPORTING ONLY: this is completely separate from the budget above — the
+ * model a call uses doesn't change the allowance it spends — so any failure
+ * here is swallowed and never affects whether the request proceeds. Called
+ * after a quota unit has been spent, mirroring that same call. No-ops when
+ * Supabase is unconfigured, the RPC is missing (schema not migrated yet), or
+ * the model tag is empty.
+ */
+export const recordAiModelUsage = async (accessToken: string, model: string): Promise<void> => {
+  const url = process.env.SUPABASE_URL;
+  const anonKey = process.env.SUPABASE_ANON_KEY;
+  if (!url || !anonKey || !model) return;
+
+  try {
+    // The user's own JWT scopes the RPC to their auth.uid(), so a caller can
+    // only ever record against their own tally.
+    const client = createClient(url, anonKey, {
+      auth: { persistSession: false },
+      global: { headers: { Authorization: `Bearer ${accessToken}` } },
+    });
+    const { error } = await client.rpc('record_ai_model_usage', { p_model: model });
+    if (error) {
+      console.warn('[quota] record_ai_model_usage unavailable (ignored):', error.message);
+    }
+  } catch (e) {
+    console.warn('[quota] record_ai_model_usage failed (ignored):', e);
+  }
+};

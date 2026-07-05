@@ -706,6 +706,76 @@ begin
   return v_result;
 end; $$;
 
+-- Per-model usage tally, for the dashboard's cost breakdown ------------------
+-- REPORTING ONLY. Which model served a call does not change the allowance it
+-- spends, so this lives entirely apart from consume_ai_quota()'s enforcement:
+-- the proxy records here best-effort AFTER a unit is spent, and a failure here
+-- can never block a request or corrupt a budget. One row per user/day/model.
+create table if not exists public.ai_model_usage (
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  day     date not null default (now() at time zone 'utc')::date,
+  model   text not null,
+  calls   integer not null default 0,
+  primary key (user_id, day, model)
+);
+
+alter table public.ai_model_usage enable row level security;
+
+-- Same visibility as ai_usage: your own rows, or any row for reviewers.
+drop policy if exists ai_model_usage_read on public.ai_model_usage;
+create policy ai_model_usage_read on public.ai_model_usage
+  for select using (user_id = auth.uid() or public.is_reviewer());
+-- No insert/update policy: the only write path is record_ai_model_usage().
+
+-- Best-effort per-model increment, called by the proxy after a call is
+-- authorised and a quota unit is spent. Deliberately forgiving — a blank or
+-- oversized model tag is ignored rather than raised, so a bad/spoofed tag
+-- never fails the user's request. Scopes to auth.uid() so a caller can only
+-- ever record against their own tally.
+create or replace function public.record_ai_model_usage(p_model text)
+returns void language plpgsql security definer set search_path = public as $$
+declare
+  v_user  uuid := auth.uid();
+  v_model text := nullif(btrim(p_model), '');
+begin
+  if v_user is null or v_model is null then
+    return;
+  end if;
+  v_model := left(v_model, 100); -- bound an untrusted request-body value
+  insert into public.ai_model_usage (user_id, day, model, calls)
+  values (v_user, (now() at time zone 'utc')::date, v_model, 1)
+  on conflict (user_id, day, model) do update
+    set calls = ai_model_usage.calls + 1;
+end; $$;
+
+-- Reviewer-gated per-model, per-day usage over the last p_days days (1–31),
+-- mirroring get_ai_usage_report so the dashboard can filter "today" vs the
+-- whole window client-side and price each model from the engine registry.
+create or replace function public.get_ai_model_usage_report(p_days integer default 7)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days   integer := least(greatest(coalesce(p_days, 7), 1), 31);
+  v_result jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can view the usage report';
+  end if;
+
+  select coalesce(jsonb_agg(row_obj order by row_obj->>'day' desc, (row_obj->>'calls')::int desc), '[]'::jsonb)
+    into v_result
+  from (
+    select jsonb_build_object(
+      'model', m.model,
+      'day', m.day,
+      'calls', m.calls
+    ) as row_obj
+    from public.ai_model_usage m
+    where m.day > (now() at time zone 'utc')::date - v_days
+  ) sub;
+
+  return v_result;
+end; $$;
+
 -- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.
