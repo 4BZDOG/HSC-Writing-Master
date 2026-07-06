@@ -10,7 +10,7 @@ import {
 } from '../../services/responseService';
 import { isCurriculumRemote } from '../../services/curriculumService';
 import { commandTerms } from '../../data/commandTerms';
-import { getBandConfig } from '../../utils/renderUtils';
+import { getTierBandConfig } from '../../utils/renderUtils';
 import {
   foldVerbsIntoTiers,
   rankByWeakness,
@@ -68,7 +68,7 @@ const StatTile: React.FC<{ icon: React.ReactNode; label: string; value: string; 
 /** A single cognitive-tier row: band bar (filled to band/6) with the band and
  *  attempt count always shown as text, so it's never colour-alone. */
 const TierRow: React.FC<{ profile: TierProfile }> = ({ profile }) => {
-  const cfg = getBandConfig(profile.tier);
+  const cfg = getTierBandConfig(profile.tier);
   const pct = profile.avgBand != null ? Math.min(100, (profile.avgBand / 6) * 100) : 0;
   const attempted = profile.attempts > 0;
   return (

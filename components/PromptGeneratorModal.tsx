@@ -28,7 +28,7 @@ import {
   ListFilter,
   Loader2,
 } from 'lucide-react';
-import { getBandConfig, escapeRegExp } from '../utils/renderUtils';
+import { getBandConfig, getTierBandConfig, escapeRegExp } from '../utils/renderUtils';
 
 interface PromptGeneratorModalProps {
   isOpen: boolean;
@@ -138,7 +138,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
     }
   }, [selectedTier, verbsForCurrentTier, selectedSpecificVerb]);
 
-  const activeBandConfig = getBandConfig(selectedTier);
+  const activeBandConfig = getTierBandConfig(selectedTier);
   const activeTierInfo = TIER_GROUPS.find((g) => g.tier === selectedTier);
 
   // The verb tier caps the achievable band (a Tier-2 verb tops out at Band 3,
@@ -206,7 +206,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
   const renderHighlightedSyllabus = () => {
     if (!syllabusVerbInfo) return dotPoint;
     const parts = dotPoint.split(new RegExp(`(${escapeRegExp(syllabusVerbInfo.term)})`, 'i'));
-    const verbConfig = getBandConfig(syllabusVerbInfo.tier);
+    const verbConfig = getTierBandConfig(syllabusVerbInfo.tier);
 
     return (
       <span>
@@ -374,7 +374,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                 <div className="grid grid-cols-3 gap-3">
                   {TIER_GROUPS.map((tier) => {
                     const isSelected = selectedTier === tier.tier;
-                    const config = getBandConfig(tier.tier);
+                    const config = getTierBandConfig(tier.tier);
                     return (
                       <button
                         key={tier.tier}

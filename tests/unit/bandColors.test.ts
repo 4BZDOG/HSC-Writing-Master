@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { BAND_HEX, getBandHex, getBandName } from '../../utils/renderUtils';
+import {
+  BAND_HEX,
+  getBandHex,
+  getBandName,
+  getBandConfig,
+  getTierBandConfig,
+} from '../../utils/renderUtils';
 import { getTargetBand, getTierTargetBand } from '../../data/commandTerms';
 import { sanitiseKeywords } from '../../services/geminiService';
 
@@ -52,6 +58,18 @@ describe('getTierTargetBand', () => {
   it('agrees with getTargetBand at full marks for every tier', () => {
     for (let tier = 1; tier <= 6; tier++) {
       expect(getTierTargetBand(tier)).toBe(getTargetBand(10, tier));
+    }
+  });
+});
+
+describe('getTierBandConfig', () => {
+  it('returns the colour config of the tier’s target band, not the tier index', () => {
+    // Tier 2 (Describe) must colour as Band 3, not Band 2 — the bug the user hit.
+    expect(getTierBandConfig(2)).toEqual(getBandConfig(3));
+    expect(getTierBandConfig(2)).not.toEqual(getBandConfig(2));
+    // Every tier's config matches its target band's config.
+    for (let tier = 1; tier <= 6; tier++) {
+      expect(getTierBandConfig(tier)).toEqual(getBandConfig(getTierTargetBand(tier)));
     }
   });
 });

@@ -1,5 +1,6 @@
 import React from 'react';
 import { PromptVerb } from '../types';
+import { getTierTargetBand } from '../data/commandTerms';
 
 export const escapeRegExp = (string: string): string => {
   if (typeof string !== 'string') return '';
@@ -183,6 +184,19 @@ export const getBandConfig = (bandOrTier: number): BandConfig => {
   };
   return configs[bandOrTier] || configs[4];
 };
+
+/**
+ * Colour config for a cognitive TIER, expressed in the band that tier targets.
+ *
+ * This is the single robust way to colour anything tier-shaped (a command verb,
+ * a tier card, a question in a picker) so it matches the band colour the same
+ * question shows in the prompt, writing area and metrics. Always prefer this
+ * over `getBandConfig(tier)` — passing a raw tier index into `getBandConfig`
+ * treats the tier as if it were a band and produces a *different* colour (e.g.
+ * a Tier-2 DESCRIBE would come out orange instead of its Band-3 yellow).
+ */
+export const getTierBandConfig = (tier: number): BandConfig =>
+  getBandConfig(getTierTargetBand(tier));
 
 export const getBandStyle = (band: number): { label: string; color: string } => {
   if (band >= 6)

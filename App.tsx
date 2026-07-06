@@ -45,9 +45,11 @@ import {
   BarChart3,
   LineChart,
   Minimize,
+  ChevronUp,
 } from 'lucide-react';
 import { apiMonitor, ApiStatus } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
+import SyllabusNavBar from './components/SyllabusNavBar';
 import { loadUserProfile } from './utils/storageUtils';
 
 const AnimatedBackground: React.FC = () => {
@@ -183,6 +185,9 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   // Writing experience: 'coach' surfaces live feedback (highlighting, insights,
   // exemplars); 'exam' simulates HSC exam conditions (no assistance, timed).
   const [writingMode, setWritingMode] = useState<WritingMode>('coach');
+  // The syllabus navigator folds into a breadcrumb once a question is chosen so
+  // the screen belongs to the writing; "Change" re-opens it.
+  const [isNavExpanded, setIsNavExpanded] = useState(true);
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
   const [isReviewQueueOpen, setIsReviewQueueOpen] = useState(false);
   const [isUsageDashboardOpen, setIsUsageDashboardOpen] = useState(false);
@@ -370,6 +375,14 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     return () => document.body.classList.remove('focus-mode');
   }, [isFocusMode]);
 
+  // Fold the syllabus navigator down to a breadcrumb the moment a question is
+  // chosen, and re-open it whenever the selection is cleared. Keyed on the
+  // selected prompt id only, so pressing "Change" (which just expands) is never
+  // fought by this effect until the student actually picks a different question.
+  useEffect(() => {
+    setIsNavExpanded(!currentPrompt);
+  }, [currentPrompt?.id]);
+
   const modalHandlers = {
     isModalOpen,
     openModal,
@@ -432,6 +445,10 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     handleFeedbackSubmit,
     setEnrichError,
   };
+
+  // The navigator is "collapsed" (shown as a breadcrumb bar) when a question is
+  // selected and the student hasn't re-opened it to change their choice.
+  const isNavCollapsed = !!currentPrompt && !isNavExpanded;
 
   return (
     <div
@@ -596,35 +613,84 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         </header>
       )}
 
-      {!isFocusMode && (
-        <div className="relative z-50">
-          <PromptSelector
-            courses={courses}
-            statePath={statePath}
-            onPathChange={handlePathChange}
-            onAddCourse={() => openModal('courseCreator')}
-            onAddTopic={() => openModal('topicCreator')}
-            onAddSubTopic={() => openModal('subTopicCreator')}
-            onGeneratePrompt={() => openModal('promptGenerator')}
-            onManualEntry={() => openModal('manualPrompt')}
-            onEditOutcomes={() => openModal('outcomesEditor')}
-            onOpenDataManager={() => openModal('dataManager')}
-            onRenameItem={requestRename}
-            onDeleteItem={requestDelete}
-            onAddTopicFromSyllabus={() => openModal('topicSyllabusImport')}
-            onGenerateSuggestedTopic={() => openModal('topicGenerator')}
-            onGenerateDotPoints={() => openModal('dotPointGenerator')}
-            onImportTopic={() => openModal('topicImport')}
-            newlyAddedIds={newlyAddedIds}
-            userRole={user.role}
-          />
-        </div>
+      {!isFocusMode && isNavCollapsed && currentPrompt && (
+        <SyllabusNavBar
+          crumbs={[
+            {
+              label: currentCourse?.name || 'Subject',
+              onClick: () =>
+                handlePathChange({
+                  topicId: undefined,
+                  subTopicId: undefined,
+                  dotPointId: undefined,
+                  promptId: undefined,
+                }),
+            },
+            {
+              label: currentTopic?.name || 'Unit',
+              onClick: () =>
+                handlePathChange({
+                  subTopicId: undefined,
+                  dotPointId: undefined,
+                  promptId: undefined,
+                }),
+            },
+            {
+              label: currentSubTopic?.name || 'Module',
+              onClick: () => handlePathChange({ dotPointId: undefined, promptId: undefined }),
+            },
+            {
+              label: currentDotPoint?.description || 'Dot Point',
+              onClick: () => handlePathChange({ promptId: undefined }),
+            },
+          ]}
+          prompt={currentPrompt}
+          onExpand={() => setIsNavExpanded(true)}
+        />
       )}
 
-      {!isFocusMode && (
-        <div className="mb-4">
-          <CommandVerbHierarchy currentVerb={currentPrompt?.verb} />
-        </div>
+      {!isFocusMode && !isNavCollapsed && (
+        <>
+          <div className="relative z-50">
+            <PromptSelector
+              courses={courses}
+              statePath={statePath}
+              onPathChange={handlePathChange}
+              onAddCourse={() => openModal('courseCreator')}
+              onAddTopic={() => openModal('topicCreator')}
+              onAddSubTopic={() => openModal('subTopicCreator')}
+              onGeneratePrompt={() => openModal('promptGenerator')}
+              onManualEntry={() => openModal('manualPrompt')}
+              onEditOutcomes={() => openModal('outcomesEditor')}
+              onOpenDataManager={() => openModal('dataManager')}
+              onRenameItem={requestRename}
+              onDeleteItem={requestDelete}
+              onAddTopicFromSyllabus={() => openModal('topicSyllabusImport')}
+              onGenerateSuggestedTopic={() => openModal('topicGenerator')}
+              onGenerateDotPoints={() => openModal('dotPointGenerator')}
+              onImportTopic={() => openModal('topicImport')}
+              newlyAddedIds={newlyAddedIds}
+              userRole={user.role}
+            />
+          </div>
+
+          {currentPrompt && (
+            <div className="-mt-2 flex justify-end">
+              <button
+                onClick={() => setIsNavExpanded(false)}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 text-[rgb(var(--color-text-secondary))] border border-white/10 hover:bg-white/10 hover:text-[rgb(var(--color-text-primary))] transition-all text-xs font-bold"
+                title="Collapse the navigator and focus on your response"
+              >
+                <ChevronUp className="w-3.5 h-3.5" />
+                Collapse to breadcrumb
+              </button>
+            </div>
+          )}
+
+          <div className="mb-4">
+            <CommandVerbHierarchy currentVerb={currentPrompt?.verb} />
+          </div>
+        </>
       )}
 
       {currentPrompt && canContribute && !isFocusMode && (
@@ -667,6 +733,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           onToggleFocusMode={() => setIsFocusMode(!isFocusMode)}
           writingMode={writingMode}
           onWritingModeChange={setWritingMode}
+          showBreadcrumb={!isNavCollapsed}
         />
       ) : (
         <div className="min-h-[50vh] flex flex-col items-center justify-center animate-fade-in">

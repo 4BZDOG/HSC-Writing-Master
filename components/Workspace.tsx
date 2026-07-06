@@ -85,6 +85,7 @@ interface WorkspaceProps {
   onToggleFocusMode: () => void;
   writingMode: WritingMode;
   onWritingModeChange: (mode: WritingMode) => void;
+  showBreadcrumb?: boolean;
 }
 
 const Workspace: React.FC<WorkspaceProps> = ({
@@ -112,6 +113,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
   onToggleFocusMode,
   writingMode,
   onWritingModeChange,
+  showBreadcrumb = true,
 }) => {
   const { currentCourse, currentTopic, currentSubTopic, currentDotPoint, currentPrompt } =
     currentSelection;
@@ -247,7 +249,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
 
   return (
     <div className="flex flex-col h-full gap-4">
-      {!isFocusMode && (
+      {!isFocusMode && showBreadcrumb && (
         <div className="w-full flex-shrink-0">
           <Breadcrumb items={breadcrumbItems} />
         </div>

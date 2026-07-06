@@ -12,21 +12,23 @@ interface AnswerMetricsDisplayProps {
   metrics: AnswerMetrics;
   showLabel?: boolean;
   className?: string;
-  tier?: number; // Added to support dynamic coloring
+  /** The achievement BAND to tint the chips with (1-6). Pass a band, not a
+   *  cognitive tier — `getBandConfig` maps its argument as a band. */
+  band?: number;
 }
 
 const AnswerMetricsDisplay: React.FC<AnswerMetricsDisplayProps> = ({
   metrics,
   showLabel = true,
   className = '',
-  tier,
+  band,
 }) => {
   const { wordCount, keywordStats, colourStage } = metrics;
 
-  // Resolve theme based on tier or default to neutral slate
+  // Resolve theme based on the band or default to neutral slate
   const theme = useMemo(() => {
-    if (tier) {
-      const config = getBandConfig(tier);
+    if (band) {
+      const config = getBandConfig(band);
       return {
         bg: config.bg,
         border: config.border,
@@ -40,7 +42,7 @@ const AnswerMetricsDisplay: React.FC<AnswerMetricsDisplayProps> = ({
       text: 'text-[rgb(var(--color-text-muted))] light:text-slate-600',
       icon: 'text-slate-400',
     };
-  }, [tier]);
+  }, [band]);
 
   return (
     <div className={`flex items-center flex-wrap gap-2 ${className}`}>

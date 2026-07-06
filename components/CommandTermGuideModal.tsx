@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { CommandTermInfo } from '../types';
 import { X, Info, Award, Target, Hash, Zap, ChevronRight } from 'lucide-react';
-import { getBandConfig } from '../utils/renderUtils';
-import { getTierTargetBand } from '../data/commandTerms';
+import { getTierBandConfig } from '../utils/renderUtils';
 
 interface CommandTermGuideModalProps {
   isOpen: boolean;
@@ -17,7 +16,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
   termInfo,
 }) => {
   // Colour by the verb's target band so the guide matches the prompt/writing area.
-  const bandConfig = getBandConfig(getTierTargetBand(termInfo.tier));
+  const bandConfig = getTierBandConfig(termInfo.tier);
 
   useEffect(() => {
     if (!isOpen) return;
