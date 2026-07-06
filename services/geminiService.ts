@@ -29,6 +29,7 @@ import {
   getCommandTermsForMarks,
   getBandForMark,
   getStructureGuide,
+  getTargetBand,
 } from '../data/commandTerms';
 import { generateId } from '../utils/idUtils';
 import { normalizeSyllabusStructure, type SyllabusPreviewNode } from '../utils/dataManagerUtils';
@@ -288,17 +289,22 @@ export const enrichPromptDetails = async (
   prompt: Prompt,
   context: { name: string; outcomes: CourseOutcome[] }
 ): Promise<{ scenario: string; keywords: string[]; linkedOutcomes: string[] }> => {
+  const termInfo = getCommandTermInfo(prompt.verb);
+  const targetBand = getTargetBand(prompt.totalMarks, termInfo.tier);
   const request = {
     ...aiTarget('basic'),
     contents: {
       parts: [
         {
-          text: `Enrich this exam question with a scenario, keywords, and linked outcomes.
-                       Course: ${context.name}
-                       Question: "${prompt.question}"
-                       Available Outcomes: ${JSON.stringify(context.outcomes.map((o) => o.code))}
-                       
-                       Return JSON: { "scenario": string, "keywords": string[], "linkedOutcomes": string[] }`,
+          text: `Enrich this NSW HSC exam question with a scenario, syllabus keywords, and linked outcomes.
+Course: ${context.name}
+Question: "${prompt.question}"
+Command verb: ${termInfo.term} (${prompt.totalMarks} ${prompt.totalMarks === 1 ? 'mark' : 'marks'}, targets Band ${targetBand})
+Available Outcomes: ${JSON.stringify(context.outcomes.map((o) => o.code))}
+
+"keywords" must be the specific syllabus terminology a Band ${targetBand} response is expected to use: 6-10 concise technical noun-phrases (1-3 words), subject-specific concepts/processes/structures/named examples only. Exclude generic words ("process", "factor", "important"), the command verb, and instruction words. No duplicates.
+
+Return JSON: { "scenario": string, "keywords": string[], "linkedOutcomes": string[] }`,
         },
       ],
     },
@@ -309,7 +315,12 @@ export const enrichPromptDetails = async (
 
   const response = await generateContentWithRetry(request);
   const data = safeJsonParse<any>(response.text || '');
-  return data || { scenario: '', keywords: [], linkedOutcomes: [] };
+  if (!data) return { scenario: '', keywords: [], linkedOutcomes: [] };
+  return {
+    scenario: data.scenario || '',
+    keywords: sanitiseKeywords(data.keywords || [], termInfo.term),
+    linkedOutcomes: Array.isArray(data.linkedOutcomes) ? data.linkedOutcomes : [],
+  };
 };
 
 export const generateScenarioForPrompt = async (prompt: Prompt): Promise<string> => {
@@ -331,13 +342,24 @@ export const generateKeywordsForPrompt = async (
   prompt: Prompt,
   termInfo: CommandTermInfo
 ): Promise<string[]> => {
+  const targetBand = getTargetBand(prompt.totalMarks, termInfo.tier);
   const request = {
     ...aiTarget('basic'),
     contents: {
       parts: [
         {
-          text: `Extract 5-10 key technical terms for this question: "${prompt.question}". 
-                       Verb is ${termInfo.term}. Return JSON string array.`,
+          text: `You are an experienced NSW HSC marker. List the specific syllabus terminology a Band ${targetBand} response to the question below must use — the technical terms, named concepts, processes, structures or examples an examiner expects to see. These are the "must-include" terms that distinguish a high-quality answer from a generic one.
+
+Question: "${prompt.question}"
+Command verb: ${termInfo.term} (${prompt.totalMarks} ${prompt.totalMarks === 1 ? 'mark' : 'marks'})
+
+Rules:
+- Return 6-10 terms, ordered most to least important.
+- Each term is a concise noun or noun-phrase (1-3 words), lower-case unless it is a proper noun or an established acronym (e.g. "DNA", "ATP").
+- Subject-specific ONLY: real syllabus concepts/processes/structures/named examples. Do NOT include generic academic words ("process", "factor", "important", "example"), the command verb, or instruction words.
+- No duplicates or near-duplicates (don't list both a term and its plural).
+
+Return a JSON array of strings only.`,
         },
       ],
     },
@@ -346,7 +368,58 @@ export const generateKeywordsForPrompt = async (
     },
   };
   const response = await generateContentWithRetry(request);
-  return safeJsonParse<string[]>(response.text || '') || [];
+  const raw = safeJsonParse<string[]>(response.text || '') || [];
+  return sanitiseKeywords(raw, termInfo.term);
+};
+
+/**
+ * Tidy an AI-generated keyword list into the concise, deduplicated, high-signal
+ * set the UI expects: trims, drops the command verb and generic filler, caps
+ * length, and removes case-insensitive duplicates while keeping order.
+ */
+const GENERIC_KEYWORD_STOPWORDS = new Set([
+  'process',
+  'processes',
+  'factor',
+  'factors',
+  'example',
+  'examples',
+  'concept',
+  'concepts',
+  'important',
+  'importance',
+  'feature',
+  'features',
+  'idea',
+  'ideas',
+  'thing',
+  'things',
+  'point',
+  'points',
+  'aspect',
+  'aspects',
+  'information',
+]);
+
+export const sanitiseKeywords = (raw: string[], verb?: string): string[] => {
+  if (!Array.isArray(raw)) return [];
+  const verbLower = (verb || '').toLowerCase();
+  const seen = new Set<string>();
+  const result: string[] = [];
+  for (const item of raw) {
+    if (typeof item !== 'string') continue;
+    const term = item.trim().replace(/^[-•*\d.\s]+/, '');
+    if (!term) continue;
+    const lower = term.toLowerCase();
+    if (lower === verbLower) continue;
+    if (GENERIC_KEYWORD_STOPWORDS.has(lower)) continue;
+    if (term.split(/\s+/).length > 4) continue; // keep terms concise
+    if (seen.has(lower)) continue;
+    seen.add(lower);
+    result.push(term);
+    if (result.length >= 12) break;
+  }
+  return result;
 };
 
 export const suggestOutcomesForPrompt = async (

@@ -376,15 +376,35 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="flex flex-col gap-4">
-                  <div className="flex items-center gap-3 px-1">
-                    <Sparkles className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500">
-                      Syllabus Terms
-                    </h4>
+                  <div className="flex items-center justify-between gap-3 px-1">
+                    <div className="flex items-center gap-3">
+                      <Sparkles className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
+                      <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500">
+                        Syllabus Terms
+                      </h4>
+                    </div>
+                    {(prompt.keywords?.length || 0) > 0 && (
+                      <span
+                        className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border ${
+                          keywordStats.missed.length === 0
+                            ? `${progressInfo.currentBandColor.bg} ${progressInfo.currentBandColor.text} ${progressInfo.currentBandColor.border}`
+                            : 'text-slate-500 dark:text-slate-400 border-slate-200 dark:border-white/10'
+                        }`}
+                        title="Terms detected in your response so far"
+                      >
+                        {keywordStats.used.length}/{prompt.keywords?.length || 0}
+                      </span>
+                    )}
                   </div>
                   <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto custom-scrollbar pr-2">
                     {keywordStats.used.map((kw) => (
-                      <Pill key={kw} label={kw} active={true} onClick={() => onAddWord(kw)} />
+                      <Pill
+                        key={kw}
+                        label={kw}
+                        active={true}
+                        theme={progressInfo.currentBandColor}
+                        onClick={() => onAddWord(kw)}
+                      />
                     ))}
                     {keywordStats.missed.map((kw) => (
                       <Pill key={kw} label={kw} active={false} onClick={() => onAddWord(kw)} />

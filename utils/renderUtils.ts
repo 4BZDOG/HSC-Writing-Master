@@ -72,6 +72,46 @@ export interface BandConfig {
   ring: string;
 }
 
+/**
+ * Canonical band colours — the SINGLE source of truth for the hex a band is
+ * drawn in, so the band a student works toward is the same predefined colour
+ * everywhere (prompt, editor, keywords, metrics). These are the exact Tailwind
+ * 500/600 equivalents of the classes returned by getBandConfig(), so the raw
+ * hex used in inline gradients (e.g. the editor header) can never drift from
+ * the class-based colours used elsewhere.
+ */
+export const BAND_HEX: Record<number, string> = {
+  1: '#ef4444', // red-500
+  2: '#f97316', // orange-500
+  3: '#eab308', // yellow-500
+  4: '#22c55e', // green-500
+  5: '#3b82f6', // blue-500
+  6: '#a855f7', // purple-500
+};
+
+export const BAND_HEX_DARK: Record<number, string> = {
+  1: '#dc2626', // red-600
+  2: '#ea580c', // orange-600
+  3: '#ca8a04', // yellow-600
+  4: '#16a34a', // green-600
+  5: '#2563eb', // blue-600
+  6: '#9333ea', // purple-600
+};
+
+export const BAND_NAMES: Record<number, string> = {
+  1: 'Elementary',
+  2: 'Limited',
+  3: 'Developing',
+  4: 'Sound',
+  5: 'Excellent',
+  6: 'Outstanding',
+};
+
+const clampBand = (band: number): number => Math.max(1, Math.min(6, Math.round(band)));
+export const getBandHex = (band: number): string => BAND_HEX[clampBand(band)];
+export const getBandHexDark = (band: number): string => BAND_HEX_DARK[clampBand(band)];
+export const getBandName = (band: number): string => BAND_NAMES[clampBand(band)];
+
 export const getBandConfig = (bandOrTier: number): BandConfig => {
   const configs: Record<number, BandConfig> = {
     6: {

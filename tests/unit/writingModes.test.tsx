@@ -22,8 +22,9 @@ describe('Editor writing modes', () => {
     );
     // Two "cell" occurrences → two emerald highlight spans in the overlay.
     expect(container.querySelectorAll('span.text-emerald-400').length).toBe(2);
-    // Coach shows a band "phase" chip, not the exam badge.
-    expect(container.textContent).toContain('Phase');
+    // Coach shows the target-band chip (default maxBand 6), not the exam badge.
+    expect(container.textContent).toContain('Band 6');
+    expect(container.textContent).not.toContain('No assistance');
   });
 
   it('Exam Mode paints no keyword highlights and shows the exam badge', () => {

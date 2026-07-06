@@ -6,7 +6,13 @@ import React, {
   useState,
   useMemo,
 } from 'react';
-import { renderEditorHighlights, getBandConfig } from '../utils/renderUtils';
+import {
+  renderEditorHighlights,
+  getBandConfig,
+  getBandHex,
+  getBandHexDark,
+  getBandName,
+} from '../utils/renderUtils';
 import {
   Maximize,
   Minimize,
@@ -91,25 +97,6 @@ const ToolbarButton: React.FC<{
   </button>
 );
 
-// Map bands to specific Hex colors for gradient generation (matching renderUtils/Tailwind config)
-const BAND_HEX_MAP: Record<number, string> = {
-  1: '#ef4444', // Red (Band 1)
-  2: '#f97316', // Orange (Band 2)
-  3: '#f59e0b', // Amber (Band 3)
-  4: '#10b981', // Emerald (Band 4)
-  5: '#0ea5e9', // Sky (Band 5)
-  6: '#6366f1', // Indigo (Band 6)
-};
-
-const BAND_NAMES: Record<number, string> = {
-  1: 'Elementary',
-  2: 'Limited',
-  3: 'Developing',
-  4: 'Sound',
-  5: 'Excellent',
-  6: 'Outstanding',
-};
-
 const Editor = forwardRef<
   { getText: () => string; setText: (text: string) => void; insertText: (text: string) => void },
   EditorProps
@@ -160,15 +147,22 @@ const Editor = forwardRef<
     const [internalFontSize, setInternalFontSize] = useState(syncedFontSize || 18);
     const [userHasResized, setUserHasResized] = useState(false);
 
-    // Advanced Chromatic Progression Config
+    // Live-feedback theme. The writing surface is always painted in the
+    // question's TARGET band colour (the single predefined colour a student is
+    // working toward, set by the verb's cognitive tier). Progress isn't shown by
+    // cycling through unrelated hues any more — instead that one band colour
+    // "fills in": a dark veil sits over it and lifts as the response develops,
+    // so the closer to a complete answer, the more vivid the target band glows.
     const chroma = useMemo(() => {
       // Exam Mode: a calm, neutral "exam booklet" header — no band colours, no
       // progress-driven glow, so nothing hints at how the response is scoring.
       if (isExamMode) {
         return {
           name: 'Exam',
+          targetBand: 0,
           accent: '#94a3b8', // slate-400 caret
           background: 'linear-gradient(135deg, #334155 0%, #1e293b 55%, #0f172a 100%)',
+          veil: 0,
           glow: 'shadow-slate-950/40',
           border: 'border-slate-600/50 light:border-slate-300',
           mesh: '%23ffffff',
@@ -177,70 +171,26 @@ const Editor = forwardRef<
         };
       }
 
-      // 1. Determine the "Effective Band" based on progress (0.0 - 1.0)
-      // We map the progress strictly to the available bands up to maxBand.
-      // e.g. If maxBand is 3, then 0-33% is Band 1, 33-66% is Band 2, 66-100% is Band 3.
-      const safeMaxBand = Math.max(1, Math.min(6, maxBand));
-      const calculatedBand = Math.max(1, Math.min(safeMaxBand, Math.ceil(progress * safeMaxBand)));
+      const targetBand = Math.max(1, Math.min(6, maxBand));
+      const targetHex = getBandHex(targetBand);
+      const targetHexDark = getBandHexDark(targetBand);
+      const targetConfig = getBandConfig(targetBand);
 
-      // However, if progress is very low (start), we stay at Band 1 visually but maybe desaturated.
-      // For simplicity, we just snap to the calculated band.
-
-      const currentConfig = getBandConfig(calculatedBand);
-      const currentHex = BAND_HEX_MAP[calculatedBand];
-
-      // 2. Generate Dynamic Gradient
-      // The gradient should show the *path* from Band 1 to MaxBand.
-      // The "Current Position" occupies the majority of the header (0% -> 60%).
-      // The "Future Potential" occupies the rest (60% -> 100%).
-
-      let gradientString = '';
-
-      if (safeMaxBand === 1) {
-        // Single color gradient if only Band 1 is possible
-        gradientString = `linear-gradient(135deg, ${BAND_HEX_MAP[1]} 0%, ${BAND_HEX_MAP[1]} 100%)`;
-      } else {
-        // Build stops.
-        // 0% -> 60%: Current Band Color (Dominant)
-        // 60% -> 100%: Spectrum of remaining bands up to MaxBand
-
-        let stops = `${currentHex} 0%, ${currentHex} 60%`;
-
-        // If we are at the max band, the whole header is that color
-        if (calculatedBand === safeMaxBand) {
-          gradientString = `linear-gradient(135deg, ${currentHex} 0%, ${currentHex} 100%)`;
-        } else {
-          // We have room to grow. Show the future bands.
-          // Distribute remaining space (40%) among the remaining bands.
-          const remainingBands = [];
-          for (let b = calculatedBand + 1; b <= safeMaxBand; b++) {
-            remainingBands.push(b);
-          }
-
-          if (remainingBands.length > 0) {
-            const stepSize = 40 / remainingBands.length;
-            remainingBands.forEach((b, index) => {
-              const stopPos = 60 + stepSize * (index + 1);
-              stops += `, ${BAND_HEX_MAP[b]} ${stopPos}%`;
-            });
-          }
-          gradientString = `linear-gradient(110deg, ${stops})`;
-        }
-      }
-
-      // Energy glow effect based on progress density relative to the max possible
-      const relativeProgress = progress; // 0 to 1
-      const energyClass =
-        relativeProgress > 0.8 ? `shadow-[0_0_30px_rgba(255,255,255,0.15)]` : 'none';
+      const p = Math.max(0, Math.min(1, progress));
+      // Dark veil over the band colour: 60% opaque at a blank page, lifting to
+      // fully transparent as the answer approaches the target length/coverage.
+      const veil = (1 - p) * 0.6;
 
       return {
-        name: BAND_NAMES[calculatedBand],
-        accent: currentHex,
-        background: gradientString,
-        glow: currentConfig.glow,
-        border: currentConfig.border,
+        name: getBandName(targetBand),
+        targetBand,
+        accent: targetHex,
+        background: `linear-gradient(135deg, ${targetHex} 0%, ${targetHexDark} 100%)`,
+        veil,
+        glow: p > 0.85 ? targetConfig.glow : 'shadow-none',
+        border: targetConfig.border,
         mesh: '%23ffffff',
-        energy: energyClass,
+        energy: p > 0.85 ? 'shadow-[0_0_30px_rgba(255,255,255,0.15)]' : 'none',
         iconColor: 'text-white',
       };
     }, [progress, maxBand, isExamMode]);
@@ -401,6 +351,13 @@ const Editor = forwardRef<
             background: chroma.background,
           }}
         >
+          {/* Progress veil: dims the target-band colour when the response is
+              still thin, lifting to full vividness as it nears completion. */}
+          <div
+            className="absolute inset-0 pointer-events-none transition-opacity duration-1000 ease-out"
+            style={{ backgroundColor: `rgba(2, 6, 23, ${chroma.veil})` }}
+          />
+
           <MeshOverlay opacity="opacity-20" color="%23ffffff" />
 
           {/* Content Wrapper */}
@@ -419,8 +376,8 @@ const Editor = forwardRef<
                       <GraduationCap className="w-3 h-3" /> Exam
                     </span>
                   ) : (
-                    <span className="text-[10px] bg-black/20 px-1.5 py-0.5 rounded border border-white/10 font-bold uppercase tracking-widest">
-                      {chroma.name} Phase
+                    <span className="text-[10px] bg-black/25 px-1.5 py-0.5 rounded border border-white/15 font-black uppercase tracking-widest">
+                      Band {chroma.targetBand} · {chroma.name}
                     </span>
                   )}
                 </h3>
@@ -437,7 +394,7 @@ const Editor = forwardRef<
                       />
                     </div>
                     <p className="text-[9px] font-bold text-white/70 uppercase tracking-[0.2em]">
-                      {Math.min(100, Math.round(progress * 100))}% Complete
+                      {Math.min(100, Math.round(progress * 100))}% → Band {chroma.targetBand}
                     </p>
                   </div>
                 )}
@@ -605,7 +562,9 @@ const Editor = forwardRef<
                 style={{ backgroundColor: chroma.accent }}
               ></div>
               <span className="text-[rgb(var(--color-text-secondary))]">
-                {isExamMode ? 'Exam Conditions' : `${chroma.name} Phase`}
+                {isExamMode
+                  ? 'Exam Conditions'
+                  : `Band ${chroma.targetBand} Target · ${chroma.name}`}
               </span>
             </div>
           </div>
