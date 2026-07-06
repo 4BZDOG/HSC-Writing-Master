@@ -430,7 +430,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                           key={kw}
                           label={kw}
                           active={isUsed}
-                          theme={isUsed ? getBandConfig(commandTermInfo.tier) : undefined}
+                          theme={isUsed ? progressInfo.currentBandColor : undefined}
                           onClick={() => onAddWord(kw)}
                           icon="zap"
                         />

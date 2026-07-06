@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { BAND_HEX, getBandHex, getBandName } from '../../utils/renderUtils';
-import { getTargetBand } from '../../data/commandTerms';
+import { getTargetBand, getTierTargetBand } from '../../data/commandTerms';
 import { sanitiseKeywords } from '../../services/geminiService';
 
 /**
@@ -34,6 +34,25 @@ describe('getTargetBand', () => {
     expect(getTargetBand(5, 4)).toBe(5); // Analyse (Tier 4) → Band 5
     expect(getTargetBand(8, 5)).toBe(6); // Synthesise (Tier 5) → Band 6
     expect(getTargetBand(2, 1)).toBe(2); // Identify (Tier 1) → Band 2
+  });
+});
+
+describe('getTierTargetBand', () => {
+  it('maps each cognitive tier to the band it targets (mark-independent)', () => {
+    // The verb-hierarchy ribbon colours by this, so a verb shows the same band
+    // colour there as in the prompt (which uses getTargetBand for the same tier).
+    expect(getTierTargetBand(1)).toBe(2);
+    expect(getTierTargetBand(2)).toBe(3); // Describe → Band 3 (yellow), not tier-2 orange
+    expect(getTierTargetBand(3)).toBe(4);
+    expect(getTierTargetBand(4)).toBe(5);
+    expect(getTierTargetBand(5)).toBe(6);
+    expect(getTierTargetBand(6)).toBe(6);
+  });
+
+  it('agrees with getTargetBand at full marks for every tier', () => {
+    for (let tier = 1; tier <= 6; tier++) {
+      expect(getTierTargetBand(tier)).toBe(getTargetBand(10, tier));
+    }
   });
 });
 

@@ -1,5 +1,13 @@
 # HSC AI Evaluator - Change Log
 
+## [2.3.17] - 2026-07-06
+
+### 🎯 Band-colour consistency (follow-up)
+
+- **A verb is now one colour everywhere.** After 2.3.16 keyed the prompt/writing-area/metrics to a question's *target band*, the surfaces still coloured by raw *cognitive tier* stood out — e.g. DESCRIBE showed **orange** (Tier 2) in the Command Verb Hierarchy ribbon and the question picker, but **yellow** (Band 3) in the prompt and response. Added `getTierTargetBand(tier)` (a tier's band ceiling, mark-independent) and switched every remaining tier-coloured, student-facing surface to the target-band colour: the **verb-hierarchy ribbon** (header, tier cards, cognitive-step dots), the **question picker** (`PromptSelector` option chips + `Combobox` rows), the **command-term guide** popup, and the **logic-connector** pills in the live metrics. DESCRIBE is now Band 3 yellow top to bottom. Admin/authoring tier-pickers (prompt generator, manual prompt) keep tier colours — there the tier itself is what you're choosing. Covered by `getTierTargetBand` tests (tier→band mapping, agreement with `getTargetBand` at full marks).
+
+---
+
 ## [2.3.16] - 2026-07-06
 
 ### 🎯 Band-coherent live feedback

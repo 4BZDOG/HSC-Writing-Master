@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { PromptVerb } from '../types';
-import { commandTerms, TIER_GROUPS } from '../data/commandTerms';
+import { commandTerms, TIER_GROUPS, getTierTargetBand } from '../data/commandTerms';
 import {
   ChevronDown,
   AlignLeft,
@@ -84,7 +84,12 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
     }
   }, [activeTermInfo, isOpen]);
 
-  const activeConfig = activeTermInfo ? getBandConfig(activeTermInfo.tier) : null;
+  // Colour the ribbon by each tier's TARGET BAND (the band a question of that
+  // tier works toward), not the raw tier index — so a verb shows the same
+  // predefined band colour here as it does in the prompt and writing area.
+  const activeConfig = activeTermInfo
+    ? getBandConfig(getTierTargetBand(activeTermInfo.tier))
+    : null;
 
   const containerBorderClass = activeConfig
     ? activeConfig.border
@@ -223,7 +228,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
             >
               {sortedVerbsByGroup.map((group, index) => {
                 const isCurrentTier = activeTermInfo?.tier === group.tier;
-                const tierConfig = getBandConfig(group.tier);
+                const tierConfig = getBandConfig(getTierTargetBand(group.tier));
 
                 // Determine transform origin to keep edges aligned when scaling
                 const isFirst = index === 0;
@@ -371,7 +376,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
             {COGNITIVE_STEPS.map((step, idx) => {
               const isActive = activeTermInfo && activeTermInfo.tier >= step.tier;
               const isCurrent = activeTermInfo && activeTermInfo.tier === step.tier;
-              const stepConfig = getBandConfig(step.tier);
+              const stepConfig = getBandConfig(getTierTargetBand(step.tier));
 
               return (
                 <React.Fragment key={step.tier}>
