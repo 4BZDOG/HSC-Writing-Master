@@ -1,5 +1,13 @@
 # HSC AI Evaluator - Change Log
 
+## [2.3.20] - 2026-07-06
+
+### 🛠️ Admin AI Engine selector — discoverable
+
+- **Surfaced the AI Engine selector inside the Runtime AI Keys admin modal.** The engine picker (Marking & reasoning / Generation & parsing dropdowns) only lived in the floating bottom-right API-telemetry pill — which is collapsed by default and easy to miss, and the Runtime AI Keys modal literally told admins to go find it elsewhere. It now renders directly under the key fields in that modal (its natural home: keys + which model each key drives, in one place), while still mirroring in the telemetry widget. Extracted to a shared `components/admin/AiEngineSelector.tsx` so both mounts stay in sync. **No behaviour change to gating:** it requires the `admin` role (a Guest login never sees it) and **does not require Supabase** — locally, sign in with the `admin` demo account (dev builds, or `VITE_ENABLE_DEMO_AUTH=true`); with Supabase, any profile whose role is `admin`.
+
+---
+
 ## [2.3.19] - 2026-07-06
 
 ### 📐 A single, NESA-honest band model
