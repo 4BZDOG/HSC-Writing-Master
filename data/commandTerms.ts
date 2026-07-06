@@ -89,7 +89,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Recognise and name.',
     tier: 1,
     markRange: [1, 2],
-    targetBands: '1-2',
     bandDiscrimination: 'Accuracy of identification.',
     genericMarkingGuide: ['1 mark: Correctly identifies the item/concept.'],
     structuralKeywords: ['is', 'are', 'named'],
@@ -100,7 +99,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Provide information without elaboration.',
     tier: 1,
     markRange: [1, 2],
-    targetBands: '1-2',
     bandDiscrimination: 'Accuracy of the stated fact.',
     genericMarkingGuide: ['1 mark: Correctly states the information.'],
     structuralKeywords: ['state', 'give', 'name'],
@@ -111,7 +109,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Present remembered ideas, facts or experiences.',
     tier: 1,
     markRange: [1, 2],
-    targetBands: '1-2',
     bandDiscrimination: 'Accuracy of recalled facts.',
     genericMarkingGuide: ['1 mark: Correctly recalls the specific fact or idea.'],
     structuralKeywords: ['state', 'list'],
@@ -122,7 +119,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'State meaning and identify essential qualities.',
     tier: 1,
     markRange: [1, 3],
-    targetBands: '1-3',
     bandDiscrimination: 'Precision of definition and essential qualities.',
     genericMarkingGuide: [
       '1 mark: Basic definition.',
@@ -136,7 +132,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Choose relevant and/or appropriate details.',
     tier: 1,
     markRange: [1, 2],
-    targetBands: '1-2',
     bandDiscrimination: 'Relevance of extracted details.',
     genericMarkingGuide: ['1 mark: Extracts the correct information.'],
     structuralKeywords: ['from', 'data', 'source'],
@@ -147,7 +142,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Retell a series of events.',
     tier: 1,
     markRange: [2, 4],
-    targetBands: '1-3',
     bandDiscrimination: 'Sequence and accuracy of events.',
     genericMarkingGuide: [
       '1 mark: Basic list of events.',
@@ -163,7 +157,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Sketch in general terms; indicate the main features of.',
     tier: 2,
     markRange: [2, 4],
-    targetBands: '2-4',
     bandDiscrimination: 'Coverage of main features.',
     genericMarkingGuide: ['1 mark per main feature outlined.'],
     structuralKeywords: ['mainly', 'features', 'overview', 'briefly'],
@@ -174,7 +167,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Provide characteristics and features.',
     tier: 2,
     markRange: [3, 5],
-    targetBands: '2-5',
     bandDiscrimination: 'Detail and accuracy of characteristics.',
     genericMarkingGuide: [
       '1-2 marks: Identifies characteristics.',
@@ -188,7 +180,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Make clear or plain.',
     tier: 2,
     markRange: [2, 4],
-    targetBands: '2-4',
     bandDiscrimination: 'Clarity and removal of ambiguity.',
     genericMarkingGuide: [
       '1 mark: Identifies the ambiguity.',
@@ -202,7 +193,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Express, concisely, the relevant details.',
     tier: 2,
     markRange: [3, 5],
-    targetBands: '2-5',
     bandDiscrimination: 'Conciseness and relevance of details.',
     genericMarkingGuide: [
       '1 mark: Identifies main points.',
@@ -216,7 +206,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Arrange or include in classes/categories.',
     tier: 2,
     markRange: [2, 4],
-    targetBands: '2-4',
     bandDiscrimination: 'Accuracy of categorisation.',
     genericMarkingGuide: [
       '1 mark: Correct classification.',
@@ -232,7 +221,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Ascertain/determine from given facts, figures or information.',
     tier: 3,
     markRange: [2, 4],
-    targetBands: '3-5',
     bandDiscrimination: 'Accuracy of calculation and showing working.',
     genericMarkingGuide: [
       '1 mark: Correct method/formula.',
@@ -247,7 +235,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Use in a different, new or unfamiliar situation.',
     tier: 3,
     markRange: [3, 6],
-    targetBands: '3-6',
     bandDiscrimination: 'Appropriateness of application to the new context.',
     genericMarkingGuide: [
       '1-2 marks: Identifies relevant principle.',
@@ -262,7 +249,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Show by example.',
     tier: 3,
     markRange: [3, 6],
-    targetBands: '3-6',
     bandDiscrimination: 'Clarity and relevance of the example.',
     genericMarkingGuide: [
       '1 mark: States the concept.',
@@ -276,7 +262,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Make; build; put together items or arguments.',
     tier: 3,
     markRange: [3, 6],
-    targetBands: '3-6',
     bandDiscrimination: 'Logical assembly and completeness.',
     genericMarkingGuide: [
       '1 mark: Basic elements present.',
@@ -292,7 +277,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Show how things are similar or different.',
     tier: 4,
     markRange: [4, 8],
-    targetBands: '4-6',
     bandDiscrimination: 'Breadth of comparison (both similarities and differences).',
     genericMarkingGuide: [
       '1-2 marks: Similarities.',
@@ -307,7 +291,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Show how things are different or opposite.',
     tier: 4,
     markRange: [4, 6],
-    targetBands: '4-6',
     bandDiscrimination: 'Depth of difference analysis.',
     genericMarkingGuide: ['1 mark per valid point of contrast explained.'],
     structuralKeywords: ['unlike', 'on the other hand', 'conversely', 'differs'],
@@ -319,7 +302,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
       'Recognise or note/indicate as being distinct or different from; to note differences between.',
     tier: 4,
     markRange: [3, 5],
-    targetBands: '3-6',
     bandDiscrimination: 'Precision of distinction.',
     genericMarkingGuide: [
       '1 mark: Identifies the entities.',
@@ -334,7 +316,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
       'Relate cause and effect; make the relationships between things evident; provide why and/or how.',
     tier: 4,
     markRange: [3, 6],
-    targetBands: '3-6',
     bandDiscrimination: 'Clarity of cause-effect relationship.',
     genericMarkingGuide: [
       '1 mark: Identifies cause.',
@@ -349,7 +330,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Draw meaning from.',
     tier: 4,
     markRange: [3, 6],
-    targetBands: '4-6',
     bandDiscrimination: 'Insightfulness of meaning drawn.',
     genericMarkingGuide: [
       '1 mark: Basic reading of data.',
@@ -363,7 +343,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Draw conclusions.',
     tier: 4,
     markRange: [3, 5],
-    targetBands: '4-6',
     bandDiscrimination: 'Logical flow from evidence to conclusion.',
     genericMarkingGuide: [
       '1 mark: Uses evidence.',
@@ -377,7 +356,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Infer from what is known.',
     tier: 4,
     markRange: [3, 6],
-    targetBands: '4-6',
     bandDiscrimination: 'Reasonableness of inference beyond known data.',
     genericMarkingGuide: [
       '1 mark: Uses known data.',
@@ -392,7 +370,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Suggest what may happen based on available information.',
     tier: 4,
     markRange: [3, 5],
-    targetBands: '3-6',
     bandDiscrimination: 'Justification of prediction based on data.',
     genericMarkingGuide: [
       '1 mark: States prediction.',
@@ -407,7 +384,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
       'Identify components and the relationship between them; draw out and relate implications.',
     tier: 4,
     markRange: [5, 8],
-    targetBands: '4-6',
     bandDiscrimination: 'Depth of relationship analysis and implications.',
     genericMarkingGuide: [
       '2 marks: Identifies components.',
@@ -422,7 +398,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Inquire into.',
     tier: 4,
     markRange: [4, 7],
-    targetBands: '4-6',
     bandDiscrimination: 'Depth of inquiry.',
     genericMarkingGuide: [
       '1-2 marks: Identifies key issues.',
@@ -436,7 +411,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'State reasons for, report on.',
     tier: 4,
     markRange: [4, 7],
-    targetBands: '4-6',
     bandDiscrimination: 'Comprehensiveness of reasons.',
     genericMarkingGuide: [
       '1 mark: Identifies event/phenomenon.',
@@ -452,7 +426,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Identify issues and provide points for and/or against.',
     tier: 5,
     markRange: [5, 8],
-    targetBands: '4-6',
     bandDiscrimination: 'Balance of argument and breadth of issues.',
     genericMarkingGuide: [
       '2 marks: Points for.',
@@ -468,7 +441,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
       'Put forward (for example a point of view, idea, argument, suggestion) for consideration or action.',
     tier: 5,
     markRange: [4, 7],
-    targetBands: '4-6',
     bandDiscrimination: 'Feasibility and justification of proposal.',
     genericMarkingGuide: [
       '1 mark: Clear proposal.',
@@ -482,7 +454,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Plan, inquire into and draw conclusions about.',
     tier: 5,
     markRange: [5, 10],
-    targetBands: '5-6',
     bandDiscrimination: 'Depth of inquiry and validity of conclusions.',
     genericMarkingGuide: [
       '2 marks: Planning/Method.',
@@ -497,7 +468,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Putting together various elements to make a whole.',
     tier: 5,
     markRange: [6, 10],
-    targetBands: '5-6',
     bandDiscrimination: 'Coherence of the whole created from parts.',
     genericMarkingGuide: [
       '2 marks: Identifies separate elements.',
@@ -514,7 +484,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Make a judgement of value, quality, outcomes, results or size.',
     tier: 6,
     markRange: [6, 10],
-    targetBands: '5-6',
     bandDiscrimination: 'Quality of judgement and criteria used.',
     genericMarkingGuide: ['1 mark: Clear judgement.', '2+ marks: Support with criteria/evidence.'],
     structuralKeywords: ['judgement', 'value', 'extent', 'quality', 'outcome'],
@@ -525,7 +494,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Make a judgement based on criteria; determine the value of.',
     tier: 6,
     markRange: [6, 12],
-    targetBands: '5-6',
     bandDiscrimination: 'Use of explicit criteria to form judgement.',
     genericMarkingGuide: [
       '1 mark: Judgement.',
@@ -540,7 +508,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Make a judgement about the value of.',
     tier: 6,
     markRange: [5, 8],
-    targetBands: '5-6',
     bandDiscrimination: 'Sensitivity and depth of value judgement.',
     genericMarkingGuide: [
       '1 mark: States value.',
@@ -554,7 +521,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Support an argument or conclusion.',
     tier: 6,
     markRange: [6, 10],
-    targetBands: '5-6',
     bandDiscrimination: 'Strength of logic and evidence supporting the argument.',
     genericMarkingGuide: [
       '1 mark: States argument/conclusion.',
@@ -569,7 +535,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     definition: 'Provide reasons in favour.',
     tier: 6,
     markRange: [5, 8],
-    targetBands: '4-6',
     bandDiscrimination: 'Strength of reasons provided.',
     genericMarkingGuide: ['1 mark: Recommendation.', '2+ marks: Valid reasons supporting it.'],
     structuralKeywords: ['suggest', 'favour', 'reason', 'should'],
@@ -581,7 +546,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
       'Use interpretation and reasoning to assess a range of evidence; add a degree of accuracy, logic, questioning, reflection and quality.',
     tier: 6,
     markRange: [8, 20],
-    targetBands: '6',
     bandDiscrimination: 'Depth of questioning and reflection.',
     genericMarkingGuide: [
       '2 marks: Analysis of evidence.',
@@ -597,7 +561,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
       'Use interpretation and reasoning to assess a range of evidence; add a degree of accuracy, logic, questioning, reflection and quality.',
     tier: 6,
     markRange: [8, 20],
-    targetBands: '6',
     bandDiscrimination: 'Depth of questioning and reflection.',
     genericMarkingGuide: [
       '2 marks: Evaluation against criteria.',
@@ -614,7 +577,6 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
       'Recognise or note/indicate as being distinct or different from; to note differences between.',
     tier: 4,
     markRange: [3, 5],
-    targetBands: '3-6',
     bandDiscrimination: 'Precision of distinction.',
     genericMarkingGuide: ['1 mark: Identifies entities.', '2+ marks: Explains differences.'],
     structuralKeywords: ['distinct', 'difference'],
@@ -635,7 +597,6 @@ const fallbackTerm: CommandTermInfo = {
     'Relate cause and effect; make the relationships between things evident; provide why and/or how.',
   tier: 2, // Default to Level 2/Tier 2 color for generic explanations
   markRange: [1, 20] as [number, number],
-  targetBands: 'All',
   bandDiscrimination: 'Varies',
   genericMarkingGuide: ['Provide a clear answer'],
   tailwind: TIER_COLORS[2],
@@ -844,9 +805,37 @@ export const getTargetBand = (totalMarks: number, tier: number = 4): number =>
  * (e.g. the Command Verb Hierarchy ribbon) in the SAME band colour a question of
  * that tier uses, so a verb like DESCRIBE isn't one colour in the ribbon and
  * another in the prompt.
+ *
+ * --- The band model (why this exists) -------------------------------------
+ * NESA performance bands (1-6) are a *course-level* achievement standard — NESA
+ * never publishes a band for an individual question, and no official rule maps a
+ * command verb to a band. For questions we author or generate (i.e. not lifted
+ * straight from a NESA paper) we therefore INFER a defensible ceiling rather than
+ * invent a fact:
+ *
+ *   band ceiling  ← the command verb's cognitive demand (this function)
+ *   depth expected ← the marks (markRange, BAND_METRICS word targets)
+ *   band awarded   ← how well the response meets the marking guide (getBandForMark),
+ *                    capped at the ceiling
+ *
+ * The pedagogy: a response can only *demonstrate* the standard of thinking the
+ * task actually calls for. However thorough, a DESCRIBE answer cannot evidence
+ * the sustained analysis/evaluation that defines Bands 4-6, so it tops out at the
+ * ceiling its verb allows. This is a transparent inference, not a NESA decree —
+ * it is the single source every band figure in the app derives from, so marking,
+ * live feedback, colour and copy can never disagree.
  */
 export const getTierTargetBand = (tier: number): number =>
   TIER_GROUPS.find((g) => g.tier === tier)?.maxBand ?? Math.max(1, Math.min(6, tier));
+
+/**
+ * The band ceiling a command verb allows — the highest band a response to a
+ * question using this verb can demonstrate, set by the verb's cognitive demand.
+ * Thin wrapper over {@link getTierTargetBand} keyed by verb for call sites that
+ * only have the term. See the band-model note above.
+ */
+export const getVerbBandCeiling = (verb: PromptVerb): number =>
+  getTierTargetBand(getCommandTermInfo(verb).tier);
 
 export const TIER_WORD_COUNT_MULTIPLIERS: { [key: number]: number } = {
   1: 0.8,

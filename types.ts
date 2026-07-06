@@ -262,7 +262,6 @@ export interface CommandTermInfo {
   definition: string;
   tier: number;
   markRange: [number, number];
-  targetBands: string;
   bandDiscrimination: string;
   genericMarkingGuide: string[];
   structuralKeywords: string[];

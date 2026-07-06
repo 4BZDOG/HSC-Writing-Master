@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { CommandTermInfo } from '../types';
 import { X, Info, Award, Target, Hash, Zap, ChevronRight } from 'lucide-react';
 import { getTierBandConfig } from '../utils/renderUtils';
+import { getTierTargetBand } from '../data/commandTerms';
 
 interface CommandTermGuideModalProps {
   isOpen: boolean;
@@ -172,9 +173,11 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
                 <Award className={`w-5 h-5 ${bandConfig.text}`} />
               </div>
               <p className="text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1">
-                Target Bands
+                Band Ceiling
               </p>
-              <p className={`font-black text-2xl ${bandConfig.text}`}>{termInfo.targetBands}</p>
+              <p className={`font-black text-2xl ${bandConfig.text}`}>
+                Band {getTierTargetBand(termInfo.tier)}
+              </p>
             </div>
           </div>
 

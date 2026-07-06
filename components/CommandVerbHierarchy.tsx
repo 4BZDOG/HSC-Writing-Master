@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { PromptVerb } from '../types';
-import { commandTerms, TIER_GROUPS } from '../data/commandTerms';
+import { commandTerms, TIER_GROUPS, getTierTargetBand } from '../data/commandTerms';
 import {
   ChevronDown,
   AlignLeft,
@@ -204,12 +204,15 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       </span>
                     </div>
                     <div className="w-px h-8 bg-black/10 light:bg-slate-300" />
-                    <div className="flex flex-col items-center">
+                    <div
+                      className="flex flex-col items-center"
+                      title={`The cognitive demand of ${activeVerb} caps a response at Band ${getTierTargetBand(activeTermInfo.tier)} — it doesn't call for the higher-order reasoning Bands above require.`}
+                    >
                       <span className="text-[9px] text-slate-500 uppercase tracking-widest font-black mb-0.5">
-                        Target Band
+                        Band Ceiling
                       </span>
                       <span className={`text-lg font-black ${activeConfig.text}`}>
-                        {activeTermInfo.targetBands}
+                        Band {getTierTargetBand(activeTermInfo.tier)}
                       </span>
                     </div>
                   </div>
