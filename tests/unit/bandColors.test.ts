@@ -6,7 +6,13 @@ import {
   getBandConfig,
   getTierBandConfig,
 } from '../../utils/renderUtils';
-import { getTargetBand, getTierTargetBand } from '../../data/commandTerms';
+import {
+  getTargetBand,
+  getTierTargetBand,
+  getVerbBandCeiling,
+  getBandForMark,
+  TIER_GROUPS,
+} from '../../data/commandTerms';
 import { sanitiseKeywords } from '../../services/geminiService';
 
 /**
@@ -59,6 +65,35 @@ describe('getTierTargetBand', () => {
     for (let tier = 1; tier <= 6; tier++) {
       expect(getTierTargetBand(tier)).toBe(getTargetBand(10, tier));
     }
+  });
+});
+
+describe('band model consistency', () => {
+  // The band a full-mark answer is marked (getBandForMark) must never exceed the
+  // declared cognitive-demand ceiling (getTierTargetBand / TIER_GROUPS.maxBand).
+  // This is the single invariant that keeps marking, live feedback, colour and
+  // copy from disagreeing — the whole point of the reconciliation.
+  it('marks a full-mark response exactly at each tier’s declared ceiling', () => {
+    for (const group of TIER_GROUPS) {
+      const marked = getBandForMark(10, 10, group.tier);
+      expect(marked).toBe(group.maxBand);
+      expect(getTierTargetBand(group.tier)).toBe(group.maxBand);
+    }
+  });
+
+  it('never awards a band above the ceiling at any mark ratio', () => {
+    for (const group of TIER_GROUPS) {
+      const ceiling = getTierTargetBand(group.tier);
+      for (let mark = 0; mark <= 10; mark++) {
+        expect(getBandForMark(mark, 10, group.tier)).toBeLessThanOrEqual(ceiling);
+      }
+    }
+  });
+
+  it('resolves a verb to its cognitive-demand band ceiling', () => {
+    expect(getVerbBandCeiling('DESCRIBE')).toBe(3); // Tier 2
+    expect(getVerbBandCeiling('ANALYSE')).toBe(5); // Tier 4
+    expect(getVerbBandCeiling('EVALUATE')).toBe(6); // Tier 6
   });
 });
 
