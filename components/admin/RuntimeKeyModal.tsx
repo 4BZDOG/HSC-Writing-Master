@@ -18,6 +18,7 @@ import {
   subscribeRuntimeKeys,
 } from '../../services/runtimeKeys';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
+import AiEngineSelector from './AiEngineSelector';
 
 interface RuntimeKeyModalProps {
   isOpen: boolean;
@@ -36,8 +37,9 @@ const maskKey = (key?: string): string => {
  * without editing `.env.local` and restarting. The keys ride along as a
  * per-request override to the proxy (services/runtimeKeys.ts) and are held in
  * sessionStorage only — they never replace the server key for other users and
- * never bypass the proxy's auth/quota gates. Switch which MODEL a key drives
- * from the "AI Engine" selector in the API telemetry widget.
+ * never bypass the proxy's auth/quota gates. The "AI Engine" selector — which
+ * MODEL each key drives — is rendered here too (and mirrored in the API
+ * telemetry widget), so keys and engine choice live in one place.
  */
 const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, showToast }) => {
   const current = useSyncExternalStore(subscribeRuntimeKeys, getRuntimeKeys, getRuntimeKeys);
@@ -208,14 +210,17 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
             </span>
           </label>
 
-          {/* Model note */}
-          <div className="flex gap-2 items-start text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
-            <Cpu className="w-3.5 h-3.5 shrink-0 mt-0.5" />
-            <span>
-              Choose which model each key drives from the <strong>AI Engine</strong> selector in the
-              API usage widget (bottom-right) — Gemini, Claude and the OpenRouter open models all
-              appear there.
-            </span>
+          {/* AI Engine selector — the natural home for choosing which model each
+              key drives. Also mirrored in the API telemetry widget (bottom-right). */}
+          <div className="pt-4 border-t border-[rgb(var(--color-border-secondary))]/40 light:border-slate-200">
+            <AiEngineSelector />
+            <p className="mt-2 flex gap-1.5 items-start text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+              <Cpu className="w-3 h-3 shrink-0 mt-0.5" />
+              <span>
+                Gemini, Claude and the OpenRouter open models all appear here once their key is set.
+                The same selector lives in the API usage widget (bottom-right).
+              </span>
+            </p>
           </div>
         </div>
 
