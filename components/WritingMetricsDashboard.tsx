@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Prompt } from '../types';
+import { Prompt, WritingMode } from '../types';
 import { BAND_METRICS, getCommandTermInfo, getBandForMark } from '../data/commandTerms';
 import { escapeRegExp, getBandConfig, getKeywordVariants, BandConfig } from '../utils/renderUtils';
 import { analyzeText, buildWritingInsights, InsightTone } from '../utils/writingAnalysis';
@@ -19,6 +19,7 @@ import {
   CheckCircle2,
   AlertTriangle,
   Info,
+  GraduationCap,
 } from 'lucide-react';
 
 const TONE_STYLES: Record<
@@ -108,10 +109,15 @@ interface WritingMetricsDashboardProps {
   userAnswer: string;
   prompt: Prompt;
   onAddWord: (word: string) => void;
+  writingMode?: WritingMode;
 }
 
 export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = React.memo(
-  ({ userAnswer, prompt, onAddWord }) => {
+  ({ userAnswer, prompt, onAddWord, writingMode = 'coach' }) => {
+    // Exam Mode: no live feedback — just the essentials (words + a running
+    // countdown). The syllabus %, insights, term tracker and connectors are all
+    // coaching aids and stay hidden.
+    const isExamMode = writingMode === 'exam';
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isTimerActive, setIsTimerActive] = useState(false);
     const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -127,10 +133,13 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     );
     const [remainingTime, setRemainingTime] = useState(recommendedTime);
 
+    // Reset the clock whenever the question (its recommended time) or the mode
+    // changes. In Exam Mode the countdown auto-starts — you're "under exam
+    // conditions" the moment you switch in; in Coach Mode it waits for Play.
     useEffect(() => {
       setRemainingTime(recommendedTime);
-      setIsTimerActive(false);
-    }, [recommendedTime]);
+      setIsTimerActive(isExamMode);
+    }, [recommendedTime, isExamMode]);
     useEffect(() => {
       if (!isTimerActive) return;
       timerIntervalRef.current = setInterval(() => {
@@ -235,12 +244,21 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
       <div className="clip-stable rounded-[32px] border-2 border-slate-300 dark:border-white/20 bg-white dark:bg-black/40 overflow-hidden shadow-2xl transition-all duration-500">
         <div className="flex flex-col sm:flex-row items-stretch border-b-2 border-slate-300 dark:border-white/10">
           <div className="flex flex-1 items-center bg-slate-50 dark:bg-black/60">
-            <StatBox
-              label="Syllabus"
-              value={`${keywordStats.score}%`}
-              colorClass="text-emerald-600 dark:text-emerald-400"
-              icon={Target}
-            />
+            {isExamMode ? (
+              <StatBox
+                label="Mode"
+                value="Exam"
+                colorClass="text-red-500 dark:text-red-400"
+                icon={GraduationCap}
+              />
+            ) : (
+              <StatBox
+                label="Syllabus"
+                value={`${keywordStats.score}%`}
+                colorClass="text-emerald-600 dark:text-emerald-400"
+                icon={Target}
+              />
+            )}
             <StatBox
               label="Words"
               value={wordCount}
@@ -284,23 +302,26 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                 <RotateCcw className="w-4 h-4" />
               </button>
             </div>
-            <button
-              onClick={() => setIsCollapsed(!isCollapsed)}
-              aria-label={isCollapsed ? 'Expand writing metrics' : 'Collapse writing metrics'}
-              aria-expanded={!isCollapsed}
-              title={isCollapsed ? 'Expand metrics' : 'Collapse metrics'}
-              className="p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all"
-            >
-              <ChevronDown
-                className={`w-5 h-5 transition-transform duration-500 ${isCollapsed ? '-rotate-90' : ''}`}
-              />
-            </button>
+            {!isExamMode && (
+              <button
+                onClick={() => setIsCollapsed(!isCollapsed)}
+                aria-label={isCollapsed ? 'Expand writing metrics' : 'Collapse writing metrics'}
+                aria-expanded={!isCollapsed}
+                title={isCollapsed ? 'Expand metrics' : 'Collapse metrics'}
+                className="p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all"
+              >
+                <ChevronDown
+                  className={`w-5 h-5 transition-transform duration-500 ${isCollapsed ? '-rotate-90' : ''}`}
+                />
+              </button>
+            )}
           </div>
         </div>
 
-        {/* Improved Smooth Expansion Container */}
+        {/* Improved Smooth Expansion Container — all live-feedback panels; hidden
+            entirely under Exam conditions. */}
         <div
-          className={`grid transition-all duration-500 ease-in-out ${isCollapsed ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'}`}
+          className={`grid transition-all duration-500 ease-in-out ${isCollapsed || isExamMode ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'}`}
         >
           <div className="overflow-hidden">
             <div className="p-8 space-y-8 bg-white dark:bg-transparent">

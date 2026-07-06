@@ -1,5 +1,5 @@
 import React, { useRef, useMemo } from 'react';
-import { Prompt, EvaluationResult, UserRole, HierarchyContext } from '../types';
+import { Prompt, EvaluationResult, UserRole, HierarchyContext, WritingMode } from '../types';
 import { isSystemAdmin } from '../utils/permissions';
 import Editor from './Editor';
 import WritingMetricsDashboard from './WritingMetricsDashboard';
@@ -40,6 +40,8 @@ interface WorkspaceRightPanelProps {
   onHeaderResize?: (height: number) => void;
   minHeaderHeight?: number;
   minEditorHeight?: number;
+  writingMode: WritingMode;
+  onWritingModeChange: (mode: WritingMode) => void;
 }
 
 const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
@@ -68,7 +70,10 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   onHeaderResize,
   minHeaderHeight,
   minEditorHeight,
+  writingMode,
+  onWritingModeChange,
 }) => {
+  const isExamMode = writingMode === 'exam';
   const editorRef = useRef<{
     getText: () => string;
     setText: (text: string) => void;
@@ -123,6 +128,17 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
 
   // Dynamic Action Button Theme - Using shared getBandConfig for perfect consistency
   const buttonConfig = useMemo(() => {
+    // Exam Mode: a neutral submit button — its colour must not hint at the
+    // predicted band while the student is still writing under exam conditions.
+    if (isExamMode) {
+      return {
+        gradient: 'from-slate-700 to-slate-600',
+        shadow: 'shadow-slate-900/40',
+        border: 'border-white/10',
+        text: 'text-white',
+      };
+    }
+
     // Base state (below Band 1 threshold)
     if (progressScore < 0.15) {
       return {
@@ -158,7 +174,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
       border: config.border.replace('border-', 'border-').replace('/50', '/30'), // Slight adjustment for button context
       text: 'text-white',
     };
-  }, [progressScore, maxBand]);
+  }, [progressScore, maxBand, isExamMode]);
 
   const handleSaveUserResponse = () => {
     if (!currentPrompt || !evaluationResult || !userAnswer) return;
@@ -213,6 +229,8 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             onHeaderResize={onHeaderResize}
             minHeaderHeight={minHeaderHeight}
             minTotalHeight={minEditorHeight}
+            writingMode={writingMode}
+            onWritingModeChange={onWritingModeChange}
           />
 
           {/* The "Haptic" Action Bar */}
@@ -242,7 +260,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
               ) : (
                 <>
                   <Sparkles
-                    className={`w-6 h-6 ${progressScore > 0.85 ? 'text-white/90 animate-pulse' : 'text-white/70'}`}
+                    className={`w-6 h-6 ${!isExamMode && progressScore > 0.85 ? 'text-white/90 animate-pulse' : 'text-white/70'}`}
                   />
                   <span className={`${buttonConfig.text} drop-shadow-sm`}>Evaluate</span>
                 </>
@@ -255,30 +273,33 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
       <WritingMetricsDashboard
         userAnswer={debouncedUserAnswer}
         prompt={currentPrompt}
+        writingMode={writingMode}
         onAddWord={(word) => {
           const event = new CustomEvent('insert-text', { detail: word });
           window.dispatchEvent(event);
         }}
       />
 
-      <SampleAnswersAccordion
-        prompt={currentPrompt}
-        onSampleAnswerGenerated={(answer) =>
-          syllabusHandlers.handleSampleAnswerGenerated(statePath, answer)
-        }
-        onUseSampleAnswer={(text) => setUserAnswer(text)}
-        onDeleteSampleAnswer={(id) => syllabusHandlers.handleDeleteSampleAnswer(statePath, id)}
-        onUpdateSampleAnswer={(answer) =>
-          syllabusHandlers.handleUpdateSampleAnswer(statePath, answer)
-        }
-        onContributeSampleAnswer={
-          isCurriculumRemote() && userRole !== 'guest'
-            ? (answer) => syllabusHandlers.handleContributeSampleAnswer(statePath, answer)
-            : undefined
-        }
-        userRole={userRole}
-        onRecalibrate={() => geminiHandlers.recalibrateSamples(currentPrompt)}
-      />
+      <div className={isExamMode ? 'hidden' : ''}>
+        <SampleAnswersAccordion
+          prompt={currentPrompt}
+          onSampleAnswerGenerated={(answer) =>
+            syllabusHandlers.handleSampleAnswerGenerated(statePath, answer)
+          }
+          onUseSampleAnswer={(text) => setUserAnswer(text)}
+          onDeleteSampleAnswer={(id) => syllabusHandlers.handleDeleteSampleAnswer(statePath, id)}
+          onUpdateSampleAnswer={(answer) =>
+            syllabusHandlers.handleUpdateSampleAnswer(statePath, answer)
+          }
+          onContributeSampleAnswer={
+            isCurriculumRemote() && userRole !== 'guest'
+              ? (answer) => syllabusHandlers.handleContributeSampleAnswer(statePath, answer)
+              : undefined
+          }
+          userRole={userRole}
+          onRecalibrate={() => geminiHandlers.recalibrateSamples(currentPrompt)}
+        />
+      </div>
 
       <div id="evaluation-results" className="scroll-mt-24">
         {evaluationError && (

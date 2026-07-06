@@ -19,8 +19,10 @@ import {
   ZoomIn,
   ZoomOut,
   FileText,
+  Lightbulb,
+  GraduationCap,
 } from 'lucide-react';
-import { PromptVerb } from '../types';
+import { PromptVerb, WritingMode } from '../types';
 
 interface EditorProps {
   value: string;
@@ -40,6 +42,8 @@ interface EditorProps {
   onHeaderResize?: (height: number) => void;
   minHeaderHeight?: number;
   minTotalHeight?: number;
+  writingMode?: WritingMode;
+  onWritingModeChange?: (mode: WritingMode) => void;
 }
 
 const MeshOverlay = ({
@@ -129,9 +133,14 @@ const Editor = forwardRef<
       onHeaderResize,
       minHeaderHeight,
       minTotalHeight,
+      writingMode = 'coach',
+      onWritingModeChange,
     },
     ref
   ) => {
+    // Exam Mode strips every live-feedback affordance: no keyword/verb
+    // highlighting, no band-progress, no "phase" cues — just a calm page.
+    const isExamMode = writingMode === 'exam';
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const headerRef = useRef<HTMLDivElement>(null);
     const [copied, setCopied] = useState(false);
@@ -143,8 +152,8 @@ const Editor = forwardRef<
     // answers feel laggy. Memoise it so it only recomputes when the text, the
     // tracked keywords, or the command verb actually change.
     const highlightedContent = useMemo(
-      () => renderEditorHighlights(value, keywords, verb),
-      [value, keywords, verb]
+      () => (isExamMode ? value : renderEditorHighlights(value, keywords, verb)),
+      [value, keywords, verb, isExamMode]
     );
 
     // Internal Font Size State with Sync Logic
@@ -153,6 +162,21 @@ const Editor = forwardRef<
 
     // Advanced Chromatic Progression Config
     const chroma = useMemo(() => {
+      // Exam Mode: a calm, neutral "exam booklet" header — no band colours, no
+      // progress-driven glow, so nothing hints at how the response is scoring.
+      if (isExamMode) {
+        return {
+          name: 'Exam',
+          accent: '#94a3b8', // slate-400 caret
+          background: 'linear-gradient(135deg, #334155 0%, #1e293b 55%, #0f172a 100%)',
+          glow: 'shadow-slate-950/40',
+          border: 'border-slate-600/50 light:border-slate-300',
+          mesh: '%23ffffff',
+          energy: 'none',
+          iconColor: 'text-white',
+        };
+      }
+
       // 1. Determine the "Effective Band" based on progress (0.0 - 1.0)
       // We map the progress strictly to the available bands up to maxBand.
       // e.g. If maxBand is 3, then 0-33% is Band 1, 33-66% is Band 2, 66-100% is Band 3.
@@ -219,7 +243,7 @@ const Editor = forwardRef<
         energy: energyClass,
         iconColor: 'text-white',
       };
-    }, [progress, maxBand]);
+    }, [progress, maxBand, isExamMode]);
 
     // Sync from parent if user hasn't manually overridden
     useEffect(() => {
@@ -390,39 +414,82 @@ const Editor = forwardRef<
               <div>
                 <h3 className="text-lg md:text-xl font-black tracking-tight leading-none flex items-center gap-2">
                   Written Response
-                  <span className="text-[10px] bg-black/20 px-1.5 py-0.5 rounded border border-white/10 font-bold uppercase tracking-widest">
-                    {chroma.name} Phase
-                  </span>
+                  {isExamMode ? (
+                    <span className="text-[10px] bg-red-500/90 px-1.5 py-0.5 rounded border border-white/20 font-black uppercase tracking-widest flex items-center gap-1 shadow-sm">
+                      <GraduationCap className="w-3 h-3" /> Exam
+                    </span>
+                  ) : (
+                    <span className="text-[10px] bg-black/20 px-1.5 py-0.5 rounded border border-white/10 font-bold uppercase tracking-widest">
+                      {chroma.name} Phase
+                    </span>
+                  )}
                 </h3>
-                <div className="flex items-center gap-2 mt-1.5">
-                  <div className="h-1 w-20 bg-white/20 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-white transition-all duration-1000 ease-out"
-                      style={{ width: `${Math.min(100, progress * 100)}%` }}
-                    />
-                  </div>
-                  <p className="text-[9px] font-bold text-white/70 uppercase tracking-[0.2em]">
-                    {Math.min(100, Math.round(progress * 100))}% Complete
+                {isExamMode ? (
+                  <p className="text-[9px] font-bold text-white/60 uppercase tracking-[0.2em] mt-1.5">
+                    Exam conditions · no assistance
                   </p>
-                </div>
+                ) : (
+                  <div className="flex items-center gap-2 mt-1.5">
+                    <div className="h-1 w-20 bg-white/20 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-white transition-all duration-1000 ease-out"
+                        style={{ width: `${Math.min(100, progress * 100)}%` }}
+                      />
+                    </div>
+                    <p className="text-[9px] font-bold text-white/70 uppercase tracking-[0.2em]">
+                      {Math.min(100, Math.round(progress * 100))}% Complete
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 
             {/* Functional Pill Toolbar */}
             <div className="flex items-center gap-1 bg-black/20 backdrop-blur-xl p-1 rounded-2xl border border-white/10 shadow-inner flex-shrink-0">
-              <ToolbarButton
-                onClick={() => handleFormat('bold')}
-                icon={<Bold className="w-4 h-4" />}
-                tooltip="Bold"
-                disabled={disabled}
-              />
-              <ToolbarButton
-                onClick={() => handleFormat('italic')}
-                icon={<Italic className="w-4 h-4" />}
-                tooltip="Italic"
-                disabled={disabled}
-              />
-              <div className="w-px h-4 bg-white/20 mx-0.5" />
+              {onWritingModeChange && (
+                <>
+                  <div className="flex items-center gap-0.5" role="group" aria-label="Writing mode">
+                    <button
+                      type="button"
+                      onClick={() => onWritingModeChange('coach')}
+                      aria-pressed={!isExamMode}
+                      title="Coach Mode — live highlighting, insights and exemplars"
+                      className={`px-2.5 h-7 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 ${!isExamMode ? 'bg-white text-slate-900 shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                    >
+                      <Lightbulb className="w-3.5 h-3.5" />
+                      <span className="hidden md:inline">Coach</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onWritingModeChange('exam')}
+                      aria-pressed={isExamMode}
+                      title="Exam Mode — HSC exam simulation: no assistance, timed"
+                      className={`px-2.5 h-7 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 ${isExamMode ? 'bg-red-500 text-white shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                    >
+                      <GraduationCap className="w-3.5 h-3.5" />
+                      <span className="hidden md:inline">Exam</span>
+                    </button>
+                  </div>
+                  <div className="w-px h-4 bg-white/20 mx-0.5" />
+                </>
+              )}
+              {!isExamMode && (
+                <>
+                  <ToolbarButton
+                    onClick={() => handleFormat('bold')}
+                    icon={<Bold className="w-4 h-4" />}
+                    tooltip="Bold"
+                    disabled={disabled}
+                  />
+                  <ToolbarButton
+                    onClick={() => handleFormat('italic')}
+                    icon={<Italic className="w-4 h-4" />}
+                    tooltip="Italic"
+                    disabled={disabled}
+                  />
+                  <div className="w-px h-4 bg-white/20 mx-0.5" />
+                </>
+              )}
               <ToolbarButton
                 onClick={() => handleManualResize(Math.max(12, internalFontSize - 2))}
                 icon={<ZoomOut className="w-4 h-4" />}
@@ -496,7 +563,7 @@ const Editor = forwardRef<
               onChange={(e) => onChange(e.target.value)}
               onKeyDown={handleKeyDown}
               onBlur={() => onSave?.()}
-              placeholder={placeholder}
+              placeholder={isExamMode ? 'Begin your response. The clock is running…' : placeholder}
               disabled={disabled}
               className={`${gridStackItemStyles} bg-transparent text-transparent caret-[currentColor] resize-none border-none outline-none placeholder:text-[rgb(var(--color-text-dim))] focus:ring-0 selection:bg-[rgb(var(--color-accent))]/20 z-10 h-full`}
               style={{
@@ -537,7 +604,9 @@ const Editor = forwardRef<
                 className="w-2 h-2 rounded-full transition-colors duration-700"
                 style={{ backgroundColor: chroma.accent }}
               ></div>
-              <span className="text-[rgb(var(--color-text-secondary))]">{chroma.name} Phase</span>
+              <span className="text-[rgb(var(--color-text-secondary))]">
+                {isExamMode ? 'Exam Conditions' : `${chroma.name} Phase`}
+              </span>
             </div>
           </div>
         </div>

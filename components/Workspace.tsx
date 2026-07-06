@@ -8,6 +8,7 @@ import {
   Topic,
   SubTopic,
   DotPoint,
+  WritingMode,
 } from '../types';
 import PromptDisplay from './PromptDisplay';
 import ReferenceMaterials from './ReferenceMaterials';
@@ -82,6 +83,8 @@ interface WorkspaceProps {
   userRole: UserRole;
   isFocusMode: boolean;
   onToggleFocusMode: () => void;
+  writingMode: WritingMode;
+  onWritingModeChange: (mode: WritingMode) => void;
 }
 
 const Workspace: React.FC<WorkspaceProps> = ({
@@ -107,9 +110,15 @@ const Workspace: React.FC<WorkspaceProps> = ({
   userRole,
   isFocusMode,
   onToggleFocusMode,
+  writingMode,
+  onWritingModeChange,
 }) => {
   const { currentCourse, currentTopic, currentSubTopic, currentDotPoint, currentPrompt } =
     currentSelection;
+
+  // In Exam Mode the reference materials (syllabus terms, marking guide, grade
+  // standards) are hidden — a student sitting an exam can't see the marking key.
+  const isExamMode = writingMode === 'exam';
 
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isSuggestingOutcomes, setIsSuggestingOutcomes] = useState(false);
@@ -277,7 +286,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
                 onTotalHeightChange={setPromptTotalHeight}
               />
             </div>
-            <div className="flex-shrink-0">
+            <div className={`flex-shrink-0 ${isExamMode ? 'hidden' : ''}`}>
               <ReferenceMaterials
                 prompt={currentPrompt}
                 topic={currentTopic}
@@ -366,6 +375,8 @@ const Workspace: React.FC<WorkspaceProps> = ({
           onHeaderResize={setEditorHeaderHeight}
           minHeaderHeight={syncedHeaderHeight}
           minEditorHeight={promptTotalHeight}
+          writingMode={writingMode}
+          onWritingModeChange={onWritingModeChange}
         />
 
         <CommandTermGuideModal

@@ -27,7 +27,7 @@ import { subscribeQuotaWarnings } from './services/quotaNotifier';
 import { isCurriculumRemote } from './services/curriculumService';
 import { savePromptContribution } from './services/contributionService';
 import { screenContentQuality } from './services/geminiService';
-import { User } from './types';
+import { User, WritingMode } from './types';
 import { canModerate, isSystemAdmin } from './utils/permissions';
 import {
   Compass,
@@ -100,6 +100,9 @@ const AnimatedBackground: React.FC = () => {
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E")`,
         }}
       />
+      {/* Focus Mode ambience: fades in via the `body.focus-mode` class (see
+          index.css). Sits above the opaque base here, below all app content. */}
+      <div className="focus-ambient absolute inset-0" />
     </div>
   );
 };
@@ -177,6 +180,9 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   };
 
   const [isFocusMode, setIsFocusMode] = useState(false);
+  // Writing experience: 'coach' surfaces live feedback (highlighting, insights,
+  // exemplars); 'exam' simulates HSC exam conditions (no assistance, timed).
+  const [writingMode, setWritingMode] = useState<WritingMode>('coach');
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
   const [isReviewQueueOpen, setIsReviewQueueOpen] = useState(false);
   const [isUsageDashboardOpen, setIsUsageDashboardOpen] = useState(false);
@@ -292,7 +298,12 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   const globalLoadingMessage = useMemo(() => {
     if (isEvaluating) return 'Synthesising feedback...';
     if (isImproving) return 'Drafting upgrade path...';
-    if (isEnriching) return 'Indexing context...';
+    // NOTE: `isEnriching` is deliberately NOT here. Enrichment (fetching a
+    // prompt's missing scenario / keywords / outcomes) is a *background* task
+    // that fires automatically on prompt selection — blocking the whole screen
+    // with a modal for it froze the UI whenever the AI was slow or unreachable.
+    // It now surfaces as a subtle, non-blocking inline indicator in the prompt
+    // header instead (PromptDisplay `isEnriching`).
     if (isGeneratingScenario) return 'Modelling environment...';
     if (isRegeneratingKeywords) return 'Analysing syllabus keywords...';
     if (isSuggestingKeywords) return 'Discovering terminology...';
@@ -300,7 +311,6 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   }, [
     isEvaluating,
     isImproving,
-    isEnriching,
     isGeneratingScenario,
     isRegeneratingKeywords,
     isSuggestingKeywords,
@@ -655,6 +665,8 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           userRole={user.role}
           isFocusMode={isFocusMode}
           onToggleFocusMode={() => setIsFocusMode(!isFocusMode)}
+          writingMode={writingMode}
+          onWritingModeChange={setWritingMode}
         />
       ) : (
         <div className="min-h-[50vh] flex flex-col items-center justify-center animate-fade-in">

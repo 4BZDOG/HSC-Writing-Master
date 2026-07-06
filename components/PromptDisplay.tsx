@@ -19,6 +19,7 @@ import {
   FileQuestion,
   ZoomIn,
   ZoomOut,
+  Loader2,
 } from 'lucide-react';
 import { getBandConfig, renderFormattedText } from '../utils/renderUtils';
 import { getCommandTermInfo } from '../data/commandTerms';
@@ -190,6 +191,15 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             <div>
               <h3 className="text-lg md:text-xl font-black tracking-tight leading-none flex items-center gap-2">
                 Writing Prompt
+                {isEnriching && (
+                  <span
+                    className="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-[0.15em] bg-white/15 border border-white/20 rounded-full px-2 py-0.5 animate-fade-in"
+                    title="Fetching this question's scenario and syllabus terms in the background — you can start writing now."
+                  >
+                    <Loader2 className="w-2.5 h-2.5 animate-spin" />
+                    Enhancing
+                  </span>
+                )}
               </h3>
               <div className="flex items-center gap-2 mt-1.5">
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">
