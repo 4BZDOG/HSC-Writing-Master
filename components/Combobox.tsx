@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useId } from 'react';
 import { getBandConfig } from '../utils/renderUtils';
 import { PromptVerb } from '../types';
 import { Sparkles, ChevronDown } from 'lucide-react';
-import { getCommandTermsForMarks } from '../data/commandTerms';
+import { getCommandTermsForMarks, getTargetBand, getTierTargetBand } from '../data/commandTerms';
 
 export type ComboboxColor = 'blue' | 'purple' | 'indigo' | 'pink' | 'green' | 'default';
 
@@ -172,7 +172,11 @@ const Combobox: React.FC<ComboboxProps> = ({
       }`;
     }
 
-    const bandConfig = getBandConfig(tier);
+    // Colour options by the question's TARGET band (not the raw tier) so the
+    // picker matches the prompt, writing area and metrics.
+    const band =
+      option.marks !== undefined ? getTargetBand(option.marks, tier) : getTierTargetBand(tier);
+    const bandConfig = getBandConfig(band);
     return isSelected
       ? `${bandConfig.bg} pl-3 border-l-4 ${bandConfig.border} text-[rgb(var(--color-text-primary))] light:text-slate-900 font-bold`
       : `${bandConfig.bg} text-[rgb(var(--color-text-secondary))] light:text-slate-700 pl-3 border-l-4 border-transparent`;

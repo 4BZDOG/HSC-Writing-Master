@@ -252,7 +252,7 @@ const CarouselAccordionItem: React.FC<{
                     metrics={metrics}
                     showLabel={false}
                     className="opacity-100 scale-95 origin-left"
-                    tier={group.band}
+                    band={group.band}
                   />
 
                   <div className="flex items-center gap-2 ml-auto">

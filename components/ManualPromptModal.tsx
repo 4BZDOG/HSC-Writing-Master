@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { CourseOutcome, Prompt } from '../types';
 import { refineManualPrompt } from '../services/geminiService';
-import { getBandConfig } from '../utils/renderUtils';
+import { getTierBandConfig } from '../utils/renderUtils';
 import { getCommandTermsForMarks, getCommandTermInfo, TIER_GROUPS } from '../data/commandTerms';
 import { X, Sparkles, PenTool, Save, Wand2, Target } from 'lucide-react';
 import LoadingIndicator from './LoadingIndicator';
@@ -98,7 +98,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
   // rather than a promise. (Must run before the early returns: hooks rule.)
   const { primaryTerm: suggestedVerb } = useMemo(() => getCommandTermsForMarks(marks), [marks]);
   const suggestedTierInfo = TIER_GROUPS.find((t) => t.tier === suggestedVerb.tier);
-  const markTierConfig = getBandConfig(suggestedVerb.tier);
+  const markTierConfig = getTierBandConfig(suggestedVerb.tier);
   const markBandColor = markTierConfig.text;
   const markGradient = markTierConfig.gradient;
 

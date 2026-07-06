@@ -25,7 +25,7 @@ import {
   Database,
   PenTool,
 } from 'lucide-react';
-import { getCommandTermInfo, extractCommandVerb } from '../data/commandTerms';
+import { getCommandTermInfo, extractCommandVerb, getTargetBand } from '../data/commandTerms';
 import { getBandConfig } from '../utils/renderUtils';
 import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
 
@@ -280,7 +280,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       .map((p) => {
         const verbInfo = resolveVerbInfo(p.verb, p.question);
         const safeTier = Math.max(1, Math.min(6, Math.floor(verbInfo.tier || 4)));
-        const tierConfig = getBandConfig(safeTier);
+        // Colour each question by its TARGET band (what a full-mark answer
+        // reaches), so the picker matches the prompt and writing area.
+        const tierConfig = getBandConfig(getTargetBand(p.totalMarks, safeTier));
 
         return {
           id: p.id,

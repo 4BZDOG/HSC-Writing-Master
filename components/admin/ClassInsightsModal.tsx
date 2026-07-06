@@ -4,7 +4,7 @@ import { X, BarChart3, RefreshCw, Users, Layers, Gauge, Info, AlertTriangle } fr
 import { fetchClassAnalytics, type ClassAnalytics } from '../../services/responseService';
 import { isCurriculumRemote } from '../../services/curriculumService';
 import { commandTerms } from '../../data/commandTerms';
-import { getBandConfig } from '../../utils/renderUtils';
+import { getTierBandConfig } from '../../utils/renderUtils';
 import { rankByWeakness, formatBand, NO_TIER } from '../../utils/classAnalytics';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
 import type { PromptVerb } from '../../types';
@@ -263,7 +263,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                           </thead>
                           <tbody className="divide-y divide-[rgb(var(--color-border-secondary))]/30 light:divide-slate-200">
                             {rows.map((r) => {
-                              const cfg = r.tier ? getBandConfig(r.tier) : null;
+                              const cfg = r.tier ? getTierBandConfig(r.tier) : null;
                               return (
                                 <tr
                                   key={r.label}

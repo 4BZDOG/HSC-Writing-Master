@@ -1,5 +1,6 @@
 import React from 'react';
 import { PromptVerb } from '../types';
+import { getTierTargetBand } from '../data/commandTerms';
 
 export const escapeRegExp = (string: string): string => {
   if (typeof string !== 'string') return '';
@@ -72,6 +73,46 @@ export interface BandConfig {
   ring: string;
 }
 
+/**
+ * Canonical band colours — the SINGLE source of truth for the hex a band is
+ * drawn in, so the band a student works toward is the same predefined colour
+ * everywhere (prompt, editor, keywords, metrics). These are the exact Tailwind
+ * 500/600 equivalents of the classes returned by getBandConfig(), so the raw
+ * hex used in inline gradients (e.g. the editor header) can never drift from
+ * the class-based colours used elsewhere.
+ */
+export const BAND_HEX: Record<number, string> = {
+  1: '#ef4444', // red-500
+  2: '#f97316', // orange-500
+  3: '#eab308', // yellow-500
+  4: '#22c55e', // green-500
+  5: '#3b82f6', // blue-500
+  6: '#a855f7', // purple-500
+};
+
+export const BAND_HEX_DARK: Record<number, string> = {
+  1: '#dc2626', // red-600
+  2: '#ea580c', // orange-600
+  3: '#ca8a04', // yellow-600
+  4: '#16a34a', // green-600
+  5: '#2563eb', // blue-600
+  6: '#9333ea', // purple-600
+};
+
+export const BAND_NAMES: Record<number, string> = {
+  1: 'Elementary',
+  2: 'Limited',
+  3: 'Developing',
+  4: 'Sound',
+  5: 'Excellent',
+  6: 'Outstanding',
+};
+
+const clampBand = (band: number): number => Math.max(1, Math.min(6, Math.round(band)));
+export const getBandHex = (band: number): string => BAND_HEX[clampBand(band)];
+export const getBandHexDark = (band: number): string => BAND_HEX_DARK[clampBand(band)];
+export const getBandName = (band: number): string => BAND_NAMES[clampBand(band)];
+
 export const getBandConfig = (bandOrTier: number): BandConfig => {
   const configs: Record<number, BandConfig> = {
     6: {
@@ -143,6 +184,19 @@ export const getBandConfig = (bandOrTier: number): BandConfig => {
   };
   return configs[bandOrTier] || configs[4];
 };
+
+/**
+ * Colour config for a cognitive TIER, expressed in the band that tier targets.
+ *
+ * This is the single robust way to colour anything tier-shaped (a command verb,
+ * a tier card, a question in a picker) so it matches the band colour the same
+ * question shows in the prompt, writing area and metrics. Always prefer this
+ * over `getBandConfig(tier)` — passing a raw tier index into `getBandConfig`
+ * treats the tier as if it were a band and produces a *different* colour (e.g.
+ * a Tier-2 DESCRIBE would come out orange instead of its Band-3 yellow).
+ */
+export const getTierBandConfig = (tier: number): BandConfig =>
+  getBandConfig(getTierTargetBand(tier));
 
 export const getBandStyle = (band: number): { label: string; color: string } => {
   if (band >= 6)
@@ -332,8 +386,10 @@ const processInlineFormatting = (
           if (typeof n !== 'string') return n;
           const parts = n.split(verbRegex);
           return parts.map((part, i) => {
-            if (verbRegex.test(part)) {
-              // Capturing group matched
+            // Odd indices are the captured matches. Using verbRegex.test() here
+            // would be stateful (/g regex, lastIndex carries over) and drop every
+            // other match — index parity is the reliable, stateless check.
+            if (i % 2 === 1) {
               return React.createElement(
                 'span',
                 { key: `v-${i}`, className: 'font-black text-[rgb(var(--color-accent))]' },
@@ -350,7 +406,8 @@ const processInlineFormatting = (
           if (typeof n !== 'string') return n;
           const parts = n.split(keywordRegex);
           return parts.map((part, i) => {
-            if (keywordRegex.test(part)) {
+            // Odd indices are the matched keywords (see verb branch above).
+            if (i % 2 === 1) {
               return React.createElement(
                 'span',
                 { key: `k-${i}`, className: 'font-bold text-emerald-400 light:text-emerald-700' },
@@ -447,7 +504,12 @@ export const renderEditorHighlights = (
         if (typeof n !== 'string') return n;
         const parts = n.split(verbRegex);
         return parts.map((part, i) => {
-          if (verbRegex.test(part)) {
+          // String.split with a single capturing group returns the matched
+          // delimiters at the odd indices. Re-testing with verbRegex here would
+          // be stateful (it is a /g regex whose lastIndex carries between calls)
+          // and would silently drop every other occurrence — the flickering
+          // highlight bug. Index parity is the reliable, stateless check.
+          if (i % 2 === 1) {
             // Removed padding px-0.5 to prevent horizontal drift/ghosting
             return React.createElement(
               'span',
@@ -468,7 +530,8 @@ export const renderEditorHighlights = (
         if (typeof n !== 'string') return n;
         const parts = n.split(keywordRegex);
         return parts.map((part, i) => {
-          if (keywordRegex.test(part)) {
+          // Odd indices are the matched keywords (see verb branch above).
+          if (i % 2 === 1) {
             // Removed padding px-0.5 to prevent horizontal drift/ghosting
             return React.createElement(
               'span',

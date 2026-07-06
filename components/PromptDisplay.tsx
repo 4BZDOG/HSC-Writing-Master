@@ -19,9 +19,11 @@ import {
   FileQuestion,
   ZoomIn,
   ZoomOut,
+  Loader2,
+  Target,
 } from 'lucide-react';
 import { getBandConfig, renderFormattedText } from '../utils/renderUtils';
-import { getCommandTermInfo } from '../data/commandTerms';
+import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import OutcomeDetailModal from './OutcomeDetailModal';
 
 interface PromptDisplayProps {
@@ -95,8 +97,14 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
 
   const canCurate = canCurateContent(userRole);
   const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
-  // Use the verb's Tier to determine the band config (color) for the header
-  const bandConfig = useMemo(() => getBandConfig(verbInfo.tier), [verbInfo.tier]);
+  // Colour the prompt in the question's TARGET band — the ceiling a full-mark
+  // response reaches — so the prompt, the writing area, the keyword panels and
+  // the metrics all share one predefined colour for the band being worked toward.
+  const targetBand = useMemo(
+    () => getTargetBand(prompt.totalMarks, verbInfo.tier),
+    [prompt.totalMarks, verbInfo.tier]
+  );
+  const bandConfig = useMemo(() => getBandConfig(targetBand), [targetBand]);
 
   const linkedOutcomes = useMemo(() => {
     if (!prompt.linkedOutcomes) return [];
@@ -190,6 +198,15 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             <div>
               <h3 className="text-lg md:text-xl font-black tracking-tight leading-none flex items-center gap-2">
                 Writing Prompt
+                {isEnriching && (
+                  <span
+                    className="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-[0.15em] bg-white/15 border border-white/20 rounded-full px-2 py-0.5 animate-fade-in"
+                    title="Fetching this question's scenario and syllabus terms in the background — you can start writing now."
+                  >
+                    <Loader2 className="w-2.5 h-2.5 animate-spin" />
+                    Enhancing
+                  </span>
+                )}
               </h3>
               <div className="flex items-center gap-2 mt-1.5">
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">
@@ -226,6 +243,13 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               <span className="w-px h-3 bg-white/20"></span>
               <span className="flex items-center gap-1.5 opacity-90">
                 <Award className="w-3 h-3 text-white/70" /> {prompt.totalMarks} Marks
+              </span>
+              <span className="w-px h-3 bg-white/20"></span>
+              <span
+                className="flex items-center gap-1.5 font-black"
+                title={`A full-mark response to this ${prompt.verb} question reaches Band ${targetBand}.`}
+              >
+                <Target className="w-3 h-3 text-white/70" /> Band {targetBand}
               </span>
             </div>
           </div>

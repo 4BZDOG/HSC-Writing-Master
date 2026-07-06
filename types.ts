@@ -184,6 +184,15 @@ export interface UserStats {
   streakDays: number;
 }
 
+/**
+ * The student's writing experience:
+ * - `coach`: live feedback on — keyword/verb highlighting, live insights,
+ *   syllabus-term tracking, logic connectors, band-progress, and exemplars.
+ * - `exam`: HSC exam simulation — no assistance, no exemplars, marking guide
+ *   hidden, a countdown timer running, and a calm exam-paper aesthetic.
+ */
+export type WritingMode = 'coach' | 'exam';
+
 export interface UserPreferences {
   defaultFocusMode: boolean;
   autoSave: boolean;

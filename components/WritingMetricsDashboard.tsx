@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Prompt } from '../types';
+import { Prompt, WritingMode } from '../types';
 import { BAND_METRICS, getCommandTermInfo, getBandForMark } from '../data/commandTerms';
 import { escapeRegExp, getBandConfig, getKeywordVariants, BandConfig } from '../utils/renderUtils';
 import { analyzeText, buildWritingInsights, InsightTone } from '../utils/writingAnalysis';
@@ -19,6 +19,7 @@ import {
   CheckCircle2,
   AlertTriangle,
   Info,
+  GraduationCap,
 } from 'lucide-react';
 
 const TONE_STYLES: Record<
@@ -108,10 +109,15 @@ interface WritingMetricsDashboardProps {
   userAnswer: string;
   prompt: Prompt;
   onAddWord: (word: string) => void;
+  writingMode?: WritingMode;
 }
 
 export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = React.memo(
-  ({ userAnswer, prompt, onAddWord }) => {
+  ({ userAnswer, prompt, onAddWord, writingMode = 'coach' }) => {
+    // Exam Mode: no live feedback — just the essentials (words + a running
+    // countdown). The syllabus %, insights, term tracker and connectors are all
+    // coaching aids and stay hidden.
+    const isExamMode = writingMode === 'exam';
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isTimerActive, setIsTimerActive] = useState(false);
     const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -127,10 +133,13 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     );
     const [remainingTime, setRemainingTime] = useState(recommendedTime);
 
+    // Reset the clock whenever the question (its recommended time) or the mode
+    // changes. In Exam Mode the countdown auto-starts — you're "under exam
+    // conditions" the moment you switch in; in Coach Mode it waits for Play.
     useEffect(() => {
       setRemainingTime(recommendedTime);
-      setIsTimerActive(false);
-    }, [recommendedTime]);
+      setIsTimerActive(isExamMode);
+    }, [recommendedTime, isExamMode]);
     useEffect(() => {
       if (!isTimerActive) return;
       timerIntervalRef.current = setInterval(() => {
@@ -235,12 +244,21 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
       <div className="clip-stable rounded-[32px] border-2 border-slate-300 dark:border-white/20 bg-white dark:bg-black/40 overflow-hidden shadow-2xl transition-all duration-500">
         <div className="flex flex-col sm:flex-row items-stretch border-b-2 border-slate-300 dark:border-white/10">
           <div className="flex flex-1 items-center bg-slate-50 dark:bg-black/60">
-            <StatBox
-              label="Syllabus"
-              value={`${keywordStats.score}%`}
-              colorClass="text-emerald-600 dark:text-emerald-400"
-              icon={Target}
-            />
+            {isExamMode ? (
+              <StatBox
+                label="Mode"
+                value="Exam"
+                colorClass="text-red-500 dark:text-red-400"
+                icon={GraduationCap}
+              />
+            ) : (
+              <StatBox
+                label="Syllabus"
+                value={`${keywordStats.score}%`}
+                colorClass="text-emerald-600 dark:text-emerald-400"
+                icon={Target}
+              />
+            )}
             <StatBox
               label="Words"
               value={wordCount}
@@ -251,9 +269,11 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
               label="Timer"
               value={formatTime(remainingTime)}
               colorClass={
-                remainingTime < 60 && isTimerActive
-                  ? 'text-red-500 animate-pulse'
-                  : 'text-sky-600 dark:text-sky-400'
+                remainingTime === 0
+                  ? 'text-red-500'
+                  : remainingTime < 60 && isTimerActive
+                    ? 'text-red-500 animate-pulse'
+                    : 'text-sky-600 dark:text-sky-400'
               }
               icon={Clock3}
             />
@@ -263,31 +283,45 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
             <div className="flex gap-1.5 bg-slate-100 dark:bg-white/5 p-1.5 rounded-2xl border border-slate-200 dark:border-white/10">
               <button
                 onClick={() => setIsTimerActive(!isTimerActive)}
-                className="p-2 rounded-xl hover:bg-white dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 transition-all active:scale-90"
+                disabled={remainingTime === 0}
+                aria-label={isTimerActive ? 'Pause timer' : 'Start timer'}
+                title={isTimerActive ? 'Pause timer' : 'Start timer'}
+                className="p-2 rounded-xl hover:bg-white dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 transition-all active:scale-90 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100"
               >
                 {isTimerActive ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
               </button>
               <button
-                onClick={() => setRemainingTime(recommendedTime)}
+                onClick={() => {
+                  setIsTimerActive(false);
+                  setRemainingTime(recommendedTime);
+                }}
+                aria-label="Reset timer"
+                title="Reset timer"
                 className="p-2 rounded-xl hover:bg-white dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 transition-all active:scale-90"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
             </div>
-            <button
-              onClick={() => setIsCollapsed(!isCollapsed)}
-              className="p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all"
-            >
-              <ChevronDown
-                className={`w-5 h-5 transition-transform duration-500 ${isCollapsed ? '-rotate-90' : ''}`}
-              />
-            </button>
+            {!isExamMode && (
+              <button
+                onClick={() => setIsCollapsed(!isCollapsed)}
+                aria-label={isCollapsed ? 'Expand writing metrics' : 'Collapse writing metrics'}
+                aria-expanded={!isCollapsed}
+                title={isCollapsed ? 'Expand metrics' : 'Collapse metrics'}
+                className="p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all"
+              >
+                <ChevronDown
+                  className={`w-5 h-5 transition-transform duration-500 ${isCollapsed ? '-rotate-90' : ''}`}
+                />
+              </button>
+            )}
           </div>
         </div>
 
-        {/* Improved Smooth Expansion Container */}
+        {/* Improved Smooth Expansion Container — all live-feedback panels; hidden
+            entirely under Exam conditions. */}
         <div
-          className={`grid transition-all duration-500 ease-in-out ${isCollapsed ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'}`}
+          className={`grid transition-all duration-500 ease-in-out ${isCollapsed || isExamMode ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'}`}
         >
           <div className="overflow-hidden">
             <div className="p-8 space-y-8 bg-white dark:bg-transparent">
@@ -342,15 +376,35 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="flex flex-col gap-4">
-                  <div className="flex items-center gap-3 px-1">
-                    <Sparkles className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500">
-                      Syllabus Terms
-                    </h4>
+                  <div className="flex items-center justify-between gap-3 px-1">
+                    <div className="flex items-center gap-3">
+                      <Sparkles className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
+                      <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500">
+                        Syllabus Terms
+                      </h4>
+                    </div>
+                    {(prompt.keywords?.length || 0) > 0 && (
+                      <span
+                        className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border ${
+                          keywordStats.missed.length === 0
+                            ? `${progressInfo.currentBandColor.bg} ${progressInfo.currentBandColor.text} ${progressInfo.currentBandColor.border}`
+                            : 'text-slate-500 dark:text-slate-400 border-slate-200 dark:border-white/10'
+                        }`}
+                        title="Terms detected in your response so far"
+                      >
+                        {keywordStats.used.length}/{prompt.keywords?.length || 0}
+                      </span>
+                    )}
                   </div>
                   <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto custom-scrollbar pr-2">
                     {keywordStats.used.map((kw) => (
-                      <Pill key={kw} label={kw} active={true} onClick={() => onAddWord(kw)} />
+                      <Pill
+                        key={kw}
+                        label={kw}
+                        active={true}
+                        theme={progressInfo.currentBandColor}
+                        onClick={() => onAddWord(kw)}
+                      />
                     ))}
                     {keywordStats.missed.map((kw) => (
                       <Pill key={kw} label={kw} active={false} onClick={() => onAddWord(kw)} />
@@ -376,7 +430,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                           key={kw}
                           label={kw}
                           active={isUsed}
-                          theme={isUsed ? getBandConfig(commandTermInfo.tier) : undefined}
+                          theme={isUsed ? progressInfo.currentBandColor : undefined}
                           onClick={() => onAddWord(kw)}
                           icon="zap"
                         />

@@ -27,7 +27,7 @@ import { subscribeQuotaWarnings } from './services/quotaNotifier';
 import { isCurriculumRemote } from './services/curriculumService';
 import { savePromptContribution } from './services/contributionService';
 import { screenContentQuality } from './services/geminiService';
-import { User } from './types';
+import { User, WritingMode } from './types';
 import { canModerate, isSystemAdmin } from './utils/permissions';
 import {
   Compass,
@@ -44,9 +44,12 @@ import {
   KeyRound,
   BarChart3,
   LineChart,
+  Minimize,
+  ChevronUp,
 } from 'lucide-react';
 import { apiMonitor, ApiStatus } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
+import SyllabusNavBar from './components/SyllabusNavBar';
 import { loadUserProfile } from './utils/storageUtils';
 
 const AnimatedBackground: React.FC = () => {
@@ -99,6 +102,9 @@ const AnimatedBackground: React.FC = () => {
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E")`,
         }}
       />
+      {/* Focus Mode ambience: fades in via the `body.focus-mode` class (see
+          index.css). Sits above the opaque base here, below all app content. */}
+      <div className="focus-ambient absolute inset-0" />
     </div>
   );
 };
@@ -176,6 +182,12 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   };
 
   const [isFocusMode, setIsFocusMode] = useState(false);
+  // Writing experience: 'coach' surfaces live feedback (highlighting, insights,
+  // exemplars); 'exam' simulates HSC exam conditions (no assistance, timed).
+  const [writingMode, setWritingMode] = useState<WritingMode>('coach');
+  // The syllabus navigator folds into a breadcrumb once a question is chosen so
+  // the screen belongs to the writing; "Change" re-opens it.
+  const [isNavExpanded, setIsNavExpanded] = useState(true);
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
   const [isReviewQueueOpen, setIsReviewQueueOpen] = useState(false);
   const [isUsageDashboardOpen, setIsUsageDashboardOpen] = useState(false);
@@ -291,7 +303,12 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   const globalLoadingMessage = useMemo(() => {
     if (isEvaluating) return 'Synthesising feedback...';
     if (isImproving) return 'Drafting upgrade path...';
-    if (isEnriching) return 'Indexing context...';
+    // NOTE: `isEnriching` is deliberately NOT here. Enrichment (fetching a
+    // prompt's missing scenario / keywords / outcomes) is a *background* task
+    // that fires automatically on prompt selection — blocking the whole screen
+    // with a modal for it froze the UI whenever the AI was slow or unreachable.
+    // It now surfaces as a subtle, non-blocking inline indicator in the prompt
+    // header instead (PromptDisplay `isEnriching`).
     if (isGeneratingScenario) return 'Modelling environment...';
     if (isRegeneratingKeywords) return 'Analysing syllabus keywords...';
     if (isSuggestingKeywords) return 'Discovering terminology...';
@@ -299,7 +316,6 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   }, [
     isEvaluating,
     isImproving,
-    isEnriching,
     isGeneratingScenario,
     isRegeneratingKeywords,
     isSuggestingKeywords,
@@ -351,6 +367,21 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       html.classList.add('dark');
     }
   }, [user.preferences.theme]);
+
+  // Paint a calm ambient gradient on the page background while writing in Focus
+  // Mode, so the mode reads as a distinct, immersive space (see index.css).
+  useEffect(() => {
+    document.body.classList.toggle('focus-mode', isFocusMode);
+    return () => document.body.classList.remove('focus-mode');
+  }, [isFocusMode]);
+
+  // Fold the syllabus navigator down to a breadcrumb the moment a question is
+  // chosen, and re-open it whenever the selection is cleared. Keyed on the
+  // selected prompt id only, so pressing "Change" (which just expands) is never
+  // fought by this effect until the student actually picks a different question.
+  useEffect(() => {
+    setIsNavExpanded(!currentPrompt);
+  }, [currentPrompt?.id]);
 
   const modalHandlers = {
     isModalOpen,
@@ -415,10 +446,30 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     setEnrichError,
   };
 
+  // The navigator is "collapsed" (shown as a breadcrumb bar) when a question is
+  // selected and the student hasn't re-opened it to change their choice.
+  const isNavCollapsed = !!currentPrompt && !isNavExpanded;
+
   return (
     <div
-      className={`relative max-w-[1600px] mx-auto ${isFocusMode ? 'p-2 sm:p-4' : 'p-4 sm:p-6 lg:p-8'} flex flex-col gap-6 transition-all duration-500`}
+      className={`relative max-w-[1600px] mx-auto ${isFocusMode ? 'p-2 sm:p-4 pt-16 sm:pt-16' : 'p-4 sm:p-6 lg:p-8'} flex flex-col gap-6 transition-all duration-500`}
     >
+      {isFocusMode && (
+        <button
+          onClick={() => setIsFocusMode(false)}
+          title="Exit focus mode (Esc)"
+          className="fixed top-4 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-2.5 pl-3 pr-4 py-2 rounded-full bg-black/40 light:bg-white/70 backdrop-blur-xl border border-white/15 light:border-slate-300 text-white light:text-slate-700 shadow-2xl hover:bg-black/60 light:hover:bg-white transition-all animate-fade-in group"
+        >
+          <span className="w-6 h-6 rounded-full bg-amber-500/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+            <Minimize className="w-3.5 h-3.5 text-white" />
+          </span>
+          <span className="text-[11px] font-black uppercase tracking-[0.2em]">Focus Mode</span>
+          <kbd className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-white/10 light:bg-slate-200 border border-white/10 light:border-slate-300 tracking-widest">
+            ESC
+          </kbd>
+        </button>
+      )}
+
       {!isFocusMode && (
         <header className="sticky top-0 z-[60] -mx-4 sm:-mx-6 lg:-mx-8 h-20 flex items-center shadow-2xl shadow-indigo-900/20">
           <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-sky-500 opacity-100" />
@@ -562,35 +613,84 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         </header>
       )}
 
-      {!isFocusMode && (
-        <div className="relative z-50">
-          <PromptSelector
-            courses={courses}
-            statePath={statePath}
-            onPathChange={handlePathChange}
-            onAddCourse={() => openModal('courseCreator')}
-            onAddTopic={() => openModal('topicCreator')}
-            onAddSubTopic={() => openModal('subTopicCreator')}
-            onGeneratePrompt={() => openModal('promptGenerator')}
-            onManualEntry={() => openModal('manualPrompt')}
-            onEditOutcomes={() => openModal('outcomesEditor')}
-            onOpenDataManager={() => openModal('dataManager')}
-            onRenameItem={requestRename}
-            onDeleteItem={requestDelete}
-            onAddTopicFromSyllabus={() => openModal('topicSyllabusImport')}
-            onGenerateSuggestedTopic={() => openModal('topicGenerator')}
-            onGenerateDotPoints={() => openModal('dotPointGenerator')}
-            onImportTopic={() => openModal('topicImport')}
-            newlyAddedIds={newlyAddedIds}
-            userRole={user.role}
-          />
-        </div>
+      {!isFocusMode && isNavCollapsed && currentPrompt && (
+        <SyllabusNavBar
+          crumbs={[
+            {
+              label: currentCourse?.name || 'Subject',
+              onClick: () =>
+                handlePathChange({
+                  topicId: undefined,
+                  subTopicId: undefined,
+                  dotPointId: undefined,
+                  promptId: undefined,
+                }),
+            },
+            {
+              label: currentTopic?.name || 'Unit',
+              onClick: () =>
+                handlePathChange({
+                  subTopicId: undefined,
+                  dotPointId: undefined,
+                  promptId: undefined,
+                }),
+            },
+            {
+              label: currentSubTopic?.name || 'Module',
+              onClick: () => handlePathChange({ dotPointId: undefined, promptId: undefined }),
+            },
+            {
+              label: currentDotPoint?.description || 'Dot Point',
+              onClick: () => handlePathChange({ promptId: undefined }),
+            },
+          ]}
+          prompt={currentPrompt}
+          onExpand={() => setIsNavExpanded(true)}
+        />
       )}
 
-      {!isFocusMode && (
-        <div className="mb-4">
-          <CommandVerbHierarchy currentVerb={currentPrompt?.verb} />
-        </div>
+      {!isFocusMode && !isNavCollapsed && (
+        <>
+          <div className="relative z-50">
+            <PromptSelector
+              courses={courses}
+              statePath={statePath}
+              onPathChange={handlePathChange}
+              onAddCourse={() => openModal('courseCreator')}
+              onAddTopic={() => openModal('topicCreator')}
+              onAddSubTopic={() => openModal('subTopicCreator')}
+              onGeneratePrompt={() => openModal('promptGenerator')}
+              onManualEntry={() => openModal('manualPrompt')}
+              onEditOutcomes={() => openModal('outcomesEditor')}
+              onOpenDataManager={() => openModal('dataManager')}
+              onRenameItem={requestRename}
+              onDeleteItem={requestDelete}
+              onAddTopicFromSyllabus={() => openModal('topicSyllabusImport')}
+              onGenerateSuggestedTopic={() => openModal('topicGenerator')}
+              onGenerateDotPoints={() => openModal('dotPointGenerator')}
+              onImportTopic={() => openModal('topicImport')}
+              newlyAddedIds={newlyAddedIds}
+              userRole={user.role}
+            />
+          </div>
+
+          {currentPrompt && (
+            <div className="-mt-2 flex justify-end">
+              <button
+                onClick={() => setIsNavExpanded(false)}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 text-[rgb(var(--color-text-secondary))] border border-white/10 hover:bg-white/10 hover:text-[rgb(var(--color-text-primary))] transition-all text-xs font-bold"
+                title="Collapse the navigator and focus on your response"
+              >
+                <ChevronUp className="w-3.5 h-3.5" />
+                Collapse to breadcrumb
+              </button>
+            </div>
+          )}
+
+          <div className="mb-4">
+            <CommandVerbHierarchy currentVerb={currentPrompt?.verb} />
+          </div>
+        </>
       )}
 
       {currentPrompt && canContribute && !isFocusMode && (
@@ -631,6 +731,9 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           userRole={user.role}
           isFocusMode={isFocusMode}
           onToggleFocusMode={() => setIsFocusMode(!isFocusMode)}
+          writingMode={writingMode}
+          onWritingModeChange={setWritingMode}
+          showBreadcrumb={!isNavCollapsed}
         />
       ) : (
         <div className="min-h-[50vh] flex flex-col items-center justify-center animate-fade-in">

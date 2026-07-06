@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Prompt, UserRole } from '../types';
 import { canCurateContent } from '../utils/permissions';
 import { AlertCircle, Sparkles, RefreshCw, Plus, X, Check } from 'lucide-react';
-import { getCommandTermInfo } from '../data/commandTerms';
+import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { getBandConfig, getKeywordVariants, escapeRegExp } from '../utils/renderUtils';
 
 interface KeywordEditorProps {
@@ -38,9 +38,15 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
   const [newKeyword, setNewKeyword] = useState('');
   const canCurate = canCurateContent(userRole);
 
-  // Get color config based on question type (tier)
+  // Colour used terms in the question's TARGET band — the same predefined band
+  // colour the writing area and metrics use — so "a term is in your answer"
+  // reads as "you're building toward this band".
   const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
-  const bandConfig = useMemo(() => getBandConfig(verbInfo.tier), [verbInfo.tier]);
+  const targetBand = useMemo(
+    () => getTargetBand(prompt.totalMarks, verbInfo.tier),
+    [prompt.totalMarks, verbInfo.tier]
+  );
+  const bandConfig = useMemo(() => getBandConfig(targetBand), [targetBand]);
 
   useEffect(() => {
     setKeywords(prompt.keywords || []);
@@ -83,8 +89,30 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
   const isLoading = isEnriching || isSuggesting || isRegenerating;
   const error = regenerateError || suggestError;
 
+  const usedCount = useMemo(() => Array.from(usageMap.values()).filter(Boolean).length, [usageMap]);
+  const total = keywords.length;
+  const allUsed = total > 0 && usedCount === total;
+
   return (
     <div className="space-y-5">
+      {total > 0 && (
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 leading-snug">
+            Weave these syllabus terms in for a{' '}
+            <span className={`font-black ${bandConfig.text}`}>Band {targetBand}</span> response.
+          </p>
+          <span
+            className={`shrink-0 text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full border ${
+              allUsed
+                ? `${bandConfig.bg} ${bandConfig.text} ${bandConfig.border}`
+                : 'text-slate-500 dark:text-slate-400 border-slate-200 dark:border-white/10'
+            }`}
+            title="Terms detected in your response so far"
+          >
+            {usedCount}/{total} used
+          </span>
+        </div>
+      )}
       <div className="flex flex-wrap gap-2">
         {keywords.map((kw) => {
           const isUsed = usageMap.get(kw);

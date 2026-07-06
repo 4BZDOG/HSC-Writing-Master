@@ -8,6 +8,7 @@ import {
   Topic,
   SubTopic,
   DotPoint,
+  WritingMode,
 } from '../types';
 import PromptDisplay from './PromptDisplay';
 import ReferenceMaterials from './ReferenceMaterials';
@@ -33,6 +34,8 @@ const useKeyboardShortcuts = (shortcuts: { [key: string]: (e: KeyboardEvent) => 
         if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
           if (shortcuts['Enter']) shortcuts['Enter'](e);
         }
+        // Escape must reach focus-mode exit even while the student is typing.
+        if (e.key === 'Escape' && shortcuts['Escape']) shortcuts['Escape'](e);
         return;
       }
 
@@ -80,6 +83,9 @@ interface WorkspaceProps {
   userRole: UserRole;
   isFocusMode: boolean;
   onToggleFocusMode: () => void;
+  writingMode: WritingMode;
+  onWritingModeChange: (mode: WritingMode) => void;
+  showBreadcrumb?: boolean;
 }
 
 const Workspace: React.FC<WorkspaceProps> = ({
@@ -105,9 +111,16 @@ const Workspace: React.FC<WorkspaceProps> = ({
   userRole,
   isFocusMode,
   onToggleFocusMode,
+  writingMode,
+  onWritingModeChange,
+  showBreadcrumb = true,
 }) => {
   const { currentCourse, currentTopic, currentSubTopic, currentDotPoint, currentPrompt } =
     currentSelection;
+
+  // In Exam Mode the reference materials (syllabus terms, marking guide, grade
+  // standards) are hidden — a student sitting an exam can't see the marking key.
+  const isExamMode = writingMode === 'exam';
 
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isSuggestingOutcomes, setIsSuggestingOutcomes] = useState(false);
@@ -175,6 +188,12 @@ const Workspace: React.FC<WorkspaceProps> = ({
       if (!isEvaluating && userAnswer.trim() && (e.ctrlKey || e.metaKey)) onInternalEvaluate();
     },
     F: () => onToggleFocusMode(),
+    // Pressing Escape while in Focus Mode returns to the full workspace — the
+    // universal "exit fullscreen" gesture. It never fires outside Focus Mode,
+    // so it won't interfere with other Escape handlers (modals, menus).
+    Escape: () => {
+      if (isFocusMode) onToggleFocusMode();
+    },
   });
 
   const handleRunQualityCheck = (content: string, type: 'question' | 'code') => {
@@ -230,7 +249,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
 
   return (
     <div className="flex flex-col h-full gap-4">
-      {!isFocusMode && (
+      {!isFocusMode && showBreadcrumb && (
         <div className="w-full flex-shrink-0">
           <Breadcrumb items={breadcrumbItems} />
         </div>
@@ -269,7 +288,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
                 onTotalHeightChange={setPromptTotalHeight}
               />
             </div>
-            <div className="flex-shrink-0">
+            <div className={`flex-shrink-0 ${isExamMode ? 'hidden' : ''}`}>
               <ReferenceMaterials
                 prompt={currentPrompt}
                 topic={currentTopic}
@@ -358,6 +377,8 @@ const Workspace: React.FC<WorkspaceProps> = ({
           onHeaderResize={setEditorHeaderHeight}
           minHeaderHeight={syncedHeaderHeight}
           minEditorHeight={promptTotalHeight}
+          writingMode={writingMode}
+          onWritingModeChange={onWritingModeChange}
         />
 
         <CommandTermGuideModal

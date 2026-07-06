@@ -828,6 +828,26 @@ export const markForBand = (targetBand: number, totalMarks: number, tier: number
   return totalMarks;
 };
 
+/**
+ * The band a full-mark response to this question can reach — i.e. the ceiling a
+ * student is working toward, set by the verb's cognitive tier. This is the
+ * single definition of a question's "target band"; the writing area, keyword
+ * panels and metrics all colour themselves from it so the destination band is
+ * one predefined colour everywhere.
+ */
+export const getTargetBand = (totalMarks: number, tier: number = 4): number =>
+  getBandForMark(totalMarks, totalMarks, tier);
+
+/**
+ * The target band for a whole cognitive tier (independent of a specific mark) —
+ * the ceiling any question at that tier can reach. Used to colour tier-level UI
+ * (e.g. the Command Verb Hierarchy ribbon) in the SAME band colour a question of
+ * that tier uses, so a verb like DESCRIBE isn't one colour in the ribbon and
+ * another in the prompt.
+ */
+export const getTierTargetBand = (tier: number): number =>
+  TIER_GROUPS.find((g) => g.tier === tier)?.maxBand ?? Math.max(1, Math.min(6, tier));
+
 export const TIER_WORD_COUNT_MULTIPLIERS: { [key: number]: number } = {
   1: 0.8,
   2: 1.0,

@@ -6,7 +6,13 @@ import React, {
   useState,
   useMemo,
 } from 'react';
-import { renderEditorHighlights, getBandConfig } from '../utils/renderUtils';
+import {
+  renderEditorHighlights,
+  getBandConfig,
+  getBandHex,
+  getBandHexDark,
+  getBandName,
+} from '../utils/renderUtils';
 import {
   Maximize,
   Minimize,
@@ -19,8 +25,10 @@ import {
   ZoomIn,
   ZoomOut,
   FileText,
+  Lightbulb,
+  GraduationCap,
 } from 'lucide-react';
-import { PromptVerb } from '../types';
+import { PromptVerb, WritingMode } from '../types';
 
 interface EditorProps {
   value: string;
@@ -40,6 +48,8 @@ interface EditorProps {
   onHeaderResize?: (height: number) => void;
   minHeaderHeight?: number;
   minTotalHeight?: number;
+  writingMode?: WritingMode;
+  onWritingModeChange?: (mode: WritingMode) => void;
 }
 
 const MeshOverlay = ({
@@ -87,25 +97,6 @@ const ToolbarButton: React.FC<{
   </button>
 );
 
-// Map bands to specific Hex colors for gradient generation (matching renderUtils/Tailwind config)
-const BAND_HEX_MAP: Record<number, string> = {
-  1: '#ef4444', // Red (Band 1)
-  2: '#f97316', // Orange (Band 2)
-  3: '#f59e0b', // Amber (Band 3)
-  4: '#10b981', // Emerald (Band 4)
-  5: '#0ea5e9', // Sky (Band 5)
-  6: '#6366f1', // Indigo (Band 6)
-};
-
-const BAND_NAMES: Record<number, string> = {
-  1: 'Elementary',
-  2: 'Limited',
-  3: 'Developing',
-  4: 'Sound',
-  5: 'Excellent',
-  6: 'Outstanding',
-};
-
 const Editor = forwardRef<
   { getText: () => string; setText: (text: string) => void; insertText: (text: string) => void },
   EditorProps
@@ -129,86 +120,80 @@ const Editor = forwardRef<
       onHeaderResize,
       minHeaderHeight,
       minTotalHeight,
+      writingMode = 'coach',
+      onWritingModeChange,
     },
     ref
   ) => {
+    // Exam Mode strips every live-feedback affordance: no keyword/verb
+    // highlighting, no band-progress, no "phase" cues — just a calm page.
+    const isExamMode = writingMode === 'exam';
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const headerRef = useRef<HTMLDivElement>(null);
     const [copied, setCopied] = useState(false);
+
+    const wordCount = useMemo(() => value.trim().split(/\s+/).filter(Boolean).length, [value]);
+
+    // The highlight overlay is painted on every keystroke to stay pixel-aligned
+    // with the caret, but rebuilding the whole span tree each time makes long
+    // answers feel laggy. Memoise it so it only recomputes when the text, the
+    // tracked keywords, or the command verb actually change.
+    const highlightedContent = useMemo(
+      () => (isExamMode ? value : renderEditorHighlights(value, keywords, verb)),
+      [value, keywords, verb, isExamMode]
+    );
 
     // Internal Font Size State with Sync Logic
     const [internalFontSize, setInternalFontSize] = useState(syncedFontSize || 18);
     const [userHasResized, setUserHasResized] = useState(false);
 
-    // Advanced Chromatic Progression Config
+    // Live-feedback theme. The writing surface is always painted in the
+    // question's TARGET band colour (the single predefined colour a student is
+    // working toward, set by the verb's cognitive tier). Progress isn't shown by
+    // cycling through unrelated hues any more — instead that one band colour
+    // "fills in": a dark veil sits over it and lifts as the response develops,
+    // so the closer to a complete answer, the more vivid the target band glows.
     const chroma = useMemo(() => {
-      // 1. Determine the "Effective Band" based on progress (0.0 - 1.0)
-      // We map the progress strictly to the available bands up to maxBand.
-      // e.g. If maxBand is 3, then 0-33% is Band 1, 33-66% is Band 2, 66-100% is Band 3.
-      const safeMaxBand = Math.max(1, Math.min(6, maxBand));
-      const calculatedBand = Math.max(1, Math.min(safeMaxBand, Math.ceil(progress * safeMaxBand)));
-
-      // However, if progress is very low (start), we stay at Band 1 visually but maybe desaturated.
-      // For simplicity, we just snap to the calculated band.
-
-      const currentConfig = getBandConfig(calculatedBand);
-      const currentHex = BAND_HEX_MAP[calculatedBand];
-
-      // 2. Generate Dynamic Gradient
-      // The gradient should show the *path* from Band 1 to MaxBand.
-      // The "Current Position" occupies the majority of the header (0% -> 60%).
-      // The "Future Potential" occupies the rest (60% -> 100%).
-
-      let gradientString = '';
-
-      if (safeMaxBand === 1) {
-        // Single color gradient if only Band 1 is possible
-        gradientString = `linear-gradient(135deg, ${BAND_HEX_MAP[1]} 0%, ${BAND_HEX_MAP[1]} 100%)`;
-      } else {
-        // Build stops.
-        // 0% -> 60%: Current Band Color (Dominant)
-        // 60% -> 100%: Spectrum of remaining bands up to MaxBand
-
-        let stops = `${currentHex} 0%, ${currentHex} 60%`;
-
-        // If we are at the max band, the whole header is that color
-        if (calculatedBand === safeMaxBand) {
-          gradientString = `linear-gradient(135deg, ${currentHex} 0%, ${currentHex} 100%)`;
-        } else {
-          // We have room to grow. Show the future bands.
-          // Distribute remaining space (40%) among the remaining bands.
-          const remainingBands = [];
-          for (let b = calculatedBand + 1; b <= safeMaxBand; b++) {
-            remainingBands.push(b);
-          }
-
-          if (remainingBands.length > 0) {
-            const stepSize = 40 / remainingBands.length;
-            remainingBands.forEach((b, index) => {
-              const stopPos = 60 + stepSize * (index + 1);
-              stops += `, ${BAND_HEX_MAP[b]} ${stopPos}%`;
-            });
-          }
-          gradientString = `linear-gradient(110deg, ${stops})`;
-        }
+      // Exam Mode: a calm, neutral "exam booklet" header — no band colours, no
+      // progress-driven glow, so nothing hints at how the response is scoring.
+      if (isExamMode) {
+        return {
+          name: 'Exam',
+          targetBand: 0,
+          accent: '#94a3b8', // slate-400 caret
+          background: 'linear-gradient(135deg, #334155 0%, #1e293b 55%, #0f172a 100%)',
+          veil: 0,
+          glow: 'shadow-slate-950/40',
+          border: 'border-slate-600/50 light:border-slate-300',
+          mesh: '%23ffffff',
+          energy: 'none',
+          iconColor: 'text-white',
+        };
       }
 
-      // Energy glow effect based on progress density relative to the max possible
-      const relativeProgress = progress; // 0 to 1
-      const energyClass =
-        relativeProgress > 0.8 ? `shadow-[0_0_30px_rgba(255,255,255,0.15)]` : 'none';
+      const targetBand = Math.max(1, Math.min(6, maxBand));
+      const targetHex = getBandHex(targetBand);
+      const targetHexDark = getBandHexDark(targetBand);
+      const targetConfig = getBandConfig(targetBand);
+
+      const p = Math.max(0, Math.min(1, progress));
+      // Dark veil over the band colour: 60% opaque at a blank page, lifting to
+      // fully transparent as the answer approaches the target length/coverage.
+      const veil = (1 - p) * 0.6;
 
       return {
-        name: BAND_NAMES[calculatedBand],
-        accent: currentHex,
-        background: gradientString,
-        glow: currentConfig.glow,
-        border: currentConfig.border,
+        name: getBandName(targetBand),
+        targetBand,
+        accent: targetHex,
+        background: `linear-gradient(135deg, ${targetHex} 0%, ${targetHexDark} 100%)`,
+        veil,
+        glow: p > 0.85 ? targetConfig.glow : 'shadow-none',
+        border: targetConfig.border,
         mesh: '%23ffffff',
-        energy: energyClass,
+        energy: p > 0.85 ? 'shadow-[0_0_30px_rgba(255,255,255,0.15)]' : 'none',
         iconColor: 'text-white',
       };
-    }, [progress, maxBand]);
+    }, [progress, maxBand, isExamMode]);
 
     // Sync from parent if user hasn't manually overridden
     useEffect(() => {
@@ -309,15 +294,33 @@ const Editor = forwardRef<
       const text = textarea.value;
       const selection = text.substring(start, end);
       let newText = text;
+      // Where the caret / selection should land after the edit, so the user can
+      // keep typing inside the emphasis markers instead of losing their place.
+      let selStart = start;
+      let selEnd = end;
       if (type === 'bold') {
         newText = text.substring(0, start) + `**${selection}**` + text.substring(end);
+        selStart = start + 2;
+        selEnd = selStart + selection.length;
       } else if (type === 'italic') {
         newText = text.substring(0, start) + `*${selection}*` + text.substring(end);
+        selStart = start + 1;
+        selEnd = selStart + selection.length;
       } else if (type === 'list') {
-        const prefix = '\n- ';
+        // Only add a leading newline when we aren't already at the start of a line.
+        const atLineStart = start === 0 || text[start - 1] === '\n';
+        const prefix = atLineStart ? '- ' : '\n- ';
         newText = text.substring(0, start) + prefix + selection + text.substring(end);
+        selStart = start + prefix.length;
+        selEnd = selStart + selection.length;
       }
       onChange(newText);
+      requestAnimationFrame(() => {
+        if (textareaRef.current) {
+          textareaRef.current.focus();
+          textareaRef.current.setSelectionRange(selStart, selEnd);
+        }
+      });
     };
 
     const handleCopy = async () => {
@@ -328,9 +331,11 @@ const Editor = forwardRef<
       }
     };
 
-    // Styling for Grid Stacking (Auto-Grow)
+    // Styling for Grid Stacking (Auto-Grow).
+    // Extra bottom padding reserves space for the floating "Evaluate" action
+    // button (bottom-right) so a student's last lines are never hidden beneath it.
     const gridStackItemStyles =
-      'col-start-1 row-start-1 p-8 font-serif leading-[1.8] whitespace-pre-wrap break-words overflow-hidden min-h-[300px]';
+      'col-start-1 row-start-1 px-8 pt-8 pb-24 font-serif leading-[1.8] whitespace-pre-wrap break-words overflow-hidden min-h-[300px]';
 
     return (
       <div
@@ -346,6 +351,13 @@ const Editor = forwardRef<
             background: chroma.background,
           }}
         >
+          {/* Progress veil: dims the target-band colour when the response is
+              still thin, lifting to full vividness as it nears completion. */}
+          <div
+            className="absolute inset-0 pointer-events-none transition-opacity duration-1000 ease-out"
+            style={{ backgroundColor: `rgba(2, 6, 23, ${chroma.veil})` }}
+          />
+
           <MeshOverlay opacity="opacity-20" color="%23ffffff" />
 
           {/* Content Wrapper */}
@@ -359,48 +371,93 @@ const Editor = forwardRef<
               <div>
                 <h3 className="text-lg md:text-xl font-black tracking-tight leading-none flex items-center gap-2">
                   Written Response
-                  <span className="text-[10px] bg-black/20 px-1.5 py-0.5 rounded border border-white/10 font-bold uppercase tracking-widest">
-                    {chroma.name} Phase
-                  </span>
+                  {isExamMode ? (
+                    <span className="text-[10px] bg-red-500/90 px-1.5 py-0.5 rounded border border-white/20 font-black uppercase tracking-widest flex items-center gap-1 shadow-sm">
+                      <GraduationCap className="w-3 h-3" /> Exam
+                    </span>
+                  ) : (
+                    <span className="text-[10px] bg-black/25 px-1.5 py-0.5 rounded border border-white/15 font-black uppercase tracking-widest">
+                      Band {chroma.targetBand} · {chroma.name}
+                    </span>
+                  )}
                 </h3>
-                <div className="flex items-center gap-2 mt-1.5">
-                  <div className="h-1 w-20 bg-white/20 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-white transition-all duration-1000 ease-out"
-                      style={{ width: `${progress * 100}%` }}
-                    />
-                  </div>
-                  <p className="text-[9px] font-bold text-white/70 uppercase tracking-[0.2em]">
-                    {Math.round(progress * 100)}% Complete
+                {isExamMode ? (
+                  <p className="text-[9px] font-bold text-white/60 uppercase tracking-[0.2em] mt-1.5">
+                    Exam conditions · no assistance
                   </p>
-                </div>
+                ) : (
+                  <div className="flex items-center gap-2 mt-1.5">
+                    <div className="h-1 w-20 bg-white/20 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-white transition-all duration-1000 ease-out"
+                        style={{ width: `${Math.min(100, progress * 100)}%` }}
+                      />
+                    </div>
+                    <p className="text-[9px] font-bold text-white/70 uppercase tracking-[0.2em]">
+                      {Math.min(100, Math.round(progress * 100))}% → Band {chroma.targetBand}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 
             {/* Functional Pill Toolbar */}
             <div className="flex items-center gap-1 bg-black/20 backdrop-blur-xl p-1 rounded-2xl border border-white/10 shadow-inner flex-shrink-0">
-              <ToolbarButton
-                onClick={() => handleFormat('bold')}
-                icon={<Bold className="w-4 h-4" />}
-                tooltip="Bold"
-                disabled={disabled}
-              />
-              <ToolbarButton
-                onClick={() => handleFormat('italic')}
-                icon={<Italic className="w-4 h-4" />}
-                tooltip="Italic"
-                disabled={disabled}
-              />
-              <div className="w-px h-4 bg-white/20 mx-0.5" />
+              {onWritingModeChange && (
+                <>
+                  <div className="flex items-center gap-0.5" role="group" aria-label="Writing mode">
+                    <button
+                      type="button"
+                      onClick={() => onWritingModeChange('coach')}
+                      aria-pressed={!isExamMode}
+                      title="Coach Mode — live highlighting, insights and exemplars"
+                      className={`px-2.5 h-7 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 ${!isExamMode ? 'bg-white text-slate-900 shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                    >
+                      <Lightbulb className="w-3.5 h-3.5" />
+                      <span className="hidden md:inline">Coach</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onWritingModeChange('exam')}
+                      aria-pressed={isExamMode}
+                      title="Exam Mode — HSC exam simulation: no assistance, timed"
+                      className={`px-2.5 h-7 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 ${isExamMode ? 'bg-red-500 text-white shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                    >
+                      <GraduationCap className="w-3.5 h-3.5" />
+                      <span className="hidden md:inline">Exam</span>
+                    </button>
+                  </div>
+                  <div className="w-px h-4 bg-white/20 mx-0.5" />
+                </>
+              )}
+              {!isExamMode && (
+                <>
+                  <ToolbarButton
+                    onClick={() => handleFormat('bold')}
+                    icon={<Bold className="w-4 h-4" />}
+                    tooltip="Bold"
+                    disabled={disabled}
+                  />
+                  <ToolbarButton
+                    onClick={() => handleFormat('italic')}
+                    icon={<Italic className="w-4 h-4" />}
+                    tooltip="Italic"
+                    disabled={disabled}
+                  />
+                  <div className="w-px h-4 bg-white/20 mx-0.5" />
+                </>
+              )}
               <ToolbarButton
                 onClick={() => handleManualResize(Math.max(12, internalFontSize - 2))}
                 icon={<ZoomOut className="w-4 h-4" />}
-                tooltip="Smaller"
+                tooltip="Smaller text"
+                disabled={internalFontSize <= 12}
               />
               <ToolbarButton
                 onClick={() => handleManualResize(Math.min(32, internalFontSize + 2))}
                 icon={<ZoomIn className="w-4 h-4" />}
-                tooltip="Larger"
+                tooltip="Larger text"
+                disabled={internalFontSize >= 32}
               />
               <div className="w-px h-4 bg-white/20 mx-0.5" />
               <ToolbarButton
@@ -415,6 +472,11 @@ const Editor = forwardRef<
                   onClick={onToggleFocusMode}
                   aria-label={isFocusMode ? 'Exit focus mode' : 'Enter focus mode'}
                   aria-pressed={isFocusMode}
+                  title={
+                    isFocusMode
+                      ? 'Exit focus mode (Esc)'
+                      : 'Distraction-free writing (Ctrl / ⌘ + Shift + F)'
+                  }
                   className={`ml-2 px-3 h-8 rounded-xl transition-all font-black text-[10px] uppercase tracking-wider flex items-center gap-2 ${isFocusMode ? 'bg-amber-500 text-white shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'}`}
                 >
                   {isFocusMode ? (
@@ -458,7 +520,7 @@ const Editor = forwardRef<
               onChange={(e) => onChange(e.target.value)}
               onKeyDown={handleKeyDown}
               onBlur={() => onSave?.()}
-              placeholder={placeholder}
+              placeholder={isExamMode ? 'Begin your response. The clock is running…' : placeholder}
               disabled={disabled}
               className={`${gridStackItemStyles} bg-transparent text-transparent caret-[currentColor] resize-none border-none outline-none placeholder:text-[rgb(var(--color-text-dim))] focus:ring-0 selection:bg-[rgb(var(--color-accent))]/20 z-10 h-full`}
               style={{
@@ -472,8 +534,9 @@ const Editor = forwardRef<
             <div
               className={`${gridStackItemStyles} pointer-events-none text-[rgb(var(--color-text-primary))] light:text-slate-800 z-0`}
               style={{ fontSize: `${internalFontSize}px` }}
+              aria-hidden="true"
             >
-              {renderEditorHighlights(value, keywords, verb)}
+              {highlightedContent}
             </div>
           </div>
         </div>
@@ -484,11 +547,12 @@ const Editor = forwardRef<
         >
           <div className="flex items-center gap-6 text-[10px] text-[rgb(var(--color-text-dim))] font-black uppercase tracking-widest select-none">
             <span className="flex items-center gap-1.5">
-              <Type className="w-3.5 h-3.5 opacity-50" /> {value.length} Chars
+              <Type className="w-3.5 h-3.5 opacity-50" /> {value.length}{' '}
+              {value.length === 1 ? 'Char' : 'Chars'}
             </span>
             <span className="flex items-center gap-1.5">
-              <FileText className="w-3.5 h-3.5 opacity-50" />{' '}
-              {value.trim().split(/\s+/).filter(Boolean).length} Words
+              <FileText className="w-3.5 h-3.5 opacity-50" /> {wordCount}{' '}
+              {wordCount === 1 ? 'Word' : 'Words'}
             </span>
           </div>
           <div className="flex items-center gap-3">
@@ -497,7 +561,11 @@ const Editor = forwardRef<
                 className="w-2 h-2 rounded-full transition-colors duration-700"
                 style={{ backgroundColor: chroma.accent }}
               ></div>
-              <span className="text-[rgb(var(--color-text-secondary))]">{chroma.name} Phase</span>
+              <span className="text-[rgb(var(--color-text-secondary))]">
+                {isExamMode
+                  ? 'Exam Conditions'
+                  : `Band ${chroma.targetBand} Target · ${chroma.name}`}
+              </span>
             </div>
           </div>
         </div>
