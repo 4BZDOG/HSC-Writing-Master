@@ -332,8 +332,10 @@ const processInlineFormatting = (
           if (typeof n !== 'string') return n;
           const parts = n.split(verbRegex);
           return parts.map((part, i) => {
-            if (verbRegex.test(part)) {
-              // Capturing group matched
+            // Odd indices are the captured matches. Using verbRegex.test() here
+            // would be stateful (/g regex, lastIndex carries over) and drop every
+            // other match — index parity is the reliable, stateless check.
+            if (i % 2 === 1) {
               return React.createElement(
                 'span',
                 { key: `v-${i}`, className: 'font-black text-[rgb(var(--color-accent))]' },
@@ -350,7 +352,8 @@ const processInlineFormatting = (
           if (typeof n !== 'string') return n;
           const parts = n.split(keywordRegex);
           return parts.map((part, i) => {
-            if (keywordRegex.test(part)) {
+            // Odd indices are the matched keywords (see verb branch above).
+            if (i % 2 === 1) {
               return React.createElement(
                 'span',
                 { key: `k-${i}`, className: 'font-bold text-emerald-400 light:text-emerald-700' },
@@ -447,7 +450,12 @@ export const renderEditorHighlights = (
         if (typeof n !== 'string') return n;
         const parts = n.split(verbRegex);
         return parts.map((part, i) => {
-          if (verbRegex.test(part)) {
+          // String.split with a single capturing group returns the matched
+          // delimiters at the odd indices. Re-testing with verbRegex here would
+          // be stateful (it is a /g regex whose lastIndex carries between calls)
+          // and would silently drop every other occurrence — the flickering
+          // highlight bug. Index parity is the reliable, stateless check.
+          if (i % 2 === 1) {
             // Removed padding px-0.5 to prevent horizontal drift/ghosting
             return React.createElement(
               'span',
@@ -468,7 +476,8 @@ export const renderEditorHighlights = (
         if (typeof n !== 'string') return n;
         const parts = n.split(keywordRegex);
         return parts.map((part, i) => {
-          if (keywordRegex.test(part)) {
+          // Odd indices are the matched keywords (see verb branch above).
+          if (i % 2 === 1) {
             // Removed padding px-0.5 to prevent horizontal drift/ghosting
             return React.createElement(
               'span',

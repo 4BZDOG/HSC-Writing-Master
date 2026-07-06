@@ -44,6 +44,7 @@ import {
   KeyRound,
   BarChart3,
   LineChart,
+  Minimize,
 } from 'lucide-react';
 import { apiMonitor, ApiStatus } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
@@ -352,6 +353,13 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     }
   }, [user.preferences.theme]);
 
+  // Paint a calm ambient gradient on the page background while writing in Focus
+  // Mode, so the mode reads as a distinct, immersive space (see index.css).
+  useEffect(() => {
+    document.body.classList.toggle('focus-mode', isFocusMode);
+    return () => document.body.classList.remove('focus-mode');
+  }, [isFocusMode]);
+
   const modalHandlers = {
     isModalOpen,
     openModal,
@@ -417,8 +425,24 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
 
   return (
     <div
-      className={`relative max-w-[1600px] mx-auto ${isFocusMode ? 'p-2 sm:p-4' : 'p-4 sm:p-6 lg:p-8'} flex flex-col gap-6 transition-all duration-500`}
+      className={`relative max-w-[1600px] mx-auto ${isFocusMode ? 'p-2 sm:p-4 pt-16 sm:pt-16' : 'p-4 sm:p-6 lg:p-8'} flex flex-col gap-6 transition-all duration-500`}
     >
+      {isFocusMode && (
+        <button
+          onClick={() => setIsFocusMode(false)}
+          title="Exit focus mode (Esc)"
+          className="fixed top-4 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-2.5 pl-3 pr-4 py-2 rounded-full bg-black/40 light:bg-white/70 backdrop-blur-xl border border-white/15 light:border-slate-300 text-white light:text-slate-700 shadow-2xl hover:bg-black/60 light:hover:bg-white transition-all animate-fade-in group"
+        >
+          <span className="w-6 h-6 rounded-full bg-amber-500/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+            <Minimize className="w-3.5 h-3.5 text-white" />
+          </span>
+          <span className="text-[11px] font-black uppercase tracking-[0.2em]">Focus Mode</span>
+          <kbd className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-white/10 light:bg-slate-200 border border-white/10 light:border-slate-300 tracking-widest">
+            ESC
+          </kbd>
+        </button>
+      )}
+
       {!isFocusMode && (
         <header className="sticky top-0 z-[60] -mx-4 sm:-mx-6 lg:-mx-8 h-20 flex items-center shadow-2xl shadow-indigo-900/20">
           <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-sky-500 opacity-100" />

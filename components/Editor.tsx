@@ -138,6 +138,15 @@ const Editor = forwardRef<
 
     const wordCount = useMemo(() => value.trim().split(/\s+/).filter(Boolean).length, [value]);
 
+    // The highlight overlay is painted on every keystroke to stay pixel-aligned
+    // with the caret, but rebuilding the whole span tree each time makes long
+    // answers feel laggy. Memoise it so it only recomputes when the text, the
+    // tracked keywords, or the command verb actually change.
+    const highlightedContent = useMemo(
+      () => renderEditorHighlights(value, keywords, verb),
+      [value, keywords, verb]
+    );
+
     // Internal Font Size State with Sync Logic
     const [internalFontSize, setInternalFontSize] = useState(syncedFontSize || 18);
     const [userHasResized, setUserHasResized] = useState(false);
@@ -501,8 +510,9 @@ const Editor = forwardRef<
             <div
               className={`${gridStackItemStyles} pointer-events-none text-[rgb(var(--color-text-primary))] light:text-slate-800 z-0`}
               style={{ fontSize: `${internalFontSize}px` }}
+              aria-hidden="true"
             >
-              {renderEditorHighlights(value, keywords, verb)}
+              {highlightedContent}
             </div>
           </div>
         </div>
