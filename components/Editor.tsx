@@ -136,6 +136,8 @@ const Editor = forwardRef<
     const headerRef = useRef<HTMLDivElement>(null);
     const [copied, setCopied] = useState(false);
 
+    const wordCount = useMemo(() => value.trim().split(/\s+/).filter(Boolean).length, [value]);
+
     // Internal Font Size State with Sync Logic
     const [internalFontSize, setInternalFontSize] = useState(syncedFontSize || 18);
     const [userHasResized, setUserHasResized] = useState(false);
@@ -309,15 +311,33 @@ const Editor = forwardRef<
       const text = textarea.value;
       const selection = text.substring(start, end);
       let newText = text;
+      // Where the caret / selection should land after the edit, so the user can
+      // keep typing inside the emphasis markers instead of losing their place.
+      let selStart = start;
+      let selEnd = end;
       if (type === 'bold') {
         newText = text.substring(0, start) + `**${selection}**` + text.substring(end);
+        selStart = start + 2;
+        selEnd = selStart + selection.length;
       } else if (type === 'italic') {
         newText = text.substring(0, start) + `*${selection}*` + text.substring(end);
+        selStart = start + 1;
+        selEnd = selStart + selection.length;
       } else if (type === 'list') {
-        const prefix = '\n- ';
+        // Only add a leading newline when we aren't already at the start of a line.
+        const atLineStart = start === 0 || text[start - 1] === '\n';
+        const prefix = atLineStart ? '- ' : '\n- ';
         newText = text.substring(0, start) + prefix + selection + text.substring(end);
+        selStart = start + prefix.length;
+        selEnd = selStart + selection.length;
       }
       onChange(newText);
+      requestAnimationFrame(() => {
+        if (textareaRef.current) {
+          textareaRef.current.focus();
+          textareaRef.current.setSelectionRange(selStart, selEnd);
+        }
+      });
     };
 
     const handleCopy = async () => {
@@ -328,9 +348,11 @@ const Editor = forwardRef<
       }
     };
 
-    // Styling for Grid Stacking (Auto-Grow)
+    // Styling for Grid Stacking (Auto-Grow).
+    // Extra bottom padding reserves space for the floating "Evaluate" action
+    // button (bottom-right) so a student's last lines are never hidden beneath it.
     const gridStackItemStyles =
-      'col-start-1 row-start-1 p-8 font-serif leading-[1.8] whitespace-pre-wrap break-words overflow-hidden min-h-[300px]';
+      'col-start-1 row-start-1 px-8 pt-8 pb-24 font-serif leading-[1.8] whitespace-pre-wrap break-words overflow-hidden min-h-[300px]';
 
     return (
       <div
@@ -367,11 +389,11 @@ const Editor = forwardRef<
                   <div className="h-1 w-20 bg-white/20 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-white transition-all duration-1000 ease-out"
-                      style={{ width: `${progress * 100}%` }}
+                      style={{ width: `${Math.min(100, progress * 100)}%` }}
                     />
                   </div>
                   <p className="text-[9px] font-bold text-white/70 uppercase tracking-[0.2em]">
-                    {Math.round(progress * 100)}% Complete
+                    {Math.min(100, Math.round(progress * 100))}% Complete
                   </p>
                 </div>
               </div>
@@ -395,12 +417,14 @@ const Editor = forwardRef<
               <ToolbarButton
                 onClick={() => handleManualResize(Math.max(12, internalFontSize - 2))}
                 icon={<ZoomOut className="w-4 h-4" />}
-                tooltip="Smaller"
+                tooltip="Smaller text"
+                disabled={internalFontSize <= 12}
               />
               <ToolbarButton
                 onClick={() => handleManualResize(Math.min(32, internalFontSize + 2))}
                 icon={<ZoomIn className="w-4 h-4" />}
-                tooltip="Larger"
+                tooltip="Larger text"
+                disabled={internalFontSize >= 32}
               />
               <div className="w-px h-4 bg-white/20 mx-0.5" />
               <ToolbarButton
@@ -415,6 +439,11 @@ const Editor = forwardRef<
                   onClick={onToggleFocusMode}
                   aria-label={isFocusMode ? 'Exit focus mode' : 'Enter focus mode'}
                   aria-pressed={isFocusMode}
+                  title={
+                    isFocusMode
+                      ? 'Exit focus mode (Esc)'
+                      : 'Distraction-free writing (Ctrl / ⌘ + Shift + F)'
+                  }
                   className={`ml-2 px-3 h-8 rounded-xl transition-all font-black text-[10px] uppercase tracking-wider flex items-center gap-2 ${isFocusMode ? 'bg-amber-500 text-white shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'}`}
                 >
                   {isFocusMode ? (
@@ -484,11 +513,12 @@ const Editor = forwardRef<
         >
           <div className="flex items-center gap-6 text-[10px] text-[rgb(var(--color-text-dim))] font-black uppercase tracking-widest select-none">
             <span className="flex items-center gap-1.5">
-              <Type className="w-3.5 h-3.5 opacity-50" /> {value.length} Chars
+              <Type className="w-3.5 h-3.5 opacity-50" /> {value.length}{' '}
+              {value.length === 1 ? 'Char' : 'Chars'}
             </span>
             <span className="flex items-center gap-1.5">
-              <FileText className="w-3.5 h-3.5 opacity-50" />{' '}
-              {value.trim().split(/\s+/).filter(Boolean).length} Words
+              <FileText className="w-3.5 h-3.5 opacity-50" /> {wordCount}{' '}
+              {wordCount === 1 ? 'Word' : 'Words'}
             </span>
           </div>
           <div className="flex items-center gap-3">

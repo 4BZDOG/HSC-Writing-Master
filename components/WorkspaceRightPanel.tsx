@@ -220,6 +220,13 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             <button
               onClick={onEvaluate}
               disabled={isEvaluating || !userAnswer.trim()}
+              title={
+                isEvaluating
+                  ? 'Evaluating your response…'
+                  : !userAnswer.trim()
+                    ? 'Write a response first, then evaluate'
+                    : 'Evaluate your response (Ctrl / ⌘ + Enter)'
+              }
               className={`
                             group px-10 py-5 rounded-[24px] font-black text-xl tracking-tight
                             transition-all duration-500 flex items-center gap-4

@@ -33,6 +33,8 @@ const useKeyboardShortcuts = (shortcuts: { [key: string]: (e: KeyboardEvent) => 
         if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
           if (shortcuts['Enter']) shortcuts['Enter'](e);
         }
+        // Escape must reach focus-mode exit even while the student is typing.
+        if (e.key === 'Escape' && shortcuts['Escape']) shortcuts['Escape'](e);
         return;
       }
 
@@ -175,6 +177,12 @@ const Workspace: React.FC<WorkspaceProps> = ({
       if (!isEvaluating && userAnswer.trim() && (e.ctrlKey || e.metaKey)) onInternalEvaluate();
     },
     F: () => onToggleFocusMode(),
+    // Pressing Escape while in Focus Mode returns to the full workspace — the
+    // universal "exit fullscreen" gesture. It never fires outside Focus Mode,
+    // so it won't interfere with other Escape handlers (modals, menus).
+    Escape: () => {
+      if (isFocusMode) onToggleFocusMode();
+    },
   });
 
   const handleRunQualityCheck = (content: string, type: 'question' | 'code') => {

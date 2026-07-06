@@ -251,9 +251,11 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
               label="Timer"
               value={formatTime(remainingTime)}
               colorClass={
-                remainingTime < 60 && isTimerActive
-                  ? 'text-red-500 animate-pulse'
-                  : 'text-sky-600 dark:text-sky-400'
+                remainingTime === 0
+                  ? 'text-red-500'
+                  : remainingTime < 60 && isTimerActive
+                    ? 'text-red-500 animate-pulse'
+                    : 'text-sky-600 dark:text-sky-400'
               }
               icon={Clock3}
             />
@@ -263,12 +265,20 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
             <div className="flex gap-1.5 bg-slate-100 dark:bg-white/5 p-1.5 rounded-2xl border border-slate-200 dark:border-white/10">
               <button
                 onClick={() => setIsTimerActive(!isTimerActive)}
-                className="p-2 rounded-xl hover:bg-white dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 transition-all active:scale-90"
+                disabled={remainingTime === 0}
+                aria-label={isTimerActive ? 'Pause timer' : 'Start timer'}
+                title={isTimerActive ? 'Pause timer' : 'Start timer'}
+                className="p-2 rounded-xl hover:bg-white dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 transition-all active:scale-90 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100"
               >
                 {isTimerActive ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
               </button>
               <button
-                onClick={() => setRemainingTime(recommendedTime)}
+                onClick={() => {
+                  setIsTimerActive(false);
+                  setRemainingTime(recommendedTime);
+                }}
+                aria-label="Reset timer"
+                title="Reset timer"
                 className="p-2 rounded-xl hover:bg-white dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 transition-all active:scale-90"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -276,6 +286,9 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
             </div>
             <button
               onClick={() => setIsCollapsed(!isCollapsed)}
+              aria-label={isCollapsed ? 'Expand writing metrics' : 'Collapse writing metrics'}
+              aria-expanded={!isCollapsed}
+              title={isCollapsed ? 'Expand metrics' : 'Collapse metrics'}
               className="p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all"
             >
               <ChevronDown
