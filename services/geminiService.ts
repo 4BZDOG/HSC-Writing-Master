@@ -408,7 +408,10 @@ export const sanitiseKeywords = (raw: string[], verb?: string): string[] => {
   const result: string[] = [];
   for (const item of raw) {
     if (typeof item !== 'string') continue;
-    const term = item.trim().replace(/^[-•*\d.\s]+/, '');
+    // Strip a leading list marker ("- ", "• ", "1. ", "2) ") if the model
+    // returned one — but NOT bare leading digits, so terms like "3D printing"
+    // or "1st law" keep their first character.
+    const term = item.trim().replace(/^(?:[-–—•*]\s+|\d+[.)]\s+)/, '');
     if (!term) continue;
     const lower = term.toLowerCase();
     if (lower === verbLower) continue;
