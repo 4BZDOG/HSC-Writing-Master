@@ -408,8 +408,13 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   const handleRecalibrate = async () => {
     if (onRecalibrate) {
       setIsRecalibrating(true);
-      await onRecalibrate();
-      setIsRecalibrating(false);
+      try {
+        await onRecalibrate();
+      } finally {
+        // Always release the spinner — a failed AI call must not leave the
+        // button stuck in its "recalibrating" state.
+        setIsRecalibrating(false);
+      }
     }
   };
 

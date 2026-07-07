@@ -359,6 +359,15 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 />
                 <div className="flex justify-end gap-2 px-2 pb-2">
                   <button
+                    onClick={() => {
+                      setEditScenarioText(prompt.scenario || '');
+                      setIsEditingScenario(false);
+                    }}
+                    className="px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
                     onClick={handleSaveScenario}
                     className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 flex items-center gap-2 shadow-md hover:scale-105 active:scale-95 transition-all"
                   >

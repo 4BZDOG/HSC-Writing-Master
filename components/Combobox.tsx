@@ -242,6 +242,8 @@ const Combobox: React.FC<ComboboxProps> = ({
 
       {isOpen && (
         <ul
+          role="listbox"
+          aria-labelledby={label ? labelId : undefined}
           className={`absolute z-[100] mt-2 w-full max-h-80 rounded-xl py-1 overflow-auto animate-fade-in custom-scrollbar border ${listStateStyles}`}
         >
           {options.length > 0 ? (

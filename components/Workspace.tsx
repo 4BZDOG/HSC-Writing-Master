@@ -26,27 +26,24 @@ const useKeyboardShortcuts = (shortcuts: { [key: string]: (e: KeyboardEvent) => 
       const isInput =
         target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable;
 
-      if (isInput) {
-        if (e.key.toLowerCase() === 'f' && (e.ctrlKey || e.metaKey) && e.shiftKey) {
-          e.preventDefault();
-          if (shortcuts['F']) shortcuts['F'](e);
-        }
-        if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-          if (shortcuts['Enter']) shortcuts['Enter'](e);
-        }
-        // Escape must reach focus-mode exit even while the student is typing.
-        if (e.key === 'Escape' && shortcuts['Escape']) shortcuts['Escape'](e);
+      // Focus-mode toggle is strictly the Ctrl/⌘ + Shift + F chord — a bare
+      // Shift+F must never hijack the keyboard, in or out of an input.
+      if (e.key.toLowerCase() === 'f' && (e.ctrlKey || e.metaKey) && e.shiftKey) {
+        e.preventDefault();
+        shortcuts['F']?.(e);
         return;
       }
-
-      if (shortcuts[e.key]) shortcuts[e.key](e);
-      else if (e.key.toLowerCase() === 'f' && (e.ctrlKey || e.metaKey) && e.shiftKey) {
-        if (shortcuts['F']) shortcuts['F'](e);
+      // The Enter handler checks Ctrl/⌘ itself; Escape must always reach the
+      // focus-mode exit, even while the student is typing.
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey) && !isInput) {
+        shortcuts['Enter']?.(e);
+        return;
       }
+      if (e.key === 'Escape') shortcuts['Escape']?.(e);
     };
 
-    window.addEventListener('keydown', handleKeyDown as any);
-    return () => window.removeEventListener('keydown', handleKeyDown as any);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [shortcuts]);
 };
 
@@ -60,11 +57,6 @@ interface WorkspaceProps {
     currentDotPoint?: DotPoint;
     currentPrompt?: Prompt;
   };
-  editorRef: React.RefObject<{
-    getText: () => string;
-    setText: (text: string) => void;
-    insertText: (text: string) => void;
-  }>;
   userAnswer: string;
   debouncedUserAnswer: string;
   setUserAnswer: (val: string) => void;
@@ -92,7 +84,6 @@ const Workspace: React.FC<WorkspaceProps> = ({
   courses,
   statePath,
   currentSelection,
-  editorRef,
   userAnswer,
   debouncedUserAnswer,
   setUserAnswer,
@@ -241,9 +232,9 @@ const Workspace: React.FC<WorkspaceProps> = ({
   if (!currentPrompt) return null;
 
   const breadcrumbItems = [
-    { label: currentCourse?.name || 'Subject' },
-    { label: currentTopic?.name || 'Unit' },
-    { label: currentSubTopic?.name || 'Module' },
+    { label: currentCourse?.name || 'Course' },
+    { label: currentTopic?.name || 'Topic' },
+    { label: currentSubTopic?.name || 'Sub-Topic' },
     { label: currentDotPoint?.description || 'Dot Point' },
   ];
 

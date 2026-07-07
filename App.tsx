@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PromptSelector from './components/PromptSelector';
 import Workspace from './components/Workspace';
 import Toast from './components/Toast';
@@ -281,6 +281,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     handleRegenerateKeywords,
     isRegeneratingKeywords,
     regenerateKeywordsError,
+    recalibrateSamples,
     handleSuggestKeywords,
     isSuggestingKeywords,
     suggestKeywordsError,
@@ -342,11 +343,6 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
 
   const [userAnswer, setUserAnswer] = useState('');
   const debouncedUserAnswer = useDebounce(userAnswer, 1000);
-  const editorRef = useRef<{
-    getText: () => string;
-    setText: (text: string) => void;
-    insertText: (text: string) => void;
-  }>(null);
   const [newlyAddedIds, setNewlyAddedIds] = useState<Set<string>>(new Set());
 
   const handleEvaluate = () => {
@@ -426,6 +422,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     setEvaluationResult,
     handleGenerateScenario,
     handleRegenerateKeywords,
+    recalibrateSamples,
     handleSuggestKeywords,
     suggestOutcomesForPrompt,
     improveAnswer,
@@ -480,10 +477,10 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
               </div>
               <div>
                 <h1 className="text-2xl font-black text-white tracking-tighter leading-none italic uppercase">
-                  Studio
+                  Writing Studio
                 </h1>
                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/50 block mt-1">
-                  Specialist AI
+                  HSC Specialist AI
                 </span>
               </div>
             </div>
@@ -496,6 +493,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                         onClick={() => openModal('dataManager')}
                         className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
                         title="Data Vault (Import/Export/Reorder)"
+                        aria-label="Data Vault (Import/Export/Reorder)"
                       >
                         <Database className="w-4 h-4" />
                       </button>
@@ -503,6 +501,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                         onClick={() => setIsAuditModalOpen(true)}
                         className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
                         title="Syllabus Audit Studio"
+                        aria-label="Syllabus Audit Studio"
                       >
                         <Activity className="w-4 h-4" />
                       </button>
@@ -514,6 +513,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                         onClick={() => setIsReviewQueueOpen(true)}
                         className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
                         title="Review Queue (approve/reject contributions)"
+                        aria-label="Review Queue (approve/reject contributions)"
                       >
                         <ShieldCheck className="w-4 h-4" />
                       </button>
@@ -521,6 +521,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                         onClick={() => setIsClassInsightsOpen(true)}
                         className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
                         title="Class Insights (where the cohort is struggling)"
+                        aria-label="Class Insights (where the cohort is struggling)"
                       >
                         <BarChart3 className="w-4 h-4" />
                       </button>
@@ -528,6 +529,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                         onClick={() => setIsStudentProgressOpen(true)}
                         className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
                         title="Student Progress (one student across cognitive tiers)"
+                        aria-label="Student Progress (one student across cognitive tiers)"
                       >
                         <LineChart className="w-4 h-4" />
                       </button>
@@ -539,6 +541,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                         onClick={() => openModal('databaseDashboard')}
                         className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
                         title="Internal Database Health"
+                        aria-label="Internal Database Health"
                       >
                         <HardDrive className="w-4 h-4" />
                       </button>
@@ -546,6 +549,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                         onClick={() => setIsUsageDashboardOpen(true)}
                         className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
                         title="AI Usage Dashboard (monitor & adjust quotas)"
+                        aria-label="AI Usage Dashboard (monitor & adjust quotas)"
                       >
                         <Gauge className="w-4 h-4" />
                       </button>
@@ -553,6 +557,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                         onClick={() => setIsRuntimeKeyOpen(true)}
                         className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
                         title="Runtime AI Keys (paste a key to test models)"
+                        aria-label="Runtime AI Keys (paste a key to test models)"
                       >
                         <KeyRound className="w-4 h-4" />
                       </button>
@@ -580,15 +585,23 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
               <button
                 onClick={() => {
                   const next = user.preferences.theme === 'light' ? 'dark' : 'light';
-                  onUpdateUser({
+                  const updatedUser: User = {
                     ...user,
-                    preferences: { ...user.preferences, theme: next as any },
-                  });
-                  authService.updateUser({
-                    ...user,
-                    preferences: { ...user.preferences, theme: next as any },
-                  });
+                    preferences: { ...user.preferences, theme: next },
+                  };
+                  onUpdateUser(updatedUser);
+                  authService.updateUser(updatedUser);
                 }}
+                title={
+                  user.preferences.theme === 'light'
+                    ? 'Switch to dark theme'
+                    : 'Switch to light theme'
+                }
+                aria-label={
+                  user.preferences.theme === 'light'
+                    ? 'Switch to dark theme'
+                    : 'Switch to light theme'
+                }
                 className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all"
               >
                 {user.preferences.theme === 'light' ? (
@@ -599,6 +612,8 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
               </button>
               <button
                 onClick={() => openModal('userProfile')}
+                title="Open your profile"
+                aria-label="Open your profile"
                 className="flex items-center gap-3 pl-3 pr-1.5 h-11 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10 transition-all"
               >
                 <span className="text-xs font-bold text-white hidden sm:block">
@@ -617,7 +632,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         <SyllabusNavBar
           crumbs={[
             {
-              label: currentCourse?.name || 'Subject',
+              label: currentCourse?.name || 'Course',
               onClick: () =>
                 handlePathChange({
                   topicId: undefined,
@@ -627,7 +642,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 }),
             },
             {
-              label: currentTopic?.name || 'Unit',
+              label: currentTopic?.name || 'Topic',
               onClick: () =>
                 handlePathChange({
                   subTopicId: undefined,
@@ -636,7 +651,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 }),
             },
             {
-              label: currentSubTopic?.name || 'Module',
+              label: currentSubTopic?.name || 'Sub-Topic',
               onClick: () => handlePathChange({ dotPointId: undefined, promptId: undefined }),
             },
             {
@@ -712,7 +727,6 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           courses={courses}
           statePath={statePath}
           currentSelection={currentSelection}
-          editorRef={editorRef}
           userAnswer={userAnswer}
           debouncedUserAnswer={debouncedUserAnswer}
           setUserAnswer={setUserAnswer}
@@ -741,10 +755,11 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
             <MeshOverlay opacity="opacity-[0.05]" />
             <Compass className="w-20 h-20 text-indigo-500 mx-auto mb-8 opacity-40 group-hover:rotate-45 transition-transform duration-700" />
             <h3 className="text-3xl font-black text-white light:text-slate-900 mb-4 tracking-tighter uppercase italic">
-              Session Idle
+              Ready to Write
             </h3>
             <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-500 max-w-sm mx-auto font-medium">
-              Select a module from the navigator to begin cognitive evaluation.
+              Choose a course, topic and question in the navigator above — your writing space will
+              open here.
             </p>
             {courses.length === 0 && (
               <button
