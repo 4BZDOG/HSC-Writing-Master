@@ -111,9 +111,19 @@ describe('getTierBandConfig', () => {
 
 describe('sanitiseKeywords', () => {
   it('trims, strips list markers and drops blanks', () => {
-    expect(sanitiseKeywords([' - mitosis ', '• helicase', '', '  '])).toEqual([
+    expect(sanitiseKeywords([' - mitosis ', '• helicase', '1. osmosis', '2) diffusion', '', '  '])).toEqual([
       'mitosis',
       'helicase',
+      'osmosis',
+      'diffusion',
+    ]);
+  });
+
+  it('keeps leading digits in real terms (only strips list markers)', () => {
+    // A greedy `^[-•*\\d.\\s]+` strip would mangle these to "D printing" / "st law".
+    expect(sanitiseKeywords(['3D printing', '1st law of thermodynamics'])).toEqual([
+      '3D printing',
+      '1st law of thermodynamics',
     ]);
   });
 

@@ -1,5 +1,13 @@
 # HSC AI Evaluator - Change Log
 
+## [2.3.21] - 2026-07-07
+
+### 🐛 Fix
+
+- **`sanitiseKeywords` no longer mangles terms that start with a digit.** The list-marker strip (`/^[-•*\d.\s]+/`) also matched leading digits and dots, so an AI-suggested keyword like "3D printing" became "D printing" and "1st law of thermodynamics" became "st law of thermodynamics". Narrowed the pattern to strip only genuine list markers (`- `, `• `, `1. `, `2) `), preserving the term's first character. Regression test added. (Found in a review of the recent keyword/band/mode work — the rest of that work reviewed clean.)
+
+---
+
 ## [2.3.20] - 2026-07-06
 
 ### 🛠️ Admin AI Engine selector — discoverable
