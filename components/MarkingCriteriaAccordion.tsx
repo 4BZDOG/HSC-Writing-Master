@@ -3,7 +3,7 @@ import { Prompt, UserRole, CourseOutcome } from '../types';
 import { canCurateContent } from '../utils/permissions';
 import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
-import { Edit3, Save, X, Target, Sparkles, Loader2, ListChecks } from 'lucide-react';
+import { AlertCircle, Edit3, Save, X, Sparkles, Loader2, ListChecks } from 'lucide-react';
 import { formatMarkingCriteria } from '../utils/dataManagerUtils';
 import { generateRubricForPrompt } from '../services/geminiService';
 
@@ -34,6 +34,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(markingCriteria);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generateError, setGenerateError] = useState<string | null>(null);
 
   const canCurate = canCurateContent(userRole);
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
@@ -120,12 +121,15 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
 
   const handleGenerateRubric = async () => {
     setIsGenerating(true);
+    setGenerateError(null);
     try {
       const rubric = await generateRubricForPrompt(prompt, courseOutcomes);
       setEditText(rubric);
       setIsEditing(true);
     } catch (e) {
-      console.error('Rubric generation failed:', e);
+      // Surface the failure — a spinner that stops with no result reads as a
+      // dead button, not a failed AI call.
+      setGenerateError(e instanceof Error ? e.message : 'AI draft failed. Please try again.');
     } finally {
       setIsGenerating(false);
     }
@@ -170,6 +174,8 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                     setEditText(markingCriteria);
                     setIsEditing(true);
                   }}
+                  title="Edit criteria"
+                  aria-label="Edit criteria"
                   className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition-all"
                 >
                   <Edit3 className="w-4 h-4" />
@@ -198,6 +204,21 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
       </div>
 
       <div className="p-4 bg-slate-50/30 dark:bg-black/20">
+        {generateError && (
+          <div className="mb-3 p-3 rounded-xl bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-500/20 text-[10px] font-bold text-red-600 dark:text-red-400 flex items-center justify-between gap-2 animate-fade-in">
+            <span className="flex items-center gap-2">
+              <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+              {generateError}
+            </span>
+            <button
+              onClick={() => setGenerateError(null)}
+              aria-label="Dismiss"
+              className="p-1 rounded hover:bg-red-500/10 transition-colors"
+            >
+              <X className="w-3 h-3" />
+            </button>
+          </div>
+        )}
         {isEditing ? (
           <textarea
             value={editText}

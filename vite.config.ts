@@ -1,6 +1,11 @@
 import path from 'path';
+import { readFileSync } from 'fs';
 import { defineConfig, loadEnv, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
+
+const pkg = JSON.parse(readFileSync(path.resolve(__dirname, 'package.json'), 'utf-8')) as {
+  version: string;
+};
 
 // Dev-only middleware that mirrors the Vercel serverless proxy (api/gemini.ts)
 // so `npm run dev` can call /api/gemini without running `vercel dev`. The key
@@ -64,6 +69,9 @@ export default defineConfig(({ mode }) => {
     define: {
       // Only expose VITE_* variables (Vite's secure env approach).
       // API keys must never be in the bundle — they go through /api/gemini.
+      // The package.json version, so UI surfaces (login footer) never show a
+      // stale hard-coded number.
+      __APP_VERSION__: JSON.stringify(pkg.version),
     },
     resolve: {
       alias: {

@@ -4,6 +4,7 @@ import { Prompt } from '../types';
 import { renderFormattedText, stripHtmlTags, getBandConfig } from '../utils/renderUtils';
 import { Sparkles, Copy, ArrowRight, X, Check, User as UserIcon } from 'lucide-react';
 import { useAnswerMetrics } from '../hooks/useAnswerMetrics';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 import AnswerMetricsDisplay from './AnswerMetricsDisplay';
 
 interface ImprovementReviewModalProps {
@@ -27,6 +28,9 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
 }) => {
   const [isCopied, setIsCopied] = useState(false);
   const bandConfig = getBandConfig(targetBand);
+
+  // Escape closes the review, matching the backdrop click and every other modal.
+  useEscapeKey(isOpen, onClose);
 
   const improvedMetrics = useAnswerMetrics(improvedAnswer, originalPrompt.keywords);
   const originalMetrics = useAnswerMetrics(originalAnswer || '', originalPrompt.keywords);

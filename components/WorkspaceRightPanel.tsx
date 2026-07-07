@@ -354,7 +354,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
               </button>
               <button
                 onClick={handleDevMockImprovement}
-                className="px-5 py-2.5 rounded-xl bg-purple-500/10 text-purple-400 text-[10px] font-black border border-blue-500/20 hover:bg-purple-500 hover:text-white transition-all shadow-xl"
+                className="px-5 py-2.5 rounded-xl bg-purple-500/10 text-purple-400 text-[10px] font-black border border-purple-500/20 hover:bg-purple-500 hover:text-white transition-all shadow-xl"
               >
                 Mock Upgrade
               </button>

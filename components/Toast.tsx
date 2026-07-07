@@ -56,15 +56,7 @@ const Toast: React.FC<ToastProps> = ({ message, onClose, type = 'info', duration
       if (!isPaused) {
         const now = Date.now();
         const delta = now - lastUpdateRef.current;
-        setRemaining((prev) => {
-          const next = prev - delta;
-          if (next <= 0) {
-            clearInterval(timer);
-            onClose();
-            return 0;
-          }
-          return next;
-        });
+        setRemaining((prev) => Math.max(0, prev - delta));
         lastUpdateRef.current = now;
       } else {
         // While paused, just update the reference timestamp so we don't jump when unpaused
@@ -73,7 +65,14 @@ const Toast: React.FC<ToastProps> = ({ message, onClose, type = 'info', duration
     }, 100);
 
     return () => clearInterval(timer);
-  }, [isPaused, onClose]);
+  }, [isPaused]);
+
+  // Dismiss from an effect, never from inside the setRemaining updater —
+  // React may run updaters during render, and calling onClose (a parent
+  // setState) there triggers "Cannot update a component while rendering".
+  useEffect(() => {
+    if (remaining <= 0) onClose();
+  }, [remaining, onClose]);
 
   const progressPercent = Math.max(0, (remaining / duration) * 100);
 

@@ -20,3 +20,10 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+/**
+ * The app version from package.json, injected at build time by the `define`
+ * blocks in vite.config.ts / vitest.config.ts. Read it via a `typeof` guard
+ * (see LoginPage) so environments without the define fall back gracefully.
+ */
+declare const __APP_VERSION__: string;
