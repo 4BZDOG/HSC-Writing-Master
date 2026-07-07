@@ -15,6 +15,22 @@ function geminiDevProxy(env: Record<string, string>): Plugin {
     name: 'gemini-dev-proxy',
     configureServer(server) {
       server.middlewares.use('/api/gemini', async (req, res) => {
+        // Mirror the production handler's opt-in CORS (api/_lib/cors.ts) so
+        // split hosting (frontend on another origin) is testable locally.
+        const { corsHeadersFor } = await import('./api/_lib/cors');
+        const cors = corsHeadersFor(
+          req.headers.origin,
+          env.ALLOWED_ORIGIN || process.env.ALLOWED_ORIGIN
+        );
+        if (cors) {
+          for (const [name, value] of Object.entries(cors)) res.setHeader(name, value);
+        }
+        if (req.method === 'OPTIONS') {
+          res.statusCode = cors ? 204 : 403;
+          res.end();
+          return;
+        }
+
         if (req.method !== 'POST') {
           res.statusCode = 405;
           res.setHeader('Content-Type', 'application/json');
@@ -61,6 +77,9 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
+    // Sub-path hosting (e.g. GitHub Pages serves at /<repo>/). Leave unset for
+    // root hosting (Vercel, custom domain). Must start and end with '/'.
+    base: env.DEPLOY_BASE_PATH || '/',
     server: {
       port: 3000,
       host: '0.0.0.0',

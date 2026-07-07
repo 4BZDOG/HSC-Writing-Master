@@ -6,7 +6,12 @@ import { observeQuota } from './quotaNotifier';
 
 // All Gemini calls go through a server-side proxy so the API key never
 // reaches the browser bundle. See api/gemini.ts and api/_lib/generate.ts.
-const GEMINI_PROXY_ENDPOINT = '/api/gemini';
+// VITE_API_BASE_URL points the client at a proxy on ANOTHER origin (e.g. a
+// static GitHub Pages frontend calling a Vercel-hosted API) — the server must
+// then allow that frontend's origin via its ALLOWED_ORIGIN env var. Unset, the
+// path stays same-origin and behaviour is unchanged.
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
+const GEMINI_PROXY_ENDPOINT = `${API_BASE_URL}/api/gemini`;
 
 // --- Constants ---
 export const ERROR_THRESHOLD = 15;

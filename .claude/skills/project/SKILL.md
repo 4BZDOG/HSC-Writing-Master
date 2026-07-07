@@ -32,7 +32,7 @@ optional Claude engine via the admin AI Engine selector).
 | `api/` | Vercel serverless proxy for AI calls + auth gate |
 | `utils/` | Pure helpers — IDs, storage/migrations, Zod schemas, IDB transactions |
 | `types.ts` | Shared domain types (Course → Topic → SubTopic → DotPoint → Prompt) |
-| `courseData/`, `data/` | Syllabus JSON content and manifest |
+| `public/courseData/`, `data/` | Syllabus JSON content and manifest (public/ so builds ship it) |
 | `projectDocs/` | Design spec, pedagogy rules (GoldStandard), system prompts |
 | `supabase/` | Schema, seed, and backend tests |
 

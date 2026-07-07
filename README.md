@@ -45,15 +45,28 @@ The **HSC AI Evaluator** is not a simple chatbot. It is a structured pedagogical
     git clone [repository-url]
     npm install
     ```
-2.  **Launch**:
+2.  **Configure your AI key** (server-side only — never bundled):
+    ```bash
+    cp .env.example .env.local
+    # then set GEMINI_API_KEY=... (aistudio.google.com/app/apikeys)
+    ```
+3.  **Launch**:
     ```bash
     npm run dev
     ```
-3.  **Authenticate**:
-    The application utilizes Google's secure AI Studio integration. You will be prompted to select your API Key context upon launching the evaluation engine.
+    Sign in with a demo account (`admin`/`admin`) or continue as guest.
+
+## 🌐 Hosting
+
+See [**DEPLOYMENT.md**](DEPLOYMENT.md) for the full guide. Short version:
+**Vercel** (free tier) runs everything including the AI proxy;
+**GitHub Pages** hosts the offline experience via the included
+`deploy-pages.yml` workflow, and can gain working AI by pointing it at a
+Vercel-hosted API.
 
 ## 📚 Documentation Suite
 
+- [**Deployment Guide**](DEPLOYMENT.md): Hosting on Vercel and GitHub Pages.
 - [**Design Specification**](projectDocs/DesignSpec.md): The "Glass & Texture" UI philosophy.
 - [**Gold Standard**](projectDocs/GoldStandard.md): The pedagogical rules for question generation.
 - [**System Prompt**](projectDocs/systemPrompt.md): The prompt engineering logic behind the AI.
