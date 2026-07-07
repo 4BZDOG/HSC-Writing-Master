@@ -4,6 +4,11 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
+  define: {
+    // Mirror vite.config.ts so components reading the app version don't hit a
+    // bare identifier in the jsdom environment.
+    __APP_VERSION__: JSON.stringify('0.0.0-test'),
+  },
   test: {
     globals: true,
     environment: 'jsdom',

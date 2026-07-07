@@ -17,6 +17,10 @@ interface LoginPageProps {
   onLogin: (user: User) => void;
 }
 
+// Injected from package.json by the build (vite.config.ts define); the typeof
+// guard keeps environments without the define from throwing a ReferenceError.
+const APP_VERSION = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : 'dev';
+
 const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
   <div
     className={`absolute inset-0 ${opacity} pointer-events-none mix-blend-overlay z-0 transition-opacity duration-500`}
@@ -166,10 +170,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
             AI Marking Assistant
           </span>
           <h1 className="text-4xl font-bold tracking-tight text-white light:text-slate-900 leading-none">
-            Evaluator<span className="text-indigo-500">.</span>Studio
+            Writing<span className="text-indigo-500">.</span>Studio
           </h1>
           <p className="text-slate-400 light:text-slate-500 text-sm font-medium mt-4 max-w-xs mx-auto leading-relaxed">
-            HSC Software Engineering & Science Evaluation Tool.
+            AI writing coach and marker for NSW HSC courses.
           </p>
         </div>
       </div>
@@ -237,7 +241,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
             <div className="mt-8">
               <button
                 onClick={handleGuestLogin}
-                className="w-full py-4 rounded-2xl font-bold text-xs uppercase tracking-[0.1em] text-slate-300 light:text-slate-600 bg-white/5 light:bg-slate-100 border-2 border-white/5 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-200 active:scale-[0.98] transition-all flex items-center justify-center gap-3 shadow-inner"
+                disabled={isLoading}
+                className="w-full py-4 rounded-2xl font-bold text-xs uppercase tracking-[0.1em] text-slate-300 light:text-slate-600 bg-white/5 light:bg-slate-100 border-2 border-white/5 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-200 active:scale-[0.98] transition-all flex items-center justify-center gap-3 shadow-inner disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <BookOpen className="w-4 h-4" /> Continue as Guest
               </button>
@@ -250,7 +255,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-500/50" /> Secure System
             </div>
             <div className="flex gap-4">
-              <span>v2.2.1</span>
+              <span>v{APP_VERSION}</span>
             </div>
           </div>
         </div>

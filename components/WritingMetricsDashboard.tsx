@@ -133,13 +133,15 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     );
     const [remainingTime, setRemainingTime] = useState(recommendedTime);
 
-    // Reset the clock whenever the question (its recommended time) or the mode
-    // changes. In Exam Mode the countdown auto-starts — you're "under exam
-    // conditions" the moment you switch in; in Coach Mode it waits for Play.
+    // Reset the clock whenever the question or the mode changes. Keyed on the
+    // prompt id (not just the recommended time) so switching between two
+    // questions worth the same marks still restarts the countdown. In Exam
+    // Mode the countdown auto-starts — you're "under exam conditions" the
+    // moment you switch in; in Coach Mode it waits for Play.
     useEffect(() => {
       setRemainingTime(recommendedTime);
       setIsTimerActive(isExamMode);
-    }, [recommendedTime, isExamMode]);
+    }, [prompt.id, recommendedTime, isExamMode]);
     useEffect(() => {
       if (!isTimerActive) return;
       timerIntervalRef.current = setInterval(() => {
