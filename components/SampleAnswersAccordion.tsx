@@ -6,6 +6,7 @@ import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import SampleAnswerGeneratorModal from './SampleAnswerGeneratorModal';
 import SampleAnswerRevisionModal from './SampleAnswerRevisionModal';
 import SampleAnswerEditorModal from './SampleAnswerEditorModal';
+import ConfirmationModal from './ConfirmationModal';
 import {
   ChevronDown,
   FileText,
@@ -376,6 +377,9 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   const [isGeneratorOpen, setIsGeneratorOpen] = useState(false);
   const [revisionTarget, setRevisionTarget] = useState<SampleAnswer | null>(null);
   const [editorTarget, setEditorTarget] = useState<SampleAnswer | null>(null);
+  // Deleting an exemplar is destructive and single-click — route it through
+  // the shared ConfirmationModal like every other delete in the app.
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
   const [fontSize, setFontSize] = useState(13);
   const [isRecalibrating, setIsRecalibrating] = useState(false);
 
@@ -518,7 +522,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
               onUseSample={onUseSampleAnswer}
               onRevise={(sa) => setRevisionTarget(sa)}
               onEdit={(sa) => setEditorTarget(sa)}
-              onDelete={onDeleteSampleAnswer}
+              onDelete={(id) => setDeleteTargetId(id)}
               onContribute={onContributeSampleAnswer}
               canModify={canCurate}
               fontSize={fontSize}
@@ -570,6 +574,18 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           }}
         />
       )}
+
+      <ConfirmationModal
+        isOpen={!!deleteTargetId}
+        onClose={() => setDeleteTargetId(null)}
+        onConfirm={() => {
+          if (deleteTargetId) onDeleteSampleAnswer(deleteTargetId);
+        }}
+        title="Delete this sample answer?"
+        message="The model response will be removed from this question. This cannot be undone."
+        confirmButtonText="Delete"
+        isDestructive
+      />
     </div>
   );
 };
