@@ -1,6 +1,7 @@
 import { runAiProxy } from './_lib/providers';
 import { verifyRequestAuth, extractBearerToken } from './_lib/auth';
 import { consumeAiQuota, recordAiModelUsage, type QuotaVerdict } from './_lib/quota';
+import { corsHeadersFor } from './_lib/cors';
 
 /**
  * Vercel serverless function: POST /api/gemini
@@ -30,6 +31,8 @@ interface RequestLike {
 interface ResponseLike {
   status: (code: number) => ResponseLike;
   json: (data: unknown) => void;
+  setHeader?: (name: string, value: string) => void;
+  end?: () => void;
 }
 
 const headerValue = (raw: string | string[] | undefined): string | undefined =>
@@ -44,6 +47,23 @@ const requestModel = (body: unknown): string | undefined => {
 };
 
 export default async function handler(req: RequestLike, res: ResponseLike): Promise<void> {
+  // Opt-in CORS for split hosting (static frontend elsewhere, API here).
+  // No ALLOWED_ORIGIN configured → no CORS headers → same-origin only.
+  const cors = corsHeadersFor(headerValue(req.headers?.origin), process.env.ALLOWED_ORIGIN);
+  if (cors && res.setHeader) {
+    for (const [name, value] of Object.entries(cors)) res.setHeader(name, value);
+  }
+  if (req.method === 'OPTIONS') {
+    // Preflight: succeed only when the origin was allowed above.
+    if (cors && res.end) {
+      res.status(204);
+      res.end();
+    } else {
+      res.status(403).json({ error: 'Cross-origin access is not enabled for this origin.' });
+    }
+    return;
+  }
+
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed. Use POST.' });
     return;

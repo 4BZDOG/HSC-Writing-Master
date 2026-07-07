@@ -15,6 +15,14 @@ interface ImportMetaEnv {
   readonly VITE_SENTRY_DSN?: string;
   readonly VITE_SENTRY_ENVIRONMENT?: string;
   readonly VITE_SENTRY_RELEASE?: string;
+  /**
+   * Absolute origin of the AI proxy when the frontend is hosted somewhere
+   * without serverless functions (e.g. GitHub Pages) and the API lives
+   * elsewhere (e.g. Vercel): `https://your-app.vercel.app`. Leave unset for
+   * same-origin hosting (Vercel serves both). The API server must set
+   * ALLOWED_ORIGIN to the frontend's origin for the browser's CORS check.
+   */
+  readonly VITE_API_BASE_URL?: string;
 }
 
 interface ImportMeta {

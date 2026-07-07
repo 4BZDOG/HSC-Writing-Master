@@ -240,7 +240,10 @@ export const useSyllabusData = ({
           });
 
           try {
-            const manifestRes = await fetch('/courseData/manifest.json');
+            // BASE_URL-relative so the library still loads when the app is
+            // hosted under a sub-path (e.g. GitHub Pages /<repo>/).
+            const courseDataBase = `${import.meta.env.BASE_URL}courseData`;
+            const manifestRes = await fetch(`${courseDataBase}/manifest.json`);
             if (manifestRes.ok) {
               const manifest = await manifestRes.json();
               const manifestEntries = parseManifestEntries(manifest);
@@ -248,7 +251,7 @@ export const useSyllabusData = ({
                 await Promise.all(
                   manifestEntries.map(async (entry) => {
                     try {
-                      const res = await fetch(`/courseData/${entry.file}`);
+                      const res = await fetch(`${courseDataBase}/${entry.file}`);
                       if (!res.ok) return;
                       const rawData = await res.json();
                       const analysis = analyzeAndSanitizeImportData(rawData);

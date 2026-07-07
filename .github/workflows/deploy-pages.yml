@@ -1,0 +1,73 @@
+name: Deploy to GitHub Pages
+
+# Publishes the STATIC frontend to GitHub Pages at
+#   https://<owner>.github.io/<repo>/
+#
+# What works on Pages: the full offline experience — demo logins, guest mode,
+# the curriculum library, writing, drafts (IndexedDB). What does NOT work by
+# default: AI features, because Pages cannot run the /api/gemini serverless
+# proxy that holds the provider keys.
+#
+# To get AI working from a Pages frontend, host the API on Vercel (see
+# DEPLOYMENT.md) and set two things:
+#   - repo variable API_BASE_URL   → https://<your-app>.vercel.app
+#     (Settings → Secrets and variables → Actions → Variables)
+#   - on Vercel, env var ALLOWED_ORIGIN → https://<owner>.github.io
+#
+# One-time setup: repo Settings → Pages → Source: "GitHub Actions".
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci --legacy-peer-deps
+
+      - name: Build for Pages sub-path
+        env:
+          # Pages serves the site at /<repo>/, so assets and the courseData
+          # library must be emitted with that prefix.
+          DEPLOY_BASE_PATH: /${{ github.event.repository.name }}/
+          # Pages is a static demo with no Supabase — allow the local demo
+          # accounts (admin/admin etc.) that production builds otherwise refuse.
+          VITE_ENABLE_DEMO_AUTH: 'true'
+          # Optional: origin of a hosted AI proxy (e.g. the Vercel deployment).
+          # Empty means AI features are unavailable on the Pages build.
+          VITE_API_BASE_URL: ${{ vars.API_BASE_URL }}
+        run: npm run build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
