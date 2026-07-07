@@ -45,8 +45,12 @@ export const AI_MODELS: AIModelOption[] = [
     provider: 'gemini',
     model: 'gemini-3-flash-preview',
     label: 'Gemini 3 Flash',
-    description: 'Fast and economical. Good for generation, parsing and suggestions.',
-    roles: ['basic'],
+    // Flash is offered for BOTH roles: on the Gemini free tier, Pro has zero
+    // quota (429 limit:0), so Flash must be selectable for marking too or a
+    // free key can never run the reasoning path.
+    description:
+      'Fast and economical. Good for generation, parsing and suggestions — and the only Gemini option that works on a free-tier key.',
+    roles: ['basic', 'reasoning'],
     keyEnv: 'GEMINI_API_KEY',
     estCostPerCall: 0.0008,
   },
@@ -55,7 +59,8 @@ export const AI_MODELS: AIModelOption[] = [
     provider: 'gemini',
     model: 'gemini-3-pro-preview',
     label: 'Gemini 3 Pro',
-    description: 'Higher-order reasoning. Used for marking and exemplar generation.',
+    description:
+      'Higher-order reasoning. Used for marking and exemplar generation. Requires a billing-enabled key (no free-tier quota).',
     roles: ['basic', 'reasoning'],
     keyEnv: 'GEMINI_API_KEY',
     estCostPerCall: 0.006,
@@ -84,6 +89,17 @@ export const AI_MODELS: AIModelOption[] = [
   // --- Open-source models via OpenRouter -----------------------------------
   // One OPENROUTER_API_KEY (openrouter.ai/keys) unlocks the whole catalogue;
   // add more by copying an entry and changing `model` to any OpenRouter slug.
+  {
+    id: 'openrouter-free',
+    provider: 'openrouter',
+    model: 'openrouter/free',
+    label: 'Free Models Router (OpenRouter)',
+    description:
+      'Auto-picks an available zero-cost model. The right choice for keyless/free OpenRouter accounts — the named models below are paid slugs and will be rejected without credits. Free accounts are capped at 50 requests/day (1,000/day once US$10 credit is added).',
+    roles: ['basic', 'reasoning'],
+    keyEnv: 'OPENROUTER_API_KEY',
+    estCostPerCall: 0,
+  },
   {
     id: 'openrouter-glm',
     provider: 'openrouter',
