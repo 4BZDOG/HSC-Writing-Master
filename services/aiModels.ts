@@ -13,7 +13,7 @@
  * behaviour is unchanged until an admin switches it.
  */
 
-export type AIProvider = 'gemini' | 'anthropic' | 'openrouter';
+export type AIProvider = 'gemini' | 'anthropic' | 'openrouter' | 'groq';
 export type AIRole = 'basic' | 'reasoning';
 
 export interface AIModelOption {
@@ -84,6 +84,42 @@ export const AI_MODELS: AIModelOption[] = [
     roles: ['basic'],
     keyEnv: 'ANTHROPIC_API_KEY',
     estCostPerCall: 0.0022,
+  },
+
+  // --- Groq (free-tier, ultra-fast inference) --------------------------------
+  // Groq provides free API access with generous rate limits (30 req/min,
+  // 14,400 req/day on the free tier). Get a key at https://console.groq.com/keys
+  {
+    id: 'groq-llama',
+    provider: 'groq',
+    model: 'llama-3.3-70b-versatile',
+    label: 'Llama 3.3 70B (Groq)',
+    description:
+      'Ultra-fast inference via Groq. Free tier: 30 req/min, 14,400 req/day. Strong reasoning at zero cost.',
+    roles: ['basic', 'reasoning'],
+    keyEnv: 'GROQ_API_KEY',
+    estCostPerCall: 0,
+  },
+  {
+    id: 'groq-llama-scout',
+    provider: 'groq',
+    model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+    label: 'Llama 4 Scout 17B (Groq)',
+    description:
+      'Lightweight Llama 4 model on Groq free tier. Fast and efficient for generation tasks.',
+    roles: ['basic'],
+    keyEnv: 'GROQ_API_KEY',
+    estCostPerCall: 0,
+  },
+  {
+    id: 'groq-gemma',
+    provider: 'groq',
+    model: 'gemma2-9b-it',
+    label: 'Gemma 2 9B (Groq)',
+    description: 'Google Gemma 2 on Groq free tier. Compact and fast for parsing and generation.',
+    roles: ['basic'],
+    keyEnv: 'GROQ_API_KEY',
+    estCostPerCall: 0,
   },
 
   // --- Open-source models via OpenRouter -----------------------------------

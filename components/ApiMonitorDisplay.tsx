@@ -108,11 +108,11 @@ const AiQuotaPanel: React.FC = () => {
   };
 
   const inputClass =
-    'w-16 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 border border-[rgb(var(--color-border-secondary))]/40 text-[rgb(var(--color-text-secondary))] px-2 py-1 outline-none focus:border-[rgb(var(--color-accent))]/60 transition-colors text-right font-mono';
+    'w-16 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 text-[rgb(var(--color-text-secondary))] light:text-slate-700 px-2 py-1 outline-none focus:border-[rgb(var(--color-accent))]/60 transition-colors text-right font-mono';
 
   return (
-    <div className="mt-4 pt-4 border-t border-[rgb(var(--color-border-secondary))]/30">
-      <div className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-2 flex items-center gap-2">
+    <div className="mt-4 pt-4 border-t border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200">
+      <div className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-2">
         <Gauge className="w-3.5 h-3.5" />
         Daily AI Quotas
       </div>
@@ -120,12 +120,14 @@ const AiQuotaPanel: React.FC = () => {
       {myStatus && (
         <div className="mb-3">
           <div className="flex justify-between items-center text-xs mb-1">
-            <span className="text-[rgb(var(--color-text-secondary))]">My usage today</span>
-            <span className="font-mono font-bold text-white">
+            <span className="text-[rgb(var(--color-text-secondary))] light:text-slate-600">
+              My usage today
+            </span>
+            <span className="font-mono font-bold text-white light:text-slate-900">
               {myStatus.used}/{myStatus.limit}
             </span>
           </div>
-          <div className="h-1.5 rounded-full bg-black/40 overflow-hidden border border-white/5">
+          <div className="h-1.5 rounded-full bg-black/40 light:bg-slate-200 overflow-hidden border border-white/5 light:border-slate-300">
             <div
               className={`h-full transition-all ${myStatus.remaining === 0 ? 'bg-red-500' : 'bg-[rgb(var(--color-accent))]'}`}
               style={{
@@ -139,7 +141,7 @@ const AiQuotaPanel: React.FC = () => {
       <div className="space-y-1.5">
         {(['admin', 'teacher', 'student'] as QuotaRole[]).map((role) => (
           <label key={role} className="flex items-center justify-between gap-2">
-            <span className="text-[10px] text-[rgb(var(--color-text-dim))]">
+            <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
               {QUOTA_ROLE_LABELS[role]}
             </span>
             <input
@@ -161,8 +163,8 @@ const AiQuotaPanel: React.FC = () => {
         Save Group Limits
       </button>
 
-      <div className="mt-3 pt-3 border-t border-[rgb(var(--color-border-secondary))]/20">
-        <span className="text-[10px] text-[rgb(var(--color-text-dim))] block mb-1.5">
+      <div className="mt-3 pt-3 border-t border-[rgb(var(--color-border-secondary))]/20 light:border-slate-200">
+        <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400 block mb-1.5">
           Per-user override (beats the group limit)
         </span>
         <div className="flex gap-1.5">
@@ -172,7 +174,7 @@ const AiQuotaPanel: React.FC = () => {
             aria-label="Override username"
             value={overrideUser}
             onChange={(e) => setOverrideUser(e.target.value)}
-            className="flex-1 min-w-0 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 border border-[rgb(var(--color-border-secondary))]/40 text-[rgb(var(--color-text-secondary))] px-2 py-1 outline-none focus:border-[rgb(var(--color-accent))]/60"
+            className="flex-1 min-w-0 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 text-[rgb(var(--color-text-secondary))] light:text-slate-700 px-2 py-1 outline-none focus:border-[rgb(var(--color-accent))]/60"
           />
           <input
             type="number"
@@ -188,14 +190,14 @@ const AiQuotaPanel: React.FC = () => {
           <button
             onClick={() => handleSetOverride(false)}
             disabled={isBusy}
-            className="flex-1 text-[10px] font-bold uppercase tracking-widest py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-light))] text-[rgb(var(--color-text-secondary))] hover:text-white transition-all disabled:opacity-50 border border-[rgb(var(--color-border-secondary))]/30"
+            className="flex-1 text-[10px] font-bold uppercase tracking-widest py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-100 text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:text-white light:hover:text-slate-800 transition-all disabled:opacity-50 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300"
           >
             Set Override
           </button>
           <button
             onClick={() => handleSetOverride(true)}
             disabled={isBusy}
-            className="flex-1 text-[10px] font-bold uppercase tracking-widest py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-light))] text-[rgb(var(--color-text-muted))] hover:text-white transition-all disabled:opacity-50 border border-[rgb(var(--color-border-secondary))]/30"
+            className="flex-1 text-[10px] font-bold uppercase tracking-widest py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-white light:hover:text-slate-800 transition-all disabled:opacity-50 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300"
           >
             Clear
           </button>
@@ -204,7 +206,7 @@ const AiQuotaPanel: React.FC = () => {
 
       {message && (
         <p
-          className="mt-2 text-[10px] leading-relaxed text-[rgb(var(--color-text-secondary))]"
+          className="mt-2 text-[10px] leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600"
           role="status"
         >
           {message}
@@ -235,11 +237,11 @@ const ApiMonitorDisplay: React.FC = () => {
         <button
           onClick={() => setIsExpanded(true)}
           className="
-            flex items-center gap-4 px-4 py-2 rounded-full 
-            bg-[rgb(var(--color-bg-surface-elevated))]/80 backdrop-blur-md 
-            border border-[rgb(var(--color-border-accent))]/30
+            flex items-center gap-4 px-4 py-2 rounded-full
+            bg-[rgb(var(--color-bg-surface-elevated))]/80 light:bg-white/90 backdrop-blur-md
+            border border-[rgb(var(--color-border-accent))]/30 light:border-slate-300
             shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:border-[rgb(var(--color-border-accent))]/60
-            transition-all duration-300 animate-fade-in 
+            transition-all duration-300 animate-fade-in
             text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-glow))]
             hover-lift
           "
@@ -249,7 +251,7 @@ const ApiMonitorDisplay: React.FC = () => {
             <Zap className="w-3.5 h-3.5" />
             <span className="font-mono">{sessionCalls}</span>
           </div>
-          <div className="w-px h-3 bg-[rgb(var(--color-border-secondary))]" />
+          <div className="w-px h-3 bg-[rgb(var(--color-border-secondary))] light:bg-slate-300" />
           <div className="flex items-center gap-1.5 text-xs font-bold">
             <Hash className="w-3.5 h-3.5" />
             <span className="font-mono">{formatTokens(sessionTokens)}</span>
@@ -258,15 +260,15 @@ const ApiMonitorDisplay: React.FC = () => {
       ) : (
         <div
           className="
-            w-72 p-5 rounded-2xl 
-            bg-[rgb(var(--color-bg-surface-elevated))]/90 backdrop-blur-xl 
-            border border-[rgb(var(--color-border-accent))]/30
+            w-72 p-5 rounded-2xl
+            bg-[rgb(var(--color-bg-surface-elevated))]/90 light:bg-white/95 backdrop-blur-xl
+            border border-[rgb(var(--color-border-accent))]/30 light:border-slate-300
             shadow-2xl animate-fade-in-up ring-1 ring-[rgb(var(--color-accent))]/10
           "
           role="dialog"
           aria-labelledby="api-monitor-title"
         >
-          <div className="flex justify-between items-center mb-4 border-b border-[rgb(var(--color-border-secondary))]/50 pb-3">
+          <div className="flex justify-between items-center mb-4 border-b border-[rgb(var(--color-border-secondary))]/50 light:border-slate-200 pb-3">
             <h3
               id="api-monitor-title"
               className="flex items-center gap-2 text-sm font-black text-[rgb(var(--color-accent))] uppercase tracking-wide"
@@ -276,26 +278,28 @@ const ApiMonitorDisplay: React.FC = () => {
             </h3>
             <button
               onClick={() => setIsExpanded(false)}
-              className="p-1.5 rounded-lg hover:bg-[rgb(var(--color-bg-surface-light))] text-[rgb(var(--color-text-muted))] hover:text-white transition-colors"
+              className="p-1.5 rounded-lg hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-100 text-[rgb(var(--color-text-muted))] hover:text-white light:hover:text-slate-700 transition-colors"
             >
               <X className="w-3.5 h-3.5" />
             </button>
           </div>
 
           <div className="space-y-3">
-            <div className="bg-[rgb(var(--color-bg-surface-inset))]/50 rounded-xl p-3 border border-[rgb(var(--color-border-secondary))]/30">
-              <div className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-2 flex items-center gap-2">
+            <div className="bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 rounded-xl p-3 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200">
+              <div className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
                 Current Session
               </div>
               <div className="flex justify-between items-center mb-1.5">
-                <span className="text-xs text-[rgb(var(--color-text-secondary))] font-medium">
+                <span className="text-xs text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-medium">
                   Requests
                 </span>
-                <span className="font-mono text-sm font-bold text-white">{sessionCalls}</span>
+                <span className="font-mono text-sm font-bold text-white light:text-slate-900">
+                  {sessionCalls}
+                </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-xs text-[rgb(var(--color-text-secondary))] font-medium">
+                <span className="text-xs text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-medium">
                   Tokens
                 </span>
                 <span className="font-mono text-sm font-bold text-[rgb(var(--color-accent))]">
@@ -306,14 +310,18 @@ const ApiMonitorDisplay: React.FC = () => {
 
             <div className="px-3 pt-1">
               <div className="flex justify-between items-center mb-1.5">
-                <span className="text-xs text-[rgb(var(--color-text-dim))]">Lifetime Calls</span>
-                <span className="font-mono text-xs font-semibold text-[rgb(var(--color-text-secondary))]">
+                <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                  Lifetime Calls
+                </span>
+                <span className="font-mono text-xs font-semibold text-[rgb(var(--color-text-secondary))] light:text-slate-600">
                   {totalCalls}
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-xs text-[rgb(var(--color-text-dim))]">Lifetime Tokens</span>
-                <span className="font-mono text-xs font-semibold text-[rgb(var(--color-text-secondary))]">
+                <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                  Lifetime Tokens
+                </span>
+                <span className="font-mono text-xs font-semibold text-[rgb(var(--color-text-secondary))] light:text-slate-600">
                   {formatTokens(totalTokens)}
                 </span>
               </div>
@@ -326,7 +334,7 @@ const ApiMonitorDisplay: React.FC = () => {
 
           <button
             onClick={handleResetSession}
-            className="w-full mt-4 text-xs font-bold flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[rgb(var(--color-bg-surface-light))] text-[rgb(var(--color-text-secondary))] hover:text-white hover:bg-[rgb(var(--color-border-secondary))] transition-all active:scale-95 hover:shadow-md border border-[rgb(var(--color-border-secondary))]/30"
+            className="w-full mt-4 text-xs font-bold flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-100 text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:text-white light:hover:text-slate-800 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-200 transition-all active:scale-95 hover:shadow-md border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300"
           >
             <RotateCcw className="w-3 h-3" />
             Reset Session Metrics

@@ -24,21 +24,21 @@ const AiEngineSelector: React.FC<{ className?: string }> = ({ className = '' }) 
 
   return (
     <div className={className}>
-      <div className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-2 flex items-center gap-2">
+      <div className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-2">
         <Cpu className="w-3.5 h-3.5" />
         AI Engine
       </div>
       <div className="space-y-2">
         {(['reasoning', 'basic'] as AIRole[]).map((role) => (
           <label key={role} className="block">
-            <span className="text-[10px] text-[rgb(var(--color-text-dim))]">
+            <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
               {ROLE_LABELS[role]}
             </span>
             <select
               value={selection[role]}
               onChange={(e) => setSelectedModel(role, e.target.value)}
               aria-label={`${ROLE_LABELS[role]} model`}
-              className="mt-0.5 w-full text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 border border-[rgb(var(--color-border-secondary))]/40 text-[rgb(var(--color-text-secondary))] px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60 transition-colors"
+              className="mt-0.5 w-full text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 text-[rgb(var(--color-text-secondary))] light:text-slate-700 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60 transition-colors"
             >
               {modelsForRole(role).map((m) => (
                 <option key={m.id} value={m.id} title={m.description}>
@@ -49,7 +49,7 @@ const AiEngineSelector: React.FC<{ className?: string }> = ({ className = '' }) 
           </label>
         ))}
       </div>
-      <p className="mt-2 text-[9px] leading-relaxed text-[rgb(var(--color-text-dim))]">
+      <p className="mt-2 text-[9px] leading-relaxed text-[rgb(var(--color-text-dim))] light:text-slate-400">
         Applies to new requests. Non-Gemini engines require their server-side API key.
       </p>
     </div>
