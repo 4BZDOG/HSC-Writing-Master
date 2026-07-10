@@ -426,7 +426,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
     <div className="clip-stable bg-white dark:bg-[rgb(var(--color-bg-surface))] rounded-[24px] border border-slate-200 dark:border-white/10 shadow-sm overflow-hidden flex flex-col">
       {/* Header - Styled with highest possible tier color to indicate the question's potential */}
       <div
-        className={`px-6 py-4 border-b border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-white/[0.02] flex items-center justify-between relative overflow-hidden`}
+        className={`px-4 sm:px-6 py-4 border-b border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-white/[0.02] flex flex-wrap items-center justify-between gap-x-4 gap-y-3 relative overflow-hidden`}
       >
         {/* Ambient Background Gradient matching the question's Max Band */}
         <div
@@ -447,7 +447,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
               className={`text-[10px] font-bold uppercase tracking-wider opacity-80 ${maxBandConfig.text}`}
             >
               {groupedAnswers.length > 0
-                ? `${groupedAnswers.length} Performance Levels`
+                ? `${groupedAnswers.length} Performance Level${groupedAnswers.length === 1 ? '' : 's'}`
                 : 'No models available'}
               {` • Max Tier Cap: Band ${maxPossibleBand}`}
             </p>

@@ -231,15 +231,17 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             </div>
           </div>
 
-          {/* Right: Directive, Time, Marks */}
-          <div className="flex flex-col items-start sm:items-end gap-2 flex-shrink-0">
+          {/* Right: Directive, Time, Marks. On phones this becomes a full-width
+              row (verb left, stat pills right) under the title; from md up it
+              is the original right-aligned column. */}
+          <div className="flex w-full md:w-auto flex-row md:flex-col flex-wrap items-center md:items-end justify-between gap-2 flex-shrink-0">
             <div className="flex items-center gap-4">
               <button
                 onClick={onVerbClick}
                 className="group/vbtn flex items-center gap-2 transition-transform hover:scale-105 active:scale-95"
                 title="View Verb Definition"
               >
-                <div className="text-right">
+                <div className="text-left md:text-right">
                   <span className="block text-[9px] font-bold uppercase tracking-[0.3em] opacity-60 mb-0.5">
                     Directive
                   </span>
@@ -469,75 +471,73 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
 
         {/* Outcomes Footer - "The Evidence" */}
         {!(condensed && linkedOutcomes.length === 0) && (
-          <div className="relative z-10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border-t border-white/10 light:border-slate-200/50 px-6 py-3 flex flex-col sm:flex-row sm:items-center gap-6 backdrop-blur-sm mt-auto flex-shrink-0 rounded-b-[30px]">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 flex-1 min-w-0">
-              <div className="flex items-center justify-between sm:justify-start gap-4 flex-shrink-0 min-w-[140px]">
-                <div className="flex items-center gap-3 group/link">
-                  <div
-                    className={`
+          <div className="relative z-10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border-t border-white/10 light:border-slate-200/50 px-4 sm:px-6 py-3 flex flex-wrap items-center gap-x-6 gap-y-3 backdrop-blur-sm mt-auto flex-shrink-0 rounded-b-[30px]">
+            {/* On phones: label + zoom share the first row, outcome chips wrap
+                to a full-width second row. From sm up: label | chips | zoom. */}
+            <div className="order-1 flex items-center gap-4 flex-shrink-0">
+              <div className="flex items-center gap-3 group/link">
+                <div
+                  className={`
                                 p-2.5 rounded-xl border shadow-sm backdrop-blur-sm transition-all duration-300
                                 ${bandConfig.bg} border-white/10 group-hover/link:scale-110
                             `}
-                  >
-                    <Link2 className={`w-4 h-4 ${bandConfig.text}`} />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 light:text-slate-500 leading-none mb-1">
-                      Syllabus
-                    </span>
-                    <span className={`text-xs font-bold ${bandConfig.text}`}>Outcome Link</span>
-                  </div>
+                >
+                  <Link2 className={`w-4 h-4 ${bandConfig.text}`} />
                 </div>
-                {canCurate && onSuggestOutcomes && (
-                  <button
-                    onClick={onSuggestOutcomes}
-                    disabled={isSuggestingOutcomes}
-                    className={`p-2 rounded-lg bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/20 transition-all ${isSuggestingOutcomes ? 'animate-pulse' : 'hover:scale-110'}`}
-                    title="Auto-link Outcomes with AI"
-                  >
-                    <Wand2
-                      className={`w-3.5 h-3.5 ${isSuggestingOutcomes ? 'animate-spin' : ''}`}
-                    />
-                  </button>
-                )}
+                <div className="flex flex-col">
+                  <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 light:text-slate-500 leading-none mb-1">
+                    Syllabus
+                  </span>
+                  <span className={`text-xs font-bold ${bandConfig.text}`}>Outcome Link</span>
+                </div>
               </div>
+              {canCurate && onSuggestOutcomes && (
+                <button
+                  onClick={onSuggestOutcomes}
+                  disabled={isSuggestingOutcomes}
+                  className={`p-2 rounded-lg bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/20 transition-all ${isSuggestingOutcomes ? 'animate-pulse' : 'hover:scale-110'}`}
+                  title="Auto-link Outcomes with AI"
+                >
+                  <Wand2 className={`w-3.5 h-3.5 ${isSuggestingOutcomes ? 'animate-spin' : ''}`} />
+                </button>
+              )}
+            </div>
 
-              <div className="flex flex-wrap gap-2.5">
-                {linkedOutcomes.length > 0 ? (
-                  linkedOutcomes.map((outcome) => (
-                    <div key={outcome.code} className="relative group/outcome">
-                      <button
-                        onClick={() => handleOutcomeClickInternal(outcome)}
-                        className={`
+            <div className="order-3 sm:order-2 w-full sm:w-auto sm:flex-1 min-w-0 flex flex-wrap gap-2.5">
+              {linkedOutcomes.length > 0 ? (
+                linkedOutcomes.map((outcome) => (
+                  <div key={outcome.code} className="relative group/outcome">
+                    <button
+                      onClick={() => handleOutcomeClickInternal(outcome)}
+                      className={`
                                             flex items-center gap-2 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider
                                             bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-200
                                             text-slate-400 light:text-slate-600 transition-all duration-300
                                             hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-50 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900 hover:border-white/10 light:hover:border-slate-300 hover:scale-105 hover:shadow-md
                                             active:scale-95
                                         `}
-                      >
-                        {outcome.code}
-                      </button>
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 p-4 text-xs text-left font-medium leading-relaxed text-white light:text-slate-800 bg-[rgb(var(--color-bg-surface-elevated))]/95 light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-2xl shadow-2xl opacity-0 group-hover/outcome:opacity-100 transition-all duration-300 pointer-events-none z-50 backdrop-blur-xl translate-y-2 group-hover/outcome:translate-y-0">
-                        <div className={`flex items-center gap-2 mb-2 ${bandConfig.text}`}>
-                          <Award className="w-3.5 h-3.5" />
-                          <span className="font-black uppercase tracking-widest text-[10px]">
-                            Objective
-                          </span>
-                        </div>
-                        {outcome.description}
+                    >
+                      {outcome.code}
+                    </button>
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 p-4 text-xs text-left font-medium leading-relaxed text-white light:text-slate-800 bg-[rgb(var(--color-bg-surface-elevated))]/95 light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-2xl shadow-2xl opacity-0 group-hover/outcome:opacity-100 transition-all duration-300 pointer-events-none z-50 backdrop-blur-xl translate-y-2 group-hover/outcome:translate-y-0">
+                      <div className={`flex items-center gap-2 mb-2 ${bandConfig.text}`}>
+                        <Award className="w-3.5 h-3.5" />
+                        <span className="font-black uppercase tracking-widest text-[10px]">
+                          Objective
+                        </span>
                       </div>
+                      {outcome.description}
                     </div>
-                  ))
-                ) : (
-                  <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400 italic font-medium py-2 opacity-60">
-                    No specific outcomes linked.
-                  </span>
-                )}
-              </div>
+                  </div>
+                ))
+              ) : (
+                <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400 italic font-medium py-2 opacity-60">
+                  No specific outcomes linked.
+                </span>
+              )}
             </div>
 
-            <div className="flex items-center gap-1 bg-black/10 light:bg-slate-200/50 backdrop-blur-xl p-1 rounded-lg border border-white/10 light:border-slate-300 shadow-inner ml-auto flex-shrink-0">
+            <div className="order-2 sm:order-3 flex items-center gap-1 bg-black/10 light:bg-slate-200/50 backdrop-blur-xl p-1 rounded-lg border border-white/10 light:border-slate-300 shadow-inner ml-auto flex-shrink-0">
               <button
                 onClick={() => onFontSizeChange(Math.max(12, fontSize - 2))}
                 className="p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-md transition-colors"

@@ -85,17 +85,24 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
 
   return (
     <div className="flex flex-col gap-1 animate-fade-in">
-      <div className="px-5 py-3.5 border border-slate-300 dark:border-white/20 rounded-[20px] bg-slate-50 dark:bg-black/30 flex items-center justify-between mb-4 transition-colors shadow-sm">
-        <div className="flex items-center gap-3">
-          <BookOpen className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-          <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-800 dark:text-white">
-            Syllabus Reference
-          </h3>
+      {/* Section heading: says what lives below it, and the cognitive-scope
+          meter carries its verb label so the bars aren't a mystery glyph. */}
+      <div className="px-4 sm:px-5 py-3.5 border border-slate-300 dark:border-white/20 rounded-[20px] bg-slate-50 dark:bg-black/30 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mb-4 transition-colors shadow-sm">
+        <div className="flex items-center gap-3 min-w-0">
+          <BookOpen className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
+          <div className="min-w-0">
+            <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-800 dark:text-white">
+              Syllabus Reference
+            </h3>
+            <p className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-0.5">
+              Terms, marking guide and grade standards for this question
+            </p>
+          </div>
         </div>
         <CognitiveSpectrum
           tier={commandTermInfo.tier}
-          showLabel={false}
-          className="!bg-transparent !border-0 !p-0"
+          term={prompt.verb}
+          className="!bg-transparent !border-0 !p-0 ml-auto"
         />
       </div>
 
