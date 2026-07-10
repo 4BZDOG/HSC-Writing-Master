@@ -167,6 +167,11 @@ export const runAnthropicProxy = async (
         'content-type': 'application/json',
         'x-api-key': apiKey,
         'anthropic-version': ANTHROPIC_VERSION,
+        // The direct-from-browser testing fallback (services/aiDirect.ts)
+        // needs Anthropic's explicit CORS opt-in; never sent server-side.
+        ...(typeof window !== 'undefined'
+          ? { 'anthropic-dangerous-direct-browser-access': 'true' }
+          : {}),
       },
       body: JSON.stringify(body),
     });

@@ -123,13 +123,13 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
           <div className="flex gap-3 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-500 light:text-amber-700">
             <ShieldAlert className="w-5 h-5 shrink-0 mt-0.5" />
             <p className="text-xs leading-relaxed">
-              For <strong>local testing only</strong>. The key is held in this browser tab
+              For <strong>testing only</strong>. The key is held in this browser tab
               (sessionStorage, cleared when the tab closes) and sent to the proxy per request — less
-              safe than <code className="font-mono">.env.local</code>, which stays server-side. It
-              does not lift the sign-in or daily-quota limits. Keys travel through the app&apos;s
-              own <code className="font-mono">/api/gemini</code> endpoint, so on a static deployment
-              (e.g. GitHub Pages) with no API host connected, AI stays unavailable regardless of the
-              key — see DEPLOYMENT.md.
+              safe than <code className="font-mono">.env.local</code>, which stays server-side. On a
+              static deployment with no API host connected (e.g. GitHub Pages before Vercel is set
+              up), the key is instead used to call the provider directly from this browser — fine
+              for testing, but it bypasses the sign-in and daily-quota gates, so connect an API host
+              for real use (see DEPLOYMENT.md).
             </p>
           </div>
 

@@ -79,6 +79,12 @@ Unavailable" until you pair it with an API host (below).
 
 ### Add working AI to the Pages site (optional)
 
+**Quick test without an API host:** an admin can open **Runtime AI Keys**
+(admin menu) and paste a provider key — with no proxy deployed, calls go
+directly from that browser tab to the provider. Testing only: the key sits
+in the tab's sessionStorage and the sign-in/daily-quota gates don't apply.
+For real use, connect an API host:
+
 Host just the API on Vercel (Option 1) and connect the two origins:
 
 1. On **GitHub**: Settings → Secrets and variables → Actions →
