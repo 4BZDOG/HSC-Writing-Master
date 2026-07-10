@@ -130,6 +130,7 @@ const Editor = forwardRef<
     const isExamMode = writingMode === 'exam';
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const headerRef = useRef<HTMLDivElement>(null);
+    const headerContentRef = useRef<HTMLDivElement>(null);
     const [copied, setCopied] = useState(false);
 
     const wordCount = useMemo(() => value.trim().split(/\s+/).filter(Boolean).length, [value]);
@@ -202,19 +203,24 @@ const Editor = forwardRef<
       }
     }, [syncedFontSize, userHasResized]);
 
-    // Header height observation
+    // Header height observation. Reports the header's NATURAL height (content
+    // + own padding) rather than its rendered box: the rendered box includes
+    // the synced minHeight, which would turn the cross-card height sync into a
+    // one-way ratchet that locks in transient wrapped layouts forever.
     useEffect(() => {
-      if (!headerRef.current || !onHeaderResize) return;
+      if (!headerContentRef.current || !onHeaderResize) return;
 
-      const observer = new ResizeObserver((entries) => {
-        for (const entry of entries) {
-          if (entry.target === headerRef.current) {
-            onHeaderResize(entry.borderBoxSize[0].blockSize);
-          }
-        }
+      const observer = new ResizeObserver(() => {
+        const header = headerRef.current;
+        const content = headerContentRef.current;
+        if (!header || !content) return;
+        const cs = getComputedStyle(header);
+        onHeaderResize(
+          content.offsetHeight + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)
+        );
       });
 
-      observer.observe(headerRef.current);
+      observer.observe(headerContentRef.current);
       return () => observer.disconnect();
     }, [onHeaderResize, progress, chroma]);
 
@@ -362,7 +368,10 @@ const Editor = forwardRef<
 
           {/* Content Wrapper — wraps on narrow screens so the pill toolbar
               drops below the title instead of clipping off the right edge. */}
-          <div className="relative z-10 w-full flex flex-wrap md:flex-nowrap justify-between items-center gap-y-3 gap-x-4">
+          <div
+            ref={headerContentRef}
+            className="relative z-10 w-full flex flex-wrap md:flex-nowrap justify-between items-center gap-y-3 gap-x-4"
+          >
             <div className="flex items-center gap-3 sm:gap-4 min-w-0">
               <div className="w-11 h-11 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shadow-lg group flex-shrink-0">
                 <PenTool

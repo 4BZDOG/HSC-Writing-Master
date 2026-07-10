@@ -261,7 +261,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       if (group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
                     }}
                     className={`
-                      clip-stable flex-shrink-0 w-[280px] h-[240px] snap-center relative overflow-hidden rounded-[32px] border-2 transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer flex flex-col group/card
+                      clip-stable flex-shrink-0 w-[280px] h-[272px] snap-center relative overflow-hidden rounded-[32px] border-2 transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer flex flex-col group/card
                       ${
                         isCurrentTier
                           ? `${tierConfig.border} ${tierConfig.bg} light:bg-white`
@@ -293,9 +293,9 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       </div>
                       <div className="min-w-0">
                         <span
-                          className={`text-[10px] font-black uppercase tracking-[0.2em] block mb-0.5 ${isCurrentTier ? 'opacity-70' : tierConfig.text + ' opacity-60'}`}
+                          className={`text-[10px] font-black uppercase tracking-[0.2em] block mb-0.5 truncate ${isCurrentTier ? 'opacity-70' : tierConfig.text + ' opacity-60'}`}
                         >
-                          Tier {group.tier}
+                          Tier {group.tier} · Band {group.maxBand} cap
                         </span>
                         <h4
                           className={`text-sm font-black truncate tracking-tight ${isCurrentTier ? 'text-white' : tierConfig.text}`}
@@ -304,6 +304,13 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                         </h4>
                       </div>
                     </div>
+
+                    {/* What this cognitive level actually asks of the writer. */}
+                    <p
+                      className={`px-6 pt-3 text-[11px] font-medium leading-snug relative z-10 ${isCurrentTier ? 'text-[rgb(var(--color-text-primary))] light:text-slate-700' : 'text-[rgb(var(--color-text-muted))] light:text-slate-500'}`}
+                    >
+                      {group.subtitle}
+                    </p>
 
                     <div className="flex-1 overflow-y-auto p-4 custom-scrollbar relative z-10">
                       <div className="flex flex-wrap gap-2 justify-center content-start">

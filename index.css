@@ -229,6 +229,13 @@ a:focus-visible,
   transform: translateZ(0);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  /* Safari: composited children (backdrop-blur, animated gradients, height
+     transitions) escape the border-radius clip for a frame, flashing square
+     corners. An opaque -webkit-mask forces Safari onto a masked compositing
+     path where the rounded clip is honoured from the first frame; isolation
+     keeps the stacking context self-contained so the mask stays cheap. */
+  isolation: isolate;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 
 /*

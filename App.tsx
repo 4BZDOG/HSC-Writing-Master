@@ -448,9 +448,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   const isNavCollapsed = !!currentPrompt && !isNavExpanded;
 
   return (
-    <div
-      className={`relative max-w-[1600px] mx-auto ${isFocusMode ? 'p-2 sm:p-4 pt-16 sm:pt-16' : 'p-4 sm:p-6 lg:p-8'} flex flex-col gap-6 transition-all duration-500`}
-    >
+    <>
       {isFocusMode && (
         <button
           onClick={() => setIsFocusMode(false)}
@@ -460,17 +458,23 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           <span className="w-6 h-6 rounded-full bg-amber-500/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
             <Minimize className="w-3.5 h-3.5 text-white" />
           </span>
-          <span className="text-[11px] font-black uppercase tracking-[0.2em]">Focus Mode</span>
+          <span className="text-[11px] font-black uppercase tracking-[0.2em] whitespace-nowrap">
+            Focus Mode
+          </span>
           <kbd className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-white/10 light:bg-slate-200 border border-white/10 light:border-slate-300 tracking-widest">
             ESC
           </kbd>
         </button>
       )}
 
+      {/* Full-bleed banner: lives outside the max-width content container so it
+          always spans the whole viewport and sits flush against the top edge
+          (the old in-container version stopped 32px short on >1600px screens
+          and floated below the container's top padding). */}
       {!isFocusMode && (
-        <header className="sticky top-0 z-[60] -mx-4 sm:-mx-6 lg:-mx-8 h-20 flex items-center shadow-2xl shadow-indigo-900/20">
+        <header className="sticky top-0 z-[60] h-20 flex items-center shadow-2xl shadow-indigo-900/20">
           <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-sky-500 opacity-100" />
-          <div className="relative z-10 px-4 sm:px-8 w-full flex items-center justify-between gap-3">
+          <div className="relative z-10 px-4 sm:px-6 lg:px-8 w-full max-w-[1600px] mx-auto flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 sm:gap-4 min-w-0">
               <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-white/20 backdrop-blur-xl border border-white/20 flex items-center justify-center shadow-2xl group transition-all">
                 <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
@@ -628,215 +632,219 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         </header>
       )}
 
-      {!isFocusMode && isNavCollapsed && currentPrompt && (
-        <SyllabusNavBar
-          crumbs={[
-            {
-              label: currentCourse?.name || 'Course',
-              onClick: () =>
-                handlePathChange({
-                  topicId: undefined,
-                  subTopicId: undefined,
-                  dotPointId: undefined,
-                  promptId: undefined,
-                }),
-            },
-            {
-              label: currentTopic?.name || 'Topic',
-              onClick: () =>
-                handlePathChange({
-                  subTopicId: undefined,
-                  dotPointId: undefined,
-                  promptId: undefined,
-                }),
-            },
-            {
-              label: currentSubTopic?.name || 'Sub-Topic',
-              onClick: () => handlePathChange({ dotPointId: undefined, promptId: undefined }),
-            },
-            {
-              label: currentDotPoint?.description || 'Dot Point',
-              onClick: () => handlePathChange({ promptId: undefined }),
-            },
-          ]}
-          prompt={currentPrompt}
-          onExpand={() => setIsNavExpanded(true)}
-        />
-      )}
+      <div
+        className={`relative max-w-[1600px] mx-auto ${isFocusMode ? 'p-2 sm:p-4 pt-16 sm:pt-16' : 'p-4 sm:p-6 lg:p-8'} flex flex-col gap-6 transition-all duration-500`}
+      >
+        {!isFocusMode && isNavCollapsed && currentPrompt && (
+          <SyllabusNavBar
+            crumbs={[
+              {
+                label: currentCourse?.name || 'Course',
+                onClick: () =>
+                  handlePathChange({
+                    topicId: undefined,
+                    subTopicId: undefined,
+                    dotPointId: undefined,
+                    promptId: undefined,
+                  }),
+              },
+              {
+                label: currentTopic?.name || 'Topic',
+                onClick: () =>
+                  handlePathChange({
+                    subTopicId: undefined,
+                    dotPointId: undefined,
+                    promptId: undefined,
+                  }),
+              },
+              {
+                label: currentSubTopic?.name || 'Sub-Topic',
+                onClick: () => handlePathChange({ dotPointId: undefined, promptId: undefined }),
+              },
+              {
+                label: currentDotPoint?.description || 'Dot Point',
+                onClick: () => handlePathChange({ promptId: undefined }),
+              },
+            ]}
+            prompt={currentPrompt}
+            onExpand={() => setIsNavExpanded(true)}
+          />
+        )}
 
-      {!isFocusMode && !isNavCollapsed && (
-        <>
-          <div className="relative z-50">
-            <PromptSelector
-              courses={courses}
-              statePath={statePath}
-              onPathChange={handlePathChange}
-              onAddCourse={() => openModal('courseCreator')}
-              onAddTopic={() => openModal('topicCreator')}
-              onAddSubTopic={() => openModal('subTopicCreator')}
-              onGeneratePrompt={() => openModal('promptGenerator')}
-              onManualEntry={() => openModal('manualPrompt')}
-              onEditOutcomes={() => openModal('outcomesEditor')}
-              onOpenDataManager={() => openModal('dataManager')}
-              onRenameItem={requestRename}
-              onDeleteItem={requestDelete}
-              onAddTopicFromSyllabus={() => openModal('topicSyllabusImport')}
-              onGenerateSuggestedTopic={() => openModal('topicGenerator')}
-              onGenerateDotPoints={() => openModal('dotPointGenerator')}
-              onImportTopic={() => openModal('topicImport')}
-              newlyAddedIds={newlyAddedIds}
-              userRole={user.role}
-            />
-          </div>
-
-          {currentPrompt && (
-            <div className="-mt-2 flex justify-end">
-              <button
-                onClick={() => setIsNavExpanded(false)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 text-[rgb(var(--color-text-secondary))] border border-white/10 hover:bg-white/10 hover:text-[rgb(var(--color-text-primary))] transition-all text-xs font-bold"
-                title="Collapse the navigator and focus on your response"
-              >
-                <ChevronUp className="w-3.5 h-3.5" />
-                Collapse to breadcrumb
-              </button>
+        {!isFocusMode && !isNavCollapsed && (
+          <>
+            <div className="relative z-50">
+              <PromptSelector
+                courses={courses}
+                statePath={statePath}
+                onPathChange={handlePathChange}
+                onAddCourse={() => openModal('courseCreator')}
+                onAddTopic={() => openModal('topicCreator')}
+                onAddSubTopic={() => openModal('subTopicCreator')}
+                onGeneratePrompt={() => openModal('promptGenerator')}
+                onManualEntry={() => openModal('manualPrompt')}
+                onEditOutcomes={() => openModal('outcomesEditor')}
+                onOpenDataManager={() => openModal('dataManager')}
+                onRenameItem={requestRename}
+                onDeleteItem={requestDelete}
+                onAddTopicFromSyllabus={() => openModal('topicSyllabusImport')}
+                onGenerateSuggestedTopic={() => openModal('topicGenerator')}
+                onGenerateDotPoints={() => openModal('dotPointGenerator')}
+                onImportTopic={() => openModal('topicImport')}
+                newlyAddedIds={newlyAddedIds}
+                userRole={user.role}
+              />
             </div>
-          )}
 
-          <div className="mb-4">
-            <CommandVerbHierarchy currentVerb={currentPrompt?.verb} />
+            {currentPrompt && (
+              <div className="-mt-2 flex justify-end">
+                <button
+                  onClick={() => setIsNavExpanded(false)}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 text-[rgb(var(--color-text-secondary))] border border-white/10 hover:bg-white/10 hover:text-[rgb(var(--color-text-primary))] transition-all text-xs font-bold"
+                  title="Collapse the navigator and focus on your response"
+                >
+                  <ChevronUp className="w-3.5 h-3.5" />
+                  Collapse to breadcrumb
+                </button>
+              </div>
+            )}
+
+            <div className="mb-4">
+              <CommandVerbHierarchy currentVerb={currentPrompt?.verb} />
+            </div>
+          </>
+        )}
+
+        {currentPrompt && canContribute && !isFocusMode && (
+          <div className="-mt-2 flex justify-end">
+            <button
+              onClick={handleSubmitPromptToLibrary}
+              disabled={isSubmittingPrompt}
+              title="Submit this question to the shared library for reviewer approval"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all text-xs font-bold disabled:opacity-50"
+            >
+              <UploadCloud className={`w-3.5 h-3.5 ${isSubmittingPrompt ? 'animate-pulse' : ''}`} />
+              {isSubmittingPrompt ? 'Submitting…' : 'Submit to shared library'}
+            </button>
           </div>
-        </>
-      )}
+        )}
 
-      {currentPrompt && canContribute && !isFocusMode && (
-        <div className="-mt-2 flex justify-end">
-          <button
-            onClick={handleSubmitPromptToLibrary}
-            disabled={isSubmittingPrompt}
-            title="Submit this question to the shared library for reviewer approval"
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all text-xs font-bold disabled:opacity-50"
-          >
-            <UploadCloud className={`w-3.5 h-3.5 ${isSubmittingPrompt ? 'animate-pulse' : ''}`} />
-            {isSubmittingPrompt ? 'Submitting…' : 'Submit to shared library'}
-          </button>
-        </div>
-      )}
+        {currentPrompt ? (
+          <Workspace
+            courses={courses}
+            statePath={statePath}
+            currentSelection={currentSelection}
+            userAnswer={userAnswer}
+            debouncedUserAnswer={debouncedUserAnswer}
+            setUserAnswer={setUserAnswer}
+            evaluationResult={evaluationResult}
+            isEvaluating={isEvaluating}
+            evaluationError={evaluationError}
+            isEnriching={isEnriching}
+            enrichError={enrichError}
+            isImproving={isImproving}
+            improveAnswerError={improveAnswerError}
+            evaluatedAnswer={userAnswer}
+            handleEvaluate={handleEvaluate}
+            geminiHandlers={geminiHandlers}
+            modalHandlers={modalHandlers}
+            syllabusHandlers={syllabusHandlers}
+            userRole={user.role}
+            isFocusMode={isFocusMode}
+            onToggleFocusMode={() => setIsFocusMode(!isFocusMode)}
+            writingMode={writingMode}
+            onWritingModeChange={setWritingMode}
+            showBreadcrumb={!isNavCollapsed}
+          />
+        ) : (
+          <div className="min-h-[50vh] flex flex-col items-center justify-center animate-fade-in">
+            <div className="text-center p-12 rounded-[48px] bg-[rgb(var(--color-bg-surface))]/40 light:bg-white border border-white/5 light:border-slate-300 relative group overflow-hidden">
+              <MeshOverlay opacity="opacity-[0.05]" />
+              <Compass className="w-20 h-20 text-indigo-500 mx-auto mb-8 opacity-40 group-hover:rotate-45 transition-transform duration-700" />
+              <h3 className="text-3xl font-black text-white light:text-slate-900 mb-4 tracking-tighter uppercase italic">
+                Ready to Write
+              </h3>
+              <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-500 max-w-sm mx-auto font-medium">
+                Choose a course, topic and question in the navigator above — your writing space will
+                open here.
+              </p>
+              {courses.length === 0 && (
+                <button
+                  onClick={() => openModal('manifestImport')}
+                  className="mt-10 px-8 py-3 rounded-2xl bg-indigo-600 text-white font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3 mx-auto"
+                >
+                  <Sparkles className="w-4 h-4" /> Load Curriculum Library
+                </button>
+              )}
+            </div>
+          </div>
+        )}
 
-      {currentPrompt ? (
-        <Workspace
-          courses={courses}
-          statePath={statePath}
-          currentSelection={currentSelection}
-          userAnswer={userAnswer}
-          debouncedUserAnswer={debouncedUserAnswer}
-          setUserAnswer={setUserAnswer}
-          evaluationResult={evaluationResult}
-          isEvaluating={isEvaluating}
-          evaluationError={evaluationError}
-          isEnriching={isEnriching}
-          enrichError={enrichError}
-          isImproving={isImproving}
-          improveAnswerError={improveAnswerError}
-          evaluatedAnswer={userAnswer}
-          handleEvaluate={handleEvaluate}
-          geminiHandlers={geminiHandlers}
+        <AppModals
+          activeModals={activeModals}
+          modalProps={modalProps}
           modalHandlers={modalHandlers}
           syllabusHandlers={syllabusHandlers}
-          userRole={user.role}
-          isFocusMode={isFocusMode}
-          onToggleFocusMode={() => setIsFocusMode(!isFocusMode)}
-          writingMode={writingMode}
-          onWritingModeChange={setWritingMode}
-          showBreadcrumb={!isNavCollapsed}
-        />
-      ) : (
-        <div className="min-h-[50vh] flex flex-col items-center justify-center animate-fade-in">
-          <div className="text-center p-12 rounded-[48px] bg-[rgb(var(--color-bg-surface))]/40 light:bg-white border border-white/5 light:border-slate-300 relative group overflow-hidden">
-            <MeshOverlay opacity="opacity-[0.05]" />
-            <Compass className="w-20 h-20 text-indigo-500 mx-auto mb-8 opacity-40 group-hover:rotate-45 transition-transform duration-700" />
-            <h3 className="text-3xl font-black text-white light:text-slate-900 mb-4 tracking-tighter uppercase italic">
-              Ready to Write
-            </h3>
-            <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-500 max-w-sm mx-auto font-medium">
-              Choose a course, topic and question in the navigator above — your writing space will
-              open here.
-            </p>
-            {courses.length === 0 && (
-              <button
-                onClick={() => openModal('manifestImport')}
-                className="mt-10 px-8 py-3 rounded-2xl bg-indigo-600 text-white font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3 mx-auto"
-              >
-                <Sparkles className="w-4 h-4" /> Load Curriculum Library
-              </button>
-            )}
-          </div>
-        </div>
-      )}
-
-      <AppModals
-        activeModals={activeModals}
-        modalProps={modalProps}
-        modalHandlers={modalHandlers}
-        syllabusHandlers={syllabusHandlers}
-        geminiHandlers={geminiHandlers}
-        currentSelection={currentSelection}
-        statePath={statePath}
-        courses={courses}
-        setStatePath={setStatePath}
-        showToast={showToast}
-        setNewlyAddedIds={setNewlyAddedIds}
-        user={user}
-        onUpdateUser={onUpdateUser}
-        onLogout={handleLogout}
-      />
-      <GlobalLoadingOverlay message={globalLoadingMessage} error={quotaError} />
-      <BackgroundTaskIndicator task={activeBackgroundTask} />
-      {isSystemAdmin(user.role) && <ApiMonitorDisplay />}
-      {isSystemAdmin(user.role) && isAuditModalOpen && (
-        <ContentAuditModal
-          isOpen={isAuditModalOpen}
-          onClose={() => setIsAuditModalOpen(false)}
+          geminiHandlers={geminiHandlers}
+          currentSelection={currentSelection}
+          statePath={statePath}
           courses={courses}
-          updateCourses={updateCourses}
+          setStatePath={setStatePath}
           showToast={showToast}
+          setNewlyAddedIds={setNewlyAddedIds}
+          user={user}
+          onUpdateUser={onUpdateUser}
+          onLogout={handleLogout}
         />
-      )}
-      {canModerate(user.role) && (
-        <ReviewQueueModal
-          isOpen={isReviewQueueOpen}
-          onClose={() => setIsReviewQueueOpen(false)}
-          showToast={showToast}
-        />
-      )}
-      {canModerate(user.role) && (
-        <ClassInsightsModal
-          isOpen={isClassInsightsOpen}
-          onClose={() => setIsClassInsightsOpen(false)}
-          showToast={showToast}
-        />
-      )}
-      {canModerate(user.role) && (
-        <StudentProgressModal
-          isOpen={isStudentProgressOpen}
-          onClose={() => setIsStudentProgressOpen(false)}
-          showToast={showToast}
-        />
-      )}
-      {isSystemAdmin(user.role) && (
-        <UsageDashboard
-          isOpen={isUsageDashboardOpen}
-          onClose={() => setIsUsageDashboardOpen(false)}
-          showToast={showToast}
-        />
-      )}
-      {isSystemAdmin(user.role) && (
-        <RuntimeKeyModal
-          isOpen={isRuntimeKeyOpen}
-          onClose={() => setIsRuntimeKeyOpen(false)}
-          showToast={showToast}
-        />
-      )}
-    </div>
+        <GlobalLoadingOverlay message={globalLoadingMessage} error={quotaError} />
+        <BackgroundTaskIndicator task={activeBackgroundTask} />
+        {isSystemAdmin(user.role) && <ApiMonitorDisplay />}
+        {isSystemAdmin(user.role) && isAuditModalOpen && (
+          <ContentAuditModal
+            isOpen={isAuditModalOpen}
+            onClose={() => setIsAuditModalOpen(false)}
+            courses={courses}
+            updateCourses={updateCourses}
+            showToast={showToast}
+          />
+        )}
+        {canModerate(user.role) && (
+          <ReviewQueueModal
+            isOpen={isReviewQueueOpen}
+            onClose={() => setIsReviewQueueOpen(false)}
+            showToast={showToast}
+          />
+        )}
+        {canModerate(user.role) && (
+          <ClassInsightsModal
+            isOpen={isClassInsightsOpen}
+            onClose={() => setIsClassInsightsOpen(false)}
+            showToast={showToast}
+          />
+        )}
+        {canModerate(user.role) && (
+          <StudentProgressModal
+            isOpen={isStudentProgressOpen}
+            onClose={() => setIsStudentProgressOpen(false)}
+            showToast={showToast}
+          />
+        )}
+        {isSystemAdmin(user.role) && (
+          <UsageDashboard
+            isOpen={isUsageDashboardOpen}
+            onClose={() => setIsUsageDashboardOpen(false)}
+            showToast={showToast}
+          />
+        )}
+        {isSystemAdmin(user.role) && (
+          <RuntimeKeyModal
+            isOpen={isRuntimeKeyOpen}
+            onClose={() => setIsRuntimeKeyOpen(false)}
+            showToast={showToast}
+          />
+        )}
+      </div>
+    </>
   );
 };
 
