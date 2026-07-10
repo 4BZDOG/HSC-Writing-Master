@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { generateDotPointsForSubTopic } from '../services/geminiService';
 import LoadingIndicator from './LoadingIndicator';
 import { X, Sparkles } from 'lucide-react';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface DotPointGeneratorModalProps {
   isOpen: boolean;
@@ -21,6 +22,8 @@ const DotPointGeneratorModal: React.FC<DotPointGeneratorModalProps> = ({
   subTopicName,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
+  // Escape closes this modal like every other modal surface (but never mid-operation).
+  useEscapeKey(isOpen && !isLoading, onClose);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

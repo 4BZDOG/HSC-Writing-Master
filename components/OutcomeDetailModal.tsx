@@ -5,6 +5,7 @@ import { explainOutcomeInContext } from '../services/geminiService';
 import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
 import { AlertCircle, Target, X, Sparkles } from 'lucide-react';
 import LoadingIndicator from './LoadingIndicator';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface OutcomeDetailModalProps {
   isOpen: boolean;
@@ -19,6 +20,8 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
   outcome,
   question,
 }) => {
+  // Escape closes this modal like every other modal surface.
+  useEscapeKey(isOpen, onClose);
   const [explanation, setExplanation] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

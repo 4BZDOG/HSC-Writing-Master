@@ -21,6 +21,7 @@ import {
   Wand2,
 } from 'lucide-react';
 import { generateId } from '../utils/idUtils';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 
 type PreviewNode = SyllabusPreviewNode;
 
@@ -51,6 +52,8 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
   courses,
   onImport,
 }) => {
+  // Escape closes this modal like every other modal surface.
+  useEscapeKey(isOpen, onClose);
   const [courseName, setCourseName] = useState('');
   // null → create a new course; otherwise merge into this existing course.
   const [targetCourseId, setTargetCourseId] = useState<string | null>(null);

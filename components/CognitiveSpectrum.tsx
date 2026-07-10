@@ -44,7 +44,9 @@ const CognitiveSpectrum: React.FC<CognitiveSpectrumProps> = ({
           <span className="text-[9px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-widest leading-none mb-1">
             Syllabus Scope
           </span>
-          <span className="text-xs font-black text-white leading-none tracking-tight">{term}</span>
+          <span className="text-xs font-black text-[rgb(var(--color-text-primary))] leading-none tracking-tight">
+            {term}
+          </span>
         </div>
       )}
       <div className="flex gap-0.5 items-end h-4">

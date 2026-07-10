@@ -80,8 +80,10 @@ const InstrumentMetric = ({
   subValue?: string;
   colorClass: string;
 }) => (
-  <div className="flex flex-col gap-1 px-8 py-4 border-r border-white/5 last:border-r-0">
-    <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white/30">{label}</span>
+  <div className="flex flex-col gap-1 px-4 md:px-8 py-3 md:py-4 border-r border-white/5 last:border-r-0">
+    <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white/50 light:text-slate-500 whitespace-nowrap">
+      {label}
+    </span>
     <div className="flex items-baseline gap-2">
       <span className={`text-4xl font-black tracking-tighter tabular-nums ${colorClass}`}>
         {value}
@@ -1179,19 +1181,19 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       {/* Studio Header */}
       <div className="flex-shrink-0 border-b border-white/5 bg-[rgb(var(--color-bg-surface))] light:bg-white z-20 shadow-2xl relative">
         <MeshOverlay opacity="opacity-[0.05]" />
-        <div className="px-10 py-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10">
-          <div className="flex items-start gap-8 flex-1">
-            <div className="w-20 h-20 rounded-[32px] bg-gradient-to-br from-indigo-500/20 to-purple-600/20 border border-white/10 flex items-center justify-center shadow-2xl shadow-indigo-900/20 shrink-0">
-              <Activity className="w-10 h-10 text-indigo-400" />
+        <div className="px-5 md:px-10 py-6 md:py-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 md:gap-10">
+          <div className="flex items-start gap-4 md:gap-8 flex-1 min-w-0">
+            <div className="w-14 h-14 md:w-20 md:h-20 rounded-[24px] md:rounded-[32px] bg-gradient-to-br from-indigo-500/20 to-purple-600/20 border border-white/10 flex items-center justify-center shadow-2xl shadow-indigo-900/20 shrink-0">
+              <Activity className="w-7 h-7 md:w-10 md:h-10 text-indigo-400" />
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-3 mb-2">
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-indigo-400">
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] md:tracking-[0.5em] text-indigo-400 whitespace-nowrap">
                   Content Overview
                 </span>
                 <div className="h-px w-12 bg-indigo-500/20" />
               </div>
-              <h2 className="text-4xl font-black text-white light:text-slate-900 tracking-tighter italic uppercase leading-none">
+              <h2 className="text-2xl md:text-4xl font-black text-white light:text-slate-900 tracking-tighter italic uppercase leading-none">
                 Content Audit Studio
               </h2>
               <p className="text-sm text-slate-400 font-medium mt-4 leading-relaxed max-w-lg">
@@ -1201,8 +1203,8 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center bg-black/40 light:bg-slate-50 rounded-[40px] border border-white/5 p-2 shadow-inner">
-            <div className="flex items-center gap-6 px-10 py-4 border-r border-white/5">
+          <div className="flex flex-wrap items-center w-full lg:w-auto bg-black/40 light:bg-slate-50 rounded-[28px] md:rounded-[40px] border border-white/5 p-2 shadow-inner gap-y-2">
+            <div className="flex items-center gap-4 md:gap-6 px-4 md:px-10 py-3 md:py-4 sm:border-r border-white/5">
               <div className="relative w-16 h-16 flex items-center justify-center">
                 <svg className="transform -rotate-90 w-16 h-16" viewBox="0 0 64 64">
                   <circle
@@ -1232,14 +1234,14 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 </span>
               </div>
               <div>
-                <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white/20">
+                <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white/50 light:text-slate-500">
                   Overall Health
                 </span>
                 <div className="flex items-baseline gap-2">
                   <span className={`text-3xl font-black ${healthColor} tracking-tighter`}>
                     {coveredDotPoints}
                   </span>
-                  <span className="text-[10px] font-bold text-white/10 uppercase">
+                  <span className="text-[10px] font-bold text-white/40 light:text-slate-400 uppercase">
                     / {totalDotPoints} Points
                   </span>
                 </div>
@@ -1262,15 +1264,15 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             <button
               onClick={onClose}
               aria-label="Close"
-              className="p-4 rounded-full hover:bg-white/5 text-slate-500 transition-colors ml-4 mr-2"
+              className="p-3 md:p-4 rounded-full hover:bg-white/5 text-slate-500 transition-colors ml-auto lg:ml-4 mr-2"
             >
-              <X className="w-8 h-8" />
+              <X className="w-6 h-6 md:w-8 md:h-8" />
             </button>
           </div>
         </div>
 
         {/* Smart Select Action Bar */}
-        <div className="px-10 pb-8 flex flex-wrap gap-4 items-center">
+        <div className="px-5 md:px-10 pb-6 md:pb-8 flex flex-wrap gap-3 md:gap-4 items-center">
           <div className="flex items-center gap-4 bg-black/20 rounded-2xl p-1.5 border border-white/5 mr-2 transition-all group focus-within:border-indigo-500/50 focus-within:shadow-[0_0_20px_rgba(99,102,241,0.2)]">
             <div className="relative group/search">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within/search:text-indigo-400 transition-colors" />
@@ -1482,19 +1484,19 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
               </button>
             </div>
           ) : (
-            <div className="flex items-center justify-between w-full gap-6">
-              <div className="flex items-center gap-4 shrink-0">
+            <div className="flex flex-wrap items-center justify-between w-full gap-4 md:gap-6">
+              <div className="flex flex-wrap items-center gap-3 md:gap-4">
                 <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-white font-black text-2xl tracking-tighter italic">
                   {selectedIds.size.toString().padStart(2, '0')}
                 </div>
-                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/50">
                   Selected
                 </span>
 
                 <div className="flex flex-col gap-1 ml-4">
                   <label
                     htmlFor="audit-engine"
-                    className="text-[9px] font-black uppercase tracking-[0.3em] text-white/30 flex items-center gap-1.5"
+                    className="text-[9px] font-black uppercase tracking-[0.3em] text-white/50 flex items-center gap-1.5"
                   >
                     <Cpu className="w-3 h-3" /> Batch Engine
                   </label>

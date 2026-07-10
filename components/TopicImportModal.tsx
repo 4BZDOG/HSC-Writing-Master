@@ -10,6 +10,7 @@ import FileDropzone from './dataManager/FileDropzone';
 import ValidationSummary from './dataManager/ValidationSummary';
 import { ModalHeader, ActionButtons } from './dataManager/common';
 import { UploadCloud, X, Award } from 'lucide-react';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface TopicImportModalProps {
   isOpen: boolean;
@@ -24,6 +25,8 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
   onImport,
   courseName,
 }) => {
+  // Escape closes this modal like every other modal surface.
+  useEscapeKey(isOpen, onClose);
   const [step, setStep] = useState<'upload' | 'preview'>('upload');
   const [importedTopic, setImportedTopic] = useState<Topic | null>(null);
   const [error, setError] = useState<string | null>(null);

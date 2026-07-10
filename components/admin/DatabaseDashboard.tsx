@@ -450,29 +450,32 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
           </div>
         </div>
 
-        <div className="flex flex-1 overflow-hidden">
-          <div className="w-64 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border-r border-[rgb(var(--color-border-secondary))] light:border-slate-200 p-4 flex flex-col gap-2 flex-shrink-0">
+        {/* Stacks on phones: the fixed 16rem sidebar left the content pane a
+            sliver on a 390px screen; below md it becomes a horizontal tab
+            strip above the full-width content. */}
+        <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
+          <div className="w-full md:w-64 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border-b md:border-b-0 md:border-r border-[rgb(var(--color-border-secondary))] light:border-slate-200 p-3 md:p-4 flex flex-row md:flex-col gap-2 flex-shrink-0 overflow-x-auto scrollbar-hide">
             <button
               onClick={() => setView('overview')}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all duration-200 ${view === 'overview' ? 'bg-blue-500/10 light:bg-blue-100 text-blue-400 light:text-blue-700' : 'text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200'}`}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold whitespace-nowrap transition-all duration-200 ${view === 'overview' ? 'bg-blue-500/10 light:bg-blue-100 text-blue-400 light:text-blue-700' : 'text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200'}`}
             >
               <Server className="w-4 h-4" /> Overview
             </button>
             <button
               onClick={() => setView('snapshots')}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all duration-200 ${view === 'snapshots' ? 'bg-purple-500/10 light:bg-purple-100 text-purple-400 light:text-purple-700' : 'text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200'}`}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold whitespace-nowrap transition-all duration-200 ${view === 'snapshots' ? 'bg-purple-500/10 light:bg-purple-100 text-purple-400 light:text-purple-700' : 'text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200'}`}
             >
               <History className="w-4 h-4" /> Backups
             </button>
             <button
               onClick={() => handleInspectStore('main_store')}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all duration-200 ${view === 'inspector' ? 'bg-amber-500/10 light:bg-amber-100 text-amber-400 light:text-amber-700' : 'text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200'}`}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold whitespace-nowrap transition-all duration-200 ${view === 'inspector' ? 'bg-amber-500/10 light:bg-amber-100 text-amber-400 light:text-amber-700' : 'text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200'}`}
             >
               <FileJson className="w-4 h-4" /> Data Browser
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-8 bg-[rgb(var(--color-bg-surface))]/50 light:bg-white relative">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-8 bg-[rgb(var(--color-bg-surface))]/50 light:bg-white relative">
             {view === 'overview' && (
               <>
                 {isLoading && !stats ? (

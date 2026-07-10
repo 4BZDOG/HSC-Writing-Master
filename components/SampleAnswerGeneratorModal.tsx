@@ -6,6 +6,7 @@ import { getCommandTermInfo, getBandForMark, TIER_GROUPS } from '../data/command
 import LoadingIndicator from './LoadingIndicator';
 import { X, Sparkles, AlertTriangle, Info, Check, Plus, Target, Award } from 'lucide-react';
 import { getBandConfig } from '../utils/renderUtils';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface SampleAnswerGeneratorModalProps {
   isOpen: boolean;
@@ -22,6 +23,8 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
 }) => {
   const [selectedMark, setSelectedMark] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  // Escape closes this modal like every other modal surface (but never mid-operation).
+  useEscapeKey(isOpen && !isLoading, onClose);
   const [error, setError] = useState<string | null>(null);
 
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);

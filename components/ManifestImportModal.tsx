@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { DiscoveredDoc } from '../hooks/useSyllabusData';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 import {
   CheckSquare,
   Square,
@@ -93,6 +94,8 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
   const [localDocs, setLocalDocs] = useState<DiscoveredDoc[]>([]);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [isImporting, setIsImporting] = useState(false);
+  // Escape closes this modal like every other modal surface (but never mid-operation).
+  useEscapeKey(isOpen && !isImporting, onClose);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 

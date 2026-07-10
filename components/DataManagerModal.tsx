@@ -4,6 +4,7 @@ import { Course, Topic } from '../types';
 import ImportFlow from './dataManager/ImportFlow';
 import ExportFlow from './dataManager/ExportFlow';
 import TopicReorderList from './dataManager/TopicReorderList';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 import {
   Database,
   X,
@@ -85,6 +86,8 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
   onMoveTopic,
   showToast,
 }) => {
+  // Escape closes this modal like every other modal surface.
+  useEscapeKey(isOpen, onClose);
   const [activeTab, setActiveTab] = useState<Tab>('maintenance');
 
   const totalQuestions = useMemo(() => {
@@ -110,7 +113,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
     <button
       onClick={() => setActiveTab(tab)}
       className={`
-            w-full flex items-center gap-4 px-6 py-4 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-300
+            w-auto md:w-full flex items-center gap-3 md:gap-4 px-4 md:px-6 py-3 md:py-4 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] whitespace-nowrap transition-all duration-300
             ${
               activeTab === tab
                 ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-900/20 scale-[1.02] border border-white/20'
@@ -124,21 +127,22 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
   );
 
   return createPortal(
-    <div className="fixed inset-0 bg-black/90 backdrop-blur-2xl flex items-center justify-center z-[500] p-6 transition-all duration-700 animate-fade-in">
+    <div className="fixed inset-0 bg-black/90 backdrop-blur-2xl flex items-center justify-center z-[500] p-3 sm:p-6 transition-all duration-700 animate-fade-in">
       <div
-        className="bg-[rgb(var(--color-bg-base))] light:bg-white rounded-[48px] shadow-[0_64px_128px_-24px_rgba(0,0,0,0.8)] w-full max-w-6xl border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col md:flex-row h-[85vh] relative"
+        className="bg-[rgb(var(--color-bg-base))] light:bg-white rounded-[32px] sm:rounded-[48px] shadow-[0_64px_128px_-24px_rgba(0,0,0,0.8)] w-full max-w-6xl border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col md:flex-row h-[92vh] md:h-[85vh] relative"
         onClick={(e) => e.stopPropagation()}
       >
         <MeshOverlay opacity="opacity-[0.05]" />
 
-        {/* Studio Sidebar */}
+        {/* Studio Sidebar — compact strip on phones so the working pane keeps
+            most of the modal height; full-height rail from md up. */}
         <div className="w-full md:w-72 bg-black/40 light:bg-slate-50 border-b md:border-b-0 md:border-r border-white/5 flex flex-col flex-shrink-0 z-10 relative">
-          <div className="p-10 border-b border-white/5">
-            <div className="flex items-center gap-4 mb-2">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-2xl border border-white/10">
-                <Database className="w-6 h-6 text-white" />
+          <div className="p-5 md:p-10 border-b border-white/5">
+            <div className="flex items-center gap-4 md:mb-2">
+              <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-2xl border border-white/10">
+                <Database className="w-5 h-5 md:w-6 md:h-6 text-white" />
               </div>
-              <div>
+              <div className="flex-1 min-w-0">
                 <h2 className="text-xl font-black text-white light:text-slate-900 tracking-tighter italic uppercase leading-none">
                   Studio
                 </h2>
@@ -146,16 +150,25 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                   Vault
                 </span>
               </div>
+              {/* Phones have no Escape key and the Disconnect footer is hidden
+                  below md, so the compact header carries the close control. */}
+              <button
+                onClick={onClose}
+                aria-label="Close Data Vault"
+                className="md:hidden p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors border border-white/5"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
           </div>
 
-          <div className="p-6 flex-1 flex flex-col gap-3 overflow-y-auto custom-scrollbar">
+          <div className="p-4 md:p-6 md:flex-1 flex flex-row md:flex-col gap-2 md:gap-3 overflow-x-auto md:overflow-x-visible md:overflow-y-auto scrollbar-hide md:custom-scrollbar">
             <NavButton tab="maintenance" icon={Activity} label="Maintenance" />
             <NavButton tab="import" icon={Upload} label="Sync In" />
             <NavButton tab="export" icon={Download} label="Archive Out" />
           </div>
 
-          <div className="p-8 border-t border-white/5 bg-black/20">
+          <div className="hidden md:block p-8 border-t border-white/5 bg-black/20">
             <button
               onClick={onClose}
               className="w-full py-4 rounded-2xl bg-white/5 hover:bg-white/10 text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 hover:text-white transition-all flex items-center justify-center gap-3 border border-white/5 shadow-lg"
@@ -168,7 +181,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
         {/* Main Interface */}
         <div className="flex-1 bg-[rgb(var(--color-bg-base))]/30 relative overflow-hidden flex flex-col z-10">
           {/* Telemetry Header */}
-          <div className="px-10 py-8 border-b border-white/5 bg-black/20 flex flex-col lg:flex-row justify-between items-center gap-8">
+          <div className="px-5 md:px-10 py-5 md:py-8 border-b border-white/5 bg-black/20 flex flex-col lg:flex-row justify-between items-center gap-4 md:gap-8">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2 opacity-40">
                 <Zap className="w-3 h-3 text-indigo-400" />
@@ -176,7 +189,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                   System Diagnostics
                 </span>
               </div>
-              <h3 className="text-3xl font-black text-white tracking-tighter uppercase italic leading-none">
+              <h3 className="text-2xl md:text-3xl font-black text-white tracking-tighter uppercase italic leading-none">
                 {activeTab === 'maintenance'
                   ? 'Storage Calibrator'
                   : activeTab === 'import'
@@ -202,7 +215,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
           </div>
 
           <div className="flex-1 overflow-y-auto custom-scrollbar relative">
-            <div className="p-10 max-w-4xl mx-auto w-full">
+            <div className="p-5 md:p-10 max-w-4xl mx-auto w-full">
               {activeTab === 'maintenance' && (
                 <div className="space-y-12 animate-fade-in">
                   <section>

@@ -28,7 +28,13 @@ import {
   ListFilter,
   Loader2,
 } from 'lucide-react';
-import { getBandConfig, getTierBandConfig, escapeRegExp } from '../utils/renderUtils';
+import {
+  getBandConfig,
+  getTierBandConfig,
+  getTierScaleConfig,
+  escapeRegExp,
+} from '../utils/renderUtils';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface PromptGeneratorModalProps {
   isOpen: boolean;
@@ -75,6 +81,8 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
   const MAX_GENERATOR_MARKS = 15;
   const [marks, setMarks] = useState(initialMarks > MAX_GENERATOR_MARKS ? 7 : initialMarks);
   const [isLoading, setIsLoading] = useState(false);
+  // Escape closes this modal like every other modal surface (but never mid-operation).
+  useEscapeKey(isOpen && !isLoading, onClose);
   const [error, setError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
 
@@ -374,7 +382,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                 <div className="grid grid-cols-3 gap-3">
                   {TIER_GROUPS.map((tier) => {
                     const isSelected = selectedTier === tier.tier;
-                    const config = getTierBandConfig(tier.tier);
+                    const config = getTierScaleConfig(tier.tier);
                     return (
                       <button
                         key={tier.tier}

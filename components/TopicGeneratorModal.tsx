@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { generateNewTopic } from '../services/geminiService';
 import LoadingIndicator from './LoadingIndicator';
 import { X, Lightbulb, RefreshCw } from 'lucide-react';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface TopicGeneratorModalProps {
   isOpen: boolean;
@@ -20,6 +21,8 @@ const TopicGeneratorModal: React.FC<TopicGeneratorModalProps> = ({
 }) => {
   const [suggestedTopic, setSuggestedTopic] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  // Escape closes this modal like every other modal surface (but never mid-operation).
+  useEscapeKey(isOpen && !isLoading, onClose);
   const [error, setError] = useState<string | null>(null);
 
   const handleGenerate = useCallback(async () => {
