@@ -12,11 +12,13 @@
 import { runGeminiProxy, type ProxyResult } from './generate';
 import { runAnthropicProxy } from './anthropic';
 import { runOpenRouterProxy } from './openrouter';
+import { runGroqProxy } from './groq';
 
 export interface ProviderKeys {
   gemini?: string;
   anthropic?: string;
   openrouter?: string;
+  groq?: string;
 }
 
 export const runAiProxy = async (request: unknown, keys: ProviderKeys): Promise<ProxyResult> => {
@@ -35,6 +37,7 @@ export const runAiProxy = async (request: unknown, keys: ProviderKeys): Promise<
     gemini: __keyOverride?.gemini || keys.gemini,
     anthropic: __keyOverride?.anthropic || keys.anthropic,
     openrouter: __keyOverride?.openrouter || keys.openrouter,
+    groq: __keyOverride?.groq || keys.groq,
   };
 
   if (provider === 'anthropic') {
@@ -42,6 +45,9 @@ export const runAiProxy = async (request: unknown, keys: ProviderKeys): Promise<
   }
   if (provider === 'openrouter') {
     return runOpenRouterProxy(effective.openrouter, rest);
+  }
+  if (provider === 'groq') {
+    return runGroqProxy(effective.groq, rest);
   }
   // Default + explicit 'gemini'
   return runGeminiProxy(effective.gemini, rest);

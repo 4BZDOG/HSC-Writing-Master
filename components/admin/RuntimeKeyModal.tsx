@@ -46,6 +46,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
   const [gemini, setGemini] = useState('');
   const [anthropic, setAnthropic] = useState('');
   const [openrouter, setOpenrouter] = useState('');
+  const [groq, setGroq] = useState('');
   const [reveal, setReveal] = useState(false);
 
   useEscapeKey(isOpen, onClose);
@@ -53,20 +54,20 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
   if (!isOpen) return null;
 
   const handleSave = () => {
-    if (!gemini.trim() && !anthropic.trim() && !openrouter.trim()) {
+    if (!gemini.trim() && !anthropic.trim() && !openrouter.trim() && !groq.trim()) {
       showToast('Enter at least one key, or use Clear to remove the current keys.', 'error');
       return;
     }
-    // Preserve a provider's existing key when its field is left blank, so you
-    // can set one without wiping the others.
     setRuntimeKeys({
       gemini: gemini.trim() || current.gemini,
       anthropic: anthropic.trim() || current.anthropic,
       openrouter: openrouter.trim() || current.openrouter,
+      groq: groq.trim() || current.groq,
     });
     setGemini('');
     setAnthropic('');
     setOpenrouter('');
+    setGroq('');
     showToast('Runtime keys saved for this browser tab.', 'success');
   };
 
@@ -75,6 +76,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
     setGemini('');
     setAnthropic('');
     setOpenrouter('');
+    setGroq('');
     showToast('Runtime keys cleared — the server key applies again.', 'info');
   };
 
@@ -210,6 +212,38 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
             </span>
           </label>
 
+          {/* Groq */}
+          <label className="block">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
+              Groq API key
+            </span>
+            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-400">
+              optional · current: {maskKey(current.groq)}
+            </span>
+            <div className="relative mt-1">
+              <input
+                type={inputType}
+                autoComplete="off"
+                aria-label="Groq API key"
+                placeholder={current.groq ? 'leave blank to keep current' : 'gsk_…'}
+                value={groq}
+                onChange={(e) => setGroq(e.target.value)}
+                className={fieldClass}
+              />
+            </div>
+            <span className="mt-1 flex items-center gap-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+              Free tier with ultra-fast inference on Llama, Gemma and more —
+              <a
+                href="https://console.groq.com/keys"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-0.5 text-[rgb(var(--color-accent))] hover:underline"
+              >
+                get one at console.groq.com <ExternalLink className="w-3 h-3" />
+              </a>
+            </span>
+          </label>
+
           {/* AI Engine selector — the natural home for choosing which model each
               key drives. Also mirrored in the API telemetry widget (bottom-right). */}
           <div className="pt-4 border-t border-[rgb(var(--color-border-secondary))]/40 light:border-slate-200">
@@ -217,8 +251,8 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
             <p className="mt-2 flex gap-1.5 items-start text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
               <Cpu className="w-3 h-3 shrink-0 mt-0.5" />
               <span>
-                Gemini, Claude and the OpenRouter open models all appear here once their key is set.
-                The same selector lives in the API usage widget (bottom-right).
+                Gemini, Claude, Groq and the OpenRouter open models all appear here once their key
+                is set. The same selector lives in the API usage widget (bottom-right).
               </span>
             </p>
           </div>
