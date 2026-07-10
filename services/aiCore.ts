@@ -36,6 +36,29 @@ export class QuotaExceededError extends Error {
   }
 }
 
+/**
+ * Nothing is deployed at the proxy path — a static file host (e.g. GitHub
+ * Pages) answered the POST instead of the serverless function. Permanent for
+ * the deployment, so never retried and never trips the circuit breaker.
+ * Thrown only when no runtime keys are set; with keys, aiCore falls back to
+ * calling the provider directly from the browser (services/aiDirect.ts).
+ */
+export class ProxyUnavailableError extends Error {
+  public status: number;
+  constructor(status: number) {
+    super(
+      'AI is not connected on this deployment: nothing answered at ' +
+        `${GEMINI_PROXY_ENDPOINT} (HTTP ${status}). Static hosting such as GitHub Pages ` +
+        'cannot run the AI proxy — link an API host (set the API_BASE_URL repository ' +
+        'variable to the Vercel API origin; see DEPLOYMENT.md), or for temporary testing ' +
+        'an admin can paste a provider key in the Runtime AI Keys panel, which calls the ' +
+        'provider directly from this browser.'
+    );
+    this.name = 'ProxyUnavailableError';
+    this.status = status;
+  }
+}
+
 // --- API Guard (Circuit Breaker) ---
 interface ErrorRecord {
   timestamp: number;
@@ -132,7 +155,8 @@ export class ApiGuard {
       status === 400 ||
       status === 401 ||
       status === 403 ||
-      status === 404;
+      status === 404 ||
+      status === 405;
 
     if (isFatalClientError) {
       console.warn('[ApiGuard] Non-circuit-breaking error occurred:', errorMsg);
@@ -325,6 +349,7 @@ const isRetryableError = (error: any): boolean => {
     status === 401 ||
     status === 403 ||
     status === 404 ||
+    status === 405 ||
     msg.includes('safety') ||
     msg.includes('blocked')
   ) {
@@ -358,6 +383,12 @@ const callGeminiWithRetry = async <T>(
       apiGuard.reset();
       return result;
     } catch (error: any) {
+      // Deployment-level condition (no proxy endpoint at all) — retrying or
+      // swapping keys cannot change the outcome, so surface it verbatim.
+      if (error instanceof ProxyUnavailableError) {
+        throw error;
+      }
+
       apiGuard.recordError(error);
 
       const errorMsg = error instanceof Error ? error.message : String(error);
@@ -507,12 +538,32 @@ const callProxy = async (request: any): Promise<GenerateContentResponse> => {
     let detail = '';
     try {
       const errBody = await res.json();
-      detail = errBody?.error || errBody?.message || '';
+      const raw = errBody?.error || errBody?.message || '';
+      // Provider errors passed through the proxy nest the text one level down
+      // ({ error: { message } }) — unwrap rather than stringifying the object.
+      detail =
+        typeof raw === 'string'
+          ? raw
+          : typeof (raw as { message?: unknown })?.message === 'string'
+            ? (raw as { message: string }).message
+            : '';
       // A 429 carries the caller's spent budget — surface it as the "limit
       // reached" notification instead of just a raw error string.
       if (res.status === 429) observeQuota(errBody?.quota);
     } catch {
       /* response had no JSON body */
+    }
+    // A 404/405 without a proxy-shaped JSON error means nothing is deployed at
+    // the proxy path — a static host (e.g. GitHub Pages without API_BASE_URL)
+    // answered the POST with its own error page. With runtime keys pasted, run
+    // the provider adapters directly in the browser instead (testing-only
+    // fallback; lazy import keeps the adapters out of the common bundle path).
+    if ((res.status === 404 || res.status === 405) && !detail) {
+      if (keyOverride) {
+        const { callProviderDirect } = await import('./aiDirect');
+        return callProviderDirect(payload);
+      }
+      throw new ProxyUnavailableError(res.status);
     }
     const error: any = new Error(detail || `AI service error (${res.status}).`);
     error.status = res.status;

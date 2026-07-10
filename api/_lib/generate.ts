@@ -4,9 +4,11 @@ import { GoogleGenAI } from '@google/genai';
  * Shared Gemini proxy logic, used by both the Vercel serverless function
  * (api/gemini.ts) and the Vite dev-server middleware (vite.config.ts).
  *
- * The API key lives ONLY on the server side. This module is never bundled
- * into the client — it is imported by the serverless function and the dev
- * middleware, both of which run in Node.
+ * The API key normally lives ONLY on the server side — this module is
+ * imported by the serverless function and the dev middleware, both of which
+ * run in Node. The one exception is the direct-from-browser testing fallback
+ * (services/aiDirect.ts), which runs these adapters client-side with an
+ * admin's pasted runtime key when no proxy is deployed (static hosting).
  *
  * NOTE: this directory is prefixed with `_`, so Vercel does not treat it as
  * an API route — it is a plain shared library.
