@@ -202,7 +202,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
 
   return (
     <div
-      className={`${isFocusMode ? 'col-span-1 max-w-5xl mx-auto w-full' : 'lg:col-span-7'} flex flex-col gap-6 h-full pt-0 pb-20`}
+      className={`${isFocusMode ? 'col-span-1 max-w-5xl mx-auto w-full' : 'lg:col-span-7 lg:col-start-6 lg:row-start-1 lg:row-span-2'} flex flex-col gap-6 h-full pt-0`}
     >
       <div className="relative group">
         <div className="flex flex-col relative transition-all duration-700 shadow-2xl rounded-[32px]">

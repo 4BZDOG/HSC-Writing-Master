@@ -246,68 +246,42 @@ const Workspace: React.FC<WorkspaceProps> = ({
         </div>
       )}
 
+      {/* Two explicit rows on lg so the right panel spans beside both the
+          prompt (row 1) and the reference material (row 2). On mobile the DOM
+          order follows the student's journey — question → writing area →
+          reference material — instead of burying the editor beneath the
+          reference accordions. */}
       <div
-        className={`grid grid-cols-1 ${isFocusMode ? 'w-full' : 'lg:grid-cols-12'} gap-6 flex-1 min-h-0 transition-all duration-500`}
+        className={`grid grid-cols-1 ${isFocusMode ? 'w-full' : 'lg:grid-cols-12 lg:grid-rows-[auto,1fr]'} gap-6 flex-1 min-h-0 transition-all duration-500`}
       >
         {!isFocusMode && (
-          <div className="lg:col-span-5 flex flex-col h-full overflow-y-auto pb-20 pt-0 scrollbar-hide gap-6">
-            <div className="w-full flex-shrink-0">
-              <PromptDisplay
-                prompt={currentPrompt}
-                isEnriching={isEnriching}
-                enrichError={enrichError}
-                onVerbClick={() => setIsGuideOpen(true)}
-                onGenerateScenario={geminiHandlers.handleGenerateScenario}
-                onUpdatePrompt={(updates) =>
-                  syllabusHandlers.updateCourses((draft: any) => {
-                    findAndUpdateItem(draft, statePath, (p: any) => Object.assign(p, updates));
-                  })
-                }
-                isGeneratingScenario={geminiHandlers.isGeneratingScenario}
-                generateScenarioError={geminiHandlers.generateScenarioError}
-                courseOutcomes={courseOutcomes}
-                onOutcomeClick={() => {}}
-                userRole={userRole}
-                onDismissEnrichError={() => geminiHandlers.setEnrichError(null)}
-                onRunQualityCheck={handleRunQualityCheck}
-                onSuggestOutcomes={handleSuggestOutcomes}
-                isSuggestingOutcomes={isSuggestingOutcomes}
-                fontSize={promptFontSize}
-                onFontSizeChange={setPromptFontSize}
-                onHeaderResize={setPromptHeaderHeight}
-                minHeaderHeight={syncedHeaderHeight}
-                onTotalHeightChange={setPromptTotalHeight}
-              />
-            </div>
-            <div className={`flex-shrink-0 ${isExamMode ? 'hidden' : ''}`}>
-              <ReferenceMaterials
-                prompt={currentPrompt}
-                topic={currentTopic}
-                userRole={userRole}
-                onKeywordsChange={(kw) =>
-                  syllabusHandlers.updateCourses((d) =>
-                    findAndUpdateItem(d, statePath, (p) => (p.keywords = kw))
-                  )
-                }
-                onMarkingCriteriaChange={(mc) =>
-                  syllabusHandlers.updateCourses((d) =>
-                    findAndUpdateItem(d, statePath, (p) => (p.markingCriteria = mc))
-                  )
-                }
-                isEnriching={isEnriching}
-                onRegenerateKeywords={geminiHandlers.handleRegenerateKeywords}
-                isRegeneratingKeywords={geminiHandlers.isRegeneratingKeywords}
-                regenerateError={geminiHandlers.regenerateKeywordsError}
-                onSuggestKeywords={geminiHandlers.handleSuggestKeywords}
-                isSuggestingKeywords={geminiHandlers.isSuggestingKeywords}
-                suggestError={geminiHandlers.suggestKeywordsError}
-                userAnswer={userAnswer}
-                onAddWord={(word) =>
-                  window.dispatchEvent(new CustomEvent('insert-text', { detail: word }))
-                }
-                courseOutcomes={courseOutcomes}
-              />
-            </div>
+          <div className="lg:col-span-5 lg:col-start-1 lg:row-start-1">
+            <PromptDisplay
+              prompt={currentPrompt}
+              isEnriching={isEnriching}
+              enrichError={enrichError}
+              onVerbClick={() => setIsGuideOpen(true)}
+              onGenerateScenario={geminiHandlers.handleGenerateScenario}
+              onUpdatePrompt={(updates) =>
+                syllabusHandlers.updateCourses((draft: any) => {
+                  findAndUpdateItem(draft, statePath, (p: any) => Object.assign(p, updates));
+                })
+              }
+              isGeneratingScenario={geminiHandlers.isGeneratingScenario}
+              generateScenarioError={geminiHandlers.generateScenarioError}
+              courseOutcomes={courseOutcomes}
+              onOutcomeClick={() => {}}
+              userRole={userRole}
+              onDismissEnrichError={() => geminiHandlers.setEnrichError(null)}
+              onRunQualityCheck={handleRunQualityCheck}
+              onSuggestOutcomes={handleSuggestOutcomes}
+              isSuggestingOutcomes={isSuggestingOutcomes}
+              fontSize={promptFontSize}
+              onFontSizeChange={setPromptFontSize}
+              onHeaderResize={setPromptHeaderHeight}
+              minHeaderHeight={syncedHeaderHeight}
+              onTotalHeightChange={setPromptTotalHeight}
+            />
           </div>
         )}
 
@@ -372,6 +346,40 @@ const Workspace: React.FC<WorkspaceProps> = ({
           writingMode={writingMode}
           onWritingModeChange={onWritingModeChange}
         />
+
+        {!isFocusMode && (
+          <div
+            className={`lg:col-span-5 lg:col-start-1 lg:row-start-2 self-start ${isExamMode ? 'hidden' : ''}`}
+          >
+            <ReferenceMaterials
+              prompt={currentPrompt}
+              topic={currentTopic}
+              userRole={userRole}
+              onKeywordsChange={(kw) =>
+                syllabusHandlers.updateCourses((d) =>
+                  findAndUpdateItem(d, statePath, (p) => (p.keywords = kw))
+                )
+              }
+              onMarkingCriteriaChange={(mc) =>
+                syllabusHandlers.updateCourses((d) =>
+                  findAndUpdateItem(d, statePath, (p) => (p.markingCriteria = mc))
+                )
+              }
+              isEnriching={isEnriching}
+              onRegenerateKeywords={geminiHandlers.handleRegenerateKeywords}
+              isRegeneratingKeywords={geminiHandlers.isRegeneratingKeywords}
+              regenerateError={geminiHandlers.regenerateKeywordsError}
+              onSuggestKeywords={geminiHandlers.handleSuggestKeywords}
+              isSuggestingKeywords={geminiHandlers.isSuggestingKeywords}
+              suggestError={geminiHandlers.suggestKeywordsError}
+              userAnswer={userAnswer}
+              onAddWord={(word) =>
+                window.dispatchEvent(new CustomEvent('insert-text', { detail: word }))
+              }
+              courseOutcomes={courseOutcomes}
+            />
+          </div>
+        )}
 
         <CommandTermGuideModal
           isOpen={isGuideOpen}

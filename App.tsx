@@ -472,9 +472,11 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           (the old in-container version stopped 32px short on >1600px screens
           and floated below the container's top padding). */}
       {!isFocusMode && (
-        <header className="sticky top-0 z-[60] h-20 flex items-center shadow-2xl shadow-indigo-900/20">
+        <header className="sticky top-0 z-[60] min-h-20 flex items-center shadow-2xl shadow-indigo-900/20">
           <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-sky-500 opacity-100" />
-          <div className="relative z-10 px-4 sm:px-6 lg:px-8 w-full max-w-[1600px] mx-auto flex items-center justify-between gap-3">
+          {/* Wraps below sm so admin/moderator tool buttons drop onto their own
+              row instead of overlapping the title on narrow screens. */}
+          <div className="relative z-10 px-4 sm:px-6 lg:px-8 py-3 sm:py-0 w-full max-w-[1600px] mx-auto flex flex-wrap sm:flex-nowrap items-center justify-between gap-x-3 gap-y-2">
             <div className="flex items-center gap-3 sm:gap-4 min-w-0">
               <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-white/20 backdrop-blur-xl border border-white/20 flex items-center justify-center shadow-2xl group transition-all">
                 <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
@@ -488,9 +490,9 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 </span>
               </div>
             </div>
-            <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+            <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-4 ml-auto">
               {(isSystemAdmin(user.role) || canModerate(user.role)) && (
-                <div className="flex items-center gap-2 mr-2">
+                <div className="flex flex-wrap items-center justify-end gap-2 sm:mr-2">
                   {isSystemAdmin(user.role) && (
                     <>
                       <button
