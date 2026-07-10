@@ -233,8 +233,10 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             onWritingModeChange={onWritingModeChange}
           />
 
-          {/* The "Haptic" Action Bar */}
-          <div className="absolute bottom-12 right-12 z-20">
+          {/* The "Haptic" Action Bar — on phones it sits higher (inside the
+              textarea's reserved bottom padding) and smaller so it never
+              covers the chars/words footer, which wraps taller there. */}
+          <div className="absolute bottom-24 right-4 sm:bottom-12 sm:right-12 z-20">
             <button
               onClick={onEvaluate}
               disabled={isEvaluating || !userAnswer.trim()}
@@ -246,8 +248,8 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
                     : 'Evaluate your response (Ctrl / ⌘ + Enter)'
               }
               className={`
-                            group px-10 py-5 rounded-[24px] font-black text-xl tracking-tight
-                            transition-all duration-500 flex items-center gap-4
+                            group px-6 py-3.5 sm:px-10 sm:py-5 rounded-[24px] font-black text-base sm:text-xl tracking-tight
+                            transition-all duration-500 flex items-center gap-3 sm:gap-4
                             ${
                               isEvaluating || !userAnswer.trim()
                                 ? 'bg-slate-800 text-slate-500 cursor-not-allowed border border-white/5 opacity-50 shadow-none'

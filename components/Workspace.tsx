@@ -337,6 +337,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
               onFontSizeChange={setPromptFontSize}
               onHeaderResize={setPromptHeaderHeight}
               minHeaderHeight={syncedHeaderHeight}
+              condensed
             />
           </div>
         )}

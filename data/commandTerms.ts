@@ -43,7 +43,7 @@ export const TIER_GROUPS = [
   {
     level: 2,
     title: 'Comprehending & Describing',
-    subtitle: 'Show understanding by organizing or describing.',
+    subtitle: 'Show understanding by organising or describing.',
     emoji: '📝',
     tier: 2,
     maxBand: 3,

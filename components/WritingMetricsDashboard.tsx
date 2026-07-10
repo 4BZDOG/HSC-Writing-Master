@@ -326,16 +326,16 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
           className={`grid transition-all duration-500 ease-in-out ${isCollapsed || isExamMode ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'}`}
         >
           <div className="overflow-hidden">
-            <div className="p-8 space-y-8 bg-white dark:bg-transparent">
-              <div className="p-6 rounded-[28px] border-2 border-slate-200 dark:border-white/20 bg-slate-50 dark:bg-black/30 shadow-inner">
-                <div className="flex items-center justify-between mb-4 px-1">
-                  <div className="flex items-center gap-3">
-                    <BarChart3 className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
-                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 dark:text-slate-500">
+            <div className="p-4 sm:p-8 space-y-8 bg-white dark:bg-transparent">
+              <div className="p-4 sm:p-6 rounded-[28px] border-2 border-slate-200 dark:border-white/20 bg-slate-50 dark:bg-black/30 shadow-inner">
+                <div className="flex items-center justify-between gap-4 mb-4 px-1">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <BarChart3 className="w-4 h-4 shrink-0 text-indigo-500 dark:text-indigo-400" />
+                    <span className="text-[10px] font-black uppercase tracking-widest sm:tracking-[0.3em] text-slate-500 dark:text-slate-400 truncate">
                       Target Standard: {progressInfo.targetLabel}
                     </span>
                   </div>
-                  <span className="text-[10px] font-mono font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                  <span className="text-[10px] font-mono font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest whitespace-nowrap">
                     {Math.round(progressInfo.percentage)}% Capacity
                   </span>
                 </div>

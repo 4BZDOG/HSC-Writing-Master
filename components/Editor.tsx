@@ -130,6 +130,7 @@ const Editor = forwardRef<
     const isExamMode = writingMode === 'exam';
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const headerRef = useRef<HTMLDivElement>(null);
+    const headerContentRef = useRef<HTMLDivElement>(null);
     const [copied, setCopied] = useState(false);
 
     const wordCount = useMemo(() => value.trim().split(/\s+/).filter(Boolean).length, [value]);
@@ -202,19 +203,24 @@ const Editor = forwardRef<
       }
     }, [syncedFontSize, userHasResized]);
 
-    // Header height observation
+    // Header height observation. Reports the header's NATURAL height (content
+    // + own padding) rather than its rendered box: the rendered box includes
+    // the synced minHeight, which would turn the cross-card height sync into a
+    // one-way ratchet that locks in transient wrapped layouts forever.
     useEffect(() => {
-      if (!headerRef.current || !onHeaderResize) return;
+      if (!headerContentRef.current || !onHeaderResize) return;
 
-      const observer = new ResizeObserver((entries) => {
-        for (const entry of entries) {
-          if (entry.target === headerRef.current) {
-            onHeaderResize(entry.borderBoxSize[0].blockSize);
-          }
-        }
+      const observer = new ResizeObserver(() => {
+        const header = headerRef.current;
+        const content = headerContentRef.current;
+        if (!header || !content) return;
+        const cs = getComputedStyle(header);
+        onHeaderResize(
+          content.offsetHeight + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)
+        );
       });
 
-      observer.observe(headerRef.current);
+      observer.observe(headerContentRef.current);
       return () => observer.disconnect();
     }, [onHeaderResize, progress, chroma]);
 
@@ -335,7 +341,7 @@ const Editor = forwardRef<
     // Extra bottom padding reserves space for the floating "Evaluate" action
     // button (bottom-right) so a student's last lines are never hidden beneath it.
     const gridStackItemStyles =
-      'col-start-1 row-start-1 px-8 pt-8 pb-24 font-serif leading-[1.8] whitespace-pre-wrap break-words overflow-hidden min-h-[300px]';
+      'col-start-1 row-start-1 px-5 sm:px-8 pt-8 pb-24 font-serif leading-[1.8] whitespace-pre-wrap break-words overflow-hidden min-h-[300px]';
 
     return (
       <div
@@ -345,7 +351,7 @@ const Editor = forwardRef<
         {/* Header */}
         <div
           ref={headerRef}
-          className={`px-8 py-5 text-white flex justify-between items-center relative overflow-hidden flex-shrink-0 rounded-t-[30px] transition-all duration-1000 ease-in-out`}
+          className={`px-4 sm:px-8 py-4 sm:py-5 text-white flex justify-between items-center relative overflow-hidden flex-shrink-0 rounded-t-[30px] transition-all duration-1000 ease-in-out`}
           style={{
             minHeight: minHeaderHeight ? `${minHeaderHeight}px` : 'auto',
             background: chroma.background,
@@ -360,16 +366,20 @@ const Editor = forwardRef<
 
           <MeshOverlay opacity="opacity-20" color="%23ffffff" />
 
-          {/* Content Wrapper */}
-          <div className="relative z-10 w-full flex justify-between items-center">
-            <div className="flex items-center gap-4">
+          {/* Content Wrapper — wraps on narrow screens so the pill toolbar
+              drops below the title instead of clipping off the right edge. */}
+          <div
+            ref={headerContentRef}
+            className="relative z-10 w-full flex flex-wrap md:flex-nowrap justify-between items-center gap-y-3 gap-x-4"
+          >
+            <div className="flex items-center gap-3 sm:gap-4 min-w-0">
               <div className="w-11 h-11 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shadow-lg group flex-shrink-0">
                 <PenTool
                   className={`w-6 h-6 group-hover:scale-110 transition-transform ${chroma.iconColor}`}
                 />
               </div>
               <div>
-                <h3 className="text-lg md:text-xl font-black tracking-tight leading-none flex items-center gap-2">
+                <h3 className="text-lg md:text-xl font-black tracking-tight leading-none flex flex-wrap items-center gap-2">
                   Written Response
                   {isExamMode ? (
                     <span className="text-[10px] bg-red-500/90 px-1.5 py-0.5 rounded border border-white/20 font-black uppercase tracking-widest flex items-center gap-1 shadow-sm">
@@ -543,9 +553,9 @@ const Editor = forwardRef<
 
         {/* Footer Metrics */}
         <div
-          className={`px-6 py-3 flex justify-between items-center border-t border-white/10 bg-[rgb(var(--color-bg-surface))]/80 rounded-b-[30px] transition-all duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
+          className={`px-4 sm:px-6 py-3 flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5 border-t border-white/10 bg-[rgb(var(--color-bg-surface))]/80 rounded-b-[30px] transition-all duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
         >
-          <div className="flex items-center gap-6 text-[10px] text-[rgb(var(--color-text-dim))] font-black uppercase tracking-widest select-none">
+          <div className="flex items-center gap-4 sm:gap-6 text-[10px] text-[rgb(var(--color-text-dim))] font-black uppercase tracking-widest select-none whitespace-nowrap">
             <span className="flex items-center gap-1.5">
               <Type className="w-3.5 h-3.5 opacity-50" /> {value.length}{' '}
               {value.length === 1 ? 'Char' : 'Chars'}

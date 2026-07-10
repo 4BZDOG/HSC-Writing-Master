@@ -110,7 +110,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={`
-            w-full px-8 py-5 flex items-center justify-between relative z-10 overflow-hidden min-h-[90px] transition-all duration-500 group/header
+            w-full px-4 sm:px-8 py-4 sm:py-5 flex items-center justify-between gap-3 relative z-10 overflow-hidden min-h-[72px] sm:min-h-[90px] transition-all duration-500 group/header
             ${headerGradientClass} ${headerTextClass}
             ${isOpen ? '' : 'hover:brightness-105'}
         `}
@@ -261,7 +261,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       if (group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
                     }}
                     className={`
-                      clip-stable flex-shrink-0 w-[280px] h-[240px] snap-center relative overflow-hidden rounded-[32px] border-2 transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer flex flex-col group/card
+                      clip-stable flex-shrink-0 w-[280px] h-[272px] snap-center relative overflow-hidden rounded-[32px] border-2 transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer flex flex-col group/card
                       ${
                         isCurrentTier
                           ? `${tierConfig.border} ${tierConfig.bg} light:bg-white`
@@ -293,9 +293,9 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       </div>
                       <div className="min-w-0">
                         <span
-                          className={`text-[10px] font-black uppercase tracking-[0.2em] block mb-0.5 ${isCurrentTier ? 'opacity-70' : tierConfig.text + ' opacity-60'}`}
+                          className={`text-[10px] font-black uppercase tracking-[0.2em] block mb-0.5 truncate ${isCurrentTier ? 'opacity-70' : tierConfig.text + ' opacity-60'}`}
                         >
-                          Tier {group.tier}
+                          Tier {group.tier} · Band {group.maxBand} cap
                         </span>
                         <h4
                           className={`text-sm font-black truncate tracking-tight ${isCurrentTier ? 'text-white' : tierConfig.text}`}
@@ -304,6 +304,13 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                         </h4>
                       </div>
                     </div>
+
+                    {/* What this cognitive level actually asks of the writer. */}
+                    <p
+                      className={`px-6 pt-3 text-[11px] font-medium leading-snug relative z-10 ${isCurrentTier ? 'text-[rgb(var(--color-text-primary))] light:text-slate-700' : 'text-[rgb(var(--color-text-muted))] light:text-slate-500'}`}
+                    >
+                      {group.subtitle}
+                    </p>
 
                     <div className="flex-1 overflow-y-auto p-4 custom-scrollbar relative z-10">
                       <div className="flex flex-wrap gap-2 justify-center content-start">
@@ -340,19 +347,19 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
 
         {/* Cognitive Timeline Footer */}
         <div
-          className={`px-10 py-6 bg-[rgb(var(--color-bg-surface-inset))]/30 border-t-2 backdrop-blur-md relative z-20 transition-colors duration-500 ${activeConfig ? activeConfig.border : 'border-slate-200'}`}
+          className={`px-4 sm:px-10 py-6 bg-[rgb(var(--color-bg-surface-inset))]/30 border-t-2 backdrop-blur-md relative z-20 transition-colors duration-500 ${activeConfig ? activeConfig.border : 'border-slate-200'}`}
         >
-          <div className="flex justify-between items-end mb-4 px-1">
-            <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">
+          <div className="flex justify-between items-end gap-4 mb-4 px-1">
+            <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] whitespace-nowrap">
               Basic Recall
             </span>
-            <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] hidden sm:block">
+            <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] hidden sm:block">
               Application
             </span>
-            <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] hidden sm:block">
+            <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] hidden sm:block">
               Analysis
             </span>
-            <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">
+            <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] whitespace-nowrap">
               Creation & Synthesis
             </span>
           </div>
@@ -384,7 +391,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                   {/* Visual Cut-off / Threshold Marker between Tier 3 (Apply) and Tier 4 (Analyse) */}
                   {idx === 3 && (
                     <div className="absolute left-1/2 -translate-x-1/2 -top-8 bottom-0 w-px border-r-2 border-dashed border-slate-300/30 dark:border-white/10 z-0 flex flex-col items-center justify-start pointer-events-none">
-                      <div className="bg-[rgb(var(--color-bg-surface))] text-[8px] font-black uppercase tracking-widest text-slate-400 px-2 py-0.5 rounded-full border border-slate-200/20 shadow-sm whitespace-nowrap mb-2 transform -translate-y-1/2">
+                      <div className="hidden sm:block bg-[rgb(var(--color-bg-surface))] text-[8px] font-black uppercase tracking-widest text-slate-400 px-2 py-0.5 rounded-full border border-slate-200/20 shadow-sm whitespace-nowrap mb-2 transform -translate-y-1/2">
                         Deep Learning Threshold
                       </div>
                     </div>
@@ -411,10 +418,12 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                         ></span>
                       )}
                     </div>
+                    {/* On phones six tracked labels collide into one another, so
+                        only the current step keeps its label below sm. */}
                     <span
                       className={`
-                                    text-[9px] font-bold uppercase tracking-widest transition-all duration-300
-                                    ${isCurrent ? stepConfig.text : 'text-slate-400 opacity-50 group-hover/step:opacity-100'}
+                                    text-[9px] font-bold uppercase tracking-wider sm:tracking-widest transition-all duration-300
+                                    ${isCurrent ? stepConfig.text : 'hidden sm:block text-slate-500 dark:text-slate-400 opacity-70 group-hover/step:opacity-100'}
                                  `}
                     >
                       {step.label}
