@@ -4,7 +4,15 @@ import { PromptVerb } from '../types';
 import { Sparkles, ChevronDown } from 'lucide-react';
 import { getCommandTermsForMarks, getTargetBand, getTierTargetBand } from '../data/commandTerms';
 
-export type ComboboxColor = 'blue' | 'purple' | 'indigo' | 'pink' | 'green' | 'default';
+export type ComboboxColor =
+  | 'blue'
+  | 'purple'
+  | 'indigo'
+  | 'teal'
+  | 'pink'
+  | 'green'
+  | 'amber'
+  | 'default';
 
 interface ComboboxOption {
   id: string;
@@ -76,6 +84,22 @@ const colorStyles: Record<
     text: 'text-emerald-100',
     icon: 'text-emerald-400',
     hoverBorder: 'group-hover:border-emerald-500/40',
+  },
+  teal: {
+    border: 'border-teal-500/30',
+    glow: 'border-teal-400/50 shadow-[0_0_30px_rgba(20,184,166,0.35)] ring-2 ring-teal-500/20',
+    bg: 'bg-teal-500/10',
+    text: 'text-teal-100',
+    icon: 'text-teal-400',
+    hoverBorder: 'group-hover:border-teal-500/40',
+  },
+  amber: {
+    border: 'border-amber-500/30',
+    glow: 'border-amber-400/50 shadow-[0_0_30px_rgba(245,158,11,0.35)] ring-2 ring-amber-500/20',
+    bg: 'bg-amber-500/10',
+    text: 'text-amber-100',
+    icon: 'text-amber-400',
+    hoverBorder: 'group-hover:border-amber-500/40',
   },
   default: {
     border: 'border-slate-500/30',

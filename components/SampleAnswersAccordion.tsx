@@ -33,6 +33,8 @@ import {
 } from 'lucide-react';
 import { useAnswerMetrics } from '../hooks/useAnswerMetrics';
 import AnswerMetricsDisplay from './AnswerMetricsDisplay';
+import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
+import { PlusLockChip } from './UpgradeModal';
 
 // --- Shared Internal Components ---
 
@@ -384,6 +386,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   const [isRecalibrating, setIsRecalibrating] = useState(false);
 
   const canCurate = canCurateContent(userRole);
+  const studioLocked = isFeatureLocked('aiContentStudio');
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
 
   // Calculate maximum possible band for this question based on its cognitive Tier
@@ -498,11 +501,25 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
                 </button>
               )}
               <button
-                onClick={() => setIsGeneratorOpen(true)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-indigo-500/30 text-xs font-bold text-slate-600 dark:text-slate-300 shadow-sm hover:shadow transition-all"
+                onClick={
+                  studioLocked
+                    ? () => requestUpgrade('aiContentStudio')
+                    : () => setIsGeneratorOpen(true)
+                }
+                title={
+                  studioLocked
+                    ? 'AI sample-answer generation is part of Writing Studio Plus — tap to learn more'
+                    : undefined
+                }
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-bold shadow-sm hover:shadow transition-all ${
+                  studioLocked
+                    ? 'bg-amber-400/10 border-amber-400/40 text-amber-600 dark:text-amber-400'
+                    : 'bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-indigo-500/30 text-slate-600 dark:text-slate-300'
+                }`}
               >
                 <Zap className="w-3.5 h-3.5 text-amber-400" />
                 <span>Generate</span>
+                {studioLocked && <PlusLockChip />}
               </button>
             </>
           )}

@@ -52,6 +52,8 @@ import ResponseFeedback from './ResponseFeedback';
 import { useAnswerMetrics } from '../hooks/useAnswerMetrics';
 import AnswerMetricsDisplay from './AnswerMetricsDisplay';
 import { exportEvaluationPdf } from '../pdf';
+import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
+import { PlusLockChip } from './UpgradeModal';
 
 const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
   <div
@@ -187,6 +189,11 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
   const bandConfig = getBandConfig(result.overallBand);
   const termInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
   const reportRef = useRef<HTMLDivElement>(null);
+
+  // Plus-gated controls stay visible in a locked (amber) state; a click opens
+  // the upgrade prompt instead of running the action. See services/entitlements.
+  const pdfLocked = isFeatureLocked('pdfExport');
+  const upgradesLocked = isFeatureLocked('answerUpgrades');
 
   // Vector-PDF export state (guards double-clicks, drives the button spinner).
   const [isExporting, setIsExporting] = useState(false);
@@ -350,10 +357,19 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
 
             <div className="flex flex-wrap gap-3 no-print">
               <button
-                onClick={handleExportPdf}
+                onClick={pdfLocked ? () => requestUpgrade('pdfExport') : handleExportPdf}
                 disabled={isExporting}
                 aria-busy={isExporting}
-                className="px-5 py-3 rounded-2xl bg-white/20 hover:bg-white/30 text-white text-xs font-bold shadow-sm transition-all hover:scale-105 border border-white/20 backdrop-blur-sm flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+                title={
+                  pdfLocked
+                    ? 'PDF export is part of Writing Studio Plus — tap to learn more'
+                    : undefined
+                }
+                className={`px-5 py-3 rounded-2xl text-white text-xs font-bold shadow-sm transition-all hover:scale-105 border backdrop-blur-sm flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 ${
+                  pdfLocked
+                    ? 'bg-amber-400/15 hover:bg-amber-400/25 border-amber-300/50'
+                    : 'bg-white/20 hover:bg-white/30 border-white/20'
+                }`}
               >
                 {isExporting ? (
                   <>
@@ -363,6 +379,9 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 ) : (
                   <>
                     <FileDown className="w-4 h-4" /> Export PDF
+                    {pdfLocked && (
+                      <PlusLockChip className="bg-white/15 border-white/40 text-white" />
+                    )}
                   </>
                 )}
               </button>
@@ -554,15 +573,29 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
               </div>
             </div>
 
-            <div className="flex gap-3 no-print">
+            <div className="flex flex-wrap gap-3 no-print">
               {result.overallBand < maxBand && (
                 <button
-                  onClick={onImproveAnswer}
+                  onClick={
+                    upgradesLocked ? () => requestUpgrade('answerUpgrades') : onImproveAnswer
+                  }
                   disabled={isImproving}
-                  className="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 text-[11px] font-bold uppercase tracking-widest transition-all hover:scale-105 active:scale-95 flex items-center gap-2 backdrop-blur-sm"
+                  title={
+                    upgradesLocked
+                      ? 'AI answer upgrades are part of Writing Studio Plus — tap to learn more'
+                      : undefined
+                  }
+                  className={`px-5 py-3 rounded-xl text-white border text-[11px] font-bold uppercase tracking-widest transition-all hover:scale-105 active:scale-95 flex items-center gap-2 backdrop-blur-sm ${
+                    upgradesLocked
+                      ? 'bg-amber-400/15 hover:bg-amber-400/25 border-amber-300/50'
+                      : 'bg-white/10 hover:bg-white/20 border-white/20'
+                  }`}
                 >
                   <RefreshCw className={`w-4 h-4 ${isImproving ? 'animate-spin' : ''}`} />
                   {isImproving ? 'Regenerating...' : 'Regenerate'}
+                  {upgradesLocked && (
+                    <PlusLockChip className="bg-white/15 border-white/40 text-white" />
+                  )}
                 </button>
               )}
               <button
