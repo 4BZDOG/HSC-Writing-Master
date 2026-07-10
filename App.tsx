@@ -8,6 +8,7 @@ import ApiStatusIndicator from './components/ApiStatusIndicator';
 import BackgroundTaskIndicator from './components/BackgroundTaskIndicator';
 import GlobalLoadingOverlay from './components/GlobalLoadingOverlay';
 import AppModals from './components/AppModals';
+import UpgradeModal from './components/UpgradeModal';
 import LoginPage from './components/LoginPage';
 import ContentAuditModal from './components/admin/ContentAuditModal';
 import ReviewQueueModal from './components/admin/ReviewQueueModal';
@@ -798,6 +799,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           onUpdateUser={onUpdateUser}
           onLogout={handleLogout}
         />
+        <UpgradeModal showToast={showToast} />
         <GlobalLoadingOverlay message={globalLoadingMessage} error={quotaError} />
         <BackgroundTaskIndicator task={activeBackgroundTask} />
         {isSystemAdmin(user.role) && <ApiMonitorDisplay />}
