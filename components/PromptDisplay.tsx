@@ -22,7 +22,7 @@ import {
   Loader2,
   Target,
 } from 'lucide-react';
-import { getBandConfig, renderFormattedText } from '../utils/renderUtils';
+import { getTierScaleConfig, renderFormattedText } from '../utils/renderUtils';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import OutcomeDetailModal from './OutcomeDetailModal';
 
@@ -103,14 +103,14 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
 
   const canCurate = canCurateContent(userRole);
   const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
-  // Colour the prompt in the question's TARGET band — the ceiling a full-mark
-  // response reaches — so the prompt, the writing area, the keyword panels and
-  // the metrics all share one predefined colour for the band being worked toward.
+  // The band a full-mark response reaches — used in COPY only ("Band 2").
   const targetBand = useMemo(
     () => getTargetBand(prompt.totalMarks, verbInfo.tier),
     [prompt.totalMarks, verbInfo.tier]
   );
-  const bandConfig = useMemo(() => getBandConfig(targetBand), [targetBand]);
+  // Chrome colour = the verb's TIER identity (same scale as the picker and
+  // hierarchy ribbon); targetBand stays purely numeric copy ("Band 2").
+  const bandConfig = useMemo(() => getTierScaleConfig(verbInfo.tier), [verbInfo.tier]);
 
   const linkedOutcomes = useMemo(() => {
     if (!prompt.linkedOutcomes) return [];

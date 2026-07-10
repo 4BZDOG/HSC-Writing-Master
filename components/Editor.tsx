@@ -13,6 +13,7 @@ import {
   getBandHexDark,
   getBandName,
 } from '../utils/renderUtils';
+import { getCommandTermInfo } from '../data/commandTerms';
 import {
   Maximize,
   Minimize,
@@ -148,12 +149,15 @@ const Editor = forwardRef<
     const [internalFontSize, setInternalFontSize] = useState(syncedFontSize || 18);
     const [userHasResized, setUserHasResized] = useState(false);
 
-    // Live-feedback theme. The writing surface is always painted in the
-    // question's TARGET band colour (the single predefined colour a student is
-    // working toward, set by the verb's cognitive tier). Progress isn't shown by
-    // cycling through unrelated hues any more — instead that one band colour
-    // "fills in": a dark veil sits over it and lifts as the response develops,
-    // so the closer to a complete answer, the more vivid the target band glows.
+    // The question's cognitive tier — the colour identity shared with the
+    // picker, prompt card and verb hierarchy.
+    const verbTier = useMemo(() => getCommandTermInfo(verb).tier, [verb]);
+
+    // Live-feedback theme. The writing surface is painted in the question's
+    // TIER colour (one fixed hue per question). Progress isn't shown by
+    // cycling through unrelated hues — instead that one colour "fills in":
+    // a dark veil sits over it and lifts as the response develops, so the
+    // closer to a complete answer, the more vivid the surface glows.
     const chroma = useMemo(() => {
       // Exam Mode: a calm, neutral "exam booklet" header — no band colours, no
       // progress-driven glow, so nothing hints at how the response is scoring.
@@ -173,9 +177,14 @@ const Editor = forwardRef<
       }
 
       const targetBand = Math.max(1, Math.min(6, maxBand));
-      const targetHex = getBandHex(targetBand);
-      const targetHexDark = getBandHexDark(targetBand);
-      const targetConfig = getBandConfig(targetBand);
+      // Colour identity = the verb's TIER (red … purple), matching the picker,
+      // prompt card and hierarchy ribbon — a Tier-1 question writes on a red
+      // surface even though its target is "Band 2". The band NUMBER stays in
+      // copy (footer, progress row) via targetBand/name below.
+      const hue = Math.max(1, Math.min(6, verbTier));
+      const targetHex = getBandHex(hue);
+      const targetHexDark = getBandHexDark(hue);
+      const targetConfig = getBandConfig(hue);
 
       const p = Math.max(0, Math.min(1, progress));
       // Dark veil over the band colour: 60% opaque at a blank page, lifting to
@@ -194,7 +203,7 @@ const Editor = forwardRef<
         energy: p > 0.85 ? 'shadow-[0_0_30px_rgba(255,255,255,0.15)]' : 'none',
         iconColor: 'text-white',
       };
-    }, [progress, maxBand, isExamMode]);
+    }, [progress, maxBand, verbTier, isExamMode]);
 
     // Sync from parent if user hasn't manually overridden
     useEffect(() => {
@@ -403,7 +412,7 @@ const Editor = forwardRef<
                         style={{ width: `${Math.min(100, progress * 100)}%` }}
                       />
                     </div>
-                    <p className="text-[9px] font-bold text-white/70 uppercase tracking-[0.2em]">
+                    <p className="text-[9px] font-bold text-white/70 uppercase tracking-[0.2em] whitespace-nowrap">
                       {Math.min(100, Math.round(progress * 100))}% → Band {chroma.targetBand}
                     </p>
                   </div>

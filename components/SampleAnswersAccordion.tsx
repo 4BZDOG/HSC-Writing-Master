@@ -1,7 +1,12 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Prompt, SampleAnswer, UserRole } from '../types';
 import { canCurateContent } from '../utils/permissions';
-import { renderFormattedText, getBandConfig, cleanMarkdown } from '../utils/renderUtils';
+import {
+  renderFormattedText,
+  getBandConfig,
+  getTierScaleConfig,
+  cleanMarkdown,
+} from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import SampleAnswerGeneratorModal from './SampleAnswerGeneratorModal';
 import SampleAnswerRevisionModal from './SampleAnswerRevisionModal';
@@ -50,7 +55,7 @@ const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
 interface GroupedSampleAnswers {
   mark: number;
   answers: SampleAnswer[];
-  band: number;
+  /** Band for this mark level, derived via the Verb Gate (getBandForMark). */
   calculatedBand: number;
 }
 
@@ -115,8 +120,12 @@ const CarouselAccordionItem: React.FC<{
 
     const currentSample = group.answers[currentIndex];
     const safeAnswer = currentSample?.answer || '';
-    const safeBand = currentSample?.band || 1;
-    const bandConfig = useMemo(() => getBandConfig(safeBand), [safeBand]);
+    // Always show the band DERIVED from the mark via the Verb Gate
+    // (getBandForMark). Stored bands can exceed the question's ceiling (e.g.
+    // imported data claiming Band 6 on a Band-3-capped question) and must
+    // never be displayed raw.
+    const displayBand = group.calculatedBand;
+    const bandConfig = useMemo(() => getBandConfig(displayBand), [displayBand]);
     const metrics = useAnswerMetrics(safeAnswer, prompt.keywords);
 
     if (!currentSample) return null;
@@ -183,7 +192,7 @@ const CarouselAccordionItem: React.FC<{
                 Band
               </span>
               <span className={`text-2xl font-black leading-none relative z-10 ${bandConfig.text}`}>
-                {group.band}
+                {displayBand}
               </span>
             </div>
 
@@ -255,7 +264,7 @@ const CarouselAccordionItem: React.FC<{
                     metrics={metrics}
                     showLabel={false}
                     className="opacity-100 scale-95 origin-left"
-                    band={group.band}
+                    band={displayBand}
                   />
 
                   <div className="flex items-center gap-2 ml-auto">
@@ -394,7 +403,12 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
     return getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier);
   }, [prompt.totalMarks, commandTermInfo.tier]);
 
-  const maxBandConfig = useMemo(() => getBandConfig(maxPossibleBand), [maxPossibleBand]);
+  // Placard chrome uses the verb's tier identity (matches the prompt and
+  // writing surface); the band ceiling stays numeric in the subtitle.
+  const maxBandConfig = useMemo(
+    () => getTierScaleConfig(commandTermInfo.tier),
+    [commandTermInfo.tier]
+  );
 
   const groupedAnswers = useMemo(() => {
     const groups: Record<number, GroupedSampleAnswers> = {};
@@ -403,7 +417,6 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
         groups[sa.mark] = {
           mark: sa.mark,
           answers: [],
-          band: sa.band,
           calculatedBand: getBandForMark(sa.mark, prompt.totalMarks, commandTermInfo.tier),
         };
       }
@@ -450,9 +463,9 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
               className={`text-[10px] font-bold uppercase tracking-wider opacity-80 ${maxBandConfig.text}`}
             >
               {groupedAnswers.length > 0
-                ? `${groupedAnswers.length} Performance Level${groupedAnswers.length === 1 ? '' : 's'}`
-                : 'No models available'}
-              {` • Max Tier Cap: Band ${maxPossibleBand}`}
+                ? `${groupedAnswers.length} performance level${groupedAnswers.length === 1 ? '' : 's'}`
+                : 'No models yet'}
+              {` • Band ceiling ${maxPossibleBand}`}
             </p>
           </div>
         </div>
