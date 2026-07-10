@@ -3,6 +3,7 @@ import { SubTopic } from '../types';
 import { generateSubTopicsAndDotPoints } from '../services/geminiService';
 import LoadingSpinner from './LoadingSpinner';
 import { X, Sparkles } from 'lucide-react';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface TopicSyllabusImportModalProps {
   isOpen: boolean;
@@ -21,6 +22,8 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
 }) => {
   const [syllabusText, setSyllabusText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  // Escape closes this modal like every other modal surface (but never mid-operation).
+  useEscapeKey(isOpen && !isLoading, onClose);
   const [error, setError] = useState<string | null>(null);
 
   const handleImport = async () => {

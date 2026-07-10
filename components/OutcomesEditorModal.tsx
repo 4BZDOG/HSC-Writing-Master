@@ -3,6 +3,7 @@ import { CourseOutcome } from '../types';
 import { parseOutcomesFromText } from '../services/geminiService';
 import LoadingSpinner from './LoadingSpinner';
 import { Target, X, Sparkles, Plus, Trash2 } from 'lucide-react';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface OutcomesEditorModalProps {
   isOpen: boolean;
@@ -21,6 +22,8 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
   courseName,
   showToast,
 }) => {
+  // Escape closes this modal like every other modal surface.
+  useEscapeKey(isOpen, onClose);
   const [outcomes, setOutcomes] = useState<CourseOutcome[]>([]);
   const [pastedText, setPastedText] = useState('');
   const [isParsing, setIsParsing] = useState(false);

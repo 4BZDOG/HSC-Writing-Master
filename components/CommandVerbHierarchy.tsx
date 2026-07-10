@@ -10,7 +10,7 @@ import {
   BrainCircuit,
   Lock,
 } from 'lucide-react';
-import { getTierBandConfig } from '../utils/renderUtils';
+import { getTierScaleConfig } from '../utils/renderUtils';
 
 interface CommandVerbHierarchyProps {
   currentVerb?: PromptVerb;
@@ -84,10 +84,10 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
     }
   }, [activeTermInfo, isOpen]);
 
-  // Colour the ribbon by each tier's TARGET BAND (the band a question of that
-  // tier works toward), not the raw tier index — so a verb shows the same
-  // predefined band colour here as it does in the prompt and writing area.
-  const activeConfig = activeTermInfo ? getTierBandConfig(activeTermInfo.tier) : null;
+  // Colour the ribbon on the distinct tier-identity scale (Tier 1 red …
+  // Tier 6 purple) so every level of the ladder reads as its own step — the
+  // band-target mapping collapsed Tiers 5 and 6 into the same purple.
+  const activeConfig = activeTermInfo ? getTierScaleConfig(activeTermInfo.tier) : null;
 
   const containerBorderClass = activeConfig
     ? activeConfig.border
@@ -229,7 +229,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
             >
               {sortedVerbsByGroup.map((group, index) => {
                 const isCurrentTier = activeTermInfo?.tier === group.tier;
-                const tierConfig = getTierBandConfig(group.tier);
+                const tierConfig = getTierScaleConfig(group.tier);
 
                 // Determine transform origin to keep edges aligned when scaling
                 const isFirst = index === 0;
@@ -384,7 +384,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
             {COGNITIVE_STEPS.map((step, idx) => {
               const isActive = activeTermInfo && activeTermInfo.tier >= step.tier;
               const isCurrent = activeTermInfo && activeTermInfo.tier === step.tier;
-              const stepConfig = getTierBandConfig(step.tier);
+              const stepConfig = getTierScaleConfig(step.tier);
 
               return (
                 <React.Fragment key={step.tier}>

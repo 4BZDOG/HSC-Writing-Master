@@ -198,6 +198,20 @@ export const getBandConfig = (bandOrTier: number): BandConfig => {
 export const getTierBandConfig = (tier: number): BandConfig =>
   getBandConfig(getTierTargetBand(tier));
 
+/**
+ * Colour config for a cognitive TIER as its own identity on the six-step
+ * red → orange → yellow → green → blue → purple scale (Tier 1 red … Tier 6
+ * purple), matching the CognitiveSpectrum meter.
+ *
+ * Use this when displaying the tier LADDER itself (tier cards, tier pickers,
+ * the cognitive timeline) where every tier must be visually distinct. The
+ * band-target mapping above collapses Tiers 5 and 6 into the same purple and
+ * shifts Tier 1 to orange, because several tiers share a target band — right
+ * for colouring a question, wrong for telling tiers apart.
+ */
+export const getTierScaleConfig = (tier: number): BandConfig =>
+  getBandConfig(Math.max(1, Math.min(6, Math.round(tier))));
+
 export const getBandStyle = (band: number): { label: string; color: string } => {
   if (band >= 6)
     return {

@@ -22,6 +22,7 @@ import {
   Lock,
 } from 'lucide-react';
 import { getBandConfig } from '../utils/renderUtils';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface UserProfileModalProps {
   isOpen: boolean;
@@ -47,6 +48,8 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
   onUpdateUser,
   onLogout,
 }) => {
+  // Escape closes this modal like every other modal surface.
+  useEscapeKey(isOpen, onClose);
   const [activeTab, setActiveTab] = useState<'overview' | 'achievements' | 'settings'>('overview');
   const [tempPrefs, setTempPrefs] = useState<UserPreferences>({ ...user.preferences });
   const [displayName, setDisplayName] = useState(user.displayName);

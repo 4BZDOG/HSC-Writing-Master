@@ -6,6 +6,7 @@ import { getBandForMark, getCommandTermInfo, TIER_GROUPS } from '../data/command
 import LoadingIndicator from './LoadingIndicator';
 import { X, RefreshCw, AlertCircle, Info } from 'lucide-react';
 import { getBandConfig } from '../utils/renderUtils';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface SampleAnswerRevisionModalProps {
   isOpen: boolean;
@@ -34,6 +35,8 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
 
   const [targetMark, setTargetMark] = useState(availableMarks[0] ?? 0);
   const [isLoading, setIsLoading] = useState(false);
+  // Escape closes this modal like every other modal surface (but never mid-operation).
+  useEscapeKey(isOpen && !isLoading, onClose);
   const [error, setError] = useState<string | null>(null);
 
   const bandConfig = useMemo(() => getBandConfig(sampleToRevise.band), [sampleToRevise.band]);

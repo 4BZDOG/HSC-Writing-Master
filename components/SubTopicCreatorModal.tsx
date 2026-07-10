@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Folder, Sparkles, X } from 'lucide-react';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface SubTopicCreatorModalProps {
   isOpen: boolean;
@@ -14,6 +15,8 @@ const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
   onItemCreated,
   existingNames,
 }) => {
+  // Escape closes this modal like every other modal surface.
+  useEscapeKey(isOpen, onClose);
   const [newItemName, setNewItemName] = useState('');
   const [shouldGenerate, setShouldGenerate] = useState(true);
   const [validationError, setValidationError] = useState<string | null>(null);

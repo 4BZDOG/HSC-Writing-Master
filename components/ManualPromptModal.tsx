@@ -6,6 +6,7 @@ import { getTierBandConfig } from '../utils/renderUtils';
 import { getCommandTermsForMarks, getCommandTermInfo, TIER_GROUPS } from '../data/commandTerms';
 import { X, Sparkles, PenTool, Save, Wand2, Target } from 'lucide-react';
 import LoadingIndicator from './LoadingIndicator';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface ManualPromptModalProps {
   isOpen: boolean;
@@ -33,6 +34,8 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
   topicName,
   outcomes,
 }) => {
+  // Escape closes this modal like every other modal surface.
+  useEscapeKey(isOpen, onClose);
   const [step, setStep] = useState<'input' | 'preview'>('input');
   const [draftQuestion, setDraftQuestion] = useState('');
   const [marks, setMarks] = useState<number>(5); // Default to 5 marks

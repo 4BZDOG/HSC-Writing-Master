@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CourseOutcome } from '../types';
 import { BookOpen, Plus, Trash2, X } from 'lucide-react';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface CourseCreatorModalProps {
   isOpen: boolean;
@@ -13,6 +14,8 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
   onClose,
   onCourseCreated,
 }) => {
+  // Escape closes this modal like every other modal surface.
+  useEscapeKey(isOpen, onClose);
   const [courseName, setCourseName] = useState('');
   const [outcomes, setOutcomes] = useState<CourseOutcome[]>([{ code: '', description: '' }]);
   const [error, setError] = useState<string | null>(null);

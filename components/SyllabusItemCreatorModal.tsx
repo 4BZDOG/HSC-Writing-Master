@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BookOpen, Folder, X } from 'lucide-react';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface SyllabusItemCreatorModalProps {
   isOpen: boolean;
@@ -18,6 +19,8 @@ const SyllabusItemCreatorModal: React.FC<SyllabusItemCreatorModalProps> = ({
   placeholder,
   existingNames,
 }) => {
+  // Escape closes this modal like every other modal surface.
+  useEscapeKey(isOpen, onClose);
   const [newItemName, setNewItemName] = useState('');
   const [validationError, setValidationError] = useState<string | null>(null);
 
