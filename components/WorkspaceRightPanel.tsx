@@ -338,7 +338,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
         )}
 
         {isSystemAdmin(userRole) && !evaluationResult && (
-          <div className="mt-12 p-6 rounded-[32px] bg-[rgb(var(--color-bg-surface-inset))]/30 border border-dashed border-[rgb(var(--color-border-secondary))] flex items-center justify-between opacity-40 hover:opacity-100 transition-all duration-500">
+          <div className="mt-12 p-4 sm:p-6 rounded-[32px] bg-[rgb(var(--color-bg-surface-inset))]/30 border border-dashed border-[rgb(var(--color-border-secondary))] flex flex-wrap items-center justify-between gap-3 opacity-40 hover:opacity-100 transition-all duration-500">
             <div className="flex items-center gap-4">
               <div className="p-2.5 rounded-xl bg-black/40">
                 <Settings className="w-5 h-5 text-slate-500" />

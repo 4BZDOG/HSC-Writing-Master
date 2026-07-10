@@ -131,15 +131,15 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
         <MeshOverlay opacity="opacity-[0.03]" />
 
         {/* Profile Identity Header */}
-        <div className="px-12 py-10 flex flex-col md:flex-row items-center gap-10 border-b border-white/5 light:border-slate-100 relative overflow-hidden">
-          <div className="relative group">
+        <div className="px-5 sm:px-12 py-6 sm:py-10 flex flex-col md:flex-row items-center gap-5 md:gap-10 border-b border-white/5 light:border-slate-100 relative overflow-hidden">
+          <div className="relative group shrink-0">
             <div
               className={`absolute inset-0 bg-gradient-to-br ${bandConfig.gradient} blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-700`}
             />
             <div
-              className={`relative w-28 h-28 rounded-[36px] bg-gradient-to-br ${bandConfig.gradient} flex items-center justify-center shadow-2xl border-4 border-white/10 transform group-hover:scale-105 transition-transform duration-500`}
+              className={`relative w-20 h-20 sm:w-28 sm:h-28 rounded-[28px] sm:rounded-[36px] bg-gradient-to-br ${bandConfig.gradient} flex items-center justify-center shadow-2xl border-4 border-white/10 transform group-hover:scale-105 transition-transform duration-500`}
             >
-              <span className="text-5xl font-black text-white">
+              <span className="text-4xl sm:text-5xl font-black text-white">
                 {user.displayName.charAt(0).toUpperCase()}
               </span>
             </div>
@@ -148,20 +148,20 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
             </div>
           </div>
 
-          <div className="flex-1 text-center md:text-left">
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-3">
+          <div className="flex-1 min-w-0 text-center md:text-left">
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 sm:gap-4 mb-3">
               {isEditingName ? (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 min-w-0">
                   <input
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
-                    className="bg-white/5 border-b-2 border-indigo-500 text-3xl font-black text-white focus:outline-none px-2"
+                    className="bg-white/5 border-b-2 border-indigo-500 text-2xl sm:text-3xl font-black text-white focus:outline-none px-2 min-w-0 w-full"
                     autoFocus
                   />
                   <button
                     onClick={handleSaveSettings}
                     aria-label="Save"
-                    className="p-2 bg-indigo-500 text-white rounded-xl"
+                    className="p-2 bg-indigo-500 text-white rounded-xl shrink-0"
                   >
                     <Save className="w-5 h-5" />
                   </button>
@@ -169,7 +169,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
               ) : (
                 <h2
                   onClick={() => setIsEditingName(true)}
-                  className="text-4xl font-black text-white light:text-slate-900 tracking-tight cursor-pointer hover:text-indigo-400 transition-colors"
+                  className="text-2xl sm:text-4xl font-black text-white light:text-slate-900 tracking-tight cursor-pointer hover:text-indigo-400 transition-colors break-words max-w-full"
                 >
                   {user.displayName}
                 </h2>
@@ -208,7 +208,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-white/5 light:border-slate-100 px-10 bg-black/10 light:bg-slate-50/50">
+        <div className="flex border-b border-white/5 light:border-slate-100 px-4 sm:px-10 bg-black/10 light:bg-slate-50/50 overflow-x-auto scrollbar-hide">
           {[
             { id: 'overview', icon: Zap, label: 'Stats' },
             { id: 'achievements', icon: Award, label: 'Achievements' },
@@ -217,7 +217,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`px-6 py-5 text-xs font-bold uppercase tracking-[0.1em] border-b-2 transition-all flex items-center gap-3 ${activeTab === tab.id ? `border-indigo-500 text-white` : 'border-transparent text-slate-500 hover:text-slate-300'}`}
+              className={`px-4 sm:px-6 py-4 sm:py-5 text-xs font-bold uppercase tracking-[0.1em] border-b-2 transition-all flex items-center gap-2 sm:gap-3 whitespace-nowrap ${activeTab === tab.id ? `border-indigo-500 text-white` : 'border-transparent text-slate-500 hover:text-slate-300'}`}
             >
               <tab.icon className={`w-4 h-4 ${activeTab === tab.id ? 'text-indigo-400' : ''}`} />{' '}
               {tab.label}
@@ -226,7 +226,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto p-12 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto p-5 sm:p-12 custom-scrollbar">
           {activeTab === 'overview' && (
             <div className="space-y-12 animate-fade-in">
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
