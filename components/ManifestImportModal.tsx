@@ -206,30 +206,30 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
   if (!isOpen) return null;
 
   return createPortal(
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-2xl flex items-center justify-center z-[200] p-6 transition-all duration-700 animate-fade-in">
-      <div className="bg-[rgb(var(--color-bg-surface))]/90 light:bg-white/95 rounded-[48px] shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-[1200px] border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh] relative group">
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-2xl flex items-center justify-center z-[200] p-3 sm:p-6 transition-all duration-700 animate-fade-in">
+      <div className="bg-[rgb(var(--color-bg-surface))]/90 light:bg-white/95 rounded-[32px] sm:rounded-[48px] shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-[1200px] border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[94vh] sm:max-h-[90vh] relative group">
         <MeshOverlay opacity="opacity-[0.03]" />
 
         {/* Global Banner Glow */}
         <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-indigo-500/10 blur-[120px] rounded-full pointer-events-none" />
 
         {/* Dynamic Header */}
-        <div className="px-12 pt-12 pb-10 flex flex-col md:flex-row md:items-center justify-between gap-10 relative z-10">
-          <div className="flex items-center gap-8">
-            <div className="relative group/icon">
+        <div className="px-5 sm:px-12 pt-6 sm:pt-12 pb-6 sm:pb-10 flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-10 relative z-10">
+          <div className="flex items-center gap-4 sm:gap-8">
+            <div className="relative group/icon shrink-0">
               <div className="absolute inset-0 bg-indigo-500 blur-2xl opacity-20 group-hover/icon:opacity-40 transition-opacity duration-700" />
-              <div className="relative w-20 h-20 rounded-[28px] bg-gradient-to-br from-indigo-500 to-sky-500 border border-white/20 shadow-2xl flex items-center justify-center transform transition-transform duration-500 group-hover/icon:scale-105">
-                <Library className="w-10 h-10 text-white" />
+              <div className="relative w-14 h-14 sm:w-20 sm:h-20 rounded-[20px] sm:rounded-[28px] bg-gradient-to-br from-indigo-500 to-sky-500 border border-white/20 shadow-2xl flex items-center justify-center transform transition-transform duration-500 group-hover/icon:scale-105">
+                <Library className="w-7 h-7 sm:w-10 sm:h-10 text-white" />
               </div>
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-3 mb-2">
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-indigo-400 opacity-80">
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-indigo-400 opacity-80 whitespace-nowrap">
                   Content Library
                 </span>
                 <div className="h-px w-8 bg-indigo-500/30" />
               </div>
-              <h2 className="text-4xl font-black text-white light:text-slate-900 tracking-tight leading-none">
+              <h2 className="text-2xl sm:text-4xl font-black text-white light:text-slate-900 tracking-tight leading-none">
                 Content Library
               </h2>
               <p className="text-slate-400 light:text-slate-500 text-sm font-medium mt-3 max-w-lg leading-relaxed">
@@ -239,8 +239,8 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="relative group/search min-w-[320px]">
+          <div className="flex items-center gap-4 w-full md:w-auto">
+            <div className="relative group/search w-full md:w-auto md:min-w-[320px]">
               <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 transition-colors group-focus-within/search:text-indigo-400" />
               <input
                 type="text"
@@ -263,8 +263,8 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
         </div>
 
         {/* Scrollable Catalog */}
-        <div className="flex-1 overflow-y-auto px-12 pb-12 custom-scrollbar bg-black/10 light:bg-slate-50/50 relative">
-          <div className="sticky top-0 z-20 py-6 flex justify-between items-center bg-[rgb(var(--color-bg-surface))]/60 backdrop-blur-md -mx-12 px-12 border-b border-white/5 mb-8">
+        <div className="flex-1 overflow-y-auto px-5 sm:px-12 pb-8 sm:pb-12 custom-scrollbar bg-black/10 light:bg-slate-50/50 relative">
+          <div className="sticky top-0 z-20 py-4 sm:py-6 flex flex-wrap justify-between items-center gap-3 bg-[rgb(var(--color-bg-surface))]/60 backdrop-blur-md -mx-5 sm:-mx-12 px-5 sm:px-12 border-b border-white/5 mb-8">
             <div className="flex items-center gap-6 flex-wrap">
               <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-slate-400">
                 <Filter className="w-3.5 h-3.5" /> Filter Content
@@ -469,12 +469,12 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
         </div>
 
         {/* Studio Footer Controls */}
-        <div className="px-12 py-10 bg-[rgb(var(--color-bg-surface))]/95 light:bg-white/95 border-t border-white/5 light:border-slate-200 flex flex-col sm:flex-row justify-between items-center backdrop-blur-3xl z-30 gap-8">
+        <div className="px-5 sm:px-12 py-5 sm:py-10 bg-[rgb(var(--color-bg-surface))]/95 light:bg-white/95 border-t border-white/5 light:border-slate-200 flex flex-col sm:flex-row justify-between items-center backdrop-blur-3xl z-30 gap-3 sm:gap-8">
           <div className="flex items-center gap-4">
             <button
               onClick={onClose}
               disabled={isImporting}
-              className="px-10 py-4 rounded-[20px] text-xs font-bold uppercase tracking-[0.2em] text-slate-500 hover:text-white light:hover:text-slate-900 transition-all disabled:opacity-30"
+              className="px-6 sm:px-10 py-3 sm:py-4 rounded-[20px] text-xs font-bold uppercase tracking-[0.2em] text-slate-500 hover:text-white light:hover:text-slate-900 transition-all disabled:opacity-30"
             >
               Skip Import
             </button>
@@ -491,7 +491,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
             onClick={handleImportClick}
             disabled={selectedIds.size === 0 || isImporting}
             className={`
-                    min-w-[280px] py-4 rounded-[24px] font-black text-sm uppercase tracking-[0.2em] text-white shadow-2xl transition-all flex items-center justify-center gap-4
+                    w-full sm:w-auto sm:min-w-[280px] px-6 py-4 rounded-[24px] font-black text-sm uppercase tracking-[0.2em] text-white shadow-2xl transition-all flex items-center justify-center gap-4
                     ${
                       selectedIds.size > 0 && !isImporting
                         ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 hover:scale-105 active:scale-95 shadow-indigo-500/20'

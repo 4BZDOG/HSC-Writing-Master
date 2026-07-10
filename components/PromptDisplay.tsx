@@ -183,20 +183,21 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
       {/* Header Container */}
       <div
         ref={headerRef}
-        className={`px-8 py-5 bg-gradient-to-r ${bandConfig.gradient} text-white flex justify-between items-center relative overflow-hidden flex-shrink-0 rounded-t-[30px]`}
+        className={`px-4 sm:px-8 py-4 sm:py-5 bg-gradient-to-r ${bandConfig.gradient} text-white flex justify-between items-center relative overflow-hidden flex-shrink-0 rounded-t-[30px]`}
         style={{ minHeight: minHeaderHeight ? `${minHeaderHeight}px` : 'auto' }}
       >
         <MeshOverlay opacity="opacity-20" />
 
-        {/* Content */}
-        <div className="relative z-10 w-full flex justify-between items-center">
+        {/* Content — wraps on narrow screens so the directive/marks block
+            drops below the title instead of crushing it. */}
+        <div className="relative z-10 w-full flex flex-wrap md:flex-nowrap justify-between items-center gap-y-3 gap-x-4">
           {/* Left: Title & Icon */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0">
             <div className="w-11 h-11 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shadow-lg group flex-shrink-0">
               <FileQuestion className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
             </div>
             <div>
-              <h3 className="text-lg md:text-xl font-black tracking-tight leading-none flex items-center gap-2">
+              <h3 className="text-lg md:text-xl font-black tracking-tight leading-none flex flex-wrap items-center gap-2">
                 Writing Prompt
                 {isEnriching && (
                   <span
@@ -217,7 +218,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           </div>
 
           {/* Right: Directive, Time, Marks */}
-          <div className="flex flex-col items-end gap-2 flex-shrink-0">
+          <div className="flex flex-col items-start sm:items-end gap-2 flex-shrink-0">
             <div className="flex items-center gap-4">
               <button
                 onClick={onVerbClick}

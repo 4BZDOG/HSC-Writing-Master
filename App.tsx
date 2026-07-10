@@ -470,21 +470,21 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       {!isFocusMode && (
         <header className="sticky top-0 z-[60] -mx-4 sm:-mx-6 lg:-mx-8 h-20 flex items-center shadow-2xl shadow-indigo-900/20">
           <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-sky-500 opacity-100" />
-          <div className="relative z-10 px-8 w-full flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-xl border border-white/20 flex items-center justify-center shadow-2xl group transition-all">
-                <Sparkles className="w-6 h-6 text-white" />
+          <div className="relative z-10 px-4 sm:px-8 w-full flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-white/20 backdrop-blur-xl border border-white/20 flex items-center justify-center shadow-2xl group transition-all">
+                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
-              <div>
-                <h1 className="text-2xl font-black text-white tracking-tighter leading-none italic uppercase">
+              <div className="min-w-0">
+                <h1 className="text-lg sm:text-2xl font-black text-white tracking-tighter leading-none italic uppercase whitespace-nowrap">
                   Writing Studio
                 </h1>
-                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/50 block mt-1">
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.4em] text-white/70 block mt-1 whitespace-nowrap">
                   HSC Specialist AI
                 </span>
               </div>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4 shrink-0">
               {(isSystemAdmin(user.role) || canModerate(user.role)) && (
                 <div className="flex items-center gap-2 mr-2">
                   {isSystemAdmin(user.role) && (
