@@ -5,6 +5,8 @@ import {
   getBandName,
   getBandConfig,
   getTierBandConfig,
+  getTierScaleConfig,
+  getTierSpectrumConfig,
 } from '../../utils/renderUtils';
 import {
   getTargetBand,
@@ -109,14 +111,41 @@ describe('getTierBandConfig', () => {
   });
 });
 
+describe('getTierSpectrumConfig', () => {
+  it('caps the best sample at the question’s own tier colour', () => {
+    // A green Tier-4 question must never show a blue/purple "better than
+    // possible" sample — rank 0 is always the question's own hue.
+    for (let tier = 1; tier <= 6; tier++) {
+      expect(getTierSpectrumConfig(tier, 0)).toEqual(getTierScaleConfig(tier));
+    }
+  });
+
+  it('steps one hue down per level below the best', () => {
+    expect(getTierSpectrumConfig(4, 0)).toEqual(getBandConfig(4)); // green
+    expect(getTierSpectrumConfig(4, 1)).toEqual(getBandConfig(3)); // yellow
+    expect(getTierSpectrumConfig(4, 2)).toEqual(getBandConfig(2)); // orange
+  });
+
+  it('clamps at red for low tiers and long lists (1-2 mark questions degrade gracefully)', () => {
+    // Tier-1 question: single level = red; anything below stays red.
+    expect(getTierSpectrumConfig(1, 0)).toEqual(getBandConfig(1));
+    expect(getTierSpectrumConfig(1, 3)).toEqual(getBandConfig(1));
+    // Tier-2 two-mark question: orange then red.
+    expect(getTierSpectrumConfig(2, 0)).toEqual(getBandConfig(2));
+    expect(getTierSpectrumConfig(2, 1)).toEqual(getBandConfig(1));
+  });
+
+  it('tolerates out-of-range input', () => {
+    expect(getTierSpectrumConfig(9, 0)).toEqual(getBandConfig(6));
+    expect(getTierSpectrumConfig(4, -2)).toEqual(getBandConfig(4));
+  });
+});
+
 describe('sanitiseKeywords', () => {
   it('trims, strips list markers and drops blanks', () => {
-    expect(sanitiseKeywords([' - mitosis ', '• helicase', '1. osmosis', '2) diffusion', '', '  '])).toEqual([
-      'mitosis',
-      'helicase',
-      'osmosis',
-      'diffusion',
-    ]);
+    expect(
+      sanitiseKeywords([' - mitosis ', '• helicase', '1. osmosis', '2) diffusion', '', '  '])
+    ).toEqual(['mitosis', 'helicase', 'osmosis', 'diffusion']);
   });
 
   it('keeps leading digits in real terms (only strips list markers)', () => {
