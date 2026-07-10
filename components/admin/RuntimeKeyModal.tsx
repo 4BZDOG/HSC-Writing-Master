@@ -126,7 +126,10 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
               For <strong>local testing only</strong>. The key is held in this browser tab
               (sessionStorage, cleared when the tab closes) and sent to the proxy per request — less
               safe than <code className="font-mono">.env.local</code>, which stays server-side. It
-              does not lift the sign-in or daily-quota limits.
+              does not lift the sign-in or daily-quota limits. Keys travel through the app&apos;s
+              own <code className="font-mono">/api/gemini</code> endpoint, so on a static deployment
+              (e.g. GitHub Pages) with no API host connected, AI stays unavailable regardless of the
+              key — see DEPLOYMENT.md.
             </p>
           </div>
 
