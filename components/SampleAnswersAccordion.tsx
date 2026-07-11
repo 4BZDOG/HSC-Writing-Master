@@ -1,7 +1,12 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Prompt, SampleAnswer, UserRole } from '../types';
 import { canCurateContent } from '../utils/permissions';
-import { renderFormattedText, getBandConfig, cleanMarkdown } from '../utils/renderUtils';
+import {
+  renderFormattedText,
+  getBandConfig,
+  getTierScaleConfig,
+  cleanMarkdown,
+} from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import SampleAnswerGeneratorModal from './SampleAnswerGeneratorModal';
 import SampleAnswerRevisionModal from './SampleAnswerRevisionModal';
@@ -395,9 +400,12 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
     return getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier);
   }, [prompt.totalMarks, commandTermInfo.tier]);
 
-  // Placard chrome uses the question's effective ceiling band colour —
-  // identical to the prompt card, writing surface and top sample row.
-  const maxBandConfig = useMemo(() => getBandConfig(maxPossibleBand), [maxPossibleBand]);
+  // Placard chrome uses the verb's tier identity (matches the prompt and
+  // writing surface); the band ceiling stays numeric in the subtitle.
+  const maxBandConfig = useMemo(
+    () => getTierScaleConfig(commandTermInfo.tier),
+    [commandTermInfo.tier]
+  );
 
   const groupedAnswers = useMemo(() => {
     const groups: Record<number, GroupedSampleAnswers> = {};

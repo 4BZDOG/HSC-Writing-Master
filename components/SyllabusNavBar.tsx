@@ -2,7 +2,7 @@ import React from 'react';
 import { ChevronRight, BookOpen, Layers, Folder, Hash, Pencil, Award } from 'lucide-react';
 import { Prompt } from '../types';
 import { getTargetBand, getCommandTermInfo } from '../data/commandTerms';
-import { getBandConfig } from '../utils/renderUtils';
+import { getTierScaleConfig } from '../utils/renderUtils';
 
 export interface SyllabusCrumb {
   label: string;
@@ -29,8 +29,8 @@ const CRUMB_ICONS = [BookOpen, Layers, Folder, Hash];
 const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({ crumbs, prompt, onExpand }) => {
   const verbInfo = getCommandTermInfo(prompt.verb);
   const targetBand = getTargetBand(prompt.totalMarks, verbInfo.tier);
-  // Effective-target-band colour — matches the prompt card and writing area.
-  const band = getBandConfig(targetBand);
+  // Tier-identity colour; the band number stays in the text badge.
+  const band = getTierScaleConfig(verbInfo.tier);
 
   return (
     <div
