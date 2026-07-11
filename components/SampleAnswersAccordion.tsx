@@ -3,8 +3,8 @@ import { Prompt, SampleAnswer, UserRole } from '../types';
 import { canCurateContent } from '../utils/permissions';
 import {
   renderFormattedText,
+  getBandConfig,
   getTierScaleConfig,
-  getTierSpectrumConfig,
   cleanMarkdown,
 } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
@@ -85,10 +85,6 @@ const SourceBadge: React.FC<{ source?: string }> = ({ source }) => {
 const CarouselAccordionItem: React.FC<{
   group: GroupedSampleAnswers;
   prompt: Prompt;
-  /** The question's cognitive tier — the top (cap) of the colour spectrum. */
-  tier: number;
-  /** 0 = the best mark level shown; each step down shifts one hue lower. */
-  rankFromTop: number;
   isOpen: boolean;
   onToggle: () => void;
   onUseSample: (answer: string) => void;
@@ -102,8 +98,6 @@ const CarouselAccordionItem: React.FC<{
   ({
     group,
     prompt,
-    tier,
-    rankFromTop,
     isOpen,
     onToggle,
     onUseSample,
@@ -126,13 +120,12 @@ const CarouselAccordionItem: React.FC<{
 
     const currentSample = group.answers[currentIndex];
     const safeAnswer = currentSample?.answer || '';
-    // The band NUMBER always comes from the Verb Gate (getBandForMark) —
-    // stored bands can exceed the question's ceiling and are never shown raw.
+    // Band number AND colour both come from the Verb Gate (getBandForMark,
+    // which also applies the marks cap) — so a Band 5 level is always blue,
+    // Band 4 green, Band 6 purple, and this placard mirrors the Marking
+    // Guide exactly (it derives its level colours the same way).
     const displayBand = group.calculatedBand;
-    // The row COLOUR is a spectrum capped at the question's own tier hue:
-    // best level = the question's colour, each level below steps one hue
-    // down — so samples can never look "better" than the question itself.
-    const bandConfig = useMemo(() => getTierSpectrumConfig(tier, rankFromTop), [tier, rankFromTop]);
+    const bandConfig = useMemo(() => getBandConfig(displayBand), [displayBand]);
     const metrics = useAnswerMetrics(safeAnswer, prompt.keywords);
 
     if (!currentSample) return null;
@@ -546,13 +539,11 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
       {/* Content List */}
       <div>
         {groupedAnswers.length > 0 ? (
-          groupedAnswers.map((group, rankFromTop) => (
+          groupedAnswers.map((group) => (
             <CarouselAccordionItem
               key={group.mark}
               group={group}
               prompt={prompt}
-              tier={commandTermInfo.tier}
-              rankFromTop={rankFromTop}
               isOpen={openGroupMark === group.mark}
               onToggle={() => setOpenGroupMark((prev) => (prev === group.mark ? null : group.mark))}
               onUseSample={onUseSampleAnswer}

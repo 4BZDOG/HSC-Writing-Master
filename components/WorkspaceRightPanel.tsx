@@ -7,7 +7,7 @@ import SampleAnswersAccordion from './SampleAnswersAccordion';
 import EvaluationResultModal from './EvaluationResultModal';
 import EvaluationProgressBar from './EvaluationProgressBar';
 import { Loader2, Settings, AlertTriangle, Sparkles } from 'lucide-react';
-import { getCommandTermInfo, BAND_METRICS, TIER_GROUPS } from '../data/commandTerms';
+import { getCommandTermInfo, getTargetBand, BAND_METRICS } from '../data/commandTerms';
 import { getBandConfig, getKeywordVariants, escapeRegExp } from '../utils/renderUtils';
 import { isCurriculumRemote } from '../services/curriculumService';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
@@ -85,11 +85,14 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     [currentPrompt.verb]
   );
 
-  // Calculate Max Band for this specific prompt based on its Tier
-  const maxBand = useMemo(() => {
-    const tierGroup = TIER_GROUPS.find((g) => g.tier === commandTermInfo.tier);
-    return tierGroup ? tierGroup.maxBand : 6;
-  }, [commandTermInfo.tier]);
+  // The band this prompt actually works toward — constrained by BOTH its
+  // verb's tier and its mark value (getTargetBand applies the marks cap), so
+  // an off-scheme question like a 3-mark Tier-4 targets Band 4, not Band 5,
+  // and the editor copy/word targets agree with the placard and marking guide.
+  const maxBand = useMemo(
+    () => getTargetBand(currentPrompt.totalMarks, commandTermInfo.tier),
+    [currentPrompt.totalMarks, commandTermInfo.tier]
+  );
 
   // Unified progression score for the entire workspace
   const progressScore = useMemo(() => {
