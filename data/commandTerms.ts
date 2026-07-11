@@ -35,7 +35,7 @@ export const TIER_GROUPS = [
   {
     level: 1,
     title: 'Retrieving & Recalling',
-    subtitle: 'Remember facts or locate information without changing it.',
+    subtitle: 'Just remember and write it down — short, direct answers, often 1–2 marks.',
     emoji: '🧠',
     tier: 1,
     maxBand: 2,
@@ -43,7 +43,7 @@ export const TIER_GROUPS = [
   {
     level: 2,
     title: 'Comprehending & Describing',
-    subtitle: 'Show understanding by organising or describing.',
+    subtitle: "Show what it's like in your own words — describe, retell or sum up.",
     emoji: '📝',
     tier: 2,
     maxBand: 3,
@@ -51,7 +51,7 @@ export const TIER_GROUPS = [
   {
     level: 3,
     title: 'Applying & Demonstrating',
-    subtitle: 'Use knowledge to solve a problem or build an answer.',
+    subtitle: 'Use what you know — work it out, show how, or build an answer.',
     emoji: '🔧',
     tier: 3,
     maxBand: 4,
@@ -59,7 +59,7 @@ export const TIER_GROUPS = [
   {
     level: 4,
     title: 'Analysing & Connecting',
-    subtitle: 'Break down info, find relationships, and explain why.',
+    subtitle: 'Break it into parts and connect them — show the how and why.',
     emoji: '🔍',
     tier: 4,
     maxBand: 5,
@@ -67,7 +67,7 @@ export const TIER_GROUPS = [
   {
     level: 5,
     title: 'Synthesising & Arguing',
-    subtitle: 'Bring ideas together or provide a supported point of view.',
+    subtitle: 'Bring ideas together and argue a supported point of view.',
     emoji: '⚖️',
     tier: 5,
     maxBand: 6,
@@ -75,7 +75,7 @@ export const TIER_GROUPS = [
   {
     level: 6,
     title: 'Evaluating & Judging',
-    subtitle: 'Determine value, quality, or validity using criteria.',
+    subtitle: 'Weigh it up and judge against criteria — deep, balanced thinking, often 8+ marks.',
     emoji: '🏆',
     tier: 6,
     maxBand: 6,
@@ -86,7 +86,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   // --- Level 1: Retrieving & Recalling ---
   {
     term: 'IDENTIFY',
-    definition: 'Recognise and name.',
+    definition:
+      'Recognise and name the key thing(s) — point it out clearly, often just a word or short phrase.',
     tier: 1,
     markRange: [1, 2],
     bandDiscrimination: 'Accuracy of identification.',
@@ -96,7 +97,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'STATE',
-    definition: 'Provide information without elaboration.',
+    definition: 'Give the fact or answer plainly — no explanation needed.',
     tier: 1,
     markRange: [1, 2],
     bandDiscrimination: 'Accuracy of the stated fact.',
@@ -106,7 +107,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'RECALL',
-    definition: 'Present remembered ideas, facts or experiences.',
+    definition:
+      "Just remember and write down facts, ideas or experiences you've learned — keep it straightforward.",
     tier: 1,
     markRange: [1, 2],
     bandDiscrimination: 'Accuracy of recalled facts.',
@@ -116,7 +118,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'DEFINE',
-    definition: 'State meaning and identify essential qualities.',
+    definition:
+      'State the exact meaning and the essential qualities or features — be precise with subject terms.',
     tier: 1,
     markRange: [1, 3],
     bandDiscrimination: 'Precision of definition and essential qualities.',
@@ -129,7 +132,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'EXTRACT',
-    definition: 'Choose relevant and/or appropriate details.',
+    definition: 'Pull out and list the relevant details from a source or text.',
     tier: 1,
     markRange: [1, 2],
     bandDiscrimination: 'Relevance of extracted details.',
@@ -139,7 +142,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'RECOUNT',
-    definition: 'Retell a series of events.',
+    definition: 'Retell a series of events in order, like a story summary.',
     tier: 1,
     markRange: [2, 4],
     bandDiscrimination: 'Sequence and accuracy of events.',
@@ -154,7 +157,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   // --- Level 2: Comprehending & Describing ---
   {
     term: 'OUTLINE',
-    definition: 'Sketch in general terms; indicate the main features of.',
+    definition: 'Sketch the main features in general terms — main points only, no deep detail.',
     tier: 2,
     markRange: [2, 4],
     bandDiscrimination: 'Coverage of main features.',
@@ -164,7 +167,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'DESCRIBE',
-    definition: 'Provide characteristics and features.',
+    definition:
+      'Provide the main characteristics and features — paint a clear picture of what it is like or what happened.',
     tier: 2,
     markRange: [3, 5],
     bandDiscrimination: 'Detail and accuracy of characteristics.',
@@ -177,7 +181,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'CLARIFY',
-    definition: 'Make clear or plain.',
+    definition: "Make it clear or plain — explain simply so it's easy to understand.",
     tier: 2,
     markRange: [2, 4],
     bandDiscrimination: 'Clarity and removal of ambiguity.',
@@ -190,7 +194,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'SUMMARISE',
-    definition: 'Express, concisely, the relevant details.',
+    definition: 'Express the relevant details concisely — shorten it while keeping the key points.',
     tier: 2,
     markRange: [3, 5],
     bandDiscrimination: 'Conciseness and relevance of details.',
@@ -203,7 +207,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'CLASSIFY',
-    definition: 'Arrange or include in classes/categories.',
+    definition: 'Arrange or group things into categories, and explain your groupings.',
     tier: 2,
     markRange: [2, 4],
     bandDiscrimination: 'Accuracy of categorisation.',
@@ -218,7 +222,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   // --- Level 3: Applying & Demonstrating ---
   {
     term: 'CALCULATE',
-    definition: 'Ascertain/determine from given facts, figures or information.',
+    definition:
+      'Work out the answer using the given numbers, facts or formulas — show your working if required.',
     tier: 3,
     markRange: [2, 4],
     bandDiscrimination: 'Accuracy of calculation and showing working.',
@@ -232,7 +237,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'APPLY',
-    definition: 'Use in a different, new or unfamiliar situation.',
+    definition: 'Use your knowledge in a new, different or unfamiliar situation.',
     tier: 3,
     markRange: [3, 6],
     bandDiscrimination: 'Appropriateness of application to the new context.',
@@ -246,7 +251,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'DEMONSTRATE',
-    definition: 'Show by example.',
+    definition: 'Show by giving a clear example — often including how it works.',
     tier: 3,
     markRange: [3, 6],
     bandDiscrimination: 'Clarity and relevance of the example.',
@@ -259,7 +264,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'CONSTRUCT',
-    definition: 'Make; build; put together items or arguments.',
+    definition: 'Make, build or put together items or arguments.',
     tier: 3,
     markRange: [3, 6],
     bandDiscrimination: 'Logical assembly and completeness.',
@@ -274,7 +279,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   // --- Level 4: Analysing & Connecting ---
   {
     term: 'COMPARE',
-    definition: 'Show how things are similar or different.',
+    definition: 'Show how things are similar or different, linking the points as you go.',
     tier: 4,
     markRange: [4, 8],
     bandDiscrimination: 'Breadth of comparison (both similarities and differences).',
@@ -288,7 +293,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'CONTRAST',
-    definition: 'Show how things are different or opposite.',
+    definition: 'Show how things are different or opposite — highlight the differences clearly.',
     tier: 4,
     markRange: [4, 6],
     bandDiscrimination: 'Depth of difference analysis.',
@@ -298,8 +303,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'DISTINGUISH',
-    definition:
-      'Recognise or note/indicate as being distinct or different from; to note differences between.',
+    definition: 'Note the differences between things — show how they are distinct.',
     tier: 4,
     markRange: [3, 5],
     bandDiscrimination: 'Precision of distinction.',
@@ -313,7 +317,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   {
     term: 'EXPLAIN',
     definition:
-      'Relate cause and effect; make the relationships between things evident; provide why and/or how.',
+      'Relate cause and effect — make the relationships clear and give the why and/or how, linking ideas logically.',
     tier: 4,
     markRange: [3, 6],
     bandDiscrimination: 'Clarity of cause-effect relationship.',
@@ -327,7 +331,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'INTERPRET',
-    definition: 'Draw meaning from.',
+    definition: 'Draw meaning from something (data, text or an event) and explain what it shows.',
     tier: 4,
     markRange: [3, 6],
     bandDiscrimination: 'Insightfulness of meaning drawn.',
@@ -340,7 +344,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'DEDUCE',
-    definition: 'Draw conclusions.',
+    definition: 'Draw logical conclusions from the information given.',
     tier: 4,
     markRange: [3, 5],
     bandDiscrimination: 'Logical flow from evidence to conclusion.',
@@ -353,7 +357,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'EXTRAPOLATE',
-    definition: 'Infer from what is known.',
+    definition: 'Infer or extend what may happen based on what is already known.',
     tier: 4,
     markRange: [3, 6],
     bandDiscrimination: 'Reasonableness of inference beyond known data.',
@@ -367,7 +371,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'PREDICT',
-    definition: 'Suggest what may happen based on available information.',
+    definition: 'Suggest what may happen based on the available information.',
     tier: 4,
     markRange: [3, 5],
     bandDiscrimination: 'Justification of prediction based on data.',
@@ -381,7 +385,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   {
     term: 'ANALYSE',
     definition:
-      'Identify components and the relationship between them; draw out and relate implications.',
+      'Break it into its parts and show how the parts connect or affect each other, drawing out the implications.',
     tier: 4,
     markRange: [5, 8],
     bandDiscrimination: 'Depth of relationship analysis and implications.',
@@ -395,7 +399,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'EXAMINE',
-    definition: 'Inquire into.',
+    definition: 'Inquire into it carefully — look closely at the details and different aspects.',
     tier: 4,
     markRange: [4, 7],
     bandDiscrimination: 'Depth of inquiry.',
@@ -408,7 +412,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'ACCOUNT',
-    definition: 'State reasons for, report on.',
+    definition:
+      'State the reasons for something — report on why it happened (or narrate the events step by step).',
     tier: 4,
     markRange: [4, 7],
     bandDiscrimination: 'Comprehensiveness of reasons.',
@@ -423,7 +428,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   // --- Level 5: Synthesising & Arguing ---
   {
     term: 'DISCUSS',
-    definition: 'Identify issues and provide points for and/or against.',
+    definition:
+      'Identify the issues and give points for and/or against — explore it from multiple angles.',
     tier: 5,
     markRange: [5, 8],
     bandDiscrimination: 'Balance of argument and breadth of issues.',
@@ -437,8 +443,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'PROPOSE',
-    definition:
-      'Put forward (for example a point of view, idea, argument, suggestion) for consideration or action.',
+    definition: 'Put forward a point of view, idea, argument or suggestion for consideration.',
     tier: 5,
     markRange: [4, 7],
     bandDiscrimination: 'Feasibility and justification of proposal.',
@@ -451,7 +456,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'INVESTIGATE',
-    definition: 'Plan, inquire into and draw conclusions about.',
+    definition: 'Plan, inquire into and draw conclusions about something.',
     tier: 5,
     markRange: [5, 10],
     bandDiscrimination: 'Depth of inquiry and validity of conclusions.',
@@ -465,7 +470,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'SYNTHESISE',
-    definition: 'Putting together various elements to make a whole.',
+    definition:
+      'Put together elements from different sources to form a coherent whole — combine ideas creatively.',
     tier: 5,
     markRange: [6, 10],
     bandDiscrimination: 'Coherence of the whole created from parts.',
@@ -481,7 +487,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   // --- Level 6: Evaluating & Judging ---
   {
     term: 'ASSESS',
-    definition: 'Make a judgement of value, quality, outcomes, results or size.',
+    definition:
+      'Make a judgement of value, quality, outcomes, results or size — usually against criteria.',
     tier: 6,
     markRange: [6, 10],
     bandDiscrimination: 'Quality of judgement and criteria used.',
@@ -491,7 +498,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'EVALUATE',
-    definition: 'Make a judgement based on criteria; determine the value of.',
+    definition:
+      'Make a judgement based on criteria — weigh the evidence and state your overall view of its value or worth.',
     tier: 6,
     markRange: [6, 12],
     bandDiscrimination: 'Use of explicit criteria to form judgement.',
@@ -505,7 +513,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'APPRECIATE',
-    definition: 'Make a judgement about the value of.',
+    definition: 'Make a judgement about the value or worth of something.',
     tier: 6,
     markRange: [5, 8],
     bandDiscrimination: 'Sensitivity and depth of value judgement.',
@@ -518,7 +526,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'JUSTIFY',
-    definition: 'Support an argument or conclusion.',
+    definition:
+      "Support an argument or conclusion with reasons and evidence — prove why it's valid.",
     tier: 6,
     markRange: [6, 10],
     bandDiscrimination: 'Strength of logic and evidence supporting the argument.',
@@ -532,7 +541,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'RECOMMEND',
-    definition: 'Provide reasons in favour.',
+    definition: 'Provide reasons in favour of something.',
     tier: 6,
     markRange: [5, 8],
     bandDiscrimination: 'Strength of reasons provided.',
@@ -543,7 +552,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   {
     term: 'CRITICALLY ANALYSE',
     definition:
-      'Use interpretation and reasoning to assess a range of evidence; add a degree of accuracy, logic, questioning, reflection and quality.',
+      'Use interpretation, reasoning and detailed analysis of a range of evidence to make judgements — go deeper with questioning and logic.',
     tier: 6,
     markRange: [8, 20],
     bandDiscrimination: 'Depth of questioning and reflection.',
@@ -558,7 +567,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   {
     term: 'CRITICALLY EVALUATE',
     definition:
-      'Use interpretation and reasoning to assess a range of evidence; add a degree of accuracy, logic, questioning, reflection and quality.',
+      'Bring accuracy, depth, logic, questioning and reflection to your evaluation — weigh strengths and weaknesses thoroughly.',
     tier: 6,
     markRange: [8, 20],
     bandDiscrimination: 'Depth of questioning and reflection.',
@@ -573,8 +582,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   // Legacy support
   {
     term: 'DIFFERENTIATE',
-    definition:
-      'Recognise or note/indicate as being distinct or different from; to note differences between.',
+    definition: 'Show the specific differences that set things apart from one another.',
     tier: 4,
     markRange: [3, 5],
     bandDiscrimination: 'Precision of distinction.',
@@ -594,7 +602,7 @@ export const commandTerms = new Map<PromptVerb, CommandTermInfo>(
 const fallbackTerm: CommandTermInfo = {
   term: 'EXPLAIN',
   definition:
-    'Relate cause and effect; make the relationships between things evident; provide why and/or how.',
+    'Relate cause and effect — make the relationships clear and give the why and/or how, linking ideas logically.',
   tier: 2, // Default to Level 2/Tier 2 color for generic explanations
   markRange: [1, 20] as [number, number],
   bandDiscrimination: 'Varies',
