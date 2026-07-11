@@ -26,8 +26,8 @@ import {
   PenTool,
   Lock,
 } from 'lucide-react';
-import { getCommandTermInfo, extractCommandVerb } from '../data/commandTerms';
-import { getTierScaleConfig } from '../utils/renderUtils';
+import { getCommandTermInfo, extractCommandVerb, getTargetBand } from '../data/commandTerms';
+import { getBandConfig } from '../utils/renderUtils';
 import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
 import { PlusLockChip } from './UpgradeModal';
@@ -293,11 +293,11 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       .map((p) => {
         const verbInfo = resolveVerbInfo(p.verb, p.question);
         const safeTier = Math.max(1, Math.min(6, Math.floor(verbInfo.tier || 4)));
-        // Colour each question by its VERB TIER identity (red … purple), the
-        // same scale as the verb hierarchy — so a Tier-1 question is red in
-        // the picker, the prompt and the writing area alike. Band NUMBERS
-        // still come from the band model and appear in copy only.
-        const tierConfig = getTierScaleConfig(safeTier);
+        // Colour each question by its EFFECTIVE TARGET BAND (verb tier AND
+        // marks, via the marks cap) — the same colour its best sample and its
+        // marking guide's top level show, so a question can never look a
+        // different colour from the standard it works toward.
+        const tierConfig = getBandConfig(getTargetBand(p.totalMarks, safeTier));
 
         return {
           id: p.id,
