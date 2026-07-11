@@ -13,6 +13,7 @@ import {
   getBandHexDark,
   getBandName,
 } from '../utils/renderUtils';
+import { getCommandTermInfo } from '../data/commandTerms';
 import {
   Maximize,
   Minimize,
@@ -148,9 +149,12 @@ const Editor = forwardRef<
     const [internalFontSize, setInternalFontSize] = useState(syncedFontSize || 18);
     const [userHasResized, setUserHasResized] = useState(false);
 
+    // The question's cognitive tier — the colour identity shared with the
+    // picker, prompt card and verb hierarchy.
+    const verbTier = useMemo(() => getCommandTermInfo(verb).tier, [verb]);
+
     // Live-feedback theme. The writing surface is painted in the question's
-    // EFFECTIVE TARGET BAND colour (maxBand is marks-aware, so a 3-mark
-    // Tier-4 writes on a green Band-4 surface). Progress isn't shown by
+    // TIER colour (one fixed hue per question). Progress isn't shown by
     // cycling through unrelated hues — instead that one colour "fills in":
     // a dark veil sits over it and lifts as the response develops, so the
     // closer to a complete answer, the more vivid the surface glows.
@@ -173,9 +177,14 @@ const Editor = forwardRef<
       }
 
       const targetBand = Math.max(1, Math.min(6, maxBand));
-      const targetHex = getBandHex(targetBand);
-      const targetHexDark = getBandHexDark(targetBand);
-      const targetConfig = getBandConfig(targetBand);
+      // Colour identity = the verb's TIER (red … purple), matching the picker,
+      // prompt card and hierarchy ribbon — a Tier-1 question writes on a red
+      // surface even though its target is "Band 2". The band NUMBER stays in
+      // copy (footer, progress row) via targetBand/name below.
+      const hue = Math.max(1, Math.min(6, verbTier));
+      const targetHex = getBandHex(hue);
+      const targetHexDark = getBandHexDark(hue);
+      const targetConfig = getBandConfig(hue);
 
       const p = Math.max(0, Math.min(1, progress));
       // Dark veil over the band colour: 60% opaque at a blank page, lifting to
@@ -194,7 +203,7 @@ const Editor = forwardRef<
         energy: p > 0.85 ? 'shadow-[0_0_30px_rgba(255,255,255,0.15)]' : 'none',
         iconColor: 'text-white',
       };
-    }, [progress, maxBand, isExamMode]);
+    }, [progress, maxBand, verbTier, isExamMode]);
 
     // Sync from parent if user hasn't manually overridden
     useEffect(() => {
