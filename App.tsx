@@ -29,7 +29,7 @@ import { isCurriculumRemote } from './services/curriculumService';
 import { savePromptContribution } from './services/contributionService';
 import { screenContentQuality } from './services/geminiService';
 import { User, WritingMode } from './types';
-import { canModerate, isSystemAdmin } from './utils/permissions';
+import { canCurateContent, canModerate, isSystemAdmin } from './utils/permissions';
 import {
   Compass,
   Sparkles,
@@ -694,6 +694,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 onGenerateSuggestedTopic={() => openModal('topicGenerator')}
                 onGenerateDotPoints={() => openModal('dotPointGenerator')}
                 onImportTopic={() => openModal('topicImport')}
+                onImportSyllabus={() => openModal('fullSyllabusImport')}
                 newlyAddedIds={newlyAddedIds}
                 userRole={user.role}
               />
@@ -772,12 +773,23 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 open here.
               </p>
               {courses.length === 0 && (
-                <button
-                  onClick={() => openModal('manifestImport')}
-                  className="mt-10 px-8 py-3 rounded-2xl bg-indigo-600 text-white font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3 mx-auto"
-                >
-                  <Sparkles className="w-4 h-4" /> Load Curriculum Library
-                </button>
+                <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+                  <button
+                    onClick={() => openModal('manifestImport')}
+                    className="px-8 py-3 rounded-2xl bg-indigo-600 text-white font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
+                  >
+                    <Sparkles className="w-4 h-4" /> Load Curriculum Library
+                  </button>
+                  {canCurateContent(user.role) && (
+                    <button
+                      onClick={() => openModal('fullSyllabusImport')}
+                      title="Build a course by pasting NESA syllabus text or fetching a syllabus URL"
+                      className="px-8 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-700 border border-white/10 light:border-slate-300 font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
+                    >
+                      <UploadCloud className="w-4 h-4" /> Import a Syllabus
+                    </button>
+                  )}
+                </div>
               )}
             </div>
           </div>

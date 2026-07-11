@@ -114,6 +114,11 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
     try {
       const parsed = await parseOutcomesFromText(outcomesText);
       setParsedOutcomes(parsed);
+      if (parsed.length === 0) {
+        setError(
+          'No outcomes were found in that text. Check it includes outcome codes (e.g. SE-11-01) with their descriptions, then parse again.'
+        );
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to parse outcomes.');
     } finally {
@@ -148,12 +153,30 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
 
   const handleFetchFromUrl = async () => {
     if (!urlInput.trim()) return;
+    // Validate before spending an AI call: accept bare domains by assuming
+    // https, but reject anything that still isn't a fetchable web address.
+    let normalisedUrl = urlInput.trim();
+    if (!/^https?:\/\//i.test(normalisedUrl)) normalisedUrl = `https://${normalisedUrl}`;
+    try {
+      const candidate = new URL(normalisedUrl);
+      if (!candidate.hostname.includes('.')) throw new Error('no hostname');
+    } catch {
+      setError(
+        'That does not look like a valid web address. Paste the full NESA syllabus page URL, e.g. https://educationstandards.nsw.edu.au/...'
+      );
+      return;
+    }
     setIsFetchingUrl(true);
     setError(null);
     try {
       // Use AI to "read" the webpage via search grounding, then split it into
       // one editable tab per topic (falling back to a single tab).
-      const content = await fetchSyllabusContentFromUrl(urlInput);
+      const content = (await fetchSyllabusContentFromUrl(normalisedUrl)).trim();
+      if (content.length < 80) {
+        throw new Error(
+          "Couldn't read any syllabus content from that URL — some pages block automated readers. Open the page yourself and paste the topic text into a tab instead."
+        );
+      }
       const topics = await splitSyllabusIntoTopics(content).catch(() => []);
       if (topics.length > 1) {
         const newTabs = tabsFromTopics(topics);

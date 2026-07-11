@@ -25,6 +25,7 @@ import {
   Database,
   PenTool,
   Lock,
+  UploadCloud,
 } from 'lucide-react';
 import { getCommandTermInfo, extractCommandVerb } from '../data/commandTerms';
 import { getTierScaleConfig } from '../utils/renderUtils';
@@ -57,6 +58,7 @@ interface PromptSelectorProps {
   onGenerateSuggestedTopic: () => void;
   onGenerateDotPoints: () => void;
   onImportTopic: () => void;
+  onImportSyllabus: () => void;
   newlyAddedIds: Set<string>;
   userRole: UserRole;
 }
@@ -139,6 +141,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   onGenerateSuggestedTopic,
   onGenerateDotPoints,
   onImportTopic,
+  onImportSyllabus,
   newlyAddedIds,
   userRole,
 }) => {
@@ -479,6 +482,13 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             {canCurate && (
               <div className="flex items-center gap-2 flex-wrap justify-end">
                 <ActionButton onClick={onAddCourse} icon={Plus} title="Add Course" />
+                <ActionButton
+                  onClick={onImportSyllabus}
+                  icon={UploadCloud}
+                  title="Import Syllabus (AI) — build or update a course from NESA syllabus text or a URL"
+                  variant="special"
+                  locked={studioLocked}
+                />
                 {isAdmin && (
                   <ActionButton
                     onClick={onOpenDataManager}
@@ -531,11 +541,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               <p className="mb-3 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
                 <Upload className="w-3.5 h-3.5" />
                 No topics yet.{' '}
-                {isAdmin
-                  ? 'Add one, use AI Suggest, or import a syllabus via the Data Vault.'
-                  : canCurate
-                    ? 'Add one or use AI Suggest.'
-                    : 'Ask a teacher or admin to add content for this course.'}
+                {canCurate
+                  ? 'Add one, use AI Suggest, or use Import Syllabus (the cloud button in the Course row) to build the whole structure from NESA syllabus text.'
+                  : 'Ask a teacher or admin to add content for this course.'}
               </p>
             )}
             <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
@@ -562,6 +570,13 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   {selectedTopic ? (
                     <>
                       <ActionButton
+                        onClick={onAddTopicFromSyllabus}
+                        icon={UploadCloud}
+                        title={`Import sub-topics into "${selectedTopic.name}" from syllabus text (AI)`}
+                        variant="special"
+                        locked={studioLocked}
+                      />
+                      <ActionButton
                         onClick={() => onRenameItem('topic', selectedTopic.id, selectedTopic.name)}
                         icon={Edit3}
                         title="Rename"
@@ -582,6 +597,11 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   ) : (
                     <>
                       <ActionButton onClick={onAddTopic} icon={Plus} title="Add" />
+                      <ActionButton
+                        onClick={onImportTopic}
+                        icon={Upload}
+                        title="Import Topic (.json)"
+                      />
                       <ActionButton
                         onClick={onGenerateSuggestedTopic}
                         icon={Sparkles}
