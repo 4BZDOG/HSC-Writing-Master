@@ -8,14 +8,14 @@ import { getBandForMark, markForBand } from '../../data/commandTerms';
  * pick a concrete mark for a target band.
  */
 describe('getBandForMark tier ceilings', () => {
-  it('caps low-tier verbs below the top band even at full marks', () => {
-    expect(getBandForMark(10, 10, 2)).toBe(3); // Tier 2 (Describe) tops out at Band 3
-    expect(getBandForMark(3, 3, 1)).toBe(2); // Tier 1 (Identify) tops out at Band 2
-    expect(getBandForMark(4, 4, 3)).toBe(4); // Tier 3 (Apply) tops out at Band 4
+  it('caps each tier at its own band number even at full marks', () => {
+    expect(getBandForMark(10, 10, 2)).toBe(2); // Tier 2 (Describe) tops out at Band 2
+    expect(getBandForMark(3, 3, 1)).toBe(1); // Tier 1 (Identify) tops out at Band 1
+    expect(getBandForMark(4, 4, 3)).toBe(3); // Tier 3 (Apply) tops out at Band 3
+    expect(getBandForMark(10, 10, 5)).toBe(5); // Tier 5 (Synthesise) tops out at Band 5
   });
 
-  it('lets high-tier verbs reach the top band', () => {
-    expect(getBandForMark(10, 10, 5)).toBe(6);
+  it('lets only Tier 6 verbs reach the top band', () => {
     expect(getBandForMark(10, 10, 6)).toBe(6);
   });
 
@@ -27,9 +27,9 @@ describe('getBandForMark tier ceilings', () => {
 
 describe('markForBand (inverse of getBandForMark)', () => {
   it('returns the smallest mark that reaches the target band', () => {
-    // Tier 4, /10: Band 5 needs ratio >= 0.9 -> 9 marks; Band 4 needs >= 0.7 -> 7.
-    expect(markForBand(5, 10, 4)).toBe(9);
-    expect(markForBand(4, 10, 4)).toBe(7);
+    // Tier 4, /10: Band 4 needs ratio >= 0.85 -> 9 marks; Band 3 needs >= 0.6 -> 6.
+    expect(markForBand(4, 10, 4)).toBe(9);
+    expect(markForBand(3, 10, 4)).toBe(6);
   });
 
   it('round-trips: the chosen mark maps back to (at least) the target band', () => {
@@ -47,7 +47,7 @@ describe('markForBand (inverse of getBandForMark)', () => {
   });
 
   it('falls back to full marks when the band exceeds the tier ceiling', () => {
-    // Tier 2 caps at Band 3, so Band 4 is unreachable -> clamp to totalMarks.
-    expect(markForBand(4, 6, 2)).toBe(6);
+    // Tier 2 caps at Band 2, so Band 3 is unreachable -> clamp to totalMarks.
+    expect(markForBand(3, 6, 2)).toBe(6);
   });
 });

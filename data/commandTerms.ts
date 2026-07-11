@@ -38,7 +38,7 @@ export const TIER_GROUPS = [
     subtitle: 'Just remember and write it down — short, direct answers, often 1–2 marks.',
     emoji: '🧠',
     tier: 1,
-    maxBand: 2,
+    maxBand: 1,
   },
   {
     level: 2,
@@ -46,7 +46,7 @@ export const TIER_GROUPS = [
     subtitle: "Show what it's like in your own words — describe, retell or sum up.",
     emoji: '📝',
     tier: 2,
-    maxBand: 3,
+    maxBand: 2,
   },
   {
     level: 3,
@@ -54,7 +54,7 @@ export const TIER_GROUPS = [
     subtitle: 'Use what you know — work it out, show how, or build an answer.',
     emoji: '🔧',
     tier: 3,
-    maxBand: 4,
+    maxBand: 3,
   },
   {
     level: 4,
@@ -62,7 +62,7 @@ export const TIER_GROUPS = [
     subtitle: 'Break it into parts and connect them — show the how and why.',
     emoji: '🔍',
     tier: 4,
-    maxBand: 5,
+    maxBand: 4,
   },
   {
     level: 5,
@@ -70,7 +70,7 @@ export const TIER_GROUPS = [
     subtitle: 'Bring ideas together and argue a supported point of view.',
     emoji: '⚖️',
     tier: 5,
-    maxBand: 6,
+    maxBand: 5,
   },
   {
     level: 6,
@@ -738,8 +738,9 @@ export const getBandForMark = (mark: number, totalMarks: number, tier: number = 
 
   const ratio = Math.min(mark, totalMarks) / totalMarks;
 
-  // Explicit Tier Thresholds based on strict User Specification
-  // Updated to allow lower tier questions (Tier 2/3) to achieve slightly higher bands when marks are perfect
+  // Explicit Tier Thresholds. The ceiling of each tier IS its own number
+  // (Tier 4 tops out at Band 4), so a question's tier, its band ceiling and
+  // its colour are always the same figure — one scale everywhere.
   const thresholds: Record<number, { min: number; band: number }[]> = {
     6: [
       // Evaluate (Tier 6) - Max Band 6
@@ -751,38 +752,33 @@ export const getBandForMark = (mark: number, totalMarks: number, tier: number = 
       { min: 0, band: 1 },
     ],
     5: [
-      // Synthesise (Tier 5) - Max Band 6
-      { min: 0.9, band: 6 },
-      { min: 0.75, band: 5 },
-      { min: 0.55, band: 4 },
-      { min: 0.35, band: 3 },
-      { min: 0.15, band: 2 },
-      { min: 0, band: 1 },
-    ],
-    4: [
-      // Analyse (Tier 4) - Max Band 5
-      { min: 0.9, band: 5 }, // 5/5 or 9/10 required for Band 5. 4/5 (0.8) should be Band 4.
-      { min: 0.7, band: 4 }, // 4/5 (0.8) -> Band 4. 3/4 (0.75) -> Band 4.
-      { min: 0.4, band: 3 }, // 2/5 (0.4) -> Band 3
+      // Synthesise (Tier 5) - Max Band 5
+      { min: 0.9, band: 5 }, // full or near-full marks required for the ceiling
+      { min: 0.7, band: 4 },
+      { min: 0.45, band: 3 },
       { min: 0.2, band: 2 },
       { min: 0, band: 1 },
     ],
+    4: [
+      // Analyse (Tier 4) - Max Band 4
+      { min: 0.85, band: 4 }, // 5/5, 9/10 -> Band 4. 3/4 (0.75) -> Band 3.
+      { min: 0.6, band: 3 },
+      { min: 0.35, band: 2 },
+      { min: 0, band: 1 },
+    ],
     3: [
-      // Apply (Tier 3) - Max Band 4
-      { min: 0.85, band: 4 }, // 3/3, 4/4 -> Band 4
-      { min: 0.6, band: 3 }, // 2/3, 3/4 -> Band 3
-      { min: 0.35, band: 2 }, // 1/3, 2/4 -> Band 2 (low)
+      // Apply (Tier 3) - Max Band 3
+      { min: 0.85, band: 3 }, // 3/3, 4/4 -> Band 3
+      { min: 0.5, band: 2 }, // 2/3, 2/4 -> Band 2
       { min: 0, band: 1 },
     ],
     2: [
-      // Describe (Tier 2) - Max Band 3
-      { min: 0.85, band: 3 }, // 3/3 -> Band 3
-      { min: 0.5, band: 2 }, // 2/3 -> Band 2
+      // Describe (Tier 2) - Max Band 2
+      { min: 0.5, band: 2 },
       { min: 0, band: 1 },
     ],
     1: [
-      // Identify (Tier 1) - Max Band 2
-      { min: 0.5, band: 2 },
+      // Identify (Tier 1) - Max Band 1: a recall task can only evidence recall
       { min: 0, band: 1 },
     ],
   };
