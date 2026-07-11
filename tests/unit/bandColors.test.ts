@@ -5,14 +5,13 @@ import {
   getBandName,
   getBandConfig,
   getTierBandConfig,
-  getTierScaleConfig,
-  getTierSpectrumConfig,
 } from '../../utils/renderUtils';
 import {
   getTargetBand,
   getTierTargetBand,
   getVerbBandCeiling,
   getBandForMark,
+  getMarksBandCap,
   TIER_GROUPS,
 } from '../../data/commandTerms';
 import { sanitiseKeywords } from '../../services/geminiService';
@@ -111,33 +110,29 @@ describe('getTierBandConfig', () => {
   });
 });
 
-describe('getTierSpectrumConfig', () => {
-  it('caps the best sample at the question’s own tier colour', () => {
-    // A green Tier-4 question must never show a blue/purple "better than
-    // possible" sample — rank 0 is always the question's own hue.
-    for (let tier = 1; tier <= 6; tier++) {
-      expect(getTierSpectrumConfig(tier, 0)).toEqual(getTierScaleConfig(tier));
+describe('marks-based band cap (on-the-fly adjustment)', () => {
+  it('caps an N-mark question at roughly Band N+1', () => {
+    expect(getMarksBandCap(1)).toBe(2);
+    expect(getMarksBandCap(2)).toBe(3);
+    expect(getMarksBandCap(3)).toBe(4);
+    expect(getMarksBandCap(4)).toBe(5);
+    expect(getMarksBandCap(5)).toBe(6);
+    expect(getMarksBandCap(12)).toBe(6);
+  });
+
+  it('normalises off-scheme questions: a 3-mark Tier-4 DISTINGUISH targets Band 4 (green), not 5', () => {
+    expect(getTargetBand(3, 4)).toBe(4);
+    // ...and even a lofty Tier-6 verb on a 3-mark question tops out at Band 4.
+    expect(getTargetBand(3, 6)).toBe(4);
+    // Well-formed pairings are untouched: a 5-mark Tier-4 still targets Band 5.
+    expect(getTargetBand(5, 4)).toBe(5);
+    expect(getTargetBand(8, 5)).toBe(6);
+  });
+
+  it('applies the cap to every derived band, not just the ceiling', () => {
+    for (let mark = 0; mark <= 3; mark++) {
+      expect(getBandForMark(mark, 3, 6)).toBeLessThanOrEqual(getMarksBandCap(3));
     }
-  });
-
-  it('steps one hue down per level below the best', () => {
-    expect(getTierSpectrumConfig(4, 0)).toEqual(getBandConfig(4)); // green
-    expect(getTierSpectrumConfig(4, 1)).toEqual(getBandConfig(3)); // yellow
-    expect(getTierSpectrumConfig(4, 2)).toEqual(getBandConfig(2)); // orange
-  });
-
-  it('clamps at red for low tiers and long lists (1-2 mark questions degrade gracefully)', () => {
-    // Tier-1 question: single level = red; anything below stays red.
-    expect(getTierSpectrumConfig(1, 0)).toEqual(getBandConfig(1));
-    expect(getTierSpectrumConfig(1, 3)).toEqual(getBandConfig(1));
-    // Tier-2 two-mark question: orange then red.
-    expect(getTierSpectrumConfig(2, 0)).toEqual(getBandConfig(2));
-    expect(getTierSpectrumConfig(2, 1)).toEqual(getBandConfig(1));
-  });
-
-  it('tolerates out-of-range input', () => {
-    expect(getTierSpectrumConfig(9, 0)).toEqual(getBandConfig(6));
-    expect(getTierSpectrumConfig(4, -2)).toEqual(getBandConfig(4));
   });
 });
 

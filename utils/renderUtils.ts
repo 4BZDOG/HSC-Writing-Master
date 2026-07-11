@@ -212,23 +212,6 @@ export const getTierBandConfig = (tier: number): BandConfig =>
 export const getTierScaleConfig = (tier: number): BandConfig =>
   getBandConfig(Math.max(1, Math.min(6, Math.round(tier))));
 
-/**
- * Colour for the rank-th best sample answer (rank 0 = best) of a question at
- * the given tier: the best possible answer sits at the QUESTION'S OWN tier
- * hue — never above it — and each level below steps one hue down the shared
- * red → purple scale, clamping at red.
- *
- * This keeps the placard's spectrum capped by the question's colour identity
- * (a green Tier-4 question can't show a blue "better than possible" sample)
- * while still separating levels by colour. Questions with only one or two
- * mark levels degrade gracefully: one level = the question's colour, two
- * levels = the question's colour plus the hue below it.
- */
-export const getTierSpectrumConfig = (tier: number, rankFromTop: number): BandConfig => {
-  const top = Math.max(1, Math.min(6, Math.round(tier)));
-  return getBandConfig(Math.max(1, top - Math.max(0, Math.round(rankFromTop))));
-};
-
 export const getBandStyle = (band: number): { label: string; color: string } => {
   if (band >= 6)
     return {

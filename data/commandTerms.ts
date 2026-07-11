@@ -699,8 +699,23 @@ export const getCommandTermsForMarks = (
 };
 
 /**
+ * The band ceiling implied by a question's MARK VALUE alone: an N-mark
+ * question can't call for more depth than roughly Band N+1, however lofty its
+ * verb (a 1-mark task evidences at most Band 2 recall; a 3-mark task tops out
+ * at Band 4; from 5 marks the marks stop being the limiting factor).
+ *
+ * This exists to normalise questions generated or imported OUTSIDE the usual
+ * verb/mark pairings — e.g. a 3-mark Tier-4 DISTINGUISH — so every derived
+ * band (and therefore every band colour) stays predictable. It is applied
+ * inside getBandForMark, the single source all band figures flow from.
+ */
+export const getMarksBandCap = (totalMarks: number): number =>
+  Math.max(1, Math.min(6, Math.floor(totalMarks) + 1));
+
+/**
  * Calculates the Performance Band (1-6) based on the mark achieved,
- * strictly constrained by the Tier Level (Cognitive complexity) of the question.
+ * strictly constrained by the Tier Level (Cognitive complexity) of the question
+ * AND by the question's mark value (see getMarksBandCap).
  *
  * Uses a Tier-specific ratio lookup table to ensure marks like 4/5 and 9/10
  * map to the correct bands according to NESA standards.
@@ -767,8 +782,12 @@ export const getBandForMark = (mark: number, totalMarks: number, tier: number = 
   // Use specific tier config or fallback to Tier 4 logic if unknown
   const tierConfig = thresholds[tier] || thresholds[4];
 
+  // Questions can be authored/generated with mark values that don't suit their
+  // verb's usual range (e.g. a 3-mark ANALYSE). The marks cap normalises them
+  // on the fly so a shallow question can never claim a top band.
+  const cap = getMarksBandCap(totalMarks);
   for (const t of tierConfig) {
-    if (ratio >= t.min) return t.band;
+    if (ratio >= t.min) return Math.min(t.band, cap);
   }
 
   return 1;
