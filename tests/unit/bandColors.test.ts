@@ -42,11 +42,11 @@ describe('band colour palette', () => {
 
 describe('getTargetBand', () => {
   it('maps a verb tier to the band a full-mark response reaches', () => {
-    // Tier -> ceiling band (see TIER_GROUPS).
-    expect(getTargetBand(4, 2)).toBe(3); // Describe (Tier 2) → Band 3
-    expect(getTargetBand(5, 4)).toBe(5); // Analyse (Tier 4) → Band 5
-    expect(getTargetBand(8, 5)).toBe(6); // Synthesise (Tier 5) → Band 6
-    expect(getTargetBand(2, 1)).toBe(2); // Identify (Tier 1) → Band 2
+    // Tier N -> Band N: the tier, its ceiling and its colour are one figure.
+    expect(getTargetBand(4, 2)).toBe(2); // Describe (Tier 2) → Band 2
+    expect(getTargetBand(5, 4)).toBe(4); // Analyse (Tier 4) → Band 4
+    expect(getTargetBand(8, 5)).toBe(5); // Synthesise (Tier 5) → Band 5
+    expect(getTargetBand(2, 1)).toBe(1); // Identify (Tier 1) → Band 1
   });
 });
 
@@ -54,12 +54,9 @@ describe('getTierTargetBand', () => {
   it('maps each cognitive tier to the band it targets (mark-independent)', () => {
     // The verb-hierarchy ribbon colours by this, so a verb shows the same band
     // colour there as in the prompt (which uses getTargetBand for the same tier).
-    expect(getTierTargetBand(1)).toBe(2);
-    expect(getTierTargetBand(2)).toBe(3); // Describe → Band 3 (yellow), not tier-2 orange
-    expect(getTierTargetBand(3)).toBe(4);
-    expect(getTierTargetBand(4)).toBe(5);
-    expect(getTierTargetBand(5)).toBe(6);
-    expect(getTierTargetBand(6)).toBe(6);
+    for (let tier = 1; tier <= 6; tier++) {
+      expect(getTierTargetBand(tier)).toBe(tier);
+    }
   });
 
   it('agrees with getTargetBand at full marks for every tier', () => {
@@ -92,17 +89,15 @@ describe('band model consistency', () => {
   });
 
   it('resolves a verb to its cognitive-demand band ceiling', () => {
-    expect(getVerbBandCeiling('DESCRIBE')).toBe(3); // Tier 2
-    expect(getVerbBandCeiling('ANALYSE')).toBe(5); // Tier 4
+    expect(getVerbBandCeiling('DESCRIBE')).toBe(2); // Tier 2
+    expect(getVerbBandCeiling('ANALYSE')).toBe(4); // Tier 4
     expect(getVerbBandCeiling('EVALUATE')).toBe(6); // Tier 6
   });
 });
 
 describe('getTierBandConfig', () => {
-  it('returns the colour config of the tier’s target band, not the tier index', () => {
-    // Tier 2 (Describe) must colour as Band 3, not Band 2 — the bug the user hit.
-    expect(getTierBandConfig(2)).toEqual(getBandConfig(3));
-    expect(getTierBandConfig(2)).not.toEqual(getBandConfig(2));
+  it('returns the colour config of the tier’s target band (which IS the tier number)', () => {
+    expect(getTierBandConfig(2)).toEqual(getBandConfig(2));
     // Every tier's config matches its target band's config.
     for (let tier = 1; tier <= 6; tier++) {
       expect(getTierBandConfig(tier)).toEqual(getBandConfig(getTierTargetBand(tier)));
@@ -120,13 +115,15 @@ describe('marks-based band cap (on-the-fly adjustment)', () => {
     expect(getMarksBandCap(12)).toBe(6);
   });
 
-  it('normalises off-scheme questions: a 3-mark Tier-4 DISTINGUISH targets Band 4 (green), not 5', () => {
-    expect(getTargetBand(3, 4)).toBe(4);
-    // ...and even a lofty Tier-6 verb on a 3-mark question tops out at Band 4.
+  it('normalises off-scheme questions: a lofty verb on a tiny question is capped by marks', () => {
+    // A Tier-6 verb on a 3-mark question tops out at Band 4 — the one case
+    // where a question's band can sit below its tier colour.
     expect(getTargetBand(3, 6)).toBe(4);
-    // Well-formed pairings are untouched: a 5-mark Tier-4 still targets Band 5.
-    expect(getTargetBand(5, 4)).toBe(5);
-    expect(getTargetBand(8, 5)).toBe(6);
+    expect(getTargetBand(2, 4)).toBe(3);
+    // Well-formed pairings are untouched: tier N questions target Band N.
+    expect(getTargetBand(3, 4)).toBe(4);
+    expect(getTargetBand(5, 4)).toBe(4);
+    expect(getTargetBand(8, 5)).toBe(5);
   });
 
   it('applies the cap to every derived band, not just the ceiling', () => {

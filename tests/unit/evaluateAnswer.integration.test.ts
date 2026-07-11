@@ -94,8 +94,8 @@ describe('evaluateAnswer (service integration, mocked proxy)', () => {
     const result = await evaluateAnswer('answer', basePrompt);
 
     expect(result.overallMark).toBe(10); // clamped to totalMarks
-    // 10/10 on a Tier-2 'Describe' question caps at Band 3 (not Band 6).
-    expect(result.overallBand).toBe(3);
+    // 10/10 on a Tier-2 'Describe' question caps at Band 2 (not Band 6).
+    expect(result.overallBand).toBe(2);
     expect(result.criteria[0].mark).toBe(5); // clamped to maxMark
   });
 
