@@ -702,9 +702,17 @@ export const generateNewPrompt = async (
   outcomes: CourseOutcome[],
   scenarioType?: string,
   skillFocus?: string,
-  targetBand?: number
+  targetBand?: number,
+  includeScenario: boolean = true
 ): Promise<Prompt> => {
   const verbList = verbs.map((v) => v.term).join(', ');
+
+  // Some questions are direct knowledge/skill questions that read better without
+  // a manufactured context. When scenarios are off, we tell the model not to
+  // write one, drop it from the required schema fields, and force it empty.
+  const scenarioLine = includeScenario
+    ? `- scenario (A realistic context paragraph)`
+    : `- Do NOT write a scenario. This is a direct question with no case-study context. Return scenario as an empty string.`;
 
   const request = {
     ...aiTarget('reasoning'),
@@ -716,14 +724,15 @@ export const generateNewPrompt = async (
                     Syllabus Dot Point: "${dotPoint}"
                     Target Marks: ${marks}
                     Allowed Verbs: ${verbList}
-                    ${scenarioType ? `Scenario Type: ${scenarioType}` : ''}
+                    ${includeScenario && scenarioType ? `Scenario Type: ${scenarioType}` : ''}
                     ${skillFocus ? `Skill Focus: ${skillFocus}` : ''}
                     ${targetBand ? `Target Band Difficulty: ${targetBand}` : ''}
-                    
+                    ${includeScenario ? '' : 'This is a scenario-free question: the stem must stand on its own without any case study, business, or narrative framing.'}
+
                     Generate a JSON object with:
                     - question (The exam question text)
                     - verb (One of the allowed verbs)
-                    - scenario (A realistic context paragraph)
+                    ${scenarioLine}
                     - markingCriteria (A detailed marking rubric text)
                     - keywords (List of 5-10 technical terms)
                     - linkedOutcomes (Array of outcome codes relevant to this question from: ${JSON.stringify(outcomes.map((o) => o.code))})
@@ -744,7 +753,9 @@ export const generateNewPrompt = async (
           keywords: { type: Type.ARRAY, items: { type: Type.STRING } },
           linkedOutcomes: { type: Type.ARRAY, items: { type: Type.STRING } },
         },
-        required: ['question', 'verb', 'scenario', 'markingCriteria', 'linkedOutcomes'],
+        required: includeScenario
+          ? ['question', 'verb', 'scenario', 'markingCriteria', 'linkedOutcomes']
+          : ['question', 'verb', 'markingCriteria', 'linkedOutcomes'],
       },
     },
   };
@@ -760,7 +771,8 @@ export const generateNewPrompt = async (
     question: data.question,
     totalMarks: marks,
     verb: data.verb as PromptVerb,
-    scenario: data.scenario,
+    // Respect the caller's choice even if the model returns a stray scenario.
+    scenario: includeScenario ? data.scenario : '',
     markingCriteria: data.markingCriteria,
     keywords: data.keywords || [],
     linkedOutcomes: data.linkedOutcomes || [],
