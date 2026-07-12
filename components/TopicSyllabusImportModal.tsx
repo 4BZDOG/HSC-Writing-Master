@@ -1,63 +1,194 @@
-import React, { useState } from 'react';
-import { SubTopic } from '../types';
-import { generateSubTopicsAndDotPoints } from '../services/geminiService';
+import React, { useState, useEffect, useMemo } from 'react';
+import { parseSyllabusStructure, fetchSyllabusContentFromUrl } from '../services/geminiService';
 import LoadingSpinner from './LoadingSpinner';
-import { X, Sparkles } from 'lucide-react';
+import { X, Sparkles, Globe, UploadCloud, ChevronRight, Trash2, GitMerge } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+
+/** One parsed sub-topic ready for preview/pruning before import. */
+export interface TopicImportSubTopicNode {
+  name: string;
+  dotPoints: string[];
+}
+
+export interface TopicSyllabusImportPayload {
+  /** Existing topic to add into, or null to create a new topic. */
+  targetTopicId: string | null;
+  /** Name for a new topic (typed or detected from the syllabus text). */
+  topicName: string;
+  subTopics: TopicImportSubTopicNode[];
+}
 
 interface TopicSyllabusImportModalProps {
   isOpen: boolean;
   onClose: () => void;
   courseName: string;
-  topicName: string;
-  onImport: (newSubTopics: SubTopic[]) => void;
+  topics: { id: string; name: string }[];
+  /** Preselects the destination when launched from an already-selected topic. */
+  initialTopicId: string | null;
+  onImport: (payload: TopicSyllabusImportPayload) => void;
 }
 
 const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
   isOpen,
   onClose,
   courseName,
-  topicName,
+  topics,
+  initialTopicId,
   onImport,
 }) => {
+  // '__new__' → create a new topic; otherwise add into this existing topic.
+  const [targetTopicId, setTargetTopicId] = useState<string>('__new__');
+  const [newTopicName, setNewTopicName] = useState('');
+  const [detectedName, setDetectedName] = useState('');
   const [syllabusText, setSyllabusText] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [urlInput, setUrlInput] = useState('');
+  const [isFetchingUrl, setIsFetchingUrl] = useState(false);
+  const [isAnalysing, setIsAnalysing] = useState(false);
+  const [step, setStep] = useState<'input' | 'preview'>('input');
+  const [previewSubTopics, setPreviewSubTopics] = useState<TopicImportSubTopicNode[]>([]);
+  const [expandedIdx, setExpandedIdx] = useState<Set<number>>(new Set());
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
 
-  const handleImport = async () => {
-    if (!syllabusText.trim()) {
-      setError('Please paste the syllabus content.');
-      return;
-    }
-    setIsLoading(true);
-    setError(null);
-    try {
-      const newSubTopics = await generateSubTopicsAndDotPoints(courseName, topicName, syllabusText);
-      onImport(newSubTopics);
-      handleClose();
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'An unknown error occurred.';
-      setError(message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const isBusy = isFetchingUrl || isAnalysing;
+  const targetTopic = topics.find((t) => t.id === targetTopicId);
+  // The name the import will actually use: the chosen existing topic's, the
+  // typed one, or the one the AI detected from the text.
+  const effectiveTopicName = targetTopic?.name || newTopicName.trim() || detectedName;
+  // Creating a "new" topic whose name matches an existing one merges instead.
+  const nameCollision =
+    !targetTopic &&
+    topics.find((t) => t.name.trim().toLowerCase() === effectiveTopicName.trim().toLowerCase());
+
+  // Each open starts from the launching context (selected topic or "new").
+  useEffect(() => {
+    if (isOpen) setTargetTopicId(initialTopicId ?? '__new__');
+  }, [isOpen, initialTopicId]);
 
   const handleClose = () => {
-    if (isLoading) return;
+    if (isBusy) return;
+    setNewTopicName('');
+    setDetectedName('');
     setSyllabusText('');
-    setIsLoading(false);
+    setUrlInput('');
+    setPreviewSubTopics([]);
+    setStep('input');
     setError(null);
+    setNotice(null);
     onClose();
   };
 
   // Escape closes this modal like every other modal surface — through the
   // same reset path as the X/Cancel buttons, and never mid-operation.
-  useEscapeKey(isOpen && !isLoading, handleClose);
+  useEscapeKey(isOpen && !isBusy, handleClose);
 
-  if (!isOpen) {
-    return null;
-  }
+  const handleFetchFromUrl = async () => {
+    if (!urlInput.trim()) return;
+    // Validate before spending an AI call: accept bare domains by assuming
+    // https, but reject anything that still isn't a fetchable web address.
+    let normalisedUrl = urlInput.trim();
+    if (!/^https?:\/\//i.test(normalisedUrl)) normalisedUrl = `https://${normalisedUrl}`;
+    try {
+      const candidate = new URL(normalisedUrl);
+      if (!candidate.hostname.includes('.')) throw new Error('no hostname');
+    } catch {
+      setError(
+        'That does not look like a valid web address. Paste the full NESA syllabus page URL, e.g. https://educationstandards.nsw.edu.au/...'
+      );
+      return;
+    }
+    setIsFetchingUrl(true);
+    setError(null);
+    try {
+      const content = (await fetchSyllabusContentFromUrl(normalisedUrl)).trim();
+      if (content.length < 80) {
+        throw new Error(
+          "Couldn't read any syllabus content from that URL — some pages block automated readers. Open the page yourself and paste the topic text instead."
+        );
+      }
+      // Append rather than replace, so URL content can supplement pasted text.
+      setSyllabusText((prev) => (prev.trim() ? `${prev.trim()}\n\n${content}` : content));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch syllabus content.');
+    } finally {
+      setIsFetchingUrl(false);
+    }
+  };
+
+  const handleAnalyse = async () => {
+    if (!syllabusText.trim()) {
+      setError('Paste syllabus content (or fetch it from a URL) first.');
+      return;
+    }
+    setIsAnalysing(true);
+    setError(null);
+    setNotice(null);
+    try {
+      const typedName = targetTopic?.name || newTopicName.trim();
+      const content = typedName ? `Topic Name: ${typedName}\n\n${syllabusText}` : syllabusText;
+      const nodes = await parseSyllabusStructure(content);
+      const subTopics = nodes.flatMap((n) => n.subTopics);
+      if (subTopics.length === 0) {
+        throw new Error(
+          'No sub-topics could be extracted. Try cleaner text with clear headings and dot points.'
+        );
+      }
+      if (!typedName) setDetectedName(nodes[0]?.name || 'Untitled Topic');
+      if (nodes.length > 1) {
+        setNotice(
+          `${nodes.length} topics were detected in the text — they will be combined into one. ` +
+            'To import them as separate topics, use Import Syllabus in the Course row instead.'
+        );
+      }
+      setPreviewSubTopics(subTopics);
+      setExpandedIdx(new Set(subTopics.map((_, i) => i)));
+      setStep('preview');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to analyse syllabus structure.');
+    } finally {
+      setIsAnalysing(false);
+    }
+  };
+
+  // --- Editable preview: prune AI mistakes before importing ---
+  const removeSubTopic = (idx: number) =>
+    setPreviewSubTopics((prev) => prev.filter((_, i) => i !== idx));
+
+  const removeDotPoint = (stIdx: number, dpIdx: number) =>
+    setPreviewSubTopics((prev) =>
+      prev.map((st, i) =>
+        i === stIdx ? { ...st, dotPoints: st.dotPoints.filter((_, j) => j !== dpIdx) } : st
+      )
+    );
+
+  const toggleExpand = (idx: number) => {
+    setExpandedIdx((prev) => {
+      const next = new Set(prev);
+      if (next.has(idx)) next.delete(idx);
+      else next.add(idx);
+      return next;
+    });
+  };
+
+  const stats = useMemo(
+    () => ({
+      subTopics: previewSubTopics.length,
+      dotPoints: previewSubTopics.reduce((a, st) => a + st.dotPoints.length, 0),
+    }),
+    [previewSubTopics]
+  );
+
+  const handleConfirmImport = () => {
+    if (previewSubTopics.length === 0 || !effectiveTopicName.trim()) return;
+    onImport({
+      targetTopicId: targetTopic?.id ?? null,
+      topicName: effectiveTopicName.trim(),
+      subTopics: previewSubTopics,
+    });
+    handleClose();
+  };
+
+  if (!isOpen) return null;
 
   return (
     <div
@@ -65,22 +196,24 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
       onClick={handleClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] clip-stable animate-fade-in-up overflow-hidden relative flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl w-full max-w-4xl border border-[rgb(var(--color-border-secondary))] clip-stable animate-fade-in-up overflow-hidden relative flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))]">
+        <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] flex-shrink-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[rgb(var(--color-accent))] to-[rgb(var(--color-primary))] flex items-center justify-center shadow-lg">
-                <Sparkles className="w-5 h-5 text-white" />
+                <UploadCloud className="w-5 h-5 text-white" />
               </div>
               <div>
                 <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))]">
-                  Import Sub-Topics for "{topicName}"
+                  Add Topic from Syllabus
                 </h2>
                 <p className="text-sm text-[rgb(var(--color-text-muted))]">
-                  Let AI extract sub-topics and dot points from text.
+                  {step === 'input'
+                    ? `Paste NESA syllabus text or fetch a syllabus page — into "${courseName}".`
+                    : 'Review the extracted structure before importing.'}
                 </p>
               </div>
             </div>
@@ -95,48 +228,269 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
         </div>
 
         {/* Content */}
-        <div className="p-6 flex-1 flex flex-col overflow-y-auto">
-          <label htmlFor="topic-syllabus-text" className="sr-only">
-            Syllabus Content
-          </label>
-          <textarea
-            id="topic-syllabus-text"
-            value={syllabusText}
-            onChange={(e) => setSyllabusText(e.target.value)}
-            placeholder={`Paste the syllabus content for ${topicName} here...`}
-            className="w-full flex-1 bg-[rgb(var(--color-bg-surface-inset))]/50 border border-[rgb(var(--color-border-secondary))] rounded-md p-3 text-sm focus:ring-teal-500 focus:border-teal-500 resize-none"
-            autoFocus
-          />
+        <div className="flex-1 flex flex-col overflow-y-auto">
+          {step === 'input' && (
+            <div className="p-6 space-y-4 animate-fade-in">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label
+                    htmlFor="topic-import-target"
+                    className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] mb-2"
+                  >
+                    Destination
+                  </label>
+                  <select
+                    id="topic-import-target"
+                    value={targetTopicId}
+                    onChange={(e) => setTargetTopicId(e.target.value)}
+                    className="w-full bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
+                  >
+                    <option value="__new__">➕ New topic…</option>
+                    {topics.length > 0 && (
+                      <optgroup label="Add into existing topic">
+                        {topics.map((t) => (
+                          <option key={t.id} value={t.id}>
+                            {t.name}
+                          </option>
+                        ))}
+                      </optgroup>
+                    )}
+                  </select>
+                </div>
+                {!targetTopic && (
+                  <div>
+                    <label
+                      htmlFor="topic-import-name"
+                      className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] mb-2"
+                    >
+                      Topic Name
+                    </label>
+                    <input
+                      id="topic-import-name"
+                      type="text"
+                      value={newTopicName}
+                      onChange={(e) => setNewTopicName(e.target.value)}
+                      placeholder="Leave blank to detect from the text"
+                      className="w-full bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] mb-2">
+                  <span className="flex items-center gap-2">
+                    <Globe className="w-4 h-4 text-[rgb(var(--color-accent))]" />
+                    Fetch from NESA Syllabus URL (Experimental)
+                  </span>
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={urlInput}
+                    onChange={(e) => setUrlInput(e.target.value)}
+                    placeholder="https://educationstandards.nsw.edu.au/..."
+                    className="flex-grow bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-lg py-2 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
+                  />
+                  <button
+                    onClick={handleFetchFromUrl}
+                    disabled={isBusy || !urlInput.trim()}
+                    className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition disabled:opacity-50 flex items-center gap-2"
+                  >
+                    <Sparkles className={`w-4 h-4 ${isFetchingUrl ? 'animate-spin' : ''}`} />
+                    {isFetchingUrl ? 'Fetching...' : 'Fetch Content'}
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="topic-syllabus-text"
+                  className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] mb-2"
+                >
+                  Syllabus Content
+                </label>
+                <textarea
+                  id="topic-syllabus-text"
+                  value={syllabusText}
+                  onChange={(e) => setSyllabusText(e.target.value)}
+                  rows={10}
+                  placeholder="Paste the topic's sub-topics and dot points here (fetched URL content also lands here)..."
+                  className="w-full bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-4 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] resize-y leading-relaxed"
+                />
+              </div>
+            </div>
+          )}
+
+          {step === 'preview' && (
+            <div className="p-6 animate-fade-in">
+              {!targetTopic && (
+                <div className="mb-4">
+                  <label
+                    htmlFor="topic-confirm-name"
+                    className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] mb-2"
+                  >
+                    Topic Name
+                  </label>
+                  <input
+                    id="topic-confirm-name"
+                    type="text"
+                    value={newTopicName || detectedName}
+                    onChange={(e) => setNewTopicName(e.target.value)}
+                    className="w-full bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-lg py-2.5 px-4 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
+                  />
+                  {nameCollision && (
+                    <p className="mt-2 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
+                      <GitMerge className="w-3.5 h-3.5 text-[rgb(var(--color-accent))]" />"
+                      {nameCollision.name}" already exists — the content will be merged into it.
+                    </p>
+                  )}
+                </div>
+              )}
+
+              <div className="bg-[rgb(var(--color-bg-surface-inset))]/30 border border-[rgb(var(--color-border-secondary))] rounded-xl overflow-hidden">
+                <div className="px-4 py-2 bg-[rgb(var(--color-bg-surface-elevated))] border-b border-[rgb(var(--color-border-secondary))] text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] flex justify-between items-center">
+                  <span>
+                    {targetTopic ? `Add into "${targetTopic.name}"` : `New topic structure`}
+                  </span>
+                  <span>
+                    {stats.subTopics} sub-topics · {stats.dotPoints} dot points
+                  </span>
+                </div>
+                {previewSubTopics.length === 0 ? (
+                  <div className="p-8 text-center text-sm text-[rgb(var(--color-text-muted))]">
+                    Nothing left to import. Go back to adjust the content and re-analyse.
+                  </div>
+                ) : (
+                  <div className="p-2 max-h-[45vh] overflow-y-auto custom-scrollbar">
+                    {previewSubTopics.map((st, stIdx) => {
+                      const isExpanded = expandedIdx.has(stIdx);
+                      return (
+                        <div key={stIdx} className="mb-1 last:mb-0">
+                          <div className="group flex items-center gap-1 rounded-lg hover:bg-[rgb(var(--color-bg-surface-light))] transition">
+                            <button
+                              onClick={() => toggleExpand(stIdx)}
+                              className="flex-1 flex items-center gap-2 p-2 text-left min-w-0"
+                            >
+                              <ChevronRight
+                                className={`w-4 h-4 text-[rgb(var(--color-text-muted))] transition-transform flex-shrink-0 ${isExpanded ? 'rotate-90' : ''}`}
+                              />
+                              <span className="font-semibold text-sm text-[rgb(var(--color-text-primary))] truncate">
+                                {st.name}
+                              </span>
+                              <span className="ml-auto flex-shrink-0 text-xs text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-inset))] px-2 py-0.5 rounded-full">
+                                {st.dotPoints.length} dot points
+                              </span>
+                            </button>
+                            <button
+                              onClick={() => removeSubTopic(stIdx)}
+                              className="p-1.5 mr-1 rounded text-transparent group-hover:text-red-400 hover:bg-red-500/20 transition-colors flex-shrink-0"
+                              title="Remove sub-topic"
+                              aria-label={`Remove sub-topic ${st.name}`}
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                          {isExpanded && st.dotPoints.length > 0 && (
+                            <div className="ml-7 pl-2 border-l border-[rgb(var(--color-border-secondary))]/30 mt-1 space-y-0.5">
+                              {st.dotPoints.map((dp, dpIdx) => (
+                                <div
+                                  key={dpIdx}
+                                  className="group/dp flex items-start gap-2 px-2 py-0.5 text-xs text-[rgb(var(--color-text-dim))] rounded hover:bg-[rgb(var(--color-bg-surface-light))]/40"
+                                >
+                                  <span className="mt-1.5 w-1 h-1 rounded-full bg-gray-600 flex-shrink-0"></span>
+                                  <span className="flex-1">{dp}</span>
+                                  <button
+                                    onClick={() => removeDotPoint(stIdx, dpIdx)}
+                                    className="p-0.5 rounded text-transparent group-hover/dp:text-red-400 hover:bg-red-500/20 transition-colors flex-shrink-0"
+                                    title="Remove dot point"
+                                    aria-label="Remove dot point"
+                                  >
+                                    <X className="w-3 h-3" />
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              {notice && (
+                <div className="mt-4 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 text-xs text-blue-200 flex items-start gap-2">
+                  <Sparkles className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                  <p>{notice}</p>
+                </div>
+              )}
+            </div>
+          )}
+
           {error && (
-            <p className="text-red-400 mt-4 text-sm bg-red-900/30 p-3 rounded-md">{error}</p>
+            <p className="mx-6 mb-4 text-red-400 text-sm bg-red-900/30 p-3 rounded-md animate-fade-in">
+              {error}
+            </p>
           )}
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-5 border-t border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-inset))]/30 flex items-center justify-end">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={handleClose}
-              className="py-2.5 px-5 rounded-lg font-medium text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleImport}
-              disabled={isLoading || !syllabusText.trim()}
-              className="py-2.5 px-5 rounded-lg font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))/0.4] active:scale-[0.98] transition-all duration-200 disabled:opacity-50 flex items-center gap-2"
-            >
-              <Sparkles className="w-4 h-4" />
-              Import
-            </button>
-          </div>
+        <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 border-t border-[rgb(var(--color-border-secondary))] flex justify-end space-x-3 flex-shrink-0">
+          {step === 'input' ? (
+            <>
+              <button
+                onClick={handleClose}
+                className="py-2.5 px-5 rounded-lg font-medium text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-light))] hover:bg-[rgb(var(--color-border-secondary))] transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleAnalyse}
+                disabled={isBusy}
+                className="py-2.5 px-5 rounded-lg text-white font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg transition disabled:opacity-50 flex items-center gap-2"
+              >
+                <Sparkles className="w-4 h-4" />
+                {isAnalysing ? 'Analysing...' : 'Analyse Syllabus'}
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={() => setStep('input')}
+                className="py-2.5 px-5 rounded-lg font-medium text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-light))] hover:bg-[rgb(var(--color-border-secondary))] transition"
+              >
+                Back to Edit
+              </button>
+              <button
+                onClick={handleConfirmImport}
+                disabled={previewSubTopics.length === 0 || !effectiveTopicName.trim()}
+                className="py-2.5 px-5 rounded-lg text-white font-semibold bg-gradient-to-r from-green-600 to-green-500 hover:shadow-lg transition flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {targetTopic || nameCollision ? (
+                  <GitMerge className="w-4 h-4" />
+                ) : (
+                  <UploadCloud className="w-4 h-4" />
+                )}
+                {targetTopic
+                  ? `Add to ${targetTopic.name}`
+                  : nameCollision
+                    ? `Merge into ${nameCollision.name}`
+                    : 'Create Topic'}
+              </button>
+            </>
+          )}
         </div>
 
         {/* Loading Overlay */}
-        {isLoading && (
-          <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-sm flex items-center justify-center">
+        {isBusy && (
+          <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-sm flex items-center justify-center z-10">
             <div className="w-full max-w-md mx-6">
-              <LoadingSpinner message="Analysing syllabus text..." />
+              <LoadingSpinner
+                message={
+                  isFetchingUrl ? 'Visiting URL & extracting content...' : 'Analysing syllabus...'
+                }
+              />
             </div>
           </div>
         )}

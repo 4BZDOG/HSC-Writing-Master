@@ -7,7 +7,6 @@ import {
   CommandTermInfo,
   SampleAnswer,
   EvaluationResult,
-  SubTopic,
   QualityCheckResult,
   PromptVerb,
   Topic,
@@ -58,7 +57,7 @@ import { resolveTarget } from './aiConfig';
 // Gemini until an admin switches engines (see services/aiConfig.ts).
 const aiTarget = (role: 'basic' | 'reasoning') => resolveTarget(role);
 
-// ... (keep existing functions like refineManualPrompt, generateNewPrompt, generateSampleAnswer, parseOutcomesFromText, parseSyllabusStructure, fetchSyllabusContentFromUrl, generateDotPointsForSubTopic, generateSubTopicsAndDotPoints, generateRubricForPrompt, explainOutcomeInContext) ...
+// ... (keep existing functions like refineManualPrompt, generateNewPrompt, generateSampleAnswer, parseOutcomesFromText, parseSyllabusStructure, fetchSyllabusContentFromUrl, generateDotPointsForSubTopic, generateRubricForPrompt, explainOutcomeInContext) ...
 
 export const evaluateAnswer = async (
   answer: string,
@@ -995,47 +994,6 @@ export const generateDotPointsForSubTopic = async (
   };
   const response = await generateContentWithRetry(request);
   return safeJsonParse<string[]>(response.text || '') || [];
-};
-
-export const generateSubTopicsAndDotPoints = async (
-  courseName: string,
-  topicName: string,
-  content: string
-): Promise<SubTopic[]> => {
-  const request = {
-    ...aiTarget('reasoning'),
-    contents: {
-      parts: [
-        {
-          text: `Based on the following content, generate sub-topics and dot points for ${courseName} - ${topicName}.
-                       Content: "${content.slice(0, 10000)}"
-                       
-                       Return JSON array of SubTopic objects (name, dotPoints array of strings).`,
-        },
-      ],
-    },
-    config: {
-      responseMimeType: 'application/json',
-    },
-  };
-
-  const response = await generateContentWithRetry(request);
-  const rawData = safeJsonParse<unknown>(response.text || '');
-
-  // Reuse the same defensive normaliser as the full import so dot points that
-  // arrive as objects (or fields renamed/missing) don't corrupt the result.
-  const normalised = normalizeSyllabusStructure([{ name: topicName, subTopics: rawData }]);
-  const subTopics = normalised[0]?.subTopics || [];
-
-  return subTopics.map((st) => ({
-    id: generateId('subTopic'),
-    name: st.name,
-    dotPoints: st.dotPoints.map((dp) => ({
-      id: generateId('dp'),
-      description: dp,
-      prompts: [],
-    })),
-  }));
 };
 
 export const generateRubricForPrompt = async (

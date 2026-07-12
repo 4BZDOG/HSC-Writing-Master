@@ -547,7 +547,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <Upload className="w-3.5 h-3.5" />
                 No topics yet.{' '}
                 {canCurate
-                  ? 'Add one, import a topic file, or use Import Syllabus (in the Course row) to build the whole structure from NESA syllabus text.'
+                  ? 'Use From Syllabus to build a topic from pasted NESA text or a syllabus URL, add one manually, or import a topic file.'
                   : 'Ask a teacher or admin to add content for this course.'}
               </p>
             )}
@@ -577,8 +577,8 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       <ActionButton
                         onClick={onAddTopicFromSyllabus}
                         icon={UploadCloud}
-                        title={`Import sub-topics into "${selectedTopic.name}" from syllabus text (AI)`}
-                        label="Import Sub-Topics"
+                        title={`Add sub-topics and dot points into "${selectedTopic.name}" from NESA syllabus text or a URL (AI)`}
+                        label="Add from Syllabus"
                         variant="special"
                         locked={studioLocked}
                       />
@@ -607,6 +607,14 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                         icon={Plus}
                         title="Add Topic"
                         label="Add"
+                      />
+                      <ActionButton
+                        onClick={onAddTopicFromSyllabus}
+                        icon={UploadCloud}
+                        title="Build a new topic from NESA syllabus text or a URL (AI)"
+                        label="From Syllabus"
+                        variant="special"
+                        locked={studioLocked}
                       />
                       <ActionButton
                         onClick={onImportTopic}
