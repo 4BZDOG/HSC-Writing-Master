@@ -37,9 +37,20 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
     return counts;
   }, [prompt.sampleAnswers]);
 
+  const coveredBands = useMemo(() => {
+    const bands = new Set<number>();
+    (prompt.sampleAnswers || []).forEach((sa) => bands.add(sa.band));
+    return bands;
+  }, [prompt.sampleAnswers]);
+
   const tierInfo = useMemo(
     () => TIER_GROUPS.find((t) => t.tier === commandTermInfo.tier),
     [commandTermInfo.tier]
+  );
+
+  const maxBand = useMemo(
+    () => getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier),
+    [prompt.totalMarks, commandTermInfo.tier]
   );
 
   const markOptions = useMemo(() => {
@@ -55,17 +66,38 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
     });
   }, [prompt.totalMarks, existingCounts, commandTermInfo.tier]);
 
+  const suggestedMark = useMemo(() => {
+    // No samples yet → start with full marks (natural first exemplar)
+    if (coveredBands.size === 0) return prompt.totalMarks;
+    // Find the highest missing band and suggest the highest mark that maps to it
+    for (let b = maxBand; b >= 1; b--) {
+      if (!coveredBands.has(b)) {
+        const options = markOptions.filter((o) => o.band === b && o.mark > 0);
+        if (options.length > 0) return options[options.length - 1].mark;
+      }
+    }
+    return prompt.totalMarks;
+  }, [maxBand, coveredBands, markOptions, prompt.totalMarks]);
+
+  const missingBands = useMemo(() => {
+    const missing: number[] = [];
+    for (let b = 1; b <= maxBand; b++) {
+      if (!coveredBands.has(b)) missing.push(b);
+    }
+    return missing;
+  }, [maxBand, coveredBands]);
+
   // Reset on every open: this modal stays mounted while the user navigates
   // between prompts, so a mark selected for a previous (larger) question
   // would otherwise silently persist — and could even exceed the current
-  // question's totalMarks.
+  // question's totalMarks. Default to the suggested mark (targeting a missing band).
   useEffect(() => {
     if (isOpen) {
-      setSelectedMark(prompt.totalMarks);
+      setSelectedMark(suggestedMark);
       setIsLoading(false);
       setError(null);
     }
-  }, [isOpen, prompt.id, prompt.totalMarks]);
+  }, [isOpen, prompt.id, prompt.totalMarks, suggestedMark]);
 
   const handleGenerate = async () => {
     if (selectedMark === null) return;
@@ -176,6 +208,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                 const optionBandConfig = getBandConfig(option.band);
                 const isSelected = selectedMark === option.mark;
                 const hasAnswers = option.count > 0;
+                const isSuggested = option.mark === suggestedMark && !isSelected && !hasAnswers;
 
                 return (
                   <button
@@ -188,7 +221,9 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                                     ${
                                       isSelected
                                         ? `${optionBandConfig.bg} ${optionBandConfig.border} border-2 light:border-2 ${optionBandConfig.glow} transform scale-110 z-10 shadow-lg`
-                                        : `bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-[rgb(var(--color-border-secondary))]/50 light:border-slate-200 opacity-70 light:opacity-100 hover:opacity-100 hover:scale-[1.05] hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 light:shadow-sm`
+                                        : isSuggested
+                                          ? `bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-2 border-dashed ${optionBandConfig.border} opacity-90 hover:opacity-100 hover:scale-[1.05]`
+                                          : `bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-[rgb(var(--color-border-secondary))]/50 light:border-slate-200 opacity-70 light:opacity-100 hover:opacity-100 hover:scale-[1.05] hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 light:shadow-sm`
                                     }
                                 `}
                   >
@@ -218,6 +253,36 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                 );
               })}
             </div>
+
+            {/* Band coverage indicator */}
+            {prompt.sampleAnswers && prompt.sampleAnswers.length > 0 && (
+              <div className="mt-4 flex items-center gap-2 flex-wrap">
+                <span className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider">
+                  Coverage:
+                </span>
+                {Array.from({ length: maxBand }, (_, i) => i + 1).map((b) => {
+                  const bConfig = getBandConfig(b);
+                  const covered = coveredBands.has(b);
+                  return (
+                    <span
+                      key={b}
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                        covered
+                          ? `${bConfig.bg} ${bConfig.text} ${bConfig.border} border`
+                          : 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-400 border border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300'
+                      }`}
+                    >
+                      {covered && <Check className="w-2.5 h-2.5" />}B{b}
+                    </span>
+                  );
+                })}
+                {missingBands.length > 0 && (
+                  <span className="text-[10px] text-amber-400 light:text-amber-600 font-medium ml-1">
+                    {missingBands.length} band{missingBands.length > 1 ? 's' : ''} missing
+                  </span>
+                )}
+              </div>
+            )}
           </div>
 
           <div

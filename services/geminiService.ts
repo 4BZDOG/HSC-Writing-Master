@@ -631,7 +631,7 @@ export const refineManualPrompt = async (
                     2. **Refine the Question**: Rewrite the raw input to use formal academic language and your selected verb.
                     3. **Create a Scenario**: Write a realistic, industry-relevant scenario (Who/What/Why) that gives context to the question.
                     4. **Select Outcomes**: Pick 1-3 outcome codes from the provided list that best match the question.
-                    5. **Marking Criteria**: Create a descending marking rubric (e.g., "[Mark] marks: [Descriptor]").
+                    5. **Marking Criteria**: Create a descending marking rubric. Each line MUST start with the mark value followed by "marks:" — e.g. "${targetMarks} marks: [full marks criteria]\n${Math.ceil(targetMarks * 0.6)} marks: [mid criteria]\n${Math.ceil(targetMarks * 0.3)} marks: [low criteria]". One line per mark tier, no bullets or paragraphs.
                     6. **Keywords**: Extract 5-10 key technical terms.
 
                     **OUTPUT:**
@@ -733,7 +733,7 @@ export const generateNewPrompt = async (
                     - question (The exam question text)
                     - verb (One of the allowed verbs)
                     ${scenarioLine}
-                    - markingCriteria (A detailed marking rubric text)
+                    - markingCriteria (A marking rubric in DESCENDING mark order. Each line MUST start with the mark value followed by a colon, e.g. "${marks} marks: [criteria for full marks]\\n${Math.ceil(marks * 0.6)} marks: [criteria]\\n${Math.ceil(marks * 0.3)} marks: [criteria]". Use one line per mark tier. NEVER use bullet points or paragraphs — only "N marks: description" lines.)
                     - keywords (List of 5-10 technical terms)
                     - linkedOutcomes (Array of outcome codes relevant to this question from: ${JSON.stringify(outcomes.map((o) => o.code))})
                 `,
@@ -954,13 +954,62 @@ export const parseSyllabusStructure = async (content: string): Promise<SyllabusP
 };
 
 export const fetchSyllabusContentFromUrl = async (url: string): Promise<string> => {
+  // Fetch the page server-side via the /api/fetch-url endpoint (avoids the
+  // separate googleSearch grounding quota that was exhausting on free tier).
+  // Falls back to a client-side AI-grounded fetch if the endpoint is unavailable.
+  const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
+  const fetchEndpoint = `${API_BASE_URL}/api/fetch-url`;
+
+  try {
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    // Attach auth token if available (same pattern as aiCore's buildProxyHeaders)
+    try {
+      const { supabase, isSupabaseConfigured } = await import('./supabaseClient');
+      if (isSupabaseConfigured && supabase) {
+        const { data } = await supabase.auth.getSession();
+        const token = data.session?.access_token;
+        if (token) headers.Authorization = `Bearer ${token}`;
+      }
+    } catch {
+      /* no auth available */
+    }
+
+    const res = await fetch(fetchEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ url }),
+    });
+
+    if (res.ok) {
+      const json = await res.json();
+      if (json.text && json.text.length > 50) {
+        return json.text;
+      }
+    }
+
+    // If the endpoint returned an error with a message, surface it
+    if (!res.ok && res.status !== 404 && res.status !== 405) {
+      const errBody = await res.json().catch(() => null);
+      const msg = errBody?.error;
+      if (msg) throw new Error(msg);
+    }
+  } catch (e: unknown) {
+    // If the error is from the endpoint (not a network failure to reach it),
+    // surface it directly — don't fall through to the AI path.
+    if (e instanceof Error && !e.message.includes('fetch')) {
+      throw e;
+    }
+    // Network failure reaching the endpoint → fall through to AI grounding
+  }
+
+  // Fallback: use Gemini's googleSearch grounding (may hit quota on free tier)
   const request = {
     ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
-          text: `Retrieve the main syllabus content from this URL: ${url}. 
-                       Focus on course outcomes, topics, and dot points. 
+          text: `Retrieve the main syllabus content from this URL: ${url}.
+                       Focus on course outcomes, topics, and dot points.
                        Ignore navigation menus and footers.
                        Return the content as plain text.`,
         },
@@ -1084,7 +1133,15 @@ export const generateRubricForPrompt = async (
                        - Format in descending order (highest marks first).
                        - For full marks, criteria MUST demand the full cognitive depth of '${prompt.verb}' (e.g. if Analyse, must require 'relationship/implication', not just 'description').
                        - Lower marks should reflect a drop in cognitive skill (e.g. 'Describes' instead of 'Explains').
-                       - Return PLAIN TEXT in format: "X marks: Criteria..."`,
+
+                       **FORMAT (strict):**
+                       Each line must be: "N marks: [criteria description]"
+                       Example for a 5-mark question:
+                       5 marks: Provides a comprehensive analysis...
+                       3-4 marks: Describes the key features...
+                       1-2 marks: Identifies basic elements...
+
+                       Do NOT use bullet points, headings, or paragraphs. One line per mark tier only.`,
         },
       ],
     },
