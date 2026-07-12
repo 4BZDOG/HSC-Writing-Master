@@ -7,7 +7,6 @@ import {
   CommandTermInfo,
   SampleAnswer,
   EvaluationResult,
-  SubTopic,
   QualityCheckResult,
   PromptVerb,
   Topic,
@@ -58,7 +57,7 @@ import { resolveTarget } from './aiConfig';
 // Gemini until an admin switches engines (see services/aiConfig.ts).
 const aiTarget = (role: 'basic' | 'reasoning') => resolveTarget(role);
 
-// ... (keep existing functions like refineManualPrompt, generateNewPrompt, generateSampleAnswer, parseOutcomesFromText, parseSyllabusStructure, fetchSyllabusContentFromUrl, generateDotPointsForSubTopic, generateSubTopicsAndDotPoints, generateRubricForPrompt, explainOutcomeInContext) ...
+// ... (keep existing functions like refineManualPrompt, generateNewPrompt, generateSampleAnswer, parseOutcomesFromText, parseSyllabusStructure, fetchSyllabusContentFromUrl, generateDotPointsForSubTopic, generateRubricForPrompt, explainOutcomeInContext) ...
 
 export const evaluateAnswer = async (
   answer: string,
@@ -285,12 +284,70 @@ export const improveAnswer = async (
   return response.text || '';
 };
 
+/**
+ * The syllabus content a question sits under. Threaded into keyword generation
+ * so "terms to use in your answer" are grounded in the actual NESA dot point
+ * (and its named examples), not invented from the question wording alone.
+ */
+export interface SyllabusKeywordContext {
+  topicName?: string;
+  subTopicName?: string;
+  /** The verbatim syllabus dot point the question was written for. */
+  dotPoint?: string;
+  /** Named examples / focus areas parsed straight from the dot point. */
+  focusAreas?: string[];
+  /** Descriptions of the outcomes linked to this question. */
+  outcomeTexts?: string[];
+}
+
+/** Formats the syllabus context into an instruction block (empty when absent). */
+const buildSyllabusContextBlock = (ctx?: SyllabusKeywordContext): string => {
+  if (!ctx) return '';
+  const lines: string[] = [];
+  if (ctx.topicName) lines.push(`Topic: ${ctx.topicName}`);
+  if (ctx.subTopicName) lines.push(`Sub-topic: ${ctx.subTopicName}`);
+  if (ctx.dotPoint) lines.push(`Syllabus dot point (the authoritative source): "${ctx.dotPoint}"`);
+  if (ctx.focusAreas && ctx.focusAreas.length)
+    lines.push(`Named examples / focus areas in the syllabus: ${ctx.focusAreas.join(', ')}`);
+  if (ctx.outcomeTexts && ctx.outcomeTexts.length)
+    lines.push(`Relevant syllabus outcomes: ${ctx.outcomeTexts.join(' | ')}`);
+  return lines.length ? `\nSyllabus context:\n${lines.join('\n')}\n` : '';
+};
+
+/**
+ * The shared instruction for "terms to use in your answer". Grounds the terms
+ * in the supplied syllabus context so a marker could trace every term back to
+ * the dot point — this is what keeps them from drifting off-syllabus.
+ */
+const keywordInstruction = (targetBand: number, hasContext: boolean): string =>
+  `"keywords" are the specific syllabus terminology a Band ${targetBand} response must use — the technical terms, named concepts, processes, structures and examples an examiner expects to see.
+- 6-10 concise noun-phrases (1-3 words), lower-case unless a proper noun or established acronym (e.g. "DNA", "ATP").
+- Subject-specific ONLY: real syllabus concepts/processes/structures/named examples. Exclude generic academic words ("process", "factor", "important", "example"), the command verb and instruction words. No duplicates or near-duplicates.
+${
+  hasContext
+    ? '- GROUND every term in the syllabus context above: prefer the exact terminology of the dot point and its named examples, and only add closely-related terms a marker could trace to this syllabus content. Do NOT invent terms that are merely plausible for the question wording.'
+    : '- Draw only on well-established syllabus terminology for this question; avoid terms that are merely plausible-sounding.'
+}`;
+
+/**
+ * Merges the syllabus's own named examples (from the dot point) to the FRONT of
+ * an AI-generated keyword list, then sanitises. Guarantees the terminology the
+ * syllabus explicitly names is always present and prioritised, regardless of
+ * what the model returns — the core fix for off-syllabus keywords.
+ */
+const groundKeywords = (
+  aiKeywords: string[],
+  ctx: SyllabusKeywordContext | undefined,
+  verb: string
+): string[] => sanitiseKeywords([...(ctx?.focusAreas || []), ...aiKeywords], verb);
+
 export const enrichPromptDetails = async (
   prompt: Prompt,
-  context: { name: string; outcomes: CourseOutcome[] }
+  context: { name: string; outcomes: CourseOutcome[]; syllabus?: SyllabusKeywordContext }
 ): Promise<{ scenario: string; keywords: string[]; linkedOutcomes: string[] }> => {
   const termInfo = getCommandTermInfo(prompt.verb);
   const targetBand = getTargetBand(prompt.totalMarks, termInfo.tier);
+  const contextBlock = buildSyllabusContextBlock(context.syllabus);
   const request = {
     ...aiTarget('basic'),
     contents: {
@@ -301,8 +358,8 @@ Course: ${context.name}
 Question: "${prompt.question}"
 Command verb: ${termInfo.term} (${prompt.totalMarks} ${prompt.totalMarks === 1 ? 'mark' : 'marks'}, targets Band ${targetBand})
 Available Outcomes: ${JSON.stringify(context.outcomes.map((o) => o.code))}
-
-"keywords" must be the specific syllabus terminology a Band ${targetBand} response is expected to use: 6-10 concise technical noun-phrases (1-3 words), subject-specific concepts/processes/structures/named examples only. Exclude generic words ("process", "factor", "important"), the command verb, and instruction words. No duplicates.
+${contextBlock}
+${keywordInstruction(targetBand, !!contextBlock)}
 
 Return JSON: { "scenario": string, "keywords": string[], "linkedOutcomes": string[] }`,
         },
@@ -318,7 +375,7 @@ Return JSON: { "scenario": string, "keywords": string[], "linkedOutcomes": strin
   if (!data) return { scenario: '', keywords: [], linkedOutcomes: [] };
   return {
     scenario: data.scenario || '',
-    keywords: sanitiseKeywords(data.keywords || [], termInfo.term),
+    keywords: groundKeywords(data.keywords || [], context.syllabus, termInfo.term),
     linkedOutcomes: Array.isArray(data.linkedOutcomes) ? data.linkedOutcomes : [],
   };
 };
@@ -340,24 +397,23 @@ export const generateScenarioForPrompt = async (prompt: Prompt): Promise<string>
 
 export const generateKeywordsForPrompt = async (
   prompt: Prompt,
-  termInfo: CommandTermInfo
+  termInfo: CommandTermInfo,
+  syllabus?: SyllabusKeywordContext
 ): Promise<string[]> => {
   const targetBand = getTargetBand(prompt.totalMarks, termInfo.tier);
+  const contextBlock = buildSyllabusContextBlock(syllabus);
   const request = {
     ...aiTarget('basic'),
     contents: {
       parts: [
         {
-          text: `You are an experienced NSW HSC marker. List the specific syllabus terminology a Band ${targetBand} response to the question below must use — the technical terms, named concepts, processes, structures or examples an examiner expects to see. These are the "must-include" terms that distinguish a high-quality answer from a generic one.
+          text: `You are an experienced NSW HSC marker. List the specific syllabus terminology a Band ${targetBand} response to the question below must use — the "must-include" terms that distinguish a high-quality answer from a generic one.
 
 Question: "${prompt.question}"
 Command verb: ${termInfo.term} (${prompt.totalMarks} ${prompt.totalMarks === 1 ? 'mark' : 'marks'})
-
-Rules:
-- Return 6-10 terms, ordered most to least important.
-- Each term is a concise noun or noun-phrase (1-3 words), lower-case unless it is a proper noun or an established acronym (e.g. "DNA", "ATP").
-- Subject-specific ONLY: real syllabus concepts/processes/structures/named examples. Do NOT include generic academic words ("process", "factor", "important", "example"), the command verb, or instruction words.
-- No duplicates or near-duplicates (don't list both a term and its plural).
+${contextBlock}
+${keywordInstruction(targetBand, !!contextBlock)}
+- Order the terms most to least important.
 
 Return a JSON array of strings only.`,
         },
@@ -369,7 +425,7 @@ Return a JSON array of strings only.`,
   };
   const response = await generateContentWithRetry(request);
   const raw = safeJsonParse<string[]>(response.text || '') || [];
-  return sanitiseKeywords(raw, termInfo.term);
+  return groundKeywords(raw, syllabus, termInfo.term);
 };
 
 /**
@@ -646,9 +702,17 @@ export const generateNewPrompt = async (
   outcomes: CourseOutcome[],
   scenarioType?: string,
   skillFocus?: string,
-  targetBand?: number
+  targetBand?: number,
+  includeScenario: boolean = true
 ): Promise<Prompt> => {
   const verbList = verbs.map((v) => v.term).join(', ');
+
+  // Some questions are direct knowledge/skill questions that read better without
+  // a manufactured context. When scenarios are off, we tell the model not to
+  // write one, drop it from the required schema fields, and force it empty.
+  const scenarioLine = includeScenario
+    ? `- scenario (A realistic context paragraph)`
+    : `- Do NOT write a scenario. This is a direct question with no case-study context. Return scenario as an empty string.`;
 
   const request = {
     ...aiTarget('reasoning'),
@@ -660,14 +724,15 @@ export const generateNewPrompt = async (
                     Syllabus Dot Point: "${dotPoint}"
                     Target Marks: ${marks}
                     Allowed Verbs: ${verbList}
-                    ${scenarioType ? `Scenario Type: ${scenarioType}` : ''}
+                    ${includeScenario && scenarioType ? `Scenario Type: ${scenarioType}` : ''}
                     ${skillFocus ? `Skill Focus: ${skillFocus}` : ''}
                     ${targetBand ? `Target Band Difficulty: ${targetBand}` : ''}
-                    
+                    ${includeScenario ? '' : 'This is a scenario-free question: the stem must stand on its own without any case study, business, or narrative framing.'}
+
                     Generate a JSON object with:
                     - question (The exam question text)
                     - verb (One of the allowed verbs)
-                    - scenario (A realistic context paragraph)
+                    ${scenarioLine}
                     - markingCriteria (A detailed marking rubric text)
                     - keywords (List of 5-10 technical terms)
                     - linkedOutcomes (Array of outcome codes relevant to this question from: ${JSON.stringify(outcomes.map((o) => o.code))})
@@ -688,7 +753,9 @@ export const generateNewPrompt = async (
           keywords: { type: Type.ARRAY, items: { type: Type.STRING } },
           linkedOutcomes: { type: Type.ARRAY, items: { type: Type.STRING } },
         },
-        required: ['question', 'verb', 'scenario', 'markingCriteria', 'linkedOutcomes'],
+        required: includeScenario
+          ? ['question', 'verb', 'scenario', 'markingCriteria', 'linkedOutcomes']
+          : ['question', 'verb', 'markingCriteria', 'linkedOutcomes'],
       },
     },
   };
@@ -704,7 +771,8 @@ export const generateNewPrompt = async (
     question: data.question,
     totalMarks: marks,
     verb: data.verb as PromptVerb,
-    scenario: data.scenario,
+    // Respect the caller's choice even if the model returns a stray scenario.
+    scenario: includeScenario ? data.scenario : '',
     markingCriteria: data.markingCriteria,
     keywords: data.keywords || [],
     linkedOutcomes: data.linkedOutcomes || [],
@@ -995,47 +1063,6 @@ export const generateDotPointsForSubTopic = async (
   };
   const response = await generateContentWithRetry(request);
   return safeJsonParse<string[]>(response.text || '') || [];
-};
-
-export const generateSubTopicsAndDotPoints = async (
-  courseName: string,
-  topicName: string,
-  content: string
-): Promise<SubTopic[]> => {
-  const request = {
-    ...aiTarget('reasoning'),
-    contents: {
-      parts: [
-        {
-          text: `Based on the following content, generate sub-topics and dot points for ${courseName} - ${topicName}.
-                       Content: "${content.slice(0, 10000)}"
-                       
-                       Return JSON array of SubTopic objects (name, dotPoints array of strings).`,
-        },
-      ],
-    },
-    config: {
-      responseMimeType: 'application/json',
-    },
-  };
-
-  const response = await generateContentWithRetry(request);
-  const rawData = safeJsonParse<unknown>(response.text || '');
-
-  // Reuse the same defensive normaliser as the full import so dot points that
-  // arrive as objects (or fields renamed/missing) don't corrupt the result.
-  const normalised = normalizeSyllabusStructure([{ name: topicName, subTopics: rawData }]);
-  const subTopics = normalised[0]?.subTopics || [];
-
-  return subTopics.map((st) => ({
-    id: generateId('subTopic'),
-    name: st.name,
-    dotPoints: st.dotPoints.map((dp) => ({
-      id: generateId('dp'),
-      description: dp,
-      prompts: [],
-    })),
-  }));
 };
 
 export const generateRubricForPrompt = async (

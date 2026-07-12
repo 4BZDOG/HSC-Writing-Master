@@ -64,6 +64,18 @@ describe('PromptGeneratorModal band/tier alignment', () => {
     expect(screen.queryByText(/targeting/i)?.textContent).toContain(`Band ${tier2.maxBand}`);
   });
 
+  it('raises the target band to follow the tier when the user aims higher', () => {
+    // "describe" → Tier 2 (opens targeting Band 2). Bumping the tier up must
+    // raise the target, not leave it stuck at the lower band.
+    renderModal('describe the features of a relational database');
+    const tier2 = TIER_GROUPS.find((t) => t.tier === 2)!;
+    expect(screen.queryByText(/targeting/i)?.textContent).toContain(`Band ${tier2.maxBand}`);
+
+    const tier6 = TIER_GROUPS.find((t) => t.tier === 6)!;
+    fireEvent.click(screen.getByText(tier6.title));
+    expect(screen.queryByText(/targeting/i)?.textContent).toContain(`Band ${tier6.maxBand}`);
+  });
+
   it('flags an unusual marks/verb pairing without blocking generation', () => {
     renderModal('define the key components of a network');
     // Tier 1 verbs typically carry 1–2 marks; drag to 15.
@@ -75,6 +87,105 @@ describe('PromptGeneratorModal band/tier alignment', () => {
     // Generate stays enabled — advisory, not a hard stop.
     const generate = screen.getByRole('button', { name: /generate/i });
     expect((generate as HTMLButtonElement).disabled).toBe(false);
+  });
+});
+
+describe('PromptGeneratorModal syllabus-demand difficulty signal', () => {
+  const renderModal = (dotPoint: string) =>
+    render(
+      <PromptGeneratorModal
+        isOpen={true}
+        onClose={vi.fn()}
+        onPromptGenerated={vi.fn()}
+        courseName="Test Course"
+        topicName="Test Topic"
+        dotPoint={dotPoint}
+        marks={5}
+        courseOutcomes={[]}
+      />
+    );
+
+  it('surfaces the syllabus command verb and its tier as the demanded level', () => {
+    // "describe" → Tier 2.
+    renderModal('describe the features of a relational database');
+    expect(screen.getAllByText(/Syllabus demands/i).length).toBeGreaterThan(0);
+    expect(screen.getByText(/DESCRIBE · Tier 2/)).toBeTruthy();
+  });
+
+  it('flags a question that is harder than the syllabus asks', () => {
+    // Dot point verb "describe" = Tier 2; default selected tier opens on it, so
+    // switch up to Tier 6 to over-shoot.
+    renderModal('describe the features of a relational database');
+    const tier6 = TIER_GROUPS.find((t) => t.tier === 6)!;
+    fireEvent.click(screen.getByText(tier6.title));
+    expect(screen.getByText(/Harder than the syllabus asks/i)).toBeTruthy();
+  });
+
+  it('flags a question that is easier than the syllabus asks', () => {
+    // "evaluate" → Tier 6; drop to Tier 2 to under-shoot.
+    renderModal('evaluate the impact of cloud computing');
+    const tier2 = TIER_GROUPS.find((t) => t.tier === 2)!;
+    fireEvent.click(screen.getByText(tier2.title));
+    expect(screen.getByText(/Easier than the syllabus asks/i)).toBeTruthy();
+  });
+
+  it('confirms when the question is on the syllabus level', () => {
+    renderModal('describe the features of a relational database');
+    // Opens on the syllabus tier (Tier 2) by default.
+    expect(screen.getByText(/On the syllabus level/i)).toBeTruthy();
+  });
+});
+
+describe('PromptGeneratorModal focus refinements', () => {
+  it('surfaces the selected focus items so the generator can target them', () => {
+    render(
+      <PromptGeneratorModal
+        isOpen={true}
+        onClose={vi.fn()}
+        onPromptGenerated={vi.fn()}
+        courseName="Test Course"
+        topicName="Test Topic"
+        dotPoint="describe the features of a relational database"
+        marks={5}
+        courseOutcomes={[]}
+        selectedFocusItems={['primary keys', 'normalisation']}
+      />
+    );
+
+    // The active-focus banner and one pill per item must render.
+    expect(screen.getByText(/Active Focus: 2 Refinements/i)).toBeTruthy();
+    expect(screen.getByText('primary keys')).toBeTruthy();
+    expect(screen.getByText('normalisation')).toBeTruthy();
+  });
+});
+
+describe('PromptGeneratorModal scenario toggle', () => {
+  const renderModal = () =>
+    render(
+      <PromptGeneratorModal
+        isOpen={true}
+        onClose={vi.fn()}
+        onPromptGenerated={vi.fn()}
+        courseName="Test Course"
+        topicName="Test Topic"
+        dotPoint="describe the features of a relational database"
+        marks={5}
+        courseOutcomes={[]}
+      />
+    );
+
+  it('shows scenario options by default and hides them when toggled off', () => {
+    renderModal();
+    // Scenario type options are visible by default.
+    expect(screen.getByText('Time Pressure')).toBeTruthy();
+
+    // Toggle the switch (labelled "Scenario On" initially).
+    fireEvent.click(screen.getByRole('switch'));
+
+    // The type grid is replaced by the direct-question explainer.
+    expect(screen.queryByText('Time Pressure')).toBeNull();
+    expect(screen.getByText(/direct question/i)).toBeTruthy();
+    expect(screen.getByText('No Scenario')).toBeTruthy();
   });
 });
 

@@ -27,6 +27,10 @@ import {
   Info,
   ListFilter,
   Loader2,
+  TrendingUp,
+  TrendingDown,
+  CircleCheck,
+  GraduationCap,
 } from 'lucide-react';
 import {
   getBandConfig,
@@ -92,8 +96,29 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
 
   const [scenarioType, setScenarioType] = useState<string>('random');
   const [skillFocus, setSkillFocus] = useState<string>('balanced');
+  // Not every question needs a manufactured context — direct knowledge/skill
+  // questions read better without one.
+  const [includeScenario, setIncludeScenario] = useState<boolean>(true);
 
   const syllabusVerbInfo = useMemo(() => extractCommandVerb(dotPoint), [dotPoint]);
+
+  // The cognitive level (tier) the syllabus dot point itself demands — the
+  // "scope of knowledge" the syllabus asks for. The question the user builds is
+  // measured against this so over-/under-shooting is obvious.
+  const syllabusTier = syllabusVerbInfo?.tier ?? null;
+  const syllabusTierInfo = useMemo(
+    () => (syllabusTier ? TIER_GROUPS.find((t) => t.tier === syllabusTier) : null),
+    [syllabusTier]
+  );
+
+  // How the chosen question level compares to what the syllabus demands.
+  const difficulty = useMemo(() => {
+    if (!syllabusTier) return null;
+    const delta = selectedTier - syllabusTier;
+    const status: 'match' | 'above' | 'below' =
+      delta === 0 ? 'match' : delta > 0 ? 'above' : 'below';
+    return { status, steps: Math.abs(delta) };
+  }, [selectedTier, syllabusTier]);
 
   useEffect(() => {
     setMounted(true);
@@ -124,6 +149,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
 
       setScenarioType('random');
       setSkillFocus('balanced');
+      setIncludeScenario(true);
       // Default to the highest band this tier can actually reach — asking a
       // Tier-2 'Describe' question for a Band 6 exemplar is structurally
       // impossible under the band model (see getBandForMark / TIER_GROUPS).
@@ -150,11 +176,14 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
   const activeTierInfo = TIER_GROUPS.find((g) => g.tier === selectedTier);
 
   // The verb tier caps the achievable band (a Tier-2 verb tops out at Band 3,
-  // etc.). Clamp the target whenever the tier drops below it so the generator
-  // is never asked for a band the recalibration engine would reject.
+  // etc.). The target band follows the chosen tier: picking a tier defaults the
+  // target to that tier's ceiling, which the user can then aim below. (Snapping
+  // to the ceiling — not just clamping down — stops the target from being stuck
+  // at a lower band when the tier is raised, e.g. Tier 3 → Tier 6 previously
+  // left a "Band 3" target on a Tier-6 question.)
   const tierMaxBand = activeTierInfo?.maxBand ?? 6;
   useEffect(() => {
-    setTargetBand((prev) => Math.min(prev, tierMaxBand));
+    setTargetBand(tierMaxBand);
   }, [tierMaxBand]);
 
   // Advisory (non-blocking): each verb has a typical mark range; flag unusual
@@ -193,9 +222,10 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
         marks,
         verbsToUse,
         courseOutcomes,
-        scenarioType,
+        includeScenario ? scenarioType : undefined,
         skillFocus,
-        targetBand
+        targetBand,
+        includeScenario
       );
       onPromptGenerated(prompt);
       onClose();
@@ -316,6 +346,39 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                 {renderHighlightedSyllabus()}
               </p>
 
+              {/* The scope of knowledge the syllabus itself demands: the dot
+                  point's own command verb and the cognitive tier it sits at.
+                  This is the baseline the generated question is judged against. */}
+              {syllabusVerbInfo && syllabusTierInfo ? (
+                <div className="flex flex-wrap items-center gap-3 pt-1">
+                  <div
+                    className={`inline-flex items-center gap-2.5 px-4 py-2 rounded-xl ${getTierBandConfig(syllabusVerbInfo.tier).bg} ${getTierBandConfig(syllabusVerbInfo.tier).border} border shadow-inner`}
+                  >
+                    <GraduationCap
+                      className={`w-4 h-4 ${getTierBandConfig(syllabusVerbInfo.tier).text}`}
+                    />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                      Syllabus demands
+                    </span>
+                    <span
+                      className={`text-[11px] font-black uppercase tracking-widest ${getTierBandConfig(syllabusVerbInfo.tier).text}`}
+                    >
+                      {syllabusVerbInfo.term} · Tier {syllabusVerbInfo.tier}
+                    </span>
+                  </div>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                    {syllabusTierInfo.title}
+                  </span>
+                </div>
+              ) : (
+                <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white/5 border border-white/10 shadow-inner">
+                  <Info className="w-4 h-4 text-slate-400" />
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                    No command verb detected in this dot point — set the level manually below.
+                  </span>
+                </div>
+              )}
+
               {selectedFocusItems.length > 0 && (
                 <div className="flex flex-wrap gap-2 pt-2">
                   {selectedFocusItems.map((item) => (
@@ -382,13 +445,22 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                 <div className="grid grid-cols-3 gap-3">
                   {TIER_GROUPS.map((tier) => {
                     const isSelected = selectedTier === tier.tier;
+                    const isSyllabusLevel = syllabusTier === tier.tier;
                     const config = getTierScaleConfig(tier.tier);
                     return (
                       <button
                         key={tier.tier}
                         onClick={() => setSelectedTier(tier.tier)}
-                        className={`group relative p-5 rounded-[24px] border text-left transition-all duration-500 ${isSelected ? `${config.bg} ${config.border} shadow-2xl scale-[1.03]` : 'bg-white/[0.03] border-white/5 hover:bg-white/[0.05] hover:border-white/10'}`}
+                        title={
+                          isSyllabusLevel ? 'The level the syllabus dot point asks for' : undefined
+                        }
+                        className={`group relative p-5 rounded-[24px] border text-left transition-all duration-500 ${isSelected ? `${config.bg} ${config.border} shadow-2xl scale-[1.03]` : isSyllabusLevel ? 'bg-white/[0.04] border-emerald-500/30 hover:bg-white/[0.06]' : 'bg-white/[0.03] border-white/5 hover:bg-white/[0.05] hover:border-white/10'}`}
                       >
+                        {isSyllabusLevel && (
+                          <span className="absolute -top-2 left-4 px-2 py-0.5 rounded-full bg-emerald-500 text-white text-[8px] font-black uppercase tracking-widest shadow-lg flex items-center gap-1">
+                            <GraduationCap className="w-2.5 h-2.5" /> Syllabus
+                          </span>
+                        )}
                         <div className="flex justify-between items-start mb-3">
                           <span className="text-2xl transition-transform duration-500 group-hover:scale-125">
                             {tier.emoji}
@@ -411,6 +483,47 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                     );
                   })}
                 </div>
+
+                {/* Too-hard / too-easy signal, measured against the syllabus. */}
+                {difficulty && syllabusTierInfo && (
+                  <div
+                    className={`mt-4 flex items-start gap-3 p-4 rounded-2xl border ${
+                      difficulty.status === 'match'
+                        ? 'bg-emerald-500/10 border-emerald-500/30'
+                        : 'bg-amber-500/10 border-amber-500/30'
+                    }`}
+                  >
+                    <div
+                      className={`p-1.5 rounded-lg shrink-0 ${difficulty.status === 'match' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}`}
+                    >
+                      {difficulty.status === 'match' ? (
+                        <CircleCheck className="w-4 h-4" />
+                      ) : difficulty.status === 'above' ? (
+                        <TrendingUp className="w-4 h-4" />
+                      ) : (
+                        <TrendingDown className="w-4 h-4" />
+                      )}
+                    </div>
+                    <div>
+                      <span
+                        className={`text-[10px] font-black uppercase tracking-[0.2em] block mb-0.5 ${difficulty.status === 'match' ? 'text-emerald-400' : 'text-amber-400'}`}
+                      >
+                        {difficulty.status === 'match'
+                          ? 'On the syllabus level'
+                          : difficulty.status === 'above'
+                            ? `Harder than the syllabus asks · +${difficulty.steps} tier${difficulty.steps > 1 ? 's' : ''}`
+                            : `Easier than the syllabus asks · −${difficulty.steps} tier${difficulty.steps > 1 ? 's' : ''}`}
+                      </span>
+                      <p className="text-[10px] font-medium text-slate-400 leading-relaxed">
+                        {difficulty.status === 'match'
+                          ? `This question matches the "${syllabusVerbInfo?.term}" demand of the syllabus dot point.`
+                          : difficulty.status === 'above'
+                            ? `The dot point only asks students to ${syllabusVerbInfo?.term?.toLowerCase()} (Tier ${syllabusTier}). A Tier ${selectedTier} question demands more than the syllabus requires here.`
+                            : `The dot point asks students to ${syllabusVerbInfo?.term?.toLowerCase()} (Tier ${syllabusTier}). A Tier ${selectedTier} question asks for less than the syllabus requires here.`}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </section>
             </div>
 
@@ -419,34 +532,73 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                 <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 mb-4 block">
                   Scenario Settings
                 </span>
-                <h4 className="text-sm font-bold text-white uppercase tracking-widest flex items-center gap-3 mb-6">
-                  <Briefcase className="w-5 h-5 text-blue-400" /> Scenario Context
-                </h4>
-                <div className="grid grid-cols-2 gap-2 max-h-[140px] overflow-y-auto custom-scrollbar pr-2">
-                  {SCENARIO_TYPES.map((type) => (
-                    <button
-                      key={type.id}
-                      onClick={() => setScenarioType(type.id)}
-                      className={`flex items-center gap-4 p-4 rounded-2xl border transition-all duration-300 ${scenarioType === type.id ? 'bg-blue-500/10 border-blue-500/30 shadow-xl' : 'bg-white/[0.03] border-white/5 hover:bg-white/[0.05]'}`}
+                <div className="flex items-center justify-between gap-3 mb-6">
+                  <h4 className="text-sm font-bold text-white uppercase tracking-widest flex items-center gap-3">
+                    <Briefcase className="w-5 h-5 text-blue-400" /> Scenario Context
+                  </h4>
+                  {/* Scenario is optional — a direct knowledge/skill question can
+                      be generated with no case-study framing. */}
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={includeScenario}
+                    onClick={() => setIncludeScenario((v) => !v)}
+                    className={`flex items-center gap-2.5 pl-3 pr-1.5 py-1.5 rounded-full border transition-all ${includeScenario ? 'bg-blue-500/10 border-blue-500/30 text-blue-300' : 'bg-white/[0.03] border-white/10 text-slate-400'}`}
+                    title={
+                      includeScenario
+                        ? 'Scenario on — a context paragraph will be written'
+                        : 'Scenario off — a direct question with no scenario'
+                    }
+                  >
+                    <span className="text-[9px] font-black uppercase tracking-widest">
+                      {includeScenario ? 'Scenario On' : 'No Scenario'}
+                    </span>
+                    <span
+                      className={`relative w-9 h-5 rounded-full transition-colors ${includeScenario ? 'bg-blue-500' : 'bg-slate-600'}`}
                     >
-                      <div
-                        className={`p-2 rounded-xl flex-shrink-0 transition-colors ${scenarioType === type.id ? 'bg-blue-500 text-white shadow-lg' : 'bg-black/20 text-slate-500'}`}
-                      >
-                        <type.icon className="w-4 h-4" />
-                      </div>
-                      <div className="min-w-0">
-                        <div
-                          className={`text-[10px] font-bold uppercase tracking-widest ${scenarioType === type.id ? 'text-white' : 'text-slate-400'}`}
-                        >
-                          {type.label}
-                        </div>
-                        <div className="text-[8px] font-bold text-slate-600 uppercase tracking-tighter truncate">
-                          {type.desc}
-                        </div>
-                      </div>
-                    </button>
-                  ))}
+                      <span
+                        className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all ${includeScenario ? 'left-[1.15rem]' : 'left-0.5'}`}
+                      />
+                    </span>
+                  </button>
                 </div>
+                {includeScenario ? (
+                  <div className="grid grid-cols-2 gap-2 max-h-[140px] overflow-y-auto custom-scrollbar pr-2">
+                    {SCENARIO_TYPES.map((type) => (
+                      <button
+                        key={type.id}
+                        onClick={() => setScenarioType(type.id)}
+                        className={`flex items-center gap-4 p-4 rounded-2xl border transition-all duration-300 ${scenarioType === type.id ? 'bg-blue-500/10 border-blue-500/30 shadow-xl' : 'bg-white/[0.03] border-white/5 hover:bg-white/[0.05]'}`}
+                      >
+                        <div
+                          className={`p-2 rounded-xl flex-shrink-0 transition-colors ${scenarioType === type.id ? 'bg-blue-500 text-white shadow-lg' : 'bg-black/20 text-slate-500'}`}
+                        >
+                          <type.icon className="w-4 h-4" />
+                        </div>
+                        <div className="min-w-0">
+                          <div
+                            className={`text-[10px] font-bold uppercase tracking-widest ${scenarioType === type.id ? 'text-white' : 'text-slate-400'}`}
+                          >
+                            {type.label}
+                          </div>
+                          <div className="text-[8px] font-bold text-slate-600 uppercase tracking-tighter truncate">
+                            {type.desc}
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-3 p-5 rounded-2xl border border-dashed border-white/10 bg-white/[0.02] text-slate-400">
+                    <Info className="w-4 h-4 shrink-0 text-blue-400" />
+                    <p className="text-[10px] font-medium leading-relaxed">
+                      This question will be generated as a{' '}
+                      <span className="font-bold text-white">direct question</span> with no scenario
+                      — the stem stands on its own. Turn the switch back on to add a context
+                      paragraph.
+                    </p>
+                  </div>
+                )}
               </section>
 
               <section
@@ -599,7 +751,9 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                 messages={[
                   `Focusing on ${selectedFocusItems.length > 0 ? 'specified items' : 'syllabus context'}...`,
                   `Parsing '${selectedSpecificVerb}' cognitive requirements...`,
-                  `Modelling ${scenarioType} constraint set...`,
+                  includeScenario
+                    ? `Modelling ${scenarioType} constraint set...`
+                    : `Framing a direct, scenario-free stem...`,
                   `Synthesising marking rubric...`,
                   `Calibrating Band ${targetBand} sample output...`,
                 ]}

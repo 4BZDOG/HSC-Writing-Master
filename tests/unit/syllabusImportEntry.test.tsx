@@ -3,6 +3,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import PromptSelector from '../../components/PromptSelector';
 import SyllabusImportModal from '../../components/SyllabusImportModal';
+import TopicSyllabusImportModal from '../../components/TopicSyllabusImportModal';
 import type { Course, StatePath, UserRole } from '../../types';
 
 /**
@@ -27,6 +28,7 @@ vi.mock('../../services/entitlements', async (importOriginal) => {
 
 import {
   fetchSyllabusContentFromUrl,
+  parseSyllabusStructure,
   splitSyllabusIntoTopics,
 } from '../../services/geminiService';
 
@@ -91,11 +93,19 @@ describe('Syllabus import entry points (PromptSelector)', () => {
     expect(onImportTopic).toHaveBeenCalledTimes(1);
   });
 
+  it('offers From Syllabus (new topic) when a course is selected but no topic yet', () => {
+    const onAddTopicFromSyllabus = vi.fn();
+    renderSelector('admin', { courseId: 'c1' }, { onAddTopicFromSyllabus });
+
+    fireEvent.click(screen.getByTitle(/Build a new topic from NESA syllabus text/));
+    expect(onAddTopicFromSyllabus).toHaveBeenCalledTimes(1);
+  });
+
   it('offers the topic-level syllabus import once a topic is selected', () => {
     const onAddTopicFromSyllabus = vi.fn();
     renderSelector('admin', { courseId: 'c1', topicId: 't1' }, { onAddTopicFromSyllabus });
 
-    fireEvent.click(screen.getByTitle(/Import sub-topics into "Programming for the Web"/));
+    fireEvent.click(screen.getByTitle(/into "Programming for the Web"/));
     expect(onAddTopicFromSyllabus).toHaveBeenCalledTimes(1);
   });
 });
@@ -145,5 +155,107 @@ describe('SyllabusImportModal input validation', () => {
     });
     fireEvent.click(screen.getByRole('button', { name: /analyse syllabus/i }));
     expect(screen.getByText(/enter syllabus content for at least one topic/i)).toBeTruthy();
+  });
+});
+
+describe('TopicSyllabusImportModal (add a topic to an existing course)', () => {
+  beforeEach(() => vi.clearAllMocks());
+
+  const renderModal = (overrides: Partial<React.ComponentProps<typeof TopicSyllabusImportModal>> = {}) =>
+    render(
+      <TopicSyllabusImportModal
+        isOpen={true}
+        onClose={vi.fn()}
+        courseName="Software Engineering"
+        topics={[{ id: 't1', name: 'Programming for the Web' }]}
+        initialTopicId={null}
+        onImport={vi.fn()}
+        {...overrides}
+      />
+    );
+
+  it('requires syllabus content before analysing', () => {
+    renderModal();
+    fireEvent.click(screen.getByRole('button', { name: /analyse syllabus/i }));
+    expect(screen.getByText(/paste syllabus content/i)).toBeTruthy();
+    expect(parseSyllabusStructure).not.toHaveBeenCalled();
+  });
+
+  it('rejects an invalid URL without spending an AI call', () => {
+    renderModal();
+    fireEvent.change(screen.getByPlaceholderText(/educationstandards/), {
+      target: { value: 'not a url' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /fetch content/i }));
+    expect(screen.getByText(/does not look like a valid web address/i)).toBeTruthy();
+    expect(fetchSyllabusContentFromUrl).not.toHaveBeenCalled();
+  });
+
+  it('creates a new topic with the AI-detected name when the name is left blank', async () => {
+    vi.mocked(parseSyllabusStructure).mockResolvedValue([
+      {
+        name: 'Secure Software Architecture',
+        subTopics: [
+          { name: 'Designing software', dotPoints: ['dp one', 'dp two'] },
+          { name: 'Developing secure code', dotPoints: ['dp three'] },
+        ],
+      },
+    ]);
+    const onImport = vi.fn();
+    renderModal({ onImport });
+
+    fireEvent.change(screen.getByLabelText('Syllabus Content'), {
+      target: { value: 'Outcomes and content for secure software architecture...' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /analyse syllabus/i }));
+
+    // Preview: detected name shown, counts correct.
+    expect(await screen.findByDisplayValue('Secure Software Architecture')).toBeTruthy();
+    expect(screen.getByText('2 sub-topics · 3 dot points')).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('button', { name: /create topic/i }));
+    expect(onImport).toHaveBeenCalledWith({
+      targetTopicId: null,
+      topicName: 'Secure Software Architecture',
+      subTopics: [
+        { name: 'Designing software', dotPoints: ['dp one', 'dp two'] },
+        { name: 'Developing secure code', dotPoints: ['dp three'] },
+      ],
+    });
+  });
+
+  it('preselects the destination and reports it when launched from a selected topic', async () => {
+    vi.mocked(parseSyllabusStructure).mockResolvedValue([
+      { name: 'Anything', subTopics: [{ name: 'ST', dotPoints: ['dp'] }] },
+    ]);
+    const onImport = vi.fn();
+    renderModal({ onImport, initialTopicId: 't1' });
+
+    expect(
+      (screen.getByLabelText('Destination') as HTMLSelectElement).value
+    ).toBe('t1');
+
+    fireEvent.change(screen.getByLabelText('Syllabus Content'), {
+      target: { value: 'some syllabus text' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /analyse syllabus/i }));
+
+    const confirm = await screen.findByRole('button', {
+      name: /add to programming for the web/i,
+    });
+    fireEvent.click(confirm);
+    expect(onImport).toHaveBeenCalledWith(
+      expect.objectContaining({ targetTopicId: 't1', topicName: 'Programming for the Web' })
+    );
+  });
+
+  it('surfaces an error when no sub-topics can be extracted', async () => {
+    vi.mocked(parseSyllabusStructure).mockResolvedValue([]);
+    renderModal();
+    fireEvent.change(screen.getByLabelText('Syllabus Content'), {
+      target: { value: 'garbled text' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /analyse syllabus/i }));
+    expect(await screen.findByText(/no sub-topics could be extracted/i)).toBeTruthy();
   });
 });

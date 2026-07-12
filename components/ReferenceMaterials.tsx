@@ -77,6 +77,9 @@ interface ReferenceMaterialsProps {
   userAnswer?: string;
   onAddWord?: (word: string) => void;
   courseOutcomes?: CourseOutcome[];
+  /** The syllabus dot point text this question sits under, used to flag which
+   *  keywords come straight from the syllabus. */
+  dotPointText?: string;
 }
 
 const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
@@ -109,6 +112,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
       <AccordionSection title="Syllabus Terms" icon={<Sparkles />} band={4} defaultOpen={true}>
         <KeywordEditor
           {...props}
+          syllabusText={props.dotPointText}
           onRegenerate={props.onRegenerateKeywords}
           isRegenerating={props.isRegeneratingKeywords}
           onSuggest={props.onSuggestKeywords}

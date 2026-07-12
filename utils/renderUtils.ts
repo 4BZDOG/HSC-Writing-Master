@@ -7,6 +7,27 @@ export const escapeRegExp = (string: string): string => {
   return string.replace(new RegExp('[.*+?^${}()|[\\]\\\\]', 'g'), '\\$&');
 };
 
+/**
+ * British/American spelling swaps for a term (analyse ↔ analyze,
+ * optimisation ↔ optimization). Returns the term plus any spelling twin.
+ */
+const spellingSwaps = (t: string): string[] => {
+  const out = [t];
+  const zed = t.replace(/([iy])s(e[sd]?|es|ing|ations?)/gi, '$1z$2');
+  if (zed !== t) out.push(zed);
+  const essed = t.replace(/([iy])z(e[sd]?|es|ing|ations?)/gi, '$1s$2');
+  if (essed !== t) out.push(essed);
+  return out;
+};
+
+/** Hyphen/space equivalence: client-side ↔ client side. */
+const hyphenSwaps = (t: string): string[] => {
+  const out = [t];
+  if (t.includes('-')) out.push(t.replace(/-/g, ' '));
+  if (/\w \w/.test(t)) out.push(t.replace(/ /g, '-'));
+  return out;
+};
+
 export const getKeywordVariants = (keyword: string): string[] => {
   if (typeof keyword !== 'string') return [];
   const trimmed = keyword.trim();
@@ -18,7 +39,7 @@ export const getKeywordVariants = (keyword: string): string[] => {
   // Pattern: "Term (Abbreviation)" -> "Term", "Abbreviation"
   const parenMatch = trimmed.match(new RegExp('^(.+?)\\s*\\((.+?)\\)$'));
 
-  const processTerm = (t: string) => {
+  const addInflections = (t: string) => {
     if (t.length < 3) return;
     // Skip if looks like an acronym (all caps) unless it's short
     if (t === t.toUpperCase() && t.length > 1 && t.length < 5) return;
@@ -45,18 +66,39 @@ export const getKeywordVariants = (keyword: string): string[] => {
       variants.add(t.slice(0, -1)); // Cats -> Cat
     }
 
-    // Verb forms / Gerunds
+    // Verb forms / Gerunds — both directions, so the keyword "test" lights up
+    // "testing"/"tested" in an answer, and "Testing" still matches "test".
     if (lower.endsWith('ing')) {
       variants.add(t.slice(0, -3)); // Testing -> Test
       variants.add(t.slice(0, -3) + 'e'); // Computing -> Compute
+    } else if (lower.endsWith('ed')) {
+      variants.add(t.slice(0, -2)); // Tested -> Test
+      variants.add(t.slice(0, -1)); // Encoded -> Encode
+    } else if (lower.endsWith('e') && !lower.endsWith('ee')) {
+      variants.add(t.slice(0, -1) + 'ing'); // Compute -> Computing
+      variants.add(t + 'd'); // Compute -> Computed
+    } else {
+      variants.add(t + 'ing'); // Test -> Testing
+      variants.add(t + 'ed'); // Test -> Tested
     }
   };
 
-  processTerm(trimmed);
+  // Expand each base term (and any parenthesised abbreviation pair) through
+  // hyphen/space and spelling equivalences, then inflect every base form.
+  const bases = new Set<string>();
+  const collectBases = (t: string) =>
+    hyphenSwaps(t).forEach((h) => spellingSwaps(h).forEach((s) => bases.add(s)));
+
+  collectBases(trimmed);
   if (parenMatch) {
-    processTerm(parenMatch[1].trim());
-    processTerm(parenMatch[2].trim());
+    collectBases(parenMatch[1].trim());
+    collectBases(parenMatch[2].trim());
   }
+
+  bases.forEach((b) => {
+    variants.add(b);
+    addInflections(b);
+  });
 
   return Array.from(variants);
 };
@@ -278,6 +320,27 @@ export const cleanMarkdown = (text: string): string => {
 };
 
 /**
+ * The single source of truth for how a matched syllabus keyword / command verb
+ * looks, everywhere it appears. Two contexts:
+ *
+ * - `…_HIGHLIGHT_CLASS` — static prose (question prompts, sample answers,
+ *   marking guides, feedback): a soft tinted wash + weight so terms read as
+ *   deliberate emphasis in both themes and in print.
+ * - `…_OVERLAY_CLASS` — the live writing overlay, which paints colour on a
+ *   mirror div stacked pixel-perfectly over a transparent textarea. These MUST
+ *   stay layout-neutral (no padding/margins/font-weight changes) or the
+ *   overlay drifts out of alignment with the real text.
+ */
+export const KEYWORD_HIGHLIGHT_CLASS =
+  'font-semibold text-emerald-400 light:text-emerald-800 bg-emerald-500/10 light:bg-emerald-600/10 rounded-[0.3em] px-[0.15em] box-decoration-clone print:bg-transparent print:text-emerald-800';
+export const VERB_HIGHLIGHT_CLASS =
+  'font-black text-[rgb(var(--color-accent))] underline decoration-2 underline-offset-[3px] decoration-[rgb(var(--color-accent))]/40';
+export const KEYWORD_OVERLAY_CLASS =
+  'bg-emerald-500/20 light:bg-emerald-500/25 text-emerald-400 light:text-emerald-900 rounded-[0.2em] box-decoration-clone';
+export const VERB_OVERLAY_CLASS =
+  'bg-[rgb(var(--color-accent))]/20 text-[rgb(var(--color-accent))] rounded-[0.2em] box-decoration-clone';
+
+/**
  * Helper to create a regex for keywords/verbs
  */
 const createKeywordRegex = (words: string[]) => {
@@ -285,11 +348,32 @@ const createKeywordRegex = (words: string[]) => {
 
   const allVariants = new Set<string>();
   words.forEach((w) => getKeywordVariants(w).forEach((v) => allVariants.add(v)));
+  if (allVariants.size === 0) return null;
 
   const sortedWords = Array.from(allVariants).sort((a, b) => b.length - a.length);
-  // Match word boundaries to avoid partial matches
-  // Use new RegExp to be safe
-  return new RegExp(`\\b(${sortedWords.map(escapeRegExp).join('|')})\\b`, 'gi');
+  // Word boundaries prevent partial matches, but `\b` only works against word
+  // characters — a term that starts/ends with a symbol (C++, .NET) would never
+  // match, so the boundary is applied per-edge only where the edge is a word
+  // character. The whole alternation stays inside ONE capturing group: the
+  // renderers split on this regex and rely on odd indices being the matches.
+  const alternatives = sortedWords.map((v) => {
+    const lead = /^\w/.test(v) ? '\\b' : '';
+    const tail = /\w$/.test(v) ? '\\b' : '';
+    return lead + escapeRegExp(v) + tail;
+  });
+  return new RegExp(`(${alternatives.join('|')})`, 'gi');
+};
+
+/**
+ * Does this text use the keyword (in any recognised variant)? The SAME
+ * matcher that drives highlighting, exported so coverage meters (right-panel
+ * progress, metrics dashboard, keyword chips) can never disagree with what
+ * the student sees highlighted.
+ */
+export const textContainsKeyword = (text: string, keyword: string): boolean => {
+  if (!text || !keyword) return false;
+  const regex = createKeywordRegex([keyword]);
+  return regex ? regex.test(text) : false;
 };
 
 // Regex for inline styles - Use new RegExp for safety
@@ -406,7 +490,7 @@ const processInlineFormatting = (
             if (i % 2 === 1) {
               return React.createElement(
                 'span',
-                { key: `v-${i}`, className: 'font-black text-[rgb(var(--color-accent))]' },
+                { key: `v-${i}`, className: VERB_HIGHLIGHT_CLASS },
                 part
               );
             }
@@ -424,7 +508,7 @@ const processInlineFormatting = (
             if (i % 2 === 1) {
               return React.createElement(
                 'span',
-                { key: `k-${i}`, className: 'font-bold text-emerald-400 light:text-emerald-700' },
+                { key: `k-${i}`, className: KEYWORD_HIGHLIGHT_CLASS },
                 part
               );
             }
@@ -524,13 +608,11 @@ export const renderEditorHighlights = (
           // and would silently drop every other occurrence — the flickering
           // highlight bug. Index parity is the reliable, stateless check.
           if (i % 2 === 1) {
-            // Removed padding px-0.5 to prevent horizontal drift/ghosting
+            // Layout-neutral overlay class (no padding) so the mirror div
+            // can't drift out of alignment with the textarea underneath.
             return React.createElement(
               'span',
-              {
-                key: `v-${i}`,
-                className: 'bg-[rgb(var(--color-accent))]/20 text-[rgb(var(--color-accent))]',
-              },
+              { key: `v-${i}`, className: VERB_OVERLAY_CLASS },
               part
             );
           }
@@ -546,10 +628,10 @@ export const renderEditorHighlights = (
         return parts.map((part, i) => {
           // Odd indices are the matched keywords (see verb branch above).
           if (i % 2 === 1) {
-            // Removed padding px-0.5 to prevent horizontal drift/ghosting
+            // Layout-neutral overlay class (see verb branch above).
             return React.createElement(
               'span',
-              { key: `k-${i}`, className: 'bg-emerald-500/20 text-emerald-400' },
+              { key: `k-${i}`, className: KEYWORD_OVERLAY_CLASS },
               part
             );
           }

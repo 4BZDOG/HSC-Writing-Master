@@ -18,7 +18,8 @@ import {
 import * as gemini from '../services/geminiService';
 import { AICache } from '../services/aiCache';
 import { persistResponse, saveResponseFeedback } from '../services/responseService';
-import { findAndUpdateItem } from '../utils/stateUtils';
+import { findAndUpdateItem, findSelectionContext } from '../utils/stateUtils';
+import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
 import {
   getCommandTermsForMarks,
   getBandForMark,
@@ -309,6 +310,25 @@ export const useGemini = ({
     setEnrichError(null);
   }, [currentPrompt?.id]);
 
+  // The syllabus content the selected question sits under — the dot point and
+  // its named examples, sub-topic, topic and linked-outcome text — so keyword
+  // generation is grounded in the syllabus rather than the question wording.
+  const buildSyllabusContext = useCallback((): gemini.SyllabusKeywordContext | undefined => {
+    if (!currentCourse) return undefined;
+    const { topic, subTopic, dotPoint } = findSelectionContext(currentCourse, statePath);
+    const outcomeTexts = (currentPrompt?.linkedOutcomes || [])
+      .map((code) => currentCourse.outcomes.find((o) => o.code === code))
+      .filter((o): o is CourseOutcome => !!o)
+      .map((o) => `${o.code}: ${o.description}`);
+    return {
+      topicName: topic?.name,
+      subTopicName: subTopic?.name,
+      dotPoint: dotPoint?.description,
+      focusAreas: dotPoint ? parseSubItemsFromDescription(dotPoint.description) : [],
+      outcomeTexts,
+    };
+  }, [currentCourse, statePath, currentPrompt?.linkedOutcomes]);
+
   useEffect(() => {
     const promptId = currentPrompt?.id;
     if (!currentPrompt || !currentCourse || !promptId) return;
@@ -337,6 +357,7 @@ export const useGemini = ({
         const result = await gemini.enrichPromptDetails(currentPrompt, {
           name: currentCourse.name,
           outcomes: currentCourse.outcomes,
+          syllabus: buildSyllabusContext(),
         });
 
         if (result && !aborted && isMounted.current) {
@@ -372,7 +393,14 @@ export const useGemini = ({
     return () => {
       aborted = true;
     };
-  }, [currentPrompt?.id, currentCourse?.id, updateCourses, handleApiError, statePath]);
+  }, [
+    currentPrompt?.id,
+    currentCourse?.id,
+    updateCourses,
+    handleApiError,
+    statePath,
+    buildSyllabusContext,
+  ]);
 
   const handleGenerateScenario = useCallback(async () => {
     if (!currentPrompt) return;
@@ -403,7 +431,11 @@ export const useGemini = ({
     setRegenerateKeywordsError(null);
     try {
       const { primaryTerm: commandTermInfo } = getCommandTermsForMarks(currentPrompt.totalMarks);
-      const keywords = await gemini.generateKeywordsForPrompt(currentPrompt, commandTermInfo);
+      const keywords = await gemini.generateKeywordsForPrompt(
+        currentPrompt,
+        commandTermInfo,
+        buildSyllabusContext()
+      );
       if (keywords) {
         await AICache.set(`keywords:${currentPrompt.id}`, keywords);
         updateCourses((draft) =>
@@ -419,7 +451,7 @@ export const useGemini = ({
     } finally {
       setIsRegeneratingKeywords(false);
     }
-  }, [currentPrompt, statePath, updateCourses, showToast, handleApiError]);
+  }, [currentPrompt, statePath, updateCourses, showToast, handleApiError, buildSyllabusContext]);
 
   const handleSuggestKeywords = useCallback(async () => {
     if (!currentPrompt) return;
@@ -427,7 +459,11 @@ export const useGemini = ({
     setSuggestKeywordsError(null);
     try {
       const { primaryTerm: commandTermInfo } = getCommandTermsForMarks(currentPrompt.totalMarks);
-      const generated = await gemini.generateKeywordsForPrompt(currentPrompt, commandTermInfo);
+      const generated = await gemini.generateKeywordsForPrompt(
+        currentPrompt,
+        commandTermInfo,
+        buildSyllabusContext()
+      );
       if (generated) {
         updateCourses((draft) =>
           findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
@@ -443,7 +479,7 @@ export const useGemini = ({
     } finally {
       setIsSuggestingKeywords(false);
     }
-  }, [currentPrompt, statePath, updateCourses, showToast, handleApiError]);
+  }, [currentPrompt, statePath, updateCourses, showToast, handleApiError, buildSyllabusContext]);
 
   const generateDotPointsForSubTopic = useCallback(
     async (courseName: string, topicName: string, subTopicName: string) => {

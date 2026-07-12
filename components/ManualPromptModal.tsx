@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { CourseOutcome, Prompt } from '../types';
 import { refineManualPrompt } from '../services/geminiService';
-import { getTierBandConfig } from '../utils/renderUtils';
+import { getTierBandConfig, renderFormattedText } from '../utils/renderUtils';
 import { getCommandTermsForMarks, getCommandTermInfo, TIER_GROUPS } from '../data/commandTerms';
 import { X, Sparkles, PenTool, Save, Wand2, Target } from 'lucide-react';
 import LoadingIndicator from './LoadingIndicator';
@@ -256,7 +256,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     Polished Question
                   </label>
                   <p className="text-xl font-serif font-medium text-white light:text-slate-900 leading-relaxed">
-                    {result.question}
+                    {renderFormattedText(result.question, result.keywords, result.verb)}
                   </p>
                   <div className="flex items-center gap-4 mt-4">
                     <div className="px-3 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 text-[10px] font-black uppercase tracking-widest border border-indigo-500/20">

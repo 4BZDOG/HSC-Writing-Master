@@ -10,8 +10,7 @@ import {
   getBandConfig,
   renderFormattedText,
   stripHtmlTags,
-  escapeRegExp,
-  getKeywordVariants,
+  textContainsKeyword,
   BandConfig,
 } from '../utils/renderUtils';
 import {
@@ -227,12 +226,9 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
     [userAnswer]
   );
   const { keywordsUsedCount } = useMemo(() => {
-    const used = (prompt.keywords || []).filter((kw) => {
-      const variants = getKeywordVariants(kw);
-      return variants.some((v) =>
-        new RegExp(`\\b${escapeRegExp(v)}\\b`, 'i').test(userAnswer.toLowerCase())
-      );
-    });
+    // Shares the highlighter's matcher so this count always agrees with the
+    // terms shown highlighted in the response.
+    const used = (prompt.keywords || []).filter((kw) => textContainsKeyword(userAnswer, kw));
     return { keywordsUsedCount: used.length };
   }, [userAnswer, prompt.keywords]);
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Course, StatePath, SubTopic, Topic, User } from '../types';
+import { Course, StatePath, Topic, User } from '../types';
 import { Draft } from 'immer';
 import CourseCreatorModal from './CourseCreatorModal';
 import TopicCreatorModal from './TopicCreatorModal';
@@ -18,8 +18,10 @@ import UserProfileModal from './UserProfileModal';
 import DatabaseDashboard from './admin/DatabaseDashboard';
 import ManualPromptModal from './ManualPromptModal';
 import ManifestImportModal from './ManifestImportModal';
-import { regenerateTopicIds } from '../utils/dataManagerUtils';
+import { regenerateTopicIds, mergeTopicContents } from '../utils/dataManagerUtils';
 import { findAndUpdateItem } from '../utils/stateUtils';
+import { generateId } from '../utils/idUtils';
+import type { TopicSyllabusImportPayload } from './TopicSyllabusImportModal';
 
 interface AppModalsProps {
   activeModals: Set<string>;
@@ -135,6 +137,7 @@ const AppModals: React.FC<AppModalsProps> = ({
         dotPoint={currentDotPoint?.description || ''}
         marks={7}
         courseOutcomes={currentCourse?.outcomes || []}
+        selectedFocusItems={statePath.selectedSubItems || []}
       />
 
       <ManualPromptModal
@@ -328,40 +331,77 @@ const AppModals: React.FC<AppModalsProps> = ({
         />
       )}
 
-      {currentTopic && (
+      {currentCourse && (
         <TopicSyllabusImportModal
           isOpen={isModalOpen('topicSyllabusImport')}
           onClose={() => closeModal('topicSyllabusImport')}
-          courseName={currentCourse?.name || ''}
-          topicName={currentTopic.name}
-          onImport={(newSubTopics: SubTopic[]) => {
+          courseName={currentCourse.name}
+          topics={currentCourse.topics.map((t: Topic) => ({ id: t.id, name: t.name }))}
+          initialTopicId={currentTopic?.id ?? null}
+          onImport={(payload: TopicSyllabusImportPayload) => {
+            const importedTopic: Topic = {
+              id: generateId('topic'),
+              name: payload.topicName,
+              subTopics: payload.subTopics.map((st) => ({
+                id: generateId('subTopic'),
+                name: st.name,
+                dotPoints: st.dotPoints.map((dp) => ({
+                  id: generateId('dp'),
+                  description: dp,
+                  prompts: [],
+                })),
+              })),
+            };
+
+            let resultTopicId = importedTopic.id;
+            let mergedIntoName = '';
             syllabusHandlers.updateCourses((draft: Draft<Course[]>) => {
-              const course = draft.find((c) => c.id === currentCourse?.id);
+              const course = draft.find((c) => c.id === currentCourse.id);
               if (!course) return;
-              const topic = course.topics.find((t) => t.id === currentTopic?.id);
-              if (topic) {
-                topic.subTopics.push(...newSubTopics);
+              // An explicit destination topic, or an existing topic whose name
+              // matches the new one — merge rather than create a duplicate.
+              const target = payload.targetTopicId
+                ? course.topics.find((t) => t.id === payload.targetTopicId)
+                : course.topics.find(
+                    (t) => t.name.trim().toLowerCase() === payload.topicName.trim().toLowerCase()
+                  );
+              if (target) {
+                const merged = mergeTopicContents(target, {
+                  ...importedTopic,
+                  id: target.id,
+                  name: target.name,
+                });
+                const idx = course.topics.findIndex((t) => t.id === target.id);
+                course.topics[idx] = merged;
+                resultTopicId = target.id;
+                mergedIntoName = target.name;
+              } else {
+                course.topics.push(importedTopic);
               }
             });
 
-            const subTopicCount = newSubTopics.length;
-            const dotPointCount = newSubTopics.reduce(
-              (acc, st) => acc + (st.dotPoints?.length || 0),
+            const subTopicCount = payload.subTopics.length;
+            const dotPointCount = payload.subTopics.reduce(
+              (acc, st) => acc + st.dotPoints.length,
               0
             );
             showToast(
-              `Imported ${subTopicCount} sub-topics and ${dotPointCount} dot points for "${currentTopic.name}".`,
+              mergedIntoName
+                ? `Added ${subTopicCount} sub-topics and ${dotPointCount} dot points to "${mergedIntoName}".`
+                : `Created "${payload.topicName}" with ${subTopicCount} sub-topics and ${dotPointCount} dot points.`,
               'success'
             );
 
-            if (newSubTopics.length > 0) {
-              setStatePath({
-                ...statePath,
-                subTopicId: newSubTopics[0].id,
-                dotPointId: undefined,
-                promptId: undefined,
-              });
+            if (!mergedIntoName) {
+              setNewlyAddedIds((prev) => new Set(prev).add(resultTopicId));
             }
+            setStatePath({
+              ...statePath,
+              topicId: resultTopicId,
+              subTopicId: undefined,
+              dotPointId: undefined,
+              promptId: undefined,
+            });
           }}
         />
       )}

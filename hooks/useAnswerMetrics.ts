@@ -1,35 +1,15 @@
 import { useMemo } from 'react';
-import { getKeywordVariants, escapeRegExp } from '../utils/renderUtils';
+import { textContainsKeyword } from '../utils/renderUtils';
 
 export const useAnswerMetrics = (text: string, keywords: string[] | undefined) => {
   return useMemo(() => {
     const cleanText = text || '';
     const wordCount = cleanText.trim().split(/\s+/).filter(Boolean).length;
 
-    // Keyword Analysis
+    // Keyword Analysis — shares the highlighter's matcher so these counts
+    // always agree with the terms shown highlighted in the text.
     const validKeywords = (keywords || []).filter((kw) => kw && kw.trim());
-    let foundCount = 0;
-
-    if (validKeywords.length > 0) {
-      const textLower = cleanText.toLowerCase();
-      const foundSet = new Set<string>();
-
-      validKeywords.forEach((kw) => {
-        const variants = getKeywordVariants(kw);
-        const isFound = variants.some((v) => {
-          try {
-            return new RegExp(`\\b${escapeRegExp(v)}\\b`, 'i').test(textLower);
-          } catch {
-            return textLower.includes(v.toLowerCase());
-          }
-        });
-
-        if (isFound) {
-          foundSet.add(kw);
-        }
-      });
-      foundCount = foundSet.size;
-    }
+    const foundCount = validKeywords.filter((kw) => textContainsKeyword(cleanText, kw)).length;
 
     const percentage =
       validKeywords.length > 0 ? Math.round((foundCount / validKeywords.length) * 100) : 0;
