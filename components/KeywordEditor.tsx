@@ -3,7 +3,7 @@ import { Prompt, UserRole } from '../types';
 import { canCurateContent } from '../utils/permissions';
 import { AlertCircle, Sparkles, RefreshCw, Plus, X, Check } from 'lucide-react';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
-import { getBandConfig, getKeywordVariants, escapeRegExp } from '../utils/renderUtils';
+import { getBandConfig, textContainsKeyword } from '../utils/renderUtils';
 
 interface KeywordEditorProps {
   prompt: Prompt;
@@ -70,19 +70,10 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
   };
 
   const usageMap = useMemo(() => {
+    // Shares the highlighter's matcher, so a chip ticks exactly when the term
+    // lights up in the writing area — never one without the other.
     const map = new Map<string, boolean>();
-    const textLower = userAnswer.toLowerCase();
-    keywords.forEach((kw) => {
-      const variants = getKeywordVariants(kw);
-      const isUsed = variants.some((v) => {
-        try {
-          return new RegExp(`\\b${escapeRegExp(v)}\\b`, 'i').test(textLower);
-        } catch {
-          return false;
-        }
-      });
-      map.set(kw, isUsed);
-    });
+    keywords.forEach((kw) => map.set(kw, textContainsKeyword(userAnswer, kw)));
     return map;
   }, [userAnswer, keywords]);
 

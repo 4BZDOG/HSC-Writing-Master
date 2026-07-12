@@ -8,7 +8,7 @@ import EvaluationResultModal from './EvaluationResultModal';
 import EvaluationProgressBar from './EvaluationProgressBar';
 import { Loader2, Settings, AlertTriangle, Sparkles } from 'lucide-react';
 import { getCommandTermInfo, getTargetBand, BAND_METRICS } from '../data/commandTerms';
-import { getBandConfig, getKeywordVariants, escapeRegExp } from '../utils/renderUtils';
+import { getBandConfig, textContainsKeyword } from '../utils/renderUtils';
 import { isCurriculumRemote } from '../services/curriculumService';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 
@@ -114,12 +114,9 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     const keywords = currentPrompt.keywords || [];
     let keyProg = 0;
     if (keywords.length > 0) {
-      const used = keywords.filter((kw) => {
-        const variants = getKeywordVariants(kw);
-        return variants.some((v) =>
-          new RegExp(`\\b${escapeRegExp(v)}\\b`, 'i').test(debouncedUserAnswer.toLowerCase())
-        );
-      });
+      // Shares the highlighter's matcher, so this meter can never say a term
+      // is missing while the editor overlay shows it lit up (or vice versa).
+      const used = keywords.filter((kw) => textContainsKeyword(debouncedUserAnswer, kw));
       keyProg = used.length / keywords.length;
     } else {
       keyProg = Math.min(1, wordProg);

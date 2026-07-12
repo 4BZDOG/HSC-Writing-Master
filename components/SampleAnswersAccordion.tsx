@@ -357,7 +357,7 @@ const CarouselAccordionItem: React.FC<{
                         Feedback
                       </p>
                       <p className="text-xs text-amber-800 dark:text-amber-200/80 leading-relaxed">
-                        {currentSample.feedback}
+                        {renderFormattedText(currentSample.feedback, prompt.keywords, prompt.verb)}
                       </p>
                     </div>
                   </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Prompt, WritingMode } from '../types';
 import { BAND_METRICS, getCommandTermInfo, getBandForMark } from '../data/commandTerms';
-import { escapeRegExp, getBandConfig, getKeywordVariants, BandConfig } from '../utils/renderUtils';
+import { escapeRegExp, getBandConfig, textContainsKeyword, BandConfig } from '../utils/renderUtils';
 import { analyzeText, buildWritingInsights, InsightTone } from '../utils/writingAnalysis';
 import {
   ChevronDown,
@@ -180,12 +180,9 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
 
     const keywordStats = useMemo(() => {
       const keywords = prompt.keywords || [];
-      const used = keywords.filter((kw) => {
-        const variants = getKeywordVariants(kw);
-        return variants.some((v) =>
-          new RegExp(`\\b${escapeRegExp(v)}\\b`, 'i').test(userAnswer.toLowerCase())
-        );
-      });
+      // Shares the highlighter's matcher, so the coverage score always agrees
+      // with what the student sees highlighted in the writing area.
+      const used = keywords.filter((kw) => textContainsKeyword(userAnswer, kw));
       return {
         used,
         missed: keywords.filter((kw) => !used.includes(kw)),
