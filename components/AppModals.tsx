@@ -135,7 +135,7 @@ const AppModals: React.FC<AppModalsProps> = ({
         topicName={currentTopic?.name || ''}
         subTopicName={currentSubTopic?.name || ''}
         dotPoint={currentDotPoint?.description || ''}
-        marks={7}
+        marks={0}
         courseOutcomes={currentCourse?.outcomes || []}
         selectedFocusItems={statePath.selectedSubItems || []}
       />

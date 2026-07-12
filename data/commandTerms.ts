@@ -736,65 +736,25 @@ export const getBandForMark = (mark: number, totalMarks: number, tier: number = 
   if (totalMarks <= 0) return 1;
   if (mark <= 0) return 1;
 
-  const ratio = Math.min(mark, totalMarks) / totalMarks;
-
-  // Explicit Tier Thresholds. The ceiling of each tier IS its own number
-  // (Tier 4 tops out at Band 4), so a question's tier, its band ceiling and
-  // its colour are always the same figure — one scale everywhere.
-  const thresholds: Record<number, { min: number; band: number }[]> = {
-    6: [
-      // Evaluate (Tier 6) - Max Band 6
-      { min: 0.9, band: 6 },
-      { min: 0.75, band: 5 },
-      { min: 0.55, band: 4 },
-      { min: 0.35, band: 3 },
-      { min: 0.15, band: 2 },
-      { min: 0, band: 1 },
-    ],
-    5: [
-      // Synthesise (Tier 5) - Max Band 5
-      { min: 0.9, band: 5 }, // full or near-full marks required for the ceiling
-      { min: 0.7, band: 4 },
-      { min: 0.45, band: 3 },
-      { min: 0.2, band: 2 },
-      { min: 0, band: 1 },
-    ],
-    4: [
-      // Analyse (Tier 4) - Max Band 4
-      { min: 0.85, band: 4 }, // 5/5, 9/10 -> Band 4. 3/4 (0.75) -> Band 3.
-      { min: 0.6, band: 3 },
-      { min: 0.35, band: 2 },
-      { min: 0, band: 1 },
-    ],
-    3: [
-      // Apply (Tier 3) - Max Band 3
-      { min: 0.85, band: 3 }, // 3/3, 4/4 -> Band 3
-      { min: 0.5, band: 2 }, // 2/3, 2/4 -> Band 2
-      { min: 0, band: 1 },
-    ],
-    2: [
-      // Describe (Tier 2) - Max Band 2
-      { min: 0.5, band: 2 },
-      { min: 0, band: 1 },
-    ],
-    1: [
-      // Identify (Tier 1) - Max Band 1: a recall task can only evidence recall
-      { min: 0, band: 1 },
-    ],
-  };
-
-  // Use specific tier config or fallback to Tier 4 logic if unknown
-  const tierConfig = thresholds[tier] || thresholds[4];
-
-  // Questions can be authored/generated with mark values that don't suit their
-  // verb's usual range (e.g. a 3-mark ANALYSE). The marks cap normalises them
-  // on the fly so a shallow question can never claim a top band.
+  // The effective ceiling: the lower of the tier's maximum and the marks cap.
+  const tierMax = Math.min(tier, 6);
   const cap = getMarksBandCap(totalMarks);
-  for (const t of tierConfig) {
-    if (ratio >= t.min) return Math.min(t.band, cap);
+  const maxBand = Math.min(tierMax, cap);
+
+  // For questions where totalMarks ≤ maxBand, a linear mapping guarantees each
+  // mark gets a distinct band — no collisions possible. This is the common case
+  // for HSC short-answer (2-6 mark questions).
+  if (totalMarks <= maxBand) {
+    // mark 1→(maxBand - totalMarks + 1), ..., mark totalMarks→maxBand
+    const clampedMark = Math.min(mark, totalMarks);
+    return maxBand - totalMarks + clampedMark;
   }
 
-  return 1;
+  // For higher-mark questions (totalMarks > maxBand), distribute bands evenly
+  // across the mark range using ceiling division. Full marks always = maxBand,
+  // mark 1 = Band 1 (or the lowest achievable).
+  const clampedMark = Math.min(mark, totalMarks);
+  return Math.min(maxBand, Math.max(1, Math.ceil((clampedMark / totalMarks) * maxBand)));
 };
 
 /**
