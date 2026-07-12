@@ -51,20 +51,28 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
 
     const items: MarkingCriteriaItem[] = [];
 
-    // Normalize mid-line bullets into newlines for better parsing
-    const normalizedText = formattedCriteria.replace(/ • /g, '\n- ');
+    // Normalize: strip markdown bold, mid-line bullets → newlines
+    let normalizedText = formattedCriteria.replace(/\*\*/g, '');
+    normalizedText = normalizedText.replace(/ • /g, '\n- ');
 
     const lines = normalizedText.split('\n');
     let currentItem: MarkingCriteriaItem | null = null;
 
-    // Regex 1: Standard NESA style "[Marks] marks: [Descriptor]" at START of line
+    // Regex 1: "[Marks] marks:" or "[Marks]:" at START of line (with optional bullet/pipe prefix)
+    // Matches: "5 marks:", "3-4 marks:", "5:", "3–4 marks -", "• 5 marks:", etc.
     const startMarkRegex = new RegExp(
-      '^[-•*|]?\\s*(\\d+(?:\\s*[-–]\\s*\\d+)?)(?:\\s*marks?[:|.)-]?|\\s*[:|.)-])\\s*(.*)',
+      '^[-•*|]?\\s*(\\d+(?:\\s*[-–]\\s*\\d+)?)\\s*(?:marks?)?\\s*[:|.\\-)]+\\s*(.*)',
       'i'
     );
 
     // Regex 2: Point breakdown style "Descriptor... ([Mark] mark)" anywhere in line
-    const endMarkRegex = new RegExp('(.*?)\\((\\d+)\\s*marks?\\)', 'i');
+    const endMarkRegex = new RegExp('(.*?)\\((\\d+(?:\\s*[-–]\\s*\\d+)?)\\s*marks?\\)', 'i');
+
+    // Regex 3: "Band N:" or "Band N-M:" pattern (AI sometimes uses band labels)
+    const bandStartRegex = new RegExp(
+      '^[-•*]?\\s*band\\s+(\\d+(?:\\s*[-–]\\s*\\d+)?)\\s*[:|.\\-)]+\\s*(.*)',
+      'i'
+    );
 
     lines.forEach((line) => {
       const cleanLine = line.trim();
@@ -72,8 +80,9 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
 
       const startMatch = cleanLine.match(startMarkRegex);
       const endMatch = cleanLine.match(endMarkRegex);
+      const bandMatch = cleanLine.match(bandStartRegex);
 
-      if (startMatch) {
+      if (startMatch && startMatch[1]) {
         if (currentItem) items.push(currentItem);
         const range = parseMarkRange(startMatch[1].trim());
         currentItem = {
@@ -82,15 +91,28 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
           description: startMatch[2].trim(),
           band: getBandForMark(range[1], prompt.totalMarks, commandTermInfo.tier),
         };
+      } else if (bandMatch) {
+        if (currentItem) items.push(currentItem);
+        const bandNums = bandMatch[1].match(/\d+/g)?.map(Number) || [1];
+        const topBand = Math.max(...bandNums);
+        const markForBand = Math.round((topBand / 6) * prompt.totalMarks);
+        currentItem = {
+          markLabel: `Band ${topBand}`,
+          markRange: [markForBand, markForBand],
+          description: bandMatch[2].trim(),
+          band: topBand,
+        };
       } else if (endMatch) {
-        const points = parseInt(endMatch[2]);
+        if (currentItem) items.push(currentItem);
+        currentItem = null;
+        const range = parseMarkRange(endMatch[2].trim());
         const desc = endMatch[1].replace(/^[-•*]\s*/, '').trim();
 
         items.push({
-          markLabel: `${points}`,
-          markRange: [points, points],
+          markLabel: range[0] === range[1] ? `${range[0]}` : `${range[0]}–${range[1]}`,
+          markRange: range,
           description: desc,
-          band: getBandForMark(points, prompt.totalMarks, commandTermInfo.tier),
+          band: getBandForMark(range[1], prompt.totalMarks, commandTermInfo.tier),
         });
       } else if (currentItem) {
         currentItem.description += ' ' + cleanLine;

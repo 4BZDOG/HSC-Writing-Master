@@ -10,6 +10,58 @@ const pkg = JSON.parse(readFileSync(path.resolve(__dirname, 'package.json'), 'ut
 // Dev-only middleware that mirrors the Vercel serverless proxy (api/gemini.ts)
 // so `npm run dev` can call /api/gemini without running `vercel dev`. The key
 // is read server-side from the environment and never exposed to the client.
+function fetchUrlDevProxy(): Plugin {
+  return {
+    name: 'fetch-url-dev-proxy',
+    configureServer(server) {
+      server.middlewares.use('/api/fetch-url', async (req, res) => {
+        if (req.method === 'OPTIONS') {
+          res.statusCode = 204;
+          res.end();
+          return;
+        }
+        if (req.method !== 'POST') {
+          res.statusCode = 405;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ error: 'Method not allowed. Use POST.' }));
+          return;
+        }
+
+        const chunks: Buffer[] = [];
+        for await (const chunk of req) chunks.push(chunk as Buffer);
+
+        let body: { url?: string };
+        try {
+          body = JSON.parse(Buffer.concat(chunks).toString() || '{}');
+        } catch {
+          res.statusCode = 400;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ error: 'Invalid JSON body.' }));
+          return;
+        }
+
+        const handler = (await import('./api/fetch-url')).default;
+        const resAdapter: any = {
+          status: (code: number) => {
+            res.statusCode = code;
+            return resAdapter;
+          },
+          json: (data: unknown) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify(data));
+          },
+          setHeader: (name: string, value: string) => res.setHeader(name, value),
+          end: () => res.end(),
+        };
+        await handler(
+          { method: 'POST', body, headers: req.headers as Record<string, string> },
+          resAdapter
+        );
+      });
+    },
+  };
+}
+
 function geminiDevProxy(env: Record<string, string>): Plugin {
   return {
     name: 'gemini-dev-proxy',
@@ -85,7 +137,7 @@ export default defineConfig(({ mode }) => {
       port: 3000,
       host: '0.0.0.0',
     },
-    plugins: [react(), geminiDevProxy(env)],
+    plugins: [react(), fetchUrlDevProxy(), geminiDevProxy(env)],
     define: {
       // Only expose VITE_* variables (Vite's secure env approach).
       // API keys must never be in the bundle — they go through /api/gemini.
