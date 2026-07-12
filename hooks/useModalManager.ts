@@ -9,7 +9,6 @@ export type ModalName =
   | 'dataManager'
   | 'commandTermGuide'
   | 'topicSyllabusImport'
-  | 'topicGenerator'
   | 'dotPointGenerator'
   | 'fullSyllabusImport'
   | 'sampleAnswerGenerator'

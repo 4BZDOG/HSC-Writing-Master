@@ -23,7 +23,6 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
   showToast,
 }) => {
   // Escape closes this modal like every other modal surface.
-  useEscapeKey(isOpen, onClose);
   const [outcomes, setOutcomes] = useState<CourseOutcome[]>([]);
   const [pastedText, setPastedText] = useState('');
   const [isParsing, setIsParsing] = useState(false);
@@ -90,6 +89,9 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
     if (isParsing) return;
     onClose();
   };
+
+  // Escape closes this modal like every other modal surface — never mid-parse.
+  useEscapeKey(isOpen && !isParsing, handleClose);
 
   if (!isOpen) {
     return null;

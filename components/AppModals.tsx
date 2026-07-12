@@ -10,7 +10,6 @@ import DataManagerModal from './DataManagerModal';
 import RenameModal from './RenameModal';
 import ConfirmationModal from './ConfirmationModal';
 import TopicSyllabusImportModal from './TopicSyllabusImportModal';
-import TopicGeneratorModal from './TopicGeneratorModal';
 import DotPointGeneratorModal from './DotPointGeneratorModal';
 import SyllabusImportModal from './SyllabusImportModal';
 import TopicImportModal from './TopicImportModal';
@@ -359,27 +358,6 @@ const AppModals: React.FC<AppModalsProps> = ({
               setStatePath({
                 ...statePath,
                 subTopicId: newSubTopics[0].id,
-                dotPointId: undefined,
-                promptId: undefined,
-              });
-            }
-          }}
-        />
-      )}
-
-      {currentCourse && (
-        <TopicGeneratorModal
-          isOpen={isModalOpen('topicGenerator')}
-          onClose={() => closeModal('topicGenerator')}
-          courseName={currentCourse.name}
-          existingTopics={currentCourse.topics.map((t) => t.name)}
-          onTopicGenerated={(name) => {
-            const newTopic = syllabusHandlers.handleCreateTopic(currentCourse.id, name);
-            if (newTopic) {
-              setStatePath({
-                ...statePath,
-                topicId: newTopic.id,
-                subTopicId: undefined,
                 dotPointId: undefined,
                 promptId: undefined,
               });

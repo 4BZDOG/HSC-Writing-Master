@@ -14,8 +14,6 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
   onClose,
   onCourseCreated,
 }) => {
-  // Escape closes this modal like every other modal surface.
-  useEscapeKey(isOpen, onClose);
   const [courseName, setCourseName] = useState('');
   const [outcomes, setOutcomes] = useState<CourseOutcome[]>([{ code: '', description: '' }]);
   const [error, setError] = useState<string | null>(null);
@@ -53,6 +51,10 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
     setError(null);
     onClose();
   };
+
+  // Escape closes this modal like every other modal surface — through the
+  // same reset path as the X/Cancel buttons.
+  useEscapeKey(isOpen, handleClose);
 
   if (!isOpen) {
     return null;
