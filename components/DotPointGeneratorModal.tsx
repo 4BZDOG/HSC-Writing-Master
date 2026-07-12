@@ -38,6 +38,12 @@ const DotPointGeneratorModal: React.FC<DotPointGeneratorModalProps> = ({
     setError(null);
     try {
       const dotPoints = await generateDotPointsForSubTopic(courseName, topicName, subTopicName);
+      if (!dotPoints || dotPoints.length === 0) {
+        setError(
+          'The AI could not produce dot points for this sub-topic. Try again, or add them manually.'
+        );
+        return;
+      }
       onDotPointsGenerated(dotPoints);
       onClose();
     } catch (err) {
@@ -104,7 +110,8 @@ const DotPointGeneratorModal: React.FC<DotPointGeneratorModalProps> = ({
 
         <div className="p-8 text-center bg-[rgb(var(--color-bg-surface))] light:bg-white">
           <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-600">
-            Let AI generate the official syllabus dot points for this sub-topic.
+            Let AI draft suggested dot points for this sub-topic. For the exact NESA wording, use
+            the topic&apos;s Import Sub-Topics button with pasted syllabus text instead.
           </p>
           {error && !isLoading && (
             <p className="text-red-400 light:text-red-600 mt-4 text-sm bg-red-900/30 light:bg-red-50 p-3 rounded-md border border-red-500/20 light:border-red-200">

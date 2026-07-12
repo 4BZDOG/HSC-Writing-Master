@@ -25,8 +25,6 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
   onImport,
   courseName,
 }) => {
-  // Escape closes this modal like every other modal surface.
-  useEscapeKey(isOpen, onClose);
   const [step, setStep] = useState<'upload' | 'preview'>('upload');
   const [importedTopic, setImportedTopic] = useState<Topic | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -51,6 +49,10 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
     resetState();
     onClose();
   };
+
+  // Escape closes this modal like every other modal surface — through the
+  // same reset path as the X/Cancel buttons.
+  useEscapeKey(isOpen, handleClose);
 
   const handleFileDrop = (file: File) => {
     setError(null);

@@ -58,7 +58,7 @@ import { resolveTarget } from './aiConfig';
 // Gemini until an admin switches engines (see services/aiConfig.ts).
 const aiTarget = (role: 'basic' | 'reasoning') => resolveTarget(role);
 
-// ... (keep existing functions like refineManualPrompt, generateNewPrompt, generateSampleAnswer, parseOutcomesFromText, parseSyllabusStructure, fetchSyllabusContentFromUrl, generateNewTopic, generateDotPointsForSubTopic, generateSubTopicsAndDotPoints, generateRubricForPrompt, explainOutcomeInContext) ...
+// ... (keep existing functions like refineManualPrompt, generateNewPrompt, generateSampleAnswer, parseOutcomesFromText, parseSyllabusStructure, fetchSyllabusContentFromUrl, generateDotPointsForSubTopic, generateSubTopicsAndDotPoints, generateRubricForPrompt, explainOutcomeInContext) ...
 
 export const evaluateAnswer = async (
   answer: string,
@@ -964,26 +964,6 @@ export const splitSyllabusIntoTopics = async (
     })
     .filter((t) => t.content.length > 0)
     .map((t) => ({ name: t.name || 'Untitled Topic', content: t.content }));
-};
-
-export const generateNewTopic = async (
-  courseName: string,
-  existingTopics: string[]
-): Promise<string> => {
-  const request = {
-    ...aiTarget('basic'),
-    contents: {
-      parts: [
-        {
-          text: `Suggest a new, distinct syllabus topic name for the course "${courseName}".
-                       Existing topics are: ${existingTopics.join(', ')}.
-                       Return only the topic name.`,
-        },
-      ],
-    },
-  };
-  const response = await generateContentWithRetry(request);
-  return (response.text || '').trim();
 };
 
 export const generateDotPointsForSubTopic = async (

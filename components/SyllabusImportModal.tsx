@@ -52,8 +52,6 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
   courses,
   onImport,
 }) => {
-  // Escape closes this modal like every other modal surface.
-  useEscapeKey(isOpen, onClose);
   const [courseName, setCourseName] = useState('');
   // null → create a new course; otherwise merge into this existing course.
   const [targetCourseId, setTargetCourseId] = useState<string | null>(null);
@@ -106,6 +104,10 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
     setUrlInput('');
     onClose();
   };
+
+  // Escape closes this modal like every other modal surface — through the
+  // same reset path as the X/Cancel buttons, and never mid-operation.
+  useEscapeKey(isOpen && !isBusy, handleClose);
 
   const handleParseOutcomes = async () => {
     if (!outcomesText.trim()) return;
@@ -365,7 +367,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
               </div>
             </div>
             <button
-              onClick={onClose}
+              onClick={handleClose}
               aria-label="Close"
               className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200 flex items-center justify-center group"
             >

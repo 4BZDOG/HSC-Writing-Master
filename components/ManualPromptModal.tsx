@@ -34,8 +34,6 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
   topicName,
   outcomes,
 }) => {
-  // Escape closes this modal like every other modal surface.
-  useEscapeKey(isOpen, onClose);
   const [step, setStep] = useState<'input' | 'preview'>('input');
   const [draftQuestion, setDraftQuestion] = useState('');
   const [marks, setMarks] = useState<number>(5); // Default to 5 marks
@@ -60,6 +58,10 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
     setError(null);
     onClose();
   };
+
+  // Escape closes this modal like every other modal surface — through the
+  // same reset path as the X/Cancel buttons, and never mid-refinement.
+  useEscapeKey(isOpen && !isRefining, handleClose);
 
   const handleRefine = async () => {
     if (!draftQuestion.trim()) {

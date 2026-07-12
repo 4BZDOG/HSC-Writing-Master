@@ -691,7 +691,6 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 onRenameItem={requestRename}
                 onDeleteItem={requestDelete}
                 onAddTopicFromSyllabus={() => openModal('topicSyllabusImport')}
-                onGenerateSuggestedTopic={() => openModal('topicGenerator')}
                 onGenerateDotPoints={() => openModal('dotPointGenerator')}
                 onImportTopic={() => openModal('topicImport')}
                 onImportSyllabus={() => openModal('fullSyllabusImport')}

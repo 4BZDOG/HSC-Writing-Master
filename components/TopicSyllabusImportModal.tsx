@@ -22,8 +22,6 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
 }) => {
   const [syllabusText, setSyllabusText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  // Escape closes this modal like every other modal surface (but never mid-operation).
-  useEscapeKey(isOpen && !isLoading, onClose);
   const [error, setError] = useState<string | null>(null);
 
   const handleImport = async () => {
@@ -52,6 +50,10 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
     setError(null);
     onClose();
   };
+
+  // Escape closes this modal like every other modal surface — through the
+  // same reset path as the X/Cancel buttons, and never mid-operation.
+  useEscapeKey(isOpen && !isLoading, handleClose);
 
   if (!isOpen) {
     return null;

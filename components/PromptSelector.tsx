@@ -55,7 +55,6 @@ interface PromptSelectorProps {
     name: string;
   }) => void;
   onAddTopicFromSyllabus: () => void;
-  onGenerateSuggestedTopic: () => void;
   onGenerateDotPoints: () => void;
   onImportTopic: () => void;
   onImportSyllabus: () => void;
@@ -138,7 +137,6 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   onRenameItem,
   onDeleteItem,
   onAddTopicFromSyllabus,
-  onGenerateSuggestedTopic,
   onGenerateDotPoints,
   onImportTopic,
   onImportSyllabus,
@@ -419,12 +417,13 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     onClick,
     icon: Icon,
     title,
+    label,
     variant = 'default',
     locked = false,
   }: any) => (
     <button
       onClick={locked ? () => requestUpgrade('aiContentStudio') : onClick}
-      className={`relative p-2 rounded-lg transition-all duration-200 flex-shrink-0 hover:scale-105 active:scale-95 border ${
+      className={`relative p-2 ${label ? 'sm:px-3' : ''} rounded-lg transition-all duration-200 flex-shrink-0 hover:scale-105 active:scale-95 border flex items-center gap-1.5 ${
         locked
           ? 'bg-amber-400/10 border-amber-400/40 text-amber-500 light:text-amber-600'
           : variant === 'danger'
@@ -440,6 +439,11 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       title={locked ? `${title} — part of Writing Studio Plus` : title}
     >
       {Icon && <Icon className="w-4 h-4" />}
+      {label && (
+        <span className="hidden sm:inline text-[11px] font-bold uppercase tracking-wide whitespace-nowrap">
+          {label}
+        </span>
+      )}
       {locked && (
         <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-amber-500 text-white flex items-center justify-center shadow">
           <Lock className="w-2.5 h-2.5" />
@@ -481,11 +485,12 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             </div>
             {canCurate && (
               <div className="flex items-center gap-2 flex-wrap justify-end">
-                <ActionButton onClick={onAddCourse} icon={Plus} title="Add Course" />
+                <ActionButton onClick={onAddCourse} icon={Plus} title="Add Course" label="Add" />
                 <ActionButton
                   onClick={onImportSyllabus}
                   icon={UploadCloud}
                   title="Import Syllabus (AI) — build or update a course from NESA syllabus text or a URL"
+                  label="Import Syllabus"
                   variant="special"
                   locked={studioLocked}
                 />
@@ -542,7 +547,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <Upload className="w-3.5 h-3.5" />
                 No topics yet.{' '}
                 {canCurate
-                  ? 'Add one, use AI Suggest, or use Import Syllabus (the cloud button in the Course row) to build the whole structure from NESA syllabus text.'
+                  ? 'Add one, import a topic file, or use Import Syllabus (in the Course row) to build the whole structure from NESA syllabus text.'
                   : 'Ask a teacher or admin to add content for this course.'}
               </p>
             )}
@@ -573,6 +578,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                         onClick={onAddTopicFromSyllabus}
                         icon={UploadCloud}
                         title={`Import sub-topics into "${selectedTopic.name}" from syllabus text (AI)`}
+                        label="Import Sub-Topics"
                         variant="special"
                         locked={studioLocked}
                       />
@@ -596,18 +602,17 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     </>
                   ) : (
                     <>
-                      <ActionButton onClick={onAddTopic} icon={Plus} title="Add" />
+                      <ActionButton
+                        onClick={onAddTopic}
+                        icon={Plus}
+                        title="Add Topic"
+                        label="Add"
+                      />
                       <ActionButton
                         onClick={onImportTopic}
                         icon={Upload}
                         title="Import Topic (.json)"
-                      />
-                      <ActionButton
-                        onClick={onGenerateSuggestedTopic}
-                        icon={Sparkles}
-                        title="AI Suggest"
-                        variant="special"
-                        locked={studioLocked}
+                        label="Import"
                       />
                     </>
                   )}
@@ -675,7 +680,12 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       />
                     </>
                   ) : (
-                    <ActionButton onClick={onAddSubTopic} icon={Plus} title="Add" />
+                    <ActionButton
+                      onClick={onAddSubTopic}
+                      icon={Plus}
+                      title="Add Sub-Topic"
+                      label="Add"
+                    />
                   )}
                 </div>
               )}
@@ -774,7 +784,8 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     <ActionButton
                       onClick={onGenerateDotPoints}
                       icon={Sparkles}
-                      title="Generate"
+                      title="Generate dot points for this sub-topic (AI)"
+                      label="Generate"
                       variant="special"
                       locked={studioLocked}
                     />
