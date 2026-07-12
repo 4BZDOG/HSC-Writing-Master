@@ -27,8 +27,8 @@ describe('getBandForMark tier ceilings', () => {
 
 describe('markForBand (inverse of getBandForMark)', () => {
   it('returns the smallest mark that reaches the target band', () => {
-    // Tier 4, /10: Band 4 needs ratio >= 0.85 -> 9 marks; Band 3 needs >= 0.6 -> 6.
-    expect(markForBand(4, 10, 4)).toBe(9);
+    // Tier 4, /10: linear distribution gives Band 4 at mark 8, Band 3 at mark 6.
+    expect(markForBand(4, 10, 4)).toBe(8);
     expect(markForBand(3, 10, 4)).toBe(6);
   });
 
