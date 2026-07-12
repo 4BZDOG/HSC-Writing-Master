@@ -64,6 +64,18 @@ describe('PromptGeneratorModal band/tier alignment', () => {
     expect(screen.queryByText(/targeting/i)?.textContent).toContain(`Band ${tier2.maxBand}`);
   });
 
+  it('raises the target band to follow the tier when the user aims higher', () => {
+    // "describe" → Tier 2 (opens targeting Band 2). Bumping the tier up must
+    // raise the target, not leave it stuck at the lower band.
+    renderModal('describe the features of a relational database');
+    const tier2 = TIER_GROUPS.find((t) => t.tier === 2)!;
+    expect(screen.queryByText(/targeting/i)?.textContent).toContain(`Band ${tier2.maxBand}`);
+
+    const tier6 = TIER_GROUPS.find((t) => t.tier === 6)!;
+    fireEvent.click(screen.getByText(tier6.title));
+    expect(screen.queryByText(/targeting/i)?.textContent).toContain(`Band ${tier6.maxBand}`);
+  });
+
   it('flags an unusual marks/verb pairing without blocking generation', () => {
     renderModal('define the key components of a network');
     // Tier 1 verbs typically carry 1–2 marks; drag to 15.
@@ -121,6 +133,29 @@ describe('PromptGeneratorModal syllabus-demand difficulty signal', () => {
     renderModal('describe the features of a relational database');
     // Opens on the syllabus tier (Tier 2) by default.
     expect(screen.getByText(/On the syllabus level/i)).toBeTruthy();
+  });
+});
+
+describe('PromptGeneratorModal focus refinements', () => {
+  it('surfaces the selected focus items so the generator can target them', () => {
+    render(
+      <PromptGeneratorModal
+        isOpen={true}
+        onClose={vi.fn()}
+        onPromptGenerated={vi.fn()}
+        courseName="Test Course"
+        topicName="Test Topic"
+        dotPoint="describe the features of a relational database"
+        marks={5}
+        courseOutcomes={[]}
+        selectedFocusItems={['primary keys', 'normalisation']}
+      />
+    );
+
+    // The active-focus banner and one pill per item must render.
+    expect(screen.getByText(/Active Focus: 2 Refinements/i)).toBeTruthy();
+    expect(screen.getByText('primary keys')).toBeTruthy();
+    expect(screen.getByText('normalisation')).toBeTruthy();
   });
 });
 

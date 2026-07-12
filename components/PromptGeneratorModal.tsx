@@ -176,11 +176,14 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
   const activeTierInfo = TIER_GROUPS.find((g) => g.tier === selectedTier);
 
   // The verb tier caps the achievable band (a Tier-2 verb tops out at Band 3,
-  // etc.). Clamp the target whenever the tier drops below it so the generator
-  // is never asked for a band the recalibration engine would reject.
+  // etc.). The target band follows the chosen tier: picking a tier defaults the
+  // target to that tier's ceiling, which the user can then aim below. (Snapping
+  // to the ceiling — not just clamping down — stops the target from being stuck
+  // at a lower band when the tier is raised, e.g. Tier 3 → Tier 6 previously
+  // left a "Band 3" target on a Tier-6 question.)
   const tierMaxBand = activeTierInfo?.maxBand ?? 6;
   useEffect(() => {
-    setTargetBand((prev) => Math.min(prev, tierMaxBand));
+    setTargetBand(tierMaxBand);
   }, [tierMaxBand]);
 
   // Advisory (non-blocking): each verb has a typical mark range; flag unusual

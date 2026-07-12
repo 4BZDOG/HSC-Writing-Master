@@ -137,6 +137,7 @@ const AppModals: React.FC<AppModalsProps> = ({
         dotPoint={currentDotPoint?.description || ''}
         marks={7}
         courseOutcomes={currentCourse?.outcomes || []}
+        selectedFocusItems={statePath.selectedSubItems || []}
       />
 
       <ManualPromptModal
