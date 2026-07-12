@@ -354,6 +354,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
             <ReferenceMaterials
               prompt={currentPrompt}
               topic={currentTopic}
+              dotPointText={currentDotPoint?.description}
               userRole={userRole}
               onKeywordsChange={(kw) =>
                 syllabusHandlers.updateCourses((d) =>

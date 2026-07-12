@@ -8,6 +8,25 @@ const findItem = <T extends { id: string }>(items: T[], id: string): T | undefin
 };
 
 /**
+ * Resolves the currently-selected topic / sub-topic / dot point from a course
+ * and a state path, without mutating anything. Read-only counterpart to
+ * `findAndUpdateItem`, used to give AI features (keyword generation, enrichment)
+ * the syllabus context around the selected question.
+ */
+export const findSelectionContext = (
+  course: Course | null | undefined,
+  path: Partial<StatePath> | undefined
+): { topic?: Topic; subTopic?: SubTopic; dotPoint?: DotPoint } => {
+  if (!course || !path) return {};
+  const topic = path.topicId ? findItem(course.topics, path.topicId) : undefined;
+  const subTopic =
+    topic && path.subTopicId ? findItem(topic.subTopics, path.subTopicId) : undefined;
+  const dotPoint =
+    subTopic && path.dotPointId ? findItem(subTopic.dotPoints, path.dotPointId) : undefined;
+  return { topic, subTopic, dotPoint };
+};
+
+/**
  * Safely traverses a draft of the course structure and applies an updater function
  * to the target item identified by the path.
  *
