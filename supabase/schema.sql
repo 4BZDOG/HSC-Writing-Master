@@ -1349,6 +1349,75 @@ begin
 end; $$;
 
 -- =============================================================================
+-- §13 · Stripe billing integration
+--
+-- Adds Stripe-related columns to profiles and a subscriptions table that the
+-- Stripe webhook handler (api/stripe-webhook.ts) writes to.  The client
+-- reads `stripe_plan` from the profile to resolve entitlements; the rest is
+-- bookkeeping so the admin dashboard can display billing state.
+-- =============================================================================
+
+-- Extend profiles with Stripe identity and plan cache.
+alter table public.profiles
+  add column if not exists stripe_customer_id  text,
+  add column if not exists stripe_plan         text not null default 'free',
+  add column if not exists plan_period_end     timestamptz;
+
+create unique index if not exists profiles_stripe_customer_idx
+  on public.profiles (stripe_customer_id) where stripe_customer_id is not null;
+
+-- Detailed subscription record — one active row per user. Kept in sync by
+-- the webhook handler on customer.subscription.created/updated/deleted.
+create table if not exists public.subscriptions (
+  id                    text primary key,        -- Stripe subscription ID (sub_…)
+  user_id               uuid not null references public.profiles (id) on delete cascade,
+  stripe_customer_id    text not null,
+  status                text not null,           -- active | past_due | canceled | …
+  price_id              text not null,
+  plan                  text not null default 'plus',
+  current_period_start  timestamptz not null,
+  current_period_end    timestamptz not null,
+  cancel_at_period_end  boolean not null default false,
+  created_at            timestamptz not null default now(),
+  updated_at            timestamptz not null default now()
+);
+
+create index if not exists subscriptions_user_idx on public.subscriptions (user_id);
+
+-- RLS: users can read their own subscription, admins can read all.
+alter table public.subscriptions enable row level security;
+
+do $$ begin
+  create policy "Users read own subscriptions"
+    on public.subscriptions for select
+    using (auth.uid() = user_id);
+exception when duplicate_object then null; end $$;
+
+do $$ begin
+  create policy "Admins read all subscriptions"
+    on public.subscriptions for select
+    using (public.is_admin());
+exception when duplicate_object then null; end $$;
+
+-- Webhook handler writes via service-role key, so no insert/update policy
+-- is needed for authenticated users.
+
+-- Helper: resolve a user's active plan from their subscription state.
+-- Returns 'plus' | 'school' | 'free'.  Called from getUserPlan on the
+-- client via the profile's stripe_plan column (cached by the webhook).
+create or replace function public.resolve_stripe_plan(p_user_id uuid)
+returns text language sql stable security definer as $$
+  select coalesce(
+    (select s.plan from public.subscriptions s
+      where s.user_id = p_user_id
+        and s.status in ('active', 'trialing')
+      order by s.current_period_end desc
+      limit 1),
+    'free'
+  );
+$$;
+
+-- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.
 -- =============================================================================

@@ -30,7 +30,7 @@ import {
 import { getCommandTermInfo, extractCommandVerb } from '../data/commandTerms';
 import { getTierScaleConfig } from '../utils/renderUtils';
 import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
-import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
+import { isFeatureLocked, isQuestionTierLocked, requestUpgrade } from '../services/entitlements';
 import { PlusLockChip } from './UpgradeModal';
 
 interface PromptSelectorProps {
@@ -295,11 +295,8 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       .map((p) => {
         const verbInfo = resolveVerbInfo(p.verb, p.question);
         const safeTier = Math.max(1, Math.min(6, Math.floor(verbInfo.tier || 4)));
-        // Colour each question by its VERB TIER identity (red … purple), the
-        // same scale as the verb hierarchy — so a Tier-1 question is red in
-        // the picker, the prompt and the writing area alike. Band NUMBERS
-        // still come from the band model and appear in copy only.
         const tierConfig = getTierScaleConfig(safeTier);
+        const tierLocked = isQuestionTierLocked(safeTier);
 
         return {
           id: p.id,
@@ -308,14 +305,19 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           verb: verbInfo.term,
           tier: safeTier,
           isNew: newlyAddedIds.has(p.id),
+          disabled: tierLocked,
           renderLabel: (
             <div
-              className={`flex items-start gap-3 w-full overflow-hidden p-2 rounded-lg transition-colors ${tierConfig.bg}`}
+              className={`flex items-start gap-3 w-full overflow-hidden p-2 rounded-lg transition-colors ${tierLocked ? 'opacity-60' : ''} ${tierConfig.bg}`}
             >
               <div
                 className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 border ${tierConfig.solidBg} ${tierConfig.border} shadow-sm`}
               >
-                <FileQuestion className="w-5 h-5 text-white" />
+                {tierLocked ? (
+                  <Lock className="w-5 h-5 text-white/70" />
+                ) : (
+                  <FileQuestion className="w-5 h-5 text-white" />
+                )}
               </div>
               <div className="flex flex-col min-w-0 flex-1">
                 <span
@@ -334,6 +336,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   >
                     • {p.totalMarks} Marks
                   </span>
+                  {tierLocked && <PlusLockChip />}
                 </div>
               </div>
             </div>
@@ -855,7 +858,14 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   label={null}
                   options={promptOptions}
                   value={statePath.promptId || ''}
-                  onChange={(id) => onPathChange({ promptId: id })}
+                  onChange={(id) => {
+                    const opt = promptOptions.find((o) => o.id === id);
+                    if (opt?.disabled) {
+                      requestUpgrade('advancedQuestions');
+                      return;
+                    }
+                    onPathChange({ promptId: id });
+                  }}
                   placeholder="Select Question..."
                   color="amber"
                 />

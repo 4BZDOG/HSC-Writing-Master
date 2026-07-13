@@ -22,6 +22,7 @@ interface ComboboxOption {
   verb?: PromptVerb;
   isNew?: boolean;
   tier?: number;
+  disabled?: boolean;
 }
 
 interface ComboboxProps {

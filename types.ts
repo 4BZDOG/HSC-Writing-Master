@@ -207,6 +207,10 @@ export interface User {
   displayName: string;
   preferences: UserPreferences;
   stats: UserStats;
+  /** Stripe-resolved plan override. Set by the webhook handler when a
+   *  checkout completes or a subscription changes. Absent until Stripe is
+   *  live — getUserPlan() falls back to role-based resolution. */
+  stripePlan?: 'free' | 'plus' | 'school';
 }
 
 export interface BackgroundTask {
