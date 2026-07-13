@@ -196,23 +196,29 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
       onClick={handleClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl w-full max-w-4xl border border-[rgb(var(--color-border-secondary))] clip-stable animate-fade-in-up overflow-hidden relative flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-4xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden relative flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] flex-shrink-0">
-          <div className="flex items-center justify-between">
+        <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50 flex-shrink-0">
+          <div
+            className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='%23ffffff' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E")`,
+            }}
+          />
+          <div className="flex items-center justify-between relative z-10">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[rgb(var(--color-accent))] to-[rgb(var(--color-primary))] flex items-center justify-center shadow-lg">
                 <UploadCloud className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))]">
+                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
                   Add Topic from Syllabus
                 </h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))]">
+                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
                   {step === 'input'
-                    ? `Paste NESA syllabus text or fetch a syllabus page — into "${courseName}".`
+                    ? `Paste NESA syllabus text or fetch from a URL — into "${courseName}".`
                     : 'Review the extracted structure before importing.'}
                 </p>
               </div>
@@ -220,9 +226,9 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
             <button
               onClick={handleClose}
               aria-label="Close"
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200 flex items-center justify-center group"
+              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
-              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text-primary))] transition-colors" />
+              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
             </button>
           </div>
         </div>
@@ -230,83 +236,98 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
         {/* Content */}
         <div className="flex-1 flex flex-col overflow-y-auto">
           {step === 'input' && (
-            <div className="p-6 space-y-4 animate-fade-in">
-              <div className={`grid grid-cols-1 ${!targetTopic ? 'md:grid-cols-2' : ''} gap-4`}>
-                <div>
-                  <label
-                    htmlFor="topic-import-target"
-                    className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] mb-2"
-                  >
+            <div className="p-6 space-y-5 animate-fade-in">
+              {/* Destination Section */}
+              <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden">
+                <div className="px-4 py-2.5 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
                     Destination
-                  </label>
-                  <select
-                    id="topic-import-target"
-                    value={targetTopicId}
-                    onChange={(e) => setTargetTopicId(e.target.value)}
-                    className="w-full bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
-                  >
-                    <option value="__new__">➕ New topic…</option>
-                    {topics.length > 0 && (
-                      <optgroup label="Add into existing topic">
-                        {topics.map((t) => (
-                          <option key={t.id} value={t.id}>
-                            {t.name}
-                          </option>
-                        ))}
-                      </optgroup>
-                    )}
-                  </select>
+                  </span>
                 </div>
-                {!targetTopic && (
+                <div className={`p-4 grid grid-cols-1 ${!targetTopic ? 'md:grid-cols-2' : ''} gap-4`}>
                   <div>
                     <label
-                      htmlFor="topic-import-name"
-                      className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] mb-2"
+                      htmlFor="topic-import-target"
+                      className="block text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800 mb-2"
                     >
-                      Topic Name
+                      Import Into
                     </label>
-                    <input
-                      id="topic-import-name"
-                      type="text"
-                      value={newTopicName}
-                      onChange={(e) => setNewTopicName(e.target.value)}
-                      placeholder="Leave blank to detect from the text"
-                      className="w-full bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
-                    />
+                    <select
+                      id="topic-import-target"
+                      value={targetTopicId}
+                      onChange={(e) => setTargetTopicId(e.target.value)}
+                      className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl py-2.5 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]"
+                    >
+                      <option value="__new__">➕ New topic…</option>
+                      {topics.length > 0 && (
+                        <optgroup label="Add into existing topic">
+                          {topics.map((t) => (
+                            <option key={t.id} value={t.id}>
+                              {t.name}
+                            </option>
+                          ))}
+                        </optgroup>
+                      )}
+                    </select>
                   </div>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] mb-2">
-                  <span className="flex items-center gap-2">
-                    <Globe className="w-4 h-4 text-[rgb(var(--color-accent))]" />
-                    Fetch from NESA Syllabus URL (Experimental)
-                  </span>
-                </label>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <input
-                    type="text"
-                    value={urlInput}
-                    onChange={(e) => setUrlInput(e.target.value)}
-                    placeholder="https://educationstandards.nsw.edu.au/..."
-                    className="flex-grow bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-lg py-2 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
-                  />
-                  <button
-                    onClick={handleFetchFromUrl}
-                    disabled={isBusy || !urlInput.trim()}
-                    className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition disabled:opacity-50 flex items-center justify-center gap-2 flex-shrink-0"
-                  >
-                    <Sparkles className={`w-4 h-4 ${isFetchingUrl ? 'animate-spin' : ''}`} />
-                    {isFetchingUrl ? 'Fetching...' : 'Fetch'}
-                  </button>
+                  {!targetTopic && (
+                    <div>
+                      <label
+                        htmlFor="topic-import-name"
+                        className="block text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800 mb-2"
+                      >
+                        Topic Name
+                      </label>
+                      <input
+                        id="topic-import-name"
+                        type="text"
+                        value={newTopicName}
+                        onChange={(e) => setNewTopicName(e.target.value)}
+                        placeholder="Leave blank to detect from the text"
+                        className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl py-2.5 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]"
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
 
+              {/* URL Fetch Section */}
+              <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden">
+                <div className="px-4 py-2.5 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex items-center gap-2">
+                  <Globe className="w-3.5 h-3.5 text-[rgb(var(--color-accent))]" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                    Fetch from URL
+                  </span>
+                  <span className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-400 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-1.5 py-0.5 rounded-full">
+                    experimental
+                  </span>
+                </div>
+                <div className="p-4">
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <input
+                      type="text"
+                      value={urlInput}
+                      onChange={(e) => setUrlInput(e.target.value)}
+                      placeholder="https://educationstandards.nsw.edu.au/..."
+                      className="flex-grow bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl py-2.5 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]"
+                    />
+                    <button
+                      onClick={handleFetchFromUrl}
+                      disabled={isBusy || !urlInput.trim()}
+                      className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 light:bg-blue-500 light:hover:bg-blue-600 text-white text-sm font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 flex-shrink-0"
+                    >
+                      <Sparkles className={`w-4 h-4 ${isFetchingUrl ? 'animate-spin' : ''}`} />
+                      {isFetchingUrl ? 'Fetching...' : 'Fetch'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Syllabus Content Textarea */}
               <div>
                 <label
                   htmlFor="topic-syllabus-text"
-                  className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] mb-2"
+                  className="block text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800 mb-2"
                 >
                   Syllabus Content
                 </label>
@@ -316,7 +337,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                   onChange={(e) => setSyllabusText(e.target.value)}
                   rows={8}
                   placeholder="Paste the topic's sub-topics and dot points here (fetched URL content also lands here)..."
-                  className="w-full bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-4 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] resize-y leading-relaxed min-h-[120px]"
+                  className="w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl p-4 text-sm font-mono text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))] light:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-y leading-relaxed min-h-[140px]"
                 />
               </div>
             </div>
@@ -325,10 +346,10 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
           {step === 'preview' && (
             <div className="p-6 animate-fade-in">
               {!targetTopic && (
-                <div className="mb-4">
+                <div className="mb-5">
                   <label
                     htmlFor="topic-confirm-name"
-                    className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] mb-2"
+                    className="block text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800 mb-2"
                   >
                     Topic Name
                   </label>
@@ -337,10 +358,10 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                     type="text"
                     value={newTopicName || detectedName}
                     onChange={(e) => setNewTopicName(e.target.value)}
-                    className="w-full bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-lg py-2.5 px-4 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
+                    className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl py-2.5 px-4 text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]"
                   />
                   {nameCollision && (
-                    <p className="mt-2 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
+                    <p className="mt-2 text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 flex items-center gap-1.5">
                       <GitMerge className="w-3.5 h-3.5 text-[rgb(var(--color-accent))]" />"
                       {nameCollision.name}" already exists — the content will be merged into it.
                     </p>
@@ -348,17 +369,17 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                 </div>
               )}
 
-              <div className="bg-[rgb(var(--color-bg-surface-inset))]/30 border border-[rgb(var(--color-border-secondary))] rounded-xl overflow-hidden">
-                <div className="px-4 py-2 bg-[rgb(var(--color-bg-surface-elevated))] border-b border-[rgb(var(--color-border-secondary))] text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] flex justify-between items-center">
+              <div className="bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-xl overflow-hidden">
+                <div className="px-4 py-2.5 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 flex justify-between items-center">
                   <span>
                     {targetTopic ? `Add into "${targetTopic.name}"` : `New topic structure`}
                   </span>
-                  <span>
+                  <span className="bg-[rgb(var(--color-bg-surface-inset))] light:bg-white px-2 py-0.5 rounded-full normal-case font-semibold">
                     {stats.subTopics} sub-topics · {stats.dotPoints} dot points
                   </span>
                 </div>
                 {previewSubTopics.length === 0 ? (
-                  <div className="p-8 text-center text-sm text-[rgb(var(--color-text-muted))]">
+                  <div className="p-8 text-center text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
                     Nothing left to import. Go back to adjust the content and re-analyse.
                   </div>
                 ) : (
@@ -367,24 +388,24 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                       const isExpanded = expandedIdx.has(stIdx);
                       return (
                         <div key={stIdx} className="mb-1 last:mb-0">
-                          <div className="group flex items-center gap-1 rounded-lg hover:bg-[rgb(var(--color-bg-surface-light))] transition">
+                          <div className="group flex items-center gap-1 rounded-lg hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-100 transition">
                             <button
                               onClick={() => toggleExpand(stIdx)}
                               className="flex-1 flex items-center gap-2 p-2 text-left min-w-0"
                             >
                               <ChevronRight
-                                className={`w-4 h-4 text-[rgb(var(--color-text-muted))] transition-transform flex-shrink-0 ${isExpanded ? 'rotate-90' : ''}`}
+                                className={`w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-400 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-90' : ''}`}
                               />
-                              <span className="font-semibold text-sm text-[rgb(var(--color-text-primary))] truncate">
+                              <span className="font-semibold text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 truncate">
                                 {st.name}
                               </span>
-                              <span className="ml-auto flex-shrink-0 text-xs text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-inset))] px-2 py-0.5 rounded-full">
+                              <span className="ml-auto flex-shrink-0 text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-2 py-0.5 rounded-full">
                                 {st.dotPoints.length} dot points
                               </span>
                             </button>
                             <button
                               onClick={() => removeSubTopic(stIdx)}
-                              className="p-1.5 mr-1 rounded text-transparent group-hover:text-red-400 hover:bg-red-500/20 transition-colors flex-shrink-0"
+                              className="p-1.5 mr-1 rounded text-transparent group-hover:text-red-400 light:group-hover:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
                               title="Remove sub-topic"
                               aria-label={`Remove sub-topic ${st.name}`}
                             >
@@ -392,17 +413,17 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                             </button>
                           </div>
                           {isExpanded && st.dotPoints.length > 0 && (
-                            <div className="ml-7 pl-2 border-l border-[rgb(var(--color-border-secondary))]/30 mt-1 space-y-0.5">
+                            <div className="ml-7 pl-2 border-l border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 mt-1 space-y-0.5">
                               {st.dotPoints.map((dp, dpIdx) => (
                                 <div
                                   key={dpIdx}
-                                  className="group/dp flex items-start gap-2 px-2 py-0.5 text-xs text-[rgb(var(--color-text-dim))] rounded hover:bg-[rgb(var(--color-bg-surface-light))]/40"
+                                  className="group/dp flex items-start gap-2 px-2 py-0.5 text-xs text-[rgb(var(--color-text-dim))] light:text-slate-600 rounded hover:bg-[rgb(var(--color-bg-surface-light))]/40 light:hover:bg-slate-100"
                                 >
-                                  <span className="mt-1.5 w-1 h-1 rounded-full bg-gray-600 flex-shrink-0"></span>
+                                  <span className="mt-1.5 w-1 h-1 rounded-full bg-gray-600 light:bg-slate-400 flex-shrink-0"></span>
                                   <span className="flex-1">{dp}</span>
                                   <button
                                     onClick={() => removeDotPoint(stIdx, dpIdx)}
-                                    className="p-0.5 rounded text-transparent group-hover/dp:text-red-400 hover:bg-red-500/20 transition-colors flex-shrink-0"
+                                    className="p-0.5 rounded text-transparent group-hover/dp:text-red-400 light:group-hover/dp:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
                                     title="Remove dot point"
                                     aria-label="Remove dot point"
                                   >
@@ -420,8 +441,8 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
               </div>
 
               {notice && (
-                <div className="mt-4 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 text-xs text-blue-200 flex items-start gap-2">
-                  <Sparkles className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                <div className="mt-4 p-3 rounded-lg bg-blue-500/10 light:bg-blue-50 border border-blue-500/20 light:border-blue-200 text-xs text-blue-200 light:text-blue-700 flex items-start gap-2">
+                  <Sparkles className="w-4 h-4 flex-shrink-0 mt-0.5 text-blue-400 light:text-blue-500" />
                   <p>{notice}</p>
                 </div>
               )}
@@ -429,26 +450,26 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
           )}
 
           {error && (
-            <p className="mx-6 mb-4 text-red-400 text-sm bg-red-900/30 p-3 rounded-md animate-fade-in">
+            <p className="mx-6 mb-4 text-red-400 light:text-red-600 text-sm bg-red-900/30 light:bg-red-50 p-3 rounded-lg border border-red-500/20 light:border-red-200 animate-fade-in">
               {error}
             </p>
           )}
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 border-t border-[rgb(var(--color-border-secondary))] flex justify-end space-x-3 flex-shrink-0">
+        <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end gap-3 flex-shrink-0">
           {step === 'input' ? (
             <>
               <button
                 onClick={handleClose}
-                className="py-2.5 px-5 rounded-lg font-medium text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-light))] hover:bg-[rgb(var(--color-border-secondary))] transition"
+                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
               >
                 Cancel
               </button>
               <button
                 onClick={handleAnalyse}
                 disabled={isBusy}
-                className="py-2.5 px-5 rounded-lg text-white font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg transition disabled:opacity-50 flex items-center gap-2"
+                className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 <Sparkles className="w-4 h-4" />
                 {isAnalysing ? 'Analysing...' : 'Analyse Syllabus'}
@@ -458,14 +479,14 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
             <>
               <button
                 onClick={() => setStep('input')}
-                className="py-2.5 px-5 rounded-lg font-medium text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-light))] hover:bg-[rgb(var(--color-border-secondary))] transition"
+                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
               >
                 Back to Edit
               </button>
               <button
                 onClick={handleConfirmImport}
                 disabled={previewSubTopics.length === 0 || !effectiveTopicName.trim()}
-                className="py-2.5 px-5 rounded-lg text-white font-semibold bg-gradient-to-r from-green-600 to-green-500 hover:shadow-lg transition flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-green-600 to-green-500 hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {targetTopic || nameCollision ? (
                   <GitMerge className="w-4 h-4" />
