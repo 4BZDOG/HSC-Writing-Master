@@ -14,6 +14,7 @@ vi.mock('../../services/supabaseClient', () => ({
     auth: {
       getUser: (...args: unknown[]) => getUserMock(...args),
       signInWithPassword: (...args: unknown[]) => signInMock(...args),
+      signInWithOAuth: vi.fn().mockResolvedValue({ data: {}, error: null }),
       signOut: vi.fn().mockResolvedValue({ error: null }),
     },
     from: () => ({
