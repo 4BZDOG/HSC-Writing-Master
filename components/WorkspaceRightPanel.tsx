@@ -10,6 +10,7 @@ import { Loader2, Settings, AlertTriangle, Sparkles } from 'lucide-react';
 import { getCommandTermInfo, getTargetBand, BAND_METRICS } from '../data/commandTerms';
 import { getBandConfig, textContainsKeyword } from '../utils/renderUtils';
 import { isCurriculumRemote } from '../services/curriculumService';
+import { freeEvalsRemaining } from '../services/entitlements';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 
 interface WorkspaceRightPanelProps {
@@ -268,6 +269,16 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
                 </>
               )}
             </button>
+            {(() => {
+              const remaining = freeEvalsRemaining();
+              return remaining < Infinity ? (
+                <p className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-400 mt-1.5 text-center">
+                  {remaining > 0
+                    ? `${remaining} free evaluation${remaining === 1 ? '' : 's'} remaining today`
+                    : 'Daily free limit reached'}
+                </p>
+              ) : null;
+            })()}
           </div>
         </div>
       </div>

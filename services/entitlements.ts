@@ -224,6 +224,55 @@ export const isFeedbackLocked = (user?: User | null): boolean => {
 };
 
 // ---------------------------------------------------------------------------
+// Evaluation count gate (daily, localStorage-backed)
+// ---------------------------------------------------------------------------
+
+const EVAL_COUNT_KEY = 'ws:free-eval-count';
+const EVAL_DATE_KEY = 'ws:free-eval-date';
+
+const todayDateStr = (): string => new Date().toISOString().slice(0, 10);
+
+const readDailyEvalCount = (): number => {
+  try {
+    const storedDate = localStorage.getItem(EVAL_DATE_KEY);
+    if (storedDate !== todayDateStr()) return 0;
+    return parseInt(localStorage.getItem(EVAL_COUNT_KEY) ?? '0', 10);
+  } catch {
+    return 0;
+  }
+};
+
+/** Record one evaluation use. Call after a successful evaluation. */
+export const recordEvaluation = (): void => {
+  try {
+    const today = todayDateStr();
+    if (localStorage.getItem(EVAL_DATE_KEY) !== today) {
+      localStorage.setItem(EVAL_DATE_KEY, today);
+      localStorage.setItem(EVAL_COUNT_KEY, '1');
+    } else {
+      const count = readDailyEvalCount();
+      localStorage.setItem(EVAL_COUNT_KEY, String(count + 1));
+    }
+  } catch {
+    /* localStorage unavailable — fail open */
+  }
+};
+
+/** True when the free tier's daily evaluation limit has been reached. */
+export const isEvalLimitReached = (user?: User | null): boolean => {
+  if (!MONETISATION_ENABLED) return false;
+  if (getUserPlan(user) !== 'free') return false;
+  return readDailyEvalCount() >= FREE_TIER_EVAL_LIMIT;
+};
+
+/** Remaining free evaluations today. */
+export const freeEvalsRemaining = (user?: User | null): number => {
+  if (!MONETISATION_ENABLED) return Infinity;
+  if (getUserPlan(user) !== 'free') return Infinity;
+  return Math.max(0, FREE_TIER_EVAL_LIMIT - readDailyEvalCount());
+};
+
+// ---------------------------------------------------------------------------
 // Stripe integration helpers
 // ---------------------------------------------------------------------------
 
