@@ -21,6 +21,17 @@ import { UserRole } from '../types';
 /** Create and edit curriculum content: questions, samples, rubrics, keywords. */
 export const canCurateContent = (role: UserRole): boolean => role === 'admin' || role === 'teacher';
 
+/**
+ * Use AI to GENERATE new curriculum content: questions, marking guides,
+ * sample answers, dot points, syllabus imports. Distinct from
+ * `canCurateContent` (manual editing) so the two sets can diverge as roles
+ * are refined — e.g. a future "content author" who edits by hand but has no
+ * AI budget. Students never generate content; they spend their allowance on
+ * having their own answers marked. Today both sets are admin+teacher.
+ */
+export const canUseAiGeneration = (role: UserRole): boolean =>
+  role === 'admin' || role === 'teacher';
+
 /** Approve/reject shared-library contributions (mirrors SQL `is_reviewer()`). */
 export const canModerate = (role: UserRole): boolean => role === 'admin' || role === 'teacher';
 

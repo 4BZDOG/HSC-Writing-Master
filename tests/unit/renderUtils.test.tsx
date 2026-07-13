@@ -104,6 +104,62 @@ describe('renderFormattedText', () => {
   });
 });
 
+describe('coordination ellipsis (shared head nouns)', () => {
+  const highlightTexts = (text: string, keywords: string[]) => {
+    const { container } = render(<>{renderFormattedText(text, keywords)}</>);
+    return Array.from(container.querySelectorAll('span.text-emerald-400')).map(
+      (s) => s.textContent
+    );
+  };
+
+  it('highlights the elided first conjunct: "supervised and unsupervised learning"', () => {
+    const spans = highlightTexts('Compare supervised and unsupervised learning.', [
+      'supervised learning',
+      'unsupervised learning',
+    ]);
+    expect(spans).toEqual(['supervised', 'unsupervised learning']);
+  });
+
+  it('handles comma-separated conjunct lists', () => {
+    const spans = highlightTexts(
+      'Investigate supervised, semi-supervised and unsupervised learning.',
+      ['supervised learning', 'unsupervised learning']
+    );
+    expect(spans).toContain('supervised');
+    expect(spans).toContain('unsupervised learning');
+  });
+
+  it('matches a pluralised shared head ("local and wide area networks")', () => {
+    const spans = highlightTexts('Compare local and wide area networks.', ['local area network']);
+    expect(spans).toEqual(['local']);
+  });
+
+  it('still prefers the full contiguous phrase when present', () => {
+    const spans = highlightTexts('Supervised learning uses labelled data.', [
+      'supervised learning',
+    ]);
+    expect(spans).toEqual(['Supervised learning']);
+  });
+
+  it('does not fire without a coordinated shared head', () => {
+    expect(highlightTexts('Supervised practice supports learning.', ['supervised learning'])).toEqual(
+      []
+    );
+    expect(
+      highlightTexts('Supervised or self-directed approaches to learning.', ['supervised learning'])
+    ).toEqual([]);
+  });
+
+  it('keeps textContainsKeyword in agreement with the highlighter', () => {
+    expect(
+      textContainsKeyword('Compare supervised and unsupervised learning.', 'supervised learning')
+    ).toBe(true);
+    expect(textContainsKeyword('Supervised practice supports learning.', 'supervised learning')).toBe(
+      false
+    );
+  });
+});
+
 describe('textContainsKeyword (shared matcher for coverage meters)', () => {
   it('agrees with the highlighter for every variant form', () => {
     const cases: [string, string][] = [

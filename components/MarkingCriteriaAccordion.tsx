@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Prompt, UserRole, CourseOutcome } from '../types';
-import { canCurateContent } from '../utils/permissions';
+import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { AlertCircle, Edit3, Save, X, Sparkles, Loader2, ListChecks } from 'lucide-react';
@@ -37,6 +37,9 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
   const [generateError, setGenerateError] = useState<string | null>(null);
 
   const canCurate = canCurateContent(userRole);
+  // AI drafting is a separate capability from manual editing — see
+  // utils/permissions.ts.
+  const canGenerate = canUseAiGeneration(userRole);
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
 
   const maxPossibleBand = useMemo(() => {
@@ -179,18 +182,20 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
           <div className="flex gap-2">
             {!isEditing ? (
               <>
-                <button
-                  onClick={handleGenerateRubric}
-                  disabled={isGenerating}
-                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all shadow-sm text-[10px] font-bold uppercase tracking-wider bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-indigo-500/30 text-indigo-500 dark:text-indigo-400 hover:shadow`}
-                >
-                  {isGenerating ? (
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  ) : (
-                    <Sparkles className="w-3.5 h-3.5" />
-                  )}
-                  AI Draft
-                </button>
+                {canGenerate && (
+                  <button
+                    onClick={handleGenerateRubric}
+                    disabled={isGenerating}
+                    className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all shadow-sm text-[10px] font-bold uppercase tracking-wider bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-indigo-500/30 text-indigo-500 dark:text-indigo-400 hover:shadow`}
+                  >
+                    {isGenerating ? (
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    ) : (
+                      <Sparkles className="w-3.5 h-3.5" />
+                    )}
+                    AI Draft
+                  </button>
+                )}
                 <button
                   onClick={() => {
                     setEditText(markingCriteria);

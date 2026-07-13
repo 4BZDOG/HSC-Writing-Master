@@ -179,6 +179,22 @@ describe('AI proxy handler quota gate', () => {
     expect(recordMock).not.toHaveBeenCalled();
   });
 
+  it('rejects with a school-pool wording when the shared budget is spent', async () => {
+    verifyMock.mockResolvedValue({ ok: true, userId: 'user-1' });
+    consumeMock.mockResolvedValue({ allowed: false, used: 200, limit: 200, scope: 'school' });
+
+    const res = makeRes();
+    await handler(request(), res as never);
+
+    expect(res.statusCode).toBe(429);
+    const body = res.body as { error: string };
+    // Still matches aiCore's /daily ai limit/i fast-fail, but names the school pool.
+    expect(body.error).toMatch(/daily ai limit/i);
+    expect(body.error).toMatch(/school/i);
+    expect(body.error).toContain('200/200');
+    expect(runAiProxyMock).not.toHaveBeenCalled();
+  });
+
   it('forwards to the provider when the quota allows', async () => {
     verifyMock.mockResolvedValue({ ok: true, userId: 'user-1' });
     consumeMock.mockResolvedValue({ allowed: true, used: 3, limit: 60 });

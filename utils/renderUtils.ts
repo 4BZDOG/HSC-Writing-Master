@@ -341,6 +341,42 @@ export const VERB_OVERLAY_CLASS =
   'bg-[rgb(var(--color-accent))]/20 text-[rgb(var(--color-accent))] rounded-[0.2em] box-decoration-clone';
 
 /**
+ * Coordination-ellipsis sources for a multi-word keyword. Syllabus text often
+ * coordinates shared head nouns — "supervised AND UNSUPERVISED learning",
+ * "local, wide AND PERSONAL area networks" — where the first conjunct
+ * ("supervised") stands in for the full term ("supervised learning") with the
+ * head elided. A literal variant can't express that, so each multi-word
+ * keyword also gets a lookahead alternative: match the keyword's first word
+ * alone when one or more coordinated conjuncts follow and the phrase still
+ * ends with the keyword's remaining words. Only the elided word itself is
+ * highlighted — the neighbouring conjunct belongs to its own keyword.
+ */
+const COORDINATOR = String.raw`(?:\s*,\s*(?:and\s+|or\s+)?|\s+(?:and|or)\s+|\s*\/\s*)`;
+const coordinationEllipsisSources = (keyword: string): string[] => {
+  const parts = keyword.trim().split(/\s+/);
+  if (parts.length < 2) return [];
+
+  const first = parts[0];
+  if (!/^\w/.test(first)) return [];
+  const rest = parts.slice(1);
+  // Allow a simple plural on the shared head ("network" ↔ "networks",
+  // "industry" ↔ "industries").
+  const pluralisableHead = (w: string): string =>
+    /[^aeiou]y$/i.test(w)
+      ? `${escapeRegExp(w.slice(0, -1))}(?:y|ies)`
+      : `${escapeRegExp(w)}(?:e?s)?`;
+  const restSource = rest
+    .map((w, i) => (i === rest.length - 1 ? pluralisableHead(w) : escapeRegExp(w)))
+    .join(String.raw`\s+`);
+
+  return [
+    String.raw`\b` +
+      escapeRegExp(first) +
+      String.raw`(?=(?:${COORDINATOR}[\w-]+)+\s+${restSource}\b)`,
+  ];
+};
+
+/**
  * Helper to create a regex for keywords/verbs
  */
 const createKeywordRegex = (words: string[]) => {
@@ -361,6 +397,10 @@ const createKeywordRegex = (words: string[]) => {
     const tail = /\w$/.test(v) ? '\\b' : '';
     return lead + escapeRegExp(v) + tail;
   });
+  // Elliptical coordinated forms are regex sources (lookaheads), not literal
+  // variants — appended after the literals so a full contiguous phrase always
+  // wins when both could match at the same position.
+  words.forEach((w) => coordinationEllipsisSources(w).forEach((s) => alternatives.push(s)));
   return new RegExp(`(${alternatives.join('|')})`, 'gi');
 };
 

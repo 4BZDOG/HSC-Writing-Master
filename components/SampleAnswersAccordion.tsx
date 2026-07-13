@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Prompt, SampleAnswer, UserRole } from '../types';
-import { canCurateContent } from '../utils/permissions';
+import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import {
   renderFormattedText,
   getBandConfig,
@@ -392,6 +392,9 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   const [isRecalibrating, setIsRecalibrating] = useState(false);
 
   const canCurate = canCurateContent(userRole);
+  // AI generation (draft/recalibrate) is a separate capability from manual
+  // curation so the role sets can diverge — see utils/permissions.ts.
+  const canGenerate = canUseAiGeneration(userRole);
   const studioLocked = isFeatureLocked('aiContentStudio');
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
 
@@ -494,7 +497,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             </button>
           </div>
 
-          {canCurate && (
+          {canGenerate && (
             <>
               {onRecalibrate && (
                 <button
