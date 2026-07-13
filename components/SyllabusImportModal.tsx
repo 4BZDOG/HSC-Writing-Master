@@ -382,11 +382,12 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
           {step === 'input' && (
             <div className="flex flex-col h-full overflow-hidden animate-fade-in">
               {/* Top Controls */}
-              <div className="p-6 pb-2 grid grid-cols-1 lg:grid-cols-2 gap-6 flex-shrink-0">
-                <div>
+              <div className="p-5 pb-3 grid grid-cols-1 lg:grid-cols-2 gap-5 flex-shrink-0">
+                {/* Destination */}
+                <div className="space-y-2">
                   <label
                     htmlFor="import-target"
-                    className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] mb-2"
+                    className="block text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800"
                   >
                     Import Into
                   </label>
@@ -396,9 +397,9 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                     onChange={(e) =>
                       handleChangeTargetCourse(e.target.value === '__new__' ? null : e.target.value)
                     }
-                    className="w-full bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
+                    className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
                   >
-                    <option value="__new__">➕ New course…</option>
+                    <option value="__new__">+ New course...</option>
                     {courses.length > 0 && (
                       <optgroup label="Merge into existing course">
                         {courses.map((c) => (
@@ -418,7 +419,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                           onChange={(e) =>
                             setTargetTopicId(e.target.value === '__auto__' ? null : e.target.value)
                           }
-                          className="mt-2 w-full bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-lg py-2 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
+                          className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
                         >
                           <option value="__auto__">
                             Auto — match topic names / add new topics
@@ -432,7 +433,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                           </optgroup>
                         </select>
                       )}
-                      <p className="mt-2 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
+                      <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 flex items-center gap-1.5">
                         <GitMerge className="w-3.5 h-3.5 text-[rgb(var(--color-accent))]" />
                         {targetTopic
                           ? `All sub-topics will be added to "${targetTopic.name}".`
@@ -445,33 +446,38 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                       value={courseName}
                       onChange={(e) => setCourseName(e.target.value)}
                       placeholder="New course name, e.g., HSC Software Engineering"
-                      className="mt-2 w-full bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
+                      className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
                     />
                   )}
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] mb-2">
-                    Import Outcomes (Optional)
+
+                {/* Outcomes */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800">
+                    Import Outcomes
+                    <span className="ml-1.5 text-xs font-normal text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                      (optional)
+                    </span>
                   </label>
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2">
                     <textarea
-                      rows={1}
+                      rows={2}
                       value={outcomesText}
                       onChange={(e) => setOutcomesText(e.target.value)}
-                      placeholder="Paste list of outcomes..."
-                      className="flex-grow bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] resize-none"
+                      placeholder="Paste outcomes text here (e.g. SE-12-01 Describes methods...)"
+                      className="flex-grow bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] resize-none leading-relaxed"
                     />
                     <button
                       onClick={handleParseOutcomes}
                       disabled={isParsingOutcomes || !outcomesText.trim()}
-                      className="flex-shrink-0 px-4 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] hover:bg-[rgb(var(--color-bg-surface-elevated))] border border-[rgb(var(--color-border-secondary))] transition text-xs font-bold"
+                      className="flex-shrink-0 px-4 py-2 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 hover:bg-[rgb(var(--color-bg-surface-elevated))] light:hover:bg-slate-200 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 transition text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 disabled:opacity-50 disabled:cursor-not-allowed self-start sm:self-stretch"
                     >
                       {isParsingOutcomes ? 'Parsing...' : 'Parse'}
                     </button>
                   </div>
                   {parsedOutcomes.length > 0 && (
-                    <p className="text-xs text-green-400 mt-1 ml-1">
-                      ✓ Found {parsedOutcomes.length} outcomes
+                    <p className="text-xs text-green-400 light:text-green-600 ml-1 font-medium">
+                      Found {parsedOutcomes.length} outcomes
                     </p>
                   )}
                 </div>
