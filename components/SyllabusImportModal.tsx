@@ -465,27 +465,30 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                       (optional)
                     </span>
                   </label>
-                  <div className="flex flex-col sm:flex-row gap-2">
+                  <div className="flex flex-col gap-2">
                     <textarea
-                      rows={2}
+                      rows={3}
                       value={outcomesText}
                       onChange={(e) => setOutcomesText(e.target.value)}
-                      placeholder="Paste outcomes text here (e.g. SE-12-01 Describes methods...)"
-                      className="flex-grow bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] resize-none leading-relaxed"
+                      placeholder={`Paste outcomes text here, e.g.:\nSE-12-01 Describes methods used to plan...\nSE-12-02 Applies appropriate development...`}
+                      className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] resize-y min-h-[72px] leading-relaxed font-mono"
                     />
-                    <button
-                      onClick={handleParseOutcomes}
-                      disabled={isParsingOutcomes || !outcomesText.trim()}
-                      className="flex-shrink-0 px-4 py-2 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 hover:bg-[rgb(var(--color-bg-surface-elevated))] light:hover:bg-slate-200 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 transition text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 disabled:opacity-50 disabled:cursor-not-allowed self-start sm:self-stretch"
-                    >
-                      {isParsingOutcomes ? 'Parsing...' : 'Parse'}
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={handleParseOutcomes}
+                        disabled={isParsingOutcomes || !outcomesText.trim()}
+                        className="px-4 py-2 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 hover:bg-[rgb(var(--color-bg-surface-elevated))] light:hover:bg-slate-200 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 transition text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+                      >
+                        <Sparkles className="w-3.5 h-3.5" />
+                        {isParsingOutcomes ? 'Parsing...' : 'Parse with AI'}
+                      </button>
+                      {parsedOutcomes.length > 0 && (
+                        <span className="text-xs text-green-400 light:text-green-600 font-medium">
+                          {parsedOutcomes.length} outcomes found
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  {parsedOutcomes.length > 0 && (
-                    <p className="text-xs text-green-400 light:text-green-600 ml-1 font-medium">
-                      Found {parsedOutcomes.length} outcomes
-                    </p>
-                  )}
                 </div>
               </div>
 
@@ -567,28 +570,28 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                 </div>
 
                 {/* Content Editor Area */}
-                <div className="flex-1 flex flex-col p-4 md:p-6 overflow-hidden bg-[rgb(var(--color-bg-surface))]/30 light:bg-white min-h-0">
-                  <div className="mb-4">
-                    <label className="block text-xs font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-1.5">
+                <div className="flex-1 flex flex-col p-4 md:p-5 overflow-hidden bg-[rgb(var(--color-bg-surface))]/30 light:bg-white min-h-0">
+                  <div className="mb-4 p-3.5 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/50 light:border-slate-200">
+                    <label className="block text-xs font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-2">
                       Topic Name
                     </label>
                     <input
                       type="text"
                       value={activeTab.name}
                       onChange={(e) => handleUpdateTab('name', e.target.value)}
-                      className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2 px-4 text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]"
+                      className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]"
                     />
                   </div>
                   <div className="flex-1 flex flex-col min-h-0">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1.5">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
                       <label className="block text-xs font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider">
-                        Paste Syllabus Content for &ldquo;{activeTab.name}&rdquo;
+                        Syllabus Content
                       </label>
                       <button
                         onClick={handleSplitActiveTab}
                         disabled={isBusy || !activeTab.content.trim()}
                         title="Use AI to split this text into one tab per topic"
-                        className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/20 hover:bg-[rgb(var(--color-accent))]/20 transition disabled:opacity-40 disabled:cursor-not-allowed self-start sm:self-auto"
+                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/20 hover:bg-[rgb(var(--color-accent))]/20 transition disabled:opacity-40 disabled:cursor-not-allowed self-start sm:self-auto"
                       >
                         <Wand2 className="w-3.5 h-3.5" />
                         Auto-split topics
@@ -597,8 +600,8 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                     <textarea
                       value={activeTab.content}
                       onChange={(e) => handleUpdateTab('content', e.target.value)}
-                      placeholder="Paste dot points, sub-topics, or raw text here..."
-                      className="flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg p-4 text-sm font-mono text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))] light:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-none leading-relaxed min-h-[120px]"
+                      placeholder={`Paste dot points, sub-topics, or raw text here...\n\ne.g.:\nInquiry Question 1\n• describes the features of...\n• outlines the importance of...`}
+                      className="flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl p-4 text-sm font-mono text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))]/60 light:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-none leading-relaxed min-h-[140px]"
                     />
                   </div>
                 </div>

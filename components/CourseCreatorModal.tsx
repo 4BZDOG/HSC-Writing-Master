@@ -154,51 +154,53 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
               </button>
 
               {outcomesExpanded && (
-                <div className="p-4 space-y-3">
+                <div className="p-4 space-y-4">
                   <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
                     Add outcomes now, or use the Outcomes Editor later to paste and parse them with
                     AI.
                   </p>
 
-                  {outcomes.map((outcome, index) => (
-                    <div
-                      key={index}
-                      className="flex flex-col sm:flex-row gap-2 p-3 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/50 light:border-slate-200"
-                    >
-                      <div className="flex items-center gap-2 sm:contents">
-                        <span className="text-xs font-bold text-[rgb(var(--color-text-muted))]/50 light:text-slate-400 w-5 text-center flex-shrink-0 sm:hidden">
+                  <div className="space-y-3">
+                    {outcomes.map((outcome, index) => (
+                      <div
+                        key={index}
+                        className="flex items-start gap-2.5 p-3.5 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/80 border border-[rgb(var(--color-border-secondary))]/50 light:border-slate-200 hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 transition-colors"
+                      >
+                        <span className="hidden sm:flex items-center justify-center w-5 h-5 rounded-md bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200/80 text-[10px] font-bold text-[rgb(var(--color-text-muted))]/60 light:text-slate-400 flex-shrink-0 mt-2">
                           {index + 1}
                         </span>
-                        <input
-                          type="text"
-                          value={outcome.code}
-                          onChange={(e) => handleOutcomeChange(index, 'code', e.target.value)}
-                          placeholder="Code (e.g., SE-12-01)"
-                          className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full sm:w-36 font-mono text-sm flex-shrink-0"
-                        />
+                        <div className="flex flex-col gap-2 flex-1 min-w-0">
+                          <input
+                            type="text"
+                            value={outcome.code}
+                            onChange={(e) => handleOutcomeChange(index, 'code', e.target.value)}
+                            placeholder="Code (e.g., SE-12-01)"
+                            className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3.5 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full sm:w-40 font-mono text-sm font-semibold flex-shrink-0"
+                          />
+                          <textarea
+                            value={outcome.description}
+                            onChange={(e) => handleOutcomeChange(index, 'description', e.target.value)}
+                            placeholder="Outcome description..."
+                            rows={2}
+                            className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3.5 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full text-sm resize-y min-h-[52px] leading-relaxed"
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteOutcome(index)}
+                          className="p-2 text-[rgb(var(--color-text-muted))]/50 light:text-slate-300 hover:text-red-400 light:hover:text-red-500 transition rounded-lg flex items-center hover:bg-red-500/10 light:hover:bg-red-50 flex-shrink-0 mt-1"
+                          title="Delete Outcome"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
                       </div>
-                      <textarea
-                        value={outcome.description}
-                        onChange={(e) => handleOutcomeChange(index, 'description', e.target.value)}
-                        placeholder="Outcome description..."
-                        rows={1}
-                        className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] flex-1 text-sm resize-y min-h-[42px] leading-relaxed"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => handleDeleteOutcome(index)}
-                        className="p-2 text-[rgb(var(--color-text-muted))]/50 light:text-slate-400 hover:text-red-400 light:hover:text-red-500 transition rounded-lg flex items-center self-end sm:self-center hover:bg-red-500/10 light:hover:bg-red-50 flex-shrink-0"
-                        title="Delete Outcome"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
 
                   <button
                     type="button"
                     onClick={handleAddOutcome}
-                    className="w-full py-2.5 px-4 rounded-lg text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/5 hover:bg-[rgb(var(--color-accent))]/10 transition text-sm font-semibold border border-dashed border-[rgb(var(--color-accent))]/30 hover:border-[rgb(var(--color-accent))]/50"
+                    className="w-full py-2.5 px-4 rounded-xl text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/5 hover:bg-[rgb(var(--color-accent))]/10 transition text-sm font-semibold border border-dashed border-[rgb(var(--color-accent))]/30 hover:border-[rgb(var(--color-accent))]/50"
                   >
                     <Plus className="inline w-4 h-4 mr-1" /> Add Outcome
                   </button>

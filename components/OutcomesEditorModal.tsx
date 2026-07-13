@@ -177,25 +177,25 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
 
           {/* Manual Outcomes Editor */}
           <div className="flex-1 flex flex-col overflow-hidden min-h-0">
-            <div className="px-5 pt-5 pb-3 flex items-center justify-between flex-shrink-0">
-              <div className="flex items-center gap-2">
+            <div className="px-5 pt-5 pb-3 flex items-center justify-between flex-shrink-0 border-b border-[rgb(var(--color-border-secondary))]/50 light:border-slate-100">
+              <div className="flex items-center gap-2.5">
                 <h3 className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800">
                   Outcomes
                 </h3>
-                <span className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 px-2 py-0.5 rounded-full">
+                <span className="text-xs font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 px-2.5 py-0.5 rounded-full">
                   {validCount} valid
                 </span>
               </div>
               <button
                 type="button"
                 onClick={handleAddOutcome}
-                className="py-1.5 px-3 rounded-lg text-xs font-semibold text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/10 hover:bg-[rgb(var(--color-accent))]/20 transition flex items-center gap-1.5 border border-[rgb(var(--color-accent))]/20"
+                className="py-1.5 px-3.5 rounded-lg text-xs font-semibold text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/10 hover:bg-[rgb(var(--color-accent))]/20 transition flex items-center gap-1.5 border border-[rgb(var(--color-accent))]/20"
               >
-                <Plus className="w-3.5 h-3.5" /> Add
+                <Plus className="w-3.5 h-3.5" /> Add Row
               </button>
             </div>
 
-            <div className="flex-grow overflow-y-auto px-5 pb-5">
+            <div className="flex-grow overflow-y-auto px-5 py-4">
               {outcomes.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                   <Target className="w-8 h-8 text-[rgb(var(--color-text-muted))]/40 light:text-slate-300 mb-3" />
@@ -211,35 +211,35 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                   </button>
                 </div>
               ) : (
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {outcomes.map((outcome, index) => (
                     <div
                       key={index}
-                      className="group flex flex-col sm:flex-row gap-2 p-3 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/60 light:border-slate-200 hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 transition-colors"
+                      className="group flex items-start gap-2.5 p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50/80 border border-[rgb(var(--color-border-secondary))]/60 light:border-slate-200 hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 transition-colors"
                     >
-                      <div className="hidden sm:flex items-center text-[rgb(var(--color-text-muted))]/30 light:text-slate-300 flex-shrink-0 pt-2">
-                        <GripVertical className="w-4 h-4" />
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-2 flex-1 min-w-0">
+                      <span className="hidden sm:flex items-center justify-center w-6 h-6 rounded-md bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200/80 text-[10px] font-bold text-[rgb(var(--color-text-muted))]/60 light:text-slate-400 flex-shrink-0 mt-1.5">
+                        {index + 1}
+                      </span>
+                      <div className="flex flex-col gap-2.5 flex-1 min-w-0">
                         <input
                           type="text"
                           value={outcome.code}
                           onChange={(e) => handleOutcomeChange(index, 'code', e.target.value)}
-                          placeholder="Code"
-                          className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full sm:w-32 lg:w-36 font-mono text-sm flex-shrink-0"
+                          placeholder="e.g., SE-12-01"
+                          className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3.5 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full sm:w-40 font-mono text-sm font-semibold flex-shrink-0"
                         />
                         <textarea
                           value={outcome.description}
                           onChange={(e) => handleOutcomeChange(index, 'description', e.target.value)}
                           placeholder="Outcome description..."
-                          rows={1}
-                          className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] flex-1 text-sm resize-y min-h-[42px] leading-relaxed"
+                          rows={2}
+                          className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3.5 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full text-sm resize-y min-h-[56px] leading-relaxed"
                         />
                       </div>
                       <button
                         type="button"
                         onClick={() => handleDeleteOutcome(index)}
-                        className="p-2 text-[rgb(var(--color-text-muted))]/50 light:text-slate-400 hover:text-red-400 light:hover:text-red-500 transition rounded-lg flex items-center self-end sm:self-center hover:bg-red-500/10 light:hover:bg-red-50 flex-shrink-0"
+                        className="p-2 text-[rgb(var(--color-text-muted))]/50 light:text-slate-300 hover:text-red-400 light:hover:text-red-500 transition rounded-lg flex items-center hover:bg-red-500/10 light:hover:bg-red-50 flex-shrink-0 mt-1"
                         title="Delete Outcome"
                       >
                         <Trash2 className="h-4 w-4" />
@@ -249,7 +249,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                   <button
                     type="button"
                     onClick={handleAddOutcome}
-                    className="w-full py-2.5 px-4 rounded-xl text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/5 hover:bg-[rgb(var(--color-accent))]/10 transition text-sm font-semibold border border-dashed border-[rgb(var(--color-accent))]/30 hover:border-[rgb(var(--color-accent))]/50 mt-1"
+                    className="w-full py-3 px-4 rounded-xl text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/5 hover:bg-[rgb(var(--color-accent))]/10 transition text-sm font-semibold border border-dashed border-[rgb(var(--color-accent))]/30 hover:border-[rgb(var(--color-accent))]/50"
                   >
                     <Plus className="inline w-4 h-4 mr-1" /> Add Outcome
                   </button>

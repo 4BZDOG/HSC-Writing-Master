@@ -325,19 +325,26 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
 
               {/* Syllabus Content Textarea */}
               <div>
-                <label
-                  htmlFor="topic-syllabus-text"
-                  className="block text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800 mb-2"
-                >
-                  Syllabus Content
-                </label>
+                <div className="flex items-center justify-between mb-2">
+                  <label
+                    htmlFor="topic-syllabus-text"
+                    className="block text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800"
+                  >
+                    Syllabus Content
+                  </label>
+                  {syllabusText.trim() && (
+                    <span className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-400">
+                      {syllabusText.trim().split('\n').length} lines
+                    </span>
+                  )}
+                </div>
                 <textarea
                   id="topic-syllabus-text"
                   value={syllabusText}
                   onChange={(e) => setSyllabusText(e.target.value)}
-                  rows={8}
-                  placeholder="Paste the topic's sub-topics and dot points here (fetched URL content also lands here)..."
-                  className="w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl p-4 text-sm font-mono text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))] light:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-y leading-relaxed min-h-[140px]"
+                  rows={10}
+                  placeholder={`Paste the topic's sub-topics and dot points here...\n\ne.g.:\nInquiry Question 1: How do we describe motion?\n• describes uniform straight-line motion...\n• analyses the relative motion of objects...\n\nInquiry Question 2: How is motion measured?\n• measures displacement, velocity and acceleration...`}
+                  className="w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl p-4 text-sm font-mono text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))]/60 light:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-y leading-relaxed min-h-[180px]"
                 />
               </div>
             </div>
