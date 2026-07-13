@@ -901,7 +901,19 @@ const App: React.FC = () => {
           setUser(null);
         })
         .finally(() => setIsLoadingAuth(false));
-    } else setIsLoadingAuth(false);
+    } else {
+      // No cached user — check for an OAuth redirect that just completed.
+      authService
+        .handleOAuthCallback()
+        .then((oauthUser) => {
+          if (oauthUser) {
+            setUser(oauthUser);
+            showToast(`Auth session active: ${oauthUser.displayName}`, 'success');
+          }
+        })
+        .catch(() => {})
+        .finally(() => setIsLoadingAuth(false));
+    }
   }, []);
 
   if (isLoadingAuth) return null;

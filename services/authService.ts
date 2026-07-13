@@ -7,6 +7,7 @@ import {
   STORAGE_KEYS,
 } from '../utils/storageUtils';
 import { supabase, isSupabaseConfigured } from './supabaseClient';
+import type { Provider } from '@supabase/auth-js';
 
 const DEFAULT_PREFERENCES: UserPreferences = {
   defaultFocusMode: false,
@@ -292,6 +293,41 @@ export const authService = {
 
     safeSetItem(STORAGE_KEYS.AUTH_USER, guestUser);
     return guestUser;
+  },
+
+  loginWithOAuth: async (provider: Provider): Promise<void> => {
+    if (!isSupabaseConfigured || !supabase) {
+      throw new Error('OAuth login requires Supabase to be configured.');
+    }
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: { redirectTo: window.location.origin },
+    });
+    if (error) throw new Error(error.message);
+  },
+
+  handleOAuthCallback: async (): Promise<User | null> => {
+    if (!isSupabaseConfigured || !supabase) return null;
+    const { data, error } = await supabase.auth.getUser();
+    if (error || !data.user) return null;
+
+    let profile: ProfileRow | null = null;
+    let profileReadOk = true;
+    try {
+      profile = await fetchProfile(data.user.id);
+    } catch {
+      profileReadOk = false;
+    }
+
+    const user = mapProfileToUser(data.user.email ?? '', profile);
+    user.stats = calculateStreak(user.stats);
+
+    if (profileReadOk) {
+      await persistProfileState(data.user.id, user);
+    }
+
+    safeSetItem(STORAGE_KEYS.AUTH_USER, user);
+    return user;
   },
 
   logout: (): void => {
