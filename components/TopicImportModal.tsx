@@ -152,7 +152,9 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                 <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
                   Import Topic
                 </h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">into "{courseName}"</p>
+                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                  into "{courseName}"
+                </p>
               </div>
             </div>
             <button
@@ -173,7 +175,9 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
               </p>
               <FileDropzone onFileDrop={handleFileDrop} />
               {fileName && (
-                <p className="text-center text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-2">Selected file: {fileName}</p>
+                <p className="text-center text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-2">
+                  Selected file: {fileName}
+                </p>
               )}
               {error && (
                 <p className="text-center text-sm text-red-400 light:text-red-600 mt-2 bg-red-900/20 light:bg-red-50 p-3 rounded-lg border border-red-500/20 light:border-red-200">
@@ -190,11 +194,13 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
               </p>
 
               {/* Bulk Settings */}
-              <div className={`rounded-xl border transition-colors ${
-                markAsPastHSC
-                  ? 'border-amber-500/30 light:border-amber-200 bg-amber-500/5 light:bg-amber-50/50'
-                  : 'border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50'
-              }`}>
+              <div
+                className={`rounded-xl border transition-colors ${
+                  markAsPastHSC
+                    ? 'border-amber-500/30 light:border-amber-200 bg-amber-500/5 light:bg-amber-50/50'
+                    : 'border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50'
+                }`}
+              >
                 <label className="flex items-center justify-between cursor-pointer p-4">
                   <div className="flex items-center gap-2.5 text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800">
                     <Award className="w-4 h-4 text-amber-400 light:text-amber-500" />
@@ -210,7 +216,9 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                 {markAsPastHSC && (
                   <div className="px-4 pb-4 pt-0 flex items-center gap-3 animate-fade-in">
                     <div className="ml-7 pl-3 border-l-2 border-amber-500/30 light:border-amber-200 flex items-center gap-2">
-                      <span className="text-xs font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500">Year:</span>
+                      <span className="text-xs font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                        Year:
+                      </span>
                       <input
                         type="number"
                         value={bulkYear}

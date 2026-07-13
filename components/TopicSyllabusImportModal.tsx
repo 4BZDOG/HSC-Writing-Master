@@ -244,7 +244,9 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                     Destination
                   </span>
                 </div>
-                <div className={`p-4 grid grid-cols-1 ${!targetTopic ? 'md:grid-cols-2' : ''} gap-4`}>
+                <div
+                  className={`p-4 grid grid-cols-1 ${!targetTopic ? 'md:grid-cols-2' : ''} gap-4`}
+                >
                   <div>
                     <label
                       htmlFor="topic-import-target"

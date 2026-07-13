@@ -60,9 +60,7 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
     return null;
   }
 
-  const validOutcomeCount = outcomes.filter(
-    (o) => o.code.trim() && o.description.trim()
-  ).length;
+  const validOutcomeCount = outcomes.filter((o) => o.code.trim() && o.description.trim()).length;
 
   return (
     <div
@@ -179,7 +177,9 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
                           />
                           <textarea
                             value={outcome.description}
-                            onChange={(e) => handleOutcomeChange(index, 'description', e.target.value)}
+                            onChange={(e) =>
+                              handleOutcomeChange(index, 'description', e.target.value)
+                            }
                             placeholder="Outcome description..."
                             rows={2}
                             className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3.5 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full text-sm resize-y min-h-[52px] leading-relaxed"

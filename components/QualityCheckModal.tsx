@@ -190,7 +190,9 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
                     >
                       {result.status}
                     </span>
-                    <span className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900">Quality Score</span>
+                    <span className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900">
+                      Quality Score
+                    </span>
                   </div>
                   <p className="text-sm text-[rgb(var(--color-text-secondary))] leading-relaxed">
                     {result.summary}

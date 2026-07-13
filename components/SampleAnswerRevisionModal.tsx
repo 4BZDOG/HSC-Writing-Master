@@ -224,7 +224,9 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
             <div className="p-4 rounded-lg border border-red-500/50 light:border-red-200 bg-red-500/10 light:bg-red-50 flex items-start gap-3 animate-fade-in">
               <AlertCircle className="w-5 h-5 text-red-400 light:text-red-500 flex-shrink-0 mt-0.5" />
               <div className="flex-1">
-                <p className="text-sm font-medium text-red-400 light:text-red-600">Revision Failed</p>
+                <p className="text-sm font-medium text-red-400 light:text-red-600">
+                  Revision Failed
+                </p>
                 <p className="text-xs text-red-300 light:text-red-500 mt-1">{error}</p>
                 <button
                   onClick={() => setError(null)}
