@@ -97,7 +97,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
     >
       <div
         className={`
-          bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl 
+          bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl
           w-full max-w-4xl border-2 ${bandConfig.border}
           clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]
         `}
@@ -199,7 +199,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
               </select>
 
               {isCapped && (
-                <div className="flex items-start gap-2 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-200 text-xs mb-3 animate-fade-in">
+                <div className="flex items-start gap-2 p-3 rounded-lg bg-amber-500/10 light:bg-amber-50 border border-amber-500/20 light:border-amber-200 text-amber-200 light:text-amber-700 text-xs mb-3 animate-fade-in">
                   <Info className="w-4 h-4 flex-shrink-0 mt-0.5" />
                   <p>
                     <strong>Tier Constraint:</strong> The verb '{prompt.verb}' (Tier{' '}
@@ -221,14 +221,14 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
 
           {/* Error State */}
           {error && (
-            <div className="p-4 rounded-lg border border-red-500/50 bg-red-500/10 flex items-start gap-3 animate-fade-in">
-              <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+            <div className="p-4 rounded-lg border border-red-500/50 light:border-red-200 bg-red-500/10 light:bg-red-50 flex items-start gap-3 animate-fade-in">
+              <AlertCircle className="w-5 h-5 text-red-400 light:text-red-500 flex-shrink-0 mt-0.5" />
               <div className="flex-1">
-                <p className="text-sm font-medium text-red-400">Revision Failed</p>
-                <p className="text-xs text-red-300 mt-1">{error}</p>
+                <p className="text-sm font-medium text-red-400 light:text-red-600">Revision Failed</p>
+                <p className="text-xs text-red-300 light:text-red-500 mt-1">{error}</p>
                 <button
                   onClick={() => setError(null)}
-                  className="text-xs text-red-400 hover:text-red-300 underline mt-2"
+                  className="text-xs text-red-400 light:text-red-600 hover:text-red-300 light:hover:text-red-700 underline mt-2"
                 >
                   Dismiss
                 </button>
@@ -238,8 +238,8 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-5 border-t border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-inset))]/30 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs text-[rgb(var(--color-text-dim))]">
+        <div className="px-6 py-5 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 flex items-center justify-between flex-shrink-0">
+          <div className="flex items-center gap-2 text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400">
             <Info className="w-3.5 h-3.5" />
             <span>Revision typically takes 8-20 seconds</span>
           </div>
