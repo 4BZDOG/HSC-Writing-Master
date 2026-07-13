@@ -1088,6 +1088,335 @@ begin
   return v_result;
 end; $$;
 
+-- ----------------------------------------------------------------------------
+-- 12. Schools — shared (pooled) AI quota groups.
+--     An admin creates a school, places students AND teachers in it, and can
+--     set a pooled daily AI budget for the whole school. Members still have
+--     their personal limit (§11); a call must fit under BOTH. A school with
+--     daily_ai_limit null has no pooled cap (members are only individually
+--     limited), so a school can be used purely as a grouping while budgets
+--     are refined over time.
+--
+--     This section supersedes §11's consume_ai_quota()/get_ai_quota_status()
+--     with school-aware versions — on an existing deployment, run this
+--     section alone as the migration.
+-- ----------------------------------------------------------------------------
+
+create table if not exists public.schools (
+  id             uuid primary key default gen_random_uuid(),
+  name           text not null unique check (length(trim(name)) > 0),
+  -- Pooled daily AI budget shared by every member; null = no pooled cap.
+  daily_ai_limit integer check (daily_ai_limit is null or daily_ai_limit >= 0),
+  created_at     timestamptz not null default now()
+);
+
+alter table public.profiles add column if not exists school_id uuid
+  references public.schools(id) on delete set null;
+create index if not exists profiles_school_idx on public.profiles(school_id);
+
+-- One counter row per school per UTC day (mirrors ai_usage).
+create table if not exists public.school_ai_usage (
+  school_id uuid not null references public.schools(id) on delete cascade,
+  day       date not null default (now() at time zone 'utc')::date,
+  calls     integer not null default 0,
+  primary key (school_id, day)
+);
+
+alter table public.schools         enable row level security;
+alter table public.school_ai_usage enable row level security;
+
+-- Any signed-in user can see the school list (the UI names "your school");
+-- there is deliberately NO write policy — changes go through the admin RPCs.
+drop policy if exists schools_read on public.schools;
+create policy schools_read on public.schools
+  for select using (auth.uid() is not null);
+
+-- Pool usage: your own school's rows, or any row for reviewers.
+drop policy if exists school_ai_usage_read on public.school_ai_usage;
+create policy school_ai_usage_read on public.school_ai_usage
+  for select using (
+    public.is_reviewer()
+    or school_id = (select school_id from public.profiles where id = auth.uid())
+  );
+-- No insert/update policies: the only write path is consume_ai_quota().
+
+-- Atomically consume one call from the caller's personal budget AND (when the
+-- caller's school sets a pooled limit) the school's shared pool. The verdict
+-- carries `scope` so the proxy can say WHICH budget ran out. Supersedes §11.
+create or replace function public.consume_ai_quota()
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare
+  v_user         uuid := auth.uid();
+  v_day          date := (now() at time zone 'utc')::date;
+  v_limit        integer;
+  v_used         integer;
+  v_school       uuid;
+  v_school_limit integer;
+  v_school_used  integer;
+begin
+  if v_user is null then
+    raise exception 'Not authenticated';
+  end if;
+
+  v_limit := coalesce(public.resolve_ai_quota(v_user), 50);
+
+  if v_limit <= 0 then
+    return jsonb_build_object('allowed', false, 'used', 0, 'limit', 0, 'scope', 'user');
+  end if;
+
+  select p.school_id, s.daily_ai_limit into v_school, v_school_limit
+    from public.profiles p
+    left join public.schools s on s.id = p.school_id
+   where p.id = v_user;
+
+  -- A zero pooled budget blocks every member before any unit is spent.
+  if v_school is not null and v_school_limit is not null and v_school_limit <= 0 then
+    return jsonb_build_object('allowed', false, 'used', 0, 'limit', 0, 'scope', 'school');
+  end if;
+
+  -- Personal spend: the conditional ON CONFLICT update makes
+  -- check-and-increment a single statement, so concurrent calls cannot
+  -- double-spend the last unit.
+  insert into public.ai_usage (user_id, day, calls)
+  values (v_user, v_day, 1)
+  on conflict (user_id, day) do update
+    set calls = ai_usage.calls + 1
+    where ai_usage.calls < v_limit
+  returning calls into v_used;
+
+  if v_used is null then
+    select calls into v_used from public.ai_usage
+     where user_id = v_user and day = v_day;
+    return jsonb_build_object('allowed', false, 'used', coalesce(v_used, v_limit),
+                              'limit', v_limit, 'scope', 'user');
+  end if;
+
+  -- Pooled school spend (same atomic pattern). Runs only when a pooled limit
+  -- is set; a school with daily_ai_limit null is grouping-only.
+  if v_school is not null and v_school_limit is not null then
+    insert into public.school_ai_usage (school_id, day, calls)
+    values (v_school, v_day, 1)
+    on conflict (school_id, day) do update
+      set calls = school_ai_usage.calls + 1
+      where school_ai_usage.calls < v_school_limit
+    returning calls into v_school_used;
+
+    if v_school_used is null then
+      -- Pool exhausted: hand back the personal unit spent above (same
+      -- transaction, so this can never under-count).
+      update public.ai_usage set calls = greatest(calls - 1, 0)
+       where user_id = v_user and day = v_day;
+      select calls into v_school_used from public.school_ai_usage
+       where school_id = v_school and day = v_day;
+      return jsonb_build_object('allowed', false,
+                                'used', coalesce(v_school_used, v_school_limit),
+                                'limit', v_school_limit, 'scope', 'school');
+    end if;
+  end if;
+
+  return jsonb_build_object('allowed', true, 'used', v_used, 'limit', v_limit, 'scope', 'user');
+end; $$;
+
+-- Read-only status for UI display (does not consume). Supersedes §11: adds a
+-- `school` block (null for users not in a school) so the client can show the
+-- shared pool alongside the personal allowance.
+create or replace function public.get_ai_quota_status()
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_user         uuid := auth.uid();
+  v_day          date := (now() at time zone 'utc')::date;
+  v_limit        integer;
+  v_used         integer;
+  v_school       uuid;
+  v_school_name  text;
+  v_school_limit integer;
+  v_school_used  integer;
+begin
+  if v_user is null then
+    raise exception 'Not authenticated';
+  end if;
+  v_limit := coalesce(public.resolve_ai_quota(v_user), 50);
+  select calls into v_used from public.ai_usage
+   where user_id = v_user and day = v_day;
+
+  select s.id, s.name, s.daily_ai_limit into v_school, v_school_name, v_school_limit
+    from public.profiles p
+    join public.schools s on s.id = p.school_id
+   where p.id = v_user;
+  if v_school is not null then
+    select calls into v_school_used from public.school_ai_usage
+     where school_id = v_school and day = v_day;
+  end if;
+
+  return jsonb_build_object(
+    'used', coalesce(v_used, 0),
+    'limit', v_limit,
+    'remaining', greatest(v_limit - coalesce(v_used, 0), 0),
+    'school', case when v_school is null then null else jsonb_build_object(
+      'name', v_school_name,
+      'used', coalesce(v_school_used, 0),
+      'limit', v_school_limit
+    ) end
+  );
+end; $$;
+
+-- Admin management ------------------------------------------------------------
+
+-- Create a school (optionally with a pooled daily limit). Returns its id.
+create or replace function public.create_school(p_name text, p_limit integer default null)
+returns uuid language plpgsql security definer set search_path = public as $$
+declare
+  v_id uuid;
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can create schools';
+  end if;
+  if p_name is null or length(trim(p_name)) = 0 then
+    raise exception 'School name is required';
+  end if;
+  if p_limit is not null and p_limit < 0 then
+    raise exception 'Limit must be null (no pooled cap) or a non-negative integer';
+  end if;
+  insert into public.schools (name, daily_ai_limit)
+  values (trim(p_name), p_limit)
+  returning id into v_id;
+  return v_id;
+end; $$;
+
+-- Set (or clear, with null) a school's pooled daily limit, by name.
+create or replace function public.set_school_ai_quota(p_name text, p_limit integer)
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can change school quotas';
+  end if;
+  if p_limit is not null and p_limit < 0 then
+    raise exception 'Limit must be null (no pooled cap) or a non-negative integer';
+  end if;
+  update public.schools set daily_ai_limit = p_limit where name = trim(p_name);
+  if not found then
+    raise exception 'No school named "%"', p_name;
+  end if;
+end; $$;
+
+-- Place a user in a school (or remove them, with a null school name).
+-- Addressed by username + school name for admin-console usability.
+create or replace function public.assign_user_school(p_username text, p_school_name text)
+returns void language plpgsql security definer set search_path = public as $$
+declare
+  v_school uuid;
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can assign users to schools';
+  end if;
+  if p_school_name is not null then
+    select id into v_school from public.schools where name = trim(p_school_name);
+    if v_school is null then
+      raise exception 'No school named "%"', p_school_name;
+    end if;
+  end if;
+  update public.profiles set school_id = v_school where username = p_username;
+  if not found then
+    raise exception 'No user with username "%"', p_username;
+  end if;
+end; $$;
+
+-- Reviewer-gated overview for the admin dashboard: every school with its
+-- member count and today's pooled usage.
+create or replace function public.list_schools()
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_result jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can list schools';
+  end if;
+  select coalesce(jsonb_agg(row_obj order by row_obj->>'name'), '[]'::jsonb)
+    into v_result
+  from (
+    select jsonb_build_object(
+      'id', s.id,
+      'name', s.name,
+      'daily_ai_limit', s.daily_ai_limit,
+      'members', (select count(*) from public.profiles p where p.school_id = s.id),
+      'used_today', coalesce((
+        select u.calls from public.school_ai_usage u
+         where u.school_id = s.id and u.day = (now() at time zone 'utc')::date), 0)
+    ) as row_obj
+    from public.schools s
+  ) sub;
+  return v_result;
+end; $$;
+
+-- =============================================================================
+-- §13 · Stripe billing integration
+--
+-- Adds Stripe-related columns to profiles and a subscriptions table that the
+-- Stripe webhook handler (api/stripe-webhook.ts) writes to.  The client
+-- reads `stripe_plan` from the profile to resolve entitlements; the rest is
+-- bookkeeping so the admin dashboard can display billing state.
+-- =============================================================================
+
+-- Extend profiles with Stripe identity and plan cache.
+alter table public.profiles
+  add column if not exists stripe_customer_id  text,
+  add column if not exists stripe_plan         text not null default 'free',
+  add column if not exists plan_period_end     timestamptz;
+
+create unique index if not exists profiles_stripe_customer_idx
+  on public.profiles (stripe_customer_id) where stripe_customer_id is not null;
+
+-- Detailed subscription record — one active row per user. Kept in sync by
+-- the webhook handler on customer.subscription.created/updated/deleted.
+create table if not exists public.subscriptions (
+  id                    text primary key,        -- Stripe subscription ID (sub_…)
+  user_id               uuid not null references public.profiles (id) on delete cascade,
+  stripe_customer_id    text not null,
+  status                text not null,           -- active | past_due | canceled | …
+  price_id              text not null,
+  plan                  text not null default 'plus',
+  current_period_start  timestamptz not null,
+  current_period_end    timestamptz not null,
+  cancel_at_period_end  boolean not null default false,
+  created_at            timestamptz not null default now(),
+  updated_at            timestamptz not null default now()
+);
+
+create index if not exists subscriptions_user_idx on public.subscriptions (user_id);
+
+-- RLS: users can read their own subscription, admins can read all.
+alter table public.subscriptions enable row level security;
+
+do $$ begin
+  create policy "Users read own subscriptions"
+    on public.subscriptions for select
+    using (auth.uid() = user_id);
+exception when duplicate_object then null; end $$;
+
+do $$ begin
+  create policy "Admins read all subscriptions"
+    on public.subscriptions for select
+    using (public.is_admin());
+exception when duplicate_object then null; end $$;
+
+-- Webhook handler writes via service-role key, so no insert/update policy
+-- is needed for authenticated users.
+
+-- Helper: resolve a user's active plan from their subscription state.
+-- Returns 'plus' | 'school' | 'free'.  Called from getUserPlan on the
+-- client via the profile's stripe_plan column (cached by the webhook).
+create or replace function public.resolve_stripe_plan(p_user_id uuid)
+returns text language sql stable security definer as $$
+  select coalesce(
+    (select s.plan from public.subscriptions s
+      where s.user_id = p_user_id
+        and s.status in ('active', 'trialing')
+      order by s.current_period_end desc
+      limit 1),
+    'free'
+  );
+$$;
+
 -- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.

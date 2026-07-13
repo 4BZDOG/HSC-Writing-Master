@@ -51,8 +51,8 @@ import ResponseFeedback from './ResponseFeedback';
 import { useAnswerMetrics } from '../hooks/useAnswerMetrics';
 import AnswerMetricsDisplay from './AnswerMetricsDisplay';
 import { exportEvaluationPdf } from '../pdf';
-import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
-import { PlusLockChip } from './UpgradeModal';
+import { isFeatureLocked, isFeedbackLocked, requestUpgrade } from '../services/entitlements';
+import { PlusLockChip, ContentLockOverlay } from './UpgradeModal';
 
 const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
   <div
@@ -512,14 +512,23 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
       </div>
 
       {/* Criteria Breakdown */}
-      <section>
+      <section className="relative">
         <div className="flex items-center gap-3 mb-6 no-print">
           <ClipboardList className="w-4 h-4 text-slate-400" />
           <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-[0.2em]">
             Criteria Breakdown
           </h3>
+          {isFeedbackLocked() && <PlusLockChip />}
         </div>
-        <div className="grid grid-cols-1 gap-3">
+        {isFeedbackLocked() && (
+          <ContentLockOverlay
+            feature="fullFeedback"
+            message="Detailed criterion feedback is a Plus feature"
+          />
+        )}
+        <div
+          className={`grid grid-cols-1 gap-3 ${isFeedbackLocked() ? 'blur-sm select-none pointer-events-none' : ''}`}
+        >
           {result.criteria.map((criterion, idx) => (
             <CriteriaRow
               key={idx}

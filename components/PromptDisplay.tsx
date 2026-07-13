@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Prompt, UserRole, CourseOutcome } from '../types';
-import { canCurateContent } from '../utils/permissions';
+import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import {
   Edit3,
   Save,
@@ -102,6 +102,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   const canCurate = canCurateContent(userRole);
+  const canGenerate = canUseAiGeneration(userRole);
   const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
   // The band a full-mark response reaches — used in COPY only ("Band 2").
   const targetBand = useMemo(
@@ -318,13 +319,15 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 </h2>
                 {canCurate && (
                   <div className="absolute -right-4 -top-10 opacity-0 group-hover/question:opacity-100 transition-opacity flex gap-2">
-                    <button
-                      onClick={() => onRunQualityCheck(prompt.question, 'question')}
-                      className="p-2.5 rounded-xl bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-300 text-emerald-400 hover:text-emerald-300 shadow-xl hover:scale-110 transition-all"
-                      title="Run Quality Check"
-                    >
-                      <ShieldCheck className="w-4 h-4" />
-                    </button>
+                    {canGenerate && (
+                      <button
+                        onClick={() => onRunQualityCheck(prompt.question, 'question')}
+                        className="p-2.5 rounded-xl bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-300 text-emerald-400 hover:text-emerald-300 shadow-xl hover:scale-110 transition-all"
+                        title="Run Quality Check"
+                      >
+                        <ShieldCheck className="w-4 h-4" />
+                      </button>
+                    )}
                     <button
                       onClick={() => setIsEditingQuestion(true)}
                       className="p-2.5 rounded-xl bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-300 text-slate-400 hover:text-white light:hover:text-indigo-600 shadow-xl hover:scale-110 transition-all"
@@ -347,16 +350,18 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 </h3>
                 {canCurate && !isEditingScenario && (
                   <div className="flex gap-2 opacity-0 group-hover/prompt:opacity-100 transition-opacity">
-                    <button
-                      onClick={onGenerateScenario}
-                      disabled={isGeneratingScenario}
-                      className="p-1.5 rounded-lg text-indigo-400 hover:bg-indigo-500/10 transition-colors"
-                      title="Regenerate Scenario"
-                    >
-                      <RefreshCw
-                        className={`w-3.5 h-3.5 ${isGeneratingScenario ? 'animate-spin' : ''}`}
-                      />
-                    </button>
+                    {canGenerate && (
+                      <button
+                        onClick={onGenerateScenario}
+                        disabled={isGeneratingScenario}
+                        className="p-1.5 rounded-lg text-indigo-400 hover:bg-indigo-500/10 transition-colors"
+                        title="Regenerate Scenario"
+                      >
+                        <RefreshCw
+                          className={`w-3.5 h-3.5 ${isGeneratingScenario ? 'animate-spin' : ''}`}
+                        />
+                      </button>
+                    )}
                     <button
                       onClick={() => setIsEditingScenario(true)}
                       className="p-1.5 rounded-lg text-slate-400 hover:text-white light:hover:text-indigo-600 hover:bg-white/10 transition-colors"
@@ -422,7 +427,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       <p className="text-xs text-slate-500 mb-1 font-medium">
                         No scenario provided.
                       </p>
-                      {canCurate && (
+                      {canGenerate && (
                         <button
                           onClick={onGenerateScenario}
                           disabled={isGeneratingScenario}
@@ -491,7 +496,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   <span className={`text-xs font-bold ${bandConfig.text}`}>Outcome Link</span>
                 </div>
               </div>
-              {canCurate && onSuggestOutcomes && (
+              {canGenerate && onSuggestOutcomes && (
                 <button
                   onClick={onSuggestOutcomes}
                   disabled={isSuggestingOutcomes}

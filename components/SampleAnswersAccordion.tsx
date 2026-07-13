@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Prompt, SampleAnswer, UserRole } from '../types';
-import { canCurateContent } from '../utils/permissions';
+import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import {
   renderFormattedText,
   getBandConfig,
@@ -38,8 +38,8 @@ import {
 } from 'lucide-react';
 import { useAnswerMetrics } from '../hooks/useAnswerMetrics';
 import AnswerMetricsDisplay from './AnswerMetricsDisplay';
-import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
-import { PlusLockChip } from './UpgradeModal';
+import { isFeatureLocked, isSampleAnswerLocked, requestUpgrade } from '../services/entitlements';
+import { PlusLockChip, ContentLockOverlay } from './UpgradeModal';
 
 // --- Shared Internal Components ---
 
@@ -251,9 +251,15 @@ const CarouselAccordionItem: React.FC<{
           className={`grid transition-all duration-500 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
         >
           <div className="overflow-hidden">
-            <div className="px-6 pb-6">
+            <div className="px-6 pb-6 relative">
+              {isSampleAnswerLocked(displayBand) && (
+                <ContentLockOverlay
+                  feature="sampleAnswers"
+                  message={`Band ${displayBand} sample answers are a Plus feature`}
+                />
+              )}
               <div
-                className={`relative rounded-2xl bg-slate-50 dark:bg-[#0f1115] border ${bandConfig.border} overflow-hidden shadow-inner`}
+                className={`relative rounded-2xl bg-slate-50 dark:bg-[#0f1115] border ${bandConfig.border} overflow-hidden shadow-inner ${isSampleAnswerLocked(displayBand) ? 'blur-sm select-none pointer-events-none' : ''}`}
               >
                 {/* Controls Bar */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 border-b border-slate-200 dark:border-white/10 bg-white/50 dark:bg-white/[0.02]">
@@ -392,6 +398,9 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   const [isRecalibrating, setIsRecalibrating] = useState(false);
 
   const canCurate = canCurateContent(userRole);
+  // AI generation (draft/recalibrate) is a separate capability from manual
+  // curation so the role sets can diverge — see utils/permissions.ts.
+  const canGenerate = canUseAiGeneration(userRole);
   const studioLocked = isFeatureLocked('aiContentStudio');
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
 
@@ -494,7 +503,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             </button>
           </div>
 
-          {canCurate && (
+          {canGenerate && (
             <>
               {onRecalibrate && (
                 <button

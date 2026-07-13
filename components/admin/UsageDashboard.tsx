@@ -13,18 +13,25 @@ import {
   RotateCcw,
   Download,
   DollarSign,
+  School,
+  Plus,
 } from 'lucide-react';
 import {
   fetchMyQuotaStatus,
   fetchRoleQuotas,
   fetchUsageReport,
   fetchModelUsageReport,
+  fetchSchools,
+  createSchool,
+  setSchoolQuota,
+  assignUserSchool,
   setRoleQuota,
   setUserQuotaOverride,
   type QuotaStatus,
   type QuotaRole,
   type UsageReportRow,
   type ModelUsageRow,
+  type SchoolRow,
 } from '../../services/quotaService';
 import { isCurriculumRemote } from '../../services/curriculumService';
 import { getSelectionSnapshot, subscribeAiConfig } from '../../services/aiConfig';
@@ -132,6 +139,14 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
   // Fallback editor for users with no usage row today.
   const [extraUser, setExtraUser] = useState('');
   const [extraLimit, setExtraLimit] = useState('');
+  // Schools (shared quota pools, schema §12). null = the RPC is absent
+  // (database pre-dates the migration) and the section hides itself.
+  const [schools, setSchools] = useState<SchoolRow[] | null>([]);
+  const [schoolLimitDrafts, setSchoolLimitDrafts] = useState<Record<string, string>>({});
+  const [newSchoolName, setNewSchoolName] = useState('');
+  const [newSchoolLimit, setNewSchoolLimit] = useState('');
+  const [memberUser, setMemberUser] = useState('');
+  const [memberSchool, setMemberSchool] = useState('');
 
   useEscapeKey(isOpen && !isBusy, onClose);
 
@@ -170,6 +185,16 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
       setModelUsage(await fetchModelUsageReport(7));
     } catch {
       setModelUsage([]);
+    }
+
+    // Schools are the same kind of progressive enhancement: list_schools is
+    // absent on a database that pre-dates §12, so a failure hides the section
+    // rather than breaking the dashboard.
+    try {
+      setSchools(await fetchSchools());
+      setSchoolLimitDrafts({});
+    } catch {
+      setSchools(null);
     }
   }, [remote, showToast]);
 
@@ -322,6 +347,70 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
       return;
     }
     applyOverride(username, parsed);
+  };
+
+  // --- Schools (shared quota pools) ---------------------------------------
+
+  const runSchoolAction = async (action: () => Promise<void>, successMessage: string) => {
+    setIsBusy(true);
+    try {
+      await action();
+      showToast(successMessage, 'success');
+      await load();
+    } catch (e) {
+      showToast(e instanceof Error ? e.message : 'The school update failed.', 'error');
+    } finally {
+      setIsBusy(false);
+    }
+  };
+
+  const handleCreateSchool = () => {
+    const name = newSchoolName.trim();
+    if (!name) {
+      showToast('Enter a name for the new school.', 'error');
+      return;
+    }
+    const limit = newSchoolLimit.trim() === '' ? null : Number.parseInt(newSchoolLimit, 10);
+    if (limit !== null && (!Number.isFinite(limit) || limit < 0)) {
+      showToast('Pooled limit must be a non-negative number, or blank for no pooled cap.', 'error');
+      return;
+    }
+    runSchoolAction(async () => {
+      await createSchool(name, limit);
+      setNewSchoolName('');
+      setNewSchoolLimit('');
+    }, `School "${name}" created.`);
+  };
+
+  const handleSchoolLimit = (name: string, clear: boolean) => {
+    const draft = schoolLimitDrafts[name] ?? '';
+    const limit = clear ? null : Number.parseInt(draft, 10);
+    if (!clear && (!Number.isFinite(limit as number) || (limit as number) < 0)) {
+      showToast('Enter a non-negative pooled limit, or use Clear.', 'error');
+      return;
+    }
+    runSchoolAction(
+      () => setSchoolQuota(name, limit),
+      clear
+        ? `"${name}" now has no pooled cap — members are only individually limited.`
+        : `"${name}" now shares ${limit} calls/day.`
+    );
+  };
+
+  const handleAssignMember = (clear: boolean) => {
+    const username = memberUser.trim();
+    if (!username) {
+      showToast('Enter the username to place.', 'error');
+      return;
+    }
+    if (!clear && !memberSchool) {
+      showToast('Pick the school to place them in.', 'error');
+      return;
+    }
+    runSchoolAction(
+      () => assignUserSchool(username, clear ? null : memberSchool),
+      clear ? `${username} removed from their school.` : `${username} placed in "${memberSchool}".`
+    );
   };
 
   if (!isOpen) return null;
@@ -680,6 +769,175 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   Budgets reset at midnight UTC. A personal override always beats its group limit.
                 </p>
               </section>
+
+              {/* Schools — shared quota pools. Hidden when the database
+                  pre-dates the schools migration (schema §12). */}
+              {schools !== null && (
+                <section>
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                    <School className="w-3.5 h-3.5" /> Schools · shared daily pools
+                  </h3>
+                  <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400 mb-3 max-w-xl">
+                    Place students and teachers in a school to give them one shared daily AI budget.
+                    Every member&apos;s calls draw from the pool as well as their personal limit —
+                    whichever runs out first stops the call. Leave the pool blank to use a school as
+                    a grouping only.
+                  </p>
+
+                  {schools.length > 0 && (
+                    <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden mb-3">
+                      <table className="w-full text-left text-sm">
+                        <thead className="bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 uppercase text-[10px] font-bold">
+                          <tr>
+                            <th className="px-4 py-2.5">School</th>
+                            <th className="px-4 py-2.5 text-right">Members</th>
+                            <th className="px-4 py-2.5">Pool today</th>
+                            <th className="px-4 py-2.5 text-right">Pooled limit</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[rgb(var(--color-border-secondary))]/30 light:divide-slate-200">
+                          {schools.map((s) => (
+                            <tr
+                              key={s.id}
+                              className="hover:bg-[rgb(var(--color-bg-surface-light))]/10 light:hover:bg-slate-50"
+                            >
+                              <td className="px-4 py-2.5 font-medium text-[rgb(var(--color-text-primary))] light:text-slate-800">
+                                {s.name}
+                              </td>
+                              <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-secondary))] light:text-slate-700">
+                                {s.members}
+                              </td>
+                              <td className="px-4 py-2.5">
+                                {s.daily_ai_limit !== null ? (
+                                  <UsageMeter used={s.used_today} limit={s.daily_ai_limit} />
+                                ) : (
+                                  <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400 italic">
+                                    no pooled cap
+                                  </span>
+                                )}
+                              </td>
+                              <td className="px-4 py-2.5">
+                                <div className="flex items-center gap-1.5 justify-end">
+                                  <input
+                                    type="number"
+                                    min={0}
+                                    aria-label={`Pooled daily limit for ${s.name}`}
+                                    placeholder={
+                                      s.daily_ai_limit !== null ? String(s.daily_ai_limit) : '—'
+                                    }
+                                    value={schoolLimitDrafts[s.name] ?? ''}
+                                    onChange={(e) =>
+                                      setSchoolLimitDrafts((prev) => ({
+                                        ...prev,
+                                        [s.name]: e.target.value,
+                                      }))
+                                    }
+                                    className="w-20 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1 text-right font-mono outline-none focus:border-[rgb(var(--color-accent))]/60"
+                                  />
+                                  <button
+                                    onClick={() => handleSchoolLimit(s.name, false)}
+                                    disabled={isBusy}
+                                    aria-label={`Set pooled limit for ${s.name}`}
+                                    title="Set the shared daily pool for this school"
+                                    className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all disabled:opacity-50"
+                                  >
+                                    <Check className="w-3.5 h-3.5" />
+                                  </button>
+                                  {s.daily_ai_limit !== null && (
+                                    <button
+                                      onClick={() => handleSchoolLimit(s.name, true)}
+                                      disabled={isBusy}
+                                      aria-label={`Clear pooled limit for ${s.name}`}
+                                      title="Remove the pooled cap — members are only individually limited"
+                                      className="p-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))] transition-all disabled:opacity-50"
+                                    >
+                                      <RotateCcw className="w-3.5 h-3.5" />
+                                    </button>
+                                  )}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+
+                  {/* Create a school */}
+                  <div className="flex flex-wrap items-center gap-2 mb-2">
+                    <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                      New school:
+                    </span>
+                    <input
+                      type="text"
+                      placeholder="name, e.g. Northmead High"
+                      aria-label="New school name"
+                      value={newSchoolName}
+                      onChange={(e) => setNewSchoolName(e.target.value)}
+                      className="w-48 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60"
+                    />
+                    <input
+                      type="number"
+                      min={0}
+                      placeholder="pool (optional)"
+                      aria-label="New school pooled daily limit"
+                      value={newSchoolLimit}
+                      onChange={(e) => setNewSchoolLimit(e.target.value)}
+                      className="w-28 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 text-right font-mono outline-none focus:border-[rgb(var(--color-accent))]/60"
+                    />
+                    <button
+                      onClick={handleCreateSchool}
+                      disabled={isBusy}
+                      className="px-3 py-1.5 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 text-xs font-bold transition-all disabled:opacity-50 flex items-center gap-1.5"
+                    >
+                      <Plus className="w-3.5 h-3.5" /> Create
+                    </button>
+                  </div>
+
+                  {/* Place a user in a school */}
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                      Place a user:
+                    </span>
+                    <input
+                      type="text"
+                      placeholder="username"
+                      aria-label="Username to place in a school"
+                      value={memberUser}
+                      onChange={(e) => setMemberUser(e.target.value)}
+                      className="w-36 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60"
+                    />
+                    <select
+                      aria-label="School to place the user in"
+                      value={memberSchool}
+                      onChange={(e) => setMemberSchool(e.target.value)}
+                      className="text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60 text-[rgb(var(--color-text-secondary))] light:text-slate-700"
+                    >
+                      <option value="">choose school…</option>
+                      {schools.map((s) => (
+                        <option key={s.id} value={s.name}>
+                          {s.name}
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      onClick={() => handleAssignMember(false)}
+                      disabled={isBusy}
+                      className="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 hover:bg-emerald-500/20 text-xs font-bold transition-all disabled:opacity-50"
+                    >
+                      Place
+                    </button>
+                    <button
+                      onClick={() => handleAssignMember(true)}
+                      disabled={isBusy}
+                      title="Remove this user from whichever school they are in"
+                      className="px-3 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))] text-xs font-bold transition-all disabled:opacity-50"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </section>
+              )}
             </>
           )}
         </div>

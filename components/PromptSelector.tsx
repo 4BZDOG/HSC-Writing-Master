@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Course, StatePath, UserRole, PromptVerb } from '../types';
-import { canCurateContent, isSystemAdmin } from '../utils/permissions';
+import { canCurateContent, canUseAiGeneration, isSystemAdmin } from '../utils/permissions';
 import Combobox from './Combobox';
 import {
   Plus,
@@ -30,7 +30,7 @@ import {
 import { getCommandTermInfo, extractCommandVerb } from '../data/commandTerms';
 import { getTierScaleConfig } from '../utils/renderUtils';
 import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
-import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
+import { isFeatureLocked, isQuestionTierLocked, requestUpgrade } from '../services/entitlements';
 import { PlusLockChip } from './UpgradeModal';
 
 interface PromptSelectorProps {
@@ -144,6 +144,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   userRole,
 }) => {
   const canCurate = canCurateContent(userRole);
+  const canGenerate = canUseAiGeneration(userRole);
   const isAdmin = isSystemAdmin(userRole);
   // AI generation controls stay visible when gated — amber + lock, and a click
   // opens the upgrade prompt instead. See services/entitlements.
@@ -294,11 +295,8 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       .map((p) => {
         const verbInfo = resolveVerbInfo(p.verb, p.question);
         const safeTier = Math.max(1, Math.min(6, Math.floor(verbInfo.tier || 4)));
-        // Colour each question by its VERB TIER identity (red … purple), the
-        // same scale as the verb hierarchy — so a Tier-1 question is red in
-        // the picker, the prompt and the writing area alike. Band NUMBERS
-        // still come from the band model and appear in copy only.
         const tierConfig = getTierScaleConfig(safeTier);
+        const tierLocked = isQuestionTierLocked(safeTier);
 
         return {
           id: p.id,
@@ -307,14 +305,19 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           verb: verbInfo.term,
           tier: safeTier,
           isNew: newlyAddedIds.has(p.id),
+          disabled: tierLocked,
           renderLabel: (
             <div
-              className={`flex items-start gap-3 w-full overflow-hidden p-2 rounded-lg transition-colors ${tierConfig.bg}`}
+              className={`flex items-start gap-3 w-full overflow-hidden p-2 rounded-lg transition-colors ${tierLocked ? 'opacity-60' : ''} ${tierConfig.bg}`}
             >
               <div
                 className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 border ${tierConfig.solidBg} ${tierConfig.border} shadow-sm`}
               >
-                <FileQuestion className="w-5 h-5 text-white" />
+                {tierLocked ? (
+                  <Lock className="w-5 h-5 text-white/70" />
+                ) : (
+                  <FileQuestion className="w-5 h-5 text-white" />
+                )}
               </div>
               <div className="flex flex-col min-w-0 flex-1">
                 <span
@@ -333,6 +336,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   >
                     • {p.totalMarks} Marks
                   </span>
+                  {tierLocked && <PlusLockChip />}
                 </div>
               </div>
             </div>
@@ -486,14 +490,16 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             {canCurate && (
               <div className="flex items-center gap-2 flex-wrap justify-end">
                 <ActionButton onClick={onAddCourse} icon={Plus} title="Add Course" label="Add" />
-                <ActionButton
-                  onClick={onImportSyllabus}
-                  icon={UploadCloud}
-                  title="Import Syllabus (AI) — build or update a course from NESA syllabus text or a URL"
-                  label="Import Syllabus"
-                  variant="special"
-                  locked={studioLocked}
-                />
+                {canGenerate && (
+                  <ActionButton
+                    onClick={onImportSyllabus}
+                    icon={UploadCloud}
+                    title="Import Syllabus (AI) — build or update a course from NESA syllabus text or a URL"
+                    label="Import Syllabus"
+                    variant="special"
+                    locked={studioLocked}
+                  />
+                )}
                 {isAdmin && (
                   <ActionButton
                     onClick={onOpenDataManager}
@@ -574,14 +580,16 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <div className="flex items-center gap-2 flex-wrap justify-end">
                   {selectedTopic ? (
                     <>
-                      <ActionButton
-                        onClick={onAddTopicFromSyllabus}
-                        icon={UploadCloud}
-                        title={`Add sub-topics and dot points into "${selectedTopic.name}" from NESA syllabus text or a URL (AI)`}
-                        label="Add from Syllabus"
-                        variant="special"
-                        locked={studioLocked}
-                      />
+                      {canGenerate && (
+                        <ActionButton
+                          onClick={onAddTopicFromSyllabus}
+                          icon={UploadCloud}
+                          title={`Add sub-topics and dot points into "${selectedTopic.name}" from NESA syllabus text or a URL (AI)`}
+                          label="Add from Syllabus"
+                          variant="special"
+                          locked={studioLocked}
+                        />
+                      )}
                       <ActionButton
                         onClick={() => onRenameItem('topic', selectedTopic.id, selectedTopic.name)}
                         icon={Edit3}
@@ -608,14 +616,16 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                         title="Add Topic"
                         label="Add"
                       />
-                      <ActionButton
-                        onClick={onAddTopicFromSyllabus}
-                        icon={UploadCloud}
-                        title="Build a new topic from NESA syllabus text or a URL (AI)"
-                        label="From Syllabus"
-                        variant="special"
-                        locked={studioLocked}
-                      />
+                      {canGenerate && (
+                        <ActionButton
+                          onClick={onAddTopicFromSyllabus}
+                          icon={UploadCloud}
+                          title="Build a new topic from NESA syllabus text or a URL (AI)"
+                          label="From Syllabus"
+                          variant="special"
+                          locked={studioLocked}
+                        />
+                      )}
                       <ActionButton
                         onClick={onImportTopic}
                         icon={Upload}
@@ -788,7 +798,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                         variant="danger"
                       />
                     </>
-                  ) : (
+                  ) : canGenerate ? (
                     <ActionButton
                       onClick={onGenerateDotPoints}
                       icon={Sparkles}
@@ -797,7 +807,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       variant="special"
                       locked={studioLocked}
                     />
-                  )}
+                  ) : null}
                 </div>
               )}
             </div>
@@ -848,7 +858,14 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   label={null}
                   options={promptOptions}
                   value={statePath.promptId || ''}
-                  onChange={(id) => onPathChange({ promptId: id })}
+                  onChange={(id) => {
+                    const opt = promptOptions.find((o) => o.id === id);
+                    if (opt?.disabled) {
+                      requestUpgrade('advancedQuestions');
+                      return;
+                    }
+                    onPathChange({ promptId: id });
+                  }}
                   placeholder="Select Question..."
                   color="amber"
                 />
@@ -857,13 +874,15 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <div className="flex items-center gap-2 flex-wrap justify-end">
                   {selectedPrompt ? (
                     <>
-                      <ActionButton
-                        onClick={onGeneratePrompt}
-                        icon={Sparkles}
-                        title="Generate New"
-                        variant="primary"
-                        locked={studioLocked}
-                      />
+                      {canGenerate && (
+                        <ActionButton
+                          onClick={onGeneratePrompt}
+                          icon={Sparkles}
+                          title="Generate New"
+                          variant="primary"
+                          locked={studioLocked}
+                        />
+                      )}
                       <ActionButton
                         onClick={onManualEntry}
                         icon={PenTool}
@@ -891,24 +910,28 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       >
                         <PenTool className="w-4 h-4" /> Manual
                       </button>
-                      <button
-                        onClick={
-                          studioLocked ? () => requestUpgrade('aiContentStudio') : onGeneratePrompt
-                        }
-                        title={
-                          studioLocked
-                            ? 'AI question generation is part of Writing Studio Plus — tap to learn more'
-                            : undefined
-                        }
-                        className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all ${
-                          studioLocked
-                            ? 'bg-amber-400/15 text-amber-500 light:text-amber-600 border border-amber-400/40'
-                            : 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white'
-                        }`}
-                      >
-                        <Sparkles className="w-4 h-4" /> Generate
-                        {studioLocked && <PlusLockChip />}
-                      </button>
+                      {canGenerate && (
+                        <button
+                          onClick={
+                            studioLocked
+                              ? () => requestUpgrade('aiContentStudio')
+                              : onGeneratePrompt
+                          }
+                          title={
+                            studioLocked
+                              ? 'AI question generation is part of Writing Studio Plus — tap to learn more'
+                              : undefined
+                          }
+                          className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all ${
+                            studioLocked
+                              ? 'bg-amber-400/15 text-amber-500 light:text-amber-600 border border-amber-400/40'
+                              : 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white'
+                          }`}
+                        >
+                          <Sparkles className="w-4 h-4" /> Generate
+                          {studioLocked && <PlusLockChip />}
+                        </button>
+                      )}
                     </div>
                   )}
                 </div>

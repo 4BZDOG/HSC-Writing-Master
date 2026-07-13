@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { Crown, Lock, Check, Sparkles, X } from 'lucide-react';
+import { Crown, Lock, Check, Sparkles, X, Zap } from 'lucide-react';
 import {
   PREMIUM_FEATURES,
   PLAN_LABELS,
   UPGRADE_REQUEST_EVENT,
   PremiumFeatureKey,
+  createCheckoutUrl,
+  STRIPE_PRICE_IDS,
 } from '../services/entitlements';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 
@@ -21,6 +23,38 @@ export const PlusLockChip: React.FC<{ className?: string }> = ({ className = '' 
   </span>
 );
 
+/**
+ * Blurred content overlay — shown over locked content (sample answers,
+ * detailed feedback) to let free users see the shape of what they're
+ * missing without reading the detail.
+ */
+export const ContentLockOverlay: React.FC<{
+  feature: PremiumFeatureKey;
+  message?: string;
+}> = ({ feature, message }) => {
+  const meta = PREMIUM_FEATURES[feature];
+  return (
+    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-[rgb(var(--color-bg-surface))]/80 light:bg-white/80 backdrop-blur-sm rounded-2xl">
+      <div className="flex flex-col items-center gap-3 text-center px-6 max-w-xs">
+        <div className="w-10 h-10 rounded-2xl bg-amber-400/15 border border-amber-400/30 flex items-center justify-center">
+          <Lock className="w-5 h-5 text-amber-500" />
+        </div>
+        <p className="text-xs font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
+          {message || meta?.title || 'Plus Feature'}
+        </p>
+        <button
+          onClick={() =>
+            window.dispatchEvent(new CustomEvent(UPGRADE_REQUEST_EVENT, { detail: { feature } }))
+          }
+          className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-[10px] uppercase tracking-widest shadow-lg hover:scale-105 active:scale-95 transition-all"
+        >
+          Unlock with Plus
+        </button>
+      </div>
+    </div>
+  );
+};
+
 interface UpgradeModalProps {
   showToast: (message: string, type: 'success' | 'error' | 'info') => void;
 }
@@ -28,11 +62,16 @@ interface UpgradeModalProps {
 /**
  * The friendly "this is a Plus feature" prompt. Mounted once (in App); any
  * component opens it by calling requestUpgrade(featureKey) — no prop drilling.
- * Copy is deliberately soft because pricing isn't finalised: the CTA registers
- * interest rather than promising a checkout.
+ *
+ * When Stripe is configured (price IDs set), the CTA opens a real checkout.
+ * Until then, it registers interest via a toast.
  */
 const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast }) => {
   const [feature, setFeature] = useState<PremiumFeatureKey | null>(null);
+  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('yearly');
+  const [isRedirecting, setIsRedirecting] = useState(false);
+
+  const stripeReady = !!(STRIPE_PRICE_IDS.plus_monthly && STRIPE_PRICE_IDS.plus_yearly);
 
   useEffect(() => {
     const onRequest = (e: Event) => {
@@ -43,8 +82,29 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast }) => {
     return () => window.removeEventListener(UPGRADE_REQUEST_EVENT, onRequest);
   }, []);
 
-  const close = useCallback(() => setFeature(null), []);
+  const close = useCallback(() => {
+    setFeature(null);
+    setIsRedirecting(false);
+  }, []);
   useEscapeKey(!!feature, close);
+
+  const handleUpgrade = async () => {
+    if (!stripeReady) {
+      showToast("Thanks! We'll let you know when Plus plans launch.", 'success');
+      close();
+      return;
+    }
+    setIsRedirecting(true);
+    const priceId =
+      billingPeriod === 'yearly' ? STRIPE_PRICE_IDS.plus_yearly : STRIPE_PRICE_IDS.plus_monthly;
+    const url = await createCheckoutUrl(priceId);
+    if (url) {
+      window.location.href = url;
+    } else {
+      showToast('Could not start checkout. Please try again.', 'error');
+      setIsRedirecting(false);
+    }
+  };
 
   if (!feature) return null;
   const meta = PREMIUM_FEATURES[feature];
@@ -90,8 +150,10 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast }) => {
 
         <div className="p-6 overflow-y-auto custom-scrollbar">
           <p className="text-sm text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed mb-5">
-            {meta.blurb} This is part of <strong>{PLAN_LABELS.plus}</strong> — plans are being
-            finalised, so it isn't available on the free plan just yet.
+            {meta.blurb}{' '}
+            {stripeReady
+              ? `Upgrade to ${PLAN_LABELS.plus} to unlock this and everything below.`
+              : `This is part of ${PLAN_LABELS.plus} — plans are being finalised, so it isn't available on the free plan just yet.`}
           </p>
 
           <div className="rounded-2xl bg-amber-400/5 light:bg-amber-50 border border-amber-400/20 light:border-amber-200 p-4 mb-6">
@@ -111,15 +173,40 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast }) => {
             </ul>
           </div>
 
+          {/* Billing period toggle (only when Stripe is live) */}
+          {stripeReady && (
+            <div className="flex items-center justify-center gap-2 mb-5">
+              <button
+                onClick={() => setBillingPeriod('monthly')}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                  billingPeriod === 'monthly'
+                    ? 'bg-amber-400/20 text-amber-600 dark:text-amber-400 border border-amber-400/40'
+                    : 'text-slate-400 hover:text-slate-300'
+                }`}
+              >
+                Monthly
+              </button>
+              <button
+                onClick={() => setBillingPeriod('yearly')}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+                  billingPeriod === 'yearly'
+                    ? 'bg-amber-400/20 text-amber-600 dark:text-amber-400 border border-amber-400/40'
+                    : 'text-slate-400 hover:text-slate-300'
+                }`}
+              >
+                Yearly <Zap className="w-3 h-3" />
+              </button>
+            </div>
+          )}
+
           <div className="flex flex-col sm:flex-row gap-3">
             <button
-              onClick={() => {
-                showToast("Thanks! We'll let you know when Plus plans launch.", 'success');
-                close();
-              }}
-              className="flex-1 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-xs uppercase tracking-widest shadow-xl shadow-amber-900/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2"
+              onClick={handleUpgrade}
+              disabled={isRedirecting}
+              className="flex-1 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-xs uppercase tracking-widest shadow-xl shadow-amber-900/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
             >
-              <Crown className="w-4 h-4" /> Keep me posted
+              <Crown className="w-4 h-4" />{' '}
+              {isRedirecting ? 'Redirecting…' : stripeReady ? 'Upgrade now' : 'Keep me posted'}
             </button>
             <button
               onClick={close}

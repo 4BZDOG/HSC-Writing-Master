@@ -135,6 +135,33 @@ const AiQuotaPanel: React.FC = () => {
               }}
             />
           </div>
+
+          {/* The school's shared pool (schema §12) — every member's calls
+              draw from it, so it sits right under the personal bar. Only
+              shown when the school actually has a pooled cap. */}
+          {myStatus.school && myStatus.school.limit !== null && (
+            <div className="mt-2">
+              <div className="flex justify-between items-center text-xs mb-1">
+                <span
+                  className="text-[rgb(var(--color-text-secondary))] light:text-slate-600 truncate mr-2"
+                  title={`Shared daily pool for ${myStatus.school.name}`}
+                >
+                  {myStatus.school.name} (shared)
+                </span>
+                <span className="font-mono font-bold text-white light:text-slate-900">
+                  {myStatus.school.used}/{myStatus.school.limit}
+                </span>
+              </div>
+              <div className="h-1.5 rounded-full bg-black/40 light:bg-slate-200 overflow-hidden border border-white/5 light:border-slate-300">
+                <div
+                  className={`h-full transition-all ${myStatus.school.used >= myStatus.school.limit ? 'bg-red-500' : 'bg-sky-500'}`}
+                  style={{
+                    width: `${myStatus.school.limit > 0 ? Math.min(100, (myStatus.school.used / myStatus.school.limit) * 100) : 100}%`,
+                  }}
+                />
+              </div>
+            </div>
+          )}
         </div>
       )}
 

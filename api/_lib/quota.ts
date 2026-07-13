@@ -20,6 +20,12 @@ export interface QuotaVerdict {
   allowed: boolean;
   used: number;
   limit: number;
+  /**
+   * Which budget the verdict is about: the caller's personal daily allowance
+   * ('user') or their school's shared pool ('school', schema §12). Absent on
+   * databases that pre-date the schools migration — treat as 'user'.
+   */
+  scope?: 'user' | 'school';
 }
 
 export const isQuotaEnabled = (): boolean =>

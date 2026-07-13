@@ -30,6 +30,8 @@ import {
   GraduationCap,
 } from 'lucide-react';
 import { PromptVerb, WritingMode } from '../types';
+import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
+import { PlusLockChip } from './UpgradeModal';
 
 interface EditorProps {
   value: string;
@@ -437,13 +439,20 @@ const Editor = forwardRef<
                     </button>
                     <button
                       type="button"
-                      onClick={() => onWritingModeChange('exam')}
+                      onClick={() => {
+                        if (isFeatureLocked('examMode')) {
+                          requestUpgrade('examMode');
+                        } else {
+                          onWritingModeChange('exam');
+                        }
+                      }}
                       aria-pressed={isExamMode}
                       title="Exam Mode — HSC exam simulation: no assistance, timed"
                       className={`px-2.5 h-7 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 ${isExamMode ? 'bg-red-500 text-white shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
                     >
                       <GraduationCap className="w-3.5 h-3.5" />
                       <span className="hidden md:inline">Exam</span>
+                      {isFeatureLocked('examMode') && <PlusLockChip className="ml-0.5" />}
                     </button>
                   </div>
                   <div className="w-px h-4 bg-white/20 mx-0.5" />

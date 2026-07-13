@@ -31,6 +31,12 @@ import { screenContentQuality } from './services/geminiService';
 import { User, WritingMode } from './types';
 import { canCurateContent, canModerate, isSystemAdmin } from './utils/permissions';
 import {
+  isEvalLimitReached,
+  recordEvaluation,
+  freeEvalsRemaining,
+  requestUpgrade,
+} from './services/entitlements';
+import {
   Compass,
   Sparkles,
   Database,
@@ -347,9 +353,17 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   const [newlyAddedIds, setNewlyAddedIds] = useState<Set<string>>(new Set());
 
   const handleEvaluate = () => {
-    if (currentPrompt && userAnswer.trim()) {
-      evaluate(userAnswer, currentPrompt);
+    if (!currentPrompt || !userAnswer.trim()) return;
+    if (isEvalLimitReached(user)) {
+      showToast(
+        "You've used all 5 free evaluations for today. Upgrade to Plus for unlimited marking.",
+        'info'
+      );
+      requestUpgrade('fullFeedback');
+      return;
     }
+    evaluate(userAnswer, currentPrompt);
+    recordEvaluation();
   };
 
   useEffect(() => {

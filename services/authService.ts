@@ -83,6 +83,7 @@ interface ProfileRow {
   role?: string | null;
   preferences?: Partial<UserPreferences> | null;
   stats?: Partial<UserStats> | null;
+  stripe_plan?: string | null;
 }
 
 /**
@@ -110,12 +111,14 @@ export const mapProfileToUser = (
   profile: ProfileRow | null
 ): User => {
   const username = profile?.username || authEmail || 'user';
+  const stripePlan = profile?.stripe_plan as User['stripePlan'];
   return {
     username,
     role: mapSupabaseRole(profile?.role),
     displayName: profile?.display_name || username,
     preferences: { ...DEFAULT_PREFERENCES, ...(profile?.preferences || {}) },
     stats: { ...DEFAULT_STATS, ...(profile?.stats || {}) },
+    ...(stripePlan && stripePlan !== 'free' ? { stripePlan } : {}),
   };
 };
 

@@ -77,18 +77,22 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   }
 
   // Quota gate: one unit of the caller's daily budget per proxied call
-  // (per-user override → role/group default; see supabase/schema.sql §11).
-  // Only meaningful for authenticated callers — when auth is disabled
-  // (no Supabase) there is no identity to meter, matching the auth gate.
+  // (per-user override → role/group default, plus the school's shared pool
+  // when one is set; see supabase/schema.sql §11–12). Only meaningful for
+  // authenticated callers — when auth is disabled (no Supabase) there is no
+  // identity to meter, matching the auth gate.
   let quota: QuotaVerdict | null = null;
   if (auth.userId) {
     const token = extractBearerToken(authHeader);
     quota = token ? await consumeAiQuota(token) : null;
     if (quota && !quota.allowed) {
-      res.status(429).json({
-        error: `Daily AI limit reached (${quota.used}/${quota.limit} calls used today). Your allowance resets at midnight UTC — ask an admin if you need more.`,
-        quota,
-      });
+      // Both wordings must keep the "Daily AI limit" phrase — services/aiCore.ts
+      // fast-fails (no retries) on /daily ai limit/i.
+      const message =
+        quota.scope === 'school'
+          ? `Daily AI limit reached for your school (${quota.used}/${quota.limit} shared calls used today). The pool resets at midnight UTC — ask an admin if your school needs more.`
+          : `Daily AI limit reached (${quota.used}/${quota.limit} calls used today). Your allowance resets at midnight UTC — ask an admin if you need more.`;
+      res.status(429).json({ error: message, quota });
       return;
     }
     // The call is going ahead and a unit has been spent — tally which model it

@@ -12,6 +12,12 @@ export interface QuotaStatus {
   used: number;
   limit: number;
   remaining: number;
+  /**
+   * The caller's school pool (schema §12): null when the user is in no
+   * school; `limit` null when the school has no pooled cap (grouping only).
+   * Absent entirely on databases that pre-date the schools migration.
+   */
+  school?: { name: string; used: number; limit: number | null } | null;
 }
 
 export type QuotaRole = 'admin' | 'teacher' | 'student';
@@ -84,6 +90,54 @@ export const fetchUsageReport = async (days = 7): Promise<UsageReportRow[]> => {
   const { data, error } = await requireClient().rpc('get_ai_usage_report', { p_days: days });
   if (error) throw new Error(`Could not load the usage report: ${error.message}`);
   return (data ?? []) as UsageReportRow[];
+};
+
+// --- Schools (shared quota pools, schema §12) --------------------------------
+
+export interface SchoolRow {
+  id: string;
+  name: string;
+  /** Pooled daily AI limit shared by all members; null = no pooled cap. */
+  daily_ai_limit: number | null;
+  members: number;
+  used_today: number;
+}
+
+/** Reviewer-gated: every school with member count and today's pooled usage. */
+export const fetchSchools = async (): Promise<SchoolRow[]> => {
+  const { data, error } = await requireClient().rpc('list_schools');
+  if (error) throw new Error(`Could not load schools: ${error.message}`);
+  return (data ?? []) as SchoolRow[];
+};
+
+/** Admin-only: create a school, optionally with a pooled daily limit. */
+export const createSchool = async (name: string, limit: number | null): Promise<void> => {
+  const { error } = await requireClient().rpc('create_school', {
+    p_name: name,
+    p_limit: limit,
+  });
+  if (error) throw new Error(`Could not create the school: ${error.message}`);
+};
+
+/** Admin-only: set (or clear, with null) a school's pooled daily limit. */
+export const setSchoolQuota = async (name: string, limit: number | null): Promise<void> => {
+  const { error } = await requireClient().rpc('set_school_ai_quota', {
+    p_name: name,
+    p_limit: limit,
+  });
+  if (error) throw new Error(`Could not update the school quota: ${error.message}`);
+};
+
+/** Admin-only: place a user in a school, or remove them with a null school. */
+export const assignUserSchool = async (
+  username: string,
+  schoolName: string | null
+): Promise<void> => {
+  const { error } = await requireClient().rpc('assign_user_school', {
+    p_username: username,
+    p_school_name: schoolName,
+  });
+  if (error) throw new Error(`Could not update ${username}'s school: ${error.message}`);
 };
 
 /** One row per model per UTC day. `model` is the provider model string the
