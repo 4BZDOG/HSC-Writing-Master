@@ -415,11 +415,21 @@ const callGeminiWithRetry = async <T>(
         );
       }
 
-      // The proxy's per-user daily quota (429 "Daily AI limit reached…") is a
-      // hard budget, not a transient rate limit — retrying just re-spends
-      // nothing and delays the message. Surface it immediately, verbatim.
-      if (status === 429 && /daily ai limit/i.test(errorMsg)) {
-        throw new QuotaExceededError(errorMsg);
+      // Any 429 from the proxy has already consumed a quota unit on the
+      // server side, so retrying would burn additional units for nothing.
+      // The proxy's own daily-limit 429 ("Daily AI limit reached…") is a
+      // hard budget; a provider rate-limit 429 forwarded through the proxy
+      // is transient but still quota-counted. In both cases, surface
+      // immediately — the distinction is whether the user sees a "limit
+      // reached" message or a "try again shortly" message.
+      if (status === 429) {
+        if (/daily ai limit/i.test(errorMsg)) {
+          throw new QuotaExceededError(errorMsg);
+        }
+        throw new QuotaExceededError(
+          errorMsg ||
+            'The AI provider is temporarily rate-limiting requests. Please wait a moment and try again.'
+        );
       }
 
       if (!isRetryableError(error)) {
@@ -466,13 +476,12 @@ const inFlightRequests = new Map<string, Promise<GenerateContentResponse>>();
 
 const hashRequest = (request: any): string => {
   const str = JSON.stringify(request);
-  let hash = 0;
+  let h = 0x811c9dc5n;
   for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = (hash << 5) - hash + char;
-    hash = hash & hash; // Convert to 32bit integer
+    h ^= BigInt(str.charCodeAt(i));
+    h = BigInt.asUintN(64, h * 0x100000001b3n);
   }
-  return Math.abs(hash).toString(16);
+  return h.toString(36);
 };
 
 export const generateContentWithRetry = async (request: any): Promise<GenerateContentResponse> => {

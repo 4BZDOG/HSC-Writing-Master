@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Prompt, UserRole } from '../types';
-import { canCurateContent } from '../utils/permissions';
+import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import { AlertCircle, Sparkles, RefreshCw, Plus, X, Check, BookMarked } from 'lucide-react';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { getBandConfig, textContainsKeyword } from '../utils/renderUtils';
@@ -41,6 +41,7 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
   const [keywords, setKeywords] = useState<string[]>(prompt.keywords || []);
   const [newKeyword, setNewKeyword] = useState('');
   const canCurate = canCurateContent(userRole);
+  const canGenerate = canUseAiGeneration(userRole);
 
   // Colour used terms in the question's TARGET band — the same predefined band
   // colour the writing area and metrics use — so "a term is in your answer"
@@ -219,24 +220,26 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
               <Plus className="w-4 h-4" strokeWidth={2.5} />
             </button>
           </form>
-          <div className="flex gap-1.5">
-            <button
-              onClick={onSuggest}
-              disabled={isLoading}
-              className="p-2 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-200 dark:hover:border-indigo-500/30 transition-all shadow-sm active:scale-90"
-              title="Suggest with AI"
-            >
-              <Sparkles className={`w-4 h-4 ${isSuggesting ? 'animate-pulse' : ''}`} />
-            </button>
-            <button
-              onClick={onRegenerate}
-              disabled={isLoading}
-              className="p-2 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-200 dark:hover:border-indigo-500/30 transition-all shadow-sm active:scale-90"
-              title="Regenerate all"
-            >
-              <RefreshCw className={`w-4 h-4 ${isRegenerating ? 'animate-spin' : ''}`} />
-            </button>
-          </div>
+          {canGenerate && (
+            <div className="flex gap-1.5">
+              <button
+                onClick={onSuggest}
+                disabled={isLoading}
+                className="p-2 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-200 dark:hover:border-indigo-500/30 transition-all shadow-sm active:scale-90"
+                title="Suggest with AI"
+              >
+                <Sparkles className={`w-4 h-4 ${isSuggesting ? 'animate-pulse' : ''}`} />
+              </button>
+              <button
+                onClick={onRegenerate}
+                disabled={isLoading}
+                className="p-2 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-200 dark:hover:border-indigo-500/30 transition-all shadow-sm active:scale-90"
+                title="Regenerate all"
+              >
+                <RefreshCw className={`w-4 h-4 ${isRegenerating ? 'animate-spin' : ''}`} />
+              </button>
+            </div>
+          )}
         </div>
       )}
 
