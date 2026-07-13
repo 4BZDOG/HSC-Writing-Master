@@ -66,7 +66,9 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
               <AlertTriangle className="w-5 h-5" style={{ color: iconColor }} />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 mb-2">{title}</h2>
+              <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 mb-2">
+                {title}
+              </h2>
               <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-600 text-sm leading-relaxed">
                 {message}
               </p>

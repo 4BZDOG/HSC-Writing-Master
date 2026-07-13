@@ -908,7 +908,7 @@ const App: React.FC = () => {
         .then((oauthUser) => {
           if (oauthUser) {
             setUser(oauthUser);
-            showToast(`Auth session active: ${oauthUser.displayName}`, 'success');
+            showToast(`Signed in as ${oauthUser.displayName}`, 'success');
           }
         })
         .catch(() => {})

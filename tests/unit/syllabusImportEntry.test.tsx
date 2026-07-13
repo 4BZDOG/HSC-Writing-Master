@@ -123,7 +123,7 @@ describe('SyllabusImportModal input validation', () => {
     fireEvent.change(screen.getByPlaceholderText(/educationstandards/), {
       target: { value: 'not a url' },
     });
-    fireEvent.click(screen.getByRole('button', { name: /fetch content/i }));
+    fireEvent.click(screen.getByRole('button', { name: /^fetch$/i }));
 
     expect(screen.getByText(/does not look like a valid web address/i)).toBeTruthy();
     expect(fetchSyllabusContentFromUrl).not.toHaveBeenCalled();
@@ -137,7 +137,7 @@ describe('SyllabusImportModal input validation', () => {
     fireEvent.change(screen.getByPlaceholderText(/educationstandards/), {
       target: { value: 'https://educationstandards.nsw.edu.au/syllabus' },
     });
-    fireEvent.click(screen.getByRole('button', { name: /fetch content/i }));
+    fireEvent.click(screen.getByRole('button', { name: /^fetch$/i }));
 
     expect(await screen.findByText(/Couldn't read any syllabus content/i)).toBeTruthy();
   });
@@ -186,7 +186,7 @@ describe('TopicSyllabusImportModal (add a topic to an existing course)', () => {
     fireEvent.change(screen.getByPlaceholderText(/educationstandards/), {
       target: { value: 'not a url' },
     });
-    fireEvent.click(screen.getByRole('button', { name: /fetch content/i }));
+    fireEvent.click(screen.getByRole('button', { name: /^fetch$/i }));
     expect(screen.getByText(/does not look like a valid web address/i)).toBeTruthy();
     expect(fetchSyllabusContentFromUrl).not.toHaveBeenCalled();
   });
@@ -231,9 +231,7 @@ describe('TopicSyllabusImportModal (add a topic to an existing course)', () => {
     const onImport = vi.fn();
     renderModal({ onImport, initialTopicId: 't1' });
 
-    expect(
-      (screen.getByLabelText('Destination') as HTMLSelectElement).value
-    ).toBe('t1');
+    expect((screen.getByLabelText('Import Into') as HTMLSelectElement).value).toBe('t1');
 
     fireEvent.change(screen.getByLabelText('Syllabus Content'), {
       target: { value: 'some syllabus text' },
