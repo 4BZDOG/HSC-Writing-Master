@@ -484,7 +484,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                     Fetch Syllabus from URL (Experimental)
                   </span>
                 </label>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <input
                     type="text"
                     value={urlInput}
@@ -495,56 +495,52 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                   <button
                     onClick={handleFetchFromUrl}
                     disabled={isFetchingUrl || !urlInput.trim()}
-                    className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition disabled:opacity-50 flex items-center gap-2"
+                    className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition disabled:opacity-50 flex items-center justify-center gap-2 flex-shrink-0"
                   >
-                    {isFetchingUrl ? (
-                      <Sparkles className="w-4 h-4 animate-spin" />
-                    ) : (
-                      <Sparkles className="w-4 h-4" />
-                    )}
-                    {isFetchingUrl ? 'Fetching...' : 'Fetch Content'}
+                    <Sparkles className={`w-4 h-4 ${isFetchingUrl ? 'animate-spin' : ''}`} />
+                    {isFetchingUrl ? 'Fetching...' : 'Fetch'}
                   </button>
                 </div>
               </div>
 
               {/* Topic Builder Interface */}
-              <div className="flex flex-1 overflow-hidden border-t border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-inset))]/30">
-                {/* Sidebar Tabs */}
-                <div className="w-64 flex-shrink-0 border-r border-[rgb(var(--color-border-secondary))] overflow-y-auto bg-[rgb(var(--color-bg-surface-inset))]/50 flex flex-col">
-                  <div className="p-3">
+              <div className="flex flex-col md:flex-row flex-1 overflow-hidden border-t border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-inset))]/30">
+                {/* Sidebar Tabs — horizontal scroll on mobile, vertical sidebar on desktop */}
+                <div className="md:w-64 flex-shrink-0 border-b md:border-b-0 md:border-r border-[rgb(var(--color-border-secondary))] overflow-x-auto md:overflow-x-visible md:overflow-y-auto bg-[rgb(var(--color-bg-surface-inset))]/50 flex md:flex-col">
+                  <div className="p-2 md:p-3 flex-shrink-0">
                     <button
                       onClick={handleAddTab}
-                      className="w-full py-2 px-3 rounded-lg border border-dashed border-[rgb(var(--color-border-secondary))] text-[rgb(var(--color-text-muted))] hover:border-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 transition-all text-sm font-medium flex items-center justify-center gap-2"
+                      className="w-full py-2 px-3 rounded-lg border border-dashed border-[rgb(var(--color-border-secondary))] text-[rgb(var(--color-text-muted))] hover:border-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 transition-all text-sm font-medium flex items-center justify-center gap-2 whitespace-nowrap"
                     >
                       <Plus className="w-4 h-4" /> Add Topic
                     </button>
                   </div>
-                  <div className="flex-1 px-2 pb-4 space-y-1">
+                  <div className="flex md:flex-col flex-1 px-2 pb-2 md:pb-4 gap-1 md:gap-0 md:space-y-1">
                     {topicTabs.map((tab, index) => (
                       <div
                         key={tab.id}
                         onClick={() => setActiveTabId(tab.id)}
                         className={`
-                                            group flex items-center justify-between px-3 py-2.5 rounded-lg cursor-pointer transition-all
-                                            ${
-                                              activeTabId === tab.id
-                                                ? 'bg-[rgb(var(--color-bg-surface-elevated))] text-white shadow-sm border border-[rgb(var(--color-border-secondary))]'
-                                                : 'text-[rgb(var(--color-text-muted))] hover:bg-[rgb(var(--color-bg-surface-light))]/50 hover:text-[rgb(var(--color-text-secondary))] border border-transparent'
-                                            }
-                                        `}
+                          group flex items-center justify-between px-3 py-2.5 rounded-lg cursor-pointer transition-all flex-shrink-0
+                          ${
+                            activeTabId === tab.id
+                              ? 'bg-[rgb(var(--color-bg-surface-elevated))] text-white shadow-sm border border-[rgb(var(--color-border-secondary))]'
+                              : 'text-[rgb(var(--color-text-muted))] hover:bg-[rgb(var(--color-bg-surface-light))]/50 hover:text-[rgb(var(--color-text-secondary))] border border-transparent'
+                          }
+                        `}
                       >
                         <div className="flex items-center gap-2 min-w-0">
                           <span className="flex-shrink-0 w-5 h-5 rounded-md bg-black/20 flex items-center justify-center text-[10px] font-bold opacity-70">
                             {index + 1}
                           </span>
-                          <span className="truncate text-sm font-medium">
+                          <span className="truncate text-sm font-medium whitespace-nowrap">
                             {tab.name || 'Untitled Topic'}
                           </span>
                         </div>
                         {topicTabs.length > 1 && (
                           <button
                             onClick={(e) => handleRemoveTab(tab.id, e)}
-                            className="p-1 rounded hover:bg-red-500/20 text-transparent group-hover:text-red-400 transition-colors"
+                            className="p-1 rounded hover:bg-red-500/20 text-transparent group-hover:text-red-400 transition-colors ml-2"
                             title="Remove Topic"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -556,7 +552,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                 </div>
 
                 {/* Content Editor Area */}
-                <div className="flex-1 flex flex-col p-6 overflow-hidden bg-[rgb(var(--color-bg-surface))]/30">
+                <div className="flex-1 flex flex-col p-4 md:p-6 overflow-hidden bg-[rgb(var(--color-bg-surface))]/30 min-h-0">
                   <div className="mb-4">
                     <label className="block text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1.5">
                       Topic Name
@@ -565,19 +561,19 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                       type="text"
                       value={activeTab.name}
                       onChange={(e) => handleUpdateTab('name', e.target.value)}
-                      className="w-full bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-lg py-2 px-4 text-sm font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
+                      className="w-full bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-lg py-2 px-4 text-sm font-semibold text-[rgb(var(--color-text-primary))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
                     />
                   </div>
                   <div className="flex-1 flex flex-col min-h-0">
-                    <div className="flex items-center justify-between mb-1.5">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1.5">
                       <label className="block text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
-                        Paste Syllabus Content for "{activeTab.name}"
+                        Paste Syllabus Content for &ldquo;{activeTab.name}&rdquo;
                       </label>
                       <button
                         onClick={handleSplitActiveTab}
                         disabled={isBusy || !activeTab.content.trim()}
                         title="Use AI to split this text into one tab per topic"
-                        className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/20 hover:bg-[rgb(var(--color-accent))]/20 transition disabled:opacity-40 disabled:cursor-not-allowed"
+                        className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/20 hover:bg-[rgb(var(--color-accent))]/20 transition disabled:opacity-40 disabled:cursor-not-allowed self-start sm:self-auto"
                       >
                         <Wand2 className="w-3.5 h-3.5" />
                         Auto-split topics
@@ -587,7 +583,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                       value={activeTab.content}
                       onChange={(e) => handleUpdateTab('content', e.target.value)}
                       placeholder="Paste dot points, sub-topics, or raw text here..."
-                      className="flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-4 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] resize-none leading-relaxed"
+                      className="flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-4 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] resize-none leading-relaxed min-h-[120px]"
                     />
                   </div>
                 </div>

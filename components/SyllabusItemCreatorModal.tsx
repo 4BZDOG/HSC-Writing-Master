@@ -70,8 +70,13 @@ const SyllabusItemCreatorModal: React.FC<SyllabusItemCreatorModalProps> = ({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50">
-          {/* Texture */}
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03] light:opacity-[0.05] pointer-events-none mix-blend-overlay"></div>
+          {/* Cubic Mesh Texture Overlay */}
+          <div
+            className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='%23ffffff' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E")`,
+            }}
+          />
 
           <div className="flex items-center justify-between relative z-10">
             <div className="flex items-center gap-3">

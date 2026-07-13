@@ -93,7 +93,7 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
               </div>
             </div>
             <button
-              onClick={onClose}
+              onClick={handleClose}
               aria-label="Close"
               className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
@@ -132,26 +132,26 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
                 {outcomes.map((outcome, index) => (
                   <div
                     key={index}
-                    className="flex items-start space-x-2 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 p-3 rounded-lg border border-[rgb(var(--color-border-secondary))] light:border-slate-200"
+                    className="flex flex-col sm:flex-row sm:items-start gap-2 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 p-3 rounded-lg border border-[rgb(var(--color-border-secondary))] light:border-slate-200"
                   >
                     <input
                       type="text"
                       value={outcome.code}
                       onChange={(e) => handleOutcomeChange(index, 'code', e.target.value)}
                       placeholder="Code (e.g., SE-12-01)"
-                      className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-md py-2 px-3 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-1/3 font-mono text-sm"
+                      className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-md py-2 px-3 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full sm:w-1/3 font-mono text-sm"
                     />
                     <textarea
                       value={outcome.description}
                       onChange={(e) => handleOutcomeChange(index, 'description', e.target.value)}
                       placeholder="Outcome description..."
                       rows={1}
-                      className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-md py-2 px-3 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-2/3 text-sm resize-y min-h-[42px]"
+                      className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-md py-2 px-3 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full sm:w-2/3 text-sm resize-y min-h-[42px]"
                     />
                     <button
                       type="button"
                       onClick={() => handleDeleteOutcome(index)}
-                      className="p-2 text-gray-500 hover:text-red-400 transition rounded-md h-full flex items-center bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-200 hover:bg-red-500/10"
+                      className="p-2 text-gray-500 hover:text-red-400 transition rounded-md flex items-center self-end sm:self-start bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-200 hover:bg-red-500/10"
                       title="Delete Outcome"
                     >
                       <Trash2 className="h-4 w-4" />

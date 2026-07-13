@@ -231,7 +231,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
         <div className="flex-1 flex flex-col overflow-y-auto">
           {step === 'input' && (
             <div className="p-6 space-y-4 animate-fade-in">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className={`grid grid-cols-1 ${!targetTopic ? 'md:grid-cols-2' : ''} gap-4`}>
                 <div>
                   <label
                     htmlFor="topic-import-target"
@@ -284,7 +284,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                     Fetch from NESA Syllabus URL (Experimental)
                   </span>
                 </label>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <input
                     type="text"
                     value={urlInput}
@@ -295,10 +295,10 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                   <button
                     onClick={handleFetchFromUrl}
                     disabled={isBusy || !urlInput.trim()}
-                    className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition disabled:opacity-50 flex items-center gap-2"
+                    className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition disabled:opacity-50 flex items-center justify-center gap-2 flex-shrink-0"
                   >
                     <Sparkles className={`w-4 h-4 ${isFetchingUrl ? 'animate-spin' : ''}`} />
-                    {isFetchingUrl ? 'Fetching...' : 'Fetch Content'}
+                    {isFetchingUrl ? 'Fetching...' : 'Fetch'}
                   </button>
                 </div>
               </div>
@@ -314,9 +314,9 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                   id="topic-syllabus-text"
                   value={syllabusText}
                   onChange={(e) => setSyllabusText(e.target.value)}
-                  rows={10}
+                  rows={8}
                   placeholder="Paste the topic's sub-topics and dot points here (fetched URL content also lands here)..."
-                  className="w-full bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-4 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] resize-y leading-relaxed"
+                  className="w-full bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-4 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] resize-y leading-relaxed min-h-[120px]"
                 />
               </div>
             </div>
