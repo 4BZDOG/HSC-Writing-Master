@@ -79,25 +79,31 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
     >
       <div
         className="
-          bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl 
-          w-full max-w-3xl border border-[rgb(var(--color-border-secondary))]
+          bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl
+          w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200
           clip-stable animate-fade-in-up overflow-hidden
           flex flex-col max-h-[90vh]
         "
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-inset))]/30">
-          <div className="flex items-center justify-between">
+        <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50 flex-shrink-0">
+          <div
+            className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='%23ffffff' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E")`,
+            }}
+          />
+          <div className="flex items-center justify-between relative z-10">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[rgb(var(--color-accent))] to-[rgb(var(--color-primary))] flex items-center justify-center shadow-lg">
                 <Save className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))]">
+                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
                   Edit Sample Answer
                 </h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))]">
+                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
                   Manually adjust the answer details and performance level.
                 </p>
               </div>
@@ -105,19 +111,19 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
             <button
               onClick={onClose}
               aria-label="Close"
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200 flex items-center justify-center group"
+              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
-              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text-primary))] transition-colors" />
+              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
             </button>
           </div>
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8">
+        <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8 bg-[rgb(var(--color-bg-surface))] light:bg-white">
           <div>
             <label
               htmlFor="answer-text"
-              className="block text-sm font-bold text-gray-400 uppercase tracking-wider mb-2"
+              className="block text-sm font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-2"
             >
               Answer Text
             </label>
@@ -126,7 +132,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
               value={answerText}
               onChange={(e) => setAnswerText(e.target.value)}
               rows={10}
-              className="w-full bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] transition font-serif leading-relaxed text-slate-200"
+              className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] transition font-serif leading-relaxed text-[rgb(var(--color-text-primary))] light:text-slate-900"
             />
           </div>
 
@@ -134,7 +140,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
             <div>
               <label
                 htmlFor="mark-input"
-                className="block text-sm font-bold text-gray-400 uppercase tracking-wider mb-3"
+                className="block text-sm font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-3"
               >
                 Mark ({`out of ${prompt.totalMarks}`})
               </label>
@@ -146,11 +152,11 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
                   onChange={(e) => handleMarkChange(parseInt(e.target.value, 10) || 0)}
                   min="0"
                   max={prompt.totalMarks}
-                  className="w-24 bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-xl py-3 px-4 text-center text-lg font-black text-white focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] transition"
+                  className="w-24 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl py-3 px-4 text-center text-lg font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] transition"
                 />
-                <div className="h-1.5 flex-1 bg-white/5 rounded-full overflow-hidden border border-white/5">
+                <div className="h-1.5 flex-1 bg-white/5 light:bg-slate-200 rounded-full overflow-hidden border border-white/5 light:border-slate-300">
                   <div
-                    className="h-full bg-indigo-500 transition-all duration-500"
+                    className="h-full bg-indigo-500 light:bg-indigo-500 transition-all duration-500"
                     style={{ width: `${(mark / prompt.totalMarks) * 100}%` }}
                   />
                 </div>
@@ -158,7 +164,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">
+              <label className="block text-sm font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-3">
                 Performance Band
               </label>
               <div className="flex items-center gap-1.5">
@@ -181,10 +187,10 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
                                     w-9 h-10 rounded-lg text-sm font-black transition-all duration-200
                                     ${
                                       isSelected
-                                        ? `${bConfig.solidBg} text-white shadow-lg scale-110 z-10 border border-white/20 ${isCappedOut ? 'ring-2 ring-amber-500/60' : ''}`
+                                        ? `${bConfig.solidBg} text-white shadow-lg scale-110 z-10 border border-white/20 light:border-white/40 ${isCappedOut ? 'ring-2 ring-amber-500/60' : ''}`
                                         : isCappedOut
-                                          ? 'bg-white/[0.02] text-slate-700 cursor-not-allowed line-through'
-                                          : 'bg-white/5 text-slate-500 hover:bg-white/10 hover:text-slate-300'
+                                          ? 'bg-white/[0.02] light:bg-slate-100 text-slate-700 light:text-slate-300 cursor-not-allowed line-through'
+                                          : 'bg-white/5 light:bg-slate-100 text-slate-500 light:text-slate-400 hover:bg-white/10 light:hover:bg-slate-200 hover:text-slate-300 light:hover:text-slate-600'
                                     }
                                 `}
                     >
@@ -194,12 +200,12 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
                 })}
               </div>
               {band > tierMaxBand ? (
-                <p className="mt-2 text-[10px] font-bold text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
+                <p className="mt-2 text-[10px] font-bold text-amber-400 light:text-amber-600 uppercase tracking-widest flex items-center gap-1.5">
                   <AlertCircle className="w-3 h-3" /> Above the Band {tierMaxBand} cap for '
                   {prompt.verb}' — recalibration will lower it
                 </p>
               ) : (
-                <p className="mt-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
+                <p className="mt-2 text-[10px] font-bold text-slate-500 light:text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
                   <Award className="w-3 h-3" /> Manually overridable up to Band {tierMaxBand} (
                   {`'${prompt.verb}'`} tier cap)
                 </p>
@@ -208,24 +214,24 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
           </div>
 
           {error && (
-            <div className="p-4 rounded-xl border border-red-500/50 bg-red-500/10 flex items-start gap-3 animate-fade-in">
-              <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-              <p className="text-xs font-bold text-red-300">{error}</p>
+            <div className="p-4 rounded-xl border border-red-500/50 light:border-red-200 bg-red-500/10 light:bg-red-50 flex items-start gap-3 animate-fade-in">
+              <AlertCircle className="w-5 h-5 text-red-400 light:text-red-500 flex-shrink-0 mt-0.5" />
+              <p className="text-xs font-bold text-red-300 light:text-red-600">{error}</p>
             </div>
           )}
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-5 border-t border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-inset))]/30 flex items-center justify-end gap-3">
+        <div className="px-6 py-4 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 flex items-center justify-end gap-3 flex-shrink-0">
           <button
             onClick={onClose}
-            className="py-2.5 px-6 rounded-xl font-bold text-[10px] uppercase tracking-widest text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200"
+            className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
-            className="py-2.5 px-8 rounded-xl font-bold text-white bg-gradient-to-r from-indigo-600 to-sky-600 hover:shadow-lg hover:shadow-indigo-500/20 active:scale-[0.98] transition-all duration-200 flex items-center gap-2 text-[10px] uppercase tracking-widest"
+            className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2"
           >
             <Save className="w-4 h-4" />
             Save Changes

@@ -80,7 +80,7 @@ const InstrumentMetric = ({
   subValue?: string;
   colorClass: string;
 }) => (
-  <div className="flex flex-col gap-1 px-4 md:px-8 py-3 md:py-4 border-r border-white/5 last:border-r-0">
+  <div className="flex flex-col gap-1 px-4 md:px-8 py-3 md:py-4 border-r border-white/5 light:border-slate-200 last:border-r-0">
     <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white/50 light:text-slate-500 whitespace-nowrap">
       {label}
     </span>
@@ -89,7 +89,7 @@ const InstrumentMetric = ({
         {value}
       </span>
       {subValue && (
-        <span className="text-xs font-bold text-white/10 uppercase tracking-widest">
+        <span className="text-xs font-bold text-white/10 light:text-slate-300 uppercase tracking-widest">
           {subValue}
         </span>
       )}
@@ -1095,12 +1095,12 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       <div key={node.id} className="relative">
         {level > 0 && (
           <div
-            className="absolute left-0 top-0 bottom-0 w-px bg-white/5"
+            className="absolute left-0 top-0 bottom-0 w-px bg-white/5 light:bg-slate-200"
             style={{ left: `${level * 24 + 23}px` }}
           />
         )}
         <div
-          className={`flex items-center py-2.5 px-6 hover:bg-white/[0.03] light:hover:bg-slate-50 transition-all group border-b border-white/5 ${isSelected ? 'bg-indigo-500/5' : ''}`}
+          className={`flex items-center py-2.5 px-6 hover:bg-white/[0.03] light:hover:bg-slate-50 transition-all group border-b border-white/5 light:border-slate-200 ${isSelected ? 'bg-indigo-500/5 light:bg-indigo-50' : ''}`}
           style={{ paddingLeft: `${level * 24 + 16}px` }}
         >
           <button
@@ -1140,7 +1140,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           </div>
           {node.type !== 'prompt' && (
             <div
-              className={`hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-[9px] font-black uppercase border border-white/5 ${coverageColor} bg-black/20`}
+              className={`hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-[9px] font-black uppercase border border-white/5 light:border-slate-200 ${coverageColor} bg-black/20 light:bg-slate-100`}
             >
               <PieChart className="w-3 h-3" /> {coveragePct}%
             </div>
@@ -1179,11 +1179,11 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   return createPortal(
     <div className="fixed inset-0 z-[200] bg-[rgb(var(--color-bg-base))] light:bg-slate-50 flex flex-col animate-fade-in">
       {/* Studio Header */}
-      <div className="flex-shrink-0 border-b border-white/5 bg-[rgb(var(--color-bg-surface))] light:bg-white z-20 shadow-2xl relative">
+      <div className="flex-shrink-0 border-b border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-white z-20 shadow-2xl light:shadow-lg relative">
         <MeshOverlay opacity="opacity-[0.05]" />
         <div className="px-5 md:px-10 py-6 md:py-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 md:gap-10">
           <div className="flex items-start gap-4 md:gap-8 flex-1 min-w-0">
-            <div className="w-14 h-14 md:w-20 md:h-20 rounded-[24px] md:rounded-[32px] bg-gradient-to-br from-indigo-500/20 to-purple-600/20 border border-white/10 flex items-center justify-center shadow-2xl shadow-indigo-900/20 shrink-0">
+            <div className="w-14 h-14 md:w-20 md:h-20 rounded-[24px] md:rounded-[32px] bg-gradient-to-br from-indigo-500/20 to-purple-600/20 light:from-indigo-100 light:to-purple-100 border border-white/10 light:border-indigo-200 flex items-center justify-center shadow-2xl shadow-indigo-900/20 light:shadow-indigo-200/50 shrink-0">
               <Activity className="w-7 h-7 md:w-10 md:h-10 text-indigo-400" />
             </div>
             <div className="min-w-0">
@@ -1196,15 +1196,15 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
               <h2 className="text-2xl md:text-4xl font-black text-white light:text-slate-900 tracking-tighter italic uppercase leading-none">
                 Content Audit Studio
               </h2>
-              <p className="text-sm text-slate-400 font-medium mt-4 leading-relaxed max-w-lg">
+              <p className="text-sm text-slate-400 light:text-slate-600 font-medium mt-4 leading-relaxed max-w-lg">
                 Analytical overview of curriculum coverage. Detect resource gaps and perform bulk
                 synthesis to align content with NESA performance standards.
               </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center w-full lg:w-auto bg-black/40 light:bg-slate-50 rounded-[28px] md:rounded-[40px] border border-white/5 p-2 shadow-inner gap-y-2">
-            <div className="flex items-center gap-4 md:gap-6 px-4 md:px-10 py-3 md:py-4 sm:border-r border-white/5">
+          <div className="flex flex-wrap items-center w-full lg:w-auto bg-black/40 light:bg-slate-50 rounded-[28px] md:rounded-[40px] border border-white/5 light:border-slate-200 p-2 shadow-inner light:shadow-sm gap-y-2">
+            <div className="flex items-center gap-4 md:gap-6 px-4 md:px-10 py-3 md:py-4 sm:border-r border-white/5 light:border-slate-200">
               <div className="relative w-16 h-16 flex items-center justify-center">
                 <svg className="transform -rotate-90 w-16 h-16" viewBox="0 0 64 64">
                   <circle
@@ -1214,7 +1214,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                     stroke="currentColor"
                     strokeWidth="6"
                     fill="transparent"
-                    className="text-white/5"
+                    className="text-white/5 light:text-slate-100"
                   />
                   <circle
                     cx="32"
@@ -1241,7 +1241,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   <span className={`text-3xl font-black ${healthColor} tracking-tighter`}>
                     {coveredDotPoints}
                   </span>
-                  <span className="text-[10px] font-bold text-white/40 light:text-slate-400 uppercase">
+                  <span className="text-[10px] font-bold text-white/40 light:text-slate-500 uppercase">
                     / {totalDotPoints} Points
                   </span>
                 </div>
@@ -1252,7 +1252,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 label="Content Units"
                 value={totalQuestions}
                 subValue="Questions"
-                colorClass="text-white"
+                colorClass="text-white light:text-slate-900"
               />
               <InstrumentMetric
                 label="Proof Data"
@@ -1264,7 +1264,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             <button
               onClick={onClose}
               aria-label="Close"
-              className="p-3 md:p-4 rounded-full hover:bg-white/5 text-slate-500 transition-colors ml-auto lg:ml-4 mr-2"
+              className="p-3 md:p-4 rounded-full hover:bg-white/5 light:hover:bg-slate-200 text-slate-500 light:text-slate-400 transition-colors ml-auto lg:ml-4 mr-2"
             >
               <X className="w-6 h-6 md:w-8 md:h-8" />
             </button>
@@ -1273,7 +1273,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
         {/* Smart Select Action Bar */}
         <div className="px-5 md:px-10 pb-6 md:pb-8 flex flex-wrap gap-3 md:gap-4 items-center">
-          <div className="flex items-center gap-4 bg-black/20 rounded-2xl p-1.5 border border-white/5 mr-2 transition-all group focus-within:border-indigo-500/50 focus-within:shadow-[0_0_20px_rgba(99,102,241,0.2)]">
+          <div className="flex items-center gap-4 bg-black/20 light:bg-slate-100 rounded-2xl p-1.5 border border-white/5 light:border-slate-200 mr-2 transition-all group focus-within:border-indigo-500/50 focus-within:shadow-[0_0_20px_rgba(99,102,241,0.2)]">
             <div className="relative group/search">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within/search:text-indigo-400 transition-colors" />
               <input
@@ -1281,7 +1281,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 placeholder="Search curriculum..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-transparent pl-11 pr-4 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none w-64"
+                className="bg-transparent pl-11 pr-4 py-1.5 text-sm text-white light:text-slate-900 placeholder-slate-600 light:placeholder-slate-400 focus:outline-none w-64"
               />
             </div>
             {(searchQuery || activeFilter) && (
@@ -1290,39 +1290,39 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   setSearchQuery('');
                   setActiveFilter(null);
                 }}
-                className="px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white flex items-center gap-2 border-l border-white/5 transition-colors"
+                className="px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white light:hover:text-slate-900 flex items-center gap-2 border-l border-white/5 light:border-slate-300 transition-colors"
               >
                 <RotateCcw className="w-3.5 h-3.5" /> Reset
               </button>
             )}
           </div>
 
-          <div className="flex items-center bg-black/20 rounded-2xl p-1.5 border border-white/5">
+          <div className="flex items-center bg-black/20 light:bg-slate-100 rounded-2xl p-1.5 border border-white/5 light:border-slate-200">
             <button
               onClick={expandAll}
               title="Expand every branch of the tree"
-              className="px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white flex items-center gap-1.5 transition-colors"
+              className="px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white light:hover:text-slate-900 flex items-center gap-1.5 transition-colors"
             >
               <ChevronDown className="w-3.5 h-3.5" /> Expand All
             </button>
-            <div className="w-px h-4 bg-white/5" />
+            <div className="w-px h-4 bg-white/5 light:bg-slate-300" />
             <button
               onClick={collapseAll}
               title="Collapse the whole tree"
-              className="px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white flex items-center gap-1.5 transition-colors"
+              className="px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white light:hover:text-slate-900 flex items-center gap-1.5 transition-colors"
             >
               <ChevronRight className="w-3.5 h-3.5" /> Collapse All
             </button>
           </div>
 
-          <div className="h-8 w-px bg-white/5 mx-2" />
+          <div className="h-8 w-px bg-white/5 light:bg-slate-300 mx-2" />
 
           <button
             onClick={() => handleFilterToggle('emptyDotPoints')}
             className={`group relative overflow-hidden px-6 h-12 rounded-2xl border text-xs font-black uppercase tracking-widest transition-all flex items-center gap-4 ${activeFilter === 'emptyDotPoints' ? 'bg-red-500/20 border-red-500/40 text-red-400 shadow-lg' : 'bg-red-500/5 border-red-500/10 text-red-400 hover:bg-red-500/10'}`}
           >
             <span>Empty Dot Points</span>
-            <span className="bg-black/40 px-2 py-0.5 rounded-lg text-[10px]">
+            <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
               {counts.emptyDotPoints}
             </span>
           </button>
@@ -1331,7 +1331,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             className={`group relative overflow-hidden px-6 h-12 rounded-2xl border text-xs font-black uppercase tracking-widest transition-all flex items-center gap-4 ${activeFilter === 'missingRubrics' ? 'bg-indigo-500/20 border-indigo-500/40 text-indigo-400 shadow-lg' : 'bg-indigo-500/5 border-indigo-500/10 text-indigo-400 hover:bg-indigo-500/10'}`}
           >
             <span>No Marking Guide</span>
-            <span className="bg-black/40 px-2 py-0.5 rounded-lg text-[10px]">
+            <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
               {counts.missingRubrics}
             </span>
           </button>
@@ -1340,7 +1340,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             className={`group relative overflow-hidden px-6 h-12 rounded-2xl border text-xs font-black uppercase tracking-widest transition-all flex items-center gap-4 ${activeFilter === 'rubricNotDescending' ? 'bg-orange-500/20 border-orange-500/40 text-orange-400 shadow-lg' : 'bg-orange-500/5 border-orange-500/10 text-orange-400 hover:bg-orange-500/10'}`}
           >
             <span>Non-Std Rubric</span>
-            <span className="bg-black/40 px-2 py-0.5 rounded-lg text-[10px]">
+            <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
               {counts.nonStandardRubrics}
             </span>
           </button>
@@ -1349,7 +1349,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             className={`group relative overflow-hidden px-6 h-12 rounded-2xl border text-xs font-black uppercase tracking-widest transition-all flex items-center gap-4 ${activeFilter === 'missingSamples' ? 'bg-amber-500/20 border-amber-500/40 text-amber-400 shadow-lg' : 'bg-amber-500/5 border-amber-500/10 text-amber-400 hover:bg-amber-500/10'}`}
           >
             <span>Missing Samples</span>
-            <span className="bg-black/40 px-2 py-0.5 rounded-lg text-[10px]">
+            <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
               {counts.missingSamples}
             </span>
           </button>
@@ -1358,7 +1358,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             className={`group relative overflow-hidden px-6 h-12 rounded-2xl border text-xs font-black uppercase tracking-widest transition-all flex items-center gap-4 ${activeFilter === 'missingOutcomes' ? 'bg-pink-500/20 border-pink-500/40 text-pink-400 shadow-lg' : 'bg-pink-500/5 border-pink-500/10 text-pink-400 hover:bg-pink-500/10'}`}
           >
             <span>Missing Outcomes</span>
-            <span className="bg-black/40 px-2 py-0.5 rounded-lg text-[10px]">
+            <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
               {counts.missingOutcomes}
             </span>
           </button>
@@ -1367,7 +1367,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             className={`group relative overflow-hidden px-6 h-12 rounded-2xl border text-xs font-black uppercase tracking-widest transition-all flex items-center gap-4 ${activeFilter === 'hasSamples' ? 'bg-teal-500/20 border-teal-500/40 text-teal-400 shadow-lg' : 'bg-teal-500/5 border-teal-500/10 text-teal-400 hover:bg-teal-500/10'}`}
           >
             <span>Has Samples</span>
-            <span className="bg-black/40 px-2 py-0.5 rounded-lg text-[10px]">
+            <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
               {counts.hasSamples}
             </span>
           </button>
@@ -1377,7 +1377,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             className={`group relative overflow-hidden px-6 h-12 rounded-2xl border text-xs font-black uppercase tracking-widest transition-all flex items-center gap-4 ${activeFilter === 'lowQuality' ? 'bg-rose-500/20 border-rose-500/40 text-rose-400 shadow-lg' : 'bg-rose-500/5 border-rose-500/10 text-rose-400 hover:bg-rose-500/10'}`}
           >
             <span>Low Quality</span>
-            <span className="bg-black/40 px-2 py-0.5 rounded-lg text-[10px]">
+            <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
               {counts.lowQuality}
             </span>
           </button>
@@ -1388,7 +1388,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             <button
               onClick={clearSelection}
               disabled={isProcessing}
-              className="px-5 h-12 rounded-2xl bg-white/5 border border-white/10 text-slate-400 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 hover:text-white transition-all flex items-center gap-2 disabled:opacity-40"
+              className="px-5 h-12 rounded-2xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 light:hover:bg-slate-200 hover:text-white light:hover:text-slate-900 transition-all flex items-center gap-2 disabled:opacity-40"
             >
               <Square className="w-4 h-4" /> Clear Selection ({selectedIds.size})
             </button>
@@ -1396,7 +1396,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           {activeFilter && (
             <button
               onClick={() => handleSmartSelect(activeFilter)}
-              className="px-6 h-12 rounded-2xl bg-white/10 border border-white/20 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/20 transition-all flex items-center gap-2 shadow-lg"
+              className="px-6 h-12 rounded-2xl bg-white/10 light:bg-indigo-50 border border-white/20 light:border-indigo-200 text-white light:text-indigo-700 text-[10px] font-black uppercase tracking-widest hover:bg-white/20 light:hover:bg-indigo-100 transition-all flex items-center gap-2 shadow-lg"
             >
               <CheckSquare className="w-4 h-4" /> Select All Filtered
             </button>
@@ -1411,10 +1411,10 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             filteredTreeData.map((node) => renderNode(node))
           ) : (
             <div className="py-40 text-center animate-fade-in">
-              <div className="w-24 h-24 rounded-[40px] bg-white/5 flex items-center justify-center border border-white/5 mb-8 mx-auto shadow-inner">
-                <Filter className="w-12 h-12 text-slate-700" />
+              <div className="w-24 h-24 rounded-[40px] bg-white/5 light:bg-slate-100 flex items-center justify-center border border-white/5 light:border-slate-200 mb-8 mx-auto shadow-inner">
+                <Filter className="w-12 h-12 text-slate-700 light:text-slate-300" />
               </div>
-              <h3 className="text-2xl font-black text-white tracking-tight italic uppercase">
+              <h3 className="text-2xl font-black text-white light:text-slate-900 tracking-tight italic uppercase">
                 No items found
               </h3>
               <p className="text-sm text-slate-500 mt-2 font-bold uppercase tracking-widest">
@@ -1427,7 +1427,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
       {/* Operations Terminal (Footer) */}
       <div
-        className={`border-t border-white/5 bg-[rgb(var(--color-bg-surface))] px-10 flex flex-col flex-shrink-0 relative shadow-[0_-32px_64px_-16px_rgba(0,0,0,0.5)] transition-all duration-500 ${isProcessing ? 'h-80' : 'h-24'}`}
+        className={`border-t border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-white px-10 flex flex-col flex-shrink-0 relative shadow-[0_-32px_64px_-16px_rgba(0,0,0,0.5)] light:shadow-[0_-8px_24px_-8px_rgba(0,0,0,0.1)] transition-all duration-500 ${isProcessing ? 'h-80' : 'h-24'}`}
       >
         <MeshOverlay opacity="opacity-[0.05]" />
         {isProcessing && progress && (
@@ -1435,10 +1435,10 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             <div className="flex justify-between items-center mb-4">
               <div className="flex items-center gap-4">
                 <Terminal className="w-5 h-5 text-indigo-400" />
-                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40 italic">
+                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40 light:text-slate-500 italic">
                   Processing Log
                 </span>
-                <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-black/40 border border-white/10 text-[9px] font-black uppercase tracking-widest text-indigo-400">
+                <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-black/40 light:bg-slate-100 border border-white/10 light:border-slate-200 text-[9px] font-black uppercase tracking-widest text-indigo-400">
                   <Cpu className="w-3 h-3" />
                   {batchEngine === 'default'
                     ? 'App Default'
@@ -1451,7 +1451,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 <span className="text-slate-500">Total: {progress.total}</span>
               </div>
             </div>
-            <div className="flex-1 bg-black/40 rounded-3xl border border-white/5 p-6 overflow-y-auto font-mono text-xs text-indigo-300/60 space-y-2 custom-scrollbar shadow-inner">
+            <div className="flex-1 bg-black/40 light:bg-slate-50 rounded-3xl border border-white/5 light:border-slate-200 p-6 overflow-y-auto font-mono text-xs text-indigo-300/60 light:text-indigo-600/70 space-y-2 custom-scrollbar shadow-inner">
               {progress.logs.map((log, i) => (
                 <div key={i} className="animate-fade-in truncate">{`> ${log}`}</div>
               ))}
@@ -1461,11 +1461,11 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         )}
 
         <div
-          className={`flex items-center justify-between transition-all duration-500 ${isProcessing ? 'h-20 border-t border-white/5' : 'h-full'}`}
+          className={`flex items-center justify-between transition-all duration-500 ${isProcessing ? 'h-20 border-t border-white/5 light:border-slate-200' : 'h-full'}`}
         >
           {isProcessing && progress ? (
             <div className="w-full flex items-center gap-8 animate-fade-in">
-              <div className="flex-1 h-3 bg-black/40 rounded-full overflow-hidden border border-white/5 p-0.5">
+              <div className="flex-1 h-3 bg-black/40 light:bg-slate-100 rounded-full overflow-hidden border border-white/5 light:border-slate-200 p-0.5">
                 <div
                   className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 transition-all duration-500 relative rounded-full"
                   style={{
@@ -1486,17 +1486,17 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           ) : (
             <div className="flex flex-wrap items-center justify-between w-full gap-4 md:gap-6">
               <div className="flex flex-wrap items-center gap-3 md:gap-4">
-                <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-white font-black text-2xl tracking-tighter italic">
+                <div className="p-3 rounded-xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-200 text-white light:text-slate-900 font-black text-2xl tracking-tighter italic">
                   {selectedIds.size.toString().padStart(2, '0')}
                 </div>
-                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/50">
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/50 light:text-slate-500">
                   Selected
                 </span>
 
                 <div className="flex flex-col gap-1 ml-4">
                   <label
                     htmlFor="audit-engine"
-                    className="text-[9px] font-black uppercase tracking-[0.3em] text-white/50 flex items-center gap-1.5"
+                    className="text-[9px] font-black uppercase tracking-[0.3em] text-white/50 light:text-slate-500 flex items-center gap-1.5"
                   >
                     <Cpu className="w-3 h-3" /> Batch Engine
                   </label>
@@ -1509,7 +1509,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                         ? 'Uses the app-wide engine selection per call type'
                         : AI_MODELS.find((m) => m.id === batchEngine)?.description
                     }
-                    className="bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-xs font-bold text-white focus:outline-none focus:border-indigo-500/50 cursor-pointer"
+                    className="bg-black/40 light:bg-slate-50 border border-white/10 light:border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-white light:text-slate-900 focus:outline-none focus:border-indigo-500/50 cursor-pointer"
                   >
                     <option value="default">App Default</option>
                     {AI_MODELS.map((m) => (
@@ -1584,7 +1584,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   <Gauge className="w-4 h-4" />
                   Screen Quality ({selectionTargets.screenings})
                 </button>
-                <div className="w-px h-8 bg-white/10 self-center" />
+                <div className="w-px h-8 bg-white/10 light:bg-slate-300 self-center" />
                 <button
                   onClick={handleBulkAction.bind(null, 'fixAllGaps')}
                   disabled={selectionTargets.allGaps === 0}

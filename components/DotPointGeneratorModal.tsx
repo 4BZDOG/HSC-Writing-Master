@@ -130,7 +130,8 @@ const DotPointGeneratorModal: React.FC<DotPointGeneratorModalProps> = ({
             </button>
             <button
               onClick={handleGenerate}
-              className="py-2.5 px-5 rounded-lg font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))/0.4] active:scale-[0.98] transition-all duration-200 flex items-center gap-2"
+              disabled={isLoading}
+              className="py-2.5 px-5 rounded-lg font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))/0.4] active:scale-[0.98] transition-all duration-200 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Sparkles className="w-4 h-4" />
               Generate

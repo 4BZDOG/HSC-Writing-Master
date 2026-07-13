@@ -52,7 +52,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       }}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl w-full max-w-md border border-[rgb(var(--color-border-secondary))] clip-stable animate-fade-in-up overflow-hidden"
+        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-md border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-6">
@@ -66,24 +66,24 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
               <AlertTriangle className="w-5 h-5" style={{ color: iconColor }} />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white mb-2">{title}</h2>
-              <p className="text-[rgb(var(--color-text-secondary))] text-sm leading-relaxed">
+              <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 mb-2">{title}</h2>
+              <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-600 text-sm leading-relaxed">
                 {message}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 border-t border-[rgb(var(--color-border-secondary))] flex justify-end space-x-3">
+        <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="py-2 px-4 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-light))] hover:bg-[rgb(var(--color-border-secondary))] transition"
+            className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
           >
             Cancel
           </button>
           <button
             onClick={handleConfirm}
-            className={`py-2 px-4 rounded-lg text-sm font-semibold transition hover:shadow-lg active:scale-[0.98] ${confirmButtonClass}`}
+            className={`py-2.5 px-5 rounded-lg text-sm font-semibold transition hover:shadow-lg active:scale-[0.98] ${confirmButtonClass}`}
           >
             {confirmButtonText}
           </button>

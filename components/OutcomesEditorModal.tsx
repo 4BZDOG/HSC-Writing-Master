@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CourseOutcome } from '../types';
 import { parseOutcomesFromText } from '../services/geminiService';
 import LoadingSpinner from './LoadingSpinner';
-import { Target, X, Sparkles, Plus, Trash2 } from 'lucide-react';
+import { Target, X, Sparkles, Plus, Trash2, GripVertical } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface OutcomesEditorModalProps {
@@ -22,7 +22,6 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
   courseName,
   showToast,
 }) => {
-  // Escape closes this modal like every other modal surface.
   const [outcomes, setOutcomes] = useState<CourseOutcome[]>([]);
   const [pastedText, setPastedText] = useState('');
   const [isParsing, setIsParsing] = useState(false);
@@ -66,7 +65,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
       setOutcomes(
         [...manualOutcomes, ...filteredParsed].sort((a, b) => a.code.localeCompare(b.code))
       );
-      setPastedText(''); // Clear text area on success
+      setPastedText('');
       showToast(
         `Successfully parsed and added ${filteredParsed.length} new outcome(s).`,
         'success'
@@ -90,12 +89,13 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
     onClose();
   };
 
-  // Escape closes this modal like every other modal surface — never mid-parse.
   useEscapeKey(isOpen && !isParsing, handleClose);
 
   if (!isOpen) {
     return null;
   }
+
+  const validCount = outcomes.filter((o) => o.code.trim() && o.description.trim()).length;
 
   return (
     <div
@@ -103,120 +103,187 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
       onClick={handleClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-2xl w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))]">
-          <div className="flex items-center justify-between">
+        {/* Header */}
+        <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50 flex-shrink-0">
+          <div
+            className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='%23ffffff' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E")`,
+            }}
+          />
+          <div className="flex items-center justify-between relative z-10">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] flex items-center justify-center shadow-lg">
                 <Target className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))]">
-                  Edit Outcomes for {courseName}
+                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
+                  Edit Outcomes
                 </h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))]">
-                  Add outcomes manually or paste text to parse with AI.
+                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                  {courseName}
                 </p>
               </div>
             </div>
             <button
-              onClick={onClose}
+              onClick={handleClose}
               aria-label="Close"
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200 flex items-center justify-center group"
+              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
-              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text-primary))] transition-colors" />
+              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
             </button>
           </div>
         </div>
 
-        <div className="flex-grow grid grid-cols-1 md:grid-cols-3 gap-6 p-6 overflow-hidden">
-          {/* AI Parser */}
-          <div className="md:col-span-1 flex flex-col h-full">
-            <h3 className="text-base font-semibold text-gray-200 mb-2 flex-shrink-0">
-              Parse from Text
-            </h3>
-            <div className="flex-grow flex flex-col bg-[rgb(var(--color-bg-surface-inset))]/50 p-4 rounded-lg border border-[rgb(var(--color-border-secondary))]">
+        {/* Content — stacks vertically on mobile, side-by-side on desktop */}
+        <div className="flex-grow flex flex-col md:flex-row overflow-hidden">
+          {/* AI Parser Panel */}
+          <div className="md:w-80 lg:w-96 flex-shrink-0 border-b md:border-b-0 md:border-r border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex flex-col bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50">
+            <div className="p-5 flex flex-col h-full">
+              <div className="flex items-center gap-2 mb-3">
+                <Sparkles className="w-4 h-4 text-[rgb(var(--color-accent))]" />
+                <h3 className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800">
+                  Parse from Text
+                </h3>
+              </div>
+              <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
+                Paste syllabus outcomes text and AI will extract the codes and descriptions
+                automatically.
+              </p>
               <textarea
                 value={pastedText}
                 onChange={(e) => setPastedText(e.target.value)}
-                placeholder="Paste syllabus outcomes here..."
-                className="flex-grow bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-md py-2 px-3 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] text-sm resize-none"
+                placeholder={`e.g.\nSE-12-01 Describes methods used to plan, develop...\nSE-12-02 Applies appropriate development...`}
+                className="flex-grow bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-none min-h-[100px] md:min-h-0 leading-relaxed text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))]/60"
               />
               <button
                 onClick={handleParseText}
                 disabled={isParsing || !pastedText.trim()}
-                className="mt-3 w-full py-2.5 px-4 rounded-lg text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] text-sm font-semibold disabled:opacity-50 flex items-center justify-center gap-2"
+                className="mt-3 w-full py-2.5 px-4 rounded-lg text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:shadow-lg active:scale-[0.98] transition-all"
               >
                 <Sparkles className="w-4 h-4" />
                 {isParsing ? 'Parsing...' : 'Parse with AI'}
               </button>
-              {error && <p className="text-red-400 mt-2 text-xs">{error}</p>}
+              {error && (
+                <p className="text-red-400 light:text-red-600 mt-3 text-xs bg-red-900/20 light:bg-red-50 p-2.5 rounded-md border border-red-500/20 light:border-red-200">
+                  {error}
+                </p>
+              )}
             </div>
           </div>
 
-          {/* Manual Editor */}
-          <div className="md:col-span-2 flex flex-col h-full">
-            <h3 className="text-base font-semibold text-gray-200 mb-2 flex-shrink-0">
-              Outcomes List ({outcomes.length})
-            </h3>
-            <div className="flex-grow overflow-y-auto pr-2 -mr-2 space-y-2 bg-[rgb(var(--color-bg-surface-inset))]/50 p-4 rounded-lg border border-[rgb(var(--color-border-secondary))]">
-              {outcomes.map((outcome, index) => (
-                <div key={index} className="flex items-start space-x-2">
-                  <input
-                    type="text"
-                    value={outcome.code}
-                    onChange={(e) => handleOutcomeChange(index, 'code', e.target.value)}
-                    placeholder="Code"
-                    className="bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-md py-2 px-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-1/4 font-mono text-sm"
-                  />
-                  <textarea
-                    value={outcome.description}
-                    onChange={(e) => handleOutcomeChange(index, 'description', e.target.value)}
-                    placeholder="Description"
-                    rows={1}
-                    className="bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] rounded-md py-2 px-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-3/4 text-sm resize-y min-h-[42px]"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleDeleteOutcome(index)}
-                    className="p-2 text-gray-500 hover:text-red-400 transition rounded-md h-full flex items-center bg-[rgb(var(--color-bg-surface-light))] hover:bg-red-500/10"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                </div>
-              ))}
+          {/* Manual Outcomes Editor */}
+          <div className="flex-1 flex flex-col overflow-hidden min-h-0">
+            <div className="px-5 pt-5 pb-3 flex items-center justify-between flex-shrink-0 border-b border-[rgb(var(--color-border-secondary))]/50 light:border-slate-100">
+              <div className="flex items-center gap-2.5">
+                <h3 className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800">
+                  Outcomes
+                </h3>
+                <span className="text-xs font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 px-2.5 py-0.5 rounded-full">
+                  {validCount} valid
+                </span>
+              </div>
               <button
                 type="button"
                 onClick={handleAddOutcome}
-                className="w-full py-2 mt-2 rounded-lg text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/10 hover:bg-[rgb(var(--color-accent))]/20 transition text-sm font-semibold border border-dashed border-[rgb(var(--color-accent))]/30"
+                className="py-1.5 px-3.5 rounded-lg text-xs font-semibold text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/10 hover:bg-[rgb(var(--color-accent))]/20 transition flex items-center gap-1.5 border border-[rgb(var(--color-accent))]/20"
               >
-                <Plus className="inline w-4 h-4 mr-1" /> Add Outcome
+                <Plus className="w-3.5 h-3.5" /> Add Row
               </button>
+            </div>
+
+            <div className="flex-grow overflow-y-auto px-5 py-4">
+              {outcomes.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <Target className="w-8 h-8 text-[rgb(var(--color-text-muted))]/40 light:text-slate-300 mb-3" />
+                  <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                    No outcomes yet. Add them manually or paste text to parse with AI.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleAddOutcome}
+                    className="mt-4 py-2 px-4 rounded-lg text-sm font-semibold text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/10 hover:bg-[rgb(var(--color-accent))]/20 transition border border-dashed border-[rgb(var(--color-accent))]/30"
+                  >
+                    <Plus className="inline w-4 h-4 mr-1" /> Add Outcome
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {outcomes.map((outcome, index) => (
+                    <div
+                      key={index}
+                      className="group flex items-start gap-2.5 p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50/80 border border-[rgb(var(--color-border-secondary))]/60 light:border-slate-200 hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 transition-colors"
+                    >
+                      <span className="hidden sm:flex items-center justify-center w-6 h-6 rounded-md bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200/80 text-[10px] font-bold text-[rgb(var(--color-text-muted))]/60 light:text-slate-400 flex-shrink-0 mt-1.5">
+                        {index + 1}
+                      </span>
+                      <div className="flex flex-col gap-2.5 flex-1 min-w-0">
+                        <input
+                          type="text"
+                          value={outcome.code}
+                          onChange={(e) => handleOutcomeChange(index, 'code', e.target.value)}
+                          placeholder="e.g., SE-12-01"
+                          className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3.5 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full sm:w-40 font-mono text-sm font-semibold flex-shrink-0"
+                        />
+                        <textarea
+                          value={outcome.description}
+                          onChange={(e) => handleOutcomeChange(index, 'description', e.target.value)}
+                          placeholder="Outcome description..."
+                          rows={2}
+                          className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3.5 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full text-sm resize-y min-h-[56px] leading-relaxed"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteOutcome(index)}
+                        className="p-2 text-[rgb(var(--color-text-muted))]/50 light:text-slate-300 hover:text-red-400 light:hover:text-red-500 transition rounded-lg flex items-center hover:bg-red-500/10 light:hover:bg-red-50 flex-shrink-0 mt-1"
+                        title="Delete Outcome"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={handleAddOutcome}
+                    className="w-full py-3 px-4 rounded-xl text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/5 hover:bg-[rgb(var(--color-accent))]/10 transition text-sm font-semibold border border-dashed border-[rgb(var(--color-accent))]/30 hover:border-[rgb(var(--color-accent))]/50"
+                  >
+                    <Plus className="inline w-4 h-4 mr-1" /> Add Outcome
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
 
-        <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 border-t border-[rgb(var(--color-border-secondary))] flex justify-end space-x-3">
-          <button
-            type="button"
-            onClick={handleClose}
-            className="py-2 px-4 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-light))] hover:bg-[rgb(var(--color-border-secondary))] transition"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            onClick={handleSave}
-            className="py-2 px-4 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition"
-          >
-            Save Changes
-          </button>
+        {/* Footer */}
+        <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex items-center justify-between flex-shrink-0">
+          <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 hidden sm:block">
+            Incomplete rows (missing code or description) are ignored on save.
+          </p>
+          <div className="flex items-center gap-3 ml-auto">
+            <button
+              type="button"
+              onClick={handleClose}
+              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={handleSave}
+              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition"
+            >
+              Save Changes
+            </button>
+          </div>
         </div>
 
         {isParsing && (
-          <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-sm flex items-center justify-center rounded-2xl">
+          <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/95 light:bg-white/95 backdrop-blur-sm flex items-center justify-center rounded-2xl">
             <LoadingSpinner message="Parsing outcomes..." />
           </div>
         )}
