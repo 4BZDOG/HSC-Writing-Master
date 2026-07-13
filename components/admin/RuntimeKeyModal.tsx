@@ -235,7 +235,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
               />
             </div>
             <span className="mt-1 flex items-center gap-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
-              Free tier with ultra-fast inference on Llama, Gemma and more —
+              Free, ultra-fast Llama and Gemma —
               <a
                 href="https://console.groq.com/keys"
                 target="_blank"

@@ -64,7 +64,7 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
       onClick={handleClose}
     >
       <div
@@ -172,8 +172,8 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
                             type="text"
                             value={outcome.code}
                             onChange={(e) => handleOutcomeChange(index, 'code', e.target.value)}
-                            placeholder="Code (e.g., SE-12-01)"
-                            className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3.5 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full sm:w-40 font-mono text-sm font-semibold flex-shrink-0"
+                            placeholder="e.g. SE-12-01"
+                            className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3.5 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full sm:w-48 font-mono text-sm font-semibold flex-shrink-0"
                           />
                           <textarea
                             value={outcome.description}
