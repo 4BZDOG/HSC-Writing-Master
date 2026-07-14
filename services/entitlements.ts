@@ -1,5 +1,14 @@
 import { authService } from './authService';
 import type { User } from '../types';
+import type { UserRole } from '../types';
+
+const resolveUser = (user?: User | null): User | null =>
+  user !== undefined ? user : authService.getCurrentUser();
+
+const isAdmin = (user?: User | null): boolean => {
+  const u = resolveUser(user);
+  return u?.role === ('admin' as UserRole);
+};
 
 /**
  * Monetisation / entitlements — single source of truth.
@@ -167,6 +176,9 @@ export const getUserPlan = (user?: User | null): Plan => {
   const u = user !== undefined ? user : authService.getCurrentUser();
   if (!u) return 'free';
 
+  // Admins get the most permissive plan so every feature is unlocked.
+  if (u.role === 'admin') return 'school';
+
   // Step 1: explicit plan on the profile (set by Stripe webhook or admin)
   const explicit = (u as User & { stripePlan?: Plan }).stripePlan;
   if (explicit && explicit in PLAN_LABELS) return explicit;
@@ -174,8 +186,8 @@ export const getUserPlan = (user?: User | null): Plan => {
   // Step 2: school institutional subscription (future — school.plan column)
   // For now, schools use the quota system; the plan stays role-derived.
 
-  // Step 3: staff perk — teachers/admins get Plus so content authoring works
-  if (u.role === 'admin' || u.role === 'teacher') return 'plus';
+  // Step 3: staff perk — teachers get Plus so content authoring works
+  if (u.role === 'teacher') return 'plus';
 
   // Step 4: everyone else
   return 'free';
@@ -184,6 +196,7 @@ export const getUserPlan = (user?: User | null): Plan => {
 /** True when the given feature should render in its locked state. */
 export const isFeatureLocked = (feature: PremiumFeatureKey, user?: User | null): boolean => {
   if (!MONETISATION_ENABLED) return false;
+  if (isAdmin(user)) return false;
   if (!(feature in PREMIUM_FEATURES)) return false;
   const plan = getUserPlan(user);
   return !PLAN_FEATURES[plan].has(feature);
@@ -199,6 +212,7 @@ export const isFeatureLocked = (feature: PremiumFeatureKey, user?: User | null):
  */
 export const isQuestionTierLocked = (tier: number, user?: User | null): boolean => {
   if (!MONETISATION_ENABLED) return false;
+  if (isAdmin(user)) return false;
   if (getUserPlan(user) !== 'free') return false;
   return tier > FREE_TIER_MAX_QUESTION_TIER;
 };
@@ -209,6 +223,7 @@ export const isQuestionTierLocked = (tier: number, user?: User | null): boolean 
  */
 export const isSampleAnswerLocked = (band: number, user?: User | null): boolean => {
   if (!MONETISATION_ENABLED) return false;
+  if (isAdmin(user)) return false;
   if (getUserPlan(user) !== 'free') return false;
   return band > FREE_TIER_MAX_SAMPLE_BAND;
 };
@@ -219,6 +234,7 @@ export const isSampleAnswerLocked = (band: number, user?: User | null): boolean 
  */
 export const isFeedbackLocked = (user?: User | null): boolean => {
   if (!MONETISATION_ENABLED) return false;
+  if (isAdmin(user)) return false;
   if (getUserPlan(user) !== 'free') return false;
   return FREE_TIER_FEEDBACK_SUMMARY_ONLY;
 };
@@ -261,6 +277,7 @@ export const recordEvaluation = (): void => {
 /** True when the free tier's daily evaluation limit has been reached. */
 export const isEvalLimitReached = (user?: User | null): boolean => {
   if (!MONETISATION_ENABLED) return false;
+  if (isAdmin(user)) return false;
   if (getUserPlan(user) !== 'free') return false;
   return readDailyEvalCount() >= FREE_TIER_EVAL_LIMIT;
 };
@@ -268,6 +285,7 @@ export const isEvalLimitReached = (user?: User | null): boolean => {
 /** Remaining free evaluations today. */
 export const freeEvalsRemaining = (user?: User | null): number => {
   if (!MONETISATION_ENABLED) return Infinity;
+  if (isAdmin(user)) return Infinity;
   if (getUserPlan(user) !== 'free') return Infinity;
   return Math.max(0, FREE_TIER_EVAL_LIMIT - readDailyEvalCount());
 };
@@ -277,27 +295,59 @@ export const freeEvalsRemaining = (user?: User | null): number => {
 // ---------------------------------------------------------------------------
 
 export const STRIPE_PRICE_IDS = {
-  plus_monthly: process.env.STRIPE_PLUS_MONTHLY_PRICE_ID ?? '',
-  plus_yearly: process.env.STRIPE_PLUS_YEARLY_PRICE_ID ?? '',
+  plus_monthly: import.meta.env.VITE_STRIPE_PLUS_MONTHLY_PRICE_ID ?? '',
+  plus_yearly: import.meta.env.VITE_STRIPE_PLUS_YEARLY_PRICE_ID ?? '',
 } as const;
+
+const getAuthHeaders = async (): Promise<Record<string, string>> => {
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  try {
+    const { supabase } = await import('./supabaseClient');
+    if (supabase) {
+      const { data } = await supabase.auth.getSession();
+      const token = data.session?.access_token;
+      if (token) headers.Authorization = `Bearer ${token}`;
+    }
+  } catch {
+    /* Supabase not configured — send unauthenticated */
+  }
+  return headers;
+};
+
+const apiBase = import.meta.env.VITE_API_BASE_URL ?? '';
 
 /**
  * Request a Stripe Checkout session from the server. Returns the URL to
- * redirect the user to. The server creates the Checkout Session with the
- * user's Supabase ID as the client_reference_id so the webhook can match
- * the payment to the profile.
- *
- * Not yet wired — returns null until `api/create-checkout.ts` is deployed.
+ * redirect the user to. In test mode (Stripe unconfigured on server) the
+ * endpoint returns a fake URL so the client redirect logic still works.
  */
 export const createCheckoutUrl = async (priceId: string): Promise<string | null> => {
   try {
-    const res = await fetch('/api/create-checkout', {
+    const res = await fetch(`${apiBase}/api/create-checkout`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: await getAuthHeaders(),
       body: JSON.stringify({ priceId }),
     });
     if (!res.ok) return null;
-    const data = (await res.json()) as { url?: string };
+    const data = (await res.json()) as { url?: string; test?: boolean };
+    return data.url ?? null;
+  } catch {
+    return null;
+  }
+};
+
+/**
+ * Open the Stripe Billing Portal so the user can manage their subscription.
+ * Returns the portal URL or null on failure.
+ */
+export const createPortalUrl = async (): Promise<string | null> => {
+  try {
+    const res = await fetch(`${apiBase}/api/customer-portal`, {
+      method: 'POST',
+      headers: await getAuthHeaders(),
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { url?: string; test?: boolean };
     return data.url ?? null;
   } catch {
     return null;

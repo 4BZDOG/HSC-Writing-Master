@@ -20,9 +20,18 @@ import {
   Cpu,
   MousePointer2,
   Lock,
+  Crown,
+  ExternalLink,
 } from 'lucide-react';
 import { getBandConfig } from '../utils/renderUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import {
+  getUserPlan,
+  PLAN_LABELS,
+  createPortalUrl,
+  requestUpgrade,
+  type Plan,
+} from '../services/entitlements';
 
 interface UserProfileModalProps {
   isOpen: boolean;
@@ -40,6 +49,72 @@ const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
     }}
   />
 );
+
+const PlanCard: React.FC<{ user: User }> = ({ user }) => {
+  const plan: Plan = getUserPlan(user);
+  const isPaid = plan !== 'free';
+  const [portalLoading, setPortalLoading] = useState(false);
+
+  const handleManageBilling = async () => {
+    setPortalLoading(true);
+    const url = await createPortalUrl();
+    setPortalLoading(false);
+    if (url) {
+      window.location.href = url;
+    }
+  };
+
+  return (
+    <div
+      className={`p-6 rounded-[32px] border flex items-start gap-5 ${
+        isPaid
+          ? 'bg-amber-400/5 border-amber-400/20'
+          : 'bg-white/[0.03] light:bg-slate-100 border-white/5 light:border-slate-200'
+      }`}
+    >
+      <div
+        className={`p-3.5 rounded-2xl ${isPaid ? 'bg-amber-400/15 text-amber-400' : 'bg-white/5 light:bg-slate-200 text-slate-400'}`}
+      >
+        <Crown className="w-7 h-7" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 mb-1">
+          <h4 className="text-sm font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 uppercase tracking-wide">
+            {PLAN_LABELS[plan]}
+          </h4>
+          {isPaid && (
+            <span className="px-2 py-0.5 rounded-lg bg-amber-400/20 text-amber-500 text-[9px] font-black uppercase tracking-widest">
+              Active
+            </span>
+          )}
+        </div>
+        <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed mb-3">
+          {isPaid
+            ? 'Full access to all features, unlimited evaluations, and exam simulation.'
+            : 'Limited daily evaluations and basic features. Upgrade to unlock everything.'}
+        </p>
+        {isPaid ? (
+          <button
+            onClick={handleManageBilling}
+            disabled={portalLoading}
+            className="px-4 py-2 rounded-xl bg-white/5 light:bg-slate-200 text-[rgb(var(--color-text-secondary))] light:text-slate-600 text-[10px] font-bold uppercase tracking-widest border border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-300 transition-all flex items-center gap-2"
+          >
+            <ExternalLink className="w-3 h-3" />
+            {portalLoading ? 'Opening...' : 'Manage Subscription'}
+          </button>
+        ) : (
+          <button
+            onClick={() => requestUpgrade('fullFeedback')}
+            className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
+          >
+            <Crown className="w-3 h-3" />
+            Upgrade to Plus
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
 
 const UserProfileModal: React.FC<UserProfileModalProps> = ({
   isOpen,
@@ -272,6 +347,8 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   </div>
                 ))}
               </div>
+
+              <PlanCard user={user} />
 
               <div className="p-8 rounded-[32px] bg-indigo-500/5 border border-indigo-500/20 flex items-start gap-6">
                 <div className="p-4 rounded-3xl bg-indigo-500/20 text-indigo-400">
