@@ -111,6 +111,7 @@ const CarouselAccordionItem: React.FC<{
     const [isContributing, setIsContributing] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isCopied, setIsCopied] = useState(false);
+    const [feedbackExpanded, setFeedbackExpanded] = useState(true);
 
     useEffect(() => {
       if (currentIndex >= group.answers.length && group.answers.length > 0) {
@@ -333,42 +334,63 @@ const CarouselAccordionItem: React.FC<{
                 </div>
               </div>
 
-              {/* Feedback and Coach's Tip */}
-              <div className="space-y-3 mt-3">
-                {currentSample.quickTip && (
-                  <div
-                    className={`px-4 py-3 rounded-xl border border-indigo-100 dark:border-indigo-500/20 bg-indigo-50 dark:bg-indigo-900/10 flex items-start gap-3`}
+              {/* Feedback and Coach's Tip — collapsible */}
+              {(currentSample.quickTip || currentSample.feedback) && (
+                <div className="mt-3">
+                  <button
+                    onClick={() => setFeedbackExpanded((prev) => !prev)}
+                    className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-secondary))] transition-colors mb-2"
                   >
-                    <div className="mt-0.5 p-1 rounded-full bg-indigo-100 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 shrink-0">
-                      <Lightbulb className="w-3 h-3" />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-1">
-                        Coach's Tip
-                      </p>
-                      <p className="text-xs text-indigo-900 dark:text-indigo-200/90 leading-relaxed font-medium">
-                        {currentSample.quickTip}
-                      </p>
-                    </div>
-                  </div>
-                )}
+                    <ChevronDown
+                      className={`w-3 h-3 transition-transform duration-200 ${feedbackExpanded ? '' : '-rotate-90'}`}
+                    />
+                    {feedbackExpanded ? 'Hide Feedback' : 'Show Feedback'}
+                  </button>
+                  <div
+                    className={`grid transition-all duration-300 ease-in-out ${feedbackExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+                  >
+                    <div className="overflow-hidden space-y-3">
+                      {currentSample.quickTip && (
+                        <div
+                          className={`px-4 py-3 rounded-xl border border-indigo-100 dark:border-indigo-500/20 bg-indigo-50 dark:bg-indigo-900/10 flex items-start gap-3`}
+                        >
+                          <div className="mt-0.5 p-1 rounded-full bg-indigo-100 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 shrink-0">
+                            <Lightbulb className="w-3 h-3" />
+                          </div>
+                          <div>
+                            <p className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-1">
+                              Coach's Tip
+                            </p>
+                            <p className="text-xs text-indigo-900 dark:text-indigo-200/90 leading-relaxed font-medium">
+                              {currentSample.quickTip}
+                            </p>
+                          </div>
+                        </div>
+                      )}
 
-                {currentSample.feedback && (
-                  <div className="px-4 py-3 rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-500/20 flex items-start gap-3">
-                    <div className="mt-0.5 p-1 rounded-full bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 shrink-0">
-                      <BookOpen className="w-3 h-3" />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider mb-1">
-                        Feedback
-                      </p>
-                      <p className="text-xs text-amber-800 dark:text-amber-200/80 leading-relaxed">
-                        {renderFormattedText(currentSample.feedback, prompt.keywords, prompt.verb)}
-                      </p>
+                      {currentSample.feedback && (
+                        <div className="px-4 py-3 rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-500/20 flex items-start gap-3">
+                          <div className="mt-0.5 p-1 rounded-full bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 shrink-0">
+                            <BookOpen className="w-3 h-3" />
+                          </div>
+                          <div>
+                            <p className="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider mb-1">
+                              Feedback
+                            </p>
+                            <p className="text-xs text-amber-800 dark:text-amber-200/80 leading-relaxed">
+                              {renderFormattedText(
+                                currentSample.feedback,
+                                prompt.keywords,
+                                prompt.verb
+                              )}
+                            </p>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
