@@ -149,20 +149,21 @@ export const useGemini = ({
                   ? result.revisedAnswer.mark
                   : Math.min(prompt.totalMarks, result.overallMark + 1);
 
+              const revisedBand =
+                typeof result.revisedAnswer === 'object' && result.revisedAnswer.band
+                  ? result.revisedAnswer.band
+                  : getBandForMark(
+                      revisedMark,
+                      prompt.totalMarks,
+                      getCommandTermInfo(prompt.verb).tier
+                    );
               const aiSample: SampleAnswer = {
                 id: generateId('sa'),
                 answer: revisedText,
                 mark: revisedMark,
-                band:
-                  typeof result.revisedAnswer === 'object' && result.revisedAnswer.band
-                    ? result.revisedAnswer.band
-                    : getBandForMark(
-                        revisedMark,
-                        prompt.totalMarks,
-                        getCommandTermInfo(prompt.verb).tier
-                      ),
+                band: revisedBand,
                 source: 'AI',
-                feedback: 'Automated revision generated during evaluation.',
+                feedback: `This Band ${revisedBand} revision scores ${revisedMark}/${prompt.totalMarks}. It demonstrates the cognitive demand of '${prompt.verb}' at this level — ${revisedBand >= 5 ? 'providing sophisticated analysis with specific terminology and clear cause-effect reasoning' : revisedBand >= 3 ? 'explaining key concepts with adequate detail but lacking the depth or specificity of higher bands' : 'identifying basic elements with limited development or connection to the scenario'}.`,
               };
               p.sampleAnswers = addAndPruneSampleAnswers(p.sampleAnswers, aiSample);
             }
@@ -235,7 +236,7 @@ export const useGemini = ({
               mark: aiSampleMark,
               band: targetBand,
               source: 'AI',
-              feedback: `Auto-generated improvement targeting Band ${targetBand}.`,
+              feedback: `This Band ${targetBand} exemplar scores ${aiSampleMark}/${prompt.totalMarks}. As an improvement over the original attempt, it elevates the response by ${targetBand >= 5 ? 'integrating specific terminology, demonstrating thorough analysis, and fully satisfying the cognitive demand of the command verb' : targetBand >= 3 ? 'providing clearer explanations with more relevant detail, though still below the sophistication expected at the highest bands' : 'addressing the basic requirements of the question with some relevant content'}.`,
             };
 
             p.sampleAnswers = addAndPruneSampleAnswers(p.sampleAnswers, aiSample);
@@ -336,10 +337,11 @@ export const useGemini = ({
     if (enrichmentAttempted.current.has(promptId)) return;
     if (enrichingRef.current.has(promptId)) return;
 
+    const hasOutcomesToLink = currentCourse.outcomes && currentCourse.outcomes.length > 0;
     const needsEnrichment =
       !currentPrompt.keywords?.length ||
       !currentPrompt.scenario ||
-      !currentPrompt.linkedOutcomes?.length;
+      (hasOutcomesToLink && !currentPrompt.linkedOutcomes?.length);
 
     if (!needsEnrichment) {
       enrichmentAttempted.current.add(promptId);

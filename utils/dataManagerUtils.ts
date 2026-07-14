@@ -776,7 +776,44 @@ const coerceDotPoint = (dp: unknown): string | null => {
 
 const coerceDotPoints = (raw: unknown): string[] => {
   if (!Array.isArray(raw)) return [];
-  return raw.map(coerceDotPoint).filter((x): x is string => !!x);
+  const flat = raw.map(coerceDotPoint).filter((x): x is string => !!x);
+  return recombineSplitDotPoints(flat);
+};
+
+const recombineSplitDotPoints = (points: string[]): string[] => {
+  if (points.length <= 1) return points;
+  const result: string[] = [];
+  const parentSuffixes = /\s*(?:including|such as|for example|e\.g\.|namely|like):?\s*$/i;
+
+  for (let i = 0; i < points.length; i++) {
+    const current = points[i];
+    if (parentSuffixes.test(current)) {
+      const children: string[] = [];
+      let j = i + 1;
+      while (j < points.length && isLikelyChildItem(points[j])) {
+        children.push(points[j]);
+        j++;
+      }
+      if (children.length > 0) {
+        const parentBase = current.replace(parentSuffixes, '');
+        result.push(`${parentBase} including ${children.join(', ')}`);
+        i = j - 1;
+      } else {
+        result.push(current);
+      }
+    } else {
+      result.push(current);
+    }
+  }
+  return result;
+};
+
+const isLikelyChildItem = (text: string): boolean => {
+  const trimmed = text.trim();
+  if (trimmed.length > 120) return false;
+  if (/^[a-z]/.test(trimmed)) return true;
+  if (/^[-–•]/.test(trimmed)) return true;
+  return false;
 };
 
 /**

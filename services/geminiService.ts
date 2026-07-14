@@ -486,6 +486,8 @@ export const suggestOutcomesForPrompt = async (
   outcomes: CourseOutcome[],
   marks: number
 ): Promise<string[]> => {
+  if (!outcomes || outcomes.length === 0) return [];
+
   const request = {
     ...aiTarget('basic'),
     contents: {
@@ -631,7 +633,7 @@ export const refineManualPrompt = async (
                     2. **Refine the Question**: Rewrite the raw input to use formal academic language and your selected verb.
                     3. **Create a Scenario**: Write a realistic, industry-relevant scenario (Who/What/Why) that gives context to the question.
                     4. **Select Outcomes**: Pick 1-3 outcome codes from the provided list that best match the question.
-                    5. **Marking Criteria**: Create a descending marking rubric. Each line MUST start with the mark value followed by "marks:" — e.g. "${targetMarks} marks: [full marks criteria]\n${Math.ceil(targetMarks * 0.6)} marks: [mid criteria]\n${Math.ceil(targetMarks * 0.3)} marks: [low criteria]". One line per mark tier, no bullets or paragraphs.
+                    5. **Marking Criteria**: Create a descending marking rubric addressing EVERY mark value individually. Each line MUST start with the mark value followed by "marks:". For a ${targetMarks}-mark question you MUST have exactly ${targetMarks} lines: "${Array.from({ length: targetMarks }, (_, i) => `${targetMarks - i} mark${targetMarks - i !== 1 ? 's' : ''}: [criteria]`).join('\\n')}". NEVER skip a mark value, use ranges, or group marks together. No bullets or paragraphs.
                     6. **Keywords**: Extract 5-10 key technical terms.
 
                     **OUTPUT:**
@@ -733,7 +735,7 @@ export const generateNewPrompt = async (
                     - question (The exam question text)
                     - verb (One of the allowed verbs)
                     ${scenarioLine}
-                    - markingCriteria (A marking rubric in DESCENDING mark order. Each line MUST start with the mark value followed by a colon, e.g. "${marks} marks: [criteria for full marks]\\n${Math.ceil(marks * 0.6)} marks: [criteria]\\n${Math.ceil(marks * 0.3)} marks: [criteria]". Use one line per mark tier. NEVER use bullet points or paragraphs — only "N marks: description" lines.)
+                    - markingCriteria (A marking rubric in DESCENDING mark order addressing EVERY mark value individually. Each line MUST start with the mark value followed by a colon. For a ${marks}-mark question you MUST have exactly ${marks} lines: "${Array.from({ length: marks }, (_, i) => `${marks - i} mark${marks - i !== 1 ? 's' : ''}: [criteria]`).join('\\n')}". NEVER skip a mark value, use ranges, or group marks together. NEVER use bullet points or paragraphs — only "N marks: description" lines.)
                     - keywords (List of 5-10 technical terms)
                     - linkedOutcomes (Array of outcome codes relevant to this question from: ${JSON.stringify(outcomes.map((o) => o.code))})
                 `,
@@ -906,6 +908,16 @@ export const parseSyllabusStructure = async (content: string): Promise<SyllabusP
 
                     Rules:
                     - Preserve the wording of dot points; do not summarise or invent content.
+                    - CRITICAL: When a dot point has indented sub-items, examples, or a list
+                      (e.g. "including:", "such as:", "for example:", followed by bullet items),
+                      keep the ENTIRE dot point as a SINGLE string entry. Merge the parent and
+                      its sub-items into one dot point string using "including" or commas.
+                      For example, if the syllabus has:
+                        - explore models of ML including:
+                          - supervised learning
+                          - unsupervised learning
+                      This must become ONE dot point: "explore models of ML including supervised learning, unsupervised learning"
+                      Do NOT split examples, scenarios, or sub-bullets into separate dot points.
                     - If the text has no explicit sub-topics, group related dot points under a
                       sensibly named sub-topic (or one called "General").
                     - Return ONLY the JSON array described by the schema — no commentary.
@@ -1129,19 +1141,22 @@ export const generateRubricForPrompt = async (
                        Use British/Australian English spelling (e.g. 'analyse', 'colour', 'behaviour').
 
                        **Requirements:**
-                       - Create a distinct criteria row for EACH mark range (e.g. 5 marks, 3-4 marks, etc.).
+                       - Address EVERY individual mark value from ${prompt.totalMarks} down to 1 — exactly ${prompt.totalMarks} lines.
                        - Format in descending order (highest marks first).
                        - For full marks, criteria MUST demand the full cognitive depth of '${prompt.verb}' (e.g. if Analyse, must require 'relationship/implication', not just 'description').
-                       - Lower marks should reflect a drop in cognitive skill (e.g. 'Describes' instead of 'Explains').
+                       - Lower marks should reflect a progressive drop in cognitive skill (e.g. 'Describes' instead of 'Explains').
+                       - NEVER use mark ranges (e.g. "3-4 marks"). Every mark must have its own line.
 
                        **FORMAT (strict):**
                        Each line must be: "N marks: [criteria description]"
                        Example for a 5-mark question:
                        5 marks: Provides a comprehensive analysis...
-                       3-4 marks: Describes the key features...
-                       1-2 marks: Identifies basic elements...
+                       4 marks: Explains the key features with some analysis...
+                       3 marks: Describes the key features...
+                       2 marks: Identifies basic elements with limited detail...
+                       1 mark: Identifies one or two basic elements...
 
-                       Do NOT use bullet points, headings, or paragraphs. One line per mark tier only.`,
+                       Do NOT use bullet points, headings, or paragraphs. One line per mark value only.`,
         },
       ],
     },

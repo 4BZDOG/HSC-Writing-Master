@@ -79,4 +79,69 @@ describe('normalizeSyllabusStructure', () => {
       { name: 'Untitled Topic', subTopics: [{ name: 'General', dotPoints: ['keep me'] }] },
     ]);
   });
+
+  it('recombines dot points split from a parent ending with "including:"', () => {
+    const out = normalizeSyllabusStructure([
+      {
+        name: 'T',
+        subTopics: [
+          {
+            name: 'S',
+            dotPoints: [
+              'explore models of training ML including:',
+              'supervised learning',
+              'unsupervised learning',
+              'reinforcement learning',
+              'Analyse the impact of AI on society',
+            ],
+          },
+        ],
+      },
+    ]);
+    expect(out[0].subTopics[0].dotPoints).toEqual([
+      'explore models of training ML including supervised learning, unsupervised learning, reinforcement learning',
+      'Analyse the impact of AI on society',
+    ]);
+  });
+
+  it('recombines dot points split from a parent ending with "such as"', () => {
+    const out = normalizeSyllabusStructure([
+      {
+        name: 'T',
+        subTopics: [
+          {
+            name: 'S',
+            dotPoints: [
+              'investigate data types such as',
+              'integer',
+              'string',
+              'boolean',
+            ],
+          },
+        ],
+      },
+    ]);
+    expect(out[0].subTopics[0].dotPoints).toEqual([
+      'investigate data types including integer, string, boolean',
+    ]);
+  });
+
+  it('leaves dot points alone when no parent-child pattern detected', () => {
+    const out = normalizeSyllabusStructure([
+      {
+        name: 'T',
+        subTopics: [
+          {
+            name: 'S',
+            dotPoints: ['Explain concept A', 'Analyse concept B', 'Evaluate concept C'],
+          },
+        ],
+      },
+    ]);
+    expect(out[0].subTopics[0].dotPoints).toEqual([
+      'Explain concept A',
+      'Analyse concept B',
+      'Evaluate concept C',
+    ]);
+  });
 });
