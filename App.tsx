@@ -30,12 +30,7 @@ import { savePromptContribution } from './services/contributionService';
 import { screenContentQuality } from './services/geminiService';
 import { User, WritingMode } from './types';
 import { canCurateContent, canModerate, isSystemAdmin } from './utils/permissions';
-import {
-  isEvalLimitReached,
-  recordEvaluation,
-  freeEvalsRemaining,
-  requestUpgrade,
-} from './services/entitlements';
+import { isEvalLimitReached, recordEvaluation, requestUpgrade } from './services/entitlements';
 import {
   Compass,
   Sparkles,
@@ -891,6 +886,18 @@ const App: React.FC = () => {
       subscribeQuotaWarnings((w) => showToast(w.message, w.level === 'reached' ? 'error' : 'info')),
     [showToast]
   );
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const checkout = params.get('checkout');
+    if (checkout === 'success') {
+      showToast('Subscription activated! Welcome to Writing Studio Plus.', 'success');
+      window.history.replaceState({}, '', window.location.pathname);
+    } else if (checkout === 'cancelled') {
+      showToast('Checkout cancelled — no changes were made.', 'info');
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, [showToast]);
 
   useEffect(() => {
     const storedUser = authService.getCurrentUser();

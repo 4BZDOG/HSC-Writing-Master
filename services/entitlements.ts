@@ -277,27 +277,59 @@ export const freeEvalsRemaining = (user?: User | null): number => {
 // ---------------------------------------------------------------------------
 
 export const STRIPE_PRICE_IDS = {
-  plus_monthly: process.env.STRIPE_PLUS_MONTHLY_PRICE_ID ?? '',
-  plus_yearly: process.env.STRIPE_PLUS_YEARLY_PRICE_ID ?? '',
+  plus_monthly: import.meta.env.VITE_STRIPE_PLUS_MONTHLY_PRICE_ID ?? '',
+  plus_yearly: import.meta.env.VITE_STRIPE_PLUS_YEARLY_PRICE_ID ?? '',
 } as const;
+
+const getAuthHeaders = async (): Promise<Record<string, string>> => {
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  try {
+    const { supabase } = await import('./supabaseClient');
+    if (supabase) {
+      const { data } = await supabase.auth.getSession();
+      const token = data.session?.access_token;
+      if (token) headers.Authorization = `Bearer ${token}`;
+    }
+  } catch {
+    /* Supabase not configured — send unauthenticated */
+  }
+  return headers;
+};
+
+const apiBase = import.meta.env.VITE_API_BASE_URL ?? '';
 
 /**
  * Request a Stripe Checkout session from the server. Returns the URL to
- * redirect the user to. The server creates the Checkout Session with the
- * user's Supabase ID as the client_reference_id so the webhook can match
- * the payment to the profile.
- *
- * Not yet wired — returns null until `api/create-checkout.ts` is deployed.
+ * redirect the user to. In test mode (Stripe unconfigured on server) the
+ * endpoint returns a fake URL so the client redirect logic still works.
  */
 export const createCheckoutUrl = async (priceId: string): Promise<string | null> => {
   try {
-    const res = await fetch('/api/create-checkout', {
+    const res = await fetch(`${apiBase}/api/create-checkout`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: await getAuthHeaders(),
       body: JSON.stringify({ priceId }),
     });
     if (!res.ok) return null;
-    const data = (await res.json()) as { url?: string };
+    const data = (await res.json()) as { url?: string; test?: boolean };
+    return data.url ?? null;
+  } catch {
+    return null;
+  }
+};
+
+/**
+ * Open the Stripe Billing Portal so the user can manage their subscription.
+ * Returns the portal URL or null on failure.
+ */
+export const createPortalUrl = async (): Promise<string | null> => {
+  try {
+    const res = await fetch(`${apiBase}/api/customer-portal`, {
+      method: 'POST',
+      headers: await getAuthHeaders(),
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { url?: string; test?: boolean };
     return data.url ?? null;
   } catch {
     return null;

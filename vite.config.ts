@@ -125,6 +125,78 @@ function geminiDevProxy(env: Record<string, string>): Plugin {
   };
 }
 
+function billingDevProxy(): Plugin {
+  return {
+    name: 'billing-dev-proxy',
+    configureServer(server) {
+      const proxyRoute = async (
+        route: string,
+        req: import('http').IncomingMessage,
+        res: import('http').ServerResponse
+      ) => {
+        if (req.method === 'OPTIONS') {
+          res.statusCode = 204;
+          res.end();
+          return;
+        }
+        if (req.method !== 'POST') {
+          res.statusCode = 405;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ error: 'Method not allowed. Use POST.' }));
+          return;
+        }
+
+        const chunks: Buffer[] = [];
+        for await (const chunk of req) chunks.push(chunk as Buffer);
+        let body: unknown;
+        try {
+          const raw = Buffer.concat(chunks).toString();
+          body = raw ? JSON.parse(raw) : {};
+        } catch {
+          res.statusCode = 400;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ error: 'Invalid JSON body.' }));
+          return;
+        }
+
+        const handler = (await import(`./api/${route}`)).default;
+        const resAdapter: any = {
+          status: (code: number) => {
+            res.statusCode = code;
+            return resAdapter;
+          },
+          json: (data: unknown) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify(data));
+          },
+          setHeader: (name: string, value: string) => res.setHeader(name, value),
+          end: () => res.end(),
+        };
+        await handler(
+          {
+            method: 'POST',
+            body,
+            rawBody: Buffer.concat(chunks).toString(),
+            headers: req.headers as Record<string, string>,
+          },
+          resAdapter
+        );
+      };
+
+      for (const route of ['create-checkout', 'customer-portal', 'stripe-webhook']) {
+        server.middlewares.use(`/api/${route}`, (req, res) => {
+          proxyRoute(route, req, res).catch((e) => {
+            console.error(`[billing-dev-proxy] /${route}:`, e);
+            res.statusCode = 500;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ error: 'Dev proxy error.' }));
+          });
+        });
+      }
+    },
+  };
+}
+
 export default defineConfig(({ mode }) => {
   // Load all env vars (including non-VITE_ server-side keys) for the dev proxy.
   const env = loadEnv(mode, process.cwd(), '');
@@ -137,7 +209,7 @@ export default defineConfig(({ mode }) => {
       port: 3000,
       host: '0.0.0.0',
     },
-    plugins: [react(), fetchUrlDevProxy(), geminiDevProxy(env)],
+    plugins: [react(), fetchUrlDevProxy(), geminiDevProxy(env), billingDevProxy()],
     define: {
       // Only expose VITE_* variables (Vite's secure env approach).
       // API keys must never be in the bundle — they go through /api/gemini.
