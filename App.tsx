@@ -358,8 +358,11 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       return;
     }
     evaluate(userAnswer, currentPrompt);
-    recordEvaluation();
   };
+
+  useEffect(() => {
+    if (evaluationResult) recordEvaluation();
+  }, [evaluationResult]);
 
   useEffect(() => {
     const isLight = user.preferences.theme === 'light';

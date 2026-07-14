@@ -80,11 +80,27 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   } else {
     // No webhook secret — trust the body (test/dev mode only).
     console.warn('[stripe-webhook] STRIPE_WEBHOOK_SECRET not set — skipping signature check.');
-    event = req.body as { type?: string; data?: { object?: Record<string, unknown> } };
+    // bodyParser is disabled (raw body for signature verification), so parse manually.
+    const raw = req.rawBody ?? req.body;
+    if (typeof raw === 'string' || Buffer.isBuffer(raw)) {
+      try {
+        event = JSON.parse(typeof raw === 'string' ? raw : raw.toString());
+      } catch {
+        res.status(400).json({ error: 'Invalid JSON body.' });
+        return;
+      }
+    } else {
+      event = raw as { type?: string; data?: { object?: Record<string, unknown> } };
+    }
   }
 
   if (!event || typeof event !== 'object' || !('type' in event)) {
     res.status(400).json({ error: 'Invalid event payload.' });
+    return;
+  }
+
+  if (!('data' in event) || !(event as Record<string, unknown>).data) {
+    res.status(400).json({ error: 'Event missing data field.' });
     return;
   }
 
@@ -234,10 +250,15 @@ async function handleSubscriptionDeleted(supabase: SB, sub: Record<string, unkno
   const customerId = sub.customer as string;
 
   // Mark the subscription row as canceled.
-  await supabase
+  const { error: cancelError } = await supabase
     .from('subscriptions')
     .update({ status: 'canceled', updated_at: new Date().toISOString() })
     .eq('id', subId);
+
+  if (cancelError) {
+    console.error('[stripe-webhook] subscription cancel update failed:', cancelError.message);
+    throw cancelError;
+  }
 
   // Find the user and downgrade their cached plan to free (unless they have
   // another active subscription, which resolve_stripe_plan handles).

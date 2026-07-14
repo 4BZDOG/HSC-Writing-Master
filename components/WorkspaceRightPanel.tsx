@@ -201,6 +201,17 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     [breadcrumbItems]
   );
 
+  const evalCounterDisplay = useMemo(() => {
+    const remaining = freeEvalsRemaining();
+    return remaining < Infinity ? (
+      <p className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-400 mt-1.5 text-center">
+        {remaining > 0
+          ? `${remaining} free evaluation${remaining === 1 ? '' : 's'} remaining today`
+          : 'Daily free limit reached'}
+      </p>
+    ) : null;
+  }, [evaluationResult]);
+
   return (
     <div
       className={`${isFocusMode ? 'col-span-1 max-w-5xl mx-auto w-full' : 'lg:col-span-7 lg:col-start-6 lg:row-start-1 lg:row-span-2'} flex flex-col gap-6 h-full pt-0`}
@@ -269,16 +280,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
                 </>
               )}
             </button>
-            {(() => {
-              const remaining = freeEvalsRemaining();
-              return remaining < Infinity ? (
-                <p className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-400 mt-1.5 text-center">
-                  {remaining > 0
-                    ? `${remaining} free evaluation${remaining === 1 ? '' : 's'} remaining today`
-                    : 'Daily free limit reached'}
-                </p>
-              ) : null;
-            })()}
+            {evalCounterDisplay}
           </div>
         </div>
       </div>

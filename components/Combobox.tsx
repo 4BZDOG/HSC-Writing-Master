@@ -161,7 +161,7 @@ const Combobox: React.FC<ComboboxProps> = ({
         break;
       case 'Enter':
         e.preventDefault();
-        if (isOpen && options.length > 0) {
+        if (isOpen && options.length > 0 && !options[highlightedIndex]?.disabled) {
           onChange(options[highlightedIndex].id);
           setIsOpen(false);
         } else if (!isOpen) {
@@ -276,6 +276,7 @@ const Combobox: React.FC<ComboboxProps> = ({
               <li
                 key={option.id}
                 onClick={() => {
+                  if (option.disabled) return;
                   onChange(option.id);
                   setIsOpen(false);
                 }}

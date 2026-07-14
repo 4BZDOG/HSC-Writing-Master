@@ -193,6 +193,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
   // the upgrade prompt instead of running the action. See services/entitlements.
   const pdfLocked = isFeatureLocked('pdfExport');
   const upgradesLocked = isFeatureLocked('answerUpgrades');
+  const feedbackLocked = isFeedbackLocked();
 
   // Vector-PDF export state (guards double-clicks, drives the button spinner).
   const [isExporting, setIsExporting] = useState(false);
@@ -518,16 +519,16 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-[0.2em]">
             Criteria Breakdown
           </h3>
-          {isFeedbackLocked() && <PlusLockChip />}
+          {feedbackLocked && <PlusLockChip />}
         </div>
-        {isFeedbackLocked() && (
+        {feedbackLocked && (
           <ContentLockOverlay
             feature="fullFeedback"
             message="Detailed criterion feedback is a Plus feature"
           />
         )}
         <div
-          className={`grid grid-cols-1 gap-3 ${isFeedbackLocked() ? 'blur-sm select-none pointer-events-none' : ''}`}
+          className={`grid grid-cols-1 gap-3 ${feedbackLocked ? 'blur-sm select-none pointer-events-none' : ''}`}
         >
           {result.criteria.map((criterion, idx) => (
             <CriteriaRow

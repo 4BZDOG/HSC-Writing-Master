@@ -274,14 +274,17 @@ const Editor = forwardRef<
       insertText: (text: string) => insertText(text),
     }));
 
+    const insertTextRef = useRef(insertText);
+    insertTextRef.current = insertText;
+
     useEffect(() => {
       const handleCustomInsert = (e: Event) => {
         const customEvent = e as CustomEvent;
-        if (customEvent.detail) insertText(customEvent.detail);
+        if (customEvent.detail) insertTextRef.current(customEvent.detail);
       };
       window.addEventListener('insert-text', handleCustomInsert);
       return () => window.removeEventListener('insert-text', handleCustomInsert);
-    }, [value]);
+    }, []);
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
       const textarea = textareaRef.current;

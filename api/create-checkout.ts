@@ -49,6 +49,11 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     return;
   }
 
+  if (!auth.userId) {
+    res.status(401).json({ error: 'User identity required to create a checkout session.' });
+    return;
+  }
+
   if (!isStripeConfigured()) {
     // Test-mode: return a fake URL so the client redirect logic can be verified.
     const origin =
