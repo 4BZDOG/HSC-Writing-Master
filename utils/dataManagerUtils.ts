@@ -35,18 +35,19 @@ export const parseSubItemsFromDescription = (description: string): string[] => {
   // Pattern 1: Keywords like "including", "includes", "such as", "e.g."
   // We look for everything after these keywords until the next major stop (period, semicolon if outside the list)
   const listPatterns = [
-    /\bincl(?:uding|udes|uding:)\s+([^.]+)/i,
-    /\bsuch\s+as\s+([^.]+)/i,
-    /\be\.g\.\s+([^.]+)/i,
+    /\bincl(?:uding|udes):?\s+([^.]+)/i,
+    /\bsuch\s+as:?\s+([^.]+)/i,
+    /\bfor\s+example:?\s+([^.]+)/i,
+    /\be\.g\.?\s+([^.]+)/i,
+    /\bnamely:?\s+([^.]+)/i,
   ];
 
   listPatterns.forEach((pattern) => {
     const match = cleanDesc.match(pattern);
     if (match && match[1]) {
       const listPart = match[1];
-      // Split by common delimiters
       const splitItems = listPart
-        .split(/,|;|and|\band\b/)
+        .split(/,|;|\band\b/)
         .map((s) => s.trim())
         .filter((s) => s.length > 2);
       items = [...items, ...splitItems];
@@ -57,7 +58,7 @@ export const parseSubItemsFromDescription = (description: string): string[] => {
   const bracketMatch = cleanDesc.match(/\(([^)]+)\)/);
   if (bracketMatch && bracketMatch[1]) {
     const bracketContents = bracketMatch[1]
-      .split(/,|;|and|\band\b/)
+      .split(/,|;|\band\b/)
       .map((s) => s.trim())
       .filter((s) => s.length > 2);
     items = [...items, ...bracketContents];
