@@ -9,9 +9,14 @@ import {
   regenerateTopicIds,
   migrateAnalyseVerb,
   getLLMImportTemplate,
+  findOrphanedGroups,
+  buildReconciledImportData,
+  OrphanedGroup,
+  PlacementMap,
 } from '../../utils/dataManagerUtils';
 import FileDropzone from './FileDropzone';
 import ConflictResolutionView from './ConflictResolutionView';
+import PlacementReconciliationView from './PlacementReconciliationView';
 import { ActionButtons } from './common';
 import ValidationSummary from './ValidationSummary';
 import SelectionTree from '../SelectionTree';
@@ -40,7 +45,9 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
   onImportTopic,
   onClose,
 }) => {
-  const [step, setStep] = useState<'upload' | 'preview' | 'resolve' | 'selectTarget'>('upload');
+  const [step, setStep] = useState<'upload' | 'preview' | 'reconcile' | 'resolve' | 'selectTarget'>(
+    'upload'
+  );
   const [importedCourses, setImportedCourses] = useState<Course[]>([]);
   const [importedTopic, setImportedTopic] = useState<Topic | null>(null);
   const [conflicts, setConflicts] = useState<Course[]>([]);
@@ -48,6 +55,8 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
   const [fileName, setFileName] = useState<string | null>(null);
   const [validationReport, setValidationReport] = useState<DataValidationResult | null>(null);
   const [targetCourseId, setTargetCourseId] = useState<string | undefined>(undefined);
+  const [orphanedGroups, setOrphanedGroups] = useState<OrphanedGroup[]>([]);
+  const [preReconcileData, setPreReconcileData] = useState<Course[]>([]);
 
   // Bulk Settings State
   const [markAsPastHSC, setMarkAsPastHSC] = useState(false);
@@ -104,6 +113,8 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
     setMarkAsPastHSC(false);
     setBulkYear('');
     setCourseMapping(new Map());
+    setOrphanedGroups([]);
+    setPreReconcileData([]);
   };
 
   const handleBackToUpload = () => {
@@ -164,38 +175,30 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
     setCourseMapping(newMap);
   };
 
-  const handleProceedToImport = () => {
-    let coursesToProcess = filteredCoursesForPreview.map((c) => {
-      const mappedId = courseMapping.get(c.id);
-      if (mappedId) {
-        return { ...c, id: mappedId };
-      }
-      return c;
-    });
-
-    if (markAsPastHSC) {
-      const year = bulkYear ? parseInt(bulkYear) : undefined;
-      coursesToProcess = coursesToProcess.map((c) => ({
-        ...c,
-        topics: c.topics.map((t) => ({
-          ...t,
-          subTopics: t.subTopics.map((st) => ({
-            ...st,
-            dotPoints: st.dotPoints.map((dp) => ({
-              ...dp,
-              prompts: dp.prompts.map((p) => ({
-                ...p,
-                isPastHSC: true,
-                hscYear: year || p.hscYear,
-              })),
+  const applyPastHSCMetadata = (courses: Course[]): Course[] => {
+    if (!markAsPastHSC) return courses;
+    const year = bulkYear ? parseInt(bulkYear) : undefined;
+    return courses.map((c) => ({
+      ...c,
+      topics: c.topics.map((t) => ({
+        ...t,
+        subTopics: t.subTopics.map((st) => ({
+          ...st,
+          dotPoints: st.dotPoints.map((dp) => ({
+            ...dp,
+            prompts: dp.prompts.map((p) => ({
+              ...p,
+              isPastHSC: true,
+              hscYear: year || p.hscYear,
             })),
           })),
         })),
-      }));
-    }
+      })),
+    }));
+  };
 
+  const proceedWithCourses = (coursesToProcess: Course[]) => {
     const foundConflicts = findConflicts(coursesToProcess, existingCourses);
-
     setImportedCourses(coursesToProcess);
 
     if (foundConflicts.length > 0) {
@@ -205,6 +208,39 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
       onImport(coursesToProcess, new Map());
       onClose();
     }
+  };
+
+  const remapCourseIds = (courses: Course[]): Course[] =>
+    courses.map((c) => {
+      const mappedId = courseMapping.get(c.id);
+      return mappedId ? { ...c, id: mappedId } : c;
+    });
+
+  const handleProceedToImport = () => {
+    const coursesToProcess = applyPastHSCMetadata(filteredCoursesForPreview);
+
+    const hasMappedCourses = Array.from(courseMapping.values()).some(Boolean);
+    if (hasMappedCourses) {
+      const orphans = findOrphanedGroups(coursesToProcess, existingCourses, courseMapping);
+      if (orphans.length > 0) {
+        setOrphanedGroups(orphans);
+        setPreReconcileData(coursesToProcess);
+        setStep('reconcile');
+        return;
+      }
+    }
+
+    proceedWithCourses(remapCourseIds(coursesToProcess));
+  };
+
+  const handleReconciliationApply = (placements: PlacementMap) => {
+    const reconciled = buildReconciledImportData(
+      preReconcileData,
+      existingCourses,
+      courseMapping,
+      placements
+    );
+    proceedWithCourses(remapCourseIds(reconciled));
   };
 
   const handleConfirmTopicImport = () => {
@@ -493,6 +529,15 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
             isConfirmDisabled={!targetCourseId}
           />
         </div>
+      )}
+
+      {step === 'reconcile' && (
+        <PlacementReconciliationView
+          orphanedGroups={orphanedGroups}
+          existingCourses={existingCourses}
+          onApply={handleReconciliationApply}
+          onBack={() => setStep('preview')}
+        />
       )}
 
       {step === 'resolve' && (
