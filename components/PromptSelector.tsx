@@ -622,6 +622,13 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <div className="flex items-center gap-2 flex-wrap justify-end">
                   {selectedTopic ? (
                     <>
+                      {isAdmin && (
+                        <ActionButton
+                          onClick={() => setInlineTopicOpen((v) => !v)}
+                          icon={inlineTopicOpen ? X : Plus}
+                          title={inlineTopicOpen ? 'Cancel' : 'Add another topic'}
+                        />
+                      )}
                       {canGenerate && (
                         <ActionButton
                           onClick={onAddTopicFromSyllabus}
@@ -680,7 +687,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               )}
             </div>
 
-            {inlineTopicOpen && !selectedTopic && (
+            {inlineTopicOpen && (!selectedTopic || isAdmin) && (
               <div className="mt-3 p-4 rounded-2xl bg-white/5 light:bg-slate-50 border border-purple-500/20 light:border-purple-200 animate-fade-in">
                 <div className="flex flex-col gap-3">
                   <input
