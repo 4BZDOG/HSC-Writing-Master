@@ -145,6 +145,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     importDiscoveredDocs,
     handleCreateCourse,
     handleCreateTopic,
+    handleCreateTopicWithContent,
     handleCreateSubTopic,
     handleAddDotPoints,
     handleGeneratePrompt,
@@ -703,6 +704,20 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 onRenameItem={requestRename}
                 onDeleteItem={requestDelete}
                 onAddTopicFromSyllabus={() => openModal('topicSyllabusImport')}
+                onAddTopicWithContent={(topicName, subTopics) => {
+                  if (!statePath.courseId) return;
+                  const newTopic = handleCreateTopicWithContent(
+                    statePath.courseId,
+                    topicName,
+                    subTopics
+                  );
+                  handlePathChange({
+                    topicId: newTopic.id,
+                    subTopicId: undefined,
+                    dotPointId: undefined,
+                    promptId: undefined,
+                  });
+                }}
                 onGenerateDotPoints={() => openModal('dotPointGenerator')}
                 onImportTopic={() => openModal('topicImport')}
                 onImportSyllabus={() => openModal('fullSyllabusImport')}

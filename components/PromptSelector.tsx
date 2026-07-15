@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import { Course, StatePath, UserRole, PromptVerb } from '../types';
 import { canCurateContent, canUseAiGeneration, isSystemAdmin } from '../utils/permissions';
 import Combobox from './Combobox';
@@ -26,12 +26,14 @@ import {
   PenTool,
   Lock,
   UploadCloud,
+  Loader2,
 } from 'lucide-react';
 import { getCommandTermInfo, extractCommandVerb } from '../data/commandTerms';
 import { getTierScaleConfig } from '../utils/renderUtils';
 import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
 import { isFeatureLocked, isQuestionTierLocked, requestUpgrade } from '../services/entitlements';
 import { PlusLockChip } from './UpgradeModal';
+import { parseSyllabusStructure } from '../services/geminiService';
 
 interface PromptSelectorProps {
   courses: Course[];
@@ -55,6 +57,10 @@ interface PromptSelectorProps {
     name: string;
   }) => void;
   onAddTopicFromSyllabus: () => void;
+  onAddTopicWithContent: (
+    topicName: string,
+    subTopics: { name: string; dotPoints: string[] }[]
+  ) => void;
   onGenerateDotPoints: () => void;
   onImportTopic: () => void;
   onImportSyllabus: () => void;
@@ -137,6 +143,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   onRenameItem,
   onDeleteItem,
   onAddTopicFromSyllabus,
+  onAddTopicWithContent,
   onGenerateDotPoints,
   onImportTopic,
   onImportSyllabus,
@@ -274,6 +281,41 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
 
     onPathChange({ selectedSubItems: updated.length > 0 ? updated : undefined });
   };
+
+  const [inlineTopicOpen, setInlineTopicOpen] = useState(false);
+  const [inlineTopicName, setInlineTopicName] = useState('');
+  const [inlineSyllabusText, setInlineSyllabusText] = useState('');
+  const [inlineParsing, setInlineParsing] = useState(false);
+  const [inlineError, setInlineError] = useState<string | null>(null);
+
+  const handleInlineTopicCreate = useCallback(async () => {
+    const name = inlineTopicName.trim();
+    if (!name) return;
+
+    const syllabusContent = inlineSyllabusText.trim();
+    if (!syllabusContent) {
+      onAddTopicWithContent(name, []);
+      setInlineTopicOpen(false);
+      setInlineTopicName('');
+      setInlineSyllabusText('');
+      return;
+    }
+
+    setInlineParsing(true);
+    setInlineError(null);
+    try {
+      const nodes = await parseSyllabusStructure(`Topic Name: ${name}\n\n${syllabusContent}`);
+      const subTopics = nodes.length > 0 ? nodes.flatMap((n) => n.subTopics) : [];
+      onAddTopicWithContent(name, subTopics);
+      setInlineTopicOpen(false);
+      setInlineTopicName('');
+      setInlineSyllabusText('');
+    } catch {
+      setInlineError('Failed to parse syllabus text. Try again or use the full import.');
+    } finally {
+      setInlineParsing(false);
+    }
+  }, [inlineTopicName, inlineSyllabusText, onAddTopicWithContent]);
 
   const promptOptions = useMemo(() => {
     if (!selectedDotPoint?.prompts) return [];
@@ -611,10 +653,10 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   ) : (
                     <>
                       <ActionButton
-                        onClick={onAddTopic}
-                        icon={Plus}
-                        title="Add Topic"
-                        label="Add"
+                        onClick={() => setInlineTopicOpen((v) => !v)}
+                        icon={inlineTopicOpen ? X : Plus}
+                        title={inlineTopicOpen ? 'Cancel' : 'Add Topic'}
+                        label={inlineTopicOpen ? 'Cancel' : 'Add'}
                       />
                       {canGenerate && (
                         <ActionButton
@@ -637,6 +679,74 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 </div>
               )}
             </div>
+
+            {inlineTopicOpen && !selectedTopic && (
+              <div className="mt-3 p-4 rounded-2xl bg-white/5 light:bg-slate-50 border border-purple-500/20 light:border-purple-200 animate-fade-in">
+                <div className="flex flex-col gap-3">
+                  <input
+                    type="text"
+                    value={inlineTopicName}
+                    onChange={(e) => setInlineTopicName(e.target.value)}
+                    placeholder="Topic name (e.g. Core 1: Meanings and Values)"
+                    className="w-full px-3 py-2 rounded-xl bg-white/10 light:bg-white border border-white/10 light:border-slate-200 text-sm font-medium text-[rgb(var(--color-text-primary))] placeholder:text-[rgb(var(--color-text-muted))] focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+                    autoFocus
+                    onKeyDown={(e) => {
+                      if (
+                        e.key === 'Enter' &&
+                        !e.shiftKey &&
+                        inlineTopicName.trim() &&
+                        !inlineSyllabusText.trim()
+                      ) {
+                        e.preventDefault();
+                        handleInlineTopicCreate();
+                      }
+                      if (e.key === 'Escape') setInlineTopicOpen(false);
+                    }}
+                  />
+                  <textarea
+                    value={inlineSyllabusText}
+                    onChange={(e) => setInlineSyllabusText(e.target.value)}
+                    placeholder="Optional: paste NESA syllabus text here to auto-create sub-topics and dot points…"
+                    rows={4}
+                    className="w-full px-3 py-2 rounded-xl bg-white/10 light:bg-white border border-white/10 light:border-slate-200 text-sm text-[rgb(var(--color-text-primary))] placeholder:text-[rgb(var(--color-text-muted))] focus:outline-none focus:ring-2 focus:ring-purple-500/40 resize-y"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Escape') setInlineTopicOpen(false);
+                    }}
+                  />
+                  {inlineError && <p className="text-xs text-red-400 font-medium">{inlineError}</p>}
+                  <div className="flex items-center justify-end gap-2">
+                    <button
+                      onClick={() => {
+                        setInlineTopicOpen(false);
+                        setInlineTopicName('');
+                        setInlineSyllabusText('');
+                        setInlineError(null);
+                      }}
+                      className="px-3 py-1.5 text-xs font-bold text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleInlineTopicCreate}
+                      disabled={!inlineTopicName.trim() || inlineParsing}
+                      className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-bold bg-purple-600 hover:bg-purple-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                    >
+                      {inlineParsing ? (
+                        <>
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          Parsing…
+                        </>
+                      ) : (
+                        <>
+                          <Check className="w-3.5 h-3.5" />
+                          {inlineSyllabusText.trim() ? 'Create & Parse' : 'Create Topic'}
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}

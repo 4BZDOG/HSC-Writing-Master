@@ -205,30 +205,6 @@ const Workspace: React.FC<WorkspaceProps> = ({
     setUserAnswer(currentPrompt?.userDraft || '');
   }, [currentPrompt?.id, setUserAnswer]);
 
-  const handleDevMockEvaluation = () => {
-    const mockResult: EvaluationResult = {
-      overallBand: 4,
-      overallMark: Math.floor(currentPrompt ? currentPrompt.totalMarks * 0.7 : 10),
-      overallFeedback:
-        'Simulated evaluation for testing purposes. Shows strong grasp of theory with minor gaps in scenario application.',
-      criteria: [
-        { criterion: 'Concept Clarity', mark: 3, maxMark: 4, feedback: 'Sound understanding.' },
-      ],
-      strengths: ['Direct address of verb.', 'Correct terminology.'],
-      improvements: ['Expand on consequences.'],
-      userFeedback: undefined,
-    };
-    geminiHandlers.setEvaluationResult(mockResult);
-  };
-
-  const handleDevMockImprovement = () => {
-    const currentText = userAnswer || 'Placeholder answer.';
-    const mockImproved =
-      currentText + '\n\n**Improved:** Added causal links and technical specifics.';
-    geminiHandlers.setOriginalAnswerForImprovement(currentText);
-    geminiHandlers.setImprovedAnswer(mockImproved);
-  };
-
   if (!currentPrompt) return null;
 
   const breadcrumbItems = [
@@ -337,8 +313,6 @@ const Workspace: React.FC<WorkspaceProps> = ({
           breadcrumbItems={breadcrumbItems}
           handleRunQualityCheck={handleRunQualityCheck}
           onToggleFocusMode={onToggleFocusMode}
-          handleDevMockEvaluation={handleDevMockEvaluation}
-          handleDevMockImprovement={handleDevMockImprovement}
           promptFontSize={promptFontSize}
           onHeaderResize={setEditorHeaderHeight}
           minHeaderHeight={syncedHeaderHeight}

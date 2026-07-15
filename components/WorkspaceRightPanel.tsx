@@ -1,12 +1,11 @@
 import React, { useRef, useMemo } from 'react';
 import { Prompt, EvaluationResult, UserRole, HierarchyContext, WritingMode } from '../types';
-import { isSystemAdmin } from '../utils/permissions';
 import Editor from './Editor';
 import WritingMetricsDashboard from './WritingMetricsDashboard';
 import SampleAnswersAccordion from './SampleAnswersAccordion';
 import EvaluationResultModal from './EvaluationResultModal';
 import EvaluationProgressBar from './EvaluationProgressBar';
-import { Loader2, Settings, AlertTriangle, Sparkles } from 'lucide-react';
+import { Loader2, AlertTriangle, Sparkles } from 'lucide-react';
 import { getCommandTermInfo, getTargetBand, BAND_METRICS } from '../data/commandTerms';
 import { getBandConfig, textContainsKeyword } from '../utils/renderUtils';
 import { isCurriculumRemote } from '../services/curriculumService';
@@ -35,8 +34,6 @@ interface WorkspaceRightPanelProps {
   breadcrumbItems: { label: string }[];
   handleRunQualityCheck: (content: string, type: 'question' | 'code') => void;
   onToggleFocusMode: () => void;
-  handleDevMockEvaluation: () => void;
-  handleDevMockImprovement: () => void;
   promptFontSize: number;
   onHeaderResize?: (height: number) => void;
   minHeaderHeight?: number;
@@ -65,8 +62,6 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   userRole,
   breadcrumbItems,
   onToggleFocusMode,
-  handleDevMockEvaluation,
-  handleDevMockImprovement,
   promptFontSize,
   onHeaderResize,
   minHeaderHeight,
@@ -348,33 +343,6 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             onFeedbackSubmit={geminiHandlers.handleFeedbackSubmit}
             hierarchy={hierarchyContext}
           />
-        )}
-
-        {isSystemAdmin(userRole) && !evaluationResult && (
-          <div className="mt-12 p-4 sm:p-6 rounded-[32px] bg-[rgb(var(--color-bg-surface-inset))]/30 border border-dashed border-[rgb(var(--color-border-secondary))] flex flex-wrap items-center justify-between gap-3 opacity-40 hover:opacity-100 transition-all duration-500">
-            <div className="flex items-center gap-4">
-              <div className="p-2.5 rounded-xl bg-black/40">
-                <Settings className="w-5 h-5 text-slate-500" />
-              </div>
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">
-                Simulation Environment
-              </span>
-            </div>
-            <div className="flex gap-3">
-              <button
-                onClick={handleDevMockEvaluation}
-                className="px-5 py-2.5 rounded-xl bg-blue-500/10 text-blue-400 text-[10px] font-black border border-blue-500/20 hover:bg-blue-500 hover:text-white transition-all shadow-xl"
-              >
-                Mock Analytics
-              </button>
-              <button
-                onClick={handleDevMockImprovement}
-                className="px-5 py-2.5 rounded-xl bg-purple-500/10 text-purple-400 text-[10px] font-black border border-purple-500/20 hover:bg-purple-500 hover:text-white transition-all shadow-xl"
-              >
-                Mock Upgrade
-              </button>
-            </div>
-          </div>
         )}
       </div>
     </div>

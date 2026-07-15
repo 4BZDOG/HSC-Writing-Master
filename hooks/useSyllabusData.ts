@@ -448,6 +448,38 @@ export const useSyllabusData = ({
     [updateCourses, showToast]
   );
 
+  const handleCreateTopicWithContent = useCallback(
+    (courseId: string, topicName: string, subTopics: { name: string; dotPoints: string[] }[]) => {
+      const newTopic: Topic = {
+        id: generateId('topic'),
+        name: topicName,
+        subTopics: subTopics.map((st) => ({
+          id: generateId('subTopic'),
+          name: st.name,
+          dotPoints: (st.dotPoints || []).map((dpText) => ({
+            id: generateId('dp'),
+            description: dpText,
+            prompts: [],
+          })),
+        })),
+      };
+      updateCourses((draft) => {
+        findAndUpdateItem(draft, { courseId }, (course: Draft<Course>) => {
+          course.topics.push(newTopic);
+        });
+      });
+      const stCount = newTopic.subTopics.length;
+      const dpCount = newTopic.subTopics.reduce((a, st) => a + st.dotPoints.length, 0);
+      const details =
+        stCount > 0
+          ? ` with ${stCount} sub-topic${stCount !== 1 ? 's' : ''} and ${dpCount} dot point${dpCount !== 1 ? 's' : ''}`
+          : '';
+      showToast(`Topic "${topicName}" created${details}.`, 'success');
+      return newTopic;
+    },
+    [updateCourses, showToast]
+  );
+
   const handleCreateSubTopic = useCallback(
     (path: StatePath, name: string) => {
       const newItem: SubTopic = { id: generateId('subTopic'), name, dotPoints: [] };
@@ -757,6 +789,7 @@ export const useSyllabusData = ({
     importDiscoveredDocs,
     handleCreateCourse,
     handleCreateTopic,
+    handleCreateTopicWithContent,
     handleCreateSubTopic,
     handleAddDotPoints,
     handleGeneratePrompt,

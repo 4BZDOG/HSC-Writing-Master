@@ -27,6 +27,8 @@ import {
   getCommandTermInfo,
   getCommandTermsForMarks,
   getBandForMark,
+  getMarksBandCap,
+  markForBand,
   getStructureGuide,
   getTargetBand,
 } from '../data/commandTerms';
@@ -56,6 +58,57 @@ import { resolveTarget } from './aiConfig';
 // request as `{ model, provider }`. The proxy routes by `provider`; defaults to
 // Gemini until an admin switches engines (see services/aiConfig.ts).
 const aiTarget = (role: 'basic' | 'reasoning') => resolveTarget(role);
+
+/**
+ * Build the marking-criteria instruction for AI prompts. For ≤6 marks, one line
+ * per mark. For >6 marks, use band-aligned mark ranges (full marks first, then
+ * descending bands down to Band 2) so the rubric stays concise and pedagogically
+ * meaningful rather than listing 8-20 near-identical per-mark lines.
+ */
+const buildMarkingCriteriaInstruction = (marks: number, tier: number = 4): string => {
+  if (marks <= 6) {
+    const lines = Array.from(
+      { length: marks },
+      (_, i) => `${marks - i} mark${marks - i !== 1 ? 's' : ''}: [criteria]`
+    ).join('\\n');
+    return (
+      `A marking rubric in DESCENDING mark order addressing EVERY mark value individually. ` +
+      `Each line MUST start with the mark value followed by a colon. ` +
+      `For a ${marks}-mark question you MUST have exactly ${marks} lines: "${lines}". ` +
+      `NEVER skip a mark value, use ranges, or group marks together. ` +
+      `NEVER use bullet points or paragraphs — only "N marks: description" lines.`
+    );
+  }
+
+  const cap = getMarksBandCap(marks);
+  const maxBand = Math.min(Math.min(tier, 6), cap);
+  const tiers: string[] = [];
+  tiers.push(`${marks} marks: [criteria for full marks — Band ${maxBand}]`);
+  for (let band = maxBand - 1; band >= 2; band--) {
+    const lo = markForBand(band, marks, tier);
+    const hi = markForBand(band + 1, marks, tier) - 1;
+    if (lo === hi) {
+      tiers.push(`${lo} mark${lo !== 1 ? 's' : ''}: [criteria — Band ${band}]`);
+    } else {
+      tiers.push(`${lo}-${hi} marks: [criteria — Band ${band}]`);
+    }
+  }
+  const lowestHi = markForBand(2, marks, tier) - 1;
+  if (lowestHi >= 1) {
+    tiers.push(
+      `1${lowestHi > 1 ? `-${lowestHi}` : ''} mark${lowestHi > 1 ? 's' : ''}: [minimal response — Band 1]`
+    );
+  }
+
+  return (
+    `A marking rubric in DESCENDING order using NESA band-aligned mark ranges. ` +
+    `Start with full marks (${marks}/${marks}) at the top, then provide a criteria row ` +
+    `for each band down to Band 2, plus a minimal-response row for Band 1. ` +
+    `Format: "${tiers.join('\\n')}". ` +
+    `Each line MUST start with the mark value or range followed by a colon. ` +
+    `NEVER use bullet points or paragraphs — only "N marks: description" lines.`
+  );
+};
 
 // ... (keep existing functions like refineManualPrompt, generateNewPrompt, generateSampleAnswer, parseOutcomesFromText, parseSyllabusStructure, fetchSyllabusContentFromUrl, generateDotPointsForSubTopic, generateRubricForPrompt, explainOutcomeInContext) ...
 
@@ -633,7 +686,7 @@ export const refineManualPrompt = async (
                     2. **Refine the Question**: Rewrite the raw input to use formal academic language and your selected verb.
                     3. **Create a Scenario**: Write a realistic, industry-relevant scenario (Who/What/Why) that gives context to the question.
                     4. **Select Outcomes**: Pick 1-3 outcome codes from the provided list that best match the question.
-                    5. **Marking Criteria**: Create a descending marking rubric addressing EVERY mark value individually. Each line MUST start with the mark value followed by "marks:". For a ${targetMarks}-mark question you MUST have exactly ${targetMarks} lines: "${Array.from({ length: targetMarks }, (_, i) => `${targetMarks - i} mark${targetMarks - i !== 1 ? 's' : ''}: [criteria]`).join('\\n')}". NEVER skip a mark value, use ranges, or group marks together. No bullets or paragraphs.
+                    5. **Marking Criteria**: ${buildMarkingCriteriaInstruction(targetMarks, targetMarks >= 7 ? 5 : 4)}
                     6. **Keywords**: Extract 5-10 key technical terms.
 
                     **OUTPUT:**
@@ -708,6 +761,7 @@ export const generateNewPrompt = async (
   includeScenario: boolean = true
 ): Promise<Prompt> => {
   const verbList = verbs.map((v) => v.term).join(', ');
+  const primaryTier = Math.max(...verbs.map((v) => v.tier));
 
   // Some questions are direct knowledge/skill questions that read better without
   // a manufactured context. When scenarios are off, we tell the model not to
@@ -735,7 +789,7 @@ export const generateNewPrompt = async (
                     - question (The exam question text)
                     - verb (One of the allowed verbs)
                     ${scenarioLine}
-                    - markingCriteria (A marking rubric in DESCENDING mark order addressing EVERY mark value individually. Each line MUST start with the mark value followed by a colon. For a ${marks}-mark question you MUST have exactly ${marks} lines: "${Array.from({ length: marks }, (_, i) => `${marks - i} mark${marks - i !== 1 ? 's' : ''}: [criteria]`).join('\\n')}". NEVER skip a mark value, use ranges, or group marks together. NEVER use bullet points or paragraphs — only "N marks: description" lines.)
+                    - markingCriteria (${buildMarkingCriteriaInstruction(marks, primaryTier)})
                     - keywords (List of 5-10 technical terms)
                     - linkedOutcomes (Array of outcome codes relevant to this question from: ${JSON.stringify(outcomes.map((o) => o.code))})
                 `,
@@ -1141,22 +1195,12 @@ export const generateRubricForPrompt = async (
                        Use British/Australian English spelling (e.g. 'analyse', 'colour', 'behaviour').
 
                        **Requirements:**
-                       - Address EVERY individual mark value from ${prompt.totalMarks} down to 1 — exactly ${prompt.totalMarks} lines.
-                       - Format in descending order (highest marks first).
+                       ${buildMarkingCriteriaInstruction(prompt.totalMarks, termInfo.tier)}
+
                        - For full marks, criteria MUST demand the full cognitive depth of '${prompt.verb}' (e.g. if Analyse, must require 'relationship/implication', not just 'description').
                        - Lower marks should reflect a progressive drop in cognitive skill (e.g. 'Describes' instead of 'Explains').
-                       - NEVER use mark ranges (e.g. "3-4 marks"). Every mark must have its own line.
 
-                       **FORMAT (strict):**
-                       Each line must be: "N marks: [criteria description]"
-                       Example for a 5-mark question:
-                       5 marks: Provides a comprehensive analysis...
-                       4 marks: Explains the key features with some analysis...
-                       3 marks: Describes the key features...
-                       2 marks: Identifies basic elements with limited detail...
-                       1 mark: Identifies one or two basic elements...
-
-                       Do NOT use bullet points, headings, or paragraphs. One line per mark value only.`,
+                       Do NOT use bullet points, headings, or paragraphs.`,
         },
       ],
     },
