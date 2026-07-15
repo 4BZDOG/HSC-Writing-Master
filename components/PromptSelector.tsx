@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { Course, StatePath, UserRole, PromptVerb } from '../types';
 import { canCurateContent, canUseAiGeneration, isSystemAdmin } from '../utils/permissions';
 import Combobox from './Combobox';
@@ -288,16 +288,29 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   const [inlineParsing, setInlineParsing] = useState(false);
   const [inlineError, setInlineError] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (!inlineTopicOpen) {
+      setInlineTopicName('');
+      setInlineSyllabusText('');
+      setInlineError(null);
+      setInlineParsing(false);
+    }
+  }, [inlineTopicOpen]);
+
   const handleInlineTopicCreate = useCallback(async () => {
     const name = inlineTopicName.trim();
     if (!name) return;
+
+    const existingNames = selectedCourse?.topics?.map((t) => t.name.toLowerCase()) || [];
+    if (existingNames.includes(name.toLowerCase())) {
+      setInlineError(`A topic named "${name}" already exists in this course.`);
+      return;
+    }
 
     const syllabusContent = inlineSyllabusText.trim();
     if (!syllabusContent) {
       onAddTopicWithContent(name, []);
       setInlineTopicOpen(false);
-      setInlineTopicName('');
-      setInlineSyllabusText('');
       return;
     }
 
@@ -308,14 +321,12 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       const subTopics = nodes.length > 0 ? nodes.flatMap((n) => n.subTopics) : [];
       onAddTopicWithContent(name, subTopics);
       setInlineTopicOpen(false);
-      setInlineTopicName('');
-      setInlineSyllabusText('');
     } catch {
       setInlineError('Failed to parse syllabus text. Try again or use the full import.');
     } finally {
       setInlineParsing(false);
     }
-  }, [inlineTopicName, inlineSyllabusText, onAddTopicWithContent]);
+  }, [inlineTopicName, inlineSyllabusText, onAddTopicWithContent, selectedCourse]);
 
   const promptOptions = useMemo(() => {
     if (!selectedDotPoint?.prompts) return [];
@@ -530,7 +541,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               />
             </div>
             {canCurate && (
-              <div className="flex items-center gap-2 flex-wrap justify-end">
+              <div className="flex items-center gap-2 gap-y-2 flex-wrap justify-end">
                 <ActionButton onClick={onAddCourse} icon={Plus} title="Add Course" label="Add" />
                 {canGenerate && (
                   <ActionButton
@@ -619,7 +630,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 />
               </div>
               {canCurate && (
-                <div className="flex items-center gap-2 flex-wrap justify-end">
+                <div className="flex items-center gap-2 gap-y-2 flex-wrap justify-end">
                   {selectedTopic ? (
                     <>
                       {isAdmin && (
@@ -791,7 +802,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 />
               </div>
               {canCurate && (
-                <div className="flex items-center gap-2 flex-wrap justify-end">
+                <div className="flex items-center gap-2 gap-y-2 flex-wrap justify-end">
                   {selectedSubTopic ? (
                     <>
                       <ActionButton
@@ -988,7 +999,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 />
               </div>
               {canCurate && (
-                <div className="flex items-center gap-2 flex-wrap justify-end">
+                <div className="flex items-center gap-2 gap-y-2 flex-wrap justify-end">
                   {selectedPrompt ? (
                     <>
                       {canGenerate && (

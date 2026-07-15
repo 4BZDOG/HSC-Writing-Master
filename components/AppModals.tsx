@@ -79,8 +79,10 @@ const AppModals: React.FC<AppModalsProps> = ({
         isOpen={isModalOpen('topicCreator')}
         onClose={() => closeModal('topicCreator')}
         onItemCreated={(name) => {
+          if (!currentCourse) return;
           const newTopic = syllabusHandlers.handleCreateTopic(currentCourse.id, name);
           if (newTopic) {
+            setNewlyAddedIds((prev) => new Set(prev).add(newTopic.id));
             setStatePath({
               ...statePath,
               topicId: newTopic.id,
@@ -99,6 +101,7 @@ const AppModals: React.FC<AppModalsProps> = ({
         onItemCreated={async (name, { generateDotPoints }) => {
           const newSubTopic = syllabusHandlers.handleCreateSubTopic(statePath, name);
           if (newSubTopic) {
+            setNewlyAddedIds((prev) => new Set(prev).add(newSubTopic.id));
             if (generateDotPoints && currentCourse && currentTopic) {
               const generatedDotPoints = await geminiHandlers.generateDotPointsForSubTopic(
                 currentCourse.name,

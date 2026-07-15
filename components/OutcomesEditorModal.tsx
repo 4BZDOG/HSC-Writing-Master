@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CourseOutcome } from '../types';
 import { parseOutcomesFromText } from '../services/geminiService';
 import LoadingSpinner from './LoadingSpinner';
-import { Target, X, Sparkles, Plus, Trash2, GripVertical } from 'lucide-react';
+import { Target, X, Sparkles, Plus, Trash2 } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface OutcomesEditorModalProps {
@@ -103,7 +103,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
       onClick={handleClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="relative bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

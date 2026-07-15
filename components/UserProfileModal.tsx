@@ -199,11 +199,11 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
 
   return createPortal(
     <div
-      className="fixed inset-0 bg-black/80 backdrop-blur-xl flex items-center justify-center z-[2000] p-4"
+      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[2000] p-4"
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))]/90 light:bg-white/95 backdrop-blur-3xl rounded-[48px] shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-4xl border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))]/90 light:bg-white/95 backdrop-blur-sm rounded-[48px] shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-4xl border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <MeshOverlay opacity="opacity-[0.03]" />

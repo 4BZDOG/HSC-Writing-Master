@@ -743,6 +743,259 @@ export const mergeCourseContents = (existingCourse: Course, importedCourse: Cour
   return newCourse;
 };
 
+export interface OrphanedGroup {
+  id: string;
+  targetCourseId: string;
+  targetCourseName: string;
+  importedCourseId: string;
+  sourceTopicName: string;
+  sourceSubTopicName: string;
+  sourceDotPointDescription: string;
+  prompts: Prompt[];
+}
+
+export type PlacementMap = Map<
+  string,
+  { topicId: string; subTopicId: string; dotPointId: string } | 'skip'
+>;
+
+export const findOrphanedGroups = (
+  importedCourses: Course[],
+  existingCourses: Course[],
+  courseMapping: Map<string, string>
+): OrphanedGroup[] => {
+  const orphaned: OrphanedGroup[] = [];
+  let counter = 0;
+
+  importedCourses.forEach((importedCourse) => {
+    const targetCourseId = courseMapping.get(importedCourse.id);
+    if (!targetCourseId) return;
+
+    const existingCourse = existingCourses.find((c) => c.id === targetCourseId);
+    if (!existingCourse) return;
+
+    importedCourse.topics.forEach((importedTopic) => {
+      const matchedTopic =
+        existingCourse.topics.find((t) => t.id === importedTopic.id) ||
+        existingCourse.topics.find(
+          (t) => normalizeText(t.name) === normalizeText(importedTopic.name)
+        );
+
+      if (!matchedTopic) {
+        importedTopic.subTopics.forEach((st) => {
+          st.dotPoints.forEach((dp) => {
+            if (dp.prompts.length > 0) {
+              orphaned.push({
+                id: `orphan-${counter++}`,
+                targetCourseId,
+                targetCourseName: existingCourse.name,
+                importedCourseId: importedCourse.id,
+                sourceTopicName: importedTopic.name,
+                sourceSubTopicName: st.name,
+                sourceDotPointDescription: dp.description,
+                prompts: dp.prompts,
+              });
+            }
+          });
+        });
+        return;
+      }
+
+      importedTopic.subTopics.forEach((importedST) => {
+        const matchedST =
+          matchedTopic.subTopics.find((st) => st.id === importedST.id) ||
+          matchedTopic.subTopics.find(
+            (st) => normalizeText(st.name) === normalizeText(importedST.name)
+          );
+
+        if (!matchedST) {
+          importedST.dotPoints.forEach((dp) => {
+            if (dp.prompts.length > 0) {
+              orphaned.push({
+                id: `orphan-${counter++}`,
+                targetCourseId,
+                targetCourseName: existingCourse.name,
+                importedCourseId: importedCourse.id,
+                sourceTopicName: importedTopic.name,
+                sourceSubTopicName: importedST.name,
+                sourceDotPointDescription: dp.description,
+                prompts: dp.prompts,
+              });
+            }
+          });
+          return;
+        }
+
+        importedST.dotPoints.forEach((importedDP) => {
+          const matchedDP =
+            matchedST.dotPoints.find((dp) => dp.id === importedDP.id) ||
+            matchedST.dotPoints.find(
+              (dp) => normalizeText(dp.description) === normalizeText(importedDP.description)
+            );
+
+          if (!matchedDP && importedDP.prompts.length > 0) {
+            orphaned.push({
+              id: `orphan-${counter++}`,
+              targetCourseId,
+              targetCourseName: existingCourse.name,
+              importedCourseId: importedCourse.id,
+              sourceTopicName: importedTopic.name,
+              sourceSubTopicName: importedST.name,
+              sourceDotPointDescription: importedDP.description,
+              prompts: importedDP.prompts,
+            });
+          }
+        });
+      });
+    });
+  });
+
+  return orphaned;
+};
+
+export const buildReconciledImportData = (
+  importedCourses: Course[],
+  existingCourses: Course[],
+  courseMapping: Map<string, string>,
+  placements: PlacementMap
+): Course[] => {
+  const result = JSON.parse(JSON.stringify(importedCourses)) as Course[];
+
+  result.forEach((course) => {
+    const targetCourseId = courseMapping.get(course.id);
+    if (!targetCourseId) return;
+
+    const existingCourse = existingCourses.find((c) => c.id === targetCourseId);
+    if (!existingCourse) return;
+
+    course.topics = course.topics.filter((topic) => {
+      const matchedTopic =
+        existingCourse.topics.find((t) => t.id === topic.id) ||
+        existingCourse.topics.find((t) => normalizeText(t.name) === normalizeText(topic.name));
+      if (!matchedTopic) return false;
+
+      topic.subTopics = topic.subTopics.filter((st) => {
+        const matchedST =
+          matchedTopic.subTopics.find((s) => s.id === st.id) ||
+          matchedTopic.subTopics.find((s) => normalizeText(s.name) === normalizeText(st.name));
+        if (!matchedST) return false;
+
+        st.dotPoints = st.dotPoints.filter((dp) => {
+          const matchedDP =
+            matchedST.dotPoints.find((d) => d.id === dp.id) ||
+            matchedST.dotPoints.find(
+              (d) => normalizeText(d.description) === normalizeText(dp.description)
+            );
+          return !!matchedDP;
+        });
+
+        return true;
+      });
+
+      return true;
+    });
+  });
+
+  placements.forEach((placement, groupId) => {
+    if (placement === 'skip') return;
+
+    const orphanIndex = parseInt(groupId.replace('orphan-', ''), 10);
+    let currentIdx = 0;
+    let foundPrompts: Prompt[] | null = null;
+    let foundCourseIdx = -1;
+
+    for (let ci = 0; ci < importedCourses.length; ci++) {
+      const ic = importedCourses[ci];
+      const tcid = courseMapping.get(ic.id);
+      if (!tcid) continue;
+      const ec = existingCourses.find((c) => c.id === tcid);
+      if (!ec) continue;
+
+      for (const it of ic.topics) {
+        const mt =
+          ec.topics.find((t) => t.id === it.id) ||
+          ec.topics.find((t) => normalizeText(t.name) === normalizeText(it.name));
+
+        const topicOrphaned = !mt;
+        for (const ist of it.subTopics) {
+          const mst = mt
+            ? mt.subTopics.find((s) => s.id === ist.id) ||
+              mt.subTopics.find((s) => normalizeText(s.name) === normalizeText(ist.name))
+            : null;
+          const stOrphaned = topicOrphaned || !mst;
+
+          for (const idp of ist.dotPoints) {
+            if (idp.prompts.length === 0) continue;
+            const mdp =
+              !stOrphaned && mst
+                ? mst.dotPoints.find((d) => d.id === idp.id) ||
+                  mst.dotPoints.find(
+                    (d) => normalizeText(d.description) === normalizeText(idp.description)
+                  )
+                : null;
+            const dpOrphaned = stOrphaned || !mdp;
+            if (dpOrphaned) {
+              if (currentIdx === orphanIndex) {
+                foundPrompts = idp.prompts;
+                foundCourseIdx = ci;
+                break;
+              }
+              currentIdx++;
+            }
+          }
+          if (foundPrompts) break;
+        }
+        if (foundPrompts) break;
+      }
+      if (foundPrompts) break;
+    }
+
+    if (!foundPrompts || foundCourseIdx < 0) return;
+
+    const targetCourse = result[foundCourseIdx];
+    const existingCourse = existingCourses.find(
+      (c) => c.id === courseMapping.get(importedCourses[foundCourseIdx].id)
+    );
+    if (!targetCourse || !existingCourse) return;
+
+    const destTopic = existingCourse.topics.find((t) => t.id === placement.topicId);
+    if (!destTopic) return;
+    const destST = destTopic.subTopics.find((s) => s.id === placement.subTopicId);
+    if (!destST) return;
+    const destDP = destST.dotPoints.find((d) => d.id === placement.dotPointId);
+    if (!destDP) return;
+
+    let topic = targetCourse.topics.find(
+      (t) => t.id === destTopic.id || normalizeText(t.name) === normalizeText(destTopic.name)
+    );
+    if (!topic) {
+      topic = { id: destTopic.id, name: destTopic.name, subTopics: [] };
+      targetCourse.topics.push(topic);
+    }
+
+    let st = topic.subTopics.find(
+      (s) => s.id === destST.id || normalizeText(s.name) === normalizeText(destST.name)
+    );
+    if (!st) {
+      st = { id: destST.id, name: destST.name, dotPoints: [] };
+      topic.subTopics.push(st);
+    }
+
+    let dp = st.dotPoints.find(
+      (d) =>
+        d.id === destDP.id || normalizeText(d.description) === normalizeText(destDP.description)
+    );
+    if (!dp) {
+      dp = { id: destDP.id, description: destDP.description, prompts: [] };
+      st.dotPoints.push(dp);
+    }
+
+    dp.prompts.push(...JSON.parse(JSON.stringify(foundPrompts)));
+  });
+
+  return result;
+};
+
 export const getLLMImportTemplate = () => {
   return JSON.stringify(
     {
