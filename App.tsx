@@ -348,6 +348,12 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   const debouncedUserAnswer = useDebounce(userAnswer, 1000);
   const [newlyAddedIds, setNewlyAddedIds] = useState<Set<string>>(new Set());
 
+  useEffect(() => {
+    if (newlyAddedIds.size === 0) return;
+    const timer = setTimeout(() => setNewlyAddedIds(new Set()), 5000);
+    return () => clearTimeout(timer);
+  }, [newlyAddedIds]);
+
   const handleEvaluate = () => {
     if (!currentPrompt || !userAnswer.trim()) return;
     if (isEvalLimitReached(user)) {
@@ -711,6 +717,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                     topicName,
                     subTopics
                   );
+                  setNewlyAddedIds((prev) => new Set(prev).add(newTopic.id));
                   handlePathChange({
                     topicId: newTopic.id,
                     subTopicId: undefined,
