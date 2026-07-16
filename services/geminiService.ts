@@ -1,6 +1,5 @@
 // ... existing imports ...
 import { Type } from '@google/genai';
-import { AICache } from './aiCache';
 import {
   Prompt,
   CourseOutcome,
@@ -38,6 +37,7 @@ import {
   EvaluationResponseSchema,
   GeneratedPromptResponseSchema,
   SampleAnswerResponseSchema,
+  QualityCheckResponseSchema,
   validateAiResponse,
 } from './aiSchemas';
 
@@ -426,10 +426,15 @@ Return JSON: { "scenario": string, "keywords": string[], "linkedOutcomes": strin
   const response = await generateContentWithRetry(request);
   const data = safeJsonParse<any>(response.text || '');
   if (!data) return { scenario: '', keywords: [], linkedOutcomes: [] };
+  const validCodes = new Set(context.outcomes.map((o) => o.code));
   return {
-    scenario: data.scenario || '',
+    scenario: typeof data.scenario === 'string' ? data.scenario : '',
     keywords: groundKeywords(data.keywords || [], context.syllabus, termInfo.term),
-    linkedOutcomes: Array.isArray(data.linkedOutcomes) ? data.linkedOutcomes : [],
+    linkedOutcomes: Array.isArray(data.linkedOutcomes)
+      ? data.linkedOutcomes.filter(
+          (c: unknown): c is string => typeof c === 'string' && validCodes.has(c)
+        )
+      : [],
   };
 };
 
@@ -557,7 +562,12 @@ export const suggestOutcomesForPrompt = async (
     },
   };
   const response = await generateContentWithRetry(request);
-  return safeJsonParse<string[]>(response.text || '') || [];
+  const parsed = safeJsonParse<unknown>(response.text || '');
+  if (!Array.isArray(parsed)) return [];
+  // Only return codes that exist in the course — the model occasionally
+  // invents plausible-looking outcome codes.
+  const validCodes = new Set(outcomes.map((o) => o.code));
+  return parsed.filter((c): c is string => typeof c === 'string' && validCodes.has(c));
 };
 
 export const reviseSampleAnswer = async (
@@ -584,8 +594,10 @@ export const reviseSampleAnswer = async (
   };
 
   const response = await generateContentWithRetry(request);
-  const data = safeJsonParse<any>(response.text || '');
-  if (!data) throw new Error('Revision failed.');
+  const parsed = safeJsonParse<unknown>(response.text || '');
+  if (!parsed) throw new Error('Revision failed: no parseable response from the AI.');
+
+  const data = validateAiResponse(SampleAnswerResponseSchema, parsed, 'sample answer revision');
 
   return {
     id: generateId('sa'),
@@ -626,9 +638,13 @@ export const performQualityCheck = async (
   };
 
   const response = await generateContentWithRetry(request);
-  const data = safeJsonParse<QualityCheckResult>(response.text || '');
-  if (!data) throw new Error('Quality check failed.');
-  return data;
+  const parsed = safeJsonParse<unknown>(response.text || '');
+  if (!parsed) throw new Error('Quality check failed: no parseable response from the AI.');
+  return validateAiResponse(
+    QualityCheckResponseSchema,
+    parsed,
+    'quality check'
+  ) as QualityCheckResult;
 };
 
 /**
@@ -656,8 +672,6 @@ export const refineManualPrompt = async (
   outcomes: CourseOutcome[],
   targetMarks: number = 5
 ): Promise<Prompt> => {
-  const cacheKey = AICache.generatePromptKey(`manual-${Date.now()}`, rawInput + targetMarks);
-
   const request = {
     ...aiTarget('reasoning'),
     contents: {
@@ -722,8 +736,10 @@ export const refineManualPrompt = async (
   };
 
   const response = await generateContentWithRetry(request);
-  const data = safeJsonParse<any>(response.text || '');
-  if (!data) throw new Error('Failed to refine prompt.');
+  const parsed = safeJsonParse<unknown>(response.text || '');
+  if (!parsed) throw new Error('Failed to refine prompt: no parseable response from the AI.');
+
+  const data = validateAiResponse(GeneratedPromptResponseSchema, parsed, 'refined prompt');
 
   let verb = data.verb.toUpperCase();
   const verbInfo = getCommandTermInfo(verb as PromptVerb);
@@ -735,7 +751,9 @@ export const refineManualPrompt = async (
   const newPrompt: Prompt = {
     id: generateId('prompt'),
     question: data.question,
-    totalMarks: data.totalMarks,
+    // The teacher chose the mark value and the marking criteria were built for
+    // it — never let the model quietly substitute a different total.
+    totalMarks: targetMarks,
     verb: verb as PromptVerb,
     scenario: data.scenario,
     markingCriteria: data.markingCriteria,
@@ -947,7 +965,17 @@ export const parseOutcomesFromText = async (text: string): Promise<CourseOutcome
   };
 
   const response = await generateContentWithRetry(request);
-  return safeJsonParse<CourseOutcome[]>(response.text || '') || [];
+  const parsed = safeJsonParse<unknown>(response.text || '');
+  if (!Array.isArray(parsed)) return [];
+  // Element-level guard: responseSchema is only enforced server-side by some
+  // providers, so verify each outcome has usable string fields.
+  return parsed.filter(
+    (o): o is CourseOutcome =>
+      !!o &&
+      typeof (o as CourseOutcome).code === 'string' &&
+      typeof (o as CourseOutcome).description === 'string' &&
+      (o as CourseOutcome).code.trim().length > 0
+  );
 };
 
 export const parseSyllabusStructure = async (content: string): Promise<SyllabusPreviewNode[]> => {
@@ -1177,7 +1205,11 @@ export const generateDotPointsForSubTopic = async (
     },
   };
   const response = await generateContentWithRetry(request);
-  return safeJsonParse<string[]>(response.text || '') || [];
+  const parsed = safeJsonParse<unknown>(response.text || '');
+  if (!Array.isArray(parsed)) return [];
+  return parsed
+    .filter((dp): dp is string => typeof dp === 'string' && dp.trim().length > 0)
+    .map((dp) => dp.trim());
 };
 
 export const generateRubricForPrompt = async (
