@@ -26,8 +26,14 @@ export const ActionButtons: React.FC<{
   onConfirm: () => void;
   confirmText: string;
   isConfirmDisabled?: boolean;
-}> = ({ onCancel, onConfirm, confirmText, isConfirmDisabled = false }) => (
-  <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 border-t border-[rgb(var(--color-border-secondary))] flex justify-end space-x-3 flex-shrink-0">
+  /** Short explanation shown beside the buttons — use it to say WHY the
+   *  confirm button is disabled, so the user isn't left guessing. */
+  hint?: string;
+}> = ({ onCancel, onConfirm, confirmText, isConfirmDisabled = false, hint }) => (
+  <div className="px-4 sm:px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 border-t border-[rgb(var(--color-border-secondary))] flex flex-wrap items-center justify-end gap-3 flex-shrink-0">
+    {hint && (
+      <p className="text-xs text-[rgb(var(--color-text-muted))] mr-auto w-full sm:w-auto">{hint}</p>
+    )}
     <button
       onClick={onCancel}
       className="py-2 px-4 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-light))] hover:bg-[rgb(var(--color-border-secondary))] active:scale-[0.98] transition"
