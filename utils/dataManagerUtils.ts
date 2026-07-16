@@ -857,7 +857,8 @@ export const buildReconciledImportData = (
   importedCourses: Course[],
   existingCourses: Course[],
   courseMapping: Map<string, string>,
-  placements: PlacementMap
+  placements: PlacementMap,
+  orphanedGroups: OrphanedGroup[]
 ): Course[] => {
   const result = JSON.parse(JSON.stringify(importedCourses)) as Course[];
 
@@ -896,65 +897,21 @@ export const buildReconciledImportData = (
     });
   });
 
+  const orphanMap = new Map<string, OrphanedGroup>();
+  orphanedGroups.forEach((g) => orphanMap.set(g.id, g));
+
   placements.forEach((placement, groupId) => {
     if (placement === 'skip') return;
 
-    const orphanIndex = parseInt(groupId.replace('orphan-', ''), 10);
-    let currentIdx = 0;
-    let foundPrompts: Prompt[] | null = null;
-    let foundCourseIdx = -1;
+    const group = orphanMap.get(groupId);
+    if (!group) return;
 
-    for (let ci = 0; ci < importedCourses.length; ci++) {
-      const ic = importedCourses[ci];
-      const tcid = courseMapping.get(ic.id);
-      if (!tcid) continue;
-      const ec = existingCourses.find((c) => c.id === tcid);
-      if (!ec) continue;
+    const courseIdx = importedCourses.findIndex((c) => c.id === group.importedCourseId);
+    if (courseIdx < 0) return;
 
-      for (const it of ic.topics) {
-        const mt =
-          ec.topics.find((t) => t.id === it.id) ||
-          ec.topics.find((t) => normalizeText(t.name) === normalizeText(it.name));
-
-        const topicOrphaned = !mt;
-        for (const ist of it.subTopics) {
-          const mst = mt
-            ? mt.subTopics.find((s) => s.id === ist.id) ||
-              mt.subTopics.find((s) => normalizeText(s.name) === normalizeText(ist.name))
-            : null;
-          const stOrphaned = topicOrphaned || !mst;
-
-          for (const idp of ist.dotPoints) {
-            if (idp.prompts.length === 0) continue;
-            const mdp =
-              !stOrphaned && mst
-                ? mst.dotPoints.find((d) => d.id === idp.id) ||
-                  mst.dotPoints.find(
-                    (d) => normalizeText(d.description) === normalizeText(idp.description)
-                  )
-                : null;
-            const dpOrphaned = stOrphaned || !mdp;
-            if (dpOrphaned) {
-              if (currentIdx === orphanIndex) {
-                foundPrompts = idp.prompts;
-                foundCourseIdx = ci;
-                break;
-              }
-              currentIdx++;
-            }
-          }
-          if (foundPrompts) break;
-        }
-        if (foundPrompts) break;
-      }
-      if (foundPrompts) break;
-    }
-
-    if (!foundPrompts || foundCourseIdx < 0) return;
-
-    const targetCourse = result[foundCourseIdx];
+    const targetCourse = result[courseIdx];
     const existingCourse = existingCourses.find(
-      (c) => c.id === courseMapping.get(importedCourses[foundCourseIdx].id)
+      (c) => c.id === courseMapping.get(group.importedCourseId)
     );
     if (!targetCourse || !existingCourse) return;
 
@@ -990,7 +947,7 @@ export const buildReconciledImportData = (
       st.dotPoints.push(dp);
     }
 
-    dp.prompts.push(...JSON.parse(JSON.stringify(foundPrompts)));
+    dp.prompts.push(...JSON.parse(JSON.stringify(group.prompts)));
   });
 
   return result;

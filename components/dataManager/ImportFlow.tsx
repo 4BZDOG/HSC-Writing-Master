@@ -28,7 +28,6 @@ import {
   GitMerge,
   ArrowRight,
   CheckCircle,
-  UploadCloud,
   Sparkles,
 } from 'lucide-react';
 
@@ -238,7 +237,8 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
       preReconcileData,
       existingCourses,
       courseMapping,
-      placements
+      placements,
+      orphanedGroups
     );
     proceedWithCourses(remapCourseIds(reconciled));
   };
