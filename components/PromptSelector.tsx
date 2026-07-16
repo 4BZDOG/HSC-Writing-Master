@@ -493,7 +493,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   ? 'bg-blue-600/10 border-blue-600/20 text-blue-400'
                   : 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border border-white/5 light:border-slate-400 text-[rgb(var(--color-text-secondary))] light:text-slate-600'
       }`}
-      title={locked ? `${title} — part of Writing Studio Plus` : title}
+      title={locked ? `${title} — part of Band 6 Plus` : title}
     >
       {Icon && <Icon className="w-4 h-4" />}
       {label && (
@@ -1047,7 +1047,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                           }
                           title={
                             studioLocked
-                              ? 'AI question generation is part of Writing Studio Plus — tap to learn more'
+                              ? 'AI question generation is part of Band 6 Plus — tap to learn more'
                               : undefined
                           }
                           className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all ${

@@ -374,7 +374,7 @@ export const exportEvaluationPdf = async (
 
   const exportId = makeExportId();
   const dateStr = formatDate();
-  const title = opts.title ?? 'HSC Writing Master';
+  const title = opts.title ?? 'Band 6 — HSC Writing Coach';
   const subtitle = opts.subtitle ?? 'Marking Feedback Report';
   const instruction =
     opts.instruction ??
@@ -387,7 +387,7 @@ export const exportEvaluationPdf = async (
       title: `${title} — ${subtitle}`,
       subject: instruction,
       author: title,
-      creator: 'HSC Writing Master PDF Exporter',
+      creator: 'Band 6 PDF Exporter',
       keywords: ['HSC', 'marking feedback', opts.data.verb, `Band ${opts.data.overallBand}`].join(
         ', '
       ),

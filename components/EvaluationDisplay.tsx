@@ -358,9 +358,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 disabled={isExporting}
                 aria-busy={isExporting}
                 title={
-                  pdfLocked
-                    ? 'PDF export is part of Writing Studio Plus — tap to learn more'
-                    : undefined
+                  pdfLocked ? 'PDF export is part of Band 6 Plus — tap to learn more' : undefined
                 }
                 className={`px-5 py-3 rounded-2xl text-white text-xs font-bold shadow-sm transition-all hover:scale-105 border backdrop-blur-sm flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 ${
                   pdfLocked
@@ -588,7 +586,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                   disabled={isImproving}
                   title={
                     upgradesLocked
-                      ? 'AI answer upgrades are part of Writing Studio Plus — tap to learn more'
+                      ? 'AI answer upgrades are part of Band 6 Plus — tap to learn more'
                       : undefined
                   }
                   className={`px-5 py-3 rounded-xl text-white border text-[11px] font-bold uppercase tracking-widest transition-all hover:scale-105 active:scale-95 flex items-center gap-2 backdrop-blur-sm ${

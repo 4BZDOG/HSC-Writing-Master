@@ -602,10 +602,10 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
               </div>
               <div className="min-w-0">
                 <h1 className="text-lg sm:text-2xl font-black text-white tracking-tighter leading-none italic uppercase whitespace-nowrap">
-                  Writing Studio
+                  Band 6
                 </h1>
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.4em] text-white/70 block mt-1 whitespace-nowrap">
-                  HSC Specialist AI
+                  HSC Writing Coach
                 </span>
               </div>
             </div>
@@ -943,7 +943,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           onUpdateUser={onUpdateUser}
           onLogout={handleLogout}
         />
-        <UpgradeModal showToast={showToast} />
+        <UpgradeModal showToast={showToast} user={user} />
         <GlobalLoadingOverlay message={globalLoadingMessage} error={quotaError} />
         <BackgroundTaskIndicator task={activeBackgroundTask} />
         {isSystemAdmin(user.role) && <ApiMonitorDisplay />}

@@ -1,6 +1,6 @@
-# Stripe Setup Guide — HSC Writing Studio
+# Stripe Setup Guide — Band 6
 
-Step-by-step instructions to connect Stripe billing to your Writing Studio deployment. By the end you will have a working checkout flow where free users can upgrade to the Plus plan and manage their subscription.
+Step-by-step instructions to connect Stripe billing to your Band 6 deployment. By the end you will have a working checkout flow where free users can upgrade to the Plus plan and manage their subscription.
 
 ---
 
@@ -20,7 +20,7 @@ Before you start, make sure you have:
 1. Go to [Stripe Dashboard → Products](https://dashboard.stripe.com/products).
 2. Click **+ Add product**.
 3. Fill in:
-   - **Name**: `Writing Studio Plus`
+   - **Name**: `Band 6 Plus`
    - **Description**: `Full access to advanced questions, detailed feedback, sample answers, exam mode and more.`
 4. Under **Pricing**, add **two recurring prices**:
 
