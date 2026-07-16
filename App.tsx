@@ -897,9 +897,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
               </div>
             )}
 
-            <div className="mb-4">
-              <CommandVerbHierarchy currentVerb={currentPrompt?.verb} />
-            </div>
+            <CommandVerbHierarchy currentVerb={currentPrompt?.verb} />
           </>
         )}
 
