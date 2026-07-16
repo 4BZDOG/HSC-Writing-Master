@@ -122,18 +122,31 @@ export const useModalManager = ({ onRename, onDelete }: ModalManagerOptions) => 
     [openModal]
   );
 
-  const handleConfirmAction = () => {
+  // useCallback across the board so the handler bag App builds from these stays
+  // referentially stable — that lets a memoised Workspace skip re-rendering
+  // when a modal merely opens or closes.
+  const handleConfirmAction = useCallback(() => {
     if (confirmationProps) {
       confirmationProps.onConfirm();
     }
     setConfirmationProps(null);
     closeModal('confirmation');
-  };
+  }, [confirmationProps, closeModal]);
 
-  const cancelConfirmation = () => {
+  const cancelConfirmation = useCallback(() => {
     setConfirmationProps(null);
     closeModal('confirmation');
-  };
+  }, [closeModal]);
+
+  const cancelRename = useCallback(() => {
+    setRenameTarget(null);
+    closeModal('rename');
+  }, [closeModal]);
+
+  const cancelDelete = useCallback(() => {
+    setDeleteTarget(null);
+    closeModal('deleteConfirmation');
+  }, [closeModal]);
 
   const closeQualityCheck = useCallback(() => {
     setQualityCheckProps(null);
@@ -153,16 +166,10 @@ export const useModalManager = ({ onRename, onDelete }: ModalManagerOptions) => 
     isModalOpen,
     requestRename,
     confirmRename,
-    cancelRename: () => {
-      setRenameTarget(null);
-      closeModal('rename');
-    },
+    cancelRename,
     requestDelete,
     confirmDelete,
-    cancelDelete: () => {
-      setDeleteTarget(null);
-      closeModal('deleteConfirmation');
-    },
+    cancelDelete,
     showConfirmation,
     handleConfirmAction,
     cancelConfirmation,

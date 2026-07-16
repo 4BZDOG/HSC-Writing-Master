@@ -366,4 +366,8 @@ const Workspace: React.FC<WorkspaceProps> = ({
   );
 };
 
-export default Workspace;
+// Memoised so that opening or closing a modal — which re-renders App but leaves
+// every Workspace prop referentially unchanged (see the useMemo'd handler bags
+// in App.tsx) — no longer re-renders the entire writing area. This is what makes
+// heavy modals feel instant to close.
+export default React.memo(Workspace);
