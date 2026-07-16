@@ -76,6 +76,33 @@ export const SampleAnswerResponseSchema = z
   })
   .passthrough();
 
+export const QualityCheckResponseSchema = z
+  .object({
+    // An unexpected status downgrades to WARN rather than failing the check —
+    // the teacher still sees the summary and can judge for themselves.
+    status: z
+      .enum(['PASS', 'WARN', 'FAIL'])
+      .catch(() => 'WARN' as const)
+      .default('WARN'),
+    score: finiteNumber
+      .transform((n) => Math.max(0, Math.min(100, n)))
+      .catch(() => 0)
+      .default(0),
+    summary: z.string().catch('').default(''),
+    issues: z
+      .array(
+        z.object({
+          severity: z.enum(['critical', 'warning', 'info']).catch(() => 'info' as const),
+          message: z.string().default(''),
+          suggestion: z.string().default(''),
+        })
+      )
+      .catch(() => [])
+      .default([]),
+    refinedContent: z.string().optional().catch(undefined),
+  })
+  .passthrough();
+
 /**
  * Validates `data` against `schema`, returning the typed/coerced result.
  * On failure it logs the full issue list and throws a clear, user-facing
