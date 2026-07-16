@@ -24,7 +24,7 @@ import { useToast } from './hooks/useToast';
 import { useDebounce } from './hooks/useDebounce';
 import { useApiStatus } from './hooks/useApiStatus';
 import { authService } from './services/authService';
-import { subscribeQuotaWarnings } from './services/quotaNotifier';
+import { subscribeQuotaWarnings, subscribeAiNotices } from './services/quotaNotifier';
 import { isCurriculumRemote } from './services/curriculumService';
 import { savePromptContribution } from './services/contributionService';
 import { screenContentQuality } from './services/geminiService';
@@ -1005,6 +1005,10 @@ const App: React.FC = () => {
       subscribeQuotaWarnings((w) => showToast(w.message, w.level === 'reached' ? 'error' : 'info')),
     [showToast]
   );
+
+  // One-off AI notices (e.g. automatic fallback to Gemini Flash when the
+  // selected model has no free-tier quota). Fired at most once per condition.
+  useEffect(() => subscribeAiNotices((message) => showToast(message, 'info')), [showToast]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);

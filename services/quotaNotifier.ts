@@ -67,4 +67,28 @@ export const observeQuota = (snapshot: QuotaSnapshot | null | undefined): void =
 };
 
 /** Test seam: drop all subscribers. */
-export const _resetQuotaListeners = (): void => listeners.clear();
+export const _resetQuotaListeners = (): void => {
+  listeners.clear();
+  noticeListeners.clear();
+};
+
+// ---------------------------------------------------------------------------
+// One-off AI notices — free-form messages from the AI plumbing that the user
+// should see as a toast (e.g. "Gemini 3 Pro has no free-tier quota — switched
+// to Gemini 3 Flash"). Same subscribe pattern as quota warnings; App wires
+// both to showToast.
+// ---------------------------------------------------------------------------
+
+type NoticeListener = (message: string) => void;
+const noticeListeners = new Set<NoticeListener>();
+
+export const subscribeAiNotices = (listener: NoticeListener): (() => void) => {
+  noticeListeners.add(listener);
+  return () => {
+    noticeListeners.delete(listener);
+  };
+};
+
+export const notifyAiNotice = (message: string): void => {
+  noticeListeners.forEach((l) => l(message));
+};
