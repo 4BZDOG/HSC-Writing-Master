@@ -135,6 +135,11 @@ export const useModalManager = ({ onRename, onDelete }: ModalManagerOptions) => 
     closeModal('confirmation');
   };
 
+  const closeQualityCheck = useCallback(() => {
+    setQualityCheckProps(null);
+    closeModal('qualityCheck');
+  }, [closeModal]);
+
   return {
     activeModals,
     modalProps: {
@@ -162,5 +167,6 @@ export const useModalManager = ({ onRename, onDelete }: ModalManagerOptions) => 
     handleConfirmAction,
     cancelConfirmation,
     showQualityCheck,
+    closeQualityCheck,
   };
 };

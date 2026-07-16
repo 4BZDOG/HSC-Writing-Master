@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Course, DataValidationResult, Topic } from '../../types';
 import {
   findConflicts,
@@ -22,14 +22,7 @@ import ValidationSummary from './ValidationSummary';
 import SelectionTree from '../SelectionTree';
 import { useSelectionTree } from '../../hooks/useSelectionTree';
 import Combobox from '../Combobox';
-import {
-  Award,
-  FileJson,
-  GitMerge,
-  ArrowRight,
-  CheckCircle,
-  Sparkles,
-} from 'lucide-react';
+import { Award, FileJson, GitMerge, ArrowRight, CheckCircle, Sparkles } from 'lucide-react';
 
 interface ImportFlowProps {
   existingCourses: Course[];
@@ -56,6 +49,8 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
   const [targetCourseId, setTargetCourseId] = useState<string | undefined>(undefined);
   const [orphanedGroups, setOrphanedGroups] = useState<OrphanedGroup[]>([]);
   const [preReconcileData, setPreReconcileData] = useState<Course[]>([]);
+  const [processedCourses, setProcessedCourses] = useState<Course[]>([]);
+  const [autoResolutions, setAutoResolutions] = useState<Map<string, 'merge' | 'skip'>>(new Map());
 
   // Bulk Settings State
   const [markAsPastHSC, setMarkAsPastHSC] = useState(false);
@@ -84,8 +79,12 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
     [filteredCoursesForPreview]
   );
 
+  // Initialise selection and auto-mapping once per uploaded file — re-running
+  // on every return to the preview step would wipe the user's manual choices.
+  const previewInitialisedRef = useRef(false);
   useEffect(() => {
-    if (step === 'preview') {
+    if (step === 'preview' && !previewInitialisedRef.current) {
+      previewInitialisedRef.current = true;
       selectAll();
       const autoMap = new Map<string, string>();
       importedCourses.forEach((imp) => {
@@ -101,6 +100,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
   }, [step, importedCourses, existingCourses, selectAll]);
 
   const resetState = () => {
+    previewInitialisedRef.current = false;
     setStep('upload');
     setImportedCourses([]);
     setImportedTopic(null);
@@ -114,6 +114,8 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
     setCourseMapping(new Map());
     setOrphanedGroups([]);
     setPreReconcileData([]);
+    setProcessedCourses([]);
+    setAutoResolutions(new Map());
   };
 
   const handleBackToUpload = () => {
@@ -144,6 +146,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
 
         if (analysis.type === 'courses') {
           const courses = migrateAnalyseVerb(analysis.data as Course[]);
+          previewInitialisedRef.current = false;
           setImportedCourses(courses);
           setStep('preview');
         } else if (analysis.type === 'topic') {
@@ -174,9 +177,16 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
     setCourseMapping(newMap);
   };
 
+  // The first HSC exams ran in 1967 — treat anything outside a sane range as
+  // "no year given" rather than stamping a typo onto every imported prompt.
+  const parseBulkYear = (): number | undefined => {
+    const year = parseInt(bulkYear, 10);
+    return year >= 1967 && year <= 2100 ? year : undefined;
+  };
+
   const applyPastHSCMetadata = (courses: Course[]): Course[] => {
     if (!markAsPastHSC) return courses;
-    const year = bulkYear ? parseInt(bulkYear) : undefined;
+    const year = parseBulkYear();
     return courses.map((c) => ({
       ...c,
       topics: c.topics.map((t) => ({
@@ -198,13 +208,24 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
 
   const proceedWithCourses = (coursesToProcess: Course[]) => {
     const foundConflicts = findConflicts(coursesToProcess, existingCourses);
-    setImportedCourses(coursesToProcess);
+    setProcessedCourses(coursesToProcess);
 
-    if (foundConflicts.length > 0) {
-      setConflicts(foundConflicts);
+    // Courses the user explicitly mapped to an existing course in the preview
+    // step are already a merge decision — don't ask again in the resolve step.
+    const mappedTargetIds = new Set(courseMapping.values());
+    const resolved = new Map<string, 'merge' | 'skip'>();
+    const unresolvedConflicts: Course[] = [];
+    foundConflicts.forEach((c) => {
+      if (mappedTargetIds.has(c.id)) resolved.set(c.id, 'merge');
+      else unresolvedConflicts.push(c);
+    });
+
+    if (unresolvedConflicts.length > 0) {
+      setAutoResolutions(resolved);
+      setConflicts(unresolvedConflicts);
       setStep('resolve');
     } else {
-      onImport(coursesToProcess, new Map());
+      onImport(coursesToProcess, resolved);
       onClose();
     }
   };
@@ -248,7 +269,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
       let topicToImport = importedTopic;
 
       if (markAsPastHSC) {
-        const year = bulkYear ? parseInt(bulkYear) : undefined;
+        const year = parseBulkYear();
         topicToImport = {
           ...topicToImport,
           subTopics: topicToImport.subTopics.map((st) => ({
@@ -272,7 +293,8 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
   };
 
   const handleResolve = (resolutions: Map<string, 'merge' | 'skip'>) => {
-    onImport(importedCourses, resolutions);
+    const combined = new Map([...autoResolutions, ...resolutions]);
+    onImport(processedCourses, combined);
     onClose();
   };
 
@@ -449,6 +471,8 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
                       <span className="text-xs text-[rgb(var(--color-text-muted))]">Year:</span>
                       <input
                         type="number"
+                        min={1967}
+                        max={2100}
                         value={bulkYear}
                         onChange={(e) => setBulkYear(e.target.value)}
                         placeholder="e.g. 2023"
@@ -510,6 +534,8 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
                   <span className="text-xs text-[rgb(var(--color-text-muted))]">Default Year:</span>
                   <input
                     type="number"
+                    min={1967}
+                    max={2100}
                     value={bulkYear}
                     onChange={(e) => setBulkYear(e.target.value)}
                     placeholder="e.g. 2023"

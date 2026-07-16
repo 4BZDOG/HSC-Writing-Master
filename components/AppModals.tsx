@@ -190,6 +190,19 @@ const AppModals: React.FC<AppModalsProps> = ({
               return newSet;
             });
           }
+          const newCount = newIds?.length || 0;
+          const mergedCount = importedCourses.filter(
+            (c) => conflictResolutions.get(c.id) === 'merge'
+          ).length;
+          const parts: string[] = [];
+          if (newCount > 0) parts.push(`${newCount} new course${newCount !== 1 ? 's' : ''} added`);
+          if (mergedCount > 0)
+            parts.push(`${mergedCount} course${mergedCount !== 1 ? 's' : ''} merged`);
+          if (parts.length > 0) {
+            showToast(`Import complete: ${parts.join(', ')}.`, 'success');
+          } else {
+            showToast('Import finished — all courses were skipped.', 'info');
+          }
         }}
         onImportTopic={syllabusHandlers.handleImportTopic}
         onClearAll={() => {
@@ -281,7 +294,7 @@ const AppModals: React.FC<AppModalsProps> = ({
       {modalProps.qualityCheckProps && (
         <QualityCheckModal
           isOpen={isModalOpen('qualityCheck')}
-          onClose={() => closeModal('qualityCheck')}
+          onClose={modalHandlers.closeQualityCheck}
           content={modalProps.qualityCheckProps.content}
           contentType={modalProps.qualityCheckProps.type}
           onUpdateContent={modalProps.qualityCheckProps.onUpdate}
