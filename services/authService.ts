@@ -84,6 +84,7 @@ interface ProfileRow {
   preferences?: Partial<UserPreferences> | null;
   stats?: Partial<UserStats> | null;
   stripe_plan?: string | null;
+  plan_period_end?: string | null;
 }
 
 /**
@@ -119,6 +120,7 @@ export const mapProfileToUser = (
     preferences: { ...DEFAULT_PREFERENCES, ...(profile?.preferences || {}) },
     stats: { ...DEFAULT_STATS, ...(profile?.stats || {}) },
     ...(stripePlan && stripePlan !== 'free' ? { stripePlan } : {}),
+    ...(profile?.plan_period_end ? { planPeriodEnd: profile.plan_period_end } : {}),
   };
 };
 
@@ -180,9 +182,12 @@ const mockLogin = async (username: string, password: string): Promise<User> => {
  * with defaults (and downgrade a cached admin to 'user').
  */
 const fetchProfile = async (userId: string): Promise<ProfileRow | null> => {
+  // stripe_plan / plan_period_end are what the Stripe webhook writes after a
+  // purchase — omitting them here silently broke the entire upgrade loop
+  // (users paid, the plan never reached the client).
   const { data: profile, error } = await supabase!
     .from('profiles')
-    .select('username, display_name, role, preferences, stats')
+    .select('username, display_name, role, preferences, stats, stripe_plan, plan_period_end')
     .eq('id', userId)
     .maybeSingle();
   if (error) throw new Error(`Profile fetch failed: ${error.message}`);

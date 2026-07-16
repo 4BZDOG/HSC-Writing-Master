@@ -299,6 +299,21 @@ export const STRIPE_PRICE_IDS = {
   plus_yearly: import.meta.env.VITE_STRIPE_PLUS_YEARLY_PRICE_ID ?? '',
 } as const;
 
+/**
+ * Display prices for the upgrade prompt. These are PRESENTATION strings only —
+ * the amount actually charged always comes from the Stripe Price object — so
+ * they MUST be kept in sync with the configured price IDs above. Overridable
+ * per deployment via env so a price change doesn't need a code release.
+ */
+export const PLAN_PRICING = {
+  monthly: import.meta.env.VITE_PLUS_MONTHLY_PRICE_DISPLAY ?? 'A$7.99',
+  yearly: import.meta.env.VITE_PLUS_YEARLY_PRICE_DISPLAY ?? 'A$59',
+  yearlyNote: import.meta.env.VITE_PLUS_YEARLY_NOTE ?? 'Save 38% — under A$5/month',
+} as const;
+
+/** Contact for school/faculty licensing enquiries (shown in the upgrade prompt). */
+export const SCHOOL_CONTACT_EMAIL: string = import.meta.env.VITE_SCHOOL_CONTACT_EMAIL ?? '';
+
 const getAuthHeaders = async (): Promise<Record<string, string>> => {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   try {

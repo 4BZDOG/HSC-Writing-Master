@@ -30,7 +30,12 @@ import { savePromptContribution } from './services/contributionService';
 import { screenContentQuality } from './services/geminiService';
 import { User, WritingMode } from './types';
 import { canCurateContent, canModerate, isSystemAdmin } from './utils/permissions';
-import { isEvalLimitReached, recordEvaluation, requestUpgrade } from './services/entitlements';
+import {
+  isEvalLimitReached,
+  recordEvaluation,
+  requestUpgrade,
+  PLAN_LABELS,
+} from './services/entitlements';
 import {
   Compass,
   Sparkles,
@@ -1014,8 +1019,43 @@ const App: React.FC = () => {
     const params = new URLSearchParams(window.location.search);
     const checkout = params.get('checkout');
     if (checkout === 'success') {
-      showToast('Subscription activated! Welcome to Writing Studio Plus.', 'success');
       window.history.replaceState({}, '', window.location.pathname);
+      showToast('Payment received — activating your subscription…', 'info');
+      // Stripe redirects back faster than its webhook fires, so the profile is
+      // usually still 'free' on this first load. Poll until the webhook has
+      // written the plan (typically 2-10s), then unlock live — no re-login.
+      let cancelled = false;
+      (async () => {
+        for (let attempt = 0; attempt < 10 && !cancelled; attempt++) {
+          const current = authService.getCurrentUser();
+          if (current && current.role !== 'guest') {
+            try {
+              const refreshed = await authService.refreshSession(current);
+              if (cancelled) return;
+              if (refreshed?.stripePlan && refreshed.stripePlan !== 'free') {
+                setUser(refreshed);
+                showToast(
+                  `Subscription active — welcome to ${PLAN_LABELS[refreshed.stripePlan]}!`,
+                  'success'
+                );
+                return;
+              }
+            } catch {
+              /* transient — keep polling */
+            }
+          }
+          await new Promise((r) => setTimeout(r, 3000));
+        }
+        if (!cancelled) {
+          showToast(
+            'Payment received. Your plan will unlock within a minute — refresh if features stay locked.',
+            'info'
+          );
+        }
+      })();
+      return () => {
+        cancelled = true;
+      };
     } else if (checkout === 'cancelled') {
       showToast('Checkout cancelled — no changes were made.', 'info');
       window.history.replaceState({}, '', window.location.pathname);

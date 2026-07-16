@@ -96,6 +96,16 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
           {isPaid
             ? 'Full access to all features, unlimited evaluations, and exam simulation.'
             : 'Limited daily evaluations and basic features. Upgrade to unlock everything.'}
+          {isPaid && user.stripePlan && user.planPeriodEnd && (
+            <span className="block mt-1 text-[10px] font-bold text-amber-500/80">
+              Renews{' '}
+              {new Date(user.planPeriodEnd).toLocaleDateString('en-AU', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+              })}
+            </span>
+          )}
         </p>
         {isPaid ? (
           <button
