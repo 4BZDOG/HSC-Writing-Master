@@ -66,6 +66,7 @@ const AppModals: React.FC<AppModalsProps> = ({
       <CourseCreatorModal
         isOpen={isModalOpen('courseCreator')}
         onClose={() => closeModal('courseCreator')}
+        existingNames={courses.map((c) => c.name)}
         onCourseCreated={(name, outcomes) => {
           const newCourse = syllabusHandlers.handleCreateCourse(name, outcomes);
           if (newCourse) {
@@ -102,6 +103,15 @@ const AppModals: React.FC<AppModalsProps> = ({
           const newSubTopic = syllabusHandlers.handleCreateSubTopic(statePath, name);
           if (newSubTopic) {
             setNewlyAddedIds((prev) => new Set(prev).add(newSubTopic.id));
+            // Navigate to the new sub-topic straight away — dot point
+            // generation targets its path explicitly, so the user shouldn't
+            // wait on a multi-second AI call to see their new sub-topic.
+            setStatePath({
+              ...statePath,
+              subTopicId: newSubTopic.id,
+              dotPointId: undefined,
+              promptId: undefined,
+            });
             if (generateDotPoints && currentCourse && currentTopic) {
               const generatedDotPoints = await geminiHandlers.generateDotPointsForSubTopic(
                 currentCourse.name,
@@ -113,12 +123,6 @@ const AppModals: React.FC<AppModalsProps> = ({
                 syllabusHandlers.handleAddDotPoints(pathForNewSubTopic, generatedDotPoints);
               }
             }
-            setStatePath({
-              ...statePath,
-              subTopicId: newSubTopic.id,
-              dotPointId: undefined,
-              promptId: undefined,
-            });
           }
         }}
         existingNames={currentTopic?.subTopics.map((st) => st.name) || []}

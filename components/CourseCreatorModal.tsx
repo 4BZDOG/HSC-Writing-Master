@@ -7,12 +7,14 @@ interface CourseCreatorModalProps {
   isOpen: boolean;
   onClose: () => void;
   onCourseCreated: (newCourseName: string, outcomes: CourseOutcome[]) => void;
+  existingNames?: string[];
 }
 
 const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
   isOpen,
   onClose,
   onCourseCreated,
+  existingNames = [],
 }) => {
   const [courseName, setCourseName] = useState('');
   const [outcomes, setOutcomes] = useState<CourseOutcome[]>([{ code: '', description: '' }]);
@@ -23,6 +25,12 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
     e.preventDefault();
     if (!courseName.trim()) {
       setError('Please enter a course name.');
+      return;
+    }
+    // Duplicate course names break import auto-mapping, which matches by name.
+    const trimmedName = courseName.trim();
+    if (existingNames.some((n) => n.trim().toLowerCase() === trimmedName.toLowerCase())) {
+      setError(`A course named "${trimmedName}" already exists.`);
       return;
     }
     const validOutcomes = outcomes.filter(
@@ -121,7 +129,10 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
                 type="text"
                 id="course-name"
                 value={courseName}
-                onChange={(e) => setCourseName(e.target.value)}
+                onChange={(e) => {
+                  setCourseName(e.target.value);
+                  if (error) setError(null);
+                }}
                 className="block w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl shadow-sm py-3 px-4 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] text-base"
                 placeholder="e.g., HSC Chemistry"
                 autoFocus

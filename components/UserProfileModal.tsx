@@ -54,13 +54,17 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
   const plan: Plan = getUserPlan(user);
   const isPaid = plan !== 'free';
   const [portalLoading, setPortalLoading] = useState(false);
+  const [portalError, setPortalError] = useState<string | null>(null);
 
   const handleManageBilling = async () => {
     setPortalLoading(true);
+    setPortalError(null);
     const url = await createPortalUrl();
     setPortalLoading(false);
     if (url) {
       window.location.href = url;
+    } else {
+      setPortalError('Could not open the billing portal. Please try again shortly.');
     }
   };
 
@@ -102,7 +106,13 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
             <ExternalLink className="w-3 h-3" />
             {portalLoading ? 'Opening...' : 'Manage Subscription'}
           </button>
-        ) : (
+        ) : null}
+        {isPaid && portalError && (
+          <p className="mt-2 text-[10px] font-bold text-red-400 light:text-red-600">
+            {portalError}
+          </p>
+        )}
+        {!isPaid && (
           <button
             onClick={() => requestUpgrade('fullFeedback')}
             className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
