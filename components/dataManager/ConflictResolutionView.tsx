@@ -70,8 +70,21 @@ const ConflictResolutionView = ({ conflicts, onResolve, onBack }: ConflictResolu
                     <p className="font-bold text-[rgb(var(--color-text-primary))] text-sm">
                       {course.name}
                     </p>
-                    <p className="text-xs text-[rgb(var(--color-text-muted))] font-mono mt-0.5">
-                      {course.id}
+                    <p className="text-xs text-[rgb(var(--color-text-muted))] mt-0.5">
+                      {(() => {
+                        const topicCount = course.topics.length;
+                        const questionCount = course.topics.reduce(
+                          (acc, t) =>
+                            acc +
+                            t.subTopics.reduce(
+                              (a, st) =>
+                                a + st.dotPoints.reduce((n, dp) => n + dp.prompts.length, 0),
+                              0
+                            ),
+                          0
+                        );
+                        return `${topicCount} topic${topicCount !== 1 ? 's' : ''} · ${questionCount} question${questionCount !== 1 ? 's' : ''} in import`;
+                      })()}
                     </p>
                   </div>
                   <div className="flex items-center bg-[rgb(var(--color-bg-surface))] rounded-lg p-1 border border-[rgb(var(--color-border-secondary))]">
