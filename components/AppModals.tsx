@@ -61,6 +61,42 @@ const AppModals: React.FC<AppModalsProps> = ({
   const isModalOpen = (name: string) => activeModals.has(name);
   const closeModal = modalHandlers.closeModal;
 
+  // User-facing labels for syllabus item types — the raw type names
+  // (subTopic, dotPoint) must never leak into modal titles or messages.
+  const ITEM_LABELS: Record<string, string> = {
+    course: 'Course',
+    topic: 'Topic',
+    subTopic: 'Sub-topic',
+    dotPoint: 'Dot point',
+    prompt: 'Question',
+  };
+
+  // Sibling names for the item being renamed, so RenameModal can flag
+  // duplicates. Renaming to a sibling's name breaks import matching, which
+  // pairs topics/sub-topics/dot points by normalised name.
+  const renameSiblingNames = ((): string[] => {
+    const target = modalProps.renameTarget;
+    if (!target) return [];
+    switch (target.type) {
+      case 'course':
+        return courses.filter((c) => c.id !== target.id).map((c) => c.name);
+      case 'topic':
+        return (currentCourse?.topics || [])
+          .filter((t: Topic) => t.id !== target.id)
+          .map((t: Topic) => t.name);
+      case 'subTopic':
+        return (currentTopic?.subTopics || [])
+          .filter((st: { id: string }) => st.id !== target.id)
+          .map((st: { name: string }) => st.name);
+      case 'dotPoint':
+        return (currentSubTopic?.dotPoints || [])
+          .filter((dp: { id: string }) => dp.id !== target.id)
+          .map((dp: { description: string }) => dp.description);
+      default:
+        return [];
+    }
+  })();
+
   return (
     <>
       <CourseCreatorModal
@@ -320,9 +356,9 @@ const AppModals: React.FC<AppModalsProps> = ({
           isOpen={isModalOpen('rename')}
           onClose={modalHandlers.cancelRename}
           onRename={modalHandlers.confirmRename}
-          targetType={modalProps.renameTarget.type}
+          targetType={ITEM_LABELS[modalProps.renameTarget.type] ?? 'Item'}
           initialName={modalProps.renameTarget.name}
-          existingNames={[]}
+          existingNames={renameSiblingNames}
         />
       )}
 
@@ -335,7 +371,7 @@ const AppModals: React.FC<AppModalsProps> = ({
             setStatePath(newPath);
             modalHandlers.cancelDelete();
           }}
-          title={`Delete ${modalProps.deleteTarget.type}?`}
+          title={`Delete ${(ITEM_LABELS[modalProps.deleteTarget.type] ?? 'item').toLowerCase()}?`}
           message={`Are you sure you want to delete "${modalProps.deleteTarget.name}"? This action cannot be undone.`}
           confirmButtonText="Delete"
           isDestructive

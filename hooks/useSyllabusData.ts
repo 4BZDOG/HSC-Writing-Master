@@ -47,6 +47,15 @@ import {
 
 type DiscoveredDocType = 'course' | 'topic';
 
+/** User-facing labels for syllabus item types, used in rename/delete toasts. */
+const ITEM_TYPE_LABELS: Record<string, string> = {
+  course: 'Course',
+  topic: 'Topic',
+  subTopic: 'Sub-topic',
+  dotPoint: 'Dot point',
+  prompt: 'Question',
+};
+
 /**
  * The slice of this hook's handlers that the Workspace component tree
  * consumes. Typed (rather than `any`) so App's handler bag is structurally
@@ -552,6 +561,7 @@ export const useSyllabusData = ({
           const item = items.find((i) => i.id === target.id);
           if (item) {
             if (type === 'dotPoint') item.description = newName;
+            else if (type === 'prompt') item.question = newName;
             else item.name = newName;
           }
         };
@@ -572,9 +582,18 @@ export const useSyllabusData = ({
               )
             );
             break;
+          case 'prompt':
+            draft.forEach((c) =>
+              c.topics.forEach((t) =>
+                t.subTopics.forEach((st) =>
+                  st.dotPoints.forEach((dp) => updateLogic(dp.prompts, 'prompt'))
+                )
+              )
+            );
+            break;
         }
       });
-      showToast(`${target.type} renamed.`, 'success');
+      showToast(`${ITEM_TYPE_LABELS[target.type] ?? 'Item'} renamed.`, 'success');
     },
     [updateCourses, showToast]
   );
@@ -583,7 +602,7 @@ export const useSyllabusData = ({
     (path: StatePath, target: { type: any; id: string; name: string }) => {
       const { updatedCourses, newPath } = deleteSyllabusItem(courses, path, target.type, target.id);
       updateCourses(() => updatedCourses);
-      showToast(`${target.type} deleted.`, 'success');
+      showToast(`${ITEM_TYPE_LABELS[target.type] ?? 'Item'} deleted.`, 'success');
       return newPath;
     },
     [courses, updateCourses, showToast]
@@ -705,6 +724,11 @@ export const useSyllabusData = ({
 
   const handleImportTopic = useCallback(
     (courseId: string, topic: Topic) => {
+      // Return the topic that actually landed in the tree: when merging into
+      // an existing topic the existing ID survives, and callers navigate to
+      // the returned ID — returning the imported topic would point them at a
+      // topic that doesn't exist.
+      let resultTopic: Topic = topic;
       updateCourses((draft) => {
         findAndUpdateItem(draft, { courseId }, (course: Draft<Course>) => {
           const existingTopicIndex = course.topics.findIndex(
@@ -714,18 +738,18 @@ export const useSyllabusData = ({
           );
 
           if (existingTopicIndex !== -1) {
-            course.topics[existingTopicIndex] = mergeTopicContents(
-              course.topics[existingTopicIndex],
-              topic
-            );
+            const mergedTopic = mergeTopicContents(course.topics[existingTopicIndex], topic);
+            course.topics[existingTopicIndex] = mergedTopic;
+            resultTopic = mergedTopic;
           } else {
             course.topics.push(topic);
           }
         });
       });
-      return topic;
+      showToast(`Topic "${resultTopic.name}" imported.`, 'success');
+      return resultTopic;
     },
-    [updateCourses]
+    [updateCourses, showToast]
   );
 
   const handleClearAllData = useCallback(() => {
