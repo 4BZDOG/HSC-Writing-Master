@@ -104,52 +104,55 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
 
   return (
     <div
-      className={`clip-stable relative overflow-hidden rounded-[32px] border-4 ${containerBorderClass} bg-[rgb(var(--color-bg-surface))]/60 light:bg-white/90 backdrop-blur-3xl shadow-xl transition-all duration-700 ease-out animate-fade-in`}
+      className={`clip-stable relative overflow-hidden transition-all duration-700 ease-out animate-fade-in`}
     >
+      {/* Top divider */}
+      <div
+        className={`h-px bg-gradient-to-r from-transparent ${activeConfig ? `via-[rgb(var(--color-border-secondary))]/60` : 'via-[rgb(var(--color-border-secondary))]/40'} to-transparent`}
+      />
+
       {/* Header Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={`
-            w-full px-4 sm:px-8 py-4 sm:py-5 flex items-center justify-between gap-3 relative z-10 overflow-hidden min-h-[72px] sm:min-h-[90px] transition-all duration-500 group/header
+            w-full px-0 py-3 sm:py-3.5 flex items-center justify-between gap-3 relative z-10 overflow-hidden transition-all duration-500 group/header rounded-xl
             ${headerGradientClass} ${headerTextClass}
             ${isOpen ? '' : 'hover:brightness-105'}
         `}
       >
         <MeshOverlay opacity="opacity-10" />
 
-        <div className="flex items-center gap-4 relative z-10">
+        <div className="flex items-center gap-3 relative z-10 px-4 sm:px-5">
           <div
-            className={`w-11 h-11 rounded-2xl flex items-center justify-center border shadow-lg group-hover/header:scale-110 transition-transform ${headerIconBg}`}
+            className={`w-9 h-9 rounded-xl flex items-center justify-center border shadow-md group-hover/header:scale-110 transition-transform ${headerIconBg}`}
           >
-            <AlignLeft className="w-6 h-6" />
+            <AlignLeft className="w-5 h-5" />
           </div>
           <div className="text-left">
-            <h3 className="text-lg md:text-xl font-black tracking-tight leading-none flex items-center gap-2">
+            <h3 className="text-sm sm:text-base font-black tracking-tight leading-none">
               HSC Command Verb Hierarchy
             </h3>
-            <div className="flex items-center gap-2 mt-1.5">
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">
-                Reference • {sortedVerbsByGroup.length} Levels
-              </span>
-            </div>
+            <span className="text-[9px] font-black uppercase tracking-[0.2em] opacity-70">
+              Reference • {sortedVerbsByGroup.length} Levels
+            </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-6 relative z-10">
+        <div className="flex items-center gap-4 relative z-10 px-4 sm:px-5">
           {activeTermInfo && (
             <div className="hidden sm:flex items-center gap-3 animate-fade-in">
               <span className="text-[10px] font-black opacity-60 uppercase tracking-widest">
                 Selected:
               </span>
-              <div className="px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest bg-white/20 border border-white/30 backdrop-blur-md shadow-sm">
+              <div className="px-2.5 py-0.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-white/20 border border-white/30 backdrop-blur-md shadow-sm">
                 {activeVerb}
               </div>
             </div>
           )}
           <div
-            className={`w-8 h-8 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center border border-white/10 transition-transform duration-500 ${isOpen ? 'rotate-180 bg-black/20 dark:bg-white/20' : ''}`}
+            className={`w-7 h-7 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center border border-white/10 transition-transform duration-500 ${isOpen ? 'rotate-180 bg-black/20 dark:bg-white/20' : ''}`}
           >
-            <ChevronDown className="w-4 h-4" />
+            <ChevronDown className="w-3.5 h-3.5" />
           </div>
         </div>
       </button>
@@ -158,24 +161,24 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
       <div
         className={`transition-all duration-700 ease-in-out overflow-hidden ${isOpen ? 'max-h-[1200px] opacity-100' : 'max-h-0 opacity-0'}`}
       >
-        <div className="p-6 space-y-5">
+        <div className="py-4 space-y-4 px-4 md:px-12">
           {/* Active Verb Detail Card */}
           {activeTermInfo && activeConfig && (
             <div
-              className={`clip-stable relative overflow-hidden rounded-[32px] p-6 border-2 ${activeConfig.border} ${activeConfig.bg} shadow-2xl animate-fade-in-up transition-all duration-500 group/hero`}
+              className={`clip-stable relative overflow-hidden rounded-2xl p-5 border ${activeConfig.border} ${activeConfig.bg} shadow-lg animate-fade-in-up transition-all duration-500 group/hero`}
             >
               <MeshOverlay opacity="opacity-[0.06]" />
               <div
                 className={`absolute -right-20 -top-20 w-80 h-80 bg-gradient-to-br ${activeConfig.gradient} opacity-10 blur-[80px] rounded-full pointer-events-none group-hover/hero:opacity-20 transition-opacity duration-700`}
               />
 
-              <div className="relative z-10 flex flex-col gap-6">
-                <div className="flex flex-col md:flex-row gap-6 justify-between items-start md:items-center">
-                  <div className="flex items-center gap-5">
+              <div className="relative z-10 flex flex-col gap-5">
+                <div className="flex flex-col md:flex-row gap-5 justify-between items-start md:items-center">
+                  <div className="flex items-center gap-4">
                     <div
-                      className={`w-16 h-16 rounded-[24px] flex items-center justify-center flex-shrink-0 bg-gradient-to-br ${activeConfig.gradient} border border-white/20 shadow-2xl transform transition-transform duration-700 group-hover/hero:rotate-6`}
+                      className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br ${activeConfig.gradient} border border-white/20 shadow-lg transform transition-transform duration-700 group-hover/hero:rotate-6`}
                     >
-                      <Sparkles className="w-8 h-8 text-white" />
+                      <Sparkles className="w-6 h-6 text-white" />
                     </div>
                     <div>
                       <div className="flex items-center gap-3 mb-1">
@@ -222,9 +225,9 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
           )}
 
           {/* Tier Cards Scroll Area */}
-          <div className="relative group/scroll py-2">
+          <div className="relative group/scroll">
             <div
-              className="flex overflow-x-auto gap-5 pb-6 pt-4 px-0 snap-x snap-mandatory scrollbar-hide"
+              className="flex overflow-x-auto gap-4 pb-4 pt-2 -mx-4 md:-mx-12 px-4 md:px-12 snap-x snap-mandatory scrollbar-hide"
               ref={scrollContainerRef}
             >
               {sortedVerbsByGroup.map((group, index) => {
@@ -261,7 +264,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       if (group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
                     }}
                     className={`
-                      clip-stable flex-shrink-0 w-[280px] h-[272px] snap-center relative overflow-hidden rounded-[32px] border-2 transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer flex flex-col group/card
+                      clip-stable flex-shrink-0 w-[260px] h-[256px] snap-center relative overflow-hidden rounded-2xl border transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer flex flex-col group/card
                       ${
                         isCurrentTier
                           ? `${tierConfig.border} ${tierConfig.bg} light:bg-white`
@@ -346,10 +349,15 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
         </div>
 
         {/* Cognitive Timeline Footer */}
+        <div className="relative z-20">
+          <div
+            className={`h-px bg-gradient-to-r from-transparent ${activeConfig ? `via-[rgb(var(--color-border-secondary))]/60` : 'via-[rgb(var(--color-border-secondary))]/40'} to-transparent`}
+          />
+        </div>
         <div
-          className={`px-4 sm:px-10 py-6 bg-[rgb(var(--color-bg-surface-inset))]/30 border-t-2 backdrop-blur-md relative z-20 transition-colors duration-500 ${activeConfig ? activeConfig.border : 'border-slate-200'}`}
+          className={`px-4 md:px-12 py-4 relative z-20 transition-colors duration-500`}
         >
-          <div className="flex justify-between items-end gap-4 mb-4 px-1">
+          <div className="flex justify-between items-end gap-4 mb-3 px-1">
             <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] whitespace-nowrap">
               Basic Recall
             </span>
@@ -365,7 +373,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
           </div>
 
           {/* Progress Bar Track */}
-          <div className="relative h-2 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden mb-6">
+          <div className="relative h-2 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden mb-4">
             {/* Background Ticks for visual measurement */}
             <div className="absolute inset-0 flex justify-between px-[16%]">
               <div className="w-px h-full bg-white/20" />
@@ -438,6 +446,11 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
           </div>
         </div>
       </div>
+
+      {/* Bottom divider */}
+      <div
+        className={`h-px bg-gradient-to-r from-transparent ${activeConfig ? `via-[rgb(var(--color-border-secondary))]/60` : 'via-[rgb(var(--color-border-secondary))]/40'} to-transparent`}
+      />
     </div>
   );
 };
