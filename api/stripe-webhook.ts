@@ -35,6 +35,29 @@ interface ResponseLike {
 const headerValue = (raw: string | string[] | undefined): string | undefined =>
   Array.isArray(raw) ? raw[0] : raw;
 
+/**
+ * With bodyParser disabled, Vercel's Node runtime populates neither req.body
+ * nor req.rawBody — the payload must be read from the request stream itself.
+ * Checks the pre-parsed fields first so tests and other runtimes keep working.
+ */
+const readRawBody = async (req: RequestLike): Promise<string | undefined> => {
+  if (typeof req.rawBody === 'string') return req.rawBody;
+  if (Buffer.isBuffer(req.rawBody)) return req.rawBody.toString('utf8');
+  if (typeof req.body === 'string') return req.body;
+  if (Buffer.isBuffer(req.body)) return req.body.toString('utf8');
+
+  const stream = req as unknown as Partial<AsyncIterable<Buffer | string>>;
+  if (typeof stream[Symbol.asyncIterator] === 'function') {
+    const chunks: Buffer[] = [];
+    for await (const chunk of stream as AsyncIterable<Buffer | string>) {
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+    }
+    if (chunks.length > 0) return Buffer.concat(chunks).toString('utf8');
+  }
+
+  return req.body != null ? JSON.stringify(req.body) : undefined;
+};
+
 export default async function handler(req: RequestLike, res: ResponseLike): Promise<void> {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed. Use POST.' });
@@ -63,14 +86,13 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       res.status(400).json({ error: 'Missing stripe-signature header.' });
       return;
     }
-    const rawBody =
-      req.rawBody ?? (typeof req.body === 'string' ? req.body : JSON.stringify(req.body));
+    const rawBody = await readRawBody(req);
+    if (!rawBody) {
+      res.status(400).json({ error: 'Empty request body.' });
+      return;
+    }
     try {
-      event = stripe.webhooks.constructEvent(
-        typeof rawBody === 'string' ? rawBody : rawBody.toString(),
-        sig,
-        webhookSecret
-      );
+      event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Signature verification failed.';
       console.error('[stripe-webhook] Signature error:', msg);
@@ -80,17 +102,20 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   } else {
     // No webhook secret — trust the body (test/dev mode only).
     console.warn('[stripe-webhook] STRIPE_WEBHOOK_SECRET not set — skipping signature check.');
-    // bodyParser is disabled (raw body for signature verification), so parse manually.
-    const raw = req.rawBody ?? req.body;
-    if (typeof raw === 'string' || Buffer.isBuffer(raw)) {
+    if (req.body && typeof req.body === 'object' && !Buffer.isBuffer(req.body)) {
+      event = req.body as { type?: string; data?: { object?: Record<string, unknown> } };
+    } else {
+      const raw = await readRawBody(req);
+      if (!raw) {
+        res.status(400).json({ error: 'Empty request body.' });
+        return;
+      }
       try {
-        event = JSON.parse(typeof raw === 'string' ? raw : raw.toString());
+        event = JSON.parse(raw);
       } catch {
         res.status(400).json({ error: 'Invalid JSON body.' });
         return;
       }
-    } else {
-      event = raw as { type?: string; data?: { object?: Record<string, unknown> } };
     }
   }
 

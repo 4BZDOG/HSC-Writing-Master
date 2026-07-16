@@ -247,6 +247,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     handleConfirmAction,
     cancelConfirmation,
     showQualityCheck,
+    closeQualityCheck,
   } = useModalManager({
     onRename: confirmRename,
     onDelete: (target) => {
@@ -413,6 +414,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     handleConfirmAction,
     cancelConfirmation,
     showQualityCheck,
+    closeQualityCheck,
   };
   const syllabusHandlers = {
     handleCreateCourse,

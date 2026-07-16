@@ -244,9 +244,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                 </label>
                 <select
                   value={bulkPlacement.topicId || ''}
-                  onChange={(e) =>
-                    setBulkPlacement({ topicId: e.target.value || undefined })
-                  }
+                  onChange={(e) => setBulkPlacement({ topicId: e.target.value || undefined })}
                   className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors"
                 >
                   <option value="">Select topic...</option>
@@ -272,10 +270,10 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                   disabled={!bulkPlacement.topicId}
                   className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors disabled:opacity-40"
                 >
-                  <option value="">
-                    {bulkPlacement.topicId ? 'Select sub-topic...' : '—'}
-                  </option>
-                  {(bulkCourse.topics.find((t) => t.id === bulkPlacement.topicId)?.subTopics || []).map((st) => (
+                  <option value="">{bulkPlacement.topicId ? 'Select sub-topic...' : '—'}</option>
+                  {(
+                    bulkCourse.topics.find((t) => t.id === bulkPlacement.topicId)?.subTopics || []
+                  ).map((st) => (
                     <option key={st.id} value={st.id}>
                       {st.name}
                     </option>
@@ -298,13 +296,11 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                   disabled={!bulkPlacement.subTopicId}
                   className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors disabled:opacity-40"
                 >
-                  <option value="">
-                    {bulkPlacement.subTopicId ? 'Select dot point...' : '—'}
-                  </option>
-                  {(bulkCourse.topics
-                    .find((t) => t.id === bulkPlacement.topicId)
-                    ?.subTopics.find((st) => st.id === bulkPlacement.subTopicId)
-                    ?.dotPoints || []
+                  <option value="">{bulkPlacement.subTopicId ? 'Select dot point...' : '—'}</option>
+                  {(
+                    bulkCourse.topics
+                      .find((t) => t.id === bulkPlacement.topicId)
+                      ?.subTopics.find((st) => st.id === bulkPlacement.subTopicId)?.dotPoints || []
                   ).map((dp) => (
                     <option key={dp.id} value={dp.id}>
                       {dp.description.length > 60
@@ -318,7 +314,9 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
             <div className="flex justify-end mt-3">
               <button
                 onClick={handlePlaceAllRemaining}
-                disabled={!bulkPlacement.topicId || !bulkPlacement.subTopicId || !bulkPlacement.dotPointId}
+                disabled={
+                  !bulkPlacement.topicId || !bulkPlacement.subTopicId || !bulkPlacement.dotPointId
+                }
                 className="text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 px-4 py-2 rounded-lg transition-all disabled:opacity-40 disabled:hover:bg-emerald-600 flex items-center gap-1.5"
               >
                 <MapPin className="w-3.5 h-3.5" />
