@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import PromptSelector from './components/PromptSelector';
 import Workspace from './components/Workspace';
 import Toast from './components/Toast';
@@ -58,6 +58,12 @@ import { apiMonitor, ApiStatus } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
 import SyllabusNavBar from './components/SyllabusNavBar';
 import { loadUserProfile } from './utils/storageUtils';
+import {
+  ASSIGNMENT_PARAM,
+  buildAssignmentLink,
+  parseAssignmentParam,
+  resolveAssignmentPath,
+} from './utils/assignmentLink';
 
 const AnimatedBackground: React.FC = () => {
   return (
@@ -422,6 +428,50 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
 
   const onResetApiStats = useCallback(() => apiMonitor.resetAll(), []);
   const onToggleFocusMode = useCallback(() => setIsFocusMode((f) => !f), []);
+
+  // --- Teacher assignment links -------------------------------------------
+  // Teachers copy a link to the selected question; students opening it land
+  // directly on that question (see utils/assignmentLink.ts).
+
+  const handleShareAssignment = useCallback(async () => {
+    const link = buildAssignmentLink(statePath);
+    if (!link) {
+      showToast('Select a question first, then copy its assignment link.', 'info');
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(link);
+      showToast('Assignment link copied — share it with your class.', 'success');
+    } catch {
+      // Clipboard API can be unavailable (http, permissions) — show the link
+      // via prompt() as a copyable fallback rather than failing silently.
+      window.prompt('Copy this assignment link:', link);
+    }
+  }, [statePath, showToast]);
+
+  // Open an incoming assignment link once the course library is ready.
+  const assignmentHandledRef = useRef(false);
+  useEffect(() => {
+    if (!isReady || assignmentHandledRef.current) return;
+    const params = new URLSearchParams(window.location.search);
+    const raw = params.get(ASSIGNMENT_PARAM);
+    if (!raw) return;
+    assignmentHandledRef.current = true;
+    window.history.replaceState({}, '', window.location.pathname);
+
+    const resolved = resolveAssignmentPath(courses, parseAssignmentParam(raw));
+    if (resolved) {
+      setStatePath(resolved.path);
+      const preview =
+        resolved.question.length > 80 ? `${resolved.question.slice(0, 80)}…` : resolved.question;
+      showToast(`Assignment loaded: "${preview}"`, 'success');
+    } else {
+      showToast(
+        "This assignment isn't in your course library yet — ask your teacher to check the link, or load the curriculum library first.",
+        'error'
+      );
+    }
+  }, [isReady, courses, setStatePath, showToast]);
 
   // These handler bags are passed to the memoised Workspace. Wrapping each in
   // useMemo (with every member as a dep) keeps its reference stable except when
@@ -789,6 +839,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
             ]}
             prompt={currentPrompt}
             onExpand={() => setIsNavExpanded(true)}
+            onShareAssignment={canCurateContent(user.role) ? handleShareAssignment : undefined}
           />
         )}
 
@@ -827,6 +878,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 onGenerateDotPoints={() => openModal('dotPointGenerator')}
                 onImportTopic={() => openModal('topicImport')}
                 onImportSyllabus={() => openModal('fullSyllabusImport')}
+                onShareAssignment={canCurateContent(user.role) ? handleShareAssignment : undefined}
                 newlyAddedIds={newlyAddedIds}
                 userRole={user.role}
               />
