@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { Crown, Lock, Check, Sparkles, X, Zap } from 'lucide-react';
+import { Crown, Lock, Check, Sparkles, X, Zap, TrendingUp } from 'lucide-react';
+import { User } from '../types';
 import {
   PREMIUM_FEATURES,
   PLAN_LABELS,
@@ -59,6 +60,8 @@ export const ContentLockOverlay: React.FC<{
 
 interface UpgradeModalProps {
   showToast: (message: string, type: 'success' | 'error' | 'info') => void;
+  /** Current user — used to personalise the prompt with their band average. */
+  user?: User | null;
 }
 
 /**
@@ -68,12 +71,18 @@ interface UpgradeModalProps {
  * When Stripe is configured (price IDs set), the CTA opens a real checkout.
  * Until then, it registers interest via a toast.
  */
-const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast }) => {
+const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
   const [feature, setFeature] = useState<PremiumFeatureKey | null>(null);
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('yearly');
   const [isRedirecting, setIsRedirecting] = useState(false);
 
   const stripeReady = !!(STRIPE_PRICE_IDS.plus_monthly && STRIPE_PRICE_IDS.plus_yearly);
+
+  // Personalised hook: the most convincing thing we can show a student is
+  // their own trajectory. Only shown once they have enough marked answers for
+  // the average to mean something, and only while there's a gap to close.
+  const avgBand = user?.stats?.averageBand ?? 0;
+  const showBandHook = (user?.stats?.questionsAnswered ?? 0) >= 3 && avgBand > 0 && avgBand < 5.5;
 
   useEffect(() => {
     const onRequest = (e: Event) => {
@@ -158,6 +167,20 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast }) => {
               : `This is part of ${PLAN_LABELS.plus} — plans are being finalised, so it isn't available on the free plan just yet.`}
           </p>
 
+          {showBandHook && (
+            <div className="rounded-2xl bg-indigo-500/10 light:bg-indigo-50 border border-indigo-500/20 light:border-indigo-200 p-4 mb-5 flex items-start gap-3">
+              <TrendingUp className="w-4 h-4 text-indigo-400 light:text-indigo-600 mt-0.5 shrink-0" />
+              <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600">
+                You're averaging{' '}
+                <span className="font-black text-indigo-400 light:text-indigo-600">
+                  Band {avgBand.toFixed(1)}
+                </span>{' '}
+                across {user!.stats.questionsAnswered} marked answers. Full criterion feedback,
+                answer upgrades and exemplars are the tools for closing the gap to Band 6.
+              </p>
+            </div>
+          )}
+
           <div className="rounded-2xl bg-amber-400/5 light:bg-amber-50 border border-amber-400/20 light:border-amber-200 p-4 mb-6">
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 light:text-amber-700 flex items-center gap-2 mb-3">
               <Sparkles className="w-3.5 h-3.5" /> Included in {PLAN_LABELS.plus}
@@ -218,6 +241,9 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast }) => {
               {billingPeriod === 'yearly' && (
                 <p className="mt-2 text-center text-[10px] font-bold text-emerald-500">
                   {PLAN_PRICING.yearlyNote}
+                  <span className="block mt-0.5 font-medium text-[rgb(var(--color-text-muted))] light:text-slate-400">
+                    A year of unlimited marking for less than one hour of tutoring.
+                  </span>
                 </p>
               )}
             </div>

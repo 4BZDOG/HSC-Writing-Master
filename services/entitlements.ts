@@ -44,7 +44,7 @@ export const MONETISATION_ENABLED = true;
 
 export const PLAN_LABELS: Record<Plan, string> = {
   free: 'Free',
-  plus: 'Writing Studio Plus',
+  plus: 'Band 6 Plus',
   school: 'School',
 };
 

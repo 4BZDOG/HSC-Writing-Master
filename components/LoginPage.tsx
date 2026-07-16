@@ -222,13 +222,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
         <div className="flex flex-col gap-2">
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-indigo-400 opacity-80">
-            AI Marking Assistant
+            HSC Writing Coach
           </span>
           <h1 className="text-4xl font-bold tracking-tight text-white light:text-slate-900 leading-none">
-            Writing<span className="text-indigo-500">.</span>Studio
+            Band <span className="text-indigo-500">6</span>
           </h1>
           <p className="text-slate-400 light:text-slate-500 text-sm font-medium mt-4 max-w-xs mx-auto leading-relaxed">
-            AI writing coach and marker for NSW HSC courses.
+            The AI writing coach and marker for NSW HSC courses.
           </p>
         </div>
       </div>

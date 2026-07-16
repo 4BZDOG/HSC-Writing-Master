@@ -549,7 +549,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
                 }
                 title={
                   studioLocked
-                    ? 'AI sample-answer generation is part of Writing Studio Plus — tap to learn more'
+                    ? 'AI sample-answer generation is part of Band 6 Plus — tap to learn more'
                     : undefined
                 }
                 className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-bold shadow-sm hover:shadow transition-all ${
