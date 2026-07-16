@@ -1405,7 +1405,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       </div>
 
       {/* Tree Container */}
-      <div className="flex-1 overflow-y-auto bg-[rgb(var(--color-bg-base))] custom-scrollbar">
+      <div className="flex-1 min-h-0 overflow-y-auto bg-[rgb(var(--color-bg-base))] custom-scrollbar">
         <div className="min-w-[1000px] pb-40">
           {filteredTreeData.length > 0 ? (
             filteredTreeData.map((node) => renderNode(node))

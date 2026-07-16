@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import PromptSelector from './components/PromptSelector';
 import Workspace from './components/Workspace';
 import Toast from './components/Toast';
@@ -176,13 +176,16 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     currentDotPoint,
     currentPrompt,
   } = useNavigation(courses, isReady);
-  const currentSelection = {
-    currentCourse,
-    currentTopic,
-    currentSubTopic,
-    currentDotPoint,
-    currentPrompt,
-  };
+  const currentSelection = useMemo(
+    () => ({
+      currentCourse,
+      currentTopic,
+      currentSubTopic,
+      currentDotPoint,
+      currentPrompt,
+    }),
+    [currentCourse, currentTopic, currentSubTopic, currentDotPoint, currentPrompt]
+  );
 
   const [isFocusMode, setIsFocusMode] = useState(false);
   // Writing experience: 'coach' surfaces live feedback (highlighting, insights,
@@ -250,10 +253,16 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     closeQualityCheck,
   } = useModalManager({
     onRename: confirmRename,
-    onDelete: (target) => {
-      const newPath = confirmDelete(statePath, target);
-      setStatePath(newPath);
-    },
+    // Stable reference: an inline arrow here would be recreated on every App
+    // render, cascading through useModalManager's confirmDelete into the
+    // memoised handler bags and defeating Workspace's React.memo.
+    onDelete: useCallback(
+      (target: { type: string; id: string; name: string }) => {
+        const newPath = confirmDelete(statePath, target);
+        setStatePath(newPath);
+      },
+      [confirmDelete, statePath, setStatePath]
+    ),
   });
 
   useEffect(() => {
@@ -300,7 +309,13 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     statePath,
     currentPrompt,
     currentCourse,
-    onApiKeyInvalid: () => showToast('API key mismatch detected.', 'error'),
+    // Stable reference — an inline arrow here destabilised handleApiError and,
+    // through it, every generation handler in useGemini on each App render,
+    // defeating Workspace's React.memo.
+    onApiKeyInvalid: useCallback(
+      () => showToast('API key mismatch detected.', 'error'),
+      [showToast]
+    ),
     user,
     onUpdateUser,
   });
@@ -355,7 +370,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     return () => clearTimeout(timer);
   }, [newlyAddedIds]);
 
-  const handleEvaluate = () => {
+  const handleEvaluate = useCallback(() => {
     if (!currentPrompt || !userAnswer.trim()) return;
     if (isEvalLimitReached(user)) {
       showToast(
@@ -366,7 +381,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       return;
     }
     evaluate(userAnswer, currentPrompt);
-  };
+  }, [currentPrompt, userAnswer, user, showToast, evaluate]);
 
   useEffect(() => {
     if (evaluationResult) recordEvaluation();
@@ -400,70 +415,147 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     setIsNavExpanded(!currentPrompt);
   }, [currentPrompt?.id]);
 
-  const modalHandlers = {
-    isModalOpen,
-    openModal,
-    closeModal,
-    showConfirmation,
-    requestRename,
-    requestDelete,
-    confirmRename: onConfirmRename,
-    cancelRename,
-    confirmDelete: onConfirmDelete,
-    cancelDelete,
-    handleConfirmAction,
-    cancelConfirmation,
-    showQualityCheck,
-    closeQualityCheck,
-  };
-  const syllabusHandlers = {
-    handleCreateCourse,
-    handleCreateTopic,
-    handleCreateSubTopic,
-    handleAddDotPoints,
-    handleGeneratePrompt,
-    confirmRename,
-    confirmDelete,
-    handleUpdateOutcomes,
-    handleSampleAnswerGenerated,
-    handleUpdateSampleAnswer,
-    handleDeleteSampleAnswer,
-    handleContributeSampleAnswer,
-    handleImportCourses,
-    handleImportTopic,
-    handleClearAllData,
-    handleResetToDefault,
-    updateCourses,
-    discoveredDocs,
-    importDiscoveredDocs,
-    handleMoveTopic,
-    onResetApiStats: () => apiMonitor.resetAll(),
-  };
-  const geminiHandlers = {
-    evaluationResult,
-    setEvaluationResult,
-    handleGenerateScenario,
-    handleRegenerateKeywords,
-    recalibrateSamples,
-    handleSuggestKeywords,
-    suggestOutcomesForPrompt,
-    improveAnswer,
-    improvedAnswer,
-    setImprovedAnswer,
-    originalAnswerForImprovement,
-    setOriginalAnswerForImprovement,
-    isGeneratingScenario,
-    generateScenarioError,
-    isRegeneratingKeywords,
-    regenerateKeywordsError,
-    isSuggestingKeywords,
-    suggestKeywordsError,
-    generateDotPointsForSubTopic,
-    handleStartFullSyllabusImport,
-    resetEvaluation,
-    handleFeedbackSubmit,
-    setEnrichError,
-  };
+  const onResetApiStats = useCallback(() => apiMonitor.resetAll(), []);
+  const onToggleFocusMode = useCallback(() => setIsFocusMode((f) => !f), []);
+
+  // These handler bags are passed to the memoised Workspace. Wrapping each in
+  // useMemo (with every member as a dep) keeps its reference stable except when
+  // a member actually changes — so merely opening or closing a modal (which only
+  // touches activeModals) no longer re-renders the whole writing area. Note:
+  // `isModalOpen` is deliberately NOT in modalHandlers — nothing reads it via the
+  // bag, and it changes on every modal toggle, which would defeat the memo.
+  const modalHandlers = useMemo(
+    () => ({
+      openModal,
+      closeModal,
+      showConfirmation,
+      requestRename,
+      requestDelete,
+      confirmRename: onConfirmRename,
+      cancelRename,
+      confirmDelete: onConfirmDelete,
+      cancelDelete,
+      handleConfirmAction,
+      cancelConfirmation,
+      showQualityCheck,
+      closeQualityCheck,
+    }),
+    [
+      openModal,
+      closeModal,
+      showConfirmation,
+      requestRename,
+      requestDelete,
+      onConfirmRename,
+      cancelRename,
+      onConfirmDelete,
+      cancelDelete,
+      handleConfirmAction,
+      cancelConfirmation,
+      showQualityCheck,
+      closeQualityCheck,
+    ]
+  );
+  const syllabusHandlers = useMemo(
+    () => ({
+      handleCreateCourse,
+      handleCreateTopic,
+      handleCreateSubTopic,
+      handleAddDotPoints,
+      handleGeneratePrompt,
+      confirmRename,
+      confirmDelete,
+      handleUpdateOutcomes,
+      handleSampleAnswerGenerated,
+      handleUpdateSampleAnswer,
+      handleDeleteSampleAnswer,
+      handleContributeSampleAnswer,
+      handleImportCourses,
+      handleImportTopic,
+      handleClearAllData,
+      handleResetToDefault,
+      updateCourses,
+      discoveredDocs,
+      importDiscoveredDocs,
+      handleMoveTopic,
+      onResetApiStats,
+    }),
+    [
+      handleCreateCourse,
+      handleCreateTopic,
+      handleCreateSubTopic,
+      handleAddDotPoints,
+      handleGeneratePrompt,
+      confirmRename,
+      confirmDelete,
+      handleUpdateOutcomes,
+      handleSampleAnswerGenerated,
+      handleUpdateSampleAnswer,
+      handleDeleteSampleAnswer,
+      handleContributeSampleAnswer,
+      handleImportCourses,
+      handleImportTopic,
+      handleClearAllData,
+      handleResetToDefault,
+      updateCourses,
+      discoveredDocs,
+      importDiscoveredDocs,
+      handleMoveTopic,
+      onResetApiStats,
+    ]
+  );
+  const geminiHandlers = useMemo(
+    () => ({
+      evaluationResult,
+      setEvaluationResult,
+      handleGenerateScenario,
+      handleRegenerateKeywords,
+      recalibrateSamples,
+      handleSuggestKeywords,
+      suggestOutcomesForPrompt,
+      improveAnswer,
+      improvedAnswer,
+      setImprovedAnswer,
+      originalAnswerForImprovement,
+      setOriginalAnswerForImprovement,
+      isGeneratingScenario,
+      generateScenarioError,
+      isRegeneratingKeywords,
+      regenerateKeywordsError,
+      isSuggestingKeywords,
+      suggestKeywordsError,
+      generateDotPointsForSubTopic,
+      handleStartFullSyllabusImport,
+      resetEvaluation,
+      handleFeedbackSubmit,
+      setEnrichError,
+    }),
+    [
+      evaluationResult,
+      setEvaluationResult,
+      handleGenerateScenario,
+      handleRegenerateKeywords,
+      recalibrateSamples,
+      handleSuggestKeywords,
+      suggestOutcomesForPrompt,
+      improveAnswer,
+      improvedAnswer,
+      setImprovedAnswer,
+      originalAnswerForImprovement,
+      setOriginalAnswerForImprovement,
+      isGeneratingScenario,
+      generateScenarioError,
+      isRegeneratingKeywords,
+      regenerateKeywordsError,
+      isSuggestingKeywords,
+      suggestKeywordsError,
+      generateDotPointsForSubTopic,
+      handleStartFullSyllabusImport,
+      resetEvaluation,
+      handleFeedbackSubmit,
+      setEnrichError,
+    ]
+  );
 
   // The navigator is "collapsed" (shown as a breadcrumb bar) when a question is
   // selected and the student hasn't re-opened it to change their choice.
@@ -790,7 +882,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
             syllabusHandlers={syllabusHandlers}
             userRole={user.role}
             isFocusMode={isFocusMode}
-            onToggleFocusMode={() => setIsFocusMode(!isFocusMode)}
+            onToggleFocusMode={onToggleFocusMode}
             writingMode={writingMode}
             onWritingModeChange={setWritingMode}
             showBreadcrumb={!isNavCollapsed}

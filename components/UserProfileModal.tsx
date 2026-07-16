@@ -219,7 +219,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
         <MeshOverlay opacity="opacity-[0.03]" />
 
         {/* Profile Identity Header */}
-        <div className="px-5 sm:px-12 py-6 sm:py-10 flex flex-col md:flex-row items-center gap-5 md:gap-10 border-b border-white/5 light:border-slate-100 relative overflow-hidden">
+        <div className="flex-shrink-0 px-5 sm:px-12 py-6 sm:py-8 flex flex-col md:flex-row items-center gap-5 md:gap-10 border-b border-white/5 light:border-slate-100 relative overflow-hidden">
           <div className="relative group shrink-0">
             <div
               className={`absolute inset-0 bg-gradient-to-br ${bandConfig.gradient} blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-700`}
@@ -266,18 +266,32 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 {user.role}
               </span>
             </div>
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-6 text-slate-400 text-sm font-medium">
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 sm:gap-6 text-slate-400 text-sm font-medium">
               <span className="flex items-center gap-2">
-                <Shield className="w-4 h-4 text-indigo-500" /> User Level
+                <Shield className="w-4 h-4 text-indigo-500" /> Level {user.stats.level}
               </span>
               <span className="flex items-center gap-2">
                 <Flame className="w-4 h-4 text-orange-500" /> {user.stats.streakDays} Day Active
                 Streak
               </span>
             </div>
+
+            {/* Level progress — inline on mobile/tablet where the side column is
+                hidden, so the XP bar is never lost on smaller screens. */}
+            <div className="lg:hidden mt-4 flex items-center gap-3 justify-center md:justify-start">
+              <div className="w-40 h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/5">
+                <div
+                  className={`h-full bg-gradient-to-r ${bandConfig.gradient}`}
+                  style={{ width: `${progressPercent}%` }}
+                />
+              </div>
+              <span className="text-[10px] font-mono font-bold text-indigo-400">
+                {Math.round(progressPercent)}% to next level
+              </span>
+            </div>
           </div>
 
-          <div className="flex-shrink-0 flex flex-col items-end gap-2 hidden lg:flex">
+          <div className="flex-shrink-0 flex-col items-end gap-2 hidden lg:flex">
             <div className="flex items-center gap-2">
               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                 Level Progress
@@ -296,7 +310,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-white/5 light:border-slate-100 px-4 sm:px-10 bg-black/10 light:bg-slate-50/50 overflow-x-auto scrollbar-hide">
+        <div className="flex-shrink-0 flex border-b border-white/5 light:border-slate-100 px-4 sm:px-10 bg-black/10 light:bg-slate-50/50 overflow-x-auto scrollbar-hide">
           {[
             { id: 'overview', icon: Zap, label: 'Stats' },
             { id: 'achievements', icon: Award, label: 'Achievements' },
@@ -314,7 +328,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto p-5 sm:p-12 custom-scrollbar">
+        <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-12 custom-scrollbar">
           {activeTab === 'overview' && (
             <div className="space-y-12 animate-fade-in">
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
@@ -497,7 +511,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
         </div>
 
         {/* Modular Footer */}
-        <div className="px-12 py-8 border-t border-white/5 light:border-slate-100 bg-black/20 light:bg-slate-50 flex justify-between items-center z-10">
+        <div className="flex-shrink-0 px-6 sm:px-12 py-5 sm:py-6 border-t border-white/5 light:border-slate-100 bg-black/20 light:bg-slate-50 flex justify-between items-center z-10">
           <button
             onClick={() => {
               onClose();
@@ -509,7 +523,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
           </button>
           <button
             onClick={onClose}
-            className="px-8 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 hover:text-white light:hover:text-slate-900 transition-colors"
+            className="px-8 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-[0.2em] text-white bg-white/10 light:bg-slate-200 light:text-slate-700 border border-white/10 light:border-slate-300 hover:bg-white/20 light:hover:bg-slate-300 active:scale-[0.98] transition-all"
           >
             Close
           </button>

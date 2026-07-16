@@ -417,7 +417,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
         className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 relative">
+        <div className="flex-shrink-0 px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 relative">
           {/* Cubic Mesh Texture Overlay */}
           <div
             className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
@@ -453,7 +453,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
         {/* Stacks on phones: the fixed 16rem sidebar left the content pane a
             sliver on a 390px screen; below md it becomes a horizontal tab
             strip above the full-width content. */}
-        <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
+        <div className="flex flex-col md:flex-row flex-1 min-h-0 overflow-hidden">
           <div className="w-full md:w-64 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border-b md:border-b-0 md:border-r border-[rgb(var(--color-border-secondary))] light:border-slate-200 p-3 md:p-4 flex flex-row md:flex-col gap-2 flex-shrink-0 overflow-x-auto scrollbar-hide">
             <button
               onClick={() => setView('overview')}
@@ -475,7 +475,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4 sm:p-8 bg-[rgb(var(--color-bg-surface))]/50 light:bg-white relative">
+          <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-8 bg-[rgb(var(--color-bg-surface))]/50 light:bg-white relative">
             {view === 'overview' && (
               <>
                 {isLoading && !stats ? (
@@ -801,7 +801,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
           </div>
         </div>
 
-        <div className="px-6 py-5 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-between items-center">
+        <div className="flex-shrink-0 px-6 py-5 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-between items-center">
           <div className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-500">
             Local Database: {isLoading || isRestoring ? 'Busy...' : 'Ready'}
           </div>
