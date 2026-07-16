@@ -364,9 +364,11 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
 
       {step === 'preview' && (
         <>
-          <div className="flex-1 overflow-hidden grid grid-cols-1 md:grid-cols-2">
+          {/* Mobile: single scrolling page with a height-capped tree.
+              Desktop (md+): two fixed-height columns, each with its own scroll. */}
+          <div className="flex-1 overflow-y-auto md:overflow-hidden grid grid-cols-1 md:grid-cols-2 custom-scrollbar">
             {/* Left Column: Selection Tree */}
-            <div className="flex flex-col h-full border-b md:border-b-0 md:border-r border-[rgb(var(--color-border-secondary))]">
+            <div className="flex flex-col md:h-full border-b md:border-b-0 md:border-r border-[rgb(var(--color-border-secondary))]">
               <div className="px-4 py-3 bg-[rgb(var(--color-bg-surface-elevated))]/50 border-b border-[rgb(var(--color-border-secondary))] flex items-center justify-between">
                 <h4 className="text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                   Select Content
@@ -387,7 +389,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
                   </button>
                 </div>
               </div>
-              <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
+              <div className="flex-1 overflow-y-auto p-4 custom-scrollbar max-h-[45vh] md:max-h-none">
                 <SelectionTree
                   items={treeData}
                   selectedIds={selectedIds}
@@ -399,7 +401,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
             </div>
 
             {/* Right Column: Settings */}
-            <div className="flex flex-col h-full overflow-y-auto custom-scrollbar bg-[rgb(var(--color-bg-surface))]/30">
+            <div className="flex flex-col md:h-full md:overflow-y-auto custom-scrollbar bg-[rgb(var(--color-bg-surface))]/30">
               <div className="px-4 py-3 bg-[rgb(var(--color-bg-surface-elevated))]/50 border-b border-[rgb(var(--color-border-secondary))]">
                 <h4 className="text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                   Configuration
@@ -492,6 +494,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
             onConfirm={handleProceedToImport}
             confirmText="Import Selected"
             isConfirmDisabled={selectedIds.size === 0}
+            hint={selectedIds.size === 0 ? 'Select at least one item to import.' : undefined}
           />
         </>
       )}

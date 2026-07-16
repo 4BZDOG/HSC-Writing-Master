@@ -182,7 +182,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
           </div>
           <button
             onClick={onBack}
-            className="text-xs font-bold text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] flex items-center gap-1 self-start"
+            className="text-xs font-bold text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] flex items-center gap-1 self-start py-1.5 px-2 -mx-2 rounded-lg hover:bg-white/5 transition-colors"
           >
             <ArrowLeft className="w-3 h-3" /> Back
           </button>
@@ -199,11 +199,12 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
             <span className="text-[rgb(var(--color-text-muted))]">{stats.remaining} remaining</span>
           </div>
           {stats.remaining > 0 && (
-            <div className="flex items-center gap-2 ml-auto">
+            <div className="flex items-center gap-2 w-full sm:w-auto sm:ml-auto">
               {bulkCourse && (
                 <button
                   onClick={() => setShowBulkPlacer(!showBulkPlacer)}
-                  className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border transition-all flex items-center gap-1.5 ${
+                  aria-expanded={showBulkPlacer}
+                  className={`flex-1 sm:flex-none justify-center text-[10px] font-bold px-3 py-2 sm:py-1.5 rounded-lg border transition-all flex items-center gap-1.5 ${
                     showBulkPlacer
                       ? 'text-emerald-400 bg-emerald-500/15 border-emerald-500/30'
                       : 'text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 border-emerald-500/20'
@@ -214,7 +215,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
               )}
               <button
                 onClick={handleSkipAll}
-                className="text-[10px] font-bold text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 px-3 py-1.5 rounded-lg border border-amber-500/20 transition-all flex items-center gap-1.5"
+                className="flex-1 sm:flex-none justify-center text-[10px] font-bold text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 px-3 py-2 sm:py-1.5 rounded-lg border border-amber-500/20 transition-all flex items-center gap-1.5"
               >
                 <SkipForward className="w-3 h-3" /> Skip All Remaining
               </button>
@@ -239,13 +240,17 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               <div>
-                <label className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1 block">
+                <label
+                  htmlFor="bulk-topic"
+                  className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1 block"
+                >
                   Topic
                 </label>
                 <select
+                  id="bulk-topic"
                   value={bulkPlacement.topicId || ''}
                   onChange={(e) => setBulkPlacement({ topicId: e.target.value || undefined })}
-                  className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors"
+                  className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2.5 sm:p-2 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors"
                 >
                   <option value="">Select topic...</option>
                   {bulkCourse.topics.map((t) => (
@@ -256,10 +261,14 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                 </select>
               </div>
               <div>
-                <label className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1 block">
+                <label
+                  htmlFor="bulk-subtopic"
+                  className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1 block"
+                >
                   Sub-topic
                 </label>
                 <select
+                  id="bulk-subtopic"
                   value={bulkPlacement.subTopicId || ''}
                   onChange={(e) =>
                     setBulkPlacement((prev) => ({
@@ -268,7 +277,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                     }))
                   }
                   disabled={!bulkPlacement.topicId}
-                  className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors disabled:opacity-40"
+                  className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2.5 sm:p-2 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors disabled:opacity-40"
                 >
                   <option value="">{bulkPlacement.topicId ? 'Select sub-topic...' : '—'}</option>
                   {(
@@ -281,10 +290,14 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                 </select>
               </div>
               <div>
-                <label className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1 block">
+                <label
+                  htmlFor="bulk-dotpoint"
+                  className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1 block"
+                >
                   Dot Point
                 </label>
                 <select
+                  id="bulk-dotpoint"
                   value={bulkPlacement.dotPointId || ''}
                   onChange={(e) =>
                     setBulkPlacement((prev) => ({
@@ -294,7 +307,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                     }))
                   }
                   disabled={!bulkPlacement.subTopicId}
-                  className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors disabled:opacity-40"
+                  className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2.5 sm:p-2 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors disabled:opacity-40"
                 >
                   <option value="">{bulkPlacement.subTopicId ? 'Select dot point...' : '—'}</option>
                   {(
@@ -317,7 +330,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                 disabled={
                   !bulkPlacement.topicId || !bulkPlacement.subTopicId || !bulkPlacement.dotPointId
                 }
-                className="text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 px-4 py-2 rounded-lg transition-all disabled:opacity-40 disabled:hover:bg-emerald-600 flex items-center gap-1.5"
+                className="w-full sm:w-auto justify-center text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 px-4 py-2.5 sm:py-2 rounded-lg transition-all disabled:opacity-40 disabled:hover:bg-emerald-600 flex items-center gap-1.5"
               >
                 <MapPin className="w-3.5 h-3.5" />
                 Place {stats.remaining} Group{stats.remaining !== 1 ? 's' : ''}
@@ -381,8 +394,11 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                     </div>
                     <button
                       onClick={() => toggleExpand(group.id)}
-                      className="p-1.5 rounded-lg hover:bg-white/5 text-[rgb(var(--color-text-muted))] transition-colors shrink-0"
-                      aria-label={isExpanded ? 'Collapse' : 'Expand'}
+                      className="p-2 rounded-lg hover:bg-white/5 text-[rgb(var(--color-text-muted))] transition-colors shrink-0"
+                      aria-label={
+                        isExpanded ? 'Collapse question preview' : 'Expand question preview'
+                      }
+                      aria-expanded={isExpanded}
                     >
                       {isExpanded ? (
                         <ChevronUp className="w-4 h-4" />
@@ -393,7 +409,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                   </div>
 
                   {isExpanded && (
-                    <div className="mb-4 ml-6 p-3 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 border border-[rgb(var(--color-border-secondary))]/50 animate-fade-in">
+                    <div className="mb-4 sm:ml-6 p-3 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 border border-[rgb(var(--color-border-secondary))]/50 animate-fade-in">
                       <p className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-2">
                         Questions in this group
                       </p>
@@ -421,30 +437,34 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                   )}
 
                   {placement.skipped ? (
-                    <div className="flex items-center justify-between ml-6">
+                    <div className="flex items-center justify-between gap-3 sm:ml-6">
                       <span className="text-xs font-medium text-amber-400 italic">
                         Skipped — these questions will not be imported.
                       </span>
                       <button
                         onClick={() => updatePlacement(group.id, { skipped: false })}
-                        className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] transition-colors"
+                        className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] transition-colors py-1.5 px-2 -my-1.5 rounded-lg hover:bg-white/5"
                       >
                         Undo
                       </button>
                     </div>
                   ) : (
-                    <div className="ml-6 space-y-2">
+                    <div className="sm:ml-6 space-y-2">
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                         <div>
-                          <label className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1 block">
+                          <label
+                            htmlFor={`${group.id}-topic`}
+                            className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1 block"
+                          >
                             Topic
                           </label>
                           <select
+                            id={`${group.id}-topic`}
                             value={placement.topicId || ''}
                             onChange={(e) =>
                               updatePlacement(group.id, { topicId: e.target.value || undefined })
                             }
-                            className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-[rgb(var(--color-accent))] transition-colors"
+                            className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2.5 sm:p-2 focus:outline-none focus:ring-1 focus:ring-[rgb(var(--color-accent))] transition-colors"
                           >
                             <option value="">Select topic...</option>
                             {topics.map((t) => (
@@ -456,10 +476,14 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                         </div>
 
                         <div>
-                          <label className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1 block">
+                          <label
+                            htmlFor={`${group.id}-subtopic`}
+                            className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1 block"
+                          >
                             Sub-topic
                           </label>
                           <select
+                            id={`${group.id}-subtopic`}
                             value={placement.subTopicId || ''}
                             onChange={(e) =>
                               updatePlacement(group.id, {
@@ -467,7 +491,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                               })
                             }
                             disabled={!placement.topicId}
-                            className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-[rgb(var(--color-accent))] transition-colors disabled:opacity-40"
+                            className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2.5 sm:p-2 focus:outline-none focus:ring-1 focus:ring-[rgb(var(--color-accent))] transition-colors disabled:opacity-40"
                           >
                             <option value="">
                               {placement.topicId ? 'Select sub-topic...' : '—'}
@@ -481,10 +505,14 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                         </div>
 
                         <div>
-                          <label className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1 block">
+                          <label
+                            htmlFor={`${group.id}-dotpoint`}
+                            className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1 block"
+                          >
                             Dot Point
                           </label>
                           <select
+                            id={`${group.id}-dotpoint`}
                             value={placement.dotPointId || ''}
                             onChange={(e) =>
                               updatePlacement(group.id, {
@@ -492,7 +520,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                               })
                             }
                             disabled={!placement.subTopicId}
-                            className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-[rgb(var(--color-accent))] transition-colors disabled:opacity-40"
+                            className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2.5 sm:p-2 focus:outline-none focus:ring-1 focus:ring-[rgb(var(--color-accent))] transition-colors disabled:opacity-40"
                           >
                             <option value="">
                               {placement.subTopicId ? 'Select dot point...' : '—'}
@@ -518,7 +546,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                       <div className="flex justify-end">
                         <button
                           onClick={() => updatePlacement(group.id, { skipped: true })}
-                          className="text-[10px] font-bold text-amber-400/70 hover:text-amber-400 transition-colors flex items-center gap-1"
+                          className="text-[10px] font-bold text-amber-400/70 hover:text-amber-400 transition-colors flex items-center gap-1 py-1.5 px-2 -my-1 rounded-lg hover:bg-amber-500/10"
                         >
                           <SkipForward className="w-3 h-3" /> Skip
                         </button>
@@ -537,6 +565,11 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
         onConfirm={handleApply}
         confirmText={`Apply & Continue (${stats.placed} placed)`}
         isConfirmDisabled={stats.remaining > 0}
+        hint={
+          stats.remaining > 0
+            ? `Place or skip ${stats.remaining} remaining group${stats.remaining !== 1 ? 's' : ''} to continue.`
+            : undefined
+        }
       />
     </div>
   );

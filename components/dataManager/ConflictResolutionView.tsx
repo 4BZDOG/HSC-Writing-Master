@@ -24,7 +24,7 @@ const ConflictResolutionView = ({ conflicts, onResolve, onBack }: ConflictResolu
 
   return (
     <div className="flex flex-col h-full">
-      <div className="px-8 py-6 border-b border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-inset))]/30 flex-shrink-0 flex items-center justify-between">
+      <div className="px-6 md:px-8 py-5 md:py-6 border-b border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-inset))]/30 flex-shrink-0 flex items-center justify-between gap-3">
         <div>
           <h3 className="text-lg font-bold text-[rgb(var(--color-text-primary))] flex items-center gap-2">
             <AlertTriangle className="w-5 h-5 text-amber-500" /> Conflict Resolution
@@ -65,8 +65,8 @@ const ConflictResolutionView = ({ conflicts, onResolve, onBack }: ConflictResolu
                 key={course.id}
                 className={`p-4 rounded-xl border transition-all ${action === 'merge' ? 'bg-blue-500/5 border-blue-500/30' : 'bg-amber-500/5 border-amber-500/30'}`}
               >
-                <div className="flex justify-between items-center">
-                  <div>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                  <div className="min-w-0">
                     <p className="font-bold text-[rgb(var(--color-text-primary))] text-sm">
                       {course.name}
                     </p>
@@ -87,16 +87,18 @@ const ConflictResolutionView = ({ conflicts, onResolve, onBack }: ConflictResolu
                       })()}
                     </p>
                   </div>
-                  <div className="flex items-center bg-[rgb(var(--color-bg-surface))] rounded-lg p-1 border border-[rgb(var(--color-border-secondary))]">
+                  <div className="flex items-center bg-[rgb(var(--color-bg-surface))] rounded-lg p-1 border border-[rgb(var(--color-border-secondary))] self-stretch sm:self-auto shrink-0">
                     <button
                       onClick={() => handleResolutionChange(course.id, 'merge')}
-                      className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all flex items-center gap-1.5 ${action === 'merge' ? 'bg-blue-500 text-white shadow-sm' : 'text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]'}`}
+                      aria-pressed={action === 'merge'}
+                      className={`flex-1 sm:flex-none justify-center px-3 py-2 sm:py-1.5 rounded-md text-xs font-bold transition-all flex items-center gap-1.5 ${action === 'merge' ? 'bg-blue-500 text-white shadow-sm' : 'text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]'}`}
                     >
                       <GitMerge className="w-3 h-3" /> Merge
                     </button>
                     <button
                       onClick={() => handleResolutionChange(course.id, 'skip')}
-                      className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all flex items-center gap-1.5 ${action === 'skip' ? 'bg-amber-500 text-white shadow-sm' : 'text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]'}`}
+                      aria-pressed={action === 'skip'}
+                      className={`flex-1 sm:flex-none justify-center px-3 py-2 sm:py-1.5 rounded-md text-xs font-bold transition-all flex items-center gap-1.5 ${action === 'skip' ? 'bg-amber-500 text-white shadow-sm' : 'text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]'}`}
                     >
                       <SkipForward className="w-3 h-3" /> Skip
                     </button>
@@ -119,6 +121,14 @@ const ConflictResolutionView = ({ conflicts, onResolve, onBack }: ConflictResolu
         onCancel={onBack}
         onConfirm={() => onResolve(resolutions)}
         confirmText="Confirm Resolution"
+        hint={(() => {
+          let mergeCount = 0;
+          resolutions.forEach((r) => {
+            if (r === 'merge') mergeCount++;
+          });
+          const skipCount = conflicts.length - mergeCount;
+          return `${mergeCount} to merge · ${skipCount} to skip`;
+        })()}
       />
     </div>
   );
