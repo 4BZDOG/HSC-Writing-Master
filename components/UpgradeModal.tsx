@@ -8,6 +8,8 @@ import {
   PremiumFeatureKey,
   createCheckoutUrl,
   STRIPE_PRICE_IDS,
+  PLAN_PRICING,
+  SCHOOL_CONTACT_EMAIL,
 } from '../services/entitlements';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 
@@ -173,29 +175,51 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast }) => {
             </ul>
           </div>
 
-          {/* Billing period toggle (only when Stripe is live) */}
+          {/* Billing period toggle with real prices — a paywall that hides the
+              price converts far worse than one that states it plainly. */}
           {stripeReady && (
-            <div className="flex items-center justify-center gap-2 mb-5">
-              <button
-                onClick={() => setBillingPeriod('monthly')}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                  billingPeriod === 'monthly'
-                    ? 'bg-amber-400/20 text-amber-600 dark:text-amber-400 border border-amber-400/40'
-                    : 'text-slate-400 hover:text-slate-300'
-                }`}
-              >
-                Monthly
-              </button>
-              <button
-                onClick={() => setBillingPeriod('yearly')}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-                  billingPeriod === 'yearly'
-                    ? 'bg-amber-400/20 text-amber-600 dark:text-amber-400 border border-amber-400/40'
-                    : 'text-slate-400 hover:text-slate-300'
-                }`}
-              >
-                Yearly <Zap className="w-3 h-3" />
-              </button>
+            <div className="mb-5">
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  onClick={() => setBillingPeriod('monthly')}
+                  aria-pressed={billingPeriod === 'monthly'}
+                  className={`px-4 py-3 rounded-xl text-left transition-all border ${
+                    billingPeriod === 'monthly'
+                      ? 'bg-amber-400/20 border-amber-400/40'
+                      : 'border-white/5 light:border-slate-200 hover:border-amber-400/20'
+                  }`}
+                >
+                  <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400">
+                    Monthly
+                  </span>
+                  <span className="block text-lg font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
+                    {PLAN_PRICING.monthly}
+                    <span className="text-[10px] font-bold text-slate-400"> /month</span>
+                  </span>
+                </button>
+                <button
+                  onClick={() => setBillingPeriod('yearly')}
+                  aria-pressed={billingPeriod === 'yearly'}
+                  className={`px-4 py-3 rounded-xl text-left transition-all border relative ${
+                    billingPeriod === 'yearly'
+                      ? 'bg-amber-400/20 border-amber-400/40'
+                      : 'border-white/5 light:border-slate-200 hover:border-amber-400/20'
+                  }`}
+                >
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1">
+                    Yearly <Zap className="w-3 h-3 text-amber-500" />
+                  </span>
+                  <span className="block text-lg font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
+                    {PLAN_PRICING.yearly}
+                    <span className="text-[10px] font-bold text-slate-400"> /year</span>
+                  </span>
+                </button>
+              </div>
+              {billingPeriod === 'yearly' && (
+                <p className="mt-2 text-center text-[10px] font-bold text-emerald-500">
+                  {PLAN_PRICING.yearlyNote}
+                </p>
+              )}
             </div>
           )}
 
@@ -214,6 +238,38 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast }) => {
             >
               Maybe later
             </button>
+          </div>
+
+          {stripeReady && (
+            <p className="mt-3 text-center text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-400">
+              Cancel anytime from your profile — no lock-in.
+            </p>
+          )}
+
+          {/* Teachers buying for a class, or schools buying seats, need a human
+              conversation rather than an individual checkout. */}
+          <div className="mt-4 pt-4 border-t border-white/5 light:border-slate-100 text-center">
+            {SCHOOL_CONTACT_EMAIL ? (
+              <a
+                href={`mailto:${SCHOOL_CONTACT_EMAIL}?subject=${encodeURIComponent('School / class licence enquiry')}`}
+                className="text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline"
+              >
+                Buying for a class or school? Ask about a school licence →
+              </a>
+            ) : (
+              <button
+                onClick={() => {
+                  showToast(
+                    'School licensing is coming — ask your school admin to register interest.',
+                    'info'
+                  );
+                  close();
+                }}
+                className="text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline"
+              >
+                Buying for a class or school? Ask about a school licence →
+              </button>
+            )}
           </div>
         </div>
       </div>

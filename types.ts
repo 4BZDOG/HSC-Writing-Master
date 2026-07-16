@@ -211,6 +211,8 @@ export interface User {
    *  checkout completes or a subscription changes. Absent until Stripe is
    *  live — getUserPlan() falls back to role-based resolution. */
   stripePlan?: 'free' | 'plus' | 'school';
+  /** ISO date the current billing period ends (renewal or expiry). */
+  planPeriodEnd?: string;
 }
 
 export interface BackgroundTask {

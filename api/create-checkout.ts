@@ -12,7 +12,7 @@
  * mock URL pointing to /#/upgrade-test so the client flow can be exercised
  * end-to-end without a real Stripe account.
  */
-import { getStripe, isStripeConfigured } from './_lib/stripe';
+import { getStripe, getSupabaseAdmin, isStripeConfigured } from './_lib/stripe';
 import { verifyRequestAuth } from './_lib/auth';
 
 interface RequestLike {
@@ -75,6 +75,21 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       (headerValue(req.headers?.referer) || '').replace(/\/[^/]*$/, '') ||
       'http://localhost:3000';
 
+    // Reuse the user's existing Stripe customer if they've checked out before.
+    // Without this every checkout creates a NEW customer, and the billing
+    // portal (which looks up the stored customer id) loses sight of older
+    // subscriptions.
+    let existingCustomerId: string | undefined;
+    const supabase = getSupabaseAdmin();
+    if (supabase) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('stripe_customer_id')
+        .eq('id', auth.userId)
+        .maybeSingle();
+      if (profile?.stripe_customer_id) existingCustomerId = profile.stripe_customer_id;
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
       payment_method_types: ['card'],
@@ -82,6 +97,12 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       success_url: `${origin}/?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/?checkout=cancelled`,
       client_reference_id: auth.userId ?? undefined,
+      ...(existingCustomerId ? { customer: existingCustomerId } : {}),
+      // Stamp the Supabase user onto the subscription itself: webhook events
+      // (customer.subscription.created) can arrive BEFORE checkout.completed
+      // links the customer id to the profile, and without this metadata the
+      // subscription handler would find no profile and silently drop the plan.
+      subscription_data: { metadata: { supabase_user_id: auth.userId } },
       allow_promotion_codes: true,
       billing_address_collection: 'auto',
       tax_id_collection: { enabled: true },

@@ -215,14 +215,30 @@ async function handleSubscriptionUpsert(supabase: SB, sub: Record<string, unknow
     .from('profiles')
     .select('id')
     .eq('stripe_customer_id', customerId)
-    .single();
+    .maybeSingle();
 
-  if (!profile) {
+  let userId = profile?.id as string | undefined;
+
+  // Webhook ordering isn't guaranteed: customer.subscription.created can land
+  // BEFORE checkout.session.completed links the customer id to the profile.
+  // create-checkout stamps the Supabase user id onto the subscription's
+  // metadata for exactly this case — use it, and backfill the customer link.
+  if (!userId) {
+    const metadata = sub.metadata as Record<string, string> | undefined;
+    const metaUserId = metadata?.supabase_user_id;
+    if (metaUserId) {
+      userId = metaUserId;
+      await supabase
+        .from('profiles')
+        .update({ stripe_customer_id: customerId })
+        .eq('id', metaUserId);
+    }
+  }
+
+  if (!userId) {
     console.warn('[stripe-webhook] No profile for customer', customerId);
     return;
   }
-
-  const userId = profile.id as string;
 
   // Upsert the subscription row.
   const { error: subError } = await supabase.from('subscriptions').upsert(
