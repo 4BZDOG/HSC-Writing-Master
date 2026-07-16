@@ -26,12 +26,15 @@ export const ASSIGNMENT_PARAM = 'assign';
 /** Builds the shareable URL, or null while any level is still unselected. */
 export const buildAssignmentLink = (
   path: StatePath,
-  origin: string = typeof window !== 'undefined' ? window.location.origin : ''
+  baseUrl: string = typeof window !== 'undefined'
+    ? `${window.location.origin}${import.meta.env.BASE_URL}`
+    : ''
 ): string | null => {
   const { courseId, topicId, subTopicId, dotPointId, promptId } = path;
   if (!courseId || !topicId || !subTopicId || !dotPointId || !promptId) return null;
   const joined = [courseId, topicId, subTopicId, dotPointId, promptId].join(PARAM_SEPARATOR);
-  return `${origin}/?${ASSIGNMENT_PARAM}=${joined}`;
+  const base = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+  return `${base}?${ASSIGNMENT_PARAM}=${joined}`;
 };
 
 /**

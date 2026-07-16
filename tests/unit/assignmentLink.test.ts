@@ -71,6 +71,20 @@ describe('buildAssignmentLink', () => {
     expect(parseAssignmentParam(raw)).toEqual(fullPath);
   });
 
+  it('includes the base path for sub-path hosting (e.g. GitHub Pages)', () => {
+    const link = buildAssignmentLink(fullPath, 'https://4bzdog.github.io/HSC-Writing-Master/');
+    expect(link).toBe(
+      `https://4bzdog.github.io/HSC-Writing-Master/?${ASSIGNMENT_PARAM}=course-1,topic-1,sub-1,dp-1,prompt-1`
+    );
+  });
+
+  it('normalises base URL without trailing slash', () => {
+    const link = buildAssignmentLink(fullPath, 'https://4bzdog.github.io/HSC-Writing-Master');
+    expect(link).toBe(
+      `https://4bzdog.github.io/HSC-Writing-Master/?${ASSIGNMENT_PARAM}=course-1,topic-1,sub-1,dp-1,prompt-1`
+    );
+  });
+
   it('round-trips realistic generateId-style UUID ids', () => {
     const uuidPath: StatePath = {
       courseId: 'course-11111111-2222-3333-4444-555555555555',
