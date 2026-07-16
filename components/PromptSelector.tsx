@@ -27,6 +27,7 @@ import {
   Lock,
   UploadCloud,
   Loader2,
+  Link2,
 } from 'lucide-react';
 import { getCommandTermInfo, extractCommandVerb } from '../data/commandTerms';
 import { getTierScaleConfig } from '../utils/renderUtils';
@@ -64,6 +65,8 @@ interface PromptSelectorProps {
   onGenerateDotPoints: () => void;
   onImportTopic: () => void;
   onImportSyllabus: () => void;
+  /** Copies a shareable link to the selected question (teachers/admins). */
+  onShareAssignment?: () => void;
   newlyAddedIds: Set<string>;
   userRole: UserRole;
 }
@@ -147,6 +150,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   onGenerateDotPoints,
   onImportTopic,
   onImportSyllabus,
+  onShareAssignment,
   newlyAddedIds,
   userRole,
 }) => {
@@ -1017,6 +1021,13 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                         title="Manual Input"
                         variant="special"
                       />
+                      {onShareAssignment && (
+                        <ActionButton
+                          onClick={onShareAssignment}
+                          icon={Link2}
+                          title="Copy assignment link — students who open it land on this question"
+                        />
+                      )}
                       <ActionButton
                         onClick={() =>
                           onDeleteItem({

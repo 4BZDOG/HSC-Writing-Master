@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronRight, BookOpen, Layers, Folder, Hash, Pencil, Award } from 'lucide-react';
+import { ChevronRight, BookOpen, Layers, Folder, Hash, Pencil, Award, Link2 } from 'lucide-react';
 import { Prompt } from '../types';
 import { getTargetBand, getCommandTermInfo } from '../data/commandTerms';
 import { getTierScaleConfig } from '../utils/renderUtils';
@@ -15,6 +15,8 @@ interface SyllabusNavBarProps {
   prompt: Prompt;
   /** Re-open the full syllabus navigator without changing the selection. */
   onExpand: () => void;
+  /** Copy a shareable link to this question (teachers/admins only). */
+  onShareAssignment?: () => void;
 }
 
 const CRUMB_ICONS = [BookOpen, Layers, Folder, Hash];
@@ -26,7 +28,12 @@ const CRUMB_ICONS = [BookOpen, Layers, Folder, Hash];
  * level can be clicked to jump back and re-choose, and "Change" re-opens the
  * full navigator with the current selection intact.
  */
-const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({ crumbs, prompt, onExpand }) => {
+const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
+  crumbs,
+  prompt,
+  onExpand,
+  onShareAssignment,
+}) => {
   const verbInfo = getCommandTermInfo(prompt.verb);
   const targetBand = getTargetBand(prompt.totalMarks, verbInfo.tier);
   // Tier-identity colour; the band number stays in the text badge.
@@ -86,6 +93,16 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({ crumbs, prompt, onExpan
               <Award className="w-3 h-3" /> Band {targetBand}
             </span>
           </div>
+          {onShareAssignment && (
+            <button
+              onClick={onShareAssignment}
+              className="flex items-center justify-center w-9 h-9 rounded-xl text-[rgb(var(--color-text-muted))] border border-[rgb(var(--color-border-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-[rgb(var(--color-bg-surface-light))]/40 active:scale-95 transition-all"
+              title="Copy assignment link — students who open it land on this question"
+              aria-label="Copy assignment link"
+            >
+              <Link2 className="w-3.5 h-3.5" />
+            </button>
+          )}
           <button
             onClick={onExpand}
             className={`flex items-center gap-2 px-3.5 h-9 rounded-xl text-[11px] font-black uppercase tracking-wider border ${band.border} ${band.bg} ${band.text} hover:brightness-110 active:scale-95 transition-all`}
