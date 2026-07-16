@@ -77,7 +77,7 @@ describe('generateContentWithRetry — missing proxy endpoint (static hosting)',
     // 404 with a real provider message still maps to the model-unavailable
     // path in callGeminiWithRetry — not the missing-endpoint diagnosis.
     await expect(generateContentWithRetry({ model: 'gemini', contents: 'p404j' })).rejects.toThrow(
-      /model is currently unavailable/
+      /model is unavailable/
     );
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });

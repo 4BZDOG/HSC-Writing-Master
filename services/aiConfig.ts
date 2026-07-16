@@ -61,14 +61,57 @@ export const setBatchModelOverride = (id: string | null): void => {
 
 export const getBatchModelOverride = (): string | null => batchOverride;
 
+// ----------------------------------------------------------------------------
+// Session-level quota-dead rerouting. When the provider tells us a model has
+// literally zero quota on the caller's key (Gemini free tier returns 429 with
+// `limit: 0` for Pro), every further request to it is guaranteed to fail — and
+// each failed call still burns a unit of the user's proxy budget. aiCore marks
+// the model dead for this session and resolveTarget silently reroutes to the
+// free-tier-capable Gemini Flash until reload.
+// ----------------------------------------------------------------------------
+
+const quotaDeadModels = new Set<string>();
+
+/**
+ * Record that a provider model string has zero quota on the caller's key.
+ * Returns true the first time (callers use this to notify the user once).
+ */
+export const markModelQuotaDead = (model: string): boolean => {
+  if (quotaDeadModels.has(model)) return false;
+  quotaDeadModels.add(model);
+  // Replace the snapshot reference: the *effective* routing changed, so
+  // useSyncExternalStore consumers (e.g. the AI Engine selector's badges)
+  // must re-read even though the stored selection ids are the same.
+  selection = { ...selection };
+  listeners.forEach((l) => l());
+  return true;
+};
+
+export const isModelQuotaDead = (model: string): boolean => quotaDeadModels.has(model);
+
+/** The free-tier-capable Gemini engine that zero-quota models reroute to. */
+export const getGeminiFreeTierFallback = (): { provider: AIProvider; model: string } => {
+  const flash = getModelById('gemini-flash')!;
+  return { provider: flash.provider, model: flash.model };
+};
+
 /** Resolves a role to the concrete provider + model the request should target. */
 export const resolveTarget = (role: AIRole): { provider: AIProvider; model: string } => {
-  if (batchOverride) {
-    const forced = getModelById(batchOverride);
-    if (forced) return { provider: forced.provider, model: forced.model };
+  let target: { provider: AIProvider; model: string };
+  if (batchOverride && getModelById(batchOverride)) {
+    const forced = getModelById(batchOverride)!;
+    target = { provider: forced.provider, model: forced.model };
+  } else {
+    const option = getModelById(selection[role]) || getModelById(DEFAULT_SELECTION[role])!;
+    target = { provider: option.provider, model: option.model };
   }
-  const option = getModelById(selection[role]) || getModelById(DEFAULT_SELECTION[role])!;
-  return { provider: option.provider, model: option.model };
+  // Reroute models known to have zero quota on this key (Gemini only — the
+  // fallback engine is Gemini Flash, so swapping providers would be wrong).
+  if (target.provider === 'gemini' && quotaDeadModels.has(target.model)) {
+    const fallback = getGeminiFreeTierFallback();
+    if (fallback.model !== target.model) return fallback;
+  }
+  return target;
 };
 
 export const subscribeAiConfig = (listener: () => void): (() => void) => {

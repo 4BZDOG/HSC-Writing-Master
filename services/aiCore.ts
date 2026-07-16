@@ -2,7 +2,9 @@ import { GenerateContentResponse } from '@google/genai';
 import { safeSetItem, safeGetItem, STORAGE_KEYS } from '../utils/storageUtils';
 import { supabase, isSupabaseConfigured } from './supabaseClient';
 import { getRuntimeKeyOverride } from './runtimeKeys';
-import { observeQuota } from './quotaNotifier';
+import { observeQuota, notifyAiNotice } from './quotaNotifier';
+import { markModelQuotaDead, getGeminiFreeTierFallback } from './aiConfig';
+import { getModelByProviderModel } from './aiModels';
 
 // All Gemini calls go through a server-side proxy so the API key never
 // reaches the browser bundle. See api/gemini.ts and api/_lib/generate.ts.
@@ -30,11 +32,60 @@ export class ApiKeyError extends Error {
 }
 
 export class QuotaExceededError extends Error {
-  constructor(message: string) {
+  /**
+   * True when the provider reported the model has literally ZERO quota on the
+   * caller's key (Gemini free tier returns `limit: 0` for Pro models) — a
+   * permanent condition for this key, as opposed to a transient rate limit.
+   */
+  zeroFreeTierQuota: boolean;
+  constructor(message: string, zeroFreeTierQuota = false) {
     super(message);
     this.name = 'QuotaExceededError';
+    this.zeroFreeTierQuota = zeroFreeTierQuota;
   }
 }
+
+/**
+ * Detects Gemini's "this model has no free-tier quota at all" 429 signature:
+ * the body lists free_tier quota metrics with `limit: 0`. Distinct from an
+ * ordinary rate limit, where the limits are non-zero and waiting helps.
+ */
+const isFreeTierZeroQuota = (msg: string): boolean =>
+  /free_tier/i.test(msg) && /limit:\s*0\b/.test(msg);
+
+/**
+ * Providers often surface their entire JSON error body as the message string.
+ * Unwraps `{ error: { message } }` / `{ message }` when present so the user
+ * sees the human sentence, not the raw dump. Returns the input otherwise.
+ */
+const unwrapProviderMessage = (raw: string): string => {
+  const jsonStart = raw.indexOf('{');
+  if (jsonStart === -1) return raw;
+  try {
+    const parsed = JSON.parse(raw.slice(jsonStart));
+    const inner = parsed?.error?.message ?? parsed?.message;
+    if (typeof inner === 'string' && inner) return inner;
+  } catch {
+    /* not JSON — keep the original text */
+  }
+  return raw;
+};
+
+/**
+ * Turns a provider 429 body (often a full JSON error dump) into one readable
+ * sentence plus a concrete retry hint. Never shows raw JSON to the user.
+ */
+export const humaniseRateLimitMessage = (raw: string): string => {
+  const msg = unwrapProviderMessage(raw);
+  const retryMatch = msg.match(/retry in (\d+(?:\.\d+)?)\s*s/i);
+  const retryHint = retryMatch
+    ? ` Try again in about ${Math.ceil(parseFloat(retryMatch[1]))} seconds.`
+    : ' Please wait a moment and try again.';
+  // First line only, capped — quota bodies run to paragraphs of metric names.
+  const firstLine = (msg.split('\n')[0] || '').trim().slice(0, 200);
+  const base = firstLine || 'The AI provider is temporarily rate-limiting requests.';
+  return `${base}${base.endsWith('.') ? '' : '.'}${retryHint}`;
+};
 
 /**
  * Nothing is deployed at the proxy path — a static file host (e.g. GitHub
@@ -411,7 +462,8 @@ const callGeminiWithRetry = async <T>(
 
       if (status === 404 || errorMsg.includes('NOT_FOUND')) {
         throw new Error(
-          'The requested AI model is currently unavailable or deprecated. Please check configuration.'
+          'The selected AI model is unavailable or has been deprecated by the provider. ' +
+            'Pick a different engine in the AI Engine selector (admin toolbar).'
         );
       }
 
@@ -426,10 +478,17 @@ const callGeminiWithRetry = async <T>(
         if (/daily ai limit/i.test(errorMsg)) {
           throw new QuotaExceededError(errorMsg);
         }
-        throw new QuotaExceededError(
-          errorMsg ||
-            'The AI provider is temporarily rate-limiting requests. Please wait a moment and try again.'
-        );
+        if (isFreeTierZeroQuota(errorMsg)) {
+          // Permanent for this key: the model has NO free-tier quota at all.
+          // generateContentWithRetry catches this flag and falls back to the
+          // free-tier Gemini engine automatically.
+          throw new QuotaExceededError(
+            'The selected AI model has no quota on the free Gemini tier (the provider returned limit: 0). ' +
+              'Use Gemini 3 Flash for this role in the AI Engine selector, or add billing to your Google AI key.',
+            true
+          );
+        }
+        throw new QuotaExceededError(humaniseRateLimitMessage(errorMsg));
       }
 
       if (!isRetryableError(error)) {
@@ -464,7 +523,9 @@ const callGeminiWithRetry = async <T>(
       }
 
       console.error(`[API Fail] Gemini API call failed after ${attempt} retries.`, error);
-      throw new Error(`AI Service Unavailable: ${errorMsg}`);
+      throw new Error(
+        `AI Service Unavailable: ${unwrapProviderMessage(errorMsg).split('\n')[0].slice(0, 200)}`
+      );
     }
   }
 };
@@ -484,7 +545,7 @@ const hashRequest = (request: any): string => {
   return h.toString(36);
 };
 
-export const generateContentWithRetry = async (request: any): Promise<GenerateContentResponse> => {
+const dedupedExecute = async (request: any): Promise<GenerateContentResponse> => {
   const key = hashRequest(request);
 
   const existing = inFlightRequests.get(key);
@@ -500,6 +561,40 @@ export const generateContentWithRetry = async (request: any): Promise<GenerateCo
     return await promise;
   } finally {
     inFlightRequests.delete(key);
+  }
+};
+
+export const generateContentWithRetry = async (request: any): Promise<GenerateContentResponse> => {
+  try {
+    return await dedupedExecute(request);
+  } catch (error) {
+    // Free-tier zero-quota fallback: the selected Gemini model can NEVER
+    // succeed on this key (limit: 0), so rerun this request on the free-tier
+    // Gemini engine and reroute the rest of the session away from the dead
+    // model (see aiConfig.resolveTarget). One toast, first time only.
+    const fallback = getGeminiFreeTierFallback();
+    if (
+      error instanceof QuotaExceededError &&
+      error.zeroFreeTierQuota &&
+      request?.provider === 'gemini' &&
+      typeof request?.model === 'string' &&
+      request.model !== fallback.model
+    ) {
+      const firstTime = markModelQuotaDead(request.model);
+      if (firstTime) {
+        const deadLabel = getModelByProviderModel(request.model)?.label ?? request.model;
+        const fallbackLabel = getModelByProviderModel(fallback.model)?.label ?? fallback.model;
+        notifyAiNotice(
+          `${deadLabel} has no quota on your Gemini key (free tier) — using ${fallbackLabel} instead for this session. ` +
+            'Change the engine permanently in the AI Engine selector, or add billing to your Google AI key.'
+        );
+      }
+      console.warn(
+        `[AI Fallback] ${request.model} has zero free-tier quota; retrying on ${fallback.model}.`
+      );
+      return dedupedExecute({ ...request, provider: fallback.provider, model: fallback.model });
+    }
+    throw error;
   }
 };
 
