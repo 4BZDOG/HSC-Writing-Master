@@ -161,7 +161,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
       <div
         className={`transition-all duration-700 ease-in-out overflow-hidden ${isOpen ? 'max-h-[1200px] opacity-100' : 'max-h-0 opacity-0'}`}
       >
-        <div className="py-4 space-y-4">
+        <div className="py-4 space-y-4 px-4 md:px-12">
           {/* Active Verb Detail Card */}
           {activeTermInfo && activeConfig && (
             <div
@@ -227,7 +227,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
           {/* Tier Cards Scroll Area */}
           <div className="relative group/scroll">
             <div
-              className="flex overflow-x-auto gap-4 pb-4 pt-2 px-0 snap-x snap-mandatory scrollbar-hide"
+              className="flex overflow-x-auto gap-4 pb-4 pt-2 -mx-4 md:-mx-12 px-4 md:px-12 snap-x snap-mandatory scrollbar-hide"
               ref={scrollContainerRef}
             >
               {sortedVerbsByGroup.map((group, index) => {
@@ -355,7 +355,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
           />
         </div>
         <div
-          className={`px-2 sm:px-4 py-4 relative z-20 transition-colors duration-500`}
+          className={`px-4 md:px-12 py-4 relative z-20 transition-colors duration-500`}
         >
           <div className="flex justify-between items-end gap-4 mb-3 px-1">
             <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] whitespace-nowrap">
