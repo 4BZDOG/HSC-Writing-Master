@@ -114,6 +114,7 @@ function geminiDevProxy(env: Record<string, string>): Plugin {
           anthropic: env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY,
           openrouter: env.OPENROUTER_API_KEY || process.env.OPENROUTER_API_KEY,
           groq: env.GROQ_API_KEY || process.env.GROQ_API_KEY,
+          kimi: env.KIMI_API_KEY || process.env.KIMI_API_KEY,
         };
         const result = await runAiProxy(body, keys);
 

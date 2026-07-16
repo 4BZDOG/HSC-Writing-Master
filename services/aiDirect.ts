@@ -24,6 +24,7 @@ const PROVIDER_LABELS: Record<string, string> = {
   ANTHROPIC: 'Anthropic (Claude)',
   OPENROUTER: 'OpenRouter',
   GROQ: 'Groq',
+  KIMI: 'Kimi (Moonshot AI)',
 };
 
 /**

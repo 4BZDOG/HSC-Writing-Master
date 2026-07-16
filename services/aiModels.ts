@@ -13,7 +13,7 @@
  * behaviour is unchanged until an admin switches it.
  */
 
-export type AIProvider = 'gemini' | 'anthropic' | 'openrouter' | 'groq';
+export type AIProvider = 'gemini' | 'anthropic' | 'openrouter' | 'groq' | 'kimi';
 export type AIRole = 'basic' | 'reasoning';
 
 export interface AIModelOption {
@@ -120,6 +120,21 @@ export const AI_MODELS: AIModelOption[] = [
     roles: ['basic'],
     keyEnv: 'GROQ_API_KEY',
     estCostPerCall: 0,
+  },
+
+  // --- Kimi (Moonshot AI) ---------------------------------------------------
+  // Kimi K2 is a strong reasoning model at low cost. Get a key from
+  // https://platform.kimi.ai/ — pricing is competitive with Gemini Flash.
+  {
+    id: 'kimi-k3',
+    provider: 'kimi',
+    model: 'kimi-k3',
+    label: 'Kimi K3',
+    description:
+      'Moonshot AI flagship reasoning model (2.8T params, 1M context). Strong on structured analysis and marking. Requires KIMI_API_KEY from platform.kimi.ai.',
+    roles: ['basic', 'reasoning'],
+    keyEnv: 'KIMI_API_KEY',
+    estCostPerCall: 0.027,
   },
 
   // --- Open-source models via OpenRouter -----------------------------------
