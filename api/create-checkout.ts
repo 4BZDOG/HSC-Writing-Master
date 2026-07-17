@@ -5,14 +5,18 @@
  * the URL to redirect them to. The user's Supabase ID is stored as
  * `client_reference_id` so the webhook can link the payment to the profile.
  *
- * Body: { priceId: string }
+ * Body: { priceId: string, returnUrl?: string }
  * Returns: { url: string } on success, or { error: string }.
+ *
+ * `returnUrl` is the page Stripe should redirect back to — the client sends
+ * its own base URL because the Origin header loses the base path on sub-path
+ * hosting (see resolveReturnBase). Validated same-origin server-side.
  *
  * Test-mode fallback: when Stripe is unconfigured the endpoint returns a
  * mock URL pointing to /#/upgrade-test so the client flow can be exercised
  * end-to-end without a real Stripe account.
  */
-import { getStripe, getSupabaseAdmin, isStripeConfigured } from './_lib/stripe';
+import { getStripe, getSupabaseAdmin, isStripeConfigured, resolveReturnBase } from './_lib/stripe';
 import { verifyRequestAuth } from './_lib/auth';
 
 interface RequestLike {
@@ -42,7 +46,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     return;
   }
 
-  const body = req.body as { priceId?: string } | undefined;
+  const body = req.body as { priceId?: string; returnUrl?: string } | undefined;
   const priceId = body?.priceId;
   if (!priceId || typeof priceId !== 'string') {
     res.status(400).json({ error: 'Missing or invalid priceId.' });
@@ -54,14 +58,16 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     return;
   }
 
+  const returnBase = resolveReturnBase(
+    headerValue(req.headers?.origin),
+    headerValue(req.headers?.referer),
+    body?.returnUrl
+  );
+
   if (!isStripeConfigured()) {
     // Test-mode: return a fake URL so the client redirect logic can be verified.
-    const origin =
-      headerValue(req.headers?.origin) ||
-      (headerValue(req.headers?.referer) || '').replace(/\/[^/]*$/, '') ||
-      'http://localhost:3000';
     res.status(200).json({
-      url: `${origin}/#/upgrade-test?price=${encodeURIComponent(priceId)}`,
+      url: `${returnBase}#/upgrade-test?price=${encodeURIComponent(priceId)}`,
       test: true,
     });
     return;
@@ -70,11 +76,6 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   const stripe = getStripe()!;
 
   try {
-    const origin =
-      headerValue(req.headers?.origin) ||
-      (headerValue(req.headers?.referer) || '').replace(/\/[^/]*$/, '') ||
-      'http://localhost:3000';
-
     // Reuse the user's existing Stripe customer if they've checked out before.
     // Without this every checkout creates a NEW customer, and the billing
     // portal (which looks up the stored customer id) loses sight of older
@@ -94,8 +95,8 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       mode: 'subscription',
       payment_method_types: ['card'],
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${origin}/?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/?checkout=cancelled`,
+      success_url: `${returnBase}?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${returnBase}?checkout=cancelled`,
       client_reference_id: auth.userId ?? undefined,
       ...(existingCustomerId ? { customer: existingCustomerId } : {}),
       // Stamp the Supabase user onto the subscription itself: webhook events

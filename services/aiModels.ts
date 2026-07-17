@@ -123,7 +123,7 @@ export const AI_MODELS: AIModelOption[] = [
   },
 
   // --- Kimi (Moonshot AI) ---------------------------------------------------
-  // Kimi K2 is a strong reasoning model at low cost. Get a key from
+  // Kimi K3 is a strong reasoning model at low cost. Get a key from
   // https://platform.kimi.ai/ — pricing is competitive with Gemini Flash.
   {
     id: 'kimi-k3',

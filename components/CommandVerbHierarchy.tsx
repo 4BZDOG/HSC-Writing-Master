@@ -354,9 +354,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
             className={`h-px bg-gradient-to-r from-transparent ${activeConfig ? `via-[rgb(var(--color-border-secondary))]/60` : 'via-[rgb(var(--color-border-secondary))]/40'} to-transparent`}
           />
         </div>
-        <div
-          className={`px-4 md:px-12 py-4 relative z-20 transition-colors duration-500`}
-        >
+        <div className={`px-4 md:px-12 py-4 relative z-20 transition-colors duration-500`}>
           <div className="flex justify-between items-end gap-4 mb-3 px-1">
             <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] whitespace-nowrap">
               Basic Recall
