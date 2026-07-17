@@ -32,23 +32,41 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
+      # Until the three Vercel secrets are configured, skip cleanly instead of
+      # failing every run — GitHub Pages remains the active deployment.
+      - name: Check Vercel secrets
+        id: vercel
+        run: |
+          if [ -z "${{ secrets.VERCEL_TOKEN }}" ] || [ -z "${{ secrets.VERCEL_ORG_ID }}" ] || [ -z "${{ secrets.VERCEL_PROJECT_ID }}" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Vercel secrets not configured (VERCEL_TOKEN / VERCEL_ORG_ID / VERCEL_PROJECT_ID) — skipping deploy. See the header of this workflow file for setup."
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: actions/checkout@v4
+        if: steps.vercel.outputs.configured == 'true'
 
       - uses: actions/setup-node@v4
+        if: steps.vercel.outputs.configured == 'true'
         with:
           node-version: '20'
           cache: 'npm'
 
       - name: Install Vercel CLI
+        if: steps.vercel.outputs.configured == 'true'
         run: npm i -g vercel@latest
 
       - name: Pull Vercel environment (preview)
+        if: steps.vercel.outputs.configured == 'true'
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build
+        if: steps.vercel.outputs.configured == 'true'
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy preview
+        if: steps.vercel.outputs.configured == 'true'
         run: |
           url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
           echo "PREVIEW_URL=$url" >> "$GITHUB_ENV"
@@ -59,21 +77,39 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
+      # Until the three Vercel secrets are configured, skip cleanly instead of
+      # failing every run — GitHub Pages remains the active deployment.
+      - name: Check Vercel secrets
+        id: vercel
+        run: |
+          if [ -z "${{ secrets.VERCEL_TOKEN }}" ] || [ -z "${{ secrets.VERCEL_ORG_ID }}" ] || [ -z "${{ secrets.VERCEL_PROJECT_ID }}" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Vercel secrets not configured (VERCEL_TOKEN / VERCEL_ORG_ID / VERCEL_PROJECT_ID) — skipping deploy. See the header of this workflow file for setup."
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: actions/checkout@v4
+        if: steps.vercel.outputs.configured == 'true'
 
       - uses: actions/setup-node@v4
+        if: steps.vercel.outputs.configured == 'true'
         with:
           node-version: '20'
           cache: 'npm'
 
       - name: Install Vercel CLI
+        if: steps.vercel.outputs.configured == 'true'
         run: npm i -g vercel@latest
 
       - name: Pull Vercel environment (production)
+        if: steps.vercel.outputs.configured == 'true'
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build
+        if: steps.vercel.outputs.configured == 'true'
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy to production
+        if: steps.vercel.outputs.configured == 'true'
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
