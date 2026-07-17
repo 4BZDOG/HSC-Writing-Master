@@ -1,15 +1,7 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { PromptVerb } from '../types';
 import { commandTerms, TIER_GROUPS, getTierTargetBand } from '../data/commandTerms';
-import {
-  ChevronDown,
-  AlignLeft,
-  Sparkles,
-  MoveRight,
-  ArrowRight,
-  BrainCircuit,
-  Lock,
-} from 'lucide-react';
+import { ChevronDown, AlignLeft, Sparkles } from 'lucide-react';
 import { getTierScaleConfig } from '../utils/renderUtils';
 
 interface CommandVerbHierarchyProps {
@@ -44,7 +36,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
   useEffect(() => {
     if (currentVerb) {
       setActiveVerb(currentVerb);
-      if (!isOpen) setIsOpen(true);
+      setIsOpen(true);
     }
   }, [currentVerb]);
 
@@ -89,10 +81,6 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
   // band-target mapping collapsed Tiers 5 and 6 into the same purple.
   const activeConfig = activeTermInfo ? getTierScaleConfig(activeTermInfo.tier) : null;
 
-  const containerBorderClass = activeConfig
-    ? activeConfig.border
-    : 'border-slate-300 dark:border-slate-700';
-
   const headerGradientClass = activeConfig
     ? `bg-gradient-to-r ${activeConfig.gradient}`
     : 'bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700';
@@ -102,18 +90,20 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
     ? 'bg-white/20 border-white/30'
     : 'bg-slate-200 dark:bg-slate-700 border-slate-300 dark:border-slate-600';
 
+  // Hairline used above the header, above the footer, and below the ribbon —
+  // slightly stronger when a verb is selected so the ribbon reads as active.
+  const dividerClass = `h-px bg-gradient-to-r from-transparent ${activeConfig ? 'via-[rgb(var(--color-border-secondary))]/60' : 'via-[rgb(var(--color-border-secondary))]/40'} to-transparent`;
+
   return (
-    <div
-      className={`clip-stable relative overflow-hidden transition-all duration-700 ease-out animate-fade-in`}
-    >
+    <div className="clip-stable relative overflow-hidden transition-all duration-700 ease-out animate-fade-in">
       {/* Top divider */}
-      <div
-        className={`h-px bg-gradient-to-r from-transparent ${activeConfig ? `via-[rgb(var(--color-border-secondary))]/60` : 'via-[rgb(var(--color-border-secondary))]/40'} to-transparent`}
-      />
+      <div className={dividerClass} />
 
       {/* Header Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+        aria-label={`${isOpen ? 'Collapse' : 'Expand'} the HSC command verb hierarchy reference`}
         className={`
             w-full px-0 py-3 sm:py-3.5 flex items-center justify-between gap-3 relative z-10 overflow-hidden transition-all duration-500 group/header rounded-xl
             ${headerGradientClass} ${headerTextClass}
@@ -145,7 +135,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                 Selected:
               </span>
               <div className="px-2.5 py-0.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-white/20 border border-white/30 backdrop-blur-md shadow-sm">
-                {activeVerb}
+                {activeTermInfo.term}
               </div>
             </div>
           )}
@@ -159,7 +149,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
 
       {/* Collapsible Content */}
       <div
-        className={`transition-all duration-700 ease-in-out overflow-hidden ${isOpen ? 'max-h-[1200px] opacity-100' : 'max-h-0 opacity-0'}`}
+        className={`transition-all duration-700 ease-in-out overflow-hidden ${isOpen ? 'max-h-[1600px] opacity-100' : 'max-h-0 opacity-0'}`}
       >
         <div className="py-4 space-y-4 px-4 md:px-12">
           {/* Active Verb Detail Card */}
@@ -183,7 +173,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                     <div>
                       <div className="flex items-center gap-3 mb-1">
                         <h4 className="text-3xl font-black tracking-tighter text-white light:text-slate-900 uppercase italic leading-none">
-                          {activeVerb}
+                          {activeTermInfo.term}
                         </h4>
                         <div
                           className={`px-3 py-0.5 rounded-full border font-black text-[9px] uppercase tracking-widest shadow-sm ${activeConfig.bg} ${activeConfig.text} ${activeConfig.border}`}
@@ -209,7 +199,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                     <div className="w-px h-8 bg-black/10 light:bg-slate-300" />
                     <div
                       className="flex flex-col items-center"
-                      title={`The cognitive demand of ${activeVerb} caps a response at Band ${getTierTargetBand(activeTermInfo.tier)} — it doesn't call for the higher-order reasoning Bands above require.`}
+                      title={`The cognitive demand of ${activeTermInfo.term} caps a response at Band ${getTierTargetBand(activeTermInfo.tier)} — it doesn't call for the higher-order reasoning Bands above require.`}
                     >
                       <span className="text-[9px] text-slate-500 uppercase tracking-widest font-black mb-0.5">
                         Band Ceiling
@@ -350,11 +340,9 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
 
         {/* Cognitive Timeline Footer */}
         <div className="relative z-20">
-          <div
-            className={`h-px bg-gradient-to-r from-transparent ${activeConfig ? `via-[rgb(var(--color-border-secondary))]/60` : 'via-[rgb(var(--color-border-secondary))]/40'} to-transparent`}
-          />
+          <div className={dividerClass} />
         </div>
-        <div className={`px-4 md:px-12 py-4 relative z-20 transition-colors duration-500`}>
+        <div className="px-4 md:px-12 py-4 relative z-20 transition-colors duration-500">
           <div className="flex justify-between items-end gap-4 mb-3 px-1">
             <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] whitespace-nowrap">
               Basic Recall
@@ -403,7 +391,9 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                     </div>
                   )}
 
-                  <div
+                  <button
+                    type="button"
+                    aria-label={`Highlight tier ${step.tier} — ${step.label}`}
                     className="flex flex-col items-center gap-3 relative z-10 group/step cursor-pointer"
                     onClick={() => {
                       const group = sortedVerbsByGroup.find((g) => g.tier === step.tier);
@@ -434,21 +424,16 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                     >
                       {step.label}
                     </span>
-                  </div>
+                  </button>
                 </React.Fragment>
               );
             })}
-
-            {/* Connection Line (Visual Only) */}
-            <div className="absolute top-2 left-2 right-2 h-0.5 bg-transparent -z-10" />
           </div>
         </div>
       </div>
 
       {/* Bottom divider */}
-      <div
-        className={`h-px bg-gradient-to-r from-transparent ${activeConfig ? `via-[rgb(var(--color-border-secondary))]/60` : 'via-[rgb(var(--color-border-secondary))]/40'} to-transparent`}
-      />
+      <div className={dividerClass} />
     </div>
   );
 };
