@@ -157,6 +157,59 @@ describe('PromptGeneratorModal focus refinements', () => {
     expect(screen.getByText('primary keys')).toBeTruthy();
     expect(screen.getByText('normalisation')).toBeTruthy();
   });
+
+  it('offers the dot point’s parsed sub-items as toggleable focus chips', () => {
+    render(
+      <PromptGeneratorModal
+        isOpen={true}
+        onClose={vi.fn()}
+        onPromptGenerated={vi.fn()}
+        courseName="Test Course"
+        topicName="Test Topic"
+        dotPoint="describe database features including primary keys, indexing and normalisation"
+        marks={5}
+        courseOutcomes={[]}
+      />
+    );
+
+    // Nothing selected yet — no banner, but every parsed sub-item is offered.
+    expect(screen.queryByText(/Active Focus/i)).toBeNull();
+    const chip = screen.getByRole('button', { name: 'indexing' });
+    expect(chip.getAttribute('aria-pressed')).toBe('false');
+
+    // Toggling a chip activates the focus and updates the count.
+    fireEvent.click(chip);
+    expect(chip.getAttribute('aria-pressed')).toBe('true');
+    expect(screen.getByText(/Active Focus: 1 Refinement/i)).toBeTruthy();
+
+    // Toggling again clears it.
+    fireEvent.click(chip);
+    expect(screen.queryByText(/Active Focus/i)).toBeNull();
+  });
+
+  it('pre-selects the navigator’s focus items as pressed chips', () => {
+    render(
+      <PromptGeneratorModal
+        isOpen={true}
+        onClose={vi.fn()}
+        onPromptGenerated={vi.fn()}
+        courseName="Test Course"
+        topicName="Test Topic"
+        dotPoint="describe database features including primary keys, indexing and normalisation"
+        marks={5}
+        courseOutcomes={[]}
+        selectedFocusItems={['indexing']}
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'indexing' }).getAttribute('aria-pressed')).toBe(
+      'true'
+    );
+    expect(
+      screen.getByRole('button', { name: 'primary keys' }).getAttribute('aria-pressed')
+    ).toBe('false');
+    expect(screen.getByText(/Active Focus: 1 Refinement/i)).toBeTruthy();
+  });
 });
 
 describe('PromptGeneratorModal scenario toggle', () => {

@@ -38,6 +38,7 @@ import {
   getTierScaleConfig,
   escapeRegExp,
 } from '../utils/renderUtils';
+import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface PromptGeneratorModalProps {
@@ -100,7 +101,21 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
   // questions read better without one.
   const [includeScenario, setIncludeScenario] = useState<boolean>(true);
 
+  // Focus areas: the dot point's parsed sub-items, toggleable here. Seeded
+  // from the syllabus navigator's active Focus selection, but editable so a
+  // teacher can refine the scope without leaving the modal.
+  const [focusItems, setFocusItems] = useState<string[]>([]);
+
   const syllabusVerbInfo = useMemo(() => extractCommandVerb(dotPoint), [dotPoint]);
+
+  // Every sub-item the dot point offers, plus any navigator selection that the
+  // parser no longer yields (e.g. after a dot point edit) so nothing selected
+  // ever silently disappears.
+  const availableFocusItems = useMemo(() => {
+    const parsed = parseSubItemsFromDescription(dotPoint);
+    const extras = selectedFocusItems.filter((item) => !parsed.includes(item));
+    return [...parsed, ...extras];
+  }, [dotPoint, selectedFocusItems]);
 
   // The cognitive level (tier) the syllabus dot point itself demands — the
   // "scope of knowledge" the syllabus asks for. The question the user builds is
@@ -150,6 +165,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
       setScenarioType('random');
       setSkillFocus('balanced');
       setIncludeScenario(true);
+      setFocusItems(selectedFocusItems);
       // Default to the highest band this tier can actually reach — asking a
       // Tier-2 'Describe' question for a Band 6 exemplar is structurally
       // impossible under the band model (see getBandForMark / TIER_GROUPS).
@@ -209,23 +225,18 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
         verbsToUse = [v];
       }
 
-      // Enhanced context for focus sub-items
-      const focusInstruction =
-        selectedFocusItems.length > 0
-          ? `. Focus the question and scenario explicitly on the following specific sub-components or examples of the dot point: ${selectedFocusItems.join(', ')}. The marking criteria MUST reflect these focus areas.`
-          : '';
-
       const prompt = await generateNewPrompt(
         courseName,
         topicName,
-        dotPoint + focusInstruction, // Injected focus
+        dotPoint,
         marks,
         verbsToUse,
         courseOutcomes,
         includeScenario ? scenarioType : undefined,
         skillFocus,
         targetBand,
-        includeScenario
+        includeScenario,
+        focusItems
       );
       onPromptGenerated(prompt);
       onClose();
@@ -332,12 +343,12 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                     Core Syllabus Element
                   </span>
                 </div>
-                {selectedFocusItems.length > 0 && (
+                {focusItems.length > 0 && (
                   <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-lg shadow-emerald-900/10">
                     <ListFilter className="w-3.5 h-3.5" />
                     <span className="text-[10px] font-bold uppercase tracking-[0.3em]">
-                      Active Focus: {selectedFocusItems.length} Refinement
-                      {selectedFocusItems.length > 1 ? 's' : ''}
+                      Active Focus: {focusItems.length} Refinement
+                      {focusItems.length > 1 ? 's' : ''}
                     </span>
                   </div>
                 )}
@@ -379,16 +390,35 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                 </div>
               )}
 
-              {selectedFocusItems.length > 0 && (
-                <div className="flex flex-wrap gap-2 pt-2">
-                  {selectedFocusItems.map((item) => (
-                    <span
-                      key={item}
-                      className="px-3 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase tracking-widest italic"
-                    >
-                      {item}
-                    </span>
-                  ))}
+              {availableFocusItems.length > 0 && (
+                <div className="pt-2">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[rgb(var(--color-text-muted))] light:text-slate-500 block mb-2">
+                    Focus the question on specific sub-components (optional)
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {availableFocusItems.map((item) => {
+                      const isActive = focusItems.includes(item);
+                      return (
+                        <button
+                          key={item}
+                          type="button"
+                          aria-pressed={isActive}
+                          onClick={() =>
+                            setFocusItems((prev) =>
+                              isActive ? prev.filter((f) => f !== item) : [...prev, item]
+                            )
+                          }
+                          className={`px-3 py-1 rounded-lg border text-[10px] font-bold uppercase tracking-widest italic transition-all duration-300 ${
+                            isActive
+                              ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 shadow-lg shadow-emerald-900/10'
+                              : 'bg-white/[0.03] border-white/10 text-slate-500 hover:text-white hover:border-white/20'
+                          }`}
+                        >
+                          {item}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
             </div>
@@ -706,10 +736,10 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                     {selectedVerbInfo.markRange[1]} marks.
                   </span>
                 )}
-                {selectedFocusItems.length > 0 && (
+                {focusItems.length > 0 && (
                   <span className="text-emerald-400">
                     {' '}
-                    (Focus enabled for {selectedFocusItems.length} items)
+                    (Focus enabled for {focusItems.length} item{focusItems.length > 1 ? 's' : ''})
                   </span>
                 )}
               </p>
@@ -749,7 +779,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
             <div className="w-full max-w-md mx-8">
               <LoadingIndicator
                 messages={[
-                  `Focusing on ${selectedFocusItems.length > 0 ? 'specified items' : 'syllabus context'}...`,
+                  `Focusing on ${focusItems.length > 0 ? 'specified items' : 'syllabus context'}...`,
                   `Parsing '${selectedSpecificVerb}' cognitive requirements...`,
                   includeScenario
                     ? `Modelling ${scenarioType} constraint set...`

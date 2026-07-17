@@ -95,7 +95,9 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
   const dividerClass = `h-px bg-gradient-to-r from-transparent ${activeConfig ? 'via-[rgb(var(--color-border-secondary))]/60' : 'via-[rgb(var(--color-border-secondary))]/40'} to-transparent`;
 
   return (
-    <div className="clip-stable relative overflow-hidden transition-all duration-700 ease-out animate-fade-in">
+    // pl-4 md:pl-12 mirrors PromptSelector's rail gutter so the ribbon's left
+    // and right edges line up exactly with the syllabus navigator dropdowns.
+    <div className="clip-stable relative overflow-hidden transition-all duration-700 ease-out animate-fade-in pl-4 md:pl-12">
       {/* Top divider */}
       <div className={dividerClass} />
 
@@ -151,7 +153,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
       <div
         className={`transition-all duration-700 ease-in-out overflow-hidden ${isOpen ? 'max-h-[1600px] opacity-100' : 'max-h-0 opacity-0'}`}
       >
-        <div className="py-4 space-y-4 px-4 md:px-12">
+        <div className="py-4 space-y-4">
           {/* Active Verb Detail Card */}
           {activeTermInfo && activeConfig && (
             <div
@@ -217,7 +219,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
           {/* Tier Cards Scroll Area */}
           <div className="relative group/scroll">
             <div
-              className="flex overflow-x-auto gap-4 pb-4 pt-2 -mx-4 md:-mx-12 px-4 md:px-12 snap-x snap-mandatory scrollbar-hide"
+              className="flex overflow-x-auto gap-4 pb-4 pt-2 snap-x snap-mandatory scrollbar-hide"
               ref={scrollContainerRef}
             >
               {sortedVerbsByGroup.map((group, index) => {
@@ -342,7 +344,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
         <div className="relative z-20">
           <div className={dividerClass} />
         </div>
-        <div className="px-4 md:px-12 py-4 relative z-20 transition-colors duration-500">
+        <div className="py-4 relative z-20 transition-colors duration-500">
           <div className="flex justify-between items-end gap-4 mb-3 px-1">
             <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] whitespace-nowrap">
               Basic Recall

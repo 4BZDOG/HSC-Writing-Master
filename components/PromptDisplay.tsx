@@ -200,18 +200,19 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
       >
         <MeshOverlay opacity="opacity-20" />
 
-        {/* Content — wraps on narrow screens so the directive/marks block
-            drops below the title instead of crushing it. */}
+        {/* Content — wraps whenever the row is too tight (not just below md)
+            so the directive/marks block drops below the title instead of
+            painting over it. */}
         <div
           ref={headerContentRef}
-          className="relative z-10 w-full flex flex-wrap md:flex-nowrap justify-between items-center gap-y-3 gap-x-4"
+          className="relative z-10 w-full flex flex-wrap justify-between items-center gap-y-3 gap-x-4"
         >
           {/* Left: Title & Icon */}
           <div className="flex items-center gap-3 sm:gap-4 min-w-0">
             <div className="w-11 h-11 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shadow-lg group flex-shrink-0">
               <FileQuestion className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
             </div>
-            <div>
+            <div className="min-w-0">
               <h3 className="text-lg md:text-xl font-black tracking-tight leading-none flex flex-wrap items-center gap-2">
                 Writing Prompt
                 {isEnriching && (
@@ -234,8 +235,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
 
           {/* Right: Directive, Time, Marks. On phones this becomes a full-width
               row (verb left, stat pills right) under the title; from md up it
-              is the original right-aligned column. */}
-          <div className="flex w-full md:w-auto flex-row md:flex-col flex-wrap items-center md:items-end justify-between gap-2 flex-shrink-0">
+              is the original right-aligned column. md:ml-auto keeps it pinned
+              right when the row wraps. */}
+          <div className="flex w-full md:w-auto md:ml-auto flex-row md:flex-col flex-wrap items-center md:items-end justify-between gap-2 flex-shrink-0">
             <div className="flex items-center gap-4">
               <button
                 onClick={onVerbClick}

@@ -380,11 +380,12 @@ const Editor = forwardRef<
 
           <MeshOverlay opacity="opacity-20" color="%23ffffff" />
 
-          {/* Content Wrapper — wraps on narrow screens so the pill toolbar
-              drops below the title instead of clipping off the right edge. */}
+          {/* Content Wrapper — wraps whenever the row is too tight (not just
+              below md) so the pill toolbar drops below the title instead of
+              painting over it. */}
           <div
             ref={headerContentRef}
-            className="relative z-10 w-full flex flex-wrap md:flex-nowrap justify-between items-center gap-y-3 gap-x-4"
+            className="relative z-10 w-full flex flex-wrap justify-between items-center gap-y-3 gap-x-4"
           >
             <div className="flex items-center gap-3 sm:gap-4 min-w-0">
               <div className="w-11 h-11 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shadow-lg group flex-shrink-0">
@@ -392,7 +393,7 @@ const Editor = forwardRef<
                   className={`w-6 h-6 group-hover:scale-110 transition-transform ${chroma.iconColor}`}
                 />
               </div>
-              <div>
+              <div className="min-w-0">
                 <h3 className="text-lg md:text-xl font-black tracking-tight leading-none flex flex-wrap items-center gap-2">
                   Written Response
                   {isExamMode ? (
@@ -425,8 +426,9 @@ const Editor = forwardRef<
               </div>
             </div>
 
-            {/* Functional Pill Toolbar */}
-            <div className="flex items-center gap-1 bg-black/20 backdrop-blur-xl p-1 rounded-2xl border border-white/10 shadow-inner flex-shrink-0">
+            {/* Functional Pill Toolbar — ml-auto keeps it right-aligned when
+                the header row wraps it onto its own line. */}
+            <div className="flex items-center gap-1 bg-black/20 backdrop-blur-xl p-1 rounded-2xl border border-white/10 shadow-inner flex-shrink-0 ml-auto">
               {onWritingModeChange && (
                 <>
                   <div className="flex items-center gap-0.5" role="group" aria-label="Writing mode">
