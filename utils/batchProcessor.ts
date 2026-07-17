@@ -53,7 +53,8 @@ const classifyFatal = (err: unknown): BatchFatalError | undefined => {
       return {
         category: ErrorCategory.RATE_LIMIT,
         userMessage: 'This model has no free-tier quota on your key.',
-        suggestion: 'Switch to a different AI engine (e.g. Gemini Flash) or add billing to the key.',
+        suggestion:
+          'Switch to a different AI engine (e.g. Gemini Flash) or add billing to the key.',
       };
     }
     if (err.message.toLowerCase().includes('daily')) {
@@ -75,10 +76,7 @@ const classifyFatal = (err: unknown): BatchFatalError | undefined => {
     };
   }
 
-  if (
-    categorised.category === ErrorCategory.RATE_LIMIT &&
-    !categorised.isRetryable
-  ) {
+  if (categorised.category === ErrorCategory.RATE_LIMIT && !categorised.isRetryable) {
     return {
       category: ErrorCategory.RATE_LIMIT,
       userMessage: categorised.userMessage,
@@ -98,7 +96,8 @@ const formatErrorLog = (taskDesc: string, err: unknown): string => {
   if (err instanceof ProxyUnavailableError) return `⛔ ${taskDesc} — AI proxy not connected`;
   if (err instanceof QuotaExceededError) {
     if (err.zeroFreeTierQuota) return `⛔ ${taskDesc} — No free-tier quota for this model`;
-    if (err.message.toLowerCase().includes('daily')) return `⛔ ${taskDesc} — Daily quota exhausted`;
+    if (err.message.toLowerCase().includes('daily'))
+      return `⛔ ${taskDesc} — Daily quota exhausted`;
     return `⚠ ${taskDesc} — Rate limited (429)`;
   }
 
@@ -165,7 +164,9 @@ export const runBatchOperations = async <T>(
         if (active === 0) {
           const remaining = tasks.length - (completed + failed);
           if (remaining > 0) {
-            addLog(`⛔ Batch halted — ${remaining} task${remaining === 1 ? '' : 's'} skipped: ${fatalError.userMessage}`);
+            addLog(
+              `⛔ Batch halted — ${remaining} task${remaining === 1 ? '' : 's'} skipped: ${fatalError.userMessage}`
+            );
           }
           updateProgress('Halted');
           resolve();
@@ -233,7 +234,8 @@ export const runBatchOperations = async <T>(
             fatalError = {
               category: ErrorCategory.UNKNOWN,
               userMessage: `${consecutiveFailures} consecutive failures.`,
-              suggestion: 'The AI provider may be experiencing issues. Try again later or switch engine.',
+              suggestion:
+                'The AI provider may be experiencing issues. Try again later or switch engine.',
             };
           }
         }

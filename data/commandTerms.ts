@@ -614,7 +614,13 @@ const fallbackTerm: CommandTermInfo = {
 
 export const getCommandTermInfo = (verb?: PromptVerb): CommandTermInfo => {
   if (!verb) return fallbackTerm;
-  return commandTerms.get(verb) || fallbackTerm;
+  // Map keys are the canonical UPPERCASE terms, but verbs reach here from
+  // model output and stored prompts in whatever case they were saved with.
+  // An exact-case-only lookup silently mis-filed every mixed-case verb as
+  // the EXPLAIN fallback (tier 2) — wrong band ceiling, wrong marking guide.
+  return (
+    commandTerms.get(verb) || commandTerms.get(verb.toUpperCase() as PromptVerb) || fallbackTerm
+  );
 };
 
 /**

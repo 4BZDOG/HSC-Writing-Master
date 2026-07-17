@@ -10,7 +10,7 @@
  *
  * Test-mode fallback: when Stripe is unconfigured, returns a mock URL.
  */
-import { getStripe, getSupabaseAdmin, isStripeConfigured } from './_lib/stripe';
+import { getStripe, getSupabaseAdmin, isStripeConfigured, resolveReturnBase } from './_lib/stripe';
 import { verifyRequestAuth } from './_lib/auth';
 
 interface RequestLike {
@@ -46,13 +46,17 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     return;
   }
 
+  // The client sends its own base URL because the Origin header loses the
+  // base path on sub-path hosting (see resolveReturnBase in _lib/stripe.ts).
+  const returnBase = resolveReturnBase(
+    headerValue(req.headers?.origin),
+    headerValue(req.headers?.referer),
+    (req.body as { returnUrl?: string } | undefined)?.returnUrl
+  );
+
   if (!isStripeConfigured()) {
-    const origin =
-      headerValue(req.headers?.origin) ||
-      (headerValue(req.headers?.referer) || '').replace(/\/[^/]*$/, '') ||
-      'http://localhost:3000';
     res.status(200).json({
-      url: `${origin}/#/portal-test`,
+      url: `${returnBase}#/portal-test`,
       test: true,
     });
     return;
@@ -80,14 +84,9 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   const stripe = getStripe()!;
 
   try {
-    const origin =
-      headerValue(req.headers?.origin) ||
-      (headerValue(req.headers?.referer) || '').replace(/\/[^/]*$/, '') ||
-      'http://localhost:3000';
-
     const session = await stripe.billingPortal.sessions.create({
       customer: profile.stripe_customer_id,
-      return_url: `${origin}/`,
+      return_url: returnBase,
     });
 
     res.status(200).json({ url: session.url });

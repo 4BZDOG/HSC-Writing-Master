@@ -39,6 +39,39 @@ export const getSupabaseAdmin = (): SupabaseClient | null => {
 };
 
 /**
+ * The absolute base URL (origin + base path, trailing slash) Stripe should
+ * send the browser back to after checkout / the billing portal.
+ *
+ * The client passes its own `returnUrl` because the Origin header loses the
+ * base path on sub-path hosting — GitHub Pages serves at /<repo>/, so an
+ * origin-built redirect lands on a 404 (the same failure mode fixed for
+ * assignment links in utils/assignmentLink.ts). The value is only trusted
+ * when it is an http(s) URL on the SAME origin the request came from, so a
+ * forged body cannot turn Stripe's redirect into an open redirect.
+ */
+export const resolveReturnBase = (
+  originHeader: string | undefined,
+  refererHeader: string | undefined,
+  returnUrl: unknown
+): string => {
+  if (typeof returnUrl === 'string') {
+    try {
+      const url = new URL(returnUrl);
+      const sameOrigin = !originHeader || url.origin === originHeader;
+      if ((url.protocol === 'https:' || url.protocol === 'http:') && sameOrigin) {
+        const base = `${url.origin}${url.pathname}`;
+        return base.endsWith('/') ? base : `${base}/`;
+      }
+    } catch {
+      /* not a valid URL — fall through to the header-derived origin */
+    }
+  }
+  const origin =
+    originHeader || (refererHeader || '').replace(/\/[^/]*$/, '') || 'http://localhost:3000';
+  return `${origin}/`;
+};
+
+/**
  * Map a Stripe price ID to our internal plan name.
  * Falls back to 'plus' for any recognised price, 'free' for unknowns.
  */

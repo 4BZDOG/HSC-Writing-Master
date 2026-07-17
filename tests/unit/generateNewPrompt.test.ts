@@ -92,3 +92,134 @@ describe('generateNewPrompt scenario handling', () => {
     expect(required).not.toContain('scenario');
   });
 });
+
+describe('generateNewPrompt verb enforcement', () => {
+  let fetchMock: ReturnType<typeof vi.fn>;
+  beforeEach(() => {
+    fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+  });
+  afterEach(() => vi.unstubAllGlobals());
+
+  const respond = (verb: string) =>
+    fetchMock.mockResolvedValue(
+      makeProxyResponse({
+        question: 'Q',
+        verb,
+        scenario: 'S',
+        markingCriteria: '2 marks: ...',
+        keywords: [],
+        linkedOutcomes: [],
+      })
+    );
+
+  it('pins the prompt to the selected verb when the model drifts outside the allowed set', async () => {
+    respond('Discuss'); // model ignored the instruction
+    const prompt = await generateNewPrompt('C', 'T', 'describe X', 4, verbs, outcomes);
+    expect(prompt.verb).toBe('DESCRIBE');
+  });
+
+  it('normalises the model verb to uppercase when it is in the allowed set', async () => {
+    respond('describe');
+    const prompt = await generateNewPrompt('C', 'T', 'describe X', 4, verbs, outcomes);
+    expect(prompt.verb).toBe('DESCRIBE');
+  });
+
+  it('sends a strict single-verb contract when exactly one verb is selected', async () => {
+    respond('DESCRIBE');
+    await generateNewPrompt('C', 'T', 'describe X', 4, verbs, outcomes);
+    const sent = JSON.stringify(bodyOf(fetchMock));
+    expect(sent).toContain('MUST be built on exactly this verb');
+    expect(sent).toContain('Must be exactly \\"DESCRIBE\\"');
+  });
+
+  it('keeps the allowed-verbs wording when several verbs are permitted', async () => {
+    respond('EXPLAIN');
+    const multi = [getCommandTermInfo('Describe'), getCommandTermInfo('Explain')];
+    const prompt = await generateNewPrompt('C', 'T', 'describe X', 4, multi, outcomes);
+    expect(prompt.verb).toBe('EXPLAIN'); // in the allowed set — respected
+    const sent = JSON.stringify(bodyOf(fetchMock));
+    expect(sent).toContain('Allowed Verbs');
+  });
+});
+
+describe('generateNewPrompt focus areas', () => {
+  let fetchMock: ReturnType<typeof vi.fn>;
+  beforeEach(() => {
+    fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+    fetchMock.mockResolvedValue(
+      makeProxyResponse({
+        question: 'Q',
+        verb: 'DESCRIBE',
+        scenario: 'S',
+        markingCriteria: '2 marks: ...',
+        keywords: [],
+        linkedOutcomes: [],
+      })
+    );
+  });
+  afterEach(() => vi.unstubAllGlobals());
+
+  it('sends focus items as a structured block without mutating the dot point', async () => {
+    await generateNewPrompt(
+      'C',
+      'T',
+      'describe network topologies',
+      4,
+      verbs,
+      outcomes,
+      undefined,
+      undefined,
+      undefined,
+      true,
+      ['star topology', 'mesh topology']
+    );
+    const sent = JSON.stringify(bodyOf(fetchMock));
+    expect(sent).toContain('Focus Areas');
+    expect(sent).toContain('star topology');
+    expect(sent).toContain('mesh topology');
+    expect(sent).toContain('Syllabus Dot Point: \\"describe network topologies\\"');
+  });
+
+  it('omits the focus block when no focus items are given', async () => {
+    await generateNewPrompt('C', 'T', 'describe X', 4, verbs, outcomes);
+    const sent = JSON.stringify(bodyOf(fetchMock));
+    expect(sent).not.toContain('Focus Areas');
+  });
+});
+
+describe('generateNewPrompt extended-response rubrics', () => {
+  let fetchMock: ReturnType<typeof vi.fn>;
+  beforeEach(() => {
+    fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+    fetchMock.mockResolvedValue(
+      makeProxyResponse({
+        question: 'Q',
+        verb: 'EVALUATE',
+        scenario: 'S',
+        markingCriteria: '8 marks: ...',
+        keywords: [],
+        linkedOutcomes: [],
+      })
+    );
+  });
+  afterEach(() => vi.unstubAllGlobals());
+
+  it('asks for band-discriminated NESA criteria on >6 mark questions', async () => {
+    const evaluate = [getCommandTermInfo('Evaluate')];
+    await generateNewPrompt('C', 'T', 'evaluate X', 8, evaluate, outcomes);
+    const sent = JSON.stringify(bodyOf(fetchMock));
+    expect(sent).toContain('band-aligned mark ranges');
+    expect(sent).toContain('COGNITIVE DEPTH');
+    expect(sent).toContain("cognitive demand of 'EVALUATE'");
+  });
+
+  it('keeps the per-mark rubric format for ≤6 mark questions', async () => {
+    await generateNewPrompt('C', 'T', 'describe X', 4, verbs, outcomes);
+    const sent = JSON.stringify(bodyOf(fetchMock));
+    expect(sent).toContain('EVERY mark value individually');
+    expect(sent).not.toContain('band-aligned mark ranges');
+  });
+});

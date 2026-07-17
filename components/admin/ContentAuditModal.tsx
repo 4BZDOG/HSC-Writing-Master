@@ -10,7 +10,12 @@ import {
   CommandTermInfo,
   SampleAnswer,
 } from '../../types';
-import { BatchTask, runBatchOperations, BatchProgress, BatchFatalError } from '../../utils/batchProcessor';
+import {
+  BatchTask,
+  runBatchOperations,
+  BatchProgress,
+  BatchFatalError,
+} from '../../utils/batchProcessor';
 import { setBatchModelOverride } from '../../services/aiConfig';
 import { AI_MODELS } from '../../services/aiModels';
 import {
@@ -1026,7 +1031,10 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         } else if (fatal) {
           showToast(`Batch halted: ${fatal.userMessage} ${fatal.suggestion}`, 'error');
         } else if (failed > 0) {
-          showToast(`Batch finished: ${done} succeeded, ${failed} failed. Check the processing log for details.`, 'error');
+          showToast(
+            `Batch finished: ${done} succeeded, ${failed} failed. Check the processing log for details.`,
+            'error'
+          );
         } else {
           showToast(`Batch complete: ${done} item${done === 1 ? '' : 's'} updated.`, 'success');
         }
@@ -1465,7 +1473,9 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="font-bold text-xs">{progress.fatalError.userMessage}</p>
-                    <p className="text-[11px] opacity-80 mt-0.5">{progress.fatalError.suggestion}</p>
+                    <p className="text-[11px] opacity-80 mt-0.5">
+                      {progress.fatalError.suggestion}
+                    </p>
                   </div>
                 </div>
               )}

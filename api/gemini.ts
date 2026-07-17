@@ -109,6 +109,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     anthropic: process.env.ANTHROPIC_API_KEY,
     openrouter: process.env.OPENROUTER_API_KEY,
     groq: process.env.GROQ_API_KEY,
+    kimi: process.env.KIMI_API_KEY,
   };
   const result = await runAiProxy(req.body, keys);
 

@@ -331,6 +331,12 @@ const getAuthHeaders = async (): Promise<Record<string, string>> => {
 
 const apiBase = import.meta.env.VITE_API_BASE_URL ?? '';
 
+// Where Stripe should send the browser back to. Includes the Vite base path
+// because on sub-path hosting (e.g. GitHub Pages at /<repo>/) the server can't
+// recover it from the Origin header — an origin-only redirect 404s.
+const checkoutReturnUrl = (): string =>
+  `${window.location.origin}${import.meta.env.BASE_URL ?? '/'}`;
+
 /**
  * Request a Stripe Checkout session from the server. Returns the URL to
  * redirect the user to. In test mode (Stripe unconfigured on server) the
@@ -341,7 +347,7 @@ export const createCheckoutUrl = async (priceId: string): Promise<string | null>
     const res = await fetch(`${apiBase}/api/create-checkout`, {
       method: 'POST',
       headers: await getAuthHeaders(),
-      body: JSON.stringify({ priceId }),
+      body: JSON.stringify({ priceId, returnUrl: checkoutReturnUrl() }),
     });
     if (!res.ok) return null;
     const data = (await res.json()) as { url?: string; test?: boolean };
@@ -360,6 +366,7 @@ export const createPortalUrl = async (): Promise<string | null> => {
     const res = await fetch(`${apiBase}/api/customer-portal`, {
       method: 'POST',
       headers: await getAuthHeaders(),
+      body: JSON.stringify({ returnUrl: checkoutReturnUrl() }),
     });
     if (!res.ok) return null;
     const data = (await res.json()) as { url?: string; test?: boolean };

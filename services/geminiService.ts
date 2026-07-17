@@ -65,7 +65,11 @@ const aiTarget = (role: 'basic' | 'reasoning') => resolveTarget(role);
  * descending bands down to Band 2) so the rubric stays concise and pedagogically
  * meaningful rather than listing 8-20 near-identical per-mark lines.
  */
-const buildMarkingCriteriaInstruction = (marks: number, tier: number = 4): string => {
+const buildMarkingCriteriaInstruction = (
+  marks: number,
+  tier: number = 4,
+  verb?: string
+): string => {
   if (marks <= 6) {
     const lines = Array.from(
       { length: marks },
@@ -100,12 +104,28 @@ const buildMarkingCriteriaInstruction = (marks: number, tier: number = 4): strin
     );
   }
 
+  // Extended-response rubrics live or die on band DISCRIMINATION: each range
+  // must be separable from its neighbours by quality of thinking, not length.
+  // NESA marker vocabulary anchors that ladder (comprehensive → thorough →
+  // sound → basic → elementary), so the model writes criteria a human marker
+  // can actually apply.
+  const verbDemand = verb
+    ? `the full cognitive demand of '${verb}'`
+    : `the full cognitive demand of the command verb`;
+  const verbLower = verb ? verb.toLowerCase() : 'meet the verb';
   return (
     `A marking rubric in DESCENDING order using NESA band-aligned mark ranges. ` +
     `Start with full marks (${marks}/${marks}) at the top, then provide a criteria row ` +
     `for each band down to Band 2, plus a minimal-response row for Band 1. ` +
     `Format: "${tiers.join('\\n')}". ` +
     `Each line MUST start with the mark value or range followed by a colon. ` +
+    `Write each row in NESA marker language and discriminate bands by COGNITIVE DEPTH, not response length: ` +
+    `the top band demonstrates comprehensive knowledge and sustains ${verbDemand} throughout ` +
+    `(judgements, relationships or synthesis as the verb requires) with specific syllabus terminology and a coherent, well-structured response; ` +
+    `the next band shows thorough knowledge but with gaps in synthesis or an inconsistent line of argument; ` +
+    `middle bands show sound knowledge that operates a cognitive step below the verb (describes where it should ${verbLower}) with general rather than specific terminology; ` +
+    `low bands make basic or elementary statements — fragmented points, terms defined but not applied. ` +
+    `Every row must be checkable by a marker: name WHAT content is required AND the quality of thinking that separates it from the band below. ` +
     `NEVER use bullet points or paragraphs — only "N marks: description" lines.`
   );
 };
@@ -776,10 +796,34 @@ export const generateNewPrompt = async (
   scenarioType?: string,
   skillFocus?: string,
   targetBand?: number,
-  includeScenario: boolean = true
+  includeScenario: boolean = true,
+  focusItems: string[] = []
 ): Promise<Prompt> => {
   const verbList = verbs.map((v) => v.term).join(', ');
   const primaryTier = Math.max(...verbs.map((v) => v.tier));
+  const primaryVerb = verbs[0]?.term;
+
+  // One verb means the teacher chose it deliberately (the generator modal pins
+  // a specific verb); several means any of them is acceptable (batch repair
+  // passes the whole mark-appropriate set). The instruction and the output
+  // enforcement below both follow that distinction.
+  const verbInstruction =
+    verbs.length === 1 && primaryVerb
+      ? `Command Verb: ${primaryVerb} — the question MUST be built on exactly this verb. ` +
+        `Use '${primaryVerb}' as the question's directive and satisfy its cognitive demand ` +
+        `(${verbs[0].definition}).`
+      : `Allowed Verbs: ${verbList}`;
+
+  // Focus items are specific sub-components of the dot point the teacher has
+  // narrowed the question to (the navigator's "Focus" selection). Passed as a
+  // structured block — not spliced into the dot point text — so every caller
+  // gets identical treatment.
+  const focusBlock =
+    focusItems.length > 0
+      ? `Focus Areas (selected sub-components of the dot point): ${focusItems.map((f) => `"${f}"`).join(', ')}. ` +
+        `The question${includeScenario ? ' and scenario' : ''} MUST centre on these focus areas rather than the dot point in general, ` +
+        `and the marking criteria MUST explicitly reward addressing them.`
+      : '';
 
   // Some questions are direct knowledge/skill questions that read better without
   // a manufactured context. When scenarios are off, we tell the model not to
@@ -797,21 +841,22 @@ export const generateNewPrompt = async (
                     Create a high-quality HSC exam question for ${courseName} - ${topicName}.
                     Syllabus Dot Point: "${dotPoint}"
                     Target Marks: ${marks}
-                    COMMAND VERB: ${verbList}
+                    ${verbInstruction}
+                    ${focusBlock}
                     ${includeScenario && scenarioType ? `Scenario Type: ${scenarioType}` : ''}
                     ${skillFocus ? `Skill Focus: ${skillFocus}` : ''}
                     ${targetBand ? `Target Band Difficulty: ${targetBand}` : ''}
                     ${includeScenario ? '' : 'This is a scenario-free question: the stem must stand on its own without any case study, business, or narrative framing.'}
 
-                    CRITICAL VERB RULE: The question text MUST use the command verb "${verbList}" as its directive. The question stem should begin with or be built around this verb. Do NOT substitute a different verb, even if the syllabus dot point uses a different one. The verb field in the JSON MUST be "${verbList}".
-                    The marking criteria MUST reflect the cognitive demand of the command verb "${verbList}" — the depth of analysis, evaluation, or reasoning expected must match the verb's tier.
+                    ${verbs.length === 1 && primaryVerb ? `CRITICAL VERB RULE: The question text MUST use the command verb "${primaryVerb}" as its directive. The question stem should begin with or be built around this verb. Do NOT substitute a different verb, even if the syllabus dot point uses a different one. The verb field in the JSON MUST be "${primaryVerb}".` : ''}
+                    The marking criteria MUST reflect the cognitive demand of the chosen command verb — the depth of analysis, evaluation, or reasoning expected must match the verb's tier.
                     Use British/Australian English throughout (e.g. analyse, organise, colour, behaviour, programme, centre, defence, judgement).
 
                     Generate a JSON object with:
-                    - question (The exam question text — MUST use the command verb ${verbList})
-                    - verb (MUST be: ${verbList})
+                    - question (The exam question text${verbs.length === 1 && primaryVerb ? ` — MUST use the command verb ${primaryVerb}` : ''})
+                    - verb (${verbs.length === 1 && primaryVerb ? `Must be exactly "${primaryVerb}"` : 'One of the allowed verbs'})
                     ${scenarioLine}
-                    - markingCriteria (${buildMarkingCriteriaInstruction(marks, primaryTier)})
+                    - markingCriteria (${buildMarkingCriteriaInstruction(marks, primaryTier, primaryVerb)})
                     - keywords (List of 5-10 technical terms)
                     - linkedOutcomes (Array of outcome codes relevant to this question from: ${JSON.stringify(outcomes.map((o) => o.code))})
                 `,
@@ -844,10 +889,12 @@ export const generateNewPrompt = async (
 
   const data = validateAiResponse(GeneratedPromptResponseSchema, parsed, 'prompt');
 
-  const requestedVerb = verbs[0]?.term ?? (data.verb as PromptVerb);
-  const returnedVerb = (data.verb || '').toUpperCase() as PromptVerb;
-  const allowedSet = new Set(verbs.map((v) => v.term));
-  const verb = allowedSet.has(returnedVerb) ? returnedVerb : requestedVerb;
+  // The verb drives band ceilings, marking and every tier-coloured surface, so
+  // never trust the model to echo it: normalise case and, if the model drifted
+  // outside the allowed set, pin the prompt to the caller's primary verb.
+  const allowedVerbs = new Set(verbs.map((v) => v.term));
+  const modelVerb = (data.verb || '').trim().toUpperCase() as PromptVerb;
+  const verb = allowedVerbs.has(modelVerb) ? modelVerb : (primaryVerb ?? modelVerb);
 
   return {
     id: generateId('prompt'),
@@ -1226,17 +1273,21 @@ export const generateRubricForPrompt = async (
   outcomes: CourseOutcome[]
 ): Promise<string> => {
   const termInfo = getCommandTermInfo(prompt.verb);
+  // Extended-response rubrics (>6 marks) need genuine band discrimination —
+  // worth the reasoning engine. Short per-mark rubrics stay on the basic tier.
   const request = {
-    ...aiTarget('basic'),
+    ...aiTarget(prompt.totalMarks > 6 ? 'reasoning' : 'basic'),
     contents: {
       parts: [
         {
           text: `Create a marking rubric for this question: "${prompt.question}" (${prompt.totalMarks} marks).
+                       ${prompt.scenario ? `Scenario: "${prompt.scenario}"` : ''}
                        Verb: ${prompt.verb} (Cognitive Tier: ${termInfo.tier}).
+                       Band discrimination for '${prompt.verb}': ${termInfo.bandDiscrimination}
                        Use British/Australian English spelling (e.g. 'analyse', 'colour', 'behaviour').
 
                        **Requirements:**
-                       ${buildMarkingCriteriaInstruction(prompt.totalMarks, termInfo.tier)}
+                       ${buildMarkingCriteriaInstruction(prompt.totalMarks, termInfo.tier, prompt.verb)}
 
                        - For full marks, criteria MUST demand the full cognitive depth of '${prompt.verb}' (e.g. if Analyse, must require 'relationship/implication', not just 'description').
                        - Lower marks should reflect a progressive drop in cognitive skill (e.g. 'Describes' instead of 'Explains').
