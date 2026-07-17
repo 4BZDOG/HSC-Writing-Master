@@ -8,10 +8,11 @@ import {
   recalculateSampleAnswerBands,
   validateAndFixCourses,
   deduplicateSampleAnswers,
+  repairPromptIntegrity,
 } from './dataManagerUtils';
 
 // Current data version - increment when structure changes
-export const DATA_VERSION = '2.2.2';
+export const DATA_VERSION = '2.3.0';
 
 export const STORAGE_KEYS = {
   COURSES: 'hsc-ai-evaluator-courses', // Legacy key for migration check
@@ -592,6 +593,16 @@ export const runMigrations = (courses: Course[], fromVersion: string): Course[] 
         })),
       })),
     }));
+  }
+
+  // Version 2.3.0 Migration
+  // Canonicalise prompt verbs and mark values. Imported JSON could previously
+  // store an unrecognised verb (left undefined) or totalMarks of 0; the UI
+  // surfaces fall back differently for these, so the same question rendered
+  // with different tier colours in the navigator vs the writing area.
+  if (fromVersion < '2.3.0') {
+    console.log('Applying v2.3.0 migration: Canonicalising prompt verbs and mark values...');
+    migrated = repairPromptIntegrity(migrated);
   }
 
   return migrated;

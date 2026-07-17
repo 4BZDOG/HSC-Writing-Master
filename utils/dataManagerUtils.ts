@@ -134,7 +134,37 @@ const normalizeVerb = (val: unknown): PromptVerb | undefined => {
   if (commandTerms.has(trimmed as PromptVerb)) return trimmed as PromptVerb;
   const upper = trimmed.toUpperCase();
   if (commandTerms.has(upper as PromptVerb)) return upper as PromptVerb;
-  return undefined;
+  // Composite or decorated verbs ("Critically analyse", "Evaluate:") — find a
+  // known verb inside the string rather than dropping it entirely.
+  return extractCommandVerb(trimmed)?.term;
+};
+
+/**
+ * Final integrity pass over one parsed prompt. Every colour, band ceiling and
+ * marking surface derives from `verb` + `totalMarks`, and the surfaces fall
+ * back DIFFERENTLY when these are missing (the navigator re-extracts a verb
+ * from the question text while the prompt/editor default to EXPLAIN), which is
+ * how imported questions ended up two different colours at once. Canonicalise
+ * once here so every surface reads identical data.
+ */
+const repairPromptFields = <T extends { verb?: PromptVerb; question: string; totalMarks?: number }>(
+  prompt: T
+): T & { verb: PromptVerb; totalMarks: number } => {
+  const verb =
+    normalizeVerb(prompt.verb) ??
+    extractCommandVerb(prompt.question)?.term ??
+    ('EXPLAIN' as PromptVerb);
+  const termInfo = getCommandTermInfo(verb);
+  const totalMarks =
+    typeof prompt.totalMarks === 'number' &&
+    Number.isFinite(prompt.totalMarks) &&
+    prompt.totalMarks >= 1
+      ? Math.round(prompt.totalMarks)
+      : termInfo.markRange[0];
+  if (verb === prompt.verb && totalMarks === prompt.totalMarks) {
+    return prompt as T & { verb: PromptVerb; totalMarks: number };
+  }
+  return { ...prompt, verb, totalMarks };
 };
 
 /**
@@ -255,7 +285,10 @@ const PromptSchema = z
     hscYear: z.number().optional(),
     hscQuestionNumber: z.string().optional(),
   })
-  .passthrough();
+  .passthrough()
+  // Canonicalise verb + marks so imported questions colour consistently on
+  // every surface (see repairPromptFields).
+  .transform(repairPromptFields);
 
 const DotPointSchema = z
   .object({
@@ -516,6 +549,29 @@ export const migrateAnalyseVerb = (courses: Course[]): Course[] => {
     });
   });
   return migratedCourses;
+};
+
+/**
+ * Repairs prompts whose verb is missing/unrecognised or whose totalMarks is
+ * zero/invalid — the state imported JSON could land in before the import
+ * schema canonicalised these fields, and the cause of mismatched tier colours
+ * between the navigator and the prompt/writing surfaces. Run once as the
+ * v2.3.0 migration; safe to run repeatedly (no-op on healthy data).
+ */
+export const repairPromptIntegrity = (courses: Course[]): Course[] => {
+  return courses.map((course) => ({
+    ...course,
+    topics: (course.topics || []).map((topic) => ({
+      ...topic,
+      subTopics: (topic.subTopics || []).map((subTopic) => ({
+        ...subTopic,
+        dotPoints: (subTopic.dotPoints || []).map((dotPoint) => ({
+          ...dotPoint,
+          prompts: (dotPoint.prompts || []).map((prompt) => repairPromptFields(prompt)),
+        })),
+      })),
+    })),
+  }));
 };
 
 export const validateAndFixCourses = (courses: Course[]): Course[] => {
