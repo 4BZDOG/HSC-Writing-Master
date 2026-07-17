@@ -49,4 +49,4 @@ Custom `@media print` styles ensure:
 *   Removal of all UI chrome and backgrounds.
 *   Transformation of serif text to high-contrast black.
 *   Prevention of page breaks within criteria blocks.
-*   Standardized 15mm margins.
+*   Standardised 15mm margins.

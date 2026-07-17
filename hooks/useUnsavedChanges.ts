@@ -4,7 +4,7 @@ import { useEffect, useRef, useCallback } from 'react';
  * Hook to manage unsaved changes warnings before navigation or page unload
  *
  * @param isDirty - Whether there are unsaved changes
- * @param warningMessage - Custom message for unsaved changes dialog
+ * @param warningMessage - Custom message for unsaved changes dialogue
  * @param onBeforeUnload - Optional callback before unload
  *
  * @example

@@ -1,5 +1,5 @@
 /**
- * Optimized cloning utilities for large data structures
+ * Optimised cloning utilities for large data structures
  * Replaces JSON.parse(JSON.stringify()) with structural sharing
  * Reduces memory usage and improves performance by 3-5x for large datasets
  */

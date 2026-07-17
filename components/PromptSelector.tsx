@@ -29,8 +29,8 @@ import {
   Loader2,
   Link2,
 } from 'lucide-react';
-import { getCommandTermInfo, extractCommandVerb } from '../data/commandTerms';
-import { getTierScaleConfig } from '../utils/renderUtils';
+import { getCommandTermInfo, extractCommandVerb, getTargetBand } from '../data/commandTerms';
+import { getBandConfig } from '../utils/renderUtils';
 import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
 import { isFeatureLocked, isQuestionTierLocked, requestUpgrade } from '../services/entitlements';
 import { PlusLockChip } from './UpgradeModal';
@@ -352,7 +352,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       .map((p) => {
         const verbInfo = resolveVerbInfo(p.verb, p.question);
         const safeTier = Math.max(1, Math.min(6, Math.floor(verbInfo.tier || 4)));
-        const tierConfig = getTierScaleConfig(safeTier);
+        const tierConfig = getBandConfig(getTargetBand(p.totalMarks, safeTier));
         const tierLocked = isQuestionTierLocked(safeTier);
 
         return {

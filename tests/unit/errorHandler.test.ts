@@ -3,7 +3,7 @@ import { categorizeError, ErrorCategory } from '../../utils/errorHandler';
 
 describe('errorHandler', () => {
   describe('categorizeError', () => {
-    it('should categorize network errors', () => {
+    it('should categorise network errors', () => {
       const error = new TypeError('Failed to fetch');
       const result = categorizeError(error);
 
@@ -12,7 +12,7 @@ describe('errorHandler', () => {
       expect(result.userMessage).toContain('Network connection failed');
     });
 
-    it('should categorize 401 Unauthorized errors', () => {
+    it('should categorise 401 Unauthorized errors', () => {
       const error = new Error('HTTP 401 Unauthorized');
       const result = categorizeError(error);
 
@@ -22,7 +22,7 @@ describe('errorHandler', () => {
       expect(result.userMessage).toContain('session has expired');
     });
 
-    it('should categorize 404 Not Found errors', () => {
+    it('should categorise 404 Not Found errors', () => {
       const error = new Error('HTTP 404 Not Found');
       const result = categorizeError(error);
 
@@ -31,7 +31,7 @@ describe('errorHandler', () => {
       expect(result.isRetryable).toBe(false);
     });
 
-    it('should categorize 429 Rate Limit errors', () => {
+    it('should categorise 429 Rate Limit errors', () => {
       const error = new Error('HTTP 429 Too Many Requests');
       const result = categorizeError(error);
 
@@ -39,7 +39,7 @@ describe('errorHandler', () => {
       expect(result.isRetryable).toBe(true);
     });
 
-    it('should categorize validation errors', () => {
+    it('should categorise validation errors', () => {
       const error = new Error('validation: invalid email format');
       const result = categorizeError(error);
 
@@ -47,7 +47,7 @@ describe('errorHandler', () => {
       expect(result.isRetryable).toBe(false);
     });
 
-    it('should categorize string network errors', () => {
+    it('should categorise string network errors', () => {
       const result = categorizeError('network timeout');
 
       expect(result.category).toBe(ErrorCategory.NETWORK);

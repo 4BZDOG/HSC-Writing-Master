@@ -390,8 +390,8 @@ export const useSyllabusData = ({
         if (importedCount > 0) {
           const syncMessage =
             skippedTopics > 0
-              ? `Synchronized ${importedCount} items. ${skippedTopics} topic file${skippedTopics === 1 ? '' : 's'} still need a target course in manifest metadata.`
-              : `Synchronized ${importedCount} items to workspace.`;
+              ? `Synchronised ${importedCount} items. ${skippedTopics} topic file${skippedTopics === 1 ? '' : 's'} still need a target course in manifest metadata.`
+              : `Synchronised ${importedCount} items to workspace.`;
           showToast(syncMessage, skippedTopics > 0 ? 'info' : 'success');
           return true;
         }

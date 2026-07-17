@@ -540,7 +540,7 @@ export const runMigrations = (courses: Course[], fromVersion: string): Course[] 
   }
 
   if (fromVersion < '2.1.0') {
-    console.log('Applying v2.1.0 migration: Initializing Past HSC metadata...');
+    console.log('Applying v2.1.0 migration: Initialising Past HSC metadata...');
     migrated = migrated.map((course) => ({
       ...course,
       topics: course.topics.map((topic) => ({

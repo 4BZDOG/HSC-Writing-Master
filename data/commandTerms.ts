@@ -677,7 +677,7 @@ export const getCommandTermsForMarks = (
       const distA = Math.abs(a.tier - targetTier);
       const distB = Math.abs(b.tier - targetTier);
 
-      // Prioritize closest tier to target for UI consistency
+      // Prioritise closest tier to target for UI consistency
       if (distA !== distB) {
         return distA - distB;
       }

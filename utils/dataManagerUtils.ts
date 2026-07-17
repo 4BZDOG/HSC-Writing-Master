@@ -27,7 +27,7 @@ import { generateId } from './idUtils';
 export const parseSubItemsFromDescription = (description: string): string[] => {
   if (!description) return [];
 
-  // Normalize string: remove extra spaces and standardize punctuation
+  // Normalise string: remove extra spaces and standardise punctuation
   const cleanDesc = description.replace(/\s+/g, ' ').trim();
 
   let items: string[] = [];

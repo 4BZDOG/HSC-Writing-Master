@@ -638,7 +638,7 @@ export const performQualityCheck = async (
     contents: {
       parts: [
         {
-          text: `Analyze the quality of this ${type}:
+          text: `Analyse the quality of this ${type}:
                        "${content}"
                        
                        Return JSON:
@@ -848,8 +848,12 @@ export const generateNewPrompt = async (
                     ${targetBand ? `Target Band Difficulty: ${targetBand}` : ''}
                     ${includeScenario ? '' : 'This is a scenario-free question: the stem must stand on its own without any case study, business, or narrative framing.'}
 
+                    ${verbs.length === 1 && primaryVerb ? `CRITICAL VERB RULE: The question text MUST use the command verb "${primaryVerb}" as its directive. The question stem should begin with or be built around this verb. Do NOT substitute a different verb, even if the syllabus dot point uses a different one. The verb field in the JSON MUST be "${primaryVerb}".` : ''}
+                    The marking criteria MUST reflect the cognitive demand of the chosen command verb — the depth of analysis, evaluation, or reasoning expected must match the verb's tier.
+                    Use British/Australian English throughout (e.g. analyse, organise, colour, behaviour, programme, centre, defence, judgement).
+
                     Generate a JSON object with:
-                    - question (The exam question text)
+                    - question (The exam question text${verbs.length === 1 && primaryVerb ? ` — MUST use the command verb ${primaryVerb}` : ''})
                     - verb (${verbs.length === 1 && primaryVerb ? `Must be exactly "${primaryVerb}"` : 'One of the allowed verbs'})
                     ${scenarioLine}
                     - markingCriteria (${buildMarkingCriteriaInstruction(marks, primaryTier, primaryVerb)})

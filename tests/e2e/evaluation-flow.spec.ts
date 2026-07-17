@@ -41,7 +41,7 @@ test.describe('Evaluation Flow', () => {
 
   test('should show error message when evaluation fails', async () => {
     // This test verifies error handling during evaluation
-    // Expected behavior: User-friendly error message instead of blank state
+    // Expected behaviour: User-friendly error message instead of blank state
 
     const initialUrl = page.url();
     expect(initialUrl).toContain('localhost:3000');
@@ -105,7 +105,7 @@ test.describe('Error Handling & Recovery', () => {
   });
 
   test('should handle network timeout gracefully', async () => {
-    // This test verifies behavior when network is slow/unavailable
+    // This test verifies behaviour when network is slow/unavailable
     // Expected: Timeout message + retry option (not blank or generic error)
 
     const pageIsAccessible = await page.locator('body').count() > 0;
