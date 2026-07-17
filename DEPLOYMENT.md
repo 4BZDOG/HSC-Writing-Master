@@ -4,11 +4,11 @@ The app is a **static Vite build plus one serverless API route**
 (`/api/gemini`) that keeps the AI provider keys server-side and enforces
 quotas. That split decides where you can host it:
 
-| Host | Frontend | AI features | Effort |
-| --- | --- | --- | --- |
-| **Vercel** (recommended) | ✅ | ✅ (serverless proxy runs natively) | ~5 minutes |
-| **GitHub Pages** | ✅ | ❌ alone / ✅ when paired with a Vercel API | ~5 minutes |
-| Netlify / Cloudflare Pages | ✅ | ⚠️ needs the proxy ported to their function format | not provided |
+| Host                       | Frontend | AI features                                        | Effort       |
+| -------------------------- | -------- | -------------------------------------------------- | ------------ |
+| **Vercel** (recommended)   | ✅       | ✅ (serverless proxy runs natively)                | ~5 minutes   |
+| **GitHub Pages**           | ✅       | ❌ alone / ✅ when paired with a Vercel API        | ~5 minutes   |
+| Netlify / Cloudflare Pages | ✅       | ⚠️ needs the proxy ported to their function format | not provided |
 
 **Never put a provider key in client-side code or a `VITE_`-prefixed
 variable** — everything `VITE_*` is bundled into public JavaScript. Keys
@@ -29,13 +29,13 @@ The repo is already Vercel-shaped: `vercel.json` is configured, and
    `vercel.json`; accept the defaults.
 3. Under **Settings → Environment Variables**, add the server-side keys:
 
-   | Name | Value | Required |
-   | --- | --- | --- |
-   | `GEMINI_API_KEY` | your Google AI Studio key | yes (default engine) |
-   | `OPENROUTER_API_KEY` | your OpenRouter key | only for OpenRouter engines |
-   | `ANTHROPIC_API_KEY` | your Anthropic key | only for Claude engines |
-   | `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` | Supabase project values | only for multi-user auth |
-   | `VITE_ENABLE_DEMO_AUTH` | `true` | only if you want demo logins (admin/admin) **without** Supabase |
+   | Name                                           | Value                     | Required                                                        |
+   | ---------------------------------------------- | ------------------------- | --------------------------------------------------------------- |
+   | `GEMINI_API_KEY`                               | your Google AI Studio key | yes (default engine)                                            |
+   | `OPENROUTER_API_KEY`                           | your OpenRouter key       | only for OpenRouter engines                                     |
+   | `ANTHROPIC_API_KEY`                            | your Anthropic key        | only for Claude engines                                         |
+   | `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` | Supabase project values   | only for multi-user auth                                        |
+   | `VITE_ENABLE_DEMO_AUTH`                        | `true`                    | only if you want demo logins (admin/admin) **without** Supabase |
 
 4. **Deploy.** Every push to `main` redeploys automatically.
 
@@ -104,9 +104,9 @@ Host just the API on Vercel (Option 1) and connect the two origins:
 
 - `GEMINI_API_KEY` / `OPENROUTER_API_KEY` / `ANTHROPIC_API_KEY` — provider
   keys used by the proxy. Free-tier notes: Gemini free keys have **no
-  quota for Gemini 3 Pro** — select *Gemini 3 Flash* for both engine roles
+  quota for Gemini 3 Pro** — select _Gemini 3 Flash_ for both engine roles
   in the admin AI Engine panel; free OpenRouter accounts should select the
-  *Free Models Router* engine.
+  _Free Models Router_ engine.
 - `ALLOWED_ORIGIN` — exact origin(s) allowed to call the proxy
   cross-origin. Unset = same-origin only (default).
 - `SUPABASE_URL` / `SUPABASE_ANON_KEY` — lets the proxy verify user tokens
