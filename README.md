@@ -12,7 +12,7 @@ The **HSC AI Evaluator** is not a simple chatbot. It is a structured pedagogical
 
 ### 1. The Evaluation Engine
 
-- **Gemini 3 Pro Reasoning**: Utilizes the latest `gemini-3-pro-preview` model with expanded thinking budgets (up to 8k tokens) to deconstruct student responses.
+- **Gemini 3 Pro Reasoning**: Utilises the latest `gemini-3-pro-preview` model with expanded thinking budgets (up to 8k tokens) to deconstruct student responses.
 - **Ruthless Marking Persona**: Applies a strict "Band Cut-off" logic. A response that "Describes" when asked to "Analyse" is capped at Band 3, regardless of length.
 - **The Improvement Loop**: Provides specific, actionable "Band N+1" feedback to guide students to the next performance level.
 

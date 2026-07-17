@@ -1,5 +1,5 @@
 /**
- * Categorized error types for better error handling
+ * Categorised error types for better error handling
  */
 export enum ErrorCategory {
   NETWORK = 'NETWORK',
@@ -21,7 +21,7 @@ export interface CategorizedError {
 }
 
 /**
- * Categorize and provide user-friendly messages for errors
+ * Categorise and provide user-friendly messages for errors
  */
 export const categorizeError = (error: unknown): CategorizedError => {
   // Handle Fetch API errors
@@ -153,7 +153,7 @@ export const categorizeError = (error: unknown): CategorizedError => {
 };
 
 /**
- * Categorize error by HTTP status code
+ * Categorise error by HTTP status code
  */
 const categorizeByStatusCode = (statusCode: number, originalError?: Error): CategorizedError => {
   if (statusCode === 401) {

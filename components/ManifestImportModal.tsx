@@ -236,7 +236,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                 Content Library
               </h2>
               <p className="text-slate-400 light:text-slate-500 text-sm font-medium mt-3 max-w-lg leading-relaxed">
-                Synthesise your workspace with specialized NESA syllabus models. Select your core
+                Synthesise your workspace with specialised NESA syllabus models. Select your core
                 curriculum units below.
               </p>
             </div>
@@ -265,7 +265,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
           </div>
         </div>
 
-        {/* Scrollable Catalog */}
+        {/* Scrollable Catalogue */}
         <div className="flex-1 overflow-y-auto px-5 sm:px-12 pb-8 sm:pb-12 custom-scrollbar bg-black/10 light:bg-slate-50/50 relative">
           <div className="sticky top-0 z-20 py-4 sm:py-6 flex flex-wrap justify-between items-center gap-3 bg-[rgb(var(--color-bg-surface))]/60 backdrop-blur-md -mx-5 sm:-mx-12 px-5 sm:px-12 border-b border-white/5 mb-8">
             <div className="flex items-center gap-6 flex-wrap">

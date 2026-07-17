@@ -290,7 +290,7 @@ async function handleSubscriptionDeleted(supabase: SB, sub: Record<string, unkno
   const subId = sub.id as string;
   const customerId = sub.customer as string;
 
-  // Mark the subscription row as canceled.
+  // Mark the subscription row as cancelled.
   const { error: cancelError } = await supabase
     .from('subscriptions')
     .update({ status: 'canceled', updated_at: new Date().toISOString() })

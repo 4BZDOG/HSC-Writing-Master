@@ -12,9 +12,9 @@ A 5-level recursive structure enforced by Zod schemas:
 *   **Automated Migrations**: On app load, `runMigrations()` checks the stored version and applies necessary patches (e.g., recalculating Band scores, repairing verbs, or formatting rubrics).
 
 ## 3. The Discovery System (Manifest)
-The app utilizes a `/courseData/manifest.json` file to discover "Standard Library" courses.
+The app utilises a `/courseData/manifest.json` file to discover "Standard Library" courses.
 *   Allows the UI to suggest "Wollemi" or "Enterprise Computing" modules to new users.
-*   Synchronizes local IDB with static JSON assets on demand.
+*   Synchronises local IDB with static JSON assets on demand.
 
 ## 4. Field-Level Requirements
 
