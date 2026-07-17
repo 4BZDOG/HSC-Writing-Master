@@ -200,7 +200,7 @@ export const preseededCourses: Course[] = [
                       'central dogma',
                       'gene expression',
                     ],
-                    markingCriteria: `- 6-7 marks: Analyzes key components and relationships
+                    markingCriteria: `- 6-7 marks: Analyses key components and relationships
 - 8 marks: Sophisticated analysis linking all components with detailed mechanism`,
                     sampleAnswers: [
                       {
@@ -261,7 +261,7 @@ export const preseededCourses: Course[] = [
                     markerNotes: [
                       'Must evaluate both applications AND limitations',
                       'Look for specific examples across multiple fields',
-                      'High marks require balanced, critical judgment',
+                      'High marks require balanced, critical judgement',
                     ],
                     commonStudentErrors: [
                       'Only listing applications without evaluation',

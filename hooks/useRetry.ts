@@ -19,7 +19,7 @@ interface RetryState {
  * Hook for retrying async operations with exponential backoff
  *
  * @param fn - Async function to retry
- * @param options - Configuration for retry behavior
+ * @param options - Configuration for retry behaviour
  *
  * @example
  * const { execute, isRetrying, attempt, error } = useRetry(

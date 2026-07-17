@@ -618,7 +618,7 @@ export const performQualityCheck = async (
     contents: {
       parts: [
         {
-          text: `Analyze the quality of this ${type}:
+          text: `Analyse the quality of this ${type}:
                        "${content}"
                        
                        Return JSON:
@@ -797,15 +797,19 @@ export const generateNewPrompt = async (
                     Create a high-quality HSC exam question for ${courseName} - ${topicName}.
                     Syllabus Dot Point: "${dotPoint}"
                     Target Marks: ${marks}
-                    Allowed Verbs: ${verbList}
+                    COMMAND VERB: ${verbList}
                     ${includeScenario && scenarioType ? `Scenario Type: ${scenarioType}` : ''}
                     ${skillFocus ? `Skill Focus: ${skillFocus}` : ''}
                     ${targetBand ? `Target Band Difficulty: ${targetBand}` : ''}
                     ${includeScenario ? '' : 'This is a scenario-free question: the stem must stand on its own without any case study, business, or narrative framing.'}
 
+                    CRITICAL VERB RULE: The question text MUST use the command verb "${verbList}" as its directive. The question stem should begin with or be built around this verb. Do NOT substitute a different verb, even if the syllabus dot point uses a different one. The verb field in the JSON MUST be "${verbList}".
+                    The marking criteria MUST reflect the cognitive demand of the command verb "${verbList}" — the depth of analysis, evaluation, or reasoning expected must match the verb's tier.
+                    Use British/Australian English throughout (e.g. analyse, organise, colour, behaviour, programme, centre, defence, judgement).
+
                     Generate a JSON object with:
-                    - question (The exam question text)
-                    - verb (One of the allowed verbs)
+                    - question (The exam question text — MUST use the command verb ${verbList})
+                    - verb (MUST be: ${verbList})
                     ${scenarioLine}
                     - markingCriteria (${buildMarkingCriteriaInstruction(marks, primaryTier)})
                     - keywords (List of 5-10 technical terms)
@@ -840,11 +844,16 @@ export const generateNewPrompt = async (
 
   const data = validateAiResponse(GeneratedPromptResponseSchema, parsed, 'prompt');
 
+  const requestedVerb = verbs[0]?.term ?? (data.verb as PromptVerb);
+  const returnedVerb = (data.verb || '').toUpperCase() as PromptVerb;
+  const allowedSet = new Set(verbs.map((v) => v.term));
+  const verb = allowedSet.has(returnedVerb) ? returnedVerb : requestedVerb;
+
   return {
     id: generateId('prompt'),
     question: data.question,
     totalMarks: marks,
-    verb: data.verb as PromptVerb,
+    verb,
     // Respect the caller's choice even if the model returns a stray scenario.
     scenario: includeScenario ? data.scenario : '',
     markingCriteria: data.markingCriteria,

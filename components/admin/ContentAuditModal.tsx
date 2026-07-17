@@ -10,7 +10,7 @@ import {
   CommandTermInfo,
   SampleAnswer,
 } from '../../types';
-import { BatchTask, runBatchOperations, BatchProgress } from '../../utils/batchProcessor';
+import { BatchTask, runBatchOperations, BatchProgress, BatchFatalError } from '../../utils/batchProcessor';
 import { setBatchModelOverride } from '../../services/aiConfig';
 import { AI_MODELS } from '../../services/aiModels';
 import {
@@ -56,6 +56,7 @@ import {
   Wrench,
   UploadCloud,
   Gauge,
+  AlertTriangle,
 } from 'lucide-react';
 
 // --- Shared Components ---
@@ -974,7 +975,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
    */
   const executeBatch = async (
     tasks: BatchTask<void>[],
-    summarise: (done: number, failed: number, aborted: boolean) => void
+    summarise: (done: number, failed: number, aborted: boolean, fatal?: BatchFatalError) => void
   ) => {
     setIsProcessing(true);
     setProgress(null);
@@ -998,7 +999,12 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       abortControllerRef.current = null;
     }
 
-    summarise(finalProgress?.completed ?? 0, finalProgress?.failed ?? 0, controller.signal.aborted);
+    summarise(
+      finalProgress?.completed ?? 0,
+      finalProgress?.failed ?? 0,
+      controller.signal.aborted,
+      finalProgress?.fatalError
+    );
   };
 
   const handleBulkAction = async (actionType: BulkActionType) => {
@@ -1014,11 +1020,13 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     // the run (or leave the app's per-role defaults when 'default').
     setBatchModelOverride(batchEngine === 'default' ? null : batchEngine);
     try {
-      await executeBatch(tasks, (done, failed, aborted) => {
+      await executeBatch(tasks, (done, failed, aborted, fatal) => {
         if (aborted) {
           showToast(`Batch stopped — ${done} of ${tasks.length} completed.`, 'info');
+        } else if (fatal) {
+          showToast(`Batch halted: ${fatal.userMessage} ${fatal.suggestion}`, 'error');
         } else if (failed > 0) {
-          showToast(`Batch finished: ${done} succeeded, ${failed} failed.`, 'error');
+          showToast(`Batch finished: ${done} succeeded, ${failed} failed. Check the processing log for details.`, 'error');
         } else {
           showToast(`Batch complete: ${done} item${done === 1 ? '' : 's'} updated.`, 'success');
         }
@@ -1451,10 +1459,26 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 <span className="text-slate-500">Total: {progress.total}</span>
               </div>
             </div>
-            <div className="flex-1 bg-black/40 light:bg-slate-50 rounded-3xl border border-white/5 light:border-slate-200 p-6 overflow-y-auto font-mono text-xs text-indigo-300/60 light:text-indigo-600/70 space-y-2 custom-scrollbar shadow-inner">
-              {progress.logs.map((log, i) => (
-                <div key={i} className="animate-fade-in truncate">{`> ${log}`}</div>
-              ))}
+            <div className="flex-1 bg-black/40 light:bg-slate-50 rounded-3xl border border-white/5 light:border-slate-200 p-6 overflow-y-auto font-mono text-xs space-y-2 custom-scrollbar shadow-inner">
+              {progress.fatalError && (
+                <div className="flex items-start gap-3 p-3 mb-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 light:text-red-600 animate-fade-in">
+                  <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-bold text-xs">{progress.fatalError.userMessage}</p>
+                    <p className="text-[11px] opacity-80 mt-0.5">{progress.fatalError.suggestion}</p>
+                  </div>
+                </div>
+              )}
+              {progress.logs.map((log, i) => {
+                let colour = 'text-indigo-300/60 light:text-indigo-600/70';
+                if (log.includes('✓')) colour = 'text-emerald-400 light:text-emerald-600';
+                else if (log.includes('⛔')) colour = 'text-red-400 light:text-red-600';
+                else if (log.includes('⚠')) colour = 'text-amber-400 light:text-amber-600';
+                else if (log.includes('✗')) colour = 'text-red-300 light:text-red-500';
+                return (
+                  <div key={i} className={`animate-fade-in truncate ${colour}`}>{`> ${log}`}</div>
+                );
+              })}
               <div ref={logsEndRef} />
             </div>
           </div>
