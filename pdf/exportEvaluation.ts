@@ -51,6 +51,9 @@ const COLUMNS_PER_PAGE = 2;
 const BASE_COLUMN_GAP = 7;
 const SCALE_CANDIDATES = [1, 0.95, 0.9, 0.85, 0.8, 0.75];
 const TARGET_PAGES = 2;
+// When the student's own answer rides along, the content roughly doubles —
+// allow a third page rather than shrinking everything towards the 0.75 floor.
+const TARGET_PAGES_WITH_ANSWER = 3;
 
 const ASCENT = 0.82; // approximate baseline offset as a fraction of em
 const ascentMm = (fontPt: number) => fontPt * MM_PER_PT * ASCENT;
@@ -353,12 +356,13 @@ export const exportEvaluationPdf = async (
   progress(0.25, 'Laying out content…');
   const blocks = buildEvaluationBlocks(opts.data);
   const measurer = createMeasurer(doc, ctx);
+  const targetPages = opts.data.studentAnswer?.trim() ? TARGET_PAGES_WITH_ANSWER : TARGET_PAGES;
   const choice = chooseScale(
     blocks,
     measurer,
     (s) => geometryFor(pageSize, s),
     SCALE_CANDIDATES,
-    TARGET_PAGES
+    targetPages
   );
   const pScale = choice.pScale;
   const geo = geometryFor(pageSize, pScale);

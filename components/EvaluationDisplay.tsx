@@ -28,7 +28,9 @@ import {
   Save,
   ArrowUpCircle,
   AlertCircle,
+  ChevronRight,
   FileText,
+  PenLine,
   Quote,
   Target,
   RefreshCw,
@@ -221,7 +223,6 @@ interface EvaluationDisplayProps {
   isImproving: boolean;
   improveAnswerError: string | null;
   userAnswer?: string;
-  breadcrumbs?: string[];
   onSaveToSamples?: () => void;
   onFeedbackSubmit?: (feedback: UserFeedback) => void;
   hierarchy?: HierarchyContext;
@@ -293,6 +294,18 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
     return { keywordsUsedCount: used.length };
   }, [userAnswer, prompt.keywords]);
 
+  // Where this question lives in the syllabus — shown under the hero and
+  // embedded in the PDF so a shared report identifies its own provenance.
+  const syllabusTrail = useMemo(
+    () =>
+      hierarchy
+        ? [hierarchy.course, hierarchy.topic, hierarchy.subTopic, hierarchy.dotPoint].filter(
+            (s): s is string => !!s && !!s.trim()
+          )
+        : [],
+    [hierarchy]
+  );
+
   const handleExportPdf = async () => {
     if (isExporting) return; // guard double-clicks
     setIsExporting(true);
@@ -305,6 +318,8 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           question: prompt.question,
           verb: prompt.verb,
           totalMarks: prompt.totalMarks,
+          syllabusPath: syllabusTrail.join('  ›  ') || undefined,
+          studentAnswer: userAnswer.trim() || undefined,
           overallMark: result.overallMark,
           overallBand: result.overallBand,
           overallFeedback: result.overallFeedback || '',
@@ -363,6 +378,24 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
 
       {/* Hero Question Context */}
       <div className="pt-2 pb-6 px-2">
+        {syllabusTrail.length > 0 && (
+          <nav
+            aria-label="Syllabus location"
+            className="flex flex-wrap items-center gap-x-1.5 gap-y-1 mb-3 text-slate-500 dark:text-slate-400"
+          >
+            {syllabusTrail.map((segment, i) => (
+              <React.Fragment key={i}>
+                {i > 0 && <ChevronRight className="w-3 h-3 shrink-0 opacity-50" />}
+                <span
+                  className="text-[10px] font-bold uppercase tracking-wider truncate max-w-[16rem]"
+                  title={segment}
+                >
+                  {segment}
+                </span>
+              </React.Fragment>
+            ))}
+          </nav>
+        )}
         <div className="flex items-center gap-3 mb-4 opacity-60">
           <span className="text-[10px] font-black uppercase tracking-[0.2em]">{prompt.verb}</span>
           <div className="h-px w-8 bg-current"></div>
@@ -480,6 +513,31 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Student Response — included so the report can be shared with a
+          teacher as a self-contained record of what was actually submitted. */}
+      {userAnswer.trim() && (
+        <section className="rounded-3xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 shadow-sm overflow-hidden">
+          <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-white/5 bg-slate-50/70 dark:bg-white/[0.03]">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-xl bg-slate-200/70 dark:bg-white/10 text-slate-600 dark:text-slate-300">
+                <PenLine className="w-4 h-4" />
+              </div>
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+                {userName}'s Response
+              </h3>
+            </div>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+              {wordCount} words · as submitted
+            </span>
+          </div>
+          <div className="p-6 sm:p-8">
+            <div className="prose prose-slate dark:prose-invert max-w-none font-serif leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-line">
+              {renderFormattedText(userAnswer, prompt.keywords, prompt.verb)}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Quick Coach Tip Banner */}
       {result.quickTip && (
