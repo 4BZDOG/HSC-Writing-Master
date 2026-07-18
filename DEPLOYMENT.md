@@ -138,3 +138,47 @@ Host just the API on Vercel (Option 1) and connect the two origins:
       `VITE_ENABLE_DEMO_AUTH=true` for a demo, or guest-only.
 - [ ] Visit the deployed URL, log in, import the curriculum library, and
       run one evaluation end-to-end.
+
+## Google & Microsoft (SSO) sign-in
+
+The login page shows **Google**, **Microsoft** and **GitHub** buttons whenever
+Supabase is configured. The buttons work as soon as the matching provider is
+enabled in your Supabase project — no app code or env vars are involved.
+
+### 1. Enable the provider in Supabase
+
+Supabase dashboard → **Authentication → Providers**:
+
+- **Google**: create an OAuth client in [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
+  (type "Web application"). Authorised redirect URI:
+  `https://<project-ref>.supabase.co/auth/v1/callback`. Paste the client ID and
+  secret into the Google provider settings.
+- **Microsoft (Azure)**: register an app in
+  [Microsoft Entra admin centre](https://entra.microsoft.com) → App
+  registrations. Redirect URI (Web):
+  `https://<project-ref>.supabase.co/auth/v1/callback`. For NSW DoE / school
+  tenants choose the multi-tenant account type ("Accounts in any
+  organisational directory") so students can sign in with their school
+  Microsoft accounts. Paste the Application (client) ID and a client secret
+  into the Azure provider settings.
+- **GitHub**: GitHub → Settings → Developer settings → OAuth Apps, callback
+  URL as above.
+
+### 2. Allow your app's URL as a redirect target
+
+Supabase dashboard → **Authentication → URL Configuration**:
+
+- **Site URL**: your deployed app URL — _including the base path_ on GitHub
+  Pages, e.g. `https://<user>.github.io/<repo>/`.
+- **Redirect URLs**: add every URL the app runs at (production, Pages,
+  `http://localhost:3000` for development).
+
+The app sends users back to `origin + base path` after sign-in; if that URL
+is not in this allowlist, Supabase falls back to the Site URL.
+
+### 3. First sign-in behaviour
+
+A first-time OAuth sign-in auto-creates a `profiles` row (student role) via
+the `handle_new_user` trigger. Usernames derive from the email local-part
+and are de-duplicated automatically. Promote teachers/admins afterwards with
+the admin console or SQL (`update profiles set role = 'teacher' where …`).

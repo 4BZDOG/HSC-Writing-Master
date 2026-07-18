@@ -230,17 +230,41 @@ end $$;
 -- ----------------------------------------------------------------------------
 -- 7. Auto-create a profile row when a new auth user signs up
 -- ----------------------------------------------------------------------------
+-- Usernames must be unique but OAuth/SSO sign-ups derive them from the email
+-- local-part, which collides (john.smith@gmail.com vs john.smith@det.nsw.edu.au).
+-- A collision here used to abort the INSERT — rolling back the auth.users row
+-- and failing the person's entire sign-up with an opaque "database error".
+-- Now: try the base name, and on conflict append a short fragment of the
+-- user's id. The unique_violation handler covers the race two concurrent
+-- sign-ups can still hit.
 create or replace function public.handle_new_user()
 returns trigger language plpgsql security definer set search_path = public as $$
+declare
+  v_base text := coalesce(
+    nullif(trim(new.raw_user_meta_data ->> 'username'), ''),
+    nullif(split_part(coalesce(new.email, ''), '@', 1), ''),
+    'user'
+  );
+  v_name text := v_base;
+  v_display text := coalesce(
+    nullif(trim(new.raw_user_meta_data ->> 'display_name'), ''),
+    nullif(trim(new.raw_user_meta_data ->> 'full_name'), ''),
+    v_base
+  );
 begin
-  insert into public.profiles (id, username, display_name, role)
-  values (
-    new.id,
-    coalesce(new.raw_user_meta_data ->> 'username', split_part(new.email, '@', 1)),
-    coalesce(new.raw_user_meta_data ->> 'display_name', split_part(new.email, '@', 1)),
-    'student'
-  )
-  on conflict (id) do nothing;
+  if exists (select 1 from public.profiles where username = v_name) then
+    v_name := v_base || '-' || left(replace(new.id::text, '-', ''), 6);
+  end if;
+
+  begin
+    insert into public.profiles (id, username, display_name, role)
+    values (new.id, v_name, v_display, 'student')
+    on conflict (id) do nothing;
+  exception when unique_violation then
+    insert into public.profiles (id, username, display_name, role)
+    values (new.id, v_base || '-' || left(replace(new.id::text, '-', ''), 6), v_display, 'student')
+    on conflict (id) do nothing;
+  end;
   return new;
 end; $$;
 
