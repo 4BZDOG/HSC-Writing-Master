@@ -56,6 +56,7 @@ import {
 } from 'lucide-react';
 import { apiMonitor, ApiStatus } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
+import BillingAlertBanner from './components/BillingAlertBanner';
 import SyllabusNavBar from './components/SyllabusNavBar';
 import { loadUserProfile } from './utils/storageUtils';
 import {
@@ -806,6 +807,8 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       <div
         className={`relative max-w-[1600px] mx-auto ${isFocusMode ? 'p-2 sm:p-4 pt-16 sm:pt-16' : 'p-4 sm:p-6 lg:p-8'} flex flex-col gap-6 transition-all duration-500`}
       >
+        {!isFocusMode && <BillingAlertBanner />}
+
         {!isFocusMode && isNavCollapsed && currentPrompt && (
           <SyllabusNavBar
             crumbs={[
