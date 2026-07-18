@@ -1405,12 +1405,14 @@ exception when duplicate_object then null; end $$;
 -- Helper: resolve a user's active plan from their subscription state.
 -- Returns 'plus' | 'school' | 'free'.  Called from getUserPlan on the
 -- client via the profile's stripe_plan column (cached by the webhook).
+-- `past_due` keeps the plan: Stripe is still retrying the charge (grace
+-- period) — mirrors the webhook's handleSubscriptionUpsert rule.
 create or replace function public.resolve_stripe_plan(p_user_id uuid)
 returns text language sql stable security definer as $$
   select coalesce(
     (select s.plan from public.subscriptions s
       where s.user_id = p_user_id
-        and s.status in ('active', 'trialing')
+        and s.status in ('active', 'trialing', 'past_due')
       order by s.current_period_end desc
       limit 1),
     'free'

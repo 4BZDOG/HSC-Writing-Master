@@ -81,6 +81,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     // portal (which looks up the stored customer id) loses sight of older
     // subscriptions.
     let existingCustomerId: string | undefined;
+    let customerEmail: string | undefined;
     const supabase = getSupabaseAdmin();
     if (supabase) {
       const { data: profile } = await supabase
@@ -89,6 +90,18 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
         .eq('id', auth.userId)
         .maybeSingle();
       if (profile?.stripe_customer_id) existingCustomerId = profile.stripe_customer_id;
+
+      // First checkout for this user: prefill their account email so the new
+      // Stripe customer is identifiable and receipts / failed-payment recovery
+      // emails reach the right inbox. Best-effort — checkout works without it.
+      if (!existingCustomerId) {
+        try {
+          const { data } = await supabase.auth.admin.getUserById(auth.userId);
+          customerEmail = data?.user?.email ?? undefined;
+        } catch {
+          /* prefill only */
+        }
+      }
     }
 
     const session = await stripe.checkout.sessions.create({
@@ -98,7 +111,11 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       success_url: `${returnBase}?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${returnBase}?checkout=cancelled`,
       client_reference_id: auth.userId ?? undefined,
-      ...(existingCustomerId ? { customer: existingCustomerId } : {}),
+      ...(existingCustomerId
+        ? { customer: existingCustomerId }
+        : customerEmail
+          ? { customer_email: customerEmail }
+          : {}),
       // Stamp the Supabase user onto the subscription itself: webhook events
       // (customer.subscription.created) can arrive BEFORE checkout.completed
       // links the customer id to the profile, and without this metadata the

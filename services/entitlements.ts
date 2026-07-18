@@ -358,6 +358,42 @@ export const createCheckoutUrl = async (priceId: string): Promise<string | null>
 };
 
 /**
+ * Billing health for the signed-in user, read from their own subscriptions
+ * row (RLS: "Users read own subscriptions"). Returns non-null only when the
+ * newest subscription is `past_due` — i.e. a charge failed and Stripe is
+ * retrying. The webhook deliberately KEEPS the plan during this grace period
+ * (see api/stripe-webhook.ts), so this is the client's only signal to prompt
+ * the user to fix their payment method before retries run out.
+ */
+export interface BillingAlert {
+  status: 'past_due';
+  plan: string;
+  currentPeriodEnd: string | null;
+}
+
+export const fetchBillingAlert = async (): Promise<BillingAlert | null> => {
+  try {
+    const { supabase } = await import('./supabaseClient');
+    if (!supabase) return null;
+    const { data, error } = await supabase
+      .from('subscriptions')
+      .select('status, plan, current_period_end')
+      .order('current_period_end', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (error || !data) return null;
+    if (data.status !== 'past_due') return null;
+    return {
+      status: 'past_due',
+      plan: typeof data.plan === 'string' ? data.plan : 'plus',
+      currentPeriodEnd: data.current_period_end ?? null,
+    };
+  } catch {
+    return null;
+  }
+};
+
+/**
  * Open the Stripe Billing Portal so the user can manage their subscription.
  * Returns the portal URL or null on failure.
  */

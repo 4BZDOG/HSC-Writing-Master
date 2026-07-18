@@ -267,7 +267,18 @@ async function handleSubscriptionUpsert(supabase: SB, sub: Record<string, unknow
   }
 
   // Update the cached plan on the profile.
-  const activePlan = status === 'active' || status === 'trialing' ? plan : 'free';
+  //
+  // Grace period: `past_due` means one charge failed and STRIPE IS STILL
+  // RETRYING (smart retries run for days). Downgrading here would cut a
+  // paying customer off over a flaky card charge — and contradicts the
+  // invoice.payment_failed handler above, which deliberately doesn't
+  // downgrade. The plan is only dropped on terminal states (canceled,
+  // unpaid, incomplete_expired), which Stripe reaches after retries are
+  // exhausted (customer.subscription.deleted also fires for cancellations).
+  // The client reads the subscription row's `past_due` status directly
+  // (RLS: users read own subscriptions) to show a fix-your-payment banner.
+  const keepsPlan = status === 'active' || status === 'trialing' || status === 'past_due';
+  const activePlan = keepsPlan ? plan : 'free';
   const { error: profileError } = await supabase
     .from('profiles')
     .update({
