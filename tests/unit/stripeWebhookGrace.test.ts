@@ -8,6 +8,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
  */
 
 const updates: Array<{ table: string; values: Record<string, unknown> }> = [];
+const upserts: Array<{ table: string; values: Record<string, unknown> }> = [];
+const retrieveMock = vi.fn();
 
 const makeSupabaseMock = () => ({
   from: (table: string) => ({
@@ -17,7 +19,10 @@ const makeSupabaseMock = () => ({
         return { error: null };
       },
     }),
-    upsert: async () => ({ error: null }),
+    upsert: async (values: Record<string, unknown>) => {
+      upserts.push({ table, values });
+      return { error: null };
+    },
     select: () => ({
       eq: () => ({
         maybeSingle: async () => ({ data: { id: 'user-1' } }),
@@ -29,7 +34,7 @@ const makeSupabaseMock = () => ({
 });
 
 vi.mock('../../api/_lib/stripe', () => ({
-  getStripe: () => ({}) as unknown,
+  getStripe: () => ({ subscriptions: { retrieve: retrieveMock } }) as unknown,
   isStripeConfigured: () => true,
   getSupabaseAdmin: () => makeSupabaseMock(),
   priceToPlan: () => 'plus',
@@ -79,6 +84,8 @@ const profilePlanWritten = (): unknown => {
 describe('stripe webhook plan grace period', () => {
   beforeEach(() => {
     updates.length = 0;
+    upserts.length = 0;
+    retrieveMock.mockReset();
   });
 
   it('keeps the paid plan while the subscription is past_due (Stripe still retrying)', async () => {
@@ -104,4 +111,132 @@ describe('stripe webhook plan grace period', () => {
       expect(profilePlanWritten()).toBe('free');
     }
   );
+});
+
+describe('stripe webhook modern-API (basil+) field shapes', () => {
+  beforeEach(() => {
+    updates.length = 0;
+    upserts.length = 0;
+    retrieveMock.mockReset();
+  });
+
+  it('reads period dates from subscription items when the top-level fields are absent', async () => {
+    const periodEnd = 1_702_600_000;
+    const res = makeRes();
+    await handler(
+      {
+        method: 'POST',
+        headers: {},
+        body: {
+          type: 'customer.subscription.updated',
+          data: {
+            object: {
+              id: 'sub_1',
+              customer: 'cus_1',
+              status: 'active',
+              // basil+: no top-level current_period_*; they live on the item.
+              items: {
+                data: [
+                  {
+                    price: { id: 'price_plus' },
+                    current_period_start: 1_700_000_000,
+                    current_period_end: periodEnd,
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+      res
+    );
+    expect(res.statusCode).toBe(200);
+
+    const subRow = upserts.find((u) => u.table === 'subscriptions')?.values as Record<
+      string,
+      string
+    >;
+    expect(subRow.current_period_end).toBe(new Date(periodEnd * 1000).toISOString());
+
+    const profileWrite = updates.find((u) => u.table === 'profiles' && 'plan_period_end' in u.values)
+      ?.values as Record<string, string>;
+    expect(profileWrite.plan_period_end).toBe(new Date(periodEnd * 1000).toISOString());
+  });
+
+  it('marks the subscription past_due from the basil+ invoice.parent shape', async () => {
+    const res = makeRes();
+    await handler(
+      {
+        method: 'POST',
+        headers: {},
+        body: {
+          type: 'invoice.payment_failed',
+          data: {
+            object: {
+              customer: 'cus_1',
+              // basil+: no invoice.subscription; nested under parent.
+              parent: { subscription_details: { subscription: 'sub_1' } },
+            },
+          },
+        },
+      },
+      res
+    );
+    expect(res.statusCode).toBe(200);
+    const write = updates.find((u) => u.table === 'subscriptions');
+    expect(write?.values.status).toBe('past_due');
+  });
+});
+
+describe('stripe webhook eager activation on checkout completion', () => {
+  beforeEach(() => {
+    updates.length = 0;
+    upserts.length = 0;
+    retrieveMock.mockReset();
+  });
+
+  const checkoutEvent = {
+    method: 'POST',
+    headers: {},
+    body: {
+      type: 'checkout.session.completed',
+      data: {
+        object: {
+          client_reference_id: 'user-1',
+          customer: 'cus_1',
+          subscription: 'sub_1',
+          mode: 'subscription',
+        },
+      },
+    },
+  };
+
+  it('retrieves the subscription and activates the plan without waiting for later events', async () => {
+    retrieveMock.mockResolvedValue({
+      id: 'sub_1',
+      customer: 'cus_1',
+      status: 'active',
+      items: { data: [{ price: { id: 'price_plus' } }] },
+      current_period_start: 1_700_000_000,
+      current_period_end: 1_702_600_000,
+    });
+
+    const res = makeRes();
+    await handler(checkoutEvent, res);
+    expect(res.statusCode).toBe(200);
+    expect(retrieveMock).toHaveBeenCalledWith('sub_1');
+    expect(profilePlanWritten()).toBe('plus');
+  });
+
+  it('still succeeds (customer linked) when the eager retrieve fails', async () => {
+    retrieveMock.mockRejectedValue(new Error('stripe unavailable'));
+    const res = makeRes();
+    await handler(checkoutEvent, res);
+    expect(res.statusCode).toBe(200);
+    // Customer link still written; plan activation deferred to the
+    // customer.subscription.* events.
+    expect(updates.some((u) => u.table === 'profiles' && 'stripe_customer_id' in u.values)).toBe(
+      true
+    );
+  });
 });

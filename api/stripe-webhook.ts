@@ -135,7 +135,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   try {
     switch (eventType) {
       case 'checkout.session.completed':
-        await handleCheckoutCompleted(supabase, obj);
+        await handleCheckoutCompleted(supabase, stripe, obj);
         break;
 
       case 'customer.subscription.created':
@@ -170,9 +170,19 @@ type SB = NonNullable<ReturnType<typeof getSupabaseAdmin>>;
 
 /**
  * checkout.session.completed — links the Stripe customer ID to the Supabase
- * profile using the `client_reference_id` (the user's auth.uid).
+ * profile using the `client_reference_id` (the user's auth.uid), then
+ * activates the plan immediately by retrieving the session's subscription and
+ * running the normal upsert. This removes the activation's dependence on
+ * webhook ordering AND shortens the post-checkout wait: previously the plan
+ * only landed when customer.subscription.created/updated happened to arrive
+ * and match a profile. Best-effort — if the retrieve fails, the subscription
+ * events still activate the plan as before.
  */
-async function handleCheckoutCompleted(supabase: SB, session: Record<string, unknown>) {
+async function handleCheckoutCompleted(
+  supabase: SB,
+  stripe: ReturnType<typeof getStripe>,
+  session: Record<string, unknown>
+) {
   const userId = session.client_reference_id as string | undefined;
   const customerId = session.customer as string | undefined;
   if (!userId || !customerId) {
@@ -191,6 +201,22 @@ async function handleCheckoutCompleted(supabase: SB, session: Record<string, unk
     console.error('[stripe-webhook] Failed to link customer:', error.message);
     throw error;
   }
+
+  const subscriptionId =
+    typeof session.subscription === 'string'
+      ? session.subscription
+      : ((session.subscription as { id?: string } | null)?.id ?? undefined);
+  if (stripe && subscriptionId && session.mode === 'subscription') {
+    try {
+      const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+      await handleSubscriptionUpsert(supabase, subscription as unknown as Record<string, unknown>);
+    } catch (e) {
+      console.warn(
+        '[stripe-webhook] eager activation failed (subscription events will cover it):',
+        e instanceof Error ? e.message : e
+      );
+    }
+  }
 }
 
 /**
@@ -203,12 +229,28 @@ async function handleSubscriptionUpsert(supabase: SB, sub: Record<string, unknow
   const status = sub.status as string;
   const cancelAtPeriodEnd = (sub.cancel_at_period_end as boolean) ?? false;
 
-  const items = sub.items as { data?: Array<{ price?: { id?: string } }> } | undefined;
-  const priceId = items?.data?.[0]?.price?.id ?? '';
+  const items = sub.items as
+    | {
+        data?: Array<{
+          price?: { id?: string };
+          current_period_start?: number;
+          current_period_end?: number;
+        }>;
+      }
+    | undefined;
+  const firstItem = items?.data?.[0];
+  const priceId = firstItem?.price?.id ?? '';
   const plan = priceToPlan(priceId);
 
-  const periodStart = sub.current_period_start as number | undefined;
-  const periodEnd = sub.current_period_end as number | undefined;
+  // Stripe API ≥ 2025-03-31 (basil) removed current_period_start/end from the
+  // Subscription object — they now live on each subscription item. Read the
+  // top-level fields first (older webhook API versions) and fall back to the
+  // first item; without the fallback, modern accounts stored "now" for both
+  // and the profile's renewal date was always today.
+  const periodStart = (sub.current_period_start ?? firstItem?.current_period_start) as
+    | number
+    | undefined;
+  const periodEnd = (sub.current_period_end ?? firstItem?.current_period_end) as number | undefined;
 
   // Find the user who owns this customer ID.
   const { data: profile } = await supabase
@@ -344,7 +386,18 @@ async function handlePaymentFailed(supabase: SB, invoice: Record<string, unknown
   const customerId = invoice.customer as string | undefined;
   if (!customerId) return;
 
-  const subId = invoice.subscription as string | undefined;
+  // Stripe API ≥ 2025-03-31 (basil) removed invoice.subscription; the
+  // reference now lives at invoice.parent.subscription_details.subscription
+  // (string or expanded object). Check both shapes so the past_due flag is
+  // set regardless of the webhook endpoint's configured API version.
+  const parent = invoice.parent as
+    | { subscription_details?: { subscription?: string | { id?: string } } }
+    | undefined;
+  const parentSub = parent?.subscription_details?.subscription;
+  const subId =
+    (typeof invoice.subscription === 'string' ? invoice.subscription : undefined) ??
+    (typeof parentSub === 'string' ? parentSub : parentSub?.id);
+
   if (subId) {
     await supabase
       .from('subscriptions')
