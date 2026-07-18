@@ -20,12 +20,7 @@ import { AICache } from '../services/aiCache';
 import { persistResponse, saveResponseFeedback } from '../services/responseService';
 import { findAndUpdateItem, findSelectionContext } from '../utils/stateUtils';
 import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
-import {
-  getCommandTermsForMarks,
-  getBandForMark,
-  getCommandTermInfo,
-  markForBand,
-} from '../data/commandTerms';
+import { getBandForMark, getCommandTermInfo, markForBand } from '../data/commandTerms';
 import { generateId } from '../utils/idUtils';
 import {
   addAndPruneSampleAnswers,
@@ -87,6 +82,15 @@ export const useGemini = ({
   const cleanupTimeoutRef = useRef<number | null>(null);
   const isMounted = useRef(true);
   const enrichingRef = useRef(new Set<string>());
+
+  // The question currently on screen. AI calls capture the prompt they were
+  // started for; when one resolves AFTER the user has moved to a different
+  // question, its result must not surface in the UI (the library save still
+  // happens — it belongs to the evaluated prompt regardless).
+  const activePromptIdRef = useRef<string | undefined>(currentPrompt?.id);
+  useEffect(() => {
+    activePromptIdRef.current = currentPrompt?.id;
+  }, [currentPrompt?.id]);
 
   useEffect(() => {
     isMounted.current = true;
@@ -171,8 +175,6 @@ export const useGemini = ({
         });
 
         await AICache.set(`evaluate:${prompt.id}:${answer.slice(0, 100)}`, result);
-        setEvaluationResult(result);
-        showToast('Marking complete. Results auto-saved to library.', 'success');
 
         // Persist the attempt + AI feedback to the responses table for
         // longitudinal analytics (Supabase mode only). Best-effort and
@@ -182,9 +184,17 @@ export const useGemini = ({
           wordCount: answer.trim().split(/\s+/).filter(Boolean).length,
           result,
         });
+
+        // Only surface the result if the user is still on the question that
+        // was marked — a late response must not open the feedback modal over
+        // a different question.
+        if (activePromptIdRef.current === prompt.id) {
+          setEvaluationResult(result);
+          showToast('Marking complete. Results auto-saved to library.', 'success');
+        }
       } catch (error) {
         const message = handleApiError(error);
-        setEvaluationError(message);
+        if (activePromptIdRef.current === prompt.id) setEvaluationError(message);
       } finally {
         setIsEvaluating(false);
       }
@@ -243,13 +253,17 @@ export const useGemini = ({
           });
         });
 
-        setImprovedAnswer(improved);
-        setOriginalAnswerForImprovement(originalAnswer);
-        showToast(`Auto-saved Band ${targetBand} exemplar to library.`, 'success');
+        // As with evaluate: the exemplar is saved to the library either way,
+        // but a late result must not surface on a different question.
+        if (activePromptIdRef.current === prompt.id) {
+          setImprovedAnswer(improved);
+          setOriginalAnswerForImprovement(originalAnswer);
+          showToast(`Auto-saved Band ${targetBand} exemplar to library.`, 'success');
+        }
         return improved;
       } catch (error) {
         const message = handleApiError(error);
-        setImproveAnswerError(message);
+        if (activePromptIdRef.current === prompt.id) setImproveAnswerError(message);
         return null;
       } finally {
         setIsImproving(false);
@@ -432,7 +446,10 @@ export const useGemini = ({
     setIsRegeneratingKeywords(true);
     setRegenerateKeywordsError(null);
     try {
-      const { primaryTerm: commandTermInfo } = getCommandTermsForMarks(currentPrompt.totalMarks);
+      // The question's OWN verb, not the typical verb for its mark value —
+      // an off-scheme pairing (e.g. an 8-mark DESCRIBE) must get keywords
+      // pitched at its actual cognitive demand.
+      const commandTermInfo = getCommandTermInfo(currentPrompt.verb);
       const keywords = await gemini.generateKeywordsForPrompt(
         currentPrompt,
         commandTermInfo,
@@ -460,7 +477,8 @@ export const useGemini = ({
     setIsSuggestingKeywords(true);
     setSuggestKeywordsError(null);
     try {
-      const { primaryTerm: commandTermInfo } = getCommandTermsForMarks(currentPrompt.totalMarks);
+      // Same rule as handleRegenerateKeywords: key off the question's own verb.
+      const commandTermInfo = getCommandTermInfo(currentPrompt.verb);
       const generated = await gemini.generateKeywordsForPrompt(
         currentPrompt,
         commandTermInfo,
