@@ -8,6 +8,8 @@ import {
 } from '../types';
 import {
   getBandConfig,
+  getBandHex,
+  getBandName,
   renderFormattedText,
   stripHtmlTags,
   textContainsKeyword,
@@ -16,12 +18,8 @@ import {
 import {
   CheckCircle,
   XCircle,
-  BookOpen,
-  Repeat,
-  BarChart,
   Hash,
   Award,
-  Sparkles,
   AlertTriangle,
   Trophy,
   ClipboardList,
@@ -29,27 +27,17 @@ import {
   Loader2,
   Save,
   ArrowUpCircle,
-  ChevronRight,
   AlertCircle,
-  Settings,
   FileText,
-  FileQuestion,
   Quote,
   Target,
   RefreshCw,
-  Copy,
-  Check,
   Zap,
-  ChevronDown,
-  ChevronUp,
-  Clock,
   Lightbulb,
 } from 'lucide-react';
 import { getCommandTermInfo, getBandForMark } from '../data/commandTerms';
 import LoadingIndicator from './LoadingIndicator';
 import ResponseFeedback from './ResponseFeedback';
-import { useAnswerMetrics } from '../hooks/useAnswerMetrics';
-import AnswerMetricsDisplay from './AnswerMetricsDisplay';
 import { exportEvaluationPdf } from '../pdf';
 import { isFeatureLocked, isFeedbackLocked, requestUpgrade } from '../services/entitlements';
 import { PlusLockChip, ContentLockOverlay } from './UpgradeModal';
@@ -104,13 +92,84 @@ const MetricCard = ({
   </div>
 );
 
+// The "Band 6" goal meter: how far this response sits from the app's titular
+// goal. Achieved bands fill in the current band's canonical colour (BAND_HEX,
+// via getBandHex, so it always matches the placard beside it); the numbered
+// rungs and the distance text carry the information without relying on colour.
+const BandGoalCard = ({ currentBand, maxBand }: { currentBand: number; maxBand: number }) => {
+  const goalConfig = getBandConfig(6);
+  const reached = currentBand >= 6;
+  const bandsAway = Math.max(0, 6 - currentBand);
+
+  return (
+    <div className="bg-white dark:bg-white/5 rounded-3xl p-5 border border-slate-100 dark:border-white/5 shadow-sm flex flex-col justify-between h-full relative overflow-hidden group hover:shadow-md transition-all duration-300">
+      <div className="flex justify-between items-start mb-3">
+        <div
+          className={`p-2.5 rounded-2xl ${goalConfig.bg} ${goalConfig.text} group-hover:scale-110 transition-transform duration-300`}
+        >
+          <Trophy className="w-5 h-5" />
+        </div>
+        {maxBand < 6 && (
+          <span
+            className="text-[9px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 text-right"
+            title="The cognitive tier of this question caps the highest achievable band"
+          >
+            Question ceiling
+            <br />
+            Band {maxBand}
+          </span>
+        )}
+      </div>
+      <div>
+        <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">
+          Band 6 Goal
+        </h4>
+        <div className="flex items-baseline gap-2 mb-4">
+          <span className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+            {reached ? 'Achieved' : `${bandsAway} band${bandsAway === 1 ? '' : 's'} to go`}
+          </span>
+          <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+            {getBandName(currentBand)}
+          </span>
+        </div>
+        <div
+          className="flex gap-1"
+          role="img"
+          aria-label={`Band ${currentBand} of 6 — ${reached ? 'Band 6 achieved' : `${bandsAway} band${bandsAway === 1 ? '' : 's'} from the Band 6 goal`}`}
+        >
+          {[1, 2, 3, 4, 5, 6].map((b) => (
+            <div key={b} className="flex-1 flex flex-col items-center gap-1.5">
+              <div
+                className={`h-2 w-full rounded-full transition-colors duration-500 ${
+                  b <= currentBand ? '' : 'bg-slate-200 dark:bg-white/10'
+                }`}
+                style={b <= currentBand ? { backgroundColor: getBandHex(currentBand) } : undefined}
+              />
+              <span
+                className={`text-[9px] font-black leading-none ${
+                  b === 6
+                    ? goalConfig.text
+                    : b <= currentBand
+                      ? 'text-slate-600 dark:text-slate-300'
+                      : 'text-slate-300 dark:text-slate-600'
+                }`}
+              >
+                {b}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Added interface and used React.FC to correctly allow standard props like 'key' in JSX
 interface CriteriaRowProps {
   criterion: EvaluationCriterion;
   maxMark: number;
   mark: number;
   feedback: string;
-  bandConfig: any;
   prompt: Prompt;
   index?: number;
 }
@@ -120,7 +179,6 @@ const CriteriaRow: React.FC<CriteriaRowProps> = ({
   maxMark,
   mark,
   feedback,
-  bandConfig,
   prompt,
   index = 0,
 }) => {
@@ -213,8 +271,10 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
   );
 
   const exemplarBand = useMemo(() => {
+    // An AI-reported band is clamped to the question's ceiling too — the Verb
+    // Gate applies to every band figure shown, including model output.
     if (typeof result.revisedAnswer === 'object' && result.revisedAnswer.band) {
-      return result.revisedAnswer.band;
+      return Math.min(maxBand, result.revisedAnswer.band);
     }
     return Math.min(maxBand, result.overallBand + 1);
   }, [result.revisedAnswer, result.overallBand, maxBand]);
@@ -279,11 +339,16 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
   };
 
   return (
-    <div ref={reportRef} className="flex flex-col gap-8 max-w-5xl mx-auto pb-20 EvaluationDisplay">
+    <div
+      ref={reportRef}
+      className="relative flex flex-col gap-8 max-w-5xl mx-auto pb-20 EvaluationDisplay"
+    >
       {isImproving && (
         <div className="absolute inset-0 bg-white/80 dark:bg-[#0a0f1a]/80 backdrop-blur-md flex items-center justify-center z-50 rounded-[32px] h-full transition-all duration-500 no-print">
           <div className="w-full max-w-md transform scale-100 animate-in fade-in zoom-in duration-300">
             <LoadingIndicator
+              task="generation"
+              message={`Upgrading to Band ${exemplarBand}`}
               messages={[
                 'Synthesising higher-order concepts...',
                 'Refining syllabus terminology...',
@@ -314,7 +379,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         {/* Main Vibrant Placard */}
         <div
-          className={`clip-stable lg:col-span-7 relative rounded-[40px] overflow-hidden p-8 md:p-10 shadow-2xl transition-all duration-500 bg-gradient-to-br ${bandConfig.gradient}`}
+          className={`clip-stable lg:col-span-7 relative rounded-[32px] overflow-hidden p-8 shadow-xl transition-all duration-500 bg-gradient-to-br ${bandConfig.gradient}`}
         >
           <MeshOverlay opacity="opacity-[0.15]" />
 
@@ -329,9 +394,9 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                     Band {result.overallBand} Performance
                   </span>
                 </div>
-                <h1 className="text-7xl font-black tracking-tighter leading-none">
+                <h1 className="text-6xl font-black tracking-tighter leading-none">
                   {result.overallMark}
-                  <span className="text-4xl font-medium align-top opacity-60">
+                  <span className="text-3xl font-medium align-top opacity-60">
                     /{prompt.totalMarks}
                   </span>
                 </h1>
@@ -340,14 +405,14 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 </p>
               </div>
               <div
-                className={`w-20 h-20 rounded-[24px] flex items-center justify-center bg-white/20 backdrop-blur-md border border-white/20 shadow-xl no-print`}
+                className={`w-16 h-16 rounded-2xl flex items-center justify-center bg-white/20 backdrop-blur-md border border-white/20 shadow-xl no-print`}
               >
                 {result.overallBand >= 5 ? (
-                  <Trophy className="w-10 h-10 text-white" />
+                  <Trophy className="w-8 h-8 text-white" />
                 ) : result.overallBand >= 3 ? (
-                  <Target className="w-10 h-10 text-white" />
+                  <Target className="w-8 h-8 text-white" />
                 ) : (
-                  <AlertTriangle className="w-10 h-10 text-white" />
+                  <AlertTriangle className="w-8 h-8 text-white" />
                 )}
               </div>
             </div>
@@ -392,16 +457,10 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           </div>
         </div>
 
-        {/* Kanban Metrics */}
+        {/* Goal + Metrics */}
         <div className="lg:col-span-5 flex flex-col gap-4">
           <div className="flex-1">
-            <MetricCard
-              label="Cognitive Tier"
-              value={`Tier ${termInfo.tier}`}
-              subtext={prompt.verb}
-              icon={Sparkles}
-              theme={bandConfig}
-            />
+            <BandGoalCard currentBand={result.overallBand} maxBand={maxBand} />
           </div>
           <div className="grid grid-cols-2 gap-4 flex-1">
             <MetricCard
@@ -426,7 +485,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
       {result.quickTip && (
         <div
           className={`
-              mt-2 p-5 rounded-[24px] border-2 border-dashed
+              mt-2 p-5 rounded-3xl border-2 border-dashed
               flex items-start gap-4 animate-fade-in
               ${bandConfig.bg} ${bandConfig.border}
           `}
@@ -536,17 +595,31 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
               maxMark={criterion.maxMark}
               mark={criterion.mark}
               feedback={criterion.feedback}
-              bandConfig={bandConfig}
               prompt={prompt}
             />
           ))}
         </div>
       </section>
 
+      {/* Failed answer upgrades were silently swallowed before — surface them. */}
+      {improveAnswerError && !isImproving && (
+        <div className="flex items-start gap-3 p-4 rounded-2xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 no-print">
+          <AlertCircle className="w-5 h-5 shrink-0 mt-0.5 text-red-600 dark:text-red-400" />
+          <div>
+            <p className="text-sm font-bold text-red-700 dark:text-red-400">
+              The improved response could not be generated.
+            </p>
+            <p className="text-xs text-red-600/80 dark:text-red-400/80 mt-0.5">
+              {improveAnswerError}
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Improved Response (Exemplar) */}
       {revisedText && (
         <section
-          className={`clip-stable relative rounded-[40px] border-2 ${exemplarConfig.border} overflow-hidden shadow-2xl transition-all duration-500 group mt-8`}
+          className={`clip-stable relative rounded-[32px] border-2 ${exemplarConfig.border} overflow-hidden shadow-xl transition-all duration-500 group mt-8`}
         >
           <div
             className={`absolute inset-0 ${exemplarConfig.bg} opacity-[0.03] pointer-events-none no-print`}
@@ -554,7 +627,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           <MeshOverlay />
 
           <div
-            className={`px-10 py-6 bg-gradient-to-r ${exemplarConfig.gradient} flex flex-wrap justify-between items-center gap-6 relative z-10`}
+            className={`px-8 py-5 bg-gradient-to-r ${exemplarConfig.gradient} flex flex-wrap justify-between items-center gap-4 relative z-10`}
           >
             <div className="flex items-center gap-5">
               <div className="p-3 rounded-2xl bg-white/20 shadow-inner backdrop-blur-sm text-white">
@@ -612,7 +685,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             </div>
           </div>
 
-          <div className="p-10 bg-white dark:bg-[#0f1420] relative z-10">
+          <div className="p-8 bg-white dark:bg-[#0f1420] relative z-10">
             <div className="prose prose-lg prose-slate dark:prose-invert max-w-none font-serif leading-loose text-slate-800 dark:text-slate-200">
               {renderFormattedText(revisedText, prompt.keywords, prompt.verb)}
             </div>

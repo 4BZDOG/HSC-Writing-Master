@@ -237,6 +237,12 @@ export default defineConfig(({ mode }) => {
               return 'gemini';
             }
 
+            // Keep the (large, lazily imported) PDF engine in its own chunk so
+            // it never rides along with the eager vendor bundle.
+            if (id.includes('node_modules/jspdf')) {
+              return 'pdf-engine';
+            }
+
             if (id.includes('lucide-react')) {
               return 'ui';
             }

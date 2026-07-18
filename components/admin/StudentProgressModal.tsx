@@ -329,7 +329,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
 
               {isLoading ? (
                 <div className="h-48 flex items-center justify-center">
-                  <LoadingIndicator messages={['Loading progress…']} duration={2} band={3} />
+                  <LoadingIndicator messages={['Loading progress…']} duration={2} />
                 </div>
               ) : !data ? (
                 <section>
@@ -338,7 +338,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                   </h3>
                   {isRosterLoading ? (
                     <div className="h-24 flex items-center justify-center">
-                      <LoadingIndicator messages={['Loading roster…']} duration={1} band={3} />
+                      <LoadingIndicator messages={['Loading roster…']} duration={1} />
                     </div>
                   ) : roster.length === 0 ? (
                     <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 italic py-6 text-center">

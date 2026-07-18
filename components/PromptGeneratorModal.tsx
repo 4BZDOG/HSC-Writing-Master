@@ -778,6 +778,8 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
           <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/90 backdrop-blur-3xl flex items-center justify-center z-[100] animate-fade-in">
             <div className="w-full max-w-md mx-8">
               <LoadingIndicator
+                task="generation"
+                message="Generating exam question"
                 messages={[
                   `Focusing on ${focusItems.length > 0 ? 'specified items' : 'syllabus context'}...`,
                   `Parsing '${selectedSpecificVerb}' cognitive requirements...`,

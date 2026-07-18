@@ -4,7 +4,7 @@ import { CourseOutcome, Prompt } from '../types';
 import { refineManualPrompt } from '../services/geminiService';
 import { getTierBandConfig, renderFormattedText } from '../utils/renderUtils';
 import { getCommandTermsForMarks, getCommandTermInfo, TIER_GROUPS } from '../data/commandTerms';
-import { X, Sparkles, PenTool, Save, Wand2, Target } from 'lucide-react';
+import { X, Sparkles, PenTool, Save, Wand2, Target, Loader2 } from 'lucide-react';
 import LoadingIndicator from './LoadingIndicator';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 
@@ -323,8 +323,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
               >
                 {isRefining ? (
                   <>
-                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />{' '}
-                    Polishing...
+                    <Loader2 className="w-4 h-4 animate-spin" /> Polishing...
                   </>
                 ) : (
                   <>
@@ -346,6 +345,8 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
           {isRefining && (
             <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center animate-fade-in">
               <LoadingIndicator
+                task="generation"
+                message="Structuring your question"
                 messages={[
                   'Analysing draft concept...',
                   `Calibrating for ${marks} marks...`,

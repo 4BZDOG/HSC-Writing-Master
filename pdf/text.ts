@@ -5,7 +5,7 @@
 //  - toText():        app markup (**bold**, ^sup, _sub, \frac, LaTeX-ish
 //                     symbols) -> selectable Unicode.
 //  - degradeToAscii(): Unicode -> WinAnsi-safe ASCII for the built-in helvetica
-//                     fallback (so a CDN-blocked export reads "pi", "sqrt",
+//                     fallback (so a font-less export reads "pi", "sqrt",
 //                     "x^6" instead of mojibake).
 //  - containsEmoji(): Unicode property-escape detection used to route a string
 //                     to the canvas raster path.

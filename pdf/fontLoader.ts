@@ -3,9 +3,10 @@
 // Lazy engine + font loading. Nothing here runs on page load — the jsPDF
 // bundle is only fetched the first time an export is requested, then cached.
 //
-//  - loadJsPdf():   inject the CDN <script> with Subresource Integrity +
-//                   crossOrigin="anonymous"; resolve the jsPDF constructor or
-//                   reject with a clear error.
+//  - loadJsPdf():   dynamic-import the bundled jsPDF engine (code-split by
+//                   Vite and served same-origin, so it works on networks that
+//                   block third-party CDNs, e.g. school Department networks);
+//                   resolve the jsPDF constructor or reject with a clear error.
 //  - loadInterFont(): fetch a TTF/OTF (10s AbortController timeout), validate
 //                   the sfnt magic number, base64-encode in <=8190-byte chunks,
 //                   register normal+bold weights. Never throws fatally — returns
@@ -17,13 +18,6 @@ import { JsPdfLike } from './types';
 // jsPDF engine
 // ---------------------------------------------------------------------------
 
-export const JSPDF_VERSION = '2.5.2';
-export const JSPDF_CDN_URL = `https://cdnjs.cloudflare.com/ajax/libs/jspdf/${JSPDF_VERSION}/jspdf.umd.min.js`;
-
-// Replaced at build time with the real `sha384-...` value. When left as the
-// sentinel we skip the integrity attribute rather than guaranteeing a failure.
-export const JSPDF_SRI = '__JSPDF_SRI_PLACEHOLDER__';
-
 export type JsPdfConstructor = new (opts: {
   unit: string;
   format: string | number[];
@@ -34,65 +28,28 @@ export type JsPdfConstructor = new (opts: {
 let cachedCtor: JsPdfConstructor | null = null;
 let inflight: Promise<JsPdfConstructor> | null = null;
 
-interface JsPdfGlobal {
-  jspdf?: { jsPDF: JsPdfConstructor };
-  jsPDF?: JsPdfConstructor;
-}
-
-const readGlobalCtor = (): JsPdfConstructor | null => {
-  const g = globalThis as unknown as JsPdfGlobal;
-  return g.jspdf?.jsPDF ?? g.jsPDF ?? null;
-};
-
-/** Lazily load (and cache) the jsPDF constructor from the CDN. */
+/** Lazily load (and cache) the bundled jsPDF constructor. */
 export const loadJsPdf = (): Promise<JsPdfConstructor> => {
   if (cachedCtor) return Promise.resolve(cachedCtor);
   if (inflight) return inflight;
 
-  inflight = new Promise<JsPdfConstructor>((resolve, reject) => {
-    // Already present (e.g. preloaded or a second call after attach).
-    const existing = readGlobalCtor();
-    if (existing) {
-      cachedCtor = existing;
-      resolve(existing);
-      return;
-    }
-
-    if (typeof document === 'undefined') {
-      reject(new Error('PDF engine can only be loaded in a browser environment.'));
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.src = JSPDF_CDN_URL;
-    script.async = true;
-    script.crossOrigin = 'anonymous';
-    if (JSPDF_SRI && !JSPDF_SRI.includes('PLACEHOLDER')) {
-      script.integrity = JSPDF_SRI;
-    }
-
-    script.onload = () => {
-      const ctor = readGlobalCtor();
-      if (ctor) {
-        cachedCtor = ctor;
-        resolve(ctor);
-      } else {
-        reject(new Error('PDF engine loaded but the jsPDF constructor was not found.'));
+  inflight = import('jspdf')
+    .then((mod) => {
+      const ctor = mod.jsPDF as unknown as JsPdfConstructor | undefined;
+      if (!ctor) {
+        throw new Error('PDF engine loaded but the jsPDF constructor was not found.');
       }
-    };
-    script.onerror = () => {
+      cachedCtor = ctor;
+      return ctor;
+    })
+    .catch((err) => {
       inflight = null;
-      reject(
-        new Error('Failed to load the PDF engine from the CDN. Check your network connection.')
-      );
-    };
+      throw err instanceof Error && err.message.includes('constructor')
+        ? err
+        : new Error('Failed to load the PDF engine. Refresh the page and try again.');
+    });
 
-    document.head.appendChild(script);
-  });
-
-  return inflight.finally(() => {
-    if (!cachedCtor) inflight = null;
-  });
+  return inflight;
 };
 
 // ---------------------------------------------------------------------------
@@ -109,19 +66,20 @@ export interface FontSource {
   vfsName: string;
 }
 
-// rsms/inter publishes static TTFs under extras/ttf on the CDN.
+// Self-hosted TTFs (public/fonts/) so exports never depend on a third-party
+// CDN. Served same-origin alongside the app bundle.
 export const DEFAULT_FONT_SOURCES: FontSource[] = [
   {
     family: FONT_FAMILY,
     style: 'normal',
     vfsName: 'Inter-Regular.ttf',
-    url: 'https://cdn.jsdelivr.net/gh/rsms/inter@v4.0/extras/ttf/Inter-Regular.ttf',
+    url: `${import.meta.env?.BASE_URL ?? '/'}fonts/Inter-Regular.ttf`,
   },
   {
     family: FONT_FAMILY,
     style: 'bold',
     vfsName: 'Inter-Bold.ttf',
-    url: 'https://cdn.jsdelivr.net/gh/rsms/inter@v4.0/extras/ttf/Inter-Bold.ttf',
+    url: `${import.meta.env?.BASE_URL ?? '/'}fonts/Inter-Bold.ttf`,
   },
 ];
 
@@ -157,7 +115,7 @@ const fetchFontBytes = async (url: string): Promise<Uint8Array> => {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), FONT_TIMEOUT_MS);
   try {
-    const res = await fetch(url, { signal: controller.signal, mode: 'cors' });
+    const res = await fetch(url, { signal: controller.signal });
     if (!res.ok) throw new Error(`Font request failed (${res.status}).`);
     const buf = await res.arrayBuffer();
     return new Uint8Array(buf);

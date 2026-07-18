@@ -143,6 +143,8 @@ const DotPointGeneratorModal: React.FC<DotPointGeneratorModalProps> = ({
           <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/95 light:bg-white/95 backdrop-blur-sm flex items-center justify-center">
             <div className="w-full max-w-md mx-6">
               <LoadingIndicator
+                task="generation"
+                message="Generating dot points"
                 messages={['Consulting syllabus...', 'Identifying dot points...']}
                 duration={8}
                 band={3}

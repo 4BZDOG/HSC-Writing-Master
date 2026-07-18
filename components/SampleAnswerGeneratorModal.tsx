@@ -4,7 +4,17 @@ import { Prompt, SampleAnswer } from '../types';
 import { generateSampleAnswer } from '../services/geminiService';
 import { getCommandTermInfo, getBandForMark, TIER_GROUPS } from '../data/commandTerms';
 import LoadingIndicator from './LoadingIndicator';
-import { X, Sparkles, AlertTriangle, Info, Check, Plus, Target, Award } from 'lucide-react';
+import {
+  X,
+  Sparkles,
+  AlertTriangle,
+  Info,
+  Check,
+  Plus,
+  Target,
+  Award,
+  Loader2,
+} from 'lucide-react';
 import { getBandConfig } from '../utils/renderUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 
@@ -385,7 +395,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
           >
             {isLoading ? (
               <>
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <Loader2 className="w-5 h-5 animate-spin" />
                 <span>Crafting Response...</span>
               </>
             ) : (
@@ -401,6 +411,8 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
           <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/90 light:bg-white/90 backdrop-blur-md flex items-center justify-center z-50 animate-fade-in">
             <div className="w-full max-w-md mx-8">
               <LoadingIndicator
+                task="generation"
+                message={`Crafting a Band ${selectedBand} response`}
                 messages={[
                   `Analysing '${prompt.verb}' requirements...`,
                   `Targeting ${selectedMark}/${prompt.totalMarks} marks...`,

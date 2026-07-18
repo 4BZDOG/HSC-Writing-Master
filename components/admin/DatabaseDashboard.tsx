@@ -483,7 +483,6 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                     <LoadingIndicator
                       messages={['Querying IndexedDB...', 'Calculating Quotas...']}
                       duration={3}
-                      band={3}
                     />
                   </div>
                 ) : stats ? (
@@ -642,7 +641,6 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                     <LoadingIndicator
                       messages={['Scanning timeline...', 'Retrieving snapshots...']}
                       duration={2}
-                      band={3}
                     />
                   </div>
                 ) : backups.length === 0 ? (

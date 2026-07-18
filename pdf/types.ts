@@ -2,7 +2,7 @@
 //
 // Shared types for the client-side vector-PDF exporter. These deliberately
 // avoid importing jsPDF so the pure layout/text modules can be unit-tested
-// under Node without a DOM or the (lazily CDN-loaded) engine present.
+// under Node without a DOM or the (lazily loaded) engine present.
 
 /** Supported physical page sizes (portrait), in millimetres. */
 export type PageSizeName = 'a4' | 'letter';
@@ -160,7 +160,7 @@ export interface TextMeasurer {
   lineHeight(fontPt: number, lineHeightFactor: number): number;
 }
 
-/** Minimal structural view of a jsPDF document instance (CDN-loaded). */
+/** Minimal structural view of a jsPDF document instance (lazily loaded). */
 export interface JsPdfLike {
   internal: { pageSize: { getWidth(): number; getHeight(): number } };
   addPage(): JsPdfLike;

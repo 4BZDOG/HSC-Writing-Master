@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CourseOutcome } from '../types';
 import { parseOutcomesFromText } from '../services/geminiService';
-import LoadingSpinner from './LoadingSpinner';
+import LoadingIndicator from './LoadingIndicator';
 import { Target, X, Sparkles, Plus, Trash2 } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 
@@ -286,7 +286,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
 
         {isParsing && (
           <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/95 light:bg-white/95 backdrop-blur-sm flex items-center justify-center rounded-2xl">
-            <LoadingSpinner message="Parsing outcomes..." />
+            <LoadingIndicator message="Parsing outcomes..." task="enrichment" />
           </div>
         )}
       </div>

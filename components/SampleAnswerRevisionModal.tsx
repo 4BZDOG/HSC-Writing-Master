@@ -281,6 +281,8 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
           <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-sm flex items-center justify-center">
             <div className="w-full max-w-md mx-6">
               <LoadingIndicator
+                task="generation"
+                message={`Recalibrating to Band ${targetBand}`}
                 messages={[
                   'Analysing original response...',
                   'Adjusting quality and depth...',

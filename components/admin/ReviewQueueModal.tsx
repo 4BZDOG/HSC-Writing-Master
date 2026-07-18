@@ -258,7 +258,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
 
           {isLoading ? (
             <div className="h-40 flex items-center justify-center">
-              <LoadingIndicator messages={['Loading review queue…']} duration={2} band={3} />
+              <LoadingIndicator messages={['Loading review queue…']} duration={2} />
             </div>
           ) : visibleItems.length === 0 ? (
             <div className="text-center py-16">

@@ -125,6 +125,8 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
           {isLoading ? (
             <div className="h-64 flex items-center justify-center">
               <LoadingIndicator
+                task="enrichment"
+                message="Running quality check"
                 messages={[
                   'Parsing content...',
                   'Checking syntax...',
