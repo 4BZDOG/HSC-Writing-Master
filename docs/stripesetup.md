@@ -24,10 +24,10 @@ Before you start, make sure you have:
    - **Description**: `Full access to advanced questions, detailed feedback, sample answers, exam mode and more.`
 4. Under **Pricing**, add **two recurring prices**:
 
-   | Label          | Amount      | Billing period |
-   |----------------|-------------|----------------|
-   | Plus Monthly   | Your price  | Monthly        |
-   | Plus Yearly    | Your price  | Yearly         |
+   | Label        | Amount     | Billing period |
+   | ------------ | ---------- | -------------- |
+   | Plus Monthly | Your price | Monthly        |
+   | Plus Yearly  | Your price | Yearly         |
 
 5. Save the product.
 6. Copy the two **Price IDs** (they look like `price_1Abc123...`). You will need them in Step 3.
@@ -51,22 +51,22 @@ You need to set variables in **two places**: server-side (Vercel / your host) an
 
 ### Server-side variables (set in Vercel → Settings → Environment Variables)
 
-| Variable                         | Value                              | Where to find it                            |
-|----------------------------------|------------------------------------|---------------------------------------------|
-| `STRIPE_SECRET_KEY`              | `sk_test_...`                      | Stripe → Developers → API keys             |
-| `STRIPE_WEBHOOK_SECRET`          | `whsec_...`                        | Created in Step 4 below                     |
-| `SUPABASE_SERVICE_ROLE_KEY`      | `eyJ...`                           | Supabase → Settings → API → `service_role`  |
-| `SUPABASE_URL`                   | `https://xxx.supabase.co`          | Supabase → Settings → API                   |
-| `STRIPE_PLUS_MONTHLY_PRICE_ID`  | `price_...`                        | From Step 1                                 |
-| `STRIPE_PLUS_YEARLY_PRICE_ID`   | `price_...`                        | From Step 1                                 |
-| `STRIPE_SCHOOL_PRICE_ID`        | `price_...` *(optional)*           | From Step 1 (school product)                |
+| Variable                       | Value                     | Where to find it                           |
+| ------------------------------ | ------------------------- | ------------------------------------------ |
+| `STRIPE_SECRET_KEY`            | `sk_test_...`             | Stripe → Developers → API keys             |
+| `STRIPE_WEBHOOK_SECRET`        | `whsec_...`               | Created in Step 4 below                    |
+| `SUPABASE_SERVICE_ROLE_KEY`    | `eyJ...`                  | Supabase → Settings → API → `service_role` |
+| `SUPABASE_URL`                 | `https://xxx.supabase.co` | Supabase → Settings → API                  |
+| `STRIPE_PLUS_MONTHLY_PRICE_ID` | `price_...`               | From Step 1                                |
+| `STRIPE_PLUS_YEARLY_PRICE_ID`  | `price_...`               | From Step 1                                |
+| `STRIPE_SCHOOL_PRICE_ID`       | `price_...` _(optional)_  | From Step 1 (school product)               |
 
 ### Client-side variables (also set in Vercel, or in `.env.local` for dev)
 
-| Variable                              | Value         | Notes                                   |
-|---------------------------------------|---------------|-----------------------------------------|
-| `VITE_STRIPE_PLUS_MONTHLY_PRICE_ID`  | `price_...`   | Same value as `STRIPE_PLUS_MONTHLY_PRICE_ID` |
-| `VITE_STRIPE_PLUS_YEARLY_PRICE_ID`   | `price_...`   | Same value as `STRIPE_PLUS_YEARLY_PRICE_ID`  |
+| Variable                            | Value       | Notes                                        |
+| ----------------------------------- | ----------- | -------------------------------------------- |
+| `VITE_STRIPE_PLUS_MONTHLY_PRICE_ID` | `price_...` | Same value as `STRIPE_PLUS_MONTHLY_PRICE_ID` |
+| `VITE_STRIPE_PLUS_YEARLY_PRICE_ID`  | `price_...` | Same value as `STRIPE_PLUS_YEARLY_PRICE_ID`  |
 
 > The `VITE_` prefix is required for Vite to include these in the browser bundle. They are just price IDs (not secrets) so this is safe.
 
@@ -85,9 +85,11 @@ The webhook is how Stripe tells your app about subscription changes (new checkou
 1. Go to [Stripe Dashboard → Developers → Webhooks](https://dashboard.stripe.com/webhooks).
 2. Click **+ Add endpoint**.
 3. Set the **Endpoint URL** to:
+
    ```
    https://your-app.vercel.app/api/stripe-webhook
    ```
+
    Replace `your-app.vercel.app` with your actual domain.
 
 4. Under **Events to send**, select these four:
@@ -204,6 +206,7 @@ $$;
 ### Verify the webhook worked
 
 Check in Supabase:
+
 ```sql
 select id, stripe_customer_id, stripe_plan, plan_period_end
 from profiles
@@ -270,15 +273,15 @@ User clicks "Upgrade"
 
 ## Troubleshooting
 
-| Symptom | Cause | Fix |
-|---------|-------|-----|
-| Upgrade button redirects to `/#/upgrade-test` | `STRIPE_SECRET_KEY` not set on server | Set it in Vercel env vars and redeploy |
-| Checkout works but plan doesn't update | Webhook not receiving events | Check Stripe Dashboard → Webhooks for failed deliveries; verify `STRIPE_WEBHOOK_SECRET` matches |
-| Webhook returns 501 | `SUPABASE_SERVICE_ROLE_KEY` not set | Add it to Vercel env vars |
-| Webhook returns 400 "Missing stripe-signature" | Request not coming from Stripe (or secret mismatch) | Verify the signing secret matches the endpoint |
-| "No billing account found" in portal | User hasn't checked out yet | The portal requires a prior checkout to create the Stripe customer link |
-| Gates still locked after payment | Browser has stale user data | Refresh the page — `getUserPlan()` reads from the profile on each call |
-| Admin sees gates | Admin bypass not deployed | Merge PR #47 and redeploy |
+| Symptom                                        | Cause                                               | Fix                                                                                             |
+| ---------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| Upgrade button redirects to `/#/upgrade-test`  | `STRIPE_SECRET_KEY` not set on server               | Set it in Vercel env vars and redeploy                                                          |
+| Checkout works but plan doesn't update         | Webhook not receiving events                        | Check Stripe Dashboard → Webhooks for failed deliveries; verify `STRIPE_WEBHOOK_SECRET` matches |
+| Webhook returns 501                            | `SUPABASE_SERVICE_ROLE_KEY` not set                 | Add it to Vercel env vars                                                                       |
+| Webhook returns 400 "Missing stripe-signature" | Request not coming from Stripe (or secret mismatch) | Verify the signing secret matches the endpoint                                                  |
+| "No billing account found" in portal           | User hasn't checked out yet                         | The portal requires a prior checkout to create the Stripe customer link                         |
+| Gates still locked after payment               | Browser has stale user data                         | Refresh the page — `getUserPlan()` reads from the profile on each call                          |
+| Admin sees gates                               | Admin bypass not deployed                           | Merge PR #47 and redeploy                                                                       |
 
 ---
 
@@ -292,3 +295,34 @@ If you just want to test the UI flow without any Stripe setup:
 4. No subscription state changes in the database (the webhook is a no-op without Stripe).
 
 This is useful for front-end development and UI testing.
+
+## School seat licences (optional)
+
+Sell a whole-school licence directly from the upgrade modal:
+
+1. **Create a per-seat price**: Stripe → Products → "Band 6 School" → add a
+   **yearly recurring** price representing ONE student seat (e.g. A$4/year).
+2. **Set the env vars** (server _and_ client must agree):
+   - `STRIPE_SCHOOL_PRICE_ID=price_…` (server — maps the price to the
+     `school` plan and allows seat quantities at checkout)
+   - `VITE_STRIPE_SCHOOL_PRICE_ID=price_…` (client — switches the upgrade
+     modal's school section from an enquiry link to a direct seat purchase
+     for teachers/admins)
+   - `VITE_SCHOOL_SEAT_PRICE_DISPLAY=A$4` (display only)
+3. **Re-apply the schema** (`supabase/schema.sql` §13 adds
+   `schools.stripe_subscription_id / plan_seats / plan_status /
+plan_period_end` and `subscriptions.seats` — all `add column if not
+exists`, safe to re-run).
+
+How it works: a teacher or admin picks a seat count and checks out; the
+webhook stores the seat quantity and stamps the licence onto **their
+school** (`profiles.school_id`). Every member of that school then resolves
+to the School plan at sign-in for as long as the subscription is active
+(`past_due` keeps the plan during Stripe's retry grace period, exactly like
+personal subscriptions). Seats are the billed quantity — compare
+`plan_seats` with the school's member count in the admin dashboard for
+true-ups.
+
+**Important**: the buyer must belong to a school (Admin → Schools) _before_
+purchasing; otherwise only the buyer's own account holds the plan until an
+admin assigns their school.

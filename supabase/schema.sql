@@ -1402,6 +1402,16 @@ alter table public.profiles
 create unique index if not exists profiles_stripe_customer_idx
   on public.profiles (stripe_customer_id) where stripe_customer_id is not null;
 
+-- School seat licences: a teacher/admin buys N seats for their school; every
+-- member of that school (profiles.school_id, §12) holds the 'school' plan
+-- while the subscription is active. Seats are the billed quantity — member
+-- counts are visible to reviewers for true-up, not hard-enforced per login.
+alter table public.schools
+  add column if not exists stripe_subscription_id text,
+  add column if not exists plan_seats             integer not null default 0,
+  add column if not exists plan_status            text not null default 'none',
+  add column if not exists plan_period_end        timestamptz;
+
 -- Detailed subscription record — one active row per user. Kept in sync by
 -- the webhook handler on customer.subscription.created/updated/deleted.
 create table if not exists public.subscriptions (
@@ -1417,6 +1427,10 @@ create table if not exists public.subscriptions (
   created_at            timestamptz not null default now(),
   updated_at            timestamptz not null default now()
 );
+
+-- Seat count for school licences (quantity on the Stripe subscription item);
+-- 1 for individual Plus subscriptions.
+alter table public.subscriptions add column if not exists seats integer not null default 1;
 
 create index if not exists subscriptions_user_idx on public.subscriptions (user_id);
 
