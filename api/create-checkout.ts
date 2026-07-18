@@ -5,12 +5,16 @@
  * the URL to redirect them to. The user's Supabase ID is stored as
  * `client_reference_id` so the webhook can link the payment to the profile.
  *
- * Body: { priceId: string, returnUrl?: string }
+ * Body: { priceId: string, returnUrl?: string, seats?: number }
  * Returns: { url: string } on success, or { error: string }.
  *
  * `returnUrl` is the page Stripe should redirect back to — the client sends
  * its own base URL because the Origin header loses the base path on sub-path
  * hosting (see resolveReturnBase). Validated same-origin server-side.
+ *
+ * `seats` (1–1000) is honoured ONLY for the school licence price
+ * (STRIPE_SCHOOL_PRICE_ID) — individual Plus prices always check out with
+ * quantity 1 regardless of what the client sends.
  *
  * Test-mode fallback: when Stripe is unconfigured the endpoint returns a
  * mock URL pointing to /#/upgrade-test so the client flow can be exercised
@@ -46,7 +50,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     return;
   }
 
-  const body = req.body as { priceId?: string; returnUrl?: string } | undefined;
+  const body = req.body as { priceId?: string; returnUrl?: string; seats?: number } | undefined;
   const priceId = body?.priceId;
   if (!priceId || typeof priceId !== 'string') {
     res.status(400).json({ error: 'Missing or invalid priceId.' });
@@ -104,10 +108,18 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       }
     }
 
+    // Seat quantity applies only to the school licence price; everything else
+    // is an individual subscription and always bills one seat.
+    const isSchoolPrice =
+      Boolean(process.env.STRIPE_SCHOOL_PRICE_ID) && priceId === process.env.STRIPE_SCHOOL_PRICE_ID;
+    const seats = isSchoolPrice
+      ? Math.min(1000, Math.max(1, Math.trunc(Number(body?.seats ?? 1)) || 1))
+      : 1;
+
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
       payment_method_types: ['card'],
-      line_items: [{ price: priceId, quantity: 1 }],
+      line_items: [{ price: priceId, quantity: seats }],
       success_url: `${returnBase}?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${returnBase}?checkout=cancelled`,
       client_reference_id: auth.userId ?? undefined,

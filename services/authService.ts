@@ -202,6 +202,40 @@ const persistProfileState = async (userId: string, user: User): Promise<void> =>
     .eq('id', userId);
 };
 
+/**
+ * School seat licence: members of a school with an active licence hold the
+ * 'school' plan (webhook keeps schools.plan_status in sync; past_due keeps
+ * the plan — same grace rule as personal subscriptions). Runs as a SEPARATE
+ * soft query so a database that predates the licence columns degrades to
+ * "no school plan" instead of failing the whole sign-in.
+ */
+const applySchoolPlan = async (userId: string, user: User): Promise<User> => {
+  // A personal paid plan already covers everything the school plan grants.
+  if (user.stripePlan && user.stripePlan !== 'free') return user;
+  try {
+    const { data, error } = await supabase!
+      .from('profiles')
+      .select('school:school_id (plan_status, plan_period_end)')
+      .eq('id', userId)
+      .maybeSingle();
+    if (error || !data) return user;
+    const school = (Array.isArray(data.school) ? data.school[0] : data.school) as {
+      plan_status?: string;
+      plan_period_end?: string | null;
+    } | null;
+    if (school && ['active', 'trialing', 'past_due'].includes(school.plan_status ?? '')) {
+      return {
+        ...user,
+        stripePlan: 'school',
+        ...(school.plan_period_end ? { planPeriodEnd: school.plan_period_end } : {}),
+      };
+    }
+    return user;
+  } catch {
+    return user;
+  }
+};
+
 const supabaseLogin = async (email: string, password: string): Promise<User> => {
   const client = supabase!;
   const { data, error } = await client.auth.signInWithPassword({ email, password });
@@ -219,8 +253,9 @@ const supabaseLogin = async (email: string, password: string): Promise<User> => 
     profileReadOk = false;
   }
 
-  const user = mapProfileToUser(data.user.email ?? email, profile);
+  let user = mapProfileToUser(data.user.email ?? email, profile);
   user.stats = calculateStreak(user.stats);
+  user = await applySchoolPlan(data.user.id, user);
 
   if (profileReadOk) {
     await persistProfileState(data.user.id, user);
@@ -270,8 +305,9 @@ const supabaseRefreshSession = async (cachedUser: User): Promise<User | null> =>
     return cachedUser;
   }
 
-  const user = mapProfileToUser(data.user.email ?? cachedUser.username, profile);
+  let user = mapProfileToUser(data.user.email ?? cachedUser.username, profile);
   user.stats = calculateStreak(user.stats);
+  user = await applySchoolPlan(data.user.id, user);
 
   await persistProfileState(data.user.id, user);
 
@@ -366,8 +402,9 @@ export const authService = {
       profileReadOk = false;
     }
 
-    const user = mapProfileToUser(authUser.email ?? '', profile);
+    let user = mapProfileToUser(authUser.email ?? '', profile);
     user.stats = calculateStreak(user.stats);
+    user = await applySchoolPlan(authUser.id, user);
 
     if (profileReadOk) {
       await persistProfileState(authUser.id, user);

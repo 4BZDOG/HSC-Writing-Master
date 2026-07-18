@@ -308,7 +308,12 @@ export const freeEvalsRemaining = (user?: User | null): number => {
 export const STRIPE_PRICE_IDS = {
   plus_monthly: import.meta.env.VITE_STRIPE_PLUS_MONTHLY_PRICE_ID ?? '',
   plus_yearly: import.meta.env.VITE_STRIPE_PLUS_YEARLY_PRICE_ID ?? '',
+  /** Per-seat school licence price. Unset = school sales stay enquiry-only. */
+  school: import.meta.env.VITE_STRIPE_SCHOOL_PRICE_ID ?? '',
 } as const;
+
+/** Bounds for the school licence seat picker (also clamped server-side). */
+export const SCHOOL_SEAT_LIMITS = { min: 5, max: 1000, default: 30 } as const;
 
 /**
  * Display prices for the upgrade prompt. These are PRESENTATION strings only —
@@ -320,6 +325,8 @@ export const PLAN_PRICING = {
   monthly: import.meta.env.VITE_PLUS_MONTHLY_PRICE_DISPLAY ?? 'A$7.99',
   yearly: import.meta.env.VITE_PLUS_YEARLY_PRICE_DISPLAY ?? 'A$59',
   yearlyNote: import.meta.env.VITE_PLUS_YEARLY_NOTE ?? 'Save 38% — under A$5/month',
+  /** Per-seat, per-year display string for the school licence. */
+  schoolSeat: import.meta.env.VITE_SCHOOL_SEAT_PRICE_DISPLAY ?? 'A$4',
 } as const;
 
 /** Contact for school/faculty licensing enquiries (shown in the upgrade prompt). */
@@ -353,12 +360,19 @@ const checkoutReturnUrl = (): string =>
  * redirect the user to. In test mode (Stripe unconfigured on server) the
  * endpoint returns a fake URL so the client redirect logic still works.
  */
-export const createCheckoutUrl = async (priceId: string): Promise<string | null> => {
+export const createCheckoutUrl = async (
+  priceId: string,
+  seats?: number
+): Promise<string | null> => {
   try {
     const res = await fetch(`${apiBase}/api/create-checkout`, {
       method: 'POST',
       headers: await getAuthHeaders(),
-      body: JSON.stringify({ priceId, returnUrl: checkoutReturnUrl() }),
+      body: JSON.stringify({
+        priceId,
+        returnUrl: checkoutReturnUrl(),
+        ...(seats && seats > 1 ? { seats } : {}),
+      }),
     });
     if (!res.ok) return null;
     const data = (await res.json()) as { url?: string; test?: boolean };

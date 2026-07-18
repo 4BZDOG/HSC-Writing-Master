@@ -1,6 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { Crown, Lock, Check, Sparkles, X, Zap, TrendingUp } from 'lucide-react';
+import {
+  Crown,
+  Lock,
+  Check,
+  Sparkles,
+  X,
+  Zap,
+  TrendingUp,
+  School,
+  Minus,
+  Plus,
+} from 'lucide-react';
 import { User } from '../types';
 import {
   PREMIUM_FEATURES,
@@ -11,6 +22,7 @@ import {
   STRIPE_PRICE_IDS,
   PLAN_PRICING,
   SCHOOL_CONTACT_EMAIL,
+  SCHOOL_SEAT_LIMITS,
 } from '../services/entitlements';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 
@@ -75,8 +87,14 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
   const [feature, setFeature] = useState<PremiumFeatureKey | null>(null);
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('yearly');
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const [seats, setSeats] = useState<number>(SCHOOL_SEAT_LIMITS.default);
+  const [isBuyingSeats, setIsBuyingSeats] = useState(false);
 
   const stripeReady = !!(STRIPE_PRICE_IDS.plus_monthly && STRIPE_PRICE_IDS.plus_yearly);
+  // Seat licences are a staff purchase: shown to teachers/admins once the
+  // school price exists; students keep the enquiry link.
+  const canBuySeats =
+    !!STRIPE_PRICE_IDS.school && (user?.role === 'teacher' || user?.role === 'admin');
 
   // Personalised hook: the most convincing thing we can show a student is
   // their own trajectory. Only shown once they have enough marked answers for
@@ -278,31 +296,97 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
             </p>
           )}
 
+          {/* School seat licence — a direct purchase for staff once the school
+              price is configured. Seats are the billed quantity; every member
+              of the buyer's school gets the plan while it's active. */}
+          {canBuySeats && (
+            <div className="mt-4 pt-4 border-t border-white/5 light:border-slate-100">
+              <div className="rounded-2xl bg-indigo-500/10 light:bg-indigo-50 border border-indigo-500/20 light:border-indigo-200 p-4">
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400 light:text-indigo-600 flex items-center gap-2 mb-3">
+                  <School className="w-3.5 h-3.5" /> School licence
+                </span>
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      aria-label="Fewer seats"
+                      onClick={() => setSeats((s) => Math.max(SCHOOL_SEAT_LIMITS.min, s - 5))}
+                      className="w-8 h-8 rounded-xl bg-white/5 light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center text-slate-400 hover:text-white light:hover:text-slate-700 transition-colors"
+                    >
+                      <Minus className="w-3.5 h-3.5" />
+                    </button>
+                    <span className="w-16 text-center text-lg font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 tabular-nums">
+                      {seats}
+                    </span>
+                    <button
+                      type="button"
+                      aria-label="More seats"
+                      onClick={() => setSeats((s) => Math.min(SCHOOL_SEAT_LIMITS.max, s + 5))}
+                      className="w-8 h-8 rounded-xl bg-white/5 light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center text-slate-400 hover:text-white light:hover:text-slate-700 transition-colors"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                    </button>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">
+                      seats · {PLAN_PRICING.schoolSeat}/student/yr
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    disabled={isBuyingSeats}
+                    onClick={async () => {
+                      setIsBuyingSeats(true);
+                      const url = await createCheckoutUrl(STRIPE_PRICE_IDS.school, seats);
+                      if (url) {
+                        window.location.href = url;
+                      } else {
+                        showToast(
+                          'Could not start the school checkout. Please try again.',
+                          'error'
+                        );
+                        setIsBuyingSeats(false);
+                      }
+                    }}
+                    className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all disabled:opacity-60"
+                  >
+                    {isBuyingSeats ? 'Redirecting…' : `Buy ${seats} seats`}
+                  </button>
+                </div>
+                <p className="mt-2.5 text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed">
+                  Everyone in your school gets {PLAN_LABELS.school} while the licence is active.
+                  Make sure your school is set up (and you're in it) before purchasing.
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Teachers buying for a class, or schools buying seats, need a human
-              conversation rather than an individual checkout. */}
-          <div className="mt-4 pt-4 border-t border-white/5 light:border-slate-100 text-center">
-            {SCHOOL_CONTACT_EMAIL ? (
-              <a
-                href={`mailto:${SCHOOL_CONTACT_EMAIL}?subject=${encodeURIComponent('School / class licence enquiry')}`}
-                className="text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline"
-              >
-                Buying for a class or school? Ask about a school licence →
-              </a>
-            ) : (
-              <button
-                onClick={() => {
-                  showToast(
-                    'School licensing is coming — ask your school admin to register interest.',
-                    'info'
-                  );
-                  close();
-                }}
-                className="text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline"
-              >
-                Buying for a class or school? Ask about a school licence →
-              </button>
-            )}
-          </div>
+              conversation rather than an individual checkout — unless the
+              direct seat purchase above is available. */}
+          {!canBuySeats && (
+            <div className="mt-4 pt-4 border-t border-white/5 light:border-slate-100 text-center">
+              {SCHOOL_CONTACT_EMAIL ? (
+                <a
+                  href={`mailto:${SCHOOL_CONTACT_EMAIL}?subject=${encodeURIComponent('School / class licence enquiry')}`}
+                  className="text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline"
+                >
+                  Buying for a class or school? Ask about a school licence →
+                </a>
+              ) : (
+                <button
+                  onClick={() => {
+                    showToast(
+                      'School licensing is coming — ask your school admin to register interest.',
+                      'info'
+                    );
+                    close();
+                  }}
+                  className="text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline"
+                >
+                  Buying for a class or school? Ask about a school licence →
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>,

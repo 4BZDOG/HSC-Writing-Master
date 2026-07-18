@@ -233,6 +233,7 @@ async function handleSubscriptionUpsert(supabase: SB, sub: Record<string, unknow
     | {
         data?: Array<{
           price?: { id?: string };
+          quantity?: number;
           current_period_start?: number;
           current_period_end?: number;
         }>;
@@ -241,6 +242,9 @@ async function handleSubscriptionUpsert(supabase: SB, sub: Record<string, unknow
   const firstItem = items?.data?.[0];
   const priceId = firstItem?.price?.id ?? '';
   const plan = priceToPlan(priceId);
+  // Seat count: the subscription item's quantity (school licences bill per
+  // seat); individual Plus subscriptions are quantity 1.
+  const seats = Math.max(1, Math.trunc(Number(firstItem?.quantity ?? sub.quantity ?? 1)) || 1);
 
   // Stripe API ≥ 2025-03-31 (basil) removed current_period_start/end from the
   // Subscription object — they now live on each subscription item. Read the
@@ -252,14 +256,16 @@ async function handleSubscriptionUpsert(supabase: SB, sub: Record<string, unknow
     | undefined;
   const periodEnd = (sub.current_period_end ?? firstItem?.current_period_end) as number | undefined;
 
-  // Find the user who owns this customer ID.
+  // Find the user who owns this customer ID (and their school, for seat
+  // licences).
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id')
+    .select('id, school_id')
     .eq('stripe_customer_id', customerId)
     .maybeSingle();
 
   let userId = profile?.id as string | undefined;
+  let schoolId = (profile?.school_id as string | undefined) ?? undefined;
 
   // Webhook ordering isn't guaranteed: customer.subscription.created can land
   // BEFORE checkout.session.completed links the customer id to the profile.
@@ -274,6 +280,12 @@ async function handleSubscriptionUpsert(supabase: SB, sub: Record<string, unknow
         .from('profiles')
         .update({ stripe_customer_id: customerId })
         .eq('id', metaUserId);
+      const { data: metaProfile } = await supabase
+        .from('profiles')
+        .select('school_id')
+        .eq('id', metaUserId)
+        .maybeSingle();
+      schoolId = (metaProfile?.school_id as string | undefined) ?? undefined;
     }
   }
 
@@ -298,6 +310,7 @@ async function handleSubscriptionUpsert(supabase: SB, sub: Record<string, unknow
         ? new Date(periodEnd * 1000).toISOString()
         : new Date().toISOString(),
       cancel_at_period_end: cancelAtPeriodEnd,
+      seats,
       updated_at: new Date().toISOString(),
     },
     { onConflict: 'id' }
@@ -333,6 +346,31 @@ async function handleSubscriptionUpsert(supabase: SB, sub: Record<string, unknow
     console.error('[stripe-webhook] profile plan update failed:', profileError.message);
     throw profileError;
   }
+
+  // School seat licence: sync the purchaser's school so every member holds
+  // the plan (the client resolves membership → plan at sign-in). Best-effort:
+  // a purchaser without a school still gets the plan personally, and an admin
+  // can attach the school later.
+  if (plan === 'school') {
+    if (schoolId) {
+      const { error: schoolError } = await supabase
+        .from('schools')
+        .update({
+          stripe_subscription_id: subId,
+          plan_seats: seats,
+          plan_status: status,
+          plan_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
+        })
+        .eq('id', schoolId);
+      if (schoolError) {
+        console.error('[stripe-webhook] school licence sync failed:', schoolError.message);
+      }
+    } else {
+      console.warn(
+        '[stripe-webhook] school plan purchased by a user with no school_id — only the purchaser holds the plan until an admin assigns their school.'
+      );
+    }
+  }
 }
 
 /**
@@ -353,6 +391,13 @@ async function handleSubscriptionDeleted(supabase: SB, sub: Record<string, unkno
     console.error('[stripe-webhook] subscription cancel update failed:', cancelError.message);
     throw cancelError;
   }
+
+  // End any school licence backed by this subscription — members lose the
+  // school plan at their next session refresh.
+  await supabase
+    .from('schools')
+    .update({ plan_status: 'canceled', plan_period_end: null })
+    .eq('stripe_subscription_id', subId);
 
   // Find the user and downgrade their cached plan to free (unless they have
   // another active subscription, which resolve_stripe_plan handles).
