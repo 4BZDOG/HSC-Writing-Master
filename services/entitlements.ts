@@ -243,16 +243,26 @@ export const isFeedbackLocked = (user?: User | null): boolean => {
 // Evaluation count gate (daily, localStorage-backed)
 // ---------------------------------------------------------------------------
 
+// Keyed PER USER: on a shared computer (school library) two accounts must
+// not share — or drain — one 5-eval pool. The legacy un-keyed entries are
+// simply ignored; the counter restarts per account, which at worst grants
+// one extra free day.
 const EVAL_COUNT_KEY = 'ws:free-eval-count';
 const EVAL_DATE_KEY = 'ws:free-eval-date';
+
+const evalKeySuffix = (): string => {
+  const username = authService.getCurrentUser()?.username;
+  return username ? `:${username}` : '';
+};
 
 const todayDateStr = (): string => new Date().toISOString().slice(0, 10);
 
 const readDailyEvalCount = (): number => {
   try {
-    const storedDate = localStorage.getItem(EVAL_DATE_KEY);
+    const suffix = evalKeySuffix();
+    const storedDate = localStorage.getItem(EVAL_DATE_KEY + suffix);
     if (storedDate !== todayDateStr()) return 0;
-    return parseInt(localStorage.getItem(EVAL_COUNT_KEY) ?? '0', 10);
+    return parseInt(localStorage.getItem(EVAL_COUNT_KEY + suffix) ?? '0', 10);
   } catch {
     return 0;
   }
@@ -261,13 +271,14 @@ const readDailyEvalCount = (): number => {
 /** Record one evaluation use. Call after a successful evaluation. */
 export const recordEvaluation = (): void => {
   try {
+    const suffix = evalKeySuffix();
     const today = todayDateStr();
-    if (localStorage.getItem(EVAL_DATE_KEY) !== today) {
-      localStorage.setItem(EVAL_DATE_KEY, today);
-      localStorage.setItem(EVAL_COUNT_KEY, '1');
+    if (localStorage.getItem(EVAL_DATE_KEY + suffix) !== today) {
+      localStorage.setItem(EVAL_DATE_KEY + suffix, today);
+      localStorage.setItem(EVAL_COUNT_KEY + suffix, '1');
     } else {
       const count = readDailyEvalCount();
-      localStorage.setItem(EVAL_COUNT_KEY, String(count + 1));
+      localStorage.setItem(EVAL_COUNT_KEY + suffix, String(count + 1));
     }
   } catch {
     /* localStorage unavailable — fail open */

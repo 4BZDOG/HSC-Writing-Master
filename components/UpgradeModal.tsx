@@ -195,6 +195,12 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                   {PREMIUM_FEATURES[key].perk}
                 </li>
               ))}
+              {/* Not a feature gate — the plan-aware server quota (schema §11):
+                  paid plans are guaranteed a 300-call daily AI allowance. */}
+              <li className="flex items-start gap-2.5 text-xs leading-relaxed text-[rgb(var(--color-text-muted))] light:text-slate-500 font-medium">
+                <Check className="w-3.5 h-3.5 mt-0.5 shrink-0 text-amber-500" />A 300-call daily AI
+                allowance — five times the free tier
+              </li>
             </ul>
           </div>
 

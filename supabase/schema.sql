@@ -667,10 +667,22 @@ create policy ai_usage_read on public.ai_usage
   for select using (user_id = auth.uid() or public.is_reviewer());
 -- No insert/update policies: the only write path is consume_ai_quota().
 
--- Effective daily limit for a user (override → role default → 50).
+-- Effective daily limit for a user (override → plan-aware default → 50).
+-- Paid plans (stripe_plan = plus/school, kept in sync by the Stripe webhook)
+-- are guaranteed a 300-call floor: "unlimited marking" must be enforced
+-- server-side, not just promised by the paywall copy. An explicit per-user
+-- override still beats everything, so admins can always dial an individual
+-- up or down.
 create or replace function public.resolve_ai_quota(p_user uuid)
 returns integer language sql stable security definer set search_path = public as $$
-  select coalesce(p.daily_ai_quota, l.daily_limit, 50)
+  select coalesce(
+    p.daily_ai_quota,
+    case
+      when coalesce(p.stripe_plan, 'free') in ('plus', 'school')
+        then greatest(coalesce(l.daily_limit, 50), 300)
+      else l.daily_limit
+    end,
+    50)
   from public.profiles p
   left join public.ai_quota_limits l on l.role = p.role
   where p.id = p_user;
