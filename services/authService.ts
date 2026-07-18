@@ -309,32 +309,85 @@ export const authService = {
     }
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
-      options: { redirectTo: window.location.origin },
+      options: {
+        // Origin alone drops the base path on sub-path hosting (GitHub Pages
+        // serves at /<repo>/) — the provider would bounce the user to a 404
+        // and the session tokens would never reach the app.
+        redirectTo: `${window.location.origin}${import.meta.env.BASE_URL ?? '/'}`,
+        // School computers are shared: always let the student pick the
+        // account rather than silently reusing whoever signed in last.
+        ...(provider === 'google' ? { queryParams: { prompt: 'select_account' } } : {}),
+      },
     });
     if (error) throw new Error(error.message);
   },
 
   handleOAuthCallback: async (): Promise<User | null> => {
     if (!isSupabaseConfigured || !supabase) return null;
-    const { data, error } = await supabase.auth.getUser();
-    if (error || !data.user) return null;
+
+    // supabase-js processes the provider redirect (URL hash tokens or PKCE
+    // ?code exchange) ASYNCHRONOUSLY after the client is created. On a fast
+    // mount, getSession() runs before that finishes and reports no session —
+    // which used to dump a successfully signed-in user back on the login
+    // page until they manually refreshed. When the URL shows we're mid
+    // OAuth-return, wait (bounded) for the SIGNED_IN event instead.
+    const client = supabase;
+    let session = (await client.auth.getSession()).data.session;
+
+    if (!session) {
+      const url = `${window.location.hash}${window.location.search}`;
+      const isOAuthReturn = /access_token=|refresh_token=|[?&]code=/.test(url);
+      if (!isOAuthReturn) return null;
+
+      session = await new Promise((resolve) => {
+        const timer = setTimeout(() => {
+          subscription.unsubscribe();
+          resolve(null);
+        }, 8000);
+        const {
+          data: { subscription },
+        } = client.auth.onAuthStateChange((_event, s) => {
+          if (s) {
+            clearTimeout(timer);
+            subscription.unsubscribe();
+            resolve(s);
+          }
+        });
+      });
+    }
+    if (!session?.user) return null;
+    const authUser = session.user;
 
     let profile: ProfileRow | null = null;
     let profileReadOk = true;
     try {
-      profile = await fetchProfile(data.user.id);
+      profile = await fetchProfile(authUser.id);
     } catch {
       profileReadOk = false;
     }
 
-    const user = mapProfileToUser(data.user.email ?? '', profile);
+    const user = mapProfileToUser(authUser.email ?? '', profile);
     user.stats = calculateStreak(user.stats);
 
     if (profileReadOk) {
-      await persistProfileState(data.user.id, user);
+      await persistProfileState(authUser.id, user);
     }
 
     safeSetItem(STORAGE_KEYS.AUTH_USER, user);
+
+    // Clear leftover token/code fragments so a refresh or copied URL doesn't
+    // carry credentials. (supabase-js strips the hash itself in most flows,
+    // but not the PKCE ?code param.)
+    try {
+      if (
+        /access_token=|refresh_token=|[?&]code=/.test(window.location.hash + window.location.search)
+      ) {
+        window.history.replaceState({}, '', window.location.pathname);
+      }
+    } catch {
+      /* cosmetic only */
+    }
+
     return user;
   },
 
