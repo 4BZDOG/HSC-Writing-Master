@@ -18,11 +18,11 @@ const MeshOverlay = ({ opacity = 'opacity-[0.03]' }: { opacity?: string }) => (
 );
 
 const COGNITIVE_STEPS = [
-  { label: 'Recall', tier: 1 },
+  { label: 'Remember', tier: 1 },
   { label: 'Describe', tier: 2 },
-  { label: 'Apply', tier: 3 },
+  { label: 'Explain', tier: 3 },
   { label: 'Analyse', tier: 4 },
-  { label: 'Synthesise', tier: 5 },
+  { label: 'Argue', tier: 5 },
   { label: 'Evaluate', tier: 6 },
 ];
 
@@ -186,13 +186,16 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       <p className="text-sm font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 max-w-xl leading-relaxed opacity-90">
                         {activeTermInfo.definition}
                       </p>
+                      <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 max-w-xl leading-relaxed opacity-80 mt-1 italic">
+                        {activeTermInfo.tip}
+                      </p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-6 bg-black/10 light:bg-white/60 px-5 py-3 rounded-2xl border border-white/10 backdrop-blur-md self-stretch md:self-auto justify-center shadow-inner">
+                  <div className="flex items-center gap-4 bg-black/10 light:bg-white/60 px-5 py-3 rounded-2xl border border-white/10 backdrop-blur-md self-stretch md:self-auto justify-center shadow-inner flex-wrap">
                     <div className="flex flex-col items-center">
                       <span className="text-[9px] text-slate-500 uppercase tracking-widest font-black mb-0.5">
-                        Mark Range
+                        Marks
                       </span>
                       <span className={`text-lg font-black ${activeConfig.text}`}>
                         {activeTermInfo.markRange.join('-')}
@@ -201,13 +204,34 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                     <div className="w-px h-8 bg-black/10 light:bg-slate-300" />
                     <div
                       className="flex flex-col items-center"
-                      title={`The cognitive demand of ${activeTermInfo.term} caps a response at Band ${getTierTargetBand(activeTermInfo.tier)} — it doesn't call for the higher-order reasoning Bands above require.`}
+                      title={`The cognitive demand of ${activeTermInfo.term} caps a response at Band ${getTierTargetBand(activeTermInfo.tier)}`}
                     >
                       <span className="text-[9px] text-slate-500 uppercase tracking-widest font-black mb-0.5">
-                        Band Ceiling
+                        Band Cap
                       </span>
                       <span className={`text-lg font-black ${activeConfig.text}`}>
-                        Band {getTierTargetBand(activeTermInfo.tier)}
+                        {getTierTargetBand(activeTermInfo.tier)}
+                      </span>
+                    </div>
+                    <div className="w-px h-8 bg-black/10 light:bg-slate-300" />
+                    <div className="flex flex-col items-center" title="Recommended writing time">
+                      <span className="text-[9px] text-slate-500 uppercase tracking-widest font-black mb-0.5">
+                        Time
+                      </span>
+                      <span className={`text-lg font-black ${activeConfig.text}`}>
+                        {activeTermInfo.timeRange.join('-')}m
+                      </span>
+                    </div>
+                    <div className="w-px h-8 bg-black/10 light:bg-slate-300 hidden sm:block" />
+                    <div
+                      className="hidden sm:flex flex-col items-center"
+                      title="Expected syllabus terms"
+                    >
+                      <span className="text-[9px] text-slate-500 uppercase tracking-widest font-black mb-0.5">
+                        Terms
+                      </span>
+                      <span className={`text-lg font-black ${activeConfig.text}`}>
+                        {activeTermInfo.syllabusTerms.join('-')}
                       </span>
                     </div>
                   </div>
@@ -350,13 +374,13 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
               Basic Recall
             </span>
             <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] hidden sm:block">
-              Application
+              Explain & Compare
             </span>
             <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] hidden sm:block">
-              Analysis
+              Analyse & Apply
             </span>
             <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] whitespace-nowrap">
-              Creation & Synthesis
+              Evaluate & Create
             </span>
           </div>
 

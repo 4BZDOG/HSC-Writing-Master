@@ -280,8 +280,13 @@ export interface DataValidationResult {
 export interface CommandTermInfo {
   term: PromptVerb;
   definition: string;
+  tip: string;
   tier: number;
   markRange: [number, number];
+  charRange: [number, number];
+  pageEstimate: string;
+  timeRange: [number, number];
+  syllabusTerms: [number, number];
   bandDiscrimination: string;
   genericMarkingGuide: string[];
   structuralKeywords: string[];

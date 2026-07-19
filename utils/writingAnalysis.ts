@@ -71,6 +71,10 @@ export interface InsightInput {
   keywordsTotal: number;
   keywordsUsed: number;
   missingKeywords: string[];
+  expectedTerms?: number;
+  tier?: number;
+  charCount?: number;
+  charRange?: [number, number];
 }
 
 const RUN_ON_SENTENCE_WORDS = 45;
@@ -82,8 +86,18 @@ const MAX_INSIGHTS = 4;
  * good shape. Returns an empty list for a blank draft.
  */
 export const buildWritingInsights = (input: InsightInput): WritingInsight[] => {
-  const { analysis, targetWordCount, targetLabel, keywordsTotal, keywordsUsed, missingKeywords } =
-    input;
+  const {
+    analysis,
+    targetWordCount,
+    targetLabel,
+    keywordsTotal,
+    keywordsUsed,
+    missingKeywords,
+    expectedTerms,
+    tier,
+    charCount,
+    charRange,
+  } = input;
   const { wordCount, longestSentenceWords, paragraphCount } = analysis;
 
   if (wordCount === 0) return [];
@@ -115,6 +129,17 @@ export const buildWritingInsights = (input: InsightInput): WritingInsight[] => {
     }
   }
 
+  // --- Character range (soft boundary) ---
+  if (charCount !== undefined && charRange && charRange[1] > 0) {
+    if (charCount > charRange[1] * 1.3) {
+      warnings.push({
+        id: 'chars-over',
+        tone: 'warning',
+        message: `Over the expected character range for this verb — tighten your expression.`,
+      });
+    }
+  }
+
   // --- Syllabus keywords ---
   if (keywordsTotal > 0) {
     if (keywordsUsed < keywordsTotal) {
@@ -136,6 +161,23 @@ export const buildWritingInsights = (input: InsightInput): WritingInsight[] => {
     }
   }
 
+  // --- Syllabus term target prompt (Tier 4+) ---
+  if (
+    tier &&
+    tier >= 4 &&
+    expectedTerms &&
+    expectedTerms > 0 &&
+    keywordsUsed < expectedTerms &&
+    keywordsTotal > 0 &&
+    wordCount > targetWordCount * 0.4
+  ) {
+    warnings.push({
+      id: 'terms-target',
+      tone: 'info',
+      message: `Tier ${tier} tasks expect ${expectedTerms}+ syllabus terms — have you used enough?`,
+    });
+  }
+
   // --- Run-on sentence ---
   if (longestSentenceWords > RUN_ON_SENTENCE_WORDS) {
     warnings.push({
@@ -151,6 +193,15 @@ export const buildWritingInsights = (input: InsightInput): WritingInsight[] => {
       id: 'paragraphs',
       tone: 'info',
       message: `Break this into paragraphs to structure your argument.`,
+    });
+  }
+
+  // --- Structure prompts for Tier 5-6 ---
+  if (tier && tier >= 5 && wordCount > 60 && paragraphCount >= 2 && paragraphCount < 3) {
+    positives.push({
+      id: 'structure-hint',
+      tone: 'info',
+      message: `High-tier tasks benefit from clear sections: intro, body of argument, and conclusion.`,
     });
   }
 

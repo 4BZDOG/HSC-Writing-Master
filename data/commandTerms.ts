@@ -34,48 +34,48 @@ const TIER_COLORS = [
 export const TIER_GROUPS = [
   {
     level: 1,
-    title: 'Retrieving & Recalling',
-    subtitle: 'Just remember and write it down — short, direct answers, often 1–2 marks.',
+    title: 'Remember & List',
+    subtitle: 'Recall facts, names, or data with minimal processing — short, direct answers.',
     emoji: '🧠',
     tier: 1,
-    maxBand: 1,
-  },
-  {
-    level: 2,
-    title: 'Comprehending & Describing',
-    subtitle: "Show what it's like in your own words — describe, retell or sum up.",
-    emoji: '📝',
-    tier: 2,
-    maxBand: 2,
-  },
-  {
-    level: 3,
-    title: 'Applying & Demonstrating',
-    subtitle: 'Use what you know — work it out, show how, or build an answer.',
-    emoji: '🔧',
-    tier: 3,
     maxBand: 3,
   },
   {
-    level: 4,
-    title: 'Analysing & Connecting',
-    subtitle: 'Break it into parts and connect them — show the how and why.',
-    emoji: '🔍',
-    tier: 4,
+    level: 2,
+    title: 'Define & Describe',
+    subtitle: 'Show you understand what something is and what it looks like — in your own words.',
+    emoji: '📝',
+    tier: 2,
     maxBand: 4,
   },
   {
-    level: 5,
-    title: 'Synthesising & Arguing',
-    subtitle: 'Bring ideas together and argue a supported point of view.',
-    emoji: '⚖️',
-    tier: 5,
+    level: 3,
+    title: 'Explain & Compare',
+    subtitle: 'Show relationships, causes, and how things connect — the why and how.',
+    emoji: '🔗',
+    tier: 3,
     maxBand: 5,
   },
   {
+    level: 4,
+    title: 'Analyse & Apply',
+    subtitle: 'Break things apart and use knowledge in new situations — dig deep.',
+    emoji: '🔍',
+    tier: 4,
+    maxBand: 6,
+  },
+  {
+    level: 5,
+    title: 'Discuss, Assess & Justify',
+    subtitle: 'Form arguments, weigh up evidence, and take a position.',
+    emoji: '⚖️',
+    tier: 5,
+    maxBand: 6,
+  },
+  {
     level: 6,
-    title: 'Evaluating & Judging',
-    subtitle: 'Weigh it up and judge against criteria — deep, balanced thinking, often 8+ marks.',
+    title: 'Evaluate, Synthesise & Create',
+    subtitle: 'Highest-order thinking — independent judgement, creation of new understanding.',
     emoji: '🏆',
     tier: 6,
     maxBand: 6,
@@ -83,68 +83,47 @@ export const TIER_GROUPS = [
 ];
 
 export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
-  // --- Level 1: Retrieving & Recalling ---
+  // --- Tier 1: Remember & List ---
   {
     term: 'IDENTIFY',
-    definition:
-      'Recognise and name the key thing(s) — point it out clearly, often just a word or short phrase.',
+    definition: 'Simply name or point out the answer. No explanation needed. Spot it and label it.',
+    tip: 'Just name it and stop. No sentences needed beyond "X is Y." Don\'t explain -- explanations waste time and earn zero extra marks.',
     tier: 1,
     markRange: [1, 2],
+    charRange: [100, 300],
+    pageEstimate: '1/4 or less',
+    timeRange: [2, 4],
+    syllabusTerms: [1, 2],
     bandDiscrimination: 'Accuracy of identification.',
     genericMarkingGuide: ['1 mark: Correctly identifies the item/concept.'],
     structuralKeywords: ['is', 'are', 'named'],
     exampleQuestion: 'Identify three renewable energy sources from the text provided.',
   },
   {
-    term: 'STATE',
-    definition: 'Give the fact or answer plainly — no explanation needed.',
-    tier: 1,
-    markRange: [1, 2],
-    bandDiscrimination: 'Accuracy of the stated fact.',
-    genericMarkingGuide: ['1 mark: Correctly states the information.'],
-    structuralKeywords: ['state', 'give', 'name'],
-    exampleQuestion: 'State the boiling point of water.',
-  },
-  {
     term: 'RECALL',
-    definition:
-      "Just remember and write down facts, ideas or experiences you've learned — keep it straightforward.",
+    definition: 'Write down facts, ideas, or experiences from memory. Just list what you know.',
+    tip: 'Dump facts from memory in a list or short sentence. Think "brain dump" -- accuracy matters more than polish.',
     tier: 1,
     markRange: [1, 2],
+    charRange: [150, 400],
+    pageEstimate: '1/4',
+    timeRange: [2, 4],
+    syllabusTerms: [1, 2],
     bandDiscrimination: 'Accuracy of recalled facts.',
     genericMarkingGuide: ['1 mark: Correctly recalls the specific fact or idea.'],
     structuralKeywords: ['state', 'list'],
     exampleQuestion: 'Recall the formula for calculating the area of a circle.',
   },
   {
-    term: 'DEFINE',
-    definition:
-      'State the exact meaning and the essential qualities or features — be precise with subject terms.',
+    term: 'RECOUNT',
+    definition: 'Retell events in order (like a timeline). Stick to "what happened" in sequence.',
+    tip: 'Tell the story in order. Use time words: first, then, next, finally. Stick to what happened -- no "why" yet.',
     tier: 1,
     markRange: [1, 3],
-    bandDiscrimination: 'Precision of definition and essential qualities.',
-    genericMarkingGuide: [
-      '1 mark: Basic definition.',
-      '2 marks: Comprehensive definition with essential qualities.',
-    ],
-    structuralKeywords: ['means', 'refers to', 'is defined as'],
-    exampleQuestion: "Define the term 'osmosis'.",
-  },
-  {
-    term: 'EXTRACT',
-    definition: 'Pull out and list the relevant details from a source or text.',
-    tier: 1,
-    markRange: [1, 2],
-    bandDiscrimination: 'Relevance of extracted details.',
-    genericMarkingGuide: ['1 mark: Extracts the correct information.'],
-    structuralKeywords: ['from', 'data', 'source'],
-    exampleQuestion: 'Extract the population data for 1990 from the table.',
-  },
-  {
-    term: 'RECOUNT',
-    definition: 'Retell a series of events in order, like a story summary.',
-    tier: 1,
-    markRange: [2, 4],
+    charRange: [200, 600],
+    pageEstimate: '1/4-1/2',
+    timeRange: [2, 5],
+    syllabusTerms: [2, 3],
     bandDiscrimination: 'Sequence and accuracy of events.',
     genericMarkingGuide: [
       '1 mark: Basic list of events.',
@@ -153,79 +132,16 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     structuralKeywords: ['then', 'after', 'following', 'next'],
     exampleQuestion: 'Recount the events leading up to the signing of the treaty.',
   },
-
-  // --- Level 2: Comprehending & Describing ---
-  {
-    term: 'OUTLINE',
-    definition: 'Sketch the main features in general terms — main points only, no deep detail.',
-    tier: 2,
-    markRange: [2, 4],
-    bandDiscrimination: 'Coverage of main features.',
-    genericMarkingGuide: ['1 mark per main feature outlined.'],
-    structuralKeywords: ['mainly', 'features', 'overview', 'briefly'],
-    exampleQuestion: 'Outline the main stages of the water cycle.',
-  },
-  {
-    term: 'DESCRIBE',
-    definition:
-      'Provide the main characteristics and features — paint a clear picture of what it is like or what happened.',
-    tier: 2,
-    markRange: [3, 5],
-    bandDiscrimination: 'Detail and accuracy of characteristics.',
-    genericMarkingGuide: [
-      '1-2 marks: Identifies characteristics.',
-      '3+ marks: Provides detailed description of features.',
-    ],
-    structuralKeywords: ['characteristics', 'features', 'consists of', 'looks like'],
-    exampleQuestion: 'Describe the appearance and properties of sedimentary rock.',
-  },
-  {
-    term: 'CLARIFY',
-    definition: "Make it clear or plain — explain simply so it's easy to understand.",
-    tier: 2,
-    markRange: [2, 4],
-    bandDiscrimination: 'Clarity and removal of ambiguity.',
-    genericMarkingGuide: [
-      '1 mark: Identifies the ambiguity.',
-      '2+ marks: Clearly explains to resolve confusion.',
-    ],
-    structuralKeywords: ['specifically', 'meaning', 'clarification', 'in other words'],
-    exampleQuestion: 'Clarify the difference between a bill and an act of parliament.',
-  },
-  {
-    term: 'SUMMARISE',
-    definition: 'Express the relevant details concisely — shorten it while keeping the key points.',
-    tier: 2,
-    markRange: [3, 5],
-    bandDiscrimination: 'Conciseness and relevance of details.',
-    genericMarkingGuide: [
-      '1 mark: Identifies main points.',
-      '2+ marks: Concisely links main points without unnecessary detail.',
-    ],
-    structuralKeywords: ['in summary', 'briefly', 'overall', 'key points'],
-    exampleQuestion: 'Summarise the author’s main argument in the first chapter.',
-  },
-  {
-    term: 'CLASSIFY',
-    definition: 'Arrange or group things into categories, and explain your groupings.',
-    tier: 2,
-    markRange: [2, 4],
-    bandDiscrimination: 'Accuracy of categorisation.',
-    genericMarkingGuide: [
-      '1 mark: Correct classification.',
-      '2 marks: Justification for classification if required.',
-    ],
-    structuralKeywords: ['category', 'class', 'group', 'type'],
-    exampleQuestion: 'Classify the following animals as either mammals, reptiles, or amphibians.',
-  },
-
-  // --- Level 3: Applying & Demonstrating ---
   {
     term: 'CALCULATE',
-    definition:
-      'Work out the answer using the given numbers, facts or formulas — show your working if required.',
-    tier: 3,
-    markRange: [2, 4],
+    definition: 'Use the numbers/formula given and do the maths. Always show working out.',
+    tip: 'Show every step of working. Write the formula first, substitute numbers, then solve. No working = no marks, even if answer is right.',
+    tier: 1,
+    markRange: [1, 3],
+    charRange: [100, 400],
+    pageEstimate: '3-5 lines',
+    timeRange: [2, 5],
+    syllabusTerms: [1, 2],
     bandDiscrimination: 'Accuracy of calculation and showing working.',
     genericMarkingGuide: [
       '1 mark: Correct method/formula.',
@@ -236,52 +152,165 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     exampleQuestion: 'Calculate the velocity of the car based on the distance and time provided.',
   },
   {
-    term: 'APPLY',
-    definition: 'Use your knowledge in a new, different or unfamiliar situation.',
-    tier: 3,
-    markRange: [3, 6],
-    bandDiscrimination: 'Appropriateness of application to the new context.',
-    genericMarkingGuide: [
-      '1-2 marks: Identifies relevant principle.',
-      '3+ marks: Correctly applies principle to the specific scenario.',
-    ],
-    structuralKeywords: ['using', 'applying', 'in this case', 'scenario'],
-    exampleQuestion:
-      'Apply the principle of supply and demand to explain the recent rise in coffee prices.',
-  },
-  {
-    term: 'DEMONSTRATE',
-    definition: 'Show by giving a clear example — often including how it works.',
-    tier: 3,
-    markRange: [3, 6],
-    bandDiscrimination: 'Clarity and relevance of the example.',
-    genericMarkingGuide: [
-      '1 mark: States the concept.',
-      '2+ marks: Provides a clear, relevant example showing the concept in action.',
-    ],
-    structuralKeywords: ['for example', 'such as', 'shown by', 'illustrates'],
-    exampleQuestion: 'Demonstrate how to safely handle chemicals in the laboratory.',
-  },
-  {
-    term: 'CONSTRUCT',
-    definition: 'Make, build or put together items or arguments.',
-    tier: 3,
-    markRange: [3, 6],
-    bandDiscrimination: 'Logical assembly and completeness.',
-    genericMarkingGuide: [
-      '1 mark: Basic elements present.',
-      '2+ marks: Logical, coherent structure or build.',
-    ],
-    structuralKeywords: ['build', 'create', 'develop', 'timeline', 'plan'],
-    exampleQuestion: 'Construct a timeline showing the major battles of World War II.',
+    term: 'EXTRACT',
+    definition: 'Pick out relevant details from a source, graph, or stimulus.',
+    tip: 'Copy the relevant info from the source/graph and label what it shows. Quote directly if the question provides a stimulus.',
+    tier: 1,
+    markRange: [1, 3],
+    charRange: [150, 500],
+    pageEstimate: '1/4-1/2',
+    timeRange: [2, 5],
+    syllabusTerms: [1, 2],
+    bandDiscrimination: 'Relevance of extracted details.',
+    genericMarkingGuide: ['1 mark: Extracts the correct information.'],
+    structuralKeywords: ['from', 'data', 'source'],
+    exampleQuestion: 'Extract the population data for 1990 from the table.',
   },
 
-  // --- Level 4: Analysing & Connecting ---
+  // --- Tier 2: Define & Describe ---
+  {
+    term: 'DEFINE',
+    definition:
+      'State the meaning and the essential qualities. Think dictionary definition + key features.',
+    tip: 'Give the exact meaning + key features. Use the syllabus definition if you know it. One solid sentence beats three vague ones.',
+    tier: 2,
+    markRange: [1, 3],
+    charRange: [200, 500],
+    pageEstimate: '1/4-1/2',
+    timeRange: [2, 5],
+    syllabusTerms: [2, 3],
+    bandDiscrimination: 'Precision of definition and essential qualities.',
+    genericMarkingGuide: [
+      '1 mark: Basic definition.',
+      '2 marks: Comprehensive definition with essential qualities.',
+    ],
+    structuralKeywords: ['means', 'refers to', 'is defined as'],
+    exampleQuestion: "Define the term 'osmosis'.",
+  },
+  {
+    term: 'OUTLINE',
+    definition:
+      'Sketch the main features in general terms. A brief overview -- not every tiny detail.',
+    tip: 'Give the big picture, not the fine print. Cover main points only. Think "bullet points in sentences" -- broad strokes.',
+    tier: 2,
+    markRange: [2, 4],
+    charRange: [400, 900],
+    pageEstimate: '1/2',
+    timeRange: [4, 7],
+    syllabusTerms: [3, 4],
+    bandDiscrimination: 'Coverage of main features.',
+    genericMarkingGuide: ['1 mark per main feature outlined.'],
+    structuralKeywords: ['mainly', 'features', 'overview', 'briefly'],
+    exampleQuestion: 'Outline the main stages of the water cycle.',
+  },
+  {
+    term: 'DESCRIBE',
+    definition:
+      'List the characteristics and features. Go further than "define" -- paint a picture with details.',
+    tip: 'Paint a picture with features. Use adjectives and specific details. Ask yourself: "What does this look like? What are its parts?"',
+    tier: 2,
+    markRange: [2, 4],
+    charRange: [500, 1000],
+    pageEstimate: '1/2',
+    timeRange: [4, 7],
+    syllabusTerms: [3, 5],
+    bandDiscrimination: 'Detail and accuracy of characteristics.',
+    genericMarkingGuide: [
+      '1-2 marks: Identifies characteristics.',
+      '3+ marks: Provides detailed description of features.',
+    ],
+    structuralKeywords: ['characteristics', 'features', 'consists of', 'looks like'],
+    exampleQuestion: 'Describe the appearance and properties of sedimentary rock.',
+  },
+  {
+    term: 'SUMMARISE',
+    definition: 'Boil it down to the main points only. Be concise -- cut the fluff.',
+    tip: 'Cut to the chase. Only main points -- no examples, no fluff. If you can say it in fewer words, do.',
+    tier: 2,
+    markRange: [2, 4],
+    charRange: [300, 700],
+    pageEstimate: '1/4-1/2',
+    timeRange: [4, 7],
+    syllabusTerms: [3, 4],
+    bandDiscrimination: 'Conciseness and relevance of details.',
+    genericMarkingGuide: [
+      '1 mark: Identifies main points.',
+      '2+ marks: Concisely links main points without unnecessary detail.',
+    ],
+    structuralKeywords: ['in summary', 'briefly', 'overall', 'key points'],
+    exampleQuestion: "Summarise the author's main argument in the first chapter.",
+  },
+  {
+    term: 'CLARIFY',
+    definition:
+      'Make something clearer or easier to understand. Break down confusing parts and explain them simply.',
+    tip: 'Make the confusing bit simple. Break a complex idea into plain steps. Use "in other words" or "this means that."',
+    tier: 2,
+    markRange: [2, 4],
+    charRange: [400, 900],
+    pageEstimate: '1/2',
+    timeRange: [4, 7],
+    syllabusTerms: [3, 4],
+    bandDiscrimination: 'Clarity and removal of ambiguity.',
+    genericMarkingGuide: [
+      '1 mark: Identifies the ambiguity.',
+      '2+ marks: Clearly explains to resolve confusion.',
+    ],
+    structuralKeywords: ['specifically', 'meaning', 'clarification', 'in other words'],
+    exampleQuestion: 'Clarify the difference between a bill and an act of parliament.',
+  },
+  {
+    term: 'CLASSIFY',
+    definition:
+      'Sort things into groups/categories based on shared traits. Name the category AND explain why it fits.',
+    tip: "Sort into groups and say WHY. Name each category and explain what puts something in it. Don't just list -- justify the sorting.",
+    tier: 2,
+    markRange: [2, 4],
+    charRange: [400, 900],
+    pageEstimate: '1/2',
+    timeRange: [4, 7],
+    syllabusTerms: [3, 5],
+    bandDiscrimination: 'Accuracy of categorisation.',
+    genericMarkingGuide: [
+      '1 mark: Correct classification.',
+      '2 marks: Justification for classification if required.',
+    ],
+    structuralKeywords: ['category', 'class', 'group', 'type'],
+    exampleQuestion: 'Classify the following animals as either mammals, reptiles, or amphibians.',
+  },
+
+  // --- Tier 3: Explain & Compare ---
+  {
+    term: 'EXPLAIN',
+    definition:
+      "Answer why or how. Link cause and effect. Don't just describe -- show the relationship between things.",
+    tip: 'Answer "why" or "how." Use linking words: because, leads to, results in, therefore. Every sentence should show a relationship, not just a fact.',
+    tier: 3,
+    markRange: [3, 6],
+    charRange: [600, 1400],
+    pageEstimate: '1/2-3/4',
+    timeRange: [5, 11],
+    syllabusTerms: [4, 6],
+    bandDiscrimination: 'Clarity of cause-effect relationship.',
+    genericMarkingGuide: [
+      '1 mark: Identifies cause.',
+      '1 mark: Identifies effect.',
+      '1-2 marks: Explains the link/relationship.',
+    ],
+    structuralKeywords: ['because', 'therefore', 'consequently', 'due to', 'leads to'],
+    exampleQuestion: 'Explain why the Industrial Revolution began in Britain.',
+  },
   {
     term: 'COMPARE',
-    definition: 'Show how things are similar or different, linking the points as you go.',
-    tier: 4,
-    markRange: [4, 8],
+    definition:
+      "Show how things are similar AND different. Don't just list -- discuss the significance of the similarities/differences.",
+    tip: 'Show similarities AND differences. Use a balanced structure: "Both X and Y... However, X... whereas Y..." Don\'t just list -- discuss significance.',
+    tier: 3,
+    markRange: [3, 6],
+    charRange: [800, 1800],
+    pageEstimate: '3/4-1',
+    timeRange: [5, 11],
+    syllabusTerms: [5, 7],
     bandDiscrimination: 'Breadth of comparison (both similarities and differences).',
     genericMarkingGuide: [
       '1-2 marks: Similarities.',
@@ -293,87 +322,48 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'CONTRAST',
-    definition: 'Show how things are different or opposite — highlight the differences clearly.',
-    tier: 4,
-    markRange: [4, 6],
+    definition: 'Focus only on how things are different or opposite.',
+    tip: "Focus ONLY on differences. Use words like unlike, whereas, in contrast, on the other hand. Don't waste words on similarities.",
+    tier: 3,
+    markRange: [3, 5],
+    charRange: [600, 1400],
+    pageEstimate: '1/2-3/4',
+    timeRange: [5, 9],
+    syllabusTerms: [4, 6],
     bandDiscrimination: 'Depth of difference analysis.',
     genericMarkingGuide: ['1 mark per valid point of contrast explained.'],
     structuralKeywords: ['unlike', 'on the other hand', 'conversely', 'differs'],
     exampleQuestion: 'Contrast the political systems of a democracy and a dictatorship.',
   },
   {
-    term: 'DISTINGUISH',
-    definition: 'Note the differences between things — show how they are distinct.',
-    tier: 4,
-    markRange: [3, 5],
-    bandDiscrimination: 'Precision of distinction.',
-    genericMarkingGuide: [
-      '1 mark: Identifies the entities.',
-      '2+ marks: Clearly explains the distinguishing factor(s).',
-    ],
-    structuralKeywords: ['distinct', 'difference', 'unique', 'separates'],
-    exampleQuestion: 'Distinguish between viral and bacterial infections.',
-  },
-  {
-    term: 'EXPLAIN',
-    definition:
-      'Relate cause and effect — make the relationships clear and give the why and/or how, linking ideas logically.',
-    tier: 4,
+    term: 'DEMONSTRATE',
+    definition: 'Prove your point using examples. Show by example how something works or is true.',
+    tip: 'Prove it with a concrete example. State the concept, then show it in action. Real-world or syllabus examples score highest.',
+    tier: 3,
     markRange: [3, 6],
-    bandDiscrimination: 'Clarity of cause-effect relationship.',
+    charRange: [800, 1600],
+    pageEstimate: '3/4',
+    timeRange: [5, 11],
+    syllabusTerms: [4, 6],
+    bandDiscrimination: 'Clarity and relevance of the example.',
     genericMarkingGuide: [
-      '1 mark: Identifies cause.',
-      '1 mark: Identifies effect.',
-      '1-2 marks: Explains the link/relationship.',
+      '1 mark: States the concept.',
+      '2+ marks: Provides a clear, relevant example showing the concept in action.',
     ],
-    structuralKeywords: ['because', 'therefore', 'consequently', 'due to', 'leads to'],
-    exampleQuestion: 'Explain why the Industrial Revolution began in Britain.',
-  },
-  {
-    term: 'INTERPRET',
-    definition: 'Draw meaning from something (data, text or an event) and explain what it shows.',
-    tier: 4,
-    markRange: [3, 6],
-    bandDiscrimination: 'Insightfulness of meaning drawn.',
-    genericMarkingGuide: [
-      '1 mark: Basic reading of data.',
-      '2+ marks: Infers meaning or trends from the data/text.',
-    ],
-    structuralKeywords: ['suggests', 'indicates', 'implies', 'means'],
-    exampleQuestion: 'Interpret the trend shown in the graph regarding global temperatures.',
-  },
-  {
-    term: 'DEDUCE',
-    definition: 'Draw logical conclusions from the information given.',
-    tier: 4,
-    markRange: [3, 5],
-    bandDiscrimination: 'Logical flow from evidence to conclusion.',
-    genericMarkingGuide: [
-      '1 mark: Uses evidence.',
-      '2 marks: Draws logical conclusion based on evidence.',
-    ],
-    structuralKeywords: ['conclude', 'it follows that', 'therefore', 'derived from'],
-    exampleQuestion: "Deduce the genotype of the parents based on the offspring's characteristics.",
-  },
-  {
-    term: 'EXTRAPOLATE',
-    definition: 'Infer or extend what may happen based on what is already known.',
-    tier: 4,
-    markRange: [3, 6],
-    bandDiscrimination: 'Reasonableness of inference beyond known data.',
-    genericMarkingGuide: [
-      '1 mark: Uses known data.',
-      '2 marks: Logically extends data to new territory.',
-    ],
-    structuralKeywords: ['extend', 'project', 'future', 'predict'],
-    exampleQuestion:
-      'Extrapolate the future growth of the bacteria colony based on the current data.',
+    structuralKeywords: ['for example', 'such as', 'shown by', 'illustrates'],
+    exampleQuestion: 'Demonstrate how to safely handle chemicals in the laboratory.',
   },
   {
     term: 'PREDICT',
-    definition: 'Suggest what may happen based on the available information.',
-    tier: 4,
-    markRange: [3, 5],
+    definition:
+      'Use the information given to suggest what might happen next. Base it on evidence, not guesswork.',
+    tip: 'Say what happens next based on the evidence. Start with "Based on..." and use the data/trend given. Never guess -- always justify.',
+    tier: 3,
+    markRange: [2, 4],
+    charRange: [400, 900],
+    pageEstimate: '1/2',
+    timeRange: [4, 7],
+    syllabusTerms: [3, 4],
     bandDiscrimination: 'Justification of prediction based on data.',
     genericMarkingGuide: [
       '1 mark: States prediction.',
@@ -383,11 +373,36 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     exampleQuestion: 'Predict the outcome of the reaction if the temperature is doubled.',
   },
   {
+    term: 'ACCOUNT',
+    definition: 'Give reasons why something happened, or narrate a sequence of events with causes.',
+    tip: 'Give reasons why it happened. Build a chain: Event A -> because of B -> led to C. Show the full cause-and-effect sequence.',
+    tier: 3,
+    markRange: [3, 6],
+    charRange: [800, 1700],
+    pageEstimate: '3/4-1',
+    timeRange: [5, 11],
+    syllabusTerms: [5, 7],
+    bandDiscrimination: 'Comprehensiveness of reasons.',
+    genericMarkingGuide: [
+      '1 mark: Identifies event/phenomenon.',
+      '2+ marks: Provides detailed reasons for its occurrence.',
+    ],
+    structuralKeywords: ['reasons for', 'caused by', 'resulted from', 'explanation'],
+    exampleQuestion: 'Account for the rapid urbanization in the 20th century.',
+  },
+
+  // --- Tier 4: Analyse & Apply ---
+  {
     term: 'ANALYSE',
     definition:
-      'Break it into its parts and show how the parts connect or affect each other, drawing out the implications.',
+      'Break into components and show how they relate to each other. Explore implications and connections.',
+    tip: "Break it into parts and show how they connect. Use one paragraph per component, then a final sentence linking them together. Don't just list parts -- explain their relationship.",
     tier: 4,
-    markRange: [5, 8],
+    markRange: [4, 8],
+    charRange: [1000, 2200],
+    pageEstimate: '1-1.5',
+    timeRange: [7, 14],
+    syllabusTerms: [6, 10],
     bandDiscrimination: 'Depth of relationship analysis and implications.',
     genericMarkingGuide: [
       '2 marks: Identifies components.',
@@ -398,10 +413,36 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     exampleQuestion: 'Analyse the impact of social media on teenage self-esteem.',
   },
   {
-    term: 'EXAMINE',
-    definition: 'Inquire into it carefully — look closely at the details and different aspects.',
+    term: 'APPLY',
+    definition:
+      'Take a theory/formula/concept and use it in a new or different situation. Show it works outside the textbook.',
+    tip: 'Take the theory and drop it into a new situation. Start with the concept, then say "In this case..." and show how it works there. The marker wants to see transfer of knowledge.',
     tier: 4,
-    markRange: [4, 7],
+    markRange: [4, 8],
+    charRange: [1000, 2200],
+    pageEstimate: '1-1.5',
+    timeRange: [7, 14],
+    syllabusTerms: [6, 10],
+    bandDiscrimination: 'Appropriateness of application to the new context.',
+    genericMarkingGuide: [
+      '1-2 marks: Identifies relevant principle.',
+      '3+ marks: Correctly applies principle to the specific scenario.',
+    ],
+    structuralKeywords: ['using', 'applying', 'in this case', 'scenario'],
+    exampleQuestion:
+      'Apply the principle of supply and demand to explain the recent rise in coffee prices.',
+  },
+  {
+    term: 'EXAMINE',
+    definition:
+      'Investigate in detail. Dig deep into a few main points rather than skimming many. Use evidence.',
+    tip: 'Dig deep into a few points, not shallow across many. Pick 2-3 key aspects and explore each with evidence. Quality of depth beats quantity of points.',
+    tier: 4,
+    markRange: [4, 8],
+    charRange: [1000, 2200],
+    pageEstimate: '1-1.5',
+    timeRange: [7, 14],
+    syllabusTerms: [6, 10],
     bandDiscrimination: 'Depth of inquiry.',
     genericMarkingGuide: [
       '1-2 marks: Identifies key issues.',
@@ -411,27 +452,95 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     exampleQuestion: 'Examine the role of technology in modern healthcare.',
   },
   {
-    term: 'ACCOUNT',
+    term: 'DISTINGUISH',
     definition:
-      'State the reasons for something — report on why it happened (or narrate the events step by step).',
+      'Recognise and clearly note the differences between two things. Use examples and sometimes judge which is better.',
+    tip: 'Draw a clear line between two things. Use a point-by-point structure: "X is... whereas Y is..." Make the difference unmistakable.',
     tier: 4,
-    markRange: [4, 7],
-    bandDiscrimination: 'Comprehensiveness of reasons.',
+    markRange: [4, 8],
+    charRange: [1000, 2000],
+    pageEstimate: '1',
+    timeRange: [7, 14],
+    syllabusTerms: [6, 8],
+    bandDiscrimination: 'Precision of distinction.',
     genericMarkingGuide: [
-      '1 mark: Identifies event/phenomenon.',
-      '2+ marks: Provides detailed reasons for its occurrence.',
+      '1 mark: Identifies the entities.',
+      '2+ marks: Clearly explains the distinguishing factor(s).',
     ],
-    structuralKeywords: ['reasons for', 'caused by', 'resulted from', 'explanation'],
-    exampleQuestion: 'Account for the rapid urbanization in the 20th century.',
+    structuralKeywords: ['distinct', 'difference', 'unique', 'separates'],
+    exampleQuestion: 'Distinguish between viral and bacterial infections.',
+  },
+  {
+    term: 'INTERPRET',
+    definition:
+      'Draw meaning from data, texts, or sources. Explain what it really means beyond the surface.',
+    tip: "Explain what it REALLY means. Go beyond the surface. If it's a graph, say what the trend implies. If it's a quote, say what the author is suggesting.",
+    tier: 4,
+    markRange: [3, 6],
+    charRange: [800, 1800],
+    pageEstimate: '3/4-1',
+    timeRange: [5, 11],
+    syllabusTerms: [5, 7],
+    bandDiscrimination: 'Insightfulness of meaning drawn.',
+    genericMarkingGuide: [
+      '1 mark: Basic reading of data.',
+      '2+ marks: Infers meaning or trends from the data/text.',
+    ],
+    structuralKeywords: ['suggests', 'indicates', 'implies', 'means'],
+    exampleQuestion: 'Interpret the trend shown in the graph regarding global temperatures.',
+  },
+  {
+    term: 'EXTRAPOLATE',
+    definition:
+      'Read between the lines. Infer from known information to figure out something not directly stated (e.g., future trends).',
+    tip: 'Extend the trend beyond the data given. Look at the pattern and project forward. Use phrases like "If this trend continues..." or "This suggests that..."',
+    tier: 4,
+    markRange: [3, 6],
+    charRange: [800, 1600],
+    pageEstimate: '3/4-1',
+    timeRange: [5, 11],
+    syllabusTerms: [5, 7],
+    bandDiscrimination: 'Reasonableness of inference beyond known data.',
+    genericMarkingGuide: [
+      '1 mark: Uses known data.',
+      '2 marks: Logically extends data to new territory.',
+    ],
+    structuralKeywords: ['extend', 'project', 'future', 'predict'],
+    exampleQuestion:
+      'Extrapolate the future growth of the bacteria colony based on the current data.',
+  },
+  {
+    term: 'CONSTRUCT',
+    definition:
+      'Build or put together items, arguments, or structures. Organise ideas logically to create something coherent.',
+    tip: "Build something logical from pieces. Whether it's an argument, a graph, or a model, show clear steps. Use headings or signposting so the structure is visible.",
+    tier: 4,
+    markRange: [4, 8],
+    charRange: [1000, 2200],
+    pageEstimate: '1-1.5',
+    timeRange: [7, 14],
+    syllabusTerms: [6, 10],
+    bandDiscrimination: 'Logical assembly and completeness.',
+    genericMarkingGuide: [
+      '1 mark: Basic elements present.',
+      '2+ marks: Logical, coherent structure or build.',
+    ],
+    structuralKeywords: ['build', 'create', 'develop', 'timeline', 'plan'],
+    exampleQuestion: 'Construct a timeline showing the major battles of World War II.',
   },
 
-  // --- Level 5: Synthesising & Arguing ---
+  // --- Tier 5: Discuss, Assess & Justify ---
   {
     term: 'DISCUSS',
     definition:
-      'Identify the issues and give points for and/or against — explore it from multiple angles.',
+      'Present multiple perspectives (for and against). Explore issues from different angles with balance.',
+    tip: "Show both sides, then pick a winner. Structure: intro -> arguments for -> arguments against -> your overall position. Balance is key -- don't make one side look stupid.",
     tier: 5,
-    markRange: [5, 8],
+    markRange: [5, 10],
+    charRange: [1500, 3000],
+    pageEstimate: '1.5-2',
+    timeRange: [9, 18],
+    syllabusTerms: [8, 12],
     bandDiscrimination: 'Balance of argument and breadth of issues.',
     genericMarkingGuide: [
       '2 marks: Points for.',
@@ -442,66 +551,108 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     exampleQuestion: 'Discuss the advantages and disadvantages of nuclear power.',
   },
   {
-    term: 'PROPOSE',
-    definition: 'Put forward a point of view, idea, argument or suggestion for consideration.',
-    tier: 5,
-    markRange: [4, 7],
-    bandDiscrimination: 'Feasibility and justification of proposal.',
-    genericMarkingGuide: [
-      '1 mark: Clear proposal.',
-      '2+ marks: Justification or supporting argument.',
-    ],
-    structuralKeywords: ['suggest', 'recommendation', 'plan', 'strategy'],
-    exampleQuestion: 'Propose a strategy to reduce plastic waste in the school canteen.',
-  },
-  {
-    term: 'INVESTIGATE',
-    definition: 'Plan, inquire into and draw conclusions about something.',
-    tier: 5,
-    markRange: [5, 10],
-    bandDiscrimination: 'Depth of inquiry and validity of conclusions.',
-    genericMarkingGuide: [
-      '2 marks: Planning/Method.',
-      '2 marks: Inquiry/Analysis.',
-      '1 mark: Conclusion.',
-    ],
-    structuralKeywords: ['research', 'findings', 'conclusion', 'evidence'],
-    exampleQuestion: 'Investigate the effect of sunlight on plant growth.',
-  },
-  {
-    term: 'SYNTHESISE',
-    definition:
-      'Put together elements from different sources to form a coherent whole — combine ideas creatively.',
-    tier: 5,
-    markRange: [6, 10],
-    bandDiscrimination: 'Coherence of the whole created from parts.',
-    genericMarkingGuide: [
-      '2 marks: Identifies separate elements.',
-      '2+ marks: Combines them into a new, coherent conclusion or whole.',
-    ],
-    structuralKeywords: ['combine', 'integrate', 'overall', 'holistic'],
-    exampleQuestion:
-      'Synthesise the information from the three sources to form a conclusion about the health of the river system.',
-  },
-
-  // --- Level 6: Evaluating & Judging ---
-  {
     term: 'ASSESS',
     definition:
-      'Make a judgement of value, quality, outcomes, results or size — usually against criteria.',
-    tier: 6,
+      'Make a judgement about value, quality, or effectiveness. Weigh up strengths and weaknesses first.',
+    tip: 'Judge it using clear criteria. Start with: "This will be assessed by..." Then weigh strengths vs. weaknesses before giving your final verdict.',
+    tier: 5,
     markRange: [6, 10],
+    charRange: [1800, 3600],
+    pageEstimate: '1.5-2.5',
+    timeRange: [11, 18],
+    syllabusTerms: [10, 14],
     bandDiscrimination: 'Quality of judgement and criteria used.',
     genericMarkingGuide: ['1 mark: Clear judgement.', '2+ marks: Support with criteria/evidence.'],
     structuralKeywords: ['judgement', 'value', 'extent', 'quality', 'outcome'],
-    exampleQuestion: 'Assess the effectiveness of the government’s fiscal policy.',
+    exampleQuestion: "Assess the effectiveness of the government's fiscal policy.",
   },
+  {
+    term: 'JUSTIFY',
+    definition:
+      'Support an argument or conclusion with strong evidence. Convince the marker your position is valid.',
+    tip: 'Defend your position like a lawyer. State your claim, then pile on evidence. Use "This is supported by..." and "Furthermore..." Your job is to convince the marker.',
+    tier: 5,
+    markRange: [6, 10],
+    charRange: [1800, 3600],
+    pageEstimate: '1.5-2.5',
+    timeRange: [11, 18],
+    syllabusTerms: [10, 14],
+    bandDiscrimination: 'Strength of logic and evidence supporting the argument.',
+    genericMarkingGuide: [
+      '1 mark: States argument/conclusion.',
+      '3+ marks: Robust support with evidence/logic.',
+    ],
+    structuralKeywords: ['because', 'reason', 'support', 'evidence'],
+    exampleQuestion:
+      'Select one energy solution and justify your choice with environmental and economic evidence.',
+  },
+  {
+    term: 'DEDUCE',
+    definition:
+      'Draw a logical conclusion by reasoning from facts. Show your thinking step-by-step.',
+    tip: 'Show your working from evidence to conclusion. Step-by-step logic: "Given that A and B, it follows that C." Make the reasoning chain impossible to break.',
+    tier: 5,
+    markRange: [4, 8],
+    charRange: [1000, 2200],
+    pageEstimate: '1-1.5',
+    timeRange: [7, 14],
+    syllabusTerms: [6, 10],
+    bandDiscrimination: 'Logical flow from evidence to conclusion.',
+    genericMarkingGuide: [
+      '1 mark: Uses evidence.',
+      '2 marks: Draws logical conclusion based on evidence.',
+    ],
+    structuralKeywords: ['conclude', 'it follows that', 'therefore', 'derived from'],
+    exampleQuestion: "Deduce the genotype of the parents based on the offspring's characteristics.",
+  },
+  {
+    term: 'RECOMMEND',
+    definition:
+      "Suggest the best course of action and provide strong reasons why it's the best choice.",
+    tip: "Suggest the BEST option and say WHY it's best. Compare alternatives briefly, then push your recommendation hard. End with a clear call to action.",
+    tier: 5,
+    markRange: [5, 10],
+    charRange: [1500, 3000],
+    pageEstimate: '1.5-2',
+    timeRange: [9, 18],
+    syllabusTerms: [8, 12],
+    bandDiscrimination: 'Strength of reasons provided.',
+    genericMarkingGuide: ['1 mark: Recommendation.', '2+ marks: Valid reasons supporting it.'],
+    structuralKeywords: ['suggest', 'favour', 'reason', 'should'],
+    exampleQuestion: 'Recommend a course of action for the business to improve employee retention.',
+  },
+  {
+    term: 'APPRECIATE',
+    definition:
+      'Make a judgement about the value of something, with the implication that it has worth. Explain why it matters.',
+    tip: "Judge the VALUE or worth of something. Don't just say it's good -- say WHY it matters, who it helps, and what makes it significant in the bigger picture.",
+    tier: 5,
+    markRange: [4, 8],
+    charRange: [1000, 2200],
+    pageEstimate: '1-1.5',
+    timeRange: [7, 14],
+    syllabusTerms: [6, 10],
+    bandDiscrimination: 'Sensitivity and depth of value judgement.',
+    genericMarkingGuide: [
+      '1 mark: States value.',
+      '2+ marks: Explains/justifies the value/quality.',
+    ],
+    structuralKeywords: ['value', 'significance', 'quality', 'worth'],
+    exampleQuestion: "Appreciate the aesthetic qualities of the artist's use of light and shadow.",
+  },
+
+  // --- Tier 6: Evaluate, Synthesise & Create ---
   {
     term: 'EVALUATE',
     definition:
-      'Make a judgement based on criteria — weigh the evidence and state your overall view of its value or worth.',
+      'Make a judgement based on clear criteria. Determine the value/quality. You MUST state your criteria upfront.',
+    tip: "Judge with criteria and a decisive conclusion. State criteria upfront, examine evidence against each, then deliver a clear verdict. Don't sit on the fence.",
     tier: 6,
-    markRange: [6, 12],
+    markRange: [8, 15],
+    charRange: [2200, 4500],
+    pageEstimate: '2-3',
+    timeRange: [14, 27],
+    syllabusTerms: [12, 18],
     bandDiscrimination: 'Use of explicit criteria to form judgement.',
     genericMarkingGuide: [
       '1 mark: Judgement.',
@@ -512,49 +663,16 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     exampleQuestion: 'Evaluate the success of the marketing campaign based on the sales data.',
   },
   {
-    term: 'APPRECIATE',
-    definition: 'Make a judgement about the value or worth of something.',
-    tier: 6,
-    markRange: [5, 8],
-    bandDiscrimination: 'Sensitivity and depth of value judgement.',
-    genericMarkingGuide: [
-      '1 mark: States value.',
-      '2+ marks: Explains/justifies the value/quality.',
-    ],
-    structuralKeywords: ['value', 'significance', 'quality', 'worth'],
-    exampleQuestion: "Appreciate the aesthetic qualities of the artist's use of light and shadow.",
-  },
-  {
-    term: 'JUSTIFY',
-    definition:
-      "Support an argument or conclusion with reasons and evidence — prove why it's valid.",
-    tier: 6,
-    markRange: [6, 10],
-    bandDiscrimination: 'Strength of logic and evidence supporting the argument.',
-    genericMarkingGuide: [
-      '1 mark: States argument/conclusion.',
-      '3+ marks: robust support with evidence/logic.',
-    ],
-    structuralKeywords: ['because', 'reason', 'support', 'evidence'],
-    exampleQuestion:
-      'Select one energy solution and justify your choice with environmental and economic evidence.',
-  },
-  {
-    term: 'RECOMMEND',
-    definition: 'Provide reasons in favour of something.',
-    tier: 6,
-    markRange: [5, 8],
-    bandDiscrimination: 'Strength of reasons provided.',
-    genericMarkingGuide: ['1 mark: Recommendation.', '2+ marks: Valid reasons supporting it.'],
-    structuralKeywords: ['suggest', 'favour', 'reason', 'should'],
-    exampleQuestion: 'Recommend a course of action for the business to improve employee retention.',
-  },
-  {
     term: 'CRITICALLY ANALYSE',
     definition:
-      'Use interpretation, reasoning and detailed analysis of a range of evidence to make judgements — go deeper with questioning and logic.',
+      'Analyse or evaluate with extra depth, accuracy, and reflection. Question assumptions, consider limitations, and add sophistication.',
+    tip: 'Go deeper than analyse/evaluate. Question assumptions, spot limitations, consider bias, and add sophistication. This is Band 6 territory -- show you can think about the thinking.',
     tier: 6,
-    markRange: [8, 20],
+    markRange: [8, 15],
+    charRange: [2800, 6000],
+    pageEstimate: '2.5-4',
+    timeRange: [14, 27],
+    syllabusTerms: [15, 20],
     bandDiscrimination: 'Depth of questioning and reflection.',
     genericMarkingGuide: [
       '2 marks: Analysis of evidence.',
@@ -567,9 +685,14 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   {
     term: 'CRITICALLY EVALUATE',
     definition:
-      'Bring accuracy, depth, logic, questioning and reflection to your evaluation — weigh strengths and weaknesses thoroughly.',
+      'Evaluate with extra depth, accuracy, logic, questioning and reflection. Weigh strengths and weaknesses thoroughly.',
+    tip: 'Go deeper than analyse/evaluate. Question assumptions, spot limitations, consider bias, and add sophistication. This is Band 6 territory -- show you can think about the thinking.',
     tier: 6,
-    markRange: [8, 20],
+    markRange: [8, 15],
+    charRange: [2800, 6000],
+    pageEstimate: '2.5-4',
+    timeRange: [14, 27],
+    syllabusTerms: [15, 20],
     bandDiscrimination: 'Depth of questioning and reflection.',
     genericMarkingGuide: [
       '2 marks: Evaluation against criteria.',
@@ -579,12 +702,91 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     structuralKeywords: ['critique', 'question', 'validity', 'logic', 'reflection'],
     exampleQuestion: 'Critically evaluate the claim that history is written by the victors.',
   },
+  {
+    term: 'SYNTHESISE',
+    definition:
+      'Pull together multiple ideas/sources to create a new, unified whole. Show how everything connects under one big idea.',
+    tip: 'Weave multiple sources into one new idea. Don\'t just summarise each source -- show how they combine to create something bigger. Use "Together, these suggest..."',
+    tier: 6,
+    markRange: [8, 15],
+    charRange: [2200, 4500],
+    pageEstimate: '2-3',
+    timeRange: [14, 27],
+    syllabusTerms: [12, 18],
+    bandDiscrimination: 'Coherence of the whole created from parts.',
+    genericMarkingGuide: [
+      '2 marks: Identifies separate elements.',
+      '2+ marks: Combines them into a new, coherent conclusion or whole.',
+    ],
+    structuralKeywords: ['combine', 'integrate', 'overall', 'holistic'],
+    exampleQuestion:
+      'Synthesise the information from the three sources to form a conclusion about the health of the river system.',
+  },
+  {
+    term: 'PROPOSE',
+    definition:
+      'Put forward a new point of view, idea, or action plan for consideration. Include a call to action -- what should happen next?',
+    tip: 'Put forward a new idea or plan. Be bold but backed by evidence. Include: what should happen, why, and what the expected outcome is. End with a call to action.',
+    tier: 6,
+    markRange: [8, 15],
+    charRange: [2200, 4500],
+    pageEstimate: '2-3',
+    timeRange: [14, 27],
+    syllabusTerms: [12, 18],
+    bandDiscrimination: 'Feasibility and justification of proposal.',
+    genericMarkingGuide: [
+      '1 mark: Clear proposal.',
+      '2+ marks: Justification or supporting argument.',
+    ],
+    structuralKeywords: ['suggest', 'recommendation', 'plan', 'strategy'],
+    exampleQuestion: 'Propose a strategy to reduce plastic waste in the school canteen.',
+  },
+  {
+    term: 'INVESTIGATE',
+    definition:
+      'Plan, inquire into, and draw conclusions about a topic. Full research-style response with method, findings, and conclusion.',
+    tip: "Full research-style response. Include: what you're investigating, method, findings, analysis, and conclusion. Treat it like a mini-report with clear sections.",
+    tier: 6,
+    markRange: [8, 15],
+    charRange: [2800, 6000],
+    pageEstimate: '2.5-4',
+    timeRange: [14, 27],
+    syllabusTerms: [15, 20],
+    bandDiscrimination: 'Depth of inquiry and validity of conclusions.',
+    genericMarkingGuide: [
+      '2 marks: Planning/Method.',
+      '2 marks: Inquiry/Analysis.',
+      '1 mark: Conclusion.',
+    ],
+    structuralKeywords: ['research', 'findings', 'conclusion', 'evidence'],
+    exampleQuestion: 'Investigate the effect of sunlight on plant growth.',
+  },
   // Legacy support
+  {
+    term: 'STATE',
+    definition: 'Give the fact or answer plainly -- no explanation needed.',
+    tip: 'Just name it and stop. No sentences needed beyond "X is Y." Don\'t explain -- explanations waste time and earn zero extra marks.',
+    tier: 1,
+    markRange: [1, 2],
+    charRange: [100, 300],
+    pageEstimate: '1/4 or less',
+    timeRange: [2, 4],
+    syllabusTerms: [1, 2],
+    bandDiscrimination: 'Accuracy of the stated fact.',
+    genericMarkingGuide: ['1 mark: Correctly states the information.'],
+    structuralKeywords: ['state', 'give', 'name'],
+    exampleQuestion: 'State the boiling point of water.',
+  },
   {
     term: 'DIFFERENTIATE',
     definition: 'Show the specific differences that set things apart from one another.',
+    tip: 'Draw a clear line between two things. Use a point-by-point structure: "X is... whereas Y is..." Make the difference unmistakable.',
     tier: 4,
-    markRange: [3, 5],
+    markRange: [4, 8],
+    charRange: [1000, 2000],
+    pageEstimate: '1',
+    timeRange: [7, 14],
+    syllabusTerms: [6, 8],
     bandDiscrimination: 'Precision of distinction.',
     genericMarkingGuide: ['1 mark: Identifies entities.', '2+ marks: Explains differences.'],
     structuralKeywords: ['distinct', 'difference'],
@@ -601,13 +803,17 @@ export const commandTerms = new Map<PromptVerb, CommandTermInfo>(
 
 const fallbackTerm: CommandTermInfo = {
   term: 'EXPLAIN',
-  definition:
-    'Relate cause and effect — make the relationships clear and give the why and/or how, linking ideas logically.',
-  tier: 2, // Default to Level 2/Tier 2 color for generic explanations
+  definition: 'Answer why or how. Link cause and effect. Show the relationship between things.',
+  tip: 'Answer "why" or "how." Use linking words: because, leads to, results in, therefore. Every sentence should show a relationship, not just a fact.',
+  tier: 3,
   markRange: [1, 20] as [number, number],
+  charRange: [600, 1400] as [number, number],
+  pageEstimate: '1/2-3/4',
+  timeRange: [5, 11] as [number, number],
+  syllabusTerms: [4, 6] as [number, number],
   bandDiscrimination: 'Varies',
   genericMarkingGuide: ['Provide a clear answer'],
-  tailwind: TIER_COLORS[2],
+  tailwind: TIER_COLORS[3],
   structuralKeywords: ['because', 'therefore'],
   exampleQuestion: 'Explain the concept.',
 };
@@ -743,7 +949,8 @@ export const getBandForMark = (mark: number, totalMarks: number, tier: number = 
   if (mark <= 0) return 1;
 
   // The effective ceiling: the lower of the tier's maximum and the marks cap.
-  const tierMax = Math.min(tier, 6);
+  const tierGroup = TIER_GROUPS.find((g) => g.tier === tier);
+  const tierMax = tierGroup ? tierGroup.maxBand : Math.min(tier, 6);
   const cap = getMarksBandCap(totalMarks);
   const maxBand = Math.min(tierMax, cap);
 
@@ -882,4 +1089,62 @@ export const getStructureGuide = (mark: number): string => {
   if (mark === 9)
     return 'Perceptive, nuanced judgement. Addresses counter-arguments or limitations. Original insight. (Approx 280-400 words)';
   return 'Seamless synthesis of ideas, highly original or perceptive conclusion, exceptional depth and fluency. (Approx 320-450+ words)';
+};
+
+/**
+ * Recommended writing time (in seconds) for a question, derived from the verb's
+ * NESA-aligned time range and the question's mark value. Interpolates linearly
+ * between the verb's min/max time as the marks move from the verb's min to max.
+ * Falls back to the standard HSC pace (marks * 1.8 min) when the verb is unknown.
+ */
+export const getRecommendedTime = (totalMarks: number, verbInfo: CommandTermInfo): number => {
+  const [minTime, maxTime] = verbInfo.timeRange;
+  const [minMarks, maxMarks] = verbInfo.markRange;
+  const markSpan = maxMarks - minMarks;
+  const timeSpan = maxTime - minTime;
+
+  let minutes: number;
+  if (markSpan <= 0) {
+    minutes = (minTime + maxTime) / 2;
+  } else {
+    const ratio = Math.max(0, Math.min(1, (totalMarks - minMarks) / markSpan));
+    minutes = minTime + ratio * timeSpan;
+  }
+
+  return Math.round(minutes * 60);
+};
+
+/**
+ * Expected character count range for a question, interpolated from the verb's
+ * charRange based on where the question's marks fall within the verb's markRange.
+ */
+export const getExpectedCharRange = (
+  totalMarks: number,
+  verbInfo: CommandTermInfo
+): [number, number] => {
+  const [minChars, maxChars] = verbInfo.charRange;
+  const [minMarks, maxMarks] = verbInfo.markRange;
+  const markSpan = maxMarks - minMarks;
+
+  if (markSpan <= 0) return [minChars, maxChars];
+
+  const ratio = Math.max(0, Math.min(1, (totalMarks - minMarks) / markSpan));
+  const min = Math.round(minChars + ratio * (maxChars - minChars) * 0.5);
+  const max = Math.round(minChars * 0.5 + (minChars * 0.5 + ratio * (maxChars - minChars)));
+  return [min, Math.max(min + 50, max)];
+};
+
+/**
+ * Expected number of syllabus terms for a question, interpolated from the verb's
+ * syllabusTerms range based on the mark value.
+ */
+export const getExpectedTerms = (totalMarks: number, verbInfo: CommandTermInfo): number => {
+  const [minTerms, maxTerms] = verbInfo.syllabusTerms;
+  const [minMarks, maxMarks] = verbInfo.markRange;
+  const markSpan = maxMarks - minMarks;
+
+  if (markSpan <= 0) return Math.round((minTerms + maxTerms) / 2);
+
+  const ratio = Math.max(0, Math.min(1, (totalMarks - minMarks) / markSpan));
+  return Math.round(minTerms + ratio * (maxTerms - minTerms));
 };

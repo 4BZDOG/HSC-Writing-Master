@@ -32,8 +32,8 @@ describe('CommandVerbHierarchy', () => {
     render(<CommandVerbHierarchy currentVerb={'EVALUATE' as PromptVerb} />);
     // Header chip + detail card heading both carry the verb.
     expect(screen.getAllByText('EVALUATE').length).toBeGreaterThanOrEqual(2);
-    expect(screen.getByText('Band Ceiling')).toBeTruthy();
-    expect(screen.getByText('Mark Range')).toBeTruthy();
+    expect(screen.getByText('Band Cap')).toBeTruthy();
+    expect(screen.getByText('Marks')).toBeTruthy();
   });
 
   it('collapses and re-expands via the header toggle with aria-expanded in sync', () => {
@@ -64,7 +64,7 @@ describe('CommandVerbHierarchy', () => {
     const step = screen.getByRole('button', { name: /Highlight tier 6/i });
     fireEvent.click(step);
     // Tier 6's first verb (alphabetical) becomes the active detail card.
-    expect(screen.getByText('Band Ceiling')).toBeTruthy();
+    expect(screen.getByText('Band Cap')).toBeTruthy();
     expect(step.getAttribute('aria-label')).toMatch(/Evaluate/i);
   });
 });

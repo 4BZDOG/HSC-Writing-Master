@@ -197,6 +197,8 @@ export const evaluateAnswer = async (
                     **Band Discrimination:** ${termInfo.bandDiscrimination}
                     **Maximum Achievable Band:** Band ${maxBand}. The cognitive demand of '${prompt.verb}' caps performance here — an answer that perfectly satisfies a '${prompt.verb}' task cannot demonstrate the higher-order skills required beyond Band ${maxBand}. Do NOT award credit for skills the verb does not ask for.
                     **Expected Response for Full Marks (${prompt.totalMarks}/${prompt.totalMarks}):** ${getStructureGuide(prompt.totalMarks)} Use this to judge whether the response has the depth and length the marks demand — a response far shorter or thinner than this cannot reach the top marks, but do not reward padding either.
+                    **Expected Length:** ${termInfo.charRange[0]}-${termInfo.charRange[1]} characters (${termInfo.pageEstimate} pages). Time budget: ${termInfo.timeRange[0]}-${termInfo.timeRange[1]} minutes.
+                    **Expected Syllabus Terms:** ${termInfo.syllabusTerms[0]}-${termInfo.syllabusTerms[1]} relevant syllabus terms should be used.
                     **Syllabus Keywords:** ${prompt.keywords?.join(', ') || 'None'}
 
                     ### MARKING RUBRIC
@@ -944,10 +946,12 @@ export const generateSampleAnswer = async (
                     
                     **Context:**
                     - Question: "${prompt.question}"
-                    - Verb: ${prompt.verb}
+                    - Verb: ${prompt.verb} (Tier ${termInfo.tier})
                     - Scenario: ${prompt.scenario || 'None'}
                     - Target Mark: ${mark}/${prompt.totalMarks}
-                    
+                    - Expected length: ${termInfo.charRange[0]}-${termInfo.charRange[1]} characters
+                    - Expected syllabus terms: ${termInfo.syllabusTerms[0]}-${termInfo.syllabusTerms[1]}
+
                     **Directives:**
                     ${qualityInstruction}
                     - Do NOT include the mark at the start of the text.
