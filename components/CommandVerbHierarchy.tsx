@@ -223,7 +223,10 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       </span>
                     </div>
                     <div className="w-px h-8 bg-black/10 light:bg-slate-300 hidden sm:block" />
-                    <div className="hidden sm:flex flex-col items-center" title="Expected syllabus terms">
+                    <div
+                      className="hidden sm:flex flex-col items-center"
+                      title="Expected syllabus terms"
+                    >
                       <span className="text-[9px] text-slate-500 uppercase tracking-widest font-black mb-0.5">
                         Terms
                       </span>

@@ -241,7 +241,15 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
           charCount,
           charRange: commandTermInfo.charRange,
         }),
-      [analysis, progressInfo, prompt.keywords, keywordStats, expectedTerms, commandTermInfo, charCount]
+      [
+        analysis,
+        progressInfo,
+        prompt.keywords,
+        keywordStats,
+        expectedTerms,
+        commandTermInfo,
+        charCount,
+      ]
     );
 
     const formatTime = (s: number) =>

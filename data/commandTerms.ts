@@ -86,9 +86,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   // --- Tier 1: Remember & List ---
   {
     term: 'IDENTIFY',
-    definition:
-      'Simply name or point out the answer. No explanation needed. Spot it and label it.',
-    tip: "Just name it and stop. No sentences needed beyond \"X is Y.\" Don't explain -- explanations waste time and earn zero extra marks.",
+    definition: 'Simply name or point out the answer. No explanation needed. Spot it and label it.',
+    tip: 'Just name it and stop. No sentences needed beyond "X is Y." Don\'t explain -- explanations waste time and earn zero extra marks.',
     tier: 1,
     markRange: [1, 2],
     charRange: [100, 300],
@@ -102,9 +101,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'RECALL',
-    definition:
-      'Write down facts, ideas, or experiences from memory. Just list what you know.',
-    tip: "Dump facts from memory in a list or short sentence. Think \"brain dump\" -- accuracy matters more than polish.",
+    definition: 'Write down facts, ideas, or experiences from memory. Just list what you know.',
+    tip: 'Dump facts from memory in a list or short sentence. Think "brain dump" -- accuracy matters more than polish.',
     tier: 1,
     markRange: [1, 2],
     charRange: [150, 400],
@@ -118,8 +116,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'RECOUNT',
-    definition:
-      'Retell events in order (like a timeline). Stick to "what happened" in sequence.',
+    definition: 'Retell events in order (like a timeline). Stick to "what happened" in sequence.',
     tip: 'Tell the story in order. Use time words: first, then, next, finally. Stick to what happened -- no "why" yet.',
     tier: 1,
     markRange: [1, 3],
@@ -137,8 +134,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'CALCULATE',
-    definition:
-      'Use the numbers/formula given and do the maths. Always show working out.',
+    definition: 'Use the numbers/formula given and do the maths. Always show working out.',
     tip: 'Show every step of working. Write the formula first, substitute numbers, then solve. No working = no marks, even if answer is right.',
     tier: 1,
     markRange: [1, 3],
@@ -193,8 +189,9 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'OUTLINE',
-    definition: 'Sketch the main features in general terms. A brief overview -- not every tiny detail.',
-    tip: "Give the big picture, not the fine print. Cover main points only. Think \"bullet points in sentences\" -- broad strokes.",
+    definition:
+      'Sketch the main features in general terms. A brief overview -- not every tiny detail.',
+    tip: 'Give the big picture, not the fine print. Cover main points only. Think "bullet points in sentences" -- broad strokes.',
     tier: 2,
     markRange: [2, 4],
     charRange: [400, 900],
@@ -228,7 +225,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   {
     term: 'SUMMARISE',
     definition: 'Boil it down to the main points only. Be concise -- cut the fluff.',
-    tip: "Cut to the chase. Only main points -- no examples, no fluff. If you can say it in fewer words, do.",
+    tip: 'Cut to the chase. Only main points -- no examples, no fluff. If you can say it in fewer words, do.',
     tier: 2,
     markRange: [2, 4],
     charRange: [300, 700],
@@ -377,9 +374,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'ACCOUNT',
-    definition:
-      'Give reasons why something happened, or narrate a sequence of events with causes.',
-    tip: "Give reasons why it happened. Build a chain: Event A -> because of B -> led to C. Show the full cause-and-effect sequence.",
+    definition: 'Give reasons why something happened, or narrate a sequence of events with causes.',
+    tip: 'Give reasons why it happened. Build a chain: Event A -> because of B -> led to C. Show the full cause-and-effect sequence.',
     tier: 3,
     markRange: [3, 6],
     charRange: [800, 1700],
@@ -438,8 +434,9 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'EXAMINE',
-    definition: 'Investigate in detail. Dig deep into a few main points rather than skimming many. Use evidence.',
-    tip: "Dig deep into a few points, not shallow across many. Pick 2-3 key aspects and explore each with evidence. Quality of depth beats quantity of points.",
+    definition:
+      'Investigate in detail. Dig deep into a few main points rather than skimming many. Use evidence.',
+    tip: 'Dig deep into a few points, not shallow across many. Pick 2-3 key aspects and explore each with evidence. Quality of depth beats quantity of points.',
     tier: 4,
     markRange: [4, 8],
     charRange: [1000, 2200],
@@ -475,7 +472,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'INTERPRET',
-    definition: 'Draw meaning from data, texts, or sources. Explain what it really means beyond the surface.',
+    definition:
+      'Draw meaning from data, texts, or sources. Explain what it really means beyond the surface.',
     tip: "Explain what it REALLY means. Go beyond the surface. If it's a graph, say what the trend implies. If it's a quote, say what the author is suggesting.",
     tier: 4,
     markRange: [3, 6],
@@ -515,7 +513,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     term: 'CONSTRUCT',
     definition:
       'Build or put together items, arguments, or structures. Organise ideas logically to create something coherent.',
-    tip: 'Build something logical from pieces. Whether it\'s an argument, a graph, or a model, show clear steps. Use headings or signposting so the structure is visible.',
+    tip: "Build something logical from pieces. Whether it's an argument, a graph, or a model, show clear steps. Use headings or signposting so the structure is visible.",
     tier: 4,
     markRange: [4, 8],
     charRange: [1000, 2200],
@@ -611,7 +609,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     term: 'RECOMMEND',
     definition:
       "Suggest the best course of action and provide strong reasons why it's the best choice.",
-    tip: 'Suggest the BEST option and say WHY it\'s best. Compare alternatives briefly, then push your recommendation hard. End with a clear call to action.',
+    tip: "Suggest the BEST option and say WHY it's best. Compare alternatives briefly, then push your recommendation hard. End with a clear call to action.",
     tier: 5,
     markRange: [5, 10],
     charRange: [1500, 3000],
@@ -708,7 +706,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     term: 'SYNTHESISE',
     definition:
       'Pull together multiple ideas/sources to create a new, unified whole. Show how everything connects under one big idea.',
-    tip: "Weave multiple sources into one new idea. Don't just summarise each source -- show how they combine to create something bigger. Use \"Together, these suggest...\"",
+    tip: 'Weave multiple sources into one new idea. Don\'t just summarise each source -- show how they combine to create something bigger. Use "Together, these suggest..."',
     tier: 6,
     markRange: [8, 15],
     charRange: [2200, 4500],
@@ -767,7 +765,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   {
     term: 'STATE',
     definition: 'Give the fact or answer plainly -- no explanation needed.',
-    tip: "Just name it and stop. No sentences needed beyond \"X is Y.\" Don't explain -- explanations waste time and earn zero extra marks.",
+    tip: 'Just name it and stop. No sentences needed beyond "X is Y." Don\'t explain -- explanations waste time and earn zero extra marks.',
     tier: 1,
     markRange: [1, 2],
     charRange: [100, 300],
@@ -805,8 +803,7 @@ export const commandTerms = new Map<PromptVerb, CommandTermInfo>(
 
 const fallbackTerm: CommandTermInfo = {
   term: 'EXPLAIN',
-  definition:
-    'Answer why or how. Link cause and effect. Show the relationship between things.',
+  definition: 'Answer why or how. Link cause and effect. Show the relationship between things.',
   tip: 'Answer "why" or "how." Use linking words: because, leads to, results in, therefore. Every sentence should show a relationship, not just a fact.',
   tier: 3,
   markRange: [1, 20] as [number, number],
