@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Prompt, WritingMode } from '../types';
 import { BAND_METRICS, getCommandTermInfo, getBandForMark } from '../data/commandTerms';
-import { escapeRegExp, getBandConfig, textContainsKeyword, BandConfig } from '../utils/renderUtils';
+import { getBandConfig, textContainsKeyword, BandConfig } from '../utils/renderUtils';
 import { analyzeText, buildWritingInsights, InsightTone } from '../utils/writingAnalysis';
 import {
   ChevronDown,
@@ -9,7 +9,6 @@ import {
   Pause,
   RotateCcw,
   Target,
-  Zap,
   BarChart3,
   Clock3,
   Type,
@@ -20,6 +19,7 @@ import {
   AlertTriangle,
   Info,
   GraduationCap,
+  AlignLeft,
 } from 'lucide-react';
 
 const TONE_STYLES: Record<
@@ -49,7 +49,6 @@ interface PillProps {
   active: boolean;
   theme?: BandConfig;
   onClick?: () => void;
-  icon?: 'target' | 'zap';
 }
 
 const StatBox: React.FC<{
@@ -69,7 +68,31 @@ const StatBox: React.FC<{
   </div>
 );
 
-const Pill: React.FC<PillProps> = React.memo(({ label, active, theme, onClick, icon }) => {
+/** Compact structural stat (paragraphs / sentences / sentence length). */
+const StructureTile: React.FC<{
+  label: string;
+  value: string | number;
+  alert?: boolean;
+  title?: string;
+}> = ({ label, value, alert = false, title }) => (
+  <div
+    title={title}
+    className={`rounded-2xl border p-3 text-center transition-colors duration-300 ${
+      alert
+        ? 'border-amber-300 dark:border-amber-500/30 bg-amber-50/60 dark:bg-amber-900/10'
+        : 'border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03]'
+    }`}
+  >
+    <span className="block text-lg font-black tabular-nums tracking-tight text-slate-900 dark:text-white">
+      {value}
+    </span>
+    <span className="block text-[9px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mt-0.5">
+      {label}
+    </span>
+  </div>
+);
+
+const Pill: React.FC<PillProps> = React.memo(({ label, active, theme, onClick }) => {
   const interactiveStyle = onClick
     ? 'cursor-pointer hover:scale-[1.02] active:scale-95'
     : 'cursor-default';
@@ -96,9 +119,7 @@ const Pill: React.FC<PillProps> = React.memo(({ label, active, theme, onClick, i
       {active ? (
         <Check className="w-2.5 h-2.5" strokeWidth={3} />
       ) : (
-        <div
-          className={`w-1 h-1 rounded-full ${icon === 'zap' ? 'bg-indigo-400' : 'bg-slate-300 dark:bg-slate-600'}`}
-        />
+        <div className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600" />
       )}
       <span>{label}</span>
     </button>
@@ -190,48 +211,22 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
       };
     }, [userAnswer, prompt.keywords]);
 
-    // How many of this verb's logic connectors are present in the draft.
-    // Whole-word match (not substring) so short connectors like "is"/"are" don't
-    // falsely register inside words such as "analysis" or "compare".
-    const connectorMatches = useMemo(() => {
-      const lower = userAnswer.toLowerCase();
-      const matchesConnector = (kw: string) => {
-        try {
-          return new RegExp(`\\b${escapeRegExp(kw)}\\b`, 'i').test(lower);
-        } catch {
-          return lower.includes(kw.toLowerCase());
-        }
-      };
-      return new Map(
-        (commandTermInfo.structuralKeywords || []).map((kw) => [kw, matchesConnector(kw)])
-      );
-    }, [userAnswer, commandTermInfo]);
-    const connectorsUsed = useMemo(
-      () => Array.from(connectorMatches.values()).filter(Boolean).length,
-      [connectorMatches]
-    );
+    // Structural anatomy of the draft — shared by the Structure panel and the
+    // live insights, so both always describe the same text.
+    const analysis = useMemo(() => analyzeText(userAnswer), [userAnswer]);
 
     // Live, prioritised, actionable writing feedback.
     const insights = useMemo(
       () =>
         buildWritingInsights({
-          analysis: analyzeText(userAnswer),
+          analysis,
           targetWordCount: progressInfo.targetCount,
           targetLabel: progressInfo.targetLabel,
           keywordsTotal: prompt.keywords?.length || 0,
           keywordsUsed: keywordStats.used.length,
           missingKeywords: keywordStats.missed,
-          connectorsUsed,
-          tier: commandTermInfo.tier,
         }),
-      [
-        userAnswer,
-        progressInfo,
-        prompt.keywords,
-        keywordStats,
-        connectorsUsed,
-        commandTermInfo.tier,
-      ]
+      [analysis, progressInfo, prompt.keywords, keywordStats]
     );
 
     const formatTime = (s: number) =>
@@ -416,26 +411,38 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
 
                 <div className="flex flex-col gap-4">
                   <div className="flex items-center gap-3 px-1">
-                    <Zap className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
+                    <AlignLeft className="w-4 h-4 text-sky-500 dark:text-sky-400" />
                     <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500">
-                      Logic Connectors
+                      Structure
                     </h4>
                   </div>
-                  <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto custom-scrollbar pr-2">
-                    {commandTermInfo.structuralKeywords?.map((kw) => {
-                      const isUsed = connectorMatches.get(kw) ?? false;
-                      return (
-                        <Pill
-                          key={kw}
-                          label={kw}
-                          active={isUsed}
-                          theme={isUsed ? progressInfo.currentBandColor : undefined}
-                          onClick={() => onAddWord(kw)}
-                          icon="zap"
-                        />
-                      );
-                    })}
+                  <div className="grid grid-cols-3 gap-3">
+                    <StructureTile
+                      label="Paragraphs"
+                      value={analysis.wordCount > 0 ? analysis.paragraphCount : '—'}
+                    />
+                    <StructureTile
+                      label="Sentences"
+                      value={analysis.wordCount > 0 ? analysis.sentenceCount : '—'}
+                    />
+                    <StructureTile
+                      label="Avg Words"
+                      value={analysis.wordCount > 0 ? analysis.avgWordsPerSentence : '—'}
+                      alert={analysis.avgWordsPerSentence > 30}
+                      title={
+                        analysis.avgWordsPerSentence > 30
+                          ? 'Sentences are running long — HSC markers reward clear, controlled sentences'
+                          : 'Average words per sentence'
+                      }
+                    />
                   </div>
+                  <p className="text-[10px] font-medium text-slate-400 dark:text-slate-500 px-1">
+                    {analysis.wordCount === 0
+                      ? 'Structure updates live as you write.'
+                      : analysis.longestSentenceWords > 45
+                        ? `Longest sentence: ${analysis.longestSentenceWords} words — consider splitting it.`
+                        : `Longest sentence: ${analysis.longestSentenceWords} words.`}
+                  </p>
                 </div>
               </div>
             </div>

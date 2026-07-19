@@ -1,5 +1,14 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Sparkles, AlertTriangle, PenTool, ScanSearch, BrainCircuit, Layers } from 'lucide-react';
+import {
+  Sparkles,
+  AlertTriangle,
+  PenTool,
+  ScanSearch,
+  BrainCircuit,
+  Layers,
+  CheckCircle2,
+  Loader2,
+} from 'lucide-react';
 import { getBandHex } from '../utils/renderUtils';
 import { getSelectionSnapshot } from '../services/aiConfig';
 import { getModelById } from '../services/aiModels';
@@ -110,6 +119,10 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
 
   const taskType: AiTaskType = task ?? sniffTask(message);
   const phases = messages && messages.length > 0 ? messages : COGNITIVE_PHASES[taskType];
+  // Content key, NOT array identity: callers pass inline `messages` arrays, so
+  // keying the effects on the array itself restarts the timer every parent
+  // re-render — fast-re-rendering parents would freeze the checklist on step 1.
+  const phasesKey = phases.join('¦');
 
   // The marking path routes through the 'reasoning' engine; lighter tasks
   // (parsing, suggestions) route through 'basic'. Read once per render — the
@@ -119,13 +132,22 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
     return getModelById(getSelectionSnapshot()[role])?.label ?? 'AI Engine';
   }, [taskType]);
 
+  // Walk the checklist forward, pacing the steps across the expected duration
+  // and holding on the final step (a checklist that loops back reads as a
+  // glitch). Completed steps stay ticked.
+  useEffect(() => {
+    setPhaseIndex(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phasesKey]);
   useEffect(() => {
     if (isError || phases.length <= 1) return;
+    const stepMs = Math.max(1400, Math.min(4000, (duration * 1000 * 0.85) / phases.length));
     const interval = setInterval(() => {
-      setPhaseIndex((prev) => (prev + 1) % phases.length);
-    }, 2200);
+      setPhaseIndex((prev) => Math.min(prev + 1, phases.length - 1));
+    }, stepMs);
     return () => clearInterval(interval);
-  }, [phases, isError]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phasesKey, duration, isError]);
 
   useEffect(() => {
     if (isError) return;
@@ -215,21 +237,56 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
         </div>
       </div>
 
-      {/* Status Text */}
-      <div className="text-center z-10 w-full space-y-2">
+      {/* Status Text + Phase Checklist */}
+      <div className="text-center z-10 w-full space-y-3">
         <h3 className={`text-lg font-bold tracking-tight ${theme.textColor}`}>
           {isError ? 'System Interruption' : message || TASK_META[taskType].fallbackTitle}
         </h3>
 
-        <div className="h-6 flex items-center justify-center overflow-hidden w-full px-4">
-          {/* Keyed so the fade-in replays on every phase change. */}
-          <p
-            key={phaseIndex}
-            className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 animate-fade-in-up truncate w-full"
-          >
-            {isError ? error || 'Operation failed.' : phases[phaseIndex]}
+        {isError ? (
+          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 px-4">
+            {error || 'Operation failed.'}
           </p>
-        </div>
+        ) : (
+          /* The wait as a visible pipeline: steps tick off as the request
+             progresses, so students watch the marking process happen instead
+             of staring at one looping line. */
+          <ul className="text-left space-y-1.5 px-3" aria-live="polite">
+            {phases.slice(0, 5).map((phase, i) => {
+              const state = i < phaseIndex ? 'done' : i === phaseIndex ? 'active' : 'pending';
+              return (
+                <li
+                  key={i}
+                  className={`flex items-center gap-2.5 transition-opacity duration-500 ${
+                    state === 'pending' ? 'opacity-35' : 'opacity-100'
+                  }`}
+                >
+                  <span className="w-4 h-4 flex items-center justify-center shrink-0">
+                    {state === 'done' ? (
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 animate-in zoom-in duration-300" />
+                    ) : state === 'active' ? (
+                      <Loader2
+                        className="w-3.5 h-3.5 animate-spin text-indigo-500 dark:text-indigo-400"
+                        style={accentHex ? { color: accentHex } : undefined}
+                      />
+                    ) : (
+                      <span className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-600" />
+                    )}
+                  </span>
+                  <span
+                    className={`text-[10px] font-bold uppercase tracking-wider truncate ${
+                      state === 'active'
+                        ? 'text-slate-700 dark:text-slate-200'
+                        : 'text-slate-400 dark:text-slate-500'
+                    }`}
+                  >
+                    {phase}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
 
       {/* Progress bar */}

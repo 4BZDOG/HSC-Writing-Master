@@ -71,19 +71,7 @@ export interface InsightInput {
   keywordsTotal: number;
   keywordsUsed: number;
   missingKeywords: string[];
-  connectorsUsed: number;
-  /**
-   * Cognitive tier (1–6) of the question's command verb. Logic connectors are
-   * only expected once the task demands linking ideas (Tier 3+); lower-tier
-   * verbs (identify/define/describe) don't require them, so we don't nag the
-   * student to add connectors there. Defaults to a linking tier when omitted.
-   */
-  tier?: number;
 }
-
-// Below this tier the verb doesn't require students to link ideas with
-// connectors, so the connector nudge is suppressed.
-const CONNECTOR_MIN_TIER = 3;
 
 const RUN_ON_SENTENCE_WORDS = 45;
 const MAX_INSIGHTS = 4;
@@ -94,16 +82,8 @@ const MAX_INSIGHTS = 4;
  * good shape. Returns an empty list for a blank draft.
  */
 export const buildWritingInsights = (input: InsightInput): WritingInsight[] => {
-  const {
-    analysis,
-    targetWordCount,
-    targetLabel,
-    keywordsTotal,
-    keywordsUsed,
-    missingKeywords,
-    connectorsUsed,
-    tier,
-  } = input;
+  const { analysis, targetWordCount, targetLabel, keywordsTotal, keywordsUsed, missingKeywords } =
+    input;
   const { wordCount, longestSentenceWords, paragraphCount } = analysis;
 
   if (wordCount === 0) return [];
@@ -154,16 +134,6 @@ export const buildWritingInsights = (input: InsightInput): WritingInsight[] => {
         message: `All syllabus terms covered — strong content coverage.`,
       });
     }
-  }
-
-  // --- Logic connectors (only when the verb's cognitive demand requires linking) ---
-  const linkingExpected = (tier ?? CONNECTOR_MIN_TIER) >= CONNECTOR_MIN_TIER;
-  if (linkingExpected && connectorsUsed === 0 && wordCount > 30) {
-    warnings.push({
-      id: 'connectors-none',
-      tone: 'warning',
-      message: `Link your ideas with a logic connector (e.g. “Therefore”, “However”).`,
-    });
   }
 
   // --- Run-on sentence ---

@@ -12,7 +12,9 @@ import {
 } from './dataManagerUtils';
 
 // Current data version - increment when structure changes
-export const DATA_VERSION = '2.3.0';
+// 2.3.1: additive optional `contentFlag` on prompts and sample answers
+// (user-raised review flags). No transform needed — existing data is valid.
+export const DATA_VERSION = '2.3.1';
 
 export const STORAGE_KEYS = {
   COURSES: 'hsc-ai-evaluator-courses', // Legacy key for migration check

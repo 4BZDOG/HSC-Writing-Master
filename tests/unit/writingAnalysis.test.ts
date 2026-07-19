@@ -45,7 +45,6 @@ const baseInput = (over: Partial<InsightInput> = {}): InsightInput => ({
   keywordsTotal: 4,
   keywordsUsed: 4,
   missingKeywords: [],
-  connectorsUsed: 1,
   ...over,
 });
 
@@ -67,30 +66,6 @@ describe('buildWritingInsights', () => {
     expect(kw?.message).toMatch(/osmosis/);
   });
 
-  it('nudges to add a logic connector once there is enough text', () => {
-    const text = Array.from({ length: 40 }, () => 'word').join(' ') + '.';
-    const insights = buildWritingInsights(
-      baseInput({ analysis: analyzeText(text), connectorsUsed: 0 })
-    );
-    expect(insights.some((i) => i.id === 'connectors-none')).toBe(true);
-  });
-
-  it('does not nag about connectors for low-tier verbs that do not require linking', () => {
-    const text = Array.from({ length: 40 }, () => 'word').join(' ') + '.';
-    const insights = buildWritingInsights(
-      baseInput({ analysis: analyzeText(text), connectorsUsed: 0, tier: 1 })
-    );
-    expect(insights.some((i) => i.id === 'connectors-none')).toBe(false);
-  });
-
-  it('still nudges about connectors for analytical (Tier 3+) verbs', () => {
-    const text = Array.from({ length: 40 }, () => 'word').join(' ') + '.';
-    const insights = buildWritingInsights(
-      baseInput({ analysis: analyzeText(text), connectorsUsed: 0, tier: 4 })
-    );
-    expect(insights.some((i) => i.id === 'connectors-none')).toBe(true);
-  });
-
   it('flags a run-on sentence', () => {
     const longSentence = Array.from({ length: 60 }, () => 'word').join(' ') + '.';
     const insights = buildWritingInsights(baseInput({ analysis: analyzeText(longSentence) }));
@@ -105,7 +80,6 @@ describe('buildWritingInsights', () => {
         targetWordCount: 200,
         keywordsUsed: 0,
         missingKeywords: ['a', 'b', 'c'],
-        connectorsUsed: 0,
       })
     );
     expect(insights.length).toBeLessThanOrEqual(4);

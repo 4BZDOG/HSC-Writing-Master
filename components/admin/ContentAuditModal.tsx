@@ -148,6 +148,7 @@ type VisibilityFilter =
   | 'rubricNotDescending'
   | 'hasSamples'
   | 'lowQuality'
+  | 'flagged'
   | null;
 
 type BulkActionType =
@@ -174,6 +175,16 @@ const isLowQuality = (n: TreeNode) => {
   const q = qualityOf(n);
   return q !== null && q < 50;
 };
+// A question counts as flagged when it, or any of its sample answers, carries
+// an OPEN user-raised content flag (see ContentFlag in types.ts).
+const isFlagged = (n: TreeNode): boolean => {
+  if (n.type !== 'prompt') return false;
+  const p = n.dataRef as Prompt;
+  return (
+    p.contentFlag?.status === 'open' ||
+    (p.sampleAnswers || []).some((sa) => sa.contentFlag?.status === 'open')
+  );
+};
 
 const GAP_BADGE_BASE =
   'px-1.5 py-0.5 rounded-md border text-[8px] font-black uppercase tracking-wider whitespace-nowrap';
@@ -192,6 +203,19 @@ const GapBadges: React.FC<{ node: TreeNode }> = ({ node }) => {
       tone: 'bg-red-500/10 border-red-500/30 text-red-400',
       title: 'This dot point has no questions yet',
     });
+  if (isFlagged(node)) {
+    const p = node.dataRef as Prompt;
+    const reason =
+      p.contentFlag?.status === 'open'
+        ? p.contentFlag.reason
+        : (p.sampleAnswers || []).find((sa) => sa.contentFlag?.status === 'open')?.contentFlag
+            ?.reason;
+    badges.push({
+      label: 'Flagged',
+      tone: 'bg-amber-500/10 border-amber-500/30 text-amber-400',
+      title: reason ? `Flagged by a user: ${reason}` : 'Flagged by a user for review',
+    });
+  }
   if (node.type === 'prompt') {
     if (node.stats.missingMarkingCriteria > 0)
       badges.push({
@@ -487,6 +511,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     let nonStandardRubrics = 0;
     let hasSamples = 0;
     let lowQuality = 0;
+    let flagged = 0;
 
     flatMap.forEach((node) => {
       if (node.type === 'dotPoint' && node.stats.questions === 0) emptyDotPoints++;
@@ -498,6 +523,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         if (node.stats.rubricNotDescending > 0) nonStandardRubrics++;
         if (node.stats.samples > 0) hasSamples++;
         if (isLowQuality(node)) lowQuality++;
+        if (isFlagged(node)) flagged++;
       }
     });
 
@@ -510,6 +536,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       nonStandardRubrics,
       hasSamples,
       lowQuality,
+      flagged,
     };
   }, [flatMap]);
 
@@ -572,6 +599,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         else if (activeFilter === 'hasSamples')
           matchesGap = node.type === 'prompt' && node.stats.samples > 0;
         else if (activeFilter === 'lowQuality') matchesGap = isLowQuality(node);
+        else if (activeFilter === 'flagged') matchesGap = isFlagged(node);
       }
 
       // Recursive check for children
@@ -1395,6 +1423,16 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             <span>Low Quality</span>
             <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
               {counts.lowQuality}
+            </span>
+          </button>
+          <button
+            onClick={() => handleFilterToggle('flagged')}
+            title="Questions (or their sample answers) that a user flagged as looking off"
+            className={`group relative overflow-hidden px-6 h-12 rounded-2xl border text-xs font-black uppercase tracking-widest transition-all flex items-center gap-4 ${activeFilter === 'flagged' ? 'bg-amber-500/20 border-amber-500/40 text-amber-400 shadow-lg' : 'bg-amber-500/5 border-amber-500/10 text-amber-400 hover:bg-amber-500/10'}`}
+          >
+            <span>Flagged</span>
+            <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
+              {counts.flagged}
             </span>
           </button>
 
