@@ -697,6 +697,14 @@ create policy ai_usage_read on public.ai_usage
 -- server-side, not just promised by the paywall copy. An explicit per-user
 -- override still beats everything, so admins can always dial an individual
 -- up or down.
+
+-- Forward guard: resolve_ai_quota below reads profiles.stripe_plan, but the
+-- full Stripe billing section (§13) runs later in this file. SQL-language
+-- function bodies are validated at CREATE time, so on a FRESH database the
+-- column must exist before this point. Idempotent with §13's own alter.
+alter table public.profiles
+  add column if not exists stripe_plan text not null default 'free';
+
 create or replace function public.resolve_ai_quota(p_user uuid)
 returns integer language sql stable security definer set search_path = public as $$
   select coalesce(
