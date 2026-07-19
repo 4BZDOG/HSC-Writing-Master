@@ -17,6 +17,7 @@ export const COLORS = {
   rose: [190, 18, 60] as [number, number, number],
   rule: [203, 213, 225] as [number, number, number],
   chipBg: [238, 242, 255] as [number, number, number],
+  slate: [100, 116, 139] as [number, number, number],
 };
 
 /** Map an HSC performance band to an accent colour. */
@@ -34,6 +35,10 @@ export interface EvaluationExportData {
   question: string;
   verb: string;
   totalMarks: number;
+  /** Where the question sits in the syllabus (course › topic › … trail). */
+  syllabusPath?: string;
+  /** The student's own submitted answer, verbatim. */
+  studentAnswer?: string;
   overallMark: number;
   overallBand: number;
   overallFeedback: string;
@@ -104,6 +109,15 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
     ],
     basePadBottom: 1,
   });
+  if (data.syllabusPath && data.syllabusPath.trim()) {
+    blocks.push({
+      kind: 'paragraph',
+      id: nid('path'),
+      runs: [run(data.syllabusPath, 7.5, { color: COLORS.muted, lineHeightFactor: 1.25 })],
+      breakable: true,
+      basePadBottom: 1.5,
+    });
+  }
   blocks.push({
     kind: 'paragraph',
     id: nid('q'),
@@ -130,7 +144,22 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
     basePadBottom: 3,
   });
 
-  // 3. Coach's tip ----------------------------------------------------------
+  // 3. Student response -------------------------------------------------------
+  // The submitted answer travels with the feedback so the report stands on its
+  // own when handed to a teacher.
+  if (data.studentAnswer && data.studentAnswer.trim()) {
+    blocks.push(heading('Student Response', COLORS.slate));
+    blocks.push({
+      kind: 'paragraph',
+      id: nid('ans'),
+      runs: [run(data.studentAnswer, 9.5, { color: COLORS.body, lineHeightFactor: 1.35 })],
+      accent: COLORS.slate,
+      breakable: true,
+      basePadBottom: 2,
+    });
+  }
+
+  // 4. Coach's tip ----------------------------------------------------------
   if (data.quickTip && data.quickTip.trim()) {
     blocks.push(heading("Coach's Tip", accent));
     blocks.push({
@@ -145,7 +174,7 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
     });
   }
 
-  // 4. Marker's commentary --------------------------------------------------
+  // 5. Marker's commentary --------------------------------------------------
   if (data.overallFeedback && data.overallFeedback.trim()) {
     blocks.push(heading("Marker's Commentary"));
     blocks.push({
@@ -157,7 +186,7 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
     });
   }
 
-  // 5. Strengths ------------------------------------------------------------
+  // 6. Strengths ------------------------------------------------------------
   if (data.strengths?.length) {
     blocks.push(heading('Strong Evidence', COLORS.emerald));
     data.strengths.forEach((s) =>
@@ -172,7 +201,7 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
     );
   }
 
-  // 6. Areas for growth -----------------------------------------------------
+  // 7. Areas for growth -----------------------------------------------------
   if (data.improvements?.length) {
     blocks.push(heading('Areas for Growth', COLORS.rose));
     data.improvements.forEach((im) =>
@@ -187,7 +216,7 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
     );
   }
 
-  // 7. Criteria breakdown (continuous numbering) ----------------------------
+  // 8. Criteria breakdown (continuous numbering) ----------------------------
   if (data.criteria?.length) {
     blocks.push(heading('Criteria Breakdown'));
     data.criteria.forEach((c, i) =>
@@ -205,7 +234,7 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
     );
   }
 
-  // 8. Improved response (exemplar) -----------------------------------------
+  // 9. Improved response (exemplar) -----------------------------------------
   if (data.revisedAnswer && data.revisedAnswer.trim()) {
     const exAccent = bandColor(data.exemplarBand ?? data.overallBand + 1);
     blocks.push(spacer(2));

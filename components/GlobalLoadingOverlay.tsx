@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
-import LoadingSpinner from './LoadingSpinner';
+import LoadingIndicator from './LoadingIndicator';
 
 interface GlobalLoadingOverlayProps {
   message: string | null;
@@ -42,7 +42,7 @@ const GlobalLoadingOverlay: React.FC<GlobalLoadingOverlayProps> = ({ message, er
           className={`absolute inset-0 bg-gradient-to-r ${isErrorState ? 'from-red-500 to-orange-500' : 'from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))]'} rounded-2xl blur-xl opacity-20 animate-pulse-glow`}
         ></div>
 
-        <LoadingSpinner message={message} error={error} isError={isErrorState} />
+        <LoadingIndicator message={message} error={error} isError={isErrorState} />
 
         {/* Close button for error state */}
         {isErrorState && (

@@ -211,7 +211,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
 
               {isLoading ? (
                 <div className="h-48 flex items-center justify-center">
-                  <LoadingIndicator messages={['Loading class insights…']} duration={2} band={3} />
+                  <LoadingIndicator messages={['Loading class insights…']} duration={2} />
                 </div>
               ) : (
                 <>

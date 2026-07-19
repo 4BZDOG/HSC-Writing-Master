@@ -12,6 +12,7 @@ import SampleAnswerGeneratorModal from './SampleAnswerGeneratorModal';
 import SampleAnswerRevisionModal from './SampleAnswerRevisionModal';
 import SampleAnswerEditorModal from './SampleAnswerEditorModal';
 import ConfirmationModal from './ConfirmationModal';
+import FlagContentModal from './FlagContentModal';
 import {
   ChevronDown,
   FileText,
@@ -35,6 +36,7 @@ import {
   Lightbulb,
   RefreshCw,
   UploadCloud,
+  Flag,
 } from 'lucide-react';
 import { useAnswerMetrics } from '../hooks/useAnswerMetrics';
 import AnswerMetricsDisplay from './AnswerMetricsDisplay';
@@ -92,6 +94,7 @@ const CarouselAccordionItem: React.FC<{
   onEdit: (sample: SampleAnswer) => void;
   onDelete: (id: string) => void;
   onContribute?: (sample: SampleAnswer) => void;
+  onFlag: (sample: SampleAnswer) => void;
   canModify: boolean;
   fontSize: number;
 }> = React.memo(
@@ -105,6 +108,7 @@ const CarouselAccordionItem: React.FC<{
     onEdit,
     onDelete,
     onContribute,
+    onFlag,
     canModify,
     fontSize,
   }) => {
@@ -167,9 +171,16 @@ const CarouselAccordionItem: React.FC<{
           onClick={onToggle}
           className={`w-full py-4 px-6 flex items-center justify-between transition-all duration-300 relative overflow-hidden`}
         >
-          {/* Active Indicator Bar */}
+          {/* Collapsed rows carry a faint wash of their band colour so the
+              performance ladder reads at a glance before anything is opened. */}
           <div
-            className={`absolute left-0 top-0 bottom-0 w-1 transition-all duration-500 ${isOpen ? bandConfig.solidBg : 'bg-transparent'}`}
+            className={`absolute inset-0 bg-gradient-to-r ${bandConfig.gradient} pointer-events-none transition-opacity duration-500 ${
+              isOpen ? 'opacity-0' : 'opacity-[0.05] dark:opacity-[0.08] group-hover:opacity-[0.1]'
+            }`}
+          />
+          {/* Indicator Bar — always in band colour, full strength when open */}
+          <div
+            className={`absolute left-0 top-0 bottom-0 w-1 transition-all duration-500 ${bandConfig.solidBg} ${isOpen ? 'opacity-100' : 'opacity-40'}`}
           />
 
           <div className="flex items-center gap-5">
@@ -212,6 +223,14 @@ const CarouselAccordionItem: React.FC<{
               </div>
               <div className="flex items-center gap-2 mt-1.5 opacity-90">
                 <SourceBadge source={currentSample.source} />
+                {currentSample.contentFlag?.status === 'open' && (
+                  <span
+                    className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border bg-amber-500/10 text-amber-500 border-amber-500/30"
+                    title={`Flagged for review: ${currentSample.contentFlag.reason}`}
+                  >
+                    <Flag className="w-2.5 h-2.5 fill-current" /> Flagged
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -296,6 +315,23 @@ const CarouselAccordionItem: React.FC<{
                         {isContributing ? 'Submitting…' : 'Submit'}
                       </button>
                     )}
+                    <button
+                      onClick={() => onFlag(currentSample)}
+                      className={`p-1.5 rounded-lg transition-all ${
+                        currentSample.contentFlag?.status === 'open'
+                          ? 'text-amber-500 bg-amber-50 dark:bg-amber-500/10'
+                          : 'text-slate-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/20'
+                      }`}
+                      title={
+                        currentSample.contentFlag?.status === 'open'
+                          ? 'This sample is flagged for review — click to view'
+                          : 'Something off about this sample? Flag it for review'
+                      }
+                    >
+                      <Flag
+                        className={`w-3.5 h-3.5 ${currentSample.contentFlag?.status === 'open' ? 'fill-current' : ''}`}
+                      />
+                    </button>
                     {canModify && <div className="w-px h-4 bg-slate-300 dark:bg-white/10 mx-1" />}
                     {canModify && (
                       <>
@@ -416,6 +452,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   // Deleting an exemplar is destructive and single-click — route it through
   // the shared ConfirmationModal like every other delete in the app.
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+  const [flagTarget, setFlagTarget] = useState<SampleAnswer | null>(null);
   const [fontSize, setFontSize] = useState(13);
   const [isRecalibrating, setIsRecalibrating] = useState(false);
 
@@ -582,6 +619,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
               onEdit={(sa) => setEditorTarget(sa)}
               onDelete={(id) => setDeleteTargetId(id)}
               onContribute={onContributeSampleAnswer}
+              onFlag={(sa) => setFlagTarget(sa)}
               canModify={canCurate}
               fontSize={fontSize}
             />
@@ -630,6 +668,31 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             onUpdateSampleAnswer(updated);
             setEditorTarget(null);
           }}
+        />
+      )}
+
+      {flagTarget && (
+        <FlagContentModal
+          isOpen={!!flagTarget}
+          onClose={() => setFlagTarget(null)}
+          itemLabel="sample answer"
+          existingFlag={flagTarget.contentFlag}
+          onFlag={(reason) =>
+            onUpdateSampleAnswer({
+              ...flagTarget,
+              contentFlag: { reason, flaggedAt: Date.now(), status: 'open' },
+            })
+          }
+          onResolve={() =>
+            onUpdateSampleAnswer(
+              flagTarget.contentFlag
+                ? {
+                    ...flagTarget,
+                    contentFlag: { ...flagTarget.contentFlag, status: 'resolved' },
+                  }
+                : flagTarget
+            )
+          }
         />
       )}
 

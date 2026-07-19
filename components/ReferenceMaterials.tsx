@@ -2,10 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { Prompt, Topic, UserRole, CourseOutcome } from '../types';
 import KeywordEditor from './KeywordEditor';
 import MarkingCriteriaManager from './MarkingCriteriaAccordion';
-import { ChevronDown, GraduationCap, Sparkles, Award, BookOpen, ListChecks } from 'lucide-react';
+import { ChevronDown, GraduationCap, Sparkles, Award, ListChecks } from 'lucide-react';
 import { getBandConfig } from '../utils/renderUtils';
-import CognitiveSpectrum from './CognitiveSpectrum';
-import { getCommandTermInfo } from '../data/commandTerms';
 
 interface AccordionSectionProps {
   title: string;
@@ -84,31 +82,9 @@ interface ReferenceMaterialsProps {
 
 const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
   const { prompt, topic, userRole, courseOutcomes = [] } = props;
-  const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
 
   return (
     <div className="flex flex-col gap-1 animate-fade-in">
-      {/* Section heading: says what lives below it, and the cognitive-scope
-          meter carries its verb label so the bars aren't a mystery glyph. */}
-      <div className="px-4 sm:px-5 py-3.5 border border-slate-300 dark:border-white/20 rounded-[20px] bg-slate-50 dark:bg-black/30 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mb-4 transition-colors shadow-sm">
-        <div className="flex items-center gap-3 min-w-0">
-          <BookOpen className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
-          <div className="min-w-0">
-            <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-800 dark:text-white">
-              Syllabus Reference
-            </h3>
-            <p className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-0.5">
-              Terms, marking guide and grade standards for this question
-            </p>
-          </div>
-        </div>
-        <CognitiveSpectrum
-          tier={commandTermInfo.tier}
-          term={prompt.verb}
-          className="!bg-transparent !border-0 !p-0 ml-auto"
-        />
-      </div>
-
       <AccordionSection title="Syllabus Terms" icon={<Sparkles />} band={4} defaultOpen={true}>
         <KeywordEditor
           {...props}

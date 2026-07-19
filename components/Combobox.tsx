@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect, useId } from 'react';
-import { getBandConfig } from '../utils/renderUtils';
+import { getTierScaleConfig } from '../utils/renderUtils';
 import { PromptVerb } from '../types';
 import { Sparkles, ChevronDown } from 'lucide-react';
-import { getCommandTermsForMarks, getTargetBand, getTierTargetBand } from '../data/commandTerms';
 
 export type ComboboxColor =
   | 'blue'
@@ -125,8 +124,10 @@ const Combobox: React.FC<ComboboxProps> = ({
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
   const selectedOption = options.find((opt) => opt.id === value);
   const labelId = useId();
+  const listboxId = useId();
 
   const theme = colorStyles[color] || colorStyles.default;
 
@@ -140,6 +141,20 @@ const Combobox: React.FC<ComboboxProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Step the highlight, skipping disabled (locked) options so Enter always
+  // lands on something actionable.
+  const stepHighlight = (direction: 1 | -1) => {
+    if (options.length === 0) return;
+    setHighlightedIndex((prev) => {
+      let next = prev;
+      for (let i = 0; i < options.length; i++) {
+        next = (next + direction + options.length) % options.length;
+        if (!options[next]?.disabled) return next;
+      }
+      return prev; // every option disabled — stay put
+    });
+  };
+
   // Keyboard navigation handler
   const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
     if (disabled) return;
@@ -150,13 +165,25 @@ const Combobox: React.FC<ComboboxProps> = ({
         if (!isOpen) {
           setIsOpen(true);
         } else {
-          setHighlightedIndex((prev) => (prev + 1) % options.length);
+          stepHighlight(1);
         }
         break;
       case 'ArrowUp':
         e.preventDefault();
         if (isOpen) {
-          setHighlightedIndex((prev) => (prev - 1 + options.length) % options.length);
+          stepHighlight(-1);
+        }
+        break;
+      case 'Home':
+        if (isOpen) {
+          e.preventDefault();
+          setHighlightedIndex(0);
+        }
+        break;
+      case 'End':
+        if (isOpen) {
+          e.preventDefault();
+          setHighlightedIndex(options.length - 1);
         }
         break;
       case 'Enter':
@@ -183,13 +210,17 @@ const Combobox: React.FC<ComboboxProps> = ({
     }
   }, [isOpen, value, options]);
 
-  const getListItemClasses = (option: ComboboxOption, isSelected: boolean): string => {
-    let tier = option.tier;
-    if (tier === undefined && option.marks !== undefined) {
-      tier = getCommandTermsForMarks(option.marks).primaryTerm.tier;
-    }
+  // Keep the keyboard highlight visible — long question lists scroll, and an
+  // offscreen highlight made arrow-key selection feel broken.
+  useEffect(() => {
+    if (!isOpen) return;
+    listRef.current
+      ?.querySelector(`[data-option-index="${highlightedIndex}"]`)
+      ?.scrollIntoView({ block: 'nearest' });
+  }, [isOpen, highlightedIndex]);
 
-    if (tier === undefined) {
+  const getListItemClasses = (option: ComboboxOption, isSelected: boolean): string => {
+    if (option.tier === undefined) {
       return `pl-4 border-l-4 transition-all ${
         isSelected
           ? `${theme.bg} ${theme.border} text-white font-bold`
@@ -197,14 +228,16 @@ const Combobox: React.FC<ComboboxProps> = ({
       }`;
     }
 
-    // Colour options by the question's TARGET band (not the raw tier) so the
-    // picker matches the prompt, writing area and metrics.
-    const band =
-      option.marks !== undefined ? getTargetBand(option.marks, tier) : getTierTargetBand(tier);
-    const bandConfig = getBandConfig(band);
+    // Tiered options (questions): the row chrome uses the SAME tier-identity
+    // colour as the question card (getTierScaleConfig), so the picker can
+    // never disagree with the main question item. The option's renderLabel
+    // already carries the tinted card, so unselected rows stay neutral here —
+    // painting a second (previously marks-capped, i.e. sometimes DIFFERENT)
+    // wash underneath was the source of the mismatched backgrounds.
+    const tierConfig = getTierScaleConfig(option.tier);
     return isSelected
-      ? `${bandConfig.bg} pl-3 border-l-4 ${bandConfig.border} text-[rgb(var(--color-text-primary))] light:text-slate-900 font-bold`
-      : `${bandConfig.bg} text-[rgb(var(--color-text-secondary))] light:text-slate-700 pl-3 border-l-4 border-transparent`;
+      ? `${tierConfig.bg} pl-3 border-l-4 ${tierConfig.border} text-[rgb(var(--color-text-primary))] light:text-slate-900 font-bold`
+      : `pl-3 border-l-4 border-transparent hover:bg-white/5 light:hover:bg-slate-50 text-[rgb(var(--color-text-secondary))] light:text-slate-700`;
   };
 
   const baseInputStyles = `
@@ -251,6 +284,8 @@ const Combobox: React.FC<ComboboxProps> = ({
         className={`${baseInputStyles} ${stateStyles}`}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
+        aria-controls={isOpen ? listboxId : undefined}
+        aria-activedescendant={isOpen ? `${listboxId}-opt-${highlightedIndex}` : undefined}
       >
         <span className={`flex items-center truncate w-full ${selectedOption ? 'font-bold' : ''}`}>
           {selectedOption?.isNew && (
@@ -267,6 +302,8 @@ const Combobox: React.FC<ComboboxProps> = ({
 
       {isOpen && (
         <ul
+          ref={listRef}
+          id={listboxId}
           role="listbox"
           aria-labelledby={label ? labelId : undefined}
           className={`absolute z-[100] mt-2 w-full max-h-80 rounded-xl py-1 overflow-auto animate-fade-in custom-scrollbar border ${listStateStyles}`}
@@ -275,19 +312,22 @@ const Combobox: React.FC<ComboboxProps> = ({
             options.map((option, index) => (
               <li
                 key={option.id}
+                id={`${listboxId}-opt-${index}`}
+                data-option-index={index}
                 onClick={() => {
                   if (option.disabled) return;
                   onChange(option.id);
                   setIsOpen(false);
                 }}
                 onMouseEnter={() => setHighlightedIndex(index)}
-                className={`cursor-pointer select-none relative py-3 pr-9 transition-colors ${
+                className={`${option.disabled ? 'cursor-not-allowed' : 'cursor-pointer'} select-none relative py-3 pr-9 transition-colors ${
                   index === highlightedIndex
                     ? `${getListItemClasses(option, true)}`
                     : getListItemClasses(option, option.id === value)
                 }`}
                 role="option"
                 aria-selected={option.id === value}
+                aria-disabled={option.disabled || undefined}
               >
                 <div className="flex items-center whitespace-normal w-full">
                   {option.renderLabel || option.label}

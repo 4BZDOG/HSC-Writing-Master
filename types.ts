@@ -45,6 +45,18 @@ export interface CourseOutcome {
   description: string;
 }
 
+/**
+ * A user-raised "this content looks off" report on a question or sample
+ * answer. Stays attached to the item (rides along on export/sync) until an
+ * admin — or a future AI audit pass — resolves it.
+ */
+export interface ContentFlag {
+  reason: string;
+  flaggedAt: number;
+  flaggedBy?: string;
+  status: 'open' | 'resolved';
+}
+
 export interface SampleAnswer {
   id: string;
   band: number;
@@ -53,6 +65,7 @@ export interface SampleAnswer {
   source: 'AI' | 'USER' | 'HSC_EXEMPLAR';
   feedback?: string;
   quickTip?: string;
+  contentFlag?: ContentFlag;
 }
 
 export interface Prompt {
@@ -83,6 +96,7 @@ export interface Prompt {
    */
   qualityScore?: number;
   qualityNotes?: string;
+  contentFlag?: ContentFlag;
 }
 
 export interface DotPoint {

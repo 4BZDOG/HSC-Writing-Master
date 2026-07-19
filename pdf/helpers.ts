@@ -1,6 +1,6 @@
 // pdf/helpers.ts
 //
-// Drawing helpers that operate on a (CDN-loaded) jsPDF document. Pure text
+// Drawing helpers that operate on a (lazily loaded) jsPDF document. Pure text
 // transforms live in ./text and are re-exported here so callers have one
 // import surface. Anything DOM-dependent (emoji canvas, toast) is guarded.
 

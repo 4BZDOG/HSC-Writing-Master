@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
-import { Course, StatePath, UserRole, PromptVerb } from '../types';
+import { Course, StatePath, UserRole } from '../types';
 import { canCurateContent, canUseAiGeneration, isSystemAdmin } from '../utils/permissions';
 import Combobox from './Combobox';
 import {
@@ -29,8 +29,8 @@ import {
   Loader2,
   Link2,
 } from 'lucide-react';
-import { getCommandTermInfo, extractCommandVerb, getTargetBand } from '../data/commandTerms';
-import { getBandConfig } from '../utils/renderUtils';
+import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
+import { getTierScaleConfig } from '../utils/renderUtils';
 import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
 import { isFeatureLocked, isQuestionTierLocked, requestUpgrade } from '../services/entitlements';
 import { PlusLockChip } from './UpgradeModal';
@@ -334,72 +334,71 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
 
   const promptOptions = useMemo(() => {
     if (!selectedDotPoint?.prompts) return [];
-    const resolveVerbInfo = (verb?: string, question?: string) => {
-      if (verb) {
-        const normalized = verb.toUpperCase() as PromptVerb;
-        const info = getCommandTermInfo(normalized);
-        if (info.term !== 'EXPLAIN' || normalized === 'EXPLAIN') return info;
-      }
-      if (question) {
-        const extracted = extractCommandVerb(question);
-        if (extracted) return extracted;
-      }
-      return getCommandTermInfo('EXPLAIN');
-    };
 
-    return [...selectedDotPoint.prompts]
-      .sort((a, b) => a.totalMarks - b.totalMarks)
-      .map((p) => {
-        const verbInfo = resolveVerbInfo(p.verb, p.question);
-        const safeTier = Math.max(1, Math.min(6, Math.floor(verbInfo.tier || 4)));
-        const tierConfig = getBandConfig(getTargetBand(p.totalMarks, safeTier));
-        const tierLocked = isQuestionTierLocked(safeTier);
+    return (
+      [...selectedDotPoint.prompts]
+        .map((p) => {
+          // EXACTLY the derivation chain PromptDisplay uses for the question
+          // card's chrome (getCommandTermInfo → getTierScaleConfig), so a
+          // question can never be one colour in the picker and another on the
+          // card. The marks-capped target band stays informative as TEXT (the
+          // "Band N" chip) instead of silently recolouring the row.
+          const verbInfo = getCommandTermInfo(p.verb);
+          const safeTier = Math.max(1, Math.min(6, Math.floor(verbInfo.tier || 4)));
+          const tierConfig = getTierScaleConfig(safeTier);
+          const targetBand = getTargetBand(p.totalMarks, safeTier);
+          const tierLocked = isQuestionTierLocked(safeTier);
 
-        return {
-          id: p.id,
-          label: p.question,
-          marks: p.totalMarks,
-          verb: verbInfo.term,
-          tier: safeTier,
-          isNew: newlyAddedIds.has(p.id),
-          disabled: tierLocked,
-          renderLabel: (
-            <div
-              className={`flex items-start gap-3 w-full overflow-hidden p-2 rounded-lg transition-colors ${tierLocked ? 'opacity-60' : ''} ${tierConfig.bg}`}
-            >
+          return {
+            id: p.id,
+            label: p.question,
+            marks: p.totalMarks,
+            verb: verbInfo.term,
+            tier: safeTier,
+            isNew: newlyAddedIds.has(p.id),
+            disabled: tierLocked,
+            renderLabel: (
               <div
-                className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 border ${tierConfig.solidBg} ${tierConfig.border} shadow-sm`}
+                className={`flex items-start gap-3 w-full overflow-hidden p-2 rounded-lg transition-colors ${tierLocked ? 'opacity-60' : ''} ${tierConfig.bg}`}
               >
-                {tierLocked ? (
-                  <Lock className="w-5 h-5 text-white/70" />
-                ) : (
-                  <FileQuestion className="w-5 h-5 text-white" />
-                )}
-              </div>
-              <div className="flex flex-col min-w-0 flex-1">
-                <span
-                  className={`leading-snug font-bold line-clamp-2 block break-words ${tierConfig.text}`}
+                <div
+                  className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 border ${tierConfig.solidBg} ${tierConfig.border} shadow-sm`}
                 >
-                  {p.question}
-                </span>
-                <div className="flex items-center gap-2 mt-1.5">
-                  <span
-                    className={`text-[9px] font-black uppercase tracking-wider px-1.5 py-px rounded border ${tierConfig.solidBg} text-white ${tierConfig.border} shadow-sm`}
-                  >
-                    {verbInfo.term}
+                  {tierLocked ? (
+                    <Lock className="w-5 h-5 text-white/70" />
+                  ) : (
+                    <FileQuestion className="w-5 h-5 text-white" />
+                  )}
+                </div>
+                <div className="flex flex-col min-w-0 flex-1">
+                  <span className="leading-snug font-bold line-clamp-2 block break-words text-[rgb(var(--color-text-primary))] light:text-slate-900">
+                    {p.question}
                   </span>
-                  <span
-                    className={`text-[10px] opacity-70 font-mono font-black ${tierConfig.text}`}
-                  >
-                    • {p.totalMarks} Marks
-                  </span>
-                  {tierLocked && <PlusLockChip />}
+                  <div className="flex flex-wrap items-center gap-2 mt-1.5">
+                    <span
+                      className={`text-[9px] font-black uppercase tracking-wider px-1.5 py-px rounded border ${tierConfig.solidBg} ${tierConfig.solidText} ${tierConfig.border} shadow-sm`}
+                    >
+                      {verbInfo.term}
+                    </span>
+                    <span className="text-[10px] font-mono font-black text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                      {p.totalMarks} {p.totalMarks === 1 ? 'Mark' : 'Marks'}
+                    </span>
+                    <span
+                      className={`text-[9px] font-black uppercase tracking-wider px-1.5 py-px rounded border ${tierConfig.bg} ${tierConfig.text} ${tierConfig.border}`}
+                      title={`A full-mark response to this question reaches Band ${targetBand}`}
+                    >
+                      Band {targetBand}
+                    </span>
+                    {tierLocked && <PlusLockChip />}
+                  </div>
                 </div>
               </div>
-            </div>
-          ),
-        };
-      });
+            ),
+          };
+        })
+        // Marks ascending, then tier — a stable, predictable reading order.
+        .sort((a, b) => a.marks - b.marks || a.tier - b.tier)
+    );
   }, [selectedDotPoint, newlyAddedIds]);
 
   const getContainerClasses = (isSelected: boolean, zIndex: string) => `

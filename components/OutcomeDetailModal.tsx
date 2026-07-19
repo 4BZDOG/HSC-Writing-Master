@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { CourseOutcome } from '../types';
 import { explainOutcomeInContext } from '../services/geminiService';
 import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
-import { AlertCircle, Target, X, Sparkles } from 'lucide-react';
+import { AlertCircle, Target, X, Sparkles, Loader2 } from 'lucide-react';
 import LoadingIndicator from './LoadingIndicator';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 
@@ -125,7 +125,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
             <div className="bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 p-5 rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 min-h-[120px] shadow-inner">
               {isLoading ? (
                 <div className="flex flex-col items-center justify-center h-32 gap-3">
-                  <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+                  <Loader2 className="w-8 h-8 animate-spin text-purple-500" />
                   <p className="text-xs text-purple-300 light:text-purple-600 animate-pulse">
                     Analysing syllabus context...
                   </p>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { parseSyllabusStructure, fetchSyllabusContentFromUrl } from '../services/geminiService';
-import LoadingSpinner from './LoadingSpinner';
+import LoadingIndicator from './LoadingIndicator';
 import { X, Sparkles, Globe, UploadCloud, ChevronRight, Trash2, GitMerge } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 
@@ -516,7 +516,8 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
         {isBusy && (
           <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-sm flex items-center justify-center z-10">
             <div className="w-full max-w-md mx-6">
-              <LoadingSpinner
+              <LoadingIndicator
+                task="enrichment"
                 message={
                   isFetchingUrl ? 'Visiting URL & extracting content...' : 'Analysing syllabus...'
                 }

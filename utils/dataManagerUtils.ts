@@ -252,6 +252,16 @@ export const addAndPruneSampleAnswers = (
 
 // --- Zod Schemas ---
 
+/** User-raised "content looks off" report; see ContentFlag in types.ts. */
+const ContentFlagSchema = z
+  .object({
+    reason: z.string().catch('').default(''),
+    flaggedAt: z.number().catch(0).default(0),
+    flaggedBy: z.string().optional(),
+    status: z.enum(['open', 'resolved']).catch('open').default('open'),
+  })
+  .passthrough();
+
 const SampleAnswerSchema = z
   .object({
     id: z.string().default(() => generateId('sa')),
@@ -260,6 +270,7 @@ const SampleAnswerSchema = z
     mark: z.union([z.string(), z.number()]).transform((val) => Number(val) || 0),
     source: z.enum(['AI', 'USER', 'HSC_EXEMPLAR']).catch('AI').default('AI'),
     feedback: z.string().optional(),
+    contentFlag: ContentFlagSchema.optional(),
   })
   .passthrough();
 
@@ -284,6 +295,7 @@ const PromptSchema = z
     isPastHSC: z.boolean().optional().default(false),
     hscYear: z.number().optional(),
     hscQuestionNumber: z.string().optional(),
+    contentFlag: ContentFlagSchema.optional(),
   })
   .passthrough()
   // Canonicalise verb + marks so imported questions colour consistently on

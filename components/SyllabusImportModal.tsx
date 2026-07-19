@@ -7,7 +7,7 @@ import {
   splitSyllabusIntoTopics,
 } from '../services/geminiService';
 import type { SyllabusPreviewNode } from '../utils/dataManagerUtils';
-import LoadingSpinner from './LoadingSpinner';
+import LoadingIndicator from './LoadingIndicator';
 import {
   Sparkles,
   X,
@@ -772,7 +772,8 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
 
         {isBusy && (
           <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-sm flex items-center justify-center rounded-2xl z-10">
-            <LoadingSpinner
+            <LoadingIndicator
+              task="enrichment"
               message={
                 isFetchingUrl
                   ? 'Visiting URL & splitting into topics...'

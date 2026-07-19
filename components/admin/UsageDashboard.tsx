@@ -485,7 +485,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
             </div>
           ) : isLoading ? (
             <div className="h-48 flex items-center justify-center">
-              <LoadingIndicator messages={['Loading usage data…']} duration={2} band={3} />
+              <LoadingIndicator messages={['Loading usage data…']} duration={2} />
             </div>
           ) : (
             <>

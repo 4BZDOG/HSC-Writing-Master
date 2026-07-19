@@ -21,10 +21,12 @@ import {
   ZoomOut,
   Loader2,
   Target,
+  Flag,
 } from 'lucide-react';
 import { getTierScaleConfig, renderFormattedText } from '../utils/renderUtils';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import OutcomeDetailModal from './OutcomeDetailModal';
+import FlagContentModal from './FlagContentModal';
 
 interface PromptDisplayProps {
   prompt: Prompt;
@@ -96,6 +98,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   const [isEditingScenario, setIsEditingScenario] = useState(false);
   const [editScenarioText, setEditScenarioText] = useState(prompt.scenario || '');
   const [selectedOutcome, setSelectedOutcome] = useState<CourseOutcome | null>(null);
+  const [isFlagModalOpen, setIsFlagModalOpen] = useState(false);
+
+  const hasOpenFlag = prompt.contentFlag?.status === 'open';
 
   const headerRef = useRef<HTMLDivElement>(null);
   const headerContentRef = useRef<HTMLDivElement>(null);
@@ -182,6 +187,16 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
     onOutcomeClick(outcome);
   };
 
+  // Anyone can raise a flag; resolving keeps the record (status: 'resolved')
+  // so an admin can still see what was reported and when.
+  const handleFlag = (reason: string) =>
+    onUpdatePrompt({ contentFlag: { reason, flaggedAt: Date.now(), status: 'open' } });
+  const handleResolveFlag = () => {
+    if (prompt.contentFlag) {
+      onUpdatePrompt({ contentFlag: { ...prompt.contentFlag, status: 'resolved' } });
+    }
+  };
+
   return (
     <div
       ref={containerRef}
@@ -223,6 +238,16 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     <Loader2 className="w-2.5 h-2.5 animate-spin" />
                     Enhancing
                   </span>
+                )}
+                {hasOpenFlag && (
+                  <button
+                    onClick={() => setIsFlagModalOpen(true)}
+                    className="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-[0.15em] bg-amber-300/25 border border-amber-200/50 rounded-full px-2 py-0.5 animate-fade-in hover:bg-amber-300/40 transition-colors"
+                    title={`Flagged for review: ${prompt.contentFlag?.reason ?? ''}`}
+                  >
+                    <Flag className="w-2.5 h-2.5" />
+                    Flagged
+                  </button>
                 )}
               </h3>
               <div className="flex items-center gap-2 mt-1.5">
@@ -283,7 +308,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
 
       <div className="flex-1 flex flex-col min-h-0">
         <div
-          className={`${condensed ? 'p-6 sm:p-8' : 'p-8 sm:p-10 pb-4'} relative z-10 flex flex-col gap-8`}
+          className={`${condensed ? 'p-6 sm:p-8' : 'p-6 sm:p-8 pb-4 sm:pb-4'} relative z-10 flex flex-col gap-6 sm:gap-8`}
         >
           {/* Question Section - "The Canvas" */}
           <div className="group/question relative pt-2">
@@ -314,13 +339,16 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             ) : (
               <div className="relative pl-2">
                 <h2
-                  className="font-medium text-[rgb(var(--color-text-primary))] light:text-slate-900 font-serif tracking-tight"
+                  className="font-medium text-[rgb(var(--color-text-primary))] light:text-slate-900 font-serif tracking-tight break-words"
                   style={{ fontSize: `${fontSize * 1.2}px`, lineHeight: 1.3 }}
                 >
                   {renderFormattedText(prompt.question, prompt.keywords, prompt.verb)}
                 </h2>
+                {/* Curator controls: hover-revealed on pointer devices; on
+                    phones (no hover) they sit in flow under the question
+                    instead of absolutely positioned into the header. */}
                 {canCurate && (
-                  <div className="absolute -right-4 -top-10 opacity-0 group-hover/question:opacity-100 transition-opacity flex gap-2">
+                  <div className="flex gap-2 justify-end mt-3 sm:mt-0 sm:absolute sm:-right-4 sm:-top-10 sm:opacity-0 sm:group-hover/question:opacity-100 transition-opacity">
                     {canGenerate && (
                       <button
                         onClick={() => onRunQualityCheck(prompt.question, 'question')}
@@ -351,7 +379,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   <BookOpen className="w-3.5 h-3.5" /> Context Scenario
                 </h3>
                 {canCurate && !isEditingScenario && (
-                  <div className="flex gap-2 opacity-0 group-hover/prompt:opacity-100 transition-opacity">
+                  <div className="flex gap-2 opacity-100 sm:opacity-0 sm:group-hover/prompt:opacity-100 transition-opacity">
                     {canGenerate && (
                       <button
                         onClick={onGenerateScenario}
@@ -418,22 +446,22 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       {/* Decorative Quote Icon */}
                       <Quote className="absolute -top-3 -left-2 w-6 h-6 text-slate-500/20 light:text-slate-400/30 transform rotate-180" />
                       <p
-                        className="text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-relaxed font-serif italic pl-6 pr-2"
+                        className="text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-relaxed font-serif italic pl-6 pr-2 break-words"
                         style={{ fontSize: `${fontSize}px` }}
                       >
                         {renderFormattedText(prompt.scenario, prompt.keywords, prompt.verb)}
                       </p>
                     </div>
                   ) : (
-                    <div className="flex flex-col items-center justify-center py-8 text-center gap-3">
-                      <p className="text-xs text-slate-500 mb-1 font-medium">
-                        No scenario provided.
-                      </p>
+                    /* Compact empty state — a single row, so a scenario-less
+                       question doesn't push the writing surface down screen. */
+                    <div className="flex flex-wrap items-center justify-center py-2 text-center gap-x-4 gap-y-2">
+                      <p className="text-xs text-slate-500 font-medium">No scenario provided.</p>
                       {canGenerate && (
                         <button
                           onClick={onGenerateScenario}
                           disabled={isGeneratingScenario}
-                          className="px-5 py-2.5 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-bold hover:bg-indigo-500/20 transition-all flex items-center gap-2 hover:scale-105"
+                          className="px-4 py-2 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-bold hover:bg-indigo-500/20 transition-all flex items-center gap-2 hover:scale-105"
                         >
                           <Sparkles className="w-3.5 h-3.5" /> Generate Context
                         </button>
@@ -544,24 +572,42 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               )}
             </div>
 
-            <div className="order-2 sm:order-3 flex items-center gap-1 bg-black/10 light:bg-slate-200/50 backdrop-blur-xl p-1 rounded-lg border border-white/10 light:border-slate-300 shadow-inner ml-auto flex-shrink-0">
+            <div className="order-2 sm:order-3 flex items-center gap-2 ml-auto flex-shrink-0">
               <button
-                onClick={() => onFontSizeChange(Math.max(12, fontSize - 2))}
-                className="p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-md transition-colors"
-                title="Decrease font size"
+                onClick={() => setIsFlagModalOpen(true)}
+                className={`p-2 rounded-lg border transition-all ${
+                  hasOpenFlag
+                    ? 'bg-amber-500/15 border-amber-500/40 text-amber-500 hover:bg-amber-500/25'
+                    : 'bg-black/10 light:bg-slate-200/50 border-white/10 light:border-slate-300 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-amber-500'
+                }`}
+                title={
+                  hasOpenFlag
+                    ? 'This question is flagged for review — click to view'
+                    : 'Something off about this question? Flag it for review'
+                }
               >
-                <ZoomOut className="w-3.5 h-3.5" />
+                <Flag className={`w-3.5 h-3.5 ${hasOpenFlag ? 'fill-current' : ''}`} />
               </button>
-              <span className="text-[10px] font-mono font-bold text-[rgb(var(--color-text-muted))] w-6 text-center select-none">
-                {fontSize}
-              </span>
-              <button
-                onClick={() => onFontSizeChange(Math.min(48, fontSize + 2))}
-                className="p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-md transition-colors"
-                title="Increase font size"
-              >
-                <ZoomIn className="w-3.5 h-3.5" />
-              </button>
+
+              <div className="flex items-center gap-1 bg-black/10 light:bg-slate-200/50 backdrop-blur-xl p-1 rounded-lg border border-white/10 light:border-slate-300 shadow-inner">
+                <button
+                  onClick={() => onFontSizeChange(Math.max(12, fontSize - 2))}
+                  className="p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-md transition-colors"
+                  title="Decrease font size"
+                >
+                  <ZoomOut className="w-3.5 h-3.5" />
+                </button>
+                <span className="text-[10px] font-mono font-bold text-[rgb(var(--color-text-muted))] w-6 text-center select-none">
+                  {fontSize}
+                </span>
+                <button
+                  onClick={() => onFontSizeChange(Math.min(48, fontSize + 2))}
+                  className="p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-md transition-colors"
+                  title="Increase font size"
+                >
+                  <ZoomIn className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -575,6 +621,15 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           question={prompt.question}
         />
       )}
+
+      <FlagContentModal
+        isOpen={isFlagModalOpen}
+        onClose={() => setIsFlagModalOpen(false)}
+        itemLabel="question"
+        existingFlag={prompt.contentFlag}
+        onFlag={handleFlag}
+        onResolve={handleResolveFlag}
+      />
     </div>
   );
 };
