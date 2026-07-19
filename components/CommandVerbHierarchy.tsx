@@ -18,11 +18,11 @@ const MeshOverlay = ({ opacity = 'opacity-[0.03]' }: { opacity?: string }) => (
 );
 
 const COGNITIVE_STEPS = [
-  { label: 'Recall', tier: 1 },
+  { label: 'Remember', tier: 1 },
   { label: 'Describe', tier: 2 },
-  { label: 'Apply', tier: 3 },
+  { label: 'Explain', tier: 3 },
   { label: 'Analyse', tier: 4 },
-  { label: 'Synthesise', tier: 5 },
+  { label: 'Argue', tier: 5 },
   { label: 'Evaluate', tier: 6 },
 ];
 
@@ -350,13 +350,13 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
               Basic Recall
             </span>
             <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] hidden sm:block">
-              Application
+              Explain & Compare
             </span>
             <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] hidden sm:block">
-              Analysis
+              Analyse & Apply
             </span>
             <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] whitespace-nowrap">
-              Creation & Synthesis
+              Evaluate & Create
             </span>
           </div>
 

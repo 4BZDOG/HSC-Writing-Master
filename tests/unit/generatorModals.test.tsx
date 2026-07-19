@@ -40,8 +40,8 @@ describe('PromptGeneratorModal band/tier alignment', () => {
     );
 
   it('caps the target band at the tier maximum for a low-tier syllabus verb', () => {
-    // "define" → Tier 1, whose maxBand is 2 per TIER_GROUPS.
-    renderModal('define the key components of a network');
+    // "identify" → Tier 1, whose maxBand is 3 per TIER_GROUPS (NESA Band 1-3).
+    renderModal('identify the key components of a network');
     const tier1Max = TIER_GROUPS.find((t) => t.tier === 1)!.maxBand;
 
     expect(screen.getByText(`Tier 1 verbs cap at Band ${tier1Max}`)).toBeTruthy();
@@ -55,7 +55,7 @@ describe('PromptGeneratorModal band/tier alignment', () => {
     renderModal('evaluate the impact of cloud computing');
     expect(screen.queryByText(/verbs cap at Band/)).toBeNull();
 
-    // Switch to Tier 2 ("Comprehending & Describing", maxBand 3).
+    // Switch to Tier 2 ("Define & Describe", maxBand 4).
     const tier2 = TIER_GROUPS.find((t) => t.tier === 2)!;
     fireEvent.click(screen.getByText(tier2.title));
 

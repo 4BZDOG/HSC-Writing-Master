@@ -70,8 +70,8 @@ describe('evaluateAnswer (service integration, mocked proxy)', () => {
     );
     expect(result.overallMark).toBe(7);
     // The band is derived from mark + cognitive tier, not taken from the model.
-    // 'Describe' resolves to the Tier-2 fallback (max Band 3); 7/10 (0.70) -> Band 2.
-    expect(result.overallBand).toBe(2);
+    // 'Describe' resolves to Tier 2 (max Band 4); 7/10 maps to Band 3.
+    expect(result.overallBand).toBe(3);
     expect(result.overallFeedback).toBe('Strong response with clear terminology.');
     expect(result.strengths).toContain('Clear terminology');
     expect(result.improvements).toContain('Add more depth');
@@ -94,8 +94,8 @@ describe('evaluateAnswer (service integration, mocked proxy)', () => {
     const result = await evaluateAnswer('answer', basePrompt);
 
     expect(result.overallMark).toBe(10); // clamped to totalMarks
-    // 10/10 on a Tier-2 'Describe' question caps at Band 2 (not Band 6).
-    expect(result.overallBand).toBe(2);
+    // 10/10 on a Tier-2 'Describe' question caps at Band 4 (NESA ceiling).
+    expect(result.overallBand).toBe(4);
     expect(result.criteria[0].mark).toBe(5); // clamped to maxMark
   });
 
