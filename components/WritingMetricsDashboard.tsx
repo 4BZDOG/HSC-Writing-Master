@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Prompt, WritingMode } from '../types';
-import { BAND_METRICS, getCommandTermInfo, getBandForMark } from '../data/commandTerms';
+import {
+  BAND_METRICS,
+  getCommandTermInfo,
+  getBandForMark,
+  getRecommendedTime,
+  getExpectedTerms,
+} from '../data/commandTerms';
 import { getBandConfig, textContainsKeyword, BandConfig } from '../utils/renderUtils';
 import { analyzeText, buildWritingInsights, InsightTone } from '../utils/writingAnalysis';
 import {
@@ -148,9 +154,14 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
       () => userAnswer.trim().split(/\s+/).filter(Boolean).length,
       [userAnswer]
     );
+    const charCount = useMemo(() => userAnswer.length, [userAnswer]);
     const recommendedTime = useMemo(
-      () => Math.round(prompt.totalMarks * 1.5 * 60),
-      [prompt.totalMarks]
+      () => getRecommendedTime(prompt.totalMarks, commandTermInfo),
+      [prompt.totalMarks, commandTermInfo]
+    );
+    const expectedTerms = useMemo(
+      () => getExpectedTerms(prompt.totalMarks, commandTermInfo),
+      [prompt.totalMarks, commandTermInfo]
     );
     const [remainingTime, setRemainingTime] = useState(recommendedTime);
 
@@ -225,8 +236,12 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
           keywordsTotal: prompt.keywords?.length || 0,
           keywordsUsed: keywordStats.used.length,
           missingKeywords: keywordStats.missed,
+          expectedTerms,
+          tier: commandTermInfo.tier,
+          charCount,
+          charRange: commandTermInfo.charRange,
         }),
-      [analysis, progressInfo, prompt.keywords, keywordStats]
+      [analysis, progressInfo, prompt.keywords, keywordStats, expectedTerms, commandTermInfo, charCount]
     );
 
     const formatTime = (s: number) =>
@@ -384,7 +399,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                             ? `${progressInfo.currentBandColor.bg} ${progressInfo.currentBandColor.text} ${progressInfo.currentBandColor.border}`
                             : 'text-slate-500 dark:text-slate-400 border-slate-200 dark:border-white/10'
                         }`}
-                        title="Terms detected in your response so far"
+                        title={`Terms detected (${expectedTerms}+ expected for this verb/marks)`}
                       >
                         {keywordStats.used.length}/{prompt.keywords?.length || 0}
                       </span>
