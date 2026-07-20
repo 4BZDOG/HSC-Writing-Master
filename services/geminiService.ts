@@ -1305,6 +1305,46 @@ export const generateRubricForPrompt = async (
   return response.text || '';
 };
 
+/**
+ * Revises a non-standard marking guide into the correct descending-from-full-marks
+ * format while preserving its pedagogical substance. Used by the Content Audit
+ * Studio's "Revise Rubrics" bulk action for rubrics that exist but have the
+ * wrong structure (ascending order, missing mark values, wrong format).
+ */
+export const reviseRubricForPrompt = async (
+  prompt: Prompt,
+  existingRubric: string
+): Promise<string> => {
+  const termInfo = getCommandTermInfo(prompt.verb);
+  const request = {
+    ...aiTarget(prompt.totalMarks > 6 ? 'reasoning' : 'basic'),
+    contents: {
+      parts: [
+        {
+          text: `Revise this marking rubric so it is in the CORRECT descending format (full marks first, descending to 1 mark).
+
+EXISTING RUBRIC (non-standard format):
+${existingRubric}
+
+QUESTION: "${prompt.question}" (${prompt.totalMarks} marks)
+${prompt.scenario ? `SCENARIO: "${prompt.scenario}"` : ''}
+VERB: ${prompt.verb} (Cognitive Tier: ${termInfo.tier})
+
+**Instructions:**
+- Preserve the pedagogical content and discriminators from the existing rubric.
+- ${buildMarkingCriteriaInstruction(prompt.totalMarks, termInfo.tier, prompt.verb)}
+- Use British/Australian English spelling (e.g. 'analyse', 'colour', 'behaviour').
+- For full marks, criteria MUST demand the full cognitive depth of '${prompt.verb}'.
+- Lower marks should reflect a progressive drop in cognitive skill.
+- Do NOT use bullet points, headings, or paragraphs — only "N marks: description" lines.`,
+        },
+      ],
+    },
+  };
+  const response = await generateContentWithRetry(request);
+  return response.text || '';
+};
+
 export const explainOutcomeInContext = async (
   question: string,
   outcome: CourseOutcome

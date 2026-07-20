@@ -15,6 +15,16 @@ import { getModelByProviderModel } from './aiModels';
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
 const GEMINI_PROXY_ENDPOINT = `${API_BASE_URL}/api/gemini`;
 
+// True in production builds with no API host configured — the proxy endpoint
+// resolves to the static host itself (e.g. GitHub Pages), which can never
+// serve the serverless function. Detected once at module load so every AI call
+// can skip the doomed fetch and go straight to the direct-browser path.
+const IS_STATIC_HOSTING = !import.meta.env.DEV && !API_BASE_URL;
+
+/** Whether this deployment has a reachable AI proxy. UI can read this to show
+ *  an "AI not connected" banner without waiting for the first call to fail. */
+export const isProxyConfigured = (): boolean => !IS_STATIC_HOSTING;
+
 // --- Constants ---
 export const ERROR_THRESHOLD = 15;
 const TIME_WINDOW_MS = 60 * 1000;
@@ -626,6 +636,18 @@ const callProxy = async (request: any): Promise<GenerateContentResponse> => {
   const keyOverride = getRuntimeKeyOverride();
   const payload = keyOverride ? { ...request, __keyOverride: keyOverride } : request;
 
+  // Static hosting (e.g. GitHub Pages without API_BASE_URL): no serverless
+  // function exists, so skip the doomed fetch entirely. With runtime keys the
+  // provider adapters run directly in the browser; without them we fail fast
+  // with a clear message instead of burning a round-trip to get a 404.
+  if (IS_STATIC_HOSTING) {
+    if (keyOverride) {
+      const { callProviderDirect } = await import('./aiDirect');
+      return callProviderDirect(payload);
+    }
+    throw new ProxyUnavailableError(0);
+  }
+
   let res: Response;
   try {
     res = await fetch(GEMINI_PROXY_ENDPOINT, {
@@ -634,7 +656,13 @@ const callProxy = async (request: any): Promise<GenerateContentResponse> => {
       body: JSON.stringify(payload),
     });
   } catch {
-    // Network-level failure — treat as a transient (retryable) error.
+    // Network-level failure (DNS, timeout, CORS block, proxy down). When
+    // runtime keys are available, try the direct-browser path — the proxy
+    // might be unreachable but the provider API could still be reachable.
+    if (keyOverride) {
+      const { callProviderDirect } = await import('./aiDirect');
+      return callProviderDirect(payload);
+    }
     throw new Error('Network error contacting the AI service. Please try again.');
   }
 

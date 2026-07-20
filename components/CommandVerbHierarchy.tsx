@@ -186,7 +186,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       <p className="text-sm font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 max-w-xl leading-relaxed opacity-90">
                         {activeTermInfo.definition}
                       </p>
-                      <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 max-w-xl leading-relaxed opacity-80 mt-1 italic">
+                      <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 max-w-xl leading-relaxed opacity-80 mt-1 italic whitespace-pre-line">
                         {activeTermInfo.tip}
                       </p>
                     </div>

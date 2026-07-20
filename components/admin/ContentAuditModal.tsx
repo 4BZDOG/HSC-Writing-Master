@@ -22,6 +22,7 @@ import {
   generateNewPrompt,
   generateSampleAnswer,
   generateRubricForPrompt,
+  reviseRubricForPrompt,
   suggestOutcomesForPrompt,
   evaluateAnswer,
   screenContentQuality,
@@ -155,6 +156,7 @@ type BulkActionType =
   | 'generateQuestions'
   | 'generateSamples'
   | 'generateRubrics'
+  | 'reviseRubrics'
   | 'linkOutcomes'
   | 'recalibrateSamples'
   | 'screenQuality'
@@ -166,6 +168,8 @@ const isEmptyDotPoint = (n: TreeNode) => n.type === 'dotPoint' && n.stats.questi
 const needsSamples = (n: TreeNode) => n.type === 'prompt' && n.stats.samples === 0;
 const needsRubric = (n: TreeNode) =>
   n.type === 'prompt' && (n.stats.missingMarkingCriteria > 0 || n.stats.rubricNotDescending > 0);
+const hasNonStandardRubric = (n: TreeNode) =>
+  n.type === 'prompt' && n.stats.rubricNotDescending > 0;
 const needsOutcomes = (n: TreeNode) => n.type === 'prompt' && n.stats.missingOutcomes > 0;
 const hasSamplesToRecalibrate = (n: TreeNode) => n.type === 'prompt' && n.stats.samples > 0;
 const qualityOf = (n: TreeNode): number | null =>
@@ -546,6 +550,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   const selectionTargets = useMemo(() => {
     let questions = 0;
     let rubrics = 0;
+    let rubricRevisions = 0;
     let samples = 0;
     let outcomes = 0;
     let recalibrations = 0;
@@ -556,11 +561,10 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       if (!node) return;
       if (isEmptyDotPoint(node)) questions++;
       if (needsRubric(node)) rubrics++;
+      if (hasNonStandardRubric(node)) rubricRevisions++;
       if (needsSamples(node)) samples++;
       if (needsOutcomes(node)) outcomes++;
       if (hasSamplesToRecalibrate(node))
-        // Count what the task builder will actually iterate (every stored
-        // sample), not just the "valid" ones the stats tally.
         recalibrations += (node.dataRef as Prompt).sampleAnswers?.length || 0;
       if (node.type === 'prompt') screenings++;
     });
@@ -568,6 +572,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     return {
       questions,
       rubrics,
+      rubricRevisions,
       samples,
       outcomes,
       recalibrations,
@@ -891,6 +896,22 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     },
   });
 
+  const makeRubricRevisionTask = (node: TreeNode): BatchTask<void> => ({
+    id: `revise-rubric-${node.id}`,
+    description: `Revising rubric: ${node.label.slice(0, 30)}...`,
+    action: async () => {
+      const prompt = node.dataRef as Prompt;
+      if (!prompt.markingCriteria) return;
+      const revised = await reviseRubricForPrompt(prompt, prompt.markingCriteria);
+      updateCourses((draft) => {
+        const p = findDraftPrompt(draft, node.path);
+        if (p) p.markingCriteria = revised;
+      });
+      if (node.path.promptId && node.path.dotPointId)
+        recordTouch(node.path.promptId, node.path.dotPointId, node.label);
+    },
+  });
+
   const makeOutcomeTask = (node: TreeNode): BatchTask<void> => ({
     id: `link-${node.id}`,
     description: `Linking outcomes: ${node.label.slice(0, 30)}...`,
@@ -988,6 +1009,8 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         tasks.push(makeQuestionTask(node));
       if ((all || actionType === 'generateRubrics') && needsRubric(node))
         tasks.push(makeRubricTask(node));
+      if (actionType === 'reviseRubrics' && hasNonStandardRubric(node))
+        tasks.push(makeRubricRevisionTask(node));
       if ((all || actionType === 'linkOutcomes') && needsOutcomes(node))
         tasks.push(makeOutcomeTask(node));
       if ((all || actionType === 'generateSamples') && needsSamples(node))
@@ -1620,6 +1643,14 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   className="px-5 h-12 rounded-[20px] bg-sky-600 text-white font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale"
                 >
                   Rubrics ({selectionTargets.rubrics})
+                </button>
+                <button
+                  onClick={handleBulkAction.bind(null, 'reviseRubrics')}
+                  disabled={selectionTargets.rubricRevisions === 0}
+                  title="Revise non-standard rubrics into correct descending format while preserving existing criteria"
+                  className="px-5 h-12 rounded-[20px] bg-amber-600 text-white font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale"
+                >
+                  Revise Rubrics ({selectionTargets.rubricRevisions})
                 </button>
                 <button
                   onClick={handleBulkAction.bind(null, 'linkOutcomes')}

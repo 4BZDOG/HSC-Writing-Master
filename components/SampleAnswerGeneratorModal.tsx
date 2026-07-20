@@ -59,13 +59,21 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
   );
 
   const maxBand = useMemo(
-    () => getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier),
+    () =>
+      Math.min(
+        getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier),
+        commandTermInfo.tier
+      ),
     [prompt.totalMarks, commandTermInfo.tier]
   );
 
   const markOptions = useMemo(() => {
+    const tierCap = commandTermInfo.tier;
     return Array.from({ length: prompt.totalMarks + 1 }, (_, i) => i).map((mark) => {
-      const band = getBandForMark(mark, prompt.totalMarks, commandTermInfo.tier);
+      const band = Math.min(
+        getBandForMark(mark, prompt.totalMarks, commandTermInfo.tier),
+        tierCap
+      );
       const count = existingCounts.get(mark) || 0;
 
       return {
@@ -133,14 +141,15 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
 
   if (!isOpen) return null;
 
-  const selectedBand =
+  const selectedBandRaw =
     selectedMark !== null
       ? getBandForMark(selectedMark, prompt.totalMarks, commandTermInfo.tier)
       : 1;
+  const selectedBand = Math.min(selectedBandRaw, commandTermInfo.tier);
   const activeBandConfig = getBandConfig(selectedBand);
   const potentialBand =
     selectedMark !== null ? getBandForMark(selectedMark, prompt.totalMarks, 6) : 1;
-  const isCapped = tierInfo && selectedBand < potentialBand;
+  const isCapped = tierInfo && selectedBandRaw < potentialBand;
 
   return createPortal(
     <div
