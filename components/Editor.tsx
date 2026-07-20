@@ -28,6 +28,7 @@ import {
   FileText,
   Lightbulb,
   GraduationCap,
+  ChevronDown,
 } from 'lucide-react';
 import { PromptVerb, WritingMode } from '../types';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
@@ -135,13 +136,10 @@ const Editor = forwardRef<
     const headerRef = useRef<HTMLDivElement>(null);
     const headerContentRef = useRef<HTMLDivElement>(null);
     const [copied, setCopied] = useState(false);
+    const [showStrategy, setShowStrategy] = useState(true);
 
     const wordCount = useMemo(() => value.trim().split(/\s+/).filter(Boolean).length, [value]);
 
-    // The highlight overlay is painted on every keystroke to stay pixel-aligned
-    // with the caret, but rebuilding the whole span tree each time makes long
-    // answers feel laggy. Memoise it so it only recomputes when the text, the
-    // tracked keywords, or the command verb actually change.
     const highlightedContent = useMemo(
       () => (isExamMode ? value : renderEditorHighlights(value, keywords, verb)),
       [value, keywords, verb, isExamMode]
@@ -151,9 +149,8 @@ const Editor = forwardRef<
     const [internalFontSize, setInternalFontSize] = useState(syncedFontSize || 18);
     const [userHasResized, setUserHasResized] = useState(false);
 
-    // The question's cognitive tier — the colour identity shared with the
-    // picker, prompt card and verb hierarchy.
-    const verbTier = useMemo(() => getCommandTermInfo(verb).tier, [verb]);
+    const verbInfo = useMemo(() => getCommandTermInfo(verb), [verb]);
+    const verbTier = verbInfo.tier;
 
     // Live-feedback theme. The writing surface is painted in the question's
     // TIER colour (one fixed hue per question). Progress isn't shown by
@@ -523,6 +520,35 @@ const Editor = forwardRef<
             </div>
           </div>
         </div>
+
+        {/* Writing Strategy Tip — Coach mode only */}
+        {!isExamMode && verb && (
+          <div className="border-t border-white/10 light:border-slate-200">
+            <button
+              type="button"
+              onClick={() => setShowStrategy((s) => !s)}
+              className="w-full flex items-center gap-2 px-4 sm:px-6 py-2 text-left hover:bg-white/5 light:hover:bg-slate-100 transition-colors"
+            >
+              <Lightbulb className="w-3.5 h-3.5 text-amber-400/80 flex-shrink-0" />
+              <span className="text-[10px] font-black uppercase tracking-[0.15em] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                {verbInfo.term} Strategy
+              </span>
+              <ChevronDown
+                className={`w-3 h-3 text-[rgb(var(--color-text-dim))] ml-auto transition-transform duration-200 ${showStrategy ? 'rotate-180' : ''}`}
+              />
+            </button>
+            {showStrategy && (
+              <div className="px-4 sm:px-6 pb-3 animate-fade-in">
+                <p className="text-xs font-semibold text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed mb-1">
+                  {verbInfo.definition}
+                </p>
+                <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed italic whitespace-pre-line">
+                  {verbInfo.tip}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Editor Body with Grid Stacking for Auto-Height */}
         <div className="relative flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50/30">
