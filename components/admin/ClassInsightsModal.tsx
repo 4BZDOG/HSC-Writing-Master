@@ -277,7 +277,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                                       <span
                                         className={`ml-2 px-1.5 py-0.5 rounded-md border text-[9px] font-bold ${cfg.bg} ${cfg.text} ${cfg.border}`}
                                       >
-                                        Tier {r.tier}
+                                        L{r.tier}
                                       </span>
                                     )}
                                   </td>

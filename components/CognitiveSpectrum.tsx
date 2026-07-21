@@ -60,7 +60,7 @@ const CognitiveSpectrum: React.FC<CognitiveSpectrumProps> = ({
             style={{
               height: t <= tier ? `${40 + t * 10}%` : '30%',
             }}
-            title={t <= tier ? `Tier ${t}: Within Scope` : `Tier ${t}: Beyond Scope`}
+            title={t <= tier ? `Level ${t}: Within Scope` : `Level ${t}: Beyond Scope`}
           />
         ))}
       </div>

@@ -314,7 +314,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                         <span
                           className={`text-[10px] font-black uppercase tracking-[0.2em] block mb-0.5 truncate ${isCurrentTier ? 'opacity-70' : tierConfig.text + ' opacity-60'}`}
                         >
-                          Tier {group.tier} · Band {group.maxBand} cap
+                          Level {group.tier} · Band {group.maxBand} cap
                         </span>
                         <h4
                           className={`text-sm font-black truncate tracking-tight ${isCurrentTier ? 'text-white' : tierConfig.text}`}
@@ -419,7 +419,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
 
                   <button
                     type="button"
-                    aria-label={`Highlight tier ${step.tier} — ${step.label}`}
+                    aria-label={`Highlight level ${step.tier} — ${step.label}`}
                     className="flex flex-col items-center gap-3 relative z-10 group/step cursor-pointer"
                     onClick={() => {
                       const group = sortedVerbsByGroup.find((g) => g.tier === step.tier);

@@ -207,8 +207,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
                 <div className="flex items-start gap-2 p-3 rounded-lg bg-amber-500/10 light:bg-amber-50 border border-amber-500/20 light:border-amber-200 text-amber-200 light:text-amber-700 text-xs mb-3 animate-fade-in">
                   <Info className="w-4 h-4 flex-shrink-0 mt-0.5" />
                   <p>
-                    <strong>Tier Constraint:</strong> The verb '{prompt.verb}' (Tier{' '}
-                    {commandTermInfo.tier}) caps the maximum standard at{' '}
+                    <strong>Verb Constraint:</strong> '{prompt.verb}' caps the maximum standard at{' '}
                     <strong>Band {getTargetBand(prompt.totalMarks, commandTermInfo.tier)}</strong>.
                     Even with {targetMark}/{prompt.totalMarks} marks, the revised answer will be
                     written to Band {getTargetBand(prompt.totalMarks, commandTermInfo.tier)} depth,

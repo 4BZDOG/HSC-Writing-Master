@@ -371,7 +371,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                     <span
                       className={`text-[11px] font-black uppercase tracking-widest ${getTierBandConfig(syllabusVerbInfo.tier).text}`}
                     >
-                      {syllabusVerbInfo.term} · Tier {syllabusVerbInfo.tier}
+                      {syllabusVerbInfo.term} · up to Band {syllabusVerbInfo.tier}
                     </span>
                   </div>
                   <span className="text-[10px] font-bold uppercase tracking-widest text-[rgb(var(--color-text-muted))] light:text-slate-500">
@@ -466,7 +466,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
 
               <section>
                 <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 mb-4 block">
-                  Cognitive Tiering
+                  Difficulty Level
                 </span>
                 <h4 className="text-sm font-bold text-white uppercase tracking-widest flex items-center gap-3 mb-6">
                   <Brain className="w-5 h-5 text-purple-400" /> Processing Level
@@ -497,7 +497,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                           <span
                             className={`text-[9px] font-bold uppercase tracking-widest ${isSelected ? config.text : 'text-white/20'}`}
                           >
-                            T{tier.tier}
+                            L{tier.tier}
                           </span>
                         </div>
                         <div
@@ -540,15 +540,15 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                         {difficulty.status === 'match'
                           ? 'On the syllabus level'
                           : difficulty.status === 'above'
-                            ? `Harder than the syllabus asks · +${difficulty.steps} tier${difficulty.steps > 1 ? 's' : ''}`
-                            : `Easier than the syllabus asks · −${difficulty.steps} tier${difficulty.steps > 1 ? 's' : ''}`}
+                            ? `Harder than the syllabus asks · +${difficulty.steps} level${difficulty.steps > 1 ? 's' : ''}`
+                            : `Easier than the syllabus asks · −${difficulty.steps} level${difficulty.steps > 1 ? 's' : ''}`}
                       </span>
                       <p className="text-[10px] font-medium text-slate-400 leading-relaxed">
                         {difficulty.status === 'match'
                           ? `This question matches the "${syllabusVerbInfo?.term}" demand of the syllabus dot point.`
                           : difficulty.status === 'above'
-                            ? `The dot point only asks students to ${syllabusVerbInfo?.term?.toLowerCase()} (Tier ${syllabusTier}). A Tier ${selectedTier} question demands more than the syllabus requires here.`
-                            : `The dot point asks students to ${syllabusVerbInfo?.term?.toLowerCase()} (Tier ${syllabusTier}). A Tier ${selectedTier} question asks for less than the syllabus requires here.`}
+                            ? `The dot point only asks students to '${syllabusVerbInfo?.term?.toLowerCase()}' (Band ${syllabusTier} ceiling). Your question demands more than the syllabus requires here.`
+                            : `The dot point asks students to '${syllabusVerbInfo?.term?.toLowerCase()}' (Band ${syllabusTier} ceiling). Your question asks for less than the syllabus requires here.`}
                       </p>
                     </div>
                   </div>
@@ -659,7 +659,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                           disabled={isCappedOut}
                           title={
                             isCappedOut
-                              ? `A Tier ${selectedTier} verb caps out at Band ${tierMaxBand}`
+                              ? `'${activeTierInfo?.title}' verbs support up to Band ${tierMaxBand}`
                               : `Target Band ${b}`
                           }
                           className={`relative z-10 w-10 h-10 rounded-2xl flex items-center justify-center text-xs font-black transition-all duration-500 transform ${
@@ -678,7 +678,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                 </div>
                 {tierMaxBand < 6 && (
                   <p className="mt-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest text-center">
-                    Tier {selectedTier} verbs cap at Band {tierMaxBand}
+                    These verbs support up to Band {tierMaxBand}
                   </p>
                 )}
               </section>

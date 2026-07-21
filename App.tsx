@@ -704,8 +704,8 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                       <button
                         onClick={() => setIsStudentProgressOpen(true)}
                         className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
-                        title="Student Progress (one student across cognitive tiers)"
-                        aria-label="Student Progress (one student across cognitive tiers)"
+                        title="Student Progress (one student across cognitive levels)"
+                        aria-label="Student Progress (one student across cognitive levels)"
                       >
                         <LineChart className="w-4 h-4" />
                       </button>

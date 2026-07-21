@@ -252,7 +252,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               </h3>
               <div className="flex items-center gap-2 mt-1.5">
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">
-                  Tier {verbInfo.tier} • Cognitive Challenge
+                  Level {verbInfo.tier} • Cognitive Challenge
                 </span>
               </div>
             </div>

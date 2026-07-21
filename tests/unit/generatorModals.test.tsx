@@ -40,12 +40,13 @@ describe('PromptGeneratorModal band/tier alignment', () => {
     );
 
   it('caps the target band at the tier maximum for a low-tier syllabus verb', () => {
-    // "identify" → Tier 1, whose maxBand is 3 per TIER_GROUPS (NESA Band 1-3).
+    // "identify" → Tier 1, whose maxBand is 1 per TIER_GROUPS (NESA Band 1).
     renderModal('identify the key components of a network');
     const tier1Max = TIER_GROUPS.find((t) => t.tier === 1)!.maxBand;
+    const tier1Title = TIER_GROUPS.find((t) => t.tier === 1)!.title;
 
-    expect(screen.getByText(`Tier 1 verbs cap at Band ${tier1Max}`)).toBeTruthy();
-    const capped = screen.getAllByTitle(`A Tier 1 verb caps out at Band ${tier1Max}`);
+    expect(screen.getByText(`These verbs support up to Band ${tier1Max}`)).toBeTruthy();
+    const capped = screen.getAllByTitle(`'${tier1Title}' verbs support up to Band ${tier1Max}`);
     expect(capped.length).toBe(6 - tier1Max);
     capped.forEach((btn) => expect((btn as HTMLButtonElement).disabled).toBe(true));
   });
@@ -59,7 +60,7 @@ describe('PromptGeneratorModal band/tier alignment', () => {
     const tier2 = TIER_GROUPS.find((t) => t.tier === 2)!;
     fireEvent.click(screen.getByText(tier2.title));
 
-    expect(screen.getByText(`Tier 2 verbs cap at Band ${tier2.maxBand}`)).toBeTruthy();
+    expect(screen.getByText(`These verbs support up to Band ${tier2.maxBand}`)).toBeTruthy();
     // Footer reflects the clamped target — it can never still say Band 6.
     expect(screen.queryByText(/targeting/i)?.textContent).toContain(`Band ${tier2.maxBand}`);
   });
@@ -107,7 +108,7 @@ describe('PromptGeneratorModal syllabus-demand difficulty signal', () => {
     // "describe" → Tier 2.
     renderModal('describe the features of a relational database');
     expect(screen.getAllByText(/Syllabus demands/i).length).toBeGreaterThan(0);
-    expect(screen.getByText(/DESCRIBE · Tier 2/)).toBeTruthy();
+    expect(screen.getByText(/DESCRIBE · up to Band 2/)).toBeTruthy();
   });
 
   it('flags a question that is harder than the syllabus asks', () => {
@@ -310,9 +311,7 @@ describe('SampleAnswerEditorModal tier-capped bands', () => {
     const cap = getBandForMark(prompt.totalMarks, prompt.totalMarks, tier);
     expect(cap).toBeLessThan(6);
 
-    const capped = screen.getAllByTitle(
-      `'${prompt.verb}' (Tier ${tier}) caps this question at Band ${cap}`
-    );
+    const capped = screen.getAllByTitle(`'${prompt.verb}' caps this question at Band ${cap}`);
     expect(capped.length).toBe(6 - cap);
     capped.forEach((btn) => expect((btn as HTMLButtonElement).disabled).toBe(true));
     expect(screen.getByText(new RegExp(`up to Band ${cap}`))).toBeTruthy();

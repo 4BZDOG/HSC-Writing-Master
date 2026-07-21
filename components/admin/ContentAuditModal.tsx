@@ -942,7 +942,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
     return prompt.sampleAnswers.map((sample) => ({
       id: `recal-${sample.id}`,
-      description: `Recalibrating sample (Tier ${verbTier} rules): ${node.label.slice(0, 20)}...`,
+      description: `Recalibrating sample (Level ${verbTier} rules): ${node.label.slice(0, 20)}...`,
       action: async () => {
         // 1. Create a clean calibration prompt without existing samples to prevent bias
         const calibrationPrompt = { ...prompt, sampleAnswers: [] };
@@ -1672,7 +1672,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 <button
                   onClick={handleBulkAction.bind(null, 'recalibrateSamples')}
                   disabled={selectionTargets.recalibrations === 0}
-                  title="Re-mark every existing sample answer under the strict tier/band rules"
+                  title="Re-mark every existing sample answer under the strict verb/band rules"
                   className="px-5 h-12 rounded-[20px] bg-teal-600 text-white font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale flex items-center gap-2"
                 >
                   <Scale className="w-4 h-4" />
