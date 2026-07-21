@@ -11,7 +11,6 @@ import {
   getTierTargetBand,
   getVerbBandCeiling,
   getBandForMark,
-  getMarksBandCap,
   TIER_GROUPS,
 } from '../../data/commandTerms';
 import { sanitiseKeywords } from '../../services/geminiService';
@@ -41,17 +40,14 @@ describe('band colour palette', () => {
 });
 
 describe('getTargetBand', () => {
-  it('caps at the tier number for questions with 6 or fewer marks', () => {
-    expect(getTargetBand(2, 1)).toBe(1); // Tier 1, 2 marks → Band 1 (red)
-    expect(getTargetBand(4, 2)).toBe(2); // Tier 2, 4 marks → Band 2 (orange)
-    expect(getTargetBand(6, 3)).toBe(3); // Tier 3, 6 marks → Band 3 (yellow)
-    expect(getTargetBand(6, 4)).toBe(4); // Tier 4, 6 marks → Band 4 (green)
-  });
-
-  it('lifts the tier cap for questions worth more than 6 marks', () => {
-    expect(getTargetBand(8, 4)).toBe(6); // Tier 4, 8 marks → Band 6 (purple)
+  it('caps at the tier number regardless of mark count', () => {
+    expect(getTargetBand(2, 1)).toBe(1); // Tier 1, 2 marks → Band 1
+    expect(getTargetBand(4, 2)).toBe(2); // Tier 2, 4 marks → Band 2
+    expect(getTargetBand(6, 3)).toBe(3); // Tier 3, 6 marks → Band 3
+    expect(getTargetBand(6, 4)).toBe(4); // Tier 4, 6 marks → Band 4
+    expect(getTargetBand(8, 4)).toBe(4); // Tier 4, 8 marks → still Band 4
     expect(getTargetBand(8, 6)).toBe(6); // Tier 6, 8 marks → Band 6
-    expect(getTargetBand(7, 5)).toBe(6); // Tier 5, 7 marks → Band 6
+    expect(getTargetBand(7, 5)).toBe(5); // Tier 5, 7 marks → Band 5
   });
 });
 
@@ -74,17 +70,12 @@ describe('band model consistency', () => {
     }
   });
 
-  it('for >6 marks the tier cap lifts so all 6 bands are available', () => {
+  it('never awards a band above the tier ceiling at any mark count', () => {
     for (const group of TIER_GROUPS) {
-      const fullMark = getBandForMark(10, 10, group.tier);
-      expect(fullMark).toBe(6);
-    }
-  });
-
-  it('for ≤6 marks never awards a band above the tier ceiling', () => {
-    for (const group of TIER_GROUPS) {
-      for (let mark = 0; mark <= 5; mark++) {
-        expect(getBandForMark(mark, 5, group.tier)).toBeLessThanOrEqual(group.tier);
+      for (const totalMarks of [3, 5, 8, 10]) {
+        for (let mark = 0; mark <= totalMarks; mark++) {
+          expect(getBandForMark(mark, totalMarks, group.tier)).toBeLessThanOrEqual(group.tier);
+        }
       }
     }
   });
@@ -107,29 +98,28 @@ describe('getTierBandConfig', () => {
   });
 });
 
-describe('marks-based band cap (on-the-fly adjustment)', () => {
-  it('caps an N-mark question at roughly Band N+1', () => {
-    expect(getMarksBandCap(1)).toBe(2);
-    expect(getMarksBandCap(2)).toBe(3);
-    expect(getMarksBandCap(3)).toBe(4);
-    expect(getMarksBandCap(4)).toBe(5);
-    expect(getMarksBandCap(5)).toBe(6);
-    expect(getMarksBandCap(12)).toBe(6);
+describe('NESA-aligned band mapping (tier is the only cap)', () => {
+  it('full marks on a high-tier verb reaches the tier ceiling regardless of mark count', () => {
+    // 3/3 Evaluate (Tier 6) → Band 6 per NESA descriptors.
+    expect(getBandForMark(3, 3, 6)).toBe(6);
+    // 2/2 Evaluate → Band 6.
+    expect(getBandForMark(2, 2, 6)).toBe(6);
+    // 5/5 Evaluate → Band 6.
+    expect(getBandForMark(5, 5, 6)).toBe(6);
   });
 
-  it('normalises off-scheme questions: the lower of tier and marks caps wins', () => {
-    // A Tier-6 verb on a 3-mark question: marks cap=4, tier=6 → capped at 4.
-    expect(getTargetBand(3, 6)).toBe(4);
-    // A Tier-4 verb on a 2-mark question: marks cap=3, tier=4 → capped at 3.
-    expect(getTargetBand(2, 4)).toBe(3);
-    // A Tier-2 verb on a 4-mark question: marks cap=5, tier=2 → capped at 2.
+  it('low-tier verbs still cap the band even with full marks', () => {
+    // Tier-2 verb on a 4-mark question: full marks → Band 2.
     expect(getTargetBand(4, 2)).toBe(2);
+    // Tier-3 verb on a 5-mark question: full marks → Band 3.
+    expect(getTargetBand(5, 3)).toBe(3);
   });
 
-  it('applies the cap to every derived band, not just the ceiling', () => {
-    for (let mark = 0; mark <= 3; mark++) {
-      expect(getBandForMark(mark, 3, 6)).toBeLessThanOrEqual(getMarksBandCap(3));
-    }
+  it('maps a 3-mark Tier-6 question to the NESA spread', () => {
+    expect(getBandForMark(0, 3, 6)).toBe(1);
+    expect(getBandForMark(1, 3, 6)).toBe(4);
+    expect(getBandForMark(2, 3, 6)).toBe(5);
+    expect(getBandForMark(3, 3, 6)).toBe(6);
   });
 });
 

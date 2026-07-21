@@ -23,7 +23,7 @@ describe('CommandVerbHierarchy', () => {
   it('renders the header and all six tier groups without a selected verb', () => {
     render(<CommandVerbHierarchy />);
     expect(screen.getByText('HSC Command Verb Hierarchy')).toBeTruthy();
-    expect(screen.getByText(/Reference • 6 Levels/i)).toBeTruthy();
+    expect(screen.getByText(/Reference • 6 Bands/i)).toBeTruthy();
     expect(getToggle().getAttribute('aria-expanded')).toBe('true');
   });
 
@@ -60,7 +60,7 @@ describe('CommandVerbHierarchy', () => {
 
   it('cognitive timeline steps are keyboard-reachable buttons that select the tier', () => {
     render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
-    const step = screen.getByRole('button', { name: /Highlight level 6/i });
+    const step = screen.getByRole('button', { name: /Highlight band 6/i });
     fireEvent.click(step);
     // Tier 6's first verb (alphabetical) becomes the active detail card.
     expect(screen.getByText('Band Cap')).toBeTruthy();

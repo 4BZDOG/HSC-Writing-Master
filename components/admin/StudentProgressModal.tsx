@@ -75,7 +75,7 @@ const TierRow: React.FC<{ profile: TierProfile }> = ({ profile }) => {
     <div className="flex items-center gap-3">
       <span className="w-28 shrink-0 text-[11px] font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700">
         <span className="text-[rgb(var(--color-text-dim))] light:text-slate-400">
-          L{profile.tier}
+          B{profile.tier}
         </span>{' '}
         {TIER_LABELS[profile.tier]}
       </span>
@@ -254,7 +254,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                 Student Progress
               </h2>
               <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                One student across the six cognitive levels
+                One student across the six verb groups
               </p>
             </div>
           </div>
@@ -415,7 +415,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                   {/* Cognitive tier profile */}
                   <section>
                     <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
-                      Cognitive level profile
+                      Command verb profile
                     </h3>
                     <div className="space-y-2.5">
                       {tiers.map((t) => (
@@ -423,7 +423,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                       ))}
                     </div>
                     <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
-                      Average band per cognitive level (bar fills to band ÷ 6); a blank level hasn't
+                      Average band per verb group (bar fills to band ÷ 6); a blank group hasn't
                       been attempted in this window.
                     </p>
                   </section>
@@ -467,7 +467,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                                   {r.label}
                                   {r.tier != null && (
                                     <span className="ml-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
-                                      L{r.tier}
+                                      B{r.tier}
                                     </span>
                                   )}
                                 </td>

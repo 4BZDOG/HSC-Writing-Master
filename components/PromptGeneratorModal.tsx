@@ -497,7 +497,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                           <span
                             className={`text-[9px] font-bold uppercase tracking-widest ${isSelected ? config.text : 'text-white/20'}`}
                           >
-                            L{tier.tier}
+                            B{tier.tier}
                           </span>
                         </div>
                         <div

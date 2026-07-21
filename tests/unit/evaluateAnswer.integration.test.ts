@@ -70,8 +70,8 @@ describe('evaluateAnswer (service integration, mocked proxy)', () => {
     );
     expect(result.overallMark).toBe(7);
     // The band is derived from mark + cognitive tier, not taken from the model.
-    // 'Describe' is Tier 2; 10 marks (>6) lifts the tier cap, so 7/10 → Band 5.
-    expect(result.overallBand).toBe(5);
+    // 'Describe' is Tier 2; tier is the sole cap, so 7/10 → Band 2.
+    expect(result.overallBand).toBe(2);
     expect(result.overallFeedback).toBe('Strong response with clear terminology.');
     expect(result.strengths).toContain('Clear terminology');
     expect(result.improvements).toContain('Add more depth');
@@ -94,8 +94,8 @@ describe('evaluateAnswer (service integration, mocked proxy)', () => {
     const result = await evaluateAnswer('answer', basePrompt);
 
     expect(result.overallMark).toBe(10); // clamped to totalMarks
-    // 10/10 on a Tier-2 'Describe' question: >6 marks lifts the tier cap to 6.
-    expect(result.overallBand).toBe(6);
+    // 10/10 on a Tier-2 'Describe' question: tier is the sole cap → Band 2.
+    expect(result.overallBand).toBe(2);
     expect(result.criteria[0].mark).toBe(5); // clamped to maxMark
   });
 
