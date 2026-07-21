@@ -41,56 +41,60 @@ describe('band colour palette', () => {
 });
 
 describe('getTargetBand', () => {
-  it('maps a verb tier to the band a full-mark response reaches', () => {
-    // NESA-aligned: Tier 1→Band 3, Tier 2→Band 4, Tier 3→Band 5, Tier 4-6→Band 6
-    expect(getTargetBand(2, 1)).toBe(3); // Identify (Tier 1), 2 marks → Band 3
-    expect(getTargetBand(4, 2)).toBe(4); // Describe (Tier 2), 4 marks → Band 4
-    expect(getTargetBand(6, 3)).toBe(5); // Explain (Tier 3), 6 marks → Band 5
-    expect(getTargetBand(8, 4)).toBe(6); // Analyse (Tier 4), 8 marks → Band 6
+  it('caps at the tier number for questions with 6 or fewer marks', () => {
+    expect(getTargetBand(2, 1)).toBe(1); // Tier 1, 2 marks → Band 1 (red)
+    expect(getTargetBand(4, 2)).toBe(2); // Tier 2, 4 marks → Band 2 (orange)
+    expect(getTargetBand(6, 3)).toBe(3); // Tier 3, 6 marks → Band 3 (yellow)
+    expect(getTargetBand(6, 4)).toBe(4); // Tier 4, 6 marks → Band 4 (green)
+  });
+
+  it('lifts the tier cap for questions worth more than 6 marks', () => {
+    expect(getTargetBand(8, 4)).toBe(6); // Tier 4, 8 marks → Band 6 (purple)
+    expect(getTargetBand(8, 6)).toBe(6); // Tier 6, 8 marks → Band 6
+    expect(getTargetBand(7, 5)).toBe(6); // Tier 5, 7 marks → Band 6
   });
 });
 
 describe('getTierTargetBand', () => {
-  it('maps each cognitive tier to its NESA-aligned band ceiling', () => {
-    expect(getTierTargetBand(1)).toBe(3);
-    expect(getTierTargetBand(2)).toBe(4);
-    expect(getTierTargetBand(3)).toBe(5);
-    expect(getTierTargetBand(4)).toBe(6);
-    expect(getTierTargetBand(5)).toBe(6);
+  it('maps each cognitive tier to its own number (tier = ceiling colour)', () => {
+    expect(getTierTargetBand(1)).toBe(1);
+    expect(getTierTargetBand(2)).toBe(2);
+    expect(getTierTargetBand(3)).toBe(3);
+    expect(getTierTargetBand(4)).toBe(4);
+    expect(getTierTargetBand(5)).toBe(5);
     expect(getTierTargetBand(6)).toBe(6);
-  });
-
-  it('agrees with getTargetBand at full marks (10/10) for every tier', () => {
-    for (let tier = 1; tier <= 6; tier++) {
-      expect(getTierTargetBand(tier)).toBe(getTargetBand(10, tier));
-    }
   });
 });
 
 describe('band model consistency', () => {
-  it('marks a full-mark response exactly at each tier\'s declared ceiling', () => {
+  it('each tier\'s maxBand equals its tier number', () => {
     for (const group of TIER_GROUPS) {
-      const marked = getBandForMark(10, 10, group.tier);
-      expect(marked).toBe(group.maxBand);
-      expect(getTierTargetBand(group.tier)).toBe(group.maxBand);
+      expect(group.maxBand).toBe(group.tier);
+      expect(getTierTargetBand(group.tier)).toBe(group.tier);
     }
   });
 
-  it('never awards a band above the ceiling at any mark ratio', () => {
+  it('for >6 marks the tier cap lifts so all 6 bands are available', () => {
     for (const group of TIER_GROUPS) {
-      const ceiling = getTierTargetBand(group.tier);
-      for (let mark = 0; mark <= 10; mark++) {
-        expect(getBandForMark(mark, 10, group.tier)).toBeLessThanOrEqual(ceiling);
+      const fullMark = getBandForMark(10, 10, group.tier);
+      expect(fullMark).toBe(6);
+    }
+  });
+
+  it('for ≤6 marks never awards a band above the tier ceiling', () => {
+    for (const group of TIER_GROUPS) {
+      for (let mark = 0; mark <= 5; mark++) {
+        expect(getBandForMark(mark, 5, group.tier)).toBeLessThanOrEqual(group.tier);
       }
     }
   });
 
-  it('resolves a verb to its cognitive-demand band ceiling', () => {
-    expect(getVerbBandCeiling('DESCRIBE')).toBe(4); // Tier 2 → Band 4
-    expect(getVerbBandCeiling('ANALYSE')).toBe(6); // Tier 4 → Band 6
-    expect(getVerbBandCeiling('EVALUATE')).toBe(6); // Tier 6 → Band 6
-    expect(getVerbBandCeiling('IDENTIFY')).toBe(3); // Tier 1 → Band 3
-    expect(getVerbBandCeiling('EXPLAIN')).toBe(5); // Tier 3 → Band 5
+  it('resolves a verb to its tier-identity band ceiling', () => {
+    expect(getVerbBandCeiling('DESCRIBE')).toBe(2); // Tier 2
+    expect(getVerbBandCeiling('ANALYSE')).toBe(4);  // Tier 4
+    expect(getVerbBandCeiling('EVALUATE')).toBe(6); // Tier 6
+    expect(getVerbBandCeiling('IDENTIFY')).toBe(1); // Tier 1
+    expect(getVerbBandCeiling('EXPLAIN')).toBe(3);  // Tier 3
   });
 });
 
@@ -113,11 +117,13 @@ describe('marks-based band cap (on-the-fly adjustment)', () => {
     expect(getMarksBandCap(12)).toBe(6);
   });
 
-  it('normalises off-scheme questions: a lofty verb on a tiny question is capped by marks', () => {
-    // A Tier-6 verb on a 3-mark question tops out at Band 4 (marks cap dominates).
+  it('normalises off-scheme questions: the lower of tier and marks caps wins', () => {
+    // A Tier-6 verb on a 3-mark question: marks cap=4, tier=6 → capped at 4.
     expect(getTargetBand(3, 6)).toBe(4);
-    // A Tier-4 verb on a 2-mark question: marksCap=3, tierMax=6 → capped at 3.
+    // A Tier-4 verb on a 2-mark question: marks cap=3, tier=4 → capped at 3.
     expect(getTargetBand(2, 4)).toBe(3);
+    // A Tier-2 verb on a 4-mark question: marks cap=5, tier=2 → capped at 2.
+    expect(getTargetBand(4, 2)).toBe(2);
   });
 
   it('applies the cap to every derived band, not just the ceiling', () => {

@@ -463,12 +463,10 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   const studioLocked = isFeatureLocked('aiContentStudio');
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
 
-  // Cap the displayed ceiling to the question's tier so the header colour and
-  // number match the tier identity colour shown on the question card.
-  const maxPossibleBand = useMemo(() => {
-    const raw = getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier);
-    return Math.min(raw, commandTermInfo.tier);
-  }, [prompt.totalMarks, commandTermInfo.tier]);
+  const maxPossibleBand = useMemo(
+    () => getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier),
+    [prompt.totalMarks, commandTermInfo.tier]
+  );
 
   // Placard chrome uses the verb's tier identity (matches the prompt and
   // writing surface); the band ceiling stays numeric in the subtitle.
@@ -479,17 +477,12 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
 
   const groupedAnswers = useMemo(() => {
     const groups: Record<number, GroupedSampleAnswers> = {};
-    // Cap the display band to the question's cognitive tier so the best sample
-    // answer never shows a colour ABOVE the question's own tier identity
-    // colour (e.g. a blue Band 5 answer for a yellow Tier 3 question).
-    const tierCap = commandTermInfo.tier;
     (prompt.sampleAnswers || []).forEach((sa) => {
       if (!groups[sa.mark]) {
-        const rawBand = getBandForMark(sa.mark, prompt.totalMarks, commandTermInfo.tier);
         groups[sa.mark] = {
           mark: sa.mark,
           answers: [],
-          calculatedBand: Math.min(rawBand, tierCap),
+          calculatedBand: getBandForMark(sa.mark, prompt.totalMarks, commandTermInfo.tier),
         };
       }
       groups[sa.mark].answers.push(sa);

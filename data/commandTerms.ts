@@ -38,7 +38,7 @@ export const TIER_GROUPS = [
     subtitle: 'Recall facts, names, or data with minimal processing — short, direct answers.',
     emoji: '🧠',
     tier: 1,
-    maxBand: 3,
+    maxBand: 1,
   },
   {
     level: 2,
@@ -46,7 +46,7 @@ export const TIER_GROUPS = [
     subtitle: 'Show you understand what something is and what it looks like — in your own words.',
     emoji: '📝',
     tier: 2,
-    maxBand: 4,
+    maxBand: 2,
   },
   {
     level: 3,
@@ -54,7 +54,7 @@ export const TIER_GROUPS = [
     subtitle: 'Show relationships, causes, and how things connect — the why and how.',
     emoji: '🔗',
     tier: 3,
-    maxBand: 5,
+    maxBand: 3,
   },
   {
     level: 4,
@@ -62,7 +62,7 @@ export const TIER_GROUPS = [
     subtitle: 'Break things apart and use knowledge in new situations — dig deep.',
     emoji: '🔍',
     tier: 4,
-    maxBand: 6,
+    maxBand: 4,
   },
   {
     level: 5,
@@ -70,7 +70,7 @@ export const TIER_GROUPS = [
     subtitle: 'Form arguments, weigh up evidence, and take a position.',
     emoji: '⚖️',
     tier: 5,
-    maxBand: 6,
+    maxBand: 5,
   },
   {
     level: 6,
@@ -948,11 +948,16 @@ export const getBandForMark = (mark: number, totalMarks: number, tier: number = 
   if (totalMarks <= 0) return 1;
   if (mark <= 0) return 1;
 
-  // The effective ceiling: the lower of the tier's maximum and the marks cap.
+  // The effective ceiling: the tier's maxBand (== tier number), capped by the
+  // marks-based limit.  For questions worth MORE than 6 marks the tier cap is
+  // lifted to 6 so all six colours can be used — there are enough mark levels
+  // to warrant the full spectrum, and these questions are almost always
+  // high-tier verbs anyway.
   const tierGroup = TIER_GROUPS.find((g) => g.tier === tier);
   const tierMax = tierGroup ? tierGroup.maxBand : Math.min(tier, 6);
   const cap = getMarksBandCap(totalMarks);
-  const maxBand = Math.min(tierMax, cap);
+  const effectiveTierMax = totalMarks > 6 ? 6 : tierMax;
+  const maxBand = Math.min(effectiveTierMax, cap);
 
   // For questions where totalMarks ≤ maxBand, a linear mapping guarantees each
   // mark gets a distinct band — no collisions possible. This is the common case
@@ -996,30 +1001,15 @@ export const getTargetBand = (totalMarks: number, tier: number = 4): number =>
   getBandForMark(totalMarks, totalMarks, tier);
 
 /**
- * The target band for a whole cognitive tier (independent of a specific mark) —
- * the ceiling any question at that tier can reach. Used to colour tier-level UI
- * (e.g. the Command Verb Hierarchy ribbon) in the SAME band colour a question of
- * that tier uses, so a verb like DESCRIBE isn't one colour in the ribbon and
- * another in the prompt.
+ * The target band for a whole cognitive tier — the ceiling colour a question at
+ * that tier carries across the UI.  This equals the tier number itself (Tier 1 →
+ * Band 1 red, Tier 4 → Band 4 green, Tier 6 → Band 6 purple), so the verb's
+ * colour in the Command Verb Hierarchy ribbon is always the same as the highest
+ * colour shown for any prompt using that verb.
  *
- * --- The band model (why this exists) -------------------------------------
- * NESA performance bands (1-6) are a *course-level* achievement standard — NESA
- * never publishes a band for an individual question, and no official rule maps a
- * command verb to a band. For questions we author or generate (i.e. not lifted
- * straight from a NESA paper) we therefore INFER a defensible ceiling rather than
- * invent a fact:
- *
- *   band ceiling  ← the command verb's cognitive demand (this function)
- *   depth expected ← the marks (markRange, BAND_METRICS word targets)
- *   band awarded   ← how well the response meets the marking guide (getBandForMark),
- *                    capped at the ceiling
- *
- * The pedagogy: a response can only *demonstrate* the standard of thinking the
- * task actually calls for. However thorough, a DESCRIBE answer cannot evidence
- * the sustained analysis/evaluation that defines Bands 4-6, so it tops out at the
- * ceiling its verb allows. This is a transparent inference, not a NESA decree —
- * it is the single source every band figure in the app derives from, so marking,
- * live feedback, colour and copy can never disagree.
+ * For individual questions the marks-based cap (`getMarksBandCap`) or the
+ * >6-marks override in `getBandForMark` may adjust the effective ceiling, but
+ * this function returns the tier's OWN identity colour, independent of marks.
  */
 export const getTierTargetBand = (tier: number): number =>
   TIER_GROUPS.find((g) => g.tier === tier)?.maxBand ?? Math.max(1, Math.min(6, tier));

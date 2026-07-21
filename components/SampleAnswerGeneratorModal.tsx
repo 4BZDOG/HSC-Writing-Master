@@ -59,29 +59,16 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
   );
 
   const maxBand = useMemo(
-    () =>
-      Math.min(
-        getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier),
-        commandTermInfo.tier
-      ),
+    () => getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier),
     [prompt.totalMarks, commandTermInfo.tier]
   );
 
   const markOptions = useMemo(() => {
-    const tierCap = commandTermInfo.tier;
-    return Array.from({ length: prompt.totalMarks + 1 }, (_, i) => i).map((mark) => {
-      const band = Math.min(
-        getBandForMark(mark, prompt.totalMarks, commandTermInfo.tier),
-        tierCap
-      );
-      const count = existingCounts.get(mark) || 0;
-
-      return {
-        mark,
-        band,
-        count,
-      };
-    });
+    return Array.from({ length: prompt.totalMarks + 1 }, (_, i) => i).map((mark) => ({
+      mark,
+      band: getBandForMark(mark, prompt.totalMarks, commandTermInfo.tier),
+      count: existingCounts.get(mark) || 0,
+    }));
   }, [prompt.totalMarks, existingCounts, commandTermInfo.tier]);
 
   const suggestedMark = useMemo(() => {
@@ -141,15 +128,11 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
 
   if (!isOpen) return null;
 
-  const selectedBandRaw =
+  const selectedBand =
     selectedMark !== null
       ? getBandForMark(selectedMark, prompt.totalMarks, commandTermInfo.tier)
       : 1;
-  const selectedBand = Math.min(selectedBandRaw, commandTermInfo.tier);
   const activeBandConfig = getBandConfig(selectedBand);
-  const potentialBand =
-    selectedMark !== null ? getBandForMark(selectedMark, prompt.totalMarks, 6) : 1;
-  const isCapped = tierInfo && selectedBandRaw < potentialBand;
 
   return createPortal(
     <div
@@ -327,12 +310,6 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     Expected Result: Band {selectedBand}
                   </span>
 
-                  {isCapped && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500/10 light:bg-amber-50 border border-amber-500/20 light:border-amber-200 text-amber-400 light:text-amber-700">
-                      <AlertTriangle className="w-3.5 h-3.5" />
-                      Tier Capped
-                    </span>
-                  )}
                 </div>
 
                 <p
@@ -348,19 +325,6 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     : ` It will demonstrate the depth, terminology, and structure expected of a Band ${selectedBand} student for this '${prompt.verb}' question.`}
                 </p>
 
-                {isCapped && selectedMark > 0 && (
-                  <div className="mt-4 p-3 rounded-lg bg-amber-900/20 light:bg-amber-50 border border-amber-500/20 light:border-amber-200 text-amber-200/80 light:text-amber-800 text-xs leading-relaxed flex gap-3">
-                    <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-400 light:text-amber-600" />
-                    <div>
-                      <strong className="text-amber-400 light:text-amber-700 block mb-1">
-                        Why is this capped?
-                      </strong>
-                      The verb '{prompt.verb}' (Tier {commandTermInfo.tier}) limits the maximum
-                      complexity. Even with full marks, the response inherently represents a Band{' '}
-                      {tierInfo?.maxBand} level of cognitive skill.
-                    </div>
-                  </div>
-                )}
               </div>
             ) : (
               <div className="h-full flex flex-col items-center justify-center text-center opacity-40">
