@@ -229,7 +229,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
         <MeshOverlay opacity="opacity-[0.03]" />
 
         {/* Profile Identity Header */}
-        <div className="flex-shrink-0 px-5 sm:px-12 py-6 sm:py-8 flex flex-col md:flex-row items-center gap-5 md:gap-10 border-b border-white/5 light:border-slate-100 relative overflow-hidden">
+        <div className="flex-shrink-0 px-5 sm:px-12 py-6 sm:py-8 flex flex-col md:flex-row items-center gap-5 md:gap-10 border-b border-white/5 light:border-slate-200 relative overflow-hidden">
           <div className="relative group shrink-0">
             <div
               className={`absolute inset-0 bg-gradient-to-br ${bandConfig.gradient} blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-700`}
@@ -241,7 +241,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 {user.displayName.charAt(0).toUpperCase()}
               </span>
             </div>
-            <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-2xl bg-black border border-white/10 flex items-center justify-center shadow-xl">
+            <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-2xl bg-black light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center shadow-xl">
               <span className={`text-xs font-black ${bandConfig.text}`}>{user.stats.level}</span>
             </div>
           </div>
@@ -253,7 +253,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   <input
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
-                    className="bg-white/5 border-b-2 border-indigo-500 text-2xl sm:text-3xl font-black text-white focus:outline-none px-2 min-w-0 w-full"
+                    className="bg-white/5 light:bg-slate-100 border-b-2 border-indigo-500 text-2xl sm:text-3xl font-black text-white light:text-slate-900 focus:outline-none px-2 min-w-0 w-full"
                     autoFocus
                   />
                   <button
@@ -272,11 +272,11 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   {user.displayName}
                 </h2>
               )}
-              <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-indigo-400">
+              <span className="px-3 py-1 rounded-full bg-white/5 light:bg-indigo-50 border border-white/10 light:border-indigo-200 text-[10px] font-bold uppercase tracking-widest text-indigo-400">
                 {user.role}
               </span>
             </div>
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 sm:gap-6 text-slate-400 text-sm font-medium">
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 sm:gap-6 text-slate-400 light:text-slate-600 text-sm font-medium">
               <span className="flex items-center gap-2">
                 <Shield className="w-4 h-4 text-indigo-500" /> Level {user.stats.level}
               </span>
@@ -289,7 +289,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
             {/* Level progress — inline on mobile/tablet where the side column is
                 hidden, so the XP bar is never lost on smaller screens. */}
             <div className="lg:hidden mt-4 flex items-center gap-3 justify-center md:justify-start">
-              <div className="w-40 h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/5">
+              <div className="w-40 h-1.5 bg-white/5 light:bg-slate-200 rounded-full overflow-hidden border border-white/5 light:border-slate-300">
                 <div
                   className={`h-full bg-gradient-to-r ${bandConfig.gradient}`}
                   style={{ width: `${progressPercent}%` }}
@@ -310,7 +310,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 {Math.round(progressPercent)}%
               </span>
             </div>
-            <div className="w-48 h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/5">
+            <div className="w-48 h-1.5 bg-white/5 light:bg-slate-200 rounded-full overflow-hidden border border-white/5 light:border-slate-300">
               <div
                 className={`h-full bg-gradient-to-r ${bandConfig.gradient}`}
                 style={{ width: `${progressPercent}%` }}
@@ -329,7 +329,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`px-4 sm:px-6 py-4 sm:py-5 text-xs font-bold uppercase tracking-[0.1em] border-b-2 transition-all flex items-center gap-2 sm:gap-3 whitespace-nowrap ${activeTab === tab.id ? `border-indigo-500 text-white` : 'border-transparent text-slate-500 hover:text-slate-300'}`}
+              className={`px-4 sm:px-6 py-4 sm:py-5 text-xs font-bold uppercase tracking-[0.1em] border-b-2 transition-all flex items-center gap-2 sm:gap-3 whitespace-nowrap ${activeTab === tab.id ? `border-indigo-500 text-white light:text-slate-900` : 'border-transparent text-slate-500 hover:text-slate-300 light:hover:text-slate-700'}`}
             >
               <tab.icon className={`w-4 h-4 ${activeTab === tab.id ? 'text-indigo-400' : ''}`} />{' '}
               {tab.label}
@@ -368,7 +368,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                     className="p-6 rounded-[32px] bg-white/[0.03] light:bg-slate-100 border border-white/5 light:border-slate-200 flex flex-col items-center text-center group hover:bg-white/[0.05] transition-colors"
                   >
                     <div
-                      className={`p-3 rounded-2xl bg-white/5 mb-4 group-hover:rotate-6 transition-transform ${stat.color}`}
+                      className={`p-3 rounded-2xl bg-white/5 light:bg-slate-200 mb-4 group-hover:rotate-6 transition-transform ${stat.color}`}
                     >
                       <stat.icon className="w-5 h-5" />
                     </div>
@@ -389,10 +389,10 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   <Cpu className="w-8 h-8" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-bold text-white uppercase tracking-tight mb-2">
+                  <h4 className="text-lg font-bold text-white light:text-slate-900 uppercase tracking-tight mb-2">
                     Performance Summary
                   </h4>
-                  <p className="text-sm text-slate-400 leading-relaxed max-w-lg">
+                  <p className="text-sm text-slate-400 light:text-slate-600 leading-relaxed max-w-lg">
                     Your activity has increased by{' '}
                     <span className="text-emerald-400 font-bold">12%</span> this week. Continue
                     practising to maintain your streak.
@@ -407,10 +407,10 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
               {achievements.map((ach) => (
                 <div
                   key={ach.id}
-                  className={`flex items-center gap-6 p-6 rounded-[32px] border transition-all duration-500 ${ach.unlocked ? 'bg-white/[0.03] border-white/10' : 'bg-black/20 border-transparent opacity-40 grayscale'}`}
+                  className={`flex items-center gap-6 p-6 rounded-[32px] border transition-all duration-500 ${ach.unlocked ? 'bg-white/[0.03] light:bg-slate-50 border-white/10 light:border-slate-200' : 'bg-black/20 light:bg-slate-100 border-transparent opacity-40 grayscale'}`}
                 >
                   <div
-                    className={`w-16 h-16 rounded-[24px] flex items-center justify-center text-3xl shadow-2xl border ${ach.unlocked ? 'bg-white/5 border-white/10 shadow-indigo-500/10' : 'bg-transparent border-white/5'}`}
+                    className={`w-16 h-16 rounded-[24px] flex items-center justify-center text-3xl shadow-2xl border ${ach.unlocked ? 'bg-white/5 light:bg-slate-100 border-white/10 light:border-slate-200 shadow-indigo-500/10' : 'bg-transparent border-white/5 light:border-slate-200'}`}
                   >
                     {ach.unlocked ? ach.icon : <Lock className="w-6 h-6 text-slate-600" />}
                   </div>
@@ -460,10 +460,10 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 ].map((pref, i) => (
                   <div
                     key={pref.id}
-                    className={`flex items-center justify-between px-10 py-6 hover:bg-white/[0.02] transition-colors ${i !== 3 ? 'border-b border-white/5' : ''}`}
+                    className={`flex items-center justify-between px-10 py-6 hover:bg-white/[0.02] light:hover:bg-slate-50 transition-colors ${i !== 3 ? 'border-b border-white/5 light:border-slate-100' : ''}`}
                   >
                     <div className="flex items-center gap-6">
-                      <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-slate-500">
+                      <div className="w-12 h-12 rounded-2xl bg-white/5 light:bg-slate-100 flex items-center justify-center text-slate-500">
                         <pref.icon className="w-5 h-5" />
                       </div>
                       <div>
@@ -482,7 +482,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                             theme: p.theme === 'light' ? 'dark' : 'light',
                           }))
                         }
-                        className={`w-14 h-8 rounded-full relative transition-colors duration-500 ${tempPrefs.theme === 'light' ? 'bg-indigo-500' : 'bg-slate-800'}`}
+                        className={`w-14 h-8 rounded-full relative transition-colors duration-500 ${tempPrefs.theme === 'light' ? 'bg-indigo-500' : 'bg-slate-800 light:bg-slate-300'}`}
                       >
                         <div
                           className={`absolute top-1 w-6 h-6 rounded-full bg-white transition-all duration-500 flex items-center justify-center ${tempPrefs.theme === 'light' ? 'left-7' : 'left-1'}`}
@@ -497,7 +497,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                     ) : (
                       <button
                         onClick={() => togglePref(pref.id as any)}
-                        className={`w-14 h-8 rounded-full relative transition-colors duration-500 ${tempPrefs[pref.id as keyof UserPreferences] ? 'bg-emerald-500' : 'bg-slate-800'}`}
+                        className={`w-14 h-8 rounded-full relative transition-colors duration-500 ${tempPrefs[pref.id as keyof UserPreferences] ? 'bg-emerald-500' : 'bg-slate-800 light:bg-slate-300'}`}
                       >
                         <div
                           className={`absolute top-1 left-1 w-6 h-6 rounded-full bg-white transition-all duration-500 ${tempPrefs[pref.id as keyof UserPreferences] ? 'translate-x-6' : ''}`}

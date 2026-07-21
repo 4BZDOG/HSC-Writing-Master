@@ -157,7 +157,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
               <button
                 onClick={handleClose}
                 aria-label="Close"
-                className="p-3 rounded-xl hover:bg-white/10 text-slate-500 hover:text-white transition-colors"
+                className="p-3 rounded-xl hover:bg-white/10 light:hover:bg-slate-200 text-slate-500 hover:text-white light:hover:text-slate-900 transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -199,7 +199,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       </span>
                     </div>
                   </div>
-                  <div className="h-4 bg-black/40 rounded-full border border-white/5 p-1 shadow-inner relative group/slider">
+                  <div className="h-4 bg-black/40 light:bg-slate-200 rounded-full border border-white/5 light:border-slate-300 p-1 shadow-inner relative group/slider">
                     <input
                       type="range"
                       min="1"
@@ -210,7 +210,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     />
                     {/* Recommended range zone */}
                     <div
-                      className="absolute top-0 bottom-0 rounded-full border-2 border-white/20 pointer-events-none z-10 transition-all duration-300"
+                      className="absolute top-0 bottom-0 rounded-full border-2 border-white/20 light:border-slate-400 pointer-events-none z-10 transition-all duration-300"
                       style={{
                         left: `${((suggestedVerb.markRange[0] - 1) / 19) * 100}%`,
                         right: `${((20 - suggestedVerb.markRange[1]) / 19) * 100}%`,
@@ -323,7 +323,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
             {step === 'preview' ? (
               <button
                 onClick={() => setStep('input')}
-                className="text-xs font-bold text-slate-500 hover:text-white transition-colors"
+                className="text-xs font-bold text-slate-500 hover:text-white light:hover:text-slate-900 transition-colors"
               >
                 Back to Edit
               </button>

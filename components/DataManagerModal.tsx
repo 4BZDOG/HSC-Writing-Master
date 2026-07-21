@@ -59,14 +59,14 @@ const InstrumentMetric = ({
   subValue?: string;
   colorClass: string;
 }) => (
-  <div className="flex flex-col gap-1 px-8 py-4 border-r border-white/5 last:border-r-0">
-    <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white/30">{label}</span>
+  <div className="flex flex-col gap-1 px-8 py-4 border-r border-white/5 light:border-slate-200 last:border-r-0">
+    <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white/30 light:text-slate-400">{label}</span>
     <div className="flex items-baseline gap-2">
       <span className={`text-4xl font-black tracking-tighter tabular-nums ${colorClass}`}>
         {value}
       </span>
       {subValue && (
-        <span className="text-xs font-bold text-white/10 uppercase tracking-widest">
+        <span className="text-xs font-bold text-white/10 light:text-slate-400 uppercase tracking-widest">
           {subValue}
         </span>
       )}
@@ -117,7 +117,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
             ${
               activeTab === tab
                 ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-900/20 scale-[1.02] border border-white/20'
-                : 'text-slate-500 hover:text-slate-300 hover:bg-white/5 border border-transparent'
+                : 'text-slate-500 hover:text-slate-300 light:hover:text-slate-700 hover:bg-white/5 light:hover:bg-slate-100 border border-transparent'
             }
         `}
     >
@@ -136,8 +136,8 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
 
         {/* Studio Sidebar — compact strip on phones so the working pane keeps
             most of the modal height; full-height rail from md up. */}
-        <div className="w-full md:w-72 bg-black/40 light:bg-slate-50 border-b md:border-b-0 md:border-r border-white/5 flex flex-col flex-shrink-0 z-10 relative">
-          <div className="p-5 md:p-10 border-b border-white/5">
+        <div className="w-full md:w-72 bg-black/40 light:bg-slate-50 border-b md:border-b-0 md:border-r border-white/5 light:border-slate-200 flex flex-col flex-shrink-0 z-10 relative">
+          <div className="p-5 md:p-10 border-b border-white/5 light:border-slate-200">
             <div className="flex items-center gap-4 md:mb-2">
               <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-2xl border border-white/10">
                 <Database className="w-5 h-5 md:w-6 md:h-6 text-white" />
@@ -155,7 +155,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
               <button
                 onClick={onClose}
                 aria-label="Close Data Vault"
-                className="md:hidden p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors border border-white/5"
+                className="md:hidden p-2.5 rounded-xl bg-white/5 light:bg-slate-100 hover:bg-white/10 light:hover:bg-slate-200 text-slate-400 hover:text-white light:hover:text-slate-900 transition-colors border border-white/5 light:border-slate-200"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -168,10 +168,10 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
             <NavButton tab="export" icon={Download} label="Archive Out" />
           </div>
 
-          <div className="hidden md:block p-8 border-t border-white/5 bg-black/20">
+          <div className="hidden md:block p-8 border-t border-white/5 light:border-slate-200 bg-black/20 light:bg-slate-50">
             <button
               onClick={onClose}
-              className="w-full py-4 rounded-2xl bg-white/5 hover:bg-white/10 text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 hover:text-white transition-all flex items-center justify-center gap-3 border border-white/5 shadow-lg"
+              className="w-full py-4 rounded-2xl bg-white/5 light:bg-slate-100 hover:bg-white/10 light:hover:bg-slate-200 text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 hover:text-white light:hover:text-slate-900 transition-all flex items-center justify-center gap-3 border border-white/5 light:border-slate-200 shadow-lg"
             >
               <X className="w-4 h-4" /> Disconnect
             </button>
@@ -181,15 +181,15 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
         {/* Main Interface */}
         <div className="flex-1 bg-[rgb(var(--color-bg-base))]/30 relative overflow-hidden flex flex-col z-10">
           {/* Telemetry Header */}
-          <div className="px-5 md:px-10 py-5 md:py-8 border-b border-white/5 bg-black/20 flex flex-col lg:flex-row justify-between items-center gap-4 md:gap-8">
+          <div className="px-5 md:px-10 py-5 md:py-8 border-b border-white/5 light:border-slate-200 bg-black/20 light:bg-slate-50 flex flex-col lg:flex-row justify-between items-center gap-4 md:gap-8">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2 opacity-40">
                 <Zap className="w-3 h-3 text-indigo-400" />
-                <span className="text-[9px] font-black uppercase tracking-[0.5em] text-white">
+                <span className="text-[9px] font-black uppercase tracking-[0.5em] text-white light:text-slate-500">
                   System Diagnostics
                 </span>
               </div>
-              <h3 className="text-2xl md:text-3xl font-black text-white tracking-tighter uppercase italic leading-none">
+              <h3 className="text-2xl md:text-3xl font-black text-white light:text-slate-900 tracking-tighter uppercase italic leading-none">
                 {activeTab === 'maintenance'
                   ? 'Storage Calibrator'
                   : activeTab === 'import'
@@ -198,7 +198,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
               </h3>
             </div>
 
-            <div className="flex bg-black/40 rounded-3xl border border-white/5 p-1 shadow-inner">
+            <div className="flex bg-black/40 light:bg-slate-100 rounded-3xl border border-white/5 light:border-slate-200 p-1 shadow-inner">
               <InstrumentMetric
                 label="Logical Units"
                 value={courses.length}
@@ -224,7 +224,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                         <ListOrdered className="w-5 h-5 text-indigo-400" />
                       </div>
                       <div>
-                        <h4 className="text-sm font-black text-white uppercase tracking-widest italic">
+                        <h4 className="text-sm font-black text-white light:text-slate-900 uppercase tracking-widest italic">
                           Sequence Manager
                         </h4>
                         <p className="text-xs text-slate-500 font-bold">
@@ -235,17 +235,17 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                     <TopicReorderList courses={courses} onMoveTopic={onMoveTopic} />
                   </section>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-12 border-t border-white/5">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-12 border-t border-white/5 light:border-slate-200">
                     <section className="p-8 rounded-[40px] bg-blue-500/5 border border-blue-500/10 group hover:border-blue-500/30 transition-all">
                       <div className="flex items-center gap-4 mb-6">
                         <div className="p-3 rounded-2xl bg-blue-500/20 text-blue-400">
                           <Gauge className="w-6 h-6" />
                         </div>
-                        <h4 className="text-xs font-black text-white uppercase tracking-[0.2em]">
+                        <h4 className="text-xs font-black text-white light:text-slate-900 uppercase tracking-[0.2em]">
                           Sensor Reset
                         </h4>
                       </div>
-                      <p className="text-sm text-slate-400 font-medium leading-relaxed mb-8">
+                      <p className="text-sm text-slate-400 light:text-slate-600 font-medium leading-relaxed mb-8">
                         Purge session and lifetime telemetry from the AI monitor. This recalibrates
                         usage readings without affecting core data.
                       </p>
@@ -262,11 +262,11 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                         <div className="p-3 rounded-2xl bg-red-500/20 text-red-400">
                           <ShieldAlert className="w-6 h-6" />
                         </div>
-                        <h4 className="text-xs font-black text-white uppercase tracking-[0.2em]">
+                        <h4 className="text-xs font-black text-white light:text-slate-900 uppercase tracking-[0.2em]">
                           Engine Wipe
                         </h4>
                       </div>
-                      <p className="text-sm text-slate-400 font-medium leading-relaxed mb-8">
+                      <p className="text-sm text-slate-400 light:text-slate-600 font-medium leading-relaxed mb-8">
                         Permanently discard all curriculum and session data. Revert the local
                         database to factory defaults.
                       </p>
@@ -279,7 +279,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                         </button>
                         <button
                           onClick={onResetToDefault}
-                          className="flex-1 py-4 rounded-2xl bg-slate-800/40 text-slate-400 text-[10px] font-black uppercase tracking-widest border border-white/5 hover:bg-white/10 hover:text-white transition-all"
+                          className="flex-1 py-4 rounded-2xl bg-slate-800/40 light:bg-slate-100 text-slate-400 light:text-slate-600 text-[10px] font-black uppercase tracking-widest border border-white/5 light:border-slate-200 hover:bg-white/10 light:hover:bg-slate-200 hover:text-white light:hover:text-slate-900 transition-all"
                         >
                           Defaults
                         </button>
