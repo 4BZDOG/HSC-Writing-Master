@@ -22,6 +22,13 @@ import {
   Lock,
   Crown,
   ExternalLink,
+  BookOpen,
+  Target,
+  Star,
+  Sparkles,
+  PenTool,
+  Clock,
+  BarChart3,
 } from 'lucide-react';
 import { getBandConfig } from '../utils/renderUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
@@ -136,6 +143,33 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
   );
 };
 
+const MiniProgressRing: React.FC<{ percent: number; size?: number; color: string }> = ({
+  percent,
+  size = 48,
+  color,
+}) => {
+  const r = (size - 6) / 2;
+  const circ = 2 * Math.PI * r;
+  const offset = circ - (Math.min(100, Math.max(0, percent)) / 100) * circ;
+  return (
+    <svg width={size} height={size} className="transform -rotate-90">
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" strokeWidth={3} className="stroke-white/10 light:stroke-slate-200" />
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={r}
+        fill="none"
+        strokeWidth={3}
+        strokeDasharray={circ}
+        strokeDashoffset={offset}
+        strokeLinecap="round"
+        className={color}
+        style={{ transition: 'stroke-dashoffset 1s ease' }}
+      />
+    </svg>
+  );
+};
+
 const UserProfileModal: React.FC<UserProfileModalProps> = ({
   isOpen,
   onClose,
@@ -143,7 +177,6 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
   onUpdateUser,
   onLogout,
 }) => {
-  // Escape closes this modal like every other modal surface.
   useEscapeKey(isOpen, onClose);
   const [activeTab, setActiveTab] = useState<'overview' | 'achievements' | 'settings'>('overview');
   const [tempPrefs, setTempPrefs] = useState<UserPreferences>({ ...user.preferences });
@@ -160,39 +193,104 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
       {
         id: 'first-steps',
         title: 'First Steps',
-        description: 'Initial eval successful.',
+        description: 'Complete your first evaluation.',
         icon: '🚀',
         unlocked: user.stats.questionsAnswered >= 1,
-        accent: 'blue',
+        progress: Math.min(1, user.stats.questionsAnswered),
+        total: 1,
+        accent: 'stroke-blue-500',
       },
       {
         id: 'dedicated',
         title: 'Scholar',
-        description: '10 evaluations deep.',
+        description: 'Complete 10 evaluations.',
         icon: '🎓',
         unlocked: user.stats.questionsAnswered >= 10,
-        accent: 'purple',
+        progress: Math.min(10, user.stats.questionsAnswered),
+        total: 10,
+        accent: 'stroke-purple-500',
+      },
+      {
+        id: 'centurion',
+        title: 'Centurion',
+        description: 'Complete 100 evaluations.',
+        icon: '💯',
+        unlocked: user.stats.questionsAnswered >= 100,
+        progress: Math.min(100, user.stats.questionsAnswered),
+        total: 100,
+        accent: 'stroke-amber-500',
       },
       {
         id: 'wordsmith',
         title: 'Eloquent',
-        description: '1,000 words written.',
+        description: 'Write 1,000 words total.',
         icon: '✒️',
         unlocked: user.stats.totalWordsWritten >= 1000,
-        accent: 'emerald',
+        progress: Math.min(1000, user.stats.totalWordsWritten),
+        total: 1000,
+        accent: 'stroke-emerald-500',
+      },
+      {
+        id: 'novelist',
+        title: 'Novelist',
+        description: 'Write 10,000 words total.',
+        icon: '📖',
+        unlocked: user.stats.totalWordsWritten >= 10000,
+        progress: Math.min(10000, user.stats.totalWordsWritten),
+        total: 10000,
+        accent: 'stroke-sky-500',
       },
       {
         id: 'streaker',
         title: 'Persistent',
-        description: '3-day login streak.',
+        description: 'Reach a 3-day streak.',
         icon: '🔥',
         unlocked: user.stats.streakDays >= 3,
-        accent: 'orange',
+        progress: Math.min(3, user.stats.streakDays),
+        total: 3,
+        accent: 'stroke-orange-500',
+      },
+      {
+        id: 'marathon',
+        title: 'Marathon',
+        description: 'Reach a 7-day streak.',
+        icon: '⚡',
+        unlocked: user.stats.streakDays >= 7,
+        progress: Math.min(7, user.stats.streakDays),
+        total: 7,
+        accent: 'stroke-indigo-500',
+      },
+      {
+        id: 'high-achiever',
+        title: 'High Achiever',
+        description: 'Reach Band 5 average.',
+        icon: '🏆',
+        unlocked: user.stats.averageBand >= 5,
+        progress: Math.min(5, user.stats.averageBand),
+        total: 5,
+        accent: 'stroke-blue-400',
       },
     ];
   }, [user.stats]);
 
   const unlockedCount = achievements.filter((a) => a.unlocked).length;
+
+  const performanceSummary = useMemo(() => {
+    const { questionsAnswered, averageBand, totalWordsWritten, streakDays } = user.stats;
+    if (questionsAnswered === 0)
+      return { text: 'Complete your first evaluation to start tracking progress.', positive: true };
+    const parts: string[] = [];
+    if (averageBand >= 5) parts.push(`averaging Band ${averageBand.toFixed(1)}`);
+    else if (averageBand >= 4) parts.push(`averaging Band ${averageBand.toFixed(1)} — keep pushing`);
+    else parts.push(`averaging Band ${averageBand.toFixed(1)} — room to grow`);
+    if (streakDays >= 3) parts.push(`${streakDays}-day active streak`);
+    if (totalWordsWritten >= 5000)
+      parts.push(`${(totalWordsWritten / 1000).toFixed(1)}k words written`);
+    return {
+      text: `You've completed ${questionsAnswered} evaluation${questionsAnswered === 1 ? '' : 's'}, ${parts.join(', ')}.${streakDays >= 3 ? ' Keep the momentum going!' : ' Try to write every day to build your streak.'}`,
+      positive: averageBand >= 4,
+    };
+  }, [user.stats]);
 
   useEffect(() => {
     if (isOpen) {
@@ -209,8 +307,6 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
     onUpdateUser(updatedUser);
     setIsEditingName(false);
     authService.updateUser(updatedUser);
-    // Theme is applied centrally by the effect in App.tsx (which toggles both
-    // the `data-theme` attribute and the `dark` class) when preferences change.
   };
 
   const togglePref = (key: keyof UserPreferences) => {
@@ -284,10 +380,11 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 <Flame className="w-4 h-4 text-orange-500" /> {user.stats.streakDays} Day Active
                 Streak
               </span>
+              <span className="flex items-center gap-2">
+                <Award className="w-4 h-4 text-amber-500" /> {unlockedCount}/{achievements.length} Unlocked
+              </span>
             </div>
 
-            {/* Level progress — inline on mobile/tablet where the side column is
-                hidden, so the XP bar is never lost on smaller screens. */}
             <div className="lg:hidden mt-4 flex items-center gap-3 justify-center md:justify-start">
               <div className="w-40 h-1.5 bg-white/5 light:bg-slate-200 rounded-full overflow-hidden border border-white/5 light:border-slate-300">
                 <div
@@ -323,7 +420,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
         <div className="flex-shrink-0 flex border-b border-white/5 light:border-slate-100 px-4 sm:px-10 bg-black/10 light:bg-slate-50/50 overflow-x-auto scrollbar-hide">
           {[
             { id: 'overview', icon: Zap, label: 'Stats' },
-            { id: 'achievements', icon: Award, label: 'Achievements' },
+            { id: 'achievements', icon: Award, label: `Achievements (${unlockedCount}/${achievements.length})` },
             { id: 'settings', icon: Settings, label: 'Settings' },
           ].map((tab) => (
             <button
@@ -340,62 +437,106 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
         {/* Content Area */}
         <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-12 custom-scrollbar">
           {activeTab === 'overview' && (
-            <div className="space-y-12 animate-fade-in">
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="space-y-8 animate-fade-in">
+              {/* Main Stat Cards */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {[
                   {
                     label: 'Completed',
                     val: user.stats.questionsAnswered,
                     icon: Check,
                     color: 'text-emerald-400',
+                    ringColor: 'stroke-emerald-500',
+                    ringPercent: Math.min(100, user.stats.questionsAnswered),
                   },
                   {
                     label: 'Avg Band',
                     val: user.stats.averageBand.toFixed(1),
-                    icon: Award,
+                    icon: Target,
                     color: 'text-indigo-400',
+                    ringColor: 'stroke-indigo-500',
+                    ringPercent: (user.stats.averageBand / 6) * 100,
                   },
                   {
-                    label: 'Word Count',
-                    val: `${(user.stats.totalWordsWritten / 1000).toFixed(1)}k`,
-                    icon: TrendingUp,
+                    label: 'Words',
+                    val: user.stats.totalWordsWritten >= 1000
+                      ? `${(user.stats.totalWordsWritten / 1000).toFixed(1)}k`
+                      : user.stats.totalWordsWritten,
+                    icon: PenTool,
                     color: 'text-sky-400',
+                    ringColor: 'stroke-sky-500',
+                    ringPercent: Math.min(100, (user.stats.totalWordsWritten / 10000) * 100),
                   },
-                  { label: 'Credits', val: user.stats.xp, icon: Zap, color: 'text-amber-400' },
+                  {
+                    label: 'Streak',
+                    val: `${user.stats.streakDays}d`,
+                    icon: Flame,
+                    color: 'text-orange-400',
+                    ringColor: 'stroke-orange-500',
+                    ringPercent: Math.min(100, (user.stats.streakDays / 7) * 100),
+                  },
                 ].map((stat) => (
                   <div
                     key={stat.label}
-                    className="p-6 rounded-[32px] bg-white/[0.03] light:bg-slate-100 border border-white/5 light:border-slate-200 flex flex-col items-center text-center group hover:bg-white/[0.05] transition-colors"
+                    className="p-5 rounded-[28px] bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200 flex flex-col items-center text-center group hover:bg-white/[0.06] light:hover:bg-slate-100 transition-all duration-300 hover:border-white/10 light:hover:border-slate-300"
                   >
-                    <div
-                      className={`p-3 rounded-2xl bg-white/5 light:bg-slate-200 mb-4 group-hover:rotate-6 transition-transform ${stat.color}`}
-                    >
-                      <stat.icon className="w-5 h-5" />
+                    <div className="relative mb-3">
+                      <MiniProgressRing percent={stat.ringPercent} color={stat.ringColor} />
+                      <div className={`absolute inset-0 flex items-center justify-center ${stat.color}`}>
+                        <stat.icon className="w-5 h-5" />
+                      </div>
                     </div>
-                    <span className="text-3xl font-black text-white light:text-slate-900 tracking-tighter">
+                    <span className="text-2xl font-black text-white light:text-slate-900 tracking-tighter tabular-nums">
                       {stat.val}
                     </span>
-                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-2">
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">
                       {stat.label}
                     </span>
                   </div>
                 ))}
               </div>
 
+              {/* XP & Level Card */}
+              <div className="p-6 rounded-[32px] bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className={`p-2.5 rounded-xl ${bandConfig.iconBg}`}>
+                      <Sparkles className={`w-5 h-5 ${bandConfig.text}`} />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-white light:text-slate-900 uppercase tracking-wide">
+                        Level {user.stats.level}
+                      </h4>
+                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                        {user.stats.xp} / {xpForNextLevel} XP
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-xs font-mono font-bold text-indigo-400">
+                    {Math.round(progressPercent)}%
+                  </span>
+                </div>
+                <div className="w-full h-3 bg-white/5 light:bg-slate-200 rounded-full overflow-hidden border border-white/5 light:border-slate-300">
+                  <div
+                    className={`h-full bg-gradient-to-r ${bandConfig.gradient} rounded-full transition-all duration-1000 ease-out`}
+                    style={{ width: `${progressPercent}%` }}
+                  />
+                </div>
+              </div>
+
               <PlanCard user={user} />
 
-              <div className="p-8 rounded-[32px] bg-indigo-500/5 border border-indigo-500/20 flex items-start gap-6">
-                <div className="p-4 rounded-3xl bg-indigo-500/20 text-indigo-400">
-                  <Cpu className="w-8 h-8" />
+              {/* Performance Summary */}
+              <div className={`p-6 rounded-[32px] border flex items-start gap-5 ${performanceSummary.positive ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-indigo-500/5 border-indigo-500/20'}`}>
+                <div className={`p-3.5 rounded-2xl ${performanceSummary.positive ? 'bg-emerald-500/20 text-emerald-400' : 'bg-indigo-500/20 text-indigo-400'}`}>
+                  <BarChart3 className="w-7 h-7" />
                 </div>
-                <div>
-                  <h4 className="text-lg font-bold text-white light:text-slate-900 uppercase tracking-tight mb-2">
+                <div className="flex-1 min-w-0">
+                  <h4 className="text-sm font-bold text-white light:text-slate-900 uppercase tracking-wide mb-2">
                     Performance Summary
                   </h4>
-                  <p className="text-sm text-slate-400 light:text-slate-600 leading-relaxed max-w-lg">
-                    Your activity has increased by{' '}
-                    <span className="text-emerald-400 font-bold">12%</span> this week. Continue
-                    practising to maintain your streak.
+                  <p className="text-sm text-slate-400 light:text-slate-600 leading-relaxed">
+                    {performanceSummary.text}
                   </p>
                 </div>
               </div>
@@ -403,28 +544,73 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
           )}
 
           {activeTab === 'achievements' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
-              {achievements.map((ach) => (
-                <div
-                  key={ach.id}
-                  className={`flex items-center gap-6 p-6 rounded-[32px] border transition-all duration-500 ${ach.unlocked ? 'bg-white/[0.03] light:bg-slate-50 border-white/10 light:border-slate-200' : 'bg-black/20 light:bg-slate-100 border-transparent opacity-40 grayscale'}`}
-                >
-                  <div
-                    className={`w-16 h-16 rounded-[24px] flex items-center justify-center text-3xl shadow-2xl border ${ach.unlocked ? 'bg-white/5 light:bg-slate-100 border-white/10 light:border-slate-200 shadow-indigo-500/10' : 'bg-transparent border-white/5 light:border-slate-200'}`}
-                  >
-                    {ach.unlocked ? ach.icon : <Lock className="w-6 h-6 text-slate-600" />}
+            <div className="space-y-6 animate-fade-in">
+              {/* Progress overview */}
+              <div className="flex items-center gap-4 p-5 rounded-[28px] bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200">
+                <div className="relative">
+                  <MiniProgressRing
+                    percent={(unlockedCount / achievements.length) * 100}
+                    size={56}
+                    color="stroke-amber-500"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Star className="w-5 h-5 text-amber-400" />
                   </div>
-                  <div className="flex-1">
-                    <h4 className="font-bold text-white light:text-slate-900 uppercase tracking-wide mb-1">
-                      {ach.title}
-                    </h4>
-                    <p className="text-xs text-slate-500 font-medium">{ach.description}</p>
-                  </div>
-                  {ach.unlocked && (
-                    <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#10b981]" />
-                  )}
                 </div>
-              ))}
+                <div>
+                  <h4 className="text-sm font-bold text-white light:text-slate-900 uppercase tracking-wide">
+                    {unlockedCount} of {achievements.length} Unlocked
+                  </h4>
+                  <p className="text-xs text-slate-500 font-medium mt-0.5">
+                    {unlockedCount === achievements.length
+                      ? 'All achievements unlocked!'
+                      : `${achievements.length - unlockedCount} remaining — keep going!`}
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {achievements.map((ach) => {
+                  const pct = (ach.progress / ach.total) * 100;
+                  return (
+                    <div
+                      key={ach.id}
+                      className={`flex items-center gap-5 p-5 rounded-[28px] border transition-all duration-500 ${ach.unlocked ? 'bg-white/[0.03] light:bg-slate-50 border-white/10 light:border-slate-200' : 'bg-black/20 light:bg-slate-100 border-transparent'}`}
+                    >
+                      <div className="relative shrink-0">
+                        <MiniProgressRing percent={pct} color={ach.accent} />
+                        <div className="absolute inset-0 flex items-center justify-center text-2xl">
+                          {ach.unlocked ? ach.icon : <Lock className="w-5 h-5 text-slate-600" />}
+                        </div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h4 className={`font-bold uppercase tracking-wide text-sm ${ach.unlocked ? 'text-white light:text-slate-900' : 'text-slate-500'}`}>
+                            {ach.title}
+                          </h4>
+                          {ach.unlocked && (
+                            <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#10b981]" />
+                          )}
+                        </div>
+                        <p className="text-xs text-slate-500 font-medium">{ach.description}</p>
+                        {!ach.unlocked && (
+                          <div className="mt-2 flex items-center gap-2">
+                            <div className="flex-1 h-1 bg-white/5 light:bg-slate-200 rounded-full overflow-hidden">
+                              <div
+                                className="h-full bg-slate-500 rounded-full transition-all duration-500"
+                                style={{ width: `${pct}%` }}
+                              />
+                            </div>
+                            <span className="text-[9px] font-mono font-bold text-slate-600 tabular-nums">
+                              {ach.progress}/{ach.total}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
 
@@ -460,9 +646,9 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 ].map((pref, i) => (
                   <div
                     key={pref.id}
-                    className={`flex items-center justify-between px-10 py-6 hover:bg-white/[0.02] light:hover:bg-slate-50 transition-colors ${i !== 3 ? 'border-b border-white/5 light:border-slate-100' : ''}`}
+                    className={`flex items-center justify-between px-6 sm:px-10 py-6 hover:bg-white/[0.02] light:hover:bg-slate-50 transition-colors ${i !== 3 ? 'border-b border-white/5 light:border-slate-100' : ''}`}
                   >
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-4 sm:gap-6">
                       <div className="w-12 h-12 rounded-2xl bg-white/5 light:bg-slate-100 flex items-center justify-center text-slate-500">
                         <pref.icon className="w-5 h-5" />
                       </div>
