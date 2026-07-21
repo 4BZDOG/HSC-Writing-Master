@@ -186,6 +186,14 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
     }
   }, [selectedTier, verbsForCurrentTier, selectedSpecificVerb]);
 
+  // When the selected verb changes, clamp marks to its valid range.
+  useEffect(() => {
+    if (!selectedSpecificVerb) return;
+    const info = getCommandTermInfo(selectedSpecificVerb);
+    if (marks < info.markRange[0]) setMarks(info.markRange[0]);
+    else if (marks > info.markRange[1]) setMarks(info.markRange[1]);
+  }, [selectedSpecificVerb]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const activeBandConfig = getTierBandConfig(selectedTier);
   const activeTierInfo = TIER_GROUPS.find((g) => g.tier === selectedTier);
 
@@ -197,13 +205,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
     setTargetBand(tierMaxBand);
   }, [tierMaxBand]);
 
-  // Advisory (non-blocking): each verb has a typical mark range; flag unusual
-  // pairings so advanced users can proceed deliberately rather than by
-  // accident.
   const selectedVerbInfo = selectedSpecificVerb ? getCommandTermInfo(selectedSpecificVerb) : null;
-  const marksOutsideVerbRange =
-    selectedVerbInfo &&
-    (marks < selectedVerbInfo.markRange[0] || marks > selectedVerbInfo.markRange[1]);
 
   const handleGenerate = async () => {
     setIsLoading(true);
@@ -445,15 +447,17 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                 <div className="h-4 bg-black/40 rounded-full border border-white/5 p-1 shadow-inner relative group/slider">
                   <input
                     type="range"
-                    min="1"
-                    max={MAX_GENERATOR_MARKS}
+                    min={selectedVerbInfo?.markRange[0] ?? 1}
+                    max={selectedVerbInfo?.markRange[1] ?? MAX_GENERATOR_MARKS}
                     value={marks}
                     onChange={(e) => setMarks(Number(e.target.value))}
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
                   />
                   <div
                     className={`h-full bg-gradient-to-r ${activeBandConfig.gradient} rounded-full transition-all duration-300 relative`}
-                    style={{ width: `${(marks / MAX_GENERATOR_MARKS) * 100}%` }}
+                    style={{
+                      width: `${((marks - (selectedVerbInfo?.markRange[0] ?? 1)) / ((selectedVerbInfo?.markRange[1] ?? MAX_GENERATOR_MARKS) - (selectedVerbInfo?.markRange[0] ?? 1) || 1)) * 100}%`,
+                    }}
                   >
                     <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white shadow-xl scale-125 group-hover/slider:scale-150 transition-transform" />
                   </div>
@@ -690,7 +694,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                 <button
                   key={verb.term}
                   onClick={() => setSelectedSpecificVerb(verb.term)}
-                  title={`${verb.term}: typically ${verb.markRange[0]}–${verb.markRange[1]} marks`}
+                  title={`${verb.term}: ${verb.markRange[0]}–${verb.markRange[1]} marks`}
                   className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all duration-300 border ${selectedSpecificVerb === verb.term ? `${activeBandConfig.bg} ${activeBandConfig.border} ${activeBandConfig.text} shadow-xl scale-105` : 'bg-white/5 border-transparent text-slate-500 hover:text-white hover:border-white/10'}`}
                 >
                   {verb.term}
@@ -702,21 +706,13 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
 
         {/* Global Footer Controls */}
         <div className="px-10 py-8 bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-3xl border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-6 shrink-0 z-20 shadow-[0_-32px_64px_-16px_rgba(0,0,0,0.4)]">
-          <div
-            className={`flex-1 w-full sm:w-auto p-4 rounded-2xl bg-black/40 border flex items-start gap-4 ${marksOutsideVerbRange ? 'border-amber-500/30' : 'border-white/5'}`}
-          >
-            <div
-              className={`p-2 rounded-xl ${marksOutsideVerbRange ? 'bg-amber-500/10' : 'bg-indigo-500/10'}`}
-            >
-              <Info
-                className={`w-5 h-5 ${marksOutsideVerbRange ? 'text-amber-400' : 'text-indigo-400'}`}
-              />
+          <div className="flex-1 w-full sm:w-auto p-4 rounded-2xl bg-black/40 border border-white/5 flex items-start gap-4">
+            <div className="p-2 rounded-xl bg-indigo-500/10">
+              <Info className="w-5 h-5 text-indigo-400" />
             </div>
             <div>
-              <span
-                className={`text-[10px] font-bold uppercase tracking-[0.2em] block mb-1 ${marksOutsideVerbRange ? 'text-amber-400' : 'text-indigo-400'}`}
-              >
-                {marksOutsideVerbRange ? 'Unusual Pairing' : 'Configuration Valid'}
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] block mb-1 text-indigo-400">
+                Configuration Valid
               </span>
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-relaxed">
                 Constructing a{' '}
@@ -724,11 +720,10 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                   {marks}-mark {activeTierInfo?.title}
                 </strong>{' '}
                 task targeting <strong className="text-white">Band {targetBand}</strong>.
-                {marksOutsideVerbRange && selectedVerbInfo && (
-                  <span className="text-amber-400">
+                {selectedVerbInfo && (
+                  <span className="text-slate-500">
                     {' '}
-                    '{selectedVerbInfo.term}' typically carries {selectedVerbInfo.markRange[0]}–
-                    {selectedVerbInfo.markRange[1]} marks.
+                    ({selectedVerbInfo.markRange[0]}–{selectedVerbInfo.markRange[1]} mark range)
                   </span>
                 )}
                 {focusItems.length > 0 && (

@@ -76,17 +76,15 @@ describe('PromptGeneratorModal band/tier alignment', () => {
     expect(screen.queryByText(/targeting/i)?.textContent).toContain(`Band ${tier6.maxBand}`);
   });
 
-  it('flags an unusual marks/verb pairing without blocking generation', () => {
+  it('caps the marks slider to the verb markRange', () => {
     renderModal('define the key components of a network');
-    // Tier 1 verbs typically carry 1–2 marks; drag to 15.
+    // "define" → Tier 2, markRange [1, 3].
     const slider = document.querySelector('input[type="range"]') as HTMLInputElement;
-    fireEvent.change(slider, { target: { value: '15' } });
+    expect(slider).toBeTruthy();
 
-    expect(screen.getByText('Unusual Pairing')).toBeTruthy();
-    expect(screen.getByText(/typically carries/)).toBeTruthy();
-    // Generate stays enabled — advisory, not a hard stop.
-    const generate = screen.getByRole('button', { name: /generate/i });
-    expect((generate as HTMLButtonElement).disabled).toBe(false);
+    const verbInfo = getCommandTermInfo('DEFINE');
+    expect(Number(slider.max)).toBe(verbInfo.markRange[1]);
+    expect(Number(slider.min)).toBe(verbInfo.markRange[0]);
   });
 });
 
@@ -205,9 +203,9 @@ describe('PromptGeneratorModal focus refinements', () => {
     expect(screen.getByRole('button', { name: 'indexing' }).getAttribute('aria-pressed')).toBe(
       'true'
     );
-    expect(
-      screen.getByRole('button', { name: 'primary keys' }).getAttribute('aria-pressed')
-    ).toBe('false');
+    expect(screen.getByRole('button', { name: 'primary keys' }).getAttribute('aria-pressed')).toBe(
+      'false'
+    );
     expect(screen.getByText(/Active Focus: 1 Refinement/i)).toBeTruthy();
   });
 });
