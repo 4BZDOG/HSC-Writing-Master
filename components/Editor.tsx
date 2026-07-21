@@ -382,16 +382,16 @@ const Editor = forwardRef<
               painting over it. */}
           <div
             ref={headerContentRef}
-            className="relative z-10 w-full flex flex-wrap justify-between items-center gap-y-3 gap-x-4"
+            className="relative z-10 w-full flex flex-wrap justify-between items-start gap-y-3 gap-x-4"
           >
             <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-              <div className="w-11 h-11 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shadow-lg group flex-shrink-0">
+              <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shadow-lg group flex-shrink-0">
                 <PenTool
                   className={`w-6 h-6 group-hover:scale-110 transition-transform ${chroma.iconColor}`}
                 />
               </div>
               <div className="min-w-0">
-                <h3 className="text-lg md:text-xl font-black tracking-tight leading-none flex flex-wrap items-center gap-2">
+                <h3 className="text-xl sm:text-2xl font-black tracking-tight leading-none flex flex-wrap items-center gap-2 drop-shadow-sm">
                   Written Response
                   {isExamMode ? (
                     <span className="text-[10px] bg-red-500/90 px-1.5 py-0.5 rounded border border-white/20 font-black uppercase tracking-widest flex items-center gap-1 shadow-sm">
@@ -404,7 +404,7 @@ const Editor = forwardRef<
                   )}
                 </h3>
                 {isExamMode ? (
-                  <p className="text-[9px] font-bold text-white/60 uppercase tracking-[0.2em] mt-1.5">
+                  <p className="text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] mt-1.5">
                     Exam conditions · no assistance
                   </p>
                 ) : (
@@ -415,7 +415,7 @@ const Editor = forwardRef<
                         style={{ width: `${Math.min(100, progress * 100)}%` }}
                       />
                     </div>
-                    <p className="text-[9px] font-bold text-white/70 uppercase tracking-[0.2em] whitespace-nowrap">
+                    <p className="text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] whitespace-nowrap">
                       {Math.min(100, Math.round(progress * 100))}% → Band {chroma.targetBand}
                     </p>
                   </div>
