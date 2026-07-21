@@ -522,7 +522,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                           {stats.quota ? formatBytes(stats.quota.usage) : 'Unknown'}
                         </p>
                         {stats.quota && stats.quota.quota > 0 && (
-                          <div className="w-full bg-gray-700 light:bg-slate-300 h-1.5 rounded-full mt-2 overflow-hidden">
+                          <div className="w-full bg-slate-700 light:bg-slate-300 h-1.5 rounded-full mt-2 overflow-hidden">
                             <div
                               className="bg-blue-500 h-full transition-all duration-1000"
                               style={{
@@ -766,9 +766,10 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                       <input
                         type="text"
                         placeholder="Search raw data..."
+                        aria-label="Search raw data"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-9 pr-4 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] text-sm focus:border-[rgb(var(--color-accent))]"
+                        className="w-full pl-9 pr-4 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-sm focus:border-[rgb(var(--color-accent))] focus:outline-none"
                       />
                     </div>
                     <button

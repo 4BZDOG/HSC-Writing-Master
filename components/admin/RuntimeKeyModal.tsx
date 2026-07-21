@@ -137,6 +137,22 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
             </p>
           </div>
 
+          {/* Reveal toggle — applies to all key fields at once */}
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-500">
+              API Keys
+            </span>
+            <button
+              type="button"
+              onClick={() => setReveal((r) => !r)}
+              aria-label={reveal ? 'Hide keys' : 'Show keys'}
+              className="flex items-center gap-1.5 text-xs font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900 transition-colors"
+            >
+              {reveal ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+              {reveal ? 'Hide all' : 'Show all'}
+            </button>
+          </div>
+
           {/* Gemini */}
           <label className="block">
             <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
@@ -155,14 +171,6 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
                 onChange={(e) => setGemini(e.target.value)}
                 className={fieldClass}
               />
-              <button
-                type="button"
-                onClick={() => setReveal((r) => !r)}
-                aria-label={reveal ? 'Hide keys' : 'Show keys'}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]"
-              >
-                {reveal ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              </button>
             </div>
           </label>
 

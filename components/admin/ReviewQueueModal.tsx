@@ -222,7 +222,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
 
         <div className="flex-1 min-h-0 overflow-y-auto p-6 custom-scrollbar">
           {!isLoading && counts.all > 0 && (
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex flex-wrap items-center gap-2 mb-4">
               {(
                 [
                   { id: 'all', label: `All (${counts.all})` },

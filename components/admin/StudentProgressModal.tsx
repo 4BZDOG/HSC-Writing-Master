@@ -346,7 +346,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                       up a username directly above.
                     </p>
                   ) : (
-                    <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden divide-y divide-[rgb(var(--color-border-secondary))]/30 light:divide-slate-200">
+                    <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden overflow-x-auto divide-y divide-[rgb(var(--color-border-secondary))]/30 light:divide-slate-200">
                       {roster.map((s) => (
                         <button
                           key={s.username}
@@ -448,8 +448,8 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                       <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
                         By command verb
                       </h3>
-                      <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden">
-                        <table className="w-full text-left text-sm">
+                      <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
+                        <table className="w-full text-left text-sm min-w-[360px]">
                           <thead className="bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 uppercase text-[10px] font-bold">
                             <tr>
                               <th className="px-4 py-2.5">Verb</th>
