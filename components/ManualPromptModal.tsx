@@ -9,7 +9,7 @@ import {
   getTargetBand,
   TIER_GROUPS,
 } from '../data/commandTerms';
-import { X, Sparkles, PenTool, Save, Wand2, Target, Loader2 } from 'lucide-react';
+import { X, Sparkles, PenTool, Save, Wand2, Target, Loader2, AlertTriangle } from 'lucide-react';
 import LoadingIndicator from './LoadingIndicator';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 
@@ -212,9 +212,17 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       onChange={(e) => setMarks(Number(e.target.value))}
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
                     />
+                    {/* Recommended range zone */}
+                    <div
+                      className="absolute top-0 bottom-0 rounded-full border-2 border-white/20 pointer-events-none z-10 transition-all duration-300"
+                      style={{
+                        left: `${((suggestedVerb.markRange[0] - 1) / 19) * 100}%`,
+                        right: `${((20 - suggestedVerb.markRange[1]) / 19) * 100}%`,
+                      }}
+                    />
                     <div
                       className={`h-full bg-gradient-to-r ${markGradient} rounded-full transition-all duration-300 relative`}
-                      style={{ width: `${(marks / 20) * 100}%` }}
+                      style={{ width: `${((marks - 1) / 19) * 100}%` }}
                     >
                       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white shadow-xl scale-125 group-hover/slider:scale-150 transition-transform" />
                     </div>
@@ -223,10 +231,25 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     <span className="text-[10px] font-bold text-slate-600 uppercase">
                       Simple (1)
                     </span>
+                    <span className="text-[10px] font-bold text-slate-500 uppercase">
+                      {suggestedVerb.term} range: {suggestedVerb.markRange[0]}–
+                      {suggestedVerb.markRange[1]}
+                    </span>
                     <span className="text-[10px] font-bold text-slate-600 uppercase">
-                      Complex (20)
+                      Extended (20)
                     </span>
                   </div>
+                  {(marks < suggestedVerb.markRange[0] || marks > suggestedVerb.markRange[1]) && (
+                    <div className="mt-3 p-3 rounded-lg bg-amber-500/10 light:bg-amber-50 border border-amber-500/20 light:border-amber-200 flex items-start gap-2">
+                      <AlertTriangle className="w-4 h-4 text-amber-400 light:text-amber-600 flex-shrink-0 mt-0.5" />
+                      <p className="text-[11px] text-amber-300 light:text-amber-700 leading-relaxed">
+                        <strong>{marks} marks</strong> is outside the typical range for{' '}
+                        <strong>'{suggestedVerb.term}'</strong> ({suggestedVerb.markRange[0]}–
+                        {suggestedVerb.markRange[1]} marks). The AI will still produce a valid
+                        question, but you may want to adjust the marks or expect a different verb.
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Text Input Section */}
