@@ -85,7 +85,8 @@ const buildMarkingCriteriaInstruction = (
   }
 
   const cap = getMarksBandCap(marks);
-  const maxBand = Math.min(Math.min(tier, 6), cap);
+  const effectiveTier = marks > 6 ? 6 : Math.min(tier, 6);
+  const maxBand = Math.min(effectiveTier, cap);
   const tiers: string[] = [];
   tiers.push(`${marks} marks: [criteria for full marks — Band ${maxBand}]`);
   for (let band = maxBand - 1; band >= 2; band--) {

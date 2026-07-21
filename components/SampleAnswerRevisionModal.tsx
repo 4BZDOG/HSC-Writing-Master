@@ -2,7 +2,12 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Prompt, SampleAnswer } from '../types';
 import { reviseSampleAnswer } from '../services/geminiService';
-import { getBandForMark, getCommandTermInfo, TIER_GROUPS } from '../data/commandTerms';
+import {
+  getBandForMark,
+  getCommandTermInfo,
+  getTargetBand,
+  TIER_GROUPS,
+} from '../data/commandTerms';
 import LoadingIndicator from './LoadingIndicator';
 import { X, RefreshCw, AlertCircle, Info } from 'lucide-react';
 import { getBandConfig } from '../utils/renderUtils';
@@ -204,9 +209,10 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
                   <p>
                     <strong>Tier Constraint:</strong> The verb '{prompt.verb}' (Tier{' '}
                     {commandTermInfo.tier}) caps the maximum standard at{' '}
-                    <strong>Band {tierInfo?.maxBand}</strong>. Even with {targetMark}/
-                    {prompt.totalMarks} marks, the revised answer will be written to Band{' '}
-                    {tierInfo?.maxBand} depth, not higher.
+                    <strong>Band {getTargetBand(prompt.totalMarks, commandTermInfo.tier)}</strong>.
+                    Even with {targetMark}/{prompt.totalMarks} marks, the revised answer will be
+                    written to Band {getTargetBand(prompt.totalMarks, commandTermInfo.tier)} depth,
+                    not higher.
                   </p>
                 </div>
               )}

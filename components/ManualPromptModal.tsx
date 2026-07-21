@@ -3,7 +3,12 @@ import { createPortal } from 'react-dom';
 import { CourseOutcome, Prompt } from '../types';
 import { refineManualPrompt } from '../services/geminiService';
 import { getTierBandConfig, renderFormattedText } from '../utils/renderUtils';
-import { getCommandTermsForMarks, getCommandTermInfo, TIER_GROUPS } from '../data/commandTerms';
+import {
+  getCommandTermsForMarks,
+  getCommandTermInfo,
+  getTargetBand,
+  TIER_GROUPS,
+} from '../data/commandTerms';
 import { X, Sparkles, PenTool, Save, Wand2, Target, Loader2 } from 'lucide-react';
 import LoadingIndicator from './LoadingIndicator';
 import { useEscapeKey } from '../hooks/useEscapeKey';
@@ -267,8 +272,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     </div>
                     <div className="px-3 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 text-[10px] font-black uppercase tracking-widest border border-indigo-500/20">
                       Tier {getCommandTermInfo(result.verb).tier} • Max Band{' '}
-                      {TIER_GROUPS.find((t) => t.tier === getCommandTermInfo(result.verb).tier)
-                        ?.maxBand ?? 6}
+                      {getTargetBand(result.totalMarks, getCommandTermInfo(result.verb).tier)}
                     </div>
                   </div>
                 </div>

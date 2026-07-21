@@ -166,9 +166,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
       setSkillFocus('balanced');
       setIncludeScenario(true);
       setFocusItems(selectedFocusItems);
-      // Default to the highest band this tier can actually reach — asking a
-      // Tier-2 'Describe' question for a Band 6 exemplar is structurally
-      // impossible under the band model (see getBandForMark / TIER_GROUPS).
+      // Default to the tier's own ceiling band (Tier N → Band N).
       setTargetBand(TIER_GROUPS.find((t) => t.tier === defaultTier)?.maxBand ?? 6);
       setError(null);
       setIsLoading(false);
@@ -191,10 +189,9 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
   const activeBandConfig = getTierBandConfig(selectedTier);
   const activeTierInfo = TIER_GROUPS.find((g) => g.tier === selectedTier);
 
-  // The verb tier caps the achievable band (a Tier-1 verb tops out at Band 3,
-  // Tier-2 at Band 4, Tier-3 at Band 5, Tiers 4-6 at Band 6). The target band
-  // follows the chosen tier: picking a tier defaults the target to that tier's
-  // ceiling, which the user can then aim below.
+  // The verb tier caps the achievable band (Tier N = Band N ceiling). For >6-mark
+  // questions the cap lifts to 6. Picking a tier defaults the target to that
+  // tier's ceiling, which the user can then aim below.
   const tierMaxBand = activeTierInfo?.maxBand ?? 6;
   useEffect(() => {
     setTargetBand(tierMaxBand);
