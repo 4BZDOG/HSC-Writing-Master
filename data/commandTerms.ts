@@ -33,7 +33,6 @@ const TIER_COLORS = [
 
 export const TIER_GROUPS = [
   {
-    level: 1,
     title: 'Remember & List',
     subtitle: 'Recall facts, names, or data with minimal processing — short, direct answers.',
     emoji: '🧠',
@@ -41,7 +40,6 @@ export const TIER_GROUPS = [
     maxBand: 1,
   },
   {
-    level: 2,
     title: 'Define & Describe',
     subtitle: 'Show you understand what something is and what it looks like — in your own words.',
     emoji: '📝',
@@ -49,7 +47,6 @@ export const TIER_GROUPS = [
     maxBand: 2,
   },
   {
-    level: 3,
     title: 'Explain & Compare',
     subtitle: 'Show relationships, causes, and how things connect — the why and how.',
     emoji: '🔗',
@@ -57,7 +54,6 @@ export const TIER_GROUPS = [
     maxBand: 3,
   },
   {
-    level: 4,
     title: 'Analyse & Apply',
     subtitle: 'Break things apart and use knowledge in new situations — dig deep.',
     emoji: '🔍',
@@ -65,7 +61,6 @@ export const TIER_GROUPS = [
     maxBand: 4,
   },
   {
-    level: 5,
     title: 'Discuss, Assess & Justify',
     subtitle: 'Form arguments, weigh up evidence, and take a position.',
     emoji: '⚖️',
@@ -73,7 +68,6 @@ export const TIER_GROUPS = [
     maxBand: 5,
   },
   {
-    level: 6,
     title: 'Evaluate, Synthesise & Create',
     subtitle: 'Highest-order thinking — independent judgement, creation of new understanding.',
     emoji: '🏆',
@@ -117,7 +111,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   {
     term: 'RECOUNT',
     definition: 'Retell a sequence of events in the order they occurred.',
-    tip: 'Use time markers — first, then, next, finally.\nStick to what happened; save the "why" for higher-tier verbs.',
+    tip: 'Use time markers — first, then, next, finally.\nStick to what happened; save the "why" for higher-band verbs.',
     tier: 1,
     markRange: [1, 3],
     charRange: [200, 600],

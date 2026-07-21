@@ -201,9 +201,10 @@ export const useSyllabusData = ({
         try {
           const remoteCourses = await fetchRemoteCourses();
           if (remoteCourses.length > 0) {
-            updateCourses(() => recalculateSampleAnswerBands(remoteCourses));
+            const recalibrated = recalculateSampleAnswerBands(remoteCourses);
+            updateCourses(() => recalibrated);
             setStorageStatus('Supabase');
-            saveCoursesToDB(remoteCourses).catch((err) =>
+            saveCoursesToDB(recalibrated).catch((err) =>
               console.warn('[Curriculum] Failed to cache remote courses locally:', err)
             );
             setIsDiscoveryInProgress(false);

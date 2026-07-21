@@ -197,9 +197,9 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
   const activeBandConfig = getTierBandConfig(selectedTier);
   const activeTierInfo = TIER_GROUPS.find((g) => g.tier === selectedTier);
 
-  // The verb tier caps the achievable band (Tier N = Band N ceiling). For >6-mark
-  // questions the cap lifts to 6. Picking a tier defaults the target to that
-  // tier's ceiling, which the user can then aim below.
+  // The verb tier caps the achievable band (Tier N = Band N ceiling). Picking
+  // a tier defaults the target to that tier's ceiling, which the user can
+  // then aim below.
   const tierMaxBand = activeTierInfo?.maxBand ?? 6;
   useEffect(() => {
     setTargetBand(tierMaxBand);

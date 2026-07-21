@@ -341,8 +341,8 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           // EXACTLY the derivation chain PromptDisplay uses for the question
           // card's chrome (getCommandTermInfo → getTierScaleConfig), so a
           // question can never be one colour in the picker and another on the
-          // card. The marks-capped target band stays informative as TEXT (the
-          // "Band N" chip) instead of silently recolouring the row.
+          // card. The target band stays informative as TEXT (the "Band N"
+          // chip) instead of silently recolouring the row.
           const verbInfo = getCommandTermInfo(p.verb);
           const safeTier = Math.max(1, Math.min(6, Math.floor(verbInfo.tier || 4)));
           const tierConfig = getTierScaleConfig(safeTier);

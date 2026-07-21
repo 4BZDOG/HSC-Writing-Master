@@ -23,17 +23,17 @@ const BackgroundTaskIndicator: React.FC<BackgroundTaskIndicatorProps> = ({ task 
         };
       case 'completed':
         return {
-          icon: <CheckCircle2 className="w-4 h-4 text-emerald-400" />,
+          icon: <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />,
           borderColor: 'border-emerald-500/30',
           progressBar: 'bg-emerald-500',
-          textColor: 'text-emerald-100',
+          textColor: 'text-emerald-800 dark:text-emerald-100',
         };
       case 'error':
         return {
-          icon: <AlertCircle className="w-4 h-4 text-red-400" />,
+          icon: <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400" />,
           borderColor: 'border-red-500/30',
           progressBar: 'bg-red-500',
-          textColor: 'text-red-100',
+          textColor: 'text-red-800 dark:text-red-100',
         };
       default:
         return {
@@ -75,7 +75,7 @@ const BackgroundTaskIndicator: React.FC<BackgroundTaskIndicatorProps> = ({ task 
             {task.message}
           </p>
           {task.status === 'error' && task.error && (
-            <p className="text-[10px] text-red-400 mt-1 leading-tight break-words bg-red-900/20 p-1.5 rounded border border-red-500/20">
+            <p className="text-[10px] text-red-600 dark:text-red-400 mt-1 leading-tight break-words bg-red-100 dark:bg-red-900/20 p-1.5 rounded border border-red-200 dark:border-red-500/20">
               {task.error}
             </p>
           )}

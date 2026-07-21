@@ -81,10 +81,8 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     [currentPrompt.verb]
   );
 
-  // The band this prompt actually works toward — constrained by BOTH its
-  // verb's tier and its mark value (getTargetBand applies the marks cap), so
-  // an off-scheme question like a 3-mark Tier-4 targets Band 4, not Band 5,
-  // and the editor copy/word targets agree with the placard and marking guide.
+  // The band this prompt actually works toward — the verb's tier is the sole
+  // ceiling (NESA-aligned), so a 3-mark Evaluate still targets Band 6.
   const maxBand = useMemo(
     () => getTargetBand(currentPrompt.totalMarks, commandTermInfo.tier),
     [currentPrompt.totalMarks, commandTermInfo.tier]
