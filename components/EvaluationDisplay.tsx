@@ -99,9 +99,10 @@ const MetricCard = ({
 // via getBandHex, so it always matches the placard beside it); the numbered
 // rungs and the distance text carry the information without relying on colour.
 const BandGoalCard = ({ currentBand, maxBand }: { currentBand: number; maxBand: number }) => {
-  const goalConfig = getBandConfig(6);
-  const reached = currentBand >= 6;
-  const bandsAway = Math.max(0, 6 - currentBand);
+  const goalConfig = getBandConfig(maxBand);
+  const reached = currentBand >= maxBand;
+  const bandsAway = Math.max(0, maxBand - currentBand);
+  const rungs = Array.from({ length: maxBand }, (_, i) => i + 1);
 
   return (
     <div className="bg-white dark:bg-white/5 rounded-3xl p-5 border border-slate-100 dark:border-white/5 shadow-sm flex flex-col justify-between h-full relative overflow-hidden group hover:shadow-md transition-all duration-300">
@@ -111,20 +112,10 @@ const BandGoalCard = ({ currentBand, maxBand }: { currentBand: number; maxBand: 
         >
           <Trophy className="w-5 h-5" />
         </div>
-        {maxBand < 6 && (
-          <span
-            className="text-[9px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 text-right"
-            title="The cognitive tier of this question caps the highest achievable band"
-          >
-            Question ceiling
-            <br />
-            Band {maxBand}
-          </span>
-        )}
       </div>
       <div>
         <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">
-          Band 6 Goal
+          Band {maxBand} Goal
         </h4>
         <div className="flex items-baseline gap-2 mb-4">
           <span className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
@@ -137,19 +128,19 @@ const BandGoalCard = ({ currentBand, maxBand }: { currentBand: number; maxBand: 
         <div
           className="flex gap-1"
           role="img"
-          aria-label={`Band ${currentBand} of 6 — ${reached ? 'Band 6 achieved' : `${bandsAway} band${bandsAway === 1 ? '' : 's'} from the Band 6 goal`}`}
+          aria-label={`Band ${currentBand} of ${maxBand} — ${reached ? `Band ${maxBand} achieved` : `${bandsAway} band${bandsAway === 1 ? '' : 's'} from the Band ${maxBand} goal`}`}
         >
-          {[1, 2, 3, 4, 5, 6].map((b) => (
+          {rungs.map((b) => (
             <div key={b} className="flex-1 flex flex-col items-center gap-1.5">
               <div
                 className={`h-2 w-full rounded-full transition-colors duration-500 ${
                   b <= currentBand ? '' : 'bg-slate-200 dark:bg-white/10'
                 }`}
-                style={b <= currentBand ? { backgroundColor: getBandHex(currentBand) } : undefined}
+                style={b <= currentBand ? { backgroundColor: getBandHex(b) } : undefined}
               />
               <span
                 className={`text-[9px] font-black leading-none ${
-                  b === 6
+                  b === maxBand
                     ? goalConfig.text
                     : b <= currentBand
                       ? 'text-slate-600 dark:text-slate-300'

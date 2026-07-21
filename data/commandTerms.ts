@@ -38,7 +38,7 @@ export const TIER_GROUPS = [
     subtitle: 'Recall facts, names, or data with minimal processing — short, direct answers.',
     emoji: '🧠',
     tier: 1,
-    maxBand: 3,
+    maxBand: 1,
   },
   {
     level: 2,
@@ -46,7 +46,7 @@ export const TIER_GROUPS = [
     subtitle: 'Show you understand what something is and what it looks like — in your own words.',
     emoji: '📝',
     tier: 2,
-    maxBand: 4,
+    maxBand: 2,
   },
   {
     level: 3,
@@ -54,7 +54,7 @@ export const TIER_GROUPS = [
     subtitle: 'Show relationships, causes, and how things connect — the why and how.',
     emoji: '🔗',
     tier: 3,
-    maxBand: 5,
+    maxBand: 3,
   },
   {
     level: 4,
@@ -62,7 +62,7 @@ export const TIER_GROUPS = [
     subtitle: 'Break things apart and use knowledge in new situations — dig deep.',
     emoji: '🔍',
     tier: 4,
-    maxBand: 6,
+    maxBand: 4,
   },
   {
     level: 5,
@@ -70,7 +70,7 @@ export const TIER_GROUPS = [
     subtitle: 'Form arguments, weigh up evidence, and take a position.',
     emoji: '⚖️',
     tier: 5,
-    maxBand: 6,
+    maxBand: 5,
   },
   {
     level: 6,
@@ -134,7 +134,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'CALCULATE',
-    definition: 'Determine a numerical answer using given data, formulas, or mathematical processes.',
+    definition:
+      'Determine a numerical answer using given data, formulas, or mathematical processes.',
     tip: 'Write the formula, substitute, solve — in that order.\nNo working shown = no marks, even if the answer is right.',
     tier: 1,
     markRange: [1, 3],
@@ -154,7 +155,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   {
     term: 'EXTRACT',
     definition: 'Select and present specific information from a given source, graph, or stimulus.',
-    tip: 'Quote or copy directly from the source and label what it shows.\nDon\'t interpret — just pull out the data asked for.',
+    tip: "Quote or copy directly from the source and label what it shows.\nDon't interpret — just pull out the data asked for.",
     tier: 1,
     markRange: [1, 3],
     charRange: [150, 500],
@@ -189,9 +190,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'OUTLINE',
-    definition:
-      'Sketch the main features or general principles of a topic without fine detail.',
-    tip: 'Think bullet points in sentence form — broad strokes only.\nIf you\'re writing more than a sentence per point, you\'re over-detailing.',
+    definition: 'Sketch the main features or general principles of a topic without fine detail.',
+    tip: "Think bullet points in sentence form — broad strokes only.\nIf you're writing more than a sentence per point, you're over-detailing.",
     tier: 2,
     markRange: [2, 4],
     charRange: [400, 900],
@@ -205,8 +205,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'DESCRIBE',
-    definition:
-      'Provide the characteristics and features of something in detail.',
+    definition: 'Provide the characteristics and features of something in detail.',
     tip: 'Use adjectives and specifics to paint a picture.\nAsk yourself: "What does this look like? What are its parts? How does it work?"',
     tier: 2,
     markRange: [2, 4],
@@ -242,8 +241,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'CLARIFY',
-    definition:
-      'Make a statement or situation less confused and more comprehensible.',
+    definition: 'Make a statement or situation less confused and more comprehensible.',
     tip: 'Break the complex idea into plain steps.\nUse "in other words" or "this means that" to bridge from confusing to clear.',
     tier: 2,
     markRange: [2, 4],
@@ -261,8 +259,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'CLASSIFY',
-    definition:
-      'Arrange or sort into classes or categories based on shared characteristics.',
+    definition: 'Arrange or sort into classes or categories based on shared characteristics.',
     tip: "Name each category and justify the sorting — don't just list.\nSay what trait puts each item in its group.",
     tier: 2,
     markRange: [2, 4],
@@ -282,9 +279,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   // --- Tier 3: Explain & Compare ---
   {
     term: 'EXPLAIN',
-    definition:
-      'Relate cause and effect; make the relationship between things clear.',
-    tip: 'Chain every sentence with linking words:\nbecause, leads to, results in, therefore.\nFacts alone don\'t explain — connections do.',
+    definition: 'Relate cause and effect; make the relationship between things clear.',
+    tip: "Chain every sentence with linking words:\nbecause, leads to, results in, therefore.\nFacts alone don't explain — connections do.",
     tier: 3,
     markRange: [3, 6],
     charRange: [600, 1400],
@@ -302,8 +298,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'COMPARE',
-    definition:
-      'Show how things are similar and how they are different.',
+    definition: 'Show how things are similar and how they are different.',
     tip: 'Use a balanced structure:\n"Both X and Y... However, X... whereas Y..."\nDiscuss the significance of each point, don\'t just list.',
     tier: 3,
     markRange: [3, 6],
@@ -337,7 +332,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'DEMONSTRATE',
-    definition: 'Show how something works or prove a point through examples or practical application.',
+    definition:
+      'Show how something works or prove a point through examples or practical application.',
     tip: 'State the concept first, then show it in action with a concrete case.\nReal-world or syllabus examples score highest.',
     tier: 3,
     markRange: [3, 6],
@@ -355,8 +351,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'PREDICT',
-    definition:
-      'Suggest what may happen based on available information or evidence.',
+    definition: 'Suggest what may happen based on available information or evidence.',
     tip: 'Start with "Based on..." and use the data or trend given.\nNever guess — every prediction needs a visible evidence trail.',
     tier: 3,
     markRange: [2, 4],
@@ -374,7 +369,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'ACCOUNT',
-    definition: 'State reasons for; report on. Give an account of; narrate a series of events or transactions.',
+    definition:
+      'State reasons for; report on. Give an account of; narrate a series of events or transactions.',
     tip: 'Build a cause-and-effect chain:\nA happened because of B, which led to C.\nShow the full sequence, not isolated reasons.',
     tier: 3,
     markRange: [3, 6],
@@ -396,7 +392,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     term: 'ANALYSE',
     definition:
       'Identify components and the relationships between them; draw out and relate implications.',
-    tip: 'One paragraph per component, then a final paragraph linking them.\nDon\'t just list parts — every paragraph must show a relationship or implication.',
+    tip: "One paragraph per component, then a final paragraph linking them.\nDon't just list parts — every paragraph must show a relationship or implication.",
     tier: 4,
     markRange: [4, 8],
     charRange: [1000, 2200],
@@ -414,8 +410,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'APPLY',
-    definition:
-      'Use knowledge and understanding of a concept in a new or different context.',
+    definition: 'Use knowledge and understanding of a concept in a new or different context.',
     tip: 'Start with the concept, then say "In this case..."\nThe marker wants to see transfer — prove you can use the idea outside the textbook.',
     tier: 4,
     markRange: [4, 8],
@@ -434,9 +429,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'EXAMINE',
-    definition:
-      'Inquire into in detail; investigate thoroughly.',
-    tip: 'Pick 2-3 key aspects and go deep on each with evidence.\nQuality of depth beats quantity of points — don\'t skim the surface.',
+    definition: 'Inquire into in detail; investigate thoroughly.',
+    tip: "Pick 2-3 key aspects and go deep on each with evidence.\nQuality of depth beats quantity of points — don't skim the surface.",
     tier: 4,
     markRange: [4, 8],
     charRange: [1000, 2200],
@@ -472,9 +466,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'INTERPRET',
-    definition:
-      'Draw meaning from information, data, or a text; explain what it signifies.',
-    tip: 'Go beyond the surface.\nIf it\'s a graph, say what the trend implies.\nIf it\'s a quote, say what the author is really suggesting — not just what\'s written.',
+    definition: 'Draw meaning from information, data, or a text; explain what it signifies.',
+    tip: "Go beyond the surface.\nIf it's a graph, say what the trend implies.\nIf it's a quote, say what the author is really suggesting — not just what's written.",
     tier: 4,
     markRange: [3, 6],
     charRange: [800, 1800],
@@ -511,9 +504,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'CONSTRUCT',
-    definition:
-      'Make; build; put together items or arguments to create something coherent.',
-    tip: 'Show clear steps in the build, whether it\'s an argument, graph, or model.\nUse headings or signposting so the structure is visible to the marker.',
+    definition: 'Make; build; put together items or arguments to create something coherent.',
+    tip: "Show clear steps in the build, whether it's an argument, graph, or model.\nUse headings or signposting so the structure is visible to the marker.",
     tier: 4,
     markRange: [4, 8],
     charRange: [1000, 2200],
@@ -534,7 +526,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     term: 'DISCUSS',
     definition:
       'Identify issues and provide points for and/or against, exploring from different perspectives.',
-    tip: 'Structure: intro, arguments for, arguments against, your overall position.\nBalance is key — don\'t make one side look weak on purpose.',
+    tip: "Structure: intro, arguments for, arguments against, your overall position.\nBalance is key — don't make one side look weak on purpose.",
     tier: 5,
     markRange: [5, 10],
     charRange: [1500, 3000],
@@ -552,8 +544,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'ASSESS',
-    definition:
-      'Make a judgement of value, quality, outcomes, results, or size.',
+    definition: 'Make a judgement of value, quality, outcomes, results, or size.',
     tip: 'Name your criteria upfront:\n"This will be assessed against..."\nWeigh strengths vs. weaknesses, then deliver a clear final verdict.',
     tier: 5,
     markRange: [6, 10],
@@ -568,8 +559,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'JUSTIFY',
-    definition:
-      'Support an argument or conclusion with evidence, reasoning, and logic.',
+    definition: 'Support an argument or conclusion with evidence, reasoning, and logic.',
     tip: 'Defend your position like a lawyer.\nPile on evidence with "This is supported by..." and "Furthermore..."\nYour job is to be convincing, not balanced.',
     tier: 5,
     markRange: [6, 10],
@@ -588,8 +578,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'DEDUCE',
-    definition:
-      'Draw conclusions from available evidence or reasoning.',
+    definition: 'Draw conclusions from available evidence or reasoning.',
     tip: 'Make the reasoning chain explicit and unbreakable:\n"Given A and B, it follows that C."\nShow every logical step — don\'t skip to the answer.',
     tier: 5,
     markRange: [4, 8],
@@ -607,9 +596,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'RECOMMEND',
-    definition:
-      'Provide reasons in favour of a chosen course of action or position.',
-    tip: 'Compare alternatives briefly, then push your choice hard.\nEnd with a clear call to action: what should happen, when, and why it\'s best.',
+    definition: 'Provide reasons in favour of a chosen course of action or position.',
+    tip: "Compare alternatives briefly, then push your choice hard.\nEnd with a clear call to action: what should happen, when, and why it's best.",
     tier: 5,
     markRange: [5, 10],
     charRange: [1500, 3000],
@@ -625,7 +613,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     term: 'APPRECIATE',
     definition:
       'Make a judgement about the value of something, recognising its positive qualities and significance.',
-    tip: 'Don\'t just say it\'s good.\nSay who it helps, what makes it significant, and why it matters in the bigger picture.',
+    tip: "Don't just say it's good.\nSay who it helps, what makes it significant, and why it matters in the bigger picture.",
     tier: 5,
     markRange: [4, 8],
     charRange: [1000, 2200],
@@ -646,7 +634,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     term: 'EVALUATE',
     definition:
       'Make a judgement based on criteria; determine the value, quality, or significance of something.',
-    tip: 'State your criteria upfront, test the evidence against each criterion, then deliver a clear verdict.\nDon\'t sit on the fence.',
+    tip: "State your criteria upfront, test the evidence against each criterion, then deliver a clear verdict.\nDon't sit on the fence.",
     tier: 6,
     markRange: [8, 15],
     charRange: [2200, 4500],
@@ -666,7 +654,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     term: 'CRITICALLY ANALYSE',
     definition:
       'Analyse with additional depth: question assumptions, consider limitations, and examine underlying reasoning.',
-    tip: 'This is Band 6 territory — think about the thinking.\nSpot bias, question what\'s taken for granted, and acknowledge what the evidence doesn\'t show.',
+    tip: "This is Band 6 territory — think about the thinking.\nSpot bias, question what's taken for granted, and acknowledge what the evidence doesn't show.",
     tier: 6,
     markRange: [8, 15],
     charRange: [2800, 6000],
@@ -724,8 +712,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'PROPOSE',
-    definition:
-      'Put forward an idea, plan, or suggestion for consideration or action.',
+    definition: 'Put forward an idea, plan, or suggestion for consideration or action.',
     tip: 'Be bold but backed by evidence.\nCover what should happen, why, and the expected outcome.\nEnd with a clear call to action.',
     tier: 6,
     markRange: [8, 15],
@@ -804,7 +791,7 @@ export const commandTerms = new Map<PromptVerb, CommandTermInfo>(
 const fallbackTerm: CommandTermInfo = {
   term: 'EXPLAIN',
   definition: 'Relate cause and effect; make the relationship between things clear.',
-  tip: 'Chain every sentence with linking words:\nbecause, leads to, results in, therefore.\nFacts alone don\'t explain — connections do.',
+  tip: "Chain every sentence with linking words:\nbecause, leads to, results in, therefore.\nFacts alone don't explain — connections do.",
   tier: 3,
   markRange: [1, 20] as [number, number],
   charRange: [600, 1400] as [number, number],
@@ -948,11 +935,16 @@ export const getBandForMark = (mark: number, totalMarks: number, tier: number = 
   if (totalMarks <= 0) return 1;
   if (mark <= 0) return 1;
 
-  // The effective ceiling: the lower of the tier's maximum and the marks cap.
+  // The effective ceiling: the tier's maxBand (== tier number), capped by the
+  // marks-based limit.  For questions worth MORE than 6 marks the tier cap is
+  // lifted to 6 so all six colours can be used — there are enough mark levels
+  // to warrant the full spectrum, and these questions are almost always
+  // high-tier verbs anyway.
   const tierGroup = TIER_GROUPS.find((g) => g.tier === tier);
   const tierMax = tierGroup ? tierGroup.maxBand : Math.min(tier, 6);
   const cap = getMarksBandCap(totalMarks);
-  const maxBand = Math.min(tierMax, cap);
+  const effectiveTierMax = totalMarks > 6 ? 6 : tierMax;
+  const maxBand = Math.min(effectiveTierMax, cap);
 
   // For questions where totalMarks ≤ maxBand, a linear mapping guarantees each
   // mark gets a distinct band — no collisions possible. This is the common case
@@ -996,30 +988,15 @@ export const getTargetBand = (totalMarks: number, tier: number = 4): number =>
   getBandForMark(totalMarks, totalMarks, tier);
 
 /**
- * The target band for a whole cognitive tier (independent of a specific mark) —
- * the ceiling any question at that tier can reach. Used to colour tier-level UI
- * (e.g. the Command Verb Hierarchy ribbon) in the SAME band colour a question of
- * that tier uses, so a verb like DESCRIBE isn't one colour in the ribbon and
- * another in the prompt.
+ * The target band for a whole cognitive tier — the ceiling colour a question at
+ * that tier carries across the UI.  This equals the tier number itself (Tier 1 →
+ * Band 1 red, Tier 4 → Band 4 green, Tier 6 → Band 6 purple), so the verb's
+ * colour in the Command Verb Hierarchy ribbon is always the same as the highest
+ * colour shown for any prompt using that verb.
  *
- * --- The band model (why this exists) -------------------------------------
- * NESA performance bands (1-6) are a *course-level* achievement standard — NESA
- * never publishes a band for an individual question, and no official rule maps a
- * command verb to a band. For questions we author or generate (i.e. not lifted
- * straight from a NESA paper) we therefore INFER a defensible ceiling rather than
- * invent a fact:
- *
- *   band ceiling  ← the command verb's cognitive demand (this function)
- *   depth expected ← the marks (markRange, BAND_METRICS word targets)
- *   band awarded   ← how well the response meets the marking guide (getBandForMark),
- *                    capped at the ceiling
- *
- * The pedagogy: a response can only *demonstrate* the standard of thinking the
- * task actually calls for. However thorough, a DESCRIBE answer cannot evidence
- * the sustained analysis/evaluation that defines Bands 4-6, so it tops out at the
- * ceiling its verb allows. This is a transparent inference, not a NESA decree —
- * it is the single source every band figure in the app derives from, so marking,
- * live feedback, colour and copy can never disagree.
+ * For individual questions the marks-based cap (`getMarksBandCap`) or the
+ * >6-marks override in `getBandForMark` may adjust the effective ceiling, but
+ * this function returns the tier's OWN identity colour, independent of marks.
  */
 export const getTierTargetBand = (tier: number): number =>
   TIER_GROUPS.find((g) => g.tier === tier)?.maxBand ?? Math.max(1, Math.min(6, tier));
