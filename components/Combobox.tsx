@@ -223,7 +223,7 @@ const Combobox: React.FC<ComboboxProps> = ({
     if (option.tier === undefined) {
       return `pl-4 border-l-4 transition-all ${
         isSelected
-          ? `${theme.bg} ${theme.border} text-white font-bold`
+          ? `${theme.bg} ${theme.border} text-white light:text-slate-900 font-bold`
           : 'border-transparent hover:bg-white/5 light:hover:bg-slate-50 text-[rgb(var(--color-text-secondary))] light:text-slate-700'
       }`;
     }
