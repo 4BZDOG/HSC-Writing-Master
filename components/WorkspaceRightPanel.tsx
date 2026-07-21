@@ -81,10 +81,8 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     [currentPrompt.verb]
   );
 
-  // The band this prompt actually works toward — constrained by BOTH its
-  // verb's tier and its mark value (getTargetBand applies the marks cap), so
-  // an off-scheme question like a 3-mark Tier-4 targets Band 4, not Band 5,
-  // and the editor copy/word targets agree with the placard and marking guide.
+  // The band this prompt actually works toward — the verb's tier is the sole
+  // ceiling (NESA-aligned), so a 3-mark Evaluate still targets Band 6.
   const maxBand = useMemo(
     () => getTargetBand(currentPrompt.totalMarks, commandTermInfo.tier),
     [currentPrompt.totalMarks, commandTermInfo.tier]
@@ -259,7 +257,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
                             transition-all duration-500 flex items-center gap-3 sm:gap-4
                             ${
                               isEvaluating || !userAnswer.trim()
-                                ? 'bg-slate-800 text-slate-500 cursor-not-allowed border border-white/5 opacity-50 shadow-none'
+                                ? 'bg-slate-800 light:bg-slate-200 text-slate-500 cursor-not-allowed border border-white/5 light:border-slate-300 opacity-50 shadow-none'
                                 : `bg-gradient-to-r ${buttonConfig.gradient} shadow-xl ${buttonConfig.shadow} hover:shadow-2xl active:scale-95 border ${buttonConfig.border}`
                             }
                         `}
@@ -313,7 +311,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
 
       <div id="evaluation-results" className="scroll-mt-24">
         {evaluationError && (
-          <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-8 rounded-[40px] animate-fade-in flex items-start gap-5 shadow-2xl shadow-red-900/10 backdrop-blur-xl">
+          <div className="bg-red-500/10 light:bg-red-50 border border-red-500/20 light:border-red-200 text-red-400 light:text-red-700 p-8 rounded-[40px] animate-fade-in flex items-start gap-5 shadow-2xl shadow-red-900/10 backdrop-blur-xl">
             <div className="p-3 rounded-2xl bg-red-500/20">
               <AlertTriangle className="w-6 h-6 shrink-0" />
             </div>

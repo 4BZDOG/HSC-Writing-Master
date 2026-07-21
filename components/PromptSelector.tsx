@@ -341,8 +341,8 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           // EXACTLY the derivation chain PromptDisplay uses for the question
           // card's chrome (getCommandTermInfo → getTierScaleConfig), so a
           // question can never be one colour in the picker and another on the
-          // card. The marks-capped target band stays informative as TEXT (the
-          // "Band N" chip) instead of silently recolouring the row.
+          // card. The target band stays informative as TEXT (the "Band N"
+          // chip) instead of silently recolouring the row.
           const verbInfo = getCommandTermInfo(p.verb);
           const safeTier = Math.max(1, Math.min(6, Math.floor(verbInfo.tier || 4)));
           const tierConfig = getTierScaleConfig(safeTier);
@@ -493,7 +493,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               : variant === 'primary'
                 ? 'bg-gradient-to-r from-indigo-500 to-sky-500 border-transparent text-white shadow-md'
                 : variant === 'vault'
-                  ? 'bg-blue-600/10 border-blue-600/20 text-blue-400'
+                  ? 'bg-blue-600/10 light:bg-blue-50 border-blue-600/20 light:border-blue-300 text-blue-400 light:text-blue-700'
                   : 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border border-white/5 light:border-slate-400 text-[rgb(var(--color-text-secondary))] light:text-slate-600'
       }`}
       title={locked ? `${title} — part of Band 6 Plus` : title}

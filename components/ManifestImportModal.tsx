@@ -256,7 +256,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                 <button
                   onClick={() => setSearchQuery('')}
                   aria-label="Clear search"
-                  className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-white/10 text-slate-500 hover:text-white transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-white/10 light:hover:bg-slate-200 text-slate-500 hover:text-white light:hover:text-slate-900 transition-colors"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -267,9 +267,9 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
 
         {/* Scrollable Catalogue */}
         <div className="flex-1 overflow-y-auto px-5 sm:px-12 pb-8 sm:pb-12 custom-scrollbar bg-black/10 light:bg-slate-50/50 relative">
-          <div className="sticky top-0 z-20 py-4 sm:py-6 flex flex-wrap justify-between items-center gap-3 bg-[rgb(var(--color-bg-surface))]/60 backdrop-blur-md -mx-5 sm:-mx-12 px-5 sm:px-12 border-b border-white/5 mb-8">
+          <div className="sticky top-0 z-20 py-4 sm:py-6 flex flex-wrap justify-between items-center gap-3 bg-[rgb(var(--color-bg-surface))]/60 light:bg-white/80 backdrop-blur-md -mx-5 sm:-mx-12 px-5 sm:px-12 border-b border-white/5 light:border-slate-200 mb-8">
             <div className="flex items-center gap-6 flex-wrap">
-              <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+              <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-300 text-[10px] font-bold uppercase tracking-widest text-slate-400 light:text-slate-600">
                 <Filter className="w-3.5 h-3.5" /> Filter Content
               </div>
               <div className="h-4 w-px bg-white/10" />
@@ -303,7 +303,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
 
           {!hasResults ? (
             <div className="flex flex-col items-center justify-center py-32 animate-fade-in">
-              <div className="w-24 h-24 rounded-[32px] bg-white/5 flex items-center justify-center mb-8 border border-white/5">
+              <div className="w-24 h-24 rounded-[32px] bg-white/5 light:bg-slate-100 flex items-center justify-center mb-8 border border-white/5 light:border-slate-200">
                 <Search className="w-10 h-10 text-slate-600" />
               </div>
               <p className="text-xl font-black text-slate-500 tracking-tight">
@@ -384,7 +384,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                                                         ${
                                                           isSelected
                                                             ? 'bg-indigo-500 border-white/20 text-white shadow-lg'
-                                                            : 'bg-white/5 border-white/5 text-transparent group-hover:border-white/20'
+                                                            : 'bg-white/5 light:bg-slate-100 border-white/5 light:border-slate-300 text-transparent group-hover:border-white/20'
                                                         }
                                                      `}
                               >
@@ -451,7 +451,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                           className="relative flex items-center justify-between p-6 rounded-[32px] border border-dashed border-white/5 light:border-slate-200 bg-black/10 light:bg-slate-50/50 opacity-40 cursor-not-allowed select-none transition-opacity hover:opacity-50"
                         >
                           <div className="flex items-center gap-4">
-                            <div className="p-2 rounded-xl bg-white/5 border border-white/5 text-slate-700">
+                            <div className="p-2 rounded-xl bg-white/5 light:bg-slate-100 border border-white/5 light:border-slate-200 text-slate-700">
                               <Lock className="w-5 h-5" />
                             </div>
                             <span className="text-sm font-black text-slate-500 uppercase tracking-tight italic">
@@ -498,7 +498,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                     ${
                       selectedIds.size > 0 && !isImporting
                         ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 hover:scale-105 active:scale-95 shadow-indigo-500/20'
-                        : 'bg-white/5 text-slate-600 cursor-not-allowed border border-white/5'
+                        : 'bg-white/5 light:bg-slate-100 text-slate-600 cursor-not-allowed border border-white/5 light:border-slate-200'
                     }
                 `}
           >

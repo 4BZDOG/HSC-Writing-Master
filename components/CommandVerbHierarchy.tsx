@@ -192,9 +192,9 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4 bg-black/10 light:bg-white/60 px-5 py-3 rounded-2xl border border-white/10 backdrop-blur-md self-stretch md:self-auto justify-center shadow-inner flex-wrap">
+                  <div className="flex items-center gap-4 bg-black/10 light:bg-slate-100 px-5 py-3 rounded-2xl border border-white/10 light:border-slate-300 backdrop-blur-md self-stretch md:self-auto justify-center shadow-inner flex-wrap">
                     <div className="flex flex-col items-center">
-                      <span className="text-[9px] text-slate-500 uppercase tracking-widest font-black mb-0.5">
+                      <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
                         Marks
                       </span>
                       <span className={`text-lg font-black ${activeConfig.text}`}>
@@ -206,7 +206,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       className="flex flex-col items-center"
                       title={`The cognitive demand of ${activeTermInfo.term} caps a response at Band ${getTierTargetBand(activeTermInfo.tier)}`}
                     >
-                      <span className="text-[9px] text-slate-500 uppercase tracking-widest font-black mb-0.5">
+                      <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
                         Band Cap
                       </span>
                       <span className={`text-lg font-black ${activeConfig.text}`}>
@@ -215,7 +215,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                     </div>
                     <div className="w-px h-8 bg-black/10 light:bg-slate-300" />
                     <div className="flex flex-col items-center" title="Recommended writing time">
-                      <span className="text-[9px] text-slate-500 uppercase tracking-widest font-black mb-0.5">
+                      <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
                         Time
                       </span>
                       <span className={`text-lg font-black ${activeConfig.text}`}>
@@ -227,7 +227,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       className="hidden sm:flex flex-col items-center"
                       title="Expected syllabus terms"
                     >
-                      <span className="text-[9px] text-slate-500 uppercase tracking-widest font-black mb-0.5">
+                      <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
                         Terms
                       </span>
                       <span className={`text-lg font-black ${activeConfig.text}`}>
@@ -266,7 +266,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                     cardStyle = `scale-110 z-20 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)] opacity-100 ring-4 ring-white/10 dark:ring-white/5 ${transformOrigin}`;
                   } else {
                     // Added colored border specific to the tier for visual cue
-                    cardStyle = `scale-90 opacity-50 hover:opacity-100 hover:scale-95 border-2 ${tierConfig.border} z-0 ${transformOrigin}`;
+                    cardStyle = `scale-90 opacity-50 light:opacity-70 hover:opacity-100 hover:scale-95 border-2 ${tierConfig.border} z-0 ${transformOrigin}`;
                   }
                 }
 
@@ -284,7 +284,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       ${
                         isCurrentTier
                           ? `${tierConfig.border} ${tierConfig.bg} light:bg-white`
-                          : `bg-white/[0.03] light:bg-slate-50 border-white/5 light:border-slate-200`
+                          : `bg-white/[0.03] light:bg-white border-white/5 light:border-slate-300 light:shadow-sm`
                       }
                       ${cardStyle}
                     `}
@@ -305,7 +305,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                     <MeshOverlay opacity={isCurrentTier ? 'opacity-[0.06]' : 'opacity-[0.02]'} />
 
                     <div
-                      className={`px-6 py-4 border-b relative flex items-center gap-4 flex-shrink-0 ${isCurrentTier ? `bg-gradient-to-r ${tierConfig.gradient} border-white/10 text-white` : `${tierConfig.bg} border-white/5`}`}
+                      className={`px-6 py-4 border-b relative flex items-center gap-4 flex-shrink-0 ${isCurrentTier ? `bg-gradient-to-r ${tierConfig.gradient} border-white/10 text-white` : `${tierConfig.bg} border-white/5 light:border-slate-200`}`}
                     >
                       <div className="text-4xl filter drop-shadow-lg transform transition-transform duration-500 group-hover/card:scale-110">
                         {group.emoji}

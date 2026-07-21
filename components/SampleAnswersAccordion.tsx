@@ -125,10 +125,9 @@ const CarouselAccordionItem: React.FC<{
 
     const currentSample = group.answers[currentIndex];
     const safeAnswer = currentSample?.answer || '';
-    // Band number AND colour both come from the Verb Gate (getBandForMark,
-    // which also applies the marks cap) — so a Band 5 level is always blue,
-    // Band 4 green, Band 6 purple, and this placard mirrors the Marking
-    // Guide exactly (it derives its level colours the same way).
+    // Band number AND colour both come from the Verb Gate (getBandForMark)
+    // — so a Band 5 is always blue, Band 4 green, Band 6 purple, and this
+    // placard mirrors the Marking Guide exactly.
     const displayBand = group.calculatedBand;
     const bandConfig = useMemo(() => getBandConfig(displayBand), [displayBand]);
     const metrics = useAnswerMetrics(safeAnswer, prompt.keywords);

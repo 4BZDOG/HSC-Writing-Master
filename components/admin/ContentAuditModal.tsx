@@ -1173,7 +1173,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           <button
             onClick={() => toggleSelect(node.id, !isSelected)}
             aria-label={`${isSelected ? 'Deselect' : 'Select'} ${node.label}`}
-            className={`mr-4 transition-all ${isSelected ? 'opacity-100 scale-110' : 'opacity-30 group-hover:opacity-100'}`}
+            className={`mr-4 transition-all ${isSelected ? 'opacity-100 scale-110' : 'opacity-60 group-hover:opacity-100'}`}
           >
             {isSelected ? (
               <CheckSquare className="w-4 h-4 text-indigo-400" />
@@ -1386,7 +1386,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
           <button
             onClick={() => handleFilterToggle('emptyDotPoints')}
-            className={`group relative overflow-hidden px-6 h-12 rounded-2xl border text-xs font-black uppercase tracking-widest transition-all flex items-center gap-4 ${activeFilter === 'emptyDotPoints' ? 'bg-red-500/20 border-red-500/40 text-red-400 shadow-lg' : 'bg-red-500/5 border-red-500/10 text-red-400 hover:bg-red-500/10'}`}
+            className={`group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border text-[10px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all flex items-center gap-2 md:gap-4 ${activeFilter === 'emptyDotPoints' ? 'bg-red-500/20 border-red-500/40 text-red-400 shadow-lg' : 'bg-red-500/5 border-red-500/10 text-red-400 hover:bg-red-500/10'}`}
           >
             <span>Empty Dot Points</span>
             <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
@@ -1395,7 +1395,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           </button>
           <button
             onClick={() => handleFilterToggle('missingRubrics')}
-            className={`group relative overflow-hidden px-6 h-12 rounded-2xl border text-xs font-black uppercase tracking-widest transition-all flex items-center gap-4 ${activeFilter === 'missingRubrics' ? 'bg-indigo-500/20 border-indigo-500/40 text-indigo-400 shadow-lg' : 'bg-indigo-500/5 border-indigo-500/10 text-indigo-400 hover:bg-indigo-500/10'}`}
+            className={`group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border text-[10px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all flex items-center gap-2 md:gap-4 ${activeFilter === 'missingRubrics' ? 'bg-indigo-500/20 border-indigo-500/40 text-indigo-400 shadow-lg' : 'bg-indigo-500/5 border-indigo-500/10 text-indigo-400 hover:bg-indigo-500/10'}`}
           >
             <span>No Marking Guide</span>
             <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
@@ -1404,7 +1404,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           </button>
           <button
             onClick={() => handleFilterToggle('rubricNotDescending')}
-            className={`group relative overflow-hidden px-6 h-12 rounded-2xl border text-xs font-black uppercase tracking-widest transition-all flex items-center gap-4 ${activeFilter === 'rubricNotDescending' ? 'bg-orange-500/20 border-orange-500/40 text-orange-400 shadow-lg' : 'bg-orange-500/5 border-orange-500/10 text-orange-400 hover:bg-orange-500/10'}`}
+            className={`group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border text-[10px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all flex items-center gap-2 md:gap-4 ${activeFilter === 'rubricNotDescending' ? 'bg-orange-500/20 border-orange-500/40 text-orange-400 shadow-lg' : 'bg-orange-500/5 border-orange-500/10 text-orange-400 hover:bg-orange-500/10'}`}
           >
             <span>Non-Std Rubric</span>
             <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
@@ -1413,7 +1413,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           </button>
           <button
             onClick={() => handleFilterToggle('missingSamples')}
-            className={`group relative overflow-hidden px-6 h-12 rounded-2xl border text-xs font-black uppercase tracking-widest transition-all flex items-center gap-4 ${activeFilter === 'missingSamples' ? 'bg-amber-500/20 border-amber-500/40 text-amber-400 shadow-lg' : 'bg-amber-500/5 border-amber-500/10 text-amber-400 hover:bg-amber-500/10'}`}
+            className={`group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border text-[10px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all flex items-center gap-2 md:gap-4 ${activeFilter === 'missingSamples' ? 'bg-amber-500/20 border-amber-500/40 text-amber-400 shadow-lg' : 'bg-amber-500/5 border-amber-500/10 text-amber-400 hover:bg-amber-500/10'}`}
           >
             <span>Missing Samples</span>
             <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
@@ -1422,7 +1422,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           </button>
           <button
             onClick={() => handleFilterToggle('missingOutcomes')}
-            className={`group relative overflow-hidden px-6 h-12 rounded-2xl border text-xs font-black uppercase tracking-widest transition-all flex items-center gap-4 ${activeFilter === 'missingOutcomes' ? 'bg-pink-500/20 border-pink-500/40 text-pink-400 shadow-lg' : 'bg-pink-500/5 border-pink-500/10 text-pink-400 hover:bg-pink-500/10'}`}
+            className={`group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border text-[10px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all flex items-center gap-2 md:gap-4 ${activeFilter === 'missingOutcomes' ? 'bg-pink-500/20 border-pink-500/40 text-pink-400 shadow-lg' : 'bg-pink-500/5 border-pink-500/10 text-pink-400 hover:bg-pink-500/10'}`}
           >
             <span>Missing Outcomes</span>
             <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
@@ -1431,7 +1431,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           </button>
           <button
             onClick={() => handleFilterToggle('hasSamples')}
-            className={`group relative overflow-hidden px-6 h-12 rounded-2xl border text-xs font-black uppercase tracking-widest transition-all flex items-center gap-4 ${activeFilter === 'hasSamples' ? 'bg-teal-500/20 border-teal-500/40 text-teal-400 shadow-lg' : 'bg-teal-500/5 border-teal-500/10 text-teal-400 hover:bg-teal-500/10'}`}
+            className={`group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border text-[10px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all flex items-center gap-2 md:gap-4 ${activeFilter === 'hasSamples' ? 'bg-teal-500/20 border-teal-500/40 text-teal-400 shadow-lg' : 'bg-teal-500/5 border-teal-500/10 text-teal-400 hover:bg-teal-500/10'}`}
           >
             <span>Has Samples</span>
             <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
@@ -1441,7 +1441,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           <button
             onClick={() => handleFilterToggle('lowQuality')}
             title="Questions whose AI quality pre-screen scored below 50 (run Screen Quality to score content)"
-            className={`group relative overflow-hidden px-6 h-12 rounded-2xl border text-xs font-black uppercase tracking-widest transition-all flex items-center gap-4 ${activeFilter === 'lowQuality' ? 'bg-rose-500/20 border-rose-500/40 text-rose-400 shadow-lg' : 'bg-rose-500/5 border-rose-500/10 text-rose-400 hover:bg-rose-500/10'}`}
+            className={`group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border text-[10px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all flex items-center gap-2 md:gap-4 ${activeFilter === 'lowQuality' ? 'bg-rose-500/20 border-rose-500/40 text-rose-400 shadow-lg' : 'bg-rose-500/5 border-rose-500/10 text-rose-400 hover:bg-rose-500/10'}`}
           >
             <span>Low Quality</span>
             <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
@@ -1451,7 +1451,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           <button
             onClick={() => handleFilterToggle('flagged')}
             title="Questions (or their sample answers) that a user flagged as looking off"
-            className={`group relative overflow-hidden px-6 h-12 rounded-2xl border text-xs font-black uppercase tracking-widest transition-all flex items-center gap-4 ${activeFilter === 'flagged' ? 'bg-amber-500/20 border-amber-500/40 text-amber-400 shadow-lg' : 'bg-amber-500/5 border-amber-500/10 text-amber-400 hover:bg-amber-500/10'}`}
+            className={`group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border text-[10px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all flex items-center gap-2 md:gap-4 ${activeFilter === 'flagged' ? 'bg-amber-500/20 border-amber-500/40 text-amber-400 shadow-lg' : 'bg-amber-500/5 border-amber-500/10 text-amber-400 hover:bg-amber-500/10'}`}
           >
             <span>Flagged</span>
             <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
@@ -1482,8 +1482,8 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       </div>
 
       {/* Tree Container */}
-      <div className="flex-1 min-h-0 overflow-y-auto bg-[rgb(var(--color-bg-base))] custom-scrollbar">
-        <div className="min-w-[1000px] pb-40">
+      <div className="flex-1 min-h-0 overflow-auto bg-[rgb(var(--color-bg-base))] custom-scrollbar">
+        <div className="min-w-[700px] pb-40">
           {filteredTreeData.length > 0 ? (
             filteredTreeData.map((node) => renderNode(node))
           ) : (
@@ -1504,7 +1504,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
       {/* Operations Terminal (Footer) */}
       <div
-        className={`border-t border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-white px-10 flex flex-col flex-shrink-0 relative shadow-[0_-32px_64px_-16px_rgba(0,0,0,0.5)] light:shadow-[0_-8px_24px_-8px_rgba(0,0,0,0.1)] transition-all duration-500 ${isProcessing ? 'h-80' : 'h-24'}`}
+        className={`border-t border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-white px-4 md:px-10 flex flex-col flex-shrink-0 relative shadow-[0_-32px_64px_-16px_rgba(0,0,0,0.5)] light:shadow-[0_-8px_24px_-8px_rgba(0,0,0,0.1)] transition-all duration-500 ${isProcessing ? 'h-80' : 'min-h-[6rem] py-3'}`}
       >
         <MeshOverlay opacity="opacity-[0.05]" />
         {isProcessing && progress && (

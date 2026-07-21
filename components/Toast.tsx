@@ -11,7 +11,7 @@ interface ToastProps {
 const toastConfig = {
   success: {
     containerClass: 'bg-[rgb(var(--color-bg-surface))]/90 border-emerald-500/30',
-    iconColor: 'text-emerald-400',
+    iconColor: 'text-emerald-600 dark:text-emerald-400',
     iconBg: 'bg-emerald-500/10',
     progressBar: 'bg-emerald-500',
     icon: <CheckCircle className="h-5 w-5" />,
@@ -19,7 +19,7 @@ const toastConfig = {
   },
   error: {
     containerClass: 'bg-[rgb(var(--color-bg-surface))]/90 border-red-500/30',
-    iconColor: 'text-red-400',
+    iconColor: 'text-red-600 dark:text-red-400',
     iconBg: 'bg-red-500/10',
     progressBar: 'bg-red-500',
     icon: <XCircle className="h-5 w-5" />,
@@ -27,7 +27,7 @@ const toastConfig = {
   },
   warning: {
     containerClass: 'bg-[rgb(var(--color-bg-surface))]/90 border-amber-500/30',
-    iconColor: 'text-amber-400',
+    iconColor: 'text-amber-600 dark:text-amber-400',
     iconBg: 'bg-amber-500/10',
     progressBar: 'bg-amber-500',
     icon: <AlertTriangle className="h-5 w-5" />,
@@ -35,7 +35,7 @@ const toastConfig = {
   },
   info: {
     containerClass: 'bg-[rgb(var(--color-bg-surface))]/90 border-sky-500/30',
-    iconColor: 'text-sky-400',
+    iconColor: 'text-sky-600 dark:text-sky-400',
     iconBg: 'bg-sky-500/10',
     progressBar: 'bg-sky-500',
     icon: <Info className="h-5 w-5" />,
@@ -112,8 +112,8 @@ const Toast: React.FC<ToastProps> = ({ message, onClose, type = 'info', duration
           aria-label="Close notification"
           className="
             flex-shrink-0 p-1.5 rounded-lg -mt-1 -mr-1
-            text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] 
-            hover:bg-white/10 transition-colors duration-200
+            text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]
+            hover:bg-black/5 dark:hover:bg-white/10 transition-colors duration-200
           "
         >
           <X className="h-4 w-4" />

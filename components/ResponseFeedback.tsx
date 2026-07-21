@@ -45,7 +45,7 @@ const ResponseFeedback: React.FC<ResponseFeedbackProps> = ({
   if (isSubmitted) {
     return (
       <div className="flex items-center justify-center p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/30 border border-[rgb(var(--color-border-secondary))]/30 animate-fade-in">
-        <div className="flex items-center gap-2 text-emerald-400">
+        <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
           <div className="p-1 rounded-full bg-emerald-500/20 border border-emerald-500/30">
             <Check className="w-3 h-3" />
           </div>

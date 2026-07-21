@@ -48,7 +48,7 @@ const GlobalLoadingOverlay: React.FC<GlobalLoadingOverlayProps> = ({ message, er
         {isErrorState && (
           <button
             onClick={() => setShowError(false)}
-            className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-white/10 transition-colors text-[rgb(var(--color-text-muted))]"
+            className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-white/10 light:hover:bg-slate-200 transition-colors text-[rgb(var(--color-text-muted))]"
             aria-label="Close"
           >
             <X className="w-4 h-4" />

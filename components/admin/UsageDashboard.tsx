@@ -563,8 +563,8 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                     <DollarSign className="w-3.5 h-3.5" /> Spend by engine — last 7 days
                   </h3>
-                  <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden">
-                    <table className="w-full text-left text-sm">
+                  <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
+                    <table className="w-full text-left text-sm min-w-[360px]">
                       <thead className="bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 uppercase text-[10px] font-bold">
                         <tr>
                           <th className="px-4 py-2.5">Engine</th>
@@ -623,8 +623,8 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                     No AI calls yet today.
                   </p>
                 ) : (
-                  <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden">
-                    <table className="w-full text-left text-sm">
+                  <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
+                    <table className="w-full text-left text-sm min-w-[500px]">
                       <thead className="bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 uppercase text-[10px] font-bold">
                         <tr>
                           <th className="px-4 py-2.5">User</th>
@@ -698,8 +698,8 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                 )}
 
                 {/* Fallback: adjust a user who hasn't called the AI today */}
-                <div className="mt-3 flex flex-wrap items-center gap-2">
-                  <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                <div className="mt-3 flex flex-wrap items-center gap-2 md:gap-3">
+                  <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400 font-medium">
                     Adjust another user:
                   </span>
                   <input
@@ -785,8 +785,8 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   </p>
 
                   {schools.length > 0 && (
-                    <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden mb-3">
-                      <table className="w-full text-left text-sm">
+                    <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto mb-3">
+                      <table className="w-full text-left text-sm min-w-[480px]">
                         <thead className="bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 uppercase text-[10px] font-bold">
                           <tr>
                             <th className="px-4 py-2.5">School</th>

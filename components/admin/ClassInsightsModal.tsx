@@ -248,8 +248,8 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                         No marked responses in this window yet.
                       </p>
                     ) : (
-                      <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden">
-                        <table className="w-full text-left text-sm">
+                      <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
+                        <table className="w-full text-left text-sm min-w-[500px]">
                           <thead className="bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 uppercase text-[10px] font-bold">
                             <tr>
                               <th className="px-4 py-2.5">

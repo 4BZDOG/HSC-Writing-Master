@@ -174,7 +174,7 @@ export const buildWritingInsights = (input: InsightInput): WritingInsight[] => {
     warnings.push({
       id: 'terms-target',
       tone: 'info',
-      message: `Tier ${tier} tasks expect ${expectedTerms}+ syllabus terms — have you used enough?`,
+      message: `Band ${tier} tasks expect ${expectedTerms}+ syllabus terms — have you used enough?`,
     });
   }
 
@@ -201,7 +201,7 @@ export const buildWritingInsights = (input: InsightInput): WritingInsight[] => {
     positives.push({
       id: 'structure-hint',
       tone: 'info',
-      message: `High-tier tasks benefit from clear sections: intro, body of argument, and conclusion.`,
+      message: `High-band tasks benefit from clear sections: intro, body of argument, and conclusion.`,
     });
   }
 

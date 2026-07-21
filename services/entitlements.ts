@@ -89,8 +89,8 @@ export const PREMIUM_FEATURES: Record<PremiumFeatureKey, PremiumFeatureMeta> = {
   },
   advancedQuestions: {
     title: 'Advanced Questions',
-    blurb: 'Tackle higher-tier questions (Analyse, Evaluate, Discuss) that push you beyond recall.',
-    perk: 'Full access to Tier 4–6 questions (Analyse → Evaluate)',
+    blurb: 'Tackle higher-band questions (Analyse, Evaluate, Discuss) that push you beyond recall.',
+    perk: 'Full access to Band 4–6 questions (Analyse → Evaluate)',
   },
   fullFeedback: {
     title: 'Full Marking Feedback',

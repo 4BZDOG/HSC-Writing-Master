@@ -8,8 +8,6 @@ import {
   Folder,
   Hash,
   BookOpen,
-  ListTree,
-  Zap,
   AlertCircle,
 } from 'lucide-react';
 
@@ -25,18 +23,18 @@ interface StatItemProps {
 }
 
 const StatItem = ({ label, value, icon: Icon, color }: StatItemProps) => (
-  <div className="flex items-center justify-between p-5 rounded-[24px] bg-white/[0.03] border border-white/5 w-full transition-all duration-300 hover:bg-white/[0.05] hover:border-white/10 group">
+  <div className="flex items-center justify-between p-5 rounded-[24px] bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200 w-full transition-all duration-300 hover:bg-white/[0.05] light:hover:bg-slate-100 hover:border-white/10 light:hover:border-slate-300 group">
     <div className="flex items-center gap-4">
       <div
-        className={`p-2.5 rounded-xl bg-black/40 border border-white/5 ${color} transition-transform group-hover:-rotate-6 shadow-inner`}
+        className={`p-2.5 rounded-xl bg-black/40 light:bg-slate-100 border border-white/5 light:border-slate-200 ${color} transition-transform group-hover:-rotate-6 shadow-inner`}
       >
         <Icon className="w-4 h-4" />
       </div>
-      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-slate-300 transition-colors">
+      <span className="text-xs font-bold uppercase tracking-wider text-slate-500 light:text-slate-500 group-hover:text-slate-300 light:group-hover:text-slate-700 transition-colors">
         {label}
       </span>
     </div>
-    <span className="text-2xl font-black text-white tracking-tighter tabular-nums">{value}</span>
+    <span className="text-2xl font-black text-white light:text-slate-900 tracking-tighter tabular-nums">{value}</span>
   </div>
 );
 
@@ -61,45 +59,45 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
         <div>
           <div className="flex items-center gap-3 mb-1">
             <span
-              className={`text-[10px] font-black uppercase tracking-[0.4em] ${result.isValid ? 'text-emerald-400' : 'text-red-400'}`}
+              className={`text-[10px] font-black uppercase tracking-[0.4em] ${result.isValid ? 'text-emerald-500' : 'text-red-500'}`}
             >
-              Diagnostic Scan
+              Validation
             </span>
             <div
               className={`h-1 w-1 rounded-full ${result.isValid ? 'bg-emerald-500' : 'bg-red-500'}`}
             />
           </div>
-          <h4 className="text-2xl font-black text-white tracking-tight uppercase italic">
+          <h4 className="text-2xl font-black text-white light:text-slate-900 tracking-tight uppercase italic">
             {result.isValid
               ? result.warnings.length > 0
-                ? 'Synthesis Degraded'
-                : 'Synthesis Optimal'
-              : 'Integrity Failure'}
+                ? 'Valid with Warnings'
+                : 'All Valid'
+              : 'Validation Failed'}
           </h4>
         </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
         <StatItem
-          label="Curriculum Roots"
+          label="Courses"
           value={result.stats.totalCourses}
           icon={BookOpen}
           color="text-sky-400"
         />
         <StatItem
-          label="Logic Modules"
+          label="Topics"
           value={result.stats.totalTopics}
           icon={Folder}
           color="text-purple-400"
         />
         <StatItem
-          label="Inquiry Points"
+          label="Dot Points"
           value={result.stats.totalDotPoints}
           icon={Hash}
           color="text-indigo-400"
         />
         <StatItem
-          label="Total Challenges"
+          label="Questions"
           value={result.stats.totalPrompts}
           icon={FileText}
           color="text-emerald-400"
@@ -112,23 +110,23 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
             <div className="p-1.5 rounded-lg bg-red-500/20">
               <AlertCircle className="w-4 h-4 text-red-400" />
             </div>
-            <h5 className="text-[10px] font-black text-red-400 uppercase tracking-[0.3em]">
-              Critical Integrity Faults
+            <h5 className="text-xs font-bold text-red-500 uppercase tracking-wider">
+              Errors
             </h5>
           </div>
           <ul className="space-y-3">
             {result.errors.slice(0, 5).map((err, i) => (
               <li
                 key={i}
-                className="text-xs text-red-200/70 flex items-start gap-4 bg-black/20 p-4 rounded-2xl border border-red-500/10"
+                className="text-xs text-red-300 light:text-red-700 flex items-start gap-4 bg-black/20 light:bg-red-50 p-4 rounded-2xl border border-red-500/10 light:border-red-200"
               >
                 <span className="text-red-500 font-mono font-bold">[{i + 1}]</span>
                 <span className="leading-relaxed font-medium">{err}</span>
               </li>
             ))}
             {result.errors.length > 5 && (
-              <li className="text-[9px] text-red-500/50 font-black uppercase tracking-widest pl-4">
-                And {result.errors.length - 5} additional faults detected.
+              <li className="text-xs text-red-500/60 light:text-red-400 font-semibold pl-4">
+                +{result.errors.length - 5} more error{result.errors.length - 5 === 1 ? '' : 's'}
               </li>
             )}
           </ul>
@@ -141,23 +139,23 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
             <div className="p-1.5 rounded-lg bg-amber-500/20">
               <AlertTriangle className="w-4 h-4 text-amber-400" />
             </div>
-            <h5 className="text-[10px] font-black text-amber-400 uppercase tracking-[0.3em]">
-              Calibration Warnings
+            <h5 className="text-xs font-bold text-amber-500 uppercase tracking-wider">
+              Warnings
             </h5>
           </div>
           <ul className="space-y-3">
             {result.warnings.slice(0, 5).map((warn, i) => (
               <li
                 key={i}
-                className="text-xs text-amber-100/60 flex items-start gap-4 bg-black/20 p-4 rounded-2xl border border-amber-500/10"
+                className="text-xs text-amber-200 light:text-amber-800 flex items-start gap-4 bg-black/20 light:bg-amber-50 p-4 rounded-2xl border border-amber-500/10 light:border-amber-200"
               >
                 <span className="text-amber-500 font-mono font-bold">[{i + 1}]</span>
                 <span className="leading-relaxed font-medium">{warn}</span>
               </li>
             ))}
             {result.warnings.length > 5 && (
-              <li className="text-[9px] text-amber-500/50 font-black uppercase tracking-widest pl-4">
-                And {result.warnings.length - 5} additional warnings.
+              <li className="text-xs text-amber-500/60 light:text-amber-400 font-semibold pl-4">
+                +{result.warnings.length - 5} more warning{result.warnings.length - 5 === 1 ? '' : 's'}
               </li>
             )}
           </ul>

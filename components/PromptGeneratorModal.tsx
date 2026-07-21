@@ -197,9 +197,9 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
   const activeBandConfig = getTierBandConfig(selectedTier);
   const activeTierInfo = TIER_GROUPS.find((g) => g.tier === selectedTier);
 
-  // The verb tier caps the achievable band (Tier N = Band N ceiling). For >6-mark
-  // questions the cap lifts to 6. Picking a tier defaults the target to that
-  // tier's ceiling, which the user can then aim below.
+  // The verb tier caps the achievable band (Tier N = Band N ceiling). Picking
+  // a tier defaults the target to that tier's ceiling, which the user can
+  // then aim below.
   const tierMaxBand = activeTierInfo?.maxBand ?? 6;
   useEffect(() => {
     setTargetBand(tierMaxBand);
@@ -331,10 +331,10 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
 
         <div className="flex-1 overflow-y-auto p-10 space-y-10 relative z-10 custom-scrollbar">
           {/* Syllabus Context */}
-          <div className="rounded-[32px] border p-8 relative overflow-hidden group transition-all duration-500 shadow-2xl bg-black/20 border-white/5">
+          <div className="rounded-[32px] border p-8 relative overflow-hidden group transition-all duration-500 shadow-2xl bg-black/20 light:bg-slate-50 border-white/5 light:border-slate-200">
             <div className="flex flex-col gap-6 relative z-10">
               <div className="flex flex-wrap items-center gap-3">
-                <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-xl bg-white/5 text-[rgb(var(--color-text-secondary))] border border-white/10 shadow-inner">
+                <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-xl bg-white/5 light:bg-slate-100 text-[rgb(var(--color-text-secondary))] border border-white/10 light:border-slate-200 shadow-inner">
                   <Hash className="w-3.5 h-3.5 text-indigo-400" />
                   <span className="text-[10px] font-bold uppercase tracking-[0.3em]">
                     Core Syllabus Element
@@ -379,9 +379,9 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                   </span>
                 </div>
               ) : (
-                <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white/5 border border-white/10 shadow-inner">
-                  <Info className="w-4 h-4 text-slate-400" />
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-200 shadow-inner">
+                  <Info className="w-4 h-4 text-slate-400 light:text-slate-500" />
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 light:text-slate-500">
                     No command verb detected in this dot point — set the level manually below.
                   </span>
                 </div>
@@ -408,7 +408,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                           className={`px-3 py-1 rounded-lg border text-[10px] font-bold uppercase tracking-widest italic transition-all duration-300 ${
                             isActive
                               ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 shadow-lg shadow-emerald-900/10'
-                              : 'bg-white/[0.03] border-white/10 text-slate-500 hover:text-white hover:border-white/20'
+                              : 'bg-white/[0.03] light:bg-slate-50 border-white/10 light:border-slate-200 text-slate-500 hover:text-white light:hover:text-slate-900 hover:border-white/20 light:hover:border-slate-400'
                           }`}
                         >
                           {item}
@@ -426,10 +426,10 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
               <section>
                 <div className="flex justify-between items-end mb-6">
                   <div className="flex flex-col gap-1">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 light:text-slate-400">
                       Settings
                     </span>
-                    <h4 className="text-sm font-bold text-white uppercase tracking-widest flex items-center gap-3">
+                    <h4 className="text-sm font-bold text-white light:text-slate-900 uppercase tracking-widest flex items-center gap-3">
                       <Target className="w-5 h-5 text-indigo-400" /> Mark Allocation
                     </h4>
                   </div>
@@ -444,7 +444,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                     </span>
                   </div>
                 </div>
-                <div className="h-4 bg-black/40 rounded-full border border-white/5 p-1 shadow-inner relative group/slider">
+                <div className="h-4 bg-black/40 light:bg-slate-200 rounded-full border border-white/5 light:border-slate-300 p-1 shadow-inner relative group/slider">
                   <input
                     type="range"
                     min={selectedVerbInfo?.markRange[0] ?? 1}
@@ -465,10 +465,10 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
               </section>
 
               <section>
-                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 mb-4 block">
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 light:text-slate-400 mb-4 block">
                   Difficulty Level
                 </span>
-                <h4 className="text-sm font-bold text-white uppercase tracking-widest flex items-center gap-3 mb-6">
+                <h4 className="text-sm font-bold text-white light:text-slate-900 uppercase tracking-widest flex items-center gap-3 mb-6">
                   <Brain className="w-5 h-5 text-purple-400" /> Processing Level
                 </h4>
                 <div className="grid grid-cols-3 gap-3">
@@ -483,7 +483,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                         title={
                           isSyllabusLevel ? 'The level the syllabus dot point asks for' : undefined
                         }
-                        className={`group relative p-5 rounded-[24px] border text-left transition-all duration-500 ${isSelected ? `${config.bg} ${config.border} shadow-2xl scale-[1.03]` : isSyllabusLevel ? 'bg-white/[0.04] border-emerald-500/30 hover:bg-white/[0.06]' : 'bg-white/[0.03] border-white/5 hover:bg-white/[0.05] hover:border-white/10'}`}
+                        className={`group relative p-5 rounded-[24px] border text-left transition-all duration-500 ${isSelected ? `${config.bg} ${config.border} shadow-2xl scale-[1.03]` : isSyllabusLevel ? 'bg-white/[0.04] light:bg-emerald-50 border-emerald-500/30 hover:bg-white/[0.06]' : 'bg-white/[0.03] light:bg-slate-50 border-white/5 light:border-slate-200 hover:bg-white/[0.05] light:hover:bg-slate-100 hover:border-white/10'}`}
                       >
                         {isSyllabusLevel && (
                           <span className="absolute -top-2 left-4 px-2 py-0.5 rounded-full bg-emerald-500 text-white text-[8px] font-black uppercase tracking-widest shadow-lg flex items-center gap-1">
@@ -495,13 +495,13 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                             {tier.emoji}
                           </span>
                           <span
-                            className={`text-[9px] font-bold uppercase tracking-widest ${isSelected ? config.text : 'text-white/20'}`}
+                            className={`text-[9px] font-bold uppercase tracking-widest ${isSelected ? config.text : 'text-white/20 light:text-slate-400'}`}
                           >
                             B{tier.tier}
                           </span>
                         </div>
                         <div
-                          className={`text-[10px] font-bold leading-tight uppercase tracking-widest ${isSelected ? 'text-white' : 'text-slate-500'}`}
+                          className={`text-[10px] font-bold leading-tight uppercase tracking-widest ${isSelected ? 'text-white light:text-slate-900' : 'text-slate-500'}`}
                         >
                           {tier.title}
                         </div>
@@ -543,7 +543,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                             ? `Harder than the syllabus asks · +${difficulty.steps} level${difficulty.steps > 1 ? 's' : ''}`
                             : `Easier than the syllabus asks · −${difficulty.steps} level${difficulty.steps > 1 ? 's' : ''}`}
                       </span>
-                      <p className="text-[10px] font-medium text-slate-400 leading-relaxed">
+                      <p className="text-[10px] font-medium text-slate-400 light:text-slate-600 leading-relaxed">
                         {difficulty.status === 'match'
                           ? `This question matches the "${syllabusVerbInfo?.term}" demand of the syllabus dot point.`
                           : difficulty.status === 'above'
@@ -558,11 +558,11 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
 
             <div className="space-y-10">
               <section>
-                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 mb-4 block">
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 light:text-slate-400 mb-4 block">
                   Scenario Settings
                 </span>
                 <div className="flex items-center justify-between gap-3 mb-6">
-                  <h4 className="text-sm font-bold text-white uppercase tracking-widest flex items-center gap-3">
+                  <h4 className="text-sm font-bold text-white light:text-slate-900 uppercase tracking-widest flex items-center gap-3">
                     <Briefcase className="w-5 h-5 text-blue-400" /> Scenario Context
                   </h4>
                   {/* Scenario is optional — a direct knowledge/skill question can
@@ -572,7 +572,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                     role="switch"
                     aria-checked={includeScenario}
                     onClick={() => setIncludeScenario((v) => !v)}
-                    className={`flex items-center gap-2.5 pl-3 pr-1.5 py-1.5 rounded-full border transition-all ${includeScenario ? 'bg-blue-500/10 border-blue-500/30 text-blue-300' : 'bg-white/[0.03] border-white/10 text-slate-400'}`}
+                    className={`flex items-center gap-2.5 pl-3 pr-1.5 py-1.5 rounded-full border transition-all ${includeScenario ? 'bg-blue-500/10 border-blue-500/30 text-blue-300 light:text-blue-600' : 'bg-white/[0.03] light:bg-slate-100 border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600'}`}
                     title={
                       includeScenario
                         ? 'Scenario on — a context paragraph will be written'
@@ -597,16 +597,16 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                       <button
                         key={type.id}
                         onClick={() => setScenarioType(type.id)}
-                        className={`flex items-center gap-4 p-4 rounded-2xl border transition-all duration-300 ${scenarioType === type.id ? 'bg-blue-500/10 border-blue-500/30 shadow-xl' : 'bg-white/[0.03] border-white/5 hover:bg-white/[0.05]'}`}
+                        className={`flex items-center gap-4 p-4 rounded-2xl border transition-all duration-300 ${scenarioType === type.id ? 'bg-blue-500/10 border-blue-500/30 shadow-xl' : 'bg-white/[0.03] light:bg-slate-50 border-white/5 light:border-slate-200 hover:bg-white/[0.05] light:hover:bg-slate-100'}`}
                       >
                         <div
-                          className={`p-2 rounded-xl flex-shrink-0 transition-colors ${scenarioType === type.id ? 'bg-blue-500 text-white shadow-lg' : 'bg-black/20 text-slate-500'}`}
+                          className={`p-2 rounded-xl flex-shrink-0 transition-colors ${scenarioType === type.id ? 'bg-blue-500 text-white shadow-lg' : 'bg-black/20 light:bg-slate-200 text-slate-500'}`}
                         >
                           <type.icon className="w-4 h-4" />
                         </div>
                         <div className="min-w-0">
                           <div
-                            className={`text-[10px] font-bold uppercase tracking-widest ${scenarioType === type.id ? 'text-white' : 'text-slate-400'}`}
+                            className={`text-[10px] font-bold uppercase tracking-widest ${scenarioType === type.id ? 'text-white light:text-slate-900' : 'text-slate-400 light:text-slate-600'}`}
                           >
                             {type.label}
                           </div>
@@ -618,11 +618,11 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                     ))}
                   </div>
                 ) : (
-                  <div className="flex items-center gap-3 p-5 rounded-2xl border border-dashed border-white/10 bg-white/[0.02] text-slate-400">
+                  <div className="flex items-center gap-3 p-5 rounded-2xl border border-dashed border-white/10 light:border-slate-300 bg-white/[0.02] light:bg-slate-50 text-slate-400 light:text-slate-600">
                     <Info className="w-4 h-4 shrink-0 text-blue-400" />
                     <p className="text-[10px] font-medium leading-relaxed">
                       This question will be generated as a{' '}
-                      <span className="font-bold text-white">direct question</span> with no scenario
+                      <span className="font-bold text-white light:text-slate-900">direct question</span> with no scenario
                       — the stem stands on its own. Turn the switch back on to add a context
                       paragraph.
                     </p>
@@ -640,7 +640,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                     <Trophy className="w-5 h-5" /> Synthesis Target
                   </label>
                   <span
-                    className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-white/10 ${activeBandConfig.text} border ${activeBandConfig.border}`}
+                    className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-white/10 light:bg-slate-100 ${activeBandConfig.text} border ${activeBandConfig.border}`}
                   >
                     Band {targetBand} Standard
                   </span>
@@ -666,8 +666,8 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                             isTarget
                               ? `${bConf.solidBg} text-white shadow-2xl scale-125 rotate-6 border border-white/20`
                               : isCappedOut
-                                ? 'bg-black/20 text-slate-700 border border-white/5 cursor-not-allowed line-through'
-                                : 'bg-black/40 text-slate-500 hover:scale-110 hover:text-white border border-white/5'
+                                ? 'bg-black/20 light:bg-slate-100 text-slate-700 border border-white/5 light:border-slate-200 cursor-not-allowed line-through'
+                                : 'bg-black/40 light:bg-slate-200 text-slate-500 hover:scale-110 hover:text-white light:hover:text-slate-900 border border-white/5 light:border-slate-300'
                           }`}
                         >
                           {b}
@@ -685,17 +685,17 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
             </div>
           </div>
 
-          <section className="pt-6 border-t border-white/5">
-            <h4 className="text-sm font-bold text-white uppercase tracking-widest flex items-center gap-3 mb-6">
+          <section className="pt-6 border-t border-white/5 light:border-slate-200">
+            <h4 className="text-sm font-bold text-white light:text-slate-900 uppercase tracking-widest flex items-center gap-3 mb-6">
               <Wrench className="w-5 h-5 text-amber-400" /> Command Verb
             </h4>
-            <div className="flex flex-wrap gap-2 p-6 bg-black/40 rounded-[32px] border border-white/5 shadow-inner">
+            <div className="flex flex-wrap gap-2 p-6 bg-black/40 light:bg-slate-100 rounded-[32px] border border-white/5 light:border-slate-200 shadow-inner">
               {verbsForCurrentTier.map((verb) => (
                 <button
                   key={verb.term}
                   onClick={() => setSelectedSpecificVerb(verb.term)}
                   title={`${verb.term}: ${verb.markRange[0]}–${verb.markRange[1]} marks`}
-                  className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all duration-300 border ${selectedSpecificVerb === verb.term ? `${activeBandConfig.bg} ${activeBandConfig.border} ${activeBandConfig.text} shadow-xl scale-105` : 'bg-white/5 border-transparent text-slate-500 hover:text-white hover:border-white/10'}`}
+                  className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all duration-300 border ${selectedSpecificVerb === verb.term ? `${activeBandConfig.bg} ${activeBandConfig.border} ${activeBandConfig.text} shadow-xl scale-105` : 'bg-white/5 light:bg-slate-50 border-transparent light:border-slate-200 text-slate-500 hover:text-white light:hover:text-slate-900 hover:border-white/10 light:hover:border-slate-400'}`}
                 >
                   {verb.term}
                 </button>
@@ -705,8 +705,8 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
         </div>
 
         {/* Global Footer Controls */}
-        <div className="px-10 py-8 bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-3xl border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-6 shrink-0 z-20 shadow-[0_-32px_64px_-16px_rgba(0,0,0,0.4)]">
-          <div className="flex-1 w-full sm:w-auto p-4 rounded-2xl bg-black/40 border border-white/5 flex items-start gap-4">
+        <div className="px-10 py-8 bg-[rgb(var(--color-bg-surface))]/95 light:bg-slate-50/95 backdrop-blur-3xl border-t border-white/5 light:border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-6 shrink-0 z-20 shadow-[0_-32px_64px_-16px_rgba(0,0,0,0.4)] light:shadow-[0_-16px_32px_-8px_rgba(0,0,0,0.06)]">
+          <div className="flex-1 w-full sm:w-auto p-4 rounded-2xl bg-black/40 light:bg-slate-100 border border-white/5 light:border-slate-200 flex items-start gap-4">
             <div className="p-2 rounded-xl bg-indigo-500/10">
               <Info className="w-5 h-5 text-indigo-400" />
             </div>
@@ -714,12 +714,12 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] block mb-1 text-indigo-400">
                 Configuration Valid
               </span>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-relaxed">
+              <p className="text-[10px] font-bold text-slate-400 light:text-slate-600 uppercase tracking-widest leading-relaxed">
                 Constructing a{' '}
-                <strong className="text-white">
+                <strong className="text-white light:text-slate-900">
                   {marks}-mark {activeTierInfo?.title}
                 </strong>{' '}
-                task targeting <strong className="text-white">Band {targetBand}</strong>.
+                task targeting <strong className="text-white light:text-slate-900">Band {targetBand}</strong>.
                 {selectedVerbInfo && (
                   <span className="text-slate-500">
                     {' '}
@@ -740,7 +740,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
             <button
               onClick={handleClose}
               disabled={isLoading}
-              className="px-8 py-4 rounded-2xl font-bold text-[10px] uppercase tracking-[0.3em] text-slate-500 hover:text-white transition-all disabled:opacity-50"
+              className="px-8 py-4 rounded-2xl font-bold text-[10px] uppercase tracking-[0.3em] text-slate-500 hover:text-white light:hover:text-slate-900 transition-all disabled:opacity-50"
             >
               Cancel
             </button>
