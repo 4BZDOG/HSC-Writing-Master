@@ -49,7 +49,7 @@
 
   --color-text-primary: 15 23 42;
   --color-text-secondary: 51 65 85;
-  --color-text-muted: 82 96 118;
+  --color-text-muted: 71 85 105;
   --color-text-dim: 100 116 139;
   --color-bg-surface-light: 226 232 240;
   --color-accent-dark: 3 105 161;
@@ -192,6 +192,9 @@ a:focus-visible,
   transform: translateY(-2px);
   box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.35);
 }
+[data-theme='light'] .hover-lift:hover {
+  box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.12);
+}
 .hover-scale {
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -208,8 +211,9 @@ a:focus-visible,
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 [data-theme='light'] .glass-card {
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .mesh-overlay {

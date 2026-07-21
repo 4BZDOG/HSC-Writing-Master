@@ -360,7 +360,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     )}
                     <button
                       onClick={() => setIsEditingQuestion(true)}
-                      className="p-2.5 rounded-xl bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-300 text-slate-400 hover:text-white light:hover:text-indigo-600 shadow-xl hover:scale-110 transition-all"
+                      className="p-2.5 rounded-xl bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-500 hover:text-white light:hover:text-indigo-600 shadow-xl hover:scale-110 transition-all"
                       title="Edit Question"
                     >
                       <Edit3 className="w-4 h-4" />
@@ -375,7 +375,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           {!(condensed && !prompt.scenario && !isEditingScenario) && (
             <div className="relative group/scenario">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500 light:text-slate-400 flex items-center gap-2">
+                <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500 light:text-slate-600 flex items-center gap-2">
                   <BookOpen className="w-3.5 h-3.5" /> Context Scenario
                 </h3>
                 {canCurate && !isEditingScenario && (
@@ -394,7 +394,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     )}
                     <button
                       onClick={() => setIsEditingScenario(true)}
-                      className="p-1.5 rounded-lg text-slate-400 hover:text-white light:hover:text-indigo-600 hover:bg-white/10 transition-colors"
+                      className="p-1.5 rounded-lg text-slate-400 light:text-slate-500 hover:text-white light:hover:text-indigo-600 hover:bg-white/10 light:hover:bg-slate-100 transition-colors"
                       title="Edit Scenario"
                     >
                       <Edit3 className="w-3.5 h-3.5" />

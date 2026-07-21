@@ -551,7 +551,7 @@ const Editor = forwardRef<
         )}
 
         {/* Editor Body with Grid Stacking for Auto-Height */}
-        <div className="relative flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50/30">
+        <div className="relative flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white">
           {/* Progress-Aware Background Bloom */}
           <div
             className="absolute inset-0 opacity-10 light:opacity-5 transition-all duration-1000 ease-in-out pointer-events-none"
@@ -602,7 +602,7 @@ const Editor = forwardRef<
 
         {/* Footer Metrics */}
         <div
-          className={`px-4 sm:px-6 py-3 flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5 border-t border-white/10 bg-[rgb(var(--color-bg-surface))]/80 rounded-b-[30px] transition-all duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
+          className={`px-4 sm:px-6 py-3 flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5 border-t border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50 rounded-b-[30px] transition-all duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
         >
           <div className="flex items-center gap-4 sm:gap-6 text-[10px] text-[rgb(var(--color-text-dim))] font-black uppercase tracking-widest select-none whitespace-nowrap">
             <span className="flex items-center gap-1.5">

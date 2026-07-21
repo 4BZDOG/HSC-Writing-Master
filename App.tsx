@@ -98,15 +98,15 @@ const AnimatedBackground: React.FC = () => {
       </div>
       <div className="absolute inset-0 hidden light:block">
         <div
-          className="absolute top-0 -left-4 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-[60px] opacity-60"
+          className="absolute top-0 -left-4 w-96 h-96 bg-indigo-200 rounded-full mix-blend-multiply filter blur-[100px] opacity-40"
           style={{ animation: 'blob 10s infinite ease-in-out' }}
         />
         <div
-          className="absolute top-0 -right-4 w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-[60px] opacity-60"
+          className="absolute top-0 -right-4 w-96 h-96 bg-sky-200 rounded-full mix-blend-multiply filter blur-[100px] opacity-40"
           style={{ animation: 'blob 10s infinite ease-in-out', animationDelay: '2s' }}
         />
         <div
-          className="absolute -bottom-32 left-20 w-96 h-96 bg-pink-300 rounded-full mix-blend-multiply filter blur-[60px] opacity-60"
+          className="absolute -bottom-32 left-20 w-96 h-96 bg-violet-200 rounded-full mix-blend-multiply filter blur-[100px] opacity-30"
           style={{ animation: 'blob 10s infinite ease-in-out', animationDelay: '4s' }}
         />
       </div>
@@ -891,7 +891,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
               <div className="-mt-2 flex justify-end">
                 <button
                   onClick={() => setIsNavExpanded(false)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 text-[rgb(var(--color-text-secondary))] border border-white/10 hover:bg-white/10 hover:text-[rgb(var(--color-text-primary))] transition-all text-xs font-bold"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 light:bg-slate-100 text-[rgb(var(--color-text-secondary))] border border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-200 hover:text-[rgb(var(--color-text-primary))] transition-all text-xs font-bold"
                   title="Collapse the navigator and focus on your response"
                 >
                   <ChevronUp className="w-3.5 h-3.5" />
