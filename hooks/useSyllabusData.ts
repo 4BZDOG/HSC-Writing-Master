@@ -43,6 +43,7 @@ import {
   analyzeAndSanitizeImportData,
   migrateAnalyseVerb,
   regenerateTopicIds,
+  recalculateSampleAnswerBands,
 } from '../utils/dataManagerUtils';
 
 type DiscoveredDocType = 'course' | 'topic';
@@ -200,7 +201,7 @@ export const useSyllabusData = ({
         try {
           const remoteCourses = await fetchRemoteCourses();
           if (remoteCourses.length > 0) {
-            updateCourses(() => remoteCourses);
+            updateCourses(() => recalculateSampleAnswerBands(remoteCourses));
             setStorageStatus('Supabase');
             saveCoursesToDB(remoteCourses).catch((err) =>
               console.warn('[Curriculum] Failed to cache remote courses locally:', err)
