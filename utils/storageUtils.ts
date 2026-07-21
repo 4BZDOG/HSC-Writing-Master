@@ -12,9 +12,9 @@ import {
 } from './dataManagerUtils';
 
 // Current data version - increment when structure changes
-// 2.3.1: additive optional `contentFlag` on prompts and sample answers
-// (user-raised review flags). No transform needed — existing data is valid.
-export const DATA_VERSION = '2.3.1';
+// 2.4.0: NESA-aligned band formula — removed the marks-based cap so the verb's
+// tier is the sole ceiling.  Existing sample-answer bands must be recalculated.
+export const DATA_VERSION = '2.4.0';
 
 export const STORAGE_KEYS = {
   COURSES: 'hsc-ai-evaluator-courses', // Legacy key for migration check
@@ -605,6 +605,11 @@ export const runMigrations = (courses: Course[], fromVersion: string): Course[] 
   if (fromVersion < '2.3.0') {
     console.log('Applying v2.3.0 migration: Canonicalising prompt verbs and mark values...');
     migrated = repairPromptIntegrity(migrated);
+  }
+
+  if (fromVersion < '2.4.0') {
+    console.log('Applying v2.4.0 migration: NESA-aligned band recalculation...');
+    migrated = recalculateSampleAnswerBands(migrated);
   }
 
   return migrated;
