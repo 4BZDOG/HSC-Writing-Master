@@ -180,7 +180,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
                       type="button"
                       title={
                         isCappedOut
-                          ? `'${prompt.verb}' (Tier ${commandTermInfo.tier}) caps this question at Band ${tierMaxBand}`
+                          ? `'${prompt.verb}' caps this question at Band ${tierMaxBand}`
                           : `Band ${b}`
                       }
                       className={`
@@ -207,7 +207,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
               ) : (
                 <p className="mt-2 text-[10px] font-bold text-slate-500 light:text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
                   <Award className="w-3 h-3" /> Manually overridable up to Band {tierMaxBand} (
-                  {`'${prompt.verb}'`} tier cap)
+                  {`'${prompt.verb}'`} verb cap)
                 </p>
               )}
             </div>

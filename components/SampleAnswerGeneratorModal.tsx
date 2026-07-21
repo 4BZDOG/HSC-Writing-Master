@@ -181,7 +181,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                   <span
                     className={`px-2 py-0.5 rounded text-xs font-black uppercase tracking-wider bg-white/10 light:bg-white/60 border border-white/20 light:border-slate-300/50`}
                   >
-                    Tier {commandTermInfo.tier}
+                    '{prompt.verb}'
                   </span>
                   <span className="opacity-50">•</span>
                   <span className="opacity-80">{tierInfo?.title}</span>

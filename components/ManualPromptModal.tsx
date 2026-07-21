@@ -182,13 +182,9 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                         <p className="text-[10px] text-slate-500 font-medium">
                           AI targets a{' '}
                           <span className={`font-bold ${markBandColor}`}>
-                            Tier {suggestedVerb.tier}
-                          </span>{' '}
-                          verb like{' '}
-                          <span className={`font-bold ${markBandColor}`}>
                             '{suggestedVerb.term}'
                           </span>{' '}
-                          — {suggestedTierInfo?.title}.
+                          style verb — {suggestedTierInfo?.title}.
                         </p>
                       </div>
                     </div>
@@ -294,7 +290,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       {result.totalMarks} Marks
                     </div>
                     <div className="px-3 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 text-[10px] font-black uppercase tracking-widest border border-indigo-500/20">
-                      Tier {getCommandTermInfo(result.verb).tier} • Max Band{' '}
+                      '{result.verb}' • Max Band{' '}
                       {getTargetBand(result.totalMarks, getCommandTermInfo(result.verb).tier)}
                     </div>
                   </div>

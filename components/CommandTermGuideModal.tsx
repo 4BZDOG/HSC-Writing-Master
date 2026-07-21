@@ -83,7 +83,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
                 </h2>
                 <div className="flex items-center gap-2 mt-0.5 text-white/90 font-medium text-sm">
                   <span className="bg-white/20 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider">
-                    Tier {termInfo.tier}
+                    Level {termInfo.tier}
                   </span>
                   <span>•</span>
                   <span>{termInfo.markRange.join('-')} Marks</span>
@@ -137,7 +137,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
                 <Target className={`w-5 h-5 ${bandConfig.text}`} />
               </div>
               <p className="text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1">
-                Cognitive Tier
+                Cognitive Level
               </p>
               <p className={`font-black text-2xl ${bandConfig.text}`}>{termInfo.tier}</p>
             </div>
