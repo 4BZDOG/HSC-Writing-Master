@@ -134,7 +134,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'CALCULATE',
-    definition: 'Determine a numerical answer using given data, formulas, or mathematical processes.',
+    definition:
+      'Determine a numerical answer using given data, formulas, or mathematical processes.',
     tip: 'Write the formula, substitute, solve — in that order.\nNo working shown = no marks, even if the answer is right.',
     tier: 1,
     markRange: [1, 3],
@@ -154,7 +155,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   {
     term: 'EXTRACT',
     definition: 'Select and present specific information from a given source, graph, or stimulus.',
-    tip: 'Quote or copy directly from the source and label what it shows.\nDon\'t interpret — just pull out the data asked for.',
+    tip: "Quote or copy directly from the source and label what it shows.\nDon't interpret — just pull out the data asked for.",
     tier: 1,
     markRange: [1, 3],
     charRange: [150, 500],
@@ -189,9 +190,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'OUTLINE',
-    definition:
-      'Sketch the main features or general principles of a topic without fine detail.',
-    tip: 'Think bullet points in sentence form — broad strokes only.\nIf you\'re writing more than a sentence per point, you\'re over-detailing.',
+    definition: 'Sketch the main features or general principles of a topic without fine detail.',
+    tip: "Think bullet points in sentence form — broad strokes only.\nIf you're writing more than a sentence per point, you're over-detailing.",
     tier: 2,
     markRange: [2, 4],
     charRange: [400, 900],
@@ -205,8 +205,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'DESCRIBE',
-    definition:
-      'Provide the characteristics and features of something in detail.',
+    definition: 'Provide the characteristics and features of something in detail.',
     tip: 'Use adjectives and specifics to paint a picture.\nAsk yourself: "What does this look like? What are its parts? How does it work?"',
     tier: 2,
     markRange: [2, 4],
@@ -242,8 +241,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'CLARIFY',
-    definition:
-      'Make a statement or situation less confused and more comprehensible.',
+    definition: 'Make a statement or situation less confused and more comprehensible.',
     tip: 'Break the complex idea into plain steps.\nUse "in other words" or "this means that" to bridge from confusing to clear.',
     tier: 2,
     markRange: [2, 4],
@@ -261,8 +259,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'CLASSIFY',
-    definition:
-      'Arrange or sort into classes or categories based on shared characteristics.',
+    definition: 'Arrange or sort into classes or categories based on shared characteristics.',
     tip: "Name each category and justify the sorting — don't just list.\nSay what trait puts each item in its group.",
     tier: 2,
     markRange: [2, 4],
@@ -282,9 +279,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   // --- Tier 3: Explain & Compare ---
   {
     term: 'EXPLAIN',
-    definition:
-      'Relate cause and effect; make the relationship between things clear.',
-    tip: 'Chain every sentence with linking words:\nbecause, leads to, results in, therefore.\nFacts alone don\'t explain — connections do.',
+    definition: 'Relate cause and effect; make the relationship between things clear.',
+    tip: "Chain every sentence with linking words:\nbecause, leads to, results in, therefore.\nFacts alone don't explain — connections do.",
     tier: 3,
     markRange: [3, 6],
     charRange: [600, 1400],
@@ -302,8 +298,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'COMPARE',
-    definition:
-      'Show how things are similar and how they are different.',
+    definition: 'Show how things are similar and how they are different.',
     tip: 'Use a balanced structure:\n"Both X and Y... However, X... whereas Y..."\nDiscuss the significance of each point, don\'t just list.',
     tier: 3,
     markRange: [3, 6],
@@ -337,7 +332,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'DEMONSTRATE',
-    definition: 'Show how something works or prove a point through examples or practical application.',
+    definition:
+      'Show how something works or prove a point through examples or practical application.',
     tip: 'State the concept first, then show it in action with a concrete case.\nReal-world or syllabus examples score highest.',
     tier: 3,
     markRange: [3, 6],
@@ -355,8 +351,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'PREDICT',
-    definition:
-      'Suggest what may happen based on available information or evidence.',
+    definition: 'Suggest what may happen based on available information or evidence.',
     tip: 'Start with "Based on..." and use the data or trend given.\nNever guess — every prediction needs a visible evidence trail.',
     tier: 3,
     markRange: [2, 4],
@@ -374,7 +369,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'ACCOUNT',
-    definition: 'State reasons for; report on. Give an account of; narrate a series of events or transactions.',
+    definition:
+      'State reasons for; report on. Give an account of; narrate a series of events or transactions.',
     tip: 'Build a cause-and-effect chain:\nA happened because of B, which led to C.\nShow the full sequence, not isolated reasons.',
     tier: 3,
     markRange: [3, 6],
@@ -396,7 +392,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     term: 'ANALYSE',
     definition:
       'Identify components and the relationships between them; draw out and relate implications.',
-    tip: 'One paragraph per component, then a final paragraph linking them.\nDon\'t just list parts — every paragraph must show a relationship or implication.',
+    tip: "One paragraph per component, then a final paragraph linking them.\nDon't just list parts — every paragraph must show a relationship or implication.",
     tier: 4,
     markRange: [4, 8],
     charRange: [1000, 2200],
@@ -414,8 +410,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'APPLY',
-    definition:
-      'Use knowledge and understanding of a concept in a new or different context.',
+    definition: 'Use knowledge and understanding of a concept in a new or different context.',
     tip: 'Start with the concept, then say "In this case..."\nThe marker wants to see transfer — prove you can use the idea outside the textbook.',
     tier: 4,
     markRange: [4, 8],
@@ -434,9 +429,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'EXAMINE',
-    definition:
-      'Inquire into in detail; investigate thoroughly.',
-    tip: 'Pick 2-3 key aspects and go deep on each with evidence.\nQuality of depth beats quantity of points — don\'t skim the surface.',
+    definition: 'Inquire into in detail; investigate thoroughly.',
+    tip: "Pick 2-3 key aspects and go deep on each with evidence.\nQuality of depth beats quantity of points — don't skim the surface.",
     tier: 4,
     markRange: [4, 8],
     charRange: [1000, 2200],
@@ -472,9 +466,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'INTERPRET',
-    definition:
-      'Draw meaning from information, data, or a text; explain what it signifies.',
-    tip: 'Go beyond the surface.\nIf it\'s a graph, say what the trend implies.\nIf it\'s a quote, say what the author is really suggesting — not just what\'s written.',
+    definition: 'Draw meaning from information, data, or a text; explain what it signifies.',
+    tip: "Go beyond the surface.\nIf it's a graph, say what the trend implies.\nIf it's a quote, say what the author is really suggesting — not just what's written.",
     tier: 4,
     markRange: [3, 6],
     charRange: [800, 1800],
@@ -511,9 +504,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'CONSTRUCT',
-    definition:
-      'Make; build; put together items or arguments to create something coherent.',
-    tip: 'Show clear steps in the build, whether it\'s an argument, graph, or model.\nUse headings or signposting so the structure is visible to the marker.',
+    definition: 'Make; build; put together items or arguments to create something coherent.',
+    tip: "Show clear steps in the build, whether it's an argument, graph, or model.\nUse headings or signposting so the structure is visible to the marker.",
     tier: 4,
     markRange: [4, 8],
     charRange: [1000, 2200],
@@ -534,7 +526,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     term: 'DISCUSS',
     definition:
       'Identify issues and provide points for and/or against, exploring from different perspectives.',
-    tip: 'Structure: intro, arguments for, arguments against, your overall position.\nBalance is key — don\'t make one side look weak on purpose.',
+    tip: "Structure: intro, arguments for, arguments against, your overall position.\nBalance is key — don't make one side look weak on purpose.",
     tier: 5,
     markRange: [5, 10],
     charRange: [1500, 3000],
@@ -552,8 +544,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'ASSESS',
-    definition:
-      'Make a judgement of value, quality, outcomes, results, or size.',
+    definition: 'Make a judgement of value, quality, outcomes, results, or size.',
     tip: 'Name your criteria upfront:\n"This will be assessed against..."\nWeigh strengths vs. weaknesses, then deliver a clear final verdict.',
     tier: 5,
     markRange: [6, 10],
@@ -568,8 +559,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'JUSTIFY',
-    definition:
-      'Support an argument or conclusion with evidence, reasoning, and logic.',
+    definition: 'Support an argument or conclusion with evidence, reasoning, and logic.',
     tip: 'Defend your position like a lawyer.\nPile on evidence with "This is supported by..." and "Furthermore..."\nYour job is to be convincing, not balanced.',
     tier: 5,
     markRange: [6, 10],
@@ -588,8 +578,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'DEDUCE',
-    definition:
-      'Draw conclusions from available evidence or reasoning.',
+    definition: 'Draw conclusions from available evidence or reasoning.',
     tip: 'Make the reasoning chain explicit and unbreakable:\n"Given A and B, it follows that C."\nShow every logical step — don\'t skip to the answer.',
     tier: 5,
     markRange: [4, 8],
@@ -607,9 +596,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'RECOMMEND',
-    definition:
-      'Provide reasons in favour of a chosen course of action or position.',
-    tip: 'Compare alternatives briefly, then push your choice hard.\nEnd with a clear call to action: what should happen, when, and why it\'s best.',
+    definition: 'Provide reasons in favour of a chosen course of action or position.',
+    tip: "Compare alternatives briefly, then push your choice hard.\nEnd with a clear call to action: what should happen, when, and why it's best.",
     tier: 5,
     markRange: [5, 10],
     charRange: [1500, 3000],
@@ -625,7 +613,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     term: 'APPRECIATE',
     definition:
       'Make a judgement about the value of something, recognising its positive qualities and significance.',
-    tip: 'Don\'t just say it\'s good.\nSay who it helps, what makes it significant, and why it matters in the bigger picture.',
+    tip: "Don't just say it's good.\nSay who it helps, what makes it significant, and why it matters in the bigger picture.",
     tier: 5,
     markRange: [4, 8],
     charRange: [1000, 2200],
@@ -646,7 +634,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     term: 'EVALUATE',
     definition:
       'Make a judgement based on criteria; determine the value, quality, or significance of something.',
-    tip: 'State your criteria upfront, test the evidence against each criterion, then deliver a clear verdict.\nDon\'t sit on the fence.',
+    tip: "State your criteria upfront, test the evidence against each criterion, then deliver a clear verdict.\nDon't sit on the fence.",
     tier: 6,
     markRange: [8, 15],
     charRange: [2200, 4500],
@@ -666,7 +654,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     term: 'CRITICALLY ANALYSE',
     definition:
       'Analyse with additional depth: question assumptions, consider limitations, and examine underlying reasoning.',
-    tip: 'This is Band 6 territory — think about the thinking.\nSpot bias, question what\'s taken for granted, and acknowledge what the evidence doesn\'t show.',
+    tip: "This is Band 6 territory — think about the thinking.\nSpot bias, question what's taken for granted, and acknowledge what the evidence doesn't show.",
     tier: 6,
     markRange: [8, 15],
     charRange: [2800, 6000],
@@ -724,8 +712,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'PROPOSE',
-    definition:
-      'Put forward an idea, plan, or suggestion for consideration or action.',
+    definition: 'Put forward an idea, plan, or suggestion for consideration or action.',
     tip: 'Be bold but backed by evidence.\nCover what should happen, why, and the expected outcome.\nEnd with a clear call to action.',
     tier: 6,
     markRange: [8, 15],
@@ -804,7 +791,7 @@ export const commandTerms = new Map<PromptVerb, CommandTermInfo>(
 const fallbackTerm: CommandTermInfo = {
   term: 'EXPLAIN',
   definition: 'Relate cause and effect; make the relationship between things clear.',
-  tip: 'Chain every sentence with linking words:\nbecause, leads to, results in, therefore.\nFacts alone don\'t explain — connections do.',
+  tip: "Chain every sentence with linking words:\nbecause, leads to, results in, therefore.\nFacts alone don't explain — connections do.",
   tier: 3,
   markRange: [1, 20] as [number, number],
   charRange: [600, 1400] as [number, number],

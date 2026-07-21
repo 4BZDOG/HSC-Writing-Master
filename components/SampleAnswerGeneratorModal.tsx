@@ -309,7 +309,6 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     <Award className="w-3.5 h-3.5" />
                     Expected Result: Band {selectedBand}
                   </span>
-
                 </div>
 
                 <p
@@ -324,7 +323,6 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     ? ' This simulates a non-attempt or a response that completely fails to address the criteria.'
                     : ` It will demonstrate the depth, terminology, and structure expected of a Band ${selectedBand} student for this '${prompt.verb}' question.`}
                 </p>
-
               </div>
             ) : (
               <div className="h-full flex flex-col items-center justify-center text-center opacity-40">
