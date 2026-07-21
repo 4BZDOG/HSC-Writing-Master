@@ -262,7 +262,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                 return (
                   <div
                     key={idx}
-                    className={`flex items-stretch rounded-xl border ${itemConfig.border} bg-white dark:bg-black/20 overflow-hidden group shadow-sm transition-all`}
+                    className={`flex items-stretch rounded-xl border ${itemConfig.border} ${itemConfig.bg} overflow-hidden group shadow-sm transition-all`}
                   >
                     <div
                       className={`w-14 flex flex-col items-center justify-center p-2 border-r ${itemConfig.border} ${itemConfig.bg} flex-shrink-0`}

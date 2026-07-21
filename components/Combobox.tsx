@@ -254,8 +254,14 @@ const Combobox: React.FC<ComboboxProps> = ({
     // Open State: Diffused "Bloom" glow
     stateStyles = `${theme.glow} bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white text-white light:text-slate-900`;
   } else if (selectedOption) {
-    // Closed but Selected: Subtle tint matching the color theme
-    stateStyles = `${theme.bg} ${theme.border} text-[rgb(var(--color-text-primary))] light:text-slate-900 shadow-sm ${theme.hoverBorder}`;
+    // Closed but Selected: use the option's tier colour when available so the
+    // button chrome matches the tier-coloured renderLabel inside it.
+    if (selectedOption.tier !== undefined) {
+      const tc = getTierScaleConfig(selectedOption.tier);
+      stateStyles = `${tc.bg} ${tc.border} text-[rgb(var(--color-text-primary))] light:text-slate-900 shadow-sm`;
+    } else {
+      stateStyles = `${theme.bg} ${theme.border} text-[rgb(var(--color-text-primary))] light:text-slate-900 shadow-sm ${theme.hoverBorder}`;
+    }
   } else {
     // Closed and Empty: Neutral surface with faint border (Fixed from stark white)
     stateStyles = `bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border-white/10 light:border-slate-300 text-[rgb(var(--color-text-muted))] light:text-slate-500 ${theme.hoverBorder}`;

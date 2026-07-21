@@ -174,7 +174,7 @@ const CarouselAccordionItem: React.FC<{
               performance ladder reads at a glance before anything is opened. */}
           <div
             className={`absolute inset-0 bg-gradient-to-r ${bandConfig.gradient} pointer-events-none transition-opacity duration-500 ${
-              isOpen ? 'opacity-0' : 'opacity-[0.05] dark:opacity-[0.08] group-hover:opacity-[0.1]'
+              isOpen ? 'opacity-0' : 'opacity-[0.12] dark:opacity-[0.15] group-hover:opacity-[0.2]'
             }`}
           />
           {/* Indicator Bar — always in band colour, full strength when open */}
