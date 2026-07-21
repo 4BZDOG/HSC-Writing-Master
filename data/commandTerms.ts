@@ -906,26 +906,12 @@ export const getCommandTermsForMarks = (
 };
 
 /**
- * The band ceiling implied by a question's MARK VALUE alone: an N-mark
- * question can't call for more depth than roughly Band N+1, however lofty its
- * verb (a 1-mark task evidences at most Band 2 recall; a 3-mark task tops out
- * at Band 4; from 5 marks the marks stop being the limiting factor).
- *
- * This exists to normalise questions generated or imported OUTSIDE the usual
- * verb/mark pairings — e.g. a 3-mark Tier-4 DISTINGUISH — so every derived
- * band (and therefore every band colour) stays predictable. It is applied
- * inside getBandForMark, the single source all band figures flow from.
- */
-export const getMarksBandCap = (totalMarks: number): number =>
-  Math.max(1, Math.min(6, Math.floor(totalMarks) + 1));
-
-/**
  * Calculates the Performance Band (1-6) based on the mark achieved,
- * strictly constrained by the Tier Level (Cognitive complexity) of the question
- * AND by the question's mark value (see getMarksBandCap).
+ * constrained only by the verb's cognitive tier (tier N → max Band N).
  *
- * Uses a Tier-specific ratio lookup table to ensure marks like 4/5 and 9/10
- * map to the correct bands according to NESA standards.
+ * NESA's own band descriptors map full marks to the verb's ceiling band
+ * regardless of mark count (3/3 on an Evaluate = Band 6), so the verb tier
+ * is the sole cap — there is no secondary marks-based limit.
  *
  * @param mark The mark achieved or target mark.
  * @param totalMarks The total marks available for the question.
@@ -935,29 +921,14 @@ export const getBandForMark = (mark: number, totalMarks: number, tier: number = 
   if (totalMarks <= 0) return 1;
   if (mark <= 0) return 1;
 
-  // The effective ceiling: the tier's maxBand (== tier number), capped by the
-  // marks-based limit.  For questions worth MORE than 6 marks the tier cap is
-  // lifted to 6 so all six colours can be used — there are enough mark levels
-  // to warrant the full spectrum, and these questions are almost always
-  // high-tier verbs anyway.
   const tierGroup = TIER_GROUPS.find((g) => g.tier === tier);
-  const tierMax = tierGroup ? tierGroup.maxBand : Math.min(tier, 6);
-  const cap = getMarksBandCap(totalMarks);
-  const effectiveTierMax = totalMarks > 6 ? 6 : tierMax;
-  const maxBand = Math.min(effectiveTierMax, cap);
+  const maxBand = tierGroup ? tierGroup.maxBand : Math.max(1, Math.min(6, tier));
 
-  // For questions where totalMarks ≤ maxBand, a linear mapping guarantees each
-  // mark gets a distinct band — no collisions possible. This is the common case
-  // for HSC short-answer (2-6 mark questions).
   if (totalMarks <= maxBand) {
-    // mark 1→(maxBand - totalMarks + 1), ..., mark totalMarks→maxBand
     const clampedMark = Math.min(mark, totalMarks);
     return maxBand - totalMarks + clampedMark;
   }
 
-  // For higher-mark questions (totalMarks > maxBand), distribute bands evenly
-  // across the mark range using ceiling division. Full marks always = maxBand,
-  // mark 1 = Band 1 (or the lowest achievable).
   const clampedMark = Math.min(mark, totalMarks);
   return Math.min(maxBand, Math.max(1, Math.ceil((clampedMark / totalMarks) * maxBand)));
 };
@@ -993,10 +964,6 @@ export const getTargetBand = (totalMarks: number, tier: number = 4): number =>
  * Band 1 red, Tier 4 → Band 4 green, Tier 6 → Band 6 purple), so the verb's
  * colour in the Command Verb Hierarchy ribbon is always the same as the highest
  * colour shown for any prompt using that verb.
- *
- * For individual questions the marks-based cap (`getMarksBandCap`) or the
- * >6-marks override in `getBandForMark` may adjust the effective ceiling, but
- * this function returns the tier's OWN identity colour, independent of marks.
  */
 export const getTierTargetBand = (tier: number): number =>
   TIER_GROUPS.find((g) => g.tier === tier)?.maxBand ?? Math.max(1, Math.min(6, tier));

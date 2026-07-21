@@ -125,7 +125,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
               HSC Command Verb Hierarchy
             </h3>
             <span className="text-[9px] font-black uppercase tracking-[0.2em] opacity-70">
-              Reference • {sortedVerbsByGroup.length} Levels
+              Reference • {sortedVerbsByGroup.length} Bands
             </span>
           </div>
         </div>
@@ -180,7 +180,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                         <div
                           className={`px-3 py-0.5 rounded-full border font-black text-[9px] uppercase tracking-widest shadow-sm ${activeConfig.bg} ${activeConfig.text} ${activeConfig.border}`}
                         >
-                          Level {activeTermInfo.tier}
+                          Band {activeTermInfo.tier}
                         </div>
                       </div>
                       <p className="text-sm font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 max-w-xl leading-relaxed opacity-90">
@@ -314,7 +314,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                         <span
                           className={`text-[10px] font-black uppercase tracking-[0.2em] block mb-0.5 truncate ${isCurrentTier ? 'opacity-70' : tierConfig.text + ' opacity-60'}`}
                         >
-                          Level {group.tier} · Band {group.maxBand} cap
+                          Band {group.maxBand} ceiling
                         </span>
                         <h4
                           className={`text-sm font-black truncate tracking-tight ${isCurrentTier ? 'text-white' : tierConfig.text}`}
@@ -419,7 +419,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
 
                   <button
                     type="button"
-                    aria-label={`Highlight level ${step.tier} — ${step.label}`}
+                    aria-label={`Highlight band ${step.tier} — ${step.label}`}
                     className="flex flex-col items-center gap-3 relative z-10 group/step cursor-pointer"
                     onClick={() => {
                       const group = sortedVerbsByGroup.find((g) => g.tier === step.tier);

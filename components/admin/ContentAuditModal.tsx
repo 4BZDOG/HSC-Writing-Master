@@ -942,7 +942,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
     return prompt.sampleAnswers.map((sample) => ({
       id: `recal-${sample.id}`,
-      description: `Recalibrating sample (Level ${verbTier} rules): ${node.label.slice(0, 20)}...`,
+      description: `Recalibrating sample (Band ${verbTier} rules): ${node.label.slice(0, 20)}...`,
       action: async () => {
         // 1. Create a clean calibration prompt without existing samples to prevent bias
         const calibrationPrompt = { ...prompt, sampleAnswers: [] };

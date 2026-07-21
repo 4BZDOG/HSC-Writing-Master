@@ -26,10 +26,10 @@ import {
   getCommandTermInfo,
   getCommandTermsForMarks,
   getBandForMark,
-  getMarksBandCap,
   markForBand,
   getStructureGuide,
   getTargetBand,
+  TIER_GROUPS,
 } from '../data/commandTerms';
 import { generateId } from '../utils/idUtils';
 import { normalizeSyllabusStructure, type SyllabusPreviewNode } from '../utils/dataManagerUtils';
@@ -84,9 +84,8 @@ const buildMarkingCriteriaInstruction = (
     );
   }
 
-  const cap = getMarksBandCap(marks);
-  const effectiveTier = marks > 6 ? 6 : Math.min(tier, 6);
-  const maxBand = Math.min(effectiveTier, cap);
+  const tierGroup = TIER_GROUPS.find((g) => g.tier === tier);
+  const maxBand = tierGroup ? tierGroup.maxBand : Math.max(1, Math.min(6, tier));
   const tiers: string[] = [];
   tiers.push(`${marks} marks: [criteria for full marks — Band ${maxBand}]`);
   for (let band = maxBand - 1; band >= 2; band--) {
