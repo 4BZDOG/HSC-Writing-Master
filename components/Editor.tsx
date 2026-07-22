@@ -601,7 +601,7 @@ const Editor = forwardRef<
 
         {/* Footer Metrics */}
         <div
-          className={`px-4 sm:px-6 py-3 flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5 border-t border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50 rounded-b-[30px] transition-all duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
+          className={`px-4 sm:px-6 py-3 min-h-[52px] flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5 border-t border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50 rounded-b-[30px] transition-all duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
         >
           <div className="flex items-center gap-4 sm:gap-6 text-[10px] text-[rgb(var(--color-text-dim))] font-black uppercase tracking-widest select-none whitespace-nowrap">
             <span className="flex items-center gap-1.5">
@@ -613,18 +613,16 @@ const Editor = forwardRef<
               {wordCount === 1 ? 'Word' : 'Words'}
             </span>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest">
-              <div
-                className="w-2 h-2 rounded-full transition-colors duration-700"
-                style={{ backgroundColor: chroma.accent }}
-              ></div>
-              <span className="text-[rgb(var(--color-text-secondary))]">
-                {isExamMode
-                  ? 'Exam Conditions'
-                  : `Band ${chroma.targetBand} Target · ${chroma.name}`}
-              </span>
-            </div>
+          <div className="flex items-center gap-2.5">
+            <div
+              className="w-2.5 h-2.5 rounded-full transition-colors duration-700 ring-2 ring-white/10"
+              style={{ backgroundColor: chroma.accent }}
+            />
+            <span className="text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-secondary))]">
+              {isExamMode
+                ? 'Exam Conditions'
+                : `Band ${chroma.targetBand} Target · ${chroma.name}`}
+            </span>
           </div>
         </div>
       </div>
