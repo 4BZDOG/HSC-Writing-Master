@@ -571,10 +571,32 @@ export const renderFormattedText = (
   const keywordRegex = createKeywordRegex(keywords || []);
   const verbRegex = commandVerb ? createKeywordRegex([commandVerb]) : null;
 
-  // 1. Split by lines to handle lists
+  // 1. Split by lines to handle headings, lists, etc.
   const lines = text.split('\n');
 
   const processedLines = lines.map((line, lineIdx) => {
+    // Headings: ### Heading → <strong> block
+    const headingMatch = line.match(/^(#{1,4})\s+(.*)/);
+    if (headingMatch) {
+      const level = headingMatch[1].length;
+      const headingText = headingMatch[2];
+      const parts = processInlineFormatting(headingText, verbRegex, keywordRegex);
+      const sizeClass =
+        level === 1
+          ? 'text-lg'
+          : level === 2
+            ? 'text-base'
+            : 'text-sm';
+      return React.createElement(
+        'strong',
+        {
+          key: lineIdx,
+          className: `block ${sizeClass} font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-3 mb-1 first:mt-0`,
+        },
+        parts
+      );
+    }
+
     // Check for Lists using new RegExp constructor.
     // Double escape backslashes for string literal: \\d+
     const listMatch = line.match(new RegExp('^(\\s*)([\\*\\-]|\\d+\\.)\\s+(.*)'));
