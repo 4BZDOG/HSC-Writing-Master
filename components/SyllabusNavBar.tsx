@@ -56,13 +56,13 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
               return (
                 <li key={i} className="flex items-center flex-shrink-0">
                   {i > 0 && (
-                    <ChevronRight className="w-3 h-3 mx-0.5 text-[rgb(var(--color-text-muted))]/50" />
+                    <ChevronRight className="w-3 h-3 mx-1 text-[rgb(var(--color-text-muted))]/40" />
                   )}
                   <button
                     onClick={crumb.onClick}
                     disabled={!crumb.onClick}
                     title={crumb.onClick ? `Change ${crumb.label}` : crumb.label}
-                    className="flex items-center gap-1.5 px-2 py-1 rounded-lg text-[11px] font-bold text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] hover:bg-[rgb(var(--color-bg-surface-light))]/40 disabled:hover:bg-transparent transition-colors max-w-[160px]"
+                    className="flex items-center gap-1.5 px-2 py-1 rounded-lg text-[11px] font-bold text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] hover:bg-[rgb(var(--color-bg-surface-light))]/40 disabled:hover:bg-transparent transition-colors max-w-[220px]"
                   >
                     <Icon className="w-3 h-3 shrink-0 opacity-70" />
                     <span className="truncate">{crumb.label}</span>
@@ -73,30 +73,30 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
           </ol>
 
           {/* The selected question + its verb / marks / target band. */}
-          <div className="flex items-center gap-2.5 mt-1.5 pl-2">
+          <div className="flex items-center gap-2.5 mt-2 pl-2">
             <span
               className={`shrink-0 text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-md ${band.solidBg} ${band.solidText} shadow-sm`}
             >
               {prompt.verb}
             </span>
-            <p className="min-w-0 truncate text-sm font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
+            <p className="min-w-0 truncate text-[13px] font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 leading-snug">
               {prompt.question}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 shrink-0">
-          <div className="hidden md:flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-muted))]">
+        <div className="flex items-center gap-2.5 shrink-0">
+          <div className="hidden md:flex items-center gap-2.5 text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-muted))]">
             <span>{prompt.totalMarks} marks</span>
-            <span className="w-px h-3 bg-[rgb(var(--color-border-secondary))]" />
-            <span className={`flex items-center gap-1 ${band.text}`}>
-              <Award className="w-3 h-3" /> Band {targetBand}
+            <span className="w-px h-3.5 bg-[rgb(var(--color-border-secondary))]" />
+            <span className={`flex items-center gap-1.5 ${band.text}`}>
+              <Award className="w-3.5 h-3.5" /> Band {targetBand}
             </span>
           </div>
           {onShareAssignment && (
             <button
               onClick={onShareAssignment}
-              className="flex items-center justify-center w-9 h-9 rounded-xl text-[rgb(var(--color-text-muted))] border border-[rgb(var(--color-border-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-[rgb(var(--color-bg-surface-light))]/40 active:scale-95 transition-all"
+              className={`flex items-center justify-center w-9 h-9 rounded-xl ${band.text} ${band.border} border ${band.bg} hover:brightness-110 active:scale-95 transition-all`}
               title="Copy assignment link — students who open it land on this question"
               aria-label="Copy assignment link"
             >

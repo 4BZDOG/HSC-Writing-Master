@@ -238,10 +238,9 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             onWritingModeChange={onWritingModeChange}
           />
 
-          {/* The "Haptic" Action Bar — on phones it sits higher (inside the
-              textarea's reserved bottom padding) and smaller so it never
-              covers the chars/words footer, which wraps taller there. */}
-          <div className="absolute bottom-24 right-4 sm:bottom-12 sm:right-12 z-20">
+          {/* Evaluate action — on phones it sits higher (inside the textarea's
+              reserved bottom padding) so it never covers the chars/words footer. */}
+          <div className="absolute bottom-24 right-4 sm:bottom-12 sm:right-12 z-20 flex flex-col items-end">
             <button
               onClick={onEvaluate}
               disabled={isEvaluating || !userAnswer.trim()}
@@ -253,23 +252,34 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
                     : 'Evaluate your response (Ctrl / ⌘ + Enter)'
               }
               className={`
-                            group px-6 py-3.5 sm:px-10 sm:py-5 rounded-[24px] font-black text-base sm:text-xl tracking-tight
-                            transition-all duration-500 flex items-center gap-3 sm:gap-4
-                            ${
-                              isEvaluating || !userAnswer.trim()
-                                ? 'bg-slate-800 light:bg-slate-200 text-slate-500 cursor-not-allowed border border-white/5 light:border-slate-300 opacity-50 shadow-none'
-                                : `bg-gradient-to-r ${buttonConfig.gradient} shadow-xl ${buttonConfig.shadow} hover:shadow-2xl active:scale-95 border ${buttonConfig.border}`
-                            }
-                        `}
+                group px-6 py-3.5 sm:px-10 sm:py-5 rounded-[24px] font-black text-base sm:text-xl tracking-tight
+                transition-all duration-500 flex items-center gap-3 sm:gap-4
+                ${
+                  isEvaluating || !userAnswer.trim()
+                    ? 'bg-slate-800 light:bg-slate-200 text-slate-500 cursor-not-allowed border border-white/5 light:border-slate-300 opacity-40 shadow-none scale-95'
+                    : `bg-gradient-to-r ${buttonConfig.gradient} shadow-xl ${buttonConfig.shadow} hover:shadow-2xl hover:scale-105 active:scale-95 border ${buttonConfig.border}`
+                }
+              `}
             >
               {isEvaluating ? (
                 <Loader2 className="w-6 h-6 animate-spin text-white/50" />
               ) : (
                 <>
                   <Sparkles
-                    className={`w-6 h-6 ${!isExamMode && progressScore > 0.85 ? 'text-white/90 animate-pulse' : 'text-white/70'}`}
+                    className={`w-5 h-5 sm:w-6 sm:h-6 transition-all ${
+                      !isExamMode && progressScore > 0.85
+                        ? 'text-white animate-pulse'
+                        : userAnswer.trim()
+                          ? 'text-white/80 group-hover:text-white group-hover:scale-110'
+                          : 'text-white/40'
+                    }`}
                   />
                   <span className={`${buttonConfig.text} drop-shadow-sm`}>Evaluate</span>
+                  {userAnswer.trim() && !isEvaluating && (
+                    <kbd className="hidden sm:inline text-[9px] font-bold bg-white/15 border border-white/10 rounded px-1.5 py-0.5 tracking-normal ml-1">
+                      ⌘↵
+                    </kbd>
+                  )}
                 </>
               )}
             </button>

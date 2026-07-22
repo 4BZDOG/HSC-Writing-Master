@@ -391,32 +391,31 @@ const Editor = forwardRef<
                 />
               </div>
               <div className="min-w-0">
-                <h3 className="text-xl sm:text-2xl font-black tracking-tight leading-none flex flex-wrap items-center gap-2 drop-shadow-sm">
+                <h3 className="text-xl sm:text-2xl font-black tracking-tight leading-none drop-shadow-sm">
                   Written Response
-                  {isExamMode ? (
-                    <span className="text-[10px] bg-red-500/90 px-1.5 py-0.5 rounded border border-white/20 font-black uppercase tracking-widest flex items-center gap-1 shadow-sm">
-                      <GraduationCap className="w-3 h-3" /> Exam
-                    </span>
-                  ) : (
-                    <span className="text-[10px] bg-black/25 px-1.5 py-0.5 rounded border border-white/15 font-black uppercase tracking-widest">
-                      Band {chroma.targetBand} · {chroma.name}
-                    </span>
-                  )}
                 </h3>
                 {isExamMode ? (
-                  <p className="text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] mt-1.5">
-                    Exam conditions · no assistance
-                  </p>
-                ) : (
                   <div className="flex items-center gap-2 mt-1.5">
-                    <div className="h-1 w-20 bg-white/20 rounded-full overflow-hidden">
+                    <span className="text-[9px] bg-red-500/90 px-2 py-0.5 rounded-md border border-white/20 font-black uppercase tracking-widest flex items-center gap-1 shadow-sm">
+                      <GraduationCap className="w-3 h-3" /> Exam
+                    </span>
+                    <p className="text-[10px] font-bold text-white/60 uppercase tracking-[0.2em]">
+                      No assistance
+                    </p>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2.5 mt-1.5">
+                    <span className="text-[9px] bg-white/20 px-2 py-0.5 rounded-md border border-white/15 font-black uppercase tracking-widest shadow-sm backdrop-blur-sm">
+                      Band {chroma.targetBand}
+                    </span>
+                    <div className="h-1 w-16 bg-white/20 rounded-full overflow-hidden">
                       <div
                         className="h-full bg-white transition-all duration-1000 ease-out"
                         style={{ width: `${Math.min(100, progress * 100)}%` }}
                       />
                     </div>
                     <p className="text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] whitespace-nowrap">
-                      {Math.min(100, Math.round(progress * 100))}% → Band {chroma.targetBand}
+                      {Math.min(100, Math.round(progress * 100))}%
                     </p>
                   </div>
                 )}
