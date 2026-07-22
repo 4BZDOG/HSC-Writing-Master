@@ -496,7 +496,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
 
         {/* Outcomes Footer - "The Evidence" */}
         {!(condensed && linkedOutcomes.length === 0) && (
-          <div className="relative z-10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border-t border-white/10 light:border-slate-200/50 px-4 sm:px-6 py-3 flex flex-wrap items-center gap-x-6 gap-y-3 backdrop-blur-sm mt-auto flex-shrink-0 rounded-b-[30px]">
+          <div className="relative z-10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border-t border-white/10 light:border-slate-200/50 px-4 sm:px-6 py-3 min-h-[52px] flex flex-wrap items-center gap-x-6 gap-y-3 backdrop-blur-sm mt-auto flex-shrink-0 rounded-b-[30px]">
             {/* On phones: label + zoom share the first row, outcome chips wrap
                 to a full-width second row. From sm up: label | chips | zoom. */}
             <div className="order-1 flex items-center gap-4 flex-shrink-0">

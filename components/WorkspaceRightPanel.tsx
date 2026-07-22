@@ -133,8 +133,8 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
       };
     }
 
-    // Base state (below Band 1 threshold)
-    if (progressScore < 0.15) {
+    // Base state — no text yet
+    if (progressScore < 0.05) {
       return {
         gradient: 'from-slate-600 to-slate-500',
         shadow: 'shadow-slate-900/40',
@@ -143,19 +143,12 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
       };
     }
 
-    // Determine target band color based on progression relative to maxBand
-    // 0.15 - 0.35: Band 1/2
-    // 0.35 - 0.55: Band 3
-    // 0.55 - 0.75: Band 4
-    // 0.75 - 0.90: Band 5
-    // 0.90+: Band 6 (if allowed by maxBand)
-
     let predictedBand = 1;
     if (progressScore >= 0.9) predictedBand = 6;
-    else if (progressScore >= 0.75) predictedBand = 5;
-    else if (progressScore >= 0.55) predictedBand = 4;
-    else if (progressScore >= 0.35) predictedBand = 3;
-    else if (progressScore >= 0.15) predictedBand = 2;
+    else if (progressScore >= 0.7) predictedBand = 5;
+    else if (progressScore >= 0.5) predictedBand = 4;
+    else if (progressScore >= 0.3) predictedBand = 3;
+    else if (progressScore >= 0.1) predictedBand = 2;
 
     // Cap at maxBand possible for this question type
     predictedBand = Math.min(predictedBand, maxBand);
@@ -165,7 +158,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     return {
       gradient: config.gradient,
       shadow: config.glow,
-      border: config.border.replace('border-', 'border-').replace('/50', '/30'), // Slight adjustment for button context
+      border: config.border.replace('/50', '/30'),
       text: 'text-white',
     };
   }, [progressScore, maxBand, isExamMode]);
@@ -255,28 +248,33 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
                 group px-6 py-3.5 sm:px-10 sm:py-5 rounded-[24px] font-black text-base sm:text-xl tracking-tight
                 transition-all duration-500 flex items-center gap-3 sm:gap-4
                 ${
-                  isEvaluating || !userAnswer.trim()
-                    ? 'bg-slate-800 light:bg-slate-200 text-slate-500 cursor-not-allowed border border-white/5 light:border-slate-300 opacity-40 shadow-none scale-95'
-                    : `bg-gradient-to-r ${buttonConfig.gradient} shadow-xl ${buttonConfig.shadow} hover:shadow-2xl hover:scale-105 active:scale-95 border ${buttonConfig.border}`
+                  isEvaluating
+                    ? 'bg-slate-800 light:bg-slate-200 text-slate-400 cursor-wait border border-white/5 light:border-slate-300 shadow-lg'
+                    : !userAnswer.trim()
+                      ? 'bg-slate-800/60 light:bg-slate-200/80 text-slate-500 cursor-not-allowed border border-white/5 light:border-slate-300 opacity-30 shadow-none'
+                      : `bg-gradient-to-r ${buttonConfig.gradient} shadow-xl ${buttonConfig.shadow} hover:shadow-2xl hover:scale-105 active:scale-[0.97] border ${buttonConfig.border} ring-1 ring-white/10 hover:ring-white/25`
                 }
               `}
             >
               {isEvaluating ? (
-                <Loader2 className="w-6 h-6 animate-spin text-white/50" />
+                <>
+                  <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin text-white/60" />
+                  <span className="text-slate-400 drop-shadow-sm">Evaluating</span>
+                </>
               ) : (
                 <>
                   <Sparkles
-                    className={`w-5 h-5 sm:w-6 sm:h-6 transition-all ${
+                    className={`w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300 ${
                       !isExamMode && progressScore > 0.85
                         ? 'text-white animate-pulse'
                         : userAnswer.trim()
-                          ? 'text-white/80 group-hover:text-white group-hover:scale-110'
-                          : 'text-white/40'
+                          ? 'text-white/80 group-hover:text-white group-hover:rotate-12 group-hover:scale-110'
+                          : 'text-white/30'
                     }`}
                   />
                   <span className={`${buttonConfig.text} drop-shadow-sm`}>Evaluate</span>
                   {userAnswer.trim() && !isEvaluating && (
-                    <kbd className="hidden sm:inline text-[9px] font-bold bg-white/15 border border-white/10 rounded px-1.5 py-0.5 tracking-normal ml-1">
+                    <kbd className="hidden sm:inline text-[9px] font-bold bg-white/15 border border-white/10 rounded-md px-1.5 py-0.5 tracking-normal ml-1 opacity-60 group-hover:opacity-100 transition-opacity">
                       ⌘↵
                     </kbd>
                   )}
