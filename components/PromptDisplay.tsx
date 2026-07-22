@@ -535,13 +535,14 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     <button
                       onClick={() => handleOutcomeClickInternal(outcome)}
                       className={`
-                                            flex items-center gap-2 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider
-                                            bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-200
-                                            text-slate-400 light:text-slate-600 transition-all duration-300
-                                            hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-50 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900 hover:border-white/10 light:hover:border-slate-300 hover:scale-105 hover:shadow-md
-                                            active:scale-95
-                                        `}
+                        flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider
+                        ${bandConfig.bg} border ${bandConfig.border}
+                        ${bandConfig.text} transition-all duration-300 cursor-pointer
+                        hover:brightness-125 hover:scale-105 hover:shadow-md
+                        active:scale-95
+                      `}
                     >
+                      <Target className="w-3 h-3 opacity-60" />
                       {outcome.code}
                     </button>
                     <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 p-4 text-xs text-left font-medium leading-relaxed text-white light:text-slate-800 bg-[rgb(var(--color-bg-surface-elevated))]/95 light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-2xl shadow-2xl opacity-0 group-hover/outcome:opacity-100 transition-all duration-300 pointer-events-none z-50 backdrop-blur-xl translate-y-2 group-hover/outcome:translate-y-0">
@@ -609,6 +610,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           onClose={() => setSelectedOutcome(null)}
           outcome={selectedOutcome}
           question={prompt.question}
+          tier={verbInfo.tier}
         />
       )}
 
