@@ -117,11 +117,14 @@ const Workspace: React.FC<WorkspaceProps> = ({
   const [isSuggestingOutcomes, setIsSuggestingOutcomes] = useState(false);
   const [promptFontSize, setPromptFontSize] = useState(18);
 
-  // Layout Sync State
+  // Layout Sync State — headers, footers, and total heights are bidirectionally
+  // synced so the two cards always appear the same height.
   const [promptHeaderHeight, setPromptHeaderHeight] = useState(0);
   const [editorHeaderHeight, setEditorHeaderHeight] = useState(0);
   const [syncedHeaderHeight, setSyncedHeaderHeight] = useState(0);
   const [promptTotalHeight, setPromptTotalHeight] = useState(0);
+  const [editorTotalHeight, setEditorTotalHeight] = useState(0);
+  const [syncedTotalHeight, setSyncedTotalHeight] = useState(0);
   const [promptFooterHeight, setPromptFooterHeight] = useState(0);
   const [editorFooterHeight, setEditorFooterHeight] = useState(0);
   const [syncedFooterHeight, setSyncedFooterHeight] = useState(0);
@@ -130,6 +133,11 @@ const Workspace: React.FC<WorkspaceProps> = ({
     const max = Math.max(promptHeaderHeight, editorHeaderHeight);
     if (max > 0) setSyncedHeaderHeight(max);
   }, [promptHeaderHeight, editorHeaderHeight]);
+
+  useEffect(() => {
+    const max = Math.max(promptTotalHeight, editorTotalHeight);
+    if (max > 0) setSyncedTotalHeight(max);
+  }, [promptTotalHeight, editorTotalHeight]);
 
   useEffect(() => {
     const max = Math.max(promptFooterHeight, editorFooterHeight);
@@ -267,6 +275,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
               onTotalHeightChange={setPromptTotalHeight}
               onFooterResize={setPromptFooterHeight}
               minFooterHeight={syncedFooterHeight}
+              minTotalHeight={syncedTotalHeight}
               breadcrumb={breadcrumbItems.map((b) => b.label)}
             />
           </div>
@@ -328,9 +337,10 @@ const Workspace: React.FC<WorkspaceProps> = ({
           promptFontSize={promptFontSize}
           onHeaderResize={setEditorHeaderHeight}
           minHeaderHeight={syncedHeaderHeight}
-          minEditorHeight={promptTotalHeight}
+          minEditorHeight={syncedTotalHeight}
           onFooterResize={setEditorFooterHeight}
           minFooterHeight={syncedFooterHeight}
+          onTotalHeightChange={setEditorTotalHeight}
           writingMode={writingMode}
           onWritingModeChange={onWritingModeChange}
         />

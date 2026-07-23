@@ -54,6 +54,7 @@ interface EditorProps {
   minTotalHeight?: number;
   onFooterResize?: (height: number) => void;
   minFooterHeight?: number;
+  onTotalHeightChange?: (height: number) => void;
   writingMode?: WritingMode;
   onWritingModeChange?: (mode: WritingMode) => void;
 }
@@ -128,6 +129,7 @@ const Editor = forwardRef<
       minTotalHeight,
       onFooterResize,
       minFooterHeight,
+      onTotalHeightChange,
       writingMode = 'coach',
       onWritingModeChange,
     },
@@ -139,6 +141,7 @@ const Editor = forwardRef<
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const headerRef = useRef<HTMLDivElement>(null);
     const headerContentRef = useRef<HTMLDivElement>(null);
+    const contentWrapRef = useRef<HTMLDivElement>(null);
     const footerRef = useRef<HTMLDivElement>(null);
     const [copied, setCopied] = useState(false);
     const [showStrategy, setShowStrategy] = useState(true);
@@ -247,6 +250,17 @@ const Editor = forwardRef<
       observer.observe(footerRef.current);
       return () => observer.disconnect();
     }, [onFooterResize]);
+
+    useEffect(() => {
+      if (!contentWrapRef.current || !onTotalHeightChange) return;
+      const observer = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          onTotalHeightChange(entry.borderBoxSize[0].blockSize);
+        }
+      });
+      observer.observe(contentWrapRef.current);
+      return () => observer.disconnect();
+    }, [onTotalHeightChange]);
 
     const handleManualResize = (newSize: number) => {
       setInternalFontSize(newSize);
@@ -375,6 +389,7 @@ const Editor = forwardRef<
         className={`clip-stable flex flex-col w-full h-auto bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] overflow-hidden border-2 ${chroma.border} shadow-2xl ${chroma.glow} transition-all duration-700 ease-in-out ${className}`}
         style={{ minHeight: minTotalHeight || '300px' }}
       >
+      <div ref={contentWrapRef} className="flex flex-col flex-1">
         {/* Header */}
         <div
           ref={headerRef}
@@ -643,6 +658,7 @@ const Editor = forwardRef<
             </span>
           </div>
         </div>
+      </div>
       </div>
     );
   }
