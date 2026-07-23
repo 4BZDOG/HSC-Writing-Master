@@ -135,7 +135,8 @@ const Workspace: React.FC<WorkspaceProps> = ({
   }, [promptHeaderHeight, editorHeaderHeight]);
 
   useEffect(() => {
-    const max = Math.max(promptTotalHeight, editorTotalHeight);
+    const MAX_SYNCED_HEIGHT = 800;
+    const max = Math.min(MAX_SYNCED_HEIGHT, Math.max(promptTotalHeight, editorTotalHeight));
     if (max > 0) setSyncedTotalHeight(max);
   }, [promptTotalHeight, editorTotalHeight]);
 

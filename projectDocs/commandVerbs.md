@@ -2,6 +2,9 @@
 
 All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb entry shows the **ribbon text** displayed in the prompt header and the **strategy tip** shown in the writing area.
 
+> This file is auto-generated from `data/commandTerms.ts`.
+> Run `npx tsx scripts/generate-command-verbs-doc.ts` to regenerate.
+
 ---
 
 ## Band 1 — Remember & List
@@ -27,7 +30,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **IDENTIFY Strategy**
 > Recognise and name something. No explanation or elaboration required.
->
 > Just name it and stop. "X is Y" is enough.
 > Explanations waste time and earn zero extra marks.
 
@@ -50,7 +52,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **RECALL Strategy**
 > Present remembered facts, ideas, or experiences without elaboration.
->
 > Brain dump in a list or short sentences.
 > Accuracy matters more than polish — get the facts down fast.
 
@@ -73,7 +74,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **RECOUNT Strategy**
 > Retell a sequence of events in the order they occurred.
->
 > Use time markers — first, then, next, finally.
 > Stick to what happened; save the "why" for higher-band verbs.
 
@@ -96,7 +96,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **CALCULATE Strategy**
 > Determine a numerical answer using given data, formulas, or mathematical processes.
->
 > Write the formula, substitute, solve — in that order.
 > No working shown = no marks, even if the answer is right.
 
@@ -119,7 +118,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **EXTRACT Strategy**
 > Select and present specific information from a given source, graph, or stimulus.
->
 > Quote or copy directly from the source and label what it shows.
 > Don't interpret — just pull out the data asked for.
 
@@ -142,7 +140,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **STATE Strategy**
 > Give the fact or answer plainly. No explanation needed.
->
 > Just name it and stop. "X is Y" is enough.
 > Explanations waste time and earn zero extra marks.
 
@@ -171,7 +168,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **DEFINE Strategy**
 > State the precise meaning of a word, term, or concept, including its essential qualities.
->
 > Use the syllabus wording if you know it.
 > One solid sentence beats three vague ones — include key features, not just a synonym.
 
@@ -194,7 +190,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **OUTLINE Strategy**
 > Sketch the main features or general principles of a topic without fine detail.
->
 > Think bullet points in sentence form — broad strokes only.
 > If you're writing more than a sentence per point, you're over-detailing.
 
@@ -217,7 +212,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **DESCRIBE Strategy**
 > Provide the characteristics and features of something in detail.
->
 > Use adjectives and specifics to paint a picture.
 > Ask yourself: "What does this look like? What are its parts? How does it work?"
 
@@ -240,7 +234,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **SUMMARISE Strategy**
 > Express the most important ideas or facts in a brief, concise form.
->
 > Cut ruthlessly — no examples, no elaboration, no fluff.
 > If you can say it in fewer words, do.
 
@@ -263,7 +256,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **CLARIFY Strategy**
 > Make a statement or situation less confused and more comprehensible.
->
 > Break the complex idea into plain steps.
 > Use "in other words" or "this means that" to bridge from confusing to clear.
 
@@ -286,7 +278,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **CLASSIFY Strategy**
 > Arrange or sort into classes or categories based on shared characteristics.
->
 > Name each category and justify the sorting — don't just list.
 > Say what trait puts each item in its group.
 
@@ -316,7 +307,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **EXPLAIN Strategy**
 > Relate cause and effect; make the relationship between things clear.
->
 > Chain every sentence with linking words:
 > because, leads to, results in, therefore.
 > Facts alone don't explain — connections do.
@@ -341,7 +331,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **COMPARE Strategy**
 > Show how things are similar and how they are different.
->
 > Use a balanced structure:
 > "Both X and Y... However, X... whereas Y..."
 > Discuss the significance of each point, don't just list.
@@ -365,7 +354,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **CONTRAST Strategy**
 > Show only the differences between two or more things.
->
 > Ignore similarities entirely.
 > Use unlike, whereas, in contrast, on the other hand — and make each difference sharp and specific.
 
@@ -388,7 +376,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **DEMONSTRATE Strategy**
 > Show how something works or prove a point through examples or practical application.
->
 > State the concept first, then show it in action with a concrete case.
 > Real-world or syllabus examples score highest.
 
@@ -411,7 +398,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **PREDICT Strategy**
 > Suggest what may happen based on available information or evidence.
->
 > Start with "Based on..." and use the data or trend given.
 > Never guess — every prediction needs a visible evidence trail.
 
@@ -435,7 +421,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **ACCOUNT Strategy**
 > State reasons for; report on. Give an account of; narrate a series of events or transactions.
->
 > Build a cause-and-effect chain:
 > A happened because of B, which led to C.
 > Show the full sequence, not isolated reasons.
@@ -465,7 +450,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **ANALYSE Strategy**
 > Identify components and the relationships between them; draw out and relate implications.
->
 > One paragraph per component, then a final paragraph linking them.
 > Don't just list parts — every paragraph must show a relationship or implication.
 
@@ -488,7 +472,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **APPLY Strategy**
 > Use knowledge and understanding of a concept in a new or different context.
->
 > Start with the concept, then say "In this case..."
 > The marker wants to see transfer — prove you can use the idea outside the textbook.
 
@@ -502,7 +485,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 > Band 4
 > Inquire into in detail; investigate thoroughly.
 >
-> Pick 2–3 key aspects and go deep on each with evidence.
+> Pick 2-3 key aspects and go deep on each with evidence.
 > Quality of depth beats quantity of points — don't skim the surface.
 >
 > Marks: 4–8 | Band Cap: 4 | Time: 7–14m | Terms: 6–10
@@ -511,8 +494,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **EXAMINE Strategy**
 > Inquire into in detail; investigate thoroughly.
->
-> Pick 2–3 key aspects and go deep on each with evidence.
+> Pick 2-3 key aspects and go deep on each with evidence.
 > Quality of depth beats quantity of points — don't skim the surface.
 
 ---
@@ -535,7 +517,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **DISTINGUISH Strategy**
 > Recognise or note/indicate as being distinct or different from; note points of difference.
->
 > Use a point-by-point structure:
 > "X is... whereas Y is..."
 > Make each difference unmistakable and precise.
@@ -560,7 +541,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **INTERPRET Strategy**
 > Draw meaning from information, data, or a text; explain what it signifies.
->
 > Go beyond the surface.
 > If it's a graph, say what the trend implies.
 > If it's a quote, say what the author is really suggesting — not just what's written.
@@ -585,7 +565,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **EXTRAPOLATE Strategy**
 > Infer from what is known to project into the unknown; extend a trend beyond the given data.
->
 > Look at the pattern and project forward.
 > Use "If this trend continues..." or "This suggests that..."
 > Always anchor your inference in the data.
@@ -609,7 +588,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **CONSTRUCT Strategy**
 > Make; build; put together items or arguments to create something coherent.
->
 > Show clear steps in the build, whether it's an argument, graph, or model.
 > Use headings or signposting so the structure is visible to the marker.
 
@@ -633,7 +611,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **DIFFERENTIATE Strategy**
 > Recognise or determine the differences between two or more things.
->
 > Use a point-by-point structure:
 > "X is... whereas Y is..."
 > Make each difference unmistakable and precise.
@@ -663,7 +640,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **DISCUSS Strategy**
 > Identify issues and provide points for and/or against, exploring from different perspectives.
->
 > Structure: intro, arguments for, arguments against, your overall position.
 > Balance is key — don't make one side look weak on purpose.
 
@@ -687,7 +663,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **ASSESS Strategy**
 > Make a judgement of value, quality, outcomes, results, or size.
->
 > Name your criteria upfront:
 > "This will be assessed against..."
 > Weigh strengths vs. weaknesses, then deliver a clear final verdict.
@@ -712,7 +687,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **JUSTIFY Strategy**
 > Support an argument or conclusion with evidence, reasoning, and logic.
->
 > Defend your position like a lawyer.
 > Pile on evidence with "This is supported by..." and "Furthermore..."
 > Your job is to be convincing, not balanced.
@@ -737,7 +711,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **DEDUCE Strategy**
 > Draw conclusions from available evidence or reasoning.
->
 > Make the reasoning chain explicit and unbreakable:
 > "Given A and B, it follows that C."
 > Show every logical step — don't skip to the answer.
@@ -761,7 +734,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **RECOMMEND Strategy**
 > Provide reasons in favour of a chosen course of action or position.
->
 > Compare alternatives briefly, then push your choice hard.
 > End with a clear call to action: what should happen, when, and why it's best.
 
@@ -784,7 +756,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **APPRECIATE Strategy**
 > Make a judgement about the value of something, recognising its positive qualities and significance.
->
 > Don't just say it's good.
 > Say who it helps, what makes it significant, and why it matters in the bigger picture.
 
@@ -813,7 +784,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **EVALUATE Strategy**
 > Make a judgement based on criteria; determine the value, quality, or significance of something.
->
 > State your criteria upfront, test the evidence against each criterion, then deliver a clear verdict.
 > Don't sit on the fence.
 
@@ -836,7 +806,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **CRITICALLY ANALYSE Strategy**
 > Analyse with additional depth: question assumptions, consider limitations, and examine underlying reasoning.
->
 > This is Band 6 territory — think about the thinking.
 > Spot bias, question what's taken for granted, and acknowledge what the evidence doesn't show.
 
@@ -859,7 +828,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **CRITICALLY EVALUATE Strategy**
 > Evaluate with additional depth, logic, and reflection, thoroughly weighing strengths and weaknesses.
->
 > Apply every criterion rigorously, then interrogate your own judgement.
 > What are the limitations of your evaluation? Where might your criteria be biased?
 
@@ -882,7 +850,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **SYNTHESISE Strategy**
 > Combine different ideas, components, or sources to create a new, integrated whole.
->
 > Don't just summarise each source — show how they combine into something bigger.
 > Use "Together, these suggest..." to signal the new insight.
 
@@ -906,7 +873,6 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **PROPOSE Strategy**
 > Put forward an idea, plan, or suggestion for consideration or action.
->
 > Be bold but backed by evidence.
 > Cover what should happen, why, and the expected outcome.
 > End with a clear call to action.
@@ -931,7 +897,8 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **INVESTIGATE Strategy**
 > Plan, inquire into, and draw conclusions about a topic through systematic research.
->
 > Structure it like a mini-report:
 > question, method, findings, analysis, conclusion.
 > Clear section headings help the marker follow your logic.
+
+---

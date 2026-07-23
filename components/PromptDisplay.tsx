@@ -227,7 +227,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             border-2 ${bandConfig.border} shadow-2xl ${bandConfig.glow}
             transition-all duration-500 group/prompt flex flex-col h-full
         `}
-      style={{ minHeight: minTotalHeight || undefined }}
+      style={{ minHeight: minTotalHeight || undefined, maxHeight: minTotalHeight ? `${Math.max(minTotalHeight, 800)}px` : undefined }}
     >
     <div ref={contentWrapRef} className="flex flex-col flex-1">
       {/* Header Container */}
@@ -319,7 +319,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
         className={`absolute inset-0 bg-gradient-to-br ${bandConfig.gradient} opacity-[0.03] pointer-events-none`}
       />
 
-      <div className="flex-1 flex flex-col min-h-0">
+      <div className="flex-1 flex flex-col min-h-0 overflow-y-auto">
         <div
           className={`${condensed ? 'p-6 sm:p-8' : 'p-6 sm:p-8 pb-4 sm:pb-4'} relative z-10 flex flex-col gap-6 sm:gap-8`}
         >
