@@ -50,4 +50,99 @@ describe('Editor writing modes', () => {
     expect(getByTitle(/Coach Mode/i)).toBeTruthy();
     expect(getByTitle(/Exam Mode/i)).toBeTruthy();
   });
+
+  it('Exam Mode hides the writing strategy tip', () => {
+    const { container } = render(
+      <Editor
+        value={answer}
+        onChange={() => {}}
+        verb="DESCRIBE"
+        writingMode="exam"
+      />
+    );
+    expect(container.textContent).not.toContain('DESCRIBE Strategy');
+    expect(container.textContent).not.toContain('Provide the characteristics');
+  });
+
+  it('Coach Mode shows the writing strategy tip', () => {
+    const { container } = render(
+      <Editor
+        value={answer}
+        onChange={() => {}}
+        verb="DESCRIBE"
+        writingMode="coach"
+      />
+    );
+    expect(container.textContent).toContain('DESCRIBE Strategy');
+  });
+
+  it('Exam Mode hides the band progress bar in the header', () => {
+    const { container } = render(
+      <Editor
+        value={answer}
+        onChange={() => {}}
+        maxBand={4}
+        progress={0.5}
+        writingMode="exam"
+      />
+    );
+    expect(container.textContent).not.toContain('Band 4');
+    expect(container.textContent).not.toContain('50%');
+  });
+
+  it('Exam Mode uses a neutral header without band-coloured glow', () => {
+    const { container } = render(
+      <Editor
+        value={answer}
+        onChange={() => {}}
+        maxBand={6}
+        progress={0.9}
+        writingMode="exam"
+      />
+    );
+    const header = container.querySelector('[class*="rounded-t"]');
+    expect(header).toBeTruthy();
+    const style = header?.getAttribute('style') || '';
+    expect(style).toContain('#334155');
+    expect(style).not.toContain('#a855f7');
+  });
+
+  it('Exam Mode still renders the placeholder with exam language', () => {
+    const { container } = render(
+      <Editor
+        value=""
+        onChange={() => {}}
+        writingMode="exam"
+        placeholder="Draft your response..."
+      />
+    );
+    const textarea = container.querySelector('textarea');
+    expect(textarea?.getAttribute('placeholder')).toContain('clock is running');
+  });
+
+  it('Exam Mode hides bold/italic formatting buttons', () => {
+    const { queryByLabelText } = render(
+      <Editor
+        value={answer}
+        onChange={() => {}}
+        writingMode="exam"
+        onWritingModeChange={() => {}}
+      />
+    );
+    expect(queryByLabelText('Bold')).toBeNull();
+    expect(queryByLabelText('Italic')).toBeNull();
+  });
+
+  it('Coach Mode shows bold/italic formatting buttons', () => {
+    const { getByLabelText } = render(
+      <Editor
+        value={answer}
+        onChange={() => {}}
+        writingMode="coach"
+        onWritingModeChange={() => {}}
+      />
+    );
+    expect(getByLabelText('Bold')).toBeTruthy();
+    expect(getByLabelText('Italic')).toBeTruthy();
+  });
 });

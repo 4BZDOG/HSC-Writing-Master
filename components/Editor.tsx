@@ -387,7 +387,7 @@ const Editor = forwardRef<
     return (
       <div
         className={`clip-stable flex flex-col w-full h-auto bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] overflow-hidden border-2 ${chroma.border} shadow-2xl ${chroma.glow} transition-all duration-700 ease-in-out ${className}`}
-        style={{ minHeight: minTotalHeight || '300px' }}
+        style={{ minHeight: minTotalHeight || '300px', maxHeight: minTotalHeight && minTotalHeight >= 800 ? `${minTotalHeight}px` : undefined }}
       >
       <div ref={contentWrapRef} className="flex flex-col flex-1">
         {/* Header */}
@@ -581,7 +581,7 @@ const Editor = forwardRef<
         )}
 
         {/* Editor Body with Grid Stacking for Auto-Height */}
-        <div className="relative flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white">
+        <div className="relative flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white overflow-y-auto">
           {/* Progress-Aware Background Bloom */}
           <div
             className="absolute inset-0 opacity-10 light:opacity-5 transition-all duration-1000 ease-in-out pointer-events-none"

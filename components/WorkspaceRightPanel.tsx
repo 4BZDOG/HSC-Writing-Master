@@ -240,9 +240,10 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             onWritingModeChange={onWritingModeChange}
           />
 
-          {/* Evaluate action — sits above the footer bar; on phones it sits
-              higher to clear the taller mobile footer. */}
-          <div className="absolute bottom-24 right-4 sm:bottom-20 sm:right-8 z-20 flex flex-col items-end">
+          {/* Evaluate action — sits above the footer bar. On small phones
+              the footer is shorter (single row), so bottom-16 is enough;
+              on sm+ viewports the footer wraps taller, needing bottom-20. */}
+          <div className="absolute bottom-16 right-3 sm:bottom-20 sm:right-8 z-20 flex flex-col items-end">
             <button
               onClick={onEvaluate}
               disabled={isEvaluating || !userAnswer.trim()}
