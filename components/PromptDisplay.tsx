@@ -49,6 +49,8 @@ interface PromptDisplayProps {
   onHeaderResize?: (height: number) => void;
   minHeaderHeight?: number;
   onTotalHeightChange?: (height: number) => void;
+  onFooterResize?: (height: number) => void;
+  minFooterHeight?: number;
   /** Focus Mode: keep the card to just the question — skip the empty scenario
       placeholder and empty outcomes footer so the writing surface stays high
       on screen. Sections with real content still render. */
@@ -91,6 +93,8 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   onHeaderResize,
   minHeaderHeight,
   onTotalHeightChange,
+  onFooterResize,
+  minFooterHeight,
   condensed = false,
 }) => {
   const [isEditingQuestion, setIsEditingQuestion] = useState(false);
@@ -105,6 +109,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   const headerRef = useRef<HTMLDivElement>(null);
   const headerContentRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLDivElement>(null);
 
   const canCurate = canCurateContent(userRole);
   const canGenerate = canUseAiGeneration(userRole);
@@ -167,6 +172,17 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
     observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, [onTotalHeightChange, prompt.question, prompt.scenario, fontSize]);
+
+  useEffect(() => {
+    if (!footerRef.current || !onFooterResize) return;
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        onFooterResize(entry.borderBoxSize[0].blockSize);
+      }
+    });
+    observer.observe(footerRef.current);
+    return () => observer.disconnect();
+  }, [onFooterResize]);
 
   const handleSaveQuestion = () => {
     if (editQuestionText.trim() !== prompt.question) {
@@ -496,7 +512,11 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
 
         {/* Outcomes Footer - "The Evidence" */}
         {!(condensed && linkedOutcomes.length === 0) && (
-          <div className="relative z-10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border-t border-white/10 light:border-slate-200/50 px-4 sm:px-6 py-3 min-h-[52px] flex flex-wrap items-center gap-x-6 gap-y-3 backdrop-blur-sm mt-auto flex-shrink-0 rounded-b-[30px]">
+          <div
+            ref={footerRef}
+            className="relative z-10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border-t border-white/10 light:border-slate-200/50 px-4 sm:px-6 py-3 flex flex-wrap items-center gap-x-6 gap-y-3 backdrop-blur-sm mt-auto flex-shrink-0 rounded-b-[30px]"
+            style={{ minHeight: minFooterHeight || 52 }}
+          >
             {/* On phones: label + zoom share the first row, outcome chips wrap
                 to a full-width second row. From sm up: label | chips | zoom. */}
             <div className="order-1 flex items-center gap-4 flex-shrink-0">

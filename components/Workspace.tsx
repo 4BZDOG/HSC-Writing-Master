@@ -122,11 +122,19 @@ const Workspace: React.FC<WorkspaceProps> = ({
   const [editorHeaderHeight, setEditorHeaderHeight] = useState(0);
   const [syncedHeaderHeight, setSyncedHeaderHeight] = useState(0);
   const [promptTotalHeight, setPromptTotalHeight] = useState(0);
+  const [promptFooterHeight, setPromptFooterHeight] = useState(0);
+  const [editorFooterHeight, setEditorFooterHeight] = useState(0);
+  const [syncedFooterHeight, setSyncedFooterHeight] = useState(0);
 
   useEffect(() => {
     const max = Math.max(promptHeaderHeight, editorHeaderHeight);
     if (max > 0) setSyncedHeaderHeight(max);
   }, [promptHeaderHeight, editorHeaderHeight]);
+
+  useEffect(() => {
+    const max = Math.max(promptFooterHeight, editorFooterHeight);
+    if (max > 0) setSyncedFooterHeight(max);
+  }, [promptFooterHeight, editorFooterHeight]);
 
   const courseOutcomes = currentCourse?.outcomes || [];
 
@@ -257,6 +265,8 @@ const Workspace: React.FC<WorkspaceProps> = ({
               onHeaderResize={setPromptHeaderHeight}
               minHeaderHeight={syncedHeaderHeight}
               onTotalHeightChange={setPromptTotalHeight}
+              onFooterResize={setPromptFooterHeight}
+              minFooterHeight={syncedFooterHeight}
             />
           </div>
         )}
@@ -317,6 +327,8 @@ const Workspace: React.FC<WorkspaceProps> = ({
           onHeaderResize={setEditorHeaderHeight}
           minHeaderHeight={syncedHeaderHeight}
           minEditorHeight={promptTotalHeight}
+          onFooterResize={setEditorFooterHeight}
+          minFooterHeight={syncedFooterHeight}
           writingMode={writingMode}
           onWritingModeChange={onWritingModeChange}
         />

@@ -52,6 +52,8 @@ interface EditorProps {
   onHeaderResize?: (height: number) => void;
   minHeaderHeight?: number;
   minTotalHeight?: number;
+  onFooterResize?: (height: number) => void;
+  minFooterHeight?: number;
   writingMode?: WritingMode;
   onWritingModeChange?: (mode: WritingMode) => void;
 }
@@ -124,6 +126,8 @@ const Editor = forwardRef<
       onHeaderResize,
       minHeaderHeight,
       minTotalHeight,
+      onFooterResize,
+      minFooterHeight,
       writingMode = 'coach',
       onWritingModeChange,
     },
@@ -135,6 +139,7 @@ const Editor = forwardRef<
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const headerRef = useRef<HTMLDivElement>(null);
     const headerContentRef = useRef<HTMLDivElement>(null);
+    const footerRef = useRef<HTMLDivElement>(null);
     const [copied, setCopied] = useState(false);
     const [showStrategy, setShowStrategy] = useState(true);
 
@@ -231,6 +236,17 @@ const Editor = forwardRef<
       observer.observe(headerContentRef.current);
       return () => observer.disconnect();
     }, [onHeaderResize, progress, chroma]);
+
+    useEffect(() => {
+      if (!footerRef.current || !onFooterResize) return;
+      const observer = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          onFooterResize(entry.borderBoxSize[0].blockSize);
+        }
+      });
+      observer.observe(footerRef.current);
+      return () => observer.disconnect();
+    }, [onFooterResize]);
 
     const handleManualResize = (newSize: number) => {
       setInternalFontSize(newSize);
@@ -601,7 +617,9 @@ const Editor = forwardRef<
 
         {/* Footer Metrics */}
         <div
-          className={`px-4 sm:px-6 py-3 min-h-[52px] flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5 border-t border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50 rounded-b-[30px] transition-all duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
+          ref={footerRef}
+          className={`px-4 sm:px-6 py-3 flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5 border-t border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50 rounded-b-[30px] transition-all duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
+          style={{ minHeight: minFooterHeight || 52 }}
         >
           <div className="flex items-center gap-4 sm:gap-6 text-[10px] text-[rgb(var(--color-text-dim))] font-black uppercase tracking-widest select-none whitespace-nowrap">
             <span className="flex items-center gap-1.5">
