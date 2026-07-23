@@ -51,10 +51,12 @@ interface PromptDisplayProps {
   onTotalHeightChange?: (height: number) => void;
   onFooterResize?: (height: number) => void;
   minFooterHeight?: number;
+  minTotalHeight?: number;
   /** Focus Mode: keep the card to just the question — skip the empty scenario
       placeholder and empty outcomes footer so the writing surface stays high
       on screen. Sections with real content still render. */
   condensed?: boolean;
+  breadcrumb?: string[];
 }
 
 const MeshOverlay = ({
@@ -95,7 +97,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   onTotalHeightChange,
   onFooterResize,
   minFooterHeight,
+  minTotalHeight,
   condensed = false,
+  breadcrumb,
 }) => {
   const [isEditingQuestion, setIsEditingQuestion] = useState(false);
   const [editQuestionText, setEditQuestionText] = useState(prompt.question);
@@ -109,6 +113,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   const headerRef = useRef<HTMLDivElement>(null);
   const headerContentRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const contentWrapRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
 
   const canCurate = canCurateContent(userRole);
@@ -157,19 +162,19 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
     return () => observer.disconnect();
   }, [onHeaderResize, prompt.question, prompt.verb, prompt.totalMarks]);
 
-  // Total height observation
+  // Total height observation — measures the inner content wrapper so the
+  // reported value is the NATURAL height, not the rendered box inflated by
+  // minTotalHeight.  This prevents a ratchet between the two panels.
   useEffect(() => {
-    if (!containerRef.current || !onTotalHeightChange) return;
+    if (!contentWrapRef.current || !onTotalHeightChange) return;
 
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
-        if (entry.target === containerRef.current) {
-          onTotalHeightChange(entry.borderBoxSize[0].blockSize);
-        }
+        onTotalHeightChange(entry.borderBoxSize[0].blockSize);
       }
     });
 
-    observer.observe(containerRef.current);
+    observer.observe(contentWrapRef.current);
     return () => observer.disconnect();
   }, [onTotalHeightChange, prompt.question, prompt.scenario, fontSize]);
 
@@ -222,7 +227,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             border-2 ${bandConfig.border} shadow-2xl ${bandConfig.glow}
             transition-all duration-500 group/prompt flex flex-col h-full
         `}
+      style={{ minHeight: minTotalHeight || undefined }}
     >
+    <div ref={contentWrapRef} className="flex flex-col flex-1">
       {/* Header Container */}
       <div
         ref={headerRef}
@@ -631,6 +638,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           outcome={selectedOutcome}
           question={prompt.question}
           tier={verbInfo.tier}
+          verb={prompt.verb}
+          totalMarks={prompt.totalMarks}
+          breadcrumb={breadcrumb}
         />
       )}
 
@@ -642,6 +652,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
         onFlag={handleFlag}
         onResolve={handleResolveFlag}
       />
+    </div>
     </div>
   );
 };
