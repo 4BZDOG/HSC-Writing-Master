@@ -575,6 +575,15 @@ export const renderFormattedText = (
   const lines = text.split('\n');
 
   const processedLines = lines.map((line, lineIdx) => {
+    // Horizontal rule: --- or *** or ___
+    if (/^[\s]*[-*_]{3,}[\s]*$/.test(line)) {
+      return React.createElement('hr', {
+        key: lineIdx,
+        className:
+          'my-3 border-0 h-px bg-gradient-to-r from-transparent via-[rgb(var(--color-border-secondary))] to-transparent',
+      });
+    }
+
     // Headings: ### Heading → <strong> block
     const headingMatch = line.match(/^(#{1,4})\s+(.*)/);
     if (headingMatch) {

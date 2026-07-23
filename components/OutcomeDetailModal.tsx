@@ -61,15 +61,16 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
       <div
         className={`
           clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] shadow-2xl
-          w-full max-w-2xl border ${bandConfig.border}
+          w-full max-w-3xl border ${bandConfig.border}
           animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]
         `}
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Header — flex-shrink-0 prevents clipping */}
         <div
           className={`
-            px-6 py-5 border-b ${bandConfig.border}
-            bg-gradient-to-r ${bandConfig.gradient} relative overflow-hidden
+            px-6 sm:px-8 py-5 sm:py-6 border-b ${bandConfig.border}
+            bg-gradient-to-r ${bandConfig.gradient} relative overflow-hidden flex-shrink-0
         `}
         >
           <div
@@ -79,12 +80,12 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
             }}
           />
 
-          <div className="flex items-start justify-between relative z-10">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-inner border border-white/30">
+          <div className="flex items-center justify-between relative z-10 gap-4">
+            <div className="flex items-center gap-4 min-w-0">
+              <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-inner border border-white/30 flex-shrink-0">
                 <Target className="w-6 h-6 text-white drop-shadow-sm" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight drop-shadow-sm">
                   Syllabus Outcome
                 </h2>
@@ -96,28 +97,43 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
             <button
               onClick={onClose}
               aria-label="Close"
-              className="w-9 h-9 rounded-xl bg-white/15 hover:bg-white/25 transition-all duration-200 flex items-center justify-center backdrop-blur-sm mt-0.5"
+              className="w-9 h-9 rounded-xl bg-white/15 hover:bg-white/25 transition-all duration-200 flex items-center justify-center backdrop-blur-sm flex-shrink-0"
             >
               <X className="w-5 h-5 text-white" />
             </button>
           </div>
         </div>
 
-        <div className="p-6 space-y-5 overflow-y-auto flex-1 bg-[rgb(var(--color-bg-surface))] light:bg-white">
+        {/* Body */}
+        <div className="px-6 sm:px-8 py-6 space-y-5 overflow-y-auto flex-1 bg-[rgb(var(--color-bg-surface))] light:bg-white">
+          {/* Outcome description card */}
           <div
             className={`
-                p-5 rounded-2xl border ${bandConfig.border}
+                p-5 sm:p-6 rounded-2xl border ${bandConfig.border}
                 ${bandConfig.bg} relative
             `}
           >
-            <h3 className="text-[9px] font-black uppercase tracking-[0.2em] text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2.5">
-              Syllabus Description
+            <h3 className="text-[9px] font-black uppercase tracking-[0.2em] text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
+              What Students Must Demonstrate
             </h3>
-            <p className="text-[rgb(var(--color-text-primary))] light:text-slate-800 text-base sm:text-lg leading-relaxed font-medium">
-              {outcome.description}
-            </p>
+            <div className="flex items-start gap-3.5">
+              <div className={`w-8 h-8 rounded-xl ${bandConfig.bg} border ${bandConfig.border} flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                <Target className={`w-4 h-4 ${bandConfig.text}`} />
+              </div>
+              <p className="text-[rgb(var(--color-text-primary))] light:text-slate-800 text-base sm:text-lg leading-relaxed font-semibold italic">
+                {outcome.description}
+              </p>
+            </div>
           </div>
 
+          {/* Elegant divider */}
+          <div className="flex items-center gap-4 px-2">
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-[rgb(var(--color-border-secondary))] to-transparent" />
+            <Sparkles className={`w-3.5 h-3.5 ${bandConfig.text} opacity-50`} />
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-[rgb(var(--color-border-secondary))] to-transparent" />
+          </div>
+
+          {/* AI relevance section */}
           <div className="space-y-3">
             <div className="flex items-center gap-2.5">
               <div className={`w-7 h-7 rounded-lg ${bandConfig.bg} flex items-center justify-center`}>
@@ -128,7 +144,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
               </span>
             </div>
 
-            <div className={`bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 p-5 rounded-2xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 min-h-[120px]`}>
+            <div className="bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 p-5 sm:p-6 rounded-2xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 min-h-[120px]">
               {isLoading ? (
                 <div className="flex flex-col items-center justify-center h-32 gap-3">
                   <Loader2 className={`w-7 h-7 animate-spin ${bandConfig.text}`} />
@@ -161,7 +177,8 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
           </div>
         </div>
 
-        <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end rounded-b-[32px]">
+        {/* Footer */}
+        <div className="px-6 sm:px-8 py-4 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end rounded-b-[32px] flex-shrink-0">
           <button
             onClick={onClose}
             className={`
