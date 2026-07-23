@@ -267,6 +267,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
               onTotalHeightChange={setPromptTotalHeight}
               onFooterResize={setPromptFooterHeight}
               minFooterHeight={syncedFooterHeight}
+              breadcrumb={breadcrumbItems.map((b) => b.label)}
             />
           </div>
         )}
@@ -298,6 +299,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
               onHeaderResize={setPromptHeaderHeight}
               minHeaderHeight={syncedHeaderHeight}
               condensed
+              breadcrumb={breadcrumbItems.map((b) => b.label)}
             />
           </div>
         )}

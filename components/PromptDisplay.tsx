@@ -55,6 +55,7 @@ interface PromptDisplayProps {
       placeholder and empty outcomes footer so the writing surface stays high
       on screen. Sections with real content still render. */
   condensed?: boolean;
+  breadcrumb?: string[];
 }
 
 const MeshOverlay = ({
@@ -96,6 +97,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   onFooterResize,
   minFooterHeight,
   condensed = false,
+  breadcrumb,
 }) => {
   const [isEditingQuestion, setIsEditingQuestion] = useState(false);
   const [editQuestionText, setEditQuestionText] = useState(prompt.question);
@@ -631,6 +633,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           outcome={selectedOutcome}
           question={prompt.question}
           tier={verbInfo.tier}
+          verb={prompt.verb}
+          totalMarks={prompt.totalMarks}
+          breadcrumb={breadcrumb}
         />
       )}
 
