@@ -1,251 +1,937 @@
-# NESA Command Verb Cognitive Hierarchy (v4.3 - Complete Glossary Integration)
+# HSC Command Verbs Reference
 
-This document organises **all NESA glossary command verbs** into a **6-Tier Cognitive Hierarchy**, providing:
-
-- Clear cognitive intent for each verb
-- Typical mark ranges (interpretive guidance)
-- Example descending marking criteria
-- Explicit mapping to HSC performance bands
-- Guidance on correct classroom and assessment use
-
-> ⚠️ **Important Notice**  
-> NESA performance bands and verb definitions are holistic and subject-specific.  
-> This hierarchy is a **support framework**, not an official NESA policy document.
+All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb entry shows the **ribbon text** displayed in the prompt header and the **strategy tip** shown in the writing area.
 
 ---
 
-## 🔴 Tier 1 — Retrieving & Recalling
+## Band 1 — Remember & List
 
-**Cognitive demand:** Recall or recognise information without interpretation  
-**Typical mark range:** ~1-2 marks  
-**Typical performance band:** **Band 1-Band 2**
-
-### NESA verbs in this tier
-- Identify  
-- Recall  
-- Define  
-- Extract  
-- Recount  
-
-### Example question
-> *Define biodiversity and identify two factors that affect it.*
-
-### Example Descending Marking Criteria
-| Marks | Criteria | Typical Band |
-|-------|----------|--------------|
-| 2 | Accurate definition and two correct details | Band 2 |
-| 1 | Partial definition or one correct detail | Band 1 |
-| 0 | Irrelevant or no response | Below Band 1 |
-
-### Key Teaching Note
-Tier 1 verbs **do not require explanation, reasoning, or judgement**.  
-If students explain or analyse in a Tier 1 question, they cannot access extra marks.
+> Recall facts, names, or data with minimal processing — short, direct answers.
 
 ---
 
-## 🟠 Tier 2 — Comprehending & Describing
+### IDENTIFY
 
-**Cognitive demand:** Demonstrate understanding through description or organisation  
-**Typical mark range:** ~2-4 marks  
-**Typical performance band:** **Band 2-Band 3**
+**Ribbon**
 
-### NESA verbs in this tier
-- Describe  
-- Summarise  
-- Outline  
-- Clarify  
-- Classify  
+> **IDENTIFY**
+> Band 1
+> Recognise and name something. No explanation or elaboration required.
+>
+> Just name it and stop. "X is Y" is enough.
+> Explanations waste time and earn zero extra marks.
+>
+> Marks: 1–2 | Band Cap: 1 | Time: 2–4m | Terms: 1–2
 
-### Example question
-> *Describe the main stages of the water cycle.*
+**Strategy Tip**
 
-### Example Descending Marking Criteria
-| Marks | Criteria | Typical Band |
-|-------|----------|--------------|
-| 4 | Clear, accurate description with relevant detail | Band 3 |
-| 3 | Accurate description with limited detail | Band 3 |
-| 2 | Partial description; some inaccuracies | Band 2 |
-| 1 | Minimal or fragmented response | Band 1 |
-| 0 | No relevant response | Below Band 1 |
-
-### Key Teaching Note
-Tier 2 verbs **require more than naming**, but **do not require causes, effects, or judgement**.
+> **IDENTIFY Strategy**
+> Recognise and name something. No explanation or elaboration required.
+>
+> Just name it and stop. "X is Y" is enough.
+> Explanations waste time and earn zero extra marks.
 
 ---
 
-## 🟡 Tier 3 — Applying & Demonstrating
+### RECALL
 
-**Cognitive demand:** Use knowledge, methods, or procedures in context  
-**Typical mark range:** ~3-6 marks  
-**Typical performance band:** **Band 3-Band 4**
+**Ribbon**
 
-### NESA verbs in this tier
-- Apply  
-- Calculate  
-- Demonstrate  
-- Construct  
-- Predict  
-- Extrapolate  
+> **RECALL**
+> Band 1
+> Present remembered facts, ideas, or experiences without elaboration.
+>
+> Brain dump in a list or short sentences.
+> Accuracy matters more than polish — get the facts down fast.
+>
+> Marks: 1–2 | Band Cap: 1 | Time: 2–4m | Terms: 1–2
 
-### Example question
-> *Apply the compound interest formula to calculate the amount after 5 years.*
+**Strategy Tip**
 
-### Example Descending Marking Criteria
-| Marks | Criteria | Typical Band |
-|-------|----------|--------------|
-| 6 | Correct method and accurate working | Band 4 |
-| 5 | Correct outcome with minor procedural errors | Band 4 |
-| 4 | Partially correct application | Band 3 |
-| 3 | Basic attempt with major errors | Band 3 |
-| 1-2 | Minimal progress | Band 1-2 |
-| 0 | No response | Below Band 1 |
-
-### Key Teaching Note
-Tier 3 is where **process matters**.  
-Marks are often awarded for method even when the final answer is incorrect.
+> **RECALL Strategy**
+> Present remembered facts, ideas, or experiences without elaboration.
+>
+> Brain dump in a list or short sentences.
+> Accuracy matters more than polish — get the facts down fast.
 
 ---
 
-## 🟢 Tier 4 — Analysing & Explaining Relationships
+### RECOUNT
 
-**Cognitive demand:** Break concepts into parts and explain relationships  
-**Typical mark range:** ~5-8 marks  
-**Typical performance band:** **Band 4-Band 5**
+**Ribbon**
 
-### NESA verbs in this tier
-- Analyse  
-- Explain  
-- Compare  
-- Contrast  
-- Distinguish  
-- Interpret  
-- Deduce  
-- Examine  
+> **RECOUNT**
+> Band 1
+> Retell a sequence of events in the order they occurred.
+>
+> Use time markers — first, then, next, finally.
+> Stick to what happened; save the "why" for higher-band verbs.
+>
+> Marks: 1–3 | Band Cap: 1 | Time: 2–5m | Terms: 2–3
 
-### Example question
-> *Analyse how changes in ocean temperature affect marine biodiversity.*
+**Strategy Tip**
 
-### Example Descending Marking Criteria
-| Marks | Criteria | Typical Band |
-|-------|----------|--------------|
-| 8 | Insightful analysis with clear relationships | Band 5 |
-| 6-7 | Logical explanation with relevant evidence | Band 5 |
-| 5 | Some analysis with limited depth | Band 4 |
-| 3-4 | Superficial explanation | Band 3 |
-| 0-2 | Fragmented or incorrect | Band 1-2 |
-
-### Key Teaching Note
-Tier 4 verbs **require cause-and-effect reasoning**.  
-Listing points without explanation caps responses at lower bands.
+> **RECOUNT Strategy**
+> Retell a sequence of events in the order they occurred.
+>
+> Use time markers — first, then, next, finally.
+> Stick to what happened; save the "why" for higher-band verbs.
 
 ---
 
-## 🔵 Tier 5 — Synthesising & Arguing
+### CALCULATE
 
-**Cognitive demand:** Integrate ideas into a structured argument  
-**Typical mark range:** ~8-12 marks  
-**Typical performance band:** **Upper Band 5 → Low Band 6**
+**Ribbon**
 
-### NESA verbs in this tier
-- Discuss  
-- Investigate  
-- Synthesise  
-- Propose  
-- Account / Account for  
+> **CALCULATE**
+> Band 1
+> Determine a numerical answer using given data, formulas, or mathematical processes.
+>
+> Write the formula, substitute, solve — in that order.
+> No working shown = no marks, even if the answer is right.
+>
+> Marks: 1–3 | Band Cap: 1 | Time: 2–5m | Terms: 1–2
 
-### Example question
-> *Discuss the effectiveness of renewable energy strategies in Australia.*
+**Strategy Tip**
 
-### Example Descending Marking Criteria
-| Marks | Criteria | Typical Band |
-|-------|----------|--------------|
-| 12 | Sustained, balanced argument with synthesis | Low Band 6 |
-| 10-11 | Coherent argument with supporting evidence | Band 5-6 |
-| 8-9 | Competent discussion with limited synthesis | Band 5 |
-| 5-7 | Descriptive or uneven argument | Band 3-4 |
-| 0-4 | Minimal or fragmented | Band 1-2 |
-
-### Key Teaching Note
-Tier 5 requires **integration of ideas**, not isolated explanations.
+> **CALCULATE Strategy**
+> Determine a numerical answer using given data, formulas, or mathematical processes.
+>
+> Write the formula, substitute, solve — in that order.
+> No working shown = no marks, even if the answer is right.
 
 ---
 
-## 🟣 Tier 6 — Evaluating & Judging
+### EXTRACT
 
-**Cognitive demand:** Make justified judgements using criteria  
-**Typical mark range:** ~10-20+ marks  
-**Typical performance band:** **Band 6**
+**Ribbon**
 
-### NESA verbs in this tier
-- Evaluate  
-- Assess  
-- Justify  
-- Recommend  
-- Appreciate  
-- Critically analyse  
-- Critically evaluate  
+> **EXTRACT**
+> Band 1
+> Select and present specific information from a given source, graph, or stimulus.
+>
+> Quote or copy directly from the source and label what it shows.
+> Don't interpret — just pull out the data asked for.
+>
+> Marks: 1–3 | Band Cap: 1 | Time: 2–5m | Terms: 1–2
 
-### Example question
-> *Evaluate the effectiveness of fiscal policy in reducing unemployment. Justify your judgement and recommend one reform.*
+**Strategy Tip**
 
-### Example Descending Marking Criteria
-| Marks | Criteria | Typical Band |
-|-------|----------|--------------|
-| 18-20 | Explicit criteria, sustained judgement, strong justification | High Band 6 |
-| 15-17 | Clear evaluation with justified recommendation | Band 6 |
-| 12-14 | Reasonable evaluation with partial justification | Band 5-6 |
-| 8-11 | Basic judgement with limited support | Band 4-5 |
-| 0-7 | Unsupported or descriptive | Band 1-3 |
-
-### Key Teaching Note
-Tier 6 verbs **require criteria-based judgement**.  
-Explaining without judging cannot access Band 6.
+> **EXTRACT Strategy**
+> Select and present specific information from a given source, graph, or stimulus.
+>
+> Quote or copy directly from the source and label what it shows.
+> Don't interpret — just pull out the data asked for.
 
 ---
 
-## 📘 Using NESA Key Words Effectively (Essential Guidance)
+### STATE
 
-### 1. Key words have consistent meanings across subjects
-Understanding NESA verbs helps students approach questions effectively.  
-For example, **“explain” always requires**:
-- Cause and effect  
-- Relationships  
-- Why and/or how  
+**Ribbon**
 
-### 2. Avoid rigid interpretations
-Key words **must be interpreted in context**.  
-Students should not memorise definitions in isolation.
+> **STATE**
+> Band 1
+> Give the fact or answer plainly. No explanation needed.
+>
+> Just name it and stop. "X is Y" is enough.
+> Explanations waste time and earn zero extra marks.
+>
+> Marks: 1–2 | Band Cap: 1 | Time: 2–4m | Terms: 1–2
 
-### 3. Subject-specific interpretations matter
-The same verb may demand different responses across subjects:
-- **Evaluate (Mathematics):** validity, efficiency, accuracy  
-- **Evaluate (History):** significance, perspectives, evidence  
+**Strategy Tip**
 
-Teachers must ensure verbs are used **consistently with syllabus expectations**.
-
-### 4. Self-explanatory terms still appear in exams
-HSC questions also use terms like:
-- *How*  
-- *Why*  
-- *To what extent*  
-
-These are deliberate and complement glossary verbs.
+> **STATE Strategy**
+> Give the fact or answer plainly. No explanation needed.
+>
+> Just name it and stop. "X is Y" is enough.
+> Explanations waste time and earn zero extra marks.
 
 ---
 
-## 📊 HSC Performance Bands (2-Unit Courses)
+## Band 2 — Define & Describe
 
-- **Band 6:** 90-100  
-- **Band 5:** 80-89  
-- **Band 4:** 70-79  
-- **Band 3:** 60-69  
-- **Band 2:** 50-59  
-- **Band 1:** 0-49  
+> Show you understand what something is and what it looks like — in your own words.
 
 ---
 
-## 📚 References
+### DEFINE
 
-- NESA Glossary of Key Words  
-- NESA HSC Performance Band Descriptions  
-- NESA HSC Facts and Figures  
+**Ribbon**
+
+> **DEFINE**
+> Band 2
+> State the precise meaning of a word, term, or concept, including its essential qualities.
+>
+> Use the syllabus wording if you know it.
+> One solid sentence beats three vague ones — include key features, not just a synonym.
+>
+> Marks: 1–3 | Band Cap: 2 | Time: 2–5m | Terms: 2–3
+
+**Strategy Tip**
+
+> **DEFINE Strategy**
+> State the precise meaning of a word, term, or concept, including its essential qualities.
+>
+> Use the syllabus wording if you know it.
+> One solid sentence beats three vague ones — include key features, not just a synonym.
+
+---
+
+### OUTLINE
+
+**Ribbon**
+
+> **OUTLINE**
+> Band 2
+> Sketch the main features or general principles of a topic without fine detail.
+>
+> Think bullet points in sentence form — broad strokes only.
+> If you're writing more than a sentence per point, you're over-detailing.
+>
+> Marks: 2–4 | Band Cap: 2 | Time: 4–7m | Terms: 3–4
+
+**Strategy Tip**
+
+> **OUTLINE Strategy**
+> Sketch the main features or general principles of a topic without fine detail.
+>
+> Think bullet points in sentence form — broad strokes only.
+> If you're writing more than a sentence per point, you're over-detailing.
+
+---
+
+### DESCRIBE
+
+**Ribbon**
+
+> **DESCRIBE**
+> Band 2
+> Provide the characteristics and features of something in detail.
+>
+> Use adjectives and specifics to paint a picture.
+> Ask yourself: "What does this look like? What are its parts? How does it work?"
+>
+> Marks: 2–4 | Band Cap: 2 | Time: 4–7m | Terms: 3–5
+
+**Strategy Tip**
+
+> **DESCRIBE Strategy**
+> Provide the characteristics and features of something in detail.
+>
+> Use adjectives and specifics to paint a picture.
+> Ask yourself: "What does this look like? What are its parts? How does it work?"
+
+---
+
+### SUMMARISE
+
+**Ribbon**
+
+> **SUMMARISE**
+> Band 2
+> Express the most important ideas or facts in a brief, concise form.
+>
+> Cut ruthlessly — no examples, no elaboration, no fluff.
+> If you can say it in fewer words, do.
+>
+> Marks: 2–4 | Band Cap: 2 | Time: 4–7m | Terms: 3–4
+
+**Strategy Tip**
+
+> **SUMMARISE Strategy**
+> Express the most important ideas or facts in a brief, concise form.
+>
+> Cut ruthlessly — no examples, no elaboration, no fluff.
+> If you can say it in fewer words, do.
+
+---
+
+### CLARIFY
+
+**Ribbon**
+
+> **CLARIFY**
+> Band 2
+> Make a statement or situation less confused and more comprehensible.
+>
+> Break the complex idea into plain steps.
+> Use "in other words" or "this means that" to bridge from confusing to clear.
+>
+> Marks: 2–4 | Band Cap: 2 | Time: 4–7m | Terms: 3–4
+
+**Strategy Tip**
+
+> **CLARIFY Strategy**
+> Make a statement or situation less confused and more comprehensible.
+>
+> Break the complex idea into plain steps.
+> Use "in other words" or "this means that" to bridge from confusing to clear.
+
+---
+
+### CLASSIFY
+
+**Ribbon**
+
+> **CLASSIFY**
+> Band 2
+> Arrange or sort into classes or categories based on shared characteristics.
+>
+> Name each category and justify the sorting — don't just list.
+> Say what trait puts each item in its group.
+>
+> Marks: 2–4 | Band Cap: 2 | Time: 4–7m | Terms: 3–5
+
+**Strategy Tip**
+
+> **CLASSIFY Strategy**
+> Arrange or sort into classes or categories based on shared characteristics.
+>
+> Name each category and justify the sorting — don't just list.
+> Say what trait puts each item in its group.
+
+---
+
+## Band 3 — Explain & Compare
+
+> Show relationships, causes, and how things connect — the why and how.
+
+---
+
+### EXPLAIN
+
+**Ribbon**
+
+> **EXPLAIN**
+> Band 3
+> Relate cause and effect; make the relationship between things clear.
+>
+> Chain every sentence with linking words:
+> because, leads to, results in, therefore.
+> Facts alone don't explain — connections do.
+>
+> Marks: 3–6 | Band Cap: 3 | Time: 5–11m | Terms: 4–6
+
+**Strategy Tip**
+
+> **EXPLAIN Strategy**
+> Relate cause and effect; make the relationship between things clear.
+>
+> Chain every sentence with linking words:
+> because, leads to, results in, therefore.
+> Facts alone don't explain — connections do.
+
+---
+
+### COMPARE
+
+**Ribbon**
+
+> **COMPARE**
+> Band 3
+> Show how things are similar and how they are different.
+>
+> Use a balanced structure:
+> "Both X and Y... However, X... whereas Y..."
+> Discuss the significance of each point, don't just list.
+>
+> Marks: 3–6 | Band Cap: 3 | Time: 5–11m | Terms: 5–7
+
+**Strategy Tip**
+
+> **COMPARE Strategy**
+> Show how things are similar and how they are different.
+>
+> Use a balanced structure:
+> "Both X and Y... However, X... whereas Y..."
+> Discuss the significance of each point, don't just list.
+
+---
+
+### CONTRAST
+
+**Ribbon**
+
+> **CONTRAST**
+> Band 3
+> Show only the differences between two or more things.
+>
+> Ignore similarities entirely.
+> Use unlike, whereas, in contrast, on the other hand — and make each difference sharp and specific.
+>
+> Marks: 3–5 | Band Cap: 3 | Time: 5–9m | Terms: 4–6
+
+**Strategy Tip**
+
+> **CONTRAST Strategy**
+> Show only the differences between two or more things.
+>
+> Ignore similarities entirely.
+> Use unlike, whereas, in contrast, on the other hand — and make each difference sharp and specific.
+
+---
+
+### DEMONSTRATE
+
+**Ribbon**
+
+> **DEMONSTRATE**
+> Band 3
+> Show how something works or prove a point through examples or practical application.
+>
+> State the concept first, then show it in action with a concrete case.
+> Real-world or syllabus examples score highest.
+>
+> Marks: 3–6 | Band Cap: 3 | Time: 5–11m | Terms: 4–6
+
+**Strategy Tip**
+
+> **DEMONSTRATE Strategy**
+> Show how something works or prove a point through examples or practical application.
+>
+> State the concept first, then show it in action with a concrete case.
+> Real-world or syllabus examples score highest.
+
+---
+
+### PREDICT
+
+**Ribbon**
+
+> **PREDICT**
+> Band 3
+> Suggest what may happen based on available information or evidence.
+>
+> Start with "Based on..." and use the data or trend given.
+> Never guess — every prediction needs a visible evidence trail.
+>
+> Marks: 2–4 | Band Cap: 3 | Time: 4–7m | Terms: 3–4
+
+**Strategy Tip**
+
+> **PREDICT Strategy**
+> Suggest what may happen based on available information or evidence.
+>
+> Start with "Based on..." and use the data or trend given.
+> Never guess — every prediction needs a visible evidence trail.
+
+---
+
+### ACCOUNT
+
+**Ribbon**
+
+> **ACCOUNT**
+> Band 3
+> State reasons for; report on. Give an account of; narrate a series of events or transactions.
+>
+> Build a cause-and-effect chain:
+> A happened because of B, which led to C.
+> Show the full sequence, not isolated reasons.
+>
+> Marks: 3–6 | Band Cap: 3 | Time: 5–11m | Terms: 5–7
+
+**Strategy Tip**
+
+> **ACCOUNT Strategy**
+> State reasons for; report on. Give an account of; narrate a series of events or transactions.
+>
+> Build a cause-and-effect chain:
+> A happened because of B, which led to C.
+> Show the full sequence, not isolated reasons.
+
+---
+
+## Band 4 — Analyse & Apply
+
+> Break things apart and use knowledge in new situations — dig deep.
+
+---
+
+### ANALYSE
+
+**Ribbon**
+
+> **ANALYSE**
+> Band 4
+> Identify components and the relationships between them; draw out and relate implications.
+>
+> One paragraph per component, then a final paragraph linking them.
+> Don't just list parts — every paragraph must show a relationship or implication.
+>
+> Marks: 4–8 | Band Cap: 4 | Time: 7–14m | Terms: 6–10
+
+**Strategy Tip**
+
+> **ANALYSE Strategy**
+> Identify components and the relationships between them; draw out and relate implications.
+>
+> One paragraph per component, then a final paragraph linking them.
+> Don't just list parts — every paragraph must show a relationship or implication.
+
+---
+
+### APPLY
+
+**Ribbon**
+
+> **APPLY**
+> Band 4
+> Use knowledge and understanding of a concept in a new or different context.
+>
+> Start with the concept, then say "In this case..."
+> The marker wants to see transfer — prove you can use the idea outside the textbook.
+>
+> Marks: 4–8 | Band Cap: 4 | Time: 7–14m | Terms: 6–10
+
+**Strategy Tip**
+
+> **APPLY Strategy**
+> Use knowledge and understanding of a concept in a new or different context.
+>
+> Start with the concept, then say "In this case..."
+> The marker wants to see transfer — prove you can use the idea outside the textbook.
+
+---
+
+### EXAMINE
+
+**Ribbon**
+
+> **EXAMINE**
+> Band 4
+> Inquire into in detail; investigate thoroughly.
+>
+> Pick 2–3 key aspects and go deep on each with evidence.
+> Quality of depth beats quantity of points — don't skim the surface.
+>
+> Marks: 4–8 | Band Cap: 4 | Time: 7–14m | Terms: 6–10
+
+**Strategy Tip**
+
+> **EXAMINE Strategy**
+> Inquire into in detail; investigate thoroughly.
+>
+> Pick 2–3 key aspects and go deep on each with evidence.
+> Quality of depth beats quantity of points — don't skim the surface.
+
+---
+
+### DISTINGUISH
+
+**Ribbon**
+
+> **DISTINGUISH**
+> Band 4
+> Recognise or note/indicate as being distinct or different from; note points of difference.
+>
+> Use a point-by-point structure:
+> "X is... whereas Y is..."
+> Make each difference unmistakable and precise.
+>
+> Marks: 4–8 | Band Cap: 4 | Time: 7–14m | Terms: 6–8
+
+**Strategy Tip**
+
+> **DISTINGUISH Strategy**
+> Recognise or note/indicate as being distinct or different from; note points of difference.
+>
+> Use a point-by-point structure:
+> "X is... whereas Y is..."
+> Make each difference unmistakable and precise.
+
+---
+
+### INTERPRET
+
+**Ribbon**
+
+> **INTERPRET**
+> Band 4
+> Draw meaning from information, data, or a text; explain what it signifies.
+>
+> Go beyond the surface.
+> If it's a graph, say what the trend implies.
+> If it's a quote, say what the author is really suggesting — not just what's written.
+>
+> Marks: 3–6 | Band Cap: 4 | Time: 5–11m | Terms: 5–7
+
+**Strategy Tip**
+
+> **INTERPRET Strategy**
+> Draw meaning from information, data, or a text; explain what it signifies.
+>
+> Go beyond the surface.
+> If it's a graph, say what the trend implies.
+> If it's a quote, say what the author is really suggesting — not just what's written.
+
+---
+
+### EXTRAPOLATE
+
+**Ribbon**
+
+> **EXTRAPOLATE**
+> Band 4
+> Infer from what is known to project into the unknown; extend a trend beyond the given data.
+>
+> Look at the pattern and project forward.
+> Use "If this trend continues..." or "This suggests that..."
+> Always anchor your inference in the data.
+>
+> Marks: 3–6 | Band Cap: 4 | Time: 5–11m | Terms: 5–7
+
+**Strategy Tip**
+
+> **EXTRAPOLATE Strategy**
+> Infer from what is known to project into the unknown; extend a trend beyond the given data.
+>
+> Look at the pattern and project forward.
+> Use "If this trend continues..." or "This suggests that..."
+> Always anchor your inference in the data.
+
+---
+
+### CONSTRUCT
+
+**Ribbon**
+
+> **CONSTRUCT**
+> Band 4
+> Make; build; put together items or arguments to create something coherent.
+>
+> Show clear steps in the build, whether it's an argument, graph, or model.
+> Use headings or signposting so the structure is visible to the marker.
+>
+> Marks: 4–8 | Band Cap: 4 | Time: 7–14m | Terms: 6–10
+
+**Strategy Tip**
+
+> **CONSTRUCT Strategy**
+> Make; build; put together items or arguments to create something coherent.
+>
+> Show clear steps in the build, whether it's an argument, graph, or model.
+> Use headings or signposting so the structure is visible to the marker.
+
+---
+
+### DIFFERENTIATE
+
+**Ribbon**
+
+> **DIFFERENTIATE**
+> Band 4
+> Recognise or determine the differences between two or more things.
+>
+> Use a point-by-point structure:
+> "X is... whereas Y is..."
+> Make each difference unmistakable and precise.
+>
+> Marks: 4–8 | Band Cap: 4 | Time: 7–14m | Terms: 6–8
+
+**Strategy Tip**
+
+> **DIFFERENTIATE Strategy**
+> Recognise or determine the differences between two or more things.
+>
+> Use a point-by-point structure:
+> "X is... whereas Y is..."
+> Make each difference unmistakable and precise.
+
+---
+
+## Band 5 — Discuss, Assess & Justify
+
+> Form arguments, weigh up evidence, and take a position.
+
+---
+
+### DISCUSS
+
+**Ribbon**
+
+> **DISCUSS**
+> Band 5
+> Identify issues and provide points for and/or against, exploring from different perspectives.
+>
+> Structure: intro, arguments for, arguments against, your overall position.
+> Balance is key — don't make one side look weak on purpose.
+>
+> Marks: 5–10 | Band Cap: 5 | Time: 9–18m | Terms: 8–12
+
+**Strategy Tip**
+
+> **DISCUSS Strategy**
+> Identify issues and provide points for and/or against, exploring from different perspectives.
+>
+> Structure: intro, arguments for, arguments against, your overall position.
+> Balance is key — don't make one side look weak on purpose.
+
+---
+
+### ASSESS
+
+**Ribbon**
+
+> **ASSESS**
+> Band 5
+> Make a judgement of value, quality, outcomes, results, or size.
+>
+> Name your criteria upfront:
+> "This will be assessed against..."
+> Weigh strengths vs. weaknesses, then deliver a clear final verdict.
+>
+> Marks: 6–10 | Band Cap: 5 | Time: 11–18m | Terms: 10–14
+
+**Strategy Tip**
+
+> **ASSESS Strategy**
+> Make a judgement of value, quality, outcomes, results, or size.
+>
+> Name your criteria upfront:
+> "This will be assessed against..."
+> Weigh strengths vs. weaknesses, then deliver a clear final verdict.
+
+---
+
+### JUSTIFY
+
+**Ribbon**
+
+> **JUSTIFY**
+> Band 5
+> Support an argument or conclusion with evidence, reasoning, and logic.
+>
+> Defend your position like a lawyer.
+> Pile on evidence with "This is supported by..." and "Furthermore..."
+> Your job is to be convincing, not balanced.
+>
+> Marks: 6–10 | Band Cap: 5 | Time: 11–18m | Terms: 10–14
+
+**Strategy Tip**
+
+> **JUSTIFY Strategy**
+> Support an argument or conclusion with evidence, reasoning, and logic.
+>
+> Defend your position like a lawyer.
+> Pile on evidence with "This is supported by..." and "Furthermore..."
+> Your job is to be convincing, not balanced.
+
+---
+
+### DEDUCE
+
+**Ribbon**
+
+> **DEDUCE**
+> Band 5
+> Draw conclusions from available evidence or reasoning.
+>
+> Make the reasoning chain explicit and unbreakable:
+> "Given A and B, it follows that C."
+> Show every logical step — don't skip to the answer.
+>
+> Marks: 4–8 | Band Cap: 5 | Time: 7–14m | Terms: 6–10
+
+**Strategy Tip**
+
+> **DEDUCE Strategy**
+> Draw conclusions from available evidence or reasoning.
+>
+> Make the reasoning chain explicit and unbreakable:
+> "Given A and B, it follows that C."
+> Show every logical step — don't skip to the answer.
+
+---
+
+### RECOMMEND
+
+**Ribbon**
+
+> **RECOMMEND**
+> Band 5
+> Provide reasons in favour of a chosen course of action or position.
+>
+> Compare alternatives briefly, then push your choice hard.
+> End with a clear call to action: what should happen, when, and why it's best.
+>
+> Marks: 5–10 | Band Cap: 5 | Time: 9–18m | Terms: 8–12
+
+**Strategy Tip**
+
+> **RECOMMEND Strategy**
+> Provide reasons in favour of a chosen course of action or position.
+>
+> Compare alternatives briefly, then push your choice hard.
+> End with a clear call to action: what should happen, when, and why it's best.
+
+---
+
+### APPRECIATE
+
+**Ribbon**
+
+> **APPRECIATE**
+> Band 5
+> Make a judgement about the value of something, recognising its positive qualities and significance.
+>
+> Don't just say it's good.
+> Say who it helps, what makes it significant, and why it matters in the bigger picture.
+>
+> Marks: 4–8 | Band Cap: 5 | Time: 7–14m | Terms: 6–10
+
+**Strategy Tip**
+
+> **APPRECIATE Strategy**
+> Make a judgement about the value of something, recognising its positive qualities and significance.
+>
+> Don't just say it's good.
+> Say who it helps, what makes it significant, and why it matters in the bigger picture.
+
+---
+
+## Band 6 — Evaluate, Synthesise & Create
+
+> Highest-order thinking — independent judgement, creation of new understanding.
+
+---
+
+### EVALUATE
+
+**Ribbon**
+
+> **EVALUATE**
+> Band 6
+> Make a judgement based on criteria; determine the value, quality, or significance of something.
+>
+> State your criteria upfront, test the evidence against each criterion, then deliver a clear verdict.
+> Don't sit on the fence.
+>
+> Marks: 8–15 | Band Cap: 6 | Time: 14–27m | Terms: 12–18
+
+**Strategy Tip**
+
+> **EVALUATE Strategy**
+> Make a judgement based on criteria; determine the value, quality, or significance of something.
+>
+> State your criteria upfront, test the evidence against each criterion, then deliver a clear verdict.
+> Don't sit on the fence.
+
+---
+
+### CRITICALLY ANALYSE
+
+**Ribbon**
+
+> **CRITICALLY ANALYSE**
+> Band 6
+> Analyse with additional depth: question assumptions, consider limitations, and examine underlying reasoning.
+>
+> This is Band 6 territory — think about the thinking.
+> Spot bias, question what's taken for granted, and acknowledge what the evidence doesn't show.
+>
+> Marks: 8–15 | Band Cap: 6 | Time: 14–27m | Terms: 15–20
+
+**Strategy Tip**
+
+> **CRITICALLY ANALYSE Strategy**
+> Analyse with additional depth: question assumptions, consider limitations, and examine underlying reasoning.
+>
+> This is Band 6 territory — think about the thinking.
+> Spot bias, question what's taken for granted, and acknowledge what the evidence doesn't show.
+
+---
+
+### CRITICALLY EVALUATE
+
+**Ribbon**
+
+> **CRITICALLY EVALUATE**
+> Band 6
+> Evaluate with additional depth, logic, and reflection, thoroughly weighing strengths and weaknesses.
+>
+> Apply every criterion rigorously, then interrogate your own judgement.
+> What are the limitations of your evaluation? Where might your criteria be biased?
+>
+> Marks: 8–15 | Band Cap: 6 | Time: 14–27m | Terms: 15–20
+
+**Strategy Tip**
+
+> **CRITICALLY EVALUATE Strategy**
+> Evaluate with additional depth, logic, and reflection, thoroughly weighing strengths and weaknesses.
+>
+> Apply every criterion rigorously, then interrogate your own judgement.
+> What are the limitations of your evaluation? Where might your criteria be biased?
+
+---
+
+### SYNTHESISE
+
+**Ribbon**
+
+> **SYNTHESISE**
+> Band 6
+> Combine different ideas, components, or sources to create a new, integrated whole.
+>
+> Don't just summarise each source — show how they combine into something bigger.
+> Use "Together, these suggest..." to signal the new insight.
+>
+> Marks: 8–15 | Band Cap: 6 | Time: 14–27m | Terms: 12–18
+
+**Strategy Tip**
+
+> **SYNTHESISE Strategy**
+> Combine different ideas, components, or sources to create a new, integrated whole.
+>
+> Don't just summarise each source — show how they combine into something bigger.
+> Use "Together, these suggest..." to signal the new insight.
+
+---
+
+### PROPOSE
+
+**Ribbon**
+
+> **PROPOSE**
+> Band 6
+> Put forward an idea, plan, or suggestion for consideration or action.
+>
+> Be bold but backed by evidence.
+> Cover what should happen, why, and the expected outcome.
+> End with a clear call to action.
+>
+> Marks: 8–15 | Band Cap: 6 | Time: 14–27m | Terms: 12–18
+
+**Strategy Tip**
+
+> **PROPOSE Strategy**
+> Put forward an idea, plan, or suggestion for consideration or action.
+>
+> Be bold but backed by evidence.
+> Cover what should happen, why, and the expected outcome.
+> End with a clear call to action.
+
+---
+
+### INVESTIGATE
+
+**Ribbon**
+
+> **INVESTIGATE**
+> Band 6
+> Plan, inquire into, and draw conclusions about a topic through systematic research.
+>
+> Structure it like a mini-report:
+> question, method, findings, analysis, conclusion.
+> Clear section headings help the marker follow your logic.
+>
+> Marks: 8–15 | Band Cap: 6 | Time: 14–27m | Terms: 15–20
+
+**Strategy Tip**
+
+> **INVESTIGATE Strategy**
+> Plan, inquire into, and draw conclusions about a topic through systematic research.
+>
+> Structure it like a mini-report:
+> question, method, findings, analysis, conclusion.
+> Clear section headings help the marker follow your logic.

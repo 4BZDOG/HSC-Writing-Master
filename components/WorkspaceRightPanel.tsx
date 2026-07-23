@@ -242,7 +242,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
 
           {/* Evaluate action — sits above the footer bar; on phones it sits
               higher to clear the taller mobile footer. */}
-          <div className="absolute bottom-20 right-4 sm:bottom-16 sm:right-8 z-20 flex flex-col items-end">
+          <div className="absolute bottom-24 right-4 sm:bottom-20 sm:right-8 z-20 flex flex-col items-end">
             <button
               onClick={onEvaluate}
               disabled={isEvaluating || !userAnswer.trim()}
