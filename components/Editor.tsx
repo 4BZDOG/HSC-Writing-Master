@@ -318,6 +318,84 @@ const Editor = forwardRef<
       });
     };
 
+    // Keep the caret in view while writing.
+    //
+    // The textarea is stacked in a grid and sized to its own content
+    // (`h-full` of a content-sized row) with `overflow-hidden`, so it never
+    // scrolls itself — which means the browser never has a reason to reveal
+    // the caret. The card around it is what scrolls, and it does not follow
+    // the caret on its own: past roughly thirty lines a student was typing
+    // below the fold, unable to see the words appearing.
+    //
+    // A mirror element with the textarea's text metrics gives the caret's
+    // y-offset: render the text UP TO the caret and take its height. One
+    // detached node is reused for the life of the component.
+    const caretMirrorRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(
+      () => () => {
+        caretMirrorRef.current?.remove();
+        caretMirrorRef.current = null;
+      },
+      []
+    );
+
+    const scrollCaretIntoView = () => {
+      const el = textareaRef.current;
+      const body = bodyRef.current;
+      if (!el || !body) return;
+
+      let mirror = caretMirrorRef.current;
+      if (!mirror) {
+        mirror = document.createElement('div');
+        mirror.setAttribute('aria-hidden', 'true');
+        mirror.style.cssText =
+          'position:absolute;top:0;left:-9999px;visibility:hidden;white-space:pre-wrap;word-wrap:break-word;overflow-wrap:break-word;';
+        document.body.appendChild(mirror);
+        caretMirrorRef.current = mirror;
+      }
+
+      const cs = getComputedStyle(el);
+      for (const prop of [
+        'fontFamily',
+        'fontSize',
+        'fontWeight',
+        'fontStyle',
+        'letterSpacing',
+        'lineHeight',
+        'textTransform',
+        'paddingTop',
+        'paddingRight',
+        'paddingBottom',
+        'paddingLeft',
+      ] as const) {
+        mirror.style[prop] = cs[prop];
+      }
+      mirror.style.width = `${el.clientWidth}px`;
+      // The zero-width space stops a trailing newline from collapsing, so the
+      // caret on a fresh empty line still measures as a line of its own.
+      mirror.textContent = el.value.slice(0, el.selectionStart) + '\u200B';
+
+      const lineHeight = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.8;
+      const caretBottom = mirror.offsetHeight - parseFloat(cs.paddingBottom);
+      const caretTop = caretBottom - lineHeight;
+
+      // Breathing room so the caret never sits flush against either edge.
+      const MARGIN = Math.round(lineHeight * 1.5);
+      const viewTop = body.scrollTop;
+      const viewBottom = viewTop + body.clientHeight;
+
+      if (caretBottom > viewBottom - MARGIN) {
+        body.scrollTop = caretBottom - body.clientHeight + MARGIN;
+      } else if (caretTop < viewTop + MARGIN) {
+        body.scrollTop = Math.max(0, caretTop - MARGIN);
+      }
+    };
+
+    // Runs after React has committed the new value, so the mirror measures the
+    // text the student can actually see.
+    const queueCaretScroll = () => requestAnimationFrame(scrollCaretIntoView);
+
     useImperativeHandle(ref, () => ({
       getText: () => value,
       setText: (text: string) => onChange(text),
@@ -647,8 +725,15 @@ const Editor = forwardRef<
               <textarea
                 ref={textareaRef}
                 value={value}
-                onChange={(e) => onChange(e.target.value)}
+                onChange={(e) => {
+                  onChange(e.target.value);
+                  queueCaretScroll();
+                }}
                 onKeyDown={handleKeyDown}
+                // Arrow keys, Home/End and click-to-place move the caret
+                // without changing the text, so onChange never fires.
+                onKeyUp={queueCaretScroll}
+                onClick={queueCaretScroll}
                 onBlur={() => onSave?.()}
                 placeholder={
                   isExamMode ? 'Begin your response. The clock is running…' : placeholder
