@@ -3,10 +3,11 @@
  * Response").
  *
  * The relationship between them is deliberately one-way: **the question prompt
- * dictates the height, and the writing area matches it.** A student must be
- * able to read the whole question at a glance — it never scrolls, however long
- * the scenario runs. The response is the part that grows without bound, so
- * that is the card that scrolls internally.
+ * dictates the height, and the writing area matches it.** The prompt grows to
+ * fit its question and scenario so a student can read the whole thing without
+ * scrolling — up to the point where growing further would push the writing
+ * area off screen. Past that the prompt scrolls too. The response grows
+ * without bound, so the writing area always scrolls when it needs to.
  *
  *  - MIN_CARD_HEIGHT   floor, so a one-line question still leaves a usable
  *                      writing area underneath it. It has to clear the
@@ -16,12 +17,23 @@
  *                      writing surface is shorter than its own padding and an
  *                      EMPTY editor renders a scrollbar with nothing to
  *                      scroll to.
- *  - FALLBACK_CARD_HEIGHT  the writing area's ceiling before the prompt has
- *                      been measured, so a long saved draft cannot stretch the
- *                      page during the first paint.
+ *  - MAX_CARD_HEIGHT   absolute ceiling, whatever the viewport.
+ *  - VIEWPORT_RESERVE  room left for the app header, breadcrumb and the page
+ *                      margins around the cards.
  */
 export const MIN_CARD_HEIGHT = 620;
-export const FALLBACK_CARD_HEIGHT = 800;
+export const MAX_CARD_HEIGHT = 900;
+const VIEWPORT_RESERVE = 180;
+
+/**
+ * The tallest the pair may grow on this viewport. A fixed ceiling either wastes
+ * a large display or, on a laptop, buries the writing area below the fold — so
+ * it is derived from the window and then clamped. When the floor wins (a short
+ * window), a long prompt scrolls at MIN_CARD_HEIGHT rather than the pair
+ * collapsing to something unusable.
+ */
+export const cardHeightCap = (viewportHeight: number): number =>
+  Math.max(MIN_CARD_HEIGHT, Math.min(MAX_CARD_HEIGHT, viewportHeight - VIEWPORT_RESERVE));
 
 /**
  * Natural (content-driven) height of the prompt card — the single value the
@@ -32,7 +44,8 @@ export const FALLBACK_CARD_HEIGHT = 800;
  * the rendered card made the sync a one-way ratchet: it reports its inflated
  * height, that becomes the next floor, and it can never shrink again.
  * Substituting the body's CONTENT height for its RENDERED height leaves the
- * height the card would have with nothing constraining it.
+ * height the card would have with nothing constraining it — including when the
+ * content is taller than the cap and the body is scrolling.
  *
  * `card` is the outer element, so its borders are counted — the writing area
  * pins itself to this number exactly, and measuring inside the border left it

@@ -16,7 +16,7 @@ import CommandTermGuideModal from './CommandTermGuideModal';
 import Breadcrumb from './Breadcrumb';
 import { getCommandTermInfo } from '../data/commandTerms';
 import { findAndUpdateItem } from '../utils/stateUtils';
-import { MIN_CARD_HEIGHT } from '../utils/layoutConstants';
+import { cardHeightCap, MIN_CARD_HEIGHT } from '../utils/layoutConstants';
 import WorkspaceRightPanel from './WorkspaceRightPanel';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 
@@ -120,9 +120,10 @@ const Workspace: React.FC<WorkspaceProps> = ({
 
   // Layout Sync State. Headers and footers are matched in both directions so
   // the chrome lines up, but the CARD height is one-way: the question prompt
-  // sets it and the writing area follows. The prompt is never truncated and
-  // never scrolls — a student has to be able to read the whole question — so
-  // the writing area is the card that scrolls when a response outgrows it.
+  // sets it and the writing area follows. The prompt grows to fit its question
+  // and scenario, so most of the time it reads without scrolling; only when it
+  // outruns the viewport cap does it scroll too. The response has no natural
+  // limit, so the writing area scrolls whenever it overflows.
   const [promptHeaderHeight, setPromptHeaderHeight] = useState(0);
   const [editorHeaderHeight, setEditorHeaderHeight] = useState(0);
   const [syncedHeaderHeight, setSyncedHeaderHeight] = useState(0);
@@ -137,13 +138,27 @@ const Workspace: React.FC<WorkspaceProps> = ({
     if (max > 0) setSyncedHeaderHeight(max);
   }, [promptHeaderHeight, editorHeaderHeight]);
 
+  // The viewport ceiling, refreshed on resize: how tall the pair may grow
+  // before a longer prompt would start pushing the writing area off screen.
+  const [heightCap, setHeightCap] = useState(() =>
+    cardHeightCap(typeof window === 'undefined' ? 900 : window.innerHeight)
+  );
+  useEffect(() => {
+    const update = () => setHeightCap(cardHeightCap(window.innerHeight));
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
   // The prompt's own content height, floored so a one-line question still
-  // leaves somewhere to write. Nothing the student types feeds back into this.
+  // leaves somewhere to write and capped so a very long scenario scrolls
+  // inside its card instead of pushing the writing area below the fold.
+  // Nothing the student types feeds back into this.
   useEffect(() => {
     if (promptTotalHeight > 0) {
-      setSyncedTotalHeight(Math.max(MIN_CARD_HEIGHT, promptTotalHeight));
+      setSyncedTotalHeight(Math.min(heightCap, Math.max(MIN_CARD_HEIGHT, promptTotalHeight)));
     }
-  }, [promptTotalHeight]);
+  }, [promptTotalHeight, heightCap]);
 
   useEffect(() => {
     const max = Math.max(promptFooterHeight, editorFooterHeight);

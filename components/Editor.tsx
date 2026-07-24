@@ -32,7 +32,7 @@ import {
 } from 'lucide-react';
 import { PromptVerb, WritingMode } from '../types';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
-import { FALLBACK_CARD_HEIGHT } from '../utils/layoutConstants';
+import { MAX_CARD_HEIGHT } from '../utils/layoutConstants';
 import { PlusLockChip } from './UpgradeModal';
 
 interface EditorProps {
@@ -478,7 +478,7 @@ const Editor = forwardRef<
         // cannot stretch the page during the first paint.
         style={{
           minHeight: `${minTotalHeight || 300}px`,
-          maxHeight: `${minTotalHeight || FALLBACK_CARD_HEIGHT}px`,
+          maxHeight: `${minTotalHeight || MAX_CARD_HEIGHT}px`,
         }}
       >
         <div ref={contentWrapRef} className="flex flex-col flex-1 min-h-0">

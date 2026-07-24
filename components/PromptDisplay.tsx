@@ -251,11 +251,14 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             border-2 ${bandConfig.border} shadow-2xl ${bandConfig.glow}
             transition-all duration-500 group/prompt flex flex-col h-full
         `}
-      // No maxHeight and no scroll region: the question, its scenario and its
-      // marking context are always shown in full. A student cannot answer what
-      // they cannot see, so this card grows to fit and the writing area matches
-      // it — the writing area is the one that scrolls.
-      style={{ minHeight: minTotalHeight || undefined }}
+      // min and max are the same value, so the card is exactly the height the
+      // sync decided: its own content where that fits, the viewport cap where
+      // it doesn't. A question that outruns the cap scrolls in its body rather
+      // than pushing the writing area below the fold.
+      style={{
+        minHeight: minTotalHeight || undefined,
+        maxHeight: minTotalHeight ? `${minTotalHeight}px` : undefined,
+      }}
     >
       <div ref={contentWrapRef} className="flex flex-col flex-1 min-h-0">
         {/* Header Container */}
@@ -347,7 +350,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           className={`absolute inset-0 bg-gradient-to-br ${bandConfig.gradient} opacity-[0.03] pointer-events-none`}
         />
 
-        <div ref={bodyRef} className="flex-1 flex flex-col">
+        <div ref={bodyRef} className="flex-1 flex flex-col min-h-0 overflow-y-auto">
           <div
             ref={bodyContentRef}
             className={`${condensed ? 'p-6 sm:p-8' : 'p-6 sm:p-8 pb-4 sm:pb-4'} relative z-10 flex flex-col gap-6 sm:gap-8`}
@@ -547,9 +550,10 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           </div>
         </div>
 
-        {/* Outcomes Footer - "The Evidence". A sibling of the body, not a child
-          of it, so the syllabus link, outcome chips and zoom controls stay
-          pinned to the bottom of the card. */}
+        {/* Outcomes Footer - "The Evidence". A sibling of the scroll region, not
+          a child of it, so the syllabus link, outcome chips and zoom controls
+          stay pinned to the bottom instead of scrolling out of reach when a
+          long scenario overflows. */}
         {!(condensed && linkedOutcomes.length === 0) && (
           <div
             ref={footerRef}
