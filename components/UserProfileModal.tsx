@@ -153,7 +153,14 @@ const MiniProgressRing: React.FC<{ percent: number; size?: number; color: string
   const offset = circ - (Math.min(100, Math.max(0, percent)) / 100) * circ;
   return (
     <svg width={size} height={size} className="transform -rotate-90">
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none" strokeWidth={3} className="stroke-white/10 light:stroke-slate-200" />
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={r}
+        fill="none"
+        strokeWidth={3}
+        className="stroke-white/10 light:stroke-slate-200"
+      />
       <circle
         cx={size / 2}
         cy={size / 2}
@@ -281,7 +288,8 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
       return { text: 'Complete your first evaluation to start tracking progress.', positive: true };
     const parts: string[] = [];
     if (averageBand >= 5) parts.push(`averaging Band ${averageBand.toFixed(1)}`);
-    else if (averageBand >= 4) parts.push(`averaging Band ${averageBand.toFixed(1)} — keep pushing`);
+    else if (averageBand >= 4)
+      parts.push(`averaging Band ${averageBand.toFixed(1)} — keep pushing`);
     else parts.push(`averaging Band ${averageBand.toFixed(1)} — room to grow`);
     if (streakDays >= 3) parts.push(`${streakDays}-day active streak`);
     if (totalWordsWritten >= 5000)
@@ -381,7 +389,8 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 Streak
               </span>
               <span className="flex items-center gap-2">
-                <Award className="w-4 h-4 text-amber-500" /> {unlockedCount}/{achievements.length} Unlocked
+                <Award className="w-4 h-4 text-amber-500" /> {unlockedCount}/{achievements.length}{' '}
+                Unlocked
               </span>
             </div>
 
@@ -420,7 +429,11 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
         <div className="flex-shrink-0 flex border-b border-white/5 light:border-slate-100 px-4 sm:px-10 bg-black/10 light:bg-slate-50/50 overflow-x-auto scrollbar-hide">
           {[
             { id: 'overview', icon: Zap, label: 'Stats' },
-            { id: 'achievements', icon: Award, label: `Achievements (${unlockedCount}/${achievements.length})` },
+            {
+              id: 'achievements',
+              icon: Award,
+              label: `Achievements (${unlockedCount}/${achievements.length})`,
+            },
             { id: 'settings', icon: Settings, label: 'Settings' },
           ].map((tab) => (
             <button
@@ -459,9 +472,10 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   },
                   {
                     label: 'Words',
-                    val: user.stats.totalWordsWritten >= 1000
-                      ? `${(user.stats.totalWordsWritten / 1000).toFixed(1)}k`
-                      : user.stats.totalWordsWritten,
+                    val:
+                      user.stats.totalWordsWritten >= 1000
+                        ? `${(user.stats.totalWordsWritten / 1000).toFixed(1)}k`
+                        : user.stats.totalWordsWritten,
                     icon: PenTool,
                     color: 'text-sky-400',
                     ringColor: 'stroke-sky-500',
@@ -482,7 +496,9 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   >
                     <div className="relative mb-3">
                       <MiniProgressRing percent={stat.ringPercent} color={stat.ringColor} />
-                      <div className={`absolute inset-0 flex items-center justify-center ${stat.color}`}>
+                      <div
+                        className={`absolute inset-0 flex items-center justify-center ${stat.color}`}
+                      >
                         <stat.icon className="w-5 h-5" />
                       </div>
                     </div>
@@ -527,8 +543,12 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
               <PlanCard user={user} />
 
               {/* Performance Summary */}
-              <div className={`p-6 rounded-[32px] border flex items-start gap-5 ${performanceSummary.positive ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-indigo-500/5 border-indigo-500/20'}`}>
-                <div className={`p-3.5 rounded-2xl ${performanceSummary.positive ? 'bg-emerald-500/20 text-emerald-400' : 'bg-indigo-500/20 text-indigo-400'}`}>
+              <div
+                className={`p-6 rounded-[32px] border flex items-start gap-5 ${performanceSummary.positive ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-indigo-500/5 border-indigo-500/20'}`}
+              >
+                <div
+                  className={`p-3.5 rounded-2xl ${performanceSummary.positive ? 'bg-emerald-500/20 text-emerald-400' : 'bg-indigo-500/20 text-indigo-400'}`}
+                >
                   <BarChart3 className="w-7 h-7" />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -585,7 +605,9 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <h4 className={`font-bold uppercase tracking-wide text-sm ${ach.unlocked ? 'text-white light:text-slate-900' : 'text-slate-500'}`}>
+                          <h4
+                            className={`font-bold uppercase tracking-wide text-sm ${ach.unlocked ? 'text-white light:text-slate-900' : 'text-slate-500'}`}
+                          >
                             {ach.title}
                           </h4>
                           {ach.unlocked && (

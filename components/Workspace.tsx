@@ -16,6 +16,7 @@ import CommandTermGuideModal from './CommandTermGuideModal';
 import Breadcrumb from './Breadcrumb';
 import { getCommandTermInfo } from '../data/commandTerms';
 import { findAndUpdateItem } from '../utils/stateUtils';
+import { EDITOR_SYNC_CAP, MAX_CARD_HEIGHT, MIN_CARD_HEIGHT } from '../utils/layoutConstants';
 import WorkspaceRightPanel from './WorkspaceRightPanel';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 
@@ -134,10 +135,19 @@ const Workspace: React.FC<WorkspaceProps> = ({
     if (max > 0) setSyncedHeaderHeight(max);
   }, [promptHeaderHeight, editorHeaderHeight]);
 
+  // Shared card height. The editor's contribution is capped separately: left
+  // uncapped, every sentence a student typed would also inflate the prompt
+  // card, stranding a two-line question in a column of empty space. Past the
+  // cap the editor scrolls internally and the prompt card stops following it.
   useEffect(() => {
-    const MAX_SYNCED_HEIGHT = 800;
-    const max = Math.min(MAX_SYNCED_HEIGHT, Math.max(promptTotalHeight, editorTotalHeight));
-    if (max > 0) setSyncedTotalHeight(max);
+    const tallest = Math.max(
+      promptTotalHeight,
+      Math.min(editorTotalHeight, EDITOR_SYNC_CAP),
+      MIN_CARD_HEIGHT
+    );
+    if (promptTotalHeight > 0 || editorTotalHeight > 0) {
+      setSyncedTotalHeight(Math.min(MAX_CARD_HEIGHT, tallest));
+    }
   }, [promptTotalHeight, editorTotalHeight]);
 
   useEffect(() => {

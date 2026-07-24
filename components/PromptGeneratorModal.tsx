@@ -622,9 +622,11 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                     <Info className="w-4 h-4 shrink-0 text-blue-400" />
                     <p className="text-[10px] font-medium leading-relaxed">
                       This question will be generated as a{' '}
-                      <span className="font-bold text-white light:text-slate-900">direct question</span> with no scenario
-                      — the stem stands on its own. Turn the switch back on to add a context
-                      paragraph.
+                      <span className="font-bold text-white light:text-slate-900">
+                        direct question
+                      </span>{' '}
+                      with no scenario — the stem stands on its own. Turn the switch back on to add
+                      a context paragraph.
                     </p>
                   </div>
                 )}
@@ -719,7 +721,8 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                 <strong className="text-white light:text-slate-900">
                   {marks}-mark {activeTierInfo?.title}
                 </strong>{' '}
-                task targeting <strong className="text-white light:text-slate-900">Band {targetBand}</strong>.
+                task targeting{' '}
+                <strong className="text-white light:text-slate-900">Band {targetBand}</strong>.
                 {selectedVerbInfo && (
                   <span className="text-slate-500">
                     {' '}

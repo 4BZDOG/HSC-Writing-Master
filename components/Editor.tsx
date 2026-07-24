@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import { PromptVerb, WritingMode } from '../types';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
+import { MAX_CARD_HEIGHT, naturalCardHeight } from '../utils/layoutConstants';
 import { PlusLockChip } from './UpgradeModal';
 
 interface EditorProps {
@@ -142,6 +143,8 @@ const Editor = forwardRef<
     const headerRef = useRef<HTMLDivElement>(null);
     const headerContentRef = useRef<HTMLDivElement>(null);
     const contentWrapRef = useRef<HTMLDivElement>(null);
+    const bodyRef = useRef<HTMLDivElement>(null);
+    const bodyContentRef = useRef<HTMLDivElement>(null);
     const footerRef = useRef<HTMLDivElement>(null);
     const [copied, setCopied] = useState(false);
     const [showStrategy, setShowStrategy] = useState(true);
@@ -251,16 +254,24 @@ const Editor = forwardRef<
       return () => observer.disconnect();
     }, [onFooterResize]);
 
+    // Total height observation. Reports the card's NATURAL height — the height
+    // it would take if the synced minHeight weren't stretching it — so the
+    // cross-card sync can shrink again when the response is cleared or the
+    // student moves to a shorter question.
     useEffect(() => {
       if (!contentWrapRef.current || !onTotalHeightChange) return;
-      const observer = new ResizeObserver((entries) => {
-        for (const entry of entries) {
-          onTotalHeightChange(entry.borderBoxSize[0].blockSize);
-        }
-      });
+
+      const report = () =>
+        onTotalHeightChange(
+          naturalCardHeight(contentWrapRef.current, bodyRef.current, bodyContentRef.current)
+        );
+
+      const observer = new ResizeObserver(report);
       observer.observe(contentWrapRef.current);
+      if (bodyContentRef.current) observer.observe(bodyContentRef.current);
+      report();
       return () => observer.disconnect();
-    }, [onTotalHeightChange]);
+    }, [onTotalHeightChange, internalFontSize]);
 
     const handleManualResize = (newSize: number) => {
       setInternalFontSize(newSize);
@@ -389,7 +400,11 @@ const Editor = forwardRef<
         className={`clip-stable flex flex-col w-full h-auto bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] overflow-hidden border-2 ${chroma.border} shadow-2xl ${chroma.glow} transition-all duration-700 ease-in-out ${className}`}
         style={{
           minHeight: minTotalHeight || '300px',
-          maxHeight: minTotalHeight ? `${Math.max(minTotalHeight, 800)}px` : undefined,
+          // Always capped — not only once the sync has settled. Before the
+          // first measurement lands, an unbounded card would grow with the
+          // draft instead of scrolling, which is exactly when a student with a
+          // long saved response needs the scrollbar.
+          maxHeight: `${MAX_CARD_HEIGHT}px`,
         }}
       >
         <div ref={contentWrapRef} className="flex flex-col flex-1 min-h-0">
@@ -588,7 +603,10 @@ const Editor = forwardRef<
           )}
 
           {/* Editor Body with Grid Stacking for Auto-Height */}
-          <div className="relative flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white overflow-y-auto min-h-0">
+          <div
+            ref={bodyRef}
+            className="relative flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white overflow-y-auto min-h-0"
+          >
             {/* Progress-Aware Background Bloom */}
             <div
               className="absolute inset-0 opacity-10 light:opacity-5 transition-all duration-1000 ease-in-out pointer-events-none"
@@ -600,10 +618,14 @@ const Editor = forwardRef<
 
             <MeshOverlay opacity="opacity-[0.04]" color={chroma.mesh} />
 
-            <div className="grid w-full relative z-10 h-full">
-              {/* Invisible phantom div to force height based on content */}
+            <div className="grid w-full relative z-10 min-h-full">
+              {/* Invisible phantom div to force height based on content. It is
+                also the card's natural-height probe, so `self-start` keeps it
+                at its content height instead of being stretched to fill the
+                row — the row is still sized by its content contribution. */}
               <div
-                className={`${gridStackItemStyles} invisible`}
+                ref={bodyContentRef}
+                className={`${gridStackItemStyles} invisible self-start`}
                 style={{ fontSize: `${internalFontSize}px` }}
               >
                 {value + ' '}

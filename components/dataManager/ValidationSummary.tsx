@@ -34,7 +34,9 @@ const StatItem = ({ label, value, icon: Icon, color }: StatItemProps) => (
         {label}
       </span>
     </div>
-    <span className="text-2xl font-black text-white light:text-slate-900 tracking-tighter tabular-nums">{value}</span>
+    <span className="text-2xl font-black text-white light:text-slate-900 tracking-tighter tabular-nums">
+      {value}
+    </span>
   </div>
 );
 
@@ -110,9 +112,7 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
             <div className="p-1.5 rounded-lg bg-red-500/20">
               <AlertCircle className="w-4 h-4 text-red-400" />
             </div>
-            <h5 className="text-xs font-bold text-red-500 uppercase tracking-wider">
-              Errors
-            </h5>
+            <h5 className="text-xs font-bold text-red-500 uppercase tracking-wider">Errors</h5>
           </div>
           <ul className="space-y-3">
             {result.errors.slice(0, 5).map((err, i) => (
@@ -139,9 +139,7 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
             <div className="p-1.5 rounded-lg bg-amber-500/20">
               <AlertTriangle className="w-4 h-4 text-amber-400" />
             </div>
-            <h5 className="text-xs font-bold text-amber-500 uppercase tracking-wider">
-              Warnings
-            </h5>
+            <h5 className="text-xs font-bold text-amber-500 uppercase tracking-wider">Warnings</h5>
           </div>
           <ul className="space-y-3">
             {result.warnings.slice(0, 5).map((warn, i) => (
@@ -155,7 +153,8 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
             ))}
             {result.warnings.length > 5 && (
               <li className="text-xs text-amber-500/60 light:text-amber-400 font-semibold pl-4">
-                +{result.warnings.length - 5} more warning{result.warnings.length - 5 === 1 ? '' : 's'}
+                +{result.warnings.length - 5} more warning
+                {result.warnings.length - 5 === 1 ? '' : 's'}
               </li>
             )}
           </ul>

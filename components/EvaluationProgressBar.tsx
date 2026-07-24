@@ -49,20 +49,21 @@ const EvaluationProgressBar: React.FC = () => {
     return unsub;
   }, []);
 
+  // Only the open-ended wait rotates hints. Every other phase is a real,
+  // reportable state and must show its own message — otherwise "Processing
+  // results..." is masked by whichever hint happened to be on screen when the
+  // response landed, and the bar keeps claiming the AI is still marking.
+  const isWaiting = phase === 'started' || phase === 'sending' || phase === 'waiting';
+
   useEffect(() => {
-    if (phase !== 'sending' && phase !== 'started' && phase !== 'waiting') return;
+    if (!isWaiting) return;
     const interval = setInterval(() => {
       setHintIndex((prev) => (prev + 1) % WAITING_HINTS.length);
     }, 2500);
     return () => clearInterval(interval);
-  }, [phase]);
+  }, [isWaiting]);
 
-  const displayMessage =
-    phase === 'retrying' || phase === 'fallback' || phase === 'error'
-      ? statusMessage
-      : elapsedSec >= 5
-        ? WAITING_HINTS[hintIndex]
-        : statusMessage;
+  const displayMessage = isWaiting && elapsedSec >= 5 ? WAITING_HINTS[hintIndex] : statusMessage;
 
   const isRetrying = phase === 'retrying';
   const isFallback = phase === 'fallback';
@@ -73,7 +74,12 @@ const EvaluationProgressBar: React.FC = () => {
   };
 
   return (
-    <div className="absolute inset-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center gap-4">
+    <div
+      role="status"
+      aria-live="polite"
+      aria-label={`${displayMessage} ${formatTime(elapsedSec)} elapsed`}
+      className="absolute inset-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center gap-4"
+    >
       <div className="w-full max-w-md space-y-3 px-4">
         {/* Progress bar */}
         <div className="h-1.5 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">

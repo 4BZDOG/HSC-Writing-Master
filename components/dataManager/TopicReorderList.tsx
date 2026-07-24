@@ -86,7 +86,8 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
                           </span>
                           <div className="flex items-center gap-2 mt-0.5">
                             <span className="text-[10px] font-medium text-slate-500 light:text-slate-400">
-                              {topic.subTopics.length} sub-topic{topic.subTopics.length === 1 ? '' : 's'}
+                              {topic.subTopics.length} sub-topic
+                              {topic.subTopics.length === 1 ? '' : 's'}
                             </span>
                           </div>
                         </div>

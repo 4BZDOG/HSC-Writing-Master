@@ -49,7 +49,10 @@ for (let band = 1; band <= 6; band++) {
   lines.push('---');
 
   for (const verb of verbs) {
-    const tipLines = verb.tip.split('\n').map((l) => `> ${l}`).join('\n');
+    const tipLines = verb.tip
+      .split('\n')
+      .map((l) => `> ${l}`)
+      .join('\n');
 
     lines.push('');
     lines.push(`### ${verb.term}`);

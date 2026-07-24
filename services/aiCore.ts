@@ -492,10 +492,14 @@ const callGeminiWithRetry = async <T>(
         elapsedMs: Date.now() - callStart,
       });
 
+      // The timer is cleared once the race settles — otherwise every call
+      // leaves a 90s timer pending, which keeps test runners (and Node) awake
+      // long after the response has been handled.
+      let timeoutId: ReturnType<typeof setTimeout> | undefined;
       const result = await Promise.race([
         apiCall(),
-        new Promise<never>((_, reject) =>
-          setTimeout(
+        new Promise<never>((_, reject) => {
+          timeoutId = setTimeout(
             () =>
               reject(
                 Object.assign(
@@ -506,9 +510,9 @@ const callGeminiWithRetry = async <T>(
                 )
               ),
             API_TIMEOUT
-          )
-        ),
-      ]);
+          );
+        }),
+      ]).finally(() => clearTimeout(timeoutId));
 
       apiGuard.reset();
       emitEvalProgress({
