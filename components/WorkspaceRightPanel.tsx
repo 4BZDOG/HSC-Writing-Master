@@ -40,7 +40,6 @@ interface WorkspaceRightPanelProps {
   minEditorHeight?: number;
   onFooterResize?: (height: number) => void;
   minFooterHeight?: number;
-  onTotalHeightChange?: (height: number) => void;
   writingMode: WritingMode;
   onWritingModeChange: (mode: WritingMode) => void;
 }
@@ -71,7 +70,6 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   minEditorHeight,
   onFooterResize,
   minFooterHeight,
-  onTotalHeightChange,
   writingMode,
   onWritingModeChange,
 }) => {
@@ -235,7 +233,6 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             minTotalHeight={minEditorHeight}
             onFooterResize={onFooterResize}
             minFooterHeight={minFooterHeight}
-            onTotalHeightChange={onTotalHeightChange}
             writingMode={writingMode}
             onWritingModeChange={onWritingModeChange}
           />

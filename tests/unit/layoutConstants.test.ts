@@ -1,17 +1,16 @@
 import { describe, it, expect } from 'vitest';
 import {
   naturalCardHeight,
-  EDITOR_SYNC_CAP,
-  MAX_CARD_HEIGHT,
+  FALLBACK_CARD_HEIGHT,
   MIN_CARD_HEIGHT,
 } from '../../utils/layoutConstants';
 
 /**
- * The workspace's two cards are height-synced, and the sync is a feedback loop:
- * each card reports a height, the tallest becomes both cards' `minHeight`, and
- * that stretches the very element being measured. Everything here guards the
- * property that makes the loop terminate — a card's reported height must not
- * depend on the `minHeight` it was given.
+ * The workspace's two cards are height-linked one way: the question prompt
+ * sets the height and the writing area matches it. The prompt still carries a
+ * `minHeight` (the floor for a one-line question), and that `minHeight`
+ * stretches the very element its own height is measured from — so the property
+ * below is what stops the sync becoming a one-way ratchet.
  */
 
 // Minimal stand-in for the three elements naturalCardHeight reads.
@@ -19,20 +18,19 @@ const el = (offsetHeight: number) => ({ offsetHeight }) as HTMLElement;
 
 describe('naturalCardHeight', () => {
   it('reports content height, not the height the wrapper was stretched to', () => {
-    // Wrapper stretched to 800 by the synced minHeight; chrome (header +
-    // footer) is 250, so the scroll region rendered at 550 — but it only holds
-    // 300px of content.
+    // Wrapper stretched to 800 by the floor; chrome (header + footer) is 250,
+    // so the body rendered at 550 — but it only holds 300px of content.
     expect(naturalCardHeight(el(800), el(550), el(300))).toBe(550);
   });
 
   it('shrinks again when the content shrinks under a stretched wrapper', () => {
     const stretched = el(800);
-    const scrollRegion = el(550);
-    const tall = naturalCardHeight(stretched, scrollRegion, el(3000));
-    const short = naturalCardHeight(stretched, scrollRegion, el(120));
+    const body = el(550);
+    const tall = naturalCardHeight(stretched, body, el(3000));
+    const short = naturalCardHeight(stretched, body, el(120));
     expect(tall).toBeGreaterThan(short);
-    // This is the ratchet regression: measuring the wrapper alone returned 800
-    // in both cases, so the pair could only ever grow.
+    // The ratchet regression: measuring the wrapper alone returned 800 in both
+    // cases, so the card could only ever grow.
     expect(short).toBeLessThan(stretched.offsetHeight);
   });
 
@@ -42,7 +40,13 @@ describe('naturalCardHeight', () => {
     expect(at620).toBe(at800);
   });
 
-  it('falls back to the wrapper when the scroll region is not mounted yet', () => {
+  it('grows without bound with the content, since the prompt never scrolls', () => {
+    // A long scenario must lengthen the card rather than being clipped into a
+    // scroll region, so nothing here clamps the result.
+    expect(naturalCardHeight(el(600), el(400), el(4000))).toBe(4200);
+  });
+
+  it('falls back to the wrapper when the body is not mounted yet', () => {
     expect(naturalCardHeight(el(430), null, null)).toBe(430);
     expect(naturalCardHeight(el(430), el(200), null)).toBe(430);
   });
@@ -53,10 +57,7 @@ describe('naturalCardHeight', () => {
 });
 
 describe('card height constants', () => {
-  it('caps the editor below the overall ceiling', () => {
-    // If the editor could push the shared height to the ceiling, a two-line
-    // question would sit in a 800px card as soon as the student wrote at length.
-    expect(EDITOR_SYNC_CAP).toBeLessThan(MAX_CARD_HEIGHT);
-    expect(MIN_CARD_HEIGHT).toBeLessThan(EDITOR_SYNC_CAP);
+  it('floors below the pre-measurement fallback', () => {
+    expect(MIN_CARD_HEIGHT).toBeLessThan(FALLBACK_CARD_HEIGHT);
   });
 });
