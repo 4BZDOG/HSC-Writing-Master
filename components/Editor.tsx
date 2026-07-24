@@ -146,6 +146,7 @@ const Editor = forwardRef<
     const bodyRef = useRef<HTMLDivElement>(null);
     const bodyContentRef = useRef<HTMLDivElement>(null);
     const footerRef = useRef<HTMLDivElement>(null);
+    const footerContentRef = useRef<HTMLDivElement>(null);
     const [copied, setCopied] = useState(false);
     const [showStrategy, setShowStrategy] = useState(true);
 
@@ -243,14 +244,25 @@ const Editor = forwardRef<
       return () => observer.disconnect();
     }, [onHeaderResize, progress, chroma]);
 
+    // Footer height observation. Like the header, this reports the NATURAL
+    // height (content + own padding). The rendered box carries the synced
+    // minFooterHeight, so measuring it fed the inflated value back into the
+    // sync and the two footers could only ever grow — a footer that wrapped to
+    // two rows at a narrow width stayed tall after widening again.
     useEffect(() => {
-      if (!footerRef.current || !onFooterResize) return;
-      const observer = new ResizeObserver((entries) => {
-        for (const entry of entries) {
-          onFooterResize(entry.borderBoxSize[0].blockSize);
-        }
+      if (!footerContentRef.current || !onFooterResize) return;
+
+      const observer = new ResizeObserver(() => {
+        const footer = footerRef.current;
+        const content = footerContentRef.current;
+        if (!footer || !content) return;
+        const cs = getComputedStyle(footer);
+        onFooterResize(
+          content.offsetHeight + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)
+        );
       });
-      observer.observe(footerRef.current);
+
+      observer.observe(footerContentRef.current);
       return () => observer.disconnect();
     }, [onFooterResize]);
 
@@ -664,29 +676,37 @@ const Editor = forwardRef<
           {/* Footer Metrics */}
           <div
             ref={footerRef}
-            className={`px-4 sm:px-6 py-3 flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5 border-t border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50 rounded-b-[30px] transition-all duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
+            className={`px-4 sm:px-6 py-3 flex items-center border-t border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50 rounded-b-[30px] transition-all duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
             style={{ minHeight: minFooterHeight || 52 }}
           >
-            <div className="flex items-center gap-4 sm:gap-6 text-[10px] text-[rgb(var(--color-text-dim))] font-black uppercase tracking-widest select-none whitespace-nowrap">
-              <span className="flex items-center gap-1.5">
-                <Type className="w-3.5 h-3.5 opacity-50" /> {value.length}{' '}
-                {value.length === 1 ? 'Char' : 'Chars'}
-              </span>
-              <span className="flex items-center gap-1.5">
-                <FileText className="w-3.5 h-3.5 opacity-50" /> {wordCount}{' '}
-                {wordCount === 1 ? 'Word' : 'Words'}
-              </span>
-            </div>
-            <div className="flex items-center gap-2.5">
-              <div
-                className="w-2.5 h-2.5 rounded-full transition-colors duration-700 ring-2 ring-white/10"
-                style={{ backgroundColor: chroma.accent }}
-              />
-              <span className="text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-secondary))]">
-                {isExamMode
-                  ? 'Exam Conditions'
-                  : `Band ${chroma.targetBand} Target · ${chroma.name}`}
-              </span>
+            {/* Inner wrapper carries the row layout so its height stays
+              content-driven — the outer box is inflated by the synced
+              minFooterHeight and cannot be measured. */}
+            <div
+              ref={footerContentRef}
+              className="w-full flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5"
+            >
+              <div className="flex items-center gap-4 sm:gap-6 text-[10px] text-[rgb(var(--color-text-dim))] font-black uppercase tracking-widest select-none whitespace-nowrap">
+                <span className="flex items-center gap-1.5">
+                  <Type className="w-3.5 h-3.5 opacity-50" /> {value.length}{' '}
+                  {value.length === 1 ? 'Char' : 'Chars'}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <FileText className="w-3.5 h-3.5 opacity-50" /> {wordCount}{' '}
+                  {wordCount === 1 ? 'Word' : 'Words'}
+                </span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <div
+                  className="w-2.5 h-2.5 rounded-full transition-colors duration-700 ring-2 ring-white/10"
+                  style={{ backgroundColor: chroma.accent }}
+                />
+                <span className="text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-secondary))]">
+                  {isExamMode
+                    ? 'Exam Conditions'
+                    : `Band ${chroma.targetBand} Target · ${chroma.name}`}
+                </span>
+              </div>
             </div>
           </div>
         </div>

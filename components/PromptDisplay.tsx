@@ -118,6 +118,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   const bodyRef = useRef<HTMLDivElement>(null);
   const bodyContentRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
+  const footerContentRef = useRef<HTMLDivElement>(null);
 
   const canCurate = canCurateContent(userRole);
   const canGenerate = canUseAiGeneration(userRole);
@@ -186,16 +187,27 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
     return () => observer.disconnect();
   }, [onTotalHeightChange, prompt.question, prompt.scenario, fontSize]);
 
+  // Footer height observation. Like the header, this reports the NATURAL
+  // height (content + own padding). The rendered box carries the synced
+  // minFooterHeight, so measuring it fed the inflated value back into the sync
+  // and the two footers could only ever grow — a footer that wrapped to two
+  // rows at a narrow width stayed tall after widening again.
   useEffect(() => {
-    if (!footerRef.current || !onFooterResize) return;
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        onFooterResize(entry.borderBoxSize[0].blockSize);
-      }
+    if (!footerContentRef.current || !onFooterResize) return;
+
+    const observer = new ResizeObserver(() => {
+      const footer = footerRef.current;
+      const content = footerContentRef.current;
+      if (!footer || !content) return;
+      const cs = getComputedStyle(footer);
+      onFooterResize(
+        content.offsetHeight + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)
+      );
     });
-    observer.observe(footerRef.current);
+
+    observer.observe(footerContentRef.current);
     return () => observer.disconnect();
-  }, [onFooterResize]);
+  }, [onFooterResize, linkedOutcomes.length]);
 
   const handleSaveQuestion = () => {
     if (editQuestionText.trim() !== prompt.question) {
@@ -539,110 +551,120 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
         {!(condensed && linkedOutcomes.length === 0) && (
           <div
             ref={footerRef}
-            className="relative z-10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border-t border-white/10 light:border-slate-200/50 px-4 sm:px-6 py-3 flex flex-wrap items-center gap-x-6 gap-y-3 backdrop-blur-sm mt-auto flex-shrink-0 rounded-b-[30px]"
+            className="relative z-10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border-t border-white/10 light:border-slate-200/50 px-4 sm:px-6 py-3 flex items-center backdrop-blur-sm mt-auto flex-shrink-0 rounded-b-[30px]"
             style={{ minHeight: minFooterHeight || 52 }}
           >
-            {/* On phones: label + zoom share the first row, outcome chips wrap
+            {/* Inner wrapper carries the row layout so its height stays
+              content-driven — the outer box is inflated by the synced
+              minFooterHeight and cannot be measured. */}
+            <div
+              ref={footerContentRef}
+              className="w-full flex flex-wrap items-center gap-x-6 gap-y-3"
+            >
+              {/* On phones: label + zoom share the first row, outcome chips wrap
                 to a full-width second row. From sm up: label | chips | zoom. */}
-            <div className="order-1 flex items-center gap-4 flex-shrink-0">
-              <div className="flex items-center gap-3 group/link">
-                <div
-                  className={`
+              <div className="order-1 flex items-center gap-4 flex-shrink-0">
+                <div className="flex items-center gap-3 group/link">
+                  <div
+                    className={`
                                 p-2.5 rounded-xl border shadow-sm backdrop-blur-sm transition-all duration-300
                                 ${bandConfig.bg} border-white/10 group-hover/link:scale-110
                             `}
-                >
-                  <Link2 className={`w-4 h-4 ${bandConfig.text}`} />
+                  >
+                    <Link2 className={`w-4 h-4 ${bandConfig.text}`} />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 light:text-slate-500 leading-none mb-1">
+                      Syllabus
+                    </span>
+                    <span className={`text-xs font-bold ${bandConfig.text}`}>Outcome Link</span>
+                  </div>
                 </div>
-                <div className="flex flex-col">
-                  <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 light:text-slate-500 leading-none mb-1">
-                    Syllabus
-                  </span>
-                  <span className={`text-xs font-bold ${bandConfig.text}`}>Outcome Link</span>
-                </div>
+                {canGenerate && onSuggestOutcomes && (
+                  <button
+                    onClick={onSuggestOutcomes}
+                    disabled={isSuggestingOutcomes}
+                    className={`p-2 rounded-lg bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/20 transition-all ${isSuggestingOutcomes ? 'animate-pulse' : 'hover:scale-110'}`}
+                    title="Auto-link Outcomes with AI"
+                  >
+                    <Wand2
+                      className={`w-3.5 h-3.5 ${isSuggestingOutcomes ? 'animate-spin' : ''}`}
+                    />
+                  </button>
+                )}
               </div>
-              {canGenerate && onSuggestOutcomes && (
-                <button
-                  onClick={onSuggestOutcomes}
-                  disabled={isSuggestingOutcomes}
-                  className={`p-2 rounded-lg bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/20 transition-all ${isSuggestingOutcomes ? 'animate-pulse' : 'hover:scale-110'}`}
-                  title="Auto-link Outcomes with AI"
-                >
-                  <Wand2 className={`w-3.5 h-3.5 ${isSuggestingOutcomes ? 'animate-spin' : ''}`} />
-                </button>
-              )}
-            </div>
 
-            <div className="order-3 sm:order-2 w-full sm:w-auto sm:flex-1 min-w-0 flex flex-wrap gap-2.5">
-              {linkedOutcomes.length > 0 ? (
-                linkedOutcomes.map((outcome) => (
-                  <div key={outcome.code} className="relative group/outcome">
-                    <button
-                      onClick={() => handleOutcomeClickInternal(outcome)}
-                      className={`
+              <div className="order-3 sm:order-2 w-full sm:w-auto sm:flex-1 min-w-0 flex flex-wrap gap-2.5">
+                {linkedOutcomes.length > 0 ? (
+                  linkedOutcomes.map((outcome) => (
+                    <div key={outcome.code} className="relative group/outcome">
+                      <button
+                        onClick={() => handleOutcomeClickInternal(outcome)}
+                        className={`
                         flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider
                         ${bandConfig.bg} border ${bandConfig.border}
                         ${bandConfig.text} transition-all duration-300 cursor-pointer
                         hover:brightness-125 hover:scale-105 hover:shadow-md
                         active:scale-95
                       `}
-                    >
-                      <Target className="w-3 h-3 opacity-60" />
-                      {outcome.code}
-                    </button>
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 p-4 text-xs text-left font-medium leading-relaxed text-white light:text-slate-800 bg-[rgb(var(--color-bg-surface-elevated))]/95 light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-2xl shadow-2xl opacity-0 group-hover/outcome:opacity-100 transition-all duration-300 pointer-events-none z-50 backdrop-blur-xl translate-y-2 group-hover/outcome:translate-y-0">
-                      <div className={`flex items-center gap-2 mb-2 ${bandConfig.text}`}>
-                        <Award className="w-3.5 h-3.5" />
-                        <span className="font-black uppercase tracking-widest text-[10px]">
-                          Objective
-                        </span>
+                      >
+                        <Target className="w-3 h-3 opacity-60" />
+                        {outcome.code}
+                      </button>
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 p-4 text-xs text-left font-medium leading-relaxed text-white light:text-slate-800 bg-[rgb(var(--color-bg-surface-elevated))]/95 light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-2xl shadow-2xl opacity-0 group-hover/outcome:opacity-100 transition-all duration-300 pointer-events-none z-50 backdrop-blur-xl translate-y-2 group-hover/outcome:translate-y-0">
+                        <div className={`flex items-center gap-2 mb-2 ${bandConfig.text}`}>
+                          <Award className="w-3.5 h-3.5" />
+                          <span className="font-black uppercase tracking-widest text-[10px]">
+                            Objective
+                          </span>
+                        </div>
+                        {outcome.description}
                       </div>
-                      {outcome.description}
                     </div>
-                  </div>
-                ))
-              ) : (
-                <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400 italic font-medium py-2 opacity-60">
-                  No specific outcomes linked.
-                </span>
-              )}
-            </div>
+                  ))
+                ) : (
+                  <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400 italic font-medium py-2 opacity-60">
+                    No specific outcomes linked.
+                  </span>
+                )}
+              </div>
 
-            <div className="order-2 sm:order-3 flex items-center gap-2 ml-auto flex-shrink-0">
-              <button
-                onClick={() => setIsFlagModalOpen(true)}
-                className={`p-2 rounded-lg border transition-all ${
-                  hasOpenFlag
-                    ? 'bg-amber-500/15 border-amber-500/40 text-amber-500 hover:bg-amber-500/25'
-                    : 'bg-black/10 light:bg-slate-200/50 border-white/10 light:border-slate-300 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-amber-500'
-                }`}
-                title={
-                  hasOpenFlag
-                    ? 'This question is flagged for review — click to view'
-                    : 'Something off about this question? Flag it for review'
-                }
-              >
-                <Flag className={`w-3.5 h-3.5 ${hasOpenFlag ? 'fill-current' : ''}`} />
-              </button>
+              <div className="order-2 sm:order-3 flex items-center gap-2 ml-auto flex-shrink-0">
+                <button
+                  onClick={() => setIsFlagModalOpen(true)}
+                  className={`p-2 rounded-lg border transition-all ${
+                    hasOpenFlag
+                      ? 'bg-amber-500/15 border-amber-500/40 text-amber-500 hover:bg-amber-500/25'
+                      : 'bg-black/10 light:bg-slate-200/50 border-white/10 light:border-slate-300 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-amber-500'
+                  }`}
+                  title={
+                    hasOpenFlag
+                      ? 'This question is flagged for review — click to view'
+                      : 'Something off about this question? Flag it for review'
+                  }
+                >
+                  <Flag className={`w-3.5 h-3.5 ${hasOpenFlag ? 'fill-current' : ''}`} />
+                </button>
 
-              <div className="flex items-center gap-1 bg-black/10 light:bg-slate-200/50 backdrop-blur-xl p-1 rounded-lg border border-white/10 light:border-slate-300 shadow-inner">
-                <button
-                  onClick={() => onFontSizeChange(Math.max(12, fontSize - 2))}
-                  className="p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-md transition-colors"
-                  title="Decrease font size"
-                >
-                  <ZoomOut className="w-3.5 h-3.5" />
-                </button>
-                <span className="text-[10px] font-mono font-bold text-[rgb(var(--color-text-muted))] w-6 text-center select-none">
-                  {fontSize}
-                </span>
-                <button
-                  onClick={() => onFontSizeChange(Math.min(48, fontSize + 2))}
-                  className="p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-md transition-colors"
-                  title="Increase font size"
-                >
-                  <ZoomIn className="w-3.5 h-3.5" />
-                </button>
+                <div className="flex items-center gap-1 bg-black/10 light:bg-slate-200/50 backdrop-blur-xl p-1 rounded-lg border border-white/10 light:border-slate-300 shadow-inner">
+                  <button
+                    onClick={() => onFontSizeChange(Math.max(12, fontSize - 2))}
+                    className="p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-md transition-colors"
+                    title="Decrease font size"
+                  >
+                    <ZoomOut className="w-3.5 h-3.5" />
+                  </button>
+                  <span className="text-[10px] font-mono font-bold text-[rgb(var(--color-text-muted))] w-6 text-center select-none">
+                    {fontSize}
+                  </span>
+                  <button
+                    onClick={() => onFontSizeChange(Math.min(48, fontSize + 2))}
+                    className="p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-md transition-colors"
+                    title="Increase font size"
+                  >
+                    <ZoomIn className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
