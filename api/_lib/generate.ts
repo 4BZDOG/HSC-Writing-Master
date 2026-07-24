@@ -42,8 +42,26 @@ export const runGeminiProxy = async (
 
   try {
     const ai = new GoogleGenAI({ apiKey });
+    const start = Date.now();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response = await ai.models.generateContent(request as any);
+    const response = await Promise.race([
+      ai.models.generateContent(request as any),
+      new Promise<never>((_, reject) =>
+        setTimeout(
+          () =>
+            reject(
+              Object.assign(
+                new Error(
+                  'Server-side timeout: the AI model took too long to respond. This usually means the request is too complex for the current plan limits. Try using Gemini Flash, or upgrade your Vercel plan for longer function timeouts.'
+                ),
+                { status: 504 }
+              )
+            ),
+          55_000
+        )
+      ),
+    ]);
+    const elapsed = Date.now() - start;
 
     return {
       status: 200,
@@ -53,6 +71,7 @@ export const runGeminiProxy = async (
         promptFeedback: response.promptFeedback,
         // `text` is a getter — read it so it survives JSON serialisation.
         text: response.text,
+        __elapsedMs: elapsed,
       },
     };
   } catch (error: unknown) {

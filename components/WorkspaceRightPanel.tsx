@@ -208,8 +208,8 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     <div
       className={`${isFocusMode ? 'col-span-1 max-w-5xl mx-auto w-full' : 'lg:col-span-7 lg:col-start-6 lg:row-start-1 lg:row-span-2'} flex flex-col gap-6 h-full pt-0`}
     >
-      <div className="relative group">
-        <div className="flex flex-col relative transition-all duration-700 shadow-2xl rounded-[32px]">
+      <div className="relative group min-h-0 flex-1 flex flex-col">
+        <div className="flex flex-col relative transition-all duration-700 shadow-2xl rounded-[32px] min-h-0 flex-1">
           <div className="clip-stable absolute inset-0 z-[30] pointer-events-none rounded-[32px] overflow-hidden">
             {isEvaluating && <EvaluationProgressBar />}
           </div>
@@ -335,9 +335,27 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             </div>
             <div>
               <h4 className="font-black uppercase tracking-[0.2em] text-xs mb-2">
-                System Interruption
+                {/timed? ?out/i.test(evaluationError)
+                  ? 'Evaluation Timed Out'
+                  : /quota|limit|429/i.test(evaluationError)
+                    ? 'AI Quota Reached'
+                    : /key|denied|permission/i.test(evaluationError)
+                      ? 'API Key Issue'
+                      : 'Evaluation Failed'}
               </h4>
               <p className="text-sm font-bold leading-relaxed">{evaluationError}</p>
+              {/timed? ?out/i.test(evaluationError) && (
+                <p className="text-xs mt-2 opacity-70">
+                  Tip: Try switching to Gemini Flash in the AI Engine selector — it responds faster
+                  than Pro.
+                </p>
+              )}
+              <button
+                onClick={onEvaluate}
+                className="mt-3 text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 transition-colors"
+              >
+                Try Again
+              </button>
             </div>
           </div>
         )}

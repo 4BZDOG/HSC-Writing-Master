@@ -288,9 +288,21 @@ export const evaluateAnswer = async (
     },
   };
 
+  const evalStart = Date.now();
   const response = await generateContentWithRetry(request);
+  const aiMs = Date.now() - evalStart;
+  console.log(
+    `[Evaluation] AI response received in ${aiMs}ms. Tokens: ${response.usageMetadata?.totalTokenCount ?? '?'}`
+  );
+
   const parsed = safeJsonParse<unknown>(response.text || '');
-  if (!parsed) throw new Error('Evaluation failed: no parseable response from the AI.');
+  if (!parsed) {
+    console.error('[Evaluation] Failed to parse AI response:', response.text?.slice(0, 500));
+    throw new Error(
+      'Evaluation failed: the AI returned an unparseable response. ' +
+        'This sometimes happens under heavy load — please try again.'
+    );
+  }
 
   // Validate structure before trusting it — throws a clear error if malformed.
   const data = validateAiResponse(
