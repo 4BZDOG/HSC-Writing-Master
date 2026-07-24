@@ -208,8 +208,8 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     <div
       className={`${isFocusMode ? 'col-span-1 max-w-5xl mx-auto w-full' : 'lg:col-span-7 lg:col-start-6 lg:row-start-1 lg:row-span-2'} flex flex-col gap-6 h-full pt-0`}
     >
-      <div className="relative group">
-        <div className="flex flex-col relative transition-all duration-700 shadow-2xl rounded-[32px]">
+      <div className="relative group min-h-0 flex-1 flex flex-col">
+        <div className="flex flex-col relative transition-all duration-700 shadow-2xl rounded-[32px] min-h-0 flex-1">
           <div className="clip-stable absolute inset-0 z-[30] pointer-events-none rounded-[32px] overflow-hidden">
             {isEvaluating && <EvaluationProgressBar />}
           </div>

@@ -387,278 +387,287 @@ const Editor = forwardRef<
     return (
       <div
         className={`clip-stable flex flex-col w-full h-auto bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] overflow-hidden border-2 ${chroma.border} shadow-2xl ${chroma.glow} transition-all duration-700 ease-in-out ${className}`}
-        style={{ minHeight: minTotalHeight || '300px', maxHeight: minTotalHeight && minTotalHeight >= 800 ? `${minTotalHeight}px` : undefined }}
+        style={{
+          minHeight: minTotalHeight || '300px',
+          maxHeight: minTotalHeight ? `${Math.max(minTotalHeight, 800)}px` : undefined,
+        }}
       >
-      <div ref={contentWrapRef} className="flex flex-col flex-1">
-        {/* Header */}
-        <div
-          ref={headerRef}
-          className={`px-4 sm:px-8 py-4 sm:py-5 text-white flex justify-between items-center relative overflow-hidden flex-shrink-0 rounded-t-[30px] transition-all duration-1000 ease-in-out`}
-          style={{
-            minHeight: minHeaderHeight ? `${minHeaderHeight}px` : 'auto',
-            background: chroma.background,
-          }}
-        >
-          {/* Progress veil: dims the target-band colour when the response is
-              still thin, lifting to full vividness as it nears completion. */}
+        <div ref={contentWrapRef} className="flex flex-col flex-1 min-h-0">
+          {/* Header */}
           <div
-            className="absolute inset-0 pointer-events-none transition-opacity duration-1000 ease-out"
-            style={{ backgroundColor: `rgba(2, 6, 23, ${chroma.veil})` }}
-          />
+            ref={headerRef}
+            className={`px-4 sm:px-8 py-4 sm:py-5 text-white flex justify-between items-start relative overflow-hidden flex-shrink-0 rounded-t-[30px] transition-all duration-1000 ease-in-out`}
+            style={{
+              minHeight: minHeaderHeight ? `${minHeaderHeight}px` : 'auto',
+              background: chroma.background,
+            }}
+          >
+            {/* Progress veil: dims the target-band colour when the response is
+              still thin, lifting to full vividness as it nears completion. */}
+            <div
+              className="absolute inset-0 pointer-events-none transition-opacity duration-1000 ease-out"
+              style={{ backgroundColor: `rgba(2, 6, 23, ${chroma.veil})` }}
+            />
 
-          <MeshOverlay opacity="opacity-20" color="%23ffffff" />
+            <MeshOverlay opacity="opacity-20" color="%23ffffff" />
 
-          {/* Content Wrapper — wraps whenever the row is too tight (not just
+            {/* Content Wrapper — wraps whenever the row is too tight (not just
               below md) so the pill toolbar drops below the title instead of
               painting over it. */}
-          <div
-            ref={headerContentRef}
-            className="relative z-10 w-full flex flex-wrap justify-between items-start gap-y-3 gap-x-4"
-          >
-            <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-              <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shadow-lg group flex-shrink-0">
-                <PenTool
-                  className={`w-6 h-6 group-hover:scale-110 transition-transform ${chroma.iconColor}`}
-                />
-              </div>
-              <div className="min-w-0">
-                <h3 className="text-xl sm:text-2xl font-black tracking-tight leading-none drop-shadow-sm">
-                  Written Response
-                </h3>
-                {isExamMode ? (
-                  <div className="flex items-center gap-2 mt-1.5">
-                    <span className="text-[9px] bg-red-500/90 px-2 py-0.5 rounded-md border border-white/20 font-black uppercase tracking-widest flex items-center gap-1 shadow-sm">
-                      <GraduationCap className="w-3 h-3" /> Exam
-                    </span>
-                    <p className="text-[10px] font-bold text-white/60 uppercase tracking-[0.2em]">
-                      No assistance
-                    </p>
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2.5 mt-1.5">
-                    <span className="text-[9px] bg-white/20 px-2 py-0.5 rounded-md border border-white/15 font-black uppercase tracking-widest shadow-sm backdrop-blur-sm">
-                      Band {chroma.targetBand}
-                    </span>
-                    <div className="h-1 w-16 bg-white/20 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-white transition-all duration-1000 ease-out"
-                        style={{ width: `${Math.min(100, progress * 100)}%` }}
-                      />
+            <div
+              ref={headerContentRef}
+              className="relative z-10 w-full flex flex-wrap justify-between items-start gap-y-3 gap-x-4"
+            >
+              <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shadow-lg group flex-shrink-0">
+                  <PenTool
+                    className={`w-6 h-6 group-hover:scale-110 transition-transform ${chroma.iconColor}`}
+                  />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="text-xl sm:text-2xl font-black tracking-tight leading-none drop-shadow-sm">
+                    Written Response
+                  </h3>
+                  {isExamMode ? (
+                    <div className="flex items-center gap-2 mt-1.5">
+                      <span className="text-[9px] bg-red-500/90 px-2 py-0.5 rounded-md border border-white/20 font-black uppercase tracking-widest flex items-center gap-1 shadow-sm">
+                        <GraduationCap className="w-3 h-3" /> Exam
+                      </span>
+                      <p className="text-[10px] font-bold text-white/60 uppercase tracking-[0.2em]">
+                        No assistance
+                      </p>
                     </div>
-                    <p className="text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] whitespace-nowrap">
-                      {Math.min(100, Math.round(progress * 100))}%
-                    </p>
-                  </div>
+                  ) : (
+                    <div className="flex items-center gap-2.5 mt-1.5">
+                      <span className="text-[9px] bg-white/20 px-2 py-0.5 rounded-md border border-white/15 font-black uppercase tracking-widest shadow-sm backdrop-blur-sm">
+                        Band {chroma.targetBand}
+                      </span>
+                      <div className="h-1 w-16 bg-white/20 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-white transition-all duration-1000 ease-out"
+                          style={{ width: `${Math.min(100, progress * 100)}%` }}
+                        />
+                      </div>
+                      <p className="text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] whitespace-nowrap">
+                        {Math.min(100, Math.round(progress * 100))}%
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Functional Pill Toolbar — ml-auto keeps it right-aligned when
+                the header row wraps it onto its own line. */}
+              <div className="flex items-center gap-1 bg-black/20 backdrop-blur-xl p-1 rounded-2xl border border-white/10 shadow-inner flex-shrink-0 ml-auto">
+                {onWritingModeChange && (
+                  <>
+                    <div
+                      className="flex items-center gap-0.5"
+                      role="group"
+                      aria-label="Writing mode"
+                    >
+                      <button
+                        type="button"
+                        onClick={() => onWritingModeChange('coach')}
+                        aria-pressed={!isExamMode}
+                        title="Coach Mode — live highlighting, insights and exemplars"
+                        className={`px-2.5 h-7 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 ${!isExamMode ? 'bg-white text-slate-900 shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                      >
+                        <Lightbulb className="w-3.5 h-3.5" />
+                        <span className="hidden md:inline">Coach</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (isFeatureLocked('examMode')) {
+                            requestUpgrade('examMode');
+                          } else {
+                            onWritingModeChange('exam');
+                          }
+                        }}
+                        aria-pressed={isExamMode}
+                        title="Exam Mode — HSC exam simulation: no assistance, timed"
+                        className={`px-2.5 h-7 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 ${isExamMode ? 'bg-red-500 text-white shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                      >
+                        <GraduationCap className="w-3.5 h-3.5" />
+                        <span className="hidden md:inline">Exam</span>
+                        {isFeatureLocked('examMode') && <PlusLockChip className="ml-0.5" />}
+                      </button>
+                    </div>
+                    <div className="w-px h-4 bg-white/20 mx-0.5" />
+                  </>
+                )}
+                {!isExamMode && (
+                  <>
+                    <ToolbarButton
+                      onClick={() => handleFormat('bold')}
+                      icon={<Bold className="w-4 h-4" />}
+                      tooltip="Bold"
+                      disabled={disabled}
+                    />
+                    <ToolbarButton
+                      onClick={() => handleFormat('italic')}
+                      icon={<Italic className="w-4 h-4" />}
+                      tooltip="Italic"
+                      disabled={disabled}
+                    />
+                    <div className="w-px h-4 bg-white/20 mx-0.5" />
+                  </>
+                )}
+                <ToolbarButton
+                  onClick={() => handleManualResize(Math.max(12, internalFontSize - 2))}
+                  icon={<ZoomOut className="w-4 h-4" />}
+                  tooltip="Smaller text"
+                  disabled={internalFontSize <= 12}
+                />
+                <ToolbarButton
+                  onClick={() => handleManualResize(Math.min(32, internalFontSize + 2))}
+                  icon={<ZoomIn className="w-4 h-4" />}
+                  tooltip="Larger text"
+                  disabled={internalFontSize >= 32}
+                />
+                <div className="w-px h-4 bg-white/20 mx-0.5" />
+                <ToolbarButton
+                  onClick={handleCopy}
+                  icon={copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                  tooltip="Copy"
+                  disabled={!value}
+                />
+
+                {onToggleFocusMode && (
+                  <button
+                    onClick={onToggleFocusMode}
+                    aria-label={isFocusMode ? 'Exit focus mode' : 'Enter focus mode'}
+                    aria-pressed={isFocusMode}
+                    title={
+                      isFocusMode
+                        ? 'Exit focus mode (Esc)'
+                        : 'Distraction-free writing (Ctrl / ⌘ + Shift + F)'
+                    }
+                    className={`ml-2 px-3 h-8 rounded-xl transition-all font-black text-[10px] uppercase tracking-wider flex items-center gap-2 ${isFocusMode ? 'bg-amber-500 text-white shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'}`}
+                  >
+                    {isFocusMode ? (
+                      <Minimize className="w-3.5 h-3.5" />
+                    ) : (
+                      <Maximize className="w-3.5 h-3.5" />
+                    )}
+                    <span className="hidden sm:inline">{isFocusMode ? 'Normal' : 'Focus'}</span>
+                  </button>
                 )}
               </div>
             </div>
+          </div>
 
-            {/* Functional Pill Toolbar — ml-auto keeps it right-aligned when
-                the header row wraps it onto its own line. */}
-            <div className="flex items-center gap-1 bg-black/20 backdrop-blur-xl p-1 rounded-2xl border border-white/10 shadow-inner flex-shrink-0 ml-auto">
-              {onWritingModeChange && (
-                <>
-                  <div className="flex items-center gap-0.5" role="group" aria-label="Writing mode">
-                    <button
-                      type="button"
-                      onClick={() => onWritingModeChange('coach')}
-                      aria-pressed={!isExamMode}
-                      title="Coach Mode — live highlighting, insights and exemplars"
-                      className={`px-2.5 h-7 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 ${!isExamMode ? 'bg-white text-slate-900 shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
-                    >
-                      <Lightbulb className="w-3.5 h-3.5" />
-                      <span className="hidden md:inline">Coach</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (isFeatureLocked('examMode')) {
-                          requestUpgrade('examMode');
-                        } else {
-                          onWritingModeChange('exam');
-                        }
-                      }}
-                      aria-pressed={isExamMode}
-                      title="Exam Mode — HSC exam simulation: no assistance, timed"
-                      className={`px-2.5 h-7 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 ${isExamMode ? 'bg-red-500 text-white shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
-                    >
-                      <GraduationCap className="w-3.5 h-3.5" />
-                      <span className="hidden md:inline">Exam</span>
-                      {isFeatureLocked('examMode') && <PlusLockChip className="ml-0.5" />}
-                    </button>
-                  </div>
-                  <div className="w-px h-4 bg-white/20 mx-0.5" />
-                </>
-              )}
-              {!isExamMode && (
-                <>
-                  <ToolbarButton
-                    onClick={() => handleFormat('bold')}
-                    icon={<Bold className="w-4 h-4" />}
-                    tooltip="Bold"
-                    disabled={disabled}
-                  />
-                  <ToolbarButton
-                    onClick={() => handleFormat('italic')}
-                    icon={<Italic className="w-4 h-4" />}
-                    tooltip="Italic"
-                    disabled={disabled}
-                  />
-                  <div className="w-px h-4 bg-white/20 mx-0.5" />
-                </>
-              )}
-              <ToolbarButton
-                onClick={() => handleManualResize(Math.max(12, internalFontSize - 2))}
-                icon={<ZoomOut className="w-4 h-4" />}
-                tooltip="Smaller text"
-                disabled={internalFontSize <= 12}
-              />
-              <ToolbarButton
-                onClick={() => handleManualResize(Math.min(32, internalFontSize + 2))}
-                icon={<ZoomIn className="w-4 h-4" />}
-                tooltip="Larger text"
-                disabled={internalFontSize >= 32}
-              />
-              <div className="w-px h-4 bg-white/20 mx-0.5" />
-              <ToolbarButton
-                onClick={handleCopy}
-                icon={copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                tooltip="Copy"
-                disabled={!value}
-              />
-
-              {onToggleFocusMode && (
-                <button
-                  onClick={onToggleFocusMode}
-                  aria-label={isFocusMode ? 'Exit focus mode' : 'Enter focus mode'}
-                  aria-pressed={isFocusMode}
-                  title={
-                    isFocusMode
-                      ? 'Exit focus mode (Esc)'
-                      : 'Distraction-free writing (Ctrl / ⌘ + Shift + F)'
-                  }
-                  className={`ml-2 px-3 h-8 rounded-xl transition-all font-black text-[10px] uppercase tracking-wider flex items-center gap-2 ${isFocusMode ? 'bg-amber-500 text-white shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'}`}
-                >
-                  {isFocusMode ? (
-                    <Minimize className="w-3.5 h-3.5" />
-                  ) : (
-                    <Maximize className="w-3.5 h-3.5" />
-                  )}
-                  <span className="hidden sm:inline">{isFocusMode ? 'Normal' : 'Focus'}</span>
-                </button>
+          {/* Writing Strategy Tip — Coach mode only */}
+          {!isExamMode && verb && (
+            <div className="border-t border-white/10 light:border-slate-200">
+              <button
+                type="button"
+                onClick={() => setShowStrategy((s) => !s)}
+                className="w-full flex items-center gap-2 px-4 sm:px-6 py-2 text-left hover:bg-white/5 light:hover:bg-slate-100 transition-colors"
+              >
+                <Lightbulb className="w-3.5 h-3.5 text-amber-400/80 flex-shrink-0" />
+                <span className="text-[10px] font-black uppercase tracking-[0.15em] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                  {verbInfo.term} Strategy
+                </span>
+                <ChevronDown
+                  className={`w-3 h-3 text-[rgb(var(--color-text-dim))] ml-auto transition-transform duration-200 ${showStrategy ? 'rotate-180' : ''}`}
+                />
+              </button>
+              {showStrategy && (
+                <div className="px-4 sm:px-6 pb-3 animate-fade-in">
+                  <p className="text-xs font-semibold text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed mb-1">
+                    {verbInfo.definition}
+                  </p>
+                  <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed italic whitespace-pre-line">
+                    {verbInfo.tip}
+                  </p>
+                </div>
               )}
             </div>
-          </div>
-        </div>
+          )}
 
-        {/* Writing Strategy Tip — Coach mode only */}
-        {!isExamMode && verb && (
-          <div className="border-t border-white/10 light:border-slate-200">
-            <button
-              type="button"
-              onClick={() => setShowStrategy((s) => !s)}
-              className="w-full flex items-center gap-2 px-4 sm:px-6 py-2 text-left hover:bg-white/5 light:hover:bg-slate-100 transition-colors"
-            >
-              <Lightbulb className="w-3.5 h-3.5 text-amber-400/80 flex-shrink-0" />
-              <span className="text-[10px] font-black uppercase tracking-[0.15em] text-[rgb(var(--color-text-dim))] light:text-slate-500">
-                {verbInfo.term} Strategy
-              </span>
-              <ChevronDown
-                className={`w-3 h-3 text-[rgb(var(--color-text-dim))] ml-auto transition-transform duration-200 ${showStrategy ? 'rotate-180' : ''}`}
-              />
-            </button>
-            {showStrategy && (
-              <div className="px-4 sm:px-6 pb-3 animate-fade-in">
-                <p className="text-xs font-semibold text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed mb-1">
-                  {verbInfo.definition}
-                </p>
-                <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed italic whitespace-pre-line">
-                  {verbInfo.tip}
-                </p>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Editor Body with Grid Stacking for Auto-Height */}
-        <div className="relative flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white overflow-y-auto">
-          {/* Progress-Aware Background Bloom */}
-          <div
-            className="absolute inset-0 opacity-10 light:opacity-5 transition-all duration-1000 ease-in-out pointer-events-none"
-            style={{
-              background: `radial-gradient(circle at 50% 0%, ${chroma.accent}88, transparent 70%)`,
-              filter: 'blur(40px)',
-            }}
-          />
-
-          <MeshOverlay opacity="opacity-[0.04]" color={chroma.mesh} />
-
-          <div className="grid w-full relative z-10 h-full">
-            {/* Invisible phantom div to force height based on content */}
+          {/* Editor Body with Grid Stacking for Auto-Height */}
+          <div className="relative flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white overflow-y-auto min-h-0">
+            {/* Progress-Aware Background Bloom */}
             <div
-              className={`${gridStackItemStyles} invisible`}
-              style={{ fontSize: `${internalFontSize}px` }}
-            >
-              {value + ' '}
-            </div>
-
-            {/* Textarea for input */}
-            <textarea
-              ref={textareaRef}
-              value={value}
-              onChange={(e) => onChange(e.target.value)}
-              onKeyDown={handleKeyDown}
-              onBlur={() => onSave?.()}
-              placeholder={isExamMode ? 'Begin your response. The clock is running…' : placeholder}
-              disabled={disabled}
-              className={`${gridStackItemStyles} bg-transparent text-transparent caret-[currentColor] resize-none border-none outline-none placeholder:text-[rgb(var(--color-text-dim))] focus:ring-0 selection:bg-[rgb(var(--color-accent))]/20 z-10 h-full`}
+              className="absolute inset-0 opacity-10 light:opacity-5 transition-all duration-1000 ease-in-out pointer-events-none"
               style={{
-                fontSize: `${internalFontSize}px`,
-                caretColor: chroma.accent,
+                background: `radial-gradient(circle at 50% 0%, ${chroma.accent}88, transparent 70%)`,
+                filter: 'blur(40px)',
               }}
-              spellCheck="false"
             />
 
-            {/* Highlights Overlay */}
-            <div
-              className={`${gridStackItemStyles} pointer-events-none text-[rgb(var(--color-text-primary))] light:text-slate-800 z-0`}
-              style={{ fontSize: `${internalFontSize}px` }}
-              aria-hidden="true"
-            >
-              {highlightedContent}
+            <MeshOverlay opacity="opacity-[0.04]" color={chroma.mesh} />
+
+            <div className="grid w-full relative z-10 h-full">
+              {/* Invisible phantom div to force height based on content */}
+              <div
+                className={`${gridStackItemStyles} invisible`}
+                style={{ fontSize: `${internalFontSize}px` }}
+              >
+                {value + ' '}
+              </div>
+
+              {/* Textarea for input */}
+              <textarea
+                ref={textareaRef}
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                onKeyDown={handleKeyDown}
+                onBlur={() => onSave?.()}
+                placeholder={
+                  isExamMode ? 'Begin your response. The clock is running…' : placeholder
+                }
+                disabled={disabled}
+                className={`${gridStackItemStyles} bg-transparent text-transparent caret-[currentColor] resize-none border-none outline-none placeholder:text-[rgb(var(--color-text-dim))] focus:ring-0 selection:bg-[rgb(var(--color-accent))]/20 z-10 h-full`}
+                style={{
+                  fontSize: `${internalFontSize}px`,
+                  caretColor: chroma.accent,
+                }}
+                spellCheck="false"
+              />
+
+              {/* Highlights Overlay */}
+              <div
+                className={`${gridStackItemStyles} pointer-events-none text-[rgb(var(--color-text-primary))] light:text-slate-800 z-0`}
+                style={{ fontSize: `${internalFontSize}px` }}
+                aria-hidden="true"
+              >
+                {highlightedContent}
+              </div>
+            </div>
+          </div>
+
+          {/* Footer Metrics */}
+          <div
+            ref={footerRef}
+            className={`px-4 sm:px-6 py-3 flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5 border-t border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50 rounded-b-[30px] transition-all duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
+            style={{ minHeight: minFooterHeight || 52 }}
+          >
+            <div className="flex items-center gap-4 sm:gap-6 text-[10px] text-[rgb(var(--color-text-dim))] font-black uppercase tracking-widest select-none whitespace-nowrap">
+              <span className="flex items-center gap-1.5">
+                <Type className="w-3.5 h-3.5 opacity-50" /> {value.length}{' '}
+                {value.length === 1 ? 'Char' : 'Chars'}
+              </span>
+              <span className="flex items-center gap-1.5">
+                <FileText className="w-3.5 h-3.5 opacity-50" /> {wordCount}{' '}
+                {wordCount === 1 ? 'Word' : 'Words'}
+              </span>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <div
+                className="w-2.5 h-2.5 rounded-full transition-colors duration-700 ring-2 ring-white/10"
+                style={{ backgroundColor: chroma.accent }}
+              />
+              <span className="text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-secondary))]">
+                {isExamMode
+                  ? 'Exam Conditions'
+                  : `Band ${chroma.targetBand} Target · ${chroma.name}`}
+              </span>
             </div>
           </div>
         </div>
-
-        {/* Footer Metrics */}
-        <div
-          ref={footerRef}
-          className={`px-4 sm:px-6 py-3 flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5 border-t border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50 rounded-b-[30px] transition-all duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
-          style={{ minHeight: minFooterHeight || 52 }}
-        >
-          <div className="flex items-center gap-4 sm:gap-6 text-[10px] text-[rgb(var(--color-text-dim))] font-black uppercase tracking-widest select-none whitespace-nowrap">
-            <span className="flex items-center gap-1.5">
-              <Type className="w-3.5 h-3.5 opacity-50" /> {value.length}{' '}
-              {value.length === 1 ? 'Char' : 'Chars'}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <FileText className="w-3.5 h-3.5 opacity-50" /> {wordCount}{' '}
-              {wordCount === 1 ? 'Word' : 'Words'}
-            </span>
-          </div>
-          <div className="flex items-center gap-2.5">
-            <div
-              className="w-2.5 h-2.5 rounded-full transition-colors duration-700 ring-2 ring-white/10"
-              style={{ backgroundColor: chroma.accent }}
-            />
-            <span className="text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-secondary))]">
-              {isExamMode
-                ? 'Exam Conditions'
-                : `Band ${chroma.targetBand} Target · ${chroma.name}`}
-            </span>
-          </div>
-        </div>
-      </div>
       </div>
     );
   }
