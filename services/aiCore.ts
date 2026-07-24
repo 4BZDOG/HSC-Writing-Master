@@ -31,7 +31,49 @@ const TIME_WINDOW_MS = 60 * 1000;
 const COOLDOWN_MS = 2 * 60 * 1000;
 const API_TIMEOUT = 90000;
 const MAX_RETRIES = 3;
+const MAX_TIMEOUT_RETRIES = 1;
 const BASE_DELAY = 1000;
+
+// --- Evaluation progress events ---
+// Lightweight pub/sub so the progress bar can show what's actually happening
+// (retrying, falling back, elapsed time) instead of fake micro-logs.
+export type EvalProgressPhase =
+  | 'started'
+  | 'sending'
+  | 'waiting'
+  | 'retrying'
+  | 'fallback'
+  | 'parsing'
+  | 'done'
+  | 'error';
+
+export interface EvalProgressEvent {
+  phase: EvalProgressPhase;
+  message: string;
+  attempt?: number;
+  maxAttempts?: number;
+  elapsedMs?: number;
+}
+
+type EvalProgressListener = (event: EvalProgressEvent) => void;
+const evalProgressListeners = new Set<EvalProgressListener>();
+
+export const subscribeEvalProgress = (listener: EvalProgressListener): (() => void) => {
+  evalProgressListeners.add(listener);
+  return () => {
+    evalProgressListeners.delete(listener);
+  };
+};
+
+export const emitEvalProgress = (event: EvalProgressEvent): void => {
+  for (const listener of evalProgressListeners) {
+    try {
+      listener(event);
+    } catch {
+      /* listener errors must not break the call */
+    }
+  }
+};
 
 // --- Custom Errors ---
 export class ApiKeyError extends Error {
@@ -420,6 +462,12 @@ const isRetryableError = (error: any): boolean => {
   return true;
 };
 
+const isTimeoutError = (error: any): boolean => {
+  const msg = error instanceof Error ? error.message.toLowerCase() : String(error).toLowerCase();
+  const status = (error as any)?.status;
+  return status === 504 || msg.includes('timed out') || msg.includes('timeout');
+};
+
 const callGeminiWithRetry = async <T>(
   apiCall: () => Promise<T>,
   maxRetries: number = MAX_RETRIES
@@ -432,20 +480,44 @@ const callGeminiWithRetry = async <T>(
   }
 
   let attempt = 0;
+  let timeoutRetries = 0;
+  const callStart = Date.now();
   while (true) {
     try {
+      emitEvalProgress({
+        phase: attempt === 0 ? 'sending' : 'retrying',
+        message: attempt === 0 ? 'Sending to AI...' : `Retrying (attempt ${attempt + 1})...`,
+        attempt: attempt + 1,
+        maxAttempts: maxRetries + 1,
+        elapsedMs: Date.now() - callStart,
+      });
+
       const result = await Promise.race([
         apiCall(),
         new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error('API request timed out.')), API_TIMEOUT)
+          setTimeout(
+            () =>
+              reject(
+                Object.assign(
+                  new Error(
+                    'API request timed out. The AI model is taking longer than expected — this is common for complex evaluations. Please try again.'
+                  ),
+                  { status: 504 }
+                )
+              ),
+            API_TIMEOUT
+          )
         ),
       ]);
 
       apiGuard.reset();
+      emitEvalProgress({
+        phase: 'parsing',
+        message: 'Processing response...',
+        elapsedMs: Date.now() - callStart,
+      });
       return result;
     } catch (error: any) {
-      // Deployment-level condition (no proxy endpoint at all) — retrying or
-      // swapping keys cannot change the outcome, so surface it verbatim.
       if (error instanceof ProxyUnavailableError) {
         throw error;
       }
@@ -477,21 +549,11 @@ const callGeminiWithRetry = async <T>(
         );
       }
 
-      // Any 429 from the proxy has already consumed a quota unit on the
-      // server side, so retrying would burn additional units for nothing.
-      // The proxy's own daily-limit 429 ("Daily AI limit reached…") is a
-      // hard budget; a provider rate-limit 429 forwarded through the proxy
-      // is transient but still quota-counted. In both cases, surface
-      // immediately — the distinction is whether the user sees a "limit
-      // reached" message or a "try again shortly" message.
       if (status === 429) {
         if (/daily ai limit/i.test(errorMsg)) {
           throw new QuotaExceededError(errorMsg);
         }
         if (isFreeTierZeroQuota(errorMsg)) {
-          // Permanent for this key: the model has NO free-tier quota at all.
-          // generateContentWithRetry catches this flag and falls back to the
-          // free-tier Gemini engine automatically.
           throw new QuotaExceededError(
             'The selected AI model has no quota on the free Gemini tier (the provider returned limit: 0). ' +
               'Use Gemini 3 Flash for this role in the AI Engine selector, or add billing to your Google AI key.',
@@ -506,21 +568,49 @@ const callGeminiWithRetry = async <T>(
         throw error;
       }
 
+      const isTimeout = isTimeoutError(error);
+      const effectiveMaxRetries = isTimeout ? MAX_TIMEOUT_RETRIES : maxRetries;
+
       const isQuotaError =
         status === 429 ||
         errorMsg.includes('429') ||
         new RegExp('rate limit|resource_exhausted|quota', 'i').test(errorMsg);
 
-      if (attempt < maxRetries) {
+      if (isTimeout) {
+        timeoutRetries++;
+        if (timeoutRetries > MAX_TIMEOUT_RETRIES) {
+          const elapsed = Math.round((Date.now() - callStart) / 1000);
+          console.error(
+            `[API Fail] Timed out after ${elapsed}s total (${timeoutRetries} timeout retries).`
+          );
+          throw new Error(
+            `The AI evaluation timed out after ${elapsed} seconds. ` +
+              'This can happen with complex questions or slower AI models. ' +
+              'Try switching to Gemini Flash in the AI Engine selector, or try again shortly.'
+          );
+        }
+      }
+
+      if (attempt < effectiveMaxRetries) {
         attempt++;
         const baseDelay = BASE_DELAY * Math.pow(2, attempt);
         const jitter = Math.random() * 1000;
         const delay = Math.min(baseDelay + jitter, 20000);
 
-        const reason = isQuotaError ? 'Rate Limit' : 'Transient Error';
+        const reason = isTimeout ? 'Timeout' : isQuotaError ? 'Rate Limit' : 'Transient Error';
         console.warn(
-          `[API Retry] ${reason} (${errorMsg}). Retrying in ${Math.round(delay)}ms... (Attempt ${attempt}/${maxRetries})`
+          `[API Retry] ${reason} (${errorMsg}). Retrying in ${Math.round(delay)}ms... (Attempt ${attempt}/${effectiveMaxRetries})`
         );
+
+        emitEvalProgress({
+          phase: 'retrying',
+          message: isTimeout
+            ? `Request timed out — retrying (${attempt}/${effectiveMaxRetries})...`
+            : `${reason} — retrying (${attempt}/${effectiveMaxRetries})...`,
+          attempt: attempt + 1,
+          maxAttempts: effectiveMaxRetries + 1,
+          elapsedMs: Date.now() - callStart,
+        });
 
         await new Promise((resolve) => setTimeout(resolve, delay));
         continue;
@@ -532,9 +622,13 @@ const callGeminiWithRetry = async <T>(
         );
       }
 
-      console.error(`[API Fail] Gemini API call failed after ${attempt} retries.`, error);
+      const elapsed = Math.round((Date.now() - callStart) / 1000);
+      console.error(
+        `[API Fail] AI call failed after ${attempt} retries (${elapsed}s total).`,
+        error
+      );
       throw new Error(
-        `AI Service Unavailable: ${unwrapProviderMessage(errorMsg).split('\n')[0].slice(0, 200)}`
+        `AI Service Unavailable after ${elapsed}s: ${unwrapProviderMessage(errorMsg).split('\n')[0].slice(0, 200)}`
       );
     }
   }
@@ -602,6 +696,10 @@ export const generateContentWithRetry = async (request: any): Promise<GenerateCo
       console.warn(
         `[AI Fallback] ${request.model} has zero free-tier quota; retrying on ${fallback.model}.`
       );
+      emitEvalProgress({
+        phase: 'fallback',
+        message: `Switching to ${getModelByProviderModel(fallback.model)?.label ?? 'Flash'} (free-tier fallback)...`,
+      });
       return dedupedExecute({ ...request, provider: fallback.provider, model: fallback.model });
     }
     throw error;

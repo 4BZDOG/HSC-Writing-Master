@@ -17,6 +17,7 @@ import {
 } from '../types';
 import * as gemini from '../services/geminiService';
 import { AICache } from '../services/aiCache';
+import { emitEvalProgress } from '../services/aiCore';
 import { persistResponse, saveResponseFeedback } from '../services/responseService';
 import { findAndUpdateItem, findSelectionContext } from '../utils/stateUtils';
 import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
@@ -121,15 +122,21 @@ export const useGemini = ({
       setEvaluationError(null);
       setImprovedAnswer(null);
       setOriginalAnswerForImprovement(null);
+      const evalStart = Date.now();
+      emitEvalProgress({ phase: 'started', message: 'Preparing evaluation...' });
       try {
         const result = await gemini.evaluateAnswer(answer, prompt);
+        const elapsed = Math.round((Date.now() - evalStart) / 1000);
+        emitEvalProgress({
+          phase: 'done',
+          message: `Evaluation complete (${elapsed}s)`,
+          elapsedMs: Date.now() - evalStart,
+        });
 
-        // Auto-save logic: Save both user attempt and AI initial revision to prompt library
         updateCourses((draft) => {
           findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
             if (!p.sampleAnswers) p.sampleAnswers = [];
 
-            // 1. Save User Attempt
             const userSample: SampleAnswer = {
               id: generateId('sa'),
               answer: answer,
@@ -137,11 +144,10 @@ export const useGemini = ({
               band: result.overallBand,
               source: 'USER',
               feedback: result.overallFeedback,
-              quickTip: result.quickTip, // Save the tip!
+              quickTip: result.quickTip,
             };
             p.sampleAnswers = addAndPruneSampleAnswers(p.sampleAnswers, userSample);
 
-            // 2. Save initial AI Revised Answer if provided by the evaluation model
             if (result.revisedAnswer) {
               const revisedText =
                 typeof result.revisedAnswer === 'string'
@@ -176,23 +182,25 @@ export const useGemini = ({
 
         await AICache.set(`evaluate:${prompt.id}:${answer.slice(0, 100)}`, result);
 
-        // Persist the attempt + AI feedback to the responses table for
-        // longitudinal analytics (Supabase mode only). Best-effort and
-        // non-blocking — persistResponse swallows its own failures.
         void persistResponse(prompt.id, {
           draft: answer,
           wordCount: answer.trim().split(/\s+/).filter(Boolean).length,
           result,
         });
 
-        // Only surface the result if the user is still on the question that
-        // was marked — a late response must not open the feedback modal over
-        // a different question.
         if (activePromptIdRef.current === prompt.id) {
           setEvaluationResult(result);
-          showToast('Marking complete. Results auto-saved to library.', 'success');
+          const elapsed2 = Math.round((Date.now() - evalStart) / 1000);
+          showToast(`Marking complete in ${elapsed2}s. Results auto-saved to library.`, 'success');
         }
       } catch (error) {
+        const elapsed = Math.round((Date.now() - evalStart) / 1000);
+        emitEvalProgress({
+          phase: 'error',
+          message: `Evaluation failed after ${elapsed}s`,
+          elapsedMs: Date.now() - evalStart,
+        });
+        console.error(`[Evaluation] Failed after ${elapsed}s:`, error);
         const message = handleApiError(error);
         if (activePromptIdRef.current === prompt.id) setEvaluationError(message);
       } finally {
