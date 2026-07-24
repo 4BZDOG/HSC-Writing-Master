@@ -680,7 +680,8 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           <OutcomeDetailModal
             isOpen={!!selectedOutcome}
             onClose={() => setSelectedOutcome(null)}
-            outcome={selectedOutcome}
+            outcomes={linkedOutcomes}
+            initialCode={selectedOutcome.code}
             question={prompt.question}
             tier={verbInfo.tier}
             verb={prompt.verb}

@@ -3,6 +3,7 @@ import { PromptVerb } from '../types';
 import { commandTerms, TIER_GROUPS, getTierTargetBand } from '../data/commandTerms';
 import { ChevronDown, AlignLeft, Sparkles } from 'lucide-react';
 import { getTierScaleConfig } from '../utils/renderUtils';
+import StrategyTip from './StrategyTip';
 
 interface CommandVerbHierarchyProps {
   currentVerb?: PromptVerb;
@@ -186,9 +187,11 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       <p className="text-sm font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 max-w-xl leading-relaxed opacity-90">
                         {activeTermInfo.definition}
                       </p>
-                      <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 max-w-xl leading-relaxed opacity-80 mt-1 italic whitespace-pre-line">
-                        {activeTermInfo.tip}
-                      </p>
+                      <StrategyTip
+                        tip={activeTermInfo.tip}
+                        className="max-w-xl mt-2"
+                        accentClass="text-[rgb(var(--color-text-muted))] light:text-slate-500"
+                      />
                     </div>
                   </div>
 

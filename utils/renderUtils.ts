@@ -422,7 +422,16 @@ const processInlineFormatting = (
   verbRegex: RegExp | null,
   keywordRegex: RegExp | null
 ): React.ReactNode[] => {
-  const processRecursively = (segment: string | React.ReactNode): React.ReactNode[] => {
+  // Every key carries its full position in the recursion. Each branch below
+  // flattens its results into ONE sibling array, so a bare per-branch index
+  // collides as soon as two branches emit an element at the same position —
+  // React then warns and may duplicate or omit the highlighted spans. The path
+  // is derived from structure, not a counter, so keys stay stable across
+  // re-renders of the same text.
+  const processRecursively = (
+    segment: string | React.ReactNode,
+    path: string
+  ): React.ReactNode[] => {
     if (typeof segment !== 'string') return [segment];
     if (!segment) return [];
 
@@ -436,14 +445,14 @@ const processInlineFormatting = (
               return React.createElement(
                 'strong',
                 {
-                  key: i,
+                  key: `b${path}.${i}`,
                   className:
                     'font-bold text-white light:text-slate-900 print:text-[rgb(var(--color-text-primary))]',
                 },
-                processRecursively(part.slice(2, -2))
+                processRecursively(part.slice(2, -2), `${path}.${i}`)
               );
             }
-            return processRecursively(part);
+            return processRecursively(part, `${path}.${i}`);
           })
           .flat();
       }
@@ -459,14 +468,14 @@ const processInlineFormatting = (
               return React.createElement(
                 'em',
                 {
-                  key: i,
+                  key: `i${path}.${i}`,
                   className:
                     'italic text-white/90 light:text-slate-800 print:text-[rgb(var(--color-text-secondary))]',
                 },
-                processRecursively(part.slice(1, -1))
+                processRecursively(part.slice(1, -1), `${path}.${i}`)
               );
             }
-            return processRecursively(part);
+            return processRecursively(part, `${path}.${i}`);
           })
           .flat();
       }
@@ -481,11 +490,11 @@ const processInlineFormatting = (
             if (part.startsWith('^')) {
               return React.createElement(
                 'sup',
-                { key: i, className: 'text-[0.7em]' },
+                { key: `sup${path}.${i}`, className: 'text-[0.7em]' },
                 part.slice(1)
               );
             }
-            return processRecursively(part);
+            return processRecursively(part, `${path}.${i}`);
           })
           .flat();
       }
@@ -500,11 +509,11 @@ const processInlineFormatting = (
             if (part.startsWith('_')) {
               return React.createElement(
                 'sub',
-                { key: i, className: 'text-[0.7em]' },
+                { key: `sub${path}.${i}`, className: 'text-[0.7em]' },
                 part.slice(1)
               );
             }
-            return processRecursively(part);
+            return processRecursively(part, `${path}.${i}`);
           })
           .flat();
       }
@@ -515,7 +524,7 @@ const processInlineFormatting = (
       let nodes: React.ReactNode[] = [segment];
 
       if (verbRegex) {
-        nodes = nodes.flatMap((n) => {
+        nodes = nodes.flatMap((n, outer) => {
           if (typeof n !== 'string') return n;
           const parts = n.split(verbRegex);
           return parts.map((part, i) => {
@@ -525,7 +534,7 @@ const processInlineFormatting = (
             if (i % 2 === 1) {
               return React.createElement(
                 'span',
-                { key: `v-${i}`, className: VERB_HIGHLIGHT_CLASS },
+                { key: `v${path}.${outer}.${i}`, className: VERB_HIGHLIGHT_CLASS },
                 part
               );
             }
@@ -535,15 +544,21 @@ const processInlineFormatting = (
       }
 
       if (keywordRegex) {
-        nodes = nodes.flatMap((n) => {
+        nodes = nodes.flatMap((n, outer) => {
           if (typeof n !== 'string') return n;
           const parts = n.split(keywordRegex);
           return parts.map((part, i) => {
             // Odd indices are the matched keywords (see verb branch above).
             if (i % 2 === 1) {
+              // The key carries the OUTER node index as well as the index
+              // within this split. `nodes` already holds several segments by the
+              // time the keyword pass runs (the verb pass split it), and each is
+              // split independently — so a bare `k-${i}` collides the moment two
+              // segments both match at the same position. React then warns and
+              // may duplicate or omit the highlighted spans.
               return React.createElement(
                 'span',
-                { key: `k-${i}`, className: KEYWORD_HIGHLIGHT_CLASS },
+                { key: `k${path}.${outer}.${i}`, className: KEYWORD_HIGHLIGHT_CLASS },
                 part
               );
             }
@@ -558,7 +573,7 @@ const processInlineFormatting = (
     return [segment];
   };
 
-  return processRecursively(text);
+  return processRecursively(text, '0');
 };
 
 export const renderFormattedText = (
@@ -659,7 +674,7 @@ export const renderEditorHighlights = (
     let nodes: React.ReactNode[] = [segment];
 
     if (verbRegex) {
-      nodes = nodes.flatMap((n) => {
+      nodes = nodes.flatMap((n, outer) => {
         if (typeof n !== 'string') return n;
         const parts = n.split(verbRegex);
         return parts.map((part, i) => {
@@ -673,7 +688,7 @@ export const renderEditorHighlights = (
             // can't drift out of alignment with the textarea underneath.
             return React.createElement(
               'span',
-              { key: `v-${i}`, className: VERB_OVERLAY_CLASS },
+              { key: `v-${outer}-${i}`, className: VERB_OVERLAY_CLASS },
               part
             );
           }
@@ -683,7 +698,7 @@ export const renderEditorHighlights = (
     }
 
     if (keywordRegex) {
-      nodes = nodes.flatMap((n) => {
+      nodes = nodes.flatMap((n, outer) => {
         if (typeof n !== 'string') return n;
         const parts = n.split(keywordRegex);
         return parts.map((part, i) => {
@@ -692,7 +707,7 @@ export const renderEditorHighlights = (
             // Layout-neutral overlay class (see verb branch above).
             return React.createElement(
               'span',
-              { key: `k-${i}`, className: KEYWORD_OVERLAY_CLASS },
+              { key: `k-${outer}-${i}`, className: KEYWORD_OVERLAY_CLASS },
               part
             );
           }

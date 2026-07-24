@@ -34,6 +34,7 @@ import { PromptVerb, WritingMode } from '../types';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
 import { MAX_CARD_HEIGHT } from '../utils/layoutConstants';
 import { PlusLockChip } from './UpgradeModal';
+import StrategyTip from './StrategyTip';
 
 interface EditorProps {
   value: string;
@@ -665,12 +666,10 @@ const Editor = forwardRef<
               </button>
               {showStrategy && (
                 <div className="px-4 sm:px-6 pb-3 animate-fade-in">
-                  <p className="text-xs font-semibold text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed mb-1">
+                  <p className="text-xs font-semibold text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed mb-2">
                     {verbInfo.definition}
                   </p>
-                  <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed italic whitespace-pre-line">
-                    {verbInfo.tip}
-                  </p>
+                  <StrategyTip tip={verbInfo.tip} />
                 </div>
               )}
             </div>
