@@ -4,11 +4,12 @@ The app is a **static Vite build plus one serverless API route**
 (`/api/gemini`) that keeps the AI provider keys server-side and enforces
 quotas. That split decides where you can host it:
 
-| Host                       | Frontend | AI features                                        | Effort       |
-| -------------------------- | -------- | -------------------------------------------------- | ------------ |
-| **Vercel** (recommended)   | ✅       | ✅ (serverless proxy runs natively)                | ~5 minutes   |
-| **GitHub Pages**           | ✅       | ❌ alone / ✅ when paired with a Vercel API        | ~5 minutes   |
-| Netlify / Cloudflare Pages | ✅       | ⚠️ needs the proxy ported to their function format | not provided |
+| Host                     | Frontend | AI features                                        | Effort       |
+| ------------------------ | -------- | -------------------------------------------------- | ------------ |
+| **Vercel** (recommended) | ✅       | ✅ (serverless proxy runs natively)                | ~5 minutes   |
+| **GitHub Pages**         | ✅       | ❌ alone / ✅ when paired with a Vercel API        | ~5 minutes   |
+| Netlify                  | ✅       | ⚠️ needs the proxy ported to their function format | ~5 minutes   |
+| Cloudflare Pages         | ✅       | ⚠️ needs the proxy ported to their function format | not provided |
 
 **Never put a provider key in client-side code or a `VITE_`-prefixed
 variable** — everything `VITE_*` is bundled into public JavaScript. Keys
@@ -95,6 +96,28 @@ Host just the API on Vercel (Option 1) and connect the two origins:
    checks for your Pages origin (comma-separate multiple origins; the
    wildcard `*` is deliberately rejected).
 3. Re-run both deployments.
+
+---
+
+## Option 3 — Netlify (optional; frontend only)
+
+`.github/workflows/build.yml` has a Netlify production deploy on pushes to
+`main`. It is **off unless you configure it**: without both secrets the job
+logs a warning and skips, so a green "Deploy to Production" does not by itself
+mean anything was published.
+
+Add under **Settings → Secrets and variables → Actions**:
+
+- `NETLIFY_AUTH_TOKEN` — from Netlify **User settings → Applications →
+  Personal access tokens**
+- `NETLIFY_SITE_ID` — the target site's **Site ID** (Site configuration →
+  General)
+
+This publishes the static frontend only. AI features still need an API host,
+because the `/api/gemini` proxy is written for Vercel's serverless format and
+would have to be ported to Netlify Functions. Pair it with a Vercel API the
+same way as the Pages option above (`VITE_API_BASE_URL` at build time,
+`ALLOWED_ORIGIN` on the Vercel side).
 
 ---
 
