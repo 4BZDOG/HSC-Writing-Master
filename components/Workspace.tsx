@@ -155,6 +155,17 @@ const Workspace: React.FC<WorkspaceProps> = ({
     if (max > 0) setSyncedFooterHeight(max);
   }, [promptFooterHeight, editorFooterHeight]);
 
+  // Focus Mode swaps the full prompt card for the condensed one, which reports
+  // neither a total nor a footer height. Its observers disconnect on unmount,
+  // so without this the editor keeps being floored — and its footer padded —
+  // by the last measurements of a card that is no longer on screen.
+  useEffect(() => {
+    if (isFocusMode) {
+      setPromptTotalHeight(0);
+      setPromptFooterHeight(0);
+    }
+  }, [isFocusMode]);
+
   const courseOutcomes = currentCourse?.outcomes || [];
 
   useEffect(() => {

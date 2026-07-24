@@ -24,7 +24,16 @@ vi.mock('../../services/responseService', () => ({
 }));
 
 vi.mock('../../services/aiCache', () => ({
-  AICache: { set: vi.fn().mockResolvedValue(undefined), get: vi.fn().mockResolvedValue(null) },
+  AICache: {
+    set: vi.fn().mockResolvedValue(undefined),
+    get: vi.fn().mockResolvedValue(null),
+    // The hook builds its key through the generator, so the mock has to carry
+    // it too — a bare {set,get} stub throws inside evaluate()'s try block and
+    // silently turns a successful marking run into an evaluation error.
+    generateEvaluationKey: vi.fn(
+      (promptId: string, answer: string) => `evaluate:${promptId}:${answer}`
+    ),
+  },
 }));
 
 import { useGemini } from '../../hooks/useGemini';
