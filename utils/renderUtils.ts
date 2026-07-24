@@ -590,12 +590,7 @@ export const renderFormattedText = (
       const level = headingMatch[1].length;
       const headingText = headingMatch[2];
       const parts = processInlineFormatting(headingText, verbRegex, keywordRegex);
-      const sizeClass =
-        level === 1
-          ? 'text-lg'
-          : level === 2
-            ? 'text-base'
-            : 'text-sm';
+      const sizeClass = level === 1 ? 'text-lg' : level === 2 ? 'text-base' : 'text-sm';
       return React.createElement(
         'strong',
         {

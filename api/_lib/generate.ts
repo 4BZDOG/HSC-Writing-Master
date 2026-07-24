@@ -43,11 +43,16 @@ export const runGeminiProxy = async (
   try {
     const ai = new GoogleGenAI({ apiKey });
     const start = Date.now();
+    // The timer handle is kept so it can be cleared once the race settles.
+    // An uncleared 55s timer keeps the Node event loop alive well after the
+    // response has been sent — which in the Vite dev middleware means one
+    // stray timer per request, and on the serverless side delays the freeze.
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response = await Promise.race([
       ai.models.generateContent(request as any),
-      new Promise<never>((_, reject) =>
-        setTimeout(
+      new Promise<never>((_, reject) => {
+        timeoutId = setTimeout(
           () =>
             reject(
               Object.assign(
@@ -58,9 +63,9 @@ export const runGeminiProxy = async (
               )
             ),
           55_000
-        )
-      ),
-    ]);
+        );
+      }),
+    ]).finally(() => clearTimeout(timeoutId));
     const elapsed = Date.now() - start;
 
     return {

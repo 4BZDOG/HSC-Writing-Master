@@ -180,19 +180,28 @@ export const useGemini = ({
           });
         });
 
-        await AICache.set(`evaluate:${prompt.id}:${answer.slice(0, 100)}`, result);
+        // Surface the mark BEFORE any bookkeeping. Only if the user is still on
+        // the question that was marked — a late response must not open the
+        // feedback modal over a different question.
+        if (activePromptIdRef.current === prompt.id) {
+          setEvaluationResult(result);
+          const elapsed2 = Math.round((Date.now() - evalStart) / 1000);
+          showToast(`Marking complete in ${elapsed2}s. Results auto-saved to library.`, 'success');
+        }
+
+        // Bookkeeping, fire-and-forget: a student waiting 40s for a mark must
+        // not then wait on an IndexedDB write, and nothing here can be allowed
+        // to throw its way past the result above into the catch block.
+        // The cache key comes from the generator so it hashes the WHOLE answer
+        // — the hand-rolled key used `answer.slice(0, 100)`, so two responses
+        // sharing an opening paragraph mapped to the same entry.
+        void AICache.set(AICache.generateEvaluationKey(prompt.id, answer), result);
 
         void persistResponse(prompt.id, {
           draft: answer,
           wordCount: answer.trim().split(/\s+/).filter(Boolean).length,
           result,
         });
-
-        if (activePromptIdRef.current === prompt.id) {
-          setEvaluationResult(result);
-          const elapsed2 = Math.round((Date.now() - evalStart) / 1000);
-          showToast(`Marking complete in ${elapsed2}s. Results auto-saved to library.`, 'success');
-        }
       } catch (error) {
         const elapsed = Math.round((Date.now() - evalStart) / 1000);
         emitEvalProgress({
@@ -385,7 +394,7 @@ export const useGemini = ({
         });
 
         if (result && !aborted && isMounted.current) {
-          await AICache.set(`enrich:${promptId}`, result);
+          void AICache.set(AICache.generateEnrichKey(promptId), result);
           updateCourses((draft) => {
             findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
               if (p.id === promptId) {
@@ -433,7 +442,7 @@ export const useGemini = ({
     try {
       const scenario = await gemini.generateScenarioForPrompt(currentPrompt);
       if (scenario) {
-        await AICache.set(`scenario:${currentPrompt.id}`, scenario);
+        void AICache.set(AICache.generateScenarioKey(currentPrompt.id), scenario);
         updateCourses((draft) =>
           findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
             p.scenario = scenario;
@@ -464,7 +473,7 @@ export const useGemini = ({
         buildSyllabusContext()
       );
       if (keywords) {
-        await AICache.set(`keywords:${currentPrompt.id}`, keywords);
+        void AICache.set(AICache.generateKeywordsKey(currentPrompt.id), keywords);
         updateCourses((draft) =>
           findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
             p.keywords = keywords;

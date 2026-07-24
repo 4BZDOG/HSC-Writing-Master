@@ -3,7 +3,15 @@ import { createPortal } from 'react-dom';
 import { CourseOutcome } from '../types';
 import { explainOutcomeInContext } from '../services/geminiService';
 import { renderFormattedText, getTierScaleConfig, BAND_HEX } from '../utils/renderUtils';
-import { AlertCircle, Target, X, Sparkles, Loader2, FileQuestion, ChevronRight } from 'lucide-react';
+import {
+  AlertCircle,
+  Target,
+  X,
+  Sparkles,
+  Loader2,
+  FileQuestion,
+  ChevronRight,
+} from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import type { PromptVerb } from '../types';
@@ -118,7 +126,9 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
               <div className="flex items-center gap-1 mb-2 flex-wrap">
                 {breadcrumb.map((crumb, i) => (
                   <React.Fragment key={i}>
-                    {i > 0 && <ChevronRight className="w-3 h-3 text-[rgb(var(--color-text-dim))] light:text-slate-400 flex-shrink-0" />}
+                    {i > 0 && (
+                      <ChevronRight className="w-3 h-3 text-[rgb(var(--color-text-dim))] light:text-slate-400 flex-shrink-0" />
+                    )}
                     <span className="text-[10px] font-bold text-[rgb(var(--color-text-dim))] light:text-slate-400 uppercase tracking-wider truncate max-w-[140px]">
                       {crumb}
                     </span>
@@ -172,7 +182,9 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
           {/* AI relevance */}
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <div className={`w-6 h-6 rounded-md ${bandConfig.bg} flex items-center justify-center`}>
+              <div
+                className={`w-6 h-6 rounded-md ${bandConfig.bg} flex items-center justify-center`}
+              >
                 <Sparkles className={`w-3 h-3 ${bandConfig.text}`} />
               </div>
               <span className="text-xs font-black text-[rgb(var(--color-text-primary))] light:text-slate-800 tracking-tight">
@@ -184,7 +196,9 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
               {isLoading ? (
                 <div className="flex flex-col items-center justify-center h-28 gap-2.5">
                   <Loader2 className={`w-6 h-6 animate-spin ${bandConfig.text}`} />
-                  <p className={`text-[10px] font-black uppercase tracking-[0.15em] ${bandConfig.text} opacity-60 animate-pulse`}>
+                  <p
+                    className={`text-[10px] font-black uppercase tracking-[0.15em] ${bandConfig.text} opacity-60 animate-pulse`}
+                  >
                     Analysing context...
                   </p>
                 </div>
@@ -192,8 +206,12 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
                 <div className="bg-red-500/10 light:bg-red-50 p-3 rounded-lg border border-red-500/20 light:border-red-200 flex items-start gap-2.5">
                   <AlertCircle className="w-4 h-4 text-red-400 light:text-red-500 flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-xs text-red-300 light:text-red-700 font-bold">Analysis Failed</p>
-                    <p className="text-[11px] text-red-400/70 light:text-red-600/70 mt-0.5">{error}</p>
+                    <p className="text-xs text-red-300 light:text-red-700 font-bold">
+                      Analysis Failed
+                    </p>
+                    <p className="text-[11px] text-red-400/70 light:text-red-600/70 mt-0.5">
+                      {error}
+                    </p>
                     <button
                       onClick={fetchExplanation}
                       className="mt-1.5 text-[11px] font-bold text-red-300 light:text-red-600 hover:text-white light:hover:text-red-800 underline"

@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { getTierScaleConfig, renderFormattedText } from '../utils/renderUtils';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
+import { MAX_CARD_HEIGHT, naturalCardHeight } from '../utils/layoutConstants';
 import OutcomeDetailModal from './OutcomeDetailModal';
 import FlagContentModal from './FlagContentModal';
 
@@ -114,7 +115,10 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   const headerContentRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const contentWrapRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const bodyContentRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
+  const footerContentRef = useRef<HTMLDivElement>(null);
 
   const canCurate = canCurateContent(userRole);
   const canGenerate = canUseAiGeneration(userRole);
@@ -162,32 +166,48 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
     return () => observer.disconnect();
   }, [onHeaderResize, prompt.question, prompt.verb, prompt.totalMarks]);
 
-  // Total height observation — measures the inner content wrapper so the
-  // reported value is the NATURAL height, not the rendered box inflated by
-  // minTotalHeight.  This prevents a ratchet between the two panels.
+  // Total height observation — reports the NATURAL height, not the rendered
+  // box inflated by minTotalHeight.  The wrapper alone is not enough: it is a
+  // flex child that stretches to the synced height, so measuring it fed the
+  // inflated value straight back into the sync and the pair could only ever
+  // grow.  Swapping the scroll region's rendered height for its content height
+  // gives a value that shrinks again.
   useEffect(() => {
     if (!contentWrapRef.current || !onTotalHeightChange) return;
 
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        onTotalHeightChange(entry.borderBoxSize[0].blockSize);
-      }
-    });
+    const report = () =>
+      onTotalHeightChange(
+        naturalCardHeight(contentWrapRef.current, bodyRef.current, bodyContentRef.current)
+      );
 
+    const observer = new ResizeObserver(report);
     observer.observe(contentWrapRef.current);
+    if (bodyContentRef.current) observer.observe(bodyContentRef.current);
+    report();
     return () => observer.disconnect();
   }, [onTotalHeightChange, prompt.question, prompt.scenario, fontSize]);
 
+  // Footer height observation. Like the header, this reports the NATURAL
+  // height (content + own padding). The rendered box carries the synced
+  // minFooterHeight, so measuring it fed the inflated value back into the sync
+  // and the two footers could only ever grow — a footer that wrapped to two
+  // rows at a narrow width stayed tall after widening again.
   useEffect(() => {
-    if (!footerRef.current || !onFooterResize) return;
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        onFooterResize(entry.borderBoxSize[0].blockSize);
-      }
+    if (!footerContentRef.current || !onFooterResize) return;
+
+    const observer = new ResizeObserver(() => {
+      const footer = footerRef.current;
+      const content = footerContentRef.current;
+      if (!footer || !content) return;
+      const cs = getComputedStyle(footer);
+      onFooterResize(
+        content.offsetHeight + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)
+      );
     });
-    observer.observe(footerRef.current);
+
+    observer.observe(footerContentRef.current);
     return () => observer.disconnect();
-  }, [onFooterResize]);
+  }, [onFooterResize, linkedOutcomes.length]);
 
   const handleSaveQuestion = () => {
     if (editQuestionText.trim() !== prompt.question) {
@@ -229,7 +249,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
         `}
       style={{
         minHeight: minTotalHeight || undefined,
-        maxHeight: minTotalHeight ? `${Math.max(minTotalHeight, 800)}px` : undefined,
+        // Capped unconditionally so a long scenario scrolls inside the card
+        // even before the cross-card height sync has produced its first value.
+        maxHeight: `${MAX_CARD_HEIGHT}px`,
       }}
     >
       <div ref={contentWrapRef} className="flex flex-col flex-1 min-h-0">
@@ -322,8 +344,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           className={`absolute inset-0 bg-gradient-to-br ${bandConfig.gradient} opacity-[0.03] pointer-events-none`}
         />
 
-        <div className="flex-1 flex flex-col min-h-0 overflow-y-auto">
+        <div ref={bodyRef} className="flex-1 flex flex-col min-h-0 overflow-y-auto">
           <div
+            ref={bodyContentRef}
             className={`${condensed ? 'p-6 sm:p-8' : 'p-6 sm:p-8 pb-4 sm:pb-4'} relative z-10 flex flex-col gap-6 sm:gap-8`}
           >
             {/* Question Section - "The Canvas" */}
@@ -519,13 +542,24 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               </div>
             )}
           </div>
+        </div>
 
-          {/* Outcomes Footer - "The Evidence" */}
-          {!(condensed && linkedOutcomes.length === 0) && (
+        {/* Outcomes Footer - "The Evidence". A sibling of the scroll region,
+          not a child of it: the syllabus link, outcome chips and zoom controls
+          stay pinned to the bottom of the card instead of scrolling out of
+          reach on a long scenario. */}
+        {!(condensed && linkedOutcomes.length === 0) && (
+          <div
+            ref={footerRef}
+            className="relative z-10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border-t border-white/10 light:border-slate-200/50 px-4 sm:px-6 py-3 flex items-center backdrop-blur-sm mt-auto flex-shrink-0 rounded-b-[30px]"
+            style={{ minHeight: minFooterHeight || 52 }}
+          >
+            {/* Inner wrapper carries the row layout so its height stays
+              content-driven — the outer box is inflated by the synced
+              minFooterHeight and cannot be measured. */}
             <div
-              ref={footerRef}
-              className="relative z-10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border-t border-white/10 light:border-slate-200/50 px-4 sm:px-6 py-3 flex flex-wrap items-center gap-x-6 gap-y-3 backdrop-blur-sm mt-auto flex-shrink-0 rounded-b-[30px]"
-              style={{ minHeight: minFooterHeight || 52 }}
+              ref={footerContentRef}
+              className="w-full flex flex-wrap items-center gap-x-6 gap-y-3"
             >
               {/* On phones: label + zoom share the first row, outcome chips wrap
                 to a full-width second row. From sm up: label | chips | zoom. */}
@@ -633,8 +667,8 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 </div>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {selectedOutcome && (
           <OutcomeDetailModal

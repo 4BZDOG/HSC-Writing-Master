@@ -423,8 +423,8 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                       ))}
                     </div>
                     <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
-                      Average band per verb group (bar fills to band ÷ 6); a blank group hasn't
-                      been attempted in this window.
+                      Average band per verb group (bar fills to band ÷ 6); a blank group hasn't been
+                      attempted in this window.
                     </p>
                   </section>
 

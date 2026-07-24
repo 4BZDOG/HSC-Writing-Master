@@ -5967,7 +5967,7 @@
                       {
                         "id": "sa-bio-mod-1-full",
                         "band": 6,
-                        "answer": "The integration of bioinformatics and genetic engineering has revolutionised biotechnology by increasing precision and speed. Bioinformatics allows scientists to analyse massive biological datasets to identify specific gene sequences responsible for traits (e.g., disease resistance). Once identified, genetic engineering techniques like CRISPR-Cas9 are used to precisely modify or insert these genes into organisms. For example, in the development of mRNA vaccines, bioinformatics was used to model the viral spike protein structure rapidly, allowing genetic engineering to synthesize the specific mRNA sequence required, significantly shortening the development timeline compared to traditional methods.",
+                        "answer": "The integration of bioinformatics and genetic engineering has revolutionised biotechnology by increasing precision and speed. Bioinformatics allows scientists to analyse massive biological datasets to identify specific gene sequences responsible for traits (e.g., disease resistance). Once identified, genetic engineering techniques like CRISPR-Cas9 are used to precisely modify or insert these genes into organisms. For example, in the development of mRNA vaccines, bioinformatics was used to model the viral spike protein structure rapidly, allowing genetic engineering to synthesise the specific mRNA sequence required, significantly shortening the development timeline compared to traditional methods.",
                         "mark": 5,
                         "source": "AI"
                       },
@@ -6369,7 +6369,7 @@
                       {
                         "id": "sa-bio-dis-5-full",
                         "band": 3,
-                        "answer": "1. The human insulin gene is isolated. 2. A bacterial plasmid is cut using the same restriction enzyme to create sticky ends. 3. The insulin gene and plasmid are joined using DNA ligase to form recombinant DNA. 4. The plasmid is inserted into a bacterium (Transformation). 5. The bacteria are cultured in fermentation tanks, where they reproduce and synthesize the human insulin protein, which is then extracted and purified.",
+                        "answer": "1. The human insulin gene is isolated. 2. A bacterial plasmid is cut using the same restriction enzyme to create sticky ends. 3. The insulin gene and plasmid are joined using DNA ligase to form recombinant DNA. 4. The plasmid is inserted into a bacterium (Transformation). 5. The bacteria are cultured in fermentation tanks, where they reproduce and synthesise the human insulin protein, which is then extracted and purified.",
                         "mark": 4,
                         "source": "AI"
                       },

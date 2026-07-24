@@ -60,7 +60,9 @@ const InstrumentMetric = ({
   colorClass: string;
 }) => (
   <div className="flex flex-col gap-1 px-8 py-4 border-r border-white/5 light:border-slate-200 last:border-r-0">
-    <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white/30 light:text-slate-400">{label}</span>
+    <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white/30 light:text-slate-400">
+      {label}
+    </span>
     <div className="flex items-baseline gap-2">
       <span className={`text-4xl font-black tracking-tighter tabular-nums ${colorClass}`}>
         {value}

@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import { PromptVerb, WritingMode } from '../types';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
+import { MAX_CARD_HEIGHT, naturalCardHeight } from '../utils/layoutConstants';
 import { PlusLockChip } from './UpgradeModal';
 
 interface EditorProps {
@@ -142,7 +143,10 @@ const Editor = forwardRef<
     const headerRef = useRef<HTMLDivElement>(null);
     const headerContentRef = useRef<HTMLDivElement>(null);
     const contentWrapRef = useRef<HTMLDivElement>(null);
+    const bodyRef = useRef<HTMLDivElement>(null);
+    const bodyContentRef = useRef<HTMLDivElement>(null);
     const footerRef = useRef<HTMLDivElement>(null);
+    const footerContentRef = useRef<HTMLDivElement>(null);
     const [copied, setCopied] = useState(false);
     const [showStrategy, setShowStrategy] = useState(true);
 
@@ -240,27 +244,46 @@ const Editor = forwardRef<
       return () => observer.disconnect();
     }, [onHeaderResize, progress, chroma]);
 
+    // Footer height observation. Like the header, this reports the NATURAL
+    // height (content + own padding). The rendered box carries the synced
+    // minFooterHeight, so measuring it fed the inflated value back into the
+    // sync and the two footers could only ever grow — a footer that wrapped to
+    // two rows at a narrow width stayed tall after widening again.
     useEffect(() => {
-      if (!footerRef.current || !onFooterResize) return;
-      const observer = new ResizeObserver((entries) => {
-        for (const entry of entries) {
-          onFooterResize(entry.borderBoxSize[0].blockSize);
-        }
+      if (!footerContentRef.current || !onFooterResize) return;
+
+      const observer = new ResizeObserver(() => {
+        const footer = footerRef.current;
+        const content = footerContentRef.current;
+        if (!footer || !content) return;
+        const cs = getComputedStyle(footer);
+        onFooterResize(
+          content.offsetHeight + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)
+        );
       });
-      observer.observe(footerRef.current);
+
+      observer.observe(footerContentRef.current);
       return () => observer.disconnect();
     }, [onFooterResize]);
 
+    // Total height observation. Reports the card's NATURAL height — the height
+    // it would take if the synced minHeight weren't stretching it — so the
+    // cross-card sync can shrink again when the response is cleared or the
+    // student moves to a shorter question.
     useEffect(() => {
       if (!contentWrapRef.current || !onTotalHeightChange) return;
-      const observer = new ResizeObserver((entries) => {
-        for (const entry of entries) {
-          onTotalHeightChange(entry.borderBoxSize[0].blockSize);
-        }
-      });
+
+      const report = () =>
+        onTotalHeightChange(
+          naturalCardHeight(contentWrapRef.current, bodyRef.current, bodyContentRef.current)
+        );
+
+      const observer = new ResizeObserver(report);
       observer.observe(contentWrapRef.current);
+      if (bodyContentRef.current) observer.observe(bodyContentRef.current);
+      report();
       return () => observer.disconnect();
-    }, [onTotalHeightChange]);
+    }, [onTotalHeightChange, internalFontSize]);
 
     const handleManualResize = (newSize: number) => {
       setInternalFontSize(newSize);
@@ -294,6 +317,84 @@ const Editor = forwardRef<
         }
       });
     };
+
+    // Keep the caret in view while writing.
+    //
+    // The textarea is stacked in a grid and sized to its own content
+    // (`h-full` of a content-sized row) with `overflow-hidden`, so it never
+    // scrolls itself — which means the browser never has a reason to reveal
+    // the caret. The card around it is what scrolls, and it does not follow
+    // the caret on its own: past roughly thirty lines a student was typing
+    // below the fold, unable to see the words appearing.
+    //
+    // A mirror element with the textarea's text metrics gives the caret's
+    // y-offset: render the text UP TO the caret and take its height. One
+    // detached node is reused for the life of the component.
+    const caretMirrorRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(
+      () => () => {
+        caretMirrorRef.current?.remove();
+        caretMirrorRef.current = null;
+      },
+      []
+    );
+
+    const scrollCaretIntoView = () => {
+      const el = textareaRef.current;
+      const body = bodyRef.current;
+      if (!el || !body) return;
+
+      let mirror = caretMirrorRef.current;
+      if (!mirror) {
+        mirror = document.createElement('div');
+        mirror.setAttribute('aria-hidden', 'true');
+        mirror.style.cssText =
+          'position:absolute;top:0;left:-9999px;visibility:hidden;white-space:pre-wrap;word-wrap:break-word;overflow-wrap:break-word;';
+        document.body.appendChild(mirror);
+        caretMirrorRef.current = mirror;
+      }
+
+      const cs = getComputedStyle(el);
+      for (const prop of [
+        'fontFamily',
+        'fontSize',
+        'fontWeight',
+        'fontStyle',
+        'letterSpacing',
+        'lineHeight',
+        'textTransform',
+        'paddingTop',
+        'paddingRight',
+        'paddingBottom',
+        'paddingLeft',
+      ] as const) {
+        mirror.style[prop] = cs[prop];
+      }
+      mirror.style.width = `${el.clientWidth}px`;
+      // The zero-width space stops a trailing newline from collapsing, so the
+      // caret on a fresh empty line still measures as a line of its own.
+      mirror.textContent = el.value.slice(0, el.selectionStart) + '\u200B';
+
+      const lineHeight = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.8;
+      const caretBottom = mirror.offsetHeight - parseFloat(cs.paddingBottom);
+      const caretTop = caretBottom - lineHeight;
+
+      // Breathing room so the caret never sits flush against either edge.
+      const MARGIN = Math.round(lineHeight * 1.5);
+      const viewTop = body.scrollTop;
+      const viewBottom = viewTop + body.clientHeight;
+
+      if (caretBottom > viewBottom - MARGIN) {
+        body.scrollTop = caretBottom - body.clientHeight + MARGIN;
+      } else if (caretTop < viewTop + MARGIN) {
+        body.scrollTop = Math.max(0, caretTop - MARGIN);
+      }
+    };
+
+    // Runs after React has committed the new value, so the mirror measures the
+    // text the student can actually see.
+    const queueCaretScroll = () => requestAnimationFrame(scrollCaretIntoView);
 
     useImperativeHandle(ref, () => ({
       getText: () => value,
@@ -389,7 +490,11 @@ const Editor = forwardRef<
         className={`clip-stable flex flex-col w-full h-auto bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] overflow-hidden border-2 ${chroma.border} shadow-2xl ${chroma.glow} transition-all duration-700 ease-in-out ${className}`}
         style={{
           minHeight: minTotalHeight || '300px',
-          maxHeight: minTotalHeight ? `${Math.max(minTotalHeight, 800)}px` : undefined,
+          // Always capped — not only once the sync has settled. Before the
+          // first measurement lands, an unbounded card would grow with the
+          // draft instead of scrolling, which is exactly when a student with a
+          // long saved response needs the scrollbar.
+          maxHeight: `${MAX_CARD_HEIGHT}px`,
         }}
       >
         <div ref={contentWrapRef} className="flex flex-col flex-1 min-h-0">
@@ -588,7 +693,10 @@ const Editor = forwardRef<
           )}
 
           {/* Editor Body with Grid Stacking for Auto-Height */}
-          <div className="relative flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white overflow-y-auto min-h-0">
+          <div
+            ref={bodyRef}
+            className="relative flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white overflow-y-auto min-h-0"
+          >
             {/* Progress-Aware Background Bloom */}
             <div
               className="absolute inset-0 opacity-10 light:opacity-5 transition-all duration-1000 ease-in-out pointer-events-none"
@@ -600,10 +708,14 @@ const Editor = forwardRef<
 
             <MeshOverlay opacity="opacity-[0.04]" color={chroma.mesh} />
 
-            <div className="grid w-full relative z-10 h-full">
-              {/* Invisible phantom div to force height based on content */}
+            <div className="grid w-full relative z-10 min-h-full">
+              {/* Invisible phantom div to force height based on content. It is
+                also the card's natural-height probe, so `self-start` keeps it
+                at its content height instead of being stretched to fill the
+                row — the row is still sized by its content contribution. */}
               <div
-                className={`${gridStackItemStyles} invisible`}
+                ref={bodyContentRef}
+                className={`${gridStackItemStyles} invisible self-start`}
                 style={{ fontSize: `${internalFontSize}px` }}
               >
                 {value + ' '}
@@ -613,8 +725,15 @@ const Editor = forwardRef<
               <textarea
                 ref={textareaRef}
                 value={value}
-                onChange={(e) => onChange(e.target.value)}
+                onChange={(e) => {
+                  onChange(e.target.value);
+                  queueCaretScroll();
+                }}
                 onKeyDown={handleKeyDown}
+                // Arrow keys, Home/End and click-to-place move the caret
+                // without changing the text, so onChange never fires.
+                onKeyUp={queueCaretScroll}
+                onClick={queueCaretScroll}
                 onBlur={() => onSave?.()}
                 placeholder={
                   isExamMode ? 'Begin your response. The clock is running…' : placeholder
@@ -642,29 +761,37 @@ const Editor = forwardRef<
           {/* Footer Metrics */}
           <div
             ref={footerRef}
-            className={`px-4 sm:px-6 py-3 flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5 border-t border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50 rounded-b-[30px] transition-all duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
+            className={`px-4 sm:px-6 py-3 flex items-center border-t border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50 rounded-b-[30px] transition-all duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
             style={{ minHeight: minFooterHeight || 52 }}
           >
-            <div className="flex items-center gap-4 sm:gap-6 text-[10px] text-[rgb(var(--color-text-dim))] font-black uppercase tracking-widest select-none whitespace-nowrap">
-              <span className="flex items-center gap-1.5">
-                <Type className="w-3.5 h-3.5 opacity-50" /> {value.length}{' '}
-                {value.length === 1 ? 'Char' : 'Chars'}
-              </span>
-              <span className="flex items-center gap-1.5">
-                <FileText className="w-3.5 h-3.5 opacity-50" /> {wordCount}{' '}
-                {wordCount === 1 ? 'Word' : 'Words'}
-              </span>
-            </div>
-            <div className="flex items-center gap-2.5">
-              <div
-                className="w-2.5 h-2.5 rounded-full transition-colors duration-700 ring-2 ring-white/10"
-                style={{ backgroundColor: chroma.accent }}
-              />
-              <span className="text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-secondary))]">
-                {isExamMode
-                  ? 'Exam Conditions'
-                  : `Band ${chroma.targetBand} Target · ${chroma.name}`}
-              </span>
+            {/* Inner wrapper carries the row layout so its height stays
+              content-driven — the outer box is inflated by the synced
+              minFooterHeight and cannot be measured. */}
+            <div
+              ref={footerContentRef}
+              className="w-full flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5"
+            >
+              <div className="flex items-center gap-4 sm:gap-6 text-[10px] text-[rgb(var(--color-text-dim))] font-black uppercase tracking-widest select-none whitespace-nowrap">
+                <span className="flex items-center gap-1.5">
+                  <Type className="w-3.5 h-3.5 opacity-50" /> {value.length}{' '}
+                  {value.length === 1 ? 'Char' : 'Chars'}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <FileText className="w-3.5 h-3.5 opacity-50" /> {wordCount}{' '}
+                  {wordCount === 1 ? 'Word' : 'Words'}
+                </span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <div
+                  className="w-2.5 h-2.5 rounded-full transition-colors duration-700 ring-2 ring-white/10"
+                  style={{ backgroundColor: chroma.accent }}
+                />
+                <span className="text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-secondary))]">
+                  {isExamMode
+                    ? 'Exam Conditions'
+                    : `Band ${chroma.targetBand} Target · ${chroma.name}`}
+                </span>
+              </div>
             </div>
           </div>
         </div>
