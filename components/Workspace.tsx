@@ -16,7 +16,7 @@ import CommandTermGuideModal from './CommandTermGuideModal';
 import Breadcrumb from './Breadcrumb';
 import { getCommandTermInfo } from '../data/commandTerms';
 import { findAndUpdateItem } from '../utils/stateUtils';
-import { cardHeightCap, MIN_CARD_HEIGHT } from '../utils/layoutConstants';
+import { cardHeightCap, MIN_CARD_HEIGHT, isTwoColumnWidth } from '../utils/layoutConstants';
 import WorkspaceRightPanel from './WorkspaceRightPanel';
 import SampleAnswersAccordion from './SampleAnswersAccordion';
 import { isCurriculumRemote } from '../services/curriculumService';
@@ -148,12 +148,28 @@ const Workspace: React.FC<WorkspaceProps> = ({
   const [heightCap, setHeightCap] = useState(() =>
     cardHeightCap(typeof window === 'undefined' ? 900 : window.innerHeight)
   );
+  // Whether the two cards are actually side by side. Below `lg` the grid stacks
+  // them, and in Focus Mode there is only ever one column, so in both cases the
+  // cross-card sync has nothing to align and is suppressed entirely.
+  const [isSideBySide, setIsSideBySide] = useState(() =>
+    typeof window === 'undefined' ? true : isTwoColumnWidth(window.innerWidth)
+  );
   useEffect(() => {
-    const update = () => setHeightCap(cardHeightCap(window.innerHeight));
+    const update = () => {
+      setHeightCap(cardHeightCap(window.innerHeight));
+      setIsSideBySide(isTwoColumnWidth(window.innerWidth));
+    };
     update();
     window.addEventListener('resize', update);
     return () => window.removeEventListener('resize', update);
   }, []);
+
+  const syncChrome = isSideBySide && !isFocusMode;
+  // `undefined` rather than 0 so each card falls back to its own natural
+  // sizing: content-height chrome, and a writing area free to grow to its cap.
+  const syncedHeader = syncChrome ? syncedHeaderHeight : undefined;
+  const syncedFooter = syncChrome ? syncedFooterHeight : undefined;
+  const syncedTotal = syncChrome ? syncedTotalHeight : undefined;
 
   // The prompt's own content height, floored so a one-line question still
   // leaves somewhere to write and capped so a very long scenario scrolls
@@ -345,11 +361,11 @@ const Workspace: React.FC<WorkspaceProps> = ({
               fontSize={promptFontSize}
               onFontSizeChange={setPromptFontSize}
               onHeaderResize={setPromptHeaderHeight}
-              minHeaderHeight={syncedHeaderHeight}
+              minHeaderHeight={syncedHeader}
               onTotalHeightChange={setPromptTotalHeight}
               onFooterResize={setPromptFooterHeight}
-              minFooterHeight={syncedFooterHeight}
-              minTotalHeight={syncedTotalHeight}
+              minFooterHeight={syncedFooter}
+              minTotalHeight={syncedTotal}
               breadcrumb={breadcrumbItems.map((b) => b.label)}
             />
           </div>
@@ -380,7 +396,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
               fontSize={promptFontSize}
               onFontSizeChange={setPromptFontSize}
               onHeaderResize={setPromptHeaderHeight}
-              minHeaderHeight={syncedHeaderHeight}
+              minHeaderHeight={syncedHeader}
               condensed
               breadcrumb={breadcrumbItems.map((b) => b.label)}
             />
@@ -410,10 +426,10 @@ const Workspace: React.FC<WorkspaceProps> = ({
           promptFontSize={promptFontSize}
           onPromptFontSizeChange={setPromptFontSize}
           onHeaderResize={setEditorHeaderHeight}
-          minHeaderHeight={syncedHeaderHeight}
-          minEditorHeight={syncedTotalHeight}
+          minHeaderHeight={syncedHeader}
+          minEditorHeight={syncedTotal}
           onFooterResize={setEditorFooterHeight}
-          minFooterHeight={syncedFooterHeight}
+          minFooterHeight={syncedFooter}
           writingMode={writingMode}
           onWritingModeChange={onWritingModeChange}
           sampleAnswersSlot={isFocusMode && !isExamMode ? sampleAnswersCard : undefined}

@@ -565,11 +565,13 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               minFooterHeight and cannot be measured. */}
             <div
               ref={footerContentRef}
-              className="w-full flex flex-wrap items-center gap-x-6 gap-y-3"
+              className="w-full flex flex-wrap items-center gap-x-3 sm:gap-x-6 gap-y-3"
             >
-              {/* On phones: label + zoom share the first row, outcome chips wrap
-                to a full-width second row. From sm up: label | chips | zoom. */}
-              <div className="order-1 flex items-center gap-4 flex-shrink-0">
+              {/* On phones: label and the flag/zoom controls share the first row
+                and the outcome chips wrap to a full-width second row — two rows,
+                not three. The label may shrink (`min-w-0`) to keep it that way.
+                From sm up: label | chips | controls. */}
+              <div className="order-1 flex items-center gap-2 sm:gap-4 min-w-0">
                 {/* The whole label is the entry point, not just the chips. The
                   chips say WHICH outcomes apply; this says what opening them
                   gets you — a plain-English brief on what the markers want,
@@ -578,18 +580,25 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   <button
                     onClick={() => handleOutcomeClickInternal(linkedOutcomes[0])}
                     title="Open the outcome brief — what this question is assessing, in plain English"
-                    className={`flex items-center gap-3 group/link rounded-xl pr-3 -ml-1 pl-1 py-1 transition-all hover:bg-white/5 light:hover:bg-slate-100 active:scale-[0.98] ${bandConfig.border} border border-transparent hover:border-current/10`}
+                    className={`flex items-center gap-2 sm:gap-3 group/link rounded-xl pr-1.5 sm:pr-3 -ml-1 pl-1 py-1 transition-all hover:bg-white/5 light:hover:bg-slate-100 active:scale-[0.98] ${bandConfig.border} border border-transparent hover:border-current/10`}
                   >
+                    {/* Decorative icon tile — the inline Sparkles carries the
+                      "there is something to read here" cue on its own, so the
+                      tile is dropped on phones to buy the row its 44px. */}
                     <div
                       className={`
-                                  p-2.5 rounded-xl border shadow-sm backdrop-blur-sm transition-all duration-300
+                                  hidden sm:block p-2.5 rounded-xl border shadow-sm backdrop-blur-sm transition-all duration-300
                                   ${bandConfig.bg} border-white/10 group-hover/link:scale-110
                               `}
                     >
                       <Link2 className={`w-4 h-4 ${bandConfig.text}`} />
                     </div>
                     <div className="flex flex-col text-left">
-                      <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 light:text-slate-500 leading-none mb-1">
+                      {/* The eyebrow is the first casualty on a phone: it is the
+                        widest element in the row and "What's assessed" already
+                        says what the button does. Dropping it below sm keeps
+                        this footer to two rows instead of three. */}
+                      <span className="hidden sm:block text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 light:text-slate-500 leading-none mb-1">
                         Before you write
                       </span>
                       <span
@@ -677,7 +686,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               <div className="order-2 sm:order-3 flex items-center gap-2 ml-auto flex-shrink-0">
                 <button
                   onClick={() => setIsFlagModalOpen(true)}
-                  className={`p-2 rounded-lg border transition-all ${
+                  className={`p-1.5 sm:p-2 rounded-lg border transition-all ${
                     hasOpenFlag
                       ? 'bg-amber-500/15 border-amber-500/40 text-amber-500 hover:bg-amber-500/25'
                       : 'bg-black/10 light:bg-slate-200/50 border-white/10 light:border-slate-300 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-amber-500'
@@ -694,7 +703,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 <div className="flex items-center gap-1 bg-black/10 light:bg-slate-200/50 backdrop-blur-xl p-1 rounded-lg border border-white/10 light:border-slate-300 shadow-inner">
                   <button
                     onClick={() => onFontSizeChange(Math.max(12, fontSize - 2))}
-                    className="p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-md transition-colors"
+                    className="p-1 sm:p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-md transition-colors"
                     title="Decrease font size"
                   >
                     <ZoomOut className="w-3.5 h-3.5" />
@@ -704,7 +713,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   </span>
                   <button
                     onClick={() => onFontSizeChange(Math.min(48, fontSize + 2))}
-                    className="p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-md transition-colors"
+                    className="p-1 sm:p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-md transition-colors"
                     title="Increase font size"
                   >
                     <ZoomIn className="w-3.5 h-3.5" />

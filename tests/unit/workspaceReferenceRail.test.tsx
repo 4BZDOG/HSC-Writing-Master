@@ -4,6 +4,7 @@ import { render, screen, fireEvent, cleanup, within } from '@testing-library/rea
 import ReferenceMaterials from '../../components/ReferenceMaterials';
 import SampleAnswersAccordion from '../../components/SampleAnswersAccordion';
 import { Prompt, CourseOutcome, PromptVerb, Topic } from '../../types';
+import { isTwoColumnWidth, TWO_COLUMN_BREAKPOINT } from '../../utils/layoutConstants';
 
 /**
  * Ordering and communication contract for the workspace's left reference rail
@@ -171,5 +172,18 @@ describe('SampleAnswersAccordion', () => {
     expect(screen.getByText('20')).toBeTruthy();
     fireEvent.click(screen.getByTitle(/Increase text size/i));
     expect(onFontSizeChange).toHaveBeenCalledWith(22);
+  });
+});
+
+describe('card chrome sync', () => {
+  it('only applies when the two cards are side by side', () => {
+    // The header/footer/height sync exists so the prompt and the writing area
+    // line up as columns. Below `lg` the grid stacks them, and a prompt footer
+    // that wraps its outcome chips onto three rows was dragging the writing
+    // area's 41px footer to 163px of empty space.
+    expect(isTwoColumnWidth(1600)).toBe(true);
+    expect(isTwoColumnWidth(TWO_COLUMN_BREAKPOINT)).toBe(true);
+    expect(isTwoColumnWidth(TWO_COLUMN_BREAKPOINT - 1)).toBe(false);
+    expect(isTwoColumnWidth(390)).toBe(false);
   });
 });
