@@ -129,6 +129,14 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
 
   const canCurate = canCurateContent(userRole);
   const canGenerate = canUseAiGeneration(userRole);
+
+  // A question with no scenario shows the "Context Scenario" heading and its
+  // dashed placeholder only to someone who can actually add one. To a student it
+  // was ~130px of "No scenario provided." inside a card whose height is capped —
+  // space the question itself can use instead. Same reasoning as `condensed`,
+  // extended to Exam Mode and to viewers without curation rights.
+  const showScenarioSection =
+    !!prompt.scenario || isEditingScenario || !(condensed || examMode || !canCurate);
   const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
   // The band a full-mark response reaches — used in COPY only ("Band 2").
   const targetBand = useMemo(
@@ -272,7 +280,10 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
         {/* Header Container */}
         <div
           ref={headerRef}
-          className={`px-4 sm:px-8 py-4 sm:py-5 bg-gradient-to-r ${bandConfig.gradient} text-white flex justify-between items-start relative overflow-hidden flex-shrink-0 rounded-t-[30px]`}
+          // Centred for the same reason as the editor's header: whichever of the
+          // two cards has the shorter header is stretched to match the other, and
+          // top-pinned content left a slab of empty band colour beneath it.
+          className={`px-4 sm:px-8 py-4 sm:py-5 bg-gradient-to-r ${bandConfig.gradient} text-white flex justify-between items-center relative overflow-hidden flex-shrink-0 rounded-t-[30px]`}
           style={{ minHeight: minHeaderHeight ? `${minHeaderHeight}px` : 'auto' }}
         >
           <MeshOverlay opacity="opacity-20" />
@@ -362,7 +373,15 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
         <div ref={bodyRef} className="flex-1 flex flex-col min-h-0 overflow-y-auto">
           <div
             ref={bodyContentRef}
-            className={`${condensed ? 'p-6 sm:p-8' : 'p-6 sm:p-8 pb-4 sm:pb-4'} relative z-10 flex flex-col gap-6 sm:gap-8`}
+            // `my-auto` when the question stands alone: the card is floored at
+            // MIN_CARD_HEIGHT so the writing area beside it stays usable, and a
+            // lone one-line question pinned to the top left the rest of the card
+            // reading as blank. Auto margins collapse to 0 the moment the
+            // content is taller than the body, so long questions still start at
+            // the top and scroll normally.
+            className={`${condensed ? 'p-6 sm:p-8' : 'p-6 sm:p-8 pb-4 sm:pb-4'} ${
+              showScenarioSection ? '' : 'my-auto'
+            } relative z-10 flex flex-col gap-6 sm:gap-8`}
           >
             {/* Question Section - "The Canvas" */}
             <div className="group/question relative pt-2">
@@ -425,8 +444,8 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               )}
             </div>
 
-            {/* Scenario Section - "The Context" */}
-            {!(condensed && !prompt.scenario && !isEditingScenario) && (
+            {/* Scenario Section - "The Context" (see `showScenarioSection`) */}
+            {showScenarioSection && (
               <div className="relative group/scenario">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500 light:text-slate-600 flex items-center gap-2">

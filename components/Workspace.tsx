@@ -363,7 +363,11 @@ const Workspace: React.FC<WorkspaceProps> = ({
           reference material — instead of burying the editor beneath the
           reference accordions. */}
       <div
-        className={`grid grid-cols-1 ${isFocusMode ? 'w-full' : 'lg:grid-cols-12 lg:grid-rows-[auto,1fr]'} gap-6 flex-1 min-h-0 transition-all duration-500`}
+        // No transition on this grid: `grid-template-columns` cannot interpolate
+        // between `none` and a 12-column track list, so `transition-all` animated
+        // nothing useful here — it only kept the composited cards in motion while
+        // Focus Mode added or removed whole columns, leaving stale paint behind.
+        className={`grid grid-cols-1 ${isFocusMode ? 'w-full' : 'lg:grid-cols-12 lg:grid-rows-[auto,1fr]'} gap-6 flex-1 min-h-0`}
       >
         {!isFocusMode && (
           <div

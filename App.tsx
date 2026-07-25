@@ -420,6 +420,23 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     return () => document.body.classList.remove('focus-mode');
   }, [isFocusMode]);
 
+  // Entering or leaving Focus Mode adds/removes whole columns of the workspace.
+  // Everything that sizes itself from a measurement — the two-column card sync
+  // (ResizeObserver) and the viewport-derived height cap (a `resize` listener) —
+  // has to re-run against the new layout, and a stale reading leaves cards
+  // sized for a layout that is no longer on screen. Nudge both once the new
+  // layout has been laid out (two frames: one to commit, one to measure).
+  useEffect(() => {
+    let second = 0;
+    const first = requestAnimationFrame(() => {
+      second = requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+    });
+    return () => {
+      cancelAnimationFrame(first);
+      if (second) cancelAnimationFrame(second);
+    };
+  }, [isFocusMode]);
+
   // Fold the syllabus navigator down to a breadcrumb the moment a question is
   // chosen, and re-open it whenever the selection is cleared. Keyed on the
   // selected prompt id only, so pressing "Change" (which just expands) is never
@@ -805,8 +822,12 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         </header>
       )}
 
+      {/* Only the padding actually changes when Focus Mode toggles. `transition-all`
+          here also animated properties that keep every composited card in the
+          workspace moving for half a second while the grid re-flows underneath
+          them — the window in which stale tiles were being left behind. */}
       <div
-        className={`relative max-w-[1600px] mx-auto ${isFocusMode ? 'p-2 sm:p-4 pt-16 sm:pt-16' : 'p-4 sm:p-6 lg:p-8'} flex flex-col gap-6 transition-all duration-500`}
+        className={`relative max-w-[1600px] mx-auto ${isFocusMode ? 'p-2 sm:p-4 pt-16 sm:pt-16' : 'p-4 sm:p-6 lg:p-8'} flex flex-col gap-6 transition-[padding] duration-500`}
       >
         {!isFocusMode && <BillingAlertBanner />}
 
