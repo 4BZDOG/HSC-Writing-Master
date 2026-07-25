@@ -56,3 +56,18 @@ is ever wanted again, restore by SHA above and rebase onto `main`.
 | `claude/review-and-fix-bugs-mQ31v` | `852f91116ba6f09404552dcc2243dabf46cd2aa4` | **never merged** - no PR ever opened |
 | `claude/student-writing-area-review-wo6uz7` | `97ff4c20ff765494891ef200912ef31f69a0bf6b` | **never merged** - no PR ever opened |
 | `claude/ui-improvements-desktop-mobile-fmiknl` | `eb73bdebe0193d3ccc51efba4a552a859f3649b6` | **never merged** - no PR ever opened |
+
+## How to run the deletion
+
+Branch deletion is blocked from the Claude Code web sandbox (the git proxy
+returns 403 on any ref delete), so run this from a local clone:
+
+```sh
+git fetch --prune origin
+git ls-remote --heads origin \
+  | awk '{print $2}' | sed 's|refs/heads/||' \
+  | grep '^claude/' \
+  | xargs -n 20 git push origin --delete
+```
+
+Or delete them from the GitHub UI at **Branches → All branches**.
