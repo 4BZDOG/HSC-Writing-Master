@@ -67,29 +67,30 @@ const MetricCard = ({
   theme: BandConfig;
 }) => (
   <div
-    className={`bg-white dark:bg-white/5 rounded-3xl p-5 border border-slate-100 dark:border-white/5 shadow-sm flex flex-col justify-between h-full relative overflow-hidden group hover:shadow-md transition-all duration-300`}
+    className={`bg-white dark:bg-white/5 rounded-3xl p-4 sm:p-5 border border-slate-100 dark:border-white/5 shadow-sm flex flex-col gap-3 h-full relative overflow-hidden group hover:shadow-md transition-all duration-300`}
   >
-    <div className="flex justify-between items-start mb-2">
+    {/* Icon sits inline with its label rather than floating in its own row —
+        keeps the tile compact so the score placard beside it doesn't have to
+        stretch to match an artificially tall column. */}
+    <div className="flex items-center gap-2.5">
       <div
-        className={`p-2.5 rounded-2xl ${theme.bg} ${theme.text} group-hover:scale-110 transition-transform duration-300`}
+        className={`p-2 rounded-xl shrink-0 ${theme.bg} ${theme.text} group-hover:scale-110 transition-transform duration-300`}
       >
-        <Icon className="w-5 h-5" />
+        <Icon className="w-4 h-4" />
       </div>
-    </div>
-    <div>
-      <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">
+      <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 truncate">
         {label}
       </h4>
-      <div className="flex items-baseline gap-2">
-        <span className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
-          {value}
+    </div>
+    <div className="flex items-baseline gap-1.5 mt-auto">
+      <span className="text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-none">
+        {value}
+      </span>
+      {subtext && (
+        <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+          {subtext}
         </span>
-        {subtext && (
-          <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-            {subtext}
-          </span>
-        )}
-      </div>
+      )}
     </div>
   </div>
 );
@@ -105,26 +106,21 @@ const BandGoalCard = ({ currentBand, maxBand }: { currentBand: number; maxBand: 
   const rungs = Array.from({ length: maxBand }, (_, i) => i + 1);
 
   return (
-    <div className="bg-white dark:bg-white/5 rounded-3xl p-5 border border-slate-100 dark:border-white/5 shadow-sm flex flex-col justify-between h-full relative overflow-hidden group hover:shadow-md transition-all duration-300">
-      <div className="flex justify-between items-start mb-3">
+    <div className="bg-white dark:bg-white/5 rounded-3xl p-4 sm:p-5 border border-slate-100 dark:border-white/5 shadow-sm flex flex-col justify-between gap-3 h-full relative overflow-hidden group hover:shadow-md transition-all duration-300">
+      <div className="flex items-center gap-2.5">
         <div
-          className={`p-2.5 rounded-2xl ${goalConfig.bg} ${goalConfig.text} group-hover:scale-110 transition-transform duration-300`}
+          className={`p-2 rounded-xl shrink-0 ${goalConfig.bg} ${goalConfig.text} group-hover:scale-110 transition-transform duration-300`}
         >
-          <Trophy className="w-5 h-5" />
+          <Trophy className="w-4 h-4" />
         </div>
-      </div>
-      <div>
-        <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">
+        <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 truncate">
           Band {maxBand} Goal
         </h4>
-        <div className="flex items-baseline gap-2 mb-4">
-          <span className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
-            {reached ? 'Achieved' : `${bandsAway} band${bandsAway === 1 ? '' : 's'} to go`}
-          </span>
-          <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-            {getBandName(currentBand)}
-          </span>
-        </div>
+      </div>
+      <div>
+        <span className="block text-2xl font-black text-slate-900 dark:text-white tracking-tight leading-none mb-3">
+          {reached ? 'Achieved' : `${bandsAway} band${bandsAway === 1 ? '' : 's'} to go`}
+        </span>
         <div
           className="flex gap-1"
           role="img"
@@ -152,6 +148,11 @@ const BandGoalCard = ({ currentBand, maxBand }: { currentBand: number; maxBand: 
             </div>
           ))}
         </div>
+        {/* The band name belongs to the CURRENT band, so it reads as a caption
+            on the meter rather than as a modifier of "n bands to go" above. */}
+        <p className="mt-2.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+          Now Band {currentBand} · {getBandName(currentBand)}
+        </p>
       </div>
     </div>
   );
@@ -367,12 +368,14 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
         </div>
       )}
 
-      {/* Hero Question Context */}
-      <div className="pt-2 pb-6 px-2">
+      {/* Hero Question Context — left edge aligns with the cards below it, and
+          the trail/meta/question sit on a tightening rhythm so the question
+          reads as the heading of the whole report. */}
+      <header className="flex flex-col gap-3">
         {syllabusTrail.length > 0 && (
           <nav
             aria-label="Syllabus location"
-            className="flex flex-wrap items-center gap-x-1.5 gap-y-1 mb-3 text-slate-500 dark:text-slate-400"
+            className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-slate-500 dark:text-slate-400"
           >
             {syllabusTrail.map((segment, i) => (
               <React.Fragment key={i}>
@@ -387,57 +390,76 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             ))}
           </nav>
         )}
-        <div className="flex items-center gap-3 mb-4 opacity-60">
-          <span className="text-[10px] font-black uppercase tracking-[0.2em]">{prompt.verb}</span>
-          <div className="h-px w-8 bg-current"></div>
-          <span className="text-[10px] font-black uppercase tracking-[0.2em]">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-[0.15em] bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300">
+            {prompt.verb}
+          </span>
+          <span className="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-[0.15em] bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300">
             {prompt.totalMarks} Marks
           </span>
         </div>
-        <h2 className="text-2xl md:text-3xl font-serif font-medium text-slate-900 dark:text-white leading-tight">
+        <h2 className="text-xl md:text-2xl font-serif font-medium text-slate-900 dark:text-white leading-snug max-w-3xl">
           {renderFormattedText(prompt.question, prompt.keywords, prompt.verb)}
         </h2>
-      </div>
+      </header>
 
       {/* Score & Metrics Dashboard */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
         {/* Main Vibrant Placard */}
         <div
-          className={`clip-stable lg:col-span-7 relative rounded-[32px] overflow-hidden p-8 shadow-xl transition-all duration-500 bg-gradient-to-br ${bandConfig.gradient}`}
+          className={`clip-stable lg:col-span-7 relative rounded-[32px] overflow-hidden p-7 sm:p-8 shadow-xl transition-all duration-500 bg-gradient-to-br ${bandConfig.gradient}`}
         >
           <MeshOverlay opacity="opacity-[0.15]" />
 
-          <div className="relative z-10 flex flex-col justify-between h-full gap-8 text-white">
-            <div className="flex justify-between items-start">
-              <div>
-                <div
-                  className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/20 mb-4 shadow-sm backdrop-blur-md bg-white/20`}
-                >
-                  <Award className="w-3.5 h-3.5" />
-                  <span className="text-[10px] font-black uppercase tracking-widest">
-                    Band {result.overallBand} Performance
-                  </span>
+          <div className="relative z-10 flex flex-col justify-between h-full gap-6 text-white">
+            <div className="flex flex-col gap-5">
+              <div className="flex justify-between items-start gap-4">
+                <div className="min-w-0">
+                  <div
+                    className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/20 mb-4 shadow-sm backdrop-blur-md bg-white/20`}
+                  >
+                    <Award className="w-3.5 h-3.5" />
+                    <span className="text-[10px] font-black uppercase tracking-widest">
+                      Band {result.overallBand} · {getBandName(result.overallBand)}
+                    </span>
+                  </div>
+                  <h1 className="text-6xl sm:text-7xl font-black tracking-tighter leading-none">
+                    {result.overallMark}
+                    <span className="text-3xl font-medium align-top opacity-60">
+                      /{prompt.totalMarks}
+                    </span>
+                  </h1>
+                  <p className="text-xs font-bold opacity-80 mt-2 tracking-[0.15em] uppercase">
+                    Assessment Score
+                  </p>
                 </div>
-                <h1 className="text-6xl font-black tracking-tighter leading-none">
-                  {result.overallMark}
-                  <span className="text-3xl font-medium align-top opacity-60">
-                    /{prompt.totalMarks}
-                  </span>
-                </h1>
-                <p className="text-sm font-bold opacity-80 mt-2 tracking-wide uppercase">
-                  Assessment Score
-                </p>
+                <div
+                  className={`w-14 h-14 shrink-0 rounded-2xl flex items-center justify-center bg-white/20 backdrop-blur-md border border-white/20 shadow-xl no-print`}
+                >
+                  {result.overallBand >= 5 ? (
+                    <Trophy className="w-7 h-7 text-white" />
+                  ) : result.overallBand >= 3 ? (
+                    <Target className="w-7 h-7 text-white" />
+                  ) : (
+                    <AlertTriangle className="w-7 h-7 text-white" />
+                  )}
+                </div>
               </div>
+
+              {/* Marks awarded as a share of the total — gives the placard's
+                middle a purpose instead of leaving a gradient void when the
+                column stretches to match the metrics beside it. */}
               <div
-                className={`w-16 h-16 rounded-2xl flex items-center justify-center bg-white/20 backdrop-blur-md border border-white/20 shadow-xl no-print`}
+                className="h-1.5 w-full rounded-full bg-white/25 overflow-hidden"
+                role="img"
+                aria-label={`${result.overallMark} of ${prompt.totalMarks} marks awarded`}
               >
-                {result.overallBand >= 5 ? (
-                  <Trophy className="w-8 h-8 text-white" />
-                ) : result.overallBand >= 3 ? (
-                  <Target className="w-8 h-8 text-white" />
-                ) : (
-                  <AlertTriangle className="w-8 h-8 text-white" />
-                )}
+                <div
+                  className="h-full rounded-full bg-white/90 transition-all duration-700"
+                  style={{
+                    width: `${prompt.totalMarks > 0 ? Math.min(100, (result.overallMark / prompt.totalMarks) * 100) : 0}%`,
+                  }}
+                />
               </div>
             </div>
 
@@ -489,10 +511,8 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
 
         {/* Goal + Metrics */}
         <div className="lg:col-span-5 flex flex-col gap-4">
-          <div className="flex-1">
-            <BandGoalCard currentBand={result.overallBand} maxBand={maxBand} />
-          </div>
-          <div className="grid grid-cols-2 gap-4 flex-1">
+          <BandGoalCard currentBand={result.overallBand} maxBand={maxBand} />
+          <div className="grid grid-cols-2 gap-4">
             <MetricCard
               label="Volume"
               value={wordCount}
