@@ -7,6 +7,7 @@ import {
   type QuotaVerdict,
 } from './_lib/quota';
 import { corsHeadersFor } from './_lib/cors';
+import { isEvaluationRequest, redactEvaluationResponse } from './_lib/entitlements';
 
 /**
  * Vercel serverless function: POST /api/gemini
@@ -51,14 +52,6 @@ const requestModel = (body: unknown): string | undefined => {
   return typeof model === 'string' ? model : undefined;
 };
 
-/** The product feature the call belongs to, when the client tagged it
- *  (`__feature`). Only 'evaluation' is metered; the tag is stripped in
- *  _lib/providers.ts so it never reaches a provider SDK. */
-const requestFeature = (body: unknown): string | undefined => {
-  const feature = (body as { __feature?: unknown } | null | undefined)?.__feature;
-  return typeof feature === 'string' ? feature : undefined;
-};
-
 export default async function handler(req: RequestLike, res: ResponseLike): Promise<void> {
   // Opt-in CORS for split hosting (static frontend elsewhere, API here).
   // No ALLOWED_ORIGIN configured → no CORS headers → same-origin only.
@@ -95,6 +88,11 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   // authenticated callers — when auth is disabled (no Supabase) there is no
   // identity to meter, matching the auth gate.
   let quota: QuotaVerdict | null = null;
+  // Whether this call is a marking run, and whether its result has to be
+  // trimmed to what the free tier has paid for (decided below, applied to the
+  // provider response at the end of the handler).
+  let isEvaluation = false;
+  let onFreeTier = false;
   if (auth.userId) {
     const token = extractBearerToken(authHeader);
 
@@ -102,7 +100,8 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     // §14). Checked BEFORE the AI budget so a refused evaluation doesn't spend
     // a call the user never got. Only bites on the free tier; staff and paid
     // plans resolve to unlimited server-side.
-    if (token && requestFeature(req.body) === 'evaluation') {
+    if (token && isEvaluationRequest(req.body)) {
+      isEvaluation = true;
       const evaluations = await consumeEvaluation(token);
       if (evaluations && !evaluations.allowed) {
         res.status(402).json({
@@ -112,6 +111,10 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
         });
         return;
       }
+      // The verdict doubles as the caller's plan: `unlimited` is true for
+      // staff, paid plans and licensed schools. A false here means the free
+      // tier, whose result must be redacted before it leaves the server.
+      onFreeTier = evaluations ? !evaluations.unlimited : false;
     }
 
     quota = token ? await consumeAiQuota(token) : null;
@@ -143,6 +146,17 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   };
   const result = await runAiProxy(req.body, keys);
 
+  // Enforce the content paywall HERE, not in the UI. The client blurs locked
+  // feedback, but blurred text is still in the DOM and readable in devtools —
+  // so the criterion-by-criterion detail, the improvement path and the
+  // rewritten answer are removed from a free-tier result before it is sent.
+  // Marks and bands are preserved, so the summary the free tier is promised
+  // (and every downstream stat) still works.
+  const payload =
+    isEvaluation && onFreeTier && result.status === 200
+      ? redactEvaluationResponse(result.body)
+      : result.body;
+
   // Echo the caller's post-call usage on success so the client can warn as the
   // budget runs low (80% / 100%) without a separate round trip. Additive and
   // ignored by provider-response consumers; only attached to a plain object
@@ -150,13 +164,13 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   const body =
     quota &&
     result.status === 200 &&
-    result.body &&
-    typeof result.body === 'object' &&
-    !Array.isArray(result.body)
+    payload &&
+    typeof payload === 'object' &&
+    !Array.isArray(payload)
       ? {
-          ...(result.body as Record<string, unknown>),
+          ...(payload as Record<string, unknown>),
           __quota: { used: quota.used, limit: quota.limit },
         }
-      : result.body;
+      : payload;
   res.status(result.status).json(body);
 }

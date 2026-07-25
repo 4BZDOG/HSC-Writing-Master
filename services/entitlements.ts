@@ -469,7 +469,19 @@ export interface BillingAlert {
   currentPeriodEnd: string | null;
 }
 
-export const fetchBillingAlert = async (): Promise<BillingAlert | null> => {
+/**
+ * The signed-in user's newest subscription row, as the client is allowed to
+ * see it. `cancelAtPeriodEnd` is what stops the profile claiming a cancelled
+ * subscription "renews" on the very date it actually ends.
+ */
+export interface BillingState {
+  status: string;
+  plan: string;
+  currentPeriodEnd: string | null;
+  cancelAtPeriodEnd: boolean;
+}
+
+export const fetchBillingState = async (): Promise<BillingState | null> => {
   try {
     const { supabase } = await import('./supabaseClient');
     if (!supabase) return null;
@@ -481,21 +493,31 @@ export const fetchBillingAlert = async (): Promise<BillingAlert | null> => {
     if (!userId) return null;
     const { data, error } = await supabase
       .from('subscriptions')
-      .select('status, plan, current_period_end')
+      .select('status, plan, current_period_end, cancel_at_period_end')
       .eq('user_id', userId)
       .order('current_period_end', { ascending: false })
       .limit(1)
       .maybeSingle();
     if (error || !data) return null;
-    if (data.status !== 'past_due') return null;
     return {
-      status: 'past_due',
+      status: typeof data.status === 'string' ? data.status : 'unknown',
       plan: typeof data.plan === 'string' ? data.plan : 'plus',
       currentPeriodEnd: data.current_period_end ?? null,
+      cancelAtPeriodEnd: data.cancel_at_period_end === true,
     };
   } catch {
     return null;
   }
+};
+
+export const fetchBillingAlert = async (): Promise<BillingAlert | null> => {
+  const state = await fetchBillingState();
+  if (!state || state.status !== 'past_due') return null;
+  return {
+    status: 'past_due',
+    plan: state.plan,
+    currentPeriodEnd: state.currentPeriodEnd,
+  };
 };
 
 /**

@@ -50,6 +50,13 @@ Practical checks before committing (can't be done from here):
   database (`consume_evaluation()`, schema §14), spent by the AI proxy on every
   marking call; the localStorage counter in `entitlements.ts` is only there so
   the UI can show "3 of 5 left" without a round trip.
+
+  "Summary feedback" is enforced on the SERVER (`api/_lib/entitlements.ts`):
+  the criterion-by-criterion prose, the improvement path and the rewritten
+  answer are stripped from a free-tier marking result before it is sent. The
+  UI's blur is presentation only — blurred text still sits in the DOM, so it
+  is not a paywall. Marks and bands are never redacted, so the summary and
+  every stat built on them keep working.
 - **Plus (individual)** — A$7.99/month or A$59/year. Everything unlocked.
   Anchor the yearly price against one hour of private tutoring (~A$60–90 in
   Sydney): "a year of unlimited marking for the price of one tutoring hour".

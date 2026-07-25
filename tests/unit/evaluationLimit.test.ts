@@ -109,3 +109,97 @@ describe('api/gemini free-tier evaluation gate', () => {
     expect(runAiProxyMock).toHaveBeenCalled();
   });
 });
+
+describe('api/gemini free-tier content redaction', () => {
+  const markingResult = {
+    overallMark: 7,
+    overallBand: 5,
+    overallFeedback: 'Sound response.',
+    quickTip: 'Name the term first.',
+    strengths: ['Clear thesis'],
+    improvements: ['Sustain the judgement'],
+    criteria: [{ criterion: 'Analysis', mark: 4, maxMark: 6, feedback: 'Secret paid detail.' }],
+    revisedAnswer: 'A band 6 rewrite…',
+  };
+
+  const proxyReturnsMarking = () =>
+    runAiProxyMock.mockResolvedValue({
+      status: 200,
+      body: { candidates: [{ content: { parts: [{ text: JSON.stringify(markingResult) }] } }] },
+    });
+
+  const markingTextFrom = (body: unknown): string =>
+    (body as { candidates: Array<{ content: { parts: Array<{ text: string }> } }> }).candidates[0]
+      .content.parts[0].text;
+
+  it('strips paid feedback from a free-tier result before it leaves the server', async () => {
+    consumeEvaluationMock.mockResolvedValue({
+      allowed: true,
+      used: 1,
+      limit: 5,
+      unlimited: false,
+    });
+    proxyReturnsMarking();
+
+    const res = makeRes();
+    await handler(post(evaluationRequest), res);
+
+    const text = markingTextFrom(res.body);
+    // The blur in the UI is cosmetic; this is the gate. The paid prose must
+    // not be in the response at all.
+    expect(text).not.toContain('Secret paid detail.');
+    expect(text).not.toContain('A band 6 rewrite');
+    // The promised summary survives.
+    const parsed = JSON.parse(text);
+    expect(parsed.overallMark).toBe(7);
+    expect(parsed.overallBand).toBe(5);
+    expect(parsed.criteria[0].mark).toBe(4);
+  });
+
+  it('sends the full result to a paid caller', async () => {
+    consumeEvaluationMock.mockResolvedValue({ allowed: true, used: 0, limit: -1, unlimited: true });
+    proxyReturnsMarking();
+
+    const res = makeRes();
+    await handler(post(evaluationRequest), res);
+
+    expect(markingTextFrom(res.body)).toContain('Secret paid detail.');
+  });
+
+  it('redacts a request whose __feature tag was stripped to dodge the gate', async () => {
+    consumeEvaluationMock.mockResolvedValue({
+      allowed: true,
+      used: 1,
+      limit: 5,
+      unlimited: false,
+    });
+    proxyReturnsMarking();
+
+    const res = makeRes();
+    await handler(
+      post({
+        provider: 'gemini',
+        model: 'gemini-3-flash',
+        config: {
+          responseSchema: { required: ['overallMark', 'overallBand', 'criteria'] },
+        },
+      }),
+      res
+    );
+
+    expect(consumeEvaluationMock).toHaveBeenCalled();
+    expect(markingTextFrom(res.body)).not.toContain('Secret paid detail.');
+  });
+
+  it('leaves the result alone when the gate cannot be evaluated (fail-open)', async () => {
+    // consume_evaluation unavailable → we don't know the caller's plan, so we
+    // must not redact; breaking marking for paying users is the worse failure.
+    consumeEvaluationMock.mockResolvedValue(null);
+    proxyReturnsMarking();
+
+    const res = makeRes();
+    await handler(post(evaluationRequest), res);
+
+    expect(markingTextFrom(res.body)).toContain('Secret paid detail.');
+  });
+});
