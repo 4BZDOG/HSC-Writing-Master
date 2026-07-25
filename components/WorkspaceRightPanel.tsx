@@ -280,6 +280,41 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
         </div>
       </div>
 
+      {/* Evaluation failure belongs beside the button that caused it. Rendered
+          at the foot of the column it landed ~1000px below the Evaluate
+          control — a student waited fifteen seconds and saw nothing happen. */}
+      {evaluationError && (
+        <div className="bg-red-500/10 light:bg-red-50 border border-red-500/20 light:border-red-200 text-red-400 light:text-red-700 p-8 rounded-[40px] animate-fade-in flex items-start gap-5 shadow-2xl shadow-red-900/10 backdrop-blur-xl">
+          <div className="p-3 rounded-2xl bg-red-500/20">
+            <AlertTriangle className="w-6 h-6 shrink-0" />
+          </div>
+          <div>
+            <h4 className="font-black uppercase tracking-[0.2em] text-xs mb-2">
+              {/timed? ?out/i.test(evaluationError)
+                ? 'Evaluation Timed Out'
+                : /quota|limit|429/i.test(evaluationError)
+                  ? 'AI Quota Reached'
+                  : /key|denied|permission/i.test(evaluationError)
+                    ? 'API Key Issue'
+                    : 'Evaluation Failed'}
+            </h4>
+            <p className="text-sm font-bold leading-relaxed">{evaluationError}</p>
+            {/timed? ?out/i.test(evaluationError) && (
+              <p className="text-xs mt-2 opacity-70">
+                Tip: Try switching to Gemini Flash in the AI Engine selector — it responds faster
+                than Pro.
+              </p>
+            )}
+            <button
+              onClick={onEvaluate}
+              className="mt-3 text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 transition-colors"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      )}
+
       {!isExamMode && <LiveInsights insights={insights} />}
 
       <WritingMetricsDashboard
@@ -299,58 +334,25 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
         <div className={`flex flex-col ${isExamMode ? 'hidden' : ''}`}>{referenceSlot}</div>
       )}
 
-      <div id="evaluation-results" className="scroll-mt-24">
-        {evaluationError && (
-          <div className="bg-red-500/10 light:bg-red-50 border border-red-500/20 light:border-red-200 text-red-400 light:text-red-700 p-8 rounded-[40px] animate-fade-in flex items-start gap-5 shadow-2xl shadow-red-900/10 backdrop-blur-xl">
-            <div className="p-3 rounded-2xl bg-red-500/20">
-              <AlertTriangle className="w-6 h-6 shrink-0" />
-            </div>
-            <div>
-              <h4 className="font-black uppercase tracking-[0.2em] text-xs mb-2">
-                {/timed? ?out/i.test(evaluationError)
-                  ? 'Evaluation Timed Out'
-                  : /quota|limit|429/i.test(evaluationError)
-                    ? 'AI Quota Reached'
-                    : /key|denied|permission/i.test(evaluationError)
-                      ? 'API Key Issue'
-                      : 'Evaluation Failed'}
-              </h4>
-              <p className="text-sm font-bold leading-relaxed">{evaluationError}</p>
-              {/timed? ?out/i.test(evaluationError) && (
-                <p className="text-xs mt-2 opacity-70">
-                  Tip: Try switching to Gemini Flash in the AI Engine selector — it responds faster
-                  than Pro.
-                </p>
-              )}
-              <button
-                onClick={onEvaluate}
-                className="mt-3 text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 transition-colors"
-              >
-                Try Again
-              </button>
-            </div>
-          </div>
-        )}
-
-        {evaluationResult && (
-          <EvaluationResultModal
-            isOpen={!!evaluationResult}
-            onClose={geminiHandlers.resetEvaluation}
-            result={evaluationResult}
-            prompt={currentPrompt}
-            userAnswer={evaluatedAnswer}
-            onUseRevisedAnswer={setUserAnswer}
-            onImproveAnswer={() =>
-              geminiHandlers.improveAnswer(evaluatedAnswer, currentPrompt, evaluationResult)
-            }
-            isImproving={isImproving}
-            improveAnswerError={improveAnswerError}
-            onSaveToSamples={handleSaveUserResponse}
-            onFeedbackSubmit={geminiHandlers.handleFeedbackSubmit}
-            hierarchy={hierarchyContext}
-          />
-        )}
-      </div>
+      {/* Portalled and fixed, so where it sits in this tree is immaterial. */}
+      {evaluationResult && (
+        <EvaluationResultModal
+          isOpen={!!evaluationResult}
+          onClose={geminiHandlers.resetEvaluation}
+          result={evaluationResult}
+          prompt={currentPrompt}
+          userAnswer={evaluatedAnswer}
+          onUseRevisedAnswer={setUserAnswer}
+          onImproveAnswer={() =>
+            geminiHandlers.improveAnswer(evaluatedAnswer, currentPrompt, evaluationResult)
+          }
+          isImproving={isImproving}
+          improveAnswerError={improveAnswerError}
+          onSaveToSamples={handleSaveUserResponse}
+          onFeedbackSubmit={geminiHandlers.handleFeedbackSubmit}
+          hierarchy={hierarchyContext}
+        />
+      )}
     </div>
   );
 };

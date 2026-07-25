@@ -14,6 +14,9 @@ interface MarkingCriteriaAccordionProps {
   band: number;
   userRole: UserRole;
   courseOutcomes?: CourseOutcome[];
+  /** Rendered inside an AccordionSection, which supplies the card, the title
+   *  and the band line. */
+  embedded?: boolean;
 }
 
 interface MarkingCriteriaItem {
@@ -30,6 +33,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
   band,
   userRole,
   courseOutcomes = [],
+  embedded = false,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(markingCriteria);
@@ -160,77 +164,92 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
     }
   };
 
-  return (
-    <div className="clip-stable bg-white dark:bg-[rgb(var(--color-bg-surface))] rounded-[24px] border border-slate-200 dark:border-white/10 shadow-sm overflow-hidden flex flex-col">
-      {/* Header - Matching Sample Answers Style */}
-      <div className="px-6 py-4 border-b border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-white/[0.02] flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className={`p-2 rounded-xl ${maxBandConfig.bg} ${maxBandConfig.text}`}>
-            <ListChecks className="w-4 h-4" />
-          </div>
-          <div>
-            <h3 className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-[0.2em]">
-              Marking Criteria
-            </h3>
-            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium opacity-80">
-              Top Level: Band {maxPossibleBand}
-            </p>
-          </div>
+  // Embedded, the enclosing AccordionSection already supplies the card, the
+  // title and the band line — leaving this component's own header to announce
+  // "Marking Criteria" directly beneath a panel headed "Marking Guide". Only
+  // the curator controls still need a home, in the same slim row the exemplars
+  // panel uses.
+  const curatorControls = canCurate ? (
+    <div className="flex gap-2">
+      {!isEditing ? (
+        <>
+          {canGenerate && (
+            <button
+              onClick={handleGenerateRubric}
+              disabled={isGenerating}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all shadow-sm text-[10px] font-bold uppercase tracking-wider bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-indigo-500/30 text-indigo-500 dark:text-indigo-400 hover:shadow`}
+            >
+              {isGenerating ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              ) : (
+                <Sparkles className="w-3.5 h-3.5" />
+              )}
+              AI Draft
+            </button>
+          )}
+          <button
+            onClick={() => {
+              setEditText(markingCriteria);
+              setIsEditing(true);
+            }}
+            title="Edit criteria"
+            aria-label="Edit criteria"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition-all"
+          >
+            <Edit3 className="w-4 h-4" />
+          </button>
+        </>
+      ) : (
+        <div className="flex gap-1.5">
+          <button
+            onClick={handleCancel}
+            aria-label="Cancel edit"
+            className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
+          >
+            <X className="w-4 h-4" />
+          </button>
+          <button
+            onClick={handleSave}
+            aria-label="Save"
+            className="p-1.5 rounded-lg text-green-500 hover:bg-green-50 dark:hover:bg-green-900/20"
+          >
+            <Save className="w-4 h-4" />
+          </button>
         </div>
+      )}
+    </div>
+  ) : null;
 
-        {canCurate && (
-          <div className="flex gap-2">
-            {!isEditing ? (
-              <>
-                {canGenerate && (
-                  <button
-                    onClick={handleGenerateRubric}
-                    disabled={isGenerating}
-                    className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all shadow-sm text-[10px] font-bold uppercase tracking-wider bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-indigo-500/30 text-indigo-500 dark:text-indigo-400 hover:shadow`}
-                  >
-                    {isGenerating ? (
-                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                    ) : (
-                      <Sparkles className="w-3.5 h-3.5" />
-                    )}
-                    AI Draft
-                  </button>
-                )}
-                <button
-                  onClick={() => {
-                    setEditText(markingCriteria);
-                    setIsEditing(true);
-                  }}
-                  title="Edit criteria"
-                  aria-label="Edit criteria"
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition-all"
-                >
-                  <Edit3 className="w-4 h-4" />
-                </button>
-              </>
-            ) : (
-              <div className="flex gap-1.5">
-                <button
-                  onClick={handleCancel}
-                  aria-label="Cancel edit"
-                  className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={handleSave}
-                  aria-label="Save"
-                  className="p-1.5 rounded-lg text-green-500 hover:bg-green-50 dark:hover:bg-green-900/20"
-                >
-                  <Save className="w-4 h-4" />
-                </button>
-              </div>
-            )}
+  return (
+    <div
+      className={
+        embedded
+          ? 'flex flex-col gap-3'
+          : 'clip-stable bg-white dark:bg-[rgb(var(--color-bg-surface))] rounded-[24px] border border-slate-200 dark:border-white/10 shadow-sm overflow-hidden flex flex-col'
+      }
+    >
+      {embedded ? (
+        curatorControls && <div className="flex justify-end">{curatorControls}</div>
+      ) : (
+        <div className="px-6 py-4 border-b border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-white/[0.02] flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className={`p-2 rounded-xl ${maxBandConfig.bg} ${maxBandConfig.text}`}>
+              <ListChecks className="w-4 h-4" />
+            </div>
+            <div>
+              <h3 className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-[0.2em]">
+                Marking Criteria
+              </h3>
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium opacity-80">
+                Top Level: Band {maxPossibleBand}
+              </p>
+            </div>
           </div>
-        )}
-      </div>
+          {curatorControls}
+        </div>
+      )}
 
-      <div className="p-4 bg-slate-50/30 dark:bg-black/20">
+      <div className={embedded ? '' : 'p-4 bg-slate-50/30 dark:bg-black/20'}>
         {generateError && (
           <div className="mb-3 p-3 rounded-xl bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-500/20 text-[10px] font-bold text-red-600 dark:text-red-400 flex items-center justify-between gap-2 animate-fade-in">
             <span className="flex items-center gap-2">
