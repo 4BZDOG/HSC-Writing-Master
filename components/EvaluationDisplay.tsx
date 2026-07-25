@@ -458,7 +458,13 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 {isExporting ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>{exportStatus || 'Exporting…'}</span>
+                    {/* The stage text updates several times during a multi-second
+                        export (engine → fonts → page N of M). aria-busy on the
+                        button says "working", but without a live region none of
+                        the progress is announced. */}
+                    <span role="status" aria-live="polite">
+                      {exportStatus || 'Exporting…'}
+                    </span>
                   </>
                 ) : (
                   <>
