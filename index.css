@@ -233,13 +233,24 @@ a:focus-visible,
   transform: translateZ(0);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  /* Safari: composited children (backdrop-blur, animated gradients, height
-     transitions) escape the border-radius clip for a frame, flashing square
-     corners. An opaque -webkit-mask forces Safari onto a masked compositing
-     path where the rounded clip is honoured from the first frame; isolation
-     keeps the stacking context self-contained so the mask stays cheap. */
   isolation: isolate;
-  -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
+/* Safari: composited children (backdrop-blur, animated gradients, height
+   transitions) escape the border-radius clip for a frame, flashing square
+   corners. An opaque -webkit-mask forces Safari onto a masked compositing
+   path where the rounded clip is honoured from the first frame.
+
+   Scoped to Safari via the standard `-webkit-hyphens` feature query. In
+   Chromium the mask buys nothing (its rounded clip is already stable) and
+   costs an extra composited mask layer that is NOT reliably invalidated when
+   the element is resized or re-parented by a layout change — the stale-paint
+   class of bug seen when leaving Focus Mode, where the whole workspace grid
+   re-flows under a screenful of these cards. */
+@supports (-webkit-hyphens: none) {
+  .clip-stable {
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+  }
 }
 
 /*

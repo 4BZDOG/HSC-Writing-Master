@@ -29,6 +29,8 @@ import {
   getBandForMark,
   markForBand,
   getStructureGuide,
+  getExpectedCharRange,
+  getExpectedTerms,
   getTargetBand,
   TIER_GROUPS,
 } from '../data/commandTerms';
@@ -611,11 +613,40 @@ export const suggestOutcomesForPrompt = async (
   return parsed.filter((c): c is string => typeof c === 'string' && validCodes.has(c));
 };
 
+/**
+ * Length/scope brief for a sample answer worth `mark` out of `prompt.totalMarks`.
+ *
+ * Sample answers exist partly to show students how MUCH to write, so their
+ * length must track the target mark rather than the verb's full range — a 2/4
+ * sample written to full-mark length teaches the wrong scope. The mark's NESA
+ * structure guide sets the shape; the verb's character range (interpolated for
+ * this question's total marks) sets the ceiling, scaled by the mark awarded.
+ */
+const buildSampleScopeBrief = (prompt: Prompt, mark: number, termInfo: CommandTermInfo): string => {
+  const [fullMinChars, fullMaxChars] = getExpectedCharRange(prompt.totalMarks, termInfo);
+  const markRatio = prompt.totalMarks > 0 ? Math.max(0, Math.min(1, mark / prompt.totalMarks)) : 1;
+  const minChars = Math.max(40, Math.round(fullMinChars * markRatio));
+  const maxChars = Math.max(minChars + 40, Math.round(fullMaxChars * markRatio));
+  const maxWords = Math.round(maxChars / 6);
+  const expectedTerms = Math.max(
+    1,
+    Math.round(getExpectedTerms(prompt.totalMarks, termInfo) * markRatio)
+  );
+
+  return `**Scope for a ${mark}/${prompt.totalMarks} answer (NESA):**
+                    ${getStructureGuide(mark)}
+                    - Length: ${minChars}-${maxChars} characters (about ${maxWords} words maximum). This is a hard ceiling for the "answer" field.
+                    - Syllabus terms: about ${expectedTerms}.
+                    - **Write only what a real student earning ${mark}/${prompt.totalMarks} under exam time pressure would write.** A lower mark means LESS material — fewer points, less detail, less elaboration — not a full-length answer worded badly. Never pad towards the length a full-mark answer would need.
+                    - Students use these samples to judge how much to write for ${mark} mark${mark === 1 ? '' : 's'}, so the length must be as instructive as the content.`;
+};
+
 export const reviseSampleAnswer = async (
   prompt: Prompt,
   sample: SampleAnswer,
   targetMark: number
 ): Promise<SampleAnswer> => {
+  const termInfo = getCommandTermInfo(prompt.verb);
   const request = {
     ...aiTarget('reasoning'),
     contents: {
@@ -624,7 +655,10 @@ export const reviseSampleAnswer = async (
           text: `Rewrite this answer to score exactly ${targetMark}/${prompt.totalMarks}.
                        Question: ${prompt.question}
                        Original Answer: "${sample.answer}"
-                       
+
+                       ${buildSampleScopeBrief(prompt, targetMark, termInfo)}
+                       - Resize the answer to match that scope: cut material when lowering the mark, add substance (not words) when raising it.
+
                        Return JSON: { "answer": string, "feedback": string }`,
         },
       ],
@@ -644,7 +678,7 @@ export const reviseSampleAnswer = async (
     id: generateId('sa'),
     answer: data.answer,
     mark: targetMark,
-    band: getBandForMark(targetMark, prompt.totalMarks, getCommandTermInfo(prompt.verb).tier),
+    band: getBandForMark(targetMark, prompt.totalMarks, termInfo.tier),
     source: 'AI',
     feedback: data.feedback,
   };
@@ -948,12 +982,14 @@ export const generateSampleAnswer = async (
   if (targetBand >= maxBand) {
     qualityInstruction = `Write a **perfect Band ${targetBand} exemplar** — the strongest answer possible for a '${prompt.verb}' task. Use sophisticated, high-modality language, specific industry terminology, and fully satisfy the cognitive demand of '${prompt.verb}'.`;
   } else if (targetBand >= maxBand - 1) {
-    qualityInstruction = `Write a **Band ${targetBand} response**. It should be detailed and accurate but miss a subtle nuance or a final synthesis link that the top band would show.`;
+    qualityInstruction = `Write a **Band ${targetBand} response**. It should be detailed and accurate but miss a subtle nuance or a final synthesis link that the top band would show — and it covers slightly less ground than a full-mark answer.`;
   } else if (targetBand >= 3) {
-    qualityInstruction = `Write a **Band ${targetBand} response**. It should be sound but generic — operating a cognitive step below the verb's full demand and using general terms instead of specific syllabus keywords.`;
+    qualityInstruction = `Write a **Band ${targetBand} response**. It should be sound but generic — operating a cognitive step below the verb's full demand, using general terms instead of specific syllabus keywords, and leaving out points a full-mark answer would make.`;
   } else {
-    qualityInstruction = `Write a **Band ${targetBand} response**. It should be superficial or fragmented, merely defining terms without relating them to the scenario.`;
+    qualityInstruction = `Write a **Band ${targetBand} response**. It should be superficial or fragmented, merely defining terms without relating them to the scenario, and it should stop well short of covering the question.`;
   }
+
+  const scopeBrief = buildSampleScopeBrief(prompt, mark, termInfo);
 
   const request = {
     ...aiTarget('reasoning'),
@@ -968,14 +1004,14 @@ export const generateSampleAnswer = async (
                     - Verb: ${prompt.verb} (Tier ${termInfo.tier})
                     - Scenario: ${prompt.scenario || 'None'}
                     - Target Mark: ${mark}/${prompt.totalMarks}
-                    - Expected length: ${termInfo.charRange[0]}-${termInfo.charRange[1]} characters
-                    - Expected syllabus terms: ${termInfo.syllabusTerms[0]}-${termInfo.syllabusTerms[1]}
+
+                    ${scopeBrief}
 
                     **Directives:**
                     ${qualityInstruction}
                     - Do NOT include the mark at the start of the text.
-                    - Provide marker's feedback explaining EXACTLY why this answer gets ${mark}/${prompt.totalMarks}.
-                    
+                    - Provide marker's feedback explaining EXACTLY why this answer gets ${mark}/${prompt.totalMarks}. The feedback is not subject to the length ceiling above.
+
                     Return JSON:
                     { "answer": string, "feedback": string }
                 `,

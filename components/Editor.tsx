@@ -499,7 +499,12 @@ const Editor = forwardRef<
           {/* Header */}
           <div
             ref={headerRef}
-            className={`px-4 sm:px-8 py-4 sm:py-5 text-white flex justify-between items-start relative overflow-hidden flex-shrink-0 rounded-t-[30px] transition-[background,box-shadow] duration-1000 ease-in-out`}
+            // `items-center`, not `items-start`: this header is stretched to
+            // match the prompt card's taller header (minHeaderHeight), and with
+            // the content pinned to the top the surplus read as a broken block
+            // of empty band colour. Centred, the padding sits either side of the
+            // title row and the stretch looks deliberate.
+            className={`px-4 sm:px-8 py-4 sm:py-5 text-white flex justify-between items-center relative overflow-hidden flex-shrink-0 rounded-t-[30px] transition-[background,box-shadow] duration-1000 ease-in-out`}
             style={{
               minHeight: minHeaderHeight ? `${minHeaderHeight}px` : 'auto',
               background: chroma.background,

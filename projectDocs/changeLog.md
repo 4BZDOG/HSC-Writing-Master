@@ -1,5 +1,36 @@
 # HSC AI Evaluator - Change Log
 
+## [2.3.23] - 2026-07-25
+
+### 🖼️ Focus Mode — stale paint on the way out
+
+- **Scoped the Safari `-webkit-mask` in `.clip-stable` to Safari.** The mask exists to stop Safari flashing square corners on rounded, composited cards. In Chromium it buys nothing and costs an extra composited mask layer that is not reliably invalidated when the element is resized or re-parented — which is exactly what leaving Focus Mode does to a screenful of these cards. Now behind `@supports (-webkit-hyphens: none)`.
+- **Stopped animating `all` across the Focus Mode layout change.** The page content wrapper only changes padding (now `transition-[padding]`), and the workspace grid's transition is gone entirely — `grid-template-columns` cannot interpolate between `none` and a 12-column track list, so `transition-all` there animated nothing while keeping every composited card in motion for half a second as whole columns appeared and disappeared.
+- **Re-measure after the toggle.** Entering or leaving Focus Mode adds or removes columns, so the cross-card height sync (ResizeObserver) and the viewport height cap (a `resize` listener) now get a nudge two frames after the switch, rather than relying on a measurement that may never fire.
+
+### ✍️ Workspace — less chrome, more question
+
+- **Card headers centre their content vertically.** The two headers are height-synced, so whichever is shorter is stretched to match the other; pinned to the top, the surplus read as a slab of empty band colour under the toolbar. Centred, the stretch looks deliberate.
+- **The empty "Context Scenario" panel is no longer shown to students.** A question with no scenario spent ~130px of a height-capped card on "No scenario provided." Curators still see it (they can add one); students, Exam Mode and Focus Mode do not. When the question stands alone it is centred in the card rather than left floating at the top.
+
+---
+
+## [2.3.22] - 2026-07-25
+
+### 📏 Sample answers now show the right *size*, not just the right content
+
+- **Sample-answer length is briefed from the target mark, not the verb's full range.** `generateSampleAnswer` was passing the command verb's whole `charRange` (e.g. 800–1800 characters for an APPLY question) no matter which mark the sample was for, so a 2/4 sample came back at full-mark length — teaching students to write four times too much for the marks on offer. The request now carries a mark-scaled scope brief: the NESA structure guide for that exact mark (`getStructureGuide`), a character band interpolated for the question's total marks (`getExpectedCharRange`) and scaled by the mark awarded, a matching syllabus-term count, and an explicit instruction that a lower mark means *less material* rather than a full-length answer worded badly.
+- **`reviseSampleAnswer` gets the same brief.** Re-targeting a sample to a different mark previously carried no length guidance at all, so a revision kept the original's size. It now resizes to the target mark's scope.
+- Regression tests cover the low-mark brief, the 1-mark vs full-mark ceiling gap, and the revision path.
+
+### 🎨 Evaluation feedback — a tighter top section
+
+- **Rebalanced the score/metrics dashboard.** The score placard used to stretch to match a tall right-hand column, leaving a large field of empty gradient between the score and the Export button. The metric tiles and the Band Goal card now put their icon inline with the label instead of floating it in its own row, so the column is compact and the placard sits close to its natural height; the placard also carries a slim marks-awarded meter.
+- **Fixed the band caption that read as a modifier.** "2 bands to go · LIMITED" implied the band name belonged to the goal; the current band's name is now a caption under the meter ("Now Band 2 · Limited"), and the placard's pill states "Band 2 · Limited".
+- **Tidied the question header.** The syllabus trail, verb/marks chips and question now sit on one rhythm with the cards' left edge (previously indented 8px out of alignment), and the oversized gap between the question and the dashboard is gone.
+
+---
+
 ## [2.3.21] - 2026-07-07
 
 ### 🐛 Fix
