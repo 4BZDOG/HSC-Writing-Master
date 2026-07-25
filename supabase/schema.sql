@@ -1477,6 +1477,152 @@ returns text language sql stable security definer as $$
   );
 $$;
 
+-- Webhook event ledger — makes delivery idempotent.  Stripe guarantees
+-- AT-LEAST-once delivery and no ordering, so the same event can arrive twice
+-- (a retry after a slow response) and an older event can arrive after a newer
+-- one.  api/stripe-webhook.ts claims each event id here before handling it and
+-- releases the claim if handling throws, so a genuine failure is still retried.
+create table if not exists public.stripe_events (
+  id             text primary key,          -- Stripe event ID (evt_…)
+  type           text not null,
+  event_created  timestamptz,               -- event.created, for ordering
+  received_at    timestamptz not null default now()
+);
+
+alter table public.stripe_events enable row level security;
+-- Service-role writes only; readable by reviewers for delivery debugging.
+do $$ begin
+  create policy "Reviewers read stripe events"
+    on public.stripe_events for select
+    using (public.is_reviewer());
+exception when duplicate_object then null; end $$;
+
+-- Ordering guard: the timestamp of the newest event applied to this
+-- subscription row.  handleSubscriptionUpsert refuses to apply an event older
+-- than this, so a delayed `customer.subscription.updated` cannot resurrect a
+-- plan that a later `deleted` already ended.
+alter table public.subscriptions
+  add column if not exists last_event_at timestamptz;
+
+-- =============================================================================
+-- §14 · Free-tier evaluation limit (server-side)
+--
+-- The paywall's headline limit — 5 marked answers a day on the free plan — was
+-- only ever counted in localStorage, so clearing site data reset it.  This is
+-- the authoritative counter: api/gemini.ts spends one unit per evaluation
+-- request before the provider call is made.  The client keeps its own optimistic
+-- count purely so the UI can say "3 of 5 left" without a round trip.
+--
+-- Distinct from the AI quota (§11–12), which meters TOTAL provider calls to
+-- protect the budget.  This meters one product feature to protect the paywall,
+-- and only bites on the free tier.
+-- =============================================================================
+
+create table if not exists public.evaluation_usage (
+  user_id      uuid not null references public.profiles (id) on delete cascade,
+  day          date not null,
+  evaluations  integer not null default 0,
+  primary key (user_id, day)
+);
+
+alter table public.evaluation_usage enable row level security;
+
+-- Your own usage, or any row for reviewers. No write policy: the only write
+-- path is consume_evaluation() below.
+do $$ begin
+  create policy "Users read own evaluation usage"
+    on public.evaluation_usage for select
+    using (user_id = auth.uid() or public.is_reviewer());
+exception when duplicate_object then null; end $$;
+
+-- Daily free-tier evaluation allowance.  MUST match FREE_TIER_EVAL_LIMIT in
+-- services/entitlements.ts — the client shows the number, this enforces it.
+create or replace function public.free_evaluation_limit()
+returns integer language sql immutable as $$ select 5; $$;
+
+-- True when the user should never be metered: staff (content authors need the
+-- tool to work), a personal paid plan, or membership of a school whose licence
+-- is live.  Mirrors getUserPlan() in services/entitlements.ts, including the
+-- past_due grace period.
+create or replace function public.has_unlimited_evaluations(p_user uuid)
+returns boolean language sql stable security definer set search_path = public as $$
+  select exists (
+    select 1
+      from public.profiles p
+      left join public.schools s on s.id = p.school_id
+     where p.id = p_user
+       and (
+         p.role in ('admin', 'teacher')
+         or coalesce(p.stripe_plan, 'free') in ('plus', 'school')
+         or coalesce(s.plan_status, 'none') in ('active', 'trialing', 'past_due')
+       )
+  );
+$$;
+
+-- Atomically spend one evaluation from the caller's daily free allowance.
+-- Returns { allowed, used, limit, unlimited }.  The conditional ON CONFLICT
+-- update makes check-and-increment a single statement, so two tabs racing the
+-- last free evaluation cannot both win (same pattern as consume_ai_quota).
+create or replace function public.consume_evaluation()
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare
+  v_user  uuid := auth.uid();
+  v_limit integer := public.free_evaluation_limit();
+  v_used  integer;
+begin
+  if v_user is null then
+    raise exception 'Not authenticated';
+  end if;
+
+  if public.has_unlimited_evaluations(v_user) then
+    return jsonb_build_object('allowed', true, 'used', 0, 'limit', -1, 'unlimited', true);
+  end if;
+
+  insert into public.evaluation_usage (user_id, day, evaluations)
+  values (v_user, (now() at time zone 'utc')::date, 1)
+  on conflict (user_id, day) do update
+    set evaluations = evaluation_usage.evaluations + 1
+    where evaluation_usage.evaluations < v_limit
+  returning evaluations into v_used;
+
+  if v_used is null then
+    -- Conditional update matched nothing: today's allowance is spent.
+    select evaluations into v_used
+      from public.evaluation_usage
+     where user_id = v_user and day = (now() at time zone 'utc')::date;
+    return jsonb_build_object(
+      'allowed', false, 'used', coalesce(v_used, v_limit), 'limit', v_limit, 'unlimited', false);
+  end if;
+
+  return jsonb_build_object(
+    'allowed', true, 'used', v_used, 'limit', v_limit, 'unlimited', false);
+end; $$;
+
+-- Read-only view of today's evaluation allowance (does not consume), so the
+-- client can show an accurate count instead of trusting localStorage.
+create or replace function public.get_evaluation_status()
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare
+  v_user  uuid := auth.uid();
+  v_limit integer := public.free_evaluation_limit();
+  v_used  integer;
+begin
+  if v_user is null then
+    raise exception 'Not authenticated';
+  end if;
+
+  if public.has_unlimited_evaluations(v_user) then
+    return jsonb_build_object('used', 0, 'limit', -1, 'unlimited', true);
+  end if;
+
+  select evaluations into v_used
+    from public.evaluation_usage
+   where user_id = v_user and day = (now() at time zone 'utc')::date;
+
+  return jsonb_build_object(
+    'used', coalesce(v_used, 0), 'limit', v_limit, 'unlimited', false);
+end; $$;
+
 -- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.

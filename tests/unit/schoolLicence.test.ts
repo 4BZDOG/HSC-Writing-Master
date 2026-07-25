@@ -11,6 +11,8 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 const updates: Array<{ table: string; values: Record<string, unknown> }> = [];
 const upserts: Array<{ table: string; values: Record<string, unknown> }> = [];
 const sessionCreateMock = vi.fn();
+/** Role the mocked profile lookup returns — school licences are staff-only. */
+let profileRole = 'teacher';
 
 const makeSupabaseMock = () => ({
   from: (table: string) => ({
@@ -26,8 +28,10 @@ const makeSupabaseMock = () => ({
     },
     select: () => ({
       eq: () => ({
-        maybeSingle: async () => ({ data: { id: 'user-1', school_id: 'school-1' } }),
-        single: async () => ({ data: { id: 'user-1', school_id: 'school-1' } }),
+        maybeSingle: async () => ({
+          data: { id: 'user-1', school_id: 'school-1', role: profileRole },
+        }),
+        single: async () => ({ data: { id: 'user-1', school_id: 'school-1', role: profileRole } }),
       }),
     }),
   }),
@@ -45,6 +49,12 @@ vi.mock('../../api/_lib/stripe', () => ({
   getSupabaseAdmin: () => makeSupabaseMock(),
   priceToPlan: (id: string) => (id === 'price_school' ? 'school' : 'plus'),
   resolveReturnBase: () => 'http://localhost:3000/',
+  isProductionRuntime: () => false,
+  configuredPrices: () => ({
+    price_school: 'school',
+    price_plus_yearly: 'plus',
+    price_plus_monthly: 'plus',
+  }),
 }));
 
 vi.mock('../../api/_lib/auth', () => ({
@@ -71,6 +81,7 @@ beforeEach(() => {
   updates.length = 0;
   upserts.length = 0;
   sessionCreateMock.mockReset();
+  profileRole = 'teacher';
 });
 
 describe('webhook: school seat licence sync', () => {
@@ -181,10 +192,56 @@ describe('create-checkout: seat quantities', () => {
     expect(args.line_items[0].quantity).toBe(1000);
   });
 
+  it('refuses a school licence bought from a student account', async () => {
+    // The seat picker is staff-only in the UI; the server must not take the
+    // client's word for that — a licence grants the plan to the whole school.
+    profileRole = 'student';
+    const res = makeRes();
+    await checkoutHandler(post({ priceId: 'price_school', seats: 30 }), res);
+    expect(res.statusCode).toBe(403);
+    expect(sessionCreateMock).not.toHaveBeenCalled();
+  });
+
+  it('still sells an individual Plus plan to a student', async () => {
+    profileRole = 'student';
+    const res = makeRes();
+    await checkoutHandler(post({ priceId: 'price_plus_yearly' }), res);
+    expect(res.statusCode).toBe(200);
+  });
+
   it('ignores seats for individual Plus prices', async () => {
     const res = makeRes();
     await checkoutHandler(post({ priceId: 'price_plus_yearly', seats: 30 }), res);
     const args = sessionCreateMock.mock.calls[0][0];
     expect(args.line_items[0].quantity).toBe(1);
+  });
+});
+
+describe('create-checkout: price allowlist', () => {
+  const post = (body: Record<string, unknown>) => ({
+    method: 'POST',
+    headers: { authorization: 'Bearer t' },
+    body,
+  });
+
+  beforeEach(() => {
+    sessionCreateMock.mockResolvedValue({ url: 'https://stripe.test/session' });
+  });
+
+  it('rejects a price this deployment does not sell', async () => {
+    const res = makeRes();
+    await checkoutHandler(post({ priceId: 'price_someone_elses' }), res);
+    // Any price in the Stripe account would otherwise be checkout-able —
+    // including ones priceToPlan maps to 'free', which charge the customer
+    // and grant them nothing.
+    expect(res.statusCode).toBe(400);
+    expect(sessionCreateMock).not.toHaveBeenCalled();
+  });
+
+  it('accepts a configured price', async () => {
+    const res = makeRes();
+    await checkoutHandler(post({ priceId: 'price_plus_monthly' }), res);
+    expect(res.statusCode).toBe(200);
+    expect(sessionCreateMock).toHaveBeenCalled();
   });
 });

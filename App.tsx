@@ -33,6 +33,7 @@ import { canCurateContent, canModerate, isSystemAdmin } from './utils/permission
 import {
   isEvalLimitReached,
   recordEvaluation,
+  FREE_TIER_EVAL_LIMIT,
   requestUpgrade,
   PLAN_LABELS,
 } from './services/entitlements';
@@ -386,7 +387,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     if (!currentPrompt || !userAnswer.trim()) return;
     if (isEvalLimitReached(user)) {
       showToast(
-        "You've used all 5 free evaluations for today. Upgrade to Plus for unlimited marking.",
+        `You've used all ${FREE_TIER_EVAL_LIMIT} free evaluations for today. Upgrade to Plus for unlimited marking.`,
         'info'
       );
       requestUpgrade('fullFeedback');
@@ -1071,8 +1072,21 @@ const App: React.FC = () => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const checkout = params.get('checkout');
+    // Strip only our own params — wiping the whole query string would eat an
+    // assignment link (?a=…) that hasn't been handled yet, and drop the hash.
+    const clearCheckoutParams = () => {
+      const next = new URLSearchParams(window.location.search);
+      next.delete('checkout');
+      next.delete('session_id');
+      const query = next.toString();
+      window.history.replaceState(
+        {},
+        '',
+        `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`
+      );
+    };
     if (checkout === 'success') {
-      window.history.replaceState({}, '', window.location.pathname);
+      clearCheckoutParams();
       showToast('Payment received — activating your subscription…', 'info');
       // Stripe redirects back faster than its webhook fires, so the profile is
       // usually still 'free' on this first load. Poll until the webhook has
@@ -1111,7 +1125,7 @@ const App: React.FC = () => {
       };
     } else if (checkout === 'cancelled') {
       showToast('Checkout cancelled — no changes were made.', 'info');
-      window.history.replaceState({}, '', window.location.pathname);
+      clearCheckoutParams();
     }
   }, [showToast]);
 

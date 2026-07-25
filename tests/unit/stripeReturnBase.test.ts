@@ -48,4 +48,28 @@ describe('resolveReturnBase', () => {
   it('falls back to localhost when no headers are present', () => {
     expect(resolveReturnBase(undefined, undefined, undefined)).toBe('http://localhost:3000/');
   });
+
+  it('ignores a returnUrl when no header proves where the request came from', () => {
+    // A request with neither Origin nor Referer proves nothing about its
+    // source, so trusting its returnUrl would make Stripe's redirect an open
+    // redirect. Browsers always send Origin on a cross-site-capable POST.
+    expect(resolveReturnBase(undefined, undefined, 'https://evil.example.com/phish/')).toBe(
+      'http://localhost:3000/'
+    );
+  });
+
+  it('validates the returnUrl against the Referer origin when Origin is absent', () => {
+    expect(
+      resolveReturnBase(undefined, 'https://app.example.com/page', 'https://app.example.com/sub/')
+    ).toBe('https://app.example.com/sub/');
+    expect(
+      resolveReturnBase(undefined, 'https://app.example.com/page', 'https://evil.example.com/')
+    ).toBe('https://app.example.com/');
+  });
+
+  it('rejects a returnUrl when the Origin header is the opaque "null"', () => {
+    expect(resolveReturnBase('null', undefined, 'https://evil.example.com/')).toBe(
+      'http://localhost:3000/'
+    );
+  });
 });

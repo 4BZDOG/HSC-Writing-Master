@@ -83,6 +83,23 @@ export class ApiKeyError extends Error {
   }
 }
 
+/**
+ * The free tier's daily evaluation allowance is spent (proxy returned 402).
+ * Distinct from QuotaExceededError: nothing is wrong with the AI budget and
+ * retrying can never help — the answer is "upgrade", so the UI opens the
+ * upgrade prompt rather than showing an error.
+ */
+export class EvaluationLimitError extends Error {
+  used: number;
+  limit: number;
+  constructor(message: string, used = 0, limit = 0) {
+    super(message);
+    this.name = 'EvaluationLimitError';
+    this.used = used;
+    this.limit = limit;
+  }
+}
+
 export class QuotaExceededError extends Error {
   /**
    * True when the provider reported the model has literally ZERO quota on the
@@ -526,6 +543,13 @@ const callGeminiWithRetry = async <T>(
         throw error;
       }
 
+      // The free-tier evaluation allowance is spent. The service is healthy —
+      // retrying would just burn the user's time and poison the circuit
+      // breaker's error rate — so surface it immediately.
+      if (error instanceof EvaluationLimitError) {
+        throw error;
+      }
+
       apiGuard.recordError(error);
 
       const errorMsg = error instanceof Error ? error.message : String(error);
@@ -770,8 +794,23 @@ const callProxy = async (request: any): Promise<GenerateContentResponse> => {
 
   if (!res.ok) {
     let detail = '';
+    let upgradeRequired: { message: string; used: number; limit: number } | null = null;
     try {
       const errBody = await res.json();
+      // 402: the free tier's daily evaluation allowance is spent. Recorded
+      // here and thrown below — throwing inside this try would be swallowed by
+      // its own "no JSON body" catch.
+      if (res.status === 402 && errBody?.upgradeRequired) {
+        const spent = errBody?.evaluations as { used?: number; limit?: number } | undefined;
+        upgradeRequired = {
+          message:
+            typeof errBody?.error === 'string'
+              ? errBody.error
+              : "You've used all your free evaluations for today.",
+          used: spent?.used ?? 0,
+          limit: spent?.limit ?? 0,
+        };
+      }
       const raw = errBody?.error || errBody?.message || '';
       // Provider errors passed through the proxy nest the text one level down
       // ({ error: { message } }) — unwrap rather than stringifying the object.
@@ -786,6 +825,15 @@ const callProxy = async (request: any): Promise<GenerateContentResponse> => {
       if (res.status === 429) observeQuota(errBody?.quota);
     } catch {
       /* response had no JSON body */
+    }
+    // Paywall, not a fault: fail fast so the retry loop and the circuit
+    // breaker stay out of it (see callGeminiWithRetry).
+    if (upgradeRequired) {
+      throw new EvaluationLimitError(
+        upgradeRequired.message,
+        upgradeRequired.used,
+        upgradeRequired.limit
+      );
     }
     // A 404/405 without a proxy-shaped JSON error means nothing is deployed at
     // the proxy path — a static host (e.g. GitHub Pages without API_BASE_URL)

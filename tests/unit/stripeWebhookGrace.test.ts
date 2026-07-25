@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 /**
  * Grace-period contract for the Stripe webhook: a `past_due` subscription
@@ -11,10 +11,35 @@ const updates: Array<{ table: string; values: Record<string, unknown> }> = [];
 const upserts: Array<{ table: string; values: Record<string, unknown> }> = [];
 const retrieveMock = vi.fn();
 
+/** Event ids already in the ledger — a second delivery must be skipped. */
+const seenEvents = new Set<string>();
+/** last_event_at stamped on the subscription row, if any. */
+let lastEventAt: string | null = null;
+const deletedEvents: string[] = [];
+/** Forces the profile/subscription writes to fail, so the handler throws. */
+let failUpdates = false;
+
 const makeSupabaseMock = () => ({
   from: (table: string) => ({
+    insert: async (values: Record<string, unknown>) => {
+      if (table === 'stripe_events') {
+        const id = values.id as string;
+        if (seenEvents.has(id)) return { error: { code: '23505', message: 'duplicate key' } };
+        seenEvents.add(id);
+        return { error: null };
+      }
+      return { error: null };
+    },
+    delete: () => ({
+      eq: async (_col: string, id: string) => {
+        deletedEvents.push(id);
+        seenEvents.delete(id);
+        return { error: null };
+      },
+    }),
     update: (values: Record<string, unknown>) => ({
       eq: async () => {
+        if (failUpdates) return { error: { message: 'write failed' } };
         updates.push({ table, values });
         return { error: null };
       },
@@ -23,9 +48,12 @@ const makeSupabaseMock = () => ({
       upserts.push({ table, values });
       return { error: null };
     },
-    select: () => ({
+    select: (columns?: string) => ({
       eq: () => ({
-        maybeSingle: async () => ({ data: { id: 'user-1' } }),
+        maybeSingle: async () =>
+          columns === 'last_event_at'
+            ? { data: { last_event_at: lastEventAt } }
+            : { data: { id: 'user-1' } },
         single: async () => ({ data: { id: 'user-1' } }),
       }),
     }),
@@ -39,7 +67,12 @@ vi.mock('../../api/_lib/stripe', () => ({
   getSupabaseAdmin: () => makeSupabaseMock(),
   priceToPlan: () => 'plus',
   resolveReturnBase: () => 'http://localhost:3000/',
+  configuredPrices: () => ({ price_plus: 'plus' }),
+  isProductionRuntime: () => isProduction(),
 }));
+
+/** Toggled per-test so the production signature guard can be exercised. */
+let isProduction = () => false;
 
 import handler from '../../api/stripe-webhook';
 
@@ -238,5 +271,123 @@ describe('stripe webhook eager activation on checkout completion', () => {
     expect(updates.some((u) => u.table === 'profiles' && 'stripe_customer_id' in u.values)).toBe(
       true
     );
+  });
+});
+
+describe('stripe webhook signature enforcement', () => {
+  beforeEach(() => {
+    updates.length = 0;
+    upserts.length = 0;
+    retrieveMock.mockReset();
+    isProduction = () => false;
+  });
+  afterEach(() => {
+    isProduction = () => false;
+  });
+
+  it('refuses unsigned events in production rather than trusting the body', async () => {
+    isProduction = () => true;
+    const res = makeRes();
+    await handler(subscriptionEvent('active'), res);
+    // Without this an attacker can POST a forged subscription event and hand
+    // themselves a paid plan. 500 also makes Stripe retry once configured.
+    expect(res.statusCode).toBe(500);
+    expect(updates).toHaveLength(0);
+    expect(upserts).toHaveLength(0);
+  });
+
+  it('still accepts unsigned events outside production (Stripe CLI / dev)', async () => {
+    const res = makeRes();
+    await handler(subscriptionEvent('active'), res);
+    expect(res.statusCode).toBe(200);
+  });
+});
+
+describe('stripe webhook idempotency and ordering', () => {
+  beforeEach(() => {
+    updates.length = 0;
+    upserts.length = 0;
+    retrieveMock.mockReset();
+    seenEvents.clear();
+    deletedEvents.length = 0;
+    lastEventAt = null;
+    failUpdates = false;
+  });
+
+  const event = (id: string, created: number, status = 'active') => ({
+    method: 'POST',
+    headers: {},
+    body: {
+      id,
+      created,
+      type: 'customer.subscription.updated',
+      data: {
+        object: {
+          id: 'sub_1',
+          customer: 'cus_1',
+          status,
+          items: { data: [{ price: { id: 'price_plus' } }] },
+          current_period_start: 1_700_000_000,
+          current_period_end: 1_702_600_000,
+        },
+      },
+    },
+  });
+
+  it('applies an event once and skips the redelivery', async () => {
+    const first = makeRes();
+    await handler(event('evt_1', 1_700_000_500), first);
+    expect(first.statusCode).toBe(200);
+    const writesAfterFirst = updates.length + upserts.length;
+    expect(writesAfterFirst).toBeGreaterThan(0);
+
+    // Stripe delivers at least once: the same event arriving again must not
+    // be applied a second time.
+    const second = makeRes();
+    await handler(event('evt_1', 1_700_000_500), second);
+    expect(second.statusCode).toBe(200);
+    expect(second.body).toMatchObject({ duplicate: true });
+    expect(updates.length + upserts.length).toBe(writesAfterFirst);
+  });
+
+  it('stamps the event time on the subscription row', async () => {
+    await handler(event('evt_1', 1_700_000_500), makeRes());
+    const subRow = upserts.find((u) => u.table === 'subscriptions')?.values;
+    expect(subRow?.last_event_at).toBe(new Date(1_700_000_500 * 1000).toISOString());
+  });
+
+  it('ignores an event older than the state already applied', async () => {
+    // A delayed `updated` arriving after a newer event must not roll the row
+    // back — this is what would resurrect a cancelled plan.
+    lastEventAt = new Date(1_700_009_000 * 1000).toISOString();
+    const res = makeRes();
+    await handler(event('evt_old', 1_700_000_000), res);
+    expect(res.statusCode).toBe(200);
+    expect(upserts).toHaveLength(0);
+    expect(updates).toHaveLength(0);
+  });
+
+  it('still applies an event newer than the last one seen', async () => {
+    lastEventAt = new Date(1_700_000_000 * 1000).toISOString();
+    await handler(event('evt_new', 1_700_009_000), makeRes());
+    expect(upserts.some((u) => u.table === 'subscriptions')).toBe(true);
+  });
+
+  it('releases the claim when handling throws, so the retry is reprocessed', async () => {
+    // Otherwise a transient DB failure would be permanent: Stripe retries, the
+    // ledger says "already seen", and the plan never lands.
+    failUpdates = true;
+    const res = makeRes();
+    await handler(event('evt_boom', 1_700_000_500), res);
+    expect(res.statusCode).toBe(500);
+    expect(deletedEvents).toContain('evt_boom');
+    expect(seenEvents.has('evt_boom')).toBe(false);
+
+    // The retry now gets a fresh claim and applies cleanly.
+    failUpdates = false;
+    const retry = makeRes();
+    await handler(event('evt_boom', 1_700_000_500), retry);
+    expect(retry.statusCode).toBe(200);
+    expect(profilePlanWritten()).toBe('plus');
   });
 });

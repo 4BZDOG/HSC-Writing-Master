@@ -38,6 +38,22 @@ export const getSupabaseAdmin = (): SupabaseClient | null => {
   return _supabaseAdmin;
 };
 
+/** The origin a request demonstrably came from, or undefined if unknowable. */
+const requestOrigin = (
+  originHeader: string | undefined,
+  refererHeader: string | undefined
+): string | undefined => {
+  if (originHeader && originHeader !== 'null') return originHeader;
+  if (refererHeader) {
+    try {
+      return new URL(refererHeader).origin;
+    } catch {
+      /* unparseable Referer — treat as absent */
+    }
+  }
+  return undefined;
+};
+
 /**
  * The absolute base URL (origin + base path, trailing slash) Stripe should
  * send the browser back to after checkout / the billing portal.
@@ -48,16 +64,23 @@ export const getSupabaseAdmin = (): SupabaseClient | null => {
  * assignment links in utils/assignmentLink.ts). The value is only trusted
  * when it is an http(s) URL on the SAME origin the request came from, so a
  * forged body cannot turn Stripe's redirect into an open redirect.
+ *
+ * A request with NEITHER an Origin nor a Referer header proves nothing about
+ * where it came from, so its `returnUrl` is discarded rather than trusted —
+ * browsers always send Origin on a cross-site-capable POST, so only a
+ * hand-rolled (i.e. potentially forged) request lands in that branch.
  */
 export const resolveReturnBase = (
   originHeader: string | undefined,
   refererHeader: string | undefined,
   returnUrl: unknown
 ): string => {
-  if (typeof returnUrl === 'string') {
+  const trustedOrigin = requestOrigin(originHeader, refererHeader);
+
+  if (typeof returnUrl === 'string' && trustedOrigin) {
     try {
       const url = new URL(returnUrl);
-      const sameOrigin = !originHeader || url.origin === originHeader;
+      const sameOrigin = url.origin === trustedOrigin;
       if ((url.protocol === 'https:' || url.protocol === 'http:') && sameOrigin) {
         const base = `${url.origin}${url.pathname}`;
         return base.endsWith('/') ? base : `${base}/`;
@@ -66,20 +89,44 @@ export const resolveReturnBase = (
       /* not a valid URL — fall through to the header-derived origin */
     }
   }
-  const origin =
-    originHeader || (refererHeader || '').replace(/\/[^/]*$/, '') || 'http://localhost:3000';
-  return `${origin}/`;
+
+  // No usable returnUrl: rebuild from the headers. The Referer keeps its
+  // directory path (it is a real page URL on our own origin).
+  if (originHeader && originHeader !== 'null') return `${originHeader}/`;
+  if (refererHeader) {
+    const base = refererHeader.replace(/[?#].*$/, '').replace(/\/[^/]*$/, '');
+    if (base) return `${base}/`;
+  }
+  return 'http://localhost:3000/';
+};
+
+/**
+ * The Stripe price IDs this deployment is allowed to sell, keyed by the plan
+ * they grant. Unset entries are omitted — a deployment that only sells Plus
+ * has no school price.
+ */
+export const configuredPrices = (): Record<string, 'plus' | 'school'> => {
+  const prices: Record<string, 'plus' | 'school'> = {};
+  const monthlyPlus = process.env.STRIPE_PLUS_MONTHLY_PRICE_ID;
+  const yearlyPlus = process.env.STRIPE_PLUS_YEARLY_PRICE_ID;
+  const school = process.env.STRIPE_SCHOOL_PRICE_ID;
+  if (monthlyPlus) prices[monthlyPlus] = 'plus';
+  if (yearlyPlus) prices[yearlyPlus] = 'plus';
+  if (school) prices[school] = 'school';
+  return prices;
 };
 
 /**
  * Map a Stripe price ID to our internal plan name.
- * Falls back to 'plus' for any recognised price, 'free' for unknowns.
+ * Falls back to 'free' for unknown prices.
  */
-export const priceToPlan = (priceId: string): 'plus' | 'school' | 'free' => {
-  const monthlyPlus = process.env.STRIPE_PLUS_MONTHLY_PRICE_ID;
-  const yearlyPlus = process.env.STRIPE_PLUS_YEARLY_PRICE_ID;
-  const school = process.env.STRIPE_SCHOOL_PRICE_ID;
-  if (priceId === monthlyPlus || priceId === yearlyPlus) return 'plus';
-  if (school && priceId === school) return 'school';
-  return 'free';
-};
+export const priceToPlan = (priceId: string): 'plus' | 'school' | 'free' =>
+  configuredPrices()[priceId] ?? 'free';
+
+/**
+ * True when this process is serving real traffic, so unsigned webhooks and
+ * other dev-only shortcuts must be refused. Vercel sets VERCEL_ENV; NODE_ENV
+ * covers self-hosted runs. Tests and local dev fall through to false.
+ */
+export const isProductionRuntime = (): boolean =>
+  process.env.VERCEL_ENV === 'production' || process.env.NODE_ENV === 'production';

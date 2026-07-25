@@ -9,7 +9,7 @@ Step-by-step instructions to connect Stripe billing to your Band 6 deployment. B
 Before you start, make sure you have:
 
 - A **Stripe account** (sign up free at [dashboard.stripe.com](https://dashboard.stripe.com))
-- A **Supabase project** with the schema applied (`supabase/schema.sql` — at least §13)
+- A **Supabase project** with the schema applied (`supabase/schema.sql` — at least §13 and §14)
 - A **Vercel deployment** (or local dev server) running the app
 - The `stripe` npm package already installed (it's in `package.json`)
 
@@ -54,12 +54,23 @@ You need to set variables in **two places**: server-side (Vercel / your host) an
 | Variable                       | Value                     | Where to find it                           |
 | ------------------------------ | ------------------------- | ------------------------------------------ |
 | `STRIPE_SECRET_KEY`            | `sk_test_...`             | Stripe → Developers → API keys             |
-| `STRIPE_WEBHOOK_SECRET`        | `whsec_...`               | Created in Step 4 below                    |
+| `STRIPE_WEBHOOK_SECRET`        | `whsec_...`               | Created in Step 4 below — **required in production** |
 | `SUPABASE_SERVICE_ROLE_KEY`    | `eyJ...`                  | Supabase → Settings → API → `service_role` |
 | `SUPABASE_URL`                 | `https://xxx.supabase.co` | Supabase → Settings → API                  |
 | `STRIPE_PLUS_MONTHLY_PRICE_ID` | `price_...`               | From Step 1                                |
 | `STRIPE_PLUS_YEARLY_PRICE_ID`  | `price_...`               | From Step 1                                |
 | `STRIPE_SCHOOL_PRICE_ID`       | `price_...` _(optional)_  | From Step 1 (school product)               |
+
+> The price IDs are also the **allowlist**: `/api/create-checkout` refuses any
+> price that isn't one of these three, so a tampered client can't check out
+> against an unrelated price in your Stripe account. Set at least one, or
+> checkout returns 501 "No plans are available for purchase yet."
+>
+> `STRIPE_WEBHOOK_SECRET` is mandatory once `VERCEL_ENV`/`NODE_ENV` is
+> `production`: without it the webhook refuses every event with a 500 (Stripe
+> retries, so nothing is lost once you set it). An unsigned production
+> endpoint would let anyone POST a forged subscription event and grant
+> themselves a paid plan.
 
 ### Client-side variables (also set in Vercel, or in `.env.local` for dev)
 
@@ -128,7 +139,7 @@ The webhook is how Stripe tells your app about subscription changes (new checkou
 
 ## Step 5 — Apply the Database Schema
 
-If you haven't already run the full `supabase/schema.sql`, you need at least §13 (Stripe billing tables). Run this in your Supabase SQL Editor:
+If you haven't already run the full `supabase/schema.sql`, you need §13 (Stripe billing tables, below) **and §14** (the server-side free-tier evaluation counter — the paywall's 5-a-day limit is enforced there, not in the browser). Run this in your Supabase SQL Editor:
 
 ```sql
 -- Extend profiles with Stripe identity and plan cache.
@@ -187,6 +198,23 @@ returns text language sql stable security definer as $$
   );
 $$;
 ```
+
+The abridged snippet above is enough to take payments, but the full `§13`
+also creates:
+
+- **`stripe_events`** — the webhook's idempotency ledger. Stripe delivers each
+  event *at least* once, so without this a redelivery is applied twice.
+- **`subscriptions.last_event_at`** — the ordering guard. Stripe does not order
+  deliveries; without it a delayed `customer.subscription.updated` can arrive
+  after a cancellation and resurrect the plan.
+
+And `§14` creates `evaluation_usage` plus `consume_evaluation()`, which is what
+actually enforces the free tier's daily marking limit. Skipping it doesn't break
+checkout — the proxy fails open — but every free user gets unlimited marking.
+
+To verify all of it on a throwaway Postgres, `supabase/tests/entitlement_tests.sql`
+asserts the boundaries (who is metered, where the counter cuts off, that a user
+can't write their own usage row); CI runs it on every push.
 
 ---
 
@@ -279,6 +307,8 @@ User clicks "Upgrade"
 | Checkout works but plan doesn't update         | Webhook not receiving events                        | Check Stripe Dashboard → Webhooks for failed deliveries; verify `STRIPE_WEBHOOK_SECRET` matches |
 | Webhook returns 501                            | `SUPABASE_SERVICE_ROLE_KEY` not set                 | Add it to Vercel env vars                                                                       |
 | Webhook returns 400 "Missing stripe-signature" | Request not coming from Stripe (or secret mismatch) | Verify the signing secret matches the endpoint                                                  |
+| Webhook returns 500 "Webhook signing secret not configured" | `STRIPE_WEBHOOK_SECRET` missing in production       | Set it and redeploy — Stripe retries the queued events automatically                            |
+| Checkout returns 400 "Unknown plan"            | Client price ID isn't in the server allowlist       | Make each `VITE_STRIPE_*_PRICE_ID` match its unprefixed server counterpart                      |
 | "No billing account found" in portal           | User hasn't checked out yet                         | The portal requires a prior checkout to create the Stripe customer link                         |
 | Gates still locked after payment               | Browser has stale user data                         | Refresh the page — `getUserPlan()` reads from the profile on each call                          |
 | Admin sees gates                               | Admin bypass not deployed                           | Merge PR #47 and redeploy                                                                       |

@@ -86,3 +86,16 @@ describe('runAiProxy — runtime key override', () => {
     expect(forwarded).not.toHaveProperty('provider');
   });
 });
+
+describe('runAiProxy — internal request tags', () => {
+  it('strips __feature so the provider SDK never sees it', async () => {
+    // api/gemini.ts reads __feature to meter evaluations against the free-tier
+    // allowance; it is ours, not the provider's, and Gemini rejects unknown
+    // top-level fields.
+    await runAiProxy(
+      { provider: 'gemini', contents: 'x', __feature: 'evaluation' },
+      { gemini: 'ENV_KEY' }
+    );
+    expect(geminiMock).toHaveBeenCalledWith('ENV_KEY', { contents: 'x' });
+  });
+});

@@ -18,6 +18,7 @@ import {
 import * as gemini from '../services/geminiService';
 import { AICache } from '../services/aiCache';
 import { emitEvalProgress } from '../services/aiCore';
+import { requestUpgrade, syncFreeEvalCount } from '../services/entitlements';
 import { persistResponse, saveResponseFeedback } from '../services/responseService';
 import { findAndUpdateItem, findSelectionContext } from '../utils/stateUtils';
 import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
@@ -109,6 +110,16 @@ export const useGemini = ({
       }
       if (error instanceof gemini.QuotaExceededError) {
         showToast(error.message, 'error');
+        return error.message;
+      }
+      // Paywall, not a fault: the server refused because the free tier's daily
+      // evaluations are spent (the client's own counter can be cleared, so
+      // this is the authoritative one). Open the upgrade prompt rather than
+      // leaving an error message the user can't act on.
+      if (error instanceof gemini.EvaluationLimitError) {
+        syncFreeEvalCount(error.used);
+        showToast(error.message, 'info');
+        requestUpgrade('fullFeedback');
         return error.message;
       }
       return error instanceof Error ? error.message : 'An unknown API error occurred.';

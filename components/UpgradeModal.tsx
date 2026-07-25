@@ -19,6 +19,8 @@ import {
   UPGRADE_REQUEST_EVENT,
   PremiumFeatureKey,
   createCheckoutUrl,
+  planFeatureKeys,
+  lowestPlanForFeature,
   STRIPE_PRICE_IDS,
   PLAN_PRICING,
   SCHOOL_CONTACT_EMAIL,
@@ -126,17 +128,23 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
     setIsRedirecting(true);
     const priceId =
       billingPeriod === 'yearly' ? STRIPE_PRICE_IDS.plus_yearly : STRIPE_PRICE_IDS.plus_monthly;
-    const url = await createCheckoutUrl(priceId);
+    const { url, error } = await createCheckoutUrl(priceId);
     if (url) {
       window.location.href = url;
     } else {
-      showToast('Could not start checkout. Please try again.', 'error');
+      showToast(error ?? 'Could not start checkout. Please try again.', 'error');
       setIsRedirecting(false);
     }
   };
 
   if (!feature) return null;
   const meta = PREMIUM_FEATURES[feature];
+  // Sell the plan that actually unlocks THIS feature. A school-only feature
+  // (the AI Content Studio) must not be pitched as Plus — a teacher already
+  // has Plus, so an "Upgrade to Plus" CTA would leave them where they started.
+  const requiredPlan = lowestPlanForFeature(feature);
+  const sellsPlus = requiredPlan === 'plus';
+  const perkKeys = planFeatureKeys(requiredPlan);
 
   return createPortal(
     <div
@@ -165,7 +173,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
             </div>
             <div className="min-w-0">
               <span className="text-[10px] font-black uppercase tracking-[0.25em] text-white/80 block">
-                {PLAN_LABELS.plus}
+                {PLAN_LABELS[requiredPlan]}
               </span>
               <h2
                 id="upgrade-modal-title"
@@ -180,9 +188,11 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
         <div className="p-6 overflow-y-auto custom-scrollbar">
           <p className="text-sm text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed mb-5">
             {meta.blurb}{' '}
-            {stripeReady
-              ? `Upgrade to ${PLAN_LABELS.plus} to unlock this and everything below.`
-              : `This is part of ${PLAN_LABELS.plus} — plans are being finalised, so it isn't available on the free plan just yet.`}
+            {!sellsPlus
+              ? `This is part of the ${PLAN_LABELS.school} plan — a licence covers everyone at your school.`
+              : stripeReady
+                ? `Upgrade to ${PLAN_LABELS.plus} to unlock this and everything below.`
+                : `This is part of ${PLAN_LABELS.plus} — plans are being finalised, so it isn't available on the free plan just yet.`}
           </p>
 
           {showBandHook && (
@@ -201,10 +211,10 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
 
           <div className="rounded-2xl bg-amber-400/5 light:bg-amber-50 border border-amber-400/20 light:border-amber-200 p-4 mb-6">
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 light:text-amber-700 flex items-center gap-2 mb-3">
-              <Sparkles className="w-3.5 h-3.5" /> Included in {PLAN_LABELS.plus}
+              <Sparkles className="w-3.5 h-3.5" /> Included in {PLAN_LABELS[requiredPlan]}
             </span>
             <ul className="space-y-2">
-              {(Object.keys(PREMIUM_FEATURES) as PremiumFeatureKey[]).map((key) => (
+              {perkKeys.map((key) => (
                 <li
                   key={key}
                   className={`flex items-start gap-2.5 text-xs leading-relaxed ${key === feature ? 'text-[rgb(var(--color-text-primary))] light:text-slate-900 font-bold' : 'text-[rgb(var(--color-text-muted))] light:text-slate-500 font-medium'}`}
@@ -224,7 +234,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
 
           {/* Billing period toggle with real prices — a paywall that hides the
               price converts far worse than one that states it plainly. */}
-          {stripeReady && (
+          {stripeReady && sellsPlus && (
             <div className="mb-5">
               <div className="grid grid-cols-2 gap-2">
                 <button
@@ -274,23 +284,28 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
           )}
 
           <div className="flex flex-col sm:flex-row gap-3">
-            <button
-              onClick={handleUpgrade}
-              disabled={isRedirecting}
-              className="flex-1 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-xs uppercase tracking-widest shadow-xl shadow-amber-900/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
-            >
-              <Crown className="w-4 h-4" />{' '}
-              {isRedirecting ? 'Redirecting…' : stripeReady ? 'Upgrade now' : 'Keep me posted'}
-            </button>
+            {/* Only offer the Plus checkout when Plus is what unlocks the
+                feature; school-only features are bought below (or enquired
+                about) instead. */}
+            {sellsPlus && (
+              <button
+                onClick={handleUpgrade}
+                disabled={isRedirecting}
+                className="flex-1 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-xs uppercase tracking-widest shadow-xl shadow-amber-900/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
+              >
+                <Crown className="w-4 h-4" />{' '}
+                {isRedirecting ? 'Redirecting…' : stripeReady ? 'Upgrade now' : 'Keep me posted'}
+              </button>
+            )}
             <button
               onClick={close}
-              className="px-5 py-3 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-bold text-xs uppercase tracking-widest border border-white/5 light:border-slate-200 hover:bg-white/10 light:hover:bg-slate-200 transition-all"
+              className={`${sellsPlus ? '' : 'flex-1 '}px-5 py-3 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-bold text-xs uppercase tracking-widest border border-white/5 light:border-slate-200 hover:bg-white/10 light:hover:bg-slate-200 transition-all`}
             >
               Maybe later
             </button>
           </div>
 
-          {stripeReady && (
+          {stripeReady && sellsPlus && (
             <p className="mt-3 text-center text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-400">
               Cancel anytime from your profile — no lock-in.
             </p>
@@ -335,12 +350,15 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                     disabled={isBuyingSeats}
                     onClick={async () => {
                       setIsBuyingSeats(true);
-                      const url = await createCheckoutUrl(STRIPE_PRICE_IDS.school, seats);
+                      const { url, error } = await createCheckoutUrl(
+                        STRIPE_PRICE_IDS.school,
+                        seats
+                      );
                       if (url) {
                         window.location.href = url;
                       } else {
                         showToast(
-                          'Could not start the school checkout. Please try again.',
+                          error ?? 'Could not start the school checkout. Please try again.',
                           'error'
                         );
                         setIsBuyingSeats(false);

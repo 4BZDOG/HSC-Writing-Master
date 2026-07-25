@@ -20,6 +20,7 @@ const BillingAlertBanner: React.FC = () => {
   const [alert, setAlert] = useState<BillingAlert | null>(null);
   const [dismissed, setDismissed] = useState(false);
   const [isOpeningPortal, setIsOpeningPortal] = useState(false);
+  const [portalError, setPortalError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -37,12 +38,16 @@ const BillingAlertBanner: React.FC = () => {
 
   const openPortal = async () => {
     setIsOpeningPortal(true);
-    const url = await createPortalUrl();
+    setPortalError(null);
+    const { url, error } = await createPortalUrl();
     if (url) {
       window.location.href = url;
-    } else {
-      setIsOpeningPortal(false);
+      return;
     }
+    // Say something: a spinner that stops with nothing happening reads as a
+    // broken button on the one screen where the user is trying to pay us.
+    setPortalError(error ?? 'Could not open the billing portal. Please try again shortly.');
+    setIsOpeningPortal(false);
   };
 
   return (
@@ -76,6 +81,11 @@ const BillingAlertBanner: React.FC = () => {
       >
         <X className="w-4 h-4" />
       </button>
+      {portalError && (
+        <p className="w-full text-[11px] font-bold text-red-500 light:text-red-600">
+          {portalError}
+        </p>
+      )}
     </div>
   );
 };

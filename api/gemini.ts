@@ -1,6 +1,11 @@
 import { runAiProxy } from './_lib/providers';
 import { verifyRequestAuth, extractBearerToken } from './_lib/auth';
-import { consumeAiQuota, recordAiModelUsage, type QuotaVerdict } from './_lib/quota';
+import {
+  consumeAiQuota,
+  consumeEvaluation,
+  recordAiModelUsage,
+  type QuotaVerdict,
+} from './_lib/quota';
 import { corsHeadersFor } from './_lib/cors';
 
 /**
@@ -46,6 +51,14 @@ const requestModel = (body: unknown): string | undefined => {
   return typeof model === 'string' ? model : undefined;
 };
 
+/** The product feature the call belongs to, when the client tagged it
+ *  (`__feature`). Only 'evaluation' is metered; the tag is stripped in
+ *  _lib/providers.ts so it never reaches a provider SDK. */
+const requestFeature = (body: unknown): string | undefined => {
+  const feature = (body as { __feature?: unknown } | null | undefined)?.__feature;
+  return typeof feature === 'string' ? feature : undefined;
+};
+
 export default async function handler(req: RequestLike, res: ResponseLike): Promise<void> {
   // Opt-in CORS for split hosting (static frontend elsewhere, API here).
   // No ALLOWED_ORIGIN configured → no CORS headers → same-origin only.
@@ -84,6 +97,23 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   let quota: QuotaVerdict | null = null;
   if (auth.userId) {
     const token = extractBearerToken(authHeader);
+
+    // Paywall gate: marking an answer is the metered product feature (schema
+    // §14). Checked BEFORE the AI budget so a refused evaluation doesn't spend
+    // a call the user never got. Only bites on the free tier; staff and paid
+    // plans resolve to unlimited server-side.
+    if (token && requestFeature(req.body) === 'evaluation') {
+      const evaluations = await consumeEvaluation(token);
+      if (evaluations && !evaluations.allowed) {
+        res.status(402).json({
+          error: `You've used all ${evaluations.limit} free evaluations for today. Upgrade to Plus for unlimited marking.`,
+          upgradeRequired: true,
+          evaluations,
+        });
+        return;
+      }
+    }
+
     quota = token ? await consumeAiQuota(token) : null;
     if (quota && !quota.allowed) {
       // Both wordings must keep the "Daily AI limit" phrase — services/aiCore.ts

@@ -20,7 +20,13 @@
  * mock URL pointing to /#/upgrade-test so the client flow can be exercised
  * end-to-end without a real Stripe account.
  */
-import { getStripe, getSupabaseAdmin, isStripeConfigured, resolveReturnBase } from './_lib/stripe';
+import {
+  configuredPrices,
+  getStripe,
+  getSupabaseAdmin,
+  isStripeConfigured,
+  resolveReturnBase,
+} from './_lib/stripe';
 import { verifyRequestAuth } from './_lib/auth';
 
 interface RequestLike {
@@ -77,6 +83,22 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     return;
   }
 
+  // Only prices this deployment actually sells may be checked out. Without
+  // this the client could name ANY price in the Stripe account — including
+  // ones priceToPlan doesn't recognise, which take the customer's money and
+  // grant them nothing (the webhook would resolve the plan to 'free').
+  const sellablePrices = configuredPrices();
+  const priceCount = Object.keys(sellablePrices).length;
+  if (priceCount === 0) {
+    console.error('[create-checkout] Stripe is configured but no price IDs are set.');
+    res.status(501).json({ error: 'No plans are available for purchase yet.' });
+    return;
+  }
+  if (!sellablePrices[priceId]) {
+    res.status(400).json({ error: 'Unknown plan. Please refresh and try again.' });
+    return;
+  }
+
   const stripe = getStripe()!;
 
   try {
@@ -90,10 +112,22 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     if (supabase) {
       const { data: profile } = await supabase
         .from('profiles')
-        .select('stripe_customer_id')
+        .select('stripe_customer_id, role')
         .eq('id', auth.userId)
         .maybeSingle();
       if (profile?.stripe_customer_id) existingCustomerId = profile.stripe_customer_id;
+
+      // A school licence grants the plan to EVERY member of the buyer's
+      // school, so buying one is a staff action. The client only shows the
+      // seat picker to teachers/admins; enforce the same rule here rather
+      // than trusting that. (Skipped when Supabase is unconfigured — there is
+      // no role to check, matching the auth gate's mock-mode parity.)
+      if (sellablePrices[priceId] === 'school' && !['teacher', 'admin'].includes(profile?.role)) {
+        res.status(403).json({
+          error: 'School licences are purchased by a teacher or admin account.',
+        });
+        return;
+      }
 
       // First checkout for this user: prefill their account email so the new
       // Stripe customer is identifiable and receipts / failed-payment recovery
@@ -110,8 +144,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
 
     // Seat quantity applies only to the school licence price; everything else
     // is an individual subscription and always bills one seat.
-    const isSchoolPrice =
-      Boolean(process.env.STRIPE_SCHOOL_PRICE_ID) && priceId === process.env.STRIPE_SCHOOL_PRICE_ID;
+    const isSchoolPrice = sellablePrices[priceId] === 'school';
     const seats = isSchoolPrice
       ? Math.min(1000, Math.max(1, Math.trunc(Number(body?.seats ?? 1)) || 1))
       : 1;
@@ -140,8 +173,12 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
 
     res.status(200).json({ url: session.url });
   } catch (e) {
-    const message = e instanceof Error ? e.message : 'Stripe session creation failed.';
-    console.error('[create-checkout]', message);
-    res.status(500).json({ error: message });
+    // Log the detail, return a generic message: raw Stripe errors quote
+    // account/price internals that shouldn't reach an end user's browser.
+    console.error(
+      '[create-checkout]',
+      e instanceof Error ? e.message : 'Stripe session creation failed.'
+    );
+    res.status(500).json({ error: 'Could not start checkout. Please try again.' });
   }
 }
