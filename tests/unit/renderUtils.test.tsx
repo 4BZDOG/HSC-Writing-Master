@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
 import React from 'react';
 import {
+  getKeywordVariants,
   renderEditorHighlights,
   renderFormattedText,
   textContainsKeyword,
@@ -69,7 +70,9 @@ describe('renderFormattedText', () => {
 
   it('bolds every occurrence of a repeated keyword in the prompt', () => {
     const { container } = render(
-      <>{renderFormattedText('Define the mitochondria; the mitochondria matter.', ['mitochondria'])}</>
+      <>
+        {renderFormattedText('Define the mitochondria; the mitochondria matter.', ['mitochondria'])}
+      </>
     );
     expect(container.querySelectorAll('span.text-emerald-400').length).toBe(2);
     expect(container.textContent).toBe('Define the mitochondria; the mitochondria matter.');
@@ -142,9 +145,9 @@ describe('coordination ellipsis (shared head nouns)', () => {
   });
 
   it('does not fire without a coordinated shared head', () => {
-    expect(highlightTexts('Supervised practice supports learning.', ['supervised learning'])).toEqual(
-      []
-    );
+    expect(
+      highlightTexts('Supervised practice supports learning.', ['supervised learning'])
+    ).toEqual([]);
     expect(
       highlightTexts('Supervised or self-directed approaches to learning.', ['supervised learning'])
     ).toEqual([]);
@@ -154,9 +157,9 @@ describe('coordination ellipsis (shared head nouns)', () => {
     expect(
       textContainsKeyword('Compare supervised and unsupervised learning.', 'supervised learning')
     ).toBe(true);
-    expect(textContainsKeyword('Supervised practice supports learning.', 'supervised learning')).toBe(
-      false
-    );
+    expect(
+      textContainsKeyword('Supervised practice supports learning.', 'supervised learning')
+    ).toBe(false);
   });
 });
 
@@ -181,5 +184,92 @@ describe('textContainsKeyword (shared matcher for coverage meters)', () => {
     expect(textContainsKeyword('The cellar door.', 'cell')).toBe(false);
     expect(textContainsKeyword('', 'cell')).toBe(false);
     expect(textContainsKeyword('anything', '')).toBe(false);
+  });
+});
+
+describe('acronyms are not treated as plurals', () => {
+  it('does not strip the capital S off an initialism', () => {
+    // "DoS" (Denial of Service) was singularised to "Do", so every "do" a
+    // student wrote lit up as the syllabus keyword and earned coverage credit.
+    expect(getKeywordVariants('DoS')).not.toContain('Do');
+    expect(getKeywordVariants('Denial of Service (DoS)')).not.toContain('Do');
+    expect(getKeywordVariants('SaaS')).not.toContain('Saa');
+
+    const prose = 'Students do not always know what to do when the system fails.';
+    expect(textContainsKeyword(prose, 'DoS')).toBe(false);
+    expect(textContainsKeyword(prose, 'Denial of Service (DoS)')).toBe(false);
+  });
+
+  it('still singularises a genuine lowercase plural, including acronym plurals', () => {
+    expect(getKeywordVariants('APIs')).toContain('API');
+    expect(getKeywordVariants('CPUs')).toContain('CPU');
+    expect(textContainsKeyword('The cell divides.', 'cells')).toBe(true);
+    expect(textContainsKeyword('Many mRNAs are produced.', 'mRNA')).toBe(true);
+  });
+
+  it('never derives a one- or two-letter variant', () => {
+    for (const kw of ['DoS', 'red', 'gas', 'bias', 'SaaS', 'IoT', 'axis']) {
+      const derived = getKeywordVariants(kw).filter((v) => v !== kw);
+      derived.forEach((v) =>
+        expect(v.replace(/[^A-Za-z0-9]/g, '').length).toBeGreaterThanOrEqual(3)
+      );
+    }
+  });
+});
+
+describe('spelling and separator equivalence', () => {
+  it('credits either side of a British/American pair', () => {
+    const pairs: [string, string][] = [
+      ['behaviour', 'Observed behavior changed over time.'],
+      ['behavior', 'Observed behaviour changed over time.'],
+      ['modelling', 'We used modeling techniques.'],
+      ['modeling', 'We used modelling techniques.'],
+      ['analyse', 'The data was analyzed carefully.'],
+      ['organisation', 'The organization grew.'],
+      ['programme', 'The program compiles.'],
+      ['catalogue', 'The catalog lists every part.'],
+    ];
+    pairs.forEach(([kw, text]) =>
+      expect(textContainsKeyword(text, kw), `${kw} in "${text}"`).toBe(true)
+    );
+  });
+
+  it('treats hyphenated, spaced and closed compounds as the same term', () => {
+    const forms = [
+      'Replication is semi-conservative.',
+      'Replication is semi conservative.',
+      'Replication is semiconservative.',
+    ];
+    forms.forEach((text) =>
+      expect(textContainsKeyword(text, 'semi-conservative'), text).toBe(true)
+    );
+  });
+
+  it('keeps the -our swap off ordinary words that merely end in "our"', () => {
+    // A blanket our -> or rule would make these match "for", "hor" and "tor".
+    const prose = 'There are four of them and an hour is a long tour.';
+    ['four', 'hour', 'tour', 'flour'].forEach((kw) =>
+      expect(getKeywordVariants(kw), kw).not.toContain(kw.replace(/our$/, 'or'))
+    );
+    expect(prose).toBeTruthy();
+  });
+
+  it('keeps the double-l swap off short words where it changes meaning', () => {
+    // "filing" must not become "filling", nor "ruling" become "rulling".
+    expect(getKeywordVariants('filing')).not.toContain('filling');
+    expect(getKeywordVariants('ruling')).not.toContain('rulling');
+    expect(textContainsKeyword('The filling was sweet.', 'filing')).toBe(false);
+  });
+});
+
+describe('classical plurals', () => {
+  it('matches the -es plural of an -is singular', () => {
+    // The -is rule sat behind the sibilant rule, which every word ending in
+    // "s" hits first, so it was unreachable: "hypothesis" produced
+    // "hypothesises" and never matched the "hypotheses" a student writes.
+    expect(getKeywordVariants('hypothesis')).toContain('hypotheses');
+    expect(getKeywordVariants('analysis')).toContain('analyses');
+    expect(textContainsKeyword('Both hypotheses were tested.', 'hypothesis')).toBe(true);
+    expect(textContainsKeyword('The analyses agree.', 'analysis')).toBe(true);
   });
 });

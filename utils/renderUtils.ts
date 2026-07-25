@@ -8,24 +8,108 @@ export const escapeRegExp = (string: string): string => {
 };
 
 /**
- * British/American spelling swaps for a term (analyse ↔ analyze,
- * optimisation ↔ optimization). Returns the term plus any spelling twin.
+ * Stems that take -our in British/Australian spelling and -or in American.
+ * An explicit list rather than a rule: a blanket `our$ -> or$` also rewrites
+ * "four", "hour", "tour" and "flour", and every one of those variants would
+ * then light up ordinary prose as a syllabus keyword.
+ */
+const OUR_STEMS = [
+  'behavi',
+  'col',
+  'fav',
+  'flav',
+  'hon',
+  'hum',
+  'lab',
+  'neighb',
+  'odd',
+  'rig',
+  'rum',
+  'sav',
+  'vap',
+  'vig',
+  'endeav',
+  'harb',
+  'arm',
+  'parl',
+];
+
+/** Word pairs with no productive rule behind them. */
+const WORD_PAIRS: ReadonlyArray<readonly [string, string]> = [
+  ['programme', 'program'],
+  ['defence', 'defense'],
+  ['licence', 'license'],
+  ['offence', 'offense'],
+  ['practise', 'practice'],
+  ['metre', 'meter'],
+  ['litre', 'liter'],
+  ['fibre', 'fiber'],
+  ['centre', 'center'],
+];
+
+/**
+ * British/American spelling swaps for a term. The app is British/Australian
+ * English throughout, but students type both, and a keyword must be credited
+ * either way — a response that says "behavior" is still using the syllabus
+ * term "behaviour". Returns the term plus every spelling twin.
  */
 const spellingSwaps = (t: string): string[] => {
-  const out = [t];
-  const zed = t.replace(/([iy])s(e[sd]?|es|ing|ations?)/gi, '$1z$2');
-  if (zed !== t) out.push(zed);
-  const essed = t.replace(/([iy])z(e[sd]?|es|ing|ations?)/gi, '$1s$2');
-  if (essed !== t) out.push(essed);
-  return out;
+  const out = new Set([t]);
+  const add = (s: string) => {
+    if (s !== t) out.add(s);
+  };
+
+  // analyse ↔ analyze, optimisation ↔ optimization
+  add(t.replace(/([iy])s(e[sd]?|es|ing|ations?)/gi, '$1z$2'));
+  add(t.replace(/([iy])z(e[sd]?|es|ing|ations?)/gi, '$1s$2'));
+
+  // behaviour ↔ behavior, colour ↔ color — including inflected forms
+  // ("behavioural", "coloured"), which is why the suffix is optional.
+  for (const stem of OUR_STEMS) {
+    add(t.replace(new RegExp(`\\b(${stem})our\\b`, 'gi'), '$1or'));
+    add(t.replace(new RegExp(`\\b(${stem})our(s|ed|ing|al|ally|able|less)\\b`, 'gi'), '$1or$2'));
+    add(t.replace(new RegExp(`\\b(${stem})or\\b`, 'gi'), '$1our'));
+    add(t.replace(new RegExp(`\\b(${stem})or(s|ed|ing|al|ally|able|less)\\b`, 'gi'), '$1our$2'));
+  }
+
+  // modelling ↔ modeling, labelled ↔ labeled. The 4-character stem floor keeps
+  // this off short words where the doubled form is a DIFFERENT word — without
+  // it "filing" would also match "filling".
+  add(t.replace(/([a-z]{4,})ll(ing|ed|er|ers)\b/gi, '$1l$2'));
+  add(t.replace(/([a-z]{4,})l(ing|ed|er|ers)\b/gi, '$1ll$2'));
+
+  // catalogue ↔ catalog, dialogue ↔ dialog. The stem floor keeps "log", "blog"
+  // and "dog" out of it.
+  add(t.replace(/([a-z]{3,})ogue\b/gi, '$1og'));
+  add(t.replace(/([a-z]{4,})og\b/gi, '$1ogue'));
+
+  for (const [a, b] of WORD_PAIRS) {
+    add(t.replace(new RegExp(`\\b${a}`, 'gi'), b));
+    add(t.replace(new RegExp(`\\b${b}`, 'gi'), a));
+  }
+
+  return Array.from(out);
 };
 
-/** Hyphen/space equivalence: client-side ↔ client side. */
+/**
+ * Separator equivalence: client-side ↔ client side ↔ clientside. Students
+ * close, hyphenate and space compound terms interchangeably —
+ * "semi-conservative", "semi conservative" and "semiconservative" are the same
+ * answer and must all be credited.
+ */
 const hyphenSwaps = (t: string): string[] => {
-  const out = [t];
-  if (t.includes('-')) out.push(t.replace(/-/g, ' '));
-  if (/\w \w/.test(t)) out.push(t.replace(/ /g, '-'));
-  return out;
+  const out = new Set([t]);
+  if (t.includes('-')) {
+    out.add(t.replace(/-/g, ' '));
+    out.add(t.replace(/-/g, ''));
+  }
+  if (/\w \w/.test(t)) {
+    out.add(t.replace(/ /g, '-'));
+    // Only single-space compounds close up: joining a long phrase produces a
+    // string no student would ever type.
+    if (t.split(' ').length === 2) out.add(t.replace(/ /g, ''));
+  }
+  return Array.from(out);
 };
 
 export const getKeywordVariants = (keyword: string): string[] => {
@@ -46,24 +130,35 @@ export const getKeywordVariants = (keyword: string): string[] => {
 
     const lower = t.toLowerCase();
 
-    // Pluralization
+    // Pluralisation. The -is rule has to come FIRST: every word ending in "is"
+    // also ends in "s", so behind the sibilant rule it was unreachable and
+    // "hypothesis" produced "hypothesises" instead of "hypotheses" — the plural
+    // a student actually writes never matched.
     if (lower.endsWith('y') && !lower.match(new RegExp('[aeiou]y$'))) {
       variants.add(t.slice(0, -1) + 'ies'); // City -> Cities
-    } else if (lower.match(new RegExp('(s|x|z|ch|sh)$'))) {
-      variants.add(t + 'es'); // Bus -> Buses
     } else if (lower.endsWith('is')) {
       variants.add(t.slice(0, -2) + 'es'); // Analysis -> Analyses
+    } else if (lower.match(new RegExp('(s|x|z|ch|sh)$'))) {
+      variants.add(t + 'es'); // Bus -> Buses
     } else {
       variants.add(t + 's'); // Cat -> Cats
     }
 
-    // Singularization (Basic heuristics for reverse matching)
+    // Singularisation (basic heuristics for reverse matching).
+    //
+    // These tests are deliberately CASE-SENSITIVE on the original term, unlike
+    // the pluralisation above. A trailing capital "S" is part of an initialism,
+    // not a plural: lower-casing first turned "DoS" (Denial of Service) into
+    // the variant "Do", so every "do" a student wrote lit up as that syllabus
+    // keyword and was credited in the coverage meter. Conversely the "-is"
+    // exception exists for "analysis"/"basis", and matching it case-insensitively
+    // caught acronym plurals too — "APIs" was never allowed to match "API".
     if (lower.endsWith('ies')) {
       variants.add(t.slice(0, -3) + 'y'); // Cities -> City
     } else if (lower.endsWith('es') && lower.slice(0, -2).match(new RegExp('(s|x|z|ch|sh)$'))) {
       variants.add(t.slice(0, -2)); // Buses -> Bus
-    } else if (lower.endsWith('s') && !lower.endsWith('ss') && !lower.endsWith('is')) {
-      variants.add(t.slice(0, -1)); // Cats -> Cat
+    } else if (t.endsWith('s') && !t.endsWith('ss') && !t.endsWith('is')) {
+      variants.add(t.slice(0, -1)); // Cats -> Cat, APIs -> API, but DoS stays DoS
     }
 
     // Verb forms / Gerunds — both directions, so the keyword "test" lights up
@@ -100,7 +195,13 @@ export const getKeywordVariants = (keyword: string): string[] => {
     addInflections(b);
   });
 
-  return Array.from(variants);
+  // Backstop: a one- or two-letter DERIVED variant is never a real term, and
+  // matching one against a whole response is how a stray "do" or "re" ends up
+  // highlighted as a syllabus keyword. The keyword the curator actually wrote
+  // is always kept, however short ("AI", "pH").
+  return Array.from(variants).filter(
+    (v) => v === trimmed || v.replace(/[^\p{L}\p{N}]/gu, '').length >= 3
+  );
 };
 
 export interface BandConfig {
