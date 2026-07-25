@@ -11,7 +11,9 @@ import {
   WritingMode,
 } from '../types';
 import PromptDisplay from './PromptDisplay';
-import ReferenceMaterials from './ReferenceMaterials';
+import ReferenceMaterials, { AccordionSection } from './ReferenceMaterials';
+import MarkingCriteriaManager from './MarkingCriteriaAccordion';
+import { ListChecks } from 'lucide-react';
 import CommandTermGuideModal from './CommandTermGuideModal';
 import Breadcrumb from './Breadcrumb';
 import { getCommandTermInfo } from '../data/commandTerms';
@@ -133,7 +135,14 @@ const Workspace: React.FC<WorkspaceProps> = ({
   const [editorHeaderHeight, setEditorHeaderHeight] = useState(0);
   const [syncedHeaderHeight, setSyncedHeaderHeight] = useState(0);
   const [promptTotalHeight, setPromptTotalHeight] = useState(0);
-  const [syncedTotalHeight, setSyncedTotalHeight] = useState(0);
+  // Seeded at the floor rather than 0. Measuring happens in effects after the
+  // first commit, so starting from "unknown" meant the writing area painted at
+  // its own natural height — around 430px — and then snapped to the prompt's
+  // 620px a frame or two later, which read as the pair resizing on load. Both
+  // cards are floored at MIN_CARD_HEIGHT anyway, so starting there is the
+  // answer for every prompt that does not exceed it, and a much smaller step
+  // for the ones that do.
+  const [syncedTotalHeight, setSyncedTotalHeight] = useState(MIN_CARD_HEIGHT);
   const [promptFooterHeight, setPromptFooterHeight] = useState(0);
   const [editorFooterHeight, setEditorFooterHeight] = useState(0);
   const [syncedFooterHeight, setSyncedFooterHeight] = useState(0);
@@ -190,16 +199,16 @@ const Workspace: React.FC<WorkspaceProps> = ({
   // neither a total nor a footer height. Its observers disconnect on unmount,
   // so without this the writing area would keep being sized — and its footer
   // padded — by the last measurements of a card no longer on screen.
-  // Zeroing promptTotalHeight alone was not enough: the effect that derives
-  // syncedTotalHeight ignores 0 (a legitimate "not measured yet" reading), so
-  // the writing area stayed pinned to the height of the full prompt card that
-  // is no longer on screen. Clearing the synced value too lets the editor fall
-  // back to its own cap and actually use the space Focus Mode frees up.
+  // Focus Mode swaps the full prompt card for the condensed one, which reports
+  // neither a total nor a footer height. Its observers disconnect on unmount,
+  // so these stale readings are cleared; the synced values themselves are
+  // suppressed by `syncChrome` below rather than zeroed, so returning to the
+  // two-column view restores the last good sizing instead of flashing through
+  // the fallback.
   useEffect(() => {
     if (isFocusMode) {
       setPromptTotalHeight(0);
       setPromptFooterHeight(0);
-      setSyncedTotalHeight(0);
     }
   }, [isFocusMode]);
 
@@ -294,6 +303,27 @@ const Workspace: React.FC<WorkspaceProps> = ({
   // together. Focus Mode has no left rail, so the same card is handed to the
   // writing column instead, collapsed, so it is reachable without competing
   // with the page the student is writing on.
+  // Focus Mode's reference strip. It has no left rail, so the two placards a
+  // student actually reaches for while writing — what each mark level requires,
+  // and what those levels look like — are handed to the writing column instead,
+  // both folded shut so they cost nothing until they are wanted.
+  const markingGuideCard = (
+    <AccordionSection title="Marking Guide" icon={<ListChecks />} band={5}>
+      <MarkingCriteriaManager
+        prompt={currentPrompt}
+        markingCriteria={currentPrompt.markingCriteria || ''}
+        onSave={(mc) =>
+          syllabusHandlers.updateCourses((d) =>
+            findAndUpdateItem(d, statePath, (p) => (p.markingCriteria = mc))
+          )
+        }
+        band={5}
+        userRole={userRole}
+        courseOutcomes={courseOutcomes}
+      />
+    </AccordionSection>
+  );
+
   const sampleAnswersCard = (
     <SampleAnswersAccordion
       prompt={currentPrompt}
@@ -367,6 +397,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
               minFooterHeight={syncedFooter}
               minTotalHeight={syncedTotal}
               breadcrumb={breadcrumbItems.map((b) => b.label)}
+              examMode={isExamMode}
             />
           </div>
         )}
@@ -399,6 +430,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
               minHeaderHeight={syncedHeader}
               condensed
               breadcrumb={breadcrumbItems.map((b) => b.label)}
+              examMode={isExamMode}
             />
           </div>
         )}
@@ -432,7 +464,14 @@ const Workspace: React.FC<WorkspaceProps> = ({
           minFooterHeight={syncedFooter}
           writingMode={writingMode}
           onWritingModeChange={onWritingModeChange}
-          sampleAnswersSlot={isFocusMode && !isExamMode ? sampleAnswersCard : undefined}
+          referenceSlot={
+            isFocusMode && !isExamMode ? (
+              <>
+                {markingGuideCard}
+                {sampleAnswersCard}
+              </>
+            ) : undefined
+          }
         />
 
         {!isFocusMode && (

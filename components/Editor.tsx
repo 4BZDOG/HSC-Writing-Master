@@ -61,7 +61,10 @@ interface EditorProps {
   minFooterHeight?: number;
   writingMode?: WritingMode;
   onWritingModeChange?: (mode: WritingMode) => void;
-  /** Primary action (Evaluate), docked in its own row above the footer. */
+  /** Primary action (Evaluate), docked at the right end of the footer bar.
+   *  It lives in the chrome rather than over — or above — the writing surface:
+   *  floating, it hid the student's own words; in a row of its own it took
+   *  ~90px out of a card whose height is fixed by the question beside it. */
   footerAction?: React.ReactNode;
 }
 
@@ -478,7 +481,10 @@ const Editor = forwardRef<
 
     return (
       <div
-        className={`clip-stable flex flex-col w-full h-auto bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] overflow-hidden border-2 ${chroma.border} shadow-2xl ${chroma.glow} transition-all duration-700 ease-in-out ${className}`}
+        // `transition-all` here animated min/max-height, so on load — as the
+        // prompt card was measured and the synced height arrived — both cards
+        // visibly grew into place. Only the colour-and-shadow chrome animates.
+        className={`clip-stable flex flex-col w-full h-auto bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] overflow-hidden border-2 ${chroma.border} shadow-2xl ${chroma.glow} transition-[box-shadow,border-color,background-color] duration-700 ease-in-out ${className}`}
         // Pinned to the question prompt's height: min and max are the same
         // value, so the writing area matches the card beside it exactly and a
         // response longer than that scrolls inside it. The fallback only
@@ -493,7 +499,7 @@ const Editor = forwardRef<
           {/* Header */}
           <div
             ref={headerRef}
-            className={`px-4 sm:px-8 py-4 sm:py-5 text-white flex justify-between items-start relative overflow-hidden flex-shrink-0 rounded-t-[30px] transition-all duration-1000 ease-in-out`}
+            className={`px-4 sm:px-8 py-4 sm:py-5 text-white flex justify-between items-start relative overflow-hidden flex-shrink-0 rounded-t-[30px] transition-[background,box-shadow] duration-1000 ease-in-out`}
             style={{
               minHeight: minHeaderHeight ? `${minHeaderHeight}px` : 'auto',
               background: chroma.background,
@@ -685,7 +691,7 @@ const Editor = forwardRef<
           {/* Editor Body with Grid Stacking for Auto-Height */}
           <div
             ref={bodyRef}
-            className="relative flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white overflow-y-auto min-h-0"
+            className="relative flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white overflow-y-auto min-h-0 focus-within:ring-2 focus-within:ring-inset focus-within:ring-[rgb(var(--color-accent))]/30"
           >
             {/* Progress-Aware Background Bloom */}
             <div
@@ -725,7 +731,11 @@ const Editor = forwardRef<
                   isExamMode ? 'Begin your response. The clock is running…' : placeholder
                 }
                 disabled={disabled}
-                className={`${gridStackItemStyles} bg-transparent text-transparent caret-[currentColor] resize-none border-none outline-none placeholder:text-[rgb(var(--color-text-dim))] focus:ring-0 selection:bg-[rgb(var(--color-accent))]/20 z-10 h-full`}
+                // The focus indicator moves to the scroll region around it
+                // (focus-within, inset): a textarea always matches
+                // :focus-visible, and the global rule's outline was being
+                // clipped by the card down to a single bar across the page.
+                className={`${gridStackItemStyles} bg-transparent text-transparent caret-[currentColor] resize-none border-none outline-none focus-visible:outline-none placeholder:text-[rgb(var(--color-text-dim))] focus:ring-0 selection:bg-[rgb(var(--color-accent))]/20 z-10 h-full`}
                 style={{
                   fontSize: `${internalFontSize}px`,
                   caretColor: chroma.accent,
@@ -744,18 +754,10 @@ const Editor = forwardRef<
             </div>
           </div>
 
-          {/* Primary action row — a sibling of the scroll region, so it can
-              never sit on top of the student's words. */}
-          {footerAction && (
-            <div className="px-4 sm:px-8 pt-2 pb-3 flex justify-end flex-shrink-0 relative z-20 bg-[rgb(var(--color-bg-surface-inset))] light:bg-white">
-              {footerAction}
-            </div>
-          )}
-
           {/* Footer Metrics */}
           <div
             ref={footerRef}
-            className={`px-4 sm:px-6 py-3 flex items-center border-t border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50 rounded-b-[30px] transition-all duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
+            className={`px-4 sm:px-6 py-3 flex items-center border-t border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50 rounded-b-[30px] transition-[box-shadow,border-color] duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
             style={{ minHeight: minFooterHeight || 52 }}
           >
             {/* Inner wrapper carries the row layout so its height stays
@@ -775,16 +777,19 @@ const Editor = forwardRef<
                   {wordCount === 1 ? 'Word' : 'Words'}
                 </span>
               </div>
-              <div className="flex items-center gap-2.5">
-                <div
-                  className="w-2.5 h-2.5 rounded-full transition-colors duration-700 ring-2 ring-white/10"
-                  style={{ backgroundColor: chroma.accent }}
-                />
-                <span className="text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-secondary))]">
-                  {isExamMode
-                    ? 'Exam Conditions'
-                    : `Band ${chroma.targetBand} Target · ${chroma.name}`}
-                </span>
+              <div className="flex items-center gap-3 sm:gap-5 ml-auto">
+                <div className="flex items-center gap-2.5">
+                  <div
+                    className="w-2.5 h-2.5 rounded-full transition-colors duration-700 ring-2 ring-white/10"
+                    style={{ backgroundColor: chroma.accent }}
+                  />
+                  <span className="text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-secondary))]">
+                    {isExamMode
+                      ? 'Exam Conditions'
+                      : `Band ${chroma.targetBand} Target · ${chroma.name}`}
+                  </span>
+                </div>
+                {footerAction}
               </div>
             </div>
           </div>

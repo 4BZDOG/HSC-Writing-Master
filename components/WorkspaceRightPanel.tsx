@@ -42,8 +42,8 @@ interface WorkspaceRightPanelProps {
   minFooterHeight?: number;
   writingMode: WritingMode;
   onWritingModeChange: (mode: WritingMode) => void;
-  /** Sample Answers card — supplied only in Focus Mode (see below). */
-  sampleAnswersSlot?: React.ReactNode;
+  /** Marking Guide + Sample Answers — supplied only in Focus Mode (see below). */
+  referenceSlot?: React.ReactNode;
 }
 
 const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
@@ -74,7 +74,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   minFooterHeight,
   writingMode,
   onWritingModeChange,
-  sampleAnswersSlot,
+  referenceSlot,
 }) => {
   const isExamMode = writingMode === 'exam';
   const editorRef = useRef<{
@@ -172,68 +172,61 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     [breadcrumbItems]
   );
 
-  const evalCounterDisplay = useMemo(() => {
+  // Folded into the button's tooltip now that it has no caption slot.
+  const evalCounterTitle = useMemo(() => {
     const remaining = freeEvalsRemaining();
-    return remaining < Infinity ? (
-      <p className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-400 mt-1.5 text-center">
-        {remaining > 0
-          ? `${remaining} free evaluation${remaining === 1 ? '' : 's'} remaining today`
-          : 'Daily free limit reached'}
-      </p>
-    ) : null;
+    if (remaining === Infinity) return '';
+    return remaining > 0
+      ? ` — ${remaining} free evaluation${remaining === 1 ? '' : 's'} remaining today`
+      : ' — daily free limit reached';
   }, [evaluationResult]);
 
+  // Footer-sized, not hero-sized. At 20px of padding and text-xl it was a
+  // slab that pushed the writing surface down; the keyboard shortcut and the
+  // remaining-evaluations count move into the title so the control itself
+  // stays the height of the footer it sits in.
   const evaluateAction = (
-    <div className="flex flex-col items-end">
-      <button
-        onClick={onEvaluate}
-        disabled={isEvaluating || !userAnswer.trim()}
-        title={
+    <button
+      onClick={onEvaluate}
+      disabled={isEvaluating || !userAnswer.trim()}
+      title={
+        isEvaluating
+          ? 'Evaluating your response…'
+          : !userAnswer.trim()
+            ? 'Write a response first, then evaluate'
+            : `Evaluate your response (Ctrl / ⌘ + Enter)${evalCounterTitle}`
+      }
+      className={`
+        group px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl font-black text-xs sm:text-sm tracking-tight
+        transition-all duration-300 flex items-center gap-2 flex-shrink-0
+        ${
           isEvaluating
-            ? 'Evaluating your response…'
+            ? 'bg-slate-800 light:bg-slate-200 text-slate-400 cursor-wait border border-white/5 light:border-slate-300'
             : !userAnswer.trim()
-              ? 'Write a response first, then evaluate'
-              : 'Evaluate your response (Ctrl / ⌘ + Enter)'
+              ? 'bg-slate-800/60 light:bg-slate-200/80 text-slate-500 cursor-not-allowed border border-white/5 light:border-slate-300 opacity-40'
+              : `bg-gradient-to-r ${buttonConfig.gradient} shadow-lg ${buttonConfig.shadow} hover:shadow-xl hover:scale-[1.03] active:scale-[0.97] border ${buttonConfig.border}`
         }
-        className={`
-          group px-6 py-3.5 sm:px-10 sm:py-5 rounded-[24px] font-black text-base sm:text-xl tracking-tight
-          transition-all duration-500 flex items-center gap-3 sm:gap-4
-          ${
-            isEvaluating
-              ? 'bg-slate-800 light:bg-slate-200 text-slate-400 cursor-wait border border-white/5 light:border-slate-300 shadow-lg'
-              : !userAnswer.trim()
-                ? 'bg-slate-800/60 light:bg-slate-200/80 text-slate-500 cursor-not-allowed border border-white/5 light:border-slate-300 opacity-30 shadow-none'
-                : `bg-gradient-to-r ${buttonConfig.gradient} shadow-xl ${buttonConfig.shadow} hover:shadow-2xl hover:scale-105 active:scale-[0.97] border ${buttonConfig.border} ring-1 ring-white/10 hover:ring-white/25`
-          }
-        `}
-      >
-        {isEvaluating ? (
-          <>
-            <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin text-white/60" />
-            <span className="text-slate-400 drop-shadow-sm">Evaluating</span>
-          </>
-        ) : (
-          <>
-            {/* No pulse at "high progress" — a length-and-keyword score
-                must not be dressed up as a quality signal. */}
-            <Sparkles
-              className={`w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300 ${
-                userAnswer.trim()
-                  ? 'text-white/80 group-hover:text-white group-hover:rotate-12 group-hover:scale-110'
-                  : 'text-white/30'
-              }`}
-            />
-            <span className={`${buttonConfig.text} drop-shadow-sm`}>Evaluate</span>
-            {userAnswer.trim() && !isEvaluating && (
-              <kbd className="hidden sm:inline text-[9px] font-bold bg-white/15 border border-white/10 rounded-md px-1.5 py-0.5 tracking-normal ml-1 opacity-60 group-hover:opacity-100 transition-opacity">
-                ⌘↵
-              </kbd>
-            )}
-          </>
-        )}
-      </button>
-      {evalCounterDisplay}
-    </div>
+      `}
+    >
+      {isEvaluating ? (
+        <>
+          <Loader2 className="w-4 h-4 animate-spin text-white/60" />
+          <span className="text-slate-400">Evaluating</span>
+        </>
+      ) : (
+        <>
+          <Sparkles
+            className={`w-4 h-4 transition-transform duration-300 ${
+              userAnswer.trim() ? 'group-hover:rotate-12 group-hover:scale-110' : 'opacity-40'
+            }`}
+          />
+          <span className={buttonConfig.text}>Evaluate</span>
+          <kbd className="hidden md:inline text-[9px] font-bold bg-white/15 border border-white/10 rounded px-1 py-0.5 tracking-normal opacity-60 group-hover:opacity-100 transition-opacity">
+            ⌘↵
+          </kbd>
+        </>
+      )}
+    </button>
   );
 
   return (
@@ -253,7 +246,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           that is now much taller opened a void between the writing card and
           everything below it. */}
       <div className="relative group flex flex-col">
-        <div className="flex flex-col relative transition-all duration-700 shadow-2xl rounded-[32px]">
+        <div className="flex flex-col relative shadow-2xl rounded-[32px]">
           <div className="clip-stable absolute inset-0 z-[30] pointer-events-none rounded-[32px] overflow-hidden">
             {isEvaluating && <EvaluationProgressBar />}
           </div>
@@ -299,10 +292,12 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
         }}
       />
 
-      {/* Outside Focus Mode the exemplars live in the left rail under the
-          Marking Guide; in Focus Mode there is no left rail, so they are
-          injected here — folded shut — to stay within reach. */}
-      {sampleAnswersSlot && <div className={isExamMode ? 'hidden' : ''}>{sampleAnswersSlot}</div>}
+      {/* Outside Focus Mode these live in the left rail; Focus Mode has no left
+          rail, so the marking guide and the exemplars are injected here —
+          folded shut — to stay within reach. */}
+      {referenceSlot && (
+        <div className={`flex flex-col ${isExamMode ? 'hidden' : ''}`}>{referenceSlot}</div>
+      )}
 
       <div id="evaluation-results" className="scroll-mt-24">
         {evaluationError && (
