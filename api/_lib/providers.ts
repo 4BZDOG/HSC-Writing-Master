@@ -33,8 +33,12 @@ export const runAiProxy = async (request: unknown, keys: ProviderKeys): Promise<
   // server env key for THIS call only; it is stripped here so it never reaches
   // a provider SDK. It cannot expose the server key — the client can only pass
   // a key it already holds — and the auth/quota gates upstream still apply.
+  // `__feature` is the calling product feature (api/gemini.ts meters
+  // evaluations against the free-tier allowance); like `__keyOverride` it is
+  // ours, not the provider's, so it is stripped here too.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { provider, __keyOverride, ...rest } = request as any;
+  const { provider, __keyOverride, __feature, ...rest } = request as any;
+  void __feature;
   const effective: ProviderKeys = {
     gemini: __keyOverride?.gemini || keys.gemini,
     anthropic: __keyOverride?.anthropic || keys.anthropic,

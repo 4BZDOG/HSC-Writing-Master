@@ -100,8 +100,9 @@ jobs:
       - uses: actions/checkout@v4
 
       # Applies the Supabase compat shim, the real schema.sql, the test grants,
-      # then the RLS negative tests. ON_ERROR_STOP makes a regressed policy or
-      # trigger (a privileged action that unexpectedly succeeds) fail the job.
+      # then the RLS negative tests and the entitlement tests. ON_ERROR_STOP
+      # makes a regressed policy or trigger (a privileged action that
+      # unexpectedly succeeds) fail the job.
       - name: Apply schema and run RLS negative tests
         env:
           PGHOST: localhost
@@ -115,6 +116,7 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f supabase/schema.sql
           psql -v ON_ERROR_STOP=1 -f supabase/tests/ci/02_grants.sql
           psql -v ON_ERROR_STOP=1 -f supabase/tests/rls_negative_tests.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/tests/entitlement_tests.sql
 
   e2e:
     name: E2E Tests

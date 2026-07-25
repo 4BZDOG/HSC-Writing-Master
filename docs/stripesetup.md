@@ -9,7 +9,7 @@ Step-by-step instructions to connect Stripe billing to your Band 6 deployment. B
 Before you start, make sure you have:
 
 - A **Stripe account** (sign up free at [dashboard.stripe.com](https://dashboard.stripe.com))
-- A **Supabase project** with the schema applied (`supabase/schema.sql` — at least §13)
+- A **Supabase project** with the schema applied (`supabase/schema.sql` — at least §13 and §14)
 - A **Vercel deployment** (or local dev server) running the app
 - The `stripe` npm package already installed (it's in `package.json`)
 
@@ -139,7 +139,7 @@ The webhook is how Stripe tells your app about subscription changes (new checkou
 
 ## Step 5 — Apply the Database Schema
 
-If you haven't already run the full `supabase/schema.sql`, you need at least §13 (Stripe billing tables). Run this in your Supabase SQL Editor:
+If you haven't already run the full `supabase/schema.sql`, you need §13 (Stripe billing tables, below) **and §14** (the server-side free-tier evaluation counter — the paywall's 5-a-day limit is enforced there, not in the browser). Run this in your Supabase SQL Editor:
 
 ```sql
 -- Extend profiles with Stripe identity and plan cache.
@@ -198,6 +198,23 @@ returns text language sql stable security definer as $$
   );
 $$;
 ```
+
+The abridged snippet above is enough to take payments, but the full `§13`
+also creates:
+
+- **`stripe_events`** — the webhook's idempotency ledger. Stripe delivers each
+  event *at least* once, so without this a redelivery is applied twice.
+- **`subscriptions.last_event_at`** — the ordering guard. Stripe does not order
+  deliveries; without it a delayed `customer.subscription.updated` can arrive
+  after a cancellation and resurrect the plan.
+
+And `§14` creates `evaluation_usage` plus `consume_evaluation()`, which is what
+actually enforces the free tier's daily marking limit. Skipping it doesn't break
+checkout — the proxy fails open — but every free user gets unlimited marking.
+
+To verify all of it on a throwaway Postgres, `supabase/tests/entitlement_tests.sql`
+asserts the boundaries (who is metered, where the counter cuts off, that a user
+can't write their own usage row); CI runs it on every push.
 
 ---
 

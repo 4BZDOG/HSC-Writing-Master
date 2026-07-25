@@ -20,6 +20,7 @@ import {
   ApiMonitorStatus,
   ApiKeyError,
   QuotaExceededError,
+  EvaluationLimitError,
   ERROR_THRESHOLD,
 } from './aiCore';
 import {
@@ -49,6 +50,7 @@ export {
   type ApiMonitorStatus,
   ApiKeyError,
   QuotaExceededError,
+  EvaluationLimitError,
   ERROR_THRESHOLD,
 };
 
@@ -178,6 +180,11 @@ export const evaluateAnswer = async (
 
   const request = {
     ...aiTarget('reasoning'),
+    // Tags this call as the metered product feature so the proxy can spend one
+    // of the caller's daily free evaluations (api/gemini.ts, schema §14). The
+    // client-side counter in entitlements.ts is only for display — this tag is
+    // what makes the free-tier limit real. Stripped before the provider call.
+    __feature: 'evaluation',
     contents: {
       parts: [
         {

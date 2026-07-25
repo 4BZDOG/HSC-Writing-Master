@@ -262,9 +262,16 @@ export const isFeedbackLocked = (user?: User | null): boolean => {
 };
 
 // ---------------------------------------------------------------------------
-// Evaluation count gate (daily, localStorage-backed)
+// Evaluation count gate (daily)
 // ---------------------------------------------------------------------------
 
+// The AUTHORITATIVE counter lives in Postgres: consume_evaluation() (schema
+// §14) is spent by the AI proxy on every marking call, so clearing site data
+// no longer resets the free tier's daily allowance. What follows is a local
+// MIRROR of that count, kept so the UI can say "3 of 5 left" and stop an
+// evaluation before the round trip — never as the enforcement point. When the
+// server refuses, syncFreeEvalCount() reconciles this copy with the truth.
+//
 // Keyed PER USER: on a shared computer (school library) two accounts must
 // not share — or drain — one 5-eval pool. The legacy un-keyed entries are
 // simply ignored; the counter restarts per account, which at worst grants
@@ -304,6 +311,22 @@ export const recordEvaluation = (): void => {
     }
   } catch {
     /* localStorage unavailable — fail open */
+  }
+};
+
+/**
+ * Reconcile the local mirror with the server's authoritative count — called
+ * when the proxy refuses an evaluation (402). Without this the UI would keep
+ * offering evaluations the server will keep refusing.
+ */
+export const syncFreeEvalCount = (used: number): void => {
+  if (!Number.isFinite(used) || used < 0) return;
+  try {
+    const suffix = evalKeySuffix();
+    localStorage.setItem(EVAL_DATE_KEY + suffix, todayDateStr());
+    localStorage.setItem(EVAL_COUNT_KEY + suffix, String(Math.trunc(used)));
+  } catch {
+    /* localStorage unavailable — the server gate still holds */
   }
 };
 

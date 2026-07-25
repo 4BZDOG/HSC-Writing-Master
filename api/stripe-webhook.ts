@@ -147,21 +147,32 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   }
 
   const eventType = (event as { type: string }).type;
+  const eventId = (event as { id?: string }).id;
+  const eventCreated = (event as { created?: number }).created;
   const obj = (event as { data: { object: Record<string, unknown> } }).data.object;
+
+  // Idempotency: Stripe delivers AT LEAST once, so a slow response here gets
+  // the same event again. Claim the event id before handling it; a duplicate
+  // is acknowledged without being applied twice.
+  const claim = await claimEvent(supabase, eventId, eventType, eventCreated);
+  if (claim === 'duplicate') {
+    res.status(200).json({ received: true, duplicate: true });
+    return;
+  }
 
   try {
     switch (eventType) {
       case 'checkout.session.completed':
-        await handleCheckoutCompleted(supabase, stripe, obj);
+        await handleCheckoutCompleted(supabase, stripe, obj, eventCreated);
         break;
 
       case 'customer.subscription.created':
       case 'customer.subscription.updated':
-        await handleSubscriptionUpsert(supabase, obj);
+        await handleSubscriptionUpsert(supabase, obj, eventCreated);
         break;
 
       case 'customer.subscription.deleted':
-        await handleSubscriptionDeleted(supabase, obj);
+        await handleSubscriptionDeleted(supabase, obj, eventCreated);
         break;
 
       case 'invoice.payment_failed':
@@ -177,13 +188,79 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   } catch (e) {
     const msg = e instanceof Error ? e.message : 'Internal webhook handler error.';
     console.error(`[stripe-webhook] Error handling ${eventType}:`, msg);
+    // Release the claim so Stripe's retry actually reprocesses the event
+    // instead of being waved through as a duplicate.
+    if (claim === 'claimed' && eventId) {
+      await supabase.from('stripe_events').delete().eq('id', eventId);
+    }
     res.status(500).json({ error: msg });
   }
+}
+
+// ── Idempotency ─────────────────────────────────────────────────────────────
+
+type ClaimResult = 'claimed' | 'duplicate' | 'unavailable';
+
+/**
+ * Record the event id so a redelivery can be recognised. Returns:
+ *   'claimed'     — first time we've seen it, go ahead;
+ *   'duplicate'   — already applied, skip;
+ *   'unavailable' — the ledger table is missing (schema §13 not applied yet)
+ *                   or the id is absent, so fall back to processing without
+ *                   dedup rather than dropping real events on the floor.
+ */
+async function claimEvent(
+  supabase: SB,
+  eventId: string | undefined,
+  eventType: string,
+  eventCreated: number | undefined
+): Promise<ClaimResult> {
+  if (!eventId) return 'unavailable';
+  const { error } = await supabase.from('stripe_events').insert({
+    id: eventId,
+    type: eventType,
+    event_created: eventCreated ? new Date(eventCreated * 1000).toISOString() : null,
+  });
+  if (!error) return 'claimed';
+  // 23505 = unique_violation: we've already handled this delivery.
+  if (error.code === '23505') {
+    console.log(`[stripe-webhook] duplicate delivery of ${eventId} (${eventType}) — skipping.`);
+    return 'duplicate';
+  }
+  console.warn('[stripe-webhook] event ledger unavailable (processing anyway):', error.message);
+  return 'unavailable';
 }
 
 // ── Event handlers ──────────────────────────────────────────────────────────
 
 type SB = NonNullable<ReturnType<typeof getSupabaseAdmin>>;
+
+/** The ordering stamp written alongside every subscription-row write. */
+const eventStamp = (eventCreated?: number): Record<string, string> =>
+  eventCreated ? { last_event_at: new Date(eventCreated * 1000).toISOString() } : {};
+
+/**
+ * True when this event predates the newest one already applied to the
+ * subscription row — i.e. applying it would roll state backwards. Unknown
+ * timestamps (no event.created, or a pre-migration row without the column)
+ * are never treated as stale: skipping a real event is worse than the
+ * out-of-order write it protects against.
+ */
+async function isStaleEvent(
+  supabase: SB,
+  subId: string,
+  eventCreated: number | undefined
+): Promise<boolean> {
+  if (!eventCreated || !subId) return false;
+  const { data } = await supabase
+    .from('subscriptions')
+    .select('last_event_at')
+    .eq('id', subId)
+    .maybeSingle();
+  const seen = data?.last_event_at as string | null | undefined;
+  if (!seen) return false;
+  return new Date(seen).getTime() > eventCreated * 1000;
+}
 
 /**
  * checkout.session.completed — links the Stripe customer ID to the Supabase
@@ -198,7 +275,8 @@ type SB = NonNullable<ReturnType<typeof getSupabaseAdmin>>;
 async function handleCheckoutCompleted(
   supabase: SB,
   stripe: ReturnType<typeof getStripe>,
-  session: Record<string, unknown>
+  session: Record<string, unknown>,
+  eventCreated?: number
 ) {
   const userId = session.client_reference_id as string | undefined;
   const customerId = session.customer as string | undefined;
@@ -226,7 +304,11 @@ async function handleCheckoutCompleted(
   if (stripe && subscriptionId && session.mode === 'subscription') {
     try {
       const subscription = await stripe.subscriptions.retrieve(subscriptionId);
-      await handleSubscriptionUpsert(supabase, subscription as unknown as Record<string, unknown>);
+      await handleSubscriptionUpsert(
+        supabase,
+        subscription as unknown as Record<string, unknown>,
+        eventCreated
+      );
     } catch (e) {
       console.warn(
         '[stripe-webhook] eager activation failed (subscription events will cover it):',
@@ -240,7 +322,11 @@ async function handleCheckoutCompleted(
  * customer.subscription.created / updated — upserts the subscription row
  * and updates the profile's cached plan.
  */
-async function handleSubscriptionUpsert(supabase: SB, sub: Record<string, unknown>) {
+async function handleSubscriptionUpsert(
+  supabase: SB,
+  sub: Record<string, unknown>,
+  eventCreated?: number
+) {
   const subId = sub.id as string;
   const customerId = sub.customer as string;
   const status = sub.status as string;
@@ -272,6 +358,15 @@ async function handleSubscriptionUpsert(supabase: SB, sub: Record<string, unknow
     | number
     | undefined;
   const periodEnd = (sub.current_period_end ?? firstItem?.current_period_end) as number | undefined;
+
+  // Ordering guard: Stripe does not order deliveries, so a delayed `updated`
+  // (e.g. the one that preceded a cancellation) can arrive after the state it
+  // predates and resurrect a plan that's already been ended. Refuse to apply
+  // an event older than the newest one this row has seen.
+  if (await isStaleEvent(supabase, subId, eventCreated)) {
+    console.log(`[stripe-webhook] ignoring out-of-order event for ${subId}`);
+    return;
+  }
 
   // Find the user who owns this customer ID (and their school, for seat
   // licences).
@@ -335,6 +430,7 @@ async function handleSubscriptionUpsert(supabase: SB, sub: Record<string, unknow
       cancel_at_period_end: cancelAtPeriodEnd,
       seats,
       updated_at: new Date().toISOString(),
+      ...eventStamp(eventCreated),
     },
     { onConflict: 'id' }
   );
@@ -400,14 +496,27 @@ async function handleSubscriptionUpsert(supabase: SB, sub: Record<string, unknow
  * customer.subscription.deleted — marks the subscription inactive and
  * downgrades the profile back to free.
  */
-async function handleSubscriptionDeleted(supabase: SB, sub: Record<string, unknown>) {
+async function handleSubscriptionDeleted(
+  supabase: SB,
+  sub: Record<string, unknown>,
+  eventCreated?: number
+) {
   const subId = sub.id as string;
   const customerId = sub.customer as string;
+
+  if (await isStaleEvent(supabase, subId, eventCreated)) {
+    console.log(`[stripe-webhook] ignoring out-of-order delete for ${subId}`);
+    return;
+  }
 
   // Mark the subscription row as cancelled.
   const { error: cancelError } = await supabase
     .from('subscriptions')
-    .update({ status: 'canceled', updated_at: new Date().toISOString() })
+    .update({
+      status: 'canceled',
+      updated_at: new Date().toISOString(),
+      ...eventStamp(eventCreated),
+    })
     .eq('id', subId);
 
   if (cancelError) {

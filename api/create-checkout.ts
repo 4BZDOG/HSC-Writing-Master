@@ -112,10 +112,22 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     if (supabase) {
       const { data: profile } = await supabase
         .from('profiles')
-        .select('stripe_customer_id')
+        .select('stripe_customer_id, role')
         .eq('id', auth.userId)
         .maybeSingle();
       if (profile?.stripe_customer_id) existingCustomerId = profile.stripe_customer_id;
+
+      // A school licence grants the plan to EVERY member of the buyer's
+      // school, so buying one is a staff action. The client only shows the
+      // seat picker to teachers/admins; enforce the same rule here rather
+      // than trusting that. (Skipped when Supabase is unconfigured — there is
+      // no role to check, matching the auth gate's mock-mode parity.)
+      if (sellablePrices[priceId] === 'school' && !['teacher', 'admin'].includes(profile?.role)) {
+        res.status(403).json({
+          error: 'School licences are purchased by a teacher or admin account.',
+        });
+        return;
+      }
 
       // First checkout for this user: prefill their account email so the new
       // Stripe customer is identifiable and receipts / failed-payment recovery

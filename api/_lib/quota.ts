@@ -64,6 +64,55 @@ export const consumeAiQuota = async (accessToken: string): Promise<QuotaVerdict 
 };
 
 /**
+ * Verdict from the free-tier evaluation gate. `limit: -1` with
+ * `unlimited: true` means the caller is staff or on a paid plan and isn't
+ * metered at all.
+ */
+export interface EvaluationVerdict {
+  allowed: boolean;
+  used: number;
+  limit: number;
+  unlimited: boolean;
+}
+
+/**
+ * Spend one of the caller's daily free evaluations (schema §14).
+ *
+ * This is the paywall's headline limit — 5 marked answers a day on the free
+ * plan. It used to live only in localStorage, so clearing site data reset it;
+ * the client counter is now just an optimistic display and THIS is the gate.
+ *
+ * Fail-open on the same terms as consumeAiQuota: a missing RPC (schema not
+ * migrated) or an unreachable Supabase returns null, meaning "allowed".
+ */
+export const consumeEvaluation = async (accessToken: string): Promise<EvaluationVerdict | null> => {
+  const url = process.env.SUPABASE_URL;
+  const anonKey = process.env.SUPABASE_ANON_KEY;
+  if (!url || !anonKey) return null;
+
+  try {
+    // The user's own JWT scopes the RPC: consume_evaluation() reads auth.uid(),
+    // so a caller can only ever spend their own allowance.
+    const client = createClient(url, anonKey, {
+      auth: { persistSession: false },
+      global: { headers: { Authorization: `Bearer ${accessToken}` } },
+    });
+    const { data, error } = await client.rpc('consume_evaluation');
+    if (error || !data || typeof (data as EvaluationVerdict).allowed !== 'boolean') {
+      console.warn(
+        '[quota] consume_evaluation unavailable — allowing evaluation (fail-open):',
+        error?.message ?? 'malformed response'
+      );
+      return null;
+    }
+    return data as EvaluationVerdict;
+  } catch (e) {
+    console.warn('[quota] consume_evaluation failed — allowing evaluation (fail-open):', e);
+    return null;
+  }
+};
+
+/**
  * Best-effort per-model usage tally for the admin dashboard's cost breakdown.
  * REPORTING ONLY: this is completely separate from the budget above — the
  * model a call uses doesn't change the allowance it spends — so any failure

@@ -46,7 +46,10 @@ Practical checks before committing (can't be done from here):
 ## 2. Pricing shape (current code supports this today)
 
 - **Free** — browse everything, 5 evaluations/day, tiers 1–3 questions,
-  summary feedback. The hook. *(exists)*
+  summary feedback. The hook. *(exists)* The daily count is enforced in the
+  database (`consume_evaluation()`, schema §14), spent by the AI proxy on every
+  marking call; the localStorage counter in `entitlements.ts` is only there so
+  the UI can show "3 of 5 left" without a round trip.
 - **Plus (individual)** — A$7.99/month or A$59/year. Everything unlocked.
   Anchor the yearly price against one hour of private tutoring (~A$60–90 in
   Sydney): "a year of unlimited marking for the price of one tutoring hour".
