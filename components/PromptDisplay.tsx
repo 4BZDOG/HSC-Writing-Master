@@ -58,6 +58,12 @@ interface PromptDisplayProps {
       on screen. Sections with real content still render. */
   condensed?: boolean;
   breadcrumb?: string[];
+  /** Exam Mode: the card states the question and nothing that coaches. The
+   *  outcome briefing and the verb guide are assistance in the same sense the
+   *  hidden reference rail and the writing area's strategy tip are — a student
+   *  sitting an exam is not handed the outcomes their answer is marked against,
+   *  let alone an AI explanation of how to satisfy them. */
+  examMode?: boolean;
 }
 
 const MeshOverlay = ({
@@ -101,6 +107,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   minTotalHeight,
   condensed = false,
   breadcrumb,
+  examMode = false,
 }) => {
   const [isEditingQuestion, setIsEditingQuestion] = useState(false);
   const [editQuestionText, setEditQuestionText] = useState(prompt.question);
@@ -133,9 +140,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   const bandConfig = useMemo(() => getTierScaleConfig(verbInfo.tier), [verbInfo.tier]);
 
   const linkedOutcomes = useMemo(() => {
-    if (!prompt.linkedOutcomes) return [];
+    if (examMode || !prompt.linkedOutcomes) return [];
     return courseOutcomes.filter((o) => prompt.linkedOutcomes?.includes(o.code));
-  }, [courseOutcomes, prompt.linkedOutcomes]);
+  }, [courseOutcomes, prompt.linkedOutcomes, examMode]);
 
   useEffect(() => {
     setEditQuestionText(prompt.question);
@@ -249,7 +256,8 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             clip-stable relative overflow-hidden rounded-[32px]
             bg-[rgb(var(--color-bg-surface))] light:bg-white
             border-2 ${bandConfig.border} shadow-2xl ${bandConfig.glow}
-            transition-all duration-500 group/prompt flex flex-col h-full
+            transition-[box-shadow,border-color,background-color] duration-500
+            group/prompt flex flex-col h-full
         `}
       // min and max are the same value, so the card is exactly the height the
       // sync decided: its own content where that fits, the viewport cap where
@@ -311,8 +319,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             <div className="flex w-full md:w-auto md:ml-auto flex-row md:flex-col flex-wrap items-center md:items-end justify-between gap-2 flex-shrink-0">
               <button
                 onClick={onVerbClick}
-                className="group/vbtn flex items-center gap-2 transition-transform hover:scale-105 active:scale-95"
-                title="View Verb Definition"
+                disabled={examMode}
+                className={`group/vbtn flex items-center gap-2 transition-transform ${examMode ? 'cursor-default' : 'hover:scale-105 active:scale-95'}`}
+                title={examMode ? undefined : 'View Verb Definition'}
               >
                 <div className="text-left md:text-right">
                   <span className="block text-[9px] font-bold uppercase tracking-[0.3em] text-white/50 mb-0.5">
@@ -594,11 +603,12 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       <Link2 className={`w-4 h-4 ${bandConfig.text}`} />
                     </div>
                     <div className="flex flex-col text-left">
-                      {/* The eyebrow is the first casualty on a phone: it is the
-                        widest element in the row and "What's assessed" already
-                        says what the button does. Dropping it below sm keeps
-                        this footer to two rows instead of three. */}
-                      <span className="hidden sm:block text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 light:text-slate-500 leading-none mb-1">
+                      {/* The eyebrow is the first casualty whenever the row is
+                        tight: it is the widest element in it and "What's
+                        assessed" already says what the button does. It costs a
+                        whole extra footer row on a phone AND in the two-column
+                        layout below xl, where this card is only ~380px wide. */}
+                      <span className="hidden xl:block text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 light:text-slate-500 leading-none mb-1">
                         Before you write
                       </span>
                       <span
@@ -609,7 +619,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       </span>
                     </div>
                   </button>
-                ) : (
+                ) : examMode ? null : (
                   <div className="flex items-center gap-3 group/link">
                     <div
                       className={`
@@ -627,7 +637,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     </div>
                   </div>
                 )}
-                {canGenerate && onSuggestOutcomes && (
+                {canGenerate && onSuggestOutcomes && !examMode && (
                   <button
                     onClick={onSuggestOutcomes}
                     disabled={isSuggestingOutcomes}
@@ -641,7 +651,11 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 )}
               </div>
 
-              <div className="order-3 sm:order-2 w-full sm:w-auto sm:flex-1 min-w-0 flex flex-wrap gap-2.5">
+              {/* A full-width row of their own, at every width. Sharing row one
+                as a `flex-1` column left them ~130px between the label and the
+                controls, so two codes stacked one per line and the footer grew
+                a row taller than it needed to be. */}
+              <div className="order-3 w-full min-w-0 flex flex-wrap gap-2">
                 {linkedOutcomes.length > 0 ? (
                   linkedOutcomes.map((outcome) => (
                     <div key={outcome.code} className="relative group/outcome">
@@ -649,17 +663,21 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                         onClick={() => handleOutcomeClickInternal(outcome)}
                         title={`Open the brief for ${outcome.code} — what it asks for and how it applies to this question`}
                         className={`
-                        flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider
+                        flex items-center gap-1 px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider whitespace-nowrap
                         ${bandConfig.bg} border ${bandConfig.border}
                         ${bandConfig.text} transition-all duration-300 cursor-pointer
                         hover:brightness-125 hover:scale-105 hover:shadow-md
                         active:scale-95
                       `}
                       >
-                        <Target className="w-3 h-3 opacity-60" />
+                        <Target className="w-2.5 h-2.5 opacity-60" />
                         {outcome.code}
                       </button>
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 p-4 text-xs text-left font-medium leading-relaxed text-white light:text-slate-800 bg-[rgb(var(--color-bg-surface-elevated))]/95 light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-2xl shadow-2xl opacity-0 group-hover/outcome:opacity-100 transition-all duration-300 pointer-events-none z-50 backdrop-blur-xl translate-y-2 group-hover/outcome:translate-y-0">
+                      {/* Desktop-only preview. Touch browsers keep a tapped
+                        element in :hover, so on a phone this 288px panel
+                        latched open over the question — and it had nothing to
+                        add there anyway, since the tap opens the full brief. */}
+                      <div className="hidden sm:block absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 p-4 text-xs text-left font-medium leading-relaxed text-white light:text-slate-800 bg-[rgb(var(--color-bg-surface-elevated))]/95 light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-2xl shadow-2xl opacity-0 group-hover/outcome:opacity-100 transition-all duration-300 pointer-events-none z-50 backdrop-blur-xl translate-y-2 group-hover/outcome:translate-y-0">
                         <div className={`flex items-center gap-2 mb-2 ${bandConfig.text}`}>
                           <Award className="w-3.5 h-3.5" />
                           <span className="font-black uppercase tracking-widest text-[10px]">
@@ -676,14 +694,14 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       </div>
                     </div>
                   ))
-                ) : (
+                ) : examMode ? null : (
                   <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400 italic font-medium py-2 opacity-60">
                     No specific outcomes linked.
                   </span>
                 )}
               </div>
 
-              <div className="order-2 sm:order-3 flex items-center gap-2 ml-auto flex-shrink-0">
+              <div className="order-2 flex items-center gap-2 ml-auto flex-shrink-0">
                 <button
                   onClick={() => setIsFlagModalOpen(true)}
                   className={`p-1.5 sm:p-2 rounded-lg border transition-all ${
