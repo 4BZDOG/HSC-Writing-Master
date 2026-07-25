@@ -1,12 +1,14 @@
 import React, { useRef, useMemo } from 'react';
 import { Prompt, EvaluationResult, HierarchyContext, WritingMode } from '../types';
 import Editor from './Editor';
+import LiveInsights from './LiveInsights';
 import WritingMetricsDashboard from './WritingMetricsDashboard';
 import EvaluationResultModal from './EvaluationResultModal';
 import EvaluationProgressBar from './EvaluationProgressBar';
 import { Loader2, AlertTriangle, Sparkles } from 'lucide-react';
 import { getCommandTermInfo, getTargetBand, BAND_METRICS } from '../data/commandTerms';
-import { getBandConfig, textContainsKeyword } from '../utils/renderUtils';
+import { textContainsKeyword } from '../utils/renderUtils';
+import { useWritingMetrics } from '../hooks/useWritingMetrics';
 import { freeEvalsRemaining } from '../services/entitlements';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 
@@ -32,6 +34,7 @@ interface WorkspaceRightPanelProps {
   handleRunQualityCheck: (content: string, type: 'question' | 'code') => void;
   onToggleFocusMode: () => void;
   promptFontSize: number;
+  onPromptFontSizeChange: (size: number) => void;
   onHeaderResize?: (height: number) => void;
   minHeaderHeight?: number;
   minEditorHeight?: number;
@@ -63,6 +66,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   breadcrumbItems,
   onToggleFocusMode,
   promptFontSize,
+  onPromptFontSizeChange,
   onHeaderResize,
   minHeaderHeight,
   minEditorHeight,
@@ -90,6 +94,10 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     () => getTargetBand(currentPrompt.totalMarks, commandTermInfo.tier),
     [currentPrompt.totalMarks, commandTermInfo.tier]
   );
+
+  // Live analysis of the draft, shared with the metrics dashboard below so the
+  // two panels can never describe the same text differently.
+  const { insights } = useWritingMetrics(debouncedUserAnswer, currentPrompt);
 
   // Unified progression score for the entire workspace
   const progressScore = useMemo(() => {
@@ -123,48 +131,22 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     return wordProg * 0.6 + keyProg * 0.4;
   }, [debouncedUserAnswer, currentPrompt, commandTermInfo, maxBand]);
 
-  // Dynamic Action Button Theme - Using shared getBandConfig for perfect consistency
-  const buttonConfig = useMemo(() => {
-    // Exam Mode: a neutral submit button — its colour must not hint at the
-    // predicted band while the student is still writing under exam conditions.
-    if (isExamMode) {
-      return {
-        gradient: 'from-slate-700 to-slate-600',
-        shadow: 'shadow-slate-900/40',
-        border: 'border-white/10',
-        text: 'text-white',
-      };
-    }
-
-    // Base state — no text yet
-    if (progressScore < 0.05) {
-      return {
-        gradient: 'from-slate-600 to-slate-500',
-        shadow: 'shadow-slate-900/40',
-        border: 'border-white/5',
-        text: 'text-slate-200',
-      };
-    }
-
-    let predictedBand = 1;
-    if (progressScore >= 0.9) predictedBand = 6;
-    else if (progressScore >= 0.7) predictedBand = 5;
-    else if (progressScore >= 0.5) predictedBand = 4;
-    else if (progressScore >= 0.3) predictedBand = 3;
-    else if (progressScore >= 0.1) predictedBand = 2;
-
-    // Cap at maxBand possible for this question type
-    predictedBand = Math.min(predictedBand, maxBand);
-
-    const config = getBandConfig(predictedBand);
-
-    return {
-      gradient: config.gradient,
-      shadow: config.glow,
-      border: config.border.replace('/50', '/30'),
+  // The Evaluate button is deliberately NOT band-coloured. It used to predict a
+  // band from word count and keyword hits and paint itself accordingly, which
+  // told a student who had padded their response with syllabus terms that they
+  // were on a Band 6 before the AI had read a word. Length and coverage are
+  // honest signals of progress, not of quality, so they stay in the editor's
+  // progress meter; the button is one steady accent colour once there is
+  // something to evaluate.
+  const buttonConfig = useMemo(
+    () => ({
+      gradient: 'from-indigo-600 to-indigo-500',
+      shadow: 'shadow-indigo-900/40',
+      border: 'border-white/20',
       text: 'text-white',
-    };
-  }, [progressScore, maxBand, isExamMode]);
+    }),
+    []
+  );
 
   const handleSaveUserResponse = () => {
     if (!currentPrompt || !evaluationResult || !userAnswer) return;
@@ -201,12 +183,77 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     ) : null;
   }, [evaluationResult]);
 
+  const evaluateAction = (
+    <div className="flex flex-col items-end">
+      <button
+        onClick={onEvaluate}
+        disabled={isEvaluating || !userAnswer.trim()}
+        title={
+          isEvaluating
+            ? 'Evaluating your response…'
+            : !userAnswer.trim()
+              ? 'Write a response first, then evaluate'
+              : 'Evaluate your response (Ctrl / ⌘ + Enter)'
+        }
+        className={`
+          group px-6 py-3.5 sm:px-10 sm:py-5 rounded-[24px] font-black text-base sm:text-xl tracking-tight
+          transition-all duration-500 flex items-center gap-3 sm:gap-4
+          ${
+            isEvaluating
+              ? 'bg-slate-800 light:bg-slate-200 text-slate-400 cursor-wait border border-white/5 light:border-slate-300 shadow-lg'
+              : !userAnswer.trim()
+                ? 'bg-slate-800/60 light:bg-slate-200/80 text-slate-500 cursor-not-allowed border border-white/5 light:border-slate-300 opacity-30 shadow-none'
+                : `bg-gradient-to-r ${buttonConfig.gradient} shadow-xl ${buttonConfig.shadow} hover:shadow-2xl hover:scale-105 active:scale-[0.97] border ${buttonConfig.border} ring-1 ring-white/10 hover:ring-white/25`
+          }
+        `}
+      >
+        {isEvaluating ? (
+          <>
+            <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin text-white/60" />
+            <span className="text-slate-400 drop-shadow-sm">Evaluating</span>
+          </>
+        ) : (
+          <>
+            {/* No pulse at "high progress" — a length-and-keyword score
+                must not be dressed up as a quality signal. */}
+            <Sparkles
+              className={`w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300 ${
+                userAnswer.trim()
+                  ? 'text-white/80 group-hover:text-white group-hover:rotate-12 group-hover:scale-110'
+                  : 'text-white/30'
+              }`}
+            />
+            <span className={`${buttonConfig.text} drop-shadow-sm`}>Evaluate</span>
+            {userAnswer.trim() && !isEvaluating && (
+              <kbd className="hidden sm:inline text-[9px] font-bold bg-white/15 border border-white/10 rounded-md px-1.5 py-0.5 tracking-normal ml-1 opacity-60 group-hover:opacity-100 transition-opacity">
+                ⌘↵
+              </kbd>
+            )}
+          </>
+        )}
+      </button>
+      {evalCounterDisplay}
+    </div>
+  );
+
   return (
     <div
-      className={`${isFocusMode ? 'col-span-1 max-w-5xl mx-auto w-full' : 'lg:col-span-7 lg:col-start-6 lg:row-start-1 lg:row-span-2'} flex flex-col gap-6 h-full pt-0`}
+      className={`${
+        isFocusMode
+          ? 'col-span-1 max-w-5xl mx-auto w-full'
+          : isExamMode
+            ? // Exam Mode hides the whole left reference rail, so the writing
+              // column takes the width the rail is no longer using.
+              'lg:col-span-8 lg:col-start-5 lg:row-start-1 lg:row-span-2'
+            : 'lg:col-span-7 lg:col-start-6 lg:row-start-1 lg:row-span-2'
+      } flex flex-col gap-6 pt-0 self-start`}
     >
-      <div className="relative group min-h-0 flex-1 flex flex-col">
-        <div className="flex flex-col relative transition-all duration-700 shadow-2xl rounded-[32px] min-h-0 flex-1">
+      {/* `self-start` on the column and no flex-1 here: this panel shares a
+          grid row-span with the reference rail, and stretching to match a rail
+          that is now much taller opened a void between the writing card and
+          everything below it. */}
+      <div className="relative group flex flex-col">
+        <div className="flex flex-col relative transition-all duration-700 shadow-2xl rounded-[32px]">
           <div className="clip-stable absolute inset-0 z-[30] pointer-events-none rounded-[32px] overflow-hidden">
             {isEvaluating && <EvaluationProgressBar />}
           </div>
@@ -226,6 +273,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             onToggleFocusMode={onToggleFocusMode}
             progress={progressScore}
             syncedFontSize={promptFontSize}
+            onFontSizeChange={onPromptFontSizeChange}
             maxBand={maxBand}
             onHeaderResize={onHeaderResize}
             minHeaderHeight={minHeaderHeight}
@@ -234,63 +282,12 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             minFooterHeight={minFooterHeight}
             writingMode={writingMode}
             onWritingModeChange={onWritingModeChange}
+            footerAction={evaluateAction}
           />
-
-          {/* Evaluate action — sits above the footer bar. On small phones
-              the footer is shorter (single row), so bottom-16 is enough;
-              on sm+ viewports the footer wraps taller, needing bottom-20. */}
-          <div className="absolute bottom-16 right-3 sm:bottom-20 sm:right-8 z-20 flex flex-col items-end">
-            <button
-              onClick={onEvaluate}
-              disabled={isEvaluating || !userAnswer.trim()}
-              title={
-                isEvaluating
-                  ? 'Evaluating your response…'
-                  : !userAnswer.trim()
-                    ? 'Write a response first, then evaluate'
-                    : 'Evaluate your response (Ctrl / ⌘ + Enter)'
-              }
-              className={`
-                group px-6 py-3.5 sm:px-10 sm:py-5 rounded-[24px] font-black text-base sm:text-xl tracking-tight
-                transition-all duration-500 flex items-center gap-3 sm:gap-4
-                ${
-                  isEvaluating
-                    ? 'bg-slate-800 light:bg-slate-200 text-slate-400 cursor-wait border border-white/5 light:border-slate-300 shadow-lg'
-                    : !userAnswer.trim()
-                      ? 'bg-slate-800/60 light:bg-slate-200/80 text-slate-500 cursor-not-allowed border border-white/5 light:border-slate-300 opacity-30 shadow-none'
-                      : `bg-gradient-to-r ${buttonConfig.gradient} shadow-xl ${buttonConfig.shadow} hover:shadow-2xl hover:scale-105 active:scale-[0.97] border ${buttonConfig.border} ring-1 ring-white/10 hover:ring-white/25`
-                }
-              `}
-            >
-              {isEvaluating ? (
-                <>
-                  <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin text-white/60" />
-                  <span className="text-slate-400 drop-shadow-sm">Evaluating</span>
-                </>
-              ) : (
-                <>
-                  <Sparkles
-                    className={`w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300 ${
-                      !isExamMode && progressScore > 0.85
-                        ? 'text-white animate-pulse'
-                        : userAnswer.trim()
-                          ? 'text-white/80 group-hover:text-white group-hover:rotate-12 group-hover:scale-110'
-                          : 'text-white/30'
-                    }`}
-                  />
-                  <span className={`${buttonConfig.text} drop-shadow-sm`}>Evaluate</span>
-                  {userAnswer.trim() && !isEvaluating && (
-                    <kbd className="hidden sm:inline text-[9px] font-bold bg-white/15 border border-white/10 rounded-md px-1.5 py-0.5 tracking-normal ml-1 opacity-60 group-hover:opacity-100 transition-opacity">
-                      ⌘↵
-                    </kbd>
-                  )}
-                </>
-              )}
-            </button>
-            {evalCounterDisplay}
-          </div>
         </div>
       </div>
+
+      {!isExamMode && <LiveInsights insights={insights} />}
 
       <WritingMetricsDashboard
         userAnswer={debouncedUserAnswer}

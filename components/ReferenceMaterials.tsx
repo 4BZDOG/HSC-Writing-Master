@@ -50,11 +50,18 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
         />
       </button>
 
+      {/* A grid-rows transition rather than a max-height one. The old
+          `max-h-[2000px]` was a guess at how tall the content could get, and
+          anything past it — a long marking guide, a stack of exemplars — was
+          silently cut off with no way to scroll to it. `1fr` animates to
+          whatever the content actually needs. */}
       <div
-        className={`overflow-hidden transition-all duration-500 ${isOpen ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}
+        className={`grid transition-all duration-500 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
       >
-        <div className="p-5 pt-0 border-t border-slate-300 dark:border-white/10">
-          <div className="mt-5">{children}</div>
+        <div className="overflow-hidden">
+          <div className="p-5 pt-0 border-t border-slate-300 dark:border-white/10">
+            <div className="mt-5">{children}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -154,21 +161,6 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
         />
       </AccordionSection>
 
-      <AccordionSection title="Marking Guide" icon={<ListChecks />} band={5}>
-        <MarkingCriteriaManager
-          prompt={prompt}
-          markingCriteria={prompt.markingCriteria || ''}
-          onSave={props.onMarkingCriteriaChange}
-          band={5}
-          userRole={userRole}
-          courseOutcomes={courseOutcomes}
-        />
-      </AccordionSection>
-
-      {/* Exemplars sit immediately beneath the Marking Guide: the criteria say
-          what each mark level requires, the samples show it. */}
-      {sampleAnswersSlot && <div className="mb-3">{sampleAnswersSlot}</div>}
-
       {topic?.performanceBandDescriptors && topic.performanceBandDescriptors.length > 0 && (
         <AccordionSection title="Grade Standards" icon={<GraduationCap />} band={6}>
           <div className="space-y-4">
@@ -209,6 +201,21 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
           </div>
         </AccordionSection>
       )}
+
+      <AccordionSection title="Marking Guide" icon={<ListChecks />} band={5}>
+        <MarkingCriteriaManager
+          prompt={prompt}
+          markingCriteria={prompt.markingCriteria || ''}
+          onSave={props.onMarkingCriteriaChange}
+          band={5}
+          userRole={userRole}
+          courseOutcomes={courseOutcomes}
+        />
+      </AccordionSection>
+
+      {/* Exemplars sit immediately beneath the Marking Guide: the criteria say
+          what each mark level requires, the samples show it. */}
+      {sampleAnswersSlot && <div className="mb-3">{sampleAnswersSlot}</div>}
 
       {selectedOutcome && (
         <OutcomeDetailModal

@@ -118,6 +118,9 @@ const Workspace: React.FC<WorkspaceProps> = ({
 
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isSuggestingOutcomes, setIsSuggestingOutcomes] = useState(false);
+  // ONE reading size for the whole workspace — question, writing surface and
+  // exemplars. Every zoom control in the workspace writes to this value, so
+  // there is a single setting rather than three that drift apart.
   const [promptFontSize, setPromptFontSize] = useState(18);
 
   // Layout Sync State. Headers and footers are matched in both directions so
@@ -171,10 +174,16 @@ const Workspace: React.FC<WorkspaceProps> = ({
   // neither a total nor a footer height. Its observers disconnect on unmount,
   // so without this the writing area would keep being sized — and its footer
   // padded — by the last measurements of a card no longer on screen.
+  // Zeroing promptTotalHeight alone was not enough: the effect that derives
+  // syncedTotalHeight ignores 0 (a legitimate "not measured yet" reading), so
+  // the writing area stayed pinned to the height of the full prompt card that
+  // is no longer on screen. Clearing the synced value too lets the editor fall
+  // back to its own cap and actually use the space Focus Mode frees up.
   useEffect(() => {
     if (isFocusMode) {
       setPromptTotalHeight(0);
       setPromptFooterHeight(0);
+      setSyncedTotalHeight(0);
     }
   }, [isFocusMode]);
 
@@ -288,6 +297,8 @@ const Workspace: React.FC<WorkspaceProps> = ({
       userRole={userRole}
       onRecalibrate={() => geminiHandlers.recalibrateSamples(currentPrompt)}
       collapsible={isFocusMode}
+      fontSize={promptFontSize}
+      onFontSizeChange={setPromptFontSize}
     />
   );
 
@@ -308,7 +319,9 @@ const Workspace: React.FC<WorkspaceProps> = ({
         className={`grid grid-cols-1 ${isFocusMode ? 'w-full' : 'lg:grid-cols-12 lg:grid-rows-[auto,1fr]'} gap-6 flex-1 min-h-0 transition-all duration-500`}
       >
         {!isFocusMode && (
-          <div className="lg:col-span-5 lg:col-start-1 lg:row-start-1">
+          <div
+            className={`${isExamMode ? 'lg:col-span-4' : 'lg:col-span-5'} lg:col-start-1 lg:row-start-1`}
+          >
             <PromptDisplay
               prompt={currentPrompt}
               isEnriching={isEnriching}
@@ -395,6 +408,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
           handleRunQualityCheck={handleRunQualityCheck}
           onToggleFocusMode={onToggleFocusMode}
           promptFontSize={promptFontSize}
+          onPromptFontSizeChange={setPromptFontSize}
           onHeaderResize={setEditorHeaderHeight}
           minHeaderHeight={syncedHeaderHeight}
           minEditorHeight={syncedTotalHeight}
