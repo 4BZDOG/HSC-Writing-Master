@@ -443,8 +443,13 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   onContributeSampleAnswer,
   userRole,
   onRecalibrate,
+  collapsible = false,
+  defaultCollapsed = true,
 }) => {
   const [openGroupMark, setOpenGroupMark] = useState<number | null>(null);
+  // Only meaningful when `collapsible` — Focus Mode wants the exemplars within
+  // reach but folded away, so the writing surface still owns the screen.
+  const [isCollapsed, setIsCollapsed] = useState(collapsible && defaultCollapsed);
   const [isGeneratorOpen, setIsGeneratorOpen] = useState(false);
   const [revisionTarget, setRevisionTarget] = useState<SampleAnswer | null>(null);
   const [editorTarget, setEditorTarget] = useState<SampleAnswer | null>(null);
@@ -513,15 +518,36 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           className={`absolute inset-0 opacity-[0.03] bg-gradient-to-r ${maxBandConfig.gradient} pointer-events-none`}
         />
 
-        <div className="flex items-center gap-3 relative z-10">
+        <div
+          className={`flex items-center gap-3 relative z-10 ${collapsible ? 'cursor-pointer select-none' : ''}`}
+          {...(collapsible
+            ? {
+                role: 'button' as const,
+                tabIndex: 0,
+                'aria-expanded': !isCollapsed,
+                onClick: () => setIsCollapsed((c) => !c),
+                onKeyDown: (e: React.KeyboardEvent) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setIsCollapsed((c) => !c);
+                  }
+                },
+              }
+            : {})}
+        >
           <div
             className={`p-2 rounded-xl transition-colors duration-500 ${maxBandConfig.bg} ${maxBandConfig.text} border ${maxBandConfig.border} shadow-sm`}
           >
             <Bookmark className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-[0.2em]">
+            <h3 className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-[0.2em] flex items-center gap-2">
               Sample Answers
+              {collapsible && (
+                <ChevronDown
+                  className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-300 ${isCollapsed ? '-rotate-90' : ''}`}
+                />
+              )}
             </h3>
             <p
               className={`text-[10px] font-bold uppercase tracking-wider opacity-80 ${maxBandConfig.text}`}
@@ -604,7 +630,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
       </div>
 
       {/* Content List */}
-      <div>
+      <div className={collapsible && isCollapsed ? 'hidden' : ''}>
         {groupedAnswers.length > 0 ? (
           groupedAnswers.map((group) => (
             <CarouselAccordionItem
@@ -719,6 +745,10 @@ interface SampleAnswersAccordionProps {
   onContributeSampleAnswer?: (answer: SampleAnswer) => void | Promise<void>;
   userRole: UserRole;
   onRecalibrate?: () => Promise<void>;
+  /** Render the whole card as one collapsible panel (used in Focus Mode). */
+  collapsible?: boolean;
+  /** Start folded. Only applies when `collapsible`. Defaults to true. */
+  defaultCollapsed?: boolean;
 }
 
 export default SampleAnswersAccordion;

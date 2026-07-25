@@ -1,14 +1,12 @@
 import React, { useRef, useMemo } from 'react';
-import { Prompt, EvaluationResult, UserRole, HierarchyContext, WritingMode } from '../types';
+import { Prompt, EvaluationResult, HierarchyContext, WritingMode } from '../types';
 import Editor from './Editor';
 import WritingMetricsDashboard from './WritingMetricsDashboard';
-import SampleAnswersAccordion from './SampleAnswersAccordion';
 import EvaluationResultModal from './EvaluationResultModal';
 import EvaluationProgressBar from './EvaluationProgressBar';
 import { Loader2, AlertTriangle, Sparkles } from 'lucide-react';
 import { getCommandTermInfo, getTargetBand, BAND_METRICS } from '../data/commandTerms';
 import { getBandConfig, textContainsKeyword } from '../utils/renderUtils';
-import { isCurriculumRemote } from '../services/curriculumService';
 import { freeEvalsRemaining } from '../services/entitlements';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 
@@ -30,7 +28,6 @@ interface WorkspaceRightPanelProps {
   geminiHandlers: any;
   syllabusHandlers: WorkspaceSyllabusHandlers;
   statePath: any;
-  userRole: UserRole;
   breadcrumbItems: { label: string }[];
   handleRunQualityCheck: (content: string, type: 'question' | 'code') => void;
   onToggleFocusMode: () => void;
@@ -42,6 +39,8 @@ interface WorkspaceRightPanelProps {
   minFooterHeight?: number;
   writingMode: WritingMode;
   onWritingModeChange: (mode: WritingMode) => void;
+  /** Sample Answers card — supplied only in Focus Mode (see below). */
+  sampleAnswersSlot?: React.ReactNode;
 }
 
 const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
@@ -61,7 +60,6 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   geminiHandlers,
   syllabusHandlers,
   statePath,
-  userRole,
   breadcrumbItems,
   onToggleFocusMode,
   promptFontSize,
@@ -72,6 +70,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   minFooterHeight,
   writingMode,
   onWritingModeChange,
+  sampleAnswersSlot,
 }) => {
   const isExamMode = writingMode === 'exam';
   const editorRef = useRef<{
@@ -303,26 +302,10 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
         }}
       />
 
-      <div className={isExamMode ? 'hidden' : ''}>
-        <SampleAnswersAccordion
-          prompt={currentPrompt}
-          onSampleAnswerGenerated={(answer) =>
-            syllabusHandlers.handleSampleAnswerGenerated(statePath, answer)
-          }
-          onUseSampleAnswer={(text) => setUserAnswer(text)}
-          onDeleteSampleAnswer={(id) => syllabusHandlers.handleDeleteSampleAnswer(statePath, id)}
-          onUpdateSampleAnswer={(answer) =>
-            syllabusHandlers.handleUpdateSampleAnswer(statePath, answer)
-          }
-          onContributeSampleAnswer={
-            isCurriculumRemote() && userRole !== 'guest'
-              ? (answer) => syllabusHandlers.handleContributeSampleAnswer(statePath, answer)
-              : undefined
-          }
-          userRole={userRole}
-          onRecalibrate={() => geminiHandlers.recalibrateSamples(currentPrompt)}
-        />
-      </div>
+      {/* Outside Focus Mode the exemplars live in the left rail under the
+          Marking Guide; in Focus Mode there is no left rail, so they are
+          injected here — folded shut — to stay within reach. */}
+      {sampleAnswersSlot && <div className={isExamMode ? 'hidden' : ''}>{sampleAnswersSlot}</div>}
 
       <div id="evaluation-results" className="scroll-mt-24">
         {evaluationError && (

@@ -570,22 +570,54 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               {/* On phones: label + zoom share the first row, outcome chips wrap
                 to a full-width second row. From sm up: label | chips | zoom. */}
               <div className="order-1 flex items-center gap-4 flex-shrink-0">
-                <div className="flex items-center gap-3 group/link">
-                  <div
-                    className={`
-                                p-2.5 rounded-xl border shadow-sm backdrop-blur-sm transition-all duration-300
-                                ${bandConfig.bg} border-white/10 group-hover/link:scale-110
-                            `}
+                {/* The whole label is the entry point, not just the chips. The
+                  chips say WHICH outcomes apply; this says what opening them
+                  gets you — a plain-English brief on what the markers want,
+                  worth reading before the first sentence is written. */}
+                {linkedOutcomes.length > 0 ? (
+                  <button
+                    onClick={() => handleOutcomeClickInternal(linkedOutcomes[0])}
+                    title="Open the outcome brief — what this question is assessing, in plain English"
+                    className={`flex items-center gap-3 group/link rounded-xl pr-3 -ml-1 pl-1 py-1 transition-all hover:bg-white/5 light:hover:bg-slate-100 active:scale-[0.98] ${bandConfig.border} border border-transparent hover:border-current/10`}
                   >
-                    <Link2 className={`w-4 h-4 ${bandConfig.text}`} />
+                    <div
+                      className={`
+                                  p-2.5 rounded-xl border shadow-sm backdrop-blur-sm transition-all duration-300
+                                  ${bandConfig.bg} border-white/10 group-hover/link:scale-110
+                              `}
+                    >
+                      <Link2 className={`w-4 h-4 ${bandConfig.text}`} />
+                    </div>
+                    <div className="flex flex-col text-left">
+                      <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 light:text-slate-500 leading-none mb-1">
+                        Before you write
+                      </span>
+                      <span
+                        className={`text-xs font-bold ${bandConfig.text} flex items-center gap-1.5`}
+                      >
+                        <Sparkles className="w-3 h-3 opacity-70" />
+                        What&apos;s assessed
+                      </span>
+                    </div>
+                  </button>
+                ) : (
+                  <div className="flex items-center gap-3 group/link">
+                    <div
+                      className={`
+                                  p-2.5 rounded-xl border shadow-sm backdrop-blur-sm transition-all duration-300
+                                  ${bandConfig.bg} border-white/10 group-hover/link:scale-110
+                              `}
+                    >
+                      <Link2 className={`w-4 h-4 ${bandConfig.text}`} />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 light:text-slate-500 leading-none mb-1">
+                        Syllabus
+                      </span>
+                      <span className={`text-xs font-bold ${bandConfig.text}`}>Outcome Link</span>
+                    </div>
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 light:text-slate-500 leading-none mb-1">
-                      Syllabus
-                    </span>
-                    <span className={`text-xs font-bold ${bandConfig.text}`}>Outcome Link</span>
-                  </div>
-                </div>
+                )}
                 {canGenerate && onSuggestOutcomes && (
                   <button
                     onClick={onSuggestOutcomes}
@@ -606,6 +638,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     <div key={outcome.code} className="relative group/outcome">
                       <button
                         onClick={() => handleOutcomeClickInternal(outcome)}
+                        title={`Open the brief for ${outcome.code} — what it asks for and how it applies to this question`}
                         className={`
                         flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider
                         ${bandConfig.bg} border ${bandConfig.border}
@@ -625,6 +658,12 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                           </span>
                         </div>
                         {outcome.description}
+                        <div
+                          className={`mt-2.5 pt-2.5 border-t border-white/10 light:border-slate-200 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest ${bandConfig.text}`}
+                        >
+                          <Sparkles className="w-3 h-3" />
+                          Click for the full brief
+                        </div>
                       </div>
                     </div>
                   ))

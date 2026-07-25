@@ -18,6 +18,8 @@ import { getCommandTermInfo } from '../data/commandTerms';
 import { findAndUpdateItem } from '../utils/stateUtils';
 import { cardHeightCap, MIN_CARD_HEIGHT } from '../utils/layoutConstants';
 import WorkspaceRightPanel from './WorkspaceRightPanel';
+import SampleAnswersAccordion from './SampleAnswersAccordion';
+import { isCurriculumRemote } from '../services/curriculumService';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 
 const useKeyboardShortcuts = (shortcuts: { [key: string]: (e: KeyboardEvent) => void }) => {
@@ -262,6 +264,33 @@ const Workspace: React.FC<WorkspaceProps> = ({
     { label: currentDotPoint?.description || 'Dot Point' },
   ];
 
+  // One card, two homes. In the two-column layout the exemplars belong in the
+  // left rail directly under the Marking Guide — criteria and models are read
+  // together. Focus Mode has no left rail, so the same card is handed to the
+  // writing column instead, collapsed, so it is reachable without competing
+  // with the page the student is writing on.
+  const sampleAnswersCard = (
+    <SampleAnswersAccordion
+      prompt={currentPrompt}
+      onSampleAnswerGenerated={(answer) =>
+        syllabusHandlers.handleSampleAnswerGenerated(statePath, answer)
+      }
+      onUseSampleAnswer={(text) => setUserAnswer(text)}
+      onDeleteSampleAnswer={(id) => syllabusHandlers.handleDeleteSampleAnswer(statePath, id)}
+      onUpdateSampleAnswer={(answer) =>
+        syllabusHandlers.handleUpdateSampleAnswer(statePath, answer)
+      }
+      onContributeSampleAnswer={
+        isCurriculumRemote() && userRole !== 'guest'
+          ? (answer) => syllabusHandlers.handleContributeSampleAnswer(statePath, answer)
+          : undefined
+      }
+      userRole={userRole}
+      onRecalibrate={() => geminiHandlers.recalibrateSamples(currentPrompt)}
+      collapsible={isFocusMode}
+    />
+  );
+
   return (
     <div className="flex flex-col h-full gap-4">
       {!isFocusMode && showBreadcrumb && (
@@ -362,7 +391,6 @@ const Workspace: React.FC<WorkspaceProps> = ({
           geminiHandlers={geminiHandlers}
           syllabusHandlers={syllabusHandlers}
           statePath={statePath}
-          userRole={userRole}
           breadcrumbItems={breadcrumbItems}
           handleRunQualityCheck={handleRunQualityCheck}
           onToggleFocusMode={onToggleFocusMode}
@@ -374,6 +402,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
           minFooterHeight={syncedFooterHeight}
           writingMode={writingMode}
           onWritingModeChange={onWritingModeChange}
+          sampleAnswersSlot={isFocusMode && !isExamMode ? sampleAnswersCard : undefined}
         />
 
         {!isFocusMode && (
@@ -407,6 +436,8 @@ const Workspace: React.FC<WorkspaceProps> = ({
                 window.dispatchEvent(new CustomEvent('insert-text', { detail: word }))
               }
               courseOutcomes={courseOutcomes}
+              breadcrumb={breadcrumbItems.map((b) => b.label)}
+              sampleAnswersSlot={sampleAnswersCard}
             />
           </div>
         )}
