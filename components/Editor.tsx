@@ -32,7 +32,7 @@ import {
 } from 'lucide-react';
 import { PromptVerb, WritingMode } from '../types';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
-import { MAX_CARD_HEIGHT } from '../utils/layoutConstants';
+import { MAX_CARD_HEIGHT, isTwoColumnWidth } from '../utils/layoutConstants';
 import { PlusLockChip } from './UpgradeModal';
 import StrategyTip from './StrategyTip';
 
@@ -153,7 +153,12 @@ const Editor = forwardRef<
     const footerRef = useRef<HTMLDivElement>(null);
     const footerContentRef = useRef<HTMLDivElement>(null);
     const [copied, setCopied] = useState(false);
-    const [showStrategy, setShowStrategy] = useState(true);
+    // Open on a desktop, folded on a phone. The tip runs to ~180px, which on a
+    // narrow viewport is most of a writing card that is only ~300px tall — the
+    // coaching is worth a tap there, not the writing surface.
+    const [showStrategy, setShowStrategy] = useState(() =>
+      typeof window === 'undefined' ? true : isTwoColumnWidth(window.innerWidth)
+    );
 
     const wordCount = useMemo(() => value.trim().split(/\s+/).filter(Boolean).length, [value]);
 

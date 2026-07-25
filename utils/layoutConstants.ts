@@ -26,6 +26,21 @@ export const MAX_CARD_HEIGHT = 900;
 const VIEWPORT_RESERVE = 180;
 
 /**
+ * The width at which the workspace becomes two columns — Tailwind's `lg`, the
+ * breakpoint the grid itself uses.
+ *
+ * Every part of the cross-card sync (header, footer and total height) exists so
+ * the two cards' chrome lines up when they sit SIDE BY SIDE. Stacked, there is
+ * nothing to line up, and matching them actively hurts: a prompt footer that
+ * wraps its outcome chips onto three rows on a phone was forcing the writing
+ * area's 41px footer to 163px of empty space.
+ */
+export const TWO_COLUMN_BREAKPOINT = 1024;
+
+export const isTwoColumnWidth = (viewportWidth: number): boolean =>
+  viewportWidth >= TWO_COLUMN_BREAKPOINT;
+
+/**
  * The tallest the pair may grow on this viewport. A fixed ceiling either wastes
  * a large display or, on a laptop, buries the writing area below the fold — so
  * it is derived from the window and then clamped. When the floor wins (a short
