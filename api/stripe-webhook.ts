@@ -175,7 +175,12 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
         await handleSubscriptionDeleted(supabase, obj, eventCreated);
         break;
 
+      // A failed charge and an unfinished 3-D Secure step land the customer in
+      // the same place — access continues, but they must act in the portal
+      // before Stripe gives up. Without the second case an SCA challenge is
+      // silent: the customer is never told their bank wants a confirmation.
       case 'invoice.payment_failed':
+      case 'invoice.payment_action_required':
         await handlePaymentFailed(supabase, obj);
         break;
 

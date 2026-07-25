@@ -192,6 +192,15 @@ describe('create-checkout: seat quantities', () => {
     expect(args.line_items[0].quantity).toBe(1000);
   });
 
+  it('clamps a below-minimum seat count up to the licence floor', async () => {
+    // The picker won't go below 5; a direct POST asking for 1 would otherwise
+    // buy a whole-school licence for one seat's money.
+    const res = makeRes();
+    await checkoutHandler(post({ priceId: 'price_school', seats: 1 }), res);
+    expect(res.statusCode).toBe(200);
+    expect(sessionCreateMock.mock.calls[0][0].line_items[0].quantity).toBe(5);
+  });
+
   it('refuses a school licence bought from a student account', async () => {
     // The seat picker is staff-only in the UI; the server must not take the
     // client's word for that — a licence grants the plan to the whole school.

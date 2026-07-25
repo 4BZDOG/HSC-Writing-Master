@@ -109,6 +109,9 @@ The webhook is how Stripe tells your app about subscription changes (new checkou
    - `customer.subscription.updated`
    - `customer.subscription.deleted`
    - `invoice.payment_failed`
+   - `invoice.payment_action_required` (3-D Secure: the bank wants the customer
+     to confirm. Without this the challenge is silent and the subscription
+     lapses with no warning shown.)
 
 5. Click **Add endpoint**.
 6. On the endpoint detail page, click **Reveal** under Signing secret and copy the `whsec_...` value.
@@ -210,7 +213,10 @@ also creates:
 
 And `§14` creates `evaluation_usage` plus `consume_evaluation()`, which is what
 actually enforces the free tier's daily marking limit. Skipping it doesn't break
-checkout — the proxy fails open — but every free user gets unlimited marking.
+checkout — the proxy fails open — but every free user gets unlimited marking,
+**and unredacted feedback**: the proxy uses the same RPC's verdict to decide
+whether to strip paid feedback from a marking result, so without §14 it can't
+tell a free user from a paying one and sends everything.
 
 To verify all of it on a throwaway Postgres, `supabase/tests/entitlement_tests.sql`
 asserts the boundaries (who is metered, where the counter cuts off, that a user

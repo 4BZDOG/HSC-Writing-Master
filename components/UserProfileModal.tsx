@@ -36,7 +36,9 @@ import {
   getUserPlan,
   PLAN_LABELS,
   createPortalUrl,
+  fetchBillingState,
   requestUpgrade,
+  type BillingState,
   type Plan,
 } from '../services/entitlements';
 
@@ -62,6 +64,24 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
   const isPaid = plan !== 'free';
   const [portalLoading, setPortalLoading] = useState(false);
   const [portalError, setPortalError] = useState<string | null>(null);
+  // The profile's cached plan can't tell "renews" from "ends" — that lives on
+  // the subscription row. Without it a user who has already cancelled is told
+  // their plan renews on the exact date it stops.
+  const [billing, setBilling] = useState<BillingState | null>(null);
+
+  useEffect(() => {
+    if (!isPaid) return;
+    let cancelled = false;
+    fetchBillingState().then((state) => {
+      if (!cancelled) setBilling(state);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [isPaid]);
+
+  const periodEnd = billing?.currentPeriodEnd ?? user.planPeriodEnd ?? null;
+  const endsAtPeriodEnd = billing?.cancelAtPeriodEnd === true;
 
   const handleManageBilling = async () => {
     setPortalLoading(true);
@@ -103,14 +123,19 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
           {isPaid
             ? 'Full access to all features, unlimited evaluations, and exam simulation.'
             : 'Limited daily evaluations and basic features. Upgrade to unlock everything.'}
-          {isPaid && user.stripePlan && user.planPeriodEnd && (
-            <span className="block mt-1 text-[10px] font-bold text-amber-500/80">
-              Renews{' '}
-              {new Date(user.planPeriodEnd).toLocaleDateString('en-AU', {
+          {isPaid && user.stripePlan && periodEnd && (
+            <span
+              className={`block mt-1 text-[10px] font-bold ${
+                endsAtPeriodEnd ? 'text-slate-400' : 'text-amber-500/80'
+              }`}
+            >
+              {endsAtPeriodEnd ? 'Access ends' : 'Renews'}{' '}
+              {new Date(periodEnd).toLocaleDateString('en-AU', {
                 day: 'numeric',
                 month: 'short',
                 year: 'numeric',
               })}
+              {endsAtPeriodEnd && ' — cancelled, no further charges'}
             </span>
           )}
         </p>

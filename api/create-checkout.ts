@@ -12,9 +12,10 @@
  * its own base URL because the Origin header loses the base path on sub-path
  * hosting (see resolveReturnBase). Validated same-origin server-side.
  *
- * `seats` (1–1000) is honoured ONLY for the school licence price
- * (STRIPE_SCHOOL_PRICE_ID) — individual Plus prices always check out with
- * quantity 1 regardless of what the client sends.
+ * `seats` (clamped to SCHOOL_SEAT_LIMITS, 5–1000) is honoured ONLY for the
+ * school licence price (STRIPE_SCHOOL_PRICE_ID) — individual Plus prices
+ * always check out with quantity 1 regardless of what the client sends.
+ * School licences are also refused unless the buyer is a teacher or admin.
  *
  * Test-mode fallback: when Stripe is unconfigured the endpoint returns a
  * mock URL pointing to /#/upgrade-test so the client flow can be exercised
@@ -27,6 +28,7 @@ import {
   isStripeConfigured,
   resolveReturnBase,
 } from './_lib/stripe';
+import { SCHOOL_SEAT_LIMITS } from './_lib/entitlements';
 import { verifyRequestAuth } from './_lib/auth';
 
 interface RequestLike {
@@ -143,10 +145,19 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     }
 
     // Seat quantity applies only to the school licence price; everything else
-    // is an individual subscription and always bills one seat.
+    // is an individual subscription and always bills one seat. The bounds must
+    // match SCHOOL_SEAT_LIMITS in services/entitlements.ts — the seat picker
+    // won't go below 5, and a server that quietly accepted 1 would sell a
+    // whole-school licence for one seat's money to anyone posting directly.
     const isSchoolPrice = sellablePrices[priceId] === 'school';
     const seats = isSchoolPrice
-      ? Math.min(1000, Math.max(1, Math.trunc(Number(body?.seats ?? 1)) || 1))
+      ? Math.min(
+          SCHOOL_SEAT_LIMITS.max,
+          Math.max(
+            SCHOOL_SEAT_LIMITS.min,
+            Math.trunc(Number(body?.seats ?? SCHOOL_SEAT_LIMITS.min)) || SCHOOL_SEAT_LIMITS.min
+          )
+        )
       : 1;
 
     const session = await stripe.checkout.sessions.create({
