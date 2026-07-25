@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { CourseOutcome } from '../types';
 import { explainOutcomeInContext } from '../services/geminiService';
@@ -11,6 +11,7 @@ import {
   Loader2,
   FileQuestion,
   ChevronRight,
+  RefreshCw,
 } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
@@ -19,7 +20,10 @@ import type { PromptVerb } from '../types';
 interface OutcomeDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
-  outcome: CourseOutcome;
+  /** Every outcome linked to this question — one tab each. */
+  outcomes: CourseOutcome[];
+  /** The outcome that was clicked; opens on its tab. */
+  initialCode?: string;
   question: string;
   tier?: number;
   verb?: PromptVerb;
@@ -27,10 +31,18 @@ interface OutcomeDetailModalProps {
   breadcrumb?: string[];
 }
 
+/** Per-outcome state, so switching tabs never discards or refetches work. */
+type ExplanationState =
+  | { status: 'idle' }
+  | { status: 'loading' }
+  | { status: 'ready'; text: string }
+  | { status: 'error'; message: string };
+
 const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
   isOpen,
   onClose,
-  outcome,
+  outcomes,
+  initialCode,
   question,
   tier = 3,
   verb,
@@ -38,9 +50,24 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
   breadcrumb,
 }) => {
   useEscapeKey(isOpen, onClose);
-  const [explanation, setExplanation] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+
+  const [activeCode, setActiveCode] = useState(initialCode ?? outcomes[0]?.code);
+  // Keyed by outcome code. An explanation costs an AI call, so once fetched it
+  // is kept for the life of the modal — flicking between tabs to compare is
+  // the whole point of them, and it must not re-bill every switch.
+  const [explanations, setExplanations] = useState<Record<string, ExplanationState>>({});
+  const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  // Codes already requested this session. A ref, not derived from state, so
+  // the guard is exact under StrictMode's double-invoked effects — reading
+  // `explanations` here instead would make fetchExplanation change identity on
+  // every fetch and re-trigger the effect that calls it.
+  const requested = useRef<Set<string>>(new Set());
+
+  const activeIndex = Math.max(
+    0,
+    outcomes.findIndex((o) => o.code === activeCode)
+  );
+  const activeOutcome = outcomes[activeIndex];
 
   const bandConfig = useMemo(() => getTierScaleConfig(tier), [tier]);
   const verbInfo = useMemo(() => (verb ? getCommandTermInfo(verb) : null), [verb]);
@@ -50,30 +77,70 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
   );
   const bandHex = BAND_HEX[targetBand as keyof typeof BAND_HEX] || BAND_HEX[3];
 
-  const fetchExplanation = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    setExplanation('');
-    try {
-      const result = await explainOutcomeInContext(question, outcome);
-      setExplanation(result);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Could not fetch explanation.';
-      setError(message);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [question, outcome]);
+  // Identity-independent key for the tab set. `outcomes` is rebuilt by its
+  // parent's useMemo, so depending on the array itself would reset the modal on
+  // any render that happened to produce a new reference.
+  const outcomeKey = outcomes.map((o) => o.code).join('|');
 
+  // Re-open on whichever outcome was clicked, and start from a clean slate:
+  // the explanations are question-specific, so they must not outlive the modal.
   useEffect(() => {
-    if (isOpen) {
-      fetchExplanation();
-    }
-  }, [isOpen, fetchExplanation]);
+    if (!isOpen) return;
+    setActiveCode(initialCode ?? outcomeKey.split('|')[0]);
+    setExplanations({});
+    requested.current.clear();
+  }, [isOpen, initialCode, outcomeKey]);
 
-  if (!isOpen) {
-    return null;
-  }
+  const fetchExplanation = useCallback(
+    async (outcome: CourseOutcome, { force = false } = {}) => {
+      if (!force && requested.current.has(outcome.code)) return;
+      requested.current.add(outcome.code);
+      setExplanations((prev) => ({ ...prev, [outcome.code]: { status: 'loading' } }));
+      try {
+        const text = await explainOutcomeInContext(question, outcome);
+        setExplanations((prev) => ({ ...prev, [outcome.code]: { status: 'ready', text } }));
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'Could not fetch explanation.';
+        setExplanations((prev) => ({ ...prev, [outcome.code]: { status: 'error', message } }));
+      }
+    },
+    [question]
+  );
+
+  // Only the visible tab is fetched — opening the modal must not fire an AI
+  // call for every linked outcome at once.
+  useEffect(() => {
+    if (!isOpen || !activeOutcome) return;
+    void fetchExplanation(activeOutcome);
+  }, [isOpen, activeOutcome, fetchExplanation]);
+
+  const focusTab = (index: number) => {
+    const next = outcomes[(index + outcomes.length) % outcomes.length];
+    if (!next) return;
+    setActiveCode(next.code);
+    tabRefs.current[next.code]?.focus();
+  };
+
+  const onTabKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      focusTab(activeIndex + 1);
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      focusTab(activeIndex - 1);
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      focusTab(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      focusTab(outcomes.length - 1);
+    }
+  };
+
+  if (!isOpen || !activeOutcome) return null;
+
+  const state: ExplanationState = explanations[activeOutcome.code] ?? { status: 'idle' };
+  const hasTabs = outcomes.length > 1;
 
   return createPortal(
     <div
@@ -81,12 +148,15 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
       onClick={onClose}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Syllabus outcome ${activeOutcome.code}`}
         className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[28px] shadow-2xl light:shadow-xl w-full max-w-2xl border border-white/10 light:border-slate-200 animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Compact header */}
+        {/* Header */}
         <div
-          className={`px-5 sm:px-6 py-4 border-b border-white/10 light:border-slate-200 bg-gradient-to-r ${bandConfig.gradient} relative overflow-hidden flex-shrink-0`}
+          className={`px-5 sm:px-6 pt-4 ${hasTabs ? 'pb-0' : 'pb-4'} border-b border-white/10 light:border-slate-200 bg-gradient-to-r ${bandConfig.gradient} relative overflow-hidden flex-shrink-0`}
         >
           <div
             className="absolute inset-0 opacity-[0.06] mix-blend-overlay pointer-events-none"
@@ -101,10 +171,12 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
               </div>
               <div className="min-w-0">
                 <h2 className="text-lg font-black text-white tracking-tight leading-tight">
-                  {outcome.code}
+                  {activeOutcome.code}
                 </h2>
                 <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-white/60 mt-0.5">
-                  Syllabus Outcome
+                  {hasTabs
+                    ? `Outcome ${activeIndex + 1} of ${outcomes.length}`
+                    : 'Syllabus Outcome'}
                 </p>
               </div>
             </div>
@@ -116,10 +188,65 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
               <X className="w-4 h-4 text-white" />
             </button>
           </div>
+
+          {/* One tab per linked outcome. A tick marks the ones already
+              analysed, so it is obvious which are ready to compare. */}
+          {hasTabs && (
+            <div
+              role="tablist"
+              aria-label="Linked syllabus outcomes"
+              onKeyDown={onTabKeyDown}
+              className="relative z-10 flex gap-1 mt-4 -mb-px overflow-x-auto scrollbar-none"
+            >
+              {outcomes.map((outcome, i) => {
+                const isActive = outcome.code === activeOutcome.code;
+                const outcomeState = explanations[outcome.code];
+                return (
+                  <button
+                    key={outcome.code}
+                    ref={(el) => {
+                      tabRefs.current[outcome.code] = el;
+                    }}
+                    role="tab"
+                    id={`outcome-tab-${outcome.code}`}
+                    aria-selected={isActive}
+                    aria-controls={`outcome-panel-${outcome.code}`}
+                    tabIndex={isActive ? 0 : -1}
+                    title={outcome.description}
+                    onClick={() => setActiveCode(outcome.code)}
+                    className={`px-3.5 py-2 rounded-t-xl text-xs font-black tracking-tight whitespace-nowrap transition-all flex items-center gap-1.5 border-b-2 ${
+                      isActive
+                        ? 'bg-[rgb(var(--color-bg-surface))] light:bg-white text-[rgb(var(--color-text-primary))] light:text-slate-900 border-transparent shadow-sm'
+                        : 'text-white/70 hover:text-white hover:bg-white/10 border-transparent'
+                    }`}
+                  >
+                    {outcome.code}
+                    {outcomeState?.status === 'loading' && (
+                      <Loader2 className="w-3 h-3 animate-spin opacity-70" />
+                    )}
+                    {outcomeState?.status === 'ready' && !isActive && (
+                      <span
+                        className="w-1.5 h-1.5 rounded-full bg-emerald-400"
+                        aria-hidden="true"
+                      />
+                    )}
+                    <span className="sr-only">
+                      {i + 1} of {outcomes.length}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Body */}
-        <div className="px-5 sm:px-6 py-5 space-y-4 overflow-y-auto flex-1">
+        <div
+          role="tabpanel"
+          id={`outcome-panel-${activeOutcome.code}`}
+          aria-labelledby={`outcome-tab-${activeOutcome.code}`}
+          className="px-5 sm:px-6 py-5 space-y-4 overflow-y-auto flex-1"
+        >
           {/* Question context */}
           <div className="rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 border border-white/5 light:border-slate-200 p-4">
             {breadcrumb && breadcrumb.length > 0 && (
@@ -167,16 +294,9 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
             <div className="flex items-start gap-3">
               <Target className={`w-4 h-4 ${bandConfig.text} flex-shrink-0 mt-0.5`} />
               <p className="text-[rgb(var(--color-text-primary))] light:text-slate-800 text-sm sm:text-base leading-relaxed font-semibold italic">
-                {outcome.description}
+                {activeOutcome.description}
               </p>
             </div>
-          </div>
-
-          {/* Divider */}
-          <div className="flex items-center gap-3">
-            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 light:via-slate-200 to-transparent" />
-            <Sparkles className={`w-3 h-3 ${bandConfig.text} opacity-40`} />
-            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 light:via-slate-200 to-transparent" />
           </div>
 
           {/* AI relevance */}
@@ -188,12 +308,22 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
                 <Sparkles className={`w-3 h-3 ${bandConfig.text}`} />
               </div>
               <span className="text-xs font-black text-[rgb(var(--color-text-primary))] light:text-slate-800 tracking-tight">
-                How This Outcome Connects
+                How {activeOutcome.code} Connects To This Question
               </span>
+              {state.status === 'ready' && (
+                <button
+                  onClick={() => fetchExplanation(activeOutcome, { force: true })}
+                  title="Ask again"
+                  aria-label={`Regenerate the analysis for ${activeOutcome.code}`}
+                  className="ml-auto p-1.5 rounded-md text-[rgb(var(--color-text-dim))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-slate-100 transition-colors"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                </button>
+              )}
             </div>
 
             <div className="bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 p-4 rounded-xl border border-white/5 light:border-slate-200 min-h-[100px]">
-              {isLoading ? (
+              {state.status === 'loading' || state.status === 'idle' ? (
                 <div className="flex flex-col items-center justify-center h-28 gap-2.5">
                   <Loader2 className={`w-6 h-6 animate-spin ${bandConfig.text}`} />
                   <p
@@ -202,7 +332,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
                     Analysing context...
                   </p>
                 </div>
-              ) : error ? (
+              ) : state.status === 'error' ? (
                 <div className="bg-red-500/10 light:bg-red-50 p-3 rounded-lg border border-red-500/20 light:border-red-200 flex items-start gap-2.5">
                   <AlertCircle className="w-4 h-4 text-red-400 light:text-red-500 flex-shrink-0 mt-0.5" />
                   <div>
@@ -210,10 +340,10 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
                       Analysis Failed
                     </p>
                     <p className="text-[11px] text-red-400/70 light:text-red-600/70 mt-0.5">
-                      {error}
+                      {state.message}
                     </p>
                     <button
-                      onClick={fetchExplanation}
+                      onClick={() => fetchExplanation(activeOutcome, { force: true })}
                       className="mt-1.5 text-[11px] font-bold text-red-300 light:text-red-600 hover:text-white light:hover:text-red-800 underline"
                     >
                       Try Again
@@ -221,8 +351,8 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
                   </div>
                 </div>
               ) : (
-                <div className="text-[13px] text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed">
-                  {explanation && renderFormattedText(explanation)}
+                <div className="text-[13px] text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed animate-fade-in">
+                  {state.text ? renderFormattedText(state.text) : null}
                 </div>
               )}
             </div>
@@ -230,7 +360,25 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-5 sm:px-6 py-3 bg-[rgb(var(--color-bg-surface-inset))]/20 light:bg-slate-50 border-t border-white/5 light:border-slate-200 flex justify-end rounded-b-[28px] flex-shrink-0">
+        <div className="px-5 sm:px-6 py-3 bg-[rgb(var(--color-bg-surface-inset))]/20 light:bg-slate-50 border-t border-white/5 light:border-slate-200 flex items-center justify-between gap-3 rounded-b-[28px] flex-shrink-0">
+          {hasTabs ? (
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={() => focusTab(activeIndex - 1)}
+                className="px-3 py-1.5 rounded-lg text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:bg-white/10 light:hover:bg-slate-200 transition-colors"
+              >
+                ← Previous
+              </button>
+              <button
+                onClick={() => focusTab(activeIndex + 1)}
+                className="px-3 py-1.5 rounded-lg text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:bg-white/10 light:hover:bg-slate-200 transition-colors"
+              >
+                Next →
+              </button>
+            </div>
+          ) : (
+            <span />
+          )}
           <button
             onClick={onClose}
             className={`py-2 px-5 rounded-lg font-bold text-sm text-white tracking-tight bg-gradient-to-r ${bandConfig.gradient} hover:shadow-lg active:scale-[0.97] transition-all`}

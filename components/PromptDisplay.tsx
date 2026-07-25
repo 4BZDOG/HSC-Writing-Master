@@ -25,7 +25,7 @@ import {
 } from 'lucide-react';
 import { getTierScaleConfig, renderFormattedText } from '../utils/renderUtils';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
-import { MAX_CARD_HEIGHT, naturalCardHeight } from '../utils/layoutConstants';
+import { naturalCardHeight } from '../utils/layoutConstants';
 import OutcomeDetailModal from './OutcomeDetailModal';
 import FlagContentModal from './FlagContentModal';
 
@@ -166,18 +166,22 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
     return () => observer.disconnect();
   }, [onHeaderResize, prompt.question, prompt.verb, prompt.totalMarks]);
 
-  // Total height observation — reports the NATURAL height, not the rendered
-  // box inflated by minTotalHeight.  The wrapper alone is not enough: it is a
-  // flex child that stretches to the synced height, so measuring it fed the
-  // inflated value straight back into the sync and the pair could only ever
-  // grow.  Swapping the scroll region's rendered height for its content height
-  // gives a value that shrinks again.
+  // Total height observation — the single value the writing area is sized
+  // from. It reports the NATURAL height, not the rendered box inflated by the
+  // minHeight floor: the inner wrapper is a flex child that stretches to that
+  // floor, so measuring it fed the inflated value straight back in and the
+  // card could only ever grow. Substituting the body's content height for its
+  // rendered height gives a value that shrinks again.
+  //
+  // The OUTER card is measured, not the inner wrapper, so the two 2px borders
+  // are included — the writing area pins itself to this number exactly, and
+  // measuring inside the border left it 4px shorter than the prompt.
   useEffect(() => {
     if (!contentWrapRef.current || !onTotalHeightChange) return;
 
     const report = () =>
       onTotalHeightChange(
-        naturalCardHeight(contentWrapRef.current, bodyRef.current, bodyContentRef.current)
+        naturalCardHeight(containerRef.current, bodyRef.current, bodyContentRef.current)
       );
 
     const observer = new ResizeObserver(report);
@@ -247,11 +251,13 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             border-2 ${bandConfig.border} shadow-2xl ${bandConfig.glow}
             transition-all duration-500 group/prompt flex flex-col h-full
         `}
+      // min and max are the same value, so the card is exactly the height the
+      // sync decided: its own content where that fits, the viewport cap where
+      // it doesn't. A question that outruns the cap scrolls in its body rather
+      // than pushing the writing area below the fold.
       style={{
         minHeight: minTotalHeight || undefined,
-        // Capped unconditionally so a long scenario scrolls inside the card
-        // even before the cross-card height sync has produced its first value.
-        maxHeight: `${MAX_CARD_HEIGHT}px`,
+        maxHeight: minTotalHeight ? `${minTotalHeight}px` : undefined,
       }}
     >
       <div ref={contentWrapRef} className="flex flex-col flex-1 min-h-0">
@@ -544,10 +550,10 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           </div>
         </div>
 
-        {/* Outcomes Footer - "The Evidence". A sibling of the scroll region,
-          not a child of it: the syllabus link, outcome chips and zoom controls
-          stay pinned to the bottom of the card instead of scrolling out of
-          reach on a long scenario. */}
+        {/* Outcomes Footer - "The Evidence". A sibling of the scroll region, not
+          a child of it, so the syllabus link, outcome chips and zoom controls
+          stay pinned to the bottom instead of scrolling out of reach when a
+          long scenario overflows. */}
         {!(condensed && linkedOutcomes.length === 0) && (
           <div
             ref={footerRef}
@@ -674,7 +680,8 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           <OutcomeDetailModal
             isOpen={!!selectedOutcome}
             onClose={() => setSelectedOutcome(null)}
-            outcome={selectedOutcome}
+            outcomes={linkedOutcomes}
+            initialCode={selectedOutcome.code}
             question={prompt.question}
             tier={verbInfo.tier}
             verb={prompt.verb}

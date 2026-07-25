@@ -16,7 +16,7 @@ import CommandTermGuideModal from './CommandTermGuideModal';
 import Breadcrumb from './Breadcrumb';
 import { getCommandTermInfo } from '../data/commandTerms';
 import { findAndUpdateItem } from '../utils/stateUtils';
-import { EDITOR_SYNC_CAP, MAX_CARD_HEIGHT, MIN_CARD_HEIGHT } from '../utils/layoutConstants';
+import { cardHeightCap, MIN_CARD_HEIGHT } from '../utils/layoutConstants';
 import WorkspaceRightPanel from './WorkspaceRightPanel';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 
@@ -118,13 +118,16 @@ const Workspace: React.FC<WorkspaceProps> = ({
   const [isSuggestingOutcomes, setIsSuggestingOutcomes] = useState(false);
   const [promptFontSize, setPromptFontSize] = useState(18);
 
-  // Layout Sync State — headers, footers, and total heights are bidirectionally
-  // synced so the two cards always appear the same height.
+  // Layout Sync State. Headers and footers are matched in both directions so
+  // the chrome lines up, but the CARD height is one-way: the question prompt
+  // sets it and the writing area follows. The prompt grows to fit its question
+  // and scenario, so most of the time it reads without scrolling; only when it
+  // outruns the viewport cap does it scroll too. The response has no natural
+  // limit, so the writing area scrolls whenever it overflows.
   const [promptHeaderHeight, setPromptHeaderHeight] = useState(0);
   const [editorHeaderHeight, setEditorHeaderHeight] = useState(0);
   const [syncedHeaderHeight, setSyncedHeaderHeight] = useState(0);
   const [promptTotalHeight, setPromptTotalHeight] = useState(0);
-  const [editorTotalHeight, setEditorTotalHeight] = useState(0);
   const [syncedTotalHeight, setSyncedTotalHeight] = useState(0);
   const [promptFooterHeight, setPromptFooterHeight] = useState(0);
   const [editorFooterHeight, setEditorFooterHeight] = useState(0);
@@ -135,20 +138,27 @@ const Workspace: React.FC<WorkspaceProps> = ({
     if (max > 0) setSyncedHeaderHeight(max);
   }, [promptHeaderHeight, editorHeaderHeight]);
 
-  // Shared card height. The editor's contribution is capped separately: left
-  // uncapped, every sentence a student typed would also inflate the prompt
-  // card, stranding a two-line question in a column of empty space. Past the
-  // cap the editor scrolls internally and the prompt card stops following it.
+  // The viewport ceiling, refreshed on resize: how tall the pair may grow
+  // before a longer prompt would start pushing the writing area off screen.
+  const [heightCap, setHeightCap] = useState(() =>
+    cardHeightCap(typeof window === 'undefined' ? 900 : window.innerHeight)
+  );
   useEffect(() => {
-    const tallest = Math.max(
-      promptTotalHeight,
-      Math.min(editorTotalHeight, EDITOR_SYNC_CAP),
-      MIN_CARD_HEIGHT
-    );
-    if (promptTotalHeight > 0 || editorTotalHeight > 0) {
-      setSyncedTotalHeight(Math.min(MAX_CARD_HEIGHT, tallest));
+    const update = () => setHeightCap(cardHeightCap(window.innerHeight));
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
+  // The prompt's own content height, floored so a one-line question still
+  // leaves somewhere to write and capped so a very long scenario scrolls
+  // inside its card instead of pushing the writing area below the fold.
+  // Nothing the student types feeds back into this.
+  useEffect(() => {
+    if (promptTotalHeight > 0) {
+      setSyncedTotalHeight(Math.min(heightCap, Math.max(MIN_CARD_HEIGHT, promptTotalHeight)));
     }
-  }, [promptTotalHeight, editorTotalHeight]);
+  }, [promptTotalHeight, heightCap]);
 
   useEffect(() => {
     const max = Math.max(promptFooterHeight, editorFooterHeight);
@@ -157,8 +167,8 @@ const Workspace: React.FC<WorkspaceProps> = ({
 
   // Focus Mode swaps the full prompt card for the condensed one, which reports
   // neither a total nor a footer height. Its observers disconnect on unmount,
-  // so without this the editor keeps being floored — and its footer padded —
-  // by the last measurements of a card that is no longer on screen.
+  // so without this the writing area would keep being sized — and its footer
+  // padded — by the last measurements of a card no longer on screen.
   useEffect(() => {
     if (isFocusMode) {
       setPromptTotalHeight(0);
@@ -362,7 +372,6 @@ const Workspace: React.FC<WorkspaceProps> = ({
           minEditorHeight={syncedTotalHeight}
           onFooterResize={setEditorFooterHeight}
           minFooterHeight={syncedFooterHeight}
-          onTotalHeightChange={setEditorTotalHeight}
           writingMode={writingMode}
           onWritingModeChange={onWritingModeChange}
         />

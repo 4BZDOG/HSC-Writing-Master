@@ -1,38 +1,64 @@
 /**
  * Shared geometry for the two workspace cards ("Writing Prompt" and "Written
- * Response").  The cards are height-synced so they read as a matched pair, and
- * every constant below exists to keep that sync well-behaved:
+ * Response").
  *
- *  - MIN_CARD_HEIGHT   floor, so a one-line question still gets a usable card.
- *  - MAX_CARD_HEIGHT   ceiling; past this a card scrolls internally rather
- *                      than pushing the page taller.
- *  - EDITOR_SYNC_CAP   how tall the EDITOR is allowed to push the SHARED
- *                      height.  Without it, every sentence a student types
- *                      inflates the prompt card too, leaving a short question
- *                      floating in a sea of empty space.  Past this cap the
- *                      editor scrolls internally and the prompt card stops
- *                      growing with it.
+ * The relationship between them is deliberately one-way: **the question prompt
+ * dictates the height, and the writing area matches it.** The prompt grows to
+ * fit its question and scenario so a student can read the whole thing without
+ * scrolling — up to the point where growing further would push the writing
+ * area off screen. Past that the prompt scrolls too. The response grows
+ * without bound, so the writing area always scrolls when it needs to.
+ *
+ *  - MIN_CARD_HEIGHT   floor, so a one-line question still leaves a usable
+ *                      writing area underneath it. It has to clear the
+ *                      writing area's own chrome — header, strategy tip and
+ *                      metrics footer run to ~375px — plus the 96px reserved
+ *                      under the floating Evaluate button. Below this the
+ *                      writing surface is shorter than its own padding and an
+ *                      EMPTY editor renders a scrollbar with nothing to
+ *                      scroll to.
+ *  - MAX_CARD_HEIGHT   absolute ceiling, whatever the viewport.
+ *  - VIEWPORT_RESERVE  room left for the app header, breadcrumb and the page
+ *                      margins around the cards.
  */
-export const MIN_CARD_HEIGHT = 360;
-export const MAX_CARD_HEIGHT = 800;
-export const EDITOR_SYNC_CAP = 620;
+export const MIN_CARD_HEIGHT = 620;
+export const MAX_CARD_HEIGHT = 900;
+const VIEWPORT_RESERVE = 180;
 
 /**
- * Natural (content-driven) height of a card whose inner wrapper has been
- * stretched by the synced `minHeight`.
+ * The tallest the pair may grow on this viewport. A fixed ceiling either wastes
+ * a large display or, on a laptop, buries the writing area below the fold — so
+ * it is derived from the window and then clamped. When the floor wins (a short
+ * window), a long prompt scrolls at MIN_CARD_HEIGHT rather than the pair
+ * collapsing to something unusable.
+ */
+export const cardHeightCap = (viewportHeight: number): number =>
+  Math.max(MIN_CARD_HEIGHT, Math.min(MAX_CARD_HEIGHT, viewportHeight - VIEWPORT_RESERVE));
+
+/**
+ * Natural (content-driven) height of the prompt card — the single value the
+ * writing area is sized from.
  *
- * Measuring the stretched wrapper directly is what turned the sync into a
- * one-way ratchet: the wrapper reports the inflated height, that height is fed
- * back as the new `minHeight`, and the pair can never shrink again.  Swapping
- * the scroll region's RENDERED height for its CONTENT height yields the height
- * the card would have if nothing were constraining it.
+ * It must not depend on anything derived from itself. The card carries a
+ * `minHeight` floor, and that floor stretches the body inside it, so measuring
+ * the rendered card made the sync a one-way ratchet: it reports its inflated
+ * height, that becomes the next floor, and it can never shrink again.
+ * Substituting the body's CONTENT height for its RENDERED height leaves the
+ * height the card would have with nothing constraining it — including when the
+ * content is taller than the cap and the body is scrolling.
+ *
+ * `card` is the outer element, so its borders are counted — the writing area
+ * pins itself to this number exactly, and measuring inside the border left it
+ * 4px short. The header and footer carry synced minimums too, but those are
+ * symmetric (both cards are meant to have chrome of the same height) and that
+ * inflation is real height this card occupies, so it stays in the total.
  */
 export const naturalCardHeight = (
-  wrapper: HTMLElement | null,
-  scrollRegion: HTMLElement | null,
-  scrollContent: HTMLElement | null
+  card: HTMLElement | null,
+  body: HTMLElement | null,
+  bodyContent: HTMLElement | null
 ): number => {
-  if (!wrapper) return 0;
-  if (!scrollRegion || !scrollContent) return wrapper.offsetHeight;
-  return wrapper.offsetHeight - scrollRegion.offsetHeight + scrollContent.offsetHeight;
+  if (!card) return 0;
+  if (!body || !bodyContent) return card.offsetHeight;
+  return card.offsetHeight - body.offsetHeight + bodyContent.offsetHeight;
 };
