@@ -443,8 +443,15 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   onContributeSampleAnswer,
   userRole,
   onRecalibrate,
+  collapsible = false,
+  defaultCollapsed = true,
+  fontSize: fontSizeProp,
+  onFontSizeChange,
 }) => {
   const [openGroupMark, setOpenGroupMark] = useState<number | null>(null);
+  // Only meaningful when `collapsible` — Focus Mode wants the exemplars within
+  // reach but folded away, so the writing surface still owns the screen.
+  const [isCollapsed, setIsCollapsed] = useState(collapsible && defaultCollapsed);
   const [isGeneratorOpen, setIsGeneratorOpen] = useState(false);
   const [revisionTarget, setRevisionTarget] = useState<SampleAnswer | null>(null);
   const [editorTarget, setEditorTarget] = useState<SampleAnswer | null>(null);
@@ -452,7 +459,12 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   // the shared ConfirmationModal like every other delete in the app.
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
   const [flagTarget, setFlagTarget] = useState<SampleAnswer | null>(null);
-  const [fontSize, setFontSize] = useState(13);
+  // Reading size is a workspace-wide setting when the parent supplies one, so
+  // zooming the question also zooms the exemplars. The local state is only the
+  // fallback for any standalone use of this card.
+  const [localFontSize, setLocalFontSize] = useState(15);
+  const fontSize = fontSizeProp ?? localFontSize;
+  const setFontSize = onFontSizeChange ?? setLocalFontSize;
   const [isRecalibrating, setIsRecalibrating] = useState(false);
 
   const canCurate = canCurateContent(userRole);
@@ -513,15 +525,36 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           className={`absolute inset-0 opacity-[0.03] bg-gradient-to-r ${maxBandConfig.gradient} pointer-events-none`}
         />
 
-        <div className="flex items-center gap-3 relative z-10">
+        <div
+          className={`flex items-center gap-3 relative z-10 ${collapsible ? 'cursor-pointer select-none' : ''}`}
+          {...(collapsible
+            ? {
+                role: 'button' as const,
+                tabIndex: 0,
+                'aria-expanded': !isCollapsed,
+                onClick: () => setIsCollapsed((c) => !c),
+                onKeyDown: (e: React.KeyboardEvent) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setIsCollapsed((c) => !c);
+                  }
+                },
+              }
+            : {})}
+        >
           <div
             className={`p-2 rounded-xl transition-colors duration-500 ${maxBandConfig.bg} ${maxBandConfig.text} border ${maxBandConfig.border} shadow-sm`}
           >
             <Bookmark className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-[0.2em]">
+            <h3 className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-[0.2em] flex items-center gap-2">
               Sample Answers
+              {collapsible && (
+                <ChevronDown
+                  className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-300 ${isCollapsed ? '-rotate-90' : ''}`}
+                />
+              )}
             </h3>
             <p
               className={`text-[10px] font-bold uppercase tracking-wider opacity-80 ${maxBandConfig.text}`}
@@ -539,7 +572,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                setFontSize(Math.max(10, fontSize - 1));
+                setFontSize(Math.max(12, fontSize - 2));
               }}
               className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors rounded-md hover:bg-slate-100 dark:hover:bg-white/10"
               title="Decrease text size"
@@ -552,7 +585,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                setFontSize(Math.min(24, fontSize + 1));
+                setFontSize(Math.min(32, fontSize + 2));
               }}
               className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors rounded-md hover:bg-slate-100 dark:hover:bg-white/10"
               title="Increase text size"
@@ -603,38 +636,46 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
         </div>
       </div>
 
-      {/* Content List */}
-      <div>
-        {groupedAnswers.length > 0 ? (
-          groupedAnswers.map((group) => (
-            <CarouselAccordionItem
-              key={group.mark}
-              group={group}
-              prompt={prompt}
-              isOpen={openGroupMark === group.mark}
-              onToggle={() => setOpenGroupMark((prev) => (prev === group.mark ? null : group.mark))}
-              onUseSample={onUseSampleAnswer}
-              onRevise={(sa) => setRevisionTarget(sa)}
-              onEdit={(sa) => setEditorTarget(sa)}
-              onDelete={(id) => setDeleteTargetId(id)}
-              onContribute={onContributeSampleAnswer}
-              onFlag={(sa) => setFlagTarget(sa)}
-              canModify={canCurate}
-              fontSize={fontSize}
-            />
-          ))
-        ) : (
-          <div className="py-12 flex flex-col items-center text-center opacity-60">
-            <FileText className="w-8 h-8 text-slate-300 dark:text-slate-600 mb-3" />
-            <p className="text-xs font-medium text-slate-500">No model responses available yet.</p>
-            {canCurate && (
-              <p className="text-[10px] text-slate-400 mt-1">
-                Click generate to create exemplary answers.
+      {/* Content List. Folded away means not rendered — a card with several
+          exemplars, each running its own metrics, should not keep working
+          while it is out of sight. */}
+      {!(collapsible && isCollapsed) && (
+        <div>
+          {groupedAnswers.length > 0 ? (
+            groupedAnswers.map((group) => (
+              <CarouselAccordionItem
+                key={group.mark}
+                group={group}
+                prompt={prompt}
+                isOpen={openGroupMark === group.mark}
+                onToggle={() =>
+                  setOpenGroupMark((prev) => (prev === group.mark ? null : group.mark))
+                }
+                onUseSample={onUseSampleAnswer}
+                onRevise={(sa) => setRevisionTarget(sa)}
+                onEdit={(sa) => setEditorTarget(sa)}
+                onDelete={(id) => setDeleteTargetId(id)}
+                onContribute={onContributeSampleAnswer}
+                onFlag={(sa) => setFlagTarget(sa)}
+                canModify={canCurate}
+                fontSize={fontSize}
+              />
+            ))
+          ) : (
+            <div className="py-12 flex flex-col items-center text-center opacity-60">
+              <FileText className="w-8 h-8 text-slate-300 dark:text-slate-600 mb-3" />
+              <p className="text-xs font-medium text-slate-500">
+                No model responses available yet.
               </p>
-            )}
-          </div>
-        )}
-      </div>
+              {canCurate && (
+                <p className="text-[10px] text-slate-400 mt-1">
+                  Click generate to create exemplary answers.
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       <SampleAnswerGeneratorModal
         isOpen={isGeneratorOpen}
@@ -719,6 +760,13 @@ interface SampleAnswersAccordionProps {
   onContributeSampleAnswer?: (answer: SampleAnswer) => void | Promise<void>;
   userRole: UserRole;
   onRecalibrate?: () => Promise<void>;
+  /** Render the whole card as one collapsible panel (used in Focus Mode). */
+  collapsible?: boolean;
+  /** Start folded. Only applies when `collapsible`. Defaults to true. */
+  defaultCollapsed?: boolean;
+  /** Shared workspace reading size. Omit to keep a private size. */
+  fontSize?: number;
+  onFontSizeChange?: (size: number) => void;
 }
 
 export default SampleAnswersAccordion;

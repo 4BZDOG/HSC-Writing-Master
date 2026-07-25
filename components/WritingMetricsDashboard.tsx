@@ -1,14 +1,8 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Prompt, WritingMode } from '../types';
-import {
-  BAND_METRICS,
-  getCommandTermInfo,
-  getBandForMark,
-  getRecommendedTime,
-  getExpectedTerms,
-} from '../data/commandTerms';
-import { getBandConfig, textContainsKeyword, BandConfig } from '../utils/renderUtils';
-import { analyzeText, buildWritingInsights, InsightTone } from '../utils/writingAnalysis';
+import { getCommandTermInfo, getRecommendedTime, getExpectedTerms } from '../data/commandTerms';
+import { BandConfig } from '../utils/renderUtils';
+import { useWritingMetrics } from '../hooks/useWritingMetrics';
 import {
   ChevronDown,
   Play,
@@ -20,35 +14,9 @@ import {
   Type,
   Check,
   Sparkles,
-  Lightbulb,
-  CheckCircle2,
-  AlertTriangle,
-  Info,
   GraduationCap,
   AlignLeft,
 } from 'lucide-react';
-
-const TONE_STYLES: Record<
-  InsightTone,
-  { container: string; icon: string; Icon: React.ElementType }
-> = {
-  positive: {
-    container:
-      'bg-emerald-50/60 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-500/20',
-    icon: 'text-emerald-500 dark:text-emerald-400',
-    Icon: CheckCircle2,
-  },
-  warning: {
-    container: 'bg-amber-50/60 dark:bg-amber-900/10 border-amber-200 dark:border-amber-500/20',
-    icon: 'text-amber-500 dark:text-amber-400',
-    Icon: AlertTriangle,
-  },
-  info: {
-    container: 'bg-sky-50/60 dark:bg-sky-900/10 border-sky-200 dark:border-sky-500/20',
-    icon: 'text-sky-500 dark:text-sky-400',
-    Icon: Info,
-  },
-};
 
 interface PillProps {
   label: string;
@@ -145,16 +113,18 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     // countdown). The syllabus %, insights, term tracker and connectors are all
     // coaching aids and stay hidden.
     const isExamMode = writingMode === 'exam';
-    const [isCollapsed, setIsCollapsed] = useState(false);
+    // Collapsed by default. The headline stats stay on the strip; the detail
+    // panels below are reference material a student opens deliberately, not
+    // something that should push the evaluation results off screen.
+    const [isCollapsed, setIsCollapsed] = useState(true);
     const [isTimerActive, setIsTimerActive] = useState(false);
     const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
     const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
-    const wordCount = useMemo(
-      () => userAnswer.trim().split(/\s+/).filter(Boolean).length,
-      [userAnswer]
+    const { wordCount, analysis, keywordStats, progressInfo } = useWritingMetrics(
+      userAnswer,
+      prompt
     );
-    const charCount = useMemo(() => userAnswer.length, [userAnswer]);
     const recommendedTime = useMemo(
       () => getRecommendedTime(prompt.totalMarks, commandTermInfo),
       [prompt.totalMarks, commandTermInfo]
@@ -190,68 +160,6 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
       };
     }, [isTimerActive]);
 
-    const progressInfo = useMemo(() => {
-      // Single source of truth for the tier ceiling — same helper the marking
-      // path and the marking-criteria panel use, so the live target band can't
-      // drift from the band a student is actually awarded.
-      const maxBand = getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier);
-      const targetMetric = BAND_METRICS.find((b) => b.band === maxBand) || BAND_METRICS[0];
-      // Guard against a malformed/zero-mark prompt producing a 0 target,
-      // which would turn the percentage into NaN and render "NaN%".
-      const targetCount = Math.max(
-        1,
-        Math.ceil(prompt.totalMarks * targetMetric.wordCountMultiplier.min)
-      );
-      return {
-        targetLabel: `Band ${maxBand}`,
-        targetCount,
-        percentage: Math.min(100, (wordCount / targetCount) * 100),
-        currentBandColor: getBandConfig(maxBand),
-      };
-    }, [prompt.totalMarks, commandTermInfo.tier, wordCount]);
-
-    const keywordStats = useMemo(() => {
-      const keywords = prompt.keywords || [];
-      // Shares the highlighter's matcher, so the coverage score always agrees
-      // with what the student sees highlighted in the writing area.
-      const used = keywords.filter((kw) => textContainsKeyword(userAnswer, kw));
-      return {
-        used,
-        missed: keywords.filter((kw) => !used.includes(kw)),
-        score: keywords.length ? Math.round((used.length / keywords.length) * 100) : 0,
-      };
-    }, [userAnswer, prompt.keywords]);
-
-    // Structural anatomy of the draft — shared by the Structure panel and the
-    // live insights, so both always describe the same text.
-    const analysis = useMemo(() => analyzeText(userAnswer), [userAnswer]);
-
-    // Live, prioritised, actionable writing feedback.
-    const insights = useMemo(
-      () =>
-        buildWritingInsights({
-          analysis,
-          targetWordCount: progressInfo.targetCount,
-          targetLabel: progressInfo.targetLabel,
-          keywordsTotal: prompt.keywords?.length || 0,
-          keywordsUsed: keywordStats.used.length,
-          missingKeywords: keywordStats.missed,
-          expectedTerms,
-          tier: commandTermInfo.tier,
-          charCount,
-          charRange: commandTermInfo.charRange,
-        }),
-      [
-        analysis,
-        progressInfo,
-        prompt.keywords,
-        keywordStats,
-        expectedTerms,
-        commandTermInfo,
-        charCount,
-      ]
-    );
-
     const formatTime = (s: number) =>
       `${Math.floor(s / 60)
         .toString()
@@ -259,7 +167,13 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
 
     return (
       <div className="clip-stable rounded-[32px] border-2 border-slate-300 dark:border-white/20 bg-white dark:bg-black/40 overflow-hidden shadow-2xl transition-all duration-500">
-        <div className="flex flex-col sm:flex-row items-stretch border-b-2 border-slate-300 dark:border-white/10">
+        {/* The divider only earns its place when something sits below it —
+            collapsed, it doubled up with the card's own bottom border. */}
+        <div
+          className={`flex flex-col sm:flex-row items-stretch ${
+            isCollapsed || isExamMode ? '' : 'border-b-2 border-slate-300 dark:border-white/10'
+          }`}
+        >
           <div className="flex flex-1 items-center bg-slate-50 dark:bg-black/60">
             {isExamMode ? (
               <StatBox
@@ -324,9 +238,18 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                 onClick={() => setIsCollapsed(!isCollapsed)}
                 aria-label={isCollapsed ? 'Expand writing metrics' : 'Collapse writing metrics'}
                 aria-expanded={!isCollapsed}
-                title={isCollapsed ? 'Expand metrics' : 'Collapse metrics'}
-                className="p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all"
+                title={
+                  isCollapsed
+                    ? 'Show syllabus term tracker and structure breakdown'
+                    : 'Collapse metrics'
+                }
+                className="flex items-center gap-2 pl-3 pr-2 py-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all"
               >
+                {/* Named, not just a chevron — the panel starts collapsed, so
+                    nothing else tells a student the term tracker is in here. */}
+                <span className="text-[9px] font-black uppercase tracking-[0.15em] whitespace-nowrap">
+                  {isCollapsed ? 'Terms & Structure' : 'Hide'}
+                </span>
                 <ChevronDown
                   className={`w-5 h-5 transition-transform duration-500 ${isCollapsed ? '-rotate-90' : ''}`}
                 />
@@ -361,35 +284,6 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                   />
                 </div>
               </div>
-
-              {insights.length > 0 && (
-                <div className="flex flex-col gap-3">
-                  <div className="flex items-center gap-3 px-1">
-                    <Lightbulb className="w-4 h-4 text-amber-500 dark:text-amber-400" />
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500">
-                      Live Insights
-                    </h4>
-                  </div>
-                  <ul className="flex flex-col gap-2">
-                    {insights.map((insight, i) => {
-                      const tone = TONE_STYLES[insight.tone];
-                      const ToneIcon = tone.Icon;
-                      return (
-                        <li
-                          key={insight.id}
-                          className={`flex items-start gap-3 p-3 rounded-2xl border animate-fade-in-up-sm ${tone.container}`}
-                          style={{ animationDelay: `${Math.min(i, 4) * 50}ms` }}
-                        >
-                          <ToneIcon className={`w-4 h-4 mt-0.5 shrink-0 ${tone.icon}`} />
-                          <span className="text-xs leading-relaxed text-slate-700 dark:text-slate-300">
-                            {insight.message}
-                          </span>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              )}
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="flex flex-col gap-4">

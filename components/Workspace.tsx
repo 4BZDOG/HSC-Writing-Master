@@ -18,6 +18,8 @@ import { getCommandTermInfo } from '../data/commandTerms';
 import { findAndUpdateItem } from '../utils/stateUtils';
 import { cardHeightCap, MIN_CARD_HEIGHT } from '../utils/layoutConstants';
 import WorkspaceRightPanel from './WorkspaceRightPanel';
+import SampleAnswersAccordion from './SampleAnswersAccordion';
+import { isCurriculumRemote } from '../services/curriculumService';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 
 const useKeyboardShortcuts = (shortcuts: { [key: string]: (e: KeyboardEvent) => void }) => {
@@ -116,6 +118,9 @@ const Workspace: React.FC<WorkspaceProps> = ({
 
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isSuggestingOutcomes, setIsSuggestingOutcomes] = useState(false);
+  // ONE reading size for the whole workspace — question, writing surface and
+  // exemplars. Every zoom control in the workspace writes to this value, so
+  // there is a single setting rather than three that drift apart.
   const [promptFontSize, setPromptFontSize] = useState(18);
 
   // Layout Sync State. Headers and footers are matched in both directions so
@@ -169,10 +174,16 @@ const Workspace: React.FC<WorkspaceProps> = ({
   // neither a total nor a footer height. Its observers disconnect on unmount,
   // so without this the writing area would keep being sized — and its footer
   // padded — by the last measurements of a card no longer on screen.
+  // Zeroing promptTotalHeight alone was not enough: the effect that derives
+  // syncedTotalHeight ignores 0 (a legitimate "not measured yet" reading), so
+  // the writing area stayed pinned to the height of the full prompt card that
+  // is no longer on screen. Clearing the synced value too lets the editor fall
+  // back to its own cap and actually use the space Focus Mode frees up.
   useEffect(() => {
     if (isFocusMode) {
       setPromptTotalHeight(0);
       setPromptFooterHeight(0);
+      setSyncedTotalHeight(0);
     }
   }, [isFocusMode]);
 
@@ -262,6 +273,35 @@ const Workspace: React.FC<WorkspaceProps> = ({
     { label: currentDotPoint?.description || 'Dot Point' },
   ];
 
+  // One card, two homes. In the two-column layout the exemplars belong in the
+  // left rail directly under the Marking Guide — criteria and models are read
+  // together. Focus Mode has no left rail, so the same card is handed to the
+  // writing column instead, collapsed, so it is reachable without competing
+  // with the page the student is writing on.
+  const sampleAnswersCard = (
+    <SampleAnswersAccordion
+      prompt={currentPrompt}
+      onSampleAnswerGenerated={(answer) =>
+        syllabusHandlers.handleSampleAnswerGenerated(statePath, answer)
+      }
+      onUseSampleAnswer={(text) => setUserAnswer(text)}
+      onDeleteSampleAnswer={(id) => syllabusHandlers.handleDeleteSampleAnswer(statePath, id)}
+      onUpdateSampleAnswer={(answer) =>
+        syllabusHandlers.handleUpdateSampleAnswer(statePath, answer)
+      }
+      onContributeSampleAnswer={
+        isCurriculumRemote() && userRole !== 'guest'
+          ? (answer) => syllabusHandlers.handleContributeSampleAnswer(statePath, answer)
+          : undefined
+      }
+      userRole={userRole}
+      onRecalibrate={() => geminiHandlers.recalibrateSamples(currentPrompt)}
+      collapsible={isFocusMode}
+      fontSize={promptFontSize}
+      onFontSizeChange={setPromptFontSize}
+    />
+  );
+
   return (
     <div className="flex flex-col h-full gap-4">
       {!isFocusMode && showBreadcrumb && (
@@ -279,7 +319,9 @@ const Workspace: React.FC<WorkspaceProps> = ({
         className={`grid grid-cols-1 ${isFocusMode ? 'w-full' : 'lg:grid-cols-12 lg:grid-rows-[auto,1fr]'} gap-6 flex-1 min-h-0 transition-all duration-500`}
       >
         {!isFocusMode && (
-          <div className="lg:col-span-5 lg:col-start-1 lg:row-start-1">
+          <div
+            className={`${isExamMode ? 'lg:col-span-4' : 'lg:col-span-5'} lg:col-start-1 lg:row-start-1`}
+          >
             <PromptDisplay
               prompt={currentPrompt}
               isEnriching={isEnriching}
@@ -362,11 +404,11 @@ const Workspace: React.FC<WorkspaceProps> = ({
           geminiHandlers={geminiHandlers}
           syllabusHandlers={syllabusHandlers}
           statePath={statePath}
-          userRole={userRole}
           breadcrumbItems={breadcrumbItems}
           handleRunQualityCheck={handleRunQualityCheck}
           onToggleFocusMode={onToggleFocusMode}
           promptFontSize={promptFontSize}
+          onPromptFontSizeChange={setPromptFontSize}
           onHeaderResize={setEditorHeaderHeight}
           minHeaderHeight={syncedHeaderHeight}
           minEditorHeight={syncedTotalHeight}
@@ -374,6 +416,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
           minFooterHeight={syncedFooterHeight}
           writingMode={writingMode}
           onWritingModeChange={onWritingModeChange}
+          sampleAnswersSlot={isFocusMode && !isExamMode ? sampleAnswersCard : undefined}
         />
 
         {!isFocusMode && (
@@ -407,6 +450,8 @@ const Workspace: React.FC<WorkspaceProps> = ({
                 window.dispatchEvent(new CustomEvent('insert-text', { detail: word }))
               }
               courseOutcomes={courseOutcomes}
+              breadcrumb={breadcrumbItems.map((b) => b.label)}
+              sampleAnswersSlot={sampleAnswersCard}
             />
           </div>
         )}

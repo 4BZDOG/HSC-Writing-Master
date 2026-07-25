@@ -49,7 +49,10 @@ interface EditorProps {
   isFocusMode?: boolean;
   onToggleFocusMode?: () => void;
   progress?: number; // 0 to 1 scale representing completeness/quality
+  /** The workspace-wide reading size. One setting drives the prompt, the
+   *  writing surface and the exemplars — see Workspace. */
   syncedFontSize?: number;
+  onFontSizeChange?: (size: number) => void;
   maxBand?: number; // Cap for color progression (1-6)
   onHeaderResize?: (height: number) => void;
   minHeaderHeight?: number;
@@ -58,6 +61,8 @@ interface EditorProps {
   minFooterHeight?: number;
   writingMode?: WritingMode;
   onWritingModeChange?: (mode: WritingMode) => void;
+  /** Primary action (Evaluate), docked in its own row above the footer. */
+  footerAction?: React.ReactNode;
 }
 
 const MeshOverlay = ({
@@ -124,6 +129,7 @@ const Editor = forwardRef<
       onToggleFocusMode,
       progress = 0,
       syncedFontSize,
+      onFontSizeChange,
       maxBand = 6,
       onHeaderResize,
       minHeaderHeight,
@@ -132,6 +138,7 @@ const Editor = forwardRef<
       minFooterHeight,
       writingMode = 'coach',
       onWritingModeChange,
+      footerAction,
     },
     ref
   ) => {
@@ -155,9 +162,11 @@ const Editor = forwardRef<
       [value, keywords, verb, isExamMode]
     );
 
-    // Internal Font Size State with Sync Logic
-    const [internalFontSize, setInternalFontSize] = useState(syncedFontSize || 18);
-    const [userHasResized, setUserHasResized] = useState(false);
+    // The reading size is owned by the workspace, not by this card. It used to
+    // be mirrored into local state that stopped following the parent as soon as
+    // the student touched these buttons — so the prompt's zoom silently went
+    // dead and the two cards drifted apart.
+    const internalFontSize = syncedFontSize || 18;
 
     const verbInfo = useMemo(() => getCommandTermInfo(verb), [verb]);
     const verbTier = verbInfo.tier;
@@ -214,13 +223,6 @@ const Editor = forwardRef<
       };
     }, [progress, maxBand, verbTier, isExamMode]);
 
-    // Sync from parent if user hasn't manually overridden
-    useEffect(() => {
-      if (syncedFontSize && !userHasResized) {
-        setInternalFontSize(syncedFontSize);
-      }
-    }, [syncedFontSize, userHasResized]);
-
     // Header height observation. Reports the header's NATURAL height (content
     // + own padding) rather than its rendered box: the rendered box includes
     // the synced minHeight, which would turn the cross-card height sync into a
@@ -264,10 +266,7 @@ const Editor = forwardRef<
       return () => observer.disconnect();
     }, [onFooterResize]);
 
-    const handleManualResize = (newSize: number) => {
-      setInternalFontSize(newSize);
-      setUserHasResized(true);
-    };
+    const handleManualResize = (newSize: number) => onFontSizeChange?.(newSize);
 
     const insertText = (textToInsert: string) => {
       const textarea = textareaRef.current;
@@ -459,15 +458,18 @@ const Editor = forwardRef<
     };
 
     // Styling for Grid Stacking (Auto-Grow).
-    // Extra bottom padding reserves space for the floating "Evaluate" action
-    // button (bottom-right) so a student's last lines are never hidden beneath it.
+    // The Evaluate action used to float over this surface, with bottom padding
+    // here meant to keep clear of it. That only ever protected the END of the
+    // draft: the padding scrolls with the text while the button is pinned to
+    // the card, so any mid-document line long enough to reach the bottom-right
+    // corner was simply hidden behind it. The action now has its own row.
     // No min-height: the writing surface fills whatever the card gives it (the
     // grid is `min-h-full`), and the card's height comes from the question
     // prompt. A fixed 300px floor here used to exceed the space available
     // under a short prompt, so an EMPTY editor rendered a scrollbar with
     // nothing to scroll to.
     const gridStackItemStyles =
-      'col-start-1 row-start-1 px-5 sm:px-8 pt-8 pb-24 font-serif leading-[1.8] whitespace-pre-wrap break-words overflow-hidden';
+      'col-start-1 row-start-1 px-5 sm:px-8 pt-8 pb-8 font-serif leading-[1.8] whitespace-pre-wrap break-words overflow-hidden';
 
     return (
       <div
@@ -736,6 +738,14 @@ const Editor = forwardRef<
               </div>
             </div>
           </div>
+
+          {/* Primary action row — a sibling of the scroll region, so it can
+              never sit on top of the student's words. */}
+          {footerAction && (
+            <div className="px-4 sm:px-8 pt-2 pb-3 flex justify-end flex-shrink-0 relative z-20 bg-[rgb(var(--color-bg-surface-inset))] light:bg-white">
+              {footerAction}
+            </div>
+          )}
 
           {/* Footer Metrics */}
           <div

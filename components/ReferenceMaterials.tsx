@@ -2,8 +2,10 @@ import React, { useState, useMemo } from 'react';
 import { Prompt, Topic, UserRole, CourseOutcome } from '../types';
 import KeywordEditor from './KeywordEditor';
 import MarkingCriteriaManager from './MarkingCriteriaAccordion';
-import { ChevronDown, GraduationCap, Sparkles, Award, ListChecks } from 'lucide-react';
-import { getBandConfig } from '../utils/renderUtils';
+import OutcomeDetailModal from './OutcomeDetailModal';
+import { ChevronDown, GraduationCap, Sparkles, Award, ListChecks, Target } from 'lucide-react';
+import { getBandConfig, getTierScaleConfig } from '../utils/renderUtils';
+import { getCommandTermInfo } from '../data/commandTerms';
 
 interface AccordionSectionProps {
   title: string;
@@ -48,11 +50,18 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
         />
       </button>
 
+      {/* A grid-rows transition rather than a max-height one. The old
+          `max-h-[2000px]` was a guess at how tall the content could get, and
+          anything past it — a long marking guide, a stack of exemplars — was
+          silently cut off with no way to scroll to it. `1fr` animates to
+          whatever the content actually needs. */}
       <div
-        className={`overflow-hidden transition-all duration-500 ${isOpen ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}
+        className={`grid transition-all duration-500 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
       >
-        <div className="p-5 pt-0 border-t border-slate-300 dark:border-white/10">
-          <div className="mt-5">{children}</div>
+        <div className="overflow-hidden">
+          <div className="p-5 pt-0 border-t border-slate-300 dark:border-white/10">
+            <div className="mt-5">{children}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -78,13 +87,69 @@ interface ReferenceMaterialsProps {
   /** The syllabus dot point text this question sits under, used to flag which
    *  keywords come straight from the syllabus. */
   dotPointText?: string;
+  /** Sample Answers card, injected so it sits directly under the Marking Guide
+   *  — the two are read together when judging what a mark level looks like. */
+  sampleAnswersSlot?: React.ReactNode;
+  /** Course → Topic → Sub-Topic → Dot Point labels, shown in the outcome modal. */
+  breadcrumb?: string[];
 }
 
 const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
-  const { prompt, topic, userRole, courseOutcomes = [] } = props;
+  const { prompt, topic, userRole, courseOutcomes = [], sampleAnswersSlot, breadcrumb } = props;
+
+  // Second, fuller entry point to the outcome briefing. The chips in the prompt
+  // footer are a quick reminder of WHICH outcomes apply; this panel spells out
+  // what each one asks for and offers the in-context explanation by name, so a
+  // student can read it before attempting an answer rather than discovering it
+  // by chance.
+  const [selectedOutcome, setSelectedOutcome] = useState<CourseOutcome | null>(null);
+  const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
+  const tierConfig = useMemo(() => getTierScaleConfig(verbInfo.tier), [verbInfo.tier]);
+  const linkedOutcomes = useMemo(
+    () => courseOutcomes.filter((o) => prompt.linkedOutcomes?.includes(o.code)),
+    [courseOutcomes, prompt.linkedOutcomes]
+  );
 
   return (
     <div className="flex flex-col gap-1 animate-fade-in">
+      {linkedOutcomes.length > 0 && (
+        <AccordionSection
+          title={`What's Assessed · ${linkedOutcomes.length} Outcome${linkedOutcomes.length === 1 ? '' : 's'}`}
+          icon={<Target />}
+          band={verbInfo.tier}
+          defaultOpen={true}
+        >
+          <div className="space-y-2.5">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+              Read these before you start writing — they are the standards this question is marked
+              against.
+            </p>
+            {linkedOutcomes.map((outcome) => (
+              <button
+                key={outcome.code}
+                onClick={() => setSelectedOutcome(outcome)}
+                className={`w-full text-left rounded-2xl border ${tierConfig.border} ${tierConfig.bg} p-4 transition-all hover:shadow-md hover:brightness-110 active:scale-[0.99] group/outcome-row`}
+              >
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span
+                    className={`text-[10px] font-black uppercase tracking-widest ${tierConfig.text}`}
+                  >
+                    {outcome.code}
+                  </span>
+                  <span className="ml-auto flex items-center gap-1.5 text-[9px] font-black uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400 opacity-70 group-hover/outcome-row:opacity-100 transition-opacity">
+                    <Sparkles className="w-3 h-3" />
+                    Explain for this question
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-700 dark:text-slate-300 leading-relaxed font-serif">
+                  {outcome.description}
+                </p>
+              </button>
+            ))}
+          </div>
+        </AccordionSection>
+      )}
+
       <AccordionSection title="Syllabus Terms" icon={<Sparkles />} band={4} defaultOpen={true}>
         <KeywordEditor
           {...props}
@@ -93,17 +158,6 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
           isRegenerating={props.isRegeneratingKeywords}
           onSuggest={props.onSuggestKeywords}
           isSuggesting={props.isSuggestingKeywords}
-        />
-      </AccordionSection>
-
-      <AccordionSection title="Marking Guide" icon={<ListChecks />} band={5}>
-        <MarkingCriteriaManager
-          prompt={prompt}
-          markingCriteria={prompt.markingCriteria || ''}
-          onSave={props.onMarkingCriteriaChange}
-          band={5}
-          userRole={userRole}
-          courseOutcomes={courseOutcomes}
         />
       </AccordionSection>
 
@@ -146,6 +200,35 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
               })}
           </div>
         </AccordionSection>
+      )}
+
+      <AccordionSection title="Marking Guide" icon={<ListChecks />} band={5}>
+        <MarkingCriteriaManager
+          prompt={prompt}
+          markingCriteria={prompt.markingCriteria || ''}
+          onSave={props.onMarkingCriteriaChange}
+          band={5}
+          userRole={userRole}
+          courseOutcomes={courseOutcomes}
+        />
+      </AccordionSection>
+
+      {/* Exemplars sit immediately beneath the Marking Guide: the criteria say
+          what each mark level requires, the samples show it. */}
+      {sampleAnswersSlot && <div className="mb-3">{sampleAnswersSlot}</div>}
+
+      {selectedOutcome && (
+        <OutcomeDetailModal
+          isOpen={!!selectedOutcome}
+          onClose={() => setSelectedOutcome(null)}
+          outcomes={linkedOutcomes}
+          initialCode={selectedOutcome.code}
+          question={prompt.question}
+          tier={verbInfo.tier}
+          verb={prompt.verb}
+          totalMarks={prompt.totalMarks}
+          breadcrumb={breadcrumb}
+        />
       )}
     </div>
   );
