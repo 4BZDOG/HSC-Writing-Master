@@ -1,14 +1,16 @@
-import React, { useState, useMemo } from 'react';
+import React, { useId, useState, useMemo } from 'react';
 import { Prompt, Topic, UserRole, CourseOutcome } from '../types';
 import KeywordEditor from './KeywordEditor';
 import MarkingCriteriaManager from './MarkingCriteriaAccordion';
 import OutcomeDetailModal from './OutcomeDetailModal';
 import { ChevronDown, GraduationCap, Sparkles, Award, ListChecks, Target } from 'lucide-react';
 import { getBandConfig, getTierScaleConfig } from '../utils/renderUtils';
-import { getCommandTermInfo } from '../data/commandTerms';
+import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 
 interface AccordionSectionProps {
   title: string;
+  /** Second line under the title, matching the exemplars panel's band line. */
+  subtitle?: string;
   icon: React.ReactNode;
   children: React.ReactNode;
   defaultOpen?: boolean;
@@ -17,6 +19,7 @@ interface AccordionSectionProps {
 
 export const AccordionSection: React.FC<AccordionSectionProps> = ({
   title,
+  subtitle,
   icon,
   children,
   defaultOpen = false,
@@ -24,6 +27,7 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const bandConfig = useMemo(() => getBandConfig(band), [band]);
+  const panelId = useId();
 
   return (
     <div
@@ -31,6 +35,8 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+        aria-controls={panelId}
         className={`w-full py-3.5 px-5 flex items-center justify-between transition-all group ${isOpen ? 'bg-slate-50/50 dark:bg-white/[0.03]' : 'hover:bg-slate-50 dark:hover:bg-white/[0.02]'}`}
       >
         <div className="flex items-center gap-4">
@@ -39,10 +45,17 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
           >
             {React.cloneElement(icon as React.ReactElement<any>, { className: 'w-4 h-4' })}
           </div>
-          <span
-            className={`text-[10px] font-black uppercase tracking-[0.2em] ${isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-500'}`}
-          >
-            {title}
+          <span className="text-left">
+            <span
+              className={`block text-[10px] font-black uppercase tracking-[0.2em] ${isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-500'}`}
+            >
+              {title}
+            </span>
+            {subtitle && (
+              <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 opacity-80">
+                {subtitle}
+              </span>
+            )}
           </span>
         </div>
         <ChevronDown
@@ -56,6 +69,7 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
           silently cut off with no way to scroll to it. `1fr` animates to
           whatever the content actually needs. */}
       <div
+        id={panelId}
         className={`grid transition-all duration-500 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
       >
         <div className="overflow-hidden">
@@ -108,6 +122,10 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
   const linkedOutcomes = useMemo(
     () => courseOutcomes.filter((o) => prompt.linkedOutcomes?.includes(o.code)),
     [courseOutcomes, prompt.linkedOutcomes]
+  );
+  const maxPossibleBand = useMemo(
+    () => getBandForMark(prompt.totalMarks, prompt.totalMarks, verbInfo.tier),
+    [prompt.totalMarks, verbInfo.tier]
   );
 
   return (
@@ -202,7 +220,12 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
         </AccordionSection>
       )}
 
-      <AccordionSection title="Marking Guide" icon={<ListChecks />} band={5}>
+      <AccordionSection
+        title="Marking Guide"
+        subtitle={`Top level: Band ${maxPossibleBand}`}
+        icon={<ListChecks />}
+        band={5}
+      >
         <MarkingCriteriaManager
           prompt={prompt}
           markingCriteria={prompt.markingCriteria || ''}
@@ -210,12 +233,13 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
           band={5}
           userRole={userRole}
           courseOutcomes={courseOutcomes}
+          embedded
         />
       </AccordionSection>
 
       {/* Exemplars sit immediately beneath the Marking Guide: the criteria say
           what each mark level requires, the samples show it. */}
-      {sampleAnswersSlot && <div className="mb-3">{sampleAnswersSlot}</div>}
+      {sampleAnswersSlot}
 
       {selectedOutcome && (
         <OutcomeDetailModal

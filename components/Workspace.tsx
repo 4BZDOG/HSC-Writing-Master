@@ -16,12 +16,13 @@ import MarkingCriteriaManager from './MarkingCriteriaAccordion';
 import { ListChecks } from 'lucide-react';
 import CommandTermGuideModal from './CommandTermGuideModal';
 import Breadcrumb from './Breadcrumb';
-import { getCommandTermInfo } from '../data/commandTerms';
+import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { findAndUpdateItem } from '../utils/stateUtils';
 import { cardHeightCap, MIN_CARD_HEIGHT, isTwoColumnWidth } from '../utils/layoutConstants';
 import WorkspaceRightPanel from './WorkspaceRightPanel';
 import SampleAnswersAccordion from './SampleAnswersAccordion';
 import { isCurriculumRemote } from '../services/curriculumService';
+import { isOverlayOpen } from '../hooks/useEscapeKey';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 
 const useKeyboardShortcuts = (shortcuts: { [key: string]: (e: KeyboardEvent) => void }) => {
@@ -214,13 +215,6 @@ const Workspace: React.FC<WorkspaceProps> = ({
 
   const courseOutcomes = currentCourse?.outcomes || [];
 
-  useEffect(() => {
-    if (evaluationResult) {
-      const el = document.getElementById('evaluation-results');
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }, [evaluationResult]);
-
   const handleSaveDraft = () => {
     if (!currentPrompt) return;
     if (userAnswer !== currentPrompt.userDraft) {
@@ -264,10 +258,12 @@ const Workspace: React.FC<WorkspaceProps> = ({
     },
     F: () => onToggleFocusMode(),
     // Pressing Escape while in Focus Mode returns to the full workspace — the
-    // universal "exit fullscreen" gesture. It never fires outside Focus Mode,
-    // so it won't interfere with other Escape handlers (modals, menus).
+    // universal "exit fullscreen" gesture. It yields to anything layered above
+    // it: with the outcome brief open, one press used to close the brief AND
+    // drop the student out of Focus Mode, because both handlers sit on
+    // `window` and neither can stop the other.
     Escape: () => {
-      if (isFocusMode) onToggleFocusMode();
+      if (isFocusMode && !isOverlayOpen()) onToggleFocusMode();
     },
   });
 
@@ -308,7 +304,12 @@ const Workspace: React.FC<WorkspaceProps> = ({
   // and what those levels look like — are handed to the writing column instead,
   // both folded shut so they cost nothing until they are wanted.
   const markingGuideCard = (
-    <AccordionSection title="Marking Guide" icon={<ListChecks />} band={5}>
+    <AccordionSection
+      title="Marking Guide"
+      subtitle={`Top level: Band ${getBandForMark(currentPrompt.totalMarks, currentPrompt.totalMarks, getCommandTermInfo(currentPrompt.verb).tier)}`}
+      icon={<ListChecks />}
+      band={5}
+    >
       <MarkingCriteriaManager
         prompt={currentPrompt}
         markingCriteria={currentPrompt.markingCriteria || ''}
@@ -320,6 +321,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
         band={5}
         userRole={userRole}
         courseOutcomes={courseOutcomes}
+        embedded
       />
     </AccordionSection>
   );
@@ -342,7 +344,6 @@ const Workspace: React.FC<WorkspaceProps> = ({
       }
       userRole={userRole}
       onRecalibrate={() => geminiHandlers.recalibrateSamples(currentPrompt)}
-      collapsible={isFocusMode}
       fontSize={promptFontSize}
       onFontSizeChange={setPromptFontSize}
     />

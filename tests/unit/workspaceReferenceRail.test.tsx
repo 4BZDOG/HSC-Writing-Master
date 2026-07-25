@@ -61,12 +61,11 @@ const railProps = {
   userRole: 'student' as const,
 };
 
+/** Panel headings in DOM order, read from the disclosure buttons themselves. */
 const sectionTitles = () =>
-  Array.from(document.querySelectorAll('span'))
-    .map((el) => el.textContent?.trim() ?? '')
-    .filter((t) =>
-      /^(What's Assessed|Syllabus Terms|Grade Standards|Marking Guide)/i.test(t)
-    );
+  Array.from(document.querySelectorAll('button[aria-expanded]')).map(
+    (el) => (el.textContent ?? '').trim().split('\n')[0]
+  );
 
 describe('ReferenceMaterials rail', () => {
   it('orders the panels so standards are read before the criteria', () => {
@@ -142,20 +141,27 @@ describe('SampleAnswersAccordion', () => {
     userRole: 'student' as const,
   };
   const withSamples = prompt({
-    sampleAnswers: [
-      { id: 's1', answer: 'A model response.', mark: 6, band: 6, source: 'AI' },
-    ],
+    sampleAnswers: [{ id: 's1', answer: 'A model response.', mark: 6, band: 6, source: 'AI' }],
   } as Partial<Prompt>);
 
-  it('shows its content by default outside Focus Mode', () => {
+  // Folded by default, like every other panel in the rail, and its controls
+  // live in the body so the collapsed row reads as a heading, not a toolbar.
+  it('starts folded, and unfolds from the header', () => {
     render(<SampleAnswersAccordion {...sampleProps} prompt={withSamples} />);
+    const header = screen.getByRole('button', { name: /Sample Answers/i });
+    expect(header.getAttribute('aria-expanded')).toBe('false');
+    expect(screen.queryByText(/6\/6 Marks/i)).toBeNull();
+    expect(screen.queryByTitle(/Increase text size/i)).toBeNull();
+
+    fireEvent.click(header);
+    expect(header.getAttribute('aria-expanded')).toBe('true');
     expect(screen.getByText(/6\/6 Marks/i)).toBeTruthy();
   });
 
-  it('starts folded when collapsible, and unfolds on click', () => {
-    render(<SampleAnswersAccordion {...sampleProps} prompt={withSamples} collapsible />);
-    expect(screen.queryByText(/6\/6 Marks/i)).toBeNull();
-    fireEvent.click(screen.getByRole('button', { name: /Sample Answers/i }));
+  it('can be asked to start open', () => {
+    render(
+      <SampleAnswersAccordion {...sampleProps} prompt={withSamples} defaultCollapsed={false} />
+    );
     expect(screen.getByText(/6\/6 Marks/i)).toBeTruthy();
   });
 
@@ -165,6 +171,7 @@ describe('SampleAnswersAccordion', () => {
       <SampleAnswersAccordion
         {...sampleProps}
         prompt={withSamples}
+        defaultCollapsed={false}
         fontSize={20}
         onFontSizeChange={onFontSizeChange}
       />
@@ -185,5 +192,51 @@ describe('card chrome sync', () => {
     expect(isTwoColumnWidth(TWO_COLUMN_BREAKPOINT)).toBe(true);
     expect(isTwoColumnWidth(TWO_COLUMN_BREAKPOINT - 1)).toBe(false);
     expect(isTwoColumnWidth(390)).toBe(false);
+  });
+});
+
+describe('panel chrome consistency', () => {
+  it('gives every rail panel the same disclosure contract', () => {
+    render(
+      <ReferenceMaterials
+        {...railProps}
+        prompt={prompt()}
+        topic={topic()}
+        courseOutcomes={OUTCOMES}
+        sampleAnswersSlot={
+          <SampleAnswersAccordion
+            prompt={prompt()}
+            onSampleAnswerGenerated={vi.fn()}
+            onUseSampleAnswer={vi.fn()}
+            onDeleteSampleAnswer={vi.fn()}
+            onUpdateSampleAnswer={vi.fn()}
+            userRole="student"
+          />
+        }
+      />
+    );
+    const panels = Array.from(document.querySelectorAll('button[aria-expanded]'));
+    expect(panels.length).toBe(5);
+    // Screen readers get the same story from all of them, exemplars included.
+    for (const panel of panels) {
+      expect(panel.getAttribute('aria-expanded')).toMatch(/true|false/);
+      expect(panel.getAttribute('aria-controls')).toBeTruthy();
+    }
+  });
+
+  it('does not head the Marking Guide twice', () => {
+    render(
+      <ReferenceMaterials
+        {...railProps}
+        prompt={prompt()}
+        topic={topic()}
+        courseOutcomes={OUTCOMES}
+      />
+    );
+    fireEvent.click(screen.getByRole('button', { name: /Marking Guide/i }));
+    // The panel supplies the title and the band line; the criteria manager
+    // used to repeat both immediately underneath.
+    expect(screen.queryByText(/^Marking Criteria$/i)).toBeNull();
+    expect(screen.getByText(/Top level: Band \d/i)).toBeTruthy();
   });
 });

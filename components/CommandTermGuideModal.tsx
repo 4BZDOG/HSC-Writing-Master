@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { createPortal } from 'react-dom';
 import { CommandTermInfo } from '../types';
 import { X, Info, Award, Target, Hash, Zap, ChevronRight } from 'lucide-react';
 import { getTierBandConfig } from '../utils/renderUtils';
 import { getTierTargetBand } from '../data/commandTerms';
+import { useEscapeKey } from '../hooks/useEscapeKey';
 
 interface CommandTermGuideModalProps {
   isOpen: boolean;
@@ -19,15 +20,10 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
   // Colour by the verb's target band so the guide matches the prompt/writing area.
   const bandConfig = getTierBandConfig(termInfo.tier);
 
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleEsc = (e: globalThis.KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', handleEsc);
-    return () => window.removeEventListener('keydown', handleEsc);
-  }, [onClose, isOpen]);
+  // Shared hook rather than a private listener, so this guide also registers
+  // itself as an open overlay and Escape dismisses it without also exiting
+  // Focus Mode underneath.
+  useEscapeKey(isOpen, onClose);
 
   if (!isOpen) return null;
 

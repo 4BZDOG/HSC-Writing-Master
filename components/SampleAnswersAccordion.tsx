@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useId, useState, useMemo, useEffect } from 'react';
 import { Prompt, SampleAnswer, UserRole } from '../types';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import {
@@ -443,15 +443,14 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   onContributeSampleAnswer,
   userRole,
   onRecalibrate,
-  collapsible = false,
   defaultCollapsed = true,
   fontSize: fontSizeProp,
   onFontSizeChange,
 }) => {
   const [openGroupMark, setOpenGroupMark] = useState<number | null>(null);
-  // Only meaningful when `collapsible` — Focus Mode wants the exemplars within
-  // reach but folded away, so the writing surface still owns the screen.
-  const [isCollapsed, setIsCollapsed] = useState(collapsible && defaultCollapsed);
+  // Folded by default, like the Marking Guide and Grade Standards it sits with.
+  const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
+  const panelId = useId();
   const [isGeneratorOpen, setIsGeneratorOpen] = useState(false);
   const [revisionTarget, setRevisionTarget] = useState<SampleAnswer | null>(null);
   const [editorTarget, setEditorTarget] = useState<SampleAnswer | null>(null);
@@ -515,65 +514,67 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   };
 
   return (
-    <div className="clip-stable bg-white dark:bg-[rgb(var(--color-bg-surface))] rounded-[24px] border border-slate-200 dark:border-white/10 shadow-sm overflow-hidden flex flex-col">
-      {/* Header - Styled with highest possible tier color to indicate the question's potential */}
-      <div
-        className={`px-4 sm:px-6 py-4 border-b border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-white/[0.02] flex flex-wrap items-center justify-between gap-x-4 gap-y-3 relative overflow-hidden`}
+    <div className="clip-stable bg-white/60 dark:bg-[rgb(var(--color-bg-surface))]/30 light:bg-white rounded-[20px] border border-slate-300 dark:border-white/20 shadow-sm overflow-hidden mb-3 last:mb-0 transition-all duration-300">
+      {/* One full-width toggle, matching every other panel in the reference
+          rail: icon tile, title, chevron on the right. The zoom and AI controls
+          moved into the body so this row stays a single button — a collapsed
+          panel should read as a heading, not as a heading plus a toolbar. */}
+      <button
+        onClick={() => setIsCollapsed((c) => !c)}
+        aria-expanded={!isCollapsed}
+        aria-controls={panelId}
+        className={`w-full py-3.5 px-5 flex items-center justify-between transition-all group relative overflow-hidden ${
+          isCollapsed
+            ? 'hover:bg-slate-50 dark:hover:bg-white/[0.02]'
+            : 'bg-slate-50/50 dark:bg-white/[0.03]'
+        }`}
       >
-        {/* Ambient Background Gradient matching the question's Max Band */}
         <div
           className={`absolute inset-0 opacity-[0.03] bg-gradient-to-r ${maxBandConfig.gradient} pointer-events-none`}
         />
-
-        <div
-          className={`flex items-center gap-3 relative z-10 ${collapsible ? 'cursor-pointer select-none' : ''}`}
-          {...(collapsible
-            ? {
-                role: 'button' as const,
-                tabIndex: 0,
-                'aria-expanded': !isCollapsed,
-                onClick: () => setIsCollapsed((c) => !c),
-                onKeyDown: (e: React.KeyboardEvent) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    setIsCollapsed((c) => !c);
-                  }
-                },
-              }
-            : {})}
-        >
+        <div className="flex items-center gap-4 relative z-10 min-w-0">
           <div
-            className={`p-2 rounded-xl transition-colors duration-500 ${maxBandConfig.bg} ${maxBandConfig.text} border ${maxBandConfig.border} shadow-sm`}
+            className={`w-8 h-8 rounded-xl flex items-center justify-center border transition-all duration-500 ${
+              isCollapsed
+                ? 'bg-slate-100 dark:bg-black/20 border-slate-300 dark:border-white/10 text-slate-500'
+                : `${maxBandConfig.solidBg} border-white/20 text-white shadow-lg`
+            }`}
           >
             <Bookmark className="w-4 h-4" />
           </div>
-          <div>
-            <h3 className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-[0.2em] flex items-center gap-2">
+          <div className="text-left min-w-0">
+            <span
+              className={`block text-[10px] font-black uppercase tracking-[0.2em] ${
+                isCollapsed ? 'text-slate-500' : 'text-slate-900 dark:text-white'
+              }`}
+            >
               Sample Answers
-              {collapsible && (
-                <ChevronDown
-                  className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-300 ${isCollapsed ? '-rotate-90' : ''}`}
-                />
-              )}
-            </h3>
-            <p
-              className={`text-[10px] font-bold uppercase tracking-wider opacity-80 ${maxBandConfig.text}`}
+            </span>
+            <span
+              className={`block text-[10px] font-bold uppercase tracking-wider opacity-80 ${maxBandConfig.text}`}
             >
               {groupedAnswers.length > 0
                 ? `${groupedAnswers.length} performance level${groupedAnswers.length === 1 ? '' : 's'}`
                 : 'No models yet'}
-              {` • Band ceiling ${maxPossibleBand}`}
-            </p>
+              {` \u2022 Band ceiling ${maxPossibleBand}`}
+            </span>
           </div>
         </div>
+        <ChevronDown
+          className={`w-4 h-4 shrink-0 text-slate-400 transition-transform duration-500 relative z-10 ${
+            isCollapsed ? '' : 'rotate-180 text-slate-900 dark:text-white'
+          }`}
+        />
+      </button>
 
-        <div className="flex items-center gap-3 relative z-10">
+      {!isCollapsed && (
+        <div
+          id={panelId}
+          className="flex items-center justify-end gap-3 px-5 py-3 border-t border-slate-300 dark:border-white/10 bg-slate-50/30 dark:bg-black/10"
+        >
           <div className="flex items-center gap-1 bg-white dark:bg-black/20 p-1 rounded-lg border border-slate-200 dark:border-white/10 shadow-sm">
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setFontSize(Math.max(12, fontSize - 2));
-              }}
+              onClick={() => setFontSize(Math.max(12, fontSize - 2))}
               className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors rounded-md hover:bg-slate-100 dark:hover:bg-white/10"
               title="Decrease text size"
             >
@@ -583,10 +584,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
               {fontSize}
             </span>
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setFontSize(Math.min(32, fontSize + 2));
-              }}
+              onClick={() => setFontSize(Math.min(32, fontSize + 2))}
               className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors rounded-md hover:bg-slate-100 dark:hover:bg-white/10"
               title="Increase text size"
             >
@@ -601,10 +599,10 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
                   onClick={handleRecalibrate}
                   disabled={isRecalibrating || !prompt.sampleAnswers?.length}
                   className={`
-                                    p-2 rounded-lg bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 
-                                    text-slate-500 hover:text-indigo-500 disabled:opacity-50 transition-all
-                                    ${isRecalibrating ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-500 border-indigo-200' : ''}
-                                `}
+                    p-2 rounded-lg bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10
+                    text-slate-500 hover:text-indigo-500 disabled:opacity-50 transition-all
+                    ${isRecalibrating ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-500 border-indigo-200' : ''}
+                  `}
                   title="Recalibrate All Samples with AI"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${isRecalibrating ? 'animate-spin' : ''}`} />
@@ -634,12 +632,11 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             </>
           )}
         </div>
-      </div>
+      )}
 
-      {/* Content List. Folded away means not rendered — a card with several
-          exemplars, each running its own metrics, should not keep working
-          while it is out of sight. */}
-      {!(collapsible && isCollapsed) && (
+      {/* Folded away means not rendered — a card with several exemplars, each
+          running its own metrics, should not keep working out of sight. */}
+      {!isCollapsed && (
         <div>
           {groupedAnswers.length > 0 ? (
             groupedAnswers.map((group) => (
@@ -760,9 +757,7 @@ interface SampleAnswersAccordionProps {
   onContributeSampleAnswer?: (answer: SampleAnswer) => void | Promise<void>;
   userRole: UserRole;
   onRecalibrate?: () => Promise<void>;
-  /** Render the whole card as one collapsible panel (used in Focus Mode). */
-  collapsible?: boolean;
-  /** Start folded. Only applies when `collapsible`. Defaults to true. */
+  /** Start folded. Defaults to true, matching the rail's other panels. */
   defaultCollapsed?: boolean;
   /** Shared workspace reading size. Omit to keep a private size. */
   fontSize?: number;
