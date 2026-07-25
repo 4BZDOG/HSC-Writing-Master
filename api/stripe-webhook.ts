@@ -10,13 +10,21 @@
  *   - invoice.payment_failed — flag the profile for grace-period UI
  *
  * Security: events are verified with the STRIPE_WEBHOOK_SECRET signing secret.
- * In test mode (no secret), the body is trusted as-is so the endpoint can be
- * exercised with curl or Stripe CLI `stripe trigger`.
+ * Outside production (no secret set), the body is trusted as-is so the
+ * endpoint can be exercised with curl or Stripe CLI `stripe trigger`. In
+ * production a missing secret is a hard 500: an unsigned endpoint lets anyone
+ * POST a forged subscription event and grant themselves a paid plan.
  *
  * Supabase writes use the service-role key (bypasses RLS) since webhook calls
  * have no user session.
  */
-import { getStripe, getSupabaseAdmin, isStripeConfigured, priceToPlan } from './_lib/stripe';
+import {
+  getStripe,
+  getSupabaseAdmin,
+  isProductionRuntime,
+  isStripeConfigured,
+  priceToPlan,
+} from './_lib/stripe';
 
 interface RequestLike {
   method?: string;
@@ -99,8 +107,17 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       res.status(400).json({ error: `Webhook signature verification failed: ${msg}` });
       return;
     }
+  } else if (isProductionRuntime()) {
+    // An unsigned production endpoint would let anyone forge a subscription
+    // event and hand themselves a paid plan. Fail closed and stay loud —
+    // Stripe retries, so the events survive until the secret is configured.
+    console.error(
+      '[stripe-webhook] STRIPE_WEBHOOK_SECRET is not set in production — refusing unsigned events.'
+    );
+    res.status(500).json({ error: 'Webhook signing secret not configured.' });
+    return;
   } else {
-    // No webhook secret — trust the body (test/dev mode only).
+    // No webhook secret outside production — trust the body (dev/test only).
     console.warn('[stripe-webhook] STRIPE_WEBHOOK_SECRET not set — skipping signature check.');
     if (req.body && typeof req.body === 'object' && !Buffer.isBuffer(req.body)) {
       event = req.body as { type?: string; data?: { object?: Record<string, unknown> } };
@@ -276,10 +293,16 @@ async function handleSubscriptionUpsert(supabase: SB, sub: Record<string, unknow
     const metaUserId = metadata?.supabase_user_id;
     if (metaUserId) {
       userId = metaUserId;
-      await supabase
+      // profiles.stripe_customer_id is uniquely indexed, so this fails if the
+      // id is already claimed by another profile. Log it — the plan write
+      // below still succeeds, but the portal lookup would use the older link.
+      const { error: linkError } = await supabase
         .from('profiles')
         .update({ stripe_customer_id: customerId })
         .eq('id', metaUserId);
+      if (linkError) {
+        console.error('[stripe-webhook] customer backfill failed:', linkError.message);
+      }
       const { data: metaProfile } = await supabase
         .from('profiles')
         .select('school_id')

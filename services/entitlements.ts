@@ -193,6 +193,28 @@ export const getUserPlan = (user?: User | null): Plan => {
   return 'free';
 };
 
+/**
+ * The features a plan unlocks, in the display order of PREMIUM_FEATURES.
+ * The upgrade prompt lists these rather than every key in PREMIUM_FEATURES —
+ * otherwise it advertises school-only perks (the AI Content Studio) to
+ * someone buying Plus.
+ */
+export const planFeatureKeys = (plan: Plan): PremiumFeatureKey[] =>
+  (Object.keys(PREMIUM_FEATURES) as PremiumFeatureKey[]).filter((key) =>
+    PLAN_FEATURES[plan].has(key)
+  );
+
+/**
+ * The cheapest plan that unlocks a feature — what the upgrade prompt should
+ * actually be selling. Without this the prompt offers Plus for every lock,
+ * including school-only features, which is a dead end for a user who already
+ * holds Plus (teachers do, as a staff perk).
+ */
+export const lowestPlanForFeature = (feature: PremiumFeatureKey): Plan => {
+  const order: Plan[] = ['free', 'plus', 'school'];
+  return order.find((plan) => PLAN_FEATURES[plan].has(feature)) ?? 'school';
+};
+
 /** True when the given feature should render in its locked state. */
 export const isFeatureLocked = (feature: PremiumFeatureKey, user?: User | null): boolean => {
   if (!MONETISATION_ENABLED) return false;
@@ -356,6 +378,42 @@ const checkoutReturnUrl = (): string =>
   `${window.location.origin}${import.meta.env.BASE_URL ?? '/'}`;
 
 /**
+ * Result of a billing request. The server's own message is carried through on
+ * failure — "Please sign in", "No billing account found" and "no plans
+ * available" are all actionable, and collapsing them into one generic string
+ * leaves the user with nothing to act on.
+ */
+export interface BillingUrlResult {
+  url: string | null;
+  error: string | null;
+}
+
+const postBilling = async (
+  path: string,
+  body: Record<string, unknown>,
+  fallbackError: string
+): Promise<BillingUrlResult> => {
+  try {
+    const res = await fetch(`${apiBase}${path}`, {
+      method: 'POST',
+      headers: await getAuthHeaders(),
+      body: JSON.stringify(body),
+    });
+    const data = (await res.json().catch(() => null)) as {
+      url?: string;
+      error?: string;
+      test?: boolean;
+    } | null;
+    if (!res.ok || !data?.url) {
+      return { url: null, error: data?.error || fallbackError };
+    }
+    return { url: data.url, error: null };
+  } catch {
+    return { url: null, error: fallbackError };
+  }
+};
+
+/**
  * Request a Stripe Checkout session from the server. Returns the URL to
  * redirect the user to. In test mode (Stripe unconfigured on server) the
  * endpoint returns a fake URL so the client redirect logic still works.
@@ -363,24 +421,16 @@ const checkoutReturnUrl = (): string =>
 export const createCheckoutUrl = async (
   priceId: string,
   seats?: number
-): Promise<string | null> => {
-  try {
-    const res = await fetch(`${apiBase}/api/create-checkout`, {
-      method: 'POST',
-      headers: await getAuthHeaders(),
-      body: JSON.stringify({
-        priceId,
-        returnUrl: checkoutReturnUrl(),
-        ...(seats && seats > 1 ? { seats } : {}),
-      }),
-    });
-    if (!res.ok) return null;
-    const data = (await res.json()) as { url?: string; test?: boolean };
-    return data.url ?? null;
-  } catch {
-    return null;
-  }
-};
+): Promise<BillingUrlResult> =>
+  postBilling(
+    '/api/create-checkout',
+    {
+      priceId,
+      returnUrl: checkoutReturnUrl(),
+      ...(seats && seats > 1 ? { seats } : {}),
+    },
+    'Could not start checkout. Please try again.'
+  );
 
 /**
  * Billing health for the signed-in user, read from their own subscriptions
@@ -400,9 +450,16 @@ export const fetchBillingAlert = async (): Promise<BillingAlert | null> => {
   try {
     const { supabase } = await import('./supabaseClient');
     if (!supabase) return null;
+    // Scope to the signed-in user explicitly. RLS already limits ordinary
+    // users to their own row, but admins can read ALL subscriptions — without
+    // this filter an admin sees a stranger's failed payment as their own.
+    const { data: sessionData } = await supabase.auth.getSession();
+    const userId = sessionData.session?.user?.id;
+    if (!userId) return null;
     const { data, error } = await supabase
       .from('subscriptions')
       .select('status, plan, current_period_end')
+      .eq('user_id', userId)
       .order('current_period_end', { ascending: false })
       .limit(1)
       .maybeSingle();
@@ -422,20 +479,12 @@ export const fetchBillingAlert = async (): Promise<BillingAlert | null> => {
  * Open the Stripe Billing Portal so the user can manage their subscription.
  * Returns the portal URL or null on failure.
  */
-export const createPortalUrl = async (): Promise<string | null> => {
-  try {
-    const res = await fetch(`${apiBase}/api/customer-portal`, {
-      method: 'POST',
-      headers: await getAuthHeaders(),
-      body: JSON.stringify({ returnUrl: checkoutReturnUrl() }),
-    });
-    if (!res.ok) return null;
-    const data = (await res.json()) as { url?: string; test?: boolean };
-    return data.url ?? null;
-  } catch {
-    return null;
-  }
-};
+export const createPortalUrl = async (): Promise<BillingUrlResult> =>
+  postBilling(
+    '/api/customer-portal',
+    { returnUrl: checkoutReturnUrl() },
+    'Could not open the billing portal. Please try again shortly.'
+  );
 
 /** Event carrying the feature key a locked control was asked for. */
 export const UPGRADE_REQUEST_EVENT = 'writing-studio:upgrade-request';

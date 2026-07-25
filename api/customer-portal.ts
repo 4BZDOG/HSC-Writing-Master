@@ -91,8 +91,12 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
 
     res.status(200).json({ url: session.url });
   } catch (e) {
-    const message = e instanceof Error ? e.message : 'Portal session creation failed.';
-    console.error('[customer-portal]', message);
-    res.status(500).json({ error: message });
+    // Generic message to the client; the detail (which can name the Stripe
+    // account's portal configuration) stays in the server log.
+    console.error(
+      '[customer-portal]',
+      e instanceof Error ? e.message : 'Portal session creation failed.'
+    );
+    res.status(500).json({ error: 'Could not open the billing portal. Please try again.' });
   }
 }

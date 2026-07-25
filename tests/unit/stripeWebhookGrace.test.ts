@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 /**
  * Grace-period contract for the Stripe webhook: a `past_due` subscription
@@ -39,7 +39,12 @@ vi.mock('../../api/_lib/stripe', () => ({
   getSupabaseAdmin: () => makeSupabaseMock(),
   priceToPlan: () => 'plus',
   resolveReturnBase: () => 'http://localhost:3000/',
+  configuredPrices: () => ({ price_plus: 'plus' }),
+  isProductionRuntime: () => isProduction(),
 }));
+
+/** Toggled per-test so the production signature guard can be exercised. */
+let isProduction = () => false;
 
 import handler from '../../api/stripe-webhook';
 
@@ -238,5 +243,34 @@ describe('stripe webhook eager activation on checkout completion', () => {
     expect(updates.some((u) => u.table === 'profiles' && 'stripe_customer_id' in u.values)).toBe(
       true
     );
+  });
+});
+
+describe('stripe webhook signature enforcement', () => {
+  beforeEach(() => {
+    updates.length = 0;
+    upserts.length = 0;
+    retrieveMock.mockReset();
+    isProduction = () => false;
+  });
+  afterEach(() => {
+    isProduction = () => false;
+  });
+
+  it('refuses unsigned events in production rather than trusting the body', async () => {
+    isProduction = () => true;
+    const res = makeRes();
+    await handler(subscriptionEvent('active'), res);
+    // Without this an attacker can POST a forged subscription event and hand
+    // themselves a paid plan. 500 also makes Stripe retry once configured.
+    expect(res.statusCode).toBe(500);
+    expect(updates).toHaveLength(0);
+    expect(upserts).toHaveLength(0);
+  });
+
+  it('still accepts unsigned events outside production (Stripe CLI / dev)', async () => {
+    const res = makeRes();
+    await handler(subscriptionEvent('active'), res);
+    expect(res.statusCode).toBe(200);
   });
 });

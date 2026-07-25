@@ -66,12 +66,12 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
   const handleManageBilling = async () => {
     setPortalLoading(true);
     setPortalError(null);
-    const url = await createPortalUrl();
+    const { url, error } = await createPortalUrl();
     setPortalLoading(false);
     if (url) {
       window.location.href = url;
     } else {
-      setPortalError('Could not open the billing portal. Please try again shortly.');
+      setPortalError(error ?? 'Could not open the billing portal. Please try again shortly.');
     }
   };
 

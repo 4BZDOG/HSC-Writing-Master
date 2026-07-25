@@ -45,6 +45,12 @@ vi.mock('../../api/_lib/stripe', () => ({
   getSupabaseAdmin: () => makeSupabaseMock(),
   priceToPlan: (id: string) => (id === 'price_school' ? 'school' : 'plus'),
   resolveReturnBase: () => 'http://localhost:3000/',
+  isProductionRuntime: () => false,
+  configuredPrices: () => ({
+    price_school: 'school',
+    price_plus_yearly: 'plus',
+    price_plus_monthly: 'plus',
+  }),
 }));
 
 vi.mock('../../api/_lib/auth', () => ({
@@ -186,5 +192,34 @@ describe('create-checkout: seat quantities', () => {
     await checkoutHandler(post({ priceId: 'price_plus_yearly', seats: 30 }), res);
     const args = sessionCreateMock.mock.calls[0][0];
     expect(args.line_items[0].quantity).toBe(1);
+  });
+});
+
+describe('create-checkout: price allowlist', () => {
+  const post = (body: Record<string, unknown>) => ({
+    method: 'POST',
+    headers: { authorization: 'Bearer t' },
+    body,
+  });
+
+  beforeEach(() => {
+    sessionCreateMock.mockResolvedValue({ url: 'https://stripe.test/session' });
+  });
+
+  it('rejects a price this deployment does not sell', async () => {
+    const res = makeRes();
+    await checkoutHandler(post({ priceId: 'price_someone_elses' }), res);
+    // Any price in the Stripe account would otherwise be checkout-able —
+    // including ones priceToPlan maps to 'free', which charge the customer
+    // and grant them nothing.
+    expect(res.statusCode).toBe(400);
+    expect(sessionCreateMock).not.toHaveBeenCalled();
+  });
+
+  it('accepts a configured price', async () => {
+    const res = makeRes();
+    await checkoutHandler(post({ priceId: 'price_plus_monthly' }), res);
+    expect(res.statusCode).toBe(200);
+    expect(sessionCreateMock).toHaveBeenCalled();
   });
 });

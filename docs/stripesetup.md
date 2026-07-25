@@ -54,12 +54,23 @@ You need to set variables in **two places**: server-side (Vercel / your host) an
 | Variable                       | Value                     | Where to find it                           |
 | ------------------------------ | ------------------------- | ------------------------------------------ |
 | `STRIPE_SECRET_KEY`            | `sk_test_...`             | Stripe → Developers → API keys             |
-| `STRIPE_WEBHOOK_SECRET`        | `whsec_...`               | Created in Step 4 below                    |
+| `STRIPE_WEBHOOK_SECRET`        | `whsec_...`               | Created in Step 4 below — **required in production** |
 | `SUPABASE_SERVICE_ROLE_KEY`    | `eyJ...`                  | Supabase → Settings → API → `service_role` |
 | `SUPABASE_URL`                 | `https://xxx.supabase.co` | Supabase → Settings → API                  |
 | `STRIPE_PLUS_MONTHLY_PRICE_ID` | `price_...`               | From Step 1                                |
 | `STRIPE_PLUS_YEARLY_PRICE_ID`  | `price_...`               | From Step 1                                |
 | `STRIPE_SCHOOL_PRICE_ID`       | `price_...` _(optional)_  | From Step 1 (school product)               |
+
+> The price IDs are also the **allowlist**: `/api/create-checkout` refuses any
+> price that isn't one of these three, so a tampered client can't check out
+> against an unrelated price in your Stripe account. Set at least one, or
+> checkout returns 501 "No plans are available for purchase yet."
+>
+> `STRIPE_WEBHOOK_SECRET` is mandatory once `VERCEL_ENV`/`NODE_ENV` is
+> `production`: without it the webhook refuses every event with a 500 (Stripe
+> retries, so nothing is lost once you set it). An unsigned production
+> endpoint would let anyone POST a forged subscription event and grant
+> themselves a paid plan.
 
 ### Client-side variables (also set in Vercel, or in `.env.local` for dev)
 
@@ -279,6 +290,8 @@ User clicks "Upgrade"
 | Checkout works but plan doesn't update         | Webhook not receiving events                        | Check Stripe Dashboard → Webhooks for failed deliveries; verify `STRIPE_WEBHOOK_SECRET` matches |
 | Webhook returns 501                            | `SUPABASE_SERVICE_ROLE_KEY` not set                 | Add it to Vercel env vars                                                                       |
 | Webhook returns 400 "Missing stripe-signature" | Request not coming from Stripe (or secret mismatch) | Verify the signing secret matches the endpoint                                                  |
+| Webhook returns 500 "Webhook signing secret not configured" | `STRIPE_WEBHOOK_SECRET` missing in production       | Set it and redeploy — Stripe retries the queued events automatically                            |
+| Checkout returns 400 "Unknown plan"            | Client price ID isn't in the server allowlist       | Make each `VITE_STRIPE_*_PRICE_ID` match its unprefixed server counterpart                      |
 | "No billing account found" in portal           | User hasn't checked out yet                         | The portal requires a prior checkout to create the Stripe customer link                         |
 | Gates still locked after payment               | Browser has stale user data                         | Refresh the page — `getUserPlan()` reads from the profile on each call                          |
 | Admin sees gates                               | Admin bypass not deployed                           | Merge PR #47 and redeploy                                                                       |
