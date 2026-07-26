@@ -224,6 +224,13 @@ export interface UserAgreement {
   version: string;
   /** Epoch milliseconds. */
   acceptedAt: number;
+  /**
+   * Which charter they read. Students and staff agree to materially different
+   * things — the staff charter covers student visibility and moderation — so a
+   * promoted account has to read the other one. Absent on records written
+   * before this was tracked, which are accepted as-is rather than re-prompted.
+   */
+  audience?: 'student' | 'teacher';
 }
 
 export interface User {

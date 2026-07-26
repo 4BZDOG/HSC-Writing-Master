@@ -87,6 +87,21 @@ export const renderLegalText = (text: string): string =>
       LEGAL_CONFIG.contact || 'your school administrator or the person who gave you this app'
     );
 
+/**
+ * The one-line provenance notice, shown wherever a mark is presented — on the
+ * evaluation result and on every page of an exported PDF report.
+ *
+ * The agreement makes this point once, at sign-up. This is the version that
+ * travels with the mark itself, which is where it actually does its work: a
+ * band and a mark out of 20 look exactly like a real result, and an exported
+ * report can end up in a folder beside genuine assessment records.
+ *
+ * One constant, used everywhere, so the claim can never be softened in one
+ * place and not another.
+ */
+export const AI_MARKING_DISCLAIMER =
+  'Marked by AI against the syllabus — practice feedback, not an official NESA or school result.';
+
 // ---------------------------------------------------------------------------
 // The charter — the short, human version everyone reads before they accept
 // ---------------------------------------------------------------------------
@@ -418,16 +433,16 @@ const PRIVACY_NOTICE: LegalDocument = {
       id: 'retention',
       heading: '7. How long we keep it',
       body: [
-        'Account and progress data is kept while your account is active. Ask us to delete your account and we will remove your profile, responses and progress.',
-        'Anonymous, aggregated statistics (for example "how often Band 4 responses lose marks on Evaluate questions") may be kept after deletion. These cannot be traced back to you.',
-        'Local browser data is under your control — clearing site data or using the Data Vault removes it immediately.',
+        'Account and progress data is kept while your account is active. You can delete your account yourself at any time from your profile, under "Your data" — this removes your profile, your responses, the marking on them, and your progress.',
+        'Two things outlive a deletion. Content you chose to contribute to the shared library stays, because other schools are using it — but your name comes off it, so it no longer identifies you. And anonymous aggregate statistics (for example "how often Band 4 responses lose marks on Evaluate questions") are kept, and cannot be traced back to you.',
+        'Local browser data is under your control — clearing site data removes it immediately.',
       ],
     },
     {
       id: 'rights',
       heading: '8. Your rights',
       body: [
-        'You can access what we hold about you, correct it, export your data, or ask for it to be deleted. Students under 18 can ask through a parent, carer or teacher.',
+        'You can access what we hold about you, correct it, export your data, or delete it. You do not need to ask us: "Your data" in your profile downloads a copy of everything we hold about your account, and deletes it on request. Students under 18 should talk to a parent, carer or teacher before deleting an account.',
         'We handle personal information in line with the Australian Privacy Principles. To make a request, or to complain about how we have handled your information, contact {{contact}}. If you are not satisfied with our response you can escalate to the Office of the Australian Information Commissioner.',
       ],
     },

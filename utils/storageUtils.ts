@@ -177,6 +177,26 @@ export const loadUserProfile = async (username: string): Promise<User | null> =>
   }
 };
 
+/**
+ * Erase the locally cached profile for a user. Used by the account-deletion
+ * flow (services/dataRightsService.ts): in mock mode this IS the account, and
+ * in Supabase mode it clears the local mirror so a deleted account cannot come
+ * back from the cache on the next boot.
+ */
+export const deleteUserProfile = async (username: string): Promise<void> => {
+  try {
+    const db = await getDB();
+    await db.delete(STORE_USERS, username);
+  } catch (error) {
+    console.error('Failed to delete user profile:', error);
+  }
+  try {
+    window.localStorage.removeItem(STORAGE_KEYS.AUTH_USER);
+  } catch {
+    /* localStorage unavailable — the IndexedDB record is already gone. */
+  }
+};
+
 // --- Async Data Operations (IndexedDB) ---
 
 export const saveCoursesToDB = async (courses: Course[]): Promise<StorageStatus> => {

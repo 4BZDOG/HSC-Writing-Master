@@ -31,7 +31,11 @@ import {
   BarChart3,
   Compass,
   Scale,
+  Database,
+  Download,
+  Trash2,
 } from 'lucide-react';
+import { downloadMyData, deleteMyAccount } from '../services/dataRightsService';
 import { getBandConfig } from '../utils/renderUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import {
@@ -233,6 +237,43 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
         user.agreement.acceptedAt
       ).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}.`
     : 'What the AI marker is, and what we do with your work.';
+
+  // --- Data rights (Privacy Notice §8) ------------------------------------
+  // Export is one click. Deletion is deliberately two steps and requires the
+  // word typed out: it is irreversible, and a mis-tap on a phone must not be
+  // able to destroy a year of a student's work.
+  const [isExportingData, setIsExportingData] = useState(false);
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [dataRightsMessage, setDataRightsMessage] = useState<string | null>(null);
+
+  const handleExportData = async () => {
+    setIsExportingData(true);
+    setDataRightsMessage(null);
+    try {
+      await downloadMyData(user);
+      setDataRightsMessage('Your data has been downloaded.');
+    } catch {
+      setDataRightsMessage('Could not build the export. Please try again shortly.');
+    } finally {
+      setIsExportingData(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    setIsDeleting(true);
+    const result = await deleteMyAccount(user);
+    setIsDeleting(false);
+    if (result.ok) {
+      onClose();
+      onLogout();
+    } else {
+      setDataRightsMessage(result.message);
+      setIsConfirmingDelete(false);
+      setDeleteConfirmText('');
+    }
+  };
 
   const xpForNextLevel = user.stats.level * 1000;
   const progressPercent = Math.min(100, (user.stats.xp / xpForNextLevel) * 100);
@@ -822,6 +863,98 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                     })}
                 </div>
               )}
+
+              {/* Your data — the Privacy Notice promises access, export and
+                  erasure, so the product has to actually provide them. */}
+              <div className="bg-white/[0.02] light:bg-slate-100 rounded-[40px] border border-white/5 light:border-slate-200 overflow-hidden">
+                <div className="px-6 sm:px-10 pt-6 pb-2">
+                  <h4 className="text-sm font-bold text-white light:text-slate-900 uppercase tracking-widest flex items-center gap-3">
+                    <Database className="w-4 h-4 text-slate-500" /> Your Data
+                  </h4>
+                  <p className="text-xs text-slate-500 font-medium mt-1.5 leading-relaxed">
+                    Take a copy of everything we hold about your account, or delete it. Curriculum
+                    content is not personal data and is not included in the export.
+                  </p>
+                </div>
+
+                <div className="px-6 sm:px-10 py-5 flex flex-wrap gap-3">
+                  <button
+                    onClick={handleExportData}
+                    disabled={isExportingData}
+                    className="px-5 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-700 border border-white/10 light:border-slate-300 text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 light:hover:bg-slate-100 transition-all flex items-center gap-2 disabled:opacity-60"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    {isExportingData ? 'Preparing…' : 'Download my data'}
+                  </button>
+                  {!isConfirmingDelete && (
+                    <button
+                      onClick={() => {
+                        setIsConfirmingDelete(true);
+                        setDataRightsMessage(null);
+                      }}
+                      className="px-5 py-3 rounded-2xl bg-red-500/10 text-red-500 border border-red-500/30 text-[10px] font-bold uppercase tracking-widest hover:bg-red-500/20 transition-all flex items-center gap-2"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" /> Delete my account
+                    </button>
+                  )}
+                </div>
+
+                {isConfirmingDelete && (
+                  <div className="px-6 sm:px-10 pb-6 animate-fade-in">
+                    <div className="p-5 rounded-3xl bg-red-500/[0.07] border border-red-500/30">
+                      <p className="text-xs font-bold text-red-400 light:text-red-600 leading-relaxed">
+                        This deletes your profile, your responses and all your progress. It cannot
+                        be undone.
+                      </p>
+                      <p className="text-[11px] text-slate-500 font-medium leading-relaxed mt-2">
+                        Anything you contributed to the shared library stays, with your name
+                        removed. Consider downloading your data first.
+                      </p>
+                      <label
+                        htmlFor="delete-confirm"
+                        className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mt-4 mb-2"
+                      >
+                        Type DELETE to confirm
+                      </label>
+                      <div className="flex flex-wrap gap-3">
+                        <input
+                          id="delete-confirm"
+                          value={deleteConfirmText}
+                          onChange={(e) => setDeleteConfirmText(e.target.value)}
+                          autoComplete="off"
+                          className="flex-1 min-w-[140px] px-4 py-3 rounded-2xl bg-black/40 light:bg-white border border-white/10 light:border-slate-300 text-white light:text-slate-900 text-sm font-bold outline-none focus:border-red-500/60 transition-colors"
+                          placeholder="DELETE"
+                        />
+                        <button
+                          onClick={handleDeleteAccount}
+                          disabled={deleteConfirmText !== 'DELETE' || isDeleting}
+                          className="px-5 py-3 rounded-2xl bg-red-600 text-white text-[10px] font-bold uppercase tracking-widest hover:bg-red-500 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                        >
+                          {isDeleting ? 'Deleting…' : 'Delete permanently'}
+                        </button>
+                        <button
+                          onClick={() => {
+                            setIsConfirmingDelete(false);
+                            setDeleteConfirmText('');
+                          }}
+                          className="px-5 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-600 border border-white/10 light:border-slate-300 text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {dataRightsMessage && (
+                  <p
+                    role="status"
+                    className="px-6 sm:px-10 pb-6 -mt-2 text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed"
+                  >
+                    {dataRightsMessage}
+                  </p>
+                )}
+              </div>
 
               <div className="flex justify-end pt-4">
                 <button

@@ -1,6 +1,7 @@
 import type { User, UserAgreement, UserRole } from '../types';
 import { authService } from './authService';
 import { supabase, isSupabaseConfigured } from './supabaseClient';
+import { safeSetItem, STORAGE_KEYS } from '../utils/storageUtils';
 import {
   AGREEMENT_VERSION,
   AGREEMENT_CHANGELOG,
@@ -47,11 +48,29 @@ export const charterForRole = (role: UserRole): Charter => CHARTERS[audienceForR
 // Does this user need to accept?
 // ---------------------------------------------------------------------------
 
-/** True when the user has not accepted the CURRENT agreement version. */
-export const needsAgreement = (user: User | null | undefined): boolean => {
-  if (!user) return false;
-  return user.agreement?.version !== AGREEMENT_VERSION;
+/**
+ * Why the user is being asked. Drives the wording of the dialog — "here is the
+ * agreement" and "we have changed the agreement" and "your account changed, so
+ * the other charter applies to you now" are three different messages, and
+ * showing the wrong one reads as a bug.
+ */
+export type AgreementPromptReason = 'none' | 'first' | 'updated' | 'roleChanged';
+
+export const agreementPromptReason = (user: User | null | undefined): AgreementPromptReason => {
+  if (!user) return 'none';
+  const accepted = user.agreement;
+  if (!accepted) return 'first';
+  if (accepted.version !== AGREEMENT_VERSION) return 'updated';
+  // A student promoted to teacher accepted a charter that says nothing about
+  // seeing other people's work or about moderation. Records written before the
+  // audience was tracked carry no audience and are left alone.
+  if (accepted.audience && accepted.audience !== audienceForRole(user.role)) return 'roleChanged';
+  return 'none';
 };
+
+/** True when the user has not accepted the agreement that currently applies. */
+export const needsAgreement = (user: User | null | undefined): boolean =>
+  agreementPromptReason(user) !== 'none';
 
 /**
  * Guests are not blocked. They get the same charter as a courtesy notice they
@@ -63,7 +82,7 @@ export const isAgreementBlocking = (user: User | null | undefined): boolean =>
 
 /** True when the user has accepted before, but an older version. */
 export const isReAcceptance = (user: User | null | undefined): boolean =>
-  !!user?.agreement && user.agreement.version !== AGREEMENT_VERSION;
+  agreementPromptReason(user) === 'updated';
 
 /**
  * What changed since the version the user last accepted, newest first. Used to
@@ -108,6 +127,7 @@ const persistAgreementRemotely = (agreement: UserAgreement): Promise<void> =>
   patchProfileSoft({
     agreement_version: agreement.version,
     agreement_accepted_at: new Date(agreement.acceptedAt).toISOString(),
+    agreement_audience: agreement.audience ?? null,
   });
 
 /**
@@ -115,18 +135,67 @@ const persistAgreementRemotely = (agreement: UserAgreement): Promise<void> =>
  * user so the caller can push it into React state immediately.
  */
 export const acceptAgreement = async (user: User): Promise<User> => {
-  const agreement: UserAgreement = { version: AGREEMENT_VERSION, acceptedAt: Date.now() };
+  const agreement: UserAgreement = {
+    version: AGREEMENT_VERSION,
+    acceptedAt: Date.now(),
+    audience: audienceForRole(user.role),
+  };
   const updated: User = { ...user, agreement };
 
-  // Local first: this is what unblocks the gate, and it must not depend on a
-  // network round trip succeeding.
+  // Synchronous localStorage write FIRST, before anything that awaits.
+  // `authService.updateUser` only reaches localStorage after an IndexedDB
+  // round trip, which leaves a window — small, but real on a slow device —
+  // where a user who clicks Agree and immediately reloads or closes the tab
+  // is asked all over again. This closes it: the cached user carries the
+  // acceptance the instant the button is pressed.
+  safeSetItem(STORAGE_KEYS.AUTH_USER, updated);
+
+  // Then the durable copies. Local before remote: the local record is what
+  // unblocks the gate, and it must not depend on a network round trip.
   await authService.updateUser(updated).catch(() => {
-    /* IndexedDB unavailable — the in-memory user still carries acceptance for
-       this session, and the user will simply be asked again next visit. */
+    /* IndexedDB unavailable — the localStorage record above still stands. */
   });
   await persistAgreementRemotely(agreement);
 
   return updated;
+};
+
+// ---------------------------------------------------------------------------
+// Compliance reporting (admin)
+// ---------------------------------------------------------------------------
+
+export interface AcceptanceRow {
+  username: string;
+  role: string;
+  accepted: boolean;
+  acceptedAt: string | null;
+}
+
+/**
+ * Who has accepted the current agreement, for an administrator. Backed by
+ * `agreement_acceptance_report()` (schema §15), which is admin-gated in SQL —
+ * this client call is a convenience, not the access control.
+ *
+ * Returns null when the RPC is unavailable (mock mode, or a database that
+ * pre-dates the migration) so the caller can hide the panel rather than show
+ * an empty table that reads as "nobody has accepted".
+ */
+export const fetchAcceptanceReport = async (): Promise<AcceptanceRow[] | null> => {
+  if (!isSupabaseConfigured || !supabase) return null;
+  try {
+    const { data, error } = await supabase.rpc('agreement_acceptance_report', {
+      p_version: AGREEMENT_VERSION,
+    });
+    if (error || !Array.isArray(data)) return null;
+    return data.map((row: Record<string, unknown>) => ({
+      username: String(row.username ?? ''),
+      role: String(row.role ?? ''),
+      accepted: row.accepted === true,
+      acceptedAt: (row.accepted_at as string | null) ?? null,
+    }));
+  } catch {
+    return null;
+  }
 };
 
 // ---------------------------------------------------------------------------

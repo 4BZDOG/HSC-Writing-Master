@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { ChevronDown, ChevronUp, History, LogOut, ArrowRight, ScrollText } from 'lucide-react';
 import type { User } from '../types';
@@ -8,7 +8,7 @@ import {
   charterForRole,
   changesSince,
   isAgreementBlocking,
-  isReAcceptance,
+  agreementPromptReason,
 } from '../services/agreementService';
 import { AGREEMENT_VERSION, LEGAL_CONFIG } from '../data/legalContent';
 import { useEscapeKey } from '../hooks/useEscapeKey';
@@ -50,11 +50,55 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
 }) => {
   const charter = charterForRole(user.role);
   const blocking = isAgreementBlocking(user);
-  const returning = isReAcceptance(user);
+  const reason = agreementPromptReason(user);
+  const returning = reason === 'updated';
   const changes = changesSince(user.agreement?.version);
 
   const [agreed, setAgreed] = useState(false);
   const [showDocuments, setShowDocuments] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  // Move focus into the dialog on open. Without this, a keyboard or screen
+  // reader user lands at the top of the document and has to tab through
+  // whatever the browser considers first — on a gate that is the whole point
+  // of the screen, that is the difference between usable and not.
+  useEffect(() => {
+    dialogRef.current?.focus();
+  }, []);
+
+  // Keep Tab inside the dialog. The workspace is not rendered while blocking,
+  // but the guest notice sits over a live app, and tabbing behind a modal into
+  // controls you cannot see is disorienting either way.
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== 'Tab') return;
+    const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
+      'button:not([disabled]), input:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
+    );
+    if (!focusable || focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  };
+
+  const heading =
+    reason === 'updated'
+      ? 'We have updated this'
+      : reason === 'roleChanged'
+        ? 'Your account has changed'
+        : charter.title;
+
+  const lede =
+    reason === 'updated'
+      ? 'The agreement has changed since you last accepted it. Here it is again — the changes are listed below.'
+      : reason === 'roleChanged'
+        ? 'You now have staff access, which comes with responsibilities the student agreement does not cover — student visibility and moderation. Please read this version.'
+        : charter.intro;
 
   // Guests can dismiss with Esc; a blocking gate deliberately cannot be
   // escaped by keyboard, or the acceptance record would mean nothing.
@@ -72,7 +116,12 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
       aria-modal="true"
       aria-labelledby="agreement-title"
     >
-      <div className="clip-stable w-full max-w-2xl rounded-[32px] bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-200 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.75)] overflow-hidden animate-fade-in-up flex flex-col max-h-[92vh]">
+      <div
+        ref={dialogRef}
+        tabIndex={-1}
+        onKeyDown={handleKeyDown}
+        className="clip-stable w-full max-w-2xl rounded-[32px] bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-200 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.75)] overflow-hidden animate-fade-in-up flex flex-col max-h-[92vh] outline-none"
+      >
         {/* Header */}
         <div className="relative px-6 sm:px-8 py-6 bg-gradient-to-br from-indigo-600 via-indigo-500 to-sky-500 text-white overflow-hidden shrink-0">
           <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/20 blur-3xl rounded-full pointer-events-none" />
@@ -84,12 +133,10 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
               id="agreement-title"
               className="text-2xl sm:text-3xl font-black tracking-tighter leading-tight mt-1"
             >
-              {returning ? 'We have updated this' : charter.title}
+              {heading}
             </h2>
             <p className="text-sm text-white/85 leading-relaxed mt-2 max-w-lg font-medium">
-              {returning
-                ? 'The agreement has changed since you last accepted it. Here it is again — the changes are listed below.'
-                : charter.intro}
+              {lede}
             </p>
           </div>
         </div>

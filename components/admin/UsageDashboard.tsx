@@ -15,6 +15,7 @@ import {
   DollarSign,
   School,
   Plus,
+  ScrollText,
 } from 'lucide-react';
 import {
   fetchMyQuotaStatus,
@@ -43,6 +44,8 @@ import {
   formatUsd,
   aggregateModelCosts,
 } from '../../utils/usageReport';
+import { fetchAcceptanceReport, type AcceptanceRow } from '../../services/agreementService';
+import { AGREEMENT_VERSION } from '../../data/legalContent';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
 import LoadingIndicator from '../LoadingIndicator';
 
@@ -142,6 +145,9 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
   // Schools (shared quota pools, schema §12). null = the RPC is absent
   // (database pre-dates the migration) and the section hides itself.
   const [schools, setSchools] = useState<SchoolRow[] | null>([]);
+  // null = the acceptance RPC is unavailable (mock mode / unmigrated database),
+  // which hides the panel rather than reporting a false zero.
+  const [acceptance, setAcceptance] = useState<AcceptanceRow[] | null>(null);
   const [schoolLimitDrafts, setSchoolLimitDrafts] = useState<Record<string, string>>({});
   const [newSchoolName, setNewSchoolName] = useState('');
   const [newSchoolLimit, setNewSchoolLimit] = useState('');
@@ -196,6 +202,10 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
     } catch {
       setSchools(null);
     }
+
+    // Same pattern again: agreement_acceptance_report() is absent on a database
+    // that pre-dates §15, and its absence must hide the panel, not fail the load.
+    setAcceptance(await fetchAcceptanceReport());
   }, [remote, showToast]);
 
   useEffect(() => {
@@ -610,6 +620,51 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                     Estimated at each engine's blended per-call price (see the engine registry) —
                     good for comparing engines and sanity-checking spend, not an invoice.
                   </p>
+                </section>
+              )}
+
+              {/* Agreement acceptance — a compliance question a school will be
+                  asked ("has every student agreed to the current terms?") and
+                  could not previously answer. Progressive enhancement: hidden
+                  entirely when the RPC is absent, rather than showing an empty
+                  table that would read as "nobody has accepted". */}
+              {acceptance && acceptance.length > 0 && (
+                <section>
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                    <ScrollText className="w-3.5 h-3.5" /> Agreement v{AGREEMENT_VERSION} ·
+                    acceptance
+                  </h3>
+                  <div className="flex flex-wrap items-center gap-3 mb-3">
+                    <span className="text-2xl font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 tabular-nums">
+                      {acceptance.filter((a) => a.accepted).length}
+                      <span className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                        {' '}
+                        / {acceptance.length}
+                      </span>
+                    </span>
+                    <span className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                      accounts have accepted the current agreement.
+                    </span>
+                  </div>
+                  {acceptance.some((a) => !a.accepted) && (
+                    <div className="rounded-xl border border-amber-400/25 bg-amber-400/5 p-3">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-amber-500 mb-2">
+                        Yet to accept
+                      </p>
+                      <p className="text-xs text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed">
+                        {acceptance
+                          .filter((a) => !a.accepted)
+                          .slice(0, 30)
+                          .map((a) => a.username)
+                          .join(', ')}
+                        {acceptance.filter((a) => !a.accepted).length > 30 && ' …'}
+                      </p>
+                      <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                        They will be asked the next time they sign in — nobody reaches the workspace
+                        without accepting.
+                      </p>
+                    </div>
+                  )}
                 </section>
               )}
 

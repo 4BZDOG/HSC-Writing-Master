@@ -1673,6 +1673,45 @@ returns table (
 $$;
 
 -- =============================================================================
+-- §16 · Data rights — self-service account deletion
+--
+-- The Privacy Notice tells users they can have their data deleted. This makes
+-- that true without an administrator in the loop.
+--
+-- The target is derived from auth.uid() and there is deliberately NO user-id
+-- parameter: the function cannot be aimed at somebody else's account, whatever
+-- the caller's role. Deleting the auth user cascades to profiles, and from
+-- there to responses, response_events, ai_usage, ai_model_usage and
+-- evaluation_usage.
+--
+-- What SURVIVES, by design: content the user contributed to the shared library
+-- (prompts, sample answers, courses). Those rows reference profiles with
+-- `on delete set null`, so the content stays and the authorship link is
+-- severed. Other schools depend on that content, and once created_by is null
+-- it holds no personal data. The Privacy Notice says exactly this.
+--
+-- NOTE: this runs as SECURITY DEFINER so it can delete from auth.users, which
+-- ordinary roles cannot touch. Create it as the `postgres` owner (running this
+-- file in the Supabase SQL editor does that). If your deployment forbids that,
+-- leave the function out — the client degrades to telling the user to contact
+-- an administrator rather than silently reporting success.
+-- =============================================================================
+
+create or replace function public.delete_my_account()
+returns void language plpgsql security definer set search_path = public as $$
+declare
+  v_user uuid := auth.uid();
+begin
+  if v_user is null then
+    raise exception 'Not authenticated';
+  end if;
+  delete from auth.users where id = v_user;
+end; $$;
+
+revoke all on function public.delete_my_account() from public;
+grant execute on function public.delete_my_account() to authenticated;
+
+-- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.
 -- =============================================================================

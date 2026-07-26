@@ -19,7 +19,15 @@ vi.mock('../../services/supabaseClient', () => ({
   isSupabaseConfigured: false,
 }));
 
+const safeSetItem = vi.fn();
+
+vi.mock('../../utils/storageUtils', () => ({
+  safeSetItem: (key: string, value: unknown) => safeSetItem(key, value),
+  STORAGE_KEYS: { AUTH_USER: 'hsc-ai-auth-user-v2' },
+}));
+
 const {
+  agreementPromptReason,
   needsAgreement,
   isAgreementBlocking,
   isReAcceptance,
@@ -56,6 +64,7 @@ const makeUser = (overrides: Partial<User> = {}): User => ({
 
 beforeEach(() => {
   updateUser.mockClear();
+  safeSetItem.mockClear();
 });
 
 describe('who has to accept', () => {
@@ -72,6 +81,37 @@ describe('who has to accept', () => {
     const user = makeUser({ agreement: { version: '0.9-old', acceptedAt: Date.now() } });
     expect(needsAgreement(user)).toBe(true);
     expect(isReAcceptance(user)).toBe(true);
+  });
+
+  it('re-asks a promoted account, because the staff charter is a different deal', () => {
+    // Accepted the CURRENT version, but as a student. The staff charter covers
+    // student visibility and moderation, which they have never agreed to.
+    const promoted = makeUser({
+      role: 'teacher',
+      agreement: { version: AGREEMENT_VERSION, acceptedAt: Date.now(), audience: 'student' },
+    });
+    expect(needsAgreement(promoted)).toBe(true);
+    expect(agreementPromptReason(promoted)).toBe('roleChanged');
+    // ...and is NOT told the agreement changed, because it did not.
+    expect(isReAcceptance(promoted)).toBe(false);
+  });
+
+  it('leaves a matching audience alone', () => {
+    const teacher = makeUser({
+      role: 'teacher',
+      agreement: { version: AGREEMENT_VERSION, acceptedAt: Date.now(), audience: 'teacher' },
+    });
+    expect(needsAgreement(teacher)).toBe(false);
+  });
+
+  it('honours an old record that pre-dates audience tracking', () => {
+    // Re-prompting everyone who accepted before we added the field would be a
+    // self-inflicted wound; an acceptance is not invalidated by a later column.
+    const legacy = makeUser({
+      agreement: { version: AGREEMENT_VERSION, acceptedAt: Date.now() },
+    });
+    expect(needsAgreement(legacy)).toBe(false);
+    expect(agreementPromptReason(legacy)).toBe('none');
   });
 
   it('blocks signed-in roles but never guests', () => {
@@ -117,9 +157,28 @@ describe('recording acceptance', () => {
     const updated = await acceptAgreement(user);
 
     expect(updated.agreement?.version).toBe(AGREEMENT_VERSION);
+    expect(updated.agreement?.audience).toBe('student');
     expect(updated.agreement?.acceptedAt).toBeGreaterThan(0);
     expect(needsAgreement(updated)).toBe(false);
     expect(updateUser).toHaveBeenCalledWith(expect.objectContaining({ agreement: updated.agreement }));
+  });
+
+  it('records acceptance synchronously, before any await', async () => {
+    // A user who clicks Agree and immediately reloads (or closes the tab, or
+    // is on a slow device) must not be asked all over again. The cached user
+    // has to carry the acceptance before the IndexedDB round trip, not after.
+    let cachedBeforeAwait: unknown = null;
+    updateUser.mockImplementationOnce(async () => {
+      cachedBeforeAwait = safeSetItem.mock.calls[0]?.[1];
+    });
+
+    await acceptAgreement(makeUser());
+
+    expect(safeSetItem).toHaveBeenCalledWith(
+      'hsc-ai-auth-user-v2',
+      expect.objectContaining({ agreement: expect.objectContaining({ version: AGREEMENT_VERSION }) })
+    );
+    expect(cachedBeforeAwait).toBeTruthy();
   });
 
   it('still lets the user through when local storage refuses the write', async () => {
@@ -127,6 +186,11 @@ describe('recording acceptance', () => {
     const updated = await acceptAgreement(makeUser());
     // A storage failure must not become a locked door.
     expect(updated.agreement?.version).toBe(AGREEMENT_VERSION);
+  });
+
+  it('records which charter a teacher actually read', async () => {
+    const updated = await acceptAgreement(makeUser({ role: 'teacher' }));
+    expect(updated.agreement?.audience).toBe('teacher');
   });
 
   it('leaves the rest of the user untouched', async () => {

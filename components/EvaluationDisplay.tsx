@@ -43,6 +43,7 @@ import ResponseFeedback from './ResponseFeedback';
 import { exportEvaluationPdf } from '../pdf';
 import { isFeatureLocked, isFeedbackLocked, requestUpgrade } from '../services/entitlements';
 import { PlusLockChip, ContentLockOverlay } from './UpgradeModal';
+import { AI_MARKING_DISCLAIMER } from '../data/legalContent';
 
 const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
   <div
@@ -506,6 +507,14 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 </button>
               )}
             </div>
+
+            {/* The agreement makes this point once, at sign-up. This is where
+                it actually matters: next to a mark and a band that look
+                exactly like a real result. Deliberately quiet, and always
+                present — including on the printed page. */}
+            <p className="text-[10px] leading-relaxed text-white/60 max-w-md">
+              {AI_MARKING_DISCLAIMER}
+            </p>
           </div>
         </div>
 

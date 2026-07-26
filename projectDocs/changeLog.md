@@ -1,5 +1,24 @@
 # HSC AI Evaluator - Change Log
 
+## [2.4.0] - 2026-07-26
+
+### 📜 User agreements, first-login quick start, and an honest plan comparison
+
+Three surfaces students and teachers were missing, built content-first so they can be rewritten and expanded without touching a component. See `projectDocs/agreements.md` for the maintenance guide.
+
+- **A user agreement with a charter in front of it.** Signed-in users must accept before reaching the workspace; the workspace is not rendered at all until they do, and there is always a Sign out escape. Students read six plain-English points — the marker is an AI and not your grade, copying sample answers into assessed work is misconduct, your teacher can see your attempts, keep personal details out, flag bad content, one account per person. Teachers read their own version covering duty of care over student data, copyright, and what approving a contribution actually publishes. The full Terms of Use and Privacy Notice expand inside the same dialog, with a section rail to jump to a clause.
+- **Versioned acceptance.** Bump `AGREEMENT_VERSION`, add a changelog entry, and everyone re-accepts with a "what changed" summary. A test fails the build if the version moves without one. Acceptance also re-prompts when a student is promoted to staff — the staff charter covers responsibilities the student one never mentioned.
+- **Guests are never blocked.** Same charter, dismissible, recorded locally. A read-only trial that persists nothing is not the moment to demand a signature.
+- **Quick start guide** with separate tracks for students, teachers and guests. Opens once on a new account, re-openable from the header lifebuoy and the profile. Paid-feature notes appear only for accounts that lack the feature, so a teacher holding Plus is never told to buy what they have.
+- **Free vs Plus vs School comparison derived from `services/entitlements.ts`**, not hand-written — a table maintained separately from the gates it describes eventually lies. Tests assert no cell claims a feature its plan does not unlock. Features the free tier holds partially (tiers 1–3, Bands 1–3, summary feedback) show their real limit rather than a misleading cross.
+- **The AI marking disclaimer now travels with the mark.** One constant, shown under the mark on screen and in the footer of every page of an exported PDF. An exported report can end up in a folder beside real assessment records, so every page says what it is.
+- **"Your data" in the profile** — download everything we hold about your account as JSON (profile, preferences, progress, agreement record, responses *and their marking*), or delete the account outright via `delete_my_account()`, which derives its target from `auth.uid()` and takes no user-id parameter. The Privacy Notice promised access, export and erasure; now the product provides them. Contributed library content survives with authorship unlinked, and the notice says so.
+- **Agreement acceptance report** for admins in the AI Usage Dashboard: how many accounts have accepted the current version, and who has not. Hides itself when the RPC is absent rather than reporting a false zero.
+- **Publisher identity is deployment-configurable** (`VITE_LEGAL_ENTITY_NAME`, `VITE_LEGAL_CONTACT_EMAIL`, `VITE_LEGAL_JURISDICTION`), so a school can put its own name and contact on the agreement without a code change.
+- Schema §15 (acceptance columns + admin report) and §16 (self-service deletion), both idempotent and both written as soft additions — an unmigrated database degrades to re-prompting rather than failing profile saves.
+
+---
+
 ## [2.3.23] - 2026-07-25
 
 ### 🖼️ Focus Mode — stale paint on the way out
