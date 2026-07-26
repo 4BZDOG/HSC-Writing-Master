@@ -7,7 +7,7 @@
  *
  *   - Add a clause      → push a string into the relevant section's `body`.
  *   - Add a section     → push a `LegalSection` into the document's `sections`.
- *   - Add a document    → add it to `LEGAL_DOCUMENTS`; the reader picks it up.
+ *   - Add a document    → add it to `getLegalDocuments()`; the reader picks it up.
  *   - Change the deal   → bump `AGREEMENT_VERSION` and add an
  *                         `AGREEMENT_CHANGELOG` entry. Every user is then
  *                         re-prompted and shown what changed.
@@ -19,15 +19,21 @@
  *
  * ACCURACY RULE: every claim here must match what the product actually does.
  * The free-tier numbers are NOT duplicated as prose — they are interpolated
- * from `services/entitlements.ts`, which is the single source of truth for
- * gating, so the agreement can never drift from the code.
+ * from `services/planLimits.ts`, the single source of truth for gating, so the
+ * agreement can never drift from the code.
+ *
+ * BUNDLE RULE: this file must not read an imported value at module-init time,
+ * and must not import from `services/entitlements.ts` (which drags in the auth
+ * stack). Both rules exist because breaking them shipped a blank page — see
+ * `getLegalDocuments()` below and `services/planLimits.ts`. A test enforces the
+ * import rule.
  */
 
 import {
   FREE_TIER_EVAL_LIMIT,
   FREE_TIER_MAX_QUESTION_TIER,
   FREE_TIER_MAX_SAMPLE_BAND,
-} from '../services/entitlements';
+} from '../services/planLimits';
 
 // ---------------------------------------------------------------------------
 // Versioning
@@ -248,7 +254,7 @@ export interface LegalDocument {
   sections: LegalSection[];
 }
 
-const TERMS_OF_USE: LegalDocument = {
+const buildTermsOfUse = (): LegalDocument => ({
   id: 'terms',
   title: 'Terms of Use',
   subtitle: 'The rules for using {{product}}.',
@@ -358,9 +364,9 @@ const TERMS_OF_USE: LegalDocument = {
       ],
     },
   ],
-};
+});
 
-const PRIVACY_NOTICE: LegalDocument = {
+const buildPrivacyNotice = (): LegalDocument => ({
   id: 'privacy',
   title: 'Privacy Notice',
   subtitle: 'What we collect, why, and who can see it.',
@@ -457,11 +463,33 @@ const PRIVACY_NOTICE: LegalDocument = {
       body: ['Questions about this notice, or about your data, go to {{contact}}.'],
     },
   ],
-};
+});
 
-export const LEGAL_DOCUMENTS: LegalDocument[] = [TERMS_OF_USE, PRIVACY_NOTICE];
+/**
+ * The published documents, built on first use and cached.
+ *
+ * LAZY ON PURPOSE — do not turn this back into a module-level array.
+ *
+ * The Terms interpolate the real free-tier limits, which are imported. A
+ * module-level array would read those imports the moment this module executes.
+ * Rollup put this file in the `workspace` chunk (because EvaluationDisplay
+ * imports the marking disclaimer) while the limits sat in the entry chunk; the
+ * two chunks import each other, so `workspace` ran first and read a `const`
+ * that had not been initialised yet. The whole app rendered a blank page with
+ * "Cannot access 'Cs' before initialization" — in production only, because dev
+ * serves modules unbundled and never forms the cycle.
+ *
+ * Deferring to call time means every module has finished initialising before a
+ * single limit is read, whatever the bundler decides to do with the chunks.
+ */
+let cachedDocuments: LegalDocument[] | null = null;
+
+export const getLegalDocuments = (): LegalDocument[] => {
+  if (!cachedDocuments) cachedDocuments = [buildTermsOfUse(), buildPrivacyNotice()];
+  return cachedDocuments;
+};
 
 export type LegalDocumentId = LegalDocument['id'];
 
 export const getLegalDocument = (id: LegalDocumentId): LegalDocument | undefined =>
-  LEGAL_DOCUMENTS.find((doc) => doc.id === id);
+  getLegalDocuments().find((doc) => doc.id === id);

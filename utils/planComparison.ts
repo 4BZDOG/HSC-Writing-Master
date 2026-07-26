@@ -1,14 +1,17 @@
 import {
-  FREE_TIER_EVAL_LIMIT,
-  FREE_TIER_MAX_QUESTION_TIER,
-  FREE_TIER_MAX_SAMPLE_BAND,
-  FREE_DAILY_AI_CALLS,
-  PAID_DAILY_AI_CALLS,
   PREMIUM_FEATURES,
   planFeatureKeys,
   type Plan,
   type PremiumFeatureKey,
 } from '../services/entitlements';
+// From the leaf module, not via entitlements: see services/planLimits.ts.
+import {
+  FREE_TIER_EVAL_LIMIT,
+  FREE_TIER_MAX_QUESTION_TIER,
+  FREE_TIER_MAX_SAMPLE_BAND,
+  FREE_DAILY_AI_CALLS,
+  PAID_DAILY_AI_CALLS,
+} from '../services/planLimits';
 
 /**
  * The Free / Plus / School comparison, DERIVED from the entitlement rules
@@ -83,27 +86,31 @@ const ROW_LABELS: Record<PremiumFeatureKey, { label: string; note?: string }> = 
  * What the free tier gets for the features it holds PARTIALLY. Without this
  * the table would show a bare cross against "Sample answers" for a plan that
  * does, in fact, include Bands 1–3 — technically derived, and misleading.
+ *
+ * A FUNCTION, not a module-level object: interpolating an imported constant at
+ * module-init time is what crashed the production bundle once already (see the
+ * note in services/planLimits.ts). Everything here is read at call time.
  */
-const FREE_PARTIAL: Partial<Record<PremiumFeatureKey, string>> = {
+const freePartialLabels = (): Partial<Record<PremiumFeatureKey, string>> => ({
   advancedQuestions: `Tiers 1–${FREE_TIER_MAX_QUESTION_TIER}`,
   fullFeedback: 'Summary + band',
   sampleAnswers: `Bands 1–${FREE_TIER_MAX_SAMPLE_BAND}`,
-};
+});
 
 /** What a paid plan gets for those same partial features. */
-const PAID_FULL: Partial<Record<PremiumFeatureKey, string>> = {
+const paidFullLabels = (): Partial<Record<PremiumFeatureKey, string>> => ({
   advancedQuestions: 'All tiers 1–6',
   fullFeedback: 'Every criterion',
   sampleAnswers: 'All bands',
-};
+});
 
 const cellFor = (plan: Plan, key: PremiumFeatureKey): PlanCell => {
   const unlocked = planFeatureKeys(plan).includes(key);
   if (!unlocked) {
-    const partial = plan === 'free' ? FREE_PARTIAL[key] : undefined;
+    const partial = plan === 'free' ? freePartialLabels()[key] : undefined;
     return partial ? { kind: 'partial', text: partial } : { kind: 'no' };
   }
-  const full = PAID_FULL[key];
+  const full = paidFullLabels()[key];
   return full ? { kind: 'text', text: full } : { kind: 'yes' };
 };
 

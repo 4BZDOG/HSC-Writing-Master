@@ -13,7 +13,8 @@ been wired up wrong — the fix belongs in `data/`.
 
 | File | Holds |
 |---|---|
-| `data/agreementVersion.ts` | `AGREEMENT_VERSION` and `QUICK_START_VERSION`, in a module with **no imports** so the Playwright runner can read them (see below) |
+| `data/agreementVersion.ts` | `AGREEMENT_VERSION` and `QUICK_START_VERSION`, in a module with **no imports** (see below) |
+| `services/planLimits.ts` | The free/paid limit numbers, also **import-free**. `entitlements.ts` re-exports them |
 | `data/legalContent.ts` | The charter (student + teacher), the Terms of Use, the Privacy Notice, the changelog, and the one-line AI marking disclaimer |
 | `data/quickStartContent.ts` | The quick-start tracks (student / teacher / guest) and the power tips |
 | `utils/planComparison.ts` | The Free / Plus / School table — **derived**, not written |
@@ -138,16 +139,53 @@ Bands 1–3.
 
 ---
 
-## Why the versions live in their own module
+## Two rules that exist because breaking them shipped a blank page
 
-`legalContent.ts` interpolates the real free-tier limits from
-`services/entitlements.ts`, which reaches `supabaseClient.ts` and
-`import.meta.env`. That is fine in the app and in Vitest, but the Playwright
-runner is plain Node and cannot load it — so an e2e spec that needs to stub
-"this account already accepted v1.0" could not read the version at all.
+`data/legalContent.ts` interpolates the real free-tier limits into the Terms.
+Originally it imported them from `services/entitlements.ts` and built the
+documents at module scope. Both parts were wrong, and the combination took the
+whole app down in production:
 
-`data/agreementVersion.ts` has no imports, so both runners can read it. Keep it
-that way: **do not** add an import to that file.
+`EvaluationDisplay.tsx` imports the marking disclaimer from `legalContent.ts`,
+so Rollup pulled the content file into the **`workspace`** chunk — while
+`entitlements.ts` stayed in the **entry** chunk. Those two chunks import each
+other, so `workspace` executed first and read a `const` the entry chunk had not
+initialised yet:
+
+```
+Uncaught ReferenceError: Cannot access 'Cs' before initialization
+    at legalContent.ts
+```
+
+`Cs` was the minified `FREE_TIER_EVAL_LIMIT`. Result: a blank page on GitHub
+Pages, and **nothing** in dev, Vitest, the build, or the e2e suite — Vite serves
+modules unbundled in dev, so the cycle never forms there.
+
+The two rules now enforced by `tests/unit/legalContent.test.ts`:
+
+1. **`legalContent.ts` must not import from `services/entitlements.ts`.** The
+   numbers come from `services/planLimits.ts`, which has no imports of its own.
+2. **Nothing may read an imported value at module-init time.** The documents are
+   built by `getLegalDocuments()` on first call, so every module has finished
+   initialising before a limit is read — whatever the bundler does with chunks.
+
+`utils/planComparison.ts` had the same latent bug (`FREE_PARTIAL` / `PAID_FULL`
+were module-level objects interpolating those constants) and is now built on
+demand too.
+
+**If you add a module that interpolates a shared constant into a string, do it
+inside a function.** Module-level is a landmine that only goes off in
+production.
+
+This is a project-wide hazard, not an agreements one — the full write-up,
+including the two CI checks that now guard it, is in
+[`projectDocs/bundleSafety.md`](./bundleSafety.md).
+
+### The same reasoning applies to the versions
+
+`data/agreementVersion.ts` has no imports either, so the Playwright runner
+(plain Node, no `import.meta.env`) can read it. Keep it that way: **do not** add
+an import to that file, or to `services/planLimits.ts`.
 
 This matters more than it sounds. `contribution-loop.spec.ts` stubs its
 personas as established accounts carrying the current `agreement_version`;

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { FileText, ShieldCheck, ChevronRight } from 'lucide-react';
 import {
-  LEGAL_DOCUMENTS,
+  getLegalDocuments,
   renderLegalText,
   AGREEMENT_VERSION,
   LEGAL_CONFIG,
@@ -40,7 +40,8 @@ const LegalDocumentReader: React.FC<LegalDocumentReaderProps> = ({
   const [activeDoc, setActiveDoc] = useState<LegalDocumentId>(initialDocument);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const doc = LEGAL_DOCUMENTS.find((d) => d.id === activeDoc) ?? LEGAL_DOCUMENTS[0];
+  const documents = getLegalDocuments();
+  const doc = documents.find((d) => d.id === activeDoc) ?? documents[0];
 
   // Scroll WITHIN the reader rather than using an anchor href, which would
   // scroll the page behind the modal and leave the dialog where it was.
@@ -55,7 +56,7 @@ const LegalDocumentReader: React.FC<LegalDocumentReaderProps> = ({
     <div className="flex flex-col gap-4">
       {/* Document switcher */}
       <div className="flex gap-2">
-        {LEGAL_DOCUMENTS.map((d) => {
+        {documents.map((d) => {
           const Icon = DOC_ICONS[d.id];
           const isActive = d.id === activeDoc;
           return (

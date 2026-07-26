@@ -1,4 +1,10 @@
 import { authService } from './authService';
+import {
+  FREE_TIER_EVAL_LIMIT,
+  FREE_TIER_MAX_QUESTION_TIER,
+  FREE_TIER_MAX_SAMPLE_BAND,
+  FREE_TIER_FEEDBACK_SUMMARY_ONLY,
+} from './planLimits';
 import type { User } from '../types';
 import type { UserRole } from '../types';
 
@@ -113,30 +119,19 @@ export const PREMIUM_FEATURES: Record<PremiumFeatureKey, PremiumFeatureMeta> = {
 // Free-tier content limits — what free users can access without paying
 // ---------------------------------------------------------------------------
 
-/** Free users can attempt questions up to this command-term tier (inclusive). */
-export const FREE_TIER_MAX_QUESTION_TIER = 3;
-
-/** Free users see this many evaluations before being asked to upgrade. */
-export const FREE_TIER_EVAL_LIMIT = 5;
-
-/** Free users can view sample answers up to this band (inclusive). */
-export const FREE_TIER_MAX_SAMPLE_BAND = 3;
-
 /**
- * Free users see a summary verdict + overall band but NOT the full
- * criterion-by-criterion breakdown, marker notes or improvement paths.
+ * The raw limit numbers are DEFINED in `./planLimits.ts` — a module with no
+ * imports — and re-exported here so every existing call site is unchanged.
+ * See that file for why the separation matters (a chunk-ordering crash).
  */
-export const FREE_TIER_FEEDBACK_SUMMARY_ONLY = true;
-
-/**
- * Daily AI-call allowances, for DISPLAY only (the upgrade prompt and the plan
- * comparison). The real budget is enforced server-side by the proxy against
- * `ai_quota_limits` (schema §11), where an admin can raise or lower it per
- * role and per user — so these are the shipped defaults, not a promise.
- * Distinct from FREE_TIER_EVAL_LIMIT, which meters marked evaluations only.
- */
-export const FREE_DAILY_AI_CALLS = 60;
-export const PAID_DAILY_AI_CALLS = 300;
+export {
+  FREE_TIER_MAX_QUESTION_TIER,
+  FREE_TIER_EVAL_LIMIT,
+  FREE_TIER_MAX_SAMPLE_BAND,
+  FREE_TIER_FEEDBACK_SUMMARY_ONLY,
+  FREE_DAILY_AI_CALLS,
+  PAID_DAILY_AI_CALLS,
+} from './planLimits';
 
 // ---------------------------------------------------------------------------
 // Plan features — which features each plan unlocks

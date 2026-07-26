@@ -21,7 +21,9 @@
     "test:all": "npm run lint && npm run test -- --run && npm run type-check",
     "backup": "node scripts/backup.js",
     "cleanup:storage": "node scripts/cleanup-storage.js",
-    "check:api-health": "node scripts/check-api-health.js"
+    "check:api-health": "node scripts/check-api-health.js",
+    "check:bundle": "node scripts/checkChunkInitOrder.mjs",
+    "check:eager-reads": "node scripts/findModuleInitReads.mjs"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.8",

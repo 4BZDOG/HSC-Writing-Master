@@ -228,6 +228,7 @@ export const useMyFeature = () => {
 
 ## Gotchas
 
+- **Never read an imported value at module scope.** A template literal, object literal or call that dereferences an import at the top level of a module can throw `Cannot access 'X' before initialization` in a production build — Rollup may place the reader and the definer in chunks that import each other, and the reader runs first. Dev, `vite build`, Vitest and the e2e suite are all blind to it; it shows as a blank page on the deployed site. Put the read inside a function. `npm run check:bundle` (real build output) and `npm run check:eager-reads` (sources) guard this in CI — see `projectDocs/bundleSafety.md`.
 - **Never import from `App.tsx` directly** — it creates circular dependencies. Shared types go in `types.ts`; shared utilities go in `utils/`.
 - **`safeJsonParse` is not a validator** — it only strips fences and parses. Use Zod for actual shape validation on AI output that feeds the data model.
 - **IndexedDB is async everywhere** — all `idb` calls in `utils/idbTransactions.ts` return Promises. Forgetting `await` causes silent no-ops with no runtime error.

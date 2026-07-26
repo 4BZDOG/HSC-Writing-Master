@@ -3,7 +3,7 @@ import {
   AGREEMENT_VERSION,
   AGREEMENT_CHANGELOG,
   CHARTERS,
-  LEGAL_DOCUMENTS,
+  getLegalDocuments,
   renderLegalText,
   getLegalDocument,
   type CharterIcon,
@@ -20,8 +20,10 @@ import {
   FREE_TIER_EVAL_LIMIT,
   FREE_TIER_MAX_QUESTION_TIER,
   FREE_TIER_MAX_SAMPLE_BAND,
-} from '../../services/entitlements';
+} from '../../services/planLimits';
 import type { UserRole } from '../../types';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 /**
  * The agreements and the quick-start guide are content, and content rots
@@ -90,14 +92,14 @@ describe('legal documents', () => {
   });
 
   it('has unique section ids within each document, so the jump links work', () => {
-    LEGAL_DOCUMENTS.forEach((doc) => {
+    getLegalDocuments().forEach((doc) => {
       const ids = doc.sections.map((s) => s.id);
       expect(new Set(ids).size, `duplicate section id in ${doc.id}`).toBe(ids.length);
     });
   });
 
   it('leaves no unsubstituted template tokens after rendering', () => {
-    const rendered = LEGAL_DOCUMENTS.flatMap((doc) => [
+    const rendered = getLegalDocuments().flatMap((doc) => [
       renderLegalText(doc.subtitle),
       ...doc.sections.flatMap((s) => [...s.body, ...(s.bullets ?? [])].map(renderLegalText)),
     ]);
@@ -166,5 +168,43 @@ describe('quick start', () => {
       expect(tip.label.length).toBeGreaterThan(0);
       expect(tip.body.length).toBeGreaterThan(0);
     });
+  });
+});
+
+describe('bundle safety', () => {
+  // A production-only crash cost a blank page once: this content file was
+  // placed in a different Rollup chunk from services/entitlements.ts, the two
+  // chunks imported each other, and the Terms — which interpolate the free-tier
+  // limits at module scope — read a `const` before it was initialised
+  // ("Cannot access 'Cs' before initialization"). Dev never reproduced it,
+  // because Vite serves modules unbundled.
+  //
+  // Two rules keep it fixed, and these tests are the only thing enforcing them.
+  const source = readFileSync(resolve(__dirname, '../../data/legalContent.ts'), 'utf8');
+
+  it('does not import from services/entitlements', () => {
+    // entitlements drags in authService → supabaseClient → import.meta.env.
+    // The numbers live in the import-free services/planLimits.ts instead.
+    expect(source).not.toMatch(/from '\.\.\/services\/entitlements'/);
+  });
+
+  it('builds the documents lazily rather than at module scope', () => {
+    // A module-level array would read the imported limits the instant this
+    // module executes — the exact thing that crashed.
+    expect(source).toMatch(/export const getLegalDocuments/);
+    expect(source).not.toMatch(/^export const LEGAL_DOCUMENTS/m);
+  });
+
+  it('keeps services/planLimits.ts free of imports, so it cannot pull in a cycle', () => {
+    const limits = readFileSync(resolve(__dirname, '../../services/planLimits.ts'), 'utf8');
+    expect(limits).not.toMatch(/^import /m);
+  });
+
+  it('reads no imported constant while the module is still initialising', () => {
+    // The charter and changelog are plain literals; only the Terms interpolate
+    // the limits, and they now do it inside a builder. If a limit name appears
+    // outside a function body again, this catches it.
+    const beforeBuilders = source.slice(0, source.indexOf('const buildTermsOfUse'));
+    expect(beforeBuilders).not.toMatch(/\$\{FREE_TIER_/);
   });
 });
