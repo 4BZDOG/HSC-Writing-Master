@@ -1,4 +1,8 @@
 import { test, expect, Page } from '@playwright/test';
+// Imported from data/agreementVersion.ts, NOT from the content files: those
+// reach services/entitlements → supabaseClient → import.meta.env, which the
+// Playwright runner (plain Node) cannot load.
+import { AGREEMENT_VERSION, QUICK_START_VERSION } from '../../data/agreementVersion';
 
 /**
  * Contribution-loop e2e — runs ONLY in the `supabase-chromium` project, which
@@ -226,6 +230,17 @@ const installSupabaseStub = async (page: Page, persona: Persona) => {
             role: persona.role,
             preferences: {},
             stats: {},
+            // These personas are ESTABLISHED accounts: they have already
+            // accepted the current agreement and seen the quick start. Without
+            // them the agreement gate holds the app before the workspace ever
+            // renders (correctly — a new account must accept), and this spec,
+            // which is about the contribution loop rather than onboarding,
+            // would never get past the front door. The onboarding flow itself
+            // is covered by agreement-gate.spec.ts.
+            agreement_version: AGREEMENT_VERSION,
+            agreement_accepted_at: new Date().toISOString(),
+            agreement_audience: persona.role === 'student' ? 'student' : 'teacher',
+            quick_start_seen_version: QUICK_START_VERSION,
           })
         );
       }

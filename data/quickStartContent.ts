@@ -17,11 +17,10 @@
 import type { UserRole } from '../types';
 
 /**
- * Bump when the guide changes substantially enough that returning users
- * should be shown it again on their next visit. Cosmetic edits do not need a
- * bump — the guide is always re-openable from the header and the profile.
+ * Re-exported for convenience; DEFINED in `agreementVersion.ts`, which has no
+ * imports of its own so the Playwright runner can read it.
  */
-export const QUICK_START_VERSION = '1.0';
+export { QUICK_START_VERSION } from './agreementVersion';
 
 /** Icon keys resolved to lucide components in `components/agreementIcons.ts`. */
 export type QuickStartIcon =

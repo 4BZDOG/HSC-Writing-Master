@@ -31,16 +31,28 @@ const acceptAgreement = async (page: Page) => {
 
 /**
  * The quick-start guide opens by itself over the app on a first sign-in.
- * Waits for it rather than probing visibility immediately — it appears a beat
- * after acceptance, and a bare `isVisible()` would race it and skip.
+ *
+ * Dismissed with Escape rather than by clicking its button: the dialog animates
+ * in (fade + translate), and WebKit reports the button as "not stable" for long
+ * enough that Playwright's click retry loop can eat the whole test budget. A
+ * keypress does not care whether the element has finished moving.
  */
 const dismissQuickStart = async (page: Page) => {
-  const close = page.getByRole('button', { name: /start writing/i });
-  await close.waitFor({ state: 'visible', timeout: 10_000 }).catch(() => {});
-  if (await close.isVisible().catch(() => false)) await close.click();
+  const guide = page.getByRole('button', { name: /start writing/i });
+  // Short waits on purpose: if the guide never shows, or lingers, the
+  // assertions that follow are unaffected — Playwright treats an element behind
+  // a modal as visible — so there is nothing to be gained by waiting long.
+  await guide.waitFor({ state: 'visible', timeout: 8_000 }).catch(() => {});
+  await page.keyboard.press('Escape');
+  await guide.waitFor({ state: 'hidden', timeout: 8_000 }).catch(() => {});
 };
 
 test.describe('agreement gate', () => {
+  // The happy path crosses two animated dialogs plus the mock login's
+  // deliberate 800ms delay, which is more than the 30s default leaves room for
+  // on a loaded CI runner in WebKit.
+  test.describe.configure({ timeout: 60_000 });
+
   test('a student cannot reach the workspace without accepting', async ({ page }) => {
     await signIn(page, 'user', 'user');
 

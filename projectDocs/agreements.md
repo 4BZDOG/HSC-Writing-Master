@@ -13,7 +13,8 @@ been wired up wrong — the fix belongs in `data/`.
 
 | File | Holds |
 |---|---|
-| `data/legalContent.ts` | The charter (student + teacher), the Terms of Use, the Privacy Notice, the version, the changelog, and the one-line AI marking disclaimer |
+| `data/agreementVersion.ts` | `AGREEMENT_VERSION` and `QUICK_START_VERSION`, in a module with **no imports** so the Playwright runner can read them (see below) |
+| `data/legalContent.ts` | The charter (student + teacher), the Terms of Use, the Privacy Notice, the changelog, and the one-line AI marking disclaimer |
 | `data/quickStartContent.ts` | The quick-start tracks (student / teacher / guest) and the power tips |
 | `utils/planComparison.ts` | The Free / Plus / School table — **derived**, not written |
 | `services/agreementService.ts` | Who has to accept, why, and recording it |
@@ -36,7 +37,8 @@ because a comma moved.
 Four steps, in this order:
 
 1. Edit the relevant `body` / `bullets` / `promises` entry.
-2. Bump `AGREEMENT_VERSION` in `data/legalContent.ts`.
+2. Bump `AGREEMENT_VERSION` in `data/agreementVersion.ts` (re-exported from
+   `legalContent.ts`, so existing imports keep working).
 3. Add an `AGREEMENT_CHANGELOG` entry at the **top** of the array, with a
    plain-English summary of what changed. Users see this verbatim.
 4. Run `npm run test:all`. `tests/unit/legalContent.test.ts` fails the build if
@@ -136,6 +138,25 @@ Bands 1–3.
 
 ---
 
+## Why the versions live in their own module
+
+`legalContent.ts` interpolates the real free-tier limits from
+`services/entitlements.ts`, which reaches `supabaseClient.ts` and
+`import.meta.env`. That is fine in the app and in Vitest, but the Playwright
+runner is plain Node and cannot load it — so an e2e spec that needs to stub
+"this account already accepted v1.0" could not read the version at all.
+
+`data/agreementVersion.ts` has no imports, so both runners can read it. Keep it
+that way: **do not** add an import to that file.
+
+This matters more than it sounds. `contribution-loop.spec.ts` stubs its
+personas as established accounts carrying the current `agreement_version`;
+without that the gate correctly holds the app at the front door and a spec about
+the contribution loop fails for reasons that have nothing to do with it. Any
+future e2e that signs a user in needs the same stub.
+
+---
+
 ## The AI marking disclaimer
 
 `AI_MARKING_DISCLAIMER` in `data/legalContent.ts` is one constant used in two
@@ -176,7 +197,8 @@ address rather than reporting a success that did not happen.
 
 ## Quick start
 
-`QUICK_START_VERSION` controls whether the guide opens by itself. Bump it and
+`QUICK_START_VERSION` (in `data/agreementVersion.ts`) controls whether the guide
+opens by itself. Bump it and
 returning users are greeted once more; leave it and only new accounts see it.
 It is always re-openable from the header lifebuoy and the profile.
 

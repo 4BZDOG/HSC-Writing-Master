@@ -34,14 +34,11 @@ import {
 // ---------------------------------------------------------------------------
 
 /**
- * Bump this whenever the substance of the agreement changes, and add a
- * matching `AGREEMENT_CHANGELOG` entry. Users who accepted an older version
- * are re-prompted on their next visit and shown the changelog for the new one.
- *
- * Format: `major.minor`. Cosmetic rewording does not need a bump; anything
- * that changes what a user is agreeing to does.
+ * Re-exported so every call site can keep importing the version from the
+ * content file. It is DEFINED in `agreementVersion.ts`, which has no imports of
+ * its own — see the note there for why that separation exists.
  */
-export const AGREEMENT_VERSION = '1.0';
+export { AGREEMENT_VERSION } from './agreementVersion';
 
 export interface AgreementChange {
   version: string;
