@@ -25,6 +25,8 @@ import {
   PLAN_PRICING,
   SCHOOL_CONTACT_EMAIL,
   SCHOOL_SEAT_LIMITS,
+  FREE_DAILY_AI_CALLS,
+  PAID_DAILY_AI_CALLS,
 } from '../services/entitlements';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 
@@ -226,8 +228,9 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
               {/* Not a feature gate — the plan-aware server quota (schema §11):
                   paid plans are guaranteed a 300-call daily AI allowance. */}
               <li className="flex items-start gap-2.5 text-xs leading-relaxed text-[rgb(var(--color-text-muted))] light:text-slate-500 font-medium">
-                <Check className="w-3.5 h-3.5 mt-0.5 shrink-0 text-amber-500" />A 300-call daily AI
-                allowance — five times the free tier
+                <Check className="w-3.5 h-3.5 mt-0.5 shrink-0 text-amber-500" />A{' '}
+                {PAID_DAILY_AI_CALLS}-call daily AI allowance —{' '}
+                {Math.round(PAID_DAILY_AI_CALLS / FREE_DAILY_AI_CALLS)} times the free tier
               </li>
             </ul>
           </div>

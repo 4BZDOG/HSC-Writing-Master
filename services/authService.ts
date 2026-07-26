@@ -236,6 +236,53 @@ const applySchoolPlan = async (userId: string, user: User): Promise<User> => {
   }
 };
 
+/**
+ * Onboarding state — the accepted agreement version and the quick-start guide
+ * the user has seen. A SEPARATE soft query for the same reason as
+ * `applySchoolPlan`: a database that predates the agreement migration would
+ * fail the main profile select, and losing sign-in over an onboarding column
+ * is a far worse outcome than re-prompting someone to accept.
+ *
+ * `fallback` carries the locally cached values so a failed query degrades to
+ * "what we already knew" rather than wiping a recorded acceptance.
+ */
+const applyOnboardingState = async (
+  userId: string,
+  user: User,
+  fallback?: User | null
+): Promise<User> => {
+  const withFallback = (u: User): User => ({
+    ...u,
+    ...(fallback?.agreement && !u.agreement ? { agreement: fallback.agreement } : {}),
+    ...(fallback?.quickStartSeenVersion && !u.quickStartSeenVersion
+      ? { quickStartSeenVersion: fallback.quickStartSeenVersion }
+      : {}),
+  });
+
+  try {
+    const { data, error } = await supabase!
+      .from('profiles')
+      .select('agreement_version, agreement_accepted_at, quick_start_seen_version')
+      .eq('id', userId)
+      .maybeSingle();
+    if (error || !data) return withFallback(user);
+
+    const version = data.agreement_version as string | null;
+    const acceptedAt = Date.parse((data.agreement_accepted_at as string | null) ?? '');
+    const quickStart = data.quick_start_seen_version as string | null;
+
+    return withFallback({
+      ...user,
+      ...(version
+        ? { agreement: { version, acceptedAt: Number.isNaN(acceptedAt) ? Date.now() : acceptedAt } }
+        : {}),
+      ...(quickStart ? { quickStartSeenVersion: quickStart } : {}),
+    });
+  } catch {
+    return withFallback(user);
+  }
+};
+
 const supabaseLogin = async (email: string, password: string): Promise<User> => {
   const client = supabase!;
   const { data, error } = await client.auth.signInWithPassword({ email, password });
@@ -256,6 +303,7 @@ const supabaseLogin = async (email: string, password: string): Promise<User> => 
   let user = mapProfileToUser(data.user.email ?? email, profile);
   user.stats = calculateStreak(user.stats);
   user = await applySchoolPlan(data.user.id, user);
+  user = await applyOnboardingState(data.user.id, user, authService.getCurrentUser());
 
   if (profileReadOk) {
     await persistProfileState(data.user.id, user);
@@ -308,6 +356,7 @@ const supabaseRefreshSession = async (cachedUser: User): Promise<User | null> =>
   let user = mapProfileToUser(data.user.email ?? cachedUser.username, profile);
   user.stats = calculateStreak(user.stats);
   user = await applySchoolPlan(data.user.id, user);
+  user = await applyOnboardingState(data.user.id, user, cachedUser);
 
   await persistProfileState(data.user.id, user);
 
@@ -405,6 +454,7 @@ export const authService = {
     let user = mapProfileToUser(authUser.email ?? '', profile);
     user.stats = calculateStreak(user.stats);
     user = await applySchoolPlan(authUser.id, user);
+    user = await applyOnboardingState(authUser.id, user, authService.getCurrentUser());
 
     if (profileReadOk) {
       await persistProfileState(authUser.id, user);

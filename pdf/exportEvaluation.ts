@@ -18,6 +18,7 @@ import {
   ToastFn,
 } from './types';
 import { buildEvaluationBlocks, COLORS, EvaluationExportData } from './buildBlocks';
+import { AI_MARKING_DISCLAIMER } from '../data/legalContent';
 import { chooseScale, columnLeft, computeGeometry, planLayout } from './layout';
 import {
   createMeasurer,
@@ -446,6 +447,7 @@ export const exportEvaluationPdf = async (
         pScale,
         pageNumber: page + 1,
         pageTotal: pageCount,
+        disclaimer: AI_MARKING_DISCLAIMER,
       });
 
       // Let the progress UI repaint between pages.

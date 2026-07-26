@@ -1624,6 +1624,94 @@ begin
 end; $$;
 
 -- =============================================================================
+-- §15 · User agreement acceptance and onboarding
+--
+-- The durable record of which agreement version a user accepted, and when.
+-- Written by services/agreementService.ts as a SOFT update, separate from the
+-- main profile write: a deployment that has not run this section yet keeps
+-- working (users are simply re-prompted each session) rather than failing
+-- every profile save.
+--
+-- Re-prompting everyone after an agreement change is done in the CLIENT by
+-- bumping AGREEMENT_VERSION in data/legalContent.ts — no SQL required. These
+-- columns only store what was accepted, so an audit can answer "who agreed to
+-- what, and when".
+--
+-- Idempotent: safe to re-run against an existing database.
+-- =============================================================================
+
+alter table public.profiles
+  add column if not exists agreement_version      text,
+  add column if not exists agreement_accepted_at  timestamptz,
+  add column if not exists quick_start_seen_version text;
+
+comment on column public.profiles.agreement_version is
+  'AGREEMENT_VERSION (data/legalContent.ts) the user last accepted. Null = never accepted.';
+comment on column public.profiles.agreement_accepted_at is
+  'When the user accepted agreement_version.';
+comment on column public.profiles.quick_start_seen_version is
+  'QUICK_START_VERSION the user has been shown, so the guide stops auto-opening.';
+
+-- Reporting helper: who is yet to accept the current agreement. Admin-only —
+-- ordinary users have no business enumerating other accounts.
+create or replace function public.agreement_acceptance_report(p_version text)
+returns table (
+  user_id      uuid,
+  username     text,
+  role         app_role,
+  accepted     boolean,
+  accepted_at  timestamptz
+) language sql security definer set search_path = public as $$
+  select p.id,
+         p.username,
+         p.role,
+         (p.agreement_version is not distinct from p_version),
+         p.agreement_accepted_at
+    from public.profiles p
+   where public.is_admin()
+   order by p.username;
+$$;
+
+-- =============================================================================
+-- §16 · Data rights — self-service account deletion
+--
+-- The Privacy Notice tells users they can have their data deleted. This makes
+-- that true without an administrator in the loop.
+--
+-- The target is derived from auth.uid() and there is deliberately NO user-id
+-- parameter: the function cannot be aimed at somebody else's account, whatever
+-- the caller's role. Deleting the auth user cascades to profiles, and from
+-- there to responses, response_events, ai_usage, ai_model_usage and
+-- evaluation_usage.
+--
+-- What SURVIVES, by design: content the user contributed to the shared library
+-- (prompts, sample answers, courses). Those rows reference profiles with
+-- `on delete set null`, so the content stays and the authorship link is
+-- severed. Other schools depend on that content, and once created_by is null
+-- it holds no personal data. The Privacy Notice says exactly this.
+--
+-- NOTE: this runs as SECURITY DEFINER so it can delete from auth.users, which
+-- ordinary roles cannot touch. Create it as the `postgres` owner (running this
+-- file in the Supabase SQL editor does that). If your deployment forbids that,
+-- leave the function out — the client degrades to telling the user to contact
+-- an administrator rather than silently reporting success.
+-- =============================================================================
+
+create or replace function public.delete_my_account()
+returns void language plpgsql security definer set search_path = public as $$
+declare
+  v_user uuid := auth.uid();
+begin
+  if v_user is null then
+    raise exception 'Not authenticated';
+  end if;
+  delete from auth.users where id = v_user;
+end; $$;
+
+revoke all on function public.delete_my_account() from public;
+grant execute on function public.delete_my_account() to authenticated;
+
+-- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.
 -- =============================================================================

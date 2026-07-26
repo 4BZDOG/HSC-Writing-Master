@@ -215,12 +215,34 @@ export interface UserPreferences {
   theme: 'dark' | 'light';
 }
 
+/**
+ * The user agreement the account has accepted. `version` is compared against
+ * `AGREEMENT_VERSION` in data/legalContent.ts — bumping that re-prompts
+ * everyone and shows them what changed.
+ */
+export interface UserAgreement {
+  version: string;
+  /** Epoch milliseconds. */
+  acceptedAt: number;
+  /**
+   * Which charter they read. Students and staff agree to materially different
+   * things — the staff charter covers student visibility and moderation — so a
+   * promoted account has to read the other one. Absent on records written
+   * before this was tracked, which are accepted as-is rather than re-prompted.
+   */
+  audience?: 'student' | 'teacher';
+}
+
 export interface User {
   username: string;
   role: UserRole;
   displayName: string;
   preferences: UserPreferences;
   stats: UserStats;
+  /** Absent until the user accepts; see services/agreementService.ts. */
+  agreement?: UserAgreement;
+  /** Version of the quick-start guide this user has already been shown. */
+  quickStartSeenVersion?: string;
   /** Stripe-resolved plan override. Set by the webhook handler when a
    *  checkout completes or a subscription changes. Absent until Stripe is
    *  live — getUserPlan() falls back to role-based resolution. */

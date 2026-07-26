@@ -128,6 +128,16 @@ export const FREE_TIER_MAX_SAMPLE_BAND = 3;
  */
 export const FREE_TIER_FEEDBACK_SUMMARY_ONLY = true;
 
+/**
+ * Daily AI-call allowances, for DISPLAY only (the upgrade prompt and the plan
+ * comparison). The real budget is enforced server-side by the proxy against
+ * `ai_quota_limits` (schema §11), where an admin can raise or lower it per
+ * role and per user — so these are the shipped defaults, not a promise.
+ * Distinct from FREE_TIER_EVAL_LIMIT, which meters marked evaluations only.
+ */
+export const FREE_DAILY_AI_CALLS = 60;
+export const PAID_DAILY_AI_CALLS = 300;
+
 // ---------------------------------------------------------------------------
 // Plan features — which features each plan unlocks
 // ---------------------------------------------------------------------------

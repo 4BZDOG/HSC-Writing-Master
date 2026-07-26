@@ -18,6 +18,8 @@ import UserProfileModal from './UserProfileModal';
 import DatabaseDashboard from './admin/DatabaseDashboard';
 import ManualPromptModal from './ManualPromptModal';
 import ManifestImportModal from './ManifestImportModal';
+import QuickStartModal from './QuickStartModal';
+import LegalDocumentModal from './LegalDocumentModal';
 import { regenerateTopicIds, mergeTopicContents } from '../utils/dataManagerUtils';
 import { findAndUpdateItem } from '../utils/stateUtils';
 import { generateId } from '../utils/idUtils';
@@ -60,6 +62,11 @@ const AppModals: React.FC<AppModalsProps> = ({
 
   const isModalOpen = (name: string) => activeModals.has(name);
   const closeModal = modalHandlers.closeModal;
+
+  // Which tab the quick-start guide should open on. "Compare plans" in the
+  // profile goes straight to the plan table rather than making the user find
+  // it behind the getting-started steps.
+  const [quickStartTab, setQuickStartTab] = React.useState<'guide' | 'plans' | 'tips'>('guide');
 
   // User-facing labels for syllabus item types — the raw type names
   // (subTopic, dotPoint) must never leak into modal titles or messages.
@@ -348,8 +355,35 @@ const AppModals: React.FC<AppModalsProps> = ({
           user={user}
           onUpdateUser={onUpdateUser}
           onLogout={onLogout}
+          onOpenQuickStart={() => {
+            setQuickStartTab('guide');
+            modalHandlers.openModal('quickStart');
+          }}
+          onComparePlans={() => {
+            setQuickStartTab('plans');
+            modalHandlers.openModal('quickStart');
+          }}
+          onOpenLegal={() => modalHandlers.openModal('legalDocuments')}
         />
       )}
+
+      {user && (
+        // Keyed on the requested tab: the guide stays mounted while closed, so
+        // without this a second open would reuse the tab from the first.
+        <QuickStartModal
+          key={quickStartTab}
+          isOpen={isModalOpen('quickStart')}
+          onClose={() => closeModal('quickStart')}
+          user={user}
+          initialTab={quickStartTab}
+          onOpenLegal={() => modalHandlers.openModal('legalDocuments')}
+        />
+      )}
+
+      <LegalDocumentModal
+        isOpen={isModalOpen('legalDocuments')}
+        onClose={() => closeModal('legalDocuments')}
+      />
 
       {modalProps.renameTarget && (
         <RenameModal

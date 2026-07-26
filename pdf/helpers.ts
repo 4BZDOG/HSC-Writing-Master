@@ -337,16 +337,36 @@ export interface FooterOptions extends TextStyleCtx {
   pageNumber?: number;
   /** Total pages in a single copy. */
   pageTotal?: number;
+  /**
+   * Provenance line centred above the footer rule. An exported report leaves
+   * the app and can end up in a folder next to real assessment records, so
+   * every page has to say what it is.
+   */
+  disclaimer?: string;
 }
 
 /**
  * Footer: a left-aligned "Page X of Y" and a right-aligned export ID + date,
- * drawn on the current page.
+ * drawn on the current page, with an optional centred disclaimer above them.
  */
 export const drawFooter = (doc: JsPdfLike, opts: FooterOptions): void => {
   const fontPt = 6.5 * opts.pScale;
   const y = opts.pageHeight - opts.margin + 4 * opts.pScale;
   const color: [number, number, number] = [156, 163, 175];
+
+  if (opts.disclaimer) {
+    drawText(doc, opts.disclaimer, {
+      ...opts,
+      x: opts.pageWidth / 2,
+      // Above the page-number line so it never collides with it on a narrow
+      // page, and still inside the reserved footer band.
+      y: y - 3.2 * opts.pScale,
+      fontPt: 6 * opts.pScale,
+      style: 'normal',
+      color,
+      align: 'center',
+    });
+  }
 
   if (opts.pageNumber && opts.pageTotal) {
     drawText(doc, `Page ${opts.pageNumber} of ${opts.pageTotal}`, {
