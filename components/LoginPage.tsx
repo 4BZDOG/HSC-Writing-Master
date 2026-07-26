@@ -13,6 +13,7 @@ import {
   Loader2,
   ShieldCheck,
 } from 'lucide-react';
+import LegalDocumentModal from './LegalDocumentModal';
 
 interface LoginPageProps {
   onLogin: (user: User) => void;
@@ -141,6 +142,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
   const [usernameError, setUsernameError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  // Readable BEFORE signing in — being asked to accept an agreement you had no
+  // way of reading first is the thing everyone hates about consent dialogs.
+  const [isLegalOpen, setIsLegalOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -340,11 +344,25 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
             <div className="flex items-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-500/50" /> Secure System
             </div>
-            <div className="flex gap-4">
+            <div className="flex items-center gap-4">
+              <button
+                type="button"
+                onClick={() => setIsLegalOpen(true)}
+                className="uppercase tracking-widest hover:text-indigo-400 transition-colors"
+              >
+                Terms &amp; Privacy
+              </button>
               <span>v{APP_VERSION}</span>
             </div>
           </div>
         </div>
+
+        <p className="mt-5 text-center text-[10px] leading-relaxed text-slate-500 light:text-slate-400 font-medium px-4">
+          Signing in means agreeing to the Terms of Use and Privacy Notice. Marks given here are
+          practice feedback from an AI — never an official HSC result.
+        </p>
+
+        <LegalDocumentModal isOpen={isLegalOpen} onClose={() => setIsLegalOpen(false)} />
 
         {/* Identity Hint Section — only when the local demo accounts actually
             work (dev builds, or VITE_ENABLE_DEMO_AUTH=true). In Supabase mode

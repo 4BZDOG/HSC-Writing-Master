@@ -29,6 +29,8 @@ import {
   PenTool,
   Clock,
   BarChart3,
+  Compass,
+  Scale,
 } from 'lucide-react';
 import { getBandConfig } from '../utils/renderUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
@@ -48,6 +50,12 @@ interface UserProfileModalProps {
   user: User;
   onUpdateUser: (user: User) => void;
   onLogout: () => void;
+  /** Re-open the quick-start guide. */
+  onOpenQuickStart?: () => void;
+  /** Open the guide straight on its plan-comparison tab. */
+  onComparePlans?: () => void;
+  /** Open the Terms of Use / Privacy Notice reader. */
+  onOpenLegal?: () => void;
 }
 
 const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
@@ -208,12 +216,23 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
   user,
   onUpdateUser,
   onLogout,
+  onOpenQuickStart,
+  onComparePlans,
+  onOpenLegal,
 }) => {
   useEscapeKey(isOpen, onClose);
   const [activeTab, setActiveTab] = useState<'overview' | 'achievements' | 'settings'>('overview');
   const [tempPrefs, setTempPrefs] = useState<UserPreferences>({ ...user.preferences });
   const [displayName, setDisplayName] = useState(user.displayName);
   const [isEditingName, setIsEditingName] = useState(false);
+
+  // Showing the version and date they accepted turns a dead legal link into a
+  // record the user can actually check.
+  const agreementSummary = user.agreement
+    ? `Accepted v${user.agreement.version} on ${new Date(
+        user.agreement.acceptedAt
+      ).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}.`
+    : 'What the AI marker is, and what we do with your work.';
 
   const xpForNextLevel = user.stats.level * 1000;
   const progressPercent = Math.min(100, (user.stats.xp / xpForNextLevel) * 100);
@@ -740,6 +759,69 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   </div>
                 ))}
               </div>
+
+              {/* Help & agreements. Kept here rather than behind a separate
+                  tab so there is exactly one place a user looks when they want
+                  to re-read what they agreed to or how something works. */}
+              {(onOpenQuickStart || onComparePlans || onOpenLegal) && (
+                <div className="bg-white/[0.02] light:bg-slate-100 rounded-[40px] border border-white/5 light:border-slate-200 overflow-hidden">
+                  {[
+                    onOpenQuickStart && {
+                      id: 'quickStart',
+                      icon: Compass,
+                      label: 'Quick Start Guide',
+                      desc: 'How the app works, in a couple of minutes.',
+                      action: onOpenQuickStart,
+                    },
+                    onComparePlans && {
+                      id: 'plans',
+                      icon: Crown,
+                      label: 'Compare Plans',
+                      desc: `You are on ${PLAN_LABELS[getUserPlan(user)]} — see exactly what that includes.`,
+                      action: onComparePlans,
+                    },
+                    onOpenLegal && {
+                      id: 'legal',
+                      icon: Scale,
+                      label: 'Terms & Privacy',
+                      desc: agreementSummary,
+                      action: onOpenLegal,
+                    },
+                  ]
+                    .filter(Boolean)
+                    .map((item, i, all) => {
+                      const entry = item as {
+                        id: string;
+                        icon: typeof Compass;
+                        label: string;
+                        desc: string;
+                        action: () => void;
+                      };
+                      return (
+                        <button
+                          key={entry.id}
+                          onClick={entry.action}
+                          className={`w-full flex items-center justify-between px-6 sm:px-10 py-6 text-left hover:bg-white/[0.02] light:hover:bg-slate-50 transition-colors ${i !== all.length - 1 ? 'border-b border-white/5 light:border-slate-100' : ''}`}
+                        >
+                          <div className="flex items-center gap-4 sm:gap-6">
+                            <div className="w-12 h-12 rounded-2xl bg-white/5 light:bg-slate-100 flex items-center justify-center text-slate-500">
+                              <entry.icon className="w-5 h-5" />
+                            </div>
+                            <div>
+                              <h4 className="text-sm font-bold text-white light:text-slate-900 uppercase tracking-widest">
+                                {entry.label}
+                              </h4>
+                              <p className="text-xs text-slate-500 font-medium mt-1">
+                                {entry.desc}
+                              </p>
+                            </div>
+                          </div>
+                          <ExternalLink className="w-4 h-4 text-slate-500 shrink-0" />
+                        </button>
+                      );
+                    })}
+                </div>
+              )}
 
               <div className="flex justify-end pt-4">
                 <button

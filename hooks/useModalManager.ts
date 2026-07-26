@@ -20,7 +20,9 @@ export type ModalName =
   | 'userProfile'
   | 'databaseDashboard'
   | 'manifestImport'
-  | 'manualPrompt';
+  | 'manualPrompt'
+  | 'quickStart'
+  | 'legalDocuments';
 
 export type RenameTarget = {
   type: 'course' | 'topic' | 'subTopic' | 'dotPoint' | 'prompt';

@@ -10,6 +10,7 @@ import GlobalLoadingOverlay from './components/GlobalLoadingOverlay';
 import AppModals from './components/AppModals';
 import UpgradeModal from './components/UpgradeModal';
 import LoginPage from './components/LoginPage';
+import UserAgreementModal from './components/UserAgreementModal';
 import ContentAuditModal from './components/admin/ContentAuditModal';
 import ReviewQueueModal from './components/admin/ReviewQueueModal';
 import UsageDashboard from './components/admin/UsageDashboard';
@@ -25,6 +26,14 @@ import { useDebounce } from './hooks/useDebounce';
 import { useApiStatus } from './hooks/useApiStatus';
 import { authService } from './services/authService';
 import { subscribeQuotaWarnings, subscribeAiNotices } from './services/quotaNotifier';
+import {
+  acceptAgreement,
+  isAgreementBlocking,
+  markQuickStartSeen,
+  needsAgreement,
+  needsQuickStart,
+} from './services/agreementService';
+import { AGREEMENT_VERSION } from './data/legalContent';
 import { isCurriculumRemote } from './services/curriculumService';
 import { savePromptContribution } from './services/contributionService';
 import { screenContentQuality } from './services/geminiService';
@@ -54,6 +63,7 @@ import {
   LineChart,
   Minimize,
   ChevronUp,
+  LifeBuoy,
 } from 'lucide-react';
 import { apiMonitor, ApiStatus } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
@@ -283,6 +293,22 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       openModal('manifestImport');
     }
   }, [isReady, isDiscoveryInProgress, courses.length, discoveredDocs.length, openModal]);
+
+  // First run: open the quick-start guide once — for a genuinely new account,
+  // or after the guide is re-versioned. It is marked as seen on OPEN rather
+  // than on close, so someone who dismisses it immediately is not greeted by
+  // it again on the next render.
+  const quickStartShownRef = useRef(false);
+  useEffect(() => {
+    if (quickStartShownRef.current || !needsQuickStart(user)) return;
+    quickStartShownRef.current = true;
+    openModal('quickStart');
+    markQuickStartSeen(user)
+      .then(onUpdateUser)
+      .catch(() => {
+        /* Non-critical — the guide simply greets them once more. */
+      });
+  }, [user, openModal, onUpdateUser]);
 
   const {
     evaluationResult,
@@ -777,6 +803,14 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 </div>
               </div>
               <button
+                onClick={() => openModal('quickStart')}
+                title="Quick start guide, plans and the fine print"
+                aria-label="Quick start guide, plans and the fine print"
+                className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all"
+              >
+                <LifeBuoy className="w-5 h-5" />
+              </button>
+              <button
                 onClick={() => {
                   const next = user.preferences.theme === 'light' ? 'dark' : 'light';
                   const updatedUser: User = {
@@ -1076,6 +1110,32 @@ const App: React.FC = () => {
   const apiStatus = useApiStatus();
   const [user, setUser] = useState<User | null>(null);
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
+  // Guests are shown the charter as a courtesy notice they can wave away; this
+  // remembers that they did, for the session. Signed-in users are gated
+  // instead, and their acceptance is recorded on the account.
+  const [guestNoticeDismissed, setGuestNoticeDismissed] = useState(false);
+  const [isAcceptingAgreement, setIsAcceptingAgreement] = useState(false);
+
+  const handleAcceptAgreement = useCallback(async () => {
+    if (!user) return;
+    setIsAcceptingAgreement(true);
+    try {
+      setUser(await acceptAgreement(user));
+    } catch {
+      // acceptAgreement swallows storage failures itself, so reaching here
+      // means something unexpected — let the user through rather than
+      // stranding them, since the agreement was shown and consented to.
+      setUser({ ...user, agreement: { version: AGREEMENT_VERSION, acceptedAt: Date.now() } });
+    } finally {
+      setIsAcceptingAgreement(false);
+    }
+  }, [user]);
+
+  const handleLogout = useCallback(() => {
+    authService.logout();
+    setUser(null);
+    setGuestNoticeDismissed(false);
+  }, []);
 
   // Surface daily-AI-quota warnings (80% / 100%) as toasts. The proxy feeds
   // usage back through aiCore → quotaNotifier on every call; dedupe is handled
@@ -1190,6 +1250,15 @@ const App: React.FC = () => {
 
   if (isLoadingAuth) return null;
 
+  // The agreement gate. A signed-in user who has not accepted the current
+  // version sees ONLY the agreement — the workspace is not rendered at all,
+  // so there is nothing behind the dialog to reach around it to. Guests are
+  // never blocked: they get the same charter as a dismissible notice over the
+  // app they are already browsing.
+  const isBlockedByAgreement = !!user && needsAgreement(user) && isAgreementBlocking(user);
+  const showGuestNotice =
+    !!user && needsAgreement(user) && !isAgreementBlocking(user) && !guestNoticeDismissed;
+
   return (
     <div className="min-h-screen relative z-10 selection:bg-indigo-500/30 selection:text-white">
       <AnimatedBackground />
@@ -1200,16 +1269,22 @@ const App: React.FC = () => {
             showToast(`Auth session active: ${u.displayName}`, 'success');
           }}
         />
-      ) : (
+      ) : isBlockedByAgreement ? null : (
         <AuthenticatedApp
           user={user}
           onUpdateUser={setUser}
-          handleLogout={() => {
-            authService.logout();
-            setUser(null);
-          }}
+          handleLogout={handleLogout}
           showToast={showToast}
           apiStatus={apiStatus}
+        />
+      )}
+      {user && (isBlockedByAgreement || showGuestNotice) && (
+        <UserAgreementModal
+          user={user}
+          onAccept={handleAcceptAgreement}
+          onDismiss={() => setGuestNoticeDismissed(true)}
+          onLogout={handleLogout}
+          isSaving={isAcceptingAgreement}
         />
       )}
       {toast && (
