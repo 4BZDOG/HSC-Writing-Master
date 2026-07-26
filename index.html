@@ -19,6 +19,206 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <!--
+      BOOT WATCHDOG — plain JS, deliberately BEFORE the bundle and with no
+      imports of its own, so it survives whatever the bundle fails to do.
+
+      Why it exists: if anything throws before React mounts — a module-init
+      error, or a chunk that 404s because this index.html was cached from an
+      earlier deploy — then #root stays empty and the user sees a black
+      rectangle with no explanation and no way to recover. That happened twice
+      in production, and the second time there was nothing to go on, because a
+      failed boot could not say what it hit.
+
+      This turns that silence into a readable message plus two recovery
+      actions. It NEVER touches IndexedDB or localStorage: a student's drafts
+      and progress are not ours to clear while debugging a load failure.
+    -->
+    <script>
+      (function () {
+        var mounted = false;
+        var fatal = null;
+
+        // index.tsx calls this once React has actually rendered.
+        window.__band6BootOk = function () {
+          mounted = true;
+        };
+
+        function record(message, detail) {
+          if (fatal) return; // keep the FIRST failure; the rest is fallout
+          fatal = { message: String(message || 'Unknown error'), detail: detail || '' };
+        }
+
+        // Capture phase, so failed <script>/<link> fetches are seen too —
+        // resource errors do not bubble.
+        window.addEventListener(
+          'error',
+          function (event) {
+            var target = event && event.target;
+            if (target && (target.tagName === 'SCRIPT' || target.tagName === 'LINK')) {
+              record(
+                'The app could not load one of its own files.',
+                target.src || target.href || '(unknown file)'
+              );
+              return;
+            }
+            record(event && event.message, event && event.filename);
+          },
+          true
+        );
+
+        window.addEventListener('unhandledrejection', function (event) {
+          var reason = event && event.reason;
+          record(reason && reason.message ? reason.message : reason, '');
+        });
+
+        function styleButton(el, primary) {
+          el.style.cssText =
+            'font:600 13px/1 ui-sans-serif,system-ui,sans-serif;padding:11px 18px;' +
+            'border-radius:12px;cursor:pointer;border:1px solid ' +
+            (primary
+              ? 'transparent;background:#4f46e5;color:#fff'
+              : 'rgba(255,255,255,.18);background:transparent;color:#cbd5e1');
+        }
+
+        function showFallback() {
+          if (mounted) return;
+          var root = document.getElementById('root');
+          // If React rendered anything at all, this is not a boot failure.
+          if (!root || root.childElementCount > 0) return;
+          if (document.getElementById('band6-boot-error')) return;
+
+          var wrap = document.createElement('div');
+          wrap.id = 'band6-boot-error';
+          wrap.setAttribute('role', 'alert');
+          wrap.style.cssText =
+            'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;' +
+            'padding:24px;background:#0b1020;color:#e2e8f0;' +
+            'font-family:ui-sans-serif,system-ui,sans-serif;z-index:2147483647';
+
+          var card = document.createElement('div');
+          card.style.cssText =
+            'max-width:560px;width:100%;background:#151c31;' +
+            'border:1px solid rgba(255,255,255,.10);border-radius:20px;padding:28px';
+
+          var h = document.createElement('h1');
+          h.textContent = 'The app did not finish loading';
+          h.style.cssText = 'margin:0 0 10px;font-size:19px;font-weight:800;color:#fff';
+
+          var p = document.createElement('p');
+          p.style.cssText = 'margin:0 0 16px;font-size:14px;line-height:1.6;color:#9fb0c8';
+          p.textContent =
+            'This is usually a stale copy of the app cached by your browser after an update. ' +
+            'Reloading fresh normally fixes it. Your work is saved on this device and is not ' +
+            'affected by either button below.';
+
+          var box = document.createElement('pre');
+          box.style.cssText =
+            'margin:0 0 18px;padding:12px;border-radius:12px;background:#0b1020;color:#fca5a5;' +
+            'font:500 12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;' +
+            'word-break:break-word;border:1px solid rgba(248,113,113,.25)';
+          box.textContent =
+            (fatal ? fatal.message : 'No error was reported — the app simply never started.') +
+            (fatal && fatal.detail ? '\n' + fatal.detail : '');
+
+          var row = document.createElement('div');
+          row.style.cssText = 'display:flex;gap:10px;flex-wrap:wrap';
+
+          var fresh = document.createElement('button');
+          fresh.textContent = 'Reload fresh';
+          styleButton(fresh, true);
+          fresh.onclick = function () {
+            fresh.textContent = 'Reloading…';
+            var jobs = [];
+            // Drop only HTTP / service-worker caches — never app data.
+            try {
+              if (window.caches && caches.keys) {
+                jobs.push(
+                  caches.keys().then(function (keys) {
+                    return Promise.all(
+                      keys.map(function (k) {
+                        return caches.delete(k);
+                      })
+                    );
+                  })
+                );
+              }
+            } catch (e) {
+              /* unavailable — the cache-busted reload below still helps */
+            }
+            try {
+              if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations) {
+                jobs.push(
+                  navigator.serviceWorker.getRegistrations().then(function (rs) {
+                    return Promise.all(
+                      rs.map(function (r) {
+                        return r.unregister();
+                      })
+                    );
+                  })
+                );
+              }
+            } catch (e) {
+              /* ignore */
+            }
+            Promise.all(jobs)
+              ['catch'](function () {})
+              ['then'](function () {
+                // A changed query string defeats a cached index.html.
+                var base = location.pathname.replace(/index\.html$/, '');
+                location.replace(base + '?fresh=' + Date.now());
+              });
+          };
+
+          var copy = document.createElement('button');
+          copy.textContent = 'Copy error details';
+          styleButton(copy, false);
+          copy.onclick = function () {
+            var text =
+              'Band 6 boot failure\n' +
+              'when: ' + new Date().toISOString() + '\n' +
+              'url: ' + location.href + '\n' +
+              'agent: ' + navigator.userAgent + '\n' +
+              'error: ' + (fatal ? fatal.message : '(none reported)') + '\n' +
+              'detail: ' + (fatal && fatal.detail ? fatal.detail : '');
+            try {
+              navigator.clipboard.writeText(text);
+              copy.textContent = 'Copied';
+            } catch (e) {
+              copy.textContent = 'Copy failed — select the text above';
+            }
+          };
+
+          row.appendChild(fresh);
+          row.appendChild(copy);
+          card.appendChild(h);
+          card.appendChild(p);
+          card.appendChild(box);
+          card.appendChild(row);
+          wrap.appendChild(card);
+          document.body.appendChild(wrap);
+        }
+
+        // A fatal before mount is decisive, so surface it promptly. Otherwise
+        // give a slow network a fair chance before declaring failure.
+        var poll = setInterval(function () {
+          if (mounted) {
+            clearInterval(poll);
+            return;
+          }
+          if (fatal) {
+            clearInterval(poll);
+            showFallback();
+          }
+        }, 250);
+        setTimeout(function () {
+          clearInterval(poll);
+          showFallback();
+        }, 12000);
+      })();
+    </script>
+
     <script type="module" src="index.tsx"></script>
   </body>
 </html>

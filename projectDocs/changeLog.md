@@ -1,5 +1,39 @@
 # HSC AI Evaluator - Change Log
 
+## [2.4.2] - 2026-07-26
+
+### 🩺 A failed boot now says what went wrong, instead of showing a black screen
+
+A second black-screen report came in that could not be reproduced from any clean
+state — all three roles, three consecutive visits, with and without a loaded
+curriculum library, on a Pages-identical build. The underlying problem was that
+the app had no way to tell anyone what it hit: `index.html` carried no
+diagnostics, so ANY failure before React mounts left an empty `#root` on a dark
+body — a black rectangle, no message, no recovery.
+
+- **Boot watchdog in `index.html`** — plain JS, before the bundle, no imports of
+  its own, so it survives whatever the bundle fails to do. It captures the first
+  `error` / `unhandledrejection` (capture phase, so failed script and stylesheet
+  fetches are seen too) and, if `#root` is still empty, replaces the void with a
+  readable panel: what failed, which file, a "Reload fresh" button that clears
+  HTTP/service-worker caches and reloads cache-busted, and "Copy error details"
+  for reporting. It **never** touches IndexedDB or localStorage — a student's
+  drafts are not ours to clear while debugging a load failure.
+- **Stale-chunk auto-recovery** — `vite:preloadError` (raised when a hashed
+  chunk 404s, which is what a cached `index.html` from an earlier deploy causes)
+  triggers one cache-busted reload, guarded by a sessionStorage flag so it can
+  never loop. On the second failure the watchdog explains instead.
+- **Mount signal** — `index.tsx` calls `window.__band6BootOk()` after two
+  animation frames, so a render that throws still counts as a failed boot rather
+  than a successful one.
+- Verified by deleting a chunk from a built site to force the exact 404: the
+  panel appears naming the missing file. And verified silent on a healthy boot
+  past its 12s deadline, on a return visit, and on the `?fresh=` URL the
+  recovery button navigates to — a false positive here would be worse than the
+  bug.
+
+---
+
 ## [2.4.1] - 2026-07-26
 
 ### 🛡️ Two CI checks so the blank-page class cannot ship again
