@@ -177,6 +177,10 @@ demand too.
 inside a function.** Module-level is a landmine that only goes off in
 production.
 
+This is a project-wide hazard, not an agreements one — the full write-up,
+including the two CI checks that now guard it, is in
+[`projectDocs/bundleSafety.md`](./bundleSafety.md).
+
 ### The same reasoning applies to the versions
 
 `data/agreementVersion.ts` has no imports either, so the Playwright runner

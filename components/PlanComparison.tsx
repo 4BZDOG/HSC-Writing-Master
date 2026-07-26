@@ -26,11 +26,19 @@ const PLAN_ICONS: Record<Plan, typeof Crown> = {
   school: School,
 };
 
-const PLAN_PRICE_LINE: Record<Plan, string> = {
-  free: 'Free, always',
-  plus: `${PLAN_PRICING.yearly}/year or ${PLAN_PRICING.monthly}/month`,
-  school: `${PLAN_PRICING.schoolSeat} per student, per year`,
-};
+/**
+ * A FUNCTION, not a module-level object. Interpolating an imported value at
+ * module scope is what shipped a blank page once (see services/planLimits.ts):
+ * if the bundler puts this component and `entitlements` in chunks that import
+ * each other, the read happens before the other chunk has initialised.
+ * `npm run check:bundle` fails the build if that ever becomes true.
+ */
+const planPriceLine = (plan: Plan): string =>
+  ({
+    free: 'Free, always',
+    plus: `${PLAN_PRICING.yearly}/year or ${PLAN_PRICING.monthly}/month`,
+    school: `${PLAN_PRICING.schoolSeat} per student, per year`,
+  })[plan];
 
 const Cell: React.FC<{ cell: ReturnType<typeof buildPlanComparison>[0]['cells'][Plan] }> = ({
   cell,
@@ -92,7 +100,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({ user, showUpgradeCta = 
                 {PLAN_LABELS[plan]}
               </h4>
               <p className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-1">
-                {PLAN_PRICE_LINE[plan]}
+                {planPriceLine(plan)}
               </p>
               <p className="text-[11px] leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 mt-2 font-medium">
                 {PLAN_TAGLINES[plan]}

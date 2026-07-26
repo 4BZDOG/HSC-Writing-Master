@@ -2,6 +2,15 @@
 
 ## [2.4.1] - 2026-07-26
 
+### 🛡️ Two CI checks so the blank-page class cannot ship again
+
+Every existing gate was green while the deployed site rendered nothing — dev serves modules unbundled, `vite build` succeeds (it is a runtime ordering fault), Vitest resolves modules individually and the e2e suite runs against the dev server. Full write-up: `projectDocs/bundleSafety.md`.
+
+- **`npm run check:bundle`** — parses the REAL build output, builds the chunk import graph, finds cycles, and fails if any chunk reads an imported binding at its top level from a chunk that imports it back. Validated by running it against the broken commit, where it reported all three constants and exited non-zero. Runs after the build in both `build.yml` and `deploy-pages.yml`.
+- **`npm run check:eager-reads`** — scans the sources for module-scope reads of imported values, i.e. the latent version of the same hazard, and runs in the lint job. Structurally-safe cases (dynamically-imported `seedData`, the `index.tsx` entry) are listed with reasons rather than ignored.
+- **Swept the codebase with it and fixed the one latent instance it found**: `components/PlanComparison.tsx` built its price-line object at module scope from `PLAN_PRICING`, one component import away from the identical crash.
+- Added the rule to the feature skill's gotchas, where future work will meet it.
+
 ### 🐛 Fixed: blank page in production (GitHub Pages)
 
 `Uncaught ReferenceError: Cannot access 'Cs' before initialization` at `legalContent.ts` — the whole app rendered nothing on the deployed build, while dev, Vitest, the build itself and the e2e suite were all green.

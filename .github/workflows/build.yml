@@ -29,6 +29,12 @@ jobs:
       - name: Type check
         run: npm run type-check
 
+      # Flags a new module-init read of an imported value — the pattern behind
+      # "Cannot access 'X' before initialization". Source-level, so it catches
+      # the landmine before the bundler decides whether it detonates.
+      - name: Check for eager module-init reads
+        run: npm run check:eager-reads
+
   build:
     name: Build Project
     runs-on: ubuntu-latest
@@ -45,6 +51,13 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      # Catches "Cannot access 'X' before initialization" — a top-level read of
+      # an imported binding across a circular chunk import. Invisible to dev,
+      # to `vite build` and to the unit tests; renders a blank page in
+      # production. See scripts/checkChunkInitOrder.mjs.
+      - name: Check chunk initialisation order
+        run: npm run check:bundle
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
