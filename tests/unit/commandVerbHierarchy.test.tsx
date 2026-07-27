@@ -44,12 +44,38 @@ describe('CommandVerbHierarchy', () => {
     expect(toggle.getAttribute('aria-expanded')).toBe('true');
   });
 
-  it('re-opens automatically when the current verb changes while collapsed', () => {
+  it('re-opens when the current verb changes, so a new question is explained', () => {
+    const { rerender } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    expect(getToggle().getAttribute('aria-expanded')).toBe('true');
+    rerender(<CommandVerbHierarchy currentVerb={'EVALUATE' as PromptVerb} />);
+    expect(getToggle().getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getAllByText('EVALUATE').length).toBeGreaterThanOrEqual(2);
+  });
+
+  // …but a collapse is a decision, and it used to be undone by the very next
+  // question. The selection still follows the question; only the fold stays.
+  it('stays folded once collapsed by hand, and still follows the verb', () => {
     const { rerender } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
     fireEvent.click(getToggle());
     expect(getToggle().getAttribute('aria-expanded')).toBe('false');
+
     rerender(<CommandVerbHierarchy currentVerb={'EVALUATE' as PromptVerb} />);
+    expect(getToggle().getAttribute('aria-expanded')).toBe('false');
+
+    // Re-opening by hand shows the new question's verb, not the stale one.
+    fireEvent.click(getToggle());
     expect(getToggle().getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getAllByText('EVALUATE').length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('lets a keyboard user select a tier from the card header', () => {
+    render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    const header = screen.getByRole('button', { name: /Band 1 ceiling Remember & List/i });
+
+    expect(header.getAttribute('aria-pressed')).toBe('false');
+    fireEvent.click(header);
+    // Tier 1's first verb (alphabetical) becomes the active detail card.
+    expect(screen.getAllByText('CALCULATE').length).toBeGreaterThanOrEqual(2);
   });
 
   it('selecting a verb chip moves the detail card to that verb', () => {

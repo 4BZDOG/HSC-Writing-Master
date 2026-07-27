@@ -362,6 +362,17 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             tier: safeTier,
             isNew: newlyAddedIds.has(p.id),
             disabled: tierLocked,
+            // Everything the row displays but the question text does not
+            // contain, so searching finds a question by how a teacher thinks
+            // of it: "assess", "8 marks", "band 5", "HSC 2023".
+            searchText: [
+              verbInfo.term,
+              `${p.totalMarks} marks`,
+              `band ${targetBand}`,
+              pastHsc?.text,
+            ]
+              .filter(Boolean)
+              .join(' '),
             renderLabel: (
               <div
                 className={`flex items-start gap-3 w-full overflow-hidden p-2 rounded-lg transition-colors ${tierLocked ? 'opacity-60' : ''} ${tierConfig.bg}`}
