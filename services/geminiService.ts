@@ -739,22 +739,72 @@ export const screenContentQuality = async (
   }
 };
 
+/**
+ * The choices a teacher can make in the manual composer before handing a rough
+ * idea to the model. Every one of them is optional: omit the lot and this
+ * behaves exactly as it did when the composer offered nothing but a mark value.
+ */
+export interface ManualPromptOptions {
+  /** Pin the command verb. Null/undefined lets the model pick one for the marks. */
+  verb?: PromptVerb | null;
+  /** Write a context scenario. Off produces a direct, scenario-free question. */
+  includeScenario?: boolean;
+  /** Outcome codes the teacher chose. When set, the model may not pick others. */
+  pinnedOutcomes?: string[];
+  /** The syllabus dot point this question sits under, so the stem is grounded. */
+  dotPoint?: string;
+  subTopicName?: string;
+}
+
 // ... (keep existing exports) ...
 export const refineManualPrompt = async (
   rawInput: string,
   courseName: string,
   topicName: string,
   outcomes: CourseOutcome[],
-  targetMarks: number = 5
+  targetMarks: number = 5,
+  options: ManualPromptOptions = {}
 ): Promise<Prompt> => {
+  const { verb: pinnedVerb, includeScenario = true, pinnedOutcomes = [], dotPoint } = options;
+
+  const pinnedVerbInfo = pinnedVerb ? getCommandTermInfo(pinnedVerb) : null;
+
+  // A pinned verb is a decision, not a hint: it sets the band ceiling and the
+  // rubric's cognitive demand, so it is stated as a rule and re-enforced on the
+  // way out. Left unpinned, the model still gets the mark-band heuristic.
+  const verbInstruction = pinnedVerbInfo
+    ? `1. **Command Verb (FIXED)**: The question MUST be built on the verb '${pinnedVerbInfo.term}' ` +
+      `(${pinnedVerbInfo.definition}). Do NOT substitute another verb. The verb field MUST be "${pinnedVerbInfo.term}".`
+    : `1. **Select Verb**: You MUST select a NESA Command Verb that is appropriate for a ${targetMarks}-mark question.
+                       - 1-3 marks: Identify, Outline, Describe, Define, Calculate.
+                       - 4-6 marks: Explain, Compare, Contrast, Analyse, Distinguish.
+                       - 7+ marks: Evaluate, Assess, Justify, Discuss, Critically Analyse.`;
+
+  const scenarioInstruction = includeScenario
+    ? `3. **Create a Scenario**: Write a realistic, industry-relevant scenario (Who/What/Why) that gives context to the question.`
+    : `3. **No Scenario**: This is a direct question with no case-study framing. The stem must stand on its own. Return scenario as an empty string.`;
+
+  const availableOutcomes = pinnedOutcomes.length
+    ? outcomes.filter((o) => pinnedOutcomes.includes(o.code))
+    : outcomes;
+
+  const outcomeInstruction = pinnedOutcomes.length
+    ? `4. **Outcomes (FIXED)**: The teacher has already chosen the outcomes this question assesses: ${pinnedOutcomes.join(', ')}. ` +
+      `Return exactly these codes, and make sure the question genuinely assesses them.`
+    : `4. **Select Outcomes**: Pick 1-3 outcome codes from the provided list that best match the question.`;
+
+  const dotPointBlock = dotPoint
+    ? `Syllabus Dot Point: "${dotPoint}" — the question must sit within this content, not beside it.`
+    : '';
+
   const request = {
     ...aiTarget('reasoning'),
     contents: {
       parts: [
         {
           text: `
-                    You are an expert NESA Exam Writer. 
-                    A teacher has provided a rough draft or concept for a question. 
+                    You are an expert NESA Exam Writer.
+                    A teacher has provided a rough draft or concept for a question.
                     Your task is to refine it into a Gold Standard HSC Question worth exactly ${targetMarks} marks.
 
                     **LANGUAGE SETTING:**
@@ -763,19 +813,17 @@ export const refineManualPrompt = async (
                     **CONTEXT:**
                     Course: ${courseName}
                     Topic: ${topicName}
+                    ${dotPointBlock}
                     Raw Input: "${rawInput}"
                     Target Marks: ${targetMarks}
-                    Available Outcomes: ${JSON.stringify(outcomes.map((o) => ({ code: o.code, desc: o.description })))}
+                    Available Outcomes: ${JSON.stringify(availableOutcomes.map((o) => ({ code: o.code, desc: o.description })))}
 
                     **REQUIREMENTS:**
-                    1. **Select Verb**: You MUST select a NESA Command Verb that is appropriate for a ${targetMarks}-mark question. 
-                       - 1-3 marks: Identify, Outline, Describe, Define, Calculate.
-                       - 4-6 marks: Explain, Compare, Contrast, Analyse, Distinguish.
-                       - 7+ marks: Evaluate, Assess, Justify, Discuss, Critically Analyse.
+                    ${verbInstruction}
                     2. **Refine the Question**: Rewrite the raw input to use formal academic language and your selected verb.
-                    3. **Create a Scenario**: Write a realistic, industry-relevant scenario (Who/What/Why) that gives context to the question.
-                    4. **Select Outcomes**: Pick 1-3 outcome codes from the provided list that best match the question.
-                    5. **Marking Criteria**: ${buildMarkingCriteriaInstruction(targetMarks, targetMarks >= 7 ? 5 : 4)}
+                    ${scenarioInstruction}
+                    ${outcomeInstruction}
+                    5. **Marking Criteria**: ${buildMarkingCriteriaInstruction(targetMarks, pinnedVerbInfo?.tier ?? (targetMarks >= 7 ? 5 : 4), pinnedVerbInfo?.term)}
                     6. **Keywords**: Extract 5-10 key technical terms.
 
                     **OUTPUT:**
@@ -798,14 +846,9 @@ export const refineManualPrompt = async (
           keywords: { type: Type.ARRAY, items: { type: Type.STRING } },
           linkedOutcomes: { type: Type.ARRAY, items: { type: Type.STRING } },
         },
-        required: [
-          'question',
-          'verb',
-          'totalMarks',
-          'scenario',
-          'markingCriteria',
-          'linkedOutcomes',
-        ],
+        required: includeScenario
+          ? ['question', 'verb', 'totalMarks', 'scenario', 'markingCriteria', 'linkedOutcomes']
+          : ['question', 'verb', 'totalMarks', 'markingCriteria', 'linkedOutcomes'],
       },
     },
   };
@@ -829,11 +872,14 @@ export const refineManualPrompt = async (
     // The teacher chose the mark value and the marking criteria were built for
     // it — never let the model quietly substitute a different total.
     totalMarks: targetMarks,
-    verb: verb as PromptVerb,
-    scenario: data.scenario,
+    // Same for a pinned verb: it decides the band ceiling every tier-coloured
+    // surface reads from, so the model does not get to drift off it.
+    verb: (pinnedVerbInfo?.term ?? verb) as PromptVerb,
+    // Respect the caller's choice even if the model returns a stray scenario.
+    scenario: includeScenario ? data.scenario : '',
     markingCriteria: data.markingCriteria,
     keywords: data.keywords || [],
-    linkedOutcomes: data.linkedOutcomes || [],
+    linkedOutcomes: pinnedOutcomes.length ? pinnedOutcomes : data.linkedOutcomes || [],
     sampleAnswers: [],
     isPastHSC: false,
   };
