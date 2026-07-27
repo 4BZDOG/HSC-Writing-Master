@@ -69,6 +69,31 @@ for (const file of chunkFiles) {
 
   const walk = (node) => {
     if (isFunctionLike(node)) return;
+
+    // Identifiers that are NAMES rather than references. Missing these produced
+    // false positives that get worse as the bundle grows: once Rollup's alias
+    // generator reaches two-letter names, an export label like `aa` in
+    // `export { Yw as aa }` collides with whatever local name it gave an
+    // imported binding, and the chunk gets reported as eagerly reading itself.
+    // A false alarm here is not harmless — this check is the only thing
+    // standing between a TDZ crash and a blank page, so it has to stay
+    // trustworthy enough that nobody is tempted to skip it.
+    // An export list never evaluates anything: `export { a as b }` creates a
+    // binding, it does not read `a`. (The script already skipped the
+    // `export ... from './x.js'` form for the same reason; a local export list
+    // is the same case.) Both halves are names here, so neither is a read.
+    if (ts.isExportSpecifier(node)) return;
+    if (ts.isPropertyAccessExpression(node)) {
+      walk(node.expression); // `obj.aa` reads `obj`, never `aa`
+      return;
+    }
+    if (ts.isPropertyAssignment(node)) {
+      // `{ aa: value }` — the key is a name unless it is computed.
+      if (ts.isComputedPropertyName(node.name)) walk(node.name);
+      walk(node.initializer);
+      return;
+    }
+
     if (ts.isIdentifier(node)) {
       const from = imports.get(node.text);
       if (from && from !== file) eagerReads.set(node.text, from);
