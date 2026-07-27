@@ -145,11 +145,24 @@ jobs:
 
       - run: npm ci --legacy-peer-deps
 
+      # Only the engines the matrix below will actually launch: Mobile Safari
+      # is WebKit, so a pull request needs no Firefox download either.
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            npx playwright install --with-deps chromium webkit
+          else
+            npx playwright install --with-deps
+          fi
 
+      # Pull requests run the trimmed matrix (Chromium + Mobile Safari, plus
+      # the Supabase project) so a review round costs ~2 minutes instead of
+      # ~6. Pushes to main run all five browsers, so nothing ships without
+      # Firefox, desktop WebKit and Mobile Chrome having seen it.
       - name: Run E2E tests
         run: npm run test:e2e
+        env:
+          PW_FAST: ${{ github.event_name == 'pull_request' && '1' || '' }}
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4

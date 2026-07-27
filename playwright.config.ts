@@ -9,6 +9,9 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
+/** The projects a pull request runs when PW_FAST is set. */
+const FAST_PROJECTS = new Set(['chromium', 'Mobile Safari', 'supabase-chromium']);
+
 export default defineConfig({
   testDir: './tests/e2e',
   /* Run tests in files in parallel */
@@ -30,62 +33,72 @@ export default defineConfig({
     video: 'retain-on-failure',
   },
 
-  /* Configure projects for major browsers */
-  projects: [
-    {
-      name: 'chromium',
-      use: {
-        ...devices['Desktop Chrome'],
-        launchOptions: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
-          ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH }
-          : {},
+  /* Configure projects for major browsers.
+
+     PW_FAST trims the matrix to the two that earn their place on a pull
+     request — Chromium, and Mobile Safari for the WebKit engine and the
+     narrow layouts where this app's chrome actually differs — plus the
+     Supabase project, which is Chromium too. Firefox, desktop WebKit and
+     Mobile Chrome still run in full on every push to main, so nothing ships
+     without them; they just stop costing six of the pipeline's eight minutes
+     on every review round. See ALWAYS_PROJECTS below. */
+  projects: (
+    [
+      {
+        name: 'chromium',
+        use: {
+          ...devices['Desktop Chrome'],
+          launchOptions: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
+            ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH }
+            : {},
+        },
+        testIgnore: /contribution-loop/,
       },
-      testIgnore: /contribution-loop/,
-    },
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-      testIgnore: /contribution-loop/,
-    },
+      {
+        name: 'firefox',
+        use: { ...devices['Desktop Firefox'] },
+        testIgnore: /contribution-loop/,
+      },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-      testIgnore: /contribution-loop/,
-    },
+      {
+        name: 'webkit',
+        use: { ...devices['Desktop Safari'] },
+        testIgnore: /contribution-loop/,
+      },
 
-    /* Test against mobile viewports. */
-    {
-      name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'] },
-      testIgnore: /contribution-loop/,
-    },
-    {
-      name: 'Mobile Safari',
-      use: { ...devices['iPhone 12'] },
-      testIgnore: /contribution-loop/,
-    },
+      /* Test against mobile viewports. */
+      {
+        name: 'Mobile Chrome',
+        use: { ...devices['Pixel 5'] },
+        testIgnore: /contribution-loop/,
+      },
+      {
+        name: 'Mobile Safari',
+        use: { ...devices['iPhone 12'] },
+        testIgnore: /contribution-loop/,
+      },
 
-    /* Supabase-mode app (second dev server below) with every Supabase/AI call
+      /* Supabase-mode app (second dev server below) with every Supabase/AI call
        stubbed via page.route — exercises the shared-library contribution loop
        UI without a live backend. Chromium only: the flows are not
        browser-sensitive and one deterministic run keeps CI fast.
        PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH lets environments with a
        preinstalled Chromium (but a different Playwright build pin) run the
        spec without downloading browsers; unset in CI. */
-    {
-      name: 'supabase-chromium',
-      use: {
-        ...devices['Desktop Chrome'],
-        baseURL: 'http://localhost:3100',
-        launchOptions: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
-          ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH }
-          : {},
+      {
+        name: 'supabase-chromium',
+        use: {
+          ...devices['Desktop Chrome'],
+          baseURL: 'http://localhost:3100',
+          launchOptions: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
+            ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH }
+            : {},
+        },
+        testMatch: /contribution-loop/,
       },
-      testMatch: /contribution-loop/,
-    },
-  ],
+    ] as const
+  ).filter((project) => !process.env.PW_FAST || FAST_PROJECTS.has(project.name)),
 
   /* Dev servers: the default mock-mode app, plus a Supabase-configured
      instance (Vite bakes VITE_* env at serve time, so a separate server is the

@@ -23,10 +23,12 @@ import {
   Loader2,
   Target,
   Flag,
+  Landmark,
 } from 'lucide-react';
 import { getTierScaleConfig, renderFormattedText } from '../utils/renderUtils';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { naturalCardHeight } from '../utils/layoutConstants';
+import { getPastHscLabel } from '../utils/pastHscUtils';
 import OutcomeDetailModal from './OutcomeDetailModal';
 import FlagContentModal from './FlagContentModal';
 
@@ -180,6 +182,99 @@ const OutcomeChip: React.FC<{
   );
 };
 
+/**
+ * Which HSC paper a question came from, editable in place.
+ *
+ * The three fields have always existed on `Prompt`, but only a bulk import
+ * could write them — so a question tagged with the wrong year, or a real past
+ * paper question added by hand, could not be corrected anywhere in the app.
+ */
+const ProvenanceEditor: React.FC<{
+  prompt: Prompt;
+  onSave: (updates: Partial<Prompt>) => void;
+  onCancel: () => void;
+}> = ({ prompt, onSave, onCancel }) => {
+  const [year, setYear] = useState(prompt.hscYear ? String(prompt.hscYear) : '');
+  const [questionNumber, setQuestionNumber] = useState(prompt.hscQuestionNumber ?? '');
+
+  const parsedYear = Number(year);
+  const yearIsUsable = !year || (Number.isFinite(parsedYear) && parsedYear > 1900);
+
+  return (
+    <div className="animate-fade-in p-4 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 border border-amber-500/30 light:border-amber-300 space-y-3">
+      <div className="flex items-center gap-2">
+        <Landmark className="w-4 h-4 text-amber-400 light:text-amber-600" />
+        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-400 light:text-amber-700">
+          Past HSC paper
+        </h4>
+      </div>
+      <div className="flex flex-wrap items-end gap-3">
+        <label className="flex flex-col gap-1.5">
+          <span className="text-[9px] font-black uppercase tracking-widest text-slate-500">
+            Year
+          </span>
+          <input
+            type="number"
+            value={year}
+            onChange={(e) => setYear(e.target.value)}
+            placeholder="e.g. 2023"
+            className="w-28 px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-300 text-sm font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40 tabular-nums"
+          />
+        </label>
+        <label className="flex flex-col gap-1.5">
+          <span className="text-[9px] font-black uppercase tracking-widest text-slate-500">
+            Question No.
+          </span>
+          <input
+            type="text"
+            value={questionNumber}
+            onChange={(e) => setQuestionNumber(e.target.value)}
+            placeholder="e.g. 12(b)"
+            className="w-32 px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-300 text-sm font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+          />
+        </label>
+        <div className="flex items-center gap-2 ml-auto">
+          {prompt.isPastHSC && (
+            // Untagging is the other half of "can be corrected": a question
+            // wrongly imported as a past paper has to be able to stop being one.
+            <button
+              onClick={() =>
+                onSave({ isPastHSC: false, hscYear: undefined, hscQuestionNumber: undefined })
+              }
+              className="px-3 py-2 rounded-xl text-xs font-bold text-slate-500 hover:text-red-400 transition-colors"
+            >
+              Not a past paper
+            </button>
+          )}
+          <button
+            onClick={onCancel}
+            className="px-3 py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={() =>
+              onSave({
+                isPastHSC: true,
+                hscYear: year && yearIsUsable ? parsedYear : undefined,
+                hscQuestionNumber: questionNumber.trim() || undefined,
+              })
+            }
+            disabled={!yearIsUsable}
+            className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-amber-600 hover:bg-amber-500 shadow-lg flex items-center gap-2 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            <Save className="w-3.5 h-3.5" /> Save
+          </button>
+        </div>
+      </div>
+      <p className="text-[11px] text-slate-500 leading-relaxed">
+        A question from a real HSC examination is labelled as such wherever it appears — in the
+        question picker and on this card. Leave the year blank if you only know it is a past paper.
+      </p>
+    </div>
+  );
+};
+
 const PromptDisplay: React.FC<PromptDisplayProps> = ({
   prompt,
   isEnriching,
@@ -214,6 +309,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   const [editScenarioText, setEditScenarioText] = useState(prompt.scenario || '');
   const [selectedOutcome, setSelectedOutcome] = useState<CourseOutcome | null>(null);
   const [isFlagModalOpen, setIsFlagModalOpen] = useState(false);
+  const [isEditingProvenance, setIsEditingProvenance] = useState(false);
 
   const hasOpenFlag = prompt.contentFlag?.status === 'open';
 
@@ -236,6 +332,13 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   // extended to Exam Mode and to viewers without curation rights.
   const showScenarioSection =
     !!prompt.scenario || isEditingScenario || !(condensed || examMode || !canCurate);
+  const pastHsc = useMemo(() => getPastHscLabel(prompt), [prompt]);
+  // Filler for the void a short question leaves — see the block that uses it.
+  // Keyed off the absence of a real scenario rather than of the scenario
+  // SECTION: a curator sees a dashed "no scenario" placeholder in that case,
+  // which occupies a strip of the card but leaves the void underneath it.
+  const showKeywordFiller =
+    !prompt.scenario && !examMode && !condensed && (prompt.keywords?.length ?? 0) > 0;
   const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
   // The band a full-mark response reaches — used in COPY only ("Band 2").
   const targetBand = useMemo(
@@ -423,6 +526,33 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       Flagged
                     </button>
                   )}
+                  {/* Where the question came from. Until now only a bulk
+                    import could set this, so a mistagged or untagged question
+                    could not be corrected at all; for a curator the chip is
+                    the way in to fixing it. */}
+                  {(pastHsc || (canCurate && !examMode)) && (
+                    <button
+                      onClick={() => canCurate && !examMode && setIsEditingProvenance((v) => !v)}
+                      disabled={!canCurate || examMode}
+                      aria-expanded={canCurate && !examMode ? isEditingProvenance : undefined}
+                      // No `uppercase` here, unlike its neighbours: an HSC
+                      // question number is "12(b)", and shouting it as
+                      // "Q12(B)" changes what the label says.
+                      className={`inline-flex items-center gap-1.5 text-[9px] font-black tracking-[0.15em] rounded-full px-2 py-0.5 animate-fade-in transition-colors ${
+                        pastHsc
+                          ? 'bg-white/20 border border-white/30'
+                          : 'bg-white/5 border border-dashed border-white/30 text-white/60'
+                      } ${canCurate && !examMode ? 'hover:bg-white/30 cursor-pointer' : 'cursor-default'}`}
+                      title={
+                        pastHsc
+                          ? `${pastHsc.title}${canCurate && !examMode ? ' — click to edit' : ''}`
+                          : 'Tag this question with the HSC paper it came from'
+                      }
+                    >
+                      <Landmark className="w-2.5 h-2.5" />
+                      {pastHsc ? pastHsc.text : 'Tag paper'}
+                    </button>
+                  )}
                 </h3>
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 mt-1.5">
                   Band {verbInfo.tier} ceiling
@@ -487,6 +617,18 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               showScenarioSection ? '' : 'my-auto'
             } relative z-10 flex flex-col gap-6 sm:gap-8`}
           >
+            {/* Provenance editor — opened from the header chip. */}
+            {isEditingProvenance && canCurate && !examMode && (
+              <ProvenanceEditor
+                prompt={prompt}
+                onSave={(updates) => {
+                  onUpdatePrompt(updates);
+                  setIsEditingProvenance(false);
+                }}
+                onCancel={() => setIsEditingProvenance(false)}
+              />
+            )}
+
             {/* Question Section - "The Canvas" */}
             <div className="group/question relative pt-2">
               {isEditingQuestion ? (
@@ -660,6 +802,31 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     <AlertTriangle className="w-3.5 h-3.5" /> {generateScenarioError}
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* The card's height is set by the writing area beside it, not by
+              its own contents, so a one-line question with no scenario leaves
+              a large void. The syllabus terms are the thing a student reaches
+              for next — they otherwise sit in the left rail, which is below
+              the fold on a laptop and gone entirely in Focus Mode. Only shown
+              where there is actually room: with a scenario present the card is
+              already full. Never in Exam Mode, where the terms are assistance. */}
+            {showKeywordFiller && (
+              <div className="animate-fade-in">
+                <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500 light:text-slate-600 flex items-center gap-2 mb-3">
+                  <Sparkles className="w-3.5 h-3.5" /> Syllabus terms to weave in
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {prompt.keywords?.map((keyword) => (
+                    <span
+                      key={keyword}
+                      className={`px-2.5 py-1 rounded-lg text-[11px] font-bold border ${bandConfig.bg} ${bandConfig.border} ${bandConfig.text}`}
+                    >
+                      {keyword}
+                    </span>
+                  ))}
+                </div>
               </div>
             )}
 
