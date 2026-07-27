@@ -389,7 +389,12 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
 
           <div
             ref={headerContentRef}
-            className="relative z-10 w-full flex flex-wrap justify-between items-start gap-y-3 gap-x-4"
+            // `items-center` across the row, not `items-start`. The two groups
+            // are different heights — the title block is one line plus an
+            // eyebrow, the directive block is a heading stacked over the stat
+            // pills — so top-pinning them left the shorter one riding high with
+            // a band of empty colour beneath it. Centred, they read as one row.
+            className="relative z-10 w-full flex flex-wrap justify-between items-center gap-y-3 gap-x-4"
           >
             {/* Left: Icon + Hero Title */}
             <div className="flex items-center gap-3 sm:gap-4 min-w-0">
