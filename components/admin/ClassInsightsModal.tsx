@@ -7,6 +7,7 @@ import { commandTerms } from '../../data/commandTerms';
 import { getTierBandConfig } from '../../utils/renderUtils';
 import { rankByWeakness, formatBand, NO_TIER } from '../../utils/classAnalytics';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
+import { useScrollLock } from '../../hooks/useScrollLock';
 import type { PromptVerb } from '../../types';
 import LoadingIndicator from '../LoadingIndicator';
 
@@ -81,6 +82,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
   const [data, setData] = useState<ClassAnalytics | null>(null);
 
   useEscapeKey(isOpen, onClose);
+  useScrollLock(isOpen);
 
   const load = useCallback(async () => {
     if (!remote) {

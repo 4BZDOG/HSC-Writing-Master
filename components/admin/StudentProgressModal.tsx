@@ -20,6 +20,7 @@ import {
   type TierProfile,
 } from '../../utils/classAnalytics';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
+import { useScrollLock } from '../../hooks/useScrollLock';
 import type { PromptVerb } from '../../types';
 import LoadingIndicator from '../LoadingIndicator';
 
@@ -181,6 +182,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
   const [isRosterLoading, setIsRosterLoading] = useState(false);
 
   useEscapeKey(isOpen && !isLoading, onClose);
+  useScrollLock(isOpen);
 
   const load = useCallback(
     async (name: string, window: number) => {

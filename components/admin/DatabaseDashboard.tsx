@@ -42,6 +42,7 @@ import {
 } from '../../utils/dataManagerUtils';
 import { Course } from '../../types';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
+import { useScrollLock } from '../../hooks/useScrollLock';
 import ConfirmationModal from '../ConfirmationModal';
 import LoadingIndicator from '../LoadingIndicator';
 
@@ -141,6 +142,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
   // Escape closes the dashboard, but never mid-operation — and never while
   // the confirmation dialog is up (its own Escape handler wants that event).
   useEscapeKey(isOpen && !isRestoring && !isSyncing && !confirmAction, onClose);
+  useScrollLock(isOpen);
 
   const fetchStats = async () => {
     setIsLoading(true);

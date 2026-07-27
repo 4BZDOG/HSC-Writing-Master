@@ -85,6 +85,88 @@ describe('buildWritingInsights', () => {
     expect(insights.length).toBeLessThanOrEqual(4);
   });
 
+  // "This is quite long" used to be measured against 1.6 × the MINIMUM target,
+  // so a 2-mark question (target ~16 words) told a student off at 26 words.
+  describe('the overlong warning', () => {
+    const draftOf = (words: number) =>
+      analyzeText(Array.from({ length: words }, (_, i) => `word${i}. `).join(''));
+
+    it('stays quiet inside the expected range', () => {
+      const insights = buildWritingInsights(
+        baseInput({
+          analysis: draftOf(240),
+          targetWordCount: 200,
+          targetWordCountMax: 280,
+          keywordsTotal: 0,
+        })
+      );
+      expect(insights.some((i) => i.id === 'length-long')).toBe(false);
+      expect(insights.some((i) => i.id === 'length-good')).toBe(true);
+    });
+
+    it('fires once the draft runs past the top of the range', () => {
+      const insights = buildWritingInsights(
+        baseInput({
+          analysis: draftOf(400),
+          targetWordCount: 200,
+          targetWordCountMax: 280,
+          keywordsTotal: 0,
+        })
+      );
+      const long = insights.find((i) => i.id === 'length-long');
+      expect(long?.message).toMatch(/400 words/);
+      expect(long?.message).toMatch(/280/);
+    });
+
+    it('never calls a short answer to a low-mark question long', () => {
+      const insights = buildWritingInsights(
+        baseInput({
+          analysis: draftOf(30),
+          targetWordCount: 16,
+          targetWordCountMax: 30,
+          keywordsTotal: 0,
+        })
+      );
+      expect(insights.some((i) => i.id === 'length-long')).toBe(false);
+    });
+
+    it('falls back to the old 1.6x rule when no upper bound is supplied', () => {
+      const insights = buildWritingInsights(
+        baseInput({ analysis: draftOf(300), targetWordCount: 100, keywordsTotal: 0 })
+      );
+      expect(insights.some((i) => i.id === 'length-long')).toBe(true);
+    });
+  });
+
+  it('does not ask for more words and less verbosity at the same time', () => {
+    const insights = buildWritingInsights(
+      baseInput({
+        analysis: analyzeText('Two short sentences. That is all so far.'),
+        targetWordCount: 200,
+        charCount: 5000,
+        charRange: [400, 900],
+      })
+    );
+    expect(insights.some((i) => i.id === 'length-short')).toBe(true);
+    expect(insights.some((i) => i.id === 'chars-over')).toBe(false);
+  });
+
+  it('does not say the same thing twice when the draft is simply overlong', () => {
+    const draft = analyzeText(Array.from({ length: 400 }, (_, i) => `word${i}. `).join(''));
+    const insights = buildWritingInsights(
+      baseInput({
+        analysis: draft,
+        targetWordCount: 100,
+        targetWordCountMax: 140,
+        keywordsTotal: 0,
+        charCount: 4000,
+        charRange: [400, 900],
+      })
+    );
+    expect(insights.some((i) => i.id === 'length-long')).toBe(true);
+    expect(insights.some((i) => i.id === 'chars-over')).toBe(false);
+  });
+
   it('gives positive reinforcement when the draft is healthy', () => {
     const good = analyzeText(
       'This response is well developed. It uses clear ideas. Each sentence is concise.'

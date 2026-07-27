@@ -39,6 +39,7 @@ import {
   saveSampleAnswerContribution,
 } from '../../services/contributionService';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
+import { useScrollLock } from '../../hooks/useScrollLock';
 import {
   ChevronRight,
   ChevronDown,
@@ -491,6 +492,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   // Escape closes the studio — but never while a batch is running (that
   // needs an explicit Stop so no run is abandoned by a stray key press).
   useEscapeKey(isOpen && !isProcessing, onClose);
+  useScrollLock(isOpen);
 
   const treeData = useMemo(() => buildAuditTree(courses), [courses]);
 

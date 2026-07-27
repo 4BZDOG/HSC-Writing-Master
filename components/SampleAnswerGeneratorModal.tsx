@@ -4,6 +4,7 @@ import { Prompt, SampleAnswer } from '../types';
 import { generateSampleAnswer } from '../services/geminiService';
 import { getCommandTermInfo, getBandForMark, TIER_GROUPS } from '../data/commandTerms';
 import LoadingIndicator from './LoadingIndicator';
+import AiBusyOverlay from './AiBusyOverlay';
 import {
   X,
   Sparkles,
@@ -17,6 +18,7 @@ import {
 } from 'lucide-react';
 import { getBandConfig } from '../utils/renderUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface SampleAnswerGeneratorModalProps {
   isOpen: boolean;
@@ -35,6 +37,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   // Escape closes this modal like every other modal surface (but never mid-operation).
   useEscapeKey(isOpen && !isLoading, onClose);
+  useScrollLock(isOpen);
   const [error, setError] = useState<string | null>(null);
 
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
@@ -378,25 +381,21 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
           </button>
         </div>
 
-        {isLoading && (
-          <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/90 light:bg-white/90 backdrop-blur-md flex items-center justify-center z-50 animate-fade-in">
-            <div className="w-full max-w-md mx-8">
-              <LoadingIndicator
-                task="generation"
-                message={`Crafting a Band ${selectedBand} response`}
-                messages={[
-                  `Analysing '${prompt.verb}' requirements...`,
-                  `Targeting ${selectedMark}/${prompt.totalMarks} marks...`,
-                  `Calibrating for Band ${selectedBand} standard...`,
-                  'Drafting response content...',
-                  'Validating against NESA criteria...',
-                ]}
-                duration={8}
-                band={selectedBand}
-              />
-            </div>
-          </div>
-        )}
+        <AiBusyOverlay show={isLoading}>
+          <LoadingIndicator
+            task="generation"
+            message={`Crafting a Band ${selectedBand} response`}
+            messages={[
+              `Analysing '${prompt.verb}' requirements...`,
+              `Targeting ${selectedMark}/${prompt.totalMarks} marks...`,
+              `Calibrating for Band ${selectedBand} standard...`,
+              'Drafting response content...',
+              'Validating against NESA criteria...',
+            ]}
+            duration={8}
+            band={selectedBand}
+          />
+        </AiBusyOverlay>
       </div>
     </div>,
     document.body

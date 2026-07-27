@@ -5,6 +5,7 @@ import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { X, Save, AlertCircle, Award } from 'lucide-react';
 import { getBandConfig } from '../utils/renderUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface SampleAnswerEditorModalProps {
   isOpen: boolean;
@@ -23,6 +24,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
 }) => {
   // Escape closes this modal like every other modal surface.
   useEscapeKey(isOpen, onClose);
+  useScrollLock(isOpen);
   const [answerText, setAnswerText] = useState('');
   const [mark, setMark] = useState(0);
   const [band, setBand] = useState(1);

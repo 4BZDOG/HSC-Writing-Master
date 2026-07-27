@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Folder, Sparkles, X } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface SubTopicCreatorModalProps {
   isOpen: boolean;
@@ -16,6 +17,7 @@ const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
   existingNames,
 }) => {
   useEscapeKey(isOpen, onClose);
+  useScrollLock(isOpen);
   const [newItemName, setNewItemName] = useState('');
   const [shouldGenerate, setShouldGenerate] = useState(true);
   const [validationError, setValidationError] = useState<string | null>(null);

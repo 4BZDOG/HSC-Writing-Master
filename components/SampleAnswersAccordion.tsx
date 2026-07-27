@@ -515,26 +515,35 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
 
   return (
     <div className="clip-stable bg-white/60 dark:bg-[rgb(var(--color-bg-surface))]/30 light:bg-white rounded-[20px] border border-slate-300 dark:border-white/20 shadow-sm overflow-hidden mb-3 last:mb-0 transition-all duration-300">
-      {/* One full-width toggle, matching every other panel in the reference
-          rail: icon tile, title, chevron on the right. The zoom and AI controls
-          moved into the body so this row stays a single button — a collapsed
-          panel should read as a heading, not as a heading plus a toolbar. */}
-      <button
-        onClick={() => setIsCollapsed((c) => !c)}
-        aria-expanded={!isCollapsed}
-        aria-controls={panelId}
-        className={`w-full py-3.5 px-5 flex items-center justify-between transition-all group relative overflow-hidden ${
-          isCollapsed
-            ? 'hover:bg-slate-50 dark:hover:bg-white/[0.02]'
-            : 'bg-slate-50/50 dark:bg-white/[0.03]'
+      {/* Header: the disclosure on the left, the panel's own controls on the
+          right. Reading size, "Generate" and "Recalibrate" used to live in a
+          strip inside the body, which meant a student had to open the panel to
+          make the exemplars readable and a teacher had to open it to add one.
+          They belong in the chrome, where a panel's controls are expected — and
+          where they stay reachable while it is folded.
+
+          Access is decided per control: the zoom is a reading aid everybody
+          gets, while the two AI actions are gated on `canUseAiGeneration` and
+          are simply not rendered for a student or a guest. */}
+      <div
+        className={`w-full flex items-stretch relative overflow-hidden transition-all ${
+          isCollapsed ? '' : 'bg-slate-50/50 dark:bg-white/[0.03]'
         }`}
       >
         <div
           className={`absolute inset-0 opacity-[0.03] bg-gradient-to-r ${maxBandConfig.gradient} pointer-events-none`}
         />
-        <div className="flex items-center gap-4 relative z-10 min-w-0">
+
+        <button
+          onClick={() => setIsCollapsed((c) => !c)}
+          aria-expanded={!isCollapsed}
+          aria-controls={panelId}
+          className={`flex-1 min-w-0 py-3.5 pl-5 pr-3 flex items-center gap-4 text-left transition-all group relative z-10 ${
+            isCollapsed ? 'hover:bg-slate-50 dark:hover:bg-white/[0.02]' : ''
+          }`}
+        >
           <div
-            className={`w-8 h-8 rounded-xl flex items-center justify-center border transition-all duration-500 ${
+            className={`w-8 h-8 shrink-0 rounded-xl flex items-center justify-center border transition-all duration-500 ${
               isCollapsed
                 ? 'bg-slate-100 dark:bg-black/20 border-slate-300 dark:border-white/10 text-slate-500'
                 : `${maxBandConfig.solidBg} border-white/20 text-white shadow-lg`
@@ -551,41 +560,38 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
               Sample Answers
             </span>
             <span
-              className={`block text-[10px] font-bold uppercase tracking-wider opacity-80 ${maxBandConfig.text}`}
+              className={`block truncate text-[10px] font-bold uppercase tracking-wider opacity-80 ${maxBandConfig.text}`}
             >
               {groupedAnswers.length > 0
                 ? `${groupedAnswers.length} performance level${groupedAnswers.length === 1 ? '' : 's'}`
                 : 'No models yet'}
-              {` \u2022 Band ceiling ${maxPossibleBand}`}
+              {` • Band ceiling ${maxPossibleBand}`}
             </span>
           </div>
-        </div>
-        <ChevronDown
-          className={`w-4 h-4 shrink-0 text-slate-400 transition-transform duration-500 relative z-10 ${
-            isCollapsed ? '' : 'rotate-180 text-slate-900 dark:text-white'
-          }`}
-        />
-      </button>
+          <ChevronDown
+            className={`w-4 h-4 shrink-0 ml-auto text-slate-400 transition-transform duration-500 ${
+              isCollapsed ? '' : 'rotate-180 text-slate-900 dark:text-white'
+            }`}
+          />
+        </button>
 
-      {!isCollapsed && (
-        <div
-          id={panelId}
-          className="flex items-center justify-end gap-3 px-5 py-3 border-t border-slate-300 dark:border-white/10 bg-slate-50/30 dark:bg-black/10"
-        >
-          <div className="flex items-center gap-1 bg-white dark:bg-black/20 p-1 rounded-lg border border-slate-200 dark:border-white/10 shadow-sm">
+        <div className="flex items-center gap-2 pl-2 pr-4 relative z-10 shrink-0">
+          <div className="flex items-center gap-0.5 bg-white dark:bg-black/20 p-0.5 rounded-lg border border-slate-200 dark:border-white/10 shadow-sm">
             <button
               onClick={() => setFontSize(Math.max(12, fontSize - 2))}
-              className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors rounded-md hover:bg-slate-100 dark:hover:bg-white/10"
+              disabled={fontSize <= 12}
+              className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors rounded-md hover:bg-slate-100 dark:hover:bg-white/10 disabled:opacity-40"
               title="Decrease text size"
             >
               <ZoomOut className="w-3.5 h-3.5" />
             </button>
-            <span className="text-[10px] font-mono font-bold text-slate-400 w-6 text-center select-none">
+            <span className="text-[10px] font-mono font-bold text-slate-400 w-5 text-center select-none">
               {fontSize}
             </span>
             <button
               onClick={() => setFontSize(Math.min(32, fontSize + 2))}
-              className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors rounded-md hover:bg-slate-100 dark:hover:bg-white/10"
+              disabled={fontSize >= 32}
+              className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors rounded-md hover:bg-slate-100 dark:hover:bg-white/10 disabled:opacity-40"
               title="Increase text size"
             >
               <ZoomIn className="w-3.5 h-3.5" />
@@ -603,7 +609,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
                     text-slate-500 hover:text-indigo-500 disabled:opacity-50 transition-all
                     ${isRecalibrating ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-500 border-indigo-200' : ''}
                   `}
-                  title="Recalibrate All Samples with AI"
+                  title="Recalibrate all samples with AI"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${isRecalibrating ? 'animate-spin' : ''}`} />
                 </button>
@@ -617,7 +623,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
                 title={
                   studioLocked
                     ? 'AI sample-answer generation is part of Band 6 Plus — tap to learn more'
-                    : undefined
+                    : 'Add a sample answer with AI'
                 }
                 className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-bold shadow-sm hover:shadow transition-all ${
                   studioLocked
@@ -626,18 +632,18 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
                 }`}
               >
                 <Zap className="w-3.5 h-3.5 text-amber-400" />
-                <span>Generate</span>
+                <span className="hidden sm:inline">Generate</span>
                 {studioLocked && <PlusLockChip />}
               </button>
             </>
           )}
         </div>
-      )}
+      </div>
 
       {/* Folded away means not rendered — a card with several exemplars, each
           running its own metrics, should not keep working out of sight. */}
       {!isCollapsed && (
-        <div>
+        <div id={panelId}>
           {groupedAnswers.length > 0 ? (
             groupedAnswers.map((group) => (
               <CarouselAccordionItem

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import LoadingIndicator from './LoadingIndicator';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface GlobalLoadingOverlayProps {
   message: string | null;
@@ -31,11 +32,15 @@ const GlobalLoadingOverlay: React.FC<GlobalLoadingOverlayProps> = ({ message, er
   const isErrorState = !!(error && showError);
   const shouldShow = message || isErrorState;
 
+  // Nothing behind a blocking wait should move — least of all a page the
+  // student can no longer interact with.
+  useScrollLock(!!shouldShow);
+
   // Guard against rendering before body is available or component is mounted
   if (!shouldShow || !mounted || typeof document === 'undefined' || !document.body) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-[2000] bg-[rgb(var(--color-bg-base))]/60 light:bg-slate-50/60 backdrop-blur-sm flex items-center justify-center animate-fade-in cursor-wait">
+    <div className="fixed inset-0 z-[2000] bg-white/80 dark:bg-[rgb(var(--color-bg-base))]/75 backdrop-blur-xl flex items-center justify-center p-4 animate-fade-in cursor-wait">
       <div className="relative">
         {/* Animated Glow Background */}
         <div

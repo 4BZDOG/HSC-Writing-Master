@@ -191,15 +191,17 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
         ${theme.bg} backdrop-blur-3xl
         rounded-[32px] shadow-2xl ${theme.glow}
         border border-white/20 dark:border-white/10
-        p-8 w-full max-w-[340px] mx-auto
+        p-8 sm:p-10 w-full max-w-[400px] mx-auto
         flex flex-col items-center justify-center gap-6
         transition-all duration-500 animate-in fade-in zoom-in-95
     `}
     >
       <MeshOverlay opacity="opacity-[0.03] dark:opacity-[0.05]" />
 
-      {/* Central Animation Hub */}
-      <div className="relative w-20 h-20 flex items-center justify-center z-10">
+      {/* Central Animation Hub. Sized to be seen from across a classroom: at
+          80px it read as a favicon on a projected screen, and students were
+          asking whether anything was happening at all. */}
+      <div className="relative w-28 h-28 flex items-center justify-center z-10">
         {/* Pulsing Outer Ring */}
         <div
           className={`absolute inset-0 rounded-full border-2 ${theme.ring} opacity-20 animate-ping`}
@@ -215,8 +217,8 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
         {/* Inner Active Ring */}
         <div
           className={`
-            absolute inset-1 rounded-full border-2 border-transparent
-            border-t-current ${theme.iconColor} opacity-50
+            absolute inset-1 rounded-full border-[3px] border-transparent
+            border-t-current ${theme.iconColor} opacity-60
             animate-spin
         `}
           style={{ animationDuration: '1.5s', ...(accentHex ? { color: accentHex } : {}) }}
@@ -225,13 +227,13 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
         {/* Center Icon */}
         <div
           className={`
-            relative w-12 h-12 rounded-2xl flex items-center justify-center
+            relative w-16 h-16 rounded-[20px] flex items-center justify-center
             bg-gradient-to-br from-white to-slate-100 dark:from-slate-800 dark:to-slate-900
             shadow-lg border border-white/40 dark:border-white/10
         `}
         >
           <theme.icon
-            className={`w-6 h-6 ${theme.iconColor} ${isError ? '' : 'animate-pulse'}`}
+            className={`w-8 h-8 ${theme.iconColor} ${isError ? '' : 'animate-pulse'}`}
             style={accentHex ? { color: accentHex } : undefined}
           />
         </div>

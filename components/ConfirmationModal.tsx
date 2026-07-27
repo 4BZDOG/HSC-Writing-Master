@@ -1,6 +1,8 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { AlertTriangle } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -22,6 +24,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   isDestructive = false,
 }) => {
   useEscapeKey(isOpen, onClose);
+  useScrollLock(isOpen);
 
   if (!isOpen) {
     return null;
@@ -37,7 +40,15 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     ? 'bg-gradient-danger text-white'
     : 'bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] text-white';
 
-  return (
+  // Portalled to <body>. This dialog is opened from inside cards that carry
+  // `clip-stable` (a translateZ compositing hint), and a transformed ancestor
+  // becomes the containing block for `position: fixed` — so the backdrop was
+  // sized to the card rather than the viewport, and clipped by the card's own
+  // `overflow: hidden`. Rendered at the top of the document it is a dialog
+  // again, wherever it is opened from.
+  if (typeof document === 'undefined' || !document.body) return null;
+
+  return createPortal(
     <div
       // z-[2200]: this dialog is opened globally (e.g. DataManagerModal's
       // "Clear All Data" / "Reset to Default" trigger it from inside their
@@ -91,7 +102,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

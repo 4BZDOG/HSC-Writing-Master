@@ -11,6 +11,7 @@ import ValidationSummary from './dataManager/ValidationSummary';
 import { ModalHeader, ActionButtons } from './dataManager/common';
 import { UploadCloud, X, Award } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface TopicImportModalProps {
   isOpen: boolean;
@@ -53,6 +54,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
   // Escape closes this modal like every other modal surface — through the
   // same reset path as the X/Cancel buttons.
   useEscapeKey(isOpen, handleClose);
+  useScrollLock(isOpen);
 
   const handleFileDrop = (file: File) => {
     setError(null);

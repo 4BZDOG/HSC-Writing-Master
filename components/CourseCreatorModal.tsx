@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CourseOutcome } from '../types';
 import { BookOpen, Plus, Trash2, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface CourseCreatorModalProps {
   isOpen: boolean;
@@ -63,6 +64,7 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
   };
 
   useEscapeKey(isOpen, handleClose);
+  useScrollLock(isOpen);
 
   if (!isOpen) {
     return null;

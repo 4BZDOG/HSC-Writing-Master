@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Flag, CheckCircle2 } from 'lucide-react';
 import { ContentFlag } from '../types';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface FlagContentModalProps {
   isOpen: boolean;
@@ -33,6 +35,7 @@ const FlagContentModal: React.FC<FlagContentModalProps> = ({
   const [reason, setReason] = useState('');
 
   useEscapeKey(isOpen, onClose);
+  useScrollLock(isOpen);
   useEffect(() => {
     if (isOpen) setReason('');
   }, [isOpen]);
@@ -48,7 +51,12 @@ const FlagContentModal: React.FC<FlagContentModalProps> = ({
     onClose();
   };
 
-  return (
+  // Portalled for the same reason as ConfirmationModal: this is opened from
+  // inside `clip-stable` cards (the question card, the exemplars panel), whose
+  // transform would otherwise make the "fixed" backdrop a child-of-card.
+  if (typeof document === 'undefined' || !document.body) return null;
+
+  return createPortal(
     <div
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[2200] p-4"
       onClick={(e) => {
@@ -132,7 +140,8 @@ const FlagContentModal: React.FC<FlagContentModalProps> = ({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

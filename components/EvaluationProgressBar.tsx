@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { ScanSearch } from 'lucide-react';
 import {
   subscribeEvalProgress,
   type EvalProgressEvent,
@@ -78,8 +79,25 @@ const EvaluationProgressBar: React.FC = () => {
       role="status"
       aria-live="polite"
       aria-label={`${displayMessage} ${formatTime(elapsedSec)} elapsed`}
-      className="absolute inset-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center gap-4"
+      // Same veil recipe as AiBusyOverlay so the most-seen wait in the app
+      // looks like every other one.
+      className="absolute inset-0 rounded-[inherit] bg-white/80 dark:bg-[rgb(var(--color-bg-base))]/75 backdrop-blur-xl z-50 flex flex-col items-center justify-center gap-6 animate-fade-in"
     >
+      {/* The marking spinner. Previously this wait announced itself with a
+          1.5px bar and nothing else — on a projected screen it was invisible,
+          and students pressed Evaluate a second time. */}
+      <div className="relative w-24 h-24 flex items-center justify-center">
+        <div className="absolute inset-0 rounded-full border-2 border-indigo-500/25 animate-ping" />
+        <div className="absolute inset-0 rounded-full border-2 border-dashed border-indigo-500/30 animate-spin-slow" />
+        <div
+          className="absolute inset-1 rounded-full border-[3px] border-transparent border-t-indigo-500 animate-spin"
+          style={{ animationDuration: '1.5s' }}
+        />
+        <div className="w-14 h-14 rounded-[18px] bg-white dark:bg-slate-800 shadow-lg border border-white/40 dark:border-white/10 flex items-center justify-center">
+          <ScanSearch className="w-7 h-7 text-indigo-500 dark:text-indigo-400 animate-pulse" />
+        </div>
+      </div>
+
       <div className="w-full max-w-md space-y-3 px-4">
         {/* Progress bar */}
         <div className="h-1.5 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">

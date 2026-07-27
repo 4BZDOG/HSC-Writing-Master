@@ -12,6 +12,7 @@ import {
 } from '../services/agreementService';
 import { AGREEMENT_VERSION, LEGAL_CONFIG } from '../data/legalContent';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 /**
  * The user agreement gate.
@@ -103,6 +104,10 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
   // Guests can dismiss with Esc; a blocking gate deliberately cannot be
   // escaped by keyboard, or the acceptance record would mean nothing.
   useEscapeKey(!blocking, onDismiss);
+  // The page stays frozen either way — this dialog is only ever mounted while
+  // it is on screen, and a blocking gate least of all wants a live page behind
+  // it.
+  useScrollLock(true);
 
   const canContinue = blocking ? agreed && !isSaving : true;
 

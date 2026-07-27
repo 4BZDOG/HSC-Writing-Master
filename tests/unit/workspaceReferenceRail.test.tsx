@@ -84,20 +84,32 @@ describe('ReferenceMaterials rail', () => {
     expect(titles[3]).toMatch(/Marking Guide/i);
   });
 
-  it('renders the exemplars slot after the marking guide, not before it', () => {
+  // The exemplars moved out of the rail entirely — they now dock beneath the
+  // student's own writing, where the comparison happens (see Workspace).
+  it('no longer carries the exemplars', () => {
     render(
       <ReferenceMaterials
         {...railProps}
         prompt={prompt()}
         topic={topic()}
         courseOutcomes={OUTCOMES}
-        sampleAnswersSlot={<div data-testid="samples">samples</div>}
       />
     );
-    const guide = screen.getByText(/Marking Guide/i);
-    const samples = screen.getByTestId('samples');
-    // Node.DOCUMENT_POSITION_FOLLOWING === 4
-    expect(guide.compareDocumentPosition(samples) & 4).toBeTruthy();
+    expect(screen.queryByText(/Sample Answers/i)).toBeNull();
+  });
+
+  it('marks every outcome with the target icon', () => {
+    const { container } = render(
+      <ReferenceMaterials
+        {...railProps}
+        prompt={prompt()}
+        topic={topic()}
+        courseOutcomes={OUTCOMES}
+      />
+    );
+    // One per outcome row, plus the panel's own heading icon.
+    const targets = container.querySelectorAll('.lucide-target');
+    expect(targets.length).toBeGreaterThanOrEqual(OUTCOMES.length + 1);
   });
 
   it('names every linked outcome and opens its briefing on click', async () => {
@@ -144,18 +156,43 @@ describe('SampleAnswersAccordion', () => {
     sampleAnswers: [{ id: 's1', answer: 'A model response.', mark: 6, band: 6, source: 'AI' }],
   } as Partial<Prompt>);
 
-  // Folded by default, like every other panel in the rail, and its controls
-  // live in the body so the collapsed row reads as a heading, not a toolbar.
+  // Folded by default, and its controls live in the header — reachable whether
+  // the panel is open or shut.
   it('starts folded, and unfolds from the header', () => {
     render(<SampleAnswersAccordion {...sampleProps} prompt={withSamples} />);
     const header = screen.getByRole('button', { name: /Sample Answers/i });
     expect(header.getAttribute('aria-expanded')).toBe('false');
     expect(screen.queryByText(/6\/6 Marks/i)).toBeNull();
-    expect(screen.queryByTitle(/Increase text size/i)).toBeNull();
+    // Reading size is part of the header chrome, not the folded-away body.
+    expect(screen.getByTitle(/Increase text size/i)).toBeTruthy();
 
     fireEvent.click(header);
     expect(header.getAttribute('aria-expanded')).toBe('true');
     expect(screen.getByText(/6\/6 Marks/i)).toBeTruthy();
+  });
+
+  it('keeps the AI actions for staff and hides them from students', () => {
+    const { unmount } = render(
+      <SampleAnswersAccordion
+        {...sampleProps}
+        prompt={withSamples}
+        onRecalibrate={vi.fn().mockResolvedValue(undefined)}
+      />
+    );
+    expect(screen.queryByRole('button', { name: /Generate/i })).toBeNull();
+    expect(screen.queryByTitle(/Recalibrate all samples/i)).toBeNull();
+    unmount();
+
+    render(
+      <SampleAnswersAccordion
+        {...sampleProps}
+        userRole="teacher"
+        prompt={withSamples}
+        onRecalibrate={vi.fn().mockResolvedValue(undefined)}
+      />
+    );
+    expect(screen.getByRole('button', { name: /Generate/i })).toBeTruthy();
+    expect(screen.getByTitle(/Recalibrate all samples/i)).toBeTruthy();
   });
 
   it('can be asked to start open', () => {
@@ -198,22 +235,22 @@ describe('card chrome sync', () => {
 describe('panel chrome consistency', () => {
   it('gives every rail panel the same disclosure contract', () => {
     render(
-      <ReferenceMaterials
-        {...railProps}
-        prompt={prompt()}
-        topic={topic()}
-        courseOutcomes={OUTCOMES}
-        sampleAnswersSlot={
-          <SampleAnswersAccordion
-            prompt={prompt()}
-            onSampleAnswerGenerated={vi.fn()}
-            onUseSampleAnswer={vi.fn()}
-            onDeleteSampleAnswer={vi.fn()}
-            onUpdateSampleAnswer={vi.fn()}
-            userRole="student"
-          />
-        }
-      />
+      <>
+        <ReferenceMaterials
+          {...railProps}
+          prompt={prompt()}
+          topic={topic()}
+          courseOutcomes={OUTCOMES}
+        />
+        <SampleAnswersAccordion
+          prompt={prompt()}
+          onSampleAnswerGenerated={vi.fn()}
+          onUseSampleAnswer={vi.fn()}
+          onDeleteSampleAnswer={vi.fn()}
+          onUpdateSampleAnswer={vi.fn()}
+          userRole="student"
+        />
+      </>
     );
     const panels = Array.from(document.querySelectorAll('button[aria-expanded]'));
     expect(panels.length).toBe(5);

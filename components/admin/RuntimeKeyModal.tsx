@@ -18,6 +18,7 @@ import {
   subscribeRuntimeKeys,
 } from '../../services/runtimeKeys';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
+import { useScrollLock } from '../../hooks/useScrollLock';
 import AiEngineSelector from './AiEngineSelector';
 
 interface RuntimeKeyModalProps {
@@ -51,6 +52,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
   const [reveal, setReveal] = useState(false);
 
   useEscapeKey(isOpen, onClose);
+  useScrollLock(isOpen);
 
   if (!isOpen) return null;
 

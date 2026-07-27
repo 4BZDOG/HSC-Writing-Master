@@ -5,6 +5,7 @@ import { renderFormattedText, stripHtmlTags, getBandConfig } from '../utils/rend
 import { Sparkles, Copy, ArrowRight, X, Check, User as UserIcon } from 'lucide-react';
 import { useAnswerMetrics } from '../hooks/useAnswerMetrics';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 import AnswerMetricsDisplay from './AnswerMetricsDisplay';
 
 interface ImprovementReviewModalProps {
@@ -31,6 +32,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
 
   // Escape closes the review, matching the backdrop click and every other modal.
   useEscapeKey(isOpen, onClose);
+  useScrollLock(isOpen);
 
   const improvedMetrics = useAnswerMetrics(improvedAnswer, originalPrompt.keywords);
   const originalMetrics = useAnswerMetrics(originalAnswer || '', originalPrompt.keywords);
