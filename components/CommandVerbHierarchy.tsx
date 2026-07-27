@@ -59,21 +59,37 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
     return { sortedVerbsByGroup: groups, activeTermInfo: current };
   }, [activeVerb, currentVerb]);
 
-  // Enhanced Auto-Scroll: Aligns cards based on position (Start for T1, End for T6, Center for others)
+  // Bring the active tier into view along the ribbon: first card flush left,
+  // last flush right, everything else centred.
+  //
+  // Done by scrolling the strip itself rather than with `scrollIntoView`.
+  // That API cannot be told to leave the page alone — when the ribbon sits
+  // below the fold (it does, whenever the navigator is expanded), selecting a
+  // question scrolled the WINDOW down to the ribbon, throwing the reader away
+  // from the question they had just chosen. Setting `scrollLeft` moves only
+  // the strip.
   useEffect(() => {
-    if (activeTermInfo && tierRefs.current[activeTermInfo.tier - 1]) {
-      const activeCard = tierRefs.current[activeTermInfo.tier - 1];
-      if (activeCard) {
-        let alignment: ScrollLogicalPosition = 'center';
-        if (activeTermInfo.tier === 1) alignment = 'start';
-        else if (activeTermInfo.tier === 6) alignment = 'end';
+    if (!isOpen || !activeTermInfo) return;
+    const strip = scrollContainerRef.current;
+    const activeCard = tierRefs.current[activeTermInfo.tier - 1];
+    if (!strip || !activeCard) return;
 
-        activeCard.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: alignment,
-        });
-      }
+    const tier = activeTermInfo.tier;
+    const isFirst = tier === 1;
+    const isLast = tier === TIER_GROUPS.length;
+    const left = isFirst
+      ? 0
+      : isLast
+        ? strip.scrollWidth
+        : activeCard.offsetLeft - (strip.clientWidth - activeCard.offsetWidth) / 2;
+
+    const target = Math.max(0, left);
+    // jsdom (and very old browsers) have no Element.scrollTo — fall back to
+    // the property, which is what scrollTo sets anyway.
+    if (typeof strip.scrollTo === 'function') {
+      strip.scrollTo({ left: target, behavior: 'smooth' });
+    } else {
+      strip.scrollLeft = target;
     }
   }, [activeTermInfo, isOpen]);
 
@@ -96,9 +112,14 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
   const dividerClass = `h-px bg-gradient-to-r from-transparent ${activeConfig ? 'via-[rgb(var(--color-border-secondary))]/60' : 'via-[rgb(var(--color-border-secondary))]/40'} to-transparent`;
 
   return (
-    // pl-4 md:pl-12 mirrors PromptSelector's rail gutter so the ribbon's left
-    // and right edges line up exactly with the syllabus navigator dropdowns.
-    <div className="clip-stable relative overflow-hidden transition-all duration-700 ease-out animate-fade-in pl-4 md:pl-12">
+    // Full page width, flush with everything else in the column — the
+    // breadcrumb, the question card and the reference rail all start at the
+    // container's edge. This used to carry PromptSelector's `pl-4 md:pl-12`
+    // rail gutter so it lined up with the syllabus dropdowns directly above,
+    // but that gutter exists to make room for the navigator's step rail, and
+    // the ribbon has no step on it: all the indent did was set the ribbon 48px
+    // in from every other block on the page.
+    <div className="clip-stable relative overflow-hidden transition-all duration-700 ease-out animate-fade-in">
       {/* Top divider */}
       <div className={dividerClass} />
 
@@ -283,7 +304,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       if (group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
                     }}
                     className={`
-                      clip-stable flex-shrink-0 w-[260px] h-[256px] snap-center relative overflow-hidden rounded-2xl border transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer flex flex-col group/card
+                      clip-stable flex-shrink-0 w-[260px] min-h-[256px] snap-center relative overflow-hidden rounded-2xl border transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer flex flex-col group/card
                       ${
                         isCurrentTier
                           ? `${tierConfig.border} ${tierConfig.bg} light:bg-white`
@@ -334,6 +355,14 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       {group.subtitle}
                     </p>
 
+                    {/* No fixed card height. At a hard 256px the biggest tier
+                      (eight verbs, five rows of chips) had its last row sliced
+                      in half by the card edge, which reads as broken rather
+                      than as "scroll for more" — and no single magic number
+                      survives a change to the verb list or the reader's text
+                      size. The strip is a flex row, so leaving the height to
+                      the content makes every card as tall as the tallest one
+                      for free. The scroll stays as the safety net. */}
                     <div className="flex-1 overflow-y-auto p-4 custom-scrollbar relative z-10">
                       <div className="flex flex-wrap gap-2 justify-center content-start">
                         {group.verbs.map((verb) => {
