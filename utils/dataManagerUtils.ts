@@ -171,20 +171,42 @@ const repairPromptFields = <T extends { verb?: PromptVerb; question: string; tot
  * Deduplicates sample answers based on text content.
  * If multiple answers have the same text, the one with the lowest mark is kept.
  */
+/**
+ * A verified past-HSC exemplar. `evaluateAnswer` anchors its marking on these
+ * and falls back to AI-written samples only when there are none — precisely
+ * because marking against AI-marked samples compounds the AI's own error. They
+ * are therefore the one thing in a prompt that must never be thrown away to
+ * make room for something the AI wrote.
+ */
+const isVerifiedExemplar = (answer: SampleAnswer) => answer.source === 'HSC_EXEMPLAR';
+
+/** How many sample answers are kept per mark value before pruning starts. */
+const MAX_SAMPLES_PER_MARK = 5;
+
 export const deduplicateSampleAnswers = (answers: SampleAnswer[]): SampleAnswer[] => {
   if (!answers || answers.length <= 1) return answers;
 
   const seen = new Map<string, SampleAnswer>();
 
   // Using a map to track unique texts.
-  // If we encounter a duplicate text, we only update if the new mark is lower.
+  // If we encounter a duplicate text, we only update if the new mark is lower —
+  // EXCEPT that a verified exemplar always outranks one that is not. The same
+  // text saved as a marked HSC exemplar and as an AI sample used to resolve to
+  // whichever carried the lower mark, which silently discarded the exemplar
+  // and with it the marking anchor.
   answers.forEach((answer) => {
     const textKey = answer.answer.trim();
     const existing = seen.get(textKey);
 
-    if (!existing || answer.mark < existing.mark) {
+    if (!existing) {
       seen.set(textKey, answer);
+      return;
     }
+    if (isVerifiedExemplar(existing) !== isVerifiedExemplar(answer)) {
+      if (isVerifiedExemplar(answer)) seen.set(textKey, answer);
+      return;
+    }
+    if (answer.mark < existing.mark) seen.set(textKey, answer);
   });
 
   return Array.from(seen.values());
@@ -215,32 +237,41 @@ export const addAndPruneSampleAnswers = (
   // 3. Flatten and apply pruning where groups > 5
   const result: SampleAnswer[] = [];
   grouped.forEach((answersForMark) => {
-    if (answersForMark.length <= 5) {
+    if (answersForMark.length <= MAX_SAMPLES_PER_MARK) {
       result.push(...answersForMark);
     } else {
       // Pruning Algorithm:
-      // Reverse so we treat the end of the array as newest.
-      const newestFirst = [...answersForMark].reverse();
-      const kept: SampleAnswer[] = [];
+      // a. Verified HSC exemplars are never pruned. They are the marking
+      //    anchor, they cannot be regenerated, and there are rarely more than
+      //    one or two — so they take their slots before anything else, and if
+      //    they alone exceed the cap they all survive it. Without this, adding
+      //    a sixth AI sample deleted a real past-paper exemplar to make room.
+      const kept: SampleAnswer[] = answersForMark.filter(isVerifiedExemplar);
 
-      // a. Always keep the absolute newest
-      kept.push(newestFirst[0]);
+      // Reverse so we treat the end of the array as newest. With no exemplars
+      // present this is exactly the original algorithm.
+      const newestFirst = [...answersForMark.filter((a) => !isVerifiedExemplar(a))].reverse();
 
-      // b. Find a "diversity candidate" (opposite source) if available
-      const primarySource = newestFirst[0].source;
-      const diversityCandidate = newestFirst.find(
-        (a) =>
-          a !== newestFirst[0] && (primarySource === 'AI' ? a.source !== 'AI' : a.source === 'AI')
-      );
-      if (diversityCandidate) {
-        kept.push(diversityCandidate);
-      }
+      if (newestFirst.length > 0) {
+        // b. Always keep the absolute newest
+        if (kept.length < MAX_SAMPLES_PER_MARK) kept.push(newestFirst[0]);
 
-      // c. Fill the rest of the 5 slots with the next newest available
-      for (const item of newestFirst) {
-        if (kept.length >= 5) break;
-        if (!kept.includes(item)) {
-          kept.push(item);
+        // c. Find a "diversity candidate" (opposite source) if available
+        const primarySource = newestFirst[0].source;
+        const diversityCandidate = newestFirst.find(
+          (a) =>
+            a !== newestFirst[0] && (primarySource === 'AI' ? a.source !== 'AI' : a.source === 'AI')
+        );
+        if (diversityCandidate && kept.length < MAX_SAMPLES_PER_MARK) {
+          kept.push(diversityCandidate);
+        }
+
+        // d. Fill the rest of the slots with the next newest available
+        for (const item of newestFirst) {
+          if (kept.length >= MAX_SAMPLES_PER_MARK) break;
+          if (!kept.includes(item)) {
+            kept.push(item);
+          }
         }
       }
       result.push(...kept);
@@ -278,7 +309,16 @@ const PromptSchema = z
   .object({
     id: z.string().default(() => generateId('prompt')),
     question: z.string().catch('Untitled Question').default('Untitled Question'),
-    totalMarks: z.union([z.string(), z.number()]).transform((val) => Number(val) || 0),
+    // Optional, despite being required on the Prompt type. A question with no
+    // mark value used to fail validation, and because the whole file is parsed
+    // as one array, ONE such question rejected the entire import with "Invalid
+    // course list format" — a real problem for hand-written and LLM-authored
+    // files. `repairPromptFields` below exists precisely to fill this in from
+    // the verb's mark range, so let it.
+    totalMarks: z
+      .union([z.string(), z.number()])
+      .optional()
+      .transform((val) => Number(val) || 0),
     verb: z.unknown().transform(normalizeVerb),
     highlightedQuestion: z.string().optional(),
     scenario: z.string().optional().default(''),
@@ -484,15 +524,14 @@ export const analyzeAndSanitizeImportData = (
     }
 
     if (typeof rawData === 'object' && rawData !== null) {
-      const courseResult = CourseSchema.safeParse(rawData);
-      if (courseResult.success) {
-        let courses = migrateAnalyseVerb([courseResult.data as Course]);
-        courses = validateAndFixCourses(courses);
-        courses = recalculateSampleAnswerBands(courses);
-        return { type: 'courses', data: courses };
-      }
-
-      if ('subTopics' in rawData) {
+      // A topic is recognised BEFORE a course, not after. Every field of
+      // CourseSchema has a default, so a topic file `{ id, name, subTopics }`
+      // parsed happily as a course — with `topics: []`. The topic branch below
+      // could never be reached, and importing a topic silently produced an
+      // empty course: all of its sub-topics, dot points and questions carried
+      // along as a stray key that nothing reads. A topic is the shape with
+      // `subTopics` and no `topics`.
+      if ('subTopics' in rawData && !('topics' in rawData)) {
         const result = TopicSchema.safeParse(rawData);
         if (result.success) {
           const topic = migrateTopicVerbs(result.data as Topic);
@@ -501,6 +540,14 @@ export const analyzeAndSanitizeImportData = (
           const fixedCourses = validateAndFixCourses(recalcCourses);
           return { type: 'topic', data: fixedCourses[0].topics[0] };
         }
+      }
+
+      const courseResult = CourseSchema.safeParse(rawData);
+      if (courseResult.success) {
+        let courses = migrateAnalyseVerb([courseResult.data as Course]);
+        courses = validateAndFixCourses(courses);
+        courses = recalculateSampleAnswerBands(courses);
+        return { type: 'courses', data: courses };
       }
     }
     return { type: 'invalid', data: null, error: 'Unsupported data format.' };
