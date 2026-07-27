@@ -17,14 +17,20 @@ export default defineConfig({
       reporter: ['text', 'json', 'html', 'lcov'],
       exclude: ['node_modules/', 'dist/', 'tests/', '**/*.d.ts', '**/index.ts', '**/index.tsx'],
       // Regression floor, not an aspiration: set just below measured coverage
-      // (58% lines / 54% functions / 53% branches at the time of setting) so
-      // CI fails when coverage DROPS, instead of failing every run because the
-      // project has never met 70%. Ratchet these up as coverage grows.
+      // so CI fails when coverage DROPS, instead of failing every run because
+      // the project has never met 70%. Ratchet these up as coverage grows —
+      // left at the old 55/50/50/55 they had drifted ~6 points below the real
+      // figure, which is enough slack for a whole feature to land untested
+      // without the gate noticing.
+      // Measured at the time of setting: 65.0 lines / 61.3 functions /
+      // 58.5 branches / 63.4 statements — after covering the storage
+      // migrations and the import path, which took storageUtils from 18% to
+      // 45% and dataManagerUtils from 46% to 79%.
       thresholds: {
-        lines: 55,
-        functions: 50,
-        branches: 50,
-        statements: 55,
+        lines: 63,
+        functions: 59,
+        branches: 57,
+        statements: 62,
       },
     },
     include: ['tests/unit/**/*.{test,spec}.{ts,tsx}'],

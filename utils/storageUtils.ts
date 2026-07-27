@@ -494,13 +494,48 @@ export const validateStatePath = (data: any): boolean => {
   );
 };
 
+/**
+ * Is the stored data older than the version a migration lands in?
+ *
+ * Every guard below used to be a plain string comparison, which is only
+ * correct while no part of the version has two digits: `'2.10.0' < '2.2.0'` is
+ * TRUE lexicographically, because '1' sorts before '2'. At DATA_VERSION 2.10.0
+ * — one minor bump away, on a project whose house rule is to bump this with
+ * every schema change — a returning user would have had every migration from
+ * 2.2.0 onward re-applied to data that had already been through them. Most are
+ * idempotent; the 2.2.2 sample-answer deduplication is not, and would silently
+ * delete exemplars a teacher had added since.
+ *
+ * Missing or malformed versions count as "older than everything", which is
+ * what a pre-versioning install should get.
+ */
+export const isOlderThan = (fromVersion: string, target: string): boolean => {
+  const parse = (version: string) =>
+    String(version ?? '')
+      .split('.')
+      .map((part) => {
+        const n = Number.parseInt(part, 10);
+        return Number.isFinite(n) ? n : 0;
+      });
+
+  const from = parse(fromVersion);
+  const to = parse(target);
+
+  for (let i = 0; i < Math.max(from.length, to.length); i++) {
+    const a = from[i] ?? 0;
+    const b = to[i] ?? 0;
+    if (a !== b) return a < b;
+  }
+  return false;
+};
+
 // Migration system to handle version changes
 export const runMigrations = (courses: Course[], fromVersion: string): Course[] => {
   let migrated = [...courses];
 
   console.log(`Migrating data from version ${fromVersion} to ${DATA_VERSION}`);
 
-  if (fromVersion < '2.0.0') {
+  if (isOlderThan(fromVersion, '2.0.0')) {
     migrated = migrated.map((course) => ({
       ...course,
       topics: course.topics.map((topic) => ({
@@ -516,7 +551,7 @@ export const runMigrations = (courses: Course[], fromVersion: string): Course[] 
     }));
   }
 
-  if (fromVersion < '2.0.1') {
+  if (isOlderThan(fromVersion, '2.0.1')) {
     migrated = migrated.map((course) => ({
       ...course,
       topics: course.topics.map((topic) => ({
@@ -538,11 +573,11 @@ export const runMigrations = (courses: Course[], fromVersion: string): Course[] 
     }));
   }
 
-  if (fromVersion < '2.0.2') {
+  if (isOlderThan(fromVersion, '2.0.2')) {
     migrated = migrateAnalyseVerb(migrated);
   }
 
-  if (fromVersion < '2.0.3') {
+  if (isOlderThan(fromVersion, '2.0.3')) {
     migrated = migrated.map((course) => ({
       ...course,
       topics: course.topics.map((topic) => ({
@@ -561,7 +596,7 @@ export const runMigrations = (courses: Course[], fromVersion: string): Course[] 
     }));
   }
 
-  if (fromVersion < '2.1.0') {
+  if (isOlderThan(fromVersion, '2.1.0')) {
     console.log('Applying v2.1.0 migration: Initialising Past HSC metadata...');
     migrated = migrated.map((course) => ({
       ...course,
@@ -583,19 +618,19 @@ export const runMigrations = (courses: Course[], fromVersion: string): Course[] 
     }));
   }
 
-  if (fromVersion < '2.2.0') {
+  if (isOlderThan(fromVersion, '2.2.0')) {
     console.log('Applying v2.2.0 migration: Recalculating bands for Tier consistency...');
     migrated = recalculateSampleAnswerBands(migrated);
   }
 
-  if (fromVersion < '2.2.1') {
+  if (isOlderThan(fromVersion, '2.2.1')) {
     console.log('Applying v2.2.1 migration: Validating and repairing prompt verbs...');
     migrated = validateAndFixCourses(migrated);
   }
 
   // NEW: Version 2.2.2 Migration
   // Automatically deduplicate sample answers within all prompts, preferring the lower mark version.
-  if (fromVersion < '2.2.2') {
+  if (isOlderThan(fromVersion, '2.2.2')) {
     console.log(
       'Applying v2.2.2 migration: Automatically removing duplicate sample answers (keeping lower mark)...'
     );
@@ -622,12 +657,12 @@ export const runMigrations = (courses: Course[], fromVersion: string): Course[] 
   // store an unrecognised verb (left undefined) or totalMarks of 0; the UI
   // surfaces fall back differently for these, so the same question rendered
   // with different tier colours in the navigator vs the writing area.
-  if (fromVersion < '2.3.0') {
+  if (isOlderThan(fromVersion, '2.3.0')) {
     console.log('Applying v2.3.0 migration: Canonicalising prompt verbs and mark values...');
     migrated = repairPromptIntegrity(migrated);
   }
 
-  if (fromVersion < '2.4.0') {
+  if (isOlderThan(fromVersion, '2.4.0')) {
     console.log('Applying v2.4.0 migration: NESA-aligned band recalculation...');
     migrated = recalculateSampleAnswerBands(migrated);
   }

@@ -168,6 +168,19 @@ const Editor = forwardRef<
     const [showStrategy, setShowStrategy] = useState(() =>
       typeof window === 'undefined' ? true : isTwoColumnWidth(window.innerWidth)
     );
+    // …and it follows the viewport, rather than being decided once at mount:
+    // rotating a tablet or splitting the window left the panel open on a
+    // layout it was too tall for, or folded on one with room to spare.
+    // A deliberate toggle wins from then on — `touchedStrategy` stops the
+    // resize handler overriding a choice the student has actually made.
+    const touchedStrategy = useRef(false);
+    useEffect(() => {
+      const update = () => {
+        if (!touchedStrategy.current) setShowStrategy(isTwoColumnWidth(window.innerWidth));
+      };
+      window.addEventListener('resize', update);
+      return () => window.removeEventListener('resize', update);
+    }, []);
     // Bold/italic, folded away by default — see the toolbar below.
     const [showFormatting, setShowFormatting] = useState(false);
     const strategyPanelId = useId();
@@ -719,7 +732,10 @@ const Editor = forwardRef<
             <div className="border-t border-amber-500/20 light:border-amber-200/70 bg-amber-500/[0.05] light:bg-amber-50/60">
               <button
                 type="button"
-                onClick={() => setShowStrategy((s) => !s)}
+                onClick={() => {
+                  touchedStrategy.current = true;
+                  setShowStrategy((s) => !s);
+                }}
                 aria-expanded={showStrategy}
                 aria-controls={strategyPanelId}
                 title={

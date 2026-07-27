@@ -1,7 +1,26 @@
-import React, { useState, useRef, useEffect, useId } from 'react';
+import React, { useState, useRef, useEffect, useId, useMemo } from 'react';
 import { getTierScaleConfig } from '../utils/renderUtils';
 import { PromptVerb } from '../types';
-import { Sparkles, ChevronDown } from 'lucide-react';
+import { Sparkles, ChevronDown, Search, X } from 'lucide-react';
+
+/**
+ * Lists shorter than this are faster to read than to search, and a search box
+ * above four topics is clutter. A dot point can carry a dozen questions, and a
+ * course a dozen topics — that is where scanning stops working.
+ */
+const SEARCH_THRESHOLD = 7;
+
+/** Case- and punctuation-insensitive substring match on every supplied term. */
+const matches = (option: { label: string; searchText?: string }, query: string): boolean => {
+  const haystack = `${option.label} ${option.searchText ?? ''}`.toLowerCase();
+  // Every whitespace-separated term must appear, so "2023 assess" finds a
+  // question the way a person would type it rather than needing exact order.
+  return query
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean)
+    .every((term) => haystack.includes(term));
+};
 
 export type ComboboxColor =
   | 'blue'
@@ -22,6 +41,9 @@ interface ComboboxOption {
   isNew?: boolean;
   tier?: number;
   disabled?: boolean;
+  /** Extra text the search should match — the parts of `renderLabel` that are
+   *  not in `label` (a question's verb, its marks, its HSC paper). */
+  searchText?: string;
 }
 
 interface ComboboxProps {
@@ -122,14 +144,24 @@ const Combobox: React.FC<ComboboxProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
+  const [query, setQuery] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const selectedOption = options.find((opt) => opt.id === value);
   const labelId = useId();
   const listboxId = useId();
 
   const theme = colorStyles[color] || colorStyles.default;
+
+  // Search appears only where scanning stops being the faster option.
+  const isSearchable = options.length >= SEARCH_THRESHOLD;
+  const visibleOptions = useMemo(
+    () =>
+      isSearchable && query.trim() ? options.filter((option) => matches(option, query)) : options,
+    [options, query, isSearchable]
+  );
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -141,22 +173,33 @@ const Combobox: React.FC<ComboboxProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // A stale query would silently hide options the next time this opens.
+  useEffect(() => {
+    if (!isOpen) setQuery('');
+  }, [isOpen]);
+
+  // Typing goes straight into the box rather than needing a click first.
+  useEffect(() => {
+    if (isOpen && isSearchable) searchRef.current?.focus();
+  }, [isOpen, isSearchable]);
+
   // Step the highlight, skipping disabled (locked) options so Enter always
   // lands on something actionable.
   const stepHighlight = (direction: 1 | -1) => {
-    if (options.length === 0) return;
+    if (visibleOptions.length === 0) return;
     setHighlightedIndex((prev) => {
       let next = prev;
-      for (let i = 0; i < options.length; i++) {
-        next = (next + direction + options.length) % options.length;
-        if (!options[next]?.disabled) return next;
+      for (let i = 0; i < visibleOptions.length; i++) {
+        next = (next + direction + visibleOptions.length) % visibleOptions.length;
+        if (!visibleOptions[next]?.disabled) return next;
       }
       return prev; // every option disabled — stay put
     });
   };
 
-  // Keyboard navigation handler
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+  // Keyboard navigation handler — shared by the trigger and the search box, so
+  // arrows and Enter behave the same whichever has focus.
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
     if (disabled) return;
 
     switch (e.key) {
@@ -183,13 +226,13 @@ const Combobox: React.FC<ComboboxProps> = ({
       case 'End':
         if (isOpen) {
           e.preventDefault();
-          setHighlightedIndex(options.length - 1);
+          setHighlightedIndex(visibleOptions.length - 1);
         }
         break;
       case 'Enter':
         e.preventDefault();
-        if (isOpen && options.length > 0 && !options[highlightedIndex]?.disabled) {
-          onChange(options[highlightedIndex].id);
+        if (isOpen && visibleOptions.length > 0 && !visibleOptions[highlightedIndex]?.disabled) {
+          onChange(visibleOptions[highlightedIndex].id);
           setIsOpen(false);
         } else if (!isOpen) {
           setIsOpen(true);
@@ -197,7 +240,14 @@ const Combobox: React.FC<ComboboxProps> = ({
         break;
       case 'Escape':
         e.preventDefault();
-        setIsOpen(false);
+        // Escape clears a query first and closes only an unfiltered list, so a
+        // mistyped search does not cost the whole dropdown.
+        if (query) {
+          setQuery('');
+        } else {
+          setIsOpen(false);
+          buttonRef.current?.focus();
+        }
         break;
     }
   };
@@ -209,6 +259,12 @@ const Combobox: React.FC<ComboboxProps> = ({
       setHighlightedIndex(currentIndex >= 0 ? currentIndex : 0);
     }
   }, [isOpen, value, options]);
+
+  // Filtering shortens the list under the highlight; left alone it would point
+  // past the end and Enter would select nothing.
+  useEffect(() => {
+    setHighlightedIndex((prev) => (prev < visibleOptions.length ? prev : 0));
+  }, [visibleOptions.length]);
 
   // Keep the keyboard highlight visible — long question lists scroll, and an
   // offscreen highlight made arrow-key selection feel broken.
@@ -307,45 +363,83 @@ const Combobox: React.FC<ComboboxProps> = ({
       </button>
 
       {isOpen && (
-        <ul
-          ref={listRef}
-          id={listboxId}
-          role="listbox"
-          aria-labelledby={label ? labelId : undefined}
-          className={`absolute z-[100] mt-2 w-full max-h-80 rounded-xl py-1 overflow-auto animate-fade-in custom-scrollbar border ${listStateStyles}`}
+        <div
+          className={`absolute z-[100] mt-2 w-full rounded-xl overflow-hidden animate-fade-in border ${listStateStyles}`}
         >
-          {options.length > 0 ? (
-            options.map((option, index) => (
-              <li
-                key={option.id}
-                id={`${listboxId}-opt-${index}`}
-                data-option-index={index}
-                onClick={() => {
-                  if (option.disabled) return;
-                  onChange(option.id);
-                  setIsOpen(false);
-                }}
-                onMouseEnter={() => setHighlightedIndex(index)}
-                className={`${option.disabled ? 'cursor-not-allowed' : 'cursor-pointer'} select-none relative py-3 pr-9 transition-colors ${
-                  index === highlightedIndex
-                    ? `${getListItemClasses(option, true)}`
-                    : getListItemClasses(option, option.id === value)
-                }`}
-                role="option"
-                aria-selected={option.id === value}
-                aria-disabled={option.disabled || undefined}
-              >
-                <div className="flex items-center whitespace-normal w-full">
-                  {option.renderLabel || option.label}
-                </div>
-              </li>
-            ))
-          ) : (
-            <li className="py-4 px-4 text-[rgb(var(--color-text-muted))] italic text-center text-xs">
-              No options available.
-            </li>
+          {/* Sits outside the scroll region so it stays put while the list
+            moves under it. */}
+          {isSearchable && (
+            <div className="relative border-b border-white/10 light:border-slate-200">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[rgb(var(--color-text-muted))] pointer-events-none" />
+              <input
+                ref={searchRef}
+                type="text"
+                role="combobox"
+                aria-expanded={isOpen}
+                aria-controls={listboxId}
+                aria-activedescendant={`${listboxId}-opt-${highlightedIndex}`}
+                aria-label={`Search ${options.length} options`}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder={`Search ${options.length}…`}
+                className="w-full bg-transparent py-3 pl-10 pr-9 text-sm font-medium text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))] focus:outline-none"
+              />
+              {query && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setQuery('');
+                    searchRef.current?.focus();
+                  }}
+                  aria-label="Clear search"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-md text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-slate-100 transition-colors"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
           )}
-        </ul>
+          <ul
+            ref={listRef}
+            id={listboxId}
+            role="listbox"
+            aria-labelledby={label ? labelId : undefined}
+            className="max-h-72 py-1 overflow-auto custom-scrollbar"
+          >
+            {visibleOptions.length > 0 ? (
+              visibleOptions.map((option, index) => (
+                <li
+                  key={option.id}
+                  id={`${listboxId}-opt-${index}`}
+                  data-option-index={index}
+                  onClick={() => {
+                    if (option.disabled) return;
+                    onChange(option.id);
+                    setIsOpen(false);
+                  }}
+                  onMouseEnter={() => setHighlightedIndex(index)}
+                  className={`${option.disabled ? 'cursor-not-allowed' : 'cursor-pointer'} select-none relative py-3 pr-9 transition-colors ${
+                    index === highlightedIndex
+                      ? `${getListItemClasses(option, true)}`
+                      : getListItemClasses(option, option.id === value)
+                  }`}
+                  role="option"
+                  aria-selected={option.id === value}
+                  aria-disabled={option.disabled || undefined}
+                >
+                  <div className="flex items-center whitespace-normal w-full">
+                    {option.renderLabel || option.label}
+                  </div>
+                </li>
+              ))
+            ) : (
+              <li className="py-4 px-4 text-[rgb(var(--color-text-muted))] italic text-center text-xs">
+                {query.trim() ? `Nothing matches “${query.trim()}”.` : 'No options available.'}
+              </li>
+            )}
+          </ul>
+        </div>
       )}
     </div>
   );

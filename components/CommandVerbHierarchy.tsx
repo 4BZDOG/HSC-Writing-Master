@@ -34,12 +34,24 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
   const tierRefs = useRef<(HTMLDivElement | null)[]>([]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
+  // A new question re-opens the reference so its verb is explained — unless
+  // the reader has folded the ribbon away, in which case it stays folded.
+  // Before, a deliberate collapse was undone by the very next question, and
+  // the only way to keep it shut was to re-collapse it every single time.
+  const collapsedByUser = useRef(false);
+
   useEffect(() => {
     if (currentVerb) {
       setActiveVerb(currentVerb);
-      setIsOpen(true);
+      if (!collapsedByUser.current) setIsOpen(true);
     }
   }, [currentVerb]);
+
+  const toggleOpen = () =>
+    setIsOpen((open) => {
+      collapsedByUser.current = open;
+      return !open;
+    });
 
   const { sortedVerbsByGroup, activeTermInfo } = useMemo(() => {
     const allVerbs = Array.from(commandTerms.values());
@@ -125,7 +137,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
 
       {/* Header Button */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={toggleOpen}
         aria-expanded={isOpen}
         aria-label={`${isOpen ? 'Collapse' : 'Expand'} the HSC command verb hierarchy reference`}
         className={`
@@ -300,11 +312,8 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                     ref={(el) => {
                       tierRefs.current[index] = el;
                     }}
-                    onClick={() => {
-                      if (group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
-                    }}
                     className={`
-                      clip-stable flex-shrink-0 w-[260px] min-h-[256px] snap-center relative overflow-hidden rounded-2xl border transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer flex flex-col group/card
+                      clip-stable flex-shrink-0 w-[260px] min-h-[256px] snap-center relative overflow-hidden rounded-2xl border transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col group/card
                       ${
                         isCurrentTier
                           ? `${tierConfig.border} ${tierConfig.bg} light:bg-white`
@@ -328,8 +337,20 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
 
                     <MeshOverlay opacity={isCurrentTier ? 'opacity-[0.06]' : 'opacity-[0.02]'} />
 
-                    <div
-                      className={`px-6 py-4 border-b relative flex items-center gap-4 flex-shrink-0 ${isCurrentTier ? `bg-gradient-to-r ${tierConfig.gradient} border-white/10 text-white` : `${tierConfig.bg} border-white/5 light:border-slate-200`}`}
+                    {/* The card's header is the "select this tier" control.
+                      The whole card used to carry the onClick as a bare div:
+                      no keyboard focus, no role, invisible to a screen reader.
+                      It cannot become a button itself — the verb chips inside
+                      it are buttons already — so the shortcut lives on the
+                      header, which has nothing interactive in it. */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
+                      }}
+                      aria-pressed={isCurrentTier}
+                      title={`Show the ${group.title} verbs — up to Band ${group.maxBand}`}
+                      className={`w-full text-left px-6 py-4 border-b relative flex items-center gap-4 flex-shrink-0 cursor-pointer transition-[filter] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/50 ${isCurrentTier ? `bg-gradient-to-r ${tierConfig.gradient} border-white/10 text-white` : `${tierConfig.bg} border-white/5 light:border-slate-200`}`}
                     >
                       <div className="text-4xl filter drop-shadow-lg transform transition-transform duration-500 group-hover/card:scale-110">
                         {group.emoji}
@@ -346,7 +367,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                           {group.title}
                         </h4>
                       </div>
-                    </div>
+                    </button>
 
                     {/* What this cognitive level actually asks of the writer. */}
                     <p
