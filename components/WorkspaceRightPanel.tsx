@@ -236,8 +236,18 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
                 userAnswer.trim() ? 'group-hover:rotate-12 group-hover:scale-110' : 'opacity-40'
               }`}
             />
-            <span className={buttonConfig.text}>Evaluate</span>
-            <kbd className="hidden md:inline text-[9px] font-bold bg-white/15 border border-white/10 rounded px-1 py-0.5 tracking-normal opacity-60 group-hover:opacity-100 transition-opacity">
+            {/* The white only belongs on the indigo fill. Applied
+              unconditionally it painted the DISABLED label white too — legible
+              against the dark footer, invisible against the light theme's pale
+              grey one. Unset, the label inherits the button's own colour. */}
+            <span className={userAnswer.trim() ? buttonConfig.text : undefined}>Evaluate</span>
+            <kbd
+              className={`hidden md:inline text-[9px] font-bold border rounded px-1 py-0.5 tracking-normal transition-opacity ${
+                userAnswer.trim()
+                  ? 'bg-white/15 border-white/10 opacity-60 group-hover:opacity-100'
+                  : 'bg-black/5 border-current/20 opacity-50'
+              }`}
+            >
               ⌘↵
             </kbd>
           </>

@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useState,
   useMemo,
+  useId,
 } from 'react';
 import {
   renderEditorHighlights,
@@ -23,6 +24,7 @@ import {
   Check,
   PenTool,
   Type,
+  Baseline,
   ZoomIn,
   ZoomOut,
   FileText,
@@ -35,6 +37,7 @@ import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
 import { MAX_CARD_HEIGHT, isTwoColumnWidth } from '../utils/layoutConstants';
 import { PlusLockChip } from './UpgradeModal';
 import StrategyTip from './StrategyTip';
+import { parseStrategyTip } from '../utils/strategyTip';
 
 interface EditorProps {
   value: string;
@@ -89,7 +92,9 @@ const ToolbarButton: React.FC<{
   tooltip: string;
   active?: boolean;
   disabled?: boolean;
-}> = ({ onClick, icon, tooltip, active, disabled }) => (
+  /** Set when the button discloses further controls, for screen readers. */
+  expanded?: boolean;
+}> = ({ onClick, icon, tooltip, active, disabled, expanded }) => (
   <button
     type="button"
     onClick={(e) => {
@@ -99,6 +104,7 @@ const ToolbarButton: React.FC<{
     disabled={disabled}
     title={tooltip}
     aria-label={tooltip}
+    aria-expanded={expanded}
     className={`
             p-2 rounded-lg transition-all duration-200 
             ${
@@ -162,6 +168,9 @@ const Editor = forwardRef<
     const [showStrategy, setShowStrategy] = useState(() =>
       typeof window === 'undefined' ? true : isTwoColumnWidth(window.innerWidth)
     );
+    // Bold/italic, folded away by default — see the toolbar below.
+    const [showFormatting, setShowFormatting] = useState(false);
+    const strategyPanelId = useId();
 
     const wordCount = useMemo(() => value.trim().split(/\s+/).filter(Boolean).length, [value]);
 
@@ -178,6 +187,14 @@ const Editor = forwardRef<
 
     const verbInfo = useMemo(() => getCommandTermInfo(verb), [verb]);
     const verbTier = verbInfo.tier;
+
+    // The first instruction in the verb's tip, quoted in the strategy row while
+    // it is folded shut. Examples and term chips are skipped — out of context
+    // they read as a fragment; a point is a whole piece of advice on its own.
+    const strategyPreview = useMemo(() => {
+      const first = parseStrategyTip(verbInfo.tip).find((s) => s.kind === 'point');
+      return first && first.kind === 'point' ? first.text : '';
+    }, [verbInfo.tip]);
 
     // Live-feedback theme. The writing surface is painted in the question's
     // TIER colour (one fixed hue per question). Progress isn't shown by
@@ -609,20 +626,41 @@ const Editor = forwardRef<
                     <div className="w-px h-4 bg-white/20 mx-0.5" />
                   </>
                 )}
+                {/* Bold and italic sat open in the toolbar permanently, and an
+                  HSC response is prose — they are pressed once in a session, if
+                  ever, while the controls a student does reach for (reading
+                  size, focus mode) had to share the row with them. They fold
+                  behind one button, which stays put once opened. */}
                 {!isExamMode && (
                   <>
                     <ToolbarButton
-                      onClick={() => handleFormat('bold')}
-                      icon={<Bold className="w-4 h-4" />}
-                      tooltip="Bold"
+                      onClick={() => setShowFormatting((v) => !v)}
+                      icon={<Baseline className="w-4 h-4" />}
+                      tooltip={showFormatting ? 'Hide formatting' : 'Formatting (bold, italic)'}
+                      active={showFormatting}
                       disabled={disabled}
+                      expanded={showFormatting}
                     />
-                    <ToolbarButton
-                      onClick={() => handleFormat('italic')}
-                      icon={<Italic className="w-4 h-4" />}
-                      tooltip="Italic"
-                      disabled={disabled}
-                    />
+                    {showFormatting && (
+                      <div
+                        className="flex items-center gap-1 animate-fade-in"
+                        role="group"
+                        aria-label="Text formatting"
+                      >
+                        <ToolbarButton
+                          onClick={() => handleFormat('bold')}
+                          icon={<Bold className="w-4 h-4" />}
+                          tooltip="Bold"
+                          disabled={disabled}
+                        />
+                        <ToolbarButton
+                          onClick={() => handleFormat('italic')}
+                          icon={<Italic className="w-4 h-4" />}
+                          tooltip="Italic"
+                          disabled={disabled}
+                        />
+                      </div>
+                    )}
                     <div className="w-px h-4 bg-white/20 mx-0.5" />
                   </>
                 )}
@@ -670,24 +708,45 @@ const Editor = forwardRef<
             </div>
           </div>
 
-          {/* Writing Strategy Tip — Coach mode only */}
+          {/* Writing Strategy Tip — Coach mode only.
+            Folded, this used to be a grey label on a hairline between two
+            slabs of chrome: it read as a divider, so the coaching a student
+            most needs before the first sentence went unopened. It now carries
+            the amber the tip itself uses, and — the part that actually makes
+            it worth opening — the first tip is quoted in the closed row, so
+            there is something to read rather than a promise of something. */}
           {!isExamMode && verb && (
-            <div className="border-t border-white/10 light:border-slate-200">
+            <div className="border-t border-amber-500/20 light:border-amber-200/70 bg-amber-500/[0.05] light:bg-amber-50/60">
               <button
                 type="button"
                 onClick={() => setShowStrategy((s) => !s)}
-                className="w-full flex items-center gap-2 px-4 sm:px-6 py-2 text-left hover:bg-white/5 light:hover:bg-slate-100 transition-colors"
+                aria-expanded={showStrategy}
+                aria-controls={strategyPanelId}
+                title={
+                  showStrategy
+                    ? 'Hide the writing strategy for this command verb'
+                    : `How to answer a ${verbInfo.term} question`
+                }
+                className="w-full flex items-center gap-2 px-4 sm:px-6 py-2 text-left hover:bg-amber-500/10 light:hover:bg-amber-100/70 transition-colors"
               >
-                <Lightbulb className="w-3.5 h-3.5 text-amber-400/80 flex-shrink-0" />
-                <span className="text-[10px] font-black uppercase tracking-[0.15em] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                <Lightbulb className="w-3.5 h-3.5 text-amber-400 light:text-amber-600 flex-shrink-0" />
+                <span className="text-[10px] font-black uppercase tracking-[0.15em] text-amber-400/90 light:text-amber-700 flex-shrink-0">
                   {verbInfo.term} Strategy
                 </span>
+                {/* The hook. Hidden once the panel is open — it is the first
+                  line of what is now on screen — and on the narrowest widths,
+                  where it would push the row to two lines. */}
+                {!showStrategy && strategyPreview && (
+                  <span className="hidden sm:block text-[11px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500 truncate min-w-0 italic">
+                    {strategyPreview}
+                  </span>
+                )}
                 <ChevronDown
-                  className={`w-3 h-3 text-[rgb(var(--color-text-dim))] ml-auto transition-transform duration-200 ${showStrategy ? 'rotate-180' : ''}`}
+                  className={`w-3 h-3 text-amber-400/70 light:text-amber-600 ml-auto flex-shrink-0 transition-transform duration-200 ${showStrategy ? 'rotate-180' : ''}`}
                 />
               </button>
               {showStrategy && (
-                <div className="px-4 sm:px-6 pb-3 animate-fade-in">
+                <div id={strategyPanelId} className="px-4 sm:px-6 pb-3 animate-fade-in">
                   <p className="text-xs font-semibold text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed mb-2">
                     {verbInfo.definition}
                   </p>

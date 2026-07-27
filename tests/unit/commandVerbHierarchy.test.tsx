@@ -58,6 +58,25 @@ describe('CommandVerbHierarchy', () => {
     expect(screen.getAllByText('IDENTIFY').length).toBeGreaterThanOrEqual(2);
   });
 
+  // The ribbon lives below the syllabus navigator, so it is usually off screen
+  // when a question is picked. `scrollIntoView` cannot be told to leave the
+  // page alone: it scrolled the WINDOW down to the ribbon, dragging the reader
+  // away from the question they had just chosen. Only the strip may move.
+  it('scrolls its own strip rather than the page when the tier changes', () => {
+    const scrollIntoView = vi.fn();
+    const scrollTo = vi.fn();
+    Element.prototype.scrollIntoView = scrollIntoView;
+    (Element.prototype as unknown as { scrollTo: unknown }).scrollTo = scrollTo;
+
+    render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    scrollTo.mockClear();
+
+    fireEvent.click(screen.getByRole('button', { name: 'SYNTHESISE' }));
+
+    expect(scrollIntoView).not.toHaveBeenCalled();
+    expect(scrollTo).toHaveBeenCalled();
+  });
+
   it('cognitive timeline steps are keyboard-reachable buttons that select the tier', () => {
     render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
     const step = screen.getByRole('button', { name: /Highlight band 6/i });

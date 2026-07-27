@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach } from 'vitest';
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, fireEvent } from '@testing-library/react';
 import React from 'react';
 import Editor from '../../components/Editor';
 
@@ -120,7 +120,7 @@ describe('Editor writing modes', () => {
     expect(textarea?.getAttribute('placeholder')).toContain('clock is running');
   });
 
-  it('Exam Mode hides bold/italic formatting buttons', () => {
+  it('Exam Mode offers no formatting at all — not even the disclosure', () => {
     const { queryByLabelText } = render(
       <Editor
         value={answer}
@@ -129,12 +129,16 @@ describe('Editor writing modes', () => {
         onWritingModeChange={() => {}}
       />
     );
+    expect(queryByLabelText(/formatting/i)).toBeNull();
     expect(queryByLabelText('Bold')).toBeNull();
     expect(queryByLabelText('Italic')).toBeNull();
   });
 
-  it('Coach Mode shows bold/italic formatting buttons', () => {
-    const { getByLabelText } = render(
+  // Coach Mode still offers bold and italic, but behind a disclosure — they are
+  // pressed once a session at most in a prose answer, and were taking room in
+  // the toolbar from the controls a student does use.
+  it('Coach Mode offers bold/italic behind the formatting toggle', () => {
+    const { getByLabelText, queryByLabelText } = render(
       <Editor
         value={answer}
         onChange={() => {}}
@@ -142,6 +146,9 @@ describe('Editor writing modes', () => {
         onWritingModeChange={() => {}}
       />
     );
+    expect(queryByLabelText('Bold')).toBeNull();
+
+    fireEvent.click(getByLabelText(/formatting/i));
     expect(getByLabelText('Bold')).toBeTruthy();
     expect(getByLabelText('Italic')).toBeTruthy();
   });
