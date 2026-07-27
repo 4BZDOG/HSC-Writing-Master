@@ -203,6 +203,8 @@ const AppModals: React.FC<AppModalsProps> = ({
         }}
         courseName={currentCourse?.name || ''}
         topicName={currentTopic?.name || ''}
+        subTopicName={currentSubTopic?.name || ''}
+        dotPoint={currentDotPoint?.description || ''}
         outcomes={currentCourse?.outcomes || []}
       />
 

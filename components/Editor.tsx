@@ -524,7 +524,11 @@ const Editor = forwardRef<
               painting over it. */}
             <div
               ref={headerContentRef}
-              className="relative z-10 w-full flex flex-wrap justify-between items-start gap-y-3 gap-x-4"
+              // `items-center` for the same reason the header box itself is
+              // centred: the title block (icon, heading, band + progress row)
+              // is taller than the pill toolbar beside it, and top-pinning the
+              // toolbar left it floating above the row it belongs to.
+              className="relative z-10 w-full flex flex-wrap justify-between items-center gap-y-3 gap-x-4"
             >
               <div className="flex items-center gap-3 sm:gap-4 min-w-0">
                 <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shadow-lg group flex-shrink-0">
