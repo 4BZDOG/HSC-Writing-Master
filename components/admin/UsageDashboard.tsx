@@ -47,6 +47,7 @@ import {
 import { fetchAcceptanceReport, type AcceptanceRow } from '../../services/agreementService';
 import { AGREEMENT_VERSION } from '../../data/legalContent';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
+import { useScrollLock } from '../../hooks/useScrollLock';
 import LoadingIndicator from '../LoadingIndicator';
 
 interface UsageDashboardProps {
@@ -155,6 +156,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
   const [memberSchool, setMemberSchool] = useState('');
 
   useEscapeKey(isOpen && !isBusy, onClose);
+  useScrollLock(isOpen);
 
   const load = useCallback(async () => {
     if (!remote) {

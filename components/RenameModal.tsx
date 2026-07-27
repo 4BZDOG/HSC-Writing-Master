@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Edit3, X } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface RenameModalProps {
   isOpen: boolean;
@@ -21,6 +22,7 @@ const RenameModal: React.FC<RenameModalProps> = ({
 }) => {
   // Escape closes this modal like every other modal surface.
   useEscapeKey(isOpen, onClose);
+  useScrollLock(isOpen);
   const [newName, setNewName] = useState(initialName);
   const [error, setError] = useState<string | null>(null);
 

@@ -5,6 +5,7 @@ import {
   getCommandTermInfo,
   getBandForMark,
   getExpectedTerms,
+  getExpectedCharRange,
 } from '../data/commandTerms';
 import { getBandConfig, textContainsKeyword, BandConfig } from '../utils/renderUtils';
 import {
@@ -23,6 +24,8 @@ export interface WritingMetrics {
   progressInfo: {
     targetLabel: string;
     targetCount: number;
+    /** Top of the expected range for this band — the "no longer than" figure. */
+    targetCountMax: number;
     percentage: number;
     currentBandColor: BandConfig;
   };
@@ -50,6 +53,11 @@ export const useWritingMetrics = (userAnswer: string, prompt: Prompt): WritingMe
     [prompt.totalMarks, commandTermInfo]
   );
 
+  const expectedCharRange = useMemo(
+    () => getExpectedCharRange(prompt.totalMarks, commandTermInfo),
+    [prompt.totalMarks, commandTermInfo]
+  );
+
   const progressInfo = useMemo(() => {
     // Same helper the marking path uses, so the live target band can't drift
     // from the band a student is actually awarded.
@@ -61,9 +69,17 @@ export const useWritingMetrics = (userAnswer: string, prompt: Prompt): WritingMe
       1,
       Math.ceil(prompt.totalMarks * targetMetric.wordCountMultiplier.min)
     );
+    // BAND_METRICS has always carried a `max` multiplier; nothing read it, so
+    // "this is quite long" was measured against 1.6 × the MINIMUM instead of
+    // the top of the band's own range.
+    const targetCountMax = Math.max(
+      targetCount,
+      Math.ceil(prompt.totalMarks * targetMetric.wordCountMultiplier.max)
+    );
     return {
       targetLabel: `Band ${maxBand}`,
       targetCount,
+      targetCountMax,
       percentage: Math.min(100, (wordCount / targetCount) * 100),
       currentBandColor: getBandConfig(maxBand),
     };
@@ -88,6 +104,7 @@ export const useWritingMetrics = (userAnswer: string, prompt: Prompt): WritingMe
       buildWritingInsights({
         analysis,
         targetWordCount: progressInfo.targetCount,
+        targetWordCountMax: progressInfo.targetCountMax,
         targetLabel: progressInfo.targetLabel,
         keywordsTotal: prompt.keywords?.length || 0,
         keywordsUsed: keywordStats.used.length,
@@ -95,7 +112,11 @@ export const useWritingMetrics = (userAnswer: string, prompt: Prompt): WritingMe
         expectedTerms,
         tier: commandTermInfo.tier,
         charCount,
-        charRange: commandTermInfo.charRange,
+        // Scaled to THIS question's marks, not the verb's whole span. Unscaled,
+        // a 4-mark ANALYSE was judged against the 8-mark ceiling and the check
+        // could never fire; at the other end a 1-mark question was flagged for
+        // a perfectly ordinary sentence.
+        charRange: expectedCharRange,
       }),
     [
       analysis,
@@ -103,6 +124,7 @@ export const useWritingMetrics = (userAnswer: string, prompt: Prompt): WritingMe
       prompt.keywords,
       keywordStats,
       expectedTerms,
+      expectedCharRange,
       commandTermInfo,
       charCount,
     ]

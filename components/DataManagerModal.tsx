@@ -5,6 +5,7 @@ import ImportFlow from './dataManager/ImportFlow';
 import ExportFlow from './dataManager/ExportFlow';
 import TopicReorderList from './dataManager/TopicReorderList';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 import {
   Database,
   X,
@@ -90,6 +91,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
 }) => {
   // Escape closes this modal like every other modal surface.
   useEscapeKey(isOpen, onClose);
+  useScrollLock(isOpen);
   const [activeTab, setActiveTab] = useState<Tab>('maintenance');
 
   const totalQuestions = useMemo(() => {

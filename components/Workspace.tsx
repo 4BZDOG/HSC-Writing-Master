@@ -294,15 +294,15 @@ const Workspace: React.FC<WorkspaceProps> = ({
     { label: currentDotPoint?.description || 'Dot Point' },
   ];
 
-  // One card, two homes. In the two-column layout the exemplars belong in the
-  // left rail directly under the Marking Guide — criteria and models are read
-  // together. Focus Mode has no left rail, so the same card is handed to the
-  // writing column instead, collapsed, so it is reachable without competing
-  // with the page the student is writing on.
-  // Focus Mode's reference strip. It has no left rail, so the two placards a
-  // student actually reaches for while writing — what each mark level requires,
-  // and what those levels look like — are handed to the writing column instead,
-  // both folded shut so they cost nothing until they are wanted.
+  // The exemplars live under the student's own writing, in every layout.
+  //
+  // They spent a release in the left rail, filed under the Marking Guide on the
+  // theory that criteria and models are read together. In practice a student
+  // compares a model answer with the one they have just written, and in the
+  // rail that comparison was a diagonal across the page — or, on a laptop, a
+  // scroll to a column that had already ended. Directly beneath the writing
+  // card the two sit in one vertical line, and Focus Mode no longer needs a
+  // special case: the card is already where it belongs.
   const markingGuideCard = (
     <AccordionSection
       title="Marking Guide"
@@ -469,13 +469,16 @@ const Workspace: React.FC<WorkspaceProps> = ({
           minFooterHeight={syncedFooter}
           writingMode={writingMode}
           onWritingModeChange={onWritingModeChange}
+          // The exemplars always ride under the writing card. Focus Mode has no
+          // left rail, so it also gets the Marking Guide — the other placard a
+          // student reaches for mid-answer — folded shut above them.
           referenceSlot={
-            isFocusMode && !isExamMode ? (
+            isExamMode ? undefined : (
               <>
-                {markingGuideCard}
+                {isFocusMode && markingGuideCard}
                 {sampleAnswersCard}
               </>
-            ) : undefined
+            )
           }
         />
 
@@ -511,7 +514,6 @@ const Workspace: React.FC<WorkspaceProps> = ({
               }
               courseOutcomes={courseOutcomes}
               breadcrumb={breadcrumbItems.map((b) => b.label)}
-              sampleAnswersSlot={sampleAnswersCard}
             />
           </div>
         )}

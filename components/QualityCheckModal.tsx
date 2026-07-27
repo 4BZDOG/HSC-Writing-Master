@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import LoadingIndicator from './LoadingIndicator';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface QualityCheckModalProps {
   isOpen: boolean;
@@ -32,6 +33,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
 }) => {
   // Escape closes this modal like every other modal surface.
   useEscapeKey(isOpen, onClose);
+  useScrollLock(isOpen);
   const [isLoading, setIsLoading] = useState(true);
   const [result, setResult] = useState<QualityCheckResult | null>(null);
   const [error, setError] = useState<string | null>(null);

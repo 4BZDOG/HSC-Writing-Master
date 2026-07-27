@@ -39,6 +39,7 @@ import {
 } from 'lucide-react';
 import { getCommandTermInfo, getBandForMark } from '../data/commandTerms';
 import LoadingIndicator from './LoadingIndicator';
+import AiBusyOverlay from './AiBusyOverlay';
 import ResponseFeedback from './ResponseFeedback';
 import { exportEvaluationPdf } from '../pdf';
 import { isFeatureLocked, isFeedbackLocked, requestUpgrade } from '../services/entitlements';
@@ -351,23 +352,19 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
       ref={reportRef}
       className="relative flex flex-col gap-8 max-w-5xl mx-auto pb-20 EvaluationDisplay"
     >
-      {isImproving && (
-        <div className="absolute inset-0 bg-white/80 dark:bg-[#0a0f1a]/80 backdrop-blur-md flex items-center justify-center z-50 rounded-[32px] h-full transition-all duration-500 no-print">
-          <div className="w-full max-w-md transform scale-100 animate-in fade-in zoom-in duration-300">
-            <LoadingIndicator
-              task="generation"
-              message={`Upgrading to Band ${exemplarBand}`}
-              messages={[
-                'Synthesising higher-order concepts...',
-                'Refining syllabus terminology...',
-                'Restructuring for Band ' + exemplarBand + '...',
-              ]}
-              duration={12}
-              band={exemplarBand}
-            />
-          </div>
-        </div>
-      )}
+      <AiBusyOverlay show={isImproving} rounded="rounded-[32px]">
+        <LoadingIndicator
+          task="generation"
+          message={`Upgrading to Band ${exemplarBand}`}
+          messages={[
+            'Synthesising higher-order concepts...',
+            'Refining syllabus terminology...',
+            'Restructuring for Band ' + exemplarBand + '...',
+          ]}
+          duration={12}
+          band={exemplarBand}
+        />
+      </AiBusyOverlay>
 
       {/* Hero Question Context — left edge aligns with the cards below it, and
           the trail/meta/question sit on a tightening rhythm so the question

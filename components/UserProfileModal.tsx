@@ -38,6 +38,7 @@ import {
 import { downloadMyData, deleteMyAccount } from '../services/dataRightsService';
 import { getBandConfig } from '../utils/renderUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 import {
   getUserPlan,
   PLAN_LABELS,
@@ -225,6 +226,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
   onOpenLegal,
 }) => {
   useEscapeKey(isOpen, onClose);
+  useScrollLock(isOpen);
   const [activeTab, setActiveTab] = useState<'overview' | 'achievements' | 'settings'>('overview');
   const [tempPrefs, setTempPrefs] = useState<UserPreferences>({ ...user.preferences });
   const [displayName, setDisplayName] = useState(user.displayName);

@@ -8,6 +8,7 @@ import {
 } from '../services/geminiService';
 import type { SyllabusPreviewNode } from '../utils/dataManagerUtils';
 import LoadingIndicator from './LoadingIndicator';
+import AiBusyOverlay from './AiBusyOverlay';
 import {
   Sparkles,
   X,
@@ -22,6 +23,7 @@ import {
 } from 'lucide-react';
 import { generateId } from '../utils/idUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 type PreviewNode = SyllabusPreviewNode;
 
@@ -108,6 +110,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
   // Escape closes this modal like every other modal surface — through the
   // same reset path as the X/Cancel buttons, and never mid-operation.
   useEscapeKey(isOpen && !isBusy, handleClose);
+  useScrollLock(isOpen);
 
   const handleParseOutcomes = async () => {
     if (!outcomesText.trim()) return;
@@ -770,22 +773,20 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
           )}
         </div>
 
-        {isBusy && (
-          <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-sm flex items-center justify-center rounded-2xl z-10">
-            <LoadingIndicator
-              task="enrichment"
-              message={
-                isFetchingUrl
-                  ? 'Visiting URL & splitting into topics...'
-                  : isSplitting
-                    ? 'Splitting into topics...'
-                    : isAnalyzing
-                      ? 'Analysing Syllabus Structure...'
-                      : 'Parsing Outcomes...'
-              }
-            />
-          </div>
-        )}
+        <AiBusyOverlay show={isBusy}>
+          <LoadingIndicator
+            task="enrichment"
+            message={
+              isFetchingUrl
+                ? 'Visiting URL & splitting into topics...'
+                : isSplitting
+                  ? 'Splitting into topics...'
+                  : isAnalyzing
+                    ? 'Analysing Syllabus Structure...'
+                    : 'Parsing Outcomes...'
+            }
+          />
+        </AiBusyOverlay>
       </div>
     </div>
   );

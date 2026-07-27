@@ -14,6 +14,7 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import type { PromptVerb } from '../types';
 
@@ -50,6 +51,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
   breadcrumb,
 }) => {
   useEscapeKey(isOpen, onClose);
+  useScrollLock(isOpen);
 
   const [activeCode, setActiveCode] = useState(initialCode ?? outcomes[0]?.code);
   // Keyed by outcome code. An explanation costs an AI call, so once fetched it

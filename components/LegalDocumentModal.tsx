@@ -2,6 +2,7 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import { X, Scale } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 import LegalDocumentReader from './LegalDocumentReader';
 import type { LegalDocumentId } from '../data/legalContent';
 
@@ -24,6 +25,7 @@ const LegalDocumentModal: React.FC<LegalDocumentModalProps> = ({
   initialDocument = 'terms',
 }) => {
   useEscapeKey(isOpen, onClose);
+  useScrollLock(isOpen);
   if (!isOpen) return null;
 
   return createPortal(

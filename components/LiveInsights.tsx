@@ -1,5 +1,5 @@
-import React from 'react';
-import { CheckCircle2, AlertTriangle, Info, Lightbulb } from 'lucide-react';
+import React, { useId, useMemo, useState } from 'react';
+import { CheckCircle2, AlertTriangle, Info, Lightbulb, ChevronDown } from 'lucide-react';
 import { InsightTone, WritingInsight } from '../utils/writingAnalysis';
 
 const TONE_STYLES: Record<
@@ -26,6 +26,8 @@ const TONE_STYLES: Record<
 
 interface LiveInsightsProps {
   insights: WritingInsight[];
+  /** Start folded. Open by default — the advice is the point of the panel. */
+  defaultCollapsed?: boolean;
 }
 
 /**
@@ -33,39 +35,84 @@ interface LiveInsightsProps {
  * surface. These are while-writing prompts, so they sit within a glance of the
  * caret rather than inside the metrics dashboard further down the page — a
  * student should never have to scroll to find out what to fix next.
+ *
+ * Collapsible, like every other panel around it (the reference rail's
+ * accordions, the exemplars, the metrics strip). The summary line survives the
+ * fold: with the panel shut a student still sees how many things are waiting
+ * and whether any of them is a warning, so folding it away is a choice rather
+ * than a blindfold.
  */
-const LiveInsights: React.FC<LiveInsightsProps> = React.memo(({ insights }) => {
-  if (insights.length === 0) return null;
+const LiveInsights: React.FC<LiveInsightsProps> = React.memo(
+  ({ insights, defaultCollapsed = false }) => {
+    const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
+    const panelId = useId();
 
-  return (
-    <div className="clip-stable rounded-[24px] border border-slate-200 dark:border-white/10 bg-white dark:bg-[rgb(var(--color-bg-surface))] shadow-sm overflow-hidden animate-fade-in">
-      <div className="flex items-center gap-2.5 px-5 pt-4 pb-2">
-        <Lightbulb className="w-4 h-4 text-amber-500 dark:text-amber-400" />
-        <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500">
-          Live Insights
-        </h4>
+    const summary = useMemo(() => {
+      const toFix = insights.filter((i) => i.tone === 'warning').length;
+      if (insights.length === 0) return '';
+      if (toFix > 0) return `${toFix} to work on`;
+      return `${insights.length} note${insights.length === 1 ? '' : 's'}`;
+    }, [insights]);
+
+    if (insights.length === 0) return null;
+
+    return (
+      <div className="clip-stable rounded-[24px] border border-slate-200 dark:border-white/10 bg-white dark:bg-[rgb(var(--color-bg-surface))] shadow-sm overflow-hidden animate-fade-in">
+        <button
+          onClick={() => setIsCollapsed((c) => !c)}
+          aria-expanded={!isCollapsed}
+          aria-controls={panelId}
+          className={`w-full flex items-center gap-2.5 px-5 py-3 text-left transition-colors ${
+            isCollapsed
+              ? 'hover:bg-slate-50 dark:hover:bg-white/[0.02]'
+              : 'bg-slate-50/50 dark:bg-white/[0.03]'
+          }`}
+        >
+          <Lightbulb className="w-4 h-4 shrink-0 text-amber-500 dark:text-amber-400" />
+          <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500">
+            Live Insights
+          </h4>
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 opacity-80">
+            · {summary}
+          </span>
+          <ChevronDown
+            className={`w-4 h-4 shrink-0 ml-auto text-slate-400 transition-transform duration-500 ${
+              isCollapsed ? '' : 'rotate-180 text-slate-900 dark:text-white'
+            }`}
+          />
+        </button>
+
+        <div
+          id={panelId}
+          className={`grid transition-all duration-500 ease-in-out ${
+            isCollapsed ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'
+          }`}
+        >
+          <div className="overflow-hidden">
+            <ul className="flex flex-col gap-2 px-4 pt-1 pb-4">
+              {insights.map((insight, i) => {
+                const tone = TONE_STYLES[insight.tone];
+                const ToneIcon = tone.Icon;
+                return (
+                  <li
+                    key={insight.id}
+                    className={`flex items-start gap-3 p-3 rounded-2xl border animate-fade-in-up-sm ${tone.container}`}
+                    style={{ animationDelay: `${Math.min(i, 4) * 50}ms` }}
+                  >
+                    <ToneIcon className={`w-4 h-4 mt-0.5 shrink-0 ${tone.icon}`} />
+                    <span className="text-xs leading-relaxed text-slate-700 dark:text-slate-300">
+                      {insight.message}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
       </div>
-      <ul className="flex flex-col gap-2 px-4 pb-4">
-        {insights.map((insight, i) => {
-          const tone = TONE_STYLES[insight.tone];
-          const ToneIcon = tone.Icon;
-          return (
-            <li
-              key={insight.id}
-              className={`flex items-start gap-3 p-3 rounded-2xl border animate-fade-in-up-sm ${tone.container}`}
-              style={{ animationDelay: `${Math.min(i, 4) * 50}ms` }}
-            >
-              <ToneIcon className={`w-4 h-4 mt-0.5 shrink-0 ${tone.icon}`} />
-              <span className="text-xs leading-relaxed text-slate-700 dark:text-slate-300">
-                {insight.message}
-              </span>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
-});
+    );
+  }
+);
 
 LiveInsights.displayName = 'LiveInsights';
 export default LiveInsights;

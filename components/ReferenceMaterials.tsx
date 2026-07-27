@@ -101,15 +101,12 @@ interface ReferenceMaterialsProps {
   /** The syllabus dot point text this question sits under, used to flag which
    *  keywords come straight from the syllabus. */
   dotPointText?: string;
-  /** Sample Answers card, injected so it sits directly under the Marking Guide
-   *  — the two are read together when judging what a mark level looks like. */
-  sampleAnswersSlot?: React.ReactNode;
   /** Course → Topic → Sub-Topic → Dot Point labels, shown in the outcome modal. */
   breadcrumb?: string[];
 }
 
 const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
-  const { prompt, topic, userRole, courseOutcomes = [], sampleAnswersSlot, breadcrumb } = props;
+  const { prompt, topic, userRole, courseOutcomes = [], breadcrumb } = props;
 
   // Second, fuller entry point to the outcome briefing. The chips in the prompt
   // footer are a quick reminder of WHICH outcomes apply; this panel spells out
@@ -149,6 +146,15 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                 className={`w-full text-left rounded-2xl border ${tierConfig.border} ${tierConfig.bg} p-4 transition-all hover:shadow-md hover:brightness-110 active:scale-[0.99] group/outcome-row`}
               >
                 <div className="flex items-center gap-2 mb-1.5">
+                  {/* The same target that heads the panel and marks every
+                      outcome chip on the question card, so an outcome is
+                      recognisable as one wherever it appears. */}
+                  <span
+                    className={`w-5 h-5 shrink-0 rounded-md flex items-center justify-center border ${tierConfig.border} ${tierConfig.bg}`}
+                    aria-hidden="true"
+                  >
+                    <Target className={`w-3 h-3 ${tierConfig.text}`} />
+                  </span>
                   <span
                     className={`text-[10px] font-black uppercase tracking-widest ${tierConfig.text}`}
                   >
@@ -237,9 +243,9 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
         />
       </AccordionSection>
 
-      {/* Exemplars sit immediately beneath the Marking Guide: the criteria say
-          what each mark level requires, the samples show it. */}
-      {sampleAnswersSlot}
+      {/* The exemplars used to sit here, under the Marking Guide. They are now
+          docked beneath the student's own writing, where the comparison that
+          makes them useful actually happens — see Workspace. */}
 
       {selectedOutcome && (
         <OutcomeDetailModal

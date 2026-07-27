@@ -29,6 +29,7 @@ import {
   PAID_DAILY_AI_CALLS,
 } from '../services/entitlements';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 /**
  * Small amber lock chip for a gated-but-visible control. Sits inline next to
@@ -120,6 +121,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
     setIsRedirecting(false);
   }, []);
   useEscapeKey(!!feature, close);
+  useScrollLock(!!feature);
 
   const handleUpgrade = async () => {
     if (!stripeReady) {

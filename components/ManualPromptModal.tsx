@@ -29,7 +29,9 @@ import {
   ListChecks,
 } from 'lucide-react';
 import LoadingIndicator from './LoadingIndicator';
+import AiBusyOverlay from './AiBusyOverlay';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 import { getPastHscLabel } from '../utils/pastHscUtils';
 
 interface ManualPromptModalProps {
@@ -193,6 +195,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
   // Escape closes this modal like every other modal surface — through the
   // same reset path as the X/Cancel buttons, and never mid-refinement.
   useEscapeKey(isOpen && !isRefining, handleClose);
+  useScrollLock(isOpen);
 
   const handleRefine = async () => {
     if (!draftQuestion.trim()) {
@@ -941,23 +944,21 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
             )}
           </div>
 
-          {isRefining && (
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center animate-fade-in">
-              <LoadingIndicator
-                task="generation"
-                message="Structuring your question"
-                messages={[
-                  'Analysing draft concept...',
-                  `Calibrating for ${marks} marks...`,
-                  pinnedVerb ? `Building on '${pinnedVerb}'...` : 'Selecting appropriate verb...',
-                  includeScenario ? 'Constructing scenario...' : 'Sharpening the question stem...',
-                  'Drafting rubric...',
-                ]}
-                duration={8}
-                band={ceilingBand}
-              />
-            </div>
-          )}
+          <AiBusyOverlay show={isRefining}>
+            <LoadingIndicator
+              task="generation"
+              message="Structuring your question"
+              messages={[
+                'Analysing draft concept...',
+                `Calibrating for ${marks} marks...`,
+                pinnedVerb ? `Building on '${pinnedVerb}'...` : 'Selecting appropriate verb...',
+                includeScenario ? 'Constructing scenario...' : 'Sharpening the question stem...',
+                'Drafting rubric...',
+              ]}
+              duration={8}
+              band={ceilingBand}
+            />
+          </AiBusyOverlay>
         </div>
       </div>,
       targetContainer

@@ -1,6 +1,7 @@
 import React from 'react';
 import { AlertTriangle } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -22,6 +23,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   isDestructive = false,
 }) => {
   useEscapeKey(isOpen, onClose);
+  useScrollLock(isOpen);
 
   if (!isOpen) {
     return null;

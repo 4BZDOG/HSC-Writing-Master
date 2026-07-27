@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { CourseOutcome } from '../types';
 import { parseOutcomesFromText } from '../services/geminiService';
 import LoadingIndicator from './LoadingIndicator';
+import AiBusyOverlay from './AiBusyOverlay';
 import { Target, X, Sparkles, Plus, Trash2 } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface OutcomesEditorModalProps {
   isOpen: boolean;
@@ -90,6 +92,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
   };
 
   useEscapeKey(isOpen && !isParsing, handleClose);
+  useScrollLock(isOpen);
 
   if (!isOpen) {
     return null;
@@ -284,11 +287,9 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
           </div>
         </div>
 
-        {isParsing && (
-          <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/95 light:bg-white/95 backdrop-blur-sm flex items-center justify-center rounded-2xl">
-            <LoadingIndicator message="Parsing outcomes..." task="enrichment" />
-          </div>
-        )}
+        <AiBusyOverlay show={isParsing}>
+          <LoadingIndicator message="Parsing outcomes..." task="enrichment" />
+        </AiBusyOverlay>
       </div>
     </div>
   );

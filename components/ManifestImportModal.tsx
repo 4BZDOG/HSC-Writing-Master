@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { DiscoveredDoc } from '../hooks/useSyllabusData';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 import {
   CheckSquare,
   Square,
@@ -96,6 +97,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
   const [isImporting, setIsImporting] = useState(false);
   // Escape closes this modal like every other modal surface (but never mid-operation).
   useEscapeKey(isOpen && !isImporting, onClose);
+  useScrollLock(isOpen);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 

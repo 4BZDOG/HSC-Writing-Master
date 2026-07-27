@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { generateDotPointsForSubTopic } from '../services/geminiService';
 import LoadingIndicator from './LoadingIndicator';
+import AiBusyOverlay from './AiBusyOverlay';
 import { X, Sparkles } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface DotPointGeneratorModalProps {
   isOpen: boolean;
@@ -24,6 +26,7 @@ const DotPointGeneratorModal: React.FC<DotPointGeneratorModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   // Escape closes this modal like every other modal surface (but never mid-operation).
   useEscapeKey(isOpen && !isLoading, onClose);
+  useScrollLock(isOpen);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -139,19 +142,15 @@ const DotPointGeneratorModal: React.FC<DotPointGeneratorModalProps> = ({
           </div>
         </div>
 
-        {isLoading && (
-          <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/95 light:bg-white/95 backdrop-blur-sm flex items-center justify-center">
-            <div className="w-full max-w-md mx-6">
-              <LoadingIndicator
-                task="generation"
-                message="Generating dot points"
-                messages={['Consulting syllabus...', 'Identifying dot points...']}
-                duration={8}
-                band={3}
-              />
-            </div>
-          </div>
-        )}
+        <AiBusyOverlay show={isLoading}>
+          <LoadingIndicator
+            task="generation"
+            message="Generating dot points"
+            messages={['Consulting syllabus...', 'Identifying dot points...']}
+            duration={8}
+            band={3}
+          />
+        </AiBusyOverlay>
       </div>
     </div>
   );

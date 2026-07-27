@@ -24,6 +24,7 @@ import {
   type StructureKind,
 } from '../../services/contributionService';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
+import { useScrollLock } from '../../hooks/useScrollLock';
 import ConfirmationModal from '../ConfirmationModal';
 import LoadingIndicator from '../LoadingIndicator';
 
@@ -94,6 +95,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
   const [isBulkApproving, setIsBulkApproving] = useState(false);
 
   useEscapeKey(isOpen && !busyId && !rejectTarget && !approveAllOpen && !isBulkApproving, onClose);
+  useScrollLock(isOpen);
 
   const load = useCallback(async () => {
     setIsLoading(true);

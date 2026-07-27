@@ -61,11 +61,30 @@
   --color-yellow: 202 138 4;
 }
 
+/*
+ * The page scrolls the document, and it must be the ONLY thing that scrolls it.
+ *
+ * `overflow-x: hidden` on <body> used to do the horizontal clipping. That has a
+ * side effect the spec requires: a non-visible overflow on one axis forces the
+ * other axis to `auto`, which turns <body> into its own scroll container nested
+ * inside the viewport's. Two stacked scrollers is what made touch scrolling so
+ * unreliable — a drag starting over the writing card would be claimed by
+ * whichever container the browser picked that frame, and often neither moved.
+ * `overflow-x: clip` clips without ever creating a scroll container, so there
+ * is exactly one scroller again and a touch drag anywhere on the page moves it.
+ */
+html {
+  overflow-x: clip;
+  /* Touch input pans; it never double-tap-zooms the app chrome. */
+  touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   background-color: rgb(var(--color-bg-base));
   color: rgb(var(--color-text-primary));
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Focus Mode ambience — a soft accent glow + edge vignette that draws the eye

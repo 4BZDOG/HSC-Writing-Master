@@ -5,6 +5,7 @@ import { X, Info, Award, Target, Hash, Zap, ChevronRight } from 'lucide-react';
 import { getTierBandConfig } from '../utils/renderUtils';
 import { getTierTargetBand } from '../data/commandTerms';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface CommandTermGuideModalProps {
   isOpen: boolean;
@@ -24,6 +25,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
   // itself as an open overlay and Escape dismisses it without also exiting
   // Focus Mode underneath.
   useEscapeKey(isOpen, onClose);
+  useScrollLock(isOpen);
 
   if (!isOpen) return null;
 

@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { EvaluationResult, Prompt, UserFeedback, HierarchyContext } from '../types';
 import EvaluationDisplay from './EvaluationDisplay';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 import { X, Save, AlertTriangle, FileCheck, ArrowLeft, Check } from 'lucide-react';
 
 interface EvaluationResultModalProps {
@@ -48,6 +49,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
   // Escape closes the feedback like every other modal surface — but never
   // mid-improvement, so the regeneration can't be abandoned half-rendered.
   useEscapeKey(isOpen && !isImproving, onClose);
+  useScrollLock(isOpen);
 
   useEffect(() => {
     setMounted(true);

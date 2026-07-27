@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { parseSyllabusStructure, fetchSyllabusContentFromUrl } from '../services/geminiService';
 import LoadingIndicator from './LoadingIndicator';
+import AiBusyOverlay from './AiBusyOverlay';
 import { X, Sparkles, Globe, UploadCloud, ChevronRight, Trash2, GitMerge } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 /** One parsed sub-topic ready for preview/pruning before import. */
 export interface TopicImportSubTopicNode {
@@ -81,6 +83,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
   // Escape closes this modal like every other modal surface — through the
   // same reset path as the X/Cancel buttons, and never mid-operation.
   useEscapeKey(isOpen && !isBusy, handleClose);
+  useScrollLock(isOpen);
 
   const handleFetchFromUrl = async () => {
     if (!urlInput.trim()) return;
@@ -512,19 +515,14 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
           )}
         </div>
 
-        {/* Loading Overlay */}
-        {isBusy && (
-          <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-sm flex items-center justify-center z-10">
-            <div className="w-full max-w-md mx-6">
-              <LoadingIndicator
-                task="enrichment"
-                message={
-                  isFetchingUrl ? 'Visiting URL & extracting content...' : 'Analysing syllabus...'
-                }
-              />
-            </div>
-          </div>
-        )}
+        <AiBusyOverlay show={isBusy}>
+          <LoadingIndicator
+            task="enrichment"
+            message={
+              isFetchingUrl ? 'Visiting URL & extracting content...' : 'Analysing syllabus...'
+            }
+          />
+        </AiBusyOverlay>
       </div>
     </div>
   );

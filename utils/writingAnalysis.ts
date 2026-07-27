@@ -66,7 +66,14 @@ export interface WritingInsight {
 
 export interface InsightInput {
   analysis: TextAnalysis;
+  /** Lower end of the expected length — the target a short draft works toward. */
   targetWordCount: number;
+  /**
+   * Upper end of the expected length. Omitted, it falls back to 1.6 × the
+   * minimum, which is what the "too long" warning used before there was an
+   * upper bound to consult.
+   */
+  targetWordCountMax?: number;
   targetLabel: string;
   keywordsTotal: number;
   keywordsUsed: number;
@@ -79,6 +86,15 @@ export interface InsightInput {
 
 const RUN_ON_SENTENCE_WORDS = 45;
 const MAX_INSIGHTS = 4;
+/**
+ * No draft shorter than this is ever called "long", whatever the arithmetic
+ * says. A 2-mark question targets ~16 words, so 1.6 × the target used to
+ * trigger the warning at 26 — telling a student who had written two sensible
+ * sentences to cut them back.
+ */
+const MIN_WORDS_BEFORE_LONG = 60;
+/** How far past the top of the expected range counts as genuinely overlong. */
+const LONG_TOLERANCE = 1.15;
 
 /**
  * Builds a prioritised list of live writing insights. Warnings about
@@ -89,6 +105,7 @@ export const buildWritingInsights = (input: InsightInput): WritingInsight[] => {
   const {
     analysis,
     targetWordCount,
+    targetWordCountMax,
     targetLabel,
     keywordsTotal,
     keywordsUsed,
@@ -106,19 +123,30 @@ export const buildWritingInsights = (input: InsightInput): WritingInsight[] => {
   const positives: WritingInsight[] = [];
 
   // --- Length ---
+  // Three states, and the character check below defers to them: telling a
+  // student to write more AND to tighten their expression in the same breath
+  // is the contradiction this used to produce.
+  let lengthState: 'short' | 'good' | 'long' = 'good';
   if (targetWordCount > 0) {
+    // The top of the expected range, not 1.6 × the bottom of it.
+    const upper = Math.max(
+      targetWordCount,
+      Math.round(targetWordCountMax ?? targetWordCount * 1.6)
+    );
     const remaining = targetWordCount - wordCount;
     if (wordCount < targetWordCount * 0.95) {
+      lengthState = 'short';
       warnings.push({
         id: 'length-short',
         tone: remaining > targetWordCount * 0.5 ? 'warning' : 'info',
         message: `About ${Math.max(1, remaining)} more words to reach ${targetLabel} length.`,
       });
-    } else if (wordCount > targetWordCount * 1.6) {
+    } else if (wordCount > upper * LONG_TOLERANCE && wordCount > MIN_WORDS_BEFORE_LONG) {
+      lengthState = 'long';
       warnings.push({
         id: 'length-long',
         tone: 'warning',
-        message: `This is quite long — make sure every sentence earns marks.`,
+        message: `At ${wordCount} words this runs past the ${targetLabel} range (about ${upper}) — make sure every sentence earns marks.`,
       });
     } else {
       positives.push({
@@ -130,12 +158,15 @@ export const buildWritingInsights = (input: InsightInput): WritingInsight[] => {
   }
 
   // --- Character range (soft boundary) ---
-  if (charCount !== undefined && charRange && charRange[1] > 0) {
+  // A second opinion on verbosity, in the verb's own units: a response can sit
+  // inside the word target and still be twice as long on the page. Suppressed
+  // while the draft is still short, where it could only contradict.
+  if (lengthState !== 'short' && charCount !== undefined && charRange && charRange[1] > 0) {
     if (charCount > charRange[1] * 1.3) {
       warnings.push({
         id: 'chars-over',
         tone: 'warning',
-        message: `Over the expected character range for this verb — tighten your expression.`,
+        message: `Longer than this verb usually needs — tighten your expression.`,
       });
     }
   }

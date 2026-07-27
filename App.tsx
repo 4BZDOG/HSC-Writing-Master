@@ -360,8 +360,13 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   });
 
   const globalLoadingMessage = useMemo(() => {
-    if (isEvaluating) return 'Synthesising feedback...';
-    if (isImproving) return 'Drafting upgrade path...';
+    // NOTE: `isEvaluating` and `isImproving` are deliberately NOT here either.
+    // Both already have a wait of their own, in the place the work is
+    // happening: the marking veil sits over the writing card and reports the
+    // real phases the request goes through (EvaluationProgressBar), and the
+    // upgrade veil sits over the report it is rewriting (EvaluationDisplay).
+    // Adding the whole-screen card on top meant two different blurred panes
+    // for one action, one of them hiding the other's progress.
     // NOTE: `isEnriching` is deliberately NOT here. Enrichment (fetching a
     // prompt's missing scenario / keywords / outcomes) is a *background* task
     // that fires automatically on prompt selection — blocking the whole screen
@@ -372,13 +377,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     if (isRegeneratingKeywords) return 'Analysing syllabus keywords...';
     if (isSuggestingKeywords) return 'Discovering terminology...';
     return null;
-  }, [
-    isEvaluating,
-    isImproving,
-    isGeneratingScenario,
-    isRegeneratingKeywords,
-    isSuggestingKeywords,
-  ]);
+  }, [isGeneratingScenario, isRegeneratingKeywords, isSuggestingKeywords]);
 
   const quotaError = useMemo(() => {
     const errors = [

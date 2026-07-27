@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Prompt, CourseOutcome, CommandTermInfo, PromptVerb } from '../types';
 import { generateNewPrompt } from '../services/geminiService';
 import LoadingIndicator from './LoadingIndicator';
+import AiBusyOverlay from './AiBusyOverlay';
 import {
   getCommandTermsForMarks,
   TIER_GROUPS,
@@ -40,6 +41,7 @@ import {
 } from '../utils/renderUtils';
 import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface PromptGeneratorModalProps {
   isOpen: boolean;
@@ -88,6 +90,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   // Escape closes this modal like every other modal surface (but never mid-operation).
   useEscapeKey(isOpen && !isLoading, onClose);
+  useScrollLock(isOpen);
   const [error, setError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
 
@@ -767,27 +770,23 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
           </div>
         </div>
 
-        {isLoading && (
-          <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/90 backdrop-blur-3xl flex items-center justify-center z-[100] animate-fade-in">
-            <div className="w-full max-w-md mx-8">
-              <LoadingIndicator
-                task="generation"
-                message="Generating exam question"
-                messages={[
-                  `Focusing on ${focusItems.length > 0 ? 'specified items' : 'syllabus context'}...`,
-                  `Parsing '${selectedSpecificVerb}' cognitive requirements...`,
-                  includeScenario
-                    ? `Modelling ${scenarioType} constraint set...`
-                    : `Framing a direct, scenario-free stem...`,
-                  `Synthesising marking rubric...`,
-                  `Calibrating Band ${targetBand} sample output...`,
-                ]}
-                duration={12}
-                band={selectedTier}
-              />
-            </div>
-          </div>
-        )}
+        <AiBusyOverlay show={isLoading} z="z-[100]">
+          <LoadingIndicator
+            task="generation"
+            message="Generating exam question"
+            messages={[
+              `Focusing on ${focusItems.length > 0 ? 'specified items' : 'syllabus context'}...`,
+              `Parsing '${selectedSpecificVerb}' cognitive requirements...`,
+              includeScenario
+                ? `Modelling ${scenarioType} constraint set...`
+                : `Framing a direct, scenario-free stem...`,
+              `Synthesising marking rubric...`,
+              `Calibrating Band ${targetBand} sample output...`,
+            ]}
+            duration={12}
+            band={selectedTier}
+          />
+        </AiBusyOverlay>
       </div>
     </div>,
     document.body

@@ -5,6 +5,7 @@ import type { User } from '../types';
 import { QUICK_START_ICONS } from './agreementIcons';
 import { trackForRole, POWER_TIPS } from '../data/quickStartContent';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 import PlanComparison from './PlanComparison';
 import { PLAN_LABELS, getUserPlan } from '../services/entitlements';
 
@@ -41,6 +42,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
 }) => {
   const [tab, setTab] = useState<QuickStartTab>(initialTab);
   useEscapeKey(isOpen, onClose);
+  useScrollLock(isOpen);
 
   if (!isOpen) return null;
 

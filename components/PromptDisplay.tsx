@@ -30,6 +30,7 @@ import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { naturalCardHeight } from '../utils/layoutConstants';
 import { getPastHscLabel } from '../utils/pastHscUtils';
 import OutcomeDetailModal from './OutcomeDetailModal';
+import AiBusyOverlay from './AiBusyOverlay';
 import FlagContentModal from './FlagContentModal';
 
 interface PromptDisplayProps {
@@ -787,13 +788,19 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                         )}
                       </div>
                     )}
-                    {isGeneratingScenario && (
-                      <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/80 light:bg-white/80 backdrop-blur-sm flex items-center justify-center rounded-2xl z-10">
-                        <div className="flex items-center gap-3 text-sm font-bold text-indigo-400">
-                          <Sparkles className="w-4 h-4 animate-pulse" /> Generating Context...
-                        </div>
+                    <AiBusyOverlay
+                      show={isGeneratingScenario}
+                      rounded="rounded-2xl"
+                      z="z-10"
+                      maxWidth="max-w-xs"
+                    >
+                      <div className="flex flex-col items-center gap-3 text-indigo-500 dark:text-indigo-400">
+                        <Loader2 className="w-10 h-10 animate-spin" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.25em]">
+                          Generating context…
+                        </span>
                       </div>
-                    )}
+                    </AiBusyOverlay>
                   </div>
                 )}
 

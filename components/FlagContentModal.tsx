@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Flag, CheckCircle2 } from 'lucide-react';
 import { ContentFlag } from '../types';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface FlagContentModalProps {
   isOpen: boolean;
@@ -33,6 +34,7 @@ const FlagContentModal: React.FC<FlagContentModalProps> = ({
   const [reason, setReason] = useState('');
 
   useEscapeKey(isOpen, onClose);
+  useScrollLock(isOpen);
   useEffect(() => {
     if (isOpen) setReason('');
   }, [isOpen]);

@@ -9,9 +9,11 @@ import {
   TIER_GROUPS,
 } from '../data/commandTerms';
 import LoadingIndicator from './LoadingIndicator';
+import AiBusyOverlay from './AiBusyOverlay';
 import { X, RefreshCw, AlertCircle, Info } from 'lucide-react';
 import { getBandConfig } from '../utils/renderUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface SampleAnswerRevisionModalProps {
   isOpen: boolean;
@@ -42,6 +44,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   // Escape closes this modal like every other modal surface (but never mid-operation).
   useEscapeKey(isOpen && !isLoading, onClose);
+  useScrollLock(isOpen);
   const [error, setError] = useState<string | null>(null);
 
   const bandConfig = useMemo(() => getBandConfig(sampleToRevise.band), [sampleToRevise.band]);
@@ -281,24 +284,19 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
           </div>
         </div>
 
-        {/* Loading Overlay */}
-        {isLoading && (
-          <div className="absolute inset-0 bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-sm flex items-center justify-center">
-            <div className="w-full max-w-md mx-6">
-              <LoadingIndicator
-                task="generation"
-                message={`Recalibrating to Band ${targetBand}`}
-                messages={[
-                  'Analysing original response...',
-                  'Adjusting quality and depth...',
-                  'Aligning to new mark criteria...',
-                ]}
-                duration={10}
-                band={targetBand}
-              />
-            </div>
-          </div>
-        )}
+        <AiBusyOverlay show={isLoading}>
+          <LoadingIndicator
+            task="generation"
+            message={`Recalibrating to Band ${targetBand}`}
+            messages={[
+              'Analysing original response...',
+              'Adjusting quality and depth...',
+              'Aligning to new mark criteria...',
+            ]}
+            duration={10}
+            band={targetBand}
+          />
+        </AiBusyOverlay>
       </div>
     </div>,
     document.body
