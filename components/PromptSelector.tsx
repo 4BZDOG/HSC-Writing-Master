@@ -28,10 +28,12 @@ import {
   UploadCloud,
   Loader2,
   Link2,
+  Landmark,
 } from 'lucide-react';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { getTierScaleConfig } from '../utils/renderUtils';
 import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
+import { getPastHscLabel } from '../utils/pastHscUtils';
 import { isFeatureLocked, isQuestionTierLocked, requestUpgrade } from '../services/entitlements';
 import { PlusLockChip } from './UpgradeModal';
 import { parseSyllabusStructure } from '../services/geminiService';
@@ -348,6 +350,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           const tierConfig = getTierScaleConfig(safeTier);
           const targetBand = getTargetBand(p.totalMarks, safeTier);
           const tierLocked = isQuestionTierLocked(safeTier);
+          // Provenance, not difficulty — hence its own amber "archive" colour
+          // rather than the tier scale the rest of the row is painted in.
+          const pastHsc = getPastHscLabel(p);
 
           return {
             id: p.id,
@@ -389,6 +394,15 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     >
                       Band {targetBand}
                     </span>
+                    {pastHsc && (
+                      <span
+                        className="flex items-center gap-1 text-[9px] font-black uppercase tracking-wider px-1.5 py-px rounded border bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border-amber-500/40 light:border-amber-400"
+                        title={pastHsc.title}
+                      >
+                        <Landmark className="w-2.5 h-2.5" />
+                        {pastHsc.text}
+                      </span>
+                    )}
                     {tierLocked && <PlusLockChip />}
                   </div>
                 </div>

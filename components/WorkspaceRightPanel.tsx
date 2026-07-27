@@ -138,11 +138,18 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   // honest signals of progress, not of quality, so they stay in the editor's
   // progress meter; the button is one steady accent colour once there is
   // something to evaluate.
+  //
+  // It does need to read as the one thing on the bar you press, though. It sits
+  // in a footer of muted grey metrics, so its edge is drawn explicitly: a solid
+  // indigo border, an inset highlight along the top of the fill, and a coloured
+  // drop shadow that lifts it off the bar rather than the flat `shadow-lg` that
+  // vanished against a dark footer.
   const buttonConfig = useMemo(
     () => ({
       gradient: 'from-indigo-600 to-indigo-500',
-      shadow: 'shadow-indigo-900/40',
-      border: 'border-white/20',
+      shadow:
+        'shadow-[0_4px_16px_-4px_rgba(79,70,229,0.65),inset_0_1px_0_0_rgba(255,255,255,0.25)] hover:shadow-[0_8px_24px_-4px_rgba(79,70,229,0.85),inset_0_1px_0_0_rgba(255,255,255,0.3)]',
+      border: 'border-indigo-400/70 light:border-indigo-500',
       text: 'text-white',
     }),
     []
@@ -186,47 +193,57 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   // remaining-evaluations count move into the title so the control itself
   // stays the height of the footer it sits in.
   const evaluateAction = (
-    <button
-      onClick={onEvaluate}
-      disabled={isEvaluating || !userAnswer.trim()}
-      title={
-        isEvaluating
-          ? 'Evaluating your response…'
-          : !userAnswer.trim()
-            ? 'Write a response first, then evaluate'
-            : `Evaluate your response (Ctrl / ⌘ + Enter)${evalCounterTitle}`
-      }
-      className={`
-        group px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl font-black text-xs sm:text-sm tracking-tight
-        transition-all duration-300 flex items-center gap-2 flex-shrink-0
-        ${
+    <>
+      {/* Separates the action from the read-only metrics it is docked beside,
+        so the footer reads as "status … | do this" rather than one run-on row. */}
+      <span
+        aria-hidden="true"
+        className="hidden sm:block w-px h-6 bg-white/10 light:bg-slate-300 flex-shrink-0"
+      />
+      <button
+        onClick={onEvaluate}
+        disabled={isEvaluating || !userAnswer.trim()}
+        title={
           isEvaluating
-            ? 'bg-slate-800 light:bg-slate-200 text-slate-400 cursor-wait border border-white/5 light:border-slate-300'
+            ? 'Evaluating your response…'
             : !userAnswer.trim()
-              ? 'bg-slate-800/60 light:bg-slate-200/80 text-slate-500 cursor-not-allowed border border-white/5 light:border-slate-300 opacity-40'
-              : `bg-gradient-to-r ${buttonConfig.gradient} shadow-lg ${buttonConfig.shadow} hover:shadow-xl hover:scale-[1.03] active:scale-[0.97] border ${buttonConfig.border}`
+              ? 'Write a response first, then evaluate'
+              : `Evaluate your response (Ctrl / ⌘ + Enter)${evalCounterTitle}`
         }
-      `}
-    >
-      {isEvaluating ? (
-        <>
-          <Loader2 className="w-4 h-4 animate-spin text-white/60" />
-          <span className="text-slate-400">Evaluating</span>
-        </>
-      ) : (
-        <>
-          <Sparkles
-            className={`w-4 h-4 transition-transform duration-300 ${
-              userAnswer.trim() ? 'group-hover:rotate-12 group-hover:scale-110' : 'opacity-40'
-            }`}
-          />
-          <span className={buttonConfig.text}>Evaluate</span>
-          <kbd className="hidden md:inline text-[9px] font-bold bg-white/15 border border-white/10 rounded px-1 py-0.5 tracking-normal opacity-60 group-hover:opacity-100 transition-opacity">
-            ⌘↵
-          </kbd>
-        </>
-      )}
-    </button>
+        className={`
+          group px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl font-black text-xs sm:text-sm tracking-tight
+          transition-all duration-300 flex items-center gap-2 flex-shrink-0 border
+          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400
+          focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--color-bg-surface))]
+          ${
+            isEvaluating
+              ? 'bg-slate-800 light:bg-slate-200 text-slate-400 cursor-wait border-white/15 light:border-slate-300 shadow-inner'
+              : !userAnswer.trim()
+                ? 'bg-slate-800/60 light:bg-slate-200/80 text-slate-500 cursor-not-allowed border-white/10 light:border-slate-400 opacity-50'
+                : `bg-gradient-to-r ${buttonConfig.gradient} ${buttonConfig.shadow} hover:scale-[1.03] active:scale-[0.97] ${buttonConfig.border}`
+          }
+        `}
+      >
+        {isEvaluating ? (
+          <>
+            <Loader2 className="w-4 h-4 animate-spin text-white/60" />
+            <span className="text-slate-400">Evaluating</span>
+          </>
+        ) : (
+          <>
+            <Sparkles
+              className={`w-4 h-4 transition-transform duration-300 ${
+                userAnswer.trim() ? 'group-hover:rotate-12 group-hover:scale-110' : 'opacity-40'
+              }`}
+            />
+            <span className={buttonConfig.text}>Evaluate</span>
+            <kbd className="hidden md:inline text-[9px] font-bold bg-white/15 border border-white/10 rounded px-1 py-0.5 tracking-normal opacity-60 group-hover:opacity-100 transition-opacity">
+              ⌘↵
+            </kbd>
+          </>
+        )}
+      </button>
+    </>
   );
 
   return (

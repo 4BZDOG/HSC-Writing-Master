@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { Prompt, UserRole, CourseOutcome } from '../types';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import {
@@ -80,6 +81,104 @@ const MeshOverlay = ({
     }}
   />
 );
+
+/** Half the preview panel's width (w-72), used to keep it on screen. */
+const OUTCOME_PREVIEW_HALF_WIDTH = 144;
+
+/**
+ * One outcome chip plus its hover preview.
+ *
+ * The preview is rendered into `document.body` rather than beside the chip.
+ * The prompt card clips its own overflow (rounded corners + a scrolling body)
+ * and the chip strip scrolls horizontally, so an absolutely positioned panel
+ * was sliced off at the card edge — exactly where it had the most to say. A
+ * fixed-position portal sits above all of that, and is clamped to the viewport
+ * so a chip near either edge still reads in full.
+ */
+const OutcomeChip: React.FC<{
+  outcome: CourseOutcome;
+  bandConfig: ReturnType<typeof getTierScaleConfig>;
+  onOpen: () => void;
+}> = ({ outcome, bandConfig, onOpen }) => {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [anchor, setAnchor] = useState<{ left: number; top: number } | null>(null);
+
+  const show = useCallback(() => {
+    // Touch browsers leave a tapped element in :hover, so on a phone the panel
+    // latched open over the question — and the tap opens the full brief anyway.
+    if (typeof window === 'undefined' || !window.matchMedia('(hover: hover)').matches) return;
+    const rect = buttonRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const centre = rect.left + rect.width / 2;
+    setAnchor({
+      left: Math.min(
+        Math.max(centre, OUTCOME_PREVIEW_HALF_WIDTH + 12),
+        window.innerWidth - OUTCOME_PREVIEW_HALF_WIDTH - 12
+      ),
+      top: rect.top,
+    });
+  }, []);
+
+  const hide = useCallback(() => setAnchor(null), []);
+
+  // The chip travels with the scrolling strip and the page; a fixed panel does
+  // not, so it is dismissed rather than left floating over unrelated content.
+  useEffect(() => {
+    if (!anchor) return;
+    window.addEventListener('scroll', hide, true);
+    window.addEventListener('resize', hide);
+    return () => {
+      window.removeEventListener('scroll', hide, true);
+      window.removeEventListener('resize', hide);
+    };
+  }, [anchor, hide]);
+
+  return (
+    <>
+      <button
+        ref={buttonRef}
+        onClick={onOpen}
+        onMouseEnter={show}
+        onMouseLeave={hide}
+        onFocus={show}
+        onBlur={hide}
+        title={`Open the brief for ${outcome.code} — what it asks for and how it applies to this question`}
+        className={`
+          flex items-center gap-1 px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider whitespace-nowrap flex-shrink-0
+          ${bandConfig.bg} border ${bandConfig.border}
+          ${bandConfig.text} transition-all duration-300 cursor-pointer
+          hover:brightness-125 hover:shadow-md
+          active:scale-95
+        `}
+      >
+        <Target className="w-2.5 h-2.5 opacity-60" />
+        {outcome.code}
+      </button>
+      {anchor &&
+        typeof document !== 'undefined' &&
+        createPortal(
+          <div
+            role="tooltip"
+            className="fixed z-[100] w-72 -translate-x-1/2 -translate-y-full p-4 text-xs text-left font-medium leading-relaxed text-white light:text-slate-800 bg-[rgb(var(--color-bg-surface-elevated))]/95 light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-2xl shadow-2xl pointer-events-none backdrop-blur-xl animate-fade-in"
+            style={{ left: anchor.left, top: anchor.top - 12 }}
+          >
+            <div className={`flex items-center gap-2 mb-2 ${bandConfig.text}`}>
+              <Award className="w-3.5 h-3.5" />
+              <span className="font-black uppercase tracking-widest text-[10px]">Objective</span>
+            </div>
+            {outcome.description}
+            <div
+              className={`mt-2.5 pt-2.5 border-t border-white/10 light:border-slate-200 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest ${bandConfig.text}`}
+            >
+              <Sparkles className="w-3 h-3" />
+              Click for the full brief
+            </div>
+          </div>,
+          document.body
+        )}
+    </>
+  );
+};
 
 const PromptDisplay: React.FC<PromptDisplayProps> = ({
   prompt,
@@ -593,13 +692,13 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               minFooterHeight and cannot be measured. */}
             <div
               ref={footerContentRef}
-              className="w-full flex flex-wrap items-center gap-x-3 sm:gap-x-6 gap-y-3"
+              className="w-full flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-3"
             >
               {/* On phones: label and the flag/zoom controls share the first row
                 and the outcome chips wrap to a full-width second row — two rows,
                 not three. The label may shrink (`min-w-0`) to keep it that way.
-                From sm up: label | chips | controls. */}
-              <div className="order-1 flex items-center gap-2 sm:gap-4 min-w-0">
+                From sm up it is one row: label | chips | controls. */}
+              <div className="order-1 flex items-center gap-2 sm:gap-4 min-w-0 flex-shrink-0">
                 {/* The whole label is the entry point, not just the chips. The
                   chips say WHICH outcomes apply; this says what opening them
                   gets you — a plain-English brief on what the markers want,
@@ -670,57 +769,31 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 )}
               </div>
 
-              {/* A full-width row of their own, at every width. Sharing row one
-                as a `flex-1` column left them ~130px between the label and the
-                controls, so two codes stacked one per line and the footer grew
-                a row taller than it needed to be. */}
-              <div className="order-3 w-full min-w-0 flex flex-wrap gap-2">
+              {/* One horizontal strip, never a stack. The chips used to take a
+                full-width row of their own beneath the label, which cost the
+                footer a whole extra row for two or three short codes. They now
+                sit inline between the label and the controls and SCROLL
+                sideways when a question links more outcomes than the card is
+                wide — the row height stays fixed either way. Below sm they
+                still drop to their own row, where there is no width to share. */}
+              <div className="order-3 sm:order-2 w-full sm:w-auto sm:flex-1 min-w-0 flex flex-nowrap items-center gap-2 overflow-x-auto scrollbar-hide py-0.5">
                 {linkedOutcomes.length > 0 ? (
                   linkedOutcomes.map((outcome) => (
-                    <div key={outcome.code} className="relative group/outcome">
-                      <button
-                        onClick={() => handleOutcomeClickInternal(outcome)}
-                        title={`Open the brief for ${outcome.code} — what it asks for and how it applies to this question`}
-                        className={`
-                        flex items-center gap-1 px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider whitespace-nowrap
-                        ${bandConfig.bg} border ${bandConfig.border}
-                        ${bandConfig.text} transition-all duration-300 cursor-pointer
-                        hover:brightness-125 hover:scale-105 hover:shadow-md
-                        active:scale-95
-                      `}
-                      >
-                        <Target className="w-2.5 h-2.5 opacity-60" />
-                        {outcome.code}
-                      </button>
-                      {/* Desktop-only preview. Touch browsers keep a tapped
-                        element in :hover, so on a phone this 288px panel
-                        latched open over the question — and it had nothing to
-                        add there anyway, since the tap opens the full brief. */}
-                      <div className="hidden sm:block absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 p-4 text-xs text-left font-medium leading-relaxed text-white light:text-slate-800 bg-[rgb(var(--color-bg-surface-elevated))]/95 light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-2xl shadow-2xl opacity-0 group-hover/outcome:opacity-100 transition-all duration-300 pointer-events-none z-50 backdrop-blur-xl translate-y-2 group-hover/outcome:translate-y-0">
-                        <div className={`flex items-center gap-2 mb-2 ${bandConfig.text}`}>
-                          <Award className="w-3.5 h-3.5" />
-                          <span className="font-black uppercase tracking-widest text-[10px]">
-                            Objective
-                          </span>
-                        </div>
-                        {outcome.description}
-                        <div
-                          className={`mt-2.5 pt-2.5 border-t border-white/10 light:border-slate-200 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest ${bandConfig.text}`}
-                        >
-                          <Sparkles className="w-3 h-3" />
-                          Click for the full brief
-                        </div>
-                      </div>
-                    </div>
+                    <OutcomeChip
+                      key={outcome.code}
+                      outcome={outcome}
+                      bandConfig={bandConfig}
+                      onOpen={() => handleOutcomeClickInternal(outcome)}
+                    />
                   ))
                 ) : examMode ? null : (
-                  <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400 italic font-medium py-2 opacity-60">
+                  <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400 italic font-medium opacity-60 whitespace-nowrap">
                     No specific outcomes linked.
                   </span>
                 )}
               </div>
 
-              <div className="order-2 flex items-center gap-2 ml-auto flex-shrink-0">
+              <div className="order-2 sm:order-3 flex items-center gap-2 ml-auto flex-shrink-0">
                 <button
                   onClick={() => setIsFlagModalOpen(true)}
                   className={`p-1.5 sm:p-2 rounded-lg border transition-all ${
