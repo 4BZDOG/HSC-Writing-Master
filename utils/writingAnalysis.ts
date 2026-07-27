@@ -159,9 +159,10 @@ export const buildWritingInsights = (input: InsightInput): WritingInsight[] => {
 
   // --- Character range (soft boundary) ---
   // A second opinion on verbosity, in the verb's own units: a response can sit
-  // inside the word target and still be twice as long on the page. Suppressed
-  // while the draft is still short, where it could only contradict.
-  if (lengthState !== 'short' && charCount !== undefined && charRange && charRange[1] > 0) {
+  // inside the word target and still be twice as long on the page. Only ever
+  // raised when the word count itself says nothing — beside "write more" it
+  // contradicts, and beside "this is too long" it is the same note twice.
+  if (lengthState === 'good' && charCount !== undefined && charRange && charRange[1] > 0) {
     if (charCount > charRange[1] * 1.3) {
       warnings.push({
         id: 'chars-over',

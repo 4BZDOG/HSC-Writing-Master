@@ -151,6 +151,22 @@ describe('buildWritingInsights', () => {
     expect(insights.some((i) => i.id === 'chars-over')).toBe(false);
   });
 
+  it('does not say the same thing twice when the draft is simply overlong', () => {
+    const draft = analyzeText(Array.from({ length: 400 }, (_, i) => `word${i}. `).join(''));
+    const insights = buildWritingInsights(
+      baseInput({
+        analysis: draft,
+        targetWordCount: 100,
+        targetWordCountMax: 140,
+        keywordsTotal: 0,
+        charCount: 4000,
+        charRange: [400, 900],
+      })
+    );
+    expect(insights.some((i) => i.id === 'length-long')).toBe(true);
+    expect(insights.some((i) => i.id === 'chars-over')).toBe(false);
+  });
+
   it('gives positive reinforcement when the draft is healthy', () => {
     const good = analyzeText(
       'This response is well developed. It uses clear ideas. Each sentence is concise.'

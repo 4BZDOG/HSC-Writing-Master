@@ -74,6 +74,10 @@
  * is exactly one scroller again and a touch drag anywhere on the page moves it.
  */
 html {
+  /* `hidden` first as the fallback: pre-16 Safari does not know `clip` and
+     would otherwise drop the declaration entirely, letting the page scroll
+     sideways. Everything current takes the second line. */
+  overflow-x: hidden;
   overflow-x: clip;
   /* Touch input pans; it never double-tap-zooms the app chrome. */
   touch-action: manipulation;
@@ -84,6 +88,7 @@ body {
   background-color: rgb(var(--color-bg-base));
   color: rgb(var(--color-text-primary));
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
   overflow-x: clip;
 }
 

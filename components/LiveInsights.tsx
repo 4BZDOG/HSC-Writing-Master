@@ -69,9 +69,11 @@ const LiveInsights: React.FC<LiveInsightsProps> = React.memo(
           }`}
         >
           <Lightbulb className="w-4 h-4 shrink-0 text-amber-500 dark:text-amber-400" />
-          <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500">
+          {/* A span, not a heading: the row IS the disclosure control, and the
+              rail's other panels label themselves the same way. */}
+          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500">
             Live Insights
-          </h4>
+          </span>
           <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 opacity-80">
             · {summary}
           </span>

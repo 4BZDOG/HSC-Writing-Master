@@ -560,7 +560,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
               Sample Answers
             </span>
             <span
-              className={`block text-[10px] font-bold uppercase tracking-wider opacity-80 ${maxBandConfig.text}`}
+              className={`block truncate text-[10px] font-bold uppercase tracking-wider opacity-80 ${maxBandConfig.text}`}
             >
               {groupedAnswers.length > 0
                 ? `${groupedAnswers.length} performance level${groupedAnswers.length === 1 ? '' : 's'}`
