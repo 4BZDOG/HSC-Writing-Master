@@ -199,6 +199,107 @@ exception
 end $$;
 rollback;
 
+-- ---- 7. caller_plan() resolves the same order the client does --------------
+-- The AI proxy asks this before serving a plan-gated feature, so if it drifts
+-- from getUserPlan() a paying customer is refused or a free one is served.
+begin;
+update public.schools set plan_status = 'active'
+ where id = '00000000-0000-0000-0000-0000000000f1';
+
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e1","role":"authenticated"}';
+set local role authenticated;
+do $$
+begin
+  if public.caller_plan() <> 'free' then
+    raise exception 'TEST FAILED: a free student resolved to %', public.caller_plan();
+  end if;
+  raise notice 'PASS: free student resolves to the free plan';
+end $$;
+rollback;
+
+begin;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e2","role":"authenticated"}';
+set local role authenticated;
+do $$
+begin
+  if public.caller_plan() <> 'plus' then
+    raise exception 'TEST FAILED: a Plus subscriber resolved to %', public.caller_plan();
+  end if;
+  raise notice 'PASS: a personal paid plan resolves to plus';
+end $$;
+rollback;
+
+begin;
+update public.schools set plan_status = 'active'
+ where id = '00000000-0000-0000-0000-0000000000f1';
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e4","role":"authenticated"}';
+set local role authenticated;
+do $$
+begin
+  if public.caller_plan() <> 'school' then
+    raise exception 'TEST FAILED: a licensed school member resolved to %', public.caller_plan();
+  end if;
+  raise notice 'PASS: a live school licence resolves to the school plan';
+end $$;
+rollback;
+
+begin;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e3","role":"authenticated"}';
+set local role authenticated;
+do $$
+begin
+  if public.caller_plan() <> 'plus' then
+    raise exception 'TEST FAILED: the teacher staff perk resolved to %', public.caller_plan();
+  end if;
+  raise notice 'PASS: teachers hold the staff perk plan';
+end $$;
+rollback;
+
+-- ---- 8. Only an admin can retune the free allowance ------------------------
+-- The allowance is a live setting so it can be tuned without a deploy; that is
+-- only safe while the setter is closed to everyone else.
+begin;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e3","role":"authenticated"}';
+set local role authenticated;
+do $$
+begin
+  perform public.set_plan_setting('free_evaluation_limit', 500);
+  raise exception 'TEST FAILED: a teacher changed the free evaluation limit';
+exception
+  when others then
+    if sqlerrm = 'TEST FAILED: a teacher changed the free evaluation limit' then
+      raise;
+    end if;
+    raise notice 'PASS: set_plan_setting is admin-only (%, %)', sqlstate, sqlerrm;
+end $$;
+rollback;
+
+-- The setting itself must actually move the limit the meter enforces.
+begin;
+insert into public.plan_settings (key, value) values ('free_evaluation_limit', 2)
+  on conflict (key) do update set value = 2;
+do $$
+begin
+  if public.free_evaluation_limit() <> 2 then
+    raise exception 'TEST FAILED: plan_settings row ignored (limit is %)',
+      public.free_evaluation_limit();
+  end if;
+  raise notice 'PASS: the free allowance is adjustable from the database';
+end $$;
+rollback;
+
+-- …and with no row, the shipped default stands.
+begin;
+do $$
+begin
+  if public.free_evaluation_limit() <> 5 then
+    raise exception 'TEST FAILED: default free allowance is % (expected 5)',
+      public.free_evaluation_limit();
+  end if;
+  raise notice 'PASS: the shipped default applies when nothing is configured';
+end $$;
+rollback;
+
 do $$
 begin
   raise notice 'All entitlement tests passed.';

@@ -13,7 +13,7 @@ import {
 import PromptDisplay from './PromptDisplay';
 import ReferenceMaterials, { AccordionSection } from './ReferenceMaterials';
 import MarkingCriteriaManager from './MarkingCriteriaAccordion';
-import { ListChecks } from 'lucide-react';
+import { ListChecks, Lock } from 'lucide-react';
 import CommandTermGuideModal from './CommandTermGuideModal';
 import Breadcrumb from './Breadcrumb';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
@@ -23,6 +23,8 @@ import WorkspaceRightPanel from './WorkspaceRightPanel';
 import SampleAnswersAccordion from './SampleAnswersAccordion';
 import { isCurriculumRemote } from '../services/curriculumService';
 import { isOverlayOpen } from '../hooks/useEscapeKey';
+import { isQuestionTierLocked, requestUpgrade } from '../services/entitlements';
+import { freeTierLimits } from '../services/planPolicy';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 
 const useKeyboardShortcuts = (shortcuts: { [key: string]: (e: KeyboardEvent) => void }) => {
@@ -52,6 +54,44 @@ const useKeyboardShortcuts = (shortcuts: { [key: string]: (e: KeyboardEvent) => 
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [shortcuts]);
 };
+
+/**
+ * What a free-tier student sees where a Band 4–6 question would be.
+ *
+ * Deliberately not a blur over a working workspace: the question stem is shown
+ * (there is nothing to protect in the wording, and knowing what you are being
+ * offered is the point of a paywall) while the marking, the exemplars and the
+ * writing surface are simply absent.
+ */
+const LockedQuestionNotice: React.FC<{ verb: string; marks: number; question: string }> = ({
+  verb,
+  marks,
+  question,
+}) => (
+  <div className="flex flex-col items-center justify-center min-h-[50vh] animate-fade-in px-4">
+    <div className="clip-stable max-w-xl w-full text-center p-10 rounded-[32px] bg-white/70 dark:bg-[rgb(var(--color-bg-surface))]/60 border border-amber-400/30 shadow-2xl">
+      <div className="w-14 h-14 mx-auto mb-6 rounded-2xl bg-amber-400/15 border border-amber-400/30 flex items-center justify-center">
+        <Lock className="w-7 h-7 text-amber-500" />
+      </div>
+      <p className="text-[10px] font-black uppercase tracking-[0.25em] text-amber-500 mb-3">
+        {verb} · {marks} {marks === 1 ? 'mark' : 'marks'} · Band 6 Plus
+      </p>
+      <h3 className="text-lg font-serif leading-relaxed text-slate-800 dark:text-slate-200 mb-6">
+        {question}
+      </h3>
+      <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-6">
+        Higher-order questions — Analyse, Evaluate, Discuss — are part of Band 6 Plus. Your free
+        plan covers every question up to tier {freeTierLimits().maxQuestionTier}.
+      </p>
+      <button
+        onClick={() => requestUpgrade('advancedQuestions')}
+        className="px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-[11px] uppercase tracking-widest shadow-lg hover:scale-105 active:scale-95 transition-all"
+      >
+        Unlock with Plus
+      </button>
+    </div>
+  </div>
+);
 
 interface WorkspaceProps {
   courses: Course[];
@@ -286,6 +326,20 @@ const Workspace: React.FC<WorkspaceProps> = ({
   }, [currentPrompt?.id, setUserAnswer]);
 
   if (!currentPrompt) return null;
+
+  // The question picker disables locked tiers, but it is not the only way into
+  // a question: a teacher's assignment link sets the path directly, and so
+  // does a restored session from when the student still held Plus. The gate
+  // belongs on the workspace itself, where every route ends up.
+  if (isQuestionTierLocked(getCommandTermInfo(currentPrompt.verb).tier)) {
+    return (
+      <LockedQuestionNotice
+        verb={getCommandTermInfo(currentPrompt.verb).term}
+        marks={currentPrompt.totalMarks}
+        question={currentPrompt.question}
+      />
+    );
+  }
 
   const breadcrumbItems = [
     { label: currentCourse?.name || 'Course' },

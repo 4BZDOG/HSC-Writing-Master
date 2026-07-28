@@ -23,6 +23,21 @@ interface ImportMetaEnv {
    * ALLOWED_ORIGIN to the frontend's origin for the browser's CORS check.
    */
   readonly VITE_API_BASE_URL?: string;
+  /** `false` opens every paid feature — pilots and demos. Unset means ON. */
+  readonly VITE_MONETISATION_ENABLED?: string;
+  /**
+   * Plan policy overrides for this deployment — `feature:plan` pairs, e.g.
+   * `sampleAnswers:free,aiContentStudio:plus`. Set the unprefixed
+   * PLAN_FEATURE_OVERRIDES to the same value so the API enforces what the UI
+   * shows. See services/planPolicy.ts.
+   */
+  readonly VITE_PLAN_FEATURE_OVERRIDES?: string;
+  /** Free-tier reach, overriding the shipped defaults in services/planLimits.ts. */
+  readonly VITE_FREE_TIER_EVAL_LIMIT?: string;
+  readonly VITE_FREE_TIER_MAX_QUESTION_TIER?: string;
+  readonly VITE_FREE_TIER_MAX_SAMPLE_BAND?: string;
+  /** `true` gives free accounts the full criterion-by-criterion feedback. */
+  readonly VITE_FREE_TIER_FULL_FEEDBACK?: string;
 }
 
 interface ImportMeta {

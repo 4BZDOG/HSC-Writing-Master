@@ -53,7 +53,9 @@ const makeSupabaseMock = () => ({
         maybeSingle: async () =>
           columns === 'last_event_at'
             ? { data: { last_event_at: lastEventAt } }
-            : { data: { id: 'user-1' } },
+            : columns === 'plan'
+              ? { data: storedSubscriptionPlan ? { plan: storedSubscriptionPlan } : null }
+              : { data: { id: 'user-1' } },
         single: async () => ({ data: { id: 'user-1' } }),
       }),
     }),
@@ -65,7 +67,7 @@ vi.mock('../../api/_lib/stripe', () => ({
   getStripe: () => ({ subscriptions: { retrieve: retrieveMock } }) as unknown,
   isStripeConfigured: () => true,
   getSupabaseAdmin: () => makeSupabaseMock(),
-  priceToPlan: () => 'plus',
+  priceToPlan: (id: string) => priceToPlanImpl(id),
   resolveReturnBase: () => 'http://localhost:3000/',
   configuredPrices: () => ({ price_plus: 'plus' }),
   isProductionRuntime: () => isProduction(),
@@ -73,6 +75,10 @@ vi.mock('../../api/_lib/stripe', () => ({
 
 /** Toggled per-test so the production signature guard can be exercised. */
 let isProduction = () => false;
+/** Swapped per-test so an unrecognised price ID can be simulated. */
+let priceToPlanImpl: (id: string) => string = () => 'plus';
+/** The plan already stored on the subscription row, if any. */
+let storedSubscriptionPlan: string | null = null;
 
 import handler from '../../api/stripe-webhook';
 
@@ -146,6 +152,47 @@ describe('stripe webhook plan grace period', () => {
   );
 });
 
+describe('an unrecognised price never downgrades a paying customer', () => {
+  // priceToPlan falls back to 'free' for any price this deployment doesn't
+  // list — and Stripe sends customer.subscription.updated for renewals, card
+  // updates and quantity changes. So a rotated price, or one STRIPE_*_PRICE_ID
+  // missing from the Vercel project, used to cut off every active subscriber
+  // on the next routine event.
+  beforeEach(() => {
+    updates.length = 0;
+    upserts.length = 0;
+    retrieveMock.mockReset();
+    priceToPlanImpl = () => 'free';
+    storedSubscriptionPlan = null;
+  });
+  afterEach(() => {
+    priceToPlanImpl = () => 'plus';
+    storedSubscriptionPlan = null;
+  });
+
+  it('keeps the plan already on the subscription row', async () => {
+    storedSubscriptionPlan = 'school';
+    const res = makeRes();
+    await handler(subscriptionEvent('active'), res);
+    expect(res.statusCode).toBe(200);
+    expect(profilePlanWritten()).toBe('school');
+    expect(upserts.find((u) => u.table === 'subscriptions')?.values.plan).toBe('school');
+  });
+
+  it('falls back to the paid individual plan when the row is new', async () => {
+    const res = makeRes();
+    await handler(subscriptionEvent('active'), res);
+    expect(profilePlanWritten()).toBe('plus');
+  });
+
+  it('still downgrades when the subscription itself has ended', async () => {
+    storedSubscriptionPlan = 'plus';
+    const res = makeRes();
+    await handler(subscriptionEvent('canceled'), res);
+    expect(profilePlanWritten()).toBe('free');
+  });
+});
+
 describe('stripe webhook modern-API (basil+) field shapes', () => {
   beforeEach(() => {
     updates.length = 0;
@@ -191,8 +238,9 @@ describe('stripe webhook modern-API (basil+) field shapes', () => {
     >;
     expect(subRow.current_period_end).toBe(new Date(periodEnd * 1000).toISOString());
 
-    const profileWrite = updates.find((u) => u.table === 'profiles' && 'plan_period_end' in u.values)
-      ?.values as Record<string, string>;
+    const profileWrite = updates.find(
+      (u) => u.table === 'profiles' && 'plan_period_end' in u.values
+    )?.values as Record<string, string>;
     expect(profileWrite.plan_period_end).toBe(new Date(periodEnd * 1000).toISOString());
   });
 

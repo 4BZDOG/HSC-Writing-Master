@@ -29,11 +29,11 @@
  * import rule.
  */
 
-import {
-  FREE_TIER_EVAL_LIMIT,
-  FREE_TIER_MAX_QUESTION_TIER,
-  FREE_TIER_MAX_SAMPLE_BAND,
-} from '../services/planLimits';
+// planPolicy, not planLimits: the Terms must state what this deployment
+// actually enforces, including any environment override, not the shipped
+// default. Still a leaf import (planPolicy imports only planLimits) and still
+// read at call time — see getLegalDocuments below.
+import { freeTierLimits } from '../services/planPolicy';
 
 // ---------------------------------------------------------------------------
 // Versioning
@@ -313,7 +313,7 @@ const buildTermsOfUse = (): LegalDocument => ({
       id: 'plans',
       heading: '6. Free and paid plans',
       body: [
-        `The free plan is genuinely usable, and deliberately limited. Free accounts get ${FREE_TIER_EVAL_LIMIT} marked evaluations per day, practice questions up to command-term tier ${FREE_TIER_MAX_QUESTION_TIER}, sample answers up to Band ${FREE_TIER_MAX_SAMPLE_BAND}, and a summary verdict rather than the full criterion-by-criterion breakdown.`,
+        `The free plan is genuinely usable, and deliberately limited. Free accounts get ${freeTierLimits().evalLimit} marked evaluations per day, practice questions up to command-term tier ${freeTierLimits().maxQuestionTier}, sample answers up to Band ${freeTierLimits().maxSampleBand}, and a summary verdict rather than the full criterion-by-criterion breakdown.`,
         'Paid plans (Band 6 Plus for individuals, School for institutions) unlock the full toolkit and a larger daily AI allowance. Current inclusions and prices are shown in the app before you buy, and the amount actually charged is always the amount shown at checkout.',
         'Payments are processed by Stripe. We never see or store your card details. Subscriptions renew automatically until cancelled, and you can cancel at any time from your profile — access continues until the end of the period you have already paid for.',
         'Daily limits reset each day (UTC). Limits, inclusions and prices can change; we will not reduce what you have already paid for during a period you have paid for.',

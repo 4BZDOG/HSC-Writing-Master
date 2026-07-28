@@ -63,23 +63,27 @@ const openFirstQuestion = async (page: Page) => {
 test.describe('modal scrolling', () => {
   test.describe.configure({ timeout: 120_000 });
 
-  // Wheel events are a pointer gesture; the mobile projects emulate touch, where
-  // `mouse.wheel` is not a thing. The lock itself is browser-agnostic (see the
-  // useScrollLock unit tests) — this asserts it end to end on the desktop
-  // projects, which is where the bug was reported.
-  test.skip(({ isMobile }) => !!isMobile, 'wheel gestures need a pointer');
+  // The mobile projects emulate touch and lay the workspace out differently;
+  // the lock itself is engine-level, and desktop WebKit covers the same engine
+  // Mobile Safari runs.
+  test.skip(({ isMobile }) => !!isMobile, 'covered by the desktop projects');
 
-  test('the wheel never moves the page behind an open dialog', async ({ page }) => {
+  test('the wheel never moves the page behind an open dialog', async ({ page, browserName }) => {
     await page.setViewportSize({ width: 1400, height: 900 });
     await signIn(page);
     await clearOnboarding(page);
     await openFirstQuestion(page);
 
-    // Somewhere for the background to drift to.
-    await page.mouse.wheel(0, 400);
+    // Scrolled programmatically, not with the wheel: WebKit's driver does not
+    // deliver synthetic wheel events to the page, and this step is only setup.
+    // It doubles as the check that the page scrolls AT ALL — the root element
+    // carries `overflow-x: clip` (index.css) precisely so it does, and this is
+    // the assertion that would catch that going wrong in an engine where
+    // `clip` behaves differently.
+    await page.evaluate(() => window.scrollTo(0, 400));
     await page.waitForTimeout(400);
     const before = await page.evaluate(() => window.scrollY);
-    expect(before).toBeGreaterThan(0);
+    expect(before, 'the page must scroll before we can test that it stops').toBeGreaterThan(0);
 
     // Clicked through the DOM rather than with the pointer: an actionability
     // click scrolls its target into view first, which would move the page
@@ -95,10 +99,16 @@ test.describe('modal scrolling', () => {
     expect(await page.evaluate(() => document.body.style.top)).toBe(`-${before}px`);
 
     // A wheel over the dialog's chrome — not one of its scrollable regions.
-    await page.mouse.move(700, 120);
-    await page.mouse.wheel(0, 600);
-    await page.waitForTimeout(400);
-    expect(await page.evaluate(() => document.body.style.top)).toBe(`-${before}px`);
+    // This is the gesture the bug was reported for, and the only part of the
+    // test that needs a real pointer: mobile projects emulate touch, and
+    // WebKit's driver swallows synthetic wheels, so both are left to assert
+    // the lock's state (above and below) rather than the gesture.
+    if (browserName !== 'webkit') {
+      await page.mouse.move(700, 120);
+      await page.mouse.wheel(0, 600);
+      await page.waitForTimeout(400);
+      expect(await page.evaluate(() => document.body.style.top)).toBe(`-${before}px`);
+    }
 
     // Closing restores the page, at the place it was left.
     await page.keyboard.press('Escape');

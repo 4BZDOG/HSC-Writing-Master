@@ -122,9 +122,11 @@ export const AI_MODELS: AIModelOption[] = [
     estCostPerCall: 0,
   },
 
-  // --- Kimi (Moonshot AI) ---------------------------------------------------
-  // Kimi K3 is a strong reasoning model at low cost. Get a key from
-  // https://platform.kimi.ai/ — pricing is competitive with Gemini Flash.
+  // --- Kimi (Moonshot AI), direct ------------------------------------------
+  // Talks to platform.kimi.ai with its own key. There is a second route to the
+  // same model through OpenRouter (`openrouter-kimi-k3` below) — that one needs
+  // no Moonshot account, so prefer it unless you already hold a Kimi key or
+  // want to bill Moonshot directly.
   {
     id: 'kimi-k3',
     provider: 'kimi',
@@ -150,6 +152,30 @@ export const AI_MODELS: AIModelOption[] = [
     roles: ['basic', 'reasoning'],
     keyEnv: 'OPENROUTER_API_KEY',
     estCostPerCall: 0,
+  },
+  {
+    // Kimi K3 through OpenRouter — no Moonshot account needed, so this is the
+    // easier of the two routes to it (the direct `kimi-k3` entry above talks to
+    // platform.kimi.ai and needs its own key). Same weights either way; pick
+    // whichever key the deployment already has.
+    //
+    // The slug is pinned deliberately. OpenRouter also publishes the floating
+    // alias `~moonshotai/kimi-latest`, which quietly re-points as Moonshot
+    // ships new versions — fine for chat, wrong for marking, where the engine
+    // behind a band ought to be the one that was tested. Swap the `model`
+    // string here if you want the alias.
+    id: 'openrouter-kimi-k3',
+    provider: 'openrouter',
+    model: 'moonshotai/kimi-k3',
+    label: 'Kimi K3 (OpenRouter)',
+    description:
+      'Moonshot AI flagship reasoning model, routed through OpenRouter — strong on structured analysis and marking. Requires OPENROUTER_API_KEY with credit (this is a paid slug).',
+    roles: ['basic', 'reasoning'],
+    keyEnv: 'OPENROUTER_API_KEY',
+    // ~US$3/M input + ~US$15/M output at launch pricing, on the registry's
+    // standard 2k-in/1k-out marking-sized exchange. Caching discounts are not
+    // modelled — this is for comparing engines, not billing.
+    estCostPerCall: 0.021,
   },
   {
     id: 'openrouter-glm',

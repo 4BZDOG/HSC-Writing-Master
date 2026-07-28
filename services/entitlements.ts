@@ -1,10 +1,13 @@
 import { authService } from './authService';
 import {
-  FREE_TIER_EVAL_LIMIT,
-  FREE_TIER_MAX_QUESTION_TIER,
-  FREE_TIER_MAX_SAMPLE_BAND,
-  FREE_TIER_FEEDBACK_SUMMARY_ONLY,
-} from './planLimits';
+  featureMinPlan,
+  featuresForPlan,
+  freeTierLimits,
+  monetisationEnabled,
+  planUnlocks,
+  type Plan,
+  type PremiumFeatureKey,
+} from './planPolicy';
 import type { User } from '../types';
 import type { UserRole } from '../types';
 
@@ -44,9 +47,27 @@ const isAdmin = (user?: User | null): boolean => {
  *   paying users.
  */
 
-export type Plan = 'free' | 'plus' | 'school';
-
-export const MONETISATION_ENABLED = true;
+/**
+ * Plans, feature keys and the plan→feature policy itself now live in
+ * `./planPolicy.ts`, which is where deployment overrides are applied. They are
+ * re-exported here so every existing call site is unchanged, and so there is
+ * still one obvious import for "everything about entitlements".
+ */
+export type { Plan, PremiumFeatureKey } from './planPolicy';
+export {
+  featureMinPlan,
+  planUnlocks,
+  PLAN_ORDER,
+  planRank,
+  /**
+   * Whether this deployment charges for anything. A FUNCTION, not a constant:
+   * `export const MONETISATION_ENABLED = monetisationEnabled()` calls an
+   * imported function while this module initialises, which is the exact
+   * pattern that once shipped a blank page (see the chunk-ordering note in
+   * ./planLimits.ts) — and which `npm run check:eager-reads` exists to catch.
+   */
+  monetisationEnabled,
+} from './planPolicy';
 
 export const PLAN_LABELS: Record<Plan, string> = {
   free: 'Free',
@@ -57,15 +78,6 @@ export const PLAN_LABELS: Record<Plan, string> = {
 // ---------------------------------------------------------------------------
 // Feature keys — the atomic units of gating
 // ---------------------------------------------------------------------------
-
-export type PremiumFeatureKey =
-  | 'pdfExport'
-  | 'answerUpgrades'
-  | 'aiContentStudio'
-  | 'advancedQuestions'
-  | 'fullFeedback'
-  | 'sampleAnswers'
-  | 'examMode';
 
 export interface PremiumFeatureMeta {
   title: string;
@@ -137,26 +149,9 @@ export {
 // Plan features — which features each plan unlocks
 // ---------------------------------------------------------------------------
 
-const PLAN_FEATURES: Record<Plan, Set<PremiumFeatureKey>> = {
-  free: new Set(),
-  plus: new Set([
-    'pdfExport',
-    'answerUpgrades',
-    'advancedQuestions',
-    'fullFeedback',
-    'sampleAnswers',
-    'examMode',
-  ]),
-  school: new Set([
-    'pdfExport',
-    'answerUpgrades',
-    'aiContentStudio',
-    'advancedQuestions',
-    'fullFeedback',
-    'sampleAnswers',
-    'examMode',
-  ]),
-};
+// The plan → feature matrix is derived from planPolicy's feature → minimum-plan
+// map, so the two directions can never disagree and a deployment override is
+// picked up by both.
 
 // ---------------------------------------------------------------------------
 // Plan resolution
@@ -166,16 +161,21 @@ const PLAN_FEATURES: Record<Plan, Set<PremiumFeatureKey>> = {
  * Resolve the caller's plan.
  *
  * Priority:
- *   1. If the user's Supabase profile has a `stripe_plan` field (set by the
- *      Stripe webhook), that wins.
- *   2. If the user belongs to a school with an active institutional
- *      subscription, they inherit the `school` plan.
- *   3. Admins and teachers get `plus` as a staff perk (so the app is fully
- *      usable for content authors even before Stripe is live).
+ *   1. Admins hold the most permissive plan, so nothing is locked for them.
+ *   2. An explicit paid plan on the profile — written by the Stripe webhook,
+ *      or by authService when the user's school holds a live seat licence.
+ *   3. Teachers get `plus` as a staff perk.
  *   4. Everyone else is `free`.
  *
- * When Stripe is integrated: replace the role-based fallback (step 3) with
- * a real subscription check. The profile column is the source of truth.
+ * This is the DISPLAY side of the decision. The enforcing copy is
+ * `caller_plan()` in Postgres (schema §17), which the AI proxy consults before
+ * serving a paid feature; the two must keep the same order, and a test pins
+ * them.
+ *
+ * Note what the staff perk does NOT include: `aiContentStudio` defaults to the
+ * school plan, so a teacher without a school licence sees the authoring tools
+ * locked. That is a commercial choice, not an oversight — flip it with
+ * `PLAN_FEATURE_OVERRIDES=aiContentStudio:plus` if staff should always author.
  */
 export const getUserPlan = (user?: User | null): Plan => {
   const u = user !== undefined ? user : authService.getCurrentUser();
@@ -188,8 +188,10 @@ export const getUserPlan = (user?: User | null): Plan => {
   const explicit = (u as User & { stripePlan?: Plan }).stripePlan;
   if (explicit && explicit in PLAN_LABELS) return explicit;
 
-  // Step 2: school institutional subscription (future — school.plan column)
-  // For now, schools use the quota system; the plan stays role-derived.
+  // Step 2: school seat licence. Resolved at SIGN-IN rather than here —
+  // authService stamps `stripePlan: 'school'` onto the profile when the user's
+  // school has a live licence, so it arrives as an explicit plan in step 1.
+  // The server mirrors this order in caller_plan() (schema §17).
 
   // Step 3: staff perk — teachers get Plus so content authoring works
   if (u.role === 'teacher') return 'plus';
@@ -204,10 +206,7 @@ export const getUserPlan = (user?: User | null): Plan => {
  * otherwise it advertises school-only perks (the AI Content Studio) to
  * someone buying Plus.
  */
-export const planFeatureKeys = (plan: Plan): PremiumFeatureKey[] =>
-  (Object.keys(PREMIUM_FEATURES) as PremiumFeatureKey[]).filter((key) =>
-    PLAN_FEATURES[plan].has(key)
-  );
+export const planFeatureKeys = (plan: Plan): PremiumFeatureKey[] => featuresForPlan(plan);
 
 /**
  * The cheapest plan that unlocks a feature — what the upgrade prompt should
@@ -215,18 +214,14 @@ export const planFeatureKeys = (plan: Plan): PremiumFeatureKey[] =>
  * including school-only features, which is a dead end for a user who already
  * holds Plus (teachers do, as a staff perk).
  */
-export const lowestPlanForFeature = (feature: PremiumFeatureKey): Plan => {
-  const order: Plan[] = ['free', 'plus', 'school'];
-  return order.find((plan) => PLAN_FEATURES[plan].has(feature)) ?? 'school';
-};
+export const lowestPlanForFeature = (feature: PremiumFeatureKey): Plan => featureMinPlan(feature);
 
 /** True when the given feature should render in its locked state. */
 export const isFeatureLocked = (feature: PremiumFeatureKey, user?: User | null): boolean => {
-  if (!MONETISATION_ENABLED) return false;
+  if (!monetisationEnabled()) return false;
   if (isAdmin(user)) return false;
   if (!(feature in PREMIUM_FEATURES)) return false;
-  const plan = getUserPlan(user);
-  return !PLAN_FEATURES[plan].has(feature);
+  return !planUnlocks(getUserPlan(user), feature);
 };
 
 // ---------------------------------------------------------------------------
@@ -238,10 +233,10 @@ export const isFeatureLocked = (feature: PremiumFeatureKey, user?: User | null):
  * Tiers 1–3 (Identify → Apply) are free; 4–6 (Analyse → Evaluate) are Plus.
  */
 export const isQuestionTierLocked = (tier: number, user?: User | null): boolean => {
-  if (!MONETISATION_ENABLED) return false;
+  if (!monetisationEnabled()) return false;
   if (isAdmin(user)) return false;
   if (getUserPlan(user) !== 'free') return false;
-  return tier > FREE_TIER_MAX_QUESTION_TIER;
+  return tier > freeTierLimits().maxQuestionTier;
 };
 
 /**
@@ -249,10 +244,10 @@ export const isQuestionTierLocked = (tier: number, user?: User | null): boolean 
  * Bands 1–3 are free; higher bands are Plus.
  */
 export const isSampleAnswerLocked = (band: number, user?: User | null): boolean => {
-  if (!MONETISATION_ENABLED) return false;
+  if (!monetisationEnabled()) return false;
   if (isAdmin(user)) return false;
   if (getUserPlan(user) !== 'free') return false;
-  return band > FREE_TIER_MAX_SAMPLE_BAND;
+  return band > freeTierLimits().maxSampleBand;
 };
 
 /**
@@ -260,10 +255,10 @@ export const isSampleAnswerLocked = (band: number, user?: User | null): boolean 
  * full criterion-by-criterion breakdown.
  */
 export const isFeedbackLocked = (user?: User | null): boolean => {
-  if (!MONETISATION_ENABLED) return false;
+  if (!monetisationEnabled()) return false;
   if (isAdmin(user)) return false;
   if (getUserPlan(user) !== 'free') return false;
-  return FREE_TIER_FEEDBACK_SUMMARY_ONLY;
+  return freeTierLimits().summaryFeedbackOnly;
 };
 
 // ---------------------------------------------------------------------------
@@ -283,6 +278,11 @@ export const isFeedbackLocked = (user?: User | null): boolean => {
 // one extra free day.
 const EVAL_COUNT_KEY = 'ws:free-eval-count';
 const EVAL_DATE_KEY = 'ws:free-eval-date';
+// The limit the SERVER last reported. `free_evaluation_limit()` is an
+// admin-adjustable setting in Postgres (schema §15), so the number shipped in
+// this bundle is only a starting guess — once the server has told us what it
+// is actually enforcing, that wins for the rest of the day.
+const EVAL_LIMIT_KEY = 'ws:free-eval-limit';
 
 const evalKeySuffix = (): string => {
   const username = authService.getCurrentUser()?.username;
@@ -301,6 +301,26 @@ const readDailyEvalCount = (): number => {
     return 0;
   }
 };
+
+/**
+ * The daily allowance to display and pre-check against: the server's own
+ * figure when it has told us one today, otherwise this deployment's default.
+ */
+const effectiveEvalLimit = (): number => {
+  try {
+    const suffix = evalKeySuffix();
+    if (localStorage.getItem(EVAL_DATE_KEY + suffix) === todayDateStr()) {
+      const stored = parseInt(localStorage.getItem(EVAL_LIMIT_KEY + suffix) ?? '', 10);
+      if (Number.isFinite(stored) && stored >= 0) return stored;
+    }
+  } catch {
+    /* localStorage unavailable — fall back to the shipped default */
+  }
+  return freeTierLimits().evalLimit;
+};
+
+/** This deployment's free daily evaluation allowance, as the UI should state it. */
+export const freeEvalLimit = (): number => effectiveEvalLimit();
 
 /** Record one evaluation use. Call after a successful evaluation. */
 export const recordEvaluation = (): void => {
@@ -324,12 +344,17 @@ export const recordEvaluation = (): void => {
  * when the proxy refuses an evaluation (402). Without this the UI would keep
  * offering evaluations the server will keep refusing.
  */
-export const syncFreeEvalCount = (used: number): void => {
+export const syncFreeEvalCount = (used: number, limit?: number): void => {
   if (!Number.isFinite(used) || used < 0) return;
   try {
     const suffix = evalKeySuffix();
     localStorage.setItem(EVAL_DATE_KEY + suffix, todayDateStr());
     localStorage.setItem(EVAL_COUNT_KEY + suffix, String(Math.trunc(used)));
+    // `limit: -1` means "not metered at all" (staff or a paid plan) and is not
+    // a number to display; anything else is the server's live setting.
+    if (typeof limit === 'number' && Number.isFinite(limit) && limit >= 0) {
+      localStorage.setItem(EVAL_LIMIT_KEY + suffix, String(Math.trunc(limit)));
+    }
   } catch {
     /* localStorage unavailable — the server gate still holds */
   }
@@ -337,18 +362,18 @@ export const syncFreeEvalCount = (used: number): void => {
 
 /** True when the free tier's daily evaluation limit has been reached. */
 export const isEvalLimitReached = (user?: User | null): boolean => {
-  if (!MONETISATION_ENABLED) return false;
+  if (!monetisationEnabled()) return false;
   if (isAdmin(user)) return false;
   if (getUserPlan(user) !== 'free') return false;
-  return readDailyEvalCount() >= FREE_TIER_EVAL_LIMIT;
+  return readDailyEvalCount() >= effectiveEvalLimit();
 };
 
 /** Remaining free evaluations today. */
 export const freeEvalsRemaining = (user?: User | null): number => {
-  if (!MONETISATION_ENABLED) return Infinity;
+  if (!monetisationEnabled()) return Infinity;
   if (isAdmin(user)) return Infinity;
   if (getUserPlan(user) !== 'free') return Infinity;
-  return Math.max(0, FREE_TIER_EVAL_LIMIT - readDailyEvalCount());
+  return Math.max(0, effectiveEvalLimit() - readDailyEvalCount());
 };
 
 // ---------------------------------------------------------------------------

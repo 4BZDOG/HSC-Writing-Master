@@ -21,6 +21,7 @@ import {
   ApiKeyError,
   QuotaExceededError,
   EvaluationLimitError,
+  FeatureLockedError,
   ERROR_THRESHOLD,
 } from './aiCore';
 import {
@@ -53,6 +54,7 @@ export {
   ApiKeyError,
   QuotaExceededError,
   EvaluationLimitError,
+  FeatureLockedError,
   ERROR_THRESHOLD,
 };
 
@@ -362,6 +364,11 @@ export const improveAnswer = async (
 ): Promise<string> => {
   const request = {
     ...aiTarget('reasoning'),
+    // Paid-feature tag. The proxy resolves the caller's plan and refuses
+    // the call when it doesn't cover this feature (api/_lib/planPolicy.ts),
+    // so the UI lock is backed by a server that says no. Stripped before the
+    // provider sees it.
+    __feature: 'answerUpgrades',
     contents: {
       parts: [
         {
@@ -935,6 +942,11 @@ export const generateNewPrompt = async (
 
   const request = {
     ...aiTarget('reasoning'),
+    // Paid-feature tag. The proxy resolves the caller's plan and refuses
+    // the call when it doesn't cover this feature (api/_lib/planPolicy.ts),
+    // so the UI lock is backed by a server that says no. Stripped before the
+    // provider sees it.
+    __feature: 'aiContentStudio',
     contents: {
       parts: [
         {
@@ -1039,6 +1051,11 @@ export const generateSampleAnswer = async (
 
   const request = {
     ...aiTarget('reasoning'),
+    // Paid-feature tag. The proxy resolves the caller's plan and refuses
+    // the call when it doesn't cover this feature (api/_lib/planPolicy.ts),
+    // so the UI lock is backed by a server that says no. Stripped before the
+    // provider sees it.
+    __feature: 'aiContentStudio',
     contents: {
       parts: [
         {
@@ -1097,6 +1114,12 @@ export const generateSampleAnswer = async (
 export const parseOutcomesFromText = async (text: string): Promise<CourseOutcome[]> => {
   const request = {
     ...aiTarget('basic'),
+    // NOT tagged as a paid feature, deliberately. This parser serves two
+    // entry points: the studio-locked syllabus import, and the Outcomes editor,
+    // which is open to any teacher. Tagging the FUNCTION would refuse the
+    // second one to a teacher on the Plus staff perk. The tag belongs to an
+    // entry point, so a shared helper carries none — role and quota still
+    // apply.
     contents: {
       parts: [
         {
@@ -1142,6 +1165,12 @@ export const parseOutcomesFromText = async (text: string): Promise<CourseOutcome
 export const parseSyllabusStructure = async (content: string): Promise<SyllabusPreviewNode[]> => {
   const request = {
     ...aiTarget('reasoning'),
+    // NOT tagged as a paid feature, deliberately. This parser serves two
+    // entry points: the studio-locked syllabus import, and the picker's inline Add Topic paste,
+    // which is open to any teacher. Tagging the FUNCTION would refuse the
+    // second one to a teacher on the Plus staff perk. The tag belongs to an
+    // entry point, so a shared helper carries none — role and quota still
+    // apply.
     contents: {
       parts: [
         {
@@ -1290,6 +1319,11 @@ export const splitSyllabusIntoTopics = async (
 ): Promise<{ name: string; content: string }[]> => {
   const request = {
     ...aiTarget('basic'),
+    // Paid-feature tag. The proxy resolves the caller's plan and refuses
+    // the call when it doesn't cover this feature (api/_lib/planPolicy.ts),
+    // so the UI lock is backed by a server that says no. Stripped before the
+    // provider sees it.
+    __feature: 'aiContentStudio',
     contents: {
       parts: [
         {
@@ -1345,6 +1379,11 @@ export const generateDotPointsForSubTopic = async (
 ): Promise<string[]> => {
   const request = {
     ...aiTarget('basic'),
+    // Paid-feature tag. The proxy resolves the caller's plan and refuses
+    // the call when it doesn't cover this feature (api/_lib/planPolicy.ts),
+    // so the UI lock is backed by a server that says no. Stripped before the
+    // provider sees it.
+    __feature: 'aiContentStudio',
     contents: {
       parts: [
         {
