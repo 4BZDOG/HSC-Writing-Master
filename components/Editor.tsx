@@ -39,6 +39,18 @@ import { MAX_CARD_HEIGHT } from '../utils/layoutConstants';
 import { useChromeHeightReporter } from '../hooks/useChromeHeightReporter';
 import { PlusLockChip } from './UpgradeModal';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
+import {
+  CARD_HEADER_BAR,
+  CARD_HEADER_BOX,
+  CARD_HEADER_ICON,
+  CARD_HEADER_IDENTITY,
+  CARD_HEADER_META,
+  CARD_HEADER_META_ROW,
+  CARD_HEADER_ROW,
+  CARD_HEADER_TITLE,
+  CARD_HEADER_TITLE_BLOCK,
+  CARD_HEADER_TRAY,
+} from '../utils/cardChrome';
 import StrategyTip from './StrategyTip';
 import { parseStrategyTip } from '../utils/strategyTip';
 
@@ -114,7 +126,7 @@ const ToolbarButton: React.FC<{
     aria-label={tooltip}
     aria-expanded={expanded}
     className={`
-            p-2 rounded-lg transition-all duration-200 
+            p-1.5 rounded-lg transition-all duration-200 
             ${
               active
                 ? 'bg-white/20 text-white shadow-sm'
@@ -514,12 +526,9 @@ const Editor = forwardRef<
           {/* Header */}
           <div
             ref={headerRef}
-            // TOP-aligned, matching the prompt card exactly — see the note on
-            // that card's header content wrapper. This header is stretched to
-            // the taller of the two, and centring the content inside the
-            // stretch is what kept knocking "Written Response" out of line with
-            // "Writing Prompt".
-            className={`px-4 sm:px-8 py-4 sm:py-5 text-white flex justify-between items-start relative overflow-hidden flex-shrink-0 rounded-t-[30px] transition-[background,box-shadow] duration-1000 ease-in-out`}
+            // Every class here comes from utils/cardChrome, shared with the
+            // question card so the two headers are the same object twice.
+            className={`${CARD_HEADER_BOX} transition-[background,box-shadow] duration-1000 ease-in-out`}
             style={{
               minHeight: minHeaderHeight ? `${minHeaderHeight}px` : 'auto',
               background: chroma.background,
@@ -534,43 +543,25 @@ const Editor = forwardRef<
 
             <MeshOverlay opacity="opacity-20" color="%23ffffff" />
 
-            {/* Content Wrapper — wraps whenever the row is too tight (not just
-              below md) so the pill toolbar drops below the title instead of
-              painting over it. */}
-            <div
-              ref={headerContentRef}
-              // `items-start`, matching the prompt card's header content row.
-              // The two title blocks are different heights (an eyebrow there, a
-              // band chip and progress meter here), so only top alignment puts
-              // the two headings on the same line — and keeps them there
-              // through zoom and through every width at which the toolbar
-              // wraps. The pill toolbar is nudged back down with `mt-1` so it
-              // still reads as belonging to the title row.
-              className="relative z-10 w-full flex flex-wrap justify-between items-start gap-y-3 gap-x-4"
-            >
-              <div className="flex items-start gap-3 sm:gap-4 min-w-0">
-                <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shadow-lg group flex-shrink-0">
+            <div ref={headerContentRef} className={CARD_HEADER_ROW}>
+              <div className={CARD_HEADER_IDENTITY}>
+                <div className={CARD_HEADER_ICON}>
                   <PenTool
-                    className={`w-6 h-6 group-hover:scale-110 transition-transform ${chroma.iconColor}`}
+                    className={`w-5 h-5 group-hover:scale-110 transition-transform ${chroma.iconColor}`}
                   />
                 </div>
-                {/* `pt-1` mirrors the prompt card's title block exactly. */}
-                <div className="min-w-0 pt-1">
-                  <h3 className="text-xl sm:text-2xl font-black tracking-tight leading-none drop-shadow-sm">
-                    Written Response
-                  </h3>
+                <div className={CARD_HEADER_TITLE_BLOCK}>
+                  <h3 className={CARD_HEADER_TITLE}>Written Response</h3>
                   {isExamMode ? (
-                    <div className="flex items-center gap-2 mt-1.5">
-                      <span className="text-[9px] bg-red-500/90 px-2 py-0.5 rounded-md border border-white/20 font-black uppercase tracking-widest flex items-center gap-1 shadow-sm">
+                    <div className={CARD_HEADER_META_ROW}>
+                      <span className="text-[9px] leading-none bg-red-500/90 px-2 py-1 rounded-md border border-white/20 font-black uppercase tracking-widest flex items-center gap-1 shadow-sm">
                         <GraduationCap className="w-3 h-3" /> Exam
                       </span>
-                      <p className="text-[10px] font-bold text-white/60 uppercase tracking-[0.2em]">
-                        No assistance
-                      </p>
+                      <p className={CARD_HEADER_META}>No assistance</p>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-2.5 mt-1.5">
-                      <span className="text-[9px] bg-white/20 px-2 py-0.5 rounded-md border border-white/15 font-black uppercase tracking-widest shadow-sm backdrop-blur-sm">
+                    <div className={CARD_HEADER_META_ROW}>
+                      <span className="text-[9px] leading-none bg-white/20 px-2 py-1 rounded-md border border-white/15 font-black uppercase tracking-widest shadow-sm backdrop-blur-sm">
                         Band {chroma.targetBand}
                       </span>
                       <div className="h-1 w-16 bg-white/20 rounded-full overflow-hidden">
@@ -579,7 +570,7 @@ const Editor = forwardRef<
                           style={{ width: `${Math.min(100, progress * 100)}%` }}
                         />
                       </div>
-                      <p className="text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] whitespace-nowrap">
+                      <p className={`${CARD_HEADER_META} whitespace-nowrap`}>
                         {Math.min(100, Math.round(progress * 100))}%
                       </p>
                     </div>
@@ -587,125 +578,130 @@ const Editor = forwardRef<
                 </div>
               </div>
 
-              {/* Functional Pill Toolbar — ml-auto keeps it right-aligned when
-                the header row wraps it onto its own line. */}
-              <div className="flex items-center gap-1 bg-black/20 backdrop-blur-xl p-1 rounded-2xl border border-white/10 shadow-inner flex-shrink-0 ml-auto mt-1">
-                {onWritingModeChange && (
-                  <>
-                    <div
-                      className="flex items-center gap-0.5"
-                      role="group"
-                      aria-label="Writing mode"
-                    >
-                      <button
-                        type="button"
-                        onClick={() => onWritingModeChange('coach')}
-                        aria-pressed={!isExamMode}
-                        title="Coach Mode — live highlighting, insights and exemplars"
-                        className={`px-2.5 h-7 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 ${!isExamMode ? 'bg-white text-slate-900 shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+              {/* The tools sit in the header's bottom-right corner, where the
+                question card keeps its stat pills — same tray, same bar, same
+                height. Beside the heading they read as part of the title; on
+                the floor of the row they read as the pair of the pills across
+                the gap, which is what they are. */}
+              <div className={CARD_HEADER_TRAY}>
+                <div className={`${CARD_HEADER_BAR} gap-1`}>
+                  {onWritingModeChange && (
+                    <>
+                      <div
+                        className="flex items-center gap-0.5"
+                        role="group"
+                        aria-label="Writing mode"
                       >
-                        <Lightbulb className="w-3.5 h-3.5" />
-                        <span className="hidden md:inline">Coach</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (isFeatureLocked('examMode')) {
-                            requestUpgrade('examMode');
-                          } else {
-                            onWritingModeChange('exam');
-                          }
-                        }}
-                        aria-pressed={isExamMode}
-                        title="Exam Mode — HSC exam simulation: no assistance, timed"
-                        className={`px-2.5 h-7 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 ${isExamMode ? 'bg-red-500 text-white shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
-                      >
-                        <GraduationCap className="w-3.5 h-3.5" />
-                        <span className="hidden md:inline">Exam</span>
-                        {isFeatureLocked('examMode') && <PlusLockChip className="ml-0.5" />}
-                      </button>
-                    </div>
-                    <div className="w-px h-4 bg-white/20 mx-0.5" />
-                  </>
-                )}
-                {/* Bold and italic sat open in the toolbar permanently, and an
+                        <button
+                          type="button"
+                          onClick={() => onWritingModeChange('coach')}
+                          aria-pressed={!isExamMode}
+                          title="Coach Mode — live highlighting, insights and exemplars"
+                          className={`px-2.5 h-6 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 ${!isExamMode ? 'bg-white text-slate-900 shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                        >
+                          <Lightbulb className="w-3.5 h-3.5" />
+                          <span className="hidden md:inline">Coach</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (isFeatureLocked('examMode')) {
+                              requestUpgrade('examMode');
+                            } else {
+                              onWritingModeChange('exam');
+                            }
+                          }}
+                          aria-pressed={isExamMode}
+                          title="Exam Mode — HSC exam simulation: no assistance, timed"
+                          className={`px-2.5 h-6 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 ${isExamMode ? 'bg-red-500 text-white shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                        >
+                          <GraduationCap className="w-3.5 h-3.5" />
+                          <span className="hidden md:inline">Exam</span>
+                          {isFeatureLocked('examMode') && <PlusLockChip className="ml-0.5" />}
+                        </button>
+                      </div>
+                      <div className="w-px h-4 bg-white/20 mx-0.5" />
+                    </>
+                  )}
+                  {/* Bold and italic sat open in the toolbar permanently, and an
                   HSC response is prose — they are pressed once in a session, if
                   ever, while the controls a student does reach for (reading
                   size, focus mode) had to share the row with them. They fold
                   behind one button, which stays put once opened. */}
-                {!isExamMode && (
-                  <>
-                    <ToolbarButton
-                      onClick={() => setShowFormatting((v) => !v)}
-                      icon={<Baseline className="w-4 h-4" />}
-                      tooltip={showFormatting ? 'Hide formatting' : 'Formatting (bold, italic)'}
-                      active={showFormatting}
-                      disabled={disabled}
-                      expanded={showFormatting}
-                    />
-                    {showFormatting && (
-                      <div
-                        className="flex items-center gap-1 animate-fade-in"
-                        role="group"
-                        aria-label="Text formatting"
-                      >
-                        <ToolbarButton
-                          onClick={() => handleFormat('bold')}
-                          icon={<Bold className="w-4 h-4" />}
-                          tooltip="Bold"
-                          disabled={disabled}
-                        />
-                        <ToolbarButton
-                          onClick={() => handleFormat('italic')}
-                          icon={<Italic className="w-4 h-4" />}
-                          tooltip="Italic"
-                          disabled={disabled}
-                        />
-                      </div>
-                    )}
-                    <div className="w-px h-4 bg-white/20 mx-0.5" />
-                  </>
-                )}
-                <ToolbarButton
-                  onClick={() => handleManualResize(Math.max(12, internalFontSize - 2))}
-                  icon={<ZoomOut className="w-4 h-4" />}
-                  tooltip="Smaller text"
-                  disabled={internalFontSize <= 12}
-                />
-                <ToolbarButton
-                  onClick={() => handleManualResize(Math.min(32, internalFontSize + 2))}
-                  icon={<ZoomIn className="w-4 h-4" />}
-                  tooltip="Larger text"
-                  disabled={internalFontSize >= 32}
-                />
-                <div className="w-px h-4 bg-white/20 mx-0.5" />
-                <ToolbarButton
-                  onClick={handleCopy}
-                  icon={copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                  tooltip="Copy"
-                  disabled={!value}
-                />
+                  {!isExamMode && (
+                    <>
+                      <ToolbarButton
+                        onClick={() => setShowFormatting((v) => !v)}
+                        icon={<Baseline className="w-4 h-4" />}
+                        tooltip={showFormatting ? 'Hide formatting' : 'Formatting (bold, italic)'}
+                        active={showFormatting}
+                        disabled={disabled}
+                        expanded={showFormatting}
+                      />
+                      {showFormatting && (
+                        <div
+                          className="flex items-center gap-1 animate-fade-in"
+                          role="group"
+                          aria-label="Text formatting"
+                        >
+                          <ToolbarButton
+                            onClick={() => handleFormat('bold')}
+                            icon={<Bold className="w-4 h-4" />}
+                            tooltip="Bold"
+                            disabled={disabled}
+                          />
+                          <ToolbarButton
+                            onClick={() => handleFormat('italic')}
+                            icon={<Italic className="w-4 h-4" />}
+                            tooltip="Italic"
+                            disabled={disabled}
+                          />
+                        </div>
+                      )}
+                      <div className="w-px h-4 bg-white/20 mx-0.5" />
+                    </>
+                  )}
+                  <ToolbarButton
+                    onClick={() => handleManualResize(Math.max(12, internalFontSize - 2))}
+                    icon={<ZoomOut className="w-4 h-4" />}
+                    tooltip="Smaller text"
+                    disabled={internalFontSize <= 12}
+                  />
+                  <ToolbarButton
+                    onClick={() => handleManualResize(Math.min(32, internalFontSize + 2))}
+                    icon={<ZoomIn className="w-4 h-4" />}
+                    tooltip="Larger text"
+                    disabled={internalFontSize >= 32}
+                  />
+                  <div className="w-px h-4 bg-white/20 mx-0.5" />
+                  <ToolbarButton
+                    onClick={handleCopy}
+                    icon={copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                    tooltip="Copy"
+                    disabled={!value}
+                  />
 
-                {onToggleFocusMode && (
-                  <button
-                    onClick={onToggleFocusMode}
-                    aria-label={isFocusMode ? 'Exit focus mode' : 'Enter focus mode'}
-                    aria-pressed={isFocusMode}
-                    title={
-                      isFocusMode
-                        ? 'Exit focus mode (Esc)'
-                        : 'Distraction-free writing (Ctrl / ⌘ + Shift + F)'
-                    }
-                    className={`ml-2 px-3 h-8 rounded-xl transition-all font-black text-[10px] uppercase tracking-wider flex items-center gap-2 ${isFocusMode ? 'bg-amber-500 text-white shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'}`}
-                  >
-                    {isFocusMode ? (
-                      <Minimize className="w-3.5 h-3.5" />
-                    ) : (
-                      <Maximize className="w-3.5 h-3.5" />
-                    )}
-                    <span className="hidden sm:inline">{isFocusMode ? 'Normal' : 'Focus'}</span>
-                  </button>
-                )}
+                  {onToggleFocusMode && (
+                    <button
+                      onClick={onToggleFocusMode}
+                      aria-label={isFocusMode ? 'Exit focus mode' : 'Enter focus mode'}
+                      aria-pressed={isFocusMode}
+                      title={
+                        isFocusMode
+                          ? 'Exit focus mode (Esc)'
+                          : 'Distraction-free writing (Ctrl / ⌘ + Shift + F)'
+                      }
+                      className={`ml-1.5 px-2.5 h-6 rounded-lg transition-all font-black text-[10px] uppercase tracking-wider flex items-center gap-1.5 ${isFocusMode ? 'bg-amber-500 text-white shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'}`}
+                    >
+                      {isFocusMode ? (
+                        <Minimize className="w-3.5 h-3.5" />
+                      ) : (
+                        <Maximize className="w-3.5 h-3.5" />
+                      )}
+                      <span className="hidden sm:inline">{isFocusMode ? 'Normal' : 'Focus'}</span>
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </div>
