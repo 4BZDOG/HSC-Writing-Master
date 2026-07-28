@@ -4,10 +4,12 @@ import {
   consumeAiQuota,
   consumeEvaluation,
   recordAiModelUsage,
+  resolveCallerPlan,
   type QuotaVerdict,
 } from './_lib/quota';
 import { corsHeadersFor } from './_lib/cors';
 import { isEvaluationRequest, redactEvaluationResponse } from './_lib/entitlements';
+import { featureFromRequest, featureMinPlan, planUnlocks } from './_lib/planPolicy';
 
 /**
  * Vercel serverless function: POST /api/gemini
@@ -115,6 +117,29 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       // staff, paid plans and licensed schools. A false here means the free
       // tier, whose result must be redacted before it leaves the server.
       onFreeTier = evaluations ? !evaluations.unlimited : false;
+    }
+
+    // Paid-feature gate. Marking is metered by COUNT above; the rest of the
+    // paid surface — answer upgrades, the AI content studio — is gated by
+    // PLAN. Until now those two were enforced in the UI alone, which means
+    // they were enforced by whoever had not opened devtools. Checked before
+    // the AI budget so a refused call costs the caller nothing.
+    const feature = featureFromRequest(req.body);
+    if (feature && token) {
+      const plan = await resolveCallerPlan(token);
+      if (plan && !planUnlocks(plan, feature)) {
+        const required = featureMinPlan(feature);
+        res.status(402).json({
+          error:
+            required === 'school'
+              ? 'This is part of the School plan. Ask your school administrator, or upgrade to unlock it.'
+              : 'This is a Band 6 Plus feature. Upgrade to unlock it.',
+          upgradeRequired: true,
+          feature,
+          requiredPlan: required,
+        });
+        return;
+      }
     }
 
     quota = token ? await consumeAiQuota(token) : null;

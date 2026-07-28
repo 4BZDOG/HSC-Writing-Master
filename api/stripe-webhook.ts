@@ -349,7 +349,7 @@ async function handleSubscriptionUpsert(
     | undefined;
   const firstItem = items?.data?.[0];
   const priceId = firstItem?.price?.id ?? '';
-  const plan = priceToPlan(priceId);
+  let plan = priceToPlan(priceId);
   // Seat count: the subscription item's quantity (school licences bill per
   // seat); individual Plus subscriptions are quantity 1.
   const seats = Math.max(1, Math.trunc(Number(firstItem?.quantity ?? sub.quantity ?? 1)) || 1);
@@ -371,6 +371,32 @@ async function handleSubscriptionUpsert(
   if (await isStaleEvent(supabase, subId, eventCreated)) {
     console.log(`[stripe-webhook] ignoring out-of-order event for ${subId}`);
     return;
+  }
+
+  // An ACTIVE subscription on a price this deployment doesn't recognise must
+  // never be read as "free". priceToPlan falls back to 'free' for unknown
+  // prices, and Stripe sends customer.subscription.updated for entirely
+  // routine things — a renewal, a card update, a quantity change. So the day
+  // someone rotates a price in Stripe, or a STRIPE_*_PRICE_ID goes missing
+  // from the Vercel project, the next renewal event would quietly downgrade
+  // every paying customer on the old price. Keep whatever plan the row already
+  // holds instead, and be loud about it: the price list needs fixing, but not
+  // at the customer's expense.
+  const planKeepingStatus = status === 'active' || status === 'trialing' || status === 'past_due';
+  if (plan === 'free' && planKeepingStatus) {
+    const { data: existing } = await supabase
+      .from('subscriptions')
+      .select('plan')
+      .eq('id', subId)
+      .maybeSingle();
+    const knownPlan = existing?.plan as string | undefined;
+    const fallback = knownPlan && knownPlan !== 'free' ? (knownPlan as 'plus' | 'school') : 'plus';
+    console.error(
+      `[stripe-webhook] price ${priceId || '(none)'} on active subscription ${subId} is not in ` +
+        `this deployment's price list — keeping '${fallback}' rather than downgrading. ` +
+        'Check STRIPE_PLUS_MONTHLY_PRICE_ID / STRIPE_PLUS_YEARLY_PRICE_ID / STRIPE_SCHOOL_PRICE_ID.'
+    );
+    plan = fallback;
   }
 
   // Find the user who owns this customer ID (and their school, for seat
@@ -456,8 +482,7 @@ async function handleSubscriptionUpsert(
   // exhausted (customer.subscription.deleted also fires for cancellations).
   // The client reads the subscription row's `past_due` status directly
   // (RLS: users read own subscriptions) to show a fix-your-payment banner.
-  const keepsPlan = status === 'active' || status === 'trialing' || status === 'past_due';
-  const activePlan = keepsPlan ? plan : 'free';
+  const activePlan = planKeepingStatus ? plan : 'free';
   const { error: profileError } = await supabase
     .from('profiles')
     .update({

@@ -4,14 +4,11 @@ import {
   type Plan,
   type PremiumFeatureKey,
 } from '../services/entitlements';
-// From the leaf module, not via entitlements: see services/planLimits.ts.
-import {
-  FREE_TIER_EVAL_LIMIT,
-  FREE_TIER_MAX_QUESTION_TIER,
-  FREE_TIER_MAX_SAMPLE_BAND,
-  FREE_DAILY_AI_CALLS,
-  PAID_DAILY_AI_CALLS,
-} from '../services/planLimits';
+// From the leaf modules, not via entitlements: see services/planLimits.ts.
+// The free-tier figures come from planPolicy so the table shows what THIS
+// deployment actually enforces, overrides included — not the shipped default.
+import { freeTierLimits } from '../services/planPolicy';
+import { FREE_DAILY_AI_CALLS, PAID_DAILY_AI_CALLS } from '../services/planLimits';
 
 /**
  * The Free / Plus / School comparison, DERIVED from the entitlement rules
@@ -92,9 +89,9 @@ const ROW_LABELS: Record<PremiumFeatureKey, { label: string; note?: string }> = 
  * note in services/planLimits.ts). Everything here is read at call time.
  */
 const freePartialLabels = (): Partial<Record<PremiumFeatureKey, string>> => ({
-  advancedQuestions: `Tiers 1–${FREE_TIER_MAX_QUESTION_TIER}`,
+  advancedQuestions: `Tiers 1–${freeTierLimits().maxQuestionTier}`,
   fullFeedback: 'Summary + band',
-  sampleAnswers: `Bands 1–${FREE_TIER_MAX_SAMPLE_BAND}`,
+  sampleAnswers: `Bands 1–${freeTierLimits().maxSampleBand}`,
 });
 
 /** What a paid plan gets for those same partial features. */
@@ -128,7 +125,7 @@ export const buildPlanComparison = (): PlanRow[] => {
       label: 'Marked evaluations',
       note: 'Full AI marking of an answer you have written',
       cells: {
-        free: { kind: 'text', text: `${FREE_TIER_EVAL_LIMIT} per day` },
+        free: { kind: 'text', text: `${freeTierLimits().evalLimit} per day` },
         plus: { kind: 'text', text: 'Unlimited' },
         school: { kind: 'text', text: 'Unlimited' },
       },

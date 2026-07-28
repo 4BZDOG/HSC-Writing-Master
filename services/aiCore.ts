@@ -100,6 +100,24 @@ export class EvaluationLimitError extends Error {
   }
 }
 
+/**
+ * The proxy refused a call because the caller's PLAN doesn't include the
+ * feature (402 with a `feature` key). Distinct from EvaluationLimitError,
+ * which is about a count running out rather than a feature never being
+ * included — the two want different upgrade prompts, and conflating them told
+ * a student who tried an answer upgrade that they were out of evaluations.
+ */
+export class FeatureLockedError extends Error {
+  feature: string;
+  requiredPlan: string;
+  constructor(message: string, feature: string, requiredPlan = 'plus') {
+    super(message);
+    this.name = 'FeatureLockedError';
+    this.feature = feature;
+    this.requiredPlan = requiredPlan;
+  }
+}
+
 export class QuotaExceededError extends Error {
   /**
    * True when the provider reported the model has literally ZERO quota on the
@@ -543,10 +561,11 @@ const callGeminiWithRetry = async <T>(
         throw error;
       }
 
-      // The free-tier evaluation allowance is spent. The service is healthy —
-      // retrying would just burn the user's time and poison the circuit
-      // breaker's error rate — so surface it immediately.
-      if (error instanceof EvaluationLimitError) {
+      // Paywall answers, not faults: the allowance is spent, or the plan does
+      // not include this feature. The service is healthy — retrying would just
+      // burn the user's time and poison the circuit breaker's error rate — so
+      // both surface immediately.
+      if (error instanceof EvaluationLimitError || error instanceof FeatureLockedError) {
         throw error;
       }
 
@@ -795,12 +814,24 @@ const callProxy = async (request: any): Promise<GenerateContentResponse> => {
   if (!res.ok) {
     let detail = '';
     let upgradeRequired: { message: string; used: number; limit: number } | null = null;
+    let featureLocked: { message: string; feature: string; requiredPlan: string } | null = null;
     try {
       const errBody = await res.json();
       // 402: the free tier's daily evaluation allowance is spent. Recorded
       // here and thrown below — throwing inside this try would be swallowed by
       // its own "no JSON body" catch.
-      if (res.status === 402 && errBody?.upgradeRequired) {
+      // A 402 naming a feature is a PLAN gate (this call is not included in
+      // what the caller pays for); a 402 without one is the evaluation meter.
+      if (res.status === 402 && errBody?.upgradeRequired && typeof errBody?.feature === 'string') {
+        featureLocked = {
+          message:
+            typeof errBody?.error === 'string'
+              ? errBody.error
+              : 'This feature is not included in your plan.',
+          feature: errBody.feature,
+          requiredPlan: typeof errBody?.requiredPlan === 'string' ? errBody.requiredPlan : 'plus',
+        };
+      } else if (res.status === 402 && errBody?.upgradeRequired) {
         const spent = errBody?.evaluations as { used?: number; limit?: number } | undefined;
         upgradeRequired = {
           message:
@@ -828,6 +859,13 @@ const callProxy = async (request: any): Promise<GenerateContentResponse> => {
     }
     // Paywall, not a fault: fail fast so the retry loop and the circuit
     // breaker stay out of it (see callGeminiWithRetry).
+    if (featureLocked) {
+      throw new FeatureLockedError(
+        featureLocked.message,
+        featureLocked.feature,
+        featureLocked.requiredPlan
+      );
+    }
     if (upgradeRequired) {
       throw new EvaluationLimitError(
         upgradeRequired.message,

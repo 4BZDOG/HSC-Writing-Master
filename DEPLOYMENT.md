@@ -149,6 +149,90 @@ same way as the Pages option above (`VITE_API_BASE_URL` at build time,
 
 ---
 
+## Billing, plans and what each plan unlocks
+
+Three plans — **free → plus → school** — and seven gated features. The policy
+lives in `services/planPolicy.ts` (what the UI locks) and its server mirror
+`api/_lib/planPolicy.ts` (what the API refuses); a unit test pins the two
+together. Shipped defaults: every feature needs **plus**, except the AI content
+studio, which needs **school**.
+
+### Changing the policy without a release
+
+Set `PLAN_FEATURE_OVERRIDES` **and** `VITE_PLAN_FEATURE_OVERRIDES` to the same
+`feature:plan` list in the Vercel project, then redeploy:
+
+```
+VITE_PLAN_FEATURE_OVERRIDES=sampleAnswers:free,aiContentStudio:plus
+PLAN_FEATURE_OVERRIDES=sampleAnswers:free,aiContentStudio:plus
+```
+
+Features: `pdfExport`, `answerUpgrades`, `aiContentStudio`,
+`advancedQuestions`, `fullFeedback`, `sampleAnswers`, `examMode`.
+Plans: `free`, `plus`, `school`. Unrecognised entries are ignored and logged,
+so a typo falls back to the shipped default rather than opening a gate.
+
+Set only the `VITE_` half and the UI will show locks the server does not
+enforce; set only the server half and the UI will offer calls the API refuses.
+Set both.
+
+The free tier's reach (`VITE_FREE_TIER_EVAL_LIMIT`,
+`VITE_FREE_TIER_MAX_QUESTION_TIER`, `VITE_FREE_TIER_MAX_SAMPLE_BAND`,
+`VITE_FREE_TIER_FULL_FEEDBACK`) is set the same way — see `.env.example`.
+
+### The daily evaluation allowance is live, not built in
+
+`free_evaluation_limit()` reads a `plan_settings` row (schema §14), so an admin
+can retune the headline number against the running database:
+
+```sql
+select public.set_plan_setting('free_evaluation_limit', 8);
+```
+
+The client picks the new figure up from the server's next refusal and displays
+it; no deploy, no migration.
+
+### Where each gate is actually enforced
+
+| Feature | UI lock | Server enforcement |
+|---|---|---|
+| Full marking feedback | blur + upgrade prompt | paid detail stripped from the response (`api/_lib/entitlements.ts`) |
+| Daily evaluations | counter + pre-check | `consume_evaluation()` spends the allowance (schema §14) |
+| Answer upgrades | locked button | 402 from the proxy via `caller_plan()` (schema §17) |
+| AI content studio | locked buttons | 402 from the proxy via `caller_plan()` |
+| Advanced questions | picker disables them, and the workspace refuses one reached by an assignment link | — (question text is bundled content) |
+| Sample answers | blurred above the free band ceiling | — (bundled content) |
+| PDF export, exam mode | locked controls | — (entirely client-side features) |
+
+The last three are client-side by nature: nothing is fetched, so there is
+nothing for a server to withhold. Treat them as commercial nudges rather than
+locks, and price accordingly.
+
+### Stripe checklist
+
+- [ ] `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` and
+      `SUPABASE_SERVICE_ROLE_KEY` set on the API host. **In production a
+      missing webhook secret is a hard failure** — an unsigned endpoint lets
+      anyone forge a subscription event.
+- [ ] Every price you sell is listed in `STRIPE_PLUS_MONTHLY_PRICE_ID`,
+      `STRIPE_PLUS_YEARLY_PRICE_ID`, `STRIPE_SCHOOL_PRICE_ID` — **including
+      prices you have retired but customers are still subscribed to.** The
+      webhook keeps an active subscriber's existing plan if it meets a price it
+      does not recognise (and logs loudly), but the list is what decides which
+      plan a renewal grants.
+- [ ] Point the Stripe webhook endpoint at `/api/stripe-webhook` and subscribe
+      to `checkout.session.completed`,
+      `customer.subscription.created/updated/deleted`,
+      `invoice.payment_failed` and `invoice.payment_action_required`.
+- [ ] Run `supabase/schema.sql` — §13 (billing tables), §14 (evaluation
+      allowance and plan settings) and §17 (`caller_plan()`) must all be
+      applied. The proxy fails **open** on a missing function, so an
+      unmigrated database silently serves paid features to free accounts.
+- [ ] `stripe trigger customer.subscription.updated` once against the deployed
+      endpoint and confirm `profiles.stripe_plan` moves.
+
+---
+
 ## Pre-flight checklist
 
 - [ ] `npm run test:all` passes locally.
@@ -161,6 +245,9 @@ same way as the Pages option above (`VITE_API_BASE_URL` at build time,
       `VITE_ENABLE_DEMO_AUTH=true` for a demo, or guest-only.
 - [ ] Visit the deployed URL, log in, import the curriculum library, and
       run one evaluation end-to-end.
+- [ ] If you are selling: work through the Stripe checklist above, and confirm
+      a free account is refused an answer upgrade by the API (not just by the
+      button).
 
 ## Google & Microsoft (SSO) sign-in
 

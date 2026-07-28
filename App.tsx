@@ -42,7 +42,7 @@ import { canCurateContent, canModerate, isSystemAdmin } from './utils/permission
 import {
   isEvalLimitReached,
   recordEvaluation,
-  FREE_TIER_EVAL_LIMIT,
+  freeEvalLimit,
   requestUpgrade,
   PLAN_LABELS,
 } from './services/entitlements';
@@ -412,7 +412,9 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     if (!currentPrompt || !userAnswer.trim()) return;
     if (isEvalLimitReached(user)) {
       showToast(
-        `You've used all ${FREE_TIER_EVAL_LIMIT} free evaluations for today. Upgrade to Plus for unlimited marking.`,
+        // The live figure — a deployment override, or the limit the server
+        // itself last reported — not the number compiled into this bundle.
+        `You've used all ${freeEvalLimit()} free evaluations for today. Upgrade to Plus for unlimited marking.`,
         'info'
       );
       requestUpgrade('fullFeedback');

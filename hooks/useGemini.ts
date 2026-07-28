@@ -18,7 +18,11 @@ import {
 import * as gemini from '../services/geminiService';
 import { AICache } from '../services/aiCache';
 import { emitEvalProgress } from '../services/aiCore';
-import { requestUpgrade, syncFreeEvalCount } from '../services/entitlements';
+import {
+  requestUpgrade,
+  syncFreeEvalCount,
+  type PremiumFeatureKey,
+} from '../services/entitlements';
 import { persistResponse, saveResponseFeedback } from '../services/responseService';
 import { findAndUpdateItem, findSelectionContext } from '../utils/stateUtils';
 import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
@@ -117,9 +121,18 @@ export const useGemini = ({
       // this is the authoritative one). Open the upgrade prompt rather than
       // leaving an error message the user can't act on.
       if (error instanceof gemini.EvaluationLimitError) {
-        syncFreeEvalCount(error.used);
+        // The server's figures win over the local mirror — including the
+        // limit, which an admin can change in the database without a deploy.
+        syncFreeEvalCount(error.used, error.limit);
         showToast(error.message, 'info');
         requestUpgrade('fullFeedback');
+        return error.message;
+      }
+      // The plan doesn't include this feature at all. Sell the RIGHT thing:
+      // the prompt is opened for the feature that was actually refused.
+      if (error instanceof gemini.FeatureLockedError) {
+        showToast(error.message, 'info');
+        requestUpgrade(error.feature as PremiumFeatureKey);
         return error.message;
       }
       return error instanceof Error ? error.message : 'An unknown API error occurred.';

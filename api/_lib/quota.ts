@@ -113,6 +113,46 @@ export const consumeEvaluation = async (accessToken: string): Promise<Evaluation
 };
 
 /**
+ * The caller's entitlement plan, as Postgres resolves it (schema §15).
+ *
+ * Mirrors `getUserPlan()` on the client — admin → school, an explicit paid
+ * `stripe_plan`, an active school licence, the teacher staff perk, then free —
+ * but from data the caller cannot edit. This is what makes a paid-feature gate
+ * real rather than decorative.
+ *
+ * Fail-open on the same terms as the quota calls: a missing RPC (schema not
+ * migrated), an unconfigured Supabase or a transient failure returns null,
+ * which callers must treat as "don't gate". A billing lookup that breaks must
+ * never take marking down with it.
+ */
+export const resolveCallerPlan = async (
+  accessToken: string
+): Promise<'free' | 'plus' | 'school' | null> => {
+  const url = process.env.SUPABASE_URL;
+  const anonKey = process.env.SUPABASE_ANON_KEY;
+  if (!url || !anonKey) return null;
+
+  try {
+    const client = createClient(url, anonKey, {
+      auth: { persistSession: false },
+      global: { headers: { Authorization: `Bearer ${accessToken}` } },
+    });
+    const { data, error } = await client.rpc('caller_plan');
+    if (error || (data !== 'free' && data !== 'plus' && data !== 'school')) {
+      console.warn(
+        '[quota] caller_plan unavailable — not gating by plan (fail-open):',
+        error?.message ?? `unexpected value ${JSON.stringify(data)}`
+      );
+      return null;
+    }
+    return data;
+  } catch (e) {
+    console.warn('[quota] caller_plan failed — not gating by plan (fail-open):', e);
+    return null;
+  }
+};
+
+/**
  * Best-effort per-model usage tally for the admin dashboard's cost breakdown.
  * REPORTING ONLY: this is completely separate from the budget above — the
  * model a call uses doesn't change the allowance it spends — so any failure

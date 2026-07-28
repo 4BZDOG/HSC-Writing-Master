@@ -1535,10 +1535,67 @@ do $$ begin
     using (user_id = auth.uid() or public.is_reviewer());
 exception when duplicate_object then null; end $$;
 
--- Daily free-tier evaluation allowance.  MUST match FREE_TIER_EVAL_LIMIT in
--- services/entitlements.ts — the client shows the number, this enforces it.
+-- Adjustable commercial settings.  The paywall's numbers used to be constants
+-- compiled into two places (this file and the client bundle), so changing the
+-- free allowance meant a migration AND a release.  This table makes the ones
+-- worth tuning live: an admin changes a row, and the next evaluation is metered
+-- against the new value.  The shipped default stays in the function below, so a
+-- database with no row behaves exactly as before.
+create table if not exists public.plan_settings (
+  key         text primary key,
+  value       integer not null,
+  updated_at  timestamptz not null default now(),
+  updated_by  uuid references public.profiles (id) on delete set null
+);
+
+alter table public.plan_settings enable row level security;
+
+-- Readable by anyone signed in (the client shows the number it is held to);
+-- writable only through set_plan_setting() below, which checks for admin.
+do $$ begin
+  create policy "Signed-in users read plan settings"
+    on public.plan_settings for select
+    using (auth.role() = 'authenticated');
+exception when duplicate_object then null; end $$;
+
+-- Daily free-tier evaluation allowance.  The DEFAULT below must match
+-- FREE_TIER_EVAL_LIMIT in services/planLimits.ts (pinned by
+-- tests/unit/entitlementConstants.test.ts); a plan_settings row overrides it
+-- for this deployment without a code change.
 create or replace function public.free_evaluation_limit()
-returns integer language sql immutable as $$ select 5; $$;
+returns integer language sql stable security definer set search_path = public as $$
+  select coalesce(
+    (select value from public.plan_settings where key = 'free_evaluation_limit'),
+    5
+  );
+$$;
+
+-- Admin-only setter, so the allowance can be tuned from the app rather than
+-- the SQL editor.  Bounded: a negative allowance is meaningless and an absurd
+-- one is almost certainly a typo that would quietly give the product away.
+create or replace function public.set_plan_setting(p_key text, p_value integer)
+returns integer language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can change plan settings';
+  end if;
+  if p_key not in ('free_evaluation_limit') then
+    raise exception 'Unknown plan setting %', p_key;
+  end if;
+  if p_value is null or p_value < 0 or p_value > 1000 then
+    raise exception 'Plan setting % out of range (0-1000)', p_key;
+  end if;
+
+  insert into public.plan_settings (key, value, updated_by)
+  values (p_key, p_value, auth.uid())
+  on conflict (key) do update
+    set value = excluded.value, updated_at = now(), updated_by = excluded.updated_by;
+
+  return p_value;
+end; $$;
+
+revoke all on function public.set_plan_setting(text, integer) from public;
+grant execute on function public.set_plan_setting(text, integer) to authenticated;
 
 -- True when the user should never be metered: staff (content authors need the
 -- tool to work), a personal paid plan, or membership of a school whose licence
@@ -1710,6 +1767,46 @@ end; $$;
 
 revoke all on function public.delete_my_account() from public;
 grant execute on function public.delete_my_account() to authenticated;
+
+-- =============================================================================
+-- §17 · Caller plan resolution (server-side entitlements)
+--
+-- Which plan the CALLER holds, decided by the database rather than by the
+-- browser.  The AI proxy (api/gemini.ts) asks this before serving a call
+-- tagged as a paid feature — answer upgrades, the AI content studio — so those
+-- gates are enforced somewhere the user cannot edit.  Before this, they were
+-- enforced in the UI alone: the button was locked, the endpoint was not.
+--
+-- The order mirrors getUserPlan() in services/entitlements.ts exactly:
+--   1. admins hold the most permissive plan, so nothing is locked for them;
+--   2. an explicit paid plan on the profile (written by the Stripe webhook);
+--   3. membership of a school whose licence is live (past_due included — the
+--      same grace period the webhook and has_unlimited_evaluations honour);
+--   4. the teacher staff perk;
+--   5. free.
+--
+-- Idempotent: safe to re-run against an existing database.
+-- =============================================================================
+
+create or replace function public.caller_plan()
+returns text language sql stable security definer set search_path = public as $$
+  select coalesce(
+    (select case
+        when p.role = 'admin' then 'school'
+        when coalesce(p.stripe_plan, 'free') in ('plus', 'school') then p.stripe_plan
+        when coalesce(s.plan_status, 'none') in ('active', 'trialing', 'past_due') then 'school'
+        when p.role = 'teacher' then 'plus'
+        else 'free'
+      end
+       from public.profiles p
+       left join public.schools s on s.id = p.school_id
+      where p.id = auth.uid()),
+    'free'
+  );
+$$;
+
+revoke all on function public.caller_plan() from public;
+grant execute on function public.caller_plan() to authenticated;
 
 -- =============================================================================
 -- End of schema.
