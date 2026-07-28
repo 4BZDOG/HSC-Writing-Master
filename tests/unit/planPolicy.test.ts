@@ -96,20 +96,39 @@ describe('plan policy', () => {
 describe('paid AI calls carry their feature tag', () => {
   const service = readFileSync(resolve(__dirname, '../../services/geminiService.ts'), 'utf8');
 
+  /** The source of one exported service function, by name. */
+  const bodyOf = (name: string): string => {
+    const start = service.indexOf(`export const ${name}`);
+    expect(start, `${name} not found in geminiService`).toBeGreaterThan(-1);
+    const next = service.indexOf('export const', start + 10);
+    return service.slice(start, next === -1 ? undefined : next);
+  };
+
   it('tags the calls whose UI entry points are plan-gated', () => {
     // Without the tag the proxy cannot tell that a call belongs to a paid
     // feature, and the gate silently does nothing.
-    const tagged = service.match(/__feature: '([a-zA-Z]+)'/g) ?? [];
-    expect(tagged).toContain("__feature: 'evaluation'");
-    expect(tagged).toContain("__feature: 'answerUpgrades'");
-    expect(tagged.filter((t) => t.includes('aiContentStudio')).length).toBeGreaterThanOrEqual(5);
+    expect(bodyOf('evaluateAnswer')).toContain("__feature: 'evaluation'");
+    expect(bodyOf('improveAnswer')).toContain("__feature: 'answerUpgrades'");
+    for (const fn of [
+      'generateNewPrompt',
+      'generateSampleAnswer',
+      'splitSyllabusIntoTopics',
+      'generateDotPointsForSubTopic',
+    ]) {
+      expect(bodyOf(fn), `${fn} should be tagged`).toContain("__feature: 'aiContentStudio'");
+    }
   });
 
-  it('leaves manual question entry untagged', () => {
-    // refineManualPrompt backs the "Manual" button, which is role-gated but
-    // NOT plan-gated. Tagging it would refuse teachers a tool they have.
-    const refine = service.slice(service.indexOf('export const refineManualPrompt'));
-    const body = refine.slice(0, refine.indexOf('export const', 10));
-    expect(body).not.toContain('__feature');
+  it('leaves helpers that are ALSO reached from unlocked entry points untagged', () => {
+    // The tag belongs to an entry point, not to a function. These three back
+    // both a plan-locked button and an open one, so tagging the function
+    // refuses a teacher on the Plus staff perk a tool they actually have:
+    //   refineManualPrompt        → "Manual" question entry
+    //   parseOutcomesFromText     → the Outcomes editor
+    //   parseSyllabusStructure    → the picker's inline "Add Topic" paste
+    // Role and quota gates still apply to all three.
+    for (const fn of ['refineManualPrompt', 'parseOutcomesFromText', 'parseSyllabusStructure']) {
+      expect(bodyOf(fn), `${fn} must not be plan-tagged`).not.toContain('__feature');
+    }
   });
 });

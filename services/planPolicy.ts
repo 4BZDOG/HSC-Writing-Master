@@ -83,6 +83,7 @@ const DEFAULT_FEATURE_MIN_PLAN: Record<PremiumFeatureKey, Plan> = {
 const rawEnv = (): Record<string, string | undefined> => {
   try {
     return {
+      VITE_MONETISATION_ENABLED: import.meta.env?.VITE_MONETISATION_ENABLED,
       VITE_PLAN_FEATURE_OVERRIDES: import.meta.env?.VITE_PLAN_FEATURE_OVERRIDES,
       VITE_FREE_TIER_EVAL_LIMIT: import.meta.env?.VITE_FREE_TIER_EVAL_LIMIT,
       VITE_FREE_TIER_MAX_QUESTION_TIER: import.meta.env?.VITE_FREE_TIER_MAX_QUESTION_TIER,
@@ -125,6 +126,19 @@ const numberOverride = (raw: string | undefined, fallback: number, min = 0): num
   if (!raw || !Number.isFinite(parsed)) return fallback;
   return Math.max(min, Math.trunc(parsed));
 };
+
+/**
+ * The master switch. `VITE_MONETISATION_ENABLED=false` opens every gate at
+ * once — the honest way to run a school-wide pilot, an internal trial or a
+ * conference demo, rather than hand-editing the policy and remembering to put
+ * it back. Set the unprefixed `MONETISATION_ENABLED=false` alongside it so the
+ * API stops enforcing too; the daily evaluation meter lives in Postgres and is
+ * raised separately (`set_plan_setting('free_evaluation_limit', …)`).
+ *
+ * Opt-OUT, not opt-in: an unset or malformed value leaves the paywall ON. A
+ * deployment must say `false` explicitly to give the product away.
+ */
+export const monetisationEnabled = (): boolean => rawEnv().VITE_MONETISATION_ENABLED !== 'false';
 
 /** The effective feature → minimum-plan map for this deployment. */
 export const featureMinPlans = (): Record<PremiumFeatureKey, Plan> => ({

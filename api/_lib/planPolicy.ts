@@ -67,6 +67,19 @@ export const parseFeatureOverrides = (
   return out;
 };
 
+/**
+ * Server half of the master switch: `MONETISATION_ENABLED=false` stops the
+ * proxy enforcing plan gates, for a pilot or a demo deployment. Falls back to
+ * the VITE_ copy so one Vercel variable can drive both halves, and defaults to
+ * ON — a deployment has to say `false` to give the product away.
+ *
+ * Note this covers the PLAN gates only. The daily evaluation allowance is
+ * metered in Postgres; raise it there
+ * (`select set_plan_setting('free_evaluation_limit', 1000)`).
+ */
+export const monetisationEnabled = (): boolean =>
+  (process.env.MONETISATION_ENABLED ?? process.env.VITE_MONETISATION_ENABLED) !== 'false';
+
 export const featureMinPlans = (): Record<PremiumFeatureKey, Plan> => ({
   ...DEFAULT_FEATURE_MIN_PLAN,
   ...parseFeatureOverrides(

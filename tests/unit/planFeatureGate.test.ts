@@ -138,6 +138,21 @@ describe('api/gemini paid-feature gate', () => {
     expect(resolveCallerPlanMock).not.toHaveBeenCalled();
   });
 
+  it('stops gating entirely when monetisation is switched off', async () => {
+    // The pilot switch. If this leaks, a school running an unpaywalled trial
+    // gets 402s on features it was promised.
+    resolveCallerPlanMock.mockResolvedValue('free');
+    process.env.MONETISATION_ENABLED = 'false';
+    try {
+      const res = makeRes();
+      await handler(post(call('aiContentStudio')), res);
+      expect(res.statusCode).toBe(200);
+      expect(resolveCallerPlanMock).not.toHaveBeenCalled();
+    } finally {
+      delete process.env.MONETISATION_ENABLED;
+    }
+  });
+
   it('fails open when the plan cannot be resolved', async () => {
     // A billing lookup that breaks must never take the product down with it:
     // an unmigrated database or a transient Supabase failure returns null.

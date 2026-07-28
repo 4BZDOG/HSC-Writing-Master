@@ -157,6 +157,19 @@ lives in `services/planPolicy.ts` (what the UI locks) and its server mirror
 together. Shipped defaults: every feature needs **plus**, except the AI content
 studio, which needs **school**.
 
+### Turning the paywall off entirely
+
+For a pilot or a demo, set both halves of the master switch and redeploy:
+
+```
+VITE_MONETISATION_ENABLED=false
+MONETISATION_ENABLED=false
+```
+
+Every plan gate opens, client and server. The daily evaluation allowance is
+metered in Postgres and is raised separately:
+`select public.set_plan_setting('free_evaluation_limit', 1000);`
+
 ### Changing the policy without a release
 
 Set `PLAN_FEATURE_OVERRIDES` **and** `VITE_PLAN_FEATURE_OVERRIDES` to the same

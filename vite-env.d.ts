@@ -23,6 +23,8 @@ interface ImportMetaEnv {
    * ALLOWED_ORIGIN to the frontend's origin for the browser's CORS check.
    */
   readonly VITE_API_BASE_URL?: string;
+  /** `false` opens every paid feature — pilots and demos. Unset means ON. */
+  readonly VITE_MONETISATION_ENABLED?: string;
   /**
    * Plan policy overrides for this deployment — `feature:plan` pairs, e.g.
    * `sampleAnswers:free,aiContentStudio:plus`. Set the unprefixed

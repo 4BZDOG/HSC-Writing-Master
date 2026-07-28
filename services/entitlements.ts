@@ -3,6 +3,7 @@ import {
   featureMinPlan,
   featuresForPlan,
   freeTierLimits,
+  monetisationEnabled,
   planUnlocks,
   type Plan,
   type PremiumFeatureKey,
@@ -55,7 +56,12 @@ const isAdmin = (user?: User | null): boolean => {
 export type { Plan, PremiumFeatureKey } from './planPolicy';
 export { featureMinPlan, planUnlocks, PLAN_ORDER, planRank } from './planPolicy';
 
-export const MONETISATION_ENABLED = true;
+/**
+ * Whether this deployment charges for anything. Read at call time from
+ * planPolicy so a pilot can turn the whole paywall off with one environment
+ * variable — see `monetisationEnabled()`.
+ */
+export const MONETISATION_ENABLED = monetisationEnabled();
 
 export const PLAN_LABELS: Record<Plan, string> = {
   free: 'Free',
@@ -149,16 +155,21 @@ export {
  * Resolve the caller's plan.
  *
  * Priority:
- *   1. If the user's Supabase profile has a `stripe_plan` field (set by the
- *      Stripe webhook), that wins.
- *   2. If the user belongs to a school with an active institutional
- *      subscription, they inherit the `school` plan.
- *   3. Admins and teachers get `plus` as a staff perk (so the app is fully
- *      usable for content authors even before Stripe is live).
+ *   1. Admins hold the most permissive plan, so nothing is locked for them.
+ *   2. An explicit paid plan on the profile — written by the Stripe webhook,
+ *      or by authService when the user's school holds a live seat licence.
+ *   3. Teachers get `plus` as a staff perk.
  *   4. Everyone else is `free`.
  *
- * When Stripe is integrated: replace the role-based fallback (step 3) with
- * a real subscription check. The profile column is the source of truth.
+ * This is the DISPLAY side of the decision. The enforcing copy is
+ * `caller_plan()` in Postgres (schema §17), which the AI proxy consults before
+ * serving a paid feature; the two must keep the same order, and a test pins
+ * them.
+ *
+ * Note what the staff perk does NOT include: `aiContentStudio` defaults to the
+ * school plan, so a teacher without a school licence sees the authoring tools
+ * locked. That is a commercial choice, not an oversight — flip it with
+ * `PLAN_FEATURE_OVERRIDES=aiContentStudio:plus` if staff should always author.
  */
 export const getUserPlan = (user?: User | null): Plan => {
   const u = user !== undefined ? user : authService.getCurrentUser();
@@ -171,8 +182,10 @@ export const getUserPlan = (user?: User | null): Plan => {
   const explicit = (u as User & { stripePlan?: Plan }).stripePlan;
   if (explicit && explicit in PLAN_LABELS) return explicit;
 
-  // Step 2: school institutional subscription (future — school.plan column)
-  // For now, schools use the quota system; the plan stays role-derived.
+  // Step 2: school seat licence. Resolved at SIGN-IN rather than here —
+  // authService stamps `stripePlan: 'school'` onto the profile when the user's
+  // school has a live licence, so it arrives as an explicit plan in step 1.
+  // The server mirrors this order in caller_plan() (schema §17).
 
   // Step 3: staff perk — teachers get Plus so content authoring works
   if (u.role === 'teacher') return 'plus';
@@ -199,7 +212,7 @@ export const lowestPlanForFeature = (feature: PremiumFeatureKey): Plan => featur
 
 /** True when the given feature should render in its locked state. */
 export const isFeatureLocked = (feature: PremiumFeatureKey, user?: User | null): boolean => {
-  if (!MONETISATION_ENABLED) return false;
+  if (!monetisationEnabled()) return false;
   if (isAdmin(user)) return false;
   if (!(feature in PREMIUM_FEATURES)) return false;
   return !planUnlocks(getUserPlan(user), feature);
@@ -214,7 +227,7 @@ export const isFeatureLocked = (feature: PremiumFeatureKey, user?: User | null):
  * Tiers 1–3 (Identify → Apply) are free; 4–6 (Analyse → Evaluate) are Plus.
  */
 export const isQuestionTierLocked = (tier: number, user?: User | null): boolean => {
-  if (!MONETISATION_ENABLED) return false;
+  if (!monetisationEnabled()) return false;
   if (isAdmin(user)) return false;
   if (getUserPlan(user) !== 'free') return false;
   return tier > freeTierLimits().maxQuestionTier;
@@ -225,7 +238,7 @@ export const isQuestionTierLocked = (tier: number, user?: User | null): boolean 
  * Bands 1–3 are free; higher bands are Plus.
  */
 export const isSampleAnswerLocked = (band: number, user?: User | null): boolean => {
-  if (!MONETISATION_ENABLED) return false;
+  if (!monetisationEnabled()) return false;
   if (isAdmin(user)) return false;
   if (getUserPlan(user) !== 'free') return false;
   return band > freeTierLimits().maxSampleBand;
@@ -236,7 +249,7 @@ export const isSampleAnswerLocked = (band: number, user?: User | null): boolean 
  * full criterion-by-criterion breakdown.
  */
 export const isFeedbackLocked = (user?: User | null): boolean => {
-  if (!MONETISATION_ENABLED) return false;
+  if (!monetisationEnabled()) return false;
   if (isAdmin(user)) return false;
   if (getUserPlan(user) !== 'free') return false;
   return freeTierLimits().summaryFeedbackOnly;
@@ -343,7 +356,7 @@ export const syncFreeEvalCount = (used: number, limit?: number): void => {
 
 /** True when the free tier's daily evaluation limit has been reached. */
 export const isEvalLimitReached = (user?: User | null): boolean => {
-  if (!MONETISATION_ENABLED) return false;
+  if (!monetisationEnabled()) return false;
   if (isAdmin(user)) return false;
   if (getUserPlan(user) !== 'free') return false;
   return readDailyEvalCount() >= effectiveEvalLimit();
@@ -351,7 +364,7 @@ export const isEvalLimitReached = (user?: User | null): boolean => {
 
 /** Remaining free evaluations today. */
 export const freeEvalsRemaining = (user?: User | null): number => {
-  if (!MONETISATION_ENABLED) return Infinity;
+  if (!monetisationEnabled()) return Infinity;
   if (isAdmin(user)) return Infinity;
   if (getUserPlan(user) !== 'free') return Infinity;
   return Math.max(0, effectiveEvalLimit() - readDailyEvalCount());

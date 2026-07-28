@@ -9,7 +9,12 @@ import {
 } from './_lib/quota';
 import { corsHeadersFor } from './_lib/cors';
 import { isEvaluationRequest, redactEvaluationResponse } from './_lib/entitlements';
-import { featureFromRequest, featureMinPlan, planUnlocks } from './_lib/planPolicy';
+import {
+  featureFromRequest,
+  featureMinPlan,
+  monetisationEnabled,
+  planUnlocks,
+} from './_lib/planPolicy';
 
 /**
  * Vercel serverless function: POST /api/gemini
@@ -124,7 +129,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     // PLAN. Until now those two were enforced in the UI alone, which means
     // they were enforced by whoever had not opened devtools. Checked before
     // the AI budget so a refused call costs the caller nothing.
-    const feature = featureFromRequest(req.body);
+    const feature = monetisationEnabled() ? featureFromRequest(req.body) : null;
     if (feature && token) {
       const plan = await resolveCallerPlan(token);
       if (plan && !planUnlocks(plan, feature)) {
