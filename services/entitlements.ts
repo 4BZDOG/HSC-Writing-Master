@@ -54,17 +54,20 @@ const isAdmin = (user?: User | null): boolean => {
  * still one obvious import for "everything about entitlements".
  */
 export type { Plan, PremiumFeatureKey } from './planPolicy';
-export { featureMinPlan, planUnlocks, PLAN_ORDER, planRank } from './planPolicy';
-
-/**
- * Whether this deployment charges for anything, as a constant for anything
- * that wants to read it once. The gates below deliberately call
- * `monetisationEnabled()` instead — same answer, but evaluated when asked
- * rather than when this module happens to be initialised, which is the rule
- * the rest of the policy follows (see the chunk-ordering note in
- * ./planLimits.ts).
- */
-export const MONETISATION_ENABLED = monetisationEnabled();
+export {
+  featureMinPlan,
+  planUnlocks,
+  PLAN_ORDER,
+  planRank,
+  /**
+   * Whether this deployment charges for anything. A FUNCTION, not a constant:
+   * `export const MONETISATION_ENABLED = monetisationEnabled()` calls an
+   * imported function while this module initialises, which is the exact
+   * pattern that once shipped a blank page (see the chunk-ordering note in
+   * ./planLimits.ts) — and which `npm run check:eager-reads` exists to catch.
+   */
+  monetisationEnabled,
+} from './planPolicy';
 
 export const PLAN_LABELS: Record<Plan, string> = {
   free: 'Free',
