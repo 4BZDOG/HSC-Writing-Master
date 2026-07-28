@@ -7,6 +7,7 @@ import { ChevronDown, GraduationCap, Sparkles, Award, ListChecks, Target } from 
 import { getBandConfig, getTierScaleConfig } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { PANEL_HEADER_CLOSED, PANEL_HEADER_OPEN, PANEL_SURFACE } from '../utils/panelStyles';
+import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 
 interface AccordionSectionProps {
   title: string;
@@ -16,6 +17,8 @@ interface AccordionSectionProps {
   children: React.ReactNode;
   defaultOpen?: boolean;
   band?: number;
+  /** Question id — clears the "read" tick when the student moves on. */
+  resetKey?: string;
 }
 
 export const AccordionSection: React.FC<AccordionSectionProps> = ({
@@ -25,10 +28,12 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
   children,
   defaultOpen = false,
   band = 6,
+  resetKey,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const bandConfig = useMemo(() => getBandConfig(band), [band]);
   const panelId = useId();
+  const opened = useOpenedOnce(isOpen, resetKey);
 
   return (
     <div className={`${PANEL_SURFACE} mb-3 last:mb-0`}>
@@ -57,9 +62,12 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
             )}
           </span>
         </div>
-        <ChevronDown
-          className={`w-4 h-4 text-slate-400 transition-transform duration-500 ${isOpen ? 'rotate-180 text-slate-900 dark:text-white' : ''}`}
-        />
+        <div className="flex items-center gap-2.5 flex-shrink-0">
+          <PanelReadChip show={opened && !isOpen} />
+          <ChevronDown
+            className={`w-4 h-4 text-slate-400 transition-transform duration-500 ${isOpen ? 'rotate-180 text-slate-900 dark:text-white' : ''}`}
+          />
+        </div>
       </button>
 
       {/* A grid-rows transition rather than a max-height one. The old
@@ -131,7 +139,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
           title={`What's Assessed · ${linkedOutcomes.length} Outcome${linkedOutcomes.length === 1 ? '' : 's'}`}
           icon={<Target />}
           band={verbInfo.tier}
-          defaultOpen={true}
+          resetKey={prompt.id}
         >
           <div className="space-y-2.5">
             <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
@@ -173,7 +181,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
         </AccordionSection>
       )}
 
-      <AccordionSection title="Syllabus Terms" icon={<Sparkles />} band={4} defaultOpen={true}>
+      <AccordionSection title="Syllabus Terms" icon={<Sparkles />} band={4} resetKey={prompt.id}>
         <KeywordEditor
           {...props}
           syllabusText={props.dotPointText}
@@ -185,7 +193,12 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
       </AccordionSection>
 
       {topic?.performanceBandDescriptors && topic.performanceBandDescriptors.length > 0 && (
-        <AccordionSection title="Grade Standards" icon={<GraduationCap />} band={6}>
+        <AccordionSection
+          title="Grade Standards"
+          icon={<GraduationCap />}
+          band={6}
+          resetKey={prompt.id}
+        >
           <div className="space-y-4">
             {[...topic.performanceBandDescriptors]
               .sort((a, b) => b.band - a.band)
@@ -230,6 +243,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
         subtitle={`Top level: Band ${maxPossibleBand}`}
         icon={<ListChecks />}
         band={5}
+        resetKey={prompt.id}
       >
         <MarkingCriteriaManager
           prompt={prompt}

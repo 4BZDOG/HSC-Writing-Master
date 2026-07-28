@@ -74,14 +74,21 @@ describe('writing strategy panel', () => {
   const strategyToggle = () => screen.getByRole('button', { name: /strategy/i });
 
   beforeEach(() => {
-    // Force the desktop branch, where the panel starts open.
     vi.stubGlobal('innerWidth', 1440);
   });
 
   afterEach(() => vi.unstubAllGlobals());
 
-  it('shows the verb definition and its tips when open', () => {
+  // Folded on arrival at every width, like every other panel in the
+  // workspace. It used to open itself on a desktop and re-decide on each
+  // resize — the one disclosure whose state the student did not own.
+  it('starts folded, and opens to the verb definition and its tips', () => {
     renderEditor();
+
+    expect(strategyToggle().getAttribute('aria-expanded')).toBe('false');
+    expect(screen.queryByText(getCommandTermInfo('DESCRIBE' as PromptVerb).definition)).toBeNull();
+
+    fireEvent.click(strategyToggle());
 
     expect(strategyToggle().getAttribute('aria-expanded')).toBe('true');
     expect(screen.getByText(getCommandTermInfo('DESCRIBE' as PromptVerb).definition)).toBeTruthy();
@@ -90,18 +97,24 @@ describe('writing strategy panel', () => {
 
   // The whole point of the collapsed row: something to read, not a promise of
   // something to read.
-  it('still quotes the first tip once collapsed', () => {
+  it('quotes the first tip while it is folded', () => {
     renderEditor();
-    fireEvent.click(strategyToggle());
 
     expect(strategyToggle().getAttribute('aria-expanded')).toBe('false');
-    expect(screen.queryByText(getCommandTermInfo('DESCRIBE' as PromptVerb).definition)).toBeNull();
     expect(screen.getByText(firstTip('DESCRIBE'))).toBeTruthy();
+  });
+
+  it('marks itself read once it has been opened and shut again', () => {
+    renderEditor();
+
+    expect(screen.queryByText(/^Read$/i)).toBeNull();
+    fireEvent.click(strategyToggle());
+    fireEvent.click(strategyToggle());
+    expect(screen.getByText(/^Read$/i)).toBeTruthy();
   });
 
   it('quotes the tip for whichever verb the question uses', () => {
     renderEditor({ verb: 'EVALUATE' as PromptVerb });
-    fireEvent.click(strategyToggle());
 
     expect(screen.getByText(firstTip('EVALUATE'))).toBeTruthy();
     expect(screen.getByText(/EVALUATE Strategy/i)).toBeTruthy();

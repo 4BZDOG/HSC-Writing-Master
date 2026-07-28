@@ -18,6 +18,7 @@ import {
   AlignLeft,
 } from 'lucide-react';
 import { PANEL_HEADER_OPEN, PANEL_SURFACE } from '../utils/panelStyles';
+import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 
 interface PillProps {
   label: string;
@@ -120,6 +121,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     // panels below are reference material a student opens deliberately, not
     // something that should push the evaluation results off screen.
     const [isCollapsed, setIsCollapsed] = useState(true);
+    const opened = useOpenedOnce(!isCollapsed, prompt.id);
     const [isTimerActive, setIsTimerActive] = useState(false);
     const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -262,6 +264,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                 <span className="text-[9px] font-black uppercase tracking-[0.15em] whitespace-nowrap">
                   {isCollapsed ? 'Terms & Structure' : 'Hide'}
                 </span>
+                <PanelReadChip show={opened && isCollapsed} />
                 <ChevronDown
                   className={`w-4 h-4 transition-transform duration-500 ${isCollapsed ? '-rotate-90' : ''}`}
                 />

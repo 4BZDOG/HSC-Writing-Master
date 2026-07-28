@@ -35,9 +35,10 @@ import {
 } from 'lucide-react';
 import { PromptVerb, WritingMode } from '../types';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
-import { MAX_CARD_HEIGHT, isTwoColumnWidth } from '../utils/layoutConstants';
+import { MAX_CARD_HEIGHT } from '../utils/layoutConstants';
 import { useChromeHeightReporter } from '../hooks/useChromeHeightReporter';
 import { PlusLockChip } from './UpgradeModal';
+import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import StrategyTip from './StrategyTip';
 import { parseStrategyTip } from '../utils/strategyTip';
 
@@ -170,25 +171,14 @@ const Editor = forwardRef<
     const footerRef = useRef<HTMLDivElement>(null);
     const footerContentRef = useRef<HTMLDivElement>(null);
     const [copied, setCopied] = useState(false);
-    // Open on a desktop, folded on a phone. The tip runs to ~180px, which on a
-    // narrow viewport is most of a writing card that is only ~300px tall — the
-    // coaching is worth a tap there, not the writing surface.
-    const [showStrategy, setShowStrategy] = useState(() =>
-      typeof window === 'undefined' ? true : isTwoColumnWidth(window.innerWidth)
-    );
-    // …and it follows the viewport, rather than being decided once at mount:
-    // rotating a tablet or splitting the window left the panel open on a
-    // layout it was too tall for, or folded on one with room to spare.
-    // A deliberate toggle wins from then on — `touchedStrategy` stops the
-    // resize handler overriding a choice the student has actually made.
-    const touchedStrategy = useRef(false);
-    useEffect(() => {
-      const update = () => {
-        if (!touchedStrategy.current) setShowStrategy(isTwoColumnWidth(window.innerWidth));
-      };
-      window.addEventListener('resize', update);
-      return () => window.removeEventListener('resize', update);
-    }, []);
+    // Folded, like every panel around it. It used to open itself on a desktop
+    // and re-decide on every resize, which made it the one disclosure in the
+    // workspace whose state a student did not own — and the tip runs to ~180px
+    // out of a writing card that is only ~300px tall on a narrow viewport. The
+    // closed row quotes the first tip, so folding it costs a hook, not the
+    // coaching.
+    const [showStrategy, setShowStrategy] = useState(false);
+    const strategyOpened = useOpenedOnce(showStrategy, verb);
     // Bold/italic, folded away by default — see the toolbar below.
     const [showFormatting, setShowFormatting] = useState(false);
     const strategyPanelId = useId();
@@ -731,10 +721,7 @@ const Editor = forwardRef<
             <div className="border-t border-amber-500/20 light:border-amber-200/70 bg-amber-500/[0.05] light:bg-amber-50/60">
               <button
                 type="button"
-                onClick={() => {
-                  touchedStrategy.current = true;
-                  setShowStrategy((s) => !s);
-                }}
+                onClick={() => setShowStrategy((s) => !s)}
                 aria-expanded={showStrategy}
                 aria-controls={strategyPanelId}
                 title={
@@ -756,9 +743,12 @@ const Editor = forwardRef<
                     {strategyPreview}
                   </span>
                 )}
-                <ChevronDown
-                  className={`w-3 h-3 text-amber-400/70 light:text-amber-600 ml-auto flex-shrink-0 transition-transform duration-200 ${showStrategy ? 'rotate-180' : ''}`}
-                />
+                <div className="flex items-center gap-2 ml-auto flex-shrink-0">
+                  <PanelReadChip show={strategyOpened && !showStrategy} />
+                  <ChevronDown
+                    className={`w-3 h-3 text-amber-400/70 light:text-amber-600 transition-transform duration-200 ${showStrategy ? 'rotate-180' : ''}`}
+                  />
+                </div>
               </button>
               {showStrategy && (
                 <div id={strategyPanelId} className="px-4 sm:px-6 pb-3 animate-fade-in">

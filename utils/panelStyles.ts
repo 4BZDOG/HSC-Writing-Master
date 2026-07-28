@@ -18,7 +18,3 @@ export const PANEL_HEADER_OPEN = 'bg-slate-50/50 dark:bg-white/[0.03]';
 
 /** …and while it is shut, where the whole row is the control. */
 export const PANEL_HEADER_CLOSED = 'hover:bg-slate-50 dark:hover:bg-white/[0.02]';
-
-/** Small-caps label used for every panel title. */
-export const PANEL_TITLE =
-  'text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400';

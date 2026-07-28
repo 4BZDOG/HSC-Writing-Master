@@ -9,6 +9,7 @@ import {
 } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { PANEL_SURFACE } from '../utils/panelStyles';
+import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import SampleAnswerGeneratorModal from './SampleAnswerGeneratorModal';
 import SampleAnswerRevisionModal from './SampleAnswerRevisionModal';
 import SampleAnswerEditorModal from './SampleAnswerEditorModal';
@@ -452,6 +453,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   // Folded by default, like the Marking Guide and Grade Standards it sits with.
   const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
   const panelId = useId();
+  const opened = useOpenedOnce(!isCollapsed, prompt.id);
   const [isGeneratorOpen, setIsGeneratorOpen] = useState(false);
   const [revisionTarget, setRevisionTarget] = useState<SampleAnswer | null>(null);
   const [editorTarget, setEditorTarget] = useState<SampleAnswer | null>(null);
@@ -569,11 +571,14 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
               {` • Band ceiling ${maxPossibleBand}`}
             </span>
           </div>
-          <ChevronDown
-            className={`w-4 h-4 shrink-0 ml-auto text-slate-400 transition-transform duration-500 ${
-              isCollapsed ? '' : 'rotate-180 text-slate-900 dark:text-white'
-            }`}
-          />
+          <div className="flex items-center gap-2.5 shrink-0 ml-auto">
+            <PanelReadChip show={opened && isCollapsed} />
+            <ChevronDown
+              className={`w-4 h-4 shrink-0 text-slate-400 transition-transform duration-500 ${
+                isCollapsed ? '' : 'rotate-180 text-slate-900 dark:text-white'
+              }`}
+            />
+          </div>
         </button>
 
         <div className="flex items-center gap-2 pl-2 pr-4 relative z-10 shrink-0">

@@ -2,6 +2,7 @@ import React, { useId, useMemo, useState } from 'react';
 import { CheckCircle2, AlertTriangle, Info, Lightbulb, ChevronDown } from 'lucide-react';
 import { InsightTone, WritingInsight } from '../utils/writingAnalysis';
 import { PANEL_HEADER_CLOSED, PANEL_HEADER_OPEN, PANEL_SURFACE } from '../utils/panelStyles';
+import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 
 const TONE_STYLES: Record<
   InsightTone,
@@ -27,7 +28,8 @@ const TONE_STYLES: Record<
 
 interface LiveInsightsProps {
   insights: WritingInsight[];
-  /** Start folded. Open by default — the advice is the point of the panel. */
+  /** Folded by default, like every other panel under the writing area. The
+   *  summary line carries the news while it is shut. */
   defaultCollapsed?: boolean;
 }
 
@@ -44,9 +46,12 @@ interface LiveInsightsProps {
  * than a blindfold.
  */
 const LiveInsights: React.FC<LiveInsightsProps> = React.memo(
-  ({ insights, defaultCollapsed = false }) => {
+  ({ insights, defaultCollapsed = true }) => {
     const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
     const panelId = useId();
+    // No reset key: this panel is about the student's own draft, which follows
+    // them rather than belonging to one question.
+    const opened = useOpenedOnce(!isCollapsed);
 
     const summary = useMemo(() => {
       const toFix = insights.filter((i) => i.tone === 'warning').length;
@@ -76,11 +81,14 @@ const LiveInsights: React.FC<LiveInsightsProps> = React.memo(
           <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 opacity-80">
             · {summary}
           </span>
-          <ChevronDown
-            className={`w-4 h-4 shrink-0 ml-auto text-slate-400 transition-transform duration-500 ${
-              isCollapsed ? '' : 'rotate-180 text-slate-900 dark:text-white'
-            }`}
-          />
+          <div className="flex items-center gap-2.5 shrink-0 ml-auto">
+            <PanelReadChip show={opened && isCollapsed} />
+            <ChevronDown
+              className={`w-4 h-4 shrink-0 text-slate-400 transition-transform duration-500 ${
+                isCollapsed ? '' : 'rotate-180 text-slate-900 dark:text-white'
+              }`}
+            />
+          </div>
         </button>
 
         <div
