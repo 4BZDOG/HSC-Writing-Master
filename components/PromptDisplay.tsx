@@ -29,6 +29,18 @@ import { getTierScaleConfig, renderFormattedText } from '../utils/renderUtils';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { naturalCardHeight } from '../utils/layoutConstants';
 import { useChromeHeightReporter } from '../hooks/useChromeHeightReporter';
+import {
+  CARD_HEADER_BAR,
+  CARD_HEADER_BOX,
+  CARD_HEADER_ICON,
+  CARD_HEADER_IDENTITY,
+  CARD_HEADER_META,
+  CARD_HEADER_META_ROW,
+  CARD_HEADER_ROW,
+  CARD_HEADER_TITLE,
+  CARD_HEADER_TITLE_BLOCK,
+  CARD_HEADER_TRAY,
+} from '../utils/cardChrome';
 import { getPastHscLabel } from '../utils/pastHscUtils';
 import OutcomeDetailModal from './OutcomeDetailModal';
 import AiBusyOverlay from './AiBusyOverlay';
@@ -459,43 +471,25 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
         {/* Header Container */}
         <div
           ref={headerRef}
-          // TOP-aligned, and it must stay that way — see the note on the header
-          // content wrapper below.
-          className={`px-4 sm:px-8 py-4 sm:py-5 bg-gradient-to-r ${bandConfig.gradient} text-white flex justify-between items-start relative overflow-hidden flex-shrink-0 rounded-t-[30px]`}
+          // Every class in this header comes from utils/cardChrome, shared with
+          // the writing card so the pair reads as one piece of furniture.
+          className={`${CARD_HEADER_BOX} bg-gradient-to-r ${bandConfig.gradient}`}
           style={{ minHeight: minHeaderHeight ? `${minHeaderHeight}px` : 'auto' }}
         >
           <MeshOverlay opacity="opacity-20" />
 
-          <div
-            ref={headerContentRef}
-            // `items-start`, and the same on the editor's header. "Writing
-            // Prompt" and "Written Response" have to sit on the same line as
-            // each other, and centring cannot deliver that: the two headers are
-            // stretched to a shared height, but what they hold differs — a
-            // directive block over stat pills here, a pill toolbar there — so
-            // each heading was centred against a DIFFERENT content height and
-            // the pair landed a few pixels apart. Worse, the offset changed
-            // with zoom and with every wrap, which is why this keeps coming
-            // back. Pinned to the top, both headings sit exactly one padding
-            // step below the top of their card, whatever is underneath them.
-            className="relative z-10 w-full flex flex-wrap justify-between items-start gap-y-3 gap-x-4"
-          >
+          <div ref={headerContentRef} className={CARD_HEADER_ROW}>
             {/* Left: Icon + Hero Title */}
-            <div className="flex items-start gap-3 sm:gap-4 min-w-0">
-              <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shadow-lg group flex-shrink-0">
-                <FileQuestion className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
+            <div className={CARD_HEADER_IDENTITY}>
+              <div className={CARD_HEADER_ICON}>
+                <FileQuestion className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
               </div>
-              {/* `pt-1` here and on the editor's title block: with the row
-                top-pinned, an unpadded heading sits flush with the top of the
-                48px icon tile beside it. One step down reads level with it —
-                and the same step is applied on both cards, so the two headings
-                still start on the same line. */}
-              <div className="min-w-0 pt-1">
-                <h3 className="text-xl sm:text-2xl font-black tracking-tight leading-none flex flex-wrap items-center gap-2 drop-shadow-sm">
+              <div className={CARD_HEADER_TITLE_BLOCK}>
+                <h3 className={CARD_HEADER_TITLE}>
                   Writing Prompt
                   {isEnriching && (
                     <span
-                      className="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-[0.15em] bg-white/15 border border-white/20 rounded-full px-2 py-0.5 animate-fade-in"
+                      className="inline-flex items-center gap-1 text-[9px] leading-none font-black uppercase tracking-[0.1em] bg-white/15 border border-white/20 rounded-full px-1.5 py-0.5 animate-fade-in"
                       title="Fetching this question's scenario and syllabus terms in the background — you can start writing now."
                     >
                       <Loader2 className="w-2.5 h-2.5 animate-spin" />
@@ -505,7 +499,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   {hasOpenFlag && (
                     <button
                       onClick={() => setIsFlagModalOpen(true)}
-                      className="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-[0.15em] bg-amber-300/25 border border-amber-200/50 rounded-full px-2 py-0.5 animate-fade-in hover:bg-amber-300/40 transition-colors"
+                      className="inline-flex items-center gap-1 text-[9px] leading-none font-black uppercase tracking-[0.1em] bg-amber-300/25 border border-amber-200/50 rounded-full px-1.5 py-0.5 animate-fade-in hover:bg-amber-300/40 transition-colors"
                       title={`Flagged for review: ${prompt.contentFlag?.reason ?? ''}`}
                     >
                       <Flag className="w-2.5 h-2.5" />
@@ -530,7 +524,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       // No `uppercase` here, unlike its neighbours: an HSC
                       // question number is "12(b)", and shouting it as
                       // "Q12(B)" changes what the label says.
-                      className={`inline-flex items-center gap-1.5 text-[9px] font-black tracking-[0.15em] rounded-full px-2 py-0.5 animate-fade-in transition-colors bg-white/20 border border-white/30 ${
+                      className={`inline-flex items-center gap-1 text-[9px] leading-none font-black tracking-[0.1em] rounded-full px-1.5 py-0.5 animate-fade-in transition-colors bg-white/20 border border-white/30 ${
                         canCurate && !examMode
                           ? 'hover:bg-white/30 cursor-pointer'
                           : 'cursor-default'
@@ -542,42 +536,58 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     </button>
                   )}
                 </h3>
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 mt-1.5">
-                  Band {verbInfo.tier} ceiling
-                </p>
+                {/* The meta line, mirroring the writing card's exactly: a chip,
+                  then a line of quiet small caps. There it is the band being
+                  worked towards and how far the response has come; here it is
+                  the command verb and the ceiling that verb sets. The directive
+                  used to be a hero block stacked over the stat pills in the
+                  right-hand corner, which cost this header a whole third row —
+                  at two-column widths the corner could not hold both, so it
+                  wrapped, and the writing card's header was stretched to match
+                  it. It is still the way in to the verb guide. */}
+                <div className={CARD_HEADER_META_ROW}>
+                  <button
+                    onClick={onVerbClick}
+                    disabled={examMode}
+                    // Named for what pressing it does, not for what it says:
+                    // the visible text is the verb alone, which tells a screen
+                    // reader nothing about there being a guide behind it.
+                    aria-label={
+                      examMode ? undefined : `Open the command verb guide for ${prompt.verb}`
+                    }
+                    title={examMode ? undefined : `What a ${prompt.verb} question asks for`}
+                    className={`text-[11px] leading-none bg-white/20 px-2.5 py-1 rounded-md border border-white/15 font-black uppercase tracking-widest shadow-sm backdrop-blur-sm transition-all ${
+                      examMode ? 'cursor-default' : 'hover:bg-white/30 active:scale-95'
+                    }`}
+                  >
+                    {prompt.verb}
+                  </button>
+                  <p className={CARD_HEADER_META}>Band {verbInfo.tier} ceiling</p>
+                </div>
               </div>
             </div>
 
-            {/* Right: Directive + stat pills */}
-            <div className="flex w-full md:w-auto md:ml-auto flex-row md:flex-col flex-wrap items-center md:items-end justify-between gap-2 flex-shrink-0">
-              <button
-                onClick={onVerbClick}
-                disabled={examMode}
-                className={`group/vbtn flex items-center gap-2 transition-transform ${examMode ? 'cursor-default' : 'hover:scale-105 active:scale-95'}`}
-                title={examMode ? undefined : 'View Verb Definition'}
+            {/* The question's stats, docked in the bottom-right corner — the
+              twin of the writing card's tool bar across the gap: same tray,
+              same height, same fill. */}
+            <div className={CARD_HEADER_TRAY}>
+              <div
+                className={`${CARD_HEADER_BAR} gap-2 text-[9px] font-bold uppercase tracking-wider`}
               >
-                <div className="text-left md:text-right">
-                  <span className="block text-[9px] font-bold uppercase tracking-[0.3em] text-white/50 mb-0.5">
-                    Directive
-                  </span>
-                  <span className="block text-xl md:text-2xl font-black uppercase tracking-widest leading-none drop-shadow-sm group-hover/vbtn:text-white/90">
-                    {prompt.verb}
-                  </span>
-                </div>
-              </button>
-
-              <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest bg-black/20 rounded-xl px-3 py-1.5 border border-white/10 shadow-inner">
-                <span className="flex items-center gap-1.5 opacity-90">
+                <span
+                  className="flex items-center gap-1 opacity-90"
+                  title="Suggested time for a question worth these marks"
+                >
                   <Clock className="w-3 h-3 text-white/70" /> {Math.round(prompt.totalMarks * 1.5)}{' '}
                   min
                 </span>
-                <span className="w-px h-3 bg-white/20"></span>
-                <span className="flex items-center gap-1.5 opacity-90">
+                <span className="w-px h-2.5 bg-white/20"></span>
+                <span className="flex items-center gap-1 opacity-90">
                   <Award className="w-3 h-3 text-white/70" /> {prompt.totalMarks} Marks
                 </span>
-                <span className="w-px h-3 bg-white/20"></span>
+                <span className="w-px h-2.5 bg-white/20"></span>
                 <span
-                  className="flex items-center gap-1.5 font-black"
+                  className="flex items-center gap-1 font-black"
                   title={`A full-mark response to this ${prompt.verb} question reaches Band ${targetBand}.`}
                 >
                   <Target className="w-3 h-3 text-white/70" /> Band {targetBand}

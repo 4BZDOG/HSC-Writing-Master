@@ -89,7 +89,9 @@ test.describe('modal scrolling', () => {
     // click scrolls its target into view first, which would move the page
     // before the dialog ever opened.
     await page.evaluate(() =>
-      (document.querySelector('[title="View Verb Definition"]') as HTMLElement)?.click()
+      (
+        document.querySelector('[aria-label^="Open the command verb guide"]') as HTMLElement
+      )?.click()
     );
     await page.getByRole('dialog').first().waitFor({ state: 'visible', timeout: 15_000 });
     await page.waitForTimeout(400);
