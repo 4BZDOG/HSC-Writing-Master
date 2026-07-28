@@ -207,15 +207,15 @@ it; no deploy, no migration.
 
 ### Where each gate is actually enforced
 
-| Feature | UI lock | Server enforcement |
-|---|---|---|
-| Full marking feedback | blur + upgrade prompt | paid detail stripped from the response (`api/_lib/entitlements.ts`) |
-| Daily evaluations | counter + pre-check | `consume_evaluation()` spends the allowance (schema §14) |
-| Answer upgrades | locked button | 402 from the proxy via `caller_plan()` (schema §17) |
-| AI content studio | locked buttons | 402 from the proxy via `caller_plan()` |
-| Advanced questions | picker disables them, and the workspace refuses one reached by an assignment link | — (question text is bundled content) |
-| Sample answers | blurred above the free band ceiling | — |
-| PDF export, exam mode | locked controls | — (entirely client-side features) |
+| Feature               | UI lock                                                                           | Server enforcement                                                  |
+| --------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| Full marking feedback | blur + upgrade prompt                                                             | paid detail stripped from the response (`api/_lib/entitlements.ts`) |
+| Daily evaluations     | counter + pre-check                                                               | `consume_evaluation()` spends the allowance (schema §14)            |
+| Answer upgrades       | locked button                                                                     | 402 from the proxy via `caller_plan()` (schema §17)                 |
+| AI content studio     | locked buttons                                                                    | 402 from the proxy via `caller_plan()`                              |
+| Advanced questions    | picker disables them, and the workspace refuses one reached by an assignment link | — (question text is bundled content)                                |
+| Sample answers        | blurred above the free band ceiling                                               | —                                                                   |
+| PDF export, exam mode | locked controls                                                                   | — (entirely client-side features)                                   |
 
 Be clear-eyed about the last three. PDF export and exam mode are pure client
 features — nothing is fetched, so there is nothing for a server to withhold.
