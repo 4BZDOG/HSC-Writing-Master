@@ -42,8 +42,10 @@ interface WorkspaceRightPanelProps {
   minFooterHeight?: number;
   writingMode: WritingMode;
   onWritingModeChange: (mode: WritingMode) => void;
-  /** Marking Guide + Sample Answers — supplied only in Focus Mode (see below). */
+  /** Marking Guide + Sample Answers — see the Workspace for where they land. */
   referenceSlot?: React.ReactNode;
+  /** Students type their own answers; paste is refused. See Editor. */
+  blockPaste?: boolean;
 }
 
 const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
@@ -75,6 +77,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   writingMode,
   onWritingModeChange,
   referenceSlot,
+  blockPaste,
 }) => {
   const isExamMode = writingMode === 'exam';
   const editorRef = useRef<{
@@ -264,8 +267,8 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           : isExamMode
             ? // Exam Mode hides the whole left reference rail, so the writing
               // column takes the width the rail is no longer using.
-              'lg:col-span-8 lg:col-start-5 lg:row-start-1 lg:row-span-2'
-            : 'lg:col-span-7 lg:col-start-6 lg:row-start-1 lg:row-span-2'
+              'xl:col-span-8 xl:col-start-5 xl:row-start-1 xl:row-span-2'
+            : 'xl:col-span-7 xl:col-start-6 xl:row-start-1 xl:row-span-2'
       } flex flex-col gap-6 pt-0 self-start`}
     >
       {/* `self-start` on the column and no flex-1 here: this panel shares a
@@ -303,6 +306,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             writingMode={writingMode}
             onWritingModeChange={onWritingModeChange}
             footerAction={evaluateAction}
+            blockPaste={blockPaste}
           />
         </div>
       </div>
@@ -354,9 +358,9 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
         }}
       />
 
-      {/* Outside Focus Mode these live in the left rail; Focus Mode has no left
-          rail, so the marking guide and the exemplars are injected here —
-          folded shut — to stay within reach. */}
+      {/* Whatever the Workspace decided belongs under the writing card in this
+          layout — the exemplars beside a two-column workspace, and in Focus
+          Mode the marking guide too, since there is no left rail to hold it. */}
       {referenceSlot && (
         <div className={`flex flex-col ${isExamMode ? 'hidden' : ''}`}>{referenceSlot}</div>
       )}

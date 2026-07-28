@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import {
   Course,
   StatePath,
@@ -18,7 +18,13 @@ import CommandTermGuideModal from './CommandTermGuideModal';
 import Breadcrumb from './Breadcrumb';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { findAndUpdateItem } from '../utils/stateUtils';
-import { cardHeightCap, MIN_CARD_HEIGHT, isTwoColumnWidth } from '../utils/layoutConstants';
+import {
+  cardHeightCap,
+  MIN_CARD_HEIGHT,
+  isTwoColumnWidth,
+  isMeaningfulHeightChange,
+} from '../utils/layoutConstants';
+import { canCurateContent } from '../utils/permissions';
 import WorkspaceRightPanel from './WorkspaceRightPanel';
 import SampleAnswersAccordion from './SampleAnswersAccordion';
 import { isCurriculumRemote } from '../services/curriculumService';
@@ -126,6 +132,25 @@ interface WorkspaceProps {
   showBreadcrumb?: boolean;
 }
 
+/**
+ * A height reported by one of the two cards, held steady against zoom jitter.
+ *
+ * The cards size each other, so every reported height is also an input to the
+ * next measurement. At fractional browser zoom the same box measures a hair
+ * taller or shorter frame to frame, and without a dead-band those roundings
+ * chase each other: the pair visibly flickers while the window is being zoomed
+ * or dragged, sometimes settling only when the pointer stops. Movement smaller
+ * than the tolerance is not a layout change and is dropped here, at the one
+ * place every measurement passes through.
+ */
+const useSteadyHeight = (initial = 0): [number, (height: number) => void] => {
+  const [height, setHeight] = useState(initial);
+  const report = useCallback((next: number) => {
+    setHeight((prev) => (isMeaningfulHeightChange(prev, next) ? Math.round(next) : prev));
+  }, []);
+  return [height, report];
+};
+
 const Workspace: React.FC<WorkspaceProps> = ({
   courses,
   statePath,
@@ -172,10 +197,10 @@ const Workspace: React.FC<WorkspaceProps> = ({
   // and scenario, so most of the time it reads without scrolling; only when it
   // outruns the viewport cap does it scroll too. The response has no natural
   // limit, so the writing area scrolls whenever it overflows.
-  const [promptHeaderHeight, setPromptHeaderHeight] = useState(0);
-  const [editorHeaderHeight, setEditorHeaderHeight] = useState(0);
+  const [promptHeaderHeight, setPromptHeaderHeight] = useSteadyHeight();
+  const [editorHeaderHeight, setEditorHeaderHeight] = useSteadyHeight();
   const [syncedHeaderHeight, setSyncedHeaderHeight] = useState(0);
-  const [promptTotalHeight, setPromptTotalHeight] = useState(0);
+  const [promptTotalHeight, setPromptTotalHeight] = useSteadyHeight();
   // Seeded at the floor rather than 0. Measuring happens in effects after the
   // first commit, so starting from "unknown" meant the writing area painted at
   // its own natural height — around 430px — and then snapped to the prompt's
@@ -184,8 +209,8 @@ const Workspace: React.FC<WorkspaceProps> = ({
   // answer for every prompt that does not exceed it, and a much smaller step
   // for the ones that do.
   const [syncedTotalHeight, setSyncedTotalHeight] = useState(MIN_CARD_HEIGHT);
-  const [promptFooterHeight, setPromptFooterHeight] = useState(0);
-  const [editorFooterHeight, setEditorFooterHeight] = useState(0);
+  const [promptFooterHeight, setPromptFooterHeight] = useSteadyHeight();
+  const [editorFooterHeight, setEditorFooterHeight] = useSteadyHeight();
   const [syncedFooterHeight, setSyncedFooterHeight] = useState(0);
 
   useEffect(() => {
@@ -198,7 +223,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
   const [heightCap, setHeightCap] = useState(() =>
     cardHeightCap(typeof window === 'undefined' ? 900 : window.innerHeight)
   );
-  // Whether the two cards are actually side by side. Below `lg` the grid stacks
+  // Whether the two cards are actually side by side. Below `xl` the grid stacks
   // them, and in Focus Mode there is only ever one column, so in both cases the
   // cross-card sync has nothing to align and is suppressed entirely.
   const [isSideBySide, setIsSideBySide] = useState(() =>
@@ -215,6 +240,9 @@ const Workspace: React.FC<WorkspaceProps> = ({
   }, []);
 
   const syncChrome = isSideBySide && !isFocusMode;
+  // One column, full workspace: the question, the writing area and the
+  // reference material all run down the page in a single stack.
+  const isSingleColumn = !isSideBySide && !isFocusMode;
   // `undefined` rather than 0 so each card falls back to its own natural
   // sizing: content-height chrome, and a writing area free to grow to its cap.
   const syncedHeader = syncChrome ? syncedHeaderHeight : undefined;
@@ -348,15 +376,6 @@ const Workspace: React.FC<WorkspaceProps> = ({
     { label: currentDotPoint?.description || 'Dot Point' },
   ];
 
-  // The exemplars live under the student's own writing, in every layout.
-  //
-  // They spent a release in the left rail, filed under the Marking Guide on the
-  // theory that criteria and models are read together. In practice a student
-  // compares a model answer with the one they have just written, and in the
-  // rail that comparison was a diagonal across the page — or, on a laptop, a
-  // scroll to a column that had already ended. Directly beneath the writing
-  // card the two sit in one vertical line, and Focus Mode no longer needs a
-  // special case: the card is already where it belongs.
   const markingGuideCard = (
     <AccordionSection
       title="Marking Guide"
@@ -403,6 +422,27 @@ const Workspace: React.FC<WorkspaceProps> = ({
     />
   );
 
+  // Where the exemplars sit.
+  //
+  // Side by side, they belong directly beneath the writing card: a student
+  // compares a model answer with the one they have just written, and the two
+  // read down one vertical line. Stacked into a single column that logic
+  // inverts — the exemplars landed mid-page, between the student's own writing
+  // and the syllabus terms and marking guide, so a fully written answer was
+  // separated from its reference material by a stack of finished answers. In
+  // one column (and in Focus Mode, where they already fall last) they go to the
+  // very bottom, past everything a student reads while writing.
+  const exemplarsAtBottom = isSingleColumn;
+  const editorReferenceSlot =
+    isExamMode || exemplarsAtBottom ? undefined : (
+      <>
+        {/* Focus Mode has no left rail, so the Marking Guide — the other
+          placard a student reaches for mid-answer — rides here, folded shut. */}
+        {isFocusMode && markingGuideCard}
+        {sampleAnswersCard}
+      </>
+    );
+
   return (
     <div className="flex flex-col h-full gap-4">
       {!isFocusMode && showBreadcrumb && (
@@ -421,11 +461,11 @@ const Workspace: React.FC<WorkspaceProps> = ({
         // between `none` and a 12-column track list, so `transition-all` animated
         // nothing useful here — it only kept the composited cards in motion while
         // Focus Mode added or removed whole columns, leaving stale paint behind.
-        className={`grid grid-cols-1 ${isFocusMode ? 'w-full' : 'lg:grid-cols-12 lg:grid-rows-[auto,1fr]'} gap-6 flex-1 min-h-0`}
+        className={`grid grid-cols-1 ${isFocusMode ? 'w-full' : 'xl:grid-cols-12 xl:grid-rows-[auto,1fr]'} gap-6 flex-1 min-h-0`}
       >
         {!isFocusMode && (
           <div
-            className={`${isExamMode ? 'lg:col-span-4' : 'lg:col-span-5'} lg:col-start-1 lg:row-start-1`}
+            className={`${isExamMode ? 'xl:col-span-4' : 'xl:col-span-5'} xl:col-start-1 xl:row-start-1`}
           >
             <PromptDisplay
               prompt={currentPrompt}
@@ -523,22 +563,16 @@ const Workspace: React.FC<WorkspaceProps> = ({
           minFooterHeight={syncedFooter}
           writingMode={writingMode}
           onWritingModeChange={onWritingModeChange}
-          // The exemplars always ride under the writing card. Focus Mode has no
-          // left rail, so it also gets the Marking Guide — the other placard a
-          // student reaches for mid-answer — folded shut above them.
-          referenceSlot={
-            isExamMode ? undefined : (
-              <>
-                {isFocusMode && markingGuideCard}
-                {sampleAnswersCard}
-              </>
-            )
-          }
+          referenceSlot={editorReferenceSlot}
+          // A response is only worth marking — and the feedback only worth
+          // reading — if the student wrote it. Curators keep paste: moving
+          // sample answers in and out of this surface is part of the job.
+          blockPaste={!canCurateContent(userRole)}
         />
 
         {!isFocusMode && (
           <div
-            className={`lg:col-span-5 lg:col-start-1 lg:row-start-2 self-start ${isExamMode ? 'hidden' : ''}`}
+            className={`xl:col-span-5 xl:col-start-1 xl:row-start-2 self-start ${isExamMode ? 'hidden' : ''}`}
           >
             <ReferenceMaterials
               prompt={currentPrompt}
@@ -571,6 +605,12 @@ const Workspace: React.FC<WorkspaceProps> = ({
             />
           </div>
         )}
+
+        {/* Last in the stack, and only there: at `xl` the exemplars are back
+          under the writing card (see `exemplarsAtBottom`), and `xl:hidden`
+          covers the frame between a resize past the breakpoint and the state
+          catching up, so the pair can never both render. */}
+        {exemplarsAtBottom && !isExamMode && <div className="xl:hidden">{sampleAnswersCard}</div>}
 
         <CommandTermGuideModal
           isOpen={isGuideOpen}

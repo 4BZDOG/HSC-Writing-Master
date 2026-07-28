@@ -17,6 +17,8 @@ import {
   GraduationCap,
   AlignLeft,
 } from 'lucide-react';
+import { PANEL_HEADER_OPEN, PANEL_SURFACE } from '../utils/panelStyles';
+import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 
 interface PillProps {
   label: string;
@@ -119,6 +121,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     // panels below are reference material a student opens deliberately, not
     // something that should push the evaluation results off screen.
     const [isCollapsed, setIsCollapsed] = useState(true);
+    const opened = useOpenedOnce(!isCollapsed, prompt.id);
     const [isTimerActive, setIsTimerActive] = useState(false);
     const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -167,16 +170,21 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
         .toString()
         .padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
 
+    // The panel wears the same surface as every other one below the writing
+    // area — see utils/panelStyles. It used to carry a heavier border, a
+    // `shadow-xl` and a near-black fill, which made the live stats read as a
+    // separate device bolted under the workspace rather than the first of the
+    // reference panels.
     return (
-      <div className="clip-stable rounded-[24px] border border-slate-300 dark:border-white/20 bg-white dark:bg-black/40 overflow-hidden shadow-xl transition-all duration-500">
+      <div className={PANEL_SURFACE}>
         {/* The divider only earns its place when something sits below it —
             collapsed, it doubled up with the card's own bottom border. */}
         <div
-          className={`flex flex-col sm:flex-row items-stretch ${
+          className={`flex flex-col sm:flex-row items-stretch ${PANEL_HEADER_OPEN} ${
             isCollapsed || isExamMode ? '' : 'border-b border-slate-300 dark:border-white/10'
           }`}
         >
-          <div className="flex flex-1 items-center bg-slate-50 dark:bg-black/60">
+          <div className="flex flex-1 items-center">
             {isExamMode ? (
               <StatBox
                 label="Mode"
@@ -212,7 +220,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
             />
           </div>
 
-          <div className="flex items-center gap-2 px-3 py-2 sm:py-0 border-t sm:border-t-0 sm:border-l border-slate-300 dark:border-white/10 bg-white dark:bg-black/40">
+          <div className="flex items-center gap-2 px-3 py-2 sm:py-0 border-t sm:border-t-0 sm:border-l border-slate-300 dark:border-white/10">
             <div className="flex gap-1 bg-slate-100 dark:bg-white/5 p-1 rounded-xl border border-slate-200 dark:border-white/10">
               <button
                 onClick={() => setIsTimerActive(!isTimerActive)}
@@ -256,6 +264,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                 <span className="text-[9px] font-black uppercase tracking-[0.15em] whitespace-nowrap">
                   {isCollapsed ? 'Terms & Structure' : 'Hide'}
                 </span>
+                <PanelReadChip show={opened && isCollapsed} />
                 <ChevronDown
                   className={`w-4 h-4 transition-transform duration-500 ${isCollapsed ? '-rotate-90' : ''}`}
                 />
@@ -270,7 +279,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
           className={`grid transition-all duration-500 ease-in-out ${isCollapsed || isExamMode ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'}`}
         >
           <div className="overflow-hidden">
-            <div className="p-4 sm:p-5 space-y-5 bg-white dark:bg-transparent">
+            <div className="p-4 sm:p-5 space-y-5">
               <div className="p-3.5 sm:p-4 rounded-2xl border border-slate-200 dark:border-white/20 bg-slate-50 dark:bg-black/30 shadow-inner">
                 <div className="flex items-center justify-between gap-4 mb-3 px-0.5">
                   <div className="flex items-center gap-3 min-w-0">

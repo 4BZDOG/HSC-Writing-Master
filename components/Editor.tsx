@@ -31,11 +31,14 @@ import {
   Lightbulb,
   GraduationCap,
   ChevronDown,
+  X,
 } from 'lucide-react';
 import { PromptVerb, WritingMode } from '../types';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
-import { MAX_CARD_HEIGHT, isTwoColumnWidth } from '../utils/layoutConstants';
+import { MAX_CARD_HEIGHT } from '../utils/layoutConstants';
+import { useChromeHeightReporter } from '../hooks/useChromeHeightReporter';
 import { PlusLockChip } from './UpgradeModal';
+import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import StrategyTip from './StrategyTip';
 import { parseStrategyTip } from '../utils/strategyTip';
 
@@ -64,6 +67,11 @@ interface EditorProps {
   minFooterHeight?: number;
   writingMode?: WritingMode;
   onWritingModeChange?: (mode: WritingMode) => void;
+  /** Refuse pasted (and dragged-in) text, with a note explaining why.
+   *  Set for students: an HSC response is worth marking only if it is the
+   *  student's own typing. Curators keep paste — they move sample answers and
+   *  test material in and out of this surface as part of the job. */
+  blockPaste?: boolean;
   /** Primary action (Evaluate), docked at the right end of the footer bar.
    *  It lives in the chrome rather than over — or above — the writing surface:
    *  floating, it hid the student's own words; in a row of its own it took
@@ -148,6 +156,7 @@ const Editor = forwardRef<
       writingMode = 'coach',
       onWritingModeChange,
       footerAction,
+      blockPaste = false,
     },
     ref
   ) => {
@@ -162,25 +171,14 @@ const Editor = forwardRef<
     const footerRef = useRef<HTMLDivElement>(null);
     const footerContentRef = useRef<HTMLDivElement>(null);
     const [copied, setCopied] = useState(false);
-    // Open on a desktop, folded on a phone. The tip runs to ~180px, which on a
-    // narrow viewport is most of a writing card that is only ~300px tall — the
-    // coaching is worth a tap there, not the writing surface.
-    const [showStrategy, setShowStrategy] = useState(() =>
-      typeof window === 'undefined' ? true : isTwoColumnWidth(window.innerWidth)
-    );
-    // …and it follows the viewport, rather than being decided once at mount:
-    // rotating a tablet or splitting the window left the panel open on a
-    // layout it was too tall for, or folded on one with room to spare.
-    // A deliberate toggle wins from then on — `touchedStrategy` stops the
-    // resize handler overriding a choice the student has actually made.
-    const touchedStrategy = useRef(false);
-    useEffect(() => {
-      const update = () => {
-        if (!touchedStrategy.current) setShowStrategy(isTwoColumnWidth(window.innerWidth));
-      };
-      window.addEventListener('resize', update);
-      return () => window.removeEventListener('resize', update);
-    }, []);
+    // Folded, like every panel around it. It used to open itself on a desktop
+    // and re-decide on every resize, which made it the one disclosure in the
+    // workspace whose state a student did not own — and the tip runs to ~180px
+    // out of a writing card that is only ~300px tall on a narrow viewport. The
+    // closed row quotes the first tip, so folding it costs a hook, not the
+    // coaching.
+    const [showStrategy, setShowStrategy] = useState(false);
+    const strategyOpened = useOpenedOnce(showStrategy, verb);
     // Bold/italic, folded away by default — see the toolbar below.
     const [showFormatting, setShowFormatting] = useState(false);
     const strategyPanelId = useId();
@@ -261,48 +259,11 @@ const Editor = forwardRef<
       };
     }, [progress, maxBand, verbTier, isExamMode]);
 
-    // Header height observation. Reports the header's NATURAL height (content
-    // + own padding) rather than its rendered box: the rendered box includes
-    // the synced minHeight, which would turn the cross-card height sync into a
-    // one-way ratchet that locks in transient wrapped layouts forever.
-    useEffect(() => {
-      if (!headerContentRef.current || !onHeaderResize) return;
-
-      const observer = new ResizeObserver(() => {
-        const header = headerRef.current;
-        const content = headerContentRef.current;
-        if (!header || !content) return;
-        const cs = getComputedStyle(header);
-        onHeaderResize(
-          content.offsetHeight + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)
-        );
-      });
-
-      observer.observe(headerContentRef.current);
-      return () => observer.disconnect();
-    }, [onHeaderResize, progress, chroma]);
-
-    // Footer height observation. Like the header, this reports the NATURAL
-    // height (content + own padding). The rendered box carries the synced
-    // minFooterHeight, so measuring it fed the inflated value back into the
-    // sync and the two footers could only ever grow — a footer that wrapped to
-    // two rows at a narrow width stayed tall after widening again.
-    useEffect(() => {
-      if (!footerContentRef.current || !onFooterResize) return;
-
-      const observer = new ResizeObserver(() => {
-        const footer = footerRef.current;
-        const content = footerContentRef.current;
-        if (!footer || !content) return;
-        const cs = getComputedStyle(footer);
-        onFooterResize(
-          content.offsetHeight + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)
-        );
-      });
-
-      observer.observe(footerContentRef.current);
-      return () => observer.disconnect();
-    }, [onFooterResize]);
+    // Header and footer height observation. Both cards measure their chrome
+    // through the same hook, so the two can never disagree about what a header
+    // of a given content is worth — see useChromeHeightReporter.
+    useChromeHeightReporter(headerRef, headerContentRef, onHeaderResize);
+    useChromeHeightReporter(footerRef, footerContentRef, onFooterResize);
 
     const handleManualResize = (newSize: number) => onFontSizeChange?.(newSize);
 
@@ -487,6 +448,30 @@ const Editor = forwardRef<
       });
     };
 
+    // Paste refusal. The point is not that it cannot be worked around — a
+    // determined student can retype anything — but that the ordinary,
+    // thoughtless route (copy an answer, drop it in, press Evaluate) is closed,
+    // and that the student is told why rather than left wondering why ⌘V did
+    // nothing. Drops are refused too: dragging selected text in is the same
+    // gesture with a different hand.
+    const [pasteNotice, setPasteNotice] = useState(false);
+    const pasteNoticeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    useEffect(
+      () => () => {
+        if (pasteNoticeTimer.current) clearTimeout(pasteNoticeTimer.current);
+      },
+      []
+    );
+
+    const refuseTransfer = (e: React.ClipboardEvent | React.DragEvent) => {
+      if (!blockPaste) return;
+      e.preventDefault();
+      setPasteNotice(true);
+      if (pasteNoticeTimer.current) clearTimeout(pasteNoticeTimer.current);
+      pasteNoticeTimer.current = setTimeout(() => setPasteNotice(false), 6000);
+    };
+
     const handleCopy = async () => {
       if (value) {
         await navigator.clipboard.writeText(value);
@@ -529,12 +514,12 @@ const Editor = forwardRef<
           {/* Header */}
           <div
             ref={headerRef}
-            // `items-center`, not `items-start`: this header is stretched to
-            // match the prompt card's taller header (minHeaderHeight), and with
-            // the content pinned to the top the surplus read as a broken block
-            // of empty band colour. Centred, the padding sits either side of the
-            // title row and the stretch looks deliberate.
-            className={`px-4 sm:px-8 py-4 sm:py-5 text-white flex justify-between items-center relative overflow-hidden flex-shrink-0 rounded-t-[30px] transition-[background,box-shadow] duration-1000 ease-in-out`}
+            // TOP-aligned, matching the prompt card exactly — see the note on
+            // that card's header content wrapper. This header is stretched to
+            // the taller of the two, and centring the content inside the
+            // stretch is what kept knocking "Written Response" out of line with
+            // "Writing Prompt".
+            className={`px-4 sm:px-8 py-4 sm:py-5 text-white flex justify-between items-start relative overflow-hidden flex-shrink-0 rounded-t-[30px] transition-[background,box-shadow] duration-1000 ease-in-out`}
             style={{
               minHeight: minHeaderHeight ? `${minHeaderHeight}px` : 'auto',
               background: chroma.background,
@@ -554,19 +539,23 @@ const Editor = forwardRef<
               painting over it. */}
             <div
               ref={headerContentRef}
-              // `items-center` for the same reason the header box itself is
-              // centred: the title block (icon, heading, band + progress row)
-              // is taller than the pill toolbar beside it, and top-pinning the
-              // toolbar left it floating above the row it belongs to.
-              className="relative z-10 w-full flex flex-wrap justify-between items-center gap-y-3 gap-x-4"
+              // `items-start`, matching the prompt card's header content row.
+              // The two title blocks are different heights (an eyebrow there, a
+              // band chip and progress meter here), so only top alignment puts
+              // the two headings on the same line — and keeps them there
+              // through zoom and through every width at which the toolbar
+              // wraps. The pill toolbar is nudged back down with `mt-1` so it
+              // still reads as belonging to the title row.
+              className="relative z-10 w-full flex flex-wrap justify-between items-start gap-y-3 gap-x-4"
             >
-              <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+              <div className="flex items-start gap-3 sm:gap-4 min-w-0">
                 <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shadow-lg group flex-shrink-0">
                   <PenTool
                     className={`w-6 h-6 group-hover:scale-110 transition-transform ${chroma.iconColor}`}
                   />
                 </div>
-                <div className="min-w-0">
+                {/* `pt-1` mirrors the prompt card's title block exactly. */}
+                <div className="min-w-0 pt-1">
                   <h3 className="text-xl sm:text-2xl font-black tracking-tight leading-none drop-shadow-sm">
                     Written Response
                   </h3>
@@ -600,7 +589,7 @@ const Editor = forwardRef<
 
               {/* Functional Pill Toolbar — ml-auto keeps it right-aligned when
                 the header row wraps it onto its own line. */}
-              <div className="flex items-center gap-1 bg-black/20 backdrop-blur-xl p-1 rounded-2xl border border-white/10 shadow-inner flex-shrink-0 ml-auto">
+              <div className="flex items-center gap-1 bg-black/20 backdrop-blur-xl p-1 rounded-2xl border border-white/10 shadow-inner flex-shrink-0 ml-auto mt-1">
                 {onWritingModeChange && (
                   <>
                     <div
@@ -732,10 +721,7 @@ const Editor = forwardRef<
             <div className="border-t border-amber-500/20 light:border-amber-200/70 bg-amber-500/[0.05] light:bg-amber-50/60">
               <button
                 type="button"
-                onClick={() => {
-                  touchedStrategy.current = true;
-                  setShowStrategy((s) => !s);
-                }}
+                onClick={() => setShowStrategy((s) => !s)}
                 aria-expanded={showStrategy}
                 aria-controls={strategyPanelId}
                 title={
@@ -757,9 +743,12 @@ const Editor = forwardRef<
                     {strategyPreview}
                   </span>
                 )}
-                <ChevronDown
-                  className={`w-3 h-3 text-amber-400/70 light:text-amber-600 ml-auto flex-shrink-0 transition-transform duration-200 ${showStrategy ? 'rotate-180' : ''}`}
-                />
+                <div className="flex items-center gap-2 ml-auto flex-shrink-0">
+                  <PanelReadChip show={strategyOpened && !showStrategy} />
+                  <ChevronDown
+                    className={`w-3 h-3 text-amber-400/70 light:text-amber-600 transition-transform duration-200 ${showStrategy ? 'rotate-180' : ''}`}
+                  />
+                </div>
               </button>
               {showStrategy && (
                 <div id={strategyPanelId} className="px-4 sm:px-6 pb-3 animate-fade-in">
@@ -788,6 +777,37 @@ const Editor = forwardRef<
 
             <MeshOverlay opacity="opacity-[0.04]" color={chroma.mesh} />
 
+            {/* Floated over the writing surface rather than placed in flow: a
+              banner that takes up a row would shove the student's text down
+              the moment they pressed ⌘V, which is its own small disruption. */}
+            {pasteNotice && (
+              <div
+                role="status"
+                className="absolute top-3 left-1/2 -translate-x-1/2 z-20 w-[min(28rem,calc(100%-2rem))] animate-fade-in"
+              >
+                <div className="flex items-start gap-3 px-4 py-3 rounded-2xl border border-amber-400/40 bg-amber-50 light:bg-amber-50 dark:bg-amber-950/80 backdrop-blur-xl shadow-xl">
+                  <PenTool className="w-4 h-4 mt-0.5 shrink-0 text-amber-600 dark:text-amber-400" />
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-600 dark:text-amber-400">
+                      Pasting is switched off
+                    </p>
+                    <p className="text-xs font-medium leading-relaxed text-amber-900 dark:text-amber-100/90 mt-1">
+                      Type your response in your own words — that is the part the marker rewards,
+                      and the feedback is only useful if the writing is yours.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setPasteNotice(false)}
+                    aria-label="Dismiss"
+                    className="ml-auto -mr-1 -mt-1 p-1 rounded-lg text-amber-600/70 dark:text-amber-400/70 hover:text-amber-700 dark:hover:text-amber-300 hover:bg-amber-500/10 transition-colors"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            )}
+
             <div className="grid w-full relative z-10 min-h-full">
               {/* Invisible phantom div to force height based on content */}
               <div
@@ -810,6 +830,8 @@ const Editor = forwardRef<
                 // without changing the text, so onChange never fires.
                 onKeyUp={queueCaretScroll}
                 onClick={queueCaretScroll}
+                onPaste={refuseTransfer}
+                onDrop={refuseTransfer}
                 onBlur={() => onSave?.()}
                 placeholder={
                   isExamMode ? 'Begin your response. The clock is running…' : placeholder

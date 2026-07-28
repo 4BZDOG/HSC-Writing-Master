@@ -13,14 +13,36 @@ const INSIGHTS: WritingInsight[] = [
 ];
 
 describe('LiveInsights', () => {
+  // Shut on arrival, like every panel under the writing area, and opened by a
+  // deliberate click.
   it('folds and unfolds like the panels around it', () => {
     render(<LiveInsights insights={INSIGHTS} />);
     const header = screen.getByRole('button', { name: /Live Insights/i });
-    expect(header.getAttribute('aria-expanded')).toBe('true');
+    expect(header.getAttribute('aria-expanded')).toBe('false');
     expect(header.getAttribute('aria-controls')).toBeTruthy();
 
     fireEvent.click(header);
+    expect(header.getAttribute('aria-expanded')).toBe('true');
+
+    fireEvent.click(header);
     expect(header.getAttribute('aria-expanded')).toBe('false');
+  });
+
+  // Closed panels all look alike, so one a student has already been through
+  // says so — that is the only thing distinguishing "not read yet" from
+  // "read and put away".
+  it('marks itself read once it has been opened and shut again', () => {
+    render(<LiveInsights insights={INSIGHTS} />);
+    const header = screen.getByRole('button', { name: /Live Insights/i });
+
+    expect(screen.queryByText(/^Read$/i)).toBeNull();
+
+    fireEvent.click(header);
+    // Not while it is open — the content itself is the feedback.
+    expect(screen.queryByText(/^Read$/i)).toBeNull();
+
+    fireEvent.click(header);
+    expect(screen.getByText(/^Read$/i)).toBeTruthy();
   });
 
   it('says what is waiting inside while it is folded', () => {
