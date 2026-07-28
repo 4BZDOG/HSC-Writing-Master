@@ -201,12 +201,17 @@ it; no deploy, no migration.
 | Answer upgrades | locked button | 402 from the proxy via `caller_plan()` (schema §17) |
 | AI content studio | locked buttons | 402 from the proxy via `caller_plan()` |
 | Advanced questions | picker disables them, and the workspace refuses one reached by an assignment link | — (question text is bundled content) |
-| Sample answers | blurred above the free band ceiling | — (bundled content) |
+| Sample answers | blurred above the free band ceiling | — |
 | PDF export, exam mode | locked controls | — (entirely client-side features) |
 
-The last three are client-side by nature: nothing is fetched, so there is
-nothing for a server to withhold. Treat them as commercial nudges rather than
-locks, and price accordingly.
+Be clear-eyed about the last three. PDF export and exam mode are pure client
+features — nothing is fetched, so there is nothing for a server to withhold.
+Advanced question text and sample answers ARE fetched (bundled JSON offline, or
+`sample_answers` rows when the curriculum is remote), so a determined user can
+read them in the network tab regardless of the blur. What the paywall actually
+protects there is the AI work done ON them — marking, upgrades, generation —
+and that is enforced. Treat the blurs as commercial nudges, and price the
+plans on the AI, not on the text.
 
 ### Stripe checklist
 
