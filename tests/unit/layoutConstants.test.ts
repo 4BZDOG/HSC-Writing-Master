@@ -1,9 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import {
   naturalCardHeight,
+  naturalChromeHeight,
   cardHeightCap,
+  isMeaningfulHeightChange,
+  isTwoColumnWidth,
+  HEIGHT_SYNC_TOLERANCE,
   MAX_CARD_HEIGHT,
   MIN_CARD_HEIGHT,
+  TWO_COLUMN_BREAKPOINT,
 } from '../../utils/layoutConstants';
 
 /**
@@ -81,5 +86,76 @@ describe('cardHeightCap', () => {
 
   it('keeps the floor below the ceiling', () => {
     expect(MIN_CARD_HEIGHT).toBeLessThan(MAX_CARD_HEIGHT);
+  });
+});
+
+/**
+ * The two cards size each other, so every measurement is also an input to the
+ * next one. At fractional browser zoom the same box measures a hair taller or
+ * shorter frame to frame; without a dead-band those roundings chase each other
+ * and the pair flickers for as long as the zoom or drag continues.
+ */
+describe('isMeaningfulHeightChange', () => {
+  it('ignores the sub-pixel drift a zoomed browser reports', () => {
+    expect(isMeaningfulHeightChange(52, 52)).toBe(false);
+    expect(isMeaningfulHeightChange(52, 53)).toBe(false);
+    expect(isMeaningfulHeightChange(52, 50.4)).toBe(false);
+  });
+
+  it('still acts on a real layout change', () => {
+    // A footer wrapping to a second row, a header gaining a chip: tens of
+    // pixels, never one or two.
+    expect(isMeaningfulHeightChange(52, 104)).toBe(true);
+    expect(isMeaningfulHeightChange(163, 41)).toBe(true);
+  });
+
+  it('is symmetric — growing and shrinking are judged the same', () => {
+    expect(isMeaningfulHeightChange(100, 100 + HEIGHT_SYNC_TOLERANCE + 1)).toBe(true);
+    expect(isMeaningfulHeightChange(100, 100 - HEIGHT_SYNC_TOLERANCE - 1)).toBe(true);
+  });
+
+  it('reports the first measurement, taken against a zero start', () => {
+    expect(isMeaningfulHeightChange(0, 52)).toBe(true);
+  });
+});
+
+describe('naturalChromeHeight', () => {
+  const chrome = (contentHeight: number, padding: string) => {
+    const box = document.createElement('div');
+    box.style.padding = padding;
+    const content = document.createElement('div');
+    Object.defineProperty(content, 'offsetHeight', { value: contentHeight });
+    box.appendChild(content);
+    return { box, content };
+  };
+
+  it('adds the box own padding to the content it holds', () => {
+    const { box, content } = chrome(30, '12px 8px');
+    expect(naturalChromeHeight(box, content)).toBe(54);
+  });
+
+  it('is unaffected by the synced minimum stretching the box', () => {
+    // The whole point: the rendered box carries the OTHER card's height, so
+    // measuring it would ratchet the pair upward and never let it back down.
+    const { box, content } = chrome(30, '12px');
+    box.style.minHeight = '400px';
+    expect(naturalChromeHeight(box, content)).toBe(54);
+  });
+
+  it('reports nothing before either element is mounted', () => {
+    const { box, content } = chrome(30, '12px');
+    expect(naturalChromeHeight(null, content)).toBe(0);
+    expect(naturalChromeHeight(box, null)).toBe(0);
+  });
+});
+
+describe('the single-column switch', () => {
+  it('happens at xl, so a zoomed-in page drops to one column a step sooner', () => {
+    expect(TWO_COLUMN_BREAKPOINT).toBe(1280);
+    // A 1440px window at 125% zoom reports 1152 CSS pixels. It used to keep
+    // two columns of large type, each wrapping every few words.
+    expect(isTwoColumnWidth(1440 / 1.25)).toBe(false);
+    // The same window unzoomed still gets its two columns.
+    expect(isTwoColumnWidth(1440)).toBe(true);
   });
 });

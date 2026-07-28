@@ -28,6 +28,7 @@ import {
 import { getTierScaleConfig, renderFormattedText } from '../utils/renderUtils';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { naturalCardHeight } from '../utils/layoutConstants';
+import { useChromeHeightReporter } from '../hooks/useChromeHeightReporter';
 import { getPastHscLabel } from '../utils/pastHscUtils';
 import OutcomeDetailModal from './OutcomeDetailModal';
 import AiBusyOverlay from './AiBusyOverlay';
@@ -363,26 +364,10 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
     setEditScenarioText(prompt.scenario || '');
   }, [prompt.scenario]);
 
-  // Header height observation. Reports the header's NATURAL height (content
-  // + own padding) rather than its rendered box: the rendered box includes
-  // the synced minHeight, which would turn the cross-card height sync into a
-  // one-way ratchet that locks in transient wrapped layouts forever.
-  useEffect(() => {
-    if (!headerContentRef.current || !onHeaderResize) return;
-
-    const observer = new ResizeObserver(() => {
-      const header = headerRef.current;
-      const content = headerContentRef.current;
-      if (!header || !content) return;
-      const cs = getComputedStyle(header);
-      onHeaderResize(
-        content.offsetHeight + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)
-      );
-    });
-
-    observer.observe(headerContentRef.current);
-    return () => observer.disconnect();
-  }, [onHeaderResize, prompt.question, prompt.verb, prompt.totalMarks]);
+  // Header and footer height observation — see useChromeHeightReporter for why
+  // the natural height is reported rather than the rendered box.
+  useChromeHeightReporter(headerRef, headerContentRef, onHeaderResize);
+  useChromeHeightReporter(footerRef, footerContentRef, onFooterResize);
 
   // Total height observation — the single value the writing area is sized
   // from. It reports the NATURAL height, not the rendered box inflated by the
@@ -395,41 +380,32 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   // are included — the writing area pins itself to this number exactly, and
   // measuring inside the border left it 4px shorter than the prompt.
   useEffect(() => {
-    if (!contentWrapRef.current || !onTotalHeightChange) return;
+    if (!contentWrapRef.current || !onTotalHeightChange || typeof ResizeObserver === 'undefined')
+      return;
 
-    const report = () =>
-      onTotalHeightChange(
-        naturalCardHeight(containerRef.current, bodyRef.current, bodyContentRef.current)
+    let frame = 0;
+    // Deferred to a frame for the same reason as the chrome reporters: the
+    // writing area is sized from this number, resizing it can resize this card
+    // back, and measuring inside the observer callback let that round-trip run
+    // several times within a single frame — which is what the flickering was.
+    const report = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() =>
+        onTotalHeightChange(
+          naturalCardHeight(containerRef.current, bodyRef.current, bodyContentRef.current)
+        )
       );
+    };
 
     const observer = new ResizeObserver(report);
     observer.observe(contentWrapRef.current);
     if (bodyContentRef.current) observer.observe(bodyContentRef.current);
     report();
-    return () => observer.disconnect();
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
   }, [onTotalHeightChange, prompt.question, prompt.scenario, fontSize]);
-
-  // Footer height observation. Like the header, this reports the NATURAL
-  // height (content + own padding). The rendered box carries the synced
-  // minFooterHeight, so measuring it fed the inflated value back into the sync
-  // and the two footers could only ever grow — a footer that wrapped to two
-  // rows at a narrow width stayed tall after widening again.
-  useEffect(() => {
-    if (!footerContentRef.current || !onFooterResize) return;
-
-    const observer = new ResizeObserver(() => {
-      const footer = footerRef.current;
-      const content = footerContentRef.current;
-      if (!footer || !content) return;
-      const cs = getComputedStyle(footer);
-      onFooterResize(
-        content.offsetHeight + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)
-      );
-    });
-
-    observer.observe(footerContentRef.current);
-    return () => observer.disconnect();
-  }, [onFooterResize, linkedOutcomes.length]);
 
   const handleSaveQuestion = () => {
     if (editQuestionText.trim() !== prompt.question) {
@@ -483,29 +459,38 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
         {/* Header Container */}
         <div
           ref={headerRef}
-          // Centred for the same reason as the editor's header: whichever of the
-          // two cards has the shorter header is stretched to match the other, and
-          // top-pinned content left a slab of empty band colour beneath it.
-          className={`px-4 sm:px-8 py-4 sm:py-5 bg-gradient-to-r ${bandConfig.gradient} text-white flex justify-between items-center relative overflow-hidden flex-shrink-0 rounded-t-[30px]`}
+          // TOP-aligned, and it must stay that way — see the note on the header
+          // content wrapper below.
+          className={`px-4 sm:px-8 py-4 sm:py-5 bg-gradient-to-r ${bandConfig.gradient} text-white flex justify-between items-start relative overflow-hidden flex-shrink-0 rounded-t-[30px]`}
           style={{ minHeight: minHeaderHeight ? `${minHeaderHeight}px` : 'auto' }}
         >
           <MeshOverlay opacity="opacity-20" />
 
           <div
             ref={headerContentRef}
-            // `items-center` across the row, not `items-start`. The two groups
-            // are different heights — the title block is one line plus an
-            // eyebrow, the directive block is a heading stacked over the stat
-            // pills — so top-pinning them left the shorter one riding high with
-            // a band of empty colour beneath it. Centred, they read as one row.
-            className="relative z-10 w-full flex flex-wrap justify-between items-center gap-y-3 gap-x-4"
+            // `items-start`, and the same on the editor's header. "Writing
+            // Prompt" and "Written Response" have to sit on the same line as
+            // each other, and centring cannot deliver that: the two headers are
+            // stretched to a shared height, but what they hold differs — a
+            // directive block over stat pills here, a pill toolbar there — so
+            // each heading was centred against a DIFFERENT content height and
+            // the pair landed a few pixels apart. Worse, the offset changed
+            // with zoom and with every wrap, which is why this keeps coming
+            // back. Pinned to the top, both headings sit exactly one padding
+            // step below the top of their card, whatever is underneath them.
+            className="relative z-10 w-full flex flex-wrap justify-between items-start gap-y-3 gap-x-4"
           >
             {/* Left: Icon + Hero Title */}
-            <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+            <div className="flex items-start gap-3 sm:gap-4 min-w-0">
               <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shadow-lg group flex-shrink-0">
                 <FileQuestion className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
               </div>
-              <div className="min-w-0">
+              {/* `pt-1` here and on the editor's title block: with the row
+                top-pinned, an unpadded heading sits flush with the top of the
+                48px icon tile beside it. One step down reads level with it —
+                and the same step is applied on both cards, so the two headings
+                still start on the same line. */}
+              <div className="min-w-0 pt-1">
                 <h3 className="text-xl sm:text-2xl font-black tracking-tight leading-none flex flex-wrap items-center gap-2 drop-shadow-sm">
                   Writing Prompt
                   {isEnriching && (
@@ -527,11 +512,17 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       Flagged
                     </button>
                   )}
-                  {/* Where the question came from. Until now only a bulk
-                    import could set this, so a mistagged or untagged question
-                    could not be corrected at all; for a curator the chip is
-                    the way in to fixing it. */}
-                  {(pastHsc || (canCurate && !examMode)) && (
+                  {/* Where the question came from — shown only when the
+                    question actually CAME from somewhere. The empty state used
+                    to render a dashed "Tag paper" chip beside the heading for
+                    every curator on every practice question: a filing control
+                    sitting in the most prominent line of the workspace, next to
+                    a question that is not a past paper and never will be.
+                    Tagging now belongs where the rest of a question's metadata
+                    is set — the question editor — and this chip is left to say
+                    what it is for, with editing still one click away for a
+                    curator who spots a wrong year. */}
+                  {pastHsc && (
                     <button
                       onClick={() => canCurate && !examMode && setIsEditingProvenance((v) => !v)}
                       disabled={!canCurate || examMode}
@@ -539,19 +530,15 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       // No `uppercase` here, unlike its neighbours: an HSC
                       // question number is "12(b)", and shouting it as
                       // "Q12(B)" changes what the label says.
-                      className={`inline-flex items-center gap-1.5 text-[9px] font-black tracking-[0.15em] rounded-full px-2 py-0.5 animate-fade-in transition-colors ${
-                        pastHsc
-                          ? 'bg-white/20 border border-white/30'
-                          : 'bg-white/5 border border-dashed border-white/30 text-white/60'
-                      } ${canCurate && !examMode ? 'hover:bg-white/30 cursor-pointer' : 'cursor-default'}`}
-                      title={
-                        pastHsc
-                          ? `${pastHsc.title}${canCurate && !examMode ? ' — click to edit' : ''}`
-                          : 'Tag this question with the HSC paper it came from'
-                      }
+                      className={`inline-flex items-center gap-1.5 text-[9px] font-black tracking-[0.15em] rounded-full px-2 py-0.5 animate-fade-in transition-colors bg-white/20 border border-white/30 ${
+                        canCurate && !examMode
+                          ? 'hover:bg-white/30 cursor-pointer'
+                          : 'cursor-default'
+                      }`}
+                      title={`${pastHsc.title}${canCurate && !examMode ? ' — click to edit' : ''}`}
                     >
                       <Landmark className="w-2.5 h-2.5" />
-                      {pastHsc ? pastHsc.text : 'Tag paper'}
+                      {pastHsc.text}
                     </button>
                   )}
                 </h3>

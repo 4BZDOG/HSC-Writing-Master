@@ -8,6 +8,7 @@ import {
   cleanMarkdown,
 } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { PANEL_SURFACE } from '../utils/panelStyles';
 import SampleAnswerGeneratorModal from './SampleAnswerGeneratorModal';
 import SampleAnswerRevisionModal from './SampleAnswerRevisionModal';
 import SampleAnswerEditorModal from './SampleAnswerEditorModal';
@@ -514,7 +515,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   };
 
   return (
-    <div className="clip-stable bg-white/60 dark:bg-[rgb(var(--color-bg-surface))]/30 light:bg-white rounded-[20px] border border-slate-300 dark:border-white/20 shadow-sm overflow-hidden mb-3 last:mb-0 transition-all duration-300">
+    <div className={`${PANEL_SURFACE} mb-3 last:mb-0`}>
       {/* Header: the disclosure on the left, the panel's own controls on the
           right. Reading size, "Generate" and "Recalibrate" used to live in a
           strip inside the body, which meant a student had to open the panel to

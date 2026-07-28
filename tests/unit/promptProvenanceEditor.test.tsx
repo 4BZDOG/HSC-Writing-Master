@@ -7,8 +7,13 @@ import { Prompt, PromptVerb } from '../../types';
 /**
  * Which HSC paper a question came from used to be writable only by a bulk
  * import, so a mistagged question could not be corrected anywhere in the app.
- * The header chip is now the way in — for a curator, and only outside Exam
- * Mode, where nothing on the card is editable.
+ * The header chip is the way in — for a curator, and only outside Exam Mode,
+ * where nothing on the card is editable.
+ *
+ * The chip appears only on a question that IS from a past paper. The empty
+ * state used to render a dashed "Tag paper" chip beside the heading of every
+ * practice question a curator opened; tagging a question as a past paper
+ * belongs with the rest of its metadata, in the question editor.
  */
 
 vi.mock('../../services/geminiService', () => ({
@@ -50,14 +55,14 @@ const props = {
   onFontSizeChange: vi.fn(),
 };
 
-const chip = () => screen.getByRole('button', { name: /Tag paper|HSC|Past HSC/i });
+const chip = () => screen.getByRole('button', { name: /HSC|Past HSC/i });
 
 describe('past HSC provenance on the question card', () => {
-  it('offers a curator a way to tag an untagged question', () => {
-    render(<PromptDisplay {...props} />);
+  it('lets a curator correct the paper a tagged question came from', () => {
+    render(<PromptDisplay {...props} prompt={makePrompt({ isPastHSC: true, hscYear: 2019 })} />);
     onUpdatePrompt.mockClear();
 
-    fireEvent.click(screen.getByRole('button', { name: /Tag paper/i }));
+    fireEvent.click(chip());
     fireEvent.change(screen.getByLabelText(/^Year$/i), { target: { value: '2023' } });
     fireEvent.change(screen.getByLabelText(/Question No\./i), { target: { value: '12(b)' } });
     fireEvent.click(screen.getByRole('button', { name: /^Save$/i }));
@@ -67,6 +72,15 @@ describe('past HSC provenance on the question card', () => {
       hscYear: 2023,
       hscQuestionNumber: '12(b)',
     });
+  });
+
+  // The header is the most prominent line in the workspace; a filing control
+  // for something the question is not does not belong in it.
+  it('offers a curator no tagging chip on a question that is not a past paper', () => {
+    render(<PromptDisplay {...props} />);
+
+    expect(screen.queryByRole('button', { name: /Tag paper/i })).toBeNull();
+    expect(screen.queryByRole('button', { name: /HSC/i })).toBeNull();
   });
 
   it('shows the paper it came from, and seeds the editor from it', () => {
@@ -100,10 +114,13 @@ describe('past HSC provenance on the question card', () => {
   });
 
   it('accepts a paper whose year is not known', () => {
-    render(<PromptDisplay {...props} />);
+    render(
+      <PromptDisplay {...props} prompt={makePrompt({ isPastHSC: true, hscQuestionNumber: '3' })} />
+    );
     onUpdatePrompt.mockClear();
 
-    fireEvent.click(screen.getByRole('button', { name: /Tag paper/i }));
+    fireEvent.click(chip());
+    fireEvent.change(screen.getByLabelText(/Question No\./i), { target: { value: '' } });
     fireEvent.click(screen.getByRole('button', { name: /^Save$/i }));
 
     expect(onUpdatePrompt).toHaveBeenCalledWith({
@@ -129,16 +146,12 @@ describe('past HSC provenance on the question card', () => {
 
   it('offers a student with no tagged paper nothing at all', () => {
     render(<PromptDisplay {...props} userRole={'student' as const} />);
-    expect(screen.queryByRole('button', { name: /Tag paper/i })).toBeNull();
+    expect(screen.queryByRole('button', { name: /Tag paper|HSC/i })).toBeNull();
   });
 
   it('does not let a curator edit provenance in Exam Mode', () => {
     render(
-      <PromptDisplay
-        {...props}
-        examMode
-        prompt={makePrompt({ isPastHSC: true, hscYear: 2021 })}
-      />
+      <PromptDisplay {...props} examMode prompt={makePrompt({ isPastHSC: true, hscYear: 2021 })} />
     );
 
     fireEvent.click(chip());

@@ -6,6 +6,7 @@ import OutcomeDetailModal from './OutcomeDetailModal';
 import { ChevronDown, GraduationCap, Sparkles, Award, ListChecks, Target } from 'lucide-react';
 import { getBandConfig, getTierScaleConfig } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { PANEL_HEADER_CLOSED, PANEL_HEADER_OPEN, PANEL_SURFACE } from '../utils/panelStyles';
 
 interface AccordionSectionProps {
   title: string;
@@ -30,14 +31,12 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
   const panelId = useId();
 
   return (
-    <div
-      className={`clip-stable border border-slate-300 dark:border-white/20 rounded-[20px] overflow-hidden mb-3 last:mb-0 bg-white/60 dark:bg-[rgb(var(--color-bg-surface))]/30 light:bg-white shadow-sm transition-all duration-300`}
-    >
+    <div className={`${PANEL_SURFACE} mb-3 last:mb-0`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
         aria-controls={panelId}
-        className={`w-full py-3.5 px-5 flex items-center justify-between transition-all group ${isOpen ? 'bg-slate-50/50 dark:bg-white/[0.03]' : 'hover:bg-slate-50 dark:hover:bg-white/[0.02]'}`}
+        className={`w-full py-3.5 px-5 flex items-center justify-between transition-all group ${isOpen ? PANEL_HEADER_OPEN : PANEL_HEADER_CLOSED}`}
       >
         <div className="flex items-center gap-4">
           <div
