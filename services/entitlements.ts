@@ -57,9 +57,12 @@ export type { Plan, PremiumFeatureKey } from './planPolicy';
 export { featureMinPlan, planUnlocks, PLAN_ORDER, planRank } from './planPolicy';
 
 /**
- * Whether this deployment charges for anything. Read at call time from
- * planPolicy so a pilot can turn the whole paywall off with one environment
- * variable — see `monetisationEnabled()`.
+ * Whether this deployment charges for anything, as a constant for anything
+ * that wants to read it once. The gates below deliberately call
+ * `monetisationEnabled()` instead — same answer, but evaluated when asked
+ * rather than when this module happens to be initialised, which is the rule
+ * the rest of the policy follows (see the chunk-ordering note in
+ * ./planLimits.ts).
  */
 export const MONETISATION_ENABLED = monetisationEnabled();
 
