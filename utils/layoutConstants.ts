@@ -10,18 +10,44 @@
  * without bound, so the writing area always scrolls when it needs to.
  *
  *  - MIN_CARD_HEIGHT   floor, so a one-line question still leaves a usable
- *                      writing area underneath it. It has to clear the
- *                      writing area's own chrome — header, strategy tip and
- *                      metrics footer run to ~375px — plus the 96px reserved
- *                      under the floating Evaluate button. Below this the
- *                      writing surface is shorter than its own padding and an
- *                      EMPTY editor renders a scrollbar with nothing to
- *                      scroll to.
+ *                      writing area underneath it — derived below rather than
+ *                      chosen.
  *  - MAX_CARD_HEIGHT   absolute ceiling, whatever the viewport.
  *  - VIEWPORT_RESERVE  room left for the app header, breadcrumb and the page
  *                      margins around the cards.
  */
-export const MIN_CARD_HEIGHT = 620;
+
+/**
+ * The writing card's own chrome, measured in Chromium at 1600×1000 with the
+ * strategy row folded: an 82px header, a 35px strategy row and a 73px metrics
+ * footer.
+ *
+ * Worth keeping as a measurement rather than a feeling, because it has moved
+ * twice: the Evaluate button used to float over the writing surface and needed
+ * 96px reserved beneath it, and the two headers ran to ~130px before they were
+ * rebuilt from one shared vocabulary.
+ */
+const WRITING_CARD_CHROME = 190;
+
+/**
+ * The smallest writing surface worth offering — roughly six lines of 18px
+ * serif plus the surface's own 64px of padding. Below its own padding the
+ * empty editor renders a scrollbar with nothing to scroll to, which is the
+ * failure this floor exists to prevent.
+ */
+const MIN_WRITING_SURFACE = 240;
+
+/**
+ * 430, not the 620 it was.
+ *
+ * That number was derived when the writing card's chrome ran to ~375px and the
+ * floating Evaluate button needed 96px of clearance under it. Both are gone —
+ * the chrome is now 190px — so the floor was holding a one-line question in a
+ * card two hundred pixels taller than anything in it, with the empty space
+ * mirrored on the writing side. It is derived from the parts now, so trimming
+ * the chrome again trims the floor with it.
+ */
+export const MIN_CARD_HEIGHT = WRITING_CARD_CHROME + MIN_WRITING_SURFACE;
 export const MAX_CARD_HEIGHT = 900;
 const VIEWPORT_RESERVE = 180;
 

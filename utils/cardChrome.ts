@@ -27,7 +27,7 @@ export const CARD_HEADER_BOX =
  * top, both headings sit exactly one padding step below the top of their card.
  */
 export const CARD_HEADER_ROW =
-  'relative z-10 w-full flex flex-wrap justify-between items-start gap-x-4 gap-y-2';
+  'relative z-10 w-full flex flex-wrap justify-between items-start gap-x-3 gap-y-2';
 
 /** Icon tile + title block. */
 export const CARD_HEADER_IDENTITY = 'flex items-start gap-3 min-w-0';
