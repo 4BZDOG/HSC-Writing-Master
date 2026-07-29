@@ -1808,6 +1808,181 @@ $$;
 revoke all on function public.caller_plan() from public;
 grant execute on function public.caller_plan() to authenticated;
 
+-- ----------------------------------------------------------------------------
+-- 13. Marks-based weakness ranking.
+--
+--     WHY THIS SECTION EXISTS. get_class_analytics() and get_student_progress()
+--     ranked a cohort's weaknesses by `low_band_rate` — the share of attempts
+--     scoring band 3 or below. That measure is not comparable across questions,
+--     because the Verb Gate caps a question's band at its verb's cognitive tier
+--     (see getBandForMark in data/commandTerms.ts): full marks on an IDENTIFY
+--     question is band 1, and on an EXPLAIN question band 3. Every tier 1–3
+--     verb therefore reported a 100% "struggling" rate for every student,
+--     however well they answered, while tier 6 verbs looked healthy on far worse
+--     work. The ranking measured verb tier, not weakness — and inverted it.
+--
+--     Worse, a band-relative-to-ceiling measure does not fix it either: on a
+--     tier-1 question every non-zero mark maps to band 1, so the band scale has
+--     exactly one value there and half marks are indistinguishable from full.
+--
+--     The measure that is well defined at every tier is the MARK: the share of
+--     the available marks the student actually earned. Bands remain the right
+--     thing to REPORT against the NESA descriptors (and are still returned);
+--     they are the wrong thing to RANK on. `low_band_rate` is kept in the
+--     payload for display and backwards compatibility.
+--
+--     On an existing deployment, run this section alone as the migration — it
+--     only replaces two functions.
+-- ----------------------------------------------------------------------------
+
+-- Class analytics, ranked on marks -------------------------------------------
+-- Adds `avg_mark_frac` (mean share of available marks earned, 0–1) to every
+-- dimension row and to the totals. Attempts on a question with no marks
+-- recorded (total_marks 0 or null) contribute nothing to that average — avg()
+-- skips nulls — but are still counted in `attempts`, so a bank with unmarked
+-- questions shows a smaller evidence base rather than a skewed average.
+create or replace function public.get_class_analytics(p_days integer default 30)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days    integer := least(greatest(coalesce(p_days, 30), 1), 365);
+  v_since   timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_byverb  jsonb;
+  v_bytopic jsonb;
+  v_totals  jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can view class analytics';
+  end if;
+
+  select coalesce(jsonb_agg(row_obj order by (row_obj->>'attempts')::int desc), '[]'::jsonb)
+    into v_byverb
+  from (
+    select jsonb_build_object(
+      'label', coalesce(nullif(btrim(p.verb), ''), 'Unspecified'),
+      'attempts', count(*),
+      'students', count(distinct r.user_id),
+      'avg_mark', round(avg(r.overall_mark)::numeric, 1),
+      'avg_band', round(avg(r.overall_band)::numeric, 2),
+      'low_band_rate', round(avg((r.overall_band <= 3)::int)::numeric, 3),
+      'avg_mark_frac',
+        round(avg(r.overall_mark::numeric / nullif(p.total_marks, 0))::numeric, 3)
+    ) as row_obj
+    from public.responses r
+    join public.prompts p on p.id = r.prompt_id
+    where r.created_at >= v_since
+      and r.overall_band is not null
+    group by coalesce(nullif(btrim(p.verb), ''), 'Unspecified')
+  ) sub;
+
+  select coalesce(jsonb_agg(row_obj order by (row_obj->>'attempts')::int desc), '[]'::jsonb)
+    into v_bytopic
+  from (
+    select jsonb_build_object(
+      'label', coalesce(nullif(btrim(t.name), ''), 'Uncategorised'),
+      'attempts', count(*),
+      'students', count(distinct r.user_id),
+      'avg_mark', round(avg(r.overall_mark)::numeric, 1),
+      'avg_band', round(avg(r.overall_band)::numeric, 2),
+      'low_band_rate', round(avg((r.overall_band <= 3)::int)::numeric, 3),
+      'avg_mark_frac',
+        round(avg(r.overall_mark::numeric / nullif(p.total_marks, 0))::numeric, 3)
+    ) as row_obj
+    from public.responses r
+    join public.prompts p    on p.id = r.prompt_id
+    join public.dot_points d on d.id = p.dot_point_id
+    join public.sub_topics s on s.id = d.sub_topic_id
+    join public.topics t     on t.id = s.topic_id
+    where r.created_at >= v_since
+      and r.overall_band is not null
+    group by coalesce(nullif(btrim(t.name), ''), 'Uncategorised')
+  ) sub;
+
+  select jsonb_build_object(
+    'total_attempts', count(*),
+    'active_students', count(distinct r.user_id),
+    'avg_band', round(avg(r.overall_band)::numeric, 2),
+    'avg_mark_frac', round(avg(r.overall_mark::numeric / nullif(p.total_marks, 0))::numeric, 3)
+  ) into v_totals
+  from public.responses r
+  join public.prompts p on p.id = r.prompt_id
+  where r.created_at >= v_since
+    and r.overall_band is not null;
+
+  return jsonb_build_object('byVerb', v_byverb, 'byTopic', v_bytopic, 'totals', v_totals);
+end; $$;
+
+-- Per-student progress, ranked on marks --------------------------------------
+-- Same addition as above, so a single student's per-verb rows can be ranked by
+-- the same measure as the cohort's.
+create or replace function public.get_student_progress(p_username text, p_days integer default 30)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days   integer := least(greatest(coalesce(p_days, 30), 1), 365);
+  v_since  timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_user   uuid;
+  v_byverb jsonb;
+  v_totals jsonb;
+  v_trend  jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can view student progress';
+  end if;
+
+  select id into v_user from public.profiles where username = p_username;
+  if v_user is null then
+    raise exception 'No user with username "%"', p_username;
+  end if;
+
+  select coalesce(jsonb_agg(row_obj order by (row_obj->>'attempts')::int desc), '[]'::jsonb)
+    into v_byverb
+  from (
+    select jsonb_build_object(
+      'label', coalesce(nullif(btrim(p.verb), ''), 'Unspecified'),
+      'attempts', count(*),
+      'students', 1,
+      'avg_mark', round(avg(r.overall_mark)::numeric, 1),
+      'avg_band', round(avg(r.overall_band)::numeric, 2),
+      'low_band_rate', round(avg((r.overall_band <= 3)::int)::numeric, 3),
+      'avg_mark_frac',
+        round(avg(r.overall_mark::numeric / nullif(p.total_marks, 0))::numeric, 3)
+    ) as row_obj
+    from public.responses r
+    join public.prompts p on p.id = r.prompt_id
+    where r.user_id = v_user and r.created_at >= v_since and r.overall_band is not null
+    group by coalesce(nullif(btrim(p.verb), ''), 'Unspecified')
+  ) sub;
+
+  select jsonb_build_object(
+    'total_attempts', count(*),
+    'active_students', case when count(*) > 0 then 1 else 0 end,
+    'avg_band', round(avg(r.overall_band)::numeric, 2),
+    'avg_mark_frac', round(avg(r.overall_mark::numeric / nullif(p.total_marks, 0))::numeric, 3)
+  ) into v_totals
+  from public.responses r
+  join public.prompts p on p.id = r.prompt_id
+  where r.user_id = v_user and r.created_at >= v_since and r.overall_band is not null;
+
+  -- Band trend from the append-only history (oldest→newest), capped to the most
+  -- recent 100 scored events in the window so the sparkline stays bounded.
+  select coalesce(
+           jsonb_agg(jsonb_build_object('at', e.created_at, 'band', e.band, 'mark', e.mark)
+                     order by e.created_at asc),
+           '[]'::jsonb
+         )
+    into v_trend
+  from (
+    select created_at, band, mark
+    from public.response_events
+    where user_id = v_user and created_at >= v_since and band is not null
+    order by created_at desc
+    limit 100
+  ) e;
+
+  return jsonb_build_object(
+    'username', p_username, 'byVerb', v_byverb, 'totals', v_totals, 'trend', v_trend
+  );
+end; $$;
+
 -- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.
