@@ -600,7 +600,7 @@ const Editor = forwardRef<
                           className={`px-2.5 h-6 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 ${!isExamMode ? 'bg-white text-slate-900 shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
                         >
                           <Lightbulb className="w-3.5 h-3.5" />
-                          <span className="hidden md:inline">Coach</span>
+                          <span className="hidden 2xl:inline">Coach</span>
                         </button>
                         <button
                           type="button"
@@ -616,7 +616,7 @@ const Editor = forwardRef<
                           className={`px-2.5 h-6 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 ${isExamMode ? 'bg-red-500 text-white shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
                         >
                           <GraduationCap className="w-3.5 h-3.5" />
-                          <span className="hidden md:inline">Exam</span>
+                          <span className="hidden 2xl:inline">Exam</span>
                           {isFeatureLocked('examMode') && <PlusLockChip className="ml-0.5" />}
                         </button>
                       </div>
@@ -698,7 +698,7 @@ const Editor = forwardRef<
                       ) : (
                         <Maximize className="w-3.5 h-3.5" />
                       )}
-                      <span className="hidden sm:inline">{isFocusMode ? 'Normal' : 'Focus'}</span>
+                      <span className="hidden 2xl:inline">{isFocusMode ? 'Normal' : 'Focus'}</span>
                     </button>
                   )}
                 </div>

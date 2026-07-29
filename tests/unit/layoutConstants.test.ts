@@ -87,6 +87,25 @@ describe('cardHeightCap', () => {
   it('keeps the floor below the ceiling', () => {
     expect(MIN_CARD_HEIGHT).toBeLessThan(MAX_CARD_HEIGHT);
   });
+
+  /**
+   * The floor exists to leave a usable writing area under a one-line question,
+   * and nothing more. Set too high — as 620 was, once the Evaluate button
+   * stopped floating and the headers were rebuilt — it holds a short question
+   * in a card far taller than anything in it, with the empty space mirrored on
+   * the writing side.
+   */
+  it('clears the writing card chrome with a usable surface left over', () => {
+    // Measured chrome: 82px header + 35px strategy row + 73px metrics footer.
+    const CHROME = 190;
+    expect(MIN_CARD_HEIGHT - CHROME).toBeGreaterThanOrEqual(240);
+  });
+
+  it('does not hold a short question in a card of empty space', () => {
+    // A one-line question with no scenario is ~200px of card. The floor may
+    // add breathing room; it may not add a screenful.
+    expect(MIN_CARD_HEIGHT).toBeLessThanOrEqual(480);
+  });
 });
 
 /**

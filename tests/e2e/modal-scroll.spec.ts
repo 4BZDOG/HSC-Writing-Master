@@ -1,4 +1,5 @@
 import { test, expect, Page } from '@playwright/test';
+import { signIn, clearOnboarding, openFirstQuestion } from './support/workspace';
 
 /**
  * The page holds still behind a modal.
@@ -12,53 +13,6 @@ import { test, expect, Page } from '@playwright/test';
  * The guard is deliberately generic: it drives one modal, but what it asserts
  * is the shared `useScrollLock` contract that every modal now goes through.
  */
-
-const signIn = async (page: Page) => {
-  await page.goto('/');
-  await page.fill('#username', 'user');
-  await page.fill('#password', 'user');
-  await page.click('button[type=submit]');
-};
-
-const clearOnboarding = async (page: Page) => {
-  const agree = page.getByRole('button', { name: /agree and continue/i });
-  await agree.waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
-  if (await agree.count()) {
-    await page.getByRole('checkbox').first().check();
-    await agree.click();
-    await agree.waitFor({ state: 'hidden', timeout: 15_000 }).catch(() => {});
-  }
-  const guide = page.getByRole('button', { name: /start writing/i });
-  await guide.waitFor({ state: 'visible', timeout: 8_000 }).catch(() => {});
-  await page.keyboard.press('Escape');
-  await guide.waitFor({ state: 'hidden', timeout: 8_000 }).catch(() => {});
-  const importButton = page.getByRole('button', { name: /import \d+ items?/i });
-  await importButton.waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
-  if (await importButton.count()) {
-    await importButton.first().click();
-    await importButton.waitFor({ state: 'hidden', timeout: 20_000 }).catch(() => {});
-  }
-};
-
-const openFirstQuestion = async (page: Page) => {
-  for (const placeholder of [
-    'Select Course...',
-    'Select Topic...',
-    'Select Sub-Topic...',
-    'Select Dot Point...',
-    'Select Question...',
-  ]) {
-    const trigger = page.locator('button[aria-haspopup="listbox"]', { hasText: placeholder });
-    if (!(await trigger.count())) continue;
-    await trigger.first().click();
-    const option = page.getByRole('option').first();
-    await option.waitFor({ state: 'visible', timeout: 10_000 });
-    await option.click();
-  }
-  await expect(page.getByRole('heading', { name: /Writing Prompt/i })).toBeVisible({
-    timeout: 20_000,
-  });
-};
 
 test.describe('modal scrolling', () => {
   test.describe.configure({ timeout: 120_000 });
