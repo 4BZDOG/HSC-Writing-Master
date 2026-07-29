@@ -5,7 +5,7 @@ import { fetchClassAnalytics, type ClassAnalytics } from '../../services/respons
 import { isCurriculumRemote } from '../../services/curriculumService';
 import { commandTerms } from '../../data/commandTerms';
 import { getTierBandConfig } from '../../utils/renderUtils';
-import { rankByWeakness, formatBand, NO_TIER } from '../../utils/classAnalytics';
+import { rankByWeakness, formatBand, formatMarkFrac, NO_TIER } from '../../utils/classAnalytics';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import type { PromptVerb } from '../../types';
@@ -51,9 +51,20 @@ const StatTile: React.FC<{ icon: React.ReactNode; label: string; value: string; 
   </div>
 );
 
-/** Struggling-rate bar; amber past a third, red past two-thirds. The number is
- *  always alongside as text, so state is never colour-alone. */
-const StruggleBar: React.FC<{ pct: number }> = ({ pct }) => {
+/** Marks-lost bar; amber past a third, red past two-thirds. The number is
+ *  always alongside as text, so state is never colour-alone. A null percentage
+ *  means the row has no mark data — shown as an em dash, never as 0%, because
+ *  "nothing known" is not "nothing lost". */
+const StruggleBar: React.FC<{ pct: number | null }> = ({ pct }) => {
+  if (pct == null) {
+    return (
+      <div className="flex items-center gap-2 min-w-[120px]">
+        <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400 italic">
+          no marks recorded
+        </span>
+      </div>
+    );
+  }
   const tone = pct >= 66 ? 'bg-red-500' : pct >= 33 ? 'bg-amber-500' : 'bg-emerald-500';
   return (
     <div className="flex items-center gap-2 min-w-[120px]">
@@ -69,8 +80,11 @@ const StruggleBar: React.FC<{ pct: number }> = ({ pct }) => {
 
 /**
  * Teacher/admin view of where a cohort is struggling: cohort headline numbers
- * and a per-command-verb table ranked weakest-first (highest share of band ≤ 3
- * attempts). Reads the reviewer-gated get_class_analytics RPC, which aggregates
+ * and a per-command-verb table ranked weakest-first by the share of available
+ * marks lost. (Band ≤ 3 is shown for reference but is NOT the ranking key — a
+ * question's band is capped at its verb's cognitive tier, so low-tier verbs read
+ * 100% however well they were answered. See utils/classAnalytics.ts.) Reads the
+ * reviewer-gated get_class_analytics RPC, which aggregates
  * persisted responses server-side — no raw student work is transferred. Gated
  * to reviewers + Supabase mode.
  */
@@ -237,6 +251,12 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                       value={formatBand(totals?.avg_band ?? null)}
                       sub="across all attempts"
                     />
+                    <StatTile
+                      icon={<Gauge className="w-3.5 h-3.5" />}
+                      label="Marks Achieved"
+                      value={formatMarkFrac(totals?.avg_mark_frac)}
+                      sub="mean share of available marks"
+                    />
                   </div>
 
                   {/* Per-dimension weakness table */}
@@ -260,7 +280,8 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                               <th className="px-4 py-2.5 text-right">Attempts</th>
                               <th className="px-4 py-2.5 text-right">Students</th>
                               <th className="px-4 py-2.5 text-right">Avg Band</th>
-                              <th className="px-4 py-2.5">Struggling (band ≤ 3)</th>
+                              <th className="px-4 py-2.5 text-right">Band ≤ 3</th>
+                              <th className="px-4 py-2.5">Marks lost</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-[rgb(var(--color-border-secondary))]/30 light:divide-slate-200">
@@ -292,8 +313,11 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                                   <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-secondary))] light:text-slate-700">
                                     {formatBand(r.avg_band)}
                                   </td>
+                                  <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                                    {r.lowBandPct}%
+                                  </td>
                                   <td className="px-4 py-2.5">
-                                    <StruggleBar pct={r.lowBandPct} />
+                                    <StruggleBar pct={r.markLostPct} />
                                   </td>
                                 </tr>
                               );
@@ -303,7 +327,9 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                       </div>
                     )}
                     <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
-                      Ranked weakest-first by the share of attempts scoring band 3 or below.
+                      Ranked weakest-first by the share of available marks lost. Band ≤ 3 is shown
+                      for reference only: a question&rsquo;s band is capped at its verb&rsquo;s
+                      tier, so low-tier verbs sit at 100% however well they were answered.
                       Aggregated server-side — individual student work is never shown here.
                     </p>
                   </section>
