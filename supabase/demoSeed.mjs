@@ -230,7 +230,23 @@ const upsertAccount = async ({ username, displayName, role, stripePlan, schoolId
     const { error } = await db.auth.admin.updateUserById(userId, {
       password: DEMO_ACCOUNT_PASSWORD,
     });
-    if (error) throw new Error(`updateUser(${username}) failed: ${error.message}`);
+    if (error) {
+      // A profile whose auth user has gone (an interrupted reset leaves exactly
+      // this) would otherwise abort every subsequent run with no way forward but
+      // manual SQL. Drop the orphan and create the account fresh.
+      console.log(`  note: ${username} had no auth user; recreating`);
+      await db.from('profiles').delete().eq('id', userId);
+      const { data, error: createErr } = await db.auth.admin.createUser({
+        email,
+        password: DEMO_ACCOUNT_PASSWORD,
+        email_confirm: true,
+        user_metadata: { username, display_name: displayName },
+      });
+      if (createErr) {
+        throw new Error(`recreating ${username} failed: ${createErr.message}`);
+      }
+      userId = data.user.id;
+    }
   }
 
   // handle_new_user() may have created the profile already; upsert over it.
@@ -286,6 +302,10 @@ const loadPromptIdMap = async () => {
       .from('prompts')
       .select('id, legacy_id')
       .not('legacy_id', 'is', null)
+      // A paged read needs a total order: without one, PostgREST may return
+      // rows in a different order per request, so ranges can silently overlap
+      // or skip and the map comes out incomplete.
+      .order('id', { ascending: true })
       .range(from, from + PAGE - 1);
     if (error) throw new Error(`prompt lookup failed: ${error.message}`);
     for (const row of data) map.set(row.legacy_id, row.id);
@@ -405,7 +425,25 @@ const seedContributions = async (dotPointId, authorId) => {
     created_by: authorId,
   }));
 
-  await insertChunked('prompts', rows, { onConflict: 'legacy_id' });
+  // Deliberately NOT an upsert on legacy_id. `prompts` has no plain unique
+  // index on that column — only the *partial* uniq_prompts_legacy_owner on
+  // (legacy_id, created_by) where both are non-null — and Postgres will not
+  // accept a partial index as an ON CONFLICT arbiter without a matching WHERE
+  // clause, which PostgREST cannot emit. So do what seed.mjs does: look the row
+  // up, then update or insert. Keeps the reseed duplicate-free.
+  for (const row of rows) {
+    const { data: existing, error: selErr } = await db
+      .from('prompts')
+      .select('id')
+      .eq('legacy_id', row.legacy_id)
+      .maybeSingle();
+    if (selErr) throw new Error(`contribution lookup failed: ${selErr.message}`);
+
+    const { error } = existing
+      ? await db.from('prompts').update(row).eq('id', existing.id)
+      : await db.from('prompts').insert(row);
+    if (error) throw new Error(`contribution write failed: ${error.message}`);
+  }
   return rows.length;
 };
 
@@ -426,6 +464,7 @@ async function main() {
     generateCohort,
     promptPoolFromCourse,
     latestPerPrompt,
+    demoUsageModels,
   } = await loadCohortModule();
 
   const allUsernames = [
@@ -485,6 +524,17 @@ async function main() {
   // --- cohort history -------------------------------------------------------
   const cohort = generateCohort({ prompts: seeded });
 
+  // `response_events` is append-only by design — no unique key to upsert on — so
+  // a plain re-run would stack a second copy of the whole history on top of the
+  // first and double every band trend. Clear the demo cohort's own events first
+  // so `demo:seed` is genuinely idempotent, not just `demo:reseed`. Scoped to
+  // demo user ids, so it can never touch anyone else's history.
+  const cohortIds = DEMO_STUDENTS.map((s) => userIds.get(s.username)).filter(Boolean);
+  if (cohortIds.length) {
+    const { error } = await db.from('response_events').delete().in('user_id', cohortIds);
+    if (error) throw new Error(`clearing previous demo events failed: ${error.message}`);
+  }
+
   // responses: the LATEST attempt per (student, prompt) — the table's documented
   // semantics, and what its unique index enforces.
   const responseRows = latestPerPrompt(cohort.attempts).map((a) => ({
@@ -532,8 +582,10 @@ async function main() {
   const usageRows = [];
   const modelRows = [];
   // Engine mix is illustrative: the dashboard prices each model from the engine
-  // registry, so a single-model history would show a flat cost breakdown.
-  const MODELS = ['gemini-2.5-flash', 'gemini-2.5-pro', 'claude-sonnet-4-5'];
+  // registry, so a single-model history would show a flat cost breakdown. The
+  // strings come FROM that registry (demoUsageModels) rather than being typed
+  // here, so a seeded row can never be one the dashboard cannot price.
+  const MODELS = demoUsageModels();
   for (const [username, byDay] of Object.entries(cohort.dailyCalls)) {
     const userId = userIds.get(username);
     for (const [daysAgo, calls] of Object.entries(byDay)) {

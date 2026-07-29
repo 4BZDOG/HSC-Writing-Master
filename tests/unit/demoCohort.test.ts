@@ -9,6 +9,8 @@ import { describe, it, expect } from 'vitest';
 import {
   ARCHETYPES,
   DEMO_STUDENTS,
+  DEMO_USAGE_MODEL_IDS,
+  demoUsageModels,
   DemoPromptRef,
   generateCohort,
   mulberry32,
@@ -18,6 +20,7 @@ import {
 } from '../../utils/demoCohort';
 import { getBandForMark } from '../../data/commandTerms';
 import { EvaluationResponseSchema } from '../../services/aiSchemas';
+import { AI_MODELS, getModelByProviderModel } from '../../services/aiModels';
 
 const POOL: DemoPromptRef[] = [
   {
@@ -327,6 +330,18 @@ describe('cohort shape', () => {
   it('rejects an empty prompt pool rather than seeding nothing', () => {
     expect(() => generateCohort({ prompts: [] })).toThrow(/must not be empty/);
   });
+
+  it('produces a sane lastActive when a student has no attempts', () => {
+    // weeks: 0 yields no attempts. A MAX_SAFE_INTEGER sentinel here used to slip
+    // past a Number.isFinite guard and give a timestamp ~10^23 ms in the past.
+    const empty = generateCohort({ prompts: POOL, students: DEMO_STUDENTS.slice(0, 1), weeks: 0 });
+    const stats = empty.stats[DEMO_STUDENTS[0].username];
+    expect(empty.attempts).toHaveLength(0);
+    expect(stats.lastActive).toBeGreaterThan(Date.UTC(2020, 0, 1));
+    expect(stats.lastActive).toBeLessThanOrEqual(Date.now());
+    expect(stats.averageBand).toBe(0);
+    expect(stats.questionsAnswered).toBe(0);
+  });
 });
 
 describe('latestPerPrompt', () => {
@@ -406,6 +421,29 @@ describe('promptPoolFromCourse', () => {
   it('tolerates a tree with missing levels', () => {
     expect(promptPoolFromCourse({})).toEqual([]);
     expect(promptPoolFromCourse({ topics: [{ name: 'T' }] })).toEqual([]);
+  });
+});
+
+describe('demoUsageModels', () => {
+  it('returns provider model strings the Usage Dashboard can price', () => {
+    // ai_model_usage.model stores the provider string, and foldModelUsage prices
+    // it by looking it up in the registry. A string that has drifted still
+    // renders — labelled raw and costed at zero — which would quietly gut the
+    // cost breakdown the seeded telemetry exists to show.
+    for (const model of demoUsageModels()) {
+      const entry = getModelByProviderModel(model);
+      expect(entry, `"${model}" is not in the engine registry`).toBeDefined();
+      expect(entry!.estCostPerCall).toBeGreaterThan(0);
+    }
+  });
+
+  it('spans more than one engine, so the breakdown has something to rank', () => {
+    expect(new Set(demoUsageModels()).size).toBeGreaterThan(1);
+  });
+
+  it('fails loudly if an engine id is dropped from the registry', () => {
+    // The whole point is that drift becomes an error, not a silent zero.
+    expect(DEMO_USAGE_MODEL_IDS.every((id) => AI_MODELS.some((m) => m.id === id))).toBe(true);
   });
 });
 

@@ -27,6 +27,7 @@
  */
 import type { EvaluationCriterion, EvaluationResult, PromptVerb, UserStats } from '../types';
 import { getBandForMark, getCommandTermInfo, markForBand } from '../data/commandTerms';
+import { AI_MODELS } from '../services/aiModels';
 import {
   DEMO_CRITERION_FEEDBACK,
   DEMO_DRAFTS,
@@ -134,6 +135,34 @@ export const ARCHETYPES: Record<ArchetypeId, Archetype> = {
     targetAttainment: (week) => (week % 4 === 0 ? 0.4 : 0.2),
   },
 };
+
+/**
+ * The engines the seeded usage history is spread across, as the *provider model
+ * strings* `ai_model_usage.model` actually stores (that is what
+ * `record_ai_model_usage()` is handed, and what `foldModelUsage` prices).
+ *
+ * Resolved from the engine registry rather than written out as literals: the
+ * Usage Dashboard prices each row by looking the string up there, and a
+ * hand-typed string that has drifted from the registry — say a stale
+ * `gemini-2.5-flash` — still renders, but labelled with the raw string and
+ * costed at zero. That is precisely the panel the seeded telemetry exists to
+ * demonstrate, so it must not be possible to get wrong.
+ *
+ * A spread of price points, so the cost breakdown has something to rank.
+ */
+export const DEMO_USAGE_MODEL_IDS = ['gemini-flash', 'gemini-pro', 'claude-sonnet'] as const;
+
+export const demoUsageModels = (): string[] =>
+  DEMO_USAGE_MODEL_IDS.map((id) => {
+    const entry = AI_MODELS.find((m) => m.id === id);
+    if (!entry) {
+      throw new Error(
+        `demoUsageModels: engine "${id}" is no longer in the registry — ` +
+          'update DEMO_USAGE_MODEL_IDS to a current engine id.'
+      );
+    }
+    return entry.model;
+  });
 
 export interface DemoStudentSpec {
   username: string;
@@ -307,7 +336,9 @@ const deriveStats = (attempts: DemoAttempt[], rand: () => number): UserStats => 
   // 10 XP per attempt plus 5 per band above 3 — enough to put the cohort across
   // several levels so the profile modal shows a spread rather than all level 1.
   const xp = attempts.reduce((sum, a) => sum + 10 + Math.max(0, a.band - 3) * 5, 0);
-  const mostRecent = attempts.reduce((min, a) => Math.min(min, a.daysAgo), Number.MAX_SAFE_INTEGER);
+  // `Number.isFinite(MAX_SAFE_INTEGER)` is true, so a sentinel would sail
+  // through the guard below and produce a timestamp ~10^23 ms in the past.
+  const mostRecent = attempts.length ? Math.min(...attempts.map((a) => a.daysAgo)) : 0;
 
   return {
     xp,
@@ -316,7 +347,7 @@ const deriveStats = (attempts: DemoAttempt[], rand: () => number): UserStats => 
     totalWordsWritten: words,
     averageBand,
     // Relative to the run time, like every other date in the cohort.
-    lastActive: Date.now() - (Number.isFinite(mostRecent) ? mostRecent : 0) * 86_400_000,
+    lastActive: Date.now() - mostRecent * 86_400_000,
     streakDays: intBetween(rand, 1, 12),
   };
 };
