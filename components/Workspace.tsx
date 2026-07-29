@@ -405,7 +405,11 @@ const Workspace: React.FC<WorkspaceProps> = ({
       onSampleAnswerGenerated={(answer) =>
         syllabusHandlers.handleSampleAnswerGenerated(statePath, answer)
       }
-      onUseSampleAnswer={(text) => setUserAnswer(text)}
+      // Handed down for a curator only. The writing surface refuses pasted
+      // text from a student so a response is the student's own writing, and
+      // "Use" is that same act in one click — the button is not rendered
+      // without this handler, and a student's workspace never supplies it.
+      onUseSampleAnswer={canCurateContent(userRole) ? (text) => setUserAnswer(text) : undefined}
       onDeleteSampleAnswer={(id) => syllabusHandlers.handleDeleteSampleAnswer(statePath, id)}
       onUpdateSampleAnswer={(answer) =>
         syllabusHandlers.handleUpdateSampleAnswer(statePath, answer)

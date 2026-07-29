@@ -31,18 +31,34 @@ export interface DimensionAnalytics {
   /** Averages are null only when no scored attempts exist for the row. */
   avg_mark: number | null;
   avg_band: number | null;
-  /** Fraction of attempts scoring band ≤ 3 (0–1) — the struggling signal. */
+  /**
+   * Fraction of attempts scoring band ≤ 3 (0–1). Reported, but NOT the ranking
+   * signal: the Verb Gate caps a question's band at its verb's tier, so tier 1–3
+   * verbs read 100% here however well they were answered. See `avg_mark_frac`.
+   */
   low_band_rate: number;
+  /**
+   * Mean share of the available marks earned (0–1) — the weakness signal, and
+   * the only one comparable across questions of different tiers. Null on older
+   * deployments whose `get_class_analytics` predates schema §13, and where a
+   * row's questions carry no marks at all.
+   */
+  avg_mark_frac?: number | null;
+}
+
+/** Cohort-wide totals shared by the class and per-student payloads. */
+export interface AnalyticsTotals {
+  total_attempts: number;
+  active_students: number;
+  avg_band: number | null;
+  /** Mean share of available marks earned (0–1); see DimensionAnalytics. */
+  avg_mark_frac?: number | null;
 }
 
 export interface ClassAnalytics {
   byVerb: DimensionAnalytics[];
   byTopic: DimensionAnalytics[];
-  totals: {
-    total_attempts: number;
-    active_students: number;
-    avg_band: number | null;
-  };
+  totals: AnalyticsTotals;
 }
 
 const EMPTY_ANALYTICS: ClassAnalytics = {
@@ -98,11 +114,7 @@ export interface TrendPoint {
 export interface StudentProgress {
   username: string;
   byVerb: DimensionAnalytics[];
-  totals: {
-    total_attempts: number;
-    active_students: number;
-    avg_band: number | null;
-  };
+  totals: AnalyticsTotals;
   /** Oldest→newest scored attempts (empty until history accrues). */
   trend: TrendPoint[];
 }

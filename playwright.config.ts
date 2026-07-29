@@ -52,31 +52,31 @@ export default defineConfig({
             ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH }
             : {},
         },
-        testIgnore: /contribution-loop/,
+        testIgnore: /contribution-loop|class-analytics-ranking/,
       },
 
       {
         name: 'firefox',
         use: { ...devices['Desktop Firefox'] },
-        testIgnore: /contribution-loop/,
+        testIgnore: /contribution-loop|class-analytics-ranking/,
       },
 
       {
         name: 'webkit',
         use: { ...devices['Desktop Safari'] },
-        testIgnore: /contribution-loop/,
+        testIgnore: /contribution-loop|class-analytics-ranking/,
       },
 
       /* Test against mobile viewports. */
       {
         name: 'Mobile Chrome',
         use: { ...devices['Pixel 5'] },
-        testIgnore: /contribution-loop/,
+        testIgnore: /contribution-loop|class-analytics-ranking/,
       },
       {
         name: 'Mobile Safari',
         use: { ...devices['iPhone 12'] },
-        testIgnore: /contribution-loop/,
+        testIgnore: /contribution-loop|class-analytics-ranking/,
       },
 
       /* Supabase-mode app (second dev server below) with every Supabase/AI call
@@ -95,7 +95,7 @@ export default defineConfig({
             ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH }
             : {},
         },
-        testMatch: /contribution-loop/,
+        testMatch: /contribution-loop|class-analytics-ranking/,
       },
     ] as const
   ).filter((project) => !process.env.PW_FAST || FAST_PROJECTS.has(project.name)),

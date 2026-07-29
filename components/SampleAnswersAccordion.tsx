@@ -91,7 +91,8 @@ const CarouselAccordionItem: React.FC<{
   prompt: Prompt;
   isOpen: boolean;
   onToggle: () => void;
-  onUseSample: (answer: string) => void;
+  /** Absent for a student — see the note on the button itself. */
+  onUseSample?: (answer: string) => void;
   onRevise: (sample: SampleAnswer) => void;
   onEdit: (sample: SampleAnswer) => void;
   onDelete: (id: string) => void;
@@ -147,8 +148,8 @@ const CarouselAccordionItem: React.FC<{
     };
 
     const handleUseSample = () => {
-      const cleanText = cleanMarkdown(currentSample.answer);
-      onUseSample(cleanText);
+      if (!onUseSample) return;
+      onUseSample(cleanMarkdown(currentSample.answer));
     };
 
     const handleCopy = async () => {
@@ -292,12 +293,24 @@ const CarouselAccordionItem: React.FC<{
                   />
 
                   <div className="flex items-center gap-2 ml-auto">
-                    <button
-                      onClick={handleUseSample}
-                      className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-500/30 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-all flex items-center gap-1.5"
-                    >
-                      <Copy className="w-3 h-3" /> Use
-                    </button>
+                    {/* "Use" writes the exemplar straight into the student's
+                      draft, which is the one thing the writing surface refuses
+                      to let a student do by hand: paste is blocked there so a
+                      response is the student's own writing. A button that did
+                      the same job in one click left the front door locked and
+                      the window open. It is handed down only to a curator, who
+                      moves exemplars through the editor as part of the job —
+                      for a student the exemplar stays something to read and
+                      compare against. */}
+                    {onUseSample && (
+                      <button
+                        onClick={handleUseSample}
+                        title="Load this exemplar into the writing surface"
+                        className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-500/30 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-all flex items-center gap-1.5"
+                      >
+                        <Copy className="w-3 h-3" /> Use
+                      </button>
+                    )}
                     <button
                       onClick={handleCopy}
                       className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/10 hover:bg-slate-200 dark:hover:bg-white/10 transition-all flex items-center gap-1.5"
@@ -763,7 +776,10 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
 interface SampleAnswersAccordionProps {
   prompt: Prompt;
   onSampleAnswerGenerated: (answer: SampleAnswer) => void;
-  onUseSampleAnswer: (text: string) => void;
+  /** Load an exemplar into the writing surface. Supplied for a curator only:
+   *  a student's draft has to be a student's own writing (see Editor's paste
+   *  guard), and this button is the same act in one click. */
+  onUseSampleAnswer?: (text: string) => void;
   onDeleteSampleAnswer: (id: string) => void;
   onUpdateSampleAnswer: (answer: SampleAnswer) => void;
   onContributeSampleAnswer?: (answer: SampleAnswer) => void | Promise<void>;

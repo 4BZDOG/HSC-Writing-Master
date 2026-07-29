@@ -485,15 +485,43 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 <FileQuestion className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
               </div>
               <div className={CARD_HEADER_TITLE_BLOCK}>
-                <h3 className={CARD_HEADER_TITLE}>
-                  Writing Prompt
+                <h3 className={CARD_HEADER_TITLE}>Writing Prompt</h3>
+                {/* The meta line, mirroring the writing card's: a chip, then
+                  whatever this card has to say about itself. There it is the
+                  band being worked towards and how far the response has come;
+                  here it is the command verb, and the status of the question.
+                  Everything on this line was somewhere more expensive before.
+                  The directive was a hero block stacked over the stat pills in
+                  the corner, which cost the header a whole third row. The
+                  status chips hung off the heading, where they set the width of
+                  the identity block and pushed the corner bar onto a row of its
+                  own at any laptop width. And a "Band 2 ceiling" caption sat
+                  here saying what the BAND pill in the corner already says —
+                  its tooltip says it in full. */}
+                <div className={CARD_HEADER_META_ROW}>
+                  <button
+                    onClick={onVerbClick}
+                    disabled={examMode}
+                    // Named for what pressing it does, not for what it says:
+                    // the visible text is the verb alone, which tells a screen
+                    // reader nothing about there being a guide behind it.
+                    aria-label={
+                      examMode ? undefined : `Open the command verb guide for ${prompt.verb}`
+                    }
+                    title={examMode ? undefined : `What a ${prompt.verb} question asks for`}
+                    className={`text-[11px] leading-none bg-white/20 px-2.5 py-1 rounded-md border border-white/15 font-black uppercase tracking-widest shadow-sm backdrop-blur-sm transition-all ${
+                      examMode ? 'cursor-default' : 'hover:bg-white/30 active:scale-95'
+                    }`}
+                  >
+                    {prompt.verb}
+                  </button>
                   {isEnriching && (
                     <span
                       className="inline-flex items-center gap-1 text-[9px] leading-none font-black uppercase tracking-[0.1em] bg-white/15 border border-white/20 rounded-full px-1.5 py-0.5 animate-fade-in"
                       title="Fetching this question's scenario and syllabus terms in the background — you can start writing now."
                     >
                       <Loader2 className="w-2.5 h-2.5 animate-spin" />
-                      Enhancing
+                      <span className="hidden 2xl:inline">Enhancing</span>
                     </span>
                   )}
                   {hasOpenFlag && (
@@ -503,7 +531,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       title={`Flagged for review: ${prompt.contentFlag?.reason ?? ''}`}
                     >
                       <Flag className="w-2.5 h-2.5" />
-                      Flagged
+                      <span className="hidden 2xl:inline">Flagged</span>
                     </button>
                   )}
                   {/* Where the question came from — shown only when the
@@ -535,34 +563,6 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       {pastHsc.text}
                     </button>
                   )}
-                </h3>
-                {/* The meta line, mirroring the writing card's exactly: a chip,
-                  then a line of quiet small caps. There it is the band being
-                  worked towards and how far the response has come; here it is
-                  the command verb and the ceiling that verb sets. The directive
-                  used to be a hero block stacked over the stat pills in the
-                  right-hand corner, which cost this header a whole third row —
-                  at two-column widths the corner could not hold both, so it
-                  wrapped, and the writing card's header was stretched to match
-                  it. It is still the way in to the verb guide. */}
-                <div className={CARD_HEADER_META_ROW}>
-                  <button
-                    onClick={onVerbClick}
-                    disabled={examMode}
-                    // Named for what pressing it does, not for what it says:
-                    // the visible text is the verb alone, which tells a screen
-                    // reader nothing about there being a guide behind it.
-                    aria-label={
-                      examMode ? undefined : `Open the command verb guide for ${prompt.verb}`
-                    }
-                    title={examMode ? undefined : `What a ${prompt.verb} question asks for`}
-                    className={`text-[11px] leading-none bg-white/20 px-2.5 py-1 rounded-md border border-white/15 font-black uppercase tracking-widest shadow-sm backdrop-blur-sm transition-all ${
-                      examMode ? 'cursor-default' : 'hover:bg-white/30 active:scale-95'
-                    }`}
-                  >
-                    {prompt.verb}
-                  </button>
-                  <p className={CARD_HEADER_META}>Band {verbInfo.tier} ceiling</p>
                 </div>
               </div>
             </div>
@@ -572,16 +572,20 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               same height, same fill. */}
             <div className={CARD_HEADER_TRAY}>
               <div
-                className={`${CARD_HEADER_BAR} gap-2 text-[9px] font-bold uppercase tracking-wider`}
+                className={`${CARD_HEADER_BAR} gap-1.5 text-[9px] font-bold uppercase tracking-wider`}
               >
+                {/* First to go when the row is tight: the suggested time is
+                  the least load-bearing of the three (the metrics strip runs a
+                  countdown on the same number), and the question card is at
+                  its narrowest exactly where the corner has least room. */}
                 <span
-                  className="flex items-center gap-1 opacity-90"
+                  className="hidden 2xl:flex items-center gap-1 opacity-90"
                   title="Suggested time for a question worth these marks"
                 >
                   <Clock className="w-3 h-3 text-white/70" /> {Math.round(prompt.totalMarks * 1.5)}{' '}
                   min
                 </span>
-                <span className="w-px h-2.5 bg-white/20"></span>
+                <span className="hidden 2xl:block w-px h-2.5 bg-white/20"></span>
                 <span className="flex items-center gap-1 opacity-90">
                   <Award className="w-3 h-3 text-white/70" /> {prompt.totalMarks} Marks
                 </span>
