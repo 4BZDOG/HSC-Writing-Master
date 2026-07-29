@@ -274,6 +274,59 @@ Once the database is seeded, the app changes happen in roughly this order:
    analytics. This is the substrate for the longitudinal features (Class
    Insights, Student Progress + trend).
 
+## Classes, and who can see whose work
+
+`get_class_analytics()`, `get_student_progress()` and `get_response_students()`
+are reviewer-gated — admin **or teacher**. Until schema §14 that was the only
+gate: they then aggregated _every row in `responses`_, so any teacher account
+could read cohort aggregates, a roster of usernames, and per-student progress
+for every student in the database, including students at other schools. On a
+deployment holding NSW student work that is a privacy failure, not a missing
+feature.
+
+`schools` (§12) is too coarse to fix it — a school is a billing and quota group,
+and one school holds many classes taught by different teachers. §14 adds the
+missing entity:
+
+| Table           | Purpose                                                                                                         |
+| --------------- | --------------------------------------------------------------------------------------------------------------- |
+| `classes`       | A class: school, name, year, owning teacher, optional course                                                    |
+| `class_members` | Enrolment — `student` rows are the cohort; `co_teacher` rows grant a second staff member the owner's visibility |
+
+**Scope, enforced in the database:**
+
+| Caller  | With a class id                                      | Without                |
+| ------- | ---------------------------------------------------- | ---------------------- |
+| admin   | that class (any)                                     | the whole database     |
+| teacher | that class, if they own or co-teach it — else raises | every class they teach |
+| student | raises                                               | raises                 |
+
+> ⚠️ **Behaviour change.** A teacher who owns no classes now sees **nothing**
+> from these RPCs rather than everything. That is deliberate: visibility has to
+> be granted by enrolment, and failing closed is the only safe default for
+> student data. Set classes up before expecting Class Insights to show anything.
+
+### Setting a class up
+
+```sql
+-- Admin-only: ownership is what grants sight of student work.
+select public.create_class('Riverbank High School', 'Year 12 Enterprise Computing',
+                           'demo.teacher', 12);
+
+-- Then the class's own staff manage the roll.
+select public.enrol_in_class('<class-id>', 'demo.aisha');
+select public.enrol_in_class('<class-id>', 'demo.coteacher', 'co_teacher');
+```
+
+`list_my_classes()` backs the class picker in Class Insights, which appears once
+a teacher has more than one class.
+
+The boundaries are covered by `supabase/tests/rls_negative_tests.sql` (run in CI
+against a real Postgres): teacher A cannot see teacher B's students by roster, by
+aggregate, by class id or by username; a class-less teacher sees nothing; a
+student cannot enumerate a cohort or create a class; and an admin keeps the
+system-wide view.
+
 ## Demo accounts and seeded data
 
 Most of what makes this product worth showing depends on _accumulated_ use:
@@ -359,13 +412,11 @@ contradict the Verb Gate. `tests/unit/demoCohort.test.ts` pins this.
   profile — there is no local `responses` table. Class Insights, Student
   Progress, the Usage Dashboard and the Review Queue read server-side RPCs and
   stay empty without Supabase.
-- **Low-band rate is not yet meaningful.** `get_class_analytics` defines
-  "struggling" as `band <= 3`, but the Verb Gate caps an `IDENTIFY` question at
-  band 1 and an `EXPLAIN` at band 3 — so every tier 1–3 verb reports a 100%
-  struggling rate no matter how well it was answered. On the Enterprise
-  Computing bank that is 363 of ~450 attempts. The seeded cohort makes this
-  plain; fixing it means measuring attainment against each question's ceiling
-  rather than comparing raw bands, and is tracked separately.
+- **The cohort needs a class.** Since §14 the analytics are scoped to the classes
+  a teacher teaches, so the seed enrols its cohort into
+  `Year 12 Enterprise Computing (Demo)`. Against a database that predates §14 the
+  seed says so and carries on, but Class Insights will be empty until the
+  migration is applied.
 
 ## ⚠️ Privacy & data residency (important)
 

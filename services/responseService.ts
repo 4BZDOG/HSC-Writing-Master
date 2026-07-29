@@ -67,15 +67,62 @@ const EMPTY_ANALYTICS: ClassAnalytics = {
   totals: { total_attempts: 0, active_students: 0, avg_band: null },
 };
 
+/** One class the caller teaches (from `list_my_classes`). */
+export interface TeachingClass {
+  id: string;
+  name: string;
+  year: number | null;
+  school: string;
+  students: number;
+}
+
+/**
+ * The classes the caller owns or co-teaches, for the class picker. Reviewer-gated
+ * server-side. Returns an empty list — not an error — on a database that
+ * predates schema §14, so the UI degrades to "no class filter" rather than
+ * showing a failure the user cannot act on.
+ */
+export const fetchMyClasses = async (): Promise<TeachingClass[]> => {
+  if (!supabase) throw new Error('Supabase is not configured.');
+  const { data, error } = await supabase.rpc('list_my_classes');
+  if (error) {
+    console.warn('Class list unavailable (pre-§14 database?):', error.message);
+    return [];
+  }
+  return (data ?? []) as TeachingClass[];
+};
+
+/**
+ * Builds the RPC argument object, including `p_class_id` ONLY when a class is
+ * actually selected.
+ *
+ * Sending `p_class_id: null` would name a parameter that does not exist on a
+ * database that predates schema §14, and PostgREST resolves overloads by
+ * argument name — so the call would fail outright there instead of falling back
+ * to the unscoped behaviour. Omitting it keeps one client compatible with both.
+ */
+const withClass = <T extends object>(args: T, classId?: string | null): T =>
+  classId ? ({ ...args, p_class_id: classId } as T) : args;
+
 /**
  * Reviewer-gated cohort analytics over the last `days` days (1–365): per-verb
- * and per-topic attempt counts, average mark/band and the low-band (struggling)
- * rate, plus overall totals. Aggregated server-side so no raw student work is
+ * and per-topic attempt counts, average mark/band, the mark share the ranking
+ * uses, and overall totals. Aggregated server-side so no raw student work is
  * transferred.
+ *
+ * Scope (enforced server-side, not here): with `classId`, that one class, after
+ * the server checks the caller teaches it. Without it, every class the caller
+ * teaches — or, for an admin, the whole database.
  */
-export const fetchClassAnalytics = async (days = 30): Promise<ClassAnalytics> => {
+export const fetchClassAnalytics = async (
+  days = 30,
+  classId?: string | null
+): Promise<ClassAnalytics> => {
   if (!supabase) throw new Error('Supabase is not configured.');
-  const { data, error } = await supabase.rpc('get_class_analytics', { p_days: days });
+  const { data, error } = await supabase.rpc(
+    'get_class_analytics',
+    withClass({ p_days: days }, classId)
+  );
   if (error) throw new Error(`Could not load class analytics: ${error.message}`);
   return (data as ClassAnalytics | null) ?? EMPTY_ANALYTICS;
 };
@@ -95,9 +142,15 @@ export interface RosterStudent {
  * days (attempts desc, then username), so the Student Progress picker can list
  * them instead of requiring a typed username.
  */
-export const fetchResponseStudents = async (days = 30): Promise<RosterStudent[]> => {
+export const fetchResponseStudents = async (
+  days = 30,
+  classId?: string | null
+): Promise<RosterStudent[]> => {
   if (!supabase) throw new Error('Supabase is not configured.');
-  const { data, error } = await supabase.rpc('get_response_students', { p_days: days });
+  const { data, error } = await supabase.rpc(
+    'get_response_students',
+    withClass({ p_days: days }, classId)
+  );
   if (error) throw new Error(`Could not load the student roster: ${error.message}`);
   return (data ?? []) as RosterStudent[];
 };
@@ -126,13 +179,14 @@ export interface StudentProgress {
  */
 export const fetchStudentProgress = async (
   username: string,
-  days = 30
+  days = 30,
+  classId?: string | null
 ): Promise<StudentProgress> => {
   if (!supabase) throw new Error('Supabase is not configured.');
-  const { data, error } = await supabase.rpc('get_student_progress', {
-    p_username: username,
-    p_days: days,
-  });
+  const { data, error } = await supabase.rpc(
+    'get_student_progress',
+    withClass({ p_username: username, p_days: days }, classId)
+  );
   if (error) throw new Error(error.message);
   const progress = data as StudentProgress;
   // `trend` is absent on a database that predates the history table — treat it

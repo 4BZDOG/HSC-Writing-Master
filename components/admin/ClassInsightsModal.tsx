@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { X, BarChart3, RefreshCw, Users, Layers, Gauge, Info, AlertTriangle } from 'lucide-react';
-import { fetchClassAnalytics, type ClassAnalytics } from '../../services/responseService';
+import {
+  fetchClassAnalytics,
+  fetchMyClasses,
+  type ClassAnalytics,
+  type TeachingClass,
+} from '../../services/responseService';
 import { isCurriculumRemote } from '../../services/curriculumService';
 import { commandTerms } from '../../data/commandTerms';
 import { getTierBandConfig } from '../../utils/renderUtils';
@@ -94,6 +99,9 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
   const [days, setDays] = useState<(typeof WINDOWS)[number]>(30);
   const [dimension, setDimension] = useState<Dimension>('verb');
   const [data, setData] = useState<ClassAnalytics | null>(null);
+  const [classes, setClasses] = useState<TeachingClass[]>([]);
+  // null = every class the caller teaches (an admin's whole database).
+  const [classId, setClassId] = useState<string | null>(null);
 
   useEscapeKey(isOpen, onClose);
   useScrollLock(isOpen);
@@ -105,17 +113,34 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
     }
     setIsLoading(true);
     try {
-      setData(await fetchClassAnalytics(days));
+      setData(await fetchClassAnalytics(days, classId));
     } catch (e) {
       showToast(e instanceof Error ? e.message : 'Failed to load class analytics.', 'error');
     } finally {
       setIsLoading(false);
     }
-  }, [remote, days, showToast]);
+  }, [remote, days, classId, showToast]);
 
   useEffect(() => {
     if (isOpen) load();
   }, [isOpen, load]);
+
+  // The class list is independent of the window/dimension controls, so it loads
+  // once per open rather than on every filter change.
+  useEffect(() => {
+    if (!isOpen || !remote) return;
+    let cancelled = false;
+    fetchMyClasses()
+      .then((rows) => {
+        if (!cancelled) setClasses(rows);
+      })
+      .catch(() => {
+        /* Non-fatal: without a list the view stays on "all my classes". */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [isOpen, remote]);
 
   const rows = useMemo(() => {
     const source = dimension === 'verb' ? data?.byVerb : data?.byTopic;
@@ -185,6 +210,40 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
             </div>
           ) : (
             <>
+              {/* Class scope selector — only when the caller teaches more than
+                  one, since a single class needs no choosing. */}
+              {classes.length > 1 && (
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                    Class
+                  </span>
+                  <button
+                    onClick={() => setClassId(null)}
+                    className={`px-3 py-1 rounded-lg text-xs font-bold border transition-all ${
+                      classId === null
+                        ? 'bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border-[rgb(var(--color-accent))]/30'
+                        : 'bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100 text-[rgb(var(--color-text-muted))] border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))]'
+                    }`}
+                  >
+                    All my classes
+                  </button>
+                  {classes.map((c) => (
+                    <button
+                      key={c.id}
+                      onClick={() => setClassId(c.id)}
+                      title={`${c.school} · ${c.students} student${c.students === 1 ? '' : 's'}`}
+                      className={`px-3 py-1 rounded-lg text-xs font-bold border transition-all ${
+                        classId === c.id
+                          ? 'bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border-[rgb(var(--color-accent))]/30'
+                          : 'bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100 text-[rgb(var(--color-text-muted))] border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))]'
+                      }`}
+                    >
+                      {c.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+
               {/* Window + dimension selectors */}
               <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
                 <div className="flex items-center gap-2">
