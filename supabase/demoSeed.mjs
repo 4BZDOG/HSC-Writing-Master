@@ -293,6 +293,41 @@ const upsertSchool = async (name) => {
   return data.id;
 };
 
+/**
+ * The demo class, owned by the demo teacher.
+ *
+ * Written directly rather than through `create_class()`: that RPC is admin-only
+ * and resolves `auth.uid()`, which a service-role script has no session for.
+ * Returns null when the table does not exist yet, so the seed still completes
+ * against a database that predates schema §14 instead of aborting.
+ */
+const upsertClass = async ({ schoolId, name, ownerId }) => {
+  if (!ownerId) throw new Error('upsertClass: the demo teacher has no id');
+
+  const { data: existing, error: selErr } = await db
+    .from('classes')
+    .select('id')
+    .eq('school_id', schoolId)
+    .eq('name', name)
+    .maybeSingle();
+
+  if (selErr) {
+    // 42P01 = undefined_table. Anything else is a real failure worth raising.
+    if (selErr.code === '42P01' || /does not exist/i.test(selErr.message)) return null;
+    throw new Error(`class lookup failed: ${selErr.message}`);
+  }
+
+  const row = { school_id: schoolId, name, owner_id: ownerId, year: 12 };
+  if (existing) {
+    const { error } = await db.from('classes').update(row).eq('id', existing.id);
+    if (error) throw new Error(`class update failed: ${error.message}`);
+    return existing.id;
+  }
+  const { data, error } = await db.from('classes').insert(row).select('id').single();
+  if (error) throw new Error(`class insert failed: ${error.message}`);
+  return data.id;
+};
+
 /** Maps the course JSON's prompt `legacy_id`s onto the seeded rows' UUIDs. */
 const loadPromptIdMap = async () => {
   const map = new Map();
@@ -459,6 +494,7 @@ async function main() {
 
   const {
     DEMO_SCHOOL_NAME,
+    DEMO_CLASS_NAME,
     DEMO_STUDENTS,
     ARCHETYPES,
     generateCohort,
@@ -520,6 +556,35 @@ async function main() {
     );
   }
   console.log(`✓ accounts: ${userIds.size} (password from DEMO_ACCOUNT_PASSWORD)`);
+
+  // --- class + enrolment ----------------------------------------------------
+  // Since schema §14 the analytics RPCs are scoped to the classes a teacher
+  // teaches, and a teacher with no class sees nothing. So the demo has to enrol
+  // its cohort or the whole point of seeding it is invisible.
+  const classId = await upsertClass({
+    schoolId,
+    name: DEMO_CLASS_NAME,
+    ownerId: userIds.get('demo.teacher'),
+  });
+  if (classId) {
+    const members = [
+      ...DEMO_STUDENTS.map((s) => ({ user_id: userIds.get(s.username), role: 'student' })),
+      // The plan-state students sit in the class too, so a paywall demo has the
+      // same cohort context as everyone else.
+      ...PLAN_STATE_STUDENTS.map((s) => ({ user_id: userIds.get(s.username), role: 'student' })),
+      { user_id: userIds.get('demo.coteacher'), role: 'co_teacher' },
+    ]
+      .filter((m) => m.user_id)
+      .map((m) => ({ ...m, class_id: classId }));
+
+    await insertChunked('class_members', members, { onConflict: 'class_id,user_id' });
+    console.log(`✓ class: ${DEMO_CLASS_NAME} — ${members.length} member(s) enrolled`);
+  } else {
+    console.log(
+      '  note: no `classes` table (database predates schema §14); skipped enrolment.\n' +
+        '        Class Insights will be empty for the demo teacher until §14 is applied.'
+    );
+  }
 
   // --- cohort history -------------------------------------------------------
   const cohort = generateCohort({ prompts: seeded });

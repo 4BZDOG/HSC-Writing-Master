@@ -9,10 +9,10 @@ over time from both admin and user contributions.
 
 ## What's here
 
-| File           | Purpose                                                                       |
-| -------------- | ----------------------------------------------------------------------------- |
-| `schema.sql`   | Postgres schema: tables, enums, Row-Level Security, moderation RPCs.          |
-| `seed.mjs`     | Imports `public/courseData/*.json` (your prototype content) into the database. |
+| File           | Purpose                                                                                                                                   |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `schema.sql`   | Postgres schema: tables, enums, Row-Level Security, moderation RPCs.                                                                      |
+| `seed.mjs`     | Imports `public/courseData/*.json` (your prototype content) into the database.                                                            |
 | `demoSeed.mjs` | Creates the demo accounts + a term of seeded cohort history. **Demo project only** — see [Demo accounts](#demo-accounts-and-seeded-data). |
 
 ## The model in one picture
@@ -30,13 +30,13 @@ Your JSON (courseData/*.json)  ──seed──▶  Supabase Postgres  ◀──
 Every piece of library content (`courses`, `prompts`, `sample_answers`) has a
 `status`:
 
-| Status     | Meaning                                            | Who can see it          |
-| ---------- | -------------------------------------------------- | ----------------------- |
-| `private`  | A user's own draft                                 | The author only         |
-| `pending`  | Submitted to the shared library (review queue)     | Author + reviewers      |
-| `approved` | Published                                          | Everyone                |
-| `rejected` | Reviewed and declined (kept for audit)             | Reviewers               |
-| `archived` | Retired                                            | Reviewers               |
+| Status     | Meaning                                        | Who can see it     |
+| ---------- | ---------------------------------------------- | ------------------ |
+| `private`  | A user's own draft                             | The author only    |
+| `pending`  | Submitted to the shared library (review queue) | Author + reviewers |
+| `approved` | Published                                      | Everyone           |
+| `rejected` | Reviewed and declined (kept for audit)         | Reviewers          |
+| `archived` | Retired                                        | Reviewers          |
 
 New content **starts `private`** (the column default) and a non-reviewer can
 only ever move their own content between `private` and `pending`. Reaching
@@ -210,7 +210,7 @@ courses and worked samples as reusable examples:
 1. Drop a new course JSON file into `courseData/` (same shape as the existing
    files — a `Course[]` array, or a single `Course`).
 2. Add an entry to `courseData/manifest.json` (`{ "file": "...", "type":
-   "course", "subject": "..." }`).
+"course", "subject": "..." }`).
 3. Re-run `node supabase/seed.mjs`. Because it upserts on `legacy_id`, existing
    content is refreshed in place and only the new material is added — re-running
    never duplicates.
@@ -234,6 +234,7 @@ immediately for everyone via the read path. Two natural follow-ups:
   files you promote is a safe, duplicate-free upsert. `courseData/exported/` is
   git-ignored; move the files you want to keep into `courseData/` and add them
   to `manifest.json`.
+
 - Keep curated example courses in git so the example library is reviewable and
   reproducible across environments, independent of any one database.
 
@@ -275,7 +276,7 @@ Once the database is seeded, the app changes happen in roughly this order:
 
 ## Demo accounts and seeded data
 
-Most of what makes this product worth showing depends on *accumulated* use:
+Most of what makes this product worth showing depends on _accumulated_ use:
 Class Insights ranks where a cohort is struggling, Student Progress draws a band
 trend, the Usage Dashboard plots a fortnight of spend, the Review Queue needs a
 queue. A fresh account shows none of it. `demoSeed.mjs` manufactures that
@@ -312,18 +313,21 @@ npm run demo:reseed               # wipe the demo data and rebuild from scratch
 
 ### What you get
 
-| Account | Role | Plan | Shows |
-| --- | --- | --- | --- |
-| `demo-admin@demo.invalid` | admin | school | Database Manager, Data Vault, Content Audit Studio, API monitor, quota admin |
-| `demo-teacher@demo.invalid` | teacher | school | Class Insights, Student Progress, Review Queue, authoring tools |
-| `demo-coteacher@demo.invalid` | teacher | school | A second reviewer, and the author of the pending queue items |
-| `demo-free@demo.invalid` | student | free | The paywalls: locked tier 4–6 questions, blurred high-band samples, summary-only feedback |
-| `demo-plus@demo.invalid` | student | plus | The unlocked comparison |
-| `demo-capped@demo.invalid` | student | free | Already at its daily cap — the 429 path and quota warnings |
-| `demo-aisha@…` … `demo-kayla@…` | student | free | The twelve-student cohort behind the analytics |
+| Account                         | Role    | Plan   | Shows                                                                                     |
+| ------------------------------- | ------- | ------ | ----------------------------------------------------------------------------------------- |
+| `demo-admin@demo.invalid`       | admin   | school | Database Manager, Data Vault, Content Audit Studio, API monitor, quota admin              |
+| `demo-teacher@demo.invalid`     | teacher | school | Class Insights, Student Progress, Review Queue, authoring tools                           |
+| `demo-coteacher@demo.invalid`   | teacher | school | A second reviewer, and the author of the pending queue items                              |
+| `demo-free@demo.invalid`        | student | free   | The paywalls: locked tier 4–6 questions, blurred high-band samples, summary-only feedback |
+| `demo-plus@demo.invalid`        | student | plus   | The unlocked comparison                                                                   |
+| `demo-capped@demo.invalid`      | student | free   | Already at its daily cap — the 429 path and quota warnings                                |
+| `demo-aisha@…` … `demo-kayla@…` | student | free   | The twelve-student cohort behind the analytics                                            |
 
 Plus: a school (`Riverbank High School (Demo)`) with a 30-seat active licence and
-a 400-call pooled daily budget; ~450 `response_events` and ~365 `responses` over
+a 400-call pooled daily budget; a class (`Year 12 Enterprise Computing (Demo)`)
+owned by the demo teacher with the whole cohort enrolled and the co-teacher added
+as staff — required since §14, because the analytics are scoped to the classes a
+teacher teaches and an unenrolled cohort would be invisible; ~450 `response_events` and ~365 `responses` over
 ten weeks; matching `ai_usage` / `ai_model_usage` history across three engines;
 six pending contributions scored 34–91 for the Review Queue.
 
