@@ -1,6 +1,10 @@
 # Demo Accounts & Seeded Data — Implementation Plan
 
-**Status:** proposal, not yet implemented.
+**Status:** Phases 0/2/3/4/5 implemented (PR 1 — the generator, demo accounts and
+offline fixtures). Phase 1 (classes + scoped analytics) is **not** implemented
+and is deferred to PR 2, per the agreed sequencing. §9 records what
+implementation turned up.
+
 **Goal:** demo student, teacher, school and admin accounts backed by realistic
 seeded history, so every feature that depends on *ongoing use over time* can be
 shown and tested without waiting ten weeks for real data to accumulate.
@@ -41,15 +45,19 @@ Confirmed with the project owner:
 | AI behaviour | **Real AI, capped quota** — small daily allowance per demo account |
 | Cohort scale | **1 school, 1 class, ~12 students, ~10 weeks** of history |
 | Refresh model | **Deterministic seed with relative dates** — reproducible RNG, timestamps computed backwards from run time |
-
-Assumed defaults for the remaining questions (overturnable — see §9):
-
-| Question | Assumed answer |
-| --- | --- |
-| Class scoping | Add `classes` + `class_members`; scope the analytics RPCs |
-| Plan states covered | All four: free student, Plus student, school-licensed teacher, admin |
+| Class scoping | Add `classes` + `class_members`; scope the analytics RPCs — **PR 2** |
+| Course | Enterprise Computing (already in the repo) |
+| Plan states | Fabricated `subscriptions` rows, not real Stripe test-mode |
+| Delivery | Generator first (PR 1); classes + scoped analytics separately (PR 2) |
+| Student naming | Plausible first names, school marked `(Demo)` |
 | Credential exposure | Private — demo logins work but are not advertised on the login page |
+| Draft text | Version-controlled in the repo, not AI-generated at seed time |
 | Manufactured edge states | All four: review queue, quota exhaustion, band spreads, usage telemetry |
+
+One deviation to note: the draft corpus is a typed TypeScript module
+(`data/demoDrafts.ts`) rather than a `.json` file. The intent — version-controlled
+and reviewable in git rather than generated at seed time — is met either way, and
+TS avoids enabling `resolveJsonModule` in `tsconfig.json` just for the fixture.
 
 ---
 
@@ -332,10 +340,75 @@ the one that makes `npm run dev` immediately impressive.
 
 ---
 
-## 9. Open questions
+## 9. What implementation turned up
 
-Assumed answers are in §2; these are the ones worth confirming before Phase 1
-starts, since each changes scope:
+Three things the plan did not anticipate, found while building PR 1.
+
+### 9.1 `low_band_rate` measures verb tier, not weakness — and this is serious
+
+The Verb Gate makes a question's band ceiling **equal to its verb's cognitive
+tier**: `getBandForMark(2, 2, 1)` is 1, `getBandForMark(6, 6, 3)` is 3. Full
+marks on an `IDENTIFY` question is band 1. Full marks on `EXPLAIN` is band 3.
+
+`get_class_analytics` (`supabase/schema.sql:961`) defines the struggling signal
+as `avg((overall_band <= 3)::int)`. Those two facts together mean **every tier
+1–3 verb reports a 100% low-band rate, by construction**, for any student, no
+matter how well they answered. Measured on the seeded cohort:
+
+| Tier | Verbs | Attempts | Reported "struggling" |
+| --- | --- | --- | --- |
+| 1 | Identify, State, Recall | 104 | **100%** |
+| 2 | Describe, Outline | 78 | **100%** |
+| 3 | Explain | 181 | **100%** |
+| 4 | Analyse, Distinguish | 50 | 90% |
+| 5 | Assess | 11 | 73% |
+| 6 | Evaluate | 23 | 43% |
+
+363 of ~450 attempts are structurally incapable of clearing the threshold. So
+Class Insights' weakness ranking — the flagship teacher feature — currently ranks
+verbs by tier and calls it struggle. It will tell a teacher their class is 100%
+failing Identify while a student who scored full marks on every one sits in that
+cohort. `rankByWeakness` in `utils/classAnalytics.ts` then sorts by exactly this
+number, so the ordering inherits the defect.
+
+The same cause deflates `profiles.stats.averageBand`: the seeded cohort averages
+1.15–2.57 across twelve students, including the strongest, because most of the
+question bank cannot award above band 3.
+
+This is a pre-existing product defect, not a seeding artefact — the generator
+faithfully applies the app's own rules, which is how it surfaced. **Fix:** measure
+attainment against each question's ceiling (`band / getBandForMark(totalMarks,
+totalMarks, tier)`) rather than comparing raw bands across tiers, in both
+`get_class_analytics` and `get_student_progress`. That is a change to what the
+product reports, so it belongs with PR 2's analytics work rather than in a
+seeding PR — but it should be prioritised above the class scoping, because a
+teacher acting on the current ranking would be acting on noise.
+
+The generator already works this way internally: archetypes declare a
+`targetAttainment` fraction of the achievable ceiling, not an absolute band,
+because absolute band targets were silently clamped to 1 on a third of the bank
+and made every archetype identical on low-tier questions.
+
+### 9.2 `supabase/seed.mjs` could not run
+
+It read `../courseData`, but the syllabus JSON lives in `public/courseData` (moved
+there so the Vite build ships it). The path was never updated, so the existing
+seed script failed on its first `readFile`. Fixed in this PR — the demo seed
+depends on it having run.
+
+### 9.3 Repeat attempts are required, not incidental
+
+The first cut gave each student a unique set of questions, reasoning from
+`responses`' unique index on `(user_id, prompt_id)`. That starved the later weeks
+once the pool drew down and left the band trends empty. The right model is the one
+the schema already describes: students revisit questions, `response_events` records
+every attempt, and `responses` holds only the latest per pair (`latestPerPrompt`).
+Revisiting a question is also how a student actually improves, so the trend the
+sparkline draws depends on it.
+
+## 10. Open questions
+
+Now settled except where noted:
 
 1. **Class scoping** — is the `classes` table in scope, or should the demo lean
    entirely on demo-project isolation and leave the RPCs unscoped? (Dropping it
