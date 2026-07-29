@@ -8,10 +8,12 @@ const insertMock = vi.fn();
 const updateEqEqMock = vi.fn();
 const resolvePromptRowIdMock = vi.fn();
 const isRemoteMock = vi.fn();
+const rpcMock = vi.fn();
 
 vi.mock('../../services/supabaseClient', () => ({
   supabase: {
     auth: { getUser: (...a: unknown[]) => getUserMock(...a) },
+    rpc: (name: string, args: unknown) => rpcMock(name, args),
     from: (table: string) => ({
       upsert: (row: unknown, opts: unknown) => upsertMock(row, opts),
       insert: (row: unknown) => insertMock(table, row),
@@ -33,6 +35,10 @@ import {
   buildEventRow,
   persistResponse,
   saveResponseFeedback,
+  fetchClassAnalytics,
+  fetchResponseStudents,
+  fetchStudentProgress,
+  fetchMyClasses,
 } from '../../services/responseService';
 
 const result: EvaluationResult = {
@@ -187,5 +193,102 @@ describe('saveResponseFeedback', () => {
     isRemoteMock.mockReturnValue(false);
     await saveResponseFeedback('p', { rating: 'negative', reason: '', timestamp: 1 });
     expect(updateEqEqMock).not.toHaveBeenCalled();
+  });
+});
+
+
+/**
+ * The class-scope argument (schema §14) has one property worth pinning: it must
+ * be OMITTED, not sent as null, when no class is selected. PostgREST resolves
+ * overloads by argument name, so naming `p_class_id` against a database that
+ * predates §14 fails the call outright instead of falling back to the unscoped
+ * function — which would break Class Insights for anyone running the client
+ * ahead of the migration.
+ */
+describe('class-scoped analytics arguments', () => {
+  beforeEach(() => {
+    rpcMock.mockReset();
+    rpcMock.mockResolvedValue({ data: null, error: null });
+  });
+
+  it('omits p_class_id entirely when no class is selected', async () => {
+    await fetchClassAnalytics(30);
+    expect(rpcMock).toHaveBeenCalledWith('get_class_analytics', { p_days: 30 });
+    expect(rpcMock.mock.calls[0][1]).not.toHaveProperty('p_class_id');
+  });
+
+  it('omits p_class_id when passed null or undefined explicitly', async () => {
+    await fetchClassAnalytics(30, null);
+    await fetchClassAnalytics(30, undefined);
+    for (const call of rpcMock.mock.calls) {
+      expect(call[1]).not.toHaveProperty('p_class_id');
+    }
+  });
+
+  it('sends p_class_id when a class is selected', async () => {
+    await fetchClassAnalytics(90, 'class-uuid-1');
+    expect(rpcMock).toHaveBeenCalledWith('get_class_analytics', {
+      p_days: 90,
+      p_class_id: 'class-uuid-1',
+    });
+  });
+
+  it('applies the same rule to the roster and to per-student progress', async () => {
+    await fetchResponseStudents(30);
+    expect(rpcMock).toHaveBeenLastCalledWith('get_response_students', { p_days: 30 });
+
+    await fetchResponseStudents(30, 'c1');
+    expect(rpcMock).toHaveBeenLastCalledWith('get_response_students', {
+      p_days: 30,
+      p_class_id: 'c1',
+    });
+
+    rpcMock.mockResolvedValue({ data: { username: 'x', byVerb: [], totals: {} }, error: null });
+    await fetchStudentProgress('jsmith', 30);
+    expect(rpcMock).toHaveBeenLastCalledWith('get_student_progress', {
+      p_username: 'jsmith',
+      p_days: 30,
+    });
+
+    await fetchStudentProgress('jsmith', 30, 'c2');
+    expect(rpcMock).toHaveBeenLastCalledWith('get_student_progress', {
+      p_username: 'jsmith',
+      p_days: 30,
+      p_class_id: 'c2',
+    });
+  });
+
+  it('returns the empty analytics shape rather than null', async () => {
+    const data = await fetchClassAnalytics(30);
+    expect(data.byVerb).toEqual([]);
+    expect(data.byTopic).toEqual([]);
+    expect(data.totals.total_attempts).toBe(0);
+  });
+
+  it('surfaces an analytics error rather than swallowing it', async () => {
+    rpcMock.mockResolvedValue({ data: null, error: { message: 'nope' } });
+    await expect(fetchClassAnalytics(30)).rejects.toThrow(/nope/);
+  });
+
+  it('degrades to an empty class list on a pre-§14 database', async () => {
+    // list_my_classes does not exist there. A thrown error would surface as a
+    // toast the user cannot act on; an empty list just means "no class filter".
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    rpcMock.mockResolvedValue({
+      data: null,
+      error: { message: 'function public.list_my_classes() does not exist' },
+    });
+    await expect(fetchMyClasses()).resolves.toEqual([]);
+    warn.mockRestore();
+  });
+
+  it('returns the classes the caller teaches', async () => {
+    rpcMock.mockResolvedValue({
+      data: [{ id: 'c1', name: 'Year 12 A', year: 12, school: 'Riverbank', students: 12 }],
+      error: null,
+    });
+    const classes = await fetchMyClasses();
+    expect(classes).toHaveLength(1);
+    expect(classes[0].name).toBe('Year 12 A');
   });
 });
