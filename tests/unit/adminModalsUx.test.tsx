@@ -154,6 +154,12 @@ describe('ReviewQueueModal UX', () => {
     expect(contributionService.approveSampleAnswer).not.toHaveBeenCalled();
 
     // The approved item left the queue; the sample answer remains.
+    //
+    // The waitFor above only settles when approvePrompt has been CALLED — the
+    // state update that drops the row and re-derives the filter counts flushes
+    // afterwards. Reading the label on the same tick is a race that passes on a
+    // fast machine and fails on a loaded CI runner, so wait for the count itself.
+    await waitFor(() => expect(screen.getByText(/All \(1\)/)).toBeTruthy());
     fireEvent.click(screen.getByText(/All \(1\)/));
     expect(screen.queryByText('A pending question')).toBeNull();
     expect(screen.getByText('A pending sample answer')).toBeTruthy();
