@@ -9,10 +9,10 @@ over time from both admin and user contributions.
 
 ## What's here
 
-| File         | Purpose                                                                  |
-| ------------ | ------------------------------------------------------------------------ |
-| `schema.sql` | Postgres schema: tables, enums, Row-Level Security, moderation RPCs.     |
-| `seed.mjs`   | Imports `courseData/*.json` (your prototype content) into the database.  |
+| File         | Purpose                                                                 |
+| ------------ | ----------------------------------------------------------------------- |
+| `schema.sql` | Postgres schema: tables, enums, Row-Level Security, moderation RPCs.    |
+| `seed.mjs`   | Imports `courseData/*.json` (your prototype content) into the database. |
 
 ## The model in one picture
 
@@ -29,13 +29,13 @@ Your JSON (courseData/*.json)  ──seed──▶  Supabase Postgres  ◀──
 Every piece of library content (`courses`, `prompts`, `sample_answers`) has a
 `status`:
 
-| Status     | Meaning                                            | Who can see it          |
-| ---------- | -------------------------------------------------- | ----------------------- |
-| `private`  | A user's own draft                                 | The author only         |
-| `pending`  | Submitted to the shared library (review queue)     | Author + reviewers      |
-| `approved` | Published                                          | Everyone                |
-| `rejected` | Reviewed and declined (kept for audit)             | Reviewers               |
-| `archived` | Retired                                            | Reviewers               |
+| Status     | Meaning                                        | Who can see it     |
+| ---------- | ---------------------------------------------- | ------------------ |
+| `private`  | A user's own draft                             | The author only    |
+| `pending`  | Submitted to the shared library (review queue) | Author + reviewers |
+| `approved` | Published                                      | Everyone           |
+| `rejected` | Reviewed and declined (kept for audit)         | Reviewers          |
+| `archived` | Retired                                        | Reviewers          |
 
 New content **starts `private`** (the column default) and a non-reviewer can
 only ever move their own content between `private` and `pending`. Reaching
@@ -209,7 +209,7 @@ courses and worked samples as reusable examples:
 1. Drop a new course JSON file into `courseData/` (same shape as the existing
    files — a `Course[]` array, or a single `Course`).
 2. Add an entry to `courseData/manifest.json` (`{ "file": "...", "type":
-   "course", "subject": "..." }`).
+"course", "subject": "..." }`).
 3. Re-run `node supabase/seed.mjs`. Because it upserts on `legacy_id`, existing
    content is refreshed in place and only the new material is added — re-running
    never duplicates.
@@ -233,6 +233,7 @@ immediately for everyone via the read path. Two natural follow-ups:
   files you promote is a safe, duplicate-free upsert. `courseData/exported/` is
   git-ignored; move the files you want to keep into `courseData/` and add them
   to `manifest.json`.
+
 - Keep curated example courses in git so the example library is reviewable and
   reproducible across environments, independent of any one database.
 
@@ -271,6 +272,59 @@ Once the database is seeded, the app changes happen in roughly this order:
    is own-insert / no-update-or-delete, with reviewers able to read all for
    analytics. This is the substrate for the longitudinal features (Class
    Insights, Student Progress + trend).
+
+## Classes, and who can see whose work
+
+`get_class_analytics()`, `get_student_progress()` and `get_response_students()`
+are reviewer-gated — admin **or teacher**. Until schema §14 that was the only
+gate: they then aggregated _every row in `responses`_, so any teacher account
+could read cohort aggregates, a roster of usernames, and per-student progress
+for every student in the database, including students at other schools. On a
+deployment holding NSW student work that is a privacy failure, not a missing
+feature.
+
+`schools` (§12) is too coarse to fix it — a school is a billing and quota group,
+and one school holds many classes taught by different teachers. §14 adds the
+missing entity:
+
+| Table           | Purpose                                                                                                         |
+| --------------- | --------------------------------------------------------------------------------------------------------------- |
+| `classes`       | A class: school, name, year, owning teacher, optional course                                                    |
+| `class_members` | Enrolment — `student` rows are the cohort; `co_teacher` rows grant a second staff member the owner's visibility |
+
+**Scope, enforced in the database:**
+
+| Caller  | With a class id                                      | Without                |
+| ------- | ---------------------------------------------------- | ---------------------- |
+| admin   | that class (any)                                     | the whole database     |
+| teacher | that class, if they own or co-teach it — else raises | every class they teach |
+| student | raises                                               | raises                 |
+
+> ⚠️ **Behaviour change.** A teacher who owns no classes now sees **nothing**
+> from these RPCs rather than everything. That is deliberate: visibility has to
+> be granted by enrolment, and failing closed is the only safe default for
+> student data. Set classes up before expecting Class Insights to show anything.
+
+### Setting a class up
+
+```sql
+-- Admin-only: ownership is what grants sight of student work.
+select public.create_class('Riverbank High School', 'Year 12 Enterprise Computing',
+                           'demo.teacher', 12);
+
+-- Then the class's own staff manage the roll.
+select public.enrol_in_class('<class-id>', 'demo.aisha');
+select public.enrol_in_class('<class-id>', 'demo.coteacher', 'co_teacher');
+```
+
+`list_my_classes()` backs the class picker in Class Insights, which appears once
+a teacher has more than one class.
+
+The boundaries are covered by `supabase/tests/rls_negative_tests.sql` (run in CI
+against a real Postgres): teacher A cannot see teacher B's students by roster, by
+aggregate, by class id or by username; a class-less teacher sees nothing; a
+student cannot enumerate a cohort or create a class; and an admin keeps the
+system-wide view.
 
 ## ⚠️ Privacy & data residency (important)
 

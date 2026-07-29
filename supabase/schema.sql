@@ -1983,6 +1983,451 @@ begin
   );
 end; $$;
 
+-- ----------------------------------------------------------------------------
+-- 14. Classes, and scoping the analytics to them.
+--
+--     WHY THIS SECTION EXISTS. get_class_analytics(), get_student_progress()
+--     and get_response_students() were gated on is_reviewer() — admin OR
+--     teacher — and then aggregated EVERY row in public.responses. There was no
+--     school or class filter, so any teacher account could read cohort
+--     aggregates, a roster of usernames, and per-student progress for every
+--     student in the database, including students at other schools they have no
+--     relationship with. On a deployment holding NSW student work that is a
+--     privacy failure, not a missing feature.
+--
+--     `schools` (§12) was too coarse to fix it with: a school is a billing and
+--     quota group, and one school holds many classes taught by different
+--     teachers. So this section adds the missing entity — a class, with an
+--     owner, optional co-teachers, and enrolled students — and scopes the three
+--     reviewer RPCs to the classes the caller actually teaches.
+--
+--     ⚠️ BEHAVIOUR CHANGE. A teacher who owns no classes now sees NOTHING from
+--     these RPCs rather than everything. That is the point: visibility has to be
+--     granted by enrolment, and failing closed is the only safe default for
+--     student data. Admins keep the system-wide view.
+--
+--     On an existing deployment, run this section alone as the migration.
+-- ----------------------------------------------------------------------------
+
+create table if not exists public.classes (
+  id         uuid primary key default gen_random_uuid(),
+  school_id  uuid not null references public.schools (id) on delete cascade,
+  name       text not null check (length(trim(name)) > 0),
+  -- The course the class studies, for display; analytics do not depend on it.
+  course_id  uuid references public.courses (id) on delete set null,
+  year       int check (year is null or year between 7 and 12),
+  owner_id   uuid not null references public.profiles (id) on delete cascade,
+  created_at timestamptz not null default now(),
+  unique (school_id, name)
+);
+create index if not exists classes_owner_idx  on public.classes (owner_id);
+create index if not exists classes_school_idx on public.classes (school_id);
+
+create table if not exists public.class_members (
+  class_id  uuid not null references public.classes (id) on delete cascade,
+  user_id   uuid not null references public.profiles (id) on delete cascade,
+  -- 'student' rows are the cohort the analytics aggregate; 'co_teacher' rows
+  -- grant a second staff member the same visibility as the owner.
+  role      text not null default 'student' check (role in ('student', 'co_teacher')),
+  joined_at timestamptz not null default now(),
+  primary key (class_id, user_id)
+);
+create index if not exists class_members_user_idx on public.class_members (user_id);
+
+alter table public.classes       enable row level security;
+alter table public.class_members enable row level security;
+
+-- True when the caller may see a class's cohort: an admin, the class's owner, or
+-- one of its co-teachers. SECURITY DEFINER so it can read the membership table
+-- without recursing through that table's own policy.
+create or replace function public.can_view_class(p_class_id uuid)
+returns boolean language sql stable security definer set search_path = public as $$
+  select public.is_admin() or exists (
+    select 1
+      from public.classes c
+     where c.id = p_class_id
+       and (
+         c.owner_id = auth.uid()
+         or exists (
+           select 1 from public.class_members m
+            where m.class_id = c.id and m.user_id = auth.uid() and m.role = 'co_teacher'
+         )
+       )
+  );
+$$;
+
+-- Read your own class (as a member), or any class you teach; admins read all.
+drop policy if exists classes_read on public.classes;
+create policy classes_read on public.classes for select using (
+  public.can_view_class(id)
+  or exists (
+    select 1 from public.class_members m where m.class_id = id and m.user_id = auth.uid()
+  )
+);
+-- No write policies: classes are created and enrolled through the RPCs below.
+
+drop policy if exists class_members_read on public.class_members;
+create policy class_members_read on public.class_members for select using (
+  user_id = auth.uid() or public.can_view_class(class_id)
+);
+
+-- The students the caller is allowed to aggregate over.
+--
+-- With p_class_id: that class, after an authorisation check. Without it: every
+-- student in every class the caller teaches. Deliberately returns nothing for a
+-- teacher with no classes — see the behaviour-change note above. An admin's
+-- system-wide view is handled by the callers, which skip the filter entirely
+-- rather than enumerating every profile.
+create or replace function public.visible_student_ids(p_class_id uuid default null)
+returns setof uuid language plpgsql stable security definer set search_path = public as $$
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can enumerate a cohort';
+  end if;
+
+  if p_class_id is not null then
+    if not public.can_view_class(p_class_id) then
+      raise exception 'You do not teach that class';
+    end if;
+    return query
+      select m.user_id from public.class_members m
+       where m.class_id = p_class_id and m.role = 'student';
+    return;
+  end if;
+
+  return query
+    select distinct m.user_id
+      from public.class_members m
+      join public.classes c on c.id = m.class_id
+     where m.role = 'student'
+       and public.can_view_class(c.id);
+end; $$;
+
+-- The caller's classes, for the UI's class picker (id + name + counts).
+create or replace function public.list_my_classes()
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare v_result jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can list classes';
+  end if;
+
+  select coalesce(jsonb_agg(row_obj order by row_obj->>'name'), '[]'::jsonb)
+    into v_result
+  from (
+    select jsonb_build_object(
+      'id', c.id,
+      'name', c.name,
+      'year', c.year,
+      'school', s.name,
+      'students', (
+        select count(*) from public.class_members m
+         where m.class_id = c.id and m.role = 'student'
+      )
+    ) as row_obj
+    from public.classes c
+    join public.schools s on s.id = c.school_id
+   where public.can_view_class(c.id)
+  ) sub;
+
+  return v_result;
+end; $$;
+
+-- Admin-gated class creation. Teachers do not self-serve a class: the owner
+-- assignment is what grants visibility over student work, so it goes through an
+-- admin, the same reasoning as set_user_role().
+create or replace function public.create_class(
+  p_school_name text,
+  p_name        text,
+  p_owner       text,
+  p_year        int default 12
+) returns uuid language plpgsql security definer set search_path = public as $$
+declare
+  v_school uuid;
+  v_owner  uuid;
+  v_id     uuid;
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can create a class';
+  end if;
+
+  select id into v_school from public.schools where name = p_school_name;
+  if v_school is null then raise exception 'No school named "%"', p_school_name; end if;
+
+  select id into v_owner from public.profiles where username = p_owner;
+  if v_owner is null then raise exception 'No user with username "%"', p_owner; end if;
+
+  insert into public.classes (school_id, name, owner_id, year)
+  values (v_school, p_name, v_owner, p_year)
+  on conflict (school_id, name) do update
+    set owner_id = excluded.owner_id, year = excluded.year
+  returning id into v_id;
+
+  return v_id;
+end; $$;
+
+-- Enrol a student (or add a co-teacher). Open to the class's own staff: once an
+-- admin has made you the owner, managing your roll is your job.
+create or replace function public.enrol_in_class(
+  p_class_id uuid,
+  p_username text,
+  p_role     text default 'student'
+) returns void language plpgsql security definer set search_path = public as $$
+declare v_user uuid;
+begin
+  if not public.can_view_class(p_class_id) then
+    raise exception 'You do not teach that class';
+  end if;
+  if p_role not in ('student', 'co_teacher') then
+    raise exception 'Unknown class role %', p_role;
+  end if;
+
+  select id into v_user from public.profiles where username = p_username;
+  if v_user is null then raise exception 'No user with username "%"', p_username; end if;
+
+  insert into public.class_members (class_id, user_id, role)
+  values (p_class_id, v_user, p_role)
+  on conflict (class_id, user_id) do update set role = excluded.role;
+end; $$;
+
+revoke all on function public.can_view_class(uuid) from public;
+revoke all on function public.visible_student_ids(uuid) from public;
+revoke all on function public.list_my_classes() from public;
+revoke all on function public.create_class(text, text, text, int) from public;
+revoke all on function public.enrol_in_class(uuid, text, text) from public;
+grant execute on function public.can_view_class(uuid) to authenticated;
+grant execute on function public.visible_student_ids(uuid) to authenticated;
+grant execute on function public.list_my_classes() to authenticated;
+grant execute on function public.create_class(text, text, text, int) to authenticated;
+grant execute on function public.enrol_in_class(uuid, text, text) to authenticated;
+
+-- Scoped analytics -----------------------------------------------------------
+-- These take a new trailing parameter, which changes their signature — Postgres
+-- would treat `create or replace` with an extra argument as a NEW overload,
+-- leaving the old unscoped version callable (and PostgREST free to pick it). So
+-- the previous signatures are dropped first. Supersedes §13.
+drop function if exists public.get_class_analytics(integer);
+drop function if exists public.get_student_progress(text, integer);
+drop function if exists public.get_response_students(integer);
+
+create or replace function public.get_class_analytics(
+  p_days integer default 30,
+  p_class_id uuid default null
+)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days    integer := least(greatest(coalesce(p_days, 30), 1), 365);
+  v_since   timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_all     boolean;
+  v_ids     uuid[];
+  v_byverb  jsonb;
+  v_bytopic jsonb;
+  v_totals  jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can view class analytics';
+  end if;
+
+  -- An admin asking for no particular class keeps the system-wide view.
+  v_all := public.is_admin() and p_class_id is null;
+  if not v_all then
+    select coalesce(array_agg(t.id), '{}') into v_ids
+      from public.visible_student_ids(p_class_id) as t(id);
+  end if;
+
+  select coalesce(jsonb_agg(row_obj order by (row_obj->>'attempts')::int desc), '[]'::jsonb)
+    into v_byverb
+  from (
+    select jsonb_build_object(
+      'label', coalesce(nullif(btrim(p.verb), ''), 'Unspecified'),
+      'attempts', count(*),
+      'students', count(distinct r.user_id),
+      'avg_mark', round(avg(r.overall_mark)::numeric, 1),
+      'avg_band', round(avg(r.overall_band)::numeric, 2),
+      'low_band_rate', round(avg((r.overall_band <= 3)::int)::numeric, 3),
+      'avg_mark_frac',
+        round(avg(r.overall_mark::numeric / nullif(p.total_marks, 0))::numeric, 3)
+    ) as row_obj
+    from public.responses r
+    join public.prompts p on p.id = r.prompt_id
+    where r.created_at >= v_since
+      and r.overall_band is not null
+      and (v_all or r.user_id = any(v_ids))
+    group by coalesce(nullif(btrim(p.verb), ''), 'Unspecified')
+  ) sub;
+
+  select coalesce(jsonb_agg(row_obj order by (row_obj->>'attempts')::int desc), '[]'::jsonb)
+    into v_bytopic
+  from (
+    select jsonb_build_object(
+      'label', coalesce(nullif(btrim(t.name), ''), 'Uncategorised'),
+      'attempts', count(*),
+      'students', count(distinct r.user_id),
+      'avg_mark', round(avg(r.overall_mark)::numeric, 1),
+      'avg_band', round(avg(r.overall_band)::numeric, 2),
+      'low_band_rate', round(avg((r.overall_band <= 3)::int)::numeric, 3),
+      'avg_mark_frac',
+        round(avg(r.overall_mark::numeric / nullif(p.total_marks, 0))::numeric, 3)
+    ) as row_obj
+    from public.responses r
+    join public.prompts p    on p.id = r.prompt_id
+    join public.dot_points d on d.id = p.dot_point_id
+    join public.sub_topics s on s.id = d.sub_topic_id
+    join public.topics t     on t.id = s.topic_id
+    where r.created_at >= v_since
+      and r.overall_band is not null
+      and (v_all or r.user_id = any(v_ids))
+    group by coalesce(nullif(btrim(t.name), ''), 'Uncategorised')
+  ) sub;
+
+  select jsonb_build_object(
+    'total_attempts', count(*),
+    'active_students', count(distinct r.user_id),
+    'avg_band', round(avg(r.overall_band)::numeric, 2),
+    'avg_mark_frac', round(avg(r.overall_mark::numeric / nullif(p.total_marks, 0))::numeric, 3)
+  ) into v_totals
+  from public.responses r
+  join public.prompts p on p.id = r.prompt_id
+  where r.created_at >= v_since
+    and r.overall_band is not null
+    and (v_all or r.user_id = any(v_ids));
+
+  return jsonb_build_object('byVerb', v_byverb, 'byTopic', v_bytopic, 'totals', v_totals);
+end; $$;
+
+create or replace function public.get_student_progress(
+  p_username text,
+  p_days integer default 30,
+  p_class_id uuid default null
+)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days   integer := least(greatest(coalesce(p_days, 30), 1), 365);
+  v_since  timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_user   uuid;
+  v_byverb jsonb;
+  v_totals jsonb;
+  v_trend  jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can view student progress';
+  end if;
+
+  select id into v_user from public.profiles where username = p_username;
+  if v_user is null then
+    raise exception 'No user with username "%"', p_username;
+  end if;
+
+  -- The authorisation step this function previously lacked: a teacher may only
+  -- read a student they actually teach. Phrased as "not in your cohort" rather
+  -- than "no such student" would leak the roll, so it mirrors the not-found
+  -- message above only after the student is known to exist to a reviewer.
+  if not (public.is_admin() and p_class_id is null) then
+    if not exists (
+      select 1 from public.visible_student_ids(p_class_id) as t(id) where t.id = v_user
+    ) then
+      raise exception 'Student "%" is not in a class you teach', p_username;
+    end if;
+  end if;
+
+  select coalesce(jsonb_agg(row_obj order by (row_obj->>'attempts')::int desc), '[]'::jsonb)
+    into v_byverb
+  from (
+    select jsonb_build_object(
+      'label', coalesce(nullif(btrim(p.verb), ''), 'Unspecified'),
+      'attempts', count(*),
+      'students', 1,
+      'avg_mark', round(avg(r.overall_mark)::numeric, 1),
+      'avg_band', round(avg(r.overall_band)::numeric, 2),
+      'low_band_rate', round(avg((r.overall_band <= 3)::int)::numeric, 3),
+      'avg_mark_frac',
+        round(avg(r.overall_mark::numeric / nullif(p.total_marks, 0))::numeric, 3)
+    ) as row_obj
+    from public.responses r
+    join public.prompts p on p.id = r.prompt_id
+    where r.user_id = v_user and r.created_at >= v_since and r.overall_band is not null
+    group by coalesce(nullif(btrim(p.verb), ''), 'Unspecified')
+  ) sub;
+
+  select jsonb_build_object(
+    'total_attempts', count(*),
+    'active_students', case when count(*) > 0 then 1 else 0 end,
+    'avg_band', round(avg(r.overall_band)::numeric, 2),
+    'avg_mark_frac', round(avg(r.overall_mark::numeric / nullif(p.total_marks, 0))::numeric, 3)
+  ) into v_totals
+  from public.responses r
+  join public.prompts p on p.id = r.prompt_id
+  where r.user_id = v_user and r.created_at >= v_since and r.overall_band is not null;
+
+  select coalesce(
+           jsonb_agg(jsonb_build_object('at', e.created_at, 'band', e.band, 'mark', e.mark)
+                     order by e.created_at asc),
+           '[]'::jsonb
+         )
+    into v_trend
+  from (
+    select created_at, band, mark
+    from public.response_events
+    where user_id = v_user and created_at >= v_since and band is not null
+    order by created_at desc
+    limit 100
+  ) e;
+
+  return jsonb_build_object(
+    'username', p_username, 'byVerb', v_byverb, 'totals', v_totals, 'trend', v_trend
+  );
+end; $$;
+
+create or replace function public.get_response_students(
+  p_days integer default 30,
+  p_class_id uuid default null
+)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days   integer := least(greatest(coalesce(p_days, 30), 1), 365);
+  v_since  timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_all    boolean;
+  v_ids    uuid[];
+  v_result jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can view the student roster';
+  end if;
+
+  v_all := public.is_admin() and p_class_id is null;
+  if not v_all then
+    select coalesce(array_agg(t.id), '{}') into v_ids
+      from public.visible_student_ids(p_class_id) as t(id);
+  end if;
+
+  select coalesce(jsonb_agg(row_obj order by (row_obj->>'attempts')::int desc,
+                                     row_obj->>'username'), '[]'::jsonb)
+    into v_result
+  from (
+    select jsonb_build_object(
+      'username', pr.username,
+      'attempts', count(*),
+      'avg_band', round(avg(r.overall_band)::numeric, 2),
+      'last_active', max(r.created_at)
+    ) as row_obj
+    from public.responses r
+    join public.profiles pr on pr.id = r.user_id
+    where r.created_at >= v_since
+      and r.overall_band is not null
+      and (v_all or r.user_id = any(v_ids))
+    group by pr.username
+  ) sub;
+
+  return v_result;
+end; $$;
+
+revoke all on function public.get_class_analytics(integer, uuid) from public;
+revoke all on function public.get_student_progress(text, integer, uuid) from public;
+revoke all on function public.get_response_students(integer, uuid) from public;
+grant execute on function public.get_class_analytics(integer, uuid) to authenticated;
+grant execute on function public.get_student_progress(text, integer, uuid) to authenticated;
+grant execute on function public.get_response_students(integer, uuid) to authenticated;
+
 -- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.
