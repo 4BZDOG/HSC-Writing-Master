@@ -26,7 +26,10 @@ import { fileURLToPath } from 'node:url';
 import { createClient } from '@supabase/supabase-js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const COURSE_DATA_DIR = resolve(__dirname, '..', 'courseData');
+// The syllabus JSON lives under public/ so the Vite build ships it; this script
+// reads it from there. (It pointed at a bare `courseData/` that no longer
+// exists, which meant the seed could not run at all.)
+const COURSE_DATA_DIR = resolve(__dirname, '..', 'public', 'courseData');
 
 const { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, SEED_ADMIN_ID } = process.env;
 
