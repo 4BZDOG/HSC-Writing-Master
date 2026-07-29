@@ -156,6 +156,11 @@ const mockLogin = async (username: string, password: string): Promise<User> => {
         preferences: { ...DEFAULT_PREFERENCES },
         stats: { ...DEFAULT_STATS },
       };
+      // Give the demo accounts a term's worth of history so the features that
+      // read accumulated use are not empty on a first look. Only on first login
+      // — an existing profile is the developer's own work and is left alone.
+      const { hydrateDemoProfile } = await import('./demoFixtures');
+      fullUser = await hydrateDemoProfile(fullUser);
     }
 
     // Update streak and last active

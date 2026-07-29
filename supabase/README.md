@@ -9,10 +9,11 @@ over time from both admin and user contributions.
 
 ## What's here
 
-| File         | Purpose                                                                 |
-| ------------ | ----------------------------------------------------------------------- |
-| `schema.sql` | Postgres schema: tables, enums, Row-Level Security, moderation RPCs.    |
-| `seed.mjs`   | Imports `courseData/*.json` (your prototype content) into the database. |
+| File           | Purpose                                                                                                                                   |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `schema.sql`   | Postgres schema: tables, enums, Row-Level Security, moderation RPCs.                                                                      |
+| `seed.mjs`     | Imports `public/courseData/*.json` (your prototype content) into the database.                                                            |
+| `demoSeed.mjs` | Creates the demo accounts + a term of seeded cohort history. **Demo project only** — see [Demo accounts](#demo-accounts-and-seeded-data). |
 
 ## The model in one picture
 
@@ -325,6 +326,97 @@ against a real Postgres): teacher A cannot see teacher B's students by roster, b
 aggregate, by class id or by username; a class-less teacher sees nothing; a
 student cannot enumerate a cohort or create a class; and an admin keeps the
 system-wide view.
+
+## Demo accounts and seeded data
+
+Most of what makes this product worth showing depends on _accumulated_ use:
+Class Insights ranks where a cohort is struggling, Student Progress draws a band
+trend, the Usage Dashboard plots a fortnight of spend, the Review Queue needs a
+queue. A fresh account shows none of it. `demoSeed.mjs` manufactures that
+history — twelve students, ten weeks, ~450 attempts — so all of it is
+demonstrable and testable on day one.
+
+### ⚠️ Run it on a separate demo project, never on production
+
+The script creates accounts that share one password and fills the database with
+fabricated student writing. It must not run against a database holding real
+users. It therefore refuses to start unless you have created a marker table **by
+hand** on the demo project:
+
+```sql
+create table public.demo_environment (confirmed boolean not null);
+insert into public.demo_environment values (true);
+```
+
+A guard the script could create for itself would be no guard, which is why this
+step is manual. Pasting the wrong service-role key then just aborts.
+
+### Running it
+
+```bash
+node supabase/seed.mjs            # curriculum first — the cohort attaches to it
+
+export SUPABASE_URL="https://<demo-project>.supabase.co"
+export SUPABASE_SERVICE_ROLE_KEY="<service-role-key>"
+export DEMO_ACCOUNT_PASSWORD="<at least 12 characters>"
+
+npm run demo:seed                 # seed or refresh in place
+npm run demo:reseed               # wipe the demo data and rebuild from scratch
+```
+
+### What you get
+
+| Account                         | Role    | Plan   | Shows                                                                                     |
+| ------------------------------- | ------- | ------ | ----------------------------------------------------------------------------------------- |
+| `demo-admin@demo.invalid`       | admin   | school | Database Manager, Data Vault, Content Audit Studio, API monitor, quota admin              |
+| `demo-teacher@demo.invalid`     | teacher | school | Class Insights, Student Progress, Review Queue, authoring tools                           |
+| `demo-coteacher@demo.invalid`   | teacher | school | A second reviewer, and the author of the pending queue items                              |
+| `demo-free@demo.invalid`        | student | free   | The paywalls: locked tier 4–6 questions, blurred high-band samples, summary-only feedback |
+| `demo-plus@demo.invalid`        | student | plus   | The unlocked comparison                                                                   |
+| `demo-capped@demo.invalid`      | student | free   | Already at its daily cap — the 429 path and quota warnings                                |
+| `demo-aisha@…` … `demo-kayla@…` | student | free   | The twelve-student cohort behind the analytics                                            |
+
+Plus: a school (`Riverbank High School (Demo)`) with a 30-seat active licence and
+a 400-call pooled daily budget; a class (`Year 12 Enterprise Computing (Demo)`)
+owned by the demo teacher with the whole cohort enrolled and the co-teacher added
+as staff — required since §14, because the analytics are scoped to the classes a
+teacher teaches and an unenrolled cohort would be invisible; ~450 `response_events` and ~365 `responses` over
+ten weeks; matching `ai_usage` / `ai_model_usage` history across three engines;
+six pending contributions scored 34–91 for the Review Queue.
+
+Every student is one of six deliberate archetypes — improver, plateaued,
+verb-blocked, sporadic, strong, at-risk (`utils/demoCohort.ts`) — because
+analytics that rank a cohort need a cohort with something to rank.
+
+### Determinism, and why dates are relative
+
+The generator is seeded (`DEMO_SEED`), so the same run produces the same content
+every time and the demo cannot drift silently. Timestamps, though, are computed
+backwards from the moment you run it, which is what keeps the 30-day analytics
+windows populated — a fixed-date seed would quietly empty every chart a month
+later. Reseed to re-centre the windows.
+
+Marks and bands are never invented: the generator asks `markForBand()` for a
+mark and reads the band back with `getBandForMark()`, so seeded data cannot
+contradict the Verb Gate. `tests/unit/demoCohort.test.ts` pins this.
+
+### Known limits
+
+- **Stripe is fabricated.** The `subscriptions` rows are written directly, so
+  every paywall and unlocked state is reachable without a Stripe dependency —
+  but there is no real Stripe customer behind them, and the customer-portal
+  button will fail for demo accounts.
+- **Offline gives you less.** The local mock accounts (`admin`/`teacher`/`user`
+  with `VITE_ENABLE_DEMO_AUTH`) get seeded profile stats from the same generator
+  via `services/demoFixtures.ts`, but offline the app persists only the user
+  profile — there is no local `responses` table. Class Insights, Student
+  Progress, the Usage Dashboard and the Review Queue read server-side RPCs and
+  stay empty without Supabase.
+- **The cohort needs a class.** Since §14 the analytics are scoped to the classes
+  a teacher teaches, so the seed enrols its cohort into
+  `Year 12 Enterprise Computing (Demo)`. Against a database that predates §14 the
+  seed says so and carries on, but Class Insights will be empty until the
+  migration is applied.
 
 ## ⚠️ Privacy & data residency (important)
 
