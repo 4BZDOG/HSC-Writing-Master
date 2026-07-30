@@ -2428,6 +2428,130 @@ grant execute on function public.get_class_analytics(integer, uuid) to authentic
 grant execute on function public.get_student_progress(text, integer, uuid) to authenticated;
 grant execute on function public.get_response_students(integer, uuid) to authenticated;
 
+-- ----------------------------------------------------------------------------
+-- 15. Per-student cohort breakdown.
+--
+--     §13/§14 answer "where is the cohort weak" and "whose work may I see".
+--     Neither answers "which STUDENT is weak where" — get_class_analytics()
+--     aggregates across students, and get_student_progress() covers one student
+--     at a time behind a username lookup. So a teacher cannot see that one
+--     student reaches the ceiling on recall and collapses on judgement while
+--     another is thin everywhere: the two look identical in a cohort average,
+--     and identical again in an overall band.
+--
+--     This returns the cohort broken down BY STUDENT, in three shapes the client
+--     needs and cannot derive from the existing payloads:
+--       byStudent — one row per (student, verb): the matrix behind a heatmap
+--       weekly    — one row per (student, week): the per-student trajectories
+--       daily     — attempts per day: cohort engagement over the window
+--
+--     Verbs are returned raw rather than folded into cognitive tiers. The
+--     verb → tier map lives in data/commandTerms.ts and is the single source of
+--     truth for the Verb Gate; duplicating it in SQL would let the two drift,
+--     and the client already folds verbs into tiers (foldVerbsIntoTiers).
+--
+--     Same reviewer gate and class scoping as §14 — it reuses
+--     visible_student_ids(), so it cannot expose a student the caller does not
+--     teach. Aggregated server-side: counts and averages only, never draft text.
+-- ----------------------------------------------------------------------------
+
+create or replace function public.get_class_cohort(
+  p_days integer default 30,
+  p_class_id uuid default null
+)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days      integer := least(greatest(coalesce(p_days, 30), 1), 365);
+  v_since     timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_all       boolean;
+  v_ids       uuid[];
+  v_bystudent jsonb;
+  v_weekly    jsonb;
+  v_daily     jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can view the cohort breakdown';
+  end if;
+
+  v_all := public.is_admin() and p_class_id is null;
+  if not v_all then
+    select coalesce(array_agg(t.id), '{}') into v_ids
+      from public.visible_student_ids(p_class_id) as t(id);
+  end if;
+
+  -- One row per (student, verb).
+  select coalesce(jsonb_agg(row_obj order by row_obj->>'username', row_obj->>'verb'), '[]'::jsonb)
+    into v_bystudent
+  from (
+    select jsonb_build_object(
+      'username', pr.username,
+      'verb', coalesce(nullif(btrim(p.verb), ''), 'Unspecified'),
+      'attempts', count(*),
+      'avg_band', round(avg(r.overall_band)::numeric, 2),
+      'avg_mark_frac',
+        round(avg(r.overall_mark::numeric / nullif(p.total_marks, 0))::numeric, 3)
+    ) as row_obj
+    from public.responses r
+    join public.prompts p   on p.id = r.prompt_id
+    join public.profiles pr on pr.id = r.user_id
+    where r.created_at >= v_since
+      and r.overall_band is not null
+      and (v_all or r.user_id = any(v_ids))
+    group by pr.username, coalesce(nullif(btrim(p.verb), ''), 'Unspecified')
+  ) sub;
+
+  -- One row per (student, week). Week 0 is the OLDEST bucket in the window, so
+  -- the client can plot left-to-right without knowing the window length.
+  select coalesce(jsonb_agg(row_obj order by row_obj->>'username',
+                                     (row_obj->>'week')::int), '[]'::jsonb)
+    into v_weekly
+  from (
+    select jsonb_build_object(
+      'username', pr.username,
+      'week', floor(extract(epoch from (r.created_at - v_since)) / 604800)::int,
+      'attempts', count(*),
+      'avg_band', round(avg(r.overall_band)::numeric, 2),
+      'avg_mark_frac',
+        round(avg(r.overall_mark::numeric / nullif(p.total_marks, 0))::numeric, 3)
+    ) as row_obj
+    from public.responses r
+    join public.prompts p   on p.id = r.prompt_id
+    join public.profiles pr on pr.id = r.user_id
+    where r.created_at >= v_since
+      and r.overall_band is not null
+      and (v_all or r.user_id = any(v_ids))
+    group by pr.username,
+             floor(extract(epoch from (r.created_at - v_since)) / 604800)::int
+  ) sub;
+
+  -- Attempts per UTC day across the window. Read from the append-only history so
+  -- this counts every attempt, not just the latest per question — engagement is
+  -- the question, and `responses` collapses repeats.
+  select coalesce(jsonb_agg(row_obj order by row_obj->>'day'), '[]'::jsonb)
+    into v_daily
+  from (
+    select jsonb_build_object(
+      'day', (e.created_at at time zone 'utc')::date,
+      'attempts', count(*)
+    ) as row_obj
+    from public.response_events e
+    where e.created_at >= v_since
+      and e.band is not null
+      and (v_all or e.user_id = any(v_ids))
+    group by (e.created_at at time zone 'utc')::date
+  ) sub;
+
+  return jsonb_build_object(
+    'byStudent', v_bystudent,
+    'weekly', v_weekly,
+    'daily', v_daily,
+    'weeks', ceil(v_days::numeric / 7)::int
+  );
+end; $$;
+
+revoke all on function public.get_class_cohort(integer, uuid) from public;
+grant execute on function public.get_class_cohort(integer, uuid) to authenticated;
+
 -- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.
