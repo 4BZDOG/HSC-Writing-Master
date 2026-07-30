@@ -23,7 +23,18 @@
  * every tier, so it is what we rank on. Bands are still reported (they are the
  * NESA-facing scale); they are simply not the ranking key. See schema §13.
  */
-import type { DimensionAnalytics } from '../services/responseService';
+import type { ClassCohort, CohortVerbRow, DimensionAnalytics } from '../services/responseService';
+
+/**
+ * The fields the tier fold actually reads. Declared narrowly so the per-student
+ * cohort rows (`CohortVerbRow`, which carry no `students`/`low_band_rate`) can
+ * reuse the same fold as the cohort-wide aggregates instead of being padded with
+ * meaningless zeroes.
+ */
+export type VerbAggregate = Pick<
+  DimensionAnalytics,
+  'label' | 'attempts' | 'avg_band' | 'avg_mark_frac'
+>;
 
 export interface RankedRow extends DimensionAnalytics {
   /** Cognitive tier (1–6) for a verb, or null (topics, or unknown verbs). */
@@ -179,7 +190,7 @@ export interface TierProfile {
  * attempts / null rather than vanishing.
  */
 export const foldVerbsIntoTiers = (
-  rows: DimensionAnalytics[],
+  rows: VerbAggregate[],
   tierOf: (label: string) => number | null
 ): TierProfile[] => {
   const acc = new Map<
@@ -209,4 +220,210 @@ export const foldVerbsIntoTiers = (
       markFrac: a && a.markAttempts > 0 ? a.markSum / a.markAttempts : null,
     };
   });
+};
+
+// ---------------------------------------------------------------------------
+// Per-student cohort breakdown (schema §15)
+// ---------------------------------------------------------------------------
+
+/** Attempts whose verb has no known cognitive tier — see StudentTierRow. */
+export interface UntieredAggregate {
+  attempts: number;
+  markFrac: number | null;
+  avgBand: number | null;
+}
+
+/** One student's row of the cohort heatmap. */
+export interface StudentTierRow {
+  username: string;
+  /** Every attempt, including untiered ones — so it reconciles with the row. */
+  attempts: number;
+  /** Mean share of available marks across every verb, or null when unknown. */
+  markFrac: number | null;
+  /** Attempt-weighted mean band, for reference beside the mark share. */
+  avgBand: number | null;
+  /** Six tier profiles, always all six so a gap reads as "not attempted". */
+  tiers: TierProfile[];
+  /**
+   * Attempts on questions whose verb is not a known command term — most often
+   * "Unspecified", i.e. a question with no verb set.
+   *
+   * These are surfaced rather than dropped. `foldVerbsIntoTiers` skips unknown
+   * verbs (correctly — they belong to no tier), so without this the six tier
+   * cells would silently account for fewer attempts than the row's own total,
+   * and a bank with unclassified questions would look thinner than it is. On the
+   * bundled Enterprise Computing content that is 14 of 82 questions, so it is
+   * the common case, not an edge one.
+   */
+  untiered: UntieredAggregate;
+}
+
+/**
+ * Folds the flat (student, verb) rows into one row per student, each carrying the
+ * six-tier profile.
+ *
+ * Reuses `foldVerbsIntoTiers` per student, so a student's tier profile here and
+ * the one in Student Progress are computed by the same code — they cannot
+ * disagree. Students are ordered weakest-first on mark share (the same ordering
+ * rule as the verb/topic tables), with unmeasurable students last.
+ */
+export const buildCohortRows = (
+  byStudent: CohortVerbRow[],
+  tierOf: (label: string) => number | null
+): StudentTierRow[] => {
+  const grouped = new Map<string, CohortVerbRow[]>();
+  for (const row of byStudent) {
+    if (row.attempts <= 0) continue;
+    grouped.set(row.username, [...(grouped.get(row.username) ?? []), row]);
+  }
+
+  const rows: StudentTierRow[] = [...grouped.entries()].map(([username, verbs]) => {
+    const attempts = verbs.reduce((sum, v) => sum + v.attempts, 0);
+
+    // Weight the overall share over only the attempts that carry mark data, so
+    // one unmarked question does not drag a student toward zero.
+    let markAttempts = 0;
+    let markSum = 0;
+    let bandAttempts = 0;
+    let bandSum = 0;
+    for (const v of verbs) {
+      if (v.avg_mark_frac != null && Number.isFinite(v.avg_mark_frac)) {
+        markAttempts += v.attempts;
+        markSum += v.avg_mark_frac * v.attempts;
+      }
+      if (v.avg_band != null && Number.isFinite(v.avg_band)) {
+        bandAttempts += v.attempts;
+        bandSum += v.avg_band * v.attempts;
+      }
+    }
+
+    // Untiered verbs, aggregated the same way so the row reconciles with its cells.
+    const untieredVerbs = verbs.filter((v) => tierOf(v.verb) == null);
+    let uMarkAttempts = 0;
+    let uMarkSum = 0;
+    let uBandAttempts = 0;
+    let uBandSum = 0;
+    for (const v of untieredVerbs) {
+      if (v.avg_mark_frac != null && Number.isFinite(v.avg_mark_frac)) {
+        uMarkAttempts += v.attempts;
+        uMarkSum += v.avg_mark_frac * v.attempts;
+      }
+      if (v.avg_band != null && Number.isFinite(v.avg_band)) {
+        uBandAttempts += v.attempts;
+        uBandSum += v.avg_band * v.attempts;
+      }
+    }
+
+    return {
+      username,
+      attempts,
+      markFrac: markAttempts > 0 ? markSum / markAttempts : null,
+      avgBand: bandAttempts > 0 ? bandSum / bandAttempts : null,
+      untiered: {
+        attempts: untieredVerbs.reduce((sum, v) => sum + v.attempts, 0),
+        markFrac: uMarkAttempts > 0 ? uMarkSum / uMarkAttempts : null,
+        avgBand: uBandAttempts > 0 ? uBandSum / uBandAttempts : null,
+      },
+      tiers: foldVerbsIntoTiers(
+        verbs.map((v) => ({
+          label: v.verb,
+          attempts: v.attempts,
+          avg_band: v.avg_band,
+          avg_mark_frac: v.avg_mark_frac,
+        })),
+        tierOf
+      ),
+    };
+  });
+
+  return rows.sort((a, b) => {
+    if (a.markFrac == null && b.markFrac != null) return 1;
+    if (b.markFrac == null && a.markFrac != null) return -1;
+    if (a.markFrac != null && b.markFrac != null && a.markFrac !== b.markFrac) {
+      return a.markFrac - b.markFrac;
+    }
+    return b.attempts - a.attempts || a.username.localeCompare(b.username);
+  });
+};
+
+/** One student's trajectory: a mark share per week bucket, oldest first. */
+export interface StudentTrajectory {
+  username: string;
+  /** One entry per week bucket; null where the student attempted nothing. */
+  points: (number | null)[];
+  attempts: number;
+}
+
+/**
+ * Pivots the flat (student, week) rows into a fixed-length series per student.
+ *
+ * Fixed length matters: every trajectory is drawn on the same x-axis, so a
+ * student who was absent in week 3 must leave a gap there rather than shifting
+ * their whole line left and appearing to have a different history.
+ */
+export const buildTrajectories = (
+  weekly: ClassCohort['weekly'],
+  weeks: number
+): StudentTrajectory[] => {
+  const span = Math.max(0, Math.trunc(weeks) || 0);
+  const byStudent = new Map<string, StudentTrajectory>();
+
+  for (const row of weekly) {
+    if (!byStudent.has(row.username)) {
+      byStudent.set(row.username, {
+        username: row.username,
+        points: new Array(span).fill(null),
+        attempts: 0,
+      });
+    }
+    const entry = byStudent.get(row.username)!;
+    entry.attempts += row.attempts;
+    // A week index outside the window is ignored rather than resized into the
+    // series — it would silently stretch everyone else's axis.
+    if (row.week >= 0 && row.week < span) {
+      entry.points[row.week] =
+        row.avg_mark_frac != null && Number.isFinite(row.avg_mark_frac) ? row.avg_mark_frac : null;
+    }
+  }
+
+  return [...byStudent.values()].sort((a, b) => a.username.localeCompare(b.username));
+};
+
+/**
+ * The change in mark share from a trajectory's first recorded week to its last,
+ * or null when fewer than two weeks carry data (a single point is not a trend).
+ */
+export const trajectoryDelta = (points: (number | null)[]): number | null => {
+  const recorded = points.filter((p): p is number => p != null);
+  if (recorded.length < 2) return null;
+  return recorded[recorded.length - 1] - recorded[0];
+};
+
+/** One day of cohort activity, gap-filled across the window. */
+export interface DailyPoint {
+  day: string;
+  attempts: number;
+}
+
+/**
+ * Gap-fills the daily counts across the whole window so quiet days are drawn as
+ * zero rather than skipped — a line that omits them slopes through the gap and
+ * hides exactly the pattern (a class that stopped working) the chart is for.
+ * `today` is injectable for testing.
+ */
+export const buildDailySeries = (
+  daily: ClassCohort['daily'],
+  days: number,
+  today: Date = new Date()
+): DailyPoint[] => {
+  const span = Math.min(365, Math.max(1, Math.trunc(days) || 1));
+  const counts = new Map(daily.map((d) => [d.day, d.attempts]));
+  const end = Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
+
+  const out: DailyPoint[] = [];
+  for (let i = span - 1; i >= 0; i--) {
+    const day = new Date(end - i * DAY_MS).toISOString().slice(0, 10);
+    out.push({ day, attempts: counts.get(day) ?? 0 });
+  }
+  return out;
 };

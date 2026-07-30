@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import {
+  buildCohortRows,
+  buildDailySeries,
+  buildTrajectories,
+  trajectoryDelta,
   rankByWeakness,
   formatBand,
   formatMarkFrac,
@@ -8,7 +12,11 @@ import {
   formatLastActive,
   sparklinePoints,
 } from '../../utils/classAnalytics';
-import type { DimensionAnalytics } from '../../services/responseService';
+import type {
+  CohortVerbRow,
+  CohortWeekRow,
+  DimensionAnalytics,
+} from '../../services/responseService';
 
 const dim = (over: Partial<DimensionAnalytics>): DimensionAnalytics => ({
   label: 'Describe',
@@ -337,5 +345,247 @@ describe('formatLastActive', () => {
     expect(formatLastActive(null, now)).toBe('—');
     expect(formatLastActive(undefined, now)).toBe('—');
     expect(formatLastActive('not-a-date', now)).toBe('—');
+  });
+});
+
+
+// ---------------------------------------------------------------------------
+// Per-student cohort breakdown (schema §15)
+// ---------------------------------------------------------------------------
+
+const verbRow = (over: Partial<CohortVerbRow>): CohortVerbRow => ({
+  username: 'sam',
+  verb: 'EXPLAIN',
+  attempts: 4,
+  avg_band: 3,
+  avg_mark_frac: 0.6,
+  ...over,
+});
+
+const weekRow = (over: Partial<CohortWeekRow>): CohortWeekRow => ({
+  username: 'sam',
+  week: 0,
+  attempts: 2,
+  avg_band: 3,
+  avg_mark_frac: 0.5,
+  ...over,
+});
+
+describe('buildCohortRows', () => {
+  it('groups verbs per student and folds them into all six tiers', () => {
+    const rows = buildCohortRows(
+      [
+        verbRow({ username: 'sam', verb: 'Describe', attempts: 3, avg_band: 2 }),
+        verbRow({ username: 'sam', verb: 'Evaluate', attempts: 2, avg_band: 6 }),
+      ],
+      tierOf
+    );
+    expect(rows).toHaveLength(1);
+    expect(rows[0].username).toBe('sam');
+    expect(rows[0].attempts).toBe(5);
+    expect(rows[0].tiers.map((t) => t.tier)).toEqual([1, 2, 3, 4, 5, 6]);
+  });
+
+  it('orders students weakest-first on mark share', () => {
+    const rows = buildCohortRows(
+      [
+        verbRow({ username: 'strong', avg_mark_frac: 0.9 }),
+        verbRow({ username: 'weak', avg_mark_frac: 0.2 }),
+        verbRow({ username: 'middling', avg_mark_frac: 0.55 }),
+      ],
+      tierOf
+    );
+    expect(rows.map((r) => r.username)).toEqual(['weak', 'middling', 'strong']);
+  });
+
+  it('puts students with no mark data last, not first', () => {
+    const rows = buildCohortRows(
+      [
+        verbRow({ username: 'unknown', avg_mark_frac: null }),
+        verbRow({ username: 'weak', avg_mark_frac: 0.1 }),
+      ],
+      tierOf
+    );
+    expect(rows.map((r) => r.username)).toEqual(['weak', 'unknown']);
+    expect(rows[1].markFrac).toBeNull();
+  });
+
+  it('weights the overall share by attempts, over marked attempts only', () => {
+    const rows = buildCohortRows(
+      [
+        verbRow({ username: 'sam', verb: 'Describe', attempts: 9, avg_mark_frac: 1 }),
+        verbRow({ username: 'sam', verb: 'Evaluate', attempts: 1, avg_mark_frac: 0 }),
+        // No mark data: counts toward attempts, must not drag the share down.
+        verbRow({ username: 'sam', verb: 'Unspecified', attempts: 10, avg_mark_frac: null }),
+      ],
+      tierOf
+    );
+    expect(rows[0].attempts).toBe(20);
+    expect(rows[0].markFrac).toBeCloseTo(0.9, 5);
+  });
+
+  it('drops rows with no attempts', () => {
+    const rows = buildCohortRows(
+      [verbRow({ username: 'ghost', attempts: 0 }), verbRow({ username: 'real', attempts: 1 })],
+      tierOf
+    );
+    expect(rows.map((r) => r.username)).toEqual(['real']);
+  });
+
+  it('returns nothing for an empty cohort', () => {
+    expect(buildCohortRows([], tierOf)).toEqual([]);
+  });
+
+  it('accounts for untiered verbs so the row total reconciles with its cells', () => {
+    // foldVerbsIntoTiers drops verbs with no known tier — correctly, they belong
+    // to none — so without an explicit bucket the six tier cells would silently
+    // cover fewer attempts than the row claims. On the bundled Enterprise
+    // Computing bank 14 of 82 questions have no verb, so this is the normal case.
+    const rows = buildCohortRows(
+      [
+        verbRow({ username: 'sam', verb: 'Describe', attempts: 4, avg_band: 2 }),
+        verbRow({ username: 'sam', verb: 'Unspecified', attempts: 3, avg_band: 2 }),
+        verbRow({ username: 'sam', verb: 'NotAVerb', attempts: 2, avg_band: 2 }),
+      ],
+      tierOf
+    );
+    const row = rows[0];
+    const inTiers = row.tiers.reduce((sum, t) => sum + t.attempts, 0);
+    expect(row.untiered.attempts).toBe(5);
+    expect(inTiers + row.untiered.attempts).toBe(row.attempts);
+    expect(row.attempts).toBe(9);
+  });
+
+  it('reports an untiered bucket of zero when every verb has a tier', () => {
+    const rows = buildCohortRows([verbRow({ verb: 'Describe' })], tierOf);
+    expect(rows[0].untiered.attempts).toBe(0);
+    expect(rows[0].untiered.markFrac).toBeNull();
+  });
+
+  it('carries the mark share of untiered attempts, and null when unmarked', () => {
+    const marked = buildCohortRows(
+      [verbRow({ verb: 'Unspecified', attempts: 4, avg_mark_frac: 0.75 })],
+      tierOf
+    );
+    expect(marked[0].untiered.markFrac).toBeCloseTo(0.75, 5);
+
+    const unmarked = buildCohortRows(
+      [verbRow({ verb: 'Unspecified', attempts: 4, avg_mark_frac: null })],
+      tierOf
+    );
+    expect(unmarked[0].untiered.markFrac).toBeNull();
+    expect(unmarked[0].untiered.attempts).toBe(4);
+  });
+
+  it('does not draw a rising staircase for a student at full marks', () => {
+    // The regression the whole panel is built on marks to avoid: with band-based
+    // cells a flawless student still darkens left-to-right, because a tier's band
+    // is capped at the tier number.
+    const allTiers = (v: string): number | null => Number(v.replace('T', ''));
+    const rows = buildCohortRows(
+      [1, 2, 3, 4, 5, 6].map((t) =>
+        verbRow({ username: 'ace', verb: `T${t}`, attempts: 2, avg_band: t, avg_mark_frac: 1 })
+      ),
+      allTiers
+    );
+    expect(rows[0].tiers.map((t) => t.markFrac)).toEqual([1, 1, 1, 1, 1, 1]);
+  });
+});
+
+describe('buildTrajectories', () => {
+  it('pivots to a fixed-length series per student', () => {
+    const t = buildTrajectories(
+      [weekRow({ username: 'sam', week: 0, avg_mark_frac: 0.2 }), weekRow({ week: 3, avg_mark_frac: 0.8 })],
+      4
+    );
+    expect(t).toHaveLength(1);
+    expect(t[0].points).toEqual([0.2, null, null, 0.8]);
+  });
+
+  it('leaves a gap for an absent week rather than shifting the line', () => {
+    // Compressing would make an absent student look like a different history.
+    const t = buildTrajectories([weekRow({ week: 2, avg_mark_frac: 0.5 })], 5);
+    expect(t[0].points).toEqual([null, null, 0.5, null, null]);
+  });
+
+  it('ignores a week index outside the window instead of resizing the axis', () => {
+    const t = buildTrajectories(
+      [weekRow({ week: 0, avg_mark_frac: 0.4 }), weekRow({ week: 99, avg_mark_frac: 0.9 })],
+      3
+    );
+    expect(t[0].points).toHaveLength(3);
+    expect(t[0].points).toEqual([0.4, null, null]);
+    // The out-of-window attempts still count toward the total.
+    expect(t[0].attempts).toBe(4);
+  });
+
+  it('records a week with no mark data as a gap, not as zero', () => {
+    const t = buildTrajectories([weekRow({ week: 1, avg_mark_frac: null })], 3);
+    expect(t[0].points).toEqual([null, null, null]);
+  });
+
+  it('separates students and sorts them by name', () => {
+    const t = buildTrajectories(
+      [weekRow({ username: 'zoe' }), weekRow({ username: 'amy' })],
+      2
+    );
+    expect(t.map((x) => x.username)).toEqual(['amy', 'zoe']);
+  });
+
+  it('tolerates a zero or nonsense window', () => {
+    expect(buildTrajectories([weekRow({})], 0)[0].points).toEqual([]);
+    expect(buildTrajectories([], 5)).toEqual([]);
+  });
+});
+
+describe('trajectoryDelta', () => {
+  it('measures first recorded week to last', () => {
+    expect(trajectoryDelta([0.2, null, 0.7])).toBeCloseTo(0.5, 5);
+    expect(trajectoryDelta([0.8, 0.3])).toBeCloseTo(-0.5, 5);
+  });
+
+  it('is null when fewer than two weeks carry data — one point is not a trend', () => {
+    expect(trajectoryDelta([null, 0.5, null])).toBeNull();
+    expect(trajectoryDelta([])).toBeNull();
+    expect(trajectoryDelta([null, null])).toBeNull();
+  });
+});
+
+describe('buildDailySeries', () => {
+  const today = new Date('2026-03-10T08:00:00Z');
+
+  it('gap-fills quiet days as zero across the window', () => {
+    // A line that skips them slopes through the gap and hides a class that
+    // stopped working — the exact pattern the chart is for.
+    const series = buildDailySeries([{ day: '2026-03-10', attempts: 4 }], 3, today);
+    expect(series).toEqual([
+      { day: '2026-03-08', attempts: 0 },
+      { day: '2026-03-09', attempts: 0 },
+      { day: '2026-03-10', attempts: 4 },
+    ]);
+  });
+
+  it('is ordered oldest to newest and ends today', () => {
+    const series = buildDailySeries([], 5, today);
+    expect(series).toHaveLength(5);
+    expect(series[0].day).toBe('2026-03-06');
+    expect(series[4].day).toBe('2026-03-10');
+  });
+
+  it('ignores days outside the window', () => {
+    const series = buildDailySeries(
+      [
+        { day: '2026-01-01', attempts: 99 },
+        { day: '2026-03-09', attempts: 2 },
+      ],
+      3,
+      today
+    );
+    expect(series.reduce((s, d) => s + d.attempts, 0)).toBe(2);
+  });
+
+  it('clamps a nonsense window to something renderable', () => {
+    expect(buildDailySeries([], 0, today)).toHaveLength(1);
+    expect(buildDailySeries([], 10_000, today)).toHaveLength(365);
   });
 });

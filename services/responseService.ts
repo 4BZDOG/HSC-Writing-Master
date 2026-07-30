@@ -155,6 +155,69 @@ export const fetchResponseStudents = async (
   return (data ?? []) as RosterStudent[];
 };
 
+/** One (student, verb) cell of the cohort breakdown (from `get_class_cohort`). */
+export interface CohortVerbRow {
+  username: string;
+  verb: string;
+  attempts: number;
+  avg_band: number | null;
+  /** Share of available marks earned; null when the questions carry no marks. */
+  avg_mark_frac: number | null;
+}
+
+/** One (student, week) point of a student's trajectory. */
+export interface CohortWeekRow {
+  username: string;
+  /** 0 = the OLDEST bucket in the window, so it plots left-to-right. */
+  week: number;
+  attempts: number;
+  avg_band: number | null;
+  avg_mark_frac: number | null;
+}
+
+/** Attempts on one UTC day across the whole cohort. */
+export interface CohortDayRow {
+  day: string;
+  attempts: number;
+}
+
+/**
+ * The cohort broken down BY STUDENT — the matrix behind the tier heatmap, the
+ * per-student trajectories, and cohort engagement over the window. Verbs come
+ * back raw; the client folds them into cognitive tiers so `data/commandTerms.ts`
+ * stays the single source of truth for the Verb Gate.
+ */
+export interface ClassCohort {
+  byStudent: CohortVerbRow[];
+  weekly: CohortWeekRow[];
+  daily: CohortDayRow[];
+  /** Number of week buckets the window covers. */
+  weeks: number;
+}
+
+const EMPTY_COHORT: ClassCohort = { byStudent: [], weekly: [], daily: [], weeks: 0 };
+
+/**
+ * Reviewer-gated, class-scoped per-student breakdown. Returns the empty shape —
+ * not an error — on a database that predates schema §15, so the panel shows its
+ * "no data" state rather than a failure the user cannot act on.
+ */
+export const fetchClassCohort = async (
+  days = 30,
+  classId?: string | null
+): Promise<ClassCohort> => {
+  if (!supabase) throw new Error('Supabase is not configured.');
+  const { data, error } = await supabase.rpc(
+    'get_class_cohort',
+    withClass({ p_days: days }, classId)
+  );
+  if (error) {
+    console.warn('Cohort breakdown unavailable (pre-§15 database?):', error.message);
+    return EMPTY_COHORT;
+  }
+  return (data as ClassCohort | null) ?? EMPTY_COHORT;
+};
+
 /** One recorded attempt in a student's band trend (from `response_events`). */
 export interface TrendPoint {
   /** ISO timestamp of the attempt. */

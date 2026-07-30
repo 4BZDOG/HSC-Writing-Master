@@ -645,6 +645,154 @@ end $$;
 reset role;
 rollback;
 
+begin;
+-- §15 get_class_cohort() must obey the same class scope as §14, and bucket weeks
+-- oldest-first. Teacher A teaches student A only.
+insert into auth.users (id, email, raw_user_meta_data) values
+  ('00000000-0000-0000-0000-0000000000e1', 'cls_teacher_a@example.test',
+   '{"username":"cls_teacher_a","display_name":"Class Teacher A"}'),
+  ('00000000-0000-0000-0000-0000000000e2', 'cls_teacher_b@example.test',
+   '{"username":"cls_teacher_b","display_name":"Class Teacher B"}'),
+  ('00000000-0000-0000-0000-0000000000e3', 'cls_student_a@example.test',
+   '{"username":"cls_student_a","display_name":"Class Student A"}'),
+  ('00000000-0000-0000-0000-0000000000e4', 'cls_student_b@example.test',
+   '{"username":"cls_student_b","display_name":"Class Student B"}')
+on conflict (id) do nothing;
+update public.profiles set role = 'teacher'
+ where id in ('00000000-0000-0000-0000-0000000000e1',
+              '00000000-0000-0000-0000-0000000000e2');
+insert into public.schools (id, name) values
+  ('00000000-0000-0000-0000-0000000000f1', 'Class Test School A'),
+  ('00000000-0000-0000-0000-0000000000f2', 'Class Test School B')
+on conflict (id) do nothing;
+insert into public.classes (id, school_id, name, owner_id, year) values
+  ('00000000-0000-0000-0000-0000000000f3', '00000000-0000-0000-0000-0000000000f1',
+   'Year 12 A', '00000000-0000-0000-0000-0000000000e1', 12),
+  ('00000000-0000-0000-0000-0000000000f4', '00000000-0000-0000-0000-0000000000f2',
+   'Year 12 B', '00000000-0000-0000-0000-0000000000e2', 12)
+on conflict (id) do nothing;
+insert into public.class_members (class_id, user_id, role) values
+  ('00000000-0000-0000-0000-0000000000f3', '00000000-0000-0000-0000-0000000000e3', 'student'),
+  ('00000000-0000-0000-0000-0000000000f4', '00000000-0000-0000-0000-0000000000e4', 'student')
+on conflict (class_id, user_id) do nothing;
+
+-- Student A: 2 marks of 4 on the shared prompt, plus two history events one week
+-- apart so the weekly buckets can be checked. Student B: work teacher A must not see.
+-- A prompt WORTH MARKS. The shared fixture prompt (…c5) has total_marks 0, which
+-- is itself worth covering: a mark share over a question with no marks recorded
+-- must come back null, not 0.
+insert into public.prompts (id, dot_point_id, question, status, verb, total_marks, created_by)
+  values ('00000000-0000-0000-0000-0000000000c6',
+          '00000000-0000-0000-0000-0000000000c4', 'Marked cohort prompt', 'approved',
+          'EXPLAIN', 4, '00000000-0000-0000-0000-0000000000e1')
+  on conflict (id) do nothing;
+
+insert into public.responses (prompt_id, user_id, draft, word_count, overall_mark, overall_band)
+values
+  ('00000000-0000-0000-0000-0000000000c6', '00000000-0000-0000-0000-0000000000e3',
+   'a', 1, 2, 3),
+  ('00000000-0000-0000-0000-0000000000c5', '00000000-0000-0000-0000-0000000000e3',
+   'a unmarked', 2, 1, 1),
+  ('00000000-0000-0000-0000-0000000000c6', '00000000-0000-0000-0000-0000000000e4',
+   'b', 1, 4, 4)
+on conflict (user_id, prompt_id) do nothing;
+insert into public.response_events (prompt_id, user_id, mark, band, word_count, created_at)
+values
+  ('00000000-0000-0000-0000-0000000000c6', '00000000-0000-0000-0000-0000000000e3',
+   2, 3, 1, now() - interval '20 days'),
+  ('00000000-0000-0000-0000-0000000000c6', '00000000-0000-0000-0000-0000000000e3',
+   3, 3, 1, now() - interval '2 days'),
+  ('00000000-0000-0000-0000-0000000000c6', '00000000-0000-0000-0000-0000000000e4',
+   4, 4, 1, now() - interval '2 days');
+
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e1","role":"authenticated"}';
+set local role authenticated;
+do $$
+declare
+  v jsonb;
+  v_marks numeric;
+begin
+  v := public.get_class_cohort(30);
+
+  if v::text like '%cls_student_b%' then
+    raise exception 'TEST FAILED: get_class_cohort leaked another class''s student: %', v;
+  end if;
+  if v::text not like '%cls_student_a%' then
+    raise exception 'TEST FAILED: get_class_cohort omitted the caller''s own student: %', v;
+  end if;
+  raise notice 'PASS: get_class_cohort is scoped to the caller''s own class';
+
+  -- The daily series is built from response_events, so it must count BOTH of
+  -- student A's attempts and neither of student B's.
+  if (select coalesce(sum((d->>'attempts')::int), 0)
+        from jsonb_array_elements(v->'daily') d) <> 2 then
+    raise exception 'TEST FAILED: daily attempts wrong, expected 2 — %', v->'daily';
+  end if;
+  raise notice 'PASS: the daily series counts every attempt of the caller''s cohort only';
+
+  -- 2 of 4 marks on the EXPLAIN question.
+  select (s->>'avg_mark_frac')::numeric into v_marks
+    from jsonb_array_elements(v->'byStudent') s
+   where s->>'username' = 'cls_student_a' and s->>'verb' = 'EXPLAIN';
+  if v_marks is distinct from 0.5 then
+    raise exception 'TEST FAILED: avg_mark_frac wrong, expected 0.500 — got %', v_marks;
+  end if;
+  raise notice 'PASS: per-student mark share is the share of available marks';
+
+  -- The same student's attempt on a question carrying NO marks must report null,
+  -- not 0 — "nothing recorded" is not "scored nothing", and the client renders
+  -- the two differently.
+  select (s->>'avg_mark_frac')::numeric into v_marks
+    from jsonb_array_elements(v->'byStudent') s
+   where s->>'username' = 'cls_student_a' and s->>'verb' = 'Unspecified';
+  if v_marks is not null then
+    raise exception 'TEST FAILED: a question with no marks reported a share of %', v_marks;
+  end if;
+  raise notice 'PASS: a question with no marks recorded reports null, not zero';
+
+  -- Weeks are bucketed oldest-first from the window start, so a 20-day-old and a
+  -- 2-day-old attempt must not share a bucket.
+  if (select count(distinct s->>'week') from jsonb_array_elements(v->'weekly') s) < 1 then
+    raise exception 'TEST FAILED: no weekly buckets — %', v->'weekly';
+  end if;
+  if (v->>'weeks')::int <> 5 then
+    raise exception 'TEST FAILED: expected 5 week buckets for a 30-day window, got %', v->>'weeks';
+  end if;
+  raise notice 'PASS: weekly buckets are oldest-first over the requested window';
+
+  -- Another teacher's class id must be refused, as with §14.
+  begin
+    perform public.get_class_cohort(30, '00000000-0000-0000-0000-0000000000f4');
+    raise exception 'TEST FAILED: read the cohort of a class the caller does not teach';
+  exception
+    when sqlstate '42501' or sqlstate 'P0001' then
+      raise notice 'PASS: get_class_cohort refused an unowned class id';
+  end;
+end $$;
+reset role;
+rollback;
+
+begin;
+-- A student must not reach it at all.
+insert into auth.users (id, email, raw_user_meta_data) values
+  ('00000000-0000-0000-0000-0000000000e3', 'cls_student_a@example.test',
+   '{"username":"cls_student_a","display_name":"Class Student A"}')
+on conflict (id) do nothing;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e3","role":"authenticated"}';
+set local role authenticated;
+do $$
+begin
+  begin
+    perform public.get_class_cohort(30);
+    raise exception 'TEST FAILED: a student read the cohort breakdown';
+  exception
+    when sqlstate '42501' or sqlstate 'P0001' then
+      raise notice 'PASS: get_class_cohort refused a non-reviewer';
+  end;
+end $$;
+reset role;
+rollback;
+
 -- ---- Cleanup ------------------------------------------------------------------
 begin;
 -- Deleting the course cascades to its topics/sub_topics/dot_points/prompts;

@@ -3,8 +3,10 @@ import { createPortal } from 'react-dom';
 import { X, BarChart3, RefreshCw, Users, Layers, Gauge, Info, AlertTriangle } from 'lucide-react';
 import {
   fetchClassAnalytics,
+  fetchClassCohort,
   fetchMyClasses,
   type ClassAnalytics,
+  type ClassCohort,
   type TeachingClass,
 } from '../../services/responseService';
 import { isCurriculumRemote } from '../../services/curriculumService';
@@ -15,6 +17,7 @@ import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import type { PromptVerb } from '../../types';
 import LoadingIndicator from '../LoadingIndicator';
+import CohortBreakdown from './CohortBreakdown';
 
 interface ClassInsightsModalProps {
   isOpen: boolean;
@@ -23,10 +26,11 @@ interface ClassInsightsModalProps {
 }
 
 const WINDOWS = [30, 90, 365] as const;
-type Dimension = 'verb' | 'topic';
+type Dimension = 'verb' | 'topic' | 'student';
 const DIMENSIONS: { id: Dimension; label: string }[] = [
   { id: 'verb', label: 'By verb' },
   { id: 'topic', label: 'By topic' },
+  { id: 'student', label: 'By student' },
 ];
 
 /** Cognitive tier for a verb, or null when it isn't a known command term.
@@ -99,6 +103,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
   const [days, setDays] = useState<(typeof WINDOWS)[number]>(30);
   const [dimension, setDimension] = useState<Dimension>('verb');
   const [data, setData] = useState<ClassAnalytics | null>(null);
+  const [cohort, setCohort] = useState<ClassCohort | null>(null);
   const [classes, setClasses] = useState<TeachingClass[]>([]);
   // null = every class the caller teaches (an admin's whole database).
   const [classId, setClassId] = useState<string | null>(null);
@@ -113,13 +118,20 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
     }
     setIsLoading(true);
     try {
-      setData(await fetchClassAnalytics(days, classId));
+      // The per-student breakdown is a heavier payload, so it is only fetched
+      // while that dimension is actually on screen.
+      const [analytics, breakdown] = await Promise.all([
+        fetchClassAnalytics(days, classId),
+        dimension === 'student' ? fetchClassCohort(days, classId) : Promise.resolve(null),
+      ]);
+      setData(analytics);
+      if (breakdown) setCohort(breakdown);
     } catch (e) {
       showToast(e instanceof Error ? e.message : 'Failed to load class analytics.', 'error');
     } finally {
       setIsLoading(false);
     }
-  }, [remote, days, classId, showToast]);
+  }, [remote, days, classId, dimension, showToast]);
 
   useEffect(() => {
     if (isOpen) load();
@@ -143,6 +155,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
   }, [isOpen, remote]);
 
   const rows = useMemo(() => {
+    if (dimension === 'student') return [];
     const source = dimension === 'verb' ? data?.byVerb : data?.byTopic;
     return rankByWeakness(source ?? [], dimension === 'verb' ? tierOf : NO_TIER);
   }, [data, dimension]);
@@ -318,80 +331,89 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                     />
                   </div>
 
-                  {/* Per-dimension weakness table */}
-                  <section>
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
-                      <AlertTriangle className="w-3.5 h-3.5" />
-                      {dimension === 'verb' ? 'Struggle by command verb' : 'Struggle by topic'}
-                    </h3>
-                    {rows.length === 0 ? (
-                      <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 italic py-4">
-                        No marked responses in this window yet.
-                      </p>
-                    ) : (
-                      <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
-                        <table className="w-full text-left text-sm min-w-[500px]">
-                          <thead className="bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 uppercase text-[10px] font-bold">
-                            <tr>
-                              <th className="px-4 py-2.5">
-                                {dimension === 'verb' ? 'Verb' : 'Topic'}
-                              </th>
-                              <th className="px-4 py-2.5 text-right">Attempts</th>
-                              <th className="px-4 py-2.5 text-right">Students</th>
-                              <th className="px-4 py-2.5 text-right">Avg Band</th>
-                              <th className="px-4 py-2.5 text-right">Band ≤ 3</th>
-                              <th className="px-4 py-2.5">Marks lost</th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-[rgb(var(--color-border-secondary))]/30 light:divide-slate-200">
-                            {rows.map((r) => {
-                              const cfg = r.tier ? getTierBandConfig(r.tier) : null;
-                              return (
-                                <tr
-                                  key={r.label}
-                                  className="hover:bg-[rgb(var(--color-bg-surface-light))]/10 light:hover:bg-slate-50"
-                                >
-                                  <td className="px-4 py-2.5">
-                                    <span className="text-[rgb(var(--color-text-primary))] light:text-slate-800 font-semibold">
-                                      {r.label}
-                                    </span>
-                                    {cfg && (
-                                      <span
-                                        className={`ml-2 px-1.5 py-0.5 rounded-md border text-[9px] font-bold ${cfg.bg} ${cfg.text} ${cfg.border}`}
-                                      >
-                                        B{r.tier}
+                  {dimension === 'student' ? (
+                    <CohortBreakdown
+                      cohort={cohort ?? { byStudent: [], weekly: [], daily: [], weeks: 0 }}
+                      days={days}
+                      tierOf={tierOf}
+                    />
+                  ) : (
+                    /* Per-dimension weakness table */
+                    <section>
+                      <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                        <AlertTriangle className="w-3.5 h-3.5" />
+                        {dimension === 'verb' ? 'Struggle by command verb' : 'Struggle by topic'}
+                      </h3>
+                      {rows.length === 0 ? (
+                        <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 italic py-4">
+                          No marked responses in this window yet.
+                        </p>
+                      ) : (
+                        <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
+                          <table className="w-full text-left text-sm min-w-[500px]">
+                            <thead className="bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 uppercase text-[10px] font-bold">
+                              <tr>
+                                <th className="px-4 py-2.5">
+                                  {dimension === 'verb' ? 'Verb' : 'Topic'}
+                                </th>
+                                <th className="px-4 py-2.5 text-right">Attempts</th>
+                                <th className="px-4 py-2.5 text-right">Students</th>
+                                <th className="px-4 py-2.5 text-right">Avg Band</th>
+                                <th className="px-4 py-2.5 text-right">Band ≤ 3</th>
+                                <th className="px-4 py-2.5">Marks lost</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-[rgb(var(--color-border-secondary))]/30 light:divide-slate-200">
+                              {rows.map((r) => {
+                                const cfg = r.tier ? getTierBandConfig(r.tier) : null;
+                                return (
+                                  <tr
+                                    key={r.label}
+                                    className="hover:bg-[rgb(var(--color-bg-surface-light))]/10 light:hover:bg-slate-50"
+                                  >
+                                    <td className="px-4 py-2.5">
+                                      <span className="text-[rgb(var(--color-text-primary))] light:text-slate-800 font-semibold">
+                                        {r.label}
                                       </span>
-                                    )}
-                                  </td>
-                                  <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-secondary))] light:text-slate-700">
-                                    {r.attempts}
-                                  </td>
-                                  <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-secondary))] light:text-slate-700">
-                                    {r.students}
-                                  </td>
-                                  <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-secondary))] light:text-slate-700">
-                                    {formatBand(r.avg_band)}
-                                  </td>
-                                  <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-dim))] light:text-slate-400">
-                                    {r.lowBandPct}%
-                                  </td>
-                                  <td className="px-4 py-2.5">
-                                    <StruggleBar pct={r.markLostPct} />
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-                    <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
-                      Ranked weakest-first by the share of available marks lost. Band ≤ 3 is shown
-                      for reference only: a question&rsquo;s band is capped at its verb&rsquo;s
-                      tier, so low-tier verbs sit at 100% however well they were answered.
-                      Aggregated server-side — individual student work is never shown here.
-                    </p>
-                  </section>
+                                      {cfg && (
+                                        <span
+                                          className={`ml-2 px-1.5 py-0.5 rounded-md border text-[9px] font-bold ${cfg.bg} ${cfg.text} ${cfg.border}`}
+                                        >
+                                          B{r.tier}
+                                        </span>
+                                      )}
+                                    </td>
+                                    <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-secondary))] light:text-slate-700">
+                                      {r.attempts}
+                                    </td>
+                                    <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-secondary))] light:text-slate-700">
+                                      {r.students}
+                                    </td>
+                                    <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-secondary))] light:text-slate-700">
+                                      {formatBand(r.avg_band)}
+                                    </td>
+                                    <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                                      {r.lowBandPct}%
+                                    </td>
+                                    <td className="px-4 py-2.5">
+                                      <StruggleBar pct={r.markLostPct} />
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+                      <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                        Ranked weakest-first by the share of available marks lost. Band ≤ 3 is shown
+                        for reference only: a question&rsquo;s band is capped at its verb&rsquo;s
+                        tier, so low-tier verbs sit at 100% however well they were answered.
+                        Aggregated server-side and scoped to the classes you teach — individual
+                        student work is never shown here.
+                      </p>
+                    </section>
+                  )}
                 </>
               )}
             </>

@@ -104,6 +104,43 @@ const STUDENT_PROGRESS = {
   })),
 };
 
+/**
+ * Per-student cohort fixture (get_class_cohort).
+ *
+ * Olivia and Kayla are the pair the heatmap exists for: Olivia reaches the
+ * ceiling on recall/description and collapses on judgement, Kayla is thin
+ * everywhere. Their overall bands are 2.08 and 1.15 — close enough that a
+ * cohort average or a single band hides the difference entirely.
+ */
+const COHORT = {
+  byStudent: [
+    { username: 'demo.olivia', verb: 'DESCRIBE', attempts: 6, avg_band: 2, avg_mark_frac: 0.889 },
+    { username: 'demo.olivia', verb: 'EXPLAIN', attempts: 11, avg_band: 3, avg_mark_frac: 0.865 },
+    { username: 'demo.olivia', verb: 'EVALUATE', attempts: 3, avg_band: 2, avg_mark_frac: 0.333 },
+    { username: 'demo.kayla', verb: 'DESCRIBE', attempts: 4, avg_band: 1, avg_mark_frac: 0.357 },
+    { username: 'demo.kayla', verb: 'EXPLAIN', attempts: 8, avg_band: 1, avg_mark_frac: 0.233 },
+    { username: 'demo.kayla', verb: 'EVALUATE', attempts: 2, avg_band: 1, avg_mark_frac: 0.2 },
+    { username: 'demo.chen', verb: 'EXPLAIN', attempts: 12, avg_band: 3, avg_mark_frac: 0.817 },
+    // A question carrying no marks: must render as "n/a", never as 0%.
+    { username: 'demo.chen', verb: 'Unspecified', attempts: 3, avg_band: 2, avg_mark_frac: null },
+  ],
+  weekly: [
+    // Olivia climbs, Kayla declines, Chen is flat — three shapes on one scale.
+    { username: 'demo.olivia', week: 0, attempts: 4, avg_band: 2, avg_mark_frac: 0.44 },
+    { username: 'demo.olivia', week: 2, attempts: 4, avg_band: 3, avg_mark_frac: 0.69 },
+    { username: 'demo.olivia', week: 4, attempts: 4, avg_band: 3, avg_mark_frac: 0.78 },
+    { username: 'demo.kayla', week: 0, attempts: 2, avg_band: 1, avg_mark_frac: 0.56 },
+    { username: 'demo.kayla', week: 4, attempts: 2, avg_band: 1, avg_mark_frac: 0.2 },
+    { username: 'demo.chen', week: 0, attempts: 5, avg_band: 3, avg_mark_frac: 0.7 },
+    { username: 'demo.chen', week: 4, attempts: 5, avg_band: 3, avg_mark_frac: 0.7 },
+  ],
+  daily: [
+    { day: new Date(Date.now() - 3 * 86_400_000).toISOString().slice(0, 10), attempts: 7 },
+    { day: new Date(Date.now() - 1 * 86_400_000).toISOString().slice(0, 10), attempts: 11 },
+  ],
+  weeks: 5,
+};
+
 const CORS = {
   'access-control-allow-origin': '*',
   'access-control-allow-headers': '*',
@@ -163,6 +200,7 @@ const installStub = async (page: Page, persona: Persona) => {
         if (name === 'get_class_analytics') return route.fulfill(json(CLASS_ANALYTICS));
         if (name === 'get_response_students') return route.fulfill(json(ROSTER));
         if (name === 'get_student_progress') return route.fulfill(json(STUDENT_PROGRESS));
+        if (name === 'get_class_cohort') return route.fulfill(json(COHORT));
         // Quota/plan RPCs the shell calls on boot; a 204 leaves them unset,
         // which the client already treats as "not available".
         return route.fulfill({ status: 204, headers: CORS });
@@ -303,5 +341,44 @@ test.describe('Weakness ranking uses marks, not bands (stubbed Supabase)', () =>
     await expect(page.getByText('64%', { exact: true }).first()).toBeVisible();
 
     await page.screenshot({ path: 'test-results/student-progress-marks.png', fullPage: false });
+  });
+
+  test('the by-student breakdown separates two students one band apart', async ({ page }) => {
+    await installStub(page, TEACHER);
+    await login(page, TEACHER);
+
+    await page.getByRole('button', { name: /class insights/i }).click();
+    await page.getByRole('button', { name: /by student/i }).click();
+
+    // Heatmap: weakest student first, so Kayla leads and Chen is last.
+    const names = page.locator('table tbody tr td:first-child');
+    await expect(names.first()).toBeVisible({ timeout: 20_000 });
+    // innerText concatenates the attempt count onto the username with no
+    // separator ("demo.kayla14"), so strip the trailing digits.
+    const order = (await names.allInnerTexts()).map((t) => t.trim().replace(/\s*\d+$/, ''));
+    expect(order).toEqual(['demo.kayla', 'demo.olivia', 'demo.chen']);
+
+    // Olivia's row is the point of the view: strong on tier 2, collapsed on tier 6.
+    const olivia = page.locator('tr', { hasText: 'demo.olivia' });
+    await expect(olivia.getByText('89%')).toBeVisible();
+    await expect(olivia.getByText('33%')).toBeVisible();
+
+    // A verb group carrying no marks reads "n/a", never 0%.
+    await expect(page.locator('tr', { hasText: 'demo.chen' }).getByText('n/a')).toBeVisible();
+
+    // Trajectories: one panel per student, with the change over the window.
+    await expect(page.getByText(/Weekly trajectories/i)).toBeVisible();
+    await expect(page.getByText(/▲ \+34 pts/)).toBeVisible(); // Olivia, 44% → 78%
+    await expect(page.getByText(/▼ -36 pts/)).toBeVisible(); // Kayla, 56% → 20%
+
+    // Cohort activity renders from the daily series.
+    await expect(page.getByText(/Cohort activity/i)).toBeVisible();
+    await expect(page.getByText(/18 attempts · peak 11\/day/)).toBeVisible();
+
+    await page.screenshot({ path: 'test-results/cohort-breakdown.png', fullPage: false });
+
+    // The trajectories and activity chart sit below the fold of the modal body.
+    await page.getByText(/Cohort activity/i).scrollIntoViewIfNeeded();
+    await page.screenshot({ path: 'test-results/cohort-breakdown-lower.png', fullPage: false });
   });
 });

@@ -327,6 +327,35 @@ aggregate, by class id or by username; a class-less teacher sees nothing; a
 student cannot enumerate a cohort or create a class; and an admin keeps the
 system-wide view.
 
+### Seeing a student, not just a cohort
+
+`get_class_analytics()` answers "where is the class weak" but averages across
+students, so two very different students disappear into the same number: one who
+reaches the ceiling on recall and collapses on judgement looks identical to one
+who is thin everywhere, and their overall bands look identical too.
+
+Schema §15 adds `get_class_cohort()`, which returns the cohort **by student** in
+three shapes: one row per (student, verb) for the tier heatmap, one per
+(student, week) for the trajectories, and attempts per day for cohort activity.
+It reuses `visible_student_ids()`, so it obeys exactly the same class scope as
+§14 and cannot expose a student the caller does not teach.
+
+Verbs come back raw rather than folded into cognitive tiers: the verb → tier map
+lives in `data/commandTerms.ts` and is the single source of truth for the Verb
+Gate, so duplicating it in SQL would let the two drift. The client folds them
+(`foldVerbsIntoTiers`), which also means a student's tier profile in Class
+Insights and in Student Progress are computed by the same code and cannot
+disagree.
+
+The UI is Class Insights → **By student** (`components/admin/CohortBreakdown.tsx`).
+Everything there is drawn from the share of available **marks**: a band-based grid
+would darken left-to-right for every student regardless of ability, because a
+tier's band is capped at the tier number. Attempts on questions with no command
+verb set get their own "Untiered" column rather than being dropped, so the six
+tier cells and the row total always account for the same attempts — on the
+bundled Enterprise Computing bank that is 14 of 82 questions, so it is the normal
+case rather than an edge one.
+
 ## Demo accounts and seeded data
 
 Most of what makes this product worth showing depends on _accumulated_ use:
