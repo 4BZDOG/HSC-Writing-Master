@@ -80,6 +80,29 @@ export const parseFeatureOverrides = (
 export const monetisationEnabled = (): boolean =>
   (process.env.MONETISATION_ENABLED ?? process.env.VITE_MONETISATION_ENABLED) !== 'false';
 
+/**
+ * Whether the free tier is held to a summary verdict rather than the full
+ * criterion-by-criterion breakdown. Server half of `summaryFeedbackOnly` in
+ * services/planPolicy.ts, with the same opt-in to giving it all away
+ * (`FREE_TIER_FULL_FEEDBACK=true`) and the same VITE_ fallback.
+ *
+ * The proxy REMOVES the withheld feedback from a free-tier result, so this
+ * has to agree with the client: if the UI stops locking the panel while the
+ * server keeps stripping it, a free user gets an unlocked view of
+ * placeholder text with no way to reveal anything.
+ */
+export const freeTierSummaryFeedbackOnly = (): boolean =>
+  (process.env.FREE_TIER_FULL_FEEDBACK ?? process.env.VITE_FREE_TIER_FULL_FEEDBACK) !== 'true';
+
+/**
+ * Whether the proxy should withhold paid feedback from a free-tier marking
+ * result. Both switches have to be on: the master monetisation switch (a
+ * pilot or demo deployment turns the whole paywall off) and the summary-only
+ * policy itself.
+ */
+export const shouldRedactFreeTierFeedback = (): boolean =>
+  monetisationEnabled() && freeTierSummaryFeedbackOnly();
+
 export const featureMinPlans = (): Record<PremiumFeatureKey, Plan> => ({
   ...DEFAULT_FEATURE_MIN_PLAN,
   ...parseFeatureOverrides(

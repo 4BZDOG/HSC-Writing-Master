@@ -14,6 +14,7 @@ import {
   featureMinPlan,
   monetisationEnabled,
   planUnlocks,
+  shouldRedactFreeTierFeedback,
 } from './_lib/planPolicy';
 
 /**
@@ -182,8 +183,13 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   // rewritten answer are removed from a free-tier result before it is sent.
   // Marks and bands are preserved, so the summary the free tier is promised
   // (and every downstream stat) still works.
+  // Both policy switches are consulted, because the UI consults them too: a
+  // pilot deployment (MONETISATION_ENABLED=false) or a deliberately generous
+  // free tier (FREE_TIER_FULL_FEEDBACK=true) unlocks the feedback panel in the
+  // client, and stripping the content anyway would leave a free user looking
+  // at an unlocked panel full of "Upgrade to see this feedback."
   const payload =
-    isEvaluation && onFreeTier && result.status === 200
+    isEvaluation && onFreeTier && result.status === 200 && shouldRedactFreeTierFeedback()
       ? redactEvaluationResponse(result.body)
       : result.body;
 

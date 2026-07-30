@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 /**
  * The free tier's daily evaluation limit is the paywall's headline number, so
@@ -201,5 +201,70 @@ describe('api/gemini free-tier content redaction', () => {
     await handler(post(evaluationRequest), res);
 
     expect(markingTextFrom(res.body)).toContain('Secret paid detail.');
+  });
+});
+
+describe('api/gemini redaction honours the policy switches', () => {
+  const markingResult = {
+    overallMark: 7,
+    overallBand: 5,
+    overallFeedback: 'Sound response.',
+    quickTip: 'Name the term first.',
+    strengths: ['Clear thesis'],
+    improvements: ['Sustain the judgement'],
+    criteria: [{ criterion: 'Analysis', mark: 4, maxMark: 6, feedback: 'Secret paid detail.' }],
+    revisedAnswer: 'A band 6 rewrite…',
+  };
+
+  const markingTextFrom = (body: unknown): string =>
+    (body as { candidates: Array<{ content: { parts: Array<{ text: string }> } }> }).candidates[0]
+      .content.parts[0].text;
+
+  beforeEach(() => {
+    consumeEvaluationMock.mockResolvedValue({
+      allowed: true,
+      used: 1,
+      limit: 5,
+      unlimited: false,
+    });
+    runAiProxyMock.mockResolvedValue({
+      status: 200,
+      body: { candidates: [{ content: { parts: [{ text: JSON.stringify(markingResult) }] } }] },
+    });
+  });
+
+  afterEach(() => {
+    delete process.env.MONETISATION_ENABLED;
+    delete process.env.FREE_TIER_FULL_FEEDBACK;
+    delete process.env.VITE_FREE_TIER_FULL_FEEDBACK;
+  });
+
+  it('sends the full result when monetisation is switched off for a pilot', async () => {
+    // The client stops locking the panel when this is false. If the server
+    // kept stripping, a pilot user would see an unlocked panel of placeholders.
+    process.env.MONETISATION_ENABLED = 'false';
+    const res = makeRes();
+    await handler(post(evaluationRequest), res);
+    expect(markingTextFrom(res.body)).toContain('Secret paid detail.');
+  });
+
+  it('sends the full result when the free tier is granted full feedback', async () => {
+    process.env.FREE_TIER_FULL_FEEDBACK = 'true';
+    const res = makeRes();
+    await handler(post(evaluationRequest), res);
+    expect(markingTextFrom(res.body)).toContain('Secret paid detail.');
+  });
+
+  it('honours the VITE_ copy so one Vercel variable drives both halves', async () => {
+    process.env.VITE_FREE_TIER_FULL_FEEDBACK = 'true';
+    const res = makeRes();
+    await handler(post(evaluationRequest), res);
+    expect(markingTextFrom(res.body)).toContain('Secret paid detail.');
+  });
+
+  it('still redacts under the default policy', async () => {
+    const res = makeRes();
+    await handler(post(evaluationRequest), res);
+    expect(markingTextFrom(res.body)).not.toContain('Secret paid detail.');
   });
 });
