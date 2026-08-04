@@ -2,6 +2,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent, cleanup, waitFor } from '@testing-library/react';
 import ClassInsightsModal from '../../components/admin/ClassInsightsModal';
+import StudentProgressModal from '../../components/admin/StudentProgressModal';
 import * as responseService from '../../services/responseService';
 import * as curriculumService from '../../services/curriculumService';
 
@@ -23,6 +24,8 @@ vi.mock('../../services/responseService', async (importOriginal) => {
     fetchClassAnalytics: vi.fn(),
     fetchClassCohort: vi.fn(),
     fetchMyClasses: vi.fn(),
+    fetchStudentProgress: vi.fn(),
+    fetchResponseStudents: vi.fn(),
   };
 });
 
@@ -156,6 +159,75 @@ describe('Class Insights — the newest request wins', () => {
     // there is nothing they could do about it and no toast to justify.
     first.reject(new Error('30-day call failed'));
     await waitFor(() => expect(screen.queryByText('NinetyDayVerb')).not.toBeNull());
+    expect(showToast).not.toHaveBeenCalled();
+  });
+});
+
+describe('Student Progress — the newest lookup wins', () => {
+  /** A progress payload that names the student it belongs to. */
+  const progressFor = (username: string): responseService.StudentProgress => ({
+    username,
+    byVerb: [],
+    totals: { total_attempts: 4, active_students: 1, avg_band: 4 },
+    trend: [],
+  });
+
+  it('ignores a superseded lookup that arrives last', async () => {
+    mocked.fetchResponseStudents.mockResolvedValue([]);
+
+    const aisha = deferred<responseService.StudentProgress>();
+    const jayden = deferred<responseService.StudentProgress>();
+    mocked.fetchStudentProgress
+      .mockReturnValueOnce(aisha.promise)
+      .mockReturnValueOnce(jayden.promise);
+
+    render(<StudentProgressModal isOpen={true} onClose={vi.fn()} showToast={vi.fn()} />);
+
+    // The username field stays live while a lookup runs, so a teacher can start
+    // a second one from the keyboard before the first has come back.
+    const field = screen.getByPlaceholderText('e.g. jsmith');
+    fireEvent.change(field, { target: { value: 'demo.aisha' } });
+    fireEvent.keyDown(field, { key: 'Enter' });
+    fireEvent.change(field, { target: { value: 'demo.jayden' } });
+    fireEvent.keyDown(field, { key: 'Enter' });
+    await waitFor(() => expect(mocked.fetchStudentProgress).toHaveBeenCalledTimes(2));
+
+    // Jayden — the student actually asked for — answers first.
+    jayden.resolve(progressFor('demo.jayden'));
+    await screen.findByText('demo.jayden');
+
+    // Aisha's abandoned lookup lands afterwards and must be discarded.
+    aisha.resolve(progressFor('demo.aisha'));
+    await waitFor(() => expect(screen.queryByText('demo.aisha')).toBeNull());
+    expect(screen.queryByText('demo.jayden')).not.toBeNull();
+  });
+
+  it('does not surface an error from a lookup the user has already moved past', async () => {
+    mocked.fetchResponseStudents.mockResolvedValue([]);
+    const showToast = vi.fn();
+
+    const aisha = deferred<responseService.StudentProgress>();
+    const jayden = deferred<responseService.StudentProgress>();
+    mocked.fetchStudentProgress
+      .mockReturnValueOnce(aisha.promise)
+      .mockReturnValueOnce(jayden.promise);
+
+    render(<StudentProgressModal isOpen={true} onClose={vi.fn()} showToast={showToast} />);
+
+    const field = screen.getByPlaceholderText('e.g. jsmith');
+    fireEvent.change(field, { target: { value: 'demo.aisha' } });
+    fireEvent.keyDown(field, { key: 'Enter' });
+    fireEvent.change(field, { target: { value: 'demo.jayden' } });
+    fireEvent.keyDown(field, { key: 'Enter' });
+    await waitFor(() => expect(mocked.fetchStudentProgress).toHaveBeenCalledTimes(2));
+
+    jayden.resolve(progressFor('demo.jayden'));
+    await screen.findByText('demo.jayden');
+
+    // The abandoned lookup fails. It must not clear the result the teacher is
+    // reading, nor raise a toast about a request they did not wait for.
+    aisha.reject(new Error('lookup failed'));
+    await waitFor(() => expect(screen.queryByText('demo.jayden')).not.toBeNull());
     expect(showToast).not.toHaveBeenCalled();
   });
 });
