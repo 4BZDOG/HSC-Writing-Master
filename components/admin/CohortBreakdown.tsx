@@ -15,7 +15,7 @@ import {
 
 /**
  * The cohort broken down by student: a tier heatmap, per-student trajectories,
- * and cohort activity over the window (schema §15 → get_class_cohort).
+ * and cohort activity over the window (schema §20 → get_class_cohort).
  *
  * ## Why this panel exists
  *
@@ -54,22 +54,45 @@ const TIER_LABELS: Record<number, string> = {
  * (more marks = darker) rather than categorical: the cells encode magnitude, and
  * a multi-hue scale would imply the tiers are unordered categories.
  *
- * The label rides on the fill, so the two darkest steps carry white ink and the
- * lighter three carry the primary text token.
+ * ## Why the ramp stops at 70% rather than running to full accent
+ *
+ * The percentage is written inside every cell — that is the primary encoding,
+ * with colour as reinforcement — so a step is only usable if its label is
+ * legible on its own fill. The accent is a mid-tone sky in both themes
+ * (`14 165 233` dark, `2 132 199` light), and a mid-tone is the worst case: too
+ * light for white ink and too dark for slate ink. Running the ramp to full
+ * accent put the top two steps below 4.5:1 in BOTH themes — 2.77:1 for white on
+ * full accent in dark mode — which is precisely where a teacher looks, since the
+ * darkest cells are the students doing best.
+ *
+ * Capping at 70% keeps every step clear of that dead zone, so ONE ink per theme
+ * suffices for the whole ramp (no mid-ramp flip) and the worst step still clears
+ * 4.5:1: white ink holds to 72% accent in dark mode, slate-900 to 97% in light.
+ * `tests/unit/cohortHeatmapContrast.test.ts` computes this from the ramp and the
+ * live tokens in `index.css`, so changing either fails the build rather than
+ * quietly making the numbers unreadable.
+ *
+ * The classes are spelled out rather than built from `HEAT_OPACITY`: Tailwind
+ * scans source text for whole class names, so an interpolated one would never be
+ * emitted and the cells would render unstyled. `HEAT_OPACITY` mirrors them for
+ * the contrast test, which also asserts the two lists agree.
  */
+export const HEAT_OPACITY = [15, 30, 45, 60, 70] as const;
+
 const HEAT_STEPS = [
   'bg-[rgb(var(--color-accent))]/15',
   'bg-[rgb(var(--color-accent))]/30',
-  'bg-[rgb(var(--color-accent))]/50',
-  'bg-[rgb(var(--color-accent))]/75',
-  'bg-[rgb(var(--color-accent))]',
+  'bg-[rgb(var(--color-accent))]/45',
+  'bg-[rgb(var(--color-accent))]/60',
+  'bg-[rgb(var(--color-accent))]/70',
 ] as const;
+
+/** One ink per theme, legible on every step of the ramp above. */
+const HEAT_INK = 'text-white light:text-slate-900';
 
 const heatClasses = (frac: number): string => {
   const step = Math.min(HEAT_STEPS.length - 1, Math.max(0, Math.floor(frac * HEAT_STEPS.length)));
-  const ink =
-    step >= 3 ? 'text-white' : 'text-[rgb(var(--color-text-primary))] light:text-slate-800';
-  return `${HEAT_STEPS[step]} ${ink}`;
+  return `${HEAT_STEPS[step]} ${HEAT_INK}`;
 };
 
 /** One heatmap cell. Never colour-alone: the percentage is always written in it. */

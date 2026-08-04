@@ -198,10 +198,10 @@ describe('saveResponseFeedback', () => {
 
 
 /**
- * The class-scope argument (schema §14) has one property worth pinning: it must
+ * The class-scope argument (schema §19) has one property worth pinning: it must
  * be OMITTED, not sent as null, when no class is selected. PostgREST resolves
  * overloads by argument name, so naming `p_class_id` against a database that
- * predates §14 fails the call outright instead of falling back to the unscoped
+ * predates §19 fails the call outright instead of falling back to the unscoped
  * function — which would break Class Insights for anyone running the client
  * ahead of the migration.
  */
@@ -270,7 +270,7 @@ describe('class-scoped analytics arguments', () => {
     await expect(fetchClassAnalytics(30)).rejects.toThrow(/nope/);
   });
 
-  it('degrades to an empty class list on a pre-§14 database', async () => {
+  it('degrades to an empty class list on a pre-§19 database', async () => {
     // list_my_classes does not exist there. A thrown error would surface as a
     // toast the user cannot act on; an empty list just means "no class filter".
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});

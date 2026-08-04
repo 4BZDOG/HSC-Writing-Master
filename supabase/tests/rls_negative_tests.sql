@@ -374,9 +374,9 @@ end $$;
 rollback;
 
 -- =============================================================================
--- Class-scoped analytics (schema §14)
+-- Class-scoped analytics (schema §19)
 --
--- Before §14, get_class_analytics / get_student_progress / get_response_students
+-- Before §19, get_class_analytics / get_student_progress / get_response_students
 -- were gated on is_reviewer() and then aggregated EVERY row in public.responses,
 -- so any teacher could read cohort aggregates and a roster for students they
 -- have no relationship with. These blocks prove the scope now holds: teacher A
@@ -646,7 +646,7 @@ reset role;
 rollback;
 
 begin;
--- §15 get_class_cohort() must obey the same class scope as §14, and bucket weeks
+-- §20 get_class_cohort() must obey the same class scope as §19, and bucket weeks
 -- oldest-first. Teacher A teaches student A only.
 insert into auth.users (id, email, raw_user_meta_data) values
   ('00000000-0000-0000-0000-0000000000e1', 'cls_teacher_a@example.test',
@@ -760,7 +760,7 @@ begin
   end if;
   raise notice 'PASS: weekly buckets are oldest-first over the requested window';
 
-  -- Another teacher's class id must be refused, as with §14.
+  -- Another teacher's class id must be refused, as with §19.
   begin
     perform public.get_class_cohort(30, '00000000-0000-0000-0000-0000000000f4');
     raise exception 'TEST FAILED: read the cohort of a class the caller does not teach';
@@ -803,7 +803,7 @@ delete from auth.users where id in (
   '00000000-0000-0000-0000-0000000000a2',
   '00000000-0000-0000-0000-0000000000a9'
 );
--- §14 class-scoping fixtures. Classes cascade from their school; profiles and
+-- §19 class-scoping fixtures. Classes cascade from their school; profiles and
 -- class memberships cascade from the auth users.
 delete from public.schools where id in (
   '00000000-0000-0000-0000-0000000000f1',

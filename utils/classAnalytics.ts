@@ -21,7 +21,7 @@
  *
  * `avg_mark_frac` — the share of available marks earned — is well defined at
  * every tier, so it is what we rank on. Bands are still reported (they are the
- * NESA-facing scale); they are simply not the ranking key. See schema §13.
+ * NESA-facing scale); they are simply not the ranking key. See schema §18.
  */
 import type { ClassCohort, CohortVerbRow, DimensionAnalytics } from '../services/responseService';
 
@@ -223,7 +223,7 @@ export const foldVerbsIntoTiers = (
 };
 
 // ---------------------------------------------------------------------------
-// Per-student cohort breakdown (schema §15)
+// Per-student cohort breakdown (schema §20)
 // ---------------------------------------------------------------------------
 
 /** Attempts whose verb has no known cognitive tier — see StudentTierRow. */

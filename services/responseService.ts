@@ -40,7 +40,7 @@ export interface DimensionAnalytics {
   /**
    * Mean share of the available marks earned (0–1) — the weakness signal, and
    * the only one comparable across questions of different tiers. Null on older
-   * deployments whose `get_class_analytics` predates schema §13, and where a
+   * deployments whose `get_class_analytics` predates schema §18, and where a
    * row's questions carry no marks at all.
    */
   avg_mark_frac?: number | null;
@@ -79,14 +79,14 @@ export interface TeachingClass {
 /**
  * The classes the caller owns or co-teaches, for the class picker. Reviewer-gated
  * server-side. Returns an empty list — not an error — on a database that
- * predates schema §14, so the UI degrades to "no class filter" rather than
+ * predates schema §19, so the UI degrades to "no class filter" rather than
  * showing a failure the user cannot act on.
  */
 export const fetchMyClasses = async (): Promise<TeachingClass[]> => {
   if (!supabase) throw new Error('Supabase is not configured.');
   const { data, error } = await supabase.rpc('list_my_classes');
   if (error) {
-    console.warn('Class list unavailable (pre-§14 database?):', error.message);
+    console.warn('Class list unavailable (pre-§19 database?):', error.message);
     return [];
   }
   return (data ?? []) as TeachingClass[];
@@ -97,7 +97,7 @@ export const fetchMyClasses = async (): Promise<TeachingClass[]> => {
  * actually selected.
  *
  * Sending `p_class_id: null` would name a parameter that does not exist on a
- * database that predates schema §14, and PostgREST resolves overloads by
+ * database that predates schema §19, and PostgREST resolves overloads by
  * argument name — so the call would fail outright there instead of falling back
  * to the unscoped behaviour. Omitting it keeps one client compatible with both.
  */
@@ -199,7 +199,7 @@ const EMPTY_COHORT: ClassCohort = { byStudent: [], weekly: [], daily: [], weeks:
 
 /**
  * Reviewer-gated, class-scoped per-student breakdown. Returns the empty shape —
- * not an error — on a database that predates schema §15, so the panel shows its
+ * not an error — on a database that predates schema §20, so the panel shows its
  * "no data" state rather than a failure the user cannot act on.
  */
 export const fetchClassCohort = async (
@@ -212,7 +212,7 @@ export const fetchClassCohort = async (
     withClass({ p_days: days }, classId)
   );
   if (error) {
-    console.warn('Cohort breakdown unavailable (pre-§15 database?):', error.message);
+    console.warn('Cohort breakdown unavailable (pre-§20 database?):', error.message);
     return EMPTY_COHORT;
   }
   return (data as ClassCohort | null) ?? EMPTY_COHORT;

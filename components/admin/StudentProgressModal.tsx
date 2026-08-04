@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { X, LineChart, Search, Users, Layers, Gauge } from 'lucide-react';
 import {
@@ -195,6 +195,8 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
   const [data, setData] = useState<StudentProgress | null>(null);
   const [roster, setRoster] = useState<RosterStudent[]>([]);
   const [isRosterLoading, setIsRosterLoading] = useState(false);
+  // Monotonic id of the newest in-flight lookup; see `load` below.
+  const lookupSeq = useRef(0);
 
   useEscapeKey(isOpen && !isLoading, onClose);
   useScrollLock(isOpen);
@@ -207,14 +209,30 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
         return;
       }
       setUsername(trimmed);
+
+      // Roster entries and the window buttons are one click each, so two
+      // lookups are easily in flight at once. Without a sequence guard the last
+      // RESPONSE wins rather than the last request: click Aisha, then Jayden,
+      // and if Aisha's call is the slower one you end up reading Aisha's
+      // progress when you asked for Jayden's. (The panel labels itself from
+      // `data.username`, so nothing is shown under the wrong name — but it is
+      // still not the student the teacher asked for.)
+      const seq = ++lookupSeq.current;
+      const current = () => seq === lookupSeq.current;
+
       setIsLoading(true);
       try {
-        setData(await fetchStudentProgress(trimmed, window));
+        const progress = await fetchStudentProgress(trimmed, window);
+        if (!current()) return;
+        setData(progress);
       } catch (e) {
+        // A lookup the user has already moved past has no error worth raising:
+        // the one they are waiting on is still running.
+        if (!current()) return;
         setData(null);
         showToast(e instanceof Error ? e.message : 'Failed to load student progress.', 'error');
       } finally {
-        setIsLoading(false);
+        if (current()) setIsLoading(false);
       }
     },
     [showToast]

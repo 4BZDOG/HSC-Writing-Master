@@ -459,7 +459,12 @@ export const generateCohort = ({
 export const latestPerPrompt = (attempts: DemoAttempt[]): DemoAttempt[] => {
   const latest = new Map<string, DemoAttempt>();
   for (const attempt of attempts) {
-    const key = `${attempt.username} ${attempt.promptId}`;
+    // U+0000 as the separator: it cannot occur in a username or a prompt id,
+    // so no pair of fields can collide by concatenating differently. Written
+    // as an ESCAPE, never as a literal NUL byte — a raw control character
+    // makes the whole file read as binary, and ripgrep then silently skips
+    // it in every content search.
+    const key = `${attempt.username}\u0000${attempt.promptId}`;
     const held = latest.get(key);
     // Lower daysAgo = more recent.
     if (!held || attempt.daysAgo < held.daysAgo) latest.set(key, attempt);

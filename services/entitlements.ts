@@ -279,7 +279,7 @@ export const isFeedbackLocked = (user?: User | null): boolean => {
 const EVAL_COUNT_KEY = 'ws:free-eval-count';
 const EVAL_DATE_KEY = 'ws:free-eval-date';
 // The limit the SERVER last reported. `free_evaluation_limit()` is an
-// admin-adjustable setting in Postgres (schema §15), so the number shipped in
+// admin-adjustable setting in Postgres (schema §14), so the number shipped in
 // this bundle is only a starting guess — once the server has told us what it
 // is actually enforcing, that wins for the rest of the day.
 const EVAL_LIMIT_KEY = 'ws:free-eval-limit';
