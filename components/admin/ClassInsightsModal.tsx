@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { X, BarChart3, RefreshCw, Users, Layers, Gauge, Info, AlertTriangle } from 'lucide-react';
 import {
@@ -107,6 +107,8 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
   const [classes, setClasses] = useState<TeachingClass[]>([]);
   // null = every class the caller teaches (an admin's whole database).
   const [classId, setClassId] = useState<string | null>(null);
+  // Monotonic id of the newest in-flight load; see `load` below.
+  const requestSeq = useRef(0);
 
   useEscapeKey(isOpen, onClose);
   useScrollLock(isOpen);
@@ -116,6 +118,16 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
       setIsLoading(false);
       return;
     }
+    // Every control here — window, class, dimension — retriggers the fetch, and
+    // a teacher clicking through them leaves several in flight at once. Without
+    // a sequence guard the LAST RESPONSE wins rather than the last request, so a
+    // slow 7-day call can land after a fast 90-day one and paint 7-day numbers
+    // under a "90 days" heading. On the class picker the same race mislabels one
+    // class's cohort as another's, which on a panel whose entire purpose is
+    // per-class scoping is a correctness failure, not a flicker.
+    const seq = ++requestSeq.current;
+    const current = () => seq === requestSeq.current;
+
     setIsLoading(true);
     try {
       // The per-student breakdown is a heavier payload, so it is only fetched
@@ -124,14 +136,28 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
         fetchClassAnalytics(days, classId),
         dimension === 'student' ? fetchClassCohort(days, classId) : Promise.resolve(null),
       ]);
+      if (!current()) return;
       setData(analytics);
       if (breakdown) setCohort(breakdown);
     } catch (e) {
+      // A superseded request's failure is not the user's problem — the request
+      // they are actually waiting on is still running.
+      if (!current()) return;
       showToast(e instanceof Error ? e.message : 'Failed to load class analytics.', 'error');
     } finally {
-      setIsLoading(false);
+      // Only the newest request may clear the spinner; an older one finishing
+      // first would otherwise report "done" while the live call is still out.
+      if (current()) setIsLoading(false);
     }
   }, [remote, days, classId, dimension, showToast]);
+
+  // Drop the previous class's payloads the moment the scope changes, so the
+  // spinner shows rather than one class's figures sitting under another's name
+  // while the new request is in flight — or indefinitely, if it fails.
+  useEffect(() => {
+    setData(null);
+    setCohort(null);
+  }, [classId]);
 
   useEffect(() => {
     if (isOpen) load();
