@@ -1809,7 +1809,7 @@ revoke all on function public.caller_plan() from public;
 grant execute on function public.caller_plan() to authenticated;
 
 -- ----------------------------------------------------------------------------
--- 13. Marks-based weakness ranking.
+-- §18 · Marks-based weakness ranking
 --
 --     WHY THIS SECTION EXISTS. get_class_analytics() and get_student_progress()
 --     ranked a cohort's weaknesses by `low_band_rate` — the share of attempts
@@ -1984,7 +1984,7 @@ begin
 end; $$;
 
 -- ----------------------------------------------------------------------------
--- 14. Classes, and scoping the analytics to them.
+-- §19 · Classes, and scoping the analytics to them
 --
 --     WHY THIS SECTION EXISTS. get_class_analytics(), get_student_progress()
 --     and get_response_students() were gated on is_reviewer() — admin OR
@@ -2205,7 +2205,7 @@ grant execute on function public.enrol_in_class(uuid, text, text) to authenticat
 -- These take a new trailing parameter, which changes their signature — Postgres
 -- would treat `create or replace` with an extra argument as a NEW overload,
 -- leaving the old unscoped version callable (and PostgREST free to pick it). So
--- the previous signatures are dropped first. Supersedes §13.
+-- the previous signatures are dropped first. Supersedes §18.
 drop function if exists public.get_class_analytics(integer);
 drop function if exists public.get_student_progress(text, integer);
 drop function if exists public.get_response_students(integer);
@@ -2429,9 +2429,9 @@ grant execute on function public.get_student_progress(text, integer, uuid) to au
 grant execute on function public.get_response_students(integer, uuid) to authenticated;
 
 -- ----------------------------------------------------------------------------
--- 15. Per-student cohort breakdown.
+-- §20 · Per-student cohort breakdown
 --
---     §13/§14 answer "where is the cohort weak" and "whose work may I see".
+--     §18/§19 answer "where is the cohort weak" and "whose work may I see".
 --     Neither answers "which STUDENT is weak where" — get_class_analytics()
 --     aggregates across students, and get_student_progress() covers one student
 --     at a time behind a username lookup. So a teacher cannot see that one
@@ -2450,7 +2450,7 @@ grant execute on function public.get_response_students(integer, uuid) to authent
 --     truth for the Verb Gate; duplicating it in SQL would let the two drift,
 --     and the client already folds verbs into tiers (foldVerbsIntoTiers).
 --
---     Same reviewer gate and class scoping as §14 — it reuses
+--     Same reviewer gate and class scoping as §19 — it reuses
 --     visible_student_ids(), so it cannot expose a student the caller does not
 --     teach. Aggregated server-side: counts and averages only, never draft text.
 -- ----------------------------------------------------------------------------

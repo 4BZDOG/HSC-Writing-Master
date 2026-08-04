@@ -275,7 +275,7 @@ script is the follow-up.
 
 | Path | Change |
 | --- | --- |
-| `supabase/schema.sql` | New §16: `classes`, `class_members`, RLS, `create_class()`, `enrol_student()`, `classes_visible_to()`; class-scoped params on the three analytics RPCs |
+| `supabase/schema.sql` | New §19: `classes`, `class_members`, RLS, `create_class()`, `enrol_student()`, `classes_visible_to()`; class-scoped params on the three analytics RPCs |
 | `supabase/demoSeed.mjs` | **New** — the generator (cohort, responses, usage, contributions, auth users) |
 | `supabase/demoData/*.json` | **New** — archetype drafts and feedback text, version-controlled and reviewable |
 | `supabase/tests/rls_negative_tests.sql` | Cross-class / cross-school negative cases |

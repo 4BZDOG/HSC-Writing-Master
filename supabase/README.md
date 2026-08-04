@@ -277,7 +277,7 @@ Once the database is seeded, the app changes happen in roughly this order:
 ## Classes, and who can see whose work
 
 `get_class_analytics()`, `get_student_progress()` and `get_response_students()`
-are reviewer-gated — admin **or teacher**. Until schema §14 that was the only
+are reviewer-gated — admin **or teacher**. Until schema §19 that was the only
 gate: they then aggregated _every row in `responses`_, so any teacher account
 could read cohort aggregates, a roster of usernames, and per-student progress
 for every student in the database, including students at other schools. On a
@@ -285,7 +285,7 @@ deployment holding NSW student work that is a privacy failure, not a missing
 feature.
 
 `schools` (§12) is too coarse to fix it — a school is a billing and quota group,
-and one school holds many classes taught by different teachers. §14 adds the
+and one school holds many classes taught by different teachers. §19 adds the
 missing entity:
 
 | Table           | Purpose                                                                                                         |
@@ -334,11 +334,11 @@ students, so two very different students disappear into the same number: one who
 reaches the ceiling on recall and collapses on judgement looks identical to one
 who is thin everywhere, and their overall bands look identical too.
 
-Schema §15 adds `get_class_cohort()`, which returns the cohort **by student** in
+Schema §20 adds `get_class_cohort()`, which returns the cohort **by student** in
 three shapes: one row per (student, verb) for the tier heatmap, one per
 (student, week) for the trajectories, and attempts per day for cohort activity.
 It reuses `visible_student_ids()`, so it obeys exactly the same class scope as
-§14 and cannot expose a student the caller does not teach.
+§19 and cannot expose a student the caller does not teach.
 
 Verbs come back raw rather than folded into cognitive tiers: the verb → tier map
 lives in `data/commandTerms.ts` and is the single source of truth for the Verb
@@ -408,7 +408,7 @@ npm run demo:reseed               # wipe the demo data and rebuild from scratch
 Plus: a school (`Riverbank High School (Demo)`) with a 30-seat active licence and
 a 400-call pooled daily budget; a class (`Year 12 Enterprise Computing (Demo)`)
 owned by the demo teacher with the whole cohort enrolled and the co-teacher added
-as staff — required since §14, because the analytics are scoped to the classes a
+as staff — required since §19, because the analytics are scoped to the classes a
 teacher teaches and an unenrolled cohort would be invisible; ~450 `response_events` and ~365 `responses` over
 ten weeks; matching `ai_usage` / `ai_model_usage` history across three engines;
 six pending contributions scored 34–91 for the Review Queue.
@@ -441,9 +441,9 @@ contradict the Verb Gate. `tests/unit/demoCohort.test.ts` pins this.
   profile — there is no local `responses` table. Class Insights, Student
   Progress, the Usage Dashboard and the Review Queue read server-side RPCs and
   stay empty without Supabase.
-- **The cohort needs a class.** Since §14 the analytics are scoped to the classes
+- **The cohort needs a class.** Since §19 the analytics are scoped to the classes
   a teacher teaches, so the seed enrols its cohort into
-  `Year 12 Enterprise Computing (Demo)`. Against a database that predates §14 the
+  `Year 12 Enterprise Computing (Demo)`. Against a database that predates §19 the
   seed says so and carries on, but Class Insights will be empty until the
   migration is applied.
 

@@ -15,7 +15,7 @@ import {
 
 /**
  * The cohort broken down by student: a tier heatmap, per-student trajectories,
- * and cohort activity over the window (schema §15 → get_class_cohort).
+ * and cohort activity over the window (schema §20 → get_class_cohort).
  *
  * ## Why this panel exists
  *

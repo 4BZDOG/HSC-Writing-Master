@@ -299,7 +299,7 @@ const upsertSchool = async (name) => {
  * Written directly rather than through `create_class()`: that RPC is admin-only
  * and resolves `auth.uid()`, which a service-role script has no session for.
  * Returns null when the table does not exist yet, so the seed still completes
- * against a database that predates schema §14 instead of aborting.
+ * against a database that predates schema §19 instead of aborting.
  */
 const upsertClass = async ({ schoolId, name, ownerId }) => {
   if (!ownerId) throw new Error('upsertClass: the demo teacher has no id');
@@ -558,7 +558,7 @@ async function main() {
   console.log(`✓ accounts: ${userIds.size} (password from DEMO_ACCOUNT_PASSWORD)`);
 
   // --- class + enrolment ----------------------------------------------------
-  // Since schema §14 the analytics RPCs are scoped to the classes a teacher
+  // Since schema §19 the analytics RPCs are scoped to the classes a teacher
   // teaches, and a teacher with no class sees nothing. So the demo has to enrol
   // its cohort or the whole point of seeding it is invisible.
   const classId = await upsertClass({
@@ -581,8 +581,8 @@ async function main() {
     console.log(`✓ class: ${DEMO_CLASS_NAME} — ${members.length} member(s) enrolled`);
   } else {
     console.log(
-      '  note: no `classes` table (database predates schema §14); skipped enrolment.\n' +
-        '        Class Insights will be empty for the demo teacher until §14 is applied.'
+      '  note: no `classes` table (database predates schema §19); skipped enrolment.\n' +
+        '        Class Insights will be empty for the demo teacher until §19 is applied.'
     );
   }
 

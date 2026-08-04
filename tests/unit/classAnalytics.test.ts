@@ -86,7 +86,7 @@ describe('rankByWeakness', () => {
   });
 
   it('reports no mark data as null, not as zero marks lost', () => {
-    // A deployment predating schema §13 returns no avg_mark_frac. Treating that
+    // A deployment predating schema §18 returns no avg_mark_frac. Treating that
     // as 0% lost would paint every row green and rank them as flawless.
     const [row] = rankByWeakness([dim({ label: 'Describe', avg_mark_frac: null })], tierOf);
     expect(row.markLostPct).toBeNull();
@@ -350,7 +350,7 @@ describe('formatLastActive', () => {
 
 
 // ---------------------------------------------------------------------------
-// Per-student cohort breakdown (schema §15)
+// Per-student cohort breakdown (schema §20)
 // ---------------------------------------------------------------------------
 
 const verbRow = (over: Partial<CohortVerbRow>): CohortVerbRow => ({
