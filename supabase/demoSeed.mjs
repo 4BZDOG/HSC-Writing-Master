@@ -203,6 +203,28 @@ const emailFor = (username) => `${username.replace(/\./g, '-')}@demo.invalid`;
  * role runs outside a user JWT so a direct update is the sanctioned server-side
  * path (see supabase/README.md).
  */
+/**
+ * The auth user with this email, or null.
+ *
+ * `createUser` is not idempotent and there is no admin "get by email", so the
+ * only way to recover from an "email already registered" is to page the admin
+ * list. Needed because an auth user CAN exist without a profile: if
+ * `deleteUser` fails during a reset, the profile is dropped and the auth user
+ * survives, and `upsertAccount` looks the account up by profile.
+ */
+const findAuthUserByEmail = async (email) => {
+  const target = email.toLowerCase();
+  for (let page = 1; page <= 20; page++) {
+    const { data, error } = await db.auth.admin.listUsers({ page, perPage: 200 });
+    if (error) throw new Error(`listUsers failed: ${error.message}`);
+    const users = data?.users ?? [];
+    const hit = users.find((u) => (u.email ?? '').toLowerCase() === target);
+    if (hit) return hit;
+    if (users.length < 200) return null; // last page
+  }
+  return null;
+};
+
 const upsertAccount = async ({ username, displayName, role, stripePlan, schoolId, aiQuota }) => {
   const email = emailFor(username);
 
@@ -223,8 +245,23 @@ const upsertAccount = async ({ username, displayName, role, stripePlan, schoolId
       email_confirm: true,
       user_metadata: { username, display_name: displayName },
     });
-    if (error) throw new Error(`createUser(${username}) failed: ${error.message}`);
-    userId = data.user.id;
+    if (error) {
+      // The auth user already exists but has no profile — the state an
+      // interrupted reset leaves behind. Aborting here used to strand the whole
+      // seed at account 1 of 18, with the school row already written and no way
+      // forward but manual SQL. Adopt the existing user instead; the profile
+      // upsert below recreates the missing row.
+      const existing = await findAuthUserByEmail(email);
+      if (!existing) throw new Error(`createUser(${username}) failed: ${error.message}`);
+      console.log(`  note: ${username} had an auth user with no profile; adopting it`);
+      userId = existing.id;
+      const { error: pwErr } = await db.auth.admin.updateUserById(userId, {
+        password: DEMO_ACCOUNT_PASSWORD,
+      });
+      if (pwErr) throw new Error(`resetting ${username} password failed: ${pwErr.message}`);
+    } else {
+      userId = data.user.id;
+    }
   } else {
     // Keep the shared password in step with the env var on a reseed.
     const { error } = await db.auth.admin.updateUserById(userId, {
@@ -382,14 +419,26 @@ const resetDemoData = async (usernames) => {
     const { error } = await db.from(table).delete().in('user_id', ids);
     if (error) throw new Error(`${table} reset failed: ${error.message}`);
   }
-  // Contributions authored by demo accounts (sample answers cascade).
-  await db.from('prompts').delete().in('created_by', ids).neq('status', 'approved');
+  // Contributions authored by demo accounts (sample answers cascade). Checked
+  // like every other write here: unreported, a failure let --reset claim success
+  // while the next run stacked another six contributions on top of the old ones.
+  const { error: promptErr } = await db
+    .from('prompts')
+    .delete()
+    .in('created_by', ids)
+    .neq('status', 'approved');
+  if (promptErr) throw new Error(`prompts reset failed: ${promptErr.message}`);
 
   for (const id of ids) {
     const { error } = await db.auth.admin.deleteUser(id);
-    // A missing auth user with a lingering profile is not fatal — drop the
-    // profile and carry on rather than aborting a reset half-done.
-    if (error) await db.from('profiles').delete().eq('id', id);
+    // Deleting the auth user cascades the profile away. If it fails, drop the
+    // profile so the reset still completes — that leaves a profile-less auth
+    // user, which `upsertAccount` now adopts on the next run rather than
+    // aborting. Either survivable half-state is recoverable.
+    if (error) {
+      console.log(`  note: could not delete auth user ${id} (${error.message}); dropping profile`);
+      await db.from('profiles').delete().eq('id', id);
+    }
   }
   return ids.length;
 };
