@@ -556,7 +556,12 @@ drop policy if exists answers_delete on public.sample_answers;
 create policy answers_delete on public.sample_answers for delete
   using (created_by = auth.uid() or public.is_admin());
 
--- Responses (per-user private data; reviewers may read for analytics)
+-- Responses (per-user private data).
+--
+-- NOTE: this is the BASELINE only. §19 replaces this policy with a class-scoped
+-- one (`can_view_student()`), because the correct rule depends on the `classes`
+-- tables that §19 creates. Read the two together — on its own this clause lets
+-- any teacher read any student's draft, which is not the shipped behaviour.
 drop policy if exists responses_read on public.responses;
 create policy responses_read on public.responses for select
   using (user_id = auth.uid() or public.is_reviewer());
@@ -719,6 +724,17 @@ returns integer language sql stable security definer set search_path = public as
   left join public.ai_quota_limits l on l.role = p.role
   where p.id = p_user;
 $$;
+
+-- Locked down to signed-in callers. These take an ARBITRARY user id, so left open
+-- anyone holding the anon key — which ships in the client bundle — could
+-- enumerate any user's plan or quota by uuid.
+--
+-- `from public, anon` deliberately, not `from public`: Supabase grants EXECUTE to
+-- anon and authenticated explicitly, via ALTER DEFAULT PRIVILEGES at creation
+-- time. Revoking the PUBLIC grant leaves that explicit anon grant untouched and
+-- changes nothing on a real project.
+revoke all on function public.resolve_ai_quota(uuid) from public, anon;
+grant execute on function public.resolve_ai_quota(uuid) to authenticated;
 
 -- Atomically consume one call from the caller's daily budget. The
 -- conditional ON CONFLICT update makes check-and-increment a single
@@ -938,7 +954,8 @@ create index if not exists idx_response_events_prompt on public.response_events 
 
 alter table public.response_events enable row level security;
 
--- Same visibility as responses: your own events, or any for reviewers (analytics).
+-- Same visibility as responses — including the same BASELINE caveat: §19 replaces
+-- this policy with the class-scoped `can_view_student()`.
 drop policy if exists response_events_read on public.response_events;
 create policy response_events_read on public.response_events for select
   using (user_id = auth.uid() or public.is_reviewer());
@@ -1465,8 +1482,12 @@ exception when duplicate_object then null; end $$;
 -- client via the profile's stripe_plan column (cached by the webhook).
 -- `past_due` keeps the plan: Stripe is still retrying the charge (grace
 -- period) — mirrors the webhook's handleSubscriptionUpsert rule.
+-- `set search_path` is not optional on a SECURITY DEFINER function: without it the
+-- caller controls name resolution inside a body running with the owner's rights.
+-- This was the only definer function in the file missing it (Supabase's own
+-- database linter flags it as `function_search_path_mutable`).
 create or replace function public.resolve_stripe_plan(p_user_id uuid)
-returns text language sql stable security definer as $$
+returns text language sql stable security definer set search_path = public as $$
   select coalesce(
     (select s.plan from public.subscriptions s
       where s.user_id = p_user_id
@@ -1476,6 +1497,17 @@ returns text language sql stable security definer as $$
     'free'
   );
 $$;
+
+-- Locked down to signed-in callers. These take an ARBITRARY user id, so left open
+-- anyone holding the anon key — which ships in the client bundle — could
+-- enumerate any user's plan or quota by uuid.
+--
+-- `from public, anon` deliberately, not `from public`: Supabase grants EXECUTE to
+-- anon and authenticated explicitly, via ALTER DEFAULT PRIVILEGES at creation
+-- time. Revoking the PUBLIC grant leaves that explicit anon grant untouched and
+-- changes nothing on a real project.
+revoke all on function public.resolve_stripe_plan(uuid) from public, anon;
+grant execute on function public.resolve_stripe_plan(uuid) to authenticated;
 
 -- Webhook event ledger — makes delivery idempotent.  Stripe guarantees
 -- AT-LEAST-once delivery and no ordering, so the same event can arrive twice
@@ -1615,6 +1647,17 @@ returns boolean language sql stable security definer set search_path = public as
        )
   );
 $$;
+
+-- Locked down to signed-in callers. These take an ARBITRARY user id, so left open
+-- anyone holding the anon key — which ships in the client bundle — could
+-- enumerate any user's plan or quota by uuid.
+--
+-- `from public, anon` deliberately, not `from public`: Supabase grants EXECUTE to
+-- anon and authenticated explicitly, via ALTER DEFAULT PRIVILEGES at creation
+-- time. Revoking the PUBLIC grant leaves that explicit anon grant untouched and
+-- changes nothing on a real project.
+revoke all on function public.has_unlimited_evaluations(uuid) from public, anon;
+grant execute on function public.has_unlimited_evaluations(uuid) to authenticated;
 
 -- Atomically spend one evaluation from the caller's daily free allowance.
 -- Returns { allowed, used, limit, unlimited }.  The conditional ON CONFLICT
@@ -2190,12 +2233,75 @@ begin
   on conflict (class_id, user_id) do update set role = excluded.role;
 end; $$;
 
+-- May the caller read this student's work? The RLS counterpart of
+-- visible_student_ids(), and the fix for a hole this section previously left open.
+--
+-- §19 scoped the three analytics RPCs, but the TABLE policies on `responses` and
+-- `response_events` (§9) still read `user_id = auth.uid() or is_reviewer()`. So
+-- every scoping guarantee in this section applied only to the RPCs: a teacher who
+-- taught no class at all still got the whole `responses` table — draft column
+-- included — from one `supabase.from('responses').select('draft')` in a browser
+-- console, using the anon key that ships in the bundle. On a database holding NSW
+-- student work that is a privacy failure, not a missing feature.
+--
+-- Deliberately NOT `visible_student_ids()`: that function RAISES for a
+-- non-reviewer, and a policy must return false for them, not error. This returns
+-- a plain boolean and never raises, so it is safe to evaluate for every caller
+-- including anon.
+--
+-- SECURITY DEFINER because it reads `class_members`, which is itself RLS-protected
+-- — an invoker-rights version would recurse through that table's own policy.
+create or replace function public.can_view_student(p_user uuid)
+returns boolean language sql stable security definer set search_path = public as $$
+  select
+    p_user = auth.uid()
+    or public.is_admin()
+    or (
+      public.is_reviewer()
+      and exists (
+        select 1
+          from public.class_members sm
+          join public.classes c on c.id = sm.class_id
+         where sm.user_id = p_user
+           and sm.role = 'student'
+           and (
+             c.owner_id = auth.uid()
+             or exists (
+               select 1
+                 from public.class_members t
+                where t.class_id = c.id
+                  and t.user_id = auth.uid()
+                  and t.role = 'co_teacher'
+             )
+           )
+      )
+    );
+$$;
+
+-- Re-scope the two policies §9 created. They are replaced here, rather than
+-- written correctly at §9, because they depend on `classes` and `class_members`
+-- — tables this section creates. §9 states the baseline; this narrows it.
+drop policy if exists responses_read on public.responses;
+create policy responses_read on public.responses for select
+  using (public.can_view_student(user_id));
+
+drop policy if exists response_events_read on public.response_events;
+create policy response_events_read on public.response_events for select
+  using (public.can_view_student(user_id));
+
 revoke all on function public.can_view_class(uuid) from public;
+revoke all on function public.can_view_student(uuid) from public;
 revoke all on function public.visible_student_ids(uuid) from public;
 revoke all on function public.list_my_classes() from public;
 revoke all on function public.create_class(text, text, text, int) from public;
 revoke all on function public.enrol_in_class(uuid, text, text) from public;
-grant execute on function public.can_view_class(uuid) to authenticated;
+-- anon too: this is called from the `classes` and `class_members` RLS policies,
+-- and a policy helper the querying role cannot execute raises instead of
+-- returning false.
+grant execute on function public.can_view_class(uuid) to authenticated, anon;
+-- anon as well: RLS evaluates the policy for every caller, and an anonymous
+-- session must get `false` rather than a permission error.
+grant execute on function public.can_view_student(uuid) to authenticated, anon;
 grant execute on function public.visible_student_ids(uuid) to authenticated;
 grant execute on function public.list_my_classes() to authenticated;
 grant execute on function public.create_class(text, text, text, int) to authenticated;

@@ -548,6 +548,34 @@ begin
   end if;
   raise notice 'PASS: a teacher with no classes sees nothing (fails closed)';
 end $$;
+
+-- The RPCs are not the only way in. Everything above proves the FUNCTIONS are
+-- scoped; none of it proves the TABLES are. That gap is exactly how the original
+-- §19 shipped with `responses_read` still reading
+-- `user_id = auth.uid() or is_reviewer()`: every RPC assertion passed while one
+-- `supabase.from('responses').select('draft')` from a browser console — with the
+-- anon key that ships in the bundle — returned every student's work in the
+-- database. So assert the direct read too.
+do $$
+declare
+  v_rows int;
+  v_draft text;
+  v_events int;
+begin
+  select count(*), max(draft) into v_rows, v_draft from public.responses;
+  if v_rows <> 0 then
+    raise exception
+      'TEST FAILED: class-less teacher read % response row(s) directly from the table; leaked draft: %',
+      v_rows, v_draft;
+  end if;
+  raise notice 'PASS: a class-less teacher reads no responses directly from the table';
+
+  select count(*) into v_events from public.response_events;
+  if v_events <> 0 then
+    raise exception 'TEST FAILED: class-less teacher read % response_events row(s) directly', v_events;
+  end if;
+  raise notice 'PASS: a class-less teacher reads no response_events directly from the table';
+end $$;
 reset role;
 rollback;
 
@@ -769,6 +797,38 @@ begin
       raise notice 'PASS: get_class_cohort refused an unowned class id';
   end;
 end $$;
+
+-- The table policies, as the positive counterpart to the class-less case above:
+-- scoping must narrow the teacher's direct reads to their own students, not
+-- blind them entirely. Teacher A teaches student A and not student B.
+do $$
+declare
+  v_own int;
+  v_other int;
+  v_events int;
+begin
+  select count(*) into v_own from public.responses r
+   where r.user_id = '00000000-0000-0000-0000-0000000000e3';
+  if v_own < 1 then
+    raise exception
+      'TEST FAILED: teacher A cannot read their OWN student''s responses directly (scoping over-tightened)';
+  end if;
+
+  select count(*) into v_other from public.responses r
+   where r.user_id = '00000000-0000-0000-0000-0000000000e4';
+  if v_other <> 0 then
+    raise exception
+      'TEST FAILED: teacher A read % response row(s) belonging to another class''s student', v_other;
+  end if;
+  raise notice 'PASS: direct table reads are narrowed to the caller''s own students';
+
+  select count(*) into v_events from public.response_events e
+   where e.user_id = '00000000-0000-0000-0000-0000000000e4';
+  if v_events <> 0 then
+    raise exception 'TEST FAILED: teacher A read % response_events row(s) of another class', v_events;
+  end if;
+  raise notice 'PASS: response_events reads are narrowed the same way';
+end $$;
 reset role;
 rollback;
 
@@ -794,6 +854,53 @@ reset role;
 rollback;
 
 -- ---- Cleanup ------------------------------------------------------------------
+begin;
+-- SECURITY DEFINER functions that take an ARBITRARY user id must not be reachable
+-- with the anon key, which ships in the client bundle. Each returns information
+-- about whichever uuid you hand it, so a callable one is an enumeration oracle.
+--
+-- This assertion was impossible before: the CI harness blanket-granted EXECUTE on
+-- every public function to anon AFTER schema.sql ran, silently undoing the
+-- schema's own revokes. 01_shim.sql now mirrors Supabase's ALTER DEFAULT
+-- PRIVILEGES instead, which fires at creation time, so a revoke is observable.
+set local role anon;
+do $$
+declare
+  fn text;
+  fns text[] := array[
+    'select public.resolve_ai_quota(''00000000-0000-0000-0000-000000000001''::uuid)',
+    'select public.resolve_stripe_plan(''00000000-0000-0000-0000-000000000001''::uuid)',
+    'select public.has_unlimited_evaluations(''00000000-0000-0000-0000-000000000001''::uuid)'
+  ];
+begin
+  foreach fn in array fns loop
+    begin
+      execute fn;
+      raise exception 'TEST FAILED: anon could execute — %', fn;
+    exception
+      when insufficient_privilege then null;  -- 42501: what we want
+    end;
+  end loop;
+  raise notice 'PASS: anon cannot enumerate quota/plan/allowance by user id';
+end $$;
+reset role;
+rollback;
+
+begin;
+-- The counterpart: the helpers that RLS policies themselves call MUST stay
+-- executable by anon, or querying the table raises instead of returning no rows.
+set local role anon;
+do $$
+begin
+  perform public.can_view_student('00000000-0000-0000-0000-000000000001'::uuid);
+  perform public.can_view_class('00000000-0000-0000-0000-000000000001'::uuid);
+  perform public.is_reviewer();
+  perform public.is_admin();
+  raise notice 'PASS: RLS policy helpers remain callable by anon (they return false, not an error)';
+end $$;
+reset role;
+rollback;
+
 begin;
 -- Deleting the course cascades to its topics/sub_topics/dot_points/prompts;
 -- deleting the auth users cascades to their profiles.
