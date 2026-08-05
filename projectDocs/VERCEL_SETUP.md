@@ -99,6 +99,36 @@ If you've set up Supabase (see `SUPABASE_SETUP.md`), add these too:
 > half-configured deploy fails loudly at launch instead of quietly on the
 > invoice. Add all four and AI calls work again immediately.
 
+### Who may sign in (set these before the URL is public)
+
+These decide who can get an account. **A new account is created as a `student`,
+and a student carries a 60-call daily AI budget spent against your provider
+key** — so a deployment that leaves them unset hands your AI spend to whoever
+finds the URL.
+
+| Variable                     | Value                  | Purpose                                                              |
+| ---------------------------- | ---------------------- | -------------------------------------------------------------------- |
+| `VITE_ALLOWED_EMAIL_DOMAINS` | `education.nsw.gov.au` | Restricts **both** self-registration and SSO to your school's domain |
+| `VITE_ENABLE_SIGNUP`         | `false`                | Removes self-registration entirely (accounts provisioned centrally)  |
+| `VITE_OAUTH_PROVIDERS`       | `azure`                | Which SSO buttons to draw; `none` hides them all                     |
+
+> **`VITE_ALLOWED_EMAIL_DOMAINS` covers both doors, and that is the point.**
+> Restricting sign-up alone restricts nothing: a multi-tenant Entra
+> registration — the account type a school needs so its own students can sign
+> in — accepts any Microsoft work or school account in the world, and Google
+> accepts any Google account. Sub-domains of a listed domain are accepted;
+> look-alikes such as `fakeeducation.nsw.gov.au` are not.
+>
+> On the SSO path this refuses the **session**. The `auth.users` row is created
+> by Supabase before the redirect returns, so it cannot prevent the row — the
+> authoritative control is a **single-tenant** Entra app registration pinned to
+> your tenant. Set both.
+
+> **`VITE_OAUTH_PROVIDERS` must match what you actually enabled** in Supabase
+> (Authentication → Providers). A button for a provider Supabase does not have
+> configured sends the user away and returns an error. A new Supabase project
+> has **none** enabled, so leaving this unset draws three buttons that all fail.
+
 ### Optional — demo mode (no Supabase)
 
 | Variable                | Value  | Purpose                                                                     |
@@ -108,6 +138,18 @@ If you've set up Supabase (see `SUPABASE_SETUP.md`), add these too:
 > **Warning:** Without Supabase, the AI proxy accepts unauthenticated calls —
 > anyone who discovers your deployment URL can use your AI budget. Keep the URL
 > private or configure Supabase for anything beyond personal testing.
+
+### Optional — build behaviour
+
+| Variable           | Value  | Purpose                                                    |
+| ------------------ | ------ | ---------------------------------------------------------- |
+| `BUILD_SOURCEMAPS` | `true` | Emit source maps from the production build. Off by default |
+
+> Leave it off unless you are uploading maps to an error tracker. Everything in
+> `dist/` is published, `.map` files included, at a URL derived from the
+> bundle's own filename — so an emitted map serves your complete TypeScript to
+> anyone who asks for it. If you do switch it on, delete `dist/assets/*.map`
+> after the upload and before the deploy; nothing in the repo does that for you.
 
 ### Important safety rules
 
@@ -140,6 +182,23 @@ If you've set up Supabase (see `SUPABASE_SETUP.md`), add these too:
 4. If you see "AI Service Unavailable", double-check that `GEMINI_API_KEY` is
    set in Vercel's environment variables and **redeploy** (env var changes
    require a new deployment to take effect).
+5. **Prove the AI proxy is closed** (Supabase deployments only):
+
+   ```bash
+   curl -si -X POST https://your-project.vercel.app/api/gemini \
+     -H 'content-type: application/json' -d '{}' | head -1
+   ```
+
+   Expect `401`. A `503` means only the `VITE_` Supabase pair is set — the
+   response body names the two missing variables. A `200` or `400` means no
+   Supabase at all, so the endpoint is open to anyone with the URL.
+
+6. **Check the account rules hold.** With `VITE_ALLOWED_EMAIL_DOMAINS` set, try
+   creating an account with an address outside it — the form should refuse
+   before sending anything. Then request a password reset for a real account
+   and confirm the emailed link lands on "Choose a new password" rather than
+   signing you straight in. If it signs you in, the `?mode=reset` redirect URL
+   is missing from Supabase's allowlist (see `SUPABASE_SETUP.md`).
 
 ---
 

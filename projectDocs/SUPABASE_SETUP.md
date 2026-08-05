@@ -218,8 +218,8 @@ Supabase database so users have content to work with immediately.
    to everyone immediately). The script is safe to re-run — it upserts on
    `legacy_id`, so duplicates are impossible.
 
-> **Security reminder:** The service*role key bypasses all Row-Level Security.
-> Never put it in the app, in a `VITE*` variable, or in a committed file.
+> **Security reminder:** The `service_role` key bypasses all Row-Level Security.
+> Never put it in the app, in a `VITE_`-prefixed variable, or in a committed file.
 
 ---
 
@@ -249,27 +249,50 @@ Three routes, and it is worth deciding which one a class will use:
 
 > **Password reset is self-service.** "Forgot your password?" on the sign-in
 > screen emails a link; the link returns to the app on a dedicated URL and asks
-> for a new password. Two settings make it work — see below. An admin can still
-> reset a password directly (Authentication → Users → the user) when a link
-> never arrives.
+> for a new password. **It needs the redirect URL below to be allowlisted** —
+> see "URL Configuration". An admin can still reset a password directly
+> (Authentication → Users → the user) when a link never arrives.
 
-#### Two settings the reset flow needs
+### URL Configuration — the setting that breaks three flows at once
 
-1. **Redirect URL.** Supabase → **Authentication** → **URL Configuration** →
-   **Redirect URLs**: add your app's URL with the reset marker, e.g.
-   `https://your-app.vercel.app/?mode=reset` (and
-   `http://localhost:3000/?mode=reset` for development). A wildcard such as
-   `https://your-app.vercel.app/**` covers it too. **Without this the link
-   bounces to the Site URL and the user is signed in without ever being asked
-   for a new password.**
-2. **Email template.** The default "Reset password" template works as shipped.
-   If you customise it, keep `{{ .ConfirmationURL }}` — that is what carries
-   the recovery code.
+Supabase → **Authentication** → **URL Configuration**. Everything that sends a
+user away and back — SSO, the sign-up confirmation email, the password-reset
+email — returns through this allowlist. Get it wrong once and all three fail,
+usually silently.
 
-The marker exists because a recovery link and an SSO sign-in come back looking
-identical (both a bare `?code=`). Without something to tell them apart the app
-would consume the recovery as a sign-in, and the reset would appear to do
-nothing at all.
+| Setting           | Value                                                                                              |
+| ----------------- | -------------------------------------------------------------------------------------------------- |
+| **Site URL**      | Your deployed app, including the base path on sub-path hosting: `https://<user>.github.io/<repo>/` |
+| **Redirect URLs** | Every URL the app runs at, **plus the same URLs with `?mode=reset`**                               |
+
+A wildcard covers the lot and is the least error-prone option:
+
+```
+https://your-app.vercel.app/**
+http://localhost:3000/**
+```
+
+Listing them individually works too, but remember the reset variants:
+
+```
+https://your-app.vercel.app/
+https://your-app.vercel.app/?mode=reset
+http://localhost:3000/
+http://localhost:3000/?mode=reset
+```
+
+> **Miss the `?mode=reset` entry and password reset fails in the worst way** —
+> silently. The link falls back to the Site URL, the app treats the arrival as
+> an ordinary sign-in, and the user lands in the app **without ever being asked
+> for a new password**. Nothing errors; the reset simply appears not to have
+> happened.
+>
+> The marker exists because a recovery link and an SSO sign-in come back looking
+> identical — both a bare `?code=`. It is what lets the app tell them apart.
+
+**Email templates.** The shipped defaults work. If you customise the "Confirm
+signup" or "Reset password" templates, keep `{{ .ConfirmationURL }}` — that is
+what carries the code, and a template without it sends a link that cannot work.
 
 ### Disable email confirmation for testing
 
@@ -414,7 +437,7 @@ use the system.
 | Problem                                        | Fix                                                                                                                      |
 | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | Login screen still shows demo accounts         | Check `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` are set and **redeploy**                                          |
-| "Invalid API key" errors                       | Double-check you're using the **anon** key (not the service*role key) for the `VITE*` and non-`VITE\_` env vars          |
+| "Invalid API key" errors                       | Double-check you're using the **anon** key (not the `service_role` key) for both the `VITE_` and unprefixed env vars     |
 | First sign-in works but no profile row appears | The `on_auth_user_created` trigger should handle this — re-run `schema.sql` to ensure the trigger exists                 |
 | Seed script fails with permission errors       | Make sure you're using the **service_role** key (not anon) for `SUPABASE_SERVICE_ROLE_KEY`                               |
 | AI calls return 401                            | You must be logged in; guest sessions cannot make AI calls when Supabase is configured (intentional)                     |
