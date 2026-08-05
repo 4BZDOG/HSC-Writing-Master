@@ -311,6 +311,12 @@ alter table public.responses      enable row level security;
 -- Full profile rows (incl. stats/preferences) are personal data — only the
 -- owner and reviewers (who need authorship context for moderation) can read
 -- them. Nothing in the app needs to browse other users' profiles wholesale.
+--
+-- NOTE: this is the BASELINE only, exactly as for `responses` in §9. §19
+-- replaces this policy with the class-scoped `can_view_student()`, because the
+-- correct rule depends on the `classes` tables that §19 creates. On its own the
+-- clause below lets any teacher enumerate every profile in the database, which
+-- is not the shipped behaviour.
 drop policy if exists profiles_read on public.profiles;
 create policy profiles_read on public.profiles
   for select using (id = auth.uid() or public.is_reviewer());
@@ -2300,9 +2306,10 @@ returns boolean language sql stable security definer set search_path = public as
     );
 $$;
 
--- Re-scope the two policies §9 created. They are replaced here, rather than
--- written correctly at §9, because they depend on `classes` and `class_members`
--- — tables this section creates. §9 states the baseline; this narrows it.
+-- Re-scope the three policies §2/§9 created. They are replaced here, rather than
+-- written correctly there, because they depend on `classes` and `class_members`
+-- — tables this section creates. Those sections state the baseline; this narrows
+-- it.
 drop policy if exists responses_read on public.responses;
 create policy responses_read on public.responses for select
   using (public.can_view_student(user_id));
@@ -2310,6 +2317,24 @@ create policy responses_read on public.responses for select
 drop policy if exists response_events_read on public.response_events;
 create policy response_events_read on public.response_events for select
   using (public.can_view_student(user_id));
+
+-- `profiles` is the same bug as `responses` was, one table over. §2 left the
+-- read policy at `id = auth.uid() or is_reviewer()`, so a teacher who taught no
+-- class could `supabase.from('profiles').select('username, display_name')` and
+-- get every account in the database. That is not a roster of ids: `username`
+-- defaults to the email local part (see handle_new_user), so on a NSW DoE
+-- deployment it is `firstname.lastname` for every student in the school —
+-- reconstructible back to an @education.nsw.gov.au address, alongside the
+-- display name, preferences and stats.
+--
+-- Narrowing this is safe because nothing reads another user's profile through
+-- RLS: every client query in services/authService.ts is `.eq('id', <caller>)`,
+-- and the paths that DO need a wider view — enrol_in_class()'s username lookup,
+-- the analytics roster joins, agreement_acceptance_report() — are all SECURITY
+-- DEFINER and bypass this policy entirely.
+drop policy if exists profiles_read on public.profiles;
+create policy profiles_read on public.profiles for select
+  using (public.can_view_student(id));
 
 revoke all on function public.can_view_class(uuid) from public;
 revoke all on function public.can_view_student(uuid) from public;

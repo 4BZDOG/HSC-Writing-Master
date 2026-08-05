@@ -576,6 +576,39 @@ begin
   end if;
   raise notice 'PASS: a class-less teacher reads no response_events directly from the table';
 end $$;
+
+-- `profiles` was the same hole, one table over, and it outlived the first fix
+-- for exactly the same reason: the assertions above name `responses` and
+-- `response_events` specifically, so nothing failed when `profiles_read` stayed
+-- at `id = auth.uid() or is_reviewer()`. A class-less teacher could still run
+-- `supabase.from('profiles').select('username, display_name')` and get every
+-- account in the database — and `username` defaults to the email local part, so
+-- on a NSW DoE deployment that is `firstname.lastname` for the whole school.
+do $$
+declare
+  v_rows int;
+  v_names text;
+  v_self int;
+begin
+  select count(*), string_agg(username, ', ')
+    into v_rows, v_names
+    from public.profiles where id <> auth.uid();
+  if v_rows <> 0 then
+    raise exception
+      'TEST FAILED: class-less teacher read % other profile(s) directly; leaked usernames: %',
+      v_rows, v_names;
+  end if;
+  raise notice 'PASS: a class-less teacher reads no other profiles directly from the table';
+
+  -- Fail-closed must not mean fail-blind: the caller still needs their own row,
+  -- or sign-in cannot resolve a role and every session degrades to a student.
+  select count(*) into v_self from public.profiles where id = auth.uid();
+  if v_self <> 1 then
+    raise exception
+      'TEST FAILED: a teacher cannot read their OWN profile (% rows) — sign-in would break', v_self;
+  end if;
+  raise notice 'PASS: the caller can still read their own profile';
+end $$;
 reset role;
 rollback;
 
@@ -828,6 +861,22 @@ begin
     raise exception 'TEST FAILED: teacher A read % response_events row(s) of another class', v_events;
   end if;
   raise notice 'PASS: response_events reads are narrowed the same way';
+
+  -- ...and `profiles` on the same rule: teacher A sees student A, not student B.
+  select count(*) into v_own from public.profiles
+   where id = '00000000-0000-0000-0000-0000000000e3';
+  if v_own < 1 then
+    raise exception
+      'TEST FAILED: teacher A cannot read their OWN student''s profile (scoping over-tightened)';
+  end if;
+
+  select count(*) into v_other from public.profiles
+   where id = '00000000-0000-0000-0000-0000000000e4';
+  if v_other <> 0 then
+    raise exception
+      'TEST FAILED: teacher A read the profile of another class''s student';
+  end if;
+  raise notice 'PASS: profile reads are narrowed to the caller''s own students';
 end $$;
 reset role;
 rollback;

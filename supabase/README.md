@@ -327,6 +327,17 @@ aggregate, by class id or by username; a class-less teacher sees nothing; a
 student cannot enumerate a cohort or create a class; and an admin keeps the
 system-wide view.
 
+**The RPCs are not the only way in.** Scoping a function does nothing if the
+table it reads is still readable directly — a `supabase.from(...).select(...)`
+in a browser console, with the anon key that ships in the bundle, skips every
+RPC gate. So §19 also re-scopes three table policies onto `can_view_student()`:
+`responses`, `response_events` and `profiles`. `profiles` matters more than it
+looks: `username` defaults to the email local part, so an unscoped read hands a
+teacher `firstname.lastname` for every account in the database. Each of the
+three has both a negative and a positive assertion in the test file, made
+against the table rather than through an RPC — the omission that let the first
+two ship unscoped.
+
 ### Seeing a student, not just a cohort
 
 `get_class_analytics()` answers "where is the class weak" but averages across
