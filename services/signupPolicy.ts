@@ -126,3 +126,25 @@ export const validateSignup = (input: {
 
 export const hasSignupErrors = (errors: SignupFieldErrors): boolean =>
   Object.values(errors).some(Boolean);
+
+/**
+ * Validate a new password being SET (the last step of a reset), which is the
+ * sign-up rules minus the email.
+ *
+ * Deliberately the same function shape and the same mismatch-before-length
+ * ordering, because a password that is acceptable when you register and
+ * rejected when you reset — or vice versa — is the kind of inconsistency people
+ * report as "it won't let me back in".
+ */
+export const validateNewPassword = (input: {
+  password: string;
+  confirmPassword: string;
+}): SignupFieldErrors => {
+  const { password, confirmPassword } = validateSignup({
+    email: 'placeholder@example.com',
+    password: input.password,
+    confirmPassword: input.confirmPassword,
+    allowedDomains: [],
+  });
+  return { ...(password ? { password } : {}), ...(confirmPassword ? { confirmPassword } : {}) };
+};

@@ -236,7 +236,7 @@ Three routes, and it is worth deciding which one a class will use:
   `profiles` row automatically. Nobody provisions anything, and there are no
   passwords to reset.
 - **By hand** — Supabase dashboard → **Authentication** → **Users** → **Add
-  user**.
+  user**. Also where you reset a password for someone whose link never arrives.
 
 > **Restrict who may get an account — on both routes.** A new account is
 > created as a `student`, and a student carries a 60-call daily AI budget spent
@@ -247,10 +247,29 @@ Three routes, and it is worth deciding which one a class will use:
 > school account in the world. `VITE_ENABLE_SIGNUP=false` removes
 > self-registration entirely where accounts are provisioned centrally.
 
-> **There is still no password reset in the app.** A user who forgets their
-> password cannot recover it themselves — an admin resets it in the Supabase
-> dashboard (Authentication → Users → the user → Reset password). Decide who
-> holds that job before a class depends on it.
+> **Password reset is self-service.** "Forgot your password?" on the sign-in
+> screen emails a link; the link returns to the app on a dedicated URL and asks
+> for a new password. Two settings make it work — see below. An admin can still
+> reset a password directly (Authentication → Users → the user) when a link
+> never arrives.
+
+#### Two settings the reset flow needs
+
+1. **Redirect URL.** Supabase → **Authentication** → **URL Configuration** →
+   **Redirect URLs**: add your app's URL with the reset marker, e.g.
+   `https://your-app.vercel.app/?mode=reset` (and
+   `http://localhost:3000/?mode=reset` for development). A wildcard such as
+   `https://your-app.vercel.app/**` covers it too. **Without this the link
+   bounces to the Site URL and the user is signed in without ever being asked
+   for a new password.**
+2. **Email template.** The default "Reset password" template works as shipped.
+   If you customise it, keep `{{ .ConfirmationURL }}` — that is what carries
+   the recovery code.
+
+The marker exists because a recovery link and an SSO sign-in come back looking
+identical (both a bare `?code=`). Without something to tell them apart the app
+would consume the recovery as a sign-in, and the reset would appear to do
+nothing at all.
 
 ### Disable email confirmation for testing
 

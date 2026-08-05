@@ -2,6 +2,43 @@
 
 ## [Unreleased] - 2026-08-05
 
+### ✨ Self-service password reset
+
+The last gap in the auth story. "Forgot your password?" on the sign-in screen
+emails a link; the link returns to a screen that asks for a new password and
+signs the user in once it is set.
+
+- **The link had to be told apart from an SSO sign-in.** Under PKCE a recovery
+  return and an OAuth return are both a bare `?code=` — indistinguishable. The
+  app would have consumed the recovery as a sign-in, logging the user straight
+  in and never showing the form, so "reset my password" would appear to do
+  nothing at all. The reset email therefore carries its own marker
+  (`?mode=reset`) and detection is a URL read, not a race between
+  `PASSWORD_RECOVERY` and `SIGNED_IN`. `handleOAuthCallback` refuses a recovery
+  return as a backstop.
+- **The confirmation does not reveal whether an account exists.** Supabase
+  returns success for an unknown address on purpose; "no account with that
+  email" would turn the form into a way to discover who has one, which here is a
+  roster of students. The panel says "if an account exists for …", and there is
+  a test pinning that wording. A rate limit is the one failure surfaced, because
+  it is the one the user can act on.
+- **The allowlist is deliberately NOT applied to a reset request.** An account
+  created before the allowlist was set can still sign in with its password, so
+  refusing to reset it would lock out the one person the feature exists for.
+  There is no relay risk: Supabase sends nothing to an address with no account.
+- **Cancelling signs out.** The link establishes a session before the user
+  chooses anything, so on a shared computer walking away would leave whoever
+  opened the email signed in.
+- Expired and already-used links — much the commonest failure, and the one whose
+  native wording explains nothing — say so and point back to the sign-in screen.
+- The new-password rules are the sign-up rules, shared rather than restated: a
+  password accepted at registration and refused at reset is the sort of
+  inconsistency people report as "it will not let me back in".
+- Two Supabase settings are required, and both are now documented where someone
+  configuring a deployment will meet them: the `?mode=reset` redirect URL must
+  be on the allowlist, or the link lands on the Site URL and signs the user in
+  without asking for anything.
+
 ### 🔒 Closed the two SSO gaps self-registration exposed
 
 Adding a domain allowlist to sign-up made it obvious that the SSO path had none,
@@ -61,8 +98,8 @@ so every account had to be hand-made in the Supabase dashboard. There is now a
 - Password fields carry `autocomplete="new-password"` so a password manager
   offers to generate one instead of filling in the old one — the shared
   `InputField` had `current-password` hard-coded for every password input.
-- Still **no password reset**: a user who forgets one needs an admin to reset it
-  in the Supabase dashboard. SSO remains the way to avoid the problem entirely.
+- Password reset landed alongside this (see above), so the account lifecycle is
+  now self-service end to end for password accounts.
 
 ### 🔒 The §19 class-scoping hole, one table over
 

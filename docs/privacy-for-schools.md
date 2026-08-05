@@ -158,18 +158,17 @@ student work.** It exists for evaluating the app with test content.
    Kimi K3 as a separate approval (China-operated).
 4. **AI provider terms** — confirm the selected provider's current API terms
    cover no-training-on-content for your usage tier.
-5. **Accounts** — decide how people get one, because the app has **no
-   self-registration or password-reset form** of its own. There are two
-   working routes:
+5. **Accounts** — decide how people get one. There are two working routes:
    - **Single sign-on (recommended).** Enable a provider in Supabase
      (Authentication → Providers) and set `VITE_OAUTH_PROVIDERS` to match. For
      a NSW DoE school that is Microsoft — everyone already holds an
      `@education.nsw.gov.au` Entra account, so signing in provisions the
      profile on first use, there are no passwords for the school to manage or
      reset, and access follows the Department's own account lifecycle.
-   - **Email and password.** An admin creates each account in the Supabase
-     dashboard and resets passwords there. Workable for a single class, and
-     the thing to plan around at a year rollover.
+   - **Email and password.** Users can register themselves and reset their own
+     password from the sign-in screen (both send a confirmation email), or an
+     admin creates accounts in the Supabase dashboard. Restrict who may
+     register with `VITE_ALLOWED_EMAIL_DOMAINS`.
 
    Either way, decide who holds the teacher/admin roles and who a locked-out
    student contacts.

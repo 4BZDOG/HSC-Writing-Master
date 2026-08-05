@@ -346,10 +346,9 @@ all three.
 For a NSW DoE school this is normally `VITE_OAUTH_PROVIDERS=azure`: everyone
 already holds an `@education.nsw.gov.au` Entra account, so Microsoft sign-in
 provisions them on first use and there are no passwords for the school to
-manage or reset. SSO also sidesteps password resets entirely, which matters because the app
-has **no password-reset form of its own** — a user who forgets one needs an
-admin to reset it in the Supabase dashboard. Self-registration exists (see
-below), but it does not solve that.
+manage or reset. SSO also sidesteps passwords entirely — nothing to forget and nothing to
+reset. The app does have its own reset flow (below) for password accounts, but
+with Entra the Department already owns the credential.
 
 ### 1. Enable the provider in Supabase
 
@@ -384,7 +383,11 @@ Supabase dashboard → **Authentication → URL Configuration**:
 - **Site URL**: your deployed app URL — _including the base path_ on GitHub
   Pages, e.g. `https://<user>.github.io/<repo>/`.
 - **Redirect URLs**: add every URL the app runs at (production, Pages,
-  `http://localhost:3000` for development).
+  `http://localhost:3000` for development), **and the same URLs with
+  `?mode=reset`** — that is where a password-reset email returns. A wildcard
+  (`https://your-app.vercel.app/**`) covers both. Miss it and the reset link
+  lands on the Site URL instead, signing the user in without ever asking for a
+  new password.
 
 The app sends users back to `origin + base path` after sign-in; if that URL
 is not in this allowlist, Supabase falls back to the Site URL.

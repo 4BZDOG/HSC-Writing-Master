@@ -10,6 +10,7 @@ import GlobalLoadingOverlay from './components/GlobalLoadingOverlay';
 import AppModals from './components/AppModals';
 import UpgradeModal from './components/UpgradeModal';
 import LoginPage from './components/LoginPage';
+import ResetPasswordPage from './components/ResetPasswordPage';
 import UserAgreementModal from './components/UserAgreementModal';
 import ContentAuditModal from './components/admin/ContentAuditModal';
 import ReviewQueueModal from './components/admin/ReviewQueueModal';
@@ -1111,6 +1112,7 @@ const App: React.FC = () => {
   const apiStatus = useApiStatus();
   const [user, setUser] = useState<User | null>(null);
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
+  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
   // Guests are shown the charter as a courtesy notice they can wave away; this
   // remembers that they did, for the session. Signed-in users are gated
   // instead, and their acceptance is recorded on the account.
@@ -1212,6 +1214,17 @@ const App: React.FC = () => {
   }, [showToast]);
 
   useEffect(() => {
+    // A password-recovery return is checked FIRST, ahead of both branches
+    // below. The link signs the user in before they choose anything, so a
+    // cached session would send them into the app and a `?code=` would be
+    // consumed as an OAuth sign-in — either way they would never see the form
+    // they asked for, and the reset would appear to do nothing.
+    if (authService.isPasswordRecovery()) {
+      setIsPasswordRecovery(true);
+      setIsLoadingAuth(false);
+      return;
+    }
+
     const storedUser = authService.getCurrentUser();
     if (storedUser) {
       loadUserProfile(storedUser.username)
@@ -1257,6 +1270,26 @@ const App: React.FC = () => {
   }, []);
 
   if (isLoadingAuth) return null;
+
+  if (isPasswordRecovery) {
+    return (
+      <div className="min-h-screen relative z-10 selection:bg-indigo-500/30 selection:text-white">
+        <AnimatedBackground />
+        <ResetPasswordPage
+          onComplete={(u) => {
+            setIsPasswordRecovery(false);
+            setUser(u);
+            showToast('Password updated. You are signed in.', 'success');
+          }}
+          onCancel={() => {
+            void authService.cancelPasswordRecovery();
+            setIsPasswordRecovery(false);
+            setUser(null);
+          }}
+        />
+      </div>
+    );
+  }
 
   // The agreement gate. A signed-in user who has not accepted the current
   // version sees ONLY the agreement — the workspace is not rendered at all,

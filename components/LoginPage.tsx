@@ -214,7 +214,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [error, setError] = useState<string | null>(null);
   const [oauthLoading, setOauthLoading] = useState<Provider | null>(null);
 
-  const [mode, setMode] = useState<'signin' | 'signup'>('signin');
+  const [mode, setMode] = useState<'signin' | 'signup' | 'reset'>('signin');
+  const [resetSentTo, setResetSentTo] = useState<string | null>(null);
   const [confirmPassword, setConfirmPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [fieldErrors, setFieldErrors] = useState<SignupFieldErrors>({});
@@ -229,8 +230,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   // way of reading first is the thing everyone hates about consent dialogs.
   const [isLegalOpen, setIsLegalOpen] = useState(false);
 
-  /** Clear everything transient when moving between sign in and sign up. */
-  const switchMode = (next: 'signin' | 'signup') => {
+  /** Clear everything transient when moving between modes. */
+  const switchMode = (next: 'signin' | 'signup' | 'reset') => {
     setMode(next);
     setError(null);
     setFieldErrors({});
@@ -238,6 +239,28 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     setPasswordError(false);
     setPassword('');
     setConfirmPassword('');
+  };
+
+  const handleResetRequest = async () => {
+    setError(null);
+    const email = username.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setFieldErrors({ email: 'Enter the email address on the account.' });
+      return;
+    }
+    setFieldErrors({});
+    setIsLoading(true);
+    try {
+      await authService.requestPasswordReset(email);
+      // Shown whether or not an account exists — see requestPasswordReset. The
+      // wording is careful for that reason: it must not become a way to find
+      // out who has an account here.
+      setResetSentTo(email);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not send the reset email.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSignup = async () => {
@@ -272,6 +295,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     e.preventDefault();
     if (mode === 'signup') {
       await handleSignup();
+      return;
+    }
+    if (mode === 'reset') {
+      await handleResetRequest();
       return;
     }
     setError(null);
@@ -372,7 +399,43 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           <MeshOverlay opacity="opacity-[0.04] light:opacity-[0.06]" />
 
           <div className="p-10 relative z-10">
-            {confirmationSentTo ? (
+            {resetSentTo ? (
+              /* Deliberately does NOT say whether an account exists — see
+                 authService.requestPasswordReset. "No account with that email"
+                 turns this form into a way to discover who has one, and here
+                 that is a roster of students. */
+              <div className="space-y-5 animate-fade-in" data-testid="reset-sent">
+                <div className="w-14 h-14 rounded-2xl bg-emerald-500/15 border-2 border-emerald-500/30 flex items-center justify-center">
+                  <MailCheck className="w-7 h-7 text-emerald-400" />
+                </div>
+                <h2 className="text-xl font-bold text-white light:text-slate-900">
+                  Check your email
+                </h2>
+                <p className="text-sm text-slate-400 light:text-slate-600 leading-relaxed">
+                  If an account exists for{' '}
+                  <span className="font-bold text-slate-200 light:text-slate-800">
+                    {resetSentTo}
+                  </span>
+                  , a link to set a new password is on its way. It expires shortly and can only be
+                  used once.
+                </p>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  Nothing arrived? Check the junk folder, and confirm you typed the address you
+                  signed up with. School mail filters are often the culprit — an administrator can
+                  reset the password directly if the link never lands.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setResetSentTo(null);
+                    switchMode('signin');
+                  }}
+                  className="w-full py-4 rounded-2xl font-bold text-sm uppercase tracking-widest text-white bg-indigo-600 hover:bg-indigo-500 shadow-xl shadow-indigo-900/40 active:scale-[0.98] transition-all flex items-center justify-center gap-3 border-2 border-white/10 hover:border-white/20"
+                >
+                  Back to sign in <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            ) : confirmationSentTo ? (
               /* The account exists but is inert until the emailed link is
                  followed. Say exactly that — "check your email" without
                  saying why leaves people retrying the form. */
@@ -408,6 +471,18 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-7">
+                {mode === 'reset' && (
+                  <div className="space-y-2">
+                    <h2 className="text-lg font-bold text-white light:text-slate-900">
+                      Reset your password
+                    </h2>
+                    <p className="text-xs text-slate-400 light:text-slate-600 leading-relaxed">
+                      Enter the email address on your account and we will send you a link to set a
+                      new password.
+                    </p>
+                  </div>
+                )}
+
                 {mode === 'signup' && (
                   <InputField
                     id="displayName"
@@ -445,7 +520,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                   )}
                 </div>
 
-                <div>
+                <div className={mode === 'reset' ? 'hidden' : undefined}>
                   <InputField
                     id="password"
                     label="Password"
@@ -503,23 +578,58 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                     <Loader2 className="w-5 h-5 animate-spin" />
                   ) : (
                     <>
-                      {mode === 'signup' ? 'Create Account' : 'Sign In'}{' '}
+                      {mode === 'signup'
+                        ? 'Create Account'
+                        : mode === 'reset'
+                          ? 'Send reset link'
+                          : 'Sign In'}{' '}
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
                     </>
                   )}
                 </button>
 
-                {SIGNUP_AVAILABLE && (
+                {mode === 'reset' ? (
                   <p className="text-center text-xs text-slate-400 light:text-slate-600">
-                    {mode === 'signin' ? "Don't have an account? " : 'Already have an account? '}
+                    Remembered it?{' '}
                     <button
                       type="button"
-                      onClick={() => switchMode(mode === 'signin' ? 'signup' : 'signin')}
+                      onClick={() => switchMode('signin')}
                       className="font-bold text-indigo-400 hover:text-indigo-300 underline underline-offset-2"
                     >
-                      {mode === 'signin' ? 'Create one' : 'Sign in'}
+                      Back to sign in
                     </button>
                   </p>
+                ) : (
+                  <div className="space-y-3">
+                    {/* Password sign-in only. There is nothing to reset on a mock
+                        deployment, and an SSO account's password lives with the
+                        identity provider, not here. */}
+                    {mode === 'signin' && isSupabaseConfigured && (
+                      <p className="text-center text-xs text-slate-400 light:text-slate-600">
+                        <button
+                          type="button"
+                          onClick={() => switchMode('reset')}
+                          className="font-bold text-indigo-400 hover:text-indigo-300 underline underline-offset-2"
+                        >
+                          Forgot your password?
+                        </button>
+                      </p>
+                    )}
+                    {SIGNUP_AVAILABLE && (
+                      <p className="text-center text-xs text-slate-400 light:text-slate-600">
+                        {mode === 'signin'
+                          ? "Don't have an account? "
+                          : 'Already have an account? '}
+                        <button
+                          type="button"
+                          onClick={() => switchMode(mode === 'signin' ? 'signup' : 'signin')}
+                          className="font-bold text-indigo-400 hover:text-indigo-300 underline underline-offset-2"
+                        >
+                          {mode === 'signin' ? 'Create one' : 'Sign in'}
+                        </button>
+                      </p>
+                    )}
+                  </div>
                 )}
               </form>
             )}

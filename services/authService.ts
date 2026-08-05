@@ -305,6 +305,68 @@ const applyOnboardingState = async (
   }
 };
 
+/**
+ * Marker appended to the password-reset return URL.
+ *
+ * Under PKCE a recovery link and an OAuth sign-in are indistinguishable on
+ * arrival — both are a bare `?code=`. Rather than race `PASSWORD_RECOVERY`
+ * against `SIGNED_IN` and hope, the reset email carries its own query flag.
+ */
+export const PASSWORD_RESET_QUERY = '?mode=reset';
+
+/**
+ * Strip credential fragments and the reset marker from the address bar, so a
+ * refresh or a copied URL does not carry a token (or re-enter the reset flow).
+ */
+const clearAuthRedirectParams = (): void => {
+  try {
+    if (typeof window === 'undefined') return;
+    if (
+      /access_token=|refresh_token=|[?&]code=|mode=reset|type=recovery/.test(
+        window.location.hash + window.location.search
+      )
+    ) {
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  } catch {
+    // Non-fatal: a blocked history write leaves a messy URL, nothing worse.
+  }
+};
+
+/**
+ * Turn an authenticated Supabase user into the app's `User`, applying
+ * everything a session is expected to carry: profile row, streak, school plan,
+ * onboarding state, and the localStorage cache the UI reads on next load.
+ *
+ * Shared by the OAuth callback and the password-reset completion. Both hold a
+ * session and no password, so neither can go through `supabaseLogin` — and a
+ * second hand-rolled copy of this sequence is exactly how one of them ends up
+ * quietly missing the school plan or the agreement state.
+ */
+const hydrateSessionUser = async (authUser: { id: string; email?: string }): Promise<User> => {
+  let profile: ProfileRow | null = null;
+  let profileReadOk = true;
+  try {
+    profile = await fetchProfile(authUser.id);
+  } catch {
+    // Transient read failure: continue with session defaults, but do NOT write
+    // those defaults back over the real row.
+    profileReadOk = false;
+  }
+
+  let user = mapProfileToUser(authUser.email ?? '', profile);
+  user.stats = calculateStreak(user.stats);
+  user = await applySchoolPlan(authUser.id, user);
+  user = await applyOnboardingState(authUser.id, user, authService.getCurrentUser());
+
+  if (profileReadOk) {
+    await persistProfileState(authUser.id, user);
+  }
+
+  safeSetItem(STORAGE_KEYS.AUTH_USER, user);
+  return user;
+};
+
 const supabaseLogin = async (email: string, password: string): Promise<User> => {
   const client = supabase!;
   const { data, error } = await client.auth.signInWithPassword({ email, password });
@@ -504,6 +566,114 @@ export const authService = {
     return { status: 'active', user: await supabaseLogin(trimmedEmail, password) };
   },
 
+  /**
+   * Ask Supabase to email a password-reset link.
+   *
+   * Resolves the same way whether or not an account exists, and the UI says so.
+   * Supabase does not report unknown addresses on purpose — "no account with
+   * that email" turns a login form into a tool for discovering who has one, and
+   * on a school deployment that is a roster of students. The caller must not
+   * add the distinction back.
+   *
+   * NOT gated on the email-domain allowlist, deliberately. An account created
+   * before the allowlist was set (or by an admin, outside it) can still sign in
+   * with its password, so refusing to reset that password would lock out the
+   * one person the feature exists for. There is no relay risk in being open
+   * here: Supabase sends nothing to an address that has no account.
+   */
+  requestPasswordReset: async (email: string): Promise<void> => {
+    if (!isSupabaseConfigured || !supabase) {
+      throw new Error('Password reset requires Supabase to be configured on this deployment.');
+    }
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      // A DEDICATED return URL. The recovery link comes back carrying the same
+      // `?code=` as an OAuth sign-in, so without a marker of its own the app
+      // cannot tell them apart and would silently sign the user in — never
+      // showing the form they asked for. `?mode=reset` makes it unambiguous
+      // with no event-race. Add this URL to Supabase → Authentication → URL
+      // Configuration → Redirect URLs.
+      redirectTo: `${window.location.origin}${import.meta.env.BASE_URL ?? '/'}${PASSWORD_RESET_QUERY}`,
+    });
+    // A rate limit is worth surfacing — it is the one failure the user can act
+    // on (wait). Everything else stays quiet so the response cannot be used to
+    // probe for accounts.
+    if (error && /rate limit|too many/i.test(error.message)) {
+      throw new Error('Too many reset emails requested. Wait a minute and try again.');
+    }
+  },
+
+  /**
+   * Is the browser sitting on a password-recovery return?
+   *
+   * Reads the URL only — no awaiting, no racing an auth event. That is the
+   * whole reason `requestPasswordReset` sends a marked redirect: under PKCE a
+   * recovery link and an OAuth sign-in both come back as a bare `?code=`, and
+   * telling them apart by waiting to see which auth event fires first is a race
+   * this does not need to run. `type=recovery` is also accepted, which is what
+   * the implicit flow puts in the hash.
+   */
+  isPasswordRecovery: (): boolean => {
+    if (!isSupabaseConfigured || typeof window === 'undefined') return false;
+    const url = `${window.location.search}${window.location.hash}`;
+    return url.includes(PASSWORD_RESET_QUERY) || /[#&?]type=recovery\b/.test(url);
+  },
+
+  /**
+   * Set the new password, using the session the recovery link established.
+   *
+   * Returns the signed-in user: proving control of the mailbox IS the
+   * authentication, so bouncing them back to the login form to type the
+   * password they just chose adds a step and no security.
+   */
+  completePasswordReset: async (newPassword: string): Promise<User> => {
+    if (!isSupabaseConfigured || !supabase) {
+      throw new Error('Password reset requires Supabase to be configured.');
+    }
+
+    const { data, error } = await supabase.auth.updateUser({ password: newPassword });
+
+    if (error) {
+      // The common case by far, and the one whose default wording explains
+      // nothing: recovery links are single-use and short-lived, so a link
+      // opened twice, or tomorrow, arrives with no session behind it.
+      if (/session|jwt|token|expired|not authenticated/i.test(error.message)) {
+        throw new Error(
+          'That reset link has expired or has already been used. Request a new one from the sign-in page.'
+        );
+      }
+      if (/should be different|same as the old/i.test(error.message)) {
+        throw new Error('Choose a password you have not used on this account before.');
+      }
+      throw new Error(error.message);
+    }
+    if (!data.user) {
+      throw new Error(
+        'That reset link has expired or has already been used. Request a new one from the sign-in page.'
+      );
+    }
+
+    clearAuthRedirectParams();
+    return hydrateSessionUser(data.user);
+  },
+
+  /**
+   * Abandon a recovery without setting a password.
+   *
+   * The link signs the user in to Supabase before they choose anything, so
+   * simply navigating away would leave a live session belonging to whoever
+   * opened the email — on a shared computer, not necessarily the account
+   * holder. Backing out has to sign out.
+   */
+  cancelPasswordRecovery: async (): Promise<void> => {
+    if (isSupabaseConfigured && supabase) {
+      await supabase.auth.signOut().catch(() => {});
+    }
+    if (typeof window !== 'undefined') {
+      window.localStorage.removeItem(STORAGE_KEYS.AUTH_USER);
+    }
+    clearAuthRedirectParams();
+  },
+
   loginAsGuest: async (): Promise<User> => {
     await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -557,6 +727,13 @@ export const authService = {
 
   handleOAuthCallback: async (): Promise<User | null> => {
     if (!isSupabaseConfigured || !supabase) return null;
+
+    // A recovery return carries the same `?code=` as an OAuth sign-in. If this
+    // consumed it the user would be signed straight in and never shown the form
+    // they asked for — the reset would appear to do nothing. App.tsx checks
+    // isPasswordRecovery() first; this is the backstop for any caller that does
+    // not.
+    if (authService.isPasswordRecovery()) return null;
 
     // supabase-js processes the provider redirect (URL hash tokens or PKCE
     // ?code exchange) ASYNCHRONOUSLY after the client is created. On a fast
@@ -622,37 +799,9 @@ export const authService = {
       );
     }
 
-    let profile: ProfileRow | null = null;
-    let profileReadOk = true;
-    try {
-      profile = await fetchProfile(authUser.id);
-    } catch {
-      profileReadOk = false;
-    }
+    const user = await hydrateSessionUser(authUser);
 
-    let user = mapProfileToUser(authUser.email ?? '', profile);
-    user.stats = calculateStreak(user.stats);
-    user = await applySchoolPlan(authUser.id, user);
-    user = await applyOnboardingState(authUser.id, user, authService.getCurrentUser());
-
-    if (profileReadOk) {
-      await persistProfileState(authUser.id, user);
-    }
-
-    safeSetItem(STORAGE_KEYS.AUTH_USER, user);
-
-    // Clear leftover token/code fragments so a refresh or copied URL doesn't
-    // carry credentials. (supabase-js strips the hash itself in most flows,
-    // but not the PKCE ?code param.)
-    try {
-      if (
-        /access_token=|refresh_token=|[?&]code=/.test(window.location.hash + window.location.search)
-      ) {
-        window.history.replaceState({}, '', window.location.pathname);
-      }
-    } catch {
-      /* cosmetic only */
-    }
+    clearAuthRedirectParams();
 
     return user;
   },
