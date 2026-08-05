@@ -64,30 +64,61 @@ Run specific test file:
 npx playwright test tests/e2e/evaluation-flow.spec.ts
 ```
 
-### All Tests
-
-Run unit tests + E2E tests + coverage:
+### The pre-push gate
 
 ```bash
 npm run test:all
 ```
 
+This is **lint + unit tests + type-check** — not E2E, not coverage, and not the
+SQL suites below. Run it before pushing; run the others when the change touches
+what they cover.
+
 ## Test Files
 
 ### Unit Tests
 
-Located in `tests/unit/`:
-
-- `errorHandler.test.ts` — Error categorization and user-friendly messages
-- `dataCloneUtils.test.ts` — Performance-optimized cloning utilities
-- `safeJsonParse.test.ts` — Robust JSON parsing from AI responses
-- `idbTransactions.test.ts` — IndexedDB transaction management
+Located in `tests/unit/` — over a hundred files, so they are not listed here;
+`ls tests/unit` is the index. Names match what they cover
+(`safeJsonParse.test.ts`, `proxyAuth.test.ts`, `buildSourcemaps.test.ts`).
+`npm run test -- <substring>` runs a subset.
 
 ### E2E Tests
 
-Located in `tests/e2e/`:
+Located in `tests/e2e/`, run against a real dev server across several browser
+projects (see `playwright.config.ts`; `PW_FAST` narrows them for a PR). Specs
+that need a backend intercept Supabase and AI requests with deterministic fakes
+rather than hitting anything real — `contribution-loop` runs against a second,
+Supabase-configured dev server for that reason.
 
-- `evaluation-flow.spec.ts` — Critical workflows (evaluate answer, improve, error handling)
+- `evaluation-flow.spec.ts` — evaluate an answer, improve it, handle errors
+- `contribution-loop.spec.ts` — submit → review queue → approve, end to end
+- `class-analytics-ranking.spec.ts` — cohort weakness ranked on marks
+- `agreement-gate.spec.ts` — the user agreement blocks use until accepted
+- `modal-scroll.spec.ts`, `workspace-chrome.spec.ts` — UI regressions
+
+### Database Tests (SQL, against real Postgres)
+
+`npm run test:all` does **not** run these — they need a database, and CI runs
+them in their own job (`.github/workflows/build.yml`) against a Postgres
+container, applying the compat shim, `schema.sql` and the test grants first.
+Both files are also safe to paste into a Supabase SQL Editor: every block runs
+in its own transaction and rolls back.
+
+- `supabase/tests/rls_negative_tests.sql` — proves the authorisation boundaries
+  hold rather than merely looking right. A privileged action that _succeeds_
+  raises and aborts the run, so run it with `psql -v ON_ERROR_STOP=1`.
+- `supabase/tests/entitlement_tests.sql` — plan gating and quota enforcement.
+- `supabase/tests/ci/03_reapply_guard.sql` — asserts that re-applying
+  `schema.sql`, which the docs tell you is safe, does not mutate data.
+
+> **Assert against tables, not only RPCs.** Two separate privacy bugs shipped
+> because every test for a scoping change called the scoped _function_. The
+> function was scoped; the table policy behind it was not, so one
+> `supabase.from(...).select(...)` with the bundled anon key returned
+> everything. Any new policy needs a direct-select assertion, negative and
+> positive, and it is worth checking a new test **fails** against the old
+> policy before trusting it.
 
 ## Coverage Reports
 
@@ -98,7 +129,12 @@ npm run test:coverage
 open coverage/index.html
 ```
 
-Coverage targets: **70% minimum** across lines, functions, branches, and statements.
+The thresholds in `vitest.config.ts` are a **regression floor, not a target**:
+63% lines / 59% functions / 57% branches / 62% statements, set just below the
+measured figure so CI fails when coverage _drops_ rather than failing every run
+against an aspiration the project has never met. Ratchet them up as coverage
+grows — left too slack, a whole feature can land untested without the gate
+noticing.
 
 ## Pre-commit Hooks
 

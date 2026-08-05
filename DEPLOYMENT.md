@@ -290,9 +290,12 @@ plans on the AI, not on the text.
       one (Sydney, `ap-southeast-2`) for NSW student data. `vercel.json` pins
       the functions to `syd1` for the same reason; without it they default to
       Washington DC, so every marking call would round-trip
-      Sydney → US → Sydney. Note that the AI providers themselves are
-      US-hosted: answer text crosses the border on every call regardless, and
-      a school privacy assessment will ask about that specifically.
+      Sydney → US → Sydney. Note that the AI providers themselves are all
+      offshore: answer text crosses the border on every call regardless of the
+      database region, and a school privacy assessment will ask about that
+      first. `docs/privacy-for-schools.md` has the per-engine breakdown —
+      including that OpenRouter is a broker (the upstream processor depends on
+      the slug) and that Kimi K3 is China-operated, not US.
 - [ ] **Prove the AI proxy is actually closed.** With Supabase configured,
       send an unauthenticated request and confirm it is refused:
 
@@ -301,9 +304,17 @@ plans on the AI, not on the text.
         -H 'content-type: application/json' -d '{}' | head -1
       ```
 
-      Expect `401`. A `200` or a `400` means `SUPABASE_URL` /
-      `SUPABASE_ANON_KEY` are missing on the server and the endpoint is open
-      to the internet — see the warning in the Vercel section above.
+      Expect `401` — the gate is on and refusing an unauthenticated caller.
+
+      A `503` means the deployment is half configured: the `VITE_SUPABASE_*`
+      pair is set but `SUPABASE_URL` / `SUPABASE_ANON_KEY` are not. The proxy
+      refuses rather than serving openly, and the response body names the two
+      missing variables. Add them and redeploy.
+
+      A `200` or a `400` means no Supabase is configured anywhere, so the gate
+      is off by design and the endpoint is open to the internet — fine for a
+      personal demo, not for anything else. See the warning in the Vercel
+      section above.
 
 - [ ] **Prove the AI proxy is reachable at all.** Log in and run one
       evaluation. If it fails with "AI is not connected on this deployment",
@@ -313,8 +324,23 @@ plans on the AI, not on the text.
 ## Google & Microsoft (SSO) sign-in
 
 The login page shows **Google**, **Microsoft** and **GitHub** buttons whenever
-Supabase is configured. The buttons work as soon as the matching provider is
-enabled in your Supabase project — no app code or env vars are involved.
+Supabase is configured, and each works as soon as the matching provider is
+enabled in your Supabase project.
+
+Set `VITE_OAUTH_PROVIDERS` to the ones you actually enabled — a button for a
+provider Supabase does not have configured redirects the user away and comes
+back with an error, and a new Supabase project has none of them enabled. It
+takes a comma-separated list (`google`, `azure`, `github`), or `none` to drop
+the section entirely and run on email/password alone. Leaving it unset shows
+all three.
+
+For a NSW DoE school this is normally `VITE_OAUTH_PROVIDERS=azure`: everyone
+already holds an `@education.nsw.gov.au` Entra account, so Microsoft sign-in
+provisions them on first use and there are no passwords for the school to
+manage or reset. That matters more than it looks — the app has no sign-up form
+and no password-reset form of its own, so without SSO an admin creates every
+account by hand in the Supabase dashboard and resets every forgotten password
+there too. SSO is what makes a class rollover tractable.
 
 ### 1. Enable the provider in Supabase
 

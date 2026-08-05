@@ -189,7 +189,7 @@ The repo includes `.github/workflows/vercel-deploy.yml`. To use it:
 
 | Problem                                          | Fix                                                                                                         |
 | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
-| Build fails with dependency errors               | Verify the install command is `npm install --legacy-peer-deps` (check vercel.json)                          |
+| Build fails with dependency errors               | Verify the install command is `npm ci --legacy-peer-deps` (check vercel.json)                               |
 | "AI Service Unavailable" after deploy            | Check `GEMINI_API_KEY` is set in env vars; **redeploy** after adding it                                     |
 | CORS errors when frontend is on a different host | Set `ALLOWED_ORIGIN` env var to the frontend's exact origin                                                 |
 | 401 on AI calls                                  | If Supabase is configured, you must be logged in; guest sessions cannot make AI calls (this is intentional) |

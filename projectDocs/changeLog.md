@@ -1,5 +1,96 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-08-05
+
+### 🔒 The §19 class-scoping hole, one table over
+
+`profiles_read` was still `id = auth.uid() or is_reviewer()` after §19 re-scoped
+`responses` and `response_events`. A teacher who taught no class could
+`supabase.from('profiles').select('username, display_name')` from a browser
+console — with the anon key that ships in the bundle — and get every account in
+the database. Not a list of opaque ids: `handle_new_user` defaults `username` to
+the email local part, so on a DoE deployment that is `firstname.lastname` for
+every student in the school.
+
+- Re-scoped onto `can_view_student()` in §19, alongside the other two.
+- Reproduced on Postgres 16 first (a class-less teacher read every other profile
+  row, usernames printed) and confirmed closed after, with the caller's own row
+  still readable — sign-in resolves the role through that read, so failing
+  closed must not mean failing blind.
+- **Why it outlived the first fix:** the direct-select assertions added with §19
+  name `responses` and `response_events` specifically, so nothing failed when a
+  third table stayed unscoped. The tests now assert on `profiles` too, negative
+  and positive. Verified they fail against the old policy before being trusted.
+  42 RLS assertions, up from 39.
+
+### 🔒 `sourcemap: 'hidden'` never stopped the source being published
+
+'hidden' only drops the `//# sourceMappingURL=` comment. Vite still wrote
+`dist/assets/*.js.map`, and both deploy paths publish `dist/` wholesale — at a
+name derived from the bundle's own filename.
+
+- Confirmed by serving a real build and fetching one: HTTP 200, 2.4 MB, and
+  `sourcesContent` handed back `utils/permissions.ts` complete with its
+  comments. 18 maps, 8.8 MB, the whole application recoverable.
+- Production now emits none, which is what the repo already assumed — nothing
+  uploads them anywhere. `dist/` drops from ~16 MB to 7.5 MB.
+  `BUILD_SOURCEMAPS=true` brings them back for an error-tracker upload.
+- The guard test asserts `false`, not `'hidden'` — anything that writes a map
+  file is the regression, since nothing deletes it before deploying.
+
+### 🔒 A half-configured deployment no longer fails open
+
+The AI proxy degrades to "allow everything" when `SUPABASE_URL` /
+`SUPABASE_ANON_KEY` are unset. Right for a deployment with no Supabase at all;
+wrong for one that has the `VITE_` pair and missed the unprefixed one — real
+logins and real quotas in the UI, `/api/gemini` serving anyone with the URL.
+
+- The asymmetry is detectable server-side (a hosting platform puts every project
+  variable in the function environment; the prefix only tells Vite what to
+  bundle) and is always a mistake, never a choice. It now returns **503** naming
+  both missing variables instead of serving the call.
+- Production only — the same asymmetry locally exposes nothing, and refusing
+  would break `npm run dev` for Supabase sign-in without server vars.
+
+### 🔑 SSO buttons now match what the deployment actually enabled
+
+The login page drew Google, Microsoft and GitHub whenever Supabase was
+configured. A provider only works once enabled in the Supabase dashboard, and a
+new project has none enabled — so the default deployment showed three buttons
+that each redirected the student away and came back with "Unsupported provider".
+
+- `VITE_OAUTH_PROVIDERS` picks the list (or `none`). Unset keeps all three, so
+  no working deployment loses a login method; an empty value is treated as unset
+  rather than as `none`; unknown names are dropped; order follows the config.
+- A disabled provider now says which provider, that an administrator enables it
+  in Supabase, and that email/password still works.
+- Worth recording that Microsoft/Entra SSO was **already** wired end to end —
+  service call, callback handler, button, tests. It just wasn't selectable per
+  deployment. `VITE_OAUTH_PROVIDERS=azure` is the realistic answer to a class
+  rollover, since the app has no sign-up or password-reset form of its own.
+
+### 📄 Documentation caught up with all of the above
+
+- **`docs/privacy-for-schools.md`** — a Cross-border processing section: every
+  engine is offshore, so answer text leaves Australia on every marking call
+  whatever the database region. Per-engine endpoints and jurisdictions, plus the
+  two that need more than a table row (OpenRouter is a broker, so the upstream
+  processor depends on the slug; Kimi K3 is China-operated, not US). Also
+  corrected an unqualified "never used to train any AI model" — true for the
+  paid API tiers, not for the free OpenRouter router — and moved practice
+  answers out of `profiles` into `responses` in the data table.
+- **`SUPABASE_SETUP.md`** — Step 5 told you to click a **Sign Up** button that
+  does not exist. Rewritten around how accounts really appear (SSO, or the
+  dashboard), with the password-reset gap stated where someone planning a class
+  will meet it. Adds class-scoped visibility to what the schema creates.
+- **`DEPLOYMENT.md`** — the pre-flight proxy check now reads a 503 as
+  half-configured rather than lumping it in with "open"; the SSO section covers
+  `VITE_OAUTH_PROVIDERS`.
+- **`VERCEL_SETUP.md`** — an "all four, or none" note on the Supabase variables,
+  and the install command corrected to `npm ci` to match `vercel.json`.
+
+---
+
 ## [2.4.2] - 2026-07-26
 
 ### 🩺 A failed boot now says what went wrong, instead of showing a black screen
@@ -49,7 +140,7 @@ Every existing gate was green while the deployed site rendered nothing — dev s
 
 `Uncaught ReferenceError: Cannot access 'Cs' before initialization` at `legalContent.ts` — the whole app rendered nothing on the deployed build, while dev, Vitest, the build itself and the e2e suite were all green.
 
-- **Cause: a cross-chunk temporal-dead-zone read.** `data/legalContent.ts` interpolated the free-tier limits into the Terms of Use *at module scope*, importing them from `services/entitlements.ts`. `EvaluationDisplay.tsx` imports the marking disclaimer from the same content file, so Rollup placed `legalContent` in the `workspace` chunk while `entitlements` stayed in the entry chunk. The two chunks import each other, so `workspace` executed first and read `FREE_TIER_EVAL_LIMIT` (minified to `Cs`) before the entry chunk had initialised it. Vite serves modules unbundled in dev, so the cycle only exists in a production build.
+- **Cause: a cross-chunk temporal-dead-zone read.** `data/legalContent.ts` interpolated the free-tier limits into the Terms of Use _at module scope_, importing them from `services/entitlements.ts`. `EvaluationDisplay.tsx` imports the marking disclaimer from the same content file, so Rollup placed `legalContent` in the `workspace` chunk while `entitlements` stayed in the entry chunk. The two chunks import each other, so `workspace` executed first and read `FREE_TIER_EVAL_LIMIT` (minified to `Cs`) before the entry chunk had initialised it. Vite serves modules unbundled in dev, so the cycle only exists in a production build.
 - **Fix, in two parts, neither of which depends on bundler behaviour.** The limit numbers moved to `services/planLimits.ts`, a module with no imports (re-exported from `entitlements.ts`, so every existing call site is unchanged). And the Terms and Privacy Notice are now built by `getLegalDocuments()` on first call rather than at module load, so no imported value is read while any module is still initialising.
 - **Fixed the same latent bug in `utils/planComparison.ts`**, where `FREE_PARTIAL` / `PAID_FULL` were module-level objects interpolating the same constants. Now built on demand.
 - **Regression guards** in `tests/unit/legalContent.test.ts`: the content file must not import from `services/entitlements`, must not export a module-level `LEGAL_DOCUMENTS`, must not interpolate a limit above the builders, and `planLimits.ts` must stay import-free. The hazard and the reasoning are written up in `projectDocs/agreements.md`.
@@ -69,7 +160,7 @@ Three surfaces students and teachers were missing, built content-first so they c
 - **Quick start guide** with separate tracks for students, teachers and guests. Opens once on a new account, re-openable from the header lifebuoy and the profile. Paid-feature notes appear only for accounts that lack the feature, so a teacher holding Plus is never told to buy what they have.
 - **Free vs Plus vs School comparison derived from `services/entitlements.ts`**, not hand-written — a table maintained separately from the gates it describes eventually lies. Tests assert no cell claims a feature its plan does not unlock. Features the free tier holds partially (tiers 1–3, Bands 1–3, summary feedback) show their real limit rather than a misleading cross.
 - **The AI marking disclaimer now travels with the mark.** One constant, shown under the mark on screen and in the footer of every page of an exported PDF. An exported report can end up in a folder beside real assessment records, so every page says what it is.
-- **"Your data" in the profile** — download everything we hold about your account as JSON (profile, preferences, progress, agreement record, responses *and their marking*), or delete the account outright via `delete_my_account()`, which derives its target from `auth.uid()` and takes no user-id parameter. The Privacy Notice promised access, export and erasure; now the product provides them. Contributed library content survives with authorship unlinked, and the notice says so.
+- **"Your data" in the profile** — download everything we hold about your account as JSON (profile, preferences, progress, agreement record, responses _and their marking_), or delete the account outright via `delete_my_account()`, which derives its target from `auth.uid()` and takes no user-id parameter. The Privacy Notice promised access, export and erasure; now the product provides them. Contributed library content survives with authorship unlinked, and the notice says so.
 - **Agreement acceptance report** for admins in the AI Usage Dashboard: how many accounts have accepted the current version, and who has not. Hides itself when the RPC is absent rather than reporting a false zero.
 - **Publisher identity is deployment-configurable** (`VITE_LEGAL_ENTITY_NAME`, `VITE_LEGAL_CONTACT_EMAIL`, `VITE_LEGAL_JURISDICTION`), so a school can put its own name and contact on the agreement without a code change.
 - Schema §15 (acceptance columns + admin report) and §16 (self-service deletion), both idempotent and both written as soft additions — an unmigrated database degrades to re-prompting rather than failing profile saves.
@@ -93,9 +184,9 @@ Three surfaces students and teachers were missing, built content-first so they c
 
 ## [2.3.22] - 2026-07-25
 
-### 📏 Sample answers now show the right *size*, not just the right content
+### 📏 Sample answers now show the right _size_, not just the right content
 
-- **Sample-answer length is briefed from the target mark, not the verb's full range.** `generateSampleAnswer` was passing the command verb's whole `charRange` (e.g. 800–1800 characters for an APPLY question) no matter which mark the sample was for, so a 2/4 sample came back at full-mark length — teaching students to write four times too much for the marks on offer. The request now carries a mark-scaled scope brief: the NESA structure guide for that exact mark (`getStructureGuide`), a character band interpolated for the question's total marks (`getExpectedCharRange`) and scaled by the mark awarded, a matching syllabus-term count, and an explicit instruction that a lower mark means *less material* rather than a full-length answer worded badly.
+- **Sample-answer length is briefed from the target mark, not the verb's full range.** `generateSampleAnswer` was passing the command verb's whole `charRange` (e.g. 800–1800 characters for an APPLY question) no matter which mark the sample was for, so a 2/4 sample came back at full-mark length — teaching students to write four times too much for the marks on offer. The request now carries a mark-scaled scope brief: the NESA structure guide for that exact mark (`getStructureGuide`), a character band interpolated for the question's total marks (`getExpectedCharRange`) and scaled by the mark awarded, a matching syllabus-term count, and an explicit instruction that a lower mark means _less material_ rather than a full-length answer worded badly.
 - **`reviseSampleAnswer` gets the same brief.** Re-targeting a sample to a different mark previously carried no length guidance at all, so a revision kept the original's size. It now resizes to the target mark's scope.
 - Regression tests cover the low-mark brief, the 1-mark vs full-mark ceiling gap, and the revision path.
 
@@ -127,9 +218,9 @@ Three surfaces students and teachers were missing, built content-first so they c
 
 ### 📐 A single, NESA-honest band model
 
-- **Reconciled the tier / band / marks "black box" onto one defensible inference.** NESA performance bands are a *course-level* standard — NESA never publishes a band for an individual question, and there's no official verb→band rule. For questions the app authors or generates (not lifted from a NESA paper) the model now states its inference plainly and derives *everything* from one source: **the command verb's cognitive demand sets a band ceiling** (`getTierTargetBand`), **marks set the expected depth** (markRange / word targets), and **the marking guide sets the band awarded** (`getBandForMark`), capped at the ceiling. The pedagogy — a response can only demonstrate the standard of thinking the task actually calls for, so a DESCRIBE answer can't evidence the Band 4-6 analysis it never asked for — is documented in `commandTerms.ts`.
+- **Reconciled the tier / band / marks "black box" onto one defensible inference.** NESA performance bands are a _course-level_ standard — NESA never publishes a band for an individual question, and there's no official verb→band rule. For questions the app authors or generates (not lifted from a NESA paper) the model now states its inference plainly and derives _everything_ from one source: **the command verb's cognitive demand sets a band ceiling** (`getTierTargetBand`), **marks set the expected depth** (markRange / word targets), and **the marking guide sets the band awarded** (`getBandForMark`), capped at the ceiling. The pedagogy — a response can only demonstrate the standard of thinking the task actually calls for, so a DESCRIBE answer can't evidence the Band 4-6 analysis it never asked for — is documented in `commandTerms.ts`.
 - **Removed the contradictory hand-authored `targetBands` field.** Every command verb carried a loose range string (e.g. DESCRIBE `"2-5"`) that disagreed with the operative ceiling the rest of the app derives (Band 3) — the actual source of the "orange ribbon / yellow prompt" class of bug. The field is gone from the type and all 39 verbs; the Command Verb Hierarchy ribbon and the command-term guide now show a derived **"Band Ceiling · Band X"** (with a tooltip explaining the cognitive-demand cap) instead of the stale range, so the reference can never drift from marking again.
-- **Added `getVerbBandCeiling(verb)`** and locked the model with an invariant test: for every tier, a full-mark response is marked *exactly* at the declared ceiling and never above it at any mark ratio — the one guard that keeps marking, live feedback, colour and copy in agreement.
+- **Added `getVerbBandCeiling(verb)`** and locked the model with an invariant test: for every tier, a full-mark response is marked _exactly_ at the declared ceiling and never above it at any mark ratio — the one guard that keeps marking, live feedback, colour and copy in agreement.
 
 ---
 
@@ -137,7 +228,7 @@ Three surfaces students and teachers were missing, built content-first so they c
 
 ### 🎯 Band-colour consistency — robust, app-wide
 
-- **One helper, one colour per verb, everywhere.** The tier-vs-band colour clash could recur anywhere that fed a raw cognitive tier into `getBandConfig` (which maps its argument as a *band*). Added a single self-documenting helper — **`getTierBandConfig(tier)`** (colour of a tier's target band) in `renderUtils` — and routed every remaining tier-coloured surface through it, so a verb like DESCRIBE is its Band-3 yellow everywhere: the verb-hierarchy ribbon, the question picker (`PromptSelector` + `Combobox`), the command-term guide, the live-metrics logic-connector pills, the **prompt-generator** and **manual-prompt** authoring modals, and the teacher **Class Insights** / **Student Progress** analytics. Also fixed a latent trap: `AnswerMetricsDisplay`'s colour prop was named `tier` but only ever received a *band* — renamed to `band` and documented. Locked in with `getTierBandConfig` tests (colours as the target band, never the tier index).
+- **One helper, one colour per verb, everywhere.** The tier-vs-band colour clash could recur anywhere that fed a raw cognitive tier into `getBandConfig` (which maps its argument as a _band_). Added a single self-documenting helper — **`getTierBandConfig(tier)`** (colour of a tier's target band) in `renderUtils` — and routed every remaining tier-coloured surface through it, so a verb like DESCRIBE is its Band-3 yellow everywhere: the verb-hierarchy ribbon, the question picker (`PromptSelector` + `Combobox`), the command-term guide, the live-metrics logic-connector pills, the **prompt-generator** and **manual-prompt** authoring modals, and the teacher **Class Insights** / **Student Progress** analytics. Also fixed a latent trap: `AnswerMetricsDisplay`'s colour prop was named `tier` but only ever received a _band_ — renamed to `band` and documented. Locked in with `getTierBandConfig` tests (colours as the target band, never the tier index).
 
 ### 🧭 Syllabus navigator → breadcrumb
 
@@ -149,7 +240,7 @@ Three surfaces students and teachers were missing, built content-first so they c
 
 ### 🎯 Band-colour consistency (follow-up)
 
-- **A verb is now one colour everywhere.** After 2.3.16 keyed the prompt/writing-area/metrics to a question's *target band*, the surfaces still coloured by raw *cognitive tier* stood out — e.g. DESCRIBE showed **orange** (Tier 2) in the Command Verb Hierarchy ribbon and the question picker, but **yellow** (Band 3) in the prompt and response. Added `getTierTargetBand(tier)` (a tier's band ceiling, mark-independent) and switched every remaining tier-coloured, student-facing surface to the target-band colour: the **verb-hierarchy ribbon** (header, tier cards, cognitive-step dots), the **question picker** (`PromptSelector` option chips + `Combobox` rows), the **command-term guide** popup, and the **logic-connector** pills in the live metrics. DESCRIBE is now Band 3 yellow top to bottom. Admin/authoring tier-pickers (prompt generator, manual prompt) keep tier colours — there the tier itself is what you're choosing. Covered by `getTierTargetBand` tests (tier→band mapping, agreement with `getTargetBand` at full marks).
+- **A verb is now one colour everywhere.** After 2.3.16 keyed the prompt/writing-area/metrics to a question's _target band_, the surfaces still coloured by raw _cognitive tier_ stood out — e.g. DESCRIBE showed **orange** (Tier 2) in the Command Verb Hierarchy ribbon and the question picker, but **yellow** (Band 3) in the prompt and response. Added `getTierTargetBand(tier)` (a tier's band ceiling, mark-independent) and switched every remaining tier-coloured, student-facing surface to the target-band colour: the **verb-hierarchy ribbon** (header, tier cards, cognitive-step dots), the **question picker** (`PromptSelector` option chips + `Combobox` rows), the **command-term guide** popup, and the **logic-connector** pills in the live metrics. DESCRIBE is now Band 3 yellow top to bottom. Admin/authoring tier-pickers (prompt generator, manual prompt) keep tier colours — there the tier itself is what you're choosing. Covered by `getTierTargetBand` tests (tier→band mapping, agreement with `getTargetBand` at full marks).
 
 ---
 
@@ -157,13 +248,13 @@ Three surfaces students and teachers were missing, built content-first so they c
 
 ### 🎯 Band-coherent live feedback
 
-- **One predefined colour per band, everywhere — and the student writes toward it.** Every question now has a single "target band" (`getTargetBand` in `commandTerms.ts` — the ceiling a full-mark response reaches, set by the verb's cognitive tier), and one canonical colour palette (`BAND_HEX` / `BAND_HEX_DARK` / `getBandHex` in `renderUtils.ts`, the exact hex equivalents of `getBandConfig`'s Tailwind classes). Previously the editor painted its progress with a *different* hex set (amber/emerald/sky/indigo) than the band colours used elsewhere (yellow/green/blue/purple), and the prompt was coloured by cognitive tier while the metrics were coloured by band — so one question showed up to three different colours. Now the **prompt header, writing area, metrics target and keyword pills all render in the question's target-band colour**. A Band 3 question is yellow top to bottom; a Band 5 question is blue; and so on.
+- **One predefined colour per band, everywhere — and the student writes toward it.** Every question now has a single "target band" (`getTargetBand` in `commandTerms.ts` — the ceiling a full-mark response reaches, set by the verb's cognitive tier), and one canonical colour palette (`BAND_HEX` / `BAND_HEX_DARK` / `getBandHex` in `renderUtils.ts`, the exact hex equivalents of `getBandConfig`'s Tailwind classes). Previously the editor painted its progress with a _different_ hex set (amber/emerald/sky/indigo) than the band colours used elsewhere (yellow/green/blue/purple), and the prompt was coloured by cognitive tier while the metrics were coloured by band — so one question showed up to three different colours. Now the **prompt header, writing area, metrics target and keyword pills all render in the question's target-band colour**. A Band 3 question is yellow top to bottom; a Band 5 question is blue; and so on.
 - **The writing area "fills in" the band colour as you write.** Instead of cycling through unrelated hues (red → orange → …) as progress rose — which flashed "Band 1" at a student on an easy question — the editor header is now always painted in the target band's colour, with a dark veil that lifts as the response develops. A blank page is a dim version of the band colour; a complete answer is the full vivid band colour with a matching glow. The header/footer now read "Band X · <descriptor>" and "…% → Band X", so the destination is explicit.
 - **Prompt design reflects the band.** The prompt header is now coloured by target band (not raw tier) and carries an explicit **"Band X" target badge** next to the marks/time, so the difficulty a student is working toward is stated up front and matches the writing surface.
 
 ### 🔑 Better syllabus keywords
 
-- **Higher-signal keyword lists (AI).** The enrichment and "regenerate/suggest keywords" prompts were rewritten to ask, as an HSC marker, for the *specific syllabus terminology a Band-X response must use* — concise technical noun-phrases (1–3 words), subject-specific concepts/processes/structures/named examples only, band- and mark-aware, excluding the command verb and generic filler. All AI keyword output now passes a shared `sanitiseKeywords` guard (trims list markers, drops the verb and generic stop-words like "process"/"factor"/"important", removes case-insensitive duplicates, rejects over-long phrases, caps at 12).
+- **Higher-signal keyword lists (AI).** The enrichment and "regenerate/suggest keywords" prompts were rewritten to ask, as an HSC marker, for the _specific syllabus terminology a Band-X response must use_ — concise technical noun-phrases (1–3 words), subject-specific concepts/processes/structures/named examples only, band- and mark-aware, excluding the command verb and generic filler. All AI keyword output now passes a shared `sanitiseKeywords` guard (trims list markers, drops the verb and generic stop-words like "process"/"factor"/"important", removes case-insensitive duplicates, rejects over-long phrases, caps at 12).
 - **Clearer keyword display.** The reference-panel and live-metrics term lists now show a **"used / total" count badge** and colour used terms in the target-band colour (was a generic emerald), with a "Weave these in for a Band X response" framing — so it's obvious which high-value terms are still missing.
 
 Covered by `tests/unit/bandColors.test.ts` (palette is distinct + clamped, `getTargetBand` tier→band mapping, `sanitiseKeywords`). Full suite 389 passing; verified end-to-end in-app (dim→vivid convergence on the shared band colour, unified prompt/editor/metrics/keywords).
@@ -188,7 +279,7 @@ Covered by `tests/unit/bandColors.test.ts` (palette is distinct + clamped, `getT
 
 ### ✍️ Student Writing Area
 
-- **Fixed the flickering keyword / verb highlighting (root cause)** — the live overlay that paints keyword and command-verb highlights over the writing area, and the prompt panel that bolds the same terms, both decided which text fragments were matches by calling `regex.test(fragment)` on a **shared global (`/gi`) regex**. `RegExp.test()` on a `/g` regex is stateful — its `lastIndex` carries between calls — so every *other* occurrence of a repeated term silently failed to highlight (e.g. three "cell"s, only the 1st and 3rd lit up). Replaced the stateful re-test with a stateless index-parity check on the `String.split` output (the single capturing group already places matches at the odd indices), so **every** occurrence now highlights in both the editor overlay (`renderEditorHighlights`) and the prompt renderer (`renderFormattedText`). Locked in with a new `renderUtils` test file (repeated keywords, repeated verbs, mixed, case/plural variants, and content-preservation — 6 cases). **Responsiveness**: the overlay's span tree is now memoised so it only rebuilds when the text / keywords / verb actually change (long answers no longer rebuild the whole tree on every keystroke), and the overlay is marked `aria-hidden` so screen readers read the real textarea once instead of the duplicated visual layer.
+- **Fixed the flickering keyword / verb highlighting (root cause)** — the live overlay that paints keyword and command-verb highlights over the writing area, and the prompt panel that bolds the same terms, both decided which text fragments were matches by calling `regex.test(fragment)` on a **shared global (`/gi`) regex**. `RegExp.test()` on a `/g` regex is stateful — its `lastIndex` carries between calls — so every _other_ occurrence of a repeated term silently failed to highlight (e.g. three "cell"s, only the 1st and 3rd lit up). Replaced the stateful re-test with a stateless index-parity check on the `String.split` output (the single capturing group already places matches at the odd indices), so **every** occurrence now highlights in both the editor overlay (`renderEditorHighlights`) and the prompt renderer (`renderFormattedText`). Locked in with a new `renderUtils` test file (repeated keywords, repeated verbs, mixed, case/plural variants, and content-preservation — 6 cases). **Responsiveness**: the overlay's span tree is now memoised so it only rebuilds when the text / keywords / verb actually change (long answers no longer rebuild the whole tree on every keystroke), and the overlay is marked `aria-hidden` so screen readers read the real textarea once instead of the duplicated visual layer.
 
 - **Focus Mode visual pass** — Focus Mode now reads as a distinct, immersive space: a soft, theme-aware ambient gradient is painted on the page background (`body.focus-mode`, on the backmost layer so it can never tint content), and a floating, glassmorphic **"Focus Mode · ESC"** pill (top-centre) makes the exit obvious and discoverable (complementing the header toggle and the Esc shortcut added in 2.3.13). Extra top padding keeps the pill clear of the prompt. Full suite 378 passing; verified end-to-end in the running app (highlighting, live insights, focus entry/exit).
 
@@ -341,7 +432,7 @@ Covered by `tests/unit/bandColors.test.ts` (palette is distinct + clamped, `getT
 
 ### 🏭 Production Hardening
 
-- **AI Usage Quotas (per user + per group)**: the AI proxy now enforces server-side daily budgets (schema §11). Each proxied call atomically spends one unit of the caller's allowance — per-user override (`set_user_ai_quota`) beats the role/group default (`ai_quota_limits`: admin 1000 / teacher 400 / student 60) — and an exhausted budget returns 429 *before* the paid provider is contacted. The client fast-fails hard-limit 429s (no wasted retries) and surfaces the reset time; admins manage limits and see their own usage in the API telemetry widget's new **Daily AI Quotas** panel. Fails open (with a logged warning) if the schema migration hasn't been applied, so a code-first deploy can't brick AI features; the auth gate still blocks anonymous spending.
+- **AI Usage Quotas (per user + per group)**: the AI proxy now enforces server-side daily budgets (schema §11). Each proxied call atomically spends one unit of the caller's allowance — per-user override (`set_user_ai_quota`) beats the role/group default (`ai_quota_limits`: admin 1000 / teacher 400 / student 60) — and an exhausted budget returns 429 _before_ the paid provider is contacted. The client fast-fails hard-limit 429s (no wasted retries) and surfaces the reset time; admins manage limits and see their own usage in the API telemetry widget's new **Daily AI Quotas** panel. Fails open (with a logged warning) if the schema migration hasn't been applied, so a code-first deploy can't brick AI features; the auth gate still blocks anonymous spending.
 
 - **Compiled Tailwind**: styling is now built into the bundle (`tailwind.config.js` + `index.css`, ported verbatim from the former inline CDN config and `<style>` block). The `cdn.tailwindcss.com` runtime script — explicitly not for production use — and the dead CDN import map are gone: the app renders fully styled offline/behind restrictive networks, `index.html` dropped from 13.5 kB to 1.8 kB, and the only remaining external request is the gracefully-degrading Google Fonts import.
 - **Demo Auth Opt-In**: production builds refuse the local demo accounts (admin/teacher/user) with an actionable error unless `VITE_ENABLE_DEMO_AUTH=true` is set — a deploy that forgot its Supabase env vars no longer silently ships a working `admin`/`admin` login. Dev builds are unaffected; guest access (read-only, local-only) is never gated; the login page only advertises demo accounts when they actually work.

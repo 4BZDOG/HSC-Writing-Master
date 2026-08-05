@@ -5,19 +5,19 @@
 > one.** This file predates several things that now matter and is kept only for
 > the background reading in sections 2 and 6:
 >
-> - It says the app has **one** serverless function. There are five
->   (`gemini`, `fetch-url`, `create-checkout`, `customer-portal`,
->   `stripe-webhook`).
 > - Its environment-variable table omits the **unprefixed** `SUPABASE_URL` and
 >   `SUPABASE_ANON_KEY`. Those are the only variables the server-side auth gate
->   reads, and leaving them out does not disable auth — it **fails open**,
->   serving `/api/gemini` to anyone on the internet and breaking billing.
-> - It does not mention Stripe, `ALLOWED_ORIGIN`, or the Australian region
->   requirement for NSW student data.
+>   reads. Leaving them out no longer fails open — the proxy now returns a 503
+>   naming them — but it does mean no AI call works at all until they are set.
+> - It does not mention Stripe, `ALLOWED_ORIGIN`, `VITE_OAUTH_PROVIDERS`, or the
+>   Australian region requirement for NSW student data.
+>
+> Sections 2 and 6 have been brought back in line with the committed
+> `vercel.json`; the rest of the file has not.
 
 This guide walks through deploying the **HSC AI Evaluator** — a React 19 + TypeScript + Vite single-page application — to [Vercel](https://vercel.com).
 
-The app is a **React SPA** served as static assets from Vercel's global CDN, plus **one serverless function** (`api/gemini.ts`) that proxies Google Gemini so the API key stays server-side. User data is stored client-side in IndexedDB by default; an **optional Supabase** backend can be enabled for real multi-user auth and a shared library (see section 3).
+The app is a **React SPA** served as static assets from Vercel's global CDN, plus **five serverless functions** under `api/` — chief among them `api/gemini.ts`, which proxies the AI provider so the API key stays server-side. User data is stored client-side in IndexedDB by default; an **optional Supabase** backend can be enabled for real multi-user auth and a shared library (see section 3).
 
 ---
 
@@ -34,13 +34,13 @@ The app is a **React SPA** served as static assets from Vercel's global CDN, plu
 
 Vercel auto-detects Vite, but confirm these settings match the project:
 
-| Setting              | Value                            |
-| -------------------- | -------------------------------- |
-| **Framework Preset** | Vite                             |
-| **Build Command**    | `npm run build`                  |
-| **Output Directory** | `dist`                           |
-| **Install Command**  | `npm install --legacy-peer-deps` |
-| **Node.js Version**  | 22.x (or 20.x)                   |
+| Setting              | Value                       |
+| -------------------- | --------------------------- |
+| **Framework Preset** | Vite                        |
+| **Build Command**    | `npm run build`             |
+| **Output Directory** | `dist`                      |
+| **Install Command**  | `npm ci --legacy-peer-deps` |
+| **Node.js Version**  | 22.x (or 20.x)              |
 
 These map directly to the scripts in `package.json` (`"build": "vite build"`) and Vite's default `dist/` output.
 
@@ -115,7 +115,13 @@ This is a client-side SPA. A [`vercel.json`](./vercel.json) is already committed
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "installCommand": "npm install --legacy-peer-deps",
+  "installCommand": "npm ci --legacy-peer-deps",
+  "regions": ["syd1"],
+  "functions": {
+    "api/*.ts": {
+      "maxDuration": 60
+    }
+  },
   "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }],
   "headers": [
     {
@@ -130,11 +136,13 @@ This is a client-side SPA. A [`vercel.json`](./vercel.json) is already committed
 }
 ```
 
-- **`installCommand`** uses `--legacy-peer-deps` to match this project's CI (React 19 peer ranges).
-- **`rewrites`** sends any deep link to the SPA shell **except** `/api/*`, so the `api/gemini.ts` serverless function stays reachable instead of being swallowed by the SPA fallback.
+- **`installCommand`** uses `npm ci` (not `npm install`) so the deploy builds the lockfile's exact tree, with `--legacy-peer-deps` for React 19's peer ranges.
+- **`regions`** pins the functions to Sydney. Without it they default to Washington DC, so every marking call would round-trip Sydney → US → Sydney against an Australian database. This is a latency and data-path decision, not a preference.
+- **`functions`** raises `maxDuration` to 60s — a long marking call exceeds the 10s default. The glob is `api/*.ts`, deliberately not `api/**/*.ts`: the recursive form pulls in `api/_lib/`, which would declare 15 functions against the Hobby plan's 12-function ceiling and fail the deploy.
+- **`rewrites`** sends any deep link to the SPA shell **except** `/api/*`, so the serverless functions stay reachable instead of being swallowed by the SPA fallback.
 - **`headers`** caches Vite's content-hashed `assets/*` aggressively (immutable per build), while `index.html` is revalidated every load so new deploys are picked up immediately.
 
-> **Serverless function:** any file under `api/` is deployed by Vercel as a serverless function automatically — no extra config. Here that's `api/gemini.ts` (the Gemini proxy); `api/_lib/` is shared code and is ignored as a route because of the leading underscore.
+> **Serverless functions:** any file directly under `api/` is deployed by Vercel as a serverless function automatically. Here that is five — `gemini.ts` (the AI proxy), `fetch-url.ts`, `create-checkout.ts`, `customer-portal.ts` and `stripe-webhook.ts`. `api/_lib/` is shared code and is ignored as a route because of the leading underscore.
 
 ---
 
