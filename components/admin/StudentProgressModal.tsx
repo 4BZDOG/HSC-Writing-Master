@@ -9,7 +9,7 @@ import {
   type TrendPoint,
 } from '../../services/responseService';
 import { isCurriculumRemote } from '../../services/curriculumService';
-import { commandTerms } from '../../data/commandTerms';
+import { commandTerms, tierShortLabel } from '../../data/commandTerms';
 import { getTierBandConfig } from '../../utils/renderUtils';
 import {
   foldVerbsIntoTiers,
@@ -32,16 +32,6 @@ interface StudentProgressModalProps {
 }
 
 const WINDOWS = [30, 90, 365] as const;
-
-/** Short label for each cognitive tier (1–6), mirroring the verb ladder. */
-const TIER_LABELS: Record<number, string> = {
-  1: 'Recall',
-  2: 'Describe',
-  3: 'Apply',
-  4: 'Analyse',
-  5: 'Synthesise',
-  6: 'Evaluate',
-};
 
 const tierOf = (verb: string): number | null => commandTerms.get(verb as PromptVerb)?.tier ?? null;
 
@@ -90,7 +80,7 @@ const TierRow: React.FC<{ profile: TierProfile }> = ({ profile }) => {
         <span className="text-[rgb(var(--color-text-dim))] light:text-slate-400">
           B{profile.tier}
         </span>{' '}
-        {TIER_LABELS[profile.tier]}
+        {tierShortLabel(profile.tier)}
       </span>
       <div className="flex-1 h-3 rounded-full bg-black/30 light:bg-slate-100 overflow-hidden border border-white/5 light:border-slate-200">
         {measured && (
