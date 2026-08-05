@@ -35,16 +35,35 @@ The repo is already Vercel-shaped: `vercel.json` is configured, and
    | `GEMINI_API_KEY`                               | your Google AI Studio key | yes (default engine)                                            |
    | `OPENROUTER_API_KEY`                           | your OpenRouter key       | only for OpenRouter engines                                     |
    | `ANTHROPIC_API_KEY`                            | your Anthropic key        | only for Claude engines                                         |
-   | `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` | Supabase project values   | only for multi-user auth                                        |
+   | **`SUPABASE_URL`**                             | Supabase project URL      | **yes, once Supabase exists — see the warning below**           |
+   | **`SUPABASE_ANON_KEY`**                        | Supabase anon key         | **yes, once Supabase exists — see the warning below**           |
+   | `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` | the same two values       | only for multi-user auth                                        |
    | `VITE_ENABLE_DEMO_AUTH`                        | `true`                    | only if you want demo logins (admin/admin) **without** Supabase |
+
+   Set all of these for **Production and Preview**. Do NOT set
+   `VITE_API_BASE_URL` (the proxy is same-origin here) or `DEPLOY_BASE_PATH`
+   (that is GitHub Pages only, and would break every asset URL).
 
 4. **Deploy.** Every push to `main` redeploys automatically.
 
+> **The unprefixed pair is not a duplicate of the `VITE_` pair.** They hold
+> the same two values but are read by different code, and the server-side
+> ones are the only thing `api/_lib/auth.ts` looks at. Omitting them does not
+> disable a feature — it **fails open**:
+>
+> - `/api/gemini` accepts unauthenticated POSTs from anyone on the internet,
+>   spending your AI budget.
+> - Quotas and the free-tier evaluation meter are not enforced at all.
+> - Checkout and the customer portal return `401` — billing is dead, because
+>   there is no identity to attach a subscription to.
+>
+> The `VITE_` pair is compiled into the browser bundle; the unprefixed pair is
+> only ever read on the server. Both are needed.
+
 Without Supabase the deployment runs in single-user "mock mode"
-(IndexedDB, demo accounts). Note that in that mode `/api/gemini` accepts
-unauthenticated calls — anyone who finds the URL can spend your AI quota,
-so prefer configuring Supabase (or at least keep the URL private) for
-anything beyond personal testing.
+(IndexedDB, demo accounts), and in that mode `/api/gemini` is deliberately
+open — anyone who finds the URL can spend your AI quota, so keep it private
+until Supabase is configured.
 
 ### B. GitHub Actions deploy (already in the repo)
 
@@ -266,6 +285,30 @@ plans on the AI, not on the text.
 - [ ] If you are selling: work through the Stripe checklist above, and confirm
       a free account is refused an answer upgrade by the API (not just by the
       button).
+- [ ] **Data residency (irreversible).** The Supabase region is chosen at
+      project creation and cannot be changed afterwards — pick an Australian
+      one (Sydney, `ap-southeast-2`) for NSW student data. `vercel.json` pins
+      the functions to `syd1` for the same reason; without it they default to
+      Washington DC, so every marking call would round-trip
+      Sydney → US → Sydney. Note that the AI providers themselves are
+      US-hosted: answer text crosses the border on every call regardless, and
+      a school privacy assessment will ask about that specifically.
+- [ ] **Prove the AI proxy is actually closed.** With Supabase configured,
+      send an unauthenticated request and confirm it is refused:
+
+      ```bash
+      curl -si -X POST https://<your-app>.vercel.app/api/gemini \
+        -H 'content-type: application/json' -d '{}' | head -1
+      ```
+
+      Expect `401`. A `200` or a `400` means `SUPABASE_URL` /
+      `SUPABASE_ANON_KEY` are missing on the server and the endpoint is open
+      to the internet — see the warning in the Vercel section above.
+
+- [ ] **Prove the AI proxy is reachable at all.** Log in and run one
+      evaluation. If it fails with "AI is not connected on this deployment",
+      the build was marked as static hosting — `VITE_STATIC_HOSTING` must be
+      unset on Vercel (it is only set by the GitHub Pages workflow).
 
 ## Google & Microsoft (SSO) sign-in
 

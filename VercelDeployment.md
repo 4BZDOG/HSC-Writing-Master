@@ -1,5 +1,20 @@
 # Deploying HSC AI Evaluator to Vercel
 
+> [!IMPORTANT]
+> **This guide is superseded by [`DEPLOYMENT.md`](./DEPLOYMENT.md). Follow that
+> one.** This file predates several things that now matter and is kept only for
+> the background reading in sections 2 and 6:
+>
+> - It says the app has **one** serverless function. There are five
+>   (`gemini`, `fetch-url`, `create-checkout`, `customer-portal`,
+>   `stripe-webhook`).
+> - Its environment-variable table omits the **unprefixed** `SUPABASE_URL` and
+>   `SUPABASE_ANON_KEY`. Those are the only variables the server-side auth gate
+>   reads, and leaving them out does not disable auth — it **fails open**,
+>   serving `/api/gemini` to anyone on the internet and breaking billing.
+> - It does not mention Stripe, `ALLOWED_ORIGIN`, or the Australian region
+>   requirement for NSW student data.
+
 This guide walks through deploying the **HSC AI Evaluator** — a React 19 + TypeScript + Vite single-page application — to [Vercel](https://vercel.com).
 
 The app is a **React SPA** served as static assets from Vercel's global CDN, plus **one serverless function** (`api/gemini.ts`) that proxies Google Gemini so the API key stays server-side. User data is stored client-side in IndexedDB by default; an **optional Supabase** backend can be enabled for real multi-user auth and a shared library (see section 3).

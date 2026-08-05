@@ -54,6 +54,12 @@ jobs:
           # Optional: origin of a hosted AI proxy (e.g. the Vercel deployment).
           # Empty means AI features are unavailable on the Pages build.
           VITE_API_BASE_URL: ${{ vars.API_BASE_URL }}
+          # Pages cannot run a serverless function. Declared explicitly rather
+          # than inferred from the line above: "no VITE_API_BASE_URL" means
+          # "the proxy is same-origin", which is true on Vercel and false here.
+          # With a proxy origin configured this build is NOT static, so the
+          # client should call it.
+          VITE_STATIC_HOSTING: ${{ vars.API_BASE_URL == '' && 'true' || 'false' }}
         run: npm run build
 
       # The bug this catches only ever appeared on the Pages build, so check the
