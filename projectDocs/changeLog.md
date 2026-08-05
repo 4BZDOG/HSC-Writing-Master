@@ -102,8 +102,9 @@ that each redirected the student away and came back with "Unsupported provider".
   in Supabase, and that email/password still works.
 - Worth recording that Microsoft/Entra SSO was **already** wired end to end —
   service call, callback handler, button, tests. It just wasn't selectable per
-  deployment. `VITE_OAUTH_PROVIDERS=azure` is the realistic answer to a class
-  rollover, since the app has no sign-up or password-reset form of its own.
+  deployment. `VITE_OAUTH_PROVIDERS=azure` is still the cleanest answer to a
+  class rollover — self-registration (above) covers account creation, but only
+  SSO also removes the password-reset gap.
 
 ### 📄 Documentation caught up with all of the above
 
@@ -116,9 +117,10 @@ that each redirected the student away and came back with "Unsupported provider".
   paid API tiers, not for the free OpenRouter router — and moved practice
   answers out of `profiles` into `responses` in the data table.
 - **`SUPABASE_SETUP.md`** — Step 5 told you to click a **Sign Up** button that
-  does not exist. Rewritten around how accounts really appear (SSO, or the
-  dashboard), with the password-reset gap stated where someone planning a class
-  will meet it. Adds class-scoped visibility to what the schema creates.
+  did not exist at the time. Rewritten around the three routes an account can
+  now take (self-registration, SSO, or the dashboard), with the password-reset
+  gap stated where someone planning a class will meet it. Adds class-scoped
+  visibility to what the schema creates.
 - **`DEPLOYMENT.md`** — the pre-flight proxy check now reads a 503 as
   half-configured rather than lumping it in with "open"; the SSO section covers
   `VITE_OAUTH_PROVIDERS`.
