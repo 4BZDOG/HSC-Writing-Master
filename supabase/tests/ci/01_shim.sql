@@ -52,3 +52,12 @@ $$;
 
 grant usage on schema auth to anon, authenticated, service_role;
 grant select, insert, update, delete on auth.users to service_role;
+
+-- Supabase grants EXECUTE on newly created functions to anon and authenticated
+-- via ALTER DEFAULT PRIVILEGES, which applies AT CREATION TIME. Replicating it
+-- here — before schema.sql runs — rather than blanket-granting afterwards is the
+-- difference between a test that can see a `revoke` and one that cannot: a
+-- grant applied after the fact silently undoes every lockdown in the schema, so
+-- the suite would pass while production was locked down and CI was not (or, as
+-- it happened, while neither was).
+alter default privileges in schema public grant execute on functions to anon, authenticated;
