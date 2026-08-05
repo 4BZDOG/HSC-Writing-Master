@@ -18,7 +18,7 @@ import {
   promptPoolFromCourse,
   tierOfPrompt,
 } from '../../utils/demoCohort';
-import { getBandForMark } from '../../data/commandTerms';
+import { getBandForMark, getCommandTermInfo } from '../../data/commandTerms';
 import { EvaluationResponseSchema } from '../../services/aiSchemas';
 import { AI_MODELS, getModelByProviderModel } from '../../services/aiModels';
 
@@ -464,5 +464,71 @@ describe('archetypes', () => {
         }
       }
     }
+  });
+
+  /**
+   * Attainment must reach the MARK, not the band.
+   *
+   * It used to be applied to the band ceiling and converted back with
+   * `markForBand`. The Verb Gate caps a tier-1 question at band 1, so the target
+   * was always band 1 whatever the archetype asked for, and `markForBand(1, …)`
+   * returns the SMALLEST mark reaching it — every student scored exactly 1 mark
+   * on every tier-1 question, and two on tier 2. On the bundled Enterprise
+   * Computing bank that is 33 of 82 questions where the archetypes were
+   * indistinguishable, which is precisely what the cohort heatmap exists to show.
+   */
+  const markShareByTier = (username: string, prompts: DemoPromptRef[]) => {
+    const cohort = generateCohort({ prompts });
+    const totals = new Map<number, { earned: number; available: number }>();
+    for (const attempt of cohort.attempts) {
+      if (attempt.username !== username) continue;
+      const prompt = prompts.find((p) => p.id === attempt.promptId)!;
+      const tier = getCommandTermInfo(prompt.verb)?.tier ?? 0;
+      const cur = totals.get(tier) ?? { earned: 0, available: 0 };
+      cur.earned += attempt.mark;
+      cur.available += prompt.totalMarks;
+      totals.set(tier, cur);
+    }
+    return (tier: number) => {
+      const t = totals.get(tier);
+      return t && t.available > 0 ? t.earned / t.available : null;
+    };
+  };
+
+  it('separates a strong student from an at-risk one at tier 1', () => {
+    // The degenerate case. Both archetypes previously scored the identical mark
+    // on every tier-1 question, and on the real question bank the ordering even
+    // came out inverted.
+    const strong = DEMO_STUDENTS.find((s) => s.archetype === 'strong')!;
+    const atRisk = DEMO_STUDENTS.find((s) => s.archetype === 'atRisk')!;
+
+    const strongT1 = markShareByTier(strong.username, POOL)(1);
+    const atRiskT1 = markShareByTier(atRisk.username, POOL)(1);
+
+    expect(strongT1).not.toBeNull();
+    expect(atRiskT1).not.toBeNull();
+    expect(strongT1!).toBeGreaterThan(atRiskT1!);
+  });
+
+  it('lets a verb-blocked student read as strong low and weak high', () => {
+    // The whole point of the archetype: fine on recall and description, falls
+    // away once the verb demands judgement. Flattened tiers hid it completely.
+    const blocked = DEMO_STUDENTS.find((s) => s.archetype === 'verbBlocked')!;
+    const share = markShareByTier(blocked.username, POOL);
+
+    const low = share(1) ?? share(2) ?? share(3);
+    const high = share(6) ?? share(5) ?? share(4);
+    expect(low).not.toBeNull();
+    expect(high).not.toBeNull();
+    expect(low!).toBeGreaterThan(high!);
+  });
+
+  it('does not collapse tier 1 to a single value across archetypes', () => {
+    // Directly pins the degeneracy: if attainment is routed through the band
+    // scale again, every archetype returns the same tier-1 share.
+    const shares = new Set(
+      DEMO_STUDENTS.map((s) => markShareByTier(s.username, POOL)(1)).filter((v) => v != null)
+    );
+    expect(shares.size).toBeGreaterThan(1);
   });
 });
