@@ -19,14 +19,14 @@
  *     derived from the run time (see `daysAgo`) — that is what keeps the 30-day
  *     analytics windows populated on every reseed.
  *   - **Never recalculates band logic.** Marks and bands come from
- *     `markForBand` / `getBandForMark` in data/commandTerms.ts, so seeded data
+ *     `getBandForMark` in data/commandTerms.ts, so seeded data
  *     cannot drift from the Verb Gate. A demo that contradicted the app's own
  *     band rules would be worse than no demo.
  *   - **Pure.** No I/O, no DB, no browser APIs — unit-testable, and safe to
  *     import from both Node and the bundle.
  */
 import type { EvaluationCriterion, EvaluationResult, PromptVerb, UserStats } from '../types';
-import { getBandForMark, getCommandTermInfo, markForBand } from '../data/commandTerms';
+import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { AI_MODELS } from '../services/aiModels';
 import {
   DEMO_CRITERION_FEEDBACK,
@@ -400,17 +400,33 @@ export const generateCohort = ({
 
         const tier = tierOfPrompt(prompt);
 
-        // Band logic is never recomputed here. The ceiling comes from the app's
-        // own rule (full marks at this tier), the archetype's attainment scales
-        // it to a target band, and the real band is read back off the mark that
-        // target implies — so the stored mark/band pair can never contradict
-        // getBandForMark.
-        const ceiling = getBandForMark(prompt.totalMarks, prompt.totalMarks, tier);
-        const target = Math.max(
+        // Attainment scales the MARK, and the band is read back off that mark.
+        //
+        // It used to scale the BAND — ceiling × attainment, then markForBand() —
+        // which walked straight into the degeneracy the rest of the codebase
+        // exists to avoid. The Verb Gate caps a tier-1 question at band 1, so the
+        // target band was always 1 whatever the archetype asked for, and
+        // markForBand(1, …) returns the SMALLEST mark reaching band 1: every
+        // student scored exactly 1 mark on every tier-1 question. Measured:
+        //
+        //   tier 1, 3 marks:  0.2→1/3  0.4→1/3  0.6→1/3  0.8→1/3  1.0→1/3
+        //   tier 2, 6 marks:  0.2→1/6  0.4→1/6  0.6→1/6  0.8→4/6  1.0→4/6
+        //
+        // On the bundled Enterprise Computing bank that is 33 of 82 questions
+        // (18 tier-1, 15 tier-2) where the archetypes were indistinguishable —
+        // and the cohort heatmap's whole purpose is telling students apart. It
+        // produced a flat, sometimes inverted, first two columns for everyone.
+        //
+        // Marks are well defined at every tier; bands are not. Scaling the mark
+        // and reading the band off it keeps the invariant that matters — band
+        // logic is still never recomputed here, so the stored mark/band pair
+        // cannot contradict getBandForMark — while leaving a signal the Verb Gate
+        // does not flatten.
+        const attainment = archetype.targetAttainment(week, tier);
+        const mark = Math.max(
           1,
-          Math.min(ceiling, Math.round(ceiling * archetype.targetAttainment(week, tier)))
+          Math.min(prompt.totalMarks, Math.round(prompt.totalMarks * attainment))
         );
-        const mark = markForBand(target, prompt.totalMarks, tier);
         const band = getBandForMark(mark, prompt.totalMarks, tier);
 
         const draft = pick(rand, DEMO_DRAFTS[bandTierFor(band)]).replace(
