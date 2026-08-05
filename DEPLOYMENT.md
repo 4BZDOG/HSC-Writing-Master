@@ -280,13 +280,15 @@ plans on the AI, not on the text.
       before going live.
 - [ ] Decide the auth story: Supabase for real users, or
       `VITE_ENABLE_DEMO_AUTH=true` for a demo, or guest-only.
-- [ ] **Restrict who can self-register.** The login page offers account
-      creation, and a new account is a `student` with a 60-call daily AI budget
-      charged to your provider key. Unrestricted, anyone who finds the URL can
-      register and spend it. Set `VITE_SIGNUP_ALLOWED_DOMAINS` to your school's
-      email domain, or `VITE_ENABLE_SIGNUP=false` if accounts are provisioned
+- [ ] **Restrict who can get an account — both ways in.** A new account is a
+      `student` with a 60-call daily AI budget charged to your provider key, and
+      there are two doors: self-registration and SSO. Set
+      `VITE_ALLOWED_EMAIL_DOMAINS` to your school's email domain — it governs
+      both — and `VITE_ENABLE_SIGNUP=false` if accounts are provisioned
       centrally. Leave email confirmation ON in Supabase so an address has to be
-      real.
+      real. If you enable Entra, pin the app registration to your tenant
+      (single-tenant) as well: the env var refuses the session, but only the
+      tenant pin stops the account being created at all.
 - [ ] Visit the deployed URL, log in, import the curriculum library, and
       run one evaluation end-to-end.
 - [ ] If you are selling: work through the Stripe checklist above, and confirm
@@ -360,11 +362,18 @@ Supabase dashboard → **Authentication → Providers**:
 - **Microsoft (Azure)**: register an app in
   [Microsoft Entra admin centre](https://entra.microsoft.com) → App
   registrations. Redirect URI (Web):
-  `https://<project-ref>.supabase.co/auth/v1/callback`. For NSW DoE / school
-  tenants choose the multi-tenant account type ("Accounts in any
-  organisational directory") so students can sign in with their school
-  Microsoft accounts. Paste the Application (client) ID and a client secret
-  into the Azure provider settings.
+  `https://<project-ref>.supabase.co/auth/v1/callback`. Paste the Application
+  (client) ID and a client secret into the Azure provider settings.
+
+  **Choose the account type deliberately.** _Single tenant_ ("Accounts in this
+  organisational directory only") is the right answer for a school: only your
+  own tenant's accounts can sign in, and the restriction is enforced by
+  Microsoft before the request ever reaches you. _Multi-tenant_ accepts **any**
+  Microsoft work or school account in the world — every one of which would
+  arrive here as a `student` with a daily AI budget on your provider key. If
+  you must use multi-tenant, `VITE_ALLOWED_EMAIL_DOMAINS` is what keeps
+  everyone else out.
+
 - **GitHub**: GitHub → Settings → Developer settings → OAuth Apps, callback
   URL as above.
 

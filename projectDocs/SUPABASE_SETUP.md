@@ -238,12 +238,14 @@ Three routes, and it is worth deciding which one a class will use:
 - **By hand** — Supabase dashboard → **Authentication** → **Users** → **Add
   user**.
 
-> **Restrict who may self-register.** A new account is created as a `student`,
-> and a student carries a 60-call daily AI budget spent against your provider
-> key. With no restriction, anyone who finds the URL can register and spend it.
-> Set `VITE_SIGNUP_ALLOWED_DOMAINS` to your school's email domain — for NSW DoE,
-> `education.nsw.gov.au`. `VITE_ENABLE_SIGNUP=false` removes self-registration
-> entirely where accounts are provisioned centrally.
+> **Restrict who may get an account — on both routes.** A new account is
+> created as a `student`, and a student carries a 60-call daily AI budget spent
+> against your provider key. `VITE_ALLOWED_EMAIL_DOMAINS` governs
+> self-registration **and** SSO sign-in; set it to your school's email domain
+> (for NSW DoE, `education.nsw.gov.au`). Restricting only one route restricts
+> nothing — a multi-tenant Entra registration accepts any Microsoft work or
+> school account in the world. `VITE_ENABLE_SIGNUP=false` removes
+> self-registration entirely where accounts are provisioned centrally.
 
 > **There is still no password reset in the app.** A user who forgets their
 > password cannot recover it themselves — an admin resets it in the Supabase

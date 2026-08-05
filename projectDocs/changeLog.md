@@ -2,6 +2,32 @@
 
 ## [Unreleased] - 2026-08-05
 
+### 🔒 Closed the two SSO gaps self-registration exposed
+
+Adding a domain allowlist to sign-up made it obvious that the SSO path had none,
+and that the two must be one rule.
+
+- **The allowlist now governs both routes.** `VITE_ALLOWED_EMAIL_DOMAINS`
+  replaces the sign-up-only `VITE_SIGNUP_ALLOWED_DOMAINS` (still read as a
+  fallback) and is enforced in `handleOAuthCallback` as well as `signUp`.
+  Restricting one door and not the other restricts nothing: a MULTI-TENANT Entra
+  registration — the account type a school needs so its students can sign in —
+  accepts any Microsoft work or school account in the world, and each one landed
+  here as a `student` with a daily AI budget on the deployment's provider key.
+  A rejected sign-in drops the Supabase session (otherwise a refresh walks past
+  the check) and now says so: `App.tsx` swallowed every callback error, which
+  was survivable while they were all transient but would have made a deliberate
+  refusal look like a broken app.
+  Be clear on what this is: the `auth.users` row exists by the time the app sees
+  it, so this refuses the SESSION. The authoritative control is a single-tenant
+  Entra registration; `DEPLOYMENT.md` now recommends that rather than
+  multi-tenant.
+- **The account picker applies to every provider.** `prompt: 'select_account'`
+  was sent to Google alone — missing the one a NSW DoE school actually uses. On
+  a shared classroom PC the second student to sit down was signed straight into
+  the first student's account, with their drafts and their marks, no prompt and
+  nothing to notice.
+
 ### ✨ Self-registration
 
 The app could sign people in but never register them: `signUp` appeared nowhere,
@@ -21,7 +47,7 @@ so every account had to be hand-made in the Supabase dashboard. There is now a
   is never sent, which is the most confusing outcome available here.
 - Policy lives in `services/signupPolicy.ts` and is enforced in **both** the form
   and the service, because a rule checked only in the form is a suggestion a
-  direct call ignores. `VITE_SIGNUP_ALLOWED_DOMAINS` restricts registration by
+  direct call ignores. `VITE_ALLOWED_EMAIL_DOMAINS` restricts registration by
   email domain (sub-domains included; look-alikes like
   `fakeeducation.nsw.gov.au` are refused, which a naive `endsWith` would let in),
   and `VITE_ENABLE_SIGNUP=false` removes the feature.

@@ -42,6 +42,23 @@ export const parseAllowedDomains = (raw: string | undefined): string[] =>
     .map((d) => d.trim().toLowerCase().replace(/^@/, ''))
     .filter(Boolean);
 
+/**
+ * The allowlist this deployment is running, from the environment.
+ *
+ * `VITE_ALLOWED_EMAIL_DOMAINS` governs BOTH ways an account can appear —
+ * self-registration and SSO — because restricting one and not the other
+ * restricts nothing. `VITE_SIGNUP_ALLOWED_DOMAINS` is the older, sign-up-only
+ * name and is still read so an existing configuration keeps working; prefer the
+ * general one.
+ */
+export const resolveAllowedDomains = (env: {
+  VITE_ALLOWED_EMAIL_DOMAINS?: string;
+  VITE_SIGNUP_ALLOWED_DOMAINS?: string;
+}): string[] => {
+  const general = parseAllowedDomains(env.VITE_ALLOWED_EMAIL_DOMAINS);
+  return general.length > 0 ? general : parseAllowedDomains(env.VITE_SIGNUP_ALLOWED_DOMAINS);
+};
+
 /** Does this address sit in one of the allowed domains? Empty list = anything. */
 export const isEmailDomainAllowed = (email: string, allowed: string[]): boolean => {
   if (allowed.length === 0) return true;

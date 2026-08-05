@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   MIN_PASSWORD_LENGTH,
+  resolveAllowedDomains,
   isSignupEnabled,
   parseAllowedDomains,
   isEmailDomainAllowed,
@@ -52,6 +53,33 @@ describe('parseAllowedDomains', () => {
       'education.nsw.gov.au',
       'det.nsw.edu.au',
     ]);
+  });
+});
+
+describe('resolveAllowedDomains', () => {
+  it('is empty when neither variable is set', () => {
+    expect(resolveAllowedDomains({})).toEqual([]);
+  });
+
+  it('reads the general variable, which governs sign-up AND SSO', () => {
+    expect(resolveAllowedDomains({ VITE_ALLOWED_EMAIL_DOMAINS: 'education.nsw.gov.au' })).toEqual([
+      'education.nsw.gov.au',
+    ]);
+  });
+
+  it('falls back to the older sign-up-only name, so existing config keeps working', () => {
+    expect(resolveAllowedDomains({ VITE_SIGNUP_ALLOWED_DOMAINS: 'det.nsw.edu.au' })).toEqual([
+      'det.nsw.edu.au',
+    ]);
+  });
+
+  it('prefers the general name when both are set', () => {
+    expect(
+      resolveAllowedDomains({
+        VITE_ALLOWED_EMAIL_DOMAINS: 'new.edu.au',
+        VITE_SIGNUP_ALLOWED_DOMAINS: 'old.edu.au',
+      })
+    ).toEqual(['new.edu.au']);
   });
 });
 

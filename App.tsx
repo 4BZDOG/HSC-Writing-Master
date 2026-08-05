@@ -1244,7 +1244,14 @@ const App: React.FC = () => {
             showToast(`Signed in as ${oauthUser.displayName}`, 'success');
           }
         })
-        .catch(() => {})
+        // A rejected sign-in must SAY so. This used to swallow everything,
+        // which was survivable while the only failures were transient — but
+        // the domain gate refuses deliberately, and being bounced back to the
+        // login page with no message is indistinguishable from a broken app.
+        .catch((err: unknown) => {
+          const message = err instanceof Error ? err.message : '';
+          if (message) showToast(message, 'error');
+        })
         .finally(() => setIsLoadingAuth(false));
     }
   }, []);

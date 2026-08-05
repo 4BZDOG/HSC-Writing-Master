@@ -29,12 +29,20 @@ interface ImportMetaEnv {
    */
   readonly VITE_ENABLE_SIGNUP?: string;
   /**
-   * Email domains permitted to self-register, comma-separated, e.g.
-   * `education.nsw.gov.au`. Sub-domains of a listed domain are accepted. Unset
-   * means anyone with any email address can create an account — and since a new
-   * account is a `student` with a daily AI budget, that is spend handed to
-   * whoever finds the URL. Set it on any public deployment.
+   * Email domains permitted to hold an account, comma-separated, e.g.
+   * `education.nsw.gov.au`. Sub-domains of a listed domain are accepted.
+   *
+   * Governs BOTH routes in: self-registration and SSO sign-in. Restricting one
+   * and not the other restricts nothing — a multi-tenant Entra registration
+   * accepts any Microsoft work or school account in the world.
+   *
+   * Unset means anyone with any address can get in, and since a new account is
+   * a `student` with a daily AI budget, that is spend handed to whoever finds
+   * the URL. Set it on any public deployment.
    */
+  readonly VITE_ALLOWED_EMAIL_DOMAINS?: string;
+  /** @deprecated Older sign-up-only name for VITE_ALLOWED_EMAIL_DOMAINS, still
+   *  read as a fallback so an existing configuration keeps working. */
   readonly VITE_SIGNUP_ALLOWED_DOMAINS?: string;
   readonly VITE_SENTRY_DSN?: string;
   readonly VITE_SENTRY_ENVIRONMENT?: string;

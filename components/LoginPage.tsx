@@ -4,7 +4,7 @@ import { authService, isDemoAuthEnabled } from '../services/authService';
 import { isSupabaseConfigured } from '../services/supabaseClient';
 import {
   isSignupEnabled,
-  parseAllowedDomains,
+  resolveAllowedDomains,
   validateSignup,
   hasSignupErrors,
   allowedDomainMessage,
@@ -202,7 +202,10 @@ const OAUTH_PROVIDERS = resolveOAuthProviders(import.meta.env.VITE_OAUTH_PROVIDE
  */
 const SIGNUP_AVAILABLE =
   isSupabaseConfigured && isSignupEnabled(import.meta.env.VITE_ENABLE_SIGNUP);
-const SIGNUP_ALLOWED_DOMAINS = parseAllowedDomains(import.meta.env.VITE_SIGNUP_ALLOWED_DOMAINS);
+// The SAME list the SSO callback enforces (services/authService.ts) — one rule
+// for every way an account can appear, since restricting one route and not the
+// other restricts nothing.
+const SIGNUP_ALLOWED_DOMAINS = resolveAllowedDomains(import.meta.env);
 
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [username, setUsername] = useState('');

@@ -10,7 +10,7 @@ import { supabase, isSupabaseConfigured } from './supabaseClient';
 import type { Provider } from '@supabase/auth-js';
 import {
   isSignupEnabled,
-  parseAllowedDomains,
+  resolveAllowedDomains,
   isEmailDomainAllowed,
   allowedDomainMessage,
 } from './signupPolicy';
@@ -469,7 +469,7 @@ export const authService = {
     }
 
     const trimmedEmail = email.trim();
-    const allowed = parseAllowedDomains(import.meta.env.VITE_SIGNUP_ALLOWED_DOMAINS);
+    const allowed = resolveAllowedDomains(import.meta.env);
     if (!isEmailDomainAllowed(trimmedEmail, allowed)) {
       throw new Error(allowedDomainMessage(allowed));
     }
@@ -530,9 +530,13 @@ export const authService = {
         // serves at /<repo>/) — the provider would bounce the user to a 404
         // and the session tokens would never reach the app.
         redirectTo: `${window.location.origin}${import.meta.env.BASE_URL ?? '/'}`,
-        // School computers are shared: always let the student pick the
-        // account rather than silently reusing whoever signed in last.
-        ...(provider === 'google' ? { queryParams: { prompt: 'select_account' } } : {}),
+        // School computers are shared: always let the student pick the account
+        // rather than silently reusing whoever signed in last. This applied to
+        // Google alone, which missed the provider a DoE school actually uses —
+        // on a classroom PC the second student to sit down was signed straight
+        // into the first one's account, with their drafts and their marks.
+        // Entra and GitHub take the same parameter.
+        queryParams: { prompt: 'select_account' },
       },
     });
     // A provider that is not switched on in the Supabase dashboard fails here
@@ -586,6 +590,37 @@ export const authService = {
     }
     if (!session?.user) return null;
     const authUser = session.user;
+
+    // Domain gate on the SSO path.
+    //
+    // The allowlist previously covered self-registration only, which restricted
+    // nothing: a multi-tenant Entra registration — the account type a school
+    // needs so students can sign in — accepts ANY Microsoft work or school
+    // account in the world, and Google accepts any Google account. Either way
+    // the arrival lands as a `student` with a daily AI budget on this
+    // deployment's provider key.
+    //
+    // Be clear about what this is: the account row already exists by the time
+    // the app sees it (GoTrue inserts into auth.users, and handle_new_user
+    // creates the profile, before the redirect returns). This refuses the
+    // SESSION — the person cannot use the app or spend a quota unit — but it
+    // does not prevent the row. The authoritative control is a SINGLE-TENANT
+    // Entra app registration pinned to the school's tenant, which stops the
+    // sign-in ever reaching us. This is the layer that works regardless of how
+    // the provider is configured.
+    const allowedDomains = resolveAllowedDomains(import.meta.env);
+    if (allowedDomains.length > 0 && !isEmailDomainAllowed(authUser.email ?? '', allowedDomains)) {
+      // Drop the session before raising, or the rejected user stays signed in
+      // to Supabase and a refresh walks straight past this check.
+      await client.auth.signOut().catch(() => {});
+      if (typeof window !== 'undefined') {
+        window.localStorage.removeItem(STORAGE_KEYS.AUTH_USER);
+      }
+      throw new Error(
+        `${authUser.email ?? 'That account'} cannot be used here. ` +
+          allowedDomainMessage(allowedDomains)
+      );
+    }
 
     let profile: ProfileRow | null = null;
     let profileReadOk = true;
