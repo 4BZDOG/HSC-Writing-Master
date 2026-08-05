@@ -234,6 +234,12 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const switchMode = (next: 'signin' | 'signup' | 'reset') => {
     setMode(next);
     setError(null);
+    // Both success panels replace the form, so today their own buttons are the
+    // only way out and they clear these first. Clearing here as well means a
+    // future entry point cannot land someone on a stale "check your email"
+    // panel for a mode they have since left.
+    setResetSentTo(null);
+    setConfirmationSentTo(null);
     setFieldErrors({});
     setUsernameError(false);
     setPasswordError(false);

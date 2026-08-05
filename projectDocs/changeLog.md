@@ -38,6 +38,15 @@ signs the user in once it is set.
   configuring a deployment will meet them: the `?mode=reset` redirect URL must
   be on the allowlist, or the link lands on the Site URL and signs the user in
   without asking for anything.
+- **Follow-up fixes from reviewing the above.** The marker was matched as a
+  literal `?mode=reset` prefix, so it was only found when Supabase happened to
+  put it first — `?code=…&mode=reset` fell through to the OAuth path and
+  reintroduced the exact silent sign-in the marker exists to prevent. It is now
+  matched as a parameter wherever it appears (and `?mode=resetting` no longer
+  counts). Cancelling also cleared the URL only _after_ awaiting `signOut`: a
+  rejected sign-out was harmless, but a hung one left the marker in place, so
+  every reload returned to a reset screen whose session was dead. The clear now
+  happens before any await.
 
 ### 🔒 Closed the two SSO gaps self-registration exposed
 

@@ -312,7 +312,8 @@ const applyOnboardingState = async (
  * arrival — both are a bare `?code=`. Rather than race `PASSWORD_RECOVERY`
  * against `SIGNED_IN` and hope, the reset email carries its own query flag.
  */
-export const PASSWORD_RESET_QUERY = '?mode=reset';
+export const PASSWORD_RESET_PARAM = 'mode=reset';
+export const PASSWORD_RESET_QUERY = `?${PASSWORD_RESET_PARAM}`;
 
 /**
  * Strip credential fragments and the reset marker from the address bar, so a
@@ -615,7 +616,16 @@ export const authService = {
   isPasswordRecovery: (): boolean => {
     if (!isSupabaseConfigured || typeof window === 'undefined') return false;
     const url = `${window.location.search}${window.location.hash}`;
-    return url.includes(PASSWORD_RESET_QUERY) || /[#&?]type=recovery\b/.test(url);
+    // Matched as a PARAMETER, not as a literal `?mode=reset` prefix. Supabase
+    // appends its own `code=` to the redirect_to and we do not control the
+    // resulting order — `?code=…&mode=reset` is as likely as `?mode=reset&…`,
+    // and a prefix match silently misses it. Missing it is not a cosmetic
+    // failure: the return falls through to the OAuth path, the user is signed
+    // in without ever being asked for a password, and the reset appears to have
+    // done nothing.
+    return (
+      new RegExp(`[?&#]${PASSWORD_RESET_PARAM}\\b`).test(url) || /[#&?]type=recovery\b/.test(url)
+    );
   },
 
   /**
@@ -665,13 +675,20 @@ export const authService = {
    * holder. Backing out has to sign out.
    */
   cancelPasswordRecovery: async (): Promise<void> => {
-    if (isSupabaseConfigured && supabase) {
-      await supabase.auth.signOut().catch(() => {});
-    }
+    // Clear the URL FIRST, before any await. The marker is what routes the app
+    // to the reset screen, so leaving it in place while signOut is in flight
+    // means a reload lands back on that screen — and if signOut never completes
+    // (offline, network failure) it is never cleared at all, trapping the user
+    // on a reset screen whose session is dead: every attempt fails with "link
+    // expired" and the login page is unreachable without editing the URL by
+    // hand. Local state goes with it, for the same reason.
+    clearAuthRedirectParams();
     if (typeof window !== 'undefined') {
       window.localStorage.removeItem(STORAGE_KEYS.AUTH_USER);
     }
-    clearAuthRedirectParams();
+    if (isSupabaseConfigured && supabase) {
+      await supabase.auth.signOut().catch(() => {});
+    }
   },
 
   loginAsGuest: async (): Promise<User> => {

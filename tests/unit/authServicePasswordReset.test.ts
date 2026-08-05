@@ -106,6 +106,21 @@ describe('isPasswordRecovery', () => {
     expect(authService.isPasswordRecovery()).toBe(true);
   });
 
+  it('recognises the marker WHEREVER Supabase puts it in the query string', () => {
+    // The order of `code` and `mode` in the return URL is Supabase's to choose,
+    // not ours. A prefix match on `?mode=reset` passes the first case and
+    // silently fails the second — and failing means the return falls through to
+    // the OAuth path, the user is signed in without being asked for a password,
+    // and the reset appears to have done nothing.
+    window.history.replaceState({}, '', '/?code=abc123&mode=reset');
+    expect(authService.isPasswordRecovery()).toBe(true);
+  });
+
+  it('is not fooled by a parameter that merely starts with the marker', () => {
+    window.history.replaceState({}, '', '/?mode=resetting');
+    expect(authService.isPasswordRecovery()).toBe(false);
+  });
+
   it('recognises the implicit flow, which puts type=recovery in the hash', () => {
     window.history.replaceState({}, '', '/#access_token=x&type=recovery');
     expect(authService.isPasswordRecovery()).toBe(true);
@@ -197,5 +212,24 @@ describe('cancelPasswordRecovery', () => {
     expect(signOutMock).toHaveBeenCalled();
     expect(authService.getCurrentUser()).toBeNull();
     expect(window.location.search).toBe('');
+  });
+
+  it('clears the URL before awaiting signOut, so a HANGING sign-out cannot trap the user', async () => {
+    // A *rejected* signOut is caught and harmless. A hung one is the trap: with
+    // the clear sequenced after the await it never runs, the marker stays in the
+    // URL, and every reload lands back on a reset screen whose session is dead —
+    // "link expired" on every attempt, with no route to the login page short of
+    // editing the address bar. So the clear happens first, before any await.
+    signOutMock.mockReturnValue(new Promise(() => {})); // never settles
+    window.history.replaceState({}, '', `/${PASSWORD_RESET_QUERY}&code=abc123`);
+
+    // Deliberately NOT awaited — the point is that the URL is already clean
+    // while signOut is still in flight.
+    void authService.cancelPasswordRecovery();
+    await Promise.resolve();
+
+    expect(window.location.search).toBe('');
+    expect(authService.isPasswordRecovery()).toBe(false);
+    expect(authService.getCurrentUser()).toBeNull();
   });
 });
