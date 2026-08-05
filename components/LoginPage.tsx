@@ -127,11 +127,46 @@ const GitHubIcon = () => (
   </svg>
 );
 
-const OAUTH_PROVIDERS: { id: Provider; label: string; icon: React.FC }[] = [
+const ALL_OAUTH_PROVIDERS: { id: Provider; label: string; icon: React.FC }[] = [
   { id: 'google', label: 'Google', icon: GoogleIcon },
   { id: 'azure', label: 'Microsoft', icon: MicrosoftIcon },
   { id: 'github', label: 'GitHub', icon: GitHubIcon },
 ];
+
+/**
+ * Which SSO buttons this deployment shows, from `VITE_OAUTH_PROVIDERS`.
+ *
+ * A provider button is only useful if the provider is ENABLED in the Supabase
+ * dashboard — and none of them is, on a new project. Rendering all three
+ * unconditionally meant a fresh deployment showed three buttons that each
+ * failed with Supabase's raw "Unsupported provider" once the user had already
+ * been redirected. A NSW DoE school in particular wants Microsoft alone: Google
+ * and GitHub are not just unused there, they are a support ticket each.
+ *
+ * Unset keeps the previous behaviour (all three) so no working deployment
+ * loses a login method on upgrade. Set it to the providers actually enabled —
+ * `VITE_OAUTH_PROVIDERS=azure` — or to `none` to hide the section entirely and
+ * run on email/password alone. Unknown names are ignored rather than rendered
+ * as a button that cannot work.
+ */
+export const resolveOAuthProviders = (
+  raw: string | undefined
+): { id: Provider; label: string; icon: React.FC }[] => {
+  const configured = raw?.trim();
+  if (configured === undefined || configured === '') return ALL_OAUTH_PROVIDERS;
+  if (configured.toLowerCase() === 'none') return [];
+  const wanted = configured
+    .split(',')
+    .map((name) => name.trim().toLowerCase())
+    .filter(Boolean);
+  // Ordered by the wanted list, not the catalogue, so a deployment controls
+  // which provider reads as the primary one.
+  return wanted
+    .map((name) => ALL_OAUTH_PROVIDERS.find((p) => p.id === name))
+    .filter((p): p is (typeof ALL_OAUTH_PROVIDERS)[number] => p !== undefined);
+};
+
+const OAUTH_PROVIDERS = resolveOAuthProviders(import.meta.env.VITE_OAUTH_PROVIDERS);
 
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [username, setUsername] = useState('');
@@ -297,7 +332,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
               </button>
             </form>
 
-            {isSupabaseConfigured && (
+            {isSupabaseConfigured && OAUTH_PROVIDERS.length > 0 && (
               <div className="mt-7">
                 <div className="flex items-center gap-4 mb-5">
                   <div className="flex-1 h-px bg-white/10 light:bg-slate-300" />

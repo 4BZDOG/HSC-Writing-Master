@@ -59,6 +59,31 @@ describe('loginWithOAuth', () => {
     expect(call.options.redirectTo).toBe(`${window.location.origin}/`);
   });
 
+  /**
+   * A provider that is not switched on in the Supabase dashboard — which is
+   * EVERY provider on a new project — fails with "Unsupported provider". That
+   * string reaches a student on the login screen, where it names neither the
+   * cause nor a way forward. The message must say which provider, who fixes
+   * it, and what to do meanwhile.
+   */
+  it('translates a disabled provider into something a student can act on', async () => {
+    signInWithOAuthMock.mockResolvedValue({
+      data: {},
+      error: { message: 'Unsupported provider: provider is not enabled' },
+    });
+    await expect(authService.loginWithOAuth('azure')).rejects.toThrow(
+      /Microsoft sign-in is not enabled.*administrator.*email and password/s
+    );
+  });
+
+  it('passes other OAuth failures through untouched', async () => {
+    signInWithOAuthMock.mockResolvedValue({
+      data: {},
+      error: { message: 'Network request failed' },
+    });
+    await expect(authService.loginWithOAuth('google')).rejects.toThrow('Network request failed');
+  });
+
   it('asks Google for the account picker (shared school computers)', async () => {
     signInWithOAuthMock.mockResolvedValue({ data: {}, error: null });
     await authService.loginWithOAuth('google');

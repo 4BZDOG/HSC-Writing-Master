@@ -27,6 +27,17 @@ const DEFAULT_STATS: UserStats = {
   streakDays: 1,
 };
 
+/**
+ * Human names for the SSO providers the login page offers. Supabase's provider
+ * ids are not what a student calls them — nobody signing in with a school
+ * account thinks of it as "azure".
+ */
+const PROVIDER_LABELS: Partial<Record<Provider, string>> = {
+  google: 'Google',
+  azure: 'Microsoft',
+  github: 'GitHub',
+};
+
 const MOCK_USERS: Record<string, { password: string; role: UserRole; name: string }> = {
   admin: { password: 'admin', role: 'admin', name: 'Administrator' },
   teacher: { password: 'teacher', role: 'teacher', name: 'Teacher User' },
@@ -409,7 +420,20 @@ export const authService = {
         ...(provider === 'google' ? { queryParams: { prompt: 'select_account' } } : {}),
       },
     });
-    if (error) throw new Error(error.message);
+    // A provider that is not switched on in the Supabase dashboard fails here
+    // with "Unsupported provider: provider is not enabled" — accurate, and
+    // useless to the student reading it on a login screen. Name the actual
+    // remedy instead, and who has to do it.
+    if (error) {
+      if (/provider is not enabled|unsupported provider/i.test(error.message)) {
+        throw new Error(
+          `${PROVIDER_LABELS[provider] ?? provider} sign-in is not enabled for this deployment. ` +
+            'Ask an administrator to enable it in Supabase (Authentication → Providers), ' +
+            'or sign in with your email and password.'
+        );
+      }
+      throw new Error(error.message);
+    }
   },
 
   handleOAuthCallback: async (): Promise<User | null> => {

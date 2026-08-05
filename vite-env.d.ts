@@ -12,6 +12,15 @@ interface ImportMetaEnv {
    * silently shipping a working admin/admin account.
    */
   readonly VITE_ENABLE_DEMO_AUTH?: string;
+  /**
+   * Which SSO buttons the login page shows, comma-separated, from
+   * `google` / `azure` / `github` — e.g. `azure` for a school that signs in
+   * with Microsoft only. `none` hides the section (email/password alone).
+   * Unset shows all three, the behaviour before this existed. A provider must
+   * also be enabled in the Supabase dashboard; listing one here does not
+   * enable it.
+   */
+  readonly VITE_OAUTH_PROVIDERS?: string;
   readonly VITE_SENTRY_DSN?: string;
   readonly VITE_SENTRY_ENVIRONMENT?: string;
   readonly VITE_SENTRY_RELEASE?: string;
