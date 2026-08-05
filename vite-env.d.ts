@@ -23,6 +23,13 @@ interface ImportMetaEnv {
    * ALLOWED_ORIGIN to the frontend's origin for the browser's CORS check.
    */
   readonly VITE_API_BASE_URL?: string;
+  /**
+   * `'true'` only on a host that cannot run the serverless AI proxy (GitHub
+   * Pages). Lets the client skip a doomed request to /api/gemini. Anything else
+   * — including unset — means a proxy is expected, same-origin unless
+   * VITE_API_BASE_URL points elsewhere. Do NOT set this on Vercel.
+   */
+  readonly VITE_STATIC_HOSTING?: string;
   /** `false` opens every paid feature — pilots and demos. Unset means ON. */
   readonly VITE_MONETISATION_ENABLED?: string;
   /**

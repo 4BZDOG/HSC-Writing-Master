@@ -15,11 +15,26 @@ import { getModelByProviderModel } from './aiModels';
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
 const GEMINI_PROXY_ENDPOINT = `${API_BASE_URL}/api/gemini`;
 
-// True in production builds with no API host configured — the proxy endpoint
-// resolves to the static host itself (e.g. GitHub Pages), which can never
-// serve the serverless function. Detected once at module load so every AI call
-// can skip the doomed fetch and go straight to the direct-browser path.
-const IS_STATIC_HOSTING = !import.meta.env.DEV && !API_BASE_URL;
+// Static hosting is DECLARED by the build, not inferred from other variables.
+//
+// This used to read `!import.meta.env.DEV && !API_BASE_URL` — "a production build
+// with no API host must be a static host". That is wrong for the most important
+// case: on Vercel the proxy is same-origin, so VITE_API_BASE_URL is correctly
+// left unset (DEPLOYMENT.md says so), and the inference concluded "static". Every
+// AI call — marking, question generation, sample answers — then short-circuited
+// to ProxyUnavailableError without ever trying `/api/gemini`, which was sitting
+// right there. VITE_API_BASE_URL means "the proxy is on ANOTHER origin"; it never
+// meant "a proxy exists".
+//
+// So the default is now "a proxy is reachable", and the one deployment where that
+// is false says so: .github/workflows/deploy-pages.yml sets this when no
+// API_BASE_URL is configured.
+//
+// Getting the flag wrong is not fatal either way — it only decides whether we
+// skip a doomed round-trip. A build that wrongly claims a proxy still lands in
+// the identical 404/405 branch below, which raises the same ProxyUnavailableError
+// and offers the same direct-key fallback.
+const IS_STATIC_HOSTING = import.meta.env.VITE_STATIC_HOSTING === 'true';
 
 /** Whether this deployment has a reachable AI proxy. UI can read this to show
  *  an "AI not connected" banner without waiting for the first call to fail. */

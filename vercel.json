@@ -3,9 +3,10 @@
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "installCommand": "npm install --legacy-peer-deps",
+  "installCommand": "npm ci --legacy-peer-deps",
+  "regions": ["syd1"],
   "functions": {
-    "api/**/*.ts": {
+    "api/*.ts": {
       "maxDuration": 60
     }
   },

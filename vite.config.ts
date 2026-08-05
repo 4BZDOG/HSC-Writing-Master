@@ -224,7 +224,12 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      sourcemap: true,
+      // 'hidden' still EMITS the maps (so they can be uploaded to an error
+      // tracker) but drops the //# sourceMappingURL comment, so the browser
+      // does not fetch them and Vercel does not serve the full commented
+      // TypeScript source to anyone who opens devtools. `true` published ~15 MB
+      // of source alongside a ~2 MB bundle.
+      sourcemap: mode === 'production' ? 'hidden' : true,
       minify: 'esbuild',
       rollupOptions: {
         output: {
