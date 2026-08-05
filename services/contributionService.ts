@@ -233,7 +233,37 @@ const resolveRowId = async (
   const filter = UUID_RE.test(appId)
     ? `legacy_id.eq.${quoted},id.eq.${appId}`
     : `legacy_id.eq.${quoted}`;
-  const { data, error } = await requireClient().from(table).select('id').or(filter).maybeSingle();
+  // A `legacy_id` is NOT unique, so this filter can match several rows and a bare
+  // `.maybeSingle()` would fail the whole lookup with PGRST116.
+  //
+  // The only uniqueness on it is `uniq_prompts_legacy_owner`, a PARTIAL index on
+  // (legacy_id, created_by) `where legacy_id is not null and created_by is not
+  // null`. Seeded content has `created_by = null`, so the index does not cover it
+  // at all; and a teacher contributing a variant of a seeded question writes a
+  // second row with the same legacy_id under their own id. Verified against
+  // Postgres: three rows can share one legacy_id.
+  //
+  // That mattered well beyond this function. `resolvePromptRowId` feeds
+  // `persistResponse`, which swallows its errors by design — so the first time a
+  // teacher contributed a variant of a question, responses to that question
+  // silently stopped being saved for everyone.
+  //
+  // Ordered on `created_by` with nulls first, which is both deterministic and
+  // the RIGHT preference: seeded canonical content has `created_by = null`, so a
+  // shared question always wins over somebody's private variant of it. `id`
+  // breaks any remaining tie so the result cannot vary between calls.
+  //
+  // Not `created_at`: only `courses` and `prompts` have that column — `topics`,
+  // `sub_topics` and `dot_points` do not, so ordering by it would turn a
+  // duplicate-row bug into a hard failure on every curriculum lookup.
+  const { data, error } = await requireClient()
+    .from(table)
+    .select('id')
+    .or(filter)
+    .order('created_by', { ascending: true, nullsFirst: true })
+    .order('id', { ascending: true })
+    .limit(1)
+    .maybeSingle();
   if (error) throw new Error(`Could not look up ${table}: ${error.message}`);
   return (data as { id: string } | null)?.id ?? null;
 };

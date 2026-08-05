@@ -419,10 +419,19 @@ alter table public.sample_answers add column if not exists quality_notes text;
 -- these columns, so backfill it to 'approved'; new user-created rows default to
 -- 'private' (and the enforce trigger + RLS below gate the rest).
 do $struct$
-declare t text;
+declare
+  t text;
+  v_is_new_column boolean;
 begin
   foreach t in array array['topics', 'sub_topics', 'dot_points']
   loop
+    -- Checked BEFORE the column is added, because the backfill below must run
+    -- exactly once — on the migration that introduces `status` — and never again.
+    select not exists (
+      select 1 from information_schema.columns
+       where table_schema = 'public' and table_name = t and column_name = 'status'
+    ) into v_is_new_column;
+
     execute format(
       'alter table public.%1$s add column if not exists status content_status not null default ''private'';', t);
     execute format(
@@ -432,9 +441,21 @@ begin
     -- bug that only surfaced once structure became updatable; add it everywhere.
     execute format(
       'alter table public.%1$s add column if not exists updated_at timestamptz not null default now();', t);
-    -- Seeded rows have no creator and predate the column → approved canonical.
-    execute format(
-      'update public.%1$s set status = ''approved'' where created_by is null and status = ''private'';', t);
+
+    -- Rows that predate the column have no creator and are canonical seeded
+    -- content, so they start approved. New user-created rows default to
+    -- 'private' and go through moderation.
+    --
+    -- Guarded, because this is a DATA MUTATION in a file that is re-applied. It
+    -- used to run on every apply, and `created_by is null and status = private`
+    -- also describes a perfectly ordinary unmoderated row — anything written by
+    -- `seed.mjs` without SEED_ADMIN_ID set, for instance. Verified against
+    -- Postgres: a private topic was silently published by a routine re-apply.
+    -- Re-running the schema must never approve content on someone's behalf.
+    if v_is_new_column then
+      execute format(
+        'update public.%1$s set status = ''approved'' where created_by is null and status = ''private'';', t);
+    end if;
   end loop;
 end $struct$;
 
@@ -1462,17 +1483,15 @@ create index if not exists subscriptions_user_idx on public.subscriptions (user_
 -- RLS: users can read their own subscription, admins can read all.
 alter table public.subscriptions enable row level security;
 
-do $$ begin
-  create policy "Users read own subscriptions"
-    on public.subscriptions for select
-    using (auth.uid() = user_id);
-exception when duplicate_object then null; end $$;
+drop policy if exists "Users read own subscriptions" on public.subscriptions;
+create policy "Users read own subscriptions"
+  on public.subscriptions for select
+  using (auth.uid() = user_id);
 
-do $$ begin
-  create policy "Admins read all subscriptions"
-    on public.subscriptions for select
-    using (public.is_admin());
-exception when duplicate_object then null; end $$;
+drop policy if exists "Admins read all subscriptions" on public.subscriptions;
+create policy "Admins read all subscriptions"
+  on public.subscriptions for select
+  using (public.is_admin());
 
 -- Webhook handler writes via service-role key, so no insert/update policy
 -- is needed for authenticated users.
@@ -1523,11 +1542,10 @@ create table if not exists public.stripe_events (
 
 alter table public.stripe_events enable row level security;
 -- Service-role writes only; readable by reviewers for delivery debugging.
-do $$ begin
-  create policy "Reviewers read stripe events"
-    on public.stripe_events for select
-    using (public.is_reviewer());
-exception when duplicate_object then null; end $$;
+drop policy if exists "Reviewers read stripe events" on public.stripe_events;
+create policy "Reviewers read stripe events"
+  on public.stripe_events for select
+  using (public.is_reviewer());
 
 -- Ordering guard: the timestamp of the newest event applied to this
 -- subscription row.  handleSubscriptionUpsert refuses to apply an event older
@@ -1561,11 +1579,10 @@ alter table public.evaluation_usage enable row level security;
 
 -- Your own usage, or any row for reviewers. No write policy: the only write
 -- path is consume_evaluation() below.
-do $$ begin
-  create policy "Users read own evaluation usage"
-    on public.evaluation_usage for select
-    using (user_id = auth.uid() or public.is_reviewer());
-exception when duplicate_object then null; end $$;
+drop policy if exists "Users read own evaluation usage" on public.evaluation_usage;
+create policy "Users read own evaluation usage"
+  on public.evaluation_usage for select
+  using (user_id = auth.uid() or public.is_reviewer());
 
 -- Adjustable commercial settings.  The paywall's numbers used to be constants
 -- compiled into two places (this file and the client bundle), so changing the
@@ -1584,11 +1601,10 @@ alter table public.plan_settings enable row level security;
 
 -- Readable by anyone signed in (the client shows the number it is held to);
 -- writable only through set_plan_setting() below, which checks for admin.
-do $$ begin
-  create policy "Signed-in users read plan settings"
-    on public.plan_settings for select
-    using (auth.role() = 'authenticated');
-exception when duplicate_object then null; end $$;
+drop policy if exists "Signed-in users read plan settings" on public.plan_settings;
+create policy "Signed-in users read plan settings"
+  on public.plan_settings for select
+  using (auth.role() = 'authenticated');
 
 -- Daily free-tier evaluation allowance.  The DEFAULT below must match
 -- FREE_TIER_EVAL_LIMIT in services/planLimits.ts (pinned by
