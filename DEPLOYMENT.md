@@ -280,6 +280,13 @@ plans on the AI, not on the text.
       before going live.
 - [ ] Decide the auth story: Supabase for real users, or
       `VITE_ENABLE_DEMO_AUTH=true` for a demo, or guest-only.
+- [ ] **Restrict who can self-register.** The login page offers account
+      creation, and a new account is a `student` with a 60-call daily AI budget
+      charged to your provider key. Unrestricted, anyone who finds the URL can
+      register and spend it. Set `VITE_SIGNUP_ALLOWED_DOMAINS` to your school's
+      email domain, or `VITE_ENABLE_SIGNUP=false` if accounts are provisioned
+      centrally. Leave email confirmation ON in Supabase so an address has to be
+      real.
 - [ ] Visit the deployed URL, log in, import the curriculum library, and
       run one evaluation end-to-end.
 - [ ] If you are selling: work through the Stripe checklist above, and confirm
@@ -337,10 +344,10 @@ all three.
 For a NSW DoE school this is normally `VITE_OAUTH_PROVIDERS=azure`: everyone
 already holds an `@education.nsw.gov.au` Entra account, so Microsoft sign-in
 provisions them on first use and there are no passwords for the school to
-manage or reset. That matters more than it looks — the app has no sign-up form
-and no password-reset form of its own, so without SSO an admin creates every
-account by hand in the Supabase dashboard and resets every forgotten password
-there too. SSO is what makes a class rollover tractable.
+manage or reset. SSO also sidesteps password resets entirely, which matters because the app
+has **no password-reset form of its own** — a user who forgets one needs an
+admin to reset it in the Supabase dashboard. Self-registration exists (see
+below), but it does not solve that.
 
 ### 1. Enable the provider in Supabase
 

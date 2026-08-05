@@ -8,6 +8,12 @@ import {
 } from '../utils/storageUtils';
 import { supabase, isSupabaseConfigured } from './supabaseClient';
 import type { Provider } from '@supabase/auth-js';
+import {
+  isSignupEnabled,
+  parseAllowedDomains,
+  isEmailDomainAllowed,
+  allowedDomainMessage,
+} from './signupPolicy';
 
 const DEFAULT_PREFERENCES: UserPreferences = {
   defaultFocusMode: false,
@@ -330,6 +336,53 @@ const supabaseLogin = async (email: string, password: string): Promise<User> => 
 };
 
 /**
+ * The two things `signUp` can legitimately produce.
+ *
+ * They are NOT interchangeable and the caller must branch on them. With email
+ * confirmation off (Supabase → Authentication → Settings) the call returns a
+ * live session and the user is simply logged in. With it on — the correct
+ * setting for anything public — it returns a user with NO session, and the
+ * account does nothing until the emailed link is clicked. Collapsing the two
+ * would either drop a signed-in user back on the login form or leave someone
+ * staring at a spinner waiting for a session that is never coming.
+ */
+export type SignUpResult =
+  | { status: 'active'; user: User }
+  | { status: 'confirmation-required'; email: string };
+
+/**
+ * Supabase deliberately does not tell you an address is taken: with
+ * confirmation on, re-registering an existing email returns a normal-looking
+ * user with an EMPTY `identities` array rather than an error. That is
+ * anti-enumeration, and it is why this needs detecting explicitly — without it
+ * the app cheerfully says "check your email" for an email that will never
+ * arrive, which is the single most confusing outcome available here.
+ */
+const isObfuscatedExistingUser = (user: { identities?: unknown[] | null } | null): boolean =>
+  Array.isArray(user?.identities) && user.identities.length === 0;
+
+/** Supabase's raw auth errors, restated for someone creating a school account. */
+const describeSignUpError = (message: string): string => {
+  const m = message.toLowerCase();
+  if (m.includes('already registered') || m.includes('already been registered')) {
+    return 'An account already exists for that email address. Sign in instead.';
+  }
+  if (m.includes('password')) {
+    return `Password rejected: ${message}`;
+  }
+  if (m.includes('signups not allowed') || m.includes('signup is disabled')) {
+    return 'Account creation is switched off for this deployment. Ask an administrator to create your account.';
+  }
+  if (m.includes('email address') && m.includes('invalid')) {
+    return 'That email address was rejected. Check it for typos.';
+  }
+  if (m.includes('rate limit') || m.includes('too many')) {
+    return 'Too many attempts. Wait a minute and try again.';
+  }
+  return message;
+};
+
+/**
  * Auth errors that indicate a transient network problem rather than a
  * rejected/expired session. supabase-js raises AuthRetryableFetchError (status
  * 0 or undefined) when the Auth server is unreachable — being offline must NOT
@@ -387,6 +440,68 @@ export const authService = {
       return supabaseLogin(username, password);
     }
     return mockLogin(username, password);
+  },
+
+  /**
+   * Create an account with an email and a password.
+   *
+   * Supabase-only: mock mode has a fixed set of demo logins and nothing to
+   * register against, so this refuses rather than pretending to succeed.
+   *
+   * The domain allowlist is re-checked HERE and not only in the form. The form
+   * check is for the person typing; this one is the rule. They read the same
+   * `VITE_SIGNUP_ALLOWED_DOMAINS` so they cannot disagree.
+   *
+   * `display_name` rides along in the user metadata for `handle_new_user`,
+   * which creates the `profiles` row on the `auth.users` insert. `username` is
+   * deliberately NOT sent — the trigger derives it from the email local part
+   * and de-duplicates it, and having two places invent usernames is how you get
+   * two different ones.
+   */
+  signUp: async (email: string, password: string, displayName?: string): Promise<SignUpResult> => {
+    if (!isSupabaseConfigured || !supabase) {
+      throw new Error('Account creation requires Supabase to be configured on this deployment.');
+    }
+    if (!isSignupEnabled(import.meta.env.VITE_ENABLE_SIGNUP)) {
+      throw new Error(
+        'Account creation is switched off for this deployment. Ask an administrator to create your account.'
+      );
+    }
+
+    const trimmedEmail = email.trim();
+    const allowed = parseAllowedDomains(import.meta.env.VITE_SIGNUP_ALLOWED_DOMAINS);
+    if (!isEmailDomainAllowed(trimmedEmail, allowed)) {
+      throw new Error(allowedDomainMessage(allowed));
+    }
+
+    const { data, error } = await supabase.auth.signUp({
+      email: trimmedEmail,
+      password,
+      options: {
+        data: displayName?.trim() ? { display_name: displayName.trim() } : {},
+        // Same base-path reasoning as loginWithOAuth: origin alone drops the
+        // sub-path on Pages-style hosting and the confirmation link 404s.
+        emailRedirectTo: `${window.location.origin}${import.meta.env.BASE_URL ?? '/'}`,
+      },
+    });
+
+    if (error) throw new Error(describeSignUpError(error.message));
+    if (!data.user) throw new Error('Account creation failed. Try again.');
+    if (isObfuscatedExistingUser(data.user)) {
+      throw new Error('An account already exists for that email address. Sign in instead.');
+    }
+
+    // No session means confirmation is required. Do NOT try to log in here —
+    // there is nothing to log in with until the emailed link is followed.
+    if (!data.session) {
+      return { status: 'confirmation-required', email: trimmedEmail };
+    }
+
+    // Confirmation is off, so the account is live. Route through the ordinary
+    // login path rather than hand-building a User: it is what applies the
+    // streak calculation, the school plan, the onboarding state and the
+    // localStorage write, and a second copy of that would drift.
+    return { status: 'active', user: await supabaseLogin(trimmedEmail, password) };
   },
 
   loginAsGuest: async (): Promise<User> => {

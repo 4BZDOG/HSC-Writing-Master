@@ -2,6 +2,42 @@
 
 ## [Unreleased] - 2026-08-05
 
+### ✨ Self-registration
+
+The app could sign people in but never register them: `signUp` appeared nowhere,
+so every account had to be hand-made in the Supabase dashboard. There is now a
+**Create one** link on the login page.
+
+- `authService.signUp()` distinguishes the two outcomes Supabase can return, and
+  the UI branches on them. With email confirmation off a session comes back and
+  the user is logged straight in (through the ordinary login path, so streaks,
+  school plan and onboarding state are applied rather than a second hand-built
+  `User` drifting from it). With confirmation on there is a user and **no**
+  session, the account is inert until the emailed link is followed, and the form
+  is replaced by a notice naming the address.
+- Detects Supabase's anti-enumeration response. Re-registering an existing
+  address returns a normal-looking user with an EMPTY `identities` array rather
+  than an error — untreated, the app says "check your email" about a mail that
+  is never sent, which is the most confusing outcome available here.
+- Policy lives in `services/signupPolicy.ts` and is enforced in **both** the form
+  and the service, because a rule checked only in the form is a suggestion a
+  direct call ignores. `VITE_SIGNUP_ALLOWED_DOMAINS` restricts registration by
+  email domain (sub-domains included; look-alikes like
+  `fakeeducation.nsw.gov.au` are refused, which a naive `endsWith` would let in),
+  and `VITE_ENABLE_SIGNUP=false` removes the feature.
+- **Set the allowlist before deploying publicly.** A new account is created as a
+  `student` and a student carries a 60-call daily AI budget spent against the
+  deployment's provider key, so open registration hands AI spend to whoever
+  finds the URL.
+- Supabase's raw auth errors are restated for someone creating a school account
+  ("Signups not allowed for this instance" → who to ask; a rate limit → wait a
+  minute), with unrecognised messages passed through rather than replaced.
+- Password fields carry `autocomplete="new-password"` so a password manager
+  offers to generate one instead of filling in the old one — the shared
+  `InputField` had `current-password` hard-coded for every password input.
+- Still **no password reset**: a user who forgets one needs an admin to reset it
+  in the Supabase dashboard. SSO remains the way to avoid the problem entirely.
+
 ### 🔒 The §19 class-scoping hole, one table over
 
 `profiles_read` was still `id = auth.uid() or is_reviewer()` after §19 re-scoped

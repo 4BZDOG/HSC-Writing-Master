@@ -11,14 +11,14 @@ demo accounts) — so this is only needed when you want real users.
 
 ## What Supabase does for this project
 
-| Feature            | Without Supabase                               | With Supabase                                                                   |
-| ------------------ | ---------------------------------------------- | ------------------------------------------------------------------------------- |
-| Authentication     | Demo accounts (admin/admin, teacher/teacher)   | Real accounts with roles — email/password or SSO (no in-app sign-up either way) |
-| Data storage       | Per-browser IndexedDB (private to each device) | Shared Postgres database (everyone sees approved content)                       |
-| AI proxy auth      | Open — anyone with the URL can call it         | Requires a valid user session                                                   |
-| AI quotas          | None                                           | Per-role daily limits (admin 1000, teacher 400, student 60)                     |
-| Content moderation | N/A                                            | Users submit → admins review → approved content published                       |
-| Student responses  | Local only                                     | Persisted centrally, visible to the teachers who teach that student             |
+| Feature            | Without Supabase                               | With Supabase                                                       |
+| ------------------ | ---------------------------------------------- | ------------------------------------------------------------------- |
+| Authentication     | Demo accounts (admin/admin, teacher/teacher)   | Real accounts with roles — self-registration, SSO, or admin-created |
+| Data storage       | Per-browser IndexedDB (private to each device) | Shared Postgres database (everyone sees approved content)           |
+| AI proxy auth      | Open — anyone with the URL can call it         | Requires a valid user session                                       |
+| AI quotas          | None                                           | Per-role daily limits (admin 1000, teacher 400, student 60)         |
+| Content moderation | N/A                                            | Users submit → admins review → approved content published           |
+| Student responses  | Local only                                     | Persisted centrally, visible to the teachers who teach that student |
 
 ---
 
@@ -159,17 +159,13 @@ dashboard).
 
 ## Step 5 — Create your admin account
 
-**The app has no sign-up screen** — `LoginPage` signs people in, it never
-registers them. Create the account in Supabase, then sign in with it:
-
-1. Supabase dashboard → **Authentication** → **Users** → **Add user** →
-   **Create new user**. Enter your email and a password, and tick **Auto
-   Confirm User** so you don't have to chase a confirmation email.
-   (If you have already enabled an SSO provider, signing in with it creates the
-   account for you instead — skip to step 3.)
-2. Open your deployed app (or `localhost:5173` for local dev) and log in with
-   those credentials. The `handle_new_user` trigger creates the matching
-   `profiles` row on first sign-in.
+1. Open your deployed app (or `localhost:5173` for local dev) and use
+   **Create one** on the login page. If email confirmation is on, follow the
+   link Supabase emails you.
+   (Prefer not to wait on email? Supabase dashboard → **Authentication** →
+   **Users** → **Add user**, ticking **Auto Confirm User**, then sign in.)
+2. The `handle_new_user` trigger creates the matching `profiles` row on first
+   sign-in.
 3. Back in the Supabase dashboard, go to **SQL Editor** and run:
 
    ```sql
@@ -231,21 +227,28 @@ Supabase database so users have content to work with immediately.
 
 ### How accounts get created
 
-**The app has no sign-up form and no password-reset form.** `LoginPage` signs
-people in; it never registers them. So there are exactly two ways an account
-comes into existence, and it is worth deciding which before a class uses this:
+Three routes, and it is worth deciding which one a class will use:
 
+- **Self-registration** — the login page has a **Create one** link. The user
+  supplies an email and password, and (if email confirmation is on, which it
+  should be) activates the account from a link Supabase emails them.
 - **Single sign-on** — a first-time OAuth sign-in creates the account and its
-  `profiles` row automatically (the `handle_new_user` trigger fires on the
-  `auth.users` insert either way). Nobody provisions anything, and there are no
+  `profiles` row automatically. Nobody provisions anything, and there are no
   passwords to reset.
 - **By hand** — Supabase dashboard → **Authentication** → **Users** → **Add
-  user**. This is also where you reset a forgotten password, because the app
-  offers the user no way to do it themselves.
+  user**.
 
-Plan for the second one at a class rollover: thirty accounts is thirty manual
-creations, and every forgotten password comes back to whoever holds the
-dashboard login.
+> **Restrict who may self-register.** A new account is created as a `student`,
+> and a student carries a 60-call daily AI budget spent against your provider
+> key. With no restriction, anyone who finds the URL can register and spend it.
+> Set `VITE_SIGNUP_ALLOWED_DOMAINS` to your school's email domain — for NSW DoE,
+> `education.nsw.gov.au`. `VITE_ENABLE_SIGNUP=false` removes self-registration
+> entirely where accounts are provisioned centrally.
+
+> **There is still no password reset in the app.** A user who forgets their
+> password cannot recover it themselves — an admin resets it in the Supabase
+> dashboard (Authentication → Users → the user → Reset password). Decide who
+> holds that job before a class depends on it.
 
 ### Disable email confirmation for testing
 
@@ -286,9 +289,9 @@ Entra app registration steps (use the multi-tenant account type).
 
 Run through this checklist:
 
-- [ ] **Account creation** works — either sign in with an enabled SSO provider
-      and confirm a `profiles` row appears, or add a user in the Supabase
-      dashboard and log in with it. (There is no in-app sign-up to test.)
+- [ ] **Account creation** works — use **Create one** on the login page, follow
+      the confirmation email, and confirm a `profiles` row appears. (SSO and
+      dashboard-created accounts are the other two routes.)
 - [ ] **Role assignment** — your admin account sees admin controls.
 - [ ] **Curriculum loads** — the course/topic tree shows seeded content.
 - [ ] **AI evaluation** — select a question, write a response, submit for

@@ -2,6 +2,15 @@ import React, { useState } from 'react';
 import { User } from '../types';
 import { authService, isDemoAuthEnabled } from '../services/authService';
 import { isSupabaseConfigured } from '../services/supabaseClient';
+import {
+  isSignupEnabled,
+  parseAllowedDomains,
+  validateSignup,
+  hasSignupErrors,
+  allowedDomainMessage,
+  MIN_PASSWORD_LENGTH,
+  type SignupFieldErrors,
+} from '../services/signupPolicy';
 import type { Provider } from '@supabase/auth-js';
 import {
   Lock,
@@ -12,6 +21,7 @@ import {
   AlertCircle,
   Loader2,
   ShieldCheck,
+  MailCheck,
 } from 'lucide-react';
 import LegalDocumentModal from './LegalDocumentModal';
 
@@ -33,6 +43,18 @@ const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
 );
 
 /**
+ * Per-field validation message. Sits under its own field rather than joining a
+ * single banner at the bottom, so "the passwords do not match" points at the
+ * box that needs retyping instead of making the reader work it out.
+ */
+const FieldError = ({ message }: { message?: string }) =>
+  message ? (
+    <p className="flex items-center gap-1.5 text-red-400 light:text-red-600 text-[11px] font-bold mt-2 ml-1 animate-fade-in">
+      <AlertCircle className="w-3 h-3 shrink-0" /> {message}
+    </p>
+  ) : null;
+
+/**
  * InputField defined outside to prevent focus-loss bug during re-renders.
  */
 const InputField = ({
@@ -44,6 +66,7 @@ const InputField = ({
   placeholder,
   icon: Icon,
   hasError,
+  autoComplete,
 }: {
   id: string;
   label: string;
@@ -53,6 +76,9 @@ const InputField = ({
   placeholder: string;
   icon: any;
   hasError: boolean;
+  /** Overrides the sign-in default. Sign-up needs 'new-password' so a password
+   *  manager offers to generate one instead of filling the old one in. */
+  autoComplete?: string;
 }) => (
   <div className="space-y-2.5">
     <label
@@ -82,7 +108,8 @@ const InputField = ({
         value={value}
         onChange={onChange}
         autoComplete={
-          id === 'username' ? (isSupabaseConfigured ? 'email' : 'username') : 'current-password'
+          autoComplete ??
+          (id === 'username' ? (isSupabaseConfigured ? 'email' : 'username') : 'current-password')
         }
         className="block w-full pl-3 pr-4 py-4 bg-transparent text-white light:text-slate-900 placeholder-slate-600 outline-none focus:outline-none focus:ring-0 border-none font-medium text-sm"
         placeholder={placeholder}
@@ -168,6 +195,15 @@ export const resolveOAuthProviders = (
 
 const OAUTH_PROVIDERS = resolveOAuthProviders(import.meta.env.VITE_OAUTH_PROVIDERS);
 
+/**
+ * Self-registration is offered only when there is somewhere to register: mock
+ * mode has a fixed set of demo logins and no account store, so the link would
+ * lead to a form that cannot succeed.
+ */
+const SIGNUP_AVAILABLE =
+  isSupabaseConfigured && isSignupEnabled(import.meta.env.VITE_ENABLE_SIGNUP);
+const SIGNUP_ALLOWED_DOMAINS = parseAllowedDomains(import.meta.env.VITE_SIGNUP_ALLOWED_DOMAINS);
+
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -175,14 +211,66 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [error, setError] = useState<string | null>(null);
   const [oauthLoading, setOauthLoading] = useState<Provider | null>(null);
 
+  const [mode, setMode] = useState<'signin' | 'signup'>('signin');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [displayName, setDisplayName] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<SignupFieldErrors>({});
+  // Set once the account exists but needs its emailed link followed. The form
+  // is replaced rather than kept alongside a success banner — leaving it there
+  // invites a second submit, which just fails as "already registered".
+  const [confirmationSentTo, setConfirmationSentTo] = useState<string | null>(null);
+
   const [usernameError, setUsernameError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   // Readable BEFORE signing in — being asked to accept an agreement you had no
   // way of reading first is the thing everyone hates about consent dialogs.
   const [isLegalOpen, setIsLegalOpen] = useState(false);
 
+  /** Clear everything transient when moving between sign in and sign up. */
+  const switchMode = (next: 'signin' | 'signup') => {
+    setMode(next);
+    setError(null);
+    setFieldErrors({});
+    setUsernameError(false);
+    setPasswordError(false);
+    setPassword('');
+    setConfirmPassword('');
+  };
+
+  const handleSignup = async () => {
+    setError(null);
+    const errors = validateSignup({
+      email: username,
+      password,
+      confirmPassword,
+      allowedDomains: SIGNUP_ALLOWED_DOMAINS,
+    });
+    setFieldErrors(errors);
+    if (hasSignupErrors(errors)) return;
+
+    setIsLoading(true);
+    try {
+      const result = await authService.signUp(username.trim(), password, displayName);
+      if (result.status === 'confirmation-required') {
+        setConfirmationSentTo(result.email);
+        return;
+      }
+      onLogin(result.user);
+    } catch (err) {
+      // authService.signUp already restates Supabase's wording for a school
+      // audience, so show it rather than flattening it to something generic.
+      setError(err instanceof Error ? err.message : 'Could not create the account.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (mode === 'signup') {
+      await handleSignup();
+      return;
+    }
     setError(null);
     setUsernameError(false);
     setPasswordError(false);
@@ -281,56 +369,157 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           <MeshOverlay opacity="opacity-[0.04] light:opacity-[0.06]" />
 
           <div className="p-10 relative z-10">
-            <form onSubmit={handleSubmit} className="space-y-7">
-              <InputField
-                id="username"
-                label={isSupabaseConfigured ? 'Email' : 'Username'}
-                value={username}
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                  setUsernameError(false);
-                }}
-                type={isSupabaseConfigured ? 'email' : 'text'}
-                placeholder={isSupabaseConfigured ? 'Enter email address' : 'Enter username'}
-                icon={UserIcon}
-                hasError={usernameError}
-              />
-
-              <InputField
-                id="password"
-                label="Password"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  setPasswordError(false);
-                }}
-                type="password"
-                placeholder="Enter password"
-                icon={Lock}
-                hasError={passwordError}
-              />
-
-              {error && (
-                <div className="flex items-center gap-2 text-red-400 light:text-red-600 text-xs font-bold py-1 px-1 animate-fade-in">
-                  <AlertCircle className="w-4 h-4" /> {error}
+            {confirmationSentTo ? (
+              /* The account exists but is inert until the emailed link is
+                 followed. Say exactly that — "check your email" without
+                 saying why leaves people retrying the form. */
+              <div className="space-y-5 animate-fade-in" data-testid="signup-confirmation">
+                <div className="w-14 h-14 rounded-2xl bg-emerald-500/15 border-2 border-emerald-500/30 flex items-center justify-center">
+                  <MailCheck className="w-7 h-7 text-emerald-400" />
                 </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full py-4 rounded-2xl font-bold text-sm uppercase tracking-widest text-white bg-indigo-600 hover:bg-indigo-500 shadow-xl shadow-indigo-900/40 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3 group/btn border-2 border-white/10 hover:border-white/20"
-              >
-                {isLoading ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                ) : (
-                  <>
-                    Sign In{' '}
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
-                  </>
+                <h2 className="text-xl font-bold text-white light:text-slate-900">
+                  Confirm your email
+                </h2>
+                <p className="text-sm text-slate-400 light:text-slate-600 leading-relaxed">
+                  We sent a confirmation link to{' '}
+                  <span className="font-bold text-slate-200 light:text-slate-800">
+                    {confirmationSentTo}
+                  </span>
+                  . Click it to activate the account, then come back and sign in. The account will
+                  not work until you do.
+                </p>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  Nothing arrived? Check the junk folder. School mail filters are often the culprit
+                  — an administrator can confirm the account manually in Supabase if it never lands.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setConfirmationSentTo(null);
+                    switchMode('signin');
+                  }}
+                  className="w-full py-4 rounded-2xl font-bold text-sm uppercase tracking-widest text-white bg-indigo-600 hover:bg-indigo-500 shadow-xl shadow-indigo-900/40 active:scale-[0.98] transition-all flex items-center justify-center gap-3 border-2 border-white/10 hover:border-white/20"
+                >
+                  Back to sign in <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-7">
+                {mode === 'signup' && (
+                  <InputField
+                    id="displayName"
+                    label="Full name (optional)"
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    type="text"
+                    placeholder="How your name appears in the app"
+                    icon={UserIcon}
+                    hasError={false}
+                    autoComplete="name"
+                  />
                 )}
-              </button>
-            </form>
+
+                <div>
+                  <InputField
+                    id="username"
+                    label={isSupabaseConfigured ? 'Email' : 'Username'}
+                    value={username}
+                    onChange={(e) => {
+                      setUsername(e.target.value);
+                      setUsernameError(false);
+                      setFieldErrors((prev) => ({ ...prev, email: undefined }));
+                    }}
+                    type={isSupabaseConfigured ? 'email' : 'text'}
+                    placeholder={isSupabaseConfigured ? 'Enter email address' : 'Enter username'}
+                    icon={UserIcon}
+                    hasError={usernameError || Boolean(fieldErrors.email)}
+                  />
+                  <FieldError message={fieldErrors.email} />
+                  {mode === 'signup' && SIGNUP_ALLOWED_DOMAINS.length > 0 && !fieldErrors.email && (
+                    <p className="text-xs text-slate-500 leading-relaxed mt-2 ml-1">
+                      {allowedDomainMessage(SIGNUP_ALLOWED_DOMAINS)}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <InputField
+                    id="password"
+                    label="Password"
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      setPasswordError(false);
+                      setFieldErrors((prev) => ({ ...prev, password: undefined }));
+                    }}
+                    type="password"
+                    placeholder={
+                      mode === 'signup'
+                        ? `At least ${MIN_PASSWORD_LENGTH} characters`
+                        : 'Enter password'
+                    }
+                    icon={Lock}
+                    hasError={passwordError || Boolean(fieldErrors.password)}
+                    autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
+                  />
+                  <FieldError message={fieldErrors.password} />
+                </div>
+
+                {mode === 'signup' && (
+                  <div>
+                    <InputField
+                      id="confirmPassword"
+                      label="Confirm password"
+                      value={confirmPassword}
+                      onChange={(e) => {
+                        setConfirmPassword(e.target.value);
+                        setFieldErrors((prev) => ({ ...prev, confirmPassword: undefined }));
+                      }}
+                      type="password"
+                      placeholder="Type the password again"
+                      icon={Lock}
+                      hasError={Boolean(fieldErrors.confirmPassword)}
+                      autoComplete="new-password"
+                    />
+                    <FieldError message={fieldErrors.confirmPassword} />
+                  </div>
+                )}
+
+                {error && (
+                  <div className="flex items-start gap-2 text-red-400 light:text-red-600 text-xs font-bold py-1 px-1 animate-fade-in">
+                    <AlertCircle className="w-4 h-4 shrink-0 mt-px" /> {error}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full py-4 rounded-2xl font-bold text-sm uppercase tracking-widest text-white bg-indigo-600 hover:bg-indigo-500 shadow-xl shadow-indigo-900/40 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3 group/btn border-2 border-white/10 hover:border-white/20"
+                >
+                  {isLoading ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <>
+                      {mode === 'signup' ? 'Create Account' : 'Sign In'}{' '}
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
+                    </>
+                  )}
+                </button>
+
+                {SIGNUP_AVAILABLE && (
+                  <p className="text-center text-xs text-slate-400 light:text-slate-600">
+                    {mode === 'signin' ? "Don't have an account? " : 'Already have an account? '}
+                    <button
+                      type="button"
+                      onClick={() => switchMode(mode === 'signin' ? 'signup' : 'signin')}
+                      className="font-bold text-indigo-400 hover:text-indigo-300 underline underline-offset-2"
+                    >
+                      {mode === 'signin' ? 'Create one' : 'Sign in'}
+                    </button>
+                  </p>
+                )}
+              </form>
+            )}
 
             {isSupabaseConfigured && OAUTH_PROVIDERS.length > 0 && (
               <div className="mt-7">

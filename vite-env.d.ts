@@ -21,6 +21,21 @@ interface ImportMetaEnv {
    * enable it.
    */
   readonly VITE_OAUTH_PROVIDERS?: string;
+  /**
+   * `'false'` removes self-registration — the "Create one" link and the sign-up
+   * form go away, and `authService.signUp` refuses. For a deployment where
+   * every account is provisioned centrally (admin-created or SSO). Unset means
+   * sign-up is available.
+   */
+  readonly VITE_ENABLE_SIGNUP?: string;
+  /**
+   * Email domains permitted to self-register, comma-separated, e.g.
+   * `education.nsw.gov.au`. Sub-domains of a listed domain are accepted. Unset
+   * means anyone with any email address can create an account — and since a new
+   * account is a `student` with a daily AI budget, that is spend handed to
+   * whoever finds the URL. Set it on any public deployment.
+   */
+  readonly VITE_SIGNUP_ALLOWED_DOMAINS?: string;
   readonly VITE_SENTRY_DSN?: string;
   readonly VITE_SENTRY_ENVIRONMENT?: string;
   readonly VITE_SENTRY_RELEASE?: string;
