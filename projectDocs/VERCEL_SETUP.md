@@ -48,7 +48,7 @@ no server to call and will show "AI Service Unavailable".
    - **Framework Preset:** Vite
    - **Build Command:** `npm run build`
    - **Output Directory:** `dist`
-   - **Install Command:** `npm install --legacy-peer-deps`
+   - **Install Command:** `npm ci --legacy-peer-deps`
 
    These should all be correct — **don't change them**.
 
@@ -64,38 +64,45 @@ you've already imported), add these variables:
 
 ### Required
 
-| Variable | Value | Notes |
-| --- | --- | --- |
+| Variable         | Value                         | Notes                        |
+| ---------------- | ----------------------------- | ---------------------------- |
 | `GEMINI_API_KEY` | Your Google AI Studio API key | Powers the default AI engine |
 
 ### Optional — additional AI providers
 
-| Variable | Value | When needed |
-| --- | --- | --- |
-| `ANTHROPIC_API_KEY` | Your Anthropic key | Only if you switch to a Claude engine in admin settings |
-| `OPENROUTER_API_KEY` | Your OpenRouter key | Only if you use OpenRouter models |
-| `GROQ_API_KEY` | Your Groq key | Only if you use Groq models (free tier available) |
+| Variable             | Value               | When needed                                             |
+| -------------------- | ------------------- | ------------------------------------------------------- |
+| `ANTHROPIC_API_KEY`  | Your Anthropic key  | Only if you switch to a Claude engine in admin settings |
+| `OPENROUTER_API_KEY` | Your OpenRouter key | Only if you use OpenRouter models                       |
+| `GROQ_API_KEY`       | Your Groq key       | Only if you use Groq models (free tier available)       |
 
 ### Optional — Supabase integration (multi-user mode)
 
 If you've set up Supabase (see `SUPABASE_SETUP.md`), add these too:
 
-| Variable | Value | Purpose |
-| --- | --- | --- |
-| `VITE_SUPABASE_URL` | `https://your-project.supabase.co` | Client-side auth |
-| `VITE_SUPABASE_ANON_KEY` | Your Supabase anon/public key | Client-side auth |
-| `SUPABASE_URL` | Same URL as above | Server-side token verification |
-| `SUPABASE_ANON_KEY` | Same anon key as above | Server-side token verification |
+| Variable                 | Value                              | Purpose                        |
+| ------------------------ | ---------------------------------- | ------------------------------ |
+| `VITE_SUPABASE_URL`      | `https://your-project.supabase.co` | Client-side auth               |
+| `VITE_SUPABASE_ANON_KEY` | Your Supabase anon/public key      | Client-side auth               |
+| `SUPABASE_URL`           | Same URL as above                  | Server-side token verification |
+| `SUPABASE_ANON_KEY`      | Same anon key as above             | Server-side token verification |
 
 > **Why four Supabase variables?** The `VITE_` pair is bundled into the
 > frontend (the anon key is designed to be public — RLS protects the data).
 > The non-`VITE_` pair is read server-side by the AI proxy to verify that
 > callers have a valid session before spending your AI budget.
 
+> **All four, or none.** Setting only the `VITE_` pair used to leave the proxy
+> open — the app showed real logins and real quotas while `/api/gemini` served
+> anyone who found the URL. The proxy now detects that state and returns a 503
+> naming the missing variables rather than serving the request, so a
+> half-configured deploy fails loudly at launch instead of quietly on the
+> invoice. Add all four and AI calls work again immediately.
+
 ### Optional — demo mode (no Supabase)
 
-| Variable | Value | Purpose |
-| --- | --- | --- |
+| Variable                | Value  | Purpose                                                                     |
+| ----------------------- | ------ | --------------------------------------------------------------------------- |
 | `VITE_ENABLE_DEMO_AUTH` | `true` | Enables demo logins (admin/admin, teacher/teacher, user/user) in production |
 
 > **Warning:** Without Supabase, the AI proxy accepts unauthenticated calls —
@@ -157,10 +164,10 @@ The repo includes `.github/workflows/vercel-deploy.yml`. To use it:
 3. Add three **repository secrets** (GitHub repo → Settings → Secrets and
    variables → Actions):
 
-   | Secret | Value |
-   | --- | --- |
-   | `VERCEL_TOKEN` | The token from step 1 |
-   | `VERCEL_ORG_ID` | `orgId` from `.vercel/project.json` |
+   | Secret              | Value                                   |
+   | ------------------- | --------------------------------------- |
+   | `VERCEL_TOKEN`      | The token from step 1                   |
+   | `VERCEL_ORG_ID`     | `orgId` from `.vercel/project.json`     |
    | `VERCEL_PROJECT_ID` | `projectId` from `.vercel/project.json` |
 
 4. **Disable Vercel's Git integration** to avoid double deploys: Vercel
@@ -180,15 +187,15 @@ The repo includes `.github/workflows/vercel-deploy.yml`. To use it:
 
 ## Troubleshooting
 
-| Problem | Fix |
-| --- | --- |
-| Build fails with dependency errors | Verify the install command is `npm install --legacy-peer-deps` (check vercel.json) |
-| "AI Service Unavailable" after deploy | Check `GEMINI_API_KEY` is set in env vars; **redeploy** after adding it |
-| CORS errors when frontend is on a different host | Set `ALLOWED_ORIGIN` env var to the frontend's exact origin |
-| 401 on AI calls | If Supabase is configured, you must be logged in; guest sessions cannot make AI calls (this is intentional) |
-| 429 on AI calls | Daily AI quota exhausted — an admin can raise it via the dashboard or `set_user_ai_quota()` |
-| Env var changes not taking effect | Env vars are baked in at build time — you must **redeploy** after changing them |
-| Preview deploys work but production doesn't | Check that env vars are enabled for the "Production" environment (not just "Preview") |
+| Problem                                          | Fix                                                                                                         |
+| ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| Build fails with dependency errors               | Verify the install command is `npm install --legacy-peer-deps` (check vercel.json)                          |
+| "AI Service Unavailable" after deploy            | Check `GEMINI_API_KEY` is set in env vars; **redeploy** after adding it                                     |
+| CORS errors when frontend is on a different host | Set `ALLOWED_ORIGIN` env var to the frontend's exact origin                                                 |
+| 401 on AI calls                                  | If Supabase is configured, you must be logged in; guest sessions cannot make AI calls (this is intentional) |
+| 429 on AI calls                                  | Daily AI quota exhausted — an admin can raise it via the dashboard or `set_user_ai_quota()`                 |
+| Env var changes not taking effect                | Env vars are baked in at build time — you must **redeploy** after changing them                             |
+| Preview deploys work but production doesn't      | Check that env vars are enabled for the "Production" environment (not just "Preview")                       |
 
 ---
 
