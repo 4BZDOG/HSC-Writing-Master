@@ -410,13 +410,31 @@ export interface DailyPoint {
  * zero rather than skipped — a line that omits them slopes through the gap and
  * hides exactly the pattern (a class that stopped working) the chart is for.
  * `today` is injectable for testing.
+ *
+ * ## Why the series is `days + 1` long
+ *
+ * `get_class_cohort(N)` filters on `created_at >= now() - N days`, an instant
+ * partway through the day N days ago. So the rows it returns span **N + 1**
+ * distinct UTC dates: `today - N` through `today` inclusive. (Confirmed against
+ * Postgres: a 30-day window covers 31 dates.)
+ *
+ * Rendering only N buckets ending today therefore discarded the oldest date
+ * entirely. Two things went wrong with that: the chart's own caption
+ * ("{total} attempts · peak {max}/day") is summed from this series, so it
+ * under-reported and disagreed with any other count of the same window; and the
+ * axis label "N days ago" sat under a bucket that was N-1 days old.
+ *
+ * The oldest bucket is a PARTIAL day — it begins at the window's start instant,
+ * not at midnight — so it can read low. That is honest about a rolling window;
+ * silently dropping it was not.
  */
 export const buildDailySeries = (
   daily: ClassCohort['daily'],
   days: number,
   today: Date = new Date()
 ): DailyPoint[] => {
-  const span = Math.min(365, Math.max(1, Math.trunc(days) || 1));
+  const window = Math.min(365, Math.max(1, Math.trunc(days) || 1));
+  const span = window + 1; // `today - window` … `today`, inclusive of both ends
   const counts = new Map(daily.map((d) => [d.day, d.attempts]));
   const end = Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
 

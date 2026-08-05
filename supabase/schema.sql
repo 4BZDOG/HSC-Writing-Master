@@ -979,7 +979,13 @@ create or replace function public.get_class_analytics(p_days integer default 30)
 returns jsonb language plpgsql stable security definer set search_path = public as $$
 declare
   v_days    integer := least(greatest(coalesce(p_days, 30), 1), 365);
-  v_since   timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  -- `now()` directly, NOT `(now() at time zone 'utc')`: that expression returns a
+  -- timestamp WITHOUT time zone, and assigning it to a timestamptz re-interprets
+  -- the UTC wall clock in the SESSION's TimeZone. On a UTC database (Supabase's
+  -- default) it happens to be a no-op; set TimeZone to Australia/Sydney -- a
+  -- plausible thing to do for an NSW product -- and every window silently
+  -- widens by the offset. now() is already an absolute instant.
+  v_since   timestamptz := now() - make_interval(days => v_days);
   v_byverb  jsonb;
   v_bytopic jsonb;
   v_totals  jsonb;
@@ -1050,7 +1056,7 @@ create or replace function public.get_student_progress(p_username text, p_days i
 returns jsonb language plpgsql stable security definer set search_path = public as $$
 declare
   v_days   integer := least(greatest(coalesce(p_days, 30), 1), 365);
-  v_since  timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_since  timestamptz := now() - make_interval(days => v_days);
   v_user   uuid;
   v_byverb jsonb;
   v_totals jsonb;
@@ -1121,7 +1127,7 @@ create or replace function public.get_response_students(p_days integer default 3
 returns jsonb language plpgsql stable security definer set search_path = public as $$
 declare
   v_days   integer := least(greatest(coalesce(p_days, 30), 1), 365);
-  v_since  timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_since  timestamptz := now() - make_interval(days => v_days);
   v_result jsonb;
 begin
   if not public.is_reviewer() then
@@ -1888,7 +1894,7 @@ create or replace function public.get_class_analytics(p_days integer default 30)
 returns jsonb language plpgsql stable security definer set search_path = public as $$
 declare
   v_days    integer := least(greatest(coalesce(p_days, 30), 1), 365);
-  v_since   timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_since   timestamptz := now() - make_interval(days => v_days);
   v_byverb  jsonb;
   v_bytopic jsonb;
   v_totals  jsonb;
@@ -1961,7 +1967,7 @@ create or replace function public.get_student_progress(p_username text, p_days i
 returns jsonb language plpgsql stable security definer set search_path = public as $$
 declare
   v_days   integer := least(greatest(coalesce(p_days, 30), 1), 365);
-  v_since  timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_since  timestamptz := now() - make_interval(days => v_days);
   v_user   uuid;
   v_byverb jsonb;
   v_totals jsonb;
@@ -2323,7 +2329,7 @@ create or replace function public.get_class_analytics(
 returns jsonb language plpgsql stable security definer set search_path = public as $$
 declare
   v_days    integer := least(greatest(coalesce(p_days, 30), 1), 365);
-  v_since   timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_since   timestamptz := now() - make_interval(days => v_days);
   v_all     boolean;
   v_ids     uuid[];
   v_byverb  jsonb;
@@ -2409,7 +2415,7 @@ create or replace function public.get_student_progress(
 returns jsonb language plpgsql stable security definer set search_path = public as $$
 declare
   v_days   integer := least(greatest(coalesce(p_days, 30), 1), 365);
-  v_since  timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_since  timestamptz := now() - make_interval(days => v_days);
   v_user   uuid;
   v_byverb jsonb;
   v_totals jsonb;
@@ -2491,7 +2497,7 @@ create or replace function public.get_response_students(
 returns jsonb language plpgsql stable security definer set search_path = public as $$
 declare
   v_days   integer := least(greatest(coalesce(p_days, 30), 1), 365);
-  v_since  timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_since  timestamptz := now() - make_interval(days => v_days);
   v_all    boolean;
   v_ids    uuid[];
   v_result jsonb;
@@ -2568,7 +2574,7 @@ create or replace function public.get_class_cohort(
 returns jsonb language plpgsql stable security definer set search_path = public as $$
 declare
   v_days      integer := least(greatest(coalesce(p_days, 30), 1), 365);
-  v_since     timestamptz := (now() at time zone 'utc') - make_interval(days => v_days);
+  v_since     timestamptz := now() - make_interval(days => v_days);
   v_all       boolean;
   v_ids       uuid[];
   v_bystudent jsonb;

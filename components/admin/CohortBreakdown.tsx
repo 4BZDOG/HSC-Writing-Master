@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { Users, Activity, Grid3x3, TrendingUp } from 'lucide-react';
 import type { ClassCohort } from '../../services/responseService';
+import { tierShortLabel } from '../../data/commandTerms';
 import {
   COGNITIVE_TIERS,
   buildCohortRows,
@@ -37,16 +38,6 @@ interface CohortBreakdownProps {
   days: number;
   tierOf: (verb: string) => number | null;
 }
-
-/** Short label per cognitive tier, mirroring the verb ladder. */
-const TIER_LABELS: Record<number, string> = {
-  1: 'Recall',
-  2: 'Describe',
-  3: 'Apply',
-  4: 'Analyse',
-  5: 'Synth',
-  6: 'Evaluate',
-};
 
 /**
  * Five ordinal steps of ONE hue for the heatmap — the accent, which is redefined
@@ -294,7 +285,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
                 <th className="px-3 py-2.5">Student</th>
                 {COGNITIVE_TIERS.map((t) => (
                   <th key={t} className="px-1 py-2.5 text-center">
-                    B{t} {TIER_LABELS[t]}
+                    B{t} {tierShortLabel(t)}
                   </th>
                 ))}
                 <th className="px-1 py-2.5 text-center">Untiered</th>
@@ -318,7 +309,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
                       key={tier.tier}
                       frac={tier.markFrac}
                       attempts={tier.attempts}
-                      title={`${row.username} · ${TIER_LABELS[tier.tier]} (tier ${tier.tier}) · ${formatMarkFrac(
+                      title={`${row.username} · ${tierShortLabel(tier.tier)} (tier ${tier.tier}) · ${formatMarkFrac(
                         tier.markFrac
                       )} of marks over ${tier.attempts} attempt${tier.attempts === 1 ? '' : 's'}`}
                     />

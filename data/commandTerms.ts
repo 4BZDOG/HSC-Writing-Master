@@ -76,6 +76,26 @@ export const TIER_GROUPS = [
   },
 ];
 
+/**
+ * A one-word label for a cognitive tier, for table headers and heatmap columns
+ * where the full `TIER_GROUPS` title is too long.
+ *
+ * Derived from that title rather than written out again. Two admin components
+ * previously kept their own hand-written copies, and both had drifted: tier 3
+ * (`Explain & Compare`) was labelled "Apply", which is a tier-4 verb, and tier 5
+ * (`Discuss, Assess & Justify`) was labelled "Synthesise", which is a tier-6
+ * verb. Because each wrong label named a tier that also appears in the same
+ * table, the mistake read as self-consistent — a teacher acting on
+ * "Noah — Synthesise 20%" would have been looking at his Discuss/Assess/Justify
+ * work, with his actual synthesis in the column marked "Evaluate".
+ */
+export const tierShortLabel = (tier: number): string => {
+  const group = TIER_GROUPS.find((g) => g.tier === tier);
+  // The title's first word is the tier's defining verb in every group; the rest
+  // ("& Compare", ", Assess & Justify") is elaboration.
+  return group ? group.title.split(/[\s,&]+/)[0] : `Tier ${tier}`;
+};
+
 export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   // --- Tier 1: Remember & List ---
   {

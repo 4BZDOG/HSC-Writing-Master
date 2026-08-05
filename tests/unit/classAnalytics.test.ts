@@ -559,17 +559,31 @@ describe('buildDailySeries', () => {
     // stopped working — the exact pattern the chart is for.
     const series = buildDailySeries([{ day: '2026-03-10', attempts: 4 }], 3, today);
     expect(series).toEqual([
+      { day: '2026-03-07', attempts: 0 },
       { day: '2026-03-08', attempts: 0 },
       { day: '2026-03-09', attempts: 0 },
       { day: '2026-03-10', attempts: 4 },
     ]);
   });
 
-  it('is ordered oldest to newest and ends today', () => {
+  it('covers every date the RPC can return, oldest first, ending today', () => {
+    // get_class_cohort(N) filters on `created_at >= now() - N days`, an instant
+    // partway through the day N days ago — so its rows span N+1 UTC dates. A
+    // series of length N dropped the oldest one, which made the chart's own
+    // "{total} attempts" caption under-report and put the "N days ago" axis
+    // label under a bucket that was N-1 days old.
     const series = buildDailySeries([], 5, today);
-    expect(series).toHaveLength(5);
-    expect(series[0].day).toBe('2026-03-06');
-    expect(series[4].day).toBe('2026-03-10');
+    expect(series).toHaveLength(6);
+    expect(series[0].day).toBe('2026-03-05');
+    expect(series[5].day).toBe('2026-03-10');
+  });
+
+  it('counts the oldest day of the window instead of discarding it', () => {
+    // The regression, stated directly: 5 days before 2026-03-10 is 2026-03-05,
+    // and the RPC does return rows for it.
+    const series = buildDailySeries([{ day: '2026-03-05', attempts: 7 }], 5, today);
+    expect(series.reduce((s, d) => s + d.attempts, 0)).toBe(7);
+    expect(series[0]).toEqual({ day: '2026-03-05', attempts: 7 });
   });
 
   it('ignores days outside the window', () => {
@@ -585,7 +599,7 @@ describe('buildDailySeries', () => {
   });
 
   it('clamps a nonsense window to something renderable', () => {
-    expect(buildDailySeries([], 0, today)).toHaveLength(1);
-    expect(buildDailySeries([], 10_000, today)).toHaveLength(365);
+    expect(buildDailySeries([], 0, today)).toHaveLength(2);
+    expect(buildDailySeries([], 10_000, today)).toHaveLength(366);
   });
 });

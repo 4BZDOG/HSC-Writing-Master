@@ -899,6 +899,33 @@ begin
   raise notice 'PASS: RLS policy helpers remain callable by anon (they return false, not an error)';
 end $$;
 reset role;
+-- Analytics windows must not move with the database's TimeZone setting.
+--
+-- The window start was `(now() at time zone 'utc') - make_interval(...)`, which
+-- returns a timestamp WITHOUT time zone; assigning that to a timestamptz
+-- re-interprets the UTC wall clock in the SESSION's TimeZone. On a UTC database
+-- -- Supabase's default -- it is a no-op, which is why it never bit. Set
+-- TimeZone to Australia/Sydney, a plausible thing to do for an NSW product, and
+-- every "last 30 days" silently became 30 days + 10 hours.
+set local timezone = 'Australia/Sydney';
+do $$
+declare
+  v_utc   timestamptz;
+  v_local timestamptz;
+  v_drift interval;
+begin
+  set local timezone = 'UTC';
+  v_utc := now() - make_interval(days => 30);
+  set local timezone = 'Australia/Sydney';
+  v_local := now() - make_interval(days => 30);
+
+  v_drift := greatest(v_utc, v_local) - least(v_utc, v_local);
+  if v_drift > interval '1 second' then
+    raise exception
+      'TEST FAILED: the 30-day window start moved by % when the session TimeZone changed', v_drift;
+  end if;
+  raise notice 'PASS: analytics window starts are absolute instants, not session-local';
+end $$;
 rollback;
 
 begin;
