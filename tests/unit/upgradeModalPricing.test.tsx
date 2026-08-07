@@ -122,6 +122,39 @@ describe('upgrade prompt with only the monthly price configured', () => {
   });
 });
 
+/**
+ * A deployment that sells nothing must not open a sales prompt.
+ *
+ * Locked controls already stop calling requestUpgrade when monetisation is off
+ * — isFeatureLocked short-circuits on the switch — but the plan comparison and
+ * the profile card call it unconditionally for anyone whose plan resolves to
+ * free, which on a pilot is every student. So the one prompt they could still
+ * reach was one offering to sell them features they were already using.
+ *
+ * Every route in goes through the event, so the guard lives on the listener.
+ */
+describe('upgrade prompt when monetisation is switched off', () => {
+  beforeEach(() => {
+    priceIds = { plus_monthly: 'price_m', plus_yearly: 'price_y', school: '' };
+    vi.stubEnv('VITE_MONETISATION_ENABLED', 'false');
+  });
+  afterEach(() => vi.unstubAllEnvs());
+
+  it('does not open, even for a caller that asks it to', () => {
+    openFor();
+
+    expect(screen.queryByRole('dialog')).toBeNull();
+    expect(screen.queryByRole('button', { name: /upgrade now/i })).toBeNull();
+  });
+
+  it('opens again once monetisation is back on', () => {
+    vi.unstubAllEnvs();
+    openFor();
+
+    expect(screen.getByRole('dialog')).toBeTruthy();
+  });
+});
+
 describe('upgrade prompt with no prices configured', () => {
   it('registers interest instead of offering a checkout', () => {
     openFor();

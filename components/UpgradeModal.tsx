@@ -27,6 +27,7 @@ import {
   SCHOOL_SEAT_LIMITS,
   FREE_DAILY_AI_CALLS,
   PAID_DAILY_AI_CALLS,
+  monetisationEnabled,
 } from '../services/entitlements';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -51,10 +52,18 @@ export const PlusLockChip: React.FC<{ className?: string }> = ({ className = '' 
 export const ContentLockOverlay: React.FC<{
   feature: PremiumFeatureKey;
   message?: string;
-}> = ({ feature, message }) => {
+  /**
+   * Corner radius to match the container being covered. The overlay is
+   * `inset-0`, so a radius smaller than its container's leaves the opaque
+   * backdrop poking out past the container's rounded corners.
+   */
+  className?: string;
+}> = ({ feature, message, className = 'rounded-2xl' }) => {
   const meta = PREMIUM_FEATURES[feature];
   return (
-    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-[rgb(var(--color-bg-surface))]/80 light:bg-white/80 backdrop-blur-sm rounded-2xl">
+    <div
+      className={`absolute inset-0 z-10 flex flex-col items-center justify-center bg-[rgb(var(--color-bg-surface))]/80 light:bg-white/80 backdrop-blur-sm ${className}`}
+    >
       <div className="flex flex-col items-center gap-3 text-center px-6 max-w-xs">
         <div className="w-10 h-10 rounded-2xl bg-amber-400/15 border border-amber-400/30 flex items-center justify-center">
           <Lock className="w-5 h-5 text-amber-500" />
@@ -127,6 +136,14 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
 
   useEffect(() => {
     const onRequest = (e: Event) => {
+      // A deployment that sells nothing must not open a sales prompt. Locked
+      // controls already stop calling requestUpgrade when monetisation is off
+      // (isFeatureLocked short-circuits), but the plan comparison and the
+      // profile card call it unconditionally for anyone on the free plan — so
+      // a pilot user could still be offered an upgrade to features they were
+      // already using. Every route in goes through this event, so one guard
+      // here covers all of them, including any added later.
+      if (!monetisationEnabled()) return;
       const key = (e as CustomEvent).detail?.feature as PremiumFeatureKey | undefined;
       if (key && key in PREMIUM_FEATURES) setFeature(key);
     };

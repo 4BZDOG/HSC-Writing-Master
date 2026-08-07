@@ -3,6 +3,7 @@ import { Check, Minus, Crown, Sparkles, School } from 'lucide-react';
 import {
   PLAN_LABELS,
   PLAN_PRICING,
+  monetisationEnabled,
   requestUpgrade,
   getUserPlan,
   type Plan,
@@ -184,7 +185,10 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({ user, showUpgradeCta = 
         ))}
       </div>
 
-      {showUpgradeCta && currentPlan === 'free' && (
+      {/* Nothing to upgrade to when nothing is for sale — the button would
+          open a prompt the UpgradeModal now refuses to show. The table above
+          already renders every feature as included in that state. */}
+      {showUpgradeCta && currentPlan === 'free' && monetisationEnabled() && (
         <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-3 p-4 rounded-2xl bg-amber-400/5 light:bg-amber-50 border border-amber-400/20 light:border-amber-200">
           <p className="text-xs font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed">
             The free plan resets every day and never expires. Upgrade when you want the full

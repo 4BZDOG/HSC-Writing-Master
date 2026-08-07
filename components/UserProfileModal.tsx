@@ -44,6 +44,7 @@ import {
   PLAN_LABELS,
   createPortalUrl,
   fetchBillingState,
+  monetisationEnabled,
   planUnlocks,
   requestUpgrade,
   type BillingState,
@@ -76,6 +77,8 @@ const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
 const PlanCard: React.FC<{ user: User }> = ({ user }) => {
   const plan: Plan = getUserPlan(user);
   const isPaid = plan !== 'free';
+  /** Whether this deployment charges for anything at all (pilots do not). */
+  const selling = monetisationEnabled();
   // Read from the live policy: a deployment can move the Studio to Plus with
   // PLAN_FEATURE_OVERRIDES, and this card must not keep saying otherwise.
   const studioIncluded = planUnlocks(plan, 'aiContentStudio');
@@ -162,12 +165,17 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
           {/* Plan-accurate, not aspirational. "Full access to all features"
               was wrong for Plus: the AI Content Studio defaults to the School
               plan, so it is read from the live policy rather than asserted. */}
-          {isPaid
-            ? `Unlimited marking, full criterion feedback and every ${PLAN_LABELS.plus} tool.` +
-              (studioIncluded
-                ? ' The AI Content Studio is included.'
-                : ` The AI Content Studio is part of the ${PLAN_LABELS.school} plan.`)
-            : 'Limited daily evaluations and basic features. Upgrade to unlock everything.'}
+          {!selling
+            ? // Every gate is open on this deployment, so telling a free-plan
+              // user their features are "limited" and inviting them to upgrade
+              // would describe an app they are not using.
+              'Every feature is available on this deployment — nothing is held back and there is nothing to buy.'
+            : isPaid
+              ? `Unlimited marking, full criterion feedback and every ${PLAN_LABELS.plus} tool.` +
+                (studioIncluded
+                  ? ' The AI Content Studio is included.'
+                  : ` The AI Content Studio is part of the ${PLAN_LABELS.school} plan.`)
+              : 'Limited daily evaluations and basic features. Upgrade to unlock everything.'}
           {isPaid && user.stripePlan && periodEnd && (
             <span
               className={`block mt-1 text-[10px] font-bold ${
@@ -206,7 +214,7 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
             {portalError}
           </p>
         )}
-        {!isPaid && (
+        {!isPaid && selling && (
           <button
             onClick={() => requestUpgrade('fullFeedback')}
             className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg hover:scale-105 active:scale-95 transition-all flex items-center gap-2"

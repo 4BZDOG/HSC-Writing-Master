@@ -646,6 +646,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             <ContentLockOverlay
               feature="fullFeedback"
               message="Your improvement path is a Plus feature"
+              className="rounded-[32px]"
             />
           )}
           <ul
