@@ -43,10 +43,11 @@ import {
   getUserPlan,
   PLAN_LABELS,
   createPortalUrl,
-  fetchBillingState,
+  fetchBillingLookup,
   monetisationEnabled,
   planUnlocks,
   requestUpgrade,
+  type BillingLookup,
   type BillingState,
   type Plan,
 } from '../services/entitlements';
@@ -87,24 +88,24 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
   // The profile's cached plan can't tell "renews" from "ends" — that lives on
   // the subscription row. Without it a user who has already cancelled is told
   // their plan renews on the exact date it stops.
-  const [billing, setBilling] = useState<BillingState | null>(null);
-  // Until the lookup returns we don't know whether this user is the Stripe
-  // customer, so the portal button stays out rather than flickering in.
-  const [billingChecked, setBillingChecked] = useState(false);
+  // 'pending' until the lookup returns, so the portal button neither flickers
+  // in nor is wrongly withheld before we know who is paying.
+  const [lookup, setLookup] = useState<BillingLookup | { status: 'pending' }>({
+    status: 'pending',
+  });
 
   useEffect(() => {
     if (!isPaid) return;
     let cancelled = false;
-    fetchBillingState().then((state) => {
-      if (cancelled) return;
-      setBilling(state);
-      setBillingChecked(true);
+    fetchBillingLookup().then((result) => {
+      if (!cancelled) setLookup(result);
     });
     return () => {
       cancelled = true;
     };
   }, [isPaid]);
 
+  const billing: BillingState | null = lookup.status === 'found' ? lookup.state : null;
   const periodEnd = billing?.currentPeriodEnd ?? user.planPeriodEnd ?? null;
   const endsAtPeriodEnd = billing?.cancelAtPeriodEnd === true;
 
@@ -118,12 +119,14 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
    * billing account found. Please subscribe first." — which reads as a broken
    * button, and tells a teacher to buy something they already have.
    *
-   * Their own subscription row is the only honest signal, so the portal is
-   * offered only once one has been found.
+   * Their own subscription row is the only honest signal — but only when the
+   * lookup could actually answer. A failed query must fall back to OFFERING
+   * the portal (the behaviour before this existed): showing a real subscriber
+   * a button that might 404 is a far smaller wrong than telling them they have
+   * no subscription and hiding their only route to Stripe.
    */
-  const hasOwnSubscription = billing !== null;
-  const showPortal = isPaid && billingChecked && hasOwnSubscription;
-  const perkPlan = isPaid && billingChecked && !hasOwnSubscription;
+  const showPortal = isPaid && lookup.status !== 'none';
+  const perkPlan = isPaid && lookup.status === 'none';
 
   const handleManageBilling = async () => {
     setPortalLoading(true);
