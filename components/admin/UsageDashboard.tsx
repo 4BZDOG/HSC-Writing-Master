@@ -1,4 +1,11 @@
-import React, { useState, useEffect, useCallback, useMemo, useSyncExternalStore } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+  useSyncExternalStore,
+} from 'react';
 import { createPortal } from 'react-dom';
 import {
   X,
@@ -235,6 +242,9 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
   // enhancement rule as schools and acceptance below.
   const [demand, setDemand] = useState<CourseDemandRow[] | null>(null);
   const [showClosedDemand, setShowClosedDemand] = useState(false);
+  // The same flag, readable from `load` without making it a dependency.
+  const showClosedRef = useRef(showClosedDemand);
+  showClosedRef.current = showClosedDemand;
 
   useEscapeKey(isOpen && !isBusy, onClose);
   useScrollLock(isOpen);
@@ -311,12 +321,14 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
     setFreeEvalDraft(liveLimit !== null ? String(liveLimit) : '');
 
     // Course demand: absent before §21, and its absence hides the panel.
-    await loadDemand(false);
-    // `showClosedDemand` is deliberately NOT a dependency of this callback:
-    // ticking "Show closed" would then re-run the whole dashboard load,
-    // throwing away every unsaved draft in it (the allowance, the per-user
-    // overrides, the school pools) and re-issuing six unrelated RPCs to
-    // refetch one list. loadDemand below reloads only what changed.
+    // Read through a ref rather than taking `showClosedDemand` as a dependency:
+    // as a dependency, ticking "Show closed" would re-run the WHOLE dashboard
+    // load, throwing away every unsaved draft in it (the allowance, the
+    // per-user overrides, the school pools) and re-issuing six unrelated RPCs
+    // to refetch one list. As a hardcoded `false` it was wrong the other way —
+    // the modal is never unmounted, so reopening it left the checkbox ticked
+    // with the closed rows silently gone.
+    await loadDemand(showClosedRef.current);
   }, [remote, showToast, loadDemand]);
 
   useEffect(() => {

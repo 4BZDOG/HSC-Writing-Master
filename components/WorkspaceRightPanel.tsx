@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useSyncExternalStore } from 'react';
 import { Prompt, EvaluationResult, HierarchyContext, WritingMode } from '../types';
 import Editor from './Editor';
 import LiveInsights from './LiveInsights';
@@ -9,7 +9,8 @@ import { Loader2, AlertTriangle, Sparkles } from 'lucide-react';
 import { getCommandTermInfo, getTargetBand, BAND_METRICS } from '../data/commandTerms';
 import { textContainsKeyword } from '../utils/renderUtils';
 import { useWritingMetrics } from '../hooks/useWritingMetrics';
-import { freeEvalsRemaining } from '../services/entitlements';
+import { freeEvalsRemaining, subscribeEvalCount } from '../services/entitlements';
+import FreeEvalCounter from './FreeEvalCounter';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 
 interface WorkspaceRightPanelProps {
@@ -182,14 +183,24 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     [breadcrumbItems]
   );
 
-  // Folded into the button's tooltip now that it has no caption slot.
-  const evalCounterTitle = useMemo(() => {
-    const remaining = freeEvalsRemaining();
-    if (remaining === Infinity) return '';
-    return remaining > 0
-      ? ` — ${remaining} free evaluation${remaining === 1 ? '' : 's'} remaining today`
-      : ' — daily free limit reached';
-  }, [evaluationResult]);
+  /**
+   * The same figure the counter chip shows, folded into the button's tooltip
+   * for a pointer user who is already hovering it. `useSyncExternalStore`
+   * rather than a `useMemo` over a render-triggering prop: the count lives in
+   * localStorage and moves for reasons this component cannot see — the sign-in
+   * reconciliation, and the server correcting us on a refusal. Keyed on
+   * `evaluationResult`, it went stale exactly when it had just been corrected.
+   */
+  const remainingEvals = useSyncExternalStore(subscribeEvalCount, freeEvalsRemaining, () =>
+    freeEvalsRemaining()
+  );
+
+  const evalCounterTitle =
+    remainingEvals === Infinity
+      ? ''
+      : remainingEvals > 0
+        ? ` — ${remainingEvals} free evaluation${remainingEvals === 1 ? '' : 's'} remaining today`
+        : ' — daily free limit reached';
 
   // Footer-sized, not hero-sized. At 20px of padding and text-xl it was a
   // slab that pushed the writing surface down; the keyboard shortcut and the
@@ -203,6 +214,10 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
         aria-hidden="true"
         className="hidden sm:block w-px h-6 bg-white/10 light:bg-slate-300 flex-shrink-0"
       />
+      {/* The free tier's remaining markings, VISIBLE rather than in a tooltip
+          — see the note in FreeEvalCounter. Renders nothing for anyone who
+          isn't metered. */}
+      <FreeEvalCounter />
       <button
         onClick={onEvaluate}
         disabled={isEvaluating || !userAnswer.trim()}

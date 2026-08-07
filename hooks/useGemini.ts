@@ -126,7 +126,9 @@ export const useGemini = ({
         // limit, which an admin can change in the database without a deploy.
         syncFreeEvalCount(error.used, error.limit);
         showToast(error.message, 'info');
-        requestUpgrade('fullFeedback');
+        // Same limit, reached server-side rather than caught by the local
+        // pre-check — so the prompt must say the same thing.
+        requestUpgrade('fullFeedback', 'dailyLimit');
         return error.message;
       }
       // The plan doesn't include this feature at all. Sell the RIGHT thing:

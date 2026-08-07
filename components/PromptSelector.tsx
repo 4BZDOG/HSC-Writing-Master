@@ -179,7 +179,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   // Only offered to people who cannot simply ADD the course themselves, and
   // only when there is a backend to record it in — a local-only session has
   // nowhere to put the request and would be promising something it can't keep.
-  const canRequestCourse = !canCreateTree && isCourseDemandAvailable() && !!onRequestCourse;
+  const canRequestCourse = !canCreateTree && isCourseDemandAvailable(userRole) && !!onRequestCourse;
   // AI generation controls stay visible when gated — amber + lock, and a click
   // opens the upgrade prompt instead. See services/entitlements.
   const studioLocked = isFeatureLocked('aiContentStudio');

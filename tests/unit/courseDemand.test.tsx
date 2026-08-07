@@ -72,7 +72,26 @@ describe('courseDemandService', () => {
   it('reports availability from whether there is a backend at all', () => {
     // A local-only session has nowhere to record a request, and offering the
     // link there would promise something the app cannot keep.
-    expect(isCourseDemandAvailable()).toBe(true);
+    expect(isCourseDemandAvailable('user')).toBe(true);
+    expect(isCourseDemandAvailable('teacher')).toBe(true);
+  });
+
+  it('does not offer the link to a guest', () => {
+    // log_course_request is authenticated-only and reads auth.uid(); a guest
+    // holds a local session with no Supabase user, so they would fill the form
+    // in and be told "Not authenticated" — having done the work first.
+    expect(isCourseDemandAvailable('guest')).toBe(false);
+  });
+
+  it('names an unmigrated database as such rather than leaking PostgREST', () => {
+    // "Could not find the function public.log_course_request" is a deployment
+    // fact, not something the person typing can act on.
+    rpcMock.mockResolvedValue({
+      data: null,
+      error: { code: 'PGRST202', message: 'Could not find the function public.log_course_request' },
+    });
+
+    return expect(requestCourse('Marine Studies')).rejects.toThrow(/not connected/i);
   });
 });
 

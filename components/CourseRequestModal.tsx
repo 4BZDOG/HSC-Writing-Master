@@ -63,6 +63,9 @@ const CourseRequestModal: React.FC<CourseRequestModalProps> = ({
     try {
       setResult(await requestCourse(trimmed, note));
     } catch (err) {
+      // CourseDemandUnavailableError already carries a sentence written for a
+      // person ("this deployment is not connected to…"); anything else is a
+      // server message meant for the user, or a fallback.
       setError(err instanceof Error ? err.message : 'Could not send that request.');
     } finally {
       setIsSending(false);

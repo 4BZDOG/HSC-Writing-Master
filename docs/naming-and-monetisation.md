@@ -237,6 +237,18 @@ rise applied itself retroactively.
 - Added: school licences show seats against members, with an over-seat warning.
 - Added: course creation is admin-only, with the course-request queue as the
   route out for everyone else.
+- Fixed: the remaining-markings count lived in the Evaluate button's `title`
+  attribute, which a phone cannot surface at all — so most of the people the
+  limit applies to met it as a refusal after writing an answer and waiting out
+  the marking call. It is now a visible chip (`FreeEvalCounter`) that counts
+  down live.
+- Fixed: the prompt that refusal opens led with "Full Marking Feedback".
+  Marking is metered by count and has no feature key, so the limit borrowed
+  `fullFeedback`; `requestUpgrade` now carries a `reason`, and the daily limit
+  leads with the limit. This is the highest-intent moment in the product and it
+  was answering a question nobody had asked.
+- Fixed: a guest was offered a checkout that can only 401. They are offered an
+  account instead.
 
 ### The shape to keep
 

@@ -28,6 +28,8 @@ import {
   FREE_DAILY_AI_CALLS,
   PAID_DAILY_AI_CALLS,
   monetisationEnabled,
+  freeEvalLimit,
+  type UpgradeReason,
 } from '../services/entitlements';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -118,6 +120,8 @@ interface UpgradeModalProps {
  */
 const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
   const [feature, setFeature] = useState<PremiumFeatureKey | null>(null);
+  /** Why the prompt opened, when it was not a locked control being pressed. */
+  const [reason, setReason] = useState<UpgradeReason | null>(null);
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('yearly');
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [seats, setSeats] = useState<number>(SCHOOL_SEAT_LIMITS.default);
@@ -147,6 +151,15 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
   const canBuySeats =
     !!STRIPE_PRICE_IDS.school && (user?.role === 'teacher' || user?.role === 'admin');
 
+  /**
+   * A guest has no account for a subscription to attach to, so checkout cannot
+   * work: /api/create-checkout answers 401 "Authentication required." — a
+   * correct sentence and a useless one at the moment someone is trying to pay.
+   * Tell them the actual next step instead of letting them press a button that
+   * can only fail.
+   */
+  const isGuest = user?.role === 'guest';
+
   // Personalised hook: the most convincing thing we can show a student is
   // their own trajectory. Only shown once they have enough marked answers for
   // the average to mean something, and only while there's a gap to close.
@@ -163,8 +176,14 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
       // already using. Every route in goes through this event, so one guard
       // here covers all of them, including any added later.
       if (!monetisationEnabled()) return;
-      const key = (e as CustomEvent).detail?.feature as PremiumFeatureKey | undefined;
-      if (key && key in PREMIUM_FEATURES) setFeature(key);
+      const detail = (e as CustomEvent).detail as
+        | { feature?: PremiumFeatureKey; reason?: UpgradeReason }
+        | undefined;
+      const key = detail?.feature;
+      if (key && key in PREMIUM_FEATURES) {
+        setFeature(key);
+        setReason(detail?.reason ?? null);
+      }
     };
     window.addEventListener(UPGRADE_REQUEST_EVENT, onRequest);
     return () => window.removeEventListener(UPGRADE_REQUEST_EVENT, onRequest);
@@ -172,12 +191,18 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
 
   const close = useCallback(() => {
     setFeature(null);
+    setReason(null);
     setIsRedirecting(false);
   }, []);
   useEscapeKey(!!feature, close);
   useScrollLock(!!feature);
 
   const handleUpgrade = async () => {
+    if (isGuest) {
+      showToast('Create a free account first — a subscription needs somewhere to live.', 'info');
+      close();
+      return;
+    }
     if (!stripeReady) {
       showToast("Thanks! We'll let you know when Plus plans launch.", 'success');
       close();
@@ -201,6 +226,25 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
   const requiredPlan = lowestPlanForFeature(feature);
   const sellsPlus = requiredPlan === 'plus';
   const perkKeys = planFeatureKeys(requiredPlan);
+
+  /**
+   * Lead with what actually just happened.
+   *
+   * Running out of the daily allowance is the moment a student is most likely
+   * to pay, and it was being answered with the wrong sentence: marking is
+   * metered by count rather than gated by plan, so there is no feature key for
+   * it and the limit borrowed `fullFeedback`. The student saw "Full Marking
+   * Feedback — get criterion-by-criterion breakdowns" seconds after being told
+   * they had used their five markings. True of Plus, but not an answer to the
+   * question they were asking, and the perk list below still sells everything
+   * else either way.
+   */
+  const atDailyLimit = reason === 'dailyLimit';
+  const headline = atDailyLimit ? "You've used today's free markings" : meta.title;
+  const blurb = atDailyLimit
+    ? `The free plan includes ${freeEvalLimit()} marked answers a day, and yours reset at midnight. ` +
+      `${PLAN_LABELS.plus} removes the limit entirely — mark as many drafts as you write.`
+    : meta.blurb;
 
   return createPortal(
     <div
@@ -235,7 +279,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                 id="upgrade-modal-title"
                 className="text-xl font-black tracking-tight leading-tight"
               >
-                {meta.title}
+                {headline}
               </h2>
             </div>
           </div>
@@ -243,11 +287,15 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
 
         <div className="p-6 overflow-y-auto custom-scrollbar">
           <p className="text-sm text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed mb-5">
-            {meta.blurb}{' '}
+            {blurb}{' '}
             {!sellsPlus
               ? `This is part of the ${PLAN_LABELS.school} plan — a licence covers everyone at your school.`
               : stripeReady
-                ? `Upgrade to ${PLAN_LABELS.plus} to unlock this and everything below.`
+                ? atDailyLimit
+                  ? // "Unlock this" is wrong here: nothing is locked, they have
+                    // simply spent today's allowance and it returns tomorrow.
+                    `Everything below is included.`
+                  : `Upgrade to ${PLAN_LABELS.plus} to unlock this and everything below.`
                 : `This is part of ${PLAN_LABELS.plus} — plans are being finalised, so it isn't available on the free plan just yet.`}
           </p>
 
@@ -370,7 +418,13 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                 className="flex-1 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-xs uppercase tracking-widest shadow-xl shadow-amber-900/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
               >
                 <Crown className="w-4 h-4" />{' '}
-                {isRedirecting ? 'Redirecting…' : stripeReady ? 'Upgrade now' : 'Keep me posted'}
+                {isRedirecting
+                  ? 'Redirecting…'
+                  : isGuest
+                    ? 'Create an account'
+                    : stripeReady
+                      ? 'Upgrade now'
+                      : 'Keep me posted'}
               </button>
             )}
             <button

@@ -427,7 +427,10 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         `You've used all ${freeEvalLimit()} free evaluations for today. Upgrade to Plus for unlimited marking.`,
         'info'
       );
-      requestUpgrade('fullFeedback');
+      // `fullFeedback` because marking has no feature key of its own (it is
+      // metered by count, not gated by plan); the reason is what makes the
+      // prompt describe the limit rather than the criterion breakdown.
+      requestUpgrade('fullFeedback', 'dailyLimit');
       return;
     }
     evaluate(userAnswer, currentPrompt);
@@ -1056,7 +1059,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                   )}
                   {/* Nobody is left stranded: someone who cannot create a
                       course can still say which one they need. */}
-                  {!canCreateCurriculum(user.role) && isCourseDemandAvailable() && (
+                  {!canCreateCurriculum(user.role) && isCourseDemandAvailable(user.role) && (
                     <button
                       onClick={() => {
                         setCourseRequestPrefill('');

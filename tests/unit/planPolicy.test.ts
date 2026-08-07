@@ -119,7 +119,6 @@ describe('paid AI calls carry their feature tag', () => {
     // that has to move together — a new authoring call added without a tag is
     // the same hole reopening.
     for (const fn of [
-      'enrichPromptDetails',
       'generateScenarioForPrompt',
       'generateKeywordsForPrompt',
       'suggestOutcomesForPrompt',
@@ -140,13 +139,19 @@ describe('paid AI calls carry their feature tag', () => {
   });
 
   it('leaves the calls a STUDENT makes untagged', () => {
-    // Neither of these is an authoring action, and tagging either would refuse
-    // a free student something that was never being sold:
+    // None of these is an authoring action, and tagging any of them refuses a
+    // free student something that was never being sold:
     //   explainOutcomeInContext → the reference-materials explainer
+    //   enrichPromptDetails     → the automatic backfill that runs when ANY
+    //                             user opens a question missing a scenario,
+    //                             keywords or linked outcomes. Tagging it
+    //                             opened an "AI Content Studio" upgrade prompt
+    //                             at a student who had only clicked a question.
     //   screenContentQuality    → the automatic pre-screen on a shared-library
     //                             contribution (it passes { studio: false })
-    // Role and quota gates still apply to both.
+    // The AI quota still meters all three; that is the gate that belongs here.
     expect(bodyOf('explainOutcomeInContext')).not.toContain('__feature');
+    expect(bodyOf('enrichPromptDetails')).not.toContain('__feature');
     expect(bodyOf('screenContentQuality')).toContain('studio: false');
   });
 });

@@ -453,7 +453,19 @@ export const enrichPromptDetails = async (
   const contextBlock = buildSyllabusContextBlock(context.syllabus);
   const request = {
     ...aiTarget('basic'),
-    __feature: 'aiContentStudio',
+    // NOT tagged, and this one is not an oversight — it is the difference
+    // between an authoring action and the app repairing itself.
+    //
+    // Enrichment fires from an unguarded effect in hooks/useGemini.ts whenever
+    // a question is opened without keywords, a scenario or linked outcomes,
+    // whoever opens it. A large share of the shipped courseData is missing at
+    // least one, so this runs routinely for ordinary STUDENTS just reading a
+    // question. Tagged, the proxy answered 402 and the client turned that into
+    // an unsolicited "AI Content Studio" upgrade prompt — selling a teacher
+    // tool to a student who had only clicked a question.
+    //
+    // The AI quota still meters it, which is the gate that belongs here: this
+    // spends budget on everyone's behalf, and it is nobody's paid feature.
     contents: {
       parts: [
         {

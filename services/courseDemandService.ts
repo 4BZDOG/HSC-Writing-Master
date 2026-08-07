@@ -55,8 +55,28 @@ const requireClient = () => {
   return supabase;
 };
 
-/** True when requests can be logged at all — drives whether the link is shown. */
-export const isCourseDemandAvailable = (): boolean => !!supabase;
+/**
+ * True when this caller could actually log a request — which is what decides
+ * whether the "Request a course" link is drawn at all.
+ *
+ * A configured Supabase is necessary but not sufficient. `log_course_request`
+ * is `authenticated`-only and reads `auth.uid()`, so a GUEST — who holds a
+ * local-only session with no Supabase user — would be shown the link, fill the
+ * form in, and be answered "Not authenticated". Offering a door that cannot
+ * open is worse than not drawing it: the user has done the work before finding
+ * out. Pass the role so guests are excluded up front.
+ */
+export const isCourseDemandAvailable = (role?: string): boolean => !!supabase && role !== 'guest';
+
+/**
+ * PostgREST's shape for "that function isn't in this database" — schema §21 has
+ * not been applied. Distinguished from a real failure because the two need
+ * completely different words: one is "this deployment doesn't have the feature
+ * yet", the other is "something went wrong, try again".
+ */
+const isMissingRpc = (error: { code?: string; message?: string }): boolean =>
+  error.code === 'PGRST202' ||
+  /function .*log_course_request.* does not exist/i.test(error.message ?? '');
 
 /**
  * Register interest in a course. Idempotent per user: asking again updates the
@@ -71,6 +91,9 @@ export const requestCourse = async (name: string, note?: string): Promise<Course
     p_note: note?.trim() ? note.trim() : null,
   });
   if (error) {
+    // A database that predates §21 is a deployment fact, not the user's
+    // problem, so it gets its own sentence rather than raw PostgREST text.
+    if (isMissingRpc(error)) throw new CourseDemandUnavailableError();
     // The RPC raises for a blank or over-long name; those messages are written
     // for the person typing, so they are passed through as-is.
     throw new Error(error.message || 'Could not log that course request.');
