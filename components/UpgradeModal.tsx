@@ -27,6 +27,7 @@ import {
   SCHOOL_SEAT_LIMITS,
   FREE_DAILY_AI_CALLS,
   PAID_DAILY_AI_CALLS,
+  monetisationEnabled,
 } from '../services/entitlements';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -51,10 +52,18 @@ export const PlusLockChip: React.FC<{ className?: string }> = ({ className = '' 
 export const ContentLockOverlay: React.FC<{
   feature: PremiumFeatureKey;
   message?: string;
-}> = ({ feature, message }) => {
+  /**
+   * Corner radius to match the container being covered. The overlay is
+   * `inset-0`, so a radius smaller than its container's leaves the opaque
+   * backdrop poking out past the container's rounded corners.
+   */
+  className?: string;
+}> = ({ feature, message, className = 'rounded-2xl' }) => {
   const meta = PREMIUM_FEATURES[feature];
   return (
-    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-[rgb(var(--color-bg-surface))]/80 light:bg-white/80 backdrop-blur-sm rounded-2xl">
+    <div
+      className={`absolute inset-0 z-10 flex flex-col items-center justify-center bg-[rgb(var(--color-bg-surface))]/80 light:bg-white/80 backdrop-blur-sm ${className}`}
+    >
       <div className="flex flex-col items-center gap-3 text-center px-6 max-w-xs">
         <div className="w-10 h-10 rounded-2xl bg-amber-400/15 border border-amber-400/30 flex items-center justify-center">
           <Lock className="w-5 h-5 text-amber-500" />
@@ -95,7 +104,25 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
   const [seats, setSeats] = useState<number>(SCHOOL_SEAT_LIMITS.default);
   const [isBuyingSeats, setIsBuyingSeats] = useState(false);
 
-  const stripeReady = !!(STRIPE_PRICE_IDS.plus_monthly && STRIPE_PRICE_IDS.plus_yearly);
+  // A deployment may legitimately sell one billing period only — a school
+  // pilot on annual invoicing, or a monthly launch with the annual price still
+  // being decided. The server sells whichever price IDs it was given, so
+  // requiring BOTH here turned that into no checkout at all: the CTA fell back
+  // to "Keep me posted" while a perfectly valid price sat configured.
+  const monthlyPrice = STRIPE_PRICE_IDS.plus_monthly;
+  const yearlyPrice = STRIPE_PRICE_IDS.plus_yearly;
+  const stripeReady = !!(monthlyPrice || yearlyPrice);
+  /** Only offer the toggle when there is genuinely a choice to make. */
+  const canChoosePeriod = !!(monthlyPrice && yearlyPrice);
+  /** What the user is actually buying: their choice, or the only one on sale. */
+  const effectivePeriod: 'monthly' | 'yearly' = canChoosePeriod
+    ? billingPeriod
+    : yearlyPrice
+      ? 'yearly'
+      : 'monthly';
+  const plusPriceId = effectivePeriod === 'yearly' ? yearlyPrice : monthlyPrice;
+  const plusPriceDisplay =
+    effectivePeriod === 'yearly' ? PLAN_PRICING.yearly : PLAN_PRICING.monthly;
   // Seat licences are a staff purchase: shown to teachers/admins once the
   // school price exists; students keep the enquiry link.
   const canBuySeats =
@@ -109,6 +136,14 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
 
   useEffect(() => {
     const onRequest = (e: Event) => {
+      // A deployment that sells nothing must not open a sales prompt. Locked
+      // controls already stop calling requestUpgrade when monetisation is off
+      // (isFeatureLocked short-circuits), but the plan comparison and the
+      // profile card call it unconditionally for anyone on the free plan — so
+      // a pilot user could still be offered an upgrade to features they were
+      // already using. Every route in goes through this event, so one guard
+      // here covers all of them, including any added later.
+      if (!monetisationEnabled()) return;
       const key = (e as CustomEvent).detail?.feature as PremiumFeatureKey | undefined;
       if (key && key in PREMIUM_FEATURES) setFeature(key);
     };
@@ -130,9 +165,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
       return;
     }
     setIsRedirecting(true);
-    const priceId =
-      billingPeriod === 'yearly' ? STRIPE_PRICE_IDS.plus_yearly : STRIPE_PRICE_IDS.plus_monthly;
-    const { url, error } = await createCheckoutUrl(priceId);
+    const { url, error } = await createCheckoutUrl(plusPriceId);
     if (url) {
       window.location.href = url;
     } else {
@@ -238,8 +271,10 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
           </div>
 
           {/* Billing period toggle with real prices — a paywall that hides the
-              price converts far worse than one that states it plainly. */}
-          {stripeReady && sellsPlus && (
+              price converts far worse than one that states it plainly. Only
+              drawn when both periods are on sale; with one, a two-button
+              toggle would offer a choice that does not exist. */}
+          {canChoosePeriod && sellsPlus && (
             <div className="mb-5">
               <div className="grid grid-cols-2 gap-2">
                 <button
@@ -285,6 +320,23 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                   </span>
                 </p>
               )}
+            </div>
+          )}
+
+          {/* One period on sale: still state the price. The rule above holds
+              either way — the reason not to draw the toggle is that there is
+              nothing to toggle, not that the price should be hidden. */}
+          {stripeReady && !canChoosePeriod && sellsPlus && (
+            <div className="mb-5 px-4 py-3 rounded-xl bg-amber-400/20 border border-amber-400/40">
+              <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400">
+                {effectivePeriod === 'yearly' ? 'Yearly' : 'Monthly'}
+              </span>
+              <span className="block text-lg font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
+                {plusPriceDisplay}
+                <span className="text-[10px] font-bold text-slate-400">
+                  {effectivePeriod === 'yearly' ? ' /year' : ' /month'}
+                </span>
+              </span>
             </div>
           )}
 

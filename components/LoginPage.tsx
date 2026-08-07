@@ -199,13 +199,25 @@ const OAUTH_PROVIDERS = resolveOAuthProviders(import.meta.env.VITE_OAUTH_PROVIDE
  * Self-registration is offered only when there is somewhere to register: mock
  * mode has a fixed set of demo logins and no account store, so the link would
  * lead to a form that cannot succeed.
+ *
+ * FUNCTIONS, not module-level constants. Both read a binding imported from
+ * `services/`, and doing that at module scope is the pattern behind "Cannot
+ * access 'X' before initialization": if the bundler ever puts this file and
+ * that service in chunks that import each other, this body runs before the
+ * other chunk has initialised and the page renders blank. Deferring the read
+ * to call time makes chunk placement irrelevant — the same reasoning, and the
+ * same fix, as `freeTierLimits()` in services/planPolicy.ts. `npm run
+ * check:eager-reads` fails the build on the module-scope form.
  */
-const SIGNUP_AVAILABLE =
+const signupAvailable = (): boolean =>
   isSupabaseConfigured && isSignupEnabled(import.meta.env.VITE_ENABLE_SIGNUP);
-// The SAME list the SSO callback enforces (services/authService.ts) — one rule
-// for every way an account can appear, since restricting one route and not the
-// other restricts nothing.
-const SIGNUP_ALLOWED_DOMAINS = resolveAllowedDomains(import.meta.env);
+
+/**
+ * The SAME list the SSO callback enforces (services/authService.ts) — one rule
+ * for every way an account can appear, since restricting one route and not the
+ * other restricts nothing.
+ */
+const signupAllowedDomains = (): string[] => resolveAllowedDomains(import.meta.env);
 
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [username, setUsername] = useState('');
@@ -275,7 +287,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       email: username,
       password,
       confirmPassword,
-      allowedDomains: SIGNUP_ALLOWED_DOMAINS,
+      allowedDomains: signupAllowedDomains(),
     });
     setFieldErrors(errors);
     if (hasSignupErrors(errors)) return;
@@ -519,9 +531,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                     hasError={usernameError || Boolean(fieldErrors.email)}
                   />
                   <FieldError message={fieldErrors.email} />
-                  {mode === 'signup' && SIGNUP_ALLOWED_DOMAINS.length > 0 && !fieldErrors.email && (
+                  {mode === 'signup' && signupAllowedDomains().length > 0 && !fieldErrors.email && (
                     <p className="text-xs text-slate-500 leading-relaxed mt-2 ml-1">
-                      {allowedDomainMessage(SIGNUP_ALLOWED_DOMAINS)}
+                      {allowedDomainMessage(signupAllowedDomains())}
                     </p>
                   )}
                 </div>
@@ -621,7 +633,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                         </button>
                       </p>
                     )}
-                    {SIGNUP_AVAILABLE && (
+                    {signupAvailable() && (
                       <p className="text-center text-xs text-slate-400 light:text-slate-600">
                         {mode === 'signin'
                           ? "Don't have an account? "

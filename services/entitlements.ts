@@ -360,6 +360,38 @@ export const syncFreeEvalCount = (used: number, limit?: number): void => {
   }
 };
 
+/**
+ * Pull the server's authoritative count into the local mirror WITHOUT
+ * spending anything (`get_evaluation_status()`, schema §14).
+ *
+ * Until this existed the mirror only ever self-corrected on a refusal, so the
+ * two disagreed exactly when it mattered most: a fresh browser, a second
+ * device, or cleared site data all reset the display to a full allowance the
+ * server had already spent. The student wrote an answer, waited out the
+ * marking call, and was refused — the paywall arriving as a failure at the end
+ * rather than a number at the start.
+ *
+ * Best-effort and silent. No Supabase (mock mode), a database that predates
+ * §14, or a transient failure all leave the mirror as it was; the server gate
+ * is what actually holds, and this is only what the UI says about it.
+ */
+export const refreshFreeEvalCount = async (): Promise<void> => {
+  try {
+    const { supabase } = await import('./supabaseClient');
+    if (!supabase) return;
+    const { data, error } = await supabase.rpc('get_evaluation_status');
+    if (error || !data || typeof data !== 'object') return;
+    const status = data as { used?: unknown; limit?: unknown; unlimited?: unknown };
+    if (typeof status.used !== 'number') return;
+    // `limit: -1` means "not metered at all" — syncFreeEvalCount already
+    // declines to store a negative limit, so the shipped default keeps being
+    // displayed for anyone who is somehow shown a count at all.
+    syncFreeEvalCount(status.used, typeof status.limit === 'number' ? status.limit : undefined);
+  } catch {
+    /* RPC missing or Supabase unreachable — the mirror stays as it was */
+  }
+};
+
 /** True when the free tier's daily evaluation limit has been reached. */
 export const isEvalLimitReached = (user?: User | null): boolean => {
   if (!monetisationEnabled()) return false;
@@ -511,16 +543,40 @@ export interface BillingState {
   cancelAtPeriodEnd: boolean;
 }
 
-export const fetchBillingState = async (): Promise<BillingState | null> => {
+/**
+ * The outcome of looking a subscription up, with "there isn't one" kept
+ * distinct from "I couldn't tell".
+ *
+ * `fetchBillingState` collapses both into null, which is fine for the
+ * past-due banner (no data, no banner) but not for deciding whether to offer
+ * the billing portal: a transient Supabase failure would then be read as "this
+ * user holds their plan through a perk", and a real paying customer would be
+ * told there is nothing to manage and shown no way to reach Stripe.
+ *
+ *   found   — the caller has their own subscription row.
+ *   none    — asked and answered: there is no subscription for this caller.
+ *             Includes mock mode and a caller with no Supabase session, where
+ *             a subscription cannot exist at all.
+ *   unknown — the question could not be put. Callers must not treat this as
+ *             either answer.
+ */
+export type BillingLookup =
+  | { status: 'found'; state: BillingState }
+  | { status: 'none' }
+  | { status: 'unknown' };
+
+export const fetchBillingLookup = async (): Promise<BillingLookup> => {
   try {
     const { supabase } = await import('./supabaseClient');
-    if (!supabase) return null;
+    // No billing backend at all: nobody can hold a subscription, which is an
+    // answer rather than a failure.
+    if (!supabase) return { status: 'none' };
     // Scope to the signed-in user explicitly. RLS already limits ordinary
     // users to their own row, but admins can read ALL subscriptions — without
     // this filter an admin sees a stranger's failed payment as their own.
     const { data: sessionData } = await supabase.auth.getSession();
     const userId = sessionData.session?.user?.id;
-    if (!userId) return null;
+    if (!userId) return { status: 'none' };
     const { data, error } = await supabase
       .from('subscriptions')
       .select('status, plan, current_period_end, cancel_at_period_end')
@@ -528,16 +584,27 @@ export const fetchBillingState = async (): Promise<BillingState | null> => {
       .order('current_period_end', { ascending: false })
       .limit(1)
       .maybeSingle();
-    if (error || !data) return null;
+    // A query error is the one case we genuinely cannot answer. An empty
+    // result is a real answer: this caller has no subscription.
+    if (error) return { status: 'unknown' };
+    if (!data) return { status: 'none' };
     return {
-      status: typeof data.status === 'string' ? data.status : 'unknown',
-      plan: typeof data.plan === 'string' ? data.plan : 'plus',
-      currentPeriodEnd: data.current_period_end ?? null,
-      cancelAtPeriodEnd: data.cancel_at_period_end === true,
+      status: 'found',
+      state: {
+        status: typeof data.status === 'string' ? data.status : 'unknown',
+        plan: typeof data.plan === 'string' ? data.plan : 'plus',
+        currentPeriodEnd: data.current_period_end ?? null,
+        cancelAtPeriodEnd: data.cancel_at_period_end === true,
+      },
     };
   } catch {
-    return null;
+    return { status: 'unknown' };
   }
+};
+
+export const fetchBillingState = async (): Promise<BillingState | null> => {
+  const lookup = await fetchBillingLookup();
+  return lookup.status === 'found' ? lookup.state : null;
 };
 
 export const fetchBillingAlert = async (): Promise<BillingAlert | null> => {

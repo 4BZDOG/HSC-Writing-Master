@@ -4,10 +4,30 @@
  * The client copy decides what to SHOW as locked; this copy decides what the
  * proxy will actually do. That distinction matters: everything the client
  * enforces is advisory, because a determined user can edit the bundle, drop a
- * flag, or POST to `/api/gemini` by hand. Before this file, three of the seven
- * paid features — the AI Content Studio, answer upgrades, and (below the
- * question picker) advanced questions — were gated in the UI and nowhere else,
- * so the paywall was a suggestion for anyone who opened devtools.
+ * flag, or POST to `/api/gemini` by hand. Before this file, the AI Content
+ * Studio and answer upgrades were gated in the UI and nowhere else, so those
+ * two were a paywall with a "please don't" sign on it for anyone who opened
+ * devtools. `featureFromRequest` below is what made them real.
+ *
+ * WHICH GATES THIS FILE COVERS. Only the ones that spend a provider call and
+ * carry a `__feature` tag: `aiContentStudio` and `answerUpgrades`. The other
+ * four are enforced elsewhere, or not at all:
+ *
+ *   - `fullFeedback` — enforced, but by redaction rather than refusal
+ *     (`redactEvaluationResponse` in ./entitlements.ts strips the paid parts
+ *     out of the marking result before it is sent).
+ *   - `advancedQuestions` — UI-only. Attempting a tier-4+ question is not a
+ *     distinct call: it is an ordinary evaluation, so a tampered client can
+ *     mark one at the cost of a free evaluation it had anyway. Gating it here
+ *     would mean sending the question's tier with the request and trusting it,
+ *     which enforces nothing. Low value to steal, so it is left as a routing
+ *     gate (components/Workspace.tsx catches every route into a question).
+ *   - `sampleAnswers` — UI-only, and unfixable at this layer: exemplars are
+ *     content the client already holds, so the blur is presentation. Withhold
+ *     them at the point they are FETCHED if this ever needs to be real.
+ *   - `pdfExport`, `examMode` — UI-only by nature. Both run entirely in the
+ *     browser over data the user already has; there is no server call to
+ *     refuse and nothing to withhold.
  *
  * Kept in step with the client copy by `tests/unit/planPolicy.test.ts`. It
  * cannot simply import that module: this code runs in plain Node on Vercel,

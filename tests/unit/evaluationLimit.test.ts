@@ -108,6 +108,61 @@ describe('api/gemini free-tier evaluation gate', () => {
     expect(res.statusCode).toBe(200);
     expect(runAiProxyMock).toHaveBeenCalled();
   });
+
+  /**
+   * A deployment that sells nothing must not meter the thing it isn't selling.
+   * MONETISATION_ENABLED=false opens every plan gate, but the marking meter
+   * used to run regardless — so a pilot still refused the sixth answer of the
+   * day, and did it as a 402 AFTER the student had written one (the client
+   * stops pre-checking when monetisation is off), which opened an upgrade
+   * prompt for a plan that isn't for sale.
+   */
+  describe('with monetisation switched off for a pilot', () => {
+    beforeEach(() => {
+      process.env.MONETISATION_ENABLED = 'false';
+    });
+    afterEach(() => {
+      delete process.env.MONETISATION_ENABLED;
+    });
+
+    it('does not spend a free evaluation', async () => {
+      const res = makeRes();
+      await handler(post(evaluationRequest), res);
+
+      expect(consumeEvaluationMock).not.toHaveBeenCalled();
+      expect(res.statusCode).toBe(200);
+    });
+
+    it('marks the answer even when the allowance would already be spent', async () => {
+      consumeEvaluationMock.mockResolvedValue({
+        allowed: false,
+        used: 5,
+        limit: 5,
+        unlimited: false,
+      });
+      const res = makeRes();
+      await handler(post(evaluationRequest), res);
+
+      expect(res.statusCode).toBe(200);
+      expect(runAiProxyMock).toHaveBeenCalled();
+    });
+
+    it('still spends the AI quota — the provider budget is not a paywall', async () => {
+      const res = makeRes();
+      await handler(post(evaluationRequest), res);
+
+      expect(consumeAiQuotaMock).toHaveBeenCalled();
+    });
+
+    it('still refuses once the AI budget itself is gone', async () => {
+      consumeAiQuotaMock.mockResolvedValue({ allowed: false, used: 60, limit: 60, scope: 'user' });
+      const res = makeRes();
+      await handler(post(evaluationRequest), res);
+
+      expect(res.statusCode).toBe(429);
+      expect(runAiProxyMock).not.toHaveBeenCalled();
+    });
+  });
 });
 
 describe('api/gemini free-tier content redaction', () => {

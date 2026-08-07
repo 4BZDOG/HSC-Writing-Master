@@ -42,8 +42,8 @@ import { User, WritingMode } from './types';
 import { canCurateContent, canModerate, isSystemAdmin } from './utils/permissions';
 import {
   isEvalLimitReached,
-  recordEvaluation,
   freeEvalLimit,
+  refreshFreeEvalCount,
   requestUpgrade,
   PLAN_LABELS,
 } from './services/entitlements';
@@ -424,9 +424,10 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     evaluate(userAnswer, currentPrompt);
   }, [currentPrompt, userAnswer, user, showToast, evaluate]);
 
-  useEffect(() => {
-    if (evaluationResult) recordEvaluation();
-  }, [evaluationResult]);
+  // The local free-evaluation mirror is spent inside useGemini, at the point
+  // the marking call returns. It is deliberately NOT an effect on
+  // `evaluationResult`: that object is replaced when the user rates the
+  // feedback, and the effect charged them a second evaluation for it.
 
   useEffect(() => {
     const isLight = user.preferences.theme === 'light';
@@ -1152,6 +1153,17 @@ const App: React.FC = () => {
   // One-off AI notices (e.g. automatic fallback to Gemini Flash when the
   // selected model has no free-tier quota). Fired at most once per condition.
   useEffect(() => subscribeAiNotices((message) => showToast(message, 'info')), [showToast]);
+
+  // Reconcile the free-tier evaluation counter with the server as soon as
+  // there is an account to reconcile it for. The local copy is per-browser, so
+  // without this a second device — or a cleared cache — offers a full
+  // allowance the server has already spent, and the student only finds out
+  // after writing an answer and waiting out the marking call. Runs once per
+  // sign-in; the counter's own daily rollover handles the rest.
+  useEffect(() => {
+    if (!user || user.role === 'guest') return;
+    void refreshFreeEvalCount();
+  }, [user?.username, user?.role]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);

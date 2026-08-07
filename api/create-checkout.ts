@@ -26,7 +26,9 @@ import {
   getStripe,
   getSupabaseAdmin,
   isStripeConfigured,
+  isStripeMisconfigured,
   resolveReturnBase,
+  STRIPE_MISCONFIGURED_ERROR,
 } from './_lib/stripe';
 import { SCHOOL_SEAT_LIMITS } from './_lib/entitlements';
 import { verifyRequestAuth } from './_lib/auth';
@@ -75,6 +77,16 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     headerValue(req.headers?.referer),
     body?.returnUrl
   );
+
+  // Prices published to the browser but no server key: the caller clicked a
+  // real Upgrade button, so answer with the reason rather than a mock URL they
+  // will follow into a page that does not exist. The client surfaces this
+  // message directly (see postBilling in services/entitlements.ts).
+  if (isStripeMisconfigured()) {
+    console.error('[create-checkout]', STRIPE_MISCONFIGURED_ERROR);
+    res.status(503).json({ error: STRIPE_MISCONFIGURED_ERROR });
+    return;
+  }
 
   if (!isStripeConfigured()) {
     // Test-mode: return a fake URL so the client redirect logic can be verified.

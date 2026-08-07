@@ -439,3 +439,95 @@ describe('stripe webhook idempotency and ordering', () => {
     expect(profilePlanWritten()).toBe('plus');
   });
 });
+
+/**
+ * The payment-failure flag is what raises the "update your card" banner during
+ * the grace period, and it was the one subscription write with no ordering
+ * guard. Stripe does not order deliveries, so a `customer.subscription.updated`
+ * generated BEFORE the failed charge but delivered after it would overwrite
+ * `past_due` with `active`, take the banner off the screen, and leave the
+ * customer hearing nothing until the retries ran out and the plan was
+ * cancelled outright.
+ */
+describe('payment failures take part in the same ordering guard', () => {
+  beforeEach(() => {
+    updates.length = 0;
+    upserts.length = 0;
+    seenEvents.clear();
+    lastEventAt = null;
+    failUpdates = false;
+  });
+
+  const paymentFailed = (id: string, created: number) => ({
+    method: 'POST',
+    headers: {},
+    body: {
+      id,
+      created,
+      type: 'invoice.payment_failed',
+      data: { object: { customer: 'cus_1', subscription: 'sub_1' } },
+    },
+  });
+
+  const subscriptionUpdated = (id: string, created: number) => ({
+    method: 'POST',
+    headers: {},
+    body: {
+      id,
+      created,
+      type: 'customer.subscription.updated',
+      data: {
+        object: {
+          id: 'sub_1',
+          customer: 'cus_1',
+          status: 'active',
+          items: { data: [{ price: { id: 'price_plus' } }] },
+          current_period_start: 1_700_000_000,
+          current_period_end: 1_702_600_000,
+        },
+      },
+    },
+  });
+
+  it('stamps the event time, so later writes can tell it happened', async () => {
+    await handler(paymentFailed('evt_fail', 1_700_005_000), makeRes());
+
+    const row = updates.find((u) => u.table === 'subscriptions')?.values;
+    expect(row?.status).toBe('past_due');
+    expect(row?.last_event_at).toBe(new Date(1_700_005_000 * 1000).toISOString());
+  });
+
+  it('does not let an older subscription event clear the past_due flag', async () => {
+    // The failure is applied first and stamps the row…
+    await handler(paymentFailed('evt_fail', 1_700_005_000), makeRes());
+    lastEventAt = new Date(1_700_005_000 * 1000).toISOString();
+    updates.length = 0;
+    upserts.length = 0;
+
+    // …then an `updated` that Stripe generated earlier arrives late.
+    const res = makeRes();
+    await handler(subscriptionUpdated('evt_stale', 1_700_000_000), res);
+
+    expect(res.statusCode).toBe(200);
+    expect(upserts).toHaveLength(0);
+    expect(updates).toHaveLength(0);
+  });
+
+  it('ignores a payment failure older than the state already applied', async () => {
+    lastEventAt = new Date(1_700_009_000 * 1000).toISOString();
+
+    const res = makeRes();
+    await handler(paymentFailed('evt_old_fail', 1_700_000_000), res);
+
+    expect(res.statusCode).toBe(200);
+    expect(updates).toHaveLength(0);
+  });
+
+  it('still applies a failure newer than the last event seen', async () => {
+    lastEventAt = new Date(1_700_000_000 * 1000).toISOString();
+
+    await handler(paymentFailed('evt_fresh_fail', 1_700_009_000), makeRes());
+
+    expect(updates.find((u) => u.table === 'subscriptions')?.values.status).toBe('past_due');
+  });
+});
