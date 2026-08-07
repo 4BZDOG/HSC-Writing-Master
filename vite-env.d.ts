@@ -77,6 +77,43 @@ interface ImportMetaEnv {
   readonly VITE_FREE_TIER_MAX_SAMPLE_BAND?: string;
   /** `true` gives free accounts the full criterion-by-criterion feedback. */
   readonly VITE_FREE_TIER_FULL_FEEDBACK?: string;
+  /**
+   * Stripe Price IDs (`price_…`) the upgrade prompt may offer. The client
+   * needs them to know WHICH plans to show; the server needs the unprefixed
+   * `STRIPE_*_PRICE_ID` copies to know which it is allowed to sell
+   * (api/_lib/stripe.ts → configuredPrices). Set both halves to the same
+   * values — a VITE_ price with no server twin gets "Unknown plan" at
+   * checkout, and a server price with no VITE_ twin is never offered.
+   *
+   * The Plus checkout button appears only when BOTH the monthly and yearly
+   * price are set; with neither, the CTA degrades to "Keep me posted".
+   */
+  readonly VITE_STRIPE_PLUS_MONTHLY_PRICE_ID?: string;
+  readonly VITE_STRIPE_PLUS_YEARLY_PRICE_ID?: string;
+  /** Per-seat school licence price. Unset keeps school sales enquiry-only. */
+  readonly VITE_STRIPE_SCHOOL_PRICE_ID?: string;
+  /**
+   * PRESENTATION prices only — the amount charged always comes from the
+   * Stripe Price object. They exist so a price change needs a redeploy rather
+   * than a release, which also means nothing stops them drifting from what
+   * Stripe actually bills. Change them in the same sitting as the price.
+   */
+  readonly VITE_PLUS_MONTHLY_PRICE_DISPLAY?: string;
+  readonly VITE_PLUS_YEARLY_PRICE_DISPLAY?: string;
+  readonly VITE_PLUS_YEARLY_NOTE?: string;
+  readonly VITE_SCHOOL_SEAT_PRICE_DISPLAY?: string;
+  /**
+   * Where school/faculty licensing enquiries go. Unset replaces the mailto
+   * link with a "register interest" toast, so students never see a dead link.
+   */
+  readonly VITE_SCHOOL_CONTACT_EMAIL?: string;
+  /**
+   * Identity and contact details interpolated into the Terms of Use and
+   * Privacy Notice (data/legalContent.ts), which quote the plan limits above.
+   */
+  readonly VITE_LEGAL_ENTITY_NAME?: string;
+  readonly VITE_LEGAL_CONTACT_EMAIL?: string;
+  readonly VITE_LEGAL_JURISDICTION?: string;
 }
 
 interface ImportMeta {

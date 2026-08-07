@@ -129,6 +129,94 @@ finds the URL.
 > configured sends the user away and returns an error. A new Supabase project
 > has **none** enabled, so leaving this unset draws three buttons that all fail.
 
+### Optional — billing and the paywall
+
+Skip this whole section and the app still works: with no variables set,
+monetisation is **on**, so free accounts get 5 marked evaluations a day and the
+paid features render locked — but nothing can be bought, and the upgrade prompt
+degrades to "Keep me posted". Everything below is what turns that into a
+purchase. See `docs/stripesetup.md` for creating the products themselves.
+
+**Billing needs Supabase configured first.** Both `/api/create-checkout` and
+`/api/customer-portal` go through the same auth gate as the AI proxy, and the
+webhook writes the plan onto a Supabase profile. Without an identity there is
+nothing to attach a subscription to.
+
+| Variable                            | Value                     | Purpose                                                                    |
+| ----------------------------------- | ------------------------- | -------------------------------------------------------------------------- |
+| `STRIPE_SECRET_KEY`                 | `sk_live_…` / `sk_test_…` | Server-side Stripe client. Unset = every billing endpoint returns a mock   |
+| `STRIPE_WEBHOOK_SECRET`             | `whsec_…`                 | Verifies webhook signatures. **Required in production** — see below        |
+| `SUPABASE_SERVICE_ROLE_KEY`         | Your service-role key     | Lets the webhook write plans past RLS. **Server-side only, never `VITE_`** |
+| `STRIPE_PLUS_MONTHLY_PRICE_ID`      | `price_…`                 | Which prices the server is allowed to sell                                 |
+| `STRIPE_PLUS_YEARLY_PRICE_ID`       | `price_…`                 | Which prices the server is allowed to sell                                 |
+| `STRIPE_SCHOOL_PRICE_ID`            | `price_…`                 | Per-seat school licence; unset keeps school sales enquiry-only             |
+| `VITE_STRIPE_PLUS_MONTHLY_PRICE_ID` | Same `price_…` as above   | Which prices the **client** offers                                         |
+| `VITE_STRIPE_PLUS_YEARLY_PRICE_ID`  | Same `price_…` as above   | Which prices the **client** offers                                         |
+| `VITE_STRIPE_SCHOOL_PRICE_ID`       | Same `price_…` as above   | Draws the seat picker for teachers and admins                              |
+
+> **Set each price ID as a matching pair, VITE\_ and unprefixed.** They are two
+> different lists: the client's decides what to _offer_, the server's decides
+> what it will _sell_ (`configuredPrices()`). A `VITE_` price with no server
+> twin shows the user a checkout button that answers "Unknown plan. Please
+> refresh and try again." A server price with no `VITE_` twin is never offered
+> at all. Neither state is announced anywhere else.
+
+> **`STRIPE_WEBHOOK_SECRET` is not optional in production.** An unsigned
+> endpoint lets anyone POST a forged `customer.subscription.updated` and grant
+> themselves a paid plan, so production refuses unsigned events with a 500
+> rather than trusting them. Stripe retries, so events survive until the secret
+> is set — but until then, no plan reaches any profile.
+
+> **Half-configured Stripe is silent.** With the `VITE_` price IDs set but no
+> `STRIPE_SECRET_KEY`, the endpoint returns a **mock** checkout URL
+> (`…#/upgrade-test`) and the browser navigates to a page the app does not
+> handle: the Upgrade button appears to do nothing. Check the Stripe key first
+> when a checkout "does nothing".
+
+Display prices are separate from what Stripe charges, so a price change needs a
+redeploy of these too:
+
+| Variable                          | Default                           | Shown in                        |
+| --------------------------------- | --------------------------------- | ------------------------------- |
+| `VITE_PLUS_MONTHLY_PRICE_DISPLAY` | `A$7.99`                          | Upgrade prompt, plan comparison |
+| `VITE_PLUS_YEARLY_PRICE_DISPLAY`  | `A$59`                            | Upgrade prompt, plan comparison |
+| `VITE_PLUS_YEARLY_NOTE`           | `Save 38% — under A$5/month`      | Upgrade prompt                  |
+| `VITE_SCHOOL_SEAT_PRICE_DISPLAY`  | `A$4`                             | Seat picker, plan comparison    |
+| `VITE_SCHOOL_CONTACT_EMAIL`       | _(unset — shows a toast instead)_ | School licence enquiry link     |
+
+> These are **presentation strings only** — the amount charged always comes
+> from the Stripe Price object. Nothing checks that they agree, so change them
+> in the same sitting as the price in Stripe.
+
+### Optional — changing what the free tier gets
+
+Each of these has a `VITE_` half read by the browser and an unprefixed half
+read by the API. **Set both to the same value.** Setting only the `VITE_` half
+unlocks the UI while the server keeps enforcing — a free user sees an unlocked
+feedback panel full of "Upgrade to see this feedback."
+
+| Variable                           | Value                | Effect                                                          |
+| ---------------------------------- | -------------------- | --------------------------------------------------------------- |
+| `VITE_MONETISATION_ENABLED`        | `false`              | Opens every paid feature — pilots and demos. Unset means ON     |
+| `MONETISATION_ENABLED`             | `false`              | The server half of the same switch                              |
+| `VITE_FREE_TIER_FULL_FEEDBACK`     | `true`               | Gives free accounts the full criterion breakdown                |
+| `FREE_TIER_FULL_FEEDBACK`          | `true`               | The server half — stops the proxy stripping it                  |
+| `VITE_PLAN_FEATURE_OVERRIDES`      | `sampleAnswers:free` | Moves individual features between plans (`feature:plan` pairs)  |
+| `PLAN_FEATURE_OVERRIDES`           | Same value as above  | The server half of the same policy                              |
+| `VITE_FREE_TIER_EVAL_LIMIT`        | `5`                  | Displayed daily marking allowance — **display only**, see below |
+| `VITE_FREE_TIER_MAX_QUESTION_TIER` | `3`                  | Highest command-term tier a free account may attempt            |
+| `VITE_FREE_TIER_MAX_SAMPLE_BAND`   | `3`                  | Highest sample-answer band a free account may read              |
+
+> **`MONETISATION_ENABLED=false` does not raise the daily marking limit.** That
+> counter lives in Postgres, not in an environment variable, so a pilot
+> deployment still refuses the 6th evaluation of the day. Raise it in the SQL
+> editor as well: `select set_plan_setting('free_evaluation_limit', 1000);`
+
+> **`VITE_FREE_TIER_EVAL_LIMIT` changes the number the UI states, not the
+> number enforced.** The limit is `free_evaluation_limit()` in Postgres — set
+> it with `set_plan_setting` as above, and set this variable to match so the
+> two agree before the first refusal corrects it.
+
 ### Optional — demo mode (no Supabase)
 
 | Variable                | Value  | Purpose                                                                     |
@@ -246,15 +334,21 @@ The repo includes `.github/workflows/vercel-deploy.yml`. To use it:
 
 ## Troubleshooting
 
-| Problem                                          | Fix                                                                                                         |
-| ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
-| Build fails with dependency errors               | Verify the install command is `npm ci --legacy-peer-deps` (check vercel.json)                               |
-| "AI Service Unavailable" after deploy            | Check `GEMINI_API_KEY` is set in env vars; **redeploy** after adding it                                     |
-| CORS errors when frontend is on a different host | Set `ALLOWED_ORIGIN` env var to the frontend's exact origin                                                 |
-| 401 on AI calls                                  | If Supabase is configured, you must be logged in; guest sessions cannot make AI calls (this is intentional) |
-| 429 on AI calls                                  | Daily AI quota exhausted — an admin can raise it via the dashboard or `set_user_ai_quota()`                 |
-| Env var changes not taking effect                | Env vars are baked in at build time — you must **redeploy** after changing them                             |
-| Preview deploys work but production doesn't      | Check that env vars are enabled for the "Production" environment (not just "Preview")                       |
+| Problem                                             | Fix                                                                                                                                                            |
+| --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Build fails with dependency errors                  | Verify the install command is `npm ci --legacy-peer-deps` (check vercel.json)                                                                                  |
+| "AI Service Unavailable" after deploy               | Check `GEMINI_API_KEY` is set in env vars; **redeploy** after adding it                                                                                        |
+| CORS errors when frontend is on a different host    | Set `ALLOWED_ORIGIN` env var to the frontend's exact origin                                                                                                    |
+| 401 on AI calls                                     | If Supabase is configured, you must be logged in; guest sessions cannot make AI calls (this is intentional)                                                    |
+| 429 on AI calls                                     | Daily AI quota exhausted — an admin can raise it via the dashboard or `set_user_ai_quota()`                                                                    |
+| Env var changes not taking effect                   | Env vars are baked in at build time — you must **redeploy** after changing them                                                                                |
+| 402 on AI calls                                     | Working as intended: the free tier's daily marking allowance is spent, or the call is a feature the plan does not include                                      |
+| "Upgrade now" appears to do nothing                 | `STRIPE_SECRET_KEY` is unset, so checkout returns a mock URL. Set it, or clear the `VITE_STRIPE_*_PRICE_ID` pair to hide the button                            |
+| "Unknown plan. Please refresh and try again."       | A `VITE_STRIPE_*_PRICE_ID` has no matching unprefixed `STRIPE_*_PRICE_ID` — the server refuses to sell a price it wasn't given                                 |
+| "No plans are available for purchase yet."          | `STRIPE_SECRET_KEY` is set but no `STRIPE_*_PRICE_ID` is                                                                                                       |
+| Payment succeeded but the plan stays free           | Check the webhook: `STRIPE_WEBHOOK_SECRET` set, endpoint pointed at `/api/stripe-webhook`, and `SUPABASE_SERVICE_ROLE_KEY` present so it can write the profile |
+| "No billing account found. Please subscribe first." | The account holds its plan through a staff perk or a school licence, not a subscription of its own — there is nothing to manage in the portal                  |
+| Preview deploys work but production doesn't         | Check that env vars are enabled for the "Production" environment (not just "Preview")                                                                          |
 
 ---
 

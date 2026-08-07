@@ -42,7 +42,6 @@ import { User, WritingMode } from './types';
 import { canCurateContent, canModerate, isSystemAdmin } from './utils/permissions';
 import {
   isEvalLimitReached,
-  recordEvaluation,
   freeEvalLimit,
   requestUpgrade,
   PLAN_LABELS,
@@ -424,9 +423,10 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     evaluate(userAnswer, currentPrompt);
   }, [currentPrompt, userAnswer, user, showToast, evaluate]);
 
-  useEffect(() => {
-    if (evaluationResult) recordEvaluation();
-  }, [evaluationResult]);
+  // The local free-evaluation mirror is spent inside useGemini, at the point
+  // the marking call returns. It is deliberately NOT an effect on
+  // `evaluationResult`: that object is replaced when the user rates the
+  // feedback, and the effect charged them a second evaluation for it.
 
   useEffect(() => {
     const isLight = user.preferences.theme === 'light';

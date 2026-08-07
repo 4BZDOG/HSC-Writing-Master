@@ -19,6 +19,7 @@ import * as gemini from '../services/geminiService';
 import { AICache } from '../services/aiCache';
 import { emitEvalProgress } from '../services/aiCore';
 import {
+  recordEvaluation,
   requestUpgrade,
   syncFreeEvalCount,
   type PremiumFeatureKey,
@@ -150,6 +151,13 @@ export const useGemini = ({
       emitEvalProgress({ phase: 'started', message: 'Preparing evaluation...' });
       try {
         const result = await gemini.evaluateAnswer(answer, prompt);
+        // The server has now spent one of the caller's daily evaluations, so
+        // spend one from the local mirror too — HERE, at the point the call
+        // actually happened. It used to be an effect on `evaluationResult` in
+        // App, which fired again every time the object was replaced: rating
+        // the feedback (handleFeedbackSubmit spreads a new result) charged the
+        // student a second evaluation the server never metered.
+        recordEvaluation();
         const elapsed = Math.round((Date.now() - evalStart) / 1000);
         emitEvalProgress({
           phase: 'done',
@@ -333,6 +341,10 @@ export const useGemini = ({
         try {
           // We reuse evaluateAnswer as it provides robust marking logic including thinking blocks
           const result = await gemini.evaluateAnswer(sample.answer, calibrationPrompt);
+          // Recalibration is marking, and the server meters it as such
+          // (consume_evaluation, schema §14) — one unit per sample. Mirror it
+          // so the remaining count doesn't overstate what is left.
+          recordEvaluation();
 
           updates.push({
             ...sample,

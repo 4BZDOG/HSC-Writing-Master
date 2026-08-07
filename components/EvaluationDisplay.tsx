@@ -631,11 +631,26 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             ))}
           </ul>
         </div>
-        <div className="p-8 rounded-[32px] bg-rose-50/50 dark:bg-rose-900/10 border border-rose-100 dark:border-rose-500/20 shadow-sm">
+        {/* The improvement path is REDACTED server-side for the free tier
+            (api/_lib/entitlements.ts replaces it with the upgrade
+            placeholder), so it has to carry the same lock treatment as the
+            criteria below. Without it a free user reads
+            "Upgrade to see this feedback." as if it were the marker's actual
+            advice, with nothing to click. */}
+        <div className="relative p-8 rounded-[32px] bg-rose-50/50 dark:bg-rose-900/10 border border-rose-100 dark:border-rose-500/20 shadow-sm">
           <h4 className="font-bold text-rose-700 dark:text-rose-400 text-xs uppercase tracking-widest flex items-center gap-2 mb-6">
             <XCircle className="w-4 h-4" /> Areas for Growth
+            {feedbackLocked && <PlusLockChip />}
           </h4>
-          <ul className="space-y-4">
+          {feedbackLocked && (
+            <ContentLockOverlay
+              feature="fullFeedback"
+              message="Your improvement path is a Plus feature"
+            />
+          )}
+          <ul
+            className={`space-y-4 ${feedbackLocked ? 'blur-sm select-none pointer-events-none' : ''}`}
+          >
             {result.improvements.map((im, i) => (
               <li
                 key={i}
