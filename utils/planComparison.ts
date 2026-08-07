@@ -7,7 +7,7 @@ import {
 // From the leaf modules, not via entitlements: see services/planLimits.ts.
 // The free-tier figures come from planPolicy so the table shows what THIS
 // deployment actually enforces, overrides included — not the shipped default.
-import { freeTierLimits } from '../services/planPolicy';
+import { freeTierLimits, monetisationEnabled } from '../services/planPolicy';
 import { FREE_DAILY_AI_CALLS, PAID_DAILY_AI_CALLS } from '../services/planLimits';
 
 /**
@@ -101,9 +101,32 @@ const paidFullLabels = (): Partial<Record<PremiumFeatureKey, string>> => ({
   sampleAnswers: 'All bands',
 });
 
+/**
+ * Does `plan` hold this feature in full, as the app will actually behave?
+ *
+ * Not the same question as `planFeatureKeys(plan).includes(key)`, and the
+ * difference is what made this table lie. Two deployment switches open a gate
+ * without moving the feature between plans, so the feature→plan map still
+ * reports it locked while the running app hands it over:
+ *
+ *   - `VITE_MONETISATION_ENABLED=false` opens EVERY gate (isFeatureLocked
+ *     short-circuits on it), so a pilot deployment was showing its users a
+ *     table of crosses against features they were freely using.
+ *   - `VITE_FREE_TIER_FULL_FEEDBACK=true` turns off the summary-only
+ *     restriction, so the free tier gets the criterion breakdown while this
+ *     table went on advertising "Summary + band" as the limit.
+ *
+ * The gates themselves are the authority; this mirrors their conditions.
+ */
+const planHoldsInFull = (plan: Plan, key: PremiumFeatureKey): boolean => {
+  if (!monetisationEnabled()) return true;
+  if (planFeatureKeys(plan).includes(key)) return true;
+  // Free-tier-only escape hatches, matching services/entitlements.ts.
+  return plan === 'free' && key === 'fullFeedback' && !freeTierLimits().summaryFeedbackOnly;
+};
+
 const cellFor = (plan: Plan, key: PremiumFeatureKey): PlanCell => {
-  const unlocked = planFeatureKeys(plan).includes(key);
-  if (!unlocked) {
+  if (!planHoldsInFull(plan, key)) {
     const partial = plan === 'free' ? freePartialLabels()[key] : undefined;
     return partial ? { kind: 'partial', text: partial } : { kind: 'no' };
   }
@@ -125,7 +148,12 @@ export const buildPlanComparison = (): PlanRow[] => {
       label: 'Marked evaluations',
       note: 'Full AI marking of an answer you have written',
       cells: {
-        free: { kind: 'text', text: `${freeTierLimits().evalLimit} per day` },
+        free: monetisationEnabled()
+          ? { kind: 'text', text: `${freeTierLimits().evalLimit} per day` }
+          : // Nothing is being sold, and neither half of the app meters
+            // marking in that state (api/gemini.ts skips consume_evaluation),
+            // so quoting a daily cap here would invent one.
+            { kind: 'text', text: 'Unlimited' },
         plus: { kind: 'text', text: 'Unlimited' },
         school: { kind: 'text', text: 'Unlimited' },
       },

@@ -46,6 +46,9 @@ vi.mock('../../api/_lib/stripe', () => ({
       checkout: { sessions: { create: sessionCreateMock } },
     }) as unknown,
   isStripeConfigured: () => true,
+  // Fully configured, so the half-configured guard never fires here.
+  isStripeMisconfigured: () => false,
+  STRIPE_MISCONFIGURED_ERROR: 'billing misconfigured',
   getSupabaseAdmin: () => makeSupabaseMock(),
   priceToPlan: (id: string) => (id === 'price_school' ? 'school' : 'plus'),
   resolveReturnBase: () => 'http://localhost:3000/',

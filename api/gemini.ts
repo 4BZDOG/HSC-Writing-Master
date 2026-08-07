@@ -108,7 +108,15 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     // §14). Checked BEFORE the AI budget so a refused evaluation doesn't spend
     // a call the user never got. Only bites on the free tier; staff and paid
     // plans resolve to unlimited server-side.
-    if (token && isEvaluationRequest(req.body)) {
+    //
+    // Skipped entirely when this deployment sells nothing. MONETISATION_ENABLED
+    // =false opens every PLAN gate, and a pilot that still refused the sixth
+    // marking of the day was the one paywall a demo couldn't turn off — worse,
+    // the client stops pre-checking too, so the refusal arrived as a 402 after
+    // the student had written an answer, and opened an upgrade prompt for a
+    // plan that isn't for sale. The AI quota below is untouched: the provider
+    // budget still needs protecting, monetisation or not.
+    if (token && monetisationEnabled() && isEvaluationRequest(req.body)) {
       isEvaluation = true;
       const evaluations = await consumeEvaluation(token);
       if (evaluations && !evaluations.allowed) {

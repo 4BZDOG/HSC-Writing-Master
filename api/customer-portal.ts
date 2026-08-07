@@ -10,7 +10,14 @@
  *
  * Test-mode fallback: when Stripe is unconfigured, returns a mock URL.
  */
-import { getStripe, getSupabaseAdmin, isStripeConfigured, resolveReturnBase } from './_lib/stripe';
+import {
+  getStripe,
+  getSupabaseAdmin,
+  isStripeConfigured,
+  isStripeMisconfigured,
+  resolveReturnBase,
+  STRIPE_MISCONFIGURED_ERROR,
+} from './_lib/stripe';
 import { verifyRequestAuth } from './_lib/auth';
 
 interface RequestLike {
@@ -53,6 +60,14 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     headerValue(req.headers?.referer),
     (req.body as { returnUrl?: string } | undefined)?.returnUrl
   );
+
+  // Same half-configured state as create-checkout: a mock portal URL sends a
+  // paying customer to a page that does not exist. Say what is wrong instead.
+  if (isStripeMisconfigured()) {
+    console.error('[customer-portal]', STRIPE_MISCONFIGURED_ERROR);
+    res.status(503).json({ error: STRIPE_MISCONFIGURED_ERROR });
+    return;
+  }
 
   if (!isStripeConfigured()) {
     res.status(200).json({

@@ -360,6 +360,38 @@ export const syncFreeEvalCount = (used: number, limit?: number): void => {
   }
 };
 
+/**
+ * Pull the server's authoritative count into the local mirror WITHOUT
+ * spending anything (`get_evaluation_status()`, schema §14).
+ *
+ * Until this existed the mirror only ever self-corrected on a refusal, so the
+ * two disagreed exactly when it mattered most: a fresh browser, a second
+ * device, or cleared site data all reset the display to a full allowance the
+ * server had already spent. The student wrote an answer, waited out the
+ * marking call, and was refused — the paywall arriving as a failure at the end
+ * rather than a number at the start.
+ *
+ * Best-effort and silent. No Supabase (mock mode), a database that predates
+ * §14, or a transient failure all leave the mirror as it was; the server gate
+ * is what actually holds, and this is only what the UI says about it.
+ */
+export const refreshFreeEvalCount = async (): Promise<void> => {
+  try {
+    const { supabase } = await import('./supabaseClient');
+    if (!supabase) return;
+    const { data, error } = await supabase.rpc('get_evaluation_status');
+    if (error || !data || typeof data !== 'object') return;
+    const status = data as { used?: unknown; limit?: unknown; unlimited?: unknown };
+    if (typeof status.used !== 'number') return;
+    // `limit: -1` means "not metered at all" — syncFreeEvalCount already
+    // declines to store a negative limit, so the shipped default keeps being
+    // displayed for anyone who is somehow shown a count at all.
+    syncFreeEvalCount(status.used, typeof status.limit === 'number' ? status.limit : undefined);
+  } catch {
+    /* RPC missing or Supabase unreachable — the mirror stays as it was */
+  }
+};
+
 /** True when the free tier's daily evaluation limit has been reached. */
 export const isEvalLimitReached = (user?: User | null): boolean => {
   if (!monetisationEnabled()) return false;
