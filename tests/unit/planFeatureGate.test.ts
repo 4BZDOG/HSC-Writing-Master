@@ -97,17 +97,22 @@ describe('api/gemini paid-feature gate', () => {
   });
 
   it('keeps the content studio to the plan that includes it', async () => {
-    resolveCallerPlanMock.mockResolvedValue('plus');
+    // The studio is a Plus feature, which is what makes the teacher staff perk
+    // reach it: a teacher resolves to Plus and can author without buying a
+    // school licence. A free account is still refused.
+    resolveCallerPlanMock.mockResolvedValue('free');
     const res = makeRes();
     await handler(post(call('aiContentStudio')), res);
 
     expect(res.statusCode).toBe(402);
-    expect(res.body).toMatchObject({ feature: 'aiContentStudio', requiredPlan: 'school' });
+    expect(res.body).toMatchObject({ feature: 'aiContentStudio', requiredPlan: 'plus' });
 
-    resolveCallerPlanMock.mockResolvedValue('school');
-    const ok = makeRes();
-    await handler(post(call('aiContentStudio')), ok);
-    expect(ok.statusCode).toBe(200);
+    for (const plan of ['plus', 'school'] as const) {
+      resolveCallerPlanMock.mockResolvedValue(plan);
+      const ok = makeRes();
+      await handler(post(call('aiContentStudio')), ok);
+      expect(ok.statusCode, `${plan} should reach the studio`).toBe(200);
+    }
   });
 
   it('does not gate untagged calls', async () => {

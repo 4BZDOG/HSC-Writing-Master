@@ -22,6 +22,7 @@ export type ModalName =
   | 'manifestImport'
   | 'manualPrompt'
   | 'quickStart'
+  | 'courseRequest'
   | 'legalDocuments';
 
 export type RenameTarget = {

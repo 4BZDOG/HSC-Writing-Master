@@ -65,7 +65,7 @@ const DEFAULT_FEATURE_MIN_PLAN: Record<PremiumFeatureKey, Plan> = {
   fullFeedback: 'plus',
   sampleAnswers: 'plus',
   examMode: 'plus',
-  aiContentStudio: 'school',
+  aiContentStudio: 'plus',
 };
 
 export const parseFeatureOverrides = (

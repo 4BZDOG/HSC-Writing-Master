@@ -6,6 +6,8 @@ import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { AlertCircle, Edit3, Save, X, Sparkles, Loader2, ListChecks } from 'lucide-react';
 import { formatMarkingCriteria } from '../utils/dataManagerUtils';
 import { generateRubricForPrompt } from '../services/geminiService';
+import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
+import { PlusLockChip } from './UpgradeModal';
 
 interface MarkingCriteriaAccordionProps {
   prompt: Prompt;
@@ -42,8 +44,14 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
 
   const canCurate = canCurateContent(userRole);
   // AI drafting is a separate capability from manual editing — see
-  // utils/permissions.ts.
+  // utils/permissions.ts. The ROLE decides whether the control exists at all;
+  // the PLAN decides whether it fires or opens the upgrade prompt. Rubric
+  // drafting is part of the AI Content Studio and has to carry the same lock as
+  // the rest of it — it was the one authoring control the plan gate missed, so
+  // an author saw "Generate question" locked and "AI Draft" open on the same
+  // screen.
   const canGenerate = canUseAiGeneration(userRole);
+  const studioLocked = isFeatureLocked('aiContentStudio');
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
 
   const maxPossibleBand = useMemo(() => {
@@ -175,9 +183,20 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
         <>
           {canGenerate && (
             <button
-              onClick={handleGenerateRubric}
+              onClick={
+                studioLocked ? () => requestUpgrade('aiContentStudio') : handleGenerateRubric
+              }
               disabled={isGenerating}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all shadow-sm text-[10px] font-bold uppercase tracking-wider bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-indigo-500/30 text-indigo-500 dark:text-indigo-400 hover:shadow`}
+              title={
+                studioLocked
+                  ? 'AI rubric drafting is part of the AI Content Studio — tap to learn more'
+                  : undefined
+              }
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all shadow-sm text-[10px] font-bold uppercase tracking-wider hover:shadow ${
+                studioLocked
+                  ? 'bg-amber-400/15 border-amber-400/40 text-amber-500 light:text-amber-600'
+                  : 'bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-indigo-500/30 text-indigo-500 dark:text-indigo-400'
+              }`}
             >
               {isGenerating ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -185,6 +204,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                 <Sparkles className="w-3.5 h-3.5" />
               )}
               AI Draft
+              {studioLocked && <PlusLockChip feature="aiContentStudio" />}
             </button>
           )}
           <button

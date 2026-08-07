@@ -109,26 +109,49 @@ describe('paid AI calls carry their feature tag', () => {
     // feature, and the gate silently does nothing.
     expect(bodyOf('evaluateAnswer')).toContain("__feature: 'evaluation'");
     expect(bodyOf('improveAnswer')).toContain("__feature: 'answerUpgrades'");
+  });
+
+  it('tags every AI Content Studio call, not just the obvious ones', () => {
+    // The studio used to be enforced on four calls out of a dozen: an author
+    // saw "Generate question" locked and "Generate marking guide", "Suggest
+    // keywords" and the syllabus parsers wide open, with no server gate behind
+    // any of them. Whichever plan the studio is priced at, this is the list
+    // that has to move together — a new authoring call added without a tag is
+    // the same hole reopening.
     for (const fn of [
+      'generateScenarioForPrompt',
+      'generateKeywordsForPrompt',
+      'suggestOutcomesForPrompt',
+      'reviseSampleAnswer',
+      'performQualityCheck',
+      'refineManualPrompt',
       'generateNewPrompt',
       'generateSampleAnswer',
+      'parseOutcomesFromText',
+      'parseSyllabusStructure',
       'splitSyllabusIntoTopics',
       'generateDotPointsForSubTopic',
+      'generateRubricForPrompt',
+      'reviseRubricForPrompt',
     ]) {
       expect(bodyOf(fn), `${fn} should be tagged`).toContain("__feature: 'aiContentStudio'");
     }
   });
 
-  it('leaves helpers that are ALSO reached from unlocked entry points untagged', () => {
-    // The tag belongs to an entry point, not to a function. These three back
-    // both a plan-locked button and an open one, so tagging the function
-    // refuses a teacher on the Plus staff perk a tool they actually have:
-    //   refineManualPrompt        → "Manual" question entry
-    //   parseOutcomesFromText     → the Outcomes editor
-    //   parseSyllabusStructure    → the picker's inline "Add Topic" paste
-    // Role and quota gates still apply to all three.
-    for (const fn of ['refineManualPrompt', 'parseOutcomesFromText', 'parseSyllabusStructure']) {
-      expect(bodyOf(fn), `${fn} must not be plan-tagged`).not.toContain('__feature');
-    }
+  it('leaves the calls a STUDENT makes untagged', () => {
+    // None of these is an authoring action, and tagging any of them refuses a
+    // free student something that was never being sold:
+    //   explainOutcomeInContext → the reference-materials explainer
+    //   enrichPromptDetails     → the automatic backfill that runs when ANY
+    //                             user opens a question missing a scenario,
+    //                             keywords or linked outcomes. Tagging it
+    //                             opened an "AI Content Studio" upgrade prompt
+    //                             at a student who had only clicked a question.
+    //   screenContentQuality    → the automatic pre-screen on a shared-library
+    //                             contribution (it passes { studio: false })
+    // The AI quota still meters all three; that is the gate that belongs here.
+    expect(bodyOf('explainOutcomeInContext')).not.toContain('__feature');
+    expect(bodyOf('enrichPromptDetails')).not.toContain('__feature');
+    expect(bodyOf('screenContentQuality')).toContain('studio: false');
   });
 });

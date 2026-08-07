@@ -102,8 +102,22 @@ export const redactPaidFeedback = (payload: EvaluationPayload): EvaluationPayloa
   if (Array.isArray(payload.improvements)) {
     redacted.improvements = [LOCKED_FEEDBACK_PLACEHOLDER];
   }
+  // The rewritten answer is the `answerUpgrades` feature in its own right, so
+  // it goes whichever shape it arrives in. The evaluation request asks for a
+  // plain string and the client's Zod schema accepts either — but a provider
+  // that treats the response schema as advisory (the OpenRouter/Groq/Kimi
+  // adapters do not enforce it the way Gemini does) can return the structured
+  // `{ text, keyChanges }` form, and a string-only check would hand a free user
+  // the whole rewrite untouched.
   if (typeof payload.revisedAnswer === 'string' && payload.revisedAnswer) {
     redacted.revisedAnswer = '';
+  } else if (
+    payload.revisedAnswer &&
+    typeof payload.revisedAnswer === 'object' &&
+    !Array.isArray(payload.revisedAnswer)
+  ) {
+    // Keep the shape (the client validates it) and empty the paid content.
+    redacted.revisedAnswer = { ...(payload.revisedAnswer as object), text: '', keyChanges: [] };
   }
 
   return redacted;

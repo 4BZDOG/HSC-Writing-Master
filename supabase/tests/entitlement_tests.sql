@@ -300,6 +300,121 @@ begin
 end $$;
 rollback;
 
+-- ---- 9. A zero allowance refuses the FIRST marking, not the second ---------
+-- set_plan_setting accepts 0, and consume_evaluation's conditional ON CONFLICT
+-- guards the increment rather than the initial insert — so the day's first
+-- request used to be allowed regardless. One free marking a day out of a
+-- paywall that had been deliberately shut.
+begin;
+insert into public.plan_settings (key, value) values ('free_evaluation_limit', 0)
+  on conflict (key) do update set value = 0;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e1","role":"authenticated"}';
+do $$
+declare v jsonb;
+begin
+  v := public.consume_evaluation();
+  if (v->>'allowed')::boolean then
+    raise exception 'TEST FAILED: a 0 allowance still granted an evaluation (%)', v;
+  end if;
+  raise notice 'PASS: a zero allowance refuses the first marking too';
+end $$;
+rollback;
+
+-- ---- 10. A school licence grants the paid AI allowance ---------------------
+-- The Stripe webhook writes profiles.stripe_plan only for the person who PAID.
+-- Every other member of a licensed school holds the plan through membership,
+-- which caller_plan() and has_unlimited_evaluations() both already understood.
+-- resolve_ai_quota did not, so a school bought a licence and its students were
+-- metered at the free tier's AI budget.
+begin;
+update public.schools set plan_status = 'active'
+ where id = '00000000-0000-0000-0000-0000000000f1';
+do $$
+declare q integer;
+begin
+  -- The member's own profile still says 'free'; the licence is what counts.
+  q := public.resolve_ai_quota('00000000-0000-0000-0000-0000000000e4');
+  if q < 300 then
+    raise exception 'TEST FAILED: licensed school member metered at % (expected the 300 floor)', q;
+  end if;
+  raise notice 'PASS: a licensed school member gets the paid AI allowance (%)', q;
+
+  -- And someone with no licence and no paid plan is left where they were.
+  q := public.resolve_ai_quota('00000000-0000-0000-0000-0000000000e1');
+  if q >= 300 then
+    raise exception 'TEST FAILED: an unaffiliated free student got the paid floor (%)', q;
+  end if;
+  raise notice 'PASS: an unaffiliated free student is unchanged (%)', q;
+end $$;
+rollback;
+
+-- ---- 11. Course demand counts PEOPLE, and folds spelling variants ----------
+-- The list only earns its place in the roadmap if the ordering is genuine
+-- demand: one row per course however it was typed, and one voice per person so
+-- persistence cannot be mistaken for popularity.
+begin;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e1","role":"authenticated"}';
+do $$
+declare v jsonb;
+begin
+  v := public.log_course_request('  Marine   Studies ', 'Year 11');
+  if (v->>'requesters')::int <> 1 or (v->>'alreadyAsked')::boolean then
+    raise exception 'TEST FAILED: first request recorded as % ', v;
+  end if;
+  -- Asking twice updates the note; it does not inflate the count.
+  v := public.log_course_request('Marine Studies');
+  if (v->>'requesters')::int <> 1 or not (v->>'alreadyAsked')::boolean then
+    raise exception 'TEST FAILED: a repeat ask inflated the count (%)', v;
+  end if;
+  raise notice 'PASS: one person asking twice still counts once';
+end $$;
+
+-- A different person, typing it differently, joins the SAME row.
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e2","role":"authenticated"}';
+do $$
+declare v jsonb; n integer;
+begin
+  v := public.log_course_request('marine studies');
+  select count(*) into n from public.course_requests;
+  if (v->>'requesters')::int <> 2 or n <> 1 then
+    raise exception 'TEST FAILED: a spelling variant forked the row (% rows, %)', n, v;
+  end if;
+  raise notice 'PASS: spelling variants fold into one row (% people)', v->>'requesters';
+end $$;
+rollback;
+
+-- ---- 12. The demand list is reviewer-only, and triage is admin-only --------
+-- The list names the people asking, so it is not readable by the people asking.
+begin;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e1","role":"authenticated"}';
+set local role authenticated;
+do $$
+begin
+  perform public.list_course_requests(false);
+  raise exception 'TEST FAILED: a student read the course demand list';
+exception
+  when others then
+    if sqlerrm = 'TEST FAILED: a student read the course demand list' then raise; end if;
+    raise notice 'PASS: the demand list is refused to a student (%)', sqlstate;
+end $$;
+rollback;
+
+begin;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e3","role":"authenticated"}';
+set local role authenticated;
+do $$
+begin
+  -- A teacher may READ the queue but must not re-triage it.
+  perform public.list_course_requests(false);
+  perform public.set_course_request_status(gen_random_uuid(), 'declined');
+  raise exception 'TEST FAILED: a teacher changed a course request status';
+exception
+  when others then
+    if sqlerrm = 'TEST FAILED: a teacher changed a course request status' then raise; end if;
+    raise notice 'PASS: a teacher reads the queue but cannot triage it (%)', sqlstate;
+end $$;
+rollback;
+
 do $$
 begin
   raise notice 'All entitlement tests passed.';

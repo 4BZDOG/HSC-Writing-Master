@@ -453,6 +453,19 @@ export const enrichPromptDetails = async (
   const contextBlock = buildSyllabusContextBlock(context.syllabus);
   const request = {
     ...aiTarget('basic'),
+    // NOT tagged, and this one is not an oversight — it is the difference
+    // between an authoring action and the app repairing itself.
+    //
+    // Enrichment fires from an unguarded effect in hooks/useGemini.ts whenever
+    // a question is opened without keywords, a scenario or linked outcomes,
+    // whoever opens it. A large share of the shipped courseData is missing at
+    // least one, so this runs routinely for ordinary STUDENTS just reading a
+    // question. Tagged, the proxy answered 402 and the client turned that into
+    // an unsolicited "AI Content Studio" upgrade prompt — selling a teacher
+    // tool to a student who had only clicked a question.
+    //
+    // The AI quota still meters it, which is the gate that belongs here: this
+    // spends budget on everyone's behalf, and it is nobody's paid feature.
     contents: {
       parts: [
         {
@@ -491,6 +504,7 @@ Return JSON: { "scenario": string, "keywords": string[], "linkedOutcomes": strin
 export const generateScenarioForPrompt = async (prompt: Prompt): Promise<string> => {
   const request = {
     ...aiTarget('basic'),
+    __feature: 'aiContentStudio',
     contents: {
       parts: [
         {
@@ -512,6 +526,7 @@ export const generateKeywordsForPrompt = async (
   const contextBlock = buildSyllabusContextBlock(syllabus);
   const request = {
     ...aiTarget('basic'),
+    __feature: 'aiContentStudio',
     contents: {
       parts: [
         {
@@ -598,6 +613,7 @@ export const suggestOutcomesForPrompt = async (
 
   const request = {
     ...aiTarget('basic'),
+    __feature: 'aiContentStudio',
     contents: {
       parts: [
         {
@@ -656,6 +672,7 @@ export const reviseSampleAnswer = async (
   const termInfo = getCommandTermInfo(prompt.verb);
   const request = {
     ...aiTarget('reasoning'),
+    __feature: 'aiContentStudio',
     contents: {
       parts: [
         {
@@ -691,12 +708,23 @@ export const reviseSampleAnswer = async (
   };
 };
 
+/**
+ * @param options.studio Whether this run belongs to the AI Content Studio, and
+ *   should therefore be metered against the plan that sells it. True for the
+ *   Quality Check tool an author opens deliberately; false for the automatic
+ *   pre-screen a STUDENT's shared-library contribution passes through
+ *   (screenContentQuality below), which is not an authoring action and must not
+ *   be refused to a free account.
+ */
 export const performQualityCheck = async (
   content: string,
-  type: 'question' | 'code' | 'sample answer'
+  type: 'question' | 'code' | 'sample answer',
+  options: { studio?: boolean } = {}
 ): Promise<QualityCheckResult> => {
+  const { studio = true } = options;
   const request = {
     ...aiTarget('reasoning'),
+    ...(studio ? { __feature: 'aiContentStudio' } : {}),
     contents: {
       parts: [
         {
@@ -739,7 +767,10 @@ export const screenContentQuality = async (
   type: 'question' | 'code' | 'sample answer' = 'question'
 ): Promise<{ score: number; notes: string } | undefined> => {
   try {
-    const result = await performQualityCheck(content, type);
+    // Untagged: a contribution pre-screen runs on a student's behalf, so it is
+    // metered by the AI quota like any other student call — not by the plan
+    // that sells the authoring studio.
+    const result = await performQualityCheck(content, type, { studio: false });
     return { score: result.score, notes: result.summary };
   } catch {
     return undefined;
@@ -806,6 +837,7 @@ export const refineManualPrompt = async (
 
   const request = {
     ...aiTarget('reasoning'),
+    __feature: 'aiContentStudio',
     contents: {
       parts: [
         {
@@ -1114,12 +1146,14 @@ export const generateSampleAnswer = async (
 export const parseOutcomesFromText = async (text: string): Promise<CourseOutcome[]> => {
   const request = {
     ...aiTarget('basic'),
-    // NOT tagged as a paid feature, deliberately. This parser serves two
-    // entry points: the studio-locked syllabus import, and the Outcomes editor,
-    // which is open to any teacher. Tagging the FUNCTION would refuse the
-    // second one to a teacher on the Plus staff perk. The tag belongs to an
-    // entry point, so a shared helper carries none — role and quota still
-    // apply.
+    // Tagged, now that the studio is a PLUS feature. It was left untagged while
+    // the studio was pinned to School, because this parser serves two entry
+    // points — the syllabus import and the Outcomes editor — and tagging the
+    // shared function would have refused the second one to a teacher holding
+    // Plus through the staff perk. With the studio at Plus that conflict is
+    // gone: every caller of this parser is authoring, and every author holds
+    // the plan that unlocks it.
+    __feature: 'aiContentStudio',
     contents: {
       parts: [
         {
@@ -1165,12 +1199,12 @@ export const parseOutcomesFromText = async (text: string): Promise<CourseOutcome
 export const parseSyllabusStructure = async (content: string): Promise<SyllabusPreviewNode[]> => {
   const request = {
     ...aiTarget('reasoning'),
-    // NOT tagged as a paid feature, deliberately. This parser serves two
-    // entry points: the studio-locked syllabus import, and the picker's inline Add Topic paste,
-    // which is open to any teacher. Tagging the FUNCTION would refuse the
-    // second one to a teacher on the Plus staff perk. The tag belongs to an
-    // entry point, so a shared helper carries none — role and quota still
-    // apply.
+    // Tagged for the same reason as parseOutcomesFromText above: with the
+    // studio priced at Plus, both of this parser's entry points (the syllabus
+    // import and the picker's inline Add Topic paste) belong to an author who
+    // holds Plus, so the shared helper can carry the tag without refusing
+    // anyone the tool they already have.
+    __feature: 'aiContentStudio',
     contents: {
       parts: [
         {
@@ -1421,6 +1455,7 @@ export const generateRubricForPrompt = async (
   // worth the reasoning engine. Short per-mark rubrics stay on the basic tier.
   const request = {
     ...aiTarget(prompt.totalMarks > 6 ? 'reasoning' : 'basic'),
+    __feature: 'aiContentStudio',
     contents: {
       parts: [
         {
@@ -1458,6 +1493,7 @@ export const reviseRubricForPrompt = async (
   const termInfo = getCommandTermInfo(prompt.verb);
   const request = {
     ...aiTarget(prompt.totalMarks > 6 ? 'reasoning' : 'basic'),
+    __feature: 'aiContentStudio',
     contents: {
       parts: [
         {

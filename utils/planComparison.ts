@@ -75,7 +75,10 @@ const ROW_LABELS: Record<PremiumFeatureKey, { label: string; note?: string }> = 
   },
   aiContentStudio: {
     label: 'AI Content Studio',
-    note: 'Generate questions, rubrics and sample answers',
+    // The role restriction belongs in the table, not just in the code: the plan
+    // unlocks the studio, but `canUseAiGeneration` keeps it to staff, so a tick
+    // in the Plus column without this note reads as a promise to a student.
+    note: 'Teacher and admin accounts — generate questions, rubrics and sample answers',
   },
 };
 
@@ -208,6 +211,10 @@ export const buildPlanComparison = (): PlanRow[] => {
  */
 export const PLAN_TAGLINES: Record<Plan, string> = {
   free: 'Enough to practise with, every day, at no cost.',
-  plus: 'The full marking toolkit for one student.',
-  school: 'Every student and teacher in the school, plus content authoring.',
+  plus: 'The full marking toolkit for one student — and the authoring tools for one teacher.',
+  // What School adds over Plus is COVERAGE, not features: the authoring studio
+  // is a Plus feature that teachers already hold through the staff perk, so
+  // pitching School on "plus content authoring" sold something the buyer's
+  // staff had for nothing.
+  school: 'One licence covering every student and teacher in the school.',
 };

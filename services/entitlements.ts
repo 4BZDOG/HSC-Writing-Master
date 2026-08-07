@@ -102,8 +102,15 @@ export const PREMIUM_FEATURES: Record<PremiumFeatureKey, PremiumFeatureMeta> = {
   },
   aiContentStudio: {
     title: 'AI Content Studio',
-    blurb: 'Generate exam-style questions, model answers and marking rubrics on demand.',
-    perk: 'AI generation of questions, rubrics and sample answers',
+    blurb:
+      'Generate exam-style questions, model answers and marking rubrics on demand. ' +
+      'Authoring tools are for teacher and admin accounts — a student account keeps ' +
+      'its allowance for marking its own work.',
+    // Says "for teachers" out loud. The plan unlocks the studio, but
+    // `canUseAiGeneration` keeps it to staff roles, so a student reading this
+    // list while deciding whether to buy Plus must not count it as something
+    // they are about to get.
+    perk: 'AI generation of questions, rubrics and sample answers (teacher accounts)',
   },
   advancedQuestions: {
     title: 'Advanced Questions',
@@ -172,10 +179,11 @@ export {
  * serving a paid feature; the two must keep the same order, and a test pins
  * them.
  *
- * Note what the staff perk does NOT include: `aiContentStudio` defaults to the
- * school plan, so a teacher without a school licence sees the authoring tools
- * locked. That is a commercial choice, not an oversight — flip it with
- * `PLAN_FEATURE_OVERRIDES=aiContentStudio:plus` if staff should always author.
+ * The staff perk is what makes the AI Content Studio work: it is a Plus feature
+ * (services/planPolicy.ts), so a teacher holds it without buying anything. Plan
+ * is not the only gate on authoring — `canUseAiGeneration` keeps the studio to
+ * staff whatever a student pays, and creating courses and topics is narrower
+ * still (`canCreateCurriculum`, admin only).
  */
 export const getUserPlan = (user?: User | null): Plan => {
   const u = user !== undefined ? user : authService.getCurrentUser();
@@ -322,6 +330,34 @@ const effectiveEvalLimit = (): number => {
 /** This deployment's free daily evaluation allowance, as the UI should state it. */
 export const freeEvalLimit = (): number => effectiveEvalLimit();
 
+// ---------------------------------------------------------------------------
+// Change notification
+// ---------------------------------------------------------------------------
+
+/**
+ * The count lives in localStorage, which React cannot observe. Every writer
+ * below announces itself so a component showing "3 of 5 left" updates when the
+ * number actually moves — after a marking run, after the server corrects us on
+ * a refusal, and after the sign-in reconciliation.
+ *
+ * Without this the display could only be refreshed by something else happening
+ * to re-render, which is how the counter came to be keyed on `evaluationResult`
+ * and went stale the moment the reconciliation ran.
+ */
+const evalCountListeners = new Set<() => void>();
+
+const notifyEvalCount = (): void => {
+  evalCountListeners.forEach((listener) => listener());
+};
+
+/** Subscribe to changes in the local free-evaluation mirror. */
+export const subscribeEvalCount = (listener: () => void): (() => void) => {
+  evalCountListeners.add(listener);
+  return () => {
+    evalCountListeners.delete(listener);
+  };
+};
+
 /** Record one evaluation use. Call after a successful evaluation. */
 export const recordEvaluation = (): void => {
   try {
@@ -337,6 +373,7 @@ export const recordEvaluation = (): void => {
   } catch {
     /* localStorage unavailable — fail open */
   }
+  notifyEvalCount();
 };
 
 /**
@@ -358,6 +395,7 @@ export const syncFreeEvalCount = (used: number, limit?: number): void => {
   } catch {
     /* localStorage unavailable — the server gate still holds */
   }
+  notifyEvalCount();
 };
 
 /**
@@ -631,7 +669,21 @@ export const createPortalUrl = async (): Promise<BillingUrlResult> =>
 /** Event carrying the feature key a locked control was asked for. */
 export const UPGRADE_REQUEST_EVENT = 'writing-studio:upgrade-request';
 
+/**
+ * Why the prompt is opening, when that is not simply "a locked control was
+ * pressed".
+ *
+ * `dailyLimit` is the daily marking allowance running out — the highest-intent
+ * moment in the whole product, and the one the prompt used to describe worst.
+ * There is no `unlimitedMarking` feature key (marking is metered by COUNT, not
+ * gated by plan), so the limit borrowed `fullFeedback` and the student was
+ * shown a headline about criterion breakdowns when what had just happened was
+ * "you have used your five markings for today". Both are true of Plus; only one
+ * of them is the answer to the question they are asking.
+ */
+export type UpgradeReason = 'dailyLimit';
+
 /** Open the friendly upgrade prompt for a feature (from any component). */
-export const requestUpgrade = (feature: PremiumFeatureKey): void => {
-  window.dispatchEvent(new CustomEvent(UPGRADE_REQUEST_EVENT, { detail: { feature } }));
+export const requestUpgrade = (feature: PremiumFeatureKey, reason?: UpgradeReason): void => {
+  window.dispatchEvent(new CustomEvent(UPGRADE_REQUEST_EVENT, { detail: { feature, reason } }));
 };
