@@ -57,14 +57,42 @@ Practical checks before committing (can't be done from here):
   UI's blur is presentation only — blurred text still sits in the DOM, so it
   is not a paywall. Marks and bands are never redacted, so the summary and
   every stat built on them keep working.
-- **Plus (individual)** — A$7.99/month or A$59/year. Everything unlocked.
-  Anchor the yearly price against one hour of private tutoring (~A$60–90 in
-  Sydney): "a year of unlimited marking for the price of one tutoring hour".
+- **Plus (individual)** — A$7.99/month or A$59/year. Unlimited marking, full
+  criterion feedback, sample answers at every band, answer upgrades, exam
+  simulation and PDF export — the whole individual toolkit. **Not** the AI
+  Content Studio, which is a School feature (`DEFAULT_FEATURE_MIN_PLAN` in
+  `services/planPolicy.ts`), so avoid "everything unlocked" in copy: a teacher
+  already holds Plus as a staff perk, and would be sold something that changes
+  nothing for them. Anchor the yearly price against one hour of private
+  tutoring (~A$60–90 in Sydney): "a year of unlimited marking for the price of
+  one tutoring hour".
   *(exists; display pricing now shown in the upgrade modal)*
 - **School / faculty licence** — seat-based, invoiced (schools rarely pay by
   card). Stripe Invoicing or a signed PO handled manually at first; the
   `STRIPE_SCHOOL_PRICE_ID` plumbing already exists when ready to automate.
   *(enquiry link now in the upgrade modal via `VITE_SCHOOL_CONTACT_EMAIL`)*
+
+### Changing a price
+
+The displayed price and the charged price come from two different places and
+nothing reconciles them. Stripe's Price object decides what is billed;
+`VITE_PLUS_MONTHLY_PRICE_DISPLAY`, `VITE_PLUS_YEARLY_PRICE_DISPLAY`,
+`VITE_PLUS_YEARLY_NOTE` and `VITE_SCHOOL_SEAT_PRICE_DISPLAY` decide what the
+upgrade prompt and the plan comparison say. The split is deliberate — it means
+a price change needs a redeploy rather than a release — but it also means the
+app will advertise the old number indefinitely if only one side is updated, and
+the customer finds out at the Stripe checkout page. So, in one sitting:
+
+1. Create the new Price in Stripe (prices are immutable; you make a new one).
+2. Update `STRIPE_*_PRICE_ID` **and** its `VITE_STRIPE_*_PRICE_ID` twin.
+3. Update the matching `*_PRICE_DISPLAY` string, and `VITE_PLUS_YEARLY_NOTE` if
+   the saving it quotes has changed.
+4. Redeploy, then open the upgrade prompt and check the stated price against
+   the Stripe checkout page.
+
+Existing subscribers stay on the old Price until they are migrated in Stripe —
+usually what you want, and worth saying out loud before anyone assumes a price
+rise applied itself retroactively.
 
 ---
 
