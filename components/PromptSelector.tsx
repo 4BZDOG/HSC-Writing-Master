@@ -1,6 +1,11 @@
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { Course, StatePath, UserRole } from '../types';
-import { canCurateContent, canUseAiGeneration, isSystemAdmin } from '../utils/permissions';
+import {
+  canCreateCurriculum,
+  canCurateContent,
+  canUseAiGeneration,
+  isSystemAdmin,
+} from '../utils/permissions';
 import Combobox from './Combobox';
 import {
   Plus,
@@ -35,6 +40,7 @@ import { getTierScaleConfig } from '../utils/renderUtils';
 import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
 import { getPastHscLabel } from '../utils/pastHscUtils';
 import { isFeatureLocked, isQuestionTierLocked, requestUpgrade } from '../services/entitlements';
+import { isCourseDemandAvailable } from '../services/courseDemandService';
 import { PlusLockChip } from './UpgradeModal';
 import { parseSyllabusStructure } from '../services/geminiService';
 
@@ -43,6 +49,11 @@ interface PromptSelectorProps {
   statePath: StatePath;
   onPathChange: (path: Partial<StatePath>) => void;
   onAddCourse: () => void;
+  /**
+   * Open the "request a course" flow, pre-filled with whatever the user was
+   * searching for. Absent when the caller has no backend to log demand into.
+   */
+  onRequestCourse?: (prefillName?: string) => void;
   onAddTopic: () => void;
   onAddSubTopic: () => void;
   onGeneratePrompt: () => void;
@@ -139,6 +150,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   statePath = {} as StatePath,
   onPathChange,
   onAddCourse,
+  onRequestCourse,
   onAddTopic,
   onAddSubTopic,
   onGeneratePrompt,
@@ -159,6 +171,15 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   const canCurate = canCurateContent(userRole);
   const canGenerate = canUseAiGeneration(userRole);
   const isAdmin = isSystemAdmin(userRole);
+  // Courses and topics are the shared skeleton everyone navigates, so creating
+  // one is admin-only — see canCreateCurriculum in utils/permissions.ts. A
+  // teacher still curates everything below a topic, and can ASK for a course
+  // that doesn't exist yet through the request link under the course picker.
+  const canCreateTree = canCreateCurriculum(userRole);
+  // Only offered to people who cannot simply ADD the course themselves, and
+  // only when there is a backend to record it in — a local-only session has
+  // nowhere to put the request and would be promising something it can't keep.
+  const canRequestCourse = !canCreateTree && isCourseDemandAvailable() && !!onRequestCourse;
   // AI generation controls stay visible when gated — amber + lock, and a click
   // opens the upgrade prompt instead. See services/entitlements.
   const studioLocked = isFeatureLocked('aiContentStudio');
@@ -320,6 +341,15 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       return;
     }
 
+    // Pasting syllabus text hands it to the plan-gated parser, so the lock
+    // applies from here on. Creating the EMPTY topic above does not — that is
+    // an admin capability, not a paid one — which is why the check sits below
+    // the early return rather than at the top.
+    if (studioLocked) {
+      requestUpgrade('aiContentStudio');
+      return;
+    }
+
     setInlineParsing(true);
     setInlineError(null);
     try {
@@ -332,7 +362,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     } finally {
       setInlineParsing(false);
     }
-  }, [inlineTopicName, inlineSyllabusText, onAddTopicWithContent, selectedCourse]);
+  }, [inlineTopicName, inlineSyllabusText, onAddTopicWithContent, selectedCourse, studioLocked]);
 
   const promptOptions = useMemo(() => {
     if (!selectedDotPoint?.prompts) return [];
@@ -566,12 +596,26 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 }
                 placeholder="Select Course..."
                 color="blue"
+                emptyAction={
+                  canRequestCourse
+                    ? {
+                        label: "Can't find it? Request this course →",
+                        onAction: (query) => onRequestCourse?.(query),
+                      }
+                    : undefined
+                }
               />
             </div>
             {canCurate && (
               <div className="flex items-center gap-2 gap-y-2 flex-wrap justify-end">
-                <ActionButton onClick={onAddCourse} icon={Plus} title="Add Course" label="Add" />
-                {canGenerate && (
+                {/* Creating a course, and the AI import that builds one, are
+                    both admin-only (canCreateCurriculum). A teacher who needs a
+                    course that isn't here uses the request link below the
+                    picker instead. */}
+                {canCreateTree && (
+                  <ActionButton onClick={onAddCourse} icon={Plus} title="Add Course" label="Add" />
+                )}
+                {canCreateTree && canGenerate && (
                   <ActionButton
                     onClick={onImportSyllabus}
                     icon={UploadCloud}
@@ -614,6 +658,20 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               </div>
             )}
           </div>
+          {/* The route out for everyone who cannot add a course themselves. It
+              sits under the picker rather than only inside its empty state,
+              because the search box only appears once there are seven or more
+              courses (Combobox's SEARCH_THRESHOLD) — below that a user scans a
+              short list, finds nothing, and would have had nowhere to click. */}
+          {canRequestCourse && (
+            <button
+              type="button"
+              onClick={() => onRequestCourse?.()}
+              className="mt-2 block text-left text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline"
+            >
+              Can’t find your course? Request it →
+            </button>
+          )}
         </div>
       </div>
 
@@ -661,7 +719,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <div className="flex items-center gap-2 gap-y-2 flex-wrap justify-end">
                   {selectedTopic ? (
                     <>
-                      {isAdmin && (
+                      {canCreateTree && (
                         <ActionButton
                           onClick={() => setInlineTopicOpen((v) => !v)}
                           icon={inlineTopicOpen ? X : Plus}
@@ -697,36 +755,41 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       />
                     </>
                   ) : (
-                    <>
-                      <ActionButton
-                        onClick={() => setInlineTopicOpen((v) => !v)}
-                        icon={inlineTopicOpen ? X : Plus}
-                        title={inlineTopicOpen ? 'Cancel' : 'Add Topic'}
-                        label={inlineTopicOpen ? 'Cancel' : 'Add'}
-                      />
-                      {canGenerate && (
+                    /* Every control here CREATES a topic — by hand, from
+                       syllabus text, or from a .json export — so the whole set
+                       is admin-only. */
+                    canCreateTree && (
+                      <>
                         <ActionButton
-                          onClick={onAddTopicFromSyllabus}
-                          icon={UploadCloud}
-                          title="Build a new topic from NESA syllabus text or a URL (AI)"
-                          label="From Syllabus"
-                          variant="special"
-                          locked={studioLocked}
+                          onClick={() => setInlineTopicOpen((v) => !v)}
+                          icon={inlineTopicOpen ? X : Plus}
+                          title={inlineTopicOpen ? 'Cancel' : 'Add Topic'}
+                          label={inlineTopicOpen ? 'Cancel' : 'Add'}
                         />
-                      )}
-                      <ActionButton
-                        onClick={onImportTopic}
-                        icon={Upload}
-                        title="Import Topic (.json)"
-                        label="Import"
-                      />
-                    </>
+                        {canGenerate && (
+                          <ActionButton
+                            onClick={onAddTopicFromSyllabus}
+                            icon={UploadCloud}
+                            title="Build a new topic from NESA syllabus text or a URL (AI)"
+                            label="From Syllabus"
+                            variant="special"
+                            locked={studioLocked}
+                          />
+                        )}
+                        <ActionButton
+                          onClick={onImportTopic}
+                          icon={Upload}
+                          title="Import Topic (.json)"
+                          label="Import"
+                        />
+                      </>
+                    )
                   )}
                 </div>
               )}
             </div>
 
-            {inlineTopicOpen && (!selectedTopic || isAdmin) && (
+            {inlineTopicOpen && canCreateTree && (
               <div className="mt-3 p-4 rounded-2xl bg-white/5 light:bg-slate-50 border border-purple-500/20 light:border-purple-200 animate-fade-in">
                 <div className="flex flex-col gap-3">
                   <input

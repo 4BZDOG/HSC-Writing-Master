@@ -207,15 +207,21 @@ feedback panel full of "Upgrade to see this feedback."
 | `VITE_FREE_TIER_MAX_QUESTION_TIER` | `3`                  | Highest command-term tier a free account may attempt            |
 | `VITE_FREE_TIER_MAX_SAMPLE_BAND`   | `3`                  | Highest sample-answer band a free account may read              |
 
-> **`MONETISATION_ENABLED=false` does not raise the daily marking limit.** That
-> counter lives in Postgres, not in an environment variable, so a pilot
-> deployment still refuses the 6th evaluation of the day. Raise it in the SQL
-> editor as well: `select set_plan_setting('free_evaluation_limit', 1000);`
+> **`MONETISATION_ENABLED=false` now covers the daily marking limit too.** The
+> proxy skips `consume_evaluation()` entirely when nothing is being sold
+> (`api/gemini.ts`), so a pilot deployment no longer refuses the 6th evaluation
+> of the day. Set the server-side variable, not only its `VITE_` twin — the
+> client half opens the UI, the server half is what stops the meter. The AI
+> quota (§11) is untouched by either: the provider bill still needs a ceiling.
 
 > **`VITE_FREE_TIER_EVAL_LIMIT` changes the number the UI states, not the
-> number enforced.** The limit is `free_evaluation_limit()` in Postgres — set
-> it with `set_plan_setting` as above, and set this variable to match so the
-> two agree before the first refusal corrects it.
+> number enforced.** The limit is `free_evaluation_limit()` in Postgres. Change
+> it in the app — the admin **Usage dashboard → Free plan · daily marked
+> evaluations** — which takes effect on the next evaluation with no redeploy;
+> `select set_plan_setting('free_evaluation_limit', 1000);` does the same thing
+> from the SQL editor. The client asks the server for the live figure at
+> sign-in, so the two agree without this variable being touched; set it only to
+> fix what an unauthenticated visitor is shown before that first sync.
 
 ### Optional — demo mode (no Supabase)
 

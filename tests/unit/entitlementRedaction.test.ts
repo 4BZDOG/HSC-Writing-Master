@@ -92,6 +92,29 @@ describe('redactPaidFeedback', () => {
     expect(redacted.revisedAnswer).toBe('');
   });
 
+  it('withholds the rewrite in its structured form too', () => {
+    // The evaluation request asks for a plain string, but only Gemini enforces
+    // a response schema — the OpenRouter/Groq/Kimi adapters treat it as a hint,
+    // and the client's Zod schema accepts either shape. A string-only check
+    // handed a free user the whole band-6 rewrite whenever a provider chose the
+    // object form, which is the answerUpgrades feature given away outright.
+    const redacted = redactPaidFeedback({
+      ...evaluationPayload(),
+      revisedAnswer: {
+        text: 'A full band 6 rewrite of the student answer…',
+        mark: 9,
+        band: 6,
+        keyChanges: ['Sustained judgement', 'Named the syllabus term'],
+      },
+    });
+    const rewrite = redacted.revisedAnswer as { text: string; keyChanges: string[]; band: number };
+    expect(rewrite.text).toBe('');
+    expect(rewrite.keyChanges).toEqual([]);
+    // The shape survives — the client validates this payload, so deleting the
+    // field would show an error instead of a paywall.
+    expect(rewrite.band).toBe(6);
+  });
+
   it('keeps the summary the free tier is promised, and every mark', () => {
     const original = evaluationPayload();
     const redacted = redactPaidFeedback(original);

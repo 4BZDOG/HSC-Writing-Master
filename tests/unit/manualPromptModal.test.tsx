@@ -16,6 +16,23 @@ vi.mock('../../services/geminiService', () => ({
   refineManualPrompt: (...args: unknown[]) => refineManualPrompt(...args),
 }));
 
+/**
+ * Refining is a plan-gated AI Content Studio call. These tests are about what
+ * the composer DOES with a refinement, so the plan is held unlocked here — a
+ * test with no signed-in user would otherwise resolve to the free plan and get
+ * the upgrade prompt instead of a draft. The lock itself is covered below.
+ */
+let studioLocked = false;
+const requestUpgradeMock = vi.fn();
+vi.mock('../../services/entitlements', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../services/entitlements')>();
+  return {
+    ...actual,
+    isFeatureLocked: () => studioLocked,
+    requestUpgrade: (...args: unknown[]) => requestUpgradeMock(...args),
+  };
+});
+
 const outcomes: CourseOutcome[] = [
   { code: 'SE-12-01', description: 'Justifies the selection of development approaches.' },
   { code: 'SE-12-06', description: 'Justifies the selection of a data structure.' },
@@ -65,9 +82,26 @@ const lastOptions = () => refineManualPrompt.mock.calls.at(-1)?.[5];
 beforeEach(() => {
   refineManualPrompt.mockReset().mockResolvedValue(refined);
   onSave.mockReset();
+  requestUpgradeMock.mockReset();
+  studioLocked = false;
 });
 
 afterEach(cleanup);
+
+describe('ManualPromptModal — the AI pass is a paid feature', () => {
+  it('sells the plan rather than spending the call when the studio is locked', async () => {
+    // The proxy refuses a plan-gated call with a 402, which would surface here
+    // as a bare inline error. Catching it in the UI opens the upgrade prompt
+    // instead — the same thing every other studio control does.
+    studioLocked = true;
+    renderModal();
+    typeIdea();
+    fireEvent.click(screen.getByRole('button', { name: /Refine/i }));
+
+    await waitFor(() => expect(requestUpgradeMock).toHaveBeenCalledWith('aiContentStudio'));
+    expect(refineManualPrompt).not.toHaveBeenCalled();
+  });
+});
 
 describe('ManualPromptModal — composing', () => {
   it('leaves the verb to the AI by default and pins it when one is chosen', async () => {

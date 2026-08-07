@@ -37,6 +37,7 @@ import {
 } from 'lucide-react';
 import { downloadMyData, deleteMyAccount } from '../services/dataRightsService';
 import { getBandConfig } from '../utils/renderUtils';
+import { canUseAiGeneration } from '../utils/permissions';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import {
@@ -83,6 +84,10 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
   // Read from the live policy: a deployment can move the Studio to Plus with
   // PLAN_FEATURE_OVERRIDES, and this card must not keep saying otherwise.
   const studioIncluded = planUnlocks(plan, 'aiContentStudio');
+  // Plan is only half the studio's gate; the role is the other half. A student
+  // never authors, whatever they pay, so the studio is not part of what their
+  // plan means to them.
+  const canAuthor = canUseAiGeneration(user.role);
   const [portalLoading, setPortalLoading] = useState(false);
   const [portalError, setPortalError] = useState<string | null>(null);
   // The profile's cached plan can't tell "renews" from "ends" — that lives on
@@ -165,9 +170,15 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
           )}
         </div>
         <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed mb-3">
-          {/* Plan-accurate, not aspirational. "Full access to all features"
-              was wrong for Plus: the AI Content Studio defaults to the School
-              plan, so it is read from the live policy rather than asserted. */}
+          {/* Plan-accurate, not aspirational — read from the live policy rather
+              than asserted, so a deployment that moves the studio between plans
+              cannot leave this card claiming otherwise.
+
+              The studio sentence is shown only to an account that can actually
+              USE it. The plan unlocks the studio, but `canUseAiGeneration`
+              keeps authoring to staff, so telling a student on Plus that "the
+              AI Content Studio is included" describes a set of buttons they
+              will never be shown. */}
           {!selling
             ? // Every gate is open on this deployment, so telling a free-plan
               // user their features are "limited" and inviting them to upgrade
@@ -175,9 +186,11 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
               'Every feature is available on this deployment — nothing is held back and there is nothing to buy.'
             : isPaid
               ? `Unlimited marking, full criterion feedback and every ${PLAN_LABELS.plus} tool.` +
-                (studioIncluded
-                  ? ' The AI Content Studio is included.'
-                  : ` The AI Content Studio is part of the ${PLAN_LABELS.school} plan.`)
+                (canAuthor
+                  ? studioIncluded
+                    ? ' The AI Content Studio is included.'
+                    : ` The AI Content Studio is part of the ${PLAN_LABELS.school} plan.`
+                  : '')
               : 'Limited daily evaluations and basic features. Upgrade to unlock everything.'}
           {isPaid && user.stripePlan && periodEnd && (
             <span

@@ -9,6 +9,7 @@ import BackgroundTaskIndicator from './components/BackgroundTaskIndicator';
 import GlobalLoadingOverlay from './components/GlobalLoadingOverlay';
 import AppModals from './components/AppModals';
 import UpgradeModal from './components/UpgradeModal';
+import CourseRequestModal from './components/CourseRequestModal';
 import LoginPage from './components/LoginPage';
 import ResetPasswordPage from './components/ResetPasswordPage';
 import UserAgreementModal from './components/UserAgreementModal';
@@ -39,7 +40,13 @@ import { isCurriculumRemote } from './services/curriculumService';
 import { savePromptContribution } from './services/contributionService';
 import { screenContentQuality } from './services/geminiService';
 import { User, WritingMode } from './types';
-import { canCurateContent, canModerate, isSystemAdmin } from './utils/permissions';
+import {
+  canCreateCurriculum,
+  canCurateContent,
+  canModerate,
+  isSystemAdmin,
+} from './utils/permissions';
+import { isCourseDemandAvailable } from './services/courseDemandService';
 import {
   isEvalLimitReached,
   freeEvalLimit,
@@ -399,6 +406,8 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     suggestKeywordsError,
   ]);
 
+  // The course name a "request this course" click arrived with, if any.
+  const [courseRequestPrefill, setCourseRequestPrefill] = useState('');
   const [userAnswer, setUserAnswer] = useState('');
   const debouncedUserAnswer = useDebounce(userAnswer, 1000);
   const [newlyAddedIds, setNewlyAddedIds] = useState<Set<string>>(new Set());
@@ -913,6 +922,12 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 statePath={statePath}
                 onPathChange={handlePathChange}
                 onAddCourse={() => openModal('courseCreator')}
+                onRequestCourse={(prefill) => {
+                  // Carries the text they searched for, so the request form
+                  // opens on their own words rather than an empty field.
+                  setCourseRequestPrefill(prefill ?? '');
+                  openModal('courseRequest');
+                }}
                 onAddTopic={() => openModal('topicCreator')}
                 onAddSubTopic={() => openModal('subTopicCreator')}
                 onGeneratePrompt={() => openModal('promptGenerator')}
@@ -1024,13 +1039,32 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                   >
                     <Sparkles className="w-4 h-4" /> Load Curriculum Library
                   </button>
-                  {canCurateContent(user.role) && (
+                  {/* Building a course from syllabus text is course CREATION,
+                      so it is admin-only here exactly as it is in the navigator
+                      (canCreateCurriculum). "Load Curriculum Library" above
+                      stays open to everyone: it installs the courses this build
+                      ships with rather than authoring a new one, and it is the
+                      only way a first-run user gets anything to write about. */}
+                  {canCreateCurriculum(user.role) && (
                     <button
                       onClick={() => openModal('fullSyllabusImport')}
                       title="Build a course by pasting NESA syllabus text or fetching a syllabus URL"
                       className="px-8 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-700 border border-white/10 light:border-slate-300 font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
                     >
                       <UploadCloud className="w-4 h-4" /> Import a Syllabus
+                    </button>
+                  )}
+                  {/* Nobody is left stranded: someone who cannot create a
+                      course can still say which one they need. */}
+                  {!canCreateCurriculum(user.role) && isCourseDemandAvailable() && (
+                    <button
+                      onClick={() => {
+                        setCourseRequestPrefill('');
+                        openModal('courseRequest');
+                      }}
+                      className="px-8 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-700 border border-white/10 light:border-slate-300 font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
+                    >
+                      <Compass className="w-4 h-4" /> Request a Course
                     </button>
                   )}
                 </div>
@@ -1056,6 +1090,12 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           onLogout={handleLogout}
         />
         <UpgradeModal showToast={showToast} user={user} />
+        <CourseRequestModal
+          isOpen={isModalOpen('courseRequest')}
+          onClose={() => closeModal('courseRequest')}
+          initialName={courseRequestPrefill}
+          showToast={showToast}
+        />
         <GlobalLoadingOverlay message={globalLoadingMessage} error={quotaError} />
         <BackgroundTaskIndicator task={activeBackgroundTask} />
         {isSystemAdmin(user.role) && <ApiMonitorDisplay />}

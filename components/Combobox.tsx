@@ -54,6 +54,13 @@ interface ComboboxProps {
   placeholder?: string;
   disabled?: boolean;
   color?: ComboboxColor;
+  /**
+   * A way out of the empty state. Offered under "Nothing matches …" — the exact
+   * moment someone learns the thing they wanted isn't here — and handed the
+   * query they typed, so the follow-up can start from their own words rather
+   * than a blank field. Omit it and the empty state stays a plain message.
+   */
+  emptyAction?: { label: string; onAction: (query: string) => void };
 }
 
 const colorStyles: Record<
@@ -141,6 +148,7 @@ const Combobox: React.FC<ComboboxProps> = ({
   placeholder = 'Select...',
   disabled = false,
   color = 'default',
+  emptyAction,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -434,8 +442,22 @@ const Combobox: React.FC<ComboboxProps> = ({
                 </li>
               ))
             ) : (
-              <li className="py-4 px-4 text-[rgb(var(--color-text-muted))] italic text-center text-xs">
-                {query.trim() ? `Nothing matches “${query.trim()}”.` : 'No options available.'}
+              <li className="py-4 px-4 text-center">
+                <span className="block text-[rgb(var(--color-text-muted))] italic text-xs">
+                  {query.trim() ? `Nothing matches “${query.trim()}”.` : 'No options available.'}
+                </span>
+                {emptyAction && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      emptyAction.onAction(query.trim());
+                      setIsOpen(false);
+                    }}
+                    className="mt-2 text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline not-italic"
+                  >
+                    {emptyAction.label}
+                  </button>
+                )}
               </li>
             )}
           </ul>

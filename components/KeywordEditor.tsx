@@ -4,6 +4,7 @@ import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import { AlertCircle, Sparkles, RefreshCw, Plus, X, Check, BookMarked } from 'lucide-react';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { getBandConfig, textContainsKeyword } from '../utils/renderUtils';
+import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
 
 interface KeywordEditorProps {
   prompt: Prompt;
@@ -42,6 +43,15 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
   const [newKeyword, setNewKeyword] = useState('');
   const canCurate = canCurateContent(userRole);
   const canGenerate = canUseAiGeneration(userRole);
+  // Keyword suggestion is an AI Content Studio action, so it carries the same
+  // plan lock as the rest of the authoring surface. Role decides whether the
+  // buttons exist; plan decides whether they fire.
+  const studioLocked = isFeatureLocked('aiContentStudio');
+  // Shared chrome for the two AI buttons, so a locked pair reads as one amber
+  // set rather than two differently-styled controls.
+  const studioButtonClasses = studioLocked
+    ? 'bg-amber-400/15 border-amber-400/40 text-amber-500 light:text-amber-600'
+    : 'bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-200 dark:hover:border-indigo-500/30';
 
   // Colour used terms in the question's TARGET band — the same predefined band
   // colour the writing area and metrics use — so "a term is in your answer"
@@ -223,18 +233,26 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
           {canGenerate && (
             <div className="flex gap-1.5">
               <button
-                onClick={onSuggest}
+                onClick={studioLocked ? () => requestUpgrade('aiContentStudio') : onSuggest}
                 disabled={isLoading}
-                className="p-2 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-200 dark:hover:border-indigo-500/30 transition-all shadow-sm active:scale-90"
-                title="Suggest with AI"
+                className={`p-2 rounded-xl border transition-all shadow-sm active:scale-90 ${studioButtonClasses}`}
+                title={
+                  studioLocked
+                    ? 'Suggest with AI — part of the AI Content Studio, tap to learn more'
+                    : 'Suggest with AI'
+                }
               >
                 <Sparkles className={`w-4 h-4 ${isSuggesting ? 'animate-pulse' : ''}`} />
               </button>
               <button
-                onClick={onRegenerate}
+                onClick={studioLocked ? () => requestUpgrade('aiContentStudio') : onRegenerate}
                 disabled={isLoading}
-                className="p-2 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-200 dark:hover:border-indigo-500/30 transition-all shadow-sm active:scale-90"
-                title="Regenerate all"
+                className={`p-2 rounded-xl border transition-all shadow-sm active:scale-90 ${studioButtonClasses}`}
+                title={
+                  studioLocked
+                    ? 'Regenerate all — part of the AI Content Studio, tap to learn more'
+                    : 'Regenerate all'
+                }
               >
                 <RefreshCw className={`w-4 h-4 ${isRegenerating ? 'animate-spin' : ''}`} />
               </button>

@@ -138,6 +138,14 @@ paid provider is never contacted.
   Quotas).
 - **Per-user overrides** beat the group default:
   `select set_user_ai_quota('jsmith', 200);` — pass `null` to clear.
+- **Paid plans get a 300-call floor** on top of their role default, so
+  "unlimited marking" is enforced rather than promised. It applies to a personal
+  `stripe_plan` of `plus`/`school` **and** to membership of a school whose seat
+  licence is live — a school's students hold the plan through the licence, not
+  through their own profile, so reading `stripe_plan` alone metered a whole
+  school at the free tier's budget. `resolve_ai_quota` is therefore redefined in
+  §13, once the licence columns exist; an existing deployment should run §13.
+  A per-user override still beats the floor in both directions.
 - **Usage** is one row per user per day in `ai_usage`; users can read their
   own row, reviewers can read all. The only write path is the
   SECURITY DEFINER consume function, so clients cannot forge counters.
@@ -273,6 +281,31 @@ Once the database is seeded, the app changes happen in roughly this order:
    is own-insert / no-update-or-delete, with reviewers able to read all for
    analytics. This is the substrate for the longitudinal features (Class
    Insights, Student Progress + trend).
+
+## Course demand (§21)
+
+Creating a course or a topic is admin-only in the app (`canCreateCurriculum`),
+because the syllabus tree is shared: a duplicate course or a badly-split topic
+is a mess every other teacher has to live with and none of them can tidy.
+Everything below a topic — sub-topics, dot points, questions, rubrics, sample
+answers — stays with teachers.
+
+§21 is the other half of that decision. Anyone can register interest in a course
+that isn't carried (`log_course_request`), and the request is stored against a
+**normalised** name so "Software Engineering", "software engineering " and
+"Software&nbsp;&nbsp;Engineering" are one row with three requesters rather than
+three rows with one. `course_request_voices` is keyed `(request_id, user_id)`,
+so the count is a headcount and one determined person cannot manufacture a
+queue.
+
+- `list_course_requests(include_closed)` — reviewer-gated, busiest first, with
+  the number of teachers among the requesters and their notes. It names the
+  people asking, which is why requesters cannot read the table themselves.
+- `set_course_request_status(id, status, notes)` — admin-only:
+  `new` → `planned` → `available`, or `declined`.
+
+Both are surfaced in the admin usage dashboard, next to the quota controls —
+the place someone who *can* create a course is already looking.
 
 ## Classes, and who can see whose work
 

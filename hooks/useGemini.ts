@@ -180,12 +180,20 @@ export const useGemini = ({
             };
             p.sampleAnswers = addAndPruneSampleAnswers(p.sampleAnswers, userSample);
 
-            if (result.revisedAnswer) {
-              const revisedText =
-                typeof result.revisedAnswer === 'string'
-                  ? result.revisedAnswer
-                  : result.revisedAnswer.text;
+            // Guard on the TEXT, not on the field being present. A free-tier
+            // result has had its rewrite withheld by the proxy
+            // (redactPaidFeedback), and in the structured form that leaves a
+            // truthy object with an empty `text` — which would save a blank
+            // sample answer carrying the model's mark and band, and let it
+            // evict a real exemplar through addAndPruneSampleAnswers. The same
+            // guard covers a model that returns an empty rewrite because the
+            // answer already scored full marks.
+            const revisedText =
+              typeof result.revisedAnswer === 'string'
+                ? result.revisedAnswer
+                : (result.revisedAnswer?.text ?? '');
 
+            if (result.revisedAnswer && revisedText.trim()) {
               const revisedMark =
                 typeof result.revisedAnswer === 'object'
                   ? result.revisedAnswer.mark

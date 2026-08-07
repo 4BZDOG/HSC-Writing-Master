@@ -59,11 +59,15 @@ describe('plan comparison', () => {
     });
   });
 
-  it('keeps the AI Content Studio a School-only row', () => {
+  it('includes the AI Content Studio from Plus up, and says who can use it', () => {
     const row = rowsById().aiContentStudio;
     expect(row.cells.free.kind).toBe('no');
-    expect(row.cells.plus.kind).toBe('no');
+    expect(row.cells.plus.kind).toBe('yes');
     expect(row.cells.school.kind).toBe('yes');
+    // The plan unlocks the studio but `canUseAiGeneration` keeps it to staff,
+    // so a tick in the Plus column without this note is a promise to a student
+    // that the app will not keep.
+    expect(row.note?.toLowerCase()).toContain('teacher');
   });
 
   it('gives every gated feature a labelled row', () => {

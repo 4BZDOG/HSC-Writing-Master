@@ -33,14 +33,33 @@ import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 
 /**
+ * The plan a lock should NAME, as one or two words fit for a chip.
+ *
+ * A chip that says "Plus" beside a control the School plan unlocks sends the
+ * user to a prompt selling something else, and a teacher who already holds Plus
+ * reads it as "you have this" while the control refuses them. The feature key
+ * is the only thing a call site knows, so the label is derived from it — and
+ * follows a deployment's PLAN_FEATURE_OVERRIDES without any call site changing.
+ */
+const lockLabelFor = (feature?: PremiumFeatureKey): string =>
+  feature && lowestPlanForFeature(feature) === 'school' ? 'School' : 'Plus';
+
+/**
  * Small amber lock chip for a gated-but-visible control. Sits inline next to
  * the control's label so the feature is discoverable before it's paid for.
+ *
+ * Pass the `feature` it guards so the chip names the plan that actually unlocks
+ * it. Without one it falls back to "Plus", which is right for every feature
+ * this deployment prices at Plus and is the historical behaviour.
  */
-export const PlusLockChip: React.FC<{ className?: string }> = ({ className = '' }) => (
+export const PlusLockChip: React.FC<{ className?: string; feature?: PremiumFeatureKey }> = ({
+  className = '',
+  feature,
+}) => (
   <span
     className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-amber-400/15 border border-amber-400/40 text-amber-500 light:text-amber-600 text-[9px] font-black uppercase tracking-wider ${className}`}
   >
-    <Lock className="w-2.5 h-2.5" /> Plus
+    <Lock className="w-2.5 h-2.5" /> {lockLabelFor(feature)}
   </span>
 );
 
@@ -77,7 +96,7 @@ export const ContentLockOverlay: React.FC<{
           }
           className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-[10px] uppercase tracking-widest shadow-lg hover:scale-105 active:scale-95 transition-all"
         >
-          Unlock with Plus
+          Unlock with {lockLabelFor(feature)}
         </button>
       </div>
     </div>

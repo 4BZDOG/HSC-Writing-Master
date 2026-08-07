@@ -92,6 +92,42 @@ export const fetchUsageReport = async (days = 7): Promise<UsageReportRow[]> => {
   return (data ?? []) as UsageReportRow[];
 };
 
+// --- Commercial settings (schema §14) ----------------------------------------
+
+/**
+ * The free tier's daily marked-evaluation allowance, as the DATABASE is
+ * currently enforcing it.
+ *
+ * `free_evaluation_limit()` reads a `plan_settings` row and falls back to the
+ * number compiled into the schema, so this is the only honest answer to "what
+ * are free users actually held to today" — the client bundle's constant is just
+ * the shipped default. Returns null when the setting is unreadable (mock mode,
+ * or a database that pre-dates §14), which callers should render as "unknown"
+ * rather than inventing a figure.
+ */
+export const fetchFreeEvaluationLimit = async (): Promise<number | null> => {
+  if (!supabase) return null;
+  try {
+    const { data, error } = await supabase.rpc('free_evaluation_limit');
+    if (error || typeof data !== 'number') return null;
+    return data;
+  } catch {
+    return null;
+  }
+};
+
+/**
+ * Admin-only: change the free tier's daily allowance, live, without a deploy.
+ * The RPC bounds it to 0–1000 and refuses a non-admin.
+ */
+export const setFreeEvaluationLimit = async (limit: number): Promise<void> => {
+  const { error } = await requireClient().rpc('set_plan_setting', {
+    p_key: 'free_evaluation_limit',
+    p_value: limit,
+  });
+  if (error) throw new Error(`Could not update the free evaluation limit: ${error.message}`);
+};
+
 // --- Schools (shared quota pools, schema §12) --------------------------------
 
 export interface SchoolRow {
@@ -101,7 +137,22 @@ export interface SchoolRow {
   daily_ai_limit: number | null;
   members: number;
   used_today: number;
+  /**
+   * Seat-licence state, mirrored from Stripe by the webhook (schema §13).
+   * Absent on a database whose `list_schools` pre-dates the licence columns —
+   * so the UI must treat `undefined` as "unknown", not as "no licence".
+   *
+   * `plan_seats` is what the school is BILLED for; `members` above is who is
+   * actually using it. The two together are the true-up conversation, and
+   * neither is meaningful without the other.
+   */
+  plan_status?: string;
+  plan_seats?: number;
+  plan_period_end?: string | null;
 }
+
+/** Statuses under which a school licence is live (matches the webhook's grace rule). */
+export const LIVE_LICENCE_STATUSES = ['active', 'trialing', 'past_due'];
 
 /** Reviewer-gated: every school with member count and today's pooled usage. */
 export const fetchSchools = async (): Promise<SchoolRow[]> => {

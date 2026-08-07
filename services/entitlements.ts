@@ -102,8 +102,15 @@ export const PREMIUM_FEATURES: Record<PremiumFeatureKey, PremiumFeatureMeta> = {
   },
   aiContentStudio: {
     title: 'AI Content Studio',
-    blurb: 'Generate exam-style questions, model answers and marking rubrics on demand.',
-    perk: 'AI generation of questions, rubrics and sample answers',
+    blurb:
+      'Generate exam-style questions, model answers and marking rubrics on demand. ' +
+      'Authoring tools are for teacher and admin accounts — a student account keeps ' +
+      'its allowance for marking its own work.',
+    // Says "for teachers" out loud. The plan unlocks the studio, but
+    // `canUseAiGeneration` keeps it to staff roles, so a student reading this
+    // list while deciding whether to buy Plus must not count it as something
+    // they are about to get.
+    perk: 'AI generation of questions, rubrics and sample answers (teacher accounts)',
   },
   advancedQuestions: {
     title: 'Advanced Questions',
@@ -172,10 +179,11 @@ export {
  * serving a paid feature; the two must keep the same order, and a test pins
  * them.
  *
- * Note what the staff perk does NOT include: `aiContentStudio` defaults to the
- * school plan, so a teacher without a school licence sees the authoring tools
- * locked. That is a commercial choice, not an oversight — flip it with
- * `PLAN_FEATURE_OVERRIDES=aiContentStudio:plus` if staff should always author.
+ * The staff perk is what makes the AI Content Studio work: it is a Plus feature
+ * (services/planPolicy.ts), so a teacher holds it without buying anything. Plan
+ * is not the only gate on authoring — `canUseAiGeneration` keeps the studio to
+ * staff whatever a student pays, and creating courses and topics is narrower
+ * still (`canCreateCurriculum`, admin only).
  */
 export const getUserPlan = (user?: User | null): Plan => {
   const u = user !== undefined ? user : authService.getCurrentUser();

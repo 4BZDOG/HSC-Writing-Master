@@ -729,6 +729,10 @@ create policy ai_usage_read on public.ai_usage
 -- server-side, not just promised by the paywall copy. An explicit per-user
 -- override still beats everything, so admins can always dial an individual
 -- up or down.
+--
+-- SUPERSEDED by the licence-aware copy in §13, which also grants the floor to
+-- members of a school whose seat licence is live. This version stands only
+-- until that section runs; on an existing deployment, run §13 alone.
 
 -- Forward guard: resolve_ai_quota below reads profiles.stripe_plan, but the
 -- full Stripe billing section (§13) runs later in this file. SQL-language
@@ -1470,6 +1474,78 @@ alter table public.schools
   add column if not exists plan_status            text not null default 'none',
   add column if not exists plan_period_end        timestamptz;
 
+-- Supersedes §11's resolve_ai_quota with a LICENCE-aware version.
+--
+-- §11 grants the 300-call floor on `profiles.stripe_plan` alone, which the
+-- Stripe webhook only ever writes for the person who paid. Every OTHER member
+-- of a licensed school holds the school plan through their membership — that is
+-- how caller_plan() (§17) and has_unlimited_evaluations() (§14) both resolve it
+-- — so their profile still says 'free' and they were metered at the student
+-- default while the plan comparison promised them 300 calls a day. A school
+-- bought a licence and its students were held to the free tier's AI budget.
+--
+-- Defined HERE rather than in §11 because it reads schools.plan_status, which
+-- the alter above has only just added; §11's copy is valid on a fresh database
+-- and this replaces it moments later, the same layering §12 uses for
+-- consume_ai_quota. The grace period matches every other licence check:
+-- past_due keeps the floor while Stripe retries.
+create or replace function public.resolve_ai_quota(p_user uuid)
+returns integer language sql stable security definer set search_path = public as $$
+  select coalesce(
+    p.daily_ai_quota,
+    case
+      when coalesce(p.stripe_plan, 'free') in ('plus', 'school')
+        or coalesce(s.plan_status, 'none') in ('active', 'trialing', 'past_due')
+        then greatest(coalesce(l.daily_limit, 50), 300)
+      else l.daily_limit
+    end,
+    50)
+  from public.profiles p
+  left join public.ai_quota_limits l on l.role = p.role
+  left join public.schools s on s.id = p.school_id
+  where p.id = p_user;
+$$;
+
+revoke all on function public.resolve_ai_quota(uuid) from public, anon;
+grant execute on function public.resolve_ai_quota(uuid) to authenticated;
+
+-- Supersedes §12's list_schools with the LICENCE columns attached.
+--
+-- §12 returns a school's AI pool and nothing about what it bought, so the app
+-- had no way to answer the two questions a licence actually raises: is it still
+-- live, and are there more members than paid seats? The schema comment above
+-- promises "member counts are visible to reviewers for true-up" — this is what
+-- makes that true rather than aspirational. Whoever manages the licence would
+-- otherwise be reading it out of the Stripe dashboard and counting members by
+-- hand.
+create or replace function public.list_schools()
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_result jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can list schools';
+  end if;
+  select coalesce(jsonb_agg(row_obj order by row_obj->>'name'), '[]'::jsonb)
+    into v_result
+  from (
+    select jsonb_build_object(
+      'id', s.id,
+      'name', s.name,
+      'daily_ai_limit', s.daily_ai_limit,
+      'members', (select count(*) from public.profiles p where p.school_id = s.id),
+      'used_today', coalesce((
+        select u.calls from public.school_ai_usage u
+         where u.school_id = s.id and u.day = (now() at time zone 'utc')::date), 0),
+      'plan_status', s.plan_status,
+      'plan_seats', s.plan_seats,
+      'plan_period_end', s.plan_period_end
+    ) as row_obj
+    from public.schools s
+  ) sub;
+  return v_result;
+end; $$;
+
 -- Detailed subscription record — one active row per user. Kept in sync by
 -- the webhook handler on customer.subscription.created/updated/deleted.
 create table if not exists public.subscriptions (
@@ -1704,6 +1780,15 @@ begin
 
   if public.has_unlimited_evaluations(v_user) then
     return jsonb_build_object('allowed', true, 'used', 0, 'limit', -1, 'unlimited', true);
+  end if;
+
+  -- A zero allowance has to refuse the FIRST evaluation too. The conditional
+  -- ON CONFLICT below guards the update branch only, so on a deployment that
+  -- set free_evaluation_limit to 0 the day's first request still inserted a row
+  -- with 1 and was allowed — one free marking a day out of a paywall that was
+  -- meant to be closed.
+  if v_limit <= 0 then
+    return jsonb_build_object('allowed', false, 'used', 0, 'limit', v_limit, 'unlimited', false);
   end if;
 
   insert into public.evaluation_usage (user_id, day, evaluations)
@@ -2704,6 +2789,243 @@ end; $$;
 
 revoke all on function public.get_class_cohort(integer, uuid) from public;
 grant execute on function public.get_class_cohort(integer, uuid) to authenticated;
+
+-- =============================================================================
+-- §21 · Course demand — what people came looking for and did not find
+--
+--     Creating a course is admin-only (canCreateCurriculum in
+--     utils/permissions.ts), which keeps the shared syllabus tree coherent but
+--     leaves a teacher or student who wants a course we don't carry with
+--     nowhere to go. Their disappointment used to be invisible: they searched,
+--     found nothing, and left, and the only signal was a user who stopped
+--     coming back.
+--
+--     This turns that dead end into the roadmap. A request is logged against a
+--     NORMALISED name so "Software Engineering", "software engineering " and
+--     "Software  Engineering" are one row with three requesters rather than
+--     three rows with one — a demand list only helps if the same course is the
+--     same course. Each requester counts once, so one determined person cannot
+--     manufacture a queue, and the count is the number of PEOPLE waiting.
+--
+--     Deliberately not a moderation queue: nobody's text is published anywhere.
+--     The name and the optional note are read only by reviewers, which is why
+--     the listing RPC is reviewer-gated and the table has no public read policy.
+-- =============================================================================
+
+create table if not exists public.course_requests (
+  id             uuid primary key default gen_random_uuid(),
+  -- Lower-cased, whitespace-collapsed. The dedup key, and unique because two
+  -- rows for one course would split the very count this table exists to give.
+  normalised_name text not null unique check (length(trim(normalised_name)) > 0),
+  -- The first spelling anyone used, for display. Kept verbatim so the list
+  -- reads the way a teacher wrote it, not the way the index stores it.
+  display_name   text not null,
+  -- new → planned → available, or declined. Purely for the admin's own triage;
+  -- nothing in the app behaves differently based on it.
+  status         text not null default 'new'
+                 check (status in ('new', 'planned', 'available', 'declined')),
+  -- The admin's reply, shown back to nobody yet — a note to the next admin.
+  admin_notes    text,
+  created_at     timestamptz not null default now(),
+  updated_at     timestamptz not null default now()
+);
+
+-- One row per person per course, so `count(*)` is a headcount rather than a
+-- click count. The note is what THIS requester said (a year level, a faculty,
+-- "we start it in Term 3"), which is usually the useful part.
+create table if not exists public.course_request_voices (
+  request_id  uuid not null references public.course_requests (id) on delete cascade,
+  user_id     uuid not null references public.profiles (id) on delete cascade,
+  note        text,
+  created_at  timestamptz not null default now(),
+  primary key (request_id, user_id)
+);
+
+create index if not exists course_request_voices_request_idx
+  on public.course_request_voices (request_id);
+
+alter table public.course_requests       enable row level security;
+alter table public.course_request_voices enable row level security;
+
+-- Reviewers read the demand list; everyone else writes only through
+-- log_course_request() below, which is why there is no insert/update policy.
+-- A requester cannot read the table at all: knowing who else asked for a course
+-- is not theirs to see, and the RPC tells them what they need (their request
+-- landed, and how many people are behind it).
+drop policy if exists course_requests_read on public.course_requests;
+create policy course_requests_read on public.course_requests
+  for select using (public.is_reviewer());
+
+drop policy if exists course_request_voices_read on public.course_request_voices;
+create policy course_request_voices_read on public.course_request_voices
+  for select using (user_id = auth.uid() or public.is_reviewer());
+
+-- The dedup key. `regexp_replace(..., '\s+', ' ', 'g')` collapses runs of
+-- whitespace so a double space or a stray tab does not fork a course.
+create or replace function public.normalise_course_name(p_name text)
+returns text language sql immutable as $$
+  select lower(trim(regexp_replace(coalesce(p_name, ''), '\s+', ' ', 'g')));
+$$;
+
+-- Register interest in a course we don't carry. Idempotent per user: asking
+-- twice updates their note rather than inflating the count.
+--
+-- Returns { name, status, requesters, alreadyAsked } so the client can say
+-- "you and 11 others are waiting" instead of a bare "thanks", which is the
+-- difference between a suggestion box and a queue someone is standing in.
+create or replace function public.log_course_request(p_name text, p_note text default null)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare
+  v_user    uuid := auth.uid();
+  v_key     text := public.normalise_course_name(p_name);
+  v_display text := trim(regexp_replace(coalesce(p_name, ''), '\s+', ' ', 'g'));
+  v_id      uuid;
+  v_status  text;
+  v_existed boolean;
+  v_count   integer;
+begin
+  if v_user is null then
+    raise exception 'Not authenticated';
+  end if;
+  if v_key = '' then
+    raise exception 'A course name is required';
+  end if;
+  -- Bounded so a request cannot be used as free storage. Generous enough for
+  -- "Investigating Science (Year 11 accelerated)" and a sentence of context.
+  if length(v_display) > 120 then
+    raise exception 'That course name is too long (120 characters maximum)';
+  end if;
+  if length(coalesce(p_note, '')) > 500 then
+    raise exception 'That note is too long (500 characters maximum)';
+  end if;
+
+  insert into public.course_requests (normalised_name, display_name)
+  values (v_key, v_display)
+  on conflict (normalised_name) do update set updated_at = now()
+  returning id, status into v_id, v_status;
+
+  select true into v_existed
+    from public.course_request_voices
+   where request_id = v_id and user_id = v_user;
+
+  insert into public.course_request_voices (request_id, user_id, note)
+  values (v_id, v_user, nullif(trim(coalesce(p_note, '')), ''))
+  on conflict (request_id, user_id) do update
+    set note = coalesce(excluded.note, course_request_voices.note);
+
+  -- A NEW person asking for a request an admin had closed reopens it.
+  -- Without this the request is accepted, the modal tells them people are
+  -- waiting, and no admin ever sees them: list_course_requests hides closed
+  -- rows by default, so a declined course silently absorbs everyone who asks
+  -- for it afterwards. Someone asking again after a decline is exactly the
+  -- signal worth resurfacing — with a larger number behind it than last time.
+  -- An existing voice merely editing their note leaves the status alone.
+  if not coalesce(v_existed, false) and v_status = 'declined' then
+    update public.course_requests
+       set status = 'new', updated_at = now()
+     where id = v_id;
+    v_status := 'new';
+  end if;
+
+  select count(*) into v_count
+    from public.course_request_voices where request_id = v_id;
+
+  return jsonb_build_object(
+    'name', v_display,
+    'status', v_status,
+    'requesters', v_count,
+    'alreadyAsked', coalesce(v_existed, false)
+  );
+end; $$;
+
+revoke all on function public.log_course_request(text, text) from public, anon;
+grant execute on function public.log_course_request(text, text) to authenticated;
+
+-- The demand list, busiest first. Reviewer-gated: this is the roadmap input,
+-- and it names the people asking.
+create or replace function public.list_course_requests(p_include_closed boolean default false)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_result jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can view course demand';
+  end if;
+
+  select coalesce(
+    jsonb_agg(row_obj order by (row_obj->>'requesters')::int desc, row_obj->>'lastRequested' desc),
+    '[]'::jsonb)
+    into v_result
+  from (
+    select jsonb_build_object(
+      'id', r.id,
+      'name', r.display_name,
+      'status', r.status,
+      'adminNotes', r.admin_notes,
+      'firstRequested', r.created_at,
+      'lastRequested', (select max(v.created_at) from public.course_request_voices v
+                         where v.request_id = r.id),
+      'requesters', (select count(*) from public.course_request_voices v
+                      where v.request_id = r.id),
+      -- Who is asking matters as much as how many: five teachers is a
+      -- different signal from five students, and one school asking as a group
+      -- is different again.
+      'teachers', (select count(*) from public.course_request_voices v
+                     join public.profiles p on p.id = v.user_id
+                    where v.request_id = r.id and p.role in ('teacher', 'admin')),
+      -- Newest first, and the `order by` belongs INSIDE the subquery: the
+      -- outer sort cannot rescue rows the `limit` already discarded, so an
+      -- unordered limit would drop the newest note on a popular request while
+      -- the dashboard labels notes[0] "the most recent".
+      'notes', (select coalesce(jsonb_agg(n order by n->>'at' desc), '[]'::jsonb)
+                  from (
+                    select jsonb_build_object(
+                      'note', v.note, 'role', p.role, 'at', v.created_at) as n
+                      from public.course_request_voices v
+                      join public.profiles p on p.id = v.user_id
+                     where v.request_id = r.id and v.note is not null
+                     order by v.created_at desc
+                     limit 20
+                  ) sub_notes)
+    ) as row_obj
+    from public.course_requests r
+    where p_include_closed or r.status in ('new', 'planned')
+  ) sub;
+
+  return v_result;
+end; $$;
+
+revoke all on function public.list_course_requests(boolean) from public, anon;
+grant execute on function public.list_course_requests(boolean) to authenticated;
+
+-- Admin triage: move a request along, and leave a note for whoever picks it up.
+create or replace function public.set_course_request_status(
+  p_id uuid,
+  p_status text,
+  p_notes text default null
+)
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can change a course request';
+  end if;
+  if p_status not in ('new', 'planned', 'available', 'declined') then
+    raise exception 'Unknown course request status %', p_status;
+  end if;
+
+  update public.course_requests
+     set status = p_status,
+         admin_notes = coalesce(nullif(trim(coalesce(p_notes, '')), ''), admin_notes),
+         updated_at = now()
+   where id = p_id;
+
+  if not found then
+    raise exception 'No course request with that id';
+  end if;
+end; $$;
+
+revoke all on function public.set_course_request_status(uuid, text, text) from public, anon;
+grant execute on function public.set_course_request_status(uuid, text, text) to authenticated;
 
 -- =============================================================================
 -- End of schema.
