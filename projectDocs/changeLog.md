@@ -1,5 +1,65 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-08-08
+
+### ✨ The improved response is now the student's answer, one mark higher
+
+Generated sample answers were already nicely graduated — a 2/6 sample is short,
+a 6/6 sample is not. The rewrite a student got back after submitting their own
+work was not: it came back at full-exemplar length even when it was only worth
+one more mark, in a voice that was nothing like theirs.
+
+- **It targets the next MARK, not the next band.** `getNextLevelTarget` is the
+  single definition, and the AI brief, the saved exemplar's mark, the on-screen
+  header and the PDF heading all read it from there. Aiming a whole band higher
+  was what licensed a four-times-longer answer; on some questions it also
+  resolved to a mark at or below the one the student had already earned, so the
+  "improvement" was saved to the library worth no more than the original.
+- **It is briefed as an edit, not a fresh answer.** Keep the student's
+  sentences, sequence, vocabulary and register; make the smallest set of changes
+  that earns the extra mark; do not restructure or add sections they never
+  attempted. The marker's own list of what was missing is passed in as the brief
+  for that edit — previously only the overall summary was, so the model guessed
+  at the gap and wrote a new answer around its guess.
+- **The length ceiling is anchored to what the student wrote** — the smaller of
+  the target mark's scope and their own length plus a working margin. A student
+  who wrote three lines gets back four lines. A student who padded gets back
+  something shorter.
+- **"Regenerate" now visibly does something.** It saved a new exemplar to the
+  library and left the response on screen untouched, so the button read as
+  broken. It also only appeared while the student was below the band ceiling,
+  which hid it from anyone sitting one mark short inside the top band.
+
+### 🐛 Marking guides render as the descending ladder again
+
+A guide from manual entry or the AI Draft button often arrived as one
+undifferentiated block instead of the descending HSC rows.
+
+- **The prompt was showing the model an escaped newline.** The example rows in
+  the marking-criteria instruction were joined with `'\\n'`, so the model was
+  shown the two literal characters backslash-n as its row separator and copied
+  them into its answer — one physical line no parser could split. The examples
+  now use real line breaks, and every rubric instruction ends with an explicit
+  rule against literal `\n`, run-on rows, tables and preamble.
+- **`formatMarkingCriteria` repairs the shapes that still get through**: escaped
+  newlines, fenced code blocks, markdown tables, band-led rows
+  (`Band 6 (7-8 marks): …`) and rubrics that arrived as one run-on paragraph.
+  Because the accordion normalises at render, guides already saved in a
+  library are repaired too. Rows are only split after sentence-ending
+  punctuation, so a mark value quoted mid-sentence is left alone.
+- **It runs at the AI boundary, not just on import.** The manual composer puts
+  the model's rubric straight into an editable textarea, so a malformed guide
+  was what the teacher reviewed and saved. `generateRubricForPrompt` and
+  `reviseRubricForPrompt` return free text with no schema to lean on, and now
+  normalise their output too.
+- **Two parser bugs in the accordion.** A row written as
+  `Band 6 (7-8 marks): Comprehensive analysis…` was stored as the words *before*
+  the bracket, silently discarding the criteria; and such a row closed itself
+  off, so a wrapped continuation line beneath it was dropped entirely. Band-led
+  rows also placed themselves with an inline `(band / 6) × totalMarks` that
+  ignored the verb's tier ceiling — they now use `markForBand` like everything
+  else.
+
 ## [Unreleased] - 2026-08-05
 
 ### ✨ Self-service password reset

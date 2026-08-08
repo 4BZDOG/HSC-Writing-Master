@@ -37,7 +37,7 @@ import {
   Zap,
   Lightbulb,
 } from 'lucide-react';
-import { getCommandTermInfo, getBandForMark } from '../data/commandTerms';
+import { getCommandTermInfo, getBandForMark, getNextLevelTarget } from '../data/commandTerms';
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import ResponseFeedback from './ResponseFeedback';
@@ -265,14 +265,30 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
     [prompt.totalMarks, termInfo.tier]
   );
 
+  // What the improved response is actually worth: one mark above the student's,
+  // and the band that mark maps to. The header used to promise "Band N+1" for a
+  // rewrite briefed to earn a single extra mark, so on most questions the label
+  // over-sold what the student was reading.
+  const nextLevel = useMemo(
+    () => getNextLevelTarget(result.overallMark, prompt.totalMarks, termInfo.tier),
+    [result.overallMark, prompt.totalMarks, termInfo.tier]
+  );
+
+  const exemplarMark = useMemo(() => {
+    if (typeof result.revisedAnswer === 'object' && result.revisedAnswer.mark) {
+      return Math.min(prompt.totalMarks, result.revisedAnswer.mark);
+    }
+    return nextLevel.targetMark;
+  }, [result.revisedAnswer, nextLevel.targetMark, prompt.totalMarks]);
+
   const exemplarBand = useMemo(() => {
     // An AI-reported band is clamped to the question's ceiling too — the Verb
     // Gate applies to every band figure shown, including model output.
     if (typeof result.revisedAnswer === 'object' && result.revisedAnswer.band) {
       return Math.min(maxBand, result.revisedAnswer.band);
     }
-    return Math.min(maxBand, result.overallBand + 1);
-  }, [result.revisedAnswer, result.overallBand, maxBand]);
+    return Math.min(maxBand, getBandForMark(exemplarMark, prompt.totalMarks, termInfo.tier));
+  }, [result.revisedAnswer, exemplarMark, prompt.totalMarks, termInfo.tier, maxBand]);
 
   const exemplarConfig = getBandConfig(exemplarBand);
 
@@ -328,6 +344,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           })),
           revisedAnswer: revisedText || undefined,
           exemplarBand,
+          exemplarMark,
           wordCount,
           keywordsUsed: keywordsUsedCount,
           keywordsTotal: prompt.keywords?.length || 0,
@@ -355,11 +372,11 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
       <AiBusyOverlay show={isImproving} rounded="rounded-[32px]">
         <LoadingIndicator
           task="generation"
-          message={`Upgrading to Band ${exemplarBand}`}
+          message={`Lifting your answer to ${nextLevel.targetMark}/${prompt.totalMarks}`}
           messages={[
-            'Synthesising higher-order concepts...',
-            'Refining syllabus terminology...',
-            'Restructuring for Band ' + exemplarBand + '...',
+            'Keeping your wording and structure...',
+            'Adding what the marker asked for...',
+            'Sharpening the syllabus terminology...',
           ]}
           duration={12}
           band={exemplarBand}
@@ -736,11 +753,11 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 </h4>
                 <div className="flex items-center gap-3 mt-1">
                   <span className="text-[10px] font-bold text-white/90 uppercase tracking-widest">
-                    Band {exemplarBand} Standard
+                    Your answer, lifted to {exemplarMark}/{prompt.totalMarks} — Band {exemplarBand}
                   </span>
-                  {result.overallBand < exemplarBand && (
+                  {result.overallMark < exemplarMark && (
                     <span className="px-2 py-0.5 rounded-lg bg-white/20 text-white text-[9px] font-black uppercase tracking-wider backdrop-blur-sm no-print">
-                      Upgrade Available
+                      +{exemplarMark - result.overallMark} Mark
                     </span>
                   )}
                 </div>
@@ -748,7 +765,10 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             </div>
 
             <div className="flex flex-wrap gap-3 no-print">
-              {result.overallBand < maxBand && (
+              {/* Gated on MARKS, not bands: a student sitting at 5/6 inside the
+                  top band still has a mark to win, and the band test hid the
+                  control from them. */}
+              {result.overallMark < prompt.totalMarks && (
                 <button
                   onClick={
                     upgradesLocked ? () => requestUpgrade('answerUpgrades') : onImproveAnswer

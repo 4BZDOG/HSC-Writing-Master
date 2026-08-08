@@ -48,6 +48,8 @@ export interface EvaluationExportData {
   criteria: { criterion: string; mark: number; maxMark: number; feedback: string }[];
   revisedAnswer?: string;
   exemplarBand?: number;
+  /** What the improved response is worth — one mark above the student's own. */
+  exemplarMark?: number;
   wordCount?: number;
   keywordsUsed?: number;
   keywordsTotal?: number;
@@ -236,14 +238,13 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
 
   // 9. Improved response (exemplar) -----------------------------------------
   if (data.revisedAnswer && data.revisedAnswer.trim()) {
-    const exAccent = bandColor(data.exemplarBand ?? data.overallBand + 1);
+    const exBand = data.exemplarBand ?? data.overallBand + 1;
+    const exAccent = bandColor(exBand);
+    const exMark = data.exemplarMark ?? Math.min(data.totalMarks, data.overallMark + 1);
     blocks.push(spacer(2));
     blocks.push(divider());
     blocks.push(
-      heading(
-        `Improved Response — Band ${data.exemplarBand ?? data.overallBand + 1} Standard`,
-        exAccent
-      )
+      heading(`Improved Response — ${exMark}/${data.totalMarks} (Band ${exBand})`, exAccent)
     );
     blocks.push({
       kind: 'paragraph',

@@ -27,7 +27,7 @@ import {
 import { persistResponse, saveResponseFeedback } from '../services/responseService';
 import { findAndUpdateItem, findSelectionContext } from '../utils/stateUtils';
 import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
-import { getBandForMark, getCommandTermInfo, markForBand } from '../data/commandTerms';
+import { getBandForMark, getCommandTermInfo, getNextLevelTarget } from '../data/commandTerms';
 import { generateId } from '../utils/idUtils';
 import {
   addAndPruneSampleAnswers,
@@ -196,10 +196,18 @@ export const useGemini = ({
                 : (result.revisedAnswer?.text ?? '');
 
             if (result.revisedAnswer && revisedText.trim()) {
+              // The marker is briefed to lift the answer by exactly one mark, so
+              // that is what the saved exemplar is worth unless the model said
+              // otherwise in the structured form.
+              const nextLevel = getNextLevelTarget(
+                result.overallMark,
+                prompt.totalMarks,
+                getCommandTermInfo(prompt.verb).tier
+              );
               const revisedMark =
                 typeof result.revisedAnswer === 'object'
                   ? result.revisedAnswer.mark
-                  : Math.min(prompt.totalMarks, result.overallMark + 1);
+                  : nextLevel.targetMark;
 
               const revisedBand =
                 typeof result.revisedAnswer === 'object' && result.revisedAnswer.band
@@ -282,30 +290,26 @@ export const useGemini = ({
       setOriginalAnswerForImprovement(null);
 
       try {
-        // Cap the improvement target at the question's tier ceiling — a verb
-        // like 'Describe' (Tier 2) cannot reach Band 4+, so targeting one band
-        // above the current band must not exceed what the question can award.
-        const tier = getCommandTermInfo(prompt.verb).tier;
-        const maxBand = getBandForMark(prompt.totalMarks, prompt.totalMarks, tier);
-        const targetBand = Math.min(maxBand, evaluation.overallBand + 1);
-        const improved = await gemini.improveAnswer(originalAnswer, prompt, evaluation, targetBand);
+        // The service owns the target (getNextLevelTarget): one mark up, with
+        // the band that mark maps to on this question. Recomputing it here is
+        // how the saved exemplar's mark used to disagree with what the model
+        // was briefed to write — and a band-jump target could even land on a
+        // mark at or below the one the student already earned.
+        const improved = await gemini.improveAnswer(originalAnswer, prompt, evaluation);
+        const { text, mark: targetMark, band: targetBand } = improved;
 
         // Auto-Save Logic for the specific improved answer
         updateCourses((draft) => {
           findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
             if (!p.sampleAnswers) p.sampleAnswers = [];
 
-            // Smallest mark that still maps to the target band on this question,
-            // so the saved exemplar's mark and band agree with getBandForMark.
-            const aiSampleMark = markForBand(targetBand, prompt.totalMarks, tier);
-
             const aiSample: SampleAnswer = {
               id: generateId('sa'),
-              answer: improved,
-              mark: aiSampleMark,
+              answer: text,
+              mark: targetMark,
               band: targetBand,
               source: 'AI',
-              feedback: `This Band ${targetBand} exemplar scores ${aiSampleMark}/${prompt.totalMarks}. As an improvement over the original attempt, it elevates the response by ${targetBand >= 5 ? 'integrating specific terminology, demonstrating thorough analysis, and fully satisfying the cognitive demand of the command verb' : targetBand >= 3 ? 'providing clearer explanations with more relevant detail, though still below the sophistication expected at the highest bands' : 'addressing the basic requirements of the question with some relevant content'}.`,
+              feedback: `This Band ${targetBand} exemplar scores ${targetMark}/${prompt.totalMarks} — one mark above the original attempt. It keeps the student's own response and lifts it by ${targetBand >= 5 ? 'sharpening the terminology and completing the analysis the command verb demands' : targetBand >= 3 ? 'adding the missing detail and making the links between points explicit' : 'addressing more of what the question asks and developing the points already made'}.`,
             };
 
             p.sampleAnswers = addAndPruneSampleAnswers(p.sampleAnswers, aiSample);
@@ -315,11 +319,25 @@ export const useGemini = ({
         // As with evaluate: the exemplar is saved to the library either way,
         // but a late result must not surface on a different question.
         if (activePromptIdRef.current === prompt.id) {
-          setImprovedAnswer(improved);
+          setImprovedAnswer(text);
           setOriginalAnswerForImprovement(originalAnswer);
-          showToast(`Auto-saved Band ${targetBand} exemplar to library.`, 'success');
+          // The feedback modal renders the exemplar from `evaluationResult`, so
+          // a regenerated upgrade has to land there or the button spins, saves a
+          // sample and visibly changes nothing.
+          setEvaluationResult((prev) =>
+            prev
+              ? {
+                  ...prev,
+                  revisedAnswer: { text, mark: targetMark, band: targetBand, keyChanges: [] },
+                }
+              : prev
+          );
+          showToast(
+            `Auto-saved ${targetMark}/${prompt.totalMarks} (Band ${targetBand}) exemplar to library.`,
+            'success'
+          );
         }
-        return improved;
+        return text;
       } catch (error) {
         const message = handleApiError(error);
         if (activePromptIdRef.current === prompt.id) setImproveAnswerError(message);

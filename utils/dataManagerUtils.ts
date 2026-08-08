@@ -83,6 +83,37 @@ export const parseSubItemsFromDescription = (description: string): string[] => {
   });
 };
 
+/**
+ * Turns a markdown table into "N marks: description" rows.
+ *
+ * Models asked for a descending rubric sometimes answer with a table instead.
+ * Left as pipes, every row failed the accordion's row match and the whole guide
+ * collapsed into one undifferentiated block, so unwrap the cells here: the first
+ * cell carries the mark (or band) label, the rest are the criteria.
+ */
+const unwrapMarkdownTableRows = (text: string): string => {
+  if (!text.includes('|')) return text;
+  return text
+    .split('\n')
+    .map((line): string | null => {
+      const trimmed = line.trim();
+      if (!trimmed.startsWith('|')) return line;
+      // Separator row (|---|:--:|) carries no criteria.
+      if (/^\|[\s|:\-–—]+\|?$/.test(trimmed)) return null;
+      const cells = trimmed
+        .split('|')
+        .map((c) => c.trim())
+        .filter(Boolean);
+      if (cells.length < 2) return line;
+      const [label, ...rest] = cells;
+      // A header row ("| Marks | Criteria |") has no mark value to anchor to.
+      if (!/\d/.test(label)) return null;
+      return `${label}: ${rest.join(' — ')}`;
+    })
+    .filter((line): line is string => line !== null)
+    .join('\n');
+};
+
 export const formatMarkingCriteria = (criteria: unknown): string => {
   if (!criteria) return '';
   if (typeof criteria !== 'string') {
@@ -94,6 +125,23 @@ export const formatMarkingCriteria = (criteria: unknown): string => {
   }
 
   let text = criteria.trim();
+
+  // Fenced code blocks: models wrap "structured" output in ``` more often than
+  // not, and the fences are the first thing that stops a row from matching.
+  text = text.replace(/^```[a-z]*\s*\n?/i, '').replace(/\n?```\s*$/, '');
+
+  // A model shown an escaped newline in its instructions echoes the two literal
+  // characters back rather than breaking the line. That single physical line is
+  // the "one giant marking guide" a teacher sees instead of the descending
+  // ladder — so restore the breaks the rubric was meant to have.
+  //
+  // Only when there is not a single real line break: that is the failure
+  // signature, and this is a computing app, where "uses \n to terminate the
+  // line" is a criterion someone will legitimately write inside an otherwise
+  // well-formed rubric.
+  if (!text.includes('\n') && text.includes('\\n')) {
+    text = text.replace(/\\r\\n|\\n/g, '\n');
+  }
 
   if (text.includes('<') && text.includes('>')) {
     text = text
@@ -116,15 +164,40 @@ export const formatMarkingCriteria = (criteria: unknown): string => {
     text = text.replace(new RegExp('\\n\\s*\\n', 'g'), '\n').trim();
   }
 
+  text = unwrapMarkdownTableRows(text);
+
   text = text.replace(new RegExp('^([\\s]*[-•*])\\s*\\n\\s*(\\d)', 'gm'), '$1 $2');
   text = text.replace(
     new RegExp('^([\\s]*[-•*]?\\s*\\d+(?:\\s*[-–]\\s*\\d+)?)\\s*\\n\\s*(marks?|:)', 'gim'),
     '$1 $2'
   );
   text = text.replace(new RegExp('(\\d+)\\s*[-–]\\s*\\n\\s*(\\d+\\s*marks?:)', 'gi'), '$1-$2');
+
+  // "Band 5 (6-7 marks): …" leads with the band, so the mark value never lands
+  // at the start of the line where the row matcher looks for it. The mark range
+  // is the anchor everything else (band colour, ordering) is derived from, so
+  // promote it and keep the band label inside the description.
+  text = text.replace(
+    /^([\s]*[-•*]?\s*)band\s+(\d+)\s*\(\s*(\d+(?:\s*[-–]\s*\d+)?)\s*marks?\s*\)\s*[:.\-–]?\s*/gim,
+    '$1$3 marks: (Band $2) '
+  );
+
+  // A rubric that arrived as one paragraph — "8 marks: … judgement. 6-7 marks: …"
+  // — is a valid ladder with its line breaks stripped. Restore a break before
+  // each row, but only after sentence-ending punctuation so a mark value quoted
+  // mid-sentence isn't mistaken for a new row.
+  text = text.replace(
+    /([.;!?])[ \t]+(?=(?:\*\*)?\d+(?:\s*[-–]\s*\d+)?\s*(?:marks?\s*[:—-]|:)\s)/gi,
+    '$1\n'
+  );
+
   text = text.replace(new RegExp('^[•·*]\\s*', 'gm'), '- ');
 
-  return text;
+  // Blank lines between rows are harmless to render but make the ladder look
+  // sparse and inflate the stored text; collapse runs of them.
+  text = text.replace(/\n{3,}/g, '\n\n');
+
+  return text.trim();
 };
 
 const normalizeVerb = (val: unknown): PromptVerb | undefined => {

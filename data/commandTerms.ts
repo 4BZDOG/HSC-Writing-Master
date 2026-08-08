@@ -963,6 +963,29 @@ export const markForBand = (targetBand: number, totalMarks: number, tier: number
 };
 
 /**
+ * The next marking level up from a student's current mark: one more mark, and
+ * the band that mark maps to on this question.
+ *
+ * "Improve my answer" is a coaching move, not a request for a model answer — the
+ * student needs to see the smallest change that earns the next mark, at a length
+ * they could actually write. Targeting a whole band jump instead produced
+ * exemplars several times longer than the student's own work, which teaches the
+ * wrong lesson about exam scope. Every surface that names the improvement target
+ * (the AI brief, the saved exemplar's mark, the "Improved Response" header)
+ * reads it from here so they cannot disagree.
+ */
+export const getNextLevelTarget = (
+  currentMark: number,
+  totalMarks: number,
+  tier: number = 4
+): { targetMark: number; targetBand: number } => {
+  const safeTotal = Math.max(0, totalMarks);
+  const safeCurrent = Math.max(0, Math.min(currentMark, safeTotal));
+  const targetMark = Math.min(safeTotal, safeCurrent + 1);
+  return { targetMark, targetBand: getBandForMark(targetMark, safeTotal, tier) };
+};
+
+/**
  * The band a full-mark response to this question can reach — i.e. the ceiling a
  * student is working toward, set by the verb's cognitive tier. This is the
  * single definition of a question's "target band"; the writing area, keyword
