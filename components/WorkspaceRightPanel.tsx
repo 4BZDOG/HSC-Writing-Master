@@ -54,6 +54,8 @@ interface WorkspaceRightPanelProps {
   referenceSlot?: React.ReactNode;
   /** Students type their own answers; paste is refused. See Editor. */
   blockPaste?: boolean;
+  /** Whether everything typed has reached storage. */
+  draftSaved?: boolean;
 }
 
 const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
@@ -86,6 +88,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   onWritingModeChange,
   referenceSlot,
   blockPaste,
+  draftSaved,
 }) => {
   const isExamMode = writingMode === 'exam';
   // The rewrite, the diff review and the PDF's change list are one feature.
@@ -380,6 +383,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             onWritingModeChange={onWritingModeChange}
             footerAction={evaluateAction}
             blockPaste={blockPaste}
+            draftSaved={draftSaved}
           />
         </div>
       </div>
