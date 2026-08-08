@@ -1208,6 +1208,27 @@ export const generateSampleAnswer = async (
 
   const scopeBrief = buildSampleScopeBrief(prompt, mark, termInfo);
 
+  // Exemplars are read as a set: a 4/6 that says the same things as the 6/6 in
+  // slightly worse words teaches nothing about what the extra marks buy. When
+  // the caller supplies the answers already written for this question (the
+  // generator's batch mode does, bottom-up), each new one is written to sit
+  // visibly apart from them. Truncated — the model needs the gist and the
+  // length, not every word.
+  const laddered = [...existingAnswers]
+    .filter((s) => s.mark !== mark && s.answer?.trim())
+    .sort((a, b) => a.mark - b.mark);
+  const ladderBrief = laddered.length
+    ? `\n**Answers already written for this question — yours must be clearly distinguishable from them:**\n` +
+      laddered
+        .map(
+          (s) =>
+            `[${s.mark}/${prompt.totalMarks}] ${s.answer.slice(0, 400)}${s.answer.length > 400 ? '…' : ''}`
+        )
+        .join('\n') +
+      `\n- A reader comparing yours with these must be able to say WHY it earns ${mark} rather than ${laddered.map((s) => s.mark).join(' or ')}: what it covers that a lower one does not, or what it still misses that a higher one has.\n` +
+      `- Do NOT reuse their sentences or examples wholesale.\n`
+    : '';
+
   const request = {
     ...aiTarget('reasoning'),
     // Paid-feature tag. The proxy resolves the caller's plan and refuses
@@ -1228,6 +1249,7 @@ export const generateSampleAnswer = async (
                     - Target Mark: ${mark}/${prompt.totalMarks}
 
                     ${scopeBrief}
+                    ${ladderBrief}
 
                     **Directives:**
                     ${qualityInstruction}

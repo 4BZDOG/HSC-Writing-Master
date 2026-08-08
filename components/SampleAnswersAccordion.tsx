@@ -63,25 +63,53 @@ interface GroupedSampleAnswers {
   calculatedBand: number;
 }
 
-const SourceBadge: React.FC<{ source?: string }> = ({ source }) => {
-  const isAi = source === 'AI';
+/**
+ * Where an exemplar came from — and, for an AI one, whether it was written from
+ * scratch or lifted from a student's own response. A "Student + AI" sample
+ * carries the student's structure and voice, so it is read (and trusted)
+ * differently from a clean-room AI exemplar, and gets its own colour and icon
+ * pair rather than being filed under the same grey "AI Model" chip.
+ */
+const SourceBadge: React.FC<{ source?: string; derivedFromStudent?: boolean }> = ({
+  source,
+  derivedFromStudent,
+}) => {
   const isUser = source === 'USER';
   const isHsc = source === 'HSC_EXEMPLAR';
+  const isUpgrade = source === 'AI' && !!derivedFromStudent;
 
-  const config = isAi
-    ? 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-white/5 dark:text-slate-400 dark:border-white/10'
-    : isUser
-      ? 'bg-blue-500/10 text-blue-500 border-blue-500/20'
-      : 'bg-amber-500/10 text-amber-500 border-amber-500/20';
+  const config = isUser
+    ? 'bg-blue-500/10 text-blue-500 border-blue-500/20'
+    : isHsc
+      ? 'bg-amber-500/10 text-amber-500 border-amber-500/20'
+      : isUpgrade
+        ? 'bg-violet-500/10 text-violet-500 dark:text-violet-400 border-violet-500/25'
+        : 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-white/5 dark:text-slate-400 dark:border-white/10';
 
   const Icon = isUser ? UserIcon : isHsc ? BookOpen : Sparkles;
-  const label = isUser ? 'Student' : isHsc ? 'Official' : 'AI Model';
+  const label = isUser ? 'Student' : isHsc ? 'Official' : isUpgrade ? 'Student + AI' : 'AI Model';
+  const title = isUpgrade
+    ? "A student's own response, rewritten by the AI to reach the next mark"
+    : isUser
+      ? 'A response written by a student and marked by the AI'
+      : isHsc
+        ? 'A verified HSC exemplar'
+        : 'Written by the AI from the question and rubric';
 
   return (
     <span
+      title={title}
       className={`inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${config}`}
     >
-      <Icon className="w-2.5 h-2.5" /> {label}
+      {isUpgrade ? (
+        <span className="inline-flex items-center gap-0.5">
+          <UserIcon className="w-2.5 h-2.5" />
+          <Sparkles className="w-2.5 h-2.5" />
+        </span>
+      ) : (
+        <Icon className="w-2.5 h-2.5" />
+      )}
+      {label}
     </span>
   );
 };
@@ -224,7 +252,10 @@ const CarouselAccordionItem: React.FC<{
                 )}
               </div>
               <div className="flex items-center gap-2 mt-1.5 opacity-90">
-                <SourceBadge source={currentSample.source} />
+                <SourceBadge
+                  source={currentSample.source}
+                  derivedFromStudent={currentSample.derivedFromStudent}
+                />
                 {currentSample.contentFlag?.status === 'open' && (
                   <span
                     className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border bg-amber-500/10 text-amber-500 border-amber-500/30"
@@ -250,8 +281,11 @@ const CarouselAccordionItem: React.FC<{
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
                 </button>
-                <span className="text-[9px] font-bold w-4 text-center text-slate-600 dark:text-slate-300">
-                  {currentIndex + 1}
+                {/* "2 of 3", not a bare "2": the position is meaningless
+                    without the total, and a batch of exemplars now arrives
+                    several at a time. */}
+                <span className="text-[9px] font-bold px-1 text-center text-slate-600 dark:text-slate-300 tabular-nums">
+                  {currentIndex + 1}/{group.answers.length}
                 </span>
                 <button
                   onClick={handleNext}

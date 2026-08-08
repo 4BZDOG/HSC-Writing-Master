@@ -26,7 +26,7 @@ import {
 } from '../services/entitlements';
 import { persistResponse, saveResponseFeedback } from '../services/responseService';
 import { findAndUpdateItem, findSelectionContext } from '../utils/stateUtils';
-import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
+import { getFocusAreas } from '../utils/dataManagerUtils';
 import { getBandForMark, getCommandTermInfo, getNextLevelTarget } from '../data/commandTerms';
 import { generateId } from '../utils/idUtils';
 import {
@@ -223,6 +223,9 @@ export const useGemini = ({
                 mark: revisedMark,
                 band: revisedBand,
                 source: 'AI',
+                // A lift of THIS student's response, not an exemplar written
+                // from scratch — the library badges the two differently.
+                derivedFromStudent: true,
                 feedback: `This Band ${revisedBand} revision scores ${revisedMark}/${prompt.totalMarks}. It demonstrates the cognitive demand of '${prompt.verb}' at this level — ${revisedBand >= 5 ? 'providing sophisticated analysis with specific terminology and clear cause-effect reasoning' : revisedBand >= 3 ? 'explaining key concepts with adequate detail but lacking the depth or specificity of higher bands' : 'identifying basic elements with limited development or connection to the scenario'}.`,
               };
               p.sampleAnswers = addAndPruneSampleAnswers(p.sampleAnswers, aiSample);
@@ -309,6 +312,7 @@ export const useGemini = ({
               mark: targetMark,
               band: targetBand,
               source: 'AI',
+              derivedFromStudent: true,
               feedback: `This Band ${targetBand} exemplar scores ${targetMark}/${prompt.totalMarks} — one mark above the original attempt. It keeps the student's own response and lifts it by ${targetBand >= 5 ? 'sharpening the terminology and completing the analysis the command verb demands' : targetBand >= 3 ? 'adding the missing detail and making the links between points explicit' : 'addressing more of what the question asks and developing the points already made'}.`,
             };
 
@@ -420,7 +424,7 @@ export const useGemini = ({
       topicName: topic?.name,
       subTopicName: subTopic?.name,
       dotPoint: dotPoint?.description,
-      focusAreas: dotPoint ? parseSubItemsFromDescription(dotPoint.description) : [],
+      focusAreas: getFocusAreas(dotPoint),
       outcomeTexts,
     };
   }, [currentCourse, statePath, currentPrompt?.linkedOutcomes]);

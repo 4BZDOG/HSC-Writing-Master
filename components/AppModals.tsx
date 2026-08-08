@@ -20,7 +20,7 @@ import ManualPromptModal from './ManualPromptModal';
 import ManifestImportModal from './ManifestImportModal';
 import QuickStartModal from './QuickStartModal';
 import LegalDocumentModal from './LegalDocumentModal';
-import { regenerateTopicIds, mergeTopicContents } from '../utils/dataManagerUtils';
+import { regenerateTopicIds, mergeTopicContents, getFocusAreas } from '../utils/dataManagerUtils';
 import { findAndUpdateItem } from '../utils/stateUtils';
 import { generateId } from '../utils/idUtils';
 import type { TopicSyllabusImportPayload } from './TopicSyllabusImportModal';
@@ -188,6 +188,7 @@ const AppModals: React.FC<AppModalsProps> = ({
         marks={0}
         courseOutcomes={currentCourse?.outcomes || []}
         selectedFocusItems={statePath.selectedSubItems || []}
+        focusAreaOptions={getFocusAreas(currentDotPoint)}
       />
 
       <ManualPromptModal

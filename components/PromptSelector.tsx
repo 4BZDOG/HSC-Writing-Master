@@ -37,7 +37,8 @@ import {
 } from 'lucide-react';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { getTierScaleConfig } from '../utils/renderUtils';
-import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
+import { getFocusAreas } from '../utils/dataManagerUtils';
+import FocusAreaEditorModal from './FocusAreaEditorModal';
 import { getPastHscLabel } from '../utils/pastHscUtils';
 import { isFeatureLocked, isQuestionTierLocked, requestUpgrade } from '../services/entitlements';
 import { isCourseDemandAvailable } from '../services/courseDemandService';
@@ -80,6 +81,12 @@ interface PromptSelectorProps {
   onImportSyllabus: () => void;
   /** Copies a shareable link to the selected question (teachers/admins). */
   onShareAssignment?: () => void;
+  /**
+   * Hand-set a dot point's focus areas, or pass `undefined` to drop the
+   * override and read the syllabus wording again. Absent for a caller with no
+   * way to write back to the syllabus, which hides the editor.
+   */
+  onUpdateFocusAreas?: (dotPointId: string, focusAreas: string[] | undefined) => void;
   newlyAddedIds: Set<string>;
   userRole: UserRole;
 }
@@ -165,9 +172,11 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   onImportTopic,
   onImportSyllabus,
   onShareAssignment,
+  onUpdateFocusAreas,
   newlyAddedIds,
   userRole,
 }) => {
+  const [focusEditorOpen, setFocusEditorOpen] = useState(false);
   const canCurate = canCurateContent(userRole);
   const canGenerate = canUseAiGeneration(userRole);
   const isAdmin = isSystemAdmin(userRole);
@@ -198,13 +207,12 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   const isDotPointSelected = !!selectedDotPoint;
   const isPromptSelected = !!selectedPrompt;
 
-  const subItems = useMemo(() => {
-    return selectedDotPoint?.description
-      ? parseSubItemsFromDescription(selectedDotPoint.description)
-      : [];
-  }, [selectedDotPoint]);
+  // A teacher's hand-set list wins over the parser — one resolution, shared
+  // with the question generator and the AI's keyword grounding.
+  const subItems = useMemo(() => getFocusAreas(selectedDotPoint), [selectedDotPoint]);
 
   const hasSubItems = subItems.length > 0;
+  const focusAreasOverridden = !!selectedDotPoint?.focusAreas;
   const activeFocusCount = statePath.selectedSubItems?.length || 0;
 
   const courseOptions = useMemo(
@@ -984,6 +992,31 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <div className="flex items-center gap-2 pt-2 lg:pt-0 flex-wrap justify-end lg:self-center">
                   {selectedDotPoint ? (
                     <>
+                      {/* Focus areas are read out of syllabus prose by a
+                          heuristic, which sometimes splits a concept in half or
+                          finds nothing at all. Offered whether or not the parse
+                          found anything — a dot point with NO focus areas is
+                          exactly the case a teacher most often needs to fix. */}
+                      {onUpdateFocusAreas && (
+                        <button
+                          onClick={() => setFocusEditorOpen(true)}
+                          className={`p-2 rounded-lg border transition-all shadow-sm ${
+                            focusAreasOverridden
+                              ? 'bg-emerald-500/20 text-emerald-400 light:text-emerald-700 border-emerald-500/40'
+                              : 'bg-emerald-500/10 text-emerald-400 light:text-emerald-700 border-emerald-500/20 hover:bg-emerald-500 hover:text-white'
+                          }`}
+                          title={
+                            focusAreasOverridden
+                              ? 'Focus areas set by hand — click to edit'
+                              : hasSubItems
+                                ? 'Edit the focus areas read from this dot point'
+                                : 'No focus areas were found in this dot point — add them by hand'
+                          }
+                          aria-label="Edit focus areas"
+                        >
+                          <Target className="w-4 h-4" />
+                        </button>
+                      )}
                       {hasSubItems && activeFocusCount > 0 && (
                         <button
                           onClick={() => onPathChange({ selectedSubItems: undefined })}
@@ -1052,6 +1085,28 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             )}
           </div>
         </div>
+      )}
+
+      {selectedDotPoint && onUpdateFocusAreas && (
+        <FocusAreaEditorModal
+          isOpen={focusEditorOpen}
+          onClose={() => setFocusEditorOpen(false)}
+          description={selectedDotPoint.description}
+          focusAreas={subItems}
+          isOverridden={focusAreasOverridden}
+          onSave={(areas) => {
+            onUpdateFocusAreas(selectedDotPoint.id, areas);
+            // An active focus that no longer exists in the list would keep
+            // narrowing generated questions to a phrase the teacher just
+            // deleted, and nothing on screen would say so.
+            const stillValid = (statePath.selectedSubItems || []).filter((i) => areas.includes(i));
+            onPathChange({ selectedSubItems: stillValid.length ? stillValid : undefined });
+          }}
+          onReset={() => {
+            onUpdateFocusAreas(selectedDotPoint.id, undefined);
+            onPathChange({ selectedSubItems: undefined });
+          }}
+        />
       )}
 
       {/* 5. Question Selection */}

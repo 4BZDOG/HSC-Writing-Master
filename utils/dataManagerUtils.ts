@@ -114,6 +114,24 @@ const unwrapMarkdownTableRows = (text: string): string => {
     .join('\n');
 };
 
+/**
+ * The focus areas for a dot point: the teacher's hand-set list when there is
+ * one, otherwise whatever the heuristic can find in the description.
+ *
+ * Every surface that offers focus areas — the navigator's "Active Focus", the
+ * question generator, the keyword grounding sent to the AI — must agree on this
+ * one answer, or a teacher fixes a bad parse in the navigator and the generator
+ * carries on using the bad one.
+ */
+export const getFocusAreas = (dotPoint?: {
+  description?: string;
+  focusAreas?: string[];
+}): string[] => {
+  if (!dotPoint) return [];
+  if (dotPoint.focusAreas) return dotPoint.focusAreas;
+  return parseSubItemsFromDescription(dotPoint.description || '');
+};
+
 export const formatMarkingCriteria = (criteria: unknown): string => {
   if (!criteria) return '';
   if (typeof criteria !== 'string') {
@@ -373,7 +391,9 @@ const SampleAnswerSchema = z
     answer: z.string().catch('No answer provided.').default('No answer provided.'),
     mark: z.union([z.string(), z.number()]).transform((val) => Number(val) || 0),
     source: z.enum(['AI', 'USER', 'HSC_EXEMPLAR']).catch('AI').default('AI'),
+    derivedFromStudent: z.boolean().optional().catch(undefined),
     feedback: z.string().optional(),
+    quickTip: z.string().optional(),
     contentFlag: ContentFlagSchema.optional(),
   })
   .passthrough();
@@ -420,6 +440,10 @@ const DotPointSchema = z
     id: z.string().default(() => generateId('dp')),
     description: z.string().catch('No description').default('No description'),
     prompts: z.array(PromptSchema).default([]),
+    // Optional by design: absent means "derive from the description".
+    // `.optional()` before `.catch()` so a malformed value falls back to
+    // undefined (derive) rather than to an empty array (no focus areas).
+    focusAreas: z.array(z.string()).optional().catch(undefined),
   })
   .passthrough();
 

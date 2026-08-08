@@ -122,6 +122,91 @@ body.focus-mode .focus-ambient {
   }
 }
 
+/* The drifting-orb motion shared by the app background and the auth backdrop.
+   It used to live in an inline <style> inside AnimatedBackground, which meant
+   any other component using `animation: blob` silently depended on that one
+   being mounted. */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+/*
+ * Sign-in ambience.
+ *
+ * The auth screens used to paint an opaque `--color-bg-base` panel over the
+ * app's own AnimatedBackground and then lay two `mix-blend-screen` blobs on
+ * top. Screen blending against a near-white base is a no-op, so the light theme
+ * resolved to a flat sheet of #f8fafc — nothing like the dark theme it is
+ * supposed to be the twin of.
+ *
+ * These three layers are defined per theme instead of per blend mode, so each
+ * theme is composed deliberately: a warm-to-cool wash, exam-paper ruling, and a
+ * vignette that seats the card. Everything is a gradient on a fixed layer — no
+ * repaint cost, and the reduced-motion rule above already stills the drift.
+ */
+.auth-ambient {
+  background:
+    radial-gradient(ellipse 80% 60% at 15% -5%, rgba(99, 102, 241, 0.28), transparent 62%),
+    radial-gradient(ellipse 70% 55% at 92% 8%, rgba(14, 165, 233, 0.2), transparent 60%),
+    radial-gradient(ellipse 95% 60% at 50% 108%, rgba(139, 92, 246, 0.22), transparent 62%);
+}
+
+[data-theme='light'] .auth-ambient {
+  /* Deeper and warmer than the dark theme's, because a tint has to work much
+     harder to register against a near-white ground than against near-black. */
+  background:
+    radial-gradient(ellipse 80% 60% at 15% -5%, rgba(99, 102, 241, 0.2), transparent 62%),
+    radial-gradient(ellipse 70% 55% at 92% 8%, rgba(56, 189, 248, 0.18), transparent 60%),
+    radial-gradient(ellipse 95% 60% at 50% 108%, rgba(167, 139, 250, 0.18), transparent 62%),
+    linear-gradient(180deg, rgba(241, 245, 249, 0.9) 0%, rgba(226, 232, 240, 0.75) 100%);
+}
+
+/* Exam-paper ruling: a 44px grid, just visible enough to give the empty space
+   a texture and a sense of scale. */
+.auth-grid {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.16) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, black 20%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, black 20%, transparent 78%);
+}
+
+[data-theme='light'] .auth-grid {
+  background-image:
+    linear-gradient(rgba(71, 85, 105, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(71, 85, 105, 0.1) 1px, transparent 1px);
+}
+
+/* Seats the card: darkens the edges in dark mode, and in light mode closes the
+   frame with a cool shadow rather than letting the page bleed to white. */
+.auth-vignette {
+  background: radial-gradient(
+    ellipse 100% 85% at 50% 45%,
+    transparent 45%,
+    rgba(2, 6, 23, 0.55) 100%
+  );
+}
+
+[data-theme='light'] .auth-vignette {
+  background: radial-gradient(
+    ellipse 100% 85% at 50% 45%,
+    transparent 42%,
+    rgba(51, 65, 85, 0.16) 100%
+  );
+}
+
 * {
   -webkit-tap-highlight-color: transparent;
 }

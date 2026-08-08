@@ -1,5 +1,79 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-08-08 (quality of life)
+
+### ✨ Build a whole ladder of exemplars in one pass
+
+The sample-answer generator took one mark at a time, so a teacher covering six
+performance levels opened the same modal six times.
+
+- Marks are a **multi-selection** now. The batch runs sequentially from the
+  lowest mark up, each answer lands in the library as it is written, and the
+  button reports "Writing 3 of 5 — 4/8".
+- **"Complete the ladder"** selects one mark for every band with no exemplar yet.
+- Each answer is written **with sight of the ones below it**. `generateSampleAnswer`
+  has always accepted the existing answers and never used them; it now briefs the
+  model to make the new answer visibly separable from them, which is the
+  difference between a ladder and five versions of the same answer.
+- A failure no longer loses the batch: whatever succeeded is saved, the modal
+  says which marks failed and why, and re-arms with only those still selected.
+- Band **coverage is derived**, not read off the sample. A stored band travels
+  with imported and legacy exemplars and can disagree with the Verb Gate, so the
+  coverage strip was claiming bands that no sample demonstrates and the
+  suggestion pointed at a band already covered.
+
+### ✨ Focus areas can be fixed by hand
+
+The "including …" list under a dot point is read out of syllabus prose by a
+heuristic. It splits a single named concept on its "and", keeps a trailing
+clause that was never a list item, and misses lists written in a shape it does
+not know — and because that list narrows what a generated question is about, a
+bad reading is not cosmetic.
+
+- `DotPoint.focusAreas` stores a teacher's list, edited in a new dialog off the
+  navigator. Add, rename, reorder, remove; **saving an empty list is a valid
+  answer** — it says this dot point has no sub-parts and silences a bad reading.
+  Absent means "read the description", which is every existing dot point, and
+  "Reset to automatic" returns to that.
+- The editor is offered even when the parser found **nothing**, which is the case
+  a teacher most often needs to fix.
+- One resolution, shared: `getFocusAreas` is what the navigator, the question
+  generator and the AI's keyword grounding all read, so a fix made in the
+  navigator is the list the generator uses. An active focus that the edit
+  removed is dropped rather than left narrowing questions to a deleted phrase.
+
+### ✨ "Student + AI" exemplars are labelled as their own thing
+
+An AI sample that is a lift of the student's own response carries their
+structure and voice; one written from scratch does not. Both were filed under
+the same grey "AI Model" chip. `SampleAnswer.derivedFromStudent` now separates
+them, and the library gives the student-derived ones their own violet
+person-plus-sparkle badge.
+
+### 💄 The sign-in screen is the same design in both themes
+
+It painted an opaque base over the app's animated background and then laid two
+`mix-blend-screen` blobs on top. Screen blending against a near-white ground is
+a no-op, so the light theme resolved to a flat sheet of #f8fafc while the dark
+theme got its aurora.
+
+- A shared `AuthBackdrop` (sign-in and password reset) composes four layers —
+  a brand wash, exam-paper ruling, two drifting orbs, and a vignette that seats
+  the card — with **each theme's colours declared separately** in `index.css`
+  rather than left to a blend mode that only works on one of them.
+- The light card gets a real border and a cool shadow so it reads as a card
+  rather than dissolving into the page.
+- The `blob` keyframes moved from an inline `<style>` inside `AnimatedBackground`
+  into the stylesheet: any other component using them silently depended on that
+  one being mounted.
+- The exemplar carousel counter reads "2/3" rather than a bare "2".
+
+### 🗃️ Data
+
+`DATA_VERSION` → 2.5.0 for two additive optional fields (`DotPoint.focusAreas`,
+`SampleAnswer.derivedFromStudent`). No migration step: absent means exactly what
+its absence meant before.
+
 ## [Unreleased] - 2026-08-08
 
 ### ✨ The improved response is now the student's answer, one mark higher

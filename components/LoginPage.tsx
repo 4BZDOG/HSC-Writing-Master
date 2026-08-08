@@ -12,6 +12,7 @@ import {
   type SignupFieldErrors,
 } from '../services/signupPolicy';
 import type { Provider } from '@supabase/auth-js';
+import AuthBackdrop from './AuthBackdrop';
 import {
   Lock,
   User as UserIcon,
@@ -381,10 +382,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden px-6 selection:bg-indigo-500/30">
-      {/* Aurora Background Effects */}
-      <div className="absolute inset-0 bg-[rgb(var(--color-bg-base))]" />
-      <div className="absolute top-0 -left-4 w-96 h-96 bg-indigo-600 rounded-full mix-blend-screen filter blur-[120px] opacity-10 animate-pulse" />
-      <div className="absolute bottom-0 -right-4 w-96 h-96 bg-purple-600 rounded-full mix-blend-screen filter blur-[120px] opacity-10 animate-pulse" />
+      <AuthBackdrop />
 
       {/* Hero Branding Section */}
       <div className="text-center mb-12 relative z-10 animate-fade-in">
@@ -413,7 +411,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         className="w-full max-w-[420px] relative z-10 animate-fade-in-up"
         style={{ animationDelay: '200ms' }}
       >
-        <div className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 border-white/20 light:border-slate-200 rounded-[44px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] light:shadow-2xl overflow-hidden relative">
+        <div className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 border-white/20 light:border-slate-300/80 rounded-[44px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] light:shadow-[0_28px_60px_-20px_rgba(51,65,85,0.35)] overflow-hidden relative">
           <MeshOverlay opacity="opacity-[0.04] light:opacity-[0.06]" />
 
           <div className="p-10 relative z-10">

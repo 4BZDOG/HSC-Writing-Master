@@ -54,6 +54,12 @@ interface PromptGeneratorModalProps {
   marks: number;
   courseOutcomes: CourseOutcome[];
   selectedFocusItems?: string[];
+  /**
+   * The dot point's focus areas as the navigator resolved them (see
+   * `getFocusAreas`) — a teacher's hand-set list when there is one, otherwise
+   * the parsed one. Omit to fall back to parsing the description here.
+   */
+  focusAreaOptions?: string[];
 }
 
 const SCENARIO_TYPES = [
@@ -84,6 +90,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
   marks: initialMarks,
   courseOutcomes,
   selectedFocusItems = [],
+  focusAreaOptions,
 }) => {
   const MAX_GENERATOR_MARKS = 15;
   const [marks, setMarks] = useState(initialMarks > MAX_GENERATOR_MARKS ? 7 : initialMarks);
@@ -115,10 +122,10 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
   // parser no longer yields (e.g. after a dot point edit) so nothing selected
   // ever silently disappears.
   const availableFocusItems = useMemo(() => {
-    const parsed = parseSubItemsFromDescription(dotPoint);
-    const extras = selectedFocusItems.filter((item) => !parsed.includes(item));
-    return [...parsed, ...extras];
-  }, [dotPoint, selectedFocusItems]);
+    const resolved = focusAreaOptions ?? parseSubItemsFromDescription(dotPoint);
+    const extras = selectedFocusItems.filter((item) => !resolved.includes(item));
+    return [...resolved, ...extras];
+  }, [dotPoint, focusAreaOptions, selectedFocusItems]);
 
   // The cognitive level (tier) the syllabus dot point itself demands — the
   // "scope of knowledge" the syllabus asks for. The question the user builds is

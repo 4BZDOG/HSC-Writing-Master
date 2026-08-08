@@ -544,6 +544,39 @@ export const useSyllabusData = ({
     [updateCourses, showToast]
   );
 
+  /**
+   * Hand-set (or clear) a dot point's focus areas.
+   *
+   * `undefined` is meaningfully different from `[]` here: it drops the override
+   * so the description is parsed again, while an empty array is a teacher
+   * saying this dot point HAS no focus areas — see DotPoint.focusAreas.
+   */
+  const handleUpdateFocusAreas = useCallback(
+    (dotPointId: string, focusAreas: string[] | undefined) => {
+      updateCourses((draft) => {
+        draft.forEach((c) =>
+          c.topics.forEach((t) =>
+            t.subTopics.forEach((st) =>
+              st.dotPoints.forEach((dp) => {
+                if (dp.id === dotPointId) {
+                  if (focusAreas === undefined) delete dp.focusAreas;
+                  else dp.focusAreas = focusAreas;
+                }
+              })
+            )
+          )
+        );
+      });
+      showToast(
+        focusAreas === undefined
+          ? 'Focus areas reset — reading the syllabus wording again.'
+          : `Focus areas updated (${focusAreas.length}).`,
+        'success'
+      );
+    },
+    [updateCourses, showToast]
+  );
+
   const handleGeneratePrompt = useCallback(
     async (path: StatePath, newPrompt: Prompt) => {
       updateCourses((draft) => {
@@ -818,6 +851,7 @@ export const useSyllabusData = ({
     handleCreateTopicWithContent,
     handleCreateSubTopic,
     handleAddDotPoints,
+    handleUpdateFocusAreas,
     handleGeneratePrompt,
     confirmRename,
     confirmDelete,
