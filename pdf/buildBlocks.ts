@@ -51,6 +51,8 @@ export interface EvaluationExportData {
   wordCount?: number;
   keywordsUsed?: number;
   keywordsTotal?: number;
+  /** Ruled space at the end for a teacher's handwritten notes. */
+  markerNotes?: boolean;
 }
 
 let seq = 0;
@@ -139,6 +141,10 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
     label: 'Assessment Score',
     chip: `${data.overallMark} / ${data.totalMarks}`,
     accent,
+    // The ladder under the metrics. A mark out of 8 means little on its own;
+    // where it sits on the six bands, and how far the next one is, is the
+    // question every student asks first.
+    bandScale: data.overallBand,
     runs: [run(metricBits.join('   ·   '), 9, { style: 'bold', color: COLORS.body })],
     basePadTop: 1,
     basePadBottom: 3,
@@ -202,16 +208,20 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
   }
 
   // 7. Areas for growth -----------------------------------------------------
+  // Tick boxes rather than bullets. These are the things to do next, and a
+  // printed report a student can work down and tick off is a different object
+  // from a printed report they read once — the same words, doing more.
   if (data.improvements?.length) {
-    blocks.push(heading('Areas for Growth', COLORS.rose));
+    blocks.push(heading('Next Steps', COLORS.rose));
     data.improvements.forEach((im) =>
       blocks.push({
         kind: 'listItem',
         id: nid('imp'),
         runs: [run(im, 9.5, { color: COLORS.body, lineHeightFactor: 1.3 })],
         accent: COLORS.rose,
+        checkbox: true,
         breakable: true,
-        basePadBottom: 1.4,
+        basePadBottom: 1.6,
       })
     );
   }
@@ -225,6 +235,10 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
         id: nid('crit'),
         label: `${i + 1}. ${normalizeContent(c.criterion)}`,
         chip: `${c.mark} / ${c.maxMark}`,
+        // Same fact as the chip, in a form a reader takes in without doing
+        // arithmetic — and a column of them shows which criterion cost the
+        // most marks without reading a word.
+        meter: { value: c.mark, max: c.maxMark },
         runs: [run(c.feedback, 9, { color: COLORS.body, lineHeightFactor: 1.3 })],
         accent: COLORS.accent,
         breakable: true,
@@ -251,6 +265,24 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
       runs: [run(data.revisedAnswer, 9.5, { color: COLORS.ink, lineHeightFactor: 1.4 })],
       accent: exAccent,
       breakable: true,
+      basePadBottom: 2,
+    });
+  }
+
+  // 10. Marker's notes ------------------------------------------------------
+  // Ruled space, deliberately empty. The report is printed and taken into a
+  // conversation with the student — the teacher writes the part the AI cannot,
+  // on the same sheet, so the two do not drift apart in a folder. Opt-in: it
+  // costs a third of a column, which a screen-only reader has no use for.
+  if (data.markerNotes) {
+    blocks.push(spacer(2));
+    blocks.push(heading("Marker's Notes", COLORS.slate));
+    blocks.push({
+      kind: 'paragraph',
+      id: nid('notes'),
+      runs: [run('Teacher comments', 7.5, { style: 'italic', color: COLORS.muted })],
+      ruleLines: 5,
+      accent: COLORS.rule,
       basePadBottom: 2,
     });
   }
