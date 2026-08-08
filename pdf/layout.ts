@@ -30,8 +30,11 @@ import {
   SCORE_SUMMARY,
   TextMeasurer,
   TextRun,
+  InlineSpan,
   MM_PER_PT,
 } from './types';
+import { wrapRich } from './wrapRich';
+import { spansToText } from './inline';
 
 export const getPageDimensions = (size: PageSizeName): PageDimensions => PAGE_DIMENSIONS[size];
 
@@ -185,15 +188,27 @@ export const measureBlock = (
   const labelExtraMm = meterHeight(block, pScale);
 
   const wrapped: string[][] = [];
+  const wrappedRich: (InlineSpan[][] | null)[] = [];
   let body = 0;
   for (const run of block.runs) {
     const fontPt = run.baseFontPt * pScale;
+    if (run.spans?.length) {
+      // Wrapped in the styles it will be DRAWN in, and the plain lines derived
+      // from that wrap rather than measured separately — two wraps of the same
+      // paragraph would disagree the moment a bold term sat near a line end.
+      const richLines = wrapRich(run.spans, columnWidth - textIndentMm, fontPt, measurer);
+      wrappedRich.push(richLines);
+      wrapped.push(richLines.map(spansToText));
+      body += richLines.length * runLineHeight(measurer, run, pScale);
+      continue;
+    }
     const lines = measurer.wrap(
       run.text,
       columnWidth - textIndentMm,
       fontPt,
       run.style ?? 'normal'
     );
+    wrappedRich.push(null);
     wrapped.push(lines);
     body += lines.length * runLineHeight(measurer, run, pScale);
   }
@@ -201,6 +216,7 @@ export const measureBlock = (
   return {
     ...block,
     wrapped,
+    wrappedRich,
     labelWrapped,
     padTopMm: padTop,
     padBottomMm: padBottom,
@@ -220,16 +236,26 @@ export const measureBlocks = (
   pScale: number
 ): MeasuredBlock[] => blocks.map((b) => measureBlock(b, measurer, geo.columnWidth, pScale));
 
+/**
+ * The styled lines of a block's first run, when it has them. Every fragment a
+ * splitter produces has to carry the matching slice of these, or the drawer
+ * silently falls back to the plain path and a paragraph loses its emphasis
+ * halfway down the page — at whichever line the column happened to break.
+ */
+const richOf = (b: MeasuredBlock): InlineSpan[][] | null => b.wrappedRich?.[0] ?? null;
+
 /** Split a single-run paragraph's lines into column-sized fragments. */
 const splitParagraph = (b: MeasuredBlock, columnHeight: number): MeasuredBlock[] => {
   const out: MeasuredBlock[] = [];
   const lines = b.wrapped[0];
+  const rich = richOf(b);
   let index = 0;
   let firstFragment = true;
   while (index < lines.length) {
     const padTop = firstFragment ? b.padTopMm : 0;
     const linesThatFit = Math.max(1, Math.floor((columnHeight - padTop) / b.lineHeightMm));
-    const chunk = lines.slice(index, index + linesThatFit);
+    const start = index;
+    const chunk = lines.slice(start, start + linesThatFit);
     index += chunk.length;
     const isLast = index >= lines.length;
     const padBottom = isLast ? b.padBottomMm : 0;
@@ -237,6 +263,7 @@ const splitParagraph = (b: MeasuredBlock, columnHeight: number): MeasuredBlock[]
       ...b,
       id: firstFragment ? b.id : `${b.id}-cont${index}`,
       wrapped: [chunk],
+      wrappedRich: rich ? [rich.slice(start, start + chunk.length)] : b.wrappedRich,
       padTopMm: padTop,
       padBottomMm: padBottom,
       height: padTop + chunk.length * b.lineHeightMm + padBottom,
@@ -255,6 +282,15 @@ const splitParagraph = (b: MeasuredBlock, columnHeight: number): MeasuredBlock[]
       const moved = prev.wrapped[0][prev.wrapped[0].length - 1];
       prev.wrapped[0] = prev.wrapped[0].slice(0, -1);
       last.wrapped[0] = [moved, ...last.wrapped[0]];
+      // The styled copy moves with it — otherwise the line that was pulled down
+      // is the one line on the page drawn in the wrong voice.
+      const prevRich = prev.wrappedRich?.[0];
+      const lastRich = last.wrappedRich?.[0];
+      if (prevRich && lastRich) {
+        const movedRich = prevRich[prevRich.length - 1];
+        prev.wrappedRich = [prevRich.slice(0, -1)];
+        last.wrappedRich = [[movedRich, ...lastRich]];
+      }
       prev.height = prev.padTopMm + prev.wrapped[0].length * b.lineHeightMm + prev.padBottomMm;
       last.height = last.padTopMm + last.wrapped[0].length * b.lineHeightMm + last.padBottomMm;
     }
@@ -273,6 +309,7 @@ const splitCriterion = (b: MeasuredBlock, columnHeight: number): MeasuredBlock[]
   const labelLines = b.labelWrapped?.length ?? 1;
   const head = b.padTopMm + labelLines * lh + (b.labelExtraMm ?? 0);
   const feedback = b.wrapped[0];
+  const rich = richOf(b);
   const firstFit = Math.max(1, Math.floor((columnHeight - head) / lh));
   const kept = feedback.slice(0, firstFit);
   const rest = feedback.slice(firstFit);
@@ -282,6 +319,7 @@ const splitCriterion = (b: MeasuredBlock, columnHeight: number): MeasuredBlock[]
   out.push({
     ...b,
     wrapped: [kept],
+    wrappedRich: rich ? [rich.slice(0, kept.length)] : b.wrappedRich,
     padBottomMm: headIsLast ? b.padBottomMm : 0,
     height: head + kept.length * lh + (headIsLast ? b.padBottomMm : 0),
   });
@@ -300,6 +338,7 @@ const splitCriterion = (b: MeasuredBlock, columnHeight: number): MeasuredBlock[]
       labelExtraMm: 0,
       id: `${b.id}-feedcont`,
       wrapped: [rest],
+      wrappedRich: rich ? [rich.slice(kept.length)] : b.wrappedRich,
       padTopMm: 0,
       height: rest.length * lh + b.padBottomMm,
     };

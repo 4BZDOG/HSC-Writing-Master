@@ -383,6 +383,10 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           keywordsUsed: keywordsUsedCount,
           keywordsTotal: prompt.keywords?.length || 0,
           markerNotes: pdfPrefs.markerNotes,
+          // Colours the syllabus terms on the page the way `renderFormattedText`
+          // colours them on screen — the exporter shares the app's matcher, so
+          // the two cannot disagree about what counts as a key term.
+          keywords: prompt.keywords || [],
         },
         pageSize: pdfPrefs.pageSize,
         copies: pdfPrefs.copies,

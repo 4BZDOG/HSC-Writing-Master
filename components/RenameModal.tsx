@@ -33,6 +33,17 @@ interface RenameModalProps {
   existingNames?: string[];
   /** Supplied for a dot point only — see RenameFocusAreaGuard. */
   focusAreaGuard?: RenameFocusAreaGuard;
+  /**
+   * Edit the value as multi-line text.
+   *
+   * Syllabus dot points and exam questions routinely run to several lines — a
+   * statement, an "Including:" lead-in, then a bulleted list. A single-line
+   * `<input>` cannot hold them: the browser's value sanitiser strips every
+   * newline the moment the field is touched, so a teacher who edited one word
+   * silently flattened the whole dot point into a run-on and the edit did not
+   * come back looking like what they typed.
+   */
+  multiline?: boolean;
 }
 
 const RenameModal: React.FC<RenameModalProps> = ({
@@ -43,6 +54,7 @@ const RenameModal: React.FC<RenameModalProps> = ({
   initialName,
   existingNames = [],
   focusAreaGuard,
+  multiline = false,
 }) => {
   // Escape closes this modal like every other modal surface.
   useEscapeKey(isOpen, onClose);
@@ -80,6 +92,10 @@ const RenameModal: React.FC<RenameModalProps> = ({
       setError(null);
     }
   }, [newName, initialName, existingNames, targetType]);
+
+  const fieldStyles = error
+    ? 'border-red-500 light:border-red-400 ring-1 ring-red-500'
+    : 'border-[rgb(var(--color-border-secondary))] light:border-slate-300 focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]';
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -147,15 +163,41 @@ const RenameModal: React.FC<RenameModalProps> = ({
             >
               New Name
             </label>
-            <input
-              type="text"
-              id="rename-input"
-              value={newName}
-              onChange={(e) => setNewName(e.target.value)}
-              className={`block w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border rounded-xl shadow-sm py-3 px-4 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none transition ${error ? 'border-red-500 light:border-red-400 ring-1 ring-red-500' : 'border-[rgb(var(--color-border-secondary))] light:border-slate-300 focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]'}`}
-              autoFocus
-              onFocus={(e) => e.target.select()}
-            />
+            {multiline ? (
+              <textarea
+                id="rename-input"
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                onKeyDown={(e) => {
+                  // Enter belongs to the text here — it is how the list below
+                  // the statement gets its lines. Cmd/Ctrl+Enter saves.
+                  if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+                    e.preventDefault();
+                    handleSubmit(e);
+                  }
+                }}
+                rows={6}
+                className={`block w-full resize-y bg-[rgb(var(--color-bg-surface-light))] light:bg-white border rounded-xl shadow-sm py-3 px-4 font-mono text-[13px] leading-relaxed text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none transition ${fieldStyles}`}
+                autoFocus
+              />
+            ) : (
+              <input
+                type="text"
+                id="rename-input"
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                className={`block w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border rounded-xl shadow-sm py-3 px-4 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none transition ${fieldStyles}`}
+                autoFocus
+                onFocus={(e) => e.target.select()}
+              />
+            )}
+            {multiline && (
+              <p className="mt-2 text-[11px] text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                Line breaks are kept. Put the statement on the first line and its focus areas
+                underneath — one per line, or as a bulleted list — and only the statement is used as
+                the label. Cmd/Ctrl + Enter saves.
+              </p>
+            )}
             {error && <p className="text-red-400 light:text-red-600 text-xs mt-2">{error}</p>}
 
             {focusAreaChange && (

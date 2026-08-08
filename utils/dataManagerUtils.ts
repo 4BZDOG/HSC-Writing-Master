@@ -21,11 +21,56 @@ import { generateId } from './idUtils';
 // --- Helpers ---
 
 /**
+ * The lead-ins a syllabus author uses to introduce a list of focus areas.
+ * Shared by the item parser and the stem splitter so both agree on where the
+ * dot point stops being a statement and starts being a list.
+ */
+const LIST_LEAD_IN =
+  /\b(?:incl(?:uding|udes)|such\s+as|for\s+example|e\.g\.|i\.e\.|namely)\s*:?\s*/i;
+
+/** A line that a syllabus author has written as a bullet: "* x", "- x", "1. x". */
+const BULLET_LINE = /^\s*(?:[*\-–—•·]|\(?\d+[.)]|\(?[a-z][.)])\s+/;
+
+/** Leading bullet/number markers stripped from a bullet line's text. */
+const stripBulletMarker = (line: string): string => line.replace(BULLET_LINE, '').trim();
+
+/**
+ * Focus areas written as their own lines rather than as inline prose.
+ *
+ * Imported and AI-parsed syllabus text routinely arrives as a stem followed by
+ * "Including:" and a bulleted list — the shape NESA prints. Run through the
+ * inline heuristics below, `[^.]+` swallowed the whole block and returned it as
+ * ONE focus area ("* biophysical * economic * technological …"), which is worse
+ * than finding nothing: it put an unusable option in the Active Focus menu.
+ */
+const parseBulletedSubItems = (description: string): string[] => {
+  const lines = description.split(/\r?\n/);
+  if (lines.length < 2) return [];
+
+  const bulletItems = lines.filter((line) => BULLET_LINE.test(line)).map(stripBulletMarker);
+  if (bulletItems.length >= 2) return bulletItems.filter((item) => item.length > 1);
+
+  // No bullet glyphs, but a bare "Including:" line still marks everything after
+  // it as the list — one item per line.
+  const leadInIndex = lines.findIndex((line) => /^\s*(?:including|includes)\s*:?\s*$/i.test(line));
+  if (leadInIndex === -1) return [];
+  return lines
+    .slice(leadInIndex + 1)
+    .map((line) => stripBulletMarker(line).replace(/[.;,]$/, ''))
+    .filter((line) => line.length > 1);
+};
+
+/**
  * Heuristic engine to extract sub-items (examples) from NESA syllabus descriptions.
  * Detects patterns like "including X, Y and Z", "including: A; B; C", or "(A, B, C)".
  */
 export const parseSubItemsFromDescription = (description: string): string[] => {
   if (!description) return [];
+
+  // A list the author already broke into lines needs no guessing — take it as
+  // written before the prose heuristics get a chance to mangle it.
+  const bulleted = parseBulletedSubItems(description);
+  if (bulleted.length > 0) return Array.from(new Set(bulleted));
 
   // Normalise string: remove extra spaces and standardise punctuation
   const cleanDesc = description.replace(/\s+/g, ' ').trim();
@@ -131,6 +176,75 @@ export const getFocusAreas = (dotPoint?: {
   if (dotPoint.focusAreas) return dotPoint.focusAreas;
   return parseSubItemsFromDescription(dotPoint.description || '');
 };
+
+/**
+ * A dot point's statement, with the "including …" list it carries removed.
+ *
+ * A NESA dot point is a statement followed by the focus areas that narrow it:
+ *
+ *     Influences on the global economic activity
+ *     Including:
+ *       * biophysical
+ *       * economic
+ *
+ * The whole block used to be the dot point's label in the navigator, WHILE the
+ * same items were also offered in the Active Focus menu beside it — the list
+ * read twice, once as an unscannable wall and once as the control that actually
+ * does something. This returns the statement alone for display; the description
+ * itself is untouched, so the focus-area parser, the question generator and the
+ * AI's grounding still see the full wording.
+ *
+ * The trailing list is dropped only when doing so leaves a statement worth
+ * reading and takes away at least two items — a dot point that ends
+ * "…, including unit conversions" says something the label would lose.
+ */
+export const splitDotPointDescription = (
+  description?: string
+): { stem: string; items: string[] } => {
+  const full = (description || '').trim();
+  const items = parseSubItemsFromDescription(full);
+  const fallback = { stem: full, items };
+  if (items.length < 2) return fallback;
+
+  // Where the list begins: the author's own line break wins over the inline
+  // lead-in, since a bulleted block can restate "Including:" on its own line.
+  const lines = full.split(/\r?\n/);
+  const firstListLine = lines.findIndex(
+    (line, i) =>
+      i > 0 && (BULLET_LINE.test(line) || /^\s*(?:including|includes)\s*:?\s*$/i.test(line))
+  );
+
+  let stem: string;
+  if (firstListLine > 0) {
+    stem = lines.slice(0, firstListLine).join(' ');
+  } else {
+    const match = LIST_LEAD_IN.exec(full);
+    // Only a TRAILING list is furniture. A lead-in mid-sentence is part of the
+    // statement, and cutting there would leave a fragment.
+    if (!match || match.index === 0) return fallback;
+    stem = full.slice(0, match.index);
+  }
+
+  // Bracketed lists sit inside the sentence: "…information (including graphs,
+  // keys, …)" — drop the whole bracket rather than leaving a dangling "(".
+  stem = stem.replace(/[([]\s*$/, '');
+  stem = stem
+    .replace(/\s+/g, ' ')
+    .replace(/[\s,;:—–-]+$/, '')
+    .trim();
+
+  // Too little left to name the dot point by — keep the original wording.
+  if (stem.split(/\s+/).filter(Boolean).length < 3) return fallback;
+  return { stem, items };
+};
+
+/**
+ * How a dot point should be LABELLED in the UI (navigator, breadcrumbs).
+ * Never use this where the full syllabus wording is meant — AI grounding, the
+ * rename dialog, or anything written back to the syllabus.
+ */
+export const getDotPointLabel = (dotPoint?: { description?: string }): string =>
+  splitDotPointDescription(dotPoint?.description).stem;
 
 export const formatMarkingCriteria = (criteria: unknown): string => {
   if (!criteria) return '';

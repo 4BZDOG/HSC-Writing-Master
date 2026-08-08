@@ -277,6 +277,7 @@ const drawBlock = (
       const pt = r.baseFontPt * pScale;
       cursor += drawLines(doc, block.wrapped[index] ?? [r.text], {
         ...ctx,
+        richLines: block.wrappedRich?.[index],
         x: xLeft + indent,
         y: cursor,
         fontPt: pt,
@@ -310,6 +311,7 @@ const drawBlock = (
   }
   const textHeight = drawLines(doc, block.wrapped[0] ?? [r.text], {
     ...ctx,
+    richLines: block.wrappedRich?.[0],
     x: textX,
     y: y + ascentMm(pt),
     fontPt: pt,
@@ -468,6 +470,7 @@ const drawCriterion = (
   doc.rect(xLeft, feedbackTop, LAYOUT.accentBarBaseMm * pScale, feedbackHeight, 'F');
   drawLines(doc, block.wrapped[0] ?? [r.text], {
     ...ctx,
+    richLines: block.wrappedRich?.[0],
     x: xLeft + indent,
     y: feedbackTop + ascentMm(feedbackPt),
     fontPt: feedbackPt,

@@ -4,7 +4,7 @@
 // transforms live in ./text and are re-exported here so callers have one
 // import surface. Anything DOM-dependent (emoji canvas, toast) is guarded.
 
-import { FontStyle, JsPdfLike, MM_PER_PT, TextMeasurer } from './types';
+import { FontStyle, InlineSpan, JsPdfLike, MM_PER_PT, TextMeasurer } from './types';
 import { containsEmoji, degradeToAscii, toText } from './text';
 
 export { toText, degradeToAscii, containsEmoji };
@@ -63,6 +63,15 @@ export const createMeasurer = (doc: JsPdfLike, ctx: TextStyleCtx): TextMeasurer 
   },
   lineHeight(fontPt, lineHeightFactor) {
     return fontPt * lineHeightFactor * MM_PER_PT;
+  },
+  measure(text, fontPt, style) {
+    // Same ASCII degradation the drawing will apply, for the same reason `wrap`
+    // applies it: measuring the Unicode and painting the fallback is how a line
+    // ends up wider than the column it was fitted to.
+    const t = ctx.customFontAvailable ? text : degradeToAscii(text);
+    doc.setFont(ctx.family, resolveFontStyle(ctx.family, style, ctx.customFontAvailable));
+    doc.setFontSize(fontPt);
+    return doc.getTextWidth(t);
   },
 });
 
@@ -136,7 +145,42 @@ export interface DrawLinesOptions extends TextStyleCtx {
   lineHeightFactor?: number;
   maxWidthMm?: number;
   emojiSupersample?: number;
+  /**
+   * The same lines as styled spans, one array per entry in `lines`.
+   *
+   * When present each line is painted span by span — **bold** emphasis,
+   * syllabus keywords in emerald, the command verb in the accent colour — so
+   * the printed report reads in the voice the screen does. `style` and `color`
+   * remain the defaults for spans that ask for neither.
+   */
+  richLines?: InlineSpan[][] | null;
 }
+
+/**
+ * Draw one line as a sequence of styled spans, advancing the pen by each
+ * span's measured width. Returns nothing: the caller owns the line advance, so
+ * a styled line occupies exactly the height its plain twin would.
+ */
+const drawSpanLine = (
+  doc: JsPdfLike,
+  spans: InlineSpan[],
+  x: number,
+  y: number,
+  opts: DrawLinesOptions
+): void => {
+  const { fontPt, style = 'normal', color = [0, 0, 0] } = opts;
+  let cursorX = x;
+  for (const span of spans) {
+    const text = opts.customFontAvailable ? span.text : degradeToAscii(span.text);
+    if (!text) continue;
+    const spanStyle = span.style ?? style;
+    setStyle(doc, opts, fontPt, spanStyle, span.color ?? color);
+    doc.text(text, cursorX, y, { baseline: 'alphabetic' });
+    // Re-measure under the style just used — jsPDF's getTextWidth reads the
+    // CURRENT font, which setStyle has already put in place.
+    cursorX += doc.getTextWidth(text);
+  }
+};
 
 /**
  * Draw already-wrapped lines. Routes any emoji-bearing line through the canvas
@@ -156,8 +200,19 @@ export const drawLines = (doc: JsPdfLike, lines: string[], opts: DrawLinesOption
   const lineMm = fontPt * lineHeightFactor * MM_PER_PT;
   let cursorY = y;
 
-  for (const raw of lines) {
+  for (let i = 0; i < lines.length; i++) {
+    const raw = lines[i];
     const line = opts.customFontAvailable ? raw : degradeToAscii(raw);
+    const spans = opts.richLines?.[i];
+    // Styled path, but only where the pen starts at a known left edge. A
+    // centred or right-aligned line would need the whole line's width measured
+    // first, and nothing rich is drawn that way — headers and footers are the
+    // aligned text, and they are plain.
+    if (spans && spans.length > 0 && align === 'left' && !containsEmoji(line)) {
+      drawSpanLine(doc, spans, x, cursorY, opts);
+      cursorY += lineMm;
+      continue;
+    }
     if (containsEmoji(line)) {
       const img = renderEmojiToImage(line, fontPt, opts.emojiSupersample ?? 3);
       if (img) {

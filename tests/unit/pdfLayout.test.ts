@@ -234,6 +234,12 @@ const fakeMeasurer = (charsPerMm = 1): TextMeasurer => ({
   lineHeight(fontPt, factor) {
     return fontPt * factor * 0.3528;
   },
+  // Inverse of `wrap`'s char budget, so a rich wrap of the same text breaks
+  // where the plain wrap would — bold costs nothing extra here, which keeps
+  // the layout assertions above about layout rather than about font metrics.
+  measure(text, fontPt) {
+    return (text.length * (fontPt / 10)) / charsPerMm;
+  },
 });
 
 describe('chooseScale', () => {

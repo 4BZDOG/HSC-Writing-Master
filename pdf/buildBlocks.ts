@@ -6,6 +6,7 @@
 
 import { ContentBlock, TextRun } from './types';
 import { normalizeContent } from './text';
+import { parseInlineSpans, type InlineOptions } from './inline';
 import { diffWords, groupedChanges, summariseDiff } from '../utils/textDiff';
 
 /** Brand palette (RGB 0-255). */
@@ -19,6 +20,18 @@ export const COLORS = {
   rule: [203, 213, 225] as [number, number, number],
   chipBg: [238, 242, 255] as [number, number, number],
   slate: [100, 116, 139] as [number, number, number],
+  /**
+   * Syllabus terms and the command verb, in print.
+   *
+   * These are the light-theme colours the app already highlights with —
+   * `KEYWORD_HIGHLIGHT_CLASS`'s emerald-800 and the accent — rather than the
+   * dark-theme ones, because paper is white. The screen's tinted background
+   * behind a keyword has no print equivalent worth having (a wash of green
+   * behind every third word is unreadable on a school laser printer), so the
+   * ink carries it alone.
+   */
+  keyword: [6, 95, 70] as [number, number, number], // emerald-800
+  verb: [67, 56, 202] as [number, number, number], // indigo-700
 };
 
 /** Map an HSC performance band to an accent colour. */
@@ -56,6 +69,12 @@ export interface EvaluationExportData {
   keywordsTotal?: number;
   /** Ruled space at the end for a teacher's handwritten notes. */
   markerNotes?: boolean;
+  /**
+   * The question's syllabus terms, coloured wherever they appear in the report
+   * — the same terms the app highlights on screen. Omit and the prose prints in
+   * body colour throughout, which is what every export did before.
+   */
+  keywords?: string[];
 }
 
 let seq = 0;
@@ -66,6 +85,35 @@ const run = (text: string, baseFontPt: number, extra: Partial<TextRun> = {}): Te
   baseFontPt,
   ...extra,
 });
+
+/**
+ * A run of model prose, carrying the same emphasis and highlighting it has on
+ * screen: **bold** from the marker, syllabus keywords in emerald, the command
+ * verb in the accent colour.
+ *
+ * Used for everything a marker or a student actually wrote — the question, the
+ * response, the commentary, the criteria, the rewrite. Plain `run()` stays for
+ * the report's own furniture (headings, metric strings, "3 words added"), where
+ * there is no author's emphasis to preserve and a stray asterisk in a metric
+ * line should not silently bold half of it.
+ */
+const richRun = (
+  text: string,
+  baseFontPt: number,
+  extra: Partial<TextRun> = {},
+  highlight: InlineOptions = {}
+): TextRun => {
+  const base = run(text, baseFontPt, extra);
+  return {
+    ...base,
+    spans: parseInlineSpans(text ?? '', {
+      baseStyle: extra.style ?? 'normal',
+      keywordColor: COLORS.keyword,
+      verbColor: COLORS.verb,
+      ...highlight,
+    }),
+  };
+};
 
 const heading = (label: string, accent = COLORS.accent): ContentBlock => ({
   kind: 'heading',
@@ -100,6 +148,9 @@ const divider = (): ContentBlock => ({
 export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[] => {
   seq = 0;
   const blocks: ContentBlock[] = [];
+  // One highlighting brief for the whole report, so a syllabus term is the same
+  // colour in the student's response, the marker's commentary and the rewrite.
+  const hl: InlineOptions = { keywords: data.keywords, verb: data.verb };
 
   // 1. Question -------------------------------------------------------------
   blocks.push(heading('Question'));
@@ -126,7 +177,7 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
   blocks.push({
     kind: 'paragraph',
     id: nid('q'),
-    runs: [run(data.question, 12.5, { color: COLORS.ink, lineHeightFactor: 1.25 })],
+    runs: [richRun(data.question, 12.5, { color: COLORS.ink, lineHeightFactor: 1.25 }, hl)],
     breakable: true,
     basePadBottom: 2,
   });
@@ -161,7 +212,7 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
     blocks.push({
       kind: 'paragraph',
       id: nid('ans'),
-      runs: [run(data.studentAnswer, 9.5, { color: COLORS.body, lineHeightFactor: 1.35 })],
+      runs: [richRun(data.studentAnswer, 9.5, { color: COLORS.body, lineHeightFactor: 1.35 }, hl)],
       accent: COLORS.slate,
       breakable: true,
       basePadBottom: 2,
@@ -175,7 +226,12 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
       kind: 'paragraph',
       id: nid('tip'),
       runs: [
-        run(data.quickTip, 9.5, { style: 'italic', color: COLORS.body, lineHeightFactor: 1.3 }),
+        richRun(
+          data.quickTip,
+          9.5,
+          { style: 'italic', color: COLORS.body, lineHeightFactor: 1.3 },
+          hl
+        ),
       ],
       accent,
       breakable: true,
@@ -189,7 +245,7 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
     blocks.push({
       kind: 'paragraph',
       id: nid('comm'),
-      runs: [run(data.overallFeedback, 10, { color: COLORS.body, lineHeightFactor: 1.35 })],
+      runs: [richRun(data.overallFeedback, 10, { color: COLORS.body, lineHeightFactor: 1.35 }, hl)],
       breakable: true,
       basePadBottom: 2,
     });
@@ -202,7 +258,7 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
       blocks.push({
         kind: 'listItem',
         id: nid('str'),
-        runs: [run(s, 9.5, { color: COLORS.body, lineHeightFactor: 1.3 })],
+        runs: [richRun(s, 9.5, { color: COLORS.body, lineHeightFactor: 1.3 }, hl)],
         accent: COLORS.emerald,
         breakable: true,
         basePadBottom: 1.4,
@@ -220,7 +276,7 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
       blocks.push({
         kind: 'listItem',
         id: nid('imp'),
-        runs: [run(im, 9.5, { color: COLORS.body, lineHeightFactor: 1.3 })],
+        runs: [richRun(im, 9.5, { color: COLORS.body, lineHeightFactor: 1.3 }, hl)],
         accent: COLORS.rose,
         checkbox: true,
         breakable: true,
@@ -242,7 +298,7 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
         // arithmetic — and a column of them shows which criterion cost the
         // most marks without reading a word.
         meter: { value: c.mark, max: c.maxMark },
-        runs: [run(c.feedback, 9, { color: COLORS.body, lineHeightFactor: 1.3 })],
+        runs: [richRun(c.feedback, 9, { color: COLORS.body, lineHeightFactor: 1.3 }, hl)],
         accent: COLORS.accent,
         breakable: true,
         basePadTop: 1,
@@ -264,7 +320,7 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
     blocks.push({
       kind: 'paragraph',
       id: nid('rev'),
-      runs: [run(data.revisedAnswer, 9.5, { color: COLORS.ink, lineHeightFactor: 1.4 })],
+      runs: [richRun(data.revisedAnswer, 9.5, { color: COLORS.ink, lineHeightFactor: 1.4 }, hl)],
       accent: exAccent,
       breakable: true,
       basePadBottom: 2,

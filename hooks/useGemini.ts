@@ -92,6 +92,18 @@ export const useGemini = ({
   // asked "how do I get the next mark", and the answer is the comparison, not a
   // block of new prose they have to eyeball against their own.
   const [showImprovementReview, setShowImprovementReview] = useState(false);
+  /**
+   * True while the diff review is standing IN FRONT of the marking feedback
+   * rather than having been opened from it.
+   *
+   * Marking returns the student's own answer lifted one mark, and the comparison
+   * is the most teachable thing in the whole result: it names the handful of
+   * words that earned the extra mark. Behind a "Compare with mine" button most
+   * students never pressed it, so the diff now opens first and the feedback
+   * summary waits behind it. The flag exists so the review's primary action can
+   * say where it leads ("See my full feedback") instead of just closing.
+   */
+  const [improvementReviewLeadsToFeedback, setImprovementReviewLeadsToFeedback] = useState(false);
 
   const [isGeneratingScenario, setIsGeneratingScenario] = useState(false);
   const [generateScenarioError, setGenerateScenarioError] = useState<string | null>(null);
@@ -167,6 +179,7 @@ export const useGemini = ({
       setEvaluationError(null);
       setImprovement(null);
       setShowImprovementReview(false);
+      setImprovementReviewLeadsToFeedback(false);
       const evalStart = Date.now();
       emitEvalProgress({ phase: 'started', message: 'Preparing evaluation...' });
       try {
@@ -256,6 +269,20 @@ export const useGemini = ({
         // feedback modal over a different question.
         if (activePromptIdRef.current === prompt.id) {
           setEvaluationResult(result);
+          // Lead with the comparison when marking produced a rewrite: "here are
+          // the words that would have earned the next mark" lands before a page
+          // of criteria, not after it. Guarded on the TEXT for the same reason
+          // the library save is — a free-tier result carries a truthy but empty
+          // rewrite, and opening an empty diff over the feedback would be a
+          // blank screen between the student and their mark.
+          const rewrite =
+            typeof result.revisedAnswer === 'string'
+              ? result.revisedAnswer
+              : (result.revisedAnswer?.text ?? '');
+          if (rewrite.trim()) {
+            setImprovementReviewLeadsToFeedback(true);
+            setShowImprovementReview(true);
+          }
           const elapsed2 = Math.round((Date.now() - evalStart) / 1000);
           showToast(`Marking complete in ${elapsed2}s. Results auto-saved to library.`, 'success');
         }
@@ -295,6 +322,7 @@ export const useGemini = ({
     setEvaluationError(null);
     setImprovement(null);
     setShowImprovementReview(false);
+    setImprovementReviewLeadsToFeedback(false);
     setIsEvaluating(false);
     setIsImproving(false);
   }, []);
@@ -309,6 +337,9 @@ export const useGemini = ({
       setImproveAnswerError(null);
       setImprovement(null);
       setShowImprovementReview(false);
+      // "Improve my answer" is pressed FROM the feedback summary, so this
+      // review is a detour off it, not the gateway to it.
+      setImprovementReviewLeadsToFeedback(false);
 
       try {
         // The service owns the target (getNextLevelTarget): one mark up, with
@@ -800,6 +831,7 @@ export const useGemini = ({
     setImprovement,
     showImprovementReview,
     setShowImprovementReview,
+    improvementReviewLeadsToFeedback,
     isGeneratingScenario,
     generateScenarioError,
     isRegeneratingKeywords,
