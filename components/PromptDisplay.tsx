@@ -1012,6 +1012,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               <div className="order-2 sm:order-3 flex items-center gap-2 ml-auto flex-shrink-0">
                 <button
                   onClick={() => setIsFlagModalOpen(true)}
+                  aria-label={
+                    hasOpenFlag ? 'View the flag on this question' : 'Flag this question for review'
+                  }
                   className={`p-1.5 sm:p-2 rounded-lg border transition-all ${
                     hasOpenFlag
                       ? 'bg-amber-500/15 border-amber-500/40 text-amber-500 hover:bg-amber-500/25'
@@ -1029,6 +1032,10 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 <div className="flex items-center gap-1 bg-black/10 light:bg-slate-200/50 backdrop-blur-xl p-1 rounded-lg border border-white/10 light:border-slate-300 shadow-inner">
                   <button
                     onClick={() => onFontSizeChange(Math.max(12, fontSize - 2))}
+                    // Icon-only, so it needs a name of its own: `title` is a
+                    // tooltip, and not every screen reader treats one as the
+                    // accessible name.
+                    aria-label="Decrease reading size"
                     className="p-1 sm:p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-md transition-colors"
                     title="Decrease font size"
                   >
@@ -1039,6 +1046,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   </span>
                   <button
                     onClick={() => onFontSizeChange(Math.min(48, fontSize + 2))}
+                    aria-label="Increase reading size"
                     className="p-1 sm:p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-md transition-colors"
                     title="Increase font size"
                   >

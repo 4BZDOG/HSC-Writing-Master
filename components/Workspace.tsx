@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useRef, useState, useEffect } from 'react';
 import {
   Course,
   StatePath,
@@ -294,6 +294,89 @@ const Workspace: React.FC<WorkspaceProps> = ({
     }
   };
 
+  /**
+   * Which question the text in the writing surface belongs to.
+   *
+   * Switching questions replaces `userAnswer` in an effect, so for a moment the
+   * new question is selected while the previous question's words are still in
+   * state. Autosaving in that window would write one student's answer onto
+   * another question, so every autosave checks this first.
+   *
+   * Deliberately NOT set when the question changes — that would trust the
+   * switch rather than the text. It is set when the answer on screen is
+   * demonstrably the one belonging to the selected question (it matches that
+   * question's stored draft), and cleared the moment the selection moves.
+   */
+  const answerBelongsTo = useRef<string | undefined>(undefined);
+
+  /**
+   * Everything a save needs, captured together every render.
+   *
+   * A save must never mix a path from one render with an answer from another —
+   * that is precisely how a student's words end up filed under someone else's
+   * question. The three travel as one snapshot, so whichever moment a flush
+   * fires in, it writes an answer to the question that answer came from.
+   */
+  const latestDraft = useRef({
+    promptId: currentPrompt?.id,
+    path: statePath,
+    answer: userAnswer,
+    stored: currentPrompt?.userDraft,
+  });
+  latestDraft.current = {
+    promptId: currentPrompt?.id,
+    path: statePath,
+    answer: userAnswer,
+    stored: currentPrompt?.userDraft,
+  };
+
+  const flushDraft = useCallback(() => {
+    const { promptId, path, answer, stored } = latestDraft.current;
+    if (!promptId || answerBelongsTo.current !== promptId) return;
+    if (answer === (stored ?? '')) return;
+    syllabusHandlers.updateCourses((draft: any) => {
+      findAndUpdateItem(draft, path, (p: any) => {
+        p.userDraft = answer;
+      });
+    });
+  }, [syllabusHandlers]);
+
+  /**
+   * Autosave.
+   *
+   * The draft used to be written only when the writing surface lost focus (or
+   * on Evaluate). A student who typed for twenty minutes and closed the tab,
+   * or whose browser crashed, or who was signed out by the school's idle
+   * timeout, lost the lot — the one thing this app must never do. It now saves
+   * a second after typing stops, which is also what makes the "saved" state in
+   * the footer honest.
+   */
+  useEffect(() => {
+    flushDraft();
+  }, [debouncedUserAnswer, flushDraft]);
+
+  /**
+   * …and once more on the way out.
+   *
+   * `pagehide` is what actually fires when a tab is closed or the page enters
+   * the back/forward cache; `visibilitychange` covers switching apps on a
+   * phone, which is how most sessions on a phone end. Unmounting counts too —
+   * leaving the workspace must not cost the words typed since the last idle
+   * save.
+   */
+  useEffect(() => {
+    const onHidden = () => {
+      if (document.visibilityState === 'hidden') flushDraft();
+    };
+    window.addEventListener('pagehide', flushDraft);
+    document.addEventListener('visibilitychange', onHidden);
+    return () => {
+      window.removeEventListener('pagehide', flushDraft);
+      document.removeEventListener('visibilitychange', onHidden);
+      flushDraft();
+    };
+  }, [flushDraft]);
+
   const handleSuggestOutcomes = async () => {
     if (!currentPrompt || !currentCourse || isSuggestingOutcomes) return;
     setIsSuggestingOutcomes(true);
@@ -350,8 +433,21 @@ const Workspace: React.FC<WorkspaceProps> = ({
   };
 
   useEffect(() => {
+    // The selection has moved: nothing in the writing surface belongs to it
+    // until the load below has actually landed.
+    answerBelongsTo.current = undefined;
     setUserAnswer(currentPrompt?.userDraft || '');
   }, [currentPrompt?.id, setUserAnswer]);
+
+  // …and it has landed once what is on screen is what was stored. From then on
+  // the student's own edits keep the ownership, which is what makes autosaving
+  // them safe.
+  useEffect(() => {
+    if (!currentPrompt) return;
+    if (userAnswer === (currentPrompt.userDraft ?? '')) {
+      answerBelongsTo.current = currentPrompt.id;
+    }
+  }, [userAnswer, currentPrompt?.id, currentPrompt?.userDraft]);
 
   if (!currentPrompt) return null;
 
@@ -571,7 +667,13 @@ const Workspace: React.FC<WorkspaceProps> = ({
           // A response is only worth marking — and the feedback only worth
           // reading — if the student wrote it. Curators keep paste: moving
           // sample answers in and out of this surface is part of the job.
-          blockPaste={!canCurateContent(userRole)}
+          // Exam Mode is the exception to the exception: it simulates sitting
+          // the paper, and nobody pastes into an exam booklet.
+          blockPaste={isExamMode || !canCurateContent(userRole)}
+          // Truthful rather than optimistic: this compares what is on screen
+          // with what is actually in storage, so "Saved" is never shown over
+          // unsaved words.
+          draftSaved={userAnswer === (currentPrompt.userDraft ?? '')}
         />
 
         {!isFocusMode && (

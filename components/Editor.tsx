@@ -32,6 +32,7 @@ import {
   GraduationCap,
   ChevronDown,
   X,
+  Loader2,
 } from 'lucide-react';
 import { PromptVerb, WritingMode } from '../types';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
@@ -79,6 +80,8 @@ interface EditorProps {
   minFooterHeight?: number;
   writingMode?: WritingMode;
   onWritingModeChange?: (mode: WritingMode) => void;
+  /** Whether everything typed has reached storage. See the footer. */
+  draftSaved?: boolean;
   /** Refuse pasted (and dragged-in) text, with a note explaining why.
    *  Set for students: an HSC response is worth marking only if it is the
    *  student's own typing. Curators keep paste — they move sample answers and
@@ -169,6 +172,7 @@ const Editor = forwardRef<
       onWritingModeChange,
       footerAction,
       blockPaste = false,
+      draftSaved,
     },
     ref
   ) => {
@@ -878,6 +882,26 @@ const Editor = forwardRef<
                   <FileText className="w-3.5 h-3.5 opacity-50" /> {wordCount}{' '}
                   {wordCount === 1 ? 'Word' : 'Words'}
                 </span>
+                {/* The draft saves itself a second after typing stops. Saying so
+                  is the point: a student who cannot see that their work is kept
+                  has no reason to believe it, and this app asks them to type a
+                  page of prose into a browser tab. Only shown once there is
+                  something to lose. */}
+                {draftSaved !== undefined && value.trim() !== '' && (
+                  <span
+                    className={`hidden sm:flex items-center gap-1.5 transition-colors ${
+                      draftSaved ? 'text-emerald-500/80' : 'text-[rgb(var(--color-text-dim))]'
+                    }`}
+                    title={draftSaved ? 'Your draft is saved on this device' : 'Saving your draft…'}
+                  >
+                    {draftSaved ? (
+                      <Check className="w-3.5 h-3.5" />
+                    ) : (
+                      <Loader2 className="w-3.5 h-3.5 animate-spin opacity-50" />
+                    )}
+                    {draftSaved ? 'Saved' : 'Saving'}
+                  </span>
+                )}
               </div>
               <div className="flex items-center gap-3 sm:gap-5 ml-auto">
                 <div className="flex items-center gap-2.5">

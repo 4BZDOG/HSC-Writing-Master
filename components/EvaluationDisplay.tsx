@@ -24,6 +24,7 @@ import {
   Trophy,
   ClipboardList,
   FileDown,
+  Settings2,
   Loader2,
   Save,
   ArrowUpCircle,
@@ -43,6 +44,12 @@ import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import ResponseFeedback from './ResponseFeedback';
 import { exportEvaluationPdf } from '../pdf';
+import PdfExportOptions from './PdfExportOptions';
+import {
+  PdfExportPreferences,
+  readPdfPreferences,
+  writePdfPreferences,
+} from '../utils/pdfExportPreferences';
 import { isFeatureLocked, isFeedbackLocked, requestUpgrade } from '../services/entitlements';
 import { PlusLockChip, ContentLockOverlay } from './UpgradeModal';
 import { AI_MARKING_DISCLAIMER } from '../data/legalContent';
@@ -255,6 +262,16 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
   // Vector-PDF export state (guards double-clicks, drives the button spinner).
   const [isExporting, setIsExporting] = useState(false);
   const [exportStatus, setExportStatus] = useState('');
+  // Paper, copies and what goes in the report. Read once from the device's
+  // stored preferences so a teacher printing a class set sets them once.
+  const [pdfPrefs, setPdfPrefs] = useState<PdfExportPreferences>(() => readPdfPreferences());
+  const [showPdfOptions, setShowPdfOptions] = useState(false);
+  const pdfMenuRef = useRef<HTMLDivElement>(null);
+
+  const updatePdfPrefs = (next: PdfExportPreferences) => {
+    setPdfPrefs(next);
+    writePdfPreferences(next);
+  };
 
   /**
    * The rewrite, as this client is allowed to present it.
@@ -344,7 +361,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           verb: prompt.verb,
           totalMarks: prompt.totalMarks,
           syllabusPath: syllabusTrail.join('  ›  ') || undefined,
-          studentAnswer: userAnswer.trim() || undefined,
+          studentAnswer: pdfPrefs.includeResponse ? userAnswer.trim() || undefined : undefined,
           overallMark: result.overallMark,
           overallBand: result.overallBand,
           overallFeedback: result.overallFeedback || '',
@@ -365,7 +382,11 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           wordCount,
           keywordsUsed: keywordsUsedCount,
           keywordsTotal: prompt.keywords?.length || 0,
+          markerNotes: pdfPrefs.markerNotes,
         },
+        pageSize: pdfPrefs.pageSize,
+        copies: pdfPrefs.copies,
+        showFields: pdfPrefs.showFields,
         filename: `HSC-${prompt.verb}-Band${result.overallBand}-Feedback`,
         subtitle: hierarchy
           ? `${hierarchy.topic} — ${hierarchy.subTopic}`
@@ -374,7 +395,8 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
         onProgress: (_fraction, label) => setExportStatus(label),
       });
     } catch {
-      // The exporter already surfaces a toast on engine-load failure.
+      // Every rejection is a PdfExportError the exporter has already toasted,
+      // naming the stage that failed.
     } finally {
       setIsExporting(false);
       setExportStatus('');
@@ -496,39 +518,64 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             </div>
 
             <div className="flex flex-wrap gap-3 no-print">
-              <button
-                onClick={pdfLocked ? () => requestUpgrade('pdfExport') : handleExportPdf}
-                disabled={isExporting}
-                aria-busy={isExporting}
-                title={
-                  pdfLocked ? 'PDF export is part of Band 6 Plus — tap to learn more' : undefined
-                }
-                className={`px-5 py-3 rounded-2xl text-white text-xs font-bold shadow-sm transition-all hover:scale-105 border backdrop-blur-sm flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 ${
-                  pdfLocked
-                    ? 'bg-amber-400/15 hover:bg-amber-400/25 border-amber-300/50'
-                    : 'bg-white/20 hover:bg-white/30 border-white/20'
-                }`}
-              >
-                {isExporting ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    {/* The stage text updates several times during a multi-second
-                        export (engine → fonts → page N of M). aria-busy on the
-                        button says "working", but without a live region none of
-                        the progress is announced. */}
-                    <span role="status" aria-live="polite">
-                      {exportStatus || 'Exporting…'}
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <FileDown className="w-4 h-4" /> Export PDF
-                    {pdfLocked && (
-                      <PlusLockChip className="bg-white/15 border-white/40 text-white" />
-                    )}
-                  </>
-                )}
-              </button>
+              {/* Export, and the options behind a chevron. Splitting them keeps
+                  the common case one click while making paper size, copies and
+                  what goes in the report reachable at all — every one of them
+                  was already supported by the exporter and unreachable. */}
+              <div className="relative flex" ref={pdfMenuRef}>
+                <button
+                  onClick={pdfLocked ? () => requestUpgrade('pdfExport') : handleExportPdf}
+                  disabled={isExporting}
+                  aria-busy={isExporting}
+                  title={
+                    pdfLocked ? 'PDF export is part of Band 6 Plus — tap to learn more' : undefined
+                  }
+                  className={`px-5 py-3 rounded-l-2xl text-white text-xs font-bold shadow-sm transition-all border border-r-0 backdrop-blur-sm flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed ${
+                    pdfLocked
+                      ? 'bg-amber-400/15 hover:bg-amber-400/25 border-amber-300/50'
+                      : 'bg-white/20 hover:bg-white/30 border-white/20'
+                  }`}
+                >
+                  {isExporting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      {/* The stage text updates several times during a multi-second
+                          export (engine → fonts → page N of M). aria-busy on the
+                          button says "working", but without a live region none of
+                          the progress is announced. */}
+                      <span role="status" aria-live="polite">
+                        {exportStatus || 'Exporting…'}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <FileDown className="w-4 h-4" /> Export PDF
+                      {pdfLocked && (
+                        <PlusLockChip className="bg-white/15 border-white/40 text-white" />
+                      )}
+                    </>
+                  )}
+                </button>
+                <button
+                  onClick={() => setShowPdfOptions((v) => !v)}
+                  disabled={isExporting}
+                  aria-label="PDF export options"
+                  aria-expanded={showPdfOptions}
+                  title="Paper size, copies and what to include"
+                  className={`px-2.5 rounded-r-2xl text-white border backdrop-blur-sm transition-all disabled:opacity-60 disabled:cursor-not-allowed ${
+                    showPdfOptions ? 'bg-white/30' : 'bg-white/20 hover:bg-white/30'
+                  } border-white/20`}
+                >
+                  <Settings2 className="w-4 h-4" />
+                </button>
+                <PdfExportOptions
+                  open={showPdfOptions}
+                  onClose={() => setShowPdfOptions(false)}
+                  value={pdfPrefs}
+                  onChange={updatePdfPrefs}
+                  anchorRef={pdfMenuRef}
+                />
+              </div>
               {onSaveToSamples && (
                 <button
                   onClick={onSaveToSamples}

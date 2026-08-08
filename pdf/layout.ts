@@ -24,6 +24,9 @@ import {
   PageSizeName,
   PlacedBlock,
   LAYOUT,
+  BAND_SCALE,
+  METER,
+  RULE_LINES,
   SCORE_SUMMARY,
   TextMeasurer,
   TextRun,
@@ -69,6 +72,24 @@ export const columnLeft = (geo: ColumnGeometry, column: number): number =>
 
 const runLineHeight = (m: TextMeasurer, run: TextRun, pScale: number): number =>
   m.lineHeight(run.baseFontPt * pScale, run.lineHeightFactor ?? 1.15);
+
+/**
+ * Height (mm) of the extras a block can carry — the proportion meter, the band
+ * ladder, the ruled notes. Exported because the drawer needs the identical
+ * numbers: measuring one thing and drawing another is how a two-column flow
+ * ends up with text over its own footer.
+ */
+export const meterHeight = (block: ContentBlock, pScale: number): number =>
+  block.meter ? (METER.gapAboveBaseMm + METER.heightBaseMm + METER.gapBelowBaseMm) * pScale : 0;
+
+export const bandScaleHeight = (block: ContentBlock, pScale: number): number =>
+  block.bandScale
+    ? (BAND_SCALE.gapBaseMm + BAND_SCALE.heightBaseMm + BAND_SCALE.labelPt * MM_PER_PT * 1.4) *
+      pScale
+    : 0;
+
+export const ruleLinesHeight = (block: ContentBlock, pScale: number): number =>
+  block.ruleLines ? block.ruleLines * RULE_LINES.gapBaseMm * pScale : 0;
 
 /**
  * Measure one block's rendered height (mm) at `pScale`, pre-wrapping each run
@@ -135,7 +156,7 @@ export const measureBlock = (
       : [];
     const metricsH =
       metricsLines.length * measurer.lineHeight(metricsPt, SCORE_SUMMARY.metricsLineFactor);
-    const inner = Math.max(chipH, labelH + metricsH);
+    const inner = Math.max(chipH, labelH + metricsH) + bandScaleHeight(block, pScale);
     return {
       ...block,
       wrapped: [metricsLines],
@@ -161,6 +182,7 @@ export const measureBlock = (
     );
     labelHeightMm = labelWrapped.length * measurer.lineHeight(labelPt, 1.3);
   }
+  const labelExtraMm = meterHeight(block, pScale);
 
   const wrapped: string[][] = [];
   let body = 0;
@@ -184,7 +206,9 @@ export const measureBlock = (
     padBottomMm: padBottom,
     lineHeightMm,
     textIndentMm,
-    height: padTop + labelHeightMm + body + padBottom,
+    labelExtraMm,
+    height:
+      padTop + labelHeightMm + labelExtraMm + body + ruleLinesHeight(block, pScale) + padBottom,
   };
 };
 
@@ -247,18 +271,19 @@ const splitParagraph = (b: MeasuredBlock, columnHeight: number): MeasuredBlock[]
 const splitCriterion = (b: MeasuredBlock, columnHeight: number): MeasuredBlock[] => {
   const lh = b.lineHeightMm;
   const labelLines = b.labelWrapped?.length ?? 1;
+  const head = b.padTopMm + labelLines * lh + (b.labelExtraMm ?? 0);
   const feedback = b.wrapped[0];
-  const firstFit = Math.max(1, Math.floor((columnHeight - b.padTopMm - labelLines * lh) / lh));
-  const head = feedback.slice(0, firstFit);
+  const firstFit = Math.max(1, Math.floor((columnHeight - head) / lh));
+  const kept = feedback.slice(0, firstFit);
   const rest = feedback.slice(firstFit);
   const out: MeasuredBlock[] = [];
 
   const headIsLast = rest.length === 0;
   out.push({
     ...b,
-    wrapped: [head],
+    wrapped: [kept],
     padBottomMm: headIsLast ? b.padBottomMm : 0,
-    height: b.padTopMm + labelLines * lh + head.length * lh + (headIsLast ? b.padBottomMm : 0),
+    height: head + kept.length * lh + (headIsLast ? b.padBottomMm : 0),
   });
 
   // Continuation lines render as plain paragraphs (no label) with the bar.
@@ -269,6 +294,10 @@ const splitCriterion = (b: MeasuredBlock, columnHeight: number): MeasuredBlock[]
       label: undefined,
       chip: undefined,
       labelWrapped: undefined,
+      // The head furniture belongs to the first fragment only — a meter
+      // repeated above every continuation would state the same mark twice.
+      meter: undefined,
+      labelExtraMm: 0,
       id: `${b.id}-feedcont`,
       wrapped: [rest],
       padTopMm: 0,

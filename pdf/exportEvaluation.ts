@@ -14,6 +14,9 @@ import {
   PAGE_MARGIN_MM,
   ProgressFn,
   LAYOUT,
+  BAND_SCALE,
+  METER,
+  RULE_LINES,
   SCORE_SUMMARY,
   ToastFn,
 } from './types';
@@ -93,6 +96,115 @@ const geometryFor = (pageSize: PageSizeName, pScale: number): ColumnGeometry =>
 // Block drawing
 // ---------------------------------------------------------------------------
 
+/**
+ * A filled proportion track — marks earned against marks available.
+ *
+ * Colour carries the same judgement the numbers do (earned nearly everything /
+ * most of it / not much), but the FILL LENGTH carries it too, so the meaning
+ * survives a greyscale printer and a colour-blind reader. Nothing here is the
+ * only way to read the fact: the chip beside it states it in numerals.
+ */
+const drawMeter = (
+  doc: JsPdfLike,
+  meter: { value: number; max: number },
+  x: number,
+  y: number,
+  width: number,
+  pScale: number
+): void => {
+  const h = METER.heightBaseMm * pScale;
+  const ratio = meter.max > 0 ? Math.max(0, Math.min(1, meter.value / meter.max)) : 0;
+  const fill =
+    ratio >= METER.strongRatio
+      ? COLORS.emerald
+      : ratio >= METER.fairRatio
+        ? COLORS.accent
+        : COLORS.rose;
+
+  doc.setFillColor(COLORS.rule[0], COLORS.rule[1], COLORS.rule[2]);
+  doc.roundedRect(x, y, width, h, h / 2, h / 2, 'F');
+  if (ratio > 0) {
+    doc.setFillColor(fill[0], fill[1], fill[2]);
+    doc.roundedRect(x, y, Math.max(width * ratio, h), h, h / 2, h / 2, 'F');
+  }
+};
+
+/**
+ * The band ladder: six segments, filled up to the band reached.
+ *
+ * A mark out of 8 is meaningless without the scale it sits on, and "Band 4" is
+ * a number a student has to already know how to read. Drawn as a ladder, both
+ * questions answer themselves — where this response landed, and how far the
+ * next rung is.
+ */
+const drawBandScale = (
+  doc: JsPdfLike,
+  ctx: TextStyleCtx,
+  band: number,
+  accent: [number, number, number],
+  x: number,
+  y: number,
+  width: number,
+  pScale: number
+): void => {
+  const h = BAND_SCALE.heightBaseMm * pScale;
+  const gap = BAND_SCALE.segmentGapBaseMm * pScale;
+  const segW = (width - gap * (BAND_SCALE.segments - 1)) / BAND_SCALE.segments;
+  if (segW <= 0) return;
+
+  for (let i = 0; i < BAND_SCALE.segments; i++) {
+    const segX = x + i * (segW + gap);
+    const reached = i + 1 <= band;
+    if (reached) {
+      doc.setFillColor(accent[0], accent[1], accent[2]);
+      doc.rect(segX, y, segW, h, 'F');
+    } else {
+      doc.setDrawColor(COLORS.rule[0], COLORS.rule[1], COLORS.rule[2]);
+      doc.setLineWidth(0.2 * pScale);
+      doc.rect(segX, y, segW, h, 'S');
+    }
+  }
+
+  // End labels only: six numbered segments would crowd a 40mm column, and the
+  // filled run says which rung this is without counting.
+  const labelPt = BAND_SCALE.labelPt * pScale;
+  drawLines(doc, ['BAND 1'], {
+    ...ctx,
+    x,
+    y: y + h + labelPt * MM_PER_PT * 1.25,
+    fontPt: labelPt,
+    style: 'bold',
+    color: COLORS.muted,
+  });
+  drawLines(doc, ['BAND 6'], {
+    ...ctx,
+    x: x + width,
+    y: y + h + labelPt * MM_PER_PT * 1.25,
+    fontPt: labelPt,
+    style: 'bold',
+    color: COLORS.muted,
+    align: 'right',
+  });
+};
+
+/** Blank ruled lines for handwriting. */
+const drawRuleLines = (
+  doc: JsPdfLike,
+  count: number,
+  x: number,
+  y: number,
+  width: number,
+  pScale: number
+): void => {
+  doc.setDrawColor(COLORS.rule[0], COLORS.rule[1], COLORS.rule[2]);
+  doc.setLineWidth(0.2 * pScale);
+  const gap = RULE_LINES.gapBaseMm * pScale;
+  for (let i = 1; i <= count; i++) {
+    const ly = y + i * gap - RULE_LINES.inset * pScale;
+    doc.line(x, ly, x + width, ly);
+  }
+};
+
 const drawBlock = (
   doc: JsPdfLike,
   ctx: TextStyleCtx,
@@ -134,6 +246,7 @@ const drawBlock = (
       style: r.style ?? 'bold',
       color: r.color ?? COLORS.muted,
       lineHeightFactor: r.lineHeightFactor ?? 1.15,
+      maxWidthMm: colW,
     });
     return;
   }
@@ -143,8 +256,17 @@ const drawBlock = (
     const c = block.accent ?? COLORS.accent;
     const firstPt = block.runs[0].baseFontPt * pScale;
     const baseline = y + ascentMm(firstPt);
-    doc.setFillColor(c[0], c[1], c[2]);
-    doc.rect(xLeft, baseline - firstPt * MM_PER_PT * 0.42, 1.3 * pScale, 1.3 * pScale, 'F');
+    if (block.checkbox) {
+      // An empty box, not a bullet: this is a thing to do, and the report is
+      // printed and worked through.
+      const boxSize = 2.4 * pScale;
+      doc.setDrawColor(c[0], c[1], c[2]);
+      doc.setLineWidth(0.3 * pScale);
+      doc.rect(xLeft, baseline - firstPt * MM_PER_PT * 0.72, boxSize, boxSize, 'S');
+    } else {
+      doc.setFillColor(c[0], c[1], c[2]);
+      doc.rect(xLeft, baseline - firstPt * MM_PER_PT * 0.42, 1.3 * pScale, 1.3 * pScale, 'F');
+    }
 
     // EVERY run, not just the first. `measureBlock` has always reserved height
     // for all of them, so a multi-run item (the diff's "− was / + now" pair)
@@ -161,6 +283,9 @@ const drawBlock = (
         style: r.style ?? 'normal',
         color: r.color ?? COLORS.body,
         lineHeightFactor: r.lineHeightFactor ?? 1.3,
+        // Clamps a rasterised emoji line to the column; without it the image
+        // is drawn at its natural width and can overrun into the next column.
+        maxWidthMm: colW - indent,
       });
     });
     return;
@@ -183,7 +308,7 @@ const drawBlock = (
     doc.setFillColor(c[0], c[1], c[2]);
     doc.rect(xLeft, y, LAYOUT.accentBarBaseMm * pScale, Math.max(barH, pt * MM_PER_PT), 'F');
   }
-  drawLines(doc, block.wrapped[0] ?? [r.text], {
+  const textHeight = drawLines(doc, block.wrapped[0] ?? [r.text], {
     ...ctx,
     x: textX,
     y: y + ascentMm(pt),
@@ -191,7 +316,12 @@ const drawBlock = (
     style: r.style ?? 'normal',
     color: r.color ?? COLORS.body,
     lineHeightFactor: r.lineHeightFactor ?? 1.3,
+    maxWidthMm: colW - block.textIndentMm,
   });
+
+  if (block.ruleLines) {
+    drawRuleLines(doc, block.ruleLines, textX, y + textHeight, colW - block.textIndentMm, pScale);
+  }
 };
 
 const drawScoreSummary = (
@@ -242,17 +372,32 @@ const drawScoreSummary = (
     color: COLORS.muted,
   });
   const r = block.runs[0];
+  let metricsBottom = top + pad + labelPt * SCORE_SUMMARY.labelLineFactor * MM_PER_PT;
   if (r) {
     const pt = r.baseFontPt * pScale;
-    drawLines(doc, block.wrapped[0] ?? [r.text], {
+    metricsBottom += drawLines(doc, block.wrapped[0] ?? [r.text], {
       ...ctx,
       x: textX,
-      y: top + pad + labelPt * SCORE_SUMMARY.labelLineFactor * MM_PER_PT + ascentMm(pt),
+      y: metricsBottom + ascentMm(pt),
       fontPt: pt,
       style: r.style ?? 'bold',
       color: r.color ?? COLORS.body,
       lineHeightFactor: SCORE_SUMMARY.metricsLineFactor,
+      maxWidthMm: colW - pad * 2 - bar - SCORE_SUMMARY.chipReserveBaseMm * pScale,
     });
+  }
+
+  if (block.bandScale) {
+    drawBandScale(
+      doc,
+      ctx,
+      block.bandScale,
+      accent,
+      textX,
+      metricsBottom + BAND_SCALE.gapBaseMm * pScale,
+      xLeft + colW - pad - textX,
+      pScale
+    );
   }
 };
 
@@ -285,6 +430,7 @@ const drawCriterion = (
     style: 'bold',
     color: COLORS.ink,
     lineHeightFactor: 1.3,
+    maxWidthMm: colW - indent - (block.chip ? LAYOUT.criterionChipReserveBaseMm * pScale : 0),
   });
   if (block.chip) {
     drawLines(doc, [block.chip], {
@@ -298,8 +444,23 @@ const drawCriterion = (
     });
   }
 
+  // The proportion meter sits between the title and the feedback, spanning the
+  // text column. `labelExtraMm` is the height measurement already reserved for
+  // it — read, never recomputed, so the drawing cannot disagree with the flow.
+  const meterBlockHeight = block.labelExtraMm ?? 0;
+  if (block.meter && meterBlockHeight > 0) {
+    drawMeter(
+      doc,
+      block.meter,
+      xLeft + indent,
+      y + labelLines.length * labelLineMm + METER.gapAboveBaseMm * pScale,
+      colW - indent,
+      pScale
+    );
+  }
+
   // Left accent bar beside the feedback.
-  const feedbackTop = y + labelLines.length * labelLineMm;
+  const feedbackTop = y + labelLines.length * labelLineMm + meterBlockHeight;
   const feedbackPt = r.baseFontPt * pScale;
   const feedbackHeight =
     (block.wrapped[0]?.length ?? 1) * feedbackPt * (r.lineHeightFactor ?? 1.3) * MM_PER_PT;
@@ -313,6 +474,7 @@ const drawCriterion = (
     style: r.style ?? 'normal',
     color: r.color ?? COLORS.body,
     lineHeightFactor: r.lineHeightFactor ?? 1.3,
+    maxWidthMm: colW - indent,
   });
 };
 
@@ -321,8 +483,38 @@ const drawCriterion = (
 // ---------------------------------------------------------------------------
 
 /**
+ * A failure the user can be told something useful about.
+ *
+ * The export runs through four stages that fail for genuinely different
+ * reasons — the engine chunk not loading (offline, blocked CDN-less network),
+ * the layout throwing on pathological content, the draw loop, and the browser
+ * refusing the download. A bare "Export failed" sends a teacher to support with
+ * nothing; naming the stage is the difference between a shrug and a fix.
+ */
+export class PdfExportError extends Error {
+  constructor(
+    readonly stage: 'engine' | 'layout' | 'render' | 'save',
+    message: string,
+    readonly cause?: unknown
+  ) {
+    super(message);
+    this.name = 'PdfExportError';
+  }
+}
+
+const STAGE_MESSAGE: Record<PdfExportError['stage'], string> = {
+  engine: 'The PDF engine could not be loaded. Check your connection and try again.',
+  layout: 'This report could not be laid out. Try again, or export without the student response.',
+  render: 'The PDF could not be drawn. Try again, or export without the improved response.',
+  // Overwhelmingly the common cause, and the one the user can act on.
+  save: 'The browser blocked the download. Allow downloads for this site and try again.',
+};
+
+/**
  * Generate and save a vector PDF of the marking-feedback report. Resolves with
- * a summary {pages, copies}; rejects only if the engine itself cannot load.
+ * a summary {pages, copies}; rejects with a PdfExportError naming the stage
+ * that failed — every rejection has already been surfaced to the user as a
+ * toast, so a caller may safely ignore it.
  */
 export const exportEvaluationPdf = async (
   opts: ExportEvaluationOptions
@@ -337,9 +529,9 @@ export const exportEvaluationPdf = async (
   try {
     JsPDF = await loadJsPdf();
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Failed to load the PDF engine.';
+    const message = err instanceof Error ? err.message : STAGE_MESSAGE.engine;
     toast(message, 'error');
-    throw err;
+    throw new PdfExportError('engine', message, err);
   }
 
   const dims = PAGE_DIMENSIONS[pageSize];
@@ -363,26 +555,34 @@ export const exportEvaluationPdf = async (
 
   // Build + measure + choose a scale that fits the target page budget.
   progress(0.25, 'Laying out content…');
-  const blocks = buildEvaluationBlocks(opts.data);
-  const measurer = createMeasurer(doc, ctx);
-  const targetPages = opts.data.studentAnswer?.trim() ? TARGET_PAGES_WITH_ANSWER : TARGET_PAGES;
-  const choice = chooseScale(
-    blocks,
-    measurer,
-    (s) => geometryFor(pageSize, s),
-    SCALE_CANDIDATES,
-    targetPages
-  );
-  const pScale = choice.pScale;
-  const geo = geometryFor(pageSize, pScale);
-  const {
-    flow: { placements, pageCount },
-  } = planLayout(blocks, measurer, geo, pScale);
+  let pScale: number;
+  let geo: ColumnGeometry;
+  let pageCount: number;
+  let byPage: MeasuredBlockPlacement[][];
+  try {
+    const blocks = buildEvaluationBlocks(opts.data);
+    const measurer = createMeasurer(doc, ctx);
+    const targetPages = opts.data.studentAnswer?.trim() ? TARGET_PAGES_WITH_ANSWER : TARGET_PAGES;
+    const choice = chooseScale(
+      blocks,
+      measurer,
+      (s) => geometryFor(pageSize, s),
+      SCALE_CANDIDATES,
+      targetPages
+    );
+    pScale = choice.pScale;
+    geo = geometryFor(pageSize, pScale);
+    const plan = planLayout(blocks, measurer, geo, pScale);
+    pageCount = plan.flow.pageCount;
 
-  // Group placements by page for drawing.
-  const byPage: MeasuredBlockPlacement[][] = Array.from({ length: pageCount }, () => []);
-  for (const p of placements) {
-    byPage[p.page].push({ block: p.block, column: p.column, top: p.top });
+    // Group placements by page for drawing.
+    byPage = Array.from({ length: pageCount }, () => []);
+    for (const p of plan.flow.placements) {
+      byPage[p.page].push({ block: p.block, column: p.column, top: p.top });
+    }
+  } catch (err) {
+    toast(STAGE_MESSAGE.layout, 'error');
+    throw new PdfExportError('layout', STAGE_MESSAGE.layout, err);
   }
 
   const exportId = makeExportId();
@@ -413,58 +613,72 @@ export const exportEvaluationPdf = async (
   let pageNo = 0;
   let first = true;
 
-  for (let copy = 0; copy < copies; copy++) {
-    for (let page = 0; page < pageCount; page++) {
-      if (!first) doc.addPage();
-      first = false;
-      pageNo++;
-      progress(0.3 + (0.65 * pageNo) / totalPages, `Rendering page ${pageNo} of ${totalPages}…`);
+  try {
+    for (let copy = 0; copy < copies; copy++) {
+      for (let page = 0; page < pageCount; page++) {
+        if (!first) doc.addPage();
+        first = false;
+        pageNo++;
+        progress(0.3 + (0.65 * pageNo) / totalPages, `Rendering page ${pageNo} of ${totalPages}…`);
 
-      drawWatermark(doc, {
-        ...ctx,
-        text: watermarkText,
-        pageWidth: dims.width,
-        pageHeight: dims.height,
-      });
+        drawWatermark(doc, {
+          ...ctx,
+          text: watermarkText,
+          pageWidth: dims.width,
+          pageHeight: dims.height,
+        });
 
-      drawHeader(doc, {
-        ...ctx,
-        title,
-        subtitle,
-        instruction,
-        accent: COLORS.accent,
-        pScale,
-        margin: PAGE_MARGIN_MM,
-        pageWidth: dims.width,
-        // Name/Class/Date fill-in fields belong on the first page only.
-        showFields: (opts.showFields ?? true) && page === 0,
-      });
+        drawHeader(doc, {
+          ...ctx,
+          title,
+          subtitle,
+          instruction,
+          accent: COLORS.accent,
+          pScale,
+          margin: PAGE_MARGIN_MM,
+          pageWidth: dims.width,
+          // Name/Class/Date fill-in fields belong on the first page only.
+          showFields: (opts.showFields ?? true) && page === 0,
+        });
 
-      for (const { block, column, top } of byPage[page]) {
-        const xLeft = columnLeft(geo, column);
-        drawBlock(doc, ctx, block, xLeft, geo.contentTop + top, geo, pScale);
+        for (const { block, column, top } of byPage[page]) {
+          const xLeft = columnLeft(geo, column);
+          drawBlock(doc, ctx, block, xLeft, geo.contentTop + top, geo, pScale);
+        }
+
+        drawFooter(doc, {
+          ...ctx,
+          exportId,
+          dateStr,
+          pageWidth: dims.width,
+          pageHeight: dims.height,
+          margin: PAGE_MARGIN_MM,
+          pScale,
+          pageNumber: page + 1,
+          pageTotal: pageCount,
+          disclaimer: AI_MARKING_DISCLAIMER,
+        });
+
+        // Let the progress UI repaint between pages.
+        await repaint();
       }
-
-      drawFooter(doc, {
-        ...ctx,
-        exportId,
-        dateStr,
-        pageWidth: dims.width,
-        pageHeight: dims.height,
-        margin: PAGE_MARGIN_MM,
-        pScale,
-        pageNumber: page + 1,
-        pageTotal: pageCount,
-        disclaimer: AI_MARKING_DISCLAIMER,
-      });
-
-      // Let the progress UI repaint between pages.
-      await repaint();
     }
+  } catch (err) {
+    toast(STAGE_MESSAGE.render, 'error');
+    throw new PdfExportError('render', STAGE_MESSAGE.render, err);
   }
 
+  // The download itself. It fails rarely but silently — a blocked download, a
+  // full disk, a locked-down managed browser — and until now the rejection went
+  // into the caller's empty catch and the user watched a spinner stop with no
+  // file and no explanation.
   progress(0.98, 'Saving…');
-  doc.save(sanitizeFilename(opts.filename ?? 'HSC-Marking-Feedback'));
+  try {
+    doc.save(sanitizeFilename(opts.filename ?? 'HSC-Marking-Feedback'));
+  } catch (err) {
+    toast(STAGE_MESSAGE.save, 'error');
+    throw new PdfExportError('save', STAGE_MESSAGE.save, err);
+  }
   progress(1, 'Done');
 
   const copySuffix = copies > 1 ? ` × ${copies} copies` : '';

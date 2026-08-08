@@ -56,6 +56,48 @@ export const LAYOUT = {
 };
 
 /**
+ * The proportion meter drawn under a criterion's title — how much of that
+ * criterion's marks the response actually earned.
+ *
+ * "3 / 4" is a fact a reader has to do arithmetic on, and a page of them is a
+ * page of arithmetic; the same fact as a filled track is read at a glance, and
+ * a column of tracks shows at once which criterion let the response down. It
+ * costs about 2.5mm per criterion.
+ */
+export const METER = {
+  heightBaseMm: 1.3,
+  gapAboveBaseMm: 1.2,
+  gapBelowBaseMm: 1.4,
+  /** Fully earned, most of the way there, and short of it. */
+  strongRatio: 0.85,
+  fairRatio: 0.5,
+};
+
+/**
+ * The band scale under the score summary: six segments, the achieved one
+ * filled and the rest outlined. A mark out of 8 means little on its own — what
+ * a student and a teacher both want to know is where that sits on the band
+ * ladder, and where the next band starts.
+ */
+export const BAND_SCALE = {
+  segments: 6,
+  heightBaseMm: 2.4,
+  gapBaseMm: 1.8,
+  segmentGapBaseMm: 0.8,
+  labelPt: 5.5,
+};
+
+/**
+ * Ruled writing lines for handwritten marker notes. Print-first: the report
+ * comes off the printer into a conversation with a student, and the teacher
+ * needs somewhere to write during it.
+ */
+export const RULE_LINES = {
+  gapBaseMm: 6,
+  inset: 0.5,
+};
+
+/**
  * A logical run of styled text within a block. Text uses the app's in-house
  * markup (**bold**, *italic*, ^sup, _sub) which `toText()` converts to
  * selectable Unicode at draw time.
@@ -102,6 +144,21 @@ export interface ContentBlock {
   breakable?: boolean;
   /** Accent colour for rules / bars associated with the block. */
   accent?: [number, number, number];
+  /**
+   * Proportion earned, drawn as a filled track under the block's label. The
+   * chip states it in numerals; this makes a column of criteria comparable at
+   * a glance (see METER).
+   */
+  meter?: { value: number; max: number };
+  /** Band reached, drawn as a segmented ladder (see BAND_SCALE). */
+  bandScale?: number;
+  /**
+   * Draw this list item's marker as an empty tick box rather than a bullet —
+   * for the next steps, which are meant to be worked through and ticked off.
+   */
+  checkbox?: boolean;
+  /** Blank ruled lines drawn under the block, for handwritten notes. */
+  ruleLines?: number;
 }
 
 /** A block with a computed rendered height (mm) at a given scale. */
@@ -120,6 +177,12 @@ export interface MeasuredBlock extends ContentBlock {
   textIndentMm: number;
   /** Pre-wrapped label lines (criterion titles can span multiple lines). */
   labelWrapped?: string[];
+  /**
+   * Height (mm) of anything sitting between the label and the body — today the
+   * criterion's proportion meter. Resolved once at measure time so splitting
+   * and drawing use the same number as the measurement did.
+   */
+  labelExtraMm?: number;
 }
 
 /** Result of placing a block during the column-major flow. */
