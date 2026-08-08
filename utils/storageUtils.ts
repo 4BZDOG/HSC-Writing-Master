@@ -14,7 +14,13 @@ import {
 // Current data version - increment when structure changes
 // 2.4.0: NESA-aligned band formula — removed the marks-based cap so the verb's
 // tier is the sole ceiling.  Existing sample-answer bands must be recalculated.
-export const DATA_VERSION = '2.4.0';
+// 2.5.0: Two additive optional fields — DotPoint.focusAreas (a teacher's
+// hand-set "including …" list, absent meaning "parse the description") and
+// SampleAnswer.derivedFromStudent (an AI sample that is a lift of a student's
+// own response). Both are absent on older data and mean exactly what their
+// absence meant before, so there is no migration step: the version moves only
+// so a returning install is recorded against the schema it is actually on.
+export const DATA_VERSION = '2.5.0';
 
 export const STORAGE_KEYS = {
   COURSES: 'hsc-ai-evaluator-courses', // Legacy key for migration check

@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Prompt, UserRole, CourseOutcome } from '../types';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
-import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { getBandForMark, getCommandTermInfo, markForBand } from '../data/commandTerms';
 import { AlertCircle, Edit3, Save, X, Sparkles, Loader2, ListChecks } from 'lucide-react';
 import { formatMarkingCriteria } from '../utils/dataManagerUtils';
 import { generateRubricForPrompt } from '../services/geminiService';
@@ -80,8 +80,14 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
       'i'
     );
 
-    // Regex 2: Point breakdown style "Descriptor... ([Mark] mark)" anywhere in line
-    const endMarkRegex = new RegExp('(.*?)\\((\\d+(?:\\s*[-–]\\s*\\d+)?)\\s*marks?\\)', 'i');
+    // Regex 2: Point breakdown style "Descriptor... ([Mark] mark)" anywhere in
+    // line. The third group keeps whatever follows the bracket — a row written
+    // as "Band 6 (7-8 marks): Comprehensive analysis…" used to be stored as the
+    // words before the bracket alone, silently discarding the actual criteria.
+    const endMarkRegex = new RegExp(
+      '(.*?)\\((\\d+(?:\\s*[-–]\\s*\\d+)?)\\s*marks?\\)\\s*[:.\\-–]?\\s*(.*)',
+      'i'
+    );
 
     // Regex 3: "Band N:" or "Band N-M:" pattern (AI sometimes uses band labels)
     const bandStartRegex = new RegExp(
@@ -110,25 +116,34 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
         if (currentItem) items.push(currentItem);
         const bandNums = bandMatch[1].match(/\d+/g)?.map(Number) || [1];
         const topBand = Math.max(...bandNums);
-        const markForBand = Math.round((topBand / 6) * prompt.totalMarks);
+        // The mark this band starts at on THIS question — tier-aware, like every
+        // other band figure in the app. The old inline `(band / 6) * totalMarks`
+        // ignored the verb's ceiling, so a Tier-2 question's rows were placed
+        // against marks it can never award.
+        const bandMark = markForBand(topBand, prompt.totalMarks, commandTermInfo.tier);
         currentItem = {
           markLabel: `Band ${topBand}`,
-          markRange: [markForBand, markForBand],
+          markRange: [bandMark, bandMark],
           description: bandMatch[2].trim(),
           band: topBand,
         };
       } else if (endMatch) {
         if (currentItem) items.push(currentItem);
-        currentItem = null;
         const range = parseMarkRange(endMatch[2].trim());
-        const desc = endMatch[1].replace(/^[-•*]\s*/, '').trim();
+        const before = endMatch[1].replace(/^[-•*]\s*/, '').trim();
+        const after = (endMatch[3] || '').trim();
+        // Prefer the criteria that follow the bracket; fall back to the label
+        // before it when the row is written as "Describes both features (2 marks)".
+        const desc = after || before;
 
-        items.push({
+        // Stays the current item rather than being closed off, so wrapped or
+        // continuation lines beneath it are appended instead of dropped.
+        currentItem = {
           markLabel: range[0] === range[1] ? `${range[0]}` : `${range[0]}–${range[1]}`,
           markRange: range,
           description: desc,
           band: getBandForMark(range[1], prompt.totalMarks, commandTermInfo.tier),
-        });
+        };
       } else if (currentItem) {
         currentItem.description += ' ' + cleanLine;
       }

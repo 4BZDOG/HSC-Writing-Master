@@ -14,6 +14,8 @@ interface EvaluationResultModalProps {
   userAnswer: string;
   onUseRevisedAnswer: (answer: string) => void;
   onImproveAnswer: () => void;
+  /** Open the side-by-side diff. Absent until an improvement has been made. */
+  onCompareImprovement?: () => void;
   isImproving: boolean;
   improveAnswerError: string | null;
   onSaveToSamples: () => void;
@@ -38,6 +40,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
   userAnswer,
   onUseRevisedAnswer,
   onImproveAnswer,
+  onCompareImprovement,
   isImproving,
   improveAnswerError,
   onSaveToSamples,
@@ -126,6 +129,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
             userAnswer={userAnswer}
             onUseRevisedAnswer={onUseRevisedAnswer}
             onImproveAnswer={onImproveAnswer}
+            onCompareImprovement={onCompareImprovement}
             isImproving={isImproving}
             improveAnswerError={improveAnswerError}
             onSaveToSamples={undefined}

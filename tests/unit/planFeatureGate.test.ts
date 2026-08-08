@@ -129,6 +129,10 @@ describe('api/gemini paid-feature gate', () => {
   it('leaves the evaluation meter to its own gate', async () => {
     // `evaluation` is metered by count, not by plan. If the plan gate claimed
     // it too, a free user would be refused their first free evaluation.
+    //
+    // The plan IS resolved for a marking call — the rewritten answer inside the
+    // result is the `answerUpgrades` feature and has to be withheld from a plan
+    // that does not include it — but resolving it must never refuse the call.
     resolveCallerPlanMock.mockResolvedValue('free');
     consumeEvaluationMock.mockResolvedValue({
       allowed: true,
@@ -140,7 +144,6 @@ describe('api/gemini paid-feature gate', () => {
     await handler(post(call('evaluation')), res);
 
     expect(res.statusCode).toBe(200);
-    expect(resolveCallerPlanMock).not.toHaveBeenCalled();
   });
 
   it('stops gating entirely when monetisation is switched off', async () => {

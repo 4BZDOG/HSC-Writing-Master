@@ -13,6 +13,7 @@ import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import SampleAnswerGeneratorModal from './SampleAnswerGeneratorModal';
 import SampleAnswerRevisionModal from './SampleAnswerRevisionModal';
 import SampleAnswerEditorModal from './SampleAnswerEditorModal';
+import RecalibrateSamplesModal from './RecalibrateSamplesModal';
 import ConfirmationModal from './ConfirmationModal';
 import FlagContentModal from './FlagContentModal';
 import {
@@ -63,25 +64,53 @@ interface GroupedSampleAnswers {
   calculatedBand: number;
 }
 
-const SourceBadge: React.FC<{ source?: string }> = ({ source }) => {
-  const isAi = source === 'AI';
+/**
+ * Where an exemplar came from — and, for an AI one, whether it was written from
+ * scratch or lifted from a student's own response. A "Student + AI" sample
+ * carries the student's structure and voice, so it is read (and trusted)
+ * differently from a clean-room AI exemplar, and gets its own colour and icon
+ * pair rather than being filed under the same grey "AI Model" chip.
+ */
+const SourceBadge: React.FC<{ source?: string; derivedFromStudent?: boolean }> = ({
+  source,
+  derivedFromStudent,
+}) => {
   const isUser = source === 'USER';
   const isHsc = source === 'HSC_EXEMPLAR';
+  const isUpgrade = source === 'AI' && !!derivedFromStudent;
 
-  const config = isAi
-    ? 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-white/5 dark:text-slate-400 dark:border-white/10'
-    : isUser
-      ? 'bg-blue-500/10 text-blue-500 border-blue-500/20'
-      : 'bg-amber-500/10 text-amber-500 border-amber-500/20';
+  const config = isUser
+    ? 'bg-blue-500/10 text-blue-500 border-blue-500/20'
+    : isHsc
+      ? 'bg-amber-500/10 text-amber-500 border-amber-500/20'
+      : isUpgrade
+        ? 'bg-violet-500/10 text-violet-500 dark:text-violet-400 border-violet-500/25'
+        : 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-white/5 dark:text-slate-400 dark:border-white/10';
 
   const Icon = isUser ? UserIcon : isHsc ? BookOpen : Sparkles;
-  const label = isUser ? 'Student' : isHsc ? 'Official' : 'AI Model';
+  const label = isUser ? 'Student' : isHsc ? 'Official' : isUpgrade ? 'Student + AI' : 'AI Model';
+  const title = isUpgrade
+    ? "A student's own response, rewritten by the AI to reach the next mark"
+    : isUser
+      ? 'A response written by a student and marked by the AI'
+      : isHsc
+        ? 'A verified HSC exemplar'
+        : 'Written by the AI from the question and rubric';
 
   return (
     <span
+      title={title}
       className={`inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${config}`}
     >
-      <Icon className="w-2.5 h-2.5" /> {label}
+      {isUpgrade ? (
+        <span className="inline-flex items-center gap-0.5">
+          <UserIcon className="w-2.5 h-2.5" />
+          <Sparkles className="w-2.5 h-2.5" />
+        </span>
+      ) : (
+        <Icon className="w-2.5 h-2.5" />
+      )}
+      {label}
     </span>
   );
 };
@@ -224,7 +253,10 @@ const CarouselAccordionItem: React.FC<{
                 )}
               </div>
               <div className="flex items-center gap-2 mt-1.5 opacity-90">
-                <SourceBadge source={currentSample.source} />
+                <SourceBadge
+                  source={currentSample.source}
+                  derivedFromStudent={currentSample.derivedFromStudent}
+                />
                 {currentSample.contentFlag?.status === 'open' && (
                   <span
                     className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border bg-amber-500/10 text-amber-500 border-amber-500/30"
@@ -250,8 +282,11 @@ const CarouselAccordionItem: React.FC<{
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
                 </button>
-                <span className="text-[9px] font-bold w-4 text-center text-slate-600 dark:text-slate-300">
-                  {currentIndex + 1}
+                {/* "2 of 3", not a bare "2": the position is meaningless
+                    without the total, and a batch of exemplars now arrives
+                    several at a time. */}
+                <span className="text-[9px] font-bold px-1 text-center text-slate-600 dark:text-slate-300 tabular-nums">
+                  {currentIndex + 1}/{group.answers.length}
                 </span>
                 <button
                   onClick={handleNext}
@@ -481,6 +516,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   const fontSize = fontSizeProp ?? localFontSize;
   const setFontSize = onFontSizeChange ?? setLocalFontSize;
   const [isRecalibrating, setIsRecalibrating] = useState(false);
+  const [isRecalibratePickerOpen, setIsRecalibratePickerOpen] = useState(false);
 
   const canCurate = canCurateContent(userRole);
   // AI generation (draft/recalibrate) is a separate capability from manual
@@ -516,16 +552,15 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
     return Object.values(groups).sort((a, b) => b.mark - a.mark);
   }, [prompt.sampleAnswers, prompt.totalMarks, prompt.verb, commandTermInfo.tier]);
 
-  const handleRecalibrate = async () => {
-    if (onRecalibrate) {
-      setIsRecalibrating(true);
-      try {
-        await onRecalibrate();
-      } finally {
-        // Always release the spinner — a failed AI call must not leave the
-        // button stuck in its "recalibrating" state.
-        setIsRecalibrating(false);
-      }
+  const handleRecalibrate = async (sampleIds: string[]) => {
+    if (!onRecalibrate) return;
+    setIsRecalibrating(true);
+    try {
+      await onRecalibrate(sampleIds);
+    } finally {
+      // Always release the spinner — a failed AI call must not leave the
+      // button stuck in its "recalibrating" state.
+      setIsRecalibrating(false);
     }
   };
 
@@ -621,14 +656,14 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             <>
               {onRecalibrate && (
                 <button
-                  onClick={handleRecalibrate}
+                  onClick={() => setIsRecalibratePickerOpen(true)}
                   disabled={isRecalibrating || !prompt.sampleAnswers?.length}
                   className={`
                     p-2 rounded-lg bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10
                     text-slate-500 hover:text-indigo-500 disabled:opacity-50 transition-all
                     ${isRecalibrating ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-500 border-indigo-200' : ''}
                   `}
-                  title="Recalibrate all samples with AI"
+                  title="Recalibrate samples with AI — choose which ones"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${isRecalibrating ? 'animate-spin' : ''}`} />
                 </button>
@@ -703,8 +738,24 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
         isOpen={isGeneratorOpen}
         onClose={() => setIsGeneratorOpen(false)}
         prompt={prompt}
-        onSampleAnswerGenerated={onSampleAnswerGenerated}
+        onSampleAnswerGenerated={(answer) => {
+          // Open the panel behind the modal as the batch lands. A teacher who
+          // just generated five exemplars into a folded card had nothing to
+          // show for it but a toast, and the panel defaults to folded.
+          setIsCollapsed(false);
+          setOpenGroupMark(answer.mark);
+          onSampleAnswerGenerated(answer);
+        }}
       />
+
+      {onRecalibrate && (
+        <RecalibrateSamplesModal
+          isOpen={isRecalibratePickerOpen}
+          onClose={() => setIsRecalibratePickerOpen(false)}
+          prompt={prompt}
+          onRecalibrate={handleRecalibrate}
+        />
+      )}
 
       {revisionTarget && (
         <SampleAnswerRevisionModal
@@ -784,7 +835,8 @@ interface SampleAnswersAccordionProps {
   onUpdateSampleAnswer: (answer: SampleAnswer) => void;
   onContributeSampleAnswer?: (answer: SampleAnswer) => void | Promise<void>;
   userRole: UserRole;
-  onRecalibrate?: () => Promise<void>;
+  /** Re-mark the chosen exemplars against the rubric. */
+  onRecalibrate?: (sampleIds: string[]) => Promise<void>;
   /** Start folded. Defaults to true, matching the rail's other panels. */
   defaultCollapsed?: boolean;
   /** Shared workspace reading size. Omit to keep a private size. */

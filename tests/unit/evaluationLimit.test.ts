@@ -11,10 +11,15 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 const consumeEvaluationMock = vi.fn();
 const consumeAiQuotaMock = vi.fn();
 const runAiProxyMock = vi.fn();
+// Consulted for the rewrite gate: the rewritten answer inside a marking result
+// is the `answerUpgrades` feature, gated on the plan rather than on the
+// free-tier feedback switch.
+const resolveCallerPlanMock = vi.fn();
 
 vi.mock('../../api/_lib/quota', () => ({
   consumeEvaluation: (...args: unknown[]) => consumeEvaluationMock(...args),
   consumeAiQuota: (...args: unknown[]) => consumeAiQuotaMock(...args),
+  resolveCallerPlan: (...args: unknown[]) => resolveCallerPlanMock(...args),
   recordAiModelUsage: async () => undefined,
   isQuotaEnabled: () => true,
 }));
@@ -55,6 +60,11 @@ beforeEach(() => {
   consumeEvaluationMock.mockReset();
   consumeAiQuotaMock.mockReset();
   runAiProxyMock.mockReset();
+  resolveCallerPlanMock.mockReset();
+  // Default to the free tier, matching the evaluation verdicts these tests
+  // mock. The plan and the verdict describe the same caller, so pairing them
+  // keeps the fixtures honest.
+  resolveCallerPlanMock.mockResolvedValue('free');
   consumeAiQuotaMock.mockResolvedValue({ allowed: true, used: 1, limit: 300 });
   runAiProxyMock.mockResolvedValue({ status: 200, body: { text: 'ok' } });
 });
@@ -212,6 +222,7 @@ describe('api/gemini free-tier content redaction', () => {
   });
 
   it('sends the full result to a paid caller', async () => {
+    resolveCallerPlanMock.mockResolvedValue('plus');
     consumeEvaluationMock.mockResolvedValue({ allowed: true, used: 0, limit: -1, unlimited: true });
     proxyReturnsMarking();
 
@@ -247,6 +258,10 @@ describe('api/gemini free-tier content redaction', () => {
   });
 
   it('leaves the result alone when the gate cannot be evaluated (fail-open)', async () => {
+    // A PAYING caller whose meter RPC is down — the fail-open this test is
+    // about. (A free-plan caller in the same state still loses the rewrite:
+    // the rewrite gate is the plan, not the meter. See below.)
+    resolveCallerPlanMock.mockResolvedValue('plus');
     // consume_evaluation unavailable → we don't know the caller's plan, so we
     // must not redact; breaking marking for paying users is the worse failure.
     consumeEvaluationMock.mockResolvedValue(null);
@@ -307,14 +322,39 @@ describe('api/gemini redaction honours the policy switches', () => {
     process.env.FREE_TIER_FULL_FEEDBACK = 'true';
     const res = makeRes();
     await handler(post(evaluationRequest), res);
-    expect(markingTextFrom(res.body)).toContain('Secret paid detail.');
+    const text = markingTextFrom(res.body);
+    expect(text).toContain('Secret paid detail.');
+    // …but NOT the rewritten answer. It is the `answerUpgrades` feature, and a
+    // generous feedback tier does not buy it. This is the hole the two gates
+    // were split to close: a school pilot with FREE_TIER_FULL_FEEDBACK=true
+    // used to hand every free account the paid rewrite.
+    expect(text).not.toContain('A band 6 rewrite');
   });
 
   it('honours the VITE_ copy so one Vercel variable drives both halves', async () => {
     process.env.VITE_FREE_TIER_FULL_FEEDBACK = 'true';
     const res = makeRes();
     await handler(post(evaluationRequest), res);
-    expect(markingTextFrom(res.body)).toContain('Secret paid detail.');
+    const text = markingTextFrom(res.body);
+    expect(text).toContain('Secret paid detail.');
+    expect(text).not.toContain('A band 6 rewrite');
+  });
+
+  it('sends the rewrite to a plan that includes answer upgrades', async () => {
+    resolveCallerPlanMock.mockResolvedValue('plus');
+    const res = makeRes();
+    await handler(post(evaluationRequest), res);
+    expect(markingTextFrom(res.body)).toContain('A band 6 rewrite');
+  });
+
+  it('withholds the rewrite even when the evaluation meter is unavailable', async () => {
+    // The meter failing open must not open the paywall: the two are decided by
+    // different things — a count, and a plan.
+    consumeEvaluationMock.mockResolvedValue(null);
+    process.env.FREE_TIER_FULL_FEEDBACK = 'true';
+    const res = makeRes();
+    await handler(post(evaluationRequest), res);
+    expect(markingTextFrom(res.body)).not.toContain('A band 6 rewrite');
   });
 
   it('still redacts under the default policy', async () => {

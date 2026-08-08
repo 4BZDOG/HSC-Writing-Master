@@ -420,7 +420,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
           : undefined
       }
       userRole={userRole}
-      onRecalibrate={() => geminiHandlers.recalibrateSamples(currentPrompt)}
+      onRecalibrate={(ids: string[]) => geminiHandlers.recalibrateSamples(currentPrompt, ids)}
       fontSize={promptFontSize}
       onFontSizeChange={setPromptFontSize}
     />

@@ -1,5 +1,326 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-08-08 (paywalling the upgrade, and printing it)
+
+### 🔒 The rewrite was gated on the wrong switch
+
+The rewritten answer inside a marking result was withheld only when
+`FREE_TIER_FEEDBACK_SUMMARY_ONLY` was on. That switch governs feedback
+**detail**; the rewrite is the `answerUpgrades` feature in its own right. So a
+deployment that opened feedback to the free tier — `FREE_TIER_FULL_FEEDBACK=true`,
+a documented option and the one a school pilot reaches for — handed every free
+account the paid rewrite, and with it the whole improvement review now built on
+top of it.
+
+- `redactPaidFeedback` takes a **scope**: `feedbackDetail` and `rewrite` are
+  decided separately, and both default to withholding so a caller that forgets
+  to say what it means keeps the paywall on.
+- `api/gemini.ts` resolves the caller's plan **once** per request (shared with
+  the paid-feature gate, which used to look it up independently) and gates the
+  rewrite on `answerUpgrades`. An unresolvable plan falls back to the
+  `unlimited` verdict already in hand rather than to "entitled":
+  `resolveCallerPlan` is fail-open by design, so treating null as entitled would
+  reopen the hole on any deployment whose `caller_plan` RPC is missing, while
+  failing hard would strip rewrites from paying customers for the same reason.
+- The meter failing open no longer opens the paywall — a count and a plan are
+  different questions.
+- Client-side, the lock is applied in **one** place that every consumer reads:
+  the rendered exemplar, the buttons, the comparison and the exported PDF. A
+  rewrite can outlive the entitlement that produced it (a cached result, a
+  session open when the plan lapsed), and a paid asset should not depend on
+  which of four call sites remembered to check.
+
+### ✨ The PDF shows what changed
+
+The exported report carried the improved response as a block of prose, leaving
+the student to work out which words earned the mark by eye.
+
+- A **"What changed"** section: the scale of the revision (*67 words added · 29
+  cut · 52% of your own writing kept*), then each edit as a `−` was / `+` now
+  pair.
+- A list rather than inline marking, because the page's text engine draws whole
+  wrapped lines in a single style — an inline diff on paper would mean a
+  word-placement engine. Every row carries a `−`/`+` prefix as well as colour,
+  so the page survives the greyscale printer most schools have.
+- Capped at 14 edits, with a line saying how many more are in the app.
+- Absent entirely when the rewrite is withheld, when nothing changed, or when
+  there is no student answer to compare against.
+
+### 🐛 Two print bugs found on the way
+
+- **A heading could be orphaned at the foot of a column.** Keep-with-next
+  reserved one *line* of the following block, but everything reaching the flow
+  has already been through `splitOversized` and moves as a unit — so a heading
+  that fit alongside one reserved line stayed put while its whole body jumped to
+  the next column ("IMPROVED RESPONSE" at the foot of one column, the response
+  itself at the head of the next). It now reserves the body's full height.
+- **A list item drew only its first run.** `measureBlock` has always reserved
+  height for all of them, so a multi-run item — exactly what the change list
+  needed — was measured at full height and drawn missing everything after the
+  first line, leaving a gap on the page.
+
+## [Unreleased] - 2026-08-08 (hardening the improvement review)
+
+### 🐛 The comparison was missing from the path students actually take
+
+Two things produce a rewrite: pressing "Improve my answer", and ordinary
+marking — `evaluateAnswer` is briefed to return the student's answer lifted one
+mark, and that arrives inside the evaluation result. Only the first could open
+the diff, so the student who simply submitted an answer and read their feedback
+never saw the comparison at all. The marking rewrite carries no target of its
+own, so it is derived the way the model was briefed: one mark up, through the
+Verb Gate.
+
+### 🐛 Escape closed two dialogs at once
+
+Every dismissible overlay listens on `window`, so they share a target and
+`stopPropagation` cannot arbitrate between them — one press closed the
+improvement diff **and** the feedback modal underneath it. `useEscapeKey` now
+keeps a stack and only the topmost surface responds. A dialog that has detached
+its handler mid-operation (so Escape cannot abandon an in-flight AI call)
+correctly lets the press fall through to the surface beneath.
+
+### 🛡️ The rewrite is cleaned before anyone sees it
+
+"Return only the improved answer text" is an instruction, not a guarantee.
+
+- A rewrite wrapped in a **code fence**, opened with **"Here is the improved
+  answer:"**, or headed with a **restated mark** is stripped back to the answer.
+  Left in, all of it landed in the student's draft on "use this version", and
+  every word of it read as an addition in the diff, drowning the change that
+  actually earned the mark. Deliberately conservative — an opening sentence that
+  happens to contain a colon survives.
+- An **empty rewrite is a failed call**, not a result. It used to be saved into
+  the question's library as a blank exemplar (where it could evict a real one)
+  and opened a review of nothing; it now surfaces as an error like any other AI
+  failure.
+- The marking rewrite goes through the same cleaner, since it is saved as an
+  exemplar too. A withheld (free-tier) rewrite stays empty rather than being
+  invented.
+- The diff strips **markdown** as well as tags, so a model that returns
+  `**cache hit ratio**` no longer reports a term the student already used as an
+  addition.
+
+### ✨ Reading a long comparison
+
+- **Step through the changes** — "3 of 11", forward and back, wrapping at each
+  end, with the focused change ringed (a ring, not a different colour, so
+  "where am I" never competes with "what kind of change is this"). A deletion
+  and the insertion replacing it count as **one** change, because that is how a
+  reader sees them. The scroll is guarded: no `scrollIntoView`, or a reduced-
+  motion preference, must never turn the button into a thrown error.
+- **"No changes" is stated, not implied.** An identical rewrite says so, drops
+  the mark-uplift claim from the header ("Your answer, unchanged"), and hides
+  "Use this version" — a button that silently does nothing is worse than no
+  button.
+- The dialog is announced as one: `role="dialog"`, `aria-modal`, and a label
+  pointing at its own heading.
+
+## [Unreleased] - 2026-08-08 (the improvement review)
+
+### ✨ "Your answer, improved" — as a marked-up diff
+
+The improvement is briefed as an *edit* of the student's own response, so the
+only reading that makes sense is a comparison. Reading it as a fresh block of
+prose hides the handful of words that earned the extra mark, which is the one
+thing the student came for.
+
+- A new **word-level diff** (`utils/textDiff.ts`): LCS over tokens, computed on
+  the pruned middle after common prefixes and suffixes are peeled off, with a
+  size guard that degrades to a wholesale replacement rather than allocating a
+  matrix for a pathological input. Tokens are compared ignoring case and
+  punctuation — a sentence that only gained a full stop is not a rewritten
+  sentence — but each side keeps its own surface form, so joining the segments
+  reproduces either text **exactly**. That losslessness is load-bearing: "use
+  this version" must hand back text the student actually read.
+- **`ImprovementReviewModal` is now a real surface.** It was fully built and
+  never mounted anywhere, which is why "Regenerate" had nowhere to show its
+  result. It opens on its own the moment an upgrade lands, and again from
+  "Compare with mine" on the feedback screen.
+  - **Marked up**: one flowing text, added words underlined in green, cut words
+    struck through in red, everything unmarked the student's own.
+  - **Side by side**: their original with the cuts, the revision with the
+    additions, each column counting its own words.
+  - A summary strip — *67 added · 29 cut · 52% of your words kept*. The
+    retention figure is how a student can tell at a glance whether the AI
+    actually followed its brief.
+  - **The syllabus terms the revision brought in** are named, because that is
+    usually what the extra mark was for.
+  - Colour is never the only cue: additions are underlined, cuts struck
+    through, and both carry titles.
+- `useGemini` now carries the upgrade as one `AnswerImprovement` value rather
+  than three loose strings, so the header can never label one revision with
+  another's mark.
+
+### 🐛 The upgrade CTA a free account could never reach
+
+The Improved Response section only rendered when there was rewrite text — but
+the proxy withholds that text for a plan without answer upgrades, so the section
+vanished, taking with it the one button that sells the feature. A free account
+now gets the section in a locked state: no exemplar, a plain description of what
+Plus does, and a working call to action.
+
+### ✨ Recalibration is a choice, not all-or-nothing
+
+Recalibration is metered marking — one evaluation per sample — so re-marking
+eight exemplars to fix the one that looks wrong spent seven credits for nothing.
+A picker now lists the samples with quick picks for **All / None / AI only /
+Band mismatch**, states the cost up front, and defaults to the mismatched set
+(stored band disagreeing with the Verb Gate — the drift recalibration exists to
+repair). It also **merges by id** rather than replacing the array, which is what
+made a narrowed selection possible: the old assignment would have deleted every
+sample the teacher did not choose, and already dropped any exemplar added while
+a batch was running.
+
+### 💄 Batch generation and the rename trap
+
+- A finished batch now **opens the Sample Answers panel** and the group it just
+  wrote to. The panel defaults to folded, so a teacher who generated five
+  exemplars had nothing to show for it but a toast.
+- Leaving the tab **mid-batch** now warns. Escape and the backdrop were already
+  blocked; a browser navigation was not, and it threw away every call still to
+  land.
+- **Renaming a dot point no longer changes its focus areas behind your back.**
+  Focus areas are read from the dot point's wording, so editing it rewrites
+  them — and they are what a generated question is narrowed to. The rename
+  dialog now shows the before and after and offers to keep the current list
+  (by pinning it as an override). Silent when the list is already hand-set,
+  because that case is already immune.
+
+## [Unreleased] - 2026-08-08 (quality of life)
+
+### ✨ Build a whole ladder of exemplars in one pass
+
+The sample-answer generator took one mark at a time, so a teacher covering six
+performance levels opened the same modal six times.
+
+- Marks are a **multi-selection** now. The batch runs sequentially from the
+  lowest mark up, each answer lands in the library as it is written, and the
+  button reports "Writing 3 of 5 — 4/8".
+- **"Complete the ladder"** selects one mark for every band with no exemplar yet.
+- Each answer is written **with sight of the ones below it**. `generateSampleAnswer`
+  has always accepted the existing answers and never used them; it now briefs the
+  model to make the new answer visibly separable from them, which is the
+  difference between a ladder and five versions of the same answer.
+- A failure no longer loses the batch: whatever succeeded is saved, the modal
+  says which marks failed and why, and re-arms with only those still selected.
+- Band **coverage is derived**, not read off the sample. A stored band travels
+  with imported and legacy exemplars and can disagree with the Verb Gate, so the
+  coverage strip was claiming bands that no sample demonstrates and the
+  suggestion pointed at a band already covered.
+
+### ✨ Focus areas can be fixed by hand
+
+The "including …" list under a dot point is read out of syllabus prose by a
+heuristic. It splits a single named concept on its "and", keeps a trailing
+clause that was never a list item, and misses lists written in a shape it does
+not know — and because that list narrows what a generated question is about, a
+bad reading is not cosmetic.
+
+- `DotPoint.focusAreas` stores a teacher's list, edited in a new dialog off the
+  navigator. Add, rename, reorder, remove; **saving an empty list is a valid
+  answer** — it says this dot point has no sub-parts and silences a bad reading.
+  Absent means "read the description", which is every existing dot point, and
+  "Reset to automatic" returns to that.
+- The editor is offered even when the parser found **nothing**, which is the case
+  a teacher most often needs to fix.
+- One resolution, shared: `getFocusAreas` is what the navigator, the question
+  generator and the AI's keyword grounding all read, so a fix made in the
+  navigator is the list the generator uses. An active focus that the edit
+  removed is dropped rather than left narrowing questions to a deleted phrase.
+
+### ✨ "Student + AI" exemplars are labelled as their own thing
+
+An AI sample that is a lift of the student's own response carries their
+structure and voice; one written from scratch does not. Both were filed under
+the same grey "AI Model" chip. `SampleAnswer.derivedFromStudent` now separates
+them, and the library gives the student-derived ones their own violet
+person-plus-sparkle badge.
+
+### 💄 The sign-in screen is the same design in both themes
+
+It painted an opaque base over the app's animated background and then laid two
+`mix-blend-screen` blobs on top. Screen blending against a near-white ground is
+a no-op, so the light theme resolved to a flat sheet of #f8fafc while the dark
+theme got its aurora.
+
+- A shared `AuthBackdrop` (sign-in and password reset) composes four layers —
+  a brand wash, exam-paper ruling, two drifting orbs, and a vignette that seats
+  the card — with **each theme's colours declared separately** in `index.css`
+  rather than left to a blend mode that only works on one of them.
+- The light card gets a real border and a cool shadow so it reads as a card
+  rather than dissolving into the page.
+- The `blob` keyframes moved from an inline `<style>` inside `AnimatedBackground`
+  into the stylesheet: any other component using them silently depended on that
+  one being mounted.
+- The exemplar carousel counter reads "2/3" rather than a bare "2".
+
+### 🗃️ Data
+
+`DATA_VERSION` → 2.5.0 for two additive optional fields (`DotPoint.focusAreas`,
+`SampleAnswer.derivedFromStudent`). No migration step: absent means exactly what
+its absence meant before.
+
+## [Unreleased] - 2026-08-08
+
+### ✨ The improved response is now the student's answer, one mark higher
+
+Generated sample answers were already nicely graduated — a 2/6 sample is short,
+a 6/6 sample is not. The rewrite a student got back after submitting their own
+work was not: it came back at full-exemplar length even when it was only worth
+one more mark, in a voice that was nothing like theirs.
+
+- **It targets the next MARK, not the next band.** `getNextLevelTarget` is the
+  single definition, and the AI brief, the saved exemplar's mark, the on-screen
+  header and the PDF heading all read it from there. Aiming a whole band higher
+  was what licensed a four-times-longer answer; on some questions it also
+  resolved to a mark at or below the one the student had already earned, so the
+  "improvement" was saved to the library worth no more than the original.
+- **It is briefed as an edit, not a fresh answer.** Keep the student's
+  sentences, sequence, vocabulary and register; make the smallest set of changes
+  that earns the extra mark; do not restructure or add sections they never
+  attempted. The marker's own list of what was missing is passed in as the brief
+  for that edit — previously only the overall summary was, so the model guessed
+  at the gap and wrote a new answer around its guess.
+- **The length ceiling is anchored to what the student wrote** — the smaller of
+  the target mark's scope and their own length plus a working margin. A student
+  who wrote three lines gets back four lines. A student who padded gets back
+  something shorter.
+- **"Regenerate" now visibly does something.** It saved a new exemplar to the
+  library and left the response on screen untouched, so the button read as
+  broken. It also only appeared while the student was below the band ceiling,
+  which hid it from anyone sitting one mark short inside the top band.
+
+### 🐛 Marking guides render as the descending ladder again
+
+A guide from manual entry or the AI Draft button often arrived as one
+undifferentiated block instead of the descending HSC rows.
+
+- **The prompt was showing the model an escaped newline.** The example rows in
+  the marking-criteria instruction were joined with `'\\n'`, so the model was
+  shown the two literal characters backslash-n as its row separator and copied
+  them into its answer — one physical line no parser could split. The examples
+  now use real line breaks, and every rubric instruction ends with an explicit
+  rule against literal `\n`, run-on rows, tables and preamble.
+- **`formatMarkingCriteria` repairs the shapes that still get through**: escaped
+  newlines, fenced code blocks, markdown tables, band-led rows
+  (`Band 6 (7-8 marks): …`) and rubrics that arrived as one run-on paragraph.
+  Because the accordion normalises at render, guides already saved in a
+  library are repaired too. Rows are only split after sentence-ending
+  punctuation, so a mark value quoted mid-sentence is left alone.
+- **It runs at the AI boundary, not just on import.** The manual composer puts
+  the model's rubric straight into an editable textarea, so a malformed guide
+  was what the teacher reviewed and saved. `generateRubricForPrompt` and
+  `reviseRubricForPrompt` return free text with no schema to lean on, and now
+  normalise their output too.
+- **Two parser bugs in the accordion.** A row written as
+  `Band 6 (7-8 marks): Comprehensive analysis…` was stored as the words *before*
+  the bracket, silently discarding the criteria; and such a row closed itself
+  off, so a wrapped continuation line beneath it was dropped entirely. Band-led
+  rows also placed themselves with an inline `(band / 6) × totalMarks` that
+  ignored the verb's tier ceiling — they now use `markForBand` like everything
+  else.
+
 ## [Unreleased] - 2026-08-05
 
 ### ✨ Self-service password reset

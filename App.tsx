@@ -88,14 +88,7 @@ import {
 const AnimatedBackground: React.FC = () => {
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      <style>{`
-        @keyframes blob {
-          0% { transform: translate(0px, 0px) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
-          100% { transform: translate(0px, 0px) scale(1); }
-        }
-      `}</style>
+      {/* The `blob` keyframes live in index.css — see the note there. */}
       <div className="absolute inset-0 bg-[rgb(var(--color-bg-base))]" />
       <div className="absolute inset-0 light:hidden">
         <div
@@ -179,6 +172,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     handleCreateTopicWithContent,
     handleCreateSubTopic,
     handleAddDotPoints,
+    handleUpdateFocusAreas,
     handleGeneratePrompt,
     confirmRename,
     confirmDelete,
@@ -330,10 +324,10 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     isImproving,
     improveAnswerError,
     improveAnswer,
-    improvedAnswer,
-    setImprovedAnswer,
-    originalAnswerForImprovement,
-    setOriginalAnswerForImprovement,
+    improvement,
+    setImprovement,
+    showImprovementReview,
+    setShowImprovementReview,
     activeBackgroundTask,
     handleGenerateScenario,
     isGeneratingScenario,
@@ -629,10 +623,10 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       handleSuggestKeywords,
       suggestOutcomesForPrompt,
       improveAnswer,
-      improvedAnswer,
-      setImprovedAnswer,
-      originalAnswerForImprovement,
-      setOriginalAnswerForImprovement,
+      improvement,
+      setImprovement,
+      showImprovementReview,
+      setShowImprovementReview,
       isGeneratingScenario,
       generateScenarioError,
       isRegeneratingKeywords,
@@ -654,10 +648,10 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       handleSuggestKeywords,
       suggestOutcomesForPrompt,
       improveAnswer,
-      improvedAnswer,
-      setImprovedAnswer,
-      originalAnswerForImprovement,
-      setOriginalAnswerForImprovement,
+      improvement,
+      setImprovement,
+      showImprovementReview,
+      setShowImprovementReview,
       isGeneratingScenario,
       generateScenarioError,
       isRegeneratingKeywords,
@@ -939,6 +933,9 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 onOpenDataManager={() => openModal('dataManager')}
                 onRenameItem={requestRename}
                 onDeleteItem={requestDelete}
+                onUpdateFocusAreas={
+                  canCurateContent(user.role) ? handleUpdateFocusAreas : undefined
+                }
                 onAddTopicFromSyllabus={() => openModal('topicSyllabusImport')}
                 onAddTopicWithContent={(topicName, subTopics) => {
                   if (!statePath.courseId) return;

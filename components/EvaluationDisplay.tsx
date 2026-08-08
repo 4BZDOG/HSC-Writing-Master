@@ -36,8 +36,9 @@ import {
   RefreshCw,
   Zap,
   Lightbulb,
+  Columns2,
 } from 'lucide-react';
-import { getCommandTermInfo, getBandForMark } from '../data/commandTerms';
+import { getCommandTermInfo, getBandForMark, getNextLevelTarget } from '../data/commandTerms';
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import ResponseFeedback from './ResponseFeedback';
@@ -214,6 +215,8 @@ interface EvaluationDisplayProps {
   prompt: Prompt;
   onUseRevisedAnswer: (answer: string) => void;
   onImproveAnswer: () => void;
+  /** Open the side-by-side diff of the student's answer against the rewrite. */
+  onCompareImprovement?: () => void;
   isImproving: boolean;
   improveAnswerError: string | null;
   userAnswer?: string;
@@ -229,6 +232,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
   prompt,
   onUseRevisedAnswer,
   onImproveAnswer,
+  onCompareImprovement,
   isImproving,
   improveAnswerError,
   userAnswer = '',
@@ -252,12 +256,23 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
   const [isExporting, setIsExporting] = useState(false);
   const [exportStatus, setExportStatus] = useState('');
 
+  /**
+   * The rewrite, as this client is allowed to present it.
+   *
+   * The server withholds it from a plan without `answerUpgrades`, so normally
+   * there is nothing here to hide. The lock is applied again anyway, in ONE
+   * place that every consumer reads — the rendered exemplar, the buttons, the
+   * comparison, and the exported PDF — because a rewrite can outlive the
+   * entitlement that produced it: a cached result, or a session that was still
+   * open when the plan lapsed. A paid asset should not depend on which of four
+   * call sites remembered to check.
+   */
   const revisedText = useMemo(() => {
-    if (!result.revisedAnswer) return '';
+    if (upgradesLocked || !result.revisedAnswer) return '';
     return typeof result.revisedAnswer === 'string'
       ? result.revisedAnswer
       : result.revisedAnswer.text;
-  }, [result.revisedAnswer]);
+  }, [result.revisedAnswer, upgradesLocked]);
 
   // The question's tier caps how high an exemplar can realistically sit.
   const maxBand = useMemo(
@@ -265,14 +280,30 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
     [prompt.totalMarks, termInfo.tier]
   );
 
+  // What the improved response is actually worth: one mark above the student's,
+  // and the band that mark maps to. The header used to promise "Band N+1" for a
+  // rewrite briefed to earn a single extra mark, so on most questions the label
+  // over-sold what the student was reading.
+  const nextLevel = useMemo(
+    () => getNextLevelTarget(result.overallMark, prompt.totalMarks, termInfo.tier),
+    [result.overallMark, prompt.totalMarks, termInfo.tier]
+  );
+
+  const exemplarMark = useMemo(() => {
+    if (typeof result.revisedAnswer === 'object' && result.revisedAnswer.mark) {
+      return Math.min(prompt.totalMarks, result.revisedAnswer.mark);
+    }
+    return nextLevel.targetMark;
+  }, [result.revisedAnswer, nextLevel.targetMark, prompt.totalMarks]);
+
   const exemplarBand = useMemo(() => {
     // An AI-reported band is clamped to the question's ceiling too — the Verb
     // Gate applies to every band figure shown, including model output.
     if (typeof result.revisedAnswer === 'object' && result.revisedAnswer.band) {
       return Math.min(maxBand, result.revisedAnswer.band);
     }
-    return Math.min(maxBand, result.overallBand + 1);
-  }, [result.revisedAnswer, result.overallBand, maxBand]);
+    return Math.min(maxBand, getBandForMark(exemplarMark, prompt.totalMarks, termInfo.tier));
+  }, [result.revisedAnswer, exemplarMark, prompt.totalMarks, termInfo.tier, maxBand]);
 
   const exemplarConfig = getBandConfig(exemplarBand);
 
@@ -326,8 +357,11 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             maxMark: c.maxMark,
             feedback: c.feedback,
           })),
+          // Empty while locked (see `revisedText`), which takes the improved
+          // response AND the change list built from it out of the file.
           revisedAnswer: revisedText || undefined,
           exemplarBand,
+          exemplarMark,
           wordCount,
           keywordsUsed: keywordsUsedCount,
           keywordsTotal: prompt.keywords?.length || 0,
@@ -355,11 +389,11 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
       <AiBusyOverlay show={isImproving} rounded="rounded-[32px]">
         <LoadingIndicator
           task="generation"
-          message={`Upgrading to Band ${exemplarBand}`}
+          message={`Lifting your answer to ${nextLevel.targetMark}/${prompt.totalMarks}`}
           messages={[
-            'Synthesising higher-order concepts...',
-            'Refining syllabus terminology...',
-            'Restructuring for Band ' + exemplarBand + '...',
+            'Keeping your wording and structure...',
+            'Adding what the marker asked for...',
+            'Sharpening the syllabus terminology...',
           ]}
           duration={12}
           band={exemplarBand}
@@ -713,8 +747,14 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
         </div>
       )}
 
-      {/* Improved Response (Exemplar) */}
-      {revisedText && (
+      {/* Improved Response (Exemplar).
+          Rendered when there IS a rewrite — or when the plan withheld one. The
+          proxy redacts the rewrite for an account whose plan doesn't include
+          answer upgrades (redactPaidFeedback), which left `revisedText` empty
+          and hid this whole section — including the upgrade button inside it
+          that is the only thing selling the feature. The section a free user
+          sees is the locked state below: no exemplar text, one clear CTA. */}
+      {(revisedText || (upgradesLocked && result.overallMark < prompt.totalMarks)) && (
         <section
           className={`clip-stable relative rounded-[32px] border-2 ${exemplarConfig.border} overflow-hidden shadow-xl transition-all duration-500 group mt-8`}
         >
@@ -736,11 +776,13 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 </h4>
                 <div className="flex items-center gap-3 mt-1">
                   <span className="text-[10px] font-bold text-white/90 uppercase tracking-widest">
-                    Band {exemplarBand} Standard
+                    {revisedText
+                      ? `Your answer, lifted to ${exemplarMark}/${prompt.totalMarks} — Band ${exemplarBand}`
+                      : `See your answer rewritten to ${exemplarMark}/${prompt.totalMarks}`}
                   </span>
-                  {result.overallBand < exemplarBand && (
+                  {revisedText && result.overallMark < exemplarMark && (
                     <span className="px-2 py-0.5 rounded-lg bg-white/20 text-white text-[9px] font-black uppercase tracking-wider backdrop-blur-sm no-print">
-                      Upgrade Available
+                      +{exemplarMark - result.overallMark} Mark
                     </span>
                   )}
                 </div>
@@ -748,7 +790,10 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             </div>
 
             <div className="flex flex-wrap gap-3 no-print">
-              {result.overallBand < maxBand && (
+              {/* Gated on MARKS, not bands: a student sitting at 5/6 inside the
+                  top band still has a mark to win, and the band test hid the
+                  control from them. */}
+              {result.overallMark < prompt.totalMarks && (
                 <button
                   onClick={
                     upgradesLocked ? () => requestUpgrade('answerUpgrades') : onImproveAnswer
@@ -766,26 +811,64 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                   }`}
                 >
                   <RefreshCw className={`w-4 h-4 ${isImproving ? 'animate-spin' : ''}`} />
-                  {isImproving ? 'Regenerating...' : 'Regenerate'}
+                  {isImproving
+                    ? 'Regenerating...'
+                    : revisedText
+                      ? 'Regenerate'
+                      : 'Improve my answer'}
                   {upgradesLocked && (
                     <PlusLockChip className="bg-white/15 border-white/40 text-white" />
                   )}
                 </button>
               )}
-              <button
-                onClick={() => onUseRevisedAnswer(stripHtmlTags(revisedText))}
-                className="px-6 py-3 rounded-xl bg-white text-indigo-900 hover:bg-indigo-50 border-2 border-transparent hover:border-white/50 text-[11px] font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-95 shadow-xl flex items-center gap-2"
-              >
-                <span>Use This Answer</span>
-                <ArrowUpCircle className="w-4 h-4" />
-              </button>
+              {/* The comparison is the point: the rewrite is an EDIT of the
+                  student's own answer, and reading it as a block of prose hides
+                  the handful of words that earned the extra mark. */}
+              {revisedText && onCompareImprovement && (
+                <button
+                  onClick={onCompareImprovement}
+                  className="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 text-[11px] font-bold uppercase tracking-widest transition-all hover:scale-105 active:scale-95 flex items-center gap-2 backdrop-blur-sm"
+                >
+                  <Columns2 className="w-4 h-4" />
+                  Compare with mine
+                </button>
+              )}
+              {revisedText && (
+                <button
+                  onClick={() => onUseRevisedAnswer(stripHtmlTags(revisedText))}
+                  className="px-6 py-3 rounded-xl bg-white text-indigo-900 hover:bg-indigo-50 border-2 border-transparent hover:border-white/50 text-[11px] font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-95 shadow-xl flex items-center gap-2"
+                >
+                  <span>Use This Answer</span>
+                  <ArrowUpCircle className="w-4 h-4" />
+                </button>
+              )}
             </div>
           </div>
 
           <div className="p-8 bg-white dark:bg-[#0f1420] relative z-10">
-            <div className="prose prose-lg prose-slate dark:prose-invert max-w-none font-serif leading-loose text-slate-800 dark:text-slate-200">
-              {renderFormattedText(revisedText, prompt.keywords, prompt.verb)}
-            </div>
+            {revisedText ? (
+              <div className="prose prose-lg prose-slate dark:prose-invert max-w-none font-serif leading-loose text-slate-800 dark:text-slate-200">
+                {renderFormattedText(revisedText, prompt.keywords, prompt.verb)}
+              </div>
+            ) : (
+              <div className="flex flex-col items-center text-center gap-3 py-6 no-print">
+                <Zap className={`w-8 h-8 ${exemplarConfig.text} opacity-60`} />
+                <p className="text-sm font-bold text-slate-700 dark:text-slate-200">
+                  Your answer, rewritten one mark higher — in your own words
+                </p>
+                <p className="max-w-md text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                  Band 6 Plus rewrites what you wrote to reach {exemplarMark}/{prompt.totalMarks},
+                  keeping your structure and voice, and shows you the changes side by side so you
+                  can see exactly what the extra mark was for.
+                </p>
+                <button
+                  onClick={() => requestUpgrade('answerUpgrades')}
+                  className={`mt-1 px-6 py-3 rounded-xl text-white text-[11px] font-black uppercase tracking-widest shadow-lg bg-gradient-to-r ${exemplarConfig.gradient} hover:scale-105 active:scale-95 transition-all`}
+                >
+                  See what Plus unlocks
+                </button>
+              </div>
+            )}
           </div>
         </section>
       )}
