@@ -256,12 +256,23 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
   const [isExporting, setIsExporting] = useState(false);
   const [exportStatus, setExportStatus] = useState('');
 
+  /**
+   * The rewrite, as this client is allowed to present it.
+   *
+   * The server withholds it from a plan without `answerUpgrades`, so normally
+   * there is nothing here to hide. The lock is applied again anyway, in ONE
+   * place that every consumer reads — the rendered exemplar, the buttons, the
+   * comparison, and the exported PDF — because a rewrite can outlive the
+   * entitlement that produced it: a cached result, or a session that was still
+   * open when the plan lapsed. A paid asset should not depend on which of four
+   * call sites remembered to check.
+   */
   const revisedText = useMemo(() => {
-    if (!result.revisedAnswer) return '';
+    if (upgradesLocked || !result.revisedAnswer) return '';
     return typeof result.revisedAnswer === 'string'
       ? result.revisedAnswer
       : result.revisedAnswer.text;
-  }, [result.revisedAnswer]);
+  }, [result.revisedAnswer, upgradesLocked]);
 
   // The question's tier caps how high an exemplar can realistically sit.
   const maxBand = useMemo(
@@ -346,6 +357,8 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             maxMark: c.maxMark,
             feedback: c.feedback,
           })),
+          // Empty while locked (see `revisedText`), which takes the improved
+          // response AND the change list built from it out of the file.
           revisedAnswer: revisedText || undefined,
           exemplarBand,
           exemplarMark,

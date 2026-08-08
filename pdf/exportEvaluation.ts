@@ -139,21 +139,29 @@ const drawBlock = (
   }
 
   if (block.kind === 'listItem') {
-    const r = block.runs[0];
-    const pt = r.baseFontPt * pScale;
     const indent = block.textIndentMm;
     const c = block.accent ?? COLORS.accent;
-    const baseline = y + ascentMm(pt);
+    const firstPt = block.runs[0].baseFontPt * pScale;
+    const baseline = y + ascentMm(firstPt);
     doc.setFillColor(c[0], c[1], c[2]);
-    doc.rect(xLeft, baseline - pt * MM_PER_PT * 0.42, 1.3 * pScale, 1.3 * pScale, 'F');
-    drawLines(doc, block.wrapped[0] ?? [r.text], {
-      ...ctx,
-      x: xLeft + indent,
-      y: baseline,
-      fontPt: pt,
-      style: r.style ?? 'normal',
-      color: r.color ?? COLORS.body,
-      lineHeightFactor: r.lineHeightFactor ?? 1.3,
+    doc.rect(xLeft, baseline - firstPt * MM_PER_PT * 0.42, 1.3 * pScale, 1.3 * pScale, 'F');
+
+    // EVERY run, not just the first. `measureBlock` has always reserved height
+    // for all of them, so a multi-run item (the diff's "− was / + now" pair)
+    // used to be measured at full height and drawn missing everything after the
+    // first line — a gap on the page where the content should be.
+    let cursor = baseline;
+    block.runs.forEach((r, index) => {
+      const pt = r.baseFontPt * pScale;
+      cursor += drawLines(doc, block.wrapped[index] ?? [r.text], {
+        ...ctx,
+        x: xLeft + indent,
+        y: cursor,
+        fontPt: pt,
+        style: r.style ?? 'normal',
+        color: r.color ?? COLORS.body,
+        lineHeightFactor: r.lineHeightFactor ?? 1.3,
+      });
     });
     return;
   }

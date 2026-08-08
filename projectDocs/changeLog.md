@@ -1,5 +1,64 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-08-08 (paywalling the upgrade, and printing it)
+
+### 🔒 The rewrite was gated on the wrong switch
+
+The rewritten answer inside a marking result was withheld only when
+`FREE_TIER_FEEDBACK_SUMMARY_ONLY` was on. That switch governs feedback
+**detail**; the rewrite is the `answerUpgrades` feature in its own right. So a
+deployment that opened feedback to the free tier — `FREE_TIER_FULL_FEEDBACK=true`,
+a documented option and the one a school pilot reaches for — handed every free
+account the paid rewrite, and with it the whole improvement review now built on
+top of it.
+
+- `redactPaidFeedback` takes a **scope**: `feedbackDetail` and `rewrite` are
+  decided separately, and both default to withholding so a caller that forgets
+  to say what it means keeps the paywall on.
+- `api/gemini.ts` resolves the caller's plan **once** per request (shared with
+  the paid-feature gate, which used to look it up independently) and gates the
+  rewrite on `answerUpgrades`. An unresolvable plan falls back to the
+  `unlimited` verdict already in hand rather than to "entitled":
+  `resolveCallerPlan` is fail-open by design, so treating null as entitled would
+  reopen the hole on any deployment whose `caller_plan` RPC is missing, while
+  failing hard would strip rewrites from paying customers for the same reason.
+- The meter failing open no longer opens the paywall — a count and a plan are
+  different questions.
+- Client-side, the lock is applied in **one** place that every consumer reads:
+  the rendered exemplar, the buttons, the comparison and the exported PDF. A
+  rewrite can outlive the entitlement that produced it (a cached result, a
+  session open when the plan lapsed), and a paid asset should not depend on
+  which of four call sites remembered to check.
+
+### ✨ The PDF shows what changed
+
+The exported report carried the improved response as a block of prose, leaving
+the student to work out which words earned the mark by eye.
+
+- A **"What changed"** section: the scale of the revision (*67 words added · 29
+  cut · 52% of your own writing kept*), then each edit as a `−` was / `+` now
+  pair.
+- A list rather than inline marking, because the page's text engine draws whole
+  wrapped lines in a single style — an inline diff on paper would mean a
+  word-placement engine. Every row carries a `−`/`+` prefix as well as colour,
+  so the page survives the greyscale printer most schools have.
+- Capped at 14 edits, with a line saying how many more are in the app.
+- Absent entirely when the rewrite is withheld, when nothing changed, or when
+  there is no student answer to compare against.
+
+### 🐛 Two print bugs found on the way
+
+- **A heading could be orphaned at the foot of a column.** Keep-with-next
+  reserved one *line* of the following block, but everything reaching the flow
+  has already been through `splitOversized` and moves as a unit — so a heading
+  that fit alongside one reserved line stayed put while its whole body jumped to
+  the next column ("IMPROVED RESPONSE" at the foot of one column, the response
+  itself at the head of the next). It now reserves the body's full height.
+- **A list item drew only its first run.** `measureBlock` has always reserved
+  height for all of them, so a multi-run item — exactly what the change list
+  needed — was measured at full height and drawn missing everything after the
+  first line, leaving a gap on the page.
+
 ## [Unreleased] - 2026-08-08 (hardening the improvement review)
 
 ### 🐛 The comparison was missing from the path students actually take

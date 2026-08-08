@@ -16,7 +16,7 @@ import {
 } from '../data/commandTerms';
 import { textContainsKeyword } from '../utils/renderUtils';
 import { useWritingMetrics } from '../hooks/useWritingMetrics';
-import { freeEvalsRemaining, subscribeEvalCount } from '../services/entitlements';
+import { freeEvalsRemaining, isFeatureLocked, subscribeEvalCount } from '../services/entitlements';
 import FreeEvalCounter from './FreeEvalCounter';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 
@@ -88,6 +88,8 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   blockPaste,
 }) => {
   const isExamMode = writingMode === 'exam';
+  // The rewrite, the diff review and the PDF's change list are one feature.
+  const upgradesLocked = isFeatureLocked('answerUpgrades');
   const editorRef = useRef<{
     getText: () => string;
     setText: (text: string) => void;
@@ -192,6 +194,11 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
    * way the model was briefed: one mark up, via the Verb Gate.
    */
   const reviewSubject = useMemo(() => {
+    // The server withholds the rewrite for a plan that does not include answer
+    // upgrades, so this is defence in depth rather than the gate itself — but
+    // it keeps the intent legible at the call site, and stops a stale cached
+    // result from re-opening the review after a downgrade.
+    if (upgradesLocked) return null;
     if (geminiHandlers.improvement) return geminiHandlers.improvement;
     if (!evaluationResult?.revisedAnswer) return null;
 
@@ -216,6 +223,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
       originalMark: evaluationResult.overallMark,
     };
   }, [
+    upgradesLocked,
     geminiHandlers.improvement,
     evaluationResult,
     evaluatedAnswer,

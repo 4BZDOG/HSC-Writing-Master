@@ -6,6 +6,7 @@
 
 import { ContentBlock, TextRun } from './types';
 import { normalizeContent } from './text';
+import { diffWords, groupedChanges, summariseDiff } from '../utils/textDiff';
 
 /** Brand palette (RGB 0-255). */
 export const COLORS = {
@@ -254,6 +255,83 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
       breakable: true,
       basePadBottom: 2,
     });
+
+    // 10. What changed ------------------------------------------------------
+    // The improvement is an EDIT of the student's own answer, so the printed
+    // report has to say WHICH words earned the mark — otherwise it is a page of
+    // prose the student is left to compare against their own by eye.
+    //
+    // A list rather than inline marking: the text engine draws whole wrapped
+    // lines in a single style, so an inline diff on paper would mean a word-
+    // placement engine. Every row is prefixed − / + as well as coloured, so the
+    // page survives a greyscale printer — which is most school printers.
+    if (data.studentAnswer?.trim()) {
+      const changes = groupedChanges(diffWords(data.studentAnswer, data.revisedAnswer));
+      const stats = summariseDiff(diffWords(data.studentAnswer, data.revisedAnswer));
+
+      if (changes.length > 0) {
+        blocks.push(spacer(1.5));
+        blocks.push(heading('What changed', exAccent));
+        blocks.push({
+          kind: 'paragraph',
+          id: nid('diffsum'),
+          runs: [
+            run(
+              `${stats.added} words added · ${stats.removed} cut · ` +
+                `${Math.round(stats.retention * 100)}% of your own writing kept`,
+              8.5,
+              { style: 'bold', color: COLORS.muted }
+            ),
+          ],
+          basePadBottom: 1.5,
+        });
+
+        // A long revision can run to dozens of edits; past a point the list
+        // stops being a revision aid and becomes a wall. Cap it and say so.
+        const MAX_PRINTED_CHANGES = 14;
+        changes.slice(0, MAX_PRINTED_CHANGES).forEach((change) => {
+          const runs: TextRun[] = [];
+          if (change.removed) {
+            runs.push(
+              run(`− ${change.removed}`, 8.5, { color: COLORS.rose, lineHeightFactor: 1.3 })
+            );
+          }
+          if (change.added) {
+            runs.push(
+              run(`+ ${change.added}`, 8.5, {
+                color: COLORS.emerald,
+                style: 'bold',
+                lineHeightFactor: 1.3,
+              })
+            );
+          }
+          blocks.push({
+            kind: 'listItem',
+            id: nid('chg'),
+            runs,
+            accent: exAccent,
+            breakable: true,
+            basePadBottom: 1.2,
+          });
+        });
+
+        if (changes.length > MAX_PRINTED_CHANGES) {
+          blocks.push({
+            kind: 'paragraph',
+            id: nid('chgmore'),
+            runs: [
+              run(
+                `+ ${changes.length - MAX_PRINTED_CHANGES} more change` +
+                  `${changes.length - MAX_PRINTED_CHANGES === 1 ? '' : 's'} — open the comparison in the app to see them all.`,
+                8,
+                { color: COLORS.muted }
+              ),
+            ],
+            basePadBottom: 2,
+          });
+        }
+      }
+    }
   }
 
   return blocks;

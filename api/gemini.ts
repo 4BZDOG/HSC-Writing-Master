@@ -15,6 +15,7 @@ import {
   monetisationEnabled,
   planUnlocks,
   shouldRedactFreeTierFeedback,
+  type Plan,
 } from './_lib/planPolicy';
 
 /**
@@ -101,8 +102,21 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   // provider response at the end of the handler).
   let isEvaluation = false;
   let onFreeTier = false;
+  // Whether this caller's plan covers the rewritten answer. Decided separately
+  // from the feedback-detail switch below — see `withholdRewrite`.
+  let rewriteAllowed = true;
   if (auth.userId) {
     const token = extractBearerToken(authHeader);
+
+    // The caller's plan, resolved AT MOST ONCE per request and shared by the
+    // feature gate and the rewrite gate. Both used to look it up independently
+    // (and the rewrite gate did not look at the plan at all).
+    let planLookup: Promise<Plan | null> | null = null;
+    const callerPlan = (): Promise<Plan | null> => {
+      if (!token) return Promise.resolve(null);
+      planLookup ??= resolveCallerPlan(token);
+      return planLookup;
+    };
 
     // Paywall gate: marking an answer is the metered product feature (schema
     // §14). Checked BEFORE the AI budget so a refused evaluation doesn't spend
@@ -131,6 +145,24 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       // staff, paid plans and licensed schools. A false here means the free
       // tier, whose result must be redacted before it leaves the server.
       onFreeTier = evaluations ? !evaluations.unlimited : false;
+
+      // The rewritten answer is the `answerUpgrades` feature, so it is gated on
+      // that feature and nothing else. It used to ride on the free-tier
+      // feedback switch, which meant a deployment with FREE_TIER_FULL_FEEDBACK
+      // =true — a supported choice, and the one a school pilot reaches for —
+      // handed every free account the paid rewrite, and with it the whole
+      // improvement review built on top of it.
+      //
+      // An unresolvable plan falls back to the verdict we already hold rather
+      // than to "entitled". `resolveCallerPlan` is fail-open by design (a
+      // billing lookup that breaks must not take marking down), so treating
+      // null as entitled would reopen the hole on any deployment whose
+      // `caller_plan` RPC is missing — while failing hard would strip rewrites
+      // from paying users for the same reason. `unlimited` comes from the same
+      // untamperable source as the evaluation count, so it is the right
+      // fallback: a metered free-tier caller is withheld either way.
+      const plan = await callerPlan();
+      rewriteAllowed = plan ? planUnlocks(plan, 'answerUpgrades') : !onFreeTier;
     }
 
     // Paid-feature gate. Marking is metered by COUNT above; the rest of the
@@ -140,7 +172,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     // the AI budget so a refused call costs the caller nothing.
     const feature = monetisationEnabled() ? featureFromRequest(req.body) : null;
     if (feature && token) {
-      const plan = await resolveCallerPlan(token);
+      const plan = await callerPlan();
       if (plan && !planUnlocks(plan, feature)) {
         const required = featureMinPlan(feature);
         res.status(402).json({
@@ -196,9 +228,18 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   // free tier (FREE_TIER_FULL_FEEDBACK=true) unlocks the feedback panel in the
   // client, and stripping the content anyway would leave a free user looking
   // at an unlocked panel full of "Upgrade to see this feedback."
+  // Two independent decisions, because they sell two different things:
+  // the per-criterion detail and improvement path belong to the free tier's
+  // summary trade-off, while the rewritten answer is the `answerUpgrades`
+  // feature. One switch used to govern both.
+  const withholdFeedbackDetail = onFreeTier && shouldRedactFreeTierFeedback();
+  const withholdRewrite = isEvaluation && !rewriteAllowed;
   const payload =
-    isEvaluation && onFreeTier && result.status === 200 && shouldRedactFreeTierFeedback()
-      ? redactEvaluationResponse(result.body)
+    isEvaluation && result.status === 200 && (withholdFeedbackDetail || withholdRewrite)
+      ? redactEvaluationResponse(result.body, {
+          feedbackDetail: withholdFeedbackDetail,
+          rewrite: withholdRewrite,
+        })
       : result.body;
 
   // Echo the caller's post-call usage on success so the client can warn as the

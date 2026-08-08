@@ -191,3 +191,60 @@ describe('redactEvaluationResponse', () => {
     expect(() => redactEvaluationResponse({ candidates: [{ content: { parts: [{}] } }] })).not.toThrow();
   });
 });
+
+describe('the rewrite is gated separately from the feedback detail', () => {
+  /**
+   * They sell two different things. The per-criterion prose and the improvement
+   * path are the free tier's summary trade-off; the rewritten answer is the
+   * `answerUpgrades` feature, and it is the input to the whole improvement
+   * review. One switch used to govern both, so a deployment that opened
+   * feedback to the free tier (FREE_TIER_FULL_FEEDBACK=true — supported, and
+   * what a school pilot reaches for) also gave away the paid rewrite.
+   */
+  it('withholds the rewrite while leaving the feedback detail intact', () => {
+    const redacted = redactPaidFeedback(evaluationPayload(), {
+      feedbackDetail: false,
+      rewrite: true,
+    });
+
+    expect(redacted.revisedAnswer).toBe('');
+    expect((redacted.criteria as { feedback: string }[])[0].feedback).toBe('Thorough but uneven.');
+    expect(redacted.improvements).toEqual([
+      'Sustain the judgement through the final paragraph',
+    ]);
+  });
+
+  it('withholds the feedback detail while leaving the rewrite intact', () => {
+    // A paying subscriber whose deployment still meters marking by count.
+    const redacted = redactPaidFeedback(evaluationPayload(), {
+      feedbackDetail: true,
+      rewrite: false,
+    });
+
+    expect(redacted.revisedAnswer).toBe('A full band 6 rewrite of the student answer…');
+    expect((redacted.criteria as { feedback: string }[])[0].feedback).toBe(
+      LOCKED_FEEDBACK_PLACEHOLDER
+    );
+  });
+
+  it('withholds everything by default, so a caller that forgets cannot open the gate', () => {
+    const redacted = redactPaidFeedback(evaluationPayload());
+
+    expect(redacted.revisedAnswer).toBe('');
+    expect((redacted.criteria as { feedback: string }[])[0].feedback).toBe(
+      LOCKED_FEEDBACK_PLACEHOLDER
+    );
+  });
+
+  it('carries the scope through the response walker', () => {
+    const body = geminiResponse(JSON.stringify(evaluationPayload()));
+
+    const walked = redactEvaluationResponse(body, { feedbackDetail: false, rewrite: true }) as {
+      candidates: { content: { parts: { text: string }[] } }[];
+    };
+    const payload = JSON.parse(walked.candidates[0].content.parts[0].text);
+
+    expect(payload.revisedAnswer).toBe('');
+    expect(payload.criteria[0].feedback).toBe('Thorough but uneven.');
+  });
+});

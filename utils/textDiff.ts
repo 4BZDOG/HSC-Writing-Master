@@ -247,6 +247,43 @@ export const changeAnchors = (segments: DiffSegment[]): number[] => {
   return anchors;
 };
 
+/** A single edit: what the revision took out, and what it put in its place. */
+export interface DiffChange {
+  removed: string;
+  added: string;
+}
+
+/**
+ * The diff as a list of discrete edits.
+ *
+ * The on-screen view can afford to mark words inline; a printed page cannot —
+ * the PDF's text engine draws whole wrapped lines in one style, so an inline
+ * diff there would mean a word-placement engine. A change LIST says the same
+ * thing in a form print handles well, and is arguably easier to revise from:
+ * "here is what you wrote, here is what it should say", eleven times.
+ */
+export const groupedChanges = (segments: DiffSegment[]): DiffChange[] => {
+  const changes: DiffChange[] = [];
+  let current: DiffChange | null = null;
+
+  for (const segment of segments) {
+    if (segment.op === 'equal') {
+      if (current) changes.push(current);
+      current = null;
+      continue;
+    }
+    current ??= { removed: '', added: '' };
+    if (segment.op === 'delete') current.removed += segment.value;
+    else current.added += segment.value;
+  }
+  if (current) changes.push(current);
+
+  return changes.map((change) => ({
+    removed: change.removed.trim(),
+    added: change.added.trim(),
+  }));
+};
+
 /**
  * One side of the side-by-side view: the ops that belong to that column, with
  * each `equal` run resolved to the wording that side actually used. Joining the
