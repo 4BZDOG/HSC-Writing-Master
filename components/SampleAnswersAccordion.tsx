@@ -13,6 +13,7 @@ import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import SampleAnswerGeneratorModal from './SampleAnswerGeneratorModal';
 import SampleAnswerRevisionModal from './SampleAnswerRevisionModal';
 import SampleAnswerEditorModal from './SampleAnswerEditorModal';
+import RecalibrateSamplesModal from './RecalibrateSamplesModal';
 import ConfirmationModal from './ConfirmationModal';
 import FlagContentModal from './FlagContentModal';
 import {
@@ -515,6 +516,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   const fontSize = fontSizeProp ?? localFontSize;
   const setFontSize = onFontSizeChange ?? setLocalFontSize;
   const [isRecalibrating, setIsRecalibrating] = useState(false);
+  const [isRecalibratePickerOpen, setIsRecalibratePickerOpen] = useState(false);
 
   const canCurate = canCurateContent(userRole);
   // AI generation (draft/recalibrate) is a separate capability from manual
@@ -550,16 +552,15 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
     return Object.values(groups).sort((a, b) => b.mark - a.mark);
   }, [prompt.sampleAnswers, prompt.totalMarks, prompt.verb, commandTermInfo.tier]);
 
-  const handleRecalibrate = async () => {
-    if (onRecalibrate) {
-      setIsRecalibrating(true);
-      try {
-        await onRecalibrate();
-      } finally {
-        // Always release the spinner — a failed AI call must not leave the
-        // button stuck in its "recalibrating" state.
-        setIsRecalibrating(false);
-      }
+  const handleRecalibrate = async (sampleIds: string[]) => {
+    if (!onRecalibrate) return;
+    setIsRecalibrating(true);
+    try {
+      await onRecalibrate(sampleIds);
+    } finally {
+      // Always release the spinner — a failed AI call must not leave the
+      // button stuck in its "recalibrating" state.
+      setIsRecalibrating(false);
     }
   };
 
@@ -655,14 +656,14 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             <>
               {onRecalibrate && (
                 <button
-                  onClick={handleRecalibrate}
+                  onClick={() => setIsRecalibratePickerOpen(true)}
                   disabled={isRecalibrating || !prompt.sampleAnswers?.length}
                   className={`
                     p-2 rounded-lg bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10
                     text-slate-500 hover:text-indigo-500 disabled:opacity-50 transition-all
                     ${isRecalibrating ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-500 border-indigo-200' : ''}
                   `}
-                  title="Recalibrate all samples with AI"
+                  title="Recalibrate samples with AI — choose which ones"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${isRecalibrating ? 'animate-spin' : ''}`} />
                 </button>
@@ -737,8 +738,24 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
         isOpen={isGeneratorOpen}
         onClose={() => setIsGeneratorOpen(false)}
         prompt={prompt}
-        onSampleAnswerGenerated={onSampleAnswerGenerated}
+        onSampleAnswerGenerated={(answer) => {
+          // Open the panel behind the modal as the batch lands. A teacher who
+          // just generated five exemplars into a folded card had nothing to
+          // show for it but a toast, and the panel defaults to folded.
+          setIsCollapsed(false);
+          setOpenGroupMark(answer.mark);
+          onSampleAnswerGenerated(answer);
+        }}
       />
+
+      {onRecalibrate && (
+        <RecalibrateSamplesModal
+          isOpen={isRecalibratePickerOpen}
+          onClose={() => setIsRecalibratePickerOpen(false)}
+          prompt={prompt}
+          onRecalibrate={handleRecalibrate}
+        />
+      )}
 
       {revisionTarget && (
         <SampleAnswerRevisionModal
@@ -818,7 +835,8 @@ interface SampleAnswersAccordionProps {
   onUpdateSampleAnswer: (answer: SampleAnswer) => void;
   onContributeSampleAnswer?: (answer: SampleAnswer) => void | Promise<void>;
   userRole: UserRole;
-  onRecalibrate?: () => Promise<void>;
+  /** Re-mark the chosen exemplars against the rubric. */
+  onRecalibrate?: (sampleIds: string[]) => Promise<void>;
   /** Start folded. Defaults to true, matching the rail's other panels. */
   defaultCollapsed?: boolean;
   /** Shared workspace reading size. Omit to keep a private size. */

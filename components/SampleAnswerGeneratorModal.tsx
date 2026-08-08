@@ -19,6 +19,7 @@ import {
 import { getBandConfig } from '../utils/renderUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useUnsavedChanges } from '../hooks/useUnsavedChanges';
 
 interface SampleAnswerGeneratorModalProps {
   isOpen: boolean;
@@ -46,6 +47,13 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
   // Escape closes this modal like every other modal surface (but never mid-operation).
   useEscapeKey(isOpen && !isLoading, onClose);
   useScrollLock(isOpen);
+  // Escape and the backdrop are already blocked while a batch runs, but a
+  // browser navigation was not: closing the tab five answers into an eight-mark
+  // ladder threw away every AI call still to land.
+  useUnsavedChanges(
+    isLoading,
+    'Sample answers are still being written. Leaving now will lose the ones not yet saved.'
+  );
   const [error, setError] = useState<string | null>(null);
 
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);

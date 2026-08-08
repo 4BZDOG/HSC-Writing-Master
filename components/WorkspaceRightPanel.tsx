@@ -4,6 +4,7 @@ import Editor from './Editor';
 import LiveInsights from './LiveInsights';
 import WritingMetricsDashboard from './WritingMetricsDashboard';
 import EvaluationResultModal from './EvaluationResultModal';
+import ImprovementReviewModal from './ImprovementReviewModal';
 import EvaluationProgressBar from './EvaluationProgressBar';
 import { Loader2, AlertTriangle, Sparkles } from 'lucide-react';
 import { getCommandTermInfo, getTargetBand, BAND_METRICS } from '../data/commandTerms';
@@ -392,11 +393,32 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           onImproveAnswer={() =>
             geminiHandlers.improveAnswer(evaluatedAnswer, currentPrompt, evaluationResult)
           }
+          onCompareImprovement={
+            geminiHandlers.improvement
+              ? () => geminiHandlers.setShowImprovementReview(true)
+              : undefined
+          }
           isImproving={isImproving}
           improveAnswerError={improveAnswerError}
           onSaveToSamples={handleSaveUserResponse}
           onFeedbackSubmit={geminiHandlers.handleFeedbackSubmit}
           hierarchy={hierarchyContext}
+        />
+      )}
+
+      {/* The diff review. Stacks above the feedback modal it is opened from —
+          the student compares, then returns to the rest of their marking. */}
+      {geminiHandlers.improvement && (
+        <ImprovementReviewModal
+          isOpen={!!geminiHandlers.showImprovementReview}
+          onClose={() => geminiHandlers.setShowImprovementReview(false)}
+          improvedAnswer={geminiHandlers.improvement.text}
+          originalAnswer={geminiHandlers.improvement.originalAnswer}
+          originalPrompt={currentPrompt}
+          targetBand={geminiHandlers.improvement.band}
+          targetMark={geminiHandlers.improvement.mark}
+          originalMark={geminiHandlers.improvement.originalMark}
+          onApply={setUserAnswer}
         />
       )}
     </div>

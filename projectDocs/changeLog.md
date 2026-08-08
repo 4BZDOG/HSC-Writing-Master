@@ -1,5 +1,76 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-08-08 (the improvement review)
+
+### ✨ "Your answer, improved" — as a marked-up diff
+
+The improvement is briefed as an *edit* of the student's own response, so the
+only reading that makes sense is a comparison. Reading it as a fresh block of
+prose hides the handful of words that earned the extra mark, which is the one
+thing the student came for.
+
+- A new **word-level diff** (`utils/textDiff.ts`): LCS over tokens, computed on
+  the pruned middle after common prefixes and suffixes are peeled off, with a
+  size guard that degrades to a wholesale replacement rather than allocating a
+  matrix for a pathological input. Tokens are compared ignoring case and
+  punctuation — a sentence that only gained a full stop is not a rewritten
+  sentence — but each side keeps its own surface form, so joining the segments
+  reproduces either text **exactly**. That losslessness is load-bearing: "use
+  this version" must hand back text the student actually read.
+- **`ImprovementReviewModal` is now a real surface.** It was fully built and
+  never mounted anywhere, which is why "Regenerate" had nowhere to show its
+  result. It opens on its own the moment an upgrade lands, and again from
+  "Compare with mine" on the feedback screen.
+  - **Marked up**: one flowing text, added words underlined in green, cut words
+    struck through in red, everything unmarked the student's own.
+  - **Side by side**: their original with the cuts, the revision with the
+    additions, each column counting its own words.
+  - A summary strip — *67 added · 29 cut · 52% of your words kept*. The
+    retention figure is how a student can tell at a glance whether the AI
+    actually followed its brief.
+  - **The syllabus terms the revision brought in** are named, because that is
+    usually what the extra mark was for.
+  - Colour is never the only cue: additions are underlined, cuts struck
+    through, and both carry titles.
+- `useGemini` now carries the upgrade as one `AnswerImprovement` value rather
+  than three loose strings, so the header can never label one revision with
+  another's mark.
+
+### 🐛 The upgrade CTA a free account could never reach
+
+The Improved Response section only rendered when there was rewrite text — but
+the proxy withholds that text for a plan without answer upgrades, so the section
+vanished, taking with it the one button that sells the feature. A free account
+now gets the section in a locked state: no exemplar, a plain description of what
+Plus does, and a working call to action.
+
+### ✨ Recalibration is a choice, not all-or-nothing
+
+Recalibration is metered marking — one evaluation per sample — so re-marking
+eight exemplars to fix the one that looks wrong spent seven credits for nothing.
+A picker now lists the samples with quick picks for **All / None / AI only /
+Band mismatch**, states the cost up front, and defaults to the mismatched set
+(stored band disagreeing with the Verb Gate — the drift recalibration exists to
+repair). It also **merges by id** rather than replacing the array, which is what
+made a narrowed selection possible: the old assignment would have deleted every
+sample the teacher did not choose, and already dropped any exemplar added while
+a batch was running.
+
+### 💄 Batch generation and the rename trap
+
+- A finished batch now **opens the Sample Answers panel** and the group it just
+  wrote to. The panel defaults to folded, so a teacher who generated five
+  exemplars had nothing to show for it but a toast.
+- Leaving the tab **mid-batch** now warns. Escape and the backdrop were already
+  blocked; a browser navigation was not, and it threw away every call still to
+  land.
+- **Renaming a dot point no longer changes its focus areas behind your back.**
+  Focus areas are read from the dot point's wording, so editing it rewrites
+  them — and they are what a generated question is narrowed to. The rename
+  dialog now shows the before and after and offers to keep the current list
+  (by pinning it as an override). Silent when the list is already hand-set,
+  because that case is already immune.
+
 ## [Unreleased] - 2026-08-08 (quality of life)
 
 ### ✨ Build a whole ladder of exemplars in one pass

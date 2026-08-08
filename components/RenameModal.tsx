@@ -1,7 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { Edit3, X } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Edit3, X, Target, AlertTriangle } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+
+/**
+ * Focus-area protection for a dot-point rename.
+ *
+ * A dot point's focus areas are normally READ from its description, so editing
+ * the wording silently rewrites them — and because those focus areas are what a
+ * generated question is narrowed to, a teacher fixing a typo could quietly
+ * change what the app writes questions about. When the rename would change
+ * them, the dialog says so and offers to keep the current list (by writing it
+ * as an explicit override).
+ */
+export interface RenameFocusAreaGuard {
+  /** Focus areas as they stand now. */
+  current: string[];
+  /** What the focus areas would become for a candidate description. */
+  previewFor: (name: string) => string[];
+  /** True when the list is already hand-set, and so immune to the rename. */
+  isOverridden: boolean;
+  /** Pin the current list so the rename cannot change it. */
+  onKeep: (focusAreas: string[]) => void;
+}
 
 interface RenameModalProps {
   isOpen: boolean;
@@ -10,6 +31,8 @@ interface RenameModalProps {
   targetType: string;
   initialName: string;
   existingNames?: string[];
+  /** Supplied for a dot point only — see RenameFocusAreaGuard. */
+  focusAreaGuard?: RenameFocusAreaGuard;
 }
 
 const RenameModal: React.FC<RenameModalProps> = ({
@@ -19,19 +42,32 @@ const RenameModal: React.FC<RenameModalProps> = ({
   targetType,
   initialName,
   existingNames = [],
+  focusAreaGuard,
 }) => {
   // Escape closes this modal like every other modal surface.
   useEscapeKey(isOpen, onClose);
   useScrollLock(isOpen);
   const [newName, setNewName] = useState(initialName);
   const [error, setError] = useState<string | null>(null);
+  const [keepFocusAreas, setKeepFocusAreas] = useState(true);
 
   useEffect(() => {
     if (isOpen) {
       setNewName(initialName);
       setError(null);
+      setKeepFocusAreas(true);
     }
   }, [isOpen, initialName]);
+
+  // Only a live rename can change the focus areas, and only when they are still
+  // being read from the description. A hand-set list already survives this.
+  const focusAreaChange = useMemo(() => {
+    if (!focusAreaGuard || focusAreaGuard.isOverridden) return null;
+    const next = focusAreaGuard.previewFor(newName.trim());
+    const current = focusAreaGuard.current;
+    const changed = next.length !== current.length || next.some((item, i) => item !== current[i]);
+    return changed ? { current, next } : null;
+  }, [focusAreaGuard, newName]);
 
   useEffect(() => {
     const trimmedNewName = newName.trim();
@@ -48,6 +84,8 @@ const RenameModal: React.FC<RenameModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (newName.trim() && !error) {
+      // Pin BEFORE the rename: the description change is what re-reads them.
+      if (focusAreaChange && keepFocusAreas) focusAreaGuard?.onKeep(focusAreaChange.current);
       onRename(newName.trim());
       onClose();
     }
@@ -119,6 +157,48 @@ const RenameModal: React.FC<RenameModalProps> = ({
               onFocus={(e) => e.target.select()}
             />
             {error && <p className="text-red-400 light:text-red-600 text-xs mt-2">{error}</p>}
+
+            {focusAreaChange && (
+              <div className="mt-4 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 animate-fade-in">
+                <p className="flex items-center gap-2 text-[11px] font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-2">
+                  <AlertTriangle className="w-3.5 h-3.5" /> This changes the focus areas
+                </p>
+                <p className="text-[11px] leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 mb-3">
+                  Focus areas are read from this dot point's wording, and questions are narrowed to
+                  them.
+                </p>
+                <div className="space-y-1.5 mb-3 text-[11px]">
+                  <div className="flex flex-wrap items-baseline gap-1.5">
+                    <span className="font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 w-12 shrink-0">
+                      Now
+                    </span>
+                    <span className="text-[rgb(var(--color-text-secondary))] light:text-slate-700">
+                      {focusAreaChange.current.join(', ') || '(none)'}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap items-baseline gap-1.5">
+                    <span className="font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 w-12 shrink-0">
+                      After
+                    </span>
+                    <span className="text-[rgb(var(--color-text-secondary))] light:text-slate-700">
+                      {focusAreaChange.next.join(', ') || '(none)'}
+                    </span>
+                  </div>
+                </div>
+                <label className="flex items-center gap-2.5 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={keepFocusAreas}
+                    onChange={(e) => setKeepFocusAreas(e.target.checked)}
+                    className="w-4 h-4 accent-amber-500"
+                  />
+                  <span className="flex items-center gap-1.5 text-[11px] font-bold text-[rgb(var(--color-text-primary))] light:text-slate-800">
+                    <Target className="w-3 h-3 text-emerald-500" />
+                    Keep the focus areas I have now
+                  </span>
+                </label>
+              </div>
+            )}
           </div>
 
           <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end gap-3">
