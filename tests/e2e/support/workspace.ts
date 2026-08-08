@@ -8,10 +8,16 @@ import { expect, Page } from '@playwright/test';
  * subject of any one test, so they live here.
  */
 
-export const signIn = async (page: Page): Promise<void> => {
+/**
+ * Sign in as one of the mock accounts. `user` is the free tier, which is what
+ * most specs want; `admin` holds the most permissive plan, so it is the one to
+ * use when a spec needs a feature the free tier has withheld (the answer
+ * rewrite, PDF export).
+ */
+export const signIn = async (page: Page, account: 'user' | 'admin' = 'user'): Promise<void> => {
   await page.goto('/');
-  await page.fill('#username', 'user');
-  await page.fill('#password', 'user');
+  await page.fill('#username', account);
+  await page.fill('#password', account);
   await page.click('button[type=submit]');
 };
 

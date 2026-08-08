@@ -1,10 +1,29 @@
 name: Build & Test
 
 on:
+  # Feature branches are deliberately NOT listed here.
+  #
+  # `claude/*` used to be a push trigger as well, so a branch with an open pull
+  # request ran this entire pipeline TWICE for every commit — two lint jobs, two
+  # builds, two RLS runs and, worst of all, two full E2E matrices for the same
+  # SHA. That is a straight doubling of the wall-clock cost of exactly the
+  # moment it hurts most: pushing a fix and waiting to merge. A feature branch
+  # now gets its checks through its pull request, which is where the result is
+  # read anyway.
   push:
-    branches: [main, develop, claude/*]
+    branches: [main, develop]
   pull_request:
     branches: [main, develop]
+
+# Superseded runs are cancelled rather than left to finish. Pushing three fixes
+# in quick succession used to queue three complete pipelines, and on a runner
+# pool of any size the queue is the wait.
+#
+# `main` is excluded from cancellation: those runs gate the deploy, so the last
+# green commit must actually be verified rather than cancelled by the next push.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   lint:
@@ -80,10 +99,11 @@ jobs:
 
       - run: npm ci --legacy-peer-deps
 
-      - name: Run tests
-        run: npm run test -- --run
-
-      - name: Generate coverage
+      # One pass, not two. This job used to run the whole suite, then run it
+      # again under coverage — the second run repeats every test the first one
+      # just executed. `--coverage` reports the failures either way, so the
+      # first pass bought nothing but its own runtime.
+      - name: Run tests with coverage
         run: npm run test:coverage -- --run
 
       - name: Upload coverage to Codecov
@@ -154,14 +174,41 @@ jobs:
 
       - run: npm ci --legacy-peer-deps
 
+      # The Playwright version as actually installed, so the cache key below
+      # changes exactly when the browser build it pins would.
+      - name: Resolve Playwright version
+        id: pw
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      # The browsers are ~1.3GB unpacked (Chromium alone is ~900MB) and were
+      # downloaded and unpacked from scratch on every single run — a minute or
+      # more before a test could start. The key carries the engine set as well
+      # as the version, so a pull request's two-engine cache and main's
+      # full-matrix cache never overwrite one another.
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-${{ runner.os }}-${{ steps.pw.outputs.version }}-${{ github.event_name == 'pull_request' && 'pr' || 'full' }}
+
       # Only the engines the matrix below will actually launch: Mobile Safari
       # is WebKit, so a pull request needs no Firefox download either.
+      #
+      # On a cache hit only the OS-level shared libraries are installed
+      # (--only-shell is not enough — those live outside the cached directory
+      # and are what a cold runner is missing).
       - name: Install Playwright browsers
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            npx playwright install --with-deps chromium webkit
+            ENGINES="chromium webkit"
           else
-            npx playwright install --with-deps
+            ENGINES=""
+          fi
+          if [ "${{ steps.pw-cache.outputs.cache-hit }}" = "true" ]; then
+            npx playwright install-deps $ENGINES
+          else
+            npx playwright install --with-deps $ENGINES
           fi
 
       # Pull requests run the trimmed matrix (Chromium + Mobile Safari, plus

@@ -125,3 +125,59 @@ test.describe('Workspace accessibility', () => {
     await expect(textarea).toHaveAttribute('placeholder', /.+/);
   });
 });
+
+test.describe('Comparison before feedback', () => {
+  test.describe.configure({ timeout: 90_000 });
+
+  /**
+   * The comparison comes first, and the summary is behind it.
+   *
+   * This is an end-to-end test rather than a unit one because the failure it
+   * guards against is a plumbing failure: the flag that tells the review it is
+   * standing in front of the feedback travels from the hook, through App's
+   * memoised handler bag, into the right-hand panel. Every unit test around it
+   * passed while the bag was quietly dropping it, and the only visible symptom
+   * was a button with the wrong label.
+   *
+   * Signed in as admin: the free tier has its rewrite withheld server-side, so
+   * a free account has no comparison to be shown first.
+   */
+  test('the comparison is shown before the marking summary', async ({ page }) => {
+    await stubAi(page, (route) =>
+      route.fulfill(
+        proxyReply({
+          ...MARKED_RESPONSE,
+          revisedAnswer: {
+            text:
+              'DNA replication begins when helicase unwinds the double helix, and DNA polymerase ' +
+              'adds complementary bases along each template strand.',
+            mark: 4,
+            band: 5,
+            keyChanges: [],
+          },
+        })
+      )
+    );
+    await signIn(page, 'admin');
+    await clearOnboarding(page);
+    await openFirstQuestion(page);
+
+    await writingSurface(page).fill(
+      'DNA replication begins when the double helix unwinds. Each strand then acts as a ' +
+        'template, and complementary bases are added along it to build two identical molecules.'
+    );
+    await page.getByRole('button', { name: /^Evaluate/ }).click();
+
+    // The diff arrives first, with a labelled way forward rather than only an X.
+    const carryOn = page.getByRole('button', { name: /See my full feedback/i });
+    await expect(carryOn).toBeVisible({ timeout: 30_000 });
+    // …and the summary is genuinely behind it, not merely scrolled away.
+    await expect(page.getByText(MARKED_RESPONSE.overallFeedback)).toHaveCount(0);
+
+    await carryOn.click();
+
+    // Continuing reveals the marking — it must not have cost a re-mark.
+    await expect(page.getByText(MARKED_RESPONSE.overallFeedback)).toBeVisible({ timeout: 15_000 });
+    await expect(carryOn).toHaveCount(0);
+  });
+});
