@@ -76,6 +76,26 @@ export const TIER_GROUPS = [
   },
 ];
 
+/**
+ * A one-word label for a cognitive tier, for table headers and heatmap columns
+ * where the full `TIER_GROUPS` title is too long.
+ *
+ * Derived from that title rather than written out again. Two admin components
+ * previously kept their own hand-written copies, and both had drifted: tier 3
+ * (`Explain & Compare`) was labelled "Apply", which is a tier-4 verb, and tier 5
+ * (`Discuss, Assess & Justify`) was labelled "Synthesise", which is a tier-6
+ * verb. Because each wrong label named a tier that also appears in the same
+ * table, the mistake read as self-consistent — a teacher acting on
+ * "Noah — Synthesise 20%" would have been looking at his Discuss/Assess/Justify
+ * work, with his actual synthesis in the column marked "Evaluate".
+ */
+export const tierShortLabel = (tier: number): string => {
+  const group = TIER_GROUPS.find((g) => g.tier === tier);
+  // The title's first word is the tier's defining verb in every group; the rest
+  // ("& Compare", ", Assess & Justify") is elaboration.
+  return group ? group.title.split(/[\s,&]+/)[0] : `Tier ${tier}`;
+};
+
 export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   // --- Tier 1: Remember & List ---
   {
@@ -940,6 +960,29 @@ export const markForBand = (targetBand: number, totalMarks: number, tier: number
     if (getBandForMark(mark, totalMarks, tier) >= targetBand) return mark;
   }
   return totalMarks;
+};
+
+/**
+ * The next marking level up from a student's current mark: one more mark, and
+ * the band that mark maps to on this question.
+ *
+ * "Improve my answer" is a coaching move, not a request for a model answer — the
+ * student needs to see the smallest change that earns the next mark, at a length
+ * they could actually write. Targeting a whole band jump instead produced
+ * exemplars several times longer than the student's own work, which teaches the
+ * wrong lesson about exam scope. Every surface that names the improvement target
+ * (the AI brief, the saved exemplar's mark, the "Improved Response" header)
+ * reads it from here so they cannot disagree.
+ */
+export const getNextLevelTarget = (
+  currentMark: number,
+  totalMarks: number,
+  tier: number = 4
+): { targetMark: number; targetBand: number } => {
+  const safeTotal = Math.max(0, totalMarks);
+  const safeCurrent = Math.max(0, Math.min(currentMark, safeTotal));
+  const targetMark = Math.min(safeTotal, safeCurrent + 1);
+  return { targetMark, targetBand: getBandForMark(targetMark, safeTotal, tier) };
 };
 
 /**

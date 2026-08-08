@@ -12,5 +12,8 @@
 grant usage on schema public to anon, authenticated;
 grant select, insert, update, delete on all tables in schema public to anon, authenticated;
 grant usage, select on all sequences in schema public to anon, authenticated;
-grant execute on all functions in schema public to anon, authenticated;
+-- NOT granted here: execute on public functions. Those come from the ALTER
+-- DEFAULT PRIVILEGES in 01_shim.sql, which fires as each function is created —
+-- exactly as Supabase does it. Re-granting after schema.sql would undo every
+-- `revoke ... from public, anon` the schema performs, and hide real exposure.
 grant execute on all functions in schema auth   to anon, authenticated;

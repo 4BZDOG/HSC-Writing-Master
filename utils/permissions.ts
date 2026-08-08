@@ -22,6 +22,23 @@ import { UserRole } from '../types';
 export const canCurateContent = (role: UserRole): boolean => role === 'admin' || role === 'teacher';
 
 /**
+ * Create the top TWO levels of the syllabus tree — a whole COURSE, or a TOPIC
+ * within one. Admin only, and deliberately narrower than `canCurateContent`.
+ *
+ * A course and its topics are the app's shared skeleton: every teacher in a
+ * school navigates the same tree, so a duplicate "Enterprise Computing" or a
+ * topic split two ways is a mess everyone else has to live with, and no
+ * individual teacher can tidy. Everything BELOW a topic — sub-topics, dot
+ * points, questions, rubrics, sample answers — stays with `canCurateContent`,
+ * because that is where a teacher's own work belongs and a mistake is local.
+ *
+ * Teachers are not left without a route: a course that does not exist yet can
+ * be REQUESTED (services/courseDemandService.ts), which puts it in front of an
+ * admin with the demand behind it rather than in the tree unannounced.
+ */
+export const canCreateCurriculum = (role: UserRole): boolean => role === 'admin';
+
+/**
  * Use AI to GENERATE new curriculum content: questions, marking guides,
  * sample answers, dot points, syllabus imports. Distinct from
  * `canCurateContent` (manual editing) so the two sets can diverge as roles

@@ -92,6 +92,29 @@ describe('redactPaidFeedback', () => {
     expect(redacted.revisedAnswer).toBe('');
   });
 
+  it('withholds the rewrite in its structured form too', () => {
+    // The evaluation request asks for a plain string, but only Gemini enforces
+    // a response schema — the OpenRouter/Groq/Kimi adapters treat it as a hint,
+    // and the client's Zod schema accepts either shape. A string-only check
+    // handed a free user the whole band-6 rewrite whenever a provider chose the
+    // object form, which is the answerUpgrades feature given away outright.
+    const redacted = redactPaidFeedback({
+      ...evaluationPayload(),
+      revisedAnswer: {
+        text: 'A full band 6 rewrite of the student answer…',
+        mark: 9,
+        band: 6,
+        keyChanges: ['Sustained judgement', 'Named the syllabus term'],
+      },
+    });
+    const rewrite = redacted.revisedAnswer as { text: string; keyChanges: string[]; band: number };
+    expect(rewrite.text).toBe('');
+    expect(rewrite.keyChanges).toEqual([]);
+    // The shape survives — the client validates this payload, so deleting the
+    // field would show an error instead of a paywall.
+    expect(rewrite.band).toBe(6);
+  });
+
   it('keeps the summary the free tier is promised, and every mark', () => {
     const original = evaluationPayload();
     const redacted = redactPaidFeedback(original);
@@ -166,5 +189,62 @@ describe('redactEvaluationResponse', () => {
     expect(() => redactEvaluationResponse({ candidates: 'nope' })).not.toThrow();
     expect(() => redactEvaluationResponse({ candidates: [{}] })).not.toThrow();
     expect(() => redactEvaluationResponse({ candidates: [{ content: { parts: [{}] } }] })).not.toThrow();
+  });
+});
+
+describe('the rewrite is gated separately from the feedback detail', () => {
+  /**
+   * They sell two different things. The per-criterion prose and the improvement
+   * path are the free tier's summary trade-off; the rewritten answer is the
+   * `answerUpgrades` feature, and it is the input to the whole improvement
+   * review. One switch used to govern both, so a deployment that opened
+   * feedback to the free tier (FREE_TIER_FULL_FEEDBACK=true — supported, and
+   * what a school pilot reaches for) also gave away the paid rewrite.
+   */
+  it('withholds the rewrite while leaving the feedback detail intact', () => {
+    const redacted = redactPaidFeedback(evaluationPayload(), {
+      feedbackDetail: false,
+      rewrite: true,
+    });
+
+    expect(redacted.revisedAnswer).toBe('');
+    expect((redacted.criteria as { feedback: string }[])[0].feedback).toBe('Thorough but uneven.');
+    expect(redacted.improvements).toEqual([
+      'Sustain the judgement through the final paragraph',
+    ]);
+  });
+
+  it('withholds the feedback detail while leaving the rewrite intact', () => {
+    // A paying subscriber whose deployment still meters marking by count.
+    const redacted = redactPaidFeedback(evaluationPayload(), {
+      feedbackDetail: true,
+      rewrite: false,
+    });
+
+    expect(redacted.revisedAnswer).toBe('A full band 6 rewrite of the student answer…');
+    expect((redacted.criteria as { feedback: string }[])[0].feedback).toBe(
+      LOCKED_FEEDBACK_PLACEHOLDER
+    );
+  });
+
+  it('withholds everything by default, so a caller that forgets cannot open the gate', () => {
+    const redacted = redactPaidFeedback(evaluationPayload());
+
+    expect(redacted.revisedAnswer).toBe('');
+    expect((redacted.criteria as { feedback: string }[])[0].feedback).toBe(
+      LOCKED_FEEDBACK_PLACEHOLDER
+    );
+  });
+
+  it('carries the scope through the response walker', () => {
+    const body = geminiResponse(JSON.stringify(evaluationPayload()));
+
+    const walked = redactEvaluationResponse(body, { feedbackDetail: false, rewrite: true }) as {
+      candidates: { content: { parts: { text: string }[] } }[];
+    };
+    const payload = JSON.parse(walked.candidates[0].content.parts[0].text);
+
+    expect(payload.revisedAnswer).toBe('');
+    expect(payload.criteria[0].feedback).toBe('Thorough but uneven.');
   });
 });

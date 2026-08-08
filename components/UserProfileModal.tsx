@@ -37,14 +37,18 @@ import {
 } from 'lucide-react';
 import { downloadMyData, deleteMyAccount } from '../services/dataRightsService';
 import { getBandConfig } from '../utils/renderUtils';
+import { canUseAiGeneration } from '../utils/permissions';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import {
   getUserPlan,
   PLAN_LABELS,
   createPortalUrl,
-  fetchBillingState,
+  fetchBillingLookup,
+  monetisationEnabled,
+  planUnlocks,
   requestUpgrade,
+  type BillingLookup,
   type BillingState,
   type Plan,
 } from '../services/entitlements';
@@ -75,26 +79,59 @@ const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
 const PlanCard: React.FC<{ user: User }> = ({ user }) => {
   const plan: Plan = getUserPlan(user);
   const isPaid = plan !== 'free';
+  /** Whether this deployment charges for anything at all (pilots do not). */
+  const selling = monetisationEnabled();
+  // Read from the live policy: a deployment can move the Studio to Plus with
+  // PLAN_FEATURE_OVERRIDES, and this card must not keep saying otherwise.
+  const studioIncluded = planUnlocks(plan, 'aiContentStudio');
+  // Plan is only half the studio's gate; the role is the other half. A student
+  // never authors, whatever they pay, so the studio is not part of what their
+  // plan means to them.
+  const canAuthor = canUseAiGeneration(user.role);
   const [portalLoading, setPortalLoading] = useState(false);
   const [portalError, setPortalError] = useState<string | null>(null);
   // The profile's cached plan can't tell "renews" from "ends" — that lives on
   // the subscription row. Without it a user who has already cancelled is told
   // their plan renews on the exact date it stops.
-  const [billing, setBilling] = useState<BillingState | null>(null);
+  // 'pending' until the lookup returns, so the portal button neither flickers
+  // in nor is wrongly withheld before we know who is paying.
+  const [lookup, setLookup] = useState<BillingLookup | { status: 'pending' }>({
+    status: 'pending',
+  });
 
   useEffect(() => {
     if (!isPaid) return;
     let cancelled = false;
-    fetchBillingState().then((state) => {
-      if (!cancelled) setBilling(state);
+    fetchBillingLookup().then((result) => {
+      if (!cancelled) setLookup(result);
     });
     return () => {
       cancelled = true;
     };
   }, [isPaid]);
 
+  const billing: BillingState | null = lookup.status === 'found' ? lookup.state : null;
   const periodEnd = billing?.currentPeriodEnd ?? user.planPeriodEnd ?? null;
   const endsAtPeriodEnd = billing?.cancelAtPeriodEnd === true;
+
+  /**
+   * Does this user hold the plan through a subscription of their OWN?
+   *
+   * Holding a paid plan is not the same as being the payer. Teachers get Plus
+   * as a staff perk, admins hold School by role, and every member of a
+   * licensed school holds School because someone else bought seats. None of
+   * them has a `stripe_customer_id`, so /api/customer-portal answers 404 "No
+   * billing account found. Please subscribe first." — which reads as a broken
+   * button, and tells a teacher to buy something they already have.
+   *
+   * Their own subscription row is the only honest signal — but only when the
+   * lookup could actually answer. A failed query must fall back to OFFERING
+   * the portal (the behaviour before this existed): showing a real subscriber
+   * a button that might 404 is a far smaller wrong than telling them they have
+   * no subscription and hiding their only route to Stripe.
+   */
+  const showPortal = isPaid && lookup.status !== 'none';
+  const perkPlan = isPaid && lookup.status === 'none';
 
   const handleManageBilling = async () => {
     setPortalLoading(true);
@@ -128,14 +165,33 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
           </h4>
           {isPaid && (
             <span className="px-2 py-0.5 rounded-lg bg-amber-400/20 text-amber-500 text-[9px] font-black uppercase tracking-widest">
-              Active
+              {perkPlan ? 'Included' : 'Active'}
             </span>
           )}
         </div>
         <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed mb-3">
-          {isPaid
-            ? 'Full access to all features, unlimited evaluations, and exam simulation.'
-            : 'Limited daily evaluations and basic features. Upgrade to unlock everything.'}
+          {/* Plan-accurate, not aspirational — read from the live policy rather
+              than asserted, so a deployment that moves the studio between plans
+              cannot leave this card claiming otherwise.
+
+              The studio sentence is shown only to an account that can actually
+              USE it. The plan unlocks the studio, but `canUseAiGeneration`
+              keeps authoring to staff, so telling a student on Plus that "the
+              AI Content Studio is included" describes a set of buttons they
+              will never be shown. */}
+          {!selling
+            ? // Every gate is open on this deployment, so telling a free-plan
+              // user their features are "limited" and inviting them to upgrade
+              // would describe an app they are not using.
+              'Every feature is available on this deployment — nothing is held back and there is nothing to buy.'
+            : isPaid
+              ? `Unlimited marking, full criterion feedback and every ${PLAN_LABELS.plus} tool.` +
+                (canAuthor
+                  ? studioIncluded
+                    ? ' The AI Content Studio is included.'
+                    : ` The AI Content Studio is part of the ${PLAN_LABELS.school} plan.`
+                  : '')
+              : 'Limited daily evaluations and basic features. Upgrade to unlock everything.'}
           {isPaid && user.stripePlan && periodEnd && (
             <span
               className={`block mt-1 text-[10px] font-bold ${
@@ -152,7 +208,7 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
             </span>
           )}
         </p>
-        {isPaid ? (
+        {showPortal && (
           <button
             onClick={handleManageBilling}
             disabled={portalLoading}
@@ -161,13 +217,20 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
             <ExternalLink className="w-3 h-3" />
             {portalLoading ? 'Opening...' : 'Manage Subscription'}
           </button>
-        ) : null}
+        )}
+        {perkPlan && (
+          <p className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed">
+            {plan === 'school'
+              ? 'Held through your school’s licence — there is nothing to pay and no subscription of your own to manage. Your school administrator handles the billing.'
+              : 'Included with your account — there is nothing to pay and no subscription of your own to manage.'}
+          </p>
+        )}
         {isPaid && portalError && (
           <p className="mt-2 text-[10px] font-bold text-red-400 light:text-red-600">
             {portalError}
           </p>
         )}
-        {!isPaid && (
+        {!isPaid && selling && (
           <button
             onClick={() => requestUpgrade('fullFeedback')}
             className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg hover:scale-105 active:scale-95 transition-all flex items-center gap-2"

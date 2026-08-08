@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CourseOutcome } from '../types';
 import { parseOutcomesFromText } from '../services/geminiService';
+import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import { Target, X, Sparkles, Plus, Trash2 } from 'lucide-react';
@@ -57,6 +58,15 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
 
   const handleParseText = async () => {
     if (!pastedText.trim()) return;
+    // The parser is a plan-gated AI Content Studio call, so the lock has to be
+    // checked HERE too. Without it the proxy's 402 arrives as a raw inline
+    // error on a deployment that prices the studio above this caller's plan —
+    // a dead end instead of the upgrade prompt every other studio control
+    // opens.
+    if (isFeatureLocked('aiContentStudio')) {
+      requestUpgrade('aiContentStudio');
+      return;
+    }
     setIsParsing(true);
     setError(null);
     try {

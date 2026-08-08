@@ -27,19 +27,41 @@ import {
   SCHOOL_SEAT_LIMITS,
   FREE_DAILY_AI_CALLS,
   PAID_DAILY_AI_CALLS,
+  monetisationEnabled,
+  freeEvalLimit,
+  type UpgradeReason,
 } from '../services/entitlements';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 
 /**
+ * The plan a lock should NAME, as one or two words fit for a chip.
+ *
+ * A chip that says "Plus" beside a control the School plan unlocks sends the
+ * user to a prompt selling something else, and a teacher who already holds Plus
+ * reads it as "you have this" while the control refuses them. The feature key
+ * is the only thing a call site knows, so the label is derived from it — and
+ * follows a deployment's PLAN_FEATURE_OVERRIDES without any call site changing.
+ */
+const lockLabelFor = (feature?: PremiumFeatureKey): string =>
+  feature && lowestPlanForFeature(feature) === 'school' ? 'School' : 'Plus';
+
+/**
  * Small amber lock chip for a gated-but-visible control. Sits inline next to
  * the control's label so the feature is discoverable before it's paid for.
+ *
+ * Pass the `feature` it guards so the chip names the plan that actually unlocks
+ * it. Without one it falls back to "Plus", which is right for every feature
+ * this deployment prices at Plus and is the historical behaviour.
  */
-export const PlusLockChip: React.FC<{ className?: string }> = ({ className = '' }) => (
+export const PlusLockChip: React.FC<{ className?: string; feature?: PremiumFeatureKey }> = ({
+  className = '',
+  feature,
+}) => (
   <span
     className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-amber-400/15 border border-amber-400/40 text-amber-500 light:text-amber-600 text-[9px] font-black uppercase tracking-wider ${className}`}
   >
-    <Lock className="w-2.5 h-2.5" /> Plus
+    <Lock className="w-2.5 h-2.5" /> {lockLabelFor(feature)}
   </span>
 );
 
@@ -51,10 +73,18 @@ export const PlusLockChip: React.FC<{ className?: string }> = ({ className = '' 
 export const ContentLockOverlay: React.FC<{
   feature: PremiumFeatureKey;
   message?: string;
-}> = ({ feature, message }) => {
+  /**
+   * Corner radius to match the container being covered. The overlay is
+   * `inset-0`, so a radius smaller than its container's leaves the opaque
+   * backdrop poking out past the container's rounded corners.
+   */
+  className?: string;
+}> = ({ feature, message, className = 'rounded-2xl' }) => {
   const meta = PREMIUM_FEATURES[feature];
   return (
-    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-[rgb(var(--color-bg-surface))]/80 light:bg-white/80 backdrop-blur-sm rounded-2xl">
+    <div
+      className={`absolute inset-0 z-10 flex flex-col items-center justify-center bg-[rgb(var(--color-bg-surface))]/80 light:bg-white/80 backdrop-blur-sm ${className}`}
+    >
       <div className="flex flex-col items-center gap-3 text-center px-6 max-w-xs">
         <div className="w-10 h-10 rounded-2xl bg-amber-400/15 border border-amber-400/30 flex items-center justify-center">
           <Lock className="w-5 h-5 text-amber-500" />
@@ -68,7 +98,7 @@ export const ContentLockOverlay: React.FC<{
           }
           className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-[10px] uppercase tracking-widest shadow-lg hover:scale-105 active:scale-95 transition-all"
         >
-          Unlock with Plus
+          Unlock with {lockLabelFor(feature)}
         </button>
       </div>
     </div>
@@ -90,16 +120,45 @@ interface UpgradeModalProps {
  */
 const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
   const [feature, setFeature] = useState<PremiumFeatureKey | null>(null);
+  /** Why the prompt opened, when it was not a locked control being pressed. */
+  const [reason, setReason] = useState<UpgradeReason | null>(null);
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('yearly');
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [seats, setSeats] = useState<number>(SCHOOL_SEAT_LIMITS.default);
   const [isBuyingSeats, setIsBuyingSeats] = useState(false);
 
-  const stripeReady = !!(STRIPE_PRICE_IDS.plus_monthly && STRIPE_PRICE_IDS.plus_yearly);
+  // A deployment may legitimately sell one billing period only — a school
+  // pilot on annual invoicing, or a monthly launch with the annual price still
+  // being decided. The server sells whichever price IDs it was given, so
+  // requiring BOTH here turned that into no checkout at all: the CTA fell back
+  // to "Keep me posted" while a perfectly valid price sat configured.
+  const monthlyPrice = STRIPE_PRICE_IDS.plus_monthly;
+  const yearlyPrice = STRIPE_PRICE_IDS.plus_yearly;
+  const stripeReady = !!(monthlyPrice || yearlyPrice);
+  /** Only offer the toggle when there is genuinely a choice to make. */
+  const canChoosePeriod = !!(monthlyPrice && yearlyPrice);
+  /** What the user is actually buying: their choice, or the only one on sale. */
+  const effectivePeriod: 'monthly' | 'yearly' = canChoosePeriod
+    ? billingPeriod
+    : yearlyPrice
+      ? 'yearly'
+      : 'monthly';
+  const plusPriceId = effectivePeriod === 'yearly' ? yearlyPrice : monthlyPrice;
+  const plusPriceDisplay =
+    effectivePeriod === 'yearly' ? PLAN_PRICING.yearly : PLAN_PRICING.monthly;
   // Seat licences are a staff purchase: shown to teachers/admins once the
   // school price exists; students keep the enquiry link.
   const canBuySeats =
     !!STRIPE_PRICE_IDS.school && (user?.role === 'teacher' || user?.role === 'admin');
+
+  /**
+   * A guest has no account for a subscription to attach to, so checkout cannot
+   * work: /api/create-checkout answers 401 "Authentication required." — a
+   * correct sentence and a useless one at the moment someone is trying to pay.
+   * Tell them the actual next step instead of letting them press a button that
+   * can only fail.
+   */
+  const isGuest = user?.role === 'guest';
 
   // Personalised hook: the most convincing thing we can show a student is
   // their own trajectory. Only shown once they have enough marked answers for
@@ -109,8 +168,22 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
 
   useEffect(() => {
     const onRequest = (e: Event) => {
-      const key = (e as CustomEvent).detail?.feature as PremiumFeatureKey | undefined;
-      if (key && key in PREMIUM_FEATURES) setFeature(key);
+      // A deployment that sells nothing must not open a sales prompt. Locked
+      // controls already stop calling requestUpgrade when monetisation is off
+      // (isFeatureLocked short-circuits), but the plan comparison and the
+      // profile card call it unconditionally for anyone on the free plan — so
+      // a pilot user could still be offered an upgrade to features they were
+      // already using. Every route in goes through this event, so one guard
+      // here covers all of them, including any added later.
+      if (!monetisationEnabled()) return;
+      const detail = (e as CustomEvent).detail as
+        | { feature?: PremiumFeatureKey; reason?: UpgradeReason }
+        | undefined;
+      const key = detail?.feature;
+      if (key && key in PREMIUM_FEATURES) {
+        setFeature(key);
+        setReason(detail?.reason ?? null);
+      }
     };
     window.addEventListener(UPGRADE_REQUEST_EVENT, onRequest);
     return () => window.removeEventListener(UPGRADE_REQUEST_EVENT, onRequest);
@@ -118,21 +191,25 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
 
   const close = useCallback(() => {
     setFeature(null);
+    setReason(null);
     setIsRedirecting(false);
   }, []);
   useEscapeKey(!!feature, close);
   useScrollLock(!!feature);
 
   const handleUpgrade = async () => {
+    if (isGuest) {
+      showToast('Create a free account first — a subscription needs somewhere to live.', 'info');
+      close();
+      return;
+    }
     if (!stripeReady) {
       showToast("Thanks! We'll let you know when Plus plans launch.", 'success');
       close();
       return;
     }
     setIsRedirecting(true);
-    const priceId =
-      billingPeriod === 'yearly' ? STRIPE_PRICE_IDS.plus_yearly : STRIPE_PRICE_IDS.plus_monthly;
-    const { url, error } = await createCheckoutUrl(priceId);
+    const { url, error } = await createCheckoutUrl(plusPriceId);
     if (url) {
       window.location.href = url;
     } else {
@@ -149,6 +226,25 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
   const requiredPlan = lowestPlanForFeature(feature);
   const sellsPlus = requiredPlan === 'plus';
   const perkKeys = planFeatureKeys(requiredPlan);
+
+  /**
+   * Lead with what actually just happened.
+   *
+   * Running out of the daily allowance is the moment a student is most likely
+   * to pay, and it was being answered with the wrong sentence: marking is
+   * metered by count rather than gated by plan, so there is no feature key for
+   * it and the limit borrowed `fullFeedback`. The student saw "Full Marking
+   * Feedback — get criterion-by-criterion breakdowns" seconds after being told
+   * they had used their five markings. True of Plus, but not an answer to the
+   * question they were asking, and the perk list below still sells everything
+   * else either way.
+   */
+  const atDailyLimit = reason === 'dailyLimit';
+  const headline = atDailyLimit ? "You've used today's free markings" : meta.title;
+  const blurb = atDailyLimit
+    ? `The free plan includes ${freeEvalLimit()} marked answers a day, and yours reset at midnight. ` +
+      `${PLAN_LABELS.plus} removes the limit entirely — mark as many drafts as you write.`
+    : meta.blurb;
 
   return createPortal(
     <div
@@ -183,7 +279,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                 id="upgrade-modal-title"
                 className="text-xl font-black tracking-tight leading-tight"
               >
-                {meta.title}
+                {headline}
               </h2>
             </div>
           </div>
@@ -191,11 +287,15 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
 
         <div className="p-6 overflow-y-auto custom-scrollbar">
           <p className="text-sm text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed mb-5">
-            {meta.blurb}{' '}
+            {blurb}{' '}
             {!sellsPlus
               ? `This is part of the ${PLAN_LABELS.school} plan — a licence covers everyone at your school.`
               : stripeReady
-                ? `Upgrade to ${PLAN_LABELS.plus} to unlock this and everything below.`
+                ? atDailyLimit
+                  ? // "Unlock this" is wrong here: nothing is locked, they have
+                    // simply spent today's allowance and it returns tomorrow.
+                    `Everything below is included.`
+                  : `Upgrade to ${PLAN_LABELS.plus} to unlock this and everything below.`
                 : `This is part of ${PLAN_LABELS.plus} — plans are being finalised, so it isn't available on the free plan just yet.`}
           </p>
 
@@ -238,8 +338,10 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
           </div>
 
           {/* Billing period toggle with real prices — a paywall that hides the
-              price converts far worse than one that states it plainly. */}
-          {stripeReady && sellsPlus && (
+              price converts far worse than one that states it plainly. Only
+              drawn when both periods are on sale; with one, a two-button
+              toggle would offer a choice that does not exist. */}
+          {canChoosePeriod && sellsPlus && (
             <div className="mb-5">
               <div className="grid grid-cols-2 gap-2">
                 <button
@@ -288,6 +390,23 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
             </div>
           )}
 
+          {/* One period on sale: still state the price. The rule above holds
+              either way — the reason not to draw the toggle is that there is
+              nothing to toggle, not that the price should be hidden. */}
+          {stripeReady && !canChoosePeriod && sellsPlus && (
+            <div className="mb-5 px-4 py-3 rounded-xl bg-amber-400/20 border border-amber-400/40">
+              <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400">
+                {effectivePeriod === 'yearly' ? 'Yearly' : 'Monthly'}
+              </span>
+              <span className="block text-lg font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
+                {plusPriceDisplay}
+                <span className="text-[10px] font-bold text-slate-400">
+                  {effectivePeriod === 'yearly' ? ' /year' : ' /month'}
+                </span>
+              </span>
+            </div>
+          )}
+
           <div className="flex flex-col sm:flex-row gap-3">
             {/* Only offer the Plus checkout when Plus is what unlocks the
                 feature; school-only features are bought below (or enquired
@@ -299,7 +418,13 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                 className="flex-1 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-xs uppercase tracking-widest shadow-xl shadow-amber-900/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
               >
                 <Crown className="w-4 h-4" />{' '}
-                {isRedirecting ? 'Redirecting…' : stripeReady ? 'Upgrade now' : 'Keep me posted'}
+                {isRedirecting
+                  ? 'Redirecting…'
+                  : isGuest
+                    ? 'Create an account'
+                    : stripeReady
+                      ? 'Upgrade now'
+                      : 'Keep me posted'}
               </button>
             )}
             <button

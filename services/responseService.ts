@@ -31,18 +31,34 @@ export interface DimensionAnalytics {
   /** Averages are null only when no scored attempts exist for the row. */
   avg_mark: number | null;
   avg_band: number | null;
-  /** Fraction of attempts scoring band ≤ 3 (0–1) — the struggling signal. */
+  /**
+   * Fraction of attempts scoring band ≤ 3 (0–1). Reported, but NOT the ranking
+   * signal: the Verb Gate caps a question's band at its verb's tier, so tier 1–3
+   * verbs read 100% here however well they were answered. See `avg_mark_frac`.
+   */
   low_band_rate: number;
+  /**
+   * Mean share of the available marks earned (0–1) — the weakness signal, and
+   * the only one comparable across questions of different tiers. Null on older
+   * deployments whose `get_class_analytics` predates schema §18, and where a
+   * row's questions carry no marks at all.
+   */
+  avg_mark_frac?: number | null;
+}
+
+/** Cohort-wide totals shared by the class and per-student payloads. */
+export interface AnalyticsTotals {
+  total_attempts: number;
+  active_students: number;
+  avg_band: number | null;
+  /** Mean share of available marks earned (0–1); see DimensionAnalytics. */
+  avg_mark_frac?: number | null;
 }
 
 export interface ClassAnalytics {
   byVerb: DimensionAnalytics[];
   byTopic: DimensionAnalytics[];
-  totals: {
-    total_attempts: number;
-    active_students: number;
-    avg_band: number | null;
-  };
+  totals: AnalyticsTotals;
 }
 
 const EMPTY_ANALYTICS: ClassAnalytics = {
@@ -51,15 +67,62 @@ const EMPTY_ANALYTICS: ClassAnalytics = {
   totals: { total_attempts: 0, active_students: 0, avg_band: null },
 };
 
+/** One class the caller teaches (from `list_my_classes`). */
+export interface TeachingClass {
+  id: string;
+  name: string;
+  year: number | null;
+  school: string;
+  students: number;
+}
+
+/**
+ * The classes the caller owns or co-teaches, for the class picker. Reviewer-gated
+ * server-side. Returns an empty list — not an error — on a database that
+ * predates schema §19, so the UI degrades to "no class filter" rather than
+ * showing a failure the user cannot act on.
+ */
+export const fetchMyClasses = async (): Promise<TeachingClass[]> => {
+  if (!supabase) throw new Error('Supabase is not configured.');
+  const { data, error } = await supabase.rpc('list_my_classes');
+  if (error) {
+    console.warn('Class list unavailable (pre-§19 database?):', error.message);
+    return [];
+  }
+  return (data ?? []) as TeachingClass[];
+};
+
+/**
+ * Builds the RPC argument object, including `p_class_id` ONLY when a class is
+ * actually selected.
+ *
+ * Sending `p_class_id: null` would name a parameter that does not exist on a
+ * database that predates schema §19, and PostgREST resolves overloads by
+ * argument name — so the call would fail outright there instead of falling back
+ * to the unscoped behaviour. Omitting it keeps one client compatible with both.
+ */
+const withClass = <T extends object>(args: T, classId?: string | null): T =>
+  classId ? ({ ...args, p_class_id: classId } as T) : args;
+
 /**
  * Reviewer-gated cohort analytics over the last `days` days (1–365): per-verb
- * and per-topic attempt counts, average mark/band and the low-band (struggling)
- * rate, plus overall totals. Aggregated server-side so no raw student work is
+ * and per-topic attempt counts, average mark/band, the mark share the ranking
+ * uses, and overall totals. Aggregated server-side so no raw student work is
  * transferred.
+ *
+ * Scope (enforced server-side, not here): with `classId`, that one class, after
+ * the server checks the caller teaches it. Without it, every class the caller
+ * teaches — or, for an admin, the whole database.
  */
-export const fetchClassAnalytics = async (days = 30): Promise<ClassAnalytics> => {
+export const fetchClassAnalytics = async (
+  days = 30,
+  classId?: string | null
+): Promise<ClassAnalytics> => {
   if (!supabase) throw new Error('Supabase is not configured.');
-  const { data, error } = await supabase.rpc('get_class_analytics', { p_days: days });
+  const { data, error } = await supabase.rpc(
+    'get_class_analytics',
+    withClass({ p_days: days }, classId)
+  );
   if (error) throw new Error(`Could not load class analytics: ${error.message}`);
   return (data as ClassAnalytics | null) ?? EMPTY_ANALYTICS;
 };
@@ -79,11 +142,80 @@ export interface RosterStudent {
  * days (attempts desc, then username), so the Student Progress picker can list
  * them instead of requiring a typed username.
  */
-export const fetchResponseStudents = async (days = 30): Promise<RosterStudent[]> => {
+export const fetchResponseStudents = async (
+  days = 30,
+  classId?: string | null
+): Promise<RosterStudent[]> => {
   if (!supabase) throw new Error('Supabase is not configured.');
-  const { data, error } = await supabase.rpc('get_response_students', { p_days: days });
+  const { data, error } = await supabase.rpc(
+    'get_response_students',
+    withClass({ p_days: days }, classId)
+  );
   if (error) throw new Error(`Could not load the student roster: ${error.message}`);
   return (data ?? []) as RosterStudent[];
+};
+
+/** One (student, verb) cell of the cohort breakdown (from `get_class_cohort`). */
+export interface CohortVerbRow {
+  username: string;
+  verb: string;
+  attempts: number;
+  avg_band: number | null;
+  /** Share of available marks earned; null when the questions carry no marks. */
+  avg_mark_frac: number | null;
+}
+
+/** One (student, week) point of a student's trajectory. */
+export interface CohortWeekRow {
+  username: string;
+  /** 0 = the OLDEST bucket in the window, so it plots left-to-right. */
+  week: number;
+  attempts: number;
+  avg_band: number | null;
+  avg_mark_frac: number | null;
+}
+
+/** Attempts on one UTC day across the whole cohort. */
+export interface CohortDayRow {
+  day: string;
+  attempts: number;
+}
+
+/**
+ * The cohort broken down BY STUDENT — the matrix behind the tier heatmap, the
+ * per-student trajectories, and cohort engagement over the window. Verbs come
+ * back raw; the client folds them into cognitive tiers so `data/commandTerms.ts`
+ * stays the single source of truth for the Verb Gate.
+ */
+export interface ClassCohort {
+  byStudent: CohortVerbRow[];
+  weekly: CohortWeekRow[];
+  daily: CohortDayRow[];
+  /** Number of week buckets the window covers. */
+  weeks: number;
+}
+
+const EMPTY_COHORT: ClassCohort = { byStudent: [], weekly: [], daily: [], weeks: 0 };
+
+/**
+ * Reviewer-gated, class-scoped per-student breakdown. Returns the empty shape —
+ * not an error — on a database that predates schema §20, so the panel shows its
+ * "no data" state rather than a failure the user cannot act on.
+ */
+export const fetchClassCohort = async (
+  days = 30,
+  classId?: string | null
+): Promise<ClassCohort> => {
+  if (!supabase) throw new Error('Supabase is not configured.');
+  const { data, error } = await supabase.rpc(
+    'get_class_cohort',
+    withClass({ p_days: days }, classId)
+  );
+  if (error) {
+    console.warn('Cohort breakdown unavailable (pre-§20 database?):', error.message);
+    return EMPTY_COHORT;
+  }
+  return (data as ClassCohort | null) ?? EMPTY_COHORT;
 };
 
 /** One recorded attempt in a student's band trend (from `response_events`). */
@@ -98,11 +230,7 @@ export interface TrendPoint {
 export interface StudentProgress {
   username: string;
   byVerb: DimensionAnalytics[];
-  totals: {
-    total_attempts: number;
-    active_students: number;
-    avg_band: number | null;
-  };
+  totals: AnalyticsTotals;
   /** Oldest→newest scored attempts (empty until history accrues). */
   trend: TrendPoint[];
 }
@@ -114,13 +242,14 @@ export interface StudentProgress {
  */
 export const fetchStudentProgress = async (
   username: string,
-  days = 30
+  days = 30,
+  classId?: string | null
 ): Promise<StudentProgress> => {
   if (!supabase) throw new Error('Supabase is not configured.');
-  const { data, error } = await supabase.rpc('get_student_progress', {
-    p_username: username,
-    p_days: days,
-  });
+  const { data, error } = await supabase.rpc(
+    'get_student_progress',
+    withClass({ p_username: username, p_days: days }, classId)
+  );
   if (error) throw new Error(error.message);
   const progress = data as StudentProgress;
   // `trend` is absent on a database that predates the history table — treat it

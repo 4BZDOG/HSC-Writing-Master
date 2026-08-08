@@ -102,8 +102,15 @@ export const PREMIUM_FEATURES: Record<PremiumFeatureKey, PremiumFeatureMeta> = {
   },
   aiContentStudio: {
     title: 'AI Content Studio',
-    blurb: 'Generate exam-style questions, model answers and marking rubrics on demand.',
-    perk: 'AI generation of questions, rubrics and sample answers',
+    blurb:
+      'Generate exam-style questions, model answers and marking rubrics on demand. ' +
+      'Authoring tools are for teacher and admin accounts — a student account keeps ' +
+      'its allowance for marking its own work.',
+    // Says "for teachers" out loud. The plan unlocks the studio, but
+    // `canUseAiGeneration` keeps it to staff roles, so a student reading this
+    // list while deciding whether to buy Plus must not count it as something
+    // they are about to get.
+    perk: 'AI generation of questions, rubrics and sample answers (teacher accounts)',
   },
   advancedQuestions: {
     title: 'Advanced Questions',
@@ -172,10 +179,11 @@ export {
  * serving a paid feature; the two must keep the same order, and a test pins
  * them.
  *
- * Note what the staff perk does NOT include: `aiContentStudio` defaults to the
- * school plan, so a teacher without a school licence sees the authoring tools
- * locked. That is a commercial choice, not an oversight — flip it with
- * `PLAN_FEATURE_OVERRIDES=aiContentStudio:plus` if staff should always author.
+ * The staff perk is what makes the AI Content Studio work: it is a Plus feature
+ * (services/planPolicy.ts), so a teacher holds it without buying anything. Plan
+ * is not the only gate on authoring — `canUseAiGeneration` keeps the studio to
+ * staff whatever a student pays, and creating courses and topics is narrower
+ * still (`canCreateCurriculum`, admin only).
  */
 export const getUserPlan = (user?: User | null): Plan => {
   const u = user !== undefined ? user : authService.getCurrentUser();
@@ -279,7 +287,7 @@ export const isFeedbackLocked = (user?: User | null): boolean => {
 const EVAL_COUNT_KEY = 'ws:free-eval-count';
 const EVAL_DATE_KEY = 'ws:free-eval-date';
 // The limit the SERVER last reported. `free_evaluation_limit()` is an
-// admin-adjustable setting in Postgres (schema §15), so the number shipped in
+// admin-adjustable setting in Postgres (schema §14), so the number shipped in
 // this bundle is only a starting guess — once the server has told us what it
 // is actually enforcing, that wins for the rest of the day.
 const EVAL_LIMIT_KEY = 'ws:free-eval-limit';
@@ -322,6 +330,34 @@ const effectiveEvalLimit = (): number => {
 /** This deployment's free daily evaluation allowance, as the UI should state it. */
 export const freeEvalLimit = (): number => effectiveEvalLimit();
 
+// ---------------------------------------------------------------------------
+// Change notification
+// ---------------------------------------------------------------------------
+
+/**
+ * The count lives in localStorage, which React cannot observe. Every writer
+ * below announces itself so a component showing "3 of 5 left" updates when the
+ * number actually moves — after a marking run, after the server corrects us on
+ * a refusal, and after the sign-in reconciliation.
+ *
+ * Without this the display could only be refreshed by something else happening
+ * to re-render, which is how the counter came to be keyed on `evaluationResult`
+ * and went stale the moment the reconciliation ran.
+ */
+const evalCountListeners = new Set<() => void>();
+
+const notifyEvalCount = (): void => {
+  evalCountListeners.forEach((listener) => listener());
+};
+
+/** Subscribe to changes in the local free-evaluation mirror. */
+export const subscribeEvalCount = (listener: () => void): (() => void) => {
+  evalCountListeners.add(listener);
+  return () => {
+    evalCountListeners.delete(listener);
+  };
+};
+
 /** Record one evaluation use. Call after a successful evaluation. */
 export const recordEvaluation = (): void => {
   try {
@@ -337,6 +373,7 @@ export const recordEvaluation = (): void => {
   } catch {
     /* localStorage unavailable — fail open */
   }
+  notifyEvalCount();
 };
 
 /**
@@ -357,6 +394,39 @@ export const syncFreeEvalCount = (used: number, limit?: number): void => {
     }
   } catch {
     /* localStorage unavailable — the server gate still holds */
+  }
+  notifyEvalCount();
+};
+
+/**
+ * Pull the server's authoritative count into the local mirror WITHOUT
+ * spending anything (`get_evaluation_status()`, schema §14).
+ *
+ * Until this existed the mirror only ever self-corrected on a refusal, so the
+ * two disagreed exactly when it mattered most: a fresh browser, a second
+ * device, or cleared site data all reset the display to a full allowance the
+ * server had already spent. The student wrote an answer, waited out the
+ * marking call, and was refused — the paywall arriving as a failure at the end
+ * rather than a number at the start.
+ *
+ * Best-effort and silent. No Supabase (mock mode), a database that predates
+ * §14, or a transient failure all leave the mirror as it was; the server gate
+ * is what actually holds, and this is only what the UI says about it.
+ */
+export const refreshFreeEvalCount = async (): Promise<void> => {
+  try {
+    const { supabase } = await import('./supabaseClient');
+    if (!supabase) return;
+    const { data, error } = await supabase.rpc('get_evaluation_status');
+    if (error || !data || typeof data !== 'object') return;
+    const status = data as { used?: unknown; limit?: unknown; unlimited?: unknown };
+    if (typeof status.used !== 'number') return;
+    // `limit: -1` means "not metered at all" — syncFreeEvalCount already
+    // declines to store a negative limit, so the shipped default keeps being
+    // displayed for anyone who is somehow shown a count at all.
+    syncFreeEvalCount(status.used, typeof status.limit === 'number' ? status.limit : undefined);
+  } catch {
+    /* RPC missing or Supabase unreachable — the mirror stays as it was */
   }
 };
 
@@ -511,16 +581,40 @@ export interface BillingState {
   cancelAtPeriodEnd: boolean;
 }
 
-export const fetchBillingState = async (): Promise<BillingState | null> => {
+/**
+ * The outcome of looking a subscription up, with "there isn't one" kept
+ * distinct from "I couldn't tell".
+ *
+ * `fetchBillingState` collapses both into null, which is fine for the
+ * past-due banner (no data, no banner) but not for deciding whether to offer
+ * the billing portal: a transient Supabase failure would then be read as "this
+ * user holds their plan through a perk", and a real paying customer would be
+ * told there is nothing to manage and shown no way to reach Stripe.
+ *
+ *   found   — the caller has their own subscription row.
+ *   none    — asked and answered: there is no subscription for this caller.
+ *             Includes mock mode and a caller with no Supabase session, where
+ *             a subscription cannot exist at all.
+ *   unknown — the question could not be put. Callers must not treat this as
+ *             either answer.
+ */
+export type BillingLookup =
+  | { status: 'found'; state: BillingState }
+  | { status: 'none' }
+  | { status: 'unknown' };
+
+export const fetchBillingLookup = async (): Promise<BillingLookup> => {
   try {
     const { supabase } = await import('./supabaseClient');
-    if (!supabase) return null;
+    // No billing backend at all: nobody can hold a subscription, which is an
+    // answer rather than a failure.
+    if (!supabase) return { status: 'none' };
     // Scope to the signed-in user explicitly. RLS already limits ordinary
     // users to their own row, but admins can read ALL subscriptions — without
     // this filter an admin sees a stranger's failed payment as their own.
     const { data: sessionData } = await supabase.auth.getSession();
     const userId = sessionData.session?.user?.id;
-    if (!userId) return null;
+    if (!userId) return { status: 'none' };
     const { data, error } = await supabase
       .from('subscriptions')
       .select('status, plan, current_period_end, cancel_at_period_end')
@@ -528,16 +622,27 @@ export const fetchBillingState = async (): Promise<BillingState | null> => {
       .order('current_period_end', { ascending: false })
       .limit(1)
       .maybeSingle();
-    if (error || !data) return null;
+    // A query error is the one case we genuinely cannot answer. An empty
+    // result is a real answer: this caller has no subscription.
+    if (error) return { status: 'unknown' };
+    if (!data) return { status: 'none' };
     return {
-      status: typeof data.status === 'string' ? data.status : 'unknown',
-      plan: typeof data.plan === 'string' ? data.plan : 'plus',
-      currentPeriodEnd: data.current_period_end ?? null,
-      cancelAtPeriodEnd: data.cancel_at_period_end === true,
+      status: 'found',
+      state: {
+        status: typeof data.status === 'string' ? data.status : 'unknown',
+        plan: typeof data.plan === 'string' ? data.plan : 'plus',
+        currentPeriodEnd: data.current_period_end ?? null,
+        cancelAtPeriodEnd: data.cancel_at_period_end === true,
+      },
     };
   } catch {
-    return null;
+    return { status: 'unknown' };
   }
+};
+
+export const fetchBillingState = async (): Promise<BillingState | null> => {
+  const lookup = await fetchBillingLookup();
+  return lookup.status === 'found' ? lookup.state : null;
 };
 
 export const fetchBillingAlert = async (): Promise<BillingAlert | null> => {
@@ -564,7 +669,21 @@ export const createPortalUrl = async (): Promise<BillingUrlResult> =>
 /** Event carrying the feature key a locked control was asked for. */
 export const UPGRADE_REQUEST_EVENT = 'writing-studio:upgrade-request';
 
+/**
+ * Why the prompt is opening, when that is not simply "a locked control was
+ * pressed".
+ *
+ * `dailyLimit` is the daily marking allowance running out — the highest-intent
+ * moment in the whole product, and the one the prompt used to describe worst.
+ * There is no `unlimitedMarking` feature key (marking is metered by COUNT, not
+ * gated by plan), so the limit borrowed `fullFeedback` and the student was
+ * shown a headline about criterion breakdowns when what had just happened was
+ * "you have used your five markings for today". Both are true of Plus; only one
+ * of them is the answer to the question they are asking.
+ */
+export type UpgradeReason = 'dailyLimit';
+
 /** Open the friendly upgrade prompt for a feature (from any component). */
-export const requestUpgrade = (feature: PremiumFeatureKey): void => {
-  window.dispatchEvent(new CustomEvent(UPGRADE_REQUEST_EVENT, { detail: { feature } }));
+export const requestUpgrade = (feature: PremiumFeatureKey, reason?: UpgradeReason): void => {
+  window.dispatchEvent(new CustomEvent(UPGRADE_REQUEST_EVENT, { detail: { feature, reason } }));
 };

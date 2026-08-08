@@ -70,9 +70,10 @@ export const buildDataExport = async (user: User): Promise<DataExport> => {
       const { data: sessionData } = await supabase.auth.getSession();
       const userId = sessionData.session?.user?.id;
       if (userId) {
-        // Scoped explicitly as well as by RLS: a reviewer's session can read
-        // other people's responses, and an export must never quietly widen
-        // into somebody else's work.
+        // Scoped explicitly as well as by RLS: a teacher's session can read the
+        // responses of students in the classes they teach (schema §19,
+        // `can_view_student`), and a personal-data export must never quietly
+        // widen into somebody else's work.
         const { data, error } = await supabase
           .from('responses')
           .select('prompt_id, draft, overall_mark, overall_band, evaluation, updated_at')

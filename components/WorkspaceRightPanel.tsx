@@ -1,15 +1,23 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useSyncExternalStore } from 'react';
 import { Prompt, EvaluationResult, HierarchyContext, WritingMode } from '../types';
 import Editor from './Editor';
 import LiveInsights from './LiveInsights';
 import WritingMetricsDashboard from './WritingMetricsDashboard';
 import EvaluationResultModal from './EvaluationResultModal';
+import ImprovementReviewModal from './ImprovementReviewModal';
 import EvaluationProgressBar from './EvaluationProgressBar';
 import { Loader2, AlertTriangle, Sparkles } from 'lucide-react';
-import { getCommandTermInfo, getTargetBand, BAND_METRICS } from '../data/commandTerms';
+import {
+  getCommandTermInfo,
+  getTargetBand,
+  getNextLevelTarget,
+  getBandForMark,
+  BAND_METRICS,
+} from '../data/commandTerms';
 import { textContainsKeyword } from '../utils/renderUtils';
 import { useWritingMetrics } from '../hooks/useWritingMetrics';
-import { freeEvalsRemaining } from '../services/entitlements';
+import { freeEvalsRemaining, isFeatureLocked, subscribeEvalCount } from '../services/entitlements';
+import FreeEvalCounter from './FreeEvalCounter';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 
 interface WorkspaceRightPanelProps {
@@ -80,6 +88,8 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   blockPaste,
 }) => {
   const isExamMode = writingMode === 'exam';
+  // The rewrite, the diff review and the PDF's change list are one feature.
+  const upgradesLocked = isFeatureLocked('answerUpgrades');
   const editorRef = useRef<{
     getText: () => string;
     setText: (text: string) => void;
@@ -172,6 +182,55 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     syllabusHandlers.handleSampleAnswerGenerated(statePath, newSample);
   };
 
+  /**
+   * What the diff review compares, from whichever source produced a rewrite.
+   *
+   * Two paths produce one: pressing "Improve my answer" (which returns its own
+   * target mark and band), and ordinary marking — `evaluateAnswer` is briefed
+   * to return the student's answer lifted one mark, and that arrives inside the
+   * evaluation result. Only the first used to be reviewable, which meant the
+   * comparison was missing from the path almost every student actually takes.
+   * The marking rewrite carries no target of its own, so it is derived the same
+   * way the model was briefed: one mark up, via the Verb Gate.
+   */
+  const reviewSubject = useMemo(() => {
+    // The server withholds the rewrite for a plan that does not include answer
+    // upgrades, so this is defence in depth rather than the gate itself — but
+    // it keeps the intent legible at the call site, and stops a stale cached
+    // result from re-opening the review after a downgrade.
+    if (upgradesLocked) return null;
+    if (geminiHandlers.improvement) return geminiHandlers.improvement;
+    if (!evaluationResult?.revisedAnswer) return null;
+
+    const raw = evaluationResult.revisedAnswer;
+    const text = typeof raw === 'string' ? raw : (raw.text ?? '');
+    if (!text.trim()) return null;
+
+    const next = getNextLevelTarget(
+      evaluationResult.overallMark,
+      currentPrompt.totalMarks,
+      commandTermInfo.tier
+    );
+    const mark = typeof raw === 'object' && raw.mark ? raw.mark : next.targetMark;
+    return {
+      text,
+      mark,
+      band:
+        typeof raw === 'object' && raw.band
+          ? raw.band
+          : getBandForMark(mark, currentPrompt.totalMarks, commandTermInfo.tier),
+      originalAnswer: evaluatedAnswer,
+      originalMark: evaluationResult.overallMark,
+    };
+  }, [
+    upgradesLocked,
+    geminiHandlers.improvement,
+    evaluationResult,
+    evaluatedAnswer,
+    currentPrompt.totalMarks,
+    commandTermInfo.tier,
+  ]);
+
   const hierarchyContext: HierarchyContext = useMemo(
     () => ({
       course: breadcrumbItems[0]?.label || 'Course',
@@ -182,14 +241,24 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     [breadcrumbItems]
   );
 
-  // Folded into the button's tooltip now that it has no caption slot.
-  const evalCounterTitle = useMemo(() => {
-    const remaining = freeEvalsRemaining();
-    if (remaining === Infinity) return '';
-    return remaining > 0
-      ? ` — ${remaining} free evaluation${remaining === 1 ? '' : 's'} remaining today`
-      : ' — daily free limit reached';
-  }, [evaluationResult]);
+  /**
+   * The same figure the counter chip shows, folded into the button's tooltip
+   * for a pointer user who is already hovering it. `useSyncExternalStore`
+   * rather than a `useMemo` over a render-triggering prop: the count lives in
+   * localStorage and moves for reasons this component cannot see — the sign-in
+   * reconciliation, and the server correcting us on a refusal. Keyed on
+   * `evaluationResult`, it went stale exactly when it had just been corrected.
+   */
+  const remainingEvals = useSyncExternalStore(subscribeEvalCount, freeEvalsRemaining, () =>
+    freeEvalsRemaining()
+  );
+
+  const evalCounterTitle =
+    remainingEvals === Infinity
+      ? ''
+      : remainingEvals > 0
+        ? ` — ${remainingEvals} free evaluation${remainingEvals === 1 ? '' : 's'} remaining today`
+        : ' — daily free limit reached';
 
   // Footer-sized, not hero-sized. At 20px of padding and text-xl it was a
   // slab that pushed the writing surface down; the keyboard shortcut and the
@@ -203,6 +272,10 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
         aria-hidden="true"
         className="hidden sm:block w-px h-6 bg-white/10 light:bg-slate-300 flex-shrink-0"
       />
+      {/* The free tier's remaining markings, VISIBLE rather than in a tooltip
+          — see the note in FreeEvalCounter. Renders nothing for anyone who
+          isn't metered. */}
+      <FreeEvalCounter />
       <button
         onClick={onEvaluate}
         disabled={isEvaluating || !userAnswer.trim()}
@@ -377,11 +450,30 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           onImproveAnswer={() =>
             geminiHandlers.improveAnswer(evaluatedAnswer, currentPrompt, evaluationResult)
           }
+          onCompareImprovement={
+            reviewSubject ? () => geminiHandlers.setShowImprovementReview(true) : undefined
+          }
           isImproving={isImproving}
           improveAnswerError={improveAnswerError}
           onSaveToSamples={handleSaveUserResponse}
           onFeedbackSubmit={geminiHandlers.handleFeedbackSubmit}
           hierarchy={hierarchyContext}
+        />
+      )}
+
+      {/* The diff review. Stacks above the feedback modal it is opened from —
+          the student compares, then returns to the rest of their marking. */}
+      {reviewSubject && (
+        <ImprovementReviewModal
+          isOpen={!!geminiHandlers.showImprovementReview}
+          onClose={() => geminiHandlers.setShowImprovementReview(false)}
+          improvedAnswer={reviewSubject.text}
+          originalAnswer={reviewSubject.originalAnswer}
+          originalPrompt={currentPrompt}
+          targetBand={reviewSubject.band}
+          targetMark={reviewSubject.mark}
+          originalMark={reviewSubject.originalMark}
+          onApply={setUserAnswer}
         />
       )}
     </div>

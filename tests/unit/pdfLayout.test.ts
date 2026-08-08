@@ -8,7 +8,7 @@ import {
   columnLeft,
 } from '../../pdf/layout';
 import { ContentBlock, MeasuredBlock, TextMeasurer } from '../../pdf/types';
-import { buildEvaluationBlocks, EvaluationExportData } from '../../pdf/buildBlocks';
+import { buildEvaluationBlocks, COLORS, EvaluationExportData } from '../../pdf/buildBlocks';
 
 const block = (height: number, kind: MeasuredBlock['kind'] = 'paragraph'): MeasuredBlock => ({
   kind,
@@ -105,6 +105,31 @@ describe('flowBlocks (column-major)', () => {
     const heading = block(10, 'heading');
     const { placements } = flowBlocks([block(50), heading, block(50)], geo);
     expect(placements[1]).toMatchObject({ column: 0, top: 50 });
+  });
+
+  it('moves a heading whose whole body cannot follow it', () => {
+    /**
+     * Reserving one LINE of the next block was not enough. Everything reaching
+     * the flow has already been through `splitOversized`, so no block splits
+     * further — each moves as a unit. A heading that fit alongside one reserved
+     * line stayed put while its entire body jumped to the next column, which is
+     * the orphan the rule exists to prevent.
+     */
+    const geoLocal = computeGeometry({
+      size: 'a4',
+      columnsPerPage: 2,
+      columnGap: 8,
+      headerHeight: 30,
+      footerHeight: 8,
+      margin: 10,
+    }); // 239mm columns
+    const heading = block(10, 'heading');
+    // 200 used, 39 left: the heading (10) plus one line would have fit, but its
+    // 60mm body could not — so both belong in the next column.
+    const { placements } = flowBlocks([block(200), heading, block(60)], geoLocal);
+
+    expect(placements[1]).toMatchObject({ column: 1, top: 0 });
+    expect(placements[2]).toMatchObject({ column: 1 });
   });
 
   it('records deepest extent per page', () => {
@@ -335,5 +360,93 @@ describe('buildEvaluationBlocks + measureBlocks integration', () => {
     measured
       .filter((b) => b.kind !== 'spacer')
       .forEach((b) => expect(b.height).toBeGreaterThan(0));
+  });
+});
+
+describe('the improved response prints what changed', () => {
+  /**
+   * The improvement is an EDIT of the student's own answer, so a printed report
+   * that shows only the finished text leaves the student to work out which
+   * words earned the mark by eye. Inline marking is not available on the page —
+   * the text engine draws whole wrapped lines in one style — so the changes go
+   * in as a list, prefixed − / + as well as coloured so the page survives a
+   * greyscale printer.
+   */
+  const base: EvaluationExportData = {
+    question: 'Analyse the impact of caching.',
+    verb: 'ANALYSE',
+    totalMarks: 8,
+    overallMark: 5,
+    overallBand: 4,
+    overallFeedback: 'Sound.',
+    strengths: [],
+    improvements: [],
+    criteria: [],
+    exemplarBand: 5,
+    exemplarMark: 6,
+  };
+
+  const withDiff = (over: Partial<EvaluationExportData> = {}) =>
+    buildEvaluationBlocks({
+      ...base,
+      studentAnswer: 'Caching stores data. It makes the system faster.',
+      revisedAnswer: 'Caching stores frequently requested data. It reduces latency.',
+      ...over,
+    });
+
+  const changeBlocks = (blocks: ReturnType<typeof buildEvaluationBlocks>) =>
+    blocks.filter((b) => b.id.startsWith('chg-'));
+
+  it('lists each edit as a cut/added pair', () => {
+    const changes = changeBlocks(withDiff());
+
+    expect(changes.length).toBeGreaterThan(0);
+    const text = changes.flatMap((b) => b.runs.map((r) => r.text)).join('\n');
+    expect(text).toContain('+ frequently requested');
+    expect(text).toContain('− makes the system faster');
+    expect(text).toContain('+ reduces latency');
+  });
+
+  it('marks additions and cuts by symbol as well as by colour', () => {
+    // Colour alone would vanish on a school photocopier.
+    const runs = changeBlocks(withDiff()).flatMap((b) => b.runs);
+
+    expect(runs.every((r) => r.text.startsWith('+ ') || r.text.startsWith('− '))).toBe(true);
+    const added = runs.filter((r) => r.text.startsWith('+ '));
+    const cut = runs.filter((r) => r.text.startsWith('− '));
+    expect(added.every((r) => r.color === COLORS.emerald)).toBe(true);
+    expect(cut.every((r) => r.color === COLORS.rose)).toBe(true);
+  });
+
+  it('summarises the scale of the revision', () => {
+    const summary = withDiff().find((b) => b.id.startsWith('diffsum-'));
+
+    expect(summary?.runs[0].text).toMatch(/\d+ words added · \d+ cut · \d+% of your own writing kept/);
+  });
+
+  it('says nothing when there is no rewrite to compare', () => {
+    expect(changeBlocks(withDiff({ revisedAnswer: '' }))).toHaveLength(0);
+  });
+
+  it('says nothing when the rewrite changed nothing', () => {
+    const same = 'Caching stores data. It makes the system faster.';
+    expect(changeBlocks(withDiff({ revisedAnswer: same }))).toHaveLength(0);
+  });
+
+  it('says nothing without the student answer to diff against', () => {
+    expect(changeBlocks(withDiff({ studentAnswer: undefined }))).toHaveLength(0);
+  });
+
+  it('caps a very long change list and says how many are left', () => {
+    const original = Array.from({ length: 60 }, (_, i) => `word${i}`).join(' ');
+    const revised = Array.from({ length: 60 }, (_, i) =>
+      i % 2 === 0 ? `word${i}` : `changed${i}`
+    ).join(' ');
+
+    const blocks = withDiff({ studentAnswer: original, revisedAnswer: revised });
+
+    expect(changeBlocks(blocks).length).toBeLessThanOrEqual(14);
+    const more = blocks.find((b) => b.id.startsWith('chgmore-'));
+    expect(more?.runs[0].text).toMatch(/more changes/);
   });
 });

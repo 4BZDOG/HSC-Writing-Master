@@ -373,13 +373,22 @@ export const flowBlocks = (blocks: MeasuredBlock[], geo: ColumnGeometry): FlowRe
     if (atColumnTop && block.kind === 'spacer') continue;
 
     // Keep-with-next: a heading must not be orphaned at the foot of a column.
-    // Require room for the heading plus at least the first line of what follows.
+    //
+    // Reserving one LINE of what follows was not enough. Every block reaching
+    // the flow has already been through `splitOversized`, so nothing here is
+    // taller than a column and nothing splits further — each one moves as a
+    // unit. A heading that fit alongside a single reserved line therefore
+    // stayed put while its whole body jumped to the next column, which is
+    // exactly the orphan the rule exists to prevent ("IMPROVED RESPONSE" at the
+    // foot of one column, the response itself at the head of the next).
+    //
+    // Reserving the body's full height can leave more white space at a column
+    // foot, which is the trade every typesetter makes: a heading with nothing
+    // under it is a worse page than a short column.
     let required = block.height;
     if (block.kind === 'heading') {
       const next = blocks[i + 1];
-      if (next && next.kind !== 'spacer') {
-        required += Math.min(next.height, next.lineHeightMm || next.height);
-      }
+      if (next && next.kind !== 'spacer') required += next.height;
     }
 
     const fits = cursor + required <= geo.columnHeight + 1e-6;

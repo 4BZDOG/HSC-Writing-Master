@@ -2,10 +2,12 @@ import React, { useState, useMemo } from 'react';
 import { Prompt, UserRole, CourseOutcome } from '../types';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
-import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { getBandForMark, getCommandTermInfo, markForBand } from '../data/commandTerms';
 import { AlertCircle, Edit3, Save, X, Sparkles, Loader2, ListChecks } from 'lucide-react';
 import { formatMarkingCriteria } from '../utils/dataManagerUtils';
 import { generateRubricForPrompt } from '../services/geminiService';
+import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
+import { PlusLockChip } from './UpgradeModal';
 
 interface MarkingCriteriaAccordionProps {
   prompt: Prompt;
@@ -42,8 +44,14 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
 
   const canCurate = canCurateContent(userRole);
   // AI drafting is a separate capability from manual editing — see
-  // utils/permissions.ts.
+  // utils/permissions.ts. The ROLE decides whether the control exists at all;
+  // the PLAN decides whether it fires or opens the upgrade prompt. Rubric
+  // drafting is part of the AI Content Studio and has to carry the same lock as
+  // the rest of it — it was the one authoring control the plan gate missed, so
+  // an author saw "Generate question" locked and "AI Draft" open on the same
+  // screen.
   const canGenerate = canUseAiGeneration(userRole);
+  const studioLocked = isFeatureLocked('aiContentStudio');
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
 
   const maxPossibleBand = useMemo(() => {
@@ -72,8 +80,14 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
       'i'
     );
 
-    // Regex 2: Point breakdown style "Descriptor... ([Mark] mark)" anywhere in line
-    const endMarkRegex = new RegExp('(.*?)\\((\\d+(?:\\s*[-–]\\s*\\d+)?)\\s*marks?\\)', 'i');
+    // Regex 2: Point breakdown style "Descriptor... ([Mark] mark)" anywhere in
+    // line. The third group keeps whatever follows the bracket — a row written
+    // as "Band 6 (7-8 marks): Comprehensive analysis…" used to be stored as the
+    // words before the bracket alone, silently discarding the actual criteria.
+    const endMarkRegex = new RegExp(
+      '(.*?)\\((\\d+(?:\\s*[-–]\\s*\\d+)?)\\s*marks?\\)\\s*[:.\\-–]?\\s*(.*)',
+      'i'
+    );
 
     // Regex 3: "Band N:" or "Band N-M:" pattern (AI sometimes uses band labels)
     const bandStartRegex = new RegExp(
@@ -102,25 +116,34 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
         if (currentItem) items.push(currentItem);
         const bandNums = bandMatch[1].match(/\d+/g)?.map(Number) || [1];
         const topBand = Math.max(...bandNums);
-        const markForBand = Math.round((topBand / 6) * prompt.totalMarks);
+        // The mark this band starts at on THIS question — tier-aware, like every
+        // other band figure in the app. The old inline `(band / 6) * totalMarks`
+        // ignored the verb's ceiling, so a Tier-2 question's rows were placed
+        // against marks it can never award.
+        const bandMark = markForBand(topBand, prompt.totalMarks, commandTermInfo.tier);
         currentItem = {
           markLabel: `Band ${topBand}`,
-          markRange: [markForBand, markForBand],
+          markRange: [bandMark, bandMark],
           description: bandMatch[2].trim(),
           band: topBand,
         };
       } else if (endMatch) {
         if (currentItem) items.push(currentItem);
-        currentItem = null;
         const range = parseMarkRange(endMatch[2].trim());
-        const desc = endMatch[1].replace(/^[-•*]\s*/, '').trim();
+        const before = endMatch[1].replace(/^[-•*]\s*/, '').trim();
+        const after = (endMatch[3] || '').trim();
+        // Prefer the criteria that follow the bracket; fall back to the label
+        // before it when the row is written as "Describes both features (2 marks)".
+        const desc = after || before;
 
-        items.push({
+        // Stays the current item rather than being closed off, so wrapped or
+        // continuation lines beneath it are appended instead of dropped.
+        currentItem = {
           markLabel: range[0] === range[1] ? `${range[0]}` : `${range[0]}–${range[1]}`,
           markRange: range,
           description: desc,
           band: getBandForMark(range[1], prompt.totalMarks, commandTermInfo.tier),
-        });
+        };
       } else if (currentItem) {
         currentItem.description += ' ' + cleanLine;
       }
@@ -175,9 +198,20 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
         <>
           {canGenerate && (
             <button
-              onClick={handleGenerateRubric}
+              onClick={
+                studioLocked ? () => requestUpgrade('aiContentStudio') : handleGenerateRubric
+              }
               disabled={isGenerating}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all shadow-sm text-[10px] font-bold uppercase tracking-wider bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-indigo-500/30 text-indigo-500 dark:text-indigo-400 hover:shadow`}
+              title={
+                studioLocked
+                  ? 'AI rubric drafting is part of the AI Content Studio — tap to learn more'
+                  : undefined
+              }
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all shadow-sm text-[10px] font-bold uppercase tracking-wider hover:shadow ${
+                studioLocked
+                  ? 'bg-amber-400/15 border-amber-400/40 text-amber-500 light:text-amber-600'
+                  : 'bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-indigo-500/30 text-indigo-500 dark:text-indigo-400'
+              }`}
             >
               {isGenerating ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -185,6 +219,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                 <Sparkles className="w-3.5 h-3.5" />
               )}
               AI Draft
+              {studioLocked && <PlusLockChip feature="aiContentStudio" />}
             </button>
           )}
           <button

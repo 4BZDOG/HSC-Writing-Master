@@ -65,9 +65,14 @@ const DEFAULT_FEATURE_MIN_PLAN: Record<PremiumFeatureKey, Plan> = {
   fullFeedback: 'plus',
   sampleAnswers: 'plus',
   examMode: 'plus',
-  // Authoring tools: bundled with the institutional plan, and separately
-  // available to staff roles (see getUserPlan's staff perk).
-  aiContentStudio: 'school',
+  // Authoring tools. Plus rather than School so the staff perk actually
+  // reaches them: teachers resolve to Plus (getUserPlan step 3), and a studio
+  // pinned to School meant a teacher saw half the authoring surface locked
+  // behind a plan they were never going to buy personally. The plan is not the
+  // only gate on authoring — `canUseAiGeneration` in utils/permissions.ts keeps
+  // it to staff regardless of what a student pays — so pricing it at Plus does
+  // not hand the studio to a student who subscribes.
+  aiContentStudio: 'plus',
 };
 
 // ---------------------------------------------------------------------------

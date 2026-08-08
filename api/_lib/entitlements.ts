@@ -75,35 +75,70 @@ interface EvaluationPayload {
   [key: string]: unknown;
 }
 
+/** Which paid parts of a marking result to withhold. */
+export interface RedactionScope {
+  /**
+   * The per-criterion prose and the improvement path — the "detail" the free
+   * tier trades for a summary (FREE_TIER_FEEDBACK_SUMMARY_ONLY).
+   */
+  feedbackDetail?: boolean;
+  /**
+   * The rewritten answer. A SEPARATE decision, because it is the
+   * `answerUpgrades` feature in its own right rather than part of the feedback
+   * detail. Tying the two together meant a deployment that opened feedback to
+   * the free tier (FREE_TIER_FULL_FEEDBACK=true — a supported, documented
+   * choice) also gave away the paid rewrite, which is now the input to the
+   * whole improvement review.
+   */
+  rewrite?: boolean;
+}
+
 /**
  * Remove the paid parts of a marking result, keeping the free tier's promised
  * summary: the overall mark, the band, the overall verdict, the quick tip and
  * the strengths list.
  *
- * Withheld (matching FREE_TIER_FEEDBACK_SUMMARY_ONLY in
- * services/entitlements.ts): the per-criterion feedback prose, the improvement
- * path, and the rewritten answer — that last one is the `answerUpgrades`
- * feature in its own right.
- *
  * The SHAPE is preserved deliberately. The client validates this payload
  * against a Zod schema that requires these fields, so deleting them would fail
  * validation and show an error instead of a paywall. Marks and bands survive
  * untouched, so stats and the band average stay correct.
+ *
+ * Defaults to withholding everything, so a caller that forgets to say what it
+ * means keeps the paywall on rather than opening it.
  */
-export const redactPaidFeedback = (payload: EvaluationPayload): EvaluationPayload => {
+export const redactPaidFeedback = (
+  payload: EvaluationPayload,
+  scope: RedactionScope = {}
+): EvaluationPayload => {
+  const { feedbackDetail = true, rewrite = true } = scope;
   const redacted: EvaluationPayload = { ...payload };
 
-  if (Array.isArray(payload.criteria)) {
+  if (feedbackDetail && Array.isArray(payload.criteria)) {
     redacted.criteria = payload.criteria.map((criterion) => ({
       ...criterion,
       feedback: LOCKED_FEEDBACK_PLACEHOLDER,
     }));
   }
-  if (Array.isArray(payload.improvements)) {
+  if (feedbackDetail && Array.isArray(payload.improvements)) {
     redacted.improvements = [LOCKED_FEEDBACK_PLACEHOLDER];
   }
+  if (!rewrite) return redacted;
+  // The rewritten answer is the `answerUpgrades` feature in its own right, so
+  // it goes whichever shape it arrives in. The evaluation request asks for a
+  // plain string and the client's Zod schema accepts either — but a provider
+  // that treats the response schema as advisory (the OpenRouter/Groq/Kimi
+  // adapters do not enforce it the way Gemini does) can return the structured
+  // `{ text, keyChanges }` form, and a string-only check would hand a free user
+  // the whole rewrite untouched.
   if (typeof payload.revisedAnswer === 'string' && payload.revisedAnswer) {
     redacted.revisedAnswer = '';
+  } else if (
+    payload.revisedAnswer &&
+    typeof payload.revisedAnswer === 'object' &&
+    !Array.isArray(payload.revisedAnswer)
+  ) {
+    // Keep the shape (the client validates it) and empty the paid content.
+    redacted.revisedAnswer = { ...(payload.revisedAnswer as object), text: '', keyChanges: [] };
   }
 
   return redacted;
@@ -168,10 +203,10 @@ const findJsonSpan = (text: string): { start: number; end: number; value: unknow
 };
 
 /** Redact the marking payload inside one text part, preserving any wrapper. */
-const redactTextPart = (text: string): string | null => {
+const redactTextPart = (text: string, scope: RedactionScope): string | null => {
   const span = findJsonSpan(text);
   if (!span || !isEvaluationPayload(span.value)) return null;
-  const redacted = JSON.stringify(redactPaidFeedback(span.value));
+  const redacted = JSON.stringify(redactPaidFeedback(span.value, scope));
   return `${text.slice(0, span.start)}${redacted}${text.slice(span.end)}`;
 };
 
@@ -184,7 +219,10 @@ const redactTextPart = (text: string): string | null => {
  * Anything unrecognised is returned untouched: a redaction bug must not be
  * able to break marking for paying users.
  */
-export const redactEvaluationResponse = (responseBody: unknown): unknown => {
+export const redactEvaluationResponse = (
+  responseBody: unknown,
+  scope: RedactionScope = {}
+): unknown => {
   if (!responseBody || typeof responseBody !== 'object' || Array.isArray(responseBody)) {
     return responseBody;
   }
@@ -203,7 +241,7 @@ export const redactEvaluationResponse = (responseBody: unknown): unknown => {
     let candidateChanged = false;
     const nextParts = parts.map((part) => {
       if (!part || typeof part.text !== 'string') return part;
-      const redacted = redactTextPart(part.text);
+      const redacted = redactTextPart(part.text, scope);
       if (redacted === null) return part; // not a marking payload — leave alone
       candidateChanged = true;
       return { ...part, text: redacted };

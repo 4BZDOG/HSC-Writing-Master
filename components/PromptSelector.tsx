@@ -1,6 +1,11 @@
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { Course, StatePath, UserRole } from '../types';
-import { canCurateContent, canUseAiGeneration, isSystemAdmin } from '../utils/permissions';
+import {
+  canCreateCurriculum,
+  canCurateContent,
+  canUseAiGeneration,
+  isSystemAdmin,
+} from '../utils/permissions';
 import Combobox from './Combobox';
 import {
   Plus,
@@ -32,9 +37,11 @@ import {
 } from 'lucide-react';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { getTierScaleConfig } from '../utils/renderUtils';
-import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
+import { getFocusAreas } from '../utils/dataManagerUtils';
+import FocusAreaEditorModal from './FocusAreaEditorModal';
 import { getPastHscLabel } from '../utils/pastHscUtils';
 import { isFeatureLocked, isQuestionTierLocked, requestUpgrade } from '../services/entitlements';
+import { isCourseDemandAvailable } from '../services/courseDemandService';
 import { PlusLockChip } from './UpgradeModal';
 import { parseSyllabusStructure } from '../services/geminiService';
 
@@ -43,6 +50,11 @@ interface PromptSelectorProps {
   statePath: StatePath;
   onPathChange: (path: Partial<StatePath>) => void;
   onAddCourse: () => void;
+  /**
+   * Open the "request a course" flow, pre-filled with whatever the user was
+   * searching for. Absent when the caller has no backend to log demand into.
+   */
+  onRequestCourse?: (prefillName?: string) => void;
   onAddTopic: () => void;
   onAddSubTopic: () => void;
   onGeneratePrompt: () => void;
@@ -69,6 +81,12 @@ interface PromptSelectorProps {
   onImportSyllabus: () => void;
   /** Copies a shareable link to the selected question (teachers/admins). */
   onShareAssignment?: () => void;
+  /**
+   * Hand-set a dot point's focus areas, or pass `undefined` to drop the
+   * override and read the syllabus wording again. Absent for a caller with no
+   * way to write back to the syllabus, which hides the editor.
+   */
+  onUpdateFocusAreas?: (dotPointId: string, focusAreas: string[] | undefined) => void;
   newlyAddedIds: Set<string>;
   userRole: UserRole;
 }
@@ -139,6 +157,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   statePath = {} as StatePath,
   onPathChange,
   onAddCourse,
+  onRequestCourse,
   onAddTopic,
   onAddSubTopic,
   onGeneratePrompt,
@@ -153,12 +172,23 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   onImportTopic,
   onImportSyllabus,
   onShareAssignment,
+  onUpdateFocusAreas,
   newlyAddedIds,
   userRole,
 }) => {
+  const [focusEditorOpen, setFocusEditorOpen] = useState(false);
   const canCurate = canCurateContent(userRole);
   const canGenerate = canUseAiGeneration(userRole);
   const isAdmin = isSystemAdmin(userRole);
+  // Courses and topics are the shared skeleton everyone navigates, so creating
+  // one is admin-only — see canCreateCurriculum in utils/permissions.ts. A
+  // teacher still curates everything below a topic, and can ASK for a course
+  // that doesn't exist yet through the request link under the course picker.
+  const canCreateTree = canCreateCurriculum(userRole);
+  // Only offered to people who cannot simply ADD the course themselves, and
+  // only when there is a backend to record it in — a local-only session has
+  // nowhere to put the request and would be promising something it can't keep.
+  const canRequestCourse = !canCreateTree && isCourseDemandAvailable(userRole) && !!onRequestCourse;
   // AI generation controls stay visible when gated — amber + lock, and a click
   // opens the upgrade prompt instead. See services/entitlements.
   const studioLocked = isFeatureLocked('aiContentStudio');
@@ -177,13 +207,12 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   const isDotPointSelected = !!selectedDotPoint;
   const isPromptSelected = !!selectedPrompt;
 
-  const subItems = useMemo(() => {
-    return selectedDotPoint?.description
-      ? parseSubItemsFromDescription(selectedDotPoint.description)
-      : [];
-  }, [selectedDotPoint]);
+  // A teacher's hand-set list wins over the parser — one resolution, shared
+  // with the question generator and the AI's keyword grounding.
+  const subItems = useMemo(() => getFocusAreas(selectedDotPoint), [selectedDotPoint]);
 
   const hasSubItems = subItems.length > 0;
+  const focusAreasOverridden = !!selectedDotPoint?.focusAreas;
   const activeFocusCount = statePath.selectedSubItems?.length || 0;
 
   const courseOptions = useMemo(
@@ -320,6 +349,15 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       return;
     }
 
+    // Pasting syllabus text hands it to the plan-gated parser, so the lock
+    // applies from here on. Creating the EMPTY topic above does not — that is
+    // an admin capability, not a paid one — which is why the check sits below
+    // the early return rather than at the top.
+    if (studioLocked) {
+      requestUpgrade('aiContentStudio');
+      return;
+    }
+
     setInlineParsing(true);
     setInlineError(null);
     try {
@@ -332,7 +370,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     } finally {
       setInlineParsing(false);
     }
-  }, [inlineTopicName, inlineSyllabusText, onAddTopicWithContent, selectedCourse]);
+  }, [inlineTopicName, inlineSyllabusText, onAddTopicWithContent, selectedCourse, studioLocked]);
 
   const promptOptions = useMemo(() => {
     if (!selectedDotPoint?.prompts) return [];
@@ -566,12 +604,26 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 }
                 placeholder="Select Course..."
                 color="blue"
+                emptyAction={
+                  canRequestCourse
+                    ? {
+                        label: "Can't find it? Request this course →",
+                        onAction: (query) => onRequestCourse?.(query),
+                      }
+                    : undefined
+                }
               />
             </div>
             {canCurate && (
               <div className="flex items-center gap-2 gap-y-2 flex-wrap justify-end">
-                <ActionButton onClick={onAddCourse} icon={Plus} title="Add Course" label="Add" />
-                {canGenerate && (
+                {/* Creating a course, and the AI import that builds one, are
+                    both admin-only (canCreateCurriculum). A teacher who needs a
+                    course that isn't here uses the request link below the
+                    picker instead. */}
+                {canCreateTree && (
+                  <ActionButton onClick={onAddCourse} icon={Plus} title="Add Course" label="Add" />
+                )}
+                {canCreateTree && canGenerate && (
                   <ActionButton
                     onClick={onImportSyllabus}
                     icon={UploadCloud}
@@ -614,6 +666,20 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               </div>
             )}
           </div>
+          {/* The route out for everyone who cannot add a course themselves. It
+              sits under the picker rather than only inside its empty state,
+              because the search box only appears once there are seven or more
+              courses (Combobox's SEARCH_THRESHOLD) — below that a user scans a
+              short list, finds nothing, and would have had nowhere to click. */}
+          {canRequestCourse && (
+            <button
+              type="button"
+              onClick={() => onRequestCourse?.()}
+              className="mt-2 block text-left text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline"
+            >
+              Can’t find your course? Request it →
+            </button>
+          )}
         </div>
       </div>
 
@@ -661,7 +727,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <div className="flex items-center gap-2 gap-y-2 flex-wrap justify-end">
                   {selectedTopic ? (
                     <>
-                      {isAdmin && (
+                      {canCreateTree && (
                         <ActionButton
                           onClick={() => setInlineTopicOpen((v) => !v)}
                           icon={inlineTopicOpen ? X : Plus}
@@ -697,36 +763,41 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       />
                     </>
                   ) : (
-                    <>
-                      <ActionButton
-                        onClick={() => setInlineTopicOpen((v) => !v)}
-                        icon={inlineTopicOpen ? X : Plus}
-                        title={inlineTopicOpen ? 'Cancel' : 'Add Topic'}
-                        label={inlineTopicOpen ? 'Cancel' : 'Add'}
-                      />
-                      {canGenerate && (
+                    /* Every control here CREATES a topic — by hand, from
+                       syllabus text, or from a .json export — so the whole set
+                       is admin-only. */
+                    canCreateTree && (
+                      <>
                         <ActionButton
-                          onClick={onAddTopicFromSyllabus}
-                          icon={UploadCloud}
-                          title="Build a new topic from NESA syllabus text or a URL (AI)"
-                          label="From Syllabus"
-                          variant="special"
-                          locked={studioLocked}
+                          onClick={() => setInlineTopicOpen((v) => !v)}
+                          icon={inlineTopicOpen ? X : Plus}
+                          title={inlineTopicOpen ? 'Cancel' : 'Add Topic'}
+                          label={inlineTopicOpen ? 'Cancel' : 'Add'}
                         />
-                      )}
-                      <ActionButton
-                        onClick={onImportTopic}
-                        icon={Upload}
-                        title="Import Topic (.json)"
-                        label="Import"
-                      />
-                    </>
+                        {canGenerate && (
+                          <ActionButton
+                            onClick={onAddTopicFromSyllabus}
+                            icon={UploadCloud}
+                            title="Build a new topic from NESA syllabus text or a URL (AI)"
+                            label="From Syllabus"
+                            variant="special"
+                            locked={studioLocked}
+                          />
+                        )}
+                        <ActionButton
+                          onClick={onImportTopic}
+                          icon={Upload}
+                          title="Import Topic (.json)"
+                          label="Import"
+                        />
+                      </>
+                    )
                   )}
                 </div>
               )}
             </div>
 
-            {inlineTopicOpen && (!selectedTopic || isAdmin) && (
+            {inlineTopicOpen && canCreateTree && (
               <div className="mt-3 p-4 rounded-2xl bg-white/5 light:bg-slate-50 border border-purple-500/20 light:border-purple-200 animate-fade-in">
                 <div className="flex flex-col gap-3">
                   <input
@@ -921,6 +992,31 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <div className="flex items-center gap-2 pt-2 lg:pt-0 flex-wrap justify-end lg:self-center">
                   {selectedDotPoint ? (
                     <>
+                      {/* Focus areas are read out of syllabus prose by a
+                          heuristic, which sometimes splits a concept in half or
+                          finds nothing at all. Offered whether or not the parse
+                          found anything — a dot point with NO focus areas is
+                          exactly the case a teacher most often needs to fix. */}
+                      {onUpdateFocusAreas && (
+                        <button
+                          onClick={() => setFocusEditorOpen(true)}
+                          className={`p-2 rounded-lg border transition-all shadow-sm ${
+                            focusAreasOverridden
+                              ? 'bg-emerald-500/20 text-emerald-400 light:text-emerald-700 border-emerald-500/40'
+                              : 'bg-emerald-500/10 text-emerald-400 light:text-emerald-700 border-emerald-500/20 hover:bg-emerald-500 hover:text-white'
+                          }`}
+                          title={
+                            focusAreasOverridden
+                              ? 'Focus areas set by hand — click to edit'
+                              : hasSubItems
+                                ? 'Edit the focus areas read from this dot point'
+                                : 'No focus areas were found in this dot point — add them by hand'
+                          }
+                          aria-label="Edit focus areas"
+                        >
+                          <Target className="w-4 h-4" />
+                        </button>
+                      )}
                       {hasSubItems && activeFocusCount > 0 && (
                         <button
                           onClick={() => onPathChange({ selectedSubItems: undefined })}
@@ -989,6 +1085,28 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             )}
           </div>
         </div>
+      )}
+
+      {selectedDotPoint && onUpdateFocusAreas && (
+        <FocusAreaEditorModal
+          isOpen={focusEditorOpen}
+          onClose={() => setFocusEditorOpen(false)}
+          description={selectedDotPoint.description}
+          focusAreas={subItems}
+          isOverridden={focusAreasOverridden}
+          onSave={(areas) => {
+            onUpdateFocusAreas(selectedDotPoint.id, areas);
+            // An active focus that no longer exists in the list would keep
+            // narrowing generated questions to a phrase the teacher just
+            // deleted, and nothing on screen would say so.
+            const stillValid = (statePath.selectedSubItems || []).filter((i) => areas.includes(i));
+            onPathChange({ selectedSubItems: stillValid.length ? stillValid : undefined });
+          }}
+          onReset={() => {
+            onUpdateFocusAreas(selectedDotPoint.id, undefined);
+            onPathChange({ selectedSubItems: undefined });
+          }}
+        />
       )}
 
       {/* 5. Question Selection */}

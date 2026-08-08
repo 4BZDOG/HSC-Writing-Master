@@ -1,4 +1,11 @@
-import React, { useState, useEffect, useCallback, useMemo, useSyncExternalStore } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+  useSyncExternalStore,
+} from 'react';
 import { createPortal } from 'react-dom';
 import {
   X,
@@ -16,6 +23,7 @@ import {
   School,
   Plus,
   ScrollText,
+  Compass,
 } from 'lucide-react';
 import {
   fetchMyQuotaStatus,
@@ -28,12 +36,21 @@ import {
   assignUserSchool,
   setRoleQuota,
   setUserQuotaOverride,
+  fetchFreeEvaluationLimit,
+  setFreeEvaluationLimit,
+  LIVE_LICENCE_STATUSES,
   type QuotaStatus,
   type QuotaRole,
   type UsageReportRow,
   type ModelUsageRow,
   type SchoolRow,
 } from '../../services/quotaService';
+import {
+  fetchCourseDemand,
+  setCourseRequestStatus,
+  type CourseDemandRow,
+  type CourseRequestStatus,
+} from '../../services/courseDemandService';
 import { isCurriculumRemote } from '../../services/curriculumService';
 import { getSelectionSnapshot, subscribeAiConfig } from '../../services/aiConfig';
 import { estCostForModelId, getModelById, getModelByProviderModel } from '../../services/aiModels';
@@ -121,6 +138,68 @@ const UsageMeter: React.FC<{ used: number; limit: number }> = ({ used, limit }) 
 };
 
 /**
+ * A school's seat licence at a glance: is it live, and are more people using it
+ * than were paid for?
+ *
+ * The over-seat warning is the reason this cell exists. Seats are the billed
+ * quantity and membership is not capped per login, so a school can quietly grow
+ * past what it bought — which is a conversation to have early and politely, not
+ * a discovery to make at renewal. `plan_seats === undefined` means the RPC
+ * predates the licence columns, which is "unknown", not "no licence".
+ */
+const LicenceCell: React.FC<{ school: SchoolRow }> = ({ school }) => {
+  if (school.plan_status === undefined) {
+    return (
+      <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400 italic">
+        unknown
+      </span>
+    );
+  }
+  const live = LIVE_LICENCE_STATUSES.includes(school.plan_status);
+  if (!live) {
+    return (
+      <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400 italic">
+        {school.plan_status === 'none' ? 'no licence' : school.plan_status}
+      </span>
+    );
+  }
+  const seats = school.plan_seats ?? 0;
+  const overSeats = seats > 0 && school.members > seats;
+  return (
+    <div className="flex flex-col gap-0.5">
+      <span className="inline-flex items-center gap-1.5 text-[11px] font-bold">
+        <span
+          className={`w-1.5 h-1.5 rounded-full ${
+            school.plan_status === 'past_due' ? 'bg-amber-500' : 'bg-emerald-500'
+          }`}
+        />
+        <span className="text-[rgb(var(--color-text-secondary))] light:text-slate-700 font-mono tabular-nums">
+          {seats} seat{seats === 1 ? '' : 's'}
+        </span>
+        {school.plan_status === 'past_due' && (
+          <span className="text-amber-500">payment failing</span>
+        )}
+      </span>
+      {overSeats && (
+        <span className="text-[10px] font-bold text-amber-500">
+          {school.members - seats} over — top up seats
+        </span>
+      )}
+      {school.plan_period_end && (
+        <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+          renews{' '}
+          {new Date(school.plan_period_end).toLocaleDateString('en-AU', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+          })}
+        </span>
+      )}
+    </div>
+  );
+};
+
+/**
  * Admin dashboard for monitoring and adjusting AI usage: headline numbers,
  * a 7-day call trend, per-user usage for today with INLINE override editing,
  * and the group (role) daily limits. All adjustments go through the
@@ -154,9 +233,35 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
   const [newSchoolLimit, setNewSchoolLimit] = useState('');
   const [memberUser, setMemberUser] = useState('');
   const [memberSchool, setMemberSchool] = useState('');
+  // The paywall's headline number, as the DATABASE is enforcing it right now.
+  // null = unreadable (mock mode, or a database predating §14) and the control
+  // hides rather than offering to change something it cannot read.
+  const [freeEvalLimit, setFreeEvalLimit] = useState<number | null>(null);
+  const [freeEvalDraft, setFreeEvalDraft] = useState('');
+  // Course demand (schema §21). null = the RPC is absent, same progressive-
+  // enhancement rule as schools and acceptance below.
+  const [demand, setDemand] = useState<CourseDemandRow[] | null>(null);
+  const [showClosedDemand, setShowClosedDemand] = useState(false);
+  // The same flag, readable from `load` without making it a dependency.
+  const showClosedRef = useRef(showClosedDemand);
+  showClosedRef.current = showClosedDemand;
 
   useEscapeKey(isOpen && !isBusy, onClose);
   useScrollLock(isOpen);
+
+  /**
+   * Refetch the demand list alone. Separate from `load` so the "Show closed"
+   * toggle and a status change cost one RPC rather than a full dashboard
+   * reload — and so neither discards the edits sitting in the other panels.
+   */
+  const loadDemand = useCallback(async (includeClosed: boolean) => {
+    try {
+      setDemand(await fetchCourseDemand(includeClosed));
+    } catch {
+      // Absent before §21: hide the panel rather than fail the dashboard.
+      setDemand(null);
+    }
+  }, []);
 
   const load = useCallback(async () => {
     if (!remote) {
@@ -208,7 +313,23 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
     // Same pattern again: agreement_acceptance_report() is absent on a database
     // that pre-dates §15, and its absence must hide the panel, not fail the load.
     setAcceptance(await fetchAcceptanceReport());
-  }, [remote, showToast]);
+
+    // The live free-tier allowance. fetchFreeEvaluationLimit swallows its own
+    // failures and answers null, so an unmigrated database hides the control.
+    const liveLimit = await fetchFreeEvaluationLimit();
+    setFreeEvalLimit(liveLimit);
+    setFreeEvalDraft(liveLimit !== null ? String(liveLimit) : '');
+
+    // Course demand: absent before §21, and its absence hides the panel.
+    // Read through a ref rather than taking `showClosedDemand` as a dependency:
+    // as a dependency, ticking "Show closed" would re-run the WHOLE dashboard
+    // load, throwing away every unsaved draft in it (the allowance, the
+    // per-user overrides, the school pools) and re-issuing six unrelated RPCs
+    // to refetch one list. As a hardcoded `false` it was wrong the other way —
+    // the modal is never unmounted, so reopening it left the checkbox ticked
+    // with the closed rows silently gone.
+    await loadDemand(showClosedRef.current);
+  }, [remote, showToast, loadDemand]);
 
   useEffect(() => {
     if (isOpen) load();
@@ -359,6 +480,46 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
       return;
     }
     applyOverride(username, parsed);
+  };
+
+  // --- Paywall settings -----------------------------------------------------
+
+  const handleSaveFreeEvalLimit = async () => {
+    const parsed = Number.parseInt(freeEvalDraft, 10);
+    if (!Number.isFinite(parsed) || parsed < 0 || parsed > 1000) {
+      showToast('Enter a daily allowance between 0 and 1000.', 'error');
+      return;
+    }
+    setIsBusy(true);
+    try {
+      await setFreeEvaluationLimit(parsed);
+      setFreeEvalLimit(parsed);
+      showToast(
+        parsed === 0
+          ? 'Free marking is now switched off — free accounts get no evaluations.'
+          : `Free accounts now get ${parsed} marked evaluations a day.`,
+        'success'
+      );
+    } catch (e) {
+      showToast(e instanceof Error ? e.message : 'Could not save that allowance.', 'error');
+    } finally {
+      setIsBusy(false);
+    }
+  };
+
+  // --- Course demand --------------------------------------------------------
+
+  const handleDemandStatus = async (row: CourseDemandRow, status: CourseRequestStatus) => {
+    setIsBusy(true);
+    try {
+      await setCourseRequestStatus(row.id, status);
+      await loadDemand(showClosedDemand);
+      showToast(`“${row.name}” marked ${status}.`, 'success');
+    } catch (e) {
+      showToast(e instanceof Error ? e.message : 'Could not update that request.', 'error');
+    } finally {
+      setIsBusy(false);
+    }
   };
 
   // --- Schools (shared quota pools) ---------------------------------------
@@ -827,6 +988,54 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                 </p>
               </section>
 
+              {/* The paywall's headline number. Distinct from the budgets above:
+                  those protect the provider bill and apply to everyone, this one
+                  is the commercial limit and only bites on the free plan. It was
+                  adjustable in the database from the day it shipped but had no
+                  control here, so changing it meant opening the SQL editor.
+                  Hidden when the setting can't be read (mock mode, or a database
+                  predating §14) rather than offering to change a guess. */}
+              {freeEvalLimit !== null && (
+                <section>
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                    <ScrollText className="w-3.5 h-3.5" /> Free plan · daily marked evaluations
+                  </h3>
+                  <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400 mb-3 max-w-xl">
+                    How many answers a free account can have marked each day. Paid plans, teachers
+                    and admins are never metered by this. It takes effect on the very next
+                    evaluation — no redeploy — and the app quotes whatever you set here, so the
+                    number students see and the number enforced cannot drift apart.
+                  </p>
+                  <div className="flex flex-wrap items-end gap-3">
+                    <label className="flex flex-col gap-1">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                        Evaluations per day
+                      </span>
+                      <input
+                        type="number"
+                        min={0}
+                        max={1000}
+                        aria-label="Free plan daily evaluation allowance"
+                        value={freeEvalDraft}
+                        onChange={(e) => setFreeEvalDraft(e.target.value)}
+                        className="w-24 text-sm rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-3 py-2 text-right font-mono outline-none focus:border-[rgb(var(--color-accent))]/60"
+                      />
+                    </label>
+                    <button
+                      onClick={handleSaveFreeEvalLimit}
+                      disabled={isBusy || freeEvalDraft.trim() === String(freeEvalLimit)}
+                      className="px-4 py-2 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 text-xs font-bold uppercase tracking-wider transition-all disabled:opacity-50"
+                    >
+                      Save Allowance
+                    </button>
+                    <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400 pb-2.5">
+                      Currently enforcing <strong className="font-mono">{freeEvalLimit}</strong> a
+                      day
+                    </span>
+                  </div>
+                </section>
+              )}
+
               {/* Schools — shared quota pools. Hidden when the database
                   pre-dates the schools migration (schema §12). */}
               {schools !== null && (
@@ -848,6 +1057,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                           <tr>
                             <th className="px-4 py-2.5">School</th>
                             <th className="px-4 py-2.5 text-right">Members</th>
+                            <th className="px-4 py-2.5">Seat licence</th>
                             <th className="px-4 py-2.5">Pool today</th>
                             <th className="px-4 py-2.5 text-right">Pooled limit</th>
                           </tr>
@@ -863,6 +1073,9 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                               </td>
                               <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-secondary))] light:text-slate-700">
                                 {s.members}
+                              </td>
+                              <td className="px-4 py-2.5">
+                                <LicenceCell school={s} />
                               </td>
                               <td className="px-4 py-2.5">
                                 {s.daily_ai_limit !== null ? (
@@ -993,6 +1206,120 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                       Remove
                     </button>
                   </div>
+                </section>
+              )}
+
+              {/* Course demand — what people came looking for and did not find.
+                  Creating a course is admin-only, so this is the other half of
+                  that decision: the queue it produces, in the one place someone
+                  who CAN create a course is already looking. Hidden on a
+                  database that pre-dates §21. */}
+              {demand !== null && (
+                <section>
+                  <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 flex items-center gap-2">
+                      <Compass className="w-3.5 h-3.5" /> Course demand
+                      {demand.length > 0 && (
+                        <span className="px-1.5 py-0.5 rounded-md bg-indigo-500/15 text-indigo-400 text-[10px] font-black tabular-nums">
+                          {demand.length}
+                        </span>
+                      )}
+                    </h3>
+                    <label className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-400 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={showClosedDemand}
+                        onChange={(e) => {
+                          setShowClosedDemand(e.target.checked);
+                          void loadDemand(e.target.checked);
+                        }}
+                        className="accent-[rgb(var(--color-accent))]"
+                      />
+                      Show closed
+                    </label>
+                  </div>
+                  <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400 mb-3 max-w-xl">
+                    Courses people searched for and could not find. Each row counts distinct people,
+                    not clicks, so the order is genuine demand. Marking one <em>planned</em> tells
+                    the next admin it is in hand; <em>available</em> closes it once the course is in
+                    the tree.
+                  </p>
+
+                  {demand.length === 0 ? (
+                    <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400 italic">
+                      Nothing requested yet.
+                    </p>
+                  ) : (
+                    <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
+                      <table className="w-full text-left text-sm min-w-[560px]">
+                        <thead className="bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 uppercase text-[10px] font-bold">
+                          <tr>
+                            <th className="px-4 py-2.5">Course</th>
+                            <th className="px-4 py-2.5 text-right">People</th>
+                            <th className="px-4 py-2.5 text-right">Teachers</th>
+                            <th className="px-4 py-2.5">Last asked</th>
+                            <th className="px-4 py-2.5">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[rgb(var(--color-border-secondary))]/30 light:divide-slate-200">
+                          {demand.map((row) => (
+                            <tr
+                              key={row.id}
+                              className="hover:bg-[rgb(var(--color-bg-surface-light))]/10 light:hover:bg-slate-50 align-top"
+                            >
+                              <td className="px-4 py-2.5">
+                                <span className="font-medium text-[rgb(var(--color-text-primary))] light:text-slate-800">
+                                  {row.name}
+                                </span>
+                                {/* The most recent note is usually the useful
+                                    part — "Year 11, starting Term 3" tells you
+                                    more than the count does. */}
+                                {row.notes[0]?.note && (
+                                  <span className="block mt-0.5 text-[10px] italic text-[rgb(var(--color-text-dim))] light:text-slate-400 max-w-xs">
+                                    “{row.notes[0].note}”
+                                  </span>
+                                )}
+                              </td>
+                              <td className="px-4 py-2.5 text-right font-mono tabular-nums font-bold text-[rgb(var(--color-text-primary))] light:text-slate-800">
+                                {row.requesters}
+                              </td>
+                              <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-secondary))] light:text-slate-700">
+                                {row.teachers}
+                              </td>
+                              <td className="px-4 py-2.5 text-[11px] text-[rgb(var(--color-text-secondary))] light:text-slate-700 whitespace-nowrap">
+                                {row.lastRequested
+                                  ? new Date(row.lastRequested).toLocaleDateString('en-AU', {
+                                      day: 'numeric',
+                                      month: 'short',
+                                    })
+                                  : '—'}
+                              </td>
+                              <td className="px-4 py-2.5">
+                                <div className="flex items-center gap-1.5 flex-wrap">
+                                  {(
+                                    ['planned', 'available', 'declined'] as CourseRequestStatus[]
+                                  ).map((status) => (
+                                    <button
+                                      key={status}
+                                      onClick={() => handleDemandStatus(row, status)}
+                                      disabled={isBusy || row.status === status}
+                                      className={`px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all disabled:opacity-100 ${
+                                        row.status === status
+                                          ? 'bg-indigo-500/20 text-indigo-400 border-indigo-500/40'
+                                          : 'bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))] disabled:opacity-50'
+                                      }`}
+                                    >
+                                      {status}
+                                    </button>
+                                  ))}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
                 </section>
               )}
             </>

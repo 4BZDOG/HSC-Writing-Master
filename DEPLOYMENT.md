@@ -35,16 +35,35 @@ The repo is already Vercel-shaped: `vercel.json` is configured, and
    | `GEMINI_API_KEY`                               | your Google AI Studio key | yes (default engine)                                            |
    | `OPENROUTER_API_KEY`                           | your OpenRouter key       | only for OpenRouter engines                                     |
    | `ANTHROPIC_API_KEY`                            | your Anthropic key        | only for Claude engines                                         |
-   | `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` | Supabase project values   | only for multi-user auth                                        |
+   | **`SUPABASE_URL`**                             | Supabase project URL      | **yes, once Supabase exists — see the warning below**           |
+   | **`SUPABASE_ANON_KEY`**                        | Supabase anon key         | **yes, once Supabase exists — see the warning below**           |
+   | `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` | the same two values       | only for multi-user auth                                        |
    | `VITE_ENABLE_DEMO_AUTH`                        | `true`                    | only if you want demo logins (admin/admin) **without** Supabase |
+
+   Set all of these for **Production and Preview**. Do NOT set
+   `VITE_API_BASE_URL` (the proxy is same-origin here) or `DEPLOY_BASE_PATH`
+   (that is GitHub Pages only, and would break every asset URL).
 
 4. **Deploy.** Every push to `main` redeploys automatically.
 
+> **The unprefixed pair is not a duplicate of the `VITE_` pair.** They hold
+> the same two values but are read by different code, and the server-side
+> ones are the only thing `api/_lib/auth.ts` looks at. Omitting them does not
+> disable a feature — it **fails open**:
+>
+> - `/api/gemini` accepts unauthenticated POSTs from anyone on the internet,
+>   spending your AI budget.
+> - Quotas and the free-tier evaluation meter are not enforced at all.
+> - Checkout and the customer portal return `401` — billing is dead, because
+>   there is no identity to attach a subscription to.
+>
+> The `VITE_` pair is compiled into the browser bundle; the unprefixed pair is
+> only ever read on the server. Both are needed.
+
 Without Supabase the deployment runs in single-user "mock mode"
-(IndexedDB, demo accounts). Note that in that mode `/api/gemini` accepts
-unauthenticated calls — anyone who finds the URL can spend your AI quota,
-so prefer configuring Supabase (or at least keep the URL private) for
-anything beyond personal testing.
+(IndexedDB, demo accounts), and in that mode `/api/gemini` is deliberately
+open — anyone who finds the URL can spend your AI quota, so keep it private
+until Supabase is configured.
 
 ### B. GitHub Actions deploy (already in the repo)
 
@@ -261,17 +280,75 @@ plans on the AI, not on the text.
       before going live.
 - [ ] Decide the auth story: Supabase for real users, or
       `VITE_ENABLE_DEMO_AUTH=true` for a demo, or guest-only.
+- [ ] **Restrict who can get an account — both ways in.** A new account is a
+      `student` with a 60-call daily AI budget charged to your provider key, and
+      there are two doors: self-registration and SSO. Set
+      `VITE_ALLOWED_EMAIL_DOMAINS` to your school's email domain — it governs
+      both — and `VITE_ENABLE_SIGNUP=false` if accounts are provisioned
+      centrally. Leave email confirmation ON in Supabase so an address has to be
+      real. If you enable Entra, pin the app registration to your tenant
+      (single-tenant) as well: the env var refuses the session, but only the
+      tenant pin stops the account being created at all.
 - [ ] Visit the deployed URL, log in, import the curriculum library, and
       run one evaluation end-to-end.
 - [ ] If you are selling: work through the Stripe checklist above, and confirm
       a free account is refused an answer upgrade by the API (not just by the
       button).
+- [ ] **Data residency (irreversible).** The Supabase region is chosen at
+      project creation and cannot be changed afterwards — pick an Australian
+      one (Sydney, `ap-southeast-2`) for NSW student data. `vercel.json` pins
+      the functions to `syd1` for the same reason; without it they default to
+      Washington DC, so every marking call would round-trip
+      Sydney → US → Sydney. Note that the AI providers themselves are all
+      offshore: answer text crosses the border on every call regardless of the
+      database region, and a school privacy assessment will ask about that
+      first. `docs/privacy-for-schools.md` has the per-engine breakdown —
+      including that OpenRouter is a broker (the upstream processor depends on
+      the slug) and that Kimi K3 is China-operated, not US.
+- [ ] **Prove the AI proxy is actually closed.** With Supabase configured,
+      send an unauthenticated request and confirm it is refused:
+
+      ```bash
+      curl -si -X POST https://<your-app>.vercel.app/api/gemini \
+        -H 'content-type: application/json' -d '{}' | head -1
+      ```
+
+      Expect `401` — the gate is on and refusing an unauthenticated caller.
+
+      A `503` means the deployment is half configured: the `VITE_SUPABASE_*`
+      pair is set but `SUPABASE_URL` / `SUPABASE_ANON_KEY` are not. The proxy
+      refuses rather than serving openly, and the response body names the two
+      missing variables. Add them and redeploy.
+
+      A `200` or a `400` means no Supabase is configured anywhere, so the gate
+      is off by design and the endpoint is open to the internet — fine for a
+      personal demo, not for anything else. See the warning in the Vercel
+      section above.
+
+- [ ] **Prove the AI proxy is reachable at all.** Log in and run one
+      evaluation. If it fails with "AI is not connected on this deployment",
+      the build was marked as static hosting — `VITE_STATIC_HOSTING` must be
+      unset on Vercel (it is only set by the GitHub Pages workflow).
 
 ## Google & Microsoft (SSO) sign-in
 
 The login page shows **Google**, **Microsoft** and **GitHub** buttons whenever
-Supabase is configured. The buttons work as soon as the matching provider is
-enabled in your Supabase project — no app code or env vars are involved.
+Supabase is configured, and each works as soon as the matching provider is
+enabled in your Supabase project.
+
+Set `VITE_OAUTH_PROVIDERS` to the ones you actually enabled — a button for a
+provider Supabase does not have configured redirects the user away and comes
+back with an error, and a new Supabase project has none of them enabled. It
+takes a comma-separated list (`google`, `azure`, `github`), or `none` to drop
+the section entirely and run on email/password alone. Leaving it unset shows
+all three.
+
+For a NSW DoE school this is normally `VITE_OAUTH_PROVIDERS=azure`: everyone
+already holds an `@education.nsw.gov.au` Entra account, so Microsoft sign-in
+provisions them on first use and there are no passwords for the school to
+manage or reset. SSO also sidesteps passwords entirely — nothing to forget and nothing to
+reset. The app does have its own reset flow (below) for password accounts, but
+with Entra the Department already owns the credential.
 
 ### 1. Enable the provider in Supabase
 
@@ -284,11 +361,18 @@ Supabase dashboard → **Authentication → Providers**:
 - **Microsoft (Azure)**: register an app in
   [Microsoft Entra admin centre](https://entra.microsoft.com) → App
   registrations. Redirect URI (Web):
-  `https://<project-ref>.supabase.co/auth/v1/callback`. For NSW DoE / school
-  tenants choose the multi-tenant account type ("Accounts in any
-  organisational directory") so students can sign in with their school
-  Microsoft accounts. Paste the Application (client) ID and a client secret
-  into the Azure provider settings.
+  `https://<project-ref>.supabase.co/auth/v1/callback`. Paste the Application
+  (client) ID and a client secret into the Azure provider settings.
+
+  **Choose the account type deliberately.** _Single tenant_ ("Accounts in this
+  organisational directory only") is the right answer for a school: only your
+  own tenant's accounts can sign in, and the restriction is enforced by
+  Microsoft before the request ever reaches you. _Multi-tenant_ accepts **any**
+  Microsoft work or school account in the world — every one of which would
+  arrive here as a `student` with a daily AI budget on your provider key. If
+  you must use multi-tenant, `VITE_ALLOWED_EMAIL_DOMAINS` is what keeps
+  everyone else out.
+
 - **GitHub**: GitHub → Settings → Developer settings → OAuth Apps, callback
   URL as above.
 
@@ -299,7 +383,11 @@ Supabase dashboard → **Authentication → URL Configuration**:
 - **Site URL**: your deployed app URL — _including the base path_ on GitHub
   Pages, e.g. `https://<user>.github.io/<repo>/`.
 - **Redirect URLs**: add every URL the app runs at (production, Pages,
-  `http://localhost:3000` for development).
+  `http://localhost:3000` for development), **and the same URLs with
+  `?mode=reset`** — that is where a password-reset email returns. A wildcard
+  (`https://your-app.vercel.app/**`) covers both. Miss it and the reset link
+  lands on the Site URL instead, signing the user in without ever asking for a
+  new password.
 
 The app sends users back to `origin + base path` after sign-in; if that URL
 is not in this allowlist, Supabase falls back to the Site URL.

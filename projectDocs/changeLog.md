@@ -1,5 +1,527 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-08-08 (paywalling the upgrade, and printing it)
+
+### 🔒 The rewrite was gated on the wrong switch
+
+The rewritten answer inside a marking result was withheld only when
+`FREE_TIER_FEEDBACK_SUMMARY_ONLY` was on. That switch governs feedback
+**detail**; the rewrite is the `answerUpgrades` feature in its own right. So a
+deployment that opened feedback to the free tier — `FREE_TIER_FULL_FEEDBACK=true`,
+a documented option and the one a school pilot reaches for — handed every free
+account the paid rewrite, and with it the whole improvement review now built on
+top of it.
+
+- `redactPaidFeedback` takes a **scope**: `feedbackDetail` and `rewrite` are
+  decided separately, and both default to withholding so a caller that forgets
+  to say what it means keeps the paywall on.
+- `api/gemini.ts` resolves the caller's plan **once** per request (shared with
+  the paid-feature gate, which used to look it up independently) and gates the
+  rewrite on `answerUpgrades`. An unresolvable plan falls back to the
+  `unlimited` verdict already in hand rather than to "entitled":
+  `resolveCallerPlan` is fail-open by design, so treating null as entitled would
+  reopen the hole on any deployment whose `caller_plan` RPC is missing, while
+  failing hard would strip rewrites from paying customers for the same reason.
+- The meter failing open no longer opens the paywall — a count and a plan are
+  different questions.
+- Client-side, the lock is applied in **one** place that every consumer reads:
+  the rendered exemplar, the buttons, the comparison and the exported PDF. A
+  rewrite can outlive the entitlement that produced it (a cached result, a
+  session open when the plan lapsed), and a paid asset should not depend on
+  which of four call sites remembered to check.
+
+### ✨ The PDF shows what changed
+
+The exported report carried the improved response as a block of prose, leaving
+the student to work out which words earned the mark by eye.
+
+- A **"What changed"** section: the scale of the revision (*67 words added · 29
+  cut · 52% of your own writing kept*), then each edit as a `−` was / `+` now
+  pair.
+- A list rather than inline marking, because the page's text engine draws whole
+  wrapped lines in a single style — an inline diff on paper would mean a
+  word-placement engine. Every row carries a `−`/`+` prefix as well as colour,
+  so the page survives the greyscale printer most schools have.
+- Capped at 14 edits, with a line saying how many more are in the app.
+- Absent entirely when the rewrite is withheld, when nothing changed, or when
+  there is no student answer to compare against.
+
+### 🐛 Two print bugs found on the way
+
+- **A heading could be orphaned at the foot of a column.** Keep-with-next
+  reserved one *line* of the following block, but everything reaching the flow
+  has already been through `splitOversized` and moves as a unit — so a heading
+  that fit alongside one reserved line stayed put while its whole body jumped to
+  the next column ("IMPROVED RESPONSE" at the foot of one column, the response
+  itself at the head of the next). It now reserves the body's full height.
+- **A list item drew only its first run.** `measureBlock` has always reserved
+  height for all of them, so a multi-run item — exactly what the change list
+  needed — was measured at full height and drawn missing everything after the
+  first line, leaving a gap on the page.
+
+## [Unreleased] - 2026-08-08 (hardening the improvement review)
+
+### 🐛 The comparison was missing from the path students actually take
+
+Two things produce a rewrite: pressing "Improve my answer", and ordinary
+marking — `evaluateAnswer` is briefed to return the student's answer lifted one
+mark, and that arrives inside the evaluation result. Only the first could open
+the diff, so the student who simply submitted an answer and read their feedback
+never saw the comparison at all. The marking rewrite carries no target of its
+own, so it is derived the way the model was briefed: one mark up, through the
+Verb Gate.
+
+### 🐛 Escape closed two dialogs at once
+
+Every dismissible overlay listens on `window`, so they share a target and
+`stopPropagation` cannot arbitrate between them — one press closed the
+improvement diff **and** the feedback modal underneath it. `useEscapeKey` now
+keeps a stack and only the topmost surface responds. A dialog that has detached
+its handler mid-operation (so Escape cannot abandon an in-flight AI call)
+correctly lets the press fall through to the surface beneath.
+
+### 🛡️ The rewrite is cleaned before anyone sees it
+
+"Return only the improved answer text" is an instruction, not a guarantee.
+
+- A rewrite wrapped in a **code fence**, opened with **"Here is the improved
+  answer:"**, or headed with a **restated mark** is stripped back to the answer.
+  Left in, all of it landed in the student's draft on "use this version", and
+  every word of it read as an addition in the diff, drowning the change that
+  actually earned the mark. Deliberately conservative — an opening sentence that
+  happens to contain a colon survives.
+- An **empty rewrite is a failed call**, not a result. It used to be saved into
+  the question's library as a blank exemplar (where it could evict a real one)
+  and opened a review of nothing; it now surfaces as an error like any other AI
+  failure.
+- The marking rewrite goes through the same cleaner, since it is saved as an
+  exemplar too. A withheld (free-tier) rewrite stays empty rather than being
+  invented.
+- The diff strips **markdown** as well as tags, so a model that returns
+  `**cache hit ratio**` no longer reports a term the student already used as an
+  addition.
+
+### ✨ Reading a long comparison
+
+- **Step through the changes** — "3 of 11", forward and back, wrapping at each
+  end, with the focused change ringed (a ring, not a different colour, so
+  "where am I" never competes with "what kind of change is this"). A deletion
+  and the insertion replacing it count as **one** change, because that is how a
+  reader sees them. The scroll is guarded: no `scrollIntoView`, or a reduced-
+  motion preference, must never turn the button into a thrown error.
+- **"No changes" is stated, not implied.** An identical rewrite says so, drops
+  the mark-uplift claim from the header ("Your answer, unchanged"), and hides
+  "Use this version" — a button that silently does nothing is worse than no
+  button.
+- The dialog is announced as one: `role="dialog"`, `aria-modal`, and a label
+  pointing at its own heading.
+
+## [Unreleased] - 2026-08-08 (the improvement review)
+
+### ✨ "Your answer, improved" — as a marked-up diff
+
+The improvement is briefed as an *edit* of the student's own response, so the
+only reading that makes sense is a comparison. Reading it as a fresh block of
+prose hides the handful of words that earned the extra mark, which is the one
+thing the student came for.
+
+- A new **word-level diff** (`utils/textDiff.ts`): LCS over tokens, computed on
+  the pruned middle after common prefixes and suffixes are peeled off, with a
+  size guard that degrades to a wholesale replacement rather than allocating a
+  matrix for a pathological input. Tokens are compared ignoring case and
+  punctuation — a sentence that only gained a full stop is not a rewritten
+  sentence — but each side keeps its own surface form, so joining the segments
+  reproduces either text **exactly**. That losslessness is load-bearing: "use
+  this version" must hand back text the student actually read.
+- **`ImprovementReviewModal` is now a real surface.** It was fully built and
+  never mounted anywhere, which is why "Regenerate" had nowhere to show its
+  result. It opens on its own the moment an upgrade lands, and again from
+  "Compare with mine" on the feedback screen.
+  - **Marked up**: one flowing text, added words underlined in green, cut words
+    struck through in red, everything unmarked the student's own.
+  - **Side by side**: their original with the cuts, the revision with the
+    additions, each column counting its own words.
+  - A summary strip — *67 added · 29 cut · 52% of your words kept*. The
+    retention figure is how a student can tell at a glance whether the AI
+    actually followed its brief.
+  - **The syllabus terms the revision brought in** are named, because that is
+    usually what the extra mark was for.
+  - Colour is never the only cue: additions are underlined, cuts struck
+    through, and both carry titles.
+- `useGemini` now carries the upgrade as one `AnswerImprovement` value rather
+  than three loose strings, so the header can never label one revision with
+  another's mark.
+
+### 🐛 The upgrade CTA a free account could never reach
+
+The Improved Response section only rendered when there was rewrite text — but
+the proxy withholds that text for a plan without answer upgrades, so the section
+vanished, taking with it the one button that sells the feature. A free account
+now gets the section in a locked state: no exemplar, a plain description of what
+Plus does, and a working call to action.
+
+### ✨ Recalibration is a choice, not all-or-nothing
+
+Recalibration is metered marking — one evaluation per sample — so re-marking
+eight exemplars to fix the one that looks wrong spent seven credits for nothing.
+A picker now lists the samples with quick picks for **All / None / AI only /
+Band mismatch**, states the cost up front, and defaults to the mismatched set
+(stored band disagreeing with the Verb Gate — the drift recalibration exists to
+repair). It also **merges by id** rather than replacing the array, which is what
+made a narrowed selection possible: the old assignment would have deleted every
+sample the teacher did not choose, and already dropped any exemplar added while
+a batch was running.
+
+### 💄 Batch generation and the rename trap
+
+- A finished batch now **opens the Sample Answers panel** and the group it just
+  wrote to. The panel defaults to folded, so a teacher who generated five
+  exemplars had nothing to show for it but a toast.
+- Leaving the tab **mid-batch** now warns. Escape and the backdrop were already
+  blocked; a browser navigation was not, and it threw away every call still to
+  land.
+- **Renaming a dot point no longer changes its focus areas behind your back.**
+  Focus areas are read from the dot point's wording, so editing it rewrites
+  them — and they are what a generated question is narrowed to. The rename
+  dialog now shows the before and after and offers to keep the current list
+  (by pinning it as an override). Silent when the list is already hand-set,
+  because that case is already immune.
+
+## [Unreleased] - 2026-08-08 (quality of life)
+
+### ✨ Build a whole ladder of exemplars in one pass
+
+The sample-answer generator took one mark at a time, so a teacher covering six
+performance levels opened the same modal six times.
+
+- Marks are a **multi-selection** now. The batch runs sequentially from the
+  lowest mark up, each answer lands in the library as it is written, and the
+  button reports "Writing 3 of 5 — 4/8".
+- **"Complete the ladder"** selects one mark for every band with no exemplar yet.
+- Each answer is written **with sight of the ones below it**. `generateSampleAnswer`
+  has always accepted the existing answers and never used them; it now briefs the
+  model to make the new answer visibly separable from them, which is the
+  difference between a ladder and five versions of the same answer.
+- A failure no longer loses the batch: whatever succeeded is saved, the modal
+  says which marks failed and why, and re-arms with only those still selected.
+- Band **coverage is derived**, not read off the sample. A stored band travels
+  with imported and legacy exemplars and can disagree with the Verb Gate, so the
+  coverage strip was claiming bands that no sample demonstrates and the
+  suggestion pointed at a band already covered.
+
+### ✨ Focus areas can be fixed by hand
+
+The "including …" list under a dot point is read out of syllabus prose by a
+heuristic. It splits a single named concept on its "and", keeps a trailing
+clause that was never a list item, and misses lists written in a shape it does
+not know — and because that list narrows what a generated question is about, a
+bad reading is not cosmetic.
+
+- `DotPoint.focusAreas` stores a teacher's list, edited in a new dialog off the
+  navigator. Add, rename, reorder, remove; **saving an empty list is a valid
+  answer** — it says this dot point has no sub-parts and silences a bad reading.
+  Absent means "read the description", which is every existing dot point, and
+  "Reset to automatic" returns to that.
+- The editor is offered even when the parser found **nothing**, which is the case
+  a teacher most often needs to fix.
+- One resolution, shared: `getFocusAreas` is what the navigator, the question
+  generator and the AI's keyword grounding all read, so a fix made in the
+  navigator is the list the generator uses. An active focus that the edit
+  removed is dropped rather than left narrowing questions to a deleted phrase.
+
+### ✨ "Student + AI" exemplars are labelled as their own thing
+
+An AI sample that is a lift of the student's own response carries their
+structure and voice; one written from scratch does not. Both were filed under
+the same grey "AI Model" chip. `SampleAnswer.derivedFromStudent` now separates
+them, and the library gives the student-derived ones their own violet
+person-plus-sparkle badge.
+
+### 💄 The sign-in screen is the same design in both themes
+
+It painted an opaque base over the app's animated background and then laid two
+`mix-blend-screen` blobs on top. Screen blending against a near-white ground is
+a no-op, so the light theme resolved to a flat sheet of #f8fafc while the dark
+theme got its aurora.
+
+- A shared `AuthBackdrop` (sign-in and password reset) composes four layers —
+  a brand wash, exam-paper ruling, two drifting orbs, and a vignette that seats
+  the card — with **each theme's colours declared separately** in `index.css`
+  rather than left to a blend mode that only works on one of them.
+- The light card gets a real border and a cool shadow so it reads as a card
+  rather than dissolving into the page.
+- The `blob` keyframes moved from an inline `<style>` inside `AnimatedBackground`
+  into the stylesheet: any other component using them silently depended on that
+  one being mounted.
+- The exemplar carousel counter reads "2/3" rather than a bare "2".
+
+### 🗃️ Data
+
+`DATA_VERSION` → 2.5.0 for two additive optional fields (`DotPoint.focusAreas`,
+`SampleAnswer.derivedFromStudent`). No migration step: absent means exactly what
+its absence meant before.
+
+## [Unreleased] - 2026-08-08
+
+### ✨ The improved response is now the student's answer, one mark higher
+
+Generated sample answers were already nicely graduated — a 2/6 sample is short,
+a 6/6 sample is not. The rewrite a student got back after submitting their own
+work was not: it came back at full-exemplar length even when it was only worth
+one more mark, in a voice that was nothing like theirs.
+
+- **It targets the next MARK, not the next band.** `getNextLevelTarget` is the
+  single definition, and the AI brief, the saved exemplar's mark, the on-screen
+  header and the PDF heading all read it from there. Aiming a whole band higher
+  was what licensed a four-times-longer answer; on some questions it also
+  resolved to a mark at or below the one the student had already earned, so the
+  "improvement" was saved to the library worth no more than the original.
+- **It is briefed as an edit, not a fresh answer.** Keep the student's
+  sentences, sequence, vocabulary and register; make the smallest set of changes
+  that earns the extra mark; do not restructure or add sections they never
+  attempted. The marker's own list of what was missing is passed in as the brief
+  for that edit — previously only the overall summary was, so the model guessed
+  at the gap and wrote a new answer around its guess.
+- **The length ceiling is anchored to what the student wrote** — the smaller of
+  the target mark's scope and their own length plus a working margin. A student
+  who wrote three lines gets back four lines. A student who padded gets back
+  something shorter.
+- **"Regenerate" now visibly does something.** It saved a new exemplar to the
+  library and left the response on screen untouched, so the button read as
+  broken. It also only appeared while the student was below the band ceiling,
+  which hid it from anyone sitting one mark short inside the top band.
+
+### 🐛 Marking guides render as the descending ladder again
+
+A guide from manual entry or the AI Draft button often arrived as one
+undifferentiated block instead of the descending HSC rows.
+
+- **The prompt was showing the model an escaped newline.** The example rows in
+  the marking-criteria instruction were joined with `'\\n'`, so the model was
+  shown the two literal characters backslash-n as its row separator and copied
+  them into its answer — one physical line no parser could split. The examples
+  now use real line breaks, and every rubric instruction ends with an explicit
+  rule against literal `\n`, run-on rows, tables and preamble.
+- **`formatMarkingCriteria` repairs the shapes that still get through**: escaped
+  newlines, fenced code blocks, markdown tables, band-led rows
+  (`Band 6 (7-8 marks): …`) and rubrics that arrived as one run-on paragraph.
+  Because the accordion normalises at render, guides already saved in a
+  library are repaired too. Rows are only split after sentence-ending
+  punctuation, so a mark value quoted mid-sentence is left alone.
+- **It runs at the AI boundary, not just on import.** The manual composer puts
+  the model's rubric straight into an editable textarea, so a malformed guide
+  was what the teacher reviewed and saved. `generateRubricForPrompt` and
+  `reviseRubricForPrompt` return free text with no schema to lean on, and now
+  normalise their output too.
+- **Two parser bugs in the accordion.** A row written as
+  `Band 6 (7-8 marks): Comprehensive analysis…` was stored as the words *before*
+  the bracket, silently discarding the criteria; and such a row closed itself
+  off, so a wrapped continuation line beneath it was dropped entirely. Band-led
+  rows also placed themselves with an inline `(band / 6) × totalMarks` that
+  ignored the verb's tier ceiling — they now use `markForBand` like everything
+  else.
+
+## [Unreleased] - 2026-08-05
+
+### ✨ Self-service password reset
+
+The last gap in the auth story. "Forgot your password?" on the sign-in screen
+emails a link; the link returns to a screen that asks for a new password and
+signs the user in once it is set.
+
+- **The link had to be told apart from an SSO sign-in.** Under PKCE a recovery
+  return and an OAuth return are both a bare `?code=` — indistinguishable. The
+  app would have consumed the recovery as a sign-in, logging the user straight
+  in and never showing the form, so "reset my password" would appear to do
+  nothing at all. The reset email therefore carries its own marker
+  (`?mode=reset`) and detection is a URL read, not a race between
+  `PASSWORD_RECOVERY` and `SIGNED_IN`. `handleOAuthCallback` refuses a recovery
+  return as a backstop.
+- **The confirmation does not reveal whether an account exists.** Supabase
+  returns success for an unknown address on purpose; "no account with that
+  email" would turn the form into a way to discover who has one, which here is a
+  roster of students. The panel says "if an account exists for …", and there is
+  a test pinning that wording. A rate limit is the one failure surfaced, because
+  it is the one the user can act on.
+- **The allowlist is deliberately NOT applied to a reset request.** An account
+  created before the allowlist was set can still sign in with its password, so
+  refusing to reset it would lock out the one person the feature exists for.
+  There is no relay risk: Supabase sends nothing to an address with no account.
+- **Cancelling signs out.** The link establishes a session before the user
+  chooses anything, so on a shared computer walking away would leave whoever
+  opened the email signed in.
+- Expired and already-used links — much the commonest failure, and the one whose
+  native wording explains nothing — say so and point back to the sign-in screen.
+- The new-password rules are the sign-up rules, shared rather than restated: a
+  password accepted at registration and refused at reset is the sort of
+  inconsistency people report as "it will not let me back in".
+- Two Supabase settings are required, and both are now documented where someone
+  configuring a deployment will meet them: the `?mode=reset` redirect URL must
+  be on the allowlist, or the link lands on the Site URL and signs the user in
+  without asking for anything.
+- **Follow-up fixes from reviewing the above.** The marker was matched as a
+  literal `?mode=reset` prefix, so it was only found when Supabase happened to
+  put it first — `?code=…&mode=reset` fell through to the OAuth path and
+  reintroduced the exact silent sign-in the marker exists to prevent. It is now
+  matched as a parameter wherever it appears (and `?mode=resetting` no longer
+  counts). Cancelling also cleared the URL only _after_ awaiting `signOut`: a
+  rejected sign-out was harmless, but a hung one left the marker in place, so
+  every reload returned to a reset screen whose session was dead. The clear now
+  happens before any await.
+
+### 🔒 Closed the two SSO gaps self-registration exposed
+
+Adding a domain allowlist to sign-up made it obvious that the SSO path had none,
+and that the two must be one rule.
+
+- **The allowlist now governs both routes.** `VITE_ALLOWED_EMAIL_DOMAINS`
+  replaces the sign-up-only `VITE_SIGNUP_ALLOWED_DOMAINS` (still read as a
+  fallback) and is enforced in `handleOAuthCallback` as well as `signUp`.
+  Restricting one door and not the other restricts nothing: a MULTI-TENANT Entra
+  registration — the account type a school needs so its students can sign in —
+  accepts any Microsoft work or school account in the world, and each one landed
+  here as a `student` with a daily AI budget on the deployment's provider key.
+  A rejected sign-in drops the Supabase session (otherwise a refresh walks past
+  the check) and now says so: `App.tsx` swallowed every callback error, which
+  was survivable while they were all transient but would have made a deliberate
+  refusal look like a broken app.
+  Be clear on what this is: the `auth.users` row exists by the time the app sees
+  it, so this refuses the SESSION. The authoritative control is a single-tenant
+  Entra registration; `DEPLOYMENT.md` now recommends that rather than
+  multi-tenant.
+- **The account picker applies to every provider.** `prompt: 'select_account'`
+  was sent to Google alone — missing the one a NSW DoE school actually uses. On
+  a shared classroom PC the second student to sit down was signed straight into
+  the first student's account, with their drafts and their marks, no prompt and
+  nothing to notice.
+
+### ✨ Self-registration
+
+The app could sign people in but never register them: `signUp` appeared nowhere,
+so every account had to be hand-made in the Supabase dashboard. There is now a
+**Create one** link on the login page.
+
+- `authService.signUp()` distinguishes the two outcomes Supabase can return, and
+  the UI branches on them. With email confirmation off a session comes back and
+  the user is logged straight in (through the ordinary login path, so streaks,
+  school plan and onboarding state are applied rather than a second hand-built
+  `User` drifting from it). With confirmation on there is a user and **no**
+  session, the account is inert until the emailed link is followed, and the form
+  is replaced by a notice naming the address.
+- Detects Supabase's anti-enumeration response. Re-registering an existing
+  address returns a normal-looking user with an EMPTY `identities` array rather
+  than an error — untreated, the app says "check your email" about a mail that
+  is never sent, which is the most confusing outcome available here.
+- Policy lives in `services/signupPolicy.ts` and is enforced in **both** the form
+  and the service, because a rule checked only in the form is a suggestion a
+  direct call ignores. `VITE_ALLOWED_EMAIL_DOMAINS` restricts registration by
+  email domain (sub-domains included; look-alikes like
+  `fakeeducation.nsw.gov.au` are refused, which a naive `endsWith` would let in),
+  and `VITE_ENABLE_SIGNUP=false` removes the feature.
+- **Set the allowlist before deploying publicly.** A new account is created as a
+  `student` and a student carries a 60-call daily AI budget spent against the
+  deployment's provider key, so open registration hands AI spend to whoever
+  finds the URL.
+- Supabase's raw auth errors are restated for someone creating a school account
+  ("Signups not allowed for this instance" → who to ask; a rate limit → wait a
+  minute), with unrecognised messages passed through rather than replaced.
+- Password fields carry `autocomplete="new-password"` so a password manager
+  offers to generate one instead of filling in the old one — the shared
+  `InputField` had `current-password` hard-coded for every password input.
+- Password reset landed alongside this (see above), so the account lifecycle is
+  now self-service end to end for password accounts.
+
+### 🔒 The §19 class-scoping hole, one table over
+
+`profiles_read` was still `id = auth.uid() or is_reviewer()` after §19 re-scoped
+`responses` and `response_events`. A teacher who taught no class could
+`supabase.from('profiles').select('username, display_name')` from a browser
+console — with the anon key that ships in the bundle — and get every account in
+the database. Not a list of opaque ids: `handle_new_user` defaults `username` to
+the email local part, so on a DoE deployment that is `firstname.lastname` for
+every student in the school.
+
+- Re-scoped onto `can_view_student()` in §19, alongside the other two.
+- Reproduced on Postgres 16 first (a class-less teacher read every other profile
+  row, usernames printed) and confirmed closed after, with the caller's own row
+  still readable — sign-in resolves the role through that read, so failing
+  closed must not mean failing blind.
+- **Why it outlived the first fix:** the direct-select assertions added with §19
+  name `responses` and `response_events` specifically, so nothing failed when a
+  third table stayed unscoped. The tests now assert on `profiles` too, negative
+  and positive. Verified they fail against the old policy before being trusted.
+  42 RLS assertions, up from 39.
+
+### 🔒 `sourcemap: 'hidden'` never stopped the source being published
+
+'hidden' only drops the `//# sourceMappingURL=` comment. Vite still wrote
+`dist/assets/*.js.map`, and both deploy paths publish `dist/` wholesale — at a
+name derived from the bundle's own filename.
+
+- Confirmed by serving a real build and fetching one: HTTP 200, 2.4 MB, and
+  `sourcesContent` handed back `utils/permissions.ts` complete with its
+  comments. 18 maps, 8.8 MB, the whole application recoverable.
+- Production now emits none, which is what the repo already assumed — nothing
+  uploads them anywhere. `dist/` drops from ~16 MB to 7.5 MB.
+  `BUILD_SOURCEMAPS=true` brings them back for an error-tracker upload.
+- The guard test asserts `false`, not `'hidden'` — anything that writes a map
+  file is the regression, since nothing deletes it before deploying.
+
+### 🔒 A half-configured deployment no longer fails open
+
+The AI proxy degrades to "allow everything" when `SUPABASE_URL` /
+`SUPABASE_ANON_KEY` are unset. Right for a deployment with no Supabase at all;
+wrong for one that has the `VITE_` pair and missed the unprefixed one — real
+logins and real quotas in the UI, `/api/gemini` serving anyone with the URL.
+
+- The asymmetry is detectable server-side (a hosting platform puts every project
+  variable in the function environment; the prefix only tells Vite what to
+  bundle) and is always a mistake, never a choice. It now returns **503** naming
+  both missing variables instead of serving the call.
+- Production only — the same asymmetry locally exposes nothing, and refusing
+  would break `npm run dev` for Supabase sign-in without server vars.
+
+### 🔑 SSO buttons now match what the deployment actually enabled
+
+The login page drew Google, Microsoft and GitHub whenever Supabase was
+configured. A provider only works once enabled in the Supabase dashboard, and a
+new project has none enabled — so the default deployment showed three buttons
+that each redirected the student away and came back with "Unsupported provider".
+
+- `VITE_OAUTH_PROVIDERS` picks the list (or `none`). Unset keeps all three, so
+  no working deployment loses a login method; an empty value is treated as unset
+  rather than as `none`; unknown names are dropped; order follows the config.
+- A disabled provider now says which provider, that an administrator enables it
+  in Supabase, and that email/password still works.
+- Worth recording that Microsoft/Entra SSO was **already** wired end to end —
+  service call, callback handler, button, tests. It just wasn't selectable per
+  deployment. `VITE_OAUTH_PROVIDERS=azure` is still the cleanest answer to a
+  class rollover — self-registration (above) covers account creation, but only
+  SSO also removes the password-reset gap.
+
+### 📄 Documentation caught up with all of the above
+
+- **`docs/privacy-for-schools.md`** — a Cross-border processing section: every
+  engine is offshore, so answer text leaves Australia on every marking call
+  whatever the database region. Per-engine endpoints and jurisdictions, plus the
+  two that need more than a table row (OpenRouter is a broker, so the upstream
+  processor depends on the slug; Kimi K3 is China-operated, not US). Also
+  corrected an unqualified "never used to train any AI model" — true for the
+  paid API tiers, not for the free OpenRouter router — and moved practice
+  answers out of `profiles` into `responses` in the data table.
+- **`SUPABASE_SETUP.md`** — Step 5 told you to click a **Sign Up** button that
+  did not exist at the time. Rewritten around the three routes an account can
+  now take (self-registration, SSO, or the dashboard), with the password-reset
+  gap stated where someone planning a class will meet it. Adds class-scoped
+  visibility to what the schema creates.
+- **`DEPLOYMENT.md`** — the pre-flight proxy check now reads a 503 as
+  half-configured rather than lumping it in with "open"; the SSO section covers
+  `VITE_OAUTH_PROVIDERS`.
+- **`VERCEL_SETUP.md`** — an "all four, or none" note on the Supabase variables,
+  and the install command corrected to `npm ci` to match `vercel.json`.
+
+---
+
 ## [2.4.2] - 2026-07-26
 
 ### 🩺 A failed boot now says what went wrong, instead of showing a black screen
@@ -49,7 +571,7 @@ Every existing gate was green while the deployed site rendered nothing — dev s
 
 `Uncaught ReferenceError: Cannot access 'Cs' before initialization` at `legalContent.ts` — the whole app rendered nothing on the deployed build, while dev, Vitest, the build itself and the e2e suite were all green.
 
-- **Cause: a cross-chunk temporal-dead-zone read.** `data/legalContent.ts` interpolated the free-tier limits into the Terms of Use *at module scope*, importing them from `services/entitlements.ts`. `EvaluationDisplay.tsx` imports the marking disclaimer from the same content file, so Rollup placed `legalContent` in the `workspace` chunk while `entitlements` stayed in the entry chunk. The two chunks import each other, so `workspace` executed first and read `FREE_TIER_EVAL_LIMIT` (minified to `Cs`) before the entry chunk had initialised it. Vite serves modules unbundled in dev, so the cycle only exists in a production build.
+- **Cause: a cross-chunk temporal-dead-zone read.** `data/legalContent.ts` interpolated the free-tier limits into the Terms of Use _at module scope_, importing them from `services/entitlements.ts`. `EvaluationDisplay.tsx` imports the marking disclaimer from the same content file, so Rollup placed `legalContent` in the `workspace` chunk while `entitlements` stayed in the entry chunk. The two chunks import each other, so `workspace` executed first and read `FREE_TIER_EVAL_LIMIT` (minified to `Cs`) before the entry chunk had initialised it. Vite serves modules unbundled in dev, so the cycle only exists in a production build.
 - **Fix, in two parts, neither of which depends on bundler behaviour.** The limit numbers moved to `services/planLimits.ts`, a module with no imports (re-exported from `entitlements.ts`, so every existing call site is unchanged). And the Terms and Privacy Notice are now built by `getLegalDocuments()` on first call rather than at module load, so no imported value is read while any module is still initialising.
 - **Fixed the same latent bug in `utils/planComparison.ts`**, where `FREE_PARTIAL` / `PAID_FULL` were module-level objects interpolating the same constants. Now built on demand.
 - **Regression guards** in `tests/unit/legalContent.test.ts`: the content file must not import from `services/entitlements`, must not export a module-level `LEGAL_DOCUMENTS`, must not interpolate a limit above the builders, and `planLimits.ts` must stay import-free. The hazard and the reasoning are written up in `projectDocs/agreements.md`.
@@ -69,7 +591,7 @@ Three surfaces students and teachers were missing, built content-first so they c
 - **Quick start guide** with separate tracks for students, teachers and guests. Opens once on a new account, re-openable from the header lifebuoy and the profile. Paid-feature notes appear only for accounts that lack the feature, so a teacher holding Plus is never told to buy what they have.
 - **Free vs Plus vs School comparison derived from `services/entitlements.ts`**, not hand-written — a table maintained separately from the gates it describes eventually lies. Tests assert no cell claims a feature its plan does not unlock. Features the free tier holds partially (tiers 1–3, Bands 1–3, summary feedback) show their real limit rather than a misleading cross.
 - **The AI marking disclaimer now travels with the mark.** One constant, shown under the mark on screen and in the footer of every page of an exported PDF. An exported report can end up in a folder beside real assessment records, so every page says what it is.
-- **"Your data" in the profile** — download everything we hold about your account as JSON (profile, preferences, progress, agreement record, responses *and their marking*), or delete the account outright via `delete_my_account()`, which derives its target from `auth.uid()` and takes no user-id parameter. The Privacy Notice promised access, export and erasure; now the product provides them. Contributed library content survives with authorship unlinked, and the notice says so.
+- **"Your data" in the profile** — download everything we hold about your account as JSON (profile, preferences, progress, agreement record, responses _and their marking_), or delete the account outright via `delete_my_account()`, which derives its target from `auth.uid()` and takes no user-id parameter. The Privacy Notice promised access, export and erasure; now the product provides them. Contributed library content survives with authorship unlinked, and the notice says so.
 - **Agreement acceptance report** for admins in the AI Usage Dashboard: how many accounts have accepted the current version, and who has not. Hides itself when the RPC is absent rather than reporting a false zero.
 - **Publisher identity is deployment-configurable** (`VITE_LEGAL_ENTITY_NAME`, `VITE_LEGAL_CONTACT_EMAIL`, `VITE_LEGAL_JURISDICTION`), so a school can put its own name and contact on the agreement without a code change.
 - Schema §15 (acceptance columns + admin report) and §16 (self-service deletion), both idempotent and both written as soft additions — an unmigrated database degrades to re-prompting rather than failing profile saves.
@@ -93,9 +615,9 @@ Three surfaces students and teachers were missing, built content-first so they c
 
 ## [2.3.22] - 2026-07-25
 
-### 📏 Sample answers now show the right *size*, not just the right content
+### 📏 Sample answers now show the right _size_, not just the right content
 
-- **Sample-answer length is briefed from the target mark, not the verb's full range.** `generateSampleAnswer` was passing the command verb's whole `charRange` (e.g. 800–1800 characters for an APPLY question) no matter which mark the sample was for, so a 2/4 sample came back at full-mark length — teaching students to write four times too much for the marks on offer. The request now carries a mark-scaled scope brief: the NESA structure guide for that exact mark (`getStructureGuide`), a character band interpolated for the question's total marks (`getExpectedCharRange`) and scaled by the mark awarded, a matching syllabus-term count, and an explicit instruction that a lower mark means *less material* rather than a full-length answer worded badly.
+- **Sample-answer length is briefed from the target mark, not the verb's full range.** `generateSampleAnswer` was passing the command verb's whole `charRange` (e.g. 800–1800 characters for an APPLY question) no matter which mark the sample was for, so a 2/4 sample came back at full-mark length — teaching students to write four times too much for the marks on offer. The request now carries a mark-scaled scope brief: the NESA structure guide for that exact mark (`getStructureGuide`), a character band interpolated for the question's total marks (`getExpectedCharRange`) and scaled by the mark awarded, a matching syllabus-term count, and an explicit instruction that a lower mark means _less material_ rather than a full-length answer worded badly.
 - **`reviseSampleAnswer` gets the same brief.** Re-targeting a sample to a different mark previously carried no length guidance at all, so a revision kept the original's size. It now resizes to the target mark's scope.
 - Regression tests cover the low-mark brief, the 1-mark vs full-mark ceiling gap, and the revision path.
 
@@ -127,9 +649,9 @@ Three surfaces students and teachers were missing, built content-first so they c
 
 ### 📐 A single, NESA-honest band model
 
-- **Reconciled the tier / band / marks "black box" onto one defensible inference.** NESA performance bands are a *course-level* standard — NESA never publishes a band for an individual question, and there's no official verb→band rule. For questions the app authors or generates (not lifted from a NESA paper) the model now states its inference plainly and derives *everything* from one source: **the command verb's cognitive demand sets a band ceiling** (`getTierTargetBand`), **marks set the expected depth** (markRange / word targets), and **the marking guide sets the band awarded** (`getBandForMark`), capped at the ceiling. The pedagogy — a response can only demonstrate the standard of thinking the task actually calls for, so a DESCRIBE answer can't evidence the Band 4-6 analysis it never asked for — is documented in `commandTerms.ts`.
+- **Reconciled the tier / band / marks "black box" onto one defensible inference.** NESA performance bands are a _course-level_ standard — NESA never publishes a band for an individual question, and there's no official verb→band rule. For questions the app authors or generates (not lifted from a NESA paper) the model now states its inference plainly and derives _everything_ from one source: **the command verb's cognitive demand sets a band ceiling** (`getTierTargetBand`), **marks set the expected depth** (markRange / word targets), and **the marking guide sets the band awarded** (`getBandForMark`), capped at the ceiling. The pedagogy — a response can only demonstrate the standard of thinking the task actually calls for, so a DESCRIBE answer can't evidence the Band 4-6 analysis it never asked for — is documented in `commandTerms.ts`.
 - **Removed the contradictory hand-authored `targetBands` field.** Every command verb carried a loose range string (e.g. DESCRIBE `"2-5"`) that disagreed with the operative ceiling the rest of the app derives (Band 3) — the actual source of the "orange ribbon / yellow prompt" class of bug. The field is gone from the type and all 39 verbs; the Command Verb Hierarchy ribbon and the command-term guide now show a derived **"Band Ceiling · Band X"** (with a tooltip explaining the cognitive-demand cap) instead of the stale range, so the reference can never drift from marking again.
-- **Added `getVerbBandCeiling(verb)`** and locked the model with an invariant test: for every tier, a full-mark response is marked *exactly* at the declared ceiling and never above it at any mark ratio — the one guard that keeps marking, live feedback, colour and copy in agreement.
+- **Added `getVerbBandCeiling(verb)`** and locked the model with an invariant test: for every tier, a full-mark response is marked _exactly_ at the declared ceiling and never above it at any mark ratio — the one guard that keeps marking, live feedback, colour and copy in agreement.
 
 ---
 
@@ -137,7 +659,7 @@ Three surfaces students and teachers were missing, built content-first so they c
 
 ### 🎯 Band-colour consistency — robust, app-wide
 
-- **One helper, one colour per verb, everywhere.** The tier-vs-band colour clash could recur anywhere that fed a raw cognitive tier into `getBandConfig` (which maps its argument as a *band*). Added a single self-documenting helper — **`getTierBandConfig(tier)`** (colour of a tier's target band) in `renderUtils` — and routed every remaining tier-coloured surface through it, so a verb like DESCRIBE is its Band-3 yellow everywhere: the verb-hierarchy ribbon, the question picker (`PromptSelector` + `Combobox`), the command-term guide, the live-metrics logic-connector pills, the **prompt-generator** and **manual-prompt** authoring modals, and the teacher **Class Insights** / **Student Progress** analytics. Also fixed a latent trap: `AnswerMetricsDisplay`'s colour prop was named `tier` but only ever received a *band* — renamed to `band` and documented. Locked in with `getTierBandConfig` tests (colours as the target band, never the tier index).
+- **One helper, one colour per verb, everywhere.** The tier-vs-band colour clash could recur anywhere that fed a raw cognitive tier into `getBandConfig` (which maps its argument as a _band_). Added a single self-documenting helper — **`getTierBandConfig(tier)`** (colour of a tier's target band) in `renderUtils` — and routed every remaining tier-coloured surface through it, so a verb like DESCRIBE is its Band-3 yellow everywhere: the verb-hierarchy ribbon, the question picker (`PromptSelector` + `Combobox`), the command-term guide, the live-metrics logic-connector pills, the **prompt-generator** and **manual-prompt** authoring modals, and the teacher **Class Insights** / **Student Progress** analytics. Also fixed a latent trap: `AnswerMetricsDisplay`'s colour prop was named `tier` but only ever received a _band_ — renamed to `band` and documented. Locked in with `getTierBandConfig` tests (colours as the target band, never the tier index).
 
 ### 🧭 Syllabus navigator → breadcrumb
 
@@ -149,7 +671,7 @@ Three surfaces students and teachers were missing, built content-first so they c
 
 ### 🎯 Band-colour consistency (follow-up)
 
-- **A verb is now one colour everywhere.** After 2.3.16 keyed the prompt/writing-area/metrics to a question's *target band*, the surfaces still coloured by raw *cognitive tier* stood out — e.g. DESCRIBE showed **orange** (Tier 2) in the Command Verb Hierarchy ribbon and the question picker, but **yellow** (Band 3) in the prompt and response. Added `getTierTargetBand(tier)` (a tier's band ceiling, mark-independent) and switched every remaining tier-coloured, student-facing surface to the target-band colour: the **verb-hierarchy ribbon** (header, tier cards, cognitive-step dots), the **question picker** (`PromptSelector` option chips + `Combobox` rows), the **command-term guide** popup, and the **logic-connector** pills in the live metrics. DESCRIBE is now Band 3 yellow top to bottom. Admin/authoring tier-pickers (prompt generator, manual prompt) keep tier colours — there the tier itself is what you're choosing. Covered by `getTierTargetBand` tests (tier→band mapping, agreement with `getTargetBand` at full marks).
+- **A verb is now one colour everywhere.** After 2.3.16 keyed the prompt/writing-area/metrics to a question's _target band_, the surfaces still coloured by raw _cognitive tier_ stood out — e.g. DESCRIBE showed **orange** (Tier 2) in the Command Verb Hierarchy ribbon and the question picker, but **yellow** (Band 3) in the prompt and response. Added `getTierTargetBand(tier)` (a tier's band ceiling, mark-independent) and switched every remaining tier-coloured, student-facing surface to the target-band colour: the **verb-hierarchy ribbon** (header, tier cards, cognitive-step dots), the **question picker** (`PromptSelector` option chips + `Combobox` rows), the **command-term guide** popup, and the **logic-connector** pills in the live metrics. DESCRIBE is now Band 3 yellow top to bottom. Admin/authoring tier-pickers (prompt generator, manual prompt) keep tier colours — there the tier itself is what you're choosing. Covered by `getTierTargetBand` tests (tier→band mapping, agreement with `getTargetBand` at full marks).
 
 ---
 
@@ -157,13 +679,13 @@ Three surfaces students and teachers were missing, built content-first so they c
 
 ### 🎯 Band-coherent live feedback
 
-- **One predefined colour per band, everywhere — and the student writes toward it.** Every question now has a single "target band" (`getTargetBand` in `commandTerms.ts` — the ceiling a full-mark response reaches, set by the verb's cognitive tier), and one canonical colour palette (`BAND_HEX` / `BAND_HEX_DARK` / `getBandHex` in `renderUtils.ts`, the exact hex equivalents of `getBandConfig`'s Tailwind classes). Previously the editor painted its progress with a *different* hex set (amber/emerald/sky/indigo) than the band colours used elsewhere (yellow/green/blue/purple), and the prompt was coloured by cognitive tier while the metrics were coloured by band — so one question showed up to three different colours. Now the **prompt header, writing area, metrics target and keyword pills all render in the question's target-band colour**. A Band 3 question is yellow top to bottom; a Band 5 question is blue; and so on.
+- **One predefined colour per band, everywhere — and the student writes toward it.** Every question now has a single "target band" (`getTargetBand` in `commandTerms.ts` — the ceiling a full-mark response reaches, set by the verb's cognitive tier), and one canonical colour palette (`BAND_HEX` / `BAND_HEX_DARK` / `getBandHex` in `renderUtils.ts`, the exact hex equivalents of `getBandConfig`'s Tailwind classes). Previously the editor painted its progress with a _different_ hex set (amber/emerald/sky/indigo) than the band colours used elsewhere (yellow/green/blue/purple), and the prompt was coloured by cognitive tier while the metrics were coloured by band — so one question showed up to three different colours. Now the **prompt header, writing area, metrics target and keyword pills all render in the question's target-band colour**. A Band 3 question is yellow top to bottom; a Band 5 question is blue; and so on.
 - **The writing area "fills in" the band colour as you write.** Instead of cycling through unrelated hues (red → orange → …) as progress rose — which flashed "Band 1" at a student on an easy question — the editor header is now always painted in the target band's colour, with a dark veil that lifts as the response develops. A blank page is a dim version of the band colour; a complete answer is the full vivid band colour with a matching glow. The header/footer now read "Band X · <descriptor>" and "…% → Band X", so the destination is explicit.
 - **Prompt design reflects the band.** The prompt header is now coloured by target band (not raw tier) and carries an explicit **"Band X" target badge** next to the marks/time, so the difficulty a student is working toward is stated up front and matches the writing surface.
 
 ### 🔑 Better syllabus keywords
 
-- **Higher-signal keyword lists (AI).** The enrichment and "regenerate/suggest keywords" prompts were rewritten to ask, as an HSC marker, for the *specific syllabus terminology a Band-X response must use* — concise technical noun-phrases (1–3 words), subject-specific concepts/processes/structures/named examples only, band- and mark-aware, excluding the command verb and generic filler. All AI keyword output now passes a shared `sanitiseKeywords` guard (trims list markers, drops the verb and generic stop-words like "process"/"factor"/"important", removes case-insensitive duplicates, rejects over-long phrases, caps at 12).
+- **Higher-signal keyword lists (AI).** The enrichment and "regenerate/suggest keywords" prompts were rewritten to ask, as an HSC marker, for the _specific syllabus terminology a Band-X response must use_ — concise technical noun-phrases (1–3 words), subject-specific concepts/processes/structures/named examples only, band- and mark-aware, excluding the command verb and generic filler. All AI keyword output now passes a shared `sanitiseKeywords` guard (trims list markers, drops the verb and generic stop-words like "process"/"factor"/"important", removes case-insensitive duplicates, rejects over-long phrases, caps at 12).
 - **Clearer keyword display.** The reference-panel and live-metrics term lists now show a **"used / total" count badge** and colour used terms in the target-band colour (was a generic emerald), with a "Weave these in for a Band X response" framing — so it's obvious which high-value terms are still missing.
 
 Covered by `tests/unit/bandColors.test.ts` (palette is distinct + clamped, `getTargetBand` tier→band mapping, `sanitiseKeywords`). Full suite 389 passing; verified end-to-end in-app (dim→vivid convergence on the shared band colour, unified prompt/editor/metrics/keywords).
@@ -188,7 +710,7 @@ Covered by `tests/unit/bandColors.test.ts` (palette is distinct + clamped, `getT
 
 ### ✍️ Student Writing Area
 
-- **Fixed the flickering keyword / verb highlighting (root cause)** — the live overlay that paints keyword and command-verb highlights over the writing area, and the prompt panel that bolds the same terms, both decided which text fragments were matches by calling `regex.test(fragment)` on a **shared global (`/gi`) regex**. `RegExp.test()` on a `/g` regex is stateful — its `lastIndex` carries between calls — so every *other* occurrence of a repeated term silently failed to highlight (e.g. three "cell"s, only the 1st and 3rd lit up). Replaced the stateful re-test with a stateless index-parity check on the `String.split` output (the single capturing group already places matches at the odd indices), so **every** occurrence now highlights in both the editor overlay (`renderEditorHighlights`) and the prompt renderer (`renderFormattedText`). Locked in with a new `renderUtils` test file (repeated keywords, repeated verbs, mixed, case/plural variants, and content-preservation — 6 cases). **Responsiveness**: the overlay's span tree is now memoised so it only rebuilds when the text / keywords / verb actually change (long answers no longer rebuild the whole tree on every keystroke), and the overlay is marked `aria-hidden` so screen readers read the real textarea once instead of the duplicated visual layer.
+- **Fixed the flickering keyword / verb highlighting (root cause)** — the live overlay that paints keyword and command-verb highlights over the writing area, and the prompt panel that bolds the same terms, both decided which text fragments were matches by calling `regex.test(fragment)` on a **shared global (`/gi`) regex**. `RegExp.test()` on a `/g` regex is stateful — its `lastIndex` carries between calls — so every _other_ occurrence of a repeated term silently failed to highlight (e.g. three "cell"s, only the 1st and 3rd lit up). Replaced the stateful re-test with a stateless index-parity check on the `String.split` output (the single capturing group already places matches at the odd indices), so **every** occurrence now highlights in both the editor overlay (`renderEditorHighlights`) and the prompt renderer (`renderFormattedText`). Locked in with a new `renderUtils` test file (repeated keywords, repeated verbs, mixed, case/plural variants, and content-preservation — 6 cases). **Responsiveness**: the overlay's span tree is now memoised so it only rebuilds when the text / keywords / verb actually change (long answers no longer rebuild the whole tree on every keystroke), and the overlay is marked `aria-hidden` so screen readers read the real textarea once instead of the duplicated visual layer.
 
 - **Focus Mode visual pass** — Focus Mode now reads as a distinct, immersive space: a soft, theme-aware ambient gradient is painted on the page background (`body.focus-mode`, on the backmost layer so it can never tint content), and a floating, glassmorphic **"Focus Mode · ESC"** pill (top-centre) makes the exit obvious and discoverable (complementing the header toggle and the Esc shortcut added in 2.3.13). Extra top padding keeps the pill clear of the prompt. Full suite 378 passing; verified end-to-end in the running app (highlighting, live insights, focus entry/exit).
 
@@ -341,7 +863,7 @@ Covered by `tests/unit/bandColors.test.ts` (palette is distinct + clamped, `getT
 
 ### 🏭 Production Hardening
 
-- **AI Usage Quotas (per user + per group)**: the AI proxy now enforces server-side daily budgets (schema §11). Each proxied call atomically spends one unit of the caller's allowance — per-user override (`set_user_ai_quota`) beats the role/group default (`ai_quota_limits`: admin 1000 / teacher 400 / student 60) — and an exhausted budget returns 429 *before* the paid provider is contacted. The client fast-fails hard-limit 429s (no wasted retries) and surfaces the reset time; admins manage limits and see their own usage in the API telemetry widget's new **Daily AI Quotas** panel. Fails open (with a logged warning) if the schema migration hasn't been applied, so a code-first deploy can't brick AI features; the auth gate still blocks anonymous spending.
+- **AI Usage Quotas (per user + per group)**: the AI proxy now enforces server-side daily budgets (schema §11). Each proxied call atomically spends one unit of the caller's allowance — per-user override (`set_user_ai_quota`) beats the role/group default (`ai_quota_limits`: admin 1000 / teacher 400 / student 60) — and an exhausted budget returns 429 _before_ the paid provider is contacted. The client fast-fails hard-limit 429s (no wasted retries) and surfaces the reset time; admins manage limits and see their own usage in the API telemetry widget's new **Daily AI Quotas** panel. Fails open (with a logged warning) if the schema migration hasn't been applied, so a code-first deploy can't brick AI features; the auth gate still blocks anonymous spending.
 
 - **Compiled Tailwind**: styling is now built into the bundle (`tailwind.config.js` + `index.css`, ported verbatim from the former inline CDN config and `<style>` block). The `cdn.tailwindcss.com` runtime script — explicitly not for production use — and the dead CDN import map are gone: the app renders fully styled offline/behind restrictive networks, `index.html` dropped from 13.5 kB to 1.8 kB, and the only remaining external request is the gracefully-degrading Google Fonts import.
 - **Demo Auth Opt-In**: production builds refuse the local demo accounts (admin/teacher/user) with an actionable error unless `VITE_ENABLE_DEMO_AUTH=true` is set — a deploy that forgot its Supabase env vars no longer silently ships a working `admin`/`admin` login. Dev builds are unaffected; guest access (read-only, local-only) is never gated; the login page only advertises demo accounts when they actually work.

@@ -113,7 +113,7 @@ export const consumeEvaluation = async (accessToken: string): Promise<Evaluation
 };
 
 /**
- * The caller's entitlement plan, as Postgres resolves it (schema §15).
+ * The caller's entitlement plan, as Postgres resolves it (schema §17).
  *
  * Mirrors `getUserPlan()` on the client — admin → school, an explicit paid
  * `stripe_plan`, an active school licence, the teacher staff perk, then free —

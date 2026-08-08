@@ -181,7 +181,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       // silent: the customer is never told their bank wants a confirmation.
       case 'invoice.payment_failed':
       case 'invoice.payment_action_required':
-        await handlePaymentFailed(supabase, obj);
+        await handlePaymentFailed(supabase, obj, eventCreated);
         break;
 
       default:
@@ -588,8 +588,20 @@ async function handleSubscriptionDeleted(
 /**
  * invoice.payment_failed — we don't immediately downgrade (Stripe retries),
  * but we set the plan to past_due so the UI can show a warning banner.
+ *
+ * Ordered like every other subscription write. This handler used to skip both
+ * halves of the ordering guard, which made the banner it exists to raise easy
+ * to lose: a `customer.subscription.updated` that Stripe generated BEFORE the
+ * failed charge but delivered after it would find no stamp to compare against,
+ * overwrite `past_due` with `active`, and take the "update your card" prompt
+ * off the screen. The customer then heard nothing until the retries ran out
+ * and the plan was cancelled outright.
  */
-async function handlePaymentFailed(supabase: SB, invoice: Record<string, unknown>) {
+async function handlePaymentFailed(
+  supabase: SB,
+  invoice: Record<string, unknown>,
+  eventCreated?: number
+) {
   const customerId = invoice.customer as string | undefined;
   if (!customerId) return;
 
@@ -605,12 +617,21 @@ async function handlePaymentFailed(supabase: SB, invoice: Record<string, unknown
     (typeof invoice.subscription === 'string' ? invoice.subscription : undefined) ??
     (typeof parentSub === 'string' ? parentSub : parentSub?.id);
 
-  if (subId) {
-    await supabase
-      .from('subscriptions')
-      .update({ status: 'past_due', updated_at: new Date().toISOString() })
-      .eq('id', subId);
+  if (!subId) return;
+
+  if (await isStaleEvent(supabase, subId, eventCreated)) {
+    console.log(`[stripe-webhook] ignoring out-of-order payment failure for ${subId}`);
+    return;
   }
+
+  await supabase
+    .from('subscriptions')
+    .update({
+      status: 'past_due',
+      updated_at: new Date().toISOString(),
+      ...eventStamp(eventCreated),
+    })
+    .eq('id', subId);
 }
 
 // Vercel raw-body config: disable the default JSON parser so we get the raw

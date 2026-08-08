@@ -4,10 +4,30 @@
  * The client copy decides what to SHOW as locked; this copy decides what the
  * proxy will actually do. That distinction matters: everything the client
  * enforces is advisory, because a determined user can edit the bundle, drop a
- * flag, or POST to `/api/gemini` by hand. Before this file, three of the seven
- * paid features — the AI Content Studio, answer upgrades, and (below the
- * question picker) advanced questions — were gated in the UI and nowhere else,
- * so the paywall was a suggestion for anyone who opened devtools.
+ * flag, or POST to `/api/gemini` by hand. Before this file, the AI Content
+ * Studio and answer upgrades were gated in the UI and nowhere else, so those
+ * two were a paywall with a "please don't" sign on it for anyone who opened
+ * devtools. `featureFromRequest` below is what made them real.
+ *
+ * WHICH GATES THIS FILE COVERS. Only the ones that spend a provider call and
+ * carry a `__feature` tag: `aiContentStudio` and `answerUpgrades`. The other
+ * four are enforced elsewhere, or not at all:
+ *
+ *   - `fullFeedback` — enforced, but by redaction rather than refusal
+ *     (`redactEvaluationResponse` in ./entitlements.ts strips the paid parts
+ *     out of the marking result before it is sent).
+ *   - `advancedQuestions` — UI-only. Attempting a tier-4+ question is not a
+ *     distinct call: it is an ordinary evaluation, so a tampered client can
+ *     mark one at the cost of a free evaluation it had anyway. Gating it here
+ *     would mean sending the question's tier with the request and trusting it,
+ *     which enforces nothing. Low value to steal, so it is left as a routing
+ *     gate (components/Workspace.tsx catches every route into a question).
+ *   - `sampleAnswers` — UI-only, and unfixable at this layer: exemplars are
+ *     content the client already holds, so the blur is presentation. Withhold
+ *     them at the point they are FETCHED if this ever needs to be real.
+ *   - `pdfExport`, `examMode` — UI-only by nature. Both run entirely in the
+ *     browser over data the user already has; there is no server call to
+ *     refuse and nothing to withhold.
  *
  * Kept in step with the client copy by `tests/unit/planPolicy.test.ts`. It
  * cannot simply import that module: this code runs in plain Node on Vercel,
@@ -45,7 +65,7 @@ const DEFAULT_FEATURE_MIN_PLAN: Record<PremiumFeatureKey, Plan> = {
   fullFeedback: 'plus',
   sampleAnswers: 'plus',
   examMode: 'plus',
-  aiContentStudio: 'school',
+  aiContentStudio: 'plus',
 };
 
 export const parseFeatureOverrides = (
@@ -79,6 +99,29 @@ export const parseFeatureOverrides = (
  */
 export const monetisationEnabled = (): boolean =>
   (process.env.MONETISATION_ENABLED ?? process.env.VITE_MONETISATION_ENABLED) !== 'false';
+
+/**
+ * Whether the free tier is held to a summary verdict rather than the full
+ * criterion-by-criterion breakdown. Server half of `summaryFeedbackOnly` in
+ * services/planPolicy.ts, with the same opt-in to giving it all away
+ * (`FREE_TIER_FULL_FEEDBACK=true`) and the same VITE_ fallback.
+ *
+ * The proxy REMOVES the withheld feedback from a free-tier result, so this
+ * has to agree with the client: if the UI stops locking the panel while the
+ * server keeps stripping it, a free user gets an unlocked view of
+ * placeholder text with no way to reveal anything.
+ */
+export const freeTierSummaryFeedbackOnly = (): boolean =>
+  (process.env.FREE_TIER_FULL_FEEDBACK ?? process.env.VITE_FREE_TIER_FULL_FEEDBACK) !== 'true';
+
+/**
+ * Whether the proxy should withhold paid feedback from a free-tier marking
+ * result. Both switches have to be on: the master monetisation switch (a
+ * pilot or demo deployment turns the whole paywall off) and the summary-only
+ * policy itself.
+ */
+export const shouldRedactFreeTierFeedback = (): boolean =>
+  monetisationEnabled() && freeTierSummaryFeedbackOnly();
 
 export const featureMinPlans = (): Record<PremiumFeatureKey, Plan> => ({
   ...DEFAULT_FEATURE_MIN_PLAN,

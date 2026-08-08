@@ -97,17 +97,22 @@ describe('api/gemini paid-feature gate', () => {
   });
 
   it('keeps the content studio to the plan that includes it', async () => {
-    resolveCallerPlanMock.mockResolvedValue('plus');
+    // The studio is a Plus feature, which is what makes the teacher staff perk
+    // reach it: a teacher resolves to Plus and can author without buying a
+    // school licence. A free account is still refused.
+    resolveCallerPlanMock.mockResolvedValue('free');
     const res = makeRes();
     await handler(post(call('aiContentStudio')), res);
 
     expect(res.statusCode).toBe(402);
-    expect(res.body).toMatchObject({ feature: 'aiContentStudio', requiredPlan: 'school' });
+    expect(res.body).toMatchObject({ feature: 'aiContentStudio', requiredPlan: 'plus' });
 
-    resolveCallerPlanMock.mockResolvedValue('school');
-    const ok = makeRes();
-    await handler(post(call('aiContentStudio')), ok);
-    expect(ok.statusCode).toBe(200);
+    for (const plan of ['plus', 'school'] as const) {
+      resolveCallerPlanMock.mockResolvedValue(plan);
+      const ok = makeRes();
+      await handler(post(call('aiContentStudio')), ok);
+      expect(ok.statusCode, `${plan} should reach the studio`).toBe(200);
+    }
   });
 
   it('does not gate untagged calls', async () => {
@@ -124,6 +129,10 @@ describe('api/gemini paid-feature gate', () => {
   it('leaves the evaluation meter to its own gate', async () => {
     // `evaluation` is metered by count, not by plan. If the plan gate claimed
     // it too, a free user would be refused their first free evaluation.
+    //
+    // The plan IS resolved for a marking call — the rewritten answer inside the
+    // result is the `answerUpgrades` feature and has to be withheld from a plan
+    // that does not include it — but resolving it must never refuse the call.
     resolveCallerPlanMock.mockResolvedValue('free');
     consumeEvaluationMock.mockResolvedValue({
       allowed: true,
@@ -135,7 +144,6 @@ describe('api/gemini paid-feature gate', () => {
     await handler(post(call('evaluation')), res);
 
     expect(res.statusCode).toBe(200);
-    expect(resolveCallerPlanMock).not.toHaveBeenCalled();
   });
 
   it('stops gating entirely when monetisation is switched off', async () => {

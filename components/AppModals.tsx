@@ -20,7 +20,13 @@ import ManualPromptModal from './ManualPromptModal';
 import ManifestImportModal from './ManifestImportModal';
 import QuickStartModal from './QuickStartModal';
 import LegalDocumentModal from './LegalDocumentModal';
-import { regenerateTopicIds, mergeTopicContents } from '../utils/dataManagerUtils';
+import {
+  regenerateTopicIds,
+  mergeTopicContents,
+  getFocusAreas,
+  parseSubItemsFromDescription,
+} from '../utils/dataManagerUtils';
+import type { RenameFocusAreaGuard } from './RenameModal';
 import { findAndUpdateItem } from '../utils/stateUtils';
 import { generateId } from '../utils/idUtils';
 import type { TopicSyllabusImportPayload } from './TopicSyllabusImportModal';
@@ -81,6 +87,29 @@ const AppModals: React.FC<AppModalsProps> = ({
   // Sibling names for the item being renamed, so RenameModal can flag
   // duplicates. Renaming to a sibling's name breaks import matching, which
   // pairs topics/sub-topics/dot points by normalised name.
+  /**
+   * Renaming a dot point rewrites the text its focus areas are read from, so
+   * unless the teacher has already set them by hand the rename silently changes
+   * what generated questions are narrowed to. Handed to RenameModal, which
+   * surfaces the change and offers to pin the current list.
+   */
+  const renameFocusAreaGuard = ((): RenameFocusAreaGuard | undefined => {
+    const target = modalProps.renameTarget;
+    if (target?.type !== 'dotPoint') return undefined;
+    const dotPoint = courses
+      .flatMap((c) => c.topics)
+      .flatMap((t) => t.subTopics)
+      .flatMap((st) => st.dotPoints)
+      .find((dp) => dp.id === target.id);
+    if (!dotPoint) return undefined;
+    return {
+      current: getFocusAreas(dotPoint),
+      previewFor: (name: string) => parseSubItemsFromDescription(name),
+      isOverridden: !!dotPoint.focusAreas,
+      onKeep: (focusAreas) => syllabusHandlers.handleUpdateFocusAreas(dotPoint.id, focusAreas),
+    };
+  })();
+
   const renameSiblingNames = ((): string[] => {
     const target = modalProps.renameTarget;
     if (!target) return [];
@@ -188,6 +217,7 @@ const AppModals: React.FC<AppModalsProps> = ({
         marks={0}
         courseOutcomes={currentCourse?.outcomes || []}
         selectedFocusItems={statePath.selectedSubItems || []}
+        focusAreaOptions={getFocusAreas(currentDotPoint)}
       />
 
       <ManualPromptModal
@@ -395,6 +425,7 @@ const AppModals: React.FC<AppModalsProps> = ({
           targetType={ITEM_LABELS[modalProps.renameTarget.type] ?? 'Item'}
           initialName={modalProps.renameTarget.name}
           existingNames={renameSiblingNames}
+          focusAreaGuard={renameFocusAreaGuard}
         />
       )}
 

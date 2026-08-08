@@ -19,6 +19,7 @@ import {
 import { getBandConfig } from '../utils/renderUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useUnsavedChanges } from '../hooks/useUnsavedChanges';
 
 interface SampleAnswerGeneratorModalProps {
   isOpen: boolean;
@@ -33,11 +34,26 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
   prompt,
   onSampleAnswerGenerated,
 }) => {
-  const [selectedMark, setSelectedMark] = useState<number | null>(null);
+  // A ladder of exemplars is more useful than any single one, and a teacher
+  // building one had to reopen this modal once per mark. The selection is
+  // therefore a SET of marks, kept in ascending order so the batch is written
+  // from the bottom up and each answer can see the ones below it.
+  const [selectedMarks, setSelectedMarks] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  /** Which mark in the batch is being written, for the progress read-out. */
+  const [progress, setProgress] = useState<{ done: number; total: number; mark: number } | null>(
+    null
+  );
   // Escape closes this modal like every other modal surface (but never mid-operation).
   useEscapeKey(isOpen && !isLoading, onClose);
   useScrollLock(isOpen);
+  // Escape and the backdrop are already blocked while a batch runs, but a
+  // browser navigation was not: closing the tab five answers into an eight-mark
+  // ladder threw away every AI call still to land.
+  useUnsavedChanges(
+    isLoading,
+    'Sample answers are still being written. Leaving now will lose the ones not yet saved.'
+  );
   const [error, setError] = useState<string | null>(null);
 
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
@@ -50,11 +66,18 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
     return counts;
   }, [prompt.sampleAnswers]);
 
+  // Coverage is judged on the band the mark maps to on THIS question, not the
+  // band stored on the sample. A stored band travels with imported and legacy
+  // exemplars and can disagree with the Verb Gate — which left the coverage
+  // strip claiming bands that no sample actually demonstrates, and pointed the
+  // suggestion at a band that was already covered.
   const coveredBands = useMemo(() => {
     const bands = new Set<number>();
-    (prompt.sampleAnswers || []).forEach((sa) => bands.add(sa.band));
+    (prompt.sampleAnswers || []).forEach((sa) =>
+      bands.add(getBandForMark(sa.mark, prompt.totalMarks, commandTermInfo.tier))
+    );
     return bands;
-  }, [prompt.sampleAnswers]);
+  }, [prompt.sampleAnswers, prompt.totalMarks, commandTermInfo.tier]);
 
   const tierInfo = useMemo(
     () => TIER_GROUPS.find((t) => t.tier === commandTermInfo.tier),
@@ -95,32 +118,80 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
     return missing;
   }, [maxBand, coveredBands]);
 
+  /** One mark per band that has no exemplar yet — the "complete the ladder" pick. */
+  const missingBandMarks = useMemo(() => {
+    const marks: number[] = [];
+    missingBands.forEach((b) => {
+      const options = markOptions.filter((o) => o.band === b && o.mark > 0);
+      if (options.length > 0) marks.push(options[options.length - 1].mark);
+    });
+    return Array.from(new Set(marks)).sort((a, b) => a - b);
+  }, [missingBands, markOptions]);
+
   // Reset on every open: this modal stays mounted while the user navigates
   // between prompts, so a mark selected for a previous (larger) question
   // would otherwise silently persist — and could even exceed the current
   // question's totalMarks. Default to the suggested mark (targeting a missing band).
   useEffect(() => {
     if (isOpen) {
-      setSelectedMark(suggestedMark);
+      setSelectedMarks([suggestedMark]);
       setIsLoading(false);
+      setProgress(null);
       setError(null);
     }
   }, [isOpen, prompt.id, prompt.totalMarks, suggestedMark]);
 
+  const toggleMark = (mark: number) => {
+    setSelectedMarks((prev) =>
+      prev.includes(mark) ? prev.filter((m) => m !== mark) : [...prev, mark].sort((a, b) => a - b)
+    );
+  };
+
   const handleGenerate = async () => {
-    if (selectedMark === null) return;
+    if (selectedMarks.length === 0) return;
 
     setIsLoading(true);
     setError(null);
-    try {
-      const newAnswer = await generateSampleAnswer(prompt, selectedMark, []);
-      onSampleAnswerGenerated(newAnswer);
-      handleClose();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to generate sample answer.');
-    } finally {
-      setIsLoading(false);
+    // Sequential, not parallel: a batch of eight would otherwise arrive at the
+    // provider at once and trip the rate limit, and each answer is written with
+    // sight of the ones already produced so the ladder is genuinely graduated.
+    const written: SampleAnswer[] = [];
+    const failed: number[] = [];
+    let lastMessage = '';
+
+    for (let i = 0; i < selectedMarks.length; i++) {
+      const mark = selectedMarks[i];
+      setProgress({ done: i, total: selectedMarks.length, mark });
+      try {
+        // A snapshot, not the live array: the callee must see the ladder as it
+        // stood when its answer was requested.
+        const newAnswer = await generateSampleAnswer(prompt, mark, [...written]);
+        written.push(newAnswer);
+        // Surfaced as it lands, so a long batch fills the panel behind the
+        // modal rather than appearing all at once at the end.
+        onSampleAnswerGenerated(newAnswer);
+      } catch (err) {
+        failed.push(mark);
+        lastMessage = err instanceof Error ? err.message : 'Generation failed.';
+      }
     }
+
+    setIsLoading(false);
+    setProgress(null);
+
+    if (failed.length === 0) {
+      handleClose();
+      return;
+    }
+    // Whatever succeeded is already saved; say plainly what did not, and leave
+    // the modal open with only the failures still selected so "Generate" retries
+    // exactly those.
+    setSelectedMarks(failed);
+    setError(
+      `${failed.length} of ${selectedMarks.length} could not be generated (${failed
+        .map((m) => `${m}/${prompt.totalMarks}`)
+        .join(', ')}). ${lastMessage}`
+    );
   };
 
   const handleClose = () => {
@@ -131,11 +202,20 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
 
   if (!isOpen) return null;
 
+  // The chrome colours itself from the highest mark in the selection — the top
+  // of the ladder being built.
+  const topMark = selectedMarks.length > 0 ? Math.max(...selectedMarks) : null;
   const selectedBand =
-    selectedMark !== null
-      ? getBandForMark(selectedMark, prompt.totalMarks, commandTermInfo.tier)
-      : 1;
+    topMark !== null ? getBandForMark(topMark, prompt.totalMarks, commandTermInfo.tier) : 1;
   const activeBandConfig = getBandConfig(selectedBand);
+  const selectedBands = Array.from(
+    new Set(selectedMarks.map((m) => getBandForMark(m, prompt.totalMarks, commandTermInfo.tier)))
+  ).sort((a, b) => a - b);
+  // The busy overlay follows the answer being written, not the top of the batch.
+  const progressBand =
+    progress !== null
+      ? getBandForMark(progress.mark, prompt.totalMarks, commandTermInfo.tier)
+      : selectedBand;
 
   return createPortal(
     <div
@@ -204,22 +284,54 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
 
         <div className="flex flex-col flex-1 overflow-y-auto custom-scrollbar p-8 space-y-8 bg-[rgb(var(--color-bg-surface))] light:bg-white">
           <div>
-            <h3 className="text-xs font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2">
-              <Target className="w-3.5 h-3.5" /> Select Target Mark
-            </h3>
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+              <h3 className="text-xs font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                <Target className="w-3.5 h-3.5" /> Select Target Marks
+                <span className="normal-case tracking-normal font-medium opacity-70">
+                  — pick as many as you like
+                </span>
+              </h3>
+
+              <div className="flex items-center gap-2">
+                {missingBandMarks.length > 0 && (
+                  <button
+                    onClick={() => !isLoading && setSelectedMarks(missingBandMarks)}
+                    disabled={isLoading}
+                    className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all disabled:opacity-50"
+                    title="Select one mark for every band that has no exemplar yet"
+                  >
+                    Complete the ladder ({missingBandMarks.length})
+                  </button>
+                )}
+                {selectedMarks.length > 0 && (
+                  <button
+                    onClick={() => !isLoading && setSelectedMarks([])}
+                    disabled={isLoading}
+                    className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 hover:text-[rgb(var(--color-text-secondary))] transition-all disabled:opacity-50"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+            </div>
 
             <div className="flex flex-wrap gap-3">
               {markOptions.map((option) => {
                 const optionBandConfig = getBandConfig(option.band);
-                const isSelected = selectedMark === option.mark;
+                const isSelected = selectedMarks.includes(option.mark);
                 const hasAnswers = option.count > 0;
                 const isSuggested = option.mark === suggestedMark && !isSelected && !hasAnswers;
+                const order = isSelected ? selectedMarks.indexOf(option.mark) + 1 : 0;
 
                 return (
                   <button
                     key={option.mark}
-                    onClick={() => !isLoading && setSelectedMark(option.mark)}
+                    onClick={() => !isLoading && toggleMark(option.mark)}
                     disabled={isLoading}
+                    aria-pressed={isSelected}
+                    aria-label={`${option.mark} of ${prompt.totalMarks} marks, Band ${option.band}${
+                      hasAnswers ? ` (${option.count} already written)` : ''
+                    }`}
                     className={`
                                     relative w-16 h-20 rounded-2xl border transition-all duration-200 ease-out
                                     flex flex-col items-center justify-center gap-1 group
@@ -249,9 +361,12 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     )}
                     {isSelected && (
                       <div
-                        className={`absolute -top-2 -right-2 flex items-center justify-center w-5 h-5 rounded-full text-white shadow-md bg-gradient-to-br ${optionBandConfig.gradient}`}
+                        className={`absolute -top-2 -right-2 flex items-center justify-center w-5 h-5 rounded-full text-white text-[9px] font-black shadow-md bg-gradient-to-br ${optionBandConfig.gradient}`}
+                        title={`Will be written ${order === 1 ? 'first' : `${order}${order === 2 ? 'nd' : order === 3 ? 'rd' : 'th'}`}`}
                       >
-                        <Plus className="w-3 h-3" />
+                        {/* The order number matters: the batch runs bottom-up so
+                            each answer can be written against the ones below it. */}
+                        {selectedMarks.length > 1 ? order : <Plus className="w-3 h-3" />}
                       </div>
                     )}
                   </button>
@@ -294,13 +409,13 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
             className={`
                 flex-1 rounded-2xl border-2 p-6 relative overflow-hidden transition-all duration-500
                 ${
-                  selectedMark !== null
+                  selectedMarks.length > 0
                     ? `${activeBandConfig.bg} ${activeBandConfig.border}`
                     : 'bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200 border-dashed'
                 }
             `}
           >
-            {selectedMark !== null ? (
+            {selectedMarks.length > 0 ? (
               <div className="animate-fade-in relative z-10">
                 <div className="flex flex-wrap items-center gap-3 mb-4">
                   <span
@@ -310,28 +425,54 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                             `}
                   >
                     <Award className="w-3.5 h-3.5" />
-                    Expected Result: Band {selectedBand}
+                    {selectedMarks.length === 1
+                      ? `Expected Result: Band ${selectedBand}`
+                      : `${selectedMarks.length} answers • Band${selectedBands.length > 1 ? 's' : ''} ${selectedBands.join(', ')}`}
                   </span>
+                  {selectedMarks.map((m) => {
+                    const b = getBandForMark(m, prompt.totalMarks, commandTermInfo.tier);
+                    const c = getBandConfig(b);
+                    return (
+                      <span
+                        key={m}
+                        className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-black tracking-wider ${c.bg} ${c.text} border ${c.border}`}
+                      >
+                        {m}/{prompt.totalMarks}
+                      </span>
+                    );
+                  })}
                 </div>
 
                 <p
                   className={`text-sm leading-relaxed font-medium ${activeBandConfig.text} opacity-90 max-w-xl`}
                 >
-                  The AI will generate a response specifically tailored to achieve{' '}
-                  <strong>
-                    {selectedMark}/{prompt.totalMarks} marks
-                  </strong>
-                  .
-                  {selectedMark === 0
-                    ? ' This simulates a non-attempt or a response that completely fails to address the criteria.'
-                    : ` It will demonstrate the depth, terminology, and structure expected of a Band ${selectedBand} student for this '${prompt.verb}' question.`}
+                  {selectedMarks.length === 1 ? (
+                    <>
+                      The AI will generate a response specifically tailored to achieve{' '}
+                      <strong>
+                        {selectedMarks[0]}/{prompt.totalMarks} marks
+                      </strong>
+                      .
+                      {selectedMarks[0] === 0
+                        ? ' This simulates a non-attempt or a response that completely fails to address the criteria.'
+                        : ` It will demonstrate the depth, terminology, and structure expected of a Band ${selectedBand} student for this '${prompt.verb}' question.`}
+                    </>
+                  ) : (
+                    <>
+                      The AI will write <strong>{selectedMarks.length} sample answers</strong>, one
+                      per selected mark, from the lowest upwards. Each is written with sight of the
+                      ones below it, so the set reads as a genuine ladder — more content, sharper
+                      terminology and deeper thinking at every step — rather than{' '}
+                      {selectedMarks.length} versions of the same answer.
+                    </>
+                  )}
                 </p>
               </div>
             ) : (
               <div className="h-full flex flex-col items-center justify-center text-center opacity-40">
                 <Info className="w-10 h-10 mb-3 text-[rgb(var(--color-text-muted))] light:text-slate-400" />
                 <p className="text-sm font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-500">
-                  Select a mark above to configure the generator.
+                  Select one or more marks above to configure the generator.
                 </p>
               </div>
             )}
@@ -355,13 +496,13 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
         >
           <button
             onClick={handleGenerate}
-            disabled={isLoading || selectedMark === null}
+            disabled={isLoading || selectedMarks.length === 0}
             className={`
                     w-full py-4 px-6 rounded-xl font-bold text-white text-base tracking-wide
                     transition-all duration-300 flex items-center justify-center gap-3
                     shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0
                     ${
-                      selectedMark === null
+                      selectedMarks.length === 0
                         ? 'bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-400 cursor-not-allowed'
                         : `bg-gradient-to-r ${activeBandConfig.gradient} shadow-[rgba(0,0,0,0.2)] hover:shadow-[rgb(var(--color-accent))/0.2]`
                     }
@@ -370,12 +511,20 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
             {isLoading ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                <span>Crafting Response...</span>
+                <span>
+                  {progress && progress.total > 1
+                    ? `Writing ${progress.done + 1} of ${progress.total} — ${progress.mark}/${prompt.totalMarks}...`
+                    : 'Crafting Response...'}
+                </span>
               </>
             ) : (
               <>
                 <Sparkles className="w-5 h-5" />
-                <span>Generate Band {selectedBand} Answer</span>
+                <span>
+                  {selectedMarks.length === 1
+                    ? `Generate Band ${selectedBand} Answer`
+                    : `Generate ${selectedMarks.length} Sample Answers`}
+                </span>
               </>
             )}
           </button>
@@ -384,16 +533,20 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
         <AiBusyOverlay show={isLoading}>
           <LoadingIndicator
             task="generation"
-            message={`Crafting a Band ${selectedBand} response`}
+            message={
+              progress && progress.total > 1
+                ? `Writing answer ${progress.done + 1} of ${progress.total}`
+                : `Crafting a Band ${selectedBand} response`
+            }
             messages={[
               `Analysing '${prompt.verb}' requirements...`,
-              `Targeting ${selectedMark}/${prompt.totalMarks} marks...`,
-              `Calibrating for Band ${selectedBand} standard...`,
+              `Targeting ${progress?.mark ?? selectedMarks[0]}/${prompt.totalMarks} marks...`,
+              `Calibrating for Band ${progressBand} standard...`,
               'Drafting response content...',
               'Validating against NESA criteria...',
             ]}
             duration={8}
-            band={selectedBand}
+            band={progressBand}
           />
         </AiBusyOverlay>
       </div>

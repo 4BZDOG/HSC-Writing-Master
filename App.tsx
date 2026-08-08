@@ -9,7 +9,9 @@ import BackgroundTaskIndicator from './components/BackgroundTaskIndicator';
 import GlobalLoadingOverlay from './components/GlobalLoadingOverlay';
 import AppModals from './components/AppModals';
 import UpgradeModal from './components/UpgradeModal';
+import CourseRequestModal from './components/CourseRequestModal';
 import LoginPage from './components/LoginPage';
+import ResetPasswordPage from './components/ResetPasswordPage';
 import UserAgreementModal from './components/UserAgreementModal';
 import ContentAuditModal from './components/admin/ContentAuditModal';
 import ReviewQueueModal from './components/admin/ReviewQueueModal';
@@ -38,11 +40,17 @@ import { isCurriculumRemote } from './services/curriculumService';
 import { savePromptContribution } from './services/contributionService';
 import { screenContentQuality } from './services/geminiService';
 import { User, WritingMode } from './types';
-import { canCurateContent, canModerate, isSystemAdmin } from './utils/permissions';
+import {
+  canCreateCurriculum,
+  canCurateContent,
+  canModerate,
+  isSystemAdmin,
+} from './utils/permissions';
+import { isCourseDemandAvailable } from './services/courseDemandService';
 import {
   isEvalLimitReached,
-  recordEvaluation,
   freeEvalLimit,
+  refreshFreeEvalCount,
   requestUpgrade,
   PLAN_LABELS,
 } from './services/entitlements';
@@ -80,14 +88,7 @@ import {
 const AnimatedBackground: React.FC = () => {
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      <style>{`
-        @keyframes blob {
-          0% { transform: translate(0px, 0px) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
-          100% { transform: translate(0px, 0px) scale(1); }
-        }
-      `}</style>
+      {/* The `blob` keyframes live in index.css — see the note there. */}
       <div className="absolute inset-0 bg-[rgb(var(--color-bg-base))]" />
       <div className="absolute inset-0 light:hidden">
         <div
@@ -171,6 +172,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     handleCreateTopicWithContent,
     handleCreateSubTopic,
     handleAddDotPoints,
+    handleUpdateFocusAreas,
     handleGeneratePrompt,
     confirmRename,
     confirmDelete,
@@ -322,10 +324,10 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     isImproving,
     improveAnswerError,
     improveAnswer,
-    improvedAnswer,
-    setImprovedAnswer,
-    originalAnswerForImprovement,
-    setOriginalAnswerForImprovement,
+    improvement,
+    setImprovement,
+    showImprovementReview,
+    setShowImprovementReview,
     activeBackgroundTask,
     handleGenerateScenario,
     isGeneratingScenario,
@@ -398,6 +400,8 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     suggestKeywordsError,
   ]);
 
+  // The course name a "request this course" click arrived with, if any.
+  const [courseRequestPrefill, setCourseRequestPrefill] = useState('');
   const [userAnswer, setUserAnswer] = useState('');
   const debouncedUserAnswer = useDebounce(userAnswer, 1000);
   const [newlyAddedIds, setNewlyAddedIds] = useState<Set<string>>(new Set());
@@ -417,15 +421,19 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         `You've used all ${freeEvalLimit()} free evaluations for today. Upgrade to Plus for unlimited marking.`,
         'info'
       );
-      requestUpgrade('fullFeedback');
+      // `fullFeedback` because marking has no feature key of its own (it is
+      // metered by count, not gated by plan); the reason is what makes the
+      // prompt describe the limit rather than the criterion breakdown.
+      requestUpgrade('fullFeedback', 'dailyLimit');
       return;
     }
     evaluate(userAnswer, currentPrompt);
   }, [currentPrompt, userAnswer, user, showToast, evaluate]);
 
-  useEffect(() => {
-    if (evaluationResult) recordEvaluation();
-  }, [evaluationResult]);
+  // The local free-evaluation mirror is spent inside useGemini, at the point
+  // the marking call returns. It is deliberately NOT an effect on
+  // `evaluationResult`: that object is replaced when the user rates the
+  // feedback, and the effect charged them a second evaluation for it.
 
   useEffect(() => {
     const isLight = user.preferences.theme === 'light';
@@ -615,10 +623,10 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       handleSuggestKeywords,
       suggestOutcomesForPrompt,
       improveAnswer,
-      improvedAnswer,
-      setImprovedAnswer,
-      originalAnswerForImprovement,
-      setOriginalAnswerForImprovement,
+      improvement,
+      setImprovement,
+      showImprovementReview,
+      setShowImprovementReview,
       isGeneratingScenario,
       generateScenarioError,
       isRegeneratingKeywords,
@@ -640,10 +648,10 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       handleSuggestKeywords,
       suggestOutcomesForPrompt,
       improveAnswer,
-      improvedAnswer,
-      setImprovedAnswer,
-      originalAnswerForImprovement,
-      setOriginalAnswerForImprovement,
+      improvement,
+      setImprovement,
+      showImprovementReview,
+      setShowImprovementReview,
       isGeneratingScenario,
       generateScenarioError,
       isRegeneratingKeywords,
@@ -911,6 +919,12 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 statePath={statePath}
                 onPathChange={handlePathChange}
                 onAddCourse={() => openModal('courseCreator')}
+                onRequestCourse={(prefill) => {
+                  // Carries the text they searched for, so the request form
+                  // opens on their own words rather than an empty field.
+                  setCourseRequestPrefill(prefill ?? '');
+                  openModal('courseRequest');
+                }}
                 onAddTopic={() => openModal('topicCreator')}
                 onAddSubTopic={() => openModal('subTopicCreator')}
                 onGeneratePrompt={() => openModal('promptGenerator')}
@@ -919,6 +933,9 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 onOpenDataManager={() => openModal('dataManager')}
                 onRenameItem={requestRename}
                 onDeleteItem={requestDelete}
+                onUpdateFocusAreas={
+                  canCurateContent(user.role) ? handleUpdateFocusAreas : undefined
+                }
                 onAddTopicFromSyllabus={() => openModal('topicSyllabusImport')}
                 onAddTopicWithContent={(topicName, subTopics) => {
                   if (!statePath.courseId) return;
@@ -1022,13 +1039,32 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                   >
                     <Sparkles className="w-4 h-4" /> Load Curriculum Library
                   </button>
-                  {canCurateContent(user.role) && (
+                  {/* Building a course from syllabus text is course CREATION,
+                      so it is admin-only here exactly as it is in the navigator
+                      (canCreateCurriculum). "Load Curriculum Library" above
+                      stays open to everyone: it installs the courses this build
+                      ships with rather than authoring a new one, and it is the
+                      only way a first-run user gets anything to write about. */}
+                  {canCreateCurriculum(user.role) && (
                     <button
                       onClick={() => openModal('fullSyllabusImport')}
                       title="Build a course by pasting NESA syllabus text or fetching a syllabus URL"
                       className="px-8 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-700 border border-white/10 light:border-slate-300 font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
                     >
                       <UploadCloud className="w-4 h-4" /> Import a Syllabus
+                    </button>
+                  )}
+                  {/* Nobody is left stranded: someone who cannot create a
+                      course can still say which one they need. */}
+                  {!canCreateCurriculum(user.role) && isCourseDemandAvailable(user.role) && (
+                    <button
+                      onClick={() => {
+                        setCourseRequestPrefill('');
+                        openModal('courseRequest');
+                      }}
+                      className="px-8 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-700 border border-white/10 light:border-slate-300 font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
+                    >
+                      <Compass className="w-4 h-4" /> Request a Course
                     </button>
                   )}
                 </div>
@@ -1054,6 +1090,12 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           onLogout={handleLogout}
         />
         <UpgradeModal showToast={showToast} user={user} />
+        <CourseRequestModal
+          isOpen={isModalOpen('courseRequest')}
+          onClose={() => closeModal('courseRequest')}
+          initialName={courseRequestPrefill}
+          showToast={showToast}
+        />
         <GlobalLoadingOverlay message={globalLoadingMessage} error={quotaError} />
         <BackgroundTaskIndicator task={activeBackgroundTask} />
         {isSystemAdmin(user.role) && <ApiMonitorDisplay />}
@@ -1111,6 +1153,7 @@ const App: React.FC = () => {
   const apiStatus = useApiStatus();
   const [user, setUser] = useState<User | null>(null);
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
+  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
   // Guests are shown the charter as a courtesy notice they can wave away; this
   // remembers that they did, for the session. Signed-in users are gated
   // instead, and their acceptance is recorded on the account.
@@ -1150,6 +1193,17 @@ const App: React.FC = () => {
   // One-off AI notices (e.g. automatic fallback to Gemini Flash when the
   // selected model has no free-tier quota). Fired at most once per condition.
   useEffect(() => subscribeAiNotices((message) => showToast(message, 'info')), [showToast]);
+
+  // Reconcile the free-tier evaluation counter with the server as soon as
+  // there is an account to reconcile it for. The local copy is per-browser, so
+  // without this a second device — or a cleared cache — offers a full
+  // allowance the server has already spent, and the student only finds out
+  // after writing an answer and waiting out the marking call. Runs once per
+  // sign-in; the counter's own daily rollover handles the rest.
+  useEffect(() => {
+    if (!user || user.role === 'guest') return;
+    void refreshFreeEvalCount();
+  }, [user?.username, user?.role]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -1212,6 +1266,17 @@ const App: React.FC = () => {
   }, [showToast]);
 
   useEffect(() => {
+    // A password-recovery return is checked FIRST, ahead of both branches
+    // below. The link signs the user in before they choose anything, so a
+    // cached session would send them into the app and a `?code=` would be
+    // consumed as an OAuth sign-in — either way they would never see the form
+    // they asked for, and the reset would appear to do nothing.
+    if (authService.isPasswordRecovery()) {
+      setIsPasswordRecovery(true);
+      setIsLoadingAuth(false);
+      return;
+    }
+
     const storedUser = authService.getCurrentUser();
     if (storedUser) {
       loadUserProfile(storedUser.username)
@@ -1244,12 +1309,39 @@ const App: React.FC = () => {
             showToast(`Signed in as ${oauthUser.displayName}`, 'success');
           }
         })
-        .catch(() => {})
+        // A rejected sign-in must SAY so. This used to swallow everything,
+        // which was survivable while the only failures were transient — but
+        // the domain gate refuses deliberately, and being bounced back to the
+        // login page with no message is indistinguishable from a broken app.
+        .catch((err: unknown) => {
+          const message = err instanceof Error ? err.message : '';
+          if (message) showToast(message, 'error');
+        })
         .finally(() => setIsLoadingAuth(false));
     }
   }, []);
 
   if (isLoadingAuth) return null;
+
+  if (isPasswordRecovery) {
+    return (
+      <div className="min-h-screen relative z-10 selection:bg-indigo-500/30 selection:text-white">
+        <AnimatedBackground />
+        <ResetPasswordPage
+          onComplete={(u) => {
+            setIsPasswordRecovery(false);
+            setUser(u);
+            showToast('Password updated. You are signed in.', 'success');
+          }}
+          onCancel={() => {
+            void authService.cancelPasswordRecovery();
+            setIsPasswordRecovery(false);
+            setUser(null);
+          }}
+        />
+      </div>
+    );
+  }
 
   // The agreement gate. A signed-in user who has not accepted the current
   // version sees ONLY the agreement — the workspace is not rendered at all,

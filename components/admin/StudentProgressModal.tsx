@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { X, LineChart, Search, Users, Layers, Gauge } from 'lucide-react';
 import {
@@ -9,12 +9,13 @@ import {
   type TrendPoint,
 } from '../../services/responseService';
 import { isCurriculumRemote } from '../../services/curriculumService';
-import { commandTerms } from '../../data/commandTerms';
+import { commandTerms, tierShortLabel } from '../../data/commandTerms';
 import { getTierBandConfig } from '../../utils/renderUtils';
 import {
   foldVerbsIntoTiers,
   rankByWeakness,
   formatBand,
+  formatMarkFrac,
   formatLastActive,
   sparklinePoints,
   type TierProfile,
@@ -31,16 +32,6 @@ interface StudentProgressModalProps {
 }
 
 const WINDOWS = [30, 90, 365] as const;
-
-/** Short label for each cognitive tier (1–6), mirroring the verb ladder. */
-const TIER_LABELS: Record<number, string> = {
-  1: 'Recall',
-  2: 'Describe',
-  3: 'Apply',
-  4: 'Analyse',
-  5: 'Synthesise',
-  6: 'Evaluate',
-};
 
 const tierOf = (verb: string): number | null => commandTerms.get(verb as PromptVerb)?.tier ?? null;
 
@@ -66,29 +57,43 @@ const StatTile: React.FC<{ icon: React.ReactNode; label: string; value: string; 
   </div>
 );
 
-/** A single cognitive-tier row: band bar (filled to band/6) with the band and
- *  attempt count always shown as text, so it's never colour-alone. */
+/**
+ * A single cognitive-tier row: a bar filled to the share of available MARKS
+ * earned at this tier, with the mark share, band and attempt count alongside as
+ * text so nothing is colour-alone.
+ *
+ * The bar used to be filled to `avgBand / 6`, which was not a measure of the
+ * student at all: the Verb Gate caps a tier's band at the tier number, so tier 1
+ * could never exceed 1/6 of the bar and tier 6 could reach all of it. Every
+ * student — including one scoring full marks everywhere — drew the same rising
+ * staircase, which reads as "weak on recall, strong on evaluation" for everyone.
+ * Marks are comparable across tiers; bands are not.
+ */
 const TierRow: React.FC<{ profile: TierProfile }> = ({ profile }) => {
   const cfg = getTierBandConfig(profile.tier);
-  const pct = profile.avgBand != null ? Math.min(100, (profile.avgBand / 6) * 100) : 0;
+  const pct = profile.markFrac != null ? Math.min(100, Math.max(0, profile.markFrac * 100)) : 0;
   const attempted = profile.attempts > 0;
+  const measured = attempted && profile.markFrac != null;
   return (
     <div className="flex items-center gap-3">
       <span className="w-28 shrink-0 text-[11px] font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700">
         <span className="text-[rgb(var(--color-text-dim))] light:text-slate-400">
           B{profile.tier}
         </span>{' '}
-        {TIER_LABELS[profile.tier]}
+        {tierShortLabel(profile.tier)}
       </span>
       <div className="flex-1 h-3 rounded-full bg-black/30 light:bg-slate-100 overflow-hidden border border-white/5 light:border-slate-200">
-        {attempted && (
+        {measured && (
           <div
             className={`h-full rounded-full bg-gradient-to-r ${cfg.gradient} transition-all`}
             style={{ width: `${pct}%` }}
           />
         )}
       </div>
-      <span className="w-14 text-right font-mono text-xs font-bold text-[rgb(var(--color-text-primary))] light:text-slate-800 tabular-nums">
+      <span className="w-12 text-right font-mono text-xs font-bold text-[rgb(var(--color-text-primary))] light:text-slate-800 tabular-nums">
+        {formatMarkFrac(profile.markFrac)}
+      </span>
+      <span className="w-12 text-right font-mono text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 tabular-nums">
         {attempted ? `B${formatBand(profile.avgBand)}` : '—'}
       </span>
       <span className="w-16 text-right text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 tabular-nums">
@@ -180,6 +185,8 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
   const [data, setData] = useState<StudentProgress | null>(null);
   const [roster, setRoster] = useState<RosterStudent[]>([]);
   const [isRosterLoading, setIsRosterLoading] = useState(false);
+  // Monotonic id of the newest in-flight lookup; see `load` below.
+  const lookupSeq = useRef(0);
 
   useEscapeKey(isOpen && !isLoading, onClose);
   useScrollLock(isOpen);
@@ -192,14 +199,30 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
         return;
       }
       setUsername(trimmed);
+
+      // Roster entries and the window buttons are one click each, so two
+      // lookups are easily in flight at once. Without a sequence guard the last
+      // RESPONSE wins rather than the last request: click Aisha, then Jayden,
+      // and if Aisha's call is the slower one you end up reading Aisha's
+      // progress when you asked for Jayden's. (The panel labels itself from
+      // `data.username`, so nothing is shown under the wrong name — but it is
+      // still not the student the teacher asked for.)
+      const seq = ++lookupSeq.current;
+      const current = () => seq === lookupSeq.current;
+
       setIsLoading(true);
       try {
-        setData(await fetchStudentProgress(trimmed, window));
+        const progress = await fetchStudentProgress(trimmed, window);
+        if (!current()) return;
+        setData(progress);
       } catch (e) {
+        // A lookup the user has already moved past has no error worth raising:
+        // the one they are waiting on is still running.
+        if (!current()) return;
         setData(null);
         showToast(e instanceof Error ? e.message : 'Failed to load student progress.', 'error');
       } finally {
-        setIsLoading(false);
+        if (current()) setIsLoading(false);
       }
     },
     [showToast]
@@ -412,6 +435,12 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                       value={formatBand(totals?.avg_band ?? null)}
                       sub="across all attempts"
                     />
+                    <StatTile
+                      icon={<Gauge className="w-3.5 h-3.5" />}
+                      label="Marks Achieved"
+                      value={formatMarkFrac(totals?.avg_mark_frac)}
+                      sub="mean share of available marks"
+                    />
                   </div>
 
                   {/* Cognitive tier profile */}
@@ -425,8 +454,10 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                       ))}
                     </div>
                     <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
-                      Average band per verb group (bar fills to band ÷ 6); a blank group hasn't been
-                      attempted in this window.
+                      Share of available marks earned per verb group, then the average band and
+                      attempt count. The bar tracks marks, not band: a group&rsquo;s band is capped
+                      at its tier, so a band bar would rise left-to-right for every student. A blank
+                      group hasn&rsquo;t been attempted in this window.
                     </p>
                   </section>
 
@@ -457,6 +488,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                               <th className="px-4 py-2.5">Verb</th>
                               <th className="px-4 py-2.5 text-right">Attempts</th>
                               <th className="px-4 py-2.5 text-right">Avg Band</th>
+                              <th className="px-4 py-2.5 text-right">Marks</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-[rgb(var(--color-border-secondary))]/30 light:divide-slate-200">
@@ -478,6 +510,9 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                                 </td>
                                 <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-secondary))] light:text-slate-700">
                                   {formatBand(r.avg_band)}
+                                </td>
+                                <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-primary))] light:text-slate-900 font-bold">
+                                  {formatMarkFrac(r.avg_mark_frac)}
                                 </td>
                               </tr>
                             ))}

@@ -54,4 +54,51 @@ describe('entitlement constants stay in sync', () => {
     expect(SERVER_SEAT_LIMITS.min).toBe(SCHOOL_SEAT_LIMITS.min);
     expect(SERVER_SEAT_LIMITS.max).toBe(SCHOOL_SEAT_LIMITS.max);
   });
+
+  it('grants the paid AI allowance on a school licence, not just a personal plan', () => {
+    // The webhook writes profiles.stripe_plan only for the person who PAID.
+    // Every other member of a licensed school holds the plan through their
+    // membership — which is how caller_plan() and has_unlimited_evaluations()
+    // both resolve it — so a resolve_ai_quota that reads stripe_plan alone
+    // metered a whole school's students at the free tier's budget while the
+    // plan table promised them the paid one.
+    //
+    // The LAST definition wins in Postgres, so that is the one asserted.
+    const definitions = schemaSql.split('create or replace function public.resolve_ai_quota');
+    expect(definitions.length, 'resolve_ai_quota not found in schema.sql').toBeGreaterThan(1);
+    const effective = definitions[definitions.length - 1];
+    expect(effective).toMatch(/s\.plan_status/);
+    expect(effective).toMatch(/join public\.schools s on s\.id = p\.school_id/);
+    // Same grace period as every other licence check.
+    expect(effective).toMatch(/past_due/);
+  });
+
+  it('refuses every evaluation when the allowance is set to zero', () => {
+    // set_plan_setting accepts 0, and the conditional ON CONFLICT only guards
+    // the UPDATE branch — so without an explicit check the day's FIRST request
+    // inserted a row with 1 and was allowed. One free marking a day out of a
+    // paywall that was meant to be shut.
+    const match = /create or replace function public\.consume_evaluation\(\)[\s\S]*?\$\$;/.exec(
+      schemaSql
+    );
+    expect(match, 'consume_evaluation() not found in schema.sql').not.toBeNull();
+    const body = match![0];
+    expect(body).toMatch(/if v_limit <= 0 then/);
+    // And it must be checked BEFORE the insert that would otherwise grant one.
+    expect(body.indexOf('v_limit <= 0')).toBeLessThan(
+      body.indexOf('insert into public.evaluation_usage')
+    );
+  });
+
+  it('reports a school licence back to the admin dashboard', () => {
+    // Seats are the billed quantity and membership is not capped per login, so
+    // a school can quietly outgrow what it paid for. list_schools has to carry
+    // the licence alongside the member count, or the true-up the schema
+    // promises has no data behind it.
+    const definitions = schemaSql.split('create or replace function public.list_schools');
+    const effective = definitions[definitions.length - 1];
+    expect(effective).toMatch(/'plan_status', s\.plan_status/);
+    expect(effective).toMatch(/'plan_seats', s\.plan_seats/);
+    expect(effective).toMatch(/'members'/);
+  });
 });

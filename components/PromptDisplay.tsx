@@ -2,6 +2,8 @@ import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { createPortal } from 'react-dom';
 import { Prompt, UserRole, CourseOutcome } from '../types';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
+import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
+import { PlusLockChip } from './UpgradeModal';
 import {
   Edit3,
   Save,
@@ -339,6 +341,25 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   const canCurate = canCurateContent(userRole);
   const canGenerate = canUseAiGeneration(userRole);
 
+  /**
+   * Every AI control on this card — the quality check, the scenario writer, the
+   * outcome auto-linker — is an AI Content Studio action, so each carries the
+   * studio's plan lock as well as the role gate above. `canGenerate` decides
+   * whether the control is drawn at all; this decides whether pressing it does
+   * the work or opens the upgrade prompt.
+   */
+  const studioLocked = isFeatureLocked('aiContentStudio');
+  /** Run the real action, or sell the plan that unlocks it. */
+  const studioAction = (action: () => void) => () =>
+    studioLocked ? requestUpgrade('aiContentStudio') : action();
+  /** Append the reason to a control's tooltip when it is locked. */
+  const studioTitle = (title: string): string =>
+    studioLocked ? `${title} — part of the AI Content Studio, tap to learn more` : title;
+  /** Amber "locked" chrome, or nothing, for a control's className. */
+  const studioChrome = studioLocked
+    ? 'bg-amber-400/15 border border-amber-400/40 text-amber-500 light:text-amber-600'
+    : '';
+
   // A question with no scenario shows the "Context Scenario" heading and its
   // dashed placeholder only to someone who can actually add one. To a student it
   // was ~130px of "No scenario provided." inside a card whose height is capped —
@@ -672,9 +693,14 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     <div className="flex gap-2 justify-end mt-3 sm:mt-0 sm:absolute sm:-right-4 sm:-top-10 sm:opacity-0 sm:group-hover/question:opacity-100 transition-opacity">
                       {canGenerate && (
                         <button
-                          onClick={() => onRunQualityCheck(prompt.question, 'question')}
-                          className="p-2.5 rounded-xl bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-300 text-emerald-400 hover:text-emerald-300 shadow-xl hover:scale-110 transition-all"
-                          title="Run Quality Check"
+                          onClick={studioAction(() =>
+                            onRunQualityCheck(prompt.question, 'question')
+                          )}
+                          className={`p-2.5 rounded-xl shadow-xl hover:scale-110 transition-all ${
+                            studioChrome ||
+                            'bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-300 text-emerald-400 hover:text-emerald-300'
+                          }`}
+                          title={studioTitle('Run Quality Check')}
                         >
                           <ShieldCheck className="w-4 h-4" />
                         </button>
@@ -703,10 +729,12 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     <div className="flex gap-2 opacity-100 sm:opacity-0 sm:group-hover/prompt:opacity-100 transition-opacity">
                       {canGenerate && (
                         <button
-                          onClick={onGenerateScenario}
+                          onClick={studioAction(onGenerateScenario)}
                           disabled={isGeneratingScenario}
-                          className="p-1.5 rounded-lg text-indigo-400 hover:bg-indigo-500/10 transition-colors"
-                          title="Regenerate Scenario"
+                          className={`p-1.5 rounded-lg transition-colors ${
+                            studioChrome || 'text-indigo-400 hover:bg-indigo-500/10'
+                          }`}
+                          title={studioTitle('Regenerate Scenario')}
                         >
                           <RefreshCw
                             className={`w-3.5 h-3.5 ${isGeneratingScenario ? 'animate-spin' : ''}`}
@@ -780,11 +808,16 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                         <p className="text-xs text-slate-500 font-medium">No scenario provided.</p>
                         {canGenerate && (
                           <button
-                            onClick={onGenerateScenario}
+                            onClick={studioAction(onGenerateScenario)}
                             disabled={isGeneratingScenario}
-                            className="px-4 py-2 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-bold hover:bg-indigo-500/20 transition-all flex items-center gap-2 hover:scale-105"
+                            title={studioTitle('Generate Context')}
+                            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 hover:scale-105 ${
+                              studioChrome ||
+                              'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 hover:bg-indigo-500/20'
+                            }`}
                           >
                             <Sparkles className="w-3.5 h-3.5" /> Generate Context
+                            {studioLocked && <PlusLockChip feature="aiContentStudio" />}
                           </button>
                         )}
                       </div>
@@ -937,10 +970,13 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 )}
                 {canGenerate && onSuggestOutcomes && !examMode && (
                   <button
-                    onClick={onSuggestOutcomes}
+                    onClick={studioAction(onSuggestOutcomes)}
                     disabled={isSuggestingOutcomes}
-                    className={`p-2 rounded-lg bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/20 transition-all ${isSuggestingOutcomes ? 'animate-pulse' : 'hover:scale-110'}`}
-                    title="Auto-link Outcomes with AI"
+                    className={`p-2 rounded-lg transition-all ${
+                      studioChrome ||
+                      'bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/20'
+                    } ${isSuggestingOutcomes ? 'animate-pulse' : 'hover:scale-110'}`}
+                    title={studioTitle('Auto-link Outcomes with AI')}
                   >
                     <Wand2
                       className={`w-3.5 h-3.5 ${isSuggestingOutcomes ? 'animate-spin' : ''}`}

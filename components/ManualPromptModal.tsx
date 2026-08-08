@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { CourseOutcome, Prompt, PromptVerb } from '../types';
 import { refineManualPrompt } from '../services/geminiService';
+import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
 import { getTierBandConfig, getTierScaleConfig, renderFormattedText } from '../utils/renderUtils';
 import {
   getCommandTermsForMarks,
@@ -200,6 +201,15 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
   const handleRefine = async () => {
     if (!draftQuestion.trim()) {
       setError('Please enter a draft question first.');
+      return;
+    }
+    // Refining is a plan-gated AI Content Studio call. Checked here so a
+    // deployment that prices the studio above this caller's plan opens the
+    // upgrade prompt, rather than surfacing the proxy's 402 as an inline error
+    // with nothing to act on. Manual entry itself stays open — only the AI
+    // pass over it is sold.
+    if (isFeatureLocked('aiContentStudio')) {
+      requestUpgrade('aiContentStudio');
       return;
     }
 

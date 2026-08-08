@@ -70,13 +70,26 @@ const renderSelector = (
 };
 
 describe('Syllabus import entry points (PromptSelector)', () => {
-  it('shows the Import Syllabus button to curators and fires its handler', () => {
+  it('shows the Import Syllabus button to admins and fires its handler', () => {
     const onImportSyllabus = vi.fn();
-    renderSelector('teacher', {}, { onImportSyllabus });
+    renderSelector('admin', {}, { onImportSyllabus });
 
     const button = screen.getByTitle(/Import Syllabus \(AI\)/);
     fireEvent.click(button);
     expect(onImportSyllabus).toHaveBeenCalledTimes(1);
+  });
+
+  it('withholds course and topic CREATION from teachers, keeping the rest', () => {
+    // Courses and topics are the shared skeleton — see canCreateCurriculum.
+    // A teacher curates everything below a topic but does not get to add a
+    // course, or the AI import that builds one.
+    renderSelector('teacher', { courseId: 'c1' });
+    expect(screen.queryByTitle(/Import Syllabus \(AI\)/)).toBeNull();
+    expect(screen.queryByTitle('Add Course')).toBeNull();
+    expect(screen.queryByTitle('Import Topic (.json)')).toBeNull();
+    expect(screen.queryByTitle(/Build a new topic from NESA syllabus text/)).toBeNull();
+    // Still theirs: renaming and editing the course they were given.
+    expect(screen.getByTitle('Edit Outcomes')).toBeTruthy();
   });
 
   it('hides all curation entry points from students', () => {

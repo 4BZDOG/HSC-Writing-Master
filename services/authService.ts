@@ -8,6 +8,12 @@ import {
 } from '../utils/storageUtils';
 import { supabase, isSupabaseConfigured } from './supabaseClient';
 import type { Provider } from '@supabase/auth-js';
+import {
+  isSignupEnabled,
+  resolveAllowedDomains,
+  isEmailDomainAllowed,
+  allowedDomainMessage,
+} from './signupPolicy';
 
 const DEFAULT_PREFERENCES: UserPreferences = {
   defaultFocusMode: false,
@@ -25,6 +31,17 @@ const DEFAULT_STATS: UserStats = {
   averageBand: 0,
   lastActive: Date.now(),
   streakDays: 1,
+};
+
+/**
+ * Human names for the SSO providers the login page offers. Supabase's provider
+ * ids are not what a student calls them — nobody signing in with a school
+ * account thinks of it as "azure".
+ */
+const PROVIDER_LABELS: Partial<Record<Provider, string>> = {
+  google: 'Google',
+  azure: 'Microsoft',
+  github: 'GitHub',
 };
 
 const MOCK_USERS: Record<string, { password: string; role: UserRole; name: string }> = {
@@ -156,6 +173,11 @@ const mockLogin = async (username: string, password: string): Promise<User> => {
         preferences: { ...DEFAULT_PREFERENCES },
         stats: { ...DEFAULT_STATS },
       };
+      // Give the demo accounts a term's worth of history so the features that
+      // read accumulated use are not empty on a first look. Only on first login
+      // — an existing profile is the developer's own work and is left alone.
+      const { hydrateDemoProfile } = await import('./demoFixtures');
+      fullUser = await hydrateDemoProfile(fullUser);
     }
 
     // Update streak and last active
@@ -283,6 +305,69 @@ const applyOnboardingState = async (
   }
 };
 
+/**
+ * Marker appended to the password-reset return URL.
+ *
+ * Under PKCE a recovery link and an OAuth sign-in are indistinguishable on
+ * arrival — both are a bare `?code=`. Rather than race `PASSWORD_RECOVERY`
+ * against `SIGNED_IN` and hope, the reset email carries its own query flag.
+ */
+export const PASSWORD_RESET_PARAM = 'mode=reset';
+export const PASSWORD_RESET_QUERY = `?${PASSWORD_RESET_PARAM}`;
+
+/**
+ * Strip credential fragments and the reset marker from the address bar, so a
+ * refresh or a copied URL does not carry a token (or re-enter the reset flow).
+ */
+const clearAuthRedirectParams = (): void => {
+  try {
+    if (typeof window === 'undefined') return;
+    if (
+      /access_token=|refresh_token=|[?&]code=|mode=reset|type=recovery/.test(
+        window.location.hash + window.location.search
+      )
+    ) {
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  } catch {
+    // Non-fatal: a blocked history write leaves a messy URL, nothing worse.
+  }
+};
+
+/**
+ * Turn an authenticated Supabase user into the app's `User`, applying
+ * everything a session is expected to carry: profile row, streak, school plan,
+ * onboarding state, and the localStorage cache the UI reads on next load.
+ *
+ * Shared by the OAuth callback and the password-reset completion. Both hold a
+ * session and no password, so neither can go through `supabaseLogin` — and a
+ * second hand-rolled copy of this sequence is exactly how one of them ends up
+ * quietly missing the school plan or the agreement state.
+ */
+const hydrateSessionUser = async (authUser: { id: string; email?: string }): Promise<User> => {
+  let profile: ProfileRow | null = null;
+  let profileReadOk = true;
+  try {
+    profile = await fetchProfile(authUser.id);
+  } catch {
+    // Transient read failure: continue with session defaults, but do NOT write
+    // those defaults back over the real row.
+    profileReadOk = false;
+  }
+
+  let user = mapProfileToUser(authUser.email ?? '', profile);
+  user.stats = calculateStreak(user.stats);
+  user = await applySchoolPlan(authUser.id, user);
+  user = await applyOnboardingState(authUser.id, user, authService.getCurrentUser());
+
+  if (profileReadOk) {
+    await persistProfileState(authUser.id, user);
+  }
+
+  safeSetItem(STORAGE_KEYS.AUTH_USER, user);
+  return user;
+};
+
 const supabaseLogin = async (email: string, password: string): Promise<User> => {
   const client = supabase!;
   const { data, error } = await client.auth.signInWithPassword({ email, password });
@@ -311,6 +396,53 @@ const supabaseLogin = async (email: string, password: string): Promise<User> => 
 
   safeSetItem(STORAGE_KEYS.AUTH_USER, user);
   return user;
+};
+
+/**
+ * The two things `signUp` can legitimately produce.
+ *
+ * They are NOT interchangeable and the caller must branch on them. With email
+ * confirmation off (Supabase → Authentication → Settings) the call returns a
+ * live session and the user is simply logged in. With it on — the correct
+ * setting for anything public — it returns a user with NO session, and the
+ * account does nothing until the emailed link is clicked. Collapsing the two
+ * would either drop a signed-in user back on the login form or leave someone
+ * staring at a spinner waiting for a session that is never coming.
+ */
+export type SignUpResult =
+  | { status: 'active'; user: User }
+  | { status: 'confirmation-required'; email: string };
+
+/**
+ * Supabase deliberately does not tell you an address is taken: with
+ * confirmation on, re-registering an existing email returns a normal-looking
+ * user with an EMPTY `identities` array rather than an error. That is
+ * anti-enumeration, and it is why this needs detecting explicitly — without it
+ * the app cheerfully says "check your email" for an email that will never
+ * arrive, which is the single most confusing outcome available here.
+ */
+const isObfuscatedExistingUser = (user: { identities?: unknown[] | null } | null): boolean =>
+  Array.isArray(user?.identities) && user.identities.length === 0;
+
+/** Supabase's raw auth errors, restated for someone creating a school account. */
+const describeSignUpError = (message: string): string => {
+  const m = message.toLowerCase();
+  if (m.includes('already registered') || m.includes('already been registered')) {
+    return 'An account already exists for that email address. Sign in instead.';
+  }
+  if (m.includes('password')) {
+    return `Password rejected: ${message}`;
+  }
+  if (m.includes('signups not allowed') || m.includes('signup is disabled')) {
+    return 'Account creation is switched off for this deployment. Ask an administrator to create your account.';
+  }
+  if (m.includes('email address') && m.includes('invalid')) {
+    return 'That email address was rejected. Check it for typos.';
+  }
+  if (m.includes('rate limit') || m.includes('too many')) {
+    return 'Too many attempts. Wait a minute and try again.';
+  }
+  return message;
 };
 
 /**
@@ -373,6 +505,192 @@ export const authService = {
     return mockLogin(username, password);
   },
 
+  /**
+   * Create an account with an email and a password.
+   *
+   * Supabase-only: mock mode has a fixed set of demo logins and nothing to
+   * register against, so this refuses rather than pretending to succeed.
+   *
+   * The domain allowlist is re-checked HERE and not only in the form. The form
+   * check is for the person typing; this one is the rule. They read the same
+   * `VITE_SIGNUP_ALLOWED_DOMAINS` so they cannot disagree.
+   *
+   * `display_name` rides along in the user metadata for `handle_new_user`,
+   * which creates the `profiles` row on the `auth.users` insert. `username` is
+   * deliberately NOT sent — the trigger derives it from the email local part
+   * and de-duplicates it, and having two places invent usernames is how you get
+   * two different ones.
+   */
+  signUp: async (email: string, password: string, displayName?: string): Promise<SignUpResult> => {
+    if (!isSupabaseConfigured || !supabase) {
+      throw new Error('Account creation requires Supabase to be configured on this deployment.');
+    }
+    if (!isSignupEnabled(import.meta.env.VITE_ENABLE_SIGNUP)) {
+      throw new Error(
+        'Account creation is switched off for this deployment. Ask an administrator to create your account.'
+      );
+    }
+
+    const trimmedEmail = email.trim();
+    const allowed = resolveAllowedDomains(import.meta.env);
+    if (!isEmailDomainAllowed(trimmedEmail, allowed)) {
+      throw new Error(allowedDomainMessage(allowed));
+    }
+
+    const { data, error } = await supabase.auth.signUp({
+      email: trimmedEmail,
+      password,
+      options: {
+        data: displayName?.trim() ? { display_name: displayName.trim() } : {},
+        // Same base-path reasoning as loginWithOAuth: origin alone drops the
+        // sub-path on Pages-style hosting and the confirmation link 404s.
+        emailRedirectTo: `${window.location.origin}${import.meta.env.BASE_URL ?? '/'}`,
+      },
+    });
+
+    if (error) throw new Error(describeSignUpError(error.message));
+    if (!data.user) throw new Error('Account creation failed. Try again.');
+    if (isObfuscatedExistingUser(data.user)) {
+      throw new Error('An account already exists for that email address. Sign in instead.');
+    }
+
+    // No session means confirmation is required. Do NOT try to log in here —
+    // there is nothing to log in with until the emailed link is followed.
+    if (!data.session) {
+      return { status: 'confirmation-required', email: trimmedEmail };
+    }
+
+    // Confirmation is off, so the account is live. Route through the ordinary
+    // login path rather than hand-building a User: it is what applies the
+    // streak calculation, the school plan, the onboarding state and the
+    // localStorage write, and a second copy of that would drift.
+    return { status: 'active', user: await supabaseLogin(trimmedEmail, password) };
+  },
+
+  /**
+   * Ask Supabase to email a password-reset link.
+   *
+   * Resolves the same way whether or not an account exists, and the UI says so.
+   * Supabase does not report unknown addresses on purpose — "no account with
+   * that email" turns a login form into a tool for discovering who has one, and
+   * on a school deployment that is a roster of students. The caller must not
+   * add the distinction back.
+   *
+   * NOT gated on the email-domain allowlist, deliberately. An account created
+   * before the allowlist was set (or by an admin, outside it) can still sign in
+   * with its password, so refusing to reset that password would lock out the
+   * one person the feature exists for. There is no relay risk in being open
+   * here: Supabase sends nothing to an address that has no account.
+   */
+  requestPasswordReset: async (email: string): Promise<void> => {
+    if (!isSupabaseConfigured || !supabase) {
+      throw new Error('Password reset requires Supabase to be configured on this deployment.');
+    }
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      // A DEDICATED return URL. The recovery link comes back carrying the same
+      // `?code=` as an OAuth sign-in, so without a marker of its own the app
+      // cannot tell them apart and would silently sign the user in — never
+      // showing the form they asked for. `?mode=reset` makes it unambiguous
+      // with no event-race. Add this URL to Supabase → Authentication → URL
+      // Configuration → Redirect URLs.
+      redirectTo: `${window.location.origin}${import.meta.env.BASE_URL ?? '/'}${PASSWORD_RESET_QUERY}`,
+    });
+    // A rate limit is worth surfacing — it is the one failure the user can act
+    // on (wait). Everything else stays quiet so the response cannot be used to
+    // probe for accounts.
+    if (error && /rate limit|too many/i.test(error.message)) {
+      throw new Error('Too many reset emails requested. Wait a minute and try again.');
+    }
+  },
+
+  /**
+   * Is the browser sitting on a password-recovery return?
+   *
+   * Reads the URL only — no awaiting, no racing an auth event. That is the
+   * whole reason `requestPasswordReset` sends a marked redirect: under PKCE a
+   * recovery link and an OAuth sign-in both come back as a bare `?code=`, and
+   * telling them apart by waiting to see which auth event fires first is a race
+   * this does not need to run. `type=recovery` is also accepted, which is what
+   * the implicit flow puts in the hash.
+   */
+  isPasswordRecovery: (): boolean => {
+    if (!isSupabaseConfigured || typeof window === 'undefined') return false;
+    const url = `${window.location.search}${window.location.hash}`;
+    // Matched as a PARAMETER, not as a literal `?mode=reset` prefix. Supabase
+    // appends its own `code=` to the redirect_to and we do not control the
+    // resulting order — `?code=…&mode=reset` is as likely as `?mode=reset&…`,
+    // and a prefix match silently misses it. Missing it is not a cosmetic
+    // failure: the return falls through to the OAuth path, the user is signed
+    // in without ever being asked for a password, and the reset appears to have
+    // done nothing.
+    return (
+      new RegExp(`[?&#]${PASSWORD_RESET_PARAM}\\b`).test(url) || /[#&?]type=recovery\b/.test(url)
+    );
+  },
+
+  /**
+   * Set the new password, using the session the recovery link established.
+   *
+   * Returns the signed-in user: proving control of the mailbox IS the
+   * authentication, so bouncing them back to the login form to type the
+   * password they just chose adds a step and no security.
+   */
+  completePasswordReset: async (newPassword: string): Promise<User> => {
+    if (!isSupabaseConfigured || !supabase) {
+      throw new Error('Password reset requires Supabase to be configured.');
+    }
+
+    const { data, error } = await supabase.auth.updateUser({ password: newPassword });
+
+    if (error) {
+      // The common case by far, and the one whose default wording explains
+      // nothing: recovery links are single-use and short-lived, so a link
+      // opened twice, or tomorrow, arrives with no session behind it.
+      if (/session|jwt|token|expired|not authenticated/i.test(error.message)) {
+        throw new Error(
+          'That reset link has expired or has already been used. Request a new one from the sign-in page.'
+        );
+      }
+      if (/should be different|same as the old/i.test(error.message)) {
+        throw new Error('Choose a password you have not used on this account before.');
+      }
+      throw new Error(error.message);
+    }
+    if (!data.user) {
+      throw new Error(
+        'That reset link has expired or has already been used. Request a new one from the sign-in page.'
+      );
+    }
+
+    clearAuthRedirectParams();
+    return hydrateSessionUser(data.user);
+  },
+
+  /**
+   * Abandon a recovery without setting a password.
+   *
+   * The link signs the user in to Supabase before they choose anything, so
+   * simply navigating away would leave a live session belonging to whoever
+   * opened the email — on a shared computer, not necessarily the account
+   * holder. Backing out has to sign out.
+   */
+  cancelPasswordRecovery: async (): Promise<void> => {
+    // Clear the URL FIRST, before any await. The marker is what routes the app
+    // to the reset screen, so leaving it in place while signOut is in flight
+    // means a reload lands back on that screen — and if signOut never completes
+    // (offline, network failure) it is never cleared at all, trapping the user
+    // on a reset screen whose session is dead: every attempt fails with "link
+    // expired" and the login page is unreachable without editing the URL by
+    // hand. Local state goes with it, for the same reason.
+    clearAuthRedirectParams();
+    if (typeof window !== 'undefined') {
+      window.localStorage.removeItem(STORAGE_KEYS.AUTH_USER);
+    }
+    if (isSupabaseConfigured && supabase) {
+      await supabase.auth.signOut().catch(() => {});
+    }
+  },
+
   loginAsGuest: async (): Promise<User> => {
     await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -399,16 +717,40 @@ export const authService = {
         // serves at /<repo>/) — the provider would bounce the user to a 404
         // and the session tokens would never reach the app.
         redirectTo: `${window.location.origin}${import.meta.env.BASE_URL ?? '/'}`,
-        // School computers are shared: always let the student pick the
-        // account rather than silently reusing whoever signed in last.
-        ...(provider === 'google' ? { queryParams: { prompt: 'select_account' } } : {}),
+        // School computers are shared: always let the student pick the account
+        // rather than silently reusing whoever signed in last. This applied to
+        // Google alone, which missed the provider a DoE school actually uses —
+        // on a classroom PC the second student to sit down was signed straight
+        // into the first one's account, with their drafts and their marks.
+        // Entra and GitHub take the same parameter.
+        queryParams: { prompt: 'select_account' },
       },
     });
-    if (error) throw new Error(error.message);
+    // A provider that is not switched on in the Supabase dashboard fails here
+    // with "Unsupported provider: provider is not enabled" — accurate, and
+    // useless to the student reading it on a login screen. Name the actual
+    // remedy instead, and who has to do it.
+    if (error) {
+      if (/provider is not enabled|unsupported provider/i.test(error.message)) {
+        throw new Error(
+          `${PROVIDER_LABELS[provider] ?? provider} sign-in is not enabled for this deployment. ` +
+            'Ask an administrator to enable it in Supabase (Authentication → Providers), ' +
+            'or sign in with your email and password.'
+        );
+      }
+      throw new Error(error.message);
+    }
   },
 
   handleOAuthCallback: async (): Promise<User | null> => {
     if (!isSupabaseConfigured || !supabase) return null;
+
+    // A recovery return carries the same `?code=` as an OAuth sign-in. If this
+    // consumed it the user would be signed straight in and never shown the form
+    // they asked for — the reset would appear to do nothing. App.tsx checks
+    // isPasswordRecovery() first; this is the backstop for any caller that does
+    // not.
+    if (authService.isPasswordRecovery()) return null;
 
     // supabase-js processes the provider redirect (URL hash tokens or PKCE
     // ?code exchange) ASYNCHRONOUSLY after the client is created. On a fast
@@ -443,37 +785,40 @@ export const authService = {
     if (!session?.user) return null;
     const authUser = session.user;
 
-    let profile: ProfileRow | null = null;
-    let profileReadOk = true;
-    try {
-      profile = await fetchProfile(authUser.id);
-    } catch {
-      profileReadOk = false;
-    }
-
-    let user = mapProfileToUser(authUser.email ?? '', profile);
-    user.stats = calculateStreak(user.stats);
-    user = await applySchoolPlan(authUser.id, user);
-    user = await applyOnboardingState(authUser.id, user, authService.getCurrentUser());
-
-    if (profileReadOk) {
-      await persistProfileState(authUser.id, user);
-    }
-
-    safeSetItem(STORAGE_KEYS.AUTH_USER, user);
-
-    // Clear leftover token/code fragments so a refresh or copied URL doesn't
-    // carry credentials. (supabase-js strips the hash itself in most flows,
-    // but not the PKCE ?code param.)
-    try {
-      if (
-        /access_token=|refresh_token=|[?&]code=/.test(window.location.hash + window.location.search)
-      ) {
-        window.history.replaceState({}, '', window.location.pathname);
+    // Domain gate on the SSO path.
+    //
+    // The allowlist previously covered self-registration only, which restricted
+    // nothing: a multi-tenant Entra registration — the account type a school
+    // needs so students can sign in — accepts ANY Microsoft work or school
+    // account in the world, and Google accepts any Google account. Either way
+    // the arrival lands as a `student` with a daily AI budget on this
+    // deployment's provider key.
+    //
+    // Be clear about what this is: the account row already exists by the time
+    // the app sees it (GoTrue inserts into auth.users, and handle_new_user
+    // creates the profile, before the redirect returns). This refuses the
+    // SESSION — the person cannot use the app or spend a quota unit — but it
+    // does not prevent the row. The authoritative control is a SINGLE-TENANT
+    // Entra app registration pinned to the school's tenant, which stops the
+    // sign-in ever reaching us. This is the layer that works regardless of how
+    // the provider is configured.
+    const allowedDomains = resolveAllowedDomains(import.meta.env);
+    if (allowedDomains.length > 0 && !isEmailDomainAllowed(authUser.email ?? '', allowedDomains)) {
+      // Drop the session before raising, or the rejected user stays signed in
+      // to Supabase and a refresh walks straight past this check.
+      await client.auth.signOut().catch(() => {});
+      if (typeof window !== 'undefined') {
+        window.localStorage.removeItem(STORAGE_KEYS.AUTH_USER);
       }
-    } catch {
-      /* cosmetic only */
+      throw new Error(
+        `${authUser.email ?? 'That account'} cannot be used here. ` +
+          allowedDomainMessage(allowedDomains)
+      );
     }
+
+    const user = await hydrateSessionUser(authUser);
+
+    clearAuthRedirectParams();
 
     return user;
   },

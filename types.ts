@@ -63,6 +63,13 @@ export interface SampleAnswer {
   answer: string;
   mark: number;
   source: 'AI' | 'USER' | 'HSC_EXEMPLAR';
+  /**
+   * True when an `AI` sample is a rewrite of a student's OWN response — the
+   * improved answer from marking, rather than an exemplar written from scratch.
+   * It reads differently and should be trusted differently (it inherits the
+   * student's structure and voice), so the library labels it as its own thing.
+   */
+  derivedFromStudent?: boolean;
   feedback?: string;
   quickTip?: string;
   contentFlag?: ContentFlag;
@@ -103,6 +110,17 @@ export interface DotPoint {
   id: string;
   description: string;
   prompts: Prompt[];
+  /**
+   * The focus areas (the "including …" list) a teacher has set by hand.
+   *
+   * Absent means "derive them from the description" — the usual case, handled
+   * by `parseSubItemsFromDescription`. That parser is a heuristic over prose a
+   * syllabus author never wrote for it, so it sometimes splits a clause in the
+   * wrong place or misses a list entirely. Once this is set it WINS, including
+   * when set to an empty array, which is how a teacher says "this dot point has
+   * no focus areas" and silences a bad parse.
+   */
+  focusAreas?: string[];
 }
 
 export interface SubTopic {

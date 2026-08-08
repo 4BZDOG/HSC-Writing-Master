@@ -224,7 +224,25 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      sourcemap: true,
+      // Production ships NO source maps by default.
+      //
+      // 'hidden' is not the fix it looks like. It drops the
+      // //# sourceMappingURL comment, so devtools stops fetching the map on
+      // its own — but it still WRITES dist/assets/*.js.map, and both deploy
+      // paths publish dist/ wholesale. The map sits next to its bundle at a
+      // name derived from the bundle's own filename, so
+      // `curl https://<site>/assets/prompts-<hash>.js.map` returns 200 and
+      // ~8.8 MB of `sourcesContent` — the original commented TypeScript,
+      // reconstructible in full. Hiding the pointer never stopped the file
+      // being served.
+      //
+      // Nothing consumes these today: no workflow uploads them to Sentry or
+      // anywhere else, so the only thing they did was publish the source. Set
+      // BUILD_SOURCEMAPS=true to emit them again for an error-tracker upload —
+      // and if you do, delete dist/assets/*.map after the upload and before the
+      // deploy, or this comes straight back.
+      sourcemap:
+        mode === 'production' ? (process.env.BUILD_SOURCEMAPS === 'true' ? 'hidden' : false) : true,
       minify: 'esbuild',
       rollupOptions: {
         output: {

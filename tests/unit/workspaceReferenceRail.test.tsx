@@ -192,7 +192,7 @@ describe('SampleAnswersAccordion', () => {
       />
     );
     expect(screen.getByRole('button', { name: /Generate/i })).toBeTruthy();
-    expect(screen.getByTitle(/Recalibrate all samples/i)).toBeTruthy();
+    expect(screen.getByTitle(/Recalibrate samples with AI/i)).toBeTruthy();
   });
 
   it('can be asked to start open', () => {
