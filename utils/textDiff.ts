@@ -226,6 +226,28 @@ export const summariseDiff = (segments: DiffSegment[]): DiffStats => {
 };
 
 /**
+ * Groups the diff into CHANGES — a deletion and the insertion that replaced it
+ * count as one, because that is how a reader sees them.
+ *
+ * Returns the index in `segments` of each change's first segment, so the UI can
+ * step a student through "change 3 of 11" in a long answer instead of leaving
+ * them to hunt for the coloured runs.
+ */
+export const changeAnchors = (segments: DiffSegment[]): number[] => {
+  const anchors: number[] = [];
+  let inChange = false;
+  segments.forEach((segment, index) => {
+    if (segment.op === 'equal') {
+      inChange = false;
+      return;
+    }
+    if (!inChange) anchors.push(index);
+    inChange = true;
+  });
+  return anchors;
+};
+
+/**
  * One side of the side-by-side view: the ops that belong to that column, with
  * each `equal` run resolved to the wording that side actually used. Joining the
  * values reproduces that side's text exactly.

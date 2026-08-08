@@ -380,6 +380,17 @@ ${buildUpgradeStyleRules(answer, revisionCeiling)}
     }
   }
 
+  // The rewrite is free prose inside a JSON field, so it arrives with the same
+  // announcements and fences the standalone upgrade does — and here they would
+  // be saved into the question's library as an exemplar. Normalised through the
+  // same cleaner so both paths produce the same kind of text. A redacted
+  // (free-tier) rewrite is empty and passes through untouched.
+  if (typeof data.revisedAnswer === 'string') {
+    data.revisedAnswer = cleanFreeTextAnswer(data.revisedAnswer);
+  } else if (data.revisedAnswer) {
+    data.revisedAnswer.text = cleanFreeTextAnswer(data.revisedAnswer.text);
+  }
+
   // Single source of truth for the band: derive it deterministically from the
   // (reconciled) mark and the question's cognitive tier rather than trusting the
   // model's free choice. This guarantees the band can never exceed the tier
@@ -462,7 +473,16 @@ export const improveAnswer = async (
     },
   };
   const response = await generateContentWithRetry(request);
-  return { text: response.text || '', mark: targetMark, band: targetBand };
+  const text = cleanFreeTextAnswer(response.text || '');
+  // An empty rewrite is a failed call, not a result. Returning it saved a blank
+  // exemplar into the question's library (where it could evict a real one) and
+  // opened a review of nothing.
+  if (!text) {
+    throw new Error(
+      'The improvement came back empty. This sometimes happens under heavy load — please try again.'
+    );
+  }
+  return { text, mark: targetMark, band: targetBand };
 };
 
 /**
@@ -767,6 +787,41 @@ const getUpgradeCharCeiling = (studentAnswer: string, scopeMaxChars: number): nu
   const studentChars = studentAnswer.trim().length;
   const relative = Math.max(Math.round(studentChars * 1.3), studentChars + 200);
   return Math.max(80, Math.min(scopeMaxChars, relative));
+};
+
+/**
+ * Tidies a free-text answer the model returned outside a JSON schema.
+ *
+ * "Return only the improved answer text" is an instruction, not a guarantee: a
+ * rewrite regularly arrives wrapped in a code fence, or opened with "Here is the
+ * improved answer:", or with the target mark restated as a heading. Left in, all
+ * of that lands in the student's draft when they press "use this version" — and
+ * every word of it reads as an addition in the diff, drowning the change that
+ * actually earned the mark.
+ *
+ * Deliberately conservative: it removes wrappers and a leading announcement, and
+ * never touches the answer's own prose.
+ */
+const cleanFreeTextAnswer = (raw: string): string => {
+  let text = raw.trim();
+  if (!text) return '';
+
+  // A fenced block around the whole response.
+  const fenced = text.match(/^```[a-z]*\s*\n([\s\S]*?)\n?```$/i);
+  if (fenced) text = fenced[1].trim();
+
+  // A single leading announcement line ("Improved answer:", "Here is the
+  // rewritten response:"). Anchored, colon-terminated and short, so a real
+  // opening sentence that happens to contain a colon survives.
+  text = text.replace(
+    /^(?:\*\*)?(?:here(?:'s| is) )?(?:the )?(?:improved|revised|rewritten|upgraded)[^\n:]{0,40}:(?:\*\*)?[ \t]*\n+/i,
+    ''
+  );
+
+  // A restated mark heading on its own line ("**5/8**", "5/8 marks").
+  text = text.replace(/^(?:\*\*)?\d+\s*\/\s*\d+(?:\s*marks?)?(?:\*\*)?[ \t]*\n+/i, '');
+
+  return text.trim();
 };
 
 /**

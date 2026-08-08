@@ -7,7 +7,13 @@ import EvaluationResultModal from './EvaluationResultModal';
 import ImprovementReviewModal from './ImprovementReviewModal';
 import EvaluationProgressBar from './EvaluationProgressBar';
 import { Loader2, AlertTriangle, Sparkles } from 'lucide-react';
-import { getCommandTermInfo, getTargetBand, BAND_METRICS } from '../data/commandTerms';
+import {
+  getCommandTermInfo,
+  getTargetBand,
+  getNextLevelTarget,
+  getBandForMark,
+  BAND_METRICS,
+} from '../data/commandTerms';
 import { textContainsKeyword } from '../utils/renderUtils';
 import { useWritingMetrics } from '../hooks/useWritingMetrics';
 import { freeEvalsRemaining, subscribeEvalCount } from '../services/entitlements';
@@ -173,6 +179,49 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     };
     syllabusHandlers.handleSampleAnswerGenerated(statePath, newSample);
   };
+
+  /**
+   * What the diff review compares, from whichever source produced a rewrite.
+   *
+   * Two paths produce one: pressing "Improve my answer" (which returns its own
+   * target mark and band), and ordinary marking — `evaluateAnswer` is briefed
+   * to return the student's answer lifted one mark, and that arrives inside the
+   * evaluation result. Only the first used to be reviewable, which meant the
+   * comparison was missing from the path almost every student actually takes.
+   * The marking rewrite carries no target of its own, so it is derived the same
+   * way the model was briefed: one mark up, via the Verb Gate.
+   */
+  const reviewSubject = useMemo(() => {
+    if (geminiHandlers.improvement) return geminiHandlers.improvement;
+    if (!evaluationResult?.revisedAnswer) return null;
+
+    const raw = evaluationResult.revisedAnswer;
+    const text = typeof raw === 'string' ? raw : (raw.text ?? '');
+    if (!text.trim()) return null;
+
+    const next = getNextLevelTarget(
+      evaluationResult.overallMark,
+      currentPrompt.totalMarks,
+      commandTermInfo.tier
+    );
+    const mark = typeof raw === 'object' && raw.mark ? raw.mark : next.targetMark;
+    return {
+      text,
+      mark,
+      band:
+        typeof raw === 'object' && raw.band
+          ? raw.band
+          : getBandForMark(mark, currentPrompt.totalMarks, commandTermInfo.tier),
+      originalAnswer: evaluatedAnswer,
+      originalMark: evaluationResult.overallMark,
+    };
+  }, [
+    geminiHandlers.improvement,
+    evaluationResult,
+    evaluatedAnswer,
+    currentPrompt.totalMarks,
+    commandTermInfo.tier,
+  ]);
 
   const hierarchyContext: HierarchyContext = useMemo(
     () => ({
@@ -394,9 +443,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             geminiHandlers.improveAnswer(evaluatedAnswer, currentPrompt, evaluationResult)
           }
           onCompareImprovement={
-            geminiHandlers.improvement
-              ? () => geminiHandlers.setShowImprovementReview(true)
-              : undefined
+            reviewSubject ? () => geminiHandlers.setShowImprovementReview(true) : undefined
           }
           isImproving={isImproving}
           improveAnswerError={improveAnswerError}
@@ -408,16 +455,16 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
 
       {/* The diff review. Stacks above the feedback modal it is opened from —
           the student compares, then returns to the rest of their marking. */}
-      {geminiHandlers.improvement && (
+      {reviewSubject && (
         <ImprovementReviewModal
           isOpen={!!geminiHandlers.showImprovementReview}
           onClose={() => geminiHandlers.setShowImprovementReview(false)}
-          improvedAnswer={geminiHandlers.improvement.text}
-          originalAnswer={geminiHandlers.improvement.originalAnswer}
+          improvedAnswer={reviewSubject.text}
+          originalAnswer={reviewSubject.originalAnswer}
           originalPrompt={currentPrompt}
-          targetBand={geminiHandlers.improvement.band}
-          targetMark={geminiHandlers.improvement.mark}
-          originalMark={geminiHandlers.improvement.originalMark}
+          targetBand={reviewSubject.band}
+          targetMark={reviewSubject.mark}
+          originalMark={reviewSubject.originalMark}
           onApply={setUserAnswer}
         />
       )}

@@ -1,5 +1,62 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-08-08 (hardening the improvement review)
+
+### 🐛 The comparison was missing from the path students actually take
+
+Two things produce a rewrite: pressing "Improve my answer", and ordinary
+marking — `evaluateAnswer` is briefed to return the student's answer lifted one
+mark, and that arrives inside the evaluation result. Only the first could open
+the diff, so the student who simply submitted an answer and read their feedback
+never saw the comparison at all. The marking rewrite carries no target of its
+own, so it is derived the way the model was briefed: one mark up, through the
+Verb Gate.
+
+### 🐛 Escape closed two dialogs at once
+
+Every dismissible overlay listens on `window`, so they share a target and
+`stopPropagation` cannot arbitrate between them — one press closed the
+improvement diff **and** the feedback modal underneath it. `useEscapeKey` now
+keeps a stack and only the topmost surface responds. A dialog that has detached
+its handler mid-operation (so Escape cannot abandon an in-flight AI call)
+correctly lets the press fall through to the surface beneath.
+
+### 🛡️ The rewrite is cleaned before anyone sees it
+
+"Return only the improved answer text" is an instruction, not a guarantee.
+
+- A rewrite wrapped in a **code fence**, opened with **"Here is the improved
+  answer:"**, or headed with a **restated mark** is stripped back to the answer.
+  Left in, all of it landed in the student's draft on "use this version", and
+  every word of it read as an addition in the diff, drowning the change that
+  actually earned the mark. Deliberately conservative — an opening sentence that
+  happens to contain a colon survives.
+- An **empty rewrite is a failed call**, not a result. It used to be saved into
+  the question's library as a blank exemplar (where it could evict a real one)
+  and opened a review of nothing; it now surfaces as an error like any other AI
+  failure.
+- The marking rewrite goes through the same cleaner, since it is saved as an
+  exemplar too. A withheld (free-tier) rewrite stays empty rather than being
+  invented.
+- The diff strips **markdown** as well as tags, so a model that returns
+  `**cache hit ratio**` no longer reports a term the student already used as an
+  addition.
+
+### ✨ Reading a long comparison
+
+- **Step through the changes** — "3 of 11", forward and back, wrapping at each
+  end, with the focused change ringed (a ring, not a different colour, so
+  "where am I" never competes with "what kind of change is this"). A deletion
+  and the insertion replacing it count as **one** change, because that is how a
+  reader sees them. The scroll is guarded: no `scrollIntoView`, or a reduced-
+  motion preference, must never turn the button into a thrown error.
+- **"No changes" is stated, not implied.** An identical rewrite says so, drops
+  the mark-uplift claim from the header ("Your answer, unchanged"), and hides
+  "Use this version" — a button that silently does nothing is worse than no
+  button.
+- The dialog is announced as one: `role="dialog"`, `aria-modal`, and a label
+  pointing at its own heading.
+
 ## [Unreleased] - 2026-08-08 (the improvement review)
 
 ### ✨ "Your answer, improved" — as a marked-up diff

@@ -106,6 +106,60 @@ describe('ImprovementReviewModal', () => {
     expect(screen.getByText('13 words')).toBeTruthy();
   });
 
+  it('says plainly when the marker changed nothing', () => {
+    renderModal({ improvedAnswer: ORIGINAL });
+
+    expect(screen.getByText(/No changes — this is already your answer/)).toBeTruthy();
+    expect(screen.queryAllByTitle('Added by the marker')).toHaveLength(0);
+    // With no changes there is nothing to step through…
+    expect(screen.queryByLabelText('Next change')).toBeNull();
+    // …nothing to apply…
+    expect(screen.queryByText('Use this version')).toBeNull();
+    // …and no extra mark to claim.
+    expect(screen.getByText('Your answer, unchanged')).toBeTruthy();
+    expect(screen.queryByText(/\+1 mark/)).toBeNull();
+  });
+
+  it('treats a punctuation-only rewrite as no change', () => {
+    renderModal({ improvedAnswer: `${ORIGINAL.replace(/\.$/, '')}!` });
+
+    expect(screen.getByText(/No changes — this is already your answer/)).toBeTruthy();
+  });
+
+  it('ignores markdown the model wrapped around its wording', () => {
+    // "**faster**" is the student's own word in bold, not an addition.
+    renderModal({
+      originalAnswer: 'Caching stores data. It makes the system faster.',
+      improvedAnswer: 'Caching stores data. It makes the system **faster**.',
+    });
+
+    expect(screen.getByText(/No changes — this is already your answer/)).toBeTruthy();
+  });
+
+  it('steps through the changes in a long revision', () => {
+    renderModal({
+      originalAnswer: 'one two three four five six seven eight',
+      improvedAnswer: 'one alpha three four beta six seven gamma',
+    });
+
+    // Three separated edits, counted as three — not as six insert/delete runs.
+    expect(screen.getByText('1/3')).toBeTruthy();
+    fireEvent.click(screen.getByLabelText('Next change'));
+    expect(screen.getByText('2/3')).toBeTruthy();
+    // The counter wraps rather than dead-ending.
+    fireEvent.click(screen.getByLabelText('Previous change'));
+    fireEvent.click(screen.getByLabelText('Previous change'));
+    expect(screen.getByText('3/3')).toBeTruthy();
+  });
+
+  it('is announced as a dialog', () => {
+    renderModal();
+
+    const dialog = screen.getByRole('dialog');
+    expect(dialog.getAttribute('aria-modal')).toBe('true');
+    expect(dialog.getAttribute('aria-labelledby')).toBeTruthy();
+  });
+
   it('falls back to the plain revision when there is no original to compare', () => {
     renderModal({ originalAnswer: null });
 

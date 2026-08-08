@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
+  changeAnchors,
   diffWords,
   summariseDiff,
   segmentsForSide,
@@ -124,5 +125,31 @@ describe('summariseDiff', () => {
 describe('tokenizeWords', () => {
   it('carries trailing whitespace so joining is lossless', () => {
     expect(tokenizeWords('one  two\nthree').join('')).toBe('one  two\nthree');
+  });
+});
+
+describe('changeAnchors', () => {
+  it('counts a replacement as one change, not two', () => {
+    // "b" cut, "x" added in its place — a reader sees one edit.
+    const segments = diffWords('a b c', 'a x c');
+    expect(changeAnchors(segments)).toHaveLength(1);
+  });
+
+  it('counts separated edits individually', () => {
+    const segments = diffWords('a b c d e', 'a X c d Y');
+    expect(changeAnchors(segments)).toHaveLength(2);
+  });
+
+  it('is empty when nothing changed', () => {
+    expect(changeAnchors(diffWords('a b c', 'a b c'))).toEqual([]);
+    // Punctuation-only differences are not changes either.
+    expect(changeAnchors(diffWords('a b c', 'A b c.'))).toEqual([]);
+  });
+
+  it('points at a segment that is actually a change', () => {
+    const segments = diffWords('one two three', 'one four three');
+    for (const index of changeAnchors(segments)) {
+      expect(segments[index].op).not.toBe('equal');
+    }
   });
 });
