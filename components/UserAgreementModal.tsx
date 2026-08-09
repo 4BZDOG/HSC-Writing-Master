@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { ChevronDown, ChevronUp, History, LogOut, ArrowRight, ScrollText } from 'lucide-react';
 import type { User } from '../types';
 import { CHARTER_ICONS } from './agreementIcons';
@@ -57,35 +58,10 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
 
   const [agreed, setAgreed] = useState(false);
   const [showDocuments, setShowDocuments] = useState(false);
-  const dialogRef = useRef<HTMLDivElement>(null);
-
-  // Move focus into the dialog on open. Without this, a keyboard or screen
-  // reader user lands at the top of the document and has to tab through
-  // whatever the browser considers first — on a gate that is the whole point
-  // of the screen, that is the difference between usable and not.
-  useEffect(() => {
-    dialogRef.current?.focus();
-  }, []);
-
-  // Keep Tab inside the dialog. The workspace is not rendered while blocking,
-  // but the guest notice sits over a live app, and tabbing behind a modal into
-  // controls you cannot see is disorienting either way.
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key !== 'Tab') return;
-    const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
-      'button:not([disabled]), input:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
-    );
-    if (!focusable || focusable.length === 0) return;
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    if (e.shiftKey && document.activeElement === first) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault();
-      first.focus();
-    }
-  };
+  // Focus containment now comes from the shared hook, which every other dialog
+  // uses too. The trap written here first was missing `textarea` and `select`
+  // from its focusable list and never handed focus back on close.
+  const dialogRef = useFocusTrap<HTMLDivElement>(true);
 
   const heading =
     reason === 'updated'
@@ -124,7 +100,6 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
       <div
         ref={dialogRef}
         tabIndex={-1}
-        onKeyDown={handleKeyDown}
         className="clip-stable w-full max-w-2xl rounded-[32px] bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-200 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.75)] overflow-hidden animate-fade-in-up flex flex-col max-h-[92vh] outline-none"
       >
         {/* Header */}

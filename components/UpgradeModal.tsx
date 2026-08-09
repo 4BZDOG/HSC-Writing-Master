@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import {
   Crown,
   Lock,
@@ -195,6 +196,10 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
     setIsRedirecting(false);
   }, []);
   useEscapeKey(!!feature, close);
+  // Tab stays inside the dialog while it is open, and focus returns to
+  // whatever opened it on close. Partners `useEscapeKey` — same stack,
+  // same topmost-only arbitration.
+  const dialogRef = useFocusTrap<HTMLDivElement>(!!feature);
   useScrollLock(!!feature);
 
   const handleUpgrade = async () => {
@@ -248,6 +253,8 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
 
   return createPortal(
     <div
+      ref={dialogRef}
+      tabIndex={-1}
       className="fixed inset-0 z-[900] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
       onClick={(e) => {
         if (e.target === e.currentTarget) close();

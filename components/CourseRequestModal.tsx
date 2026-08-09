@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { Compass, X, Check, Loader2, Users } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -34,6 +35,10 @@ const CourseRequestModal: React.FC<CourseRequestModalProps> = ({
   showToast,
 }) => {
   useEscapeKey(isOpen, onClose);
+  // Tab stays inside the dialog while it is open, and focus returns to
+  // whatever opened it on close. Partners `useEscapeKey` — same stack,
+  // same topmost-only arbitration.
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
 
   const [name, setName] = useState(initialName);
@@ -88,6 +93,8 @@ const CourseRequestModal: React.FC<CourseRequestModalProps> = ({
 
   return (
     <div
+      ref={dialogRef}
+      tabIndex={-1}
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
       onClick={onClose}
       role="dialog"
