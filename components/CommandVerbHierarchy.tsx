@@ -188,7 +188,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
             </div>
           )}
           <div
-            className={`w-7 h-7 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center border border-white/10 transition-transform duration-500 ${isOpen ? 'rotate-180 bg-black/20 dark:bg-white/20' : ''}`}
+            className={`w-7 h-7 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center border border-slate-900/10 dark:border-white/10 transition-transform duration-500 ${isOpen ? 'rotate-180 bg-black/20 dark:bg-white/20' : ''}`}
           >
             <ChevronDown className="w-3.5 h-3.5" />
           </div>

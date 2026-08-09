@@ -598,7 +598,7 @@ const Editor = forwardRef<
                     </div>
                   ) : (
                     <div className={CARD_HEADER_META_ROW}>
-                      <span className="text-[9px] leading-none bg-white/20 px-2 py-1 rounded-md border border-white/15 font-black uppercase tracking-widest shadow-sm backdrop-blur-sm">
+                      <span className="text-[9px] leading-none whitespace-nowrap bg-white/20 px-2 py-1 rounded-md border border-white/15 font-black uppercase tracking-widest shadow-sm backdrop-blur-sm">
                         Band {chroma.targetBand}
                       </span>
                       <div className="h-1 w-16 bg-white/20 rounded-full overflow-hidden">
