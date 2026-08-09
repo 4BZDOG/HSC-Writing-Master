@@ -256,72 +256,93 @@ export const getBandHex = (band: number): string => BAND_HEX[clampBand(band)];
 export const getBandHexDark = (band: number): string => BAND_HEX_DARK[clampBand(band)];
 export const getBandName = (band: number): string => BAND_NAMES[clampBand(band)];
 
+/**
+ * The class bundle a band is drawn in, in both themes.
+ *
+ * A NOTE ON THE LIGHT TINTS, because the obvious value is the wrong one.
+ * `bg` and `iconBg` are alpha washes in dark mode (`/10`, `/20`) — a 10% purple
+ * over a near-black surface is plainly purple. The light theme cannot mirror
+ * that with the matching `-50` shade: `purple-50` is #faf5ff and every panel in
+ * the app is white, so a `-50` wash is a ~2% difference and simply is not
+ * there. Marking-guide levels, band descriptors and exemplar rows all showed
+ * their coloured BORDER and nothing else, and the band ladder — the thing those
+ * tints exist to communicate — only worked in dark mode.
+ *
+ * So the light steps are one stop deeper than the dark ones look: `-100` for
+ * the surface wash and `-200` for an icon tile sitting on top of it, which
+ * keeps the two-level relationship the dark `/10` → `/20` pair has. The `text`
+ * entries are `-900`, so contrast on either is far past AA.
+ *
+ * `print:` stays at `-50`/`-100`: paper is white too, but a printed tint is
+ * ink, and the printed report leans on the border and the band NUMBER rather
+ * than on fill.
+ */
 export const getBandConfig = (bandOrTier: number): BandConfig => {
   const configs: Record<number, BandConfig> = {
     6: {
-      bg: 'bg-purple-500/10 light:bg-purple-50 print:bg-purple-50',
+      bg: 'bg-purple-500/10 light:bg-purple-100 print:bg-purple-50',
       solidBg: 'bg-purple-600 light:bg-purple-700',
       border: 'border-purple-500/50 light:border-purple-600 print:border-purple-200',
       text: 'text-purple-400 light:text-purple-900 print:text-purple-800',
       solidText: 'text-white print:text-white',
       gradient: 'from-purple-500 to-purple-400 light:from-purple-700 light:to-purple-600',
       glow: 'shadow-purple-500/25 light:shadow-purple-500/20',
-      iconBg: 'bg-purple-500/20 light:bg-purple-100 print:bg-purple-100',
+      iconBg: 'bg-purple-500/20 light:bg-purple-200 print:bg-purple-100',
       ring: 'ring-purple-500/30 light:ring-purple-600/30',
     },
     5: {
-      bg: 'bg-blue-500/10 light:bg-blue-50 print:bg-blue-50',
+      bg: 'bg-blue-500/10 light:bg-blue-100 print:bg-blue-50',
       solidBg: 'bg-blue-600 light:bg-blue-700',
       border: 'border-blue-500/50 light:border-blue-600 print:border-blue-200',
       text: 'text-blue-400 light:text-blue-900 print:text-blue-800',
       solidText: 'text-white print:text-white',
       gradient: 'from-blue-500 to-blue-400 light:from-blue-700 light:to-blue-600',
       glow: 'shadow-blue-500/25 light:shadow-blue-500/20',
-      iconBg: 'bg-blue-500/20 light:bg-blue-100 print:bg-blue-100',
+      iconBg: 'bg-blue-500/20 light:bg-blue-200 print:bg-blue-100',
       ring: 'ring-blue-500/30 light:ring-blue-600/30',
     },
     4: {
-      bg: 'bg-green-500/10 light:bg-green-50 print:bg-green-50',
+      bg: 'bg-green-500/10 light:bg-green-100 print:bg-green-50',
       solidBg: 'bg-green-600 light:bg-green-700',
       border: 'border-green-500/50 light:border-green-600 print:border-green-200',
       text: 'text-green-400 light:text-green-900 print:text-green-800',
       solidText: 'text-white print:text-white',
       gradient: 'from-green-500 to-green-400 light:from-green-700 light:to-green-600',
       glow: 'shadow-green-500/25 light:shadow-green-500/20',
-      iconBg: 'bg-green-500/20 light:bg-green-100 print:bg-green-100',
+      iconBg: 'bg-green-500/20 light:bg-green-200 print:bg-green-100',
       ring: 'ring-green-500/30 light:ring-green-600/30',
     },
     3: {
-      bg: 'bg-yellow-500/10 light:bg-amber-50 print:bg-yellow-50',
+      bg: 'bg-yellow-500/10 light:bg-amber-100 print:bg-yellow-50',
       solidBg: 'bg-yellow-500 light:bg-amber-500',
       border: 'border-yellow-500/50 light:border-amber-600 print:border-yellow-200',
       text: 'text-yellow-400 light:text-amber-900 print:text-yellow-800',
       solidText: 'text-yellow-900 print:text-yellow-900',
       gradient: 'from-yellow-500 to-yellow-400 light:from-amber-500 light:to-amber-400',
       glow: 'shadow-yellow-500/25 light:shadow-amber-500/20',
-      iconBg: 'bg-yellow-500/20 light:bg-amber-100 print:bg-yellow-100',
+      iconBg: 'bg-yellow-500/20 light:bg-amber-200 print:bg-yellow-100',
       ring: 'ring-yellow-500/30 light:ring-amber-500/30',
     },
     2: {
-      bg: 'bg-orange-500/10 light:bg-orange-50 print:bg-orange-50',
+      bg: 'bg-orange-500/10 light:bg-orange-100 print:bg-orange-50',
       solidBg: 'bg-orange-600 light:bg-orange-600',
       border: 'border-orange-500/50 light:border-orange-600 print:border-orange-200',
       text: 'text-orange-400 light:text-orange-900 print:text-orange-800',
       solidText: 'text-white print:text-white',
       gradient: 'from-orange-500 to-orange-400 light:from-orange-600 light:to-orange-500',
       glow: 'shadow-orange-500/25 light:shadow-orange-500/20',
-      iconBg: 'bg-orange-500/20 light:bg-orange-100 print:bg-orange-100',
+      iconBg: 'bg-orange-500/20 light:bg-orange-200 print:bg-orange-100',
       ring: 'ring-orange-500/30 light:ring-orange-600/30',
     },
     1: {
-      bg: 'bg-red-500/10 light:bg-red-50 print:bg-red-50',
+      bg: 'bg-red-500/10 light:bg-red-100 print:bg-red-50',
       solidBg: 'bg-red-600 light:bg-red-600',
       border: 'border-red-500/50 light:border-red-600 print:border-red-200',
       text: 'text-red-400 light:text-red-900 print:text-red-800',
       solidText: 'text-white print:text-white',
       gradient: 'from-red-500 to-red-400 light:from-red-600 light:to-red-500',
       glow: 'shadow-red-500/25 light:shadow-red-500/20',
-      iconBg: 'bg-red-500/20 light:bg-red-100 print:bg-red-100',
+      iconBg: 'bg-red-500/20 light:bg-red-200 print:bg-red-100',
       ring: 'ring-red-500/30 light:ring-red-600/30',
     },
   };

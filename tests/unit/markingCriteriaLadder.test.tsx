@@ -132,28 +132,24 @@ describe('the accordion renders a row per mark level', () => {
   });
 
   /**
-   * The ladder has to READ as a ladder in both themes. It used to carry its
-   * band identity in a tinted wash plus a half-opacity border — full strength
-   * over light mode's near-white panel, and all but invisible against the dark
-   * surface, where the guide became a stack of grey rows. A solid fill in the
-   * band's own colour cannot fade into either surface.
+   * The ladder has to READ as a ladder in both themes, and it paints itself
+   * entirely from `getBandConfig` — so a level's row carries the band's fill in
+   * both, not just its border. See `bandColors.test.ts` for the light-tint
+   * regression that made this worth pinning.
    */
-  it('gives every level a solid band-coloured mark column', () => {
+  it('paints every level with its own band fill, not just a border', () => {
     const { container } = renderCriteria(
       '8 marks: Comprehensive analysis.\\n6-7 marks: Thorough analysis.\\n1-2 marks: Elementary.'
     );
 
-    const solid = container.querySelectorAll(
-      '[class*="bg-"][class*="-600"], [class*="bg-yellow-500"]'
-    );
-    expect(solid.length).toBeGreaterThanOrEqual(3);
-    // The band each level maps to is named, not merely implied by a hue.
-    expect(screen.getAllByText(/^Band \d$/).length).toBeGreaterThanOrEqual(3);
-  });
-
-  it('does not repeat the band under a mark column that already names it', () => {
-    renderCriteria('Band 4: Sound description of the mechanism.');
-
-    expect(screen.getAllByText(/^Band 4$/)).toHaveLength(1);
+    const rows = Array.from(container.querySelectorAll('div.items-stretch'));
+    expect(rows).toHaveLength(3);
+    for (const row of rows) {
+      // A dark wash AND a light one — a row with only the dark class is the
+      // state that made the guide colourless in light mode.
+      expect(row.className).toMatch(/bg-\w+-500\/10/);
+      expect(row.className).toMatch(/light:bg-\w+-100/);
+      expect(row.className).toMatch(/border-\w+-500\/50/);
+    }
   });
 });
