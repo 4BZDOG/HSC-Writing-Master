@@ -135,48 +135,60 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
       {/* Top divider */}
       <div className={dividerClass} />
 
-      {/* Header Button */}
+      {/* Header Button.
+
+          The height is LOCKED, and it takes both halves of that to hold.
+          `min-h` stops it shrinking; the `whitespace-nowrap` / `truncate`
+          below stop it growing. Without them the header was a different height
+          for a handful of verbs: the terms run from three characters to
+          thirteen (DIFFERENTIATE), a long one widened the "Selected" chip, the
+          wider chip squeezed the title beside it, and the title wrapped to a
+          second line. Nothing about the ribbon's chrome should move when the
+          question changes — it is the one element on the page meant to sit
+          still and be a reference. */}
       <button
         onClick={toggleOpen}
         aria-expanded={isOpen}
         aria-label={`${isOpen ? 'Collapse' : 'Expand'} the HSC command verb hierarchy reference`}
         className={`
-            w-full px-0 py-3 sm:py-3.5 flex items-center justify-between gap-3 relative z-10 overflow-hidden transition-all duration-500 group/header rounded-xl
+            w-full px-0 py-3 sm:py-3.5 min-h-[60px] sm:min-h-[64px] flex items-center justify-between gap-3 relative z-10 overflow-hidden transition-all duration-500 group/header rounded-xl
             ${headerGradientClass} ${headerTextClass}
             ${isOpen ? '' : 'hover:brightness-105'}
         `}
       >
         <MeshOverlay opacity="opacity-10" />
 
-        <div className="flex items-center gap-3 relative z-10 px-4 sm:px-5">
+        <div className="flex items-center gap-3 relative z-10 px-4 sm:px-5 min-w-0">
           <div
-            className={`w-9 h-9 rounded-xl flex items-center justify-center border shadow-md group-hover/header:scale-110 transition-transform ${headerIconBg}`}
+            className={`w-9 h-9 shrink-0 rounded-xl flex items-center justify-center border shadow-md group-hover/header:scale-110 transition-transform ${headerIconBg}`}
           >
             <AlignLeft className="w-5 h-5" />
           </div>
-          <div className="text-left">
-            <h3 className="text-sm sm:text-base font-black tracking-tight leading-none">
+          <div className="text-left min-w-0">
+            {/* Truncates rather than wraps: an ellipsis on a title the reader
+                already knows costs nothing, a second line costs the lock. */}
+            <h3 className="text-sm sm:text-base font-black tracking-tight leading-none truncate">
               HSC Command Verb Hierarchy
             </h3>
-            <span className="text-[9px] font-black uppercase tracking-[0.2em] opacity-70">
+            <span className="block truncate text-[9px] font-black uppercase tracking-[0.2em] opacity-70">
               Reference • {sortedVerbsByGroup.length} Bands
             </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-4 relative z-10 px-4 sm:px-5">
+        <div className="flex items-center gap-4 relative z-10 px-4 sm:px-5 shrink-0">
           {activeTermInfo && (
             <div className="hidden sm:flex items-center gap-3 animate-fade-in">
-              <span className="text-[10px] font-black opacity-60 uppercase tracking-widest">
+              <span className="text-[10px] font-black opacity-60 uppercase tracking-widest whitespace-nowrap">
                 Selected:
               </span>
-              <div className="px-2.5 py-0.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-white/20 border border-white/30 backdrop-blur-md shadow-sm">
+              <div className="px-2.5 py-0.5 rounded-lg text-[10px] font-black uppercase tracking-widest whitespace-nowrap bg-white/20 border border-white/30 backdrop-blur-md shadow-sm">
                 {activeTermInfo.term}
               </div>
             </div>
           )}
           <div
-            className={`w-7 h-7 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center border border-white/10 transition-transform duration-500 ${isOpen ? 'rotate-180 bg-black/20 dark:bg-white/20' : ''}`}
+            className={`w-7 h-7 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center border border-slate-900/10 dark:border-white/10 transition-transform duration-500 ${isOpen ? 'rotate-180 bg-black/20 dark:bg-white/20' : ''}`}
           >
             <ChevronDown className="w-3.5 h-3.5" />
           </div>
@@ -299,7 +311,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                 let cardStyle = 'scale-100 opacity-100'; // Default
                 if (activeTermInfo) {
                   if (isCurrentTier) {
-                    cardStyle = `scale-110 z-20 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)] opacity-100 ring-4 ring-white/10 dark:ring-white/5 ${transformOrigin}`;
+                    cardStyle = `scale-110 z-20 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)] opacity-100 ring-4 ring-slate-900/10 dark:ring-white/5 ${transformOrigin}`;
                   } else {
                     // Added colored border specific to the tier for visual cue
                     cardStyle = `scale-90 opacity-50 light:opacity-70 hover:opacity-100 hover:scale-95 border-2 ${tierConfig.border} z-0 ${transformOrigin}`;
@@ -440,11 +452,14 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
           {/* Progress Bar Track */}
           <div className="relative h-2 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden mb-4">
             {/* Background Ticks for visual measurement */}
+            {/* Measurement ticks. White-on-white in light mode meant the
+                track had no gradations at all there, so the same bar read as a
+                measured scale in dark and a plain pill in light. */}
             <div className="absolute inset-0 flex justify-between px-[16%]">
-              <div className="w-px h-full bg-white/20" />
-              <div className="w-px h-full bg-white/20" />
-              <div className="w-px h-full bg-white/20" />
-              <div className="w-px h-full bg-white/20" />
+              <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
+              <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
+              <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
+              <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
             </div>
 
             <div
@@ -464,7 +479,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                   {/* Visual Cut-off / Threshold Marker between Tier 3 (Apply) and Tier 4 (Analyse) */}
                   {idx === 3 && (
                     <div className="absolute left-1/2 -translate-x-1/2 -top-8 bottom-0 w-px border-r-2 border-dashed border-slate-300/30 dark:border-white/10 z-0 flex flex-col items-center justify-start pointer-events-none">
-                      <div className="hidden sm:block bg-[rgb(var(--color-bg-surface))] text-[8px] font-black uppercase tracking-widest text-slate-400 px-2 py-0.5 rounded-full border border-slate-200/20 shadow-sm whitespace-nowrap mb-2 transform -translate-y-1/2">
+                      <div className="hidden sm:block bg-[rgb(var(--color-bg-surface))] text-[8px] font-black uppercase tracking-widest text-slate-400 px-2 py-0.5 rounded-full border border-slate-300 dark:border-white/10 shadow-sm whitespace-nowrap mb-2 transform -translate-y-1/2">
                         Deep Learning Threshold
                       </div>
                     </div>
@@ -482,8 +497,8 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                     <div
                       className={`
                                     w-4 h-4 rounded-full border-2 transition-all duration-500 relative
-                                    ${isActive ? `${stepConfig.solidBg} border-transparent scale-125` : 'bg-slate-300 dark:bg-slate-700 border-white/10'}
-                                    ${isCurrent ? 'ring-4 ring-white/20 scale-150 shadow-lg' : ''}
+                                    ${isActive ? `${stepConfig.solidBg} border-transparent scale-125` : 'bg-slate-300 dark:bg-slate-700 border-slate-400/40 dark:border-white/10'}
+                                    ${isCurrent ? 'ring-4 ring-slate-900/10 dark:ring-white/20 scale-150 shadow-lg' : ''}
                                  `}
                     >
                       {/* Pulsing Animation for Current Step */}

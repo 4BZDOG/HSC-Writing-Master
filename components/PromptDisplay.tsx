@@ -531,7 +531,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       examMode ? undefined : `Open the command verb guide for ${prompt.verb}`
                     }
                     title={examMode ? undefined : `What a ${prompt.verb} question asks for`}
-                    className={`text-[11px] leading-none bg-white/20 px-2.5 py-1 rounded-md border border-white/15 font-black uppercase tracking-widest shadow-sm backdrop-blur-sm transition-all ${
+                    className={`text-[11px] leading-none whitespace-nowrap bg-white/20 px-2.5 py-1 rounded-md border border-white/15 font-black uppercase tracking-widest shadow-sm backdrop-blur-sm transition-all ${
                       examMode ? 'cursor-default' : 'hover:bg-white/30 active:scale-95'
                     }`}
                   >
@@ -929,7 +929,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     <div
                       className={`
                                   hidden sm:block p-2.5 rounded-xl border shadow-sm backdrop-blur-sm transition-all duration-300
-                                  ${bandConfig.bg} border-white/10 group-hover/link:scale-110
+                                  ${bandConfig.bg} ${bandConfig.border} group-hover/link:scale-110
                               `}
                     >
                       <Link2 className={`w-4 h-4 ${bandConfig.text}`} />
@@ -956,7 +956,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     <div
                       className={`
                                   p-2.5 rounded-xl border shadow-sm backdrop-blur-sm transition-all duration-300
-                                  ${bandConfig.bg} border-white/10 group-hover/link:scale-110
+                                  ${bandConfig.bg} ${bandConfig.border} group-hover/link:scale-110
                               `}
                     >
                       <Link2 className={`w-4 h-4 ${bandConfig.text}`} />

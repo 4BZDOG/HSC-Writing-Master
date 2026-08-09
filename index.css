@@ -350,15 +350,29 @@ a:focus-visible,
    corners. An opaque -webkit-mask forces Safari onto a masked compositing
    path where the rounded clip is honoured from the first frame.
 
-   Scoped to Safari via the standard `-webkit-hyphens` feature query. In
-   Chromium the mask buys nothing (its rounded clip is already stable) and
-   costs an extra composited mask layer that is NOT reliably invalidated when
-   the element is resized or re-parented by a layout change — the stale-paint
-   class of bug seen when leaving Focus Mode, where the whole workspace grid
-   re-flows under a screenful of these cards. */
+   THE MASK MUST BE FLAT OPAQUE, and writing it that way takes explicit stops.
+   The usual form of this hack is `-webkit-radial-gradient(white, black)`,
+   which is not opaque at all: it is a vignette. With the default ellipse at
+   `farthest-corner`, alpha runs from 1 at the centre to 0 at the corners — so
+   every one of the ~50 cards carrying this class had its edges faded, and
+   faded WORST at the corners, which is exactly where the gradient reaches
+   black. The visible symptom is a card whose 1px border looks crisp along the
+   straight runs and thins out or disappears around each arc. Pinning both
+   stops at 100% keeps the masked compositing path while painting a mask that
+   is white everywhere.
+
+   In the minified build this comes out as `(circle,#fff 100%,#000 0)`. That is
+   the same mask, not a regression: a stop positioned below a preceding one is
+   clamped up to it, so `#000 0` resolves to `#000 100%`.
+
+   Scoped by the `-webkit-hyphens` feature query, which is aimed at Safari —
+   though Chromium aliases that property too, so treat the query as "Safari and
+   possibly Chromium" rather than a guarantee. Either way the mask is now
+   visually inert, so the blast radius of it matching is a spare composited
+   layer rather than a vignette over the whole UI. */
 @supports (-webkit-hyphens: none) {
   .clip-stable {
-    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
   }
 }
 

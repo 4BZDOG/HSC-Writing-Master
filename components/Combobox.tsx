@@ -340,7 +340,7 @@ const Combobox: React.FC<ComboboxProps> = ({
   }
 
   const listStateStyles = isOpen
-    ? `shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] border-white/10 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white`
+    ? `shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] border-white/10 light:border-slate-300 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white`
     : '';
 
   return (
