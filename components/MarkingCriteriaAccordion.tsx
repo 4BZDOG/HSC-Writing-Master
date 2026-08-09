@@ -314,16 +314,31 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
               parsedCriteria.map((item, idx) => {
                 const itemConfig = getBandConfig(item.band);
                 return (
+                  // The band identity is carried by a SOLID mark column, not by
+                  // a tinted wash and a half-opacity hairline. In light mode
+                  // those two were enough — `border-<hue>-600` at full strength
+                  // over a near-white panel reads clearly. On the dark surface
+                  // the same pair (`bg-<hue>-500/10`, `border-<hue>-500/50`)
+                  // collapsed towards the panel behind it, so a marking guide
+                  // that was a legible ladder in light mode was a stack of grey
+                  // rows in dark. A solid fill and its band name cannot fade
+                  // into any surface, and both themes now say the same thing.
                   <div
                     key={idx}
                     className={`flex items-stretch rounded-xl border ${itemConfig.border} ${itemConfig.bg} overflow-hidden group shadow-sm transition-all`}
                   >
                     <div
-                      className={`w-14 flex flex-col items-center justify-center p-2 border-r ${itemConfig.border} ${itemConfig.bg} flex-shrink-0`}
+                      className={`w-16 flex flex-col items-center justify-center gap-0.5 p-2 ${itemConfig.solidBg} ${itemConfig.solidText} flex-shrink-0 text-center`}
                     >
-                      <span className={`text-lg font-black ${itemConfig.text} leading-none`}>
-                        {item.markLabel}
-                      </span>
+                      <span className="text-lg font-black leading-none">{item.markLabel}</span>
+                      {/* A rubric written in band labels already says "Band 6"
+                          in the mark column — repeating it underneath reads as
+                          a rendering fault. */}
+                      {!/^band/i.test(item.markLabel) && (
+                        <span className="text-[8px] font-black uppercase tracking-widest opacity-80 leading-none">
+                          Band {item.band}
+                        </span>
+                      )}
                     </div>
                     <div className="flex-1 p-3 text-[11px] leading-relaxed text-slate-600 dark:text-slate-300 font-serif">
                       {renderFormattedText(item.description, prompt.keywords, prompt.verb)}

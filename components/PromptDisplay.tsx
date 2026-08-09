@@ -190,6 +190,7 @@ const OutcomeChip: React.FC<{
             >
               <Sparkles className="w-3 h-3" />
               Click for the full brief
+              {isFeatureLocked('outcomeBriefing') && <PlusLockChip feature="outcomeBriefing" />}
             </div>
           </div>,
           document.body

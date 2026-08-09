@@ -45,6 +45,7 @@ import { getCommandTermInfo, getBandForMark, getNextLevelTarget } from '../data/
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import ResponseFeedback from './ResponseFeedback';
+import SupportUsageSummary from './SupportUsageSummary';
 import { exportEvaluationPdf } from '../pdf';
 import PdfExportOptions from './PdfExportOptions';
 import {
@@ -836,6 +837,11 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           </ul>
         </section>
       </div>
+
+      {/* What the student had open before writing. Placed directly under the
+          improvement path, where "you did not open the Marking Guide" reads as
+          a route to the advice above rather than a reprimand of its own. */}
+      <SupportUsageSummary promptId={prompt.id} />
 
       {/* Criteria Breakdown */}
       <section className="relative">

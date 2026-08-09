@@ -35,7 +35,12 @@ import {
   Link2,
   Landmark,
 } from 'lucide-react';
-import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
+import {
+  getCommandTermInfo,
+  getTargetBand,
+  getTierTargetBand,
+  TIER_GROUPS,
+} from '../data/commandTerms';
 import { getTierScaleConfig } from '../utils/renderUtils';
 import { getFocusAreas, splitDotPointDescription } from '../utils/dataManagerUtils';
 import FocusAreaEditorModal from './FocusAreaEditorModal';
@@ -95,6 +100,10 @@ interface PromptSelectorProps {
 // The five journey levels use clearly separated hues (blue → purple → teal →
 // pink → amber); completion is a SEPARATE semantic (emerald tick on the rail),
 // so a level's hue never doubles as a status light.
+/** The tier's own heading, as the cognitive spectrum names it. */
+const tierGroupTitle = (tier: number): string =>
+  TIER_GROUPS.find((g) => g.tier === tier)?.title ?? `Tier ${tier}`;
+
 const THEMES: Record<string, any> = {
   blue: {
     activeBorder: 'border-blue-500/30 light:border-blue-600',
@@ -473,10 +482,20 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 </div>
               </div>
             ),
+            // The cognitive tier this question sits at, named. A dot point
+            // that has accumulated twenty questions is a wall of near-identical
+            // tinted cards; broken into the six tier groups, the same list
+            // reads as "here is the recall one, here are the two analysis
+            // ones", which is how a teacher picks and how a student should
+            // climb. The heading is the tier's own title (TIER_GROUPS), so the
+            // picker names tiers the same way the rest of the app does.
+            group: `${tierGroupTitle(safeTier)} · Band ${getTierTargetBand(safeTier)}`,
           };
         })
-        // Marks ascending, then tier — a stable, predictable reading order.
-        .sort((a, b) => a.marks - b.marks || a.tier - b.tier)
+        // Tier ascending first, so the groups come out in ladder order and the
+        // rows inside each one climb by marks. Options MUST leave here grouped
+        // — Combobox draws a heading wherever the group changes.
+        .sort((a, b) => a.tier - b.tier || a.marks - b.marks)
     );
   }, [selectedDotPoint, newlyAddedIds]);
 

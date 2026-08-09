@@ -124,4 +124,44 @@ describe('writing strategy panel', () => {
     renderEditor({ writingMode: 'exam' });
     expect(screen.queryByRole('button', { name: /strategy/i })).toBeNull();
   });
+
+  /**
+   * Obvious, then out of the way. The row leads on a blank page — where the
+   * coaching is the most useful thing on screen — and stands down the moment
+   * the student has either read it or plainly started writing without it.
+   */
+  describe('states', () => {
+    const lead = () => screen.queryByText(/Read this first/i);
+
+    it('leads on a blank page', () => {
+      renderEditor();
+
+      expect(lead()).toBeTruthy();
+      expect(screen.getByText(firstTip('DESCRIBE'))).toBeTruthy();
+    });
+
+    it('stands down once the student is into a draft', () => {
+      renderEditor({ value: Array.from({ length: 30 }, (_, i) => `word${i}`).join(' ') });
+
+      expect(lead()).toBeNull();
+      // Still one tap away, just no longer shouting.
+      expect(strategyToggle()).toBeTruthy();
+      expect(screen.queryByText(firstTip('DESCRIBE'))).toBeNull();
+    });
+
+    it('stands down once it has been read, even on a blank page', () => {
+      renderEditor();
+
+      fireEvent.click(strategyToggle());
+      fireEvent.click(strategyToggle());
+
+      expect(lead()).toBeNull();
+      expect(screen.getByText(/^Read$/i)).toBeTruthy();
+    });
+
+    it('keeps leading while the draft is only a few words in', () => {
+      renderEditor({ value: 'A short start.' });
+      expect(lead()).toBeTruthy();
+    });
+  });
 });

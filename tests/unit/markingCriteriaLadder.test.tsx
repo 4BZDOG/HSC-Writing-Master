@@ -46,7 +46,8 @@ const renderCriteria = (criteria: string, over: Partial<Prompt> = {}) =>
 
 describe('formatMarkingCriteria recovers the descending ladder', () => {
   it('restores rows a model separated with the literal characters backslash-n', () => {
-    const raw = '8 marks: Comprehensive analysis.\\n6-7 marks: Thorough analysis.\\n1-2 marks: Basic.';
+    const raw =
+      '8 marks: Comprehensive analysis.\\n6-7 marks: Thorough analysis.\\n1-2 marks: Basic.';
 
     const out = formatMarkingCriteria(raw);
 
@@ -128,5 +129,31 @@ describe('the accordion renders a row per mark level', () => {
     renderCriteria('Describes both features (2 marks)\nwith a relevant example.');
 
     expect(screen.getByText(/with a relevant example/)).toBeTruthy();
+  });
+
+  /**
+   * The ladder has to READ as a ladder in both themes. It used to carry its
+   * band identity in a tinted wash plus a half-opacity border — full strength
+   * over light mode's near-white panel, and all but invisible against the dark
+   * surface, where the guide became a stack of grey rows. A solid fill in the
+   * band's own colour cannot fade into either surface.
+   */
+  it('gives every level a solid band-coloured mark column', () => {
+    const { container } = renderCriteria(
+      '8 marks: Comprehensive analysis.\\n6-7 marks: Thorough analysis.\\n1-2 marks: Elementary.'
+    );
+
+    const solid = container.querySelectorAll(
+      '[class*="bg-"][class*="-600"], [class*="bg-yellow-500"]'
+    );
+    expect(solid.length).toBeGreaterThanOrEqual(3);
+    // The band each level maps to is named, not merely implied by a hue.
+    expect(screen.getAllByText(/^Band \d$/).length).toBeGreaterThanOrEqual(3);
+  });
+
+  it('does not repeat the band under a mark column that already names it', () => {
+    renderCriteria('Band 4: Sound description of the mechanism.');
+
+    expect(screen.getAllByText(/^Band 4$/)).toHaveLength(1);
   });
 });

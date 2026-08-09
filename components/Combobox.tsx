@@ -44,6 +44,14 @@ interface ComboboxOption {
   /** Extra text the search should match — the parts of `renderLabel` that are
    *  not in `label` (a question's verb, its marks, its HSC paper). */
   searchText?: string;
+  /**
+   * Heading this option sits under. Options carrying a group MUST arrive
+   * already ordered by it — the list renders a heading wherever the group
+   * changes, so an interleaved array would repeat headings rather than sort
+   * itself out. Omit throughout for a flat list, which is what most pickers
+   * here still are.
+   */
+  group?: string;
 }
 
 interface ComboboxProps {
@@ -416,31 +424,52 @@ const Combobox: React.FC<ComboboxProps> = ({
             className="max-h-72 py-1 overflow-auto custom-scrollbar"
           >
             {visibleOptions.length > 0 ? (
-              visibleOptions.map((option, index) => (
-                <li
-                  key={option.id}
-                  id={`${listboxId}-opt-${index}`}
-                  data-option-index={index}
-                  onClick={() => {
-                    if (option.disabled) return;
-                    onChange(option.id);
-                    setIsOpen(false);
-                  }}
-                  onMouseEnter={() => setHighlightedIndex(index)}
-                  className={`${option.disabled ? 'cursor-not-allowed' : 'cursor-pointer'} select-none relative py-3 pr-9 transition-colors ${
-                    index === highlightedIndex
-                      ? `${getListItemClasses(option, true)}`
-                      : getListItemClasses(option, option.id === value)
-                  }`}
-                  role="option"
-                  aria-selected={option.id === value}
-                  aria-disabled={option.disabled || undefined}
-                >
-                  <div className="flex items-center whitespace-normal w-full">
-                    {option.renderLabel || option.label}
-                  </div>
-                </li>
-              ))
+              visibleOptions.map((option, index) => {
+                // A dot point can carry twenty questions, and twenty tinted
+                // cards in a row are a wall rather than a choice. Where the
+                // caller supplies groups, the list breaks into named runs so
+                // the length is read as "six kinds of question" instead.
+                // Sticky, so the heading of the run being scrolled through is
+                // always the one on screen.
+                const heading =
+                  option.group && option.group !== visibleOptions[index - 1]?.group ? (
+                    <li
+                      key={`group-${option.group}`}
+                      role="presentation"
+                      className="sticky top-0 z-10 px-4 pt-2.5 pb-1.5 text-[9px] font-black uppercase tracking-[0.2em] text-[rgb(var(--color-text-dim))] light:text-slate-400 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white"
+                    >
+                      {option.group}
+                    </li>
+                  ) : null;
+
+                return (
+                  <React.Fragment key={option.id}>
+                    {heading}
+                    <li
+                      id={`${listboxId}-opt-${index}`}
+                      data-option-index={index}
+                      onClick={() => {
+                        if (option.disabled) return;
+                        onChange(option.id);
+                        setIsOpen(false);
+                      }}
+                      onMouseEnter={() => setHighlightedIndex(index)}
+                      className={`${option.disabled ? 'cursor-not-allowed' : 'cursor-pointer'} select-none relative py-3 pr-9 transition-colors ${
+                        index === highlightedIndex
+                          ? `${getListItemClasses(option, true)}`
+                          : getListItemClasses(option, option.id === value)
+                      }`}
+                      role="option"
+                      aria-selected={option.id === value}
+                      aria-disabled={option.disabled || undefined}
+                    >
+                      <div className="flex items-center whitespace-normal w-full">
+                        {option.renderLabel || option.label}
+                      </div>
+                    </li>
+                  </React.Fragment>
+                );
+              })
             ) : (
               <li className="py-4 px-4 text-center">
                 <span className="block text-[rgb(var(--color-text-muted))] italic text-xs">

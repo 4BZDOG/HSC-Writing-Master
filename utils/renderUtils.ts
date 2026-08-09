@@ -682,6 +682,153 @@ const processInlineFormatting = (
   return processRecursively(text, '0');
 };
 
+type TableAlign = 'left' | 'center' | 'right';
+
+interface ParsedTable {
+  header: string[];
+  rows: string[][];
+  align: TableAlign[];
+  /** Index of the first line AFTER the table. */
+  end: number;
+}
+
+/** A line that could be a table row: at least one cell divider. */
+const isPipeRow = (line: string): boolean => line.includes('|');
+
+/** `| --- | :--: |` — the row that makes a pipe block a real table. */
+const isSeparatorRow = (line: string): boolean => {
+  const trimmed = line.trim();
+  if (!trimmed.includes('|') || !trimmed.includes('-')) return false;
+  return splitTableRow(trimmed).every((cell) => /^:?-{1,}:?$/.test(cell.trim()) && cell.trim());
+};
+
+/**
+ * Split one row into cells. The outer pipes are optional (both `| a | b |` and
+ * `a | b` are valid GFM), and `\|` is an escaped pipe inside a cell rather than
+ * a divider.
+ */
+const splitTableRow = (line: string): string[] => {
+  const trimmed = line.trim().replace(/^\|/, '').replace(/\|$/, '');
+  return trimmed.split(/(?<!\\)\|/).map((cell) => cell.replace(/\\\|/g, '|').trim());
+};
+
+const alignOf = (cell: string): TableAlign => {
+  const t = cell.trim();
+  if (t.startsWith(':') && t.endsWith(':')) return 'center';
+  if (t.endsWith(':')) return 'right';
+  return 'left';
+};
+
+/**
+ * Read a markdown pipe table starting at `start`, or null if there isn't one.
+ *
+ * Two shapes are accepted, because the model writes both. The canonical one is
+ * a header followed by a `---` separator row. The other is a fully fenced block
+ * (every line starting AND ending with `|`) with the separator missing — which
+ * used to reach the student as a wall of pipes and dashes. A bare line with a
+ * pipe in it is never a table: prose says "either/or" often enough that the
+ * fence or the separator has to be the signal.
+ */
+const parseTable = (lines: string[], start: number): ParsedTable | null => {
+  const first = lines[start];
+  if (!first || !isPipeRow(first) || isSeparatorRow(first)) return null;
+
+  const header = splitTableRow(first);
+  if (header.length < 2) return null;
+
+  const hasSeparator = isSeparatorRow(lines[start + 1] ?? '');
+  const fenced = (line: string): boolean => {
+    const t = line.trim();
+    return t.startsWith('|') && t.endsWith('|') && t.length > 1;
+  };
+  if (!hasSeparator && !(fenced(first) && fenced(lines[start + 1] ?? ''))) return null;
+
+  const align = hasSeparator
+    ? splitTableRow(lines[start + 1]).map(alignOf)
+    : header.map((): TableAlign => 'left');
+
+  const rows: string[][] = [];
+  let i = start + (hasSeparator ? 2 : 1);
+  for (; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line.trim() || !isPipeRow(line)) break;
+    if (isSeparatorRow(line)) continue; // a stray second rule inside the block
+    rows.push(splitTableRow(line));
+  }
+
+  // A header alone is a single piped line, not a table — leave it to the
+  // ordinary line renderer rather than drawing an empty grid.
+  if (rows.length === 0) return null;
+
+  return { header, rows, align, end: i };
+};
+
+const ALIGN_CLASS: Record<TableAlign, string> = {
+  left: 'text-left',
+  center: 'text-center',
+  right: 'text-right',
+};
+
+const renderTable = (
+  table: ParsedTable,
+  key: number,
+  verbRegex: RegExp | null,
+  keywordRegex: RegExp | null
+): React.ReactNode => {
+  const columns = Math.max(table.header.length, ...table.rows.map((r) => r.length));
+  const alignFor = (col: number): string => ALIGN_CLASS[table.align[col] ?? 'left'];
+
+  const headCells = Array.from({ length: columns }, (_, col) =>
+    React.createElement(
+      'th',
+      {
+        key: col,
+        scope: 'col',
+        className: `px-3 py-2 align-bottom font-black text-[0.85em] uppercase tracking-wider text-[rgb(var(--color-text-primary))] light:text-slate-900 border-b border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300 ${alignFor(col)}`,
+      },
+      processInlineFormatting(table.header[col] ?? '', verbRegex, keywordRegex)
+    )
+  );
+
+  const bodyRows = table.rows.map((row, r) =>
+    React.createElement(
+      'tr',
+      {
+        key: r,
+        className:
+          'border-b border-[rgb(var(--color-border-secondary))]/15 light:border-slate-200 last:border-0',
+      },
+      Array.from({ length: columns }, (_, col) =>
+        React.createElement(
+          'td',
+          {
+            key: col,
+            className: `px-3 py-2 align-top text-[rgb(var(--color-text-secondary))] light:text-slate-700 ${alignFor(col)}`,
+          },
+          processInlineFormatting(row[col] ?? '', verbRegex, keywordRegex)
+        )
+      )
+    )
+  );
+
+  return React.createElement(
+    'div',
+    {
+      key,
+      // Its own scroller: a four-column comparison inside a modal must not push
+      // the page sideways.
+      className:
+        'my-3 overflow-x-auto rounded-xl border border-[rgb(var(--color-border-secondary))]/20 light:border-slate-200 bg-black/10 light:bg-slate-50/80',
+    },
+    React.createElement(
+      'table',
+      { className: 'w-full border-collapse text-[0.95em] leading-snug' },
+      React.createElement('thead', null, React.createElement('tr', null, headCells)),
+      React.createElement('tbody', null, bodyRows)
+    )
+  );
+};
+
 export const renderFormattedText = (
   text: string,
   keywords?: string[],
@@ -695,76 +842,99 @@ export const renderFormattedText = (
   // 1. Split by lines to handle headings, lists, etc.
   const lines = text.split('\n');
 
-  const processedLines = lines.map((line, lineIdx) => {
-    // Horizontal rule: --- or *** or ___
-    if (/^[\s]*[-*_]{3,}[\s]*$/.test(line)) {
-      return React.createElement('hr', {
-        key: lineIdx,
-        className:
-          'my-3 border-0 h-px bg-gradient-to-r from-transparent via-[rgb(var(--color-border-secondary))] to-transparent',
-      });
+  const processedLines: React.ReactNode[] = [];
+
+  for (let lineIdx = 0; lineIdx < lines.length; lineIdx++) {
+    const line = lines[lineIdx];
+
+    // Markdown table: consumes several lines at once, so it is checked before
+    // anything that works a line at a time.
+    const table = parseTable(lines, lineIdx);
+    if (table) {
+      processedLines.push(renderTable(table, lineIdx, verbRegex, keywordRegex));
+      lineIdx = table.end - 1;
+      continue;
     }
 
-    // Headings: ### Heading → <strong> block
-    const headingMatch = line.match(/^(#{1,4})\s+(.*)/);
-    if (headingMatch) {
-      const level = headingMatch[1].length;
-      const headingText = headingMatch[2];
-      const parts = processInlineFormatting(headingText, verbRegex, keywordRegex);
-      const sizeClass = level === 1 ? 'text-lg' : level === 2 ? 'text-base' : 'text-sm';
-      return React.createElement(
-        'strong',
-        {
-          key: lineIdx,
-          className: `block ${sizeClass} font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-3 mb-1 first:mt-0`,
-        },
-        parts
-      );
-    }
-
-    // Check for Lists using new RegExp constructor.
-    // Double escape backslashes for string literal: \\d+
-    const listMatch = line.match(new RegExp('^(\\s*)([\\*\\-]|\\d+\\.)\\s+(.*)'));
-
-    let content = line;
-    let isListItem = false;
-    let indentLevel = 0;
-    let listMarker = '';
-
-    if (listMatch) {
-      isListItem = true;
-      indentLevel = listMatch[1].length;
-      listMarker = listMatch[2];
-      content = listMatch[3];
-    }
-
-    const parts = processInlineFormatting(content, verbRegex, keywordRegex);
-
-    const bulletElement = React.createElement(
-      'span',
-      { className: 'inline-block w-6 mr-1 text-[rgb(var(--color-accent))]' },
-      listMarker.endsWith('.') ? listMarker : '•'
-    );
-
-    const renderedLine = React.createElement(
-      'span',
-      { key: lineIdx, className: 'block min-h-[1.5em]' },
-      isListItem && bulletElement,
-      parts
-    );
-
-    if (isListItem) {
-      return React.createElement(
-        'div',
-        { key: lineIdx, style: { paddingLeft: `${indentLevel * 10 + (isListItem ? 0 : 0)}px` } },
-        renderedLine
-      );
-    }
-    return renderedLine;
-  });
+    processedLines.push(renderLine(line, lineIdx, verbRegex, keywordRegex));
+  }
 
   return React.createElement(React.Fragment, null, processedLines);
 };
+
+/** One line of prose: rule, heading, list item or plain text. */
+function renderLine(
+  line: string,
+  lineIdx: number,
+  verbRegex: RegExp | null,
+  keywordRegex: RegExp | null
+): React.ReactNode {
+  // Horizontal rule: --- or *** or ___
+  if (/^[\s]*[-*_]{3,}[\s]*$/.test(line)) {
+    return React.createElement('hr', {
+      key: lineIdx,
+      className:
+        'my-3 border-0 h-px bg-gradient-to-r from-transparent via-[rgb(var(--color-border-secondary))] to-transparent',
+    });
+  }
+
+  // Headings: ### Heading → <strong> block
+  const headingMatch = line.match(/^(#{1,4})\s+(.*)/);
+  if (headingMatch) {
+    const level = headingMatch[1].length;
+    const headingText = headingMatch[2];
+    const parts = processInlineFormatting(headingText, verbRegex, keywordRegex);
+    const sizeClass = level === 1 ? 'text-lg' : level === 2 ? 'text-base' : 'text-sm';
+    return React.createElement(
+      'strong',
+      {
+        key: lineIdx,
+        className: `block ${sizeClass} font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-3 mb-1 first:mt-0`,
+      },
+      parts
+    );
+  }
+
+  // Check for Lists using new RegExp constructor.
+  // Double escape backslashes for string literal: \\d+
+  const listMatch = line.match(new RegExp('^(\\s*)([\\*\\-]|\\d+\\.)\\s+(.*)'));
+
+  let content = line;
+  let isListItem = false;
+  let indentLevel = 0;
+  let listMarker = '';
+
+  if (listMatch) {
+    isListItem = true;
+    indentLevel = listMatch[1].length;
+    listMarker = listMatch[2];
+    content = listMatch[3];
+  }
+
+  const parts = processInlineFormatting(content, verbRegex, keywordRegex);
+
+  const bulletElement = React.createElement(
+    'span',
+    { className: 'inline-block w-6 mr-1 text-[rgb(var(--color-accent))]' },
+    listMarker.endsWith('.') ? listMarker : '•'
+  );
+
+  const renderedLine = React.createElement(
+    'span',
+    { key: lineIdx, className: 'block min-h-[1.5em]' },
+    isListItem && bulletElement,
+    parts
+  );
+
+  if (isListItem) {
+    return React.createElement(
+      'div',
+      { key: lineIdx, style: { paddingLeft: `${indentLevel * 10 + (isListItem ? 0 : 0)}px` } },
+      renderedLine
+    );
+  }
+  return renderedLine;
+}
 
 export const renderEditorHighlights = (
   text: string,

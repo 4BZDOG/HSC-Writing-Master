@@ -127,6 +127,14 @@ export const PREMIUM_FEATURES: Record<PremiumFeatureKey, PremiumFeatureMeta> = {
     blurb: 'Study model answers at every band level to see what markers really want.',
     perk: 'View sample answers and exemplars across all bands',
   },
+  outcomeBriefing: {
+    title: 'Outcome Briefings',
+    blurb:
+      'Tap any syllabus outcome on a question and have it explained in that ' +
+      'question’s terms — what the outcome is actually asking you to show, and ' +
+      'where the marks for it sit.',
+    perk: 'AI briefings on how each syllabus outcome applies to the question',
+  },
   examMode: {
     title: 'Exam Simulation',
     blurb: 'Practise under real HSC conditions — timed, unassisted, with post-exam feedback.',

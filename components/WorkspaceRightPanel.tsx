@@ -379,6 +379,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             className="flex-grow"
             keywords={currentPrompt.keywords}
             verb={currentPrompt.verb}
+            promptId={currentPrompt.id}
             isFocusMode={isFocusMode}
             onToggleFocusMode={onToggleFocusMode}
             progress={progressScore}

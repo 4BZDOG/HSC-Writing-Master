@@ -69,6 +69,10 @@ const ROW_LABELS: Record<PremiumFeatureKey, { label: string; note?: string }> = 
     label: 'Exam simulation',
     note: 'Timed, unassisted, with post-exam analysis',
   },
+  outcomeBriefing: {
+    label: 'Outcome briefings',
+    note: 'What each linked syllabus outcome wants from the question in front of you',
+  },
   pdfExport: {
     label: 'PDF report export',
     note: 'Marking reports you can keep, print or hand in',

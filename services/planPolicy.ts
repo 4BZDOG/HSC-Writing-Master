@@ -40,7 +40,8 @@ export type PremiumFeatureKey =
   | 'advancedQuestions'
   | 'fullFeedback'
   | 'sampleAnswers'
-  | 'examMode';
+  | 'examMode'
+  | 'outcomeBriefing';
 
 /** Ascending order of generosity — used to compare two plans. */
 export const PLAN_ORDER: Plan[] = ['free', 'plus', 'school'];
@@ -65,6 +66,12 @@ const DEFAULT_FEATURE_MIN_PLAN: Record<PremiumFeatureKey, Plan> = {
   fullFeedback: 'plus',
   sampleAnswers: 'plus',
   examMode: 'plus',
+  // The AI briefing behind a linked outcome. The outcome CODE and its syllabus
+  // wording stay free for everyone — that is published NESA content and the
+  // student needs it to know what is being assessed. What Plus buys is the
+  // model working out how that outcome applies to the question in front of
+  // them, which is a provider call every time it is opened.
+  outcomeBriefing: 'plus',
   // Authoring tools. Plus rather than School so the staff perk actually
   // reaches them: teachers resolve to Plus (getUserPlan step 3), and a studio
   // pinned to School meant a teacher saw half the authoring surface locked
