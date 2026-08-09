@@ -84,6 +84,7 @@ import {
   parseAssignmentParam,
   resolveAssignmentPath,
 } from './utils/assignmentLink';
+import { getDotPointLabel, parseSubItemsFromDescription } from './utils/dataManagerUtils';
 
 const AnimatedBackground: React.FC = () => {
   return (
@@ -277,7 +278,38 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     showQualityCheck,
     closeQualityCheck,
   } = useModalManager({
-    onRename: confirmRename,
+    /**
+     * Rename, then drop any Active Focus the new wording no longer offers.
+     *
+     * A dot point's focus areas are read from its description, so editing the
+     * wording can delete the very phrase the current selection narrows
+     * generated questions to. Left alone the app kept briefing the AI on a
+     * focus area that no longer exists anywhere in the syllabus, with nothing
+     * on screen saying so — the same guard FocusAreaEditorModal already applies
+     * when the list is edited directly.
+     */
+    onRename: useCallback(
+      (target: { type: string; id: string }, newName: string) => {
+        confirmRename(target, newName);
+        if (target.type !== 'dotPoint' || target.id !== statePath.dotPointId) return;
+        const selected = statePath.selectedSubItems;
+        if (!selected?.length) return;
+        // The teacher may have pinned the old list (RenameModal's "keep"), in
+        // which case the override wins and nothing here needs to change.
+        const dotPoint = courses
+          .flatMap((c) => c.topics)
+          .flatMap((t) => t.subTopics)
+          .flatMap((st) => st.dotPoints)
+          .find((dp) => dp.id === target.id);
+        if (dotPoint?.focusAreas) return;
+        const next = parseSubItemsFromDescription(newName);
+        const stillValid = selected.filter((item) => next.includes(item));
+        if (stillValid.length !== selected.length) {
+          handlePathChange({ selectedSubItems: stillValid.length ? stillValid : undefined });
+        }
+      },
+      [confirmRename, statePath, courses, handlePathChange]
+    ),
     // Stable reference: an inline arrow here would be recreated on every App
     // render, cascading through useModalManager's confirmDelete into the
     // memoised handler bags and defeating Workspace's React.memo.
@@ -328,6 +360,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     setImprovement,
     showImprovementReview,
     setShowImprovementReview,
+    improvementReviewLeadsToFeedback,
     activeBackgroundTask,
     handleGenerateScenario,
     isGeneratingScenario,
@@ -627,6 +660,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       setImprovement,
       showImprovementReview,
       setShowImprovementReview,
+      improvementReviewLeadsToFeedback,
       isGeneratingScenario,
       generateScenarioError,
       isRegeneratingKeywords,
@@ -652,6 +686,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       setImprovement,
       showImprovementReview,
       setShowImprovementReview,
+      improvementReviewLeadsToFeedback,
       isGeneratingScenario,
       generateScenarioError,
       isRegeneratingKeywords,
@@ -901,7 +936,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 onClick: () => handlePathChange({ dotPointId: undefined, promptId: undefined }),
               },
               {
-                label: currentDotPoint?.description || 'Dot Point',
+                label: getDotPointLabel(currentDotPoint) || 'Dot Point',
                 onClick: () => handlePathChange({ promptId: undefined }),
               },
             ]}

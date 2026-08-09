@@ -27,6 +27,19 @@ export const MM_PER_PT = 25.4 / 72;
 export type FontStyle = 'normal' | 'bold' | 'italic' | 'bolditalic';
 
 /**
+ * A styled run WITHIN a line of text — several sit side by side on one
+ * baseline. That is what distinguishes it from a `TextRun`, which styles a
+ * whole paragraph. Built by `pdf/inline.ts`; declared here so the layout and
+ * drawing types can name it without importing that module.
+ */
+export interface InlineSpan {
+  text: string;
+  style: FontStyle;
+  /** RGB triple 0-255. Absent means "the block's colour". */
+  color?: [number, number, number];
+}
+
+/**
  * Geometry of the score-summary box, shared by the measurer (layout) and the
  * drawer (orchestrator) so the box is always tall enough for its contents.
  * All *Pt values are base point sizes (pre-scale); *Mm values are base mm.
@@ -111,6 +124,14 @@ export interface TextRun {
   color?: [number, number, number];
   /** Extra leading multiplier applied to this run's line height. */
   lineHeightFactor?: number;
+  /**
+   * The same content resolved into styled inline spans — **bold** emphasis,
+   * syllabus keywords, the command verb. Present on runs that carry model prose;
+   * when it is, the run is measured and drawn span by span so the printed page
+   * reads in the same voice as the screen. `text` stays alongside it as the
+   * plain fallback (and as what a caller comparing content should read).
+   */
+  spans?: InlineSpan[];
 }
 
 /** Block kinds the orchestrator knows how to draw. */
@@ -167,6 +188,14 @@ export interface MeasuredBlock extends ContentBlock {
   height: number;
   /** Pre-wrapped lines per run (parallel to `runs`). */
   wrapped: string[][];
+  /**
+   * The same wrapped lines as styled spans, for runs that carry `spans`
+   * (`null` for the rest). Parallel to `wrapped` down to the individual line,
+   * and derived from the SAME wrap — so splitting a block across columns can
+   * slice both by one set of indices and the drawer can never paint a different
+   * set of line breaks from the ones that were measured.
+   */
+  wrappedRich?: (InlineSpan[][] | null)[];
   /** Top padding resolved to mm (basePadTop * pScale). */
   padTopMm: number;
   /** Bottom padding resolved to mm (basePadBottom * pScale). */
@@ -221,6 +250,15 @@ export interface TextMeasurer {
   wrap(text: string, maxWidthMm: number, fontPt: number, style: FontStyle): string[];
   /** Height in mm of a single line at `fontPt` with the given leading. */
   lineHeight(fontPt: number, lineHeightFactor: number): number;
+  /**
+   * Width in mm of `text` at `fontPt`/`style`.
+   *
+   * Needed to wrap a line whose styles change part-way along it: bold is wider
+   * than regular at the same size, so measuring the plain text and hoping puts
+   * a word or two per line past the column edge — which, in a two-column
+   * layout, lands in the gutter or over the footer.
+   */
+  measure(text: string, fontPt: number, style: FontStyle): number;
 }
 
 /** Minimal structural view of a jsPDF document instance (lazily loaded). */

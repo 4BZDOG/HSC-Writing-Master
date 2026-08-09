@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { parseSubItemsFromDescription } from '../../utils/dataManagerUtils';
+import {
+  getDotPointLabel,
+  parseSubItemsFromDescription,
+  splitDotPointDescription,
+} from '../../utils/dataManagerUtils';
 
 describe('parseSubItemsFromDescription', () => {
   it('extracts items from "including X, Y, and Z" pattern', () => {
@@ -112,5 +116,114 @@ describe('parseSubItemsFromDescription', () => {
     expect(result).toContain('acute stress response');
     expect(result).toContain('cultural protocols');
     expect(result).toContain('belief systems');
+  });
+
+  // The shape NESA actually prints, and the shape the syllabus importer
+  // produces. Read as one line the inline heuristics returned the whole block
+  // as a single unusable focus area.
+  describe('lists the author wrote as lines', () => {
+    const BULLETED = [
+      'Influences on the global economic activity',
+      'Including:',
+      '   * biophysical',
+      '   * economic',
+      '   * technological',
+      '   * political/organisational',
+    ].join('\n');
+
+    it('takes one focus area per bullet', () => {
+      expect(parseSubItemsFromDescription(BULLETED)).toEqual([
+        'biophysical',
+        'economic',
+        'technological',
+        'political/organisational',
+      ]);
+    });
+
+    it('does not fold the whole list into one item', () => {
+      const result = parseSubItemsFromDescription(BULLETED);
+      expect(result.some((item) => item.includes('*'))).toBe(false);
+      expect(result).not.toContain('biophysical economic technological political/organisational');
+    });
+
+    it('reads a bare "Including:" line with unbulleted items under it', () => {
+      const result = parseSubItemsFromDescription(
+        'Influences on the global economic activity\nIncluding:\nbiophysical\neconomic\ntechnological'
+      );
+      expect(result).toEqual(['biophysical', 'economic', 'technological']);
+    });
+
+    it('handles numbered and dashed markers too', () => {
+      expect(parseSubItemsFromDescription('Factors\n- climate\n- soil\n- water')).toEqual([
+        'climate',
+        'soil',
+        'water',
+      ]);
+      expect(parseSubItemsFromDescription('Factors\n1. climate\n2. soil')).toEqual([
+        'climate',
+        'soil',
+      ]);
+    });
+  });
+});
+
+describe('splitDotPointDescription', () => {
+  it('separates the statement from a bulleted "Including" list', () => {
+    const { stem, items } = splitDotPointDescription(
+      'Influences on the global economic activity\nIncluding:\n * biophysical\n * economic\n * technological'
+    );
+    expect(stem).toBe('Influences on the global economic activity');
+    expect(items).toEqual(['biophysical', 'economic', 'technological']);
+  });
+
+  it('separates the statement from a trailing inline list', () => {
+    const { stem, items } = splitDotPointDescription(
+      'Use Punnett squares to solve inheritance problems, including codominance, incomplete dominance and multiple alleles'
+    );
+    expect(stem).toBe('Use Punnett squares to solve inheritance problems');
+    expect(items.length).toBeGreaterThanOrEqual(3);
+  });
+
+  it('drops a trailing bracketed list without leaving the bracket behind', () => {
+    const { stem } = splitDotPointDescription(
+      'Select and use a range of representations to organise data and information (including graphs, keys, models, diagrams, tables and spreadsheets)'
+    );
+    expect(stem).toBe('Select and use a range of representations to organise data and information');
+  });
+
+  it('keeps the wording when the list has fewer than two items', () => {
+    const description = 'Apply quantitative processes to data, including unit conversions';
+    expect(splitDotPointDescription(description).stem).toBe(description);
+  });
+
+  it('keeps the wording when there is no list at all', () => {
+    const description = 'Analyse the impact of AI on modern society';
+    expect(splitDotPointDescription(description)).toEqual({ stem: description, items: [] });
+  });
+
+  it('keeps the wording when cutting the list would leave no statement', () => {
+    const description = 'Including: alpha, beta, gamma';
+    expect(splitDotPointDescription(description).stem).toBe(description);
+  });
+
+  it('is safe on empty input', () => {
+    expect(splitDotPointDescription(undefined)).toEqual({ stem: '', items: [] });
+  });
+});
+
+describe('getDotPointLabel', () => {
+  it('labels a dot point by its statement alone', () => {
+    expect(
+      getDotPointLabel({
+        description: 'Influences on the global economic activity\nIncluding:\n * biophysical\n * economic',
+      })
+    ).toBe('Influences on the global economic activity');
+  });
+
+  it('never returns the focus areas the Active Focus menu already shows', () => {
+    const label = getDotPointLabel({
+      description: 'Influences on the global economic activity\nIncluding:\n * biophysical\n * economic',
+    });
+    expect(label).not.toMatch(/biophysical|economic activity\n/);
   });
 });

@@ -34,6 +34,9 @@ const measurer: TextMeasurer = {
     return lines.length ? lines : [''];
   },
   lineHeight: (fontPt, factor) => fontPt * factor * MM_PER_PT,
+  // Inverse of `wrap`'s char budget above, so a rich (span-wrapped) run breaks
+  // at the same places the plain one does.
+  measure: (text) => text.length / 2.2,
 };
 
 const data = (over: Partial<EvaluationExportData> = {}): EvaluationExportData => ({

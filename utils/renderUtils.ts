@@ -473,9 +473,14 @@ const coordinationEllipsisSources = (keyword: string): string[] => {
 };
 
 /**
- * Helper to create a regex for keywords/verbs
+ * Helper to create a regex for keywords/verbs.
+ *
+ * Exported so the PDF exporter colours exactly the terms the screen
+ * highlights. Two matchers would drift — a term shown in emerald in the app and
+ * left black on the printout is the kind of disagreement a student notices and
+ * a teacher cannot explain.
  */
-const createKeywordRegex = (words: string[]) => {
+export const createKeywordRegex = (words: string[]) => {
   if (!words || words.length === 0) return null;
 
   const allVariants = new Set<string>();

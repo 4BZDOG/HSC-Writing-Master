@@ -426,6 +426,11 @@ const AppModals: React.FC<AppModalsProps> = ({
           initialName={modalProps.renameTarget.name}
           existingNames={renameSiblingNames}
           focusAreaGuard={renameFocusAreaGuard}
+          // Dot points and questions are the two that run to several lines —
+          // see RenameModal's `multiline`.
+          multiline={
+            modalProps.renameTarget.type === 'dotPoint' || modalProps.renameTarget.type === 'prompt'
+          }
         />
       )}
 

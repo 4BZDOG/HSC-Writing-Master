@@ -47,6 +47,16 @@ interface ImprovementReviewModalProps {
   /** What the student's own answer scored, for the "+1 mark" framing. */
   originalMark?: number;
   onApply: (text: string) => void;
+  /**
+   * Label for a "carry on" action in the footer, e.g. "See my full feedback".
+   *
+   * Set when this comparison is standing in front of something rather than
+   * having been opened from it — after marking, the diff comes first and the
+   * feedback summary is behind it. Without a labelled way forward the only exit
+   * is an X in the corner, which reads as "dismiss", not "continue". Omit it
+   * and the footer keeps its Copy / Use-this-version pair.
+   */
+  continueLabel?: string;
 }
 
 type ViewMode = 'unified' | 'split';
@@ -151,6 +161,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   targetMark,
   originalMark,
   onApply,
+  continueLabel,
 }) => {
   const [isCopied, setIsCopied] = useState(false);
   const [view, setView] = useState<ViewMode>('unified');
@@ -518,12 +529,16 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
         {/* Footer */}
         <div className="px-6 py-4 border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02] flex flex-col sm:flex-row justify-between items-center gap-3 flex-shrink-0">
           <p className="text-[11px] text-slate-500 dark:text-slate-400 text-center sm:text-left">
-            {unchanged
-              ? 'Your answer is saved to this question\u2019s sample answers.'
-              : "Both versions are saved to this question's sample answers."}
+            {continueLabel
+              ? // Standing in front of the marking summary, the useful thing to
+                // say is what is behind it \u2014 not where the samples were filed.
+                'Your mark, the criteria breakdown and the marker\u2019s commentary come next.'
+              : unchanged
+                ? 'Your answer is saved to this question\u2019s sample answers.'
+                : "Both versions are saved to this question's sample answers."}
           </p>
 
-          <div className="flex items-center gap-3 w-full sm:w-auto">
+          <div className="flex flex-wrap items-center justify-end gap-3 w-full sm:w-auto">
             <button
               onClick={handleCopy}
               className="flex-1 sm:flex-none py-2.5 px-5 rounded-xl font-bold text-xs uppercase tracking-wider text-slate-600 dark:text-slate-300 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 transition-all flex items-center justify-center gap-2"
@@ -541,9 +556,30 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
             {!unchanged && (
               <button
                 onClick={handleApply}
-                className={`flex-1 sm:flex-none py-2.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider text-white shadow-lg bg-gradient-to-r ${bandConfig.gradient} hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2`}
+                className={
+                  continueLabel
+                    ? // The way forward is the filled button when there is one,
+                      // so this steps back to the outline treatment rather than
+                      // competing with it.
+                      'flex-1 sm:flex-none py-2.5 px-5 rounded-xl font-bold text-xs uppercase tracking-wider text-slate-600 dark:text-slate-300 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 transition-all flex items-center justify-center gap-2'
+                    : `flex-1 sm:flex-none py-2.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider text-white shadow-lg bg-gradient-to-r ${bandConfig.gradient} hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2`
+                }
               >
                 <span>Use this version</span>
+                {!continueLabel && <ArrowRight className="w-4 h-4" />}
+              </button>
+            )}
+
+            {/* Where the flow goes next — see `continueLabel`. Focused on open
+                so Enter carries on, and so a keyboard user is not left hunting
+                for the exit. */}
+            {continueLabel && (
+              <button
+                onClick={onClose}
+                autoFocus
+                className={`flex-1 sm:flex-none py-2.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider text-white shadow-lg bg-gradient-to-r ${bandConfig.gradient} hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2`}
+              >
+                <span>{continueLabel}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             )}

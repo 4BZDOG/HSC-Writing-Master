@@ -89,7 +89,11 @@ describe('redacted free-tier feedback is presented as locked', () => {
   it('locks the improvement path, not only the criteria breakdown', () => {
     renderDisplay();
 
-    const growth = screen.getByText(/Areas for Growth/i).closest('div');
+    // Anchored to the <section>, not to "the nearest div". The heading now
+    // lives inside its own row element, so a `closest('div')` walk stops at the
+    // heading and finds neither the redacted list nor the overlay over it —
+    // which says nothing about whether the panel is locked.
+    const growth = screen.getByText(/Areas for Growth/i).closest('section');
     expect(growth, 'the Areas for Growth panel should be findable').not.toBeNull();
 
     // The placeholder is inside it…

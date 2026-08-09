@@ -32,6 +32,7 @@ import { isOverlayOpen } from '../hooks/useEscapeKey';
 import { isQuestionTierLocked, requestUpgrade } from '../services/entitlements';
 import { freeTierLimits } from '../services/planPolicy';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
+import { getDotPointLabel } from '../utils/dataManagerUtils';
 
 const useKeyboardShortcuts = (shortcuts: { [key: string]: (e: KeyboardEvent) => void }) => {
   useEffect(() => {
@@ -469,7 +470,9 @@ const Workspace: React.FC<WorkspaceProps> = ({
     { label: currentCourse?.name || 'Course' },
     { label: currentTopic?.name || 'Topic' },
     { label: currentSubTopic?.name || 'Sub-Topic' },
-    { label: currentDotPoint?.description || 'Dot Point' },
+    // The statement, not the statement plus its focus-area list — a breadcrumb
+    // is a place name.
+    { label: getDotPointLabel(currentDotPoint) || 'Dot Point' },
   ];
 
   const markingGuideCard = (

@@ -37,7 +37,7 @@ import {
 } from 'lucide-react';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { getTierScaleConfig } from '../utils/renderUtils';
-import { getFocusAreas } from '../utils/dataManagerUtils';
+import { getFocusAreas, splitDotPointDescription } from '../utils/dataManagerUtils';
 import FocusAreaEditorModal from './FocusAreaEditorModal';
 import { getPastHscLabel } from '../utils/pastHscUtils';
 import { isFeatureLocked, isQuestionTierLocked, requestUpgrade } from '../services/entitlements';
@@ -271,19 +271,35 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
 
   const dotPointOptions = useMemo(
     () =>
-      selectedSubTopic?.dotPoints?.map((dp) => ({
-        id: dp.id,
-        label: dp.description,
-        isNew: newlyAddedIds.has(dp.id),
-        renderLabel: (
-          <div className="flex items-start gap-3">
-            <div className="p-1.5 rounded-md bg-pink-500/20 text-pink-500 light:bg-pink-100 light:text-pink-700 border border-pink-500/20 mt-0.5 flex-shrink-0">
-              <List className="w-4 h-4" />
+      selectedSubTopic?.dotPoints?.map((dp) => {
+        // The statement only. Its "including …" list is what the Active Focus
+        // menu beside this one is FOR — printing it here as well made every row
+        // a paragraph and said the same thing twice. `searchText` keeps the
+        // hidden items findable, so typing a focus area still locates its dot
+        // point.
+        const { stem, items } = splitDotPointDescription(dp.description);
+        return {
+          id: dp.id,
+          label: stem,
+          searchText: items.join(' '),
+          isNew: newlyAddedIds.has(dp.id),
+          renderLabel: (
+            <div className="flex items-start gap-3">
+              <div className="p-1.5 rounded-md bg-pink-500/20 text-pink-500 light:bg-pink-100 light:text-pink-700 border border-pink-500/20 mt-0.5 flex-shrink-0">
+                <List className="w-4 h-4" />
+              </div>
+              <span className="min-w-0">
+                <span className="block leading-snug font-medium">{stem}</span>
+                {items.length > 0 && (
+                  <span className="block mt-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-500/80">
+                    {items.length} focus area{items.length === 1 ? '' : 's'}
+                  </span>
+                )}
+              </span>
             </div>
-            <span className="leading-snug font-medium">{dp.description}</span>
-          </div>
-        ),
-      })) || [],
+          ),
+        };
+      }) || [],
     [selectedSubTopic, newlyAddedIds]
   );
 
@@ -1042,7 +1058,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                           onDeleteItem({
                             type: 'dotPoint',
                             id: selectedDotPoint.id,
-                            name: selectedDotPoint.description,
+                            // The statement, so the confirmation reads as a
+                            // sentence rather than quoting a bulleted block.
+                            name: splitDotPointDescription(selectedDotPoint.description).stem,
                           })
                         }
                         icon={Trash2}

@@ -234,6 +234,17 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     commandTermInfo.tier,
   ]);
 
+  /**
+   * Whether the comparison is actually on screen.
+   *
+   * `showImprovementReview` alone is not enough to hide the feedback behind:
+   * marking sets it as soon as the result carries a rewrite, but there is no
+   * modal to show when the plan withheld that rewrite (`reviewSubject` is
+   * null). Reading both means a student on the free tier goes straight to their
+   * marks instead of watching a blank overlay that never arrives.
+   */
+  const reviewOpen = !!reviewSubject && !!geminiHandlers.showImprovementReview;
+
   const hierarchyContext: HierarchyContext = useMemo(
     () => ({
       course: breadcrumbItems[0]?.label || 'Course',
@@ -442,10 +453,21 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
         <div className={`flex flex-col ${isExamMode ? 'hidden' : ''}`}>{referenceSlot}</div>
       )}
 
-      {/* Portalled and fixed, so where it sits in this tree is immaterial. */}
+      {/*
+        Portalled and fixed, so where it sits in this tree is immaterial.
+
+        The marking feedback waits behind the comparison. Marking returns the
+        student's own answer lifted one mark, and the diff is the one screen
+        that names what the extra mark was for — behind a "Compare with mine"
+        button on the summary, most students never opened it. So when there is
+        a rewrite to show, the comparison goes first and this opens as the
+        student continues out of it. `evaluationResult` is untouched throughout,
+        so closing the comparison reveals the feedback rather than costing a
+        re-mark.
+      */}
       {evaluationResult && (
         <EvaluationResultModal
-          isOpen={!!evaluationResult}
+          isOpen={!!evaluationResult && !reviewOpen}
           onClose={geminiHandlers.resetEvaluation}
           result={evaluationResult}
           prompt={currentPrompt}
@@ -465,12 +487,16 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
         />
       )}
 
-      {/* The diff review. Stacks above the feedback modal it is opened from —
-          the student compares, then returns to the rest of their marking. */}
+      {/* The diff review. Either the first thing a student sees after marking,
+          or a detour off the feedback summary when they regenerate the upgrade
+          — `continueLabel` is how the footer says which. */}
       {reviewSubject && (
         <ImprovementReviewModal
-          isOpen={!!geminiHandlers.showImprovementReview}
+          isOpen={reviewOpen}
           onClose={() => geminiHandlers.setShowImprovementReview(false)}
+          continueLabel={
+            geminiHandlers.improvementReviewLeadsToFeedback ? 'See my full feedback' : undefined
+          }
           improvedAnswer={reviewSubject.text}
           originalAnswer={reviewSubject.originalAnswer}
           originalPrompt={currentPrompt}

@@ -20,8 +20,21 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  /**
+   * CI ran this suite one test at a time, which was most of why a review round
+   * felt like it stalled on E2E. Measured on a 4-vCPU runner, the Chromium
+   * project alone: 2m12s at one worker, 1m23s at two, 1m13s at three — and CI
+   * runs three projects.
+   *
+   * Two is the default because the runner is also hosting both Vite dev
+   * servers, and a starved worker fails as a timeout rather than as slowness,
+   * which costs a retry and wipes out the saving. PW_WORKERS dials it up
+   * without a code change if the runner turns out to have the headroom.
+   *
+   * Nothing here shares state between tests — each worker gets its own browser
+   * context, so IndexedDB and the login session are already isolated.
+   */
+  workers: process.env.CI ? Number(process.env.PW_WORKERS || 2) : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
