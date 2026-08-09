@@ -83,9 +83,16 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
           `max-h-[2000px]` was a guess at how tall the content could get, and
           anything past it — a long marking guide, a stack of exemplars — was
           silently cut off with no way to scroll to it. `1fr` animates to
-          whatever the content actually needs. */}
+          whatever the content actually needs.
+
+          `inert` while collapsed, because zero height is not zero REACH: every
+          button inside a shut panel stayed in the tab order, so a keyboard user
+          tabbed through controls that were not on screen and a screen reader
+          read out a panel the UI had told them was closed. It costs nothing
+          visually — unlike hiding the content, which would fight the animation. */}
       <div
         id={panelId}
+        inert={!isOpen}
         className={`grid transition-all duration-500 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
       >
         <div className="overflow-hidden">

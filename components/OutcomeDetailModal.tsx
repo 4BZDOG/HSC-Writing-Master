@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { CourseOutcome } from '../types';
 import { explainOutcomeInContext } from '../services/geminiService';
 import { renderFormattedText, getTierScaleConfig, BAND_HEX } from '../utils/renderUtils';
@@ -53,6 +54,10 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
   breadcrumb,
 }) => {
   useEscapeKey(isOpen, onClose);
+  // Tab stays inside the dialog while it is open, and focus returns to
+  // whatever opened it on close. Partners `useEscapeKey` — same stack,
+  // same topmost-only arbitration.
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
 
   const [activeCode, setActiveCode] = useState(initialCode ?? outcomes[0]?.code);
@@ -159,6 +164,8 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
       onClick={onClose}
     >
       <div
+        ref={dialogRef}
+        tabIndex={-1}
         role="dialog"
         aria-modal="true"
         aria-label={`Syllabus outcome ${activeOutcome.code}`}

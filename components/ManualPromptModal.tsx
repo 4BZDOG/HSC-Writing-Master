@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { CourseOutcome, Prompt, PromptVerb } from '../types';
 import { refineManualPrompt } from '../services/geminiService';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
@@ -196,6 +197,10 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
   // Escape closes this modal like every other modal surface — through the
   // same reset path as the X/Cancel buttons, and never mid-refinement.
   useEscapeKey(isOpen && !isRefining, handleClose);
+  // Tab stays inside the dialog while it is open, and focus returns to
+  // whatever opened it on close. Partners `useEscapeKey` — same stack,
+  // same topmost-only arbitration.
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
 
   const handleRefine = async () => {
@@ -341,6 +346,8 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
         onClick={handleClose}
       >
         <div
+          ref={dialogRef}
+          tabIndex={-1}
           role="dialog"
           aria-modal="true"
           aria-labelledby="manual-prompt-title"

@@ -276,6 +276,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
         {/* Improved Smooth Expansion Container — all live-feedback panels; hidden
             entirely under Exam conditions. */}
         <div
+          inert={isCollapsed || isExamMode}
           className={`grid transition-all duration-500 ease-in-out ${isCollapsed || isExamMode ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'}`}
         >
           <div className="overflow-hidden">

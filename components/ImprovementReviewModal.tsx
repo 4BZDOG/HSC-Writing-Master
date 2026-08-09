@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { Prompt } from '../types';
 import {
   stripHtmlTags,
@@ -172,6 +173,14 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   const bandConfig = getBandConfig(targetBand);
 
   useEscapeKey(isOpen, onClose);
+
+  // Tab stays inside the dialog while it is open, and focus returns to
+
+  // whatever opened it on close. Partners `useEscapeKey` — same stack,
+
+  // same topmost-only arbitration.
+
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
 
   // Plain text on both sides: the diff is over what the student wrote and what
@@ -269,6 +278,8 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
       onClick={onClose}
     >
       <div
+        ref={dialogRef}
+        tabIndex={-1}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}

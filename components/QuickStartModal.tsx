@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { X, Rocket, Crown, Lightbulb, Clock, Lock, Scale, ArrowRight } from 'lucide-react';
 import type { User } from '../types';
 import { QUICK_START_ICONS } from './agreementIcons';
@@ -42,6 +43,10 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
 }) => {
   const [tab, setTab] = useState<QuickStartTab>(initialTab);
   useEscapeKey(isOpen, onClose);
+  // Tab stays inside the dialog while it is open, and focus returns to
+  // whatever opened it on close. Partners `useEscapeKey` — same stack,
+  // same topmost-only arbitration.
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
 
   if (!isOpen) return null;
@@ -57,6 +62,8 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
 
   return createPortal(
     <div
+      ref={dialogRef}
+      tabIndex={-1}
       className="fixed inset-0 z-[940] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();

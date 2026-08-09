@@ -351,6 +351,7 @@ const CarouselAccordionItem: React.FC<{
 
         {/* Smooth Expansion Animation Container */}
         <div
+          inert={!isOpen}
           className={`grid transition-all duration-500 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
         >
           <div className="overflow-hidden">
@@ -530,6 +531,7 @@ const CarouselAccordionItem: React.FC<{
                     {feedbackExpanded ? 'Hide Feedback' : 'Show Feedback'}
                   </button>
                   <div
+                    inert={!feedbackExpanded}
                     className={`grid transition-all duration-300 ease-in-out ${feedbackExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
                   >
                     <div className="overflow-hidden space-y-3">

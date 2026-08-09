@@ -1,5 +1,6 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { CommandTermInfo } from '../types';
 import { X, Info, Award, Target, Hash, Zap, ChevronRight } from 'lucide-react';
 import { getTierBandConfig } from '../utils/renderUtils';
@@ -25,6 +26,10 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
   // itself as an open overlay and Escape dismisses it without also exiting
   // Focus Mode underneath.
   useEscapeKey(isOpen, onClose);
+  // Tab stays inside the dialog while it is open, and focus returns to
+  // whatever opened it on close. Partners `useEscapeKey` — same stack,
+  // same topmost-only arbitration.
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
 
   if (!isOpen) return null;
@@ -42,6 +47,8 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
 
   return createPortal(
     <div
+      ref={dialogRef}
+      tabIndex={-1}
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
       onClick={handleOverlayClick}
       role="dialog"

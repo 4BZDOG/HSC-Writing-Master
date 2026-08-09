@@ -93,6 +93,7 @@ const LiveInsights: React.FC<LiveInsightsProps> = React.memo(
 
         <div
           id={panelId}
+          inert={isCollapsed}
           className={`grid transition-all duration-500 ease-in-out ${
             isCollapsed ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'
           }`}

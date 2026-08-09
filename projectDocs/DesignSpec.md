@@ -67,6 +67,30 @@ painted on?".
 *   **Haptic Buttons**: Heavy shadows, 105% hover scaling, and active state compression (95%).
 *   **Syllabus Nodes**: Circular "nodes" in the navigator indicate path completeness with pulsing glows.
 
+### Keyboard Reach
+
+The rule: **a keyboard user must be able to reach exactly what is on screen —
+no more, no less.** Both halves get broken in the same way, by treating a visual
+state as if it were a DOM state.
+
+*   **Modal dialogs** (`aria-modal="true"`) must use `useFocusTrap`. The
+    attribute tells assistive technology the rest of the page is inert; only the
+    trap makes that true. Put the ref on the element carrying `role="dialog"`
+    and give it `tabIndex={-1}`. The hook also restores focus to whatever opened
+    the dialog — without that, closing a modal drops a keyboard user back at the
+    top of the document.
+*   **Non-modal popovers** (`role="dialog"` *without* `aria-modal`, e.g.
+    `PdfExportOptions`) must NOT trap. The page behind them is live and Tab is
+    expected to move on.
+*   **Collapsed disclosures** need `inert` while shut. The grid-rows animation
+    takes a panel to zero height, which is a visual collapse and nothing more —
+    its buttons stay in the tab order and in the accessibility tree. `inert`
+    costs nothing visually, unlike hiding the content, which fights the
+    animation.
+
+Both concerns arbitrate by stack, matching `useEscapeKey`: only the topmost
+surface acts, because dialogs do open over each other.
+
 ## 4. Typography
 *   **Interface**: `Inter` - High legibility for data-dense controls.
 *   **Manuscript**: `Newsreader` (Serif) - Used for the main writing area and AI exemplars to simulate the gravity of an official examination paper.
