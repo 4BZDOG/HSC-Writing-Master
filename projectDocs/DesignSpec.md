@@ -28,6 +28,34 @@ The application uses a 6-tier system mapped to NESA Command Verbs:
 3.  **Polishing** (40-75%): Sky/Blue themes, indicates structural completeness.
 4.  **Mastery** (75%+): Indigo/Purple "Glow", indicates potential Exemplar (Band 6) quality.
 
+### Light Theme Parity
+
+The app was drawn dark-first, so light is where colour quietly goes missing. Two
+rules, and the second is the one that gets broken.
+
+**1. A tint must be visible against the surface it is on.** Dark surfaces are
+near-black, so an alpha wash (`bg-<hue>-500/10`) reads clearly. Light surfaces
+are white, where the matching `-50` shade is a ~2% difference and effectively
+is not there. The light steps are therefore one stop deeper than their dark
+counterparts *look*: `-100` for a surface wash, `-200` for a tile sitting on
+one. `getBandConfig` is the source of truth and `bandColors.test.ts` pins it.
+
+**2. Whether a white-alpha token needs a light partner depends on what is
+BEHIND it, not on the token.** This is what makes a blanket find-and-replace
+the wrong tool — most white-alpha classes in this codebase are already correct:
+
+*   **On a coloured gradient or a modal backdrop** — the editor header, the
+    score placard, the ribbon header, `bg-black/80` scrims. These are the same
+    colour in both themes, so `bg-white/20` and `border-white/20` are right as
+    written and must be left alone.
+*   **On a theme surface** — anything over `--color-bg-surface`, a `bg-white`
+    card, or a `slate-100/200` track. Here white-alpha is invisible in light
+    mode, and the element silently loses its ring, rim, tick or divider. These
+    need an explicit pair: `ring-slate-900/10 dark:ring-white/10`.
+
+When auditing, the question is never "is this class dark-only?" but "what is it
+painted on?".
+
 ## 3. Component Patterns
 
 ### Layering & Hierarchy

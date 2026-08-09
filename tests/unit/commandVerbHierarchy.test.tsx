@@ -111,4 +111,63 @@ describe('CommandVerbHierarchy', () => {
     expect(screen.getByText('Band Cap')).toBeTruthy();
     expect(step.getAttribute('aria-label')).toMatch(/Evaluate/i);
   });
+
+  /**
+   * The ribbon header must be the same height for every verb.
+   *
+   * It was not: the terms run from three characters to thirteen
+   * (DIFFERENTIATE), and neither the "Selected" chip nor the title beside it
+   * could refuse to wrap — so a long term widened the chip, the wider chip
+   * squeezed the title, and the title took a second line. The header is the one
+   * block on the page meant to sit still, and it moved whenever the question
+   * changed to a verb with a long name.
+   *
+   * Two halves hold the lock, so both are pinned: `min-h` against shrinking,
+   * and no-wrap against growing.
+   */
+  describe('header height lock', () => {
+    const header = () => getToggle();
+
+    it('refuses to wrap the pieces whose width depends on the verb', () => {
+      render(<CommandVerbHierarchy currentVerb={'DIFFERENTIATE' as PromptVerb} />);
+
+      const chip = screen.getAllByText('DIFFERENTIATE').find((el) => el.tagName === 'DIV');
+      expect(chip?.className).toContain('whitespace-nowrap');
+      expect(screen.getByText('Selected:').className).toContain('whitespace-nowrap');
+      // The title truncates instead — an ellipsis costs nothing, a second line
+      // costs the lock.
+      expect(screen.getByText('HSC Command Verb Hierarchy').className).toContain('truncate');
+    });
+
+    it('carries a floor height that no verb can shrink', () => {
+      render(<CommandVerbHierarchy currentVerb={'STATE' as PromptVerb} />);
+      expect(header().className).toMatch(/min-h-\[\d+px\]/);
+    });
+
+    /**
+     * Geometry only. The header's GRADIENT is meant to change with the verb —
+     * that is the tier colour, and the whole ribbon is built on it — so the
+     * comparison drops colour tokens and keeps the ones that can move a box.
+     */
+    it('keeps identical geometry for the shortest and longest verbs', () => {
+      const geometry = (cls: string) =>
+        cls
+          .split(/\s+/)
+          .filter((t) =>
+            /^(w-|px-|py-|min-h-|max-h-|h-|flex|items-|justify-|gap-|relative|overflow-|rounded)/.test(
+              t
+            )
+          )
+          .sort()
+          .join(' ');
+
+      const { unmount } = render(<CommandVerbHierarchy currentVerb={'STATE' as PromptVerb} />);
+      const shortest = geometry(header().className);
+      unmount();
+
+      render(<CommandVerbHierarchy currentVerb={'DIFFERENTIATE' as PromptVerb} />);
+      expect(geometry(header().className)).toBe(shortest);
+      expect(shortest).toContain('min-h-[60px]');
+    });
+  });
 });

@@ -993,8 +993,14 @@ const Editor = forwardRef<
               </div>
               <div className="flex items-center gap-3 sm:gap-5 ml-auto">
                 <div className="flex items-center gap-2.5">
+                  {/* The halo separates the band dot from the surface behind
+                      it. A white ring does that on the dark footer and vanishes
+                      on the light one, so the dot lost its edge in light mode —
+                      the footer is a theme surface, unlike the header above it,
+                      which is always painted with the band gradient and where a
+                      white-alpha treatment is right in both themes. */}
                   <div
-                    className="w-2.5 h-2.5 rounded-full transition-colors duration-700 ring-2 ring-white/10"
+                    className="w-2.5 h-2.5 rounded-full transition-colors duration-700 ring-2 ring-slate-900/10 dark:ring-white/10"
                     style={{ backgroundColor: chroma.accent }}
                   />
                   <span className="text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-secondary))]">
