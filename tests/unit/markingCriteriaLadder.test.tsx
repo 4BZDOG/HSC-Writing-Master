@@ -46,7 +46,8 @@ const renderCriteria = (criteria: string, over: Partial<Prompt> = {}) =>
 
 describe('formatMarkingCriteria recovers the descending ladder', () => {
   it('restores rows a model separated with the literal characters backslash-n', () => {
-    const raw = '8 marks: Comprehensive analysis.\\n6-7 marks: Thorough analysis.\\n1-2 marks: Basic.';
+    const raw =
+      '8 marks: Comprehensive analysis.\\n6-7 marks: Thorough analysis.\\n1-2 marks: Basic.';
 
     const out = formatMarkingCriteria(raw);
 
@@ -128,5 +129,27 @@ describe('the accordion renders a row per mark level', () => {
     renderCriteria('Describes both features (2 marks)\nwith a relevant example.');
 
     expect(screen.getByText(/with a relevant example/)).toBeTruthy();
+  });
+
+  /**
+   * The ladder has to READ as a ladder in both themes, and it paints itself
+   * entirely from `getBandConfig` — so a level's row carries the band's fill in
+   * both, not just its border. See `bandColors.test.ts` for the light-tint
+   * regression that made this worth pinning.
+   */
+  it('paints every level with its own band fill, not just a border', () => {
+    const { container } = renderCriteria(
+      '8 marks: Comprehensive analysis.\\n6-7 marks: Thorough analysis.\\n1-2 marks: Elementary.'
+    );
+
+    const rows = Array.from(container.querySelectorAll('div.items-stretch'));
+    expect(rows).toHaveLength(3);
+    for (const row of rows) {
+      // A dark wash AND a light one — a row with only the dark class is the
+      // state that made the guide colourless in light mode.
+      expect(row.className).toMatch(/bg-\w+-500\/10/);
+      expect(row.className).toMatch(/light:bg-\w+-100/);
+      expect(row.className).toMatch(/border-\w+-500\/50/);
+    }
   });
 });

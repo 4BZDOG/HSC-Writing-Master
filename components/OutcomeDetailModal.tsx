@@ -16,6 +16,8 @@ import {
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
+import { isFeatureLocked } from '../services/entitlements';
+import { ContentLockOverlay, PlusLockChip } from './UpgradeModal';
 import type { PromptVerb } from '../types';
 
 interface OutcomeDetailModalProps {
@@ -84,6 +86,13 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
   // any render that happened to produce a new reference.
   const outcomeKey = outcomes.map((o) => o.code).join('|');
 
+  // The briefing is the paid half of this modal. The outcome's own syllabus
+  // wording above it stays free — a student has to be able to read what is
+  // being assessed — so the lock covers the AI panel alone, and locked means
+  // NO call is fired: the server refuses it anyway, and a spinner that ends in
+  // a 402 is a worse way to learn the price than a chip that says it up front.
+  const briefingLocked = isFeatureLocked('outcomeBriefing');
+
   // Re-open on whichever outcome was clicked, and start from a clean slate:
   // the explanations are question-specific, so they must not outlive the modal.
   useEffect(() => {
@@ -112,9 +121,9 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
   // Only the visible tab is fetched — opening the modal must not fire an AI
   // call for every linked outcome at once.
   useEffect(() => {
-    if (!isOpen || !activeOutcome) return;
+    if (!isOpen || !activeOutcome || briefingLocked) return;
     void fetchExplanation(activeOutcome);
-  }, [isOpen, activeOutcome, fetchExplanation]);
+  }, [isOpen, activeOutcome, fetchExplanation, briefingLocked]);
 
   const focusTab = (index: number) => {
     const next = outcomes[(index + outcomes.length) % outcomes.length];
@@ -302,7 +311,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
           </div>
 
           {/* AI relevance */}
-          <div>
+          <div className="relative">
             <div className="flex items-center gap-2 mb-3">
               <div
                 className={`w-6 h-6 rounded-md ${bandConfig.bg} flex items-center justify-center`}
@@ -312,7 +321,8 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
               <span className="text-xs font-black text-[rgb(var(--color-text-primary))] light:text-slate-800 tracking-tight">
                 How {activeOutcome.code} Connects To This Question
               </span>
-              {state.status === 'ready' && (
+              {briefingLocked && <PlusLockChip feature="outcomeBriefing" className="ml-auto" />}
+              {!briefingLocked && state.status === 'ready' && (
                 <button
                   onClick={() => fetchExplanation(activeOutcome, { force: true })}
                   title="Ask again"
@@ -324,8 +334,32 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
               )}
             </div>
 
-            <div className="bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 p-4 rounded-xl border border-white/5 light:border-slate-200 min-h-[100px]">
-              {state.status === 'loading' || state.status === 'idle' ? (
+            {briefingLocked && (
+              <ContentLockOverlay
+                feature="outcomeBriefing"
+                message="Outcome briefings are a Plus feature"
+                className="rounded-xl"
+              />
+            )}
+
+            <div
+              className={`bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 p-4 rounded-xl border border-white/5 light:border-slate-200 min-h-[100px] ${
+                briefingLocked ? 'select-none' : ''
+              }`}
+            >
+              {briefingLocked ? (
+                // A shape to sell, not a blur of nothing: locked, the panel
+                // shows the three headings the briefing answers under, so what
+                // Plus buys is legible before it is bought.
+                <ul
+                  aria-hidden="true"
+                  className="space-y-2.5 text-[13px] text-[rgb(var(--color-text-muted))] light:text-slate-500 blur-[1.5px] opacity-70"
+                >
+                  <li className="font-bold">What this outcome is asking for</li>
+                  <li className="font-bold">What a marker looks for here</li>
+                  <li className="font-bold">How to show it in your answer</li>
+                </ul>
+              ) : state.status === 'loading' || state.status === 'idle' ? (
                 <div className="flex flex-col items-center justify-center h-28 gap-2.5">
                   <Loader2 className={`w-6 h-6 animate-spin ${bandConfig.text}`} />
                   <p

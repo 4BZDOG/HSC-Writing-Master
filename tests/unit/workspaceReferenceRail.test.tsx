@@ -5,6 +5,7 @@ import ReferenceMaterials from '../../components/ReferenceMaterials';
 import SampleAnswersAccordion from '../../components/SampleAnswersAccordion';
 import { Prompt, CourseOutcome, PromptVerb, Topic } from '../../types';
 import { isTwoColumnWidth, TWO_COLUMN_BREAKPOINT } from '../../utils/layoutConstants';
+import { readSupportUsage, resetSupportEngagement } from '../../utils/supportEngagement';
 
 /**
  * Ordering and communication contract for the workspace's left reference rail
@@ -275,5 +276,55 @@ describe('panel chrome consistency', () => {
     // used to repeat both immediately underneath.
     expect(screen.queryByText(/^Marking Criteria$/i)).toBeNull();
     expect(screen.getByText(/Top level: Band \d/i)).toBeTruthy();
+  });
+
+  /**
+   * The rail is the source of the "before you wrote" section in the marking
+   * report. Registration has to happen on MOUNT, not on open — a panel that
+   * only declares itself once it is opened can never be reported as skipped,
+   * which is the half of the record that matters.
+   */
+  describe('support engagement record', () => {
+    it('declares every panel it offers, and records the one that was opened', () => {
+      resetSupportEngagement();
+      render(
+        <ReferenceMaterials
+          {...railProps}
+          prompt={prompt()}
+          topic={topic()}
+          courseOutcomes={OUTCOMES}
+        />
+      );
+
+      expect(readSupportUsage('p1').available).toEqual([
+        'outcomes',
+        'keywords',
+        'gradeStandards',
+        'markingGuide',
+      ]);
+      expect(readSupportUsage('p1').opened).toEqual([]);
+
+      fireEvent.click(screen.getByRole('button', { name: /Marking Guide/i }));
+
+      expect(readSupportUsage('p1').opened).toEqual(['markingGuide']);
+      expect(readSupportUsage('p1').skipped).toEqual(['outcomes', 'keywords', 'gradeStandards']);
+    });
+
+    it('records the outcome briefing when a student opens one', async () => {
+      resetSupportEngagement();
+      render(
+        <ReferenceMaterials
+          {...railProps}
+          prompt={prompt()}
+          topic={topic()}
+          courseOutcomes={OUTCOMES}
+        />
+      );
+
+      fireEvent.click(screen.getByText('BI-12-01'));
+      await screen.findByRole('dialog');
+
+      expect(readSupportUsage('p1').opened).toContain('outcomeBriefing');
+    });
   });
 });

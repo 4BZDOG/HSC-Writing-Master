@@ -89,6 +89,39 @@ describe('band model consistency', () => {
   });
 });
 
+/**
+ * Both themes have to actually SHOW the band, and only one of them ever gets
+ * looked at while a change is being made.
+ *
+ * The dark tints are alpha washes (`bg-purple-500/10`) over a near-black
+ * surface, which read clearly. The light theme mirrored them with the matching
+ * `-50` shade — but `purple-50` is #faf5ff and every panel in the app is white,
+ * so the wash was a ~2% difference and simply was not there: marking-guide
+ * levels, band descriptors and exemplar rows all showed a coloured border and
+ * no fill, and the band ladder only communicated in dark mode. The light steps
+ * are deliberately one stop deeper than their dark counterparts look.
+ */
+describe('band tints are visible in BOTH themes', () => {
+  for (let band = 1; band <= 6; band++) {
+    it(`band ${band} carries a light surface wash a white panel can show`, () => {
+      const config = getBandConfig(band);
+
+      expect(config.bg, 'dark wash missing').toMatch(/\bbg-\w+-500\/10\b/);
+      expect(config.bg, 'light wash missing or too pale').toMatch(/\blight:bg-\w+-100\b/);
+      // -50 on white is the invisible case this whole block exists to stop.
+      expect(config.bg).not.toMatch(/\blight:bg-\w+-50\b/);
+    });
+
+    it(`band ${band}'s icon tile still steps above that wash in light mode`, () => {
+      const config = getBandConfig(band);
+
+      expect(config.iconBg).toMatch(/\bbg-\w+-500\/20\b/);
+      // One stop deeper than `bg`, mirroring the dark /10 → /20 relationship.
+      expect(config.iconBg).toMatch(/\blight:bg-\w+-200\b/);
+    });
+  }
+});
+
 describe('getTierBandConfig', () => {
   it('returns the colour config of the tier\'s target band', () => {
     // Every tier's config matches its target band's config.

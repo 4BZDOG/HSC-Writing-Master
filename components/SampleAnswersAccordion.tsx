@@ -10,6 +10,7 @@ import {
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { PANEL_SURFACE } from '../utils/panelStyles';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
+import { useSupportResource } from '../hooks/useSupportResource';
 import SampleAnswerGeneratorModal from './SampleAnswerGeneratorModal';
 import SampleAnswerRevisionModal from './SampleAnswerRevisionModal';
 import SampleAnswerEditorModal from './SampleAnswerEditorModal';
@@ -63,6 +64,40 @@ interface GroupedSampleAnswers {
   /** Band for this mark level, derived via the Verb Gate (getBandForMark). */
   calculatedBand: number;
 }
+
+/** Exemplar chips shown at a mark level before the rest fold behind "+N more". */
+const VISIBLE_VARIANTS = 4;
+
+const wordCountOf = (text: string): number => text.trim().split(/\s+/).filter(Boolean).length;
+
+/**
+ * Provenance, in one word — the single thing that most distinguishes two
+ * exemplars sitting at the same mark. Shared by the badge and the variant
+ * picker so a sample cannot be called "Official" in one and "AI Model" in the
+ * other.
+ */
+const sourceLabel = (sample: Pick<SampleAnswer, 'source' | 'derivedFromStudent'>): string =>
+  sample.source === 'USER'
+    ? 'Student'
+    : sample.source === 'HSC_EXEMPLAR'
+      ? 'Official'
+      : sample.source === 'AI' && sample.derivedFromStudent
+        ? 'Student + AI'
+        : 'AI Model';
+
+/**
+ * Reading order within one mark level: verified HSC exemplars first, then real
+ * student work, then AI rewrites of student work, then clean-room AI. It is a
+ * confidence ordering — the exemplar a student should read FIRST is the one
+ * closest to a real marked HSC response — and it makes "1 of 5" mean something
+ * predictable rather than reflecting the order they happened to be generated.
+ */
+const SOURCE_RANK: Record<string, number> = { HSC_EXEMPLAR: 0, USER: 1, AI: 2 };
+const byTrustworthiness = (a: SampleAnswer, b: SampleAnswer): number => {
+  const rank = (s: SampleAnswer) =>
+    (SOURCE_RANK[s.source ?? 'AI'] ?? 3) + (s.source === 'AI' && s.derivedFromStudent ? -0.5 : 0);
+  return rank(a) - rank(b) || (a.id > b.id ? 1 : a.id < b.id ? -1 : 0);
+};
 
 /**
  * Where an exemplar came from — and, for an AI one, whether it was written from
@@ -148,6 +183,17 @@ const CarouselAccordionItem: React.FC<{
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isCopied, setIsCopied] = useState(false);
     const [feedbackExpanded, setFeedbackExpanded] = useState(true);
+    // A generated batch can leave a dozen exemplars at one mark. The picker
+    // shows the first few — which, after the trustworthiness sort, are the ones
+    // worth reading first — and keeps the rest one click away rather than
+    // spending four rows of chips on near-identical AI variations.
+    const [showAllVariants, setShowAllVariants] = useState(false);
+    // Stepping past the fold with the header arrows opens the strip rather
+    // than leaving the reader on an exemplar no chip is highlighting.
+    const visibleVariants =
+      showAllVariants || currentIndex >= VISIBLE_VARIANTS
+        ? group.answers
+        : group.answers.slice(0, VISIBLE_VARIANTS);
 
     useEffect(() => {
       if (currentIndex >= group.answers.length && group.answers.length > 0) {
@@ -318,6 +364,58 @@ const CarouselAccordionItem: React.FC<{
               <div
                 className={`relative rounded-2xl bg-slate-50 dark:bg-[#0f1115] border ${bandConfig.border} overflow-hidden shadow-inner ${isSampleAnswerLocked(displayBand) ? 'blur-sm select-none pointer-events-none' : ''}`}
               >
+                {/* Which exemplar, of the several at this mark.
+                    The arrows in the header can step through them, but they
+                    say nothing about what is being stepped through: "2 of 5"
+                    turns five distinct exemplars into a shuffle, and a student
+                    reads all five to find out that four were AI variations on
+                    the same shape. Naming each one by where it came from and
+                    how long it is makes the choice a choice — most students
+                    want the Official one and one contrast, not the set. */}
+                {group.answers.length > 1 && (
+                  <div className="px-4 pt-4">
+                    <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 mb-2">
+                      {group.answers.length} exemplars at {group.mark}/{prompt.totalMarks}
+                    </p>
+                    <div
+                      className="flex flex-wrap gap-1.5"
+                      role="tablist"
+                      aria-label="Exemplars at this mark"
+                    >
+                      {visibleVariants.map((sample, i) => {
+                        const isCurrent = i === currentIndex;
+                        return (
+                          <button
+                            key={sample.id}
+                            role="tab"
+                            aria-selected={isCurrent}
+                            onClick={() => setCurrentIndex(i)}
+                            className={`px-2.5 py-1 rounded-lg text-[10px] font-bold border transition-all ${
+                              isCurrent
+                                ? `${bandConfig.solidBg} ${bandConfig.solidText} border-transparent shadow-sm`
+                                : 'bg-white dark:bg-white/5 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20'
+                            }`}
+                          >
+                            {sourceLabel(sample)}
+                            <span className={isCurrent ? 'opacity-70' : 'opacity-60'}>
+                              {' · '}
+                              {wordCountOf(sample.answer)}w
+                            </span>
+                          </button>
+                        );
+                      })}
+                      {group.answers.length > visibleVariants.length && (
+                        <button
+                          onClick={() => setShowAllVariants(true)}
+                          className="px-2.5 py-1 rounded-lg text-[10px] font-bold border border-dashed border-slate-300 dark:border-white/15 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+                        >
+                          +{group.answers.length - visibleVariants.length} more
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
+
                 {/* Controls Bar */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 border-b border-slate-200 dark:border-white/10 bg-white/50 dark:bg-white/[0.02]">
                   <AnswerMetricsDisplay
@@ -502,6 +600,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
   const panelId = useId();
   const opened = useOpenedOnce(!isCollapsed, prompt.id);
+  useSupportResource(prompt.id, 'sampleAnswers', !isCollapsed);
   const [isGeneratorOpen, setIsGeneratorOpen] = useState(false);
   const [revisionTarget, setRevisionTarget] = useState<SampleAnswer | null>(null);
   const [editorTarget, setEditorTarget] = useState<SampleAnswer | null>(null);
@@ -549,8 +648,11 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
       }
       groups[sa.mark].answers.push(sa);
     });
+    Object.values(groups).forEach((g) => g.answers.sort(byTrustworthiness));
     return Object.values(groups).sort((a, b) => b.mark - a.mark);
   }, [prompt.sampleAnswers, prompt.totalMarks, prompt.verb, commandTermInfo.tier]);
+
+  const totalSamples = groupedAnswers.reduce((sum, g) => sum + g.answers.length, 0);
 
   const handleRecalibrate = async (sampleIds: string[]) => {
     if (!onRecalibrate) return;
@@ -613,8 +715,12 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             <span
               className={`block truncate text-[10px] font-bold uppercase tracking-wider opacity-80 ${maxBandConfig.text}`}
             >
+              {/* The exemplar TOTAL, not just the level count. Eleven models
+                  spread over three levels and three models over three levels
+                  are very different things to walk into, and the folded card
+                  used to describe both as "3 performance levels". */}
               {groupedAnswers.length > 0
-                ? `${groupedAnswers.length} performance level${groupedAnswers.length === 1 ? '' : 's'}`
+                ? `${groupedAnswers.length} level${groupedAnswers.length === 1 ? '' : 's'} · ${totalSamples} exemplar${totalSamples === 1 ? '' : 's'}`
                 : 'No models yet'}
               {` • Band ceiling ${maxPossibleBand}`}
             </span>

@@ -109,6 +109,10 @@ describe('paid AI calls carry their feature tag', () => {
     // feature, and the gate silently does nothing.
     expect(bodyOf('evaluateAnswer')).toContain("__feature: 'evaluation'");
     expect(bodyOf('improveAnswer')).toContain("__feature: 'answerUpgrades'");
+    // The outcome briefing is a student-facing call, but it is a SOLD one:
+    // the modal that opens it carries a lock chip, so the proxy has to be able
+    // to refuse it too.
+    expect(bodyOf('explainOutcomeInContext')).toContain("__feature: 'outcomeBriefing'");
   });
 
   it('tags every AI Content Studio call, not just the obvious ones', () => {
@@ -139,18 +143,22 @@ describe('paid AI calls carry their feature tag', () => {
   });
 
   it('leaves the calls a STUDENT makes untagged', () => {
-    // None of these is an authoring action, and tagging any of them refuses a
-    // free student something that was never being sold:
-    //   explainOutcomeInContext → the reference-materials explainer
-    //   enrichPromptDetails     → the automatic backfill that runs when ANY
-    //                             user opens a question missing a scenario,
-    //                             keywords or linked outcomes. Tagging it
-    //                             opened an "AI Content Studio" upgrade prompt
-    //                             at a student who had only clicked a question.
-    //   screenContentQuality    → the automatic pre-screen on a shared-library
-    //                             contribution (it passes { studio: false })
-    // The AI quota still meters all three; that is the gate that belongs here.
-    expect(bodyOf('explainOutcomeInContext')).not.toContain('__feature');
+    // Neither of these is an authoring action, and neither is sold on its own,
+    // so tagging either refuses a free student something that was never being
+    // priced:
+    //   enrichPromptDetails  → the automatic backfill that runs when ANY user
+    //                          opens a question missing a scenario, keywords or
+    //                          linked outcomes. Tagging it opened an "AI
+    //                          Content Studio" upgrade prompt at a student who
+    //                          had only clicked a question.
+    //   screenContentQuality → the automatic pre-screen on a shared-library
+    //                          contribution (it passes { studio: false })
+    // The AI quota still meters both; that is the gate that belongs here.
+    //
+    // `explainOutcomeInContext` used to be on this list. It is now sold as
+    // `outcomeBriefing` — a student ASKS for it, one tap at a time, and the UI
+    // says so before the tap. That is what separates a priced student feature
+    // from a background call they never requested.
     expect(bodyOf('enrichPromptDetails')).not.toContain('__feature');
     expect(bodyOf('screenContentQuality')).toContain('studio: false');
   });

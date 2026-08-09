@@ -8,6 +8,10 @@ import { getBandConfig, getTierScaleConfig } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { PANEL_HEADER_CLOSED, PANEL_HEADER_OPEN, PANEL_SURFACE } from '../utils/panelStyles';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
+import { isFeatureLocked } from '../services/entitlements';
+import { PlusLockChip } from './UpgradeModal';
+import { useSupportResource } from '../hooks/useSupportResource';
+import { markSupportOpened, type SupportResourceId } from '../utils/supportEngagement';
 
 interface AccordionSectionProps {
   title: string;
@@ -19,6 +23,8 @@ interface AccordionSectionProps {
   band?: number;
   /** Question id — clears the "read" tick when the student moves on. */
   resetKey?: string;
+  /** Which of the question's supports this panel is, for the feedback report. */
+  supportId?: SupportResourceId;
 }
 
 export const AccordionSection: React.FC<AccordionSectionProps> = ({
@@ -29,11 +35,14 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
   defaultOpen = false,
   band = 6,
   resetKey,
+  supportId,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const bandConfig = useMemo(() => getBandConfig(band), [band]);
   const panelId = useId();
   const opened = useOpenedOnce(isOpen, resetKey);
+  // `resetKey` is the prompt id everywhere this panel is used for a question.
+  useSupportResource(resetKey, supportId, isOpen);
 
   return (
     <div className={`${PANEL_SURFACE} mb-3 last:mb-0`}>
@@ -121,6 +130,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
   // student can read it before attempting an answer rather than discovering it
   // by chance.
   const [selectedOutcome, setSelectedOutcome] = useState<CourseOutcome | null>(null);
+  const briefingLocked = isFeatureLocked('outcomeBriefing');
   const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
   const tierConfig = useMemo(() => getTierScaleConfig(verbInfo.tier), [verbInfo.tier]);
   const linkedOutcomes = useMemo(
@@ -140,16 +150,31 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
           icon={<Target />}
           band={verbInfo.tier}
           resetKey={prompt.id}
+          supportId="outcomes"
         >
           <div className="space-y-2.5">
+            {/* The briefing is easy to miss: nothing about a row of outcome
+                statements says the app will explain them for THIS question. It
+                is named here, and priced here — a student should learn what it
+                is and that it is a Plus feature in the same breath, not by
+                tapping and hitting a wall. */}
             <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
               Read these before you start writing — they are the standards this question is marked
-              against.
+              against. Tap any outcome for a briefing on what it wants from this question.
             </p>
+            {briefingLocked && (
+              <p className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                <PlusLockChip feature="outcomeBriefing" />
+                Briefings are part of Band 6 Plus — the outcomes themselves are always free to read.
+              </p>
+            )}
             {linkedOutcomes.map((outcome) => (
               <button
                 key={outcome.code}
-                onClick={() => setSelectedOutcome(outcome)}
+                onClick={() => {
+                  setSelectedOutcome(outcome);
+                  markSupportOpened(prompt.id, 'outcomeBriefing');
+                }}
                 className={`w-full text-left rounded-2xl border ${tierConfig.border} ${tierConfig.bg} p-4 transition-all hover:shadow-md hover:brightness-110 active:scale-[0.99] group/outcome-row`}
               >
                 <div className="flex items-center gap-2 mb-1.5">
@@ -170,6 +195,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                   <span className="ml-auto flex items-center gap-1.5 text-[9px] font-black uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400 opacity-70 group-hover/outcome-row:opacity-100 transition-opacity">
                     <Sparkles className="w-3 h-3" />
                     Explain for this question
+                    {briefingLocked && <PlusLockChip feature="outcomeBriefing" />}
                   </span>
                 </div>
                 <p className="text-[11px] text-slate-700 dark:text-slate-300 leading-relaxed font-serif">
@@ -181,7 +207,13 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
         </AccordionSection>
       )}
 
-      <AccordionSection title="Syllabus Terms" icon={<Sparkles />} band={4} resetKey={prompt.id}>
+      <AccordionSection
+        title="Syllabus Terms"
+        icon={<Sparkles />}
+        band={4}
+        resetKey={prompt.id}
+        supportId="keywords"
+      >
         <KeywordEditor
           {...props}
           syllabusText={props.dotPointText}
@@ -198,6 +230,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
           icon={<GraduationCap />}
           band={6}
           resetKey={prompt.id}
+          supportId="gradeStandards"
         >
           <div className="space-y-4">
             {[...topic.performanceBandDescriptors]
@@ -244,6 +277,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
         icon={<ListChecks />}
         band={5}
         resetKey={prompt.id}
+        supportId="markingGuide"
       >
         <MarkingCriteriaManager
           prompt={prompt}

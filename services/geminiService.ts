@@ -1727,16 +1727,44 @@ VERB: ${prompt.verb} (Cognitive Tier: ${termInfo.tier})
   return formatMarkingCriteria(response.text || '');
 };
 
+/**
+ * The briefing behind a linked outcome: what this outcome is asking the student
+ * to show in THIS question. A Plus feature (`outcomeBriefing`) — the outcome's
+ * own syllabus wording is free, but every open of this costs a provider call,
+ * so the tag is what makes the gate real rather than advisory.
+ *
+ * The brief is deliberately shaped. Left open, the model answered with an
+ * essay or an unheaded table and the student got prose to wade through at the
+ * moment they were trying to start writing. Tables are allowed — the renderer
+ * draws them properly now — but only where a table is genuinely the clearer
+ * form.
+ */
 export const explainOutcomeInContext = async (
   question: string,
   outcome: CourseOutcome
 ): Promise<string> => {
   const request = {
     ...aiTarget('basic'),
+    __feature: 'outcomeBriefing',
     contents: {
       parts: [
         {
-          text: `Explain how the question "${question}" relates to the syllabus outcome "${outcome.code}: ${outcome.description}".`,
+          text: `You are an experienced NSW HSC marker briefing a student who is about to answer this question.
+
+QUESTION: "${question}"
+SYLLABUS OUTCOME: "${outcome.code}: ${outcome.description}"
+
+Explain, in no more than 150 words, how this outcome applies to this question. Use these three headings exactly, each followed by one or two short sentences or up to three bullet points:
+
+### What this outcome is asking for
+### What a marker looks for here
+### How to show it in your answer
+
+Rules:
+- Write to the student, in the second person ("you"), plainly and concretely.
+- Use British/Australian English spelling (analyse, colour, behaviour).
+- Only use a markdown table where a genuine comparison needs one, and if you do, write it with a proper header row and a \`| --- |\` separator row.
+- No preamble, no closing summary, no restating the question.`,
         },
       ],
     },

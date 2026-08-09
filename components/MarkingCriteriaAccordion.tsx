@@ -314,6 +314,15 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
               parsedCriteria.map((item, idx) => {
                 const itemConfig = getBandConfig(item.band);
                 return (
+                  // Both halves of the row are painted from the SAME band
+                  // config, so the ladder is a ladder in whichever theme is on.
+                  // What used to break it was the config itself, not this
+                  // markup: the light tint was a `-50` shade on a white panel —
+                  // about a 2% difference — so in light mode every level showed
+                  // its coloured border and no fill at all, while dark mode's
+                  // alpha wash read correctly. Fixed at source in
+                  // `getBandConfig`; see the note there before reaching for a
+                  // local override here.
                   <div
                     key={idx}
                     className={`flex items-stretch rounded-xl border ${itemConfig.border} ${itemConfig.bg} overflow-hidden group shadow-sm transition-all`}

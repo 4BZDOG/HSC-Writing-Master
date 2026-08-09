@@ -10,8 +10,8 @@
  * devtools. `featureFromRequest` below is what made them real.
  *
  * WHICH GATES THIS FILE COVERS. Only the ones that spend a provider call and
- * carry a `__feature` tag: `aiContentStudio` and `answerUpgrades`. The other
- * four are enforced elsewhere, or not at all:
+ * carry a `__feature` tag: `aiContentStudio`, `answerUpgrades` and
+ * `outcomeBriefing`. The other four are enforced elsewhere, or not at all:
  *
  *   - `fullFeedback` — enforced, but by redaction rather than refusal
  *     (`redactEvaluationResponse` in ./entitlements.ts strips the paid parts
@@ -48,7 +48,8 @@ export type PremiumFeatureKey =
   | 'advancedQuestions'
   | 'fullFeedback'
   | 'sampleAnswers'
-  | 'examMode';
+  | 'examMode'
+  | 'outcomeBriefing';
 
 export const PLAN_ORDER: Plan[] = ['free', 'plus', 'school'];
 
@@ -66,6 +67,7 @@ const DEFAULT_FEATURE_MIN_PLAN: Record<PremiumFeatureKey, Plan> = {
   sampleAnswers: 'plus',
   examMode: 'plus',
   aiContentStudio: 'plus',
+  outcomeBriefing: 'plus',
 };
 
 export const parseFeatureOverrides = (

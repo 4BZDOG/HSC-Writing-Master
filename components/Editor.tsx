@@ -40,6 +40,7 @@ import { MAX_CARD_HEIGHT } from '../utils/layoutConstants';
 import { useChromeHeightReporter } from '../hooks/useChromeHeightReporter';
 import { PlusLockChip } from './UpgradeModal';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
+import { useSupportResource } from '../hooks/useSupportResource';
 import {
   CARD_HEADER_BAR,
   CARD_HEADER_BOX,
@@ -65,6 +66,9 @@ interface EditorProps {
   className?: string;
   keywords?: string[];
   verb?: PromptVerb;
+  /** The question being answered. Only used to record which supports the
+   *  student opened before writing — see utils/supportEngagement.ts. */
+  promptId?: string;
   isFocusMode?: boolean;
   onToggleFocusMode?: () => void;
   progress?: number; // 0 to 1 scale representing completeness/quality
@@ -93,6 +97,13 @@ interface EditorProps {
    *  ~90px out of a card whose height is fixed by the question beside it. */
   footerAction?: React.ReactNode;
 }
+
+/**
+ * Words written before the strategy row stands down from its leading state.
+ * Roughly two sentences — long enough that the student has plainly started,
+ * short enough that the row is out of the way before the writing gets going.
+ */
+const STRATEGY_SETTLED_WORDS = 25;
 
 const MeshOverlay = ({
   opacity = 'opacity-[0.03]',
@@ -157,6 +168,7 @@ const Editor = forwardRef<
       className = '',
       keywords,
       verb,
+      promptId,
       isFocusMode,
       onToggleFocusMode,
       progress = 0,
@@ -195,6 +207,13 @@ const Editor = forwardRef<
     // coaching.
     const [showStrategy, setShowStrategy] = useState(false);
     const strategyOpened = useOpenedOnce(showStrategy, verb);
+    // Exam Mode has no strategy row at all, so it must not be reported as a
+    // support the student declined to open.
+    useSupportResource(
+      isExamMode || !verb ? undefined : promptId,
+      'strategy',
+      showStrategy || strategyOpened
+    );
     // Bold/italic, folded away by default — see the toolbar below.
     const [showFormatting, setShowFormatting] = useState(false);
     const strategyPanelId = useId();
@@ -214,6 +233,20 @@ const Editor = forwardRef<
 
     const verbInfo = useMemo(() => getCommandTermInfo(verb), [verb]);
     const verbTier = verbInfo.tier;
+
+    /**
+     * When the strategy row has stopped being the most useful thing on screen.
+     *
+     * Two ways to get there, and both are the student telling us something:
+     * they have already read it for this verb, or they are far enough into a
+     * draft that they clearly know how to start. The word floor is deliberately
+     * low — a couple of sentences — because the row's whole claim is on the
+     * moment BEFORE the first sentence, and after that it is competing with the
+     * writing for the same attention.
+     */
+    const strategySpent = strategyOpened || wordCount >= STRATEGY_SETTLED_WORDS;
+    /** Shut, unspent: the state where the row is worth shouting in. */
+    const strategyLeading = !showStrategy && !strategySpent;
 
     // The first instruction in the verb's tip, quoted in the strategy row while
     // it is folded shut. Examples and term chips are skipped — out of context
@@ -711,14 +744,33 @@ const Editor = forwardRef<
           </div>
 
           {/* Writing Strategy Tip — Coach mode only.
-            Folded, this used to be a grey label on a hairline between two
-            slabs of chrome: it read as a divider, so the coaching a student
-            most needs before the first sentence went unopened. It now carries
-            the amber the tip itself uses, and — the part that actually makes
-            it worth opening — the first tip is quoted in the closed row, so
-            there is something to read rather than a promise of something. */}
+            The row has three jobs and they pull against each other, so it has
+            three states rather than one compromise between them.
+
+            LEADING (shut, unread, nothing written yet): the coaching a student
+            most needs before the first sentence, so it is the loudest thing
+            between the header and the page — amber wash, a lit tile, "Read
+            this first", and the first tip quoted so there is something to read
+            rather than a promise of something.
+
+            OPEN: a proper card with the verb's definition set as a lead-in
+            above its tips, not a paragraph loose on the chrome.
+
+            SPENT (shut, and either already read or the student is well into a
+            draft): a hairline. The advice does not stop being available, it
+            stops competing with the writing — which is the only thing that
+            matters once the writing has started. It brightens on hover and
+            focus, so a student who wants it back does not have to hunt. */}
           {!isExamMode && verb && (
-            <div className="border-t border-amber-500/20 light:border-amber-200/70 bg-amber-500/[0.05] light:bg-amber-50/60">
+            <div
+              className={`border-t transition-colors duration-500 ${
+                strategyLeading
+                  ? 'border-amber-500/40 light:border-amber-300 bg-gradient-to-r from-amber-500/[0.13] via-amber-500/[0.06] to-transparent light:from-amber-100 light:via-amber-50 light:to-transparent'
+                  : showStrategy
+                    ? 'border-amber-500/25 light:border-amber-200 bg-amber-500/[0.05] light:bg-amber-50/60'
+                    : 'border-white/10 light:border-slate-200 bg-transparent'
+              }`}
+            >
               <button
                 type="button"
                 onClick={() => setShowStrategy((s) => !s)}
@@ -729,33 +781,69 @@ const Editor = forwardRef<
                     ? 'Hide the writing strategy for this command verb'
                     : `How to answer a ${verbInfo.term} question`
                 }
-                className="w-full flex items-center gap-2 px-4 sm:px-6 py-2 text-left hover:bg-amber-500/10 light:hover:bg-amber-100/70 transition-colors"
+                className={`w-full flex items-center gap-2.5 px-4 sm:px-6 text-left transition-all duration-300 hover:bg-amber-500/10 light:hover:bg-amber-100/70 focus-visible:bg-amber-500/10 ${
+                  strategyLeading ? 'py-2.5' : 'py-1.5'
+                } ${strategySpent ? 'opacity-60 hover:opacity-100 focus-visible:opacity-100' : ''}`}
               >
-                <Lightbulb className="w-3.5 h-3.5 text-amber-400 light:text-amber-600 flex-shrink-0" />
-                <span className="text-[10px] font-black uppercase tracking-[0.15em] text-amber-400/90 light:text-amber-700 flex-shrink-0">
+                {strategyLeading ? (
+                  <span className="relative flex-shrink-0 w-6 h-6 rounded-lg bg-amber-500/20 light:bg-amber-200/80 border border-amber-500/40 light:border-amber-300 flex items-center justify-center">
+                    {/* A slow glow, not a blink: enough to be noticed on
+                        arrival, not enough to nag while a student thinks. */}
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-0 rounded-lg bg-amber-400/30 animate-pulse-glow motion-reduce:animate-none"
+                    />
+                    <Lightbulb className="relative w-3.5 h-3.5 text-amber-400 light:text-amber-700" />
+                  </span>
+                ) : (
+                  <Lightbulb
+                    className={`w-3.5 h-3.5 flex-shrink-0 ${
+                      showStrategy
+                        ? 'text-amber-400 light:text-amber-600'
+                        : 'text-[rgb(var(--color-text-dim))] light:text-slate-400'
+                    }`}
+                  />
+                )}
+                <span
+                  className={`text-[10px] font-black uppercase tracking-[0.15em] flex-shrink-0 ${
+                    strategySpent
+                      ? 'text-[rgb(var(--color-text-dim))] light:text-slate-500'
+                      : 'text-amber-400/90 light:text-amber-700'
+                  }`}
+                >
+                  {strategyLeading && <span className="mr-1.5">Read this first ·</span>}
                   {verbInfo.term} Strategy
                 </span>
-                {/* The hook. Hidden once the panel is open — it is the first
-                  line of what is now on screen — and on the narrowest widths,
-                  where it would push the row to two lines. */}
-                {!showStrategy && strategyPreview && (
-                  <span className="hidden sm:block text-[11px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500 truncate min-w-0 italic">
+                {/* The hook. Dropped once the panel is open — it is the first
+                  line of what is now on screen — once the row has done its job,
+                  and on the narrowest widths, where it would push the row to
+                  two lines. */}
+                {strategyLeading && strategyPreview && (
+                  <span className="hidden sm:block text-[11px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-600 truncate min-w-0 italic">
                     {strategyPreview}
                   </span>
                 )}
                 <div className="flex items-center gap-2 ml-auto flex-shrink-0">
                   <PanelReadChip show={strategyOpened && !showStrategy} />
                   <ChevronDown
-                    className={`w-3 h-3 text-amber-400/70 light:text-amber-600 transition-transform duration-200 ${showStrategy ? 'rotate-180' : ''}`}
+                    className={`w-3 h-3 transition-transform duration-200 ${
+                      showStrategy ? 'rotate-180 text-amber-400 light:text-amber-600' : ''
+                    } ${strategySpent ? 'text-[rgb(var(--color-text-dim))]' : 'text-amber-400/70 light:text-amber-600'}`}
                   />
                 </div>
               </button>
               {showStrategy && (
-                <div id={strategyPanelId} className="px-4 sm:px-6 pb-3 animate-fade-in">
-                  <p className="text-xs font-semibold text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed mb-2">
-                    {verbInfo.definition}
-                  </p>
-                  <StrategyTip tip={verbInfo.tip} />
+                <div id={strategyPanelId} className="px-4 sm:px-6 pb-4 animate-fade-in">
+                  <div className="rounded-2xl border border-amber-500/20 light:border-amber-200 bg-amber-500/[0.06] light:bg-amber-50/80 px-4 py-3.5">
+                    <p className="text-xs font-semibold text-[rgb(var(--color-text-secondary))] light:text-slate-700 leading-relaxed">
+                      {verbInfo.definition}
+                    </p>
+                    <div
+                      aria-hidden="true"
+                      className="my-3 h-px bg-amber-500/20 light:bg-amber-200"
+                    />
+                    <StrategyTip tip={verbInfo.tip} />
+                  </div>
                 </div>
               )}
             </div>
