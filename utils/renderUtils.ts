@@ -727,10 +727,32 @@ const isSeparatorRow = (line: string): boolean => {
  * Split one row into cells. The outer pipes are optional (both `| a | b |` and
  * `a | b` are valid GFM), and `\|` is an escaped pipe inside a cell rather than
  * a divider.
+ *
+ * Scanned by hand rather than with `split(/(?<!\\)\|/)`. A lookbehind is a
+ * PARSE error on Safari before 16.4, not a runtime one, so a single such regex
+ * anywhere in a module takes the whole module down as it loads — and this
+ * module is imported by the prompt, the editor and the marking report, i.e.
+ * every screen. The app still supports that Safari (see the `overflow-x: clip`
+ * fallback in index.css), and the one other lookbehind in the codebase is in
+ * `pdf/text.ts`, which is loaded on demand and can only cost the exporter.
  */
 const splitTableRow = (line: string): string[] => {
   const trimmed = line.trim().replace(/^\|/, '').replace(/\|$/, '');
-  return trimmed.split(/(?<!\\)\|/).map((cell) => cell.replace(/\\\|/g, '|').trim());
+  const cells: string[] = [];
+  let cell = '';
+  for (let i = 0; i < trimmed.length; i++) {
+    if (trimmed[i] === '\\' && trimmed[i + 1] === '|') {
+      cell += '|';
+      i++;
+    } else if (trimmed[i] === '|') {
+      cells.push(cell.trim());
+      cell = '';
+    } else {
+      cell += trimmed[i];
+    }
+  }
+  cells.push(cell.trim());
+  return cells;
 };
 
 const alignOf = (cell: string): TableAlign => {

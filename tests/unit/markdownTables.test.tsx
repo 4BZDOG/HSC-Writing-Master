@@ -60,6 +60,18 @@ describe('markdown tables in AI prose', () => {
     expect(container.querySelectorAll('tbody tr td')).toHaveLength(3);
   });
 
+  it('treats an escaped pipe as content, not a column divider', () => {
+    const table = [
+      '| Operator | Meaning |',
+      '| --- | --- |',
+      String.raw`| a \| b | bitwise or |`,
+    ].join('\n');
+
+    const cells = draw(table).querySelectorAll('tbody td');
+    expect(cells).toHaveLength(2);
+    expect(cells[0].textContent).toBe('a | b');
+  });
+
   it('leaves prose containing a stray pipe alone', () => {
     const prose = 'Choose either | or & as the separator.';
     const container = draw(prose);
