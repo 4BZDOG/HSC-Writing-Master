@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useId, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useId, useMemo, useDeferredValue } from 'react';
 import { getTierScaleConfig } from '../utils/renderUtils';
 import { PromptVerb } from '../types';
 import { Sparkles, ChevronDown, Search, X } from 'lucide-react';
@@ -173,10 +173,26 @@ const Combobox: React.FC<ComboboxProps> = ({
 
   // Search appears only where scanning stops being the faster option.
   const isSearchable = options.length >= SEARCH_THRESHOLD;
+
+  /**
+   * The typed text paints immediately; the LIST catches up.
+   *
+   * Every keystroke re-filters and re-renders up to twenty question rows, each
+   * a tinted card with its own chips — enough work to be felt on a school
+   * laptop, and felt in the worst place, between a key going down and the
+   * letter appearing. `useDeferredValue` rather than a timer because there is
+   * no delay here that would be right for every machine: React re-renders the
+   * list at a lower priority and abandons the attempt if another key arrives,
+   * so a fast typist gets one filter pass at the end instead of one per letter,
+   * and a fast machine still gets it in the same frame.
+   */
+  const deferredQuery = useDeferredValue(query);
   const visibleOptions = useMemo(
     () =>
-      isSearchable && query.trim() ? options.filter((option) => matches(option, query)) : options,
-    [options, query, isSearchable]
+      isSearchable && deferredQuery.trim()
+        ? options.filter((option) => matches(option, deferredQuery))
+        : options,
+    [options, deferredQuery, isSearchable]
   );
 
   useEffect(() => {
@@ -473,13 +489,15 @@ const Combobox: React.FC<ComboboxProps> = ({
             ) : (
               <li className="py-4 px-4 text-center">
                 <span className="block text-[rgb(var(--color-text-muted))] italic text-xs">
-                  {query.trim() ? `Nothing matches “${query.trim()}”.` : 'No options available.'}
+                  {deferredQuery.trim()
+                    ? `Nothing matches “${deferredQuery.trim()}”.`
+                    : 'No options available.'}
                 </span>
                 {emptyAction && (
                   <button
                     type="button"
                     onClick={() => {
-                      emptyAction.onAction(query.trim());
+                      emptyAction.onAction(deferredQuery.trim());
                       setIsOpen(false);
                     }}
                     className="mt-2 text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline not-italic"

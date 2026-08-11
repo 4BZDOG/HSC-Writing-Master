@@ -139,3 +139,33 @@ describe('Combobox search', () => {
     expect(optionTexts()).toHaveLength(questions.length);
   });
 });
+
+describe('typing stays instant', () => {
+  /**
+   * The list is deferred; the TEXT is not. Filtering twenty tinted question
+   * rows is enough work to be felt on a school laptop, and the one place it
+   * must never be felt is between a key going down and the letter appearing —
+   * which is exactly what a naive debounce on the input's own value would do.
+   */
+  it('shows each keystroke in the box straight away', () => {
+    renderBox(questions);
+
+    fireEvent.change(search(), { target: { value: 'c' } });
+    expect((search() as HTMLInputElement).value).toBe('c');
+
+    fireEvent.change(search(), { target: { value: 'ca' } });
+    expect((search() as HTMLInputElement).value).toBe('ca');
+
+    fireEvent.change(search(), { target: { value: 'cache' } });
+    expect((search() as HTMLInputElement).value).toBe('cache');
+    // …and the list has caught up by the time anyone could read it.
+    expect(optionTexts()).toHaveLength(1);
+  });
+
+  it('names the query the list was actually filtered by', () => {
+    renderBox(questions);
+    fireEvent.change(search(), { target: { value: 'zzz' } });
+
+    expect(screen.getByText(/Nothing matches “zzz”/)).toBeTruthy();
+  });
+});
