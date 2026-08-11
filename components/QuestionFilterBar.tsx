@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ListFilter, ChevronDown, RotateCcw, Landmark, AlertTriangle } from 'lucide-react';
+import { ListFilter, ChevronDown, RotateCcw, Landmark, AlertTriangle, Circle } from 'lucide-react';
 import RangeSlider from './RangeSlider';
 import {
   QuestionBounds,
@@ -50,7 +50,7 @@ const QuestionFilterBar: React.FC<QuestionFilterBarProps> = ({
   // control that cannot change the list.
   const canFilterTier = bounds.tier[1] > bounds.tier[0];
   const canFilterMarks = bounds.marks[1] > bounds.marks[0];
-  if (!canFilterTier && !canFilterMarks && !bounds.hasPastHsc) return null;
+  if (!canFilterTier && !canFilterMarks && !bounds.hasPastHsc && !bounds.hasAttempts) return null;
 
   const reset = () => onChange(widestFilter(bounds));
 
@@ -131,24 +131,47 @@ const QuestionFilterBar: React.FC<QuestionFilterBarProps> = ({
               accent="text-sky-400 light:text-sky-600"
             />
           )}
-          {bounds.hasPastHsc && (
-            <button
-              type="button"
-              onClick={() => onChange({ ...filter, pastHscOnly: !filter.pastHscOnly })}
-              aria-pressed={filter.pastHscOnly}
-              className={`self-start flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[10px] font-black uppercase tracking-wider transition-all ${
-                // Amber is the provenance colour the rows use for a past-HSC
-                // chip, so it stays on the icon and label either way — but the
-                // fill is what says pressed, and an amber-tinted OFF state read
-                // as half-on.
-                filter.pastHscOnly
-                  ? 'bg-amber-500 text-white border-amber-400 shadow-sm'
-                  : 'bg-[rgb(var(--color-bg-surface))] light:bg-white text-amber-400 light:text-amber-700 border-white/10 light:border-slate-300 hover:border-amber-500/40'
-              }`}
-            >
-              <Landmark className="w-3 h-3" />
-              Past HSC only
-            </button>
+          {(bounds.hasAttempts || bounds.hasPastHsc) && (
+            <div className="flex flex-wrap items-center gap-2">
+              {/* "Not yet attempted" is only offered once the reader HAS a
+                  history here — before that it filters on a distinction that
+                  does not exist for them, hiding nothing while looking as
+                  though it should. */}
+              {bounds.hasAttempts && (
+                <button
+                  type="button"
+                  onClick={() => onChange({ ...filter, unattemptedOnly: !filter.unattemptedOnly })}
+                  aria-pressed={filter.unattemptedOnly}
+                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[10px] font-black uppercase tracking-wider transition-all ${
+                    filter.unattemptedOnly
+                      ? 'bg-emerald-500 text-white border-emerald-400 shadow-sm'
+                      : 'bg-[rgb(var(--color-bg-surface))] light:bg-white text-emerald-400 light:text-emerald-700 border-white/10 light:border-slate-300 hover:border-emerald-500/40'
+                  }`}
+                >
+                  <Circle className="w-3 h-3" />
+                  Not yet attempted
+                </button>
+              )}
+              {bounds.hasPastHsc && (
+                <button
+                  type="button"
+                  onClick={() => onChange({ ...filter, pastHscOnly: !filter.pastHscOnly })}
+                  aria-pressed={filter.pastHscOnly}
+                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[10px] font-black uppercase tracking-wider transition-all ${
+                    // Amber is the provenance colour the rows use for a past-HSC
+                    // chip, so it stays on the icon and label either way — but
+                    // the fill is what says pressed, and an amber-tinted OFF
+                    // state read as half-on.
+                    filter.pastHscOnly
+                      ? 'bg-amber-500 text-white border-amber-400 shadow-sm'
+                      : 'bg-[rgb(var(--color-bg-surface))] light:bg-white text-amber-400 light:text-amber-700 border-white/10 light:border-slate-300 hover:border-amber-500/40'
+                  }`}
+                >
+                  <Landmark className="w-3 h-3" />
+                  Past HSC only
+                </button>
+              )}
+            </div>
           )}
           {/* Tier names are short by necessity; the slider's ends say what they
               actually mean. */}

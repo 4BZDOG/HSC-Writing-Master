@@ -17,7 +17,7 @@
  */
 import { supabase } from './supabaseClient';
 import { isCurriculumRemote } from './curriculumService';
-import { resolvePromptRowId } from './contributionService';
+import { resolvePromptRowId, resolvePromptRowIds } from './contributionService';
 import type { EvaluationResult, UserFeedback } from '../types';
 
 // --- Class analytics (reviewer-facing read path over persisted responses) ----
@@ -356,6 +356,80 @@ export const persistResponse = async (
     console.warn('[responses] persist failed (ignored):', e);
   }
 };
+
+/** What the picker needs to know about a question the caller has answered. */
+export interface AttemptSummary {
+  /** The app-facing prompt id, so callers can key straight off their own data. */
+  promptId: string;
+  mark: number | null;
+  band: number | null;
+  /** ISO timestamp of the latest attempt — how "most recent" is decided. */
+  attemptedAt: string | null;
+}
+
+/**
+ * The caller's own attempts at a set of questions — the read side of
+ * `persistResponse`, and the substrate for personal ordering in the question
+ * picker (projectDocs/contentVolumeStrategy.md).
+ *
+ * Scoped to the caller by the `responses_read` RLS policy; this asks for the
+ * mark and the band only, never anyone's draft. Best-effort like the rest of
+ * this module: local mode, a guest with no session, or a failed lookup all
+ * return an empty map, and the picker simply shows no personal marks rather
+ * than an error. Never throws.
+ */
+export const fetchMyAttempts = async (
+  promptAppIds: string[]
+): Promise<Map<string, AttemptSummary>> => {
+  const empty = new Map<string, AttemptSummary>();
+  if (!isCurriculumRemote() || !supabase || promptAppIds.length === 0) return empty;
+  try {
+    const userId = await currentUserId();
+    if (!userId) return empty;
+
+    const rowIds = await resolvePromptRowIds(promptAppIds);
+    if (rowIds.size === 0) return empty;
+
+    const { data, error } = await supabase
+      .from('responses')
+      .select('prompt_id, overall_mark, overall_band, updated_at')
+      .eq('user_id', userId)
+      .in('prompt_id', Array.from(new Set(rowIds.values())));
+    if (error) {
+      console.warn('[responses] attempt lookup failed (ignored):', error.message);
+      return empty;
+    }
+
+    const byRowId = new Map<string, ResponseSummaryRow>();
+    for (const row of (data ?? []) as ResponseSummaryRow[]) byRowId.set(row.prompt_id, row);
+
+    // Keyed back to app ids: two app ids can resolve to one row (the same
+    // seeded question reached by legacy id and by uuid), so this walks the
+    // resolution map rather than the rows.
+    const out = new Map<string, AttemptSummary>();
+    rowIds.forEach((rowId, appId) => {
+      const row = byRowId.get(rowId);
+      if (!row) return;
+      out.set(appId, {
+        promptId: appId,
+        mark: row.overall_mark ?? null,
+        band: row.overall_band ?? null,
+        attemptedAt: row.updated_at ?? null,
+      });
+    });
+    return out;
+  } catch (e) {
+    console.warn('[responses] attempt lookup failed (ignored):', e);
+    return empty;
+  }
+};
+
+interface ResponseSummaryRow {
+  prompt_id: string;
+  overall_mark: number | null;
+  overall_band: number | null;
+  updated_at: string | null;
+}
 
 /**
  * Attach the student's thumbs up/down on the AI feedback to their stored

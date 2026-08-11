@@ -102,6 +102,37 @@ Only same-mark exemplars are compared. A 4/6 that closely resembles the 6/6 is
 the ladder being tight, which is frequently correct and is a different question
 entirely.
 
+## The sixth move: order it for the reader in front of you
+
+Everything above is impersonal — the same list, in the same order, for
+everybody. The app has been storing every marked attempt since
+`persistResponse` landed, and nothing read it back into the picker. Doing so is
+the only move here that shortens a list *for this reader* without them setting
+anything:
+
+- **A question already answered is a different object**, and the row says so
+  with the mark: "You: 4/6". That is the fact a returning student actually
+  navigates by, and the picker previously could not tell them.
+- **There is a knowable next question.** Not the hardest one, and not whichever
+  the curator happened to add first — one step on from where they got to. It is
+  lifted out of its tier group into its own heading at the top, which names the
+  reason ("one step on from Describe"), and it appears exactly once: a question
+  in two groups at the same time reads as a bug.
+- **"Not yet attempted"** joins the refinement strip, but only once the reader
+  has a history here — before that it would filter on a distinction that does
+  not exist for them.
+
+The step is deliberately conservative: a result at or above 60% of the marks
+moves up a tier; anything less stays put, because the answer to "you scored 40%"
+is another question at that level, not a harder one. An unscored attempt
+consolidates too — it is the safer call to get wrong. The suggestion never
+points at a question that already carries a mark, and where nothing sits at or
+above the target tier it offers the nearest rung down, because silence is not an
+answer.
+
+All of it is absent in local mode and for a reader with no history, where the
+picker is exactly what it was before.
+
 ## Where this is implemented
 
 | Surface | What it does |
@@ -114,6 +145,10 @@ entirely.
 | `services/geminiService.ts` | `generateSampleAnswer` now reads the question's SAVED exemplars as well as the caller's batch, and gives the ones at the same mark their own brief ("a genuinely different response of the same quality, not a paraphrase"). Previously a second batch at 6/6 was written with no sight of the first — the mechanism by which a level accumulated variations. |
 | `utils/answerSimilarity.ts` | Jaccard overlap over word BIGRAMS (`answerSimilarity`, `findNearDuplicate`). Unigrams are useless here: two answers to one question necessarily share their vocabulary. Bigrams carry phrasing, which is what a paraphrase preserves. Tags stripped, so stored mark-up does not register as difference. |
 | `components/SampleAnswerGeneratorModal.tsx` | Compares each generated answer against the exemplars at ITS OWN mark (a 4/6 resembling the 6/6 is a tight ladder, not a duplicate). A repeat is held back — never written, never silently dropped — and shown beside the exemplar it repeats with its overlap, for Keep or Discard. The modal will not close or generate again over an undecided one. |
+| `services/responseService.ts` | `fetchMyAttempts` — the read side of `persistResponse`, scoped to the caller by the `responses_read` RLS policy and asking for the mark and band only, never anyone's draft. Best-effort: local mode, a guest, or a failed lookup all return an empty map. |
+| `services/contributionService.ts` | `resolvePromptRowIds` resolves a whole dot point's app ids in one round trip, with the same seeded-content-wins tie-break as the single-id version — `legacy_id` is not unique, and picking a teacher's private variant would attach a student's marks to the wrong question. |
+| `utils/personalOrdering.ts` | The suggestion rule, pure: `mostRecentAttempt`, `suggestNextQuestion`, `STEP_UP_THRESHOLD`. |
+| `hooks/useAttemptHistory.ts` | One fetch per set of question ids, keyed on the sorted list so re-rendering the picker does not re-ask the server. No loading or error surface — nothing here is worth interrupting navigation for. |
 | `components/RangeSlider.tsx` | Two-handled range built from two native `input[type=range]`s, so arrow keys, Home/End and screen-reader announcement come from the platform. Handles cannot cross. Paint is in `.dual-range` (`index.css`), tinted from `currentColor` so one Tailwind class themes the control. |
 
 ## What was considered and rejected
@@ -137,12 +172,15 @@ entirely.
 
 ## What to do next, if volume keeps growing
 
-- **Personal ordering.** Once a student has attempted a dot point, surface the
-  question one tier above their last result first, and mark attempted questions
-  in the picker. The data exists (`services/responseService.ts`); nothing reads
-  it here yet. It is the last of the three original follow-ups still open, and
-  the most valuable: it is the only one that makes a long list shorter *for this
-  reader* without anyone having to set anything.
+- **Cross-dot-point ordering.** The suggestion reasons over one dot point's
+  questions, because that is the list on screen. A student who has finished a
+  dot point is told nothing about where to go next in the topic. That is a
+  bigger surface than the picker (it belongs somewhere in the journey rail), and
+  it needs a wider read than `fetchMyAttempts` does.
+- **Per-attempt history rather than the latest.** `uq_responses_user_prompt`
+  keeps one row per (student, question), so "You: 4/6" is the LAST attempt, not
+  the best or the trend. `response_events` already records each attempt; a
+  second read could say "4/6, up from 2/6".
 - **A "one of each kind" default.** When a level holds several exemplars from
   the same source, lead with one per source and fold the duplicates within a
   source, rather than folding by position.

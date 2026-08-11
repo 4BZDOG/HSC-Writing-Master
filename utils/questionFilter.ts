@@ -34,6 +34,8 @@ export interface QuestionFacet {
   marks: number;
   /** Provenance — a past HSC question is a different thing from a generated one. */
   isPastHsc?: boolean;
+  /** Whether the reader has already answered this one (personal ordering). */
+  attempted?: boolean;
 }
 
 /** An inclusive `[low, high]` pair. Both controls and bounds use this shape. */
@@ -47,6 +49,12 @@ export interface QuestionBounds {
   tier: Range;
   marks: Range;
   hasPastHsc: boolean;
+  /**
+   * Whether any of these questions has been attempted. False in local mode and
+   * for a reader with no history, where "not yet attempted" would filter on a
+   * distinction that does not exist yet.
+   */
+  hasAttempts: boolean;
   total: number;
 }
 
@@ -55,12 +63,15 @@ export interface QuestionFilter {
   marks: Range;
   /** Past-HSC questions only. Ignored when the dot point holds none. */
   pastHscOnly: boolean;
+  /** Hide the questions the reader has already answered. */
+  unattemptedOnly: boolean;
 }
 
 const EMPTY_BOUNDS: QuestionBounds = {
   tier: [1, 6],
   marks: [1, 1],
   hasPastHsc: false,
+  hasAttempts: false,
   total: 0,
 };
 
@@ -77,6 +88,7 @@ export const describeQuestions = (facets: QuestionFacet[]): QuestionBounds => {
   let markLow = Infinity;
   let markHigh = -Infinity;
   let hasPastHsc = false;
+  let hasAttempts = false;
 
   for (const f of facets) {
     const tier = clamp(Math.round(f.tier) || 1, 1, 6);
@@ -88,12 +100,14 @@ export const describeQuestions = (facets: QuestionFacet[]): QuestionBounds => {
     markLow = Math.min(markLow, marks);
     markHigh = Math.max(markHigh, marks);
     if (f.isPastHsc) hasPastHsc = true;
+    if (f.attempted) hasAttempts = true;
   }
 
   return {
     tier: [tierLow, tierHigh],
     marks: [markLow, markHigh],
     hasPastHsc,
+    hasAttempts,
     total: facets.length,
   };
 };
@@ -103,6 +117,7 @@ export const widestFilter = (bounds: QuestionBounds): QuestionFilter => ({
   tier: [...bounds.tier] as Range,
   marks: [...bounds.marks] as Range,
   pastHscOnly: false,
+  unattemptedOnly: false,
 });
 
 /**
@@ -124,12 +139,14 @@ export const clampFilter = (filter: QuestionFilter, bounds: QuestionBounds): Que
     tier: fit(filter.tier, bounds.tier),
     marks: fit(filter.marks, bounds.marks),
     pastHscOnly: filter.pastHscOnly && bounds.hasPastHsc,
+    unattemptedOnly: filter.unattemptedOnly && bounds.hasAttempts,
   };
 };
 
 /** True when the filter is holding anything back — i.e. worth announcing. */
 export const isFilterActive = (filter: QuestionFilter, bounds: QuestionBounds): boolean =>
   filter.pastHscOnly ||
+  filter.unattemptedOnly ||
   filter.tier[0] > bounds.tier[0] ||
   filter.tier[1] < bounds.tier[1] ||
   filter.marks[0] > bounds.marks[0] ||
@@ -141,6 +158,7 @@ export const matchesFilter = (facet: QuestionFacet, filter: QuestionFilter): boo
   if (tier < filter.tier[0] || tier > filter.tier[1]) return false;
   if (marks < filter.marks[0] || marks > filter.marks[1]) return false;
   if (filter.pastHscOnly && !facet.isPastHsc) return false;
+  if (filter.unattemptedOnly && facet.attempted) return false;
   return true;
 };
 
@@ -181,6 +199,7 @@ export const summariseFilter = (filter: QuestionFilter, bounds: QuestionBounds):
   }
 
   if (filter.pastHscOnly) parts.push('Past HSC only');
+  if (filter.unattemptedOnly) parts.push('Not yet attempted');
 
   return parts;
 };

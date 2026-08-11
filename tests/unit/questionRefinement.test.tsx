@@ -72,7 +72,12 @@ describe('question filter model', () => {
 
   it('re-fits a filter when the questions under it change', () => {
     const narrower = describeQuestions([{ id: 'x', tier: 2, marks: 4 }]);
-    const carried: QuestionFilter = { tier: [4, 6], marks: [6, 9], pastHscOnly: true };
+    const carried: QuestionFilter = {
+      tier: [4, 6],
+      marks: [6, 9],
+      pastHscOnly: true,
+      unattemptedOnly: true,
+    };
     const fitted = clampFilter(carried, narrower);
 
     // Nothing survives of a range that no longer overlaps, so it reopens rather
@@ -81,14 +86,21 @@ describe('question filter model', () => {
     expect(fitted.marks).toEqual([4, 4]);
     // A toggle whose subject no longer exists would filter against nothing.
     expect(fitted.pastHscOnly).toBe(false);
+    expect(fitted.unattemptedOnly).toBe(false);
   });
 
   it('says in words what it is holding back', () => {
     const bounds = describeQuestions(facets);
-    expect(summariseFilter({ tier: [4, 5], marks: [3, 8], pastHscOnly: false }, bounds)).toEqual([
+    expect(summariseFilter(
+        { tier: [4, 5], marks: [3, 8], pastHscOnly: false, unattemptedOnly: false },
+        bounds
+      )).toEqual([
       'Analyse → Discuss',
     ]);
-    expect(summariseFilter({ tier: [2, 5], marks: [6, 6], pastHscOnly: true }, bounds)).toEqual([
+    expect(summariseFilter(
+        { tier: [2, 5], marks: [6, 6], pastHscOnly: true, unattemptedOnly: false },
+        bounds
+      )).toEqual([
       '6 marks',
       'Past HSC only',
     ]);
