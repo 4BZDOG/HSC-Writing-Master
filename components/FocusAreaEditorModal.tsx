@@ -203,7 +203,7 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
               ))}
 
               {items.length === 0 && (
-                <p className="py-6 text-center text-xs text-[rgb(var(--color-text-muted))] light:text-slate-400 border-2 border-dashed border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 rounded-xl">
+                <p className="py-6 text-center text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 border-2 border-dashed border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 rounded-xl">
                   No focus areas. Questions will be written against the whole dot point.
                 </p>
               )}

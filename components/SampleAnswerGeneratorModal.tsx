@@ -501,7 +501,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                       {option.mark}
                     </span>
                     <span
-                      className={`text-[9px] font-black uppercase tracking-wider ${isSelected ? optionBandConfig.text : 'text-[rgb(var(--color-text-muted))] light:text-slate-400'}`}
+                      className={`text-[9px] font-black uppercase tracking-wider ${isSelected ? optionBandConfig.text : 'text-[rgb(var(--color-text-muted))] light:text-slate-500'}`}
                     >
                       Band {option.band}
                     </span>
@@ -540,7 +540,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                       className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold ${
                         covered
                           ? `${bConfig.bg} ${bConfig.text} ${bConfig.border} border`
-                          : 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-400 border border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300'
+                          : 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 border border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300'
                       }`}
                     >
                       {covered && <Check className="w-2.5 h-2.5" />}B{b}
@@ -621,7 +621,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
               </div>
             ) : (
               <div className="h-full flex flex-col items-center justify-center text-center opacity-40">
-                <Info className="w-10 h-10 mb-3 text-[rgb(var(--color-text-muted))] light:text-slate-400" />
+                <Info className="w-10 h-10 mb-3 text-[rgb(var(--color-text-muted))] light:text-slate-500" />
                 <p className="text-sm font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-500">
                   Select one or more marks above to configure the generator.
                 </p>
@@ -662,7 +662,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0
                     ${
                       selectedMarks.length === 0 || duplicates.length > 0
-                        ? 'bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-400 cursor-not-allowed'
+                        ? 'bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-500 cursor-not-allowed'
                         : `bg-gradient-to-r ${activeBandConfig.gradient} shadow-[rgba(0,0,0,0.2)] hover:shadow-[rgb(var(--color-accent))/0.2]`
                     }
                 `}

@@ -175,7 +175,7 @@ const CourseRequestModal: React.FC<CourseRequestModalProps> = ({
                       Good news — this one is already planned.
                     </p>
                   )}
-                  <p className="text-[11px] text-[rgb(var(--color-text-muted))] light:text-slate-400 leading-relaxed">
+                  <p className="text-[11px] text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed">
                     Requests are reviewed by an administrator. Courses are added for everyone at
                     once, so there is nothing else to do.
                   </p>
@@ -222,7 +222,7 @@ const CourseRequestModal: React.FC<CourseRequestModalProps> = ({
                   className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-700 mb-2"
                 >
                   Anything else?{' '}
-                  <span className="font-normal text-[rgb(var(--color-text-muted))] light:text-slate-400">
+                  <span className="font-normal text-[rgb(var(--color-text-muted))] light:text-slate-500">
                     (optional)
                   </span>
                 </label>

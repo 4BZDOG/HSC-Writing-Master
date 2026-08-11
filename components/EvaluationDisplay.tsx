@@ -91,7 +91,7 @@ const MetricCard = ({
       >
         <Icon className="w-4 h-4" />
       </div>
-      <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 truncate">
+      <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 truncate">
         {label}
       </h4>
     </div>
@@ -100,7 +100,7 @@ const MetricCard = ({
         {value}
       </span>
       {subtext && (
-        <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+        <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
           {subtext}
         </span>
       )}
@@ -126,7 +126,7 @@ const BandGoalCard = ({ currentBand, maxBand }: { currentBand: number; maxBand: 
         >
           <Trophy className="w-4 h-4" />
         </div>
-        <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 truncate">
+        <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 truncate">
           Band {maxBand} Goal
         </h4>
       </div>
@@ -163,7 +163,7 @@ const BandGoalCard = ({ currentBand, maxBand }: { currentBand: number; maxBand: 
         </div>
         {/* The band name belongs to the CURRENT band, so it reads as a caption
             on the meter rather than as a modifier of "n bands to go" above. */}
-        <p className="mt-2.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+        <p className="mt-2.5 text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
           Now Band {currentBand} · {getBandName(currentBand)}
         </p>
       </div>
@@ -716,7 +716,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 {userName}'s Response
               </h3>
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               {wordCount} words · as submitted
             </span>
           </div>

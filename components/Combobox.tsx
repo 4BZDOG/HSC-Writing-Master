@@ -436,7 +436,7 @@ const Combobox: React.FC<ComboboxProps> = ({
                     <li
                       key={`group-${option.group}`}
                       role="presentation"
-                      className="sticky top-0 z-10 px-4 pt-2.5 pb-1.5 text-[9px] font-black uppercase tracking-[0.2em] text-[rgb(var(--color-text-dim))] light:text-slate-400 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white"
+                      className="sticky top-0 z-10 px-4 pt-2.5 pb-1.5 text-[9px] font-black uppercase tracking-[0.2em] text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white"
                     >
                       {option.group}
                     </li>

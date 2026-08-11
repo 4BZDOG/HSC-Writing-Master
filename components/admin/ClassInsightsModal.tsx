@@ -53,7 +53,7 @@ const StatTile: React.FC<{ icon: React.ReactNode; label: string; value: string; 
       {value}
     </div>
     {sub && (
-      <div className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400 mt-0.5">
+      <div className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 mt-0.5">
         {sub}
       </div>
     )}
@@ -68,7 +68,7 @@ const StruggleBar: React.FC<{ pct: number | null }> = ({ pct }) => {
   if (pct == null) {
     return (
       <div className="flex items-center gap-2 min-w-[120px]">
-        <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400 italic">
+        <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-500 italic">
           no marks recorded
         </span>
       </div>
@@ -253,7 +253,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                   one, since a single class needs no choosing. */}
               {classes.length > 1 && (
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-500">
                     Class
                   </span>
                   <button
@@ -286,7 +286,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
               {/* Window + dimension selectors */}
               <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-500">
                     Window
                   </span>
                   {WINDOWS.map((w) => (
@@ -304,7 +304,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                   ))}
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-500">
                     Break down
                   </span>
                   {DIMENSIONS.map((d) => (
@@ -418,7 +418,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                                     <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-secondary))] light:text-slate-700">
                                       {formatBand(r.avg_band)}
                                     </td>
-                                    <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                                    <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-dim))] light:text-slate-500">
                                       {r.lowBandPct}%
                                     </td>
                                     <td className="px-4 py-2.5">
@@ -431,7 +431,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                           </table>
                         </div>
                       )}
-                      <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                      <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
                         Ranked weakest-first by the share of available marks lost. Band ≤ 3 is shown
                         for reference only: a question&rsquo;s band is capped at its verb&rsquo;s
                         tier, so low-tier verbs sit at 100% however well they were answered.

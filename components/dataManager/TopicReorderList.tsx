@@ -46,7 +46,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
                   {course.name}
                 </span>
                 <div className="flex items-center gap-3">
-                  <span className="text-[10px] font-bold text-slate-500 light:text-slate-400 uppercase tracking-widest">
+                  <span className="text-[10px] font-bold text-slate-500 light:text-slate-500 uppercase tracking-widest">
                     {course.topics.length} {course.topics.length === 1 ? 'Topic' : 'Topics'}
                   </span>
                   <div className="h-1 w-1 rounded-full bg-slate-700 light:bg-slate-300" />
@@ -66,7 +66,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
           {expandedCourseId === course.id && (
             <div className="bg-black/20 light:bg-slate-50 border-t border-white/5 light:border-slate-200 p-4 space-y-2 animate-fade-in">
               {course.topics.length === 0 ? (
-                <div className="py-10 text-center text-xs font-semibold text-slate-500 light:text-slate-400">
+                <div className="py-10 text-center text-xs font-semibold text-slate-500 light:text-slate-500">
                   No topics yet
                 </div>
               ) : (
@@ -85,7 +85,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
                             {topic.name}
                           </span>
                           <div className="flex items-center gap-2 mt-0.5">
-                            <span className="text-[10px] font-medium text-slate-500 light:text-slate-400">
+                            <span className="text-[10px] font-medium text-slate-500 light:text-slate-500">
                               {topic.subTopics.length} sub-topic
                               {topic.subTopics.length === 1 ? '' : 's'}
                             </span>
@@ -97,7 +97,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
                         <button
                           onClick={() => onMoveTopic(course.id, topic.id, 'up')}
                           disabled={index === 0}
-                          className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 light:bg-slate-100 border border-white/5 light:border-slate-200 text-slate-500 light:text-slate-400 hover:text-white hover:bg-indigo-600 light:hover:text-white light:hover:bg-indigo-600 light:hover:border-indigo-600 disabled:opacity-20 disabled:grayscale transition-all active:scale-90"
+                          className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 light:bg-slate-100 border border-white/5 light:border-slate-200 text-slate-500 light:text-slate-500 hover:text-white hover:bg-indigo-600 light:hover:text-white light:hover:bg-indigo-600 light:hover:border-indigo-600 disabled:opacity-20 disabled:grayscale transition-all active:scale-90"
                           title="Move up"
                         >
                           <ArrowUp className="w-4 h-4" />
@@ -105,7 +105,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
                         <button
                           onClick={() => onMoveTopic(course.id, topic.id, 'down')}
                           disabled={index === course.topics.length - 1}
-                          className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 light:bg-slate-100 border border-white/5 light:border-slate-200 text-slate-500 light:text-slate-400 hover:text-white hover:bg-indigo-600 light:hover:text-white light:hover:bg-indigo-600 light:hover:border-indigo-600 disabled:opacity-20 disabled:grayscale transition-all active:scale-90"
+                          className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 light:bg-slate-100 border border-white/5 light:border-slate-200 text-slate-500 light:text-slate-500 hover:text-white hover:bg-indigo-600 light:hover:text-white light:hover:bg-indigo-600 light:hover:border-indigo-600 disabled:opacity-20 disabled:grayscale transition-all active:scale-90"
                           title="Move down"
                         >
                           <ArrowDown className="w-4 h-4" />
@@ -124,7 +124,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
           <div className="w-20 h-20 rounded-[28px] bg-white/5 light:bg-slate-100 flex items-center justify-center border border-white/5 light:border-slate-200 shadow-inner">
             <Hash className="w-10 h-10 text-white/10 light:text-slate-300" />
           </div>
-          <p className="text-xs font-semibold text-slate-500 light:text-slate-400">
+          <p className="text-xs font-semibold text-slate-500 light:text-slate-500">
             No courses yet
           </p>
         </div>

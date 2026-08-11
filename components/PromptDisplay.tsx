@@ -794,7 +794,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     {prompt.scenario ? (
                       <div className="relative">
                         {/* Decorative Quote Icon */}
-                        <Quote className="absolute -top-3 -left-2 w-6 h-6 text-slate-500/20 light:text-slate-400/30 transform rotate-180" />
+                        <Quote className="absolute -top-3 -left-2 w-6 h-6 text-slate-500/20 light:text-slate-500/30 transform rotate-180" />
                         <p
                           className="text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-relaxed font-serif italic pl-6 pr-2 break-words"
                           style={{ fontSize: `${fontSize}px` }}
@@ -856,7 +856,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               already full. Never in Exam Mode, where the terms are assistance. */}
             {showKeywordFiller && (
               <div className="animate-fade-in">
-                <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500 light:text-slate-600 flex items-center gap-2 mb-3">
+                <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400 flex items-center gap-2 mb-3">
                   <Sparkles className="w-3.5 h-3.5" /> Syllabus terms to weave in
                 </h3>
                 <div className="flex flex-wrap gap-2">
@@ -940,7 +940,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                         assessed" already says what the button does. It costs a
                         whole extra footer row on a phone AND in the two-column
                         layout below xl, where this card is only ~380px wide. */}
-                      <span className="hidden xl:block text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 light:text-slate-500 leading-none mb-1">
+                      <span className="hidden xl:block text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 leading-none mb-1">
                         Before you write
                       </span>
                       <span
@@ -962,7 +962,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       <Link2 className={`w-4 h-4 ${bandConfig.text}`} />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 light:text-slate-500 leading-none mb-1">
+                      <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 leading-none mb-1">
                         Syllabus
                       </span>
                       <span className={`text-xs font-bold ${bandConfig.text}`}>Outcome Link</span>
@@ -1004,7 +1004,11 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     />
                   ))
                 ) : examMode ? null : (
-                  <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400 italic font-medium opacity-60 whitespace-nowrap">
+                  // No `opacity` on this one: a muted tone AND a 60% wash on
+                  // top put it under 2.5:1 in the light theme. The tone alone
+                  // says "nothing to see" and stays readable for whoever needs
+                  // to read it.
+                  <span className="text-xs text-[rgb(var(--color-text-muted))] italic font-medium whitespace-nowrap">
                     No specific outcomes linked.
                   </span>
                 )}

@@ -97,7 +97,7 @@ const HeatCell: React.FC<{ frac: number | null; attempts: number; title: string 
       <td className="p-0.5">
         <div
           title={title}
-          className="h-8 rounded flex items-center justify-center text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400 bg-black/20 light:bg-slate-100"
+          className="h-8 rounded flex items-center justify-center text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-black/20 light:bg-slate-100"
         >
           —
         </div>
@@ -109,7 +109,7 @@ const HeatCell: React.FC<{ frac: number | null; attempts: number; title: string 
       <td className="p-0.5">
         <div
           title={`${title} · no marks recorded on these questions`}
-          className="h-8 rounded flex items-center justify-center text-[10px] italic text-[rgb(var(--color-text-dim))] light:text-slate-400 bg-black/20 light:bg-slate-100"
+          className="h-8 rounded flex items-center justify-center text-[10px] italic text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-black/20 light:bg-slate-100"
         >
           n/a
         </div>
@@ -235,7 +235,7 @@ const ActivityChart: React.FC<{ cohort: ClassCohort; days: number }> = ({ cohort
             className="stroke-[rgb(var(--color-accent))]"
           />
         </svg>
-        <div className="flex justify-between mt-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400 tabular-nums">
+        <div className="flex justify-between mt-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 tabular-nums">
           <span>{days === 365 ? '1 year ago' : `${days} days ago`}</span>
           <span>
             {total} attempts · peak {max}/day
@@ -300,7 +300,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
                     <span className="text-[rgb(var(--color-text-primary))] light:text-slate-800 font-semibold">
                       {row.username}
                     </span>
-                    <span className="ml-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400 tabular-nums">
+                    <span className="ml-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 tabular-nums">
                       {row.attempts}
                     </span>
                   </td>
@@ -334,7 +334,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
             </tbody>
           </table>
         </div>
-        <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+        <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
           Share of available marks, darker is stronger; weakest student first. Read across a row for
           one student&rsquo;s profile, down a column for where the class thins out. A student strong
           on B1&ndash;B3 and weak on B4&ndash;B6 can hold a mid-table overall band, which is what
@@ -367,7 +367,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
                   <span
                     className={`text-[10px] font-bold tabular-nums shrink-0 ${
                       delta == null
-                        ? 'text-[rgb(var(--color-text-dim))] light:text-slate-400'
+                        ? 'text-[rgb(var(--color-text-dim))] light:text-slate-500'
                         : delta > 0.02
                           ? 'text-emerald-500'
                           : delta < -0.02
@@ -389,7 +389,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
             );
           })}
         </div>
-        <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+        <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
           Weekly mark share, oldest week at the left, every panel on the same 0&ndash;100% scale so
           the shapes are comparable. The change is first recorded week to last. A flat line at high
           volume is the case worth chasing: working hard, not improving.
@@ -398,7 +398,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
 
       <ActivityChart cohort={cohort} days={days} />
 
-      <p className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400 flex items-start gap-1.5">
+      <p className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 flex items-start gap-1.5">
         <Users className="w-3 h-3 mt-0.5 shrink-0" />
         <span>
           Aggregated server-side and scoped to the classes you teach — counts and averages only,

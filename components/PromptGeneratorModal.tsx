@@ -333,7 +333,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
             onClick={handleClose}
             disabled={isLoading}
             aria-label="Close"
-            className="p-4 rounded-full hover:bg-white/10 light:hover:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-400 hover:text-white transition-colors"
+            className="p-4 rounded-full hover:bg-white/10 light:hover:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-white transition-colors"
           >
             <X className="w-8 h-8" />
           </button>
@@ -436,7 +436,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
               <section>
                 <div className="flex justify-between items-end mb-6">
                   <div className="flex flex-col gap-1">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 light:text-slate-400">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 light:text-slate-500">
                       Settings
                     </span>
                     <h4 className="text-sm font-bold text-white light:text-slate-900 uppercase tracking-widest flex items-center gap-3">
@@ -475,7 +475,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
               </section>
 
               <section>
-                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 light:text-slate-400 mb-4 block">
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 light:text-slate-500 mb-4 block">
                   Difficulty Level
                 </span>
                 <h4 className="text-sm font-bold text-white light:text-slate-900 uppercase tracking-widest flex items-center gap-3 mb-6">
@@ -505,7 +505,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                             {tier.emoji}
                           </span>
                           <span
-                            className={`text-[9px] font-bold uppercase tracking-widest ${isSelected ? config.text : 'text-white/20 light:text-slate-400'}`}
+                            className={`text-[9px] font-bold uppercase tracking-widest ${isSelected ? config.text : 'text-white/20 light:text-slate-500'}`}
                           >
                             B{tier.tier}
                           </span>
@@ -568,7 +568,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
 
             <div className="space-y-10">
               <section>
-                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 light:text-slate-400 mb-4 block">
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 light:text-slate-500 mb-4 block">
                   Scenario Settings
                 </span>
                 <div className="flex items-center justify-between gap-3 mb-6">

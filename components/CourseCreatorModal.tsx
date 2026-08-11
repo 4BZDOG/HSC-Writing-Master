@@ -158,9 +158,9 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
                   </span>
                 </div>
                 {outcomesExpanded ? (
-                  <ChevronUp className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-400" />
+                  <ChevronUp className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500" />
                 ) : (
-                  <ChevronDown className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-400" />
+                  <ChevronDown className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500" />
                 )}
               </button>
 
@@ -177,7 +177,7 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
                         key={index}
                         className="flex items-start gap-2.5 p-3.5 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/80 border border-[rgb(var(--color-border-secondary))]/50 light:border-slate-200 hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 transition-colors"
                       >
-                        <span className="hidden sm:flex items-center justify-center w-5 h-5 rounded-md bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200/80 text-[10px] font-bold text-[rgb(var(--color-text-muted))]/60 light:text-slate-400 flex-shrink-0 mt-2">
+                        <span className="hidden sm:flex items-center justify-center w-5 h-5 rounded-md bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200/80 text-[10px] font-bold text-[rgb(var(--color-text-muted))]/60 light:text-slate-500 flex-shrink-0 mt-2">
                           {index + 1}
                         </span>
                         <div className="flex flex-col gap-2 flex-1 min-w-0">

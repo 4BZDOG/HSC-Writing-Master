@@ -263,7 +263,7 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
             )}
           </div>
 
-          <p className="mt-3 text-center text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-400">
+          <p className="mt-3 text-center text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500">
             {LEGAL_CONFIG.productName} · You can re-read this any time from your profile.
           </p>
         </div>

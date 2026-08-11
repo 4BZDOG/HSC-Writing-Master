@@ -192,7 +192,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
                                         ? `${bConfig.solidBg} text-white shadow-lg scale-110 z-10 border border-white/20 light:border-white/40 ${isCappedOut ? 'ring-2 ring-amber-500/60' : ''}`
                                         : isCappedOut
                                           ? 'bg-white/[0.02] light:bg-slate-100 text-slate-700 light:text-slate-300 cursor-not-allowed line-through'
-                                          : 'bg-white/5 light:bg-slate-100 text-slate-500 light:text-slate-400 hover:bg-white/10 light:hover:bg-slate-200 hover:text-slate-300 light:hover:text-slate-600'
+                                          : 'bg-white/5 light:bg-slate-100 text-slate-500 light:text-slate-500 hover:bg-white/10 light:hover:bg-slate-200 hover:text-slate-300 light:hover:text-slate-600'
                                     }
                                 `}
                     >
@@ -207,7 +207,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
                   {prompt.verb}' — recalibration will lower it
                 </p>
               ) : (
-                <p className="mt-2 text-[10px] font-bold text-slate-500 light:text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                <p className="mt-2 text-[10px] font-bold text-slate-500 light:text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
                   <Award className="w-3 h-3" /> Manually overridable up to Band {tierMaxBand} (
                   {`'${prompt.verb}'`} verb cap)
                 </p>

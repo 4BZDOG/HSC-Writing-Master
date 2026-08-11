@@ -60,12 +60,12 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
           </div>
           <span className="text-left">
             <span
-              className={`block text-[10px] font-black uppercase tracking-[0.2em] ${isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-500'}`}
+              className={`block text-[10px] font-black uppercase tracking-[0.2em] ${isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
             >
               {title}
             </span>
             {subtitle && (
-              <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 opacity-80">
+              <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
                 {subtitle}
               </span>
             )}

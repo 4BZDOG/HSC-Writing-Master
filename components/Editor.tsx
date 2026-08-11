@@ -804,7 +804,7 @@ const Editor = forwardRef<
                     className={`w-3.5 h-3.5 flex-shrink-0 ${
                       showStrategy
                         ? 'text-amber-400 light:text-amber-600'
-                        : 'text-[rgb(var(--color-text-dim))] light:text-slate-400'
+                        : 'text-[rgb(var(--color-text-dim))] light:text-slate-500'
                     }`}
                   />
                 )}

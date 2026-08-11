@@ -85,7 +85,7 @@ const TreeItemComponent: React.FC<TreeItemComponentProps> = ({
       >
         <button
           onClick={() => onToggleExpand(item.id)}
-          className={`mr-1 p-0.5 rounded hover:bg-white/10 light:hover:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-400 transition-colors ${hasChildren ? 'opacity-100' : 'opacity-0'}`}
+          className={`mr-1 p-0.5 rounded hover:bg-white/10 light:hover:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-500 transition-colors ${hasChildren ? 'opacity-100' : 'opacity-0'}`}
         >
           <ChevronRight
             className={`h-3 w-3 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}

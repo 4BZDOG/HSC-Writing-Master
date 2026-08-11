@@ -24,7 +24,7 @@ const ApiHealthIndicator: React.FC = () => {
       borderColor: 'border-amber-500/20',
       shadow: 'shadow-[0_0_15px_rgba(245,158,11,0.05)]',
       title: `API Connection: Unstable. ${errorCount}/${ERROR_THRESHOLD} recent errors.`,
-      content: <span className="text-[9px] font-bold">{errorCount}</span>,
+      content: <span className="text-[9px] font-bold text-amber-950">{errorCount}</span>,
       animation: 'animate-pulse',
     },
     BLOCKED: {
@@ -34,7 +34,7 @@ const ApiHealthIndicator: React.FC = () => {
       borderColor: 'border-red-500/20',
       shadow: 'shadow-[0_0_15px_rgba(239,68,68,0.05)]',
       title: 'API Connection: Blocked. See banner for details.',
-      content: <span className="text-[9px] font-bold">!</span>,
+      content: <span className="text-[9px] font-bold text-white">!</span>,
       animation: '',
     },
   }[state];
@@ -58,8 +58,14 @@ const ApiHealthIndicator: React.FC = () => {
       {config.content && (
         <div
           className={`
-            absolute -top-1 -right-1 flex items-center justify-center w-3.5 h-3.5 rounded-full text-white shadow-sm border border-white/10
-            ${state === 'DEGRADED' ? 'bg-amber-500' : 'bg-red-500'}
+            absolute -top-1 -right-1 flex items-center justify-center w-3.5 h-3.5 rounded-full shadow-sm border border-white/10
+            ${
+              /* White on amber does not reach a readable contrast at ANY shade
+                 of amber, and the count IS the badge — so amber takes dark ink
+                 (set on the glyph itself, above) and the error state keeps
+                 white on a red dark enough to carry it. */
+              state === 'DEGRADED' ? 'bg-amber-500' : 'bg-red-600'
+            }
         `}
         >
           {config.content}

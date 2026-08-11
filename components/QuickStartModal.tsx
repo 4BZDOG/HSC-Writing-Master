@@ -135,7 +135,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
                         <span className="w-10 h-10 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 light:text-indigo-600">
                           <Icon className="w-4 h-4" />
                         </span>
-                        <span className="text-[10px] font-black text-slate-600 light:text-slate-400 tabular-nums">
+                        <span className="text-[10px] font-black text-slate-600 light:text-slate-500 tabular-nums">
                           {String(index + 1).padStart(2, '0')}
                         </span>
                       </div>
@@ -234,7 +234,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
         </div>
 
         <div className="px-6 sm:px-8 py-4 border-t border-white/5 light:border-slate-200 shrink-0 flex items-center justify-between gap-4">
-          <span className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] light:text-slate-400 uppercase tracking-widest">
+          <span className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-widest">
             Re-open any time from your profile
           </span>
           <button
