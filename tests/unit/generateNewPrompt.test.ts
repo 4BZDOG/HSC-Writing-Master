@@ -19,7 +19,7 @@ const makeProxyResponse = (json: unknown) =>
     }),
   }) as unknown as Response;
 
-const verbs = [getCommandTermInfo('Describe')];
+const verbs = [getCommandTermInfo('DESCRIBE')];
 const outcomes: CourseOutcome[] = [{ code: 'SE-11-01', description: 'x' }];
 
 const bodyOf = (mock: ReturnType<typeof vi.fn>) =>
@@ -135,7 +135,7 @@ describe('generateNewPrompt verb enforcement', () => {
 
   it('keeps the allowed-verbs wording when several verbs are permitted', async () => {
     respond('EXPLAIN');
-    const multi = [getCommandTermInfo('Describe'), getCommandTermInfo('Explain')];
+    const multi = [getCommandTermInfo('DESCRIBE'), getCommandTermInfo('EXPLAIN')];
     const prompt = await generateNewPrompt('C', 'T', 'describe X', 4, multi, outcomes);
     expect(prompt.verb).toBe('EXPLAIN'); // in the allowed set — respected
     const sent = JSON.stringify(bodyOf(fetchMock));
@@ -208,7 +208,7 @@ describe('generateNewPrompt extended-response rubrics', () => {
   afterEach(() => vi.unstubAllGlobals());
 
   it('asks for band-discriminated NESA criteria on >6 mark questions', async () => {
-    const evaluate = [getCommandTermInfo('Evaluate')];
+    const evaluate = [getCommandTermInfo('EVALUATE')];
     await generateNewPrompt('C', 'T', 'evaluate X', 8, evaluate, outcomes);
     const sent = JSON.stringify(bodyOf(fetchMock));
     expect(sent).toContain('band-aligned mark ranges');

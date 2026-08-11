@@ -43,7 +43,7 @@ const props = {
   generateScenarioError: null,
   courseOutcomes: OUTCOMES,
   onOutcomeClick: vi.fn(),
-  userRole: 'student' as const,
+  userRole: 'user' as const,
   onDismissEnrichError: vi.fn(),
   onRunQualityCheck: vi.fn(),
   onSuggestOutcomes: vi.fn(),

@@ -280,6 +280,34 @@ a:focus-visible,
   scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
 }
 
+/*
+ * The writing card's progress veil (components/Editor.tsx): a wash over the
+ * band colour that lifts as the response grows, so an empty page reads as
+ * "not earned yet" and a finished one glows at full strength.
+ *
+ * The strength has to be per-theme. At full opacity over an orange header it
+ * makes a deep russet that sits perfectly against a dark page — and, against
+ * white cards and a white page, a near-black slab beside its matched orange
+ * twin, which reads as a rendering fault rather than as progress. Softened for
+ * the light theme it stays a visibly dimmer version of the same colour, which
+ * is the whole point, and keeps the white header text well clear of its
+ * contrast floor (a veil toward WHITE would have solved the slab and made the
+ * text unreadable instead).
+ *
+ * The progress opacity is set inline on the PARENT; this element's own opacity
+ * multiplies with it, which is how the two combine without any calc().
+ */
+.progress-veil {
+  position: absolute;
+  inset: 0;
+  background-color: rgb(2 6 23);
+}
+
+[data-theme='light'] .progress-veil {
+  background-color: rgb(15 23 42);
+  opacity: 0.45;
+}
+
 /* Dual-thumb range control (components/RangeSlider.tsx).
    Two native range inputs stacked over one painted track: the inputs keep the
    platform's keyboard handling and the track stays themeable. Only the THUMBS

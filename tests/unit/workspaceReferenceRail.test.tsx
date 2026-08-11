@@ -59,7 +59,7 @@ const railProps = {
   onSuggestKeywords: vi.fn(),
   isSuggestingKeywords: false,
   suggestError: null,
-  userRole: 'student' as const,
+  userRole: 'user' as const,
 };
 
 /** Panel headings in DOM order, read from the disclosure buttons themselves. */
@@ -151,7 +151,7 @@ describe('SampleAnswersAccordion', () => {
     onUseSampleAnswer: vi.fn(),
     onDeleteSampleAnswer: vi.fn(),
     onUpdateSampleAnswer: vi.fn(),
-    userRole: 'student' as const,
+    userRole: 'user' as const,
   };
   const withSamples = prompt({
     sampleAnswers: [{ id: 's1', answer: 'A model response.', mark: 6, band: 6, source: 'AI' }],
@@ -249,7 +249,7 @@ describe('panel chrome consistency', () => {
           onUseSampleAnswer={vi.fn()}
           onDeleteSampleAnswer={vi.fn()}
           onUpdateSampleAnswer={vi.fn()}
-          userRole="student"
+          userRole="user"
         />
       </>
     );

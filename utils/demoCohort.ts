@@ -226,7 +226,7 @@ export interface DemoPromptRef {
   /** The prompt's `legacy_id` (Supabase) or `id` (local fixture). */
   id: string;
   question: string;
-  verb?: string;
+  verb?: PromptVerb;
   totalMarks: number;
   /** Owning topic name — used to personalise the draft text. */
   topicName: string;
@@ -494,7 +494,7 @@ export const promptPoolFromCourse = (course: {
     name: string;
     subTopics?: Array<{
       dotPoints?: Array<{
-        prompts?: Array<{ id: string; question: string; verb?: string; totalMarks?: number }>;
+        prompts?: Array<{ id: string; question: string; verb?: PromptVerb; totalMarks?: number }>;
       }>;
     }>;
   }>;

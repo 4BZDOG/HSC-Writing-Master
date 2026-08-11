@@ -187,7 +187,7 @@ const baseProps = {
   onImportTopic: noop,
   onImportSyllabus: noop,
   newlyAddedIds: new Set<string>(),
-  userRole: 'student' as const,
+  userRole: 'user' as const,
 };
 
 const renderPicker = (prompts: Prompt[], path: StatePath = statePath) =>

@@ -13,7 +13,7 @@
  * browser memory. Connect an API host for real use — see DEPLOYMENT.md.
  */
 
-import type { GenerateContentResponse } from '@google/genai';
+import type { GenerateContentResponse } from './aiResponseTypes';
 import { runAiProxy } from '../api/_lib/providers';
 
 /** The adapters report an absent key in server terms; translate for the browser. */

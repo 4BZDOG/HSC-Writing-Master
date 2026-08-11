@@ -29,7 +29,7 @@ const recordingDoc = () => {
   const chain =
     () =>
     (..._args: unknown[]) =>
-      self as JsPdfLike;
+      (self as unknown as JsPdfLike);
 
   Object.assign(self, {
     internal: { pageSize: { getWidth: () => 210, getHeight: () => 297 } },
@@ -37,12 +37,12 @@ const recordingDoc = () => {
     setPage: chain(),
     setFont: (_family: string, s?: string) => {
       style = s ?? 'normal';
-      return self as JsPdfLike;
+      return (self as unknown as JsPdfLike);
     },
     setFontSize: chain(),
     setTextColor: (r: number, g: number, b: number) => {
       color = [r, g, b];
-      return self as JsPdfLike;
+      return (self as unknown as JsPdfLike);
     },
     setDrawColor: chain(),
     setFillColor: chain(),
@@ -51,7 +51,7 @@ const recordingDoc = () => {
     text: (t: string | string[]) => {
       const value = Array.isArray(t) ? t.join(' ') : String(t);
       painted.push({ text: value, style, color });
-      return self as JsPdfLike;
+      return (self as unknown as JsPdfLike);
     },
     line: chain(),
     rect: chain(),

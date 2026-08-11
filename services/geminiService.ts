@@ -1,5 +1,5 @@
 // ... existing imports ...
-import { Type } from '@google/genai';
+import { Type } from './aiResponseTypes';
 import {
   Prompt,
   CourseOutcome,

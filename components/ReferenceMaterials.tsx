@@ -262,7 +262,12 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                           >
                             Band {descriptor.band}
                           </span>
-                          <span className="text-[8px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-[0.2em] opacity-80">
+                          {/* The band's word ("Outstanding", "Sound") sits on a
+                              tinted card in both themes, so it cannot afford a
+                              muted tone AND an opacity on top: at 8px that
+                              landed under every readability floor the rest of
+                              the app respects. */}
+                          <span className="text-[9px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-[0.2em]">
                             • {descriptor.shortLabel}
                           </span>
                         </div>

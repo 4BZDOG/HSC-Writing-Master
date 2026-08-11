@@ -265,12 +265,45 @@ export default defineConfig(({ mode }) => {
               return 'ui';
             }
 
+            // Supabase and zod were riding inside whichever feature chunk
+            // happened to import them first — measured, 600 kB of Supabase and
+            // 120 kB of zod sat inside `prompts`. Their own chunks mean a
+            // change to a question component no longer invalidates a cached
+            // copy of the client library, and the chunk map stops lying about
+            // what a feature actually weighs.
+            if (id.includes('node_modules/@supabase')) {
+              return 'supabase';
+            }
+
+            if (id.includes('node_modules/zod')) {
+              return 'zod';
+            }
+
             if (id.includes('/data/commandTerms')) {
               return 'commandTerms';
             }
 
             if (id.includes('/components/admin/')) {
               return 'admin';
+            }
+
+            // aiDirect is reached ONLY through a dynamic import in aiCore (the
+            // direct-provider fallback) and it statically pulls in the provider
+            // SDK. Folded into the eager `core` chunk below it would drag 272 kB
+            // of SDK back into first load, so it is left for Rollup to place in
+            // its own async chunk.
+            if (id.includes('/services/aiDirect') || id.includes('/api/_lib/')) {
+              return undefined;
+            }
+
+            // Shared app code, in one chunk of its own. Without this Rollup
+            // folds a module used by exactly one feature chunk INTO that
+            // chunk — which is how `agreementService`, `errorHandler` and
+            // `quotaService` ended up inside `admin`, and why the whole
+            // admin bundle stayed in every student's eager preload graph
+            // even after its components went lazy.
+            if (id.includes('/services/') || id.includes('/utils/') || id.includes('/hooks/')) {
+              return 'core';
             }
 
             if (id.includes('/components/dataManager/')) {

@@ -1,0 +1,23 @@
+{
+  // Type-checks the TESTS, which `tsconfig.json` deliberately leaves out of the
+  // app's own compile so a test never contributes to the shipped build's types.
+  //
+  // Excluding them from the build is right; excluding them from type-checking
+  // altogether was not. A test that no longer matches the shape it is testing
+  // still runs green as long as the values happen to work at runtime — so a
+  // field added to a domain type silently leaves every fixture behind, and the
+  // suite quietly stops exercising the thing it claims to.
+  //
+  // Run by `npm run type-check:tests`, which `npm run test:all` and CI both do.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // Vitest's globals (`describe`, `it`, `expect`), which the app build has no
+    // business knowing about. The suite asserts with plain `expect` rather than
+    // jest-dom matchers, so no matcher types are needed.
+    "types": ["node", "vitest/globals"]
+  },
+  // `vite-env.d.ts` declares `__APP_VERSION__` and `import.meta.env`, both of
+  // which the app sources reached from a test rely on.
+  "include": ["vite-env.d.ts", "tests/**/*.ts", "tests/**/*.tsx", "scripts/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

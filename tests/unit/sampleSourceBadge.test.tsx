@@ -44,7 +44,7 @@ const renderAccordion = (sampleAnswers: SampleAnswer[]) =>
       onSampleAnswerGenerated={vi.fn()}
       onDeleteSampleAnswer={vi.fn()}
       onUpdateSampleAnswer={vi.fn()}
-      userRole="student"
+      userRole="user"
       defaultCollapsed={false}
     />
   );

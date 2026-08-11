@@ -47,6 +47,15 @@ const ORIGINAL_ENV = { ...import.meta.env };
 /** A user object shaped like a real signup response (one linked identity). */
 const newUser = { id: 'user-1', email: 'student@example.com', identities: [{ id: 'i1' }] };
 
+
+/**
+ * `import.meta.env` is declared readonly for the app, and rightly so — nothing
+ * in the product may write to it. Under Vitest it is backed by `process.env`,
+ * so a test CAN set and unset keys, which is the only way to exercise a
+ * deployment-configuration branch. One narrow cast, named for what it is.
+ */
+const testEnv = import.meta.env as unknown as Record<string, string | undefined>;
+
 beforeEach(() => {
   vi.clearAllMocks();
   updateMock.mockResolvedValue({ error: null });
@@ -61,13 +70,13 @@ beforeEach(() => {
   // parseAllowedDomains then reads as a domain named "undefined" and locks
   // everyone out. (It fails closed, which is the right direction, but it is not
   // what these tests mean to set up.)
-  delete import.meta.env.VITE_ENABLE_SIGNUP;
-  delete import.meta.env.VITE_SIGNUP_ALLOWED_DOMAINS;
+  delete testEnv.VITE_ENABLE_SIGNUP;
+  delete testEnv.VITE_SIGNUP_ALLOWED_DOMAINS;
 });
 
 afterEach(() => {
-  delete import.meta.env.VITE_ENABLE_SIGNUP;
-  delete import.meta.env.VITE_SIGNUP_ALLOWED_DOMAINS;
+  delete testEnv.VITE_ENABLE_SIGNUP;
+  delete testEnv.VITE_SIGNUP_ALLOWED_DOMAINS;
   Object.assign(import.meta.env, ORIGINAL_ENV);
 });
 
@@ -151,7 +160,7 @@ describe('authService.signUp', () => {
 
   describe('deployment policy', () => {
     it('refuses when sign-up is switched off, without calling Supabase', async () => {
-      import.meta.env.VITE_ENABLE_SIGNUP = 'false';
+      testEnv.VITE_ENABLE_SIGNUP = 'false';
       await expect(authService.signUp('a@example.com', 'correct-horse')).rejects.toThrow(
         /switched off/i
       );
@@ -161,7 +170,7 @@ describe('authService.signUp', () => {
     it('enforces the domain allowlist server-side of the form', async () => {
       // The form checks this too, but a form check is a suggestion that a
       // direct call ignores — this is the one that decides.
-      import.meta.env.VITE_SIGNUP_ALLOWED_DOMAINS = 'education.nsw.gov.au';
+      testEnv.VITE_SIGNUP_ALLOWED_DOMAINS = 'education.nsw.gov.au';
       await expect(authService.signUp('someone@gmail.com', 'correct-horse')).rejects.toThrow(
         /@education\.nsw\.gov\.au/
       );
@@ -169,7 +178,7 @@ describe('authService.signUp', () => {
     });
 
     it('admits an address inside the allowlist', async () => {
-      import.meta.env.VITE_SIGNUP_ALLOWED_DOMAINS = 'education.nsw.gov.au';
+      testEnv.VITE_SIGNUP_ALLOWED_DOMAINS = 'education.nsw.gov.au';
       signUpMock.mockResolvedValue({ data: { user: newUser, session: null }, error: null });
       await expect(
         authService.signUp('jane@education.nsw.gov.au', 'correct-horse')

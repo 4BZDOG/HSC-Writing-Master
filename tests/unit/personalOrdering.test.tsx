@@ -179,7 +179,7 @@ const props = {
   onImportTopic: noop,
   onImportSyllabus: noop,
   newlyAddedIds: new Set<string>(),
-  userRole: 'student' as const,
+  userRole: 'user' as const,
 };
 
 const summary = (promptId: string, mark: number, at: string): AttemptSummary => ({

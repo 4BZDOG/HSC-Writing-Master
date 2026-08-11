@@ -64,7 +64,7 @@ const renderPrompt = (verb: string) =>
       generateScenarioError={null}
       courseOutcomes={[]}
       onOutcomeClick={vi.fn()}
-      userRole="student"
+      userRole="user"
       onDismissEnrichError={vi.fn()}
       onRunQualityCheck={vi.fn()}
       onSuggestOutcomes={vi.fn()}

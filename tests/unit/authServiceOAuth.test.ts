@@ -41,6 +41,15 @@ import { authService } from '../../services/authService';
 
 const sessionUser = { id: 'user-1', email: 'student@school.nsw.edu.au' };
 
+
+/**
+ * `import.meta.env` is declared readonly for the app, and rightly so — nothing
+ * in the product may write to it. Under Vitest it is backed by `process.env`,
+ * so a test CAN set and unset keys, which is the only way to exercise a
+ * deployment-configuration branch. One narrow cast, named for what it is.
+ */
+const testEnv = import.meta.env as unknown as Record<string, string | undefined>;
+
 beforeEach(() => {
   vi.clearAllMocks();
   signOutMock.mockResolvedValue({ error: null });
@@ -50,13 +59,13 @@ beforeEach(() => {
   localStorage.clear();
   // `delete`, not assignment: import.meta.env is backed by process.env here, so
   // assigning undefined stores the literal string "undefined".
-  delete import.meta.env.VITE_ALLOWED_EMAIL_DOMAINS;
-  delete import.meta.env.VITE_SIGNUP_ALLOWED_DOMAINS;
+  delete testEnv.VITE_ALLOWED_EMAIL_DOMAINS;
+  delete testEnv.VITE_SIGNUP_ALLOWED_DOMAINS;
 });
 
 afterEach(() => {
-  delete import.meta.env.VITE_ALLOWED_EMAIL_DOMAINS;
-  delete import.meta.env.VITE_SIGNUP_ALLOWED_DOMAINS;
+  delete testEnv.VITE_ALLOWED_EMAIL_DOMAINS;
+  delete testEnv.VITE_SIGNUP_ALLOWED_DOMAINS;
 });
 
 describe('loginWithOAuth', () => {
@@ -172,13 +181,13 @@ describe('handleOAuthCallback', () => {
     const outsider = { id: 'user-9', email: 'someone@gmail.com' };
 
     it('admits an address inside the allowlist', async () => {
-      import.meta.env.VITE_ALLOWED_EMAIL_DOMAINS = 'school.nsw.edu.au';
+      testEnv.VITE_ALLOWED_EMAIL_DOMAINS = 'school.nsw.edu.au';
       getSessionMock.mockResolvedValue({ data: { session: { user: sessionUser } } });
       await expect(authService.handleOAuthCallback()).resolves.not.toBeNull();
     });
 
     it('refuses an address outside it, naming the address and the rule', async () => {
-      import.meta.env.VITE_ALLOWED_EMAIL_DOMAINS = 'education.nsw.gov.au';
+      testEnv.VITE_ALLOWED_EMAIL_DOMAINS = 'education.nsw.gov.au';
       getSessionMock.mockResolvedValue({ data: { session: { user: outsider } } });
       await expect(authService.handleOAuthCallback()).rejects.toThrow(
         /someone@gmail\.com.*@education\.nsw\.gov\.au/s
@@ -188,7 +197,7 @@ describe('handleOAuthCallback', () => {
     it('drops the Supabase session on refusal', async () => {
       // Without this the rejected user stays signed in to Supabase and a plain
       // refresh walks straight past the check.
-      import.meta.env.VITE_ALLOWED_EMAIL_DOMAINS = 'education.nsw.gov.au';
+      testEnv.VITE_ALLOWED_EMAIL_DOMAINS = 'education.nsw.gov.au';
       getSessionMock.mockResolvedValue({ data: { session: { user: outsider } } });
       localStorage.setItem('hsc-ai-auth-user-v2', '{"username":"someone"}');
 
@@ -204,7 +213,7 @@ describe('handleOAuthCallback', () => {
     });
 
     it('still honours the older sign-up-only variable name', async () => {
-      import.meta.env.VITE_SIGNUP_ALLOWED_DOMAINS = 'education.nsw.gov.au';
+      testEnv.VITE_SIGNUP_ALLOWED_DOMAINS = 'education.nsw.gov.au';
       getSessionMock.mockResolvedValue({ data: { session: { user: outsider } } });
       await expect(authService.handleOAuthCallback()).rejects.toThrow(/cannot be used here/i);
     });

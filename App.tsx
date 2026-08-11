@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef, lazy, Suspense } from 'react';
 import PromptSelector from './components/PromptSelector';
 import Workspace from './components/Workspace';
 import Toast from './components/Toast';
 import ApiHealthIndicator from './components/ApiHealthIndicator';
-import ApiMonitorDisplay from './components/ApiMonitorDisplay';
 import ApiStatusIndicator from './components/ApiStatusIndicator';
 import BackgroundTaskIndicator from './components/BackgroundTaskIndicator';
 import GlobalLoadingOverlay from './components/GlobalLoadingOverlay';
@@ -13,12 +12,6 @@ import CourseRequestModal from './components/CourseRequestModal';
 import LoginPage from './components/LoginPage';
 import ResetPasswordPage from './components/ResetPasswordPage';
 import UserAgreementModal from './components/UserAgreementModal';
-import ContentAuditModal from './components/admin/ContentAuditModal';
-import ReviewQueueModal from './components/admin/ReviewQueueModal';
-import UsageDashboard from './components/admin/UsageDashboard';
-import RuntimeKeyModal from './components/admin/RuntimeKeyModal';
-import ClassInsightsModal from './components/admin/ClassInsightsModal';
-import StudentProgressModal from './components/admin/StudentProgressModal';
 import { useNavigation } from './hooks/useNavigation';
 import { useSyllabusData } from './hooks/useSyllabusData';
 import { useGemini } from './hooks/useGemini';
@@ -1133,55 +1126,79 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         />
         <GlobalLoadingOverlay message={globalLoadingMessage} error={quotaError} />
         <BackgroundTaskIndicator task={activeBackgroundTask} />
-        {isSystemAdmin(user.role) && <ApiMonitorDisplay />}
-        {isSystemAdmin(user.role) && isAuditModalOpen && (
-          <ContentAuditModal
-            isOpen={isAuditModalOpen}
-            onClose={() => setIsAuditModalOpen(false)}
-            courses={courses}
-            updateCourses={updateCourses}
-            showToast={showToast}
-          />
-        )}
-        {canModerate(user.role) && (
-          <ReviewQueueModal
-            isOpen={isReviewQueueOpen}
-            onClose={() => setIsReviewQueueOpen(false)}
-            showToast={showToast}
-          />
-        )}
-        {canModerate(user.role) && (
-          <ClassInsightsModal
-            isOpen={isClassInsightsOpen}
-            onClose={() => setIsClassInsightsOpen(false)}
-            showToast={showToast}
-          />
-        )}
-        {canModerate(user.role) && (
-          <StudentProgressModal
-            isOpen={isStudentProgressOpen}
-            onClose={() => setIsStudentProgressOpen(false)}
-            showToast={showToast}
-          />
-        )}
         {isSystemAdmin(user.role) && (
-          <UsageDashboard
-            isOpen={isUsageDashboardOpen}
-            onClose={() => setIsUsageDashboardOpen(false)}
-            showToast={showToast}
-          />
+          <Suspense fallback={null}>
+            <ApiMonitorDisplay />
+          </Suspense>
         )}
-        {isSystemAdmin(user.role) && (
-          <RuntimeKeyModal
-            isOpen={isRuntimeKeyOpen}
-            onClose={() => setIsRuntimeKeyOpen(false)}
-            showToast={showToast}
-          />
-        )}
+        {/* fallback={null}: these all render their own portal/backdrop, so a
+            spinner here would paint behind nothing. The gap is one network
+            round trip on an admin's first open. */}
+        <Suspense fallback={null}>
+          {isSystemAdmin(user.role) && isAuditModalOpen && (
+            <ContentAuditModal
+              isOpen={isAuditModalOpen}
+              onClose={() => setIsAuditModalOpen(false)}
+              courses={courses}
+              updateCourses={updateCourses}
+              showToast={showToast}
+            />
+          )}
+          {canModerate(user.role) && (
+            <ReviewQueueModal
+              isOpen={isReviewQueueOpen}
+              onClose={() => setIsReviewQueueOpen(false)}
+              showToast={showToast}
+            />
+          )}
+          {canModerate(user.role) && (
+            <ClassInsightsModal
+              isOpen={isClassInsightsOpen}
+              onClose={() => setIsClassInsightsOpen(false)}
+              showToast={showToast}
+            />
+          )}
+          {canModerate(user.role) && (
+            <StudentProgressModal
+              isOpen={isStudentProgressOpen}
+              onClose={() => setIsStudentProgressOpen(false)}
+              showToast={showToast}
+            />
+          )}
+          {isSystemAdmin(user.role) && (
+            <UsageDashboard
+              isOpen={isUsageDashboardOpen}
+              onClose={() => setIsUsageDashboardOpen(false)}
+              showToast={showToast}
+            />
+          )}
+          {isSystemAdmin(user.role) && (
+            <RuntimeKeyModal
+              isOpen={isRuntimeKeyOpen}
+              onClose={() => setIsRuntimeKeyOpen(false)}
+              showToast={showToast}
+            />
+          )}
+        </Suspense>
       </div>
     </>
   );
 };
+
+// Lazy, all six: these are the reviewer and system-admin surfaces, and a
+// student — most of the people who ever load this app, often on school wifi —
+// renders none of them. Imported statically they still travelled in the eager
+// preload graph, so every student paid ~38 kB gzipped for tools they cannot
+// open. The render conditions below are unchanged; only the fetch moves.
+// Rendered only for system admins, but a static import kept its AI-engine
+// selector — and so the whole admin chunk — in everyone's eager graph.
+const ApiMonitorDisplay = lazy(() => import('./components/ApiMonitorDisplay'));
+const ContentAuditModal = lazy(() => import('./components/admin/ContentAuditModal'));
+const ReviewQueueModal = lazy(() => import('./components/admin/ReviewQueueModal'));
+const UsageDashboard = lazy(() => import('./components/admin/UsageDashboard'));
+const RuntimeKeyModal = lazy(() => import('./components/admin/RuntimeKeyModal'));
+const ClassInsightsModal = lazy(() => import('./components/admin/ClassInsightsModal'));
+const StudentProgressModal = lazy(() => import('./components/admin/StudentProgressModal'));
 
 const App: React.FC = () => {
   const { toast, showToast, hideToast } = useToast();
