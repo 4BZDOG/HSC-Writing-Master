@@ -137,9 +137,13 @@ const QuestionFilterBar: React.FC<QuestionFilterBarProps> = ({
               onClick={() => onChange({ ...filter, pastHscOnly: !filter.pastHscOnly })}
               aria-pressed={filter.pastHscOnly}
               className={`self-start flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[10px] font-black uppercase tracking-wider transition-all ${
+                // Amber is the provenance colour the rows use for a past-HSC
+                // chip, so it stays on the icon and label either way — but the
+                // fill is what says pressed, and an amber-tinted OFF state read
+                // as half-on.
                 filter.pastHscOnly
                   ? 'bg-amber-500 text-white border-amber-400 shadow-sm'
-                  : 'bg-amber-500/10 light:bg-amber-50 text-amber-400 light:text-amber-700 border-amber-500/30 light:border-amber-300 hover:bg-amber-500/20'
+                  : 'bg-[rgb(var(--color-bg-surface))] light:bg-white text-amber-400 light:text-amber-700 border-white/10 light:border-slate-300 hover:border-amber-500/40'
               }`}
             >
               <Landmark className="w-3 h-3" />
