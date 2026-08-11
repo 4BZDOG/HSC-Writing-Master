@@ -48,6 +48,13 @@ jobs:
       - name: Type check
         run: npm run type-check
 
+      # The suite is compiled OUT of the app's own build, which is right — but
+      # it left every fixture free to drift from the types it claims to test.
+      # Checking it separately is how a stale prop shape or a role that no
+      # longer exists gets caught while the test still runs green.
+      - name: Type check tests
+        run: npm run type-check:tests
+
       # Flags a new module-init read of an imported value — the pattern behind
       # "Cannot access 'X' before initialization". Source-level, so it catches
       # the landmine before the bundler decides whether it detonates.

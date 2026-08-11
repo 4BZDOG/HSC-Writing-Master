@@ -275,6 +275,75 @@ const resolveRowId = async (
 export const resolvePromptRowId = (appId: string): Promise<string | null> =>
   resolveRowId('prompts', appId);
 
+/** A prompt row, with everything the duplicate-legacy_id tie-break needs. */
+interface PromptIdRow {
+  id: string;
+  legacy_id: string | null;
+  created_by: string | null;
+}
+
+/**
+ * Resolve MANY prompt ids at once — one round trip for a whole dot point,
+ * where `resolvePromptRowId` would be one per question.
+ *
+ * Same tie-break as the single-id version, and for the same reason: a
+ * `legacy_id` is not unique (a teacher's variant of a seeded question carries
+ * the same one under their own `created_by`), so seeded canonical content wins
+ * — `created_by` nulls first, then lowest `id`. Sorting is done here rather
+ * than in PostgREST because the two `.in()` queries below are merged in
+ * memory.
+ *
+ * Returns app id → row uuid, omitting anything with no row (a purely local
+ * draft resolves to nothing, which callers read as "no data" rather than an
+ * error).
+ */
+export const resolvePromptRowIds = async (appIds: string[]): Promise<Map<string, string>> => {
+  const ids = Array.from(new Set(appIds.filter(Boolean)));
+  const out = new Map<string, string>();
+  if (ids.length === 0) return out;
+
+  const client = requireClient();
+  const wanted = new Set(ids);
+  const rows: PromptIdRow[] = [];
+
+  const { data: byLegacy, error: legacyError } = await client
+    .from('prompts')
+    .select('id, legacy_id, created_by')
+    .in('legacy_id', ids);
+  if (legacyError) throw new Error(`Could not look up prompts: ${legacyError.message}`);
+  rows.push(...((byLegacy ?? []) as PromptIdRow[]));
+
+  // An app id may already BE the row uuid (content created against the backend
+  // rather than imported), which the legacy_id query above would never match.
+  const uuids = ids.filter((id) => UUID_RE.test(id));
+  if (uuids.length > 0) {
+    const { data: byId, error: idError } = await client
+      .from('prompts')
+      .select('id, legacy_id, created_by')
+      .in('id', uuids);
+    if (idError) throw new Error(`Could not look up prompts: ${idError.message}`);
+    rows.push(...((byId ?? []) as PromptIdRow[]));
+  }
+
+  /** Negative when `a` should win: seeded content first, then lowest id. */
+  const preferred = (a: PromptIdRow, b: PromptIdRow): number => {
+    const seeded = Number(a.created_by !== null) - Number(b.created_by !== null);
+    return seeded !== 0 ? seeded : a.id.localeCompare(b.id);
+  };
+
+  const best = new Map<string, PromptIdRow>();
+  for (const row of rows) {
+    // A row found by uuid answers to that uuid; one found by legacy_id answers
+    // to the legacy id the caller asked with.
+    const key = row.legacy_id && wanted.has(row.legacy_id) ? row.legacy_id : row.id;
+    if (!wanted.has(key)) continue;
+    const held = best.get(key);
+    if (!held || preferred(row, held) < 0) best.set(key, row);
+  }
+  best.forEach((row, key) => out.set(key, row.id));
+  return out;
+};
+
 type OwnedInsertRow =
   | PromptInsertRow
   | SampleAnswerInsertRow

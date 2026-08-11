@@ -37,7 +37,7 @@ const baseProps = {
   onSampleAnswerGenerated: vi.fn(),
   onDeleteSampleAnswer: vi.fn(),
   onUpdateSampleAnswer: vi.fn(),
-  userRole: 'student' as const,
+  userRole: 'user' as const,
 };
 
 /** Open the panel and the one exemplar group inside it. */

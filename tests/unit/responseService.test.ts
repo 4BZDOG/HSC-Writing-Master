@@ -7,6 +7,9 @@ const upsertMock = vi.fn();
 const insertMock = vi.fn();
 const updateEqEqMock = vi.fn();
 const resolvePromptRowIdMock = vi.fn();
+const resolvePromptRowIdsMock = vi.fn();
+/** The `.select().eq().in()` chain fetchMyAttempts uses to read its own rows. */
+const selectEqInMock = vi.fn();
 const isRemoteMock = vi.fn();
 const rpcMock = vi.fn();
 
@@ -15,6 +18,12 @@ vi.mock('../../services/supabaseClient', () => ({
     auth: { getUser: (...a: unknown[]) => getUserMock(...a) },
     rpc: (name: string, args: unknown) => rpcMock(name, args),
     from: (table: string) => ({
+      select: (columns: string) => ({
+        eq: (col: string, value: unknown) => ({
+          in: (inCol: string, values: unknown[]) =>
+            selectEqInMock({ table, columns, col, value, inCol, values }),
+        }),
+      }),
       upsert: (row: unknown, opts: unknown) => upsertMock(row, opts),
       insert: (row: unknown) => insertMock(table, row),
       update: (payload: unknown) => ({
@@ -28,12 +37,14 @@ vi.mock('../../services/curriculumService', () => ({
 }));
 vi.mock('../../services/contributionService', () => ({
   resolvePromptRowId: (...a: unknown[]) => resolvePromptRowIdMock(...a),
+  resolvePromptRowIds: (...a: unknown[]) => resolvePromptRowIdsMock(...a),
 }));
 
 import {
   buildResponseRow,
   buildEventRow,
   persistResponse,
+  fetchMyAttempts,
   saveResponseFeedback,
   fetchClassAnalytics,
   fetchResponseStudents,
@@ -290,5 +301,64 @@ describe('class-scoped analytics arguments', () => {
     const classes = await fetchMyClasses();
     expect(classes).toHaveLength(1);
     expect(classes[0].name).toBe('Year 12 A');
+  });
+});
+
+
+describe('fetchMyAttempts', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    isRemoteMock.mockReturnValue(true);
+    getUserMock.mockResolvedValue({ data: { user: { id: 'me' } }, error: null });
+  });
+
+  it('stays silent in local mode, where there is no identity to ask about', async () => {
+    isRemoteMock.mockReturnValue(false);
+    expect((await fetchMyAttempts(['p1'])).size).toBe(0);
+    expect(resolvePromptRowIdsMock).not.toHaveBeenCalled();
+  });
+
+  it('asks for marks only, for its own rows only', async () => {
+    resolvePromptRowIdsMock.mockResolvedValue(new Map([['p1', 'row-1']]));
+    selectEqInMock.mockResolvedValue({ data: [], error: null });
+
+    await fetchMyAttempts(['p1']);
+
+    const call = selectEqInMock.mock.calls[0][0];
+    expect(call.table).toBe('responses');
+    // Never the draft: the picker needs a number, not a student's writing.
+    expect(call.columns).not.toMatch(/draft|evaluation/);
+    expect(call).toMatchObject({ col: 'user_id', value: 'me', inCol: 'prompt_id' });
+  });
+
+  it('keys the marks back to the app ids the caller asked with', async () => {
+    resolvePromptRowIdsMock.mockResolvedValue(
+      new Map([
+        ['p1', 'row-1'],
+        ['p2', 'row-2'],
+      ])
+    );
+    selectEqInMock.mockResolvedValue({
+      data: [
+        { prompt_id: 'row-1', overall_mark: 4, overall_band: 3, updated_at: '2026-05-01' },
+      ],
+      error: null,
+    });
+
+    const attempts = await fetchMyAttempts(['p1', 'p2']);
+
+    expect(attempts.get('p1')).toEqual({
+      promptId: 'p1',
+      mark: 4,
+      band: 3,
+      attemptedAt: '2026-05-01',
+    });
+    // An unanswered question is absent, not present-with-nulls.
+    expect(attempts.has('p2')).toBe(false);
+  });
+
+  it('reports no attempts rather than throwing at the picker', async () => {
+    resolvePromptRowIdsMock.mockRejectedValue(new Error('connection reset'));
+    await expect(fetchMyAttempts(['p1'])).resolves.toEqual(new Map());
   });
 });

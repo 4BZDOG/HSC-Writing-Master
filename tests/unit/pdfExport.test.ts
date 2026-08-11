@@ -22,13 +22,13 @@ const fakeDoc = () => {
   const chain =
     () =>
     (..._args: unknown[]) =>
-      self as JsPdfLike;
+      (self as unknown as JsPdfLike);
 
   Object.assign(self, {
     internal: { pageSize: { getWidth: () => 210, getHeight: () => 297 } },
     addPage: () => {
       calls.pages += 1;
-      return self as JsPdfLike;
+      return (self as unknown as JsPdfLike);
     },
     setPage: chain(),
     setFont: chain(),
@@ -68,7 +68,7 @@ const fakeDoc = () => {
     GState: function GState() {},
     setProperties: (p: unknown) => {
       calls.properties.push(p);
-      return self as JsPdfLike;
+      return (self as unknown as JsPdfLike);
     },
     save: (name: string) => {
       calls.saved.push(name);

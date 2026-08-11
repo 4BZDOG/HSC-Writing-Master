@@ -1,4 +1,4 @@
-import { GenerateContentResponse } from '@google/genai';
+import type { GenerateContentResponse } from './aiResponseTypes';
 import { safeSetItem, safeGetItem, STORAGE_KEYS } from '../utils/storageUtils';
 import { supabase, isSupabaseConfigured } from './supabaseClient';
 import { getRuntimeKeyOverride } from './runtimeKeys';

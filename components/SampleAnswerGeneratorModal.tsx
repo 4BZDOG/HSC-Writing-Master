@@ -15,8 +15,11 @@ import {
   Target,
   Award,
   Loader2,
+  CopyCheck,
+  Trash2,
 } from 'lucide-react';
-import { getBandConfig } from '../utils/renderUtils';
+import { getBandConfig, stripHtmlTags } from '../utils/renderUtils';
+import { describeSimilarity, findNearDuplicate } from '../utils/answerSimilarity';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useUnsavedChanges } from '../hooks/useUnsavedChanges';
@@ -44,6 +47,17 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
   const [progress, setProgress] = useState<{ done: number; total: number; mark: number } | null>(
     null
   );
+  /**
+   * Answers that came back saying what an exemplar at the same mark already
+   * says. Held here rather than written: a level that holds five variations on
+   * one shape charges a student four readings for nothing, and the cheapest fix
+   * is not to store the fifth. Nothing is discarded silently — each one is shown
+   * beside the exemplar it repeats, and keeping it is one click.
+   */
+  const [duplicates, setDuplicates] = useState<
+    { answer: SampleAnswer; against: SampleAnswer; score: number }[]
+  >([]);
+
   // Escape closes this modal like every other modal surface (but never mid-operation).
   useEscapeKey(isOpen && !isLoading, onClose);
   useScrollLock(isOpen);
@@ -51,7 +65,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
   // browser navigation was not: closing the tab five answers into an eight-mark
   // ladder threw away every AI call still to land.
   useUnsavedChanges(
-    isLoading,
+    isLoading || duplicates.length > 0,
     'Sample answers are still being written. Leaving now will lose the ones not yet saved.'
   );
   const [error, setError] = useState<string | null>(null);
@@ -138,6 +152,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
       setIsLoading(false);
       setProgress(null);
       setError(null);
+      setDuplicates([]);
     }
   }, [isOpen, prompt.id, prompt.totalMarks, suggestedMark]);
 
@@ -152,12 +167,19 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
 
     setIsLoading(true);
     setError(null);
+    setDuplicates([]);
     // Sequential, not parallel: a batch of eight would otherwise arrive at the
     // provider at once and trip the rate limit, and each answer is written with
     // sight of the ones already produced so the ladder is genuinely graduated.
     const written: SampleAnswer[] = [];
     const failed: number[] = [];
+    const repeats: { answer: SampleAnswer; against: SampleAnswer; score: number }[] = [];
     let lastMessage = '';
+
+    // What a new answer is checked against: everything already saved on this
+    // question, plus whatever this batch has produced. Snapshotted here because
+    // `prompt` re-renders underneath the loop as each answer is saved.
+    const library: SampleAnswer[] = [...(prompt.sampleAnswers || [])];
 
     for (let i = 0; i < selectedMarks.length; i++) {
       const mark = selectedMarks[i];
@@ -167,6 +189,21 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
         // stood when its answer was requested.
         const newAnswer = await generateSampleAnswer(prompt, mark, [...written]);
         written.push(newAnswer);
+
+        // The model is now told what already sits at this mark, but being told
+        // is not the same as having complied. Only answers at the SAME mark are
+        // compared: a 4/6 resembling the 6/6 is the ladder being tight, which
+        // is a different (and often correct) thing.
+        const repeat = findNearDuplicate(
+          newAnswer.answer,
+          library.filter((s) => s.mark === mark)
+        );
+        if (repeat) {
+          repeats.push({ answer: newAnswer, against: repeat.against, score: repeat.score });
+          continue;
+        }
+
+        library.push(newAnswer);
         // Surfaced as it lands, so a long batch fills the panel behind the
         // modal rather than appearing all at once at the end.
         onSampleAnswerGenerated(newAnswer);
@@ -178,9 +215,13 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
 
     setIsLoading(false);
     setProgress(null);
+    setDuplicates(repeats);
 
     if (failed.length === 0) {
-      handleClose();
+      // A batch that produced a repeat stays open on the review panel — closing
+      // over the top of it would be the silent discard this check exists to
+      // avoid.
+      if (repeats.length === 0) handleClose();
       return;
     }
     // Whatever succeeded is already saved; say plainly what did not, and leave
@@ -198,6 +239,22 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
     if (!isLoading) {
       onClose();
     }
+  };
+
+  /** Write a held-back answer to the library after all. */
+  const keepDuplicate = (id: string) => {
+    const entry = duplicates.find((d) => d.answer.id === id);
+    if (entry) onSampleAnswerGenerated(entry.answer);
+    setDuplicates((prev) => prev.filter((d) => d.answer.id !== id));
+  };
+
+  /** Drop it. Nothing was written, so there is nothing to undo. */
+  const discardDuplicate = (id: string) =>
+    setDuplicates((prev) => prev.filter((d) => d.answer.id !== id));
+
+  const keepAllDuplicates = () => {
+    duplicates.forEach((d) => onSampleAnswerGenerated(d.answer));
+    setDuplicates([]);
   };
 
   if (!isOpen) return null;
@@ -283,6 +340,100 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
         </div>
 
         <div className="flex flex-col flex-1 overflow-y-auto custom-scrollbar p-8 space-y-8 bg-[rgb(var(--color-bg-surface))] light:bg-white">
+          {duplicates.length > 0 && (
+            <div className="rounded-2xl border-2 border-amber-500/40 light:border-amber-300 bg-amber-500/5 light:bg-amber-50 p-5 animate-fade-in">
+              <div className="flex items-start gap-3">
+                <div className="w-9 h-9 rounded-xl bg-amber-500/15 light:bg-amber-100 border border-amber-500/30 flex items-center justify-center flex-shrink-0">
+                  <CopyCheck className="w-4 h-4 text-amber-400 light:text-amber-700" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-sm font-black text-amber-300 light:text-amber-800 uppercase tracking-wider">
+                    {duplicates.length === 1
+                      ? 'One answer repeats an exemplar already at that mark'
+                      : `${duplicates.length} answers repeat exemplars already at their mark`}
+                  </h3>
+                  <p className="text-xs leading-relaxed text-amber-200/80 light:text-amber-800/90 mt-1">
+                    Nothing below has been saved yet. A level holding two answers that say the same
+                    thing costs every student a second reading for nothing — but this is a
+                    judgement, not a rule, so keeping one is a click away.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-4 space-y-3">
+                {duplicates.map(({ answer, against, score }) => {
+                  const band = getBandForMark(answer.mark, prompt.totalMarks, commandTermInfo.tier);
+                  const config = getBandConfig(band);
+                  return (
+                    <div
+                      key={answer.id}
+                      className="rounded-xl border border-amber-500/20 light:border-amber-200 bg-[rgb(var(--color-bg-surface))]/60 light:bg-white p-3"
+                    >
+                      <div className="flex flex-wrap items-center gap-2 mb-2">
+                        <span
+                          className={`px-2 py-0.5 rounded text-[10px] font-black tracking-wider ${config.bg} ${config.text} border ${config.border}`}
+                        >
+                          {answer.mark}/{prompt.totalMarks}
+                        </span>
+                        <span className="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border border-amber-500/30">
+                          {describeSimilarity(score)} · {Math.round(score * 100)}% overlap
+                        </span>
+                        <div className="ml-auto flex items-center gap-2">
+                          <button
+                            onClick={() => keepDuplicate(answer.id)}
+                            className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 light:bg-emerald-50 text-emerald-400 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500 hover:text-white transition-all"
+                          >
+                            <Check className="w-3 h-3" /> Keep it
+                          </button>
+                          <button
+                            onClick={() => discardDuplicate(answer.id)}
+                            className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider bg-red-500/10 light:bg-red-50 text-red-400 light:text-red-700 border border-red-500/30 hover:bg-red-500 hover:text-white transition-all"
+                          >
+                            <Trash2 className="w-3 h-3" /> Discard
+                          </button>
+                        </div>
+                      </div>
+                      <div className="grid sm:grid-cols-2 gap-2">
+                        <div>
+                          <span className="block text-[9px] font-black uppercase tracking-[0.15em] text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1">
+                            New
+                          </span>
+                          <p className="text-[11px] leading-snug font-serif text-[rgb(var(--color-text-secondary))] light:text-slate-700 line-clamp-3">
+                            {stripHtmlTags(answer.answer)}
+                          </p>
+                        </div>
+                        <div>
+                          <span className="block text-[9px] font-black uppercase tracking-[0.15em] text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1">
+                            Already in the library
+                          </span>
+                          <p className="text-[11px] leading-snug font-serif text-[rgb(var(--color-text-muted))] light:text-slate-500 line-clamp-3">
+                            {stripHtmlTags(against.answer)}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {duplicates.length > 1 && (
+                <div className="mt-3 flex items-center justify-end gap-2">
+                  <button
+                    onClick={keepAllDuplicates}
+                    className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-emerald-500/10 light:bg-emerald-50 text-emerald-400 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all"
+                  >
+                    Keep all {duplicates.length}
+                  </button>
+                  <button
+                    onClick={() => setDuplicates([])}
+                    className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 hover:text-[rgb(var(--color-text-secondary))] transition-all"
+                  >
+                    Discard all
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
           <div>
             <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
               <h3 className="text-xs font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-widest flex items-center gap-2">
@@ -494,15 +645,23 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
         <div
           className={`p-6 border-t-2 ${activeBandConfig.border} bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50/80 backdrop-blur-md`}
         >
+          {/* Generating again over the top of an unreviewed repeat would throw
+              it away without anyone deciding to — the one thing this check
+              exists to prevent. */}
+          {duplicates.length > 0 && (
+            <p className="mb-3 text-center text-[11px] font-bold uppercase tracking-wider text-amber-400 light:text-amber-700">
+              Keep or discard the repeated answer{duplicates.length > 1 ? 's' : ''} above first
+            </p>
+          )}
           <button
             onClick={handleGenerate}
-            disabled={isLoading || selectedMarks.length === 0}
+            disabled={isLoading || selectedMarks.length === 0 || duplicates.length > 0}
             className={`
                     w-full py-4 px-6 rounded-xl font-bold text-white text-base tracking-wide
                     transition-all duration-300 flex items-center justify-center gap-3
                     shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0
                     ${
-                      selectedMarks.length === 0
+                      selectedMarks.length === 0 || duplicates.length > 0
                         ? 'bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-400 cursor-not-allowed'
                         : `bg-gradient-to-r ${activeBandConfig.gradient} shadow-[rgba(0,0,0,0.2)] hover:shadow-[rgb(var(--color-accent))/0.2]`
                     }

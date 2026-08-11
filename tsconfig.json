@@ -45,8 +45,6 @@
   "exclude": [
     "node_modules",
     "dist",
-    "tests",
-    "AppModals.tsx",
-    "SelectionTree.tsx"
+    "tests"
   ]
 }

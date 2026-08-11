@@ -6,7 +6,18 @@ import {
   canUseAiGeneration,
   isSystemAdmin,
 } from '../utils/permissions';
-import Combobox from './Combobox';
+import Combobox, { SEARCH_THRESHOLD } from './Combobox';
+import QuestionFilterBar from './QuestionFilterBar';
+import {
+  QuestionFilter,
+  applyQuestionFilter,
+  clampFilter,
+  describeQuestions,
+  matchesFilter,
+  widestFilter,
+} from '../utils/questionFilter';
+import { suggestNextQuestion } from '../utils/personalOrdering';
+import { useAttemptHistory } from '../hooks/useAttemptHistory';
 import {
   Plus,
   Edit3,
@@ -34,11 +45,13 @@ import {
   Loader2,
   Link2,
   Landmark,
+  History,
 } from 'lucide-react';
 import {
   getCommandTermInfo,
   getTargetBand,
   getTierTargetBand,
+  tierShortLabel,
   TIER_GROUPS,
 } from '../data/commandTerms';
 import { getTierScaleConfig } from '../utils/renderUtils';
@@ -103,6 +116,17 @@ interface PromptSelectorProps {
 /** The tier's own heading, as the cognitive spectrum names it. */
 const tierGroupTitle = (tier: number): string =>
   TIER_GROUPS.find((g) => g.tier === tier)?.title ?? `Tier ${tier}`;
+
+/**
+ * The heading over the personally suggested question. It names the REASON, not
+ * just the fact: "start here" with no explanation is an instruction, and a
+ * student who has just scored badly deserves to know why the app is offering
+ * another question at the same level rather than a harder one.
+ */
+const SUGGESTION_HEADINGS: Record<string, (tier: number) => string> = {
+  'step-up': (tier) => `Suggested next · one step on from ${tierShortLabel(tier)}`,
+  consolidate: (tier) => `Suggested next · more practice at ${tierShortLabel(tier)}`,
+};
 
 const THEMES: Record<string, any> = {
   blue: {
@@ -397,6 +421,34 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     }
   }, [inlineTopicName, inlineSyllabusText, onAddTopicWithContent, selectedCourse, studioLocked]);
 
+  // --- Personal ordering -------------------------------------------------
+  // The app has stored every marked attempt since persistResponse landed and
+  // nothing has read it back here. Two things follow: a question already
+  // answered is a different object from one never attempted, and there is a
+  // knowable NEXT one. Empty in local mode and for a reader with no history,
+  // in which case everything below reverts to the impersonal list.
+  const dotPointPromptIds = useMemo(
+    () => (selectedDotPoint?.prompts ?? []).map((p) => p.id),
+    [selectedDotPoint]
+  );
+  const attempts = useAttemptHistory(dotPointPromptIds);
+
+  /** Every question's tier and marks — what the suggestion rule reasons over. */
+  const questionShapes = useMemo(
+    () =>
+      (selectedDotPoint?.prompts ?? []).map((p) => ({
+        id: p.id,
+        tier: Math.max(1, Math.min(6, Math.floor(getCommandTermInfo(p.verb).tier || 4))),
+        marks: p.totalMarks,
+      })),
+    [selectedDotPoint]
+  );
+
+  const suggestion = useMemo(
+    () => suggestNextQuestion(questionShapes, attempts),
+    [questionShapes, attempts]
+  );
+
   const promptOptions = useMemo(() => {
     if (!selectedDotPoint?.prompts) return [];
 
@@ -416,6 +468,11 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           // Provenance, not difficulty — hence its own amber "archive" colour
           // rather than the tier scale the rest of the row is painted in.
           const pastHsc = getPastHscLabel(p);
+          // The reader's own last result on this question. "I got 4/6 on this"
+          // is the fact a returning student actually navigates by, and it is
+          // the one thing the row could not previously tell them.
+          const attempt = attempts.get(p.id);
+          const isSuggested = suggestion?.id === p.id;
 
           return {
             id: p.id,
@@ -423,6 +480,10 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             marks: p.totalMarks,
             verb: verbInfo.term,
             tier: safeTier,
+            // Read by the refinement strip below, which filters on the same
+            // three facets the row displays.
+            isPastHsc: !!pastHsc,
+            attempted: !!attempt,
             isNew: newlyAddedIds.has(p.id),
             disabled: tierLocked,
             // Everything the row displays but the question text does not
@@ -433,6 +494,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               `${p.totalMarks} marks`,
               `band ${targetBand}`,
               pastHsc?.text,
+              attempt ? 'attempted' : 'not attempted',
             ]
               .filter(Boolean)
               .join(' '),
@@ -477,6 +539,21 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                         {pastHsc.text}
                       </span>
                     )}
+                    {attempt && (
+                      <span
+                        className="flex items-center gap-1 text-[9px] font-black uppercase tracking-wider px-1.5 py-px rounded border bg-emerald-500/15 light:bg-emerald-100 text-emerald-400 light:text-emerald-800 border-emerald-500/40 light:border-emerald-500"
+                        title={
+                          attempt.mark === null
+                            ? 'You have answered this question'
+                            : `Your last attempt scored ${attempt.mark}/${p.totalMarks}`
+                        }
+                      >
+                        <History className="w-2.5 h-2.5" />
+                        {attempt.mark === null
+                          ? 'Attempted'
+                          : `You: ${attempt.mark}/${p.totalMarks}`}
+                      </span>
+                    )}
                     {tierLocked && <PlusLockChip />}
                   </div>
                 </div>
@@ -489,15 +566,68 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             // ones", which is how a teacher picks and how a student should
             // climb. The heading is the tier's own title (TIER_GROUPS), so the
             // picker names tiers the same way the rest of the app does.
-            group: `${tierGroupTitle(safeTier)} · Band ${getTierTargetBand(safeTier)}`,
+            // The suggested question is lifted OUT of its tier group into its
+            // own heading at the top rather than being repeated there — one
+            // question appearing twice in a picker reads as a bug, and the
+            // heading has to say what the row is doing at the top of the list.
+            group: isSuggested
+              ? SUGGESTION_HEADINGS[suggestion.reason](suggestion.fromTier)
+              : `${tierGroupTitle(safeTier)} · Band ${getTierTargetBand(safeTier)}`,
+            // Sort rank: the suggestion first, then the tier ladder.
+            rank: isSuggested ? 0 : 1,
           };
         })
-        // Tier ascending first, so the groups come out in ladder order and the
-        // rows inside each one climb by marks. Options MUST leave here grouped
-        // — Combobox draws a heading wherever the group changes.
-        .sort((a, b) => a.tier - b.tier || a.marks - b.marks)
+        // The suggestion, then tier ascending, so the groups come out in ladder
+        // order and the rows inside each one climb by marks. Options MUST leave
+        // here grouped — Combobox draws a heading wherever the group changes.
+        .sort((a, b) => a.rank - b.rank || a.tier - b.tier || a.marks - b.marks)
     );
-  }, [selectedDotPoint, newlyAddedIds]);
+  }, [selectedDotPoint, newlyAddedIds, attempts, suggestion]);
+
+  // --- Refining a long question list ------------------------------------
+  // Grouping says what KIND each question is while the list is being read;
+  // this is for the reader who already knows the kind they want. `null` means
+  // "nothing set", which is also what a new dot point starts at — a filter
+  // carried over from the previous dot point would silently shorten a list the
+  // user has not looked at yet.
+  const [questionFilter, setQuestionFilter] = useState<QuestionFilter | null>(null);
+
+  useEffect(() => {
+    setQuestionFilter(null);
+  }, [statePath.dotPointId]);
+
+  const questionBounds = useMemo(() => describeQuestions(promptOptions), [promptOptions]);
+
+  // Re-fitted on every render against the CURRENT bounds, so a question
+  // generated into this dot point while a filter is set cannot leave the
+  // control pointing outside the axis it now spans.
+  const activeQuestionFilter = useMemo(
+    () =>
+      questionFilter ? clampFilter(questionFilter, questionBounds) : widestFilter(questionBounds),
+    [questionFilter, questionBounds]
+  );
+
+  const { visiblePromptOptions, matchingQuestionCount } = useMemo(
+    () => ({
+      // The selected question is pinned in even when it fails the filter: the
+      // closed control renders the SELECTED option's label, so dropping it
+      // would leave the picker showing a placeholder while the workspace beside
+      // it displays the question.
+      visiblePromptOptions: applyQuestionFilter(
+        promptOptions,
+        activeQuestionFilter,
+        statePath.promptId
+      ),
+      matchingQuestionCount: promptOptions.filter((o) => matchesFilter(o, activeQuestionFilter))
+        .length,
+    }),
+    [promptOptions, activeQuestionFilter, statePath.promptId]
+  );
+
+  // Same threshold as the picker's own search box: the point at which a list
+  // stops being scannable is the point at which it is worth narrowing, and one
+  // rule is easier to reason about than two.
+  const showQuestionFilters = promptOptions.length >= SEARCH_THRESHOLD;
 
   const getContainerClasses = (isSelected: boolean, zIndex: string) => `
     relative transition-all duration-500 ease-in-out w-full ${zIndex} ${isSelected ? 'mb-1' : 'mb-6'}
@@ -1163,11 +1293,19 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 {canCurate ? 'Generate one or add it manually.' : 'Check back soon.'}
               </p>
             )}
+            {showQuestionFilters && (
+              <QuestionFilterBar
+                bounds={questionBounds}
+                filter={activeQuestionFilter}
+                onChange={setQuestionFilter}
+                shown={matchingQuestionCount}
+              />
+            )}
             <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
               <div className="flex-1 w-full">
                 <Combobox
                   label={null}
-                  options={promptOptions}
+                  options={visiblePromptOptions}
                   value={statePath.promptId || ''}
                   onChange={(id) => {
                     const opt = promptOptions.find((o) => o.id === id);

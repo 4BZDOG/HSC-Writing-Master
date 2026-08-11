@@ -114,3 +114,39 @@ silence the check.
    the string it is interpolated into usually identifies it immediately.
 3. Fix by deferring the read, not by rearranging `manualChunks`. Chunking is a
    performance decision; correctness should not depend on it.
+
+## Chunking: what the split is for, and what is load-bearing
+
+Chunking is a performance decision (the sentence above still holds — never fix a
+correctness bug by rearranging it). The current split is deliberate, and two of
+its rules exist to keep bytes out of the *eager* graph rather than to tidy the
+build output. Measured at the time of writing: **524.5 kB → 442.0 kB gzipped**
+on first load.
+
+- **`core` — every `services/`, `utils/` and `hooks/` module.** Without it,
+  Rollup folds a shared module into whichever feature chunk imports it, and one
+  eager importer then drags that whole chunk into the preload graph. That is
+  exactly how `agreementService`, `errorHandler` and `quotaService` ended up
+  inside `admin`, which kept 38 kB gzipped of admin-only UI in every student's
+  first load even after all six admin modals went lazy.
+- **`aiDirect` and `api/_lib/` are excluded from `core`.** They are reached only
+  through the dynamic `import()` in `aiCore` (the direct-provider fallback) and
+  they statically pull in the provider SDK. Folded into `core` they would drag
+  272 kB of `@google/genai` back into first load.
+- **`supabase` and `zod` have their own chunks** so a change to a question
+  component cannot invalidate a cached copy of the client library.
+
+Two related rules live outside this file but belong to the same budget:
+
+- The browser must never import `@google/genai`. It needs exactly two things
+  from it — the `Type` schema enum and a response type — and both are declared
+  in `services/aiResponseTypes.ts`. The real SDK is server-side only
+  (`api/_lib/generate.ts`). A value import of the SDK anywhere in client code
+  puts the whole 272 kB back.
+- Admin and reviewer surfaces are `React.lazy`. Their render conditions are
+  already role-gated, so lazy loading costs an admin one round trip on first
+  open and saves every student the entire chunk.
+
+There is no automated size gate. To check the eager total after a change, build
+and sum the gzipped size of everything `dist/index.html` references — those are
+the bytes a student waits for before the app paints.

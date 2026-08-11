@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Course, StatePath, Topic, User } from '../types';
 import { Draft } from 'immer';
 import CourseCreatorModal from './CourseCreatorModal';
@@ -15,7 +15,6 @@ import SyllabusImportModal from './SyllabusImportModal';
 import TopicImportModal from './TopicImportModal';
 import QualityCheckModal from './QualityCheckModal';
 import UserProfileModal from './UserProfileModal';
-import DatabaseDashboard from './admin/DatabaseDashboard';
 import ManualPromptModal from './ManualPromptModal';
 import ManifestImportModal from './ManifestImportModal';
 import QuickStartModal from './QuickStartModal';
@@ -28,8 +27,15 @@ import {
 } from '../utils/dataManagerUtils';
 import type { RenameFocusAreaGuard } from './RenameModal';
 import { findAndUpdateItem } from '../utils/stateUtils';
+import { isSystemAdmin } from '../utils/permissions';
 import { generateId } from '../utils/idUtils';
 import type { TopicSyllabusImportPayload } from './TopicSyllabusImportModal';
+
+/**
+ * System-admin only, and lazy for it: mounted eagerly it pulled the whole
+ * admin chunk into every student's first load for a modal they can never open.
+ */
+const DatabaseDashboard = lazy(() => import('./admin/DatabaseDashboard'));
 
 interface AppModalsProps {
   activeModals: Set<string>;
@@ -315,12 +321,18 @@ const AppModals: React.FC<AppModalsProps> = ({
         showToast={showToast}
       />
 
-      <DatabaseDashboard
-        isOpen={isModalOpen('databaseDashboard')}
-        onClose={() => closeModal('databaseDashboard')}
-        courses={courses}
-        showToast={showToast}
-      />
+      {/* Gated on the role as well as the open flag — the Database Manager is
+          a system-admin tool, and nobody else should be mounting it at all. */}
+      {user && isSystemAdmin(user.role) && (
+        <Suspense fallback={null}>
+          <DatabaseDashboard
+            isOpen={isModalOpen('databaseDashboard')}
+            onClose={() => closeModal('databaseDashboard')}
+            courses={courses}
+            showToast={showToast}
+          />
+        </Suspense>
+      )}
 
       <SyllabusImportModal
         isOpen={isModalOpen('fullSyllabusImport')}

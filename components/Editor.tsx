@@ -575,8 +575,12 @@ const Editor = forwardRef<
               still thin, lifting to full vividness as it nears completion. */}
             <div
               className="absolute inset-0 pointer-events-none transition-opacity duration-1000 ease-out"
-              style={{ backgroundColor: `rgba(2, 6, 23, ${chroma.veil})` }}
-            />
+              style={{ opacity: chroma.veil }}
+            >
+              {/* Themed strength lives on the child, whose opacity multiplies
+                  with the progress opacity above — see `.progress-veil`. */}
+              <div className="progress-veil" />
+            </div>
 
             <MeshOverlay opacity="opacity-20" color="%23ffffff" />
 

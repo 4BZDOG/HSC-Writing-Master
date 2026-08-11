@@ -68,7 +68,7 @@ const promptProps = {
   generateScenarioError: null,
   courseOutcomes: [],
   onOutcomeClick: vi.fn(),
-  userRole: 'student' as const,
+  userRole: 'user' as const,
   onDismissEnrichError: vi.fn(),
   onRunQualityCheck: vi.fn(),
   onSuggestOutcomes: vi.fn(),
@@ -221,7 +221,7 @@ describe('the panels below the cards share one surface', () => {
   it('dresses Live Insights the same way', () => {
     const { container } = render(
       <LiveInsights
-        insights={[{ id: 'i1', tone: 'info', title: 'Keep going', detail: 'Add a second point.' }]}
+        insights={[{ id: 'i1', tone: 'info', message: 'Add a second point.' }]}
       />
     );
     expect(surfaceOf(container)).toContain(PANEL_SURFACE);
@@ -235,7 +235,7 @@ describe('the panels below the cards share one surface', () => {
         onUseSampleAnswer={vi.fn()}
         onDeleteSampleAnswer={vi.fn()}
         onUpdateSampleAnswer={vi.fn()}
-        userRole="student"
+        userRole="user"
       />
     );
     expect(surfaceOf(container)).toContain(PANEL_SURFACE);

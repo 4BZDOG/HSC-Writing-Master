@@ -134,7 +134,7 @@ describe('past HSC provenance on the question card', () => {
     render(
       <PromptDisplay
         {...props}
-        userRole={'student' as const}
+        userRole={'user' as const}
         prompt={makePrompt({ isPastHSC: true, hscYear: 2021 })}
       />
     );
@@ -145,7 +145,7 @@ describe('past HSC provenance on the question card', () => {
   });
 
   it('offers a student with no tagged paper nothing at all', () => {
-    render(<PromptDisplay {...props} userRole={'student' as const} />);
+    render(<PromptDisplay {...props} userRole={'user' as const} />);
     expect(screen.queryByRole('button', { name: /Tag paper|HSC/i })).toBeNull();
   });
 
@@ -163,7 +163,7 @@ describe('syllabus terms fill the void a short question leaves', () => {
   const withKeywords = makePrompt({ keywords: ['helicase', 'DNA polymerase'] });
 
   it('shows them when the card has room — no scenario to fill it', () => {
-    render(<PromptDisplay {...props} prompt={withKeywords} userRole={'student' as const} />);
+    render(<PromptDisplay {...props} prompt={withKeywords} userRole={'user' as const} />);
 
     expect(screen.getByText(/Syllabus terms to weave in/i)).toBeTruthy();
     expect(screen.getByText('helicase')).toBeTruthy();
@@ -173,7 +173,7 @@ describe('syllabus terms fill the void a short question leaves', () => {
     render(
       <PromptDisplay
         {...props}
-        userRole={'student' as const}
+        userRole={'user' as const}
         prompt={makePrompt({ keywords: ['helicase'], scenario: 'A lab sequences a genome.' })}
       />
     );
@@ -183,7 +183,7 @@ describe('syllabus terms fill the void a short question leaves', () => {
 
   it('leaves them out in Exam Mode — the terms are assistance', () => {
     render(
-      <PromptDisplay {...props} examMode prompt={withKeywords} userRole={'student' as const} />
+      <PromptDisplay {...props} examMode prompt={withKeywords} userRole={'user' as const} />
     );
 
     expect(screen.queryByText(/Syllabus terms to weave in/i)).toBeNull();
@@ -191,7 +191,7 @@ describe('syllabus terms fill the void a short question leaves', () => {
 
   it('leaves them out in Focus Mode, where the card is deliberately minimal', () => {
     render(
-      <PromptDisplay {...props} condensed prompt={withKeywords} userRole={'student' as const} />
+      <PromptDisplay {...props} condensed prompt={withKeywords} userRole={'user' as const} />
     );
 
     expect(screen.queryByText(/Syllabus terms to weave in/i)).toBeNull();

@@ -60,6 +60,7 @@ const renderSelector = (
       onRenameItem={noop}
       onDeleteItem={noop}
       onAddTopicFromSyllabus={handlers.onAddTopicFromSyllabus ?? noop}
+      onAddTopicWithContent={noop}
       onGenerateDotPoints={noop}
       onImportTopic={handlers.onImportTopic ?? noop}
       onImportSyllabus={handlers.onImportSyllabus ?? noop}

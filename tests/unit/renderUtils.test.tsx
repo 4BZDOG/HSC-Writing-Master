@@ -36,14 +36,14 @@ describe('renderEditorHighlights', () => {
 
   it('highlights repeated occurrences of the command verb', () => {
     const text = 'Analyse this, then analyse that, and analyse again.';
-    const { verb } = countHighlights(renderEditorHighlights(text, [], 'Analyse'));
+    const { verb } = countHighlights(renderEditorHighlights(text, [], 'ANALYSE'));
     expect(verb).toBe(3);
   });
 
   it('highlights keywords and the verb together without dropping either', () => {
     const text = 'Explain the cell. Explain the enzyme. Explain the cell again.';
     const { keyword, verb } = countHighlights(
-      renderEditorHighlights(text, ['cell', 'enzyme'], 'Explain')
+      renderEditorHighlights(text, ['cell', 'enzyme'], 'EXPLAIN')
     );
     expect(verb).toBe(3);
     expect(keyword).toBe(3); // two "cell" + one "enzyme"

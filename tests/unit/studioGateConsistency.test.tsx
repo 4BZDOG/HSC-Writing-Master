@@ -64,8 +64,9 @@ describe('marking-guide drafting carries the studio lock', () => {
     render(
       <MarkingCriteriaAccordion
         prompt={prompt}
-        markingCriteria={prompt.markingCriteria}
-        onCriteriaChange={vi.fn()}
+        markingCriteria={prompt.markingCriteria ?? ''}
+        onSave={vi.fn()}
+        band={5}
         userRole="teacher"
       />
     );
@@ -96,7 +97,11 @@ describe('keyword suggestion carries the studio lock', () => {
         onKeywordsChange={vi.fn()}
         isEnriching={false}
         onRegenerate={vi.fn()}
+        isRegenerating={false}
+        regenerateError={null}
         onSuggest={onSuggest}
+        isSuggesting={false}
+        suggestError={null}
         userRole="teacher"
       />
     );

@@ -42,7 +42,7 @@ const railProps = {
   onSuggestKeywords: vi.fn(),
   isSuggestingKeywords: false,
   suggestError: null,
-  userRole: 'student' as const,
+  userRole: 'user' as const,
 };
 
 describe('the reference rail arrives closed', () => {

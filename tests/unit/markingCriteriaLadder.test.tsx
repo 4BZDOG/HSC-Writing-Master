@@ -39,7 +39,7 @@ const renderCriteria = (criteria: string, over: Partial<Prompt> = {}) =>
       markingCriteria={criteria}
       onSave={() => {}}
       band={4}
-      userRole="student"
+      userRole="user"
       embedded
     />
   );
