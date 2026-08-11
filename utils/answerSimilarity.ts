@@ -20,8 +20,30 @@
  * answer does not.
  */
 
-/** Above this, two exemplars are saying the same thing in different words. */
-export const NEAR_DUPLICATE_THRESHOLD = 0.5;
+/**
+ * Above this, two exemplars are saying the same thing in different words.
+ *
+ * Set from measurement rather than from feel — `npm run measure:similarity`
+ * reports the distribution over whatever course JSON it is given. Across the
+ * 823 exemplars shipped in `public/courseData` (Biology, Software Engineering,
+ * Enterprise Computing):
+ *
+ *   same mark, same question     19 pairs, worst 0.20
+ *   different marks, same q.    600 pairs, worst 0.25   ← the ladder, must not fire
+ *   different questions       79,800 pairs, p99 0.03
+ *
+ * So no genuinely different pair in a real curated library comes within 0.10 of
+ * this number, which is the margin that matters: a check that cries wolf is one
+ * a teacher learns to dismiss. It was 0.5, chosen from two sentences written by
+ * hand; the measurement says that left a large band — everything from 0.35 to
+ * 0.5 — where a paraphrase would have slipped through for no benefit.
+ *
+ * What the corpus cannot say is where the TRUE positives sit: it holds curated
+ * exemplars, not the generated batches this check exists for, and contains no
+ * near-duplicate to measure. Re-run the script against an export once real
+ * batches exist, and expect to move this again.
+ */
+export const NEAR_DUPLICATE_THRESHOLD = 0.35;
 
 /** Above this, one is essentially a copy of the other. */
 export const NEAR_IDENTICAL_THRESHOLD = 0.75;
