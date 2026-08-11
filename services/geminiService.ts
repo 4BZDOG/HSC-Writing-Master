@@ -1263,15 +1263,25 @@ export const generateSampleAnswer = async (
 
   const scopeBrief = buildSampleScopeBrief(prompt, mark, termInfo);
 
+  // Everything already on this question, plus whatever the caller has written
+  // in the current batch and not yet saved. The batch answers arrive in
+  // `existingAnswers`; the saved ones were NOT read here at all, so a second
+  // batch at 6/6 was written with no sight of the first — which is exactly how
+  // a level accumulates five variations on the same shape. De-duplicated by id
+  // because the two sources overlap once a batch answer has been saved.
+  const seen = new Set<string>();
+  const context = [...(prompt.sampleAnswers || []), ...existingAnswers].filter((s) => {
+    if (!s?.answer?.trim()) return false;
+    if (s.id && seen.has(s.id)) return false;
+    if (s.id) seen.add(s.id);
+    return true;
+  });
+
   // Exemplars are read as a set: a 4/6 that says the same things as the 6/6 in
-  // slightly worse words teaches nothing about what the extra marks buy. When
-  // the caller supplies the answers already written for this question (the
-  // generator's batch mode does, bottom-up), each new one is written to sit
-  // visibly apart from them. Truncated — the model needs the gist and the
-  // length, not every word.
-  const laddered = [...existingAnswers]
-    .filter((s) => s.mark !== mark && s.answer?.trim())
-    .sort((a, b) => a.mark - b.mark);
+  // slightly worse words teaches nothing about what the extra marks buy. Each
+  // new answer is therefore written to sit visibly apart from the rest of the
+  // ladder. Truncated — the model needs the gist and the length, not every word.
+  const laddered = [...context].filter((s) => s.mark !== mark).sort((a, b) => a.mark - b.mark);
   const ladderBrief = laddered.length
     ? `\n**Answers already written for this question — yours must be clearly distinguishable from them:**\n` +
       laddered
@@ -1282,6 +1292,20 @@ export const generateSampleAnswer = async (
         .join('\n') +
       `\n- A reader comparing yours with these must be able to say WHY it earns ${mark} rather than ${laddered.map((s) => s.mark).join(' or ')}: what it covers that a lower one does not, or what it still misses that a higher one has.\n` +
       `- Do NOT reuse their sentences or examples wholesale.\n`
+    : '';
+
+  // The answers already sitting at THIS mark. The ladder brief above excludes
+  // them by design — they carry no information about what separates one mark
+  // from another — but they are the ones a new answer is most likely to repeat,
+  // so they get their own instruction: take a different route to the same mark.
+  const siblings = context.filter((s) => s.mark === mark);
+  const siblingBrief = siblings.length
+    ? `\n**${siblings.length} answer${siblings.length === 1 ? '' : 's'} already exist${siblings.length === 1 ? 's' : ''} at ${mark}/${prompt.totalMarks}:**\n` +
+      siblings
+        .map((s) => `${s.answer.slice(0, 400)}${s.answer.length > 400 ? '…' : ''}`)
+        .join('\n---\n') +
+      `\n- Yours must be a genuinely DIFFERENT response of the same quality, not a paraphrase: a different example, a different structure, or a different aspect of the syllabus point emphasised.\n` +
+      `- A student reading both must gain something from the second. If the only honest answer at this mark is the one already written, still write yours from a different angle rather than restating theirs.\n`
     : '';
 
   const request = {
@@ -1305,6 +1329,7 @@ export const generateSampleAnswer = async (
 
                     ${scopeBrief}
                     ${ladderBrief}
+                    ${siblingBrief}
 
                     **Directives:**
                     ${qualityInstruction}

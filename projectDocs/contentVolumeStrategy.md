@@ -79,6 +79,29 @@ demands judgement. Marks are offered as their own separate axis, labelled
 from the reader choosing on difficulty and should not have to answer both at
 once.
 
+## The fifth move: don't produce the duplicate in the first place
+
+Everything above makes a crowded level *readable*. None of it makes the fifth
+exemplar *worth reading*. Two changes address the cause rather than the
+presentation:
+
+1. **The generator can now see what it already wrote.** `generateSampleAnswer`
+   was given only the current batch, so a second batch at 6/6 was written in
+   ignorance of the first — the model was never told not to repeat it. It now
+   reads the question's saved exemplars too, and the ones at the *same mark* get
+   their own instruction: a different example, structure or emphasis, not a
+   paraphrase.
+2. **What comes back is checked, and a repeat is held back rather than saved.**
+   Held back, not dropped: the answer is shown beside the exemplar it repeats,
+   with how much they overlap, and keeping it is one click. A silent discard
+   would make the library lie about what it produced, which is the same failure
+   as a silent cap — so the modal refuses to close or to generate again over an
+   undecided one.
+
+Only same-mark exemplars are compared. A 4/6 that closely resembles the 6/6 is
+the ladder being tight, which is frequently correct and is a different question
+entirely.
+
 ## Where this is implemented
 
 | Surface | What it does |
@@ -88,6 +111,9 @@ once.
 | `components/PromptSelector.tsx` | Questions grouped by cognitive tier (`TIER_GROUPS` title + target band) and sorted tier-then-marks, so a long list reads as a handful of named runs. Search already matches verb, marks, band and HSC paper via `searchText`. Holds the refinement filter, resets it when the dot point changes, and pins the selected question into the filtered list. |
 | `utils/questionFilter.ts` | The filter model, as pure functions: `describeQuestions` (bounds from content), `widestFilter`, `clampFilter` (re-fit when the questions change), `matchesFilter` / `applyQuestionFilter` (with the pinned selection), `isFilterActive` and `summariseFilter` (the collapsed-state chips). |
 | `components/QuestionFilterBar.tsx` | The strip itself: count line, collapsed summary chips, difficulty and length sliders, a Past-HSC toggle where the dot point holds any, Clear, and the "nothing matches those settings" explanation in place of an empty picker. |
+| `services/geminiService.ts` | `generateSampleAnswer` now reads the question's SAVED exemplars as well as the caller's batch, and gives the ones at the same mark their own brief ("a genuinely different response of the same quality, not a paraphrase"). Previously a second batch at 6/6 was written with no sight of the first — the mechanism by which a level accumulated variations. |
+| `utils/answerSimilarity.ts` | Jaccard overlap over word BIGRAMS (`answerSimilarity`, `findNearDuplicate`). Unigrams are useless here: two answers to one question necessarily share their vocabulary. Bigrams carry phrasing, which is what a paraphrase preserves. Tags stripped, so stored mark-up does not register as difference. |
+| `components/SampleAnswerGeneratorModal.tsx` | Compares each generated answer against the exemplars at ITS OWN mark (a 4/6 resembling the 6/6 is a tight ladder, not a duplicate). A repeat is held back — never written, never silently dropped — and shown beside the exemplar it repeats with its overlap, for Keep or Discard. The modal will not close or generate again over an undecided one. |
 | `components/RangeSlider.tsx` | Two-handled range built from two native `input[type=range]`s, so arrow keys, Home/End and screen-reader announcement come from the platform. Handles cannot cross. Paint is in `.dual-range` (`index.css`), tinted from `currentColor` so one Tailwind class themes the control. |
 
 ## What was considered and rejected
@@ -114,11 +140,16 @@ once.
 - **Personal ordering.** Once a student has attempted a dot point, surface the
   question one tier above their last result first, and mark attempted questions
   in the picker. The data exists (`services/responseService.ts`); nothing reads
-  it here yet.
-- **Near-duplicate detection at generation time.** The cheapest fix for "five
-  AI variations on the same shape" is not to store the fifth. A similarity
-  check in `SampleAnswerGeneratorModal` before a batch is written would keep
-  the level genuinely varied rather than merely well-labelled.
+  it here yet. It is the last of the three original follow-ups still open, and
+  the most valuable: it is the only one that makes a long list shorter *for this
+  reader* without anyone having to set anything.
 - **A "one of each kind" default.** When a level holds several exemplars from
   the same source, lead with one per source and fold the duplicates within a
   source, rather than folding by position.
+- **Calibrating the similarity threshold on real content.** 0.5 bigram overlap
+  was chosen conservatively: a near-verbatim rewrite of a 25-word answer scores
+  ~0.64, while a genuinely different answer to the same question scored 0.00 in
+  testing. It will therefore miss two answers of the same *shape* written in
+  different words. Widening it is only worth doing against a corpus of real
+  generated batches — a check that cries wolf is one a teacher learns to
+  dismiss, which is worse than one that occasionally stays quiet.
