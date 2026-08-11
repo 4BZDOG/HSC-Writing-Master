@@ -6,7 +6,16 @@ import {
   canUseAiGeneration,
   isSystemAdmin,
 } from '../utils/permissions';
-import Combobox from './Combobox';
+import Combobox, { SEARCH_THRESHOLD } from './Combobox';
+import QuestionFilterBar from './QuestionFilterBar';
+import {
+  QuestionFilter,
+  applyQuestionFilter,
+  clampFilter,
+  describeQuestions,
+  matchesFilter,
+  widestFilter,
+} from '../utils/questionFilter';
 import {
   Plus,
   Edit3,
@@ -423,6 +432,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             marks: p.totalMarks,
             verb: verbInfo.term,
             tier: safeTier,
+            // Read by the refinement strip below, which filters on the same
+            // three facets the row displays.
+            isPastHsc: !!pastHsc,
             isNew: newlyAddedIds.has(p.id),
             disabled: tierLocked,
             // Everything the row displays but the question text does not
@@ -498,6 +510,51 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
         .sort((a, b) => a.tier - b.tier || a.marks - b.marks)
     );
   }, [selectedDotPoint, newlyAddedIds]);
+
+  // --- Refining a long question list ------------------------------------
+  // Grouping says what KIND each question is while the list is being read;
+  // this is for the reader who already knows the kind they want. `null` means
+  // "nothing set", which is also what a new dot point starts at — a filter
+  // carried over from the previous dot point would silently shorten a list the
+  // user has not looked at yet.
+  const [questionFilter, setQuestionFilter] = useState<QuestionFilter | null>(null);
+
+  useEffect(() => {
+    setQuestionFilter(null);
+  }, [statePath.dotPointId]);
+
+  const questionBounds = useMemo(() => describeQuestions(promptOptions), [promptOptions]);
+
+  // Re-fitted on every render against the CURRENT bounds, so a question
+  // generated into this dot point while a filter is set cannot leave the
+  // control pointing outside the axis it now spans.
+  const activeQuestionFilter = useMemo(
+    () =>
+      questionFilter ? clampFilter(questionFilter, questionBounds) : widestFilter(questionBounds),
+    [questionFilter, questionBounds]
+  );
+
+  const { visiblePromptOptions, matchingQuestionCount } = useMemo(
+    () => ({
+      // The selected question is pinned in even when it fails the filter: the
+      // closed control renders the SELECTED option's label, so dropping it
+      // would leave the picker showing a placeholder while the workspace beside
+      // it displays the question.
+      visiblePromptOptions: applyQuestionFilter(
+        promptOptions,
+        activeQuestionFilter,
+        statePath.promptId
+      ),
+      matchingQuestionCount: promptOptions.filter((o) => matchesFilter(o, activeQuestionFilter))
+        .length,
+    }),
+    [promptOptions, activeQuestionFilter, statePath.promptId]
+  );
+
+  // Same threshold as the picker's own search box: the point at which a list
+  // stops being scannable is the point at which it is worth narrowing, and one
+  // rule is easier to reason about than two.
+  const showQuestionFilters = promptOptions.length >= SEARCH_THRESHOLD;
 
   const getContainerClasses = (isSelected: boolean, zIndex: string) => `
     relative transition-all duration-500 ease-in-out w-full ${zIndex} ${isSelected ? 'mb-1' : 'mb-6'}
@@ -1163,11 +1220,19 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 {canCurate ? 'Generate one or add it manually.' : 'Check back soon.'}
               </p>
             )}
+            {showQuestionFilters && (
+              <QuestionFilterBar
+                bounds={questionBounds}
+                filter={activeQuestionFilter}
+                onChange={setQuestionFilter}
+                shown={matchingQuestionCount}
+              />
+            )}
             <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
               <div className="flex-1 w-full">
                 <Combobox
                   label={null}
-                  options={promptOptions}
+                  options={visiblePromptOptions}
                   value={statePath.promptId || ''}
                   onChange={(id) => {
                     const opt = promptOptions.find((o) => o.id === id);

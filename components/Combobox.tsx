@@ -8,7 +8,7 @@ import { Sparkles, ChevronDown, Search, X } from 'lucide-react';
  * above four topics is clutter. A dot point can carry a dozen questions, and a
  * course a dozen topics — that is where scanning stops working.
  */
-const SEARCH_THRESHOLD = 7;
+export const SEARCH_THRESHOLD = 7;
 
 /** Case- and punctuation-insensitive substring match on every supplied term. */
 const matches = (option: { label: string; searchText?: string }, query: string): boolean => {

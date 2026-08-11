@@ -43,13 +43,52 @@ Three moves, in this order:
    single explicit control that states what is behind it ("+2 more"), never a
    silent truncation. Stepping past the fold by any other route opens it.
 
+## The fourth move: let the reader narrow, never the app
+
+Distinguishing, ordering and folding all work on the reader who is *still
+deciding*. They do nothing for the reader who already knows what they want: a
+student with fifteen minutes wants the short questions, a student revising
+Section III wants the extended ones, a teacher building a trial paper wants the
+real HSC ones. Grouping still makes them scroll past everything else to find
+them.
+
+So the picker gains a **refinement strip** — but on the same terms as the rest
+of this strategy, which is what separates it from a cap:
+
+- **Only a person sets it.** It opens at the widest possible range and stays
+  there until someone moves it. Nothing is filtered by default, ever.
+- **It states what it is holding back**, in the count line (`8 of 20 shown`) and
+  again as named chips when its controls are collapsed. A shortened list whose
+  cause has scrolled out of sight is how a picker comes to look broken.
+- **It is reversible in one click**, and it never removes anything — including
+  the currently selected question, which is pinned into the list whatever the
+  filter says, because the picker must not show a placeholder while the
+  workspace beside it displays that very question.
+- **Its axes come from the content.** Bounds are derived from the questions
+  present, so a dot point spanning 3–8 marks gets a 3–8 slider rather than a
+  1–20 one with dead space at both ends. An axis every question shares is not a
+  choice, so no control is drawn for it; a dot point with a single tier and a
+  single mark value gets no strip at all.
+- **It appears only where scanning has stopped working** — the same threshold as
+  the picker's own search box (`SEARCH_THRESHOLD`, 7). One rule, not two.
+
+Difficulty here means the **cognitive tier of the command term**, not the mark
+value. A 6-mark *Describe* is longer than a 4-mark *Evaluate*; only the second
+demands judgement. Marks are offered as their own separate axis, labelled
+*Length*, because the reader choosing on time is asking a different question
+from the reader choosing on difficulty and should not have to answer both at
+once.
+
 ## Where this is implemented
 
 | Surface | What it does |
 |---|---|
 | `components/SampleAnswersAccordion.tsx` | One row per mark level, one exemplar shown at a time. Within a level, a chip per exemplar labelled by source and word count (`sourceLabel`, `wordCountOf`), sorted by `byTrustworthiness`, with the tail behind `+N more` (`VISIBLE_VARIANTS`). The folded panel header states levels **and** total exemplars. |
 | `components/Combobox.tsx` | Optional `group` on an option renders a sticky heading wherever the group changes. Options must arrive pre-sorted by group. |
-| `components/PromptSelector.tsx` | Questions grouped by cognitive tier (`TIER_GROUPS` title + target band) and sorted tier-then-marks, so a long list reads as a handful of named runs. Search already matches verb, marks, band and HSC paper via `searchText`. |
+| `components/PromptSelector.tsx` | Questions grouped by cognitive tier (`TIER_GROUPS` title + target band) and sorted tier-then-marks, so a long list reads as a handful of named runs. Search already matches verb, marks, band and HSC paper via `searchText`. Holds the refinement filter, resets it when the dot point changes, and pins the selected question into the filtered list. |
+| `utils/questionFilter.ts` | The filter model, as pure functions: `describeQuestions` (bounds from content), `widestFilter`, `clampFilter` (re-fit when the questions change), `matchesFilter` / `applyQuestionFilter` (with the pinned selection), `isFilterActive` and `summariseFilter` (the collapsed-state chips). |
+| `components/QuestionFilterBar.tsx` | The strip itself: count line, collapsed summary chips, difficulty and length sliders, a Past-HSC toggle where the dot point holds any, Clear, and the "nothing matches those settings" explanation in place of an empty picker. |
+| `components/RangeSlider.tsx` | Two-handled range built from two native `input[type=range]`s, so arrow keys, Home/End and screen-reader announcement come from the platform. Handles cannot cross. Paint is in `.dual-range` (`index.css`), tinted from `currentColor` so one Tailwind class themes the control. |
 
 ## What was considered and rejected
 
@@ -62,6 +101,13 @@ Three moves, in this order:
 - **Paginating the question picker.** Pagination answers "how do I get to item
   30" — nobody's question. The reader's question is "which kind of question is
   this", which grouping answers and page numbers do not.
+- **A difficulty filter that starts narrowed** (e.g. defaulting to the reader's
+  own level). It would mean a teacher generates a question and cannot find it,
+  with nothing on screen admitting a filter is on. The strip starts wide and
+  says so.
+- **One combined "difficulty" number folding tier and marks together.** The two
+  answer different questions — "how hard is this to think about" and "how long
+  will this take me" — and a single number would let neither be asked.
 
 ## What to do next, if volume keeps growing
 
