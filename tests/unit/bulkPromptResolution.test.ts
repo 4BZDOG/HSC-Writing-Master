@@ -43,7 +43,9 @@ vi.mock('../../services/supabaseClient', () => ({
   fetchAllRows: vi.fn(),
 }));
 
-const { resolvePromptRowIds } = await import('../../services/contributionService');
+const { resolvePromptRowIds, __clearPromptRowIdCache } = await import(
+  '../../services/contributionService'
+);
 
 const UUID_A = '11111111-1111-4111-8111-111111111111';
 
@@ -51,6 +53,8 @@ beforeEach(() => {
   recorded.length = 0;
   rows = { legacy_id: [], id: [] };
   failWith = null;
+  // The cache lives for the session, so every test starts from a cold one.
+  __clearPromptRowIdCache();
 });
 
 describe('resolvePromptRowIds', () => {
@@ -123,5 +127,48 @@ describe('resolvePromptRowIds', () => {
   it('surfaces a lookup failure instead of reporting "no attempts"', async () => {
     failWith = 'connection reset';
     await expect(resolvePromptRowIds(['prompt-a'])).rejects.toThrow(/connection reset/);
+  });
+});
+
+describe('the resolution cache', () => {
+  it('does not ask twice for an id it has already placed', async () => {
+    rows.legacy_id = [{ id: 'row-1', legacy_id: 'prompt-cached', created_by: null }];
+
+    const first = await resolvePromptRowIds(['prompt-cached']);
+    recorded.length = 0;
+    rows.legacy_id = [];
+    const second = await resolvePromptRowIds(['prompt-cached']);
+
+    expect(first.get('prompt-cached')).toBe('row-1');
+    // Answered from memory: the row a prompt lives in does not move.
+    expect(recorded).toHaveLength(0);
+    expect(second.get('prompt-cached')).toBe('row-1');
+  });
+
+  it('keeps asking about an id that resolved to nothing', async () => {
+    rows.legacy_id = [];
+    await resolvePromptRowIds(['local-draft-2']);
+    recorded.length = 0;
+
+    // A local draft contributed a minute later must not be told it does not
+    // exist for as long as the tab stays open.
+    rows.legacy_id = [{ id: 'row-9', legacy_id: 'local-draft-2', created_by: null }];
+    const second = await resolvePromptRowIds(['local-draft-2']);
+
+    expect(recorded.length).toBeGreaterThan(0);
+    expect(second.get('local-draft-2')).toBe('row-9');
+  });
+
+  it('asks only about the ids it does not already know', async () => {
+    rows.legacy_id = [{ id: 'row-a', legacy_id: 'known', created_by: null }];
+    await resolvePromptRowIds(['known']);
+    recorded.length = 0;
+
+    rows.legacy_id = [{ id: 'row-b', legacy_id: 'fresh', created_by: null }];
+    const map = await resolvePromptRowIds(['known', 'fresh']);
+
+    expect(recorded[0].in[0].values).toEqual(['fresh']);
+    expect(map.get('known')).toBe('row-a');
+    expect(map.get('fresh')).toBe('row-b');
   });
 });

@@ -283,6 +283,23 @@ interface PromptIdRow {
 }
 
 /**
+ * App id → row uuid, remembered for the session.
+ *
+ * A prompt's row does not move: the resolution is a property of the library,
+ * not of the caller or the moment. Only POSITIVE answers are kept — an id that
+ * resolves to nothing today may be a draft that gets contributed in a minute,
+ * and caching that absence would leave the app insisting the row does not
+ * exist for as long as the tab stays open.
+ */
+const promptRowIdCache = new Map<string, string>();
+
+/**
+ * Test-only reset. Nothing in the app needs it: a row id is a property of the
+ * library rather than of the session, so it stays true across a sign-out.
+ */
+export const __clearPromptRowIdCache = (): void => promptRowIdCache.clear();
+
+/**
  * Resolve MANY prompt ids at once — one round trip for a whole dot point,
  * where `resolvePromptRowId` would be one per question.
  *
@@ -298,8 +315,13 @@ interface PromptIdRow {
  * error).
  */
 export const resolvePromptRowIds = async (appIds: string[]): Promise<Map<string, string>> => {
-  const ids = Array.from(new Set(appIds.filter(Boolean)));
   const out = new Map<string, string>();
+  const ids: string[] = [];
+  for (const appId of new Set(appIds.filter(Boolean))) {
+    const known = promptRowIdCache.get(appId);
+    if (known) out.set(appId, known);
+    else ids.push(appId);
+  }
   if (ids.length === 0) return out;
 
   const client = requireClient();
@@ -340,7 +362,10 @@ export const resolvePromptRowIds = async (appIds: string[]): Promise<Map<string,
     const held = best.get(key);
     if (!held || preferred(row, held) < 0) best.set(key, row);
   }
-  best.forEach((row, key) => out.set(key, row.id));
+  best.forEach((row, key) => {
+    out.set(key, row.id);
+    promptRowIdCache.set(key, row.id);
+  });
   return out;
 };
 

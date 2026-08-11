@@ -323,6 +323,31 @@ const currentUserId = async (): Promise<string | null> => {
 };
 
 /**
+ * Attempts, remembered for a few minutes.
+ *
+ * Moving between the dot points of one sub-topic asks for the same handful of
+ * questions over and over — two round trips each time, on a picker a student
+ * clicks through quickly. The only thing that can change the answer while the
+ * app is open is the student marking something, and that goes through
+ * `persistResponse` right here, which drops the cache. So the TTL is a backstop
+ * for the case this file cannot see: the same account marking work in a second
+ * tab.
+ */
+const ATTEMPT_CACHE_TTL_MS = 5 * 60 * 1000;
+
+const attemptCache = new Map<string, { at: number; value: Map<string, AttemptSummary> }>();
+
+/** Sorted, so the same set of questions in any order is the same key. */
+const attemptCacheKey = (promptAppIds: string[]): string =>
+  [...new Set(promptAppIds)].sort().join('|');
+
+/** Called wherever this module writes — the picker must not show a stale mark. */
+const forgetAttempts = (): void => attemptCache.clear();
+
+/** Exposed for tests; nothing in the app needs to reach past `forgetAttempts`. */
+export const __clearAttemptCache = forgetAttempts;
+
+/**
  * Save (upsert) the student's latest attempt + AI feedback for a prompt.
  * No-ops silently when persistence isn't possible (local mode, guest with no
  * session, or a prompt that has no row in the shared library — e.g. a purely
@@ -345,6 +370,8 @@ export const persistResponse = async (
         onConflict: 'user_id,prompt_id',
       });
     if (error) console.warn('[responses] persist failed (ignored):', error.message);
+    // The picker's "You: 4/6" chip and its suggestion both read this.
+    forgetAttempts();
 
     // Append to the per-attempt history for the band trend. Independent and
     // best-effort — a lost event only shortens the trend, never the mark.
@@ -383,6 +410,11 @@ export const fetchMyAttempts = async (
 ): Promise<Map<string, AttemptSummary>> => {
   const empty = new Map<string, AttemptSummary>();
   if (!isCurriculumRemote() || !supabase || promptAppIds.length === 0) return empty;
+
+  const key = attemptCacheKey(promptAppIds);
+  const hit = attemptCache.get(key);
+  if (hit && Date.now() - hit.at < ATTEMPT_CACHE_TTL_MS) return hit.value;
+
   try {
     const userId = await currentUserId();
     if (!userId) return empty;
@@ -417,6 +449,7 @@ export const fetchMyAttempts = async (
         attemptedAt: row.updated_at ?? null,
       });
     });
+    attemptCache.set(key, { at: Date.now(), value: out });
     return out;
   } catch (e) {
     console.warn('[responses] attempt lookup failed (ignored):', e);
