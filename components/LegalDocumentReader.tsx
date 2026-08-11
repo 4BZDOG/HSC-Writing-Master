@@ -81,7 +81,7 @@ const LegalDocumentReader: React.FC<LegalDocumentReaderProps> = ({
 
       <p className="text-xs text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-medium">
         {renderLegalText(doc.subtitle)}{' '}
-        <span className="text-[rgb(var(--color-text-muted))] light:text-slate-400">
+        <span className="text-[rgb(var(--color-text-muted))] light:text-slate-500">
           Version {AGREEMENT_VERSION}.
         </span>
       </p>
@@ -141,7 +141,7 @@ const LegalDocumentReader: React.FC<LegalDocumentReaderProps> = ({
               </section>
             ))}
 
-            <p className="text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-400 pt-2 border-t border-white/5 light:border-slate-200">
+            <p className="text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 pt-2 border-t border-white/5 light:border-slate-200">
               {renderLegalText(
                 '{{product}}, published by {{entity}}. These documents are written in plain English on purpose — if something here is unclear, ask rather than guess.'
               )}

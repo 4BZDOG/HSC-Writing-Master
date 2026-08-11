@@ -174,7 +174,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({ user, showUpgradeCta = 
             <div className="mt-2 grid grid-cols-3 gap-2">
               {COMPARED_PLANS.map((plan) => (
                 <div key={plan} className="text-center">
-                  <span className="block text-[9px] font-black uppercase tracking-widest text-[rgb(var(--color-text-muted))] light:text-slate-400 mb-1">
+                  <span className="block text-[9px] font-black uppercase tracking-widest text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1">
                     {PLAN_LABELS[plan]}
                   </span>
                   <Cell cell={row.cells[plan]} />

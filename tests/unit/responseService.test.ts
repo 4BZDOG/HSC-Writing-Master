@@ -45,6 +45,7 @@ import {
   buildEventRow,
   persistResponse,
   fetchMyAttempts,
+  __clearAttemptCache,
   saveResponseFeedback,
   fetchClassAnalytics,
   fetchResponseStudents,
@@ -308,6 +309,7 @@ describe('class-scoped analytics arguments', () => {
 describe('fetchMyAttempts', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    __clearAttemptCache();
     isRemoteMock.mockReturnValue(true);
     getUserMock.mockResolvedValue({ data: { user: { id: 'me' } }, error: null });
   });
@@ -360,5 +362,53 @@ describe('fetchMyAttempts', () => {
   it('reports no attempts rather than throwing at the picker', async () => {
     resolvePromptRowIdsMock.mockRejectedValue(new Error('connection reset'));
     await expect(fetchMyAttempts(['p1'])).resolves.toEqual(new Map());
+  });
+});
+
+
+describe('the attempt cache', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    __clearAttemptCache();
+    isRemoteMock.mockReturnValue(true);
+    getUserMock.mockResolvedValue({ data: { user: { id: 'me' } }, error: null });
+    resolvePromptRowIdsMock.mockResolvedValue(new Map([['p1', 'row-1']]));
+    selectEqInMock.mockResolvedValue({
+      data: [{ prompt_id: 'row-1', overall_mark: 4, overall_band: 3, updated_at: '2026-05-01' }],
+      error: null,
+    });
+  });
+
+  it('asks once for a set of questions, however often the picker re-renders', async () => {
+    const first = await fetchMyAttempts(['p1', 'p2']);
+    const second = await fetchMyAttempts(['p1', 'p2']);
+
+    expect(selectEqInMock).toHaveBeenCalledTimes(1);
+    expect(second.get('p1')).toEqual(first.get('p1'));
+  });
+
+  it('does not care what order the ids arrive in', async () => {
+    await fetchMyAttempts(['p1', 'p2']);
+    await fetchMyAttempts(['p2', 'p1']);
+    expect(selectEqInMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('still asks for a set it has not seen', async () => {
+    await fetchMyAttempts(['p1', 'p2']);
+    await fetchMyAttempts(['p1', 'p3']);
+    expect(selectEqInMock).toHaveBeenCalledTimes(2);
+  });
+
+  it('forgets everything the moment the student marks something', async () => {
+    await fetchMyAttempts(['p1', 'p2']);
+    // A mark the picker is about to display: serving the pre-answer state here
+    // would show a question as unattempted straight after answering it.
+    resolvePromptRowIdMock.mockResolvedValue('row-1');
+    upsertMock.mockResolvedValue({ error: null });
+    insertMock.mockResolvedValue({ error: null });
+    await persistResponse('p1', { draft: 'x', wordCount: 1, result });
+
+    await fetchMyAttempts(['p1', 'p2']);
+    expect(selectEqInMock).toHaveBeenCalledTimes(2);
   });
 });

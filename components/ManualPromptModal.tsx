@@ -71,7 +71,7 @@ const Section: React.FC<{
   <section className="p-6 rounded-[24px] bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200">
     <div className="flex flex-wrap justify-between items-center gap-3 mb-5">
       <div className="flex flex-col gap-1 min-w-0">
-        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 light:text-slate-400">
+        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 light:text-slate-500">
           {eyebrow}
         </span>
         <h4 className="text-sm font-bold text-white light:text-slate-900 uppercase tracking-widest flex items-center gap-3">
@@ -429,7 +429,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       className={`text-[10px] font-black uppercase tracking-[0.2em] ${
                         active
                           ? 'text-white light:text-slate-900'
-                          : 'text-slate-500 light:text-slate-400'
+                          : 'text-slate-500 light:text-slate-500'
                       }`}
                     >
                       {label}

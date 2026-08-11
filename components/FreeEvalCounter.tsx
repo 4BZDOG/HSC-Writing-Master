@@ -39,7 +39,7 @@ const FreeEvalCounter: React.FC<{ className?: string }> = ({ className = '' }) =
       ? 'bg-red-500/10 border-red-500/30 text-red-400 light:text-red-600'
       : remaining <= 1
         ? 'bg-amber-400/15 border-amber-400/40 text-amber-500 light:text-amber-600'
-        : 'bg-white/5 light:bg-slate-100 border-white/10 light:border-slate-300 text-[rgb(var(--color-text-muted))] light:text-slate-500';
+        : 'bg-white/5 light:bg-slate-100 border-white/10 light:border-slate-300 text-[rgb(var(--color-text-muted))] light:text-slate-600';
 
   return (
     <span

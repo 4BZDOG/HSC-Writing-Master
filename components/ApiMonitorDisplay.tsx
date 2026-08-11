@@ -168,7 +168,7 @@ const AiQuotaPanel: React.FC = () => {
       <div className="space-y-1.5">
         {(['admin', 'teacher', 'student'] as QuotaRole[]).map((role) => (
           <label key={role} className="flex items-center justify-between gap-2">
-            <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+            <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
               {QUOTA_ROLE_LABELS[role]}
             </span>
             <input
@@ -191,7 +191,7 @@ const AiQuotaPanel: React.FC = () => {
       </button>
 
       <div className="mt-3 pt-3 border-t border-[rgb(var(--color-border-secondary))]/20 light:border-slate-200">
-        <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400 block mb-1.5">
+        <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 block mb-1.5">
           Per-user override (beats the group limit)
         </span>
         <div className="flex gap-1.5">
@@ -337,7 +337,7 @@ const ApiMonitorDisplay: React.FC = () => {
 
             <div className="px-3 pt-1">
               <div className="flex justify-between items-center mb-1.5">
-                <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-500">
                   Lifetime Calls
                 </span>
                 <span className="font-mono text-xs font-semibold text-[rgb(var(--color-text-secondary))] light:text-slate-600">
@@ -345,7 +345,7 @@ const ApiMonitorDisplay: React.FC = () => {
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-500">
                   Lifetime Tokens
                 </span>
                 <span className="font-mono text-xs font-semibold text-[rgb(var(--color-text-secondary))] light:text-slate-600">

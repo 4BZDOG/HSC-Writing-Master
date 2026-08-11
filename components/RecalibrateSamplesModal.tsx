@@ -158,7 +158,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
 
         <div className="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-2 bg-[rgb(var(--color-bg-surface))] light:bg-white">
           {rows.length === 0 && (
-            <p className="py-10 text-center text-xs text-[rgb(var(--color-text-muted))] light:text-slate-400">
+            <p className="py-10 text-center text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
               This question has no sample answers to recalibrate.
             </p>
           )}

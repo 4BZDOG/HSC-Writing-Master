@@ -246,7 +246,7 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
         </h3>
 
         {isError ? (
-          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 px-4">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 px-4">
             {error || 'Operation failed.'}
           </p>
         ) : (
@@ -279,7 +279,7 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
                     className={`text-[10px] font-bold uppercase tracking-wider truncate ${
                       state === 'active'
                         ? 'text-slate-700 dark:text-slate-200'
-                        : 'text-slate-400 dark:text-slate-500'
+                        : 'text-slate-500 dark:text-slate-400'
                     }`}
                   >
                     {phase}

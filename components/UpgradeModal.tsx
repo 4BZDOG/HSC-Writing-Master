@@ -389,7 +389,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
               {billingPeriod === 'yearly' && (
                 <p className="mt-2 text-center text-[10px] font-bold text-emerald-500">
                   {PLAN_PRICING.yearlyNote}
-                  <span className="block mt-0.5 font-medium text-[rgb(var(--color-text-muted))] light:text-slate-400">
+                  <span className="block mt-0.5 font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500">
                     A year of unlimited marking for less than one hour of tutoring.
                   </span>
                 </p>
@@ -443,7 +443,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
           </div>
 
           {stripeReady && sellsPlus && (
-            <p className="mt-3 text-center text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-400">
+            <p className="mt-3 text-center text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500">
               Cancel anytime from your profile — no lock-in.
             </p>
           )}

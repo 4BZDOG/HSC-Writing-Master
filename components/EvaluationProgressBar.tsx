@@ -111,12 +111,12 @@ const EvaluationProgressBar: React.FC = () => {
         </div>
 
         {/* Status line */}
-        <p className="text-center text-[10px] font-mono font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+        <p className="text-center text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
           {displayMessage}
         </p>
 
         {/* Elapsed time */}
-        <p className="text-center text-xs text-slate-400 dark:text-slate-500 tabular-nums">
+        <p className="text-center text-xs text-slate-500 dark:text-slate-400 tabular-nums">
           {formatTime(elapsedSec)}
           {elapsedSec >= 20 && (
             <span className="ml-2 text-slate-400/70 dark:text-slate-600">

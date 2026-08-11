@@ -50,7 +50,7 @@ const StatTile: React.FC<{ icon: React.ReactNode; label: string; value: string; 
       {value}
     </div>
     {sub && (
-      <div className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400 mt-0.5">
+      <div className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 mt-0.5">
         {sub}
       </div>
     )}
@@ -77,7 +77,7 @@ const TierRow: React.FC<{ profile: TierProfile }> = ({ profile }) => {
   return (
     <div className="flex items-center gap-3">
       <span className="w-28 shrink-0 text-[11px] font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700">
-        <span className="text-[rgb(var(--color-text-dim))] light:text-slate-400">
+        <span className="text-[rgb(var(--color-text-dim))] light:text-slate-500">
           B{profile.tier}
         </span>{' '}
         {tierShortLabel(profile.tier)}
@@ -154,7 +154,7 @@ const BandTrend: React.FC<{ points: TrendPoint[] }> = ({ points }) => {
           <circle key={i} cx={x} cy={y} r={3} className="fill-[rgb(var(--color-accent))]" />
         ))}
       </svg>
-      <div className="mt-1.5 flex items-center gap-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+      <div className="mt-1.5 flex items-center gap-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
         <span>
           Band {formatBand(first)} → {formatBand(last)}
         </span>
@@ -310,7 +310,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
               {/* Lookup controls */}
               <div className="flex flex-wrap items-end gap-3">
                 <label className="flex flex-col gap-1">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-500">
                     Student username
                   </span>
                   <input
@@ -387,7 +387,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                           <span className="w-16 text-right font-mono text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 tabular-nums">
                             B{formatBand(s.avg_band)}
                           </span>
-                          <span className="w-16 text-right text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                          <span className="w-16 text-right text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
                             {formatLastActive(s.last_active)}
                           </span>
                         </button>
@@ -453,7 +453,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                         <TierRow key={t.tier} profile={t} />
                       ))}
                     </div>
-                    <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                    <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
                       Share of available marks earned per verb group, then the average band and
                       attempt count. The bar tracks marks, not band: a group&rsquo;s band is capped
                       at its tier, so a band bar would rise left-to-right for every student. A blank
@@ -468,7 +468,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                         Band trend
                       </h3>
                       <BandTrend points={data.trend} />
-                      <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                      <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
                         Each point is a marked attempt in this window, oldest to newest; the dashed
                         line is band 3 (the struggling threshold).
                       </p>
@@ -500,7 +500,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                                 <td className="px-4 py-2.5 text-[rgb(var(--color-text-primary))] light:text-slate-800 font-semibold">
                                   {r.label}
                                   {r.tier != null && (
-                                    <span className="ml-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                                    <span className="ml-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
                                       B{r.tier}
                                     </span>
                                   )}

@@ -38,7 +38,7 @@ const AiEngineSelector: React.FC<{ className?: string }> = ({ className = '' }) 
           const selectedDead = isModelQuotaDead(getModelById(selection[role])?.model ?? '');
           return (
             <label key={role} className="block">
-              <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+              <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
                 {ROLE_LABELS[role]}
               </span>
               <select
@@ -64,7 +64,7 @@ const AiEngineSelector: React.FC<{ className?: string }> = ({ className = '' }) 
           );
         })}
       </div>
-      <p className="mt-2 text-[9px] leading-relaxed text-[rgb(var(--color-text-dim))] light:text-slate-400">
+      <p className="mt-2 text-[9px] leading-relaxed text-[rgb(var(--color-text-dim))] light:text-slate-500">
         Applies to new requests. Non-Gemini engines require their server-side API key.
       </p>
     </div>

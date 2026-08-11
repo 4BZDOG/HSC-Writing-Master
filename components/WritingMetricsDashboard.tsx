@@ -35,8 +35,8 @@ const StatBox: React.FC<{
 }> = ({ label, value, colorClass, icon: Icon }) => (
   <div className="flex-1 flex flex-col items-center justify-center py-2 px-2 border-r border-slate-200 dark:border-white/10 last:border-r-0 transition-colors">
     <div className="flex items-center gap-1.5">
-      <Icon className="w-3 h-3 text-slate-400 dark:text-slate-500" />
-      <span className="text-[9px] font-black uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500">
+      <Icon className="w-3 h-3 text-slate-500 dark:text-slate-400" />
+      <span className="text-[9px] font-black uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
         {label}
       </span>
     </div>
@@ -64,7 +64,7 @@ const StructureTile: React.FC<{
     <span className="block text-lg font-black tabular-nums tracking-tight text-slate-900 dark:text-white">
       {value}
     </span>
-    <span className="block text-[9px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mt-0.5">
+    <span className="block text-[9px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mt-0.5">
       {label}
     </span>
   </div>
@@ -196,7 +196,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
               <StatBox
                 label="Syllabus"
                 value={`${keywordStats.score}%`}
-                colorClass="text-emerald-600 dark:text-emerald-400"
+                colorClass="text-emerald-700 dark:text-emerald-400"
                 icon={Target}
               />
             )}
@@ -211,10 +211,10 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
               value={formatTime(remainingTime)}
               colorClass={
                 remainingTime === 0
-                  ? 'text-red-500'
+                  ? 'text-red-600 dark:text-red-500'
                   : remainingTime < 60 && isTimerActive
-                    ? 'text-red-500 animate-pulse'
-                    : 'text-sky-600 dark:text-sky-400'
+                    ? 'text-red-600 dark:text-red-500 animate-pulse'
+                    : 'text-sky-700 dark:text-sky-400'
               }
               icon={Clock3}
             />
@@ -257,7 +257,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                     ? 'Show syllabus term tracker and structure breakdown'
                     : 'Collapse metrics'
                 }
-                className="flex items-center gap-1.5 pl-2.5 pr-1.5 py-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all"
+                className="flex items-center gap-1.5 pl-2.5 pr-1.5 py-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all"
               >
                 {/* Named, not just a chevron — the panel starts collapsed, so
                     nothing else tells a student the term tracker is in here. */}
@@ -306,7 +306,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                   <div className="flex items-center justify-between gap-3 px-0.5">
                     <div className="flex items-center gap-3">
                       <Sparkles className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
-                      <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500">
+                      <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400">
                         Syllabus Terms
                       </h4>
                     </div>
@@ -345,7 +345,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                 <div className="flex flex-col gap-2.5">
                   <div className="flex items-center gap-3 px-0.5">
                     <AlignLeft className="w-4 h-4 text-sky-500 dark:text-sky-400" />
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500">
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400">
                       Structure
                     </h4>
                   </div>
@@ -369,7 +369,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                       }
                     />
                   </div>
-                  <p className="text-[10px] font-medium text-slate-400 dark:text-slate-500 px-0.5">
+                  <p className="text-[10px] font-medium text-slate-500 dark:text-slate-400 px-0.5">
                     {analysis.wordCount === 0
                       ? 'Structure updates live as you write.'
                       : analysis.longestSentenceWords > 45

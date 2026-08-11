@@ -303,7 +303,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                   <span className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
                     Fetch from URL
                   </span>
-                  <span className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-400 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-1.5 py-0.5 rounded-full">
+                  <span className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-1.5 py-0.5 rounded-full">
                     experimental
                   </span>
                 </div>
@@ -338,7 +338,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                     Syllabus Content
                   </label>
                   {syllabusText.trim() && (
-                    <span className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-400">
+                    <span className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500">
                       {syllabusText.trim().split('\n').length} lines
                     </span>
                   )}
@@ -406,7 +406,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                               className="flex-1 flex items-center gap-2 p-2 text-left min-w-0"
                             >
                               <ChevronRight
-                                className={`w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-400 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-90' : ''}`}
+                                className={`w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-90' : ''}`}
                               />
                               <span className="font-semibold text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 truncate">
                                 {st.name}

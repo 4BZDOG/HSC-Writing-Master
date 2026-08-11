@@ -500,7 +500,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                   <span className="flex items-center gap-2">
                     <Globe className="w-4 h-4 text-[rgb(var(--color-accent))]" />
                     Fetch Syllabus from URL
-                    <span className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-400 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-1.5 py-0.5 rounded-full normal-case">
+                    <span className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-1.5 py-0.5 rounded-full normal-case">
                       experimental
                     </span>
                   </span>
@@ -643,7 +643,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                               className="flex-1 flex items-center gap-2 p-2 text-left min-w-0"
                             >
                               <ChevronRight
-                                className={`w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-400 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-90' : ''}`}
+                                className={`w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-90' : ''}`}
                               />
                               <Folder className="w-4 h-4 text-purple-400 light:text-purple-500 flex-shrink-0" />
                               <span className="font-bold text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 truncate">

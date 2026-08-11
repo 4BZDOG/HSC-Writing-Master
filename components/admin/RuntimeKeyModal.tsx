@@ -160,7 +160,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
             <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
               Gemini API key
             </span>
-            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-400">
+            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-500">
               current: {maskKey(current.gemini)}
             </span>
             <div className="relative mt-1">
@@ -181,7 +181,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
             <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
               Anthropic (Claude) API key
             </span>
-            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-400">
+            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-500">
               optional · current: {maskKey(current.anthropic)}
             </span>
             <div className="relative mt-1">
@@ -202,7 +202,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
             <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
               OpenRouter API key
             </span>
-            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-400">
+            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-500">
               optional · current: {maskKey(current.openrouter)}
             </span>
             <div className="relative mt-1">
@@ -216,7 +216,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
                 className={fieldClass}
               />
             </div>
-            <span className="mt-1 flex items-center gap-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+            <span className="mt-1 flex items-center gap-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
               One key runs GLM, DeepSeek, Qwen, Llama and more —
               <a
                 href="https://openrouter.ai/keys"
@@ -234,7 +234,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
             <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
               Groq API key
             </span>
-            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-400">
+            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-500">
               optional · current: {maskKey(current.groq)}
             </span>
             <div className="relative mt-1">
@@ -248,7 +248,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
                 className={fieldClass}
               />
             </div>
-            <span className="mt-1 flex items-center gap-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+            <span className="mt-1 flex items-center gap-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
               Free, ultra-fast Llama and Gemma —
               <a
                 href="https://console.groq.com/keys"
@@ -266,7 +266,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
             <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
               Kimi (Moonshot AI) API key
             </span>
-            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-400">
+            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-500">
               optional · current: {maskKey(current.kimi)}
             </span>
             <div className="relative mt-1">
@@ -280,7 +280,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
                 className={fieldClass}
               />
             </div>
-            <span className="mt-1 flex items-center gap-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+            <span className="mt-1 flex items-center gap-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
               K3 reasoning model —
               <a
                 href="https://platform.kimi.ai/"
@@ -297,7 +297,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
               key drives. Also mirrored in the API telemetry widget (bottom-right). */}
           <div className="pt-4 border-t border-[rgb(var(--color-border-secondary))]/40 light:border-slate-200">
             <AiEngineSelector />
-            <p className="mt-2 flex gap-1.5 items-start text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+            <p className="mt-2 flex gap-1.5 items-start text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
               <Cpu className="w-3 h-3 shrink-0 mt-0.5" />
               <span>
                 Gemini, Claude, Kimi, Groq and the OpenRouter open models all appear here once their

@@ -710,7 +710,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           </div>
         </div>
 
-        <p className="mt-5 text-center text-[10px] leading-relaxed text-slate-500 light:text-slate-400 font-medium px-4">
+        <p className="mt-5 text-center text-[10px] leading-relaxed text-slate-500 light:text-slate-500 font-medium px-4">
           Signing in means agreeing to the Terms of Use and Privacy Notice. Marks given here are
           practice feedback from an AI — never an official HSC result.
         </p>

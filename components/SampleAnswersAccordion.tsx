@@ -276,7 +276,7 @@ const CarouselAccordionItem: React.FC<{
                 className={`absolute inset-0 bg-gradient-to-br ${bandConfig.gradient} ${isOpen ? 'opacity-15' : 'opacity-5 group-hover:opacity-10'}`}
               />
               <span
-                className={`text-[8px] font-black uppercase tracking-widest mb-0.5 relative z-10 ${isOpen ? bandConfig.text : 'text-slate-400 dark:text-slate-500'}`}
+                className={`text-[8px] font-black uppercase tracking-widest mb-0.5 relative z-10 ${isOpen ? bandConfig.text : 'text-slate-500 dark:text-slate-400'}`}
               >
                 Band
               </span>
@@ -375,7 +375,7 @@ const CarouselAccordionItem: React.FC<{
                     want the Official one and one contrast, not the set. */}
                 {group.answers.length > 1 && (
                   <div className="px-4 pt-4">
-                    <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 mb-2">
+                    <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 mb-2">
                       {group.answers.length} exemplars at {group.mark}/{prompt.totalMarks}
                     </p>
                     <div
@@ -709,7 +709,9 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           <div className="text-left min-w-0">
             <span
               className={`block text-[10px] font-black uppercase tracking-[0.2em] ${
-                isCollapsed ? 'text-slate-500' : 'text-slate-900 dark:text-white'
+                isCollapsed
+                  ? 'text-slate-500 dark:text-slate-400'
+                  : 'text-slate-900 dark:text-white'
               }`}
             >
               Sample Answers
@@ -747,7 +749,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             >
               <ZoomOut className="w-3.5 h-3.5" />
             </button>
-            <span className="text-[10px] font-mono font-bold text-slate-400 w-5 text-center select-none">
+            <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 w-5 text-center select-none">
               {fontSize}
             </span>
             <button

@@ -112,7 +112,7 @@ const StatTile: React.FC<{
       {value}
     </div>
     {sub && (
-      <div className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400 mt-0.5">
+      <div className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 mt-0.5">
         {sub}
       </div>
     )}
@@ -150,7 +150,7 @@ const UsageMeter: React.FC<{ used: number; limit: number }> = ({ used, limit }) 
 const LicenceCell: React.FC<{ school: SchoolRow }> = ({ school }) => {
   if (school.plan_status === undefined) {
     return (
-      <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400 italic">
+      <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 italic">
         unknown
       </span>
     );
@@ -158,7 +158,7 @@ const LicenceCell: React.FC<{ school: SchoolRow }> = ({ school }) => {
   const live = LIVE_LICENCE_STATUSES.includes(school.plan_status);
   if (!live) {
     return (
-      <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400 italic">
+      <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 italic">
         {school.plan_status === 'none' ? 'no licence' : school.plan_status}
       </span>
     );
@@ -186,7 +186,7 @@ const LicenceCell: React.FC<{ school: SchoolRow }> = ({ school }) => {
         </span>
       )}
       {school.plan_period_end && (
-        <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+        <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
           renews{' '}
           {new Date(school.plan_period_end).toLocaleDateString('en-AU', {
             day: 'numeric',
@@ -753,7 +753,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                           >
                             <td className="px-4 py-2.5 text-[rgb(var(--color-text-primary))] light:text-slate-800">
                               {r.label}
-                              <span className="ml-2 font-mono text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                              <span className="ml-2 font-mono text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
                                 {r.model}
                               </span>
                             </td>
@@ -779,7 +779,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                       </tfoot>
                     </table>
                   </div>
-                  <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                  <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
                     Estimated at each engine's blended per-call price (see the engine registry) —
                     good for comparing engines and sanity-checking spend, not an invoice.
                   </p>
@@ -822,7 +822,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                           .join(', ')}
                         {acceptance.filter((a) => !a.accepted).length > 30 && ' …'}
                       </p>
-                      <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                      <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
                         They will be asked the next time they sign in — nobody reaches the workspace
                         without accepting.
                       </p>
@@ -917,7 +917,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
 
                 {/* Fallback: adjust a user who hasn't called the AI today */}
                 <div className="mt-3 flex flex-wrap items-center gap-2 md:gap-3">
-                  <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400 font-medium">
+                  <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-500 font-medium">
                     Adjust another user:
                   </span>
                   <input
@@ -962,7 +962,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                 <div className="flex flex-wrap items-end gap-3">
                   {(['admin', 'teacher', 'student'] as QuotaRole[]).map((role) => (
                     <label key={role} className="flex flex-col gap-1">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-500">
                         {ROLE_LABEL[role]}s
                       </span>
                       <input
@@ -983,7 +983,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                     Save Group Limits
                   </button>
                 </div>
-                <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
                   Budgets reset at midnight UTC. A personal override always beats its group limit.
                 </p>
               </section>
@@ -1000,7 +1000,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                     <ScrollText className="w-3.5 h-3.5" /> Free plan · daily marked evaluations
                   </h3>
-                  <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400 mb-3 max-w-xl">
+                  <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 mb-3 max-w-xl">
                     How many answers a free account can have marked each day. Paid plans, teachers
                     and admins are never metered by this. It takes effect on the very next
                     evaluation — no redeploy — and the app quotes whatever you set here, so the
@@ -1008,7 +1008,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   </p>
                   <div className="flex flex-wrap items-end gap-3">
                     <label className="flex flex-col gap-1">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-500">
                         Evaluations per day
                       </span>
                       <input
@@ -1028,7 +1028,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                     >
                       Save Allowance
                     </button>
-                    <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-400 pb-2.5">
+                    <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 pb-2.5">
                       Currently enforcing <strong className="font-mono">{freeEvalLimit}</strong> a
                       day
                     </span>
@@ -1043,7 +1043,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                     <School className="w-3.5 h-3.5" /> Schools · shared daily pools
                   </h3>
-                  <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400 mb-3 max-w-xl">
+                  <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 mb-3 max-w-xl">
                     Place students and teachers in a school to give them one shared daily AI budget.
                     Every member&apos;s calls draw from the pool as well as their personal limit —
                     whichever runs out first stops the call. Leave the pool blank to use a school as
@@ -1081,7 +1081,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                                 {s.daily_ai_limit !== null ? (
                                   <UsageMeter used={s.used_today} limit={s.daily_ai_limit} />
                                 ) : (
-                                  <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400 italic">
+                                  <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 italic">
                                     no pooled cap
                                   </span>
                                 )}
@@ -1135,7 +1135,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
 
                   {/* Create a school */}
                   <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                    <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
                       New school:
                     </span>
                     <input
@@ -1166,7 +1166,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
 
                   {/* Place a user in a school */}
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400">
+                    <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
                       Place a user:
                     </span>
                     <input
@@ -1225,7 +1225,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                         </span>
                       )}
                     </h3>
-                    <label className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-400 cursor-pointer">
+                    <label className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-500 cursor-pointer">
                       <input
                         type="checkbox"
                         checked={showClosedDemand}
@@ -1238,7 +1238,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                       Show closed
                     </label>
                   </div>
-                  <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400 mb-3 max-w-xl">
+                  <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 mb-3 max-w-xl">
                     Courses people searched for and could not find. Each row counts distinct people,
                     not clicks, so the order is genuine demand. Marking one <em>planned</em> tells
                     the next admin it is in hand; <em>available</em> closes it once the course is in
@@ -1246,7 +1246,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   </p>
 
                   {demand.length === 0 ? (
-                    <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-400 italic">
+                    <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 italic">
                       Nothing requested yet.
                     </p>
                   ) : (
@@ -1275,7 +1275,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                                     part — "Year 11, starting Term 3" tells you
                                     more than the count does. */}
                                 {row.notes[0]?.note && (
-                                  <span className="block mt-0.5 text-[10px] italic text-[rgb(var(--color-text-dim))] light:text-slate-400 max-w-xs">
+                                  <span className="block mt-0.5 text-[10px] italic text-[rgb(var(--color-text-dim))] light:text-slate-500 max-w-xs">
                                     “{row.notes[0].note}”
                                   </span>
                                 )}

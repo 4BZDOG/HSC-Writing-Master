@@ -184,10 +184,16 @@ picker is exactly what it was before.
 - **A "one of each kind" default.** When a level holds several exemplars from
   the same source, lead with one per source and fold the duplicates within a
   source, rather than folding by position.
-- **Calibrating the similarity threshold on real content.** 0.5 bigram overlap
-  was chosen conservatively: a near-verbatim rewrite of a 25-word answer scores
-  ~0.64, while a genuinely different answer to the same question scored 0.00 in
-  testing. It will therefore miss two answers of the same *shape* written in
-  different words. Widening it is only worth doing against a corpus of real
-  generated batches — a check that cries wolf is one a teacher learns to
-  dismiss, which is worse than one that occasionally stays quiet.
+- **Calibrating the similarity threshold against generated batches.** Half done.
+  `npm run measure:similarity` reports the distribution over any course JSON,
+  and against the 823 exemplars shipped in `public/courseData` it says the
+  false-positive side has plenty of room: the closest genuinely different pair
+  at one mark scores 0.20, the closest ladder pair 0.25, and 79,800 cross-question
+  pairs sit at p99 = 0.03. The threshold moved from 0.5 to **0.35** on that
+  evidence — still 0.10 clear of anything real, and no longer blind to a
+  paraphrase that stops short of near-verbatim.
+  What the shipped corpus cannot say is where the TRUE positives sit: it holds
+  curated exemplars, not generated batches, and contains no near-duplicate to
+  measure. Re-run the script against a Data Vault export once real batches
+  exist. A check that cries wolf is one a teacher learns to dismiss, so the
+  direction of travel matters more than the exact number.

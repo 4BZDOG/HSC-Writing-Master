@@ -249,7 +249,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
 
         {/* Footer */}
         <div className="px-6 py-5 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 flex items-center justify-between flex-shrink-0">
-          <div className="flex items-center gap-2 text-xs text-[rgb(var(--color-text-dim))] light:text-slate-400">
+          <div className="flex items-center gap-2 text-xs text-[rgb(var(--color-text-dim))] light:text-slate-500">
             <Info className="w-3.5 h-3.5" />
             <span>Revision typically takes 8-20 seconds</span>
           </div>

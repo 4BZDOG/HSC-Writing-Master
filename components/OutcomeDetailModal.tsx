@@ -272,9 +272,9 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
                 {breadcrumb.map((crumb, i) => (
                   <React.Fragment key={i}>
                     {i > 0 && (
-                      <ChevronRight className="w-3 h-3 text-[rgb(var(--color-text-dim))] light:text-slate-400 flex-shrink-0" />
+                      <ChevronRight className="w-3 h-3 text-[rgb(var(--color-text-dim))] light:text-slate-500 flex-shrink-0" />
                     )}
-                    <span className="text-[10px] font-bold text-[rgb(var(--color-text-dim))] light:text-slate-400 uppercase tracking-wider truncate max-w-[140px]">
+                    <span className="text-[10px] font-bold text-[rgb(var(--color-text-dim))] light:text-slate-500 uppercase tracking-wider truncate max-w-[140px]">
                       {crumb}
                     </span>
                   </React.Fragment>
@@ -282,7 +282,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
               </div>
             )}
             <div className="flex items-start gap-3">
-              <FileQuestion className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-400 flex-shrink-0 mt-0.5" />
+              <FileQuestion className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 flex-shrink-0 mt-0.5" />
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-snug">
                   {question}
