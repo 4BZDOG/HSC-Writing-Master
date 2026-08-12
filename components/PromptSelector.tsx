@@ -24,6 +24,8 @@ import {
   topicsForYear,
   yearShortLabel,
 } from '../utils/syllabusYear';
+import CoverageChip from './CoverageChip';
+import { questionCoverage } from '../utils/starterQuestions';
 import { useAttemptHistory } from '../hooks/useAttemptHistory';
 import {
   Plus,
@@ -281,11 +283,14 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             <div className="p-1.5 rounded-md bg-blue-500/20 text-blue-500 light:bg-blue-100 light:text-blue-700 border border-blue-500/20 flex-shrink-0">
               <Book className="w-4 h-4" />
             </div>
-            <span className="font-medium">{c.name}</span>
+            <span className="font-medium flex-1 min-w-0 truncate">{c.name}</span>
+            {/* Both years together: the question is "is this course ready to
+                show someone", and it is not ready if half of it is empty. */}
+            {canCurate && <CoverageChip coverage={questionCoverage(c)} label={c.name} />}
           </div>
         ),
       })),
-    [courses, newlyAddedIds]
+    [courses, newlyAddedIds, canCurate]
   );
 
   /**
@@ -362,11 +367,15 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             <div className="p-1.5 rounded-md bg-purple-500/20 text-purple-500 light:bg-purple-100 light:text-purple-700 border border-purple-500/20 flex-shrink-0">
               <Layers className="w-4 h-4" />
             </div>
-            <span className="font-medium">{t.name}</span>
+            <span className="font-medium flex-1 min-w-0 truncate">{t.name}</span>
+            {/* Per topic, so a half-finished course says WHICH half. */}
+            {canCurate && (
+              <CoverageChip coverage={questionCoverage({ topics: [t] })} label={t.name} />
+            )}
           </div>
         ),
       })),
-    [yearTopics, newlyAddedIds]
+    [yearTopics, newlyAddedIds, canCurate]
   );
 
   const subTopicOptions = useMemo(
