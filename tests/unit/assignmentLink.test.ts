@@ -117,7 +117,18 @@ describe('resolveAssignmentPath', () => {
     const result = resolveAssignmentPath(courses, fullPath);
     expect(result).not.toBeNull();
     expect(result!.question).toBe('Explain the structure of DNA.');
-    expect(result!.path).toEqual(fullPath);
+    // Plus the year, read off the topic the link already names.
+    expect(result!.path).toEqual({ ...fullPath, syllabusYear: 'year12' });
+  });
+
+  it('opens a Year 11 question in Year 11, not in an empty Year 12', () => {
+    // The link carries ids, not a year. Left unset it resolves to Year 12, the
+    // navigator filters this topic out, and the shared question never opens.
+    const twoYear = structuredClone(courses);
+    twoYear[0].topics[0].year = 'year11';
+
+    const result = resolveAssignmentPath(twoYear, fullPath);
+    expect(result!.path.syllabusYear).toBe('year11');
   });
 
   it('returns null when any level is missing from the library', () => {

@@ -15,7 +15,7 @@
  * client code is a convenience layer, NOT the security boundary.
  */
 import { supabase, fetchAllRows } from './supabaseClient';
-import { Prompt, SampleAnswer, Topic, SubTopic, DotPoint } from '../types';
+import { Prompt, SampleAnswer, Topic, SubTopic, DotPoint, SyllabusYear } from '../types';
 
 export type ContributionStatus = 'private' | 'pending';
 
@@ -135,6 +135,14 @@ export interface TopicInsertRow {
   band_descriptors: unknown[];
   status: ContributionStatus;
   created_by: string;
+  /**
+   * Year 11 only, and omitted entirely otherwise. Year 12 is spelled as absence
+   * everywhere in this app, and omitting the key also keeps a Year 12
+   * contribution byte-identical to what it was before the column existed — so
+   * a database that has not applied schema §22 yet is unaffected by anything
+   * except a Year 11 contribution, which is the one thing it cannot store.
+   */
+  year?: SyllabusYear;
 }
 export interface SubTopicInsertRow {
   topic_id: string;
@@ -166,6 +174,7 @@ export const topicToRow = (
   band_descriptors: topic.performanceBandDescriptors ?? [],
   status,
   created_by: userId,
+  ...(topic.year === 'year11' ? { year: 'year11' as const } : {}),
 });
 
 export const subTopicToRow = (

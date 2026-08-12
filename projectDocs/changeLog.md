@@ -1,5 +1,65 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-08-11 (Year 11 and Year 12 under one course name)
+
+### 📚 Two syllabuses, one course
+
+A NSW senior course is not one syllabus a student walks through over two years.
+Year 11 (Preliminary) and Year 12 (HSC) have entirely separate topics,
+sub-topics and syllabus points; the only thing they share is the course name.
+The app now models that as two populations of topics inside **one** `Course`,
+chosen by a control beside the course picker — rather than as two courses,
+which would double every course list and split a teacher's material in two
+places. Full note in `projectDocs/syllabusYears.md`.
+
+- **The absence of a year means Year 12**, and that is why nothing needed
+  migrating: every topic authored before this is HSC content, a saved path
+  restores where it was, an older export imports where it belongs, and a NULL
+  column says the same thing as a missing JSON field. The corollary is a rule
+  the code follows everywhere — only ever write `'year11'`.
+- **An empty year is offered, not hidden.** A reader sees Year 11 listed with
+  "No content yet" and cannot select it; a stale path asking for an empty year
+  falls back to one with content. A **curator can** select it, because
+  otherwise the feature could never be populated: every empty year would bounce
+  back to Year 12, including the one someone was trying to fill.
+- Everything created or imported while a year is on screen belongs to it — new
+  topics, pasted NESA syllabus text, imported topic files. An imported file
+  that declares its own year keeps it.
+- `DATA_VERSION` → 2.6.0 for two additive optional fields (`Topic.year`,
+  `CourseOutcome.year`). No migration step, for the reason above.
+- `supabase/schema.sql` §22 adds `topics.year`. The client asks for the column
+  and **asks again without it** if the request is refused — that one request is
+  the whole curriculum, so a deployment that has not applied §22 keeps all its
+  content and simply does not sync the year.
+
+### 🐛 A shared Year 11 question would never have opened
+
+`resolveAssignmentPath` returned a path with no year, so a shared Year 11
+question resolved to Year 12, where the navigator filters its own topic out.
+The year is now read off the topic the link already names — no wire-format
+change, and old links keep working.
+
+### 🐛 A topic created in an empty Year 11 landed in Year 12
+
+Found by driving the real app rather than by a test: the navigator resolved the
+year one way (`allowEmpty`, so a curator can stand in an empty year) and the
+creation path resolved it another, so the first Year 11 topic anyone made
+appeared in the HSC list. All three surfaces now go through one
+`activeSyllabusYear`, and the rule is pinned by a test.
+
+### 🐛 The year control announced its own emptiness as part of its name
+
+The closed control draws the selected option's label, so "Empty — add the first
+topic" rode up into it and read as part of the year's name. The note now
+appears only on a row that can never be selected; a curator gets the same
+message with more room, from the empty state under the topic picker.
+
+### 🧹 Two outcome editors could write a non-text field
+
+`handleOutcomeChange(index, field: keyof CourseOutcome, value: string)` accepted
+any key of the outcome, including the new `year`, from a text input. Narrowed to
+the two fields those editors actually edit.
+
 ## [Unreleased] - 2026-08-08 (paywalling the upgrade, and printing it)
 
 ### 🔒 The rewrite was gated on the wrong switch

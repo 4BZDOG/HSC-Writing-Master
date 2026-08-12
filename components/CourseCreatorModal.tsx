@@ -49,9 +49,11 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
     setOutcomes(outcomes.filter((_, i) => i !== index));
   };
 
-  const handleOutcomeChange = (index: number, field: keyof CourseOutcome, value: string) => {
+  // The two TEXT fields only. `keyof CourseOutcome` also covers `year`, which
+  // is not a free-text field and must not be written by a text input.
+  const handleOutcomeChange = (index: number, field: 'code' | 'description', value: string) => {
     const newOutcomes = [...outcomes];
-    newOutcomes[index][field] = value;
+    newOutcomes[index] = { ...newOutcomes[index], [field]: value };
     setOutcomes(newOutcomes);
   };
 

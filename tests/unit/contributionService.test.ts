@@ -241,6 +241,19 @@ describe('structural mappers (app -> DB row)', () => {
       created_by: 'user-uuid',
     });
     expect(row.band_descriptors).toEqual([{ band: 6 }]);
+    // A Year 12 topic sends no `year` at all, so a database that has not
+    // applied schema §22 sees exactly the row it saw before the column existed.
+    expect('year' in row).toBe(false);
+  });
+
+  it('topicToRow marks a Year 11 topic, and only a Year 11 topic', () => {
+    const row = topicToRow(
+      { id: 'topic-2', name: 'Cells', subTopics: [], year: 'year11' } as never,
+      'course-uuid',
+      'user-uuid',
+      'pending'
+    );
+    expect(row.year).toBe('year11');
   });
 
   it('subTopicToRow and dotPointToRow carry their parent + label', () => {

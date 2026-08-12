@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Course, StatePath, Topic, SubTopic, DotPoint, Prompt } from '../types';
+import { resolveSyllabusYear, yearOfTopic } from '../utils/syllabusYear';
 import { STORAGE_KEYS, safeGetItem, safeSetItem, validateStatePath } from '../utils/storageUtils';
 
 export const useNavigation = (courses: Course[], isDataReady: boolean = true) => {
@@ -22,7 +23,13 @@ export const useNavigation = (courses: Course[], isDataReady: boolean = true) =>
   const { currentCourse, currentTopic, currentSubTopic, currentDotPoint, currentPrompt } =
     useMemo(() => {
       const course = courses.find((c) => c.id === statePath.courseId);
-      const topic = course?.topics.find((t) => t.id === statePath.topicId);
+      // The path's topic only counts when it belongs to the year on screen.
+      // Without this the workspace would go on showing a Year 12 question while
+      // the picker sat on Year 11 with nothing selected — one selection, two
+      // answers, and the breadcrumb naming a topic that is not in the list.
+      const year = resolveSyllabusYear(course, statePath.syllabusYear);
+      const topicInPath = course?.topics.find((t) => t.id === statePath.topicId);
+      const topic = topicInPath && yearOfTopic(topicInPath) === year ? topicInPath : undefined;
       const subTopic = topic?.subTopics.find((st) => st.id === statePath.subTopicId);
       const dotPoint = subTopic?.dotPoints.find((dp) => dp.id === statePath.dotPointId);
       const prompt = dotPoint?.prompts.find((p) => p.id === statePath.promptId);
@@ -56,7 +63,11 @@ export const useNavigation = (courses: Course[], isDataReady: boolean = true) =>
         newPath = { courseId: courses[0]?.id };
         pathChanged = true;
       } else {
-        const topic = course.topics.find((t) => t.id === newPath.topicId);
+        const year = resolveSyllabusYear(course, newPath.syllabusYear);
+        const found = course.topics.find((t) => t.id === newPath.topicId);
+        // A topic from the other year is as gone as a deleted one, as far as
+        // this path is concerned.
+        const topic = found && yearOfTopic(found) === year ? found : undefined;
         if (newPath.topicId && !topic) {
           newPath.topicId = undefined;
           newPath.subTopicId = undefined;
