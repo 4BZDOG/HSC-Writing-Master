@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { CourseOutcome } from '../types';
+import { CourseOutcome, SyllabusYear } from '../types';
+import { yearShortLabel } from '../utils/syllabusYear';
 import { parseOutcomesFromText } from '../services/geminiService';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
 import LoadingIndicator from './LoadingIndicator';
@@ -12,8 +13,16 @@ interface OutcomesEditorModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (newOutcomes: CourseOutcome[]) => void;
+  /**
+   * The outcomes OF the year being edited — the exact ones, not the lenient
+   * read (`outcomesOfYear`, not `outcomesForYear`). A course whose outcomes
+   * predate the split has none in Year 11, and this list has to say so;
+   * inheriting the HSC ones here and saving would retag every one of them.
+   */
   initialOutcomes: CourseOutcome[];
   courseName: string;
+  /** The year on screen. Everything saved here belongs to it. */
+  year: SyllabusYear;
   showToast: (message: string, type: 'success' | 'error' | 'info') => void;
 }
 
@@ -23,6 +32,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
   onSave,
   initialOutcomes,
   courseName,
+  year,
   showToast,
 }) => {
   const [outcomes, setOutcomes] = useState<CourseOutcome[]>([]);
@@ -111,6 +121,9 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
   }
 
   const validCount = outcomes.filter((o) => o.code.trim() && o.description.trim()).length;
+  // BI-11-01 vs BI-12-01: the year is the middle segment of every NESA code.
+  const stem = year === 'year11' ? '11' : '12';
+  const otherYearLabel = yearShortLabel(year === 'year11' ? 'year12' : 'year11');
 
   return (
     <div
@@ -136,7 +149,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
               </div>
               <div>
                 <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
-                  Edit Outcomes
+                  Edit {yearShortLabel(year)} Outcomes
                 </h2>
                 <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
                   {courseName}
@@ -165,13 +178,16 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                 </h3>
               </div>
               <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
-                Paste syllabus outcomes text and AI will extract the codes and descriptions
-                automatically.
+                Paste the {yearShortLabel(year)} syllabus outcomes text and AI will extract the
+                codes and descriptions automatically.
               </p>
               <textarea
                 value={pastedText}
                 onChange={(e) => setPastedText(e.target.value)}
-                placeholder={`e.g.\nSE-12-01 Describes methods used to plan, develop...\nSE-12-02 Applies appropriate development...`}
+                // NESA puts the year in the middle of every outcome code, so the
+                // example follows the year on screen — pasting Year 11 outcomes
+                // under a placeholder reading SE-12-01 invites the wrong list.
+                placeholder={`e.g.\nSE-${stem}-01 Describes methods used to plan, develop...\nSE-${stem}-02 Applies appropriate development...`}
                 className="flex-grow bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-none min-h-[100px] md:min-h-0 leading-relaxed text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))]/60"
               />
               <button
@@ -195,7 +211,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
             <div className="px-5 pt-5 pb-3 flex items-center justify-between flex-shrink-0 border-b border-[rgb(var(--color-border-secondary))]/50 light:border-slate-100">
               <div className="flex items-center gap-2.5">
                 <h3 className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800">
-                  Outcomes
+                  {yearShortLabel(year)} Outcomes
                 </h3>
                 <span className="text-xs font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 px-2.5 py-0.5 rounded-full">
                   {validCount} valid
@@ -215,7 +231,8 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                   <Target className="w-8 h-8 text-[rgb(var(--color-text-muted))]/40 light:text-slate-300 mb-3" />
                   <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                    No outcomes yet. Add them manually or paste text to parse with AI.
+                    No {yearShortLabel(year)} outcomes yet. Add them manually or paste text to parse
+                    with AI.
                   </p>
                   <button
                     type="button"
@@ -240,7 +257,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                           type="text"
                           value={outcome.code}
                           onChange={(e) => handleOutcomeChange(index, 'code', e.target.value)}
-                          placeholder="e.g., SE-12-01"
+                          placeholder={`e.g., SE-${stem}-01`}
                           className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3.5 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full sm:w-40 font-mono text-sm font-semibold flex-shrink-0"
                         />
                         <textarea
@@ -279,7 +296,8 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
         {/* Footer */}
         <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex items-center justify-between flex-shrink-0">
           <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 hidden sm:block">
-            Incomplete rows (missing code or description) are ignored on save.
+            Incomplete rows are ignored on save. {otherYearLabel} outcomes are edited separately and
+            are not affected.
           </p>
           <div className="flex items-center gap-3 ml-auto">
             <button

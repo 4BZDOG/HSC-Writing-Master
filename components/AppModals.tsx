@@ -28,7 +28,12 @@ import {
 import type { RenameFocusAreaGuard } from './RenameModal';
 import { findAndUpdateItem } from '../utils/stateUtils';
 import { canCurateContent, isSystemAdmin } from '../utils/permissions';
-import { activeSyllabusYear, topicsForYear } from '../utils/syllabusYear';
+import {
+  activeSyllabusYear,
+  outcomesForYear,
+  outcomesOfYear,
+  topicsForYear,
+} from '../utils/syllabusYear';
 import { generateId } from '../utils/idUtils';
 import type { TopicSyllabusImportPayload } from './TopicSyllabusImportModal';
 
@@ -233,7 +238,10 @@ const AppModals: React.FC<AppModalsProps> = ({
         subTopicName={currentSubTopic?.name || ''}
         dotPoint={currentDotPoint?.description || ''}
         marks={0}
-        courseOutcomes={currentCourse?.outcomes || []}
+        // A Year 11 question must not be offered HSC outcomes to link itself
+        // to. Lenient: a course that has never labelled its outcomes still
+        // offers all of them, which is what it did before the split.
+        courseOutcomes={outcomesForYear(currentCourse, activeYear)}
         selectedFocusItems={statePath.selectedSubItems || []}
         focusAreaOptions={getFocusAreas(currentDotPoint)}
       />
@@ -253,16 +261,20 @@ const AppModals: React.FC<AppModalsProps> = ({
         topicName={currentTopic?.name || ''}
         subTopicName={currentSubTopic?.name || ''}
         dotPoint={currentDotPoint?.description || ''}
-        outcomes={currentCourse?.outcomes || []}
+        outcomes={outcomesForYear(currentCourse, activeYear)}
       />
 
       {currentCourse && (
         <OutcomesEditorModal
           isOpen={isModalOpen('outcomesEditor')}
           onClose={() => closeModal('outcomesEditor')}
-          onSave={(outcomes) => syllabusHandlers.handleUpdateOutcomes(currentCourse.id, outcomes)}
-          initialOutcomes={currentCourse.outcomes}
+          onSave={(outcomes) =>
+            syllabusHandlers.handleUpdateOutcomes(currentCourse.id, outcomes, activeYear)
+          }
+          // The exact list, not the lenient one — see the prop's own note.
+          initialOutcomes={outcomesOfYear(currentCourse, activeYear)}
           courseName={currentCourse.name}
+          year={activeYear}
           showToast={showToast}
         />
       )}

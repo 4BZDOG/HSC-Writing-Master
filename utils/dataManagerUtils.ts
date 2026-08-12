@@ -7,8 +7,10 @@ import {
   Prompt,
   PromptVerb,
   SampleAnswer,
+  CourseOutcome,
   DataValidationResult,
 } from '../types';
+import { yearOfOutcome, yearOfTopic } from './syllabusYear';
 import {
   commandTerms,
   getCommandTermsForMarks,
@@ -1058,8 +1060,16 @@ export const mergeCourseContents = (existingCourse: Course, importedCourse: Cour
   importedCourse.topics.forEach((importedTopic) => {
     let existingTopic = newCourse.topics.find((t: Topic) => t.id === importedTopic.id);
     if (!existingTopic) {
+      // Matching on name is a guess, so it may only guess within one year.
+      // NSW syllabuses reuse topic names across the two — "Working
+      // Scientifically" is both a Year 11 and a Year 12 module — and merging on
+      // the name alone would fold a Year 11 import into the HSC topic that
+      // happens to share it, moving content into the wrong year with no trace.
       const importedName = normalizeText(importedTopic.name);
-      existingTopic = newCourse.topics.find((t: Topic) => normalizeText(t.name) === importedName);
+      const importedYear = yearOfTopic(importedTopic);
+      existingTopic = newCourse.topics.find(
+        (t: Topic) => normalizeText(t.name) === importedName && yearOfTopic(t) === importedYear
+      );
     }
     if (existingTopic) {
       const mergedTopic = mergeTopicContents(existingTopic, importedTopic);
@@ -1069,9 +1079,16 @@ export const mergeCourseContents = (existingCourse: Course, importedCourse: Cour
       newCourse.topics[topicIndex] = mergedTopic;
     } else newCourse.topics.push(importedTopic);
   });
-  const existingCodes = new Set(newCourse.outcomes.map((o: any) => o.code));
+  // Keyed by code AND year: an outcome is only a duplicate of one in the same
+  // year. NESA does put the year inside the code (BI-11-01 / BI-12-01), so this
+  // rarely bites — but a course whose codes do not follow that convention would
+  // otherwise lose its whole imported Year 11 outcome set to the HSC one.
+  const seenOutcomes = new Set(
+    newCourse.outcomes.map((o: CourseOutcome) => `${yearOfOutcome(o)}:${o.code}`)
+  );
   importedCourse.outcomes.forEach((importedOutcome) => {
-    if (!existingCodes.has(importedOutcome.code)) newCourse.outcomes.push(importedOutcome);
+    if (!seenOutcomes.has(`${yearOfOutcome(importedOutcome)}:${importedOutcome.code}`))
+      newCourse.outcomes.push(importedOutcome);
   });
   return newCourse;
 };

@@ -8,8 +8,10 @@ import {
   Prompt,
   StatePath,
   CommandTermInfo,
+  CourseOutcome,
   SampleAnswer,
 } from '../../types';
+import { outcomesForYear, yearOfTopic } from '../../utils/syllabusYear';
 import {
   BatchTask,
   runBatchOperations,
@@ -329,9 +331,17 @@ const buildAuditTree = (courses: Course[]): TreeNode[] => {
   };
 
   return courses.map((course) => {
-    const courseOutcomeCodes = new Set(course.outcomes.map((o) => o.code));
-
     const topics = (course.topics || []).map((topic) => {
+      /**
+       * The outcome codes a question in THIS topic may legitimately carry.
+       *
+       * A Year 11 question linked to an HSC outcome is a link that needs
+       * fixing, and the audit exists to find exactly that — its own linking
+       * task narrows to the year, so what it flags here it can also repair.
+       * Lenient, so a course that has never labelled its outcomes is audited
+       * precisely as it was before the years were split.
+       */
+      const validCodes = new Set(outcomesForYear(course, yearOfTopic(topic)).map((o) => o.code));
       const subTopics = (topic.subTopics || []).map((st) => {
         const dotPoints = (st.dotPoints || []).map((dp) => {
           const verbInfo = extractCommandVerb(dp.description);
@@ -339,7 +349,7 @@ const buildAuditTree = (courses: Course[]): TreeNode[] => {
             // 1. Outcomes
             const validOutcomes = Array.isArray(p.linkedOutcomes)
               ? p.linkedOutcomes.filter(
-                  (o) => typeof o === 'string' && o.trim().length > 0 && courseOutcomeCodes.has(o)
+                  (o) => typeof o === 'string' && o.trim().length > 0 && validCodes.has(o)
                 )
               : [];
 
@@ -805,6 +815,15 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       ?.dotPoints.find((x: any) => x.id === path.dotPointId)
       ?.prompts.find((x: any) => x.id === path.promptId);
 
+  /**
+   * The outcomes an AI may link a question to, for a question anywhere in the
+   * tree. An audit run walks a whole course, so it crosses both years in one
+   * pass — `course.outcomes` would offer HSC outcomes to a Year 11 question and
+   * write the link without anyone reviewing it.
+   */
+  const outcomesForNode = (course: Course, path: StatePath): CourseOutcome[] =>
+    outcomesForYear(course, yearOfTopic(course.topics.find((t) => t.id === path.topicId)));
+
   const makeQuestionTask = (node: TreeNode): BatchTask<void> => ({
     id: `q-${node.id}`,
     description: `Generating question: ${node.label.slice(0, 30)}...`,
@@ -846,7 +865,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         description,
         targetMarks,
         verbsToUse,
-        course.outcomes
+        outcomesForNode(course, path)
       );
       updateCourses((draft) => {
         const dp = draft
@@ -888,7 +907,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       const prompt = node.dataRef as Prompt;
       const course = courses.find((c) => c.id === node.path.courseId);
       if (!course) return;
-      const rubric = await generateRubricForPrompt(prompt, course.outcomes);
+      const rubric = await generateRubricForPrompt(prompt, outcomesForNode(course, node.path));
       updateCourses((draft) => {
         const p = findDraftPrompt(draft, node.path);
         if (p) p.markingCriteria = rubric;
@@ -923,7 +942,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       if (!course) return;
       const suggested = await suggestOutcomesForPrompt(
         prompt.question,
-        course.outcomes,
+        outcomesForNode(course, node.path),
         prompt.totalMarks
       );
       updateCourses((draft) => {

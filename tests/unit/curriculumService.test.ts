@@ -231,4 +231,48 @@ describe('assembleCourses (Supabase relational rows -> Course[])', () => {
     expect(prompt.verb).toBe('EXPLAIN');
     expect(prompt.sampleAnswers?.[0].source).toBe('AI');
   });
+
+  /**
+   * The year survives the round trip, and Year 12 stays spelled as the absence
+   * of a year — a null column, a database without the column at all, and a
+   * local JSON export with no field all have to arrive as the same thing.
+   */
+  it('carries the year of a topic and an outcome, and reads null as Year 12', () => {
+    const rows = emptyRows();
+    rows.courses = [{ id: 'c', legacy_id: null, name: 'C', subject: null }];
+    rows.outcomes = [
+      { course_id: 'c', code: 'BI-11-01', description: 'Prelim', position: 0, year: 'year11' },
+      { course_id: 'c', code: 'BI-12-01', description: 'HSC', position: 1, year: null },
+      // A deployment that has not applied §23: the column is not in the row.
+      { course_id: 'c', code: 'BI-12-02', description: 'HSC two', position: 2 },
+    ];
+    rows.topics = [
+      {
+        id: 't11',
+        course_id: 'c',
+        legacy_id: null,
+        name: 'Cells',
+        position: 0,
+        band_descriptors: null,
+        year: 'year11',
+      },
+      {
+        id: 't12',
+        course_id: 'c',
+        legacy_id: null,
+        name: 'Heredity',
+        position: 1,
+        band_descriptors: null,
+        year: null,
+      },
+    ];
+
+    const [course] = assembleCourses(rows);
+    expect(course.topics.map((t) => t.year)).toEqual(['year11', undefined]);
+    expect(course.outcomes.map((o) => o.year)).toEqual(['year11', undefined, undefined]);
+    // Not `year: undefined` — the key is absent, so an export of HSC content is
+    // byte-identical to one made before the column existed.
+    expect('year' in course.outcomes[1]).toBe(false);
+    expect('year' in course.topics[1]).toBe(false);
+  });
 });

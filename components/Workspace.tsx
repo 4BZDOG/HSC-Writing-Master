@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState, useEffect } from 'react';
+import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react';
 import {
   Course,
   StatePath,
@@ -25,6 +25,7 @@ import {
   isMeaningfulHeightChange,
 } from '../utils/layoutConstants';
 import { canCurateContent } from '../utils/permissions';
+import { outcomesForYear, yearOfTopic } from '../utils/syllabusYear';
 import WorkspaceRightPanel from './WorkspaceRightPanel';
 import SampleAnswersAccordion from './SampleAnswersAccordion';
 import { isCurriculumRemote } from '../services/curriculumService';
@@ -282,7 +283,37 @@ const Workspace: React.FC<WorkspaceProps> = ({
     }
   }, [isFocusMode]);
 
-  const courseOutcomes = currentCourse?.outcomes || [];
+  /**
+   * The outcomes this question may be linked TO.
+   *
+   * Read off the topic rather than the navigator's year: this is the year the
+   * question is actually in, which is also what a question opened from a shared
+   * link needs before the picker has caught up. Lenient — a course that has
+   * never labelled its outcomes offers all of them, as it always did.
+   */
+  const linkableOutcomes = useMemo(
+    () => outcomesForYear(currentCourse, yearOfTopic(currentTopic)),
+    [currentCourse, currentTopic]
+  );
+
+  /**
+   * …plus any outcome the question is ALREADY linked to.
+   *
+   * The panels below resolve `linkedOutcomes` against this list to display
+   * them, so an outcome missing from it does not read as "not linked" — it
+   * silently disappears. A link made before the years were split, or one made
+   * across them, is content someone can see and fix; a blank space is not.
+   * Narrowing belongs where new links are made, not where old ones are shown.
+   */
+  const courseOutcomes = useMemo(() => {
+    const linked = currentPrompt?.linkedOutcomes ?? [];
+    if (!linked.length) return linkableOutcomes;
+    const shown = new Set(linkableOutcomes.map((o) => o.code));
+    const strays = (currentCourse?.outcomes ?? []).filter(
+      (o) => linked.includes(o.code) && !shown.has(o.code)
+    );
+    return strays.length ? [...linkableOutcomes, ...strays] : linkableOutcomes;
+  }, [linkableOutcomes, currentCourse, currentPrompt?.linkedOutcomes]);
 
   const handleSaveDraft = () => {
     if (!currentPrompt) return;
@@ -384,7 +415,8 @@ const Workspace: React.FC<WorkspaceProps> = ({
     try {
       const outcomes = await geminiHandlers.suggestOutcomesForPrompt(
         currentPrompt.question,
-        currentCourse.outcomes,
+        // New links come from this question's own year only.
+        linkableOutcomes,
         currentPrompt.totalMarks
       );
       if (outcomes) {

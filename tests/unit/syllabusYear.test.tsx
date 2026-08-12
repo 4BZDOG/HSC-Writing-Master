@@ -8,8 +8,11 @@ import {
   activeSyllabusYear,
   hasContentForYear,
   outcomesForYear,
+  outcomesOfYear,
+  replaceOutcomesForYear,
   resolveSyllabusYear,
   topicsForYear,
+  yearOfOutcome,
   yearOfTopic,
 } from '../../utils/syllabusYear';
 
@@ -137,6 +140,84 @@ describe('the year model', () => {
       };
       expect(outcomesForYear(course, 'year11').map((o) => o.code)).toEqual(['BI-11-01']);
       expect(outcomesForYear(course, 'year12').map((o) => o.code)).toEqual(['BI-12-01']);
+    });
+
+    /**
+     * The whole reason there are two filters. Reading is lenient so an
+     * unlabelled course keeps working; editing is exact so it cannot be
+     * destroyed in one click.
+     */
+    it('offers an unlabelled course nothing to EDIT in Year 11', () => {
+      const course = {
+        outcomes: [
+          { code: 'BI-12-01', description: 'a' },
+          { code: 'BI-12-02', description: 'b' },
+        ],
+      };
+      // Lenient: all of them are shown to a Year 11 reader.
+      expect(outcomesForYear(course, 'year11')).toHaveLength(2);
+      // Exact: none of them ARE Year 11. Editing through the lenient list and
+      // saving would stamp both HSC outcomes `year11` and empty Year 12.
+      expect(outcomesOfYear(course, 'year11')).toEqual([]);
+      expect(outcomesOfYear(course, 'year12')).toHaveLength(2);
+    });
+  });
+
+  describe('saving one year of outcomes', () => {
+    const existing = [
+      { code: 'BI-12-01', description: 'HSC one' },
+      { code: 'BI-11-01', description: 'Prelim one', year: 'year11' as SyllabusYear },
+    ];
+
+    it('leaves the year that is not on screen alone', () => {
+      const saved = replaceOutcomesForYear(existing, 'year11', [
+        { code: 'BI-11-01', description: 'Prelim one, edited' },
+        { code: 'BI-11-02', description: 'Prelim two' },
+      ]);
+
+      // The editor never held the HSC outcome, so saving must not delete it.
+      expect(saved.filter((o) => yearOfOutcome(o) === 'year12').map((o) => o.code)).toEqual([
+        'BI-12-01',
+      ]);
+      expect(saved.filter((o) => yearOfOutcome(o) === 'year11').map((o) => o.code)).toEqual([
+        'BI-11-01',
+        'BI-11-02',
+      ]);
+    });
+
+    it('tags what was typed with the year it was typed in', () => {
+      // The editor's rows carry no year of their own — the year on screen is
+      // the only thing that says which syllabus they belong to.
+      const saved = replaceOutcomesForYear(existing, 'year11', [
+        { code: 'BI-11-09', description: 'New' },
+      ]);
+      expect(saved.find((o) => o.code === 'BI-11-09')?.year).toBe('year11');
+    });
+
+    it('writes Year 12 as the absence of a year, never as a value', () => {
+      const saved = replaceOutcomesForYear(existing, 'year12', [
+        // Carrying a stale year11 tag, e.g. an outcome moved between years.
+        { code: 'BI-12-01', description: 'HSC one', year: 'year11' as SyllabusYear },
+      ]);
+      const hsc = saved.find((o) => o.code === 'BI-12-01')!;
+      expect('year' in hsc).toBe(false);
+      // …and the Year 11 outcome it did not touch survives.
+      expect(saved.map((o) => o.code)).toEqual(['BI-11-01', 'BI-12-01']);
+    });
+
+    it('can fill an empty year on a course that has never labelled anything', () => {
+      const unlabelled = [{ code: 'BI-12-01', description: 'HSC one' }];
+      const saved = replaceOutcomesForYear(unlabelled, 'year11', [
+        { code: 'BI-11-01', description: 'Prelim one' },
+      ]);
+      // Adding Year 11 is what turns the lenient read into a real filter: the
+      // unlabelled HSC outcome now belongs to Year 12 alone.
+      expect(outcomesForYear({ outcomes: saved }, 'year12').map((o) => o.code)).toEqual([
+        'BI-12-01',
+      ]);
+      expect(outcomesForYear({ outcomes: saved }, 'year11').map((o) => o.code)).toEqual([
+        'BI-11-01',
+      ]);
     });
   });
 });

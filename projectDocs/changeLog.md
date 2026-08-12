@@ -1,5 +1,72 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-08-12 (Outcomes belong to a year too)
+
+### 🎯 A Year 11 question is no longer offered HSC outcomes
+
+The year split gave topics a year and left outcomes behind: `CourseOutcome.year`
+existed in the type but nothing wrote it, nothing synced it, and no surface read
+it. BI-11-01 is not BI-12-01, and the enrichment pass writes `linkedOutcomes`
+without anyone reviewing it — so a Year 11 question would quietly acquire HSC
+outcomes.
+
+- **The outcomes editor is scoped to the year on screen**, labelled with it, and
+  saves only that year — the other year's outcomes are left exactly as they
+  were. Its AI-parse box and its code examples follow the year too, because
+  NESA puts the year inside the code and an editor showing `SE-12-01` while
+  Year 11 is on screen invites the wrong syllabus to be pasted in.
+- **Two filters, deliberately.** `outcomesForYear` is lenient — it filters only
+  once a course labels at least one outcome, so every course that predates the
+  split still shows all of its outcomes in both years. `outcomesOfYear` is
+  exact, and the editor uses that one: through the lenient filter, an unlabelled
+  course answers "all of them" for Year 11, and saving would have stamped every
+  HSC outcome `year11` and emptied Year 12 in a single click.
+- Question generation, manual questions, prompt enrichment and the admin audit's
+  batch tasks all narrow to the question's own year. The workspace shows the
+  year's outcomes **plus any the question is already linked to**, so a cross-year
+  link is visible and fixable rather than silently blank.
+- `supabase/schema.sql` §23 adds `course_outcomes.year`, with the same NULL =
+  Year 12 rule and the same tolerance as §22: the client asks for the column and
+  asks again without it if refused.
+
+### 🧭 Both years' outcomes are entered where the course is defined
+
+**Create New Course** now has a tab per year in its outcomes section. That is
+load-bearing rather than convenient: the navigator's year control needs content
+to be selectable, and a brand-new course has none — so before this, a teacher
+setting up "HSC Physics" could not enter the Year 11 outcomes at all until they
+had created a Year 11 topic to make the year reachable. The header count sums
+both tabs, so collapsing the section after filling in Year 11 does not read as
+lost work, and each tab's code example follows its year.
+
+### 🐛 A pasted Year 11 syllabus split itself across both years
+
+`handleStartFullSyllabusImport` tagged the topics it built with the year on
+screen and left the outcomes from the same paste untagged. A NESA document
+carries both together, so a Year 11 syllabus filed its structure in Year 11 and
+its outcomes in Year 12 — where they became the outcomes offered to every HSC
+question in the course. Both now carry the year, and the merge keys on code
+**and** year.
+
+The audit studio counts links against each question's own year too: a Year 11
+question carrying an HSC outcome code now shows "No Outcomes" instead of
+counting as linked, which is the one thing the audit exists to surface — and its
+own linking task repairs it correctly, because that task narrows to the year as
+well.
+
+### 🐛 Two years' content could be merged into one topic
+
+- `seed.mjs` and `export.mjs` never carried `year` at all, so seeding a course
+  with Year 11 topics filed them as HSC and exporting lost the distinction —
+  the year now round-trips through `courseData/*.json`.
+- Importing a course matched topics by name across years. NSW syllabuses reuse
+  module names between Year 11 and Year 12 ("Working Scientifically" is both),
+  so an imported Year 11 topic would be folded into the HSC topic sharing its
+  name and its content would appear under the wrong year. Name matching is now
+  confined to one year; ids still match wherever they are.
+- Imported outcomes were deduped by code alone, so a Year 11 set could be lost
+  to an HSC set on any course whose codes do not carry the year.
+
 ## [Unreleased] - 2026-08-11 (Year 11 and Year 12 under one course name)
 
 ### 📚 Two syllabuses, one course
