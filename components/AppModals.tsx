@@ -340,19 +340,19 @@ const AppModals: React.FC<AppModalsProps> = ({
         isOpen={isModalOpen('fullSyllabusImport')}
         onClose={() => closeModal('fullSyllabusImport')}
         courses={courses}
-        onImport={async (courseName, structure, outcomes, targetCourseId, targetTopicId) => {
+        defaultYear={activeYear}
+        onImport={async (courseName, structure, outcomes, targetCourseId, targetTopicId, year) => {
           const courseId = await geminiHandlers.handleStartFullSyllabusImport(
             courseName,
             structure,
             outcomes,
             targetCourseId,
             targetTopicId,
-            // Merging into the course on screen means merging into the year on
-            // screen. Importing into a DIFFERENT course says nothing about
-            // which of its years is meant, so that lands in Year 12 like every
-            // import before this existed; a brand-new course does the same, and
-            // its own year control takes over from there.
-            targetCourseId && targetCourseId === currentCourse?.id ? activeYear : undefined
+            // The modal's own control, which opens on the navigator's year. A
+            // NESA document is one year's, so the import needs to be told which
+            // — including for a brand-new course, which is the whole point of
+            // seeding one from a Year 11 syllabus in a single pass.
+            year
           );
           // Land the user on a freshly created course; leave an in-progress
           // selection untouched when merging into an existing course.

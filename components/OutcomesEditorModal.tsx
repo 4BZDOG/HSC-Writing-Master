@@ -13,6 +13,8 @@ import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import UrlFetchField, { NESA_HOST_HINT } from './UrlFetchField';
+import DiscardConfirmBar from './DiscardConfirmBar';
+import { useDiscardGuard } from '../hooks/useDiscardGuard';
 import { Target, X, Sparkles, Plus, Trash2 } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -203,7 +205,30 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
     onClose();
   };
 
-  useEscapeKey(isOpen && !isBusy, handleClose);
+  /**
+   * Whether closing would actually lose something.
+   *
+   * Compared against what was loaded rather than tracking a flag: a fetch that
+   * lands twenty outcomes and a hand-typed row are the same kind of loss, and
+   * merely opening the modal and closing it again should not ask a question.
+   */
+  const asStored = (list: CourseOutcome[]) =>
+    list
+      .map((o) => `${o.year ?? 'year12'}|${o.code.trim()}|${o.description.trim()}`)
+      .sort()
+      .join('\n');
+  const hasWork =
+    pastedText.trim().length > 0 ||
+    asStored(
+      outcomesFromYearTabs({
+        year11: tabs.year11.filter((o) => o.code.trim() || o.description.trim()),
+        year12: tabs.year12.filter((o) => o.code.trim() || o.description.trim()),
+      })
+    ) !== asStored(initialOutcomes);
+
+  const guard = useDiscardGuard(isOpen, hasWork, handleClose);
+
+  useEscapeKey(isOpen && !isBusy, guard.requestClose);
   useScrollLock(isOpen);
 
   if (!isOpen) {
@@ -220,7 +245,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
   return (
     <div
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
-      onClick={handleClose}
+      onClick={guard.requestCloseFromBackdrop}
     >
       <div
         className="relative bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
@@ -249,7 +274,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
               </div>
             </div>
             <button
-              onClick={handleClose}
+              onClick={guard.requestClose}
               aria-label="Close"
               className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
@@ -428,27 +453,35 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex items-center justify-between flex-shrink-0">
-          <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 hidden sm:block">
-            Incomplete rows are ignored on save. Both years are saved together.
-          </p>
-          <div className="flex items-center gap-3 ml-auto">
-            <button
-              type="button"
-              onClick={handleClose}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              onClick={handleSave}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition"
-            >
-              Save Changes
-            </button>
+        {guard.isConfirming ? (
+          <DiscardConfirmBar
+            summary="these outcome changes"
+            onKeep={guard.cancelDiscard}
+            onDiscard={guard.confirmDiscard}
+          />
+        ) : (
+          <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex items-center justify-between flex-shrink-0">
+            <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 hidden sm:block">
+              Incomplete rows are ignored on save. Both years are saved together.
+            </p>
+            <div className="flex items-center gap-3 ml-auto">
+              <button
+                type="button"
+                onClick={guard.requestClose}
+                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleSave}
+                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition"
+              >
+                Save Changes
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         <AiBusyOverlay show={isBusy}>
           <LoadingIndicator

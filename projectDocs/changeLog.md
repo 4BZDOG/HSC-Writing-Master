@@ -1,5 +1,55 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-08-12 (Seeding a course you can trust)
+
+Seeding is the workflow that decides what a new user sees first, so this pass
+is about not losing an admin's work, not shipping the parser's mistakes as
+content, and not having to do the job twice.
+
+### 🛟 A stray click no longer throws away a pasted syllabus
+
+The import modals hold twenty minutes of attention — pasted NESA text, split
+across tabs, analysed and pruned — in component state with nowhere else to live,
+and every one of them closed on a click anywhere outside the panel. The dark
+area is large and it is exactly where the pointer travels between the page and
+the dialog. One miss cost the lot, with no warning and no undo.
+
+While there is work in progress the backdrop stops being a close button at all —
+a stray click should be inert, not merely survivable — and the deliberate ways
+out (Escape, ✕, Cancel) ask once, naming what is about to go ("this import —
+6 topics, 84 dot points"). With nothing entered, everything closes immediately
+as it always did. Applies to the course import, the topic import and the
+outcomes editor.
+
+### ✏️ The preview is editable, not just prunable
+
+It could only delete, so a topic the parser named "Module 5 – 5 Module" had to
+be imported wrong and renamed afterwards, and a mangled dot point had to be
+deleted and retyped in the Vault. Every name and dot point in the structure
+preview is now editable in place — this is the text question generation later
+reads, so it is worth more here than anywhere else. Names edited away to nothing
+are refused rather than creating a topic called "" that no picker can select;
+emptied dot points are simply dropped.
+
+### 🗓️ A Year 11 course can be seeded in one pass
+
+The course-level syllabus import had no year control, so it could only ever
+produce Year 12 content — a Year 11 course had to be built through the topic
+picker one topic at a time, which is the opposite of what that modal is for. A
+NESA document is one year's, and the whole import now follows the year chosen
+beside the course name (opening on the navigator's).
+
+### 🐛 Two courses could end up with the same name
+
+`CourseCreatorModal` has refused a duplicate course name since it was written,
+because import matching pairs courses BY NAME and two "HSC Biology" entries
+split a subject across records that look identical in every picker. The syllabus
+import — the path seeding actually uses — did not check at all. It now refuses,
+and points at the "Import Into" dropdown, which is what the person wanted.
+
+Also: analysing several topics reports progress ("Analysing 3 of 8…") instead of
+one indefinite spinner over what is one AI call per topic.
+
 ## [Unreleased] - 2026-08-12 (Reading a page is not an AI call)
 
 ### 🐛 The URL field reported an AI usage error for every failure

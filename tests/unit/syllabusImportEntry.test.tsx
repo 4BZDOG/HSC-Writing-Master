@@ -128,7 +128,13 @@ describe('SyllabusImportModal input validation', () => {
 
   const renderModal = () =>
     render(
-      <SyllabusImportModal isOpen={true} onClose={vi.fn()} courses={[]} onImport={vi.fn()} />
+      <SyllabusImportModal
+        isOpen={true}
+        onClose={vi.fn()}
+        courses={[]}
+        onImport={vi.fn()}
+        defaultYear="year12"
+      />
     );
 
   it('rejects an invalid URL without spending an AI call', () => {

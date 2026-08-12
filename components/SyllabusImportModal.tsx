@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { Course, CourseOutcome } from '../types';
+import { Course, CourseOutcome, SyllabusYear } from '../types';
+import { SYLLABUS_YEARS, yearShortLabel } from '../utils/syllabusYear';
 import {
   parseOutcomesFromText,
   parseSyllabusStructure,
@@ -10,6 +11,8 @@ import type { SyllabusPreviewNode } from '../utils/dataManagerUtils';
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import UrlFetchField, { NESA_HOST_HINT } from './UrlFetchField';
+import DiscardConfirmBar from './DiscardConfirmBar';
+import { useDiscardGuard } from '../hooks/useDiscardGuard';
 import {
   Sparkles,
   X,
@@ -39,8 +42,11 @@ interface SyllabusImportModalProps {
     structure: PreviewNode[],
     outcomes: CourseOutcome[],
     targetCourseId?: string,
-    targetTopicId?: string
+    targetTopicId?: string,
+    year?: SyllabusYear
   ) => void;
+  /** The year the navigator is on, which this opens on. */
+  defaultYear: SyllabusYear;
 }
 
 interface TopicTab {
@@ -54,8 +60,18 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
   onClose,
   courses,
   onImport,
+  defaultYear,
 }) => {
   const [courseName, setCourseName] = useState('');
+  /**
+   * Which year of the course this whole import belongs to.
+   *
+   * Seeding is the reason this is here. A NESA syllabus document is one year's,
+   * and without a control the course-level import could only ever produce
+   * Year 12 content — so a Year 11 course had to be built through the topic
+   * picker one topic at a time, which is the opposite of what this modal is for.
+   */
+  const [year, setYear] = useState<SyllabusYear>(defaultYear);
   // null → create a new course; otherwise merge into this existing course.
   const [targetCourseId, setTargetCourseId] = useState<string | null>(null);
   // null → auto (match topic names / create); otherwise merge all into this topic.
@@ -78,6 +94,10 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
 
   const [step, setStep] = useState<'input' | 'preview'>('input');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  // How far through the tabs the analysis is. Each topic is its own AI call, so
+  // a five-topic syllabus is five multi-second waits behind one spinner — with
+  // no counter there is nothing to distinguish "working" from "hung".
+  const [analysed, setAnalysed] = useState<{ done: number; total: number } | null>(null);
   const [previewData, setPreviewData] = useState<PreviewNode[]>([]);
   const [expandedPreviewIds, setExpandedPreviewIds] = useState<Set<string>>(new Set());
 
@@ -109,12 +129,28 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
     setError(null);
     setUrlInput('');
     setUrlError(null);
+    setYear(defaultYear);
     onClose();
   };
 
-  // Escape closes this modal like every other modal surface — through the
-  // same reset path as the X/Cancel buttons, and never mid-operation.
-  useEscapeKey(isOpen && !isBusy, handleClose);
+  /**
+   * Whether there is anything here worth keeping.
+   *
+   * Pasted or fetched syllabus text, a parsed structure waiting to be imported,
+   * outcomes already extracted, or a course name typed. Tab NAMES alone do not
+   * count — the modal opens with "Topic 1" and nothing in it.
+   */
+  const hasWork =
+    topicTabs.some((t) => t.content.trim().length > 0) ||
+    previewData.length > 0 ||
+    parsedOutcomes.length > 0 ||
+    outcomesText.trim().length > 0 ||
+    courseName.trim().length > 0;
+
+  const guard = useDiscardGuard(isOpen, hasWork, handleClose);
+
+  // Escape asks before discarding, and never interrupts a running parse.
+  useEscapeKey(isOpen && !isBusy, guard.requestClose);
   useScrollLock(isOpen);
 
   const handleParseOutcomes = async () => {
@@ -223,6 +259,27 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
       return;
     }
 
+    /**
+     * A second course with the same name is a trap, not a duplicate.
+     *
+     * Import matching pairs courses BY NAME, so two called "HSC Biology" make
+     * every later import ambiguous and split a subject's content across two
+     * entries that look identical in every picker. `CourseCreatorModal` has
+     * refused this since it was written; this path — the one seeding actually
+     * uses — did not, and merging is one dropdown away.
+     */
+    if (!targetCourseId) {
+      const clash = courses.find(
+        (c) => c.name.trim().toLowerCase() === courseName.trim().toLowerCase()
+      );
+      if (clash) {
+        setError(
+          `A course named "${clash.name}" already exists. Choose it under "Import Into" to add this syllabus to it, or use a different name.`
+        );
+        return;
+      }
+    }
+
     // Filter out empty tabs
     const validTabs = topicTabs.filter((t) => t.content.trim().length > 0);
     if (validTabs.length === 0) {
@@ -232,12 +289,17 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
 
     setIsAnalyzing(true);
     setError(null);
+    setAnalysed({ done: 0, total: validTabs.length });
 
     try {
       // Analyse each topic independently and resiliently: one failed/garbled
       // topic must not lose the rest of the import.
       const results = await Promise.allSettled(
-        validTabs.map((tab) => parseSyllabusStructure(`Topic Name: ${tab.name}\n\n${tab.content}`))
+        validTabs.map((tab) =>
+          parseSyllabusStructure(`Topic Name: ${tab.name}\n\n${tab.content}`).finally(() =>
+            setAnalysed((prev) => (prev ? { ...prev, done: prev.done + 1 } : prev))
+          )
+        )
       );
 
       const aggregatedPreview: PreviewNode[] = [];
@@ -277,7 +339,43 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
     }
   };
 
-  // --- Editable preview: let the user prune AI mistakes before importing ---
+  /**
+   * --- Editable preview: fix AI mistakes before they become content ---
+   *
+   * Pruning was the only option, which meant a topic the parser named
+   * "Module 5 – 5 Module" had to be imported wrong and renamed afterwards, and
+   * a dot point with a mangled clause had to be deleted and retyped in the
+   * Vault. Both are the text that later drives question generation, so getting
+   * them right HERE is worth more than anywhere else in the workflow.
+   */
+  const renameTopic = (tIdx: number, name: string) =>
+    setPreviewData((prev) => prev.map((t, i) => (i === tIdx ? { ...t, name } : t)));
+
+  const renameSubTopic = (tIdx: number, stIdx: number, name: string) =>
+    setPreviewData((prev) =>
+      prev.map((t, i) =>
+        i === tIdx
+          ? { ...t, subTopics: t.subTopics.map((st, j) => (j === stIdx ? { ...st, name } : st)) }
+          : t
+      )
+    );
+
+  const editDotPoint = (tIdx: number, stIdx: number, dpIdx: number, text: string) =>
+    setPreviewData((prev) =>
+      prev.map((t, i) =>
+        i === tIdx
+          ? {
+              ...t,
+              subTopics: t.subTopics.map((st, j) =>
+                j === stIdx
+                  ? { ...st, dotPoints: st.dotPoints.map((dp, k) => (k === dpIdx ? text : dp)) }
+                  : st
+              ),
+            }
+          : t
+      )
+    );
+
   const removeTopic = (tIdx: number) => setPreviewData((prev) => prev.filter((_, i) => i !== tIdx));
 
   const removeSubTopic = (tIdx: number, stIdx: number) =>
@@ -315,12 +413,33 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
 
   const handleConfirmImport = () => {
     if (previewData.length === 0) return;
+    // Names are editable now, so they can be edited to nothing. Trim on the way
+    // out and refuse a blank one rather than creating a topic called "" that is
+    // unselectable in every picker afterwards. Emptied dot points are simply
+    // dropped — a blank line is the same as a deleted one.
+    const cleaned: PreviewNode[] = previewData.map((t) => ({
+      ...t,
+      name: t.name.trim(),
+      subTopics: t.subTopics.map((st) => ({
+        ...st,
+        name: st.name.trim(),
+        dotPoints: st.dotPoints.map((dp) => dp.trim()).filter(Boolean),
+      })),
+    }));
+    const blank = cleaned.find((t) => !t.name || t.subTopics.some((st) => !st.name));
+    if (blank) {
+      setError(
+        `Every topic and sub-topic needs a name — check "${blank.name || 'the unnamed topic'}".`
+      );
+      return;
+    }
     onImport(
       effectiveCourseName,
-      previewData,
+      cleaned,
       parsedOutcomes,
       targetCourseId ?? undefined,
-      targetTopicId ?? undefined
+      targetTopicId ?? undefined,
+      year
     );
     handleClose();
   };
@@ -337,7 +456,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
   return (
     <div
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
-      onClick={handleClose}
+      onClick={guard.requestCloseFromBackdrop}
     >
       <div
         className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-6xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden relative flex flex-col max-h-[90vh]"
@@ -368,7 +487,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
               </div>
             </div>
             <button
-              onClick={handleClose}
+              onClick={guard.requestClose}
               aria-label="Close"
               className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
@@ -450,6 +569,30 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                       className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
                     />
                   )}
+                  {/* A NESA document is one year's. Everything in this import
+                      lands in the year chosen here — topics and outcomes. */}
+                  <div
+                    role="radiogroup"
+                    aria-label="Syllabus year"
+                    className="flex items-center gap-1 p-1 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100"
+                  >
+                    {SYLLABUS_YEARS.map((y) => (
+                      <button
+                        key={y.id}
+                        type="button"
+                        role="radio"
+                        aria-checked={y.id === year}
+                        onClick={() => setYear(y.id)}
+                        className={`flex-1 py-1.5 px-3 rounded-md text-xs font-semibold border transition-colors ${
+                          y.id === year
+                            ? 'bg-[rgb(var(--color-bg-surface-light))] light:bg-white border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-[rgb(var(--color-text-primary))] light:text-slate-900 shadow-sm'
+                            : 'border-transparent text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900'
+                        }`}
+                      >
+                        {y.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Outcomes */}
@@ -629,19 +772,23 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                           <div className="group flex items-center gap-1 rounded-lg hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-100 transition">
                             <button
                               onClick={() => togglePreviewExpand(topicId)}
-                              className="flex-1 flex items-center gap-2 p-2 text-left min-w-0"
+                              aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${topic.name}`}
+                              className="flex items-center gap-2 p-2 text-left flex-shrink-0"
                             >
                               <ChevronRight
                                 className={`w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-90' : ''}`}
                               />
                               <Folder className="w-4 h-4 text-purple-400 light:text-purple-500 flex-shrink-0" />
-                              <span className="font-bold text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 truncate">
-                                {topic.name}
-                              </span>
-                              <span className="ml-auto flex-shrink-0 text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-2 py-0.5 rounded-full">
-                                {topic.subTopics?.length || 0} sub-topics
-                              </span>
                             </button>
+                            <input
+                              value={topic.name}
+                              onChange={(e) => renameTopic(tIdx, e.target.value)}
+                              aria-label={`Topic ${tIdx + 1} name`}
+                              className="flex-1 min-w-0 bg-transparent font-bold text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 rounded px-1.5 py-1 border border-transparent hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 focus:outline-none focus:border-[rgb(var(--color-accent))] focus:bg-[rgb(var(--color-bg-surface-light))] light:focus:bg-white"
+                            />
+                            <span className="flex-shrink-0 text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-2 py-0.5 rounded-full">
+                              {topic.subTopics?.length || 0} sub-topics
+                            </span>
                             <button
                               onClick={() => removeTopic(tIdx)}
                               className="p-1.5 mr-1 rounded text-transparent group-hover:text-red-400 light:group-hover:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
@@ -658,12 +805,15 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                                 <div key={stIdx} className="py-1">
                                   <div className="group/st flex items-center gap-2 px-2 py-1 rounded hover:bg-[rgb(var(--color-bg-surface-light))]/50 light:hover:bg-slate-100">
                                     <div className="w-1.5 h-1.5 rounded-full bg-indigo-400/50 light:bg-indigo-400 flex-shrink-0"></div>
-                                    <span className="text-sm font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-700 truncate">
-                                      {st.name}
-                                    </span>
+                                    <input
+                                      value={st.name}
+                                      onChange={(e) => renameSubTopic(tIdx, stIdx, e.target.value)}
+                                      aria-label={`Sub-topic ${stIdx + 1} name`}
+                                      className="flex-1 min-w-0 bg-transparent text-sm font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-700 rounded px-1.5 py-0.5 border border-transparent hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 focus:outline-none focus:border-[rgb(var(--color-accent))] focus:bg-[rgb(var(--color-bg-surface-light))] light:focus:bg-white"
+                                    />
                                     <button
                                       onClick={() => removeSubTopic(tIdx, stIdx)}
-                                      className="ml-auto p-1 rounded text-transparent group-hover/st:text-red-400 light:group-hover/st:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
+                                      className="p-1 rounded text-transparent group-hover/st:text-red-400 light:group-hover/st:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
                                       title="Remove sub-topic"
                                       aria-label={`Remove sub-topic ${st.name}`}
                                     >
@@ -677,8 +827,16 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                                           key={dpIdx}
                                           className="group/dp flex items-start gap-2 px-2 py-0.5 text-xs text-[rgb(var(--color-text-dim))] light:text-slate-600 rounded hover:bg-[rgb(var(--color-bg-surface-light))]/40 light:hover:bg-slate-100"
                                         >
-                                          <span className="mt-1.5 w-1 h-1 rounded-full bg-gray-600 light:bg-slate-400 flex-shrink-0"></span>
-                                          <span className="flex-1">{dp}</span>
+                                          <span className="mt-2 w-1 h-1 rounded-full bg-gray-600 light:bg-slate-400 flex-shrink-0"></span>
+                                          <textarea
+                                            value={dp}
+                                            onChange={(e) =>
+                                              editDotPoint(tIdx, stIdx, dpIdx, e.target.value)
+                                            }
+                                            rows={1}
+                                            aria-label={`Dot point ${dpIdx + 1}`}
+                                            className="flex-1 min-w-0 bg-transparent resize-y rounded px-1.5 py-0.5 border border-transparent hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 focus:outline-none focus:border-[rgb(var(--color-accent))] focus:bg-[rgb(var(--color-bg-surface-light))] light:focus:bg-white text-[rgb(var(--color-text-dim))] light:text-slate-600"
+                                          />
                                           <button
                                             onClick={() => removeDotPoint(tIdx, stIdx, dpIdx)}
                                             className="p-0.5 rounded text-transparent group-hover/dp:text-red-400 light:group-hover/dp:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
@@ -704,8 +862,9 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
               <div className="mt-4 p-3 rounded-lg bg-blue-500/10 light:bg-blue-50 border border-blue-500/20 light:border-blue-200 text-xs text-blue-200 light:text-blue-700 flex items-start gap-2">
                 <Sparkles className="w-4 h-4 flex-shrink-0 mt-0.5 text-blue-400 light:text-blue-500" />
                 <p>
-                  Review the structure and remove anything the AI got wrong (hover a row for the
-                  delete button). If content is missing, go back and clean up the raw text before
+                  Every name and dot point here is editable — fix them now rather than after they
+                  become content, since this text is what question generation reads. Hover a row for
+                  its delete button. If content is missing, go back and clean up the raw text before
                   re-analysing.
                 </p>
               </div>
@@ -720,47 +879,63 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end gap-3 flex-shrink-0">
-          {step === 'input' ? (
-            <>
-              <button
-                onClick={handleClose}
-                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleAnalyze}
-                disabled={isBusy}
-                className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-              >
-                <Sparkles className="w-4 h-4" />
-                {isAnalyzing ? 'Analysing All Topics...' : 'Analyse Syllabus'}
-              </button>
-            </>
-          ) : (
-            <>
-              <button
-                onClick={() => setStep('input')}
-                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
-              >
-                Back to Edit
-              </button>
-              <button
-                onClick={handleConfirmImport}
-                disabled={previewData.length === 0}
-                className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-green-600 to-green-500 hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {targetCourse ? (
-                  <GitMerge className="w-4 h-4" />
-                ) : (
-                  <UploadCloud className="w-4 h-4" />
-                )}
-                {targetCourse ? `Merge into ${targetCourse.name}` : 'Confirm & Import'}
-              </button>
-            </>
-          )}
-        </div>
+        {guard.isConfirming ? (
+          <DiscardConfirmBar
+            summary={
+              previewData.length > 0
+                ? `this import — ${previewStats.topics} topics, ${previewStats.dotPoints} dot points`
+                : 'the syllabus content you have entered'
+            }
+            onKeep={guard.cancelDiscard}
+            onDiscard={guard.confirmDiscard}
+          />
+        ) : (
+          <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end gap-3 flex-shrink-0">
+            {step === 'input' ? (
+              <>
+                <button
+                  onClick={guard.requestClose}
+                  className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleAnalyze}
+                  disabled={isBusy}
+                  className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  {isAnalyzing
+                    ? analysed && analysed.total > 1
+                      ? `Analysing ${Math.min(analysed.done + 1, analysed.total)} of ${analysed.total}…`
+                      : 'Analysing…'
+                    : 'Analyse Syllabus'}
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => setStep('input')}
+                  className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+                >
+                  Back to Edit
+                </button>
+                <button
+                  onClick={handleConfirmImport}
+                  disabled={previewData.length === 0}
+                  className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-green-600 to-green-500 hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {targetCourse ? (
+                    <GitMerge className="w-4 h-4" />
+                  ) : (
+                    <UploadCloud className="w-4 h-4" />
+                  )}
+                  {targetCourse ? `Merge into ${targetCourse.name}` : 'Confirm & Import'}
+                </button>
+              </>
+            )}
+          </div>
+        )}
 
         <AiBusyOverlay show={isBusy}>
           <LoadingIndicator

@@ -4,6 +4,8 @@ import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import { X, Sparkles, Globe, UploadCloud, ChevronRight, Trash2, GitMerge } from 'lucide-react';
 import UrlFetchField, { NESA_HOST_HINT } from './UrlFetchField';
+import DiscardConfirmBar from './DiscardConfirmBar';
+import { useDiscardGuard } from '../hooks/useDiscardGuard';
 import type { SyllabusYear } from '../types';
 import { yearShortLabel } from '../utils/syllabusYear';
 import { useEscapeKey } from '../hooks/useEscapeKey';
@@ -95,9 +97,15 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
     onClose();
   };
 
-  // Escape closes this modal like every other modal surface — through the
-  // same reset path as the X/Cancel buttons, and never mid-operation.
-  useEscapeKey(isOpen && !isBusy, handleClose);
+  // Pasted or fetched syllabus text, a parsed structure, or a typed topic
+  // name — anything that would be gone for good if the modal closed.
+  const hasWork =
+    syllabusText.trim().length > 0 || previewSubTopics.length > 0 || newTopicName.trim().length > 0;
+
+  const guard = useDiscardGuard(isOpen, hasWork, handleClose);
+
+  // Escape asks before discarding, and never interrupts a running parse.
+  useEscapeKey(isOpen && !isBusy, guard.requestClose);
   useScrollLock(isOpen);
 
   const handleFetchFromUrl = async (normalisedUrl: string) => {
@@ -198,7 +206,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
   return (
     <div
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
-      onClick={handleClose}
+      onClick={guard.requestCloseFromBackdrop}
     >
       <div
         className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-4xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden relative flex flex-col max-h-[90vh]"
@@ -229,7 +237,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
               </div>
             </div>
             <button
-              onClick={handleClose}
+              onClick={guard.requestClose}
               aria-label="Close"
               className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
@@ -468,51 +476,63 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end gap-3 flex-shrink-0">
-          {step === 'input' ? (
-            <>
-              <button
-                onClick={handleClose}
-                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleAnalyse}
-                disabled={isBusy}
-                className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-              >
-                <Sparkles className="w-4 h-4" />
-                {isAnalysing ? 'Analysing...' : 'Analyse Syllabus'}
-              </button>
-            </>
-          ) : (
-            <>
-              <button
-                onClick={() => setStep('input')}
-                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
-              >
-                Back to Edit
-              </button>
-              <button
-                onClick={handleConfirmImport}
-                disabled={previewSubTopics.length === 0 || !effectiveTopicName.trim()}
-                className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-green-600 to-green-500 hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {targetTopic || nameCollision ? (
-                  <GitMerge className="w-4 h-4" />
-                ) : (
-                  <UploadCloud className="w-4 h-4" />
-                )}
-                {targetTopic
-                  ? `Add to ${targetTopic.name}`
-                  : nameCollision
-                    ? `Merge into ${nameCollision.name}`
-                    : 'Create Topic'}
-              </button>
-            </>
-          )}
-        </div>
+        {guard.isConfirming ? (
+          <DiscardConfirmBar
+            summary={
+              previewSubTopics.length > 0
+                ? `this import — ${stats.subTopics} sub-topics, ${stats.dotPoints} dot points`
+                : 'the syllabus content you have entered'
+            }
+            onKeep={guard.cancelDiscard}
+            onDiscard={guard.confirmDiscard}
+          />
+        ) : (
+          <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end gap-3 flex-shrink-0">
+            {step === 'input' ? (
+              <>
+                <button
+                  onClick={guard.requestClose}
+                  className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleAnalyse}
+                  disabled={isBusy}
+                  className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  {isAnalysing ? 'Analysing...' : 'Analyse Syllabus'}
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => setStep('input')}
+                  className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+                >
+                  Back to Edit
+                </button>
+                <button
+                  onClick={handleConfirmImport}
+                  disabled={previewSubTopics.length === 0 || !effectiveTopicName.trim()}
+                  className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-green-600 to-green-500 hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {targetTopic || nameCollision ? (
+                    <GitMerge className="w-4 h-4" />
+                  ) : (
+                    <UploadCloud className="w-4 h-4" />
+                  )}
+                  {targetTopic
+                    ? `Add to ${targetTopic.name}`
+                    : nameCollision
+                      ? `Merge into ${nameCollision.name}`
+                      : 'Create Topic'}
+                </button>
+              </>
+            )}
+          </div>
+        )}
 
         <AiBusyOverlay show={isBusy}>
           <LoadingIndicator
