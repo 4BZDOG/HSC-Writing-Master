@@ -86,12 +86,18 @@ export const resolveSyllabusYear = (
   return other?.id ?? DEFAULT_SYLLABUS_YEAR;
 };
 
+/** An outcome's year. Unlabelled outcomes are Year 12, as topics are. */
+export const yearOfOutcome = (outcome: Pick<CourseOutcome, 'year'> | undefined): SyllabusYear =>
+  outcome?.year ?? DEFAULT_SYLLABUS_YEAR;
+
 /**
- * The outcomes that belong to a year.
+ * The outcomes to SHOW for a year. Lenient.
  *
  * Filtered only when the course actually distinguishes them: an outcome list
  * where nothing is labelled is a list from before this feature, and hiding all
- * of it would take working content away for the sake of a rule.
+ * of it would take working content away for the sake of a rule. So an
+ * unlabelled course shows all of its outcomes in both years — which is what
+ * every shipped course does today, and what it did before any of this existed.
  */
 export const outcomesForYear = (
   course: Pick<Course, 'outcomes'> | undefined,
@@ -99,8 +105,41 @@ export const outcomesForYear = (
 ): CourseOutcome[] => {
   const outcomes = course?.outcomes ?? [];
   if (!outcomes.some((o) => o.year)) return outcomes;
-  return outcomes.filter((o) => (o.year ?? DEFAULT_SYLLABUS_YEAR) === year);
+  return outcomes.filter((o) => yearOfOutcome(o) === year);
 };
+
+/**
+ * The outcomes that ARE that year. Exact.
+ *
+ * Reading is lenient; writing is not. The editor and the save path must use
+ * this one, and the difference is not academic: on a course whose outcomes are
+ * unlabelled, the lenient filter answers "all of them" for Year 11 too. Editing
+ * through that list and saving would stamp every HSC outcome `year11` and empty
+ * Year 12 in a single click.
+ */
+export const outcomesOfYear = (
+  course: Pick<Course, 'outcomes'> | undefined,
+  year: SyllabusYear
+): CourseOutcome[] => (course?.outcomes ?? []).filter((o) => yearOfOutcome(o) === year);
+
+/**
+ * One year's outcomes replaced, the other year's left exactly as they were.
+ *
+ * The editor only ever holds one year, so a save that wrote the whole array
+ * would delete the year that was not on screen. The replacements are tagged on
+ * the way in, so an outcome typed while Year 11 is on screen is a Year 11
+ * outcome without anything else having to remember that.
+ */
+export const replaceOutcomesForYear = (
+  existing: CourseOutcome[],
+  year: SyllabusYear,
+  replacement: CourseOutcome[]
+): CourseOutcome[] => [
+  ...existing.filter((o) => yearOfOutcome(o) !== year),
+  ...replacement.map(({ year: _ignored, ...rest }) =>
+    year === 'year11' ? { ...rest, year } : (rest as CourseOutcome)
+  ),
+];
 
 /**
  * The year the app is working in — the one answer every surface must agree on.

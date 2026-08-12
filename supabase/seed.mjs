@@ -70,6 +70,13 @@ async function upsert(table, matchCol, matchVal, row) {
 
 const arr = (v) => (Array.isArray(v) ? v : []);
 
+// The year of a topic or an outcome, written the one way the whole app writes
+// it: only 'year11', never 'year12'. Absence IS Year 12 (schema.sql §22, §23),
+// so an all-HSC course — which is every course in courseData today — inserts
+// rows byte-identical to what it inserted before the columns existed, and seeds
+// fine against a database that has not applied those sections yet.
+const yearCol = (item) => (item?.year === 'year11' ? { year: 'year11' } : {});
+
 // --- import one course tree -------------------------------------------------
 
 async function importCourse(course, subject) {
@@ -88,6 +95,7 @@ async function importCourse(course, subject) {
     code: o.code,
     description: o.description,
     position: i,
+    ...yearCol(o),
   }));
   if (outcomes.length) {
     const { error } = await db.from('course_outcomes').insert(outcomes);
@@ -105,6 +113,7 @@ async function importCourse(course, subject) {
       name: topic.name,
       position: ti,
       band_descriptors: topic.performanceBandDescriptors ?? [],
+      ...yearCol(topic),
       // Structure is now moderated (default 'private'); seeds are canonical.
       status: 'approved',
     });

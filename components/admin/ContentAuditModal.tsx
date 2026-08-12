@@ -8,8 +8,10 @@ import {
   Prompt,
   StatePath,
   CommandTermInfo,
+  CourseOutcome,
   SampleAnswer,
 } from '../../types';
+import { outcomesForYear, yearOfTopic } from '../../utils/syllabusYear';
 import {
   BatchTask,
   runBatchOperations,
@@ -805,6 +807,15 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       ?.dotPoints.find((x: any) => x.id === path.dotPointId)
       ?.prompts.find((x: any) => x.id === path.promptId);
 
+  /**
+   * The outcomes an AI may link a question to, for a question anywhere in the
+   * tree. An audit run walks a whole course, so it crosses both years in one
+   * pass — `course.outcomes` would offer HSC outcomes to a Year 11 question and
+   * write the link without anyone reviewing it.
+   */
+  const outcomesForNode = (course: Course, path: StatePath): CourseOutcome[] =>
+    outcomesForYear(course, yearOfTopic(course.topics.find((t) => t.id === path.topicId)));
+
   const makeQuestionTask = (node: TreeNode): BatchTask<void> => ({
     id: `q-${node.id}`,
     description: `Generating question: ${node.label.slice(0, 30)}...`,
@@ -846,7 +857,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         description,
         targetMarks,
         verbsToUse,
-        course.outcomes
+        outcomesForNode(course, path)
       );
       updateCourses((draft) => {
         const dp = draft
@@ -888,7 +899,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       const prompt = node.dataRef as Prompt;
       const course = courses.find((c) => c.id === node.path.courseId);
       if (!course) return;
-      const rubric = await generateRubricForPrompt(prompt, course.outcomes);
+      const rubric = await generateRubricForPrompt(prompt, outcomesForNode(course, node.path));
       updateCourses((draft) => {
         const p = findDraftPrompt(draft, node.path);
         if (p) p.markingCriteria = rubric;
@@ -923,7 +934,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       if (!course) return;
       const suggested = await suggestOutcomesForPrompt(
         prompt.question,
-        course.outcomes,
+        outcomesForNode(course, node.path),
         prompt.totalMarks
       );
       updateCourses((draft) => {

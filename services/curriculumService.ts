@@ -36,6 +36,8 @@ interface OutcomeRow {
   code: string;
   description: string;
   position: number;
+  // schema.sql §23. Null/absent means Year 12 — see `buildOutcome`.
+  year?: SyllabusYear | null;
 }
 interface TopicRow {
   id: string;
@@ -216,6 +218,9 @@ export const assembleCourses = (rows: CurriculumRows): Course[] => {
   const buildOutcome = (row: OutcomeRow): CourseOutcome => ({
     code: row.code,
     description: row.description,
+    // Same rule as a topic's year: only 'year11' is ever written, so a null
+    // column and a missing field both read as Year 12.
+    ...(row.year === 'year11' ? { year: 'year11' as const } : {}),
   });
 
   return rows.courses.map((row) => ({
@@ -259,35 +264,31 @@ export const fetchRemoteCourses = async (): Promise<Course[]> => {
   };
 
   /**
-   * Topics, with their year when the database has somewhere to keep it.
+   * A table read with its `year`, on a database that may not have one yet.
    *
-   * `year` arrived with the Year 11 / Year 12 split (supabase/schema.sql §22).
-   * Naming a column PostgREST does not know about fails the request, and this
-   * one request is the whole curriculum — so a deployment that has not applied
-   * that section yet would lose all its content rather than one optional field.
-   * Asked for, then asked for again without it. Same fallback shape as
-   * `fetchMyClasses` uses for its own newer RPC.
+   * `year` arrived with the Year 11 / Year 12 split (supabase/schema.sql §22 for
+   * topics, §23 for outcomes). Naming a column PostgREST does not know about
+   * fails the whole request, and these requests ARE the curriculum — so a
+   * deployment that has not applied those sections yet would lose all of its
+   * content rather than one optional field. Asked for, then asked for again
+   * without it. Same fallback shape as `fetchMyClasses` uses for its own newer
+   * RPC.
    */
-  const fetchTopicRows = (
-    client: NonNullable<typeof supabase>,
-    label: string
-  ): Promise<TopicRow[]> => {
-    const columns = 'id, course_id, legacy_id, name, position, band_descriptors';
-    return fetchAllRows<TopicRow>(
-      () => client.from('topics').select(`${columns}, year`),
-      label
-    ).catch(() => fetchAllRows<TopicRow>(() => client.from('topics').select(columns), label));
-  };
+  const withYear = <T>(table: string, columns: string, label: string): Promise<T[]> =>
+    fetchAllRows<T>(() => client.from(table).select(`${columns}, year`), label).catch(() =>
+      fetchAllRows<T>(() => client.from(table).select(columns), label)
+    );
 
   const label = 'Curriculum load failed';
   const [courses, outcomes, topics, subTopics, dotPoints, prompts, sampleAnswers] =
     await Promise.all([
       fetchAllRows<CourseRow>(() => visible('courses', 'id, legacy_id, name, subject'), label),
-      fetchAllRows<OutcomeRow>(
-        () => client.from('course_outcomes').select('course_id, code, description, position'),
+      withYear<OutcomeRow>('course_outcomes', 'course_id, code, description, position', label),
+      withYear<TopicRow>(
+        'topics',
+        'id, course_id, legacy_id, name, position, band_descriptors',
         label
       ),
-      fetchTopicRows(client, label),
       fetchAllRows<SubTopicRow>(
         () => client.from('sub_topics').select('id, topic_id, legacy_id, name, position'),
         label

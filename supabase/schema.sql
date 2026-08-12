@@ -3057,6 +3057,30 @@ comment on column public.topics.year is
 create index if not exists idx_topics_year on public.topics (course_id, year);
 
 -- =============================================================================
+-- §23 · Outcomes belong to a year too
+-- -----------------------------------------------------------------------------
+-- BI-11-01 is not BI-12-01. NESA writes a separate set of outcomes for each
+-- year, and a Year 11 question linked to an HSC outcome is simply wrong — so
+-- the outcomes a question can be linked to, and the ones an AI is given to
+-- choose from, have to narrow with the year the same way topics do.
+--
+-- Same convention as §22, for the same reasons: NULL means Year 12, nothing
+-- needs backfilling, and only 'year11' is ever written. The client also filters
+-- outcomes ONLY when at least one of them declares a year (utils/syllabusYear.ts,
+-- `outcomesForYear`) — an unlabelled list is a list from before this column, and
+-- showing all of it in both years is better than showing none of it in either.
+--
+-- Tolerated by the client when absent, exactly like §22.
+alter table if exists public.course_outcomes
+  add column if not exists year text
+  check (year is null or year in ('year11', 'year12'));
+
+comment on column public.course_outcomes.year is
+  'Year 11 outcome when ''year11''. NULL means Year 12 (HSC), which is what every outcome predating the split is.';
+
+create index if not exists idx_outcomes_year on public.course_outcomes (course_id, year);
+
+-- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.
 -- =============================================================================

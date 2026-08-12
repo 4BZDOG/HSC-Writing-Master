@@ -129,4 +129,49 @@ describe('dataManagerUtils merge helpers', () => {
     expect(mergedCourse.topics[0].subTopics).toHaveLength(2);
     expect(mergedCourse.outcomes.map((outcome) => outcome.code)).toEqual(['BIO1', 'BIO2']);
   });
+
+  /**
+   * NSW syllabuses reuse topic names across the two years — "Working
+   * Scientifically" is a Year 11 module and a Year 12 module. Matching on the
+   * name alone would fold an imported Year 11 topic into the HSC topic that
+   * happens to share it, and its content would appear under the wrong year with
+   * nothing to show what happened.
+   */
+  it('does not merge a Year 11 topic into a Year 12 topic of the same name', () => {
+    const shared = (year?: 'year11'): Topic =>
+      ({
+        id: year ? 'topic-ws-11' : 'topic-ws-12',
+        name: 'Working Scientifically',
+        ...(year ? { year } : {}),
+        subTopics: [
+          {
+            id: year ? 'st-11' : 'st-12',
+            name: year ? 'Questioning' : 'Communicating',
+            dotPoints: [],
+          },
+        ],
+      }) as Topic;
+
+    const existingCourse: Course = {
+      id: 'course-bio',
+      name: 'Biology',
+      outcomes: [{ code: 'BI-12-01', description: 'HSC outcome' }],
+      topics: [shared()],
+    };
+    const importedCourse: Course = {
+      id: 'course-bio',
+      name: 'Biology',
+      outcomes: [{ code: 'BI-11-01', description: 'Prelim outcome', year: 'year11' }],
+      topics: [shared('year11')],
+    };
+
+    const merged = mergeCourseContents(existingCourse, importedCourse);
+
+    expect(merged.topics).toHaveLength(2);
+    expect(merged.topics.map((t) => t.year)).toEqual([undefined, 'year11']);
+    // Each year keeps its own sub-topics rather than acquiring the other's.
+    expect(merged.topics[0].subTopics.map((s) => s.name)).toEqual(['Communicating']);
+    expect(merged.topics[1].subTopics.map((s) => s.name)).toEqual(['Questioning']);
+    expect(merged.outcomes.map((o) => o.code)).toEqual(['BI-12-01', 'BI-11-01']);
+  });
 });

@@ -36,6 +36,7 @@ import {
   mergeTopicContents,
   type SyllabusPreviewNode,
 } from '../utils/dataManagerUtils';
+import { outcomesForYear, yearOfTopic } from '../utils/syllabusYear';
 
 const BG_TASK_CLEANUP_DELAY = 5000;
 
@@ -505,7 +506,14 @@ export const useGemini = ({
     if (enrichmentAttempted.current.has(promptId)) return;
     if (enrichingRef.current.has(promptId)) return;
 
-    const hasOutcomesToLink = currentCourse.outcomes && currentCourse.outcomes.length > 0;
+    // The outcomes of the year this question is in — auto-linking a Year 11
+    // question to an HSC outcome is worse than not linking it at all, and the
+    // enrichment writes `linkedOutcomes` without anyone reviewing it.
+    const linkableOutcomes = outcomesForYear(
+      currentCourse,
+      yearOfTopic(findSelectionContext(currentCourse, statePath).topic)
+    );
+    const hasOutcomesToLink = linkableOutcomes.length > 0;
     const needsEnrichment =
       !currentPrompt.keywords?.length ||
       !currentPrompt.scenario ||
@@ -526,7 +534,7 @@ export const useGemini = ({
       try {
         const result = await gemini.enrichPromptDetails(currentPrompt, {
           name: currentCourse.name,
-          outcomes: currentCourse.outcomes,
+          outcomes: linkableOutcomes,
           syllabus: buildSyllabusContext(),
         });
 

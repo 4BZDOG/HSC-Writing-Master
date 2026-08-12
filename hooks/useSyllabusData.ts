@@ -14,7 +14,11 @@ import {
   SyllabusYear,
 } from '../types';
 import { findAndUpdateItem, deleteSyllabusItem } from '../utils/stateUtils';
-import { DEFAULT_SYLLABUS_YEAR } from '../utils/syllabusYear';
+import {
+  DEFAULT_SYLLABUS_YEAR,
+  replaceOutcomesForYear,
+  yearShortLabel,
+} from '../utils/syllabusYear';
 import {
   DATA_VERSION,
   STORAGE_KEYS,
@@ -665,14 +669,20 @@ export const useSyllabusData = ({
     [courses, updateCourses, showToast]
   );
 
+  /**
+   * Save the outcomes of ONE year.
+   *
+   * The editor is scoped to a year, so the other year's outcomes are never in
+   * the list it hands back. Writing that list wholesale would delete them.
+   */
   const handleUpdateOutcomes = useCallback(
-    (courseId: string, newOutcomes: CourseOutcome[]) => {
+    (courseId: string, newOutcomes: CourseOutcome[], year: SyllabusYear) => {
       updateCourses((draft) => {
         findAndUpdateItem(draft, { courseId }, (course: Draft<Course>) => {
-          course.outcomes = newOutcomes;
+          course.outcomes = replaceOutcomesForYear(course.outcomes, year, newOutcomes);
         });
       });
-      showToast('Outcomes updated.', 'success');
+      showToast(`${yearShortLabel(year)} outcomes updated.`, 'success');
     },
     [updateCourses, showToast]
   );

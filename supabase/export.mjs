@@ -68,6 +68,20 @@ const fetchAll = async (table, columns, filterApproved) => {
   return rows;
 };
 
+// Topics and outcomes carry a `year` (schema.sql §22, §23). A database that has
+// not applied those sections refuses the whole request for naming a column it
+// does not have, which would fail an export over one optional field — so ask
+// with it, then ask again without it, exactly as the app does.
+const fetchAllWithYear = async (table, columns, filterApproved) =>
+  fetchAll(table, `${columns}, year`, filterApproved).catch(() =>
+    fetchAll(table, columns, filterApproved)
+  );
+
+// Only 'year11' is ever written; absence means Year 12. Keeping that rule here
+// is what makes an export of HSC-only content identical to what it was before
+// the split, so re-seeding it stays a no-op upsert.
+const yearField = (row) => (row?.year === 'year11' ? { year: 'year11' } : {});
+
 const groupBy = (rows, key) => {
   const map = new Map();
   for (const row of rows) {
@@ -123,8 +137,12 @@ async function main() {
   const [courses, outcomes, topics, subTopics, dotPoints, prompts, sampleAnswers] =
     await Promise.all([
       fetchAll('courses', 'id, legacy_id, name, subject', true),
-      fetchAll('course_outcomes', 'course_id, code, description, position', false),
-      fetchAll('topics', 'id, course_id, legacy_id, name, position, band_descriptors', false),
+      fetchAllWithYear('course_outcomes', 'course_id, code, description, position', false),
+      fetchAllWithYear(
+        'topics',
+        'id, course_id, legacy_id, name, position, band_descriptors',
+        false
+      ),
       fetchAll('sub_topics', 'id, topic_id, legacy_id, name, position', false),
       fetchAll('dot_points', 'id, sub_topic_id, legacy_id, description, position', false),
       fetchAll('prompts', '*', true),
@@ -152,13 +170,14 @@ async function main() {
       outcomes: (outcomesByCourse.get(course.id) ?? [])
         .slice()
         .sort(byPosition)
-        .map((o) => ({ code: o.code, description: o.description })),
+        .map((o) => ({ code: o.code, description: o.description, ...yearField(o) })),
       topics: (topicsByCourse.get(course.id) ?? [])
         .slice()
         .sort(byPosition)
         .map((topic) => ({
           id: appId(topic),
           name: topic.name,
+          ...yearField(topic),
           performanceBandDescriptors: arr(topic.band_descriptors),
           subTopics: (subsByTopic.get(topic.id) ?? [])
             .slice()
