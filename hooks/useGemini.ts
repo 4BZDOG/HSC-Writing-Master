@@ -36,7 +36,13 @@ import {
   mergeTopicContents,
   type SyllabusPreviewNode,
 } from '../utils/dataManagerUtils';
-import { outcomesForYear, yearOfOutcome, yearOfTopic } from '../utils/syllabusYear';
+import {
+  DEFAULT_SYLLABUS_YEAR,
+  outcomesForYear,
+  tagOutcomesForYear,
+  yearOfOutcome,
+  yearOfTopic,
+} from '../utils/syllabusYear';
 
 const BG_TASK_CLEANUP_DELAY = 5000;
 
@@ -722,8 +728,15 @@ export const useGemini = ({
        * Year 11 and its outcomes in Year 12 — where they would then be the ones
        * offered to every HSC question in the course.
        */
-      const builtOutcomes: CourseOutcome[] =
-        year === 'year11' ? outcomes.map((o) => ({ ...o, year: 'year11' as const })) : outcomes;
+      const builtOutcomes: CourseOutcome[] = outcomes.flatMap((o) =>
+        // Per outcome, because the parser reads the year off the page's own
+        // headings and a NESA document often carries both; the year the paste
+        // is going to is the fallback, not the override. Passed through
+        // `tagOutcomesForYear` rather than spread by hand so Year 12 comes out
+        // as the ABSENCE of a year — the parser can say 'year12' explicitly,
+        // and storing that would give one fact two spellings.
+        tagOutcomesForYear([o], o.year ?? year ?? DEFAULT_SYLLABUS_YEAR)
+      );
 
       const stats = {
         topics: builtTopics.length,
