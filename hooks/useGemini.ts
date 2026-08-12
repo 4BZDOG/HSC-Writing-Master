@@ -14,6 +14,7 @@ import {
   User,
   UserFeedback,
   SampleAnswer,
+  SyllabusYear,
 } from '../types';
 import * as gemini from '../services/geminiService';
 import { AICache } from '../services/aiCache';
@@ -680,7 +681,12 @@ export const useGemini = ({
       structure: PreviewNode[],
       outcomes: CourseOutcome[],
       targetCourseId?: string,
-      targetTopicId?: string
+      targetTopicId?: string,
+      /**
+       * Which year the pasted syllabus belongs to. Year 12 is written as
+       * absence, the same as everywhere else — see utils/syllabusYear.
+       */
+      year?: SyllabusYear
     ) => {
       const taskId = generateId('task');
 
@@ -688,6 +694,7 @@ export const useGemini = ({
       const builtTopics: Topic[] = structure.map((topicNode) => ({
         id: generateId('topic'),
         name: topicNode.name,
+        ...(year && year !== 'year12' ? { year } : {}),
         subTopics: (topicNode.subTopics || []).map((stNode) => ({
           id: generateId('subTopic'),
           name: stNode.name,

@@ -576,18 +576,25 @@ const PerformanceBandDescriptorSchema = z.object({
   description: z.string(),
 });
 
+// Year 11 or Year 12. Optional, and an unrecognised value falls back to
+// undefined rather than failing the import: `yearOfTopic` reads that as Year 12,
+// which is what an older export's topics are.
+const SyllabusYearSchema = z.enum(['year11', 'year12']).optional().catch(undefined);
+
 const TopicSchema = z
   .object({
     id: z.string().default(() => generateId('topic')),
     name: z.string().catch('Untitled Topic').default('Untitled Topic'),
     subTopics: z.array(SubTopicSchema).default([]),
     performanceBandDescriptors: z.array(PerformanceBandDescriptorSchema).optional(),
+    year: SyllabusYearSchema,
   })
   .passthrough();
 
 const CourseOutcomeSchema = z.object({
   code: z.string(),
   description: z.string(),
+  year: SyllabusYearSchema,
 });
 
 export const CourseSchema = z

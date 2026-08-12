@@ -9,6 +9,7 @@ import {
   BookOpen,
   Hash,
 } from 'lucide-react';
+import { yearOfTopic, yearShortLabel } from '../../utils/syllabusYear';
 
 interface TopicReorderListProps {
   courses: Course[];
@@ -89,6 +90,17 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
                               {topic.subTopics.length} sub-topic
                               {topic.subTopics.length === 1 ? '' : 's'}
                             </span>
+                            {/* The two years live in one list here, so which
+                                one a topic belongs to has to be visible —
+                                otherwise a reorder looks like it shuffled
+                                unrelated topics together. Only Year 11 is
+                                marked: Year 12 is the default and marking it
+                                would label almost every row for no gain. */}
+                            {yearOfTopic(topic) === 'year11' && (
+                              <span className="px-1.5 py-px rounded border text-[9px] font-black uppercase tracking-wider bg-sky-500/10 light:bg-sky-50 text-sky-500 light:text-sky-700 border-sky-500/30 light:border-sky-300">
+                                {yearShortLabel('year11')}
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>

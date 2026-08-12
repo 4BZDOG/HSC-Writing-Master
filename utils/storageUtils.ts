@@ -20,7 +20,11 @@ import {
 // own response). Both are absent on older data and mean exactly what their
 // absence meant before, so there is no migration step: the version moves only
 // so a returning install is recorded against the schema it is actually on.
-export const DATA_VERSION = '2.5.0';
+// 2.6.0: `year` on Topic and CourseOutcome — Year 11 and Year 12 as two
+// syllabuses under one course name. Additive and optional in the same way:
+// absence means Year 12, which is what every topic written before this is, so
+// again there is nothing to migrate.
+export const DATA_VERSION = '2.6.0';
 
 export const STORAGE_KEYS = {
   COURSES: 'hsc-ai-evaluator-courses', // Legacy key for migration check
@@ -540,6 +544,11 @@ export const runMigrations = (courses: Course[], fromVersion: string): Course[] 
   let migrated = [...courses];
 
   console.log(`Migrating data from version ${fromVersion} to ${DATA_VERSION}`);
+
+  // 2.6.0 added `year` to Topic and CourseOutcome and needs NO case here. The
+  // field is optional and its ABSENCE means Year 12, which is what every topic
+  // written before it existed is — writing 'year12' into all of them would say
+  // the same thing twice and give the filter two spellings to agree about.
 
   if (isOlderThan(fromVersion, '2.0.0')) {
     migrated = migrated.map((course) => ({

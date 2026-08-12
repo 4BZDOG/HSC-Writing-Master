@@ -13,6 +13,7 @@ import LoginPage from './components/LoginPage';
 import ResetPasswordPage from './components/ResetPasswordPage';
 import UserAgreementModal from './components/UserAgreementModal';
 import { useNavigation } from './hooks/useNavigation';
+import { activeSyllabusYear, resolveSyllabusYear, yearShortLabel } from './utils/syllabusYear';
 import { useSyllabusData } from './hooks/useSyllabusData';
 import { useGemini } from './hooks/useGemini';
 import { useModalManager } from './hooks/useModalManager';
@@ -906,7 +907,16 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           <SyllabusNavBar
             crumbs={[
               {
-                label: currentCourse?.name || 'Course',
+                // The year rides on the course crumb rather than taking a step
+                // of its own: it is which syllabus this course name means, not
+                // a level between the course and its topics. Named only when it
+                // is not the Year 12 default, so the common case stays quiet.
+                label:
+                  resolveSyllabusYear(currentCourse, statePath.syllabusYear) === 'year12'
+                    ? currentCourse?.name || 'Course'
+                    : `${currentCourse?.name || 'Course'} · ${yearShortLabel(
+                        resolveSyllabusYear(currentCourse, statePath.syllabusYear)
+                      )}`,
                 onClick: () =>
                   handlePathChange({
                     topicId: undefined,
@@ -970,7 +980,16 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                   const newTopic = handleCreateTopicWithContent(
                     statePath.courseId,
                     topicName,
-                    subTopics
+                    subTopics,
+                    // The year the navigator is showing — resolved the same way
+                    // IT resolves, `allowEmpty` and all. Without that, a topic
+                    // created while standing in an empty Year 11 resolved to
+                    // Year 12 and appeared in the HSC list instead.
+                    activeSyllabusYear(
+                      currentCourse,
+                      statePath.syllabusYear,
+                      canCurateContent(user.role)
+                    )
                   );
                   setNewlyAddedIds((prev) => new Set(prev).add(newTopic.id));
                   handlePathChange({

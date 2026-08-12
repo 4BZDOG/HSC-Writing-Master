@@ -1,4 +1,5 @@
 import { Course, StatePath } from '../types';
+import { yearOfTopic } from './syllabusYear';
 
 /**
  * Teacher assignment links.
@@ -68,6 +69,13 @@ export const resolveAssignmentPath = (
   return {
     path: {
       courseId: candidate.courseId,
+      // Taken from the TOPIC rather than carried in the link. A Year 11
+      // question opened with the year left unset resolves to Year 12, where
+      // the navigator filters its own topic out and the question never opens —
+      // and the year is already implied by an id the link carries, so putting
+      // it on the wire as well would be one more thing to keep in step. Old
+      // links keep working unchanged.
+      syllabusYear: yearOfTopic(topic),
       topicId: candidate.topicId,
       subTopicId: candidate.subTopicId,
       dotPointId: candidate.dotPointId,

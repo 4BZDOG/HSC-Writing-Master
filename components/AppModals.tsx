@@ -27,7 +27,8 @@ import {
 } from '../utils/dataManagerUtils';
 import type { RenameFocusAreaGuard } from './RenameModal';
 import { findAndUpdateItem } from '../utils/stateUtils';
-import { isSystemAdmin } from '../utils/permissions';
+import { canCurateContent, isSystemAdmin } from '../utils/permissions';
+import { activeSyllabusYear, topicsForYear } from '../utils/syllabusYear';
 import { generateId } from '../utils/idUtils';
 import type { TopicSyllabusImportPayload } from './TopicSyllabusImportModal';
 
@@ -71,6 +72,16 @@ const AppModals: React.FC<AppModalsProps> = ({
   onLogout,
 }) => {
   const { currentCourse, currentTopic, currentSubTopic, currentDotPoint } = currentSelection;
+
+  // The year the navigator is showing — resolved exactly as IT resolves it,
+  // `allowEmpty` included. A curator standing in an empty Year 11 is there to
+  // fill it, so everything created or imported from here belongs to Year 11,
+  // not to whichever year happens to have content already.
+  const activeYear = activeSyllabusYear(
+    currentCourse,
+    statePath.syllabusYear,
+    !!user && canCurateContent(user.role)
+  );
 
   const isModalOpen = (name: string) => activeModals.has(name);
   const closeModal = modalHandlers.closeModal;
@@ -123,7 +134,7 @@ const AppModals: React.FC<AppModalsProps> = ({
       case 'course':
         return courses.filter((c) => c.id !== target.id).map((c) => c.name);
       case 'topic':
-        return (currentCourse?.topics || [])
+        return topicsForYear(currentCourse, activeYear)
           .filter((t: Topic) => t.id !== target.id)
           .map((t: Topic) => t.name);
       case 'subTopic':
@@ -159,7 +170,8 @@ const AppModals: React.FC<AppModalsProps> = ({
         onClose={() => closeModal('topicCreator')}
         onItemCreated={(name) => {
           if (!currentCourse) return;
-          const newTopic = syllabusHandlers.handleCreateTopic(currentCourse.id, name);
+          // Created into whichever year the navigator is showing.
+          const newTopic = syllabusHandlers.handleCreateTopic(currentCourse.id, name, activeYear);
           if (newTopic) {
             setNewlyAddedIds((prev) => new Set(prev).add(newTopic.id));
             setStatePath({
@@ -171,7 +183,7 @@ const AppModals: React.FC<AppModalsProps> = ({
             });
           }
         }}
-        existingNames={currentCourse?.topics.map((t) => t.name) || []}
+        existingNames={topicsForYear(currentCourse, activeYear).map((t) => t.name)}
       />
 
       <SubTopicCreatorModal
@@ -344,7 +356,13 @@ const AppModals: React.FC<AppModalsProps> = ({
             structure,
             outcomes,
             targetCourseId,
-            targetTopicId
+            targetTopicId,
+            // Merging into the course on screen means merging into the year on
+            // screen. Importing into a DIFFERENT course says nothing about
+            // which of its years is meant, so that lands in Year 12 like every
+            // import before this existed; a brand-new course does the same, and
+            // its own year control takes over from there.
+            targetCourseId && targetCourseId === currentCourse?.id ? activeYear : undefined
           );
           // Land the user on a freshly created course; leave an in-progress
           // selection untouched when merging into an existing course.
@@ -361,7 +379,14 @@ const AppModals: React.FC<AppModalsProps> = ({
           courseName={currentCourse.name}
           onImport={(topic) => {
             const topicWithNewIds = regenerateTopicIds(topic);
-            const newTopic = syllabusHandlers.handleImportTopic(currentCourse.id, topicWithNewIds);
+            // An export from before the two years existed says nothing about
+            // which it belongs to; it joins the one being looked at. A file
+            // that DOES declare a year keeps it — the file knows better.
+            const placed: Topic =
+              topicWithNewIds.year || activeYear === 'year12'
+                ? topicWithNewIds
+                : { ...topicWithNewIds, year: activeYear };
+            const newTopic = syllabusHandlers.handleImportTopic(currentCourse.id, placed);
             if (newTopic) {
               setStatePath({
                 ...statePath,
@@ -476,12 +501,19 @@ const AppModals: React.FC<AppModalsProps> = ({
           isOpen={isModalOpen('topicSyllabusImport')}
           onClose={() => closeModal('topicSyllabusImport')}
           courseName={currentCourse.name}
-          topics={currentCourse.topics.map((t: Topic) => ({ id: t.id, name: t.name }))}
+          topics={topicsForYear(currentCourse, activeYear).map((t: Topic) => ({
+            id: t.id,
+            name: t.name,
+          }))}
           initialTopicId={currentTopic?.id ?? null}
           onImport={(payload: TopicSyllabusImportPayload) => {
             const importedTopic: Topic = {
               id: generateId('topic'),
               name: payload.topicName,
+              // Year 11 syllabus text pasted while looking at Year 11 lands in
+              // Year 11. Written only for the non-default year, so Year 12
+              // content keeps meaning "no year field" as it always has.
+              ...(activeYear === 'year12' ? {} : { year: activeYear }),
               subTopics: payload.subTopics.map((st) => ({
                 id: generateId('subTopic'),
                 name: st.name,

@@ -11,8 +11,10 @@ import {
   CourseOutcome,
   SampleAnswer,
   LibraryItem,
+  SyllabusYear,
 } from '../types';
 import { findAndUpdateItem, deleteSyllabusItem } from '../utils/stateUtils';
+import { DEFAULT_SYLLABUS_YEAR } from '../utils/syllabusYear';
 import {
   DATA_VERSION,
   STORAGE_KEYS,
@@ -173,6 +175,16 @@ const resolveTopicTargetCourse = (
 
   return undefined;
 };
+
+/**
+ * The `year` field a newly created topic should carry.
+ *
+ * Year 12 is written as ABSENCE, not as `'year12'`: every topic authored before
+ * the two years existed has no year and is read as Year 12, and having two
+ * spellings of the same fact is how a filter comes to disagree with itself.
+ */
+const yearTag = (year?: SyllabusYear): { year?: SyllabusYear } =>
+  year && year !== DEFAULT_SYLLABUS_YEAR ? { year } : {};
 
 export const useSyllabusData = ({
   showToast,
@@ -438,8 +450,12 @@ export const useSyllabusData = ({
   );
 
   const handleCreateTopic = useCallback(
-    (courseId: string, name: string) => {
-      const newItem: Topic = { id: generateId('topic'), name, subTopics: [] };
+    (courseId: string, name: string, year?: SyllabusYear) => {
+      // Tagged with the year the curator is looking at, or it lands in the
+      // other one and appears to have vanished. `undefined` stays undefined
+      // rather than becoming 'year12' — absence is what every existing topic
+      // has, and the two must keep meaning the same thing.
+      const newItem: Topic = { id: generateId('topic'), name, subTopics: [], ...yearTag(year) };
       updateCourses((draft) => {
         findAndUpdateItem(draft, { courseId }, (course: Draft<Course>) => {
           course.topics.push(newItem);
@@ -460,10 +476,16 @@ export const useSyllabusData = ({
   );
 
   const handleCreateTopicWithContent = useCallback(
-    (courseId: string, topicName: string, subTopics: { name: string; dotPoints: string[] }[]) => {
+    (
+      courseId: string,
+      topicName: string,
+      subTopics: { name: string; dotPoints: string[] }[],
+      year?: SyllabusYear
+    ) => {
       const newTopic: Topic = {
         id: generateId('topic'),
         name: topicName,
+        ...yearTag(year),
         subTopics: subTopics.map((st) => ({
           id: generateId('subTopic'),
           name: st.name,

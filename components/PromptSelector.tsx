@@ -17,6 +17,13 @@ import {
   widestFilter,
 } from '../utils/questionFilter';
 import { suggestNextQuestion } from '../utils/personalOrdering';
+import {
+  SYLLABUS_YEARS,
+  activeSyllabusYear,
+  hasContentForYear,
+  topicsForYear,
+  yearShortLabel,
+} from '../utils/syllabusYear';
 import { useAttemptHistory } from '../hooks/useAttemptHistory';
 import {
   Plus,
@@ -46,6 +53,7 @@ import {
   Link2,
   Landmark,
   History,
+  GraduationCap,
 } from 'lucide-react';
 import {
   getCommandTermInfo,
@@ -227,7 +235,23 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   const studioLocked = isFeatureLocked('aiContentStudio');
 
   const selectedCourse = courses.find((c) => c.id === statePath.courseId);
-  const selectedTopic = selectedCourse?.topics?.find((t) => t.id === statePath.topicId);
+  /**
+   * Which year of this course is on screen. Resolved rather than read straight
+   * off the path: a course with no Year 11 content must not be left showing an
+   * empty picker because the previous course had some.
+   */
+  // `allowEmpty` for curators: someone has to be able to stand in an empty
+  // Year 11 to put the first topic in it. A student is bounced back to a year
+  // that has something in it, which is the "elegantly disabled" half.
+  const syllabusYear = activeSyllabusYear(selectedCourse, statePath.syllabusYear, canCurate);
+  const yearTopics = useMemo(
+    () => topicsForYear(selectedCourse, syllabusYear),
+    [selectedCourse, syllabusYear]
+  );
+
+  // Only ever a topic of the year on screen — a path pointing into the other
+  // year would otherwise keep its whole branch selected and invisible.
+  const selectedTopic = yearTopics.find((t) => t.id === statePath.topicId);
   const selectedSubTopic = selectedTopic?.subTopics?.find((st) => st.id === statePath.subTopicId);
   const selectedDotPoint = selectedSubTopic?.dotPoints?.find(
     (dp) => dp.id === statePath.dotPointId
@@ -266,9 +290,72 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     [courses, newlyAddedIds]
   );
 
+  /**
+   * Year 11 and Year 12 as a choice beside the course name.
+   *
+   * A year with nothing in it is offered but not selectable, and says why: the
+   * point of showing it is that a teacher can see the year exists and needs
+   * filling. Hiding it would leave them wondering whether the app knows about
+   * Year 11 at all.
+   */
+  const yearOptions = useMemo(
+    () =>
+      SYLLABUS_YEARS.map((y) => {
+        const available = hasContentForYear(selectedCourse, y.id);
+        // A curator may go to an empty year — that is where they add the first
+        // topic. Everyone else is offered it, sees that it is empty, and cannot
+        // select it.
+        const selectable = available || canCurate;
+        return {
+          id: y.id,
+          label: y.label,
+          disabled: !selectable,
+          renderLabel: (
+            <div className={`flex items-center gap-3 ${selectable ? '' : 'opacity-60'}`}>
+              <div className="p-1.5 rounded-md bg-blue-500/20 text-blue-500 light:bg-blue-100 light:text-blue-700 border border-blue-500/20 flex-shrink-0">
+                <GraduationCap className="w-4 h-4" />
+              </div>
+              <span className="min-w-0">
+                <span className="block font-medium leading-snug">{y.label}</span>
+                {/* Only on a row that can never be SELECTED. The trigger draws
+                    the selected option's own label, so a note here would ride
+                    up into the closed control and read as part of the year's
+                    name. A curator who goes there gets the same message with
+                    more room, from the empty state under the topic picker. */}
+                {!selectable && (
+                  <span className="block mt-0.5 text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))]">
+                    No content yet
+                  </span>
+                )}
+              </span>
+            </div>
+          ),
+        };
+      }),
+    [selectedCourse, canCurate]
+  );
+
+  const handleYearChange = useCallback(
+    (id: string) => {
+      const next = SYLLABUS_YEARS.find((y) => y.id === id)?.id;
+      if (!next || next === syllabusYear) return;
+      // The two years share nothing below the course, so everything under it
+      // goes — a topic id from Year 12 means nothing in Year 11.
+      onPathChange({
+        syllabusYear: next,
+        topicId: undefined,
+        subTopicId: undefined,
+        dotPointId: undefined,
+        promptId: undefined,
+        selectedSubItems: undefined,
+      });
+    },
+    [syllabusYear, onPathChange]
+  );
+
   const topicOptions = useMemo(
     () =>
-      selectedCourse?.topics?.map((t) => ({
+      yearTopics.map((t) => ({
         id: t.id,
         label: t.name,
         isNew: newlyAddedIds.has(t.id),
@@ -280,8 +367,8 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             <span className="font-medium">{t.name}</span>
           </div>
         ),
-      })) || [],
-    [selectedCourse, newlyAddedIds]
+      })),
+    [yearTopics, newlyAddedIds]
   );
 
   const subTopicOptions = useMemo(
@@ -385,7 +472,10 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     const name = inlineTopicName.trim();
     if (!name) return;
 
-    const existingNames = selectedCourse?.topics?.map((t) => t.name.toLowerCase()) || [];
+    // Within this year only: a Year 11 "Heredity" and a Year 12 "Heredity" are
+    // two different topics, and refusing the second would be refusing a name
+    // the course does not actually have.
+    const existingNames = yearTopics.map((t) => t.name.toLowerCase());
     if (existingNames.includes(name.toLowerCase())) {
       setInlineError(`A topic named "${name}" already exists in this course.`);
       return;
@@ -419,7 +509,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     } finally {
       setInlineParsing(false);
     }
-  }, [inlineTopicName, inlineSyllabusText, onAddTopicWithContent, selectedCourse, studioLocked]);
+  }, [inlineTopicName, inlineSyllabusText, onAddTopicWithContent, yearTopics, studioLocked]);
 
   // --- Personal ordering -------------------------------------------------
   // The app has stored every marked attempt since persistResponse landed and
@@ -779,6 +869,21 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 }
               />
             </div>
+            {/* The year sits beside the course because that is what it belongs
+                to: one course name, two syllabuses. Everything below reads from
+                whichever is chosen here. */}
+            {selectedCourse && (
+              <div className="w-full lg:w-[230px] flex-shrink-0 animate-fade-in">
+                <Combobox
+                  label={null}
+                  options={yearOptions}
+                  value={syllabusYear}
+                  onChange={handleYearChange}
+                  placeholder="Select Year..."
+                  color="blue"
+                />
+              </div>
+            )}
             {canCurate && (
               <div className="flex items-center gap-2 gap-y-2 flex-wrap justify-end">
                 {/* Creating a course, and the AI import that builds one, are
@@ -863,7 +968,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             {topicOptions.length === 0 && (
               <p className="mb-3 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
                 <Upload className="w-3.5 h-3.5" />
-                No topics yet.{' '}
+                {/* Named, because "no topics yet" on a course full of Year 12
+                    content reads as data loss rather than as an empty year. */}
+                No {yearShortLabel(syllabusYear)} topics yet.{' '}
                 {canCurate
                   ? 'Use From Syllabus to build a topic from pasted NESA text or a syllabus URL, add one manually, or import a topic file.'
                   : 'Ask a teacher or admin to add content for this course.'}

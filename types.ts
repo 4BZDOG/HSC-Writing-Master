@@ -40,9 +40,26 @@ export type PromptVerb =
   | 'CRITICALLY EVALUATE'
   | 'DIFFERENTIATE';
 
+/**
+ * Which year of a two-year NSW course something belongs to.
+ *
+ * Every senior course runs across Year 11 (Preliminary) and Year 12 (HSC) with
+ * entirely separate topics, sub-topics and syllabus points — they are two
+ * syllabuses under one course name, not one syllabus a student progresses
+ * through. Absent means Year 12: everything authored before this existed is
+ * HSC content, and the app defaults there.
+ */
+export type SyllabusYear = 'year11' | 'year12';
+
 export interface CourseOutcome {
   code: string;
   description: string;
+  /**
+   * Outcomes are stage-specific too (BI-11-01 is not BI-12-01). Optional and
+   * defaulted the same way as a topic's: a course whose outcomes carry no year
+   * shows all of them in both, which is what every existing course does.
+   */
+  year?: SyllabusYear;
 }
 
 /**
@@ -141,6 +158,8 @@ export interface Topic {
   name: string;
   subTopics: SubTopic[];
   performanceBandDescriptors?: PerformanceBandDescriptor[];
+  /** Year 11 or Year 12 content. Absent means Year 12 — see SyllabusYear. */
+  year?: SyllabusYear;
 }
 
 export interface Course {
@@ -153,6 +172,11 @@ export interface Course {
 
 export interface StatePath {
   courseId?: string;
+  /**
+   * Which year of the selected course is being navigated. Absent means Year 12,
+   * so a path saved before this existed restores exactly where it was.
+   */
+  syllabusYear?: SyllabusYear;
   topicId?: string;
   subTopicId?: string;
   dotPointId?: string;

@@ -3028,6 +3028,35 @@ revoke all on function public.set_course_request_status(uuid, text, text) from p
 grant execute on function public.set_course_request_status(uuid, text, text) to authenticated;
 
 -- =============================================================================
+-- §22 · Year 11 and Year 12 as two syllabuses under one course
+-- -----------------------------------------------------------------------------
+-- A NSW senior course runs across Year 11 (Preliminary) and Year 12 (HSC) with
+-- entirely separate topics, sub-topics and syllabus points. The app models that
+-- as two populations of topics inside ONE course, chosen by a control beside
+-- the course name, rather than as two courses that would split a teacher's
+-- content in two places.
+--
+-- NULL means Year 12, and deliberately so: every topic that existed before this
+-- column is HSC content, so nothing needs backfilling and the client reads a
+-- missing value exactly as it reads a missing field in a local JSON export.
+-- Only 'year11' is ever written.
+--
+-- The client tolerates a database without this column — it asks for `year`, and
+-- asks again without it if the request is refused (services/curriculumService.ts)
+-- — so applying this section is what turns remote sync of the year ON, not what
+-- keeps the app working.
+alter table if exists public.topics
+  add column if not exists year text
+  check (year is null or year in ('year11', 'year12'));
+
+comment on column public.topics.year is
+  'Year 11 content when ''year11''. NULL means Year 12 (HSC), which is what every topic predating the split is.';
+
+-- Every read of a course''s topics filters on this, so it earns an index once a
+-- library carries both years.
+create index if not exists idx_topics_year on public.topics (course_id, year);
+
+-- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.
 -- =============================================================================
