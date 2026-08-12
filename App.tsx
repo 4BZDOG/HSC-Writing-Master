@@ -963,7 +963,6 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                   setCourseRequestPrefill(prefill ?? '');
                   openModal('courseRequest');
                 }}
-                onAddTopic={() => openModal('topicCreator')}
                 onAddSubTopic={() => openModal('subTopicCreator')}
                 onGeneratePrompt={() => openModal('promptGenerator')}
                 onManualEntry={() => openModal('manualPrompt')}

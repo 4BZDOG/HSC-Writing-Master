@@ -131,9 +131,16 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     });
 
     if (!response.ok) {
-      res
-        .status(502)
-        .json({ error: `The syllabus page returned HTTP ${response.status}. Try again later.` });
+      // 401/403/429 is the page refusing an automated reader, which is what
+      // most NESA pages do behind their CDN. "Try again later" is wrong for
+      // those — waiting changes nothing, and the person is left retrying a
+      // thing that cannot start working. Say what to do instead.
+      const refused = [401, 403, 429].includes(response.status);
+      res.status(502).json({
+        error: refused
+          ? `That page refused an automated reader (HTTP ${response.status}). Open it in your browser, select the syllabus text and paste it in below.`
+          : `The syllabus page returned HTTP ${response.status}. Try again in a moment.`,
+      });
       return;
     }
 

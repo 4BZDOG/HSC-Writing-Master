@@ -9,6 +9,7 @@ import {
 import type { SyllabusPreviewNode } from '../utils/dataManagerUtils';
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
+import UrlFetchField, { NESA_HOST_HINT } from './UrlFetchField';
 import {
   Sparkles,
   X,
@@ -71,6 +72,9 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
   const [activeTabId, setActiveTabId] = useState<string>(topicTabs[0].id);
   const [urlInput, setUrlInput] = useState('');
   const [isFetchingUrl, setIsFetchingUrl] = useState(false);
+  // Kept apart from the modal's main error, which renders at the bottom of a
+  // scrolling body — a failure from the URL box at the top belongs beside it.
+  const [urlError, setUrlError] = useState<string | null>(null);
 
   const [step, setStep] = useState<'input' | 'preview'>('input');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -104,6 +108,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
     setStep('input');
     setError(null);
     setUrlInput('');
+    setUrlError(null);
     onClose();
   };
 
@@ -156,23 +161,9 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
   const tabsFromTopics = (topics: { name: string; content: string }[]): TopicTab[] =>
     topics.map((t) => ({ id: generateId('tab'), name: t.name, content: t.content }));
 
-  const handleFetchFromUrl = async () => {
-    if (!urlInput.trim()) return;
-    // Validate before spending an AI call: accept bare domains by assuming
-    // https, but reject anything that still isn't a fetchable web address.
-    let normalisedUrl = urlInput.trim();
-    if (!/^https?:\/\//i.test(normalisedUrl)) normalisedUrl = `https://${normalisedUrl}`;
-    try {
-      const candidate = new URL(normalisedUrl);
-      if (!candidate.hostname.includes('.')) throw new Error('no hostname');
-    } catch {
-      setError(
-        'That does not look like a valid web address. Paste the full NESA syllabus page URL, e.g. https://educationstandards.nsw.edu.au/...'
-      );
-      return;
-    }
+  const handleFetchFromUrl = async (normalisedUrl: string) => {
     setIsFetchingUrl(true);
-    setError(null);
+    setUrlError(null);
     try {
       // Use AI to "read" the webpage via search grounding, then split it into
       // one editable tab per topic (falling back to a single tab).
@@ -182,6 +173,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
           "Couldn't read any syllabus content from that URL — some pages block automated readers. Open the page yourself and paste the topic text into a tab instead."
         );
       }
+      setUrlInput('');
       const topics = await splitSyllabusIntoTopics(content).catch(() => []);
       if (topics.length > 1) {
         const newTabs = tabsFromTopics(topics);
@@ -191,7 +183,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
         handleUpdateTab('content', content);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch syllabus content.');
+      setUrlError(err instanceof Error ? err.message : 'Failed to read that page.');
     } finally {
       setIsFetchingUrl(false);
     }
@@ -505,23 +497,20 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                     </span>
                   </span>
                 </label>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <input
-                    type="text"
-                    value={urlInput}
-                    onChange={(e) => setUrlInput(e.target.value)}
-                    placeholder="https://educationstandards.nsw.edu.au/..."
-                    className="flex-grow bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]"
-                  />
-                  <button
-                    onClick={handleFetchFromUrl}
-                    disabled={isFetchingUrl || !urlInput.trim()}
-                    className="px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 light:bg-blue-500 light:hover:bg-blue-600 text-white text-sm font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 flex-shrink-0"
-                  >
-                    <Sparkles className={`w-4 h-4 ${isFetchingUrl ? 'animate-spin' : ''}`} />
-                    {isFetchingUrl ? 'Fetching...' : 'Fetch'}
-                  </button>
-                </div>
+                <UrlFetchField
+                  value={urlInput}
+                  onChange={setUrlInput}
+                  onFetch={handleFetchFromUrl}
+                  onInvalid={setUrlError}
+                  error={urlError}
+                  isFetching={isFetchingUrl}
+                  disabled={isFetchingUrl}
+                  label="Syllabus page URL"
+                  placeholder="https://educationstandards.nsw.edu.au/..."
+                />
+                <p className="mt-2 text-[10px] text-[rgb(var(--color-text-muted))]/80 light:text-slate-400">
+                  {NESA_HOST_HINT}
+                </p>
               </div>
 
               {/* Topic Builder Interface */}

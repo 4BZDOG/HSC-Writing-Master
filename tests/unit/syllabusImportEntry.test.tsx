@@ -51,7 +51,6 @@ const renderSelector = (
       statePath={statePath as StatePath}
       onPathChange={noop}
       onAddCourse={noop}
-      onAddTopic={noop}
       onAddSubTopic={noop}
       onGeneratePrompt={noop}
       onManualEntry={noop}
@@ -139,7 +138,7 @@ describe('SyllabusImportModal input validation', () => {
     });
     fireEvent.click(screen.getByRole('button', { name: /^fetch$/i }));
 
-    expect(screen.getByText(/does not look like a valid web address/i)).toBeTruthy();
+    expect(screen.getByText(/does not look like a web address/i)).toBeTruthy();
     expect(fetchSyllabusContentFromUrl).not.toHaveBeenCalled();
   });
 
@@ -181,6 +180,7 @@ describe('TopicSyllabusImportModal (add a topic to an existing course)', () => {
         isOpen={true}
         onClose={vi.fn()}
         courseName="Software Engineering"
+        year="year12"
         topics={[{ id: 't1', name: 'Programming for the Web' }]}
         initialTopicId={null}
         onImport={vi.fn()}
@@ -201,7 +201,7 @@ describe('TopicSyllabusImportModal (add a topic to an existing course)', () => {
       target: { value: 'not a url' },
     });
     fireEvent.click(screen.getByRole('button', { name: /^fetch$/i }));
-    expect(screen.getByText(/does not look like a valid web address/i)).toBeTruthy();
+    expect(screen.getByText(/does not look like a web address/i)).toBeTruthy();
     expect(fetchSyllabusContentFromUrl).not.toHaveBeenCalled();
   });
 

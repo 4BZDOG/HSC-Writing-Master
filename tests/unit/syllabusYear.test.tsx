@@ -7,12 +7,12 @@ import {
   DEFAULT_SYLLABUS_YEAR,
   activeSyllabusYear,
   hasContentForYear,
+  mergeParsedOutcomes,
   outcomesForYear,
+  outcomesFromYearTabs,
   outcomesOfYear,
-  replaceOutcomesForYear,
   resolveSyllabusYear,
   topicsForYear,
-  yearOfOutcome,
   yearOfTopic,
 } from '../../utils/syllabusYear';
 
@@ -163,61 +163,82 @@ describe('the year model', () => {
     });
   });
 
-  describe('saving one year of outcomes', () => {
-    const existing = [
-      { code: 'BI-12-01', description: 'HSC one' },
-      { code: 'BI-11-01', description: 'Prelim one', year: 'year11' as SyllabusYear },
-    ];
+  describe('saving both years of outcomes', () => {
+    it('stamps each tab with its own year, Year 12 as an absence', () => {
+      const saved = outcomesFromYearTabs({
+        year12: [{ code: 'BI-12-01', description: 'HSC one' }],
+        // Carrying a stale tag, e.g. an outcome moved between tabs.
+        year11: [{ code: 'BI-11-01', description: 'Prelim one', year: 'year12' }],
+      });
 
-    it('leaves the year that is not on screen alone', () => {
-      const saved = replaceOutcomesForYear(existing, 'year11', [
-        { code: 'BI-11-01', description: 'Prelim one, edited' },
-        { code: 'BI-11-02', description: 'Prelim two' },
-      ]);
-
-      // The editor never held the HSC outcome, so saving must not delete it.
-      expect(saved.filter((o) => yearOfOutcome(o) === 'year12').map((o) => o.code)).toEqual([
-        'BI-12-01',
-      ]);
-      expect(saved.filter((o) => yearOfOutcome(o) === 'year11').map((o) => o.code)).toEqual([
-        'BI-11-01',
-        'BI-11-02',
-      ]);
+      expect(saved.map((o) => o.code)).toEqual(['BI-12-01', 'BI-11-01']);
+      expect('year' in saved[0]).toBe(false);
+      expect(saved[1].year).toBe('year11');
     });
 
-    it('tags what was typed with the year it was typed in', () => {
-      // The editor's rows carry no year of their own — the year on screen is
-      // the only thing that says which syllabus they belong to.
-      const saved = replaceOutcomesForYear(existing, 'year11', [
-        { code: 'BI-11-09', description: 'New' },
-      ]);
-      expect(saved.find((o) => o.code === 'BI-11-09')?.year).toBe('year11');
-    });
-
-    it('writes Year 12 as the absence of a year, never as a value', () => {
-      const saved = replaceOutcomesForYear(existing, 'year12', [
-        // Carrying a stale year11 tag, e.g. an outcome moved between years.
-        { code: 'BI-12-01', description: 'HSC one', year: 'year11' as SyllabusYear },
-      ]);
-      const hsc = saved.find((o) => o.code === 'BI-12-01')!;
-      expect('year' in hsc).toBe(false);
-      // …and the Year 11 outcome it did not touch survives.
-      expect(saved.map((o) => o.code)).toEqual(['BI-11-01', 'BI-12-01']);
-    });
-
-    it('can fill an empty year on a course that has never labelled anything', () => {
-      const unlabelled = [{ code: 'BI-12-01', description: 'HSC one' }];
-      const saved = replaceOutcomesForYear(unlabelled, 'year11', [
-        { code: 'BI-11-01', description: 'Prelim one' },
-      ]);
-      // Adding Year 11 is what turns the lenient read into a real filter: the
-      // unlabelled HSC outcome now belongs to Year 12 alone.
+    it('is what turns an unlabelled list into a real filter', () => {
+      const saved = outcomesFromYearTabs({
+        year12: [{ code: 'BI-12-01', description: 'HSC one' }],
+        year11: [{ code: 'BI-11-01', description: 'Prelim one' }],
+      });
       expect(outcomesForYear({ outcomes: saved }, 'year12').map((o) => o.code)).toEqual([
         'BI-12-01',
       ]);
       expect(outcomesForYear({ outcomes: saved }, 'year11').map((o) => o.code)).toEqual([
         'BI-11-01',
       ]);
+    });
+  });
+
+  describe('folding a parsed page into the two tabs', () => {
+    const empty = { year11: [], year12: [] };
+
+    it('sends each outcome to the year the page said it was', () => {
+      // What a NESA outcomes page gives you: both years in one document.
+      const { tabs, added } = mergeParsedOutcomes(
+        empty,
+        [
+          { code: 'BIO11-8', description: 'Prelim', year: 'year11' },
+          { code: 'BIO12-12', description: 'HSC', year: 'year12' },
+        ],
+        'year12'
+      );
+      expect(tabs.year11.map((o) => o.code)).toEqual(['BIO11-8']);
+      expect(tabs.year12.map((o) => o.code)).toEqual(['BIO12-12']);
+      expect(added).toEqual({ year11: 1, year12: 1 });
+    });
+
+    it('puts an unplaced outcome in the tab the user is looking at', () => {
+      // Not Year 12 by default: that would be a guess wearing the default's
+      // clothes, on the one page that failed to say.
+      const { tabs } = mergeParsedOutcomes(
+        empty,
+        [{ code: 'XX-1', description: 'No year given' }],
+        'year11'
+      );
+      expect(tabs.year11.map((o) => o.code)).toEqual(['XX-1']);
+      expect(tabs.year12).toEqual([]);
+    });
+
+    it('does not double a page that is fetched twice', () => {
+      const parsed = [{ code: 'BIO11-8', description: 'Prelim', year: 'year11' as SyllabusYear }];
+      const once = mergeParsedOutcomes(empty, parsed, 'year12');
+      const twice = mergeParsedOutcomes(once.tabs, parsed, 'year12');
+      expect(twice.tabs.year11).toHaveLength(1);
+      expect(twice.added.year11).toBe(0);
+      expect(twice.duplicates).toBe(1);
+    });
+
+    it('treats the same code in the other year as a different outcome', () => {
+      // Not every NESA code carries its year, and where it does not, the same
+      // string in Year 11 and Year 12 is two outcomes.
+      const { tabs, duplicates } = mergeParsedOutcomes(
+        { year11: [{ code: 'WS-1', description: 'Prelim working scientifically' }], year12: [] },
+        [{ code: 'WS-1', description: 'HSC working scientifically', year: 'year12' }],
+        'year12'
+      );
+      expect(tabs.year12).toHaveLength(1);
+      expect(duplicates).toBe(0);
     });
   });
 });
@@ -255,7 +276,6 @@ const noop = vi.fn();
 const baseProps = {
   onPathChange: noop,
   onAddCourse: noop,
-  onAddTopic: noop,
   onAddSubTopic: noop,
   onGeneratePrompt: noop,
   onManualEntry: noop,

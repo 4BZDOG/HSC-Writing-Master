@@ -1389,8 +1389,17 @@ export const parseOutcomesFromText = async (text: string): Promise<CourseOutcome
           text: `
                     Extract syllabus outcomes from the following text.
                     Text: "${text}"
-                    
-                    Return a JSON array of objects with 'code' and 'description'.
+
+                    Return a JSON array of objects with 'code', 'description' and 'year'.
+
+                    'year' is which of the two NSW senior years the outcome belongs to:
+                    "year11" for Year 11 (Preliminary), "year12" for Year 12 (HSC).
+                    NESA pages list both, usually under their own headings, and NESA
+                    codes normally carry the year in them (BIO11-8 and SE-11-01 are
+                    Year 11; BIO12-12 and SE-12-01 are Year 12). Use the heading the
+                    outcome sits under first, and the code only to confirm it.
+                    Return "unknown" if the text genuinely does not say — do NOT guess
+                    from the subject or from the order they appear in.
                 `,
         },
       ],
@@ -1404,6 +1413,7 @@ export const parseOutcomesFromText = async (text: string): Promise<CourseOutcome
           properties: {
             code: { type: Type.STRING },
             description: { type: Type.STRING },
+            year: { type: Type.STRING, enum: ['year11', 'year12', 'unknown'] },
           },
           required: ['code', 'description'],
         },
@@ -1416,13 +1426,24 @@ export const parseOutcomesFromText = async (text: string): Promise<CourseOutcome
   if (!Array.isArray(parsed)) return [];
   // Element-level guard: responseSchema is only enforced server-side by some
   // providers, so verify each outcome has usable string fields.
-  return parsed.filter(
-    (o): o is CourseOutcome =>
-      !!o &&
-      typeof (o as CourseOutcome).code === 'string' &&
-      typeof (o as CourseOutcome).description === 'string' &&
-      (o as CourseOutcome).code.trim().length > 0
-  );
+  return parsed
+    .filter(
+      (o): o is CourseOutcome & { year?: string } =>
+        !!o &&
+        typeof (o as CourseOutcome).code === 'string' &&
+        typeof (o as CourseOutcome).description === 'string' &&
+        (o as CourseOutcome).code.trim().length > 0
+    )
+    .map(({ code, description, year }) => ({
+      code,
+      description,
+      // Only the two real answers survive; "unknown" and anything else drop
+      // out, and the caller decides where an unplaced outcome goes. Kept as a
+      // present-but-year12 value here rather than an absence, because the
+      // caller needs to tell "the page said HSC" from "the page did not say" —
+      // it is stripped back to an absence on the way into the library.
+      ...(year === 'year11' || year === 'year12' ? { year } : {}),
+    }));
 };
 
 export const parseSyllabusStructure = async (content: string): Promise<SyllabusPreviewNode[]> => {
@@ -1500,10 +1521,31 @@ export const parseSyllabusStructure = async (content: string): Promise<SyllabusP
   return normalizeSyllabusStructure(parsed);
 };
 
+/**
+ * A reason the page reader gave, as opposed to a failure to reach it at all.
+ *
+ * The difference decides everything downstream: an answer means stop and tell
+ * the user what it said, no answer means try the other route. It used to be
+ * inferred from whether the message contained the word "fetch" — and the
+ * reader's own commonest message is "Failed to fetch the URL: …", so every
+ * blocked page, DNS failure and TLS error it reported was misread as "the
+ * reader is not there", fell through to AI grounding, and came back to the user
+ * as an AI usage error about a call they never asked for. The distinction is
+ * carried by the type now, not by prose.
+ */
+class PageReaderError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'PageReaderError';
+  }
+}
+
 export const fetchSyllabusContentFromUrl = async (url: string): Promise<string> => {
-  // Fetch the page server-side via the /api/fetch-url endpoint (avoids the
-  // separate googleSearch grounding quota that was exhausting on free tier).
-  // Falls back to a client-side AI-grounded fetch if the endpoint is unavailable.
+  // Read the page server-side via /api/fetch-url. AI grounding is the fallback
+  // for deployments that have no such endpoint — it costs a separate
+  // googleSearch quota that exhausts almost immediately on the free tier, so it
+  // is reached only when the endpoint is genuinely absent or unreachable, never
+  // because it answered with something we did not like.
   const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
   const fetchEndpoint = `${API_BASE_URL}/api/fetch-url`;
 
@@ -1527,26 +1569,30 @@ export const fetchSyllabusContentFromUrl = async (url: string): Promise<string> 
       body: JSON.stringify({ url }),
     });
 
-    if (res.ok) {
-      const json = await res.json();
-      if (json.text && json.text.length > 50) {
-        return json.text;
-      }
-    }
+    // 404/405 is the one status that means "this deployment has no reader" —
+    // static hosting serving the SPA for an unknown path. Everything else is an
+    // answer, including a 502 about a page that would not load.
+    if (res.status === 404 || res.status === 405) throw new Error('no page reader deployed');
 
-    // If the endpoint returned an error with a message, surface it
-    if (!res.ok && res.status !== 404 && res.status !== 405) {
-      const errBody = await res.json().catch(() => null);
-      const msg = errBody?.error;
-      if (msg) throw new Error(msg);
+    const body = await res.json().catch(() => null);
+    if (res.ok) {
+      const text = typeof body?.text === 'string' ? body.text : '';
+      if (text.trim().length > 50) return text;
+      throw new PageReaderError(
+        'That page loaded but had almost no readable text on it — it may build its content with JavaScript. Open it yourself and paste the text in instead.'
+      );
     }
+    throw new PageReaderError(
+      typeof body?.error === 'string' && body.error.trim()
+        ? body.error
+        : `The page reader returned HTTP ${res.status}.`
+    );
   } catch (e: unknown) {
-    // If the error is from the endpoint (not a network failure to reach it),
-    // surface it directly — don't fall through to the AI path.
-    if (e instanceof Error && !e.message.includes('fetch')) {
-      throw e;
-    }
-    // Network failure reaching the endpoint → fall through to AI grounding
+    // The reader answered: that answer IS the outcome, and asking an AI to go
+    // and look instead would replace a precise reason with a vague one.
+    if (e instanceof PageReaderError) throw e;
+    // Anything else — the endpoint is missing, or the network could not reach
+    // it — falls through to the AI route below.
   }
 
   // Fallback: use Gemini's googleSearch grounding (may hit quota on free tier)
@@ -1567,8 +1613,24 @@ export const fetchSyllabusContentFromUrl = async (url: string): Promise<string> 
     },
   };
 
-  const response = await generateContentWithRetry(request);
-  return response.text || '';
+  try {
+    const response = await generateContentWithRetry(request);
+    const text = response.text || '';
+    if (text.trim().length > 50) return text;
+    throw new PageReaderError(
+      "The AI reader could not retrieve that page's content. Open it yourself and paste the text in instead."
+    );
+  } catch (e: unknown) {
+    if (e instanceof PageReaderError) throw e;
+    // Say what was being attempted. On its own, "daily AI limit reached" after
+    // pressing Fetch reads as though reading a web page costs an AI call by
+    // design — it does not; this deployment simply has no page reader, and the
+    // AI was the last resort.
+    const detail = e instanceof Error ? e.message : 'the AI reader failed';
+    throw new PageReaderError(
+      `This deployment has no page reader, so it fell back to asking the AI to read the page — and that failed: ${detail} You can still paste the page's text in below.`
+    );
+  }
 };
 
 /**

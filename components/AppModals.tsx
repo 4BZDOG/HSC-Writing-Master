@@ -2,7 +2,6 @@ import React, { lazy, Suspense } from 'react';
 import { Course, StatePath, Topic, User } from '../types';
 import { Draft } from 'immer';
 import CourseCreatorModal from './CourseCreatorModal';
-import TopicCreatorModal from './TopicCreatorModal';
 import SubTopicCreatorModal from './SubTopicCreatorModal';
 import PromptGeneratorModal from './PromptGeneratorModal';
 import OutcomesEditorModal from './OutcomesEditorModal';
@@ -31,8 +30,8 @@ import { canCurateContent, isSystemAdmin } from '../utils/permissions';
 import {
   activeSyllabusYear,
   outcomesForYear,
-  outcomesOfYear,
   topicsForYear,
+  yearShortLabel,
 } from '../utils/syllabusYear';
 import { generateId } from '../utils/idUtils';
 import type { TopicSyllabusImportPayload } from './TopicSyllabusImportModal';
@@ -170,27 +169,6 @@ const AppModals: React.FC<AppModalsProps> = ({
         }}
       />
 
-      <TopicCreatorModal
-        isOpen={isModalOpen('topicCreator')}
-        onClose={() => closeModal('topicCreator')}
-        onItemCreated={(name) => {
-          if (!currentCourse) return;
-          // Created into whichever year the navigator is showing.
-          const newTopic = syllabusHandlers.handleCreateTopic(currentCourse.id, name, activeYear);
-          if (newTopic) {
-            setNewlyAddedIds((prev) => new Set(prev).add(newTopic.id));
-            setStatePath({
-              ...statePath,
-              topicId: newTopic.id,
-              subTopicId: undefined,
-              dotPointId: undefined,
-              promptId: undefined,
-            });
-          }
-        }}
-        existingNames={topicsForYear(currentCourse, activeYear).map((t) => t.name)}
-      />
-
       <SubTopicCreatorModal
         isOpen={isModalOpen('subTopicCreator')}
         onClose={() => closeModal('subTopicCreator')}
@@ -221,6 +199,7 @@ const AppModals: React.FC<AppModalsProps> = ({
           }
         }}
         existingNames={currentTopic?.subTopics.map((st) => st.name) || []}
+        destination={currentTopic?.name}
       />
 
       <PromptGeneratorModal
@@ -268,11 +247,10 @@ const AppModals: React.FC<AppModalsProps> = ({
         <OutcomesEditorModal
           isOpen={isModalOpen('outcomesEditor')}
           onClose={() => closeModal('outcomesEditor')}
-          onSave={(outcomes) =>
-            syllabusHandlers.handleUpdateOutcomes(currentCourse.id, outcomes, activeYear)
-          }
-          // The exact list, not the lenient one — see the prop's own note.
-          initialOutcomes={outcomesOfYear(currentCourse, activeYear)}
+          onSave={(outcomes) => syllabusHandlers.handleUpdateOutcomes(currentCourse.id, outcomes)}
+          // Both years: the editor has a tab for each, so it can take a NESA
+          // page that lists them together.
+          initialOutcomes={currentCourse.outcomes}
           courseName={currentCourse.name}
           year={activeYear}
           showToast={showToast}
@@ -513,6 +491,7 @@ const AppModals: React.FC<AppModalsProps> = ({
           isOpen={isModalOpen('topicSyllabusImport')}
           onClose={() => closeModal('topicSyllabusImport')}
           courseName={currentCourse.name}
+          year={activeYear}
           topics={topicsForYear(currentCourse, activeYear).map((t: Topic) => ({
             id: t.id,
             name: t.name,

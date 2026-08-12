@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CourseOutcome, SyllabusYear } from '../types';
 import { SYLLABUS_YEARS, yearShortLabel } from '../utils/syllabusYear';
+import { duplicateCodeRows, withoutDuplicateCodes } from '../utils/outcomeCodes';
 import { BookOpen, Plus, Trash2, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -59,9 +60,15 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
       return;
     }
     // Year 12 stays spelled as the absence of a year, as it is everywhere else.
+    // Repeated codes are dropped here as well as flagged on screen — a question
+    // links to an outcome by code, and two rows sharing one make the link
+    // ambiguous.
     const validOutcomes = [
-      ...complete(outcomesByYear.year12),
-      ...complete(outcomesByYear.year11).map((o) => ({ ...o, year: 'year11' as const })),
+      ...withoutDuplicateCodes(complete(outcomesByYear.year12)),
+      ...withoutDuplicateCodes(complete(outcomesByYear.year11)).map((o) => ({
+        ...o,
+        year: 'year11' as const,
+      })),
     ];
     onCourseCreated(courseName.trim(), validOutcomes);
     handleClose();
@@ -106,6 +113,7 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
   const validOutcomeCount = countFor('year11') + countFor('year12');
   // BI-11-01 vs BI-12-01: the year is the middle segment of every NESA code.
   const stem = outcomeYear === 'year11' ? '11' : '12';
+  const repeatedRows = duplicateCodeRows(outcomes);
 
   return (
     <div
@@ -275,6 +283,12 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
                             rows={2}
                             className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3.5 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full text-sm resize-y min-h-[52px] leading-relaxed"
                           />
+                          {repeatedRows.has(index) && (
+                            <p className="text-[11px] text-amber-400 light:text-amber-600">
+                              {outcome.code.trim()} is already listed above — this row will be
+                              ignored.
+                            </p>
+                          )}
                         </div>
                         <button
                           type="button"

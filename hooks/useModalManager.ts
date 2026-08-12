@@ -2,7 +2,6 @@ import { useState, useCallback } from 'react';
 
 export type ModalName =
   | 'courseCreator'
-  | 'topicCreator'
   | 'subTopicCreator'
   | 'promptGenerator'
   | 'outcomesEditor'

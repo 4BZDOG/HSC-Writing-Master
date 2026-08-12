@@ -74,6 +74,28 @@ describe('creating a course with two years of outcomes', () => {
     expect(screen.getByPlaceholderText('e.g. SE-11-01')).toBeTruthy();
   });
 
+  it('flags a repeated code and leaves it out of the course', () => {
+    const created: CourseOutcome[][] = [];
+    openCreator((_name, outcomes) => created.push(outcomes));
+
+    fireEvent.change(screen.getByLabelText('Course Name'), { target: { value: 'HSC Physics' } });
+    fillRow('PH-12-01', 'HSC one');
+    fireEvent.click(screen.getByRole('button', { name: /Add Year 12 Outcome/ }));
+
+    const codes = screen.getAllByPlaceholderText('e.g. SE-12-01');
+    fireEvent.change(codes[1], { target: { value: 'PH-12-01' } });
+    fireEvent.change(screen.getAllByPlaceholderText('Outcome description...')[1], {
+      target: { value: 'A second row with the same code' },
+    });
+
+    // Said on the row, because a question links to an outcome by code and two
+    // rows sharing one make the link ambiguous.
+    expect(screen.getByText(/already listed above/)).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Create Course' }));
+    expect(created[0]).toEqual([{ code: 'PH-12-01', description: 'HSC one' }]);
+  });
+
   it('creates a course with no outcomes at all when neither tab is filled', () => {
     const created: CourseOutcome[][] = [];
     openCreator((_name, outcomes) => created.push(outcomes));
