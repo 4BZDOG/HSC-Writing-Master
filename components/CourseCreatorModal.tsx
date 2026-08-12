@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { CourseOutcome } from '../types';
+import { CourseOutcome, SyllabusYear } from '../types';
+import { SYLLABUS_YEARS, yearShortLabel } from '../utils/syllabusYear';
 import { BookOpen, Plus, Trash2, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -11,6 +12,9 @@ interface CourseCreatorModalProps {
   existingNames?: string[];
 }
 
+/** One blank row, so a tab is never an empty box with nothing to type into. */
+const blankRow = (): CourseOutcome[] => [{ code: '', description: '' }];
+
 const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
   isOpen,
   onClose,
@@ -18,9 +22,29 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
   existingNames = [],
 }) => {
   const [courseName, setCourseName] = useState('');
-  const [outcomes, setOutcomes] = useState<CourseOutcome[]>([{ code: '', description: '' }]);
+  /**
+   * Outcomes per year, because NESA writes a separate set for each.
+   *
+   * A course created here used to take one list, which meant a teacher setting
+   * up "HSC Physics" could only enter the HSC outcomes and had to come back
+   * through the navigator to add the Year 11 ones — after creating a Year 11
+   * topic, since the year control cannot be reached on a course with no
+   * content. Both sets are entered where the course is defined.
+   */
+  const [outcomesByYear, setOutcomesByYear] = useState<Record<SyllabusYear, CourseOutcome[]>>({
+    year11: blankRow(),
+    year12: blankRow(),
+  });
+  const [outcomeYear, setOutcomeYear] = useState<SyllabusYear>('year12');
   const [outcomesExpanded, setOutcomesExpanded] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const outcomes = outcomesByYear[outcomeYear];
+  const setOutcomes = (next: CourseOutcome[]) =>
+    setOutcomesByYear((prev) => ({ ...prev, [outcomeYear]: next }));
+
+  const complete = (list: CourseOutcome[]) =>
+    list.filter((o) => o.code.trim() !== '' && o.description.trim() !== '');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,9 +58,11 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
       setError(`A course named "${trimmedName}" already exists.`);
       return;
     }
-    const validOutcomes = outcomes.filter(
-      (o) => o.code.trim() !== '' && o.description.trim() !== ''
-    );
+    // Year 12 stays spelled as the absence of a year, as it is everywhere else.
+    const validOutcomes = [
+      ...complete(outcomesByYear.year12),
+      ...complete(outcomesByYear.year11).map((o) => ({ ...o, year: 'year11' as const })),
+    ];
     onCourseCreated(courseName.trim(), validOutcomes);
     handleClose();
   };
@@ -50,7 +76,8 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
   };
 
   // The two TEXT fields only. `keyof CourseOutcome` also covers `year`, which
-  // is not a free-text field and must not be written by a text input.
+  // is not a free-text field and must not be written by a text input — the tab
+  // decides the year.
   const handleOutcomeChange = (index: number, field: 'code' | 'description', value: string) => {
     const newOutcomes = [...outcomes];
     newOutcomes[index] = { ...newOutcomes[index], [field]: value };
@@ -59,7 +86,8 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
 
   const handleClose = () => {
     setCourseName('');
-    setOutcomes([{ code: '', description: '' }]);
+    setOutcomesByYear({ year11: blankRow(), year12: blankRow() });
+    setOutcomeYear('year12');
     setOutcomesExpanded(true);
     setError(null);
     onClose();
@@ -72,7 +100,12 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
     return null;
   }
 
-  const validOutcomeCount = outcomes.filter((o) => o.code.trim() && o.description.trim()).length;
+  const countFor = (year: SyllabusYear) => complete(outcomesByYear[year]).length;
+  // The collapsed header must count BOTH years, or closing the section after
+  // filling in Year 11 would read as though that work had been lost.
+  const validOutcomeCount = countFor('year11') + countFor('year12');
+  // BI-11-01 vs BI-12-01: the year is the middle segment of every NESA code.
+  const stem = outcomeYear === 'year11' ? '11' : '12';
 
   return (
     <div
@@ -168,12 +201,55 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
 
               {outcomesExpanded && (
                 <div className="p-4 space-y-4">
+                  {/* Year 11 and Year 12 have entirely separate outcomes. */}
+                  <div
+                    role="tablist"
+                    aria-label="Outcome year"
+                    className="flex items-center gap-1 p-1 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100"
+                  >
+                    {SYLLABUS_YEARS.map((y) => {
+                      const selected = y.id === outcomeYear;
+                      const count = countFor(y.id);
+                      return (
+                        <button
+                          key={y.id}
+                          type="button"
+                          role="tab"
+                          id={`outcome-year-tab-${y.id}`}
+                          aria-selected={selected}
+                          aria-controls="outcome-year-panel"
+                          onClick={() => setOutcomeYear(y.id)}
+                          // The selected tab carries a border as well as a
+                          // lighter fill: in the light theme white-on-slate-100
+                          // alone is too near a difference to read at a glance.
+                          className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-semibold border transition-colors ${
+                            selected
+                              ? 'bg-[rgb(var(--color-bg-surface-light))] light:bg-white border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-[rgb(var(--color-text-primary))] light:text-slate-900 shadow-sm'
+                              : 'border-transparent text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900'
+                          }`}
+                        >
+                          {y.label}
+                          {count > 0 && (
+                            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))]">
+                              {count}
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+
                   <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                    Add outcomes now, or use the Outcomes Editor later to paste and parse them with
-                    AI.
+                    {yearShortLabel(outcomeYear)} outcomes. Add them now, or use the Outcomes Editor
+                    later to paste and parse them with AI.
                   </p>
 
-                  <div className="space-y-3">
+                  <div
+                    role="tabpanel"
+                    id="outcome-year-panel"
+                    aria-labelledby={`outcome-year-tab-${outcomeYear}`}
+                    className="space-y-3"
+                  >
                     {outcomes.map((outcome, index) => (
                       <div
                         key={index}
@@ -187,7 +263,7 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
                             type="text"
                             value={outcome.code}
                             onChange={(e) => handleOutcomeChange(index, 'code', e.target.value)}
-                            placeholder="e.g. SE-12-01"
+                            placeholder={`e.g. SE-${stem}-01`}
                             className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3.5 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full sm:w-48 font-mono text-sm font-semibold flex-shrink-0"
                           />
                           <textarea
@@ -210,15 +286,16 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
                         </button>
                       </div>
                     ))}
-                  </div>
 
-                  <button
-                    type="button"
-                    onClick={handleAddOutcome}
-                    className="w-full py-2.5 px-4 rounded-xl text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/5 hover:bg-[rgb(var(--color-accent))]/10 transition text-sm font-semibold border border-dashed border-[rgb(var(--color-accent))]/30 hover:border-[rgb(var(--color-accent))]/50"
-                  >
-                    <Plus className="inline w-4 h-4 mr-1" /> Add Outcome
-                  </button>
+                    <button
+                      type="button"
+                      onClick={handleAddOutcome}
+                      className="w-full py-2.5 px-4 rounded-xl text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/5 hover:bg-[rgb(var(--color-accent))]/10 transition text-sm font-semibold border border-dashed border-[rgb(var(--color-accent))]/30 hover:border-[rgb(var(--color-accent))]/50"
+                    >
+                      <Plus className="inline w-4 h-4 mr-1" /> Add {yearShortLabel(outcomeYear)}{' '}
+                      Outcome
+                    </button>
+                  </div>
                 </div>
               )}
             </div>

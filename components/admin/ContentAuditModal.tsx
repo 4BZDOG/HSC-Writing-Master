@@ -331,9 +331,17 @@ const buildAuditTree = (courses: Course[]): TreeNode[] => {
   };
 
   return courses.map((course) => {
-    const courseOutcomeCodes = new Set(course.outcomes.map((o) => o.code));
-
     const topics = (course.topics || []).map((topic) => {
+      /**
+       * The outcome codes a question in THIS topic may legitimately carry.
+       *
+       * A Year 11 question linked to an HSC outcome is a link that needs
+       * fixing, and the audit exists to find exactly that — its own linking
+       * task narrows to the year, so what it flags here it can also repair.
+       * Lenient, so a course that has never labelled its outcomes is audited
+       * precisely as it was before the years were split.
+       */
+      const validCodes = new Set(outcomesForYear(course, yearOfTopic(topic)).map((o) => o.code));
       const subTopics = (topic.subTopics || []).map((st) => {
         const dotPoints = (st.dotPoints || []).map((dp) => {
           const verbInfo = extractCommandVerb(dp.description);
@@ -341,7 +349,7 @@ const buildAuditTree = (courses: Course[]): TreeNode[] => {
             // 1. Outcomes
             const validOutcomes = Array.isArray(p.linkedOutcomes)
               ? p.linkedOutcomes.filter(
-                  (o) => typeof o === 'string' && o.trim().length > 0 && courseOutcomeCodes.has(o)
+                  (o) => typeof o === 'string' && o.trim().length > 0 && validCodes.has(o)
                 )
               : [];
 

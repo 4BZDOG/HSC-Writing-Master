@@ -36,7 +36,7 @@ import {
   mergeTopicContents,
   type SyllabusPreviewNode,
 } from '../utils/dataManagerUtils';
-import { outcomesForYear, yearOfTopic } from '../utils/syllabusYear';
+import { outcomesForYear, yearOfOutcome, yearOfTopic } from '../utils/syllabusYear';
 
 const BG_TASK_CLEANUP_DELAY = 5000;
 
@@ -714,6 +714,17 @@ export const useGemini = ({
         })),
       }));
 
+      /**
+       * The outcomes from the same paste belong to the same year.
+       *
+       * A NESA syllabus document carries its outcomes and its modules together.
+       * Tagging only the topics would file a Year 11 paste's structure in
+       * Year 11 and its outcomes in Year 12 — where they would then be the ones
+       * offered to every HSC question in the course.
+       */
+      const builtOutcomes: CourseOutcome[] =
+        year === 'year11' ? outcomes.map((o) => ({ ...o, year: 'year11' as const })) : outcomes;
+
       const stats = {
         topics: builtTopics.length,
         subTopics: builtTopics.reduce((a, t) => a + t.subTopics.length, 0),
@@ -753,10 +764,12 @@ export const useGemini = ({
             const tIdx = existing.topics.findIndex((t) => t.id === targetTopic.id);
             draft[idx].topics[tIdx] = mergedTopic;
 
-            // Merge any new outcomes by code.
-            const codes = new Set(draft[idx].outcomes.map((o) => o.code));
-            outcomes.forEach((o) => {
-              if (!codes.has(o.code)) draft[idx].outcomes.push(o);
+            // Merge any new outcomes by code AND year — an outcome is only a
+            // duplicate of one in the same year, the same rule the course-level
+            // import merge follows.
+            const seen = new Set(draft[idx].outcomes.map((o) => `${yearOfOutcome(o)}:${o.code}`));
+            builtOutcomes.forEach((o) => {
+              if (!seen.has(`${yearOfOutcome(o)}:${o.code}`)) draft[idx].outcomes.push(o);
             });
           } else {
             // Merge into the course: topics with a matching name have their
@@ -766,7 +779,7 @@ export const useGemini = ({
               id: existing.id,
               name: existing.name,
               topics: builtTopics,
-              outcomes,
+              outcomes: builtOutcomes,
             };
             draft[idx] = mergeCourseContents(existing, importedCourse);
           }
@@ -775,7 +788,7 @@ export const useGemini = ({
             id: generateId('course'),
             name: courseName,
             topics: builtTopics,
-            outcomes,
+            outcomes: builtOutcomes,
           };
           draft.push(newCourse);
           resolvedCourseId = newCourse.id;

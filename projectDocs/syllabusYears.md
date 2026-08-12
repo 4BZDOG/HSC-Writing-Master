@@ -50,7 +50,9 @@ and the `...(year === 'year11' ? …)` spreads elsewhere all exist to enforce it
 | `utils/assignmentLink.ts` | A shared question's year is read off its topic. The link carries ids only; a Year 11 question opened without a year would resolve to Year 12, where the navigator filters its own topic out and the question never opens. |
 | `components/AppModals.tsx` | Everything created or imported from the modals lands in the year on screen — new topics, pasted syllabus text, imported topic files, outcomes. |
 | `components/OutcomesEditorModal.tsx` | Edits one year's outcomes. See below — this is the one place where the exact filter matters. |
+| `components/CourseCreatorModal.tsx` | Both years' outcomes are entered when the course is defined, on two tabs. |
 | `components/Workspace.tsx` | The outcomes a question may be linked to are its topic's year's. |
+| `components/admin/ContentAuditModal.tsx` | Audits, generates and links against each question's own year. |
 | `components/dataManager/TopicReorderList.tsx` | Both years share one list in the Vault, so Year 11 rows carry a badge. |
 
 ## When a year is empty
@@ -97,6 +99,27 @@ read as "not linked", it just is not there. A cross-year link is something a
 teacher can see and fix; a blank space is not. Narrowing belongs where new links
 are made.
 
+### Where outcomes get in
+
+Three routes, and all three carry the year:
+
+1. **Creating the course.** `CourseCreatorModal` has a tab per year. This one is
+   load-bearing rather than convenient: the navigator's year control needs
+   *content* to be selectable, and a brand-new course has none — so without the
+   tabs, the Year 11 outcomes could not be entered until a Year 11 topic
+   existed to make Year 11 reachable.
+2. **The outcomes editor**, per year, as above.
+3. **A pasted syllabus.** A NESA document carries its outcomes and its modules
+   together, so `handleStartFullSyllabusImport` tags both with the year the
+   paste is going to. Tagging only the topics filed a Year 11 paste's structure
+   in Year 11 and its outcomes in Year 12 — where they became the outcomes
+   offered to every HSC question in the course.
+
+The audit studio is the fourth surface, and it reads rather than writes: a
+question whose links point at the other year counts as unlinked, which is what
+its own linking task then repairs — correctly, because that task narrows to the
+year too.
+
 ## Getting Year 11 content in
 
 No shipped course has Year 11 content — every course in `public/courseData` is
@@ -129,7 +152,6 @@ Three things are deliberate:
 
 ## Not done here
 
-Nothing in the app authors a Year 11 **course outcome code** for you — the
-codes come from the NESA document, like the rest of the content. And the course
-creator still writes its outcomes as Year 12, which is what creating a course
-means: the year control takes over once the course exists.
+Nothing in the app invents Year 11 outcomes for you — the codes and their text
+come from the NESA document, like the rest of the content. What the app does is
+make sure that wherever they are entered, they land in the year they belong to.

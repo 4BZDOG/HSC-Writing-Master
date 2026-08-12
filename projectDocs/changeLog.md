@@ -29,6 +29,31 @@ outcomes.
   Year 12 rule and the same tolerance as §22: the client asks for the column and
   asks again without it if refused.
 
+### 🧭 Both years' outcomes are entered where the course is defined
+
+**Create New Course** now has a tab per year in its outcomes section. That is
+load-bearing rather than convenient: the navigator's year control needs content
+to be selectable, and a brand-new course has none — so before this, a teacher
+setting up "HSC Physics" could not enter the Year 11 outcomes at all until they
+had created a Year 11 topic to make the year reachable. The header count sums
+both tabs, so collapsing the section after filling in Year 11 does not read as
+lost work, and each tab's code example follows its year.
+
+### 🐛 A pasted Year 11 syllabus split itself across both years
+
+`handleStartFullSyllabusImport` tagged the topics it built with the year on
+screen and left the outcomes from the same paste untagged. A NESA document
+carries both together, so a Year 11 syllabus filed its structure in Year 11 and
+its outcomes in Year 12 — where they became the outcomes offered to every HSC
+question in the course. Both now carry the year, and the merge keys on code
+**and** year.
+
+The audit studio counts links against each question's own year too: a Year 11
+question carrying an HSC outcome code now shows "No Outcomes" instead of
+counting as linked, which is the one thing the audit exists to surface — and its
+own linking task repairs it correctly, because that task narrows to the year as
+well.
+
 ### 🐛 Two years' content could be merged into one topic
 
 - `seed.mjs` and `export.mjs` never carried `year` at all, so seeding a course
