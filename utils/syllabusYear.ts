@@ -123,23 +123,81 @@ export const outcomesOfYear = (
 ): CourseOutcome[] => (course?.outcomes ?? []).filter((o) => yearOfOutcome(o) === year);
 
 /**
- * One year's outcomes replaced, the other year's left exactly as they were.
+ * One year's outcomes, stamped with that year.
  *
- * The editor only ever holds one year, so a save that wrote the whole array
- * would delete the year that was not on screen. The replacements are tagged on
- * the way in, so an outcome typed while Year 11 is on screen is a Year 11
- * outcome without anything else having to remember that.
+ * The editor holds a tab per year, and a row inside a tab carries no year of
+ * its own — the tab it is in is the only thing that says which syllabus it
+ * belongs to. This is where that becomes a fact on the object, and the one
+ * place the "only ever write 'year11'" rule is applied to an outcome, so
+ * Year 12 keeps meaning the absence of a year.
  */
-export const replaceOutcomesForYear = (
-  existing: CourseOutcome[],
-  year: SyllabusYear,
-  replacement: CourseOutcome[]
-): CourseOutcome[] => [
-  ...existing.filter((o) => yearOfOutcome(o) !== year),
-  ...replacement.map(({ year: _ignored, ...rest }) =>
+export const tagOutcomesForYear = (
+  outcomes: CourseOutcome[],
+  year: SyllabusYear
+): CourseOutcome[] =>
+  outcomes.map(({ year: _ignored, ...rest }) =>
     year === 'year11' ? { ...rest, year } : (rest as CourseOutcome)
-  ),
+  );
+
+/** Both years of an outcome editor, as one list ready to store. */
+export const outcomesFromYearTabs = (
+  tabs: Record<SyllabusYear, CourseOutcome[]>
+): CourseOutcome[] => [
+  ...tagOutcomesForYear(tabs.year12, 'year12'),
+  ...tagOutcomesForYear(tabs.year11, 'year11'),
 ];
+
+/** What a parse put where, so the editor can say so rather than just changing. */
+export interface ParsedOutcomeMerge {
+  tabs: Record<SyllabusYear, CourseOutcome[]>;
+  added: Record<SyllabusYear, number>;
+  duplicates: number;
+}
+
+/**
+ * Fold freshly parsed outcomes into the editor's two tabs.
+ *
+ * A NESA outcomes page lists both years at once, which is the whole reason the
+ * editor has two tabs: one fetch fills them both. An outcome the parse could
+ * not place goes to the tab in front of the user, because that is the year they
+ * came here for — never silently to Year 12, which would be a guess wearing the
+ * default's clothes.
+ *
+ * Duplicates are matched by code within a year only: the same code in the other
+ * year is a different outcome, and re-parsing the same page must not double
+ * every row.
+ */
+export const mergeParsedOutcomes = (
+  tabs: Record<SyllabusYear, CourseOutcome[]>,
+  parsed: CourseOutcome[],
+  fallbackYear: SyllabusYear
+): ParsedOutcomeMerge => {
+  const next: Record<SyllabusYear, CourseOutcome[]> = {
+    year11: [...tabs.year11],
+    year12: [...tabs.year12],
+  };
+  const seen: Record<SyllabusYear, Set<string>> = {
+    year11: new Set(next.year11.map((o) => o.code.trim().toLowerCase())),
+    year12: new Set(next.year12.map((o) => o.code.trim().toLowerCase())),
+  };
+  const added: Record<SyllabusYear, number> = { year11: 0, year12: 0 };
+  let duplicates = 0;
+
+  for (const outcome of parsed) {
+    const year = outcome.year ?? fallbackYear;
+    const key = outcome.code.trim().toLowerCase();
+    if (!key) continue;
+    if (seen[year].has(key)) {
+      duplicates += 1;
+      continue;
+    }
+    seen[year].add(key);
+    next[year].push({ code: outcome.code.trim(), description: outcome.description.trim() });
+    added[year] += 1;
+  }
+
+  return { tabs: next, added, duplicates };
+};
 
 /**
  * The year the app is working in — the one answer every surface must agree on.

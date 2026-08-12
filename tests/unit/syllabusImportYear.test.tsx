@@ -86,6 +86,33 @@ describe('a pasted syllabus keeps its year', () => {
     expect('year' in state.courses[0].topics[0]).toBe(false);
   });
 
+  it('respects the year the page itself gave an outcome, over the destination', async () => {
+    // A NESA document often carries both years. The year the paste is going to
+    // is the fallback, not an override — and Year 12 still comes out as the
+    // ABSENCE of a year, because the parser can say 'year12' explicitly and
+    // storing that would give one fact two spellings.
+    const { state, props } = harness([]);
+    const { result } = renderHook(() => useGemini(props as never));
+
+    await act(async () => {
+      result.current.handleStartFullSyllabusImport(
+        'HSC Biology',
+        structure as never,
+        [
+          { code: 'BIO11-8', description: 'Prelim' },
+          { code: 'BIO12-12', description: 'HSC', year: 'year12' },
+        ],
+        undefined,
+        undefined,
+        'year11'
+      );
+    });
+
+    const [prelim, hsc] = state.courses[0].outcomes;
+    expect(prelim.year).toBe('year11');
+    expect('year' in hsc).toBe(false);
+  });
+
   it('merges Year 11 outcomes into a course that already has HSC ones', async () => {
     const existing: Course[] = [
       {

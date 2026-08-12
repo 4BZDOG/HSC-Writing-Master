@@ -81,7 +81,6 @@ interface PromptSelectorProps {
    * searching for. Absent when the caller has no backend to log demand into.
    */
   onRequestCourse?: (prefillName?: string) => void;
-  onAddTopic: () => void;
   onAddSubTopic: () => void;
   onGeneratePrompt: () => void;
   onManualEntry: () => void;
@@ -199,7 +198,6 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   onPathChange,
   onAddCourse,
   onRequestCourse,
-  onAddTopic,
   onAddSubTopic,
   onGeneratePrompt,
   onManualEntry,
@@ -477,7 +475,12 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     // the course does not actually have.
     const existingNames = yearTopics.map((t) => t.name.toLowerCase());
     if (existingNames.includes(name.toLowerCase())) {
-      setInlineError(`A topic named "${name}" already exists in this course.`);
+      // Named with the year, because the same name legitimately exists in the
+      // other one — "already exists in this course" reads as a bug when it is
+      // the correct answer for a different year.
+      setInlineError(
+        `A topic named "${name}" already exists in ${yearShortLabel(syllabusYear)} of this course.`
+      );
       return;
     }
 
@@ -1072,6 +1075,13 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             {inlineTopicOpen && canCreateTree && (
               <div className="mt-3 p-4 rounded-2xl bg-white/5 light:bg-slate-50 border border-purple-500/20 light:border-purple-200 animate-fade-in">
                 <div className="flex flex-col gap-3">
+                  {/* Which year this lands in. The topic list above is already
+                      filtered to it, so a topic created here appears to vanish
+                      if the author thought they were in the other one. */}
+                  <p className="text-xs font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                    New topic in {yearShortLabel(syllabusYear)}
+                    {selectedCourse ? ` of ${selectedCourse.name}` : ''}
+                  </p>
                   <input
                     type="text"
                     value={inlineTopicName}

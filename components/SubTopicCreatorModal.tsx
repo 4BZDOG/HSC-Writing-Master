@@ -8,6 +8,8 @@ interface SubTopicCreatorModalProps {
   onClose: () => void;
   onItemCreated: (newItemName: string, options: { generateDotPoints: boolean }) => void;
   existingNames: string[];
+  /** The topic it will be added to, named — this modal never said. */
+  destination?: string;
 }
 
 const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
@@ -15,6 +17,7 @@ const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
   onClose,
   onItemCreated,
   existingNames,
+  destination,
 }) => {
   useEscapeKey(isOpen, onClose);
   useScrollLock(isOpen);
@@ -79,7 +82,7 @@ const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
                   Add New Sub-Topic
                 </h2>
                 <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                  Create a new syllabus sub-topic.
+                  {destination ? `Adding to "${destination}".` : 'Create a new syllabus sub-topic.'}
                 </p>
               </div>
             </div>

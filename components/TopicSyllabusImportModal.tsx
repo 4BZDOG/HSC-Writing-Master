@@ -3,6 +3,11 @@ import { parseSyllabusStructure, fetchSyllabusContentFromUrl } from '../services
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import { X, Sparkles, Globe, UploadCloud, ChevronRight, Trash2, GitMerge } from 'lucide-react';
+import UrlFetchField, { NESA_HOST_HINT } from './UrlFetchField';
+import DiscardConfirmBar from './DiscardConfirmBar';
+import { useDiscardGuard } from '../hooks/useDiscardGuard';
+import type { SyllabusYear } from '../types';
+import { yearShortLabel } from '../utils/syllabusYear';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 
@@ -24,6 +29,13 @@ interface TopicSyllabusImportModalProps {
   isOpen: boolean;
   onClose: () => void;
   courseName: string;
+  /**
+   * The year the import will land in — the navigator's. Named on screen
+   * because nothing else here says it: the topic list is already filtered to
+   * this year, so an admin filling Year 11 sees an empty "add into" list and no
+   * clue that it is empty because of where they are standing.
+   */
+  year: SyllabusYear;
   topics: { id: string; name: string }[];
   /** Preselects the destination when launched from an already-selected topic. */
   initialTopicId: string | null;
@@ -34,6 +46,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
   isOpen,
   onClose,
   courseName,
+  year,
   topics,
   initialTopicId,
   onImport,
@@ -45,6 +58,9 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
   const [syllabusText, setSyllabusText] = useState('');
   const [urlInput, setUrlInput] = useState('');
   const [isFetchingUrl, setIsFetchingUrl] = useState(false);
+  // Kept apart from the modal's main error, which renders at the bottom of a
+  // scrolling body — a failure from the URL box at the top belongs beside it.
+  const [urlError, setUrlError] = useState<string | null>(null);
   const [isAnalysing, setIsAnalysing] = useState(false);
   const [step, setStep] = useState<'input' | 'preview'>('input');
   const [previewSubTopics, setPreviewSubTopics] = useState<TopicImportSubTopicNode[]>([]);
@@ -73,6 +89,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
     setDetectedName('');
     setSyllabusText('');
     setUrlInput('');
+    setUrlError(null);
     setPreviewSubTopics([]);
     setStep('input');
     setError(null);
@@ -80,28 +97,20 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
     onClose();
   };
 
-  // Escape closes this modal like every other modal surface — through the
-  // same reset path as the X/Cancel buttons, and never mid-operation.
-  useEscapeKey(isOpen && !isBusy, handleClose);
+  // Pasted or fetched syllabus text, a parsed structure, or a typed topic
+  // name — anything that would be gone for good if the modal closed.
+  const hasWork =
+    syllabusText.trim().length > 0 || previewSubTopics.length > 0 || newTopicName.trim().length > 0;
+
+  const guard = useDiscardGuard(isOpen, hasWork, handleClose);
+
+  // Escape asks before discarding, and never interrupts a running parse.
+  useEscapeKey(isOpen && !isBusy, guard.requestClose);
   useScrollLock(isOpen);
 
-  const handleFetchFromUrl = async () => {
-    if (!urlInput.trim()) return;
-    // Validate before spending an AI call: accept bare domains by assuming
-    // https, but reject anything that still isn't a fetchable web address.
-    let normalisedUrl = urlInput.trim();
-    if (!/^https?:\/\//i.test(normalisedUrl)) normalisedUrl = `https://${normalisedUrl}`;
-    try {
-      const candidate = new URL(normalisedUrl);
-      if (!candidate.hostname.includes('.')) throw new Error('no hostname');
-    } catch {
-      setError(
-        'That does not look like a valid web address. Paste the full NESA syllabus page URL, e.g. https://educationstandards.nsw.edu.au/...'
-      );
-      return;
-    }
+  const handleFetchFromUrl = async (normalisedUrl: string) => {
     setIsFetchingUrl(true);
-    setError(null);
+    setUrlError(null);
     try {
       const content = (await fetchSyllabusContentFromUrl(normalisedUrl)).trim();
       if (content.length < 80) {
@@ -111,8 +120,9 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
       }
       // Append rather than replace, so URL content can supplement pasted text.
       setSyllabusText((prev) => (prev.trim() ? `${prev.trim()}\n\n${content}` : content));
+      setUrlInput('');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch syllabus content.');
+      setUrlError(err instanceof Error ? err.message : 'Failed to read that page.');
     } finally {
       setIsFetchingUrl(false);
     }
@@ -196,7 +206,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
   return (
     <div
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
-      onClick={handleClose}
+      onClick={guard.requestCloseFromBackdrop}
     >
       <div
         className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-4xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden relative flex flex-col max-h-[90vh]"
@@ -221,13 +231,13 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                 </h2>
                 <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
                   {step === 'input'
-                    ? `Paste NESA syllabus text or fetch from a URL — into "${courseName}".`
-                    : 'Review the extracted structure before importing.'}
+                    ? `Paste NESA syllabus text or fetch from a URL — into ${yearShortLabel(year)} of "${courseName}".`
+                    : `Review the extracted structure before importing into ${yearShortLabel(year)}.`}
                 </p>
               </div>
             </div>
             <button
-              onClick={handleClose}
+              onClick={guard.requestClose}
               aria-label="Close"
               className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
@@ -307,24 +317,21 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                     experimental
                   </span>
                 </div>
-                <div className="p-4">
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <input
-                      type="text"
-                      value={urlInput}
-                      onChange={(e) => setUrlInput(e.target.value)}
-                      placeholder="https://educationstandards.nsw.edu.au/..."
-                      className="flex-grow bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl py-2.5 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]"
-                    />
-                    <button
-                      onClick={handleFetchFromUrl}
-                      disabled={isBusy || !urlInput.trim()}
-                      className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 light:bg-blue-500 light:hover:bg-blue-600 text-white text-sm font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 flex-shrink-0"
-                    >
-                      <Sparkles className={`w-4 h-4 ${isFetchingUrl ? 'animate-spin' : ''}`} />
-                      {isFetchingUrl ? 'Fetching...' : 'Fetch'}
-                    </button>
-                  </div>
+                <div className="p-4 space-y-2">
+                  <UrlFetchField
+                    value={urlInput}
+                    onChange={setUrlInput}
+                    onFetch={handleFetchFromUrl}
+                    onInvalid={setUrlError}
+                    error={urlError}
+                    isFetching={isFetchingUrl}
+                    disabled={isBusy}
+                    label="Syllabus page URL"
+                    placeholder="https://educationstandards.nsw.edu.au/..."
+                  />
+                  <p className="text-[10px] text-[rgb(var(--color-text-muted))]/80 light:text-slate-400">
+                    {NESA_HOST_HINT}
+                  </p>
                 </div>
               </div>
 
@@ -469,51 +476,63 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end gap-3 flex-shrink-0">
-          {step === 'input' ? (
-            <>
-              <button
-                onClick={handleClose}
-                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleAnalyse}
-                disabled={isBusy}
-                className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-              >
-                <Sparkles className="w-4 h-4" />
-                {isAnalysing ? 'Analysing...' : 'Analyse Syllabus'}
-              </button>
-            </>
-          ) : (
-            <>
-              <button
-                onClick={() => setStep('input')}
-                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
-              >
-                Back to Edit
-              </button>
-              <button
-                onClick={handleConfirmImport}
-                disabled={previewSubTopics.length === 0 || !effectiveTopicName.trim()}
-                className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-green-600 to-green-500 hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {targetTopic || nameCollision ? (
-                  <GitMerge className="w-4 h-4" />
-                ) : (
-                  <UploadCloud className="w-4 h-4" />
-                )}
-                {targetTopic
-                  ? `Add to ${targetTopic.name}`
-                  : nameCollision
-                    ? `Merge into ${nameCollision.name}`
-                    : 'Create Topic'}
-              </button>
-            </>
-          )}
-        </div>
+        {guard.isConfirming ? (
+          <DiscardConfirmBar
+            summary={
+              previewSubTopics.length > 0
+                ? `this import — ${stats.subTopics} sub-topics, ${stats.dotPoints} dot points`
+                : 'the syllabus content you have entered'
+            }
+            onKeep={guard.cancelDiscard}
+            onDiscard={guard.confirmDiscard}
+          />
+        ) : (
+          <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end gap-3 flex-shrink-0">
+            {step === 'input' ? (
+              <>
+                <button
+                  onClick={guard.requestClose}
+                  className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleAnalyse}
+                  disabled={isBusy}
+                  className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  {isAnalysing ? 'Analysing...' : 'Analyse Syllabus'}
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => setStep('input')}
+                  className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+                >
+                  Back to Edit
+                </button>
+                <button
+                  onClick={handleConfirmImport}
+                  disabled={previewSubTopics.length === 0 || !effectiveTopicName.trim()}
+                  className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-green-600 to-green-500 hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {targetTopic || nameCollision ? (
+                    <GitMerge className="w-4 h-4" />
+                  ) : (
+                    <UploadCloud className="w-4 h-4" />
+                  )}
+                  {targetTopic
+                    ? `Add to ${targetTopic.name}`
+                    : nameCollision
+                      ? `Merge into ${nameCollision.name}`
+                      : 'Create Topic'}
+                </button>
+              </>
+            )}
+          </div>
+        )}
 
         <AiBusyOverlay show={isBusy}>
           <LoadingIndicator

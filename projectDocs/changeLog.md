@@ -1,5 +1,118 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-08-12 (Seeding a course you can trust)
+
+Seeding is the workflow that decides what a new user sees first, so this pass
+is about not losing an admin's work, not shipping the parser's mistakes as
+content, and not having to do the job twice.
+
+### 🛟 A stray click no longer throws away a pasted syllabus
+
+The import modals hold twenty minutes of attention — pasted NESA text, split
+across tabs, analysed and pruned — in component state with nowhere else to live,
+and every one of them closed on a click anywhere outside the panel. The dark
+area is large and it is exactly where the pointer travels between the page and
+the dialog. One miss cost the lot, with no warning and no undo.
+
+While there is work in progress the backdrop stops being a close button at all —
+a stray click should be inert, not merely survivable — and the deliberate ways
+out (Escape, ✕, Cancel) ask once, naming what is about to go ("this import —
+6 topics, 84 dot points"). With nothing entered, everything closes immediately
+as it always did. Applies to the course import, the topic import and the
+outcomes editor.
+
+### ✏️ The preview is editable, not just prunable
+
+It could only delete, so a topic the parser named "Module 5 – 5 Module" had to
+be imported wrong and renamed afterwards, and a mangled dot point had to be
+deleted and retyped in the Vault. Every name and dot point in the structure
+preview is now editable in place — this is the text question generation later
+reads, so it is worth more here than anywhere else. Names edited away to nothing
+are refused rather than creating a topic called "" that no picker can select;
+emptied dot points are simply dropped.
+
+### 🗓️ A Year 11 course can be seeded in one pass
+
+The course-level syllabus import had no year control, so it could only ever
+produce Year 12 content — a Year 11 course had to be built through the topic
+picker one topic at a time, which is the opposite of what that modal is for. A
+NESA document is one year's, and the whole import now follows the year chosen
+beside the course name (opening on the navigator's).
+
+### 🐛 Two courses could end up with the same name
+
+`CourseCreatorModal` has refused a duplicate course name since it was written,
+because import matching pairs courses BY NAME and two "HSC Biology" entries
+split a subject across records that look identical in every picker. The syllabus
+import — the path seeding actually uses — did not check at all. It now refuses,
+and points at the "Import Into" dropdown, which is what the person wanted.
+
+Also: analysing several topics reports progress ("Analysing 3 of 8…") instead of
+one indefinite spinner over what is one AI call per topic.
+
+## [Unreleased] - 2026-08-12 (Reading a page is not an AI call)
+
+### 🐛 The URL field reported an AI usage error for every failure
+
+`/api/fetch-url` reads a page server-side; asking the model to go and look with
+googleSearch grounding is the fallback for deployments that have no such
+endpoint, and it costs a separate quota the free tier exhausts almost at once.
+Which of the two ran was decided by testing the error's **text** for the word
+"fetch" — and the reader's own commonest message is "Failed to fetch the URL: …".
+So every blocked page, DNS failure and TLS error the reader reported was read as
+"there is no reader here", fell through to the model, and came back as an AI
+usage error about a call nobody asked for, with the real reason discarded.
+
+The distinction is carried by a type now. A `PageReaderError` means the reader
+answered and that answer is the outcome; only a 404/405 or an unreachable
+endpoint falls through. When the AI fallback is genuinely the thing that fails,
+the message says what was being attempted, so "daily AI limit reached" after
+pressing **Fetch** no longer reads as though reading a web page costs an AI call
+by design.
+
+Three things around it:
+
+- A NESA page that refuses automated readers (401/403/429) now says so and says
+  what to do — "open it in your browser and paste the text in" — instead of
+  "try again later", which was advice that could never come good.
+- The failure appears **under the URL field**. It used to render in the modal's
+  error block at the bottom of a scrolling body, so pressing Fetch at the top
+  showed a spinner stopping and nothing else.
+- One `UrlFetchField` behind all three surfaces: bare domains are normalised,
+  **Enter** submits, and the supported hosts are named up front rather than
+  discovered through a refusal.
+
+### 🎯 The NESA outcomes page, read in one go
+
+A NESA outcomes page lists Year 11 and Year 12 together, so the outcomes editor
+now holds both years on tabs and each parsed outcome goes to the year the page
+put it under. One the page did not place goes to the tab in front of the user —
+never silently to Year 12, which would be a guess wearing the default's clothes.
+The editor reports what it did ("Added 10 Year 11 and 9 Year 12 outcomes,
+skipping 3 already in the list") rather than just changing.
+
+Repeated outcome codes are flagged on the row and left out on save, in both
+outcome editors: a question links to an outcome **by code**, so two rows sharing
+one make every link through it ambiguous.
+
+### 🧭 Creating content says where it is going
+
+Nothing in the creation path used to name the year, and the topic list is
+already filtered to it — so an admin filling Year 11 saw an empty list with no
+clue that it was empty because of where they were standing.
+
+- Adding a topic says "New topic in Year 11 of HSC Biology", and a clashing name
+  says which year it clashes in — the same name in the other year is legitimate,
+  and "already exists" alone reads as a bug when it is the right answer for a
+  different year.
+- **Add Topic from Syllabus** names the year in its subtitle.
+- Adding a sub-topic names the topic it will be added to.
+
+Also deleted `TopicCreatorModal` and `SyllabusItemCreatorModal`: the topic
+picker builds topics through an inline panel, and nothing had called
+`onAddTopic` since. Two components and a modal id that could still be
+maintained, diverge, and mislead the next person reading the creation path.
+
 ## [Unreleased] - 2026-08-12 (Outcomes belong to a year too)
 
 ### 🎯 A Year 11 question is no longer offered HSC outcomes
@@ -10,11 +123,10 @@ it. BI-11-01 is not BI-12-01, and the enrichment pass writes `linkedOutcomes`
 without anyone reviewing it — so a Year 11 question would quietly acquire HSC
 outcomes.
 
-- **The outcomes editor is scoped to the year on screen**, labelled with it, and
-  saves only that year — the other year's outcomes are left exactly as they
-  were. Its AI-parse box and its code examples follow the year too, because
-  NESA puts the year inside the code and an editor showing `SE-12-01` while
-  Year 11 is on screen invites the wrong syllabus to be pasted in.
+- **The outcomes editor has a tab per year**, opening on the one the navigator
+  is showing. Its code examples follow the tab, because NESA puts the year
+  inside the code and an editor showing `SE-12-01` while Year 11 is on screen
+  invites the wrong syllabus to be pasted in.
 - **Two filters, deliberately.** `outcomesForYear` is lenient — it filters only
   once a course labels at least one outcome, so every course that predates the
   split still shows all of its outcomes in both years. `outcomesOfYear` is
