@@ -35,7 +35,6 @@ import {
   yearShortLabel,
 } from '../utils/syllabusYear';
 import { generateId } from '../utils/idUtils';
-import { findStarterTargets } from '../utils/starterQuestions';
 import type { TopicSyllabusImportPayload } from './TopicSyllabusImportModal';
 
 /**
@@ -110,6 +109,18 @@ const AppModals: React.FC<AppModalsProps> = ({
    * course the person happened to be looking at and written questions into it.
    */
   const [starterCourseId, setStarterCourseId] = React.useState<string | null>(null);
+
+  /**
+   * The library as it is NOW, for callbacks that outlive their render.
+   *
+   * The import is awaited, so by the time it returns, the `courses` prop
+   * captured in that callback's closure is the list from BEFORE it ran — and a
+   * newly created course is not in it at all. Reading it there found nothing,
+   * counted zero empty syllabus points, and silently skipped the offer in
+   * exactly the case the offer is for.
+   */
+  const coursesRef = React.useRef(courses);
+  coursesRef.current = courses;
 
   // User-facing labels for syllabus item types — the raw type names
   // (subTopic, dotPoint) must never leak into modal titles or messages.
@@ -358,7 +369,7 @@ const AppModals: React.FC<AppModalsProps> = ({
         courses={courses}
         defaultYear={activeYear}
         onImport={async (courseName, structure, outcomes, targetCourseId, targetTopicId, year) => {
-          const courseId = await geminiHandlers.handleStartFullSyllabusImport(
+          const { courseId, emptyDotPoints } = await geminiHandlers.handleStartFullSyllabusImport(
             courseName,
             structure,
             outcomes,
@@ -390,8 +401,10 @@ const AppModals: React.FC<AppModalsProps> = ({
            * instead: the navigator deliberately stays put, so without this the
            * message names a place the person cannot reach from it.
            */
-          const imported = courses.find((c) => c.id === courseId);
-          const empty = findStarterTargets(imported).length;
+          const imported = coursesRef.current.find((c) => c.id === courseId);
+          // Counted by the import itself, from the merged course — see the note
+          // on `coursesRef` for why this cannot be worked out here.
+          const empty = emptyDotPoints;
           const wentElsewhere = !!targetCourseId && targetCourseId !== currentCourse?.id;
 
           if (empty > 0) {

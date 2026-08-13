@@ -44,6 +44,37 @@ const harness = (initial: Course[]) => {
 
 beforeEach(() => vi.clearAllMocks());
 
+describe('what the import reports back', () => {
+  it('counts the syllabus points left without a question, from the MERGED course', async () => {
+    // The caller cannot work this out: it awaits the import, so the course list
+    // it can see is the one from before — and a newly created course is not in
+    // it at all, which made the count zero in exactly the case it matters.
+    const { props } = harness([]);
+    const { result } = renderHook(() => useGemini(props as never));
+
+    let reported: { courseId: string; emptyDotPoints: number } | undefined;
+    await act(async () => {
+      reported = await result.current.handleStartFullSyllabusImport(
+        'HSC Biology',
+        [
+          {
+            name: 'Cells',
+            subTopics: [{ name: 'Structure', dotPoints: ['identify a cell', 'describe it'] }],
+          },
+        ] as never,
+        [],
+        undefined,
+        undefined,
+        'year12'
+      );
+    });
+
+    expect(reported?.courseId).toBeTruthy();
+    // Everything an import creates starts without a question.
+    expect(reported?.emptyDotPoints).toBe(2);
+  });
+});
+
 describe('a pasted syllabus keeps its year', () => {
   it('tags a new course’s outcomes with the year its topics went to', async () => {
     const { state, props } = harness([]);
