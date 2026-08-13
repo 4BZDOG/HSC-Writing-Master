@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { Target, X, Plus, Trash2, RotateCcw, Info, GripVertical } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
 
@@ -60,6 +61,7 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
     () => items.length !== parsed.length || items.some((item, i) => item !== parsed[i]),
     [items, parsed]
   );
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
 
   if (!isOpen) return null;
 
@@ -96,6 +98,11 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
 
   return createPortal(
     <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Edit focus areas"
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[2100] p-4"
       onClick={onClose}
     >

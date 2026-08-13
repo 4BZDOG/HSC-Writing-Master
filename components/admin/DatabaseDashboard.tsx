@@ -42,6 +42,7 @@ import {
 } from '../../utils/dataManagerUtils';
 import { Course } from '../../types';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import ConfirmationModal from '../ConfirmationModal';
 import LoadingIndicator from '../LoadingIndicator';
@@ -399,6 +400,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
   const handleBackToStats = () => {
     setView('overview');
   };
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
 
   if (!isOpen) return null;
 
@@ -412,6 +414,11 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
 
   return createPortal(
     <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Database dashboard"
       className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
       onClick={onClose}
     >

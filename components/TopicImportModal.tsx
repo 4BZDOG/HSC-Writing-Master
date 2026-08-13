@@ -11,6 +11,7 @@ import ValidationSummary from './dataManager/ValidationSummary';
 import { ModalHeader, ActionButtons } from './dataManager/common';
 import { UploadCloud, X, Award } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
 
 interface TopicImportModalProps {
@@ -126,11 +127,17 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
       handleClose();
     }
   };
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
 
   if (!isOpen) return null;
 
   return (
     <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Import a topic file"
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
       onClick={handleClose}
     >
