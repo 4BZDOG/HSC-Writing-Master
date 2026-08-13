@@ -1,6 +1,6 @@
 import { describe, it, expect, afterEach } from 'vitest';
 import React, { useState } from 'react';
-import { render, screen, cleanup, fireEvent } from '@testing-library/react';
+import { render, screen, cleanup, fireEvent, waitFor } from '@testing-library/react';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
 
 /**
@@ -52,6 +52,54 @@ const tab = (shift = false) =>
   fireEvent.keyDown(document, { key: 'Tab', shiftKey: shift, bubbles: true });
 
 describe('useFocusTrap', () => {
+  it('leaves focus where a dialog put it with autoFocus', () => {
+    // React applies autoFocus during the commit, which runs BEFORE the trap's
+    // effect. Pulling focus back to the first focusable turns every form
+    // dialog into one that needs a click before it can be typed in.
+    const Dialog = () => {
+      const ref = useFocusTrap<HTMLDivElement>(true);
+      return (
+        <div ref={ref} tabIndex={-1}>
+          <button>Close</button>
+          <input aria-label="Name" autoFocus />
+        </div>
+      );
+    };
+    render(<Dialog />);
+    expect(document.activeElement).toBe(screen.getByLabelText('Name'));
+  });
+
+  it('does not hand focus back to a field inside the dialog it just closed', async () => {
+    // The opener is remembered so focus can return to it. A dialog that
+    // autoFocused its own field would otherwise remember THAT, and restore
+    // focus on close to a node that no longer exists — dropping focus to
+    // <body>, which is the failure this hook exists to prevent.
+    const opener = document.createElement('button');
+    opener.textContent = 'Open';
+    document.body.appendChild(opener);
+    opener.focus();
+
+    const Dialog = ({ open }: { open: boolean }) => {
+      const ref = useFocusTrap<HTMLDivElement>(open);
+      if (!open) return null;
+      return (
+        <div ref={ref} tabIndex={-1}>
+          <input aria-label="Name" autoFocus />
+        </div>
+      );
+    };
+
+    const { rerender } = render(<Dialog open />);
+    expect(document.activeElement).toBe(screen.getByLabelText('Name'));
+
+    rerender(<Dialog open={false} />);
+    // Deferred by a frame: closing re-renders the surface that owns the
+    // dialog, and restoring before that settles lands focus on a node React
+    // is about to replace.
+    await waitFor(() => expect(document.activeElement).toBe(opener));
+    opener.remove();
+  });
+
   it('moves focus into the dialog when it opens', () => {
     render(<Harness />);
     fireEvent.click(screen.getByText('opener'));
@@ -124,7 +172,7 @@ describe('useFocusTrap', () => {
     expect(document.activeElement).toBe(screen.getByText('real one'));
   });
 
-  it('returns focus to whatever opened it', () => {
+  it('returns focus to whatever opened it', async () => {
     render(<Harness />);
     const opener = screen.getByText('opener');
     opener.focus();
@@ -133,7 +181,9 @@ describe('useFocusTrap', () => {
 
     fireEvent.click(screen.getByText('close it'));
 
-    expect(document.activeElement).toBe(opener);
+    // A frame later: closing re-renders the surface that owns the dialog, and
+    // restoring before that settles puts focus on a node React then replaces.
+    await waitFor(() => expect(document.activeElement).toBe(opener));
   });
 
   it('leaves the page alone while inactive', () => {

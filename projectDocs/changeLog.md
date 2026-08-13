@@ -1,5 +1,54 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-08-13 (Keyboard, focus and a remount bug)
+
+### 🐛 The navigator remounted every button on every render
+
+`RailNode`, `StepHeader` and `ActionButton` were declared **inside**
+`PromptSelector`, which makes each a brand-new component type on every render.
+React therefore unmounted and remounted every rail node and every action button
+whenever anything in the picker changed — a keystroke in a search box, a path
+change, an attempt history arriving. None of them read component state, so they
+are now at module scope: a move, not a rewrite.
+
+Two consequences, one of them the reason this was found at all. Focus vanished
+after closing any dialog opened from the navigator, because the button that
+opened it no longer existed by the time focus was handed back — verified in the
+browser, where the opener's DOM node was a different object after the modal
+closed, and is now the same one.
+
+### ⌨️ Two thirds of the app's dialogs did not trap focus
+
+`useFocusTrap` existed and nine dialogs used it. Thirty did not — so Tab walked
+straight out of them into the page behind, over a scrim, in a document their
+`aria-modal` had told a screen reader to ignore. The authoring path and the
+high-traffic student dialogs now use it too, and carry `role="dialog"`,
+`aria-modal` and an accessible name: course creation, both syllabus imports, the
+outcomes editor, starter questions, sub-topic creation, rename, confirm, the
+question generator, the sample-answer generator, the flag dialog and the
+profile.
+
+Two flaws in the hook itself, exposed by wiring it to dialogs that use
+`autoFocus`:
+
+- **It fought `autoFocus`.** React applies `autoFocus` while committing, before
+  any effect runs, so the trap's "focus the first control" moved focus off the
+  field a dialog had asked for and onto the ✕ in the corner. It now leaves focus
+  alone when it is already inside the dialog.
+- **It could restore focus to a dead node.** The opener was read in the effect,
+  by which time `autoFocus` may already have moved focus into the dialog — so
+  the "opener" was one of the dialog's own fields, and closing restored focus to
+  a node that no longer existed, dropping it to `<body>`. The opener is now
+  captured during render, before the commit, and the restore is deferred one
+  frame so the surface that owns the dialog has finished re-rendering.
+
+### 🛟 Two more places that could lose typed work
+
+The discard guard now covers **Create New Course** (a name and two tabs of
+outcomes) and **Manual Question** (a hand-written question — typing nobody wants
+to do twice). Same rule as the import modals: while there is something to lose
+the backdrop is inert, and Escape, ✕ and Cancel ask once.
+
 ## [Unreleased] - 2026-08-12 (From a syllabus to a course worth showing)
 
 ### 💾 An unfinished import survives a crash

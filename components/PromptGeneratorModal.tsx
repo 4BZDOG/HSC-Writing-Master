@@ -42,6 +42,7 @@ import {
 import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 
 interface PromptGeneratorModalProps {
   isOpen: boolean;
@@ -97,6 +98,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   // Escape closes this modal like every other modal surface (but never mid-operation).
   useEscapeKey(isOpen && !isLoading, onClose);
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
   const [error, setError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
@@ -291,6 +293,11 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
 
   return createPortal(
     <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Generate a question"
       className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[100] p-4 transition-all duration-300"
       onClick={handleClose}
     >

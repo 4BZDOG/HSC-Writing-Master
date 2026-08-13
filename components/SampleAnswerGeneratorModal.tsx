@@ -22,6 +22,7 @@ import { getBandConfig, stripHtmlTags } from '../utils/renderUtils';
 import { describeSimilarity, findNearDuplicate } from '../utils/answerSimilarity';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useUnsavedChanges } from '../hooks/useUnsavedChanges';
 
 interface SampleAnswerGeneratorModalProps {
@@ -60,6 +61,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
 
   // Escape closes this modal like every other modal surface (but never mid-operation).
   useEscapeKey(isOpen && !isLoading, onClose);
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
   // Escape and the backdrop are already blocked while a batch runs, but a
   // browser navigation was not: closing the tab five answers into an eight-mark
@@ -276,6 +278,11 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
 
   return createPortal(
     <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Generate a sample answer"
       className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[100] p-4 transition-all duration-300"
       onClick={handleClose}
     >

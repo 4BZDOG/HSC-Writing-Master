@@ -12,6 +12,7 @@ import type { SyllabusYear } from '../types';
 import { yearShortLabel } from '../utils/syllabusYear';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 
 /** One parsed sub-topic ready for preview/pruning before import. */
 export interface TopicImportSubTopicNode {
@@ -129,6 +130,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
 
   // Escape asks before discarding, and never interrupts a running parse.
   useEscapeKey(isOpen && !isBusy, guard.requestClose);
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
 
   const handleFetchFromUrl = async (normalisedUrl: string) => {
@@ -229,6 +231,11 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
 
   return (
     <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Add a topic from a syllabus"
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
       onClick={guard.requestCloseFromBackdrop}
     >

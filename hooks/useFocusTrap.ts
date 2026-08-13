@@ -84,23 +84,59 @@ const focusableWithin = (container: HTMLElement): HTMLElement[] =>
  */
 export const useFocusTrap = <T extends HTMLElement>(active: boolean) => {
   const containerRef = useRef<T | null>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
+  const wasActive = useRef(false);
+
+  /**
+   * The opener, captured during RENDER rather than in the effect.
+   *
+   * React applies `autoFocus` while committing, which is before any effect
+   * runs — so by the time the effect looks, focus may already be inside the
+   * dialog and the control that opened it is unrecoverable. This render runs
+   * before that commit, so `document.activeElement` is still the button the
+   * user pressed. It is a read, not a mutation, and it happens once per open.
+   */
+  if (active && !wasActive.current) {
+    openerRef.current = document.activeElement as HTMLElement | null;
+  }
+  wasActive.current = active;
 
   useEffect(() => {
     if (!active) return;
 
-    // Where focus came from, so it can be handed back. Captured before
-    // anything is moved.
-    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const container = containerRef.current;
+    // Not named `active` — that is the hook's own parameter, and shadowing it
+    // here puts the guard above into the temporal dead zone.
+    const focusedOnOpen = document.activeElement as HTMLElement | null;
+    // React applies `autoFocus` during the commit, which runs BEFORE this
+    // effect — so focus can already be inside the dialog when we arrive.
+    const startedInside = !!container && !!focusedOnOpen && container.contains(focusedOnOpen);
+
+    /**
+     * Where focus came from, so it can be handed back.
+     *
+     * From the render-time capture, and never something inside the dialog: a
+     * field with `autoFocus` has already taken focus by now, and remembering
+     * THAT would mean restoring, on close, to a node that no longer exists —
+     * dropping focus to `<body>`, the exact failure this hook exists to
+     * prevent, in precisely the dialogs most careful about focus.
+     */
+    const opener = openerRef.current;
+    const previouslyFocused = opener && !container?.contains(opener) ? opener : null;
 
     const entry: TrapEntry = { container: () => containerRef.current };
     trapStack.push(entry);
 
-    // Into the dialog. The first focusable is the right target far more often
-    // than the container itself — it is usually the primary action or the
-    // close button — but the container is the fallback that guarantees focus
-    // leaves the page behind.
-    const container = containerRef.current;
-    if (container) {
+    /**
+     * Into the dialog — unless it is already there.
+     *
+     * The first focusable is the right target far more often than the
+     * container itself; it is usually the primary action or the close button.
+     * But a dialog that asked for a specific field with `autoFocus` has said
+     * where it wants focus, and stealing it back to the ✕ in the corner turns
+     * every form dialog into one that needs a click before it can be typed in.
+     */
+    if (container && !startedInside) {
       const focusable = focusableWithin(container);
       (focusable[0] ?? container).focus?.();
     }
@@ -151,12 +187,27 @@ export const useFocusTrap = <T extends HTMLElement>(active: boolean) => {
       if (index !== -1) trapStack.splice(index, 1);
       document.removeEventListener('keydown', onKeyDown);
 
-      // Hand focus back — but only if the opener is still in the document and
-      // still focusable. A dialog that deletes the row that opened it leaves a
-      // detached node behind, and focusing that puts focus nowhere.
-      if (previouslyFocused && document.contains(previouslyFocused)) {
-        previouslyFocused.focus?.();
-      }
+      /**
+       * Hand focus back — after React has finished closing the dialog.
+       *
+       * Synchronously here is too early. Closing a dialog updates state in the
+       * surface that owns it, so the re-render that follows can replace the
+       * opener's DOM node: focus lands on the old element and is silently
+       * dropped when React swaps it, leaving the user on `<body>` — the very
+       * thing this restore exists to prevent, and invisible in a unit test
+       * where nothing else re-renders. One frame later the tree has settled.
+       *
+       * Re-checked at that point rather than trusting the earlier check: a
+       * dialog that deletes the row which opened it leaves a detached node
+       * behind, and focusing that puts focus nowhere at all.
+       */
+      const restore = () => {
+        if (previouslyFocused && document.contains(previouslyFocused)) {
+          previouslyFocused.focus?.();
+        }
+      };
+      if (typeof requestAnimationFrame === 'function') requestAnimationFrame(restore);
+      else restore();
     };
   }, [active]);
 

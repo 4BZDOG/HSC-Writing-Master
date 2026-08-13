@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Edit3, X, Target, AlertTriangle } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 
 /**
  * Focus-area protection for a dot-point rename.
@@ -58,6 +59,7 @@ const RenameModal: React.FC<RenameModalProps> = ({
 }) => {
   // Escape closes this modal like every other modal surface.
   useEscapeKey(isOpen, onClose);
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
   const [newName, setNewName] = useState(initialName);
   const [error, setError] = useState<string | null>(null);
@@ -115,6 +117,11 @@ const RenameModal: React.FC<RenameModalProps> = ({
 
   return (
     <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Rename"
       // z-[2200]: matches ConfirmationModal — must out-rank every other
       // modal/overlay since rename can be requested while another is open.
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[2200] p-4"

@@ -30,6 +30,7 @@ import {
 import { generateId } from '../utils/idUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 
 type PreviewNode = SyllabusPreviewNode;
 
@@ -181,6 +182,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
 
   // Escape asks before discarding, and never interrupts a running parse.
   useEscapeKey(isOpen && !isBusy, guard.requestClose);
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
 
   const handleParseOutcomes = async () => {
@@ -486,6 +488,11 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
 
   return (
     <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Import a full syllabus"
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
       onClick={guard.requestCloseFromBackdrop}
     >

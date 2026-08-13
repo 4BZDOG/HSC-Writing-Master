@@ -4,6 +4,7 @@ import { Flag, CheckCircle2 } from 'lucide-react';
 import { ContentFlag } from '../types';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 
 interface FlagContentModalProps {
   isOpen: boolean;
@@ -35,6 +36,7 @@ const FlagContentModal: React.FC<FlagContentModalProps> = ({
   const [reason, setReason] = useState('');
 
   useEscapeKey(isOpen, onClose);
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
   useEffect(() => {
     if (isOpen) setReason('');
@@ -58,6 +60,11 @@ const FlagContentModal: React.FC<FlagContentModalProps> = ({
 
   return createPortal(
     <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Report a problem with this content"
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[2200] p-4"
       onClick={(e) => {
         e.stopPropagation();
