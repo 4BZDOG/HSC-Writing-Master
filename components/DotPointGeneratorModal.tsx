@@ -4,6 +4,7 @@ import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import { X, Sparkles } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
 
 interface DotPointGeneratorModalProps {
@@ -61,6 +62,7 @@ const DotPointGeneratorModal: React.FC<DotPointGeneratorModalProps> = ({
     if (isLoading) return;
     onClose();
   };
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
 
   if (!isOpen) {
     return null;
@@ -68,6 +70,11 @@ const DotPointGeneratorModal: React.FC<DotPointGeneratorModalProps> = ({
 
   return (
     <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Generate dot points"
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
       onClick={handleClose}
     >

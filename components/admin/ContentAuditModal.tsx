@@ -41,6 +41,7 @@ import {
   saveSampleAnswerContribution,
 } from '../../services/contributionService';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import {
   ChevronRight,
@@ -1249,6 +1250,8 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     );
   };
 
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
+
   if (!isOpen) return null;
 
   const totalQuestions = treeData.reduce((sum, n) => sum + n.stats.questions, 0);
@@ -1265,7 +1268,14 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         : 'text-emerald-400';
 
   return createPortal(
-    <div className="fixed inset-0 z-[200] bg-[rgb(var(--color-bg-base))] light:bg-slate-50 flex flex-col animate-fade-in">
+    <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Content audit studio"
+      className="fixed inset-0 z-[200] bg-[rgb(var(--color-bg-base))] light:bg-slate-50 flex flex-col animate-fade-in"
+    >
       {/* Studio Header */}
       <div className="flex-shrink-0 border-b border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-white z-20 shadow-2xl light:shadow-lg relative">
         <MeshOverlay opacity="opacity-[0.05]" />

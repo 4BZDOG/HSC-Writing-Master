@@ -5,6 +5,7 @@ import ImportFlow from './dataManager/ImportFlow';
 import ExportFlow from './dataManager/ExportFlow';
 import TopicReorderList from './dataManager/TopicReorderList';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
 import {
   Database,
@@ -110,6 +111,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
       0
     );
   }, [courses]);
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
 
   if (!isOpen) return null;
 
@@ -131,7 +133,14 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
   );
 
   return createPortal(
-    <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[500] p-3 sm:p-6 animate-fade-in">
+    <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Data vault"
+      className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[500] p-3 sm:p-6 animate-fade-in"
+    >
       <div
         className="bg-[rgb(var(--color-bg-base))] light:bg-white rounded-[32px] sm:rounded-[48px] shadow-[0_64px_128px_-24px_rgba(0,0,0,0.8)] w-full max-w-6xl border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col md:flex-row h-[92vh] md:h-[85vh] relative"
         onClick={(e) => e.stopPropagation()}

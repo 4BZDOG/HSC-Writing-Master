@@ -42,6 +42,18 @@ Two flaws in the hook itself, exposed by wiring it to dialogs that use
   captured during render, before the commit, and the restore is deferred one
   frame so the surface that owns the dialog has finished re-rendering.
 
+### ⌨️ …and the remaining eighteen
+
+Every dialog in the app now traps focus. The seventeen left over — the audit
+studio, class insights, the database dashboard, the review queue, student
+progress, AI usage, the runtime-key dialog, the data vault, both file imports,
+the quality check, recalibration, both sample-answer editors, the focus-area
+editor, the dot-point generator and the marking result — carry the same
+`role="dialog"`, `aria-modal` and accessible name.
+
+`GlobalLoadingOverlay` is the one deliberate exception: it is a scrim with
+nothing to focus, not a dialog.
+
 ### 🛟 Two more places that could lose typed work
 
 The discard guard now covers **Create New Course** (a name and two tabs of

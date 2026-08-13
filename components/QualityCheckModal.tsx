@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import LoadingIndicator from './LoadingIndicator';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
 
 interface QualityCheckModalProps {
@@ -65,6 +66,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
       onClose();
     }
   };
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
 
   if (!isOpen) return null;
 
@@ -83,6 +85,11 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
 
   return createPortal(
     <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Quality check"
       className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[200] p-4"
       onClick={onClose}
     >

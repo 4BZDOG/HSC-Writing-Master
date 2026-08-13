@@ -5,6 +5,7 @@ import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { getBandConfig } from '../utils/renderUtils';
 import { RefreshCw, X, AlertTriangle, Loader2, Check } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useUnsavedChanges } from '../hooks/useUnsavedChanges';
 
@@ -78,6 +79,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
       setIsRunning(false);
     }
   }, [isOpen, prompt.id, mismatchedIds, rows]);
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
 
   if (!isOpen) return null;
 
@@ -111,6 +113,11 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
 
   return createPortal(
     <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Recalibrate sample answers"
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[1200] p-4"
       onClick={isRunning ? undefined : onClose}
     >

@@ -5,6 +5,7 @@ import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { X, Save, AlertCircle, Award } from 'lucide-react';
 import { getBandConfig } from '../utils/renderUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
 
 interface SampleAnswerEditorModalProps {
@@ -71,11 +72,17 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
     onSave(updatedAnswer);
     onClose();
   };
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
 
   if (!isOpen || !sampleToEdit) return null;
 
   return createPortal(
     <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Edit sample answer"
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
       onClick={onClose}
     >
