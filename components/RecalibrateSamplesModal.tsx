@@ -35,6 +35,29 @@ const preview = (answer: string, limit = 90): string => {
  * Verb Gate, which is exactly the set that drifts after an import or a verb
  * change, and exactly what recalibration exists to repair.
  */
+/**
+ * A "select these" shortcut, at module scope on purpose.
+ *
+ * Declared inside the modal it would be a new component type on every render,
+ * so React would unmount and remount all four of these buttons every time a
+ * checkbox moved — throwing away focus mid-selection. What it needs from the
+ * modal comes in as props instead.
+ */
+const QuickPick: React.FC<{
+  label: string;
+  ids: string[];
+  disabled?: boolean;
+  onPick: (ids: string[]) => void;
+}> = ({ label, ids, disabled, onPick }) => (
+  <button
+    onClick={() => onPick(ids)}
+    disabled={disabled}
+    className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 border border-[rgb(var(--color-border-secondary))]/25 light:border-slate-200 hover:text-indigo-500 transition-colors disabled:opacity-40"
+  >
+    {label}
+  </button>
+);
+
 const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
   isOpen,
   onClose,
@@ -97,20 +120,6 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
     }
   };
 
-  const QuickPick: React.FC<{ label: string; ids: string[]; disabled?: boolean }> = ({
-    label,
-    ids,
-    disabled,
-  }) => (
-    <button
-      onClick={() => setSelected(ids)}
-      disabled={disabled || isRunning}
-      className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 border border-[rgb(var(--color-border-secondary))]/25 light:border-slate-200 hover:text-indigo-500 transition-colors disabled:opacity-40"
-    >
-      {label}
-    </button>
-  );
-
   return createPortal(
     <div
       ref={dialogRef}
@@ -153,13 +162,24 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
           <span className="text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-muted))] light:text-slate-500 mr-1">
             Select
           </span>
-          <QuickPick label="All" ids={rows.map((r) => r.sample.id)} />
-          <QuickPick label="None" ids={[]} />
-          <QuickPick label="AI only" ids={aiIds} disabled={aiIds.length === 0} />
+          <QuickPick
+            label="All"
+            ids={rows.map((r) => r.sample.id)}
+            disabled={isRunning}
+            onPick={setSelected}
+          />
+          <QuickPick label="None" ids={[]} disabled={isRunning} onPick={setSelected} />
+          <QuickPick
+            label="AI only"
+            ids={aiIds}
+            disabled={isRunning || aiIds.length === 0}
+            onPick={setSelected}
+          />
           <QuickPick
             label={`Band mismatch (${mismatchedIds.length})`}
             ids={mismatchedIds}
-            disabled={mismatchedIds.length === 0}
+            disabled={isRunning || mismatchedIds.length === 0}
+            onPick={setSelected}
           />
         </div>
 

@@ -78,6 +78,44 @@ const InstrumentMetric = ({
   </div>
 );
 
+/**
+ * A vault tab button, at module scope on purpose.
+ *
+ * Declared inside the modal it would be a new component type on every render,
+ * so React would unmount and remount all three tabs whenever anything in the
+ * vault changed — losing focus for anyone driving it from the keyboard. The
+ * active tab and the setter come in as props.
+ */
+const NavButton = ({
+  tab,
+  icon: Icon,
+  label,
+  activeTab,
+  onSelect,
+}: {
+  tab: Tab;
+  icon: any;
+  label: string;
+  activeTab: Tab;
+  onSelect: (tab: Tab) => void;
+}) => (
+  <button
+    onClick={() => onSelect(tab)}
+    aria-current={activeTab === tab ? 'page' : undefined}
+    className={`
+            w-auto md:w-full flex items-center gap-3 md:gap-4 px-4 md:px-6 py-3 md:py-4 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] whitespace-nowrap transition-all duration-300
+            ${
+              activeTab === tab
+                ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-900/20 scale-[1.02] border border-white/20'
+                : 'text-slate-500 hover:text-slate-300 light:hover:text-slate-700 hover:bg-white/5 light:hover:bg-slate-100 border border-transparent'
+            }
+        `}
+  >
+    {Icon && <Icon className="w-4 h-4" />}
+    {label}
+  </button>
+);
+
 const DataManagerModal: React.FC<DataManagerModalProps> = ({
   isOpen,
   onClose,
@@ -114,23 +152,6 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
   const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
 
   if (!isOpen) return null;
-
-  const NavButton = ({ tab, icon: Icon, label }: { tab: Tab; icon: any; label: string }) => (
-    <button
-      onClick={() => setActiveTab(tab)}
-      className={`
-            w-auto md:w-full flex items-center gap-3 md:gap-4 px-4 md:px-6 py-3 md:py-4 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] whitespace-nowrap transition-all duration-300
-            ${
-              activeTab === tab
-                ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-900/20 scale-[1.02] border border-white/20'
-                : 'text-slate-500 hover:text-slate-300 light:hover:text-slate-700 hover:bg-white/5 light:hover:bg-slate-100 border border-transparent'
-            }
-        `}
-    >
-      {Icon && <Icon className="w-4 h-4" />}
-      {label}
-    </button>
-  );
 
   return createPortal(
     <div
@@ -176,9 +197,27 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
           </div>
 
           <div className="p-4 md:p-6 md:flex-1 flex flex-row md:flex-col gap-2 md:gap-3 overflow-x-auto md:overflow-x-visible md:overflow-y-auto scrollbar-hide md:custom-scrollbar">
-            <NavButton tab="maintenance" icon={Activity} label="Maintenance" />
-            <NavButton tab="import" icon={Upload} label="Sync In" />
-            <NavButton tab="export" icon={Download} label="Archive Out" />
+            <NavButton
+              tab="maintenance"
+              icon={Activity}
+              label="Maintenance"
+              activeTab={activeTab}
+              onSelect={setActiveTab}
+            />
+            <NavButton
+              tab="import"
+              icon={Upload}
+              label="Sync In"
+              activeTab={activeTab}
+              onSelect={setActiveTab}
+            />
+            <NavButton
+              tab="export"
+              icon={Download}
+              label="Archive Out"
+              activeTab={activeTab}
+              onSelect={setActiveTab}
+            />
           </div>
 
           <div className="hidden md:block p-8 border-t border-white/5 light:border-slate-200 bg-black/20 light:bg-slate-50">
