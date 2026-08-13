@@ -1,5 +1,39 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-08-13 (Toasts that can be acted on)
+
+### 🔔 A message about something you would want to do now lets you do it
+
+Several flows ended in a toast describing exactly the next thing — "Merged into
+HSC Physics", "84 syllabus points have no question yet" — with no way to get
+there. `showToast` takes an optional action, and a toast carrying one stays 14
+seconds rather than 5: five is fine for "Saved.", and not enough to read an
+offer, decide, and reach for the button.
+
+Two uses, both replacing something worse:
+
+- **The starter-questions offer is a toast now**, not a modal that opened itself
+  at the user. Asking "shall I write 84 questions?" with a full dialog is heavy
+  for a question often answered "not now"; the offer sits in the corner and
+  opens the dialog only if taken.
+- **Merging a syllabus into a course that is not on screen** offers "Go to it".
+  The navigator deliberately stays put in that case, so the message named a
+  place the person could not reach from it.
+
+### 📊 The picker's render cost, measured rather than assumed
+
+The coverage chips walk every dot point of every course, which looked like a
+problem worth optimising. It is not, and the measurement says so: with a
+deliberately large library — 30 courses, 5,400 dot points — keydown to the frame
+after paint is a **median 29 ms**, which is inside one frame of the two-frame
+floor the measurement itself imposes. Curator (chips on) against student (chips
+off) differs by about 4 ms, and only in rendering: the memo means coverage is
+not recomputed while typing at all.
+
+No change made. Recorded here because the obvious optimisation would have been
+wasted work, and the next person to look at it deserves the numbers rather than
+the hunch.
+
 ## [Unreleased] - 2026-08-13 (Keyboard, focus and a remount bug)
 
 ### 🐛 Components declared inside render bodies

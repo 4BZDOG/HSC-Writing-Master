@@ -748,6 +748,16 @@ export const useGemini = ({
       };
 
       let resolvedCourseId = '';
+      /**
+       * How many syllabus points the finished course has no question for.
+       *
+       * Counted HERE, inside the updater, because this is the only place the
+       * merged course exists synchronously. The caller cannot work it out: it
+       * awaits this function, so the `courses` it can see is the list from
+       * before the import ran — and a newly created course is not in that list
+       * at all, which made the count zero in exactly the case it matters.
+       */
+      let emptyDotPoints = 0;
       let resolvedCourseName = courseName;
       let merged = false;
       let targetTopicName = '';
@@ -806,6 +816,19 @@ export const useGemini = ({
           draft.push(newCourse);
           resolvedCourseId = newCourse.id;
         }
+
+        const resolved = draft.find((c) => c.id === resolvedCourseId);
+        emptyDotPoints = (resolved?.topics ?? []).reduce(
+          (total, topic) =>
+            total +
+            (topic.subTopics ?? []).reduce(
+              (perTopic, subTopic) =>
+                perTopic +
+                (subTopic.dotPoints ?? []).filter((dp) => (dp.prompts ?? []).length === 0).length,
+              0
+            ),
+          0
+        );
       });
 
       if (isMounted.current) {
@@ -839,7 +862,7 @@ export const useGemini = ({
           }
         }, BG_TASK_CLEANUP_DELAY);
       }
-      return resolvedCourseId;
+      return { courseId: resolvedCourseId, emptyDotPoints };
     },
     [updateCourses, showToast]
   );

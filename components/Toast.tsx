@@ -6,6 +6,8 @@ interface ToastProps {
   onClose: () => void;
   type?: 'success' | 'error' | 'info' | 'warning';
   duration?: number;
+  /** Something to do about what this says. Dismisses the toast when taken. */
+  action?: { label: string; onClick: () => void };
 }
 
 const toastConfig = {
@@ -43,7 +45,13 @@ const toastConfig = {
   },
 };
 
-const Toast: React.FC<ToastProps> = ({ message, onClose, type = 'info', duration = 5000 }) => {
+const Toast: React.FC<ToastProps> = ({
+  message,
+  onClose,
+  type = 'info',
+  duration = 5000,
+  action,
+}) => {
   const [isPaused, setIsPaused] = useState(false);
   const [remaining, setRemaining] = useState(duration);
   const lastUpdateRef = useRef(Date.now());
@@ -104,6 +112,20 @@ const Toast: React.FC<ToastProps> = ({ message, onClose, type = 'info', duration
           <p className="text-sm font-medium text-[rgb(var(--color-text-primary))] leading-relaxed break-words">
             {message}
           </p>
+          {action && (
+            <button
+              type="button"
+              onClick={() => {
+                // Taken, so the toast has done its job — leaving it counting
+                // down over whatever the action just opened is only noise.
+                onClose();
+                action.onClick();
+              }}
+              className={`mt-2.5 px-3 py-1.5 rounded-lg text-xs font-bold border transition-colors ${config.iconBg} ${config.iconColor} border-current/25 hover:brightness-125`}
+            >
+              {action.label}
+            </button>
+          )}
         </div>
 
         {/* Close Button */}

@@ -143,7 +143,11 @@ interface AuthenticatedAppProps {
   user: User;
   onUpdateUser: (user: User) => void;
   handleLogout: () => void;
-  showToast: (message: string, type: 'success' | 'error' | 'info') => void;
+  showToast: (
+    message: string,
+    type: 'success' | 'error' | 'info',
+    action?: { label: string; onClick: () => void }
+  ) => void;
   apiStatus: ApiStatus;
 }
 
@@ -1452,7 +1456,13 @@ const App: React.FC = () => {
       )}
       {toast && (
         <div className="fixed top-24 right-4 z-[1000] animate-slide-in">
-          <Toast message={toast.message} type={toast.type} onClose={hideToast} />
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            action={toast.action}
+            duration={toast.durationMs}
+            onClose={hideToast}
+          />
         </div>
       )}
       <ApiStatusIndicator />
