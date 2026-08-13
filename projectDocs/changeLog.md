@@ -2,6 +2,21 @@
 
 ## [Unreleased] - 2026-08-13 (Keyboard, focus and a remount bug)
 
+### 🐛 Components declared inside render bodies
+
+A component defined in a render body is a brand-new component type on every
+render, so React unmounts and remounts it — throwing away DOM state, and with it
+focus. A sweep of the component layer found five, all now at module scope:
+
+- `RailNode`, `StepHeader` and `ActionButton` in the navigator (below).
+- `NavButton` in the Data Vault, which remounted all three tabs whenever
+  anything in the vault changed.
+- `QuickPick` in the recalibration dialog, which remounted its four selection
+  shortcuts on every checkbox tick.
+
+The last two close over state, so they take it as props rather than moving
+verbatim. There are none left.
+
 ### 🐛 The navigator remounted every button on every render
 
 `RailNode`, `StepHeader` and `ActionButton` were declared **inside**
