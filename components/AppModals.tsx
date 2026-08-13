@@ -35,6 +35,7 @@ import {
   yearShortLabel,
 } from '../utils/syllabusYear';
 import { generateId } from '../utils/idUtils';
+import { findStarterTargets } from '../utils/starterQuestions';
 import type { TopicSyllabusImportPayload } from './TopicSyllabusImportModal';
 
 /**
@@ -53,7 +54,11 @@ interface AppModalsProps {
   statePath: StatePath;
   courses: Course[];
   setStatePath: (path: Partial<StatePath>) => void;
-  showToast: (message: string, type: 'success' | 'error' | 'info') => void;
+  showToast: (
+    message: string,
+    type: 'success' | 'error' | 'info',
+    action?: { label: string; onClick: () => void }
+  ) => void;
   setNewlyAddedIds: React.Dispatch<React.SetStateAction<Set<string>>>;
   user: User | null;
   onUpdateUser: (user: User) => void;
@@ -370,13 +375,43 @@ const AppModals: React.FC<AppModalsProps> = ({
           if (!targetCourseId && courseId) {
             setStatePath({ courseId });
           }
-          // An imported syllabus has no questions in it, which is the one thing
-          // a student opens the app for. Offer the pass that fixes that while
-          // the import is still the thing on the person's mind — nothing runs
-          // until they press the button.
-          if (courseId) {
-            setStarterCourseId(courseId);
-            modalHandlers.openModal('starterQuestions');
+          if (!courseId) return;
+
+          /**
+           * Offer what comes next, rather than opening it at them.
+           *
+           * An imported syllabus has no questions in it, which is the one thing
+           * a student opens the app for — so the offer belongs right here,
+           * while the import is still what the person is thinking about. It
+           * used to be a modal that opened itself, which is a heavy way to ask
+           * a question the answer to which may well be "not now".
+           *
+           * Merging into a course that is NOT on screen gets a way to go there
+           * instead: the navigator deliberately stays put, so without this the
+           * message names a place the person cannot reach from it.
+           */
+          const imported = courses.find((c) => c.id === courseId);
+          const empty = findStarterTargets(imported).length;
+          const wentElsewhere = !!targetCourseId && targetCourseId !== currentCourse?.id;
+
+          if (empty > 0) {
+            showToast(
+              `${empty} syllabus point${empty === 1 ? '' : 's'} in "${imported?.name ?? 'the course'}" have no question yet.`,
+              'info',
+              {
+                label: 'Write starter questions',
+                onClick: () => {
+                  setStarterCourseId(courseId);
+                  if (wentElsewhere) setStatePath({ courseId });
+                  modalHandlers.openModal('starterQuestions');
+                },
+              }
+            );
+          } else if (wentElsewhere) {
+            showToast(`Merged into "${imported?.name ?? 'that course'}".`, 'success', {
+              label: 'Go to it',
+              onClick: () => setStatePath({ courseId }),
+            });
           }
         }}
       />
