@@ -5,6 +5,9 @@ import { duplicateCodeRows, withoutDuplicateCodes } from '../utils/outcomeCodes'
 import { BookOpen, Plus, Trash2, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useDiscardGuard } from '../hooks/useDiscardGuard';
+import DiscardConfirmBar from './DiscardConfirmBar';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 
 interface CourseCreatorModalProps {
   isOpen: boolean;
@@ -100,7 +103,17 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
     onClose();
   };
 
-  useEscapeKey(isOpen, handleClose);
+  // A course name and two tabs of outcomes is typing worth protecting, and the
+  // backdrop sits exactly where the pointer travels between the page and the
+  // dialog. Same rule as the import modals.
+  const hasWork =
+    courseName.trim().length > 0 ||
+    complete(outcomesByYear.year11).length > 0 ||
+    complete(outcomesByYear.year12).length > 0;
+  const guard = useDiscardGuard(isOpen, hasWork, handleClose);
+
+  useEscapeKey(isOpen, guard.requestClose);
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
 
   if (!isOpen) {
@@ -117,8 +130,13 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
 
   return (
     <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Create a new course"
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
-      onClick={handleClose}
+      onClick={guard.requestCloseFromBackdrop}
     >
       <div
         className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
@@ -147,7 +165,7 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
               </div>
             </div>
             <button
-              onClick={handleClose}
+              onClick={guard.requestClose}
               aria-label="Close"
               className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
@@ -322,22 +340,30 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
           )}
 
           {/* Footer */}
-          <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end gap-3 flex-shrink-0">
-            <button
-              type="button"
-              onClick={handleClose}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={!courseName.trim()}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Create Course
-            </button>
-          </div>
+          {guard.isConfirming ? (
+            <DiscardConfirmBar
+              summary="this new course and its outcomes"
+              onKeep={guard.cancelDiscard}
+              onDiscard={guard.confirmDiscard}
+            />
+          ) : (
+            <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end gap-3 flex-shrink-0">
+              <button
+                type="button"
+                onClick={guard.requestClose}
+                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={!courseName.trim()}
+                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Create Course
+              </button>
+            </div>
+          )}
         </form>
       </div>
     </div>

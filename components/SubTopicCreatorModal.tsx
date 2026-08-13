@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Folder, Sparkles, X } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 
 interface SubTopicCreatorModalProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
   destination,
 }) => {
   useEscapeKey(isOpen, onClose);
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
   const [newItemName, setNewItemName] = useState('');
   const [shouldGenerate, setShouldGenerate] = useState(true);
@@ -57,6 +59,11 @@ const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
 
   return (
     <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Add a sub-topic"
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
       onClick={onClose}
     >

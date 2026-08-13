@@ -33,6 +33,8 @@ import {
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useDiscardGuard } from '../hooks/useDiscardGuard';
+import DiscardConfirmBar from './DiscardConfirmBar';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { getPastHscLabel } from '../utils/pastHscUtils';
 
@@ -194,9 +196,16 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
     onClose();
   };
 
-  // Escape closes this modal like every other modal surface — through the
-  // same reset path as the X/Cancel buttons, and never mid-refinement.
-  useEscapeKey(isOpen && !isRefining, handleClose);
+  // A hand-written question is typing nobody wants to do twice, and the
+  // backdrop is a large target sitting exactly where the pointer travels
+  // between the page and the dialog. Same rule as the import modals: a stray
+  // click is inert while there is something to lose, and the deliberate ways
+  // out ask once.
+  const hasWork = draftQuestion.trim().length > 0 || !!result;
+  const guard = useDiscardGuard(isOpen, hasWork, handleClose);
+
+  // Escape asks before discarding, and never interrupts a refinement.
+  useEscapeKey(isOpen && !isRefining, guard.requestClose);
   // Tab stays inside the dialog while it is open, and focus returns to
   // whatever opened it on close. Partners `useEscapeKey` — same stack,
   // same topmost-only arbitration.
@@ -343,7 +352,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
     return createPortal(
       <div
         className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[100] p-4 transition-all duration-300"
-        onClick={handleClose}
+        onClick={guard.requestCloseFromBackdrop}
       >
         <div
           ref={dialogRef}
@@ -393,7 +402,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                 </div>
               </div>
               <button
-                onClick={handleClose}
+                onClick={guard.requestClose}
                 aria-label="Close"
                 className="p-3 rounded-xl hover:bg-white/10 light:hover:bg-slate-200 text-slate-500 hover:text-white light:hover:text-slate-900 transition-colors flex-shrink-0"
               >
@@ -960,6 +969,14 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
               </button>
             )}
           </div>
+
+          {guard.isConfirming && (
+            <DiscardConfirmBar
+              summary={result ? 'this refined question' : 'the question you have drafted'}
+              onKeep={guard.cancelDiscard}
+              onDiscard={guard.confirmDiscard}
+            />
+          )}
 
           <AiBusyOverlay show={isRefining}>
             <LoadingIndicator

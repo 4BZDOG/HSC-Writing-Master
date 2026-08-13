@@ -194,6 +194,117 @@ const THEMES: Record<string, any> = {
   },
 };
 
+/**
+ * Three presentational pieces of the navigator, at module scope on purpose.
+ *
+ * They used to be declared INSIDE `PromptSelector`, which makes each of them a
+ * brand-new component type on every render — so React unmounted and remounted
+ * every rail node and every action button whenever anything in the picker
+ * changed: a keystroke in a search box, a path change, an attempt history
+ * arriving. That threw away DOM state each time, and it is why focus vanished
+ * after a dialog closed: the button that opened it no longer existed, so there
+ * was nothing to hand focus back to.
+ *
+ * None of them read component state — only module-level `THEMES`, the icons
+ * they are given, and `requestUpgrade` — so hoisting them is a move, not a
+ * rewrite.
+ */
+/**
+ * Progress node on the vertical rail. One consistent semantic everywhere:
+ * done = emerald tick, current = ring in the level's hue, upcoming = hollow
+ * grey — the previous version glowed each dot in its level's hue, which read
+ * like a random traffic light.
+ */
+const RailNode = ({
+  isSelected,
+  isComplete,
+  colorKey,
+}: {
+  isSelected: boolean;
+  isComplete: boolean;
+  colorKey: string;
+}) => {
+  const theme = THEMES[colorKey] || THEMES.blue;
+  const base =
+    'absolute -left-[0.95rem] top-1/2 -translate-y-1/2 rounded-full transition-all duration-500 z-10 flex items-center justify-center';
+  if (isComplete) {
+    return (
+      <div
+        className={`${base} w-[1.15rem] h-[1.15rem] bg-emerald-500 border-2 border-emerald-400/60 shadow-[0_0_10px_rgba(16,185,129,0.45)]`}
+        title="Step complete"
+      >
+        <Check className="w-3 h-3 text-white" strokeWidth={4} />
+      </div>
+    );
+  }
+  if (isSelected) {
+    return (
+      <div
+        className={`${base} w-4 h-4 border-2 scale-125 ${theme.nodeSelected}`}
+        title="Current step"
+      />
+    );
+  }
+  return (
+    <div
+      className={`${base} w-4 h-4 border-2 bg-[rgb(var(--color-bg-surface))] light:bg-slate-200 border-white/20 light:border-slate-400 scale-90 opacity-50`}
+    />
+  );
+};
+
+const StepHeader = ({ icon: Icon, label, colorKey }: any) => {
+  const theme = THEMES[colorKey] || THEMES.blue; // Defensive fallback
+  return (
+    <div className="flex items-center gap-2 mb-3">
+      <div className={`p-1.5 rounded-md ${theme.headerIcon}`}>
+        {Icon && <Icon className="w-4 h-4" />}
+      </div>
+      <span className="text-xs font-black uppercase tracking-widest text-[rgb(var(--color-text-primary))] light:text-slate-900">
+        {label}
+      </span>
+    </div>
+  );
+};
+
+const ActionButton = ({
+  onClick,
+  icon: Icon,
+  title,
+  label,
+  variant = 'default',
+  locked = false,
+}: any) => (
+  <button
+    onClick={locked ? () => requestUpgrade('aiContentStudio') : onClick}
+    className={`relative p-2 ${label ? 'sm:px-3' : ''} rounded-lg transition-all duration-200 flex-shrink-0 hover:scale-105 active:scale-95 border flex items-center gap-1.5 ${
+      locked
+        ? 'bg-amber-400/10 border-amber-400/40 text-amber-500 light:text-amber-600'
+        : variant === 'danger'
+          ? 'bg-red-500/10 border-red-500/20 text-red-400 light:text-red-600'
+          : variant === 'special'
+            ? 'bg-amber-500/10 border-amber-500/20 text-yellow-400 light:text-amber-600'
+            : variant === 'primary'
+              ? 'bg-gradient-to-r from-indigo-500 to-sky-500 border-transparent text-white shadow-md'
+              : variant === 'vault'
+                ? 'bg-blue-600/10 light:bg-blue-50 border-blue-600/20 light:border-blue-300 text-blue-400 light:text-blue-700'
+                : 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border border-white/5 light:border-slate-400 text-[rgb(var(--color-text-secondary))] light:text-slate-600'
+    }`}
+    title={locked ? `${title} — part of Band 6 Plus` : title}
+  >
+    {Icon && <Icon className="w-4 h-4" />}
+    {label && (
+      <span className="hidden sm:inline text-[11px] font-bold uppercase tracking-wide whitespace-nowrap">
+        {label}
+      </span>
+    )}
+    {locked && (
+      <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-amber-500 text-white flex items-center justify-center shadow">
+        <Lock className="w-2.5 h-2.5" />
+      </span>
+    )}
+  </button>
+);
+
 const PromptSelector: React.FC<PromptSelectorProps> = ({
   courses = [],
   statePath = {} as StatePath,
@@ -745,102 +856,6 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     }
     return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-white/5 light:border-slate-300 py-4 px-6 opacity-60 grayscale hover:grayscale-0 hover:opacity-100`;
   };
-
-  /**
-   * Progress node on the vertical rail. One consistent semantic everywhere:
-   * done = emerald tick, current = ring in the level's hue, upcoming = hollow
-   * grey — the previous version glowed each dot in its level's hue, which read
-   * like a random traffic light.
-   */
-  const RailNode = ({
-    isSelected,
-    isComplete,
-    colorKey,
-  }: {
-    isSelected: boolean;
-    isComplete: boolean;
-    colorKey: string;
-  }) => {
-    const theme = THEMES[colorKey] || THEMES.blue;
-    const base =
-      'absolute -left-[0.95rem] top-1/2 -translate-y-1/2 rounded-full transition-all duration-500 z-10 flex items-center justify-center';
-    if (isComplete) {
-      return (
-        <div
-          className={`${base} w-[1.15rem] h-[1.15rem] bg-emerald-500 border-2 border-emerald-400/60 shadow-[0_0_10px_rgba(16,185,129,0.45)]`}
-          title="Step complete"
-        >
-          <Check className="w-3 h-3 text-white" strokeWidth={4} />
-        </div>
-      );
-    }
-    if (isSelected) {
-      return (
-        <div
-          className={`${base} w-4 h-4 border-2 scale-125 ${theme.nodeSelected}`}
-          title="Current step"
-        />
-      );
-    }
-    return (
-      <div
-        className={`${base} w-4 h-4 border-2 bg-[rgb(var(--color-bg-surface))] light:bg-slate-200 border-white/20 light:border-slate-400 scale-90 opacity-50`}
-      />
-    );
-  };
-
-  const StepHeader = ({ icon: Icon, label, colorKey }: any) => {
-    const theme = THEMES[colorKey] || THEMES.blue; // Defensive fallback
-    return (
-      <div className="flex items-center gap-2 mb-3">
-        <div className={`p-1.5 rounded-md ${theme.headerIcon}`}>
-          {Icon && <Icon className="w-4 h-4" />}
-        </div>
-        <span className="text-xs font-black uppercase tracking-widest text-[rgb(var(--color-text-primary))] light:text-slate-900">
-          {label}
-        </span>
-      </div>
-    );
-  };
-
-  const ActionButton = ({
-    onClick,
-    icon: Icon,
-    title,
-    label,
-    variant = 'default',
-    locked = false,
-  }: any) => (
-    <button
-      onClick={locked ? () => requestUpgrade('aiContentStudio') : onClick}
-      className={`relative p-2 ${label ? 'sm:px-3' : ''} rounded-lg transition-all duration-200 flex-shrink-0 hover:scale-105 active:scale-95 border flex items-center gap-1.5 ${
-        locked
-          ? 'bg-amber-400/10 border-amber-400/40 text-amber-500 light:text-amber-600'
-          : variant === 'danger'
-            ? 'bg-red-500/10 border-red-500/20 text-red-400 light:text-red-600'
-            : variant === 'special'
-              ? 'bg-amber-500/10 border-amber-500/20 text-yellow-400 light:text-amber-600'
-              : variant === 'primary'
-                ? 'bg-gradient-to-r from-indigo-500 to-sky-500 border-transparent text-white shadow-md'
-                : variant === 'vault'
-                  ? 'bg-blue-600/10 light:bg-blue-50 border-blue-600/20 light:border-blue-300 text-blue-400 light:text-blue-700'
-                  : 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border border-white/5 light:border-slate-400 text-[rgb(var(--color-text-secondary))] light:text-slate-600'
-      }`}
-      title={locked ? `${title} — part of Band 6 Plus` : title}
-    >
-      {Icon && <Icon className="w-4 h-4" />}
-      {label && (
-        <span className="hidden sm:inline text-[11px] font-bold uppercase tracking-wide whitespace-nowrap">
-          {label}
-        </span>
-      )}
-      {locked && (
-        <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-amber-500 text-white flex items-center justify-center shadow">
-          <Lock className="w-2.5 h-2.5" />
-        </span>
-      )}
-    </button>
-  );
 
   return (
     <div className="flex flex-col pl-4 md:pl-12 relative animate-fade-in">

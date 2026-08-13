@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { AlertTriangle } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -24,6 +25,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   isDestructive = false,
 }) => {
   useEscapeKey(isOpen, onClose);
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
 
   if (!isOpen) {
@@ -50,6 +52,11 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 
   return createPortal(
     <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Confirm"
       // z-[2200]: this dialog is opened globally (e.g. DataManagerModal's
       // "Clear All Data" / "Reset to Default" trigger it from inside their
       // own z-[500] overlay), so it must out-rank every other modal/overlay

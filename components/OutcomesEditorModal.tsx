@@ -18,6 +18,7 @@ import { useDiscardGuard } from '../hooks/useDiscardGuard';
 import { Target, X, Sparkles, Plus, Trash2 } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 
 interface OutcomesEditorModalProps {
   isOpen: boolean;
@@ -229,6 +230,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
   const guard = useDiscardGuard(isOpen, hasWork, handleClose);
 
   useEscapeKey(isOpen && !isBusy, guard.requestClose);
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
 
   if (!isOpen) {
@@ -244,6 +246,11 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
 
   return (
     <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Edit course outcomes"
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
       onClick={guard.requestCloseFromBackdrop}
     >

@@ -40,6 +40,7 @@ import { getBandConfig } from '../utils/renderUtils';
 import { canUseAiGeneration } from '../utils/permissions';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import {
   getUserPlan,
   PLAN_LABELS,
@@ -289,6 +290,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
   onOpenLegal,
 }) => {
   useEscapeKey(isOpen, onClose);
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
   const [activeTab, setActiveTab] = useState<'overview' | 'achievements' | 'settings'>('overview');
   const [tempPrefs, setTempPrefs] = useState<UserPreferences>({ ...user.preferences });
@@ -473,6 +475,11 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
 
   return createPortal(
     <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Your profile"
       className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[2000] p-4"
       onClick={onClose}
     >

@@ -11,6 +11,7 @@ import {
 } from '../utils/starterQuestions';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { Sparkles, X, CheckCircle2, AlertTriangle, Wand2 } from 'lucide-react';
 
 interface StarterQuestionsModalProps {
@@ -70,6 +71,7 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
   };
 
   useEscapeKey(isOpen && !isRunning, handleClose);
+  const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
 
   const handleStart = async () => {
@@ -133,6 +135,11 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
 
   return (
     <div
+      ref={dialogRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Generate starter questions"
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
       onClick={handleClose}
     >
