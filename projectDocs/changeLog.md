@@ -1,5 +1,60 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-08-12 (From a syllabus to a course worth showing)
+
+### 💾 An unfinished import survives a crash
+
+The discard guard stops a stray click from throwing a pasted syllabus away. It
+does nothing about the tab dying, the laptop sleeping, or a session timing out
+mid-paste — and this is the workflow where an admin puts twenty minutes of
+attention into a text box. The import modals now snapshot themselves to
+IndexedDB **as the user types**, because "save on close" is the one moment that
+does not happen when a tab dies. The analysed structure is included, so a crash
+after a five-topic analysis does not cost those five AI calls again.
+
+The draft is **offered, never applied**: someone opening the modal to start
+something new must not find last week's paste already in it. The banner says how
+old it is, because "3 minutes ago" is obviously the crash you just had and
+"2 days ago" is obviously not. Drafts expire after a week, are cleared when the
+import completes, and are cleared when the form is emptied on purpose.
+
+### ✨ Starter questions: the step that makes a seeded course usable
+
+An imported syllabus is topics, sub-topics and dot points with **no questions** —
+the one thing a student opens the app for. Filling that in meant the admin audit
+studio (a separate tool, built for auditing an existing library) or the picker,
+one dot point at a time; for a 90-dot-point syllabus neither is a plausible way
+to finish.
+
+The import now ends by offering one question per empty syllabus point, for the
+course it just imported into. Its marks and command verb come from the dot
+point's **own wording** — NESA writes the demand into the syllabus, so
+"identify" is a two-mark ask and "critically evaluate" is not, and generating
+everything at one weight would produce a course whose marks say nothing.
+
+Nothing runs until the button is pressed: this spends real AI budget per dot
+point, so the count and the scope are on screen before the decision. The run
+reports progress, can be stopped part-way keeping what it wrote, and skips dot
+points that already have a question — so running it twice costs nothing.
+
+### 📊 Coverage on the picker
+
+A syllabus tree with no questions looks identical to a finished one, so "which
+of my courses are ready to show someone" could only be answered by clicking
+through every topic. Course and topic rows now carry a coverage chip — a
+percentage, or "Ready" — with the exact counts in its tooltip, because the
+number that matters when finishing a course is how many are left. Curators only:
+a student cannot act on it, and a half-built course reads to them as a broken
+one.
+
+### 🐛 The offer could have targeted the wrong course
+
+Merging a syllabus into a course that is **not** the one on screen leaves the
+navigator where it was, so the starter-questions offer would have counted the
+empty dot points of whatever course the person happened to be looking at — and
+written questions into it. The offer now holds the imported course id
+explicitly.
+
 ## [Unreleased] - 2026-08-12 (Seeding a course you can trust)
 
 Seeding is the workflow that decides what a new user sees first, so this pass

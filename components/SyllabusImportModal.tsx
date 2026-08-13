@@ -12,7 +12,9 @@ import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import UrlFetchField, { NESA_HOST_HINT } from './UrlFetchField';
 import DiscardConfirmBar from './DiscardConfirmBar';
+import DraftRestoreBanner from './DraftRestoreBanner';
 import { useDiscardGuard } from '../hooks/useDiscardGuard';
+import { useImportDraft } from '../hooks/useImportDraft';
 import {
   Sparkles,
   X,
@@ -148,6 +150,34 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
     courseName.trim().length > 0;
 
   const guard = useDiscardGuard(isOpen, hasWork, handleClose);
+
+  /**
+   * The same work, kept across a reload.
+   *
+   * Everything the analyse step reads plus everything the preview holds, so a
+   * crash after a five-topic analysis does not cost those five AI calls again.
+   */
+  const draft = useImportDraft(
+    'full-syllabus',
+    isOpen,
+    { courseName, year, topicTabs, outcomesText, parsedOutcomes, previewData, step },
+    hasWork
+  );
+
+  const restoreDraft = () => {
+    const saved = draft.offered?.value;
+    if (!saved) return;
+    setCourseName(saved.courseName);
+    setYear(saved.year);
+    setTopicTabs(saved.topicTabs);
+    setActiveTabId(saved.topicTabs[0]?.id ?? activeTabId);
+    setOutcomesText(saved.outcomesText);
+    setParsedOutcomes(saved.parsedOutcomes);
+    setPreviewData(saved.previewData);
+    setStep(saved.step);
+    setExpandedPreviewIds(new Set(saved.previewData.map((_, idx) => `topic-${idx}`)));
+    draft.accept();
+  };
 
   // Escape asks before discarding, and never interrupts a running parse.
   useEscapeKey(isOpen && !isBusy, guard.requestClose);
@@ -433,6 +463,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
       );
       return;
     }
+    draft.complete();
     onImport(
       effectiveCourseName,
       cleaned,
@@ -499,6 +530,19 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
         {/* Content */}
         <div className="flex-grow overflow-hidden flex flex-col">
           {/* Step 1: Input */}
+          {draft.offered && (
+            <DraftRestoreBanner
+              savedAt={draft.offered.savedAt}
+              summary={
+                draft.offered.value.previewData.length > 0
+                  ? `${draft.offered.value.previewData.length} analysed topics for "${draft.offered.value.courseName || 'an existing course'}"`
+                  : `syllabus text for "${draft.offered.value.courseName || 'an existing course'}"`
+              }
+              onRestore={restoreDraft}
+              onDismiss={draft.dismiss}
+            />
+          )}
+
           {step === 'input' && (
             <div className="flex flex-col h-full overflow-hidden animate-fade-in">
               {/* Top Controls */}

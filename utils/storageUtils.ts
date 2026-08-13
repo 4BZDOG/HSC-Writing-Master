@@ -207,6 +207,70 @@ export const deleteUserProfile = async (username: string): Promise<void> => {
   }
 };
 
+// --- Import drafts -----------------------------------------------------------
+
+/**
+ * The unfinished contents of an import modal, so a reload is not a loss.
+ *
+ * The guard added earlier stops a stray CLICK from discarding a pasted
+ * syllabus, but nothing survived the tab crashing, the laptop sleeping, or the
+ * session timing out mid-paste — and the whole point of this workflow is that
+ * an admin puts twenty minutes of real attention into it. Drafts live in the
+ * same store as everything else, keyed per modal, and are written as the user
+ * types rather than on close, because "on close" is exactly the moment that
+ * does not happen when a tab dies.
+ *
+ * Deliberately NOT auto-restored: someone opening the modal to start something
+ * new should not find last week's paste already in it. The modal offers it.
+ */
+const DRAFT_PREFIX = 'import_draft:';
+
+/** A draft older than this is not worth offering back. */
+export const DRAFT_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+
+export interface ImportDraft<T> {
+  savedAt: number;
+  value: T;
+}
+
+export const saveImportDraft = async <T>(key: string, value: T): Promise<void> => {
+  try {
+    const db = await getDB();
+    await db.put(STORE_MAIN, { savedAt: Date.now(), value }, `${DRAFT_PREFIX}${key}`);
+  } catch (error) {
+    // A draft is a convenience, never a precondition: a full disk or a private
+    // window must not break the import it was meant to protect.
+    console.warn('Could not save import draft:', error);
+  }
+};
+
+export const loadImportDraft = async <T>(key: string): Promise<ImportDraft<T> | null> => {
+  try {
+    const db = await getDB();
+    const stored = (await db.get(STORE_MAIN, `${DRAFT_PREFIX}${key}`)) as
+      | ImportDraft<T>
+      | undefined;
+    if (!stored || typeof stored.savedAt !== 'number') return null;
+    if (Date.now() - stored.savedAt > DRAFT_MAX_AGE_MS) {
+      await clearImportDraft(key);
+      return null;
+    }
+    return stored;
+  } catch (error) {
+    console.warn('Could not read import draft:', error);
+    return null;
+  }
+};
+
+export const clearImportDraft = async (key: string): Promise<void> => {
+  try {
+    const db = await getDB();
+    await db.delete(STORE_MAIN, `${DRAFT_PREFIX}${key}`);
+  } catch (error) {
+    console.warn('Could not clear import draft:', error);
+  }
+};
+
 // --- Async Data Operations (IndexedDB) ---
 
 export const saveCoursesToDB = async (courses: Course[]): Promise<StorageStatus> => {

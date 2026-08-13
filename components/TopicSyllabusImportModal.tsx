@@ -5,7 +5,9 @@ import AiBusyOverlay from './AiBusyOverlay';
 import { X, Sparkles, Globe, UploadCloud, ChevronRight, Trash2, GitMerge } from 'lucide-react';
 import UrlFetchField, { NESA_HOST_HINT } from './UrlFetchField';
 import DiscardConfirmBar from './DiscardConfirmBar';
+import DraftRestoreBanner from './DraftRestoreBanner';
 import { useDiscardGuard } from '../hooks/useDiscardGuard';
+import { useImportDraft } from '../hooks/useImportDraft';
 import type { SyllabusYear } from '../types';
 import { yearShortLabel } from '../utils/syllabusYear';
 import { useEscapeKey } from '../hooks/useEscapeKey';
@@ -104,6 +106,27 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
 
   const guard = useDiscardGuard(isOpen, hasWork, handleClose);
 
+  // Kept across a reload, including the analysed structure — losing that costs
+  // the AI call as well as the typing.
+  const draft = useImportDraft(
+    'topic-syllabus',
+    isOpen,
+    { newTopicName, syllabusText, previewSubTopics, detectedName, step },
+    hasWork
+  );
+
+  const restoreDraft = () => {
+    const saved = draft.offered?.value;
+    if (!saved) return;
+    setNewTopicName(saved.newTopicName);
+    setSyllabusText(saved.syllabusText);
+    setPreviewSubTopics(saved.previewSubTopics);
+    setDetectedName(saved.detectedName);
+    setStep(saved.step);
+    setExpandedIdx(new Set(saved.previewSubTopics.map((_, i) => i)));
+    draft.accept();
+  };
+
   // Escape asks before discarding, and never interrupts a running parse.
   useEscapeKey(isOpen && !isBusy, guard.requestClose);
   useScrollLock(isOpen);
@@ -193,6 +216,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
 
   const handleConfirmImport = () => {
     if (previewSubTopics.length === 0 || !effectiveTopicName.trim()) return;
+    draft.complete();
     onImport({
       targetTopicId: targetTopic?.id ?? null,
       topicName: effectiveTopicName.trim(),
@@ -248,6 +272,18 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
 
         {/* Content */}
         <div className="flex-1 flex flex-col overflow-y-auto">
+          {draft.offered && (
+            <DraftRestoreBanner
+              savedAt={draft.offered.savedAt}
+              summary={
+                draft.offered.value.previewSubTopics.length > 0
+                  ? `${draft.offered.value.previewSubTopics.length} analysed sub-topics`
+                  : 'syllabus text for a topic'
+              }
+              onRestore={restoreDraft}
+              onDismiss={draft.dismiss}
+            />
+          )}
           {step === 'input' && (
             <div className="p-6 space-y-5 animate-fade-in">
               {/* Destination Section */}

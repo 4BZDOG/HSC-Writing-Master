@@ -11,6 +11,7 @@ import ConfirmationModal from './ConfirmationModal';
 import TopicSyllabusImportModal from './TopicSyllabusImportModal';
 import DotPointGeneratorModal from './DotPointGeneratorModal';
 import SyllabusImportModal from './SyllabusImportModal';
+import StarterQuestionsModal from './StarterQuestionsModal';
 import TopicImportModal from './TopicImportModal';
 import QualityCheckModal from './QualityCheckModal';
 import UserProfileModal from './UserProfileModal';
@@ -94,6 +95,16 @@ const AppModals: React.FC<AppModalsProps> = ({
   // profile goes straight to the plan table rather than making the user find
   // it behind the getting-started steps.
   const [quickStartTab, setQuickStartTab] = React.useState<'guide' | 'plans' | 'tips'>('guide');
+
+  /**
+   * Which course the starter-questions offer is about.
+   *
+   * Held explicitly rather than read from the navigator: merging a syllabus
+   * into a course that is NOT the one on screen leaves the selection where it
+   * was, so the offer would have counted the empty dot points of whatever
+   * course the person happened to be looking at and written questions into it.
+   */
+  const [starterCourseId, setStarterCourseId] = React.useState<string | null>(null);
 
   // User-facing labels for syllabus item types — the raw type names
   // (subTopic, dotPoint) must never leak into modal titles or messages.
@@ -359,7 +370,26 @@ const AppModals: React.FC<AppModalsProps> = ({
           if (!targetCourseId && courseId) {
             setStatePath({ courseId });
           }
+          // An imported syllabus has no questions in it, which is the one thing
+          // a student opens the app for. Offer the pass that fixes that while
+          // the import is still the thing on the person's mind — nothing runs
+          // until they press the button.
+          if (courseId) {
+            setStarterCourseId(courseId);
+            modalHandlers.openModal('starterQuestions');
+          }
         }}
+      />
+
+      <StarterQuestionsModal
+        isOpen={isModalOpen('starterQuestions')}
+        onClose={() => {
+          setStarterCourseId(null);
+          closeModal('starterQuestions');
+        }}
+        course={courses.find((c) => c.id === starterCourseId) ?? currentCourse}
+        updateCourses={syllabusHandlers.updateCourses}
+        showToast={showToast}
       />
 
       {currentCourse && (
