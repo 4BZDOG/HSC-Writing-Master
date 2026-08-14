@@ -5,6 +5,14 @@ _Written against DesignSpec v2.2.1, in the shape of `projectDocs/HeaderRedesignP
 
 ---
 
+## 0a. Decisions taken
+
+Both gating questions are settled. These are binding; where the prose below still frames them as open, these win.
+
+1. **D0 — GRANTED, "render it, shut, below the breadcrumb."** The ribbon renders whenever there is a question and Focus Mode is off, collapsed by default in the folded-navigator state. Steps 10 and 11 are in scope. The full series (Steps 1–12) is dispatched.
+2. **D1 — GRANTED, fix the shared token.** Step 7 changes `getBandConfig`'s band-3 `solidText` in `utils/renderUtils.ts` and pins it with the ratio in a comment. It is in scope, it repairs `SyllabusNavBar` and `PromptSelector` at the same time, and R4's concern is answered by the pinning test rather than by narrowing the fix.
+3. **D2 — as the plan proposed:** the cognitive-timeline step buttons stay, with corrected labels (Step 8). R5 remains an open design question for later.
+
 ## 0. Decisions the maintainer must take before Step 5 is dispatched
 
 The audit turned up one thing large enough that it changes what this redesign is _for_, and two smaller ones that change what individual steps are allowed to do. None can be settled by an implementing agent.
