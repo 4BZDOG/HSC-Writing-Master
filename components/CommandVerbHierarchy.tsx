@@ -1,35 +1,79 @@
-import React, { useMemo, useState, useEffect, useRef } from 'react';
+import React, { useMemo, useState, useEffect, useRef, useId } from 'react';
 import { PromptVerb } from '../types';
-import { commandTerms, TIER_GROUPS, getTierTargetBand } from '../data/commandTerms';
+import { commandTerms, TIER_GROUPS, getTierTargetBand, tierShortLabel } from '../data/commandTerms';
 import { ChevronDown, AlignLeft, Sparkles } from 'lucide-react';
 import { getTierScaleConfig } from '../utils/renderUtils';
 import StrategyTip from './StrategyTip';
+import MeshOverlay from './MeshOverlay';
+import {
+  RIBBON_CHEVRON_CHIP,
+  RIBBON_DETAIL_CARD,
+  RIBBON_DETAIL_DEFINITION,
+  RIBBON_DETAIL_TERM,
+  RIBBON_DETAIL_TIER_CHIP,
+  RIBBON_DETAIL_TIP_ACCENT,
+  RIBBON_HEADER_BAR,
+  RIBBON_HEADER_SUBLABEL,
+  RIBBON_HEADER_TILE,
+  RIBBON_HEADER_TITLE,
+  RIBBON_ROOT,
+  RIBBON_SELECTED_CHIP,
+  RIBBON_SELECTED_LABEL,
+  RIBBON_STAT_CAPTION,
+  RIBBON_STAT_DIVIDER,
+  RIBBON_STAT_LABEL,
+  RIBBON_STAT_TRAY,
+  RIBBON_STAT_VALUE,
+  RIBBON_STRIP,
+  RIBBON_STRIP_FADE_LEFT,
+  RIBBON_STRIP_FADE_RIGHT,
+  RIBBON_TIER_CARD,
+  RIBBON_TIER_CARD_CURRENT,
+  RIBBON_TIER_CARD_DIMMED,
+  RIBBON_TIER_CARD_IDLE,
+  RIBBON_TIER_HEADER,
+  RIBBON_TIER_HEADER_LABEL,
+  RIBBON_TIER_HEADER_TITLE,
+  RIBBON_TIER_SUBTITLE,
+  RIBBON_TIER_SUBTITLE_CURRENT,
+  RIBBON_TIER_SUBTITLE_IDLE,
+  RIBBON_TIER_UNDERLINE,
+  RIBBON_TIMELINE_DOT,
+  RIBBON_TIMELINE_LABEL,
+  RIBBON_TIMELINE_STEP_LABEL,
+  RIBBON_TIMELINE_STEP_LABEL_IDLE,
+  RIBBON_TIMELINE_THRESHOLD_CHIP,
+  RIBBON_TIMELINE_TICK,
+  RIBBON_TIMELINE_TRACK,
+  RIBBON_VERB_CHIP,
+} from '../utils/verbRibbonChrome';
 
 interface CommandVerbHierarchyProps {
   currentVerb?: PromptVerb;
+  /**
+   * Whether the ribbon belongs open in the state it is being rendered in.
+   *
+   * The ribbon used to be unmounted the moment a question was chosen, because
+   * it lived inside the expanded navigator and choosing a question folds that
+   * away — so the reference that explains a question's command verb ceased to
+   * exist at the exact moment there was a verb to explain. It now renders in
+   * both states, and this prop is how the two differ: open beside the syllabus
+   * dropdowns, where the reader is browsing and the page is a chooser; shut
+   * beneath the breadcrumb, where the page is a writing surface and seven
+   * hundred pixels of reference unfolding above it would undo the fold.
+   *
+   * `true` by default, which is the browsing behaviour, unchanged.
+   */
+  defaultOpen?: boolean;
 }
 
-const MeshOverlay = ({ opacity = 'opacity-[0.03]' }: { opacity?: string }) => (
-  <div
-    className={`absolute inset-0 ${opacity} pointer-events-none mix-blend-overlay z-0 transition-opacity duration-500`}
-    style={{
-      backgroundImage: `url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v10M0 1h10' stroke='%23ffffff' stroke-width='0.5' fill='none'/%3E%3C/svg%3E")`,
-    }}
-  />
-);
-
-const COGNITIVE_STEPS = [
-  { label: 'Remember', tier: 1 },
-  { label: 'Describe', tier: 2 },
-  { label: 'Explain', tier: 3 },
-  { label: 'Analyse', tier: 4 },
-  { label: 'Argue', tier: 5 },
-  { label: 'Evaluate', tier: 6 },
-];
-
-const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb }) => {
-  const [isOpen, setIsOpen] = useState(true);
+const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
+  currentVerb,
+  defaultOpen = true,
+}) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
   const [activeVerb, setActiveVerb] = useState<PromptVerb | undefined>(currentVerb);
+  const panelId = useId();
 
   const tierRefs = useRef<(HTMLDivElement | null)[]>([]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -40,12 +84,31 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
   // the only way to keep it shut was to re-collapse it every single time.
   const collapsedByUser = useRef(false);
 
+  // `defaultOpen` is followed, not merely sampled at mount. The navigator folds
+  // in an effect of its own AFTER the first paint, so a component that only read
+  // this once would mount open — in the one state it has to be shut — and stay
+  // that way. Following it also makes the fold read as a single gesture: the
+  // navigator collapses to a breadcrumb and the reference collapses with it, and
+  // pressing "Change" brings both back.
+  //
+  // The remembered collapse resets here, and only here: moving between browsing
+  // and writing is itself a decision about how much reference belongs on the
+  // page, so it outranks the last one made in the other state.
+  useEffect(() => {
+    collapsedByUser.current = false;
+    setIsOpen(defaultOpen);
+  }, [defaultOpen]);
+
   useEffect(() => {
     if (currentVerb) {
       setActiveVerb(currentVerb);
-      if (!collapsedByUser.current) setIsOpen(true);
+      // Only where the ribbon is meant to be open. Beneath the breadcrumb a new
+      // question must not unfold it — that is the whole point of it being shut
+      // there — but the selection still follows the question either way, so
+      // opening it by hand shows the verb that is actually on screen.
+      if (defaultOpen && !collapsedByUser.current) setIsOpen(true);
     }
-  }, [currentVerb]);
+  }, [currentVerb, defaultOpen]);
 
   const toggleOpen = () =>
     setIsOpen((open) => {
@@ -55,11 +118,23 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
 
   const { sortedVerbsByGroup, activeTermInfo } = useMemo(() => {
     const allVerbs = Array.from(commandTerms.values());
-    const current = activeVerb
-      ? commandTerms.get(activeVerb)
-      : currentVerb
-        ? commandTerms.get(currentVerb)
-        : null;
+    // `commandTerms.get` is exact-case only, and verbs reach the app from model
+    // output and stored prompts in whatever case they were saved with — see the
+    // note on getCommandTermInfo, which was written for this bug. A miss here
+    // does not show the wrong verb, it shows no verb at all: no detail card, no
+    // tier highlight, no progress bar.
+    //
+    // The case fix is taken; getCommandTermInfo's EXPLAIN fallback deliberately
+    // is not. Everywhere else that fallback degrades something incidental — a
+    // colour, a mark range. Here the content IS the claim "your verb is X, it
+    // caps you at Band N, spend this long on it", and an unrecognised verb would
+    // render that claim in full, confidently, about a verb nobody asked for.
+    // Showing nothing is the honest answer, and it is a state this component
+    // already draws.
+    const verb = activeVerb ?? currentVerb;
+    const current = verb
+      ? (commandTerms.get(verb) ?? commandTerms.get(verb.toUpperCase() as PromptVerb) ?? null)
+      : null;
 
     const groups = TIER_GROUPS.map((group) => ({
       ...group,
@@ -96,10 +171,16 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
         : activeCard.offsetLeft - (strip.clientWidth - activeCard.offsetWidth) / 2;
 
     const target = Math.max(0, left);
+    // index.css sets `scroll-behavior: auto !important` under reduced motion,
+    // but that property does not govern the JS `behavior` option — a reader who
+    // has asked for no animation still got the smooth slide.
+    const reduceMotion =
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     // jsdom (and very old browsers) have no Element.scrollTo — fall back to
     // the property, which is what scrollTo sets anyway.
     if (typeof strip.scrollTo === 'function') {
-      strip.scrollTo({ left: target, behavior: 'smooth' });
+      strip.scrollTo({ left: target, behavior: reduceMotion ? 'auto' : 'smooth' });
     } else {
       strip.scrollLeft = target;
     }
@@ -110,14 +191,16 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
   // band-target mapping collapsed Tiers 5 and 6 into the same purple.
   const activeConfig = activeTermInfo ? getTierScaleConfig(activeTermInfo.tier) : null;
 
-  const headerGradientClass = activeConfig
-    ? `bg-gradient-to-r ${activeConfig.gradient}`
-    : 'bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700';
-
-  const headerTextClass = activeConfig ? 'text-white' : 'text-slate-700 dark:text-slate-200';
-  const headerIconBg = activeConfig
-    ? 'bg-white/20 border-white/30'
-    : 'bg-slate-200 dark:bg-slate-700 border-slate-300 dark:border-slate-600';
+  // The tier no longer paints the whole bar; it paints the 36px tile and the
+  // 2px underline beneath it. `solidText` rather than `text-white` because
+  // tier 3's fill is yellow — that is the pairing `getBandConfig` returns a
+  // `solidText` field for, and white on it is 1.9:1. The `border-white/20` sits
+  // on a solid tier fill, so it reads the same in both themes and takes no
+  // `dark:` partner (DesignSpec §2, rule 2); the slate branch is not on a fill
+  // and does take one.
+  const headerTileClass = activeConfig
+    ? `${activeConfig.solidBg} ${activeConfig.solidText} border-white/20`
+    : 'bg-slate-200 text-slate-500 border-slate-300 dark:bg-slate-700 dark:text-slate-300 dark:border-white/10';
 
   // Hairline used above the header, above the footer, and below the ribbon —
   // slightly stronger when a verb is selected so the ribbon reads as active.
@@ -131,7 +214,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
     // but that gutter exists to make room for the navigator's step rail, and
     // the ribbon has no step on it: all the indent did was set the ribbon 48px
     // in from every other block on the page.
-    <div className="clip-stable relative overflow-hidden transition-all duration-700 ease-out animate-fade-in">
+    <div className={RIBBON_ROOT}>
       {/* Top divider */}
       <div className={dividerClass} />
 
@@ -149,29 +232,32 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
       <button
         onClick={toggleOpen}
         aria-expanded={isOpen}
+        aria-controls={panelId}
         aria-label={`${isOpen ? 'Collapse' : 'Expand'} the HSC command verb hierarchy reference`}
-        className={`
-            w-full px-0 py-3 sm:py-3.5 min-h-[60px] sm:min-h-[64px] flex items-center justify-between gap-3 relative z-10 overflow-hidden transition-all duration-500 group/header rounded-xl
-            ${headerGradientClass} ${headerTextClass}
-            ${isOpen ? '' : 'hover:brightness-105'}
-        `}
+        className={RIBBON_HEADER_BAR}
       >
         <MeshOverlay opacity="opacity-10" />
+        {/* Where the tier gradient went: a hairline along the bar's own bottom
+            edge, lit only when there is a tier to state. */}
+        {activeConfig && (
+          <div className={`${RIBBON_TIER_UNDERLINE} ${activeConfig.gradient}`} aria-hidden="true" />
+        )}
 
         <div className="flex items-center gap-3 relative z-10 px-4 sm:px-5 min-w-0">
-          <div
-            className={`w-9 h-9 shrink-0 rounded-xl flex items-center justify-center border shadow-md group-hover/header:scale-110 transition-transform ${headerIconBg}`}
-          >
+          <div className={`${RIBBON_HEADER_TILE} ${headerTileClass}`}>
             <AlignLeft className="w-5 h-5" />
           </div>
           <div className="text-left min-w-0">
             {/* Truncates rather than wraps: an ellipsis on a title the reader
                 already knows costs nothing, a second line costs the lock. */}
-            <h3 className="text-sm sm:text-base font-black tracking-tight leading-none truncate">
-              HSC Command Verb Hierarchy
-            </h3>
-            <span className="block truncate text-[9px] font-black uppercase tracking-[0.2em] opacity-70">
-              Reference • {sortedVerbsByGroup.length} Bands
+            <h3 className={RIBBON_HEADER_TITLE}>HSC Command Verb Hierarchy</h3>
+            {/* "Bands" counted TIER_GROUPS and called them bands. The two are
+                1:1 — every tier's maxBand is its own number, and
+                bandColors.test.ts pins that — so it was not false, only the
+                conflation `tierShortLabel`'s doc comment exists to warn
+                about. What is being counted here is tiers. */}
+            <span className={RIBBON_HEADER_SUBLABEL}>
+              Reference • {sortedVerbsByGroup.length} cognitive tiers
             </span>
           </div>
         </div>
@@ -179,216 +265,272 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
         <div className="flex items-center gap-4 relative z-10 px-4 sm:px-5 shrink-0">
           {activeTermInfo && (
             <div className="hidden sm:flex items-center gap-3 animate-fade-in">
-              <span className="text-[10px] font-black opacity-60 uppercase tracking-widest whitespace-nowrap">
-                Selected:
-              </span>
-              <div className="px-2.5 py-0.5 rounded-lg text-[10px] font-black uppercase tracking-widest whitespace-nowrap bg-white/20 border border-white/30 backdrop-blur-md shadow-sm">
+              <span className={RIBBON_SELECTED_LABEL}>Selected:</span>
+              <div
+                className={`${RIBBON_SELECTED_CHIP} ${activeConfig?.bg ?? ''} ${activeConfig?.text ?? ''} ${activeConfig?.border ?? ''}`}
+              >
                 {activeTermInfo.term}
               </div>
             </div>
           )}
           <div
-            className={`w-7 h-7 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center border border-slate-900/10 dark:border-white/10 transition-transform duration-500 ${isOpen ? 'rotate-180 bg-black/20 dark:bg-white/20' : ''}`}
+            className={`${RIBBON_CHEVRON_CHIP} ${isOpen ? 'rotate-180 bg-black/20 dark:bg-white/20' : ''}`}
           >
             <ChevronDown className="w-3.5 h-3.5" />
           </div>
         </div>
       </button>
 
-      {/* Collapsible Content */}
-      <div
-        className={`transition-all duration-700 ease-in-out overflow-hidden ${isOpen ? 'max-h-[1600px] opacity-100' : 'max-h-0 opacity-0'}`}
-      >
-        <div className="py-4 space-y-4">
-          {/* Active Verb Detail Card */}
-          {activeTermInfo && activeConfig && (
-            <div
-              className={`clip-stable relative overflow-hidden rounded-2xl p-5 border ${activeConfig.border} ${activeConfig.bg} shadow-lg animate-fade-in-up transition-all duration-500 group/hero`}
-            >
-              <MeshOverlay opacity="opacity-[0.06]" />
-              <div
-                className={`absolute -right-20 -top-20 w-80 h-80 bg-gradient-to-br ${activeConfig.gradient} opacity-10 blur-[80px] rounded-full pointer-events-none group-hover/hero:opacity-20 transition-opacity duration-700`}
-              />
+      {/* Collapsible Content.
 
-              <div className="relative z-10 flex flex-col gap-5">
-                <div className="flex flex-col md:flex-row gap-5 justify-between items-start md:items-center">
-                  <div className="flex items-center gap-4">
-                    <div
-                      className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br ${activeConfig.gradient} border border-white/20 shadow-lg transform transition-transform duration-700 group-hover/hero:rotate-6`}
-                    >
-                      <Sparkles className="w-6 h-6 text-white" />
+          A grid-rows transition rather than a max-height one. The old
+          `max-h-[1600px]` was a guess, and a wrong one: the panel is about
+          700px tall, so the first half of every 700ms collapse travelled
+          through height the element does not occupy — the ribbon appeared to
+          hang and then snap shut. `1fr` animates to whatever the content
+          actually needs and has no number in it to get wrong. The
+          `overflow-hidden` moves onto the inner wrapper, which is what makes
+          `0fr` clip rather than overflow.
+
+          `inert` while collapsed, because zero height is not zero REACH. Fifty
+          controls live in here — six tier headers, thirty-eight verb chips and
+          six timeline steps — and every one of them stayed in the tab order
+          and in the accessibility tree while the ribbon was visually shut. It
+          costs nothing visually, unlike hiding the content, which would fight
+          the animation. */}
+      <div
+        id={panelId}
+        inert={!isOpen}
+        className={`grid transition-all duration-700 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+      >
+        <div className="overflow-hidden">
+          <div className="py-4 space-y-4">
+            {/* Active Verb Detail Card */}
+            {activeTermInfo && activeConfig && (
+              <div className={`${RIBBON_DETAIL_CARD} ${activeConfig.border} ${activeConfig.bg}`}>
+                <MeshOverlay opacity="opacity-[0.06]" />
+                <div
+                  className={`absolute -right-20 -top-20 w-80 h-80 bg-gradient-to-br ${activeConfig.gradient} opacity-10 blur-[80px] rounded-full pointer-events-none group-hover/hero:opacity-20 transition-opacity duration-700`}
+                />
+
+                <div className="relative z-10 flex flex-col gap-5">
+                  <div className="flex flex-col md:flex-row gap-5 justify-between items-start md:items-center">
+                    <div className="flex items-center gap-4">
+                      <div
+                        className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br ${activeConfig.gradient} border border-white/20 shadow-lg transform transition-transform duration-700 group-hover/hero:rotate-6`}
+                      >
+                        <Sparkles className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-3 mb-1">
+                          <h4 className={RIBBON_DETAIL_TERM}>{activeTermInfo.term}</h4>
+                          {/* The tier, said as the tier. This chip used to read
+                              `Band {tier}` while the tray six inches to the
+                              right read `Band Cap {getTierTargetBand(tier)}` —
+                              provably the same integer, twice, under two
+                              labels. The band statement stays in the tray,
+                              where the caption below can explain it; the chip
+                              names the rung of the ladder instead, with the
+                              label derived rather than written out again. */}
+                          <div
+                            className={`${RIBBON_DETAIL_TIER_CHIP} ${activeConfig.bg} ${activeConfig.text} ${activeConfig.border}`}
+                          >
+                            Tier {activeTermInfo.tier} · {tierShortLabel(activeTermInfo.tier)}
+                          </div>
+                        </div>
+                        <p className={RIBBON_DETAIL_DEFINITION}>{activeTermInfo.definition}</p>
+                        <StrategyTip
+                          tip={activeTermInfo.tip}
+                          className="max-w-xl mt-2"
+                          accentClass={RIBBON_DETAIL_TIP_ACCENT}
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <div className="flex items-center gap-3 mb-1">
-                        <h4 className="text-3xl font-black tracking-tighter text-white light:text-slate-900 uppercase italic leading-none">
-                          {activeTermInfo.term}
-                        </h4>
+
+                    <div className="flex flex-col gap-1.5 self-stretch md:self-auto">
+                      <div className={RIBBON_STAT_TRAY}>
+                        <div className="flex flex-col items-center">
+                          <span className={RIBBON_STAT_LABEL}>Marks</span>
+                          <span className={`${RIBBON_STAT_VALUE} ${activeConfig.text}`}>
+                            {activeTermInfo.markRange.join('-')}
+                          </span>
+                        </div>
+                        <div className={RIBBON_STAT_DIVIDER} />
+                        <div className="flex flex-col items-center">
+                          <span className={RIBBON_STAT_LABEL}>Band Cap</span>
+                          <span className={`${RIBBON_STAT_VALUE} ${activeConfig.text}`}>
+                            {getTierTargetBand(activeTermInfo.tier)}
+                          </span>
+                        </div>
+                        <div className={RIBBON_STAT_DIVIDER} />
                         <div
-                          className={`px-3 py-0.5 rounded-full border font-black text-[9px] uppercase tracking-widest shadow-sm ${activeConfig.bg} ${activeConfig.text} ${activeConfig.border}`}
+                          className="flex flex-col items-center"
+                          title="Recommended writing time"
                         >
-                          Band {activeTermInfo.tier}
+                          <span className={RIBBON_STAT_LABEL}>Time</span>
+                          <span className={`${RIBBON_STAT_VALUE} ${activeConfig.text}`}>
+                            {activeTermInfo.timeRange.join('-')}m
+                          </span>
+                        </div>
+                        <div className={`${RIBBON_STAT_DIVIDER} hidden sm:block`} />
+                        <div
+                          className="hidden sm:flex flex-col items-center"
+                          title="Expected syllabus terms"
+                        >
+                          <span className={RIBBON_STAT_LABEL}>Terms</span>
+                          <span className={`${RIBBON_STAT_VALUE} ${activeConfig.text}`}>
+                            {activeTermInfo.syllabusTerms.join('-')}
+                          </span>
                         </div>
                       </div>
-                      <p className="text-sm font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 max-w-xl leading-relaxed opacity-90">
-                        {activeTermInfo.definition}
-                      </p>
-                      <StrategyTip
-                        tip={activeTermInfo.tip}
-                        className="max-w-xl mt-2"
-                        accentClass="text-[rgb(var(--color-text-muted))] light:text-slate-500"
-                      />
-                    </div>
-                  </div>
 
-                  <div className="flex items-center gap-4 bg-black/10 light:bg-slate-100 px-5 py-3 rounded-2xl border border-white/10 light:border-slate-300 backdrop-blur-md self-stretch md:self-auto justify-center shadow-inner flex-wrap">
-                    <div className="flex flex-col items-center">
-                      <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
-                        Marks
-                      </span>
-                      <span className={`text-lg font-black ${activeConfig.text}`}>
-                        {activeTermInfo.markRange.join('-')}
-                      </span>
-                    </div>
-                    <div className="w-px h-8 bg-black/10 light:bg-slate-300" />
-                    <div
-                      className="flex flex-col items-center"
-                      title={`The cognitive demand of ${activeTermInfo.term} caps a response at Band ${getTierTargetBand(activeTermInfo.tier)}`}
-                    >
-                      <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
-                        Band Cap
-                      </span>
-                      <span className={`text-lg font-black ${activeConfig.text}`}>
-                        {getTierTargetBand(activeTermInfo.tier)}
-                      </span>
-                    </div>
-                    <div className="w-px h-8 bg-black/10 light:bg-slate-300" />
-                    <div className="flex flex-col items-center" title="Recommended writing time">
-                      <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
-                        Time
-                      </span>
-                      <span className={`text-lg font-black ${activeConfig.text}`}>
-                        {activeTermInfo.timeRange.join('-')}m
-                      </span>
-                    </div>
-                    <div className="w-px h-8 bg-black/10 light:bg-slate-300 hidden sm:block" />
-                    <div
-                      className="hidden sm:flex flex-col items-center"
-                      title="Expected syllabus terms"
-                    >
-                      <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
-                        Terms
-                      </span>
-                      <span className={`text-lg font-black ${activeConfig.text}`}>
-                        {activeTermInfo.syllabusTerms.join('-')}
-                      </span>
+                      {/* "Band Cap" is the one label in this tray a student
+                          will not already know, and its explanation used to
+                          live in a `title` on a `<div>` with no `tabindex` —
+                          unreachable by keyboard, absent on touch. It is a
+                          line of text now. */}
+                      {/* Plural rather than "A {TERM} question": eleven of the
+                          thirty-eight verbs begin with a vowel, and "A
+                          EXPLAIN question" is what that sentence renders for
+                          every one of them. */}
+                      <p className={RIBBON_STAT_CAPTION}>
+                        {activeTermInfo.term} questions cap a response at Band{' '}
+                        {getTierTargetBand(activeTermInfo.tier)}.
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {/* Tier Cards Scroll Area */}
-          <div className="relative group/scroll">
-            <div
-              className="flex overflow-x-auto gap-4 pb-4 pt-2 snap-x snap-mandatory scrollbar-hide"
-              ref={scrollContainerRef}
-            >
-              {sortedVerbsByGroup.map((group, index) => {
-                const isCurrentTier = activeTermInfo?.tier === group.tier;
-                const tierConfig = getTierScaleConfig(group.tier);
+            {/* Tier Cards Scroll Area.
 
-                // Determine transform origin to keep edges aligned when scaling
-                const isFirst = index === 0;
-                const isLast = index === sortedVerbsByGroup.length - 1;
-                const transformOrigin = isFirst
-                  ? 'origin-left'
-                  : isLast
-                    ? 'origin-right'
-                    : 'origin-center';
+                The wrapper used to be a bare `relative` holding nothing. It
+                holds the two edge fades now, which are the only thing telling
+                a reader there is more strip to the right: `scrollbar-hide`
+                took the scrollbar away and put nothing back, on six 260px
+                cards that overflow at nearly every width.
 
-                // Dynamic Styling for Focus Effect
-                let cardStyle = 'scale-100 opacity-100'; // Default
-                if (activeTermInfo) {
-                  if (isCurrentTier) {
-                    cardStyle = `scale-110 z-20 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)] opacity-100 ring-4 ring-slate-900/10 dark:ring-white/5 ${transformOrigin}`;
-                  } else {
-                    // Added colored border specific to the tier for visual cue
-                    cardStyle = `scale-90 opacity-50 light:opacity-70 hover:opacity-100 hover:scale-95 border-2 ${tierConfig.border} z-0 ${transformOrigin}`;
+                The scroller itself is named. Without a role a screen-reader
+                user met 44 buttons in a flat list with nothing saying they are
+                one horizontal ladder from tier 1 to tier 6. */}
+            <div className="relative group/scroll">
+              <div className={RIBBON_STRIP_FADE_LEFT} aria-hidden="true" />
+              <div className={RIBBON_STRIP_FADE_RIGHT} aria-hidden="true" />
+              <div
+                className={RIBBON_STRIP}
+                ref={scrollContainerRef}
+                role="group"
+                aria-label="Cognitive tier ladder, tier 1 to tier 6"
+              >
+                {sortedVerbsByGroup.map((group, index) => {
+                  const isCurrentTier = activeTermInfo?.tier === group.tier;
+                  const tierConfig = getTierScaleConfig(group.tier);
+
+                  // Determine transform origin to keep edges aligned when scaling
+                  const isFirst = index === 0;
+                  const isLast = index === sortedVerbsByGroup.length - 1;
+                  const transformOrigin = isFirst
+                    ? 'origin-left'
+                    : isLast
+                      ? 'origin-right'
+                      : 'origin-center';
+
+                  // Dynamic Styling for Focus Effect
+                  let cardStyle = 'scale-100 opacity-100'; // Default
+                  if (activeTermInfo) {
+                    if (isCurrentTier) {
+                      cardStyle = `${RIBBON_TIER_CARD_CURRENT} ${transformOrigin}`;
+                    } else {
+                      // Added colored border specific to the tier for visual cue
+                      cardStyle = `${RIBBON_TIER_CARD_DIMMED} ${tierConfig.border} z-0 ${transformOrigin}`;
+                    }
                   }
-                }
 
-                return (
-                  <div
-                    key={group.tier}
-                    ref={(el) => {
-                      tierRefs.current[index] = el;
-                    }}
-                    className={`
-                      clip-stable flex-shrink-0 w-[260px] min-h-[256px] snap-center relative overflow-hidden rounded-2xl border transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col group/card
+                  return (
+                    <div
+                      key={group.tier}
+                      ref={(el) => {
+                        tierRefs.current[index] = el;
+                      }}
+                      className={`
+                      ${RIBBON_TIER_CARD}
                       ${
                         isCurrentTier
                           ? `${tierConfig.border} ${tierConfig.bg} light:bg-white`
-                          : `bg-white/[0.03] light:bg-white border-white/5 light:border-slate-300 light:shadow-sm`
+                          : RIBBON_TIER_CARD_IDLE
                       }
                       ${cardStyle}
                     `}
-                  >
-                    {isCurrentTier && (
-                      <div
-                        className={`absolute inset-0 opacity-10 bg-gradient-to-br ${tierConfig.gradient} pointer-events-none`}
-                      />
-                    )}
+                    >
+                      {isCurrentTier && (
+                        <div
+                          className={`absolute inset-0 opacity-10 bg-gradient-to-br ${tierConfig.gradient} pointer-events-none`}
+                        />
+                      )}
 
-                    {/* Add a faint glow of the tier color even when inactive to serve as visual cue */}
-                    {!isCurrentTier && (
-                      <div
-                        className={`absolute inset-0 opacity-[0.03] bg-gradient-to-br ${tierConfig.gradient} pointer-events-none`}
-                      />
-                    )}
+                      {/* Add a faint glow of the tier color even when inactive to serve as visual cue */}
+                      {!isCurrentTier && (
+                        <div
+                          className={`absolute inset-0 opacity-[0.03] bg-gradient-to-br ${tierConfig.gradient} pointer-events-none`}
+                        />
+                      )}
 
-                    <MeshOverlay opacity={isCurrentTier ? 'opacity-[0.06]' : 'opacity-[0.02]'} />
+                      <MeshOverlay opacity={isCurrentTier ? 'opacity-[0.06]' : 'opacity-[0.02]'} />
 
-                    {/* The card's header is the "select this tier" control.
+                      {/* The card's header is the "select this tier" control.
                       The whole card used to carry the onClick as a bare div:
                       no keyboard focus, no role, invisible to a screen reader.
                       It cannot become a button itself — the verb chips inside
                       it are buttons already — so the shortcut lives on the
-                      header, which has nothing interactive in it. */}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
-                      }}
-                      aria-pressed={isCurrentTier}
-                      title={`Show the ${group.title} verbs — up to Band ${group.maxBand}`}
-                      className={`w-full text-left px-6 py-4 border-b relative flex items-center gap-4 flex-shrink-0 cursor-pointer transition-[filter] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/50 ${isCurrentTier ? `bg-gradient-to-r ${tierConfig.gradient} border-white/10 text-white` : `${tierConfig.bg} border-white/5 light:border-slate-200`}`}
-                    >
-                      <div className="text-4xl filter drop-shadow-lg transform transition-transform duration-500 group-hover/card:scale-110">
-                        {group.emoji}
-                      </div>
-                      <div className="min-w-0">
-                        <span
-                          className={`text-[10px] font-black uppercase tracking-[0.2em] block mb-0.5 truncate ${isCurrentTier ? 'opacity-70' : tierConfig.text + ' opacity-60'}`}
-                        >
-                          Band {group.maxBand} ceiling
-                        </span>
-                        <h4
-                          className={`text-sm font-black truncate tracking-tight ${isCurrentTier ? 'text-white' : tierConfig.text}`}
-                        >
-                          {group.title}
-                        </h4>
-                      </div>
-                    </button>
+                      header, which has nothing interactive in it.
 
-                    {/* What this cognitive level actually asks of the writer. */}
-                    <p
-                      className={`px-6 pt-3 text-[11px] font-medium leading-snug relative z-10 ${isCurrentTier ? 'text-[rgb(var(--color-text-primary))] light:text-slate-700' : 'text-[rgb(var(--color-text-muted))] light:text-slate-500'}`}
-                    >
-                      {group.subtitle}
-                    </p>
+                      `tierConfig.solidText` rather than `text-white`, here and
+                      on the title below: on tier 3 the fill is yellow and white
+                      on it is 1.92:1. `getBandConfig` returns a `solidText`
+                      field for exactly this, and SyllabusNavBar and
+                      PromptSelector already pair the two. */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
+                        }}
+                        aria-pressed={isCurrentTier}
+                        title={`Show the ${group.title} verbs — up to Band ${group.maxBand}`}
+                        className={`${RIBBON_TIER_HEADER} ${isCurrentTier ? `bg-gradient-to-r ${tierConfig.gradient} border-white/10 ${tierConfig.solidText}` : `${tierConfig.bg} border-white/5 light:border-slate-200`}`}
+                      >
+                        <div className="text-4xl filter drop-shadow-lg transform transition-transform duration-500 group-hover/card:scale-110">
+                          {group.emoji}
+                        </div>
+                        <div className="min-w-0">
+                          {/* No opacity on either branch. Through `opacity-60`
+                              — on a card that is itself dimmed to 90% — the
+                              tier's own `-900` text measured 2.97:1 on tier 6
+                              and worse below it, and there was no darker step
+                              in the shared config to reach for. Ten pixels
+                              against the title's fourteen is what makes an
+                              eyebrow read as one. */}
+                          <span
+                            className={`${RIBBON_TIER_HEADER_LABEL} ${isCurrentTier ? '' : tierConfig.text}`}
+                          >
+                            Band {group.maxBand} ceiling
+                          </span>
+                          <h4
+                            className={`${RIBBON_TIER_HEADER_TITLE} ${isCurrentTier ? tierConfig.solidText : tierConfig.text}`}
+                          >
+                            {group.title}
+                          </h4>
+                        </div>
+                      </button>
 
-                    {/* No fixed card height. At a hard 256px the biggest tier
+                      {/* What this cognitive level actually asks of the writer. */}
+                      <p
+                        className={`${RIBBON_TIER_SUBTITLE} ${isCurrentTier ? RIBBON_TIER_SUBTITLE_CURRENT : RIBBON_TIER_SUBTITLE_IDLE}`}
+                      >
+                        {group.subtitle}
+                      </p>
+
+                      {/* No fixed card height. At a hard 256px the biggest tier
                       (eight verbs, five rows of chips) had its last row sliced
                       in half by the card edge, which reads as broken rather
                       than as "scroll for more" — and no single magic number
@@ -396,132 +538,154 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       size. The strip is a flex row, so leaving the height to
                       the content makes every card as tall as the tallest one
                       for free. The scroll stays as the safety net. */}
-                    <div className="flex-1 overflow-y-auto p-4 custom-scrollbar relative z-10">
-                      <div className="flex flex-wrap gap-2 justify-center content-start">
-                        {group.verbs.map((verb) => {
-                          const isSelected = verb.term === activeVerb;
-                          return (
-                            <button
-                              key={verb.term}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setActiveVerb(verb.term);
-                              }}
-                              className={`
-                                            px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border transition-all duration-300
+                      <div className="flex-1 overflow-y-auto p-4 custom-scrollbar relative z-10">
+                        <div className="flex flex-wrap gap-2 justify-center content-start">
+                          {group.verbs.map((verb) => {
+                            const isSelected = verb.term === activeVerb;
+                            // The selected chip's fill is the tier's solid one,
+                            // so its text is the tier's `solidText` — white on
+                            // tier 3's yellow was 1.92:1. One cell is still
+                            // short after this and it is not this component's:
+                            // `text-yellow-900` on `light:bg-amber-500` is
+                            // 4.04:1, a defect in the shared token that Step 7
+                            // of the ribbon plan fixes in `getBandConfig`.
+                            return (
+                              <button
+                                key={verb.term}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setActiveVerb(verb.term);
+                                }}
+                                className={`
+                                            ${RIBBON_VERB_CHIP}
                                             ${
                                               isSelected
-                                                ? `${tierConfig.solidBg} text-white shadow-lg scale-105 border-transparent`
+                                                ? `${tierConfig.solidBg} ${tierConfig.solidText} shadow-lg scale-105 border-transparent`
                                                 : `bg-transparent border ${tierConfig.border} ${tierConfig.text}`
                                             }
                                         `}
-                            >
-                              {verb.term}
-                            </button>
-                          );
-                        })}
+                              >
+                                {verb.term}
+                              </button>
+                            );
+                          })}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Cognitive Timeline Footer */}
-        <div className="relative z-20">
-          <div className={dividerClass} />
-        </div>
-        <div className="py-4 relative z-20 transition-colors duration-500">
-          <div className="flex justify-between items-end gap-4 mb-3 px-1">
-            <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] whitespace-nowrap">
-              Basic Recall
-            </span>
-            <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] hidden sm:block">
-              Explain & Compare
-            </span>
-            <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] hidden sm:block">
-              Analyse & Apply
-            </span>
-            <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] whitespace-nowrap">
-              Evaluate & Create
-            </span>
+          {/* Cognitive Timeline Footer */}
+          <div className="relative z-20">
+            <div className={dividerClass} />
           </div>
+          <div className="py-4 relative z-20 transition-colors duration-500">
+            <div className="flex justify-between items-end gap-4 mb-3 px-1">
+              <span className={`${RIBBON_TIMELINE_LABEL} whitespace-nowrap`}>Basic Recall</span>
+              <span className={`${RIBBON_TIMELINE_LABEL} hidden sm:block`}>Explain & Compare</span>
+              <span className={`${RIBBON_TIMELINE_LABEL} hidden sm:block`}>Analyse & Apply</span>
+              <span className={`${RIBBON_TIMELINE_LABEL} whitespace-nowrap`}>
+                Evaluate & Create
+              </span>
+            </div>
 
-          {/* Progress Bar Track */}
-          <div className="relative h-2 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden mb-4">
-            {/* Background Ticks for visual measurement */}
-            {/* Measurement ticks. White-on-white in light mode meant the
+            {/* Progress Bar Track */}
+            <div className={RIBBON_TIMELINE_TRACK}>
+              {/* Background Ticks for visual measurement */}
+              {/* Measurement ticks. White-on-white in light mode meant the
                 track had no gradations at all there, so the same bar read as a
                 measured scale in dark and a plain pill in light. */}
-            <div className="absolute inset-0 flex justify-between px-[16%]">
-              <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
-              <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
-              <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
-              <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
+              <div className="absolute inset-0 flex justify-between px-[16%]">
+                <div className={RIBBON_TIMELINE_TICK} />
+                <div className={RIBBON_TIMELINE_TICK} />
+                <div className={RIBBON_TIMELINE_TICK} />
+                <div className={RIBBON_TIMELINE_TICK} />
+              </div>
+
+              <div
+                className={`absolute left-0 top-0 bottom-0 transition-all duration-1000 ease-out bg-gradient-to-r ${activeConfig ? activeConfig.gradient : 'from-slate-400 to-slate-500'}`}
+                style={{ width: `${activeTermInfo ? (activeTermInfo.tier / 6) * 100 : 0}%` }}
+              />
             </div>
 
-            <div
-              className={`absolute left-0 top-0 bottom-0 transition-all duration-1000 ease-out bg-gradient-to-r ${activeConfig ? activeConfig.gradient : 'from-slate-400 to-slate-500'}`}
-              style={{ width: `${activeTermInfo ? (activeTermInfo.tier / 6) * 100 : 0}%` }}
-            />
-          </div>
+            {/* The tier ladder along the footer.
 
-          <div className="flex justify-between items-center relative">
-            {COGNITIVE_STEPS.map((step, idx) => {
-              const isActive = activeTermInfo && activeTermInfo.tier >= step.tier;
-              const isCurrent = activeTermInfo && activeTermInfo.tier === step.tier;
-              const stepConfig = getTierScaleConfig(step.tier);
+                These six steps used to be a hand-written array — Remember,
+                Describe, Explain, Analyse, Argue, Evaluate — which is a FOURTH
+                copy of the tier labels and had drifted at two of the six:
+                tier 2 is Define, tier 5 is Discuss. `tierShortLabel`'s doc
+                comment is a written record of exactly this happening twice
+                before in the admin components, where each wrong label named
+                another tier that also appeared in the same table, so the
+                mistake read as self-consistent. The strip beside this one is
+                already the tiers; iterating it is one fewer place to drift. */}
+            <div className="flex justify-between items-center relative">
+              {sortedVerbsByGroup.map((group, idx) => {
+                const tier = group.tier;
+                const label = tierShortLabel(tier);
+                const isActive = activeTermInfo && activeTermInfo.tier >= tier;
+                const isCurrent = activeTermInfo && activeTermInfo.tier === tier;
+                const stepConfig = getTierScaleConfig(tier);
 
-              return (
-                <React.Fragment key={step.tier}>
-                  {/* Visual Cut-off / Threshold Marker between Tier 3 (Apply) and Tier 4 (Analyse) */}
-                  {idx === 3 && (
-                    <div className="absolute left-1/2 -translate-x-1/2 -top-8 bottom-0 w-px border-r-2 border-dashed border-slate-300/30 dark:border-white/10 z-0 flex flex-col items-center justify-start pointer-events-none">
-                      <div className="hidden sm:block bg-[rgb(var(--color-bg-surface))] text-[8px] font-black uppercase tracking-widest text-slate-400 px-2 py-0.5 rounded-full border border-slate-300 dark:border-white/10 shadow-sm whitespace-nowrap mb-2 transform -translate-y-1/2">
-                        Deep Learning Threshold
+                return (
+                  <React.Fragment key={tier}>
+                    {/* The threshold marker, between tier 3 (Explain & Compare)
+                        and tier 4 (Analyse & Apply). It used to be commented as
+                        sitting between "Tier 3 (Apply)" and "Tier 4 (Analyse)"
+                        — Apply is a tier-4 verb. */}
+                    {idx === 3 && (
+                      <div className="absolute left-1/2 -translate-x-1/2 -top-8 bottom-0 w-px border-r-2 border-dashed border-slate-300/30 dark:border-white/10 z-0 flex flex-col items-center justify-start pointer-events-none">
+                        <div className={RIBBON_TIMELINE_THRESHOLD_CHIP}>
+                          Deep Learning Threshold
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  <button
-                    type="button"
-                    aria-label={`Highlight band ${step.tier} — ${step.label}`}
-                    className="flex flex-col items-center gap-3 relative z-10 group/step cursor-pointer"
-                    onClick={() => {
-                      const group = sortedVerbsByGroup.find((g) => g.tier === step.tier);
-                      if (group && group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
-                    }}
-                  >
-                    <div
-                      className={`
-                                    w-4 h-4 rounded-full border-2 transition-all duration-500 relative
+                    <button
+                      type="button"
+                      // "Highlight band n" was wrong twice over: the button
+                      // selects the tier's first verb rather than highlighting
+                      // anything, and what it selects is a tier, not a band.
+                      aria-label={`Show tier ${tier} verbs — ${label}`}
+                      className="flex flex-col items-center gap-3 relative z-10 group/step cursor-pointer"
+                      onClick={() => {
+                        if (group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
+                      }}
+                    >
+                      <div
+                        className={`
+                                    ${RIBBON_TIMELINE_DOT}
                                     ${isActive ? `${stepConfig.solidBg} border-transparent scale-125` : 'bg-slate-300 dark:bg-slate-700 border-slate-400/40 dark:border-white/10'}
                                     ${isCurrent ? 'ring-4 ring-slate-900/10 dark:ring-white/20 scale-150 shadow-lg' : ''}
                                  `}
-                    >
-                      {/* Pulsing Animation for Current Step */}
-                      {isCurrent && (
-                        <span
-                          className={`absolute inset-0 rounded-full animate-ping opacity-75 ${stepConfig.solidBg}`}
-                        ></span>
-                      )}
-                    </div>
-                    {/* On phones six tracked labels collide into one another, so
-                        only the current step keeps its label below sm. */}
-                    <span
-                      className={`
-                                    text-[9px] font-bold uppercase tracking-wider sm:tracking-widest transition-all duration-300
-                                    ${isCurrent ? stepConfig.text : 'hidden sm:block text-slate-500 dark:text-slate-400 opacity-70 group-hover/step:opacity-100'}
-                                 `}
-                    >
-                      {step.label}
-                    </span>
-                  </button>
-                </React.Fragment>
-              );
-            })}
+                      >
+                        {/* Pulsing Animation for Current Step */}
+                        {isCurrent && (
+                          <span
+                            className={`absolute inset-0 rounded-full animate-ping opacity-75 ${stepConfig.solidBg}`}
+                          ></span>
+                        )}
+                      </div>
+                      {/* On phones six tracked labels collide into one another, so
+                        only the current step keeps its label below sm.
+
+                        The five that are not current used to be `slate-500` at
+                        `opacity-70`, which measured 2.66:1 on the page — the
+                        largest single group of failures the contrast suite
+                        found once it could see this component at all. */}
+                      <span
+                        className={`${RIBBON_TIMELINE_STEP_LABEL} ${isCurrent ? stepConfig.text : RIBBON_TIMELINE_STEP_LABEL_IDLE}`}
+                      >
+                        {label}
+                      </span>
+                    </button>
+                  </React.Fragment>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>

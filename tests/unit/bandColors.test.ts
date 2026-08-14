@@ -122,6 +122,44 @@ describe('band tints are visible in BOTH themes', () => {
   }
 });
 
+/**
+ * Band 3 is the only band that inverts its solid pairing — dark text on a light
+ * fill, because yellow is far too light to carry white. That makes it the only
+ * band a tidy-up is likely to "correct" back into line with its neighbours, and
+ * the numbers below are the argument against doing so.
+ */
+describe('band 3\'s solid pairing', () => {
+  it('uses text-yellow-950, because -900 fails AA on the light fill', () => {
+    const band3 = getBandConfig(3);
+
+    // Measured in Chromium on the three chips that wear this pairing — the
+    // SyllabusNavBar breadcrumb chip, PromptSelector's question chip and the
+    // ribbon's selected verb chip — not calculated:
+    //
+    //   text-yellow-900 (#713f12) on bg-yellow-500 (#eab308, dark)  = 4.52:1
+    //   text-yellow-900 (#713f12) on bg-amber-500  (#f59e0b, light) = 4.04:1  ✗
+    //   text-yellow-950 (#422006) on bg-yellow-500 (#eab308, dark)  = 7.60:1
+    //   text-yellow-950 (#422006) on bg-amber-500  (#f59e0b, light) = 6.79:1
+    //
+    // The AA floor is 4.5:1, so `-900` shipped a failing light theme on all
+    // three surfaces at once. Do not put it back. Darkening the FILL instead
+    // makes it worse, not better: `-900` on `light:bg-amber-600` is 2.72:1.
+    expect(band3.solidBg).toBe('bg-yellow-500 light:bg-amber-500');
+    expect(band3.solidText).toContain('text-yellow-950');
+    expect(band3.solidText).not.toMatch(/(^|\s)text-yellow-900\b/);
+
+    // `print:` deliberately stays at -900: paper is white, and the printed
+    // report leans on the border and the band number rather than on fill.
+    expect(band3.solidText).toContain('print:text-yellow-900');
+  });
+
+  it('is the only band that does not pair its solid fill with white', () => {
+    for (const band of [1, 2, 4, 5, 6]) {
+      expect(getBandConfig(band).solidText).toBe('text-white print:text-white');
+    }
+  });
+});
+
 describe('getTierBandConfig', () => {
   it('returns the colour config of the tier\'s target band', () => {
     // Every tier's config matches its target band's config.

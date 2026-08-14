@@ -1,5 +1,125 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-08-14 (The verb ribbon, and the reason it was never seen)
+
+### 🧭 The reference disappeared at the moment there was something to explain
+
+The command verb hierarchy — the panel that says what a DESCRIBE question is
+asking for, what it caps you at, and how long to spend on it — lived inside the
+expanded syllabus navigator. Choosing a question folds that navigator down to a
+breadcrumb, so picking a question destroyed the reference explaining that
+question's command verb, at the exact instant there was a verb to explain. It
+came back only if the student pressed "Change", and it came back as a fresh
+mount: which is why the component's own "a deliberate collapse survives the next
+question" logic, comment and all, could never once have run. The state it
+remembered was thrown away by the remount every time.
+
+It renders from one place now, in both navigator states, and it is **shut** in
+the folded one. Folding the navigator buys a calm page above the writing
+surface, and seven hundred pixels of reference unfolding into that space would
+hand straight back what the fold just bought. Beside the syllabus dropdowns,
+where the page is a chooser rather than a writing surface, nothing changes.
+
+**Worth recording, because nobody will rediscover it:** this is also why no
+end-to-end test had ever rendered the component. Every spec reaches the
+workspace by selecting a question, and selecting a question removed the ribbon
+from the page. Five contrast defects had been sitting inside it, in the open,
+for as long as the suite has existed.
+
+### ⌨️ Fifty controls inside a panel the interface said was shut
+
+The collapsed ribbon was `max-h-0 opacity-0 overflow-hidden`, which is a visual
+collapse and nothing else. Six tier headers, thirty-eight verb chips and six
+timeline steps — fifty controls — stayed in the tab order and in the
+accessibility tree behind a panel the UI had told the reader was closed. It is
+`inert` while shut now, with the toggle and the panel wired together by
+`aria-controls`, which is the pattern three other disclosures in this codebase
+already had.
+
+The animation was guessing, too. `max-h-[1600px]` on a panel about 700px tall
+meant the first half of every collapse travelled through height the element does
+not occupy, so the ribbon appeared to hang and then snap. A `grid-rows` `1fr`/
+`0fr` transition animates to whatever the content actually needs and has no
+number in it to get wrong.
+
+### 🎨 A gradient wall in a glass app, and the white text it forced
+
+The bar was a full-bleed tier gradient, which is why everything on it had to be
+white: white text, a white-alpha tile, a white-alpha chip. On tier 3 — the
+yellow one — that white text was **1.92:1**. The tier still colours the ribbon;
+it does it from a 36px tile and a 2px underline instead, the same argument the
+header rail settled a fortnight ago. Edge-lighting rather than a wall, and the
+bar has a light theme for the first time.
+
+`getBandConfig` has returned a `solidText` field for years for exactly this, and
+two other components already paired the two. The ribbon hard-coded `text-white`
+in three places; it asks the config now. One pairing turned out to be wrong at
+the source: `text-yellow-900` on the light theme's `amber-500` measures
+**4.04:1**, so band 3's `solidText` moved to `-950` — a shared token, which also
+repairs the band chip in the syllabus breadcrumb and the tier chip in the
+question list, and is pinned with the measurement so the next tidy-up has to
+argue with a number.
+
+Two more things a keyboard user could not see: the tier cards' focus ring was
+white alpha on `amber-100`, which is nothing, and the five cards that are not
+the selected verb's tier were dimmed to `opacity-50` — taking their subtitles,
+and the 32 verb buttons under them, to 2.72:1. Both fixed, and the second one
+twice: dimming less was not enough on its own, because opacity composites text
+towards its background rather than scaling the ratio.
+
+### 🔢 The same number, twice, six inches apart, under two names
+
+The detail card printed `Band 3` on the chip beside the verb and `Band Cap 3` in
+the tray. Not a coincidence and not a bug that could ever have shown itself:
+**`getTierTargetBand(tier)` is `tier`, always** — every tier group's `maxBand`
+equals its own tier number, and `bandColors.test.ts` pins that as an invariant.
+Any screen showing both is showing one number twice. The chip names the rung of
+the ladder now (`Tier 3 · Explain`), the band statement stays in the tray, and
+the explanation of "Band Cap" — previously a `title` on a `<div>` with no
+`tabindex`, so unreachable by keyboard and absent on touch — is a line of text.
+
+The footer's six step labels were a fourth hand-written copy of the tier names
+and had drifted at two of them. `tierShortLabel` exists because this had already
+happened twice in the admin tools, and both times the wrong label named another
+tier from the same table, so it read as self-consistent. They are derived now.
+The four tray numbers are set in the telemetry face, as marks are everywhere
+else.
+
+And the verb lookup was exact-case, against a map keyed in capitals. A verb
+stored or generated as `Describe` matched nothing, and a miss here does not show
+the wrong verb — it shows no verb at all: no detail card, no tier highlight, no
+progress. It tries the upper case too.
+
+### ↔️ A ladder that said neither what it was nor where it ended
+
+Six 260px cards overflow at nearly every width and `scrollbar-hide` removed the
+only sign that they do, so half the ladder simply was not there for anyone who
+did not think to drag it. There are edge fades now, in a wrapper that had been
+sitting empty. The scroller is a named group, because forty-four buttons in a
+flat list said nothing about being one ladder from tier 1 to tier 6. Snapping
+went from mandatory to proximity, since three separate things scroll this strip
+and mandatory snapping argued with two of them. The auto-scroll also honours
+`prefers-reduced-motion`, which the CSS could not do for it — that property does
+not govern the JavaScript `behavior` option.
+
+### ✅ And the contrast suite can finally see it
+
+With the ribbon on the page in the state the suite reaches, opening it in the
+preamble takes the light-theme audit from 53 measurable text nodes to 137. It
+failed on the first run, with seven readings below the 4.5 floor, and every one
+was an opacity laid over a colour that was fine without it: the "Band n ceiling"
+eyebrows at 2.97:1, the timeline's step labels at 2.66:1, the "Deep Learning
+Threshold" marker at 2.56:1 — a dark-theme grey on a white pill. The parity
+invariant found a fourth in `StrategyTip`, shared with the editor, where a
+`light:text-slate-500` was overriding `--color-text-muted` and making the light
+theme lighter than the theme had asked for. All now measure between 6.35:1 and
+17:1. No exclusion was added and no floor was moved.
+
+What the suite still cannot say is worth stating: anything over a gradient comes
+back unassessable, which covers the tier underline and the current card's
+header, and anything on a saturated tier fill is measured but not gated. The
+tier-coloured text in this component is still partly on the honour system.
+
 ## [Unreleased] - 2026-08-14 (The header answers to the theme)
 
 ### 🎨 The one surface everybody sees was the one that ignored the theme

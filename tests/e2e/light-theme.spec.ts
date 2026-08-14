@@ -1,5 +1,5 @@
 import { test, expect, Page } from '@playwright/test';
-import { signIn, clearOnboarding, openFirstQuestion } from './support/workspace';
+import { signIn, clearOnboarding, openFirstQuestion, openVerbRibbon } from './support/workspace';
 import {
   freezeAnimations,
   measureContrast,
@@ -63,6 +63,11 @@ test.describe('light theme', () => {
     await signIn(page);
     await clearOnboarding(page);
     await openFirstQuestion(page);
+    // The verb ribbon is shut beneath the breadcrumb, and shut it is invisible
+    // to a checker that walks text nodes. Opening it puts roughly 120 more of
+    // them into the audit — and until the ribbon rendered in this state at all,
+    // this suite was green partly by never having seen the component.
+    await openVerbRibbon(page);
   });
 
   test('every reading surface meets AA, in both themes', async ({ page }) => {

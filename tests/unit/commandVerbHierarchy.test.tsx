@@ -23,7 +23,7 @@ describe('CommandVerbHierarchy', () => {
   it('renders the header and all six tier groups without a selected verb', () => {
     render(<CommandVerbHierarchy />);
     expect(screen.getByText('HSC Command Verb Hierarchy')).toBeTruthy();
-    expect(screen.getByText(/Reference • 6 Bands/i)).toBeTruthy();
+    expect(screen.getByText(/Reference • 6 cognitive tiers/i)).toBeTruthy();
     expect(getToggle().getAttribute('aria-expanded')).toBe('true');
   });
 
@@ -68,6 +68,77 @@ describe('CommandVerbHierarchy', () => {
     expect(screen.getAllByText('EVALUATE').length).toBeGreaterThanOrEqual(2);
   });
 
+  /**
+   * Beneath the breadcrumb the ribbon is a shut disclosure, and it has to stay
+   * shut when the question changes. It used to be unmounted in that state
+   * altogether; now that it renders there, an unfolding seven-hundred-pixel
+   * reference on every new question would be worse than the absence was.
+   */
+  describe('when the navigator is folded to a breadcrumb', () => {
+    it('starts shut, and a new question does not unfold it', () => {
+      const { rerender } = render(
+        <CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} defaultOpen={false} />
+      );
+      expect(getToggle().getAttribute('aria-expanded')).toBe('false');
+
+      rerender(<CommandVerbHierarchy currentVerb={'EVALUATE' as PromptVerb} defaultOpen={false} />);
+      expect(getToggle().getAttribute('aria-expanded')).toBe('false');
+
+      // The selection still followed the question, so opening it by hand shows
+      // the verb that is actually on screen rather than the previous one.
+      fireEvent.click(getToggle());
+      expect(getToggle().getAttribute('aria-expanded')).toBe('true');
+      expect(screen.getAllByText('EVALUATE').length).toBeGreaterThanOrEqual(2);
+    });
+
+    it('opens and shuts with the navigator, rather than only sampling it at mount', () => {
+      const { rerender } = render(
+        <CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} defaultOpen />
+      );
+      expect(getToggle().getAttribute('aria-expanded')).toBe('true');
+
+      rerender(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} defaultOpen={false} />);
+      expect(getToggle().getAttribute('aria-expanded')).toBe('false');
+
+      rerender(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} defaultOpen />);
+      expect(getToggle().getAttribute('aria-expanded')).toBe('true');
+    });
+  });
+
+  /**
+   * DesignSpec §3, "Keyboard Reach": a keyboard user must reach exactly what is
+   * on screen. The ribbon folds to zero height, which is a visual collapse and
+   * nothing more — fifty controls (six tier headers, thirty-eight verb chips,
+   * six timeline steps) stayed in the tab order and in the accessibility tree
+   * behind a panel the UI had told the reader was shut.
+   */
+  it('marks the shut panel inert, and lifts it when re-expanded', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    const inertPanel = () => container.querySelector('[inert]');
+    const chip = screen.getByRole('button', { name: 'IDENTIFY' });
+
+    // Open by default, so nothing inside it is out of reach.
+    expect(inertPanel()).toBeNull();
+
+    fireEvent.click(getToggle());
+    expect(inertPanel()).not.toBeNull();
+    expect(inertPanel()!.contains(chip)).toBe(true);
+
+    fireEvent.click(getToggle());
+    expect(inertPanel()).toBeNull();
+  });
+
+  it('points the toggle at the panel it opens', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    const panelId = getToggle().getAttribute('aria-controls');
+    expect(panelId).toBeTruthy();
+    // Attribute selector rather than `#id`: React's useId emits `«r0»`, which
+    // is a valid id but not a valid bare CSS identifier.
+    const panel = container.querySelector(`[id="${panelId}"]`);
+    expect(panel).not.toBeNull();
+    expect(panel!.contains(screen.getByRole('button', { name: 'IDENTIFY' }))).toBe(true);
+  });
+
   it('lets a keyboard user select a tier from the card header', () => {
     render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
     const header = screen.getByRole('button', { name: /Band 1 ceiling Remember & List/i });
@@ -103,13 +174,102 @@ describe('CommandVerbHierarchy', () => {
     expect(scrollTo).toHaveBeenCalled();
   });
 
+  // Verbs arrive from model output and from stored prompts in whatever case
+  // they were saved with, and an exact-case lookup answered `undefined` — which
+  // in this component is not a wrong verb but no verb: no detail card, no tier
+  // highlight, no progress.
+  it('explains a verb that arrives in the wrong case', () => {
+    render(<CommandVerbHierarchy currentVerb={'describe' as PromptVerb} />);
+    expect(screen.getByText('Band Cap')).toBeTruthy();
+    expect(screen.getAllByText('DESCRIBE').length).toBeGreaterThanOrEqual(2);
+  });
+
+  // The case fix above came from `getCommandTermInfo`, which also answers an
+  // unrecognised verb with an EXPLAIN stub. That half was deliberately not
+  // taken, and this pins it: everywhere else the fallback degrades something
+  // incidental, but this component's whole content is the claim "your verb is
+  // X, it caps you at Band N, spend this long on it". Rendering that in full
+  // about a verb nobody asked for — styled, tier-highlighted, progress bar at
+  // halfway, with nothing marking it a guess — is worse than rendering nothing.
+  // A one-line change back to `getCommandTermInfo` would silently reverse it.
+  it('says nothing at all about a verb it does not recognise', () => {
+    render(<CommandVerbHierarchy currentVerb={'FLIBBERTIGIBBET' as PromptVerb} />);
+
+    // No detail card: these three only exist inside it.
+    expect(screen.queryByText('Band Cap')).toBeNull();
+    expect(screen.queryByText('Marks')).toBeNull();
+    expect(screen.queryByText(/^Selected:$/)).toBeNull();
+    // And emphatically not the tier-3 fallback the helper would have supplied.
+    expect(screen.queryByText(/Tier 3/)).toBeNull();
+
+    // The ladder itself still renders — the reference is intact, it just makes
+    // no claim about this particular verb.
+    expect(screen.getByText(/Reference • 6 cognitive tiers/i)).toBeTruthy();
+  });
+
+  it('honours prefers-reduced-motion when it scrolls the strip', () => {
+    const scrollTo = vi.fn();
+    (Element.prototype as unknown as { scrollTo: unknown }).scrollTo = scrollTo;
+    const matchMedia = vi.fn().mockReturnValue({ matches: true });
+    const original = window.matchMedia;
+    (window as unknown as { matchMedia: unknown }).matchMedia = matchMedia;
+
+    try {
+      render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+      scrollTo.mockClear();
+      fireEvent.click(screen.getByRole('button', { name: 'SYNTHESISE' }));
+
+      expect(scrollTo).toHaveBeenCalledWith(expect.objectContaining({ behavior: 'auto' }));
+    } finally {
+      (window as unknown as { matchMedia: unknown }).matchMedia = original;
+    }
+  });
+
   it('cognitive timeline steps are keyboard-reachable buttons that select the tier', () => {
     render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
-    const step = screen.getByRole('button', { name: /Highlight band 6/i });
+    const step = screen.getByRole('button', { name: /Show tier 6 verbs/i });
     fireEvent.click(step);
     // Tier 6's first verb (alphabetical) becomes the active detail card.
     expect(screen.getByText('Band Cap')).toBeTruthy();
     expect(step.getAttribute('aria-label')).toMatch(/Evaluate/i);
+  });
+
+  /**
+   * The detail card used to state the same integer twice, six inches apart,
+   * under two labels: `Band {tier}` on the chip and `Band Cap
+   * {getTierTargetBand(tier)}` in the tray. They are provably the same number —
+   * every tier's maxBand is its own number, and `bandColors.test.ts` pins that
+   * as an invariant — so one of the two had to say something else.
+   */
+  it('says tier on the chip and band in the tray, not the same number twice', () => {
+    render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
+
+    const chip = screen.getByText(/^Tier 4 · Analyse$/);
+    expect(chip).toBeTruthy();
+    expect(chip.textContent).not.toMatch(/Band/i);
+
+    // The band statement survives, in the one place that can explain it.
+    expect(screen.getByText('Band Cap')).toBeTruthy();
+    expect(screen.getByText(/ANALYSE questions cap a response at Band 4/i)).toBeTruthy();
+  });
+
+  /**
+   * The footer's six step labels were a fourth hand-written copy of the tier
+   * names, and had drifted at two of the six: tier 2 read "Describe" where
+   * `tierShortLabel` derives "Define", and tier 5 read "Argue" where it derives
+   * "Discuss". Tier 5 is the one to pin — "Argue" names nothing else in the
+   * ladder, so the drift was invisible.
+   */
+  it('derives the timeline labels rather than keeping a fourth copy of them', () => {
+    render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+
+    const step = screen.getByRole('button', { name: /tier 5/i });
+    expect(step.getAttribute('aria-label')).toMatch(/Discuss/i);
+    expect(step.getAttribute('aria-label')).not.toMatch(/Argue/i);
+
+    expect(screen.getByRole('button', { name: /tier 2/i }).getAttribute('aria-label')).toMatch(
+      /Define/i
+    );
   });
 
   /**

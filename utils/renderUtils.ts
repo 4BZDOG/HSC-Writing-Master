@@ -317,7 +317,15 @@ export const getBandConfig = (bandOrTier: number): BandConfig => {
       solidBg: 'bg-yellow-500 light:bg-amber-500',
       border: 'border-yellow-500/50 light:border-amber-600 print:border-yellow-200',
       text: 'text-yellow-400 light:text-amber-900 print:text-yellow-800',
-      solidText: 'text-yellow-900 print:text-yellow-900',
+      // Band 3 is the one band whose solid fill is too light for white text, so
+      // it inverts: dark text on a light fill. `-900` was half a step short of
+      // that being true. Measured in the browser on the three chips that wear
+      // this pairing: `text-yellow-900` is 4.52:1 on the dark theme's
+      // `bg-yellow-500` and 4.04:1 on the light theme's `bg-amber-500` — the
+      // light one FAILS AA. `-950` is 7.60:1 and 6.79:1. `print:` stays at
+      // `-900`: paper is white, and a printed tint leans on the border and the
+      // band number rather than on fill. Pinned by bandColors.test.ts.
+      solidText: 'text-yellow-950 print:text-yellow-900',
       gradient: 'from-yellow-500 to-yellow-400 light:from-amber-500 light:to-amber-400',
       glow: 'shadow-yellow-500/25 light:shadow-amber-500/20',
       iconBg: 'bg-yellow-500/20 light:bg-amber-200 print:bg-yellow-100',
