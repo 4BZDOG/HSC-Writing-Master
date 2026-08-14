@@ -25,6 +25,8 @@ import {
   RIBBON_STAT_TRAY,
   RIBBON_STAT_VALUE,
   RIBBON_STRIP,
+  RIBBON_STRIP_FADE_LEFT,
+  RIBBON_STRIP_FADE_RIGHT,
   RIBBON_TIER_CARD,
   RIBBON_TIER_CARD_CURRENT,
   RIBBON_TIER_CARD_DIMMED,
@@ -361,9 +363,26 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
               </div>
             )}
 
-            {/* Tier Cards Scroll Area */}
+            {/* Tier Cards Scroll Area.
+
+                The wrapper used to be a bare `relative` holding nothing. It
+                holds the two edge fades now, which are the only thing telling
+                a reader there is more strip to the right: `scrollbar-hide`
+                took the scrollbar away and put nothing back, on six 260px
+                cards that overflow at nearly every width.
+
+                The scroller itself is named. Without a role a screen-reader
+                user met 44 buttons in a flat list with nothing saying they are
+                one horizontal ladder from tier 1 to tier 6. */}
             <div className="relative group/scroll">
-              <div className={RIBBON_STRIP} ref={scrollContainerRef}>
+              <div className={RIBBON_STRIP_FADE_LEFT} aria-hidden="true" />
+              <div className={RIBBON_STRIP_FADE_RIGHT} aria-hidden="true" />
+              <div
+                className={RIBBON_STRIP}
+                ref={scrollContainerRef}
+                role="group"
+                aria-label="Cognitive tier ladder, tier 1 to tier 6"
+              >
                 {sortedVerbsByGroup.map((group, index) => {
                   const isCurrentTier = activeTermInfo?.tier === group.tier;
                   const tierConfig = getTierScaleConfig(group.tier);

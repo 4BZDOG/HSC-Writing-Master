@@ -155,9 +155,45 @@ export const RIBBON_STAT_CAPTION =
 export const RIBBON_STAT_DIVIDER = 'w-px h-8 bg-slate-300 dark:bg-white/10';
 
 /** The horizontal tier strip. Six 260px cards plus gaps is ~1580px, so it
- *  overflows at nearly every width. Painted on the page background. */
+ *  overflows at nearly every width. Painted on the page background.
+ *
+ *  `snap-proximity`, not `snap-mandatory`. Three things move this strip: the
+ *  reader, the auto-scroll that centres the active tier, and the browser's own
+ *  scroll-into-view when Tab takes focus into a card that is off screen.
+ *  Mandatory snapping contests the last two — it is the right setting for a
+ *  pager, and this is a ladder you read along. Proximity keeps the settling
+ *  without the argument.
+ *
+ *  It carries `role="group"` and a name at the call site. Deliberately NOT
+ *  `tabIndex={0}`: WCAG 2.1.1 is already satisfied because the 44 controls
+ *  inside it are focusable, and a 51st tab stop in front of them buys nothing.
+ *  Do not add one. */
 export const RIBBON_STRIP =
-  'flex overflow-x-auto gap-4 pb-4 pt-2 snap-x snap-mandatory scrollbar-hide';
+  'flex overflow-x-auto gap-4 pb-4 pt-2 snap-x snap-proximity scrollbar-hide';
+
+/** The two edge fades over the strip, one per side, in the wrapper that until
+ *  now held nothing but a `relative`. `scrollbar-hide` takes away the only
+ *  signal that there is more to the right, and nothing replaced it — no fade,
+ *  no arrows, no count — on a strip that overflows at nearly every width.
+ *
+ *  Unconditional rather than tracking `scrollLeft`: a scroll listener on a
+ *  strip that is also scrolled programmatically is more machinery than eight
+ *  pixels of gradient is worth, and a fade at an edge that happens to be flush
+ *  costs nothing to look at.
+ *
+ *  `slate-50` is not a guess at "white": the page behind the strip measures
+ *  rgb(248, 250, 252) in the light theme, which is `--color-bg-base` exactly,
+ *  and a white fade on it would read as a pale smear rather than as depth. The
+ *  dark side takes the token directly.
+ *
+ *  `z-10` puts them over the five idle cards but under the current one, which
+ *  carries `z-20` — fading out the card the reader is being pointed at would
+ *  be the wrong way round. Painted on the page background. */
+const RIBBON_STRIP_FADE =
+  'absolute top-0 bottom-4 w-8 z-10 pointer-events-none to-transparent ' +
+  'from-slate-50 dark:from-[rgb(var(--color-bg-base))]';
+export const RIBBON_STRIP_FADE_LEFT = `${RIBBON_STRIP_FADE} left-0 bg-gradient-to-r`;
+export const RIBBON_STRIP_FADE_RIGHT = `${RIBBON_STRIP_FADE} right-0 bg-gradient-to-l`;
 
 /** One tier card. Its border and fill come from the two constants below plus
  *  the tier config. Painted on the strip.

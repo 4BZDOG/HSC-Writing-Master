@@ -13,6 +13,8 @@ import {
   RIBBON_STAT_TRAY,
   RIBBON_STAT_VALUE,
   RIBBON_STRIP,
+  RIBBON_STRIP_FADE_LEFT,
+  RIBBON_STRIP_FADE_RIGHT,
   RIBBON_TIER_CARD,
   RIBBON_TIER_CARD_DIMMED,
   RIBBON_TIER_HEADER,
@@ -262,5 +264,52 @@ describe('the tier strip is legible and reachable', () => {
     // The tray is fixed-width, so a two-digit range must not shove its
     // neighbours along as the verb changes.
     expect(RIBBON_STAT_VALUE).toContain('tabular-nums');
+  });
+});
+
+/**
+ * The strip is the part of this component a reader is most likely to see half
+ * of. It overflows at nearly every width, `scrollbar-hide` removes the only
+ * signal that it does, and until now nothing replaced that signal and nothing
+ * told a screen-reader user that the 44 buttons in front of them were one
+ * ladder.
+ */
+describe('the tier strip says what it is and where it ends', () => {
+  it('is a named group, so 44 buttons read as one ladder', () => {
+    render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+
+    const strip = screen.getByRole('group', { name: /tier ladder/i });
+    expect(strip.className).toBe(RIBBON_STRIP);
+    // The name has to say which way it runs; "group" alone says nothing.
+    expect(strip.getAttribute('aria-label')).toMatch(/tier 1 to tier 6/i);
+  });
+
+  it('shows both edges, without a scroll listener to keep them honest', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+
+    for (const fade of [RIBBON_STRIP_FADE_LEFT, RIBBON_STRIP_FADE_RIGHT]) {
+      const el = container.querySelector(`[class="${fade}"]`) as HTMLElement;
+      expect(el).toBeTruthy();
+      expect(el.getAttribute('aria-hidden')).toBe('true');
+      expect(el.className).toContain('pointer-events-none');
+    }
+
+    // The light end is the page's own background, measured at
+    // rgb(248, 250, 252), not white — a white fade on it is a smear.
+    expect(RIBBON_STRIP_FADE_LEFT).toContain('from-slate-50');
+    expect(RIBBON_STRIP_FADE_LEFT).toContain('dark:from-[rgb(var(--color-bg-base))]');
+  });
+
+  it('snaps proximately, because three things scroll this strip', () => {
+    expect(RIBBON_STRIP).toContain('snap-proximity');
+    expect(RIBBON_STRIP).not.toContain('snap-mandatory');
+  });
+
+  // WCAG 2.1.1 is satisfied by the focusable children. A tab stop on the
+  // scroller would be a 51st one in front of the fifty already there.
+  it('does not put a tab stop on the scroller itself', () => {
+    render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    const strip = screen.getByRole('group', { name: /tier ladder/i });
+    expect(strip.getAttribute('tabindex')).toBeNull();
   });
 });
