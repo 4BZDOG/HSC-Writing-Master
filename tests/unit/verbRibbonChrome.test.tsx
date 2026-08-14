@@ -11,6 +11,7 @@ import {
   RIBBON_HEADER_TILE,
   RIBBON_ROOT,
   RIBBON_STAT_TRAY,
+  RIBBON_STAT_VALUE,
   RIBBON_STRIP,
   RIBBON_TIER_CARD,
   RIBBON_TIER_CARD_DIMMED,
@@ -250,5 +251,16 @@ describe('the tier strip is legible and reachable', () => {
   it('darkens the text those cards dim, not just the dimming', () => {
     expect(RIBBON_TIER_SUBTITLE_IDLE).toContain('text-slate-600');
     expect(RIBBON_TIER_SUBTITLE_IDLE).not.toContain('text-slate-500');
+  });
+
+  // DesignSpec §4: JetBrains Mono is for "marks, token counts, and system
+  // logs". Marks are the first example in that sentence, and the tray's four
+  // numbers — the mark range, the band cap, the time range and the syllabus
+  // term count — were all set in the body face.
+  it('sets the tray numbers in the telemetry face', () => {
+    expect(RIBBON_STAT_VALUE).toContain('font-mono');
+    // The tray is fixed-width, so a two-digit range must not shove its
+    // neighbours along as the verb changes.
+    expect(RIBBON_STAT_VALUE).toContain('tabular-nums');
   });
 });

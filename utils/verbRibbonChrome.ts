@@ -73,7 +73,7 @@ export const RIBBON_HEADER_TILE =
 export const RIBBON_HEADER_TITLE =
   'text-sm sm:text-base font-black tracking-tight leading-none truncate';
 
-/** "Reference • 6 Bands", under the title. Painted on the bar. */
+/** "Reference • 6 cognitive tiers", under the title. Painted on the bar. */
 export const RIBBON_HEADER_SUBLABEL =
   'block truncate text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400';
 
@@ -134,8 +134,22 @@ export const RIBBON_STAT_LABEL =
   'text-[9px] uppercase tracking-widest font-black mb-0.5 text-slate-600 dark:text-slate-400';
 
 /** The number under each label; its colour is the tier's. Painted on the
- *  tray. */
-export const RIBBON_STAT_VALUE = 'text-lg font-black';
+ *  tray.
+ *
+ *  Mono, because these four are telemetry: DesignSpec §4 gives `JetBrains Mono`
+ *  to "marks, token counts, and system logs", and marks are the first example in
+ *  that sentence. `tabular-nums` because the four sit in a fixed-width tray and
+ *  a two-digit mark range must not shove its neighbours along. */
+export const RIBBON_STAT_VALUE = 'font-mono text-lg font-black tabular-nums';
+
+/** The one line under the tray, saying in words what "Band Cap" means. Painted
+ *  on the detail card's tier wash, not on the tray.
+ *
+ *  It was a `title` on a `<div>` with no `tabindex`, so the explanation of the
+ *  one label a student will not already know was unreachable by keyboard and
+ *  absent on touch. */
+export const RIBBON_STAT_CAPTION =
+  'text-[10px] font-bold leading-snug text-center md:text-right text-slate-600 dark:text-slate-400';
 
 /** The hairline between two stats. Painted on the tray. */
 export const RIBBON_STAT_DIVIDER = 'w-px h-8 bg-slate-300 dark:bg-white/10';

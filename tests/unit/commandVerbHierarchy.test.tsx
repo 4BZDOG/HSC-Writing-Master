@@ -23,7 +23,7 @@ describe('CommandVerbHierarchy', () => {
   it('renders the header and all six tier groups without a selected verb', () => {
     render(<CommandVerbHierarchy />);
     expect(screen.getByText('HSC Command Verb Hierarchy')).toBeTruthy();
-    expect(screen.getByText(/Reference • 6 Bands/i)).toBeTruthy();
+    expect(screen.getByText(/Reference • 6 cognitive tiers/i)).toBeTruthy();
     expect(getToggle().getAttribute('aria-expanded')).toBe('true');
   });
 
@@ -167,11 +167,49 @@ describe('CommandVerbHierarchy', () => {
 
   it('cognitive timeline steps are keyboard-reachable buttons that select the tier', () => {
     render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
-    const step = screen.getByRole('button', { name: /Highlight band 6/i });
+    const step = screen.getByRole('button', { name: /Show tier 6 verbs/i });
     fireEvent.click(step);
     // Tier 6's first verb (alphabetical) becomes the active detail card.
     expect(screen.getByText('Band Cap')).toBeTruthy();
     expect(step.getAttribute('aria-label')).toMatch(/Evaluate/i);
+  });
+
+  /**
+   * The detail card used to state the same integer twice, six inches apart,
+   * under two labels: `Band {tier}` on the chip and `Band Cap
+   * {getTierTargetBand(tier)}` in the tray. They are provably the same number —
+   * every tier's maxBand is its own number, and `bandColors.test.ts` pins that
+   * as an invariant — so one of the two had to say something else.
+   */
+  it('says tier on the chip and band in the tray, not the same number twice', () => {
+    render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
+
+    const chip = screen.getByText(/^Tier 4 · Analyse$/);
+    expect(chip).toBeTruthy();
+    expect(chip.textContent).not.toMatch(/Band/i);
+
+    // The band statement survives, in the one place that can explain it.
+    expect(screen.getByText('Band Cap')).toBeTruthy();
+    expect(screen.getByText(/ANALYSE questions cap a response at Band 4/i)).toBeTruthy();
+  });
+
+  /**
+   * The footer's six step labels were a fourth hand-written copy of the tier
+   * names, and had drifted at two of the six: tier 2 read "Describe" where
+   * `tierShortLabel` derives "Define", and tier 5 read "Argue" where it derives
+   * "Discuss". Tier 5 is the one to pin — "Argue" names nothing else in the
+   * ladder, so the drift was invisible.
+   */
+  it('derives the timeline labels rather than keeping a fourth copy of them', () => {
+    render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+
+    const step = screen.getByRole('button', { name: /tier 5/i });
+    expect(step.getAttribute('aria-label')).toMatch(/Discuss/i);
+    expect(step.getAttribute('aria-label')).not.toMatch(/Argue/i);
+
+    expect(screen.getByRole('button', { name: /tier 2/i }).getAttribute('aria-label')).toMatch(
+      /Define/i
+    );
   });
 
   /**

@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect, useRef, useId } from 'react';
 import { PromptVerb } from '../types';
-import { commandTerms, TIER_GROUPS, getTierTargetBand } from '../data/commandTerms';
+import { commandTerms, TIER_GROUPS, getTierTargetBand, tierShortLabel } from '../data/commandTerms';
 import { ChevronDown, AlignLeft, Sparkles } from 'lucide-react';
 import { getTierScaleConfig } from '../utils/renderUtils';
 import StrategyTip from './StrategyTip';
@@ -19,6 +19,7 @@ import {
   RIBBON_ROOT,
   RIBBON_SELECTED_CHIP,
   RIBBON_SELECTED_LABEL,
+  RIBBON_STAT_CAPTION,
   RIBBON_STAT_DIVIDER,
   RIBBON_STAT_LABEL,
   RIBBON_STAT_TRAY,
@@ -45,15 +46,6 @@ import {
 interface CommandVerbHierarchyProps {
   currentVerb?: PromptVerb;
 }
-
-const COGNITIVE_STEPS = [
-  { label: 'Remember', tier: 1 },
-  { label: 'Describe', tier: 2 },
-  { label: 'Explain', tier: 3 },
-  { label: 'Analyse', tier: 4 },
-  { label: 'Argue', tier: 5 },
-  { label: 'Evaluate', tier: 6 },
-];
 
 const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb }) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -217,8 +209,13 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
             {/* Truncates rather than wraps: an ellipsis on a title the reader
                 already knows costs nothing, a second line costs the lock. */}
             <h3 className={RIBBON_HEADER_TITLE}>HSC Command Verb Hierarchy</h3>
+            {/* "Bands" counted TIER_GROUPS and called them bands. The two are
+                1:1 — every tier's maxBand is its own number, and
+                bandColors.test.ts pins that — so it was not false, only the
+                conflation `tierShortLabel`'s doc comment exists to warn
+                about. What is being counted here is tiers. */}
             <span className={RIBBON_HEADER_SUBLABEL}>
-              Reference • {sortedVerbsByGroup.length} Bands
+              Reference • {sortedVerbsByGroup.length} cognitive tiers
             </span>
           </div>
         </div>
@@ -285,10 +282,18 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       <div>
                         <div className="flex items-center gap-3 mb-1">
                           <h4 className={RIBBON_DETAIL_TERM}>{activeTermInfo.term}</h4>
+                          {/* The tier, said as the tier. This chip used to read
+                              `Band {tier}` while the tray six inches to the
+                              right read `Band Cap {getTierTargetBand(tier)}` —
+                              provably the same integer, twice, under two
+                              labels. The band statement stays in the tray,
+                              where the caption below can explain it; the chip
+                              names the rung of the ladder instead, with the
+                              label derived rather than written out again. */}
                           <div
                             className={`${RIBBON_DETAIL_TIER_CHIP} ${activeConfig.bg} ${activeConfig.text} ${activeConfig.border}`}
                           >
-                            Band {activeTermInfo.tier}
+                            Tier {activeTermInfo.tier} · {tierShortLabel(activeTermInfo.tier)}
                           </div>
                         </div>
                         <p className={RIBBON_DETAIL_DEFINITION}>{activeTermInfo.definition}</p>
@@ -300,40 +305,56 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       </div>
                     </div>
 
-                    <div className={RIBBON_STAT_TRAY}>
-                      <div className="flex flex-col items-center">
-                        <span className={RIBBON_STAT_LABEL}>Marks</span>
-                        <span className={`${RIBBON_STAT_VALUE} ${activeConfig.text}`}>
-                          {activeTermInfo.markRange.join('-')}
-                        </span>
+                    <div className="flex flex-col gap-1.5 self-stretch md:self-auto">
+                      <div className={RIBBON_STAT_TRAY}>
+                        <div className="flex flex-col items-center">
+                          <span className={RIBBON_STAT_LABEL}>Marks</span>
+                          <span className={`${RIBBON_STAT_VALUE} ${activeConfig.text}`}>
+                            {activeTermInfo.markRange.join('-')}
+                          </span>
+                        </div>
+                        <div className={RIBBON_STAT_DIVIDER} />
+                        <div className="flex flex-col items-center">
+                          <span className={RIBBON_STAT_LABEL}>Band Cap</span>
+                          <span className={`${RIBBON_STAT_VALUE} ${activeConfig.text}`}>
+                            {getTierTargetBand(activeTermInfo.tier)}
+                          </span>
+                        </div>
+                        <div className={RIBBON_STAT_DIVIDER} />
+                        <div
+                          className="flex flex-col items-center"
+                          title="Recommended writing time"
+                        >
+                          <span className={RIBBON_STAT_LABEL}>Time</span>
+                          <span className={`${RIBBON_STAT_VALUE} ${activeConfig.text}`}>
+                            {activeTermInfo.timeRange.join('-')}m
+                          </span>
+                        </div>
+                        <div className={`${RIBBON_STAT_DIVIDER} hidden sm:block`} />
+                        <div
+                          className="hidden sm:flex flex-col items-center"
+                          title="Expected syllabus terms"
+                        >
+                          <span className={RIBBON_STAT_LABEL}>Terms</span>
+                          <span className={`${RIBBON_STAT_VALUE} ${activeConfig.text}`}>
+                            {activeTermInfo.syllabusTerms.join('-')}
+                          </span>
+                        </div>
                       </div>
-                      <div className={RIBBON_STAT_DIVIDER} />
-                      <div
-                        className="flex flex-col items-center"
-                        title={`The cognitive demand of ${activeTermInfo.term} caps a response at Band ${getTierTargetBand(activeTermInfo.tier)}`}
-                      >
-                        <span className={RIBBON_STAT_LABEL}>Band Cap</span>
-                        <span className={`${RIBBON_STAT_VALUE} ${activeConfig.text}`}>
-                          {getTierTargetBand(activeTermInfo.tier)}
-                        </span>
-                      </div>
-                      <div className={RIBBON_STAT_DIVIDER} />
-                      <div className="flex flex-col items-center" title="Recommended writing time">
-                        <span className={RIBBON_STAT_LABEL}>Time</span>
-                        <span className={`${RIBBON_STAT_VALUE} ${activeConfig.text}`}>
-                          {activeTermInfo.timeRange.join('-')}m
-                        </span>
-                      </div>
-                      <div className={`${RIBBON_STAT_DIVIDER} hidden sm:block`} />
-                      <div
-                        className="hidden sm:flex flex-col items-center"
-                        title="Expected syllabus terms"
-                      >
-                        <span className={RIBBON_STAT_LABEL}>Terms</span>
-                        <span className={`${RIBBON_STAT_VALUE} ${activeConfig.text}`}>
-                          {activeTermInfo.syllabusTerms.join('-')}
-                        </span>
-                      </div>
+
+                      {/* "Band Cap" is the one label in this tray a student
+                          will not already know, and its explanation used to
+                          live in a `title` on a `<div>` with no `tabindex` —
+                          unreachable by keyboard, absent on touch. It is a
+                          line of text now. */}
+                      {/* Plural rather than "A {TERM} question": eleven of the
+                          thirty-eight verbs begin with a vowel, and "A
+                          EXPLAIN question" is what that sentence renders for
+                          every one of them. */}
+                      <p className={RIBBON_STAT_CAPTION}>
+                        {activeTermInfo.term} questions cap a response at Band{' '}
+                        {getTierTargetBand(activeTermInfo.tier)}.
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -524,15 +545,31 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
               />
             </div>
 
+            {/* The tier ladder along the footer.
+
+                These six steps used to be a hand-written array — Remember,
+                Describe, Explain, Analyse, Argue, Evaluate — which is a FOURTH
+                copy of the tier labels and had drifted at two of the six:
+                tier 2 is Define, tier 5 is Discuss. `tierShortLabel`'s doc
+                comment is a written record of exactly this happening twice
+                before in the admin components, where each wrong label named
+                another tier that also appeared in the same table, so the
+                mistake read as self-consistent. The strip beside this one is
+                already the tiers; iterating it is one fewer place to drift. */}
             <div className="flex justify-between items-center relative">
-              {COGNITIVE_STEPS.map((step, idx) => {
-                const isActive = activeTermInfo && activeTermInfo.tier >= step.tier;
-                const isCurrent = activeTermInfo && activeTermInfo.tier === step.tier;
-                const stepConfig = getTierScaleConfig(step.tier);
+              {sortedVerbsByGroup.map((group, idx) => {
+                const tier = group.tier;
+                const label = tierShortLabel(tier);
+                const isActive = activeTermInfo && activeTermInfo.tier >= tier;
+                const isCurrent = activeTermInfo && activeTermInfo.tier === tier;
+                const stepConfig = getTierScaleConfig(tier);
 
                 return (
-                  <React.Fragment key={step.tier}>
-                    {/* Visual Cut-off / Threshold Marker between Tier 3 (Apply) and Tier 4 (Analyse) */}
+                  <React.Fragment key={tier}>
+                    {/* The threshold marker, between tier 3 (Explain & Compare)
+                        and tier 4 (Analyse & Apply). It used to be commented as
+                        sitting between "Tier 3 (Apply)" and "Tier 4 (Analyse)"
+                        — Apply is a tier-4 verb. */}
                     {idx === 3 && (
                       <div className="absolute left-1/2 -translate-x-1/2 -top-8 bottom-0 w-px border-r-2 border-dashed border-slate-300/30 dark:border-white/10 z-0 flex flex-col items-center justify-start pointer-events-none">
                         <div className="hidden sm:block bg-[rgb(var(--color-bg-surface))] text-[8px] font-black uppercase tracking-widest text-slate-400 px-2 py-0.5 rounded-full border border-slate-300 dark:border-white/10 shadow-sm whitespace-nowrap mb-2 transform -translate-y-1/2">
@@ -543,11 +580,13 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
 
                     <button
                       type="button"
-                      aria-label={`Highlight band ${step.tier} — ${step.label}`}
+                      // "Highlight band n" was wrong twice over: the button
+                      // selects the tier's first verb rather than highlighting
+                      // anything, and what it selects is a tier, not a band.
+                      aria-label={`Show tier ${tier} verbs — ${label}`}
                       className="flex flex-col items-center gap-3 relative z-10 group/step cursor-pointer"
                       onClick={() => {
-                        const group = sortedVerbsByGroup.find((g) => g.tier === step.tier);
-                        if (group && group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
+                        if (group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
                       }}
                     >
                       <div
@@ -572,7 +611,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                                     ${isCurrent ? stepConfig.text : 'hidden sm:block text-slate-500 dark:text-slate-400 opacity-70 group-hover/step:opacity-100'}
                                  `}
                       >
-                        {step.label}
+                        {label}
                       </span>
                     </button>
                   </React.Fragment>
