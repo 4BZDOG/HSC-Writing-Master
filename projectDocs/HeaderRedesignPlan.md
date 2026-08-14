@@ -339,7 +339,7 @@ Mock `services/geminiService` per the house rule.
 
 **Files:** `utils/headerChrome.ts`, `components/AppHeader.tsx`, `tests/unit/appHeaderChrome.test.tsx`.
 
-**Current:** `AppHeader.tsx` renders `<header className="sticky top-0 z-[60] min-h-20 flex items-center shadow-2xl shadow-indigo-900/20">` with an absolutely-positioned `<div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-sky-500 opacity-100" />` as its first child.
+**Current:** after Step 3 the header's class strings live in `utils/headerChrome.ts` and the JSX reads `className={HEADER_BAR}`, not a literal. **Locate everything via the constants file — do not grep the JSX for class strings, they are no longer there.** The one exception is the full-bleed gradient div, which Step 3 deliberately left as a literal in `AppHeader.tsx` because this step deletes it: `<div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-sky-500 opacity-100" />`.
 
 **Target:**
 
@@ -460,6 +460,11 @@ whatever file now holds it. If the menu's structure puts the guard further
 than 2000 characters away, that is a signal the grouping is wrong, not that
 the threshold should rise.
 
+**Two notes from Step 3 about the existing test file:**
+
+- `tests/unit/appHeaderChrome.test.tsx` currently mocks `isCurriculumRemote` to a constant `true` at module scope. This step needs *both* branches (a `teacher` with remote off must see nothing), so convert it to a `vi.hoisted` mutable flag rather than stacking a second `vi.mock` on the same module.
+- The file's `ADMIN_TOOLS` array is the canonical list of the eight load-bearing labels, in rail order. It is the cheapest place to assert the strings survive the move into the popover byte-identical — use it rather than re-typing them.
+
 **Extend the unit test** with the §3 contract:
 - the panel has `role="dialog"` and **no** `aria-modal` attribute;
 - Escape closes it and focus returns to the trigger;
@@ -546,7 +551,16 @@ Replace the four call sites, and update the `contribution-loop.spec.ts` comment 
 
 ### Step 8 — Lock the height
 
-**Files:** `utils/headerChrome.ts`, `tests/unit/appHeaderChrome.test.tsx`.
+**Files:** `utils/headerChrome.ts`, `components/AppHeader.tsx`, `tests/unit/appHeaderChrome.test.tsx`.
+
+**This is NOT a one-file change, despite what the constants suggest** *(found during Step 3)*. Step 3 lifted only the class strings the plan named; five stayed as literals in `AppHeader.tsx`'s JSX. Two of them carry `flex-wrap` and are therefore this step's business:
+
+- the right-hand action cluster — `flex flex-wrap items-center justify-end gap-2 sm:gap-4 ml-auto`
+- the admin-cluster wrapper — `flex flex-wrap items-center justify-end gap-2 sm:mr-2` (this one disappears entirely with Step 5)
+
+Removing `flex-wrap` from `HEADER_INNER` alone will not stop the header wrapping. Grep `AppHeader.tsx` for `flex-wrap` and clear every occurrence.
+
+**Two stale comments must die with the wrapping** *(also found during Step 3)*: the `{/* Wraps below sm so admin/moderator tool buttons drop onto their own row… */}` comment above the inner row in `AppHeader.tsx`, and the matching sentence in `HEADER_INNER`'s doc comment in `utils/headerChrome.ts`. Both describe behaviour this step deletes; leaving them is worse than never having written them.
 
 **Current:** `HEADER_BAR` contains `min-h-20`; `HEADER_INNER` contains `py-3 sm:py-0 … flex flex-wrap sm:flex-nowrap`.
 
@@ -653,7 +667,7 @@ Mock `services/geminiService` in every render test (house rule). Mock `services/
 
 ### Coverage
 
-70% floor across lines/functions/branches/statements (`npm run test:coverage`). Extracting ~170 lines of JSX from `App.tsx` into two tested components should raise it.
+**Corrected during Step 3:** the plan's "70% floor" is wrong. `vitest.config.ts` pins **63 / 59 / 57 / 62** (lines / functions / branches / statements) as a deliberate regression floor, documented in a comment there. Do not quote 70%, and do not "helpfully" raise the thresholds as part of a header commit. Extracting ~170 lines of JSX from `App.tsx` into tested components should move the numbers up on their own.
 
 ---
 
