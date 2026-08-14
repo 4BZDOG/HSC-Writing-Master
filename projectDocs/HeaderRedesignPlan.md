@@ -599,11 +599,13 @@ Removing `flex-wrap` from `HEADER_INNER` alone will not stop the header wrapping
 Maintainer decision 3 says the chip must be visible at every width, and that stands. Satisfy both by dropping the *text*, never the chip:
 
 ```
-// on HEADER_STORAGE_ALERT — the icon alone carries it below `sm`
-'flex items-center gap-2 px-2 sm:px-3 h-9 rounded-xl …'
+// on HEADER_STORAGE_ALERT — the icon alone carries it below `lg`
+'flex items-center gap-2 px-2 lg:px-3 h-9 rounded-xl …'
 // and in the JSX, the label span:
-<span className="hidden sm:inline">Storage error</span>
+<span className="hidden lg:inline">Storage error</span>
 ```
+
+> **`lg`, not `sm` — corrected after measurement.** This prescription originally said `sm`. That fixes 360px and moves the failure to 640px, where the 147px chip pushed the sub-label 52px into the action buttons (112px for an admin). The shipped code uses `lg` and the live matrix confirms the chip is 34px at both 360 and 640. The `sm` figure survived in this document for several commits while the code was already correct — noted because a plan that disagrees with the code in writing is worse than no plan.
 
 The chip keeps `role="status"` and gains an `aria-label="Storage error — your work may not be saving"` so the announcement is unchanged when the text is hidden. A red `AlertTriangle` in a red chip is still unmissable at 360px; a 147px text chip that breaks the header layout is not an improvement on it.
 
@@ -731,3 +733,53 @@ Mock `services/geminiService` in every render test (house rule). Mock `services/
 **R7 — The DesignSpec §2 tier table is wrong** (Finding A12). Not fixed here. Someone reading the spec while implementing Step 4 may reach for `#6366f1` as "Band 6". Steps 4 and 11 both call it out; a spec correction should be raised separately.
 
 **R8 — Could not determine:** whether any deployment or documentation screenshot pins the current gradient header, and whether `probe.tmp.mjs` / `probe2.tmp.mjs` at the repo root touch header markup. Neither was inspected as part of this plan.
+
+---
+
+## 6. Independent verification — outcome
+
+An agent with no part in the implementation checked the finished branch against
+DesignSpec, this plan, and the running app. Confirmed: every maintainer
+decision, §3 Keyboard Reach (tested live — a bubble-phase Escape recorder fired
+zero times while the popover was open, proving it does not close what is
+beneath it), §2 light parity across every remaining white-alpha class, the
+`isSystemAdmin` guard on the runtime-key entry point (444 bytes above the
+needle, and it is the AI group's own guard rather than the looser
+component-level one), and 64px in all 48 role × theme × width × storage cells
+with no overflow or overlap anywhere.
+
+Test results at `d7ae304`: 1736 unit tests, `chromium` 18/18, `supabase-chromium`
+6/6, no unexplained eager reads.
+
+### Open items — carried, not closed
+
+1. **Mobile Safari is unverified, and this is the largest one.** Plan risk R2 —
+   `backdrop-blur-2xl` on a `sticky` header — was never checked on WebKit,
+   because WebKit is not installed in the development container (only Chromium
+   is). `index.css`'s `overflow-x: clip` and the `.clip-stable` rules exist
+   precisely because Safari's compositing has bitten this project before.
+   **Run `--project=webkit` and `--project="Mobile Safari"` before merging.**
+   The fallback if it misbehaves is `backdrop-blur-xl` with a more opaque
+   surface (`/90` light, `/85` dark).
+2. **The storage chip's contrast is calculated, never measured** (≈5.9:1 for
+   `#b91c1c` on `#fee2e2`). The e2e contrast suite cannot reach it, because it
+   only renders when storage has failed.
+3. **The dark mesh is barely perceptible either.** The light pass was dropped
+   because it moved the rail by one luminance level; verification found the
+   *dark* pass moves it by only one or two. It is honest texture rather than
+   decoration, but §1's "tactile depth" is doing very little work here, and a
+   future pass might reasonably drop it altogether.
+4. **The sub-label has ~0.2 of contrast margin** (4.68–4.72:1 against a 4.5
+   floor). It passes, and nothing more. Any future change to the light rail's
+   opacity or the slate ramp will eat it — `text-slate-600` is the fix.
+5. **Not verified against a real Supabase deployment.** `isCurriculumRemote()`
+   is false locally, so the Moderation group never rendered and the narrow-width
+   matrix was measured with five tools rather than eight. The rail's control
+   count is identical either way, so this is expected to hold, but it is
+   inference rather than measurement.
+6. **Two `text-white` values live in JSX, documented in prose but pinned by no
+   test** — the tile's icon and the avatar chip. Both are correct today because
+   both sit on solid brand colour; moving the avatar off indigo would not be
+   caught by the parity sweep, which only iterates `headerChrome.ts`.
+7. **Print styles (§5), high-contrast mode and `prefers-reduced-motion`** were
+   untouched by this series and unexamined against the glass rail.
