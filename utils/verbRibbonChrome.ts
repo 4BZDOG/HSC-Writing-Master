@@ -14,10 +14,12 @@
  * DesignSpec §2 asks of every colour and it is not answerable from the class
  * string alone.
  *
- * The values below are the ribbon's values AS THEY WERE when they were lifted
- * out of the JSX — this file was introduced without changing a single rendered
- * class, so that the redesign that follows is a diff of values in one file
- * rather than a diff of markup.
+ * New code here is `dark:`-first: light is the base, `dark:` carries the
+ * override (DesignSpec §2, "Which variant to write in new code"). The project's
+ * own `light:` variant stays valid elsewhere and the tier config keeps it, so a
+ * rendered `className` in this component legitimately contains both idioms —
+ * but nothing in THIS file may, and `tests/unit/verbRibbonChrome.test.tsx`
+ * pins that.
  */
 
 /** The ribbon's outermost box. Painted on the page background, full page width
@@ -26,18 +28,42 @@
 export const RIBBON_ROOT =
   'clip-stable relative overflow-hidden transition-all duration-700 ease-out animate-fade-in';
 
-/** The header bar, which is also the disclosure toggle. The tier gradient and
- *  the text colour that goes with it are interpolated at the call site.
+/** The header bar, which is also the disclosure toggle. Painted on the page
+ *  background and `AnimatedBackground` beneath it.
+ *
+ *  It used to be a full-bleed tier gradient — a wall, in a glass app, and the
+ *  reason everything on it had to be white: white text, a white-alpha tile, a
+ *  white-alpha chip. On tier 3 that white text sat on yellow at 1.9:1. The tier
+ *  still colours the ribbon; it does it from a 36px tile and a 2px underline
+ *  instead, which is `HEADER_HAIRLINE`'s argument transposed — edge-lighting
+ *  rather than a wall.
  *
  *  The height is LOCKED — `min-h` against shrinking, `whitespace-nowrap` and
  *  `truncate` on the pieces below against growing — and
- *  `tests/unit/commandVerbHierarchy.test.tsx` pins it. */
+ *  `tests/unit/commandVerbHierarchy.test.tsx` pins it. Every geometry token
+ *  here is unchanged from the gradient version. */
 export const RIBBON_HEADER_BAR =
-  'w-full px-0 py-3 sm:py-3.5 min-h-[60px] sm:min-h-[64px] flex items-center justify-between gap-3 relative z-10 overflow-hidden transition-all duration-500 group/header rounded-xl';
+  'w-full px-0 py-3 sm:py-3.5 min-h-[60px] sm:min-h-[64px] flex items-center justify-between gap-3 ' +
+  'relative z-10 overflow-hidden rounded-xl transition-colors duration-500 group/header ' +
+  'text-slate-900 dark:text-white ' +
+  'bg-white/60 hover:bg-white/80 backdrop-blur-xl ' +
+  'dark:bg-[rgb(var(--color-bg-surface))]/40 dark:hover:bg-[rgb(var(--color-bg-surface))]/60';
 
-/** The 36px icon tile at the head of the bar. Its fill is interpolated: white-
- *  alpha on the tier gradient when a verb is selected, a slate pair when none
- *  is. Painted on the bar. */
+/** Edge-lighting under the bar, and where the tier colour went. Painted on the
+ *  bar's own bottom edge; the gradient itself is the tier config's and is
+ *  interpolated at the call site. Rendered only when a verb is selected — with
+ *  none there is no tier to state. */
+export const RIBBON_TIER_UNDERLINE =
+  'absolute inset-x-0 bottom-0 h-0.5 pointer-events-none bg-gradient-to-r';
+
+/** The 36px icon tile at the head of the bar, and the other half of where the
+ *  tier colour went. Its fill is interpolated at the call site: the tier's
+ *  `solidBg` and `solidText` when a verb is selected — the pairing
+ *  `getBandConfig` exists to provide, and the reason it is not `text-white`,
+ *  which tier 3's yellow reads at 1.9:1 — and a slate pair when none is. The
+ *  border colour arrives with the fill, because `border-white/20` is right in
+ *  both themes on a solid tier fill (§2) and wrong on the slate one. Painted on
+ *  the bar. */
 export const RIBBON_HEADER_TILE =
   'w-9 h-9 shrink-0 rounded-xl flex items-center justify-center border shadow-md group-hover/header:scale-110 transition-transform';
 
@@ -49,18 +75,21 @@ export const RIBBON_HEADER_TITLE =
 
 /** "Reference • 6 Bands", under the title. Painted on the bar. */
 export const RIBBON_HEADER_SUBLABEL =
-  'block truncate text-[9px] font-black uppercase tracking-[0.2em] opacity-70';
+  'block truncate text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400';
 
 /** The word "Selected:" before the chip. `whitespace-nowrap` is half of the
  *  height lock. Painted on the bar. */
 export const RIBBON_SELECTED_LABEL =
-  'text-[10px] font-black opacity-60 uppercase tracking-widest whitespace-nowrap';
+  'text-[10px] font-black uppercase tracking-widest whitespace-nowrap text-slate-500 dark:text-slate-400';
 
 /** The chip carrying the selected verb. `whitespace-nowrap` is the other half
- *  of the height lock — DIFFERENTIATE is thirteen characters. Painted on the
- *  bar, which is a tier gradient whenever a verb is selected. */
+ *  of the height lock — DIFFERENTIATE is thirteen characters.
+ *
+ *  Structure only now. Its `bg-white/20 border-white/30` was correct while the
+ *  bar was a gradient and would be a smudge on glass, so the colour comes from
+ *  the tier config at the call site — the same wash the detail card wears. */
 export const RIBBON_SELECTED_CHIP =
-  'px-2.5 py-0.5 rounded-lg text-[10px] font-black uppercase tracking-widest whitespace-nowrap bg-white/20 border border-white/30 backdrop-blur-md shadow-sm';
+  'px-2.5 py-0.5 rounded-lg text-[10px] font-black uppercase tracking-widest whitespace-nowrap border shadow-sm';
 
 /** The chevron's round chip at the far end of the bar. Already a pair, because
  *  it is the one thing in the bar that has to read on both a tier gradient and
@@ -76,36 +105,40 @@ export const RIBBON_DETAIL_CARD =
 /** The verb itself, in the house display treatment. Painted on the detail
  *  card's tier wash. */
 export const RIBBON_DETAIL_TERM =
-  'text-3xl font-black tracking-tighter text-white light:text-slate-900 uppercase italic leading-none';
+  'text-3xl font-black tracking-tighter uppercase italic leading-none text-slate-900 dark:text-white';
 
 /** The tier chip beside the verb. Its colours come from the tier config.
  *  Painted on the detail card. */
 export const RIBBON_DETAIL_TIER_CHIP =
   'px-3 py-0.5 rounded-full border font-black text-[9px] uppercase tracking-widest shadow-sm';
 
-/** The verb's definition. Painted on the detail card. */
+/** The verb's definition. Painted on the detail card. The `opacity-90` it used
+ *  to carry was softening white-on-gradient text; on a tier wash it only cost
+ *  contrast. */
 export const RIBBON_DETAIL_DEFINITION =
-  'text-sm font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 max-w-xl leading-relaxed opacity-90';
+  'text-sm font-bold max-w-xl leading-relaxed text-slate-700 dark:text-[rgb(var(--color-text-secondary))]';
 
 /** The `StrategyTip`'s accent under the definition. Painted on the detail
  *  card. */
-export const RIBBON_DETAIL_TIP_ACCENT = 'text-[rgb(var(--color-text-muted))] light:text-slate-500';
+export const RIBBON_DETAIL_TIP_ACCENT = 'text-slate-500 dark:text-[rgb(var(--color-text-muted))]';
 
 /** The four-stat tray on the right of the detail card. Painted on the detail
  *  card's tier wash. */
 export const RIBBON_STAT_TRAY =
-  'flex items-center gap-4 bg-black/10 light:bg-slate-100 px-5 py-3 rounded-2xl border border-white/10 light:border-slate-300 backdrop-blur-md self-stretch md:self-auto justify-center shadow-inner flex-wrap';
+  'flex items-center gap-4 px-5 py-3 rounded-2xl backdrop-blur-md self-stretch md:self-auto ' +
+  'justify-center shadow-inner flex-wrap ' +
+  'bg-slate-100 border border-slate-200 dark:bg-black/20 dark:border-white/10';
 
 /** "Marks", "Band Cap", "Time", "Terms". Painted on the tray. */
 export const RIBBON_STAT_LABEL =
-  'text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5';
+  'text-[9px] uppercase tracking-widest font-black mb-0.5 text-slate-600 dark:text-slate-400';
 
 /** The number under each label; its colour is the tier's. Painted on the
  *  tray. */
 export const RIBBON_STAT_VALUE = 'text-lg font-black';
 
 /** The hairline between two stats. Painted on the tray. */
-export const RIBBON_STAT_DIVIDER = 'w-px h-8 bg-black/10 light:bg-slate-300';
+export const RIBBON_STAT_DIVIDER = 'w-px h-8 bg-slate-300 dark:bg-white/10';
 
 /** The horizontal tier strip. Six 260px cards plus gaps is ~1580px, so it
  *  overflows at nearly every width. Painted on the page background. */
@@ -124,7 +157,7 @@ export const RIBBON_TIER_CARD =
 /** A tier card with no verb selected anywhere, or one that is not the selected
  *  verb's tier. Painted on the page background. */
 export const RIBBON_TIER_CARD_IDLE =
-  'bg-white/[0.03] light:bg-white border-white/5 light:border-slate-300 light:shadow-sm';
+  'bg-white border-slate-300 shadow-sm dark:bg-white/[0.03] dark:border-white/5 dark:shadow-none';
 
 /** Added to the card whose tier the selected verb belongs to. Lifts it out of
  *  the strip; the tier's own border and wash arrive from the tier config. */
@@ -158,10 +191,10 @@ export const RIBBON_TIER_SUBTITLE = 'px-6 pt-3 text-[11px] font-medium leading-s
 /** The subtitle on the current tier's card, which is the one card the reader is
  *  meant to be reading. */
 export const RIBBON_TIER_SUBTITLE_CURRENT =
-  'text-[rgb(var(--color-text-primary))] light:text-slate-700';
+  'text-slate-700 dark:text-[rgb(var(--color-text-primary))]';
 
 /** The subtitle on the other five cards. */
-export const RIBBON_TIER_SUBTITLE_IDLE = 'text-[rgb(var(--color-text-muted))] light:text-slate-500';
+export const RIBBON_TIER_SUBTITLE_IDLE = 'text-slate-500 dark:text-[rgb(var(--color-text-muted))]';
 
 /** One verb chip. The selected/unselected fills are the tier config's, at the
  *  call site. Painted on the tier card body. */

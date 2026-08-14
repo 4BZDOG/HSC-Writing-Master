@@ -34,6 +34,7 @@ import {
   RIBBON_TIER_SUBTITLE,
   RIBBON_TIER_SUBTITLE_CURRENT,
   RIBBON_TIER_SUBTITLE_IDLE,
+  RIBBON_TIER_UNDERLINE,
   RIBBON_TIMELINE_DOT,
   RIBBON_TIMELINE_LABEL,
   RIBBON_TIMELINE_TICK,
@@ -156,14 +157,16 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
   // band-target mapping collapsed Tiers 5 and 6 into the same purple.
   const activeConfig = activeTermInfo ? getTierScaleConfig(activeTermInfo.tier) : null;
 
-  const headerGradientClass = activeConfig
-    ? `bg-gradient-to-r ${activeConfig.gradient}`
-    : 'bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700';
-
-  const headerTextClass = activeConfig ? 'text-white' : 'text-slate-700 dark:text-slate-200';
-  const headerIconBg = activeConfig
-    ? 'bg-white/20 border-white/30'
-    : 'bg-slate-200 dark:bg-slate-700 border-slate-300 dark:border-slate-600';
+  // The tier no longer paints the whole bar; it paints the 36px tile and the
+  // 2px underline beneath it. `solidText` rather than `text-white` because
+  // tier 3's fill is yellow — that is the pairing `getBandConfig` returns a
+  // `solidText` field for, and white on it is 1.9:1. The `border-white/20` sits
+  // on a solid tier fill, so it reads the same in both themes and takes no
+  // `dark:` partner (DesignSpec §2, rule 2); the slate branch is not on a fill
+  // and does take one.
+  const headerTileClass = activeConfig
+    ? `${activeConfig.solidBg} ${activeConfig.solidText} border-white/20`
+    : 'bg-slate-200 text-slate-500 border-slate-300 dark:bg-slate-700 dark:text-slate-300 dark:border-white/10';
 
   // Hairline used above the header, above the footer, and below the ribbon —
   // slightly stronger when a verb is selected so the ribbon reads as active.
@@ -197,16 +200,17 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
         aria-expanded={isOpen}
         aria-controls={panelId}
         aria-label={`${isOpen ? 'Collapse' : 'Expand'} the HSC command verb hierarchy reference`}
-        className={`
-            ${RIBBON_HEADER_BAR}
-            ${headerGradientClass} ${headerTextClass}
-            ${isOpen ? '' : 'hover:brightness-105'}
-        `}
+        className={RIBBON_HEADER_BAR}
       >
         <MeshOverlay opacity="opacity-10" />
+        {/* Where the tier gradient went: a hairline along the bar's own bottom
+            edge, lit only when there is a tier to state. */}
+        {activeConfig && (
+          <div className={`${RIBBON_TIER_UNDERLINE} ${activeConfig.gradient}`} aria-hidden="true" />
+        )}
 
         <div className="flex items-center gap-3 relative z-10 px-4 sm:px-5 min-w-0">
-          <div className={`${RIBBON_HEADER_TILE} ${headerIconBg}`}>
+          <div className={`${RIBBON_HEADER_TILE} ${headerTileClass}`}>
             <AlignLeft className="w-5 h-5" />
           </div>
           <div className="text-left min-w-0">
@@ -223,7 +227,11 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
           {activeTermInfo && (
             <div className="hidden sm:flex items-center gap-3 animate-fade-in">
               <span className={RIBBON_SELECTED_LABEL}>Selected:</span>
-              <div className={RIBBON_SELECTED_CHIP}>{activeTermInfo.term}</div>
+              <div
+                className={`${RIBBON_SELECTED_CHIP} ${activeConfig?.bg ?? ''} ${activeConfig?.text ?? ''} ${activeConfig?.border ?? ''}`}
+              >
+                {activeTermInfo.term}
+              </div>
             </div>
           )}
           <div

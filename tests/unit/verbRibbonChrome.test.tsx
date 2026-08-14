@@ -3,15 +3,18 @@ import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
 import CommandVerbHierarchy from '../../components/CommandVerbHierarchy';
 import { PromptVerb } from '../../types';
+import * as verbRibbonChrome from '../../utils/verbRibbonChrome';
 import {
   RIBBON_DETAIL_CARD,
   RIBBON_DETAIL_TERM,
   RIBBON_HEADER_BAR,
+  RIBBON_HEADER_TILE,
   RIBBON_ROOT,
   RIBBON_STAT_TRAY,
   RIBBON_STRIP,
   RIBBON_TIER_CARD,
   RIBBON_TIER_HEADER,
+  RIBBON_TIER_UNDERLINE,
   RIBBON_VERB_CHIP,
 } from '../../utils/verbRibbonChrome';
 
@@ -77,5 +80,116 @@ describe('the ribbon wears the shared vocabulary', () => {
     );
     expect(chips).toHaveLength(38);
     expect(chips.map((chip) => chip.textContent)).toContain('IDENTIFY');
+  });
+});
+
+/**
+ * The bar stopped being a full-bleed tier gradient and became glass, which is
+ * the moment every white-alpha value on it changed meaning. DesignSpec §2 asks
+ * "what is it painted on?", and the honest answer for anything on the bar is
+ * now "a theme colour" — so it needs a light value and a `dark:` partner. The
+ * tier survives on a 36px tile and a 2px underline, both of which are solid
+ * tier fills and take their colours from the tier config at the call site.
+ */
+describe('the bar carries both themes', () => {
+  it('paints its own background in light and in dark', () => {
+    expect(RIBBON_HEADER_BAR).toContain('bg-white/60');
+    expect(RIBBON_HEADER_BAR).toContain('dark:bg-[rgb(var(--color-bg-surface))]/40');
+    expect(RIBBON_HEADER_BAR).toContain('backdrop-blur-xl');
+    expect(RIBBON_HEADER_BAR).toContain('text-slate-900 dark:text-white');
+  });
+
+  it('no longer hangs a full-bleed gradient across the whole bar', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    expect(container.querySelector('button > .absolute.inset-0.bg-gradient-to-r')).toBeNull();
+    expect(getToggle().className).not.toContain('bg-gradient-to-r');
+  });
+
+  it('states the tier on a 2px underline instead, and only when there is one', () => {
+    const { container, unmount } = render(
+      <CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />
+    );
+
+    const underline = container.querySelector(`[class*="${RIBBON_TIER_UNDERLINE}"]`) as HTMLElement;
+    expect(underline).toBeTruthy();
+    expect(underline.getAttribute('aria-hidden')).toBe('true');
+    // Tier 3's gradient, from the config rather than from a literal here.
+    expect(underline.className).toContain('from-yellow-500');
+    unmount();
+
+    // With no verb there is no tier to state, so there is no underline.
+    const { container: neutral } = render(<CommandVerbHierarchy />);
+    expect(neutral.querySelector(`[class*="${RIBBON_TIER_UNDERLINE}"]`)).toBeNull();
+  });
+
+  it('carries the tier on the icon tile, paired the way getBandConfig intends', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+    const tile = container.querySelector(`[class*="${RIBBON_HEADER_TILE}"]`) as HTMLElement;
+
+    // Tier 3's solid fill is yellow; `text-white` on it is 1.92:1, which is why
+    // the tile wears the config's own `solidText`.
+    expect(tile.className).toContain('bg-yellow-500');
+    expect(tile.className).toContain('text-yellow-900');
+    expect(tile.className).not.toContain('text-white');
+  });
+
+  /**
+   * Two constants are knowingly left short here and are the next step's
+   * business: `RIBBON_TIER_HEADER`'s focus ring, which is white-alpha on a
+   * theme surface, and `RIBBON_TIER_CARD_DIMMED`'s split opacity. Splitting
+   * them out keeps this step's diff readable; the exemption list goes with
+   * them.
+   */
+  const PENDING_STEP_6 = new Set(['RIBBON_TIER_HEADER', 'RIBBON_TIER_CARD_DIMMED']);
+
+  it('gives every colour on a theme surface a light value and a dark partner', () => {
+    /** `hover:bg-slate-100` → `bg`; `text-lg` and `border-b` → null. */
+    const colourProperty = (token: string): string | null => {
+      const utility = token.split(':').pop() as string;
+      const match = utility.match(/^(text|bg|border|from|via|to|shadow|ring|divide)-(.+)$/);
+      if (!match) return null;
+      const [, property, value] = match;
+      // Theme-neutral keywords need no partner; sizes and gradient directions
+      // are not colours at all.
+      if (/^(transparent|current|inherit|none)$/.test(value)) return null;
+      // The alpha may be an arbitrary value — `white/[0.03]` is a real tier-card
+      // fill here, and the header's classifier never had to read one.
+      const alpha = '(\\/(\\[[^\\]]+\\]|[\\d.]+))?';
+      const isColour =
+        new RegExp(`^(white|black)${alpha}$`).test(value) ||
+        new RegExp(`^[a-z]+-\\d{2,3}${alpha}$`).test(value) ||
+        value.startsWith('[rgb(');
+      return isColour ? property : null;
+    };
+
+    for (const [name, value] of Object.entries(verbRibbonChrome)) {
+      if (typeof value !== 'string' || PENDING_STEP_6.has(name)) continue;
+
+      const tokens = value.split(/\s+/).filter(Boolean);
+      const themed = new Set(
+        tokens
+          .filter((t) => t.startsWith('dark:'))
+          .map(colourProperty)
+          .filter(Boolean)
+      );
+
+      for (const token of tokens) {
+        if (token.startsWith('dark:')) continue;
+        const property = colourProperty(token);
+        if (!property) continue;
+        expect(
+          themed.has(property),
+          `${name} sets \`${token}\` on a theme surface with no dark: partner`
+        ).toBe(true);
+      }
+    }
+  });
+
+  it('is written in the new idiom throughout', () => {
+    for (const [name, value] of Object.entries(verbRibbonChrome)) {
+      if (typeof value !== 'string' || PENDING_STEP_6.has(name)) continue;
+      expect(value, `${name} still uses the legacy light: variant`).not.toContain('light:');
+    }
   });
 });
