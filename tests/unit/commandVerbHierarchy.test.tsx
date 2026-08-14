@@ -137,6 +137,34 @@ describe('CommandVerbHierarchy', () => {
     expect(scrollTo).toHaveBeenCalled();
   });
 
+  // Verbs arrive from model output and from stored prompts in whatever case
+  // they were saved with, and an exact-case lookup answered `undefined` — which
+  // in this component is not a wrong verb but no verb: no detail card, no tier
+  // highlight, no progress.
+  it('explains a verb that arrives in the wrong case', () => {
+    render(<CommandVerbHierarchy currentVerb={'describe' as PromptVerb} />);
+    expect(screen.getByText('Band Cap')).toBeTruthy();
+    expect(screen.getAllByText('DESCRIBE').length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('honours prefers-reduced-motion when it scrolls the strip', () => {
+    const scrollTo = vi.fn();
+    (Element.prototype as unknown as { scrollTo: unknown }).scrollTo = scrollTo;
+    const matchMedia = vi.fn().mockReturnValue({ matches: true });
+    const original = window.matchMedia;
+    (window as unknown as { matchMedia: unknown }).matchMedia = matchMedia;
+
+    try {
+      render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+      scrollTo.mockClear();
+      fireEvent.click(screen.getByRole('button', { name: 'SYNTHESISE' }));
+
+      expect(scrollTo).toHaveBeenCalledWith(expect.objectContaining({ behavior: 'auto' }));
+    } finally {
+      (window as unknown as { matchMedia: unknown }).matchMedia = original;
+    }
+  });
+
   it('cognitive timeline steps are keyboard-reachable buttons that select the tier', () => {
     render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
     const step = screen.getByRole('button', { name: /Highlight band 6/i });
