@@ -3,6 +3,25 @@
 *HSC Writing Master — application header (`App.tsx`, inline, lines 730–899)*
 *Written against DesignSpec v2.2.1. British/Australian English throughout.*
 
+## Decisions taken by the maintainer
+
+These settle R4, R5 and R6 below. They are binding on every step; where they
+conflict with the prose further down, these win.
+
+1. **`dark:`-first, and document it.** New header code uses light as the base
+   with `dark:` carrying the override. The existing `light:` variant stays
+   valid and existing components are *not* migrated. Step 4 additionally adds
+   a short "which variant to use in new code" rule to DesignSpec §2, so the
+   split is documented rather than accidental. (Resolves R6.)
+2. **The overflow trigger is role-labelled**: `Admin tools` for system admins,
+   `Teaching tools` for moderators. The e2e helper matches both with
+   `/(admin|teaching) tools/i`. (Resolves R4.)
+3. **Storage `Error` gets a visible warning chip.** The routine status pill is
+   still deleted, but `storageStatus === 'Error'` must surface a persistent,
+   unmissable chip on the header rail at every width. Data loss is the worst
+   failure this app has, and burying it in a tooltip is not acceptable. Folded
+   into Step 7. (Resolves R5.)
+
 ## Step summary
 
 | Step | Summary |
@@ -13,7 +32,7 @@
 | 4 | Tokenise the bar: glass surface, light/dark pairs, brand gradient demoted to the wordmark tile, mesh, hairline |
 | 5 | Collapse the 8 admin/moderator buttons into one non-modal overflow popover |
 | 6 | Update the two `supabase-chromium` e2e specs to open the popover first |
-| 7 | Retire the API/storage pill; drop the `apiStatus` prop from `AuthenticatedApp` |
+| 7 | Retire the API/storage pill; keep an Error-only storage warning chip; drop the `apiStatus` prop |
 | 8 | Lock the height: `h-16`, `flex-nowrap` at every width; typography tidy |
 | 9 | Add a skip link and a `<main>` landmark |
 | 10 | Lift the `header` exclusion in `tests/e2e/support/contrast.ts` |
@@ -459,6 +478,27 @@ Replace the four call sites, and update the `contribution-loop.spec.ts` comment 
    ```
    rendered as `Storage · {storageStatus}` above a `border-t border-slate-200 dark:border-white/10` divider.
 3. Append `— storage: ${storageStatus}` to the profile button's `title`, so the fact is reachable for a non-admin at every width (the `hidden lg:flex` complaint in Finding 6).
+3a. **Add an Error-only storage warning chip** (maintainer decision 3). When
+   `storageStatus === 'Error'` — and *only* then — render a chip on the rail,
+   before the tools trigger, at every width (no `hidden lg:` breakpoint):
+
+   ```ts
+   export const HEADER_STORAGE_ALERT =
+     'flex items-center gap-2 px-3 h-9 rounded-xl font-mono text-[10px] uppercase ' +
+     'tracking-wider border ' +
+     'bg-red-100 text-red-700 border-red-200 ' +
+     'dark:bg-red-500/15 dark:text-red-300 dark:border-red-500/30';
+   ```
+
+   Content: lucide `AlertTriangle` (`w-4 h-4`, `aria-hidden`) plus the text
+   `Storage error`. The chip carries `role="status"` so assistive technology
+   announces it when it appears, and a `title` of
+   `Your work may not be saving — open your profile to check storage`. Mono per
+   §4 (it is telemetry). Because it renders only in the failure case, it costs
+   nothing in the normal header and cannot be missed in the failing one.
+
+   Unit test: `storageStatus="Error"` renders the chip with `role="status"`;
+   every other `StorageStatus` value renders no chip at all.
 4. Remove `apiStatus` from `AppHeaderProps` and its pass-through in `App.tsx`.
 5. Remove the `apiStatus` prop from `AuthenticatedAppProps` (`App.tsx:151`), the destructure (`:159`) and the call site (`:1445`). **Keep `const apiStatus = useApiStatus()` at `App.tsx:1227`** only if something else reads it — check; if nothing does, remove it and the `useApiStatus` import too, but leave `hooks/useApiStatus.ts` alone (`ApiHealthIndicator` and `ApiStatusIndicator` both use it).
 
