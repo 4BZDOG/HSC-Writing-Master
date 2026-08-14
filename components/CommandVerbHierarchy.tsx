@@ -4,19 +4,11 @@ import { commandTerms, TIER_GROUPS, getTierTargetBand } from '../data/commandTer
 import { ChevronDown, AlignLeft, Sparkles } from 'lucide-react';
 import { getTierScaleConfig } from '../utils/renderUtils';
 import StrategyTip from './StrategyTip';
+import MeshOverlay from './MeshOverlay';
 
 interface CommandVerbHierarchyProps {
   currentVerb?: PromptVerb;
 }
-
-const MeshOverlay = ({ opacity = 'opacity-[0.03]' }: { opacity?: string }) => (
-  <div
-    className={`absolute inset-0 ${opacity} pointer-events-none mix-blend-overlay z-0 transition-opacity duration-500`}
-    style={{
-      backgroundImage: `url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v10M0 1h10' stroke='%23ffffff' stroke-width='0.5' fill='none'/%3E%3C/svg%3E")`,
-    }}
-  />
-);
 
 const COGNITIVE_STEPS = [
   { label: 'Remember', tier: 1 },
