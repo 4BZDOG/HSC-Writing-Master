@@ -7,6 +7,7 @@ import {
   isSystemAdmin,
 } from '../utils/permissions';
 import Combobox, { SEARCH_THRESHOLD } from './Combobox';
+import NavigatorStep from './NavigatorStep';
 import QuestionFilterBar from './QuestionFilterBar';
 import {
   QuestionFilter,
@@ -118,10 +119,6 @@ interface PromptSelectorProps {
   userRole: UserRole;
 }
 
-// Static lookup map for Tailwind classes to ensure they are not purged.
-// The five journey levels use clearly separated hues (blue → purple → teal →
-// pink → amber); completion is a SEPARATE semantic (emerald tick on the rail),
-// so a level's hue never doubles as a status light.
 /** The tier's own heading, as the cognitive spectrum names it. */
 const tierGroupTitle = (tier: number): string =>
   TIER_GROUPS.find((g) => g.tier === tier)?.title ?? `Tier ${tier}`;
@@ -137,135 +134,22 @@ const SUGGESTION_HEADINGS: Record<string, (tier: number) => string> = {
   consolidate: (tier) => `Suggested next · more practice at ${tierShortLabel(tier)}`,
 };
 
-const THEMES: Record<string, any> = {
-  blue: {
-    activeBorder: 'border-blue-500/30 light:border-blue-600',
-    activeShadow: 'shadow-blue-900/10',
-    selectedBorder: 'border-blue-500/20',
-    nodeSelected:
-      'bg-[rgb(var(--color-bg-surface))] light:bg-white border-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.4)]',
-    headerIcon:
-      'bg-blue-500/10 text-blue-400 light:bg-blue-100 light:text-blue-700 border-blue-500/20',
-  },
-  purple: {
-    activeBorder: 'border-purple-500/30 light:border-purple-600',
-    activeShadow: 'shadow-purple-900/10',
-    selectedBorder: 'border-purple-500/20',
-    nodeSelected:
-      'bg-[rgb(var(--color-bg-surface))] light:bg-white border-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.4)]',
-    headerIcon:
-      'bg-purple-500/10 text-purple-400 light:bg-purple-100 light:text-purple-700 border-purple-500/20',
-  },
-  teal: {
-    activeBorder: 'border-teal-500/30 light:border-teal-600',
-    activeShadow: 'shadow-teal-900/10',
-    selectedBorder: 'border-teal-500/20',
-    nodeSelected:
-      'bg-[rgb(var(--color-bg-surface))] light:bg-white border-teal-500 shadow-[0_0_8px_rgba(20,184,166,0.4)]',
-    headerIcon:
-      'bg-teal-500/10 text-teal-400 light:bg-teal-100 light:text-teal-700 border-teal-500/20',
-  },
-  pink: {
-    activeBorder: 'border-pink-500/30 light:border-pink-600',
-    activeShadow: 'shadow-pink-900/10',
-    selectedBorder: 'border-pink-500/20',
-    nodeSelected:
-      'bg-[rgb(var(--color-bg-surface))] light:bg-white border-pink-500 shadow-[0_0_8px_rgba(236,72,153,0.4)]',
-    headerIcon:
-      'bg-pink-500/10 text-pink-400 light:bg-pink-100 light:text-pink-700 border-pink-500/20',
-  },
-  amber: {
-    activeBorder: 'border-amber-500/30 light:border-amber-600',
-    activeShadow: 'shadow-amber-900/10',
-    selectedBorder: 'border-amber-500/20',
-    nodeSelected:
-      'bg-[rgb(var(--color-bg-surface))] light:bg-white border-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.4)]',
-    headerIcon:
-      'bg-amber-500/10 text-amber-400 light:bg-amber-100 light:text-amber-700 border-amber-500/20',
-  },
-  green: {
-    activeBorder: 'border-emerald-500/30 light:border-emerald-600',
-    activeShadow: 'shadow-emerald-900/10',
-    selectedBorder: 'border-emerald-500/20',
-    nodeSelected:
-      'bg-[rgb(var(--color-bg-surface))] light:bg-white border-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]',
-    headerIcon:
-      'bg-emerald-500/10 text-emerald-400 light:bg-emerald-100 light:text-emerald-700 border-emerald-500/20',
-  },
-};
-
 /**
- * Three presentational pieces of the navigator, at module scope on purpose.
+ * The action button, at module scope on purpose.
  *
- * They used to be declared INSIDE `PromptSelector`, which makes each of them a
- * brand-new component type on every render — so React unmounted and remounted
- * every rail node and every action button whenever anything in the picker
- * changed: a keystroke in a search box, a path change, an attempt history
- * arriving. That threw away DOM state each time, and it is why focus vanished
- * after a dialog closed: the button that opened it no longer existed, so there
- * was nothing to hand focus back to.
+ * It used to be declared INSIDE `PromptSelector`, along with the rail node and
+ * the step header, which makes each of them a brand-new component type on every
+ * render — so React unmounted and remounted every rail node and every action
+ * button whenever anything in the picker changed: a keystroke in a search box, a
+ * path change, an attempt history arriving. That threw away DOM state each time,
+ * and it is why focus vanished after a dialog closed: the button that opened it
+ * no longer existed, so there was nothing to hand focus back to.
  *
- * None of them read component state — only module-level `THEMES`, the icons
- * they are given, and `requestUpgrade` — so hoisting them is a move, not a
- * rewrite.
+ * It reads no component state — only the icons it is given and `requestUpgrade`
+ * — so hoisting it was a move, not a rewrite. The rail node and the step header
+ * have since moved again, into `NavigatorStep`, for the same reason they were
+ * hoisted: the thing that repeats five times should be written once.
  */
-/**
- * Progress node on the vertical rail. One consistent semantic everywhere:
- * done = emerald tick, current = ring in the level's hue, upcoming = hollow
- * grey — the previous version glowed each dot in its level's hue, which read
- * like a random traffic light.
- */
-const RailNode = ({
-  isSelected,
-  isComplete,
-  colorKey,
-}: {
-  isSelected: boolean;
-  isComplete: boolean;
-  colorKey: string;
-}) => {
-  const theme = THEMES[colorKey] || THEMES.blue;
-  const base =
-    'absolute -left-[0.95rem] top-1/2 -translate-y-1/2 rounded-full transition-all duration-500 z-10 flex items-center justify-center';
-  if (isComplete) {
-    return (
-      <div
-        className={`${base} w-[1.15rem] h-[1.15rem] bg-emerald-500 border-2 border-emerald-400/60 shadow-[0_0_10px_rgba(16,185,129,0.45)]`}
-        title="Step complete"
-      >
-        <Check className="w-3 h-3 text-white" strokeWidth={4} />
-      </div>
-    );
-  }
-  if (isSelected) {
-    return (
-      <div
-        className={`${base} w-4 h-4 border-2 scale-125 ${theme.nodeSelected}`}
-        title="Current step"
-      />
-    );
-  }
-  return (
-    <div
-      className={`${base} w-4 h-4 border-2 bg-[rgb(var(--color-bg-surface))] light:bg-slate-200 border-white/20 light:border-slate-400 scale-90 opacity-50`}
-    />
-  );
-};
-
-const StepHeader = ({ icon: Icon, label, colorKey }: any) => {
-  const theme = THEMES[colorKey] || THEMES.blue; // Defensive fallback
-  return (
-    <div className="flex items-center gap-2 mb-3">
-      <div className={`p-1.5 rounded-md ${theme.headerIcon}`}>
-        {Icon && <Icon className="w-4 h-4" />}
-      </div>
-      <span className="text-xs font-black uppercase tracking-widest text-[rgb(var(--color-text-primary))] light:text-slate-900">
-        {label}
-      </span>
-    </div>
-  );
-};
-
 const ActionButton = ({
   onClick,
   icon: Icon,
@@ -842,32 +726,29 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   // rule is easier to reason about than two.
   const showQuestionFilters = promptOptions.length >= SEARCH_THRESHOLD;
 
-  const getContainerClasses = (isSelected: boolean, zIndex: string) => `
-    relative transition-all duration-500 ease-in-out w-full ${zIndex} ${isSelected ? 'mb-1' : 'mb-6'}
-  `;
-
-  const getBoxClasses = (isSelected: boolean, isActive: boolean, colorKey: string) => {
-    const theme = THEMES[colorKey] || THEMES.blue; // Defensive fallback
-    if (isSelected) {
-      return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface))]/60 light:bg-white border ${theme.selectedBorder} light:border-slate-300 light:shadow-sm py-3 px-4 z-10`;
-    }
-    if (isActive) {
-      return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 ${theme.activeBorder} shadow-xl ${theme.activeShadow} py-6 px-6 scale-[1.01] z-20`;
-    }
-    return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-white/5 light:border-slate-300 py-4 px-6 opacity-60 grayscale hover:grayscale-0 hover:opacity-100`;
-  };
-
   return (
-    <div className="flex flex-col pl-4 md:pl-12 relative animate-fade-in">
-      <div className="absolute left-[1.35rem] md:left-[2.35rem] top-0 bottom-0 w-px bg-white/5 light:bg-slate-400 z-0"></div>
+    // A landmark, because this is the app's primary navigation and had no name,
+    // no role and no structure of any kind — one `aria-` attribute in the whole
+    // file. `role="list"` rather than an `<ol>`: it keeps the DOM shape and the
+    // CSS exactly as they were, and it survives `list-style: none`, which
+    // Safari's accessibility tree otherwise takes list semantics away for.
+    <nav aria-label="Syllabus navigator">
+      <div className="flex flex-col pl-4 md:pl-12 relative animate-fade-in" role="list">
+        <div
+          className="absolute left-[1.35rem] md:left-[2.35rem] top-0 bottom-0 w-px bg-white/5 light:bg-slate-400 z-0"
+          aria-hidden="true"
+        ></div>
 
-      {/* 1. Course Selection */}
-      <div className={getContainerClasses(isCourseSelected, 'z-50')}>
-        <div className={getBoxClasses(isCourseSelected, !isCourseSelected, 'blue')}>
-          <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
-            <RailNode isSelected={isCourseSelected} isComplete={isTopicSelected} colorKey="blue" />
-          </div>
-          {!isCourseSelected && <StepHeader icon={BookOpen} label="Course" colorKey="blue" />}
+        {/* 1. Course Selection */}
+        <NavigatorStep
+          level="course"
+          label="Course"
+          icon={BookOpen}
+          isSelected={isCourseSelected}
+          isComplete={isTopicSelected}
+          chosenLabel={selectedCourse?.name}
+          zIndex="z-50"
+        >
           <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
             <div className="flex-1 w-full">
               <Combobox
@@ -977,21 +858,19 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               Can’t find your course? Request it →
             </button>
           )}
-        </div>
-      </div>
+        </NavigatorStep>
 
-      {/* 2. Topic Selection */}
-      {selectedCourse && (
-        <div className={getContainerClasses(isTopicSelected, 'z-40')}>
-          <div className={getBoxClasses(isTopicSelected, !isTopicSelected, 'purple')}>
-            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
-              <RailNode
-                isSelected={isTopicSelected}
-                isComplete={isSubTopicSelected}
-                colorKey="purple"
-              />
-            </div>
-            {!isTopicSelected && <StepHeader icon={Layers} label="Topic" colorKey="purple" />}
+        {/* 2. Topic Selection */}
+        {selectedCourse && (
+          <NavigatorStep
+            level="topic"
+            label="Topic"
+            icon={Layers}
+            isSelected={isTopicSelected}
+            isComplete={isSubTopicSelected}
+            chosenLabel={selectedTopic?.name}
+            zIndex="z-40"
+          >
             {topicOptions.length === 0 && (
               <p className="mb-3 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
                 <Upload className="w-3.5 h-3.5" />
@@ -1170,24 +1049,20 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 </div>
               </div>
             )}
-          </div>
-        </div>
-      )}
+          </NavigatorStep>
+        )}
 
-      {/* 3. Sub-Topic Selection */}
-      {selectedTopic && (
-        <div className={getContainerClasses(isSubTopicSelected, 'z-30')}>
-          <div className={getBoxClasses(isSubTopicSelected, !isSubTopicSelected, 'teal')}>
-            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
-              <RailNode
-                isSelected={isSubTopicSelected}
-                isComplete={isDotPointSelected}
-                colorKey="teal"
-              />
-            </div>
-            {!isSubTopicSelected && (
-              <StepHeader icon={FolderOpen} label="Sub-Topic" colorKey="teal" />
-            )}
+        {/* 3. Sub-Topic Selection */}
+        {selectedTopic && (
+          <NavigatorStep
+            level="subTopic"
+            label="Sub-Topic"
+            icon={FolderOpen}
+            isSelected={isSubTopicSelected}
+            isComplete={isDotPointSelected}
+            chosenLabel={selectedSubTopic?.name}
+            zIndex="z-30"
+          >
             <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
               <div className="flex-1 w-full">
                 <Combobox
@@ -1241,25 +1116,24 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 </div>
               )}
             </div>
-          </div>
-        </div>
-      )}
+          </NavigatorStep>
+        )}
 
-      {/* 4. Dot Point & Syllabus Focus (Merged Row) */}
-      {selectedSubTopic && (
-        <div className={getContainerClasses(isDotPointSelected, 'z-20')}>
-          <div className={getBoxClasses(isDotPointSelected, !isDotPointSelected, 'pink')}>
-            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
-              <RailNode
-                isSelected={isDotPointSelected}
-                isComplete={isPromptSelected}
-                colorKey="pink"
-              />
-            </div>
-            {!isDotPointSelected && (
-              <StepHeader icon={List} label="Syllabus Content" colorKey="pink" />
-            )}
-
+        {/* 4. Dot Point & Syllabus Focus (Merged Row) */}
+        {selectedSubTopic && (
+          <NavigatorStep
+            level="dotPoint"
+            label="Syllabus Content"
+            icon={List}
+            isSelected={isDotPointSelected}
+            isComplete={isPromptSelected}
+            chosenLabel={
+              selectedDotPoint
+                ? splitDotPointDescription(selectedDotPoint.description).stem
+                : undefined
+            }
+            zIndex="z-20"
+          >
             <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-start">
               {/* Main Dot Point Selector - Grows to take most space */}
               <div className="flex-[3] w-full min-w-0">
@@ -1391,42 +1265,45 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 ))}
               </div>
             )}
-          </div>
-        </div>
-      )}
+          </NavigatorStep>
+        )}
 
-      {selectedDotPoint && onUpdateFocusAreas && (
-        <FocusAreaEditorModal
-          isOpen={focusEditorOpen}
-          onClose={() => setFocusEditorOpen(false)}
-          description={selectedDotPoint.description}
-          focusAreas={subItems}
-          isOverridden={focusAreasOverridden}
-          onSave={(areas) => {
-            onUpdateFocusAreas(selectedDotPoint.id, areas);
-            // An active focus that no longer exists in the list would keep
-            // narrowing generated questions to a phrase the teacher just
-            // deleted, and nothing on screen would say so.
-            const stillValid = (statePath.selectedSubItems || []).filter((i) => areas.includes(i));
-            onPathChange({ selectedSubItems: stillValid.length ? stillValid : undefined });
-          }}
-          onReset={() => {
-            onUpdateFocusAreas(selectedDotPoint.id, undefined);
-            onPathChange({ selectedSubItems: undefined });
-          }}
-        />
-      )}
+        {selectedDotPoint && onUpdateFocusAreas && (
+          <FocusAreaEditorModal
+            isOpen={focusEditorOpen}
+            onClose={() => setFocusEditorOpen(false)}
+            description={selectedDotPoint.description}
+            focusAreas={subItems}
+            isOverridden={focusAreasOverridden}
+            onSave={(areas) => {
+              onUpdateFocusAreas(selectedDotPoint.id, areas);
+              // An active focus that no longer exists in the list would keep
+              // narrowing generated questions to a phrase the teacher just
+              // deleted, and nothing on screen would say so.
+              const stillValid = (statePath.selectedSubItems || []).filter((i) =>
+                areas.includes(i)
+              );
+              onPathChange({ selectedSubItems: stillValid.length ? stillValid : undefined });
+            }}
+            onReset={() => {
+              onUpdateFocusAreas(selectedDotPoint.id, undefined);
+              onPathChange({ selectedSubItems: undefined });
+            }}
+          />
+        )}
 
-      {/* 5. Question Selection */}
-      {selectedDotPoint && (
-        <div className={getContainerClasses(isPromptSelected, 'z-10')}>
-          <div className={getBoxClasses(isPromptSelected, !isPromptSelected, 'amber')}>
-            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
-              <RailNode isSelected={isPromptSelected} isComplete={false} colorKey="amber" />
-            </div>
-            {!isPromptSelected && (
-              <StepHeader icon={FileQuestion} label="Question" colorKey="amber" />
-            )}
+        {/* 5. Question Selection */}
+        {selectedDotPoint && (
+          <NavigatorStep
+            level="question"
+            label="Question"
+            icon={FileQuestion}
+            isSelected={isPromptSelected}
+            isComplete={false}
+            chosenLabel={selectedPrompt?.question}
+            isEmpty={promptOptions.length === 0}
+            zIndex="z-10"
+          >
             {promptOptions.length === 0 && (
               <p className="mb-3 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
                 <FileQuestion className="w-3.5 h-3.5" />
@@ -1534,10 +1411,10 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 </div>
               )}
             </div>
-          </div>
-        </div>
-      )}
-    </div>
+          </NavigatorStep>
+        )}
+      </div>
+    </nav>
   );
 };
 

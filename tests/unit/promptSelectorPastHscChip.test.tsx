@@ -130,3 +130,60 @@ describe('past HSC chip in the question picker', () => {
     expect(within(option).queryByText(/HSC/)).toBeNull();
   });
 });
+
+/**
+ * The navigator is the app's primary navigation and had one `aria-` attribute in
+ * 1544 lines — no landmark, no list, and no name on any of its five steps. Worse,
+ * the only place the word "Course" appeared was the step header, which is drawn
+ * only while the level is UNCHOSEN: pick a course and the trigger reads
+ * "Software Engineering, button" with nothing anywhere saying what that is.
+ */
+describe('the navigator has a shape a screen reader can read', () => {
+  it('is a named landmark holding a list of five steps', () => {
+    render(<PromptSelector {...props} />);
+
+    const nav = screen.getByRole('navigation', { name: /syllabus navigator/i });
+    // `role="list"` rather than an `<ol>`: it keeps the DOM and the CSS as they
+    // were, and it survives `list-style: none`, which Safari's accessibility
+    // tree otherwise strips list semantics for.
+    const list = within(nav).getByRole('list');
+    expect(within(list).getAllByRole('listitem')).toHaveLength(5);
+  });
+
+  it('names every step by its level and its state', () => {
+    render(<PromptSelector {...props} />);
+
+    // The four chosen levels each say which rung they are and what is on it.
+    expect(
+      screen.getByRole('group', { name: 'Course — chosen: Software Engineering' })
+    ).toBeTruthy();
+    expect(
+      screen.getByRole('group', { name: 'Topic — chosen: Programming for the Web' })
+    ).toBeTruthy();
+    expect(screen.getByRole('group', { name: 'Sub-Topic — chosen: Web Systems' })).toBeTruthy();
+    expect(screen.getByRole('group', { name: /^Syllabus Content — chosen: / })).toBeTruthy();
+    // …and the one still to do says so rather than saying nothing.
+    expect(screen.getByRole('group', { name: 'Question — current step' })).toBeTruthy();
+    expect(screen.getAllByRole('group')).toHaveLength(5);
+  });
+
+  it('says a step is unreachable rather than leaving it silent', () => {
+    // A dot point with no questions yet: the empty state says so on screen, and
+    // now the step's own name says so too.
+    const bare = JSON.parse(JSON.stringify(courses)) as Course[];
+    bare[0].topics[0].subTopics[0].dotPoints[0].prompts = [];
+    render(<PromptSelector {...props} courses={bare} />);
+
+    expect(screen.getByRole('group', { name: 'Question — none available yet' })).toBeTruthy();
+  });
+
+  it('no longer hides the rail’s meaning in a title on a div', () => {
+    render(<PromptSelector {...props} />);
+
+    // A `title` on a non-interactive `<div>` is not an accessible name: it is
+    // unreachable by keyboard and absent on touch. What it said now lives in
+    // each step's name, so the rail is decorative.
+    expect(screen.queryByTitle('Step complete')).toBeNull();
+    expect(screen.queryByTitle('Current step')).toBeNull();
+  });
+});
