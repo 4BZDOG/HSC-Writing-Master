@@ -1,6 +1,5 @@
 import React from 'react';
-import { Sparkles, Database, LifeBuoy, Sun, Moon } from 'lucide-react';
-import { ApiStatus } from '../services/geminiService';
+import { Sparkles, AlertTriangle, LifeBuoy, Sun, Moon } from 'lucide-react';
 import { authService } from '../services/authService';
 import MeshOverlay from './MeshOverlay';
 import AppHeaderToolsMenu from './AppHeaderToolsMenu';
@@ -11,6 +10,7 @@ import {
   HEADER_INNER,
   HEADER_MARK_TILE,
   HEADER_PROFILE,
+  HEADER_STORAGE_ALERT,
   HEADER_SUBLABEL,
   HEADER_WORDMARK,
 } from '../utils/headerChrome';
@@ -21,7 +21,6 @@ import { User } from '../types';
 interface AppHeaderProps {
   user: User;
   onUpdateUser: (user: User) => void;
-  apiStatus: ApiStatus;
   storageStatus: StorageStatus;
   openModal: (name: ModalName) => void;
   onOpenAudit: () => void;
@@ -41,11 +40,19 @@ interface AppHeaderProps {
  * appearance is decided and where what-each-value-is-painted-on is recorded.
  * The bar is a translucent token surface now, not a gradient wall, so the only
  * white-alpha left in this file sits on the brand gradient or on solid indigo.
+ *
+ * There is no routine telemetry on the rail. API health was stated here, in the
+ * bottom-left health chip and in the blocked-countdown banner all at once, and
+ * the header's version was the least informative of the three; storage mode is
+ * worth knowing but is not per-second news, so it moved to the profile control's
+ * title and the tools popover's footer, neither of which has a breakpoint. What
+ * survives on the rail is the alarm: a storage FAILURE gets a chip at every
+ * width, because work that is not saving is the one thing a student must not
+ * find out about later.
  */
 const AppHeader: React.FC<AppHeaderProps> = ({
   user,
   onUpdateUser,
-  apiStatus,
   storageStatus,
   openModal,
   onOpenAudit,
@@ -81,8 +88,22 @@ const AppHeader: React.FC<AppHeaderProps> = ({
           </div>
         </div>
         <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-4 ml-auto">
+          {/* Only when storage has actually failed, and then at every width.
+              `role="status"` so it is announced when it appears rather than only
+              when someone happens to look at the top of the screen. */}
+          {storageStatus === 'Error' && (
+            <div
+              role="status"
+              title="Your work may not be saving — open your profile to check storage"
+              className={HEADER_STORAGE_ALERT}
+            >
+              <AlertTriangle className="w-4 h-4" aria-hidden="true" />
+              Storage error
+            </div>
+          )}
           <AppHeaderToolsMenu
             user={user}
+            storageStatus={storageStatus}
             openModal={openModal}
             onOpenAudit={onOpenAudit}
             onOpenReviewQueue={onOpenReviewQueue}
@@ -91,26 +112,6 @@ const AppHeader: React.FC<AppHeaderProps> = ({
             onOpenUsageDashboard={onOpenUsageDashboard}
             onOpenRuntimeKeys={onOpenRuntimeKeys}
           />
-          {/* Interim parity only: Step 7 deletes this pill outright (its facts
-              are already carried by ApiHealthIndicator). It is paired here
-              rather than left white-on-white for the life of one commit. */}
-          <div className="hidden lg:flex items-center gap-6 px-5 py-2 rounded-2xl border bg-slate-100/70 border-slate-200 dark:bg-black/20 dark:border-white/10">
-            <div className="flex items-center gap-2">
-              <div
-                className={`w-2 h-2 rounded-full ${apiStatus.state === 'HEALTHY' ? 'bg-emerald-500 dark:bg-emerald-400' : 'bg-red-500 dark:bg-red-400'} animate-pulse`}
-              />
-              <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-white/80">
-                API {apiStatus.state}
-              </span>
-            </div>
-            <div className="w-px h-4 bg-slate-300 dark:bg-white/10" />
-            <div className="flex items-center gap-2">
-              <Database className="w-4 h-4 text-sky-600 dark:text-sky-400" />
-              <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-white/80">
-                {storageStatus} Active
-              </span>
-            </div>
-          </div>
           <button
             onClick={() => openModal('quickStart')}
             title="Quick start guide, plans and the fine print"
@@ -145,7 +146,12 @@ const AppHeader: React.FC<AppHeaderProps> = ({
           </button>
           <button
             onClick={() => openModal('userProfile')}
-            title="Open your profile"
+            /* Storage mode rides on the title so a student — who never sees the
+               tools popover — can still find out where their work is going, at
+               any width. The accessible name stays the plain sentence: the
+               button opens a profile, and reading a storage mode out as part of
+               its name would be noise every time focus lands on it. */
+            title={`Open your profile — storage: ${storageStatus}`}
             aria-label="Open your profile"
             className={HEADER_PROFILE}
           >

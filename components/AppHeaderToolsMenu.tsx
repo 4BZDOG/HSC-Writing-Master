@@ -16,11 +16,14 @@ import { canModerate, isSystemAdmin } from '../utils/permissions';
 import {
   HEADER_ACTION,
   HEADER_ACTION_OPEN,
+  HEADER_MENU_FOOTER,
   HEADER_MENU_GROUP_LABEL,
   HEADER_MENU_ITEM,
   HEADER_MENU_ITEM_HINT,
   HEADER_MENU_PANEL,
+  HEADER_TELEMETRY,
 } from '../utils/headerChrome';
+import { StorageStatus } from '../utils/storageUtils';
 import { ModalName } from '../hooks/useModalManager';
 import { User } from '../types';
 
@@ -41,6 +44,7 @@ import { User } from '../types';
 
 interface AppHeaderToolsMenuProps {
   user: User;
+  storageStatus: StorageStatus;
   openModal: (name: ModalName) => void;
   onOpenAudit: () => void;
   onOpenReviewQueue: () => void;
@@ -106,6 +110,7 @@ const ToolGroup: React.FC<{ label: string; children: React.ReactNode }> = ({ lab
 
 const AppHeaderToolsMenu: React.FC<AppHeaderToolsMenuProps> = ({
   user,
+  storageStatus,
   openModal,
   onOpenAudit,
   onOpenReviewQueue,
@@ -313,6 +318,14 @@ const AppHeaderToolsMenu: React.FC<AppHeaderToolsMenuProps> = ({
                 />
               </ToolGroup>
             )}
+            {/* Where the work is going. It used to be shouted from a pill on the
+                rail that vanished below `lg` — loudest exactly when there was
+                least room to be sure of anything. Down here it is available to
+                whoever is likely to care, and the failure case does not rely on
+                it: that gets its own chip on the rail. */}
+            <div className={HEADER_MENU_FOOTER}>
+              <span className={HEADER_TELEMETRY}>Storage · {storageStatus}</span>
+            </div>
           </div>,
           document.body
         )}

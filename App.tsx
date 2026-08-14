@@ -21,7 +21,6 @@ import { useGemini } from './hooks/useGemini';
 import { useModalManager } from './hooks/useModalManager';
 import { useToast } from './hooks/useToast';
 import { useDebounce } from './hooks/useDebounce';
-import { useApiStatus } from './hooks/useApiStatus';
 import { authService } from './services/authService';
 import { subscribeQuotaWarnings, subscribeAiNotices } from './services/quotaNotifier';
 import {
@@ -51,7 +50,7 @@ import {
   PLAN_LABELS,
 } from './services/entitlements';
 import { Compass, Sparkles, Layers, UploadCloud, Minimize, ChevronUp } from 'lucide-react';
-import { apiMonitor, ApiStatus } from './services/geminiService';
+import { apiMonitor } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
 import BillingAlertBanner from './components/BillingAlertBanner';
 import SyllabusNavBar from './components/SyllabusNavBar';
@@ -123,7 +122,6 @@ interface AuthenticatedAppProps {
     type: 'success' | 'error' | 'info',
     action?: { label: string; onClick: () => void }
   ) => void;
-  apiStatus: ApiStatus;
 }
 
 const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
@@ -131,7 +129,6 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   onUpdateUser,
   handleLogout,
   showToast,
-  apiStatus,
 }) => {
   const {
     courses,
@@ -706,7 +703,6 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         <AppHeader
           user={user}
           onUpdateUser={onUpdateUser}
-          apiStatus={apiStatus}
           storageStatus={storageStatus}
           openModal={openModal}
           onOpenAudit={() => setIsAuditModalOpen(true)}
@@ -1044,7 +1040,6 @@ const StudentProgressModal = lazy(() => import('./components/admin/StudentProgre
 
 const App: React.FC = () => {
   const { toast, showToast, hideToast } = useToast();
-  const apiStatus = useApiStatus();
   const [user, setUser] = useState<User | null>(null);
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
   const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
@@ -1262,7 +1257,6 @@ const App: React.FC = () => {
           onUpdateUser={setUser}
           handleLogout={handleLogout}
           showToast={showToast}
-          apiStatus={apiStatus}
         />
       )}
       {user && (isBlockedByAgreement || showGuestNotice) && (

@@ -12,7 +12,9 @@ import {
   HEADER_MENU_ITEM,
   HEADER_MENU_PANEL,
   HEADER_PROFILE,
+  HEADER_STORAGE_ALERT,
   HEADER_SUBLABEL,
+  HEADER_TELEMETRY,
   HEADER_WORDMARK,
 } from '../../utils/headerChrome';
 
@@ -78,7 +80,6 @@ const renderHeader = (
     <AppHeader
       user={makeUser(role, theme)}
       onUpdateUser={vi.fn()}
-      apiStatus={{ state: 'HEALTHY', errorCount: 0, isBlocked: false, blockedUntil: 0 }}
       storageStatus={'IndexedDB' as StorageStatus}
       openModal={vi.fn()}
       onOpenAudit={vi.fn()}
@@ -253,6 +254,80 @@ describe('the theme toggle keeps its accessible name', () => {
   it('offers light to a user reading in dark', () => {
     renderHeader('user', 'dark');
     expect(screen.getByRole('button', { name: 'Switch to light theme' })).toBeTruthy();
+  });
+});
+
+/**
+ * The rail used to carry a pill saying `API HEALTHY` and `IndexedDB Active`,
+ * `hidden lg:flex`. API health is already stated twice over by
+ * `ApiHealthIndicator` and `ApiStatusIndicator`, both mounted unconditionally
+ * and both more informative, so the header's version is gone. Storage mode is
+ * genuinely worth knowing and is now told without a breakpoint — in the profile
+ * button's title and the popover's footer.
+ *
+ * The failure case is not treated as telemetry at all. If storage has broken,
+ * the work a student is typing is going nowhere, so it gets a chip on the rail
+ * at every width — the maintainer's decision, and the thing the old pill's
+ * `hidden lg:` could never have done.
+ */
+describe('the rail states storage, and only storage', () => {
+  it('says nothing about the API anywhere in the bar', () => {
+    const { container } = renderHeader('admin');
+    const bar = container.querySelector('header') as HTMLElement;
+
+    expect(bar.textContent).not.toContain('API');
+    expect(bar.innerHTML).not.toContain('API');
+  });
+
+  it('carries the storage mode on the profile button at every width', () => {
+    renderHeader('user', 'dark', { storageStatus: 'Supabase' as StorageStatus });
+
+    const profile = screen.getByLabelText('Open your profile');
+    expect(profile.getAttribute('title')).toBe('Open your profile — storage: Supabase');
+    // Nothing here is behind a breakpoint; that was the old pill's fault.
+    expect(profile.className).not.toContain('hidden');
+  });
+
+  it('repeats it in the popover footer, in mono per §4', () => {
+    renderHeader('admin', 'dark', { storageStatus: 'Supabase' as StorageStatus });
+    openTools();
+
+    const row = screen.getByText(/Storage · Supabase/);
+    expect(row.className).toContain(HEADER_TELEMETRY);
+    expect(HEADER_TELEMETRY).toContain('font-mono');
+  });
+
+  it('raises a chip on the rail when storage has failed', () => {
+    renderHeader('user', 'dark', { storageStatus: 'Error' as StorageStatus });
+
+    const chip = screen.getByRole('status');
+    expect(chip.className).toBe(HEADER_STORAGE_ALERT);
+    expect(chip.textContent).toContain('Storage error');
+    expect(chip.getAttribute('title')).toBe(
+      'Your work may not be saving — open your profile to check storage'
+    );
+  });
+
+  // The whole point of the maintainer's decision: this one is never allowed to
+  // be the thing that disappears when the screen gets small.
+  it('shows that chip at every width, to every role', () => {
+    expect(HEADER_STORAGE_ALERT).not.toContain('hidden');
+    expect(HEADER_STORAGE_ALERT).not.toMatch(/\b(sm|md|lg|xl):/);
+
+    for (const role of ['user', 'teacher', 'admin'] as const) {
+      cleanup();
+      renderHeader(role, 'dark', { storageStatus: 'Error' as StorageStatus });
+      expect(screen.getByRole('status')).toBeTruthy();
+    }
+  });
+
+  it('costs nothing while storage is well', () => {
+    for (const status of ['IndexedDB', 'LocalStorage', 'Supabase', 'Loading'] as const) {
+      cleanup();
+      renderHeader('admin', 'dark', { storageStatus: status as StorageStatus });
+      expect(screen.queryByRole('status')).toBeNull();
+      expect(screen.queryByText('Storage error')).toBeNull();
+    }
   });
 });
 

@@ -96,6 +96,31 @@ export const HEADER_MENU_ITEM =
 export const HEADER_MENU_ITEM_HINT =
   'block mt-0.5 text-[11px] font-medium leading-snug text-slate-500 dark:text-slate-400';
 
+/** The storage-mode row at the foot of the popover, and the rule above it.
+ *  Painted on the panel. */
+export const HEADER_MENU_FOOTER =
+  'mt-1 pt-2 px-3 pb-1 border-t border-slate-200 dark:border-white/10';
+
+/** Storage mode, in the popover's footer. Mono because DesignSpec §4 gives
+ *  system state to JetBrains Mono, and this is the one fact the deleted status
+ *  pill carried that was worth keeping: which store the work is going to.
+ *  Painted on the panel. */
+export const HEADER_TELEMETRY =
+  'font-mono text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400';
+
+/** The storage alarm, and the only thing in this file that renders
+ *  conditionally. Storage is where a student's work lives; if it has failed,
+ *  everything typed since is going nowhere, and that is the worst thing this
+ *  app can do quietly. So it sits on the rail at EVERY width — no `hidden lg:`,
+ *  which is exactly the fault the old status pill had — and it costs nothing
+ *  when storage is well, because then it does not exist. Mono, per §4: it is
+ *  telemetry. On the rail, so it carries the pair. */
+export const HEADER_STORAGE_ALERT =
+  'flex items-center gap-2 px-3 h-9 rounded-xl font-mono text-[10px] uppercase ' +
+  'tracking-wider border ' +
+  'bg-red-100 text-red-700 border-red-200 ' +
+  'dark:bg-red-500/15 dark:text-red-300 dark:border-red-500/30';
+
 /** Library / Moderation / AI. Painted on the panel. */
 export const HEADER_MENU_GROUP_LABEL =
   'px-3 pt-2 pb-1 text-[10px] font-black uppercase tracking-[0.2em] ' +
