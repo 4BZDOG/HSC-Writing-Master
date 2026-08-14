@@ -5,6 +5,14 @@ _Written against DesignSpec v2.2.1, in the shape of `projectDocs/HeaderRedesignP
 
 ---
 
+## 0a. Decisions taken
+
+All three gating questions are settled. Binding; where the prose below still frames them as open, these win. **Steps 1–11 are all in scope.**
+
+1. **M1 — GRANTED (a): demote, do not abolish.** Step boxes become neutral glass; the level hue survives on the rail node, the icon tile and a 2px leading edge. Third series running to land on this move.
+2. **M2 — GRANTED.** This series may change `App.tsx` and `components/SyllabusNavBar.tsx`. Step 9 is in scope in full, including the focus handoff and the announcement across the fold.
+3. **M3 — GRANTED.** This series may change the shared `components/Combobox.tsx`. Steps 7 and 8 are in scope, and the Data Vault's import flow is repaired at the same time — verify it by hand once, as Step 7 says.
+
 ## 0. Decisions only the maintainer can take
 
 Three. Each changes what a step is allowed to do, and none can be settled by an implementing agent. Both previous series had these and both mattered.
