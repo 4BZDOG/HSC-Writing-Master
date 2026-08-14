@@ -127,7 +127,9 @@ A condensing header in Focus Mode would collide with the exit pill and reintrodu
 
 **A9 — no `<main>` landmark and no skip link, anywhere.** A repo-wide search for `<main` across `.tsx` and `.html` returns nothing; so does a search for skip-link markup or `sr-only`. `<header>` is currently the app's only landmark. With 12 header tab stops ahead of the writing surface, a keyboard user Tabs through the entire admin cluster on every page load. This is the single highest-value accessibility item in the whole redesign, and it is not in the brief.
 
-**A10 — `MeshOverlay` is defined four times.** `App.tsx:133`, `Editor.tsx:108` (the best version — takes a `color` and adds `light:opacity-[0.06]`), `CommandVerbHierarchy.tsx:12`, `admin/ContentAuditModal.tsx:74`. Plus the dead `.mesh-overlay` class in `index.css:423`.
+**A10 — `MeshOverlay` is defined fifteen times.** *(Corrected during Step 2 — the original count of four was wrong by a factor of nearly four, found only because the implementing agent checked rather than trusted.)* Beyond `App.tsx:133`, `Editor.tsx:108` (the best version — takes a `color` and adds `light:opacity-[0.06]`), `CommandVerbHierarchy.tsx:12` and `admin/ContentAuditModal.tsx:74`, local copies also live in `ResetPasswordPage.tsx`, `LoadingIndicator.tsx`, `LoginPage.tsx`, `EvaluationResultModal.tsx`, `SampleAnswersAccordion.tsx`, `ManualPromptModal.tsx`, `UserProfileModal.tsx`, `DataManagerModal.tsx`, `PromptDisplay.tsx`, `ManifestImportModal.tsx` and `EvaluationDisplay.tsx`. Plus the dead `.mesh-overlay` class in `index.css:423`.
+
+Step 2 extracts the shared component and migrates `App.tsx` only; **fourteen local copies remain**. Consolidating them is a much larger tidy than this plan implied and belongs in its own series with its own visual-regression pass — each call site passes different defaults, and several sit on coloured gradients where the light-opacity lift would be wrong.
 
 **A11 — the e2e contrast suite deliberately cannot see the header.** `tests/e2e/support/contrast.ts:119` — `if (el.closest('header')) continue;` — documented at `:17–19` as "its gradient is painted by an absolutely-positioned child, so the text above it resolves to the page background and every reading is wrong by construction". That is a true statement about the *current* header only. Tokenising it makes the exclusion removable, which converts the whole redesign into something the suite can defend.
 
@@ -170,7 +172,21 @@ absolute inset-x-0 bottom-0 h-px pointer-events-none
 bg-gradient-to-r from-transparent via-indigo-500/40 dark:via-indigo-400/30 to-transparent
 ```
 
-**D4 — Mesh at low opacity.** *(§1 Cubic Mesh Textures)* Reuse the extracted `MeshOverlay` at `opacity-[0.03]`. Note the light-theme trap: the mesh strokes white, which is invisible on a white surface — `Editor.tsx:108–120` is the version that already solves this with a `color` prop plus `light:opacity-[0.06]`, and it is the one to extract.
+**D4 — Mesh at low opacity.** *(§1 Cubic Mesh Textures)* Reuse the extracted `MeshOverlay` at `opacity-[0.03]`.
+
+**Corrected after Step 2 — the light-theme trap is not solved by `light:opacity-[0.06]`.** The shared component draws white strokes through `mix-blend-overlay`. On the dark surface that reads correctly; on Step 4's `bg-white/80` rail, 6% white blended over near-white is *nothing*, and no opacity value fixes it because the colour itself is wrong. The `color` prop is the escape hatch, and Step 4 must use it:
+
+```tsx
+{/* Two passes: white texture for the dark rail, a slate one for the light
+    rail. Each is hidden in the other theme, because a single element cannot
+    change the stroke colour baked into its data URI. */}
+<MeshOverlay opacity="opacity-0 dark:opacity-[0.03]" />
+<MeshOverlay color="%2364748b" opacity="opacity-[0.04] dark:opacity-0" />
+```
+
+Verify by eye in **both** themes before committing Step 4. If the light pass still reads as dirt rather than texture, drop it entirely and accept the mesh as a dark-theme flourish — a texture nobody can see is not worth a second DOM node. Do **not** solve it by raising opacity until something appears.
+
+Note also that `MeshOverlay`'s root is `absolute inset-0 … z-0`. The header is `sticky`, which does establish a positioned ancestor, so `inset-0` resolves correctly against the header itself — but the inner content row must sit above `z-0` or the blend will wash over the text.
 
 **D5 — One overflow popover for all 8 admin/moderator tools.** *(§3 Keyboard Reach)*
 
@@ -286,7 +302,9 @@ The `!isFocusMode &&` guard stays in `App.tsx` (Finding 8 — this is deliberate
 
 **Do not touch:** the copies in `Editor.tsx`, `CommandVerbHierarchy.tsx`, `ContentAuditModal.tsx` — those have different call-site defaults and migrating them is a separate tidy with its own visual-regression risk. Do not delete `.mesh-overlay` from `index.css` in this step.
 
-**Verify:** `npm run test:all`. The "Ready to Write" empty state must be unchanged.
+**Verify:** `npm run test:all`.
+
+**Known, accepted divergence (recorded during Step 2):** "the empty state must be unchanged" cannot hold alongside "extract the `Editor.tsx` version", because the two bodies differ. `App.tsx`'s deleted copy had `transition-opacity duration-500` and **no** `light:opacity-[0.06]`; the `Editor.tsx` version has `transition-all duration-700 ease-in-out` and the light lift. So the "Ready to Write" mesh now renders faintly in the light theme where it previously did not, and fades a little slower. This is a deliberate consequence of consolidating on the better version and is left in place — it moves the empty state *towards* light-theme parity, which is the direction §2 wants. Flagged here so the Phase 3 verifier does not report it as an accident.
 
 ---
 
