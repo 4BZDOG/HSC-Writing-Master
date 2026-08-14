@@ -5,6 +5,41 @@ import { ChevronDown, AlignLeft, Sparkles } from 'lucide-react';
 import { getTierScaleConfig } from '../utils/renderUtils';
 import StrategyTip from './StrategyTip';
 import MeshOverlay from './MeshOverlay';
+import {
+  RIBBON_CHEVRON_CHIP,
+  RIBBON_DETAIL_CARD,
+  RIBBON_DETAIL_DEFINITION,
+  RIBBON_DETAIL_TERM,
+  RIBBON_DETAIL_TIER_CHIP,
+  RIBBON_DETAIL_TIP_ACCENT,
+  RIBBON_HEADER_BAR,
+  RIBBON_HEADER_SUBLABEL,
+  RIBBON_HEADER_TILE,
+  RIBBON_HEADER_TITLE,
+  RIBBON_ROOT,
+  RIBBON_SELECTED_CHIP,
+  RIBBON_SELECTED_LABEL,
+  RIBBON_STAT_DIVIDER,
+  RIBBON_STAT_LABEL,
+  RIBBON_STAT_TRAY,
+  RIBBON_STAT_VALUE,
+  RIBBON_STRIP,
+  RIBBON_TIER_CARD,
+  RIBBON_TIER_CARD_CURRENT,
+  RIBBON_TIER_CARD_DIMMED,
+  RIBBON_TIER_CARD_IDLE,
+  RIBBON_TIER_HEADER,
+  RIBBON_TIER_HEADER_LABEL,
+  RIBBON_TIER_HEADER_TITLE,
+  RIBBON_TIER_SUBTITLE,
+  RIBBON_TIER_SUBTITLE_CURRENT,
+  RIBBON_TIER_SUBTITLE_IDLE,
+  RIBBON_TIMELINE_DOT,
+  RIBBON_TIMELINE_LABEL,
+  RIBBON_TIMELINE_TICK,
+  RIBBON_TIMELINE_TRACK,
+  RIBBON_VERB_CHIP,
+} from '../utils/verbRibbonChrome';
 
 interface CommandVerbHierarchyProps {
   currentVerb?: PromptVerb;
@@ -142,7 +177,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
     // but that gutter exists to make room for the navigator's step rail, and
     // the ribbon has no step on it: all the indent did was set the ribbon 48px
     // in from every other block on the page.
-    <div className="clip-stable relative overflow-hidden transition-all duration-700 ease-out animate-fade-in">
+    <div className={RIBBON_ROOT}>
       {/* Top divider */}
       <div className={dividerClass} />
 
@@ -163,7 +198,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
         aria-controls={panelId}
         aria-label={`${isOpen ? 'Collapse' : 'Expand'} the HSC command verb hierarchy reference`}
         className={`
-            w-full px-0 py-3 sm:py-3.5 min-h-[60px] sm:min-h-[64px] flex items-center justify-between gap-3 relative z-10 overflow-hidden transition-all duration-500 group/header rounded-xl
+            ${RIBBON_HEADER_BAR}
             ${headerGradientClass} ${headerTextClass}
             ${isOpen ? '' : 'hover:brightness-105'}
         `}
@@ -171,18 +206,14 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
         <MeshOverlay opacity="opacity-10" />
 
         <div className="flex items-center gap-3 relative z-10 px-4 sm:px-5 min-w-0">
-          <div
-            className={`w-9 h-9 shrink-0 rounded-xl flex items-center justify-center border shadow-md group-hover/header:scale-110 transition-transform ${headerIconBg}`}
-          >
+          <div className={`${RIBBON_HEADER_TILE} ${headerIconBg}`}>
             <AlignLeft className="w-5 h-5" />
           </div>
           <div className="text-left min-w-0">
             {/* Truncates rather than wraps: an ellipsis on a title the reader
                 already knows costs nothing, a second line costs the lock. */}
-            <h3 className="text-sm sm:text-base font-black tracking-tight leading-none truncate">
-              HSC Command Verb Hierarchy
-            </h3>
-            <span className="block truncate text-[9px] font-black uppercase tracking-[0.2em] opacity-70">
+            <h3 className={RIBBON_HEADER_TITLE}>HSC Command Verb Hierarchy</h3>
+            <span className={RIBBON_HEADER_SUBLABEL}>
               Reference • {sortedVerbsByGroup.length} Bands
             </span>
           </div>
@@ -191,16 +222,12 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
         <div className="flex items-center gap-4 relative z-10 px-4 sm:px-5 shrink-0">
           {activeTermInfo && (
             <div className="hidden sm:flex items-center gap-3 animate-fade-in">
-              <span className="text-[10px] font-black opacity-60 uppercase tracking-widest whitespace-nowrap">
-                Selected:
-              </span>
-              <div className="px-2.5 py-0.5 rounded-lg text-[10px] font-black uppercase tracking-widest whitespace-nowrap bg-white/20 border border-white/30 backdrop-blur-md shadow-sm">
-                {activeTermInfo.term}
-              </div>
+              <span className={RIBBON_SELECTED_LABEL}>Selected:</span>
+              <div className={RIBBON_SELECTED_CHIP}>{activeTermInfo.term}</div>
             </div>
           )}
           <div
-            className={`w-7 h-7 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center border border-slate-900/10 dark:border-white/10 transition-transform duration-500 ${isOpen ? 'rotate-180 bg-black/20 dark:bg-white/20' : ''}`}
+            className={`${RIBBON_CHEVRON_CHIP} ${isOpen ? 'rotate-180 bg-black/20 dark:bg-white/20' : ''}`}
           >
             <ChevronDown className="w-3.5 h-3.5" />
           </div>
@@ -233,9 +260,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
           <div className="py-4 space-y-4">
             {/* Active Verb Detail Card */}
             {activeTermInfo && activeConfig && (
-              <div
-                className={`clip-stable relative overflow-hidden rounded-2xl p-5 border ${activeConfig.border} ${activeConfig.bg} shadow-lg animate-fade-in-up transition-all duration-500 group/hero`}
-              >
+              <div className={`${RIBBON_DETAIL_CARD} ${activeConfig.border} ${activeConfig.bg}`}>
                 <MeshOverlay opacity="opacity-[0.06]" />
                 <div
                   className={`absolute -right-20 -top-20 w-80 h-80 bg-gradient-to-br ${activeConfig.gradient} opacity-10 blur-[80px] rounded-full pointer-events-none group-hover/hero:opacity-20 transition-opacity duration-700`}
@@ -251,65 +276,53 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       </div>
                       <div>
                         <div className="flex items-center gap-3 mb-1">
-                          <h4 className="text-3xl font-black tracking-tighter text-white light:text-slate-900 uppercase italic leading-none">
-                            {activeTermInfo.term}
-                          </h4>
+                          <h4 className={RIBBON_DETAIL_TERM}>{activeTermInfo.term}</h4>
                           <div
-                            className={`px-3 py-0.5 rounded-full border font-black text-[9px] uppercase tracking-widest shadow-sm ${activeConfig.bg} ${activeConfig.text} ${activeConfig.border}`}
+                            className={`${RIBBON_DETAIL_TIER_CHIP} ${activeConfig.bg} ${activeConfig.text} ${activeConfig.border}`}
                           >
                             Band {activeTermInfo.tier}
                           </div>
                         </div>
-                        <p className="text-sm font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 max-w-xl leading-relaxed opacity-90">
-                          {activeTermInfo.definition}
-                        </p>
+                        <p className={RIBBON_DETAIL_DEFINITION}>{activeTermInfo.definition}</p>
                         <StrategyTip
                           tip={activeTermInfo.tip}
                           className="max-w-xl mt-2"
-                          accentClass="text-[rgb(var(--color-text-muted))] light:text-slate-500"
+                          accentClass={RIBBON_DETAIL_TIP_ACCENT}
                         />
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-4 bg-black/10 light:bg-slate-100 px-5 py-3 rounded-2xl border border-white/10 light:border-slate-300 backdrop-blur-md self-stretch md:self-auto justify-center shadow-inner flex-wrap">
+                    <div className={RIBBON_STAT_TRAY}>
                       <div className="flex flex-col items-center">
-                        <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
-                          Marks
-                        </span>
-                        <span className={`text-lg font-black ${activeConfig.text}`}>
+                        <span className={RIBBON_STAT_LABEL}>Marks</span>
+                        <span className={`${RIBBON_STAT_VALUE} ${activeConfig.text}`}>
                           {activeTermInfo.markRange.join('-')}
                         </span>
                       </div>
-                      <div className="w-px h-8 bg-black/10 light:bg-slate-300" />
+                      <div className={RIBBON_STAT_DIVIDER} />
                       <div
                         className="flex flex-col items-center"
                         title={`The cognitive demand of ${activeTermInfo.term} caps a response at Band ${getTierTargetBand(activeTermInfo.tier)}`}
                       >
-                        <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
-                          Band Cap
-                        </span>
-                        <span className={`text-lg font-black ${activeConfig.text}`}>
+                        <span className={RIBBON_STAT_LABEL}>Band Cap</span>
+                        <span className={`${RIBBON_STAT_VALUE} ${activeConfig.text}`}>
                           {getTierTargetBand(activeTermInfo.tier)}
                         </span>
                       </div>
-                      <div className="w-px h-8 bg-black/10 light:bg-slate-300" />
+                      <div className={RIBBON_STAT_DIVIDER} />
                       <div className="flex flex-col items-center" title="Recommended writing time">
-                        <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
-                          Time
-                        </span>
-                        <span className={`text-lg font-black ${activeConfig.text}`}>
+                        <span className={RIBBON_STAT_LABEL}>Time</span>
+                        <span className={`${RIBBON_STAT_VALUE} ${activeConfig.text}`}>
                           {activeTermInfo.timeRange.join('-')}m
                         </span>
                       </div>
-                      <div className="w-px h-8 bg-black/10 light:bg-slate-300 hidden sm:block" />
+                      <div className={`${RIBBON_STAT_DIVIDER} hidden sm:block`} />
                       <div
                         className="hidden sm:flex flex-col items-center"
                         title="Expected syllabus terms"
                       >
-                        <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
-                          Terms
-                        </span>
-                        <span className={`text-lg font-black ${activeConfig.text}`}>
+                        <span className={RIBBON_STAT_LABEL}>Terms</span>
+                        <span className={`${RIBBON_STAT_VALUE} ${activeConfig.text}`}>
                           {activeTermInfo.syllabusTerms.join('-')}
                         </span>
                       </div>
@@ -321,10 +334,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
 
             {/* Tier Cards Scroll Area */}
             <div className="relative group/scroll">
-              <div
-                className="flex overflow-x-auto gap-4 pb-4 pt-2 snap-x snap-mandatory scrollbar-hide"
-                ref={scrollContainerRef}
-              >
+              <div className={RIBBON_STRIP} ref={scrollContainerRef}>
                 {sortedVerbsByGroup.map((group, index) => {
                   const isCurrentTier = activeTermInfo?.tier === group.tier;
                   const tierConfig = getTierScaleConfig(group.tier);
@@ -342,10 +352,10 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                   let cardStyle = 'scale-100 opacity-100'; // Default
                   if (activeTermInfo) {
                     if (isCurrentTier) {
-                      cardStyle = `scale-110 z-20 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)] opacity-100 ring-4 ring-slate-900/10 dark:ring-white/5 ${transformOrigin}`;
+                      cardStyle = `${RIBBON_TIER_CARD_CURRENT} ${transformOrigin}`;
                     } else {
                       // Added colored border specific to the tier for visual cue
-                      cardStyle = `scale-90 opacity-50 light:opacity-70 hover:opacity-100 hover:scale-95 border-2 ${tierConfig.border} z-0 ${transformOrigin}`;
+                      cardStyle = `${RIBBON_TIER_CARD_DIMMED} ${tierConfig.border} z-0 ${transformOrigin}`;
                     }
                   }
 
@@ -356,11 +366,11 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                         tierRefs.current[index] = el;
                       }}
                       className={`
-                      clip-stable flex-shrink-0 w-[260px] min-h-[256px] snap-center relative overflow-hidden rounded-2xl border transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col group/card
+                      ${RIBBON_TIER_CARD}
                       ${
                         isCurrentTier
                           ? `${tierConfig.border} ${tierConfig.bg} light:bg-white`
-                          : `bg-white/[0.03] light:bg-white border-white/5 light:border-slate-300 light:shadow-sm`
+                          : RIBBON_TIER_CARD_IDLE
                       }
                       ${cardStyle}
                     `}
@@ -393,19 +403,19 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                         }}
                         aria-pressed={isCurrentTier}
                         title={`Show the ${group.title} verbs — up to Band ${group.maxBand}`}
-                        className={`w-full text-left px-6 py-4 border-b relative flex items-center gap-4 flex-shrink-0 cursor-pointer transition-[filter] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/50 ${isCurrentTier ? `bg-gradient-to-r ${tierConfig.gradient} border-white/10 text-white` : `${tierConfig.bg} border-white/5 light:border-slate-200`}`}
+                        className={`${RIBBON_TIER_HEADER} ${isCurrentTier ? `bg-gradient-to-r ${tierConfig.gradient} border-white/10 text-white` : `${tierConfig.bg} border-white/5 light:border-slate-200`}`}
                       >
                         <div className="text-4xl filter drop-shadow-lg transform transition-transform duration-500 group-hover/card:scale-110">
                           {group.emoji}
                         </div>
                         <div className="min-w-0">
                           <span
-                            className={`text-[10px] font-black uppercase tracking-[0.2em] block mb-0.5 truncate ${isCurrentTier ? 'opacity-70' : tierConfig.text + ' opacity-60'}`}
+                            className={`${RIBBON_TIER_HEADER_LABEL} ${isCurrentTier ? 'opacity-70' : tierConfig.text + ' opacity-60'}`}
                           >
                             Band {group.maxBand} ceiling
                           </span>
                           <h4
-                            className={`text-sm font-black truncate tracking-tight ${isCurrentTier ? 'text-white' : tierConfig.text}`}
+                            className={`${RIBBON_TIER_HEADER_TITLE} ${isCurrentTier ? 'text-white' : tierConfig.text}`}
                           >
                             {group.title}
                           </h4>
@@ -414,7 +424,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
 
                       {/* What this cognitive level actually asks of the writer. */}
                       <p
-                        className={`px-6 pt-3 text-[11px] font-medium leading-snug relative z-10 ${isCurrentTier ? 'text-[rgb(var(--color-text-primary))] light:text-slate-700' : 'text-[rgb(var(--color-text-muted))] light:text-slate-500'}`}
+                        className={`${RIBBON_TIER_SUBTITLE} ${isCurrentTier ? RIBBON_TIER_SUBTITLE_CURRENT : RIBBON_TIER_SUBTITLE_IDLE}`}
                       >
                         {group.subtitle}
                       </p>
@@ -439,7 +449,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                                   setActiveVerb(verb.term);
                                 }}
                                 className={`
-                                            px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border transition-all duration-300
+                                            ${RIBBON_VERB_CHIP}
                                             ${
                                               isSelected
                                                 ? `${tierConfig.solidBg} text-white shadow-lg scale-105 border-transparent`
@@ -466,31 +476,25 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
           </div>
           <div className="py-4 relative z-20 transition-colors duration-500">
             <div className="flex justify-between items-end gap-4 mb-3 px-1">
-              <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] whitespace-nowrap">
-                Basic Recall
-              </span>
-              <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] hidden sm:block">
-                Explain & Compare
-              </span>
-              <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] hidden sm:block">
-                Analyse & Apply
-              </span>
-              <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] whitespace-nowrap">
+              <span className={`${RIBBON_TIMELINE_LABEL} whitespace-nowrap`}>Basic Recall</span>
+              <span className={`${RIBBON_TIMELINE_LABEL} hidden sm:block`}>Explain & Compare</span>
+              <span className={`${RIBBON_TIMELINE_LABEL} hidden sm:block`}>Analyse & Apply</span>
+              <span className={`${RIBBON_TIMELINE_LABEL} whitespace-nowrap`}>
                 Evaluate & Create
               </span>
             </div>
 
             {/* Progress Bar Track */}
-            <div className="relative h-2 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden mb-4">
+            <div className={RIBBON_TIMELINE_TRACK}>
               {/* Background Ticks for visual measurement */}
               {/* Measurement ticks. White-on-white in light mode meant the
                 track had no gradations at all there, so the same bar read as a
                 measured scale in dark and a plain pill in light. */}
               <div className="absolute inset-0 flex justify-between px-[16%]">
-                <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
-                <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
-                <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
-                <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
+                <div className={RIBBON_TIMELINE_TICK} />
+                <div className={RIBBON_TIMELINE_TICK} />
+                <div className={RIBBON_TIMELINE_TICK} />
+                <div className={RIBBON_TIMELINE_TICK} />
               </div>
 
               <div
@@ -527,7 +531,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                     >
                       <div
                         className={`
-                                    w-4 h-4 rounded-full border-2 transition-all duration-500 relative
+                                    ${RIBBON_TIMELINE_DOT}
                                     ${isActive ? `${stepConfig.solidBg} border-transparent scale-125` : 'bg-slate-300 dark:bg-slate-700 border-slate-400/40 dark:border-white/10'}
                                     ${isCurrent ? 'ring-4 ring-slate-900/10 dark:ring-white/20 scale-150 shadow-lg' : ''}
                                  `}
