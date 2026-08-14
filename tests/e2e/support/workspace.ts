@@ -70,6 +70,38 @@ export const openFirstQuestion = async (page: Page): Promise<void> => {
   await expect(page.getByRole('heading', { name: /Writing Prompt/i })).toBeVisible({
     timeout: 20_000,
   });
+  await settleVerbRibbon(page);
+};
+
+/**
+ * Wait for the verb ribbon to finish folding.
+ *
+ * Choosing a question folds the syllabus navigator down to a breadcrumb, and
+ * the ribbon folds with it — a 700ms `grid-rows` transition on a panel about
+ * 700px tall. The question card renders long before that finishes, so a spec
+ * that measured the page as soon as it appeared was measuring a document still
+ * losing height under it: `modal-scroll` read a scroll offset, the panel
+ * collapsed, the browser clamped the offset, and the scroll lock pinned the
+ * page somewhere the test had never asked for.
+ *
+ * Waiting on the panel's own height rather than on a timeout, so this stays
+ * true if the animation is ever retuned.
+ */
+export const settleVerbRibbon = async (page: Page): Promise<void> => {
+  await expect
+    .poll(
+      () =>
+        page.evaluate(() => {
+          const toggle = document.querySelector(
+            'button[aria-label*="command verb hierarchy" i][aria-controls]'
+          );
+          if (!toggle) return 0;
+          const panel = document.getElementById(toggle.getAttribute('aria-controls') ?? '');
+          return panel ? Math.round(panel.getBoundingClientRect().height) : 0;
+        }),
+      { timeout: 15_000 }
+    )
+    .toBe(0);
 };
 
 /** Sign in, clear the gates and open a question — the usual preamble. */

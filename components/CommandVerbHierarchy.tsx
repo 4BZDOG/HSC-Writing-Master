@@ -47,10 +47,28 @@ import {
 
 interface CommandVerbHierarchyProps {
   currentVerb?: PromptVerb;
+  /**
+   * Whether the ribbon belongs open in the state it is being rendered in.
+   *
+   * The ribbon used to be unmounted the moment a question was chosen, because
+   * it lived inside the expanded navigator and choosing a question folds that
+   * away — so the reference that explains a question's command verb ceased to
+   * exist at the exact moment there was a verb to explain. It now renders in
+   * both states, and this prop is how the two differ: open beside the syllabus
+   * dropdowns, where the reader is browsing and the page is a chooser; shut
+   * beneath the breadcrumb, where the page is a writing surface and seven
+   * hundred pixels of reference unfolding above it would undo the fold.
+   *
+   * `true` by default, which is the browsing behaviour, unchanged.
+   */
+  defaultOpen?: boolean;
 }
 
-const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb }) => {
-  const [isOpen, setIsOpen] = useState(true);
+const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
+  currentVerb,
+  defaultOpen = true,
+}) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
   const [activeVerb, setActiveVerb] = useState<PromptVerb | undefined>(currentVerb);
   const panelId = useId();
 
@@ -63,12 +81,31 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
   // the only way to keep it shut was to re-collapse it every single time.
   const collapsedByUser = useRef(false);
 
+  // `defaultOpen` is followed, not merely sampled at mount. The navigator folds
+  // in an effect of its own AFTER the first paint, so a component that only read
+  // this once would mount open — in the one state it has to be shut — and stay
+  // that way. Following it also makes the fold read as a single gesture: the
+  // navigator collapses to a breadcrumb and the reference collapses with it, and
+  // pressing "Change" brings both back.
+  //
+  // The remembered collapse resets here, and only here: moving between browsing
+  // and writing is itself a decision about how much reference belongs on the
+  // page, so it outranks the last one made in the other state.
+  useEffect(() => {
+    collapsedByUser.current = false;
+    setIsOpen(defaultOpen);
+  }, [defaultOpen]);
+
   useEffect(() => {
     if (currentVerb) {
       setActiveVerb(currentVerb);
-      if (!collapsedByUser.current) setIsOpen(true);
+      // Only where the ribbon is meant to be open. Beneath the breadcrumb a new
+      // question must not unfold it — that is the whole point of it being shut
+      // there — but the selection still follows the question either way, so
+      // opening it by hand shows the verb that is actually on screen.
+      if (defaultOpen && !collapsedByUser.current) setIsOpen(true);
     }
-  }, [currentVerb]);
+  }, [currentVerb, defaultOpen]);
 
   const toggleOpen = () =>
     setIsOpen((open) => {

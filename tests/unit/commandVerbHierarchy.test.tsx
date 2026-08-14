@@ -69,6 +69,43 @@ describe('CommandVerbHierarchy', () => {
   });
 
   /**
+   * Beneath the breadcrumb the ribbon is a shut disclosure, and it has to stay
+   * shut when the question changes. It used to be unmounted in that state
+   * altogether; now that it renders there, an unfolding seven-hundred-pixel
+   * reference on every new question would be worse than the absence was.
+   */
+  describe('when the navigator is folded to a breadcrumb', () => {
+    it('starts shut, and a new question does not unfold it', () => {
+      const { rerender } = render(
+        <CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} defaultOpen={false} />
+      );
+      expect(getToggle().getAttribute('aria-expanded')).toBe('false');
+
+      rerender(<CommandVerbHierarchy currentVerb={'EVALUATE' as PromptVerb} defaultOpen={false} />);
+      expect(getToggle().getAttribute('aria-expanded')).toBe('false');
+
+      // The selection still followed the question, so opening it by hand shows
+      // the verb that is actually on screen rather than the previous one.
+      fireEvent.click(getToggle());
+      expect(getToggle().getAttribute('aria-expanded')).toBe('true');
+      expect(screen.getAllByText('EVALUATE').length).toBeGreaterThanOrEqual(2);
+    });
+
+    it('opens and shuts with the navigator, rather than only sampling it at mount', () => {
+      const { rerender } = render(
+        <CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} defaultOpen />
+      );
+      expect(getToggle().getAttribute('aria-expanded')).toBe('true');
+
+      rerender(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} defaultOpen={false} />);
+      expect(getToggle().getAttribute('aria-expanded')).toBe('false');
+
+      rerender(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} defaultOpen />);
+      expect(getToggle().getAttribute('aria-expanded')).toBe('true');
+    });
+  });
+
+  /**
    * DesignSpec §3, "Keyboard Reach": a keyboard user must reach exactly what is
    * on screen. The ribbon folds to zero height, which is a visual collapse and
    * nothing more — fifty controls (six tier headers, thirty-eight verb chips,

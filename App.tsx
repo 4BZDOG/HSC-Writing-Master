@@ -860,9 +860,27 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 </button>
               </div>
             )}
-
-            <CommandVerbHierarchy currentVerb={currentPrompt?.verb} />
           </>
+        )}
+
+        {/* The verb reference, rendered from ONE site in both navigator states.
+            It used to live inside the branch above, which meant choosing a
+            question destroyed the reference that explains that question's
+            command verb: the navigator folds to a breadcrumb the moment a
+            question is picked, and it took the ribbon with it. The ribbon came
+            back only if the student pressed "Change", and it came back as a
+            fresh mount — so its own "a deliberate collapse survives the next
+            question" logic could never fire, and no end-to-end test had ever
+            rendered the component at all.
+
+            It is shut beneath the breadcrumb and open beside the dropdowns.
+            Folding the navigator buys a calm page above the writing surface,
+            and seven hundred pixels of reference unfolding into that space
+            would hand straight back what the fold just bought. Beside the
+            dropdowns, where the page is a chooser rather than a writing
+            surface, it is the same browsing aid it has always been. */}
+        {!isFocusMode && (
+          <CommandVerbHierarchy currentVerb={currentPrompt?.verb} defaultOpen={!isNavCollapsed} />
         )}
 
         {currentPrompt && canContribute && !isFocusMode && (
