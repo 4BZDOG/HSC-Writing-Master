@@ -130,9 +130,10 @@ describe('the bar carries both themes', () => {
     const tile = container.querySelector(`[class*="${RIBBON_HEADER_TILE}"]`) as HTMLElement;
 
     // Tier 3's solid fill is yellow; `text-white` on it is 1.92:1, which is why
-    // the tile wears the config's own `solidText`.
+    // the tile wears the config's own `solidText`. `-950`, not `-900`: see the
+    // note on `getBandConfig`'s band 3 and the pin in `bandColors.test.ts`.
     expect(tile.className).toContain('bg-yellow-500');
-    expect(tile.className).toContain('text-yellow-900');
+    expect(tile.className).toContain('text-yellow-950');
     expect(tile.className).not.toContain('text-white');
   });
 
@@ -197,20 +198,20 @@ describe('the tier strip is legible and reachable', () => {
     render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
 
     // Tier 3 is the one that exposes it: white on yellow-500 is 1.92:1, and
-    // `getBandConfig` answers `text-yellow-900` when asked.
+    // `getBandConfig` answers `text-yellow-950` when asked.
     const header = screen.getByRole('button', { name: /Band 3 ceiling Explain & Compare/i });
-    expect(header.className).toContain('text-yellow-900');
+    expect(header.className).toContain('text-yellow-950');
     expect(header.className).not.toContain('text-white');
 
     // By query rather than by text: the timeline footer says "Explain &
     // Compare" as well, and that one is not on a tier fill.
     const title = header.querySelector('h4') as HTMLElement;
     expect(title.textContent).toBe('Explain & Compare');
-    expect(title.className).toContain('text-yellow-900');
+    expect(title.className).toContain('text-yellow-950');
 
     const chip = screen.getAllByRole('button', { name: 'EXPLAIN' })[0];
     expect(chip.className).toContain('bg-yellow-500');
-    expect(chip.className).toContain('text-yellow-900');
+    expect(chip.className).toContain('text-yellow-950');
     expect(chip.className).not.toContain('text-white');
   });
 
