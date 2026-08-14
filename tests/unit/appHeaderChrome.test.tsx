@@ -2,10 +2,12 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
 import type { User, UserRole } from '../../types';
+import * as headerChrome from '../../utils/headerChrome';
 import {
   HEADER_ACTION,
   HEADER_ADMIN_BUTTON,
   HEADER_BAR,
+  HEADER_HAIRLINE,
   HEADER_INNER,
   HEADER_MARK_TILE,
   HEADER_PROFILE,
@@ -119,6 +121,94 @@ describe('the header wears the shared vocabulary', () => {
     for (const label of ADMIN_TOOLS) {
       expect(screen.getByLabelText(label).className).toContain(HEADER_ADMIN_BUTTON);
     }
+  });
+});
+
+/**
+ * The bar stopped being a gradient wall and became a token surface, which is
+ * the moment every white-alpha value in it changed meaning. DesignSpec §2 asks
+ * "what is it painted on?", and the only honest answer for anything on the rail
+ * is now "a theme colour" — so it needs a light value and a `dark:` partner.
+ * The wordmark tile is the documented exception: the brand gradient moved onto
+ * it, and white-alpha on a gradient reads the same in both themes.
+ */
+describe('the bar carries both themes', () => {
+  it('paints its own background in light and in dark', () => {
+    expect(HEADER_BAR).toContain('bg-white/80');
+    expect(HEADER_BAR).toContain('dark:bg-[rgb(var(--color-bg-surface))]/70');
+    expect(HEADER_BAR).toContain('backdrop-blur-2xl');
+  });
+
+  it('no longer hangs a full-bleed gradient across the whole bar', () => {
+    const { container } = renderHeader('user');
+    const wall = container.querySelector('header > .absolute.inset-0.bg-gradient-to-r');
+
+    expect(wall).toBeNull();
+    // The gradient survives, in proportion, on the 40px tile.
+    expect(HEADER_MARK_TILE).toContain('from-indigo-600');
+    expect(HEADER_MARK_TILE).toContain('to-sky-500');
+  });
+
+  it('renders the mesh and the hairline beneath the content row', () => {
+    const { container } = renderHeader('user');
+    const bar = container.querySelector('header') as HTMLElement;
+
+    expect(bar.querySelector('[class*="mix-blend-overlay"]')).toBeTruthy();
+    const hairline = bar.querySelector(`[class="${HEADER_HAIRLINE}"]`) as HTMLElement;
+    expect(hairline).toBeTruthy();
+    expect(hairline.getAttribute('aria-hidden')).toBe('true');
+    // Both sit below HEADER_INNER's z-10, or the blend washes over the text.
+    expect(HEADER_INNER).toContain('relative z-10');
+  });
+
+  it('gives every rail colour a light value and a dark partner', () => {
+    // HEADER_MARK_TILE is the one exception: the brand gradient moved onto it,
+    // so its white-alpha border reads identically in both themes and a `dark:`
+    // partner would be the actual mistake. Everything else is on the rail.
+    const exempt = new Set(['HEADER_MARK_TILE']);
+
+    /** `hover:bg-slate-100` → `bg`; `text-lg` and `border-b` → null. */
+    const colourProperty = (token: string): string | null => {
+      const utility = token.split(':').pop() as string;
+      const match = utility.match(/^(text|bg|border|from|via|to|shadow|ring|divide)-(.+)$/);
+      if (!match) return null;
+      const [, property, value] = match;
+      // Theme-neutral keywords need no partner; sizes and gradient directions
+      // are not colours at all.
+      if (/^(transparent|current|inherit|none)$/.test(value)) return null;
+      const isColour =
+        /^(white|black)(\/[\d.]+)?$/.test(value) ||
+        /^[a-z]+-\d{2,3}(\/[\d.]+)?$/.test(value) ||
+        value.startsWith('[rgb(');
+      return isColour ? property : null;
+    };
+
+    for (const [name, value] of Object.entries(headerChrome)) {
+      if (typeof value !== 'string' || exempt.has(name)) continue;
+
+      const tokens = value.split(/\s+/).filter(Boolean);
+      const themed = new Set(
+        tokens
+          .filter((t) => t.startsWith('dark:'))
+          .map(colourProperty)
+          .filter(Boolean)
+      );
+
+      for (const token of tokens) {
+        if (token.startsWith('dark:')) continue;
+        const property = colourProperty(token);
+        if (!property) continue;
+        expect(
+          themed.has(property),
+          `${name} sets \`${token}\` on a theme surface with no dark: partner`
+        ).toBe(true);
+      }
+    }
+  });
+
+  it('stopped changing the sub-label’s tracking at a breakpoint', () => {
+    expect(HEADER_SUBLABEL).toContain('tracking-[0.2em]');
+    expect(HEADER_SUBLABEL).not.toContain('sm:tracking-');
   });
 });
 
