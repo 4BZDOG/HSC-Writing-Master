@@ -12,6 +12,7 @@ Both gating questions are settled. These are binding; where the prose below stil
 1. **D0 — GRANTED, "render it, shut, below the breadcrumb."** The ribbon renders whenever there is a question and Focus Mode is off, collapsed by default in the folded-navigator state. Steps 10 and 11 are in scope. The full series (Steps 1–12) is dispatched.
 2. **D1 — GRANTED, fix the shared token.** Step 7 changes `getBandConfig`'s band-3 `solidText` in `utils/renderUtils.ts` and pins it with the ratio in a comment. It is in scope, it repairs `SyllabusNavBar` and `PromptSelector` at the same time, and R4's concern is answered by the pinning test rather than by narrowing the fix.
 3. **D2 — as the plan proposed:** the cognitive-timeline step buttons stay, with corrected labels (Step 8). R5 remains an open design question for later.
+4. **R10 — RESOLVED AGAINST THE PLAN, after Step 3 shipped.** Step 3 took `getCommandTermInfo`'s case-insensitive lookup *and* its `EXPLAIN` fallback. The fallback has been reverted; the lookup is now `commandTerms.get(v) ?? commandTerms.get(v.toUpperCase()) ?? null`. Reason: everywhere else that fallback degrades something incidental, but here the content *is* the claim "your verb is X, it caps you at Band N" — an unrecognised verb would render that claim in full and confidently about a verb nobody asked for. Showing nothing is honest and is a state the component already draws. **Step 12's changelog must describe the case fix only, not a fallback.**
 
 ## 0. Decisions the maintainer must take before Step 5 is dispatched
 
@@ -304,6 +305,10 @@ Per §2, the question is "what is it painted on?", not "is this class dark-only?
 ## 3. Implementation steps
 
 Each step is written for an agent with no memory of this document's other steps and no access to the conversation that produced it. Every step ends type-checking and test-passing and is one commit. Run `npm run test:all` before each commit; do not use `--no-verify`.
+
+**Every line number in this document for `CommandVerbHierarchy.tsx` is stale.** Steps 1–3 added a nesting level (so everything from the detail card down is indented two further spaces and shifted about +20 lines), removed the local `MeshOverlay` (8 lines near the top — `COGNITIVE_STEPS` now sits where the plan says the mesh is), and added ~12 lines to the lookup. **Locate code by searching for it.** For Step 4 in particular: the class strings themselves are unchanged, only the whitespace around them moved.
+
+**Two jsdom facts worth knowing before writing a test here:** this jsdom has no `CSS.escape`, and `useId` emits `«r0»`, which is not a valid bare CSS identifier — resolve `aria-controls` with an attribute selector (`[id="…"]`), never `#id`. And `window.matchMedia` is undefined by default; the component guards with `typeof window.matchMedia === 'function'`, so the default path is "no reduced motion".
 
 **Read first, every step:** to see this component in the running app, choose a question and then press **Change** on the breadcrumb to expand the syllabus navigator. `App.tsx:482–484` folds the navigator away when a question is selected, which unmounts the ribbon. That is a known issue tracked separately; do not fix it in your step unless your step says to.
 
@@ -920,7 +925,8 @@ Two things worth recording explicitly, because the next reader will not rediscov
 
 ### Must be updated
 
-- `tests/unit/commandVerbHierarchy.test.tsx:26` — `/Reference • 6 Bands/i`. Step 8. This is the plan's one expected pre-existing-test failure.
+- `tests/unit/commandVerbHierarchy.test.tsx:26` — `/Reference • 6 Bands/i`. Step 8.
+- **A second one the plan missed** (found during Step 3): the timeline test finds its button by `getByRole('button', { name: /Highlight band 6/i })` and asserts `/Evaluate/i` on the aria-label. Step 8 rewrites that label to `Show tier 6 verbs — Evaluate`, so it breaks too. **Step 8 should expect two failures, not one.**
 
 ### New
 
