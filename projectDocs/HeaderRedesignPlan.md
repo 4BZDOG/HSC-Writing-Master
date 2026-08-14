@@ -500,12 +500,25 @@ the threshold should rise.
 **Target:** add a shared helper (in `tests/e2e/support/workspace.ts`, alongside `signIn`/`clearOnboarding`/`openFirstQuestion`):
 
 ```ts
-/** The admin/teacher tools now live behind one overflow control in the header. */
+/** The admin/teacher tools now live behind one overflow control in the header.
+ *  The wait is on the trigger, not the tool: on a Supabase run the header has
+ *  no trigger at all until the profile role resolves to admin. */
 export const openHeaderTool = async (page: Page, name: RegExp): Promise<void> => {
-  await page.getByRole('button', { name: /(admin|teaching) tools/i }).click();
+  const trigger = page.getByRole('button', { name: /(admin|teaching) tools/i });
+  await expect(trigger).toBeVisible({ timeout: 30_000 });
+  await trigger.click();
   await page.getByRole('button', { name }).click();
 };
 ```
+
+**What Step 5 left this step to inherit** *(recorded by the agent that wrote the popover)*:
+
+- **`contribution-loop.spec.ts:339–342` is not a straight call-site swap.** Its 30-second `toBeVisible` wait is what absorbs the delay while the Supabase profile role resolves to admin. That wait must move onto the *trigger* — hence its place in the helper above. Click the trigger without it and the click races the role resolution, and the trigger will not exist yet.
+- **The panel is portalled to `document.body`, outside `<header>`.** Any locator scoped to the header element will miss it.
+- **Each item's visible text is now split** — short name, then the parenthetical on a second line. The `title` and `aria-label` remain the full canonical string byte-identical, so `button[title^="Review Queue"]` and `/class insights/i` still match, but **a locator matching on visible text alone will fail**, because the accessible name comes from `aria-label`.
+- **Nothing else in the header matches `/(admin|teaching) tools/i`.** Step 5 deliberately omitted a close button so no second element could collide with the helper. If this step adds one, keep its label clear of both words.
+- `contribution-loop.spec.ts:344` asserts a `Review Queue` *heading* after the click. The popover contributes no heading — group labels are `<div role="group">` with `aria-labelledby` — and it closes on select, so there is no ambiguity to resolve.
+- **A `teacher` with `isCurriculumRemote()` false now sees no trigger at all**, not an empty menu. The plan never said what should happen to a moderator with no moderation tools; Step 5 gated the whole component on `isSystemAdmin(user.role) || (canModerate(user.role) && isCurriculumRemote())`. Since `isCurriculumRemote()` is false in local runs, an admin sees five tools by hand and a teacher sees nothing.
 
 Replace the four call sites, and update the `contribution-loop.spec.ts` comment to say the cluster is now behind the overflow control.
 
