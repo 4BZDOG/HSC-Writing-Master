@@ -40,6 +40,9 @@ import {
   RIBBON_TIER_UNDERLINE,
   RIBBON_TIMELINE_DOT,
   RIBBON_TIMELINE_LABEL,
+  RIBBON_TIMELINE_STEP_LABEL,
+  RIBBON_TIMELINE_STEP_LABEL_IDLE,
+  RIBBON_TIMELINE_THRESHOLD_CHIP,
   RIBBON_TIMELINE_TICK,
   RIBBON_TIMELINE_TRACK,
   RIBBON_VERB_CHIP,
@@ -500,8 +503,15 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                           {group.emoji}
                         </div>
                         <div className="min-w-0">
+                          {/* No opacity on either branch. Through `opacity-60`
+                              — on a card that is itself dimmed to 90% — the
+                              tier's own `-900` text measured 2.97:1 on tier 6
+                              and worse below it, and there was no darker step
+                              in the shared config to reach for. Ten pixels
+                              against the title's fourteen is what makes an
+                              eyebrow read as one. */}
                           <span
-                            className={`${RIBBON_TIER_HEADER_LABEL} ${isCurrentTier ? 'opacity-70' : tierConfig.text + ' opacity-60'}`}
+                            className={`${RIBBON_TIER_HEADER_LABEL} ${isCurrentTier ? '' : tierConfig.text}`}
                           >
                             Band {group.maxBand} ceiling
                           </span>
@@ -628,7 +638,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                         — Apply is a tier-4 verb. */}
                     {idx === 3 && (
                       <div className="absolute left-1/2 -translate-x-1/2 -top-8 bottom-0 w-px border-r-2 border-dashed border-slate-300/30 dark:border-white/10 z-0 flex flex-col items-center justify-start pointer-events-none">
-                        <div className="hidden sm:block bg-[rgb(var(--color-bg-surface))] text-[8px] font-black uppercase tracking-widest text-slate-400 px-2 py-0.5 rounded-full border border-slate-300 dark:border-white/10 shadow-sm whitespace-nowrap mb-2 transform -translate-y-1/2">
+                        <div className={RIBBON_TIMELINE_THRESHOLD_CHIP}>
                           Deep Learning Threshold
                         </div>
                       </div>
@@ -660,12 +670,14 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                         )}
                       </div>
                       {/* On phones six tracked labels collide into one another, so
-                        only the current step keeps its label below sm. */}
+                        only the current step keeps its label below sm.
+
+                        The five that are not current used to be `slate-500` at
+                        `opacity-70`, which measured 2.66:1 on the page — the
+                        largest single group of failures the contrast suite
+                        found once it could see this component at all. */}
                       <span
-                        className={`
-                                    text-[9px] font-bold uppercase tracking-wider sm:tracking-widest transition-all duration-300
-                                    ${isCurrent ? stepConfig.text : 'hidden sm:block text-slate-500 dark:text-slate-400 opacity-70 group-hover/step:opacity-100'}
-                                 `}
+                        className={`${RIBBON_TIMELINE_STEP_LABEL} ${isCurrent ? stepConfig.text : RIBBON_TIMELINE_STEP_LABEL_IDLE}`}
                       >
                         {label}
                       </span>

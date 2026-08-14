@@ -59,7 +59,14 @@ const StrategyTip: React.FC<StrategyTipProps> = ({
               aria-hidden="true"
               className={`mt-[0.45rem] w-1 h-1 rounded-full flex-shrink-0 bg-current ${accentClass}`}
             />
-            <span className="text-xs leading-relaxed text-[rgb(var(--color-text-muted))] light:text-slate-500">
+            {/* The muted token, with nothing overriding it. `light:text-slate-500`
+                used to sit here and made the light theme LIGHTER than the theme
+                asked for: `--color-text-muted` already resolves to slate-600
+                under `[data-theme="light"]`. On white that override cost a
+                little margin; on the verb ribbon's tier wash, where this tip is
+                also rendered, it measured 4.15:1 against a 4.5 floor, and the
+                token reads 6.35:1 in the same place. */}
+            <span className="text-xs leading-relaxed text-[rgb(var(--color-text-muted))]">
               {segment.text}
             </span>
           </li>

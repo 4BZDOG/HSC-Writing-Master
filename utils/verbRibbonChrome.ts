@@ -118,9 +118,11 @@ export const RIBBON_DETAIL_TIER_CHIP =
 export const RIBBON_DETAIL_DEFINITION =
   'text-sm font-bold max-w-xl leading-relaxed text-slate-700 dark:text-[rgb(var(--color-text-secondary))]';
 
-/** The `StrategyTip`'s accent under the definition. Painted on the detail
- *  card. */
-export const RIBBON_DETAIL_TIP_ACCENT = 'text-slate-500 dark:text-[rgb(var(--color-text-muted))]';
+/** The `StrategyTip`'s accent under the definition — its bullet markers and its
+ *  term chips. Painted on the detail card's tier wash, and on the pale chip fill
+ *  inside it, which is why it is `slate-600` and not the `slate-500` it was: on
+ *  `slate-100` over a tier wash, `slate-500` is within a tenth of the floor. */
+export const RIBBON_DETAIL_TIP_ACCENT = 'text-slate-600 dark:text-[rgb(var(--color-text-muted))]';
 
 /** The four-stat tray on the right of the detail card. Painted on the detail
  *  card's tier wash. */
@@ -245,7 +247,17 @@ export const RIBBON_TIER_HEADER =
   'w-full text-left px-6 py-4 border-b relative flex items-center gap-4 flex-shrink-0 cursor-pointer transition-[filter] hover:brightness-110 ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
-/** "Band 3 ceiling", above the tier's title. Painted on the tier card header. */
+/** "Band 3 ceiling", above the tier's title. Painted on the tier card header,
+ *  in the tier's own `text` colour — or, on the current card, in the `solidText`
+ *  it inherits from the header itself.
+ *
+ *  It used to add `opacity-60` on the five idle cards, and that was the whole
+ *  of its contrast problem: `text-purple-900` on `bg-purple-100` is about 9:1
+ *  and measured **2.97:1** through the opacity, on a card that is also dimmed to
+ *  90%. The tier `text` tokens are already the darkest step the shared config
+ *  offers (`-900`), so there was nothing left to darken — the opacity had to go.
+ *  The eyebrow still reads as an eyebrow: ten pixels against the title's
+ *  fourteen, with 0.2em of tracking doing the rest. */
 export const RIBBON_TIER_HEADER_LABEL =
   'text-[10px] font-black uppercase tracking-[0.2em] block mb-0.5 truncate';
 
@@ -296,3 +308,40 @@ export const RIBBON_TIMELINE_TICK = 'w-px h-full bg-slate-400/50 dark:bg-white/2
  *  reader has reached that step. Painted on the page background. */
 export const RIBBON_TIMELINE_DOT =
   'w-4 h-4 rounded-full border-2 transition-all duration-500 relative';
+
+/** A timeline step's label, under its dot. Painted on the page background. */
+export const RIBBON_TIMELINE_STEP_LABEL =
+  'text-[9px] font-bold uppercase tracking-wider sm:tracking-widest transition-all duration-300';
+
+/** The five steps that are not the reader's current tier. On phones six tracked
+ *  labels collide, so only the current one keeps its label below `sm`.
+ *
+ *  It was `text-slate-500 … opacity-70`, measured at **2.66:1** on the page
+ *  background against a 4.5 floor. Both halves had to move: `slate-500` at full
+ *  strength is only 4.66:1 here — the least margin anywhere in this component —
+ *  and `slate-600` still composites to about 3.4:1 through `opacity-70`, because
+ *  opacity pulls the text towards its background rather than scaling the ratio.
+ *  So the opacity goes and the tint darkens, and the hover lift that the opacity
+ *  used to provide is done with colour instead. */
+export const RIBBON_TIMELINE_STEP_LABEL_IDLE =
+  'hidden sm:block text-slate-600 dark:text-slate-400 ' +
+  'group-hover/step:text-slate-900 dark:group-hover/step:text-white';
+
+/** The "Deep Learning Threshold" marker between tiers 3 and 4. Painted on the
+ *  page background, in its own surface-coloured pill.
+ *
+ *  Its `text-slate-400` measured **2.56:1** on that pill in the light theme — a
+ *  dark-theme tone reused on white, which is the exact mistake the light-theme
+ *  suite exists to catch, and it went unseen because until now the suite had
+ *  never rendered this component.
+ *
+ *  The fill is written as the pair it has always resolved to rather than as the
+ *  bare token it used to be: `--color-bg-surface` is `255 255 255` under
+ *  `[data-theme="light"]`, so `bg-white` is the same white it was already
+ *  painting, and saying it out loud is what lets the parity sweep read this
+ *  constant at all. */
+export const RIBBON_TIMELINE_THRESHOLD_CHIP =
+  'hidden sm:block text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ' +
+  'border shadow-sm whitespace-nowrap mb-2 transform -translate-y-1/2 ' +
+  'bg-white text-slate-600 border-slate-300 ' +
+  'dark:bg-[rgb(var(--color-bg-surface))] dark:text-slate-400 dark:border-white/10';

@@ -7,6 +7,7 @@ import * as verbRibbonChrome from '../../utils/verbRibbonChrome';
 import {
   RIBBON_DETAIL_CARD,
   RIBBON_DETAIL_TERM,
+  RIBBON_DETAIL_TIP_ACCENT,
   RIBBON_HEADER_BAR,
   RIBBON_HEADER_TILE,
   RIBBON_ROOT,
@@ -20,6 +21,9 @@ import {
   RIBBON_TIER_HEADER,
   RIBBON_TIER_SUBTITLE_IDLE,
   RIBBON_TIER_UNDERLINE,
+  RIBBON_TIMELINE_STEP_LABEL,
+  RIBBON_TIMELINE_STEP_LABEL_IDLE,
+  RIBBON_TIMELINE_THRESHOLD_CHIP,
   RIBBON_VERB_CHIP,
 } from '../../utils/verbRibbonChrome';
 
@@ -264,6 +268,62 @@ describe('the tier strip is legible and reachable', () => {
     // The tray is fixed-width, so a two-digit range must not shove its
     // neighbours along as the verb changes.
     expect(RIBBON_STAT_VALUE).toContain('tabular-nums');
+  });
+});
+
+/**
+ * What the e2e contrast suite found the moment it could reach this component —
+ * which, until the ribbon rendered beside the breadcrumb, it never had. Seven
+ * text nodes on a plain background fell below the 4.5 floor, and every one of
+ * them was an opacity laid over a colour that was fine without it.
+ *
+ * The numbers below are measured in Chromium at 1400×900 with animations
+ * frozen, the way `tests/e2e/support/contrast.ts` measures them: ancestor
+ * opacity composited into the reading, not multiplied against the ratio.
+ */
+describe('nothing in the ribbon is dimmed below the floor', () => {
+  // 2.66:1 as `slate-500` under `opacity-70`; 7.24:1 now. Both halves had to
+  // move — `slate-500` at full strength is 4.66:1 here, and `slate-600` through
+  // `opacity-70` is about 3.4:1, because opacity pulls text towards its
+  // background instead of scaling the ratio.
+  it('leaves the timeline step labels their contrast', () => {
+    expect(RIBBON_TIMELINE_STEP_LABEL_IDLE).toContain('text-slate-600');
+    expect(RIBBON_TIMELINE_STEP_LABEL_IDLE).not.toContain('text-slate-500');
+    expect(RIBBON_TIMELINE_STEP_LABEL_IDLE).not.toContain('opacity-');
+    expect(RIBBON_TIMELINE_STEP_LABEL).not.toContain('opacity-');
+  });
+
+  // 2.56:1 — `slate-400`, a dark-theme tone, on a white pill.
+  it('gives the threshold marker a light-theme tone', () => {
+    expect(RIBBON_TIMELINE_THRESHOLD_CHIP).toContain('text-slate-600');
+    expect(RIBBON_TIMELINE_THRESHOLD_CHIP).toContain('dark:text-slate-400');
+    expect(RIBBON_TIMELINE_THRESHOLD_CHIP).not.toMatch(/(^|\s)text-slate-400/);
+  });
+
+  // 2.97:1 on tier 6 and worse below it. The tier `text` tokens are already the
+  // darkest step `getBandConfig` offers, so the opacity was the whole defect.
+  it('states each card’s band ceiling without dimming it', () => {
+    render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+
+    const header = screen.getByRole('button', { name: /Band 6 ceiling/i });
+    const label = header.querySelector('span') as HTMLElement;
+    expect(label.textContent).toBe('Band 6 ceiling');
+    expect(label.className).toContain('text-purple-900');
+    expect(label.className).not.toMatch(/opacity-\d/);
+  });
+
+  // 4.15:1 on the tier-2 wash the ribbon paints behind it. `StrategyTip` is
+  // shared with the editor, and its own `light:text-slate-500` was overriding
+  // `--color-text-muted`, whose light value is already slate-600 — the override
+  // made the light theme lighter than the theme had asked for.
+  it('lets the muted token be the muted colour in the strategy tip', () => {
+    render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+
+    const tip = document.querySelector('ul[role="list"] span.leading-relaxed') as HTMLElement;
+    expect(tip).toBeTruthy();
+    expect(tip.className).toContain('text-[rgb(var(--color-text-muted))]');
+    expect(tip.className).not.toContain('light:text-slate-500');
+    expect(RIBBON_DETAIL_TIP_ACCENT).toContain('text-slate-600');
   });
 });
 

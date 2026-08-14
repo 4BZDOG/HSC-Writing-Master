@@ -104,6 +104,48 @@ export const settleVerbRibbon = async (page: Page): Promise<void> => {
     .toBe(0);
 };
 
+/**
+ * Unfold the verb ribbon, so what is inside it can be looked at.
+ *
+ * It is shut beneath the breadcrumb by design, and what it hides is the largest
+ * block of tier-coloured text in the application — six tier cards, thirty-eight
+ * verb chips, a detail card and a timeline, all of them drawn from the same
+ * `getBandConfig` palette that every light-theme defect this project has shipped
+ * came out of. Until the ribbon rendered in this state at all, no e2e test had
+ * ever seen a pixel of it.
+ *
+ * Note what the contrast audit still cannot say about it, so the green tick is
+ * not read as more than it is: anything whose background resolves to a gradient
+ * is returned `unassessable`, which covers the tier underline and the current
+ * tier card's header; and anything on a saturated tier fill is measured but not
+ * gated, because `neutralBackground` is false for amber and green. The
+ * tier-coloured text in this component is still partly on the honour system.
+ */
+export const openVerbRibbon = async (page: Page): Promise<void> => {
+  const toggle = page.getByRole('button', { name: /command verb hierarchy reference/i });
+  if (!(await toggle.count())) return;
+  if ((await toggle.first().getAttribute('aria-expanded')) === 'false') {
+    await toggle.first().click();
+  }
+  await expect(toggle.first()).toHaveAttribute('aria-expanded', 'true');
+  // The panel opens on the same 700ms transition it folds on, and a reading
+  // taken mid-animation is a reading of a half-height panel.
+  await expect
+    .poll(
+      () =>
+        page.evaluate(() => {
+          const button = document.querySelector(
+            'button[aria-label*="command verb hierarchy" i][aria-controls]'
+          );
+          if (!button) return 0;
+          const panel = document.getElementById(button.getAttribute('aria-controls') ?? '');
+          return panel ? Math.round(panel.getBoundingClientRect().height) : 0;
+        }),
+      { timeout: 15_000 }
+    )
+    .toBeGreaterThan(200);
+};
+
 /** Sign in, clear the gates and open a question — the usual preamble. */
 export const openWorkspace = async (page: Page): Promise<void> => {
   await signIn(page);
