@@ -55,6 +55,8 @@ Accumulated during the audit. Each step runs with no memory of the others, so th
 - **Playwright**: `/opt/pw-browsers` holds `chromium-1194` while the installed `@playwright/test` wants `1208`, so `PLAYWRIGHT_BROWSERS_PATH` alone fails. Launch with `executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'`. WebKit is not installed.
 - **jsdom facts** carried from the ribbon series: no `CSS.escape`; `useId` emits `«r0»`, which is not a valid bare CSS identifier, so resolve `aria-controls` with `[id="…"]`, never `#id`; `window.matchMedia` is undefined by default.
 - **`lint-staged` runs `prettier --write` on `*.md`** (`package.json:84–86`). This file has not taken its reformatting hit; the first commit to touch it will reflow it. Do not fight it.
+- **Reaching the navigator in a browser** *(mapped during Step 1)*: `admin`/`admin` lands on an **agreement gate** (tick the checkbox, "Agree and continue") before onboarding ("Start Writing"), and **the stock install ships no courses** — click "Load Curriculum Library" then "Import 3 items" to get `HSC Biology (Advanced)`, or the navigator has nothing below Course. Combobox options open below the fold, so Playwright needs a tall viewport and `click({ force: true })`. `UserRole` is `'admin' | 'teacher' | 'user' | 'guest'` — there is no `'student'`.
+- **A 48-render comparison harness exists** from Step 1 (`scratchpad/zzNavDump.test.tsx` + `compare3.mjs`): 8 path states × 3 roles × both themes, comparing sorted class tokens per element. Copy it into `tests/unit/`, run with `NAV_DUMP_DIR=…`, delete before committing. Step 6 (geometry only) can use it unchanged.
 - **Coverage floors are 63 / 59 / 57 / 62** (`vitest.config.ts:29–34`), a deliberate regression floor. `hsc-feature.md` §7's "70% minimum" is stale — do not quote it and do not raise the thresholds in a navigator commit.
 
 ---
@@ -496,9 +498,13 @@ Use the level names the UI already uses: Course, Year, Topic, Sub-topic, Syllabu
 2. **The parity sweep** — copy `verbRibbonChrome.test.tsx:147–190` unchanged. It will **fail** on this step's values, because they are still `light:`-based. Land the sweep with an explicit `exempt` set naming every constant Step 4 will rewrite, and **require Step 4 to empty it**. Do not land it skipped — a skipped test that nobody re-enables is how these guards die.
 3. **No level is named after a colour** — `Object.keys(NAV_LEVELS)` is exactly the five level names.
 
+**The sweep recurses into nested objects** *(built this way in Step 3)*. `NAV_LEVELS` and `NAV_ACTION_VARIANTS` are objects, which the ribbon's flat iterator would have skipped entirely — the classifier is copied verbatim but the walk recurses, so exempt entries are dotted: `NAV_LEVELS.course.activeBorder`, `NAV_ACTION_VARIANTS.special`. A **second test fails if an exemption is kept after it is earned back**, so Step 4 cannot empty half the set and leave the rest.
+
 Mock `services/geminiService` in every render test (house rule — `promptSelectorPastHscChip.test.tsx:14–16` shows the shape).
 
-**Do not touch:** any class value. A `git diff` of the rendered DOM must be empty.
+**Do not touch:** any class value.
+
+> **"A `git diff` of the rendered DOM must be empty" is unachievable and was wrong** *(corrected during Step 3)*. Lifting a string into a constant reorders tokens *within* the `class` attribute — `${NAV_STEP_BOX_ACTIVE} ${activeBorder}` puts the hue last where it used to be interleaved. CSS does not read attribute order, so this is cosmetic. The real invariant, and the one to verify, is that the **class *set* per element is unchanged**. Compare sorted tokens, not raw strings.
 
 ---
 
@@ -541,6 +547,10 @@ In `NavigatorStep.tsx`: render `<div className={`${NAV_STEP_EDGE} ${NAV_LEVELS[l
 
 **Do not touch:** the gutter and the node offsets — that is Step 6, and mixing a geometry change into the visually dramatic step makes both un-reviewable. Do not touch `getTierScaleConfig` or anything inside the question row's `renderLabel` — that is Step 5.
 
+**Step 4's constants already exist under the planned names**, so its diff is one file plus `NavigatorStep.tsx`. Two extra names it will need: `NAV_NODE_CURRENT` (`'w-4 h-4 border-2 scale-125'`) and `NAV_STEP_HEADER_TILE` (`'p-1.5 rounded-md'`). `scale-[1.01]` lives inside `NAV_STEP_BOX_ACTIVE`. Dropping `activeBorder`/`activeShadow`/`selectedBorder` from `NavigatorLevelChrome` and adding `edge` is a change to `boxClasses()` in `NavigatorStep.tsx` and nothing else.
+
+**The option-row icon tiles are NOT in `navigatorChrome.ts`** — only their geometry (`NAV_OPTION_TILE`) was lifted, because their hues are per-picker and they disagree with the step hues: the sub-topic *rows* are **indigo** while the sub-topic *step* is teal. The parity ledger's "icon tiles ×5 — Re-express" row is about these, and whichever step takes it will find them in `PromptSelector.tsx`. Same for the focus-area tile (emerald) and the `color="green"` Active Focus combobox — which is why `Combobox.colorStyles.green` is still live even though `THEMES.green` was dead.
+
 **Extend the test:** the parity sweep must now pass with **no exemptions** — empty the `exempt` set Step 3 landed; assert `NAV_STEP_BOX_ACTIVE` contains both a light and a `dark:` background; assert no export contains `light:`.
 
 **Risk:** this is the visually dramatic step and it has no automated safety net until Step 10. **Verify by eye in both themes, at both states of every level** — five steps × chosen/unchosen. `opacity-50` on the upcoming node is being raised to `opacity-60`; if the "not there yet" reading is lost, take the de-emphasis from `scale-90` and the hollow fill rather than from opacity (the ribbon series' D-E).
@@ -567,7 +577,7 @@ In `NavigatorStep.tsx`: render `<div className={`${NAV_STEP_EDGE} ${NAV_LEVELS[l
 | `text-purple-400` on the "Manual" button ‡ | on `bg-purple-500/10` | `text-purple-700 dark:text-purple-400` | 2.34 → **6.18:1** |
 | `text-red-400` on "Reset Focus" ‡ | on `bg-red-500/10` | `text-red-600 dark:text-red-400` | 2.42 → **4.23:1** (icon) |
 | `text-red-400` on `inlineError` | on `light:bg-slate-50` | `text-red-600 dark:text-red-400` | 2.64 → **4.62:1** |
-| `light:text-amber-600` in the `special` and `locked` variants | on the amber wash | `text-amber-700 dark:text-yellow-400` | 3.03 → **4.78:1** |
+| `light:text-amber-600` in `NAV_ACTION_VARIANTS.special` **and** `.locked` (Step 3 made `locked` a real sixth key; it was a branch) | on the amber wash | `text-amber-700 dark:text-yellow-400` | 3.03 → **4.78:1** |
 | `hover:bg-emerald-500 hover:text-white` (focus-area editor) | white on emerald-500 | `hover:bg-emerald-600` | 2.54 → **3.77:1** |
 
 **Do not touch:**
