@@ -68,6 +68,40 @@ describe('CommandVerbHierarchy', () => {
     expect(screen.getAllByText('EVALUATE').length).toBeGreaterThanOrEqual(2);
   });
 
+  /**
+   * DesignSpec §3, "Keyboard Reach": a keyboard user must reach exactly what is
+   * on screen. The ribbon folds to zero height, which is a visual collapse and
+   * nothing more — fifty controls (six tier headers, thirty-eight verb chips,
+   * six timeline steps) stayed in the tab order and in the accessibility tree
+   * behind a panel the UI had told the reader was shut.
+   */
+  it('marks the shut panel inert, and lifts it when re-expanded', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    const inertPanel = () => container.querySelector('[inert]');
+    const chip = screen.getByRole('button', { name: 'IDENTIFY' });
+
+    // Open by default, so nothing inside it is out of reach.
+    expect(inertPanel()).toBeNull();
+
+    fireEvent.click(getToggle());
+    expect(inertPanel()).not.toBeNull();
+    expect(inertPanel()!.contains(chip)).toBe(true);
+
+    fireEvent.click(getToggle());
+    expect(inertPanel()).toBeNull();
+  });
+
+  it('points the toggle at the panel it opens', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    const panelId = getToggle().getAttribute('aria-controls');
+    expect(panelId).toBeTruthy();
+    // Attribute selector rather than `#id`: React's useId emits `«r0»`, which
+    // is a valid id but not a valid bare CSS identifier.
+    const panel = container.querySelector(`[id="${panelId}"]`);
+    expect(panel).not.toBeNull();
+    expect(panel!.contains(screen.getByRole('button', { name: 'IDENTIFY' }))).toBe(true);
+  });
+
   it('lets a keyboard user select a tier from the card header', () => {
     render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
     const header = screen.getByRole('button', { name: /Band 1 ceiling Remember & List/i });

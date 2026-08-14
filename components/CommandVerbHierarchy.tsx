@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, useRef } from 'react';
+import React, { useMemo, useState, useEffect, useRef, useId } from 'react';
 import { PromptVerb } from '../types';
 import { commandTerms, TIER_GROUPS, getTierTargetBand } from '../data/commandTerms';
 import { ChevronDown, AlignLeft, Sparkles } from 'lucide-react';
@@ -30,6 +30,7 @@ const COGNITIVE_STEPS = [
 const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [activeVerb, setActiveVerb] = useState<PromptVerb | undefined>(currentVerb);
+  const panelId = useId();
 
   const tierRefs = useRef<(HTMLDivElement | null)[]>([]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -149,6 +150,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
       <button
         onClick={toggleOpen}
         aria-expanded={isOpen}
+        aria-controls={panelId}
         aria-label={`${isOpen ? 'Collapse' : 'Expand'} the HSC command verb hierarchy reference`}
         className={`
             w-full px-0 py-3 sm:py-3.5 min-h-[60px] sm:min-h-[64px] flex items-center justify-between gap-3 relative z-10 overflow-hidden transition-all duration-500 group/header rounded-xl
@@ -195,136 +197,155 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
         </div>
       </button>
 
-      {/* Collapsible Content */}
+      {/* Collapsible Content.
+
+          A grid-rows transition rather than a max-height one. The old
+          `max-h-[1600px]` was a guess, and a wrong one: the panel is about
+          700px tall, so the first half of every 700ms collapse travelled
+          through height the element does not occupy — the ribbon appeared to
+          hang and then snap shut. `1fr` animates to whatever the content
+          actually needs and has no number in it to get wrong. The
+          `overflow-hidden` moves onto the inner wrapper, which is what makes
+          `0fr` clip rather than overflow.
+
+          `inert` while collapsed, because zero height is not zero REACH. Fifty
+          controls live in here — six tier headers, thirty-eight verb chips and
+          six timeline steps — and every one of them stayed in the tab order
+          and in the accessibility tree while the ribbon was visually shut. It
+          costs nothing visually, unlike hiding the content, which would fight
+          the animation. */}
       <div
-        className={`transition-all duration-700 ease-in-out overflow-hidden ${isOpen ? 'max-h-[1600px] opacity-100' : 'max-h-0 opacity-0'}`}
+        id={panelId}
+        inert={!isOpen}
+        className={`grid transition-all duration-700 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
       >
-        <div className="py-4 space-y-4">
-          {/* Active Verb Detail Card */}
-          {activeTermInfo && activeConfig && (
-            <div
-              className={`clip-stable relative overflow-hidden rounded-2xl p-5 border ${activeConfig.border} ${activeConfig.bg} shadow-lg animate-fade-in-up transition-all duration-500 group/hero`}
-            >
-              <MeshOverlay opacity="opacity-[0.06]" />
+        <div className="overflow-hidden">
+          <div className="py-4 space-y-4">
+            {/* Active Verb Detail Card */}
+            {activeTermInfo && activeConfig && (
               <div
-                className={`absolute -right-20 -top-20 w-80 h-80 bg-gradient-to-br ${activeConfig.gradient} opacity-10 blur-[80px] rounded-full pointer-events-none group-hover/hero:opacity-20 transition-opacity duration-700`}
-              />
+                className={`clip-stable relative overflow-hidden rounded-2xl p-5 border ${activeConfig.border} ${activeConfig.bg} shadow-lg animate-fade-in-up transition-all duration-500 group/hero`}
+              >
+                <MeshOverlay opacity="opacity-[0.06]" />
+                <div
+                  className={`absolute -right-20 -top-20 w-80 h-80 bg-gradient-to-br ${activeConfig.gradient} opacity-10 blur-[80px] rounded-full pointer-events-none group-hover/hero:opacity-20 transition-opacity duration-700`}
+                />
 
-              <div className="relative z-10 flex flex-col gap-5">
-                <div className="flex flex-col md:flex-row gap-5 justify-between items-start md:items-center">
-                  <div className="flex items-center gap-4">
-                    <div
-                      className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br ${activeConfig.gradient} border border-white/20 shadow-lg transform transition-transform duration-700 group-hover/hero:rotate-6`}
-                    >
-                      <Sparkles className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-3 mb-1">
-                        <h4 className="text-3xl font-black tracking-tighter text-white light:text-slate-900 uppercase italic leading-none">
-                          {activeTermInfo.term}
-                        </h4>
-                        <div
-                          className={`px-3 py-0.5 rounded-full border font-black text-[9px] uppercase tracking-widest shadow-sm ${activeConfig.bg} ${activeConfig.text} ${activeConfig.border}`}
-                        >
-                          Band {activeTermInfo.tier}
-                        </div>
+                <div className="relative z-10 flex flex-col gap-5">
+                  <div className="flex flex-col md:flex-row gap-5 justify-between items-start md:items-center">
+                    <div className="flex items-center gap-4">
+                      <div
+                        className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br ${activeConfig.gradient} border border-white/20 shadow-lg transform transition-transform duration-700 group-hover/hero:rotate-6`}
+                      >
+                        <Sparkles className="w-6 h-6 text-white" />
                       </div>
-                      <p className="text-sm font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 max-w-xl leading-relaxed opacity-90">
-                        {activeTermInfo.definition}
-                      </p>
-                      <StrategyTip
-                        tip={activeTermInfo.tip}
-                        className="max-w-xl mt-2"
-                        accentClass="text-[rgb(var(--color-text-muted))] light:text-slate-500"
-                      />
+                      <div>
+                        <div className="flex items-center gap-3 mb-1">
+                          <h4 className="text-3xl font-black tracking-tighter text-white light:text-slate-900 uppercase italic leading-none">
+                            {activeTermInfo.term}
+                          </h4>
+                          <div
+                            className={`px-3 py-0.5 rounded-full border font-black text-[9px] uppercase tracking-widest shadow-sm ${activeConfig.bg} ${activeConfig.text} ${activeConfig.border}`}
+                          >
+                            Band {activeTermInfo.tier}
+                          </div>
+                        </div>
+                        <p className="text-sm font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 max-w-xl leading-relaxed opacity-90">
+                          {activeTermInfo.definition}
+                        </p>
+                        <StrategyTip
+                          tip={activeTermInfo.tip}
+                          className="max-w-xl mt-2"
+                          accentClass="text-[rgb(var(--color-text-muted))] light:text-slate-500"
+                        />
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="flex items-center gap-4 bg-black/10 light:bg-slate-100 px-5 py-3 rounded-2xl border border-white/10 light:border-slate-300 backdrop-blur-md self-stretch md:self-auto justify-center shadow-inner flex-wrap">
-                    <div className="flex flex-col items-center">
-                      <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
-                        Marks
-                      </span>
-                      <span className={`text-lg font-black ${activeConfig.text}`}>
-                        {activeTermInfo.markRange.join('-')}
-                      </span>
-                    </div>
-                    <div className="w-px h-8 bg-black/10 light:bg-slate-300" />
-                    <div
-                      className="flex flex-col items-center"
-                      title={`The cognitive demand of ${activeTermInfo.term} caps a response at Band ${getTierTargetBand(activeTermInfo.tier)}`}
-                    >
-                      <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
-                        Band Cap
-                      </span>
-                      <span className={`text-lg font-black ${activeConfig.text}`}>
-                        {getTierTargetBand(activeTermInfo.tier)}
-                      </span>
-                    </div>
-                    <div className="w-px h-8 bg-black/10 light:bg-slate-300" />
-                    <div className="flex flex-col items-center" title="Recommended writing time">
-                      <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
-                        Time
-                      </span>
-                      <span className={`text-lg font-black ${activeConfig.text}`}>
-                        {activeTermInfo.timeRange.join('-')}m
-                      </span>
-                    </div>
-                    <div className="w-px h-8 bg-black/10 light:bg-slate-300 hidden sm:block" />
-                    <div
-                      className="hidden sm:flex flex-col items-center"
-                      title="Expected syllabus terms"
-                    >
-                      <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
-                        Terms
-                      </span>
-                      <span className={`text-lg font-black ${activeConfig.text}`}>
-                        {activeTermInfo.syllabusTerms.join('-')}
-                      </span>
+                    <div className="flex items-center gap-4 bg-black/10 light:bg-slate-100 px-5 py-3 rounded-2xl border border-white/10 light:border-slate-300 backdrop-blur-md self-stretch md:self-auto justify-center shadow-inner flex-wrap">
+                      <div className="flex flex-col items-center">
+                        <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
+                          Marks
+                        </span>
+                        <span className={`text-lg font-black ${activeConfig.text}`}>
+                          {activeTermInfo.markRange.join('-')}
+                        </span>
+                      </div>
+                      <div className="w-px h-8 bg-black/10 light:bg-slate-300" />
+                      <div
+                        className="flex flex-col items-center"
+                        title={`The cognitive demand of ${activeTermInfo.term} caps a response at Band ${getTierTargetBand(activeTermInfo.tier)}`}
+                      >
+                        <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
+                          Band Cap
+                        </span>
+                        <span className={`text-lg font-black ${activeConfig.text}`}>
+                          {getTierTargetBand(activeTermInfo.tier)}
+                        </span>
+                      </div>
+                      <div className="w-px h-8 bg-black/10 light:bg-slate-300" />
+                      <div className="flex flex-col items-center" title="Recommended writing time">
+                        <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
+                          Time
+                        </span>
+                        <span className={`text-lg font-black ${activeConfig.text}`}>
+                          {activeTermInfo.timeRange.join('-')}m
+                        </span>
+                      </div>
+                      <div className="w-px h-8 bg-black/10 light:bg-slate-300 hidden sm:block" />
+                      <div
+                        className="hidden sm:flex flex-col items-center"
+                        title="Expected syllabus terms"
+                      >
+                        <span className="text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5">
+                          Terms
+                        </span>
+                        <span className={`text-lg font-black ${activeConfig.text}`}>
+                          {activeTermInfo.syllabusTerms.join('-')}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {/* Tier Cards Scroll Area */}
-          <div className="relative group/scroll">
-            <div
-              className="flex overflow-x-auto gap-4 pb-4 pt-2 snap-x snap-mandatory scrollbar-hide"
-              ref={scrollContainerRef}
-            >
-              {sortedVerbsByGroup.map((group, index) => {
-                const isCurrentTier = activeTermInfo?.tier === group.tier;
-                const tierConfig = getTierScaleConfig(group.tier);
+            {/* Tier Cards Scroll Area */}
+            <div className="relative group/scroll">
+              <div
+                className="flex overflow-x-auto gap-4 pb-4 pt-2 snap-x snap-mandatory scrollbar-hide"
+                ref={scrollContainerRef}
+              >
+                {sortedVerbsByGroup.map((group, index) => {
+                  const isCurrentTier = activeTermInfo?.tier === group.tier;
+                  const tierConfig = getTierScaleConfig(group.tier);
 
-                // Determine transform origin to keep edges aligned when scaling
-                const isFirst = index === 0;
-                const isLast = index === sortedVerbsByGroup.length - 1;
-                const transformOrigin = isFirst
-                  ? 'origin-left'
-                  : isLast
-                    ? 'origin-right'
-                    : 'origin-center';
+                  // Determine transform origin to keep edges aligned when scaling
+                  const isFirst = index === 0;
+                  const isLast = index === sortedVerbsByGroup.length - 1;
+                  const transformOrigin = isFirst
+                    ? 'origin-left'
+                    : isLast
+                      ? 'origin-right'
+                      : 'origin-center';
 
-                // Dynamic Styling for Focus Effect
-                let cardStyle = 'scale-100 opacity-100'; // Default
-                if (activeTermInfo) {
-                  if (isCurrentTier) {
-                    cardStyle = `scale-110 z-20 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)] opacity-100 ring-4 ring-slate-900/10 dark:ring-white/5 ${transformOrigin}`;
-                  } else {
-                    // Added colored border specific to the tier for visual cue
-                    cardStyle = `scale-90 opacity-50 light:opacity-70 hover:opacity-100 hover:scale-95 border-2 ${tierConfig.border} z-0 ${transformOrigin}`;
+                  // Dynamic Styling for Focus Effect
+                  let cardStyle = 'scale-100 opacity-100'; // Default
+                  if (activeTermInfo) {
+                    if (isCurrentTier) {
+                      cardStyle = `scale-110 z-20 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)] opacity-100 ring-4 ring-slate-900/10 dark:ring-white/5 ${transformOrigin}`;
+                    } else {
+                      // Added colored border specific to the tier for visual cue
+                      cardStyle = `scale-90 opacity-50 light:opacity-70 hover:opacity-100 hover:scale-95 border-2 ${tierConfig.border} z-0 ${transformOrigin}`;
+                    }
                   }
-                }
 
-                return (
-                  <div
-                    key={group.tier}
-                    ref={(el) => {
-                      tierRefs.current[index] = el;
-                    }}
-                    className={`
+                  return (
+                    <div
+                      key={group.tier}
+                      ref={(el) => {
+                        tierRefs.current[index] = el;
+                      }}
+                      className={`
                       clip-stable flex-shrink-0 w-[260px] min-h-[256px] snap-center relative overflow-hidden rounded-2xl border transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col group/card
                       ${
                         isCurrentTier
@@ -333,62 +354,62 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       }
                       ${cardStyle}
                     `}
-                  >
-                    {isCurrentTier && (
-                      <div
-                        className={`absolute inset-0 opacity-10 bg-gradient-to-br ${tierConfig.gradient} pointer-events-none`}
-                      />
-                    )}
+                    >
+                      {isCurrentTier && (
+                        <div
+                          className={`absolute inset-0 opacity-10 bg-gradient-to-br ${tierConfig.gradient} pointer-events-none`}
+                        />
+                      )}
 
-                    {/* Add a faint glow of the tier color even when inactive to serve as visual cue */}
-                    {!isCurrentTier && (
-                      <div
-                        className={`absolute inset-0 opacity-[0.03] bg-gradient-to-br ${tierConfig.gradient} pointer-events-none`}
-                      />
-                    )}
+                      {/* Add a faint glow of the tier color even when inactive to serve as visual cue */}
+                      {!isCurrentTier && (
+                        <div
+                          className={`absolute inset-0 opacity-[0.03] bg-gradient-to-br ${tierConfig.gradient} pointer-events-none`}
+                        />
+                      )}
 
-                    <MeshOverlay opacity={isCurrentTier ? 'opacity-[0.06]' : 'opacity-[0.02]'} />
+                      <MeshOverlay opacity={isCurrentTier ? 'opacity-[0.06]' : 'opacity-[0.02]'} />
 
-                    {/* The card's header is the "select this tier" control.
+                      {/* The card's header is the "select this tier" control.
                       The whole card used to carry the onClick as a bare div:
                       no keyboard focus, no role, invisible to a screen reader.
                       It cannot become a button itself — the verb chips inside
                       it are buttons already — so the shortcut lives on the
                       header, which has nothing interactive in it. */}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
-                      }}
-                      aria-pressed={isCurrentTier}
-                      title={`Show the ${group.title} verbs — up to Band ${group.maxBand}`}
-                      className={`w-full text-left px-6 py-4 border-b relative flex items-center gap-4 flex-shrink-0 cursor-pointer transition-[filter] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/50 ${isCurrentTier ? `bg-gradient-to-r ${tierConfig.gradient} border-white/10 text-white` : `${tierConfig.bg} border-white/5 light:border-slate-200`}`}
-                    >
-                      <div className="text-4xl filter drop-shadow-lg transform transition-transform duration-500 group-hover/card:scale-110">
-                        {group.emoji}
-                      </div>
-                      <div className="min-w-0">
-                        <span
-                          className={`text-[10px] font-black uppercase tracking-[0.2em] block mb-0.5 truncate ${isCurrentTier ? 'opacity-70' : tierConfig.text + ' opacity-60'}`}
-                        >
-                          Band {group.maxBand} ceiling
-                        </span>
-                        <h4
-                          className={`text-sm font-black truncate tracking-tight ${isCurrentTier ? 'text-white' : tierConfig.text}`}
-                        >
-                          {group.title}
-                        </h4>
-                      </div>
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
+                        }}
+                        aria-pressed={isCurrentTier}
+                        title={`Show the ${group.title} verbs — up to Band ${group.maxBand}`}
+                        className={`w-full text-left px-6 py-4 border-b relative flex items-center gap-4 flex-shrink-0 cursor-pointer transition-[filter] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/50 ${isCurrentTier ? `bg-gradient-to-r ${tierConfig.gradient} border-white/10 text-white` : `${tierConfig.bg} border-white/5 light:border-slate-200`}`}
+                      >
+                        <div className="text-4xl filter drop-shadow-lg transform transition-transform duration-500 group-hover/card:scale-110">
+                          {group.emoji}
+                        </div>
+                        <div className="min-w-0">
+                          <span
+                            className={`text-[10px] font-black uppercase tracking-[0.2em] block mb-0.5 truncate ${isCurrentTier ? 'opacity-70' : tierConfig.text + ' opacity-60'}`}
+                          >
+                            Band {group.maxBand} ceiling
+                          </span>
+                          <h4
+                            className={`text-sm font-black truncate tracking-tight ${isCurrentTier ? 'text-white' : tierConfig.text}`}
+                          >
+                            {group.title}
+                          </h4>
+                        </div>
+                      </button>
 
-                    {/* What this cognitive level actually asks of the writer. */}
-                    <p
-                      className={`px-6 pt-3 text-[11px] font-medium leading-snug relative z-10 ${isCurrentTier ? 'text-[rgb(var(--color-text-primary))] light:text-slate-700' : 'text-[rgb(var(--color-text-muted))] light:text-slate-500'}`}
-                    >
-                      {group.subtitle}
-                    </p>
+                      {/* What this cognitive level actually asks of the writer. */}
+                      <p
+                        className={`px-6 pt-3 text-[11px] font-medium leading-snug relative z-10 ${isCurrentTier ? 'text-[rgb(var(--color-text-primary))] light:text-slate-700' : 'text-[rgb(var(--color-text-muted))] light:text-slate-500'}`}
+                      >
+                        {group.subtitle}
+                      </p>
 
-                    {/* No fixed card height. At a hard 256px the biggest tier
+                      {/* No fixed card height. At a hard 256px the biggest tier
                       (eight verbs, five rows of chips) had its last row sliced
                       in half by the card edge, which reads as broken rather
                       than as "scroll for more" — and no single magic number
@@ -396,18 +417,18 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       size. The strip is a flex row, so leaving the height to
                       the content makes every card as tall as the tallest one
                       for free. The scroll stays as the safety net. */}
-                    <div className="flex-1 overflow-y-auto p-4 custom-scrollbar relative z-10">
-                      <div className="flex flex-wrap gap-2 justify-center content-start">
-                        {group.verbs.map((verb) => {
-                          const isSelected = verb.term === activeVerb;
-                          return (
-                            <button
-                              key={verb.term}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setActiveVerb(verb.term);
-                              }}
-                              className={`
+                      <div className="flex-1 overflow-y-auto p-4 custom-scrollbar relative z-10">
+                        <div className="flex flex-wrap gap-2 justify-center content-start">
+                          {group.verbs.map((verb) => {
+                            const isSelected = verb.term === activeVerb;
+                            return (
+                              <button
+                                key={verb.term}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setActiveVerb(verb.term);
+                                }}
+                                className={`
                                             px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border transition-all duration-300
                                             ${
                                               isSelected
@@ -415,113 +436,114 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                                                 : `bg-transparent border ${tierConfig.border} ${tierConfig.text}`
                                             }
                                         `}
-                            >
-                              {verb.term}
-                            </button>
-                          );
-                        })}
+                              >
+                                {verb.term}
+                              </button>
+                            );
+                          })}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Cognitive Timeline Footer */}
-        <div className="relative z-20">
-          <div className={dividerClass} />
-        </div>
-        <div className="py-4 relative z-20 transition-colors duration-500">
-          <div className="flex justify-between items-end gap-4 mb-3 px-1">
-            <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] whitespace-nowrap">
-              Basic Recall
-            </span>
-            <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] hidden sm:block">
-              Explain & Compare
-            </span>
-            <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] hidden sm:block">
-              Analyse & Apply
-            </span>
-            <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] whitespace-nowrap">
-              Evaluate & Create
-            </span>
+          {/* Cognitive Timeline Footer */}
+          <div className="relative z-20">
+            <div className={dividerClass} />
           </div>
+          <div className="py-4 relative z-20 transition-colors duration-500">
+            <div className="flex justify-between items-end gap-4 mb-3 px-1">
+              <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] whitespace-nowrap">
+                Basic Recall
+              </span>
+              <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] hidden sm:block">
+                Explain & Compare
+              </span>
+              <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] hidden sm:block">
+                Analyse & Apply
+              </span>
+              <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em] whitespace-nowrap">
+                Evaluate & Create
+              </span>
+            </div>
 
-          {/* Progress Bar Track */}
-          <div className="relative h-2 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden mb-4">
-            {/* Background Ticks for visual measurement */}
-            {/* Measurement ticks. White-on-white in light mode meant the
+            {/* Progress Bar Track */}
+            <div className="relative h-2 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden mb-4">
+              {/* Background Ticks for visual measurement */}
+              {/* Measurement ticks. White-on-white in light mode meant the
                 track had no gradations at all there, so the same bar read as a
                 measured scale in dark and a plain pill in light. */}
-            <div className="absolute inset-0 flex justify-between px-[16%]">
-              <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
-              <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
-              <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
-              <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
+              <div className="absolute inset-0 flex justify-between px-[16%]">
+                <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
+                <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
+                <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
+                <div className="w-px h-full bg-slate-400/50 dark:bg-white/20" />
+              </div>
+
+              <div
+                className={`absolute left-0 top-0 bottom-0 transition-all duration-1000 ease-out bg-gradient-to-r ${activeConfig ? activeConfig.gradient : 'from-slate-400 to-slate-500'}`}
+                style={{ width: `${activeTermInfo ? (activeTermInfo.tier / 6) * 100 : 0}%` }}
+              />
             </div>
 
-            <div
-              className={`absolute left-0 top-0 bottom-0 transition-all duration-1000 ease-out bg-gradient-to-r ${activeConfig ? activeConfig.gradient : 'from-slate-400 to-slate-500'}`}
-              style={{ width: `${activeTermInfo ? (activeTermInfo.tier / 6) * 100 : 0}%` }}
-            />
-          </div>
+            <div className="flex justify-between items-center relative">
+              {COGNITIVE_STEPS.map((step, idx) => {
+                const isActive = activeTermInfo && activeTermInfo.tier >= step.tier;
+                const isCurrent = activeTermInfo && activeTermInfo.tier === step.tier;
+                const stepConfig = getTierScaleConfig(step.tier);
 
-          <div className="flex justify-between items-center relative">
-            {COGNITIVE_STEPS.map((step, idx) => {
-              const isActive = activeTermInfo && activeTermInfo.tier >= step.tier;
-              const isCurrent = activeTermInfo && activeTermInfo.tier === step.tier;
-              const stepConfig = getTierScaleConfig(step.tier);
-
-              return (
-                <React.Fragment key={step.tier}>
-                  {/* Visual Cut-off / Threshold Marker between Tier 3 (Apply) and Tier 4 (Analyse) */}
-                  {idx === 3 && (
-                    <div className="absolute left-1/2 -translate-x-1/2 -top-8 bottom-0 w-px border-r-2 border-dashed border-slate-300/30 dark:border-white/10 z-0 flex flex-col items-center justify-start pointer-events-none">
-                      <div className="hidden sm:block bg-[rgb(var(--color-bg-surface))] text-[8px] font-black uppercase tracking-widest text-slate-400 px-2 py-0.5 rounded-full border border-slate-300 dark:border-white/10 shadow-sm whitespace-nowrap mb-2 transform -translate-y-1/2">
-                        Deep Learning Threshold
+                return (
+                  <React.Fragment key={step.tier}>
+                    {/* Visual Cut-off / Threshold Marker between Tier 3 (Apply) and Tier 4 (Analyse) */}
+                    {idx === 3 && (
+                      <div className="absolute left-1/2 -translate-x-1/2 -top-8 bottom-0 w-px border-r-2 border-dashed border-slate-300/30 dark:border-white/10 z-0 flex flex-col items-center justify-start pointer-events-none">
+                        <div className="hidden sm:block bg-[rgb(var(--color-bg-surface))] text-[8px] font-black uppercase tracking-widest text-slate-400 px-2 py-0.5 rounded-full border border-slate-300 dark:border-white/10 shadow-sm whitespace-nowrap mb-2 transform -translate-y-1/2">
+                          Deep Learning Threshold
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  <button
-                    type="button"
-                    aria-label={`Highlight band ${step.tier} — ${step.label}`}
-                    className="flex flex-col items-center gap-3 relative z-10 group/step cursor-pointer"
-                    onClick={() => {
-                      const group = sortedVerbsByGroup.find((g) => g.tier === step.tier);
-                      if (group && group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
-                    }}
-                  >
-                    <div
-                      className={`
+                    <button
+                      type="button"
+                      aria-label={`Highlight band ${step.tier} — ${step.label}`}
+                      className="flex flex-col items-center gap-3 relative z-10 group/step cursor-pointer"
+                      onClick={() => {
+                        const group = sortedVerbsByGroup.find((g) => g.tier === step.tier);
+                        if (group && group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
+                      }}
+                    >
+                      <div
+                        className={`
                                     w-4 h-4 rounded-full border-2 transition-all duration-500 relative
                                     ${isActive ? `${stepConfig.solidBg} border-transparent scale-125` : 'bg-slate-300 dark:bg-slate-700 border-slate-400/40 dark:border-white/10'}
                                     ${isCurrent ? 'ring-4 ring-slate-900/10 dark:ring-white/20 scale-150 shadow-lg' : ''}
                                  `}
-                    >
-                      {/* Pulsing Animation for Current Step */}
-                      {isCurrent && (
-                        <span
-                          className={`absolute inset-0 rounded-full animate-ping opacity-75 ${stepConfig.solidBg}`}
-                        ></span>
-                      )}
-                    </div>
-                    {/* On phones six tracked labels collide into one another, so
+                      >
+                        {/* Pulsing Animation for Current Step */}
+                        {isCurrent && (
+                          <span
+                            className={`absolute inset-0 rounded-full animate-ping opacity-75 ${stepConfig.solidBg}`}
+                          ></span>
+                        )}
+                      </div>
+                      {/* On phones six tracked labels collide into one another, so
                         only the current step keeps its label below sm. */}
-                    <span
-                      className={`
+                      <span
+                        className={`
                                     text-[9px] font-bold uppercase tracking-wider sm:tracking-widest transition-all duration-300
                                     ${isCurrent ? stepConfig.text : 'hidden sm:block text-slate-500 dark:text-slate-400 opacity-70 group-hover/step:opacity-100'}
                                  `}
-                    >
-                      {step.label}
-                    </span>
-                  </button>
-                </React.Fragment>
-              );
-            })}
+                      >
+                        {step.label}
+                      </span>
+                    </button>
+                  </React.Fragment>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
