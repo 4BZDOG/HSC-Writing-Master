@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback, useRef, lazy, Suspens
 import PromptSelector from './components/PromptSelector';
 import Workspace from './components/Workspace';
 import AppHeader from './components/AppHeader';
+import MeshOverlay from './components/MeshOverlay';
 import Toast from './components/Toast';
 import ApiHealthIndicator from './components/ApiHealthIndicator';
 import ApiStatusIndicator from './components/ApiStatusIndicator';
@@ -112,15 +113,6 @@ const AnimatedBackground: React.FC = () => {
     </div>
   );
 };
-
-const MeshOverlay = ({ opacity = 'opacity-[0.03]' }: { opacity?: string }) => (
-  <div
-    className={`absolute inset-0 ${opacity} pointer-events-none mix-blend-overlay z-0 transition-opacity duration-500`}
-    style={{
-      backgroundImage: `url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v10M0 1h10' stroke='%23ffffff' stroke-width='0.5' fill='none'/%3E%3C/svg%3E")`,
-    }}
-  />
-);
 
 interface AuthenticatedAppProps {
   user: User;
