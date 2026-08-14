@@ -695,6 +695,22 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         </button>
       )}
 
+      {/* The app's first tab stop, and until now a keyboard user had nothing
+          like it: the header put up to five controls between the page loading
+          and the writing surface, on every single load, and <header> was the
+          only landmark in the whole application. Invisible until focused, per
+          the usual convention — it is a keyboard affordance, not chrome. */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[200]
+                   focus:px-4 focus:py-2 focus:rounded-xl focus:text-xs focus:font-black
+                   focus:uppercase focus:tracking-widest focus:bg-white focus:text-slate-900
+                   focus:shadow-2xl dark:focus:bg-[rgb(var(--color-bg-surface-elevated))]
+                   dark:focus:text-white"
+      >
+        Skip to main content
+      </a>
+
       {/* Full-bleed banner: lives outside the max-width content container so it
           always spans the whole viewport and sits flush against the top edge
           (the old in-container version stopped 32px short on >1600px screens
@@ -718,7 +734,12 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           here also animated properties that keep every composited card in the
           workspace moving for half a second while the grid re-flows underneath
           them — the window in which stale tiles were being left behind. */}
-      <div
+      {/* `tabIndex={-1}` is what makes the skip link above actually work: without
+          it the anchor scrolls the page and leaves focus behind, so the next Tab
+          drops the reader straight back into the header they just skipped. */}
+      <main
+        id="main-content"
+        tabIndex={-1}
         className={`relative max-w-[1600px] mx-auto ${isFocusMode ? 'p-2 sm:p-4 pt-16 sm:pt-16' : 'p-4 sm:p-6 lg:p-8'} flex flex-col gap-6 transition-[padding] duration-500`}
       >
         {!isFocusMode && <BillingAlertBanner />}
@@ -1018,7 +1039,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
             />
           )}
         </Suspense>
-      </div>
+      </main>
     </>
   );
 };
