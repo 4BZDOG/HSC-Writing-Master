@@ -22,6 +22,17 @@ conflict with the prose further down, these win.
    failure this app has, and burying it in a tooltip is not acceptable. Folded
    into Step 7. (Resolves R5.)
 
+## Working notes for every remaining step
+
+Accumulated by the agents that ran earlier steps. Each step runs with no memory
+of the others, so this is the only channel between them.
+
+- **A parity sweep now guards `utils/headerChrome.ts`.** `tests/unit/appHeaderChrome.test.tsx` iterates *every* string export and requires each unprefixed colour utility to have a `dark:` partner for the same property. Any constant a later step adds must satisfy it or be added to the `exempt` set with a stated reason. `HEADER_MENU_*`, `HEADER_TELEMETRY` and `HEADER_STORAGE_ALERT` as drafted all pass.
+- **`MeshOverlay` bakes in `light:opacity-[0.06]`, and `[data-theme="light"] .x` outranks a plain utility.** A call site therefore *cannot* set its own light-theme opacity — `opacity-0` is not zero in light, it is the 0.06 residue. This is a real flaw in the component's API, not a quirk to work around: if a future series consolidates the fourteen remaining copies, fix it there by making the light opacity a prop. Do not fix it in a header commit.
+- **Playwright**: `/opt/pw-browsers` holds `chromium-1194` but the installed `@playwright/test` wants `1208`, so `PLAYWRIGHT_BROWSERS_PATH` alone fails. Launch with `executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'`.
+- **`lint-staged` runs `prettier --write` on `*.md`**, and the `projectDocs/` files predate Prettier. The first commit to touch one reformats it wholesale (bullet markers, emphasis markers, blank lines after headings) and inflates the diff. `DesignSpec.md` has already taken this hit in Step 4; **Step 11 will take it on `changeLog.md`**. It is one-off cosmetic churn — do not fight it, and do not let it disguise the real change.
+- **Locally `isCurriculumRemote()` is false**, so only five of the eight admin buttons render when the app is run by hand. Not a regression.
+
 ## Step summary
 
 | Step | Summary |
@@ -446,6 +457,8 @@ Selecting an item closes the popover, then invokes the handler.
 
 **Do not touch:** the help, theme and profile buttons — they stay on the rail. The theme toggle in particular must remain directly clickable (`light-theme.spec.ts:45`).
 
+**Also delete `HEADER_ADMIN_BUTTON`** from `utils/headerChrome.ts` when the eight buttons leave the rail, along with the test case asserting it dresses all eight identically. Step 4 gave it a light/dark pair purely so the light theme was not broken in the commits between Step 4 and this one; it has no reason to exist once the popover owns those items.
+
 **This step will break `tests/unit/runtimeKeyOverride.test.ts` — expect it.**
 That test source-scans for the button opening the runtime-key modal and
 asserts an `isSystemAdmin` guard sits within 2000 characters above it. The
@@ -511,7 +524,7 @@ Replace the four call sites, and update the `contribution-loop.spec.ts` comment 
 **Rationale, so this is not re-litigated:** `components/ApiHealthIndicator.tsx` already renders API health unconditionally at `fixed bottom-4 left-4 z-[500]` with `role="status"` and three states (`App.tsx:1469`), and `components/ApiStatusIndicator.tsx` covers the blocked case with a countdown. The header pill is a third, less informative rendering, and it is the only reader of `apiStatus` in `AuthenticatedApp`.
 
 **Target:**
-1. Delete the pill entirely from `AppHeader.tsx`.
+1. Delete the pill entirely from `AppHeader.tsx` — **including the interim light/dark pairing and the `interim parity only` comment Step 4 added to it.** That pairing exists solely so the light theme is not broken in the commits between Step 4 and this one; it must not outlive the pill. Also remove the profile display-name span's interim pairing only if the span itself goes, which it does not — that one is permanent.
 2. Add a storage-mode footer row to the tools popover, in mono per §4:
    ```ts
    export const HEADER_TELEMETRY =
