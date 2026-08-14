@@ -1,26 +1,11 @@
 import React from 'react';
-import {
-  Sparkles,
-  Database,
-  Activity,
-  ShieldCheck,
-  BarChart3,
-  LineChart,
-  HardDrive,
-  Gauge,
-  KeyRound,
-  LifeBuoy,
-  Sun,
-  Moon,
-} from 'lucide-react';
+import { Sparkles, Database, LifeBuoy, Sun, Moon } from 'lucide-react';
 import { ApiStatus } from '../services/geminiService';
 import { authService } from '../services/authService';
-import { isCurriculumRemote } from '../services/curriculumService';
-import { canModerate, isSystemAdmin } from '../utils/permissions';
 import MeshOverlay from './MeshOverlay';
+import AppHeaderToolsMenu from './AppHeaderToolsMenu';
 import {
   HEADER_ACTION,
-  HEADER_ADMIN_BUTTON,
   HEADER_BAR,
   HEADER_HAIRLINE,
   HEADER_INNER,
@@ -96,86 +81,16 @@ const AppHeader: React.FC<AppHeaderProps> = ({
           </div>
         </div>
         <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-4 ml-auto">
-          {(isSystemAdmin(user.role) || canModerate(user.role)) && (
-            <div className="flex flex-wrap items-center justify-end gap-2 sm:mr-2">
-              {isSystemAdmin(user.role) && (
-                <>
-                  <button
-                    onClick={() => openModal('dataManager')}
-                    className={HEADER_ADMIN_BUTTON}
-                    title="Data Vault (Import/Export/Reorder)"
-                    aria-label="Data Vault (Import/Export/Reorder)"
-                  >
-                    <Database className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={onOpenAudit}
-                    className={HEADER_ADMIN_BUTTON}
-                    title="Syllabus Audit Studio"
-                    aria-label="Syllabus Audit Studio"
-                  >
-                    <Activity className="w-4 h-4" />
-                  </button>
-                </>
-              )}
-              {canModerate(user.role) && isCurriculumRemote() && (
-                <>
-                  <button
-                    onClick={onOpenReviewQueue}
-                    className={HEADER_ADMIN_BUTTON}
-                    title="Review Queue (approve/reject contributions)"
-                    aria-label="Review Queue (approve/reject contributions)"
-                  >
-                    <ShieldCheck className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={onOpenClassInsights}
-                    className={HEADER_ADMIN_BUTTON}
-                    title="Class Insights (where the cohort is struggling)"
-                    aria-label="Class Insights (where the cohort is struggling)"
-                  >
-                    <BarChart3 className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={onOpenStudentProgress}
-                    className={HEADER_ADMIN_BUTTON}
-                    title="Student Progress (one student across verb groups)"
-                    aria-label="Student Progress (one student across verb groups)"
-                  >
-                    <LineChart className="w-4 h-4" />
-                  </button>
-                </>
-              )}
-              {isSystemAdmin(user.role) && (
-                <>
-                  <button
-                    onClick={() => openModal('databaseDashboard')}
-                    className={HEADER_ADMIN_BUTTON}
-                    title="Internal Database Health"
-                    aria-label="Internal Database Health"
-                  >
-                    <HardDrive className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={onOpenUsageDashboard}
-                    className={HEADER_ADMIN_BUTTON}
-                    title="AI Usage Dashboard (monitor & adjust quotas)"
-                    aria-label="AI Usage Dashboard (monitor & adjust quotas)"
-                  >
-                    <Gauge className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={onOpenRuntimeKeys}
-                    className={HEADER_ADMIN_BUTTON}
-                    title="Runtime AI Keys (paste a key to test models)"
-                    aria-label="Runtime AI Keys (paste a key to test models)"
-                  >
-                    <KeyRound className="w-4 h-4" />
-                  </button>
-                </>
-              )}
-            </div>
-          )}
+          <AppHeaderToolsMenu
+            user={user}
+            openModal={openModal}
+            onOpenAudit={onOpenAudit}
+            onOpenReviewQueue={onOpenReviewQueue}
+            onOpenClassInsights={onOpenClassInsights}
+            onOpenStudentProgress={onOpenStudentProgress}
+            onOpenUsageDashboard={onOpenUsageDashboard}
+            onOpenRuntimeKeys={onOpenRuntimeKeys}
+          />
           {/* Interim parity only: Step 7 deletes this pill outright (its facts
               are already carried by ApiHealthIndicator). It is paired here
               rather than left white-on-white for the life of one commit. */}

@@ -117,7 +117,10 @@ describe('runAiProxy — internal request tags', () => {
  */
 describe('the runtime-key entry point stays admin-only', () => {
   const app = readFileSync(resolve(__dirname, '../../App.tsx'), 'utf8');
-  const header = readFileSync(resolve(__dirname, '../../components/AppHeader.tsx'), 'utf8');
+  const toolsMenu = readFileSync(
+    resolve(__dirname, '../../components/AppHeaderToolsMenu.tsx'),
+    'utf8'
+  );
 
   /**
    * Source-scanning, so read it for what it is: it proves an
@@ -134,10 +137,12 @@ describe('the runtime-key entry point stays admin-only', () => {
   };
 
   it('gates the button that opens the key modal', () => {
-    // The button sits with the other admin tools inside one shared guard. That
-    // toolbar now lives in components/AppHeader.tsx, so the scan follows it
-    // there; App.tsx only supplies the handler that opens the modal.
-    expect(guardedByAdmin(header, 'onClick={onOpenRuntimeKeys}', 2000)).toBe(true);
+    // The eight admin/moderator tools left the header rail for one overflow
+    // popover, so the scan follows them into components/AppHeaderToolsMenu.tsx.
+    // The button now sits in the popover's AI group, under that group's own
+    // `isSystemAdmin(user.role)` gate; AppHeader.tsx and App.tsx only pass the
+    // handler down. `runTool` closes the popover and then calls it.
+    expect(guardedByAdmin(toolsMenu, 'runTool(onOpenRuntimeKeys)', 2000)).toBe(true);
   });
 
   it('gates the modal itself, so the state cannot be reached another way', () => {

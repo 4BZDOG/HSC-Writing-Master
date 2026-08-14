@@ -63,22 +63,43 @@ export const HEADER_SUBLABEL =
   'block mt-1 text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap ' +
   'text-slate-500 dark:text-slate-400';
 
-/** All eight admin/moderator tool buttons, which are identical to each other.
- *  They used to be white-alpha chips on the gradient wall; on the rail they are
- *  a theme surface away from invisible, so they carry the pair. The `shadow-lg`
- *  went with the wall — eight lifted chips on glass is noise, not hierarchy. */
-export const HEADER_ADMIN_BUTTON =
-  'p-2 rounded-xl border transition-colors ' +
-  'text-slate-500 hover:text-slate-900 hover:bg-slate-100 border-slate-200 ' +
-  'dark:text-slate-400 dark:hover:text-white dark:hover:bg-white/10 dark:border-white/10';
-
-/** The square controls that stay on the rail whatever the role: help and the
- *  theme toggle. On the rail, so they carry the pair; the resting fill is gone
- *  because a glass surface does not need a chip behind every icon. */
+/** The square controls that stay on the rail whatever the role: the tools
+ *  trigger, help and the theme toggle. On the rail, so they carry the pair; the
+ *  resting fill is gone because a glass surface does not need a chip behind
+ *  every icon. */
 export const HEADER_ACTION =
   'w-10 h-10 flex items-center justify-center rounded-xl transition-colors ' +
   'text-slate-500 hover:text-slate-900 hover:bg-slate-100 ' +
   'dark:text-slate-400 dark:hover:text-white dark:hover:bg-white/10';
+
+/** Appended to `HEADER_ACTION` on the tools trigger while its popover is open.
+ *  A toggle that looks the same open and shut is a toggle nobody trusts, and
+ *  `aria-expanded` alone says it only to a screen reader. On the rail. */
+export const HEADER_ACTION_OPEN = 'bg-slate-100 text-slate-900 dark:bg-white/10 dark:text-white';
+
+/** The tools popover itself. Not on the rail — it floats over the page in a
+ *  portal, so it paints an opaque surface of its own rather than borrowing the
+ *  bar's glass; a translucent menu over live content is unreadable. */
+export const HEADER_MENU_PANEL =
+  'fixed z-[120] w-64 p-1.5 rounded-2xl shadow-2xl animate-fade-in text-left ' +
+  'bg-white border border-slate-200 ' +
+  'dark:bg-[rgb(var(--color-bg-surface-elevated))] dark:border-white/10';
+
+/** One tool inside the popover. Painted on `HEADER_MENU_PANEL`. */
+export const HEADER_MENU_ITEM =
+  'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold transition-colors ' +
+  'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10';
+
+/** The parenthetical half of a tool's name, carried as a second line so the
+ *  full string can stay the `title` and the accessible name without the panel
+ *  having to be wide enough to show it in one. Painted on the panel. */
+export const HEADER_MENU_ITEM_HINT =
+  'block mt-0.5 text-[11px] font-medium leading-snug text-slate-500 dark:text-slate-400';
+
+/** Library / Moderation / AI. Painted on the panel. */
+export const HEADER_MENU_GROUP_LABEL =
+  'px-3 pt-2 pb-1 text-[10px] font-black uppercase tracking-[0.2em] ' +
+  'text-slate-400 dark:text-slate-500';
 
 /** The profile control at the far right — name plus avatar chip. On the rail.
  *  The chip's own `bg-indigo-500` is brand-solid by intent and is not part of

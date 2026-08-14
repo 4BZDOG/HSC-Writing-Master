@@ -1,15 +1,16 @@
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import React from 'react';
-import { render, screen, cleanup } from '@testing-library/react';
+import { render, screen, cleanup, fireEvent } from '@testing-library/react';
 import type { User, UserRole } from '../../types';
 import * as headerChrome from '../../utils/headerChrome';
 import {
   HEADER_ACTION,
-  HEADER_ADMIN_BUTTON,
   HEADER_BAR,
   HEADER_HAIRLINE,
   HEADER_INNER,
   HEADER_MARK_TILE,
+  HEADER_MENU_ITEM,
+  HEADER_MENU_PANEL,
   HEADER_PROFILE,
   HEADER_SUBLABEL,
   HEADER_WORDMARK,
@@ -28,11 +29,22 @@ import {
 
 vi.mock('../../services/geminiService', () => ({}));
 vi.mock('../../services/authService', () => ({ authService: { updateUser: vi.fn() } }));
-vi.mock('../../services/curriculumService', () => ({ isCurriculumRemote: () => true }));
+
+/**
+ * A mutable flag rather than a constant: the moderation tools are gated on a
+ * REMOTE curriculum as well as the role, and both sides of that need exercising
+ * — a teacher on a local curriculum has nothing to moderate and should not be
+ * offered the control at all.
+ */
+const { remote } = vi.hoisted(() => ({ remote: { value: true } }));
+vi.mock('../../services/curriculumService', () => ({ isCurriculumRemote: () => remote.value }));
 
 import AppHeader from '../../components/AppHeader';
 import { StorageStatus } from '../../utils/storageUtils';
 
+beforeEach(() => {
+  remote.value = true;
+});
 afterEach(cleanup);
 
 const makeUser = (role: UserRole, theme: 'dark' | 'light' = 'dark'): User => ({
@@ -57,7 +69,11 @@ const makeUser = (role: UserRole, theme: 'dark' | 'light' = 'dark'): User => ({
   },
 });
 
-const renderHeader = (role: UserRole, theme: 'dark' | 'light' = 'dark') =>
+const renderHeader = (
+  role: UserRole,
+  theme: 'dark' | 'light' = 'dark',
+  overrides: Partial<React.ComponentProps<typeof AppHeader>> = {}
+) =>
   render(
     <AppHeader
       user={makeUser(role, theme)}
@@ -71,8 +87,16 @@ const renderHeader = (role: UserRole, theme: 'dark' | 'light' = 'dark') =>
       onOpenStudentProgress={vi.fn()}
       onOpenUsageDashboard={vi.fn()}
       onOpenRuntimeKeys={vi.fn()}
+      {...overrides}
     />
   );
+
+/** Opens the overflow popover and hands back its trigger. */
+const openTools = (): HTMLElement => {
+  const trigger = screen.getByRole('button', { name: /(admin|teaching) tools/i });
+  fireEvent.click(trigger);
+  return trigger;
+};
 
 /** The eight admin/moderator tools, by the labels the e2e specs select on. */
 const ADMIN_TOOLS = [
@@ -115,11 +139,13 @@ describe('the header wears the shared vocabulary', () => {
     expect(screen.getByLabelText('Open your profile').className).toContain(HEADER_PROFILE);
   });
 
-  it('dresses all eight admin tools identically', () => {
+  it('dresses the tools trigger and every item in the popover it opens', () => {
     renderHeader('admin');
 
+    expect(openTools().className).toContain(HEADER_ACTION);
+    expect(screen.getByRole('dialog').className).toContain(HEADER_MENU_PANEL);
     for (const label of ADMIN_TOOLS) {
-      expect(screen.getByLabelText(label).className).toContain(HEADER_ADMIN_BUTTON);
+      expect(screen.getByLabelText(label).className).toContain(HEADER_MENU_ITEM);
     }
   });
 });
@@ -231,17 +257,19 @@ describe('the theme toggle keeps its accessible name', () => {
 });
 
 describe('the admin tools stay behind the role gate', () => {
-  it('shows a student none of the eight', () => {
+  it('offers a student no trigger at all', () => {
     renderHeader('user');
 
+    expect(screen.queryByRole('button', { name: /(admin|teaching) tools/i })).toBeNull();
     for (const label of ADMIN_TOOLS) {
       expect(screen.queryByLabelText(label)).toBeNull();
     }
   });
 
-  it('shows an admin all eight', () => {
+  it('shows an admin all eight, under a trigger labelled for the role', () => {
     renderHeader('admin');
 
+    expect(openTools().getAttribute('aria-label')).toBe('Admin tools');
     for (const label of ADMIN_TOOLS) {
       expect(screen.getByLabelText(label)).toBeTruthy();
     }
@@ -250,11 +278,129 @@ describe('the admin tools stay behind the role gate', () => {
   it('shows a teacher the moderation three and none of the system-admin five', () => {
     renderHeader('teacher');
 
+    expect(openTools().getAttribute('aria-label')).toBe('Teaching tools');
     for (const label of ADMIN_TOOLS.slice(2, 5)) {
       expect(screen.getByLabelText(label)).toBeTruthy();
     }
     for (const label of [...ADMIN_TOOLS.slice(0, 2), ...ADMIN_TOOLS.slice(5)]) {
       expect(screen.queryByLabelText(label)).toBeNull();
     }
+  });
+
+  // A local curriculum has no shared review queue, so the moderation three have
+  // nothing to act on — and with nothing else a teacher may open, the trigger
+  // would be a control that opens an empty box.
+  it('offers a teacher no trigger when the curriculum is local', () => {
+    remote.value = false;
+    renderHeader('teacher');
+
+    expect(screen.queryByRole('button', { name: /(admin|teaching) tools/i })).toBeNull();
+  });
+
+  // The eight labels are the e2e specs' only selectors — there are no test ids —
+  // so the move off the rail had to carry them across byte for byte.
+  it('keeps every tool label intact as both title and accessible name', () => {
+    renderHeader('admin');
+    openTools();
+
+    for (const label of ADMIN_TOOLS) {
+      expect(screen.getByLabelText(label).getAttribute('title')).toBe(label);
+    }
+  });
+});
+
+/**
+ * DesignSpec §3, Keyboard Reach. This is a NON-modal popover: the page behind it
+ * is live, so it must not claim otherwise with `aria-modal` and must not trap.
+ * The half of `useFocusTrap` we still owe the keyboard user is the focus
+ * restore, which the popover does by hand on close.
+ */
+describe('the tools popover follows the non-modal contract', () => {
+  it('is a dialog that does not claim the page behind it is inert', () => {
+    renderHeader('admin');
+    openTools();
+    const panel = screen.getByRole('dialog');
+
+    expect(panel.getAttribute('aria-modal')).toBeNull();
+    // A trap would have put focus inside the panel on open; nothing here moves
+    // it off the trigger.
+    expect(panel.contains(document.activeElement)).toBe(false);
+  });
+
+  it('leaves every item in the page tab order, and nothing tabbable behind it', () => {
+    renderHeader('admin');
+    openTools();
+    const panel = screen.getByRole('dialog');
+
+    // No sentinel, no `tabindex="-1"` wrapper, no `inert` — Tab walks out of the
+    // last item and on into the document, which is what §3 asks for.
+    expect(panel.getAttribute('tabindex')).toBeNull();
+    expect(panel.querySelector('[tabindex="-1"]')).toBeNull();
+    for (const label of ADMIN_TOOLS) {
+      expect(screen.getByLabelText(label).getAttribute('tabindex')).toBeNull();
+    }
+  });
+
+  it('closes on Escape and puts focus back on the trigger', () => {
+    renderHeader('admin');
+    const trigger = openTools();
+
+    fireEvent.keyDown(window, { key: 'Escape' });
+
+    expect(screen.queryByRole('dialog')).toBeNull();
+    expect(document.activeElement).toBe(trigger);
+  });
+
+  // The whole point of the capture-phase listener: `useEscapeKey`'s stack sits on
+  // the bubble phase, and one press must not close this popover AND whatever it
+  // opened over.
+  it('does not let the Escape reach a listener beneath it', () => {
+    const beneath = vi.fn();
+    window.addEventListener('keydown', beneath);
+    renderHeader('admin');
+    openTools();
+
+    fireEvent.keyDown(window, { key: 'Escape' });
+    window.removeEventListener('keydown', beneath);
+
+    expect(beneath).not.toHaveBeenCalled();
+  });
+
+  it('closes on a press outside it, but not on one inside', () => {
+    renderHeader('admin');
+    openTools();
+
+    fireEvent.mouseDown(screen.getByRole('dialog'));
+    expect(screen.queryByRole('dialog')).toBeTruthy();
+
+    fireEvent.mouseDown(document.body);
+    expect(screen.queryByRole('dialog')).toBeNull();
+  });
+
+  // Picking a tool dismisses the popover as well as opening the tool — a menu
+  // left standing over the modal it just opened is a menu in the way.
+  it('runs the chosen tool and dismisses itself', () => {
+    const onOpenRuntimeKeys = vi.fn();
+    renderHeader('admin', 'dark', { onOpenRuntimeKeys });
+    const trigger = openTools();
+
+    fireEvent.click(screen.getByLabelText('Runtime AI Keys (paste a key to test models)'));
+
+    expect(onOpenRuntimeKeys).toHaveBeenCalledTimes(1);
+    expect(screen.queryByRole('dialog')).toBeNull();
+    expect(document.activeElement).toBe(trigger);
+  });
+
+  // It renders through a portal for the same reason PdfExportOptions does: a
+  // panel positioned inside the bar is clipped by it and by the stacking context
+  // the sticky rail creates.
+  it('renders outside the header, above what would clip it', () => {
+    const { container } = renderHeader('admin');
+    openTools();
+    const panel = screen.getByRole('dialog');
+
+    expect(container.contains(panel)).toBe(false);
+    expect(document.body.contains(panel)).toBe(true);
+    expect(panel.className).toContain('fixed');
   });
 });
