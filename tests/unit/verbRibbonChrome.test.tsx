@@ -13,7 +13,9 @@ import {
   RIBBON_STAT_TRAY,
   RIBBON_STRIP,
   RIBBON_TIER_CARD,
+  RIBBON_TIER_CARD_DIMMED,
   RIBBON_TIER_HEADER,
+  RIBBON_TIER_SUBTITLE_IDLE,
   RIBBON_TIER_UNDERLINE,
   RIBBON_VERB_CHIP,
 } from '../../utils/verbRibbonChrome';
@@ -134,15 +136,6 @@ describe('the bar carries both themes', () => {
     expect(tile.className).not.toContain('text-white');
   });
 
-  /**
-   * Two constants are knowingly left short here and are the next step's
-   * business: `RIBBON_TIER_HEADER`'s focus ring, which is white-alpha on a
-   * theme surface, and `RIBBON_TIER_CARD_DIMMED`'s split opacity. Splitting
-   * them out keeps this step's diff readable; the exemption list goes with
-   * them.
-   */
-  const PENDING_STEP_6 = new Set(['RIBBON_TIER_HEADER', 'RIBBON_TIER_CARD_DIMMED']);
-
   it('gives every colour on a theme surface a light value and a dark partner', () => {
     /** `hover:bg-slate-100` → `bg`; `text-lg` and `border-b` → null. */
     const colourProperty = (token: string): string | null => {
@@ -164,7 +157,7 @@ describe('the bar carries both themes', () => {
     };
 
     for (const [name, value] of Object.entries(verbRibbonChrome)) {
-      if (typeof value !== 'string' || PENDING_STEP_6.has(name)) continue;
+      if (typeof value !== 'string') continue;
 
       const tokens = value.split(/\s+/).filter(Boolean);
       const themed = new Set(
@@ -188,8 +181,73 @@ describe('the bar carries both themes', () => {
 
   it('is written in the new idiom throughout', () => {
     for (const [name, value] of Object.entries(verbRibbonChrome)) {
-      if (typeof value !== 'string' || PENDING_STEP_6.has(name)) continue;
+      if (typeof value !== 'string') continue;
       expect(value, `${name} still uses the legacy light: variant`).not.toContain('light:');
     }
+  });
+});
+
+/**
+ * Three defects in the tier strip, none of which any test could have found: the
+ * e2e contrast suite has never rendered this component, and the two worst sites
+ * sit on gradients it returns `unassessable` for.
+ */
+describe('the tier strip is legible and reachable', () => {
+  it('pairs every solid tier fill with the config’s own solidText', () => {
+    render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    // Tier 3 is the one that exposes it: white on yellow-500 is 1.92:1, and
+    // `getBandConfig` answers `text-yellow-900` when asked.
+    const header = screen.getByRole('button', { name: /Band 3 ceiling Explain & Compare/i });
+    expect(header.className).toContain('text-yellow-900');
+    expect(header.className).not.toContain('text-white');
+
+    // By query rather than by text: the timeline footer says "Explain &
+    // Compare" as well, and that one is not on a tier fill.
+    const title = header.querySelector('h4') as HTMLElement;
+    expect(title.textContent).toBe('Explain & Compare');
+    expect(title.className).toContain('text-yellow-900');
+
+    const chip = screen.getAllByRole('button', { name: 'EXPLAIN' })[0];
+    expect(chip.className).toContain('bg-yellow-500');
+    expect(chip.className).toContain('text-yellow-900');
+    expect(chip.className).not.toContain('text-white');
+  });
+
+  it('leaves no hard text-white anywhere in the strip', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+    const strip = container.querySelector(`[class="${RIBBON_STRIP}"]`) as HTMLElement;
+
+    expect(strip.innerHTML).not.toContain('text-white');
+  });
+
+  // DesignSpec §2, rule 2: white alpha on a theme surface disappears. The ring
+  // sat on `light:bg-amber-100` and friends, so a keyboard user in the light
+  // theme could not see which tier card had focus.
+  it('draws a focus ring that exists in both themes', () => {
+    expect(RIBBON_TIER_HEADER).not.toContain('ring-white/50');
+    expect(RIBBON_TIER_HEADER).toContain('focus-visible:ring-slate-900/40');
+    expect(RIBBON_TIER_HEADER).toContain('dark:focus-visible:ring-white/60');
+    // Inset, because the tier card around it is `overflow-hidden` and the
+    // global outline is drawn 2px OUTSIDE the button.
+    expect(RIBBON_TIER_HEADER).toContain('focus-visible:ring-inset');
+    expect(RIBBON_TIER_CARD).toContain('overflow-hidden');
+  });
+
+  // Those five cards hold 32 of the 38 verb buttons. At `opacity-70` their
+  // subtitles measured 2.72:1 against a 4.5 floor.
+  it('stops dimming the cards below the contrast floor', () => {
+    expect(RIBBON_TIER_CARD_DIMMED).toContain('opacity-90');
+    expect(RIBBON_TIER_CARD_DIMMED).not.toContain('opacity-50');
+    expect(RIBBON_TIER_CARD_DIMMED).not.toContain('light:');
+  });
+
+  // …and the dimming alone was not enough. Opacity composites text TOWARDS the
+  // background rather than scaling the ratio, so `slate-500` under `opacity-90`
+  // measured 3.91:1 in the browser — better than 2.72:1 and still short.
+  // `slate-600` under the same dimming measures 5.83:1.
+  it('darkens the text those cards dim, not just the dimming', () => {
+    expect(RIBBON_TIER_SUBTITLE_IDLE).toContain('text-slate-600');
+    expect(RIBBON_TIER_SUBTITLE_IDLE).not.toContain('text-slate-500');
   });
 });

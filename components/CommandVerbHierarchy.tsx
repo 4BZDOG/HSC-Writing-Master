@@ -403,7 +403,13 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                       no keyboard focus, no role, invisible to a screen reader.
                       It cannot become a button itself — the verb chips inside
                       it are buttons already — so the shortcut lives on the
-                      header, which has nothing interactive in it. */}
+                      header, which has nothing interactive in it.
+
+                      `tierConfig.solidText` rather than `text-white`, here and
+                      on the title below: on tier 3 the fill is yellow and white
+                      on it is 1.92:1. `getBandConfig` returns a `solidText`
+                      field for exactly this, and SyllabusNavBar and
+                      PromptSelector already pair the two. */}
                       <button
                         type="button"
                         onClick={() => {
@@ -411,7 +417,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                         }}
                         aria-pressed={isCurrentTier}
                         title={`Show the ${group.title} verbs — up to Band ${group.maxBand}`}
-                        className={`${RIBBON_TIER_HEADER} ${isCurrentTier ? `bg-gradient-to-r ${tierConfig.gradient} border-white/10 text-white` : `${tierConfig.bg} border-white/5 light:border-slate-200`}`}
+                        className={`${RIBBON_TIER_HEADER} ${isCurrentTier ? `bg-gradient-to-r ${tierConfig.gradient} border-white/10 ${tierConfig.solidText}` : `${tierConfig.bg} border-white/5 light:border-slate-200`}`}
                       >
                         <div className="text-4xl filter drop-shadow-lg transform transition-transform duration-500 group-hover/card:scale-110">
                           {group.emoji}
@@ -423,7 +429,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                             Band {group.maxBand} ceiling
                           </span>
                           <h4
-                            className={`${RIBBON_TIER_HEADER_TITLE} ${isCurrentTier ? 'text-white' : tierConfig.text}`}
+                            className={`${RIBBON_TIER_HEADER_TITLE} ${isCurrentTier ? tierConfig.solidText : tierConfig.text}`}
                           >
                             {group.title}
                           </h4>
@@ -449,6 +455,13 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                         <div className="flex flex-wrap gap-2 justify-center content-start">
                           {group.verbs.map((verb) => {
                             const isSelected = verb.term === activeVerb;
+                            // The selected chip's fill is the tier's solid one,
+                            // so its text is the tier's `solidText` — white on
+                            // tier 3's yellow was 1.92:1. One cell is still
+                            // short after this and it is not this component's:
+                            // `text-yellow-900` on `light:bg-amber-500` is
+                            // 4.04:1, a defect in the shared token that Step 7
+                            // of the ribbon plan fixes in `getBandConfig`.
                             return (
                               <button
                                 key={verb.term}
@@ -460,7 +473,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
                                             ${RIBBON_VERB_CHIP}
                                             ${
                                               isSelected
-                                                ? `${tierConfig.solidBg} text-white shadow-lg scale-105 border-transparent`
+                                                ? `${tierConfig.solidBg} ${tierConfig.solidText} shadow-lg scale-105 border-transparent`
                                                 : `bg-transparent border ${tierConfig.border} ${tierConfig.text}`
                                             }
                                         `}

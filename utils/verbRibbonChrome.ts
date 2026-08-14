@@ -166,16 +166,34 @@ export const RIBBON_TIER_CARD_CURRENT =
 
 /** Added to the five cards that are NOT the selected verb's tier. These cards
  *  still hold 32 of the ribbon's 38 verb buttons, so whatever this dims stays
- *  clickable and stays in the tab order. */
+ *  clickable and stays in the tab order — and a control a keyboard user can
+ *  reach and click has to be legible.
+ *
+ *  It was `opacity-50 light:opacity-70`, which took the card subtitle
+ *  (`slate-500` on white, 4.76:1 at rest) to a measured 2.72:1. `opacity-90`
+ *  costs about 5% of contrast and leaves it at the floor; the de-emphasis is
+ *  carried by `scale-90` and the tier border, which are already here. One
+ *  value for both themes — the split was the wrong shape of fix. */
 export const RIBBON_TIER_CARD_DIMMED =
-  'scale-90 opacity-50 light:opacity-70 hover:opacity-100 hover:scale-95 border-2';
+  'scale-90 opacity-90 hover:opacity-100 hover:scale-95 border-2';
 
 /** A tier card's header, which is the "select this tier" control. The card
  *  cannot be a button itself — the verb chips inside it are buttons already —
  *  so the shortcut lives on the header. Painted on the tier's own fill, or on
- *  the tier gradient when it is the current tier. */
+ *  the tier gradient when it is the current tier.
+ *
+ *  It used to end `focus-visible:outline-none focus-visible:ring-white/50`,
+ *  which suppressed the app-wide accent outline and replaced it with white
+ *  alpha on `light:bg-amber-100`, `light:bg-green-100` and so on — white on
+ *  amber-100 is not a ring, it is nothing, so a keyboard user in the light
+ *  theme could not see which tier card had focus. The ring is now drawn inset,
+ *  in a pair: the global outline (`index.css`) is the app's one focus
+ *  treatment, but it is drawn OUTSIDE the button with a 2px offset, and the
+ *  tier card that holds this header is `overflow-hidden` — it would be clipped
+ *  away on three sides. Inset is the shape this particular button can wear. */
 export const RIBBON_TIER_HEADER =
-  'w-full text-left px-6 py-4 border-b relative flex items-center gap-4 flex-shrink-0 cursor-pointer transition-[filter] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/50';
+  'w-full text-left px-6 py-4 border-b relative flex items-center gap-4 flex-shrink-0 cursor-pointer transition-[filter] hover:brightness-110 ' +
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
 /** "Band 3 ceiling", above the tier's title. Painted on the tier card header. */
 export const RIBBON_TIER_HEADER_LABEL =
@@ -193,8 +211,17 @@ export const RIBBON_TIER_SUBTITLE = 'px-6 pt-3 text-[11px] font-medium leading-s
 export const RIBBON_TIER_SUBTITLE_CURRENT =
   'text-slate-700 dark:text-[rgb(var(--color-text-primary))]';
 
-/** The subtitle on the other five cards. */
-export const RIBBON_TIER_SUBTITLE_IDLE = 'text-slate-500 dark:text-[rgb(var(--color-text-muted))]';
+/** The subtitle on the other five cards — the text A2 measured at 2.72:1.
+ *
+ *  `slate-600` rather than the `slate-500` it was, because opacity does not
+ *  cost contrast the way the plan's arithmetic assumed: it composites the text
+ *  TOWARDS the background, and the loss is far from linear. Measured in the
+ *  browser: `slate-500` on the card reads 4.81:1 at rest and **3.91:1** under
+ *  `opacity-90`, still under the 4.5 floor — `opacity-95` would only reach
+ *  4.34:1. `slate-600` under the same dimming measures 5.8:1. The dark theme
+ *  keeps its muted token, which is not dimmed against a near-black card in the
+ *  same way. */
+export const RIBBON_TIER_SUBTITLE_IDLE = 'text-slate-600 dark:text-[rgb(var(--color-text-muted))]';
 
 /** One verb chip. The selected/unselected fills are the tier config's, at the
  *  call site. Painted on the tier card body. */
