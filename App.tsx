@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef, lazy, Suspense } from 'react';
 import PromptSelector from './components/PromptSelector';
 import Workspace from './components/Workspace';
+import AppHeader from './components/AppHeader';
+import MeshOverlay from './components/MeshOverlay';
 import Toast from './components/Toast';
 import ApiHealthIndicator from './components/ApiHealthIndicator';
 import ApiStatusIndicator from './components/ApiStatusIndicator';
@@ -19,7 +21,6 @@ import { useGemini } from './hooks/useGemini';
 import { useModalManager } from './hooks/useModalManager';
 import { useToast } from './hooks/useToast';
 import { useDebounce } from './hooks/useDebounce';
-import { useApiStatus } from './hooks/useApiStatus';
 import { authService } from './services/authService';
 import { subscribeQuotaWarnings, subscribeAiNotices } from './services/quotaNotifier';
 import {
@@ -48,26 +49,8 @@ import {
   requestUpgrade,
   PLAN_LABELS,
 } from './services/entitlements';
-import {
-  Compass,
-  Sparkles,
-  Database,
-  Layers,
-  Sun,
-  Moon,
-  HardDrive,
-  Activity,
-  ShieldCheck,
-  UploadCloud,
-  Gauge,
-  KeyRound,
-  BarChart3,
-  LineChart,
-  Minimize,
-  ChevronUp,
-  LifeBuoy,
-} from 'lucide-react';
-import { apiMonitor, ApiStatus } from './services/geminiService';
+import { Compass, Sparkles, Layers, UploadCloud, Minimize, ChevronUp } from 'lucide-react';
+import { apiMonitor } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
 import BillingAlertBanner from './components/BillingAlertBanner';
 import SyllabusNavBar from './components/SyllabusNavBar';
@@ -130,15 +113,6 @@ const AnimatedBackground: React.FC = () => {
   );
 };
 
-const MeshOverlay = ({ opacity = 'opacity-[0.03]' }: { opacity?: string }) => (
-  <div
-    className={`absolute inset-0 ${opacity} pointer-events-none mix-blend-overlay z-0 transition-opacity duration-500`}
-    style={{
-      backgroundImage: `url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v10M0 1h10' stroke='%23ffffff' stroke-width='0.5' fill='none'/%3E%3C/svg%3E")`,
-    }}
-  />
-);
-
 interface AuthenticatedAppProps {
   user: User;
   onUpdateUser: (user: User) => void;
@@ -148,7 +122,6 @@ interface AuthenticatedAppProps {
     type: 'success' | 'error' | 'info',
     action?: { label: string; onClick: () => void }
   ) => void;
-  apiStatus: ApiStatus;
 }
 
 const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
@@ -156,7 +129,6 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   onUpdateUser,
   handleLogout,
   showToast,
-  apiStatus,
 }) => {
   const {
     courses,
@@ -723,186 +695,51 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         </button>
       )}
 
+      {/* The app's first tab stop, and until now a keyboard user had nothing
+          like it: the header put up to five controls between the page loading
+          and the writing surface, on every single load, and <header> was the
+          only landmark in the whole application. Invisible until focused, per
+          the usual convention — it is a keyboard affordance, not chrome. */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[200]
+                   focus:px-4 focus:py-2 focus:rounded-xl focus:text-xs focus:font-black
+                   focus:uppercase focus:tracking-widest focus:bg-white focus:text-slate-900
+                   focus:shadow-2xl dark:focus:bg-[rgb(var(--color-bg-surface-elevated))]
+                   dark:focus:text-white"
+      >
+        Skip to main content
+      </a>
+
       {/* Full-bleed banner: lives outside the max-width content container so it
           always spans the whole viewport and sits flush against the top edge
           (the old in-container version stopped 32px short on >1600px screens
           and floated below the container's top padding). */}
       {!isFocusMode && (
-        <header className="sticky top-0 z-[60] min-h-20 flex items-center shadow-2xl shadow-indigo-900/20">
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-sky-500 opacity-100" />
-          {/* Wraps below sm so admin/moderator tool buttons drop onto their own
-              row instead of overlapping the title on narrow screens. */}
-          <div className="relative z-10 px-4 sm:px-6 lg:px-8 py-3 sm:py-0 w-full max-w-[1600px] mx-auto flex flex-wrap sm:flex-nowrap items-center justify-between gap-x-3 gap-y-2">
-            <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-white/20 backdrop-blur-xl border border-white/20 flex items-center justify-center shadow-2xl group transition-all">
-                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-              </div>
-              <div className="min-w-0">
-                <h1 className="text-lg sm:text-2xl font-black text-white tracking-tighter leading-none italic uppercase whitespace-nowrap">
-                  Band 6
-                </h1>
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.4em] text-white/70 block mt-1 whitespace-nowrap">
-                  HSC Writing Coach
-                </span>
-              </div>
-            </div>
-            <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-4 ml-auto">
-              {(isSystemAdmin(user.role) || canModerate(user.role)) && (
-                <div className="flex flex-wrap items-center justify-end gap-2 sm:mr-2">
-                  {isSystemAdmin(user.role) && (
-                    <>
-                      <button
-                        onClick={() => openModal('dataManager')}
-                        className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
-                        title="Data Vault (Import/Export/Reorder)"
-                        aria-label="Data Vault (Import/Export/Reorder)"
-                      >
-                        <Database className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => setIsAuditModalOpen(true)}
-                        className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
-                        title="Syllabus Audit Studio"
-                        aria-label="Syllabus Audit Studio"
-                      >
-                        <Activity className="w-4 h-4" />
-                      </button>
-                    </>
-                  )}
-                  {canModerate(user.role) && isCurriculumRemote() && (
-                    <>
-                      <button
-                        onClick={() => setIsReviewQueueOpen(true)}
-                        className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
-                        title="Review Queue (approve/reject contributions)"
-                        aria-label="Review Queue (approve/reject contributions)"
-                      >
-                        <ShieldCheck className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => setIsClassInsightsOpen(true)}
-                        className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
-                        title="Class Insights (where the cohort is struggling)"
-                        aria-label="Class Insights (where the cohort is struggling)"
-                      >
-                        <BarChart3 className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => setIsStudentProgressOpen(true)}
-                        className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
-                        title="Student Progress (one student across verb groups)"
-                        aria-label="Student Progress (one student across verb groups)"
-                      >
-                        <LineChart className="w-4 h-4" />
-                      </button>
-                    </>
-                  )}
-                  {isSystemAdmin(user.role) && (
-                    <>
-                      <button
-                        onClick={() => openModal('databaseDashboard')}
-                        className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
-                        title="Internal Database Health"
-                        aria-label="Internal Database Health"
-                      >
-                        <HardDrive className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => setIsUsageDashboardOpen(true)}
-                        className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
-                        title="AI Usage Dashboard (monitor & adjust quotas)"
-                        aria-label="AI Usage Dashboard (monitor & adjust quotas)"
-                      >
-                        <Gauge className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => setIsRuntimeKeyOpen(true)}
-                        className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10"
-                        title="Runtime AI Keys (paste a key to test models)"
-                        aria-label="Runtime AI Keys (paste a key to test models)"
-                      >
-                        <KeyRound className="w-4 h-4" />
-                      </button>
-                    </>
-                  )}
-                </div>
-              )}
-              <div className="hidden lg:flex items-center gap-6 px-5 py-2 rounded-2xl bg-black/20 backdrop-blur-md border border-white/10">
-                <div className="flex items-center gap-2">
-                  <div
-                    className={`w-2 h-2 rounded-full ${apiStatus.state === 'HEALTHY' ? 'bg-emerald-400' : 'bg-red-400'} animate-pulse`}
-                  />
-                  <span className="text-[10px] font-black uppercase tracking-wider text-white/80">
-                    API {apiStatus.state}
-                  </span>
-                </div>
-                <div className="w-px h-4 bg-white/10" />
-                <div className="flex items-center gap-2">
-                  <Database className="w-4 h-4 text-sky-400" />
-                  <span className="text-[10px] font-black uppercase tracking-wider text-white/80">
-                    {storageStatus} Active
-                  </span>
-                </div>
-              </div>
-              <button
-                onClick={() => openModal('quickStart')}
-                title="Quick start guide, plans and the fine print"
-                aria-label="Quick start guide, plans and the fine print"
-                className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all"
-              >
-                <LifeBuoy className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => {
-                  const next = user.preferences.theme === 'light' ? 'dark' : 'light';
-                  const updatedUser: User = {
-                    ...user,
-                    preferences: { ...user.preferences, theme: next },
-                  };
-                  onUpdateUser(updatedUser);
-                  authService.updateUser(updatedUser);
-                }}
-                title={
-                  user.preferences.theme === 'light'
-                    ? 'Switch to dark theme'
-                    : 'Switch to light theme'
-                }
-                aria-label={
-                  user.preferences.theme === 'light'
-                    ? 'Switch to dark theme'
-                    : 'Switch to light theme'
-                }
-                className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all"
-              >
-                {user.preferences.theme === 'light' ? (
-                  <Moon className="w-5 h-5" />
-                ) : (
-                  <Sun className="w-5 h-5" />
-                )}
-              </button>
-              <button
-                onClick={() => openModal('userProfile')}
-                title="Open your profile"
-                aria-label="Open your profile"
-                className="flex items-center gap-3 pl-3 pr-1.5 h-11 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10 transition-all"
-              >
-                <span className="text-xs font-bold text-white hidden sm:block">
-                  {user.displayName}
-                </span>
-                <div className="w-8 h-8 rounded-xl bg-indigo-500 flex items-center justify-center text-white font-black text-xs shadow-lg">
-                  {user.displayName.charAt(0)}
-                </div>
-              </button>
-            </div>
-          </div>
-        </header>
+        <AppHeader
+          user={user}
+          onUpdateUser={onUpdateUser}
+          storageStatus={storageStatus}
+          openModal={openModal}
+          onOpenAudit={() => setIsAuditModalOpen(true)}
+          onOpenReviewQueue={() => setIsReviewQueueOpen(true)}
+          onOpenClassInsights={() => setIsClassInsightsOpen(true)}
+          onOpenStudentProgress={() => setIsStudentProgressOpen(true)}
+          onOpenUsageDashboard={() => setIsUsageDashboardOpen(true)}
+          onOpenRuntimeKeys={() => setIsRuntimeKeyOpen(true)}
+        />
       )}
 
       {/* Only the padding actually changes when Focus Mode toggles. `transition-all`
           here also animated properties that keep every composited card in the
           workspace moving for half a second while the grid re-flows underneath
           them — the window in which stale tiles were being left behind. */}
-      <div
+      {/* `tabIndex={-1}` is what makes the skip link above actually work: without
+          it the anchor scrolls the page and leaves focus behind, so the next Tab
+          drops the reader straight back into the header they just skipped. */}
+      <main
+        id="main-content"
+        tabIndex={-1}
         className={`relative max-w-[1600px] mx-auto ${isFocusMode ? 'p-2 sm:p-4 pt-16 sm:pt-16' : 'p-4 sm:p-6 lg:p-8'} flex flex-col gap-6 transition-[padding] duration-500`}
       >
         {!isFocusMode && <BillingAlertBanner />}
@@ -1202,7 +1039,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
             />
           )}
         </Suspense>
-      </div>
+      </main>
     </>
   );
 };
@@ -1224,7 +1061,6 @@ const StudentProgressModal = lazy(() => import('./components/admin/StudentProgre
 
 const App: React.FC = () => {
   const { toast, showToast, hideToast } = useToast();
-  const apiStatus = useApiStatus();
   const [user, setUser] = useState<User | null>(null);
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
   const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
@@ -1442,7 +1278,6 @@ const App: React.FC = () => {
           onUpdateUser={setUser}
           handleLogout={handleLogout}
           showToast={showToast}
-          apiStatus={apiStatus}
         />
       )}
       {user && (isBlockedByAgreement || showGuestNotice) && (

@@ -117,6 +117,10 @@ describe('runAiProxy — internal request tags', () => {
  */
 describe('the runtime-key entry point stays admin-only', () => {
   const app = readFileSync(resolve(__dirname, '../../App.tsx'), 'utf8');
+  const toolsMenu = readFileSync(
+    resolve(__dirname, '../../components/AppHeaderToolsMenu.tsx'),
+    'utf8'
+  );
 
   /**
    * Source-scanning, so read it for what it is: it proves an
@@ -125,19 +129,23 @@ describe('the runtime-key entry point stays admin-only', () => {
    * catching — someone moving the key modal out of the admin toolbar, or
    * relaxing the guard to `canModerate` — and it costs nothing to keep.
    */
-  const guardedByAdmin = (needle: string, within: number): boolean => {
-    const at = app.indexOf(needle);
-    expect(at, `${needle} not found in App`).toBeGreaterThan(-1);
-    const guard = app.lastIndexOf('isSystemAdmin(user.role)', at);
+  const guardedByAdmin = (source: string, needle: string, within: number): boolean => {
+    const at = source.indexOf(needle);
+    expect(at, `${needle} not found`).toBeGreaterThan(-1);
+    const guard = source.lastIndexOf('isSystemAdmin(user.role)', at);
     return guard !== -1 && at - guard <= within;
   };
 
   it('gates the button that opens the key modal', () => {
-    // The button sits with the other admin tools inside one shared guard.
-    expect(guardedByAdmin('setIsRuntimeKeyOpen(true)', 2000)).toBe(true);
+    // The eight admin/moderator tools left the header rail for one overflow
+    // popover, so the scan follows them into components/AppHeaderToolsMenu.tsx.
+    // The button now sits in the popover's AI group, under that group's own
+    // `isSystemAdmin(user.role)` gate; AppHeader.tsx and App.tsx only pass the
+    // handler down. `runTool` closes the popover and then calls it.
+    expect(guardedByAdmin(toolsMenu, 'runTool(onOpenRuntimeKeys)', 2000)).toBe(true);
   });
 
   it('gates the modal itself, so the state cannot be reached another way', () => {
-    expect(guardedByAdmin('<RuntimeKeyModal', 200)).toBe(true);
+    expect(guardedByAdmin(app, '<RuntimeKeyModal', 200)).toBe(true);
   });
 });

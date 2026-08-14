@@ -14,9 +14,18 @@ import { Page } from '@playwright/test';
  *   - **Gradients and images are not assessed.** Where the resolved background
  *     is a gradient the true contrast depends on which pixel the glyph lands
  *     on, so those nodes are counted and reported, never failed.
- *   - **The app header is skipped entirely.** Its gradient is painted by an
- *     absolutely-positioned child, so the text above it resolves to the page
- *     background and every reading is wrong by construction.
+ *   - **The app header is measured like everything else, as of the redesign
+ *     that gave it a light theme.** It used to be skipped: its background was a
+ *     full-bleed gradient painted by an absolutely-positioned child, so the text
+ *     above it resolved to the page background and every reading was wrong by
+ *     construction. The bar now paints its own translucent token colour, which
+ *     `resolveBackground` composites correctly, so it is held to the same AA
+ *     floor as the rest of the app. Two parts of it still are not covered, and
+ *     neither is an oversight: the wordmark tile carries an icon rather than
+ *     text, and the storage-error chip renders only when storage has actually
+ *     failed, which a normal run never reaches. The chip calculates at about
+ *     5.9:1 (`#b91c1c` on `#fee2e2`) — calculated, not measured, which is the
+ *     weaker of the two claims and is why it is written down here.
  *   - **Disabled controls are skipped**, as WCAG exempts them.
  *   - **Only the element's own background chain is composited.** An overlay
  *     sibling laid over the text is invisible to this, same as above.
@@ -116,7 +125,6 @@ export const measureContrast = (page: Page): Promise<ContrastReport> =>
       if (!el || seen.has(el)) continue;
       seen.add(el);
 
-      if (el.closest('header')) continue;
       if (el.closest('[aria-hidden="true"]')) continue;
       if (el.closest('[disabled], [aria-disabled="true"]')) continue;
 

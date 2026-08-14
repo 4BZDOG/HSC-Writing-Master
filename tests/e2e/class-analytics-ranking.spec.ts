@@ -1,5 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
 import { AGREEMENT_VERSION, QUICK_START_VERSION } from '../../data/agreementVersion';
+import { openHeaderTool } from './support/workspace';
 
 /**
  * Class Insights / Student Progress ranking e2e — runs ONLY in the
@@ -269,7 +270,7 @@ test.describe('Weakness ranking uses marks, not bands (stubbed Supabase)', () =>
     await installStub(page, TEACHER);
     await login(page, TEACHER);
 
-    await page.getByRole('button', { name: /class insights/i }).click();
+    await openHeaderTool(page, /class insights/i);
 
     const verbs = await rankedLabels(page);
 
@@ -299,7 +300,7 @@ test.describe('Weakness ranking uses marks, not bands (stubbed Supabase)', () =>
     await installStub(page, TEACHER);
     await login(page, TEACHER);
 
-    await page.getByRole('button', { name: /class insights/i }).click();
+    await openHeaderTool(page, /class insights/i);
     await page.getByRole('button', { name: /by topic/i }).click();
 
     const topics = await rankedLabels(page);
@@ -319,7 +320,7 @@ test.describe('Weakness ranking uses marks, not bands (stubbed Supabase)', () =>
     await installStub(page, TEACHER);
     await login(page, TEACHER);
 
-    await page.getByRole('button', { name: /student progress/i }).click();
+    await openHeaderTool(page, /student progress/i);
 
     // Pick Olivia from the roster.
     await page.getByRole('button', { name: /demo\.olivia/i }).click();
@@ -347,7 +348,7 @@ test.describe('Weakness ranking uses marks, not bands (stubbed Supabase)', () =>
     await installStub(page, TEACHER);
     await login(page, TEACHER);
 
-    await page.getByRole('button', { name: /class insights/i }).click();
+    await openHeaderTool(page, /class insights/i);
     await page.getByRole('button', { name: /by student/i }).click();
 
     // Heatmap: weakest student first, so Kayla leads and Chen is last.

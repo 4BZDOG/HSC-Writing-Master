@@ -3,6 +3,7 @@ import { test, expect, Page } from '@playwright/test';
 // reach services/entitlements → supabaseClient → import.meta.env, which the
 // Playwright runner (plain Node) cannot load.
 import { AGREEMENT_VERSION, QUICK_START_VERSION } from '../../data/agreementVersion';
+import { openHeaderTool } from './support/workspace';
 
 /**
  * Contribution-loop e2e — runs ONLY in the `supabase-chromium` project, which
@@ -336,10 +337,10 @@ test.describe('Shared-library contribution loop (stubbed Supabase)', () => {
     await installSupabaseStub(page, ADMIN);
     await login(page, ADMIN);
 
-    // Admin header cluster renders once the profile role maps to admin.
-    const queueButton = page.locator('button[title^="Review Queue"]');
-    await expect(queueButton).toBeVisible({ timeout: 30_000 });
-    await queueButton.click();
+    // The admin tools are behind the header's overflow control now, and the
+    // control itself only appears once the profile role maps to admin — which
+    // is why the helper waits on the trigger rather than on the queue.
+    await openHeaderTool(page, /review queue/i);
 
     await expect(page.getByRole('heading', { name: 'Review Queue' })).toBeVisible();
 

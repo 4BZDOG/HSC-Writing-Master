@@ -1,5 +1,109 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-08-14 (The header answers to the theme)
+
+### 🎨 The one surface everybody sees was the one that ignored the theme
+
+For as long as it has existed the app header was a full-bleed
+`indigo-600 → sky-500` gradient with white text laid over it. White on a
+gradient is not a mistake — it reads identically whichever theme you are in —
+but it meant the bar at the top of every screen was the only surface in the
+application that never noticed a student had chosen the light theme. It is now
+the same translucent token glass as everything else, with a light value and a
+`dark:` partner for every colour on it, and content scrolls _under_ it rather
+than behind a wall.
+
+The brand did not go; it moved. `from-indigo-600 to-sky-500` came off a
+1600×80px bar and onto the 40px wordmark tile, which is roughly the proportion
+it should always have had. Removing it altogether was considered and rejected: a
+first-run user meets that gradient on the charter gate and again on the
+quick-start guide, so abolishing it in the header alone would have orphaned the
+identity everywhere else.
+
+**Worth recording, because the design spec will tell the next reader otherwise:
+indigo was never the Band 6 colour.** `BAND_HEX[6]` is `#a855f7`, purple, and
+Band 5 is `#3b82f6`; the editor's mastery glow reads those directly. The header
+was never spending a colour the reward uses. DesignSpec §2's tier table still
+lists `#6366f1` for Tier 6 and is simply stale — correcting it is a separate
+change with its own reviewers.
+
+### 🧭 Eight admin buttons, all dressed the same, in front of everybody's work
+
+An admin on a Supabase deployment met eight admin and moderator controls on the
+rail, every one of them carrying an identical class string, with the two storage
+tools four buttons apart because the moderation group had been dropped into the
+middle of the admin group. Counting the rest of the bar, that was twelve tab
+stops before any content.
+
+They now sit behind a single control, grouped Library, Moderation and AI so the
+two storage tools are finally next to each other. It is a non-modal popover
+built on the pattern the design spec already names for the purpose: it does not
+trap focus, because the page behind it is still live and Tab is expected to walk
+out of it; it takes Escape on the capture phase so one press cannot close both
+it and whatever sits beneath it; and it puts focus back on the trigger itself,
+since the hook that usually does that is the one it must not use. Four controls
+stay on the rail — the trigger, help, the theme toggle and the profile.
+
+### 📉 The header told you the API was healthy, and two other things already had
+
+A pill on the rail reported API state and storage mode in black italic capitals.
+API health is rendered unconditionally by the bottom-left health chip, with three
+states and an error count, and again by the blocked-countdown banner; the
+header's version was the least informative of the three and the only reader of
+the `apiStatus` prop, so both are gone.
+
+Storage mode is genuinely worth knowing and is now told without a breakpoint —
+in the profile button's tooltip and in the tools popover's footer — where the old
+pill was `hidden lg:flex` and so disappeared exactly when the screen was
+smallest. The one thing that was promoted rather than demoted is the failure:
+when storage has actually broken, a red chip sits on the rail at every width,
+announced when it appears. Work that is not saving is the worst thing this
+application can do quietly, and it was previously a word inside a pill nobody
+could see on a phone.
+
+### 📐 A header that is the same height on every screen and for every role
+
+The bar was a _minimum_ height over a row that wrapped below `sm`, so an admin on
+a narrow screen got a two-row header and everyone else got a one-row one. It is
+`sticky`, which means each of those heights reflowed the entire page beneath it,
+and the layout constants have been reserving space for a height the header never
+promised. With eight buttons behind one control there was nothing left to push
+down, so it is now 64px flat and the row never wraps.
+
+Two things had been leaning on the wrapping without anybody noticing. The
+storage-error chip is 147px with its label, which a 360px rail cannot spare —
+it would have broken the header in precisely the failure it exists to announce —
+so below `lg` it keeps its warning triangle and drops its words, with the full
+sentence moving to its accessible name. And the wordmark's `whitespace-nowrap`
+turned out to stop a label breaking in half without stopping it painting out of
+its box: measured at 360px it was printing the sub-label straight across the
+buttons. The sub-label now steps aside on a phone and both lines clip. Checked by
+hand at four widths, in both themes, for all three roles, and again with storage
+forced into failure.
+
+### ⏭️ There was no way past the header, and no main region to reach
+
+A search for `<main` across this repository returned nothing. `<header>` was the
+application's only landmark, so a keyboard user Tabbed through every header
+control before reaching the writing surface, on every single page load, and a
+screen reader had no region to jump to. The content container is now a `<main>`,
+and an anchor that stays invisible until focus reaches it offers to skip
+straight there. The landmark carries `tabIndex={-1}`, without which the link
+would scroll the page and leave focus behind — sending the next Tab back into
+the header the reader had just asked to skip.
+
+This was not in the brief for the redesign. It was the most valuable thing in it.
+
+### ✅ And the contrast suite can finally see the bar
+
+The end-to-end contrast audit had always skipped the header, because a
+background painted by an absolutely-positioned child made every reading wrong by
+construction. A bar that paints its own colour can be measured, so the exclusion
+is gone and six readings appear where there were none. All clear the AA floor;
+the sub-label is the close one at 4.72:1 against white, against 4.5 required.
+The whole redesign is now something the suite defends rather than something it
+was told not to look at.
+
 ## [Unreleased] - 2026-08-13 (Toasts that can be acted on)
 
 ### 🔔 A message about something you would want to do now lets you do it
@@ -439,8 +543,8 @@ top of it.
 The exported report carried the improved response as a block of prose, leaving
 the student to work out which words earned the mark by eye.
 
-- A **"What changed"** section: the scale of the revision (*67 words added · 29
-  cut · 52% of your own writing kept*), then each edit as a `−` was / `+` now
+- A **"What changed"** section: the scale of the revision (_67 words added · 29
+  cut · 52% of your own writing kept_), then each edit as a `−` was / `+` now
   pair.
 - A list rather than inline marking, because the page's text engine draws whole
   wrapped lines in a single style — an inline diff on paper would mean a
@@ -453,7 +557,7 @@ the student to work out which words earned the mark by eye.
 ### 🐛 Two print bugs found on the way
 
 - **A heading could be orphaned at the foot of a column.** Keep-with-next
-  reserved one *line* of the following block, but everything reaching the flow
+  reserved one _line_ of the following block, but everything reaching the flow
   has already been through `splitOversized` and moves as a unit — so a heading
   that fit alongside one reserved line stayed put while its whole body jumped to
   the next column ("IMPROVED RESPONSE" at the foot of one column, the response
@@ -524,7 +628,7 @@ correctly lets the press fall through to the surface beneath.
 
 ### ✨ "Your answer, improved" — as a marked-up diff
 
-The improvement is briefed as an *edit* of the student's own response, so the
+The improvement is briefed as an _edit_ of the student's own response, so the
 only reading that makes sense is a comparison. Reading it as a fresh block of
 prose hides the handful of words that earned the extra mark, which is the one
 thing the student came for.
@@ -545,7 +649,7 @@ thing the student came for.
     struck through in red, everything unmarked the student's own.
   - **Side by side**: their original with the cuts, the revision with the
     additions, each column counting its own words.
-  - A summary strip — *67 added · 29 cut · 52% of your words kept*. The
+  - A summary strip — _67 added · 29 cut · 52% of your words kept_. The
     retention figure is how a student can tell at a glance whether the AI
     actually followed its brief.
   - **The syllabus terms the revision brought in** are named, because that is
@@ -718,7 +822,7 @@ undifferentiated block instead of the descending HSC rows.
   `reviseRubricForPrompt` return free text with no schema to lean on, and now
   normalise their output too.
 - **Two parser bugs in the accordion.** A row written as
-  `Band 6 (7-8 marks): Comprehensive analysis…` was stored as the words *before*
+  `Band 6 (7-8 marks): Comprehensive analysis…` was stored as the words _before_
   the bracket, silently discarding the criteria; and such a row closed itself
   off, so a wrapped continuation line beneath it was dropped entirely. Band-led
   rows also placed themselves with an inline `(band / 6) × totalMarks` that
