@@ -594,11 +594,26 @@ Removing `flex-wrap` from `HEADER_INNER` alone will not stop the header wrapping
 
 **Prerequisite:** Steps 5 and 7 must be done, or this will clip content on narrow viewports.
 
+**The storage chip collides with the height lock, and resolving it is part of this step** *(measured live during Step 7)*. The chip is `px-3 h-9` and about **147px wide**. At a 360px viewport the header measures 117px without it and **165px with it** — so `h-16` plus `flex-nowrap` will overflow horizontally in exactly the failure case the chip exists to announce.
+
+Maintainer decision 3 says the chip must be visible at every width, and that stands. Satisfy both by dropping the *text*, never the chip:
+
+```
+// on HEADER_STORAGE_ALERT — the icon alone carries it below `sm`
+'flex items-center gap-2 px-2 sm:px-3 h-9 rounded-xl …'
+// and in the JSX, the label span:
+<span className="hidden sm:inline">Storage error</span>
+```
+
+The chip keeps `role="status"` and gains an `aria-label="Storage error — your work may not be saving"` so the announcement is unchanged when the text is hidden. A red `AlertTriangle` in a red chip is still unmissable at 360px; a 147px text chip that breaks the header layout is not an improvement on it.
+
+**Add "storage in `Error`" as a dimension to the hand-verification matrix below.** Checking 360/640/1024/1600 × two themes × three roles while storage is healthy will pass and still ship a broken narrow header.
+
 **Test:** assert `HEADER_BAR` contains `h-16` and **no** `min-h-`; assert `HEADER_INNER` contains `flex-nowrap` and **no** `flex-wrap` — the mirror of how `cardHeaderHeightLock.test.tsx:92–98` pins `CARD_HEADER_META_ROW`.
 
 **Do not touch:** `utils/layoutConstants.ts`. `VIEWPORT_RESERVE = 180` becomes 16px conservative, which is the safe direction, and `layoutConstants.test.ts:65–109` pins `cardHeightCap` behaviour that must not move in a header commit.
 
-**Verify by hand at 360px, 640px, 1024px, 1600px, in both themes.** The header must be exactly 64px tall in all eight combinations, for `user`, `teacher` and `admin`.
+**Verify by hand at 360px, 640px, 1024px, 1600px, in both themes, for `user`, `teacher` and `admin` — and again with `storageStatus` forced to `Error`.** The header must be exactly 64px tall in every combination, and must not overflow horizontally in any of them. The `Error` runs are the ones that will catch a mistake; the healthy runs will pass either way.
 
 ---
 
@@ -641,7 +656,9 @@ Change the content container currently at `App.tsx:900–906` from `<div classNa
 
 That justification expired at Step 4: the header now paints its own background colour, and `resolveBackground` (lines 84–101) walks the compositing chain correctly through `bg-white/80` and `dark:bg-[rgb(var(--color-bg-surface))]/70`.
 
-**Target:** delete line 119 and rewrite the comment at lines 17–19 to explain that the header is now a token surface held to the same AA floor as the rest of the app, and that the only unassessed part is the wordmark tile (which carries an icon, not text).
+**Target:** delete line 119 and rewrite the comment at lines 17–19 to explain that the header is now a token surface held to the same AA floor as the rest of the app.
+
+Two parts remain unassessed, and the comment should name both rather than implying full coverage: the **wordmark tile** (it carries an icon, not text) and the **storage-error chip** (it renders only on a storage failure, so the suite will never encounter it in a normal run). The chip's contrast is fine by calculation — `#b91c1c` on `#fee2e2` ≈ 5.9:1 — but calculated is not measured, and the comment should say so.
 
 **Verify:** `npx playwright test tests/e2e/light-theme.spec.ts --project=chromium`. Both invariants must hold: AA on reading surfaces, and light never meaningfully dimmer than dark (`PARITY_TOLERANCE = 0.5`).
 
