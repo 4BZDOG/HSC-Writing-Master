@@ -8,6 +8,17 @@ import {
 } from '../utils/permissions';
 import Combobox, { SEARCH_THRESHOLD } from './Combobox';
 import NavigatorStep from './NavigatorStep';
+import {
+  NAV_ACTION_BUTTON,
+  NAV_ACTION_VARIANTS,
+  NAV_FOCUS_PILL,
+  NAV_INLINE_INPUT,
+  NAV_INLINE_PANEL,
+  NAV_LEVELS,
+  NAV_OPTION_TILE,
+  NAV_RAIL_LINE,
+  NAV_ROOT,
+} from '../utils/navigatorChrome';
 import QuestionFilterBar from './QuestionFilterBar';
 import {
   QuestionFilter,
@@ -58,6 +69,7 @@ import {
   History,
   GraduationCap,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import {
   getCommandTermInfo,
   getTargetBand,
@@ -219,6 +231,23 @@ export const describeCascade = (
  * have since moved again, into `NavigatorStep`, for the same reason they were
  * hoisted: the thing that repeats five times should be written once.
  */
+interface ActionButtonProps {
+  onClick: () => void;
+  icon: LucideIcon;
+  /** Also the tooltip, and how six of these are found by the import-entry spec
+   *  — the strings are load-bearing and must survive byte-identical. */
+  title: string;
+  /** Only the wider variants carry one; without it the button is a square. */
+  label?: string;
+  variant?: 'default' | 'danger' | 'special' | 'primary' | 'vault';
+  locked?: boolean;
+}
+
+/**
+ * `variant` used to be an untyped string, so `variant="vault "` or a renamed
+ * kind would have fallen quietly through to the default branch with no type
+ * error and no test. The chain of ternaries it selected with is now a lookup.
+ */
 const ActionButton = ({
   onClick,
   icon: Icon,
@@ -226,21 +255,11 @@ const ActionButton = ({
   label,
   variant = 'default',
   locked = false,
-}: any) => (
+}: ActionButtonProps) => (
   <button
     onClick={locked ? () => requestUpgrade('aiContentStudio') : onClick}
-    className={`relative p-2 ${label ? 'sm:px-3' : ''} rounded-lg transition-all duration-200 flex-shrink-0 hover:scale-105 active:scale-95 border flex items-center gap-1.5 ${
-      locked
-        ? 'bg-amber-400/10 border-amber-400/40 text-amber-500 light:text-amber-600'
-        : variant === 'danger'
-          ? 'bg-red-500/10 border-red-500/20 text-red-400 light:text-red-600'
-          : variant === 'special'
-            ? 'bg-amber-500/10 border-amber-500/20 text-yellow-400 light:text-amber-600'
-            : variant === 'primary'
-              ? 'bg-gradient-to-r from-indigo-500 to-sky-500 border-transparent text-white shadow-md'
-              : variant === 'vault'
-                ? 'bg-blue-600/10 light:bg-blue-50 border-blue-600/20 light:border-blue-300 text-blue-400 light:text-blue-700'
-                : 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border border-white/5 light:border-slate-400 text-[rgb(var(--color-text-secondary))] light:text-slate-600'
+    className={`${NAV_ACTION_BUTTON} ${label ? 'sm:px-3' : ''} ${
+      locked ? NAV_ACTION_VARIANTS.locked : NAV_ACTION_VARIANTS[variant]
     }`}
     title={locked ? `${title} — part of Band 6 Plus` : title}
   >
@@ -396,7 +415,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
         isNew: newlyAddedIds.has(c.id),
         renderLabel: (
           <div className="flex items-center gap-3">
-            <div className="p-1.5 rounded-md bg-blue-500/20 text-blue-500 light:bg-blue-100 light:text-blue-700 border border-blue-500/20 flex-shrink-0">
+            <div
+              className={`${NAV_OPTION_TILE} bg-blue-500/20 text-blue-500 light:bg-blue-100 light:text-blue-700 border-blue-500/20`}
+            >
               <Book className="w-4 h-4" />
             </div>
             <span className="font-medium flex-1 min-w-0 truncate">{c.name}</span>
@@ -431,7 +452,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           disabled: !selectable,
           renderLabel: (
             <div className={`flex items-center gap-3 ${selectable ? '' : 'opacity-60'}`}>
-              <div className="p-1.5 rounded-md bg-blue-500/20 text-blue-500 light:bg-blue-100 light:text-blue-700 border border-blue-500/20 flex-shrink-0">
+              <div
+                className={`${NAV_OPTION_TILE} bg-blue-500/20 text-blue-500 light:bg-blue-100 light:text-blue-700 border-blue-500/20`}
+              >
                 <GraduationCap className="w-4 h-4" />
               </div>
               <span className="min-w-0">
@@ -480,7 +503,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
         isNew: newlyAddedIds.has(t.id),
         renderLabel: (
           <div className="flex items-center gap-3">
-            <div className="p-1.5 rounded-md bg-purple-500/20 text-purple-500 light:bg-purple-100 light:text-purple-700 border border-purple-500/20 flex-shrink-0">
+            <div
+              className={`${NAV_OPTION_TILE} bg-purple-500/20 text-purple-500 light:bg-purple-100 light:text-purple-700 border-purple-500/20`}
+            >
               <Layers className="w-4 h-4" />
             </div>
             <span className="font-medium flex-1 min-w-0 truncate">{t.name}</span>
@@ -502,7 +527,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
         isNew: newlyAddedIds.has(st.id),
         renderLabel: (
           <div className="flex items-center gap-3">
-            <div className="p-1.5 rounded-md bg-indigo-500/20 text-indigo-500 light:bg-indigo-100 light:text-indigo-700 border border-indigo-500/20 flex-shrink-0">
+            <div
+              className={`${NAV_OPTION_TILE} bg-indigo-500/20 text-indigo-500 light:bg-indigo-100 light:text-indigo-700 border-indigo-500/20`}
+            >
               <FolderOpen className="w-4 h-4" />
             </div>
             <span className="font-medium">{st.name}</span>
@@ -528,7 +555,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           isNew: newlyAddedIds.has(dp.id),
           renderLabel: (
             <div className="flex items-start gap-3">
-              <div className="p-1.5 rounded-md bg-pink-500/20 text-pink-500 light:bg-pink-100 light:text-pink-700 border border-pink-500/20 mt-0.5 flex-shrink-0">
+              <div
+                className={`${NAV_OPTION_TILE} bg-pink-500/20 text-pink-500 light:bg-pink-100 light:text-pink-700 border-pink-500/20 mt-0.5`}
+              >
                 <List className="w-4 h-4" />
               </div>
               <span className="min-w-0">
@@ -556,7 +585,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-3">
               <div
-                className={`p-1.5 rounded-md border transition-all ${isSelected ? 'bg-emerald-500 text-white border-emerald-400/30' : 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'}`}
+                className={`${NAV_OPTION_TILE} transition-all ${isSelected ? 'bg-emerald-500 text-white border-emerald-400/30' : 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'}`}
               >
                 <Target className="w-4 h-4" />
               </div>
@@ -860,11 +889,8 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
         {announcement}
       </p>
-      <div className="flex flex-col pl-4 md:pl-12 relative animate-fade-in" role="list">
-        <div
-          className="absolute left-[1.35rem] md:left-[2.35rem] top-0 bottom-0 w-px bg-white/5 light:bg-slate-400 z-0"
-          aria-hidden="true"
-        ></div>
+      <div className={NAV_ROOT} role="list">
+        <div className={NAV_RAIL_LINE} aria-hidden="true"></div>
 
         {/* 1. Course Selection */}
         <NavigatorStep
@@ -893,7 +919,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   })
                 }
                 placeholder="Select Course..."
-                color="blue"
+                color={NAV_LEVELS.course.combobox}
                 emptyAction={
                   canRequestCourse
                     ? {
@@ -915,7 +941,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   value={syllabusYear}
                   onChange={handleYearChange}
                   placeholder="Select Year..."
-                  color="blue"
+                  color={NAV_LEVELS.course.combobox}
                 />
               </div>
             )}
@@ -1025,7 +1051,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     })
                   }
                   placeholder="Select Topic..."
-                  color="purple"
+                  color={NAV_LEVELS.topic.combobox}
                 />
               </div>
               {canCurate && (
@@ -1103,7 +1129,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             </div>
 
             {inlineTopicOpen && canCreateTree && (
-              <div className="mt-3 p-4 rounded-2xl bg-white/5 light:bg-slate-50 border border-purple-500/20 light:border-purple-200 animate-fade-in">
+              <div className={NAV_INLINE_PANEL}>
                 <div className="flex flex-col gap-3">
                   {/* Which year this lands in. The topic list above is already
                       filtered to it, so a topic created here appears to vanish
@@ -1117,7 +1143,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     value={inlineTopicName}
                     onChange={(e) => setInlineTopicName(e.target.value)}
                     placeholder="Topic name (e.g. Core 1: Meanings and Values)"
-                    className="w-full px-3 py-2 rounded-xl bg-white/10 light:bg-white border border-white/10 light:border-slate-200 text-sm font-medium text-[rgb(var(--color-text-primary))] placeholder:text-[rgb(var(--color-text-muted))] focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+                    className={`${NAV_INLINE_INPUT} font-medium`}
                     autoFocus
                     onKeyDown={(e) => {
                       if (
@@ -1137,7 +1163,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     onChange={(e) => setInlineSyllabusText(e.target.value)}
                     placeholder="Optional: paste NESA syllabus text here to auto-create sub-topics and dot points…"
                     rows={4}
-                    className="w-full px-3 py-2 rounded-xl bg-white/10 light:bg-white border border-white/10 light:border-slate-200 text-sm text-[rgb(var(--color-text-primary))] placeholder:text-[rgb(var(--color-text-muted))] focus:outline-none focus:ring-2 focus:ring-purple-500/40 resize-y"
+                    className={`${NAV_INLINE_INPUT} resize-y`}
                     onKeyDown={(e) => {
                       if (e.key === 'Escape') setInlineTopicOpen(false);
                     }}
@@ -1205,7 +1231,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     })
                   }
                   placeholder="Select Sub-Topic..."
-                  color="teal"
+                  color={NAV_LEVELS.subTopic.combobox}
                 />
               </div>
               {canCurate && (
@@ -1276,7 +1302,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     })
                   }
                   placeholder="Select Dot Point..."
-                  color="pink"
+                  color={NAV_LEVELS.dotPoint.combobox}
                 />
               </div>
 
@@ -1377,10 +1403,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             {activeFocusCount > 0 && (
               <div className="mt-3 flex flex-wrap gap-2 animate-fade-in pl-1">
                 {statePath.selectedSubItems?.map((item) => (
-                  <div
-                    key={item}
-                    className="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 light:text-emerald-800 text-[10px] font-black uppercase border border-emerald-500/20"
-                  >
+                  <div key={item} className={NAV_FOCUS_PILL}>
                     {item}
                     <button
                       onClick={() => handleSubItemToggle(item)}
@@ -1461,7 +1484,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     onPathChange({ promptId: id });
                   }}
                   placeholder="Select Question..."
-                  color="amber"
+                  color={NAV_LEVELS.question.combobox}
                 />
               </div>
               {canCurate && (
