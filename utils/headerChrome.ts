@@ -21,7 +21,7 @@
  *  rather than behind an opaque wall, which is the point of §1's glassmorphism.
  *  Painted on the page background and `AnimatedBackground` beneath it. */
 export const HEADER_BAR =
-  'sticky top-0 z-[60] min-h-20 flex items-center ' +
+  'sticky top-0 z-[60] h-16 flex items-center ' +
   'bg-white/80 dark:bg-[rgb(var(--color-bg-surface))]/70 backdrop-blur-2xl ' +
   'border-b border-slate-200 dark:border-white/10 ' +
   'shadow-sm dark:shadow-lg dark:shadow-black/20';
@@ -34,13 +34,16 @@ export const HEADER_HAIRLINE =
   'absolute inset-x-0 bottom-0 h-px pointer-events-none ' +
   'bg-gradient-to-r from-transparent via-indigo-500/40 dark:via-indigo-400/30 to-transparent';
 
-/** The content row, above the mesh and the hairline on `z-10`. It wraps below
- *  `sm` so the admin/moderator tool buttons drop onto their own row instead of
- *  overlapping the title on a narrow screen — which is what makes the header's
- *  height depend on the viewport and the signed-in role. */
+/** The content row, above the mesh and the hairline on `z-10`. It never wraps:
+ *  the eight admin buttons that used to force a second row now live behind one
+ *  control, so there are four rail controls at every width and nothing left to
+ *  push down. That is what lets `HEADER_BAR` state a height instead of a
+ *  minimum — a sticky bar whose height depends on the viewport and the
+ *  signed-in role reflows everything beneath it. Vertical centring comes from
+ *  `items-center` on the fixed-height box, so there is no padding to tune. */
 export const HEADER_INNER =
-  'relative z-10 px-4 sm:px-6 lg:px-8 py-3 sm:py-0 w-full max-w-[1600px] mx-auto ' +
-  'flex flex-wrap sm:flex-nowrap items-center justify-between gap-x-3 gap-y-2';
+  'relative z-10 px-4 sm:px-6 lg:px-8 h-full w-full max-w-[1600px] mx-auto ' +
+  'flex flex-nowrap items-center justify-between gap-x-3';
 
 /** The wordmark tile — where the brand gradient went when it came off the bar.
  *  White-alpha ON THE BRAND GRADIENT: it reads the same in both themes and is
@@ -51,16 +54,31 @@ export const HEADER_MARK_TILE =
 
 /** "Band 6". The house display treatment — `italic uppercase` over
  *  `font-black tracking-tighter` — used in twenty-odd other files. On the rail,
- *  so it needs the pair. */
+ *  so it needs the pair.
+ *
+ *  `truncate` rather than the bare `whitespace-nowrap` it replaced: nowrap stops
+ *  a label breaking in half, it does not stop it painting straight out of its
+ *  box, and a row that no longer wraps hands the brand block whatever width the
+ *  controls leave. Flexbox was already sizing the two clusters so they did not
+ *  overlap; only the ink escaped. Clipped, the worst case degrades to a short
+ *  wordmark instead of a wordmark printed underneath the buttons. */
 export const HEADER_WORDMARK =
   'text-lg sm:text-2xl font-black tracking-tighter leading-none italic uppercase ' +
-  'whitespace-nowrap text-slate-900 dark:text-white';
+  'truncate text-slate-900 dark:text-white';
 
 /** "HSC Writing Coach". On the rail. The tracking no longer jumps at `sm` —
  *  it was the only responsive tracking in the codebase, and it made the label
- *  read as a different label at different widths. */
+ *  read as a different label at different widths.
+ *
+ *  It does step aside below `sm`, though. At 0.2em tracking the label paints
+ *  164px, and a 360px rail that can no longer wrap has about 128px to give it,
+ *  so it was painting straight through the action buttons — `whitespace-nowrap`
+ *  keeps a label from breaking in half, it does not keep it inside its box. The
+ *  tile and the wordmark still say whose app this is at that width; the gloss
+ *  under them is the part a phone can spare, which is the same call the profile
+ *  control's display name and the storage chip's text already make. */
 export const HEADER_SUBLABEL =
-  'block mt-1 text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap ' +
+  'hidden sm:block mt-1 text-[10px] font-black uppercase tracking-[0.2em] truncate ' +
   'text-slate-500 dark:text-slate-400';
 
 /** The square controls that stay on the rail whatever the role: the tools
@@ -114,9 +132,19 @@ export const HEADER_TELEMETRY =
  *  app can do quietly. So it sits on the rail at EVERY width — no `hidden lg:`,
  *  which is exactly the fault the old status pill had — and it costs nothing
  *  when storage is well, because then it does not exist. Mono, per §4: it is
- *  telemetry. On the rail, so it carries the pair. */
+ *  telemetry.
+ *
+ *  With its label the chip measures 147px, which is more than the rail can
+ *  spare below `lg` now that the rail cannot wrap: the chip would have broken
+ *  the header in precisely the failure it exists to announce. So the TEXT goes
+ *  and the chip stays, down to a red triangle in a red pill — still unmissable,
+ *  and the sentence it dropped moves to the chip's `aria-label`, so a screen
+ *  reader hears the same thing at every width. `lg` and not `sm`: measured at
+ *  640px the 147px chip pushed the wordmark's sub-label 52px into the action
+ *  buttons, so `sm` would only have moved the fault rather than fixed it.
+ *  On the rail, so it carries the pair. */
 export const HEADER_STORAGE_ALERT =
-  'flex items-center gap-2 px-3 h-9 rounded-xl font-mono text-[10px] uppercase ' +
+  'flex items-center gap-2 px-2 lg:px-3 h-9 rounded-xl font-mono text-[10px] uppercase ' +
   'tracking-wider border ' +
   'bg-red-100 text-red-700 border-red-200 ' +
   'dark:bg-red-500/15 dark:text-red-300 dark:border-red-500/30';

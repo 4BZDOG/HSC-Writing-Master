@@ -75,8 +75,6 @@ const AppHeader: React.FC<AppHeaderProps> = ({
           is why `opacity-0` here reads as "off" without being zero.) */}
       <MeshOverlay opacity="opacity-0 dark:opacity-[0.03]" />
       <div className={HEADER_HAIRLINE} aria-hidden="true" />
-      {/* Wraps below sm so admin/moderator tool buttons drop onto their own
-          row instead of overlapping the title on narrow screens. */}
       <div className={HEADER_INNER}>
         <div className="flex items-center gap-3 sm:gap-4 min-w-0">
           <div className={HEADER_MARK_TILE}>
@@ -87,18 +85,23 @@ const AppHeader: React.FC<AppHeaderProps> = ({
             <span className={HEADER_SUBLABEL}>HSC Writing Coach</span>
           </div>
         </div>
-        <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-4 ml-auto">
+        <div className="flex items-center justify-end gap-2 sm:gap-4 ml-auto shrink-0">
           {/* Only when storage has actually failed, and then at every width.
               `role="status"` so it is announced when it appears rather than only
-              when someone happens to look at the top of the screen. */}
+              when someone happens to look at the top of the screen. Below `lg`
+              the label drops and the triangle carries it alone — the rail no
+              longer wraps, and a 147px chip there would break the header it is
+              warning about. `aria-label` states it in full either way, so what
+              a screen reader hears does not change with the viewport. */}
           {storageStatus === 'Error' && (
             <div
               role="status"
+              aria-label="Storage error — your work may not be saving"
               title="Your work may not be saving — open your profile to check storage"
               className={HEADER_STORAGE_ALERT}
             >
-              <AlertTriangle className="w-4 h-4" aria-hidden="true" />
-              Storage error
+              <AlertTriangle className="w-4 h-4 shrink-0" aria-hidden="true" />
+              <span className="hidden lg:inline">Storage error</span>
             </div>
           )}
           <AppHeaderToolsMenu

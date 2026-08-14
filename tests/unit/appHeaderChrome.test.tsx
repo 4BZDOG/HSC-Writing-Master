@@ -240,6 +240,59 @@ describe('the bar carries both themes', () => {
 });
 
 /**
+ * The header is `sticky top-0`, so any change to its height reflows the whole
+ * page beneath it — and it used to change height with the viewport AND with the
+ * signed-in role, because the admin cluster dropped onto a second row below
+ * `sm`. `utils/layoutConstants.ts` hard-codes a reserve for a header height the
+ * header never guaranteed. One control now stands where eight did, so the row
+ * has nothing left to wrap and the bar can state 64px flat.
+ *
+ * The mirror of how `cardHeaderHeightLock.test.tsx` pins the workspace cards.
+ */
+describe('the bar is one height at every width and every role', () => {
+  it('states a height rather than a minimum', () => {
+    expect(HEADER_BAR).toContain('h-16');
+    expect(HEADER_BAR).not.toMatch(/\bmin-h-/);
+  });
+
+  it('never wraps its content row, and no longer pads it by breakpoint', () => {
+    expect(HEADER_INNER).toContain('flex-nowrap');
+    expect(HEADER_INNER).not.toMatch(/(^|\s)flex-wrap\b/);
+    expect(HEADER_INNER).not.toMatch(/(^|\s)(sm|md|lg|xl):flex-(no)?wrap\b/);
+    // Centring comes from `items-center` in a fixed-height box now.
+    expect(HEADER_INNER).toContain('h-full');
+    expect(HEADER_INNER).not.toMatch(/(^|\s)(sm:)?py-/);
+  });
+
+  // A row that cannot wrap hands the brand block whatever the controls leave,
+  // and `whitespace-nowrap` alone would have let it paint straight through
+  // them — measured at 360px, 36px of sub-label over the action cluster. So the
+  // gloss steps aside on a phone and both lines clip rather than overflow.
+  it('lets the brand block yield rather than paint over the controls', () => {
+    expect(HEADER_SUBLABEL).toContain('hidden sm:block');
+    for (const value of [HEADER_WORDMARK, HEADER_SUBLABEL]) {
+      expect(value).toContain('truncate');
+      expect(value).not.toContain('whitespace-nowrap');
+    }
+  });
+
+  // The constants are not the whole story: two clusters kept their `flex-wrap`
+  // as literals in the JSX, and removing it from HEADER_INNER alone would have
+  // left the header wrapping exactly as before.
+  it('leaves no wrapping cluster behind in the markup', () => {
+    for (const role of ['user', 'teacher', 'admin'] as const) {
+      cleanup();
+      const { container } = renderHeader(role, 'dark', {
+        storageStatus: 'Error' as StorageStatus,
+      });
+      expect((container.querySelector('header') as HTMLElement).innerHTML).not.toContain(
+        'flex-wrap'
+      );
+    }
+  });
+});
+
+/**
  * `light-theme.spec.ts:45` finds this button by
  * `getByRole('button', { name: /switch to (light|dark) theme/i })`. The label is
  * the whole selector — there is no test id — so it has to survive the redesign
@@ -309,16 +362,34 @@ describe('the rail states storage, and only storage', () => {
   });
 
   // The whole point of the maintainer's decision: this one is never allowed to
-  // be the thing that disappears when the screen gets small.
+  // be the thing that disappears when the screen gets small. The chip may get
+  // *narrower* below `sm` — see the next test — but it may never stop existing,
+  // so what is banned here is a display utility, not a breakpoint.
   it('shows that chip at every width, to every role', () => {
-    expect(HEADER_STORAGE_ALERT).not.toContain('hidden');
-    expect(HEADER_STORAGE_ALERT).not.toMatch(/\b(sm|md|lg|xl):/);
+    expect(HEADER_STORAGE_ALERT).not.toMatch(/(^|\s)(sm|md|lg|xl):?(hidden|invisible)\b/);
 
     for (const role of ['user', 'teacher', 'admin'] as const) {
       cleanup();
       renderHeader(role, 'dark', { storageStatus: 'Error' as StorageStatus });
       expect(screen.getByRole('status')).toBeTruthy();
     }
+  });
+
+  // With its label the chip measures 147px, which a rail that can no longer
+  // wrap has nowhere to put below `lg`. Narrowing it to the triangle is the
+  // only way to keep both promises — visible at every width, and a header that
+  // stays 64px and paints nothing over anything.
+  it('drops the chip’s words below lg, never the chip or its announcement', () => {
+    renderHeader('user', 'dark', { storageStatus: 'Error' as StorageStatus });
+
+    const chip = screen.getByRole('status');
+    expect(chip.getAttribute('aria-label')).toBe('Storage error — your work may not be saving');
+    // The text is what hides, and it comes back at `lg`.
+    const label = screen.getByText('Storage error');
+    expect(label.className).toContain('hidden');
+    expect(label.className).toContain('lg:inline');
+    // The padding shrinks with it, so the pill still fits its icon.
+    expect(HEADER_STORAGE_ALERT).toContain('px-2 lg:px-3');
   });
 
   it('costs nothing while storage is well', () => {
