@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback, useEffect } from 'react';
+import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import { Course, StatePath, UserRole } from '../types';
 import {
   canCreateCurriculum,
@@ -135,6 +135,75 @@ const SUGGESTION_HEADINGS: Record<string, (tier: number) => string> = {
 };
 
 /**
+ * The six rungs of the path, in the order the cascade clears them, with the word
+ * each one is called in speech.
+ *
+ * "Syllabus point" rather than "Syllabus Content": the visible heading over that
+ * step says the latter, but the picker's own label says the former, and a
+ * spoken sentence should use the noun that names one of them rather than the
+ * name of the shelf they sit on.
+ */
+const CASCADE_LEVELS = [
+  ['courseId', 'Course'],
+  ['syllabusYear', 'Year'],
+  ['topicId', 'Topic'],
+  ['subTopicId', 'Sub-topic'],
+  ['dotPointId', 'Syllabus point'],
+  ['promptId', 'Question'],
+] as const;
+
+type CascadeKey = (typeof CASCADE_LEVELS)[number][0];
+type CascadeSnapshot = Record<CascadeKey, string | undefined>;
+
+/** A syllabus point ends in a full stop and a question in a question mark, so
+ *  the sentence they are quoted into must not add a second one. */
+const endSentence = (text: string): string => (/[.!?…]$/.test(text) ? text : `${text}.`);
+
+const joinWithAnd = (items: string[]): string =>
+  items.length < 2
+    ? (items[0] ?? '')
+    : `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`;
+
+/**
+ * What just happened to the path, in one sentence, for the navigator's live
+ * region.
+ *
+ * It has to state BOTH halves. Choosing a course clears the four levels beneath
+ * it and up to four steps leave the DOM; a reader who cannot see that happen was
+ * told nothing at all, which is the half that was actually missing. Choosing a
+ * topic is obvious; losing the question you had chosen is not.
+ */
+export const describeCascade = (
+  prev: CascadeSnapshot,
+  next: CascadeSnapshot,
+  labelFor: (key: CascadeKey) => string
+): string => {
+  const changed = CASCADE_LEVELS.filter(([key]) => prev[key] !== next[key]);
+  if (changed.length === 0) return '';
+
+  const sentences = changed
+    .filter(([key]) => next[key])
+    .map(([key, name]) => {
+      const label = labelFor(key);
+      return label ? endSentence(`${name} set to ${label}`) : `${name} changed.`;
+    });
+
+  const cleared = changed.filter(([key]) => !next[key]);
+  if (cleared.length > 0) {
+    const names = cleared.map(([, name], i) => (i === 0 ? name : name.toLowerCase()));
+    sentences.push(`${joinWithAnd(names)} cleared.`);
+    // Nothing was set, so this is a step BACK — from a breadcrumb, or from the
+    // collapsed bar — and the reader is now standing at an empty level with
+    // nothing saying what to do about it.
+    if (sentences.length === 1) {
+      sentences.push(`Choose a ${cleared[0][1].toLowerCase()} to continue.`);
+    }
+  }
+
+  return sentences.join(' ');
+};
+
+/**
  * The action button, at module scope on purpose.
  *
  * It used to be declared INSIDE `PromptSelector`, along with the rail node and
@@ -258,6 +327,58 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   const isSubTopicSelected = !!selectedSubTopic;
   const isDotPointSelected = !!selectedDotPoint;
   const isPromptSelected = !!selectedPrompt;
+
+  // --- Saying what the cascade did --------------------------------------
+  // Choosing at any level clears every level below it, and until now that was
+  // the quietest thing the app does: up to four steps leave the DOM, the
+  // question the reader had chosen goes with them, and nothing is announced.
+  const [announcement, setAnnouncement] = useState('');
+  const previousPath = useRef<CascadeSnapshot | null>(null);
+
+  useEffect(() => {
+    const next: CascadeSnapshot = {
+      courseId: statePath.courseId,
+      syllabusYear: statePath.syllabusYear,
+      topicId: statePath.topicId,
+      subTopicId: statePath.subTopicId,
+      dotPointId: statePath.dotPointId,
+      promptId: statePath.promptId,
+    };
+    const previous = previousPath.current;
+    previousPath.current = next;
+    // Nothing on mount. An assignment link (utils/assignmentLink.ts) lands a
+    // reader on a full path, and reading five levels out on load is noise
+    // arriving before they have done anything.
+    if (!previous) return;
+
+    setAnnouncement(
+      describeCascade(previous, next, (key) => {
+        switch (key) {
+          case 'courseId':
+            return selectedCourse?.name ?? '';
+          case 'syllabusYear':
+            return SYLLABUS_YEARS.find((y) => y.id === statePath.syllabusYear)?.label ?? '';
+          case 'topicId':
+            return selectedTopic?.name ?? '';
+          case 'subTopicId':
+            return selectedSubTopic?.name ?? '';
+          case 'dotPointId':
+            return selectedDotPoint
+              ? splitDotPointDescription(selectedDotPoint.description).stem
+              : '';
+          case 'promptId':
+            return selectedPrompt?.question ?? '';
+        }
+      })
+    );
+  }, [
+    statePath.courseId,
+    statePath.syllabusYear,
+    statePath.topicId,
+    statePath.subTopicId,
+    statePath.dotPointId,
+    statePath.promptId,
+  ]);
 
   // A teacher's hand-set list wins over the parser — one resolution, shared
   // with the question generator and the AI's keyword grounding.
@@ -733,6 +854,12 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     // CSS exactly as they were, and it survives `list-style: none`, which
     // Safari's accessibility tree otherwise takes list semantics away for.
     <nav aria-label="Syllabus navigator">
+      {/* Polite, never assertive: this follows the reader's own action and must
+          not interrupt them. `aria-atomic`, or a sentence that changes in two
+          places is read in one of them. */}
+      <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {announcement}
+      </p>
       <div className="flex flex-col pl-4 md:pl-12 relative animate-fade-in" role="list">
         <div
           className="absolute left-[1.35rem] md:left-[2.35rem] top-0 bottom-0 w-px bg-white/5 light:bg-slate-400 z-0"
