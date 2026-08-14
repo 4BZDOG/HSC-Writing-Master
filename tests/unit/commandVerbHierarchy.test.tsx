@@ -184,6 +184,29 @@ describe('CommandVerbHierarchy', () => {
     expect(screen.getAllByText('DESCRIBE').length).toBeGreaterThanOrEqual(2);
   });
 
+  // The case fix above came from `getCommandTermInfo`, which also answers an
+  // unrecognised verb with an EXPLAIN stub. That half was deliberately not
+  // taken, and this pins it: everywhere else the fallback degrades something
+  // incidental, but this component's whole content is the claim "your verb is
+  // X, it caps you at Band N, spend this long on it". Rendering that in full
+  // about a verb nobody asked for — styled, tier-highlighted, progress bar at
+  // halfway, with nothing marking it a guess — is worse than rendering nothing.
+  // A one-line change back to `getCommandTermInfo` would silently reverse it.
+  it('says nothing at all about a verb it does not recognise', () => {
+    render(<CommandVerbHierarchy currentVerb={'FLIBBERTIGIBBET' as PromptVerb} />);
+
+    // No detail card: these three only exist inside it.
+    expect(screen.queryByText('Band Cap')).toBeNull();
+    expect(screen.queryByText('Marks')).toBeNull();
+    expect(screen.queryByText(/^Selected:$/)).toBeNull();
+    // And emphatically not the tier-3 fallback the helper would have supplied.
+    expect(screen.queryByText(/Tier 3/)).toBeNull();
+
+    // The ladder itself still renders — the reference is intact, it just makes
+    // no claim about this particular verb.
+    expect(screen.getByText(/Reference • 6 cognitive tiers/i)).toBeTruthy();
+  });
+
   it('honours prefers-reduced-motion when it scrolls the strip', () => {
     const scrollTo = vi.fn();
     (Element.prototype as unknown as { scrollTo: unknown }).scrollTo = scrollTo;

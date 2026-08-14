@@ -1007,3 +1007,60 @@ Mock `services/geminiService` in every render test (house rule; the current ribb
 - `/home/user/HSC-Writing-Master/App.tsx`
 
 Reference-only, but read before Steps 4–6: `/home/user/HSC-Writing-Master/utils/headerChrome.ts`, `/home/user/HSC-Writing-Master/tests/unit/appHeaderChrome.test.tsx` (the parity sweep to copy), and `/home/user/HSC-Writing-Master/components/ReferenceMaterials.tsx` (the `inert` + grid-rows disclosure to copy in Step 1).
+
+
+---
+
+## 6. Independent verification — outcome
+
+An agent with no part in the implementation checked the finished branch against
+DesignSpec, this plan and the running app.
+
+**Confirmed:** §3 Keyboard Reach (50 focusable controls inside the shut panel,
+**0** of them tabbable; Tab from the toggle lands outside the ribbon in both
+navigator states); all three §0a decisions; §2 parity, including that the sweep's
+widened alpha regex tightens rather than loosens the check; every contrast figure
+reproduced independently to 2 dp; and no exclusion, threshold change or skipped
+assertion in `tests/e2e/support/contrast.ts` (`git diff` against the base is
+empty). 1771 unit tests, `chromium` 18/18, `supabase-chromium` 6/6.
+
+### Open items — carried, not closed
+
+1. **Mobile Safari is unverified locally** (R3). `backdrop-blur-xl` on a
+   **non-sticky** element over `AnimatedBackground`, and whether `.clip-stable`
+   still holds on the ribbon root and the six tier cards, cannot be checked here
+   — WebKit is not installed. CI's `PW_FAST` matrix runs Mobile Safari on every
+   pull request; **watch that check rather than assuming.** Fallback if it
+   misbehaves: `backdrop-blur-md` with a more opaque surface.
+2. **The detail card's Sparkles icon is still `text-white` on the tier
+   gradient** (R7a) — on tier 3 roughly 2.15:1, and `contrast.ts` cannot see it
+   because it is an icon, not a text node. It is the last instance of the defect
+   this series' headline claim is about, sitting 40px from the tile that was
+   fixed. Should be taken with R7's sweep.
+3. **The strip's de-emphasis is now weak in the dark theme.** Lifting the idle
+   cards from `opacity-50` to `opacity-90` was required — a control you can Tab
+   to must be readable — but `scale-90` versus `scale-110` is now almost the
+   only thing distinguishing the current tier, and in dark it is hard to spot.
+   The contrast fix was right; the design intent it displaced was not replaced.
+4. **Two `light:` classes survive in the JSX** (`light:bg-white`,
+   `light:border-slate-200`). Both predate the series and are correct in effect,
+   but 18 of 20 occurrences went and these two did not, so the file is not the
+   clean sweep the Step 5 commit implies.
+5. **The parity sweep matches by CSS property, not by variant.** A future
+   `hover:` colour with no `dark:hover:` partner would pass, excused by any
+   `dark:` value for the same property in the same constant. Today's pass is
+   honest; the guard is weaker than it looks.
+6. **`collapsedByUser` is still effectively unreachable state.** Ending the
+   remount was supposed to make "a deliberate collapse survives the next
+   question" work. It does not through the shipped UI: the only way to change
+   question is "Change", which expands the navigator, flipping `defaultOpen` and
+   resetting the flag by design. The behaviour is argued in the code and is
+   probably the better one — but Step 11's acceptance criterion and its commit
+   message both describe something the app does not do.
+7. **The strip's auto-scroll does not re-run on resize**, so a narrow viewport
+   can be left showing a tier chosen for a wide one. Pre-existing and out of
+   scope; visible at 390px.
+8. **Not verified at all:** print output (`print:text-yellow-900` on band 3),
+   coverage thresholds (`test:all` runs without `--coverage`), behaviour with a
+   real screen reader (the accessibility tree was inspected, no AT was used),
+   and Firefox / desktop WebKit / Mobile Chrome.

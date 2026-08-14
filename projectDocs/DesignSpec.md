@@ -49,9 +49,17 @@ BEHIND it, not on the token.** This is what makes a blanket find-and-replace
 the wrong tool — most white-alpha classes in this codebase are already correct:
 
 - **On a coloured gradient or a modal backdrop** — the editor header, the
-  score placard, the ribbon header, `bg-black/80` scrims. These are the same
-  colour in both themes, so `bg-white/20` and `border-white/20` are right as
-  written and must be left alone.
+  score placard, the verb ribbon's tier tile and detail-card icon,
+  `bg-black/80` scrims. These are the same colour in both themes, so
+  `bg-white/20` and `border-white/20` are right as written and must be left
+  alone.
+
+  This example used to read "the ribbon header", and that surface is gone —
+  the verb ribbon's header was a full-bleed tier gradient until it became a
+  glass rail, and its tier colour now lives on a 36px tile and a 2px
+  underline. The rule is unchanged; only the illustration moved. Check what a
+  class is painted on, not what this list happened to name when it was
+  written.
 - **On a theme surface** — anything over `--color-bg-surface`, a `bg-white`
   card, or a `slate-100/200` track. Here white-alpha is invisible in light
   mode, and the element silently loses its ring, rim, tick or divider. These
