@@ -298,7 +298,11 @@ The `!isFocusMode &&` guard stays in `App.tsx` (Finding 8 — this is deliberate
 
 **This step changes no classes.** Lift the literal strings currently in `AppHeader.tsx` into named exports and consume them, so Step 4's diff is a diff of *values* in one file rather than of JSX. Initial exports (values copied verbatim from the current JSX):
 
-`HEADER_BAR`, `HEADER_INNER`, `HEADER_MARK_TILE`, `HEADER_WORDMARK`, `HEADER_SUBLABEL`, `HEADER_ADMIN_BUTTON`, `HEADER_ACTION`, `HEADER_PROFILE`, `HEADER_TELEMETRY`.
+`HEADER_BAR`, `HEADER_INNER`, `HEADER_MARK_TILE`, `HEADER_WORDMARK`, `HEADER_SUBLABEL`, `HEADER_ADMIN_BUTTON`, `HEADER_ACTION`, `HEADER_PROFILE`.
+
+(`HEADER_TELEMETRY` is deliberately **not** in this list. Step 7 deletes the
+status pill it would describe and defines the constant fresh; lifting the
+doomed value here only to overwrite it there is churn.)
 
 Each gets a comment explaining what it is painted on — that is the §2 question and it is what stops the next reader from doing a blanket find-and-replace.
 
@@ -423,6 +427,20 @@ Groups: **Library** (Data Vault, Syllabus Audit Studio, Internal Database Health
 Selecting an item closes the popover, then invokes the handler.
 
 **Do not touch:** the help, theme and profile buttons — they stay on the rail. The theme toggle in particular must remain directly clickable (`light-theme.spec.ts:45`).
+
+**This step will break `tests/unit/runtimeKeyOverride.test.ts` — expect it.**
+That test source-scans for the button opening the runtime-key modal and
+asserts an `isSystemAdmin` guard sits within 2000 characters above it. The
+invariant matters: a runtime key lets `aiCore`'s fallbacks bypass auth, quota
+and the free-tier meter. Step 1 already repointed the scan from `App.tsx` to
+`components/AppHeader.tsx` with the needle `onClick={onOpenRuntimeKeys}`;
+moving the button into `AppHeaderToolsMenu.tsx` invalidates it again. Repoint
+the scan at the new file and keep the needle accurate. **Do not relax the
+assertion, widen the character window, or delete the test** — the guard must
+still be a real `isSystemAdmin` check sitting directly above the button in
+whatever file now holds it. If the menu's structure puts the guard further
+than 2000 characters away, that is a signal the grouping is wrong, not that
+the threshold should rise.
 
 **Extend the unit test** with the §3 contract:
 - the panel has `role="dialog"` and **no** `aria-modal` attribute;
