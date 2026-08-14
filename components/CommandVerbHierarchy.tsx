@@ -1,11 +1,6 @@
 import React, { useMemo, useState, useEffect, useRef, useId } from 'react';
 import { PromptVerb } from '../types';
-import {
-  commandTerms,
-  TIER_GROUPS,
-  getTierTargetBand,
-  getCommandTermInfo,
-} from '../data/commandTerms';
+import { commandTerms, TIER_GROUPS, getTierTargetBand } from '../data/commandTerms';
 import { ChevronDown, AlignLeft, Sparkles } from 'lucide-react';
 import { getTierScaleConfig } from '../utils/renderUtils';
 import StrategyTip from './StrategyTip';
@@ -57,11 +52,19 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({ currentVerb
     // output and stored prompts in whatever case they were saved with — see the
     // note on getCommandTermInfo, which was written for this bug. A miss here
     // does not show the wrong verb, it shows no verb at all: no detail card, no
-    // tier highlight, no progress bar. The null is kept deliberately, because
-    // the no-verb state is a real branch of this component and
-    // getCommandTermInfo answers with the EXPLAIN fallback rather than nothing.
+    // tier highlight, no progress bar.
+    //
+    // The case fix is taken; getCommandTermInfo's EXPLAIN fallback deliberately
+    // is not. Everywhere else that fallback degrades something incidental — a
+    // colour, a mark range. Here the content IS the claim "your verb is X, it
+    // caps you at Band N, spend this long on it", and an unrecognised verb would
+    // render that claim in full, confidently, about a verb nobody asked for.
+    // Showing nothing is the honest answer, and it is a state this component
+    // already draws.
     const verb = activeVerb ?? currentVerb;
-    const current = verb ? getCommandTermInfo(verb) : null;
+    const current = verb
+      ? (commandTerms.get(verb) ?? commandTerms.get(verb.toUpperCase() as PromptVerb) ?? null)
+      : null;
 
     const groups = TIER_GROUPS.map((group) => ({
       ...group,
