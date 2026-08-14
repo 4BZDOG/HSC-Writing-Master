@@ -78,3 +78,31 @@ export const openWorkspace = async (page: Page): Promise<void> => {
   await clearOnboarding(page);
   await openFirstQuestion(page);
 };
+
+/**
+ * Open one of the admin/teacher tools. They used to sit on the header rail as
+ * eight separate buttons; they now live behind a single overflow control, so
+ * reaching one is two clicks and the first of them is the one worth waiting on.
+ *
+ * The wait belongs on the TRIGGER, not on the tool. On a Supabase run the
+ * header renders before the profile query comes back, and until the role
+ * resolves to admin or moderator there is no trigger in the DOM at all — a
+ * click without this wait races the role and misses. Once the trigger is there
+ * the panel is synchronous, so the tool itself needs no timeout of its own.
+ *
+ * `name` matches the tool's `aria-label`, which is still the full canonical
+ * string ("Class Insights (where the cohort is struggling)"). Do not match on
+ * visible text: the panel breaks each label over two lines, so the words are no
+ * longer adjacent on screen even though the accessible name is unchanged.
+ *
+ * The panel is portalled to `document.body`, outside `<header>` — a locator
+ * scoped to the header element will not find it.
+ */
+export const openHeaderTool = async (page: Page, name: RegExp): Promise<void> => {
+  // `Admin tools` for a system admin, `Teaching tools` for a moderator; nothing
+  // else in the header matches either word.
+  const trigger = page.getByRole('button', { name: /(admin|teaching) tools/i });
+  await expect(trigger).toBeVisible({ timeout: 30_000 });
+  await trigger.click();
+  await page.getByRole('button', { name }).click();
+};
