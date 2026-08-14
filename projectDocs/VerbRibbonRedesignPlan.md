@@ -262,9 +262,13 @@ This satisfies §1's glassmorphism, keeps the tier legible at a glance, removes 
 
 **D-C — `text-white` becomes `tierConfig.solidText` everywhere a solid tier fill is involved.** _(§2, Finding A3)_ Three sites. The house pairing already exists in two other components. This is a token fix, not a colour choice.
 
-**D-D — The focus ring becomes a real ring in both themes.** _(§3, Finding A1)_ Either drop `focus-visible:outline-none` and let `index.css:240–249`'s accent outline do its job, or replace the ring with `focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60`. **Prefer the former** — the global rule is the app's one consistent focus treatment and the ribbon has no reason to opt out of it.
+**D-D — The focus ring becomes a real ring in both themes.** _(§3, Finding A1)_ The ring is `focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60`, inset.
 
-**D-E — Dimming stops at `opacity-90`.** _(§2, Finding A2)_ A card holding 6–8 focusable buttons may not be dimmed below the point where its text fails AA. `opacity-90` costs about 5% of contrast (slate-500 on white: 4.76 → ~4.5) and the de-emphasis is carried by `scale-90` and the border, which are already there. Single value for both themes; the split `opacity-50 light:opacity-70` goes.
+> **This decision originally preferred dropping `focus-visible:outline-none` and letting `index.css:240–249`'s global accent outline apply. That cannot work here, and Step 6 established why:** the global outline is drawn 2px *outside* the element, and the tier card is `overflow-hidden`, so the outline is clipped on three sides. The inset ring — the fallback the decision listed second — is the only one of the two that is visible, and it is what shipped.
+
+**D-E — Dimming stops at `opacity-90`, AND the tint darkens.** _(§2, Finding A2)_ A card holding 6–8 focusable buttons may not be dimmed below the point where its text fails AA.
+
+> **The arithmetic in this decision as first written was wrong, and Step 6 caught it by measuring.** "`opacity-90` costs about 5% of contrast (4.76 → ~4.5)" assumes a linear loss. Opacity composites the text *towards its background*, so the fall is much steeper: `slate-500` on the card measures **4.81:1** at rest and **3.91:1** at `opacity-90` — still failing. Even `opacity-95` only reaches 4.34:1. Reducing the opacity alone could never have fixed this. The shipped fix is `opacity-90` **plus** `slate-600` on the idle subtitle (measured **5.83:1**), pinned by a test carrying the numbers. Never estimate a composited contrast ratio; measure it.
 
 **D-F — One number, one label, and the word "tier" where tier is meant.** _(§4, Findings 6 and A6)_
 
@@ -850,6 +854,17 @@ export const openVerbRibbon = async (page: Page): Promise<void> => {
 };
 ```
 
+**Four failures are now known in advance, all measured during Step 6.** Two were predicted by the audit and are already fixed by Steps 6 and 7. **Two more were not in the audit at all**, and both come from an opacity set in the JSX rather than from anything Steps 5–6 touched:
+
+- the **"Band N ceiling"** label (`tierConfig.text` + `opacity-60`) — **2.70–2.97:1**;
+- the six **timeline step labels** (`opacity-70`) — **2.65:1**.
+
+In each case the current tier's instance is `unassessable` (it sits on a gradient) and the other five are measurable and will be gated. The fix is the same shape as Step 6's — drop or raise the opacity *and* darken the tint, because opacity alone cannot recover the ratio (see D-E). **Not an exclusion.**
+
+Also on the watchlist: the bar's sub-label and "Selected:" label measure **4.67:1** (`slate-500` on `bg-white/60`) — passing with the least margin in the component, and the first thing to move to `slate-600` if anything tightens.
+
+**A reusable harness already exists** in this session's scratchpad — `ribbonmeasure.mjs` composites ancestor opacity and reports `unassessable` for gradients exactly as `tests/e2e/support/contrast.ts` does. Lift its logic rather than rediscovering it.
+
 **Expect this to fail the first time, and expect the failures to be real.** Two are predicted by the audit and should already have been fixed by Steps 6 and 7 — the dimmed tier cards (`opacity-70` took `slate-500` on white from 4.76:1 to 2.72:1) and the tier-3 solid chip. If a third appears, it belongs to Step 5's palette, not to this step. The likely candidate is `text-slate-500` on `bg-white/60`, which sits near the floor; the fix is `text-slate-600`, exactly as the header series found. **Do not add an exclusion to `contrast.ts`.**
 
 Note what the suite still cannot see, and say so in a comment: anything whose background resolves to a gradient is returned `unassessable` (`contrast.ts:99`), which covers the tier underline and the current tier card's header; and anything on a saturated tier fill is measured but not gated, because `neutralBackground` is false. The tier-coloured text in this component is therefore **still** on the honour system, and the numbers in this plan are calculated rather than measured.
@@ -970,6 +985,8 @@ Mock `services/geminiService` in every render test (house rule; the current ribb
 **R5 — The cognitive timeline is redundant and this plan does not resolve it.** Three controls select a tier (the card header, the verb chip, the timeline dot); the timeline adds six tab stops and, per A7, four "measurement ticks" that align with nothing. Deleting the step buttons is the tidier design and would undo a deliberate accessibility fix (`commandVerbHierarchy.test.tsx:106–113`), so this plan keeps them and only fixes their labels. **Open question for the maintainer:** should the timeline become a read-only progress statement with the strip as the single selection surface?
 
 **R6 — The footer's four band-range labels are a fifth vocabulary** (`Basic Recall`, `Explain & Compare`, `Analyse & Apply`, `Evaluate & Create`, `:438–449`). They describe spans across the six tiers rather than individual tiers, so `tierShortLabel` cannot derive them and renaming them is a copy decision. Left alone. Someone should decide whether four span labels and six tier labels on the same 200px-tall footer is one vocabulary too many.
+
+**R7a — the ribbon's own detail-card Sparkles tile still hard-codes `text-white`** on `bg-gradient-to-br ${gradient}` — the same bug class as A3, and on tier 3 that is an icon at roughly 1.9:1. It was not among the three sites Step 6 was scoped to and was deliberately left. Add it to the sweep below.
 
 **R7 — `components/ReferenceMaterials.tsx:57` has the same `text-white`-beside-`solidBg` bug** that Step 6 fixes in the ribbon. It is out of scope and it is not fixed here. It should be raised separately, along with a sweep for any other site pairing `solidBg` with a literal `text-white`.
 
