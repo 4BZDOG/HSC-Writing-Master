@@ -92,7 +92,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
               <FileCheck className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div className="min-w-0">
-              <h2 className="text-lg sm:text-xl font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 tracking-tight uppercase italic leading-none whitespace-nowrap">
+              <h2 className="text-lg sm:text-xl font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 tracking-normal uppercase italic leading-none whitespace-nowrap">
                 Marking Feedback
               </h2>
               <div className="flex items-center gap-2 mt-1.5">

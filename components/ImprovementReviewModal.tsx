@@ -302,7 +302,10 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                 <Sparkles className="w-6 h-6 text-white" />
               </div>
               <div className="min-w-0">
-                <h2 id={titleId} className="text-xl font-bold text-white tracking-tight truncate">
+                <h2
+                  id={titleId}
+                  className="text-xl font-black text-white tracking-normal uppercase italic leading-none truncate"
+                >
                   {unchanged ? 'Your answer, unchanged' : 'Your answer, improved'}
                 </h2>
                 <div className="flex flex-wrap items-center gap-2 text-white/90 font-medium text-xs mt-0.5">
