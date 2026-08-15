@@ -930,6 +930,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             <div className="flex-1 w-full">
               <Combobox
                 label={null}
+                name="Course"
                 options={courseOptions}
                 value={statePath.courseId || ''}
                 onChange={(id) =>
@@ -961,6 +962,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               <div className="w-full lg:w-[230px] flex-shrink-0 animate-fade-in">
                 <Combobox
                   label={null}
+                  name="Syllabus year"
                   options={yearOptions}
                   value={syllabusYear}
                   onChange={handleYearChange}
@@ -1063,6 +1065,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               <div className="flex-1 w-full">
                 <Combobox
                   label={null}
+                  name="Topic"
                   options={topicOptions}
                   value={statePath.topicId || ''}
                   onChange={(id) =>
@@ -1253,6 +1256,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               <div className="flex-1 w-full">
                 <Combobox
                   label={null}
+                  name="Sub-topic"
                   options={subTopicOptions}
                   value={statePath.subTopicId || ''}
                   onChange={(id) =>
@@ -1325,6 +1329,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               <div className="flex-[3] w-full min-w-0">
                 <Combobox
                   label={isDotPointSelected && hasSubItems ? 'Syllabus Point' : null}
+                  name="Syllabus point"
                   options={dotPointOptions}
                   value={statePath.dotPointId || ''}
                   onChange={(id) =>
@@ -1344,6 +1349,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <div className="flex-1 w-full lg:min-w-[240px] animate-fade-in">
                   <Combobox
                     label="Active Focus"
+                    name="Active focus"
                     options={subItemOptions}
                     value={activeFocusCount > 0 ? 'MULTIPLE' : ''}
                     onChange={handleSubItemToggle}
@@ -1513,6 +1519,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               <div className="flex-1 w-full">
                 <Combobox
                   label={null}
+                  name="Question"
                   options={visiblePromptOptions}
                   value={statePath.promptId || ''}
                   onChange={(id) => {

@@ -140,6 +140,73 @@ describe('Combobox search', () => {
   });
 });
 
+/**
+ * Where the keyboard ends up, and what the button is called once it is no
+ * longer showing a placeholder. Both were silently wrong: a selection closed
+ * the list without putting focus anywhere, and a chosen picker read back only
+ * the choice, so a cascade of five of them announced five proper nouns and
+ * nothing that said which was which.
+ */
+describe('the trigger keeps the keyboard, and says what it is for', () => {
+  const trigger = () => screen.getByRole('button', { name: /select/i });
+
+  it('takes focus back when Enter picks an option', () => {
+    renderBox(questions);
+    const opener = trigger();
+    // A searchable list moves focus into the search box, which unmounts with
+    // the dropdown — this is the path that used to lose focus outright.
+    expect(document.activeElement).toBe(search());
+
+    fireEvent.keyDown(search(), { key: 'Enter' });
+    expect(document.activeElement).toBe(opener);
+  });
+
+  it('takes focus back when an option is clicked', () => {
+    renderBox(questions);
+    const opener = trigger();
+
+    fireEvent.click(screen.getAllByRole('option')[2]);
+    expect(document.activeElement).toBe(opener);
+  });
+
+  // A click elsewhere is a request to be elsewhere; dragging focus back would
+  // fight the user rather than help them.
+  it('does not chase focus when the click was outside', () => {
+    renderBox(questions);
+    const opener = trigger();
+
+    fireEvent.mouseDown(document.body);
+    expect(screen.queryByRole('listbox')).toBeNull();
+    expect(document.activeElement).not.toBe(opener);
+  });
+
+  it('reads out its level as well as the choice', () => {
+    render(
+      <Combobox options={questions} value="q5" onChange={vi.fn()} label={null} name="Course" />
+    );
+
+    // A superset of what it said before — the chosen label is still in there,
+    // which is what the specs matching this button by substring rely on.
+    expect(screen.getByRole('button', { name: /Course/ })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /Outline the OSI model/ })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /^Course Outline the OSI model\.$/ })).toBeTruthy();
+  });
+
+  it('lets a visible label do the naming rather than saying it twice', () => {
+    render(
+      <Combobox
+        options={questions}
+        value="q5"
+        onChange={vi.fn()}
+        label="Target Course"
+        name="Course"
+      />
+    );
+
+    expect(screen.getByRole('button', { name: /^Target Course Outline the OSI model\.$/ })).toBeTruthy();
+  });
+});
+
 describe('typing stays instant', () => {
   /**
    * The list is deferred; the TEXT is not. Filtering twenty tinted question

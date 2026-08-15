@@ -59,6 +59,20 @@ interface ComboboxProps {
   value: string;
   onChange: (id: string) => void;
   label: React.ReactNode;
+  /**
+   * What this picker is FOR, said in words, for the trigger's accessible name.
+   *
+   * Once something is chosen the button reads back only the choice — "HSC
+   * Biology (Advanced)", "Year 12", "Heredity and Genetic Change" — so a reader
+   * walking a cascade of five of them hears five proper nouns and nothing that
+   * says which is which. `name` is prefixed to the choice, giving "Course, HSC
+   * Biology (Advanced)".
+   *
+   * A visible `label` already does this job and wins when there is one; `name`
+   * is for the pickers that draw their level in a heading above instead, and
+   * for the one whose label comes and goes with the data.
+   */
+  name?: string;
   placeholder?: string;
   disabled?: boolean;
   color?: ComboboxColor;
@@ -153,6 +167,7 @@ const Combobox: React.FC<ComboboxProps> = ({
   value,
   onChange,
   label,
+  name,
   placeholder = 'Select...',
   disabled = false,
   color = 'default',
@@ -168,8 +183,18 @@ const Combobox: React.FC<ComboboxProps> = ({
   const selectedOption = options.find((opt) => opt.id === value);
   const labelId = useId();
   const listboxId = useId();
+  const nameId = useId();
+  const valueId = useId();
 
   const theme = colorStyles[color] || colorStyles.default;
+
+  /**
+   * Which element names the trigger. The visible `<label>` when there is one,
+   * the sr-only `name` span otherwise, and nothing at all when the caller has
+   * supplied neither — in which case the button keeps naming itself from its
+   * own contents, exactly as it always has.
+   */
+  const triggerNameId = label ? labelId : name ? nameId : undefined;
 
   // Search appears only where scanning stops being the faster option.
   const isSearchable = options.length >= SEARCH_THRESHOLD;
@@ -214,6 +239,24 @@ const Combobox: React.FC<ComboboxProps> = ({
   useEffect(() => {
     if (isOpen && isSearchable) searchRef.current?.focus();
   }, [isOpen, isSearchable]);
+
+  /**
+   * Choosing something closes the list — and takes the element that had focus
+   * with it. On a searchable list that element is the search box, so a
+   * selection used to leave focus on `document.body`: the next Tab started
+   * again from the top of the document, at the exact moment the user had
+   * finished making a choice. Focus belongs back on the trigger, which now
+   * reads out what was chosen.
+   *
+   * Click-away deliberately does not come through here (see the
+   * `handleClickOutside` effect): a click elsewhere is a request to be
+   * elsewhere, and pulling focus back would fight it.
+   */
+  const selectOption = (id: string) => {
+    onChange(id);
+    setIsOpen(false);
+    buttonRef.current?.focus();
+  };
 
   // Step the highlight, skipping disabled (locked) options so Enter always
   // lands on something actionable.
@@ -264,8 +307,7 @@ const Combobox: React.FC<ComboboxProps> = ({
       case 'Enter':
         e.preventDefault();
         if (isOpen && visibleOptions.length > 0 && !visibleOptions[highlightedIndex]?.disabled) {
-          onChange(visibleOptions[highlightedIndex].id);
-          setIsOpen(false);
+          selectOption(visibleOptions[highlightedIndex].id);
         } else if (!isOpen) {
           setIsOpen(true);
         }
@@ -369,6 +411,14 @@ const Combobox: React.FC<ComboboxProps> = ({
           {label}
         </label>
       )}
+      {/* The level's own name, for readers only, and only where no visible
+          label already says it. Outside the button so the button's text
+          content — which the e2e helpers locate the pickers by — is untouched. */}
+      {!label && name && (
+        <span id={nameId} className="sr-only">
+          {name}
+        </span>
+      )}
       <button
         ref={buttonRef}
         type="button"
@@ -380,12 +430,17 @@ const Combobox: React.FC<ComboboxProps> = ({
         aria-expanded={isOpen}
         aria-controls={isOpen ? listboxId : undefined}
         aria-activedescendant={isOpen ? `${listboxId}-opt-${highlightedIndex}` : undefined}
+        // Name, then value — "Course, HSC Biology (Advanced)". The value half
+        // is what the button said on its own before this, so the name stays a
+        // SUPERSET of the old one and the specs that match it by substring
+        // still match.
+        aria-labelledby={triggerNameId ? `${triggerNameId} ${valueId}` : undefined}
       >
         <span className={`flex items-center truncate w-full ${selectedOption ? 'font-bold' : ''}`}>
           {selectedOption?.isNew && (
             <Sparkles className="w-4 h-4 text-yellow-400 mr-2 animate-pulse" />
           )}
-          <span className="truncate w-full block">
+          <span id={valueId} className="truncate w-full block">
             {selectedOption ? selectedOption.renderLabel || selectedOption.label : placeholder}
           </span>
         </span>
@@ -466,8 +521,7 @@ const Combobox: React.FC<ComboboxProps> = ({
                       data-option-index={index}
                       onClick={() => {
                         if (option.disabled) return;
-                        onChange(option.id);
-                        setIsOpen(false);
+                        selectOption(option.id);
                       }}
                       onMouseEnter={() => setHighlightedIndex(index)}
                       className={`${option.disabled ? 'cursor-not-allowed' : 'cursor-pointer'} select-none relative py-3 pr-9 transition-colors ${
