@@ -168,16 +168,6 @@ export const NAV_NODE_COMPLETE =
  *  from `NAV_LEVELS[level].node` at the call site. */
 export const NAV_NODE_CURRENT = 'w-4 h-4 border-2 scale-125';
 
-/** A step not yet reached: hollow, and dimmed by scale more than by opacity.
- *
- *  `opacity-50` was doing most of the de-emphasis and taking the node's rim with
- *  it; the hollow fill and `scale-90` already say "not there yet", so the
- *  opacity only has to finish the sentence (the verb ribbon's D-E, same
- *  argument). Painted on the page background. */
-export const NAV_NODE_UPCOMING =
-  'w-4 h-4 border-2 scale-90 opacity-60 ' +
-  'bg-slate-200 border-slate-400 dark:bg-[rgb(var(--color-bg-surface))] dark:border-white/20';
-
 /** One step's outer container, which carries its z-index and the gap to the
  *  step below. Painted on the page background. */
 export const NAV_STEP_CONTAINER = 'relative transition-all duration-500 ease-in-out w-full';

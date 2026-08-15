@@ -7,7 +7,6 @@ import {
   NAV_NODE_COMPLETE,
   NAV_NODE_CURRENT,
   NAV_NODE_SLOT,
-  NAV_NODE_UPCOMING,
   NAV_STEP_BOX_ACTIVE,
   NAV_STEP_BOX_DONE,
   NAV_STEP_CONTAINER,
@@ -32,10 +31,11 @@ import {
  */
 
 /**
- * Progress node on the vertical rail. One consistent semantic everywhere:
- * done = emerald tick, current = ring in the level's hue, upcoming = hollow
- * grey — the previous version glowed each dot in its level's hue, which read
- * like a random traffic light.
+ * Progress node on the vertical rail. Two states, because only two can occur:
+ * done = emerald tick, current = ring in the level's hue. The previous version
+ * glowed each dot in its level's hue, which read like a random traffic light,
+ * and carried a third "not yet reached" state that could never render — a step
+ * is not drawn at all until its parent is chosen.
  *
  * Decorative: the slot around it is `aria-hidden`, and what it depicts is said
  * in words by the step's own accessible name. It used to carry "Step complete"
@@ -51,17 +51,24 @@ const RailNode = ({
   isComplete: boolean;
   level: NavigatorLevel;
 }) => {
-  if (isComplete) {
+  // The node has to agree with the box beside it. `isSelected` folds the box
+  // away — the level is chosen and the reader has moved past it — so it must
+  // mean "done" on the rail too. It used to mean `NAV_NODE_CURRENT`, whose own
+  // doc comment reads "the step the reader is standing on", which left the ring
+  // on the last CHOSEN step while the step actually being worked in wore the
+  // hollow not-yet-reached dot. The rail pointed one step behind the reader.
+  //
+  // A step only renders once its parent is chosen, so exactly one rendered step
+  // is ever unchosen: the deepest. That one is the current step, and it is the
+  // only thing the ring can honestly mean.
+  if (isComplete || isSelected) {
     return (
       <div className={`${NAV_NODE_BASE} ${NAV_NODE_COMPLETE}`}>
         <Check className="w-3 h-3 text-white" strokeWidth={4} />
       </div>
     );
   }
-  if (isSelected) {
-    return <div className={`${NAV_NODE_BASE} ${NAV_NODE_CURRENT} ${NAV_LEVELS[level].node}`} />;
-  }
-  return <div className={`${NAV_NODE_BASE} ${NAV_NODE_UPCOMING}`} />;
+  return <div className={`${NAV_NODE_BASE} ${NAV_NODE_CURRENT} ${NAV_LEVELS[level].node}`} />;
 };
 
 /**

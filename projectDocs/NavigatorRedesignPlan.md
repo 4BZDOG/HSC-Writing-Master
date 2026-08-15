@@ -857,3 +857,75 @@ Mock `services/geminiService` in every render test that mounts `PromptSelector` 
 - `/home/user/HSC-Writing-Master/tests/e2e/support/workspace.ts`
 
 Reference-only, but read before Steps 3–5: `/home/user/HSC-Writing-Master/utils/verbRibbonChrome.ts` and `/home/user/HSC-Writing-Master/tests/unit/verbRibbonChrome.test.tsx` (the vocabulary and the parity sweep to copy), `/home/user/HSC-Writing-Master/utils/renderUtils.ts` (`getBandConfig` / `getTierScaleConfig` / `solidText` — read, do not edit), and `/home/user/HSC-Writing-Master/projectDocs/DesignSpec.md` §2 and §3.
+
+
+---
+
+## 6. Independent verification — outcome
+
+An agent with no part in the implementation checked the finished branch against
+DesignSpec, this plan and the running app, with its own contrast harness rather
+than the implementers' scripts.
+
+**Confirmed:** §3 Keyboard Reach end to end with the keyboard only — choosing a
+question lands focus on `div#syllabus-nav-bar` and one Tab reaches the first
+crumb, pressing Change lands on `nav#syllabus-navigator` and one Tab reaches the
+Course picker, and R5 holds (caret and focus survive a mid-word edit and a
+128-character burst that re-renders on every keystroke). All three granted
+decisions. The contrast figures, reproduced independently to two decimal places.
+The rail geometry at four widths — 0 of 4 nodes off-screen at every width, line
+at their centre to within the line's own half-width. `EXEMPT` genuinely empty,
+zero `light:` in a class string, and the parity sweep's recursion shown to be
+non-vacuous against planted violations. No load-bearing placeholder or `title`
+moved. 1809 unit tests, `chromium` 20/20, `supabase-chromium` 6/6.
+
+**Two defects it found, both since fixed:**
+
+1. **The rail pointed one step behind the reader.** `isSelected` folded the box
+   away but mapped the node to `NAV_NODE_CURRENT` — whose own doc comment reads
+   "the step the reader is standing on" — so the last *chosen* step wore the
+   you-are-here ring while the step actually being worked in wore the hollow
+   not-yet-reached dot. One flag was being asked to mean two things. Fixed:
+   chosen now reads as done on the rail as well as in the box. `NAV_NODE_UPCOMING`
+   went with it, being unreachable — a step is not drawn until its parent is
+   chosen, so exactly one rendered step is ever unchosen.
+2. **The unselected focus-area tile was 2.31:1** in the light theme, under an
+   icon's 3:1 floor. Step 5 fixed the *selected* branch of that ternary and the
+   glyph beside it, and left the other branch. Now `emerald-700` (4.86:1); dark
+   was already fine at 4.92:1 and keeps its lighter glyph.
+
+### Open items — carried, not closed
+
+1. **WebKit and Mobile Safari are unverified locally** — not installed. CI's
+   `PW_FAST` matrix runs Mobile Safari on every pull request; watch that check.
+   `preventScroll` behaviour in Safari specifically is untested.
+2. **The demotion is less complete than the prose claims.** The step box went
+   neutral, but each picker inside it is still hue-washed from
+   `Combobox.colorStyles` (`NavigatorLevelChrome.combobox`), so the page still
+   reads as coloured bands. D2 left that deliberately out of scope and the code
+   documents it, but "what survives is a ring, a tile and a 2px edge" overstates
+   what shipped.
+3. **The parity sweep has two real blind spots**, neither live in this file
+   today: it pairs by CSS *property* rather than by variant, so
+   `bg-white hover:bg-emerald-600 dark:bg-slate-900` passes with the hover fill
+   unpartnered; and arbitrary values escape entirely, so the coloured
+   `shadow-[0_0_8px_rgba(...)]` in all five `NAV_LEVELS.*.node` is never
+   examined. The fix belongs in the classifier.
+4. **`useFocusTrap`'s `preventScroll` has one narrow weakening.** A scroll lock
+   prevents page scrolling, not content reflow — a dialog that mutates the list
+   behind it can leave the opener attached but off-screen, and focus is then
+   restored somewhere invisible. The hook checks `document.contains` for the
+   *detached* case but has no answer for the *moved* one. Low severity, real.
+5. **`Combobox`'s grouping is run-length encoding over the supplied order**, so
+   interleaved groups would silently produce two runs with the same
+   `aria-label`. The contract is documented; nothing asserts it.
+6. **Coverage gaps in what could be exercised at all:** the stock curriculum has
+   one question and one focus area per dot point, so the grouped multi-tier
+   question list never rendered in a browser, the ≥7-option search path was
+   never reproduced, and only tier 6's purple wash is gated by the suite. The
+   "N focus areas" reading was taken on a genuine backdrop with an injected
+   element, because no bundled dot point carries the bullet list that produces it.
+7. **Not verified at all:** any real screen reader (findings are from the DOM,
+   computed accessible names and the ARIA specs), print styles, and the
+   pre-Step-6 rail geometry, which was confirmed by arithmetic rather than by
+   building the old revision.

@@ -599,9 +599,17 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-3">
               {/* The solid tile pairs with its own text — white on emerald-500
-                  is 2.54:1, emerald-950 on it is 5.97:1. */}
+                  is 2.54:1, emerald-950 on it is 5.97:1.
+
+                  The unselected branch needed the same treatment and did not
+                  get it first time round: `emerald-500` on the `/10` wash over
+                  the light theme's white list surface measures 2.31:1, under an
+                  icon's 3:1 floor. `emerald-700` on the same wash is 4.86:1.
+                  Dark was already fine at 4.92:1, so it keeps its lighter
+                  glyph. Two branches of one ternary, and only one of them was
+                  read the first time. */}
               <div
-                className={`${NAV_OPTION_TILE} transition-all ${isSelected ? 'bg-emerald-500 text-emerald-950 border-emerald-400/30' : 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'}`}
+                className={`${NAV_OPTION_TILE} transition-all ${isSelected ? 'bg-emerald-500 text-emerald-950 border-emerald-400/30' : 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-500 border-emerald-500/20'}`}
               >
                 <Target className="w-4 h-4" />
               </div>
