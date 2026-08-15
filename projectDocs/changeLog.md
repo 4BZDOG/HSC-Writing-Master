@@ -1,5 +1,179 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-08-15 (The syllabus navigator, and the screen no test had seen)
+
+### 🧭 One `aria-` attribute in 1544 lines, and the four things it left unsaid
+
+The syllabus navigator is the app's primary navigation and the first screen a
+student meets after onboarding. It carried exactly one `aria-` attribute in
+1544 lines — no landmark, no list, no heading, and no name on any of its five
+steps. Every control inside it is a `Combobox`, which is well instrumented, so
+what was missing was never the widgets; it was the container, and the word that
+says which rung of the ladder you are standing on.
+
+Four consequences, each of which had to be found by reading rather than by
+using:
+
+**The step name disappeared at the moment it started to matter.** The header
+above each level is drawn only while that level is unchosen, so choosing a
+course took the only mention of "Course" off the page and left a button reading
+"HSC Biology (Advanced)". Walk the whole cascade and a screen-reader user
+reached four buttons named after four proper nouns with nothing saying which was
+which. Each step now states what it is and where it has got to — `Course —
+chosen: HSC Biology (Advanced)`, `Question — none available yet` — and each
+picker's trigger reads "Course, HSC Biology (Advanced)" rather than the bare
+value.
+
+**Choosing a course silently destroyed four levels.** The cascade reset is
+correct — a topic id from one course means nothing in another — and it was the
+quietest thing this application does: up to four steps leave the DOM, taking the
+chosen question with them, and not a word was said. A sighted reader watches
+four cards fold away and understands instantly. There is one polite live region
+now, and it states both halves: `Course set to Biology. Topic, sub-topic,
+syllabus point and question cleared.` Polite rather than assertive, because it
+follows the reader's own action and must not interrupt it.
+
+**Selecting an option put focus nowhere.** On a short list that was survivable,
+because the trigger had never lost focus. On a searchable one it was not: the
+element holding focus was the search box, the search box unmounts with the
+dropdown, and so a selection dropped the user on `document.body` at the exact
+moment they had finished making a choice. Escape was the only path in the
+component that had ever thought to put focus back. Both selection paths return
+it to the trigger now; click-away deliberately still does not, because a click
+elsewhere is a request to be elsewhere.
+
+**And choosing a question dropped focus on the floor at the most important
+moment in the app.** Selecting a question folds the navigator to a breadcrumb
+and unmounts the entire subtree — the subtree containing the control the student
+was operating — so focus fell to `document.body` and the next Tab started again
+at the top of the document, past the skip link, past the header, while the
+writing surface they had just earned sat below. Pressing "Change" did the same
+thing in the other direction. Neither said anything. The fold itself is not in
+question and has not changed; it now hands over rather than drops, moving focus
+to whichever landmark has arrived and announcing what happened. The guard fires
+on the transition and on nothing else — the obvious version re-fires on every
+render, which in this app means every keystroke in the editor, and would lift
+the cursor out of a half-written sentence.
+
+This is also the series in which `useFocusTrap`'s focus restore started passing
+`{ preventScroll: true }` — an app-wide behaviour change, made here because
+giving the fold a real element to restore focus to finally exposed it: `focus()`
+scrolls its target into view, which was undoing nine pixels of the scroll
+position `useScrollLock` had just put back, and every dialog in the application
+was doing it whenever the opener sat off-screen.
+
+### 🗂️ Six kinds of question, presented to a screen reader as twenty cards
+
+The question picker breaks a long list into named runs — "Suggested next · one
+step on from Define", "Analyse & Apply · Band 4" — because twenty tinted cards
+in a row are a wall rather than a choice, and because the heading has to say the
+_reason_ a run is there rather than merely what tier it is. Every one of those
+headings was an `<li role="presentation">`, which is to say it had been removed
+from the accessibility tree. The entire benefit of the grouping was withheld
+from precisely the reader who cannot see the tint that would otherwise carry it.
+Each run is a real `role="group"` with the heading's words as its name now, and
+the option ids, the `aria-activedescendant` arithmetic and the ungrouped
+pickers' DOM are all deliberately untouched.
+
+### 🎨 Five colours that meant nothing, colliding with six that mean everything
+
+The navigator painted Course blue, Topic purple, Sub-Topic teal, Dot Point pink
+and Question amber, one hue per step box, across the largest coloured surface in
+the component. None of it means anything: a course is not _more_ than a topic,
+and the ladder is containment rather than difficulty. Worse, two of those five
+hues are the hues `getBandConfig` spends on Bands 5 and 6, which do mean
+something — and they were being spent on tier-coloured question rows rendered
+_inside_ the amber Question step. Within two hundred pixels of each other, blue
+meant "Course" and blue meant "Band 5".
+
+Demoted rather than abolished, for the third time in three series: the box is
+neutral glass in both themes, and the level hue keeps three small places to live
+— the ring on the rail node, the 28px header tile and a 2px gradient down the
+leading edge of the step you are standing on. Enough to tell one step from
+another; too little to read as a claim. A chosen step keeps no hue at all,
+because it is not where anyone is looking and the emerald tick beside it has
+already said what there is to say.
+
+Behind it, the untyped colour-keyed bag of class strings became a typed
+level-keyed vocabulary in `utils/navigatorChrome.ts`, `dark:`-first throughout
+and pinned by a parity sweep that fails if any constant sets a colour without a
+partner for the other theme. A dead sixth colour, a dead `getBoxClasses` branch
+that could never render, and three `any` types went with it.
+
+### 🔍 White on near-white, on the first screen, at 1.10:1
+
+Eleven contrast readings, each measured in the browser on the surface it
+actually sits on rather than calculated against a backdrop somebody assumed.
+Three of the figures this work started with were wrong for exactly that reason,
+which is the lesson the verb-ribbon series had already paid for once.
+
+Two are worth naming. **A selected focus area's label was white on a near-white
+row: 1.10:1 in the light theme, which is invisible.** It needed no colour chosen
+for it at all — the row already sets its own text colour correctly, and the
+label was overriding it. Deleting the override reads 16.24:1. And **the question
+row's icon tile put white on tier 3's yellow at 1.92:1, eleven lines above the
+verb chip that has always asked `getBandConfig` for the paired text instead.**
+The tile asks now too, at 7.60:1.
+
+The rest were the same shape: white glyphs on solid brand fills, and light-theme
+tones that had never been given a light-theme value — `purple-400` at 2.34:1,
+`emerald-500/80` at 1.96:1, `amber-600` at 2.86:1. Measuring also turned up two
+sites nobody had listed: the tick beside a selected focus area, at 1.75:1 on the
+same wash as the label two elements along, and the focus sub-label failing in
+the **dark** theme as well at 3.86:1, which this work had not thought to check.
+
+One reading is deliberately left alone and said so in the code, so the next
+reader does not "fix" it into inconsistency: the primary action button's
+`indigo → sky` brand gradient puts white text at 2.77:1 at its sky end. It is
+the same gradient on four other surfaces, and changing it here alone would
+orphan the identity everywhere else.
+
+### 📏 The progress rail was off the left edge of every phone
+
+Three numbers disagreed. The gutter was `pl-4` below `md`, the rail-node slot
+hung a flat `-left-10` off the step box, and the node pulled itself a further
+0.95rem left of that — so the node sat 55px left of a box whose own left edge
+was only 16px inside its container. Measured at 360px, every node spanned −22.2
+to −3.8: entirely off the viewport, and the document measured exactly 360px
+wide, so `index.css`'s `overflow-x: clip` was not hiding a scrollbar, it was
+hiding the rail. The vertical line was no better — at 37.6px it was drawn
+_through_ step boxes that began at 32px, which is why the one thing anybody
+might have noticed on a phone looked like a stray hairline rather than a missing
+component. One gutter constant governs all three now, and the nodes measure 27.8
+to 46.2 at 360px.
+
+### ✅ And the reason none of this had been caught
+
+Every end-to-end spec in this project reaches the workspace by selecting a
+question, and selecting a question unmounts the navigator. **The contrast suite
+had therefore never rendered the app's first screen** — not once, for as long as
+the suite has existed. That is how a label came to sit at 1.10:1 in the open on
+the screen a student meets before any other.
+
+That is now a test. It stops one level short of a question, walks to a dot point
+that actually carries focus areas, and measures with the question list and the
+Active Focus list open in turn, in both themes. It failed on its first run,
+twice, and neither reading was one this work had predicted: the question row's
+marks label at 4.03:1, where a `light:` override was making the light theme
+lighter than the theme itself had asked for, and — outside the navigator
+entirely — the API telemetry pill's counters at 4.09:1, a dark-theme accent
+carried onto white unchanged. Both fixed at the colour. No exclusion was added,
+no floor was moved and no assertion was skipped.
+
+What the suite still cannot say about this component is written into the helper
+rather than left to be assumed: the question rows sit on tier washes, and only
+tier 6's purple is near-grey enough for the checker to gate, so five tiers are
+measured and not gated; and the rail nodes, the header icon tiles and the four
+icon-only action buttons carry no text at all, so a text-node walker cannot see
+them and their 3:1 floor is still on the honour system.
+
+**Worth recording, because the next reader will assume otherwise:**
+`components/SelectionTree.tsx` is _not_ part of the syllabus navigator. It is
+the Data Vault's import and export picker, its only two importers are in
+`components/dataManager/`, and it has its own unaddressed issues — six
+light-theme lines, a tree with no tree roles, an expand control with no name —
+which belong to a Data Vault review and not to this one.
+
 ## [Unreleased] - 2026-08-14 (The verb ribbon, and the reason it was never seen)
 
 ### 🧭 The reference disappeared at the moment there was something to explain
