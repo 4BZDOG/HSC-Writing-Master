@@ -1514,7 +1514,11 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             label="Question"
             icon={FileQuestion}
             isSelected={isPromptSelected}
-            isComplete={false}
+            // Every other level reads `isComplete` from the level below it, and
+            // the last one had nothing below to read, so it was hard-coded false
+            // and could never finish. Choosing a question is what the whole rail
+            // is for; it is the one node that most deserves the tick.
+            isComplete={isPromptSelected}
             chosenLabel={selectedPrompt?.question}
             isEmpty={promptOptions.length === 0}
             zIndex="z-10"
