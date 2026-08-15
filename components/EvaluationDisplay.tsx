@@ -912,7 +912,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 <Zap className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="text-lg font-black uppercase tracking-tight italic text-white">
+                <h4 className="text-lg font-black uppercase tracking-normal italic text-white">
                   Improved Response
                 </h4>
                 <div className="flex items-center gap-3 mt-1">
