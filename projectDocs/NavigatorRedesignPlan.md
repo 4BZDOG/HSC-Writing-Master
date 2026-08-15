@@ -561,6 +561,13 @@ In `NavigatorStep.tsx`: render `<div className={`${NAV_STEP_EDGE} ${NAV_LEVELS[l
 
 **Files:** `components/PromptSelector.tsx`, `utils/navigatorChrome.ts`, `tests/unit/navigatorChrome.test.tsx`.
 
+> **Three of this step's figures were wrong, and measurement found all three** *(Step 5)*. Recorded so the arithmetic below is read as the estimate it was:
+> - the amber label's backdrop is the **wash**, not white, so `amber-700` measures **4.51:1** — one hundredth over the floor. Shipped as `amber-800` (**6.37:1**), and the test asserts `amber-800`.
+> - "N focus areas" does not sit on the white list surface; it sits on the dot-point row's own **pink tint**, reading **1.96:1** not 2.13 — and it was *also* failing in the **dark** theme at 3.86:1, which this plan never considered.
+> - a site not on the list at all: the **tick beside a selected focus area** is `emerald-400` on that same wash at **1.75:1**. Fixed in the same commit, because leaving it would have meant repairing three quarters of one row.
+>
+> The rule this vindicates: calculated is not measured, and a backdrop assumed is a backdrop wrong.
+
 **Before changing a value, re-measure the three that sit on a wash.** The figures below are calculated from the Tailwind hexes with the backdrop stated; the three marked ‡ have a backdrop this document inferred. Open the app, set the light theme, and read the computed colours in DevTools before choosing final values. Never estimate a composited ratio.
 
 **The eleven sites, and what each becomes:**
@@ -596,6 +603,8 @@ In `NavigatorStep.tsx`: render `<div className={`${NAV_STEP_EDGE} ${NAV_LEVELS[l
 ### Step 6 — Make the rail agree with the gutter at every width
 
 **Files:** `utils/navigatorChrome.ts`, `components/NavigatorStep.tsx`, `components/PromptSelector.tsx`.
+
+> **Measured, and NOT a no-op** *(Step 6)*. At **360px every node spanned −22.2 to −3.8** — entirely off-viewport, with `docScrollWidth === clientWidth === 360`, so silently clipped rather than scrollable. At 640px four pixels of eighteen were visible. 768 and 1280 were fine. The rail line at 37.6px was drawn *through* boxes beginning at 32px. After the fix: nodes at 27.8–46.2 (360px) and 35.8–54.2 (640px), fully visible, line at their centre to within one pixel — the residual is the step box's own border, which `left` counts from. Costs 24px of card width on a phone, which is the right trade for a progress rail that was not on the screen.
 
 **Measure before you change anything.** The claim this step acts on is arithmetic, not observation: the gutter is `pl-4 md:pl-12`, the node slot is `-left-10`, and `RailNode` adds a further `-left-[0.95rem]` inside that slot, which puts the node's left edge at `box − 55.2px` while the box's left edge is only 16px inside the container at mobile widths. With `<main>`'s own `p-4` that computes to **−23.2px at 360px** and **−15.2px at 640px**, clipped away by `index.css`'s `overflow-x: clip`. **Confirm it in a browser at 360, 640, 768 and 1280 before touching a value**, and record what you measured in the commit message. If the nodes are in fact visible at 360px, this step is a no-op and should be closed rather than forced.
 
@@ -719,6 +728,10 @@ This is the same blind spot the verb-ribbon series found and closed (`VerbRibbon
 export const openNavigatorToDotPoint = async (page: Page): Promise<void> => { … }
 ```
 
+**Two things this helper must know, neither obvious** *(found in Step 5)*: the curriculum import **auto-selects a course**, so the Course step is never unchosen after onboarding; and the **first dot point of the first sub-topic has no focus areas** — the "N focus areas" label, the Active Focus picker and the "Reset Focus" button only exist under a dot point whose description carries a trailing "including …" list. In the bundled `HSCBiology` that is **topic index 1, sub-topic index 0**. Without walking there, three of Step 5's repaired sites are invisible to the suite.
+
+**Expect two readings just over the line**, both on brand-coloured (non-neutral, so measured-but-not-gated) backgrounds: the question row's "N Marks" label at **4.15** (tier 2) / **4.27** (tier 3), and the focus sub-label at **4.86**.
+
 Reuse the existing `freezeAnimations` / `measureContrast` / `remeasureTagged` / `describeReadings` imports and the `PARITY_TOLERANCE` and `WIDE` constants.
 
 **Also open the question list before measuring** — the tinted question rows, their verb chips and their `N focus areas` labels are inside a dropdown that only exists while open, and three of Step 5's defects live there.
@@ -820,7 +833,7 @@ Mock `services/geminiService` in every render test that mounts `PromptSelector` 
 
 **R9 — the `primary` action-button gradient's sky end is 2.77:1 against white text**, and it is deliberately not fixed here (Step 5) because it is the product's brand gradient and appears on four other surfaces. It is a real reading, on a real label, and it should be raised as its own item along with the ribbon plan's unclosed R7 (`ReferenceMaterials.tsx:57`) and R7a (the ribbon's own Sparkles tile) — all three are the same defect class and all three are now written down in three different documents.
 
-**R10 — Could not determine.** Whether the bundled curriculum ever puts a course list above `SEARCH_THRESHOLD` on a real deployment (locally it ships three, so the course picker's search box — and its focus-loss path — is unreachable by hand); whether any teaching material, screenshot or onboarding asset pins the current five-hue navigator, which bears on M1; whether `probe.tmp.mjs` / `probe2.tmp.mjs` at the repo root touch this component's markup; and whether `projectDocs/UIComponentImprovements.md` (which I did not read) states anything about the navigator that Step 4 would contradict. **Step 4's implementing agent should read it before changing student-facing chrome.**
+**R10 — Could not determine.** Whether the bundled curriculum ever puts a course list above `SEARCH_THRESHOLD` on a real deployment (locally it ships three, so the course picker's search box — and its focus-loss path — is unreachable by hand); whether any teaching material, screenshot or onboarding asset pins the current five-hue navigator, which bears on M1; whether `probe.tmp.mjs` / `probe2.tmp.mjs` at the repo root touch this component's markup; and and — **now closed** — `projectDocs/UIComponentImprovements.md` **does not exist**, so that quarter of this risk is dead.
 
 **R11 — two contrast figures in this document rest on an inferred backdrop.** The `emerald-500/80`, `purple-400` and `red-400` readings assume the wash sits directly on white. If the option row or the button carries an intermediate surface, the true figure is different. Step 5 is required to measure all three before choosing values, and to record what it measured. Calculated is not measured, and this document says so rather than pretending otherwise.
 
