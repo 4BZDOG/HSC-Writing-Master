@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef, lazy, Suspense } from 'react';
-import PromptSelector from './components/PromptSelector';
+import PromptSelector, { SYLLABUS_NAVIGATOR_ID } from './components/PromptSelector';
 import Workspace from './components/Workspace';
 import AppHeader from './components/AppHeader';
 import MeshOverlay from './components/MeshOverlay';
@@ -53,7 +53,8 @@ import { Compass, Sparkles, Layers, UploadCloud, Minimize, ChevronUp } from 'luc
 import { apiMonitor } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
 import BillingAlertBanner from './components/BillingAlertBanner';
-import SyllabusNavBar from './components/SyllabusNavBar';
+import SyllabusNavBar, { SYLLABUS_NAV_BAR_ID } from './components/SyllabusNavBar';
+import { useNavigatorFold } from './hooks/useNavigatorFold';
 import { loadUserProfile } from './utils/storageUtils';
 import {
   ASSIGNMENT_PARAM,
@@ -675,6 +676,17 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   // selected and the student hasn't re-opened it to change their choice.
   const isNavCollapsed = !!currentPrompt && !isNavExpanded;
 
+  // Choosing a question destroys the navigator subtree and pressing "Change"
+  // destroys the bar that replaced it. Both used to drop keyboard focus on the
+  // floor without a word; this hands it to whichever landmark is now on screen
+  // and returns the sentence saying so. It fires on the transition only — see
+  // the hook, which explains why the obvious steady-state version would take
+  // focus out of the editor mid-sentence.
+  const foldAnnouncement = useNavigatorFold(isNavCollapsed, {
+    collapsedId: SYLLABUS_NAV_BAR_ID,
+    expandedId: SYLLABUS_NAVIGATOR_ID,
+  });
+
   return (
     <>
       {isFocusMode && (
@@ -743,6 +755,14 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         className={`relative max-w-[1600px] mx-auto ${isFocusMode ? 'p-2 sm:p-4 pt-16 sm:pt-16' : 'p-4 sm:p-6 lg:p-8'} flex flex-col gap-6 transition-[padding] duration-500`}
       >
         {!isFocusMode && <BillingAlertBanner />}
+
+        {/* What the fold did. Rendered unconditionally so the region survives
+            the swap between the navigator and the breadcrumb — a live region
+            that mounts at the same moment its text arrives is not announced at
+            all. Polite, because it follows the reader's own action. */}
+        <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+          {foldAnnouncement}
+        </p>
 
         {!isFocusMode && isNavCollapsed && currentPrompt && (
           <SyllabusNavBar

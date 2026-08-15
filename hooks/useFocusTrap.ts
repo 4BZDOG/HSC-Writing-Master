@@ -200,10 +200,18 @@ export const useFocusTrap = <T extends HTMLElement>(active: boolean) => {
        * Re-checked at that point rather than trusting the earlier check: a
        * dialog that deletes the row which opened it leaves a detached node
        * behind, and focusing that puts focus nowhere at all.
+       *
+       * `preventScroll`, because this hook's job is the keyboard and not the
+       * viewport. `useScrollLock` has just put the page back to the pixel the
+       * student was reading from; a focus that also scrolls its target into
+       * view fights that restore and wins, moving the page a few pixels on
+       * every modal close. The opener was on screen when the dialog opened —
+       * the page is locked while it is open, so it cannot have moved since —
+       * which is why nothing needs scrolling to.
        */
       const restore = () => {
         if (previouslyFocused && document.contains(previouslyFocused)) {
-          previouslyFocused.focus?.();
+          previouslyFocused.focus?.({ preventScroll: true });
         }
       };
       if (typeof requestAnimationFrame === 'function') requestAnimationFrame(restore);

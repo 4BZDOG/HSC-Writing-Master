@@ -13,11 +13,21 @@ interface BreadcrumbProps {
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
   const scrollRef = useRef<HTMLOListElement>(null);
 
-  // Auto-scroll to end on update
+  // Auto-scroll to end on update.
+  //
+  // `index.css` sets `scroll-behavior: auto !important` under reduced motion,
+  // and that CSS property does not govern the JavaScript `behavior` option —
+  // so this animated regardless of the setting. The house guard lives in
+  // `ImprovementReviewModal.tsx`; this is the same one.
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({ left: scrollRef.current.scrollWidth, behavior: 'smooth' });
-    }
+    if (!scrollRef.current) return;
+    const reduceMotion =
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    scrollRef.current.scrollTo({
+      left: scrollRef.current.scrollWidth,
+      behavior: reduceMotion ? 'auto' : 'smooth',
+    });
   }, [items]);
 
   const getLevelIcon = (index: number) => {

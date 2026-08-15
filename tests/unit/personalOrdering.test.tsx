@@ -44,13 +44,7 @@ const attempt = (mark: number | null, at: string): AttemptRecord => ({
 });
 
 describe('choosing the next question', () => {
-  const ladder = [
-    q('t2a', 2, 3),
-    q('t3a', 3, 4),
-    q('t4a', 4, 6),
-    q('t4b', 4, 8),
-    q('t5a', 5, 8),
-  ];
+  const ladder = [q('t2a', 2, 3), q('t3a', 3, 4), q('t4a', 4, 6), q('t4b', 4, 8), q('t5a', 5, 8)];
 
   it('says nothing at all until there is a history to speak from', () => {
     expect(suggestNextQuestion(ladder, new Map())).toBeNull();

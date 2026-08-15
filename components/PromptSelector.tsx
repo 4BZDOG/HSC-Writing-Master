@@ -86,6 +86,14 @@ import { isCourseDemandAvailable } from '../services/courseDemandService';
 import { PlusLockChip } from './UpgradeModal';
 import { parseSyllabusStructure } from '../services/geminiService';
 
+/**
+ * Where focus lands when the navigator is put back on screen. Choosing a
+ * question unmounts this whole subtree and pressing "Change" mounts it again,
+ * and `useNavigatorFold` needs somewhere to hand the keyboard over TO —
+ * the landmark itself, so its name is heard before its contents.
+ */
+export const SYLLABUS_NAVIGATOR_ID = 'syllabus-navigator';
+
 interface PromptSelectorProps {
   courses: Course[];
   statePath: StatePath;
@@ -906,7 +914,10 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     // file. `role="list"` rather than an `<ol>`: it keeps the DOM shape and the
     // CSS exactly as they were, and it survives `list-style: none`, which
     // Safari's accessibility tree otherwise takes list semantics away for.
-    <nav aria-label="Syllabus navigator">
+    // `tabIndex={-1}` is what makes the handover across the fold actually move
+    // focus: an element with no tabindex at all cannot be focused
+    // programmatically, so the move would silently do nothing.
+    <nav id={SYLLABUS_NAVIGATOR_ID} tabIndex={-1} aria-label="Syllabus navigator">
       {/* Polite, never assertive: this follows the reader's own action and must
           not interrupt them. `aria-atomic`, or a sentence that changes in two
           places is read in one of them. */}

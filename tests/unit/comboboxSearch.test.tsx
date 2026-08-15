@@ -30,7 +30,10 @@ const questions = [
   { id: 'q7', label: 'Justify a design decision.', searchText: 'JUSTIFY 7 marks HSC 2023' },
 ];
 
-const renderBox = (options: React.ComponentProps<typeof Combobox>['options'], onChange = vi.fn()) => {
+const renderBox = (
+  options: React.ComponentProps<typeof Combobox>['options'],
+  onChange = vi.fn()
+) => {
   render(<Combobox options={options} value="" onChange={onChange} label={null} />);
   fireEvent.click(screen.getByRole('button', { name: /select/i }));
   return onChange;
@@ -203,7 +206,9 @@ describe('the trigger keeps the keyboard, and says what it is for', () => {
       />
     );
 
-    expect(screen.getByRole('button', { name: /^Target Course Outline the OSI model\.$/ })).toBeTruthy();
+    expect(
+      screen.getByRole('button', { name: /^Target Course Outline the OSI model\.$/ })
+    ).toBeTruthy();
   });
 });
 
@@ -239,9 +244,15 @@ describe('grouped lists', () => {
     renderBox(grouped);
 
     expect(screen.getAllByRole('option')).toHaveLength(questions.length);
-    expect(
-      screen.getAllByRole('option').map((o) => o.getAttribute('data-option-index'))
-    ).toEqual(['0', '1', '2', '3', '4', '5', '6']);
+    expect(screen.getAllByRole('option').map((o) => o.getAttribute('data-option-index'))).toEqual([
+      '0',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+    ]);
 
     const secondRun = within(screen.getAllByRole('group')[1]).getAllByRole('option');
     expect(secondRun[0].getAttribute('data-option-index')).toBe('3');
