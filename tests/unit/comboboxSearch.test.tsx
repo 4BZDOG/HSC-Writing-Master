@@ -207,6 +207,54 @@ describe('the trigger keeps the keyboard, and says what it is for', () => {
   });
 });
 
+/**
+ * Twenty tinted question cards are a wall; six named runs are a choice. The
+ * headings that make that difference were `role="presentation"`, so the whole
+ * benefit was withheld from anyone not looking at the screen.
+ */
+describe('grouped lists', () => {
+  const SUGGESTED = 'Suggested next · one step on from Define';
+  const LADDER = 'Analyse & Apply · Band 4';
+  const grouped = questions.map((q, i) => ({ ...q, group: i < 3 ? SUGGESTED : LADDER }));
+
+  it('leaves a list with no groups exactly as it was', () => {
+    renderBox(questions);
+
+    expect(screen.queryAllByRole('group')).toHaveLength(0);
+    expect(screen.getAllByRole('option')).toHaveLength(questions.length);
+  });
+
+  it('makes each run a group that says what it is', () => {
+    renderBox(grouped);
+
+    expect(screen.getAllByRole('group').map((g) => g.getAttribute('aria-label'))).toEqual([
+      SUGGESTED,
+      LADDER,
+    ]);
+  });
+
+  // The ids and the highlight arithmetic run on the FLAT visible index; nesting
+  // the rows a level deeper must not shift a single one of them.
+  it('keeps the option index flat across the runs', () => {
+    renderBox(grouped);
+
+    expect(screen.getAllByRole('option')).toHaveLength(questions.length);
+    expect(
+      screen.getAllByRole('option').map((o) => o.getAttribute('data-option-index'))
+    ).toEqual(['0', '1', '2', '3', '4', '5', '6']);
+
+    const secondRun = within(screen.getAllByRole('group')[1]).getAllByRole('option');
+    expect(secondRun[0].getAttribute('data-option-index')).toBe('3');
+  });
+
+  it('still selects the right question from inside a group', () => {
+    const onChange = renderBox(grouped);
+    fireEvent.click(within(screen.getAllByRole('group')[1]).getAllByRole('option')[1]);
+
+    expect(onChange).toHaveBeenCalledWith('q5');
+  });
+});
+
 describe('typing stays instant', () => {
   /**
    * The list is deferred; the TEXT is not. Filtering twenty tinted question

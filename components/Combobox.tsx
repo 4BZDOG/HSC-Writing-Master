@@ -220,6 +220,30 @@ const Combobox: React.FC<ComboboxProps> = ({
     [options, deferredQuery, isSearchable]
   );
 
+  /**
+   * The visible options cut into the runs the headings describe — one run per
+   * group, in the order the caller supplied them, which is why
+   * `ComboboxOption.group` insists the array arrives already ordered.
+   *
+   * The flat index travels with each option because it is what the rest of the
+   * component does arithmetic on: `aria-activedescendant` names
+   * `${listboxId}-opt-${highlightedIndex}`, the highlight scroll finds
+   * `[data-option-index]`, and Enter reads `visibleOptions[highlightedIndex]`.
+   * Nesting the rows a level deeper must not move any of that.
+   */
+  const optionRuns = useMemo(() => {
+    const runs: { group?: string; options: { option: ComboboxOption; index: number }[] }[] = [];
+    visibleOptions.forEach((option, index) => {
+      const current = runs[runs.length - 1];
+      if (current && current.group === option.group) {
+        current.options.push({ option, index });
+      } else {
+        runs.push({ group: option.group, options: [{ option, index }] });
+      }
+    });
+    return runs;
+  }, [visibleOptions]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
@@ -494,50 +518,65 @@ const Combobox: React.FC<ComboboxProps> = ({
             aria-labelledby={label ? labelId : undefined}
             className="max-h-72 py-1 overflow-auto custom-scrollbar"
           >
-            {visibleOptions.length > 0 ? (
-              visibleOptions.map((option, index) => {
-                // A dot point can carry twenty questions, and twenty tinted
-                // cards in a row are a wall rather than a choice. Where the
-                // caller supplies groups, the list breaks into named runs so
-                // the length is read as "six kinds of question" instead.
-                // Sticky, so the heading of the run being scrolled through is
-                // always the one on screen.
-                const heading =
-                  option.group && option.group !== visibleOptions[index - 1]?.group ? (
-                    <li
-                      key={`group-${option.group}`}
-                      role="presentation"
+            {optionRuns.length > 0 ? (
+              optionRuns.map((run) => {
+                const rows = run.options.map(({ option, index }) => (
+                  <li
+                    key={option.id}
+                    id={`${listboxId}-opt-${index}`}
+                    data-option-index={index}
+                    onClick={() => {
+                      if (option.disabled) return;
+                      selectOption(option.id);
+                    }}
+                    onMouseEnter={() => setHighlightedIndex(index)}
+                    className={`${option.disabled ? 'cursor-not-allowed' : 'cursor-pointer'} select-none relative py-3 pr-9 transition-colors ${
+                      index === highlightedIndex
+                        ? `${getListItemClasses(option, true)}`
+                        : getListItemClasses(option, option.id === value)
+                    }`}
+                    role="option"
+                    aria-selected={option.id === value}
+                    aria-disabled={option.disabled || undefined}
+                  >
+                    <div className="flex items-center whitespace-normal w-full">
+                      {option.renderLabel || option.label}
+                    </div>
+                  </li>
+                ));
+
+                // No group means every other picker in the app: the rows go
+                // straight into the listbox exactly as they always have.
+                if (!run.group) {
+                  return (
+                    <React.Fragment key={`run-${run.options[0].index}`}>{rows}</React.Fragment>
+                  );
+                }
+
+                // A named run is a real group, not a caption. The heading was
+                // `role="presentation"`, which is to say it was removed from
+                // the accessibility tree — so the one thing the grouping buys
+                // ("six kinds of question" rather than twenty tinted cards)
+                // was the one thing a screen-reader user could not have. The
+                // name now lives on the group, where it is announced as the
+                // reader enters the run, and the visible heading is decoration
+                // of it rather than the only copy.
+                //
+                // The inner `<ul role="none">` is there for the HTML, not the
+                // ARIA: an `<li>` may not hold another `<li>` directly. Being
+                // presentational it collapses out of the accessibility tree,
+                // so the options are owned by the group, which is owned by the
+                // listbox — all three allowed by ARIA 1.2.
+                return (
+                  <li key={`group-${run.group}`} role="group" aria-label={run.group}>
+                    <div
+                      aria-hidden="true"
                       className="sticky top-0 z-10 px-4 pt-2.5 pb-1.5 text-[9px] font-black uppercase tracking-[0.2em] text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white"
                     >
-                      {option.group}
-                    </li>
-                  ) : null;
-
-                return (
-                  <React.Fragment key={option.id}>
-                    {heading}
-                    <li
-                      id={`${listboxId}-opt-${index}`}
-                      data-option-index={index}
-                      onClick={() => {
-                        if (option.disabled) return;
-                        selectOption(option.id);
-                      }}
-                      onMouseEnter={() => setHighlightedIndex(index)}
-                      className={`${option.disabled ? 'cursor-not-allowed' : 'cursor-pointer'} select-none relative py-3 pr-9 transition-colors ${
-                        index === highlightedIndex
-                          ? `${getListItemClasses(option, true)}`
-                          : getListItemClasses(option, option.id === value)
-                      }`}
-                      role="option"
-                      aria-selected={option.id === value}
-                      aria-disabled={option.disabled || undefined}
-                    >
-                      <div className="flex items-center whitespace-normal w-full">
-                        {option.renderLabel || option.label}
-                      </div>
-                    </li>
-                  </React.Fragment>
+                      {run.group}
+                    </div>
+                    <ul role="none">{rows}</ul>
+                  </li>
                 );
               })
             ) : (
