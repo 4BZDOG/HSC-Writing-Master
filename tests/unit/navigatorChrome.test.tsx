@@ -8,9 +8,11 @@ import * as navigatorChrome from '../../utils/navigatorChrome';
 import {
   NAV_ACTION_BUTTON,
   NAV_ACTION_VARIANTS,
+  NAV_GUTTER,
   NAV_INLINE_PANEL,
   NAV_LEVELS,
   NAV_NODE_BASE,
+  NAV_NODE_SLOT,
   NAV_RAIL_LINE,
   NAV_ROOT,
   NAV_STEP_BOX_ACTIVE,
@@ -216,6 +218,31 @@ describe('the navigator wears the shared vocabulary', () => {
       expect(source, `${pair} is what the measurement chose`).toContain(pair);
     }
     expect(source).not.toContain('text-emerald-500/80');
+  });
+
+  it('positions the rail line and the rail nodes from one gutter', () => {
+    // Measured before it was changed: at 360px every node spanned −22.2px to
+    // −3.8px, off the left edge of the viewport and silently clipped by
+    // `overflow-x: clip`; the rail line was at 37.6px through boxes that began
+    // at 32px. The three values have to be read together or they drift apart
+    // again, so this asserts the relationship rather than the strings.
+    const [base, md] = NAV_GUTTER.split(' ');
+    const width = base.replace('pl-', '');
+    const widthMd = md.replace('md:pl-', '');
+    const half = String(Number(width) / 2);
+    const halfMd = String(Number(widthMd) / 2);
+
+    expect(NAV_NODE_SLOT).toContain(`-left-${width}`);
+    expect(NAV_NODE_SLOT).toContain(`md:-left-${widthMd}`);
+    expect(NAV_NODE_SLOT).toContain(`w-${width}`);
+    expect(NAV_NODE_SLOT).toContain(`md:w-${widthMd}`);
+    expect(NAV_RAIL_LINE).toContain(`left-${half}`);
+    expect(NAV_RAIL_LINE).toContain(`md:left-${halfMd}`);
+
+    // The node is centred by its slot. Pulling it further left is what put it
+    // outside the gutter in the first place.
+    expect(NAV_NODE_BASE).not.toMatch(/-left-/);
+    expect(NAV_NODE_BASE).not.toContain('absolute');
   });
 
   it('names its levels after the syllabus tree, never after a colour', () => {

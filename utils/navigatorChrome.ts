@@ -104,27 +104,51 @@ export const NAV_LEVELS: Record<NavigatorLevel, NavigatorLevelChrome> = {
   },
 };
 
-/** The navigator's left gutter, which the rail line and the rail nodes are both
- *  positioned from. They do not currently agree: the nodes sit at a negative
- *  viewport coordinate below `md` and are clipped away by `index.css`'s
- *  `overflow-x: clip`. Change one, change all three. */
-export const NAV_GUTTER = 'pl-4 md:pl-12';
+/**
+ * The navigator's left gutter. THE RAIL LINE AND THE RAIL NODES ARE BOTH
+ * POSITIONED FROM THIS NUMBER — change one, change all three.
+ *
+ * It was `pl-4 md:pl-12` while the node slot was a flat `-left-10` and `RailNode`
+ * pulled itself a further `-left-[0.95rem]` out of that, so below `md` the nodes
+ * were hung further left than the gutter was wide. Measured at four widths
+ * inside `<main className="p-4 sm:p-6 lg:p-8">`: at 360px every node spanned
+ * −22.2px to −3.8px, entirely off the left edge of the viewport, and at 640px
+ * four pixels of an eighteen-pixel node were visible. `index.css`'s
+ * `overflow-x: clip` meant this was silent rather than scrollable — the document
+ * measured exactly 360px wide with the nodes outside it. The rail line, at
+ * 37.6px, was meanwhile drawn THROUGH step boxes that began at 32px.
+ *
+ * The gutter is now exactly the slot's width at both breakpoints, so the slot
+ * lands flush inside the container and its centre is where the line is drawn:
+ * 40px/20px below `md`, 48px/24px above it.
+ */
+export const NAV_GUTTER = 'pl-10 md:pl-12';
 
 /** The navigator's outermost box. Painted on the page background. */
 export const NAV_ROOT = `flex flex-col ${NAV_GUTTER} relative animate-fade-in`;
 
 /** The vertical rail behind the five nodes. Painted on the page background, and
- *  decorative — what it depicts is said in words by each step's own name. */
+ *  decorative — what it depicts is said in words by each step's own name.
+ *
+ *  `left-5 md:left-6` is the centre of `NAV_GUTTER`. Both are positioned from
+ *  that one number; change one, change all three. */
 export const NAV_RAIL_LINE =
-  'absolute left-[1.35rem] md:left-[2.35rem] top-0 bottom-0 w-px bg-slate-400 dark:bg-white/5 z-0';
+  'absolute left-5 md:left-6 top-0 bottom-0 w-px bg-slate-400 dark:bg-white/5 z-0';
 
-/** The slot each rail node sits in, hung off the left edge of a step box. */
+/** The slot each rail node sits in, hung off the left edge of a step box and
+ *  exactly as wide as `NAV_GUTTER`, so it lands flush against the container's
+ *  left edge instead of outside it. Both are positioned from that one number;
+ *  change one, change all three. */
 export const NAV_NODE_SLOT =
-  'absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center';
+  'absolute -left-10 md:-left-12 top-1/2 -translate-y-1/2 w-10 md:w-12 flex items-center justify-center';
 
-/** Every rail node, in all three states. Painted on the page background. */
+/** Every rail node, in all three states. A plain flex child of its slot, which
+ *  already centres it — it used to be absolutely positioned and pulled a
+ *  further 0.95rem to the LEFT of a slot that was itself hung further left than
+ *  the gutter was wide, which is how the nodes ended up off the viewport below
+ *  `md`. Painted on the page background. */
 export const NAV_NODE_BASE =
-  'absolute -left-[0.95rem] top-1/2 -translate-y-1/2 rounded-full transition-all duration-500 z-10 flex items-center justify-center';
+  'rounded-full transition-all duration-500 flex items-center justify-center';
 
 /**
  * A step the reader has finished: an emerald tick, one semantic everywhere.
