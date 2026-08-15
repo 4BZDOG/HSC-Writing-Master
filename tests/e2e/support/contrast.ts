@@ -29,6 +29,31 @@ import { Page } from '@playwright/test';
  *   - **Disabled controls are skipped**, as WCAG exempts them.
  *   - **Only the element's own background chain is composited.** An overlay
  *     sibling laid over the text is invisible to this, same as above.
+ *   - **`sr-only` text is already skipped, and by accident rather than by
+ *     design.** Tailwind's utility is a 1×1px clipped box, so the
+ *     `rect.width < 2` guard above drops it before a colour is ever read. That
+ *     is the right answer — a node with no painted background of its own has no
+ *     contrast to measure — but it is worth naming, because the navigator's
+ *     live region and its five step names are all `sr-only` and a reader
+ *     counting text nodes will otherwise go looking for them.
+ *
+ * What the suite reaches, as of the navigator work:
+ *
+ *   - **The expanded syllabus navigator is now measured** (`light-theme.spec.ts`).
+ *     It never was: every spec reaches the workspace through `openFirstQuestion`,
+ *     and choosing a question folds the navigator away, so the app's *first*
+ *     screen was exempt by accident. That is how a selected focus area came to
+ *     be white on near-white at 1.10:1 in the open.
+ *   - **Its question rows are measured but mostly not gated.** They sit on the
+ *     tier washes, and `neutralBackground` is false for red, orange, yellow,
+ *     green and blue. Only tier 6's purple is near-grey enough to count — which
+ *     is why the marks label's 4.03:1 was caught there and nowhere else, and
+ *     why the same label passes unexamined on the other five.
+ *   - **The navigator's chrome is largely invisible to a text-node walker.** The
+ *     rail line and its five nodes, the step-header icon tiles, and the
+ *     icon-only action buttons (Rename, Delete, Reset Focus, Edit focus areas)
+ *     carry no text at all. Their 3:1 non-text floor is still on the honour
+ *     system, and the tick inside a completed rail node with it.
  */
 
 export interface ContrastReading {
@@ -78,7 +103,8 @@ export const measureContrast = (page: Page): Promise<ContrastReport> =>
       const v = c / 255;
       return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
     };
-    const lum = (rgb: number[]) => 0.2126 * chan(rgb[0]) + 0.7152 * chan(rgb[1]) + 0.0722 * chan(rgb[2]);
+    const lum = (rgb: number[]) =>
+      0.2126 * chan(rgb[0]) + 0.7152 * chan(rgb[1]) + 0.0722 * chan(rgb[2]);
     const ratio = (a: number[], b: number[]) => {
       const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x);
       return (hi + 0.05) / (lo + 0.05);
@@ -86,7 +112,10 @@ export const measureContrast = (page: Page): Promise<ContrastReport> =>
     const parse = (value: string) => {
       const m = String(value).match(/rgba?\(([^)]+)\)/);
       if (!m) return null;
-      const parts = m[1].split(/[,\s/]+/).filter(Boolean).map(Number);
+      const parts = m[1]
+        .split(/[,\s/]+/)
+        .filter(Boolean)
+        .map(Number);
       return { rgb: parts.slice(0, 3), a: parts.length > 3 ? parts[3] : 1 };
     };
     const composite = (fg: { rgb: number[]; a: number }, bg: number[]) =>
@@ -165,13 +194,14 @@ export const measureContrast = (page: Page): Promise<ContrastReport> =>
       readings.push({
         id,
         text: text.slice(0, 48),
-        ratio: Math.round(ratio(composite({ rgb: fg.rgb, a: fg.a * opacity }, bg.rgb), bg.rgb) * 100) / 100,
+        ratio:
+          Math.round(ratio(composite({ rgb: fg.rgb, a: fg.a * opacity }, bg.rgb), bg.rgb) * 100) /
+          100,
         floor: large ? 3 : 4.5,
         color: cs.color,
         background: `rgb(${bg.rgb.join(',')})`,
         neutralBackground: neutral,
-        classes:
-          typeof el.className === 'string' ? el.className.replace(/\s+/g, ' ').trim() : '',
+        classes: typeof el.className === 'string' ? el.className.replace(/\s+/g, ' ').trim() : '',
         selector:
           el.tagName.toLowerCase() +
           (typeof el.className === 'string' && el.className.trim()
@@ -199,7 +229,8 @@ export const remeasureTagged = (page: Page): Promise<Record<number, Remeasured>>
       const v = c / 255;
       return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
     };
-    const lum = (rgb: number[]) => 0.2126 * chan(rgb[0]) + 0.7152 * chan(rgb[1]) + 0.0722 * chan(rgb[2]);
+    const lum = (rgb: number[]) =>
+      0.2126 * chan(rgb[0]) + 0.7152 * chan(rgb[1]) + 0.0722 * chan(rgb[2]);
     const ratio = (a: number[], b: number[]) => {
       const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x);
       return (hi + 0.05) / (lo + 0.05);
@@ -207,7 +238,10 @@ export const remeasureTagged = (page: Page): Promise<Record<number, Remeasured>>
     const parse = (value: string) => {
       const m = String(value).match(/rgba?\(([^)]+)\)/);
       if (!m) return null;
-      const parts = m[1].split(/[,\s/]+/).filter(Boolean).map(Number);
+      const parts = m[1]
+        .split(/[,\s/]+/)
+        .filter(Boolean)
+        .map(Number);
       return { rgb: parts.slice(0, 3), a: parts.length > 3 ? parts[3] : 1 };
     };
     const composite = (fg: { rgb: number[]; a: number }, bg: number[]) =>
@@ -244,7 +278,8 @@ export const remeasureTagged = (page: Page): Promise<Record<number, Remeasured>>
         p = p.parentElement;
       }
       out[Number(el.dataset.contrastId)] = {
-        ratio: Math.round(ratio(composite({ rgb: fg.rgb, a: fg.a * opacity }, base), base) * 100) / 100,
+        ratio:
+          Math.round(ratio(composite({ rgb: fg.rgb, a: fg.a * opacity }, base), base) * 100) / 100,
         color: cs.color,
         background: `rgb(${base.join(',')})`,
         text: (el.textContent ?? '').trim().slice(0, 48),

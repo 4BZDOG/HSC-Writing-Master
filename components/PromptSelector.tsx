@@ -800,7 +800,15 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     >
                       {verbInfo.term}
                     </span>
-                    <span className="text-[10px] font-mono font-black text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                    {/* No light override. `light:text-slate-500` overrode
+                        `--color-text-muted`, whose light value is already
+                        slate-600 — so the override made the light theme
+                        lighter than the theme had asked for. On white that
+                        cost margin; on tier 6's purple wash, which is the one
+                        tier tint neutral enough for the checker to gate, it
+                        measured 4.03:1. Letting the token answer reads 6.42:1
+                        there, and the dark theme is untouched. */}
+                    <span className="text-[10px] font-mono font-black text-[rgb(var(--color-text-muted))]">
                       {p.totalMarks} {p.totalMarks === 1 ? 'Mark' : 'Marks'}
                     </span>
                     <span

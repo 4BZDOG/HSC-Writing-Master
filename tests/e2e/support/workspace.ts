@@ -74,6 +74,116 @@ export const openFirstQuestion = async (page: Page): Promise<void> => {
 };
 
 /**
+ * Send every toast away before measuring anything.
+ *
+ * `clearOnboarding` imports the bundled curriculum, which raises an info toast
+ * ("Synchronised 2 items…") that dismisses itself about five seconds later. So
+ * whether it is on screen when a spec takes its reading is a race with how fast
+ * the machine walked the picker — a measurement that changes with the weather.
+ * It is transient chrome rather than part of the screen under test, so it is
+ * dismissed rather than waited out or measured.
+ */
+const dismissToasts = async (page: Page): Promise<void> => {
+  const close = page.getByRole('button', { name: /close notification/i });
+  for (let i = 0; i < 5 && (await close.count()); i++) {
+    // Best effort: a toast that reaches the end of its own countdown between
+    // the count and the click takes its button with it, and that is the
+    // outcome this is asking for anyway.
+    await close
+      .first()
+      .click({ force: true, timeout: 2_000 })
+      .catch(() => {});
+  }
+  await expect(page.getByRole('alert')).toHaveCount(0, { timeout: 15_000 });
+};
+
+/**
+ * Walk the syllabus picker down to a dot point — and stop one level short of a
+ * question, because choosing one folds the navigator away.
+ *
+ * That fold is why this helper has to exist. `openFirstQuestion` takes the last
+ * step, `App.tsx` collapses the navigator to a breadcrumb and unmounts it, and
+ * every spec in this suite reaches the workspace through that door. The
+ * contrast audit has therefore never measured a single colour in the app's
+ * first screen — which is how a selected focus area came to be white on
+ * near-white at 1.10:1 there, in the open, for as long as the suite has
+ * existed.
+ *
+ * Four things this has to know, none of them guessable from the markup:
+ *
+ *   - **`admin`, not the free tier.** Several of the navigator's colours are on
+ *     curator-only controls — "Manual", "Reset Focus", the amber `special`
+ *     action label — and a `user` session never renders them.
+ *   - **The course is already chosen.** Importing the bundled library
+ *     auto-selects it, so there is no `Select Course...` trigger to click and a
+ *     helper that insists on one waits forever.
+ *   - **Topic 1, sub-topic 0.** Focus areas are read out of a dot point's
+ *     trailing "including …" list, and the *first* sub-topic of the first topic
+ *     has none. In the bundled `HSC Biology (Advanced)` the first dot point
+ *     carrying them sits under the second topic's first sub-topic. Without
+ *     walking there the focus tile, the focus count and the Active Focus picker
+ *     are all absent, and three of the repaired sites cannot be seen.
+ *   - **The focus area has to be chosen, not merely available.** The focus
+ *     pill, the "Reset Focus" control and the selected row's own styling — the
+ *     1.10:1 site itself — only exist once one is active.
+ *
+ * Leaves both dropdowns shut; `openNavigatorPicker` opens whichever one the
+ * caller means to look inside.
+ */
+export const openNavigatorToDotPoint = async (page: Page): Promise<void> => {
+  const choose = async (placeholder: string, index: number) => {
+    const trigger = page.locator('button[aria-haspopup="listbox"]', { hasText: placeholder });
+    if (!(await trigger.count())) return; // chosen for us already
+    // The list opens below the fold on a short viewport, and Playwright's
+    // actionability check reads that as covered.
+    await trigger.first().click({ force: true });
+    const option = page.getByRole('option').nth(index);
+    await option.waitFor({ state: 'visible', timeout: 10_000 });
+    await option.click({ force: true });
+    await expect(trigger).toHaveCount(0, { timeout: 10_000 });
+  };
+
+  await choose('Select Topic...', 1);
+  await choose('Select Sub-Topic...', 0);
+  await choose('Select Dot Point...', 0);
+
+  // Activating a focus area is a toggle, so the trigger keeps its placeholder
+  // and cannot be waited on the way the levels above can. The pill it raises is
+  // the thing to wait for.
+  const focus = page.locator('button[aria-haspopup="listbox"]', { hasText: 'Refine Scope...' });
+  await expect(focus).toHaveCount(1, { timeout: 10_000 });
+  await focus.first().click({ force: true });
+  const focusOption = page.getByRole('option').first();
+  await focusOption.waitFor({ state: 'visible', timeout: 10_000 });
+  await focusOption.click({ force: true });
+  await expect(page.getByTitle('Reset Focus')).toHaveCount(1, { timeout: 10_000 });
+
+  await dismissToasts(page);
+};
+
+/**
+ * Open one of the navigator's dropdowns by its placeholder.
+ *
+ * Only one can be open at a time, and what each holds is different enough to be
+ * worth measuring separately: the question list carries the tier-washed rows,
+ * their verb chips and their marks labels; the Active Focus list carries the
+ * selected focus row and its solid emerald tile. Neither exists in the DOM
+ * while shut.
+ *
+ * The placeholders are the same load-bearing strings `openFirstQuestion`
+ * matches on — do not retype them here or there.
+ */
+export const openNavigatorPicker = async (page: Page, placeholder: string): Promise<void> => {
+  const trigger = page.locator('button[aria-haspopup="listbox"]', { hasText: placeholder });
+  await expect(trigger).toHaveCount(1, { timeout: 10_000 });
+  if ((await trigger.first().getAttribute('aria-expanded')) !== 'true') {
+    await trigger.first().click({ force: true });
+  }
+  await expect(trigger.first()).toHaveAttribute('aria-expanded', 'true');
+  await page.getByRole('option').first().waitFor({ state: 'visible', timeout: 10_000 });
+};
+
+/**
  * Wait for the verb ribbon to finish folding.
  *
  * Choosing a question folds the syllabus navigator down to a breadcrumb, and
