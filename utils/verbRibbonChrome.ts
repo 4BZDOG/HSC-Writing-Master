@@ -105,7 +105,7 @@ export const RIBBON_DETAIL_CARD =
 /** The verb itself, in the house display treatment. Painted on the detail
  *  card's tier wash. */
 export const RIBBON_DETAIL_TERM =
-  'text-3xl font-black tracking-tighter uppercase italic leading-none text-slate-900 dark:text-white';
+  'text-3xl font-black tracking-tight uppercase italic leading-none text-slate-900 dark:text-white';
 
 /** The tier chip beside the verb. Its colours come from the tier config.
  *  Painted on the detail card. */
