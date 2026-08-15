@@ -218,9 +218,13 @@ export const NAV_ACTION_BUTTON =
  * `locked` and `special` are the only two that carry a visible label — "Import
  * Syllabus", "From Syllabus", "Add from Syllabus", "Generate" — so they are the
  * only two whose text has to clear the 4.5:1 floor rather than the 3:1 an icon
- * gets. `amber-600` on their wash is a defect and is measured and lifted in the
- * step after this one. `danger`'s `red-600` is icon-only and clears its floor,
- * so it is left alone.
+ * gets, and `amber-600` measured 2.86:1 on the amber-100 wash. `amber-700` is
+ * 4.51:1, which passes by a hundredth and is not a margin; `amber-800` is
+ * 6.37:1 and is what these wear. Both figures are the browser's, read off this
+ * wash after it stopped being an invisible alpha.
+ *
+ * `danger` keeps `red-600`: it is icon-only, so its floor is 3:1 rather than
+ * 4.5, and it clears it. Do not "fix" it into inconsistency.
  *
  * `primary` is the product's brand gradient, which is the same colour in both
  * themes (§2) and appears on four other surfaces; its pair is written out with
@@ -231,13 +235,13 @@ export const NAV_ACTION_VARIANTS: Record<
   string
 > = {
   locked:
-    'bg-amber-100 border-amber-300 text-amber-600 ' +
+    'bg-amber-100 border-amber-300 text-amber-800 ' +
     'dark:bg-amber-400/10 dark:border-amber-400/40 dark:text-amber-500',
   danger:
     'bg-red-100 border-red-200 text-red-600 ' +
     'dark:bg-red-500/10 dark:border-red-500/20 dark:text-red-400',
   special:
-    'bg-amber-100 border-amber-200 text-amber-600 ' +
+    'bg-amber-100 border-amber-200 text-amber-800 ' +
     'dark:bg-amber-500/10 dark:border-amber-500/20 dark:text-yellow-400',
   primary:
     'bg-gradient-to-r from-indigo-500 to-sky-500 border-transparent text-white shadow-md ' +

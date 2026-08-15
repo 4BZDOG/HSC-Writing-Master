@@ -270,7 +270,9 @@ const ActionButton = ({
       </span>
     )}
     {locked && (
-      <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-amber-500 text-white flex items-center justify-center shadow">
+      // A solid fill pairs with its own text: the padlock was white on
+      // amber-500 at 2.15:1, and amber-950 on the same fill measures 6.97:1.
+      <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-amber-500 text-amber-950 flex items-center justify-center shadow">
         <Lock className="w-2.5 h-2.5" />
       </span>
     )}
@@ -563,7 +565,11 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               <span className="min-w-0">
                 <span className="block leading-snug font-medium">{stem}</span>
                 {items.length > 0 && (
-                  <span className="block mt-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-500/80">
+                  // Measured on the dot-point row's own pink-tinted surface,
+                  // not on white: emerald-500/80 read 1.96:1 there in the light
+                  // theme and 3.86:1 in the dark one, so both halves were under
+                  // the floor. The pair is 4.86:1 / 6.89:1.
+                  <span className="block mt-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
                     {items.length} focus area{items.length === 1 ? '' : 's'}
                   </span>
                 )}
@@ -584,14 +590,25 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
         renderLabel: (
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-3">
+              {/* The solid tile pairs with its own text — white on emerald-500
+                  is 2.54:1, emerald-950 on it is 5.97:1. */}
               <div
-                className={`${NAV_OPTION_TILE} transition-all ${isSelected ? 'bg-emerald-500 text-white border-emerald-400/30' : 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'}`}
+                className={`${NAV_OPTION_TILE} transition-all ${isSelected ? 'bg-emerald-500 text-emerald-950 border-emerald-400/30' : 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'}`}
               >
                 <Target className="w-4 h-4" />
               </div>
-              <span className={`font-medium ${isSelected ? 'text-white' : ''}`}>{item}</span>
+              {/* No colour of its own. The override said `text-white` and the
+                  row it sits on is `bg-emerald-500/10` — which over the light
+                  theme's white list surface is white on near-white, measured at
+                  1.10:1. The row already sets `text-white light:text-slate-900`
+                  (`Combobox.tsx`), which measures 12.52:1 dark and 16.24:1
+                  light, so the fix is to stop overriding it. */}
+              <span className="font-medium">{item}</span>
             </div>
-            {isSelected && <Check className="w-4 h-4 text-emerald-400" />}
+            {/* Same row, same story one element along and not on the plan's
+                list: emerald-400 on that wash measures 1.75:1 in the light
+                theme against an icon's 3:1 floor. */}
+            {isSelected && <Check className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />}
           </div>
         ),
       };
@@ -752,10 +769,17 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <div
                   className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 border ${tierConfig.solidBg} ${tierConfig.border} shadow-sm`}
                 >
+                  {/* The tile takes the tier's own paired text, exactly as the
+                      verb chip eleven lines below always has. Hard-coding
+                      `text-white` here put a white glyph on tier 3's yellow at
+                      1.92:1 dark and 2.15:1 light; `solidText` measures 7.60:1
+                      and 6.79:1, and is `text-white` on the other five tiers,
+                      so nothing else moves. The padlock loses its `/70` with
+                      it — an opacity on a glyph that was already failing. */}
                   {tierLocked ? (
-                    <Lock className="w-5 h-5 text-white/70" />
+                    <Lock className={`w-5 h-5 ${tierConfig.solidText}`} />
                   ) : (
-                    <FileQuestion className="w-5 h-5 text-white" />
+                    <FileQuestion className={`w-5 h-5 ${tierConfig.solidText}`} />
                   )}
                 </div>
                 <div className="flex flex-col min-w-0 flex-1">
@@ -1168,7 +1192,16 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       if (e.key === 'Escape') setInlineTopicOpen(false);
                     }}
                   />
-                  {inlineError && <p className="text-xs text-red-400 font-medium">{inlineError}</p>}
+                  {/* On the panel's own slate-50 surface: red-400 measured
+                      2.64:1, red-600 measures 4.62:1. This one sits on a
+                      neutral background, so it is the one reading here the
+                      contrast suite will gate the moment it can see this
+                      component. */}
+                  {inlineError && (
+                    <p className="text-xs text-red-600 dark:text-red-400 font-medium">
+                      {inlineError}
+                    </p>
+                  )}
                   <div className="flex items-center justify-end gap-2">
                     <button
                       onClick={() => {
@@ -1336,7 +1369,10 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                           className={`p-2 rounded-lg border transition-all shadow-sm ${
                             focusAreasOverridden
                               ? 'bg-emerald-500/20 text-emerald-400 light:text-emerald-700 border-emerald-500/40'
-                              : 'bg-emerald-500/10 text-emerald-400 light:text-emerald-700 border-emerald-500/20 hover:bg-emerald-500 hover:text-white'
+                              : // emerald-600 on hover rather than emerald-500:
+                                // the white glyph over it was 2.54:1 and is now
+                                // 3.77:1, which is what an icon has to clear.
+                                'bg-emerald-500/10 text-emerald-400 light:text-emerald-700 border-emerald-500/20 hover:bg-emerald-600 hover:text-white'
                           }`}
                           title={
                             focusAreasOverridden
@@ -1353,7 +1389,11 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       {hasSubItems && activeFocusCount > 0 && (
                         <button
                           onClick={() => onPathChange({ selectedSubItems: undefined })}
-                          className="p-2 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all shadow-sm"
+                          // red-400 on the red wash measured 2.40:1 in the light
+                          // theme; red-600 measures 4.19:1, past the 3:1 an
+                          // icon has to clear. The hover state stays as it is —
+                          // white on red-500 is 3.76:1 and already clears it.
+                          className="p-2 rounded-lg bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all shadow-sm"
                           title="Reset Focus"
                         >
                           <RotateCcw className="w-4 h-4" />
@@ -1530,7 +1570,11 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     <div className="flex gap-2 flex-wrap justify-end">
                       <button
                         onClick={onManualEntry}
-                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 font-bold text-xs uppercase tracking-widest border border-purple-500/30 transition-all"
+                        // "Manual" carries a label, so it answers to 4.5:1 and
+                        // not to 3. purple-400 on its own wash measured 2.34:1
+                        // in the light theme; purple-700 measures 6.18:1, and
+                        // the dark theme keeps the 6.05:1 it already had.
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-700 dark:text-purple-400 font-bold text-xs uppercase tracking-widest border border-purple-500/30 transition-all"
                       >
                         <PenTool className="w-4 h-4" /> Manual
                       </button>

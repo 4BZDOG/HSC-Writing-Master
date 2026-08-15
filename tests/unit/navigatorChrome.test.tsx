@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeAll, afterEach } from 'vitest';
+import { readFileSync } from 'node:fs';
 import React from 'react';
 import { render, screen, cleanup, fireEvent } from '@testing-library/react';
 import PromptSelector from '../../components/PromptSelector';
@@ -6,6 +7,7 @@ import { Course, Prompt, PromptVerb, StatePath } from '../../types';
 import * as navigatorChrome from '../../utils/navigatorChrome';
 import {
   NAV_ACTION_BUTTON,
+  NAV_ACTION_VARIANTS,
   NAV_INLINE_PANEL,
   NAV_LEVELS,
   NAV_NODE_BASE,
@@ -38,8 +40,8 @@ beforeAll(() => {
 
 afterEach(cleanup);
 
-const makePrompt = (id: string, question: string): Prompt =>
-  ({ id, question, verb: 'ASSESS' as PromptVerb, totalMarks: 8 }) as Prompt;
+const makePrompt = (id: string, question: string, verb = 'ASSESS'): Prompt =>
+  ({ id, question, verb: verb as PromptVerb, totalMarks: 8 }) as Prompt;
 
 const courses: Course[] = [
   {
@@ -57,8 +59,15 @@ const courses: Course[] = [
             dotPoints: [
               {
                 id: 'd1',
-                description: 'Explore the applications of web programming.',
-                prompts: [makePrompt('p1', 'Assess the value of automated testing.')],
+                // The trailing list is what the Active Focus picker is made of,
+                // and EXPLAIN is a tier-3 verb — the one tier whose solid fill
+                // is too light for white text.
+                description:
+                  'Explore the applications of web programming, including markup, styling and scripting.',
+                prompts: [
+                  makePrompt('p1', 'Assess the value of automated testing.'),
+                  makePrompt('p2', 'Explain how a browser renders a page.', 'EXPLAIN'),
+                ],
               },
             ],
           },
@@ -91,6 +100,9 @@ const props = {
 };
 
 const halfway: StatePath = { courseId: 'c1', topicId: 't1', subTopicId: 's1' } as StatePath;
+
+/** All four containers chosen, so the question list and the focus picker exist. */
+const onADotPoint: StatePath = { ...halfway, dotPointId: 'd1' } as StatePath;
 
 describe('the navigator wears the shared vocabulary', () => {
   it('dresses its root, its rail line and its step boxes from navigatorChrome', () => {
@@ -146,6 +158,64 @@ describe('the navigator wears the shared vocabulary', () => {
     const panel = screen.getByPlaceholderText(/Topic name/i).closest(`div[class]`)
       ?.parentElement as HTMLElement;
     expect(panel.className).toBe(NAV_INLINE_PANEL);
+  });
+
+  it('pairs a solid tier fill with the tier’s own text, not with white', () => {
+    // `bandColors.test.ts` names the verb chip below this tile as a consumer of
+    // the pairing; the tile eleven lines above it hard-coded `text-white`, which
+    // on tier 3's yellow is 1.92:1 dark and 2.15:1 light.
+    render(<PromptSelector {...props} statePath={onADotPoint} />);
+    fireEvent.click(screen.getByRole('button', { name: /Select Question/i }));
+
+    const row = screen.getByText('Explain how a browser renders a page.').closest('div[class]')
+      ?.parentElement as HTMLElement;
+    const tile = row.querySelector('div[class*="w-8"]') as HTMLElement;
+    const glyph = tile.querySelector('svg') as SVGElement;
+    expect(glyph.getAttribute('class')).toContain('text-yellow-950');
+    expect(glyph.getAttribute('class')).not.toContain('text-white');
+  });
+
+  it('lets a selected focus area keep the row’s own text colour', () => {
+    // The worst reading in the file: `text-white` on `bg-emerald-500/10` over
+    // the light theme's white list surface, measured at 1.10:1. The row already
+    // says `text-white light:text-slate-900`, so the override had nothing to
+    // add and everything to take away.
+    render(
+      <PromptSelector
+        {...props}
+        statePath={{ ...onADotPoint, selectedSubItems: ['markup'] } as StatePath}
+      />
+    );
+    fireEvent.click(screen.getByRole('button', { name: /Refine Scope/i }));
+
+    const label = screen.getAllByText('markup').find((el) => el.tagName === 'SPAN') as HTMLElement;
+    expect(label.className).not.toContain('text-white');
+    const tile = label.previousElementSibling as HTMLElement;
+    expect(tile.className).toContain('text-emerald-950');
+    expect(tile.className).not.toContain('text-white');
+  });
+
+  it('gives the four unpartnered light-theme colours a partner', () => {
+    // Measured on their real washes rather than on the white this document
+    // first assumed: 2.86 / 2.34 / 2.40 / 1.96 : 1.
+    expect(NAV_ACTION_VARIANTS.special).toContain('text-amber-800');
+    expect(NAV_ACTION_VARIANTS.special).not.toContain('text-amber-600');
+    expect(NAV_ACTION_VARIANTS.locked).toContain('text-amber-800');
+    expect(NAV_ACTION_VARIANTS.locked).not.toContain('text-amber-600');
+    // Icon-only at 4.19:1, which clears the 3:1 floor. Left deliberately.
+    expect(NAV_ACTION_VARIANTS.danger).toContain('text-red-600');
+
+    // Read as text rather than rendered: three of these four sit in states the
+    // fixture cannot reach — an AI parse failure, a locked plan, a hover.
+    const source = readFileSync('components/PromptSelector.tsx', 'utf8');
+    for (const pair of [
+      'text-purple-700 dark:text-purple-400',
+      'text-red-600 dark:text-red-400',
+      'text-emerald-700 dark:text-emerald-400',
+    ]) {
+      expect(source, `${pair} is what the measurement chose`).toContain(pair);
+    }
+    expect(source).not.toContain('text-emerald-500/80');
   });
 
   it('names its levels after the syllabus tree, never after a colour', () => {
