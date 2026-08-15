@@ -11,6 +11,7 @@ import {
   NAV_STEP_BOX_ACTIVE,
   NAV_STEP_BOX_DONE,
   NAV_STEP_CONTAINER,
+  NAV_STEP_EDGE,
   NAV_STEP_HEADER_LABEL,
   NAV_STEP_HEADER_TILE,
   NavigatorLevel,
@@ -67,13 +68,13 @@ const RailNode = ({
  * The box itself. Two states, not three: every call site draws a step that is
  * either chosen or the one being worked on, so the old third branch — the only
  * `grayscale` in the component — had never rendered.
+ *
+ * Neither state takes a hue any more. The box used to carry the level's colour
+ * on its border and its shadow, which is the largest surface in the component
+ * spent on the one thing here that means nothing.
  */
-const boxClasses = (level: NavigatorLevel, isSelected: boolean): string => {
-  const chrome = NAV_LEVELS[level];
-  return isSelected
-    ? `${NAV_STEP_BOX_DONE} ${chrome.selectedBorder}`
-    : `${NAV_STEP_BOX_ACTIVE} ${chrome.activeBorder} ${chrome.activeShadow}`;
-};
+const boxClasses = (isSelected: boolean): string =>
+  isSelected ? NAV_STEP_BOX_DONE : NAV_STEP_BOX_ACTIVE;
 
 interface NavigatorStepProps {
   /** Which rung of the ladder. Drives the hue, the icon and the name. */
@@ -128,7 +129,7 @@ const NavigatorStep: React.FC<NavigatorStepProps> = ({
       role="listitem"
     >
       <div
-        className={boxClasses(level, isSelected)}
+        className={boxClasses(isSelected)}
         role="group"
         // The visible header IS the name while the level is unchosen, which is
         // the association to prefer. Once it is chosen the header goes and the
@@ -139,6 +140,12 @@ const NavigatorStep: React.FC<NavigatorStepProps> = ({
         aria-label={isSelected ? name : undefined}
         aria-labelledby={isSelected ? undefined : nameId}
       >
+        {!isSelected && (
+          // Where the level's hue went. Two pixels down the leading edge of the
+          // step the reader is standing on — enough to tell this step from the
+          // one above it, too little to read as a claim about difficulty.
+          <div className={`${NAV_STEP_EDGE} ${NAV_LEVELS[level].edge}`} aria-hidden="true" />
+        )}
         <div className={NAV_NODE_SLOT} aria-hidden="true">
           <RailNode isSelected={isSelected} isComplete={isComplete} level={level} />
         </div>

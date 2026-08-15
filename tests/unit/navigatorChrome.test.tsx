@@ -13,6 +13,7 @@ import {
   NAV_ROOT,
   NAV_STEP_BOX_ACTIVE,
   NAV_STEP_BOX_DONE,
+  NAV_STEP_EDGE,
 } from '../../utils/navigatorChrome';
 
 /**
@@ -102,16 +103,35 @@ describe('the navigator wears the shared vocabulary', () => {
     // A chosen step is folded down; the one being worked on is not.
     const chosen = screen.getByRole('group', { name: /^Course — chosen: / });
     expect(chosen.className).toContain(NAV_STEP_BOX_DONE);
-    expect(chosen.className).toContain(NAV_LEVELS.course.selectedBorder);
 
     const current = screen.getByRole('group', { name: /^Syllabus Content — / });
     expect(current.className).toContain(NAV_STEP_BOX_ACTIVE);
-    expect(current.className).toContain(NAV_LEVELS.dotPoint.activeBorder);
 
     const nodes = Array.from(container.querySelectorAll('div')).filter((el) =>
       el.className.includes(NAV_NODE_BASE)
     );
     expect(nodes).toHaveLength(4);
+  });
+
+  it('puts the level hue on the leading edge and nowhere on the box', () => {
+    // The whole of D3 in one assertion: the step the reader is standing on
+    // carries the level's colour on a 2px edge, and the box behind it carries
+    // none. A hue that comes back onto the box is the regression this catches.
+    render(<PromptSelector {...props} statePath={halfway} />);
+
+    const current = screen.getByRole('group', { name: /^Syllabus Content — / });
+    const edge = current.firstElementChild as HTMLElement;
+    expect(edge.className).toContain(NAV_STEP_EDGE);
+    expect(edge.className).toContain(NAV_LEVELS.dotPoint.edge);
+    expect(edge.getAttribute('aria-hidden')).toBe('true');
+
+    expect(current.className).not.toMatch(/border-(blue|purple|teal|pink|amber)-/);
+    expect(current.className).not.toMatch(/shadow-(blue|purple|teal|pink|amber)-/);
+
+    // A chosen step is not a place, so it has no edge to mark.
+    const chosen = screen.getByRole('group', { name: /^Course — chosen: / });
+    expect(chosen.className).not.toMatch(/border-(blue|purple|teal|pink|amber)-/);
+    expect((chosen.firstElementChild as HTMLElement).className).not.toContain(NAV_STEP_EDGE);
   });
 
   it('dresses the action buttons and the inline topic editor', () => {
@@ -146,35 +166,14 @@ describe('the navigator wears the shared vocabulary', () => {
  * DesignSpec §2's parity rule, swept over every class string this file exports.
  * The classifier is `tests/unit/verbRibbonChrome.test.tsx`'s, unchanged.
  *
- * The navigator is still written in the OLD `light:` idiom, so nearly every
- * constant fails today. Rather than skip the sweep — a skipped test nobody
- * re-enables is how these guards die — it lands with the failures named one by
- * one. THE TOKENISING STEP MUST EMPTY THIS SET. A constant that stops needing
- * its exemption and keeps it is a hole in the guard, so the sweep also fails on
- * an exemption that is no longer earned.
+ * This set held twenty-six names when the vocabulary was lifted out of the JSX
+ * still written in the old `light:` idiom — the sweep landed failing-by-name
+ * rather than skipped, because a skipped test nobody re-enables is how these
+ * guards die. The tokenising step emptied it, and it stays empty: the second
+ * test below fails on an exemption that is no longer earned, so nothing can be
+ * parked here on the way past.
  */
-const EXEMPT = new Set<string>([
-  ...(['course', 'topic', 'subTopic', 'dotPoint', 'question'] as const).flatMap((level) =>
-    (['activeBorder', 'activeShadow', 'selectedBorder', 'node', 'icon'] as const).map(
-      (field) => `NAV_LEVELS.${level}.${field}`
-    )
-  ),
-  'NAV_ACTION_VARIANTS.locked',
-  'NAV_ACTION_VARIANTS.danger',
-  'NAV_ACTION_VARIANTS.special',
-  'NAV_ACTION_VARIANTS.primary',
-  'NAV_ACTION_VARIANTS.vault',
-  'NAV_ACTION_VARIANTS.default',
-  'NAV_FOCUS_PILL',
-  'NAV_INLINE_INPUT',
-  'NAV_INLINE_PANEL',
-  'NAV_NODE_COMPLETE',
-  'NAV_NODE_UPCOMING',
-  'NAV_RAIL_LINE',
-  'NAV_STEP_BOX_ACTIVE',
-  'NAV_STEP_BOX_DONE',
-  'NAV_STEP_HEADER_LABEL',
-]);
+const EXEMPT = new Set<string>([]);
 
 /** Every class string the file exports, including the ones nested inside
  *  `NAV_LEVELS` and `NAV_ACTION_VARIANTS` — the ribbon's sweep only had flat
@@ -238,6 +237,23 @@ describe('the navigator’s chrome carries both themes', () => {
       if (EXEMPT.has(name)) continue;
       expect(faults(value), `${name} ${faults(value).join('; ')}`).toEqual([]);
     }
+  });
+
+  it('writes the new idiom only', () => {
+    // The cheapest exact pin on the migration: `light:` is a descendant
+    // selector (`[data-theme="light"] &`, `tailwind.config.js`), so a single one
+    // left in this file would outrank every unprefixed class a call site adds.
+    for (const [name, value] of classStrings()) {
+      expect(value, `${name} still uses the legacy light: variant`).not.toContain('light:');
+    }
+  });
+
+  it('paints the active step box in both themes and in neither hue', () => {
+    expect(NAV_STEP_BOX_ACTIVE).toContain('bg-white');
+    expect(NAV_STEP_BOX_ACTIVE).toContain('dark:bg-[rgb(var(--color-bg-surface))]');
+    // Neutral glass: the elevation says "you are here", not the colour.
+    expect(NAV_STEP_BOX_ACTIVE).not.toMatch(/(blue|purple|teal|pink|amber)-/);
+    expect(NAV_STEP_BOX_ACTIVE).not.toContain('scale-[1.01]');
   });
 
   it('holds every unconverted constant to account by name', () => {

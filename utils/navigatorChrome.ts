@@ -14,12 +14,18 @@
  * DesignSpec §2 asks of every colour and it is not answerable from the class
  * string alone.
  *
- * The values below are the ones the navigator has always worn, lifted out of the
- * JSX unchanged so that the redesign that follows is a diff of values in one
- * file rather than a diff of a 1500-line component. They are therefore still in
- * the OLD `light:` idiom; `tests/unit/navigatorChrome.test.tsx` sweeps for the
- * new one and names every constant still to be converted in an `exempt` set that
- * the tokenising step has to empty.
+ * New code here is `dark:`-first: light is the base, `dark:` carries the
+ * override (DesignSpec §2, "Which variant to write in new code"). The project's
+ * own `light:` variant stays valid elsewhere and the tier config keeps it, so a
+ * rendered `className` in this component legitimately contains both idioms —
+ * but nothing in THIS file may, and `tests/unit/navigatorChrome.test.tsx` pins
+ * that with a sweep that no longer exempts a single constant.
+ *
+ * Where a colour is genuinely the same in both themes — a brand gradient, the
+ * emerald a white tick has to sit on — the pair is written out with the same
+ * value on both sides rather than left bare. The sweep reads class strings, not
+ * intent, and saying it out loud is what lets it read this file at all; it is
+ * also the only form in which "this is deliberate" survives the next edit.
  */
 
 import type { ComboboxColor } from '../components/Combobox';
@@ -29,17 +35,14 @@ import type { ComboboxColor } from '../components/Combobox';
 export type NavigatorLevel = 'course' | 'topic' | 'subTopic' | 'dotPoint' | 'question';
 
 export interface NavigatorLevelChrome {
-  /** The active step box's border. Painted on the page background. */
-  activeBorder: string;
-  /** The active step box's shadow tint. Painted on the page background. */
-  activeShadow: string;
-  /** The chosen step box's border, once the box has shrunk. */
-  selectedBorder: string;
   /** The rail node's ring when this step is the current one. Painted on the
    *  page background, over the rail line. */
   node: string;
   /** The step header's icon tile. Painted on the step box. */
   icon: string;
+  /** The 2px leading edge down the active step's left side. Painted on the step
+   *  box; `NAV_STEP_EDGE` supplies the geometry and the gradient direction. */
+  edge: string;
   /** Which `Combobox` palette this level's pickers use. The second
    *  hand-maintained copy of this palette lives in `Combobox.colorStyles`;
    *  naming it here at least puts the two in one place. */
@@ -59,47 +62,44 @@ export interface NavigatorLevelChrome {
  * and Dot Point are containers, not cognitive demand — `getBandConfig` encodes
  * demand and `tests/unit/bandColors.test.ts` pins it — so blue here does NOT
  * mean what blue means on a tier chip, even though tier 5 wears the same hue on
- * rows rendered inside the amber Question step.
+ * rows rendered inside the Question step.
+ *
+ * That collision is why each level now owns three small surfaces instead of a
+ * whole box. A step used to be a hue-bordered, hue-shadowed panel, so the eye
+ * read five walls of colour with a tier scale running down the inside of the
+ * last one. What survives is a ring on the rail node, a 28px icon tile and a
+ * 2px leading edge — enough to tell two adjacent steps apart at a glance, too
+ * little to look like a claim about difficulty.
  */
 export const NAV_LEVELS: Record<NavigatorLevel, NavigatorLevelChrome> = {
   course: {
-    activeBorder: 'border-blue-500/30 light:border-blue-600',
-    activeShadow: 'shadow-blue-900/10',
-    selectedBorder: 'border-blue-500/20',
-    node: 'bg-[rgb(var(--color-bg-surface))] light:bg-white border-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.4)]',
-    icon: 'bg-blue-500/10 text-blue-400 light:bg-blue-100 light:text-blue-700 border-blue-500/20',
+    node: 'bg-white border-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.4)] dark:bg-[rgb(var(--color-bg-surface))] dark:border-blue-400',
+    icon: 'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20',
+    edge: 'from-blue-500 to-blue-400 dark:from-blue-400 dark:to-blue-500',
     combobox: 'blue',
   },
   topic: {
-    activeBorder: 'border-purple-500/30 light:border-purple-600',
-    activeShadow: 'shadow-purple-900/10',
-    selectedBorder: 'border-purple-500/20',
-    node: 'bg-[rgb(var(--color-bg-surface))] light:bg-white border-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.4)]',
-    icon: 'bg-purple-500/10 text-purple-400 light:bg-purple-100 light:text-purple-700 border-purple-500/20',
+    node: 'bg-white border-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.4)] dark:bg-[rgb(var(--color-bg-surface))] dark:border-purple-400',
+    icon: 'bg-purple-100 text-purple-700 border-purple-200 dark:bg-purple-500/10 dark:text-purple-400 dark:border-purple-500/20',
+    edge: 'from-purple-500 to-purple-400 dark:from-purple-400 dark:to-purple-500',
     combobox: 'purple',
   },
   subTopic: {
-    activeBorder: 'border-teal-500/30 light:border-teal-600',
-    activeShadow: 'shadow-teal-900/10',
-    selectedBorder: 'border-teal-500/20',
-    node: 'bg-[rgb(var(--color-bg-surface))] light:bg-white border-teal-500 shadow-[0_0_8px_rgba(20,184,166,0.4)]',
-    icon: 'bg-teal-500/10 text-teal-400 light:bg-teal-100 light:text-teal-700 border-teal-500/20',
+    node: 'bg-white border-teal-500 shadow-[0_0_8px_rgba(20,184,166,0.4)] dark:bg-[rgb(var(--color-bg-surface))] dark:border-teal-400',
+    icon: 'bg-teal-100 text-teal-700 border-teal-200 dark:bg-teal-500/10 dark:text-teal-400 dark:border-teal-500/20',
+    edge: 'from-teal-500 to-teal-400 dark:from-teal-400 dark:to-teal-500',
     combobox: 'teal',
   },
   dotPoint: {
-    activeBorder: 'border-pink-500/30 light:border-pink-600',
-    activeShadow: 'shadow-pink-900/10',
-    selectedBorder: 'border-pink-500/20',
-    node: 'bg-[rgb(var(--color-bg-surface))] light:bg-white border-pink-500 shadow-[0_0_8px_rgba(236,72,153,0.4)]',
-    icon: 'bg-pink-500/10 text-pink-400 light:bg-pink-100 light:text-pink-700 border-pink-500/20',
+    node: 'bg-white border-pink-500 shadow-[0_0_8px_rgba(236,72,153,0.4)] dark:bg-[rgb(var(--color-bg-surface))] dark:border-pink-400',
+    icon: 'bg-pink-100 text-pink-700 border-pink-200 dark:bg-pink-500/10 dark:text-pink-400 dark:border-pink-500/20',
+    edge: 'from-pink-500 to-pink-400 dark:from-pink-400 dark:to-pink-500',
     combobox: 'pink',
   },
   question: {
-    activeBorder: 'border-amber-500/30 light:border-amber-600',
-    activeShadow: 'shadow-amber-900/10',
-    selectedBorder: 'border-amber-500/20',
-    node: 'bg-[rgb(var(--color-bg-surface))] light:bg-white border-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.4)]',
-    icon: 'bg-amber-500/10 text-amber-400 light:bg-amber-100 light:text-amber-700 border-amber-500/20',
+    node: 'bg-white border-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.4)] dark:bg-[rgb(var(--color-bg-surface))] dark:border-amber-400',
+    icon: 'bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20',
+    edge: 'from-amber-500 to-amber-400 dark:from-amber-400 dark:to-amber-500',
     combobox: 'amber',
   },
 };
@@ -116,7 +116,7 @@ export const NAV_ROOT = `flex flex-col ${NAV_GUTTER} relative animate-fade-in`;
 /** The vertical rail behind the five nodes. Painted on the page background, and
  *  decorative — what it depicts is said in words by each step's own name. */
 export const NAV_RAIL_LINE =
-  'absolute left-[1.35rem] md:left-[2.35rem] top-0 bottom-0 w-px bg-white/5 light:bg-slate-400 z-0';
+  'absolute left-[1.35rem] md:left-[2.35rem] top-0 bottom-0 w-px bg-slate-400 dark:bg-white/5 z-0';
 
 /** The slot each rail node sits in, hung off the left edge of a step box. */
 export const NAV_NODE_SLOT =
@@ -126,33 +126,71 @@ export const NAV_NODE_SLOT =
 export const NAV_NODE_BASE =
   'absolute -left-[0.95rem] top-1/2 -translate-y-1/2 rounded-full transition-all duration-500 z-10 flex items-center justify-center';
 
-/** A step the reader has finished: an emerald tick, one semantic everywhere.
- *  The tick itself is `text-white` on `bg-emerald-500`, which measures 2.54:1
- *  against the 3:1 floor an icon has to clear. */
+/**
+ * A step the reader has finished: an emerald tick, one semantic everywhere.
+ *
+ * The fill is `emerald-600` in BOTH themes and is written as an explicit pair
+ * for that reason. It is not decoration: the tick inside it is white, and white
+ * on `emerald-500` measures 2.54:1 against the 3:1 floor a non-text glyph has to
+ * clear. `emerald-600` takes it to 3.77:1, and there is no theme in which the
+ * weaker green would be right. Only the ring around it lightens in the dark,
+ * where a `-700` rim would disappear into the page.
+ */
 export const NAV_NODE_COMPLETE =
-  'w-[1.15rem] h-[1.15rem] bg-emerald-500 border-2 border-emerald-400/60 shadow-[0_0_10px_rgba(16,185,129,0.45)]';
+  'w-[1.15rem] h-[1.15rem] bg-emerald-600 border-2 border-emerald-700/50 ' +
+  'shadow-[0_0_10px_rgba(5,150,105,0.45)] dark:bg-emerald-600 dark:border-emerald-400/60';
 
 /** The step the reader is standing on. Its ring is the level's hue and arrives
  *  from `NAV_LEVELS[level].node` at the call site. */
 export const NAV_NODE_CURRENT = 'w-4 h-4 border-2 scale-125';
 
-/** A step not yet reached: hollow, and dimmed by both opacity and scale. */
+/** A step not yet reached: hollow, and dimmed by scale more than by opacity.
+ *
+ *  `opacity-50` was doing most of the de-emphasis and taking the node's rim with
+ *  it; the hollow fill and `scale-90` already say "not there yet", so the
+ *  opacity only has to finish the sentence (the verb ribbon's D-E, same
+ *  argument). Painted on the page background. */
 export const NAV_NODE_UPCOMING =
-  'w-4 h-4 border-2 bg-[rgb(var(--color-bg-surface))] light:bg-slate-200 border-white/20 light:border-slate-400 scale-90 opacity-50';
+  'w-4 h-4 border-2 scale-90 opacity-60 ' +
+  'bg-slate-200 border-slate-400 dark:bg-[rgb(var(--color-bg-surface))] dark:border-white/20';
 
 /** One step's outer container, which carries its z-index and the gap to the
  *  step below. Painted on the page background. */
 export const NAV_STEP_CONTAINER = 'relative transition-all duration-500 ease-in-out w-full';
 
-/** The step box the reader is working in. Its border and shadow tint arrive
- *  from `NAV_LEVELS[level]` at the call site. Painted on the page background. */
+/**
+ * The step box the reader is working in. Neutral glass, in both themes.
+ *
+ * It used to be a hue-bordered, hue-shadowed panel — `border-2 border-blue-500`
+ * over `light:bg-white`, five of them stacked down the page — which put the
+ * level's decorative colour on the largest surface in the component and left
+ * nothing for the colours that mean something. The hue now lives on
+ * `NAV_STEP_EDGE`, the rail node and the header tile; the box carries elevation
+ * instead, which is what actually says "this is the one you are working in".
+ *
+ * `scale-[1.01]` went with it: under `index.css`'s `overflow-x: clip` it clipped
+ * the box's own right edge by half a percent, and once the box has a shadow of
+ * its own it was buying nothing. Painted on the page background.
+ */
 export const NAV_STEP_BOX_ACTIVE =
-  'relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 shadow-xl py-6 px-6 scale-[1.01] z-20';
+  'relative w-full rounded-2xl py-6 px-6 z-20 border transition-all duration-500 ease-out ' +
+  'bg-white border-slate-300 shadow-xl shadow-slate-900/5 ' +
+  'dark:bg-[rgb(var(--color-bg-surface))] dark:border-white/10 dark:shadow-lg dark:shadow-black/30';
 
-/** A step already chosen, folded down to a single row. Its border arrives from
- *  `NAV_LEVELS[level].selectedBorder`. Painted on the page background. */
+/** A step already chosen, folded down to a single row. It keeps no hue at all —
+ *  a finished step is not where the reader is looking, and the rail node beside
+ *  it is already an emerald tick. Painted on the page background. */
 export const NAV_STEP_BOX_DONE =
-  'relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface))]/60 light:bg-white border light:border-slate-300 light:shadow-sm py-3 px-4 z-10';
+  'relative w-full rounded-2xl py-3 px-4 z-10 border transition-all duration-500 ease-out ' +
+  'bg-white/70 border-slate-200 shadow-sm ' +
+  'dark:bg-[rgb(var(--color-bg-surface))]/60 dark:border-white/5 dark:shadow-none';
+
+/** Edge-lighting down the active step, and where the level hue went. The
+ *  gradient itself arrives from `NAV_LEVELS[level].edge` at the call site.
+ *  Rendered on the active step only — a chosen step is not a place, so it has
+ *  nothing to mark. Painted on the step box. */
+export const NAV_STEP_EDGE =
+  'absolute inset-y-4 left-0 w-0.5 rounded-full pointer-events-none bg-gradient-to-b';
 
 /** The icon tile beside that name. Its fill arrives from
  *  `NAV_LEVELS[level].icon`. Painted on the step box. */
@@ -161,7 +199,7 @@ export const NAV_STEP_HEADER_TILE = 'p-1.5 rounded-md';
 /** "COURSE", "TOPIC", "QUESTION" — the step's own name, drawn while the level
  *  is unchosen. Painted on the step box. */
 export const NAV_STEP_HEADER_LABEL =
-  'text-xs font-black uppercase tracking-widest text-[rgb(var(--color-text-primary))] light:text-slate-900';
+  'text-xs font-black uppercase tracking-widest text-slate-900 dark:text-white';
 
 /** The small square buttons in each step's action cluster — rename, delete,
  *  import, generate. Their fill and text arrive from `NAV_ACTION_VARIANTS`.
@@ -172,41 +210,65 @@ export const NAV_ACTION_BUTTON =
 /**
  * What each action button is for, in colour. Painted on the step box.
  *
+ * The washes are one stop deeper in the light theme than the alpha the dark
+ * theme wears, per DesignSpec §2's first parity rule: `bg-amber-400/10` over a
+ * white step box is a two-percent difference and effectively is not there, so
+ * these buttons had no fill at all in the light theme.
+ *
  * `locked` and `special` are the only two that carry a visible label — "Import
  * Syllabus", "From Syllabus", "Add from Syllabus", "Generate" — so they are the
  * only two whose text has to clear the 4.5:1 floor rather than the 3:1 an icon
- * gets. `light:text-amber-600` on their amber wash measures 3.03:1 and is a
- * defect. `danger`'s `light:text-red-600` measures 4.23:1 and is icon-only, so
- * it clears its floor and must be left alone.
+ * gets. `amber-600` on their wash is a defect and is measured and lifted in the
+ * step after this one. `danger`'s `red-600` is icon-only and clears its floor,
+ * so it is left alone.
+ *
+ * `primary` is the product's brand gradient, which is the same colour in both
+ * themes (§2) and appears on four other surfaces; its pair is written out with
+ * identical values rather than split.
  */
 export const NAV_ACTION_VARIANTS: Record<
   'default' | 'danger' | 'special' | 'primary' | 'vault' | 'locked',
   string
 > = {
-  locked: 'bg-amber-400/10 border-amber-400/40 text-amber-500 light:text-amber-600',
-  danger: 'bg-red-500/10 border-red-500/20 text-red-400 light:text-red-600',
-  special: 'bg-amber-500/10 border-amber-500/20 text-yellow-400 light:text-amber-600',
-  primary: 'bg-gradient-to-r from-indigo-500 to-sky-500 border-transparent text-white shadow-md',
+  locked:
+    'bg-amber-100 border-amber-300 text-amber-600 ' +
+    'dark:bg-amber-400/10 dark:border-amber-400/40 dark:text-amber-500',
+  danger:
+    'bg-red-100 border-red-200 text-red-600 ' +
+    'dark:bg-red-500/10 dark:border-red-500/20 dark:text-red-400',
+  special:
+    'bg-amber-100 border-amber-200 text-amber-600 ' +
+    'dark:bg-amber-500/10 dark:border-amber-500/20 dark:text-yellow-400',
+  primary:
+    'bg-gradient-to-r from-indigo-500 to-sky-500 border-transparent text-white shadow-md ' +
+    'dark:from-indigo-500 dark:to-sky-500 dark:text-white',
   vault:
-    'bg-blue-600/10 light:bg-blue-50 border-blue-600/20 light:border-blue-300 text-blue-400 light:text-blue-700',
+    'bg-blue-50 border-blue-300 text-blue-700 ' +
+    'dark:bg-blue-600/10 dark:border-blue-600/20 dark:text-blue-400',
   default:
-    'bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border border-white/5 light:border-slate-400 text-[rgb(var(--color-text-secondary))] light:text-slate-600',
+    'bg-white border-slate-400 text-slate-600 ' +
+    'dark:bg-[rgb(var(--color-bg-surface-inset))] dark:border-white/5 dark:text-[rgb(var(--color-text-secondary))]',
 };
 
 /** The inline "new topic" editor that opens inside the Topic step. Painted on
  *  the step box. */
 export const NAV_INLINE_PANEL =
-  'mt-3 p-4 rounded-2xl bg-white/5 light:bg-slate-50 border border-purple-500/20 light:border-purple-200 animate-fade-in';
+  'mt-3 p-4 rounded-2xl bg-slate-50 border border-purple-200 dark:bg-white/5 dark:border-purple-500/20 animate-fade-in';
 
 /** Its name field and its syllabus-text field. Painted on the inline panel; the
  *  field itself adds `font-medium` and the textarea adds `resize-y`. */
 export const NAV_INLINE_INPUT =
-  'w-full px-3 py-2 rounded-xl bg-white/10 light:bg-white border border-white/10 light:border-slate-200 text-sm text-[rgb(var(--color-text-primary))] placeholder:text-[rgb(var(--color-text-muted))] focus:outline-none focus:ring-2 focus:ring-purple-500/40';
+  'w-full px-3 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 ' +
+  'bg-white border border-slate-200 text-slate-900 placeholder:text-slate-500 focus:ring-purple-500/40 ' +
+  'dark:bg-white/10 dark:border-white/10 dark:text-[rgb(var(--color-text-primary))] ' +
+  'dark:placeholder:text-[rgb(var(--color-text-muted))] dark:focus:ring-purple-400/40';
 
 /** One chosen focus area, under the dot-point pickers. Painted on the step
  *  box. */
 export const NAV_FOCUS_PILL =
-  'flex items-center gap-2 px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 light:text-emerald-800 text-[10px] font-black uppercase border border-emerald-500/20';
+  'flex items-center gap-2 px-2.5 py-1 rounded-lg text-[10px] font-black uppercase border ' +
+  'bg-emerald-100 text-emerald-800 border-emerald-300 ' +
+  'dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/20';
 
 /** The icon tile at the head of an option row in any of the pickers. Geometry
  *  only: its hue is the row's own and is interpolated at the call site, which is
