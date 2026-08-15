@@ -734,6 +734,13 @@ export const openNavigatorToDotPoint = async (page: Page): Promise<void> => { �
 
 Reuse the existing `freezeAnimations` / `measureContrast` / `remeasureTagged` / `describeReadings` imports and the `PARITY_TOLERANCE` and `WIDE` constants.
 
+**Four things Steps 7–9 left this step to inherit:**
+
+- **The fold now hands over focus**, so after `openFirstQuestion` the active element is `#syllabus-nav-bar`, not `<body>`. Any spec asserting a scroll position after a modal closes is now sensitive to focus restoration — see the `preventScroll` note below.
+- **`openNavigatorToDotPoint` will not trip the fold**, so `App.tsx`'s live region stays empty and the navigator keeps focus. No interference with `measureContrast`.
+- **Two new `sr-only` text nodes are in the DOM** — the cascade region (Step 2) and the fold region (Step 9). Both are `sr-only`, so they have no computed background of their own. **Check whether `contrast.ts` walks them before assuming a clean run**; it may need to skip `.sr-only` or return `unassessable`.
+- **The question rows sit one level deeper** (inside `li[role=group] > ul[role=none]`). Any CSS selector using `ul[role=listbox] > li` now matches the *group*, not the option. `getByRole('option')` is unaffected.
+
 **Also open the question list before measuring** — the tinted question rows, their verb chips and their `N focus areas` labels are inside a dropdown that only exists while open, and three of Step 5's defects live there.
 
 **Do not touch:** `tests/e2e/support/contrast.ts`. No exclusion, no threshold change, no skipped assertion. If a reading fails, the failure is real and belongs to Step 4 or Step 5.
@@ -823,6 +830,8 @@ Mock `services/geminiService` in every render test that mounts `PromptSelector` 
 
 **R4 — Step 9 touches `App.tsx`, which the brief did not scope.** Gated on M2 for that reason. Its ungated half (a landmark on `SyllabusNavBar`, reduced motion in `Breadcrumb`) is small and should land regardless.
 
+**R5a — `useFocusTrap` and focus handovers interact, and any future one will hit it** *(found in Step 9)*. Giving the fold a real element to restore focus to turned `modal-scroll.spec.ts` red: `.focus()` scrolls its target into view, undoing 9px of the position `useScrollLock` had just restored. Fixed at the source — the trap's restore now passes `{ preventScroll: true }`, since the page is locked while a dialog is open so the opener cannot have moved, and the hook's job is the keyboard rather than the viewport. **This is an app-wide behaviour change made inside a navigator series** and deserves its own sentence in the changelog.
+
 **R5 — programmatic focus moves are easy to get subtly wrong.** Step 9's guard must fire on the *transition*, not the steady state, or every re-render steals focus from whatever the user is doing — including from the editor, mid-sentence. Test it by typing in the editor and forcing a re-render.
 
 **R6 — Mobile Safari is unverified locally.** WebKit is not installed in the development container. This series introduces no new `backdrop-blur` (Step 4's boxes are opaque), which is the thing that has bitten this project before, but Step 6's geometry change and Step 1's DOM restructure both want a look on a real phone. CI's `PW_FAST` matrix runs Mobile Safari on every pull request — watch that check rather than assuming.
@@ -833,7 +842,7 @@ Mock `services/geminiService` in every render test that mounts `PromptSelector` 
 
 **R9 — the `primary` action-button gradient's sky end is 2.77:1 against white text**, and it is deliberately not fixed here (Step 5) because it is the product's brand gradient and appears on four other surfaces. It is a real reading, on a real label, and it should be raised as its own item along with the ribbon plan's unclosed R7 (`ReferenceMaterials.tsx:57`) and R7a (the ribbon's own Sparkles tile) — all three are the same defect class and all three are now written down in three different documents.
 
-**R10 — Could not determine.** Whether the bundled curriculum ever puts a course list above `SEARCH_THRESHOLD` on a real deployment (locally it ships three, so the course picker's search box — and its focus-loss path — is unreachable by hand); whether any teaching material, screenshot or onboarding asset pins the current five-hue navigator, which bears on M1; whether `probe.tmp.mjs` / `probe2.tmp.mjs` at the repo root touch this component's markup; and and — **now closed** — `projectDocs/UIComponentImprovements.md` **does not exist**, so that quarter of this risk is dead.
+**R10 — mostly answered.** **Nothing in the shipped library crosses `SEARCH_THRESHOLD = 7`**: the stock `HSCBiology` tops out at 2 prompts per dot point and `HSCSoftwareEngineering` at 6, and "Import 3 items" brings in only Biology and Chemistry. A multi-tier grouped question list **cannot be reached by hand from a stock install** — Step 8 had to import a synthetic topic through the Data Vault to see one. (Data Vault navigation, since it is not obvious: the Import tab is labelled **"SYNC IN"**, the modal's `aria-label` is `"Data vault"` with a lower-case v, and it closes itself after a successful topic import, so locators scoped to `page` rather than the dialog will hit the navigator's comboboxes behind it.) Still open: whether any teaching material or screenshot pins the current five-hue navigator; whether any teaching material, screenshot or onboarding asset pins the current five-hue navigator, which bears on M1; whether `probe.tmp.mjs` / `probe2.tmp.mjs` at the repo root touch this component's markup; and and — **now closed** — `projectDocs/UIComponentImprovements.md` **does not exist**, so that quarter of this risk is dead.
 
 **R11 — two contrast figures in this document rest on an inferred backdrop.** The `emerald-500/80`, `purple-400` and `red-400` readings assume the wash sits directly on white. If the option row or the button carries an intermediate surface, the true figure is different. Step 5 is required to measure all three before choosing values, and to record what it measured. Calculated is not measured, and this document says so rather than pretending otherwise.
 
