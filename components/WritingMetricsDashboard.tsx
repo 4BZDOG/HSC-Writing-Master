@@ -33,7 +33,7 @@ const StatBox: React.FC<{
   colorClass: string;
   icon: React.ElementType;
 }> = ({ label, value, colorClass, icon: Icon }) => (
-  <div className="flex-1 flex flex-col items-center justify-center py-2 px-2 border-r border-slate-200 dark:border-white/10 last:border-r-0 transition-colors">
+  <div className="flex-1 flex flex-col items-center justify-center py-3 px-2 border-r border-slate-200 dark:border-white/10 last:border-r-0 transition-colors">
     <div className="flex items-center gap-1.5">
       <Icon className="w-3 h-3 text-slate-500 dark:text-slate-400" />
       <span className="text-[9px] font-black uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">

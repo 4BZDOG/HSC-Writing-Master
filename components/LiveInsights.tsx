@@ -68,18 +68,38 @@ const LiveInsights: React.FC<LiveInsightsProps> = React.memo(
           onClick={() => setIsCollapsed((c) => !c)}
           aria-expanded={!isCollapsed}
           aria-controls={panelId}
-          className={`w-full flex items-center gap-2.5 px-5 py-3 text-left transition-colors ${
+          className={`w-full py-3.5 px-5 flex items-center gap-4 text-left transition-all ${
             isCollapsed ? PANEL_HEADER_CLOSED : PANEL_HEADER_OPEN
           }`}
         >
-          <Lightbulb className="w-4 h-4 shrink-0 text-amber-500 dark:text-amber-400" />
+          {/* Same icon-tile treatment as the reference rail's accordions and
+              the exemplars panel — a bare icon here made this row visibly
+              shorter than its neighbours, the "close but not quite aligned"
+              a glance down the column used to catch. */}
+          <div
+            className={`w-8 h-8 shrink-0 rounded-xl flex items-center justify-center border transition-all duration-500 ${
+              isCollapsed
+                ? 'bg-slate-100 dark:bg-black/20 border-slate-300 dark:border-white/10 text-slate-500'
+                : 'bg-amber-500 border-amber-400/40 text-white shadow-lg'
+            }`}
+          >
+            <Lightbulb className="w-4 h-4" />
+          </div>
           {/* A span, not a heading: the row IS the disclosure control, and the
               rail's other panels label themselves the same way. */}
-          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400">
-            Live Insights
-          </span>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 opacity-80">
-            · {summary}
+          <span className="text-left">
+            <span
+              className={`block text-[10px] font-black uppercase tracking-[0.25em] ${
+                isCollapsed
+                  ? 'text-slate-500 dark:text-slate-400'
+                  : 'text-slate-900 dark:text-white'
+              }`}
+            >
+              Live Insights
+            </span>
+            <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 opacity-80">
+              {summary}
+            </span>
           </span>
           <div className="flex items-center gap-2.5 shrink-0 ml-auto">
             <PanelReadChip show={opened && isCollapsed} />
