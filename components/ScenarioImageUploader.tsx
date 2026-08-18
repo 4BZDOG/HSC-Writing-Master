@@ -7,6 +7,7 @@ import {
   saveScenarioImage,
 } from '../utils/scenarioImageStorage';
 import { isImageMimeType, prepareScenarioImage } from '../utils/scenarioImageCodec';
+import { deleteScenarioImageFromStorage } from '../services/scenarioImageSyncService';
 
 type ToastFn = (message: string, type: 'success' | 'error' | 'info') => void;
 
@@ -102,6 +103,11 @@ const ScenarioImageUploader: React.FC<ScenarioImageUploaderProps> = ({
     setIsBusy(true);
     try {
       await deleteScenarioImage(promptId);
+      // Fail-soft and fire-and-forget: a Storage delete failure (no config,
+      // network, or the still-unapplied RLS policy) must not block removing
+      // the image locally — but without this call the uploaded bytes would
+      // never be cleaned up at all. See scenarioImageSyncService.ts.
+      void deleteScenarioImageFromStorage(existingImage?.storagePath);
       setPreviewDataUrl(null);
       onImageChange(undefined);
       showToast?.('Scenario image removed.', 'success');
@@ -113,7 +119,7 @@ const ScenarioImageUploader: React.FC<ScenarioImageUploaderProps> = ({
     } finally {
       setIsBusy(false);
     }
-  }, [promptId, onImageChange, showToast]);
+  }, [promptId, existingImage, onImageChange, showToast]);
 
   const hasImage = !!existingImage || !!previewDataUrl;
 
