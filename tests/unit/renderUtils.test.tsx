@@ -273,3 +273,65 @@ describe('classical plurals', () => {
     expect(textContainsKeyword('The analyses agree.', 'analysis')).toBe(true);
   });
 });
+
+/**
+ * Formula & scientific/humanities notation — `renderFormattedText` now shares
+ * `utils/mathNotation.ts` with `pdf/text.ts`'s `toText()`, so a teacher who
+ * types `\pi r^2` or `\frac{PV}{nR}` sees the same beautified form on screen
+ * as in the printed report. See `projectDocs/Plan-FormulaNotationRendering.md`.
+ */
+describe('renderFormattedText — maths/science notation', () => {
+  it('renders \\pi r^2 with a real superscript, symbol expanded', () => {
+    const { container } = render(<>{renderFormattedText('\\pi r^2')}</>);
+    const sup = container.querySelector('sup');
+    expect(sup).not.toBeNull();
+    expect(sup?.textContent).toBe('2');
+    expect(container.textContent).toBe('\u03c0 r2');
+  });
+
+  it('renders \\frac{a}{b} as a stacked-fraction structure (two nested spans)', () => {
+    const { container } = render(<>{renderFormattedText('\\frac{a}{b}')}</>);
+    const fractionSpan = container.querySelector('span.inline-flex.flex-col');
+    expect(fractionSpan).not.toBeNull();
+    const inner = fractionSpan?.querySelectorAll(':scope > span') ?? [];
+    expect(inner.length).toBe(2);
+    expect(inner[0].textContent).toBe('a');
+    expect(inner[0].className).toContain('border-b');
+    expect(inner[1].textContent).toBe('b');
+    expect(container.textContent).toBe('ab');
+  });
+
+  it('renders Ca^{2+} (brace-form superscript) as a real <sup>', () => {
+    const { container } = render(<>{renderFormattedText('Ca^{2+}')}</>);
+    const sup = container.querySelector('sup');
+    expect(sup).not.toBeNull();
+    expect(sup?.textContent).toBe('2+');
+    expect(container.textContent).toBe('Ca2+');
+  });
+
+  it('renders log_{10} (brace-form subscript) as a real <sub>', () => {
+    const { container } = render(<>{renderFormattedText('log_{10}')}</>);
+    const sub = container.querySelector('sub');
+    expect(sub).not.toBeNull();
+    expect(sub?.textContent).toBe('10');
+  });
+
+  it('renders \\rightleftharpoons as \u21cc inline text', () => {
+    const { container } = render(
+      <>{renderFormattedText('H_2O \\rightleftharpoons H^+ + OH^-')}</>
+    );
+    expect(container.textContent).toContain('\u21cc');
+  });
+
+  it('renders \\vec{F} with a combining arrow-above', () => {
+    const { container } = render(<>{renderFormattedText('\\vec{F} = m\\vec{a}')}</>);
+    expect(container.textContent).toBe('F\u20d7 = ma\u20d7');
+  });
+
+  it('still highlights keywords inside a fraction (nested recursion)', () => {
+    const { container } = render(
+      <>{renderFormattedText('The rate is \\frac{cell}{time}.', ['cell'])}</>
+    );
+    expect(container.querySelectorAll('span.text-emerald-400').length).toBe(1);
+  });
+});

@@ -29,6 +29,7 @@ import {
   ImagePlus,
 } from 'lucide-react';
 import { getTierScaleConfig, renderFormattedText } from '../utils/renderUtils';
+import MathSymbolToolbar from './MathSymbolToolbar';
 import ScenarioImageUploader from './ScenarioImageUploader';
 import ScenarioCarousel from './ScenarioCarousel';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
@@ -332,6 +333,8 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   const [editQuestionText, setEditQuestionText] = useState(prompt.question);
   const [isEditingScenario, setIsEditingScenario] = useState(false);
   const [editScenarioText, setEditScenarioText] = useState(prompt.scenario || '');
+  const questionTextareaRef = useRef<HTMLTextAreaElement>(null);
+  const scenarioTextareaRef = useRef<HTMLTextAreaElement>(null);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [selectedOutcome, setSelectedOutcome] = useState<CourseOutcome | null>(null);
   const [isFlagModalOpen, setIsFlagModalOpen] = useState(false);
@@ -669,7 +672,15 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             <div className="group/question relative pt-2">
               {isEditingQuestion ? (
                 <div className="animate-fade-in space-y-3 p-2 bg-[rgb(var(--color-bg-surface-inset))] light:bg-white rounded-3xl border border-white/10 light:border-slate-300 shadow-inner">
+                  <div className="px-2 pt-2">
+                    <MathSymbolToolbar
+                      textareaRef={questionTextareaRef}
+                      value={editQuestionText}
+                      onChange={setEditQuestionText}
+                    />
+                  </div>
                   <textarea
+                    ref={questionTextareaRef}
                     value={editQuestionText}
                     onChange={(e) => setEditQuestionText(e.target.value)}
                     className="w-full bg-transparent border-none p-4 font-serif font-medium outline-none text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-500 min-h-[120px]"
@@ -792,7 +803,15 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
 
                 {isEditingScenario ? (
                   <div className="animate-fade-in space-y-3 p-2 bg-[rgb(var(--color-bg-surface-inset))] light:bg-white rounded-2xl border border-white/10 light:border-slate-300">
+                    <div className="px-2 pt-2">
+                      <MathSymbolToolbar
+                        textareaRef={scenarioTextareaRef}
+                        value={editScenarioText}
+                        onChange={setEditScenarioText}
+                      />
+                    </div>
                     <textarea
+                      ref={scenarioTextareaRef}
                       value={editScenarioText}
                       onChange={(e) => setEditScenarioText(e.target.value)}
                       className="w-full bg-transparent border-none p-4 font-medium outline-none text-[rgb(var(--color-text-primary))] light:text-slate-900 resize-none font-serif leading-relaxed"

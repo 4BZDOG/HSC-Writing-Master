@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { CourseOutcome, Prompt, PromptVerb } from '../types';
@@ -31,6 +31,7 @@ import {
   ListChecks,
 } from 'lucide-react';
 import LoadingIndicator from './LoadingIndicator';
+import MathSymbolToolbar from './MathSymbolToolbar';
 import AiBusyOverlay from './AiBusyOverlay';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useDiscardGuard } from '../hooks/useDiscardGuard';
@@ -167,6 +168,9 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
   const [editedQuestion, setEditedQuestion] = useState('');
   const [editedScenario, setEditedScenario] = useState('');
   const [editedCriteria, setEditedCriteria] = useState('');
+  const previewQuestionTextareaRef = useRef<HTMLTextAreaElement>(null);
+  const previewScenarioTextareaRef = useRef<HTMLTextAreaElement>(null);
+  const previewCriteriaTextareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -798,8 +802,14 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                   >
                     Polished Question · edit before saving
                   </label>
+                  <MathSymbolToolbar
+                    textareaRef={previewQuestionTextareaRef}
+                    value={editedQuestion}
+                    onChange={setEditedQuestion}
+                  />
                   <textarea
                     id="manual-preview-question"
+                    ref={previewQuestionTextareaRef}
                     value={editedQuestion}
                     onChange={(e) => setEditedQuestion(e.target.value)}
                     rows={3}
@@ -845,13 +855,21 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       Scenario
                     </label>
                     {includeScenario ? (
-                      <textarea
-                        id="manual-preview-scenario"
-                        value={editedScenario}
-                        onChange={(e) => setEditedScenario(e.target.value)}
-                        rows={6}
-                        className="w-full p-5 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-sm text-slate-300 light:text-slate-700 leading-relaxed font-serif italic focus:outline-none focus:ring-2 focus:ring-indigo-500/40 resize-none"
-                      />
+                      <>
+                        <MathSymbolToolbar
+                          textareaRef={previewScenarioTextareaRef}
+                          value={editedScenario}
+                          onChange={setEditedScenario}
+                        />
+                        <textarea
+                          id="manual-preview-scenario"
+                          ref={previewScenarioTextareaRef}
+                          value={editedScenario}
+                          onChange={(e) => setEditedScenario(e.target.value)}
+                          rows={6}
+                          className="w-full p-5 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-sm text-slate-300 light:text-slate-700 leading-relaxed font-serif italic focus:outline-none focus:ring-2 focus:ring-indigo-500/40 resize-none"
+                        />
+                      </>
                     ) : (
                       <div className="p-5 rounded-2xl border border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-xs text-slate-500 italic font-medium">
                         No scenario — this is a direct question.
@@ -865,8 +883,14 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     >
                       Marking Criteria
                     </label>
+                    <MathSymbolToolbar
+                      textareaRef={previewCriteriaTextareaRef}
+                      value={editedCriteria}
+                      onChange={setEditedCriteria}
+                    />
                     <textarea
                       id="manual-preview-criteria"
+                      ref={previewCriteriaTextareaRef}
                       value={editedCriteria}
                       onChange={(e) => setEditedCriteria(e.target.value)}
                       rows={6}
