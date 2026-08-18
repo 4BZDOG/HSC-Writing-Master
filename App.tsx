@@ -790,77 +790,93 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           />
         )}
 
-        {!isFocusMode && !isNavCollapsed && (
-          <>
-            <div className="relative z-50">
-              <PromptSelector
-                courses={courses}
-                statePath={statePath}
-                onPathChange={handlePathChange}
-                onAddCourse={() => openModal('courseCreator')}
-                onRequestCourse={(prefill) => {
-                  // Carries the text they searched for, so the request form
-                  // opens on their own words rather than an empty field.
-                  setCourseRequestPrefill(prefill ?? '');
-                  openModal('courseRequest');
-                }}
-                onAddSubTopic={() => openModal('subTopicCreator')}
-                onGeneratePrompt={() => openModal('promptGenerator')}
-                onManualEntry={() => openModal('manualPrompt')}
-                onEditOutcomes={() => openModal('outcomesEditor')}
-                onOpenDataManager={() => openModal('dataManager')}
-                onRenameItem={requestRename}
-                onDeleteItem={requestDelete}
-                onUpdateFocusAreas={
-                  canCurateContent(user.role) ? handleUpdateFocusAreas : undefined
-                }
-                onAddTopicFromSyllabus={() => openModal('topicSyllabusImport')}
-                onAddTopicWithContent={(topicName, subTopics) => {
-                  if (!statePath.courseId) return;
-                  const newTopic = handleCreateTopicWithContent(
-                    statePath.courseId,
-                    topicName,
-                    subTopics,
-                    // The year the navigator is showing — resolved the same way
-                    // IT resolves, `allowEmpty` and all. Without that, a topic
-                    // created while standing in an empty Year 11 resolved to
-                    // Year 12 and appeared in the HSC list instead.
-                    activeSyllabusYear(
-                      currentCourse,
-                      statePath.syllabusYear,
-                      canCurateContent(user.role)
-                    )
-                  );
-                  setNewlyAddedIds((prev) => new Set(prev).add(newTopic.id));
-                  handlePathChange({
-                    topicId: newTopic.id,
-                    subTopicId: undefined,
-                    dotPointId: undefined,
-                    promptId: undefined,
-                  });
-                }}
-                onGenerateDotPoints={() => openModal('dotPointGenerator')}
-                onImportTopic={() => openModal('topicImport')}
-                onImportSyllabus={() => openModal('fullSyllabusImport')}
-                onShareAssignment={canCurateContent(user.role) ? handleShareAssignment : undefined}
-                newlyAddedIds={newlyAddedIds}
-                userRole={user.role}
-              />
-            </div>
-
-            {currentPrompt && (
-              <div className="-mt-2 flex justify-end">
-                <button
-                  onClick={() => setIsNavExpanded(false)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 light:bg-slate-100 text-[rgb(var(--color-text-secondary))] border border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-200 hover:text-[rgb(var(--color-text-primary))] transition-all text-xs font-bold"
-                  title="Collapse the navigator and focus on your response"
-                >
-                  <ChevronUp className="w-3.5 h-3.5" />
-                  Collapse to breadcrumb
-                </button>
+        {/* Same collapsible treatment as the command verb ribbon and the
+            workspace's live-feedback panels: `grid-rows-[1fr]`/`[0fr]` animates
+            to whatever the content actually needs, `inert` keeps the tree out
+            of the tab order while it's shut without costing an unmount, and
+            the navigator's own internal state (search, inline "new topic"
+            form, question filter) survives a collapse/reopen instead of
+            resetting on every remount. */}
+        {!isFocusMode && (
+          <div
+            inert={isNavCollapsed}
+            className={`grid transition-all duration-700 ease-in-out ${
+              isNavCollapsed ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'
+            }`}
+          >
+            <div className="overflow-hidden">
+              <div className="relative z-50">
+                <PromptSelector
+                  courses={courses}
+                  statePath={statePath}
+                  onPathChange={handlePathChange}
+                  onAddCourse={() => openModal('courseCreator')}
+                  onRequestCourse={(prefill) => {
+                    // Carries the text they searched for, so the request form
+                    // opens on their own words rather than an empty field.
+                    setCourseRequestPrefill(prefill ?? '');
+                    openModal('courseRequest');
+                  }}
+                  onAddSubTopic={() => openModal('subTopicCreator')}
+                  onGeneratePrompt={() => openModal('promptGenerator')}
+                  onManualEntry={() => openModal('manualPrompt')}
+                  onEditOutcomes={() => openModal('outcomesEditor')}
+                  onOpenDataManager={() => openModal('dataManager')}
+                  onRenameItem={requestRename}
+                  onDeleteItem={requestDelete}
+                  onUpdateFocusAreas={
+                    canCurateContent(user.role) ? handleUpdateFocusAreas : undefined
+                  }
+                  onAddTopicFromSyllabus={() => openModal('topicSyllabusImport')}
+                  onAddTopicWithContent={(topicName, subTopics) => {
+                    if (!statePath.courseId) return;
+                    const newTopic = handleCreateTopicWithContent(
+                      statePath.courseId,
+                      topicName,
+                      subTopics,
+                      // The year the navigator is showing — resolved the same way
+                      // IT resolves, `allowEmpty` and all. Without that, a topic
+                      // created while standing in an empty Year 11 resolved to
+                      // Year 12 and appeared in the HSC list instead.
+                      activeSyllabusYear(
+                        currentCourse,
+                        statePath.syllabusYear,
+                        canCurateContent(user.role)
+                      )
+                    );
+                    setNewlyAddedIds((prev) => new Set(prev).add(newTopic.id));
+                    handlePathChange({
+                      topicId: newTopic.id,
+                      subTopicId: undefined,
+                      dotPointId: undefined,
+                      promptId: undefined,
+                    });
+                  }}
+                  onGenerateDotPoints={() => openModal('dotPointGenerator')}
+                  onImportTopic={() => openModal('topicImport')}
+                  onImportSyllabus={() => openModal('fullSyllabusImport')}
+                  onShareAssignment={
+                    canCurateContent(user.role) ? handleShareAssignment : undefined
+                  }
+                  newlyAddedIds={newlyAddedIds}
+                  userRole={user.role}
+                />
               </div>
-            )}
-          </>
+
+              {currentPrompt && (
+                <div className="-mt-2 flex justify-end">
+                  <button
+                    onClick={() => setIsNavExpanded(false)}
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 light:bg-slate-100 text-[rgb(var(--color-text-secondary))] border border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-200 hover:text-[rgb(var(--color-text-primary))] transition-all text-xs font-bold"
+                    title="Collapse the navigator and focus on your response"
+                  >
+                    <ChevronUp className="w-3.5 h-3.5" />
+                    Collapse to breadcrumb
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
         )}
 
         {/* The verb reference, rendered from ONE site in both navigator states.
