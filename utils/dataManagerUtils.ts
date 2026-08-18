@@ -531,6 +531,14 @@ const PromptSchema = z
     verb: z.unknown().transform(normalizeVerb),
     highlightedQuestion: z.string().optional(),
     scenario: z.string().optional().default(''),
+    scenarioImage: z
+      .object({
+        id: z.string(),
+        alt: z.string().optional(),
+        updatedAt: z.number(),
+        storagePath: z.string().optional(),
+      })
+      .optional(),
     linkedOutcomes: z.array(z.string()).default([]),
     estimatedTime: z.string().optional(),
     relatedTopics: z.array(z.string()).default([]),
@@ -936,6 +944,7 @@ const mergePromptContent = (existingPrompt: Prompt, importedPrompt: Prompt): Pro
     importedPrompt.highlightedQuestion
   ),
   scenario: mergeScalarText(existingPrompt.scenario, importedPrompt.scenario),
+  scenarioImage: importedPrompt.scenarioImage ?? existingPrompt.scenarioImage,
   estimatedTime: mergeScalarText(existingPrompt.estimatedTime, importedPrompt.estimatedTime),
   markingCriteria: mergeScalarText(existingPrompt.markingCriteria, importedPrompt.markingCriteria),
   hscQuestionNumber: mergeScalarText(

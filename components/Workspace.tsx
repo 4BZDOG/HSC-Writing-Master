@@ -132,6 +132,7 @@ interface WorkspaceProps {
   writingMode: WritingMode;
   onWritingModeChange: (mode: WritingMode) => void;
   showBreadcrumb?: boolean;
+  showToast?: (message: string, type: 'success' | 'error' | 'info') => void;
 }
 
 /**
@@ -178,6 +179,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
   writingMode,
   onWritingModeChange,
   showBreadcrumb = true,
+  showToast,
 }) => {
   const { currentCourse, currentTopic, currentSubTopic, currentDotPoint, currentPrompt } =
     currentSelection;
@@ -632,6 +634,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
               minTotalHeight={syncedTotal}
               breadcrumb={breadcrumbItems.map((b) => b.label)}
               examMode={isExamMode}
+              showToast={showToast}
             />
           </div>
         )}
@@ -665,6 +668,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
               condensed
               breadcrumb={breadcrumbItems.map((b) => b.label)}
               examMode={isExamMode}
+              showToast={showToast}
             />
           </div>
         )}

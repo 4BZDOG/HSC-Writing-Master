@@ -418,6 +418,29 @@ alter table public.prompts        add column if not exists quality_notes text;
 alter table public.sample_answers add column if not exists quality_score int;
 alter table public.sample_answers add column if not exists quality_notes text;
 
+-- Scenario image (carousel) support — Storage object reference, not inline
+-- bytes. Additive/optional; existing rows are unaffected. The IndexedDB path
+-- (utils/scenarioImageStorage.ts) is the primary store for this feature;
+-- these columns and the bucket below are schema-level groundwork only — see
+-- projectDocs/Plan-AIModelsImagesNavigator.md section 2 for why actually
+-- syncing image bytes to/from this bucket is explicitly deferred.
+alter table public.prompts add column if not exists scenario_image_path text;
+alter table public.prompts add column if not exists scenario_image_alt text;
+alter table public.prompts add column if not exists scenario_image_updated_at timestamptz;
+
+insert into storage.buckets (id, name, public)
+values ('scenario-images', 'scenario-images', false)
+on conflict (id) do nothing;
+
+-- TODO(security-review): Storage RLS policies for the `scenario-images`
+-- bucket on `storage.objects` — mirror the read/write shape of the
+-- `prompts_read`/`prompts_insert` policies (status-gated: visible if
+-- `approved`, writable by `created_by`/reviewers), but translated into
+-- `storage.objects` predicates keyed off the object path
+-- (`${promptId}/${imageId}`) rather than a joined `content_status` column.
+-- Needs a human security review before this bucket is used for real writes;
+-- not authored here deliberately.
+
 -- Structural moderation (topics/sub_topics/dot_points): bring the syllabus
 -- STRUCTURE into the same contribute→moderate model as prompts, so users can
 -- push locally-authored structure to the shared library for review. Added

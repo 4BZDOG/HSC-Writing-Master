@@ -26,8 +26,11 @@ import {
   Target,
   Flag,
   Landmark,
+  ImagePlus,
 } from 'lucide-react';
 import { getTierScaleConfig, renderFormattedText } from '../utils/renderUtils';
+import ScenarioImageUploader from './ScenarioImageUploader';
+import ScenarioCarousel from './ScenarioCarousel';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { naturalCardHeight } from '../utils/layoutConstants';
 import { useChromeHeightReporter } from '../hooks/useChromeHeightReporter';
@@ -83,6 +86,10 @@ interface PromptDisplayProps {
    *  sitting an exam is not handed the outcomes their answer is marked against,
    *  let alone an AI explanation of how to satisfy them. */
   examMode?: boolean;
+  /** Surfaces paste/upload rejections from the scenario image panel. Optional
+   *  so existing callers/tests that don't thread a toast handler through are
+   *  unaffected — the panel simply drops the message if absent. */
+  showToast?: (message: string, type: 'success' | 'error' | 'info') => void;
 }
 
 const MeshOverlay = ({
@@ -319,11 +326,13 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   condensed = false,
   breadcrumb,
   examMode = false,
+  showToast,
 }) => {
   const [isEditingQuestion, setIsEditingQuestion] = useState(false);
   const [editQuestionText, setEditQuestionText] = useState(prompt.question);
   const [isEditingScenario, setIsEditingScenario] = useState(false);
   const [editScenarioText, setEditScenarioText] = useState(prompt.scenario || '');
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [selectedOutcome, setSelectedOutcome] = useState<CourseOutcome | null>(null);
   const [isFlagModalOpen, setIsFlagModalOpen] = useState(false);
   const [isEditingProvenance, setIsEditingProvenance] = useState(false);
@@ -367,7 +376,10 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   // space the question itself can use instead. Same reasoning as `condensed`,
   // extended to Exam Mode and to viewers without curation rights.
   const showScenarioSection =
-    !!prompt.scenario || isEditingScenario || !(condensed || examMode || !canCurate);
+    !!prompt.scenario ||
+    !!prompt.scenarioImage ||
+    isEditingScenario ||
+    !(condensed || examMode || !canCurate);
   const pastHsc = useMemo(() => getPastHscLabel(prompt), [prompt]);
   // Filler for the void a short question leaves — see the block that uses it.
   // Keyed off the absence of a real scenario rather than of the scenario
@@ -749,9 +761,34 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       >
                         <Edit3 className="w-3.5 h-3.5" />
                       </button>
+                      <button
+                        onClick={() => setIsUploadingImage((v) => !v)}
+                        aria-expanded={isUploadingImage}
+                        className={`p-1.5 rounded-lg transition-colors ${
+                          isUploadingImage
+                            ? 'text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/10'
+                            : 'text-slate-400 light:text-slate-500 hover:text-white light:hover:text-indigo-600 hover:bg-white/10 light:hover:bg-slate-100'
+                        }`}
+                        title={
+                          prompt.scenarioImage ? 'Manage Scenario Image' : 'Add Scenario Image'
+                        }
+                      >
+                        <ImagePlus className="w-3.5 h-3.5" />
+                      </button>
                     </div>
                   )}
                 </div>
+
+                {isUploadingImage && canCurate && !isEditingScenario && (
+                  <div className="mb-4">
+                    <ScenarioImageUploader
+                      promptId={prompt.id}
+                      existingImage={prompt.scenarioImage}
+                      onImageChange={(ref) => onUpdatePrompt({ scenarioImage: ref })}
+                      showToast={showToast}
+                    />
+                  </div>
+                )}
 
                 {isEditingScenario ? (
                   <div className="animate-fade-in space-y-3 p-2 bg-[rgb(var(--color-bg-surface-inset))] light:bg-white rounded-2xl border border-white/10 light:border-slate-300">
@@ -785,13 +822,21 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     className={`
                            relative p-6 rounded-2xl transition-all duration-300
                            ${
-                             prompt.scenario
+                             prompt.scenario || prompt.scenarioImage
                                ? `bg-black/20 light:bg-slate-100 border-2 border-white/10 light:border-slate-300 shadow-inner`
                                : 'bg-transparent border-dashed border border-slate-700/50 light:border-slate-300'
                            }
                        `}
                   >
-                    {prompt.scenario ? (
+                    {prompt.scenarioImage ? (
+                      <ScenarioCarousel
+                        scenarioText={prompt.scenario}
+                        scenarioImage={prompt.scenarioImage}
+                        keywords={prompt.keywords}
+                        verb={prompt.verb}
+                        fontSize={fontSize}
+                      />
+                    ) : prompt.scenario ? (
                       <div className="relative">
                         {/* Decorative Quote Icon */}
                         <Quote className="absolute -top-3 -left-2 w-6 h-6 text-slate-500/20 light:text-slate-500/30 transform rotate-180" />

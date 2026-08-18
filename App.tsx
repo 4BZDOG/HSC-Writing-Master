@@ -953,6 +953,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
             writingMode={writingMode}
             onWritingModeChange={setWritingMode}
             showBreadcrumb={!isNavCollapsed}
+            showToast={showToast}
           />
         ) : (
           <div className="min-h-[50vh] flex flex-col items-center justify-center animate-fade-in">

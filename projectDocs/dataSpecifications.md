@@ -22,6 +22,7 @@ The app utilises a `/courseData/manifest.json` file to discover "Standard Librar
 *   **Verb**: Must be upper-case normalized (e.g., "EVALUATE"). Must exist in the `CommandTermInfo` map.
 *   **Marks**: Integer (1-20).
 *   **Scenario**: Recommended for Tier 3+. Must be > 15 characters to be considered "Complete" by the Audit Studio.
+*   **Scenario Image**: Optional `scenarioImage: ScenarioImageRef` (`id`, `alt?`, `updatedAt`, `storagePath?`) — a lightweight reference only. The image bytes themselves live in the `scenario_images_store` IDB object store (see `utils/scenarioImageStorage.ts`), keyed by the owning Prompt's id, never inline on the Prompt/Course JSON blob. `components/ScenarioCarousel.tsx` toggles between the scenario text and this image when both are present.
 *   **Marking Criteria**: Stored as raw text but parsed via RegEx into a visual hierarchy. Supports "[Mark] marks: [Descriptor]" formatting.
 
 ### Sample Answer
@@ -33,6 +34,7 @@ The app utilises a `/courseData/manifest.json` file to discover "Standard Librar
 *   **backups_store**: Automated hourly snapshots (Last 7 kept).
 *   **library_store**: Saved "Templates" for quick loading.
 *   **users_store**: User profiles, XP, and preferences.
+*   **scenario_images_store**: Scenario/diagram image bytes (data URL), keyed by Prompt id — kept out of the `courses_data` blob deliberately (see `Prompt.scenarioImage` above).
 *   **cache**: AICache (TTL 30 days) for heavy reasoning tasks.
 
 ## 6. Export Schema
