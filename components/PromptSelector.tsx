@@ -503,19 +503,27 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
 
   const subTopicOptions = useMemo(
     () =>
-      selectedTopic?.subTopics?.map((st) => ({
-        id: st.id,
-        label: st.name,
-        isNew: newlyAddedIds.has(st.id),
-        renderLabel: (
-          <div className="flex items-center gap-3">
-            <div className="p-1.5 rounded-md bg-indigo-500/20 text-indigo-500 light:bg-indigo-100 light:text-indigo-700 border border-indigo-500/20 flex-shrink-0">
-              <FolderOpen className="w-4 h-4" />
+      selectedTopic?.subTopics?.map((st) => {
+        const questionCount = st.dotPoints.reduce((n, dp) => n + (dp.prompts?.length ?? 0), 0);
+        return {
+          id: st.id,
+          label: st.name,
+          isNew: newlyAddedIds.has(st.id),
+          renderLabel: (
+            <div className="flex items-center gap-3">
+              <div className="p-1.5 rounded-md bg-indigo-500/20 text-indigo-500 light:bg-indigo-100 light:text-indigo-700 border border-indigo-500/20 flex-shrink-0">
+                <FolderOpen className="w-4 h-4" />
+              </div>
+              <span className="font-medium flex-1 min-w-0 truncate">{st.name}</span>
+              {questionCount > 0 && (
+                <span className="flex-shrink-0 text-[10px] font-bold uppercase tracking-wider text-indigo-500/80 light:text-indigo-700">
+                  {questionCount} question{questionCount === 1 ? '' : 's'}
+                </span>
+              )}
             </div>
-            <span className="font-medium">{st.name}</span>
-          </div>
-        ),
-      })) || [],
+          ),
+        };
+      }) || [],
     [selectedTopic, newlyAddedIds]
   );
 
