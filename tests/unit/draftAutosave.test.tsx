@@ -49,6 +49,15 @@ const prompt = (over: Partial<Prompt> = {}): Prompt =>
     ...over,
   }) as unknown as Prompt;
 
+// The syllabus path is built once in App now and handed down; the workspace
+// no longer derives its own.
+const crumbs = [
+  { label: 'Biology' },
+  { label: 'Genetics' },
+  { label: 'DNA and polypeptide synthesis' },
+  { label: 'Model the process of DNA replication' },
+];
+
 const statePath: StatePath = {
   courseId: 'c1',
   topicId: 't1',
@@ -126,6 +135,7 @@ const setup = (opts: { answer: string; current?: Prompt; debounced?: string }) =
       writingMode="coach"
       onWritingModeChange={vi.fn()}
       showBreadcrumb={false}
+      crumbs={crumbs}
     />
   );
 
@@ -153,6 +163,7 @@ const setup = (opts: { answer: string; current?: Prompt; debounced?: string }) =
         writingMode="coach"
         onWritingModeChange={vi.fn()}
         showBreadcrumb={false}
+        crumbs={crumbs}
       />
     );
 
@@ -277,6 +288,7 @@ describe('the draft saves itself', () => {
         writingMode="coach"
         onWritingModeChange={vi.fn()}
         showBreadcrumb={false}
+        crumbs={crumbs}
       />
     );
 

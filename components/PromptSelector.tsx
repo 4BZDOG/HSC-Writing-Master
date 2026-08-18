@@ -120,6 +120,12 @@ interface PromptSelectorProps {
   onUpdateFocusAreas?: (dotPointId: string, focusAreas: string[] | undefined) => void;
   newlyAddedIds: Set<string>;
   userRole: UserRole;
+  /**
+   * The course list has not finished arriving. Until the remote fetch resolves
+   * `courses` is legitimately empty, and a picker that opens onto "No options
+   * available." tells a returning student their courses do not exist.
+   */
+  isLoading?: boolean;
 }
 
 // Static lookup map for Tailwind classes to ensure they are not purged.
@@ -139,6 +145,22 @@ const tierGroupTitle = (tier: number): string =>
 const SUGGESTION_HEADINGS: Record<string, (tier: number) => string> = {
   'step-up': (tier) => `Suggested next · one step on from ${tierShortLabel(tier)}`,
   consolidate: (tier) => `Suggested next · more practice at ${tierShortLabel(tier)}`,
+};
+
+/**
+ * The path's levels, outermost first, and what each is called when a move
+ * discards the question below it. Order is load-bearing twice over: a cascade
+ * clears everything under whichever level moved, so the FIRST key that differs
+ * is the one the move was about, and the level the student is left standing on
+ * is the one immediately above it.
+ */
+const LEVEL_KEYS = ['courseId', 'topicId', 'subTopicId', 'dotPointId'] as const;
+
+const LEVEL_LABEL: Record<(typeof LEVEL_KEYS)[number], string> = {
+  courseId: 'course',
+  topicId: 'topic',
+  subTopicId: 'sub-topic',
+  dotPointId: 'syllabus point',
 };
 
 const THEMES: Record<string, any> = {
@@ -344,6 +366,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   onUpdateFocusAreas,
   newlyAddedIds,
   userRole,
+  isLoading = false,
 }) => {
   const [focusEditorOpen, setFocusEditorOpen] = useState(false);
   const canCurate = canCurateContent(userRole);
@@ -357,7 +380,11 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   // Only offered to people who cannot simply ADD the course themselves, and
   // only when there is a backend to record it in — a local-only session has
   // nowhere to put the request and would be promising something it can't keep.
-  const canRequestCourse = !canCreateTree && isCourseDemandAvailable(userRole) && !!onRequestCourse;
+  // ...and not while the list is still arriving: "Can't find your course?"
+  // against a list that has not loaded yet is a question nobody has been given
+  // the chance to answer.
+  const canRequestCourse =
+    !canCreateTree && isCourseDemandAvailable(userRole) && !!onRequestCourse && !isLoading;
   // AI generation controls stay visible when gated — amber + lock, and a click
   // opens the upgrade prompt instead. See services/entitlements.
   const studioLocked = isFeatureLocked('aiContentStudio');
@@ -872,6 +899,62 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   // rule is easier to reason about than two.
   const showQuestionFilters = promptOptions.length >= SEARCH_THRESHOLD;
 
+  /**
+   * Named because the change is invisible where it lands: choosing a different
+   * topic takes the question with it, and the workspace below simply vanishes
+   * — the largest state change in the app, with nothing saying what happened.
+   * A `role="status"` line rather than a toast: this is ordinary navigation,
+   * and `useToast` is `aria-live="assertive"`, which interrupts a student
+   * mid-sentence.
+   */
+  const [clearedNotice, setClearedNotice] = useState<string | null>(null);
+  const prevPath = useRef(statePath);
+  useEffect(() => {
+    const before = prevPath.current;
+    prevPath.current = statePath;
+    // Nothing was discarded: either there was no question, or there still is
+    // one. Either way any standing notice is stale.
+    if (!before.promptId || statePath.promptId) {
+      setClearedNotice(null);
+      return;
+    }
+
+    /**
+     * The two routes here move the path in opposite directions, and reading
+     * only "which key changed first" mistakes one for the other.
+     *
+     * A stage picker SETS level N and clears N+1…4, so the first differing key
+     * is N and it now holds a value — the student chose something, and naming
+     * it is right. A breadcrumb crumb does the inverse: it CLEARS N+1…4 and
+     * leaves N alone, so the first differing key is N+1 and it is now empty.
+     * Naming that key would report the level they walked away FROM as the one
+     * they had just picked. What they are actually left on is the level above
+     * it, and they chose nothing — they went back up.
+     *
+     * The dot-point crumb clears nothing but the question, so no level key
+     * differs at all. That is not "nothing happened": it is the one press that
+     * discards a question and changes literally nothing else on screen except
+     * the workspace vanishing, and it used to be the only cascade this notice
+     * was completely silent for. The student is left on the deepest level.
+     */
+    const changedIndex = LEVEL_KEYS.findIndex((k) => before[k] !== statePath[k]);
+    const setKey =
+      changedIndex !== -1 && statePath[LEVEL_KEYS[changedIndex]] ? LEVEL_KEYS[changedIndex] : null;
+    if (setKey) {
+      setClearedNotice(`New ${LEVEL_LABEL[setKey]} chosen — your question selection was cleared.`);
+      return;
+    }
+    const returnedTo = changedIndex === -1 ? LEVEL_KEYS.length - 1 : changedIndex - 1;
+    setClearedNotice(
+      returnedTo >= 0
+        ? `Back to the ${LEVEL_LABEL[LEVEL_KEYS[returnedTo]]} — your question selection was cleared.`
+        : // Nothing of the path survives (the course itself went), so there is
+          // no level to name — but the question still went, and going quiet is
+          // the failure this notice exists to prevent.
+          'Your question selection was cleared.'
+    );
+  }, [statePath]);
+
   const getContainerClasses = (isSelected: boolean, zIndex: string) => `
     relative transition-all duration-500 ease-in-out w-full ${zIndex} ${isSelected ? 'mb-1' : 'mb-6'}
   `;
@@ -914,7 +997,8 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     selectedSubItems: undefined,
                   })
                 }
-                placeholder="Select Course..."
+                disabled={isLoading}
+                placeholder={isLoading ? 'Loading courses…' : 'Select Course...'}
                 color="blue"
                 emptyAction={
                   canRequestCourse
@@ -1236,6 +1320,18 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             {!isSubTopicSelected && (
               <StepHeader icon={FolderOpen} label="Sub-Topic" colorKey="teal" />
             )}
+            {/* Same shape and the same curator/student split as the Topic stage
+                above: a picker that opens onto a bare "No options available."
+                never says whose problem the emptiness is. */}
+            {subTopicOptions.length === 0 && (
+              <p className="mb-3 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
+                <FolderOpen className="w-3.5 h-3.5" />
+                No sub-topics in this topic yet.{' '}
+                {canCurate
+                  ? 'Use Add to create one, or Add from Syllabus to build them from NESA text.'
+                  : 'Ask a teacher or admin to add content for this topic.'}
+              </p>
+            )}
             <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
               <div className="flex-1 w-full">
                 <Combobox
@@ -1306,6 +1402,15 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             </div>
             {!isDotPointSelected && (
               <StepHeader icon={List} label="Syllabus Content" colorKey="pink" />
+            )}
+            {dotPointOptions.length === 0 && (
+              <p className="mb-3 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
+                <List className="w-3.5 h-3.5" />
+                No syllabus points in this sub-topic yet.{' '}
+                {canCurate
+                  ? 'Use Generate to draft them from the sub-topic name.'
+                  : 'Ask a teacher or admin to add content here.'}
+              </p>
             )}
 
             <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-start">
@@ -1463,6 +1568,20 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             onPathChange({ selectedSubItems: undefined });
           }}
         />
+      )}
+
+      {/* Deliberately OUTSIDE the `selectedDotPoint` guard below. Three of the
+          four cascades that discard a question (course, topic, sub-topic) also
+          clear the dot point, so a notice rendered inside the Question card
+          would only ever be seen for the fourth. Out here it appears in the gap
+          the vanished stages left, which is where the student was looking. */}
+      {clearedNotice && (
+        <p
+          role="status"
+          className="mb-3 flex items-center gap-1.5 text-xs font-medium text-amber-600 dark:text-amber-400 animate-fade-in-up-sm"
+        >
+          <RotateCcw className="w-3.5 h-3.5 shrink-0" aria-hidden="true" /> {clearedNotice}
+        </p>
       )}
 
       {/* 5. Question Selection */}

@@ -15,6 +15,7 @@ import LoginPage from './components/LoginPage';
 import ResetPasswordPage from './components/ResetPasswordPage';
 import UserAgreementModal from './components/UserAgreementModal';
 import { useNavigation } from './hooks/useNavigation';
+import { useNavigatorFocusHandoff } from './hooks/useNavigatorFocusHandoff';
 import { activeSyllabusYear, resolveSyllabusYear, yearShortLabel } from './utils/syllabusYear';
 import { useSyllabusData } from './hooks/useSyllabusData';
 import { useGemini } from './hooks/useGemini';
@@ -36,6 +37,7 @@ import { savePromptContribution } from './services/contributionService';
 import { visibleCourses } from './utils/courseVisibility';
 import { screenContentQuality } from './services/geminiService';
 import { User, WritingMode } from './types';
+import type { StatePath, SyllabusCrumb } from './types';
 import {
   canCreateCurriculum,
   canCurateContent,
@@ -200,6 +202,93 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     }),
     [currentCourse, currentTopic, currentSubTopic, currentDotPoint, currentPrompt]
   );
+
+  /**
+   * The syllabus path, built once and shared by both surfaces that draw it —
+   * the collapsed navigator bar and the workspace breadcrumb. They used to
+   * construct it separately, which is how one of them came to print the
+   * syllabus year and the other did not.
+   *
+   * Memoised because it is also the identity `Workspace` and
+   * `WorkspaceRightPanel` memoise on: as a fresh literal it re-ran the
+   * breadcrumb's scroll effect and defeated the hierarchy-context `useMemo` on
+   * every keystroke.
+   */
+  /**
+   * Bumped by every crumb press, so the focus handoff below has an edge to
+   * react to even when nothing else about the app's shape changes.
+   *
+   * A crumb pressed while the navigator is already open clears `promptId` and
+   * unmounts `Workspace` — taking the pressed button with it — but leaves
+   * `isNavCollapsed` exactly where it was, so an effect watching only that
+   * seam never runs and focus lands on `<body>`. Counting the presses gives
+   * both breadcrumb instances one trigger; the effect then does the work
+   * once, whether one edge moved or both.
+   */
+  const [crumbJumps, setCrumbJumps] = useState(0);
+  const handleCrumbJump = useCallback(
+    (patch: Partial<StatePath>) => {
+      handlePathChange(patch);
+      setCrumbJumps((n) => n + 1);
+    },
+    [handlePathChange]
+  );
+
+  const syllabusCrumbs: SyllabusCrumb[] = useMemo(() => {
+    const year = resolveSyllabusYear(currentCourse, statePath.syllabusYear);
+    return [
+      {
+        label: currentCourse?.name || 'Course',
+        // The year rides on the course crumb rather than taking a step of its
+        // own: it is which syllabus this course name means, not a level
+        // between the course and its topics. Named only when it is not the
+        // Year 12 default, so the common case stays quiet — and carried as a
+        // badge rather than a suffix, so `label` stays the course's actual
+        // name for the PDF export and the AI hierarchy context.
+        badge: year === 'year12' ? undefined : yearShortLabel(year),
+        onClick: () =>
+          handleCrumbJump({
+            topicId: undefined,
+            subTopicId: undefined,
+            dotPointId: undefined,
+            promptId: undefined,
+            selectedSubItems: undefined,
+          }),
+      },
+      {
+        label: currentTopic?.name || 'Topic',
+        onClick: () =>
+          handleCrumbJump({
+            subTopicId: undefined,
+            dotPointId: undefined,
+            promptId: undefined,
+            selectedSubItems: undefined,
+          }),
+      },
+      {
+        label: currentSubTopic?.name || 'Sub-Topic',
+        onClick: () =>
+          handleCrumbJump({
+            dotPointId: undefined,
+            promptId: undefined,
+            selectedSubItems: undefined,
+          }),
+      },
+      {
+        // The statement, not the statement plus its focus-area list — a
+        // breadcrumb is a place name.
+        label: getDotPointLabel(currentDotPoint) || 'Dot Point',
+        onClick: () => handleCrumbJump({ promptId: undefined }),
+      },
+    ];
+  }, [
+    currentCourse,
+    currentTopic,
+    currentSubTopic,
+    currentDotPoint,
+    statePath.syllabusYear,
+    handleCrumbJump,
+  ]);
 
   const [isFocusMode, setIsFocusMode] = useState(false);
   // Writing experience: 'coach' surfaces live feedback (highlighting, insights,
@@ -712,6 +801,14 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   // selected and the student hasn't re-opened it to change their choice.
   const isNavCollapsed = !!currentPrompt && !isNavExpanded;
 
+  // Every control in this region that destroys itself by being pressed hands
+  // focus on to whatever replaced it; see the hook for which three, and why the
+  // crumb count is a second trigger alongside the collapse seam.
+  const { navigatorRef, expandButtonRef, noteNavigatorFocused } = useNavigatorFocusHandoff(
+    isNavCollapsed,
+    crumbJumps
+  );
+
   return (
     <>
       {isFocusMode && (
@@ -783,45 +880,9 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
 
         {!isFocusMode && isNavCollapsed && currentPrompt && (
           <SyllabusNavBar
-            crumbs={[
-              {
-                // The year rides on the course crumb rather than taking a step
-                // of its own: it is which syllabus this course name means, not
-                // a level between the course and its topics. Named only when it
-                // is not the Year 12 default, so the common case stays quiet.
-                label:
-                  resolveSyllabusYear(currentCourse, statePath.syllabusYear) === 'year12'
-                    ? currentCourse?.name || 'Course'
-                    : `${currentCourse?.name || 'Course'} · ${yearShortLabel(
-                        resolveSyllabusYear(currentCourse, statePath.syllabusYear)
-                      )}`,
-                onClick: () =>
-                  handlePathChange({
-                    topicId: undefined,
-                    subTopicId: undefined,
-                    dotPointId: undefined,
-                    promptId: undefined,
-                  }),
-              },
-              {
-                label: currentTopic?.name || 'Topic',
-                onClick: () =>
-                  handlePathChange({
-                    subTopicId: undefined,
-                    dotPointId: undefined,
-                    promptId: undefined,
-                  }),
-              },
-              {
-                label: currentSubTopic?.name || 'Sub-Topic',
-                onClick: () => handlePathChange({ dotPointId: undefined, promptId: undefined }),
-              },
-              {
-                label: getDotPointLabel(currentDotPoint) || 'Dot Point',
-                onClick: () => handlePathChange({ promptId: undefined }),
-              },
-            ]}
+            crumbs={syllabusCrumbs}
             prompt={currentPrompt}
+            expandButtonRef={expandButtonRef}
             onExpand={() => setIsNavExpanded(true)}
             onShareAssignment={canCurateContent(user.role) ? handleShareAssignment : undefined}
           />
@@ -837,6 +898,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         {!isFocusMode && (
           <div
             inert={isNavCollapsed}
+            onFocusCapture={noteNavigatorFocused}
             className={`grid transition-all duration-700 ease-in-out ${
               isNavCollapsed ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'
             }`}
@@ -856,7 +918,9 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 there's 6rem of slack on each side before anything is close to
                 the box boundary. */}
             <div className="overflow-hidden -mx-24 px-24">
-              <div className="relative z-50">
+              {/* `tabIndex={-1}` for the same reason the main landmark carries
+                  one: a programmatic focus target, never a tab stop. */}
+              <div ref={navigatorRef} tabIndex={-1} className="relative z-50">
                 <PromptSelector
                   courses={navigatorCourses}
                   statePath={statePath}
@@ -912,6 +976,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                   }
                   newlyAddedIds={newlyAddedIds}
                   userRole={user.role}
+                  isLoading={!isReady}
                 />
               </div>
 
@@ -991,6 +1056,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
             writingMode={writingMode}
             onWritingModeChange={setWritingMode}
             showBreadcrumb={!isNavCollapsed}
+            crumbs={syllabusCrumbs}
             showToast={showToast}
           />
         ) : (
@@ -1005,7 +1071,11 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 Choose a course, topic and question in the navigator above — your writing space will
                 open here.
               </p>
-              {courses.length === 0 && (
+              {/* `isReady` gates it: until the remote course fetch resolves,
+                  `courses` is legitimately empty, and offering to create or
+                  import one tells a returning student their courses do not
+                  exist. */}
+              {isReady && courses.length === 0 && (
                 <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                   <button
                     onClick={() => openModal('manifestImport')}
