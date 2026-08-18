@@ -62,7 +62,7 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
                     onClick={crumb.onClick}
                     disabled={!crumb.onClick}
                     title={crumb.onClick ? `Change ${crumb.label}` : crumb.label}
-                    className="flex items-center gap-1.5 px-2 py-1 rounded-lg text-[11px] font-bold text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] hover:bg-[rgb(var(--color-bg-surface-light))]/40 disabled:hover:bg-transparent transition-colors max-w-[220px]"
+                    className="flex items-center gap-1.5 px-2 py-1 rounded-lg text-[11px] font-bold text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] hover:bg-[rgb(var(--color-bg-surface-light))]/40 disabled:hover:bg-transparent active:scale-95 transition-colors max-w-[220px]"
                   >
                     <Icon className="w-3 h-3 shrink-0 opacity-70" />
                     <span className="truncate">{crumb.label}</span>
