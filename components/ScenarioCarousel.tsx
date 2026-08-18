@@ -3,6 +3,7 @@ import { Loader2, Quote } from 'lucide-react';
 import { PromptVerb, ScenarioImageRef } from '../types';
 import { renderFormattedText } from '../utils/renderUtils';
 import { loadScenarioImage } from '../utils/scenarioImageStorage';
+import { syncScenarioImageDown } from '../services/scenarioImageSyncService';
 
 interface ScenarioCarouselProps {
   scenarioText?: string;
@@ -53,16 +54,24 @@ const ScenarioCarousel: React.FC<ScenarioCarouselProps> = ({
     }
     let cancelled = false;
     setIsLoadingImage(true);
-    loadScenarioImage(scenarioImage.id).then((row) => {
+    (async () => {
+      let row = await loadScenarioImage(scenarioImage.id);
+      // Not cached locally yet, but Supabase Storage has it (e.g. viewing a
+      // prompt someone else contributed, on a fresh device/browser) — fetch
+      // and cache it, then re-read. Fails soft to "Image unavailable."
+      if (!row && scenarioImage.storagePath) {
+        await syncScenarioImageDown(scenarioImage.id, scenarioImage);
+        row = await loadScenarioImage(scenarioImage.id);
+      }
       if (cancelled) return;
       setImageDataUrl(row?.dataUrl ?? null);
       setIsLoadingImage(false);
-    });
+    })();
     return () => {
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scenarioImage?.id, scenarioImage?.updatedAt]);
+  }, [scenarioImage?.id, scenarioImage?.updatedAt, scenarioImage?.storagePath]);
 
   const TextSlide = (
     <div key="text" className="relative animate-fade-in">

@@ -15,7 +15,16 @@
  * client code is a convenience layer, NOT the security boundary.
  */
 import { supabase, fetchAllRows } from './supabaseClient';
-import { Prompt, SampleAnswer, Topic, SubTopic, DotPoint, SyllabusYear } from '../types';
+import {
+  Prompt,
+  SampleAnswer,
+  Topic,
+  SubTopic,
+  DotPoint,
+  SyllabusYear,
+  ScenarioImageRef,
+} from '../types';
+import { syncScenarioImageUp } from './scenarioImageSyncService';
 
 export type ContributionStatus = 'private' | 'pending';
 
@@ -47,6 +56,9 @@ export interface PromptInsertRow {
   is_past_hsc: boolean;
   hsc_year: number | null;
   hsc_question_number: string | null;
+  scenario_image_path: string | null;
+  scenario_image_alt: string | null;
+  scenario_image_updated_at: string | null;
   status: ContributionStatus;
   quality_score: number | null;
   quality_notes: string | null;
@@ -98,6 +110,11 @@ export const promptToRow = (
   is_past_hsc: prompt.isPastHSC ?? false,
   hsc_year: prompt.hscYear ?? null,
   hsc_question_number: prompt.hscQuestionNumber ?? null,
+  scenario_image_path: prompt.scenarioImage?.storagePath ?? null,
+  scenario_image_alt: prompt.scenarioImage?.alt ?? null,
+  scenario_image_updated_at: prompt.scenarioImage
+    ? new Date(prompt.scenarioImage.updatedAt).toISOString()
+    : null,
   status,
   quality_score: quality?.score ?? null,
   quality_notes: quality?.notes ?? null,
@@ -418,17 +435,28 @@ const upsertOwned = async (
   return (data as { id: string }).id;
 };
 
-/** Save a prompt the user authored under the given dot point. Returns its uuid. */
+/**
+ * Save a prompt the user authored under the given dot point. Returns its
+ * uuid, plus the prompt's `scenarioImage` ref — resolved to include a
+ * `storagePath` if the image synced to Supabase Storage during this call, so
+ * the caller can persist that back onto local state (avoiding a re-upload of
+ * unchanged bytes next time this prompt is saved).
+ */
 export const savePromptContribution = async (
   dotPointAppId: string,
   prompt: Prompt,
   status: ContributionStatus = 'private',
   quality?: QualityScreen
-): Promise<string> => {
+): Promise<{ id: string; scenarioImage?: ScenarioImageRef }> => {
   const userId = await currentUserId();
   const dotPointId = await resolveRowId('dot_points', dotPointAppId);
   if (!dotPointId) throw new Error('Could not find the dot point to attach this prompt to.');
-  return upsertOwned('prompts', promptToRow(prompt, dotPointId, userId, status, quality));
+  const scenarioImage = await syncScenarioImageUp(prompt.id, prompt.scenarioImage);
+  const id = await upsertOwned(
+    'prompts',
+    promptToRow({ ...prompt, scenarioImage }, dotPointId, userId, status, quality)
+  );
+  return { id, scenarioImage };
 };
 
 /** Save a sample answer the user authored under the given prompt. Returns its uuid. */

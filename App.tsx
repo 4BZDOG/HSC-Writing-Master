@@ -62,6 +62,7 @@ import {
   resolveAssignmentPath,
 } from './utils/assignmentLink';
 import { getDotPointLabel, parseSubItemsFromDescription } from './utils/dataManagerUtils';
+import { findAndUpdateItem } from './utils/stateUtils';
 
 const AnimatedBackground: React.FC = () => {
   return (
@@ -211,7 +212,26 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       // reviewer makes the final call — but we surface it to the author.
       const quality = await screenContentQuality(currentPrompt.question, 'question');
 
-      await savePromptContribution(statePath.dotPointId, currentPrompt, 'pending', quality);
+      const { scenarioImage } = await savePromptContribution(
+        statePath.dotPointId,
+        currentPrompt,
+        'pending',
+        quality
+      );
+
+      // Persist a newly-resolved storagePath back onto local state so a
+      // second submission of the same prompt doesn't re-upload unchanged
+      // image bytes.
+      if (
+        scenarioImage?.storagePath &&
+        scenarioImage.storagePath !== currentPrompt.scenarioImage?.storagePath
+      ) {
+        updateCourses((draft) => {
+          findAndUpdateItem(draft, statePath, (prompt) => {
+            prompt.scenarioImage = scenarioImage;
+          });
+        });
+      }
 
       if (quality && quality.score < 50) {
         showToast(
