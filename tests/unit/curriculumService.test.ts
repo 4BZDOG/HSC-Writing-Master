@@ -66,6 +66,9 @@ describe('assembleCourses (Supabase relational rows -> Course[])', () => {
           is_past_hsc: true,
           hsc_year: 2023,
           hsc_question_number: '12a',
+          scenario_image_path: null,
+          scenario_image_alt: null,
+          scenario_image_updated_at: null,
         },
       ],
       sampleAnswers: [
@@ -167,6 +170,9 @@ describe('assembleCourses (Supabase relational rows -> Course[])', () => {
       is_past_hsc: false,
       hsc_year: null,
       hsc_question_number: null,
+      scenario_image_path: null,
+      scenario_image_alt: null,
+      scenario_image_updated_at: null,
     };
     // Two DB rows, different uuids, same legacy_id → same app id.
     rows.prompts = [
@@ -211,6 +217,9 @@ describe('assembleCourses (Supabase relational rows -> Course[])', () => {
         is_past_hsc: false,
         hsc_year: null,
         hsc_question_number: null,
+        scenario_image_path: null,
+        scenario_image_alt: null,
+        scenario_image_updated_at: null,
       },
     ];
     rows.sampleAnswers = [
@@ -230,6 +239,68 @@ describe('assembleCourses (Supabase relational rows -> Course[])', () => {
     const prompt = assembleCourses(rows)[0].topics[0].subTopics[0].dotPoints[0].prompts[0];
     expect(prompt.verb).toBe('EXPLAIN');
     expect(prompt.sampleAnswers?.[0].source).toBe('AI');
+  });
+
+  it('builds a scenarioImage ref when scenario_image_path is present, and omits it when absent', () => {
+    const rows = emptyRows();
+    rows.courses = [{ id: 'c', legacy_id: null, name: 'C', subject: null }];
+    rows.topics = [
+      { id: 't', course_id: 'c', legacy_id: null, name: 'T', position: 0, band_descriptors: null },
+    ];
+    rows.subTopics = [{ id: 's', topic_id: 't', legacy_id: null, name: 'S', position: 0 }];
+    rows.dotPoints = [
+      { id: 'd', sub_topic_id: 's', legacy_id: null, description: 'D', position: 0 },
+    ];
+    const basePrompt = {
+      dot_point_id: 'd',
+      question: 'Q',
+      highlighted_question: null,
+      total_marks: 0,
+      verb: 'EXPLAIN',
+      scenario: null,
+      marking_criteria: null,
+      linked_outcomes: [],
+      related_topics: [],
+      prerequisite_knowledge: [],
+      marker_notes: [],
+      common_student_errors: [],
+      keywords: [],
+      target_performance_bands: [],
+      estimated_time: null,
+      is_past_hsc: false,
+      hsc_year: null,
+      hsc_question_number: null,
+    };
+    rows.prompts = [
+      {
+        ...basePrompt,
+        id: 'p-with-image',
+        legacy_id: 'prompt-with-image',
+        scenario_image_path: 'prompt-with-image/prompt-with-image',
+        scenario_image_alt: 'A network diagram',
+        scenario_image_updated_at: '2026-01-15T10:00:00.000Z',
+      },
+      {
+        ...basePrompt,
+        id: 'p-without-image',
+        legacy_id: 'prompt-without-image',
+        scenario_image_path: null,
+        scenario_image_alt: null,
+        scenario_image_updated_at: null,
+      },
+    ];
+
+    const prompts = assembleCourses(rows)[0].topics[0].subTopics[0].dotPoints[0].prompts;
+    const withImage = prompts.find((p) => p.id === 'prompt-with-image')!;
+    const withoutImage = prompts.find((p) => p.id === 'prompt-without-image')!;
+
+    expect(withImage.scenarioImage).toEqual({
+      id: 'prompt-with-image',
+      alt: 'A network diagram',
+      updatedAt: Date.parse('2026-01-15T10:00:00.000Z'),
+      storagePath: 'prompt-with-image/prompt-with-image',
+    });
+    expect(withoutImage.scenarioImage).toBeUndefined();
   });
 
   /**

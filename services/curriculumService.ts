@@ -84,6 +84,9 @@ interface PromptRow {
   is_past_hsc: boolean;
   hsc_year: number | null;
   hsc_question_number: string | null;
+  scenario_image_path: string | null;
+  scenario_image_alt: string | null;
+  scenario_image_updated_at: string | null;
 }
 interface SampleAnswerRow {
   id: string;
@@ -166,6 +169,16 @@ const mapPrompt = (row: PromptRow, answers: SampleAnswerRow[]): Prompt => ({
   isPastHSC: row.is_past_hsc ?? false,
   hscYear: row.hsc_year ?? undefined,
   hscQuestionNumber: row.hsc_question_number ?? undefined,
+  scenarioImage: row.scenario_image_path
+    ? {
+        id: appId(row),
+        alt: row.scenario_image_alt ?? undefined,
+        updatedAt: row.scenario_image_updated_at
+          ? new Date(row.scenario_image_updated_at).getTime()
+          : Date.now(),
+        storagePath: row.scenario_image_path,
+      }
+    : undefined,
   sampleAnswers: dedupeById(
     answers
       .slice()
