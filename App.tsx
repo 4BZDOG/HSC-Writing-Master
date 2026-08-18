@@ -780,6 +780,46 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   // selected and the student hasn't re-opened it to change their choice.
   const isNavCollapsed = !!currentPrompt && !isNavExpanded;
 
+  /**
+   * Focus handoff across the collapse/expand seam.
+   *
+   * Both directions destroy the control that was pressed: "Change" lives on a
+   * bar that unmounts the moment it re-opens the picker, and "Collapse to
+   * breadcrumb" sits inside the wrapper that gains `inert` on the very click.
+   * Left alone, focus falls to `<body>` and the next Tab restarts at the top of
+   * the document. Each control therefore hands focus to whatever replaced it —
+   * the same symmetry `useFocusTrap` gives a modal.
+   *
+   * Expanding also scrolls: with the page scrolled down to the writing area,
+   * "Change" unfolds a ~700px picker entirely above the fold, and nothing
+   * visible moves.
+   */
+  const navigatorRef = useRef<HTMLDivElement>(null);
+  const expandButtonRef = useRef<HTMLButtonElement>(null);
+  // Only a navigator the user has actually stood in can have cost them their
+  // place. A question restored from storage collapses the navigator on load
+  // too, and moving focus there would be a jump nobody asked for.
+  const navigatorEverFocused = useRef(false);
+  const wasNavCollapsed = useRef(isNavCollapsed);
+  useEffect(() => {
+    if (wasNavCollapsed.current === isNavCollapsed) return;
+    wasNavCollapsed.current = isNavCollapsed;
+
+    if (isNavCollapsed) {
+      if (navigatorEverFocused.current) expandButtonRef.current?.focus({ preventScroll: true });
+      return;
+    }
+
+    const el = navigatorRef.current;
+    if (!el) return;
+    el.focus({ preventScroll: true });
+    // `scrollIntoView`'s options bag is imperative, so `index.css`'s global
+    // `scroll-behavior: auto !important` cannot reach it — the media query has
+    // to be asked directly.
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    el.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+  }, [isNavCollapsed]);
+
   return (
     <>
       {isFocusMode && (
@@ -853,6 +893,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           <SyllabusNavBar
             crumbs={syllabusCrumbs}
             prompt={currentPrompt}
+            expandButtonRef={expandButtonRef}
             onExpand={() => setIsNavExpanded(true)}
             onShareAssignment={canCurateContent(user.role) ? handleShareAssignment : undefined}
           />
@@ -868,6 +909,9 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         {!isFocusMode && (
           <div
             inert={isNavCollapsed}
+            onFocusCapture={() => {
+              navigatorEverFocused.current = true;
+            }}
             className={`grid transition-all duration-700 ease-in-out ${
               isNavCollapsed ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'
             }`}
@@ -887,7 +931,9 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 there's 6rem of slack on each side before anything is close to
                 the box boundary. */}
             <div className="overflow-hidden -mx-24 px-24">
-              <div className="relative z-50">
+              {/* `tabIndex={-1}` for the same reason the main landmark carries
+                  one: a programmatic focus target, never a tab stop. */}
+              <div ref={navigatorRef} tabIndex={-1} className="relative z-50">
                 <PromptSelector
                   courses={navigatorCourses}
                   statePath={statePath}
@@ -943,6 +989,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                   }
                   newlyAddedIds={newlyAddedIds}
                   userRole={user.role}
+                  isLoading={!isReady}
                 />
               </div>
 
@@ -1037,7 +1084,11 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 Choose a course, topic and question in the navigator above — your writing space will
                 open here.
               </p>
-              {courses.length === 0 && (
+              {/* `isReady` gates it: until the remote course fetch resolves,
+                  `courses` is legitimately empty, and offering to create or
+                  import one tells a returning student their courses do not
+                  exist. */}
+              {isReady && courses.length === 0 && (
                 <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                   <button
                     onClick={() => openModal('manifestImport')}

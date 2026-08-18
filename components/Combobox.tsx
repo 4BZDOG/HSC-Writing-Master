@@ -276,6 +276,19 @@ const Combobox: React.FC<ComboboxProps> = ({
     });
   };
 
+  /**
+   * The one path that both changes the value and destroys the control the user
+   * was standing on: in a searchable list focus sits in the search input, which
+   * unmounts with the popup, so it fell to `<body>` and the next Tab restarted
+   * at the top of the document. Hand it back to the trigger — the same thing
+   * Escape already does below.
+   */
+  const commit = (id: string) => {
+    onChange(id);
+    setIsOpen(false);
+    buttonRef.current?.focus();
+  };
+
   // Keyboard navigation handler — shared by the trigger and the search box, so
   // arrows and Enter behave the same whichever has focus.
   const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
@@ -311,8 +324,7 @@ const Combobox: React.FC<ComboboxProps> = ({
       case 'Enter':
         e.preventDefault();
         if (isOpen && visibleOptions.length > 0 && !visibleOptions[highlightedIndex]?.disabled) {
-          onChange(visibleOptions[highlightedIndex].id);
-          setIsOpen(false);
+          commit(visibleOptions[highlightedIndex].id);
         } else if (!isOpen) {
           setIsOpen(true);
         }
@@ -520,8 +532,7 @@ const Combobox: React.FC<ComboboxProps> = ({
                       }`}
                       onClick={() => {
                         if (option.disabled) return;
-                        onChange(option.id);
-                        setIsOpen(false);
+                        commit(option.id);
                       }}
                       onMouseEnter={() => setHighlightedIndex(index)}
                     />

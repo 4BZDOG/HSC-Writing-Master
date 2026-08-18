@@ -18,6 +18,13 @@ interface SyllabusNavBarProps {
   prompt: Prompt;
   /** Re-open the full syllabus navigator without changing the selection. */
   onExpand: () => void;
+  /**
+   * The "Change" button, so `App` can hand focus to it when the navigator
+   * folds. "Collapse to breadcrumb" makes its own wrapper `inert` on the click
+   * that presses it; this bar is what replaces it, and this button is its
+   * counterpart control.
+   */
+  expandButtonRef?: React.Ref<HTMLButtonElement>;
   /** Copy a shareable link to this question (teachers/admins only). */
   onShareAssignment?: () => void;
 }
@@ -34,6 +41,7 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
   prompt,
   onExpand,
   onShareAssignment,
+  expandButtonRef,
 }) => {
   const verbInfo = getCommandTermInfo(prompt.verb);
   // Clamped exactly as `PromptSelector` clamps it, so the two surfaces cannot
@@ -89,6 +97,7 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
             </button>
           )}
           <button
+            ref={expandButtonRef}
             onClick={onExpand}
             className={`flex items-center gap-2 px-3.5 h-9 rounded-xl text-[11px] font-black uppercase tracking-wider border ${band.border} ${band.bg} ${band.text} hover:brightness-110 active:scale-95 transition-all`}
             title="Open the syllabus navigator to change your selection"
