@@ -54,7 +54,7 @@ describe('free-tier zero-quota fallback', () => {
 
     const result = await generateContentWithRetry({
       provider: 'gemini',
-      model: 'gemini-3-pro-preview',
+      model: 'gemini-3.1-pro-preview',
       contents: 'mark this',
     });
 
@@ -65,14 +65,14 @@ describe('free-tier zero-quota fallback', () => {
     expect(secondBody.provider).toBe('gemini');
 
     // The dead model is remembered for the session and the user was told once.
-    expect(isModelQuotaDead('gemini-3-pro-preview')).toBe(true);
+    expect(isModelQuotaDead('gemini-3.1-pro-preview')).toBe(true);
     expect(notices).toHaveLength(1);
     expect(notices[0]).toMatch(/no quota/i);
     expect(notices[0]).toMatch(/Flash/);
   });
 
   it('reroutes subsequent resolveTarget calls away from the dead model', () => {
-    // gemini-3-pro-preview was marked dead by the previous test (module
+    // gemini-3.1-pro-preview was marked dead by the previous test (module
     // singleton — the same lifetime the reroute is designed for).
     setSelectedModel('reasoning', 'gemini-pro');
     const target = resolveTarget('reasoning');
@@ -94,7 +94,7 @@ describe('free-tier zero-quota fallback', () => {
 
     await generateContentWithRetry({
       provider: 'gemini',
-      model: 'gemini-3-pro-preview',
+      model: 'gemini-3.1-pro-preview',
       contents: 'mark this again',
     });
 

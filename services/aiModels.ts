@@ -57,13 +57,27 @@ export const AI_MODELS: AIModelOption[] = [
   {
     id: 'gemini-pro',
     provider: 'gemini',
-    model: 'gemini-3-pro-preview',
-    label: 'Gemini 3 Pro',
+    model: 'gemini-3.1-pro-preview', // was gemini-3-pro-preview — Google shut
+    // that down 2026-03-09; every call was
+    // failing. This is the confirmed live
+    // successor.
+    label: 'Gemini 3.1 Pro',
     description:
       'Higher-order reasoning. Used for marking and exemplar generation. Requires a billing-enabled key (no free-tier quota).',
     roles: ['basic', 'reasoning'],
     keyEnv: 'GEMINI_API_KEY',
-    estCostPerCall: 0.006,
+    estCostPerCall: 0.016, // $2/M in + $12/M out, blended 2k-in/1k-out estimate
+  },
+  {
+    id: 'gemini-flash-3-7',
+    provider: 'gemini',
+    model: 'gemini-3.7-flash',
+    label: 'Gemini 3.7 Flash',
+    description:
+      'Newest GA Flash model (Aug 2026) — cheaper and faster than Gemini 3 Flash with improved coding/agentic benchmarks. Free-tier availability is unconfirmed; verify manually before relying on it as a free-tier option.',
+    roles: ['basic', 'reasoning'],
+    keyEnv: 'GEMINI_API_KEY',
+    estCostPerCall: 0.0053, // $0.75/M in + $3.75/M out, blended 2k-in/1k-out
   },
   {
     id: 'claude-sonnet',
@@ -84,6 +98,28 @@ export const AI_MODELS: AIModelOption[] = [
     roles: ['basic'],
     keyEnv: 'ANTHROPIC_API_KEY',
     estCostPerCall: 0.0022,
+  },
+  {
+    id: 'claude-sonnet-5',
+    provider: 'anthropic',
+    model: 'claude-sonnet-5',
+    label: 'Claude Sonnet 5',
+    description:
+      'Newest Sonnet tier — best combination of speed and intelligence, adaptive thinking. Requires ANTHROPIC_API_KEY.',
+    roles: ['basic', 'reasoning'],
+    keyEnv: 'ANTHROPIC_API_KEY',
+    estCostPerCall: 0.014, // $2/M in + $10/M out, blended 2k-in/1k-out
+  },
+  {
+    id: 'claude-opus-5',
+    provider: 'anthropic',
+    model: 'claude-opus-5',
+    label: 'Claude Opus 5',
+    description:
+      'Top-tier reasoning for complex, high-stakes marking — slower and materially more expensive than Sonnet. Requires ANTHROPIC_API_KEY.',
+    roles: ['reasoning'],
+    keyEnv: 'ANTHROPIC_API_KEY',
+    estCostPerCall: 0.035, // $5/M in + $25/M out, blended 2k-in/1k-out
   },
 
   // --- Groq (free-tier, ultra-fast inference) --------------------------------

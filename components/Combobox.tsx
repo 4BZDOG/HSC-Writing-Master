@@ -148,6 +148,53 @@ const colorStyles: Record<
   },
 };
 
+/**
+ * One row in the open option list. Pulled out to its own component (instead
+ * of an inline literal inside the `.map()` below) purely so it can carry the
+ * local state that gates the "you are here" entrance animation — a bare
+ * conditional className would replay `animate-fade-in-up-sm` on every
+ * unrelated re-render while a row merely stays selected, not just the moment
+ * it becomes selected.
+ */
+const ComboboxOptionRow: React.FC<{
+  option: ComboboxOption;
+  index: number;
+  listboxId: string;
+  className: string;
+  isSelected: boolean;
+  onClick: () => void;
+  onMouseEnter: () => void;
+}> = ({ option, index, listboxId, className, isSelected, onClick, onMouseEnter }) => {
+  // Plays once — right as the row first renders selected (dropdown opening on
+  // the current value) or the moment a click/keyboard action lands here — and
+  // never again while it merely stays selected through an unrelated re-render.
+  const [justSelected, setJustSelected] = useState(false);
+  const wasSelected = useRef(false);
+  useEffect(() => {
+    if (isSelected && !wasSelected.current) {
+      setJustSelected(true);
+    }
+    wasSelected.current = isSelected;
+  }, [isSelected]);
+
+  return (
+    <li
+      id={`${listboxId}-opt-${index}`}
+      data-option-index={index}
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      className={`${className} ${isSelected && justSelected ? 'animate-fade-in-up-sm' : ''}`}
+      role="option"
+      aria-selected={isSelected}
+      aria-disabled={option.disabled || undefined}
+    >
+      <div className="flex items-center whitespace-normal w-full">
+        {option.renderLabel || option.label}
+      </div>
+    </li>
+  );
+};
+
 const Combobox: React.FC<ComboboxProps> = ({
   options,
   value,
@@ -461,28 +508,23 @@ const Combobox: React.FC<ComboboxProps> = ({
                 return (
                   <React.Fragment key={option.id}>
                     {heading}
-                    <li
-                      id={`${listboxId}-opt-${index}`}
-                      data-option-index={index}
+                    <ComboboxOptionRow
+                      option={option}
+                      index={index}
+                      listboxId={listboxId}
+                      isSelected={option.id === value}
+                      className={`${option.disabled ? 'cursor-not-allowed' : 'cursor-pointer'} select-none relative py-3 pr-9 transition-[color,background-color,border-color,transform] active:scale-[0.98] ${
+                        index === highlightedIndex
+                          ? `${getListItemClasses(option, true)}`
+                          : getListItemClasses(option, option.id === value)
+                      }`}
                       onClick={() => {
                         if (option.disabled) return;
                         onChange(option.id);
                         setIsOpen(false);
                       }}
                       onMouseEnter={() => setHighlightedIndex(index)}
-                      className={`${option.disabled ? 'cursor-not-allowed' : 'cursor-pointer'} select-none relative py-3 pr-9 transition-colors ${
-                        index === highlightedIndex
-                          ? `${getListItemClasses(option, true)}`
-                          : getListItemClasses(option, option.id === value)
-                      }`}
-                      role="option"
-                      aria-selected={option.id === value}
-                      aria-disabled={option.disabled || undefined}
-                    >
-                      <div className="flex items-center whitespace-normal w-full">
-                        {option.renderLabel || option.label}
-                      </div>
-                    </li>
+                    />
                   </React.Fragment>
                 );
               })

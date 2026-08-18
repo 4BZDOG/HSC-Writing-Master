@@ -92,6 +92,19 @@ export interface SampleAnswer {
   contentFlag?: ContentFlag;
 }
 
+export interface ScenarioImageRef {
+  /** Equal to the owning Prompt's id — one image per scenario, so the prompt
+   *  id doubles as the lookup key into the scenario-images IDB store and the
+   *  Supabase Storage object path. */
+  id: string;
+  alt?: string;
+  /** Epoch ms — lets a cached carousel image know it's stale. */
+  updatedAt: number;
+  /** Present only once synced to Supabase Storage (bucket `scenario-images`,
+   *  object path `${promptId}/${id}`). Absent in pure-IDB/offline mode. */
+  storagePath?: string;
+}
+
 export interface Prompt {
   id: string;
   question: string;
@@ -99,6 +112,7 @@ export interface Prompt {
   verb: PromptVerb;
   highlightedQuestion?: string;
   scenario?: string;
+  scenarioImage?: ScenarioImageRef;
   linkedOutcomes?: string[];
   estimatedTime?: string;
   relatedTopics?: string[];

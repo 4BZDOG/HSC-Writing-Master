@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback, useEffect } from 'react';
+import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import { Course, StatePath, UserRole } from '../types';
 import {
   canCreateCurriculum,
@@ -227,10 +227,22 @@ const RailNode = ({
   const theme = THEMES[colorKey] || THEMES.blue;
   const base =
     'absolute -left-[0.95rem] top-1/2 -translate-y-1/2 rounded-full transition-all duration-500 z-10 flex items-center justify-center';
+  // Plays once when a step first turns complete — either right as this node
+  // mounts already-done, or the moment the user's own action completes it —
+  // and never replays on later re-renders while it merely stays complete.
+  const [justCompleted, setJustCompleted] = useState(false);
+  const wasComplete = useRef(false);
+  useEffect(() => {
+    if (isComplete && !wasComplete.current) {
+      setJustCompleted(true);
+    }
+    wasComplete.current = isComplete;
+  }, [isComplete]);
+
   if (isComplete) {
     return (
       <div
-        className={`${base} w-[1.15rem] h-[1.15rem] bg-emerald-500 border-2 border-emerald-400/60 shadow-[0_0_10px_rgba(16,185,129,0.45)]`}
+        className={`${base} w-[1.15rem] h-[1.15rem] bg-emerald-500 border-2 border-emerald-400/60 shadow-[0_0_10px_rgba(16,185,129,0.45)] ${justCompleted ? 'animate-fade-in-up-sm' : ''}`}
         title="Step complete"
       >
         <Check className="w-3 h-3 text-white" strokeWidth={4} />

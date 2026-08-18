@@ -9,94 +9,22 @@
 //                     "x^6" instead of mojibake).
 //  - containsEmoji(): Unicode property-escape detection used to route a string
 //                     to the canvas raster path.
+//
+// The `\frac`/`\sqrt`/`\vec`/symbol/superscript/subscript conversion tables
+// and logic live in `../utils/mathNotation` — shared with the on-screen
+// renderer (`utils/renderUtils.ts`) so a formula never prints correctly but
+// shows raw backslash text on screen, or vice versa.
 
-/** Unicode superscript glyphs keyed by their plain counterpart. */
-const SUPERSCRIPTS: Record<string, string> = {
-  '0': '⁰',
-  '1': '¹',
-  '2': '²',
-  '3': '³',
-  '4': '⁴',
-  '5': '⁵',
-  '6': '⁶',
-  '7': '⁷',
-  '8': '⁸',
-  '9': '⁹',
-  '+': '⁺',
-  '-': '⁻',
-  '=': '⁼',
-  '(': '⁽',
-  ')': '⁾',
-  n: 'ⁿ',
-  i: 'ⁱ',
-};
-
-/** Unicode subscript glyphs keyed by their plain counterpart. */
-const SUBSCRIPTS: Record<string, string> = {
-  '0': '₀',
-  '1': '₁',
-  '2': '₂',
-  '3': '₃',
-  '4': '₄',
-  '5': '₅',
-  '6': '₆',
-  '7': '₇',
-  '8': '₈',
-  '9': '₉',
-  '+': '₊',
-  '-': '₋',
-  '=': '₌',
-  '(': '₍',
-  ')': '₎',
-};
-
-/** LaTeX-ish / shorthand tokens -> Unicode symbol. */
-const SYMBOLS: Record<string, string> = {
-  '\\times': '×',
-  '\\div': '÷',
-  '\\pm': '±',
-  '\\mp': '∓',
-  '\\le': '≤',
-  '\\leq': '≤',
-  '\\ge': '≥',
-  '\\geq': '≥',
-  '\\ne': '≠',
-  '\\neq': '≠',
-  '\\approx': '≈',
-  '\\equiv': '≡',
-  '\\infty': '∞',
-  '\\to': '→',
-  '\\rightarrow': '→',
-  '\\leftarrow': '←',
-  '\\Rightarrow': '⇒',
-  '\\cdot': '·',
-  '\\bullet': '•',
-  '\\deg': '°',
-  '\\degree': '°',
-  '\\alpha': 'α',
-  '\\beta': 'β',
-  '\\gamma': 'γ',
-  '\\delta': 'δ',
-  '\\Delta': 'Δ',
-  '\\theta': 'θ',
-  '\\lambda': 'λ',
-  '\\mu': 'μ',
-  '\\pi': 'π',
-  '\\sigma': 'σ',
-  '\\Sigma': 'Σ',
-  '\\phi': 'φ',
-  '\\omega': 'ω',
-  '\\Omega': 'Ω',
-  '\\sum': '∑',
-  '\\prod': '∏',
-  '\\sqrt': '√',
-  '\\neq ': '≠ ',
-};
-
-const mapEach = (token: string, table: Record<string, string>): string =>
-  Array.from(token)
-    .map((ch) => table[ch] ?? ch)
-    .join('');
+import {
+  SUPERSCRIPT_UNICODE,
+  SUBSCRIPT_UNICODE,
+  expandFracToSlash,
+  expandSqrt,
+  expandVector,
+  expandMathSymbolTokens,
+  expandSuperscriptsToUnicode,
+  expandSubscriptsToUnicode,
+} from '../utils/mathNotation';
 
 /**
  * Convert a single line of app markup into selectable Unicode plain text.
@@ -108,35 +36,26 @@ export const toText = (input: string): string => {
   let s = input;
 
   // \frac{a}{b} -> a/b  (also \frac12 -> 1/2)
-  s = s.replace(/\\frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g, '$1/$2');
-  s = s.replace(/\\frac\s*(\d)\s*(\d)/g, '$1/$2');
+  s = expandFracToSlash(s);
 
   // \sqrt{x} -> √x  ;  \sqrt x -> √x
-  s = s.replace(/\\sqrt\s*\{([^{}]*)\}/g, '√$1');
-  s = s.replace(/\\sqrt\s+(\w)/g, '√$1');
+  s = expandSqrt(s);
+
+  // \vec{v} -> v with a combining arrow-above.
+  s = expandVector(s);
 
   // Named symbol tokens (longest-first to avoid \le matching inside \leq).
-  Object.keys(SYMBOLS)
-    .sort((a, b) => b.length - a.length)
-    .forEach((tok) => {
-      s = s.split(tok).join(SYMBOLS[tok]);
-    });
+  s = expandMathSymbolTokens(s);
 
   // Strip markdown emphasis markers but keep the inner text.
   s = s.replace(/(\*\*|__)(.*?)\1/g, '$2');
   s = s.replace(/(?<![A-Za-z0-9])(\*|_)(?=\S)([^*_]+?)(?<=\S)\1(?![A-Za-z0-9])/g, '$2');
 
   // Superscripts: ^{...} or ^token.
-  s = s.replace(/\^\{([^{}]*)\}/g, (_m, g) => mapEach(g, SUPERSCRIPTS));
-  s = s.replace(/\^([A-Za-z0-9+\-()]+)/g, (m, g: string) => {
-    const mapped = mapEach(g, SUPERSCRIPTS);
-    // Only commit if every char became a real superscript glyph.
-    return mapped === g && /[A-Za-z]/.test(g) ? m : mapped;
-  });
+  s = expandSuperscriptsToUnicode(s);
 
   // Subscripts: _{...} or _digits.
-  s = s.replace(/_\{([^{}]*)\}/g, (_m, g) => mapEach(g, SUBSCRIPTS));
-  s = s.replace(/_([0-9+\-()]+)/g, (_m, g: string) => mapEach(g, SUBSCRIPTS));
+  s = expandSubscriptsToUnicode(s);
 
   return s;
 };
@@ -203,14 +122,23 @@ export const normalizeContent = (input: string): string => toText(stripBasicHtml
 
 // --- ASCII degradation -----------------------------------------------------
 
-const SUPERSCRIPT_TO_ASCII: Record<string, string> = invert(SUPERSCRIPTS);
-const SUBSCRIPT_TO_ASCII: Record<string, string> = invert(SUBSCRIPTS);
-
 function invert(table: Record<string, string>): Record<string, string> {
   const out: Record<string, string> = {};
   for (const [plain, uni] of Object.entries(table)) out[uni] = plain;
   return out;
 }
+
+// Lazily computed (not at module-init) so this module never reads another
+// module's exports eagerly on a possible chunk-load cycle — see
+// scripts/findModuleInitReads.mjs. Memoized since degradeToAscii can be
+// called many times per export.
+let superscriptToAsciiCache: Record<string, string> | null = null;
+const getSuperscriptToAscii = (): Record<string, string> =>
+  (superscriptToAsciiCache ??= invert(SUPERSCRIPT_UNICODE));
+
+let subscriptToAsciiCache: Record<string, string> | null = null;
+const getSubscriptToAscii = (): Record<string, string> =>
+  (subscriptToAsciiCache ??= invert(SUBSCRIPT_UNICODE));
 
 /** Unicode symbol / Greek -> readable ASCII. */
 const ASCII_SYMBOLS: Record<string, string> = {
@@ -254,8 +182,8 @@ const ASCII_SYMBOLS: Record<string, string> = {
   ' ': ' ',
 };
 
-const isCombiningSuper = (ch: string) => ch in SUPERSCRIPT_TO_ASCII;
-const isCombiningSub = (ch: string) => ch in SUBSCRIPT_TO_ASCII;
+const isCombiningSuper = (ch: string) => ch in getSuperscriptToAscii();
+const isCombiningSub = (ch: string) => ch in getSubscriptToAscii();
 
 /**
  * Map non-WinAnsi glyphs to ASCII so the built-in helvetica fallback stays
@@ -270,8 +198,9 @@ export const degradeToAscii = (input: string): string => {
     const ch = chars[i];
     if (isCombiningSuper(ch)) {
       let run = '';
+      const superscriptToAscii = getSuperscriptToAscii();
       while (i < chars.length && isCombiningSuper(chars[i])) {
-        run += SUPERSCRIPT_TO_ASCII[chars[i]];
+        run += superscriptToAscii[chars[i]];
         i++;
       }
       out += '^' + run;
@@ -279,8 +208,9 @@ export const degradeToAscii = (input: string): string => {
     }
     if (isCombiningSub(ch)) {
       let run = '';
+      const subscriptToAscii = getSubscriptToAscii();
       while (i < chars.length && isCombiningSub(chars[i])) {
-        run += SUBSCRIPT_TO_ASCII[chars[i]];
+        run += subscriptToAscii[chars[i]];
         i++;
       }
       out += '_' + run;
