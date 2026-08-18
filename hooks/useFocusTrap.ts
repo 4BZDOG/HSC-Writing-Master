@@ -200,10 +200,18 @@ export const useFocusTrap = <T extends HTMLElement>(active: boolean) => {
        * Re-checked at that point rather than trusting the earlier check: a
        * dialog that deletes the row which opened it leaves a detached node
        * behind, and focusing that puts focus nowhere at all.
+       *
+       * `preventScroll` is load-bearing, not decoration. `useScrollLock` has
+       * just unpinned <body> and put the viewport back at the exact offset it
+       * captured when the modal opened; a plain `.focus()` here immediately
+       * scrolls the opener into view and undoes that, so closing any dialog
+       * nudged the page by however far the opener sat from the scroll anchor.
+       * Nothing is stranded offscreen by suppressing it: the position being
+       * restored is the one the opener was clicked at.
        */
       const restore = () => {
         if (previouslyFocused && document.contains(previouslyFocused)) {
-          previouslyFocused.focus?.();
+          previouslyFocused.focus?.({ preventScroll: true });
         }
       };
       if (typeof requestAnimationFrame === 'function') requestAnimationFrame(restore);

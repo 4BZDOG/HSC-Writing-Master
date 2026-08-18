@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import { render, screen, cleanup, fireEvent, within } from '@testing-library/react';
 import Combobox from '../../components/Combobox';
 import PromptSelector from '../../components/PromptSelector';
-import { Course, Prompt, PromptVerb, StatePath } from '../../types';
+import Breadcrumb from '../../components/Breadcrumb';
+import { useNavigatorFocusHandoff } from '../../hooks/useNavigatorFocusHandoff';
+import { Course, Prompt, PromptVerb, StatePath, SyllabusCrumb } from '../../types';
 
 /**
  * The navigator's silences.
@@ -14,6 +16,13 @@ import { Course, Prompt, PromptVerb, StatePath } from '../../types';
  * workspace simply vanished. An empty sub-topic list opened onto "No options
  * available." with no word on whose problem it was. And a course list still in
  * flight looked exactly like a student with no courses at all.
+ *
+ * Two of the four had a second half that the first pass missed, and both are
+ * covered below: the focus handoff fired only on the collapse seam, so a crumb
+ * pressed with the navigator already open still dropped focus to `<body>`; and
+ * the notice read the first CHANGED level, which is the level a stage picker
+ * set but the level a crumb walked away from — off by one for three crumbs and
+ * silent for the fourth.
  */
 
 vi.mock('../../services/geminiService', () => ({
@@ -219,6 +228,198 @@ describe('the cleared-question notice', () => {
     pick(/Select Topic/, /Programming for the Web/);
 
     expect(screen.queryByRole('status')).toBeNull();
+  });
+});
+
+// --- 2b. …and must name the level correctly for BOTH routes -----------------
+
+/**
+ * The four crumb handlers exactly as `App.tsx` builds them.
+ *
+ * Copied rather than imported because `App.tsx` cannot be mounted here, and
+ * the SHAPE is the whole point: a crumb clears the levels BELOW the one it
+ * names and leaves that level standing, which is the inverse of what a stage
+ * picker does. Reading "the first key that differs" therefore names the level
+ * the student walked away from, not the one they are left on — and for the
+ * dot-point crumb, which clears nothing but the question, it names nothing at
+ * all.
+ */
+const CRUMB_PATCHES: Partial<StatePath>[] = [
+  {
+    topicId: undefined,
+    subTopicId: undefined,
+    dotPointId: undefined,
+    promptId: undefined,
+    selectedSubItems: undefined,
+  },
+  {
+    subTopicId: undefined,
+    dotPointId: undefined,
+    promptId: undefined,
+    selectedSubItems: undefined,
+  },
+  { dotPointId: undefined, promptId: undefined, selectedSubItems: undefined },
+  { promptId: undefined },
+];
+
+const CRUMB_LABELS = ['Course', 'Topic', 'Sub-Topic', 'Dot Point'];
+
+/** The real `Breadcrumb` and the real picker, over one shared `statePath`. */
+const CrumbHarness: React.FC<{ initial: StatePath }> = ({ initial }) => {
+  const [statePath, setStatePath] = useState<StatePath>(initial);
+  const merge = (next: Partial<StatePath>) => setStatePath((prev) => ({ ...prev, ...next }));
+  const crumbs: SyllabusCrumb[] = CRUMB_LABELS.map((label, i) => ({
+    label,
+    onClick: () => merge(CRUMB_PATCHES[i]),
+  }));
+  return (
+    <>
+      <div data-testid="crumbs">
+        <Breadcrumb items={crumbs} />
+      </div>
+      <PromptSelector {...baseProps} statePath={statePath} onPathChange={merge} />
+    </>
+  );
+};
+
+describe('the cleared-question notice, driven from the breadcrumb', () => {
+  const selected: StatePath = {
+    courseId: 'c1',
+    topicId: 't1',
+    subTopicId: 's1',
+    dotPointId: 'd1',
+    promptId: 'p1',
+  };
+
+  const clickCrumb = (label: string) =>
+    fireEvent.click(within(screen.getByTestId('crumbs')).getByRole('button', { name: label }));
+
+  it.each([
+    ['Course', 'Back to the course — your question selection was cleared.'],
+    ['Topic', 'Back to the topic — your question selection was cleared.'],
+    ['Sub-Topic', 'Back to the sub-topic — your question selection was cleared.'],
+    ['Dot Point', 'Back to the syllabus point — your question selection was cleared.'],
+  ])('names the level the %s crumb returns to', (label, expected) => {
+    render(<CrumbHarness initial={selected} />);
+    expect(screen.queryByRole('status')).toBeNull();
+
+    clickCrumb(label);
+
+    expect(screen.getByRole('status').textContent).toContain(expected);
+  });
+
+  it('never reports a crumb as a level the student chose', () => {
+    for (const label of CRUMB_LABELS) {
+      render(<CrumbHarness initial={selected} />);
+      clickCrumb(label);
+      // Going UP is not choosing. "New sub-topic chosen" after pressing the
+      // Topic crumb names a level the student did not touch and did not pick.
+      expect(screen.getByRole('status').textContent).not.toMatch(/chosen/);
+      cleanup();
+    }
+  });
+
+  it('is not silent for the dot-point crumb, which changes nothing but the question', () => {
+    render(<CrumbHarness initial={selected} />);
+
+    clickCrumb('Dot Point');
+
+    // The regression: only `promptId` moved, so a search for a changed LEVEL
+    // found nothing and the largest state change in the app happened in total
+    // silence — for a screen-reader user, invisibly.
+    const notice = screen.getByRole('status');
+    expect(notice.textContent).toContain('your question selection was cleared');
+  });
+
+  it('still clears once a question is chosen again after a crumb jump', () => {
+    render(<CrumbHarness initial={selected} />);
+
+    clickCrumb('Sub-Topic');
+    expect(screen.getByRole('status')).toBeTruthy();
+
+    pick(/Select Dot Point/, /applications of web programming/);
+    pick(/Select Question/, /emerging technologies/);
+
+    expect(screen.queryByRole('status')).toBeNull();
+  });
+
+  it('stays quiet when a crumb is pressed with no question selected', () => {
+    render(<CrumbHarness initial={{ courseId: 'c1', topicId: 't1', subTopicId: 's1' }} />);
+
+    clickCrumb('Topic');
+
+    expect(screen.queryByRole('status')).toBeNull();
+  });
+});
+
+// --- 2c. A crumb press must not drop focus to `<body>` ----------------------
+
+const FocusHarness: React.FC<{ collapsed: boolean; jumps: number }> = ({ collapsed, jumps }) => {
+  const { navigatorRef, expandButtonRef, noteNavigatorFocused } = useNavigatorFocusHandoff(
+    collapsed,
+    jumps
+  );
+  return (
+    <>
+      {/* The wrapper `App` puts the `onFocusCapture` on, so "has anyone ever
+          stood in the navigator?" is answered the same way here. */}
+      <div onFocusCapture={noteNavigatorFocused}>
+        <div ref={navigatorRef} tabIndex={-1} data-testid="navigator" />
+      </div>
+      <button ref={expandButtonRef}>Change</button>
+      <button data-testid="crumb">Topic</button>
+    </>
+  );
+};
+
+describe('the navigator focus handoff', () => {
+  const scrollSpy = () => Element.prototype.scrollIntoView as unknown as ReturnType<typeof vi.fn>;
+
+  it('catches focus when a crumb is pressed with the navigator already open', () => {
+    const { rerender } = render(<FocusHarness collapsed={false} jumps={0} />);
+    const crumb = screen.getByTestId('crumb');
+    crumb.focus();
+    expect(document.activeElement).toBe(crumb);
+
+    // The press clears the question, unmounting whichever surface drew that
+    // crumb. `collapsed` does not move — the navigator was already open — so
+    // only the press count marks that anything happened.
+    rerender(<FocusHarness collapsed={false} jumps={1} />);
+
+    expect(document.activeElement).toBe(screen.getByTestId('navigator'));
+  });
+
+  it('acts once when a crumb press also re-opens the navigator', () => {
+    const { rerender } = render(<FocusHarness collapsed jumps={0} />);
+    scrollSpy().mockClear();
+
+    // A crumb on the COLLAPSED bar moves both triggers in one commit.
+    rerender(<FocusHarness collapsed={false} jumps={1} />);
+
+    expect(document.activeElement).toBe(screen.getByTestId('navigator'));
+    expect(scrollSpy()).toHaveBeenCalledTimes(1);
+  });
+
+  it('leaves focus alone on a re-render that moves neither trigger', () => {
+    const { rerender } = render(<FocusHarness collapsed={false} jumps={2} />);
+    const crumb = screen.getByTestId('crumb');
+    crumb.focus();
+
+    rerender(<FocusHarness collapsed={false} jumps={2} />);
+
+    expect(document.activeElement).toBe(crumb);
+  });
+
+  it('hands focus to the Change button when the navigator folds, once it has been used', () => {
+    const { rerender } = render(<FocusHarness collapsed={false} jumps={0} />);
+    // Nobody has stood in the navigator, so a fold on load must not jump.
+    rerender(<FocusHarness collapsed jumps={0} />);
+    expect(document.activeElement).toBe(document.body);
+
+    rerender(<FocusHarness collapsed={false} jumps={0} />);
+    screen.getByTestId('navigator').focus();
+    rerender(<FocusHarness collapsed jumps={0} />);
+    expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Change' }));
   });
 });
 

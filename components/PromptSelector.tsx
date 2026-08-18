@@ -148,16 +148,20 @@ const SUGGESTION_HEADINGS: Record<string, (tier: number) => string> = {
 };
 
 /**
- * What each level of the path is called when a change to it discards the
- * question below. Ordered outermost-first: the cascade clears everything under
- * whichever level moved, so the FIRST match is the one to name.
+ * The path's levels, outermost first, and what each is called when a move
+ * discards the question below it. Order is load-bearing twice over: a cascade
+ * clears everything under whichever level moved, so the FIRST key that differs
+ * is the one the move was about, and the level the student is left standing on
+ * is the one immediately above it.
  */
-const LEVEL_LABEL = {
+const LEVEL_KEYS = ['courseId', 'topicId', 'subTopicId', 'dotPointId'] as const;
+
+const LEVEL_LABEL: Record<(typeof LEVEL_KEYS)[number], string> = {
   courseId: 'course',
   topicId: 'topic',
   subTopicId: 'sub-topic',
   dotPointId: 'syllabus point',
-} as const;
+};
 
 const THEMES: Record<string, any> = {
   blue: {
@@ -914,12 +918,41 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       setClearedNotice(null);
       return;
     }
-    const changed = (Object.keys(LEVEL_LABEL) as (keyof typeof LEVEL_LABEL)[]).find(
-      (k) => before[k] !== statePath[k]
-    );
-    if (changed) {
-      setClearedNotice(`New ${LEVEL_LABEL[changed]} chosen — your question selection was cleared.`);
+
+    /**
+     * The two routes here move the path in opposite directions, and reading
+     * only "which key changed first" mistakes one for the other.
+     *
+     * A stage picker SETS level N and clears N+1…4, so the first differing key
+     * is N and it now holds a value — the student chose something, and naming
+     * it is right. A breadcrumb crumb does the inverse: it CLEARS N+1…4 and
+     * leaves N alone, so the first differing key is N+1 and it is now empty.
+     * Naming that key would report the level they walked away FROM as the one
+     * they had just picked. What they are actually left on is the level above
+     * it, and they chose nothing — they went back up.
+     *
+     * The dot-point crumb clears nothing but the question, so no level key
+     * differs at all. That is not "nothing happened": it is the one press that
+     * discards a question and changes literally nothing else on screen except
+     * the workspace vanishing, and it used to be the only cascade this notice
+     * was completely silent for. The student is left on the deepest level.
+     */
+    const changedIndex = LEVEL_KEYS.findIndex((k) => before[k] !== statePath[k]);
+    const setKey =
+      changedIndex !== -1 && statePath[LEVEL_KEYS[changedIndex]] ? LEVEL_KEYS[changedIndex] : null;
+    if (setKey) {
+      setClearedNotice(`New ${LEVEL_LABEL[setKey]} chosen — your question selection was cleared.`);
+      return;
     }
+    const returnedTo = changedIndex === -1 ? LEVEL_KEYS.length - 1 : changedIndex - 1;
+    setClearedNotice(
+      returnedTo >= 0
+        ? `Back to the ${LEVEL_LABEL[LEVEL_KEYS[returnedTo]]} — your question selection was cleared.`
+        : // Nothing of the path survives (the course itself went), so there is
+          // no level to name — but the question still went, and going quiet is
+          // the failure this notice exists to prevent.
+          'Your question selection was cleared.'
+    );
   }, [statePath]);
 
   const getContainerClasses = (isSelected: boolean, zIndex: string) => `

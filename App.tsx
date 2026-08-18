@@ -15,6 +15,7 @@ import LoginPage from './components/LoginPage';
 import ResetPasswordPage from './components/ResetPasswordPage';
 import UserAgreementModal from './components/UserAgreementModal';
 import { useNavigation } from './hooks/useNavigation';
+import { useNavigatorFocusHandoff } from './hooks/useNavigatorFocusHandoff';
 import { activeSyllabusYear, resolveSyllabusYear, yearShortLabel } from './utils/syllabusYear';
 import { useSyllabusData } from './hooks/useSyllabusData';
 import { useGemini } from './hooks/useGemini';
@@ -36,7 +37,7 @@ import { savePromptContribution } from './services/contributionService';
 import { visibleCourses } from './utils/courseVisibility';
 import { screenContentQuality } from './services/geminiService';
 import { User, WritingMode } from './types';
-import type { SyllabusCrumb } from './types';
+import type { StatePath, SyllabusCrumb } from './types';
 import {
   canCreateCurriculum,
   canCurateContent,
@@ -213,6 +214,26 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
    * breadcrumb's scroll effect and defeated the hierarchy-context `useMemo` on
    * every keystroke.
    */
+  /**
+   * Bumped by every crumb press, so the focus handoff below has an edge to
+   * react to even when nothing else about the app's shape changes.
+   *
+   * A crumb pressed while the navigator is already open clears `promptId` and
+   * unmounts `Workspace` — taking the pressed button with it — but leaves
+   * `isNavCollapsed` exactly where it was, so an effect watching only that
+   * seam never runs and focus lands on `<body>`. Counting the presses gives
+   * both breadcrumb instances one trigger; the effect then does the work
+   * once, whether one edge moved or both.
+   */
+  const [crumbJumps, setCrumbJumps] = useState(0);
+  const handleCrumbJump = useCallback(
+    (patch: Partial<StatePath>) => {
+      handlePathChange(patch);
+      setCrumbJumps((n) => n + 1);
+    },
+    [handlePathChange]
+  );
+
   const syllabusCrumbs: SyllabusCrumb[] = useMemo(() => {
     const year = resolveSyllabusYear(currentCourse, statePath.syllabusYear);
     return [
@@ -226,7 +247,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         // name for the PDF export and the AI hierarchy context.
         badge: year === 'year12' ? undefined : yearShortLabel(year),
         onClick: () =>
-          handlePathChange({
+          handleCrumbJump({
             topicId: undefined,
             subTopicId: undefined,
             dotPointId: undefined,
@@ -237,7 +258,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       {
         label: currentTopic?.name || 'Topic',
         onClick: () =>
-          handlePathChange({
+          handleCrumbJump({
             subTopicId: undefined,
             dotPointId: undefined,
             promptId: undefined,
@@ -247,7 +268,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       {
         label: currentSubTopic?.name || 'Sub-Topic',
         onClick: () =>
-          handlePathChange({
+          handleCrumbJump({
             dotPointId: undefined,
             promptId: undefined,
             selectedSubItems: undefined,
@@ -257,7 +278,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         // The statement, not the statement plus its focus-area list — a
         // breadcrumb is a place name.
         label: getDotPointLabel(currentDotPoint) || 'Dot Point',
-        onClick: () => handlePathChange({ promptId: undefined }),
+        onClick: () => handleCrumbJump({ promptId: undefined }),
       },
     ];
   }, [
@@ -266,7 +287,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     currentSubTopic,
     currentDotPoint,
     statePath.syllabusYear,
-    handlePathChange,
+    handleCrumbJump,
   ]);
 
   const [isFocusMode, setIsFocusMode] = useState(false);
@@ -780,45 +801,13 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   // selected and the student hasn't re-opened it to change their choice.
   const isNavCollapsed = !!currentPrompt && !isNavExpanded;
 
-  /**
-   * Focus handoff across the collapse/expand seam.
-   *
-   * Both directions destroy the control that was pressed: "Change" lives on a
-   * bar that unmounts the moment it re-opens the picker, and "Collapse to
-   * breadcrumb" sits inside the wrapper that gains `inert` on the very click.
-   * Left alone, focus falls to `<body>` and the next Tab restarts at the top of
-   * the document. Each control therefore hands focus to whatever replaced it —
-   * the same symmetry `useFocusTrap` gives a modal.
-   *
-   * Expanding also scrolls: with the page scrolled down to the writing area,
-   * "Change" unfolds a ~700px picker entirely above the fold, and nothing
-   * visible moves.
-   */
-  const navigatorRef = useRef<HTMLDivElement>(null);
-  const expandButtonRef = useRef<HTMLButtonElement>(null);
-  // Only a navigator the user has actually stood in can have cost them their
-  // place. A question restored from storage collapses the navigator on load
-  // too, and moving focus there would be a jump nobody asked for.
-  const navigatorEverFocused = useRef(false);
-  const wasNavCollapsed = useRef(isNavCollapsed);
-  useEffect(() => {
-    if (wasNavCollapsed.current === isNavCollapsed) return;
-    wasNavCollapsed.current = isNavCollapsed;
-
-    if (isNavCollapsed) {
-      if (navigatorEverFocused.current) expandButtonRef.current?.focus({ preventScroll: true });
-      return;
-    }
-
-    const el = navigatorRef.current;
-    if (!el) return;
-    el.focus({ preventScroll: true });
-    // `scrollIntoView`'s options bag is imperative, so `index.css`'s global
-    // `scroll-behavior: auto !important` cannot reach it — the media query has
-    // to be asked directly.
-    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    el.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
-  }, [isNavCollapsed]);
+  // Every control in this region that destroys itself by being pressed hands
+  // focus on to whatever replaced it; see the hook for which three, and why the
+  // crumb count is a second trigger alongside the collapse seam.
+  const { navigatorRef, expandButtonRef, noteNavigatorFocused } = useNavigatorFocusHandoff(
+    isNavCollapsed,
+    crumbJumps
+  );
 
   return (
     <>
@@ -909,9 +898,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         {!isFocusMode && (
           <div
             inert={isNavCollapsed}
-            onFocusCapture={() => {
-              navigatorEverFocused.current = true;
-            }}
+            onFocusCapture={noteNavigatorFocused}
             className={`grid transition-all duration-700 ease-in-out ${
               isNavCollapsed ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'
             }`}
