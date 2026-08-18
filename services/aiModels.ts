@@ -87,7 +87,10 @@ export const AI_MODELS: AIModelOption[] = [
     description: 'Strong reasoning with a good speed/cost balance. Requires ANTHROPIC_API_KEY.',
     roles: ['basic', 'reasoning'],
     keyEnv: 'ANTHROPIC_API_KEY',
-    estCostPerCall: 0.009,
+    // $3/M in + $15/M out, blended 2k-in/1k-out (was stale at 0.009 —
+    // flagged in Plan-AIModelsImagesNavigator.md and verified against
+    // platform.claude.com/docs pricing table)
+    estCostPerCall: 0.021,
   },
   {
     id: 'claude-haiku',
