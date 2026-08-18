@@ -16,6 +16,30 @@ vi.mock('../../services/geminiService', () => ({
   refineManualPrompt: (...args: unknown[]) => refineManualPrompt(...args),
 }));
 
+// The scenario-image affordance commits to IDB immediately (see
+// ScenarioImageUploader.tsx) — these tests are only about whether the modal
+// cleans up an orphaned row on discard/re-refine, not about paste handling
+// itself, so the uploader is stubbed to a single button that fires
+// `onImageChange` with a fixed ref keyed on whatever promptId it was given.
+vi.mock('../../components/ScenarioImageUploader', () => ({
+  default: ({
+    promptId,
+    onImageChange,
+  }: {
+    promptId: string;
+    onImageChange: (ref: { id: string; updatedAt: number } | undefined) => void;
+  }) => (
+    <button type="button" onClick={() => onImageChange({ id: promptId, updatedAt: 1 })}>
+      Attach image
+    </button>
+  ),
+}));
+
+const deleteScenarioImage = vi.fn();
+vi.mock('../../utils/scenarioImageStorage', () => ({
+  deleteScenarioImage: (...args: unknown[]) => deleteScenarioImage(...args),
+}));
+
 /**
  * Refining is a plan-gated AI Content Studio call. These tests are about what
  * the composer DOES with a refinement, so the plan is held unlocked here — a
@@ -83,6 +107,7 @@ beforeEach(() => {
   refineManualPrompt.mockReset().mockResolvedValue(refined);
   onSave.mockReset();
   requestUpgradeMock.mockReset();
+  deleteScenarioImage.mockReset();
   studioLocked = false;
 });
 
@@ -245,5 +270,52 @@ describe('ManualPromptModal — reviewing and saving', () => {
     expect(save.disabled).toBe(true);
     fireEvent.click(save);
     expect(onSave).not.toHaveBeenCalled();
+  });
+});
+
+describe('ManualPromptModal — scenario image cleanup', () => {
+  const attachImage = () => {
+    fireEvent.click(screen.getByRole('button', { name: /Add Scenario Image/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Attach image/i }));
+  };
+
+  it('does not delete the image a successful save just committed', async () => {
+    renderModal();
+    typeIdea();
+    await refine();
+    attachImage();
+
+    fireEvent.click(screen.getByRole('button', { name: /Save to Syllabus/i }));
+
+    expect(deleteScenarioImage).not.toHaveBeenCalled();
+    expect(onSave).toHaveBeenCalledWith(
+      expect.objectContaining({ scenarioImage: { id: 'p-new', updatedAt: 1 } })
+    );
+  });
+
+  it('deletes the orphaned image when the draft is discarded', async () => {
+    renderModal();
+    typeIdea();
+    await refine();
+    attachImage();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+    fireEvent.click(await screen.findByRole('button', { name: /^Discard$/i }));
+
+    expect(deleteScenarioImage).toHaveBeenCalledWith('p-new');
+    expect(onSave).not.toHaveBeenCalled();
+  });
+
+  it("deletes the previous draft's image when refining again", async () => {
+    renderModal();
+    typeIdea();
+    await refine();
+    attachImage();
+
+    fireEvent.click(screen.getByRole('button', { name: /Back to Edit/i }));
+    refineManualPrompt.mockResolvedValueOnce({ ...refined, id: 'p-second' });
+    await refine();
+
+    expect(deleteScenarioImage).toHaveBeenCalledWith('p-new');
   });
 });
