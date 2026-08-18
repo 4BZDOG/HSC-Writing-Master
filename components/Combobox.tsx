@@ -513,7 +513,7 @@ const Combobox: React.FC<ComboboxProps> = ({
                       index={index}
                       listboxId={listboxId}
                       isSelected={option.id === value}
-                      className={`${option.disabled ? 'cursor-not-allowed' : 'cursor-pointer'} select-none relative py-3 pr-9 transition-colors active:scale-[0.98] transition-transform ${
+                      className={`${option.disabled ? 'cursor-not-allowed' : 'cursor-pointer'} select-none relative py-3 pr-9 transition-[color,background-color,border-color,transform] active:scale-[0.98] ${
                         index === highlightedIndex
                           ? `${getListItemClasses(option, true)}`
                           : getListItemClasses(option, option.id === value)
