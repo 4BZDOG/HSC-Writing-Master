@@ -53,6 +53,22 @@ $$;
 grant usage on schema auth to anon, authenticated, service_role;
 grant select, insert, update, delete on auth.users to service_role;
 
+-- Minimal storage.buckets: only the columns schema.sql's bucket-creation
+-- insert touches. A real Supabase project ships the full `storage` schema
+-- (buckets, objects, RLS policies) via its storage extension; this stub
+-- exists only so schema.sql's `insert into storage.buckets` runs unmodified
+-- in CI, the same reasoning as the auth stub above.
+create schema if not exists storage;
+
+create table if not exists storage.buckets (
+  id     text primary key,
+  name   text not null,
+  public boolean not null default false
+);
+
+grant usage on schema storage to anon, authenticated, service_role;
+grant select, insert, update, delete on storage.buckets to service_role;
+
 -- Supabase grants EXECUTE on newly created functions to anon and authenticated
 -- via ALTER DEFAULT PRIVILEGES, which applies AT CREATION TIME. Replicating it
 -- here — before schema.sql runs — rather than blanket-granting afterwards is the
