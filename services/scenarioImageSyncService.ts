@@ -83,8 +83,8 @@ export const syncScenarioImageDown = async (
   ref: ScenarioImageRef | undefined
 ): Promise<void> => {
   if (!ref?.storagePath || !supabase) return;
-  if (await loadScenarioImage(promptId)) return; // already cached
   try {
+    if (await loadScenarioImage(promptId)) return; // already cached
     const { data, error } = await supabase.storage.from(BUCKET).download(ref.storagePath);
     if (error || !data) {
       console.warn('[ScenarioImage] Download failed (non-fatal):', error?.message);
