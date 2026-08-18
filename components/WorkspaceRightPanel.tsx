@@ -435,24 +435,34 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
         </div>
       )}
 
-      {!isExamMode && <LiveInsights insights={insights} />}
+      {/* Live Insights, the metrics strip and whatever the Workspace slots in
+          below (exemplars, and in Focus Mode the marking guide) read as one
+          set of reference panels, so they share the reference rail's own
+          16px rhythm (`gap-1` + each panel's `mb-3`) rather than the 24px
+          the outer column uses to hold the writing card apart from the set —
+          the two gaps looked close enough alike to read as a mistake rather
+          than two different relationships. */}
+      <div className="flex flex-col gap-4">
+        {!isExamMode && <LiveInsights insights={insights} />}
 
-      <WritingMetricsDashboard
-        userAnswer={debouncedUserAnswer}
-        prompt={currentPrompt}
-        writingMode={writingMode}
-        onAddWord={(word) => {
-          const event = new CustomEvent('insert-text', { detail: word });
-          window.dispatchEvent(event);
-        }}
-      />
+        <WritingMetricsDashboard
+          userAnswer={debouncedUserAnswer}
+          prompt={currentPrompt}
+          writingMode={writingMode}
+          onAddWord={(word) => {
+            const event = new CustomEvent('insert-text', { detail: word });
+            window.dispatchEvent(event);
+          }}
+        />
 
-      {/* Whatever the Workspace decided belongs under the writing card in this
-          layout — the exemplars beside a two-column workspace, and in Focus
-          Mode the marking guide too, since there is no left rail to hold it. */}
-      {referenceSlot && (
-        <div className={`flex flex-col ${isExamMode ? 'hidden' : ''}`}>{referenceSlot}</div>
-      )}
+        {/* Whatever the Workspace decided belongs under the writing card in
+            this layout — the exemplars beside a two-column workspace, and in
+            Focus Mode the marking guide too, since there is no left rail to
+            hold it. */}
+        {referenceSlot && (
+          <div className={`flex flex-col ${isExamMode ? 'hidden' : ''}`}>{referenceSlot}</div>
+        )}
+      </div>
 
       {/*
         Portalled and fixed, so where it sits in this tree is immaterial.
