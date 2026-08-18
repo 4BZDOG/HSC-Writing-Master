@@ -804,7 +804,21 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
               isNavCollapsed ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'
             }`}
           >
-            <div className="overflow-hidden">
+            {/* The clip only needs to bite on the Y axis — it exists purely to
+                make `grid-rows-[0fr]` collapse to zero height instead of just
+                overflowing out the bottom. The navigator's progress rail hangs
+                its step dots into the left padding gutter (and a little past
+                it, by design, to sit on the connecting line), which a plain
+                `overflow-hidden` here clipped clean in half: its box starts
+                flush with the padding edge those dots are meant to cross.
+                `overflow-x: visible` can't fix that paired with
+                `overflow-y: hidden` — the spec silently promotes it to `auto`,
+                which still clips at the box edge. Pushing the box edge out
+                with matched negative margin and padding is the standard
+                escape: the content's rendered position doesn't move, but
+                there's 6rem of slack on each side before anything is close to
+                the box boundary. */}
+            <div className="overflow-hidden -mx-24 px-24">
               <div className="relative z-50">
                 <PromptSelector
                   courses={courses}
