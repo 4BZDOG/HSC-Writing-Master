@@ -33,6 +33,7 @@ import {
 import { AGREEMENT_VERSION } from './data/legalContent';
 import { isCurriculumRemote } from './services/curriculumService';
 import { savePromptContribution } from './services/contributionService';
+import { visibleCourses } from './utils/courseVisibility';
 import { screenContentQuality } from './services/geminiService';
 import { User, WritingMode } from './types';
 import {
@@ -149,6 +150,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     confirmRename,
     confirmDelete,
     handleUpdateOutcomes,
+    handleSetCourseStatus,
     handleSampleAnswerGenerated,
     handleUpdateSampleAnswer,
     handleDeleteSampleAnswer,
@@ -183,6 +185,12 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     }),
     [currentCourse, currentTopic, currentSubTopic, currentDotPoint, currentPrompt]
   );
+
+  // The two user-facing navigator surfaces (PromptSelector, Workspace) only
+  // ever see published courses — draft courses stay visible to admins alone.
+  // AppModals/ContentAuditModal (admin-gated tools) intentionally keep the
+  // raw, unfiltered `courses` so they can manage draft content.
+  const navigatorCourses = useMemo(() => visibleCourses(courses, user.role), [courses, user.role]);
 
   const [isFocusMode, setIsFocusMode] = useState(false);
   // Writing experience: 'coach' surfaces live feedback (highlighting, insights,
@@ -841,10 +849,11 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
             <div className="overflow-hidden -mx-24 px-24">
               <div className="relative z-50">
                 <PromptSelector
-                  courses={courses}
+                  courses={navigatorCourses}
                   statePath={statePath}
                   onPathChange={handlePathChange}
                   onAddCourse={() => openModal('courseCreator')}
+                  onToggleCourseStatus={handleSetCourseStatus}
                   onRequestCourse={(prefill) => {
                     // Carries the text they searched for, so the request form
                     // opens on their own words rather than an empty field.
@@ -949,7 +958,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
 
         {currentPrompt ? (
           <Workspace
-            courses={courses}
+            courses={navigatorCourses}
             statePath={statePath}
             currentSelection={currentSelection}
             userAnswer={userAnswer}

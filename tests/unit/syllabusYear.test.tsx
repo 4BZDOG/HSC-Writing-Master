@@ -276,6 +276,7 @@ const noop = vi.fn();
 const baseProps = {
   onPathChange: noop,
   onAddCourse: noop,
+  onToggleCourseStatus: noop,
   onAddSubTopic: noop,
   onGeneratePrompt: noop,
   onManualEntry: noop,

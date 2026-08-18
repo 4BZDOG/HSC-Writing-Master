@@ -173,6 +173,7 @@ const baseProps = {
   statePath,
   onPathChange: noop,
   onAddCourse: noop,
+  onToggleCourseStatus: noop,
   onAddSubTopic: noop,
   onGeneratePrompt: noop,
   onManualEntry: noop,
