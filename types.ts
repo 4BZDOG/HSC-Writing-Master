@@ -209,6 +209,24 @@ export interface StatePath {
   selectedSubItems?: string[];
 }
 
+/**
+ * One level of the Course → Topic → Sub-Topic → Dot Point path, as the
+ * breadcrumb renders it. Shared so the path is built once, in `App.tsx`, and
+ * consumed by both the collapsed navigator bar and the workspace breadcrumb —
+ * they used to construct it separately and drifted apart.
+ */
+export interface SyllabusCrumb {
+  label: string;
+  /**
+   * A qualifier on the label that is not part of its name — the syllabus year
+   * on the course crumb. Rendered as a chip, kept OUT of `label` so
+   * `crumbs.map((c) => c.label)` still yields the plain names the PDF export
+   * and the AI hierarchy context consume.
+   */
+  badge?: string;
+  onClick?: () => void;
+}
+
 export interface EvaluationCriterion {
   criterion: string;
   mark: number;

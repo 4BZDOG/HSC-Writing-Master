@@ -36,6 +36,7 @@ import { savePromptContribution } from './services/contributionService';
 import { visibleCourses } from './utils/courseVisibility';
 import { screenContentQuality } from './services/geminiService';
 import { User, WritingMode } from './types';
+import type { SyllabusCrumb } from './types';
 import {
   canCreateCurriculum,
   canCurateContent,
@@ -200,6 +201,73 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     }),
     [currentCourse, currentTopic, currentSubTopic, currentDotPoint, currentPrompt]
   );
+
+  /**
+   * The syllabus path, built once and shared by both surfaces that draw it —
+   * the collapsed navigator bar and the workspace breadcrumb. They used to
+   * construct it separately, which is how one of them came to print the
+   * syllabus year and the other did not.
+   *
+   * Memoised because it is also the identity `Workspace` and
+   * `WorkspaceRightPanel` memoise on: as a fresh literal it re-ran the
+   * breadcrumb's scroll effect and defeated the hierarchy-context `useMemo` on
+   * every keystroke.
+   */
+  const syllabusCrumbs: SyllabusCrumb[] = useMemo(() => {
+    const year = resolveSyllabusYear(currentCourse, statePath.syllabusYear);
+    return [
+      {
+        label: currentCourse?.name || 'Course',
+        // The year rides on the course crumb rather than taking a step of its
+        // own: it is which syllabus this course name means, not a level
+        // between the course and its topics. Named only when it is not the
+        // Year 12 default, so the common case stays quiet — and carried as a
+        // badge rather than a suffix, so `label` stays the course's actual
+        // name for the PDF export and the AI hierarchy context.
+        badge: year === 'year12' ? undefined : yearShortLabel(year),
+        onClick: () =>
+          handlePathChange({
+            topicId: undefined,
+            subTopicId: undefined,
+            dotPointId: undefined,
+            promptId: undefined,
+            selectedSubItems: undefined,
+          }),
+      },
+      {
+        label: currentTopic?.name || 'Topic',
+        onClick: () =>
+          handlePathChange({
+            subTopicId: undefined,
+            dotPointId: undefined,
+            promptId: undefined,
+            selectedSubItems: undefined,
+          }),
+      },
+      {
+        label: currentSubTopic?.name || 'Sub-Topic',
+        onClick: () =>
+          handlePathChange({
+            dotPointId: undefined,
+            promptId: undefined,
+            selectedSubItems: undefined,
+          }),
+      },
+      {
+        // The statement, not the statement plus its focus-area list — a
+        // breadcrumb is a place name.
+        label: getDotPointLabel(currentDotPoint) || 'Dot Point',
+        onClick: () => handlePathChange({ promptId: undefined }),
+      },
+    ];
+  }, [
+    currentCourse,
+    currentTopic,
+    currentSubTopic,
+    currentDotPoint,
+    statePath.syllabusYear,
+    handlePathChange,
+  ]);
 
   const [isFocusMode, setIsFocusMode] = useState(false);
   // Writing experience: 'coach' surfaces live feedback (highlighting, insights,
@@ -783,44 +851,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
 
         {!isFocusMode && isNavCollapsed && currentPrompt && (
           <SyllabusNavBar
-            crumbs={[
-              {
-                // The year rides on the course crumb rather than taking a step
-                // of its own: it is which syllabus this course name means, not
-                // a level between the course and its topics. Named only when it
-                // is not the Year 12 default, so the common case stays quiet.
-                label:
-                  resolveSyllabusYear(currentCourse, statePath.syllabusYear) === 'year12'
-                    ? currentCourse?.name || 'Course'
-                    : `${currentCourse?.name || 'Course'} · ${yearShortLabel(
-                        resolveSyllabusYear(currentCourse, statePath.syllabusYear)
-                      )}`,
-                onClick: () =>
-                  handlePathChange({
-                    topicId: undefined,
-                    subTopicId: undefined,
-                    dotPointId: undefined,
-                    promptId: undefined,
-                  }),
-              },
-              {
-                label: currentTopic?.name || 'Topic',
-                onClick: () =>
-                  handlePathChange({
-                    subTopicId: undefined,
-                    dotPointId: undefined,
-                    promptId: undefined,
-                  }),
-              },
-              {
-                label: currentSubTopic?.name || 'Sub-Topic',
-                onClick: () => handlePathChange({ dotPointId: undefined, promptId: undefined }),
-              },
-              {
-                label: getDotPointLabel(currentDotPoint) || 'Dot Point',
-                onClick: () => handlePathChange({ promptId: undefined }),
-              },
-            ]}
+            crumbs={syllabusCrumbs}
             prompt={currentPrompt}
             onExpand={() => setIsNavExpanded(true)}
             onShareAssignment={canCurateContent(user.role) ? handleShareAssignment : undefined}
@@ -991,6 +1022,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
             writingMode={writingMode}
             onWritingModeChange={setWritingMode}
             showBreadcrumb={!isNavCollapsed}
+            crumbs={syllabusCrumbs}
             showToast={showToast}
           />
         ) : (
