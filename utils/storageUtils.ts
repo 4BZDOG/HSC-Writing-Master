@@ -84,7 +84,7 @@ interface AppDB extends DBSchema {
   };
 }
 
-let _dbPromise: Promise<IDBPDatabase<AppDB>>;
+let _dbPromise: Promise<IDBPDatabase<AppDB>> | undefined;
 
 export const getDB = () => {
   if (!_dbPromise) {
@@ -105,6 +105,30 @@ export const getDB = () => {
         if (!db.objectStoreNames.contains(STORE_SCENARIO_IMAGES)) {
           db.createObjectStore(STORE_SCENARIO_IMAGES);
         }
+      },
+      // Without these three handlers, a version bump (like STORE_SCENARIO_IMAGES's
+      // 3→4) silently hangs forever — no error, nothing in the console — for
+      // any returning user who still has an older tab/window of this site open
+      // elsewhere. IndexedDB's upgrade transaction just waits for that older
+      // connection to close, and does so with zero signal by default.
+      blocked(currentVersion, blockedVersion) {
+        console.warn(
+          `[IndexedDB] Upgrade from v${currentVersion} to v${blockedVersion} is blocked by another open tab of this app. Close other tabs/windows of this site and reload.`
+        );
+      },
+      blocking() {
+        // This (already-open, older) connection is itself blocking a NEWER
+        // version trying to open elsewhere — e.g. this tab is running a
+        // stale build in the background after a deploy, and another tab just
+        // loaded the new one. Close it so the other tab's upgrade can
+        // proceed instead of hanging.
+        void _dbPromise?.then((db) => db.close());
+      },
+      terminated() {
+        // The browser force-closed the connection (e.g. the user cleared
+        // site data mid-session). Drop the cached promise so the next
+        // getDB() call opens a fresh connection instead of reusing a dead one.
+        _dbPromise = undefined;
       },
     });
   }
