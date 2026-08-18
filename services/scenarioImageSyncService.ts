@@ -95,3 +95,27 @@ export const syncScenarioImageDown = async (
     console.warn('[ScenarioImage] Download failed (non-fatal):', err);
   }
 };
+
+/**
+ * Delete a previously-uploaded scenario image from Supabase Storage. Called
+ * when a curator removes a scenario image (`ScenarioImageUploader`'s
+ * "Remove image") — without this, `syncScenarioImageUp` uploads bytes that
+ * nothing ever cleans up, leaking storage indefinitely. Fails soft for the
+ * same reasons as upload/download: the local IDB row and the `Prompt`'s
+ * `scenarioImage` ref are the source of truth for "does this prompt have an
+ * image", so a Storage delete failure (no config, network, or an RLS
+ * permission error) must not block the local removal.
+ */
+export const deleteScenarioImageFromStorage = async (
+  storagePath: string | undefined
+): Promise<void> => {
+  if (!storagePath || !supabase) return;
+  try {
+    const { error } = await supabase.storage.from(BUCKET).remove([storagePath]);
+    if (error) {
+      console.warn('[ScenarioImage] Storage delete failed (non-fatal):', error.message);
+    }
+  } catch (err) {
+    console.warn('[ScenarioImage] Storage delete failed (non-fatal):', err);
+  }
+};

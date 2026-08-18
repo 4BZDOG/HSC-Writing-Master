@@ -13,7 +13,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 const uploadMock = vi.fn();
 const downloadMock = vi.fn();
-const fromMock = vi.fn(() => ({ upload: uploadMock, download: downloadMock }));
+const removeMock = vi.fn();
+const fromMock = vi.fn(() => ({ upload: uploadMock, download: downloadMock, remove: removeMock }));
 
 let mockSupabase: { storage: { from: typeof fromMock } } | null = {
   storage: { from: fromMock },
@@ -32,7 +33,11 @@ vi.mock('../../utils/scenarioImageStorage', () => ({
   saveScenarioImage: (...args: unknown[]) => mockSaveScenarioImage(...args),
 }));
 
-import { syncScenarioImageUp, syncScenarioImageDown } from '../../services/scenarioImageSyncService';
+import {
+  syncScenarioImageUp,
+  syncScenarioImageDown,
+  deleteScenarioImageFromStorage,
+} from '../../services/scenarioImageSyncService';
 import { ScenarioImageRef } from '../../types';
 
 describe('scenarioImageSyncService', () => {
@@ -41,6 +46,7 @@ describe('scenarioImageSyncService', () => {
     fromMock.mockClear();
     uploadMock.mockReset();
     downloadMock.mockReset();
+    removeMock.mockReset();
     mockLoadScenarioImage.mockReset();
     mockSaveScenarioImage.mockReset();
   });
@@ -178,6 +184,47 @@ describe('scenarioImageSyncService', () => {
       await expect(syncScenarioImageDown('p1', ref)).resolves.toBeUndefined();
 
       expect(mockSaveScenarioImage).not.toHaveBeenCalled();
+      expect(warnSpy).toHaveBeenCalled();
+      warnSpy.mockRestore();
+    });
+  });
+
+  describe('deleteScenarioImageFromStorage', () => {
+    it('no-ops when there is no storagePath (never uploaded)', async () => {
+      await deleteScenarioImageFromStorage(undefined);
+      expect(fromMock).not.toHaveBeenCalled();
+      expect(removeMock).not.toHaveBeenCalled();
+    });
+
+    it('no-ops when Supabase is not configured', async () => {
+      mockSupabase = null;
+      await deleteScenarioImageFromStorage('p1/p1');
+      expect(removeMock).not.toHaveBeenCalled();
+    });
+
+    it('removes the object on success', async () => {
+      removeMock.mockResolvedValue({ error: null });
+      await deleteScenarioImageFromStorage('p1/p1');
+      expect(fromMock).toHaveBeenCalledWith('scenario-images');
+      expect(removeMock).toHaveBeenCalledWith(['p1/p1']);
+    });
+
+    it('resolves gracefully (warns, does not throw) on a delete error response', async () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      removeMock.mockResolvedValue({ error: { message: 'permission denied' } });
+
+      await expect(deleteScenarioImageFromStorage('p1/p1')).resolves.toBeUndefined();
+
+      expect(warnSpy).toHaveBeenCalled();
+      warnSpy.mockRestore();
+    });
+
+    it('resolves gracefully (warns, does not throw) when the remove call itself rejects', async () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      removeMock.mockRejectedValue(new Error('network down'));
+
+      await expect(deleteScenarioImageFromStorage('p1/p1')).resolves.toBeUndefined();
+
       expect(warnSpy).toHaveBeenCalled();
       warnSpy.mockRestore();
     });
