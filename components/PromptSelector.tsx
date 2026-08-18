@@ -56,6 +56,8 @@ import {
   Landmark,
   History,
   GraduationCap,
+  Eye,
+  EyeOff,
 } from 'lucide-react';
 import {
   getCommandTermInfo,
@@ -83,6 +85,8 @@ interface PromptSelectorProps {
    * searching for. Absent when the caller has no backend to log demand into.
    */
   onRequestCourse?: (prefillName?: string) => void;
+  /** Admin-only publication toggle — flips a course between draft and published. */
+  onToggleCourseStatus: (courseId: string, status: 'draft' | 'published') => void;
   onAddSubTopic: () => void;
   onGeneratePrompt: () => void;
   onManualEntry: () => void;
@@ -323,6 +327,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   onPathChange,
   onAddCourse,
   onRequestCourse,
+  onToggleCourseStatus,
   onAddSubTopic,
   onGeneratePrompt,
   onManualEntry,
@@ -407,13 +412,18 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               <Book className="w-4 h-4" />
             </div>
             <span className="font-medium flex-1 min-w-0 truncate">{c.name}</span>
+            {canCreateTree && c.status === 'draft' && (
+              <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-500 border border-amber-500/30 flex-shrink-0">
+                Draft
+              </span>
+            )}
             {/* Both years together: the question is "is this course ready to
                 show someone", and it is not ready if half of it is empty. */}
             {canCurate && <CoverageChip coverage={questionCoverage(c)} label={c.name} />}
           </div>
         ),
       })),
-    [courses, newlyAddedIds, canCurate]
+    [courses, newlyAddedIds, canCurate, canCreateTree]
   );
 
   /**
@@ -956,6 +966,24 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     icon={Database}
                     title="Data Vault (Import/Export/Reorder)"
                     variant="vault"
+                  />
+                )}
+                {canCreateTree && selectedCourse && (
+                  <ActionButton
+                    onClick={() =>
+                      onToggleCourseStatus(
+                        selectedCourse.id,
+                        selectedCourse.status === 'draft' ? 'published' : 'draft'
+                      )
+                    }
+                    icon={selectedCourse.status === 'draft' ? Eye : EyeOff}
+                    title={
+                      selectedCourse.status === 'draft'
+                        ? 'Publish — make visible to everyone'
+                        : 'Hide — draft, visible to admins only'
+                    }
+                    label={selectedCourse.status === 'draft' ? 'Publish' : 'Hide'}
+                    variant={selectedCourse.status === 'draft' ? 'special' : 'default'}
                   />
                 )}
                 {selectedCourse && (

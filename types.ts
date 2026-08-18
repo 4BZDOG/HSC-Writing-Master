@@ -180,6 +180,17 @@ export interface Course {
   id: string;
   name: string;
   subject?: string;
+  /**
+   * Admin publication gate. Absent (or 'published') means visible to everyone
+   * — the same "absence means what it always meant" rule as every other
+   * additive field (see Topic.year, DotPoint.focusAreas). 'draft' hides the
+   * course from anyone who is not canCreateCurriculum (admin), so new/seeded
+   * content can be built and reviewed before students or teachers see it
+   * exists. Maps to the existing Supabase `courses.status` column in remote
+   * mode ('approved' -> published, anything else -> draft) — see
+   * services/curriculumService.ts.
+   */
+  status?: 'draft' | 'published';
   outcomes: CourseOutcome[];
   topics: Topic[];
 }

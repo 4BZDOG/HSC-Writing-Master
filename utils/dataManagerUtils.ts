@@ -613,6 +613,7 @@ export const CourseSchema = z
     name: z.string().catch('Untitled Course').default('Untitled Course'),
     outcomes: z.array(CourseOutcomeSchema).default([]),
     topics: z.array(TopicSchema).default([]),
+    status: z.enum(['draft', 'published']).optional(),
   })
   .passthrough();
 

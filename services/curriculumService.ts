@@ -30,6 +30,7 @@ interface CourseRow {
   legacy_id: string | null;
   name: string;
   subject: string | null;
+  status: string;
 }
 interface OutcomeRow {
   course_id: string;
@@ -240,6 +241,9 @@ export const assembleCourses = (rows: CurriculumRows): Course[] => {
     id: appId(row),
     name: row.name,
     subject: row.subject ?? undefined,
+    // Only a non-approved status is ever written client-side (see
+    // Course.status in types.ts) — 'approved' reads as the default "published".
+    ...(row.status && row.status !== 'approved' ? { status: 'draft' as const } : {}),
     outcomes: (outcomesByCourse.get(row.id) ?? []).slice().sort(byPosition).map(buildOutcome),
     topics: (topicsByCourse.get(row.id) ?? []).slice().sort(byPosition).map(buildTopic),
   }));
@@ -295,7 +299,10 @@ export const fetchRemoteCourses = async (): Promise<Course[]> => {
   const label = 'Curriculum load failed';
   const [courses, outcomes, topics, subTopics, dotPoints, prompts, sampleAnswers] =
     await Promise.all([
-      fetchAllRows<CourseRow>(() => visible('courses', 'id, legacy_id, name, subject'), label),
+      fetchAllRows<CourseRow>(
+        () => visible('courses', 'id, legacy_id, name, subject, status'),
+        label
+      ),
       withYear<OutcomeRow>('course_outcomes', 'course_id, code, description, position', label),
       withYear<TopicRow>(
         'topics',

@@ -33,6 +33,7 @@ import {
 import { AGREEMENT_VERSION } from './data/legalContent';
 import { isCurriculumRemote } from './services/curriculumService';
 import { savePromptContribution } from './services/contributionService';
+import { visibleCourses } from './utils/courseVisibility';
 import { screenContentQuality } from './services/geminiService';
 import { User, WritingMode } from './types';
 import {
@@ -149,6 +150,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     confirmRename,
     confirmDelete,
     handleUpdateOutcomes,
+    handleSetCourseStatus,
     handleSampleAnswerGenerated,
     handleUpdateSampleAnswer,
     handleDeleteSampleAnswer,
@@ -163,6 +165,21 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     handleMoveTopic,
   } = useSyllabusData({ showToast });
 
+  // Every user-facing surface — the navigator (PromptSelector, Workspace) AND
+  // the current-selection resolution below — only ever sees published
+  // courses; draft courses stay visible to admins alone (for whom this list
+  // is identical to `courses`, since canCreateCurriculum already grants them
+  // everything). ContentAuditModal/DataManagerModal (admin-gated curation
+  // tools, reached only via isSystemAdmin/canCreateCurriculum-gated entry
+  // points) intentionally keep the raw, unfiltered `courses` passed to
+  // AppModals below so an admin can manage draft content directly. This must
+  // be computed BEFORE useNavigation: feeding it the raw list here would let
+  // a stale saved `statePath`, or the "no saved path yet" default, resolve
+  // straight into a draft course's content for a non-admin — the picker
+  // would show nothing selected while Workspace quietly rendered the hidden
+  // course anyway.
+  const navigatorCourses = useMemo(() => visibleCourses(courses, user.role), [courses, user.role]);
+
   const {
     statePath,
     setStatePath,
@@ -172,7 +189,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     currentSubTopic,
     currentDotPoint,
     currentPrompt,
-  } = useNavigation(courses, isReady);
+  } = useNavigation(navigatorCourses, isReady);
   const currentSelection = useMemo(
     () => ({
       currentCourse,
@@ -841,10 +858,11 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
             <div className="overflow-hidden -mx-24 px-24">
               <div className="relative z-50">
                 <PromptSelector
-                  courses={courses}
+                  courses={navigatorCourses}
                   statePath={statePath}
                   onPathChange={handlePathChange}
                   onAddCourse={() => openModal('courseCreator')}
+                  onToggleCourseStatus={handleSetCourseStatus}
                   onRequestCourse={(prefill) => {
                     // Carries the text they searched for, so the request form
                     // opens on their own words rather than an empty field.
@@ -949,7 +967,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
 
         {currentPrompt ? (
           <Workspace
-            courses={courses}
+            courses={navigatorCourses}
             statePath={statePath}
             currentSelection={currentSelection}
             userAnswer={userAnswer}

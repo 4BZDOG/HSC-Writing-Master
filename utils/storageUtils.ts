@@ -30,7 +30,11 @@ import {
 // Additive and optional in the same way: absence means "no image", which is
 // what every prompt written before this meant, so there is nothing to
 // migrate here either.
-export const DATA_VERSION = '2.7.0';
+// 2.8.0: `Course.status` — an admin publication gate ('draft' | 'published').
+// Additive and optional in the same way: absence means "published", which is
+// what every course written before this meant, so there is nothing to
+// migrate here either.
+export const DATA_VERSION = '2.8.0';
 
 export const STORAGE_KEYS = {
   COURSES: 'hsc-ai-evaluator-courses', // Legacy key for migration check

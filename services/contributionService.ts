@@ -301,6 +301,29 @@ const resolveRowId = async (
 export const resolvePromptRowId = (appId: string): Promise<string | null> =>
   resolveRowId('prompts', appId);
 
+/** Resolve a course's DB uuid from an app-facing id (legacy id or uuid). */
+export const resolveCourseRowId = (appId: string): Promise<string | null> =>
+  resolveRowId('courses', appId);
+
+/**
+ * Admin-only visibility flip. Relies on the existing courses_modify RLS
+ * policy (created_by = auth.uid() or is_reviewer()) and the
+ * enforce_content_status_authority trigger, which already permits any
+ * reviewer to set status='approved' directly — no RPC required.
+ */
+export const updateCourseStatus = async (
+  courseAppId: string,
+  status: 'draft' | 'published'
+): Promise<void> => {
+  const rowId = await resolveCourseRowId(courseAppId);
+  if (!rowId) throw new Error('That course is not in the shared library yet.');
+  const { error } = await requireClient()
+    .from('courses')
+    .update({ status: status === 'published' ? 'approved' : 'private' })
+    .eq('id', rowId);
+  if (error) throw new Error(`Could not update course visibility: ${error.message}`);
+};
+
 /** A prompt row, with everything the duplicate-legacy_id tie-break needs. */
 interface PromptIdRow {
   id: string;
