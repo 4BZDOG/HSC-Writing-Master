@@ -122,14 +122,23 @@ export const normalizeContent = (input: string): string => toText(stripBasicHtml
 
 // --- ASCII degradation -----------------------------------------------------
 
-const SUPERSCRIPT_TO_ASCII: Record<string, string> = invert(SUPERSCRIPT_UNICODE);
-const SUBSCRIPT_TO_ASCII: Record<string, string> = invert(SUBSCRIPT_UNICODE);
-
 function invert(table: Record<string, string>): Record<string, string> {
   const out: Record<string, string> = {};
   for (const [plain, uni] of Object.entries(table)) out[uni] = plain;
   return out;
 }
+
+// Lazily computed (not at module-init) so this module never reads another
+// module's exports eagerly on a possible chunk-load cycle — see
+// scripts/findModuleInitReads.mjs. Memoized since degradeToAscii can be
+// called many times per export.
+let superscriptToAsciiCache: Record<string, string> | null = null;
+const getSuperscriptToAscii = (): Record<string, string> =>
+  (superscriptToAsciiCache ??= invert(SUPERSCRIPT_UNICODE));
+
+let subscriptToAsciiCache: Record<string, string> | null = null;
+const getSubscriptToAscii = (): Record<string, string> =>
+  (subscriptToAsciiCache ??= invert(SUBSCRIPT_UNICODE));
 
 /** Unicode symbol / Greek -> readable ASCII. */
 const ASCII_SYMBOLS: Record<string, string> = {
@@ -173,8 +182,8 @@ const ASCII_SYMBOLS: Record<string, string> = {
   ' ': ' ',
 };
 
-const isCombiningSuper = (ch: string) => ch in SUPERSCRIPT_TO_ASCII;
-const isCombiningSub = (ch: string) => ch in SUBSCRIPT_TO_ASCII;
+const isCombiningSuper = (ch: string) => ch in getSuperscriptToAscii();
+const isCombiningSub = (ch: string) => ch in getSubscriptToAscii();
 
 /**
  * Map non-WinAnsi glyphs to ASCII so the built-in helvetica fallback stays
@@ -189,8 +198,9 @@ export const degradeToAscii = (input: string): string => {
     const ch = chars[i];
     if (isCombiningSuper(ch)) {
       let run = '';
+      const superscriptToAscii = getSuperscriptToAscii();
       while (i < chars.length && isCombiningSuper(chars[i])) {
-        run += SUPERSCRIPT_TO_ASCII[chars[i]];
+        run += superscriptToAscii[chars[i]];
         i++;
       }
       out += '^' + run;
@@ -198,8 +208,9 @@ export const degradeToAscii = (input: string): string => {
     }
     if (isCombiningSub(ch)) {
       let run = '';
+      const subscriptToAscii = getSubscriptToAscii();
       while (i < chars.length && isCombiningSub(chars[i])) {
-        run += SUBSCRIPT_TO_ASCII[chars[i]];
+        run += subscriptToAscii[chars[i]];
         i++;
       }
       out += '_' + run;
