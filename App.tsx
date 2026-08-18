@@ -165,6 +165,21 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     handleMoveTopic,
   } = useSyllabusData({ showToast });
 
+  // Every user-facing surface — the navigator (PromptSelector, Workspace) AND
+  // the current-selection resolution below — only ever sees published
+  // courses; draft courses stay visible to admins alone (for whom this list
+  // is identical to `courses`, since canCreateCurriculum already grants them
+  // everything). ContentAuditModal/DataManagerModal (admin-gated curation
+  // tools, reached only via isSystemAdmin/canCreateCurriculum-gated entry
+  // points) intentionally keep the raw, unfiltered `courses` passed to
+  // AppModals below so an admin can manage draft content directly. This must
+  // be computed BEFORE useNavigation: feeding it the raw list here would let
+  // a stale saved `statePath`, or the "no saved path yet" default, resolve
+  // straight into a draft course's content for a non-admin — the picker
+  // would show nothing selected while Workspace quietly rendered the hidden
+  // course anyway.
+  const navigatorCourses = useMemo(() => visibleCourses(courses, user.role), [courses, user.role]);
+
   const {
     statePath,
     setStatePath,
@@ -174,7 +189,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     currentSubTopic,
     currentDotPoint,
     currentPrompt,
-  } = useNavigation(courses, isReady);
+  } = useNavigation(navigatorCourses, isReady);
   const currentSelection = useMemo(
     () => ({
       currentCourse,
@@ -185,12 +200,6 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     }),
     [currentCourse, currentTopic, currentSubTopic, currentDotPoint, currentPrompt]
   );
-
-  // The two user-facing navigator surfaces (PromptSelector, Workspace) only
-  // ever see published courses — draft courses stay visible to admins alone.
-  // AppModals/ContentAuditModal (admin-gated tools) intentionally keep the
-  // raw, unfiltered `courses` so they can manage draft content.
-  const navigatorCourses = useMemo(() => visibleCourses(courses, user.role), [courses, user.role]);
 
   const [isFocusMode, setIsFocusMode] = useState(false);
   // Writing experience: 'coach' surfaces live feedback (highlighting, insights,
