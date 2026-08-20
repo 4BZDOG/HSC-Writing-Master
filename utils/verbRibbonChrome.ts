@@ -294,6 +294,11 @@ export const RIBBON_VERB_CHIP =
  *  spectrum says in colour (DesignSpec §2: colour is never the only signal).
  *  Painted on the page background.
  *
+ *  This is the whole line and the box the height lock sits on; the live region
+ *  inside it is the lede only (the tier and its band cap), because a `status`
+ *  re-announces its entire content on every change and the full line runs to
+ *  ~140 characters.
+ *
  *  It replaces four hand-written span labels — `Basic Recall`, `Explain &
  *  Compare`, `Analyse & Apply`, `Evaluate & Create` — which were a fifth copy
  *  of the tier vocabulary, two of them paraphrases of a `TIER_GROUPS` title and
@@ -303,10 +308,20 @@ export const RIBBON_VERB_CHIP =
  *  Height-locked, because the six tier subtitles run 44–96 characters and the
  *  footer must not change height when the question does.
  *
+ *  `mb-7` and not `mb-5`: the Deep Learning Threshold chip hangs ABOVE the dot
+ *  row, into the space this margin opens, and between roughly 640px and 900px
+ *  the cue is two full lines while the chip is already visible (it is
+ *  `hidden sm:block`). At `mb-5` the chip's pill overlapped the cue's box by
+ *  4px and cleared its second line of text by 8px, which is close enough that
+ *  the chip read as the end of the sentence. Measured at 640/720/800/900:
+ *  `mb-6` leaves 12px of clear air under the text, `mb-7` leaves 16px, and at
+ *  1400px — where the cue is one line — neither shows as slack, because the
+ *  height lock has already reserved the second line.
+ *
  *  `text-slate-600`, not `slate-500`: measured on this background, `slate-500`
  *  is 4.66:1 — the narrowest margin anywhere in this component. */
 export const RIBBON_TIMELINE_CUE =
-  'min-h-[2.25rem] line-clamp-2 px-1 mb-5 text-[11px] font-medium leading-snug ' +
+  'min-h-[2.25rem] line-clamp-2 px-1 mb-7 text-[11px] font-medium leading-snug ' +
   'text-slate-600 dark:text-[rgb(var(--color-text-muted))]';
 
 /** The tier fragment of the cue line. Carries no colour of its own — the tier's
@@ -373,6 +388,19 @@ export const RIBBON_SPECTRUM_EDGE =
  *  over the track, outside its clip so the flare can bloom past the bar. */
 export const RIBBON_SPECTRUM_IGNITION =
   'absolute inset-y-0 rounded-sm pointer-events-none z-10 origin-center';
+
+/** The same ignition on the current step's dot, one bloom out of the circle.
+ *  Its fill is the tier's `solidBg` at the call site, and it is keyed on the
+ *  tier so it replays with the band's flare. Painted over the dot.
+ *
+ *  It carries `animate-dot-bloom` and not the spectrum's `animate-tier-ignite`:
+ *  that flare stretches 2.4x vertically and not at all horizontally, which is
+ *  right for a bar segment and draws a vertical teardrop on anything
+ *  `rounded-full`. `dotBloom` scales uniformly, so the halo stays a circle.
+ *  It replaces an `animate-ping`, which was `1s … infinite` on a strip that is
+ *  mounted for the whole session. */
+export const RIBBON_SPECTRUM_DOT_BLOOM =
+  'absolute inset-0 rounded-full pointer-events-none animate-dot-bloom';
 
 /** One of the five boundaries between six tiers, at `i/6`. These replace four
  *  "measurement ticks" that sat at 16/38.7/61.3/84% — a `justify-between` with

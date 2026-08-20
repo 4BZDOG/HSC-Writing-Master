@@ -354,12 +354,33 @@ describe('the spectrum says its level in words', () => {
     // stat tray already use for it — not a fresh synonym.
     expect(cue.textContent).toContain('Band Cap 4');
     expect(cue.textContent).toContain('Sound');
-    // The tier's own subtitle, not a paraphrase of it.
-    expect(cue.textContent).toContain('Break things apart and use knowledge in new situations');
 
     // Polite. `PromptSelector` states the house reasoning: assertive interrupts
     // a student mid-sentence, and changing question is ordinary navigation.
     expect(cue.getAttribute('aria-live')).not.toBe('assertive');
+
+    // And SHORT. A `status` region re-announces its whole content every time
+    // that content changes, and the whole cue runs to ~140 characters: with
+    // the subtitle inside the region, a screen-reader user heard a full prose
+    // sentence read out on every question change, on top of the tier and band
+    // cap that are the part they asked for. The lede is what is announced —
+    // "Tier 4 · Analyse & Apply · Band Cap 4 · Sound".
+    expect(cue.textContent!.length).toBeLessThan(80);
+    expect(cue.textContent).not.toContain('Break things apart');
+  });
+
+  // The subtitle is elaboration, so it is out of the live region — but it is
+  // NOT hidden from a screen reader. While the tier strip above is shut, the
+  // cue line holds the only copy of it in the document, so it stays readable
+  // on demand; it is only the announcement it stays out of.
+  it('keeps the tier’s own subtitle in the line, readable but unannounced', () => {
+    render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
+
+    const line = screen.getByRole('status').parentElement as HTMLElement;
+    // The tier's own subtitle, not a paraphrase of it.
+    expect(line.textContent).toContain('Break things apart and use knowledge in new situations');
+    expect(line.getAttribute('aria-hidden')).toBeNull();
+    expect(line.closest('[aria-hidden="true"]')).toBeNull();
   });
 
   // A live region has to be in the document BEFORE it changes, or the first
@@ -382,7 +403,9 @@ describe('the spectrum says its level in words', () => {
   // ribbon is the one block on this page that is meant to hold still.
   it('locks the footer’s height across every tier', () => {
     render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
-    const cue = screen.getByRole('status');
+    // The whole line, which is the box the clamp is on — the live region
+    // inside it is the lede only.
+    const cue = screen.getByRole('status').parentElement as HTMLElement;
 
     expect(cue.className).toMatch(/min-h-\[/);
     expect(cue.className).toContain('line-clamp-2');

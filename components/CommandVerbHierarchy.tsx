@@ -40,6 +40,7 @@ import {
   RIBBON_TIER_UNDERLINE,
   RIBBON_SPECTRUM_BOUNDARY,
   RIBBON_SPECTRUM_DORMANT,
+  RIBBON_SPECTRUM_DOT_BLOOM,
   RIBBON_SPECTRUM_EDGE,
   RIBBON_SPECTRUM_IGNITION,
   RIBBON_SPECTRUM_LIT,
@@ -692,24 +693,40 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                 including the no-verb case, because a live region has to exist
                 before it can change — and the no-verb string names no tier, so
                 the component still says nothing about a verb it does not
-                recognise. */}
-            <p role="status" className={RIBBON_TIMELINE_CUE}>
-              {activeTermInfo && activeConfig ? (
-                <>
-                  <span className={`${RIBBON_TIMELINE_CUE_TIER} ${activeConfig.text}`}>
-                    Tier {activeTermInfo.tier} · {activeGroup?.title}
-                  </span>
-                  {' · '}
-                  <span className={RIBBON_TIMELINE_CUE_BAND}>
-                    Band Cap {getTierTargetBand(activeTermInfo.tier)} ·{' '}
-                    {getBandName(getTierTargetBand(activeTermInfo.tier))}
-                  </span>
-                  {' — '}
-                  {activeGroup?.subtitle}
-                </>
-              ) : (
-                'Choose a command verb to light the spectrum.'
-              )}
+                recognise.
+
+                The live region is the LEDE ONLY — the tier and its band cap —
+                and the subtitle sits outside it, in the same sentence and the
+                same visible line. A `status` region announces its whole
+                content on every change, and the whole cue is up to ~140
+                characters: a reader on a screen reader was hearing a full
+                prose subtitle read out every time the question changed, which
+                is a lot of speech for what is ordinary navigation. The lede is
+                the part that actually changed and the part a reader needs —
+                "Tier 4 · Analyse & Apply · Band Cap 4 · Sound". The subtitle is
+                elaboration, so it is left in the document, unhidden and
+                readable at will (it is the only copy of it while the tier
+                strip above is shut), and simply not announced. */}
+            <p className={RIBBON_TIMELINE_CUE}>
+              <span role="status">
+                {activeTermInfo && activeConfig ? (
+                  <>
+                    <span className={`${RIBBON_TIMELINE_CUE_TIER} ${activeConfig.text}`}>
+                      Tier {activeTermInfo.tier} · {activeGroup?.title}
+                    </span>
+                    {' · '}
+                    <span className={RIBBON_TIMELINE_CUE_BAND}>
+                      Band Cap {getTierTargetBand(activeTermInfo.tier)} ·{' '}
+                      {getBandName(getTierTargetBand(activeTermInfo.tier))}
+                    </span>
+                  </>
+                ) : (
+                  'Choose a command verb to light the spectrum.'
+                )}
+              </span>
+              {activeTermInfo && activeConfig && activeGroup?.subtitle
+                ? ` — ${activeGroup.subtitle}`
+                : ''}
             </p>
 
             {/* The spectrum.
@@ -853,13 +870,22 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                         {/* This was `animate-ping`, which is `1s infinite`,
                             on a strip that is mounted for the whole session —
                             so it animated behind every student for as long as
-                            they wrote. It is the same one-shot bloom the
-                            spectrum uses now, keyed on the tier so it replays
-                            when the question changes and then stops. */}
+                            they wrote. It is a one-shot now, keyed on the tier
+                            so it replays when the question changes and then
+                            stops.
+
+                            Its own one-shot, though, not the spectrum's: the
+                            band's flare stretches 2.4x vertically and not at
+                            all horizontally, which is the shape of a bar
+                            lighting up and the shape of a teardrop on a
+                            circle. `dot-bloom` scales uniformly, at the same
+                            900ms on the same curve, so the dot and its band
+                            still ignite as one event. */}
                         {isCurrent && (
                           <span
                             key={activeTermInfo?.tier}
-                            className={`absolute inset-0 rounded-full animate-tier-ignite ${stepConfig.solidBg}`}
+                            aria-hidden="true"
+                            className={`${RIBBON_SPECTRUM_DOT_BLOOM} ${stepConfig.solidBg}`}
                           ></span>
                         )}
                       </div>

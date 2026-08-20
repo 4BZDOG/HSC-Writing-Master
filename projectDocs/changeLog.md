@@ -55,6 +55,14 @@ assertive interrupts a student mid-sentence. It renders in the no-verb state
 too — a live region has to exist before it can change — and in that state it
 still names no tier.
 
+The live region is the **lede only** — "Tier 4 · Analyse & Apply · Band Cap 4 ·
+Sound". A `status` re-announces its whole content every time that content
+changes, and the whole cue runs to about 140 characters, so putting the subtitle
+inside it meant reading a full prose sentence aloud on every question change on
+top of the part that actually changed. The subtitle stays in the line, visible,
+unhidden and readable at will — while the tier strip above is shut it is the
+only copy of it in the document — and is simply outside the region that speaks.
+
 ### 🔋 One infinite animation out, one 900ms flare in
 
 The current step's dot carried `animate-ping`, which is `1s … infinite`, on a
@@ -63,6 +71,12 @@ student for as long as they wrote. It is replaced by `tier-ignite`, a one-shot
 bloom over the band just reached, keyed on the tier so React replays it on each
 change and then it stops. The net budget is **one infinite animation removed,
 one one-shot added**.
+
+The dot has its own bloom, `dot-bloom`, rather than sharing the bar's. A flare
+built for a bar segment is `scaleY(2.4)` with no matching `scaleX`, and on a
+`rounded-full` child that is not a halo, it is a vertical teardrop — held for
+900ms every time the question changes. `dotBloom` scales uniformly, at the same
+duration on the same curve, so the dot and its band still ignite as one event.
 
 `tierIgnite`'s final frame is `opacity: 0`, and that is load-bearing rather than
 tidy: the reduced-motion block in `index.css` sets `animation-duration: 0.01ms`
@@ -83,6 +97,16 @@ the rest.
   exact drift `tests/unit/bandColors.test.ts` exists to prevent, in a component
   that owned this feature's name. `renderUtils.ts` no longer points at it.
 - The track is `h-3`: eight pixels is too thin to read a six-colour spectrum in.
+- The cue line's bottom margin is `mb-7`. The threshold chip hangs above the dot
+  row into that margin, and between about 640px and 900px — wide enough for the
+  chip to be shown, narrow enough for the cue to run to two full lines — `mb-5`
+  left it 8px under the text and it read as the end of the sentence. Neither
+  sweep of the redesign could see it: the chip is `hidden sm:block`, so it is
+  invisible at 375px and 320px, and the cue is one line by 1400px.
+- `workspace-chrome.spec.ts` identified the paste guard by a phrase from its
+  body — `/own words/i` across every `status` region on the page. The cue line
+  is a `status` region too and tier 2's subtitle ends "in your own words", so
+  the filter matched two elements. It matches the banner's own heading now.
 
 ## [Unreleased] - 2026-08-14 (The verb ribbon, and the reason it was never seen)
 

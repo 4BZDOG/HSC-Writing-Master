@@ -495,5 +495,35 @@ describe('the cognitive spectrum lights one geometry from one palette', () => {
     for (const frame of Object.values(keyframes.tierIgnite)) {
       expect(Object.keys(frame).sort()).toEqual(['opacity', 'transform']);
     }
+
+    // The dot's bloom is a second keyframe and the same rule binds it.
+    expect(keyframes.dotBloom).toBeTruthy();
+    expect(keyframes.dotBloom['100%'].opacity).toBe('0');
+    for (const frame of Object.values(keyframes.dotBloom)) {
+      expect(Object.keys(frame).sort()).toEqual(['opacity', 'transform']);
+    }
+  });
+
+  // `tierIgnite` is shaped for a bar segment: `scaleY(2.4)` with no matching
+  // `scaleX`. On a `rounded-full` child that is not a halo, it is a vertical
+  // teardrop, held for 900ms every time the question changes. The dot's own
+  // bloom scales uniformly, so a circle stays a circle.
+  it('blooms the current dot as a circle, not with the bar’s flare', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    const halo = container.querySelector('.animate-dot-bloom') as HTMLElement;
+    expect(halo).toBeTruthy();
+    expect(halo.className).toContain('rounded-full');
+    expect(halo.className).not.toContain('animate-tier-ignite');
+
+    const keyframes = tailwindConfig.theme.extend.keyframes as Record<
+      string,
+      Record<string, Record<string, string>>
+    >;
+    // Uniform `scale(n)` — never `scaleX`/`scaleY`, which is what made the
+    // teardrop.
+    for (const frame of Object.values(keyframes.dotBloom)) {
+      expect(frame.transform).toMatch(/^scale\([\d.]+\)$/);
+    }
   });
 });
