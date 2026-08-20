@@ -331,3 +331,67 @@ describe('CommandVerbHierarchy', () => {
     });
   });
 });
+
+/**
+ * The cue line — the words the spectrum's colour is not allowed to carry alone.
+ *
+ * It replaced four hand-written span labels that named spans of the ladder
+ * rather than tiers, so `tierShortLabel` could not derive them and two of the
+ * four had drifted from the `TIER_GROUPS` title they paraphrased. Everything
+ * the cue says is sourced from the tier's own group, `getTierTargetBand` and
+ * `getBandName`, and it says it in words because DesignSpec §2 does not let
+ * colour be the only signal — a reader who cannot separate the yellow band
+ * from the green one still has the sentence.
+ */
+describe('the spectrum says its level in words', () => {
+  it('announces the level politely, in words', () => {
+    render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
+
+    const cue = screen.getByRole('status');
+    expect(cue.textContent).toContain('Tier 4');
+    expect(cue.textContent).toContain('Analyse');
+    // The band ceiling, in the wording `projectDocs/commandVerbs.md` and the
+    // stat tray already use for it — not a fresh synonym.
+    expect(cue.textContent).toContain('Band Cap 4');
+    expect(cue.textContent).toContain('Sound');
+    // The tier's own subtitle, not a paraphrase of it.
+    expect(cue.textContent).toContain('Break things apart and use knowledge in new situations');
+
+    // Polite. `PromptSelector` states the house reasoning: assertive interrupts
+    // a student mid-sentence, and changing question is ordinary navigation.
+    expect(cue.getAttribute('aria-live')).not.toBe('assertive');
+  });
+
+  // A live region has to be in the document BEFORE it changes, or the first
+  // change is the mount and nothing is announced. So the cue renders in the
+  // no-verb state too — and in that state it must still say nothing about a
+  // tier, which is the same contract as "says nothing at all about a verb it
+  // does not recognise" above.
+  it('keeps the live region mounted when no verb is chosen, and names no tier', () => {
+    render(<CommandVerbHierarchy />);
+
+    const cue = screen.getByRole('status');
+    expect(cue.textContent).toBe('Choose a command verb to light the spectrum.');
+    expect(cue.textContent).not.toMatch(/Tier \d/);
+    expect(cue.textContent).not.toMatch(/Band/);
+  });
+
+  // The six tier subtitles run 44 to 96 characters. Unlocked, the cue is one
+  // line for tier 4 and two for tier 6, and the whole footer — spectrum, dots,
+  // labels — steps up and down as the student moves between questions. The
+  // ribbon is the one block on this page that is meant to hold still.
+  it('locks the footer’s height across every tier', () => {
+    render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
+    const cue = screen.getByRole('status');
+
+    expect(cue.className).toMatch(/min-h-\[/);
+    expect(cue.className).toContain('line-clamp-2');
+
+    // And the dot row no longer depends on which labels render: five of the six
+    // are `hidden` below `sm`, so a row sized by its content was a different
+    // height — and put its dots in different places — at every tier.
+    const row = screen.getByRole('button', { name: /Show tier 1 verbs/i })
+      .parentElement as HTMLElement;
+    expect(row.className).toMatch(/(^|\s)h-\d+/);
+  });
+});

@@ -40,6 +40,12 @@ export default {
         in: 'animateIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         shimmer: 'shimmer 2s infinite linear',
         'spin-slow': 'spin 12s linear infinite',
+        // One-shot bloom for the band a reader has just reached on the
+        // cognitive spectrum. Nothing existing was a flare that returns to
+        // rest: `pulseGlow` and `shimmer` are infinite, and `animateIn` /
+        // `fadeIn` end at opacity 1 and stay there. It replays by `key`, not
+        // by iteration count, so it costs nothing between question changes.
+        'tier-ignite': 'tierIgnite 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
       },
       keyframes: {
         // All keyframes animate only transform/opacity so they stay on the
@@ -85,6 +91,17 @@ export default {
         shimmer: {
           '0%': { transform: 'translateX(-100%)' },
           '100%': { transform: 'translateX(100%)' },
+        },
+        // The final frame IS the resting state, and that is load-bearing:
+        // `index.css`'s reduced-motion block sets `animation-duration: 0.01ms`
+        // and `animation-iteration-count: 1`, so for a reader who has asked for
+        // no motion the flare runs once, instantly, and lands on its last
+        // frame. Ending anywhere but `opacity: 0` would burn a permanent bloom
+        // into the spectrum for exactly those readers.
+        tierIgnite: {
+          '0%': { opacity: '0', transform: 'scaleX(0.4) scaleY(1)' },
+          '30%': { opacity: '0.85', transform: 'scaleX(1) scaleY(2.4)' },
+          '100%': { opacity: '0', transform: 'scaleX(1) scaleY(1)' },
         },
       },
     },
