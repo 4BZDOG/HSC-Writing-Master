@@ -504,8 +504,8 @@ describe('the cognitive spectrum lights one geometry from one palette', () => {
   // boundaries and is CUT at the fifth, which is the only language a bar has
   // for "a step up in kind, not degree" — and the boundary it is cut at is the
   // one `getTierTargetBand` stops returning 3 across. Keyed off the inline
-  // `left`, not off the array index, because the index is what the marker
-  // below it still depends on and this must not.
+  // `left` rather than off array order, so this holds whatever order the
+  // notches are emitted in.
   it('cuts the deep-learning boundary wider than the four ordinary ones', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
 

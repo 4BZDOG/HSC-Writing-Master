@@ -485,8 +485,8 @@ describe('the spectrum says its level in words', () => {
  * rail names the two spans they bound rather than the four rungs: naming the
  * rungs again is what the dot row already does from `tierShortLabel`.
  *
- * jsdom applies no media queries, so both the `lg:hidden` short copy and the
- * `hidden lg:inline` long copy are in the tree at once. Every assertion here is
+ * jsdom applies no media queries, so both the `xl:hidden` short copy and the
+ * `hidden xl:inline` long copy are in the tree at once. Every assertion here is
  * scoped to the rail and matched by regex for that reason.
  */
 describe('the scale rail restores the arc, derived', () => {

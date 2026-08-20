@@ -975,33 +975,33 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                 const stepConfig = getTierScaleConfig(tier);
 
                 return (
-                  <React.Fragment key={tier}>
-                    <button
-                      type="button"
-                      // "Highlight band n" was wrong twice over: the button
-                      // selects the tier's first verb rather than highlighting
-                      // anything, and what it selects is a tier, not a band.
-                      aria-label={`Show tier ${tier} verbs — ${label}`}
-                      // Absolutely placed at the centre of its own band, so a
-                      // dot sits under the colour it names. They used to be
-                      // laid out by `justify-between`, which put each dot
-                      // wherever six label widths left it — and since five of
-                      // the six labels are `hidden` below `sm`, the dots moved
-                      // whenever the current tier changed.
-                      style={{ left: pct(bandCentre(tier)) }}
-                      className="absolute top-0 -translate-x-1/2 w-16 flex flex-col items-center gap-3 z-10 group/step cursor-pointer"
-                      onClick={() => {
-                        if (group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
-                      }}
-                    >
-                      <div
-                        className={`
+                  <button
+                    key={tier}
+                    type="button"
+                    // "Highlight band n" was wrong twice over: the button
+                    // selects the tier's first verb rather than highlighting
+                    // anything, and what it selects is a tier, not a band.
+                    aria-label={`Show tier ${tier} verbs — ${label}`}
+                    // Absolutely placed at the centre of its own band, so a
+                    // dot sits under the colour it names. They used to be
+                    // laid out by `justify-between`, which put each dot
+                    // wherever six label widths left it — and since five of
+                    // the six labels are `hidden` below `sm`, the dots moved
+                    // whenever the current tier changed.
+                    style={{ left: pct(bandCentre(tier)) }}
+                    className="absolute top-0 -translate-x-1/2 w-16 flex flex-col items-center gap-3 z-10 group/step cursor-pointer"
+                    onClick={() => {
+                      if (group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
+                    }}
+                  >
+                    <div
+                      className={`
                                     ${RIBBON_TIMELINE_DOT}
                                     ${isActive ? `${stepConfig.solidBg} border-transparent scale-125` : 'bg-slate-300 dark:bg-slate-700 border-slate-400/40 dark:border-white/10'}
                                     ${isCurrent ? 'ring-4 ring-slate-900/10 dark:ring-white/20 scale-150 shadow-lg' : ''}
                                  `}
-                      >
-                        {/* This was `animate-ping`, which is `1s infinite`,
+                    >
+                      {/* This was `animate-ping`, which is `1s infinite`,
                             on a strip that is mounted for the whole session —
                             so it animated behind every student for as long as
                             they wrote. It is a one-shot now, keyed on the tier
@@ -1015,28 +1015,27 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                             circle. `dot-bloom` scales uniformly, at the same
                             900ms on the same curve, so the dot and its band
                             still ignite as one event. */}
-                        {isCurrent && (
-                          <span
-                            key={activeTermInfo?.tier}
-                            aria-hidden="true"
-                            className={`${RIBBON_SPECTRUM_DOT_BLOOM} ${stepConfig.solidBg}`}
-                          ></span>
-                        )}
-                      </div>
-                      {/* On phones six tracked labels collide into one another, so
+                      {isCurrent && (
+                        <span
+                          key={activeTermInfo?.tier}
+                          aria-hidden="true"
+                          className={`${RIBBON_SPECTRUM_DOT_BLOOM} ${stepConfig.solidBg}`}
+                        ></span>
+                      )}
+                    </div>
+                    {/* On phones six tracked labels collide into one another, so
                         only the current step keeps its label below sm.
 
                         The five that are not current used to be `slate-500` at
                         `opacity-70`, which measured 2.66:1 on the page — the
                         largest single group of failures the contrast suite
                         found once it could see this component at all. */}
-                      <span
-                        className={`${RIBBON_TIMELINE_STEP_LABEL} ${isCurrent ? stepConfig.text : RIBBON_TIMELINE_STEP_LABEL_IDLE} ${edgeLabelNudge(tier)}`}
-                      >
-                        {label}
-                      </span>
-                    </button>
-                  </React.Fragment>
+                    <span
+                      className={`${RIBBON_TIMELINE_STEP_LABEL} ${isCurrent ? stepConfig.text : RIBBON_TIMELINE_STEP_LABEL_IDLE} ${edgeLabelNudge(tier)}`}
+                    >
+                      {label}
+                    </span>
+                  </button>
                 );
               })}
             </div>

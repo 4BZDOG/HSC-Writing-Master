@@ -9,6 +9,32 @@ show the leap in knowledge needed from band 3 to band 4. Remove the full text
 descriptions and try to provide short appropriate context for linking these concepts to
 the user. Improve the design as needed."*
 
+> **Amended 2026-08-20, after implementation.** Four values below were estimates
+> and three of them were wrong. Measured in a browser, then re-measured by an
+> independent pass sweeping 600→1920px in 8px steps:
+>
+> - **The breakpoint ladder in §3.1 is wrong.** Real caption widths are ~131px
+>   (short), ~245px (short + band caps) and 359/441px (full titles) — the
+>   estimates in §3.2 ran ~25% low. At 1024px the right caption began **51px
+>   inside the threshold chip** and rendered as a fragment ("ANALYS"). Full
+>   titles ship at **`xl`**, not `lg`. Tightest rung is 768px, at 21.2/23.8px of
+>   air; every other width from 600 to 1920 clears comfortably.
+> - **The rail's offset in §3.1 is wrong.** `-top-5` sat 4.3px below the chip's
+>   centre line and read as two rows. Ships as **`-top-6`** (0.20px, measured at
+>   every width and state).
+> - **Q4 resolved: `w-2` stays.** At 375px the 8px slot reads as a deliberate
+>   cut in both themes, not as damage.
+> - **Q5's premise was wrong, harmlessly.** The dashed rule does not run
+>   *through* the slot — it is drawn from the dot row and the track paints over
+>   it, so the slot is empty page background with the rule arriving above and
+>   leaving below. It still reads as one gate.
+> - **Q2/Q3 are closed by the two measurements above.** Q1 was decided before
+>   implementation: the derived title ships, `Basic Recall` does not return.
+>
+> The authoritative record of each value is now the doc comment on
+> `RIBBON_SPECTRUM_SCALE_RAIL` and the rail's call-site comment, both of which
+> state what was measured rather than what was estimated.
+
 ---
 
 ## 0. What was actually deleted, read from the commit
