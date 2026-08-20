@@ -296,17 +296,32 @@ export const RIBBON_VERB_CHIP =
  *
  *  This is the whole line and the box the height lock sits on; the live region
  *  inside it is the lede only (the tier and its band cap), because a `status`
- *  re-announces its entire content on every change and the full line runs to
- *  ~140 characters.
+ *  re-announces its entire content on every change.
  *
- *  It replaces four hand-written span labels — `Basic Recall`, `Explain &
- *  Compare`, `Analyse & Apply`, `Evaluate & Create` — which were a fifth copy
- *  of the tier vocabulary, two of them paraphrases of a `TIER_GROUPS` title and
- *  none of them derivable. Every fragment of the cue is sourced from
- *  `TIER_GROUPS`, `getTierTargetBand` and `getBandName` instead.
+ *  Two earlier statements here have since stopped being true and are corrected
+ *  rather than deleted, because the reasoning still matters:
  *
- *  Height-locked, because the six tier subtitles run 44–96 characters and the
- *  footer must not change height when the question does.
+ *  1. This constant used to record four hand-written labels — `Basic Recall`,
+ *     `Explain & Compare`, `Analyse & Apply`, `Evaluate & Create` — as
+ *     "span labels … none of them derivable". They were not span labels. Two
+ *     are byte-identical to `TIER_GROUPS[2].title` and `TIER_GROUPS[3].title`
+ *     and the other two are paraphrases of `TIER_GROUPS[0].title` and
+ *     `TIER_GROUPS[5].title`, so the row was four TIER titles — tiers 1, 3, 4
+ *     and 6 — laid out by `justify-between`, which put none of them over the
+ *     tier it named. They are derivable, and `RIBBON_SPECTRUM_SCALE_RAIL` now
+ *     derives them: those four tiers are the floor, the two sides of the Deep
+ *     Learning Threshold and the ceiling, so the rail names the two SPANS they
+ *     bound rather than the four rungs.
+ *
+ *  2. The line no longer carries the tier's prose subtitle. Its tail is
+ *     `RIBBON_TIMELINE_CUE_SIDE` — which side of the threshold the reader's
+ *     tier falls on, 32 characters of structure in place of 44–96 of prose.
+ *     The subtitle was never the only copy: `RIBBON_TIER_SUBTITLE` renders it
+ *     on the tier card, a sibling under the same `inert`-gated panel.
+ *
+ *  Height-locked all the same. `line-clamp-2` and a two-line floor are what
+ *  keep the footer from stepping up and down between questions, and the cue
+ *  still wraps to two lines at narrow widths.
  *
  *  `mb-7` and not `mb-5`: the Deep Learning Threshold chip hangs ABOVE the dot
  *  row, into the space this margin opens, and between roughly 640px and 900px
@@ -414,6 +429,59 @@ export const RIBBON_SPECTRUM_DOT_BLOOM =
 export const RIBBON_SPECTRUM_BOUNDARY =
   'absolute inset-y-0 -translate-x-1/2 pointer-events-none ' +
   'bg-slate-50 dark:bg-[rgb(var(--color-bg-base))]';
+
+/** The scale rail above the spectrum — the two spans the Deep Learning
+ *  Threshold divides the ladder into. Painted on the page background.
+ *
+ *  `absolute`, and that is the whole vertical budget: the threshold chip hangs
+ *  from the dot row at `-top-11`, which puts it about 16px above the track —
+ *  inside the air `RIBBON_TIMELINE_CUE`'s `mb-7` already reserves for it. The
+ *  chip occupies the middle of that band and the two ends of it are empty, so
+ *  this row costs the footer no height at all.
+ *
+ *  `-top-6` and not `-top-5`, measured rather than reasoned: at `-top-5` the
+ *  captions' centre line sat 4.3px below the chip's at every width from 640 to
+ *  1400, which is enough to read as two rows rather than one. `-top-6` brings
+ *  it to 0.2px.
+ *
+ *  `hidden sm:flex`, the same floor as the chip it sits beside and as
+ *  `RIBBON_TIMELINE_STEP_LABEL_IDLE`: below `sm` there is no room for either,
+ *  and naming a threshold whose marker is hidden points at nothing.
+ *
+ *  Flush to the track's own edges (`inset-x-0`, no padding), so the left
+ *  caption starts where the spectrum starts. */
+export const RIBBON_SPECTRUM_SCALE_RAIL =
+  'hidden sm:flex absolute inset-x-0 -top-6 items-baseline justify-between ' +
+  'pointer-events-none';
+
+/** One span's caption. Painted on the page background, in the tone
+ *  `RIBBON_TIMELINE_STEP_LABEL_IDLE`'s contrast fix measured at 7.24:1 — this
+ *  is the same text on the same background at nearly the same size, so it takes
+ *  the same pair rather than a fresh guess. Not `aria-hidden`: `contrast.ts`
+ *  skips everything inside an `aria-hidden` subtree, and hiding a new block of
+ *  text from the audit is the blind spot that let this component's three
+ *  contrast defects ship in the first place. */
+export const RIBBON_SPECTRUM_SCALE_SPAN =
+  'text-[9px] font-bold uppercase tracking-wider whitespace-nowrap ' +
+  'text-slate-600 dark:text-slate-400';
+
+/** The band-cap fragment of a span caption — the number the leap across the
+ *  threshold is measured in. Set in the telemetry face per DesignSpec §4, like
+ *  `RIBBON_TIMELINE_CUE_BAND` and `RIBBON_STAT_VALUE`. Its colour is the
+ *  adjoining tier's and is interpolated at the call site, the way everything
+ *  tier-coloured in this component is. Shown from `md`: measured in Chromium,
+ *  the captions grow from 131px to 245px when this fragment appears, which at
+ *  768px still leaves 21px and 24px of air either side of the threshold chip.
+ *  Painted on the page background. */
+export const RIBBON_SPECTRUM_SCALE_BAND = 'hidden md:inline font-mono font-black tabular-nums';
+
+/** The cue's tail — which side of the Deep Learning Threshold the reader's tier
+ *  falls on. It replaces the tier's full prose subtitle, which ran 44–96
+ *  characters; this is 32. Carries no colour, so it inherits the cue's own.
+ *  Painted on the page background, and deliberately OUTSIDE the live region,
+ *  like the subtitle it replaces: it is the same string for three tiers running
+ *  and a `status` re-announces everything it contains. */
+export const RIBBON_TIMELINE_CUE_SIDE = 'hidden sm:inline font-normal';
 
 /** One step's dot on the timeline. Its fill is the tier's `solidBg` once the
  *  reader has reached that step. Painted on the page background. */

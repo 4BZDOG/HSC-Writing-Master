@@ -79,6 +79,17 @@ student writes.
 admin components, and `commandVerbHierarchy.test.tsx:263` pins the *six* labels — the
 *four* slipped past because they name spans rather than tiers.
 
+> **Corrected 2026-08-20** — see `projectDocs/Plan-SpectrumScaleLabels.md` §0.
+> The last clause is false and it cost the feature. They do **not** name spans:
+> `Explain & Compare` is byte-identical to `TIER_GROUPS[2].title` and `Analyse &
+> Apply` to `TIER_GROUPS[3].title`, while `Basic Recall` and `Evaluate & Create`
+> are paraphrases of `TIER_GROUPS[0].title` and `TIER_GROUPS[5].title`. The row
+> was four **tier** titles — tiers 1, 3, 4 and 6 — with tiers 2 and 5 dropped,
+> and `justify-between` put none of them over the tier it named. This heading
+> inherited the reading from `VerbRibbonRedesignPlan.md` R6. Believing the four
+> were underivable is why §3.5 below deletes them outright instead of sourcing
+> them; they are restored, derived, as the scale rail.
+
 ### F6 — the threshold rule is invisible in the light theme
 
 `:640` — `border-slate-300/30 dark:border-white/10`. `slate-300` at 30% alpha over the
@@ -290,6 +301,14 @@ No rAF, no `element.animate()`, no JS interpolation anywhere in the footer.
 ### 3.5 The text cues
 
 Delete the four span labels (F5 / R6). One cue line takes their slot, above the track.
+
+> **Corrected 2026-08-20** — see `projectDocs/Plan-SpectrumScaleLabels.md`. The
+> four were not span labels (F5's correction above), so "nothing can derive
+> them" was never the reason to delete them. The cue line stays and is right;
+> what was lost with the four was the *arc* — the floor, the ceiling and the
+> gate between tiers 3 and 4 — and that is restored as a scale rail naming the
+> two spans those rungs bound. The cue's prose-subtitle fragment sketched below
+> is also gone, replaced by a threshold-side clause.
 
 ```tsx
 <p role="status" className={RIBBON_TIMELINE_CUE}>
