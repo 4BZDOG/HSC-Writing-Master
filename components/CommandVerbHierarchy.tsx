@@ -940,7 +940,34 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                 mistake read as self-consistent. The strip beside this one is
                 already the tiers; iterating it is one fewer place to drift. */}
             <div className="relative h-10">
-              {sortedVerbsByGroup.map((group, idx) => {
+              {/* The threshold marker, between tier 3 (Explain & Compare) and
+                  tier 4 (Analyse & Apply). It used to be commented as sitting
+                  between "Tier 3 (Apply)" and "Tier 4 (Analyse)" — Apply is a
+                  tier-4 verb.
+
+                  Rendered ONCE, here, rather than inside the map on
+                  `idx === 3`. It marks a tier boundary, not the fourth element
+                  of an array: reorder `TIER_GROUPS` and the `idx` form moved
+                  this rule to whichever tier landed fourth while the boundary
+                  notch on the bar — keyed on `DEEP_LEARNING_TIER` — stayed
+                  where it was, silently. Its `left` is now the same expression
+                  the notch uses, so the rule and the slot cannot drift apart
+                  either.
+
+                  `border-slate-300/30` was effectively nothing on the light
+                  page — a 30% slate hairline on near-white — so the one
+                  annotation here that names something a student could not
+                  deduce was invisible in half the app. The contrast suite walks
+                  text nodes and cannot see a border, which is why it went
+                  unreported. */}
+              <div
+                style={{ left: pct((DEEP_LEARNING_TIER / TIER_STEPS.length) * 100) }}
+                className="absolute -translate-x-1/2 -top-11 bottom-0 w-px border-r-2 border-dashed border-slate-400 dark:border-white/25 z-0 flex flex-col items-center justify-start pointer-events-none"
+              >
+                <div className={RIBBON_TIMELINE_THRESHOLD_CHIP}>{THRESHOLD_LABEL}</div>
+              </div>
+
+              {sortedVerbsByGroup.map((group) => {
                 const tier = group.tier;
                 const label = tierShortLabel(tier);
                 const isActive = activeTermInfo && activeTermInfo.tier >= tier;
@@ -949,22 +976,6 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
 
                 return (
                   <React.Fragment key={tier}>
-                    {/* The threshold marker, between tier 3 (Explain & Compare)
-                        and tier 4 (Analyse & Apply). It used to be commented as
-                        sitting between "Tier 3 (Apply)" and "Tier 4 (Analyse)"
-                        — Apply is a tier-4 verb. */}
-                    {/* `border-slate-300/30` was effectively nothing on the
-                        light page — a 30% slate hairline on near-white — so
-                        the one annotation here that names something a student
-                        could not deduce was invisible in half the app. The
-                        contrast suite walks text nodes and cannot see a
-                        border, which is why it went unreported. */}
-                    {idx === 3 && (
-                      <div className="absolute left-1/2 -translate-x-1/2 -top-11 bottom-0 w-px border-r-2 border-dashed border-slate-400 dark:border-white/25 z-0 flex flex-col items-center justify-start pointer-events-none">
-                        <div className={RIBBON_TIMELINE_THRESHOLD_CHIP}>{THRESHOLD_LABEL}</div>
-                      </div>
-                    )}
-
                     <button
                       type="button"
                       // "Highlight band n" was wrong twice over: the button
