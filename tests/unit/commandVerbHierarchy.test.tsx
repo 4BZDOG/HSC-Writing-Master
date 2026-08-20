@@ -3,6 +3,12 @@ import React from 'react';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import CommandVerbHierarchy from '../../components/CommandVerbHierarchy';
 import { PromptVerb } from '../../types';
+import { TIER_GROUPS, getTierTargetBand } from '../../data/commandTerms';
+import {
+  RIBBON_SPECTRUM_SCALE_RAIL,
+  RIBBON_TIER_SUBTITLE,
+  RIBBON_TIMELINE_CUE,
+} from '../../utils/verbRibbonChrome';
 
 /**
  * Behavioural contract for the command verb hierarchy ribbon: it renders the
@@ -369,18 +375,24 @@ describe('the spectrum says its level in words', () => {
     expect(cue.textContent).not.toContain('Break things apart');
   });
 
-  // The subtitle is elaboration, so it is out of the live region — but it is
-  // NOT hidden from a screen reader. While the tier strip above is shut, the
-  // cue line holds the only copy of it in the document, so it stays readable
-  // on demand; it is only the announcement it stays out of.
-  it('keeps the tier’s own subtitle in the line, readable but unannounced', () => {
+  // The cue's tail used to be the tier's full prose subtitle, and the comment
+  // beside it claimed the cue held "the only copy of it while the tier strip
+  // above is shut". The strip has no shut state of its own — it and the footer
+  // are siblings under the same `inert`-gated panel — so `RIBBON_TIER_SUBTITLE`
+  // renders the subtitle whenever the cue is on screen at all. Deleting the
+  // footer's copy therefore loses nothing, and this test is what says so: one
+  // copy survives, and it is the tier card's.
+  it('moves the tier’s prose subtitle off the footer without losing it', () => {
     render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
 
-    const line = screen.getByRole('status').parentElement as HTMLElement;
-    // The tier's own subtitle, not a paraphrase of it.
-    expect(line.textContent).toContain('Break things apart and use knowledge in new situations');
-    expect(line.getAttribute('aria-hidden')).toBeNull();
-    expect(line.closest('[aria-hidden="true"]')).toBeNull();
+    const copies = screen.getAllByText(/Break things apart and use knowledge/);
+    expect(copies).toHaveLength(1);
+
+    const survivor = copies[0];
+    // The survivor is the tier card's subtitle, not the cue's line.
+    expect(survivor.className).toContain(RIBBON_TIER_SUBTITLE);
+    expect(screen.getByRole('status').parentElement!.contains(survivor)).toBe(false);
+    expect(survivor.closest('[aria-hidden="true"]')).toBeNull();
   });
 
   // A live region has to be in the document BEFORE it changes, or the first
@@ -395,6 +407,50 @@ describe('the spectrum says its level in words', () => {
     expect(cue.textContent).toBe('Choose a command verb to light the spectrum.');
     expect(cue.textContent).not.toMatch(/Tier \d/);
     expect(cue.textContent).not.toMatch(/Band/);
+  });
+
+  // Which side of the Deep Learning Threshold the reader's tier falls on, in
+  // place of the tier's prose subtitle. Boundary cases only: tier 3 is the last
+  // tier below the gate and tier 4 the first above it, so if the comparison
+  // were ever written `>=` instead of `>` these two are what would catch it.
+  it('tells the reader which side of the threshold their tier is on', () => {
+    const { unmount } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+    const below = screen.getByRole('status').parentElement as HTMLElement;
+    expect(below.textContent).toContain('Below the Deep Learning Threshold');
+    expect(below.textContent).not.toContain('Above the Deep Learning Threshold');
+    unmount();
+
+    render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
+    const above = screen.getByRole('status').parentElement as HTMLElement;
+    expect(above.textContent).toContain('Above the Deep Learning Threshold');
+    expect(above.textContent).not.toContain('Below the Deep Learning Threshold');
+  });
+
+  // …and the clause stays OUT of the announcement. It is the same string for
+  // three tiers running, so a `status` that contained it would re-announce
+  // "Above the Deep Learning Threshold" on every move between tiers 4, 5 and 6
+  // — speech that carries no news. The `< 80` pin travels with it: tier 6 is
+  // the longest lede in the ladder.
+  it('keeps the announcement to the lede', () => {
+    render(<CommandVerbHierarchy currentVerb={'EVALUATE' as PromptVerb} />);
+
+    const cue = screen.getByRole('status');
+    expect(cue.textContent).not.toContain('Deep Learning');
+    expect(cue.textContent!.length).toBeLessThan(80);
+    // But it is in the line, unhidden — outside the region, not out of reach.
+    expect(cue.parentElement!.textContent).toContain('Above the Deep Learning Threshold');
+  });
+
+  // The no-verb state names no tier, and it must not name the threshold either:
+  // there is nothing on the bar for the words to point at, and the cue is the
+  // one string a reader meets before they have chosen anything.
+  it('says nothing about a threshold when no verb is chosen', () => {
+    const { container } = render(<CommandVerbHierarchy />);
+
+    const cue = screen.getByRole('status');
+    expect(cue.textContent).toBe('Choose a command verb to light the spectrum.');
+    expect(cue.parentElement!.textContent).toBe('Choose a command verb to light the spectrum.');
+    expect(container.textContent).not.toMatch(/(Above|Below) the Deep Learning Threshold/);
   });
 
   // The six tier subtitles run 44 to 96 characters. Unlocked, the cue is one
@@ -416,5 +472,87 @@ describe('the spectrum says its level in words', () => {
     const row = screen.getByRole('button', { name: /Show tier 1 verbs/i })
       .parentElement as HTMLElement;
     expect(row.className).toMatch(/(^|\s)h-\d+/);
+  });
+});
+/**
+ * The scale rail — the arc the four deleted labels drew, derived.
+ *
+ * `Basic Recall`, `Explain & Compare`, `Analyse & Apply` and `Evaluate &
+ * Create` were never span labels. Two are byte-identical to a `TIER_GROUPS`
+ * title and two are paraphrases of one, so the row was four TIER titles —
+ * tiers 1, 3, 4 and 6 — with tiers 2 and 5 dropped. Those four tiers are the
+ * floor, the two sides of the Deep Learning Threshold, and the ceiling, so the
+ * rail names the two spans they bound rather than the four rungs: naming the
+ * rungs again is what the dot row already does from `tierShortLabel`.
+ *
+ * jsdom applies no media queries, so both the `lg:hidden` short copy and the
+ * `hidden lg:inline` long copy are in the tree at once. Every assertion here is
+ * scoped to the rail and matched by regex for that reason.
+ */
+describe('the scale rail restores the arc, derived', () => {
+  const rail = (container: HTMLElement): HTMLElement => {
+    const found = container.querySelector(
+      `[class="${RIBBON_SPECTRUM_SCALE_RAIL}"]`
+    ) as HTMLElement | null;
+    expect(found, 'the scale rail is not wearing RIBBON_SPECTRUM_SCALE_RAIL').toBeTruthy();
+    return found as HTMLElement;
+  };
+
+  it('restores the scale labels without restoring the drift', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
+
+    // The two poles, in the words the data actually holds.
+    expect(rail(container).textContent).toContain('Remember & List');
+    expect(rail(container).textContent).toContain('Evaluate, Synthesise & Create');
+
+    // And not in the words a hand-written copy had drifted to. `Basic Recall`
+    // is a paraphrase of `TIER_GROUPS[0].title` that exists nowhere in the
+    // data, and `Evaluate & Create` is `TIER_GROUPS[5].title` with
+    // "Synthesise" dropped. Reproducing either is the fifth hand-written copy
+    // this whole redesign exists to kill.
+    expect(container.textContent).not.toContain('Basic Recall');
+    expect(container.textContent).not.toContain('Evaluate & Create');
+  });
+
+  // Positionally, too: tiers 1 and 3 bound the left span and tiers 4 and 6 the
+  // right one, so reordering `TIER_GROUPS` fails here rather than shipping a
+  // rail that reads backwards.
+  it('names the two spans from the tier data rather than from literals', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
+    const [left, right] = Array.from(rail(container).children) as HTMLElement[];
+
+    expect(left.textContent).toContain(TIER_GROUPS[0].title);
+    expect(left.textContent).toContain(TIER_GROUPS[2].title);
+    expect(left.textContent).not.toContain(TIER_GROUPS[3].title);
+
+    expect(right.textContent).toContain(TIER_GROUPS[3].title);
+    expect(right.textContent).toContain(TIER_GROUPS[5].title);
+    expect(right.textContent).not.toContain(TIER_GROUPS[0].title);
+  });
+
+  // The leap across the threshold, as a number in the app's own unit:
+  // everything left of the slot tops out at Band 3 however well it is written;
+  // everything right of it reaches 4, 5 or 6. Asserted against
+  // `getTierTargetBand`'s return values, never against literals.
+  it('states each side’s band cap, so the leap across the threshold is a number', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
+    const [left, right] = Array.from(rail(container).children) as HTMLElement[];
+
+    expect(left.textContent).toContain(`Band Caps ${getTierTargetBand(1)}–${getTierTargetBand(3)}`);
+    expect(right.textContent).toContain(
+      `Band Caps ${getTierTargetBand(4)}–${getTierTargetBand(6)}`
+    );
+  });
+
+  // The rail buys its row with no vertical budget at all: it is `absolute` in
+  // the air the threshold chip already hangs in, so the footer's height is
+  // unchanged and the cue's own lock is untouched. If either of these two
+  // facts stops holding, the footer starts stepping between questions again.
+  it('spends no footer height on the scale rail', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
+
+    expect(rail(container).className).toContain('absolute');
+    expect(RIBBON_TIMELINE_CUE).toContain('min-h-[2.25rem]');
+    expect(RIBBON_TIMELINE_CUE).toContain('line-clamp-2');
   });
 });

@@ -1073,3 +1073,16 @@ empty). 1771 unit tests, `chromium` 18/18, `supabase-chromium` 6/6.
    the wording that file and the stat tray already use, not "Ceiling". **R8
    stays open**: the spectrum takes its hexes from `BAND_HEX`, not from
    DesignSpec §2's contradicting table.
+
+   **Amended 2026-08-20, second pass** (`projectDocs/Plan-SpectrumScaleLabels.md`):
+   R6 stays closed, but its *premise* was wrong and the wrongness propagated.
+   R6 called the four labels **span labels** and `Plan-CognitiveSpectrum.md` F5
+   inherited that reading. They were not spans. `Explain & Compare` is
+   byte-identical to `TIER_GROUPS[2].title` and `Analyse & Apply` to
+   `TIER_GROUPS[3].title`; the other two are paraphrases of
+   `TIER_GROUPS[0].title` and `TIER_GROUPS[5].title`. The row was four **tier**
+   titles — tiers 1, 3, 4 and 6 — with tiers 2 and 5 dropped, and
+   `justify-between` put none of them over the tier it named. Believing they
+   named spans is exactly why nobody could see how to derive them, and it is why
+   they were deleted rather than sourced. They are back as the **scale rail**,
+   naming the two spans those four rungs bound.

@@ -108,6 +108,72 @@ the rest.
   is a `status` region too and tier 2's subtitle ends "in your own words", so
   the filter matched two elements. It matches the banner's own heading now.
 
+### 📏 The scale labels come back, derived — and the leap is drawn
+
+The four labels the section above records as deleted are back, above the
+spectrum, as a **scale rail**. Two of them, verbatim.
+
+That section called them span labels and said nothing could derive them. **That
+was wrong, and it is why they looked underivable.** `Explain & Compare` is
+byte-identical to `TIER_GROUPS[2].title` and `Analyse & Apply` to
+`TIER_GROUPS[3].title`; `Basic Recall` and `Evaluate & Create` are paraphrases
+of `TIER_GROUPS[0].title` and `TIER_GROUPS[5].title`. The row was four **tier**
+titles — tiers 1, 3, 4 and 6 — with tiers 2 and 5 dropped, laid out by
+`justify-between`, which put none of them over the tier it named.
+
+Those four tiers are the floor, the ceiling, and the two sides of the Deep
+Learning Threshold. So the rail names the two **spans** they bound rather than
+the four rungs — naming the rungs again is what the dot row below already does
+from `tierShortLabel` — and that is the only partition of the six tiers this
+app's own logic supports: the 3/4 boundary is where `getBandForMark` stops being
+able to return Band 4, and it is the Verb Gate's Band 3 cap.
+
+The words are `Remember & List – Explain & Compare` and `Analyse & Apply –
+Evaluate, Synthesise & Create`, from `TIER_GROUPS`, dropping to
+`Remember – Explain` / `Analyse – Evaluate` below `xl`. **"Basic Recall" does
+not come back**: it exists nowhere in the data, and typing it into the footer
+again would be the fifth hand-written copy this whole series exists to kill. The
+derived equivalent is `Remember & List`.
+
+The rail costs the footer **no height**. It is `absolute` in the band of air the
+threshold chip already hangs in — `RIBBON_TIMELINE_CUE`'s `mb-7`, whose middle
+the chip occupies and whose two ends were empty.
+
+**The leap from Band 3 to Band 4 is drawn three ways**, none of them new
+pedagogy:
+
+- The spectrum runs continuously through four 2px boundaries and is **cut** at
+  the fifth, an 8px slot. A step up in kind, not degree, said in the only
+  language a bar has. At tier 3 the leading edge comes to rest inside the slot —
+  the playhead stops at the gate.
+- The rail states `Band Caps 1–3` and `Band Caps 4–6` on the two shoulders, from
+  `getTierTargetBand`, in the two adjoining tiers' own colours. The leap as a
+  number, in the app's own unit.
+- The cue line's tail names which side the reader is on.
+
+### ✂️ The cue's prose subtitle is gone, and it was never the only copy
+
+The cue used to end with the tier's full prose subtitle, 44–96 characters about
+the tier. It ends with 32 characters of structure instead — `Above` or `Below
+the Deep Learning Threshold` — which points at the marker on the bar 20px below
+it. The live region is untouched, byte for byte.
+
+The section above says the footer's copy of the subtitle was "the only copy of
+it in the document" while the tier strip was shut. **That was never true.** The
+strip has no shut state of its own: it and the footer are siblings under the
+same `overflow-hidden` wrapper inside the same `inert`-gated panel, so
+`RIBBON_TIER_SUBTITLE` renders `group.subtitle` for every tier whenever the cue
+is on screen at all. Deleting the footer's copy loses nothing that was ever
+reachable.
+
+One consequence worth recording, because the last entry in the list above turns
+on it: the phrase "in your own words" — tier 2's subtitle — is no longer in the
+footer at all. The `workspace-chrome.spec.ts` filter stays, because
+`getByRole('status')` still matches more than one node on that page, but the
+comment explaining it named a collision that had already stopped existing when
+it was written (the subtitle sat outside the `role="status"` span from the
+start).
+
 ## [Unreleased] - 2026-08-14 (The verb ribbon, and the reason it was never seen)
 
 ### 🧭 The reference disappeared at the moment there was something to explain

@@ -194,11 +194,18 @@ test.describe('workspace card chrome', () => {
 
       // Scoped by the guard's OWN wording, not by a phrase from its body.
       // `status` is a shared role on this page — the API health indicator is
-      // one, and so is the verb ribbon's cue line, whose tier-2 subtitle ends
-      // "in your own words" — so a filter on prose from the banner's second
-      // paragraph matched two live regions and was a strict-mode violation
-      // waiting to happen. "Pasting is switched off" is the banner's heading
-      // and identifies it.
+      // one, and so is the verb ribbon's cue line — so a filter on prose from
+      // the banner's second paragraph is a strict-mode violation waiting to
+      // happen. "Pasting is switched off" is the banner's heading and
+      // identifies it.
+      //
+      // This comment used to name the collision precisely: the ribbon's tier-2
+      // subtitle ends "in your own words". It was already wrong when it was
+      // written — that subtitle sat OUTSIDE the cue's `role="status"` span, so
+      // the region never contained the phrase — and the footer has since
+      // dropped the subtitle altogether in favour of a threshold clause. The
+      // reason for the filter survives the correction, which is why it stays:
+      // `getByRole('status')` still matches more than one node on this page.
       const pasteGuard = page.getByRole('status').filter({ hasText: /Pasting is switched off/i });
       await expect(pasteGuard).toBeVisible();
       await expect(pasteGuard).toContainText(/own words/i);

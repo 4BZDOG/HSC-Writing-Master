@@ -13,6 +13,7 @@ import {
   RIBBON_HEADER_BAR,
   RIBBON_HEADER_TILE,
   RIBBON_ROOT,
+  RIBBON_SPECTRUM_BOUNDARY,
   RIBBON_STAT_TRAY,
   RIBBON_STAT_VALUE,
   RIBBON_STRIP,
@@ -23,6 +24,8 @@ import {
   RIBBON_TIER_HEADER,
   RIBBON_TIER_SUBTITLE_IDLE,
   RIBBON_TIER_UNDERLINE,
+  RIBBON_SPECTRUM_SCALE_RAIL,
+  RIBBON_SPECTRUM_SCALE_SPAN,
   RIBBON_TIMELINE_STEP_LABEL,
   RIBBON_TIMELINE_STEP_LABEL_IDLE,
   RIBBON_TIMELINE_THRESHOLD_CHIP,
@@ -302,6 +305,27 @@ describe('nothing in the ribbon is dimmed below the floor', () => {
     expect(RIBBON_TIMELINE_THRESHOLD_CHIP).not.toMatch(/(^|\s)text-slate-400/);
   });
 
+  // The rail is a new block of text on the page background, and the cheap way
+  // to make new text stop failing a contrast audit is to `aria-hidden` it:
+  // `tests/e2e/support/contrast.ts` skips every node inside an
+  // `[aria-hidden="true"]` subtree. That blind spot is exactly what let three
+  // contrast defects ship in this component, so the rail is pinned as visible
+  // to the audit — and as undimmed, since the other half of every one of those
+  // three defects was an `opacity-` laid over a colour that was fine without
+  // it.
+  it('keeps the scale rail inside the contrast audit', () => {
+    expect(RIBBON_SPECTRUM_SCALE_RAIL).not.toContain('opacity-');
+    expect(RIBBON_SPECTRUM_SCALE_SPAN).not.toContain('opacity-');
+    expect(RIBBON_SPECTRUM_SCALE_SPAN).toContain('text-slate-600');
+    expect(RIBBON_SPECTRUM_SCALE_SPAN).toContain('dark:text-slate-400');
+
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+    const rail = container.querySelector(`[class="${RIBBON_SPECTRUM_SCALE_RAIL}"]`) as HTMLElement;
+    expect(rail).toBeTruthy();
+    expect(rail.getAttribute('aria-hidden')).toBeNull();
+    expect(rail.closest('[aria-hidden="true"]')).toBeNull();
+  });
+
   // 2.97:1 on tier 6 and worse below it. The tier `text` tokens are already the
   // darkest step `getBandConfig` offers, so the opacity was the whole defect.
   it('states each card’s band ceiling without dimming it', () => {
@@ -474,6 +498,30 @@ describe('the cognitive spectrum lights one geometry from one palette', () => {
     // dot sat at 0 and the last at 100 — neither inside the band it names.
     expect(screen.getByRole('button', { name: /Show tier 1 verbs/i }).style.left).toBe('8.333%');
     expect(screen.getByRole('button', { name: /Show tier 6 verbs/i }).style.left).toBe('91.667%');
+  });
+
+  // Four hairlines and one slot. The spectrum runs continuously through four
+  // boundaries and is CUT at the fifth, which is the only language a bar has
+  // for "a step up in kind, not degree" — and the boundary it is cut at is the
+  // one `getTierTargetBand` stops returning 3 across. Keyed off the inline
+  // `left`, not off the array index, because the index is what the marker
+  // below it still depends on and this must not.
+  it('cuts the deep-learning boundary wider than the four ordinary ones', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    const notches = Array.from(
+      container.querySelectorAll(`[class*="${RIBBON_SPECTRUM_BOUNDARY}"]`)
+    ) as HTMLElement[];
+    expect(notches).toHaveLength(5);
+
+    const threshold = notches.filter((el) => el.style.left === '50%');
+    expect(threshold).toHaveLength(1);
+    expect(threshold[0].className).toContain('w-2');
+
+    for (const other of notches.filter((el) => el.style.left !== '50%')) {
+      expect(other.className).toContain('w-0.5');
+      expect(other.className).not.toContain('w-2');
+    }
   });
 
   // `index.css` neutralises animation under `prefers-reduced-motion` with
