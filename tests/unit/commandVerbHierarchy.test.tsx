@@ -331,3 +331,90 @@ describe('CommandVerbHierarchy', () => {
     });
   });
 });
+
+/**
+ * The cue line — the words the spectrum's colour is not allowed to carry alone.
+ *
+ * It replaced four hand-written span labels that named spans of the ladder
+ * rather than tiers, so `tierShortLabel` could not derive them and two of the
+ * four had drifted from the `TIER_GROUPS` title they paraphrased. Everything
+ * the cue says is sourced from the tier's own group, `getTierTargetBand` and
+ * `getBandName`, and it says it in words because DesignSpec §2 does not let
+ * colour be the only signal — a reader who cannot separate the yellow band
+ * from the green one still has the sentence.
+ */
+describe('the spectrum says its level in words', () => {
+  it('announces the level politely, in words', () => {
+    render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
+
+    const cue = screen.getByRole('status');
+    expect(cue.textContent).toContain('Tier 4');
+    expect(cue.textContent).toContain('Analyse');
+    // The band ceiling, in the wording `projectDocs/commandVerbs.md` and the
+    // stat tray already use for it — not a fresh synonym.
+    expect(cue.textContent).toContain('Band Cap 4');
+    expect(cue.textContent).toContain('Sound');
+
+    // Polite. `PromptSelector` states the house reasoning: assertive interrupts
+    // a student mid-sentence, and changing question is ordinary navigation.
+    expect(cue.getAttribute('aria-live')).not.toBe('assertive');
+
+    // And SHORT. A `status` region re-announces its whole content every time
+    // that content changes, and the whole cue runs to ~140 characters: with
+    // the subtitle inside the region, a screen-reader user heard a full prose
+    // sentence read out on every question change, on top of the tier and band
+    // cap that are the part they asked for. The lede is what is announced —
+    // "Tier 4 · Analyse & Apply · Band Cap 4 · Sound".
+    expect(cue.textContent!.length).toBeLessThan(80);
+    expect(cue.textContent).not.toContain('Break things apart');
+  });
+
+  // The subtitle is elaboration, so it is out of the live region — but it is
+  // NOT hidden from a screen reader. While the tier strip above is shut, the
+  // cue line holds the only copy of it in the document, so it stays readable
+  // on demand; it is only the announcement it stays out of.
+  it('keeps the tier’s own subtitle in the line, readable but unannounced', () => {
+    render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
+
+    const line = screen.getByRole('status').parentElement as HTMLElement;
+    // The tier's own subtitle, not a paraphrase of it.
+    expect(line.textContent).toContain('Break things apart and use knowledge in new situations');
+    expect(line.getAttribute('aria-hidden')).toBeNull();
+    expect(line.closest('[aria-hidden="true"]')).toBeNull();
+  });
+
+  // A live region has to be in the document BEFORE it changes, or the first
+  // change is the mount and nothing is announced. So the cue renders in the
+  // no-verb state too — and in that state it must still say nothing about a
+  // tier, which is the same contract as "says nothing at all about a verb it
+  // does not recognise" above.
+  it('keeps the live region mounted when no verb is chosen, and names no tier', () => {
+    render(<CommandVerbHierarchy />);
+
+    const cue = screen.getByRole('status');
+    expect(cue.textContent).toBe('Choose a command verb to light the spectrum.');
+    expect(cue.textContent).not.toMatch(/Tier \d/);
+    expect(cue.textContent).not.toMatch(/Band/);
+  });
+
+  // The six tier subtitles run 44 to 96 characters. Unlocked, the cue is one
+  // line for tier 4 and two for tier 6, and the whole footer — spectrum, dots,
+  // labels — steps up and down as the student moves between questions. The
+  // ribbon is the one block on this page that is meant to hold still.
+  it('locks the footer’s height across every tier', () => {
+    render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
+    // The whole line, which is the box the clamp is on — the live region
+    // inside it is the lede only.
+    const cue = screen.getByRole('status').parentElement as HTMLElement;
+
+    expect(cue.className).toMatch(/min-h-\[/);
+    expect(cue.className).toContain('line-clamp-2');
+
+    // And the dot row no longer depends on which labels render: five of the six
+    // are `hidden` below `sm`, so a row sized by its content was a different
+    // height — and put its dots in different places — at every tier.
+    const row = screen.getByRole('button', { name: /Show tier 1 verbs/i })
+      .parentElement as HTMLElement;
+    expect(row.className).toMatch(/(^|\s)h-\d+/);
+  });
+});

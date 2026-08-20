@@ -206,7 +206,7 @@ const reduceMotion =
 
 **A6 — `COGNITIVE_STEPS` is a fourth, drifted copy of the tier labels.** `:21–28` hand-writes `Remember, Describe, Explain, Analyse, Argue, Evaluate`. `tierShortLabel` (`commandTerms.ts:92–97`) derives `Remember, Define, Explain, Analyse, Discuss, Evaluate` from `TIER_GROUPS`. Tier 2 and tier 5 disagree. The doc comment on `tierShortLabel` is a written record of two admin components that kept hand-written copies, both of which had drifted and both of which mislabelled a tier with another tier's verb — "the mistake read as self-consistent". This is a third such copy, and the helper written to prevent it is not being used. A fifth vocabulary sits in the footer band labels at `:438–449` (`Basic Recall`, `Explain & Compare`, `Analyse & Apply`, `Evaluate & Create`), and the "Deep Learning Threshold" comment at `:479` calls tier 3 "Apply" — Apply is tier 4.
 
-**A7 — the "measurement ticks" measure nothing.** `:458–463` — four 1px ticks inside `flex justify-between px-[16%]`, so they land at 16%, 38.7%, 61.3% and 84%. The six timeline steps sit at roughly 0/20/40/60/80/100%, and the five boundaries between six tiers are at 16.7/33.3/50/66.7/83.3%. The ticks align with neither. The comment above them says they exist "for visual measurement". They are decoration, and only the first and last happen to be near anything.
+**A7 — the "measurement ticks" measure nothing.** *(Closed 2026-08-20 by `Plan-CognitiveSpectrum.md`: the ticks are gone, replaced by the five real boundaries at `i/6`.)* `:458–463` — four 1px ticks inside `flex justify-between px-[16%]`, so they land at 16%, 38.7%, 61.3% and 84%. The six timeline steps sit at roughly 0/20/40/60/80/100%, and the five boundaries between six tiers are at 16.7/33.3/50/66.7/83.3%. The ticks align with neither. The comment above them says they exist "for visual measurement". They are decoration, and only the first and last happen to be near anything.
 
 **A8 — the horizontal strip has no name, no overflow affordance, and mandatory snapping.** `:293–296`:
 
@@ -982,9 +982,9 @@ Mock `services/geminiService` in every render test (house rule; the current ribb
 
 **R4 — Step 7 is a shared-token change wearing a ribbon commit's clothes.** It fixes three surfaces at once, which is the argument for it, and it is exactly the kind of change that gets reverted six months later by someone tidying `renderUtils.ts` who does not know why band 3 is different. The mitigation is the test case with the ratio in the comment. If D1 is refused, say so in the changelog, because the failure then ships knowingly.
 
-**R5 — The cognitive timeline is redundant and this plan does not resolve it.** Three controls select a tier (the card header, the verb chip, the timeline dot); the timeline adds six tab stops and, per A7, four "measurement ticks" that align with nothing. Deleting the step buttons is the tidier design and would undo a deliberate accessibility fix (`commandVerbHierarchy.test.tsx:106–113`), so this plan keeps them and only fixes their labels. **Open question for the maintainer:** should the timeline become a read-only progress statement with the strip as the single selection surface?
+**R5 — The cognitive timeline is redundant and this plan does not resolve it.** *(Answered 2026-08-20 by `Plan-CognitiveSpectrum.md`: **no** — the six step buttons stay, because they are a pinned accessibility fix; the BAR became the read-only statement instead.)* Three controls select a tier (the card header, the verb chip, the timeline dot); the timeline adds six tab stops and, per A7, four "measurement ticks" that align with nothing. Deleting the step buttons is the tidier design and would undo a deliberate accessibility fix (`commandVerbHierarchy.test.tsx:106–113`), so this plan keeps them and only fixes their labels. **Open question for the maintainer:** should the timeline become a read-only progress statement with the strip as the single selection surface?
 
-**R6 — The footer's four band-range labels are a fifth vocabulary** (`Basic Recall`, `Explain & Compare`, `Analyse & Apply`, `Evaluate & Create`, `:438–449`). They describe spans across the six tiers rather than individual tiers, so `tierShortLabel` cannot derive them and renaming them is a copy decision. Left alone. Someone should decide whether four span labels and six tier labels on the same 200px-tall footer is one vocabulary too many.
+**R6 — The footer's four band-range labels are a fifth vocabulary** *(Closed 2026-08-20 by `Plan-CognitiveSpectrum.md`: the four labels are deleted; one derived cue line replaces them.)* (`Basic Recall`, `Explain & Compare`, `Analyse & Apply`, `Evaluate & Create`, `:438–449`). They describe spans across the six tiers rather than individual tiers, so `tierShortLabel` cannot derive them and renaming them is a copy decision. Left alone. Someone should decide whether four span labels and six tier labels on the same 200px-tall footer is one vocabulary too many.
 
 **R7a — the ribbon's own detail-card Sparkles tile still hard-codes `text-white`** on `bg-gradient-to-br ${gradient}` — the same bug class as A3, and on tier 3 that is an icon at roughly 1.9:1. It was not among the three sites Step 6 was scoped to and was deliberately left. Add it to the sweep below.
 
@@ -1064,3 +1064,12 @@ empty). 1771 unit tests, `chromium` 18/18, `supabase-chromium` 6/6.
    coverage thresholds (`test:all` runs without `--coverage`), behaviour with a
    real screen reader (the accessibility tree was inspected, no AT was used),
    and Firefox / desktop WebKit / Mobile Chrome.
+9. **A7, R5 and R6 are closed** (2026-08-20), by the redesign in
+   `projectDocs/Plan-CognitiveSpectrum.md`: the ticks that measured nothing are
+   replaced by the five real tier boundaries, the four span labels by one
+   derived cue line, and R5 is answered "keep the buttons, make the bar the
+   read-only statement". **R9's warning was heeded** — `commandVerbs.md` was
+   read before the copy changed, and it moved one word: the cue says "Band Cap",
+   the wording that file and the stat tray already use, not "Ceiling". **R8
+   stays open**: the spectrum takes its hexes from `BAND_HEX`, not from
+   DesignSpec §2's contradicting table.

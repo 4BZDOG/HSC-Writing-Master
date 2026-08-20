@@ -192,8 +192,16 @@ test.describe('workspace card chrome', () => {
       );
       await page.keyboard.press('ControlOrMeta+v');
 
-      // Scoped: the API health indicator is a `status` region too.
-      await expect(page.getByRole('status').filter({ hasText: /own words/i })).toBeVisible();
+      // Scoped by the guard's OWN wording, not by a phrase from its body.
+      // `status` is a shared role on this page — the API health indicator is
+      // one, and so is the verb ribbon's cue line, whose tier-2 subtitle ends
+      // "in your own words" — so a filter on prose from the banner's second
+      // paragraph matched two live regions and was a strict-mode violation
+      // waiting to happen. "Pasting is switched off" is the banner's heading
+      // and identifies it.
+      const pasteGuard = page.getByRole('status').filter({ hasText: /Pasting is switched off/i });
+      await expect(pasteGuard).toBeVisible();
+      await expect(pasteGuard).toContainText(/own words/i);
       await expect(surface).toHaveValue('My own opening sentence.');
     }
 

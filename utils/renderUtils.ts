@@ -376,7 +376,12 @@ export const getTierBandConfig = (tier: number): BandConfig =>
 /**
  * Colour config for a cognitive TIER as its own identity on the six-step
  * red → orange → yellow → green → blue → purple scale (Tier 1 red … Tier 6
- * purple), matching the CognitiveSpectrum meter.
+ * purple) — the scale the verb ribbon's cognitive spectrum is painted in
+ * (`components/CommandVerbHierarchy.tsx`, via `getBandHex`).
+ *
+ * It used to say "matching the CognitiveSpectrum meter", naming a component
+ * that was imported nowhere and held its own hard-coded copy of these six
+ * colours. That component is gone; this is the scale it meant.
  *
  * Use this when displaying the tier LADDER itself (tier cards, tier pickers,
  * the cognitive timeline) where every tier must be visually distinct. The
