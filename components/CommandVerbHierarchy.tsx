@@ -2,7 +2,7 @@ import React, { useMemo, useState, useEffect, useRef, useId } from 'react';
 import { PromptVerb } from '../types';
 import { commandTerms, TIER_GROUPS, getTierTargetBand, tierShortLabel } from '../data/commandTerms';
 import { ChevronDown, AlignLeft, Sparkles } from 'lucide-react';
-import { getTierScaleConfig } from '../utils/renderUtils';
+import { getBandHex, getBandName, getTierScaleConfig } from '../utils/renderUtils';
 import StrategyTip from './StrategyTip';
 import MeshOverlay from './MeshOverlay';
 import {
@@ -38,12 +38,22 @@ import {
   RIBBON_TIER_SUBTITLE_CURRENT,
   RIBBON_TIER_SUBTITLE_IDLE,
   RIBBON_TIER_UNDERLINE,
+  RIBBON_SPECTRUM_BOUNDARY,
+  RIBBON_SPECTRUM_DORMANT,
+  RIBBON_SPECTRUM_DOT_BLOOM,
+  RIBBON_SPECTRUM_EDGE,
+  RIBBON_SPECTRUM_IGNITION,
+  RIBBON_SPECTRUM_LIT,
+  RIBBON_SPECTRUM_SCALE_RAIL,
+  RIBBON_SPECTRUM_SCALE_SPAN,
+  RIBBON_TIMELINE_CUE,
+  RIBBON_TIMELINE_CUE_BAND,
+  RIBBON_TIMELINE_CUE_SIDE,
+  RIBBON_TIMELINE_CUE_TIER,
   RIBBON_TIMELINE_DOT,
-  RIBBON_TIMELINE_LABEL,
   RIBBON_TIMELINE_STEP_LABEL,
   RIBBON_TIMELINE_STEP_LABEL_IDLE,
   RIBBON_TIMELINE_THRESHOLD_CHIP,
-  RIBBON_TIMELINE_TICK,
   RIBBON_TIMELINE_TRACK,
   RIBBON_VERB_CHIP,
 } from '../utils/verbRibbonChrome';
@@ -66,6 +76,61 @@ interface CommandVerbHierarchyProps {
    */
   defaultOpen?: boolean;
 }
+
+/**
+ * The footer's geometry, in one place, because the two halves of it used to
+ * disagree.
+ *
+ * The bar filled to `tier / 6` while the six dots were laid out by
+ * `justify-between`, which puts each dot's centre wherever the six label texts
+ * happen to leave it — and below `sm` five of those labels are not rendered at
+ * all, so the dots MOVED depending on which tier was current. The fill and the
+ * dots were never on the same scale, and one of them was not a scale.
+ *
+ * One geometry now: band `i` owns `[(i-1)/6, i/6]`, its dot sits at the centre
+ * of that band, and the fill to `tier / 6` therefore lights band `tier` whole,
+ * with its dot inside the lit region.
+ */
+const TIER_STEPS = [1, 2, 3, 4, 5, 6];
+
+/** The tier the Deep Learning Threshold sits above: the 3/4 boundary is where
+ *  `getTierTargetBand` stops returning 3, and where the Verb Gate's Band 3 cap
+ *  stops being the ceiling. Written once, read by the rail, the boundary notch
+ *  and the cue. */
+const DEEP_LEARNING_TIER = 3;
+
+/** The chip's own words, so the cue can point at the marker on the bar without
+ *  a second hand-written copy of its label. */
+const THRESHOLD_LABEL = 'Deep Learning Threshold';
+
+/** A percentage with trailing zeros trimmed, so tier 6 clips by `0%` rather
+ *  than by `0.000%`. */
+const pct = (value: number): string => `${Number(value.toFixed(3))}%`;
+
+/** The left edge of band `tier`, as a percentage of the track. */
+const bandStart = (tier: number): number => ((tier - 1) / 6) * 100;
+
+/** The centre of band `tier` — where its dot and its colour stop both sit. */
+const bandCentre = (tier: number): number => ((2 * tier - 1) / 12) * 100;
+
+/** One band's share of the track. */
+const BAND_WIDTH = 100 / 6;
+
+/**
+ * The outermost two step labels, nudged inwards on a phone.
+ *
+ * Tier 1's dot sits at 8.333% — about 24px into a 320px screen — and its label
+ * is a 64px box centred on it, so six of those pixels are off the left edge of
+ * the panel, which is `overflow-hidden`. It only bites below `sm`, where the
+ * current step is the only label rendered at all, so the nudge is confined
+ * there: the dots themselves never move, at any width.
+ */
+const edgeLabelNudge = (tier: number): string =>
+  tier === 1
+    ? 'translate-x-4 sm:translate-x-0'
+    : tier === 6
+      ? '-translate-x-4 sm:translate-x-0'
+      : '';
 
 const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
   currentVerb,
@@ -190,6 +255,52 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
   // Tier 6 purple) so every level of the ladder reads as its own step — the
   // band-target mapping collapsed Tiers 5 and 6 into the same purple.
   const activeConfig = activeTermInfo ? getTierScaleConfig(activeTermInfo.tier) : null;
+
+  // The six-colour wash the footer's spectrum is painted from.
+  //
+  // Built HERE, in the component body, and not at module scope: a template
+  // literal that dereferences an import while a module initialises can throw
+  // `Cannot access 'X' before initialization` in a production build, which
+  // `projectDocs/bundleSafety.md` documents and `npm run check:eager-reads`
+  // gates on. `useMemo` with no dependencies is the honest shape — the stops
+  // are constants, they are just constants that must be read late.
+  //
+  // Every stop is `getBandHex(i)`, never a literal. `BAND_HEX` is the single
+  // source of truth for what a band is coloured, pinned by
+  // `tests/unit/bandColors.test.ts`, and the dead `CognitiveSpectrum.tsx` this
+  // replaces held a hard-coded fourth copy of exactly these six values.
+  //
+  // The stops sit at band CENTRES rather than at the boundaries between bands.
+  // Six flat blocks would be the traffic lights this redesign exists to
+  // replace; centres put each dot on its own canonical hex and let each
+  // transition happen across a boundary, so the bar reads as one wash.
+  const spectrum = useMemo(
+    () =>
+      `linear-gradient(to right, ${getBandHex(1)} 0%, ` +
+      TIER_STEPS.map((tier) => `${getBandHex(tier)} ${pct(bandCentre(tier))}`).join(', ') +
+      `, ${getBandHex(6)} 100%)`,
+    []
+  );
+
+  // How far along the ladder the reader is. The one part of the old geometry
+  // that was already right.
+  const litPercent = activeTermInfo ? (activeTermInfo.tier / 6) * 100 : 0;
+
+  // The tier group behind the active verb — the source of every word in the cue
+  // line below, so none of it is written out a second time here.
+  const activeGroup = activeTermInfo
+    ? sortedVerbsByGroup.find((group) => group.tier === activeTermInfo.tier)
+    : undefined;
+
+  /** A tier's full title, from the same array the strip is built from. Falls
+   *  back to the short label rather than to a literal.
+   *
+   *  In the body, not at module scope: it dereferences `TIER_GROUPS` through
+   *  `sortedVerbsByGroup`, and a module-scope read of an imported value is the
+   *  `Cannot access 'X' before initialization` failure `projectDocs/bundleSafety.md`
+   *  documents and `npm run check:eager-reads` gates on. */
+  const tierTitle = (tier: number): string =>
+    sortedVerbsByGroup.find((group) => group.tier === tier)?.title ?? tierShortLabel(tier);
 
   // The tier no longer paints the whole bar; it paints the 36px tile and the
   // 2px underline beneath it. `solidText` rather than `text-white` because
@@ -583,32 +694,239 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
             <div className={dividerClass} />
           </div>
           <div className="py-4 relative z-20 transition-colors duration-500">
-            <div className="flex justify-between items-end gap-4 mb-3 px-1">
-              <span className={`${RIBBON_TIMELINE_LABEL} whitespace-nowrap`}>Basic Recall</span>
-              <span className={`${RIBBON_TIMELINE_LABEL} hidden sm:block`}>Explain & Compare</span>
-              <span className={`${RIBBON_TIMELINE_LABEL} hidden sm:block`}>Analyse & Apply</span>
-              <span className={`${RIBBON_TIMELINE_LABEL} whitespace-nowrap`}>
-                Evaluate & Create
-              </span>
-            </div>
+            {/* The cue line — what the spectrum says, in words.
 
-            {/* Progress Bar Track */}
-            <div className={RIBBON_TIMELINE_TRACK}>
-              {/* Background Ticks for visual measurement */}
-              {/* Measurement ticks. White-on-white in light mode meant the
-                track had no gradations at all there, so the same bar read as a
-                measured scale in dark and a plain pill in light. */}
-              <div className="absolute inset-0 flex justify-between px-[16%]">
-                <div className={RIBBON_TIMELINE_TICK} />
-                <div className={RIBBON_TIMELINE_TICK} />
-                <div className={RIBBON_TIMELINE_TICK} />
-                <div className={RIBBON_TIMELINE_TICK} />
+                It replaced four hand-written labels (`Basic Recall`, `Explain
+                & Compare`, `Analyse & Apply`, `Evaluate & Create`) which were
+                a fifth copy of a vocabulary this component already derives
+                everywhere else. This comment used to call them SPAN labels and
+                say they named spans rather than tiers; that was wrong, and it
+                is the reason nobody could see how to derive them. `Explain &
+                Compare` and `Analyse & Apply` are byte-identical to
+                `TIER_GROUPS[2].title` and `TIER_GROUPS[3].title`; the other two
+                are paraphrases of `TIER_GROUPS[0].title` and
+                `TIER_GROUPS[5].title`. The row was four TIER titles — tiers 1,
+                3, 4 and 6, the floor, the two sides of the Deep Learning
+                Threshold and the ceiling — with tiers 2 and 5 dropped, and
+                `justify-between` put none of them over the tier it named.
+
+                They are back, derived, as the scale rail above the track: the
+                two SPANS those four rungs bound, which is the only partition of
+                the six tiers this app's own logic supports.
+
+                Every fragment here is sourced: the tier's own title and
+                subtitle, `getTierTargetBand`, `getBandName`. "Band Cap" rather
+                than "ceiling" because that is the wording the ribbon already
+                uses for this number, in the stat tray above and in
+                `projectDocs/commandVerbs.md`, which is the record of what a
+                student is told about a command verb.
+
+                `role="status"`, which is polite, not `aria-live="assertive"`:
+                changing question is ordinary navigation, and assertive
+                interrupts a student mid-sentence. Rendered unconditionally,
+                including the no-verb case, because a live region has to exist
+                before it can change — and the no-verb string names no tier, so
+                the component still says nothing about a verb it does not
+                recognise.
+
+                The live region is the LEDE ONLY — the tier and its band name
+                — and the tail sits outside it, in the same sentence and the
+                same visible line. A `status` region announces its whole
+                content on every change, and the lede is the part that actually
+                changed and the part a reader needs: "Tier 4 · Analyse & Apply ·
+                Sound".
+
+                The lede used to say "Band Cap 4 · Sound" — the number a
+                second time, right next to the name that already carries it.
+                `getTierTargetBand(tier) === tier` always (see that function's
+                own comment), so "Tier 4" and "Band Cap 4" are the same
+                integer under two labels, the exact duplication the stat-tray
+                chip comment above this one already retired. The number stays
+                once, in "Tier 4"; "Sound" is the new information the cap
+                repeated nothing of.
+
+                That tail used to be the tier's full prose subtitle, 44–96
+                characters of elaboration, and the comment here claimed the cue
+                held "the only copy of it while the tier strip above is shut".
+                That was never true. The strip has no shut state of its own: the
+                footer and the strip are siblings under the same
+                `overflow-hidden` wrapper inside the same `inert`-gated panel,
+                so `RIBBON_TIER_SUBTITLE` renders `group.subtitle` for every
+                tier whenever this line is on screen at all. Nothing reachable
+                was lost by deleting the footer's copy.
+
+                What replaces it is structure rather than prose: which side of
+                the Deep Learning Threshold the reader's tier falls on, in 32
+                characters, pointing at the chip on the bar 20px below. It stays
+                outside the live region for the same reason the subtitle did —
+                it is the same string for three tiers running, and a `status`
+                re-announces everything it contains. */}
+            <p className={RIBBON_TIMELINE_CUE}>
+              <span role="status">
+                {activeTermInfo && activeConfig ? (
+                  <>
+                    <span className={`${RIBBON_TIMELINE_CUE_TIER} ${activeConfig.text}`}>
+                      Tier {activeTermInfo.tier} · {activeGroup?.title}
+                    </span>
+                    {' · '}
+                    <span className={RIBBON_TIMELINE_CUE_BAND}>
+                      {getBandName(getTierTargetBand(activeTermInfo.tier))}
+                    </span>
+                  </>
+                ) : (
+                  'Choose a command verb to light the spectrum.'
+                )}
+              </span>
+              {activeTermInfo && (
+                <span className={RIBBON_TIMELINE_CUE_SIDE}>
+                  {' — '}
+                  {activeTermInfo.tier > DEEP_LEARNING_TIER ? 'Above' : 'Below'} the{' '}
+                  {THRESHOLD_LABEL}
+                </span>
+              )}
+            </p>
+
+            {/* The spectrum.
+
+                Two layers of the same gradient: the whole journey at low
+                opacity, and the same thing at full strength clipped to the
+                reader's tier. Clipped with `clip-path: inset()` and not sized
+                with `width` — a percentage width rescales a gradient into that
+                width, so at tier 3 all six colours would be crushed into half
+                a bar and every colour would move as the tier changed.
+
+                The leading edge and the ignition flare sit OUTSIDE the track,
+                because the track has to clip the spectrum (`overflow-hidden`)
+                and a box-shadow or a bloom is the one thing that must not be
+                clipped. */}
+            <div className="relative mb-4">
+              {/* The scale rail.
+
+                  The arc four hand-written labels used to draw — `Basic
+                  Recall`, `Explain & Compare`, `Analyse & Apply`, `Evaluate &
+                  Create` — derived this time. Those four were not span labels:
+                  two were byte-identical to a `TIER_GROUPS` title and two were
+                  paraphrases of one, so the row was four TIER titles (1, 3, 4,
+                  6) with two tiers dropped, laid out by `justify-between` so
+                  none of them sat over the tier it named.
+
+                  Tiers 1, 3, 4 and 6 are the floor, the two sides of the Deep
+                  Learning Threshold, and the ceiling. That intent survives here
+                  as the two SPANS those rungs bound, which is the only
+                  partition of the six tiers the app's own logic supports: the
+                  3/4 boundary is where `getBandForMark` stops being able to
+                  return Band 4, and it is the Verb Gate's cap.
+
+                  Naming the tiers again, one per rung, is what the dot row
+                  below already does from `tierShortLabel`. This names the two
+                  halves.
+
+                  An en dash and not an arrow: `tests/e2e/support/contrast.ts`
+                  skips every node inside `[aria-hidden="true"]`, so an arrow
+                  glyph would want a hide that quietly takes this whole block of
+                  text out of the light-theme audit. A dash reads as a range and
+                  needs no hiding.
+
+                  The full titles arrive at `xl`, not at `lg`. Measured in
+                  Chromium: the right-hand caption is 441px at full length, and
+                  at 1024px it starts 51px INSIDE the threshold chip — the chip
+                  ate "ANALYS" and the rail read as a fragment. The two rungs
+                  the ladder actually has are `sm`–`lg` short labels (131px)
+                  and `xl` full titles (441px).
+
+                  This used to also carry "Band Caps 1–3" / "Band Caps 4–6" on
+                  each span — dropped because the cue line 20px below states
+                  the exact cap for whichever tier is active (`getTierTargetBand`
+                  again, singular this time), so the rail's job is only to name
+                  the two spans, not to re-derive the number the cue already
+                  gives. */}
+              <div className={RIBBON_SPECTRUM_SCALE_RAIL}>
+                <span className={RIBBON_SPECTRUM_SCALE_SPAN}>
+                  <span className="xl:hidden">
+                    {tierShortLabel(1)} – {tierShortLabel(DEEP_LEARNING_TIER)}
+                  </span>
+                  <span className="hidden xl:inline">
+                    {tierTitle(1)} – {tierTitle(DEEP_LEARNING_TIER)}
+                  </span>
+                </span>
+
+                <span className={RIBBON_SPECTRUM_SCALE_SPAN}>
+                  <span className="xl:hidden">
+                    {tierShortLabel(DEEP_LEARNING_TIER + 1)} – {tierShortLabel(TIER_STEPS.length)}
+                  </span>
+                  <span className="hidden xl:inline">
+                    {tierTitle(DEEP_LEARNING_TIER + 1)} – {tierTitle(TIER_STEPS.length)}
+                  </span>
+                </span>
               </div>
 
-              <div
-                className={`absolute left-0 top-0 bottom-0 transition-all duration-1000 ease-out bg-gradient-to-r ${activeConfig ? activeConfig.gradient : 'from-slate-400 to-slate-500'}`}
-                style={{ width: `${activeTermInfo ? (activeTermInfo.tier / 6) * 100 : 0}%` }}
-              />
+              <div className={RIBBON_TIMELINE_TRACK}>
+                <div
+                  aria-hidden="true"
+                  className={RIBBON_SPECTRUM_DORMANT}
+                  style={{ backgroundImage: spectrum }}
+                />
+                <div
+                  aria-hidden="true"
+                  className={RIBBON_SPECTRUM_LIT}
+                  style={{
+                    backgroundImage: spectrum,
+                    clipPath: `inset(0 ${pct(100 - litPercent)} 0 0)`,
+                  }}
+                />
+
+                {/* The five boundaries between six tiers, in the page's own
+                    background colour so they read as gaps cut into the
+                    spectrum.
+
+                    Four hairlines of 2px and one SLOT of 8px at the 3/4
+                    boundary. The spectrum runs continuously through four
+                    boundaries and is cut at the fifth, which is "a step up in
+                    kind, not degree" said in the one language a bar has. The
+                    dashed rule below descends through the middle of the slot,
+                    so the rule and the break read as one object — a gate.
+
+                    Side effect, and the intended one: at tier 3 the leading
+                    edge is at 50%, so the playhead comes to rest INSIDE the
+                    slot. It stops at the gate. */}
+                {[1, 2, 3, 4, 5].map((boundary) => (
+                  <div
+                    key={boundary}
+                    aria-hidden="true"
+                    className={`${RIBBON_SPECTRUM_BOUNDARY} ${boundary === DEEP_LEARNING_TIER ? 'w-2' : 'w-0.5'}`}
+                    style={{ left: pct((boundary / 6) * 100) }}
+                  />
+                ))}
+              </div>
+
+              {activeTermInfo && (
+                <>
+                  {/* The band just reached, igniting. `key` on the tier so
+                      React remounts it and the one-shot replays on every
+                      change — no rAF, no `element.animate`, so the global
+                      reduced-motion block in index.css genuinely disables it,
+                      and its final frame is `opacity: 0` so a reader who has
+                      asked for no motion is left with nothing burned in. */}
+                  <div
+                    key={activeTermInfo.tier}
+                    aria-hidden="true"
+                    className={`${RIBBON_SPECTRUM_IGNITION} animate-tier-ignite`}
+                    style={{
+                      left: pct(bandStart(activeTermInfo.tier)),
+                      width: pct(BAND_WIDTH),
+                      backgroundColor: getBandHex(activeTermInfo.tier),
+                    }}
+                  />
+                  <div
+                    aria-hidden="true"
+                    className={RIBBON_SPECTRUM_EDGE}
+                    style={{
+                      left: pct(litPercent),
+                      boxShadow: `0 0 10px 2px ${getBandHex(activeTermInfo.tier)}66`,
+                    }}
+                  />
+                </>
+              )}
             </div>
 
             {/* The tier ladder along the footer.
@@ -622,8 +940,35 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                 another tier that also appeared in the same table, so the
                 mistake read as self-consistent. The strip beside this one is
                 already the tiers; iterating it is one fewer place to drift. */}
-            <div className="flex justify-between items-center relative">
-              {sortedVerbsByGroup.map((group, idx) => {
+            <div className="relative h-10">
+              {/* The threshold marker, between tier 3 (Explain & Compare) and
+                  tier 4 (Analyse & Apply). It used to be commented as sitting
+                  between "Tier 3 (Apply)" and "Tier 4 (Analyse)" — Apply is a
+                  tier-4 verb.
+
+                  Rendered ONCE, here, rather than inside the map on
+                  `idx === 3`. It marks a tier boundary, not the fourth element
+                  of an array: reorder `TIER_GROUPS` and the `idx` form moved
+                  this rule to whichever tier landed fourth while the boundary
+                  notch on the bar — keyed on `DEEP_LEARNING_TIER` — stayed
+                  where it was, silently. Its `left` is now the same expression
+                  the notch uses, so the rule and the slot cannot drift apart
+                  either.
+
+                  `border-slate-300/30` was effectively nothing on the light
+                  page — a 30% slate hairline on near-white — so the one
+                  annotation here that names something a student could not
+                  deduce was invisible in half the app. The contrast suite walks
+                  text nodes and cannot see a border, which is why it went
+                  unreported. */}
+              <div
+                style={{ left: pct((DEEP_LEARNING_TIER / TIER_STEPS.length) * 100) }}
+                className="absolute -translate-x-1/2 -top-11 bottom-0 w-px border-r-2 border-dashed border-slate-400 dark:border-white/25 z-0 flex flex-col items-center justify-start pointer-events-none"
+              >
+                <div className={RIBBON_TIMELINE_THRESHOLD_CHIP}>{THRESHOLD_LABEL}</div>
+              </div>
+
+              {sortedVerbsByGroup.map((group) => {
                 const tier = group.tier;
                 const label = tierShortLabel(tier);
                 const isActive = activeTermInfo && activeTermInfo.tier >= tier;
@@ -631,58 +976,67 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                 const stepConfig = getTierScaleConfig(tier);
 
                 return (
-                  <React.Fragment key={tier}>
-                    {/* The threshold marker, between tier 3 (Explain & Compare)
-                        and tier 4 (Analyse & Apply). It used to be commented as
-                        sitting between "Tier 3 (Apply)" and "Tier 4 (Analyse)"
-                        — Apply is a tier-4 verb. */}
-                    {idx === 3 && (
-                      <div className="absolute left-1/2 -translate-x-1/2 -top-8 bottom-0 w-px border-r-2 border-dashed border-slate-300/30 dark:border-white/10 z-0 flex flex-col items-center justify-start pointer-events-none">
-                        <div className={RIBBON_TIMELINE_THRESHOLD_CHIP}>
-                          Deep Learning Threshold
-                        </div>
-                      </div>
-                    )}
-
-                    <button
-                      type="button"
-                      // "Highlight band n" was wrong twice over: the button
-                      // selects the tier's first verb rather than highlighting
-                      // anything, and what it selects is a tier, not a band.
-                      aria-label={`Show tier ${tier} verbs — ${label}`}
-                      className="flex flex-col items-center gap-3 relative z-10 group/step cursor-pointer"
-                      onClick={() => {
-                        if (group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
-                      }}
-                    >
-                      <div
-                        className={`
+                  <button
+                    key={tier}
+                    type="button"
+                    // "Highlight band n" was wrong twice over: the button
+                    // selects the tier's first verb rather than highlighting
+                    // anything, and what it selects is a tier, not a band.
+                    aria-label={`Show tier ${tier} verbs — ${label}`}
+                    // Absolutely placed at the centre of its own band, so a
+                    // dot sits under the colour it names. They used to be
+                    // laid out by `justify-between`, which put each dot
+                    // wherever six label widths left it — and since five of
+                    // the six labels are `hidden` below `sm`, the dots moved
+                    // whenever the current tier changed.
+                    style={{ left: pct(bandCentre(tier)) }}
+                    className="absolute top-0 -translate-x-1/2 w-16 flex flex-col items-center gap-3 z-10 group/step cursor-pointer"
+                    onClick={() => {
+                      if (group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
+                    }}
+                  >
+                    <div
+                      className={`
                                     ${RIBBON_TIMELINE_DOT}
                                     ${isActive ? `${stepConfig.solidBg} border-transparent scale-125` : 'bg-slate-300 dark:bg-slate-700 border-slate-400/40 dark:border-white/10'}
                                     ${isCurrent ? 'ring-4 ring-slate-900/10 dark:ring-white/20 scale-150 shadow-lg' : ''}
                                  `}
-                      >
-                        {/* Pulsing Animation for Current Step */}
-                        {isCurrent && (
-                          <span
-                            className={`absolute inset-0 rounded-full animate-ping opacity-75 ${stepConfig.solidBg}`}
-                          ></span>
-                        )}
-                      </div>
-                      {/* On phones six tracked labels collide into one another, so
+                    >
+                      {/* This was `animate-ping`, which is `1s infinite`,
+                            on a strip that is mounted for the whole session —
+                            so it animated behind every student for as long as
+                            they wrote. It is a one-shot now, keyed on the tier
+                            so it replays when the question changes and then
+                            stops.
+
+                            Its own one-shot, though, not the spectrum's: the
+                            band's flare stretches 2.4x vertically and not at
+                            all horizontally, which is the shape of a bar
+                            lighting up and the shape of a teardrop on a
+                            circle. `dot-bloom` scales uniformly, at the same
+                            900ms on the same curve, so the dot and its band
+                            still ignite as one event. */}
+                      {isCurrent && (
+                        <span
+                          key={activeTermInfo?.tier}
+                          aria-hidden="true"
+                          className={`${RIBBON_SPECTRUM_DOT_BLOOM} ${stepConfig.solidBg}`}
+                        ></span>
+                      )}
+                    </div>
+                    {/* On phones six tracked labels collide into one another, so
                         only the current step keeps its label below sm.
 
                         The five that are not current used to be `slate-500` at
                         `opacity-70`, which measured 2.66:1 on the page — the
                         largest single group of failures the contrast suite
                         found once it could see this component at all. */}
-                      <span
-                        className={`${RIBBON_TIMELINE_STEP_LABEL} ${isCurrent ? stepConfig.text : RIBBON_TIMELINE_STEP_LABEL_IDLE}`}
-                      >
-                        {label}
-                      </span>
-                    </button>
-                  </React.Fragment>
+                    <span
+                      className={`${RIBBON_TIMELINE_STEP_LABEL} ${isCurrent ? stepConfig.text : RIBBON_TIMELINE_STEP_LABEL_IDLE} ${edgeLabelNudge(tier)}`}
+                    >
+                      {label}
+                    </span>
+                  </button>
                 );
               })}
             </div>

@@ -48,7 +48,7 @@ export const CARD_HEADER_TITLE_BLOCK = 'min-w-0 pt-0.5';
  * the two rows identical whatever is in them.
  */
 export const CARD_HEADER_TITLE =
-  'flex flex-wrap items-center gap-2 min-h-7 text-base sm:text-lg font-black tracking-tight leading-none drop-shadow-sm';
+  'flex flex-wrap items-center gap-2 min-h-7 text-base sm:text-lg font-black tracking-normal uppercase italic leading-none drop-shadow-sm';
 
 /** The one line under the title — "Band 2 ceiling", the band + progress meter.
  *  Floored for the same reason: both cards put a chip on this line. */

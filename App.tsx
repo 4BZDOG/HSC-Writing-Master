@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef, lazy, Suspense } from 'react';
-import PromptSelector, { SYLLABUS_NAVIGATOR_ID } from './components/PromptSelector';
+import PromptSelector from './components/PromptSelector';
 import Workspace from './components/Workspace';
 import AppHeader from './components/AppHeader';
 import MeshOverlay from './components/MeshOverlay';
@@ -15,6 +15,7 @@ import LoginPage from './components/LoginPage';
 import ResetPasswordPage from './components/ResetPasswordPage';
 import UserAgreementModal from './components/UserAgreementModal';
 import { useNavigation } from './hooks/useNavigation';
+import { useNavigatorFocusHandoff } from './hooks/useNavigatorFocusHandoff';
 import { activeSyllabusYear, resolveSyllabusYear, yearShortLabel } from './utils/syllabusYear';
 import { useSyllabusData } from './hooks/useSyllabusData';
 import { useGemini } from './hooks/useGemini';
@@ -33,8 +34,10 @@ import {
 import { AGREEMENT_VERSION } from './data/legalContent';
 import { isCurriculumRemote } from './services/curriculumService';
 import { savePromptContribution } from './services/contributionService';
+import { visibleCourses } from './utils/courseVisibility';
 import { screenContentQuality } from './services/geminiService';
 import { User, WritingMode } from './types';
+import type { StatePath, SyllabusCrumb } from './types';
 import {
   canCreateCurriculum,
   canCurateContent,
@@ -53,8 +56,7 @@ import { Compass, Sparkles, Layers, UploadCloud, Minimize, ChevronUp } from 'luc
 import { apiMonitor } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
 import BillingAlertBanner from './components/BillingAlertBanner';
-import SyllabusNavBar, { SYLLABUS_NAV_BAR_ID } from './components/SyllabusNavBar';
-import { useNavigatorFold } from './hooks/useNavigatorFold';
+import SyllabusNavBar from './components/SyllabusNavBar';
 import { loadUserProfile } from './utils/storageUtils';
 import {
   ASSIGNMENT_PARAM,
@@ -63,6 +65,7 @@ import {
   resolveAssignmentPath,
 } from './utils/assignmentLink';
 import { getDotPointLabel, parseSubItemsFromDescription } from './utils/dataManagerUtils';
+import { findAndUpdateItem } from './utils/stateUtils';
 
 const AnimatedBackground: React.FC = () => {
   return (
@@ -149,6 +152,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     confirmRename,
     confirmDelete,
     handleUpdateOutcomes,
+    handleSetCourseStatus,
     handleSampleAnswerGenerated,
     handleUpdateSampleAnswer,
     handleDeleteSampleAnswer,
@@ -163,6 +167,21 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     handleMoveTopic,
   } = useSyllabusData({ showToast });
 
+  // Every user-facing surface — the navigator (PromptSelector, Workspace) AND
+  // the current-selection resolution below — only ever sees published
+  // courses; draft courses stay visible to admins alone (for whom this list
+  // is identical to `courses`, since canCreateCurriculum already grants them
+  // everything). ContentAuditModal/DataManagerModal (admin-gated curation
+  // tools, reached only via isSystemAdmin/canCreateCurriculum-gated entry
+  // points) intentionally keep the raw, unfiltered `courses` passed to
+  // AppModals below so an admin can manage draft content directly. This must
+  // be computed BEFORE useNavigation: feeding it the raw list here would let
+  // a stale saved `statePath`, or the "no saved path yet" default, resolve
+  // straight into a draft course's content for a non-admin — the picker
+  // would show nothing selected while Workspace quietly rendered the hidden
+  // course anyway.
+  const navigatorCourses = useMemo(() => visibleCourses(courses, user.role), [courses, user.role]);
+
   const {
     statePath,
     setStatePath,
@@ -172,7 +191,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     currentSubTopic,
     currentDotPoint,
     currentPrompt,
-  } = useNavigation(courses, isReady);
+  } = useNavigation(navigatorCourses, isReady);
   const currentSelection = useMemo(
     () => ({
       currentCourse,
@@ -183,6 +202,93 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     }),
     [currentCourse, currentTopic, currentSubTopic, currentDotPoint, currentPrompt]
   );
+
+  /**
+   * The syllabus path, built once and shared by both surfaces that draw it —
+   * the collapsed navigator bar and the workspace breadcrumb. They used to
+   * construct it separately, which is how one of them came to print the
+   * syllabus year and the other did not.
+   *
+   * Memoised because it is also the identity `Workspace` and
+   * `WorkspaceRightPanel` memoise on: as a fresh literal it re-ran the
+   * breadcrumb's scroll effect and defeated the hierarchy-context `useMemo` on
+   * every keystroke.
+   */
+  /**
+   * Bumped by every crumb press, so the focus handoff below has an edge to
+   * react to even when nothing else about the app's shape changes.
+   *
+   * A crumb pressed while the navigator is already open clears `promptId` and
+   * unmounts `Workspace` — taking the pressed button with it — but leaves
+   * `isNavCollapsed` exactly where it was, so an effect watching only that
+   * seam never runs and focus lands on `<body>`. Counting the presses gives
+   * both breadcrumb instances one trigger; the effect then does the work
+   * once, whether one edge moved or both.
+   */
+  const [crumbJumps, setCrumbJumps] = useState(0);
+  const handleCrumbJump = useCallback(
+    (patch: Partial<StatePath>) => {
+      handlePathChange(patch);
+      setCrumbJumps((n) => n + 1);
+    },
+    [handlePathChange]
+  );
+
+  const syllabusCrumbs: SyllabusCrumb[] = useMemo(() => {
+    const year = resolveSyllabusYear(currentCourse, statePath.syllabusYear);
+    return [
+      {
+        label: currentCourse?.name || 'Course',
+        // The year rides on the course crumb rather than taking a step of its
+        // own: it is which syllabus this course name means, not a level
+        // between the course and its topics. Named only when it is not the
+        // Year 12 default, so the common case stays quiet — and carried as a
+        // badge rather than a suffix, so `label` stays the course's actual
+        // name for the PDF export and the AI hierarchy context.
+        badge: year === 'year12' ? undefined : yearShortLabel(year),
+        onClick: () =>
+          handleCrumbJump({
+            topicId: undefined,
+            subTopicId: undefined,
+            dotPointId: undefined,
+            promptId: undefined,
+            selectedSubItems: undefined,
+          }),
+      },
+      {
+        label: currentTopic?.name || 'Topic',
+        onClick: () =>
+          handleCrumbJump({
+            subTopicId: undefined,
+            dotPointId: undefined,
+            promptId: undefined,
+            selectedSubItems: undefined,
+          }),
+      },
+      {
+        label: currentSubTopic?.name || 'Sub-Topic',
+        onClick: () =>
+          handleCrumbJump({
+            dotPointId: undefined,
+            promptId: undefined,
+            selectedSubItems: undefined,
+          }),
+      },
+      {
+        // The statement, not the statement plus its focus-area list — a
+        // breadcrumb is a place name.
+        label: getDotPointLabel(currentDotPoint) || 'Dot Point',
+        onClick: () => handleCrumbJump({ promptId: undefined }),
+      },
+    ];
+  }, [
+    currentCourse,
+    currentTopic,
+    currentSubTopic,
+    currentDotPoint,
+    statePath.syllabusYear,
+    handleCrumbJump,
+  ]);
 
   const [isFocusMode, setIsFocusMode] = useState(false);
   // Writing experience: 'coach' surfaces live feedback (highlighting, insights,
@@ -212,7 +318,26 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       // reviewer makes the final call — but we surface it to the author.
       const quality = await screenContentQuality(currentPrompt.question, 'question');
 
-      await savePromptContribution(statePath.dotPointId, currentPrompt, 'pending', quality);
+      const { scenarioImage } = await savePromptContribution(
+        statePath.dotPointId,
+        currentPrompt,
+        'pending',
+        quality
+      );
+
+      // Persist a newly-resolved storagePath back onto local state so a
+      // second submission of the same prompt doesn't re-upload unchanged
+      // image bytes.
+      if (
+        scenarioImage?.storagePath &&
+        scenarioImage.storagePath !== currentPrompt.scenarioImage?.storagePath
+      ) {
+        updateCourses((draft) => {
+          findAndUpdateItem(draft, statePath, (prompt) => {
+            prompt.scenarioImage = scenarioImage;
+          });
+        });
+      }
 
       if (quality && quality.score < 50) {
         showToast(
@@ -676,16 +801,14 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   // selected and the student hasn't re-opened it to change their choice.
   const isNavCollapsed = !!currentPrompt && !isNavExpanded;
 
-  // Choosing a question destroys the navigator subtree and pressing "Change"
-  // destroys the bar that replaced it. Both used to drop keyboard focus on the
-  // floor without a word; this hands it to whichever landmark is now on screen
-  // and returns the sentence saying so. It fires on the transition only — see
-  // the hook, which explains why the obvious steady-state version would take
-  // focus out of the editor mid-sentence.
-  const foldAnnouncement = useNavigatorFold(isNavCollapsed, {
-    collapsedId: SYLLABUS_NAV_BAR_ID,
-    expandedId: SYLLABUS_NAVIGATOR_ID,
-  });
+  // Every control in this region that destroys itself by being pressed hands
+  // focus on to whatever replaced it; see the hook for which three, and why the
+  // crumb count is a second trigger alongside the collapse seam. It also
+  // returns the sentence a screen reader needs on the collapse/expand edge —
+  // focus alone says nothing to a reader who cannot see the picker vanish or
+  // the breadcrumb appear.
+  const { navigatorRef, expandButtonRef, noteNavigatorFocused, foldAnnouncement } =
+    useNavigatorFocusHandoff(isNavCollapsed, crumbJumps);
 
   return (
     <>
@@ -766,121 +889,136 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
 
         {!isFocusMode && isNavCollapsed && currentPrompt && (
           <SyllabusNavBar
-            crumbs={[
-              {
-                // The year rides on the course crumb rather than taking a step
-                // of its own: it is which syllabus this course name means, not
-                // a level between the course and its topics. Named only when it
-                // is not the Year 12 default, so the common case stays quiet.
-                label:
-                  resolveSyllabusYear(currentCourse, statePath.syllabusYear) === 'year12'
-                    ? currentCourse?.name || 'Course'
-                    : `${currentCourse?.name || 'Course'} · ${yearShortLabel(
-                        resolveSyllabusYear(currentCourse, statePath.syllabusYear)
-                      )}`,
-                onClick: () =>
-                  handlePathChange({
-                    topicId: undefined,
-                    subTopicId: undefined,
-                    dotPointId: undefined,
-                    promptId: undefined,
-                  }),
-              },
-              {
-                label: currentTopic?.name || 'Topic',
-                onClick: () =>
-                  handlePathChange({
-                    subTopicId: undefined,
-                    dotPointId: undefined,
-                    promptId: undefined,
-                  }),
-              },
-              {
-                label: currentSubTopic?.name || 'Sub-Topic',
-                onClick: () => handlePathChange({ dotPointId: undefined, promptId: undefined }),
-              },
-              {
-                label: getDotPointLabel(currentDotPoint) || 'Dot Point',
-                onClick: () => handlePathChange({ promptId: undefined }),
-              },
-            ]}
+            crumbs={syllabusCrumbs}
             prompt={currentPrompt}
+            expandButtonRef={expandButtonRef}
             onExpand={() => setIsNavExpanded(true)}
             onShareAssignment={canCurateContent(user.role) ? handleShareAssignment : undefined}
           />
         )}
 
-        {!isFocusMode && !isNavCollapsed && (
-          <>
-            <div className="relative z-50">
-              <PromptSelector
-                courses={courses}
-                statePath={statePath}
-                onPathChange={handlePathChange}
-                onAddCourse={() => openModal('courseCreator')}
-                onRequestCourse={(prefill) => {
-                  // Carries the text they searched for, so the request form
-                  // opens on their own words rather than an empty field.
-                  setCourseRequestPrefill(prefill ?? '');
-                  openModal('courseRequest');
-                }}
-                onAddSubTopic={() => openModal('subTopicCreator')}
-                onGeneratePrompt={() => openModal('promptGenerator')}
-                onManualEntry={() => openModal('manualPrompt')}
-                onEditOutcomes={() => openModal('outcomesEditor')}
-                onOpenDataManager={() => openModal('dataManager')}
-                onRenameItem={requestRename}
-                onDeleteItem={requestDelete}
-                onUpdateFocusAreas={
-                  canCurateContent(user.role) ? handleUpdateFocusAreas : undefined
-                }
-                onAddTopicFromSyllabus={() => openModal('topicSyllabusImport')}
-                onAddTopicWithContent={(topicName, subTopics) => {
-                  if (!statePath.courseId) return;
-                  const newTopic = handleCreateTopicWithContent(
-                    statePath.courseId,
-                    topicName,
-                    subTopics,
-                    // The year the navigator is showing — resolved the same way
-                    // IT resolves, `allowEmpty` and all. Without that, a topic
-                    // created while standing in an empty Year 11 resolved to
-                    // Year 12 and appeared in the HSC list instead.
-                    activeSyllabusYear(
-                      currentCourse,
-                      statePath.syllabusYear,
-                      canCurateContent(user.role)
-                    )
-                  );
-                  setNewlyAddedIds((prev) => new Set(prev).add(newTopic.id));
-                  handlePathChange({
-                    topicId: newTopic.id,
-                    subTopicId: undefined,
-                    dotPointId: undefined,
-                    promptId: undefined,
-                  });
-                }}
-                onGenerateDotPoints={() => openModal('dotPointGenerator')}
-                onImportTopic={() => openModal('topicImport')}
-                onImportSyllabus={() => openModal('fullSyllabusImport')}
-                onShareAssignment={canCurateContent(user.role) ? handleShareAssignment : undefined}
-                newlyAddedIds={newlyAddedIds}
-                userRole={user.role}
-              />
-            </div>
+        {/* Same collapsible treatment as the command verb ribbon and the
+            workspace's live-feedback panels: `grid-rows-[1fr]`/`[0fr]` animates
+            to whatever the content actually needs, `inert` keeps the tree out
+            of the tab order while it's shut without costing an unmount, and
+            the navigator's own internal state (search, inline "new topic"
+            form, question filter) survives a collapse/reopen instead of
+            resetting on every remount. */}
+        {!isFocusMode && (
+          <div
+            inert={isNavCollapsed}
+            onFocusCapture={noteNavigatorFocused}
+            className={`grid transition-all duration-700 ease-in-out ${
+              isNavCollapsed ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'
+            }`}
+          >
+            {/* The clip only needs to bite on the Y axis — it exists purely to
+                make `grid-rows-[0fr]` collapse to zero height instead of just
+                overflowing out the bottom. The navigator's progress rail hangs
+                its step dots into the left padding gutter (and a little past
+                it, by design, to sit on the connecting line), which a plain
+                `overflow-hidden` here clipped clean in half: its box starts
+                flush with the padding edge those dots are meant to cross.
+                `overflow-x: visible` can't fix that paired with
+                `overflow-y: hidden` — the spec silently promotes it to `auto`,
+                which still clips at the box edge. Pushing the box edge out
+                with matched negative margin and padding is the standard
+                escape: the content's rendered position doesn't move, but
+                there's 6rem of slack on each side before anything is close to
+                the box boundary. */}
+            <div className="overflow-hidden -mx-24 px-24">
+              {/* `tabIndex={-1}` for the same reason the main landmark carries
+                  one: a programmatic focus target, never a tab stop.
 
-            {currentPrompt && (
-              <div className="-mt-2 flex justify-end">
-                <button
-                  onClick={() => setIsNavExpanded(false)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 light:bg-slate-100 text-[rgb(var(--color-text-secondary))] border border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-200 hover:text-[rgb(var(--color-text-primary))] transition-all text-xs font-bold"
-                  title="Collapse the navigator and focus on your response"
-                >
-                  <ChevronUp className="w-3.5 h-3.5" />
-                  Collapse to breadcrumb
-                </button>
+                  `aria-label` here too, alongside the one `PromptSelector`
+                  carries on its own inner `<nav>`: this outer div, not that
+                  nav, is what `navigatorRef` actually focuses (`PromptSelector`
+                  is 1500 lines and not a `forwardRef`, so the ref can only
+                  reach as far as its wrapper). Without a name of its own, focus
+                  landing here on expand would announce nothing — a `<div>`
+                  with `tabIndex` carries no implicit role a screen reader
+                  speaks by default. The nested pair of labels is a little
+                  duplicate, but a landmark announced twice is a smaller fault
+                  than a landmark announced never. */}
+              <div
+                ref={navigatorRef}
+                tabIndex={-1}
+                aria-label="Syllabus navigator"
+                className="relative z-50"
+              >
+                <PromptSelector
+                  courses={navigatorCourses}
+                  statePath={statePath}
+                  onPathChange={handlePathChange}
+                  onAddCourse={() => openModal('courseCreator')}
+                  onToggleCourseStatus={handleSetCourseStatus}
+                  onRequestCourse={(prefill) => {
+                    // Carries the text they searched for, so the request form
+                    // opens on their own words rather than an empty field.
+                    setCourseRequestPrefill(prefill ?? '');
+                    openModal('courseRequest');
+                  }}
+                  onAddSubTopic={() => openModal('subTopicCreator')}
+                  onGeneratePrompt={() => openModal('promptGenerator')}
+                  onManualEntry={() => openModal('manualPrompt')}
+                  onEditOutcomes={() => openModal('outcomesEditor')}
+                  onOpenDataManager={() => openModal('dataManager')}
+                  onRenameItem={requestRename}
+                  onDeleteItem={requestDelete}
+                  onUpdateFocusAreas={
+                    canCurateContent(user.role) ? handleUpdateFocusAreas : undefined
+                  }
+                  onAddTopicFromSyllabus={() => openModal('topicSyllabusImport')}
+                  onAddTopicWithContent={(topicName, subTopics) => {
+                    if (!statePath.courseId) return;
+                    const newTopic = handleCreateTopicWithContent(
+                      statePath.courseId,
+                      topicName,
+                      subTopics,
+                      // The year the navigator is showing — resolved the same way
+                      // IT resolves, `allowEmpty` and all. Without that, a topic
+                      // created while standing in an empty Year 11 resolved to
+                      // Year 12 and appeared in the HSC list instead.
+                      activeSyllabusYear(
+                        currentCourse,
+                        statePath.syllabusYear,
+                        canCurateContent(user.role)
+                      )
+                    );
+                    setNewlyAddedIds((prev) => new Set(prev).add(newTopic.id));
+                    handlePathChange({
+                      topicId: newTopic.id,
+                      subTopicId: undefined,
+                      dotPointId: undefined,
+                      promptId: undefined,
+                    });
+                  }}
+                  onGenerateDotPoints={() => openModal('dotPointGenerator')}
+                  onImportTopic={() => openModal('topicImport')}
+                  onImportSyllabus={() => openModal('fullSyllabusImport')}
+                  onShareAssignment={
+                    canCurateContent(user.role) ? handleShareAssignment : undefined
+                  }
+                  newlyAddedIds={newlyAddedIds}
+                  userRole={user.role}
+                  isLoading={!isReady}
+                />
               </div>
-            )}
-          </>
+
+              {currentPrompt && (
+                <div className="-mt-2 flex justify-end">
+                  <button
+                    onClick={() => setIsNavExpanded(false)}
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 light:bg-slate-100 text-[rgb(var(--color-text-secondary))] border border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-200 hover:text-[rgb(var(--color-text-primary))] transition-all text-xs font-bold"
+                    title="Collapse the navigator and focus on your response"
+                  >
+                    <ChevronUp className="w-3.5 h-3.5" />
+                    Collapse to breadcrumb
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
         )}
 
         {/* The verb reference, rendered from ONE site in both navigator states.
@@ -919,7 +1057,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
 
         {currentPrompt ? (
           <Workspace
-            courses={courses}
+            courses={navigatorCourses}
             statePath={statePath}
             currentSelection={currentSelection}
             userAnswer={userAnswer}
@@ -943,6 +1081,8 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
             writingMode={writingMode}
             onWritingModeChange={setWritingMode}
             showBreadcrumb={!isNavCollapsed}
+            crumbs={syllabusCrumbs}
+            showToast={showToast}
           />
         ) : (
           <div className="min-h-[50vh] flex flex-col items-center justify-center animate-fade-in">
@@ -956,7 +1096,11 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 Choose a course, topic and question in the navigator above — your writing space will
                 open here.
               </p>
-              {courses.length === 0 && (
+              {/* `isReady` gates it: until the remote course fetch resolves,
+                  `courses` is legitimately empty, and offering to create or
+                  import one tells a returning student their courses do not
+                  exist. */}
+              {isReady && courses.length === 0 && (
                 <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                   <button
                     onClick={() => openModal('manifestImport')}

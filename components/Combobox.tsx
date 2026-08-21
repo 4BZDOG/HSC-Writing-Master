@@ -1,4 +1,13 @@
-import React, { useState, useRef, useEffect, useId, useMemo, useDeferredValue } from 'react';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useLayoutEffect,
+  useId,
+  useMemo,
+  useDeferredValue,
+} from 'react';
+import { createPortal } from 'react-dom';
 import { getTierScaleConfig } from '../utils/renderUtils';
 import { PromptVerb } from '../types';
 import { Sparkles, ChevronDown, Search, X } from 'lucide-react';
@@ -162,6 +171,53 @@ const colorStyles: Record<
   },
 };
 
+/**
+ * One row in the open option list. Pulled out to its own component (instead
+ * of an inline literal inside the `.map()` below) purely so it can carry the
+ * local state that gates the "you are here" entrance animation — a bare
+ * conditional className would replay `animate-fade-in-up-sm` on every
+ * unrelated re-render while a row merely stays selected, not just the moment
+ * it becomes selected.
+ */
+const ComboboxOptionRow: React.FC<{
+  option: ComboboxOption;
+  index: number;
+  listboxId: string;
+  className: string;
+  isSelected: boolean;
+  onClick: () => void;
+  onMouseEnter: () => void;
+}> = ({ option, index, listboxId, className, isSelected, onClick, onMouseEnter }) => {
+  // Plays once — right as the row first renders selected (dropdown opening on
+  // the current value) or the moment a click/keyboard action lands here — and
+  // never again while it merely stays selected through an unrelated re-render.
+  const [justSelected, setJustSelected] = useState(false);
+  const wasSelected = useRef(false);
+  useEffect(() => {
+    if (isSelected && !wasSelected.current) {
+      setJustSelected(true);
+    }
+    wasSelected.current = isSelected;
+  }, [isSelected]);
+
+  return (
+    <li
+      id={`${listboxId}-opt-${index}`}
+      data-option-index={index}
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      className={`${className} ${isSelected && justSelected ? 'animate-fade-in-up-sm' : ''}`}
+      role="option"
+      aria-selected={isSelected}
+      aria-disabled={option.disabled || undefined}
+    >
+      <div className="flex items-center whitespace-normal w-full">
+        {option.renderLabel || option.label}
+      </div>
+    </li>
+  );
+};
+
 const Combobox: React.FC<ComboboxProps> = ({
   options,
   value,
@@ -178,8 +234,10 @@ const Combobox: React.FC<ComboboxProps> = ({
   const [query, setQuery] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
+  const [menuRect, setMenuRect] = useState({ top: 0, left: 0, width: 0 });
   const selectedOption = options.find((opt) => opt.id === value);
   const labelId = useId();
   const listboxId = useId();
@@ -246,13 +304,56 @@ const Combobox: React.FC<ComboboxProps> = ({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      // The list itself lives in a portal now (see the positioning effect
+      // below), so it is no longer a DOM descendant of `containerRef` — a
+      // click on an option would otherwise read as "outside" and close the
+      // list a beat before the option's own onClick ever ran.
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(target) &&
+        !dropdownRef.current?.contains(target)
+      ) {
         setIsOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  /**
+   * The list portals to `document.body` (below), so its position has to be
+   * computed in JS rather than left to `absolute` + a positioned ancestor.
+   *
+   * Why it portals at all: this control sits inside the navigator's
+   * collapse-animation wrapper in `App.tsx`, a `grid-rows-[0fr]/[1fr]` box
+   * whose child carries `overflow-hidden` so the collapse has something to
+   * clip. An `absolute` dropdown is out of flow, so it never contributed to
+   * that box's measured height — the box sized itself to the trigger alone,
+   * and `overflow-hidden` clipped the list at that boundary, with the next
+   * component in the page (the command verb ribbon) visible immediately
+   * below the cut. Portaling out from under that ancestor is the fix used
+   * throughout this codebase's own patterns (a `fixed`-position layer keyed
+   * to the trigger's own rect) rather than reworking the collapse animation
+   * to leave room for a popup its height calculation was never meant to see.
+   */
+  useLayoutEffect(() => {
+    if (!isOpen) return;
+    const updatePosition = () => {
+      const rect = buttonRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      setMenuRect({ top: rect.bottom + 8, left: rect.left, width: rect.width });
+    };
+    updatePosition();
+    // Capture phase so scrolling any ancestor — not just the window — keeps
+    // the list glued to the trigger instead of drifting off it.
+    window.addEventListener('scroll', updatePosition, true);
+    window.addEventListener('resize', updatePosition);
+    return () => {
+      window.removeEventListener('scroll', updatePosition, true);
+      window.removeEventListener('resize', updatePosition);
+    };
+  }, [isOpen]);
 
   // A stale query would silently hide options the next time this opens.
   useEffect(() => {
@@ -473,136 +574,140 @@ const Combobox: React.FC<ComboboxProps> = ({
         />
       </button>
 
-      {isOpen && (
-        <div
-          className={`absolute z-[100] mt-2 w-full rounded-xl overflow-hidden animate-fade-in border ${listStateStyles}`}
-        >
-          {/* Sits outside the scroll region so it stays put while the list
-            moves under it. */}
-          {isSearchable && (
-            <div className="relative border-b border-white/10 light:border-slate-200">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[rgb(var(--color-text-muted))] pointer-events-none" />
-              <input
-                ref={searchRef}
-                type="text"
-                role="combobox"
-                aria-expanded={isOpen}
-                aria-controls={listboxId}
-                aria-activedescendant={`${listboxId}-opt-${highlightedIndex}`}
-                aria-label={`Search ${options.length} options`}
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder={`Search ${options.length}…`}
-                className="w-full bg-transparent py-3 pl-10 pr-9 text-sm font-medium text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))] focus:outline-none"
-              />
-              {query && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setQuery('');
-                    searchRef.current?.focus();
-                  }}
-                  aria-label="Clear search"
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-md text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-slate-100 transition-colors"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              )}
-            </div>
-          )}
-          <ul
-            ref={listRef}
-            id={listboxId}
-            role="listbox"
-            aria-labelledby={label ? labelId : undefined}
-            className="max-h-72 py-1 overflow-auto custom-scrollbar"
+      {isOpen &&
+        createPortal(
+          <div
+            ref={dropdownRef}
+            style={{
+              position: 'fixed',
+              top: menuRect.top,
+              left: menuRect.left,
+              width: menuRect.width,
+            }}
+            className={`z-[100] rounded-xl overflow-hidden animate-fade-in border ${listStateStyles}`}
           >
-            {optionRuns.length > 0 ? (
-              optionRuns.map((run) => {
-                const rows = run.options.map(({ option, index }) => (
-                  <li
-                    key={option.id}
-                    id={`${listboxId}-opt-${index}`}
-                    data-option-index={index}
-                    onClick={() => {
-                      if (option.disabled) return;
-                      selectOption(option.id);
-                    }}
-                    onMouseEnter={() => setHighlightedIndex(index)}
-                    className={`${option.disabled ? 'cursor-not-allowed' : 'cursor-pointer'} select-none relative py-3 pr-9 transition-colors ${
-                      index === highlightedIndex
-                        ? `${getListItemClasses(option, true)}`
-                        : getListItemClasses(option, option.id === value)
-                    }`}
-                    role="option"
-                    aria-selected={option.id === value}
-                    aria-disabled={option.disabled || undefined}
-                  >
-                    <div className="flex items-center whitespace-normal w-full">
-                      {option.renderLabel || option.label}
-                    </div>
-                  </li>
-                ));
-
-                // No group means every other picker in the app: the rows go
-                // straight into the listbox exactly as they always have.
-                if (!run.group) {
-                  return (
-                    <React.Fragment key={`run-${run.options[0].index}`}>{rows}</React.Fragment>
-                  );
-                }
-
-                // A named run is a real group, not a caption. The heading was
-                // `role="presentation"`, which is to say it was removed from
-                // the accessibility tree — so the one thing the grouping buys
-                // ("six kinds of question" rather than twenty tinted cards)
-                // was the one thing a screen-reader user could not have. The
-                // name now lives on the group, where it is announced as the
-                // reader enters the run, and the visible heading is decoration
-                // of it rather than the only copy.
-                //
-                // The inner `<ul role="none">` is there for the HTML, not the
-                // ARIA: an `<li>` may not hold another `<li>` directly. Being
-                // presentational it collapses out of the accessibility tree,
-                // so the options are owned by the group, which is owned by the
-                // listbox — all three allowed by ARIA 1.2.
-                return (
-                  <li key={`group-${run.group}`} role="group" aria-label={run.group}>
-                    <div
-                      aria-hidden="true"
-                      className="sticky top-0 z-10 px-4 pt-2.5 pb-1.5 text-[9px] font-black uppercase tracking-[0.2em] text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white"
-                    >
-                      {run.group}
-                    </div>
-                    <ul role="none">{rows}</ul>
-                  </li>
-                );
-              })
-            ) : (
-              <li className="py-4 px-4 text-center">
-                <span className="block text-[rgb(var(--color-text-muted))] italic text-xs">
-                  {deferredQuery.trim()
-                    ? `Nothing matches “${deferredQuery.trim()}”.`
-                    : 'No options available.'}
-                </span>
-                {emptyAction && (
+            {/* Sits outside the scroll region so it stays put while the list
+            moves under it. */}
+            {isSearchable && (
+              <div className="relative border-b border-white/10 light:border-slate-200">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[rgb(var(--color-text-muted))] pointer-events-none" />
+                <input
+                  ref={searchRef}
+                  type="text"
+                  role="combobox"
+                  aria-expanded={isOpen}
+                  aria-controls={listboxId}
+                  aria-activedescendant={`${listboxId}-opt-${highlightedIndex}`}
+                  aria-label={`Search ${options.length} options`}
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder={`Search ${options.length}…`}
+                  className="w-full bg-transparent py-3 pl-10 pr-9 text-sm font-medium text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))] focus:outline-none"
+                />
+                {query && (
                   <button
                     type="button"
                     onClick={() => {
-                      emptyAction.onAction(deferredQuery.trim());
-                      setIsOpen(false);
+                      setQuery('');
+                      searchRef.current?.focus();
                     }}
-                    className="mt-2 text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline not-italic"
+                    aria-label="Clear search"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-md text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-slate-100 transition-colors"
                   >
-                    {emptyAction.label}
+                    <X className="w-3.5 h-3.5" />
                   </button>
                 )}
-              </li>
+              </div>
             )}
-          </ul>
-        </div>
-      )}
+            <ul
+              ref={listRef}
+              id={listboxId}
+              role="listbox"
+              aria-labelledby={label ? labelId : undefined}
+              className="max-h-72 py-1 overflow-auto custom-scrollbar"
+            >
+              {optionRuns.length > 0 ? (
+                optionRuns.map((run) => {
+                  const rows = run.options.map(({ option, index }) => (
+                    <ComboboxOptionRow
+                      key={option.id}
+                      option={option}
+                      index={index}
+                      listboxId={listboxId}
+                      isSelected={option.id === value}
+                      className={`${option.disabled ? 'cursor-not-allowed' : 'cursor-pointer'} select-none relative py-3 pr-9 transition-[color,background-color,border-color,transform] active:scale-[0.98] ${
+                        index === highlightedIndex
+                          ? `${getListItemClasses(option, true)}`
+                          : getListItemClasses(option, option.id === value)
+                      }`}
+                      onClick={() => {
+                        if (option.disabled) return;
+                        selectOption(option.id);
+                      }}
+                      onMouseEnter={() => setHighlightedIndex(index)}
+                    />
+                  ));
+
+                  // No group means every other picker in the app: the rows go
+                  // straight into the listbox exactly as they always have.
+                  if (!run.group) {
+                    return (
+                      <React.Fragment key={`run-${run.options[0].index}`}>{rows}</React.Fragment>
+                    );
+                  }
+
+                  // A named run is a real group, not a caption. The heading was
+                  // `role="presentation"`, which is to say it was removed from
+                  // the accessibility tree — so the one thing the grouping buys
+                  // ("six kinds of question" rather than twenty tinted cards)
+                  // was the one thing a screen-reader user could not have. The
+                  // name now lives on the group, where it is announced as the
+                  // reader enters the run, and the visible heading is decoration
+                  // of it rather than the only copy.
+                  //
+                  // The inner `<ul role="none">` is there for the HTML, not the
+                  // ARIA: an `<li>` may not hold another `<li>` directly. Being
+                  // presentational it collapses out of the accessibility tree,
+                  // so the options are owned by the group, which is owned by
+                  // the listbox — all three allowed by ARIA 1.2.
+                  return (
+                    <li key={`group-${run.group}`} role="group" aria-label={run.group}>
+                      <div
+                        aria-hidden="true"
+                        className="sticky top-0 z-10 px-4 pt-2.5 pb-1.5 text-[9px] font-black uppercase tracking-[0.2em] text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white"
+                      >
+                        {run.group}
+                      </div>
+                      <ul role="none">{rows}</ul>
+                    </li>
+                  );
+                })
+              ) : (
+                <li className="py-4 px-4 text-center">
+                  <span className="block text-[rgb(var(--color-text-muted))] italic text-xs">
+                    {deferredQuery.trim()
+                      ? `Nothing matches “${deferredQuery.trim()}”.`
+                      : 'No options available.'}
+                  </span>
+                  {emptyAction && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        emptyAction.onAction(deferredQuery.trim());
+                        setIsOpen(false);
+                      }}
+                      className="mt-2 text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline not-italic"
+                    >
+                      {emptyAction.label}
+                    </button>
+                  )}
+                </li>
+              )}
+            </ul>
+          </div>,
+          document.body
+        )}
     </div>
   );
 };

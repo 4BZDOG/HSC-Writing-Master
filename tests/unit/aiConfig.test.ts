@@ -27,7 +27,7 @@ describe('aiConfig — provider/model switching', () => {
   it('defaults both roles to Gemini', () => {
     expect(resolveTarget('reasoning')).toEqual({
       provider: 'gemini',
-      model: 'gemini-3-pro-preview',
+      model: 'gemini-3.1-pro-preview',
     });
     expect(resolveTarget('basic')).toEqual({ provider: 'gemini', model: 'gemini-3-flash-preview' });
   });
@@ -44,13 +44,13 @@ describe('aiConfig — provider/model switching', () => {
 
   it('ignores an unknown model id', () => {
     setSelectedModel('reasoning', 'does-not-exist');
-    expect(resolveTarget('reasoning').model).toBe('gemini-3-pro-preview');
+    expect(resolveTarget('reasoning').model).toBe('gemini-3.1-pro-preview');
   });
 
   it('ignores a model that does not serve the requested role', () => {
     // claude-haiku is a basic-only model; it must not be selectable for reasoning.
     setSelectedModel('reasoning', 'claude-haiku');
-    expect(resolveTarget('reasoning').model).toBe('gemini-3-pro-preview');
+    expect(resolveTarget('reasoning').model).toBe('gemini-3.1-pro-preview');
   });
 
   it('only offers role-appropriate models', () => {
@@ -84,7 +84,7 @@ describe('aiConfig — batch model override (Content Audit Studio)', () => {
     setBatchModelOverride(null);
     expect(resolveTarget('reasoning')).toEqual({
       provider: 'gemini',
-      model: 'gemini-3-pro-preview',
+      model: 'gemini-3.1-pro-preview',
     });
   });
 

@@ -78,6 +78,16 @@ const QuestionFilterBar: React.FC<QuestionFilterBarProps> = ({
             className={`w-3.5 h-3.5 ml-auto flex-shrink-0 text-[rgb(var(--color-text-muted))] transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
           />
         </button>
+        {/* The same count again, as a live region, because the visible one is
+            inside a button: `role="button"` takes presentational children, so a
+            `role="status"` on that span would be dropped from the accessibility
+            tree and never announced. Out here, dragging a slider says what it
+            did instead of changing the list in silence. */}
+        <span role="status" className="sr-only">
+          {active
+            ? `${shown} of ${bounds.total} questions shown`
+            : `All ${bounds.total} questions shown`}
+        </span>
         {active && (
           <button
             type="button"

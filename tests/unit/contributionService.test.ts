@@ -73,6 +73,49 @@ describe('promptToRow (app Prompt -> DB insert row)', () => {
     // No quality screen passed → null (unscored).
     expect(row.quality_score).toBeNull();
     expect(row.quality_notes).toBeNull();
+    // No scenarioImage → all three columns default to null.
+    expect(row.scenario_image_path).toBeNull();
+    expect(row.scenario_image_alt).toBeNull();
+    expect(row.scenario_image_updated_at).toBeNull();
+  });
+
+  it('maps scenarioImage.storagePath/alt/updatedAt into the three image columns', () => {
+    const prompt: Prompt = {
+      id: 'p',
+      question: 'Q',
+      totalMarks: 0,
+      verb: 'IDENTIFY',
+      scenarioImage: {
+        id: 'p',
+        alt: 'A network diagram',
+        updatedAt: Date.parse('2026-01-15T10:00:00.000Z'),
+        storagePath: 'p/p',
+      },
+    };
+
+    const row = promptToRow(prompt, 'd', 'u', 'private');
+
+    expect(row.scenario_image_path).toBe('p/p');
+    expect(row.scenario_image_alt).toBe('A network diagram');
+    expect(row.scenario_image_updated_at).toBe('2026-01-15T10:00:00.000Z');
+  });
+
+  it('defaults scenario_image_alt to null when the ref has no alt text', () => {
+    const prompt: Prompt = {
+      id: 'p',
+      question: 'Q',
+      totalMarks: 0,
+      verb: 'IDENTIFY',
+      scenarioImage: {
+        id: 'p',
+        updatedAt: Date.parse('2026-01-15T10:00:00.000Z'),
+        storagePath: 'p/p',
+      },
+    };
+
+    const row = promptToRow(prompt, 'd', 'u', 'private');
+
+    expect(row.scenario_image_alt).toBeNull();
   });
 });
 

@@ -418,6 +418,35 @@ alter table public.prompts        add column if not exists quality_notes text;
 alter table public.sample_answers add column if not exists quality_score int;
 alter table public.sample_answers add column if not exists quality_notes text;
 
+-- Scenario image (carousel) support — Storage object reference, not inline
+-- bytes. Additive/optional; existing rows are unaffected. The IndexedDB path
+-- (utils/scenarioImageStorage.ts) is the local cache these columns and the
+-- bucket below sync against.
+alter table public.prompts add column if not exists scenario_image_path text;
+alter table public.prompts add column if not exists scenario_image_alt text;
+alter table public.prompts add column if not exists scenario_image_updated_at timestamptz;
+
+insert into storage.buckets (id, name, public)
+values ('scenario-images', 'scenario-images', false)
+on conflict (id) do nothing;
+
+-- TODO(security-review): Storage RLS policies for the `scenario-images`
+-- bucket on `storage.objects` — mirror the read/write shape of the
+-- `prompts_read`/`prompts_insert` policies (status-gated: visible if
+-- `approved`, writable by `created_by`/reviewers), but translated into
+-- `storage.objects` predicates keyed off the object path
+-- (`${promptId}/${imageId}`) rather than a joined `content_status` column.
+--
+-- This is not preventative groundwork: `services/scenarioImageSyncService.ts`
+-- has uploaded, downloaded, and deleted real objects in this bucket on the
+-- live prompt-submission path since #162, and #163 fixed a real orphaned-
+-- object leak on removal — both against a bucket with no object-level RLS
+-- of its own. It reads and writes today on whatever the anon/authenticated
+-- key's default storage.objects grant allows, which is exactly the gap a
+-- security reviewer needs to see, not a future contingency. Not authored
+-- here deliberately — it still needs that human review — but do not read
+-- the absence of policies below as the absence of traffic.
+
 -- Structural moderation (topics/sub_topics/dot_points): bring the syllabus
 -- STRUCTURE into the same contribute→moderate model as prompts, so users can
 -- push locally-authored structure to the shared library for review. Added

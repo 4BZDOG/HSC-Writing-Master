@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { Prompt, UserRole, CourseOutcome } from '../types';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
@@ -8,6 +8,7 @@ import { formatMarkingCriteria } from '../utils/dataManagerUtils';
 import { generateRubricForPrompt } from '../services/geminiService';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
 import { PlusLockChip } from './UpgradeModal';
+import MathSymbolToolbar from './MathSymbolToolbar';
 
 interface MarkingCriteriaAccordionProps {
   prompt: Prompt;
@@ -38,6 +39,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
   embedded = false,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
+  const criteriaTextareaRef = useRef<HTMLTextAreaElement>(null);
   const [editText, setEditText] = useState(markingCriteria);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generateError, setGenerateError] = useState<string | null>(null);
@@ -301,13 +303,21 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
           </div>
         )}
         {isEditing ? (
-          <textarea
-            value={editText}
-            onChange={(e) => setEditText(e.target.value)}
-            rows={8}
-            className="w-full bg-white dark:bg-[rgb(var(--color-bg-surface-inset))] border border-slate-200 dark:border-white/10 rounded-xl p-4 text-xs font-mono leading-relaxed resize-y text-slate-800 dark:text-slate-200 outline-none focus:border-indigo-500 transition-colors"
-            placeholder="e.g. 5 marks: Analyses effectively..."
-          />
+          <div>
+            <MathSymbolToolbar
+              textareaRef={criteriaTextareaRef}
+              value={editText}
+              onChange={setEditText}
+            />
+            <textarea
+              ref={criteriaTextareaRef}
+              value={editText}
+              onChange={(e) => setEditText(e.target.value)}
+              rows={8}
+              className="w-full bg-white dark:bg-[rgb(var(--color-bg-surface-inset))] border border-slate-200 dark:border-white/10 rounded-xl p-4 text-xs font-mono leading-relaxed resize-y text-slate-800 dark:text-slate-200 outline-none focus:border-indigo-500 transition-colors"
+              placeholder="e.g. 5 marks: Analyses effectively..."
+            />
+          </div>
         ) : (
           <div className="space-y-2">
             {parsedCriteria.length > 0 ? (

@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useFocusTrap } from '../hooks/useFocusTrap';
-import { CourseOutcome, Prompt, PromptVerb } from '../types';
+import { CourseOutcome, Prompt, PromptVerb, ScenarioImageRef } from '../types';
 import { refineManualPrompt } from '../services/geminiService';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
 import { getTierBandConfig, getTierScaleConfig, renderFormattedText } from '../utils/renderUtils';
@@ -29,14 +29,18 @@ import {
   Check,
   Tag,
   ListChecks,
+  ImagePlus,
 } from 'lucide-react';
 import LoadingIndicator from './LoadingIndicator';
+import MathSymbolToolbar from './MathSymbolToolbar';
 import AiBusyOverlay from './AiBusyOverlay';
+import ScenarioImageUploader from './ScenarioImageUploader';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useDiscardGuard } from '../hooks/useDiscardGuard';
 import DiscardConfirmBar from './DiscardConfirmBar';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { getPastHscLabel } from '../utils/pastHscUtils';
+import { deleteScenarioImage } from '../utils/scenarioImageStorage';
 
 interface ManualPromptModalProps {
   isOpen: boolean;
@@ -50,6 +54,7 @@ interface ManualPromptModalProps {
    *  content rather than merely near it. */
   dotPoint?: string;
   subTopicName?: string;
+  showToast?: (message: string, type: 'success' | 'error' | 'info') => void;
 }
 
 const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
@@ -144,6 +149,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
   outcomes,
   dotPoint,
   subTopicName,
+  showToast,
 }) => {
   const [step, setStep] = useState<'input' | 'preview'>('input');
   const [draftQuestion, setDraftQuestion] = useState('');
@@ -167,6 +173,10 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
   const [editedQuestion, setEditedQuestion] = useState('');
   const [editedScenario, setEditedScenario] = useState('');
   const [editedCriteria, setEditedCriteria] = useState('');
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const previewQuestionTextareaRef = useRef<HTMLTextAreaElement>(null);
+  const previewScenarioTextareaRef = useRef<HTMLTextAreaElement>(null);
+  const previewCriteriaTextareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -188,10 +198,17 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
     setStep('input');
     setResult(null);
     setError(null);
+    setIsUploadingImage(false);
   };
 
-  const handleClose = () => {
+  const handleClose = (saved = false) => {
     if (isRefining) return;
+    if (!saved && result?.scenarioImage) {
+      // Committed to IDB the moment it was pasted (ScenarioImageUploader is
+      // immediate-commit) — discarding the draft must not leave it behind
+      // as an orphan keyed on an id no prompt will ever have.
+      void deleteScenarioImage(result.id);
+    }
     resetAll();
     onClose();
   };
@@ -239,10 +256,15 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
         marks,
         { verb: pinnedVerb, includeScenario, pinnedOutcomes, dotPoint, subTopicName }
       );
+      // Re-refining mints a fresh id for the new draft — any image already
+      // committed under the *previous* result's id would otherwise become an
+      // orphan IDB row keyed on an id no prompt will ever have.
+      if (result?.scenarioImage) void deleteScenarioImage(result.id);
       setResult(refinedPrompt);
       setEditedQuestion(refinedPrompt.question);
       setEditedScenario(refinedPrompt.scenario || '');
       setEditedCriteria(refinedPrompt.markingCriteria || '');
+      setIsUploadingImage(false);
       setStep('preview');
     } catch (err) {
       console.error('[ManualPromptModal] Refinement failed:', err);
@@ -265,8 +287,11 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
       hscQuestionNumber:
         isPastHSC && hscQuestionNumber.trim() ? hscQuestionNumber.trim() : undefined,
     });
-    handleClose();
+    handleClose(true);
   };
+
+  const handleScenarioImageChange = (ref: ScenarioImageRef | undefined) =>
+    setResult((prev) => (prev ? { ...prev, scenarioImage: ref } : prev));
 
   // Preview which verb tier the AI will target for this mark value — the
   // same heuristic (getCommandTermsForMarks) the generators and audit studio
@@ -798,8 +823,14 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                   >
                     Polished Question · edit before saving
                   </label>
+                  <MathSymbolToolbar
+                    textareaRef={previewQuestionTextareaRef}
+                    value={editedQuestion}
+                    onChange={setEditedQuestion}
+                  />
                   <textarea
                     id="manual-preview-question"
+                    ref={previewQuestionTextareaRef}
                     value={editedQuestion}
                     onChange={(e) => setEditedQuestion(e.target.value)}
                     rows={3}
@@ -838,20 +869,55 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label
-                      htmlFor="manual-preview-scenario"
-                      className="text-[10px] font-black text-slate-500 uppercase tracking-widest block"
-                    >
-                      Scenario
-                    </label>
-                    {includeScenario ? (
-                      <textarea
-                        id="manual-preview-scenario"
-                        value={editedScenario}
-                        onChange={(e) => setEditedScenario(e.target.value)}
-                        rows={6}
-                        className="w-full p-5 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-sm text-slate-300 light:text-slate-700 leading-relaxed font-serif italic focus:outline-none focus:ring-2 focus:ring-indigo-500/40 resize-none"
+                    <div className="flex items-center justify-between">
+                      <label
+                        htmlFor="manual-preview-scenario"
+                        className="text-[10px] font-black text-slate-500 uppercase tracking-widest block"
+                      >
+                        Scenario
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => setIsUploadingImage((v) => !v)}
+                        aria-expanded={isUploadingImage}
+                        className={`p-1.5 rounded-lg transition-colors ${
+                          isUploadingImage
+                            ? 'text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/10'
+                            : 'text-slate-400 light:text-slate-500 hover:text-white light:hover:text-indigo-600 hover:bg-white/10 light:hover:bg-slate-100'
+                        }`}
+                        title={
+                          result.scenarioImage ? 'Manage Scenario Image' : 'Add Scenario Image'
+                        }
+                      >
+                        <ImagePlus className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+
+                    {isUploadingImage && (
+                      <ScenarioImageUploader
+                        promptId={result.id}
+                        existingImage={result.scenarioImage}
+                        onImageChange={handleScenarioImageChange}
+                        showToast={showToast}
                       />
+                    )}
+
+                    {includeScenario ? (
+                      <>
+                        <MathSymbolToolbar
+                          textareaRef={previewScenarioTextareaRef}
+                          value={editedScenario}
+                          onChange={setEditedScenario}
+                        />
+                        <textarea
+                          id="manual-preview-scenario"
+                          ref={previewScenarioTextareaRef}
+                          value={editedScenario}
+                          onChange={(e) => setEditedScenario(e.target.value)}
+                          rows={6}
+                          className="w-full p-5 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-sm text-slate-300 light:text-slate-700 leading-relaxed font-serif italic focus:outline-none focus:ring-2 focus:ring-indigo-500/40 resize-none"
+                        />
+                      </>
                     ) : (
                       <div className="p-5 rounded-2xl border border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-xs text-slate-500 italic font-medium">
                         No scenario — this is a direct question.
@@ -865,8 +931,14 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     >
                       Marking Criteria
                     </label>
+                    <MathSymbolToolbar
+                      textareaRef={previewCriteriaTextareaRef}
+                      value={editedCriteria}
+                      onChange={setEditedCriteria}
+                    />
                     <textarea
                       id="manual-preview-criteria"
+                      ref={previewCriteriaTextareaRef}
                       value={editedCriteria}
                       onChange={(e) => setEditedCriteria(e.target.value)}
                       rows={6}

@@ -24,7 +24,17 @@ import {
 // syllabuses under one course name. Additive and optional in the same way:
 // absence means Year 12, which is what every topic written before this is, so
 // again there is nothing to migrate.
-export const DATA_VERSION = '2.6.0';
+// 2.7.0: `Prompt.scenarioImage` — a lightweight reference (id/alt/updatedAt/
+// storagePath) to an image stored in its own `scenario_images_store` IDB
+// object store (see DB_VERSION 4 below), not inline on the Prompt itself.
+// Additive and optional in the same way: absence means "no image", which is
+// what every prompt written before this meant, so there is nothing to
+// migrate here either.
+// 2.8.0: `Course.status` — an admin publication gate ('draft' | 'published').
+// Additive and optional in the same way: absence means "published", which is
+// what every course written before this meant, so there is nothing to
+// migrate here either.
+export const DATA_VERSION = '2.8.0';
 
 export const STORAGE_KEYS = {
   COURSES: 'hsc-ai-evaluator-courses', // Legacy key for migration check
@@ -43,11 +53,12 @@ export type StorageStatus = 'IndexedDB' | 'LocalStorage' | 'Supabase' | 'Error' 
 // --- IndexedDB Configuration ---
 
 const DB_NAME = 'hsc-ai-evaluator-db';
-const DB_VERSION = 3; // Incremented for User Store
+const DB_VERSION = 4; // Incremented for scenario_images_store
 const STORE_MAIN = 'main_store';
 const STORE_BACKUPS = 'backups_store';
 const STORE_LIBRARY = 'library_store';
 const STORE_USERS = 'users_store';
+export const STORE_SCENARIO_IMAGES = 'scenario_images_store';
 const KEY_COURSES = 'courses_data';
 
 interface AppDB extends DBSchema {
@@ -71,11 +82,15 @@ interface AppDB extends DBSchema {
     key: string;
     value: User;
   };
+  [STORE_SCENARIO_IMAGES]: {
+    key: string; // promptId
+    value: { promptId: string; dataUrl: string; alt?: string; updatedAt: number };
+  };
 }
 
-let _dbPromise: Promise<IDBPDatabase<AppDB>>;
+let _dbPromise: Promise<IDBPDatabase<AppDB>> | undefined;
 
-const getDB = () => {
+export const getDB = () => {
   if (!_dbPromise) {
     _dbPromise = openDB<AppDB>(DB_NAME, DB_VERSION, {
       upgrade(db, _oldVersion, _newVersion, _transaction) {
@@ -91,6 +106,33 @@ const getDB = () => {
         if (!db.objectStoreNames.contains(STORE_USERS)) {
           db.createObjectStore(STORE_USERS, { keyPath: 'username' });
         }
+        if (!db.objectStoreNames.contains(STORE_SCENARIO_IMAGES)) {
+          db.createObjectStore(STORE_SCENARIO_IMAGES);
+        }
+      },
+      // Without these three handlers, a version bump (like STORE_SCENARIO_IMAGES's
+      // 3→4) silently hangs forever — no error, nothing in the console — for
+      // any returning user who still has an older tab/window of this site open
+      // elsewhere. IndexedDB's upgrade transaction just waits for that older
+      // connection to close, and does so with zero signal by default.
+      blocked(currentVersion, blockedVersion) {
+        console.warn(
+          `[IndexedDB] Upgrade from v${currentVersion} to v${blockedVersion} is blocked by another open tab of this app. Close other tabs/windows of this site and reload.`
+        );
+      },
+      blocking() {
+        // This (already-open, older) connection is itself blocking a NEWER
+        // version trying to open elsewhere — e.g. this tab is running a
+        // stale build in the background after a deploy, and another tab just
+        // loaded the new one. Close it so the other tab's upgrade can
+        // proceed instead of hanging.
+        void _dbPromise?.then((db) => db.close());
+      },
+      terminated() {
+        // The browser force-closed the connection (e.g. the user cleared
+        // site data mid-session). Drop the cached promise so the next
+        // getDB() call opens a fresh connection instead of reusing a dead one.
+        _dbPromise = undefined;
       },
     });
   }

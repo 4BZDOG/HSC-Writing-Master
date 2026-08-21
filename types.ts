@@ -92,6 +92,19 @@ export interface SampleAnswer {
   contentFlag?: ContentFlag;
 }
 
+export interface ScenarioImageRef {
+  /** Equal to the owning Prompt's id — one image per scenario, so the prompt
+   *  id doubles as the lookup key into the scenario-images IDB store and the
+   *  Supabase Storage object path. */
+  id: string;
+  alt?: string;
+  /** Epoch ms — lets a cached carousel image know it's stale. */
+  updatedAt: number;
+  /** Present only once synced to Supabase Storage (bucket `scenario-images`,
+   *  object path `${promptId}/${id}`). Absent in pure-IDB/offline mode. */
+  storagePath?: string;
+}
+
 export interface Prompt {
   id: string;
   question: string;
@@ -99,6 +112,7 @@ export interface Prompt {
   verb: PromptVerb;
   highlightedQuestion?: string;
   scenario?: string;
+  scenarioImage?: ScenarioImageRef;
   linkedOutcomes?: string[];
   estimatedTime?: string;
   relatedTopics?: string[];
@@ -166,6 +180,17 @@ export interface Course {
   id: string;
   name: string;
   subject?: string;
+  /**
+   * Admin publication gate. Absent (or 'published') means visible to everyone
+   * — the same "absence means what it always meant" rule as every other
+   * additive field (see Topic.year, DotPoint.focusAreas). 'draft' hides the
+   * course from anyone who is not canCreateCurriculum (admin), so new/seeded
+   * content can be built and reviewed before students or teachers see it
+   * exists. Maps to the existing Supabase `courses.status` column in remote
+   * mode ('approved' -> published, anything else -> draft) — see
+   * services/curriculumService.ts.
+   */
+  status?: 'draft' | 'published';
   outcomes: CourseOutcome[];
   topics: Topic[];
 }
@@ -182,6 +207,24 @@ export interface StatePath {
   dotPointId?: string;
   promptId?: string;
   selectedSubItems?: string[];
+}
+
+/**
+ * One level of the Course → Topic → Sub-Topic → Dot Point path, as the
+ * breadcrumb renders it. Shared so the path is built once, in `App.tsx`, and
+ * consumed by both the collapsed navigator bar and the workspace breadcrumb —
+ * they used to construct it separately and drifted apart.
+ */
+export interface SyllabusCrumb {
+  label: string;
+  /**
+   * A qualifier on the label that is not part of its name — the syllabus year
+   * on the course crumb. Rendered as a chip, kept OUT of `label` so
+   * `crumbs.map((c) => c.label)` still yields the plain names the PDF export
+   * and the AI hierarchy context consume.
+   */
+  badge?: string;
+  onClick?: () => void;
 }
 
 export interface EvaluationCriterion {

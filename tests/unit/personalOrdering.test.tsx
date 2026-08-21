@@ -159,6 +159,7 @@ const props = {
   statePath,
   onPathChange: noop,
   onAddCourse: noop,
+  onToggleCourseStatus: noop,
   onAddSubTopic: noop,
   onGeneratePrompt: noop,
   onManualEntry: noop,

@@ -4,6 +4,8 @@ import { render, screen, cleanup } from '@testing-library/react';
 import CommandVerbHierarchy from '../../components/CommandVerbHierarchy';
 import { PromptVerb } from '../../types';
 import * as verbRibbonChrome from '../../utils/verbRibbonChrome';
+import { BAND_HEX } from '../../utils/renderUtils';
+import tailwindConfig from '../../tailwind.config.js';
 import {
   RIBBON_DETAIL_CARD,
   RIBBON_DETAIL_TERM,
@@ -11,6 +13,7 @@ import {
   RIBBON_HEADER_BAR,
   RIBBON_HEADER_TILE,
   RIBBON_ROOT,
+  RIBBON_SPECTRUM_BOUNDARY,
   RIBBON_STAT_TRAY,
   RIBBON_STAT_VALUE,
   RIBBON_STRIP,
@@ -21,6 +24,8 @@ import {
   RIBBON_TIER_HEADER,
   RIBBON_TIER_SUBTITLE_IDLE,
   RIBBON_TIER_UNDERLINE,
+  RIBBON_SPECTRUM_SCALE_RAIL,
+  RIBBON_SPECTRUM_SCALE_SPAN,
   RIBBON_TIMELINE_STEP_LABEL,
   RIBBON_TIMELINE_STEP_LABEL_IDLE,
   RIBBON_TIMELINE_THRESHOLD_CHIP,
@@ -300,6 +305,27 @@ describe('nothing in the ribbon is dimmed below the floor', () => {
     expect(RIBBON_TIMELINE_THRESHOLD_CHIP).not.toMatch(/(^|\s)text-slate-400/);
   });
 
+  // The rail is a new block of text on the page background, and the cheap way
+  // to make new text stop failing a contrast audit is to `aria-hidden` it:
+  // `tests/e2e/support/contrast.ts` skips every node inside an
+  // `[aria-hidden="true"]` subtree. That blind spot is exactly what let three
+  // contrast defects ship in this component, so the rail is pinned as visible
+  // to the audit — and as undimmed, since the other half of every one of those
+  // three defects was an `opacity-` laid over a colour that was fine without
+  // it.
+  it('keeps the scale rail inside the contrast audit', () => {
+    expect(RIBBON_SPECTRUM_SCALE_RAIL).not.toContain('opacity-');
+    expect(RIBBON_SPECTRUM_SCALE_SPAN).not.toContain('opacity-');
+    expect(RIBBON_SPECTRUM_SCALE_SPAN).toContain('text-slate-600');
+    expect(RIBBON_SPECTRUM_SCALE_SPAN).toContain('dark:text-slate-400');
+
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+    const rail = container.querySelector(`[class="${RIBBON_SPECTRUM_SCALE_RAIL}"]`) as HTMLElement;
+    expect(rail).toBeTruthy();
+    expect(rail.getAttribute('aria-hidden')).toBeNull();
+    expect(rail.closest('[aria-hidden="true"]')).toBeNull();
+  });
+
   // 2.97:1 on tier 6 and worse below it. The tier `text` tokens are already the
   // darkest step `getBandConfig` offers, so the opacity was the whole defect.
   it('states each card’s band ceiling without dimming it', () => {
@@ -371,5 +397,181 @@ describe('the tier strip says what it is and where it ends', () => {
     render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
     const strip = screen.getByRole('group', { name: /tier ladder/i });
     expect(strip.getAttribute('tabindex')).toBeNull();
+  });
+});
+
+/**
+ * The cognitive spectrum, and the four things about the old bar that were not
+ * design decisions but arithmetic.
+ *
+ * The fill ran to `tier / 6` while the dots were laid out by `justify-between`
+ * — so the two halves of the same diagram were on different scales, and below
+ * `sm`, where five of the six labels are `hidden`, the dots moved depending on
+ * which tier was current. The four "measurement ticks" sat at 16/38.7/61.3/84%
+ * and marked none of the five boundaries. The fill was one tier's own gradient
+ * stretched across the lit portion, so the bar was monochrome. And the current
+ * dot carried `animate-ping`, which is `1s infinite`, on a strip that is
+ * mounted for the whole session.
+ *
+ * All four are decidable from the DOM, which is why they are pinned here rather
+ * than left to a screenshot this project has no baseline for.
+ */
+describe('the cognitive spectrum lights one geometry from one palette', () => {
+  /** The two gradient layers, found the way they are drawn: the only inline
+   *  `linear-gradient` in the component. `MeshOverlay`'s inline background is a
+   *  `url(...)`, so it does not answer here. */
+  const spectrumLayers = (container: HTMLElement): HTMLElement[] =>
+    Array.from(container.querySelectorAll('div')).filter((el) =>
+      el.style.backgroundImage.startsWith('linear-gradient')
+    );
+
+  const dormantLayer = (container: HTMLElement): HTMLElement =>
+    spectrumLayers(container).filter((el) => !el.style.clipPath)[0];
+
+  const litLayer = (container: HTMLElement): HTMLElement =>
+    spectrumLayers(container).filter((el) => el.style.clipPath)[0];
+
+  // The drift guard. `components/CognitiveSpectrum.tsx` — deleted with this
+  // redesign — held a hard-coded fourth copy of these six values in a `switch`,
+  // which is the class of mistake `bandColors.test.ts` exists to prevent. The
+  // spectrum has to be readable as "the band palette, laid end to end".
+  it('paints the spectrum from BAND_HEX rather than from literals', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+    const wash = dormantLayer(container).style.backgroundImage;
+
+    let cursor = -1;
+    for (const tier of [1, 2, 3, 4, 5, 6]) {
+      const at = wash.indexOf(BAND_HEX[tier], cursor + 1);
+      expect(
+        at,
+        `BAND_HEX[${tier}] (${BAND_HEX[tier]}) is missing or out of tier order`
+      ).toBeGreaterThan(cursor);
+      cursor = at;
+    }
+  });
+
+  it('lights the spectrum to the tier’s share of six', () => {
+    const { container: first } = render(
+      <CommandVerbHierarchy currentVerb={'IDENTIFY' as PromptVerb} />
+    );
+    // Tier 1: one sixth lit, five sixths clipped away from the right.
+    expect(litLayer(first).style.clipPath).toBe('inset(0 83.333% 0 0)');
+
+    cleanup();
+    const { container: last } = render(
+      <CommandVerbHierarchy currentVerb={'EVALUATE' as PromptVerb} />
+    );
+    expect(litLayer(last).style.clipPath).toBe('inset(0 0% 0 0)');
+  });
+
+  // `width: 50%` on a gradient element does not reveal half a gradient — it
+  // rescales the whole gradient into half the width, so at tier 3 all six
+  // colours are crushed into the lit portion and every colour moves as the tier
+  // changes. `inset()` clips a full-width gradient and nothing moves.
+  it('clips the lit layer rather than resizing it', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+    const lit = litLayer(container);
+
+    expect(lit.style.width).toBe('');
+    expect(lit.getAttribute('style')).not.toMatch(/(^|;)\s*width\s*:/);
+    expect(lit.className).toContain('inset-0');
+  });
+
+  // `animate-ping` is `1s … infinite` and this component is never unmounted:
+  // it ran behind every student for as long as they wrote. The replacement is
+  // a 900ms one-shot that replays by `key`, so the net budget is one infinite
+  // animation removed and one one-shot added.
+  it('runs nothing forever in a strip that is always mounted', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    expect(container.innerHTML).not.toContain('animate-ping');
+    expect(container.innerHTML).not.toContain('animate-pulse');
+    // And the one-shot is actually there, keyed so it can replay.
+    expect(container.innerHTML).toContain('animate-tier-ignite');
+  });
+
+  it('puts each dot at the centre of its own band', () => {
+    render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    // Band 1 owns [0, 16.667]; its centre is 8.333. Band 6 owns
+    // [83.333, 100]; its centre is 91.667. Under `justify-between` the first
+    // dot sat at 0 and the last at 100 — neither inside the band it names.
+    expect(screen.getByRole('button', { name: /Show tier 1 verbs/i }).style.left).toBe('8.333%');
+    expect(screen.getByRole('button', { name: /Show tier 6 verbs/i }).style.left).toBe('91.667%');
+  });
+
+  // Four hairlines and one slot. The spectrum runs continuously through four
+  // boundaries and is CUT at the fifth, which is the only language a bar has
+  // for "a step up in kind, not degree" — and the boundary it is cut at is the
+  // one `getTierTargetBand` stops returning 3 across. Keyed off the inline
+  // `left` rather than off array order, so this holds whatever order the
+  // notches are emitted in.
+  it('cuts the deep-learning boundary wider than the four ordinary ones', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    const notches = Array.from(
+      container.querySelectorAll(`[class*="${RIBBON_SPECTRUM_BOUNDARY}"]`)
+    ) as HTMLElement[];
+    expect(notches).toHaveLength(5);
+
+    const threshold = notches.filter((el) => el.style.left === '50%');
+    expect(threshold).toHaveLength(1);
+    expect(threshold[0].className).toContain('w-2');
+
+    for (const other of notches.filter((el) => el.style.left !== '50%')) {
+      expect(other.className).toContain('w-0.5');
+      expect(other.className).not.toContain('w-2');
+    }
+  });
+
+  // `index.css` neutralises animation under `prefers-reduced-motion` with
+  // `animation-duration: 0.01ms` and `animation-iteration-count: 1`, which does
+  // not skip the animation — it runs it once, instantly, and LANDS ON ITS FINAL
+  // FRAME. A flare whose last frame were `opacity: 0.85` would burn a permanent
+  // bloom into the bar for exactly the readers who asked for no motion.
+  it('ends its ignition keyframe at rest, so reduced motion leaves nothing burned in', () => {
+    const keyframes = tailwindConfig.theme.extend.keyframes as Record<
+      string,
+      Record<string, Record<string, string>>
+    >;
+
+    expect(keyframes.tierIgnite).toBeTruthy();
+    expect(keyframes.tierIgnite['100%'].opacity).toBe('0');
+    expect(keyframes.tierIgnite['100%'].transform).toBe('scaleX(1) scaleY(1)');
+    // Transform and opacity only, so it stays on the compositor — the rule the
+    // comment above `keyframes` in tailwind.config.js states for all of them.
+    for (const frame of Object.values(keyframes.tierIgnite)) {
+      expect(Object.keys(frame).sort()).toEqual(['opacity', 'transform']);
+    }
+
+    // The dot's bloom is a second keyframe and the same rule binds it.
+    expect(keyframes.dotBloom).toBeTruthy();
+    expect(keyframes.dotBloom['100%'].opacity).toBe('0');
+    for (const frame of Object.values(keyframes.dotBloom)) {
+      expect(Object.keys(frame).sort()).toEqual(['opacity', 'transform']);
+    }
+  });
+
+  // `tierIgnite` is shaped for a bar segment: `scaleY(2.4)` with no matching
+  // `scaleX`. On a `rounded-full` child that is not a halo, it is a vertical
+  // teardrop, held for 900ms every time the question changes. The dot's own
+  // bloom scales uniformly, so a circle stays a circle.
+  it('blooms the current dot as a circle, not with the bar’s flare', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    const halo = container.querySelector('.animate-dot-bloom') as HTMLElement;
+    expect(halo).toBeTruthy();
+    expect(halo.className).toContain('rounded-full');
+    expect(halo.className).not.toContain('animate-tier-ignite');
+
+    const keyframes = tailwindConfig.theme.extend.keyframes as Record<
+      string,
+      Record<string, Record<string, string>>
+    >;
+    // Uniform `scale(n)` — never `scaleX`/`scaleY`, which is what made the
+    // teardrop.
+    for (const frame of Object.values(keyframes.dotBloom)) {
+      expect(frame.transform).toMatch(/^scale\([\d.]+\)$/);
+    }
   });
 });

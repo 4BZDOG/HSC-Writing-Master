@@ -11,6 +11,7 @@ import {
   importDataFromJSON,
 } from '../../utils/storageUtils';
 import { getBandForMark, getCommandTermInfo } from '../../data/commandTerms';
+import { CoursesArraySchema, mergeCourseContents } from '../../utils/dataManagerUtils';
 import { Course, Prompt, PromptVerb, SampleAnswer } from '../../types';
 
 /**
@@ -212,6 +213,44 @@ describe('runMigrations — the individual steps', () => {
 
     expect(promptsOf(migrated)[0].verb).toBeTruthy();
     expect(promptsOf(migrated)[0].totalMarks).toBeGreaterThan(0);
+  });
+});
+
+describe('scenarioImage — survives validation and merge', () => {
+  const scenarioImage = { id: 'p1', alt: 'A diagram', updatedAt: 1700000000000 };
+
+  it('round-trips through CoursesArraySchema validation unchanged', () => {
+    const courses = makeCourses([makePrompt({ scenarioImage })]);
+
+    const validated = CoursesArraySchema.parse(courses) as Course[];
+
+    expect(promptsOf(validated)[0].scenarioImage).toEqual(scenarioImage);
+  });
+
+  it('is absent (not a validation failure) for a prompt with no image', () => {
+    const courses = makeCourses([makePrompt()]);
+
+    const validated = CoursesArraySchema.parse(courses) as Course[];
+
+    expect(promptsOf(validated)[0].scenarioImage).toBeUndefined();
+  });
+
+  it('mergeCourseContents takes the imported scenarioImage over an absent existing one', () => {
+    const existing = makeCourses([makePrompt({ id: 'p1' })])[0];
+    const imported = makeCourses([makePrompt({ id: 'p1', scenarioImage })])[0];
+
+    const merged = mergeCourseContents(existing, imported);
+
+    expect(promptsOf([merged])[0].scenarioImage).toEqual(scenarioImage);
+  });
+
+  it('mergeCourseContents keeps the existing scenarioImage rather than being clobbered by an absent imported one', () => {
+    const existing = makeCourses([makePrompt({ id: 'p1', scenarioImage })])[0];
+    const imported = makeCourses([makePrompt({ id: 'p1' })])[0];
+
+    const merged = mergeCourseContents(existing, imported);
+
+    expect(promptsOf([merged])[0].scenarioImage).toEqual(scenarioImage);
   });
 });
 

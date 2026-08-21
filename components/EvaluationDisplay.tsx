@@ -562,7 +562,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                       Band {result.overallBand} · {getBandName(result.overallBand)}
                     </span>
                   </div>
-                  <h1 className="text-6xl sm:text-7xl font-black tracking-tighter leading-none">
+                  <h1 className="text-6xl sm:text-7xl font-black tracking-tight italic leading-none">
                     {result.overallMark}
                     <span className="text-3xl font-medium align-top opacity-60">
                       /{prompt.totalMarks}
@@ -912,7 +912,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 <Zap className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="text-lg font-black uppercase tracking-tight text-white">
+                <h4 className="text-lg font-black uppercase tracking-normal italic text-white">
                   Improved Response
                 </h4>
                 <div className="flex items-center gap-3 mt-1">

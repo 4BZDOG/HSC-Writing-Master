@@ -18,7 +18,9 @@ describe('assembleCourses (Supabase relational rows -> Course[])', () => {
 
   it('wires the full hierarchy together by foreign key', () => {
     const rows: CurriculumRows = {
-      courses: [{ id: 'c-uuid', legacy_id: 'course-1', name: 'Software', subject: 'TAS' }],
+      courses: [
+        { id: 'c-uuid', legacy_id: 'course-1', name: 'Software', subject: 'TAS', status: 'approved' },
+      ],
       outcomes: [{ course_id: 'c-uuid', code: 'O1', description: 'Outcome one', position: 0 }],
       topics: [
         {
@@ -66,6 +68,9 @@ describe('assembleCourses (Supabase relational rows -> Course[])', () => {
           is_past_hsc: true,
           hsc_year: 2023,
           hsc_question_number: '12a',
+          scenario_image_path: null,
+          scenario_image_alt: null,
+          scenario_image_updated_at: null,
         },
       ],
       sampleAnswers: [
@@ -111,7 +116,7 @@ describe('assembleCourses (Supabase relational rows -> Course[])', () => {
 
   it('orders children by their position column', () => {
     const rows = emptyRows();
-    rows.courses = [{ id: 'c', legacy_id: null, name: 'C', subject: null }];
+    rows.courses = [{ id: 'c', legacy_id: null, name: 'C', subject: null, status: 'approved' }];
     rows.topics = [
       {
         id: 't2',
@@ -139,7 +144,7 @@ describe('assembleCourses (Supabase relational rows -> Course[])', () => {
 
   it('dedupes prompts that share an app id (e.g. a re-contributed legacy id)', () => {
     const rows = emptyRows();
-    rows.courses = [{ id: 'c', legacy_id: null, name: 'C', subject: null }];
+    rows.courses = [{ id: 'c', legacy_id: null, name: 'C', subject: null, status: 'approved' }];
     rows.topics = [
       { id: 't', course_id: 'c', legacy_id: null, name: 'T', position: 0, band_descriptors: null },
     ];
@@ -167,6 +172,9 @@ describe('assembleCourses (Supabase relational rows -> Course[])', () => {
       is_past_hsc: false,
       hsc_year: null,
       hsc_question_number: null,
+      scenario_image_path: null,
+      scenario_image_alt: null,
+      scenario_image_updated_at: null,
     };
     // Two DB rows, different uuids, same legacy_id → same app id.
     rows.prompts = [
@@ -181,7 +189,7 @@ describe('assembleCourses (Supabase relational rows -> Course[])', () => {
 
   it('defaults a missing verb and null sample-answer source to safe values', () => {
     const rows = emptyRows();
-    rows.courses = [{ id: 'c', legacy_id: null, name: 'C', subject: null }];
+    rows.courses = [{ id: 'c', legacy_id: null, name: 'C', subject: null, status: 'approved' }];
     rows.topics = [
       { id: 't', course_id: 'c', legacy_id: null, name: 'T', position: 0, band_descriptors: null },
     ];
@@ -211,6 +219,9 @@ describe('assembleCourses (Supabase relational rows -> Course[])', () => {
         is_past_hsc: false,
         hsc_year: null,
         hsc_question_number: null,
+        scenario_image_path: null,
+        scenario_image_alt: null,
+        scenario_image_updated_at: null,
       },
     ];
     rows.sampleAnswers = [
@@ -232,6 +243,68 @@ describe('assembleCourses (Supabase relational rows -> Course[])', () => {
     expect(prompt.sampleAnswers?.[0].source).toBe('AI');
   });
 
+  it('builds a scenarioImage ref when scenario_image_path is present, and omits it when absent', () => {
+    const rows = emptyRows();
+    rows.courses = [{ id: 'c', legacy_id: null, name: 'C', subject: null, status: 'approved' }];
+    rows.topics = [
+      { id: 't', course_id: 'c', legacy_id: null, name: 'T', position: 0, band_descriptors: null },
+    ];
+    rows.subTopics = [{ id: 's', topic_id: 't', legacy_id: null, name: 'S', position: 0 }];
+    rows.dotPoints = [
+      { id: 'd', sub_topic_id: 's', legacy_id: null, description: 'D', position: 0 },
+    ];
+    const basePrompt = {
+      dot_point_id: 'd',
+      question: 'Q',
+      highlighted_question: null,
+      total_marks: 0,
+      verb: 'EXPLAIN',
+      scenario: null,
+      marking_criteria: null,
+      linked_outcomes: [],
+      related_topics: [],
+      prerequisite_knowledge: [],
+      marker_notes: [],
+      common_student_errors: [],
+      keywords: [],
+      target_performance_bands: [],
+      estimated_time: null,
+      is_past_hsc: false,
+      hsc_year: null,
+      hsc_question_number: null,
+    };
+    rows.prompts = [
+      {
+        ...basePrompt,
+        id: 'p-with-image',
+        legacy_id: 'prompt-with-image',
+        scenario_image_path: 'prompt-with-image/prompt-with-image',
+        scenario_image_alt: 'A network diagram',
+        scenario_image_updated_at: '2026-01-15T10:00:00.000Z',
+      },
+      {
+        ...basePrompt,
+        id: 'p-without-image',
+        legacy_id: 'prompt-without-image',
+        scenario_image_path: null,
+        scenario_image_alt: null,
+        scenario_image_updated_at: null,
+      },
+    ];
+
+    const prompts = assembleCourses(rows)[0].topics[0].subTopics[0].dotPoints[0].prompts;
+    const withImage = prompts.find((p) => p.id === 'prompt-with-image')!;
+    const withoutImage = prompts.find((p) => p.id === 'prompt-without-image')!;
+
+    expect(withImage.scenarioImage).toEqual({
+      id: 'prompt-with-image',
+      alt: 'A network diagram',
+      updatedAt: Date.parse('2026-01-15T10:00:00.000Z'),
+      storagePath: 'prompt-with-image/prompt-with-image',
+    });
+    expect(withoutImage.scenarioImage).toBeUndefined();
+  });
+
   /**
    * The year survives the round trip, and Year 12 stays spelled as the absence
    * of a year — a null column, a database without the column at all, and a
@@ -239,7 +312,7 @@ describe('assembleCourses (Supabase relational rows -> Course[])', () => {
    */
   it('carries the year of a topic and an outcome, and reads null as Year 12', () => {
     const rows = emptyRows();
-    rows.courses = [{ id: 'c', legacy_id: null, name: 'C', subject: null }];
+    rows.courses = [{ id: 'c', legacy_id: null, name: 'C', subject: null, status: 'approved' }];
     rows.outcomes = [
       { course_id: 'c', code: 'BI-11-01', description: 'Prelim', position: 0, year: 'year11' },
       { course_id: 'c', code: 'BI-12-01', description: 'HSC', position: 1, year: null },
@@ -274,5 +347,27 @@ describe('assembleCourses (Supabase relational rows -> Course[])', () => {
     // byte-identical to one made before the column existed.
     expect('year' in course.outcomes[1]).toBe(false);
     expect('year' in course.topics[1]).toBe(false);
+  });
+
+  /**
+   * `courses.status` in Postgres is the source of truth; the app's own
+   * absence-means-published idiom (Course.status) only ever spells one
+   * non-default value, 'draft' — see types.ts and courseVisibility.ts.
+   */
+  it('maps courses.status: approved rows have no client status field; anything else reads as draft', () => {
+    const rows = emptyRows();
+    rows.courses = [
+      { id: 'c1', legacy_id: null, name: 'Approved', subject: null, status: 'approved' },
+      { id: 'c2', legacy_id: null, name: 'Private', subject: null, status: 'private' },
+      { id: 'c3', legacy_id: null, name: 'Pending', subject: null, status: 'pending' },
+    ];
+
+    const courses = assembleCourses(rows);
+    const byName = (name: string) => courses.find((c) => c.name === name)!;
+
+    expect(byName('Approved').status).toBeUndefined();
+    expect('status' in byName('Approved')).toBe(false);
+    expect(byName('Private').status).toBe('draft');
+    expect(byName('Pending').status).toBe('draft');
   });
 });

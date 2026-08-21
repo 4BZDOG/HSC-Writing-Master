@@ -36,6 +36,7 @@ import {
   saveTopicContribution,
   saveSubTopicContribution,
   saveDotPointContribution,
+  updateCourseStatus as updateRemoteCourseStatus,
 } from '../services/contributionService';
 import { screenContentQuality } from '../services/geminiService';
 import { generateId } from '../utils/idUtils';
@@ -684,6 +685,35 @@ export const useSyllabusData = ({
     [updateCourses, showToast]
   );
 
+  /**
+   * Admin-only publication toggle. Deleting the field (rather than storing
+   * 'published') keeps the same absence-means-default idiom as
+   * DotPoint.focusAreas elsewhere in this file. In Supabase mode, best-effort
+   * syncs the same flip to the shared library (see updateCourseStatus).
+   */
+  const handleSetCourseStatus = useCallback(
+    (courseId: string, status: 'draft' | 'published') => {
+      updateCourses((draft) => {
+        findAndUpdateItem(draft, { courseId }, (course: Draft<Course>) => {
+          if (status === 'published') delete course.status;
+          else course.status = status;
+        });
+      });
+      showToast(
+        status === 'published'
+          ? 'Course published — visible to everyone.'
+          : 'Course hidden — only admins can see it while you work on it.',
+        'success'
+      );
+      if (isCurriculumRemote()) {
+        updateRemoteCourseStatus(courseId, status).catch(() =>
+          showToast('Could not sync visibility to the shared library.', 'error')
+        );
+      }
+    },
+    [updateCourses, showToast]
+  );
+
   const handleSampleAnswerGenerated = useCallback(
     (path: StatePath, newAnswer: SampleAnswer) => {
       updateCourses((draft) => {
@@ -885,6 +915,7 @@ export const useSyllabusData = ({
     confirmRename,
     confirmDelete,
     handleUpdateOutcomes,
+    handleSetCourseStatus,
     handleSampleAnswerGenerated,
     handleUpdateSampleAnswer,
     handleDeleteSampleAnswer,

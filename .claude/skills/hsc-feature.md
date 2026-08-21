@@ -73,28 +73,39 @@ Never hard-code a model string or bypass `resolveTarget` — that's how the sele
 
 The client never talks to Gemini/Anthropic directly. `services/aiCore.ts` posts to the server-side `/api/gemini` proxy (`api/gemini.ts`), which injects the provider key, authenticates the caller (Supabase bearer token when configured), and **spends one unit of the caller's daily AI quota** before contacting the provider (returns 429 when exhausted). Keep new AI features on this path — do not add a direct SDK call.
 
-#### Wrap every API call in apiGuard
+#### The circuit breaker is automatic — there is no `apiGuard(fn)` to wrap a call in
+
+`apiGuard` (`services/aiCore.ts`) is a stateful singleton — `export const apiGuard = new ApiGuard()` — not a higher-order function, so it cannot be called as `apiGuard(async () => {...})`. It does not need to be: `generateContentWithRetry` already checks `apiGuard.isBlocked()` before contacting the provider and records success/failure on every attempt (`aiCore.ts:525-587`), so any feature function that goes through it is covered automatically. Write the feature function directly:
 
 ```typescript
-import { apiGuard, generateContentWithRetry } from './aiCore';
+import { generateContentWithRetry, safeJsonParse } from './aiCore';
+import { resolveTarget } from './aiConfig';
 
 export const myNewFeature = async (input: string): Promise<MyResult> => {
-  return apiGuard(async () => {
-    const response = await generateContentWithRetry(MODELS.BASIC, prompt);
-    return safeJsonParse<MyResult>(response.text());
+  const response = await generateContentWithRetry({
+    ...resolveTarget('basic'), // { provider, model } — see §3 above, not a MODELS constant
+    contents: [{ role: 'user', parts: [{ text: input }] }],
+    config: { responseMimeType: 'application/json' },
   });
+  return safeJsonParse<MyResult>(response.text || '');
 };
 ```
 
-`apiGuard` is the circuit breaker — it tracks error rates and throws `QuotaExceededError` when the API is unhealthy. Skipping it can cause API lockout.
+`generateContentWithRetry` takes one request object — there is no `(model, prompt)` two-argument form.
 
-#### Use `safeJsonParse` for all AI JSON output
+#### `safeJsonParse` recovers JSON from the response text — it does not validate the shape
 
-The Gemini API can return markdown fences around JSON. `safeJsonParse<T>()` in `services/aiCore.ts` strips them and validates the shape. Always use it instead of `JSON.parse`.
+The Gemini API can return markdown fences around JSON. `safeJsonParse<T>()` in `services/aiCore.ts` strips the fences, balances braces, and parses — it returns `T | null` with no shape checking of its own (see the Gotchas entry below). Use it instead of raw `JSON.parse`, then validate the result's shape separately with a Zod schema in `services/aiSchemas.ts` before it reaches the data model.
 
 #### Cache expensive calls
 
-Wrap long-running generations in `AICache.getOrFetch(cacheKey, ttl, fn)` from `services/aiCache.ts`. The cache TTL is 30 days by default. Use a deterministic key (e.g., `hash(promptId + verb + marks)`).
+There is no `AICache.getOrFetch`. Check and write around the call yourself with `AICache.get<T>(key)` / `AICache.set(key, data)` from `services/aiCache.ts`, keyed with one of its `generate*Key` helpers (`generateEvaluationKey`, `generatePromptKey`, `generateScenarioKey`, …) rather than a hand-rolled hash — `hooks/useGemini.ts` writes the cache this way after a successful evaluation:
+
+```typescript
+void AICache.set(AICache.generateEvaluationKey(prompt.id, answer), result);
+```
+
+The TTL is fixed at 30 days inside `AICache`, not a per-call parameter.
 
 ---
 
@@ -155,7 +166,7 @@ Apply these Tailwind patterns consistently:
 
 - **Unit tests** live in `tests/unit/` and use Vitest + Testing Library. Write one for any new pure utility or service function.
 - **E2E tests** live in `tests/e2e/` and use Playwright. Add E2E coverage for critical user-facing workflows. Never rely on real Gemini API calls in tests — mock `services/geminiService.ts`.
-- **Coverage target**: 70% minimum across lines, functions, branches, statements (`npm run test:coverage`).
+- **Coverage floor**: `vitest.config.ts` enforces `lines: 63, functions: 59, branches: 57, statements: 62` — a regression floor set just below measured coverage, not a 70% aspiration the project has never hit. It ratchets up as real coverage grows; don't lower it to make a red run pass (`npm run test:coverage`).
 - Run the full check suite before committing: `npm run test:all` (lint + unit tests + type-check).
 
 ---
@@ -180,12 +191,16 @@ Apply these Tailwind patterns consistently:
 
 ```typescript
 // services/geminiService.ts
+const aiTarget = (role: 'basic' | 'reasoning') => resolveTarget(role);
+
 export const generateMyThing = async (context: MyContext): Promise<MyResult> => {
-  return apiGuard(async () => {
-    const systemPrompt = `...`; // British/Australian English
-    const response = await generateContentWithRetry(MODELS.BASIC, systemPrompt);
-    return safeJsonParse<MyResult>(response.text());
+  const systemPrompt = `...`; // British/Australian English
+  const response = await generateContentWithRetry({
+    ...aiTarget('basic'),
+    contents: [{ role: 'user', parts: [{ text: systemPrompt }] }],
+    config: { responseMimeType: 'application/json' },
   });
+  return safeJsonParse<MyResult>(response.text || '');
 };
 ```
 
@@ -234,7 +249,7 @@ export const useMyFeature = () => {
 - **IndexedDB is async everywhere** — all `idb` calls in `utils/idbTransactions.ts` return Promises. Forgetting `await` causes silent no-ops with no runtime error.
 - **`use-immer` drafts are not JSON-serialisable** — before saving to IDB or sending to an API, call `JSON.parse(JSON.stringify(draft))` or use `structuredClone` to get a plain object.
 - **Modal stacking**: Only one modal should be open at a time (managed by `useModalManager`). Nesting modals via local state breaks the close-on-backdrop logic.
-- **Band 6 keyword gate**: The Quality Check (`QualityCheckModal`) enforces ≥70% keyword coverage in Band 6 sample answers. If a generated sample fails this, the AI prompt must be adjusted — do not lower the threshold.
+- **No automated keyword-coverage gate exists.** The Quality Check (`QualityCheckModal` / `performQualityCheck` in `services/geminiService.ts`) is a free-form AI holistic-quality pass (`status`/`score`/`issues`) — there is no deterministic keyword-percentage check anywhere in the codebase. Do not build a feature assuming one exists; keyword coverage in a Band 6 sample is a curator's manual check.
 - **AI language enforcement**: If Gemini output uses American English ("analyze", "program"), the system prompt in `projectDocs/systemPrompt.md` must explicitly instruct British/Australian spelling for every generation call.
 
 ---

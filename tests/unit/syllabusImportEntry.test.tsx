@@ -51,6 +51,7 @@ const renderSelector = (
       statePath={statePath as StatePath}
       onPathChange={noop}
       onAddCourse={noop}
+      onToggleCourseStatus={noop}
       onAddSubTopic={noop}
       onGeneratePrompt={noop}
       onManualEntry={noop}

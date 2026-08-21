@@ -173,6 +173,7 @@ const baseProps = {
   statePath,
   onPathChange: noop,
   onAddCourse: noop,
+  onToggleCourseStatus: noop,
   onAddSubTopic: noop,
   onGeneratePrompt: noop,
   onManualEntry: noop,
@@ -219,8 +220,12 @@ describe('refining a long question list', () => {
 
   it('appears once the list is long enough to be worth narrowing', () => {
     renderPicker(manyPrompts);
-    expect(screen.getByRole('button', { name: /refine/i })).toBeTruthy();
-    expect(screen.getByText('8 questions')).toBeTruthy();
+    const refineButton = screen.getByRole('button', { name: /refine/i });
+    expect(refineButton).toBeTruthy();
+    // Scoped to the refine strip itself: with 8 prompts under one sub-topic,
+    // the navigator's own sub-topic question-count badge reads "8 questions"
+    // too, so an unscoped query would match both.
+    expect(within(refineButton).getByText('8 questions')).toBeTruthy();
   });
 
   it('offers only the axes the questions actually vary on', () => {
@@ -298,7 +303,11 @@ describe('refining a long question list', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
-    expect(screen.getByText('8 questions')).toBeTruthy();
+    // Scoped for the same reason as above — the sub-topic badge also reads
+    // "8 questions" once the filter is cleared back to the full list.
+    expect(
+      within(screen.getByRole('button', { name: /refine/i })).getByText('8 questions')
+    ).toBeTruthy();
     expect(questionTexts()).toHaveLength(8);
   });
 

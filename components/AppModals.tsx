@@ -268,6 +268,7 @@ const AppModals: React.FC<AppModalsProps> = ({
         subTopicName={currentSubTopic?.name || ''}
         dotPoint={currentDotPoint?.description || ''}
         outcomes={outcomesForYear(currentCourse, activeYear)}
+        showToast={showToast}
       />
 
       {currentCourse && (

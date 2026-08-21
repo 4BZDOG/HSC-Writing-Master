@@ -376,13 +376,16 @@ The same cause deflates `profiles.stats.averageBand`: the seeded cohort averages
 question bank cannot award above band 3.
 
 This is a pre-existing product defect, not a seeding artefact — the generator
-faithfully applies the app's own rules, which is how it surfaced. **Fix:** measure
-attainment against each question's ceiling (`band / getBandForMark(totalMarks,
-totalMarks, tier)`) rather than comparing raw bands across tiers, in both
-`get_class_analytics` and `get_student_progress`. That is a change to what the
-product reports, so it belongs with PR 2's analytics work rather than in a
-seeding PR — but it should be prioritised above the class scoping, because a
-teacher acting on the current ranking would be acting on noise.
+faithfully applies the app's own rules, which is how it surfaced.
+
+**Resolved.** `supabase/schema.sql` §18 added `avg_mark_frac` (mean share of
+available marks earned, 0–1, well-defined at every tier) alongside the existing
+`low_band_rate`, and `rankByWeakness` in `utils/classAnalytics.ts` now ranks on
+`avg_mark_frac` instead — see that function's own doc comment for the full
+reasoning, including why ranking on band-against-ceiling doesn't work either
+(a tier-1 question collapses every non-zero mark to band 1). `low_band_rate` is
+kept in the payload for the NESA-facing band display, just not as the ranking
+key.
 
 The generator already works this way internally: archetypes declare a
 `targetAttainment` fraction of the achievable ceiling, not an absolute band,

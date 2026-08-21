@@ -30,6 +30,7 @@ interface CourseRow {
   legacy_id: string | null;
   name: string;
   subject: string | null;
+  status: string;
 }
 interface OutcomeRow {
   course_id: string;
@@ -84,6 +85,9 @@ interface PromptRow {
   is_past_hsc: boolean;
   hsc_year: number | null;
   hsc_question_number: string | null;
+  scenario_image_path: string | null;
+  scenario_image_alt: string | null;
+  scenario_image_updated_at: string | null;
 }
 interface SampleAnswerRow {
   id: string;
@@ -166,6 +170,16 @@ const mapPrompt = (row: PromptRow, answers: SampleAnswerRow[]): Prompt => ({
   isPastHSC: row.is_past_hsc ?? false,
   hscYear: row.hsc_year ?? undefined,
   hscQuestionNumber: row.hsc_question_number ?? undefined,
+  scenarioImage: row.scenario_image_path
+    ? {
+        id: appId(row),
+        alt: row.scenario_image_alt ?? undefined,
+        updatedAt: row.scenario_image_updated_at
+          ? new Date(row.scenario_image_updated_at).getTime()
+          : Date.now(),
+        storagePath: row.scenario_image_path,
+      }
+    : undefined,
   sampleAnswers: dedupeById(
     answers
       .slice()
@@ -227,6 +241,9 @@ export const assembleCourses = (rows: CurriculumRows): Course[] => {
     id: appId(row),
     name: row.name,
     subject: row.subject ?? undefined,
+    // Only a non-approved status is ever written client-side (see
+    // Course.status in types.ts) — 'approved' reads as the default "published".
+    ...(row.status && row.status !== 'approved' ? { status: 'draft' as const } : {}),
     outcomes: (outcomesByCourse.get(row.id) ?? []).slice().sort(byPosition).map(buildOutcome),
     topics: (topicsByCourse.get(row.id) ?? []).slice().sort(byPosition).map(buildTopic),
   }));
@@ -282,7 +299,10 @@ export const fetchRemoteCourses = async (): Promise<Course[]> => {
   const label = 'Curriculum load failed';
   const [courses, outcomes, topics, subTopics, dotPoints, prompts, sampleAnswers] =
     await Promise.all([
-      fetchAllRows<CourseRow>(() => visible('courses', 'id, legacy_id, name, subject'), label),
+      fetchAllRows<CourseRow>(
+        () => visible('courses', 'id, legacy_id, name, subject, status'),
+        label
+      ),
       withYear<OutcomeRow>('course_outcomes', 'course_id, code, description, position', label),
       withYear<TopicRow>(
         'topics',

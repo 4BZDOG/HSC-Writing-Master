@@ -1,6 +1,15 @@
 import React from 'react';
 import { PromptVerb } from '../types';
 import { getTierTargetBand } from '../data/commandTerms';
+import {
+  expandFracToSlash,
+  expandMathSymbolTokens,
+  expandSqrt,
+  expandSubscriptsToUnicode,
+  expandSuperscriptsToUnicode,
+  expandVector,
+  stripInlineMathDollars,
+} from './mathNotation';
 
 export const escapeRegExp = (string: string): string => {
   if (typeof string !== 'string') return '';
@@ -368,7 +377,12 @@ export const getTierBandConfig = (tier: number): BandConfig =>
 /**
  * Colour config for a cognitive TIER as its own identity on the six-step
  * red → orange → yellow → green → blue → purple scale (Tier 1 red … Tier 6
- * purple), matching the CognitiveSpectrum meter.
+ * purple) — the scale the verb ribbon's cognitive spectrum is painted in
+ * (`components/CommandVerbHierarchy.tsx`, via `getBandHex`).
+ *
+ * It used to say "matching the CognitiveSpectrum meter", naming a component
+ * that was imported nowhere and held its own hard-coded copy of these six
+ * colours. That component is gone; this is the scale it meant.
  *
  * Use this when displaying the tier LADDER itself (tier cards, tier pickers,
  * the cognitive timeline) where every tier must be visually distinct. The
@@ -440,6 +454,18 @@ export const cleanMarkdown = (text: string): string => {
     // Keep content inside code blocks but remove backticks
     return match.replace(/```/g, '');
   });
+
+  // Plain-text math flatten (order matches `pdf/text.ts`'s `toText`, since
+  // this is also flat text with the same stacked-fraction constraint —
+  // "Use this answer" / clipboard-copy paths must not paste raw \frac{}{}/
+  // \pi/^2 syntax into the student's own editable answer).
+  cleaned = stripInlineMathDollars(cleaned);
+  cleaned = expandFracToSlash(cleaned);
+  cleaned = expandSqrt(cleaned);
+  cleaned = expandVector(cleaned);
+  cleaned = expandMathSymbolTokens(cleaned);
+  cleaned = expandSuperscriptsToUnicode(cleaned);
+  cleaned = expandSubscriptsToUnicode(cleaned);
 
   return cleaned;
 };
@@ -547,8 +573,14 @@ export const textContainsKeyword = (text: string, keyword: string): boolean => {
 };
 
 // Regex for inline styles - Use new RegExp for safety
-const REGEX_SUPERSCRIPT = new RegExp('(\\^[a-zA-Z0-9-]+)', 'g');
-const REGEX_SUBSCRIPT = new RegExp('(_[a-zA-Z0-9]+)', 'g');
+//
+// Brace groups (`^{...}` / `_{...}`) are accepted alongside the original
+// bare-word form, so `Ca^{2+}` (ion charges) and `log_{10}` (log bases) also
+// render — common in HSC Chemistry/Physics/Extension Maths, where the bare
+// form's `+`/`-`-only class can't express a mixed charge/subscript.
+const REGEX_SUPERSCRIPT = new RegExp('(\\^\\{[^{}]*\\}|\\^[a-zA-Z0-9+\\-()]+)', 'g');
+const REGEX_SUBSCRIPT = new RegExp('(_\\{[^{}]*\\}|_[a-zA-Z0-9+\\-()]+)', 'g');
+const REGEX_FRACTION = new RegExp('(\\\\frac\\{[^{}]*\\}\\{[^{}]*\\})', 'g');
 const REGEX_BOLD = new RegExp('(\\*\\*.*?\\*\\*)', 'g');
 const REGEX_ITALIC = new RegExp('(\\*[^*]+\\*)', 'g');
 
@@ -569,6 +601,45 @@ const processInlineFormatting = (
   ): React.ReactNode[] => {
     if (typeof segment !== 'string') return [segment];
     if (!segment) return [];
+
+    // 0. Fraction — \frac{a}{b} renders as a real stacked fraction (numerator
+    // / rule / denominator) rather than flattened "a/b" text, matching the
+    // structural fidelity a screen can give that flat PDF text cannot.
+    // Numerator/denominator are recursed through `processRecursively` so
+    // nested symbols (already expanded by the pre-pass), keywords, or a
+    // nested superscript inside a fraction still resolve.
+    if (segment.match(REGEX_FRACTION)) {
+      const parts = segment.split(REGEX_FRACTION);
+      if (parts.length > 1) {
+        return parts
+          .map((part, i) => {
+            const m = part.match(/^\\frac\{([^{}]*)\}\{([^{}]*)\}$/);
+            if (m) {
+              const [, num, den] = m;
+              return React.createElement(
+                'span',
+                {
+                  key: `f${path}.${i}`,
+                  className:
+                    'inline-flex flex-col items-center align-middle mx-0.5 text-center leading-none',
+                },
+                React.createElement(
+                  'span',
+                  { className: 'px-0.5 text-[0.78em] border-b border-current' },
+                  processRecursively(num, `${path}.${i}.n`)
+                ),
+                React.createElement(
+                  'span',
+                  { className: 'px-0.5 text-[0.78em]' },
+                  processRecursively(den, `${path}.${i}.d`)
+                )
+              );
+            }
+            return processRecursively(part, `${path}.${i}`);
+          })
+          .flat();
+      }
+    }
 
     // 1. Bold
     if (segment.match(REGEX_BOLD)) {
@@ -623,10 +694,11 @@ const processInlineFormatting = (
         return parts
           .map((part, i) => {
             if (part.startsWith('^')) {
+              const inner = part.startsWith('^{') ? part.slice(2, -1) : part.slice(1);
               return React.createElement(
                 'sup',
                 { key: `sup${path}.${i}`, className: 'text-[0.7em]' },
-                part.slice(1)
+                inner
               );
             }
             return processRecursively(part, `${path}.${i}`);
@@ -642,10 +714,11 @@ const processInlineFormatting = (
         return parts
           .map((part, i) => {
             if (part.startsWith('_')) {
+              const inner = part.startsWith('_{') ? part.slice(2, -1) : part.slice(1);
               return React.createElement(
                 'sub',
                 { key: `sub${path}.${i}`, className: 'text-[0.7em]' },
-                part.slice(1)
+                inner
               );
             }
             return processRecursively(part, `${path}.${i}`);
@@ -890,8 +963,18 @@ export const renderFormattedText = (
   const keywordRegex = createKeywordRegex(keywords || []);
   const verbRegex = commandVerb ? createKeywordRegex([commandVerb]) : null;
 
+  // Strip $...$ inline-math delimiters first — Gemini reaches for them out
+  // of habit even though this app's own shorthand never uses them, and
+  // nothing below touches a bare `$` (see `stripInlineMathDollars`'s own
+  // comment for why a lone currency figure is safe). Then expand \sqrt,
+  // \vec and symbol tokens — but NOT \frac (rendered structurally as a real
+  // stacked fraction by `processInlineFormatting`, below) and NOT sup/sub
+  // (kept as literal `^`/`_` for the `<sup>`/`<sub>` DOM step, which can
+  // wrap arbitrary content unlike PDF's Unicode-table approach).
+  const expanded = expandMathSymbolTokens(expandVector(expandSqrt(stripInlineMathDollars(text))));
+
   // 1. Split by lines to handle headings, lists, etc.
-  const lines = text.split('\n');
+  const lines = expanded.split('\n');
 
   const processedLines: React.ReactNode[] = [];
 

@@ -276,6 +276,7 @@ const noop = vi.fn();
 const baseProps = {
   onPathChange: noop,
   onAddCourse: noop,
+  onToggleCourseStatus: noop,
   onAddSubTopic: noop,
   onGeneratePrompt: noop,
   onManualEntry: noop,
@@ -433,5 +434,66 @@ describe('a curator filling an empty year', () => {
 
     expect(yearControl().textContent).toMatch(/Year 11/);
     expect(screen.getByText(/No Year 11 topics yet/i)).toBeTruthy();
+  });
+});
+
+describe('the sub-topic question count', () => {
+  const openSubTopicList = () => {
+    fireEvent.click(screen.getByText('Select Sub-Topic...').closest('button') as HTMLElement);
+    return screen.getByRole('listbox');
+  };
+
+  // Two dot points totalling three prompts, so the badge sums across the
+  // whole sub-topic rather than reporting just one dot point's count.
+  const mixedTopic: Topic = {
+    ...topic('t', 'Mixed'),
+    subTopics: [
+      {
+        id: 'st-full',
+        name: 'Full sub-topic',
+        dotPoints: [
+          { id: 'dp-a', description: 'A', prompts: [prompt('p-a'), prompt('p-b')] },
+          { id: 'dp-b', description: 'B', prompts: [prompt('p-c')] },
+        ],
+      },
+      {
+        id: 'st-empty',
+        name: 'Empty sub-topic',
+        dotPoints: [{ id: 'dp-c', description: 'C', prompts: [] }],
+      },
+    ],
+  };
+
+  it('shows the total question count for a populated sub-topic, and no badge for an empty one', () => {
+    renderNavigator(courseWith([mixedTopic]), { topicId: 't' });
+    const list = openSubTopicList();
+
+    const fullRow = within(list).getByText('Full sub-topic').closest('li') as HTMLElement;
+    expect(within(fullRow).getByText('3 questions')).toBeTruthy();
+
+    const emptyRow = within(list).getByText('Empty sub-topic').closest('li') as HTMLElement;
+    expect(within(emptyRow).queryByText(/question/i)).toBeNull();
+  });
+
+  it('uses the singular for exactly one question', () => {
+    renderNavigator(
+      courseWith([
+        {
+          ...topic('t', 'Single'),
+          subTopics: [
+            {
+              id: 'st-one',
+              name: 'One-question sub-topic',
+              dotPoints: [{ id: 'dp-one', description: 'A', prompts: [prompt('p-one')] }],
+            },
+          ],
+        },
+      ]),
+      { topicId: 't' }
+    );
+    const list = openSubTopicList();
+
+    const row = within(list).getByText('One-question sub-topic').closest('li') as HTMLElement;
+    expect(within(row).getByText('1 question')).toBeTruthy();
   });
 });

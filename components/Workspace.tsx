@@ -9,6 +9,7 @@ import {
   SubTopic,
   DotPoint,
   WritingMode,
+  SyllabusCrumb,
 } from '../types';
 import PromptDisplay from './PromptDisplay';
 import ReferenceMaterials, { AccordionSection } from './ReferenceMaterials';
@@ -33,7 +34,6 @@ import { isOverlayOpen } from '../hooks/useEscapeKey';
 import { isQuestionTierLocked, requestUpgrade } from '../services/entitlements';
 import { freeTierLimits } from '../services/planPolicy';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
-import { getDotPointLabel } from '../utils/dataManagerUtils';
 
 const useKeyboardShortcuts = (shortcuts: { [key: string]: (e: KeyboardEvent) => void }) => {
   useEffect(() => {
@@ -132,6 +132,13 @@ interface WorkspaceProps {
   writingMode: WritingMode;
   onWritingModeChange: (mode: WritingMode) => void;
   showBreadcrumb?: boolean;
+  /**
+   * Course → Topic → Sub-Topic → Dot Point, built once in `App.tsx`. The
+   * workspace used to build its own copy, which is how the two breadcrumbs
+   * came to print different names for the same course.
+   */
+  crumbs: SyllabusCrumb[];
+  showToast?: (message: string, type: 'success' | 'error' | 'info') => void;
 }
 
 /**
@@ -178,6 +185,8 @@ const Workspace: React.FC<WorkspaceProps> = ({
   writingMode,
   onWritingModeChange,
   showBreadcrumb = true,
+  crumbs,
+  showToast,
 }) => {
   const { currentCourse, currentTopic, currentSubTopic, currentDotPoint, currentPrompt } =
     currentSelection;
@@ -498,15 +507,6 @@ const Workspace: React.FC<WorkspaceProps> = ({
     );
   }
 
-  const breadcrumbItems = [
-    { label: currentCourse?.name || 'Course' },
-    { label: currentTopic?.name || 'Topic' },
-    { label: currentSubTopic?.name || 'Sub-Topic' },
-    // The statement, not the statement plus its focus-area list — a breadcrumb
-    // is a place name.
-    { label: getDotPointLabel(currentDotPoint) || 'Dot Point' },
-  ];
-
   const markingGuideCard = (
     <AccordionSection
       title="Marking Guide"
@@ -582,7 +582,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
     <div className="flex flex-col h-full gap-4">
       {!isFocusMode && showBreadcrumb && (
         <div className="w-full flex-shrink-0">
-          <Breadcrumb items={breadcrumbItems} />
+          <Breadcrumb items={crumbs} />
         </div>
       )}
 
@@ -630,8 +630,9 @@ const Workspace: React.FC<WorkspaceProps> = ({
               onFooterResize={setPromptFooterHeight}
               minFooterHeight={syncedFooter}
               minTotalHeight={syncedTotal}
-              breadcrumb={breadcrumbItems.map((b) => b.label)}
+              breadcrumb={crumbs.map((c) => c.label)}
               examMode={isExamMode}
+              showToast={showToast}
             />
           </div>
         )}
@@ -663,8 +664,9 @@ const Workspace: React.FC<WorkspaceProps> = ({
               onHeaderResize={setPromptHeaderHeight}
               minHeaderHeight={syncedHeader}
               condensed
-              breadcrumb={breadcrumbItems.map((b) => b.label)}
+              breadcrumb={crumbs.map((c) => c.label)}
               examMode={isExamMode}
+              showToast={showToast}
             />
           </div>
         )}
@@ -686,7 +688,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
           geminiHandlers={geminiHandlers}
           syllabusHandlers={syllabusHandlers}
           statePath={statePath}
-          breadcrumbItems={breadcrumbItems}
+          breadcrumbItems={crumbs}
           handleRunQualityCheck={handleRunQualityCheck}
           onToggleFocusMode={onToggleFocusMode}
           promptFontSize={promptFontSize}
@@ -742,7 +744,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
                 window.dispatchEvent(new CustomEvent('insert-text', { detail: word }))
               }
               courseOutcomes={courseOutcomes}
-              breadcrumb={breadcrumbItems.map((b) => b.label)}
+              breadcrumb={crumbs.map((c) => c.label)}
             />
           </div>
         )}

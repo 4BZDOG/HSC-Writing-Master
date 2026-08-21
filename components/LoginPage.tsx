@@ -50,7 +50,10 @@ const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
  */
 const FieldError = ({ message }: { message?: string }) =>
   message ? (
-    <p className="flex items-center gap-1.5 text-red-400 light:text-red-600 text-[11px] font-bold mt-2 ml-1 animate-fade-in">
+    <p
+      role="alert"
+      className="flex items-center gap-1.5 text-red-400 light:text-red-600 text-[11px] font-bold mt-2 ml-1 animate-fade-in"
+    >
       <AlertCircle className="w-3 h-3 shrink-0" /> {message}
     </p>
   ) : null;
@@ -580,14 +583,17 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                 )}
 
                 {error && (
-                  <div className="flex items-start gap-2 text-red-400 light:text-red-600 text-xs font-bold py-1 px-1 animate-fade-in">
+                  <div
+                    role="alert"
+                    className="flex items-start gap-2 text-red-400 light:text-red-600 text-xs font-bold py-1 px-1 animate-fade-in"
+                  >
                     <AlertCircle className="w-4 h-4 shrink-0 mt-px" /> {error}
                   </div>
                 )}
 
                 <button
                   type="submit"
-                  disabled={isLoading}
+                  disabled={isLoading || oauthLoading !== null}
                   className="w-full py-4 rounded-2xl font-bold text-sm uppercase tracking-widest text-white bg-indigo-600 hover:bg-indigo-500 shadow-xl shadow-indigo-900/40 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3 group/btn border-2 border-white/10 hover:border-white/20"
                 >
                   {isLoading ? (

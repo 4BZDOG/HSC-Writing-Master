@@ -105,7 +105,7 @@ export const RIBBON_DETAIL_CARD =
 /** The verb itself, in the house display treatment. Painted on the detail
  *  card's tier wash. */
 export const RIBBON_DETAIL_TERM =
-  'text-3xl font-black tracking-tighter uppercase italic leading-none text-slate-900 dark:text-white';
+  'text-3xl font-black tracking-normal uppercase italic leading-none text-slate-900 dark:text-white';
 
 /** The tier chip beside the verb. Its colours come from the tier config.
  *  Painted on the detail card. */
@@ -290,19 +290,198 @@ export const RIBBON_TIER_SUBTITLE_IDLE = 'text-slate-600 dark:text-[rgb(var(--co
 export const RIBBON_VERB_CHIP =
   'px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border transition-all duration-300';
 
-/** The four span labels above the cognitive timeline. Painted on the page
+/** The one line of text above the spectrum, which says in words what the
+ *  spectrum says in colour (DesignSpec §2: colour is never the only signal).
+ *  Painted on the page background.
+ *
+ *  This is the whole line and the box the height lock sits on; the live region
+ *  inside it is the lede only (the tier and its band cap), because a `status`
+ *  re-announces its entire content on every change.
+ *
+ *  Two earlier statements here have since stopped being true and are corrected
+ *  rather than deleted, because the reasoning still matters:
+ *
+ *  1. This constant used to record four hand-written labels — `Basic Recall`,
+ *     `Explain & Compare`, `Analyse & Apply`, `Evaluate & Create` — as
+ *     "span labels … none of them derivable". They were not span labels. Two
+ *     are byte-identical to `TIER_GROUPS[2].title` and `TIER_GROUPS[3].title`
+ *     and the other two are paraphrases of `TIER_GROUPS[0].title` and
+ *     `TIER_GROUPS[5].title`, so the row was four TIER titles — tiers 1, 3, 4
+ *     and 6 — laid out by `justify-between`, which put none of them over the
+ *     tier it named. They are derivable, and `RIBBON_SPECTRUM_SCALE_RAIL` now
+ *     derives them: those four tiers are the floor, the two sides of the Deep
+ *     Learning Threshold and the ceiling, so the rail names the two SPANS they
+ *     bound rather than the four rungs.
+ *
+ *  2. The line no longer carries the tier's prose subtitle. Its tail is
+ *     `RIBBON_TIMELINE_CUE_SIDE` — which side of the threshold the reader's
+ *     tier falls on, 32 characters of structure in place of 44–96 of prose.
+ *     The subtitle was never the only copy: `RIBBON_TIER_SUBTITLE` renders it
+ *     on the tier card, a sibling under the same `inert`-gated panel.
+ *
+ *  Height-locked all the same. `line-clamp-2` and a two-line floor are what
+ *  keep the footer from stepping up and down between questions, and the cue
+ *  still wraps to two lines at narrow widths.
+ *
+ *  `mb-7` and not `mb-5`: the Deep Learning Threshold chip hangs ABOVE the dot
+ *  row, into the space this margin opens, and between roughly 640px and 900px
+ *  the cue is two full lines while the chip is already visible (it is
+ *  `hidden sm:block`). At `mb-5` the chip's pill overlapped the cue's box by
+ *  4px and cleared its second line of text by 8px, which is close enough that
+ *  the chip read as the end of the sentence. Measured at 640/720/800/900:
+ *  `mb-6` leaves 12px of clear air under the text, `mb-7` leaves 16px, and at
+ *  1400px — where the cue is one line — neither shows as slack, because the
+ *  height lock has already reserved the second line.
+ *
+ *  `text-slate-600`, not `slate-500`: measured on this background, `slate-500`
+ *  is 4.66:1 — the narrowest margin anywhere in this component. */
+export const RIBBON_TIMELINE_CUE =
+  'min-h-[2.25rem] line-clamp-2 px-1 mb-7 text-[11px] font-medium leading-snug ' +
+  'text-slate-600 dark:text-[rgb(var(--color-text-muted))]';
+
+/** The tier fragment of the cue line. Carries no colour of its own — the tier's
+ *  `text` token is interpolated at the call site, the way everything
+ *  tier-coloured in this component is. Painted on the page background. */
+export const RIBBON_TIMELINE_CUE_TIER = 'font-black uppercase tracking-widest text-[10px]';
+
+/** The band-cap fragment of the cue line. Set in the telemetry face per
+ *  DesignSpec §4 — a band number is a mark, and `RIBBON_STAT_VALUE` already
+ *  sets the same number in mono six inches above. Painted on the page
  *  background. */
-export const RIBBON_TIMELINE_LABEL =
-  'text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em]';
+export const RIBBON_TIMELINE_CUE_BAND =
+  'font-mono font-black tabular-nums text-[10px] uppercase tracking-wider ' +
+  'text-slate-700 dark:text-slate-300';
 
-/** The timeline's progress track. Painted on the page background. */
+/** The timeline's progress track — the unlit ground the spectrum is painted
+ *  on, and the box that clips it. Painted on the page background.
+ *
+ *  `h-3`, not `h-2`: eight pixels is too thin to read a six-colour spectrum in.
+ *  A visual judgement, stated as one. `mb-4` moved to the wrapper, which is
+ *  what the leading edge and the ignition flare are positioned against — both
+ *  must be free of this box's `overflow-hidden` or the clip eats the very bloom
+ *  they exist to draw. */
 export const RIBBON_TIMELINE_TRACK =
-  'relative h-2 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden mb-4';
+  'relative h-3 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden';
 
-/** One gradation on the track. White-on-white in the light theme meant the
- *  track had no gradations there at all, so the same bar read as a measured
- *  scale in dark and a plain pill in light. Painted on the track. */
-export const RIBBON_TIMELINE_TICK = 'w-px h-full bg-slate-400/50 dark:bg-white/20';
+/** The whole cognitive journey, unlit — every tier's colour at low opacity
+ *  across the full width, so the tiers a reader has not reached yet read as
+ *  *ahead of them* rather than as empty track. Its gradient is built from
+ *  `getBandHex(1…6)` in the component, never from literals: the band palette is
+ *  a single source of truth (`bandColors.test.ts`) and a fourth hard copy of it
+ *  is exactly what this redesign deleted. Painted on the track. */
+export const RIBBON_SPECTRUM_DORMANT =
+  'absolute inset-0 opacity-25 dark:opacity-40 pointer-events-none';
+
+/** The same spectrum at full strength, revealed as far as the reader's tier.
+ *
+ *  Revealed with `clip-path: inset()`, never with `width`. A percentage width
+ *  on a gradient element rescales the gradient into that width, so at tier 3
+ *  all six colours would be squeezed into half a bar and every colour would
+ *  move as the tier changed. `inset()` clips a full-width gradient: a given
+ *  colour sits at a given x for every tier. Animatable and GPU-composited.
+ *  Painted on the track, over the dormant layer. */
+export const RIBBON_SPECTRUM_LIT =
+  'absolute inset-0 pointer-events-none ' +
+  'transition-[clip-path] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]';
+
+/** The lit edge — the playhead that turns "a coloured bar" into "lit this far".
+ *  Its glow is the tier's own hex, inline, so it stays derived from the band
+ *  palette. Painted over the track, and deliberately outside it: `clip-path`
+ *  and `overflow-hidden` both clip a box-shadow.
+ *
+ *  A theme pair rather than `bg-white/90`: white alpha over the pale light-theme
+ *  spectrum is DesignSpec §2 rule 2, and it disappears. `left` is not
+ *  compositor-promoted; accepted for one 2px element that transitions once per
+ *  question change, and written down rather than hidden. */
+export const RIBBON_SPECTRUM_EDGE =
+  'absolute inset-y-0 w-0.5 -translate-x-1/2 rounded-full pointer-events-none z-10 ' +
+  'transition-[left] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ' +
+  'bg-slate-900/70 dark:bg-white';
+
+/** The one-shot bloom over the band just reached, keyed on the tier so React
+ *  remounts it and it replays. Its fill is the tier's own hex, inline. Painted
+ *  over the track, outside its clip so the flare can bloom past the bar. */
+export const RIBBON_SPECTRUM_IGNITION =
+  'absolute inset-y-0 rounded-sm pointer-events-none z-10 origin-center';
+
+/** The same ignition on the current step's dot, one bloom out of the circle.
+ *  Its fill is the tier's `solidBg` at the call site, and it is keyed on the
+ *  tier so it replays with the band's flare. Painted over the dot.
+ *
+ *  It carries `animate-dot-bloom` and not the spectrum's `animate-tier-ignite`:
+ *  that flare stretches 2.4x vertically and not at all horizontally, which is
+ *  right for a bar segment and draws a vertical teardrop on anything
+ *  `rounded-full`. `dotBloom` scales uniformly, so the halo stays a circle.
+ *  It replaces an `animate-ping`, which was `1s … infinite` on a strip that is
+ *  mounted for the whole session. */
+export const RIBBON_SPECTRUM_DOT_BLOOM =
+  'absolute inset-0 rounded-full pointer-events-none animate-dot-bloom';
+
+/** One of the five boundaries between six tiers, at `i/6`. These replace four
+ *  "measurement ticks" that sat at 16/38.7/61.3/84% — a `justify-between` with
+ *  `px-[16%]` — and so marked nothing at all, with no tick at the 50% the Deep
+ *  Learning Threshold crosses.
+ *
+ *  Painted in the page's own background colour on top of the track, so they
+ *  read as physical gaps cut into the spectrum rather than as lines drawn over
+ *  it. Width comes from the call site: the 3/4 boundary is wider, because it is
+ *  the threshold. */
+export const RIBBON_SPECTRUM_BOUNDARY =
+  'absolute inset-y-0 -translate-x-1/2 pointer-events-none ' +
+  'bg-slate-50 dark:bg-[rgb(var(--color-bg-base))]';
+
+/** The scale rail above the spectrum — the two spans the Deep Learning
+ *  Threshold divides the ladder into. Painted on the page background.
+ *
+ *  `absolute`, and that is the whole vertical budget: the threshold chip hangs
+ *  from the dot row at `-top-11`, which puts it about 16px above the track —
+ *  inside the air `RIBBON_TIMELINE_CUE`'s `mb-7` already reserves for it. The
+ *  chip occupies the middle of that band and the two ends of it are empty, so
+ *  this row costs the footer no height at all.
+ *
+ *  `-top-6` and not `-top-5`, measured rather than reasoned: at `-top-5` the
+ *  captions' centre line sat 4.3px below the chip's at every width from 640 to
+ *  1400, which is enough to read as two rows rather than one. `-top-6` brings
+ *  it to 0.2px.
+ *
+ *  `hidden sm:flex`, the same floor as the chip it sits beside and as
+ *  `RIBBON_TIMELINE_STEP_LABEL_IDLE`: below `sm` there is no room for either,
+ *  and naming a threshold whose marker is hidden points at nothing.
+ *
+ *  Flush to the track's own edges (`inset-x-0`, no padding), so the left
+ *  caption starts where the spectrum starts. */
+export const RIBBON_SPECTRUM_SCALE_RAIL =
+  'hidden sm:flex absolute inset-x-0 -top-6 items-baseline justify-between ' +
+  'pointer-events-none';
+
+/** One span's caption. Painted on the page background, in the tone
+ *  `RIBBON_TIMELINE_STEP_LABEL_IDLE`'s contrast fix measured at 7.24:1 — this
+ *  is the same text on the same background at nearly the same size, so it takes
+ *  the same pair rather than a fresh guess. Not `aria-hidden`: `contrast.ts`
+ *  skips everything inside an `aria-hidden` subtree, and hiding a new block of
+ *  text from the audit is the blind spot that let this component's three
+ *  contrast defects ship in the first place. */
+export const RIBBON_SPECTRUM_SCALE_SPAN =
+  'text-[9px] font-bold uppercase tracking-wider whitespace-nowrap ' +
+  'text-slate-600 dark:text-slate-400';
+
+/** The band-cap fragment of a span caption — the number the leap across the
+ *  threshold is measured in. Set in the telemetry face per DesignSpec §4, like
+ *  `RIBBON_TIMELINE_CUE_BAND` and `RIBBON_STAT_VALUE`. Its colour is the
+ *  adjoining tier's and is interpolated at the call site, the way everything
+ *  tier-coloured in this component is. Shown from `md`: measured in Chromium,
+ *  the captions grow from 131px to 245px when this fragment appears, which at
+ *  768px still leaves 21px and 24px of air either side of the threshold chip.
+ *  Painted on the page background. */
+export const RIBBON_SPECTRUM_SCALE_BAND = 'hidden md:inline font-mono font-black tabular-nums';
+
+/** The cue's tail — which side of the Deep Learning Threshold the reader's tier
+ *  falls on. It replaces the tier's full prose subtitle, which ran 44–96
+ *  characters; this is 32. Carries no colour, so it inherits the cue's own.
+ *  Painted on the page background, and deliberately OUTSIDE the live region,
+ *  like the subtitle it replaces: it is the same string for three tiers running
+ *  and a `status` re-announces everything it contains. */
+export const RIBBON_TIMELINE_CUE_SIDE = 'hidden sm:inline font-normal';
 
 /** One step's dot on the timeline. Its fill is the tier's `solidBg` once the
  *  reader has reached that step. Painted on the page background. */

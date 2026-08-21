@@ -5,6 +5,7 @@ import PromptGeneratorModal from '../../components/PromptGeneratorModal';
 import SampleAnswerGeneratorModal from '../../components/SampleAnswerGeneratorModal';
 import SampleAnswerEditorModal from '../../components/SampleAnswerEditorModal';
 import { getBandForMark, getCommandTermInfo, TIER_GROUPS } from '../../data/commandTerms';
+import { getBandConfig } from '../../utils/renderUtils';
 import type { Prompt, SampleAnswer, PromptVerb } from '../../types';
 
 /**
@@ -86,6 +87,21 @@ describe('PromptGeneratorModal band/tier alignment', () => {
     const verbInfo = getCommandTermInfo('DEFINE');
     expect(Number(slider.max)).toBe(verbInfo.markRange[1]);
     expect(Number(slider.min)).toBe(verbInfo.markRange[0]);
+  });
+
+  // Band 3's solid fill is yellow (`getBandConfig(3).solidBg`); hardcoded
+  // `text-white` on it reads at 1.92:1, well under the 4.5:1 AA floor for
+  // normal-weight text this size. `solidText` exists on every band entry
+  // specifically so a solid fill never has to guess its own text colour —
+  // CommandVerbHierarchy already pairs the two for this same reason.
+  it('gives the band-3 picker fill its matched text colour, not white-on-yellow', () => {
+    // "explain" → Tier 3 ("Explain & Compare"), maxBand 3 — opens targeting
+    // Band 3 by default, so the target button is band 3's solid fill.
+    renderModal('explain the causes of thermal expansion');
+    const target = screen.getByTitle('Target Band 3');
+
+    expect(target.className).not.toContain('text-white');
+    expect(target.className).toContain(getBandConfig(3).solidText.split(' ')[0]);
   });
 });
 
@@ -314,6 +330,26 @@ describe('SampleAnswerEditorModal tier-capped bands', () => {
     expect(capped.length).toBe(6 - cap);
     capped.forEach((btn) => expect((btn as HTMLButtonElement).disabled).toBe(true));
     expect(screen.getByText(new RegExp(`up to Band ${cap}`))).toBeTruthy();
+  });
+
+  // Same defect as the generator's target-band picker: the selected band's
+  // solid fill got a hardcoded `text-white` instead of the band's own
+  // `solidText`, and band 3's yellow fill puts that at 1.92:1.
+  it('gives the band-3 picker fill its matched text colour, not white-on-yellow', () => {
+    const prompt = makePrompt({ verb: 'Explain' as PromptVerb }); // Tier 3, maxBand 3
+    render(
+      <SampleAnswerEditorModal
+        isOpen={true}
+        onClose={vi.fn()}
+        prompt={prompt}
+        sampleToEdit={{ ...sample, band: 3 }}
+        onSave={vi.fn()}
+      />
+    );
+
+    const target = screen.getByTitle('Band 3');
+    expect(target.className).not.toContain('text-white');
+    expect(target.className).toContain(getBandConfig(3).solidText.split(' ')[0]);
   });
 
   it('warns (without trapping the user) when legacy data already exceeds the cap', () => {

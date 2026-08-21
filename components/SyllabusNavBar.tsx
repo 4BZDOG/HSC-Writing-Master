@@ -1,13 +1,16 @@
 import React from 'react';
-import { ChevronRight, BookOpen, Layers, Folder, Hash, Pencil, Award, Link2 } from 'lucide-react';
+import { Pencil, Award, Link2 } from 'lucide-react';
 import { Prompt } from '../types';
 import { getTargetBand, getCommandTermInfo } from '../data/commandTerms';
 import { getTierScaleConfig } from '../utils/renderUtils';
+import Breadcrumb from './Breadcrumb';
+import type { SyllabusCrumb } from '../types';
 
-export interface SyllabusCrumb {
-  label: string;
-  onClick?: () => void;
-}
+// The crumb shape now lives in `types.ts` so this bar and the workspace
+// breadcrumb build the path from one definition, instead of two that drift
+// apart. Re-exported so existing imports of `SyllabusCrumb` from here keep
+// working.
+export type { SyllabusCrumb };
 
 interface SyllabusNavBarProps {
   /** Course → Topic → Sub-Topic → Dot Point (the path above the question). */
@@ -15,17 +18,16 @@ interface SyllabusNavBarProps {
   prompt: Prompt;
   /** Re-open the full syllabus navigator without changing the selection. */
   onExpand: () => void;
+  /**
+   * The "Change" button, so `App` can hand focus to it when the navigator
+   * folds. "Collapse to breadcrumb" makes its own wrapper `inert` on the click
+   * that presses it; this bar is what replaces it, and this button is its
+   * counterpart control.
+   */
+  expandButtonRef?: React.Ref<HTMLButtonElement>;
   /** Copy a shareable link to this question (teachers/admins only). */
   onShareAssignment?: () => void;
 }
-
-const CRUMB_ICONS = [BookOpen, Layers, Folder, Hash];
-
-/**
- * Where focus lands when the navigator folds away. `useNavigatorFold` hands the
- * keyboard over to this bar the moment the navigator that had it is unmounted.
- */
-export const SYLLABUS_NAV_BAR_ID = 'syllabus-nav-bar';
 
 /**
  * The collapsed state of the syllabus navigator. Once a student has chosen a
@@ -39,19 +41,18 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
   prompt,
   onExpand,
   onShareAssignment,
+  expandButtonRef,
 }) => {
   const verbInfo = getCommandTermInfo(prompt.verb);
-  const targetBand = getTargetBand(prompt.totalMarks, verbInfo.tier);
+  // Clamped exactly as `PromptSelector` clamps it, so the two surfaces cannot
+  // disagree about a question's tier by construction rather than by luck.
+  const safeTier = Math.max(1, Math.min(6, Math.floor(verbInfo.tier || 4)));
+  const targetBand = getTargetBand(prompt.totalMarks, safeTier);
   // Tier-identity colour; the band number stays in the text badge.
-  const band = getTierScaleConfig(verbInfo.tier);
+  const band = getTierScaleConfig(safeTier);
 
   return (
     <div
-      id={SYLLABUS_NAV_BAR_ID}
-      /* Focusable only programmatically, and only so the fold has somewhere to
-         put the keyboard. Without a tabindex a div cannot take focus at all, so
-         the handover would be a silent no-op — which is what it used to be. */
-      tabIndex={-1}
       className={`clip-stable relative overflow-hidden rounded-[24px] border ${band.border} bg-[rgb(var(--color-bg-surface-elevated))]/50 light:bg-white backdrop-blur-xl shadow-lg animate-fade-in`}
     >
       <div
@@ -60,34 +61,9 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
       />
       <div className="flex items-center justify-between gap-4 pl-6 pr-4 py-3.5">
         <div className="min-w-0 flex-1">
-          {/* Path breadcrumb — each level jumps back to re-choose.
-              A landmark with a name, to match `Breadcrumb.tsx`'s
-              `<nav aria-label="Breadcrumb">`. These two are the same trail in
-              the navigator's two states, and this — the one a student lives
-              with for the whole writing session — was the unnamed one. */}
-          <nav aria-label="Syllabus path">
-            <ol className="flex items-center gap-0.5 overflow-x-auto scrollbar-hide">
-              {crumbs.map((crumb, i) => {
-                const Icon = CRUMB_ICONS[Math.min(i, CRUMB_ICONS.length - 1)];
-                return (
-                  <li key={i} className="flex items-center flex-shrink-0">
-                    {i > 0 && (
-                      <ChevronRight className="w-3 h-3 mx-1 text-[rgb(var(--color-text-muted))]/40" />
-                    )}
-                    <button
-                      onClick={crumb.onClick}
-                      disabled={!crumb.onClick}
-                      title={crumb.onClick ? `Change ${crumb.label}` : crumb.label}
-                      className="flex items-center gap-1.5 px-2 py-1 rounded-lg text-[11px] font-bold text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] hover:bg-[rgb(var(--color-bg-surface-light))]/40 disabled:hover:bg-transparent transition-colors max-w-[220px]"
-                    >
-                      <Icon className="w-3 h-3 shrink-0 opacity-70" />
-                      <span className="truncate">{crumb.label}</span>
-                    </button>
-                  </li>
-                );
-              })}
-            </ol>
-          </nav>
+          {/* Path breadcrumb — each level jumps back to re-choose. The same
+              component the workspace renders, one density down. */}
+          <Breadcrumb items={crumbs} size="dense" label="Syllabus path" />
 
           {/* The selected question + its verb / marks / target band. */}
           <div className="flex items-center gap-2.5 mt-2 pl-2">
@@ -121,6 +97,7 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
             </button>
           )}
           <button
+            ref={expandButtonRef}
             onClick={onExpand}
             className={`flex items-center gap-2 px-3.5 h-9 rounded-xl text-[11px] font-black uppercase tracking-wider border ${band.border} ${band.bg} ${band.text} hover:brightness-110 active:scale-95 transition-all`}
             title="Open the syllabus navigator to change your selection"
