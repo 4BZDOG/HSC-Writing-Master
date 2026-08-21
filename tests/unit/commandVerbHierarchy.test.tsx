@@ -3,7 +3,7 @@ import React from 'react';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import CommandVerbHierarchy from '../../components/CommandVerbHierarchy';
 import { PromptVerb } from '../../types';
-import { TIER_GROUPS, getTierTargetBand } from '../../data/commandTerms';
+import { TIER_GROUPS } from '../../data/commandTerms';
 import {
   RIBBON_SPECTRUM_SCALE_RAIL,
   RIBBON_TIER_SUBTITLE,
@@ -356,10 +356,10 @@ describe('the spectrum says its level in words', () => {
     const cue = screen.getByRole('status');
     expect(cue.textContent).toContain('Tier 4');
     expect(cue.textContent).toContain('Analyse');
-    // The band ceiling, in the wording `projectDocs/commandVerbs.md` and the
-    // stat tray already use for it — not a fresh synonym.
-    expect(cue.textContent).toContain('Band Cap 4');
+    // The band name (not "Band Cap 4" — `getTierTargetBand(tier) === tier`
+    // always, so that would restate "Tier 4" under a second label).
     expect(cue.textContent).toContain('Sound');
+    expect(cue.textContent).not.toContain('Band Cap');
 
     // Polite. `PromptSelector` states the house reasoning: assertive interrupts
     // a student mid-sentence, and changing question is ordinary navigation.
@@ -369,8 +369,8 @@ describe('the spectrum says its level in words', () => {
     // that content changes, and the whole cue runs to ~140 characters: with
     // the subtitle inside the region, a screen-reader user heard a full prose
     // sentence read out on every question change, on top of the tier and band
-    // cap that are the part they asked for. The lede is what is announced —
-    // "Tier 4 · Analyse & Apply · Band Cap 4 · Sound".
+    // name that are the part they asked for. The lede is what is announced —
+    // "Tier 4 · Analyse & Apply · Sound".
     expect(cue.textContent!.length).toBeLessThan(80);
     expect(cue.textContent).not.toContain('Break things apart');
   });
@@ -530,18 +530,18 @@ describe('the scale rail restores the arc, derived', () => {
     expect(right.textContent).not.toContain(TIER_GROUPS[0].title);
   });
 
-  // The leap across the threshold, as a number in the app's own unit:
-  // everything left of the slot tops out at Band 3 however well it is written;
-  // everything right of it reaches 4, 5 or 6. Asserted against
-  // `getTierTargetBand`'s return values, never against literals.
-  it('states each side’s band cap, so the leap across the threshold is a number', () => {
+  // The rail used to also carry "Band Caps 1–3" / "Band Caps 4–6" on each
+  // span — the same leap-across-the-threshold number the cue line 20px below
+  // already states for whichever tier is active. Two captions saying the same
+  // cap is the redundancy the tier/band-cap chip fix (above, in the detail
+  // card) already retired once; the rail's job is naming the two spans, not
+  // re-deriving a number the cue gives for free.
+  it('leaves the band cap to the cue line, not the rail', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
     const [left, right] = Array.from(rail(container).children) as HTMLElement[];
 
-    expect(left.textContent).toContain(`Band Caps ${getTierTargetBand(1)}–${getTierTargetBand(3)}`);
-    expect(right.textContent).toContain(
-      `Band Caps ${getTierTargetBand(4)}–${getTierTargetBand(6)}`
-    );
+    expect(left.textContent).not.toContain('Band Cap');
+    expect(right.textContent).not.toContain('Band Cap');
   });
 
   // The rail buys its row with no vertical budget at all: it is `absolute` in
