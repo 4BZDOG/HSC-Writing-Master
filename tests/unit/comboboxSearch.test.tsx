@@ -140,6 +140,46 @@ describe('Combobox search', () => {
   });
 });
 
+describe('the option list portals clear of a clipping ancestor', () => {
+  /**
+   * `App.tsx` opens this control inside a `grid-rows-[0fr]/[1fr]` collapse
+   * wrapper whose child carries `overflow-hidden` (needed so the collapse
+   * animation has something to clip to zero height). The list used to be an
+   * `absolute` child of the trigger's own container: out of flow, so it never
+   * grew that ancestor's measured height, and `overflow-hidden` then clipped
+   * the list at the trigger's own bottom edge — with whatever rendered next
+   * on the page (here, the command verb ribbon) visible immediately below
+   * the cut. Portaling to `document.body` is what makes the list escape that
+   * ancestor regardless of its overflow or height.
+   */
+  it('escapes an overflow-hidden ancestor instead of being clipped by it', () => {
+    const { container } = render(
+      <div style={{ overflow: 'hidden', height: 40 }}>
+        <Combobox options={questions} value="" onChange={vi.fn()} label={null} />
+      </div>
+    );
+    fireEvent.click(screen.getByRole('button', { name: /select/i }));
+
+    const listbox = screen.getByRole('listbox');
+    expect(container.contains(listbox)).toBe(false);
+    expect(document.body.contains(listbox)).toBe(true);
+  });
+
+  it('still commits a click on an option once it lives outside the trigger’s container', () => {
+    const onChange = vi.fn();
+    render(
+      <div style={{ overflow: 'hidden', height: 40 }}>
+        <Combobox options={questions} value="" onChange={onChange} label={null} />
+      </div>
+    );
+    fireEvent.click(screen.getByRole('button', { name: /select/i }));
+    fireEvent.click(screen.getByRole('option', { name: /Outline the OSI model/ }));
+
+    expect(onChange).toHaveBeenCalledWith('q5');
+    expect(screen.queryByRole('listbox')).toBeNull();
+  });
+});
+
 describe('typing stays instant', () => {
   /**
    * The list is deferred; the TEXT is not. Filtering twenty tinted question
