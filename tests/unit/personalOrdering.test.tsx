@@ -44,13 +44,7 @@ const attempt = (mark: number | null, at: string): AttemptRecord => ({
 });
 
 describe('choosing the next question', () => {
-  const ladder = [
-    q('t2a', 2, 3),
-    q('t3a', 3, 4),
-    q('t4a', 4, 6),
-    q('t4b', 4, 8),
-    q('t5a', 5, 8),
-  ];
+  const ladder = [q('t2a', 2, 3), q('t3a', 3, 4), q('t4a', 4, 6), q('t4b', 4, 8), q('t5a', 5, 8)];
 
   it('says nothing at all until there is a history to speak from', () => {
     expect(suggestNextQuestion(ladder, new Map())).toBeNull();
@@ -202,11 +196,17 @@ const renderPicker = async (attempts: [string, AttemptSummary][]): Promise<HTMLE
   return screen.getByRole('listbox');
 };
 
-/** The group headings, in order, as the open list currently shows them. */
+/**
+ * The group headings, in order, as the open list currently shows them.
+ *
+ * Read off the group's `aria-label` rather than the visible heading's text: the
+ * runs are real ARIA groups and the label is the authoritative string, while
+ * the heading a sighted reader sees is `aria-hidden` decoration of it.
+ */
 const headings = (list: HTMLElement): string[] =>
   within(list)
-    .getAllByRole('presentation')
-    .map((h) => h.textContent ?? '');
+    .getAllByRole('group')
+    .map((g) => g.getAttribute('aria-label') ?? '');
 
 describe('the question picker, once it knows how the reader went', () => {
   beforeEach(() => {

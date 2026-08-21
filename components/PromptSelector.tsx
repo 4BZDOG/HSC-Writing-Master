@@ -7,6 +7,18 @@ import {
   isSystemAdmin,
 } from '../utils/permissions';
 import Combobox, { SEARCH_THRESHOLD } from './Combobox';
+import NavigatorStep from './NavigatorStep';
+import {
+  NAV_ACTION_BUTTON,
+  NAV_ACTION_VARIANTS,
+  NAV_FOCUS_PILL,
+  NAV_INLINE_INPUT,
+  NAV_INLINE_PANEL,
+  NAV_LEVELS,
+  NAV_OPTION_TILE,
+  NAV_RAIL_LINE,
+  NAV_ROOT,
+} from '../utils/navigatorChrome';
 import QuestionFilterBar from './QuestionFilterBar';
 import {
   QuestionFilter,
@@ -59,6 +71,7 @@ import {
   Eye,
   EyeOff,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import {
   getCommandTermInfo,
   getTargetBand,
@@ -128,10 +141,6 @@ interface PromptSelectorProps {
   isLoading?: boolean;
 }
 
-// Static lookup map for Tailwind classes to ensure they are not purged.
-// The five journey levels use clearly separated hues (blue → purple → teal →
-// pink → amber); completion is a SEPARATE semantic (emerald tick on the rail),
-// so a level's hue never doubles as a status light.
 /** The tier's own heading, as the cognitive spectrum names it. */
 const tierGroupTitle = (tier: number): string =>
   TIER_GROUPS.find((g) => g.tier === tier)?.title ?? `Tier ${tier}`;
@@ -148,162 +157,107 @@ const SUGGESTION_HEADINGS: Record<string, (tier: number) => string> = {
 };
 
 /**
- * The path's levels, outermost first, and what each is called when a move
- * discards the question below it. Order is load-bearing twice over: a cascade
- * clears everything under whichever level moved, so the FIRST key that differs
- * is the one the move was about, and the level the student is left standing on
- * is the one immediately above it.
+ * The six rungs of the path, in the order the cascade clears them, with the word
+ * each one is called in speech.
+ *
+ * "Syllabus point" rather than "Syllabus Content": the visible heading over that
+ * step says the latter, but the picker's own label says the former, and a
+ * spoken sentence should use the noun that names one of them rather than the
+ * name of the shelf they sit on.
  */
-const LEVEL_KEYS = ['courseId', 'topicId', 'subTopicId', 'dotPointId'] as const;
+const CASCADE_LEVELS = [
+  ['courseId', 'Course'],
+  ['syllabusYear', 'Year'],
+  ['topicId', 'Topic'],
+  ['subTopicId', 'Sub-topic'],
+  ['dotPointId', 'Syllabus point'],
+  ['promptId', 'Question'],
+] as const;
 
-const LEVEL_LABEL: Record<(typeof LEVEL_KEYS)[number], string> = {
-  courseId: 'course',
-  topicId: 'topic',
-  subTopicId: 'sub-topic',
-  dotPointId: 'syllabus point',
-};
+type CascadeKey = (typeof CASCADE_LEVELS)[number][0];
+type CascadeSnapshot = Record<CascadeKey, string | undefined>;
 
-const THEMES: Record<string, any> = {
-  blue: {
-    activeBorder: 'border-blue-500/30 light:border-blue-600',
-    activeShadow: 'shadow-blue-900/10',
-    selectedBorder: 'border-blue-500/20',
-    nodeSelected:
-      'bg-[rgb(var(--color-bg-surface))] light:bg-white border-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.4)]',
-    headerIcon:
-      'bg-blue-500/10 text-blue-400 light:bg-blue-100 light:text-blue-700 border-blue-500/20',
-  },
-  purple: {
-    activeBorder: 'border-purple-500/30 light:border-purple-600',
-    activeShadow: 'shadow-purple-900/10',
-    selectedBorder: 'border-purple-500/20',
-    nodeSelected:
-      'bg-[rgb(var(--color-bg-surface))] light:bg-white border-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.4)]',
-    headerIcon:
-      'bg-purple-500/10 text-purple-400 light:bg-purple-100 light:text-purple-700 border-purple-500/20',
-  },
-  teal: {
-    activeBorder: 'border-teal-500/30 light:border-teal-600',
-    activeShadow: 'shadow-teal-900/10',
-    selectedBorder: 'border-teal-500/20',
-    nodeSelected:
-      'bg-[rgb(var(--color-bg-surface))] light:bg-white border-teal-500 shadow-[0_0_8px_rgba(20,184,166,0.4)]',
-    headerIcon:
-      'bg-teal-500/10 text-teal-400 light:bg-teal-100 light:text-teal-700 border-teal-500/20',
-  },
-  pink: {
-    activeBorder: 'border-pink-500/30 light:border-pink-600',
-    activeShadow: 'shadow-pink-900/10',
-    selectedBorder: 'border-pink-500/20',
-    nodeSelected:
-      'bg-[rgb(var(--color-bg-surface))] light:bg-white border-pink-500 shadow-[0_0_8px_rgba(236,72,153,0.4)]',
-    headerIcon:
-      'bg-pink-500/10 text-pink-400 light:bg-pink-100 light:text-pink-700 border-pink-500/20',
-  },
-  amber: {
-    activeBorder: 'border-amber-500/30 light:border-amber-600',
-    activeShadow: 'shadow-amber-900/10',
-    selectedBorder: 'border-amber-500/20',
-    nodeSelected:
-      'bg-[rgb(var(--color-bg-surface))] light:bg-white border-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.4)]',
-    headerIcon:
-      'bg-amber-500/10 text-amber-400 light:bg-amber-100 light:text-amber-700 border-amber-500/20',
-  },
-  green: {
-    activeBorder: 'border-emerald-500/30 light:border-emerald-600',
-    activeShadow: 'shadow-emerald-900/10',
-    selectedBorder: 'border-emerald-500/20',
-    nodeSelected:
-      'bg-[rgb(var(--color-bg-surface))] light:bg-white border-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]',
-    headerIcon:
-      'bg-emerald-500/10 text-emerald-400 light:bg-emerald-100 light:text-emerald-700 border-emerald-500/20',
-  },
-};
+/** A syllabus point ends in a full stop and a question in a question mark, so
+ *  the sentence they are quoted into must not add a second one. */
+const endSentence = (text: string): string => (/[.!?…]$/.test(text) ? text : `${text}.`);
+
+const joinWithAnd = (items: string[]): string =>
+  items.length < 2
+    ? (items[0] ?? '')
+    : `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`;
 
 /**
- * Three presentational pieces of the navigator, at module scope on purpose.
+ * What just happened to the path, in one sentence, for the navigator's live
+ * region.
  *
- * They used to be declared INSIDE `PromptSelector`, which makes each of them a
- * brand-new component type on every render — so React unmounted and remounted
- * every rail node and every action button whenever anything in the picker
- * changed: a keystroke in a search box, a path change, an attempt history
- * arriving. That threw away DOM state each time, and it is why focus vanished
- * after a dialog closed: the button that opened it no longer existed, so there
- * was nothing to hand focus back to.
- *
- * None of them read component state — only module-level `THEMES`, the icons
- * they are given, and `requestUpgrade` — so hoisting them is a move, not a
- * rewrite.
+ * It has to state BOTH halves. Choosing a course clears the four levels beneath
+ * it and up to four steps leave the DOM; a reader who cannot see that happen was
+ * told nothing at all, which is the half that was actually missing. Choosing a
+ * topic is obvious; losing the question you had chosen is not.
  */
-/**
- * Progress node on the vertical rail. One consistent semantic everywhere:
- * done = emerald tick, current = ring in the level's hue, upcoming = hollow
- * grey — the previous version glowed each dot in its level's hue, which read
- * like a random traffic light.
- */
-const RailNode = ({
-  isSelected,
-  isComplete,
-  colorKey,
-}: {
-  isSelected: boolean;
-  isComplete: boolean;
-  colorKey: string;
-}) => {
-  const theme = THEMES[colorKey] || THEMES.blue;
-  const base =
-    'absolute -left-[0.95rem] top-1/2 -translate-y-1/2 rounded-full transition-all duration-500 z-10 flex items-center justify-center';
-  // Plays once when a step first turns complete — either right as this node
-  // mounts already-done, or the moment the user's own action completes it —
-  // and never replays on later re-renders while it merely stays complete.
-  const [justCompleted, setJustCompleted] = useState(false);
-  const wasComplete = useRef(false);
-  useEffect(() => {
-    if (isComplete && !wasComplete.current) {
-      setJustCompleted(true);
+export const describeCascade = (
+  prev: CascadeSnapshot,
+  next: CascadeSnapshot,
+  labelFor: (key: CascadeKey) => string
+): string => {
+  const changed = CASCADE_LEVELS.filter(([key]) => prev[key] !== next[key]);
+  if (changed.length === 0) return '';
+
+  const sentences = changed
+    .filter(([key]) => next[key])
+    .map(([key, name]) => {
+      const label = labelFor(key);
+      return label ? endSentence(`${name} set to ${label}`) : `${name} changed.`;
+    });
+
+  const cleared = changed.filter(([key]) => !next[key]);
+  if (cleared.length > 0) {
+    const names = cleared.map(([, name], i) => (i === 0 ? name : name.toLowerCase()));
+    sentences.push(`${joinWithAnd(names)} cleared.`);
+    // Nothing was set, so this is a step BACK — from a breadcrumb, or from the
+    // collapsed bar — and the reader is now standing at an empty level with
+    // nothing saying what to do about it.
+    if (sentences.length === 1) {
+      sentences.push(`Choose a ${cleared[0][1].toLowerCase()} to continue.`);
     }
-    wasComplete.current = isComplete;
-  }, [isComplete]);
+  }
 
-  if (isComplete) {
-    return (
-      <div
-        className={`${base} w-[1.15rem] h-[1.15rem] bg-emerald-500 border-2 border-emerald-400/60 shadow-[0_0_10px_rgba(16,185,129,0.45)] ${justCompleted ? 'animate-fade-in-up-sm' : ''}`}
-        title="Step complete"
-      >
-        <Check className="w-3 h-3 text-white" strokeWidth={4} />
-      </div>
-    );
-  }
-  if (isSelected) {
-    return (
-      <div
-        className={`${base} w-4 h-4 border-2 scale-125 ${theme.nodeSelected}`}
-        title="Current step"
-      />
-    );
-  }
-  return (
-    <div
-      className={`${base} w-4 h-4 border-2 bg-[rgb(var(--color-bg-surface))] light:bg-slate-200 border-white/20 light:border-slate-400 scale-90 opacity-50`}
-    />
-  );
+  return sentences.join(' ');
 };
 
-const StepHeader = ({ icon: Icon, label, colorKey }: any) => {
-  const theme = THEMES[colorKey] || THEMES.blue; // Defensive fallback
-  return (
-    <div className="flex items-center gap-2 mb-3">
-      <div className={`p-1.5 rounded-md ${theme.headerIcon}`}>
-        {Icon && <Icon className="w-4 h-4" />}
-      </div>
-      <span className="text-xs font-black uppercase tracking-widest text-[rgb(var(--color-text-primary))] light:text-slate-900">
-        {label}
-      </span>
-    </div>
-  );
-};
+/**
+ * The action button, at module scope on purpose.
+ *
+ * It used to be declared INSIDE `PromptSelector`, along with the rail node and
+ * the step header, which makes each of them a brand-new component type on every
+ * render — so React unmounted and remounted every rail node and every action
+ * button whenever anything in the picker changed: a keystroke in a search box, a
+ * path change, an attempt history arriving. That threw away DOM state each time,
+ * and it is why focus vanished after a dialog closed: the button that opened it
+ * no longer existed, so there was nothing to hand focus back to.
+ *
+ * It reads no component state — only the icons it is given and `requestUpgrade`
+ * — so hoisting it was a move, not a rewrite. The rail node and the step header
+ * have since moved again, into `NavigatorStep`, for the same reason they were
+ * hoisted: the thing that repeats five times should be written once.
+ */
+interface ActionButtonProps {
+  onClick: () => void;
+  icon: LucideIcon;
+  /** Also the tooltip, and how six of these are found by the import-entry spec
+   *  — the strings are load-bearing and must survive byte-identical. */
+  title: string;
+  /** Only the wider variants carry one; without it the button is a square. */
+  label?: string;
+  variant?: 'default' | 'danger' | 'special' | 'primary' | 'vault';
+  locked?: boolean;
+}
 
+/**
+ * `variant` used to be an untyped string, so `variant="vault "` or a renamed
+ * kind would have fallen quietly through to the default branch with no type
+ * error and no test. The chain of ternaries it selected with is now a lookup.
+ */
 const ActionButton = ({
   onClick,
   icon: Icon,
@@ -311,21 +265,11 @@ const ActionButton = ({
   label,
   variant = 'default',
   locked = false,
-}: any) => (
+}: ActionButtonProps) => (
   <button
     onClick={locked ? () => requestUpgrade('aiContentStudio') : onClick}
-    className={`relative p-2 ${label ? 'sm:px-3' : ''} rounded-lg transition-all duration-200 flex-shrink-0 hover:scale-105 active:scale-95 border flex items-center gap-1.5 ${
-      locked
-        ? 'bg-amber-400/10 border-amber-400/40 text-amber-500 light:text-amber-600'
-        : variant === 'danger'
-          ? 'bg-red-500/10 border-red-500/20 text-red-400 light:text-red-600'
-          : variant === 'special'
-            ? 'bg-amber-500/10 border-amber-500/20 text-yellow-400 light:text-amber-600'
-            : variant === 'primary'
-              ? 'bg-gradient-to-r from-indigo-500 to-sky-500 border-transparent text-white shadow-md'
-              : variant === 'vault'
-                ? 'bg-blue-600/10 light:bg-blue-50 border-blue-600/20 light:border-blue-300 text-blue-400 light:text-blue-700'
-                : 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border border-white/5 light:border-slate-400 text-[rgb(var(--color-text-secondary))] light:text-slate-600'
+    className={`${NAV_ACTION_BUTTON} ${label ? 'sm:px-3' : ''} ${
+      locked ? NAV_ACTION_VARIANTS.locked : NAV_ACTION_VARIANTS[variant]
     }`}
     title={locked ? `${title} — part of Band 6 Plus` : title}
   >
@@ -336,7 +280,9 @@ const ActionButton = ({
       </span>
     )}
     {locked && (
-      <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-amber-500 text-white flex items-center justify-center shadow">
+      // A solid fill pairs with its own text: the padlock was white on
+      // amber-500 at 2.15:1, and amber-950 on the same fill measures 6.97:1.
+      <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-amber-500 text-amber-950 flex items-center justify-center shadow">
         <Lock className="w-2.5 h-2.5" />
       </span>
     )}
@@ -419,6 +365,58 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   const isDotPointSelected = !!selectedDotPoint;
   const isPromptSelected = !!selectedPrompt;
 
+  // --- Saying what the cascade did --------------------------------------
+  // Choosing at any level clears every level below it, and until now that was
+  // the quietest thing the app does: up to four steps leave the DOM, the
+  // question the reader had chosen goes with them, and nothing is announced.
+  const [announcement, setAnnouncement] = useState('');
+  const previousPath = useRef<CascadeSnapshot | null>(null);
+
+  useEffect(() => {
+    const next: CascadeSnapshot = {
+      courseId: statePath.courseId,
+      syllabusYear: statePath.syllabusYear,
+      topicId: statePath.topicId,
+      subTopicId: statePath.subTopicId,
+      dotPointId: statePath.dotPointId,
+      promptId: statePath.promptId,
+    };
+    const previous = previousPath.current;
+    previousPath.current = next;
+    // Nothing on mount. An assignment link (utils/assignmentLink.ts) lands a
+    // reader on a full path, and reading five levels out on load is noise
+    // arriving before they have done anything.
+    if (!previous) return;
+
+    setAnnouncement(
+      describeCascade(previous, next, (key) => {
+        switch (key) {
+          case 'courseId':
+            return selectedCourse?.name ?? '';
+          case 'syllabusYear':
+            return SYLLABUS_YEARS.find((y) => y.id === statePath.syllabusYear)?.label ?? '';
+          case 'topicId':
+            return selectedTopic?.name ?? '';
+          case 'subTopicId':
+            return selectedSubTopic?.name ?? '';
+          case 'dotPointId':
+            return selectedDotPoint
+              ? splitDotPointDescription(selectedDotPoint.description).stem
+              : '';
+          case 'promptId':
+            return selectedPrompt?.question ?? '';
+        }
+      })
+    );
+  }, [
+    statePath.courseId,
+    statePath.syllabusYear,
+    statePath.topicId,
+    statePath.subTopicId,
+    statePath.dotPointId,
+    statePath.promptId,
+  ]);
+
   // A teacher's hand-set list wins over the parser — one resolution, shared
   // with the question generator and the AI's keyword grounding.
   const subItems = useMemo(() => getFocusAreas(selectedDotPoint), [selectedDotPoint]);
@@ -435,7 +433,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
         isNew: newlyAddedIds.has(c.id),
         renderLabel: (
           <div className="flex items-center gap-3">
-            <div className="p-1.5 rounded-md bg-blue-500/20 text-blue-500 light:bg-blue-100 light:text-blue-700 border border-blue-500/20 flex-shrink-0">
+            <div
+              className={`${NAV_OPTION_TILE} bg-blue-500/20 text-blue-500 light:bg-blue-100 light:text-blue-700 border-blue-500/20`}
+            >
               <Book className="w-4 h-4" />
             </div>
             <span className="font-medium flex-1 min-w-0 truncate">{c.name}</span>
@@ -475,7 +475,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           disabled: !selectable,
           renderLabel: (
             <div className={`flex items-center gap-3 ${selectable ? '' : 'opacity-60'}`}>
-              <div className="p-1.5 rounded-md bg-blue-500/20 text-blue-500 light:bg-blue-100 light:text-blue-700 border border-blue-500/20 flex-shrink-0">
+              <div
+                className={`${NAV_OPTION_TILE} bg-blue-500/20 text-blue-500 light:bg-blue-100 light:text-blue-700 border-blue-500/20`}
+              >
                 <GraduationCap className="w-4 h-4" />
               </div>
               <span className="min-w-0">
@@ -524,7 +526,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
         isNew: newlyAddedIds.has(t.id),
         renderLabel: (
           <div className="flex items-center gap-3">
-            <div className="p-1.5 rounded-md bg-purple-500/20 text-purple-500 light:bg-purple-100 light:text-purple-700 border border-purple-500/20 flex-shrink-0">
+            <div
+              className={`${NAV_OPTION_TILE} bg-purple-500/20 text-purple-500 light:bg-purple-100 light:text-purple-700 border-purple-500/20`}
+            >
               <Layers className="w-4 h-4" />
             </div>
             <span className="font-medium flex-1 min-w-0 truncate">{t.name}</span>
@@ -548,7 +552,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           isNew: newlyAddedIds.has(st.id),
           renderLabel: (
             <div className="flex items-center gap-3">
-              <div className="p-1.5 rounded-md bg-indigo-500/20 text-indigo-500 light:bg-indigo-100 light:text-indigo-700 border border-indigo-500/20 flex-shrink-0">
+              <div
+                className={`${NAV_OPTION_TILE} bg-indigo-500/20 text-indigo-500 light:bg-indigo-100 light:text-indigo-700 border-indigo-500/20`}
+              >
                 <FolderOpen className="w-4 h-4" />
               </div>
               <span className="font-medium flex-1 min-w-0 truncate">{st.name}</span>
@@ -580,13 +586,19 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           isNew: newlyAddedIds.has(dp.id),
           renderLabel: (
             <div className="flex items-start gap-3">
-              <div className="p-1.5 rounded-md bg-pink-500/20 text-pink-500 light:bg-pink-100 light:text-pink-700 border border-pink-500/20 mt-0.5 flex-shrink-0">
+              <div
+                className={`${NAV_OPTION_TILE} bg-pink-500/20 text-pink-500 light:bg-pink-100 light:text-pink-700 border-pink-500/20 mt-0.5`}
+              >
                 <List className="w-4 h-4" />
               </div>
               <span className="min-w-0">
                 <span className="block leading-snug font-medium">{stem}</span>
                 {items.length > 0 && (
-                  <span className="block mt-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-500/80">
+                  // Measured on the dot-point row's own pink-tinted surface,
+                  // not on white: emerald-500/80 read 1.96:1 there in the light
+                  // theme and 3.86:1 in the dark one, so both halves were under
+                  // the floor. The pair is 4.86:1 / 6.89:1.
+                  <span className="block mt-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
                     {items.length} focus area{items.length === 1 ? '' : 's'}
                   </span>
                 )}
@@ -607,14 +619,33 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
         renderLabel: (
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-3">
+              {/* The solid tile pairs with its own text — white on emerald-500
+                  is 2.54:1, emerald-950 on it is 5.97:1.
+
+                  The unselected branch needed the same treatment and did not
+                  get it first time round: `emerald-500` on the `/10` wash over
+                  the light theme's white list surface measures 2.31:1, under an
+                  icon's 3:1 floor. `emerald-700` on the same wash is 4.86:1.
+                  Dark was already fine at 4.92:1, so it keeps its lighter
+                  glyph. Two branches of one ternary, and only one of them was
+                  read the first time. */}
               <div
-                className={`p-1.5 rounded-md border transition-all ${isSelected ? 'bg-emerald-500 text-white border-emerald-400/30' : 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'}`}
+                className={`${NAV_OPTION_TILE} transition-all ${isSelected ? 'bg-emerald-500 text-emerald-950 border-emerald-400/30' : 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-500 border-emerald-500/20'}`}
               >
                 <Target className="w-4 h-4" />
               </div>
-              <span className={`font-medium ${isSelected ? 'text-white' : ''}`}>{item}</span>
+              {/* No colour of its own. The override said `text-white` and the
+                  row it sits on is `bg-emerald-500/10` — which over the light
+                  theme's white list surface is white on near-white, measured at
+                  1.10:1. The row already sets `text-white light:text-slate-900`
+                  (`Combobox.tsx`), which measures 12.52:1 dark and 16.24:1
+                  light, so the fix is to stop overriding it. */}
+              <span className="font-medium">{item}</span>
             </div>
-            {isSelected && <Check className="w-4 h-4 text-emerald-400" />}
+            {/* Same row, same story one element along and not on the plan's
+                list: emerald-400 on that wash measures 1.75:1 in the light
+                theme against an icon's 3:1 floor. */}
+            {isSelected && <Check className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />}
           </div>
         ),
       };
@@ -775,10 +806,17 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <div
                   className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 border ${tierConfig.solidBg} ${tierConfig.border} shadow-sm`}
                 >
+                  {/* The tile takes the tier's own paired text, exactly as the
+                      verb chip eleven lines below always has. Hard-coding
+                      `text-white` here put a white glyph on tier 3's yellow at
+                      1.92:1 dark and 2.15:1 light; `solidText` measures 7.60:1
+                      and 6.79:1, and is `text-white` on the other five tiers,
+                      so nothing else moves. The padlock loses its `/70` with
+                      it — an opacity on a glyph that was already failing. */}
                   {tierLocked ? (
-                    <Lock className="w-5 h-5 text-white/70" />
+                    <Lock className={`w-5 h-5 ${tierConfig.solidText}`} />
                   ) : (
-                    <FileQuestion className="w-5 h-5 text-white" />
+                    <FileQuestion className={`w-5 h-5 ${tierConfig.solidText}`} />
                   )}
                 </div>
                 <div className="flex flex-col min-w-0 flex-1">
@@ -791,7 +829,15 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     >
                       {verbInfo.term}
                     </span>
-                    <span className="text-[10px] font-mono font-black text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                    {/* No light override. `light:text-slate-500` overrode
+                        `--color-text-muted`, whose light value is already
+                        slate-600 — so the override made the light theme
+                        lighter than the theme had asked for. On white that
+                        cost margin; on tier 6's purple wash, which is the one
+                        tier tint neutral enough for the checker to gate, it
+                        measured 4.03:1. Letting the token answer reads 6.42:1
+                        there, and the dark theme is untouched. */}
+                    <span className="text-[10px] font-mono font-black text-[rgb(var(--color-text-muted))]">
                       {p.totalMarks} {p.totalMarks === 1 ? 'Mark' : 'Marks'}
                     </span>
                     <span
@@ -900,12 +946,37 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   const showQuestionFilters = promptOptions.length >= SEARCH_THRESHOLD;
 
   /**
+   * The path's levels, outermost first, and what each is called when a move
+   * discards the question below it — scoped to this one visible notice, which
+   * cares only about "did the question just get silently cleared" rather than
+   * the whole-path cascade `describeCascade` already announces to a screen
+   * reader. Order is load-bearing twice over: a cascade clears everything
+   * under whichever level moved, so the FIRST key that differs is the one the
+   * move was about, and the level the student is left standing on is the one
+   * immediately above it.
+   */
+  const clearedNoticeLevels = ['courseId', 'topicId', 'subTopicId', 'dotPointId'] as const;
+  const clearedNoticeLabel: Record<(typeof clearedNoticeLevels)[number], string> = {
+    courseId: 'course',
+    topicId: 'topic',
+    subTopicId: 'sub-topic',
+    dotPointId: 'syllabus point',
+  };
+
+  /**
    * Named because the change is invisible where it lands: choosing a different
    * topic takes the question with it, and the workspace below simply vanishes
    * — the largest state change in the app, with nothing saying what happened.
    * A `role="status"` line rather than a toast: this is ordinary navigation,
    * and `useToast` is `aria-live="assertive"`, which interrupts a student
    * mid-sentence.
+   *
+   * This is a SIGHTED-user affordance alongside `describeCascade`'s sr-only
+   * live region, not a replacement for it — the two audiences need different
+   * things here: a screen-reader user already hears the whole cascade spoken,
+   * a sighted user gets nothing at all unless something is visibly drawn. The
+   * banner therefore renders `aria-hidden="true"` where it is used below, so a
+   * screen reader is not told the same fact twice.
    */
   const [clearedNotice, setClearedNotice] = useState<string | null>(null);
   const prevPath = useRef(statePath);
@@ -937,17 +1008,21 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
      * the workspace vanishing, and it used to be the only cascade this notice
      * was completely silent for. The student is left on the deepest level.
      */
-    const changedIndex = LEVEL_KEYS.findIndex((k) => before[k] !== statePath[k]);
+    const changedIndex = clearedNoticeLevels.findIndex((k) => before[k] !== statePath[k]);
     const setKey =
-      changedIndex !== -1 && statePath[LEVEL_KEYS[changedIndex]] ? LEVEL_KEYS[changedIndex] : null;
+      changedIndex !== -1 && statePath[clearedNoticeLevels[changedIndex]]
+        ? clearedNoticeLevels[changedIndex]
+        : null;
     if (setKey) {
-      setClearedNotice(`New ${LEVEL_LABEL[setKey]} chosen — your question selection was cleared.`);
+      setClearedNotice(
+        `New ${clearedNoticeLabel[setKey]} chosen — your question selection was cleared.`
+      );
       return;
     }
-    const returnedTo = changedIndex === -1 ? LEVEL_KEYS.length - 1 : changedIndex - 1;
+    const returnedTo = changedIndex === -1 ? clearedNoticeLevels.length - 1 : changedIndex - 1;
     setClearedNotice(
       returnedTo >= 0
-        ? `Back to the ${LEVEL_LABEL[LEVEL_KEYS[returnedTo]]} — your question selection was cleared.`
+        ? `Back to the ${clearedNoticeLabel[clearedNoticeLevels[returnedTo]]} — your question selection was cleared.`
         : // Nothing of the path survives (the course itself went), so there is
           // no level to name — but the question still went, and going quiet is
           // the failure this notice exists to prevent.
@@ -955,36 +1030,40 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     );
   }, [statePath]);
 
-  const getContainerClasses = (isSelected: boolean, zIndex: string) => `
-    relative transition-all duration-500 ease-in-out w-full ${zIndex} ${isSelected ? 'mb-1' : 'mb-6'}
-  `;
-
-  const getBoxClasses = (isSelected: boolean, isActive: boolean, colorKey: string) => {
-    const theme = THEMES[colorKey] || THEMES.blue; // Defensive fallback
-    if (isSelected) {
-      return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface))]/60 light:bg-white border ${theme.selectedBorder} light:border-slate-300 light:shadow-sm py-3 px-4 z-10`;
-    }
-    if (isActive) {
-      return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 ${theme.activeBorder} shadow-xl ${theme.activeShadow} py-6 px-6 scale-[1.01] z-20`;
-    }
-    return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-white/5 light:border-slate-300 py-4 px-6 opacity-60 grayscale hover:grayscale-0 hover:opacity-100`;
-  };
-
   return (
-    <div className="flex flex-col pl-4 md:pl-12 relative animate-fade-in">
-      <div className="absolute left-[1.35rem] md:left-[2.35rem] top-0 bottom-0 w-px bg-white/5 light:bg-slate-400 z-0"></div>
+    // A landmark, because this is the app's primary navigation and had no name,
+    // no role and no structure of any kind — one `aria-` attribute in the whole
+    // file. `role="list"` rather than an `<ol>`: it keeps the DOM shape and the
+    // CSS exactly as they were, and it survives `list-style: none`, which
+    // Safari's accessibility tree otherwise takes list semantics away for.
+    // `tabIndex={-1}` is what makes the handover across the fold actually move
+    // focus: an element with no tabindex at all cannot be focused
+    // programmatically, so the move would silently do nothing.
+    <nav id="syllabus-navigator" tabIndex={-1} aria-label="Syllabus navigator">
+      {/* Polite, never assertive: this follows the reader's own action and must
+          not interrupt them. `aria-atomic`, or a sentence that changes in two
+          places is read in one of them. */}
+      <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {announcement}
+      </p>
+      <div className={NAV_ROOT} role="list">
+        <div className={NAV_RAIL_LINE} aria-hidden="true"></div>
 
-      {/* 1. Course Selection */}
-      <div className={getContainerClasses(isCourseSelected, 'z-50')}>
-        <div className={getBoxClasses(isCourseSelected, !isCourseSelected, 'blue')}>
-          <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
-            <RailNode isSelected={isCourseSelected} isComplete={isTopicSelected} colorKey="blue" />
-          </div>
-          {!isCourseSelected && <StepHeader icon={BookOpen} label="Course" colorKey="blue" />}
+        {/* 1. Course Selection */}
+        <NavigatorStep
+          level="course"
+          label="Course"
+          icon={BookOpen}
+          isSelected={isCourseSelected}
+          isComplete={isTopicSelected}
+          chosenLabel={selectedCourse?.name}
+          zIndex="z-50"
+        >
           <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
             <div className="flex-1 w-full">
               <Combobox
                 label={null}
+                name="Course"
                 options={courseOptions}
                 value={statePath.courseId || ''}
                 onChange={(id) =>
@@ -999,7 +1078,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 }
                 disabled={isLoading}
                 placeholder={isLoading ? 'Loading courses…' : 'Select Course...'}
-                color="blue"
+                color={NAV_LEVELS.course.combobox}
                 emptyAction={
                   canRequestCourse
                     ? {
@@ -1017,11 +1096,12 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               <div className="w-full lg:w-[230px] flex-shrink-0 animate-fade-in">
                 <Combobox
                   label={null}
+                  name="Syllabus year"
                   options={yearOptions}
                   value={syllabusYear}
                   onChange={handleYearChange}
                   placeholder="Select Year..."
-                  color="blue"
+                  color={NAV_LEVELS.course.combobox}
                 />
               </div>
             )}
@@ -1109,21 +1189,19 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               Can’t find your course? Request it →
             </button>
           )}
-        </div>
-      </div>
+        </NavigatorStep>
 
-      {/* 2. Topic Selection */}
-      {selectedCourse && (
-        <div className={getContainerClasses(isTopicSelected, 'z-40')}>
-          <div className={getBoxClasses(isTopicSelected, !isTopicSelected, 'purple')}>
-            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
-              <RailNode
-                isSelected={isTopicSelected}
-                isComplete={isSubTopicSelected}
-                colorKey="purple"
-              />
-            </div>
-            {!isTopicSelected && <StepHeader icon={Layers} label="Topic" colorKey="purple" />}
+        {/* 2. Topic Selection */}
+        {selectedCourse && (
+          <NavigatorStep
+            level="topic"
+            label="Topic"
+            icon={Layers}
+            isSelected={isTopicSelected}
+            isComplete={isSubTopicSelected}
+            chosenLabel={selectedTopic?.name}
+            zIndex="z-40"
+          >
             {topicOptions.length === 0 && (
               <p className="mb-3 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
                 <Upload className="w-3.5 h-3.5" />
@@ -1139,6 +1217,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               <div className="flex-1 w-full">
                 <Combobox
                   label={null}
+                  name="Topic"
                   options={topicOptions}
                   value={statePath.topicId || ''}
                   onChange={(id) =>
@@ -1151,7 +1230,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     })
                   }
                   placeholder="Select Topic..."
-                  color="purple"
+                  color={NAV_LEVELS.topic.combobox}
                 />
               </div>
               {canCurate && (
@@ -1229,7 +1308,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             </div>
 
             {inlineTopicOpen && canCreateTree && (
-              <div className="mt-3 p-4 rounded-2xl bg-white/5 light:bg-slate-50 border border-purple-500/20 light:border-purple-200 animate-fade-in">
+              <div className={NAV_INLINE_PANEL}>
                 <div className="flex flex-col gap-3">
                   {/* Which year this lands in. The topic list above is already
                       filtered to it, so a topic created here appears to vanish
@@ -1243,7 +1322,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     value={inlineTopicName}
                     onChange={(e) => setInlineTopicName(e.target.value)}
                     placeholder="Topic name (e.g. Core 1: Meanings and Values)"
-                    className="w-full px-3 py-2 rounded-xl bg-white/10 light:bg-white border border-white/10 light:border-slate-200 text-sm font-medium text-[rgb(var(--color-text-primary))] placeholder:text-[rgb(var(--color-text-muted))] focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+                    className={`${NAV_INLINE_INPUT} font-medium`}
                     autoFocus
                     onKeyDown={(e) => {
                       if (
@@ -1263,12 +1342,21 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     onChange={(e) => setInlineSyllabusText(e.target.value)}
                     placeholder="Optional: paste NESA syllabus text here to auto-create sub-topics and dot points…"
                     rows={4}
-                    className="w-full px-3 py-2 rounded-xl bg-white/10 light:bg-white border border-white/10 light:border-slate-200 text-sm text-[rgb(var(--color-text-primary))] placeholder:text-[rgb(var(--color-text-muted))] focus:outline-none focus:ring-2 focus:ring-purple-500/40 resize-y"
+                    className={`${NAV_INLINE_INPUT} resize-y`}
                     onKeyDown={(e) => {
                       if (e.key === 'Escape') setInlineTopicOpen(false);
                     }}
                   />
-                  {inlineError && <p className="text-xs text-red-400 font-medium">{inlineError}</p>}
+                  {/* On the panel's own slate-50 surface: red-400 measured
+                      2.64:1, red-600 measures 4.62:1. This one sits on a
+                      neutral background, so it is the one reading here the
+                      contrast suite will gate the moment it can see this
+                      component. */}
+                  {inlineError && (
+                    <p className="text-xs text-red-600 dark:text-red-400 font-medium">
+                      {inlineError}
+                    </p>
+                  )}
                   <div className="flex items-center justify-end gap-2">
                     <button
                       onClick={() => {
@@ -1302,24 +1390,20 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 </div>
               </div>
             )}
-          </div>
-        </div>
-      )}
+          </NavigatorStep>
+        )}
 
-      {/* 3. Sub-Topic Selection */}
-      {selectedTopic && (
-        <div className={getContainerClasses(isSubTopicSelected, 'z-30')}>
-          <div className={getBoxClasses(isSubTopicSelected, !isSubTopicSelected, 'teal')}>
-            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
-              <RailNode
-                isSelected={isSubTopicSelected}
-                isComplete={isDotPointSelected}
-                colorKey="teal"
-              />
-            </div>
-            {!isSubTopicSelected && (
-              <StepHeader icon={FolderOpen} label="Sub-Topic" colorKey="teal" />
-            )}
+        {/* 3. Sub-Topic Selection */}
+        {selectedTopic && (
+          <NavigatorStep
+            level="subTopic"
+            label="Sub-Topic"
+            icon={FolderOpen}
+            isSelected={isSubTopicSelected}
+            isComplete={isDotPointSelected}
+            chosenLabel={selectedSubTopic?.name}
+            zIndex="z-30"
+          >
             {/* Same shape and the same curator/student split as the Topic stage
                 above: a picker that opens onto a bare "No options available."
                 never says whose problem the emptiness is. */}
@@ -1336,6 +1420,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               <div className="flex-1 w-full">
                 <Combobox
                   label={null}
+                  name="Sub-topic"
                   options={subTopicOptions}
                   value={statePath.subTopicId || ''}
                   onChange={(id) =>
@@ -1347,7 +1432,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     })
                   }
                   placeholder="Select Sub-Topic..."
-                  color="teal"
+                  color={NAV_LEVELS.subTopic.combobox}
                 />
               </div>
               {canCurate && (
@@ -1385,24 +1470,27 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 </div>
               )}
             </div>
-          </div>
-        </div>
-      )}
+          </NavigatorStep>
+        )}
 
-      {/* 4. Dot Point & Syllabus Focus (Merged Row) */}
-      {selectedSubTopic && (
-        <div className={getContainerClasses(isDotPointSelected, 'z-20')}>
-          <div className={getBoxClasses(isDotPointSelected, !isDotPointSelected, 'pink')}>
-            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
-              <RailNode
-                isSelected={isDotPointSelected}
-                isComplete={isPromptSelected}
-                colorKey="pink"
-              />
-            </div>
-            {!isDotPointSelected && (
-              <StepHeader icon={List} label="Syllabus Content" colorKey="pink" />
-            )}
+        {/* 4. Dot Point & Syllabus Focus (Merged Row) */}
+        {selectedSubTopic && (
+          <NavigatorStep
+            level="dotPoint"
+            label="Syllabus Content"
+            icon={List}
+            isSelected={isDotPointSelected}
+            isComplete={isPromptSelected}
+            chosenLabel={
+              selectedDotPoint
+                ? splitDotPointDescription(selectedDotPoint.description).stem
+                : undefined
+            }
+            zIndex="z-20"
+          >
+            {/* Same shape as the Topic and Sub-Topic stages: a picker opening
+                onto a bare "No options available." never says whose problem
+                the emptiness is. */}
             {dotPointOptions.length === 0 && (
               <p className="mb-3 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
                 <List className="w-3.5 h-3.5" />
@@ -1412,12 +1500,12 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   : 'Ask a teacher or admin to add content here.'}
               </p>
             )}
-
             <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-start">
               {/* Main Dot Point Selector - Grows to take most space */}
               <div className="flex-[3] w-full min-w-0">
                 <Combobox
                   label={isDotPointSelected && hasSubItems ? 'Syllabus Point' : null}
+                  name="Syllabus point"
                   options={dotPointOptions}
                   value={statePath.dotPointId || ''}
                   onChange={(id) =>
@@ -1428,7 +1516,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     })
                   }
                   placeholder="Select Dot Point..."
-                  color="pink"
+                  color={NAV_LEVELS.dotPoint.combobox}
                 />
               </div>
 
@@ -1437,6 +1525,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <div className="flex-1 w-full lg:min-w-[240px] animate-fade-in">
                   <Combobox
                     label="Active Focus"
+                    name="Active focus"
                     options={subItemOptions}
                     value={activeFocusCount > 0 ? 'MULTIPLE' : ''}
                     onChange={handleSubItemToggle}
@@ -1462,7 +1551,10 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                           className={`p-2 rounded-lg border transition-all shadow-sm ${
                             focusAreasOverridden
                               ? 'bg-emerald-500/20 text-emerald-400 light:text-emerald-700 border-emerald-500/40'
-                              : 'bg-emerald-500/10 text-emerald-400 light:text-emerald-700 border-emerald-500/20 hover:bg-emerald-500 hover:text-white'
+                              : // emerald-600 on hover rather than emerald-500:
+                                // the white glyph over it was 2.54:1 and is now
+                                // 3.77:1, which is what an icon has to clear.
+                                'bg-emerald-500/10 text-emerald-400 light:text-emerald-700 border-emerald-500/20 hover:bg-emerald-600 hover:text-white'
                           }`}
                           title={
                             focusAreasOverridden
@@ -1479,7 +1571,11 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       {hasSubItems && activeFocusCount > 0 && (
                         <button
                           onClick={() => onPathChange({ selectedSubItems: undefined })}
-                          className="p-2 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all shadow-sm"
+                          // red-400 on the red wash measured 2.40:1 in the light
+                          // theme; red-600 measures 4.19:1, past the 3:1 an
+                          // icon has to clear. The hover state stays as it is —
+                          // white on red-500 is 3.76:1 and already clears it.
+                          className="p-2 rounded-lg bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all shadow-sm"
                           title="Reset Focus"
                         >
                           <RotateCcw className="w-4 h-4" />
@@ -1529,10 +1625,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             {activeFocusCount > 0 && (
               <div className="mt-3 flex flex-wrap gap-2 animate-fade-in pl-1">
                 {statePath.selectedSubItems?.map((item) => (
-                  <div
-                    key={item}
-                    className="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 light:text-emerald-800 text-[10px] font-black uppercase border border-emerald-500/20"
-                  >
+                  <div key={item} className={NAV_FOCUS_PILL}>
                     {item}
                     <button
                       onClick={() => handleSubItemToggle(item)}
@@ -1544,56 +1637,72 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 ))}
               </div>
             )}
-          </div>
-        </div>
-      )}
+          </NavigatorStep>
+        )}
 
-      {selectedDotPoint && onUpdateFocusAreas && (
-        <FocusAreaEditorModal
-          isOpen={focusEditorOpen}
-          onClose={() => setFocusEditorOpen(false)}
-          description={selectedDotPoint.description}
-          focusAreas={subItems}
-          isOverridden={focusAreasOverridden}
-          onSave={(areas) => {
-            onUpdateFocusAreas(selectedDotPoint.id, areas);
-            // An active focus that no longer exists in the list would keep
-            // narrowing generated questions to a phrase the teacher just
-            // deleted, and nothing on screen would say so.
-            const stillValid = (statePath.selectedSubItems || []).filter((i) => areas.includes(i));
-            onPathChange({ selectedSubItems: stillValid.length ? stillValid : undefined });
-          }}
-          onReset={() => {
-            onUpdateFocusAreas(selectedDotPoint.id, undefined);
-            onPathChange({ selectedSubItems: undefined });
-          }}
-        />
-      )}
+        {selectedDotPoint && onUpdateFocusAreas && (
+          <FocusAreaEditorModal
+            isOpen={focusEditorOpen}
+            onClose={() => setFocusEditorOpen(false)}
+            description={selectedDotPoint.description}
+            focusAreas={subItems}
+            isOverridden={focusAreasOverridden}
+            onSave={(areas) => {
+              onUpdateFocusAreas(selectedDotPoint.id, areas);
+              // An active focus that no longer exists in the list would keep
+              // narrowing generated questions to a phrase the teacher just
+              // deleted, and nothing on screen would say so.
+              const stillValid = (statePath.selectedSubItems || []).filter((i) =>
+                areas.includes(i)
+              );
+              onPathChange({ selectedSubItems: stillValid.length ? stillValid : undefined });
+            }}
+            onReset={() => {
+              onUpdateFocusAreas(selectedDotPoint.id, undefined);
+              onPathChange({ selectedSubItems: undefined });
+            }}
+          />
+        )}
 
-      {/* Deliberately OUTSIDE the `selectedDotPoint` guard below. Three of the
-          four cascades that discard a question (course, topic, sub-topic) also
-          clear the dot point, so a notice rendered inside the Question card
-          would only ever be seen for the fourth. Out here it appears in the gap
-          the vanished stages left, which is where the student was looking. */}
-      {clearedNotice && (
-        <p
-          role="status"
-          className="mb-3 flex items-center gap-1.5 text-xs font-medium text-amber-600 dark:text-amber-400 animate-fade-in-up-sm"
-        >
-          <RotateCcw className="w-3.5 h-3.5 shrink-0" aria-hidden="true" /> {clearedNotice}
-        </p>
-      )}
+        {/* Deliberately OUTSIDE the `selectedDotPoint` guard below. Three of the
+            four cascades that discard a question (course, topic, sub-topic)
+            also clear the dot point, so a notice rendered inside the Question
+            card would only ever be seen for the fourth. Out here it appears in
+            the gap the vanished stages left, which is where the student was
+            looking.
 
-      {/* 5. Question Selection */}
-      {selectedDotPoint && (
-        <div className={getContainerClasses(isPromptSelected, 'z-10')}>
-          <div className={getBoxClasses(isPromptSelected, !isPromptSelected, 'amber')}>
-            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
-              <RailNode isSelected={isPromptSelected} isComplete={false} colorKey="amber" />
-            </div>
-            {!isPromptSelected && (
-              <StepHeader icon={FileQuestion} label="Question" colorKey="amber" />
-            )}
+            `aria-hidden`, not `role="status"`: `describeCascade`'s sr-only
+            live region already speaks this same fact, so a screen reader
+            hearing it announced a second time here would be told nothing new,
+            twice. This banner is a sighted-user affordance only — the visible
+            gap needs *something* drawn into it, and a live-region role on top
+            of that would just double the narration. */}
+        {clearedNotice && (
+          <p
+            aria-hidden="true"
+            data-testid="cleared-notice"
+            className="mb-3 flex items-center gap-1.5 text-xs font-medium text-amber-600 dark:text-amber-400 animate-fade-in-up-sm"
+          >
+            <RotateCcw className="w-3.5 h-3.5 shrink-0" aria-hidden="true" /> {clearedNotice}
+          </p>
+        )}
+
+        {/* 5. Question Selection */}
+        {selectedDotPoint && (
+          <NavigatorStep
+            level="question"
+            label="Question"
+            icon={FileQuestion}
+            isSelected={isPromptSelected}
+            // Every other level reads `isComplete` from the level below it, and
+            // the last one had nothing below to read, so it was hard-coded false
+            // and could never finish. Choosing a question is what the whole rail
+            // is for; it is the one node that most deserves the tick.
+            isComplete={isPromptSelected}
+            chosenLabel={selectedPrompt?.question}
+            isEmpty={promptOptions.length === 0}
+            zIndex="z-10"
+          >
             {promptOptions.length === 0 && (
               <p className="mb-3 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
                 <FileQuestion className="w-3.5 h-3.5" />
@@ -1613,6 +1722,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               <div className="flex-1 w-full">
                 <Combobox
                   label={null}
+                  name="Question"
                   options={visiblePromptOptions}
                   value={statePath.promptId || ''}
                   onChange={(id) => {
@@ -1624,7 +1734,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     onPathChange({ promptId: id });
                   }}
                   placeholder="Select Question..."
-                  color="amber"
+                  color={NAV_LEVELS.question.combobox}
                 />
               </div>
               {canCurate && (
@@ -1670,7 +1780,11 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     <div className="flex gap-2 flex-wrap justify-end">
                       <button
                         onClick={onManualEntry}
-                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 font-bold text-xs uppercase tracking-widest border border-purple-500/30 transition-all"
+                        // "Manual" carries a label, so it answers to 4.5:1 and
+                        // not to 3. purple-400 on its own wash measured 2.34:1
+                        // in the light theme; purple-700 measures 6.18:1, and
+                        // the dark theme keeps the 6.05:1 it already had.
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-700 dark:text-purple-400 font-bold text-xs uppercase tracking-widest border border-purple-500/30 transition-all"
                       >
                         <PenTool className="w-4 h-4" /> Manual
                       </button>
@@ -1701,10 +1815,10 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 </div>
               )}
             </div>
-          </div>
-        </div>
-      )}
-    </div>
+          </NavigatorStep>
+        )}
+      </div>
+    </nav>
   );
 };
 

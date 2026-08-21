@@ -30,7 +30,10 @@ const questions = [
   { id: 'q7', label: 'Justify a design decision.', searchText: 'JUSTIFY 7 marks HSC 2023' },
 ];
 
-const renderBox = (options: React.ComponentProps<typeof Combobox>['options'], onChange = vi.fn()) => {
+const renderBox = (
+  options: React.ComponentProps<typeof Combobox>['options'],
+  onChange = vi.fn()
+) => {
   render(<Combobox options={options} value="" onChange={onChange} label={null} />);
   fireEvent.click(screen.getByRole('button', { name: /select/i }));
   return onChange;
@@ -137,6 +140,129 @@ describe('Combobox search', () => {
     fireEvent.click(screen.getByRole('button', { name: /select/i }));
     expect((screen.getByRole('combobox') as HTMLInputElement).value).toBe('');
     expect(optionTexts()).toHaveLength(questions.length);
+  });
+});
+
+/**
+ * Where the keyboard ends up, and what the button is called once it is no
+ * longer showing a placeholder. Both were silently wrong: a selection closed
+ * the list without putting focus anywhere, and a chosen picker read back only
+ * the choice, so a cascade of five of them announced five proper nouns and
+ * nothing that said which was which.
+ */
+describe('the trigger keeps the keyboard, and says what it is for', () => {
+  const trigger = () => screen.getByRole('button', { name: /select/i });
+
+  it('takes focus back when Enter picks an option', () => {
+    renderBox(questions);
+    const opener = trigger();
+    // A searchable list moves focus into the search box, which unmounts with
+    // the dropdown — this is the path that used to lose focus outright.
+    expect(document.activeElement).toBe(search());
+
+    fireEvent.keyDown(search(), { key: 'Enter' });
+    expect(document.activeElement).toBe(opener);
+  });
+
+  it('takes focus back when an option is clicked', () => {
+    renderBox(questions);
+    const opener = trigger();
+
+    fireEvent.click(screen.getAllByRole('option')[2]);
+    expect(document.activeElement).toBe(opener);
+  });
+
+  // A click elsewhere is a request to be elsewhere; dragging focus back would
+  // fight the user rather than help them.
+  it('does not chase focus when the click was outside', () => {
+    renderBox(questions);
+    const opener = trigger();
+
+    fireEvent.mouseDown(document.body);
+    expect(screen.queryByRole('listbox')).toBeNull();
+    expect(document.activeElement).not.toBe(opener);
+  });
+
+  it('reads out its level as well as the choice', () => {
+    render(
+      <Combobox options={questions} value="q5" onChange={vi.fn()} label={null} name="Course" />
+    );
+
+    // A superset of what it said before — the chosen label is still in there,
+    // which is what the specs matching this button by substring rely on.
+    expect(screen.getByRole('button', { name: /Course/ })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /Outline the OSI model/ })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /^Course Outline the OSI model\.$/ })).toBeTruthy();
+  });
+
+  it('lets a visible label do the naming rather than saying it twice', () => {
+    render(
+      <Combobox
+        options={questions}
+        value="q5"
+        onChange={vi.fn()}
+        label="Target Course"
+        name="Course"
+      />
+    );
+
+    expect(
+      screen.getByRole('button', { name: /^Target Course Outline the OSI model\.$/ })
+    ).toBeTruthy();
+  });
+});
+
+/**
+ * Twenty tinted question cards are a wall; six named runs are a choice. The
+ * headings that make that difference were `role="presentation"`, so the whole
+ * benefit was withheld from anyone not looking at the screen.
+ */
+describe('grouped lists', () => {
+  const SUGGESTED = 'Suggested next · one step on from Define';
+  const LADDER = 'Analyse & Apply · Band 4';
+  const grouped = questions.map((q, i) => ({ ...q, group: i < 3 ? SUGGESTED : LADDER }));
+
+  it('leaves a list with no groups exactly as it was', () => {
+    renderBox(questions);
+
+    expect(screen.queryAllByRole('group')).toHaveLength(0);
+    expect(screen.getAllByRole('option')).toHaveLength(questions.length);
+  });
+
+  it('makes each run a group that says what it is', () => {
+    renderBox(grouped);
+
+    expect(screen.getAllByRole('group').map((g) => g.getAttribute('aria-label'))).toEqual([
+      SUGGESTED,
+      LADDER,
+    ]);
+  });
+
+  // The ids and the highlight arithmetic run on the FLAT visible index; nesting
+  // the rows a level deeper must not shift a single one of them.
+  it('keeps the option index flat across the runs', () => {
+    renderBox(grouped);
+
+    expect(screen.getAllByRole('option')).toHaveLength(questions.length);
+    expect(screen.getAllByRole('option').map((o) => o.getAttribute('data-option-index'))).toEqual([
+      '0',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+    ]);
+
+    const secondRun = within(screen.getAllByRole('group')[1]).getAllByRole('option');
+    expect(secondRun[0].getAttribute('data-option-index')).toBe('3');
+  });
+
+  it('still selects the right question from inside a group', () => {
+    const onChange = renderBox(grouped);
+    fireEvent.click(within(screen.getAllByRole('group')[1]).getAllByRole('option')[1]);
+
+    expect(onChange).toHaveBeenCalledWith('q5');
   });
 });
 

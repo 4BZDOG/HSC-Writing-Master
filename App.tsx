@@ -803,11 +803,12 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
 
   // Every control in this region that destroys itself by being pressed hands
   // focus on to whatever replaced it; see the hook for which three, and why the
-  // crumb count is a second trigger alongside the collapse seam.
-  const { navigatorRef, expandButtonRef, noteNavigatorFocused } = useNavigatorFocusHandoff(
-    isNavCollapsed,
-    crumbJumps
-  );
+  // crumb count is a second trigger alongside the collapse seam. It also
+  // returns the sentence a screen reader needs on the collapse/expand edge —
+  // focus alone says nothing to a reader who cannot see the picker vanish or
+  // the breadcrumb appear.
+  const { navigatorRef, expandButtonRef, noteNavigatorFocused, foldAnnouncement } =
+    useNavigatorFocusHandoff(isNavCollapsed, crumbJumps);
 
   return (
     <>
@@ -878,6 +879,14 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       >
         {!isFocusMode && <BillingAlertBanner />}
 
+        {/* What the fold did. Rendered unconditionally so the region survives
+            the swap between the navigator and the breadcrumb — a live region
+            that mounts at the same moment its text arrives is not announced at
+            all. Polite, because it follows the reader's own action. */}
+        <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+          {foldAnnouncement}
+        </p>
+
         {!isFocusMode && isNavCollapsed && currentPrompt && (
           <SyllabusNavBar
             crumbs={syllabusCrumbs}
@@ -919,8 +928,24 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 the box boundary. */}
             <div className="overflow-hidden -mx-24 px-24">
               {/* `tabIndex={-1}` for the same reason the main landmark carries
-                  one: a programmatic focus target, never a tab stop. */}
-              <div ref={navigatorRef} tabIndex={-1} className="relative z-50">
+                  one: a programmatic focus target, never a tab stop.
+
+                  `aria-label` here too, alongside the one `PromptSelector`
+                  carries on its own inner `<nav>`: this outer div, not that
+                  nav, is what `navigatorRef` actually focuses (`PromptSelector`
+                  is 1500 lines and not a `forwardRef`, so the ref can only
+                  reach as far as its wrapper). Without a name of its own, focus
+                  landing here on expand would announce nothing — a `<div>`
+                  with `tabIndex` carries no implicit role a screen reader
+                  speaks by default. The nested pair of labels is a little
+                  duplicate, but a landmark announced twice is a smaller fault
+                  than a landmark announced never. */}
+              <div
+                ref={navigatorRef}
+                tabIndex={-1}
+                aria-label="Syllabus navigator"
+                className="relative z-50"
+              >
                 <PromptSelector
                   courses={navigatorCourses}
                   statePath={statePath}

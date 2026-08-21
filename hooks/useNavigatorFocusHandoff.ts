@@ -1,4 +1,14 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+
+/**
+ * What a screen reader hears on the collapse/expand edge. Focus alone tells a
+ * sighted user something happened; a reader who cannot see the picker vanish
+ * or the breadcrumb appear needs the sentence as well as the landmark.
+ */
+export const NAVIGATOR_COLLAPSED_MESSAGE =
+  'Question selected. The syllabus navigator has collapsed to a breadcrumb; your writing space is below.';
+
+export const NAVIGATOR_EXPANDED_MESSAGE = 'Syllabus navigator open.';
 
 /**
  * Focus handoff for the navigator's self-destroying controls.
@@ -32,6 +42,7 @@ import { useCallback, useEffect, useRef } from 'react';
 export const useNavigatorFocusHandoff = (isNavCollapsed: boolean, crumbJumps: number) => {
   const navigatorRef = useRef<HTMLDivElement>(null);
   const expandButtonRef = useRef<HTMLButtonElement>(null);
+  const [foldAnnouncement, setFoldAnnouncement] = useState('');
   /**
    * Only a navigator the user has actually stood in can have cost them their
    * place. A question restored from storage collapses the navigator on load
@@ -53,9 +64,20 @@ export const useNavigatorFocusHandoff = (isNavCollapsed: boolean, crumbJumps: nu
     if (!collapseEdge && !crumbEdge) return;
 
     if (isNavCollapsed) {
+      // Spoken regardless of `navigatorEverFocused`: a screen-reader user
+      // browsing by virtual cursor rather than Tab still benefits from being
+      // told the region collapsed, even though the focus MOVE stays gated —
+      // stealing focus on a fold nobody engaged with the keyboard would be its
+      // own new surprise.
+      if (collapseEdge) setFoldAnnouncement(NAVIGATOR_COLLAPSED_MESSAGE);
       if (navigatorEverFocused.current) expandButtonRef.current?.focus({ preventScroll: true });
       return;
     }
+
+    // A crumb clicked on the still-open navigator moves nothing to announce —
+    // it only re-focuses the picker — so the message is tied to the collapse
+    // edge specifically, not to every reason this branch runs.
+    if (collapseEdge) setFoldAnnouncement(NAVIGATOR_EXPANDED_MESSAGE);
 
     const el = navigatorRef.current;
     if (!el) return;
@@ -67,7 +89,7 @@ export const useNavigatorFocusHandoff = (isNavCollapsed: boolean, crumbJumps: nu
     el.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
   }, [isNavCollapsed, crumbJumps]);
 
-  return { navigatorRef, expandButtonRef, noteNavigatorFocused };
+  return { navigatorRef, expandButtonRef, noteNavigatorFocused, foldAnnouncement };
 };
 
 export default useNavigatorFocusHandoff;

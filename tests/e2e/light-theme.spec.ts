@@ -1,5 +1,12 @@
 import { test, expect, Page } from '@playwright/test';
-import { signIn, clearOnboarding, openFirstQuestion, openVerbRibbon } from './support/workspace';
+import {
+  signIn,
+  clearOnboarding,
+  openFirstQuestion,
+  openNavigatorPicker,
+  openNavigatorToDotPoint,
+  openVerbRibbon,
+} from './support/workspace';
 import {
   freezeAnimations,
   measureContrast,
@@ -41,10 +48,26 @@ const PARITY_TOLERANCE = 0.5;
  *  lays both cards out side by side above this width. */
 const WIDE = { width: 1400, height: 900 };
 
-const setTheme = async (page: Page, theme: 'light' | 'dark') => {
+/**
+ * `via: 'keyboard'` exists for the navigator test, which measures with a
+ * dropdown open. `Combobox` shuts on any `mousedown` outside itself, so
+ * clicking the theme toggle would unmount the very rows being compared — and
+ * the parity invariant has to re-measure the nodes the first pass tagged.
+ * Focusing the button and pressing it fires no mousedown, so the list survives
+ * the swap. The two tests that measure the workspace still click, unchanged.
+ */
+const setTheme = async (
+  page: Page,
+  theme: 'light' | 'dark',
+  via: 'click' | 'keyboard' = 'click'
+) => {
   const toggle = page.getByRole('button', { name: new RegExp(`switch to ${theme} theme`, 'i') });
   if (await toggle.count()) {
-    await toggle.first().click();
+    if (via === 'keyboard') {
+      await toggle.first().press('Enter');
+    } else {
+      await toggle.first().click();
+    }
     // The theme swap animates the surfaces it touches.
     await page.waitForTimeout(800);
   }
@@ -112,6 +135,105 @@ test.describe('light theme', () => {
       .filter((r) => r.after.ratio < r.darkRatio - PARITY_TOLERANCE && r.after.ratio < r.floor);
 
     expect(dark.size, 'nothing was measured').toBeGreaterThan(20);
+    expect(
+      regressions.map(
+        (r) =>
+          `"${r.text}" — ${r.darkRatio}:1 dark (${r.color} on ${r.background}), ` +
+          `${r.after.ratio}:1 light (${r.after.color} on ${r.after.background})  ${r.selector}`
+      ),
+      'these read worse in the light theme than in the dark one, and below the floor'
+    ).toEqual([]);
+  });
+});
+
+/**
+ * The same two invariants, applied to the screen the suite could never see.
+ *
+ * Everything above reaches the workspace through `openFirstQuestion`, and
+ * choosing a question folds the syllabus navigator to a breadcrumb and unmounts
+ * it. So the audit has never measured a colour in the app's *first* screen —
+ * the navigator is what a student meets before anything else, and it has been
+ * exempt by accident for as long as this suite has existed. That is why a
+ * selected focus area could sit at 1.10:1, white on near-white, in the open.
+ *
+ * The fold is correct and stays; the fix is to measure before it, by stopping
+ * one level short of a question.
+ *
+ * Measured in two states, because only one dropdown can be open at a time and
+ * neither's contents exist in the DOM while it is shut. What is still not
+ * covered, so the tick is not read as more than it is: the rail nodes, the
+ * step-header icon tiles and the icon-only action buttons carry no text at all,
+ * and a text-node walker cannot see them.
+ */
+test.describe('light theme — the expanded syllabus navigator', () => {
+  test.describe.configure({ timeout: 180_000 });
+
+  test.skip(({ isMobile }) => !!isMobile, 'measured once, at the width both cards share');
+
+  /** The two dropdowns worth opening, and what each is the only way to reach. */
+  const PICKERS = [
+    // Tier-washed question rows, their verb chips and their marks labels.
+    'Select Question...',
+    // The selected focus row, its solid emerald tile and its tick.
+    'Refine Scope...',
+  ];
+
+  test.beforeEach(async ({ page }) => {
+    await page.setViewportSize(WIDE);
+    // `admin`, because several of the navigator's colours are on curator-only
+    // controls and the free tier never renders them.
+    await signIn(page, 'admin');
+    await clearOnboarding(page);
+    await openNavigatorToDotPoint(page);
+  });
+
+  test('every reading surface meets AA, in both themes', async ({ page }) => {
+    for (const theme of ['light', 'dark'] as const) {
+      await setTheme(page, theme, 'keyboard');
+      for (const picker of PICKERS) {
+        await openNavigatorPicker(page, picker);
+        await freezeAnimations(page);
+        const { readings, unassessed } = await measureContrast(page);
+
+        expect(readings.length, `nothing was measured with ${picker} open`).toBeGreaterThan(20);
+
+        const failures = readings.filter((r) => r.neutralBackground && r.ratio < r.floor);
+        expect(
+          failures,
+          `${theme} theme, ${picker} open: ${failures.length} of ${readings.length} text nodes ` +
+            `on a plain background fall below their contrast floor ` +
+            `(${unassessed} more sit over a gradient and were not assessed)\n` +
+            describeReadings(failures)
+        ).toEqual([]);
+      }
+    }
+  });
+
+  test('the light theme is never dimmer than the dark one', async ({ page }) => {
+    // The question list is the larger of the two states and the one whose rows
+    // are tier-coloured, which is where every light-theme defect this project
+    // has shipped has come from.
+    await setTheme(page, 'dark', 'keyboard');
+    await openNavigatorPicker(page, 'Select Question...');
+    await freezeAnimations(page);
+    const { readings } = await measureContrast(page);
+
+    // Keyboard, so the list survives the swap with its tags attached.
+    await setTheme(page, 'light', 'keyboard');
+    await freezeAnimations(page);
+    const light = await remeasureTagged(page);
+
+    const regressions = readings
+      .filter((r) => light[r.id] !== undefined)
+      .map((r) => ({ ...r, darkRatio: r.ratio, after: light[r.id] }))
+      .filter((r) => r.after.text === r.text)
+      .filter((r) => r.after.ratio < r.darkRatio - PARITY_TOLERANCE && r.after.ratio < r.floor);
+
+    expect(readings.length, 'nothing was measured').toBeGreaterThan(20);
+    expect(
+      Object.keys(light).length,
+      'the dropdown closed between the two passes, so nothing was comparable'
+    ).toBeGreaterThan(20);
     expect(
       regressions.map(
         (r) =>

@@ -68,6 +68,20 @@ interface ComboboxProps {
   value: string;
   onChange: (id: string) => void;
   label: React.ReactNode;
+  /**
+   * What this picker is FOR, said in words, for the trigger's accessible name.
+   *
+   * Once something is chosen the button reads back only the choice — "HSC
+   * Biology (Advanced)", "Year 12", "Heredity and Genetic Change" — so a reader
+   * walking a cascade of five of them hears five proper nouns and nothing that
+   * says which is which. `name` is prefixed to the choice, giving "Course, HSC
+   * Biology (Advanced)".
+   *
+   * A visible `label` already does this job and wins when there is one; `name`
+   * is for the pickers that draw their level in a heading above instead, and
+   * for the one whose label comes and goes with the data.
+   */
+  name?: string;
   placeholder?: string;
   disabled?: boolean;
   color?: ComboboxColor;
@@ -209,6 +223,7 @@ const Combobox: React.FC<ComboboxProps> = ({
   value,
   onChange,
   label,
+  name,
   placeholder = 'Select...',
   disabled = false,
   color = 'default',
@@ -226,8 +241,18 @@ const Combobox: React.FC<ComboboxProps> = ({
   const selectedOption = options.find((opt) => opt.id === value);
   const labelId = useId();
   const listboxId = useId();
+  const nameId = useId();
+  const valueId = useId();
 
   const theme = colorStyles[color] || colorStyles.default;
+
+  /**
+   * Which element names the trigger. The visible `<label>` when there is one,
+   * the sr-only `name` span otherwise, and nothing at all when the caller has
+   * supplied neither — in which case the button keeps naming itself from its
+   * own contents, exactly as it always has.
+   */
+  const triggerNameId = label ? labelId : name ? nameId : undefined;
 
   // Search appears only where scanning stops being the faster option.
   const isSearchable = options.length >= SEARCH_THRESHOLD;
@@ -252,6 +277,30 @@ const Combobox: React.FC<ComboboxProps> = ({
         : options,
     [options, deferredQuery, isSearchable]
   );
+
+  /**
+   * The visible options cut into the runs the headings describe — one run per
+   * group, in the order the caller supplied them, which is why
+   * `ComboboxOption.group` insists the array arrives already ordered.
+   *
+   * The flat index travels with each option because it is what the rest of the
+   * component does arithmetic on: `aria-activedescendant` names
+   * `${listboxId}-opt-${highlightedIndex}`, the highlight scroll finds
+   * `[data-option-index]`, and Enter reads `visibleOptions[highlightedIndex]`.
+   * Nesting the rows a level deeper must not move any of that.
+   */
+  const optionRuns = useMemo(() => {
+    const runs: { group?: string; options: { option: ComboboxOption; index: number }[] }[] = [];
+    visibleOptions.forEach((option, index) => {
+      const current = runs[runs.length - 1];
+      if (current && current.group === option.group) {
+        current.options.push({ option, index });
+      } else {
+        runs.push({ group: option.group, options: [{ option, index }] });
+      }
+    });
+    return runs;
+  }, [visibleOptions]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -316,6 +365,24 @@ const Combobox: React.FC<ComboboxProps> = ({
     if (isOpen && isSearchable) searchRef.current?.focus();
   }, [isOpen, isSearchable]);
 
+  /**
+   * Choosing something closes the list — and takes the element that had focus
+   * with it. On a searchable list that element is the search box, so a
+   * selection used to leave focus on `document.body`: the next Tab started
+   * again from the top of the document, at the exact moment the user had
+   * finished making a choice. Focus belongs back on the trigger, which now
+   * reads out what was chosen.
+   *
+   * Click-away deliberately does not come through here (see the
+   * `handleClickOutside` effect): a click elsewhere is a request to be
+   * elsewhere, and pulling focus back would fight it.
+   */
+  const selectOption = (id: string) => {
+    onChange(id);
+    setIsOpen(false);
+    buttonRef.current?.focus();
+  };
+
   // Step the highlight, skipping disabled (locked) options so Enter always
   // lands on something actionable.
   const stepHighlight = (direction: 1 | -1) => {
@@ -328,19 +395,6 @@ const Combobox: React.FC<ComboboxProps> = ({
       }
       return prev; // every option disabled — stay put
     });
-  };
-
-  /**
-   * The one path that both changes the value and destroys the control the user
-   * was standing on: in a searchable list focus sits in the search input, which
-   * unmounts with the popup, so it fell to `<body>` and the next Tab restarted
-   * at the top of the document. Hand it back to the trigger — the same thing
-   * Escape already does below.
-   */
-  const commit = (id: string) => {
-    onChange(id);
-    setIsOpen(false);
-    buttonRef.current?.focus();
   };
 
   // Keyboard navigation handler — shared by the trigger and the search box, so
@@ -378,7 +432,7 @@ const Combobox: React.FC<ComboboxProps> = ({
       case 'Enter':
         e.preventDefault();
         if (isOpen && visibleOptions.length > 0 && !visibleOptions[highlightedIndex]?.disabled) {
-          commit(visibleOptions[highlightedIndex].id);
+          selectOption(visibleOptions[highlightedIndex].id);
         } else if (!isOpen) {
           setIsOpen(true);
         }
@@ -482,6 +536,14 @@ const Combobox: React.FC<ComboboxProps> = ({
           {label}
         </label>
       )}
+      {/* The level's own name, for readers only, and only where no visible
+          label already says it. Outside the button so the button's text
+          content — which the e2e helpers locate the pickers by — is untouched. */}
+      {!label && name && (
+        <span id={nameId} className="sr-only">
+          {name}
+        </span>
+      )}
       <button
         ref={buttonRef}
         type="button"
@@ -493,12 +555,17 @@ const Combobox: React.FC<ComboboxProps> = ({
         aria-expanded={isOpen}
         aria-controls={isOpen ? listboxId : undefined}
         aria-activedescendant={isOpen ? `${listboxId}-opt-${highlightedIndex}` : undefined}
+        // Name, then value — "Course, HSC Biology (Advanced)". The value half
+        // is what the button said on its own before this, so the name stays a
+        // SUPERSET of the old one and the specs that match it by substring
+        // still match.
+        aria-labelledby={triggerNameId ? `${triggerNameId} ${valueId}` : undefined}
       >
         <span className={`flex items-center truncate w-full ${selectedOption ? 'font-bold' : ''}`}>
           {selectedOption?.isNew && (
             <Sparkles className="w-4 h-4 text-yellow-400 mr-2 animate-pulse" />
           )}
-          <span className="truncate w-full block">
+          <span id={valueId} className="truncate w-full block">
             {selectedOption ? selectedOption.renderLabel || selectedOption.label : placeholder}
           </span>
         </span>
@@ -560,45 +627,60 @@ const Combobox: React.FC<ComboboxProps> = ({
               aria-labelledby={label ? labelId : undefined}
               className="max-h-72 py-1 overflow-auto custom-scrollbar"
             >
-              {visibleOptions.length > 0 ? (
-                visibleOptions.map((option, index) => {
-                  // A dot point can carry twenty questions, and twenty tinted
-                  // cards in a row are a wall rather than a choice. Where the
-                  // caller supplies groups, the list breaks into named runs so
-                  // the length is read as "six kinds of question" instead.
-                  // Sticky, so the heading of the run being scrolled through is
-                  // always the one on screen.
-                  const heading =
-                    option.group && option.group !== visibleOptions[index - 1]?.group ? (
-                      <li
-                        key={`group-${option.group}`}
-                        role="presentation"
+              {optionRuns.length > 0 ? (
+                optionRuns.map((run) => {
+                  const rows = run.options.map(({ option, index }) => (
+                    <ComboboxOptionRow
+                      key={option.id}
+                      option={option}
+                      index={index}
+                      listboxId={listboxId}
+                      isSelected={option.id === value}
+                      className={`${option.disabled ? 'cursor-not-allowed' : 'cursor-pointer'} select-none relative py-3 pr-9 transition-[color,background-color,border-color,transform] active:scale-[0.98] ${
+                        index === highlightedIndex
+                          ? `${getListItemClasses(option, true)}`
+                          : getListItemClasses(option, option.id === value)
+                      }`}
+                      onClick={() => {
+                        if (option.disabled) return;
+                        selectOption(option.id);
+                      }}
+                      onMouseEnter={() => setHighlightedIndex(index)}
+                    />
+                  ));
+
+                  // No group means every other picker in the app: the rows go
+                  // straight into the listbox exactly as they always have.
+                  if (!run.group) {
+                    return (
+                      <React.Fragment key={`run-${run.options[0].index}`}>{rows}</React.Fragment>
+                    );
+                  }
+
+                  // A named run is a real group, not a caption. The heading was
+                  // `role="presentation"`, which is to say it was removed from
+                  // the accessibility tree — so the one thing the grouping buys
+                  // ("six kinds of question" rather than twenty tinted cards)
+                  // was the one thing a screen-reader user could not have. The
+                  // name now lives on the group, where it is announced as the
+                  // reader enters the run, and the visible heading is decoration
+                  // of it rather than the only copy.
+                  //
+                  // The inner `<ul role="none">` is there for the HTML, not the
+                  // ARIA: an `<li>` may not hold another `<li>` directly. Being
+                  // presentational it collapses out of the accessibility tree,
+                  // so the options are owned by the group, which is owned by
+                  // the listbox — all three allowed by ARIA 1.2.
+                  return (
+                    <li key={`group-${run.group}`} role="group" aria-label={run.group}>
+                      <div
+                        aria-hidden="true"
                         className="sticky top-0 z-10 px-4 pt-2.5 pb-1.5 text-[9px] font-black uppercase tracking-[0.2em] text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white"
                       >
-                        {option.group}
-                      </li>
-                    ) : null;
-
-                  return (
-                    <React.Fragment key={option.id}>
-                      {heading}
-                      <ComboboxOptionRow
-                        option={option}
-                        index={index}
-                        listboxId={listboxId}
-                        isSelected={option.id === value}
-                        className={`${option.disabled ? 'cursor-not-allowed' : 'cursor-pointer'} select-none relative py-3 pr-9 transition-[color,background-color,border-color,transform] active:scale-[0.98] ${
-                          index === highlightedIndex
-                            ? `${getListItemClasses(option, true)}`
-                            : getListItemClasses(option, option.id === value)
-                        }`}
-                        onClick={() => {
-                          if (option.disabled) return;
-                          commit(option.id);
-                        }}
-                        onMouseEnter={() => setHighlightedIndex(index)}
-                      />
-                    </React.Fragment>
+                        {run.group}
+                      </div>
+                      <ul role="none">{rows}</ul>
+                    </li>
                   );
                 })
               ) : (

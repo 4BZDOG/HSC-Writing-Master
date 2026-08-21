@@ -261,6 +261,12 @@ const ApiMonitorDisplay: React.FC = () => {
   return (
     <div className="fixed bottom-4 right-4 z-[500] select-none font-sans">
       {!isExpanded ? (
+        // The call and token counts are the only text on the collapsed pill,
+        // and `--color-accent` on `light:bg-white/90` measured 4.09:1 — a
+        // dark-theme accent carried onto white unchanged, which is the mistake
+        // the light-theme suite exists to catch. `--color-accent-dark` is the
+        // token that already exists for this and reads 5.92:1; the dark theme
+        // keeps the accent it had.
         <button
           onClick={() => setIsExpanded(true)}
           className="
@@ -269,7 +275,8 @@ const ApiMonitorDisplay: React.FC = () => {
             border border-[rgb(var(--color-border-accent))]/30 light:border-slate-300
             shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:border-[rgb(var(--color-border-accent))]/60
             transition-all duration-300 animate-fade-in
-            text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-glow))]
+            text-[rgb(var(--color-accent))] light:text-[rgb(var(--color-accent-dark))]
+            hover:text-[rgb(var(--color-accent-glow))]
             hover-lift
           "
           title="Show API Usage Details"

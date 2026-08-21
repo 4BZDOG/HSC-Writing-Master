@@ -205,11 +205,11 @@ describe('the cleared-question notice', () => {
     render(<LiveSelector initial={selected} />);
 
     // Nothing has been discarded yet.
-    expect(screen.queryByRole('status')).toBeNull();
+    expect(screen.queryByTestId('cleared-notice')).toBeNull();
 
     pick(/Programming for the Web/, /Secure Software Architecture/);
 
-    expect(screen.getByRole('status').textContent).toContain(
+    expect(screen.getByTestId('cleared-notice').textContent).toContain(
       'New topic chosen — your question selection was cleared.'
     );
 
@@ -219,7 +219,7 @@ describe('the cleared-question notice', () => {
     pick(/Select Dot Point/, /security by design/);
     pick(/Select Question/, /threat modelling/);
 
-    expect(screen.queryByRole('status')).toBeNull();
+    expect(screen.queryByTestId('cleared-notice')).toBeNull();
   });
 
   it('stays quiet on first-time navigation, where nothing was discarded', () => {
@@ -227,7 +227,7 @@ describe('the cleared-question notice', () => {
 
     pick(/Select Topic/, /Programming for the Web/);
 
-    expect(screen.queryByRole('status')).toBeNull();
+    expect(screen.queryByTestId('cleared-notice')).toBeNull();
   });
 });
 
@@ -301,11 +301,11 @@ describe('the cleared-question notice, driven from the breadcrumb', () => {
     ['Dot Point', 'Back to the syllabus point — your question selection was cleared.'],
   ])('names the level the %s crumb returns to', (label, expected) => {
     render(<CrumbHarness initial={selected} />);
-    expect(screen.queryByRole('status')).toBeNull();
+    expect(screen.queryByTestId('cleared-notice')).toBeNull();
 
     clickCrumb(label);
 
-    expect(screen.getByRole('status').textContent).toContain(expected);
+    expect(screen.getByTestId('cleared-notice').textContent).toContain(expected);
   });
 
   it('never reports a crumb as a level the student chose', () => {
@@ -314,7 +314,7 @@ describe('the cleared-question notice, driven from the breadcrumb', () => {
       clickCrumb(label);
       // Going UP is not choosing. "New sub-topic chosen" after pressing the
       // Topic crumb names a level the student did not touch and did not pick.
-      expect(screen.getByRole('status').textContent).not.toMatch(/chosen/);
+      expect(screen.getByTestId('cleared-notice').textContent).not.toMatch(/chosen/);
       cleanup();
     }
   });
@@ -327,7 +327,7 @@ describe('the cleared-question notice, driven from the breadcrumb', () => {
     // The regression: only `promptId` moved, so a search for a changed LEVEL
     // found nothing and the largest state change in the app happened in total
     // silence — for a screen-reader user, invisibly.
-    const notice = screen.getByRole('status');
+    const notice = screen.getByTestId('cleared-notice');
     expect(notice.textContent).toContain('your question selection was cleared');
   });
 
@@ -335,12 +335,12 @@ describe('the cleared-question notice, driven from the breadcrumb', () => {
     render(<CrumbHarness initial={selected} />);
 
     clickCrumb('Sub-Topic');
-    expect(screen.getByRole('status')).toBeTruthy();
+    expect(screen.getByTestId('cleared-notice')).toBeTruthy();
 
     pick(/Select Dot Point/, /applications of web programming/);
     pick(/Select Question/, /emerging technologies/);
 
-    expect(screen.queryByRole('status')).toBeNull();
+    expect(screen.queryByTestId('cleared-notice')).toBeNull();
   });
 
   it('stays quiet when a crumb is pressed with no question selected', () => {
@@ -348,7 +348,7 @@ describe('the cleared-question notice, driven from the breadcrumb', () => {
 
     clickCrumb('Topic');
 
-    expect(screen.queryByRole('status')).toBeNull();
+    expect(screen.queryByTestId('cleared-notice')).toBeNull();
   });
 });
 

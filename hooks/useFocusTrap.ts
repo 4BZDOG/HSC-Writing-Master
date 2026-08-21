@@ -207,7 +207,8 @@ export const useFocusTrap = <T extends HTMLElement>(active: boolean) => {
        * scrolls the opener into view and undoes that, so closing any dialog
        * nudged the page by however far the opener sat from the scroll anchor.
        * Nothing is stranded offscreen by suppressing it: the position being
-       * restored is the one the opener was clicked at.
+       * restored is the one the opener was clicked at, and the page was
+       * locked the whole time the dialog was open, so it cannot have moved.
        */
       const restore = () => {
         if (previouslyFocused && document.contains(previouslyFocused)) {
