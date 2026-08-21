@@ -54,7 +54,12 @@ commit — fix failures rather than using `--no-verify`.
   ("Analyse", "Colour", "Summarise").
 - The `Prompt` entity is the atomic unit; band/verb logic (`getBandForMark`,
   the Verb Gate) must never be bypassed or recalculated inline.
-- Wrap every AI call in `apiGuard` and parse output with `safeJsonParse`.
+- `apiGuard` is a singleton (`services/aiCore.ts`), not a wrapper function — there
+  is no `apiGuard(fn)` call form. `generateContentWithRetry` already checks
+  `apiGuard.isBlocked()` and records every attempt itself, so a new AI call just
+  goes through it directly. `safeJsonParse` only strips markdown fences and
+  parses — it does not validate shape; use a Zod schema in `services/aiSchemas.ts`
+  for that. See `.claude/skills/hsc-feature.md` §3 for the real pattern.
 - New data fields: update `types.ts`, the Zod schemas in
   `utils/dataManagerUtils.ts`, and bump `DATA_VERSION` with a migration.
 - Mock `services/geminiService.ts` in all tests — never hit the real API.

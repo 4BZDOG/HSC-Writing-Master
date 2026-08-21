@@ -144,21 +144,10 @@
 
 ### PERF-02 — No Code Splitting
 
-- **Status**: 🟡 Open
-- **File**: `vite.config.ts`
-- **Problem**: The app has no `manualChunks` configuration. All vendor code (React, Gemini SDK, etc.) ships as one large bundle, increasing initial load time.
-- **Fix**: Add to `vite.config.ts`:
-  ```typescript
-  rollupOptions: {
-    output: {
-      manualChunks: {
-        vendor: ['react', 'react-dom'],
-        ai: ['@google/genai'],
-        ui: ['lucide-react'],
-      }
-    }
-  }
-  ```
+- **Status**: ✅ Fixed
+- **File**: `vite.config.ts` (`manualChunks`), `projectDocs/bundleSafety.md`
+- **Problem**: The app had no `manualChunks` configuration. All vendor code (React, Gemini SDK, etc.) shipped as one large bundle, increasing initial load time.
+- **Fix Applied**: `vite.config.ts` now has a `manualChunks(id)` function splitting `core`, `aiDirect`, `supabase` and `zod` chunks, and several admin-only surfaces are `React.lazy`-loaded. See `projectDocs/bundleSafety.md` for the full chunking strategy and the CI checks (`npm run check:bundle`, `npm run check:eager-reads`) that guard it.
 
 ---
 
@@ -262,8 +251,9 @@ These are not bugs — they are architectural improvements worth planning for a 
 
 ### IDEA-01 — Move AI Calls to a Backend Proxy
 
-- **Priority**: 🟠 High (security + quota management)
-- **Rationale**: Currently all Gemini API calls are made directly from the browser, exposing the API key in the bundle. A lightweight Edge Function (Vercel, Netlify, Cloudflare Workers) can proxy these calls, hide the key server-side, enforce rate limiting per user, and log usage.
+- **Status**: ✅ Fixed (same fix as SEC-01, above)
+- **File**: `api/gemini.ts`, `api/_lib/providers.ts`
+- Every AI call now goes through the server-side `/api/gemini` proxy, which injects the provider key, authenticates the caller, and spends one unit of the caller's daily AI quota before contacting the provider — no key ships in the client bundle. See `AI_Provider_Switching.md`.
 
 ---
 

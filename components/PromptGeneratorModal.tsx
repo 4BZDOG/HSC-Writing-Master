@@ -683,7 +683,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                           }
                           className={`relative z-10 w-10 h-10 rounded-2xl flex items-center justify-center text-xs font-black transition-all duration-500 transform ${
                             isTarget
-                              ? `${bConf.solidBg} text-white shadow-2xl scale-125 rotate-6 border border-white/20`
+                              ? `${bConf.solidBg} ${bConf.solidText} shadow-2xl scale-125 rotate-6 border border-white/20`
                               : isCappedOut
                                 ? 'bg-black/20 light:bg-slate-100 text-slate-700 border border-white/5 light:border-slate-200 cursor-not-allowed line-through'
                                 : 'bg-black/40 light:bg-slate-200 text-slate-500 hover:scale-110 hover:text-white light:hover:text-slate-900 border border-white/5 light:border-slate-300'

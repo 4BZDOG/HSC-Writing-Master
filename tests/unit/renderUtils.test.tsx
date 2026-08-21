@@ -334,4 +334,29 @@ describe('renderFormattedText — maths/science notation', () => {
     );
     expect(container.querySelectorAll('span.text-emerald-400').length).toBe(1);
   });
+
+  // Gemini reaches for standard LaTeX $...$ delimiters out of habit even
+  // though this app's shorthand never uses them, and nothing in the
+  // pipeline stripped a bare `$` — a sample answer showed the delimiters
+  // themselves to the teacher reading it, verbatim.
+  it('strips $...$ delimiters a sample answer came back wrapped in', () => {
+    const { container } = render(
+      <>
+        {renderFormattedText(
+          'the constant horizontal acceleration ($ax$) is 0 m/s²'
+        )}
+      </>
+    );
+    expect(container.textContent).toBe(
+      'the constant horizontal acceleration (ax) is 0 m/s²'
+    );
+    expect(container.textContent).not.toContain('$');
+  });
+
+  it('leaves a currency figure in an Economics/Business sample answer alone', () => {
+    const { container } = render(
+      <>{renderFormattedText('revenue rose from $50,000 to $80,000 that quarter')}</>
+    );
+    expect(container.textContent).toBe('revenue rose from $50,000 to $80,000 that quarter');
+  });
 });

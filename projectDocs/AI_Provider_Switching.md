@@ -19,8 +19,11 @@ for compatibility but provider-agnostic) routes by `provider`.
 geminiService → aiTarget(role) → resolveTarget(role)   (services/aiConfig.ts)
               → request { provider, model, contents, config }
               → /api/gemini  →  runAiProxy (api/_lib/providers.ts)
-                                  ├─ gemini    → runGeminiProxy   (@google/genai)
-                                  └─ anthropic → runAnthropicProxy (Messages API)
+                                  ├─ gemini     → runGeminiProxy     (@google/genai)
+                                  ├─ anthropic  → runAnthropicProxy  (Messages API)
+                                  ├─ openrouter → runOpenRouterProxy
+                                  ├─ groq       → runGroqProxy
+                                  └─ kimi       → runKimiProxy
 ```
 
 | Piece | File |
@@ -31,6 +34,9 @@ geminiService → aiTarget(role) → resolveTarget(role)   (services/aiConfig.ts
 | Proxy router (strips `provider`, picks key) | `api/_lib/providers.ts` |
 | Gemini adapter | `api/_lib/generate.ts` |
 | Anthropic (Claude) adapter + translation | `api/_lib/anthropic.ts` |
+| OpenRouter adapter | `api/_lib/openrouter.ts` |
+| Groq adapter | `api/_lib/groq.ts` |
+| Kimi adapter | `api/_lib/kimi.ts` |
 | Admin selector UI | `components/ApiMonitorDisplay.tsx` |
 
 ## Choosing the engine
@@ -47,8 +53,11 @@ Provider keys stay **server-side** (read by the proxy, never bundled):
 
 - `GEMINI_API_KEY` — required (default engine).
 - `ANTHROPIC_API_KEY` — optional; only needed if a Claude model is selected.
-  Without it, selecting Claude returns a clear "missing key" error and you can
-  switch back to Gemini.
+- `OPENROUTER_API_KEY`, `GROQ_API_KEY`, `KIMI_API_KEY` — optional; only needed
+  if a model from that provider is selected.
+
+Selecting a model whose key is missing returns a clear "missing key" error and
+you can switch back to Gemini.
 
 ## Adding a model or provider
 

@@ -18,6 +18,7 @@
 import {
   SUPERSCRIPT_UNICODE,
   SUBSCRIPT_UNICODE,
+  stripInlineMathDollars,
   expandFracToSlash,
   expandSqrt,
   expandVector,
@@ -34,6 +35,9 @@ import {
 export const toText = (input: string): string => {
   if (!input) return '';
   let s = input;
+
+  // $ax$ -> ax ; leaves a bare currency figure like $50,000 untouched.
+  s = stripInlineMathDollars(s);
 
   // \frac{a}{b} -> a/b  (also \frac12 -> 1/2)
   s = expandFracToSlash(s);

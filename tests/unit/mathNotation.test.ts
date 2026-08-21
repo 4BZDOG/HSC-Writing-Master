@@ -9,6 +9,7 @@ import {
   expandMathSymbolTokens,
   expandSuperscriptsToUnicode,
   expandSubscriptsToUnicode,
+  stripInlineMathDollars,
 } from '../../utils/mathNotation';
 
 const COMBINING_ARROW = '\u20D7';
@@ -127,6 +128,38 @@ describe('expandSubscriptsToUnicode', () => {
   it('converts _digits to Unicode subscripts', () => {
     expect(expandSubscriptsToUnicode('H_2O')).toBe('H\u2082O');
     expect(expandSubscriptsToUnicode('x_{10}')).toBe('x\u2081\u2080');
+  });
+});
+
+describe('stripInlineMathDollars', () => {
+  it('strips $...$ around a bare variable Gemini wraps out of habit', () => {
+    expect(
+      stripInlineMathDollars(
+        'the constant horizontal acceleration ($ax$) is 0 m/s²'
+      )
+    ).toBe('the constant horizontal acceleration (ax) is 0 m/s²');
+  });
+
+  it('strips multiple pairs in the same sentence, each independently', () => {
+    expect(stripInlineMathDollars('$ax$ is 0 and $ay$ is $g$')).toBe('ax is 0 and ay is g');
+  });
+
+  it('leaves the inner content for the rest of the pipeline to expand', () => {
+    expect(expandSuperscriptsToUnicode(stripInlineMathDollars('$x^2$'))).toBe('x²');
+  });
+
+  it('does not touch a currency figure with no matching close', () => {
+    expect(stripInlineMathDollars('costs increased from $50,000 to $80,000')).toBe(
+      'costs increased from $50,000 to $80,000'
+    );
+  });
+
+  it('does not touch a single dollar figure in prose', () => {
+    expect(stripInlineMathDollars('a cost of $5 per unit')).toBe('a cost of $5 per unit');
+  });
+
+  it('leaves text with no dollar signs untouched', () => {
+    expect(stripInlineMathDollars('no math here')).toBe('no math here');
   });
 });
 

@@ -44,7 +44,6 @@ import {
   RIBBON_SPECTRUM_EDGE,
   RIBBON_SPECTRUM_IGNITION,
   RIBBON_SPECTRUM_LIT,
-  RIBBON_SPECTRUM_SCALE_BAND,
   RIBBON_SPECTRUM_SCALE_RAIL,
   RIBBON_SPECTRUM_SCALE_SPAN,
   RIBBON_TIMELINE_CUE,
@@ -730,12 +729,21 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                 the component still says nothing about a verb it does not
                 recognise.
 
-                The live region is the LEDE ONLY — the tier and its band cap
+                The live region is the LEDE ONLY — the tier and its band name
                 — and the tail sits outside it, in the same sentence and the
                 same visible line. A `status` region announces its whole
                 content on every change, and the lede is the part that actually
                 changed and the part a reader needs: "Tier 4 · Analyse & Apply ·
-                Band Cap 4 · Sound".
+                Sound".
+
+                The lede used to say "Band Cap 4 · Sound" — the number a
+                second time, right next to the name that already carries it.
+                `getTierTargetBand(tier) === tier` always (see that function's
+                own comment), so "Tier 4" and "Band Cap 4" are the same
+                integer under two labels, the exact duplication the stat-tray
+                chip comment above this one already retired. The number stays
+                once, in "Tier 4"; "Sound" is the new information the cap
+                repeated nothing of.
 
                 That tail used to be the tier's full prose subtitle, 44–96
                 characters of elaboration, and the comment here claimed the cue
@@ -762,7 +770,6 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                     </span>
                     {' · '}
                     <span className={RIBBON_TIMELINE_CUE_BAND}>
-                      Band Cap {getTierTargetBand(activeTermInfo.tier)} ·{' '}
                       {getBandName(getTierTargetBand(activeTermInfo.tier))}
                     </span>
                   </>
@@ -823,11 +830,16 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                   The full titles arrive at `xl`, not at `lg`. Measured in
                   Chromium: the right-hand caption is 441px at full length, and
                   at 1024px it starts 51px INSIDE the threshold chip — the chip
-                  ate "ANALYS" and the rail read as a fragment. The three rungs
-                  the ladder actually has are `sm` short labels (131px), `md`
-                  short labels plus the band caps (245px, 21px of air at 768),
-                  and `xl` full titles plus the band caps (359/441px, 155px and
-                  76px of air at 1280). */}
+                  ate "ANALYS" and the rail read as a fragment. The two rungs
+                  the ladder actually has are `sm`–`lg` short labels (131px)
+                  and `xl` full titles (441px).
+
+                  This used to also carry "Band Caps 1–3" / "Band Caps 4–6" on
+                  each span — dropped because the cue line 20px below states
+                  the exact cap for whichever tier is active (`getTierTargetBand`
+                  again, singular this time), so the rail's job is only to name
+                  the two spans, not to re-derive the number the cue already
+                  gives. */}
               <div className={RIBBON_SPECTRUM_SCALE_RAIL}>
                 <span className={RIBBON_SPECTRUM_SCALE_SPAN}>
                   <span className="xl:hidden">
@@ -835,11 +847,6 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                   </span>
                   <span className="hidden xl:inline">
                     {tierTitle(1)} – {tierTitle(DEEP_LEARNING_TIER)}
-                  </span>
-                  <span
-                    className={`${RIBBON_SPECTRUM_SCALE_BAND} ${getTierScaleConfig(DEEP_LEARNING_TIER).text}`}
-                  >
-                    {' · '}Band Caps {getTierTargetBand(1)}–{getTierTargetBand(DEEP_LEARNING_TIER)}
                   </span>
                 </span>
 
@@ -849,12 +856,6 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                   </span>
                   <span className="hidden xl:inline">
                     {tierTitle(DEEP_LEARNING_TIER + 1)} – {tierTitle(TIER_STEPS.length)}
-                  </span>
-                  <span
-                    className={`${RIBBON_SPECTRUM_SCALE_BAND} ${getTierScaleConfig(DEEP_LEARNING_TIER + 1).text}`}
-                  >
-                    {' · '}Band Caps {getTierTargetBand(DEEP_LEARNING_TIER + 1)}–
-                    {getTierTargetBand(TIER_STEPS.length)}
                   </span>
                 </span>
               </div>

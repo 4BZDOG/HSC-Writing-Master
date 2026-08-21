@@ -8,6 +8,7 @@ import {
   expandSubscriptsToUnicode,
   expandSuperscriptsToUnicode,
   expandVector,
+  stripInlineMathDollars,
 } from './mathNotation';
 
 export const escapeRegExp = (string: string): string => {
@@ -458,6 +459,7 @@ export const cleanMarkdown = (text: string): string => {
   // this is also flat text with the same stacked-fraction constraint —
   // "Use this answer" / clipboard-copy paths must not paste raw \frac{}{}/
   // \pi/^2 syntax into the student's own editable answer).
+  cleaned = stripInlineMathDollars(cleaned);
   cleaned = expandFracToSlash(cleaned);
   cleaned = expandSqrt(cleaned);
   cleaned = expandVector(cleaned);
@@ -961,12 +963,15 @@ export const renderFormattedText = (
   const keywordRegex = createKeywordRegex(keywords || []);
   const verbRegex = commandVerb ? createKeywordRegex([commandVerb]) : null;
 
-  // Expand \sqrt, \vec and symbol tokens up front — but NOT \frac (rendered
-  // structurally as a real stacked fraction by `processInlineFormatting`,
-  // below) and NOT sup/sub (kept as literal `^`/`_` for the `<sup>`/`<sub>`
-  // DOM step, which can wrap arbitrary content unlike PDF's Unicode-table
-  // approach).
-  const expanded = expandMathSymbolTokens(expandVector(expandSqrt(text)));
+  // Strip $...$ inline-math delimiters first — Gemini reaches for them out
+  // of habit even though this app's own shorthand never uses them, and
+  // nothing below touches a bare `$` (see `stripInlineMathDollars`'s own
+  // comment for why a lone currency figure is safe). Then expand \sqrt,
+  // \vec and symbol tokens — but NOT \frac (rendered structurally as a real
+  // stacked fraction by `processInlineFormatting`, below) and NOT sup/sub
+  // (kept as literal `^`/`_` for the `<sup>`/`<sub>` DOM step, which can
+  // wrap arbitrary content unlike PDF's Unicode-table approach).
+  const expanded = expandMathSymbolTokens(expandVector(expandSqrt(stripInlineMathDollars(text))));
 
   // 1. Split by lines to handle headings, lists, etc.
   const lines = expanded.split('\n');
