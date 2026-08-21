@@ -196,7 +196,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
                                     w-9 h-10 rounded-lg text-sm font-black transition-all duration-200
                                     ${
                                       isSelected
-                                        ? `${bConfig.solidBg} text-white shadow-lg scale-110 z-10 border border-white/20 light:border-white/40 ${isCappedOut ? 'ring-2 ring-amber-500/60' : ''}`
+                                        ? `${bConfig.solidBg} ${bConfig.solidText} shadow-lg scale-110 z-10 border border-white/20 light:border-white/40 ${isCappedOut ? 'ring-2 ring-amber-500/60' : ''}`
                                         : isCappedOut
                                           ? 'bg-white/[0.02] light:bg-slate-100 text-slate-700 light:text-slate-300 cursor-not-allowed line-through'
                                           : 'bg-white/5 light:bg-slate-100 text-slate-500 light:text-slate-500 hover:bg-white/10 light:hover:bg-slate-200 hover:text-slate-300 light:hover:text-slate-600'
