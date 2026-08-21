@@ -166,7 +166,7 @@ Apply these Tailwind patterns consistently:
 
 - **Unit tests** live in `tests/unit/` and use Vitest + Testing Library. Write one for any new pure utility or service function.
 - **E2E tests** live in `tests/e2e/` and use Playwright. Add E2E coverage for critical user-facing workflows. Never rely on real Gemini API calls in tests — mock `services/geminiService.ts`.
-- **Coverage target**: 70% minimum across lines, functions, branches, statements (`npm run test:coverage`).
+- **Coverage floor**: `vitest.config.ts` enforces `lines: 63, functions: 59, branches: 57, statements: 62` — a regression floor set just below measured coverage, not a 70% aspiration the project has never hit. It ratchets up as real coverage grows; don't lower it to make a red run pass (`npm run test:coverage`).
 - Run the full check suite before committing: `npm run test:all` (lint + unit tests + type-check).
 
 ---
@@ -249,7 +249,7 @@ export const useMyFeature = () => {
 - **IndexedDB is async everywhere** — all `idb` calls in `utils/idbTransactions.ts` return Promises. Forgetting `await` causes silent no-ops with no runtime error.
 - **`use-immer` drafts are not JSON-serialisable** — before saving to IDB or sending to an API, call `JSON.parse(JSON.stringify(draft))` or use `structuredClone` to get a plain object.
 - **Modal stacking**: Only one modal should be open at a time (managed by `useModalManager`). Nesting modals via local state breaks the close-on-backdrop logic.
-- **Band 6 keyword gate**: The Quality Check (`QualityCheckModal`) enforces ≥70% keyword coverage in Band 6 sample answers. If a generated sample fails this, the AI prompt must be adjusted — do not lower the threshold.
+- **No automated keyword-coverage gate exists.** The Quality Check (`QualityCheckModal` / `performQualityCheck` in `services/geminiService.ts`) is a free-form AI holistic-quality pass (`status`/`score`/`issues`) — there is no deterministic keyword-percentage check anywhere in the codebase. Do not build a feature assuming one exists; keyword coverage in a Band 6 sample is a curator's manual check.
 - **AI language enforcement**: If Gemini output uses American English ("analyze", "program"), the system prompt in `projectDocs/systemPrompt.md` must explicitly instruct British/Australian spelling for every generation call.
 
 ---

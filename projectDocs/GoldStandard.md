@@ -34,7 +34,7 @@ The `KeywordEditor` component manages three tiers of vocabulary:
 *   **Tier 2 (Academic)**: Analysis terms (e.g., "Consequently", "Implies", "Juxtaposes").
 *   **Tier 3 (Contextual)**: Scenario specific (e.g., "GDPR Compliance", "Patient confidentiality").
 
-**The 70% Rule**: The automated Quality Check (`QualityCheckModal`) verifies that at least 70% of the listed keywords appear in the Band 6 Sample Answer.
+**No automated keyword-coverage gate exists.** `QualityCheckModal`'s Quality Check (`services/geminiService.ts`'s `performQualityCheck`) is a free-form AI holistic-quality pass — it returns a `status`/`score`/`issues` judgement, not a deterministic keyword-percentage calculation, and nothing in the codebase computes one. A curator checks keyword coverage by eye against the Band 6 Sample Answer.
 
 ## V. Marking Criteria: The Quality Ladder
 The system generates rubrics using the **Descending Quality Descriptor** pattern:
@@ -46,7 +46,7 @@ The system generates rubrics using the **Descending Quality Descriptor** pattern
 *   **Band 1**: "Fragmented", "Minimal".
 
 ## VI. Sample Answers
-Sample answers are generated using `gemini-3-pro-preview` with a specific `thinkingBudget`.
+Sample answers are generated using `gemini-3.1-pro-preview` (the confirmed successor to `gemini-3-pro-preview`, which Google shut down 2026-03-09 — see `services/aiModels.ts`) with a specific `thinkingBudget`. The engine is admin-selectable at runtime (`resolveTarget`); this is the default for the `reasoning` role, not a hardcoded model.
 *   **Structure**: PEEL (Point, Evidence, Explanation, Link) is enforced for 4+ mark questions.
 *   **Length**: Tuned to approx. 35-45 words per mark.
 *   **Differentiation**: The "Generate Sample Answer" tool can explicitly create a "Band 4" response (containing common errors) versus a "Band 6" response (exemplar) to help students see the gap.
