@@ -142,6 +142,34 @@ export const expandFracToSlash = (text: string): string => {
 export const expandVector = (text: string): string =>
   text.replace(/\\vec\{([^{}]*)\}/g, (_m, inner: string) => `${inner}⃗`);
 
+/**
+ * Strips `$...$` inline-math delimiters. This app's own shorthand never uses
+ * them — a formula is written as bare `\sqrt{}`, `^`, `_`, `\frac{}{}` — but
+ * Gemini reaches for standard LaTeX dollar-delimited math out of habit
+ * regardless of what the system prompt asks for, and nothing downstream
+ * strips it: `expandMathSymbolTokens` et al. only rewrite tokens *inside* the
+ * text, they don't touch a bare `$`. Left alone, a sample answer shows the
+ * delimiters themselves — "the acceleration ($ax$) is 0" — verbatim to the
+ * teacher reading it.
+ *
+ * The disambiguation rule is Pandoc's `tex_math_dollars` one, because the
+ * same ambiguity they solved applies here: this app also covers HSC
+ * Economics/Business Studies, where a bare `$` is a currency figure, not a
+ * delimiter. The opening `$` must be followed by a non-space character, the
+ * closing `$` must be preceded by a non-space character and not immediately
+ * followed by a digit. `$50,000 and $30,000` has no valid closing `$` under
+ * that rule (the run between them ends in a space) and is left untouched;
+ * `$ax$` and `$x^2$` are, and lose only the delimiters — the inner content
+ * still flows through `expandSqrt`/`expandVector`/`expandMathSymbolTokens`
+ * and the sup/sub steps exactly as if it had never been wrapped.
+ *
+ * Deliberately single-`$` only: HSC short-answer prose has no legitimate use
+ * for LaTeX's `$$...$$` display-math form, so widening this to match it would
+ * only add another way to misfire on a currency figure.
+ */
+export const stripInlineMathDollars = (text: string): string =>
+  text.replace(/\$(?!\s)([^$\n]+?)(?<!\s)\$(?!\d)/g, '$1');
+
 /** Longest-token-first symbol replace, so \le doesn't get eaten mid-\leq.
  *  Ported verbatim from `pdf/text.ts`. */
 export const expandMathSymbolTokens = (text: string): string => {
