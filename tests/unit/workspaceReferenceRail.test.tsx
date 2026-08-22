@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent, cleanup, within } from '@testing-library/react';
-import ReferenceMaterials from '../../components/ReferenceMaterials';
+import ReferenceMaterials, { AccordionSection } from '../../components/ReferenceMaterials';
 import SampleAnswersAccordion from '../../components/SampleAnswersAccordion';
-import { Prompt, CourseOutcome, PromptVerb, Topic } from '../../types';
+import { Prompt, CourseOutcome, PromptVerb, SampleAnswer, Topic } from '../../types';
 import { isTwoColumnWidth, TWO_COLUMN_BREAKPOINT } from '../../utils/layoutConstants';
 import { readSupportUsage, resetSupportEngagement } from '../../utils/supportEngagement';
 
@@ -326,5 +326,50 @@ describe('panel chrome consistency', () => {
 
       expect(readSupportUsage('p1').opened).toContain('outcomeBriefing');
     });
+  });
+});
+
+// Both header icon badges paint the band's SOLID fill when open, which for
+// band 3 is yellow (getBandConfig(3).solidBg) — the same fill the "Synthesis
+// Target" and "Performance Band" pickers hardcoded `text-white` on, at
+// 1.92:1. These two badges carried the identical defect and were missed when
+// the pickers were fixed, because they're icon badges, not pickers.
+describe('band-3 header icon badges use their matched text colour, not white-on-yellow', () => {
+  it('AccordionSection (ReferenceMaterials rail)', () => {
+    render(
+      <AccordionSection title="Grade Standards" icon={<span />} band={3} defaultOpen={true}>
+        content
+      </AccordionSection>
+    );
+    const badge = document.querySelector('button .rounded-xl') as HTMLElement;
+    expect(badge.className).not.toContain('text-white');
+    expect(badge.className).toContain('text-yellow-950');
+  });
+
+  it('SampleAnswersAccordion (max-band placard)', () => {
+    const promptAtTier3: Prompt = {
+      id: 'p-tier3',
+      question: 'Explain the process of natural selection.',
+      verb: 'EXPLAIN' as PromptVerb, // Tier 3 -> max band 3 -> yellow solid fill
+      totalMarks: 6,
+      keywords: [],
+      linkedOutcomes: [],
+      markingCriteria: '',
+      sampleAnswers: [] as SampleAnswer[],
+    } as Prompt;
+
+    render(
+      <SampleAnswersAccordion
+        prompt={promptAtTier3}
+        onSampleAnswerGenerated={vi.fn()}
+        onDeleteSampleAnswer={vi.fn()}
+        onUpdateSampleAnswer={vi.fn()}
+        userRole="user"
+        defaultCollapsed={false}
+      />
+    );
+    const badge = document.querySelector('button .rounded-xl') as HTMLElement;
+    expect(badge.className).not.toContain('text-white');
+    expect(badge.className).toContain('text-yellow-950');
   });
 });

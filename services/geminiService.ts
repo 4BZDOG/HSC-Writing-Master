@@ -232,6 +232,12 @@ export const evaluateAnswer = async (
                     **LANGUAGE SETTING:** Write all feedback in British/Australian English
                     (e.g. 'analyse', 'colour', 'behaviour', 'organisation').
 
+                    **MATH/SCIENCE NOTATION (for revisedAnswer):** Write formulas in this app's own
+                    shorthand — \`^\` for superscript (\`x^2\`), \`_\` for subscript (\`a_x\`), \`\\sqrt{}\`,
+                    \`\\frac{a}{b}\`, \`\\vec{F}\`, and named symbols like \`\\pi\`/\`\\times\`/\`\\le\`. Do NOT
+                    wrap them in \`$...$\` — this app does not render LaTeX dollar-delimited math, and the
+                    delimiters would show up as literal text in the student's revised answer.
+
                     ### THE TASK
                     Mark the student response for the question below.
 
@@ -1335,6 +1341,11 @@ export const generateSampleAnswer = async (
                     ${qualityInstruction}
                     - Do NOT include the mark at the start of the text.
                     - Provide marker's feedback explaining EXACTLY why this answer gets ${mark}/${prompt.totalMarks}. The feedback is not subject to the length ceiling above.
+                    - **Math/science notation:** write formulas in this app's own shorthand — \`^\` for
+                      superscript (\`x^2\`), \`_\` for subscript (\`a_x\`), \`\\sqrt{}\`, \`\\frac{a}{b}\`,
+                      \`\\vec{F}\`, and named symbols like \`\\pi\`/\`\\times\`/\`\\le\`. Do NOT wrap them in
+                      \`$...$\` — this app does not render LaTeX dollar-delimited math, and the delimiters
+                      would show up as literal text in the sample answer.
 
                     Return JSON:
                     { "answer": string, "feedback": string }

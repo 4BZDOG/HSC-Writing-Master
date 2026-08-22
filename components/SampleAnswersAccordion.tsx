@@ -701,7 +701,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             className={`w-8 h-8 shrink-0 rounded-xl flex items-center justify-center border transition-all duration-500 ${
               isCollapsed
                 ? 'bg-slate-100 dark:bg-black/20 border-slate-300 dark:border-white/10 text-slate-500'
-                : `${maxBandConfig.solidBg} border-white/20 text-white shadow-lg`
+                : `${maxBandConfig.solidBg} border-white/20 ${maxBandConfig.solidText} shadow-lg`
             }`}
           >
             <Bookmark className="w-4 h-4" />
