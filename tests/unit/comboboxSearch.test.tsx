@@ -178,6 +178,40 @@ describe('the option list portals clear of a clipping ancestor', () => {
     expect(onChange).toHaveBeenCalledWith('q5');
     expect(screen.queryByRole('listbox')).toBeNull();
   });
+
+  /**
+   * A `position: fixed` menu can't be scrolled into view — scrolling the page
+   * doesn't move it at all — so a trigger near the bottom of a short (phone)
+   * viewport used to place the menu's `top` past the fold with nothing able
+   * to reach the options underneath. A Mobile Safari e2e run at a real small
+   * viewport caught it as a 90s timeout clicking the first option; this pins
+   * the clamp that keeps the menu fully on-screen instead.
+   */
+  it('clamps the menu upward to stay on-screen when the trigger sits near the bottom of a short viewport', () => {
+    Object.defineProperty(window, 'innerHeight', {
+      writable: true,
+      configurable: true,
+      value: 700,
+    });
+    Object.defineProperty(window, 'innerWidth', { writable: true, configurable: true, value: 390 });
+
+    render(<Combobox options={questions} value="" onChange={vi.fn()} label={null} />);
+    const trigger = screen.getByRole('button', { name: /select/i });
+    trigger.getBoundingClientRect = () =>
+      ({ top: 690, bottom: 698, left: 10, right: 200, width: 190, height: 8 }) as DOMRect;
+
+    fireEvent.click(trigger);
+
+    const menu = screen.getByRole('listbox').closest('div[style]') as HTMLElement;
+    const top = parseFloat(menu.style.top);
+    // questions.length === SEARCH_THRESHOLD, so the search bar is present:
+    // worst-case menu height is 288 (the list's max-h-72) + 52 (search bar).
+    const menuHeight = 288 + 52;
+    const viewportBottomMargin = 700 - 8;
+
+    expect(top).toBeLessThan(698 + 8); // did NOT naively use rect.bottom + 8
+    expect(top + menuHeight).toBeLessThanOrEqual(viewportBottomMargin);
+  });
 });
 
 describe('typing stays instant', () => {

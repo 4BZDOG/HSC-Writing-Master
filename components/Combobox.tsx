@@ -293,7 +293,30 @@ const Combobox: React.FC<ComboboxProps> = ({
     const updatePosition = () => {
       const rect = buttonRef.current?.getBoundingClientRect();
       if (!rect) return;
-      setMenuRect({ top: rect.bottom + 8, left: rect.left, width: rect.width });
+      const margin = 8;
+      const viewportHeight = window.innerHeight;
+      const viewportWidth = window.innerWidth;
+      // Worst-case menu height: the list's own CSS cap (`max-h-72` = 288px
+      // below) plus the search bar row when present. A `position: fixed`
+      // element can't be brought on-screen by scrolling the page — scrolling
+      // doesn't move it at all — so a trigger near the bottom of a short
+      // viewport (any phone in portrait) put `rect.bottom + 8` past the fold
+      // with nothing able to reach the options underneath. Caught by the
+      // Mobile Safari e2e suite, which — unlike a desktop click in dev —
+      // actually runs at a real small viewport height.
+      const menuHeight = 288 + (isSearchable ? 52 : 0);
+
+      let top = rect.bottom + margin;
+      if (top + menuHeight > viewportHeight - margin) {
+        top = Math.max(margin, viewportHeight - margin - menuHeight);
+      }
+
+      let left = rect.left;
+      if (left + rect.width > viewportWidth - margin) {
+        left = Math.max(margin, viewportWidth - margin - rect.width);
+      }
+
+      setMenuRect({ top, left, width: rect.width });
     };
     updatePosition();
     // Capture phase so scrolling any ancestor — not just the window — keeps
@@ -304,7 +327,7 @@ const Combobox: React.FC<ComboboxProps> = ({
       window.removeEventListener('scroll', updatePosition, true);
       window.removeEventListener('resize', updatePosition);
     };
-  }, [isOpen]);
+  }, [isOpen, isSearchable]);
 
   // A stale query would silently hide options the next time this opens.
   useEffect(() => {
