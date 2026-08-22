@@ -233,4 +233,28 @@ export class AICache {
   static generateFetchUrlKey(url: string): string {
     return `fetch:${this.hash(url)}`;
   }
+
+  /** Closes the cached connection so the next `initDB()` opens a fresh one.
+   *  Exists for HMR (see the `import.meta.hot` block below) — the app never
+   *  needs to close this connection during a normal session, since the cache
+   *  is meant to live for the page's whole lifetime. */
+  static close(): void {
+    this.db?.close();
+    this.db = null;
+  }
+}
+
+/**
+ * On every Vite HMR reload of this module the class body re-runs, but
+ * `openDB` was still holding the PREVIOUS instance's connection open — this
+ * module has no other hook that ever runs on replacement, so nothing closed
+ * it. Each edit-and-save during development accumulated one more open
+ * `hsc-ai-cache` connection (ProjectHealth.md PERF-03). Dev-only: Vite
+ * replaces `import.meta.hot` with `undefined` in a production build, so this
+ * whole block is dead code there.
+ */
+if (import.meta.hot) {
+  import.meta.hot.dispose(() => {
+    AICache.close();
+  });
 }

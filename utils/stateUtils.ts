@@ -1,3 +1,4 @@
+import { produce } from 'immer';
 import { Course, StatePath, SubTopic, Topic, DotPoint, Prompt } from '../types';
 
 /**
@@ -99,6 +100,19 @@ export const findAndUpdateItem = (
 
 /**
  * Deletes a syllabus item immutably.
+ *
+ * Built on Immer's `produce` rather than `JSON.parse(JSON.stringify(courses))`:
+ * the full-tree deep clone ran on every delete regardless of how deep the
+ * target sat, so removing one prompt from a dot point paid to re-serialise
+ * every course, topic, sub-topic and prompt in the whole library. `produce`
+ * gives the same "safe to mutate the copy" ergonomics — the splices below are
+ * unchanged — but only clones the path actually touched, via structural
+ * sharing, and does it off the main-thread-blocking JSON round-trip.
+ *
+ * `newPath` is computed as a side effect inside the recipe (a plain outer
+ * variable, not part of the draft) rather than returned from it, because a
+ * `produce` recipe's return value IS the new state — returning `{ newPath }`
+ * from a branch would try to replace the whole courses array with that object.
  */
 export const deleteSyllabusItem = (
   courses: Course[],
@@ -106,8 +120,6 @@ export const deleteSyllabusItem = (
   type: 'course' | 'topic' | 'subTopic' | 'dotPoint' | 'prompt',
   idToDelete: string
 ): { updatedCourses: Course[]; newPath: StatePath } => {
-  // Always work with a deep copy to ensure immutability and prevent side effects.
-  const coursesCopy = JSON.parse(JSON.stringify(courses));
   let newPath = { ...currentPath };
 
   const getNextSelection = <T extends { id: string }>(
@@ -119,81 +131,83 @@ export const deleteSyllabusItem = (
     return list[newIndex];
   };
 
-  if (type === 'course') {
-    const index = coursesCopy.findIndex((c: Course) => c.id === idToDelete);
-    if (index > -1) {
-      coursesCopy.splice(index, 1);
-      if (currentPath.courseId === idToDelete) {
-        const nextCourse = getNextSelection(coursesCopy, index);
-        newPath = { courseId: nextCourse?.id };
+  const updatedCourses = produce(courses, (coursesCopy) => {
+    if (type === 'course') {
+      const index = coursesCopy.findIndex((c) => c.id === idToDelete);
+      if (index > -1) {
+        coursesCopy.splice(index, 1);
+        if (currentPath.courseId === idToDelete) {
+          const nextCourse = getNextSelection(coursesCopy, index);
+          newPath = { courseId: nextCourse?.id };
+        }
+      }
+      return;
+    }
+
+    const course = coursesCopy.find((c) => c.id === currentPath.courseId);
+    if (!course) return;
+
+    if (type === 'topic') {
+      const index = course.topics.findIndex((t) => t.id === idToDelete);
+      if (index > -1) {
+        course.topics.splice(index, 1);
+        if (currentPath.topicId === idToDelete) {
+          const nextTopic = getNextSelection(course.topics, index);
+          newPath = { courseId: course.id, topicId: nextTopic?.id };
+        }
+      }
+      return;
+    }
+
+    const topic = course.topics.find((t) => t.id === currentPath.topicId);
+    if (!topic) return;
+
+    if (type === 'subTopic') {
+      const index = topic.subTopics.findIndex((st) => st.id === idToDelete);
+      if (index > -1) {
+        topic.subTopics.splice(index, 1);
+        if (currentPath.subTopicId === idToDelete) {
+          const nextSubTopic = getNextSelection(topic.subTopics, index);
+          newPath = { courseId: course.id, topicId: topic.id, subTopicId: nextSubTopic?.id };
+        }
+      }
+      return;
+    }
+
+    const subTopic = topic.subTopics.find((st) => st.id === currentPath.subTopicId);
+    if (!subTopic) return;
+
+    if (type === 'dotPoint') {
+      const index = subTopic.dotPoints.findIndex((dp) => dp.id === idToDelete);
+      if (index > -1) {
+        subTopic.dotPoints.splice(index, 1);
+        if (currentPath.dotPointId === idToDelete) {
+          const nextDotPoint = getNextSelection(subTopic.dotPoints, index);
+          newPath = {
+            courseId: course.id,
+            topicId: topic.id,
+            subTopicId: subTopic.id,
+            dotPointId: nextDotPoint?.id,
+          };
+        }
+      }
+      return;
+    }
+
+    const dotPoint = subTopic.dotPoints.find((dp) => dp.id === currentPath.dotPointId);
+    if (!dotPoint) return;
+
+    if (type === 'prompt') {
+      const index = dotPoint.prompts.findIndex((p) => p.id === idToDelete);
+      if (index > -1) {
+        dotPoint.prompts.splice(index, 1);
+        if (currentPath.promptId === idToDelete) {
+          const nextPrompt = getNextSelection(dotPoint.prompts, index);
+          newPath = { ...currentPath, promptId: nextPrompt?.id };
+        }
       }
     }
-    return { updatedCourses: coursesCopy, newPath };
-  }
+  });
 
-  const course = coursesCopy.find((c: Course) => c.id === currentPath.courseId);
-  if (!course) return { updatedCourses: coursesCopy, newPath: currentPath };
-
-  if (type === 'topic') {
-    const index = course.topics.findIndex((t: Topic) => t.id === idToDelete);
-    if (index > -1) {
-      course.topics.splice(index, 1);
-      if (currentPath.topicId === idToDelete) {
-        const nextTopic = getNextSelection(course.topics, index);
-        newPath = { courseId: course.id, topicId: nextTopic?.id };
-      }
-    }
-    return { updatedCourses: coursesCopy, newPath };
-  }
-
-  const topic = course.topics.find((t: Topic) => t.id === currentPath.topicId);
-  if (!topic) return { updatedCourses: coursesCopy, newPath };
-
-  if (type === 'subTopic') {
-    const index = topic.subTopics.findIndex((st: SubTopic) => st.id === idToDelete);
-    if (index > -1) {
-      topic.subTopics.splice(index, 1);
-      if (currentPath.subTopicId === idToDelete) {
-        const nextSubTopic = getNextSelection(topic.subTopics, index);
-        newPath = { courseId: course.id, topicId: topic.id, subTopicId: nextSubTopic?.id };
-      }
-    }
-    return { updatedCourses: coursesCopy, newPath };
-  }
-
-  const subTopic = topic.subTopics.find((st: SubTopic) => st.id === currentPath.subTopicId);
-  if (!subTopic) return { updatedCourses: coursesCopy, newPath };
-
-  if (type === 'dotPoint') {
-    const index = subTopic.dotPoints.findIndex((dp: DotPoint) => dp.id === idToDelete);
-    if (index > -1) {
-      subTopic.dotPoints.splice(index, 1);
-      if (currentPath.dotPointId === idToDelete) {
-        const nextDotPoint = getNextSelection(subTopic.dotPoints, index);
-        newPath = {
-          courseId: course.id,
-          topicId: topic.id,
-          subTopicId: subTopic.id,
-          dotPointId: nextDotPoint?.id,
-        };
-      }
-    }
-    return { updatedCourses: coursesCopy, newPath };
-  }
-
-  const dotPoint = subTopic.dotPoints.find((dp: DotPoint) => dp.id === currentPath.dotPointId);
-  if (!dotPoint) return { updatedCourses: coursesCopy, newPath };
-
-  if (type === 'prompt') {
-    const index = dotPoint.prompts.findIndex((p: Prompt) => p.id === idToDelete);
-    if (index > -1) {
-      dotPoint.prompts.splice(index, 1);
-      if (currentPath.promptId === idToDelete) {
-        const nextPrompt = getNextSelection(dotPoint.prompts, index);
-        newPath = { ...currentPath, promptId: nextPrompt?.id };
-      }
-    }
-  }
-
-  return { updatedCourses: coursesCopy, newPath };
+  return { updatedCourses, newPath };
 };

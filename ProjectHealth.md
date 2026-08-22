@@ -123,11 +123,10 @@
 
 ### SEC-02 — Hardcoded Mock Credentials in authService.ts
 
-- **Status**: 🟡 Open (acceptable for demo, not for production)
-- **File**: `services/authService.ts` ~lines 23–26
-- **Problem**: Usernames and passwords are hardcoded as plaintext in source code (`admin`/`admin`, `user`/`user`). These will be visible in any public repository.
-- **Note**: If this app is ever deployed with real users, this must be replaced with a proper auth provider (Supabase, Firebase Auth, etc.).
-- **Action**: Add a prominent `// TODO: REPLACE BEFORE PRODUCTION` comment and a warning in the README.
+- **Status**: ✅ Fixed (more thoroughly than the original Action asked for)
+- **File**: `services/authService.ts` (`MOCK_USERS`, `isDemoAuthEnabled`)
+- **Problem**: Usernames and passwords are hardcoded as plaintext in source code (`admin`/`admin`, `user`/`user`).
+- **Fix Applied**: `isDemoAuthEnabled()` gates the demo accounts to dev builds (`import.meta.env.DEV`) plus an explicit opt-in flag (`VITE_ENABLE_DEMO_AUTH=true`) — a production deploy that forgot to set the flag refuses credential logins entirely rather than silently shipping a working `admin`/`admin` account. See `vite-env.d.ts`'s `VITE_ENABLE_DEMO_AUTH` doc comment. A real Supabase Auth path (`supabaseLogin` in the same file) is what production actually runs on; see IDEA-02 below.
 
 ---
 
@@ -259,9 +258,13 @@ These are not bugs — they are architectural improvements worth planning for a 
 
 ### IDEA-02 — Replace Mock Auth with a Real Provider
 
-- **Priority**: 🟠 High (if multi-user or school-facing)
-- **Options**: Supabase Auth (free tier, easy setup), Firebase Auth, or Clerk.
-- **Benefit**: Enables per-user data sync, role management, and audit logs.
+- **Status**: ✅ Fixed
+- **File**: `services/authService.ts` (`supabaseLogin`, `signUp`, session refresh)
+- Supabase Auth is the real, production login path — `login()` calls `supabaseLogin` whenever
+  `isSupabaseConfigured`, with real sign-up, session refresh and per-user profile sync (role
+  management, stats, Stripe plan). Mock auth (`mockLogin`) is what's left for local development
+  and demos with no Supabase project configured — see SEC-02 above for how it's gated, not an
+  unimplemented placeholder for this idea.
 
 ---
 

@@ -54,7 +54,7 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
       >
         <div className="flex items-center gap-4">
           <div
-            className={`w-8 h-8 rounded-xl flex items-center justify-center border transition-all duration-500 ${isOpen ? `${bandConfig.solidBg} border-white/20 text-white shadow-lg` : 'bg-slate-100 dark:bg-black/20 border-slate-300 dark:border-white/10 text-slate-500'}`}
+            className={`w-8 h-8 rounded-xl flex items-center justify-center border transition-all duration-500 ${isOpen ? `${bandConfig.solidBg} border-white/20 ${bandConfig.solidText} shadow-lg` : 'bg-slate-100 dark:bg-black/20 border-slate-300 dark:border-white/10 text-slate-500'}`}
           >
             {React.cloneElement(icon as React.ReactElement<any>, { className: 'w-4 h-4' })}
           </div>
