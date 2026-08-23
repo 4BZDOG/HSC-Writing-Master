@@ -22,7 +22,7 @@ export const createBackupSnapshot = (
   return {
     timestamp: Date.now(),
     description,
-    coursesData: JSON.parse(JSON.stringify(courses)), // Deep clone
+    coursesData: structuredClone(courses),
     originalHash: generateDataHash(courses),
   };
 };

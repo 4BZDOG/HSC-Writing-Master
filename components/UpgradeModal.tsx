@@ -486,6 +486,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                     type="button"
                     disabled={isBuyingSeats}
                     onClick={async () => {
+                      if (isBuyingSeats) return;
                       setIsBuyingSeats(true);
                       const { url, error } = await createCheckoutUrl(
                         STRIPE_PRICE_IDS.school,

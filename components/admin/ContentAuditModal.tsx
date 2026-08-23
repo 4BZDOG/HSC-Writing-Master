@@ -121,6 +121,35 @@ const InstrumentMetric = ({
   </div>
 );
 
+const AUDIT_BTN_BASE =
+  'px-4 h-11 rounded-2xl text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none';
+
+const AuditActionButton = ({
+  onClick,
+  disabled,
+  title,
+  colourClass,
+  label,
+  icon,
+}: {
+  onClick: () => void;
+  disabled: boolean;
+  title: string;
+  colourClass: string;
+  label: string;
+  icon?: React.ReactNode;
+}) => (
+  <button
+    onClick={onClick}
+    disabled={disabled}
+    title={title}
+    className={`${AUDIT_BTN_BASE} ${colourClass}${icon ? ' flex items-center gap-1.5' : ''}`}
+  >
+    {icon}
+    {label}
+  </button>
+);
+
 // --- Types ---
 
 interface ContentAuditModalProps {
@@ -1953,65 +1982,58 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   AI Operations
                 </span>
                 <div className="flex gap-2.5 flex-wrap justify-end">
-                  <button
+                  <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'generateQuestions')}
                     disabled={selectionTargets.questions === 0}
                     title="Generate a question for each selected empty dot point"
-                    className="px-4 h-11 rounded-2xl bg-indigo-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-indigo-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none"
-                  >
-                    Questions ({selectionTargets.questions})
-                  </button>
-                  <button
+                    colourClass="bg-indigo-600 hover:shadow-indigo-500/25"
+                    label={`Questions (${selectionTargets.questions})`}
+                  />
+                  <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'generateRubrics')}
                     disabled={selectionTargets.rubrics === 0}
                     title="Generate a rubric for each selected question with a missing or non-standard marking guide"
-                    className="px-4 h-11 rounded-2xl bg-sky-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-sky-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none"
-                  >
-                    Rubrics ({selectionTargets.rubrics})
-                  </button>
-                  <button
+                    colourClass="bg-sky-600 hover:shadow-sky-500/25"
+                    label={`Rubrics (${selectionTargets.rubrics})`}
+                  />
+                  <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'reviseRubrics')}
                     disabled={selectionTargets.rubricRevisions === 0}
                     title="Revise non-standard rubrics into correct descending format while preserving existing criteria"
-                    className="px-4 h-11 rounded-2xl bg-amber-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-amber-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none"
-                  >
-                    Revise ({selectionTargets.rubricRevisions})
-                  </button>
-                  <button
+                    colourClass="bg-amber-600 hover:shadow-amber-500/25"
+                    label={`Revise (${selectionTargets.rubricRevisions})`}
+                  />
+                  <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'linkOutcomes')}
                     disabled={selectionTargets.outcomes === 0}
                     title="Suggest syllabus outcomes for each selected question with none linked"
-                    className="px-4 h-11 rounded-2xl bg-pink-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-pink-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none flex items-center gap-1.5"
-                  >
-                    <Link2 className="w-3.5 h-3.5" />
-                    Outcomes ({selectionTargets.outcomes})
-                  </button>
-                  <button
+                    colourClass="bg-pink-600 hover:shadow-pink-500/25"
+                    label={`Outcomes (${selectionTargets.outcomes})`}
+                    icon={<Link2 className="w-3.5 h-3.5" />}
+                  />
+                  <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'generateSamples')}
                     disabled={selectionTargets.samples === 0}
                     title="Draft a full-mark sample answer for each selected question with none"
-                    className="px-4 h-11 rounded-2xl bg-purple-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-purple-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none"
-                  >
-                    Samples ({selectionTargets.samples})
-                  </button>
-                  <button
+                    colourClass="bg-purple-600 hover:shadow-purple-500/25"
+                    label={`Samples (${selectionTargets.samples})`}
+                  />
+                  <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'recalibrateSamples')}
                     disabled={selectionTargets.recalibrations === 0}
                     title="Re-mark every existing sample answer under the strict verb/band rules"
-                    className="px-4 h-11 rounded-2xl bg-teal-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-teal-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none flex items-center gap-1.5"
-                  >
-                    <Scale className="w-3.5 h-3.5" />
-                    Recalibrate ({selectionTargets.recalibrations})
-                  </button>
-                  <button
+                    colourClass="bg-teal-600 hover:shadow-teal-500/25"
+                    label={`Recalibrate (${selectionTargets.recalibrations})`}
+                    icon={<Scale className="w-3.5 h-3.5" />}
+                  />
+                  <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'screenQuality')}
                     disabled={selectionTargets.screenings === 0}
-                    title="AI-score every selected question (0–100) so weak content is flagged, filterable, and triaged in the review queue"
-                    className="px-4 h-11 rounded-2xl bg-rose-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-rose-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none flex items-center gap-1.5"
-                  >
-                    <Gauge className="w-3.5 h-3.5" />
-                    Screen Quality ({selectionTargets.screenings})
-                  </button>
+                    title="AI-score every selected question (0-100) so weak content is flagged, filterable, and triaged in the review queue"
+                    colourClass="bg-rose-600 hover:shadow-rose-500/25"
+                    label={`Screen Quality (${selectionTargets.screenings})`}
+                    icon={<Gauge className="w-3.5 h-3.5" />}
+                  />
                   <div className="w-px h-8 bg-white/10 light:bg-slate-300 self-center" />
                   <button
                     onClick={handleBulkAction.bind(null, 'fixAllGaps')}

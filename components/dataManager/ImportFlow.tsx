@@ -341,16 +341,6 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
               </div>
             )}
 
-            {jsonRepaired && (
-              <div className="flex items-start gap-2 text-sky-300 light:text-sky-600 bg-sky-500/10 py-2.5 px-4 rounded-lg border border-sky-500/20">
-                <Wrench className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
-                <span className="text-xs">
-                  The JSON had formatting issues (e.g. missing commas, unquoted keys) that were
-                  automatically repaired. Review the imported data to confirm it looks correct.
-                </span>
-              </div>
-            )}
-
             {error && (
               <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-center">
                 <p className="text-sm text-red-400 font-medium">{error}</p>
@@ -426,6 +416,16 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
               </div>
 
               <div className="p-6 space-y-6">
+                {jsonRepaired && (
+                  <div className="flex items-start gap-2 text-sky-300 light:text-sky-600 bg-sky-500/10 py-2.5 px-4 rounded-lg border border-sky-500/20">
+                    <Wrench className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
+                    <span className="text-xs">
+                      The JSON had formatting issues (e.g. missing commas, unquoted keys) that were
+                      automatically repaired. Review the imported data to confirm it looks correct.
+                    </span>
+                  </div>
+                )}
+
                 {importedCourses.length > 0 && (
                   <div className="space-y-3">
                     <h5 className="text-sm font-bold text-[rgb(var(--color-text-primary))] flex items-center gap-2">
