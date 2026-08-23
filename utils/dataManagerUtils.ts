@@ -1093,6 +1093,33 @@ export const mergeTopicContents = (existingTopic: Topic, importedTopic: Topic): 
   return mergedTopic;
 };
 
+/**
+ * Merges `topic` into `topics` in place, matching an existing entry by id
+ * or by normalized name — the same id-then-text rule every other import
+ * path in this file uses. A match runs through `mergeTopicContents` and
+ * replaces the existing slot; no match pushes `topic` on as new. Returns
+ * whichever Topic actually landed (the merged one, or `topic` itself), so
+ * callers that toast/navigate off the result don't have to re-derive it.
+ *
+ * Shared by the two call sites that apply an imported topic after
+ * `regenerateTopicIds`: the main navigator's `handleImportTopic`
+ * (hooks/useSyllabusData.ts) and the Content Audit Studio's local import
+ * (components/admin/ContentAuditModal.tsx), which only has `updateCourses`,
+ * not `syllabusHandlers`.
+ */
+export const mergeOrAddTopic = (topics: Topic[], topic: Topic): Topic => {
+  const existingIndex = topics.findIndex(
+    (t) => t.id === topic.id || normalizeText(t.name) === normalizeText(topic.name)
+  );
+  if (existingIndex !== -1) {
+    const merged = mergeTopicContents(topics[existingIndex], topic);
+    topics[existingIndex] = merged;
+    return merged;
+  }
+  topics.push(topic);
+  return topic;
+};
+
 export interface TopicMergePlan {
   /**
    * The existing topic the import would land on — matched by id first, then

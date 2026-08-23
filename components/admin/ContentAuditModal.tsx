@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import type { Updater } from 'use-immer';
 import {
   Course,
   Topic,
@@ -15,7 +16,7 @@ import { outcomesForYear, yearOfTopic } from '../../utils/syllabusYear';
 import {
   buildTopicExportPayload,
   filterDataBySelection,
-  mergeTopicContents,
+  mergeOrAddTopic,
   regenerateTopicIds,
 } from '../../utils/dataManagerUtils';
 import { clearQuestionsInScope } from '../../utils/stateUtils';
@@ -125,7 +126,7 @@ interface ContentAuditModalProps {
   isOpen: boolean;
   onClose: () => void;
   courses: Course[];
-  updateCourses: (updater: (draft: any) => void) => void;
+  updateCourses: Updater<Course[]>;
   showToast: (msg: string, type: 'success' | 'error' | 'info') => void;
 }
 
@@ -762,33 +763,21 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
    * Applies an imported topic the same way `handleImportTopic`
    * (`hooks/useSyllabusData.ts`) does from the main navigator: fresh ids so a
    * reimported file can never collide with what's already in the tree, then
-   * merged into an existing topic (matched by id-or-name) or pushed as new.
-   * Duplicated here rather than reused because the Studio only has
-   * `updateCourses`, not `syllabusHandlers` — see `handleImportTopic` for the
-   * canonical version this must stay behaviourally identical to.
+   * `mergeOrAddTopic` (`utils/dataManagerUtils.ts`) merges it into an
+   * existing topic (matched by id-or-name) or pushes it as new — the same
+   * shared helper `handleImportTopic` calls, kept here as a direct
+   * `updateCourses` call because the Studio only has that, not
+   * `syllabusHandlers`.
    */
   const handleImportTopicConfirm = (topic: Topic) => {
     if (!importCourseId) return;
     const topicWithNewIds = regenerateTopicIds(topic);
-    const normalize = (value?: string) => (value || '').trim().toLowerCase();
     let resultTopicName = topicWithNewIds.name;
 
     updateCourses((draft: Course[]) => {
       const course = draft.find((c: Course) => c.id === importCourseId);
       if (!course) return;
-      const existingIndex = course.topics.findIndex(
-        (t: Topic) =>
-          t.id === topicWithNewIds.id || normalize(t.name) === normalize(topicWithNewIds.name)
-      );
-      if (existingIndex !== -1) {
-        course.topics[existingIndex] = mergeTopicContents(
-          course.topics[existingIndex],
-          topicWithNewIds
-        );
-        resultTopicName = course.topics[existingIndex].name;
-      } else {
-        course.topics.push(topicWithNewIds);
-      }
+      resultTopicName = mergeOrAddTopic(course.topics, topicWithNewIds).name;
     });
 
     showToast(`Topic "${resultTopicName}" imported.`, 'success');

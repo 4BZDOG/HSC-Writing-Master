@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Topic, DataValidationResult } from '../types';
+import { Course, Topic, DataValidationResult } from '../types';
 import {
   analyzeAndSanitizeImportData,
   generateValidationReport,
@@ -107,13 +107,27 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
 
         const analysis = analyzeAndSanitizeImportData(rawData);
 
-        if (analysis.type !== 'topic' || analysis.error) {
+        let validatedTopic: Topic | null = null;
+        if (analysis.type === 'topic' && !analysis.error) {
+          validatedTopic = analysis.data as Topic;
+        } else if (analysis.type === 'courses' && !analysis.error) {
+          // A topic exported as a `Course[]` — the shape both the Data
+          // Manager's Export tab and the Audit Studio's "Export JSON" button
+          // produce for a single-topic export (one course wrapping one
+          // topic) — has exactly one course with exactly one topic. Unwrap
+          // it rather than reject it, so a topic exported from here (or from
+          // the Studio) reimports straight back in as the same round trip.
+          const asCourses = analysis.data as Course[];
+          if (asCourses.length === 1 && asCourses[0].topics.length === 1) {
+            validatedTopic = asCourses[0].topics[0];
+          }
+        }
+
+        if (!validatedTopic) {
           setError(analysis.error || 'The imported file is not a valid single topic object.');
           setFileName(null);
           return;
         }
-
-        const validatedTopic = analysis.data as Topic;
         const tempCourseWrapper = {
           id: 'temp-course',
           name: 'Import Preview',

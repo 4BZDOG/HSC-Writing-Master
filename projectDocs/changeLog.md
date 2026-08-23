@@ -1,5 +1,89 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-08-23 (A unit round-trips now, and the Studio fits the screen)
+
+### 🗑️ Clear Questions, keep everything else
+
+The Content Audit Studio had no delete action at all — its footer was AI
+generation buttons only. A teacher who wanted to wipe a topic's questions and
+regenerate them from scratch had no way to do it short of deleting and
+rebuilding the topic, sub-topics and dot points by hand.
+
+Selecting a course, topic, sub-topic or dot point in the tree now exposes a
+"Clear Questions" button in the footer. It empties every `prompts` array
+reachable under the selection — `clearQuestionsInScope`
+(`utils/stateUtils.ts`), the same Immer-`produce` idiom as the existing
+`deleteSyllabusItem` — without touching the Topic/SubTopic/DotPoint objects
+themselves, their names, ids, or `focusAreas`. The confirmation dialog names
+the scope and a live-computed question count before anything is deleted
+("Delete all 42 questions under «Cell Biology»? … you can reimport questions
+into this exact structure afterward."), and multiple selected scopes are
+each cleared and summed into one toast. Structure survives specifically so a
+cleared topic is ready to receive questions again immediately — including
+straight back through the import below.
+
+### 📤📥 Export a unit, edit it, reimport it — cleanly
+
+Exporting a single topic as JSON existed already, but only via the Data
+Manager's Export tab — a different modal a teacher had to already know
+about. The Studio now has its own "Export JSON" button, scoped to whatever
+single course or topic is selected, using the same filename convention as
+the Data Manager's export flow.
+
+Reimporting that file — or one hand-edited by an external tool — now shows a
+merge plan before anything is applied, not just validation counts: which
+existing topic it will land on (or that it will create a new one), how many
+sub-topics/dot points/questions are new versus matched-and-updated. The
+matched-vs-new counts come from `previewTopicMergePlan`
+(`utils/dataManagerUtils.ts`), which walks the same id-then-normalized-text
+matching the merge engine itself uses, without running the merge. The
+preview is prunable, too: a sub-topic or dot point the external edit got
+wrong can be dropped before committing, matching the parity bar the AI-text
+import (`TopicSyllabusImportModal`) already set. An "Import JSON…" entry
+point on the Studio's header opens this same `TopicImportModal`, pre-scoped
+to the selected node's course, so exporting, editing and reimporting a unit
+no longer means leaving the Studio.
+
+Along the way, a real merge gap is fixed: `mergeDotPointCollections` merged
+a dot point's `description` and recursed into its `prompts`, but never
+merged `focusAreas` — an externally-edited focus area silently reverted to
+whatever was already there on reimport. Merging now follows the same
+"imported value wins when present" rule the rest of the merge engine uses,
+so a unit really does round-trip losslessly: export it, edit prompts,
+focus areas or anything else, reimport, and the edits land on the existing
+nodes with no duplicates.
+
+A second gap surfaced only by actually driving the round trip end-to-end:
+`buildTopicExportPayload` returns a `Course[]` — one course wrapping one
+topic, the same shape `ExportFlow.tsx` has always produced for a
+single-topic export — but `TopicImportModal`'s file handler accepted only a
+bare `Topic` object, so exporting a topic from the Studio and immediately
+reimporting that exact file failed with "The imported file is not a valid
+single topic object." It now unwraps a `Course[]` of that shape (one
+course, one topic) the same way it already accepts a bare topic, so the
+Studio's own Export → Import round trip — and any file exported the same
+way elsewhere — works without a manual reshape.
+
+### 📐 The Studio's header and footer stopped falling off the bottom of the screen
+
+Content Audit Studio rendered as `fixed inset-0` with an unbounded header
+(hero row + a wrapping filter-chip bar) and an unbounded footer (engine
+selector + up to nine action buttons), both `flex-shrink-0` with no
+`max-height` of their own. Once header and footer together exceeded the
+viewport — a laptop at reduced window height, a tiled half-screen window,
+browser zoom above 100%, or just enough filter chips wrapping to three or
+four lines — the tree in between was squeezed toward nothing and the
+overflow was not reachable by any scrollbar: nothing above the fixed box
+scrolls, and the box itself doesn't grow.
+
+The header and footer now cap their own height and scroll internally
+(`custom-scrollbar`, the same treatment the tree already had), and the
+outer dialog carries `overflow-y-auto` as a fallback so the whole Studio
+becomes page-scrollable rather than clipping if header and footer content
+ever still outgrows the cap together. Every control — search, filters,
+tree rows, and the footer's action buttons — stays reachable by scrolling
+at any viewport height.
+
 ## [Unreleased] - 2026-08-20 (The cognitive spectrum)
 
 ### 🌈 A traffic light became a spectrum

@@ -42,7 +42,7 @@ import { screenContentQuality } from '../services/geminiService';
 import { generateId } from '../utils/idUtils';
 import {
   mergeCourseContents,
-  mergeTopicContents,
+  mergeOrAddTopic,
   analyzeAndSanitizeImportData,
   migrateAnalyseVerb,
   regenerateTopicIds,
@@ -377,20 +377,7 @@ export const useSyllabusData = ({
             }
 
             const importedTopic = regenerateTopicIds(doc.data as Topic);
-            const existingTopicIndex = targetCourse.topics.findIndex(
-              (topic) =>
-                topic.id === importedTopic.id ||
-                normalizeText(topic.name) === normalizeText(importedTopic.name)
-            );
-
-            if (existingTopicIndex !== -1) {
-              targetCourse.topics[existingTopicIndex] = mergeTopicContents(
-                targetCourse.topics[existingTopicIndex],
-                importedTopic
-              );
-            } else {
-              targetCourse.topics.push(importedTopic);
-            }
+            mergeOrAddTopic(targetCourse.topics, importedTopic);
 
             importedCount++;
           });
@@ -825,19 +812,7 @@ export const useSyllabusData = ({
       let resultTopic: Topic = topic;
       updateCourses((draft) => {
         findAndUpdateItem(draft, { courseId }, (course: Draft<Course>) => {
-          const existingTopicIndex = course.topics.findIndex(
-            (existingTopic) =>
-              existingTopic.id === topic.id ||
-              normalizeText(existingTopic.name) === normalizeText(topic.name)
-          );
-
-          if (existingTopicIndex !== -1) {
-            const mergedTopic = mergeTopicContents(course.topics[existingTopicIndex], topic);
-            course.topics[existingTopicIndex] = mergedTopic;
-            resultTopic = mergedTopic;
-          } else {
-            course.topics.push(topic);
-          }
+          resultTopic = mergeOrAddTopic(course.topics, topic);
         });
       });
       showToast(`Topic "${resultTopic.name}" imported.`, 'success');
