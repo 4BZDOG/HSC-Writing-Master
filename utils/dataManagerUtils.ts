@@ -1616,6 +1616,131 @@ export const regenerateTopicIds = (topic: Topic): Topic => {
   return newTopic;
 };
 
+const regenerateSampleAnswerId = (sa: SampleAnswer): void => {
+  sa.id = generateId('sa');
+};
+
+const regeneratePromptIds = (prompt: Prompt): void => {
+  prompt.id = generateId('prompt');
+  (prompt.sampleAnswers || []).forEach(regenerateSampleAnswerId);
+};
+
+const regenerateDotPointIds = (dp: DotPoint): void => {
+  dp.id = generateId('dp');
+  (dp.prompts || []).forEach(regeneratePromptIds);
+};
+
+const regenerateSubTopicIds = (st: SubTopic): void => {
+  st.id = generateId('subTopic');
+  (st.dotPoints || []).forEach(regenerateDotPointIds);
+};
+
+/**
+ * Reconciles an imported topic's ids against a course's existing topics
+ * BEFORE the topic is merged, so the merge's own id-first matching (see
+ * `mergeSubTopicCollections` / `mergeDotPointCollections` /
+ * `mergePromptCollections`) actually finds what `previewTopicMergePlan`
+ * already told the user it would find.
+ *
+ * The bug this fixes: `regenerateTopicIds` used to run on every reimport,
+ * unconditionally minting fresh random ids for the topic and everything
+ * inside it. That made the real merge fall back to text matching
+ * (normalized name/description/question) for every node — which breaks the
+ * instant an external edit touches exactly the field the text match keys
+ * on, e.g. "improve the wording" on a dot point's `description`. The
+ * preview (computed on the RAW imported topic, original ids intact) still
+ * found the match via id; the real merge, working on the id-wiped topic, no
+ * longer could — so the edited node landed as a brand-new duplicate sibling
+ * instead of updating the existing one in place.
+ *
+ * The fix walks the imported topic top-down, matching each level against
+ * `existingTopics` with the exact same id-then-normalized-text rule
+ * `previewTopicMergePlan` and the `mergeXxxCollections` functions use. A
+ * matched node gets the existing node's id (so the merge's id check finds
+ * it directly, no text fallback needed — an edited field can no longer
+ * break the match). An unmatched node — and everything under it — gets a
+ * brand-new id, exactly like `regenerateTopicIds` did, preserving the "an
+ * import cannot collide with what's already there" guarantee for content
+ * that is genuinely new.
+ *
+ * Never mutates `existingTopics` or `importedTopic` — works on a deep clone.
+ */
+export const reconcileImportedTopicIds = (importedTopic: Topic, existingTopics: Topic[]): Topic => {
+  const newTopic = JSON.parse(JSON.stringify(importedTopic)) as Topic;
+
+  const matchedTopic =
+    existingTopics.find((t) => t.id === newTopic.id) ??
+    existingTopics.find((t) => normalizeText(t.name) === normalizeText(newTopic.name));
+
+  if (!matchedTopic) {
+    // Genuinely new topic: behave exactly like regenerateTopicIds.
+    newTopic.id = generateId('topic');
+    (newTopic.subTopics || []).forEach(regenerateSubTopicIds);
+    return newTopic;
+  }
+
+  newTopic.id = matchedTopic.id;
+
+  (newTopic.subTopics || []).forEach((st) => {
+    const matchedST =
+      matchedTopic.subTopics.find((s) => s.id === st.id) ??
+      matchedTopic.subTopics.find((s) => normalizeText(s.name) === normalizeText(st.name));
+
+    if (!matchedST) {
+      regenerateSubTopicIds(st);
+      return;
+    }
+
+    st.id = matchedST.id;
+
+    (st.dotPoints || []).forEach((dp) => {
+      const matchedDP =
+        matchedST.dotPoints.find((d) => d.id === dp.id) ??
+        matchedST.dotPoints.find(
+          (d) => normalizeText(d.description) === normalizeText(dp.description)
+        );
+
+      if (!matchedDP) {
+        regenerateDotPointIds(dp);
+        return;
+      }
+
+      dp.id = matchedDP.id;
+
+      (dp.prompts || []).forEach((p) => {
+        const matchedPrompt =
+          matchedDP.prompts.find((mp) => mp.id === p.id) ??
+          matchedDP.prompts.find((mp) => normalizeText(mp.question) === normalizeText(p.question));
+
+        if (!matchedPrompt) {
+          regeneratePromptIds(p);
+          return;
+        }
+
+        p.id = matchedPrompt.id;
+
+        // Sample answers are merged additively by id-or-text (see
+        // `mergeSampleAnswerCollections`), never replaced in place, so an
+        // unmatched one just needs a fresh, collision-safe id. A matched
+        // one (by id, or by identical answer text) takes the existing id so
+        // the dedupe check that runs at merge time recognises it as the
+        // same answer rather than a coincidental text match under a new id.
+        (p.sampleAnswers || []).forEach((sa) => {
+          const matchedSA =
+            matchedPrompt.sampleAnswers?.find((ms) => ms.id === sa.id) ??
+            matchedPrompt.sampleAnswers?.find(
+              (ms) => normalizeText(ms.answer) === normalizeText(sa.answer)
+            );
+
+          sa.id = matchedSA ? matchedSA.id : generateId('sa');
+        });
+      });
+    });
+  });
+
+  return newTopic;
+};
+
 export const generateValidationReport = (courses: Course[]): DataValidationResult => {
   const errors: string[] = [];
   const warnings: string[] = [];

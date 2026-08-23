@@ -17,7 +17,7 @@ import {
   buildTopicExportPayload,
   filterDataBySelection,
   mergeOrAddTopic,
-  regenerateTopicIds,
+  reconcileImportedTopicIds,
 } from '../../utils/dataManagerUtils';
 import { clearQuestionsInScope } from '../../utils/stateUtils';
 import TopicImportModal from '../TopicImportModal';
@@ -761,17 +761,28 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
   /**
    * Applies an imported topic the same way `handleImportTopic`
-   * (`hooks/useSyllabusData.ts`) does from the main navigator: fresh ids so a
-   * reimported file can never collide with what's already in the tree, then
-   * `mergeOrAddTopic` (`utils/dataManagerUtils.ts`) merges it into an
-   * existing topic (matched by id-or-name) or pushes it as new — the same
-   * shared helper `handleImportTopic` calls, kept here as a direct
-   * `updateCourses` call because the Studio only has that, not
-   * `syllabusHandlers`.
+   * (`hooks/useSyllabusData.ts`) does from the main navigator:
+   * `reconcileImportedTopicIds` reconciles the imported topic's ids against
+   * the target course's CURRENT topics — matched nodes take on the existing
+   * node's id (so the merge below finds them directly, by id, no text
+   * fallback needed even when an external edit changed the matching text
+   * field), unmatched nodes get a fresh, collision-safe id exactly like the
+   * old `regenerateTopicIds` gave everything. Then `mergeOrAddTopic`
+   * (`utils/dataManagerUtils.ts`) merges it into an existing topic (matched
+   * by id-or-name) or pushes it as new — the same shared helper
+   * `handleImportTopic` calls, kept here as a direct `updateCourses` call
+   * because the Studio only has that, not `syllabusHandlers`.
+   *
+   * `importTargetCourse` (derived from the `courses` prop) is read before
+   * `updateCourses` runs, rather than looked up inside the updater, because
+   * the reconciliation needs the target course's existing topics as input,
+   * not just as something to mutate — it comes from the same `courses` /
+   * `updateCourses` pair, so it reflects the same pre-update state the
+   * updater's own `draft.find` would see.
    */
   const handleImportTopicConfirm = (topic: Topic) => {
-    if (!importCourseId) return;
-    const topicWithNewIds = regenerateTopicIds(topic);
+    if (!importCourseId || !importTargetCourse) return;
+    const topicWithNewIds = reconcileImportedTopicIds(topic, importTargetCourse.topics);
     let resultTopicName = topicWithNewIds.name;
 
     updateCourses((draft: Course[]) => {
