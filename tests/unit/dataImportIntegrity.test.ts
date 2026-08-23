@@ -8,6 +8,9 @@ import {
   generateValidationReport,
   regenerateTopicIds,
   getLLMImportTemplate,
+  buildTopicExportPayload,
+  previewTopicMergePlan,
+  mergeTopicContents,
 } from '../../utils/dataManagerUtils';
 import { Course, Prompt, PromptVerb, Topic } from '../../types';
 
@@ -333,5 +336,81 @@ describe('getLLMImportTemplate', () => {
     const result = analyzeAndSanitizeImportData(JSON.parse(getLLMImportTemplate()));
 
     expect(result.type).toBe('courses');
+  });
+});
+
+/**
+ * The whole point of Steps 2-3: export a topic, improve the JSON by hand (or
+ * with an external tool), reimport it, and land back on the SAME structure
+ * with the edit applied — no duplicate topics/sub-topics/dot points/prompts.
+ */
+describe('export → external edit → reimport round trip', () => {
+  it('applies the mutated field and adds the new question with no duplicates', () => {
+    const course: Course = {
+      id: 'course-bio',
+      name: 'Biology',
+      outcomes: [],
+      topics: [
+        {
+          id: 'topic-cells',
+          name: 'Cells',
+          subTopics: [
+            {
+              id: 'st-structure',
+              name: 'Cell Structure',
+              dotPoints: [
+                {
+                  id: 'dp-membrane',
+                  description: 'Investigate membrane transport',
+                  focusAreas: ['osmosis'],
+                  prompts: [makePrompt({ id: 'p-existing', question: 'Explain membrane transport.' })],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    // 1. Export the topic (Step 2's helper) — this is what a teacher downloads.
+    const exported = buildTopicExportPayload([course], 'course-bio', 'topic-cells');
+    expect(exported).toHaveLength(1);
+
+    // 2. Simulate an external edit on the exported JS object: change a dot
+    //    point's focusAreas and add one new question, exactly as a teacher
+    //    hand-editing the downloaded file would.
+    const editedTopic = JSON.parse(JSON.stringify(exported[0].topics[0])) as Topic;
+    editedTopic.subTopics[0].dotPoints[0].focusAreas = ['osmosis', 'active transport'];
+    editedTopic.subTopics[0].dotPoints[0].prompts.push(
+      makePrompt({ id: 'p-brand-new', question: 'Describe active transport.' })
+    );
+
+    // 3. Feed it back through the sanitizer, as the real import path does.
+    const analysis = analyzeAndSanitizeImportData(editedTopic);
+    expect(analysis.type).toBe('topic');
+    const sanitizedTopic = analysis.data as Topic;
+
+    // 4. Preview the merge plan before applying it.
+    const plan = previewTopicMergePlan([course.topics[0]], sanitizedTopic);
+    expect(plan.matchedTopic?.id).toBe('topic-cells');
+    expect(plan.matchedSubTopics).toBe(1);
+    expect(plan.matchedDotPoints).toBe(1);
+    expect(plan.matchedPrompts).toBe(1); // the existing question, matched by text
+    expect(plan.newPrompts).toBe(1); // the newly added question
+
+    // 5. Actually apply the merge (what confirming the import does).
+    const merged = mergeTopicContents(course.topics[0], sanitizedTopic);
+
+    // No duplicate structure anywhere.
+    expect(merged.subTopics).toHaveLength(1);
+    expect(merged.subTopics[0].dotPoints).toHaveLength(1);
+    expect(merged.subTopics[0].dotPoints[0].prompts).toHaveLength(2);
+    const questions = merged.subTopics[0].dotPoints[0].prompts.map((p) => p.question);
+    expect(new Set(questions).size).toBe(2);
+
+    // The externally-edited field wins.
+    expect(merged.subTopics[0].dotPoints[0].focusAreas).toEqual(['osmosis', 'active transport']);
+    // The new question landed.
+    expect(questions).toContain('Describe active transport.');
   });
 });

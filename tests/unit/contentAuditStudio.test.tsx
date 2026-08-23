@@ -177,6 +177,33 @@ describe('ContentAuditModal — gap visibility and batch targeting', () => {
     }
   });
 
+  it('offers an Import JSON entry point scoped to the selected topic/course, opening TopicImportModal with the right course context', () => {
+    renderStudio();
+
+    // Selecting the whole course resolves to exactly one importable target —
+    // the course itself — same as Export JSON's single-root rule.
+    selectWholeCourse();
+    const importButton = screen.getByRole('button', { name: /import json/i });
+    expect((importButton as HTMLButtonElement).disabled).toBe(false);
+
+    fireEvent.click(importButton);
+
+    // TopicImportModal opened, scoped to "Fixture Course" (the course the
+    // selection resolved to) rather than any other course.
+    expect(screen.getByRole('dialog', { name: /import a topic file/i })).toBeTruthy();
+    expect(screen.getByText('into "Fixture Course"')).toBeTruthy();
+  });
+
+  it('disables Import JSON once the selection no longer resolves to one topic/course', () => {
+    renderStudio();
+    fireEvent.click(screen.getByLabelText('Expand Fixture Topic'));
+    fireEvent.click(screen.getByLabelText('Expand Fixture SubTopic'));
+
+    fireEvent.click(screen.getByLabelText('Select describe an untouched dot point'));
+    const importButton = screen.getByRole('button', { name: /import json/i });
+    expect((importButton as HTMLButtonElement).disabled).toBe(true);
+  });
+
   it('disables Export JSON once the selection no longer resolves to one topic/course', () => {
     renderStudio();
     fireEvent.click(screen.getByLabelText('Expand Fixture Topic'));

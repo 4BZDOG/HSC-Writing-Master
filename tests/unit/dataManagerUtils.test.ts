@@ -4,6 +4,7 @@ import {
   mergeCourseContents,
   mergeTopicContents,
   buildTopicExportPayload,
+  previewTopicMergePlan,
 } from '../../utils/dataManagerUtils';
 
 const buildTopic = (): Topic => ({
@@ -287,5 +288,120 @@ describe('buildTopicExportPayload', () => {
 
   it('is a no-op on an unknown course id', () => {
     expect(buildTopicExportPayload(courses, 'no-such-course', 'topic-cells')).toEqual([]);
+  });
+});
+
+describe('previewTopicMergePlan', () => {
+  it('matches an existing topic by name and counts new vs matched sub-topics/dot points/prompts, including a prompt matched by normalized question text', () => {
+    const existingTopic = buildTopic();
+    const existingTopics: Topic[] = [existingTopic];
+
+    const importedTopic: Topic = {
+      id: 'topic-cells-import', // different id — the name match is what's exercised
+      name: 'Cells',
+      subTopics: [
+        {
+          id: 'subtopic-structure-import',
+          name: 'Cell Structure', // matches by name
+          dotPoints: [
+            {
+              id: 'dp-membrane-import',
+              description: 'Investigate membrane transport', // matches by description
+              prompts: [
+                {
+                  // Different id, but the SAME question text (case/whitespace
+                  // aside) — must be counted as matched, not new.
+                  id: 'prompt-transport-import',
+                  question: '  explain MEMBRANE transport.  ',
+                  totalMarks: 5,
+                  verb: 'EXPLAIN',
+                  keywords: [],
+                  sampleAnswers: [],
+                },
+                {
+                  id: 'prompt-new',
+                  question: 'A brand-new question not seen before.',
+                  totalMarks: 3,
+                  verb: 'DESCRIBE',
+                  keywords: [],
+                  sampleAnswers: [],
+                },
+              ],
+            },
+            {
+              id: 'dp-new',
+              description: 'A brand-new dot point',
+              prompts: [
+                {
+                  id: 'prompt-under-new-dp',
+                  question: 'Question under the new dot point.',
+                  totalMarks: 4,
+                  verb: 'EXPLAIN',
+                  keywords: [],
+                  sampleAnswers: [],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'subtopic-new',
+          name: 'A brand-new sub-topic',
+          dotPoints: [
+            {
+              id: 'dp-under-new-st',
+              description: 'A dot point under the new sub-topic',
+              prompts: [],
+            },
+          ],
+        },
+      ],
+    };
+
+    const plan = previewTopicMergePlan(existingTopics, importedTopic);
+
+    expect(plan.matchedTopic?.id).toBe('topic-cells');
+    expect(plan.matchedSubTopics).toBe(1); // Cell Structure
+    expect(plan.newSubTopics).toBe(1); // A brand-new sub-topic
+    expect(plan.matchedDotPoints).toBe(1); // Investigate membrane transport
+    expect(plan.newDotPoints).toBe(2); // dp-new + dp-under-new-st
+    expect(plan.matchedPrompts).toBe(1); // the normalized-text-matched question
+    expect(plan.newPrompts).toBe(2); // prompt-new + prompt-under-new-dp
+  });
+
+  it('reports no match (matchedTopic: null) when nothing in the course matches the imported topic', () => {
+    const existingTopics: Topic[] = [buildTopic()];
+    const importedTopic: Topic = {
+      id: 'topic-unrelated',
+      name: 'An Entirely Different Topic',
+      subTopics: [
+        {
+          id: 'st-1',
+          name: 'Sub 1',
+          dotPoints: [
+            { id: 'dp-1', description: 'Dot 1', prompts: [] },
+          ],
+        },
+      ],
+    };
+
+    const plan = previewTopicMergePlan(existingTopics, importedTopic);
+
+    expect(plan.matchedTopic).toBeNull();
+    expect(plan.newSubTopics).toBe(1);
+    expect(plan.matchedSubTopics).toBe(0);
+    expect(plan.newDotPoints).toBe(1);
+    expect(plan.matchedDotPoints).toBe(0);
+    expect(plan.newPrompts).toBe(0);
+    expect(plan.matchedPrompts).toBe(0);
+  });
+
+  it('matches a topic by id even when the name differs', () => {
+    const existingTopics: Topic[] = [buildTopic()];
+    const importedTopic: Topic = { ...buildTopic(), name: 'Renamed Cells' };
+
+    const plan = previewTopicMergePlan(existingTopics, importedTopic);
+
+    expect(plan.matchedTopic?.id).toBe('topic-cells');
   });
 });

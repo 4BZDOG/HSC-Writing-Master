@@ -3,13 +3,10 @@ import { Topic, DataValidationResult } from '../types';
 import {
   analyzeAndSanitizeImportData,
   generateValidationReport,
-  buildTree,
-  regenerateTopicIds,
+  previewTopicMergePlan,
 } from '../utils/dataManagerUtils';
 import FileDropzone from './dataManager/FileDropzone';
-import ValidationSummary from './dataManager/ValidationSummary';
-import { ModalHeader, ActionButtons } from './dataManager/common';
-import { UploadCloud, X, Award } from 'lucide-react';
+import { UploadCloud, X, Award, ChevronRight, Trash2, GitMerge, Sparkles } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -19,19 +16,60 @@ interface TopicImportModalProps {
   onClose: () => void;
   onImport: (topic: Topic) => void;
   courseName: string;
+  /**
+   * Topics already in the destination course. Used only to preview whether
+   * the import will merge into one of them or create a new topic — the
+   * actual merge decision is made later, by the same id-then-name rule, when
+   * `onImport` is applied. Optional so existing callers that haven't wired it
+   * through yet still render (preview just reports "no match" and offers to
+   * create a new topic).
+   */
+  existingTopics?: Topic[];
 }
+
+/** "1 new sub-topic" / "3 new sub-topics" */
+const pluralize = (n: number, noun: string) => `${n} ${noun}${n === 1 ? '' : 's'}`;
+
+const describeMergePlan = (
+  importedTopicName: string,
+  plan: ReturnType<typeof previewTopicMergePlan>
+): string => {
+  if (!plan.matchedTopic) {
+    return `Will create a new topic "${importedTopicName}".`;
+  }
+
+  const parts: string[] = [];
+  if (plan.newSubTopics > 0 || plan.matchedSubTopics === 0) {
+    parts.push(pluralize(plan.newSubTopics, 'new sub-topic'));
+  }
+  if (plan.matchedSubTopics > 0) {
+    parts.push(
+      `${pluralize(plan.matchedSubTopics, 'sub-topic')} matched (${pluralize(plan.newDotPoints, 'new dot point')} inside)`
+    );
+  }
+  if (plan.matchedPrompts > 0) {
+    parts.push(`${pluralize(plan.matchedPrompts, 'question')} matched and updated`);
+  }
+  if (plan.newPrompts > 0) {
+    parts.push(`${pluralize(plan.newPrompts, 'new question')} added`);
+  }
+
+  return `Will merge into "${plan.matchedTopic.name}" — ${parts.join(', ')}.`;
+};
 
 const TopicImportModal: React.FC<TopicImportModalProps> = ({
   isOpen,
   onClose,
   onImport,
   courseName,
+  existingTopics = [],
 }) => {
   const [step, setStep] = useState<'upload' | 'preview'>('upload');
   const [importedTopic, setImportedTopic] = useState<Topic | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [validationReport, setValidationReport] = useState<DataValidationResult | null>(null);
+  const [expandedSubTopics, setExpandedSubTopics] = useState<Set<number>>(new Set());
 
   // Bulk Settings
   const [markAsPastHSC, setMarkAsPastHSC] = useState(false);
@@ -43,6 +81,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
     setError(null);
     setFileName(null);
     setValidationReport(null);
+    setExpandedSubTopics(new Set());
     setMarkAsPastHSC(false);
     setBulkYear('');
   };
@@ -91,6 +130,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
 
         setImportedTopic(validatedTopic);
         setValidationReport(report);
+        setExpandedSubTopics(new Set(validatedTopic.subTopics.map((_, i) => i)));
         setStep('preview');
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to parse JSON file.');
@@ -100,6 +140,50 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
     reader.onerror = () => setError('Error reading file.');
     reader.readAsText(file);
   };
+
+  // --- Editable preview: prune anything the external tool got wrong before
+  // it lands in the course, matching the review UX TopicSyllabusImportModal
+  // already offers for AI-parsed imports. ---
+  const toggleSubTopicExpanded = (idx: number) => {
+    setExpandedSubTopics((prev) => {
+      const next = new Set(prev);
+      if (next.has(idx)) next.delete(idx);
+      else next.add(idx);
+      return next;
+    });
+  };
+
+  const removeSubTopic = (idx: number) =>
+    setImportedTopic((prev) =>
+      prev ? { ...prev, subTopics: prev.subTopics.filter((_, i) => i !== idx) } : prev
+    );
+
+  const removeDotPoint = (stIdx: number, dpIdx: number) =>
+    setImportedTopic((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        subTopics: prev.subTopics.map((st, i) =>
+          i === stIdx ? { ...st, dotPoints: st.dotPoints.filter((_, j) => j !== dpIdx) } : st
+        ),
+      };
+    });
+
+  const mergePlan = useMemo(
+    () => (importedTopic ? previewTopicMergePlan(existingTopics, importedTopic) : null),
+    [importedTopic, existingTopics]
+  );
+
+  const treeStats = useMemo(() => {
+    if (!importedTopic) return { subTopics: 0, dotPoints: 0, prompts: 0 };
+    let dotPoints = 0;
+    let prompts = 0;
+    importedTopic.subTopics.forEach((st) => {
+      dotPoints += st.dotPoints.length;
+      st.dotPoints.forEach((dp) => (prompts += dp.prompts.length));
+    });
+    return { subTopics: importedTopic.subTopics.length, dotPoints, prompts };
+  }, [importedTopic]);
 
   const handleConfirmImport = () => {
     if (importedTopic) {
@@ -196,11 +280,29 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
             </div>
           )}
 
-          {step === 'preview' && validationReport && importedTopic && (
+          {step === 'preview' && importedTopic && mergePlan && (
             <div className="space-y-5 h-full flex flex-col overflow-hidden">
               <p className="text-sm text-[rgb(var(--color-text-secondary))] light:text-slate-600">
                 Review the contents of "{fileName}" before importing.
               </p>
+
+              {/* Merge-vs-create summary — what this import will actually do */}
+              <div
+                className={`rounded-xl border p-4 flex items-start gap-3 ${
+                  mergePlan.matchedTopic
+                    ? 'border-[rgb(var(--color-accent))]/30 bg-[rgb(var(--color-accent))]/5'
+                    : 'border-emerald-500/30 light:border-emerald-200 bg-emerald-500/5 light:bg-emerald-50/50'
+                }`}
+              >
+                {mergePlan.matchedTopic ? (
+                  <GitMerge className="w-4 h-4 mt-0.5 text-[rgb(var(--color-accent))] flex-shrink-0" />
+                ) : (
+                  <UploadCloud className="w-4 h-4 mt-0.5 text-emerald-500 flex-shrink-0" />
+                )}
+                <p className="text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-relaxed">
+                  {describeMergePlan(importedTopic.name, mergePlan)}
+                </p>
+              </div>
 
               {/* Bulk Settings */}
               <div
@@ -240,8 +342,83 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                 )}
               </div>
 
-              <div className="flex-grow overflow-y-auto pr-2 -mr-2">
-                <ValidationSummary result={validationReport} />
+              {/* Editable structure preview — remove anything the source file
+                  got wrong before it lands in the course. */}
+              <div className="flex-grow overflow-hidden flex flex-col bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-xl">
+                <div className="px-4 py-2.5 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 flex justify-between items-center flex-shrink-0">
+                  <span>{importedTopic.name}</span>
+                  <span className="bg-[rgb(var(--color-bg-surface-inset))] light:bg-white px-2 py-0.5 rounded-full normal-case font-semibold">
+                    {treeStats.subTopics} sub-topics · {treeStats.dotPoints} dot points ·{' '}
+                    {treeStats.prompts} questions
+                  </span>
+                </div>
+                {importedTopic.subTopics.length === 0 ? (
+                  <div className="p-8 text-center text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                    Nothing left to import. Go back and pick a different file, or cancel.
+                  </div>
+                ) : (
+                  <div className="p-2 overflow-y-auto custom-scrollbar">
+                    {importedTopic.subTopics.map((st, stIdx) => {
+                      const isExpanded = expandedSubTopics.has(stIdx);
+                      return (
+                        <div key={st.id ?? stIdx} className="mb-1 last:mb-0">
+                          <div className="group flex items-center gap-1 rounded-lg hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-100 transition">
+                            <button
+                              onClick={() => toggleSubTopicExpanded(stIdx)}
+                              className="flex-1 flex items-center gap-2 p-2 text-left min-w-0"
+                            >
+                              <ChevronRight
+                                className={`w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-90' : ''}`}
+                              />
+                              <span className="font-semibold text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 truncate">
+                                {st.name}
+                              </span>
+                              <span className="ml-auto flex-shrink-0 text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-2 py-0.5 rounded-full">
+                                {st.dotPoints.length} dot points
+                              </span>
+                            </button>
+                            <button
+                              onClick={() => removeSubTopic(stIdx)}
+                              className="p-1.5 mr-1 rounded text-transparent group-hover:text-red-400 light:group-hover:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
+                              title="Remove sub-topic"
+                              aria-label={`Remove sub-topic ${st.name}`}
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                          {isExpanded && st.dotPoints.length > 0 && (
+                            <div className="ml-7 pl-2 border-l border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 mt-1 space-y-0.5">
+                              {st.dotPoints.map((dp, dpIdx) => (
+                                <div
+                                  key={dp.id ?? dpIdx}
+                                  className="group/dp flex items-start gap-2 px-2 py-1 text-xs text-[rgb(var(--color-text-dim))] light:text-slate-600 rounded hover:bg-[rgb(var(--color-bg-surface-light))]/40 light:hover:bg-slate-100"
+                                >
+                                  <span className="mt-1.5 w-1 h-1 rounded-full bg-gray-600 light:bg-slate-400 flex-shrink-0"></span>
+                                  <span className="flex-1">
+                                    {dp.description}
+                                    {dp.prompts.length > 0 && (
+                                      <span className="ml-2 text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-400">
+                                        ({pluralize(dp.prompts.length, 'question')})
+                                      </span>
+                                    )}
+                                  </span>
+                                  <button
+                                    onClick={() => removeDotPoint(stIdx, dpIdx)}
+                                    className="p-0.5 rounded text-transparent group-hover/dp:text-red-400 light:group-hover/dp:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
+                                    title="Remove dot point"
+                                    aria-label={`Remove dot point ${dp.description}`}
+                                  >
+                                    <X className="w-3 h-3" />
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -258,9 +435,17 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
               </button>
               <button
                 onClick={handleConfirmImport}
-                className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition"
+                disabled={!importedTopic || importedTopic.subTopics.length === 0}
+                className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
-                Import "{importedTopic?.name}"
+                {mergePlan?.matchedTopic ? (
+                  <GitMerge className="w-4 h-4" />
+                ) : (
+                  <Sparkles className="w-4 h-4" />
+                )}
+                {mergePlan?.matchedTopic
+                  ? `Merge into "${mergePlan.matchedTopic.name}"`
+                  : `Import "${importedTopic?.name}"`}
               </button>
             </>
           ) : (

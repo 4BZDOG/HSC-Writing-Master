@@ -1093,6 +1093,99 @@ export const mergeTopicContents = (existingTopic: Topic, importedTopic: Topic): 
   return mergedTopic;
 };
 
+export interface TopicMergePlan {
+  /**
+   * The existing topic the import would land on — matched by id first, then
+   * by normalized name, exactly the rule `handleImportTopic`
+   * (`hooks/useSyllabusData.ts`) uses when it actually applies the merge.
+   * `null` means nothing in `existingTopics` matches, so the import would
+   * create a brand-new topic instead.
+   */
+  matchedTopic: Topic | null;
+  newSubTopics: number;
+  matchedSubTopics: number;
+  newDotPoints: number;
+  matchedDotPoints: number;
+  newPrompts: number;
+  matchedPrompts: number;
+}
+
+/**
+ * A read-only preview of what `mergeTopicContents` (via `mergeSubTopicCollections`
+ * / `mergeDotPointCollections` / `mergePromptCollections`) WOULD do for this
+ * imported topic against a course's existing topics — same id-then-normalized-text
+ * matching rules those functions use, but counting instead of mutating, so an
+ * import preview can tell a teacher what a click will do before it does it.
+ * Never mutates `existingTopics` or `importedTopic`.
+ */
+export const previewTopicMergePlan = (
+  existingTopics: Topic[],
+  importedTopic: Topic
+): TopicMergePlan => {
+  const matchedTopic =
+    existingTopics.find((topic) => topic.id === importedTopic.id) ??
+    existingTopics.find(
+      (topic) => normalizeText(topic.name) === normalizeText(importedTopic.name)
+    ) ??
+    null;
+
+  const plan: TopicMergePlan = {
+    matchedTopic,
+    newSubTopics: 0,
+    matchedSubTopics: 0,
+    newDotPoints: 0,
+    matchedDotPoints: 0,
+    newPrompts: 0,
+    matchedPrompts: 0,
+  };
+
+  importedTopic.subTopics.forEach((importedST) => {
+    const matchedST = matchedTopic
+      ? (matchedTopic.subTopics.find((st) => st.id === importedST.id) ??
+        matchedTopic.subTopics.find(
+          (st) => normalizeText(st.name) === normalizeText(importedST.name)
+        ))
+      : undefined;
+
+    if (!matchedST) {
+      plan.newSubTopics++;
+      importedST.dotPoints.forEach((dp) => {
+        plan.newDotPoints++;
+        plan.newPrompts += dp.prompts.length;
+      });
+      return;
+    }
+
+    plan.matchedSubTopics++;
+    importedST.dotPoints.forEach((importedDP) => {
+      const matchedDP =
+        matchedST.dotPoints.find((dp) => dp.id === importedDP.id) ??
+        matchedST.dotPoints.find(
+          (dp) => normalizeText(dp.description) === normalizeText(importedDP.description)
+        );
+
+      if (!matchedDP) {
+        plan.newDotPoints++;
+        plan.newPrompts += importedDP.prompts.length;
+        return;
+      }
+
+      plan.matchedDotPoints++;
+      importedDP.prompts.forEach((importedPrompt) => {
+        const matchedPrompt =
+          matchedDP.prompts.find((p) => p.id === importedPrompt.id) ??
+          matchedDP.prompts.find(
+            (p) => normalizeText(p.question) === normalizeText(importedPrompt.question)
+          );
+        if (matchedPrompt) plan.matchedPrompts++;
+        else plan.newPrompts++;
+      });
+    });
+  });
+
+  return plan;
+};
+
 export const mergeCourseContents = (existingCourse: Course, importedCourse: Course): Course => {
   const newCourse = JSON.parse(JSON.stringify(existingCourse));
   newCourse.name = mergeScalarText(existingCourse.name, importedCourse.name) || existingCourse.name;

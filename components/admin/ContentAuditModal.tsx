@@ -12,7 +12,13 @@ import {
   SampleAnswer,
 } from '../../types';
 import { outcomesForYear, yearOfTopic } from '../../utils/syllabusYear';
-import { buildTopicExportPayload, filterDataBySelection } from '../../utils/dataManagerUtils';
+import {
+  buildTopicExportPayload,
+  filterDataBySelection,
+  mergeTopicContents,
+  regenerateTopicIds,
+} from '../../utils/dataManagerUtils';
+import TopicImportModal from '../TopicImportModal';
 import {
   BatchTask,
   runBatchOperations,
@@ -475,6 +481,9 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 }) => {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+  // Course id an "Import JSON…" click will import a topic into — set only
+  // while that nested TopicImportModal is open.
+  const [importCourseId, setImportCourseId] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isStopping, setIsStopping] = useState(false);
   // 'default' = the app's per-role engine selection; otherwise an AI_MODELS
@@ -659,6 +668,59 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
     showToast(`Exported "${exportTarget.label}" as JSON.`, 'success');
+  };
+
+  /**
+   * The course an "Import JSON…" click would import a topic into — the same
+   * single-root selection `exportTarget` resolves, just reported as a course
+   * id rather than a tree node: a selected topic imports into its own
+   * course, a selected course imports directly into itself.
+   */
+  const importTargetCourseId = useMemo(() => {
+    if (!exportTarget) return null;
+    return exportTarget.type === 'course' ? exportTarget.id : (exportTarget.path.courseId ?? null);
+  }, [exportTarget]);
+
+  const importTargetCourse = useMemo(
+    () => courses.find((c) => c.id === importCourseId) ?? null,
+    [courses, importCourseId]
+  );
+
+  /**
+   * Applies an imported topic the same way `handleImportTopic`
+   * (`hooks/useSyllabusData.ts`) does from the main navigator: fresh ids so a
+   * reimported file can never collide with what's already in the tree, then
+   * merged into an existing topic (matched by id-or-name) or pushed as new.
+   * Duplicated here rather than reused because the Studio only has
+   * `updateCourses`, not `syllabusHandlers` — see `handleImportTopic` for the
+   * canonical version this must stay behaviourally identical to.
+   */
+  const handleImportTopicConfirm = (topic: Topic) => {
+    if (!importCourseId) return;
+    const topicWithNewIds = regenerateTopicIds(topic);
+    const normalize = (value?: string) => (value || '').trim().toLowerCase();
+    let resultTopicName = topicWithNewIds.name;
+
+    updateCourses((draft: Course[]) => {
+      const course = draft.find((c: Course) => c.id === importCourseId);
+      if (!course) return;
+      const existingIndex = course.topics.findIndex(
+        (t: Topic) =>
+          t.id === topicWithNewIds.id || normalize(t.name) === normalize(topicWithNewIds.name)
+      );
+      if (existingIndex !== -1) {
+        course.topics[existingIndex] = mergeTopicContents(
+          course.topics[existingIndex],
+          topicWithNewIds
+        );
+        resultTopicName = course.topics[existingIndex].name;
+      } else {
+        course.topics.push(topicWithNewIds);
+      }
+    });
+
+    showToast(`Topic "${resultTopicName}" imported.`, 'success');
+    setImportCourseId(null);
   };
 
   const filteredTreeData = useMemo(() => {
@@ -1575,6 +1637,20 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           )}
           {selectedIds.size > 0 && (
             <button
+              onClick={() => importTargetCourseId && setImportCourseId(importTargetCourseId)}
+              disabled={isProcessing || !importTargetCourseId}
+              title={
+                importTargetCourseId
+                  ? `Import a topic JSON file into "${courses.find((c) => c.id === importTargetCourseId)?.name ?? ''}"`
+                  : 'Select exactly one topic or course to import into'
+              }
+              className="px-5 h-12 rounded-2xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 light:hover:bg-slate-200 hover:text-white light:hover:text-slate-900 transition-all flex items-center gap-2 disabled:opacity-40"
+            >
+              <UploadCloud className="w-4 h-4" /> Import JSON…
+            </button>
+          )}
+          {selectedIds.size > 0 && (
+            <button
               onClick={clearSelection}
               disabled={isProcessing}
               className="px-5 h-12 rounded-2xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 light:hover:bg-slate-200 hover:text-white light:hover:text-slate-900 transition-all flex items-center gap-2 disabled:opacity-40"
@@ -1814,6 +1890,23 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           )}
         </div>
       </div>
+
+      {/* Nested import modal — a second, independent instance of the same
+          component the main navigator opens (see AppModals.tsx), scoped to
+          whatever course the current selection resolves to. This modal isn't
+          part of that navigator's useModalManager stack (the Studio itself
+          sits outside it, as a full-screen surface of its own), so it's
+          rendered directly here rather than through openModal — no stack to
+          nest inside. */}
+      {importCourseId && importTargetCourse && (
+        <TopicImportModal
+          isOpen={!!importCourseId}
+          onClose={() => setImportCourseId(null)}
+          courseName={importTargetCourse.name}
+          existingTopics={importTargetCourse.topics}
+          onImport={handleImportTopicConfirm}
+        />
+      )}
     </div>,
     document.body
   );

@@ -446,6 +446,7 @@ const AppModals: React.FC<AppModalsProps> = ({
           isOpen={isModalOpen('topicImport')}
           onClose={() => closeModal('topicImport')}
           courseName={currentCourse.name}
+          existingTopics={currentCourse.topics}
           onImport={(topic) => {
             const topicWithNewIds = regenerateTopicIds(topic);
             // An export from before the two years existed says nothing about
