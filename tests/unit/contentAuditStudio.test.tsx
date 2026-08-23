@@ -217,6 +217,93 @@ describe('ContentAuditModal — gap visibility and batch targeting', () => {
     expect((exportButton as HTMLButtonElement).disabled).toBe(true);
   });
 
+  it('Clear Questions is present but disabled with nothing selected', () => {
+    renderStudio();
+    const btn = screen.getByRole('button', { name: /clear questions \(0\)/i });
+    expect((btn as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  it('Clear Questions opens a destructive confirmation naming the scope and live question count', () => {
+    renderStudio();
+    selectWholeCourse(); // cascades to the whole course → 1 question in the fixture
+
+    const btn = screen.getByRole('button', { name: /clear questions \(1\)/i });
+    expect((btn as HTMLButtonElement).disabled).toBe(false);
+    fireEvent.click(btn);
+
+    expect(screen.getByText('Clear questions?')).toBeTruthy();
+    expect(
+      screen.getByText(/Delete all 1 question under "Fixture Course"\?/)
+    ).toBeTruthy();
+    expect(screen.getByText(/Sub-topics, dot points and the topic itself are kept/)).toBeTruthy();
+  });
+
+  it('confirming Clear Questions empties prompts under the scope via updateCourses, leaving structure and focusAreas untouched', () => {
+    let draftState: Course[] = JSON.parse(JSON.stringify(fixture));
+    const updateCourses = vi.fn((updater: (draft: Course[]) => Course[] | void) => {
+      const result = updater(draftState);
+      if (result) draftState = result;
+    });
+
+    render(
+      <ContentAuditModal
+        isOpen={true}
+        onClose={vi.fn()}
+        courses={fixture}
+        updateCourses={updateCourses}
+        showToast={vi.fn()}
+      />
+    );
+
+    selectWholeCourse();
+    fireEvent.click(screen.getByRole('button', { name: /clear questions \(1\)/i }));
+    fireEvent.click(screen.getByRole('button', { name: /^clear questions$/i }));
+
+    expect(updateCourses).toHaveBeenCalledTimes(1);
+
+    const topic = draftState[0].topics[0];
+    const subTopic = topic.subTopics[0];
+    const dpEmpty = subTopic.dotPoints.find((dp) => dp.id === 'dp-empty')!;
+    const dpFull = subTopic.dotPoints.find((dp) => dp.id === 'dp-full')!;
+
+    // Questions gone…
+    expect(dpFull.prompts).toEqual([]);
+    expect(dpEmpty.prompts).toEqual([]);
+    // …but every bit of structure survives untouched.
+    expect(draftState[0].id).toBe('c1');
+    expect(draftState[0].name).toBe('Fixture Course');
+    expect(topic.id).toBe('t1');
+    expect(topic.name).toBe('Fixture Topic');
+    expect(subTopic.id).toBe('st1');
+    expect(subTopic.name).toBe('Fixture SubTopic');
+    expect(dpFull.id).toBe('dp-full');
+    expect(dpFull.description).toBe('explain a covered dot point');
+    expect(dpEmpty.id).toBe('dp-empty');
+    expect(dpEmpty.description).toBe('describe an untouched dot point');
+  });
+
+  it('cancelling the Clear Questions confirmation leaves data untouched', () => {
+    const updateCourses = vi.fn();
+    render(
+      <ContentAuditModal
+        isOpen={true}
+        onClose={vi.fn()}
+        courses={fixture}
+        updateCourses={updateCourses}
+        showToast={vi.fn()}
+      />
+    );
+
+    selectWholeCourse();
+    fireEvent.click(screen.getByRole('button', { name: /clear questions \(1\)/i }));
+    expect(screen.getByText('Clear questions?')).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('button', { name: /cancel/i }));
+
+    expect(updateCourses).not.toHaveBeenCalled();
+    expect(screen.queryByText('Clear questions?')).toBeNull();
+  });
+
   it('closes on Escape only while no batch is running', () => {
     const onClose = vi.fn();
     render(

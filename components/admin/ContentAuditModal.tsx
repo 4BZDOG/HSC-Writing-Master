@@ -18,7 +18,9 @@ import {
   mergeTopicContents,
   regenerateTopicIds,
 } from '../../utils/dataManagerUtils';
+import { clearQuestionsInScope } from '../../utils/stateUtils';
 import TopicImportModal from '../TopicImportModal';
+import ConfirmationModal from '../ConfirmationModal';
 import {
   BatchTask,
   runBatchOperations,
@@ -75,6 +77,7 @@ import {
   Gauge,
   AlertTriangle,
   Download,
+  Trash2,
 } from 'lucide-react';
 
 // --- Shared Components ---
@@ -484,6 +487,9 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   // Course id an "Import JSON…" click will import a topic into — set only
   // while that nested TopicImportModal is open.
   const [importCourseId, setImportCourseId] = useState<string | null>(null);
+  // Set while the "Clear Questions" confirmation is open, so the destructive
+  // action never fires without the shared ConfirmationModal in between.
+  const [isClearConfirmOpen, setIsClearConfirmOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isStopping, setIsStopping] = useState(false);
   // 'default' = the app's per-role engine selection; otherwise an AI_MODELS
@@ -685,6 +691,72 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     () => courses.find((c) => c.id === importCourseId) ?? null,
     [courses, importCourseId]
   );
+
+  /**
+   * Every selected root "Clear Questions" would act on — the same root-finding
+   * rule as `exportTarget` (a selected node whose parent isn't also selected,
+   * so a topic and one of its own dot points selected together only count as
+   * one scope), but allowing multiple roots at once rather than requiring
+   * exactly one. `clearQuestionsInScope` has no scope of its own for a lone
+   * `prompt` node (there's no "clear just this question" — that's already
+   * covered by the existing per-item delete), so prompt roots are dropped
+   * rather than silently doing nothing when clicked.
+   */
+  const clearTargets = useMemo(() => {
+    const roots: TreeNode[] = [];
+    selectedIds.forEach((id) => {
+      const node = flatMap.get(id);
+      if (!node) return;
+      if (node.parentId && selectedIds.has(node.parentId)) return;
+      roots.push(node);
+    });
+    return roots.filter((n) => n.type !== 'prompt');
+  }, [selectedIds, flatMap]);
+
+  // Live count of questions the current selection would delete — computed
+  // from the same per-node `stats.questions` totals the tree rows already
+  // show, so it always matches what's on screen before anything is cleared.
+  const clearQuestionsCount = useMemo(
+    () => clearTargets.reduce((sum, n) => sum + n.stats.questions, 0),
+    [clearTargets]
+  );
+
+  const clearQuestionsMessage = useMemo(() => {
+    if (clearTargets.length === 0) return '';
+    const qWord = clearQuestionsCount === 1 ? 'question' : 'questions';
+    if (clearTargets.length === 1) {
+      return `Delete all ${clearQuestionsCount} ${qWord} under "${clearTargets[0].label}"? Sub-topics, dot points and the topic itself are kept — you can reimport questions into this exact structure afterward.`;
+    }
+    const names = clearTargets.map((n) => `"${n.label}"`).join(', ');
+    return `Delete all ${clearQuestionsCount} ${qWord} across the ${clearTargets.length} selected scopes (${names})? Sub-topics, dot points and the scopes themselves are kept — you can reimport questions into this exact structure afterward.`;
+  }, [clearTargets, clearQuestionsCount]);
+
+  /**
+   * Deletes every question under each selected scope, one `clearQuestionsInScope`
+   * call per top-level root (mirrors how `deleteSyllabusItem` is invoked once
+   * per delete elsewhere in the app) while leaving Topic/SubTopic/DotPoint
+   * structure — including `focusAreas` — untouched, so the same structure can
+   * be reimported into afterward.
+   */
+  const handleConfirmClearQuestions = () => {
+    if (clearTargets.length === 0) return;
+    const total = clearQuestionsCount;
+
+    clearTargets.forEach((node) => {
+      const scope = {
+        courseId: node.path.courseId!,
+        type: node.type as 'course' | 'topic' | 'subTopic' | 'dotPoint',
+        id: node.id,
+      };
+      updateCourses((draft: Course[]) => clearQuestionsInScope(draft, scope).updatedCourses);
+    });
+
+    showToast(
+      `${total} question${total === 1 ? '' : 's'} deleted. Structure kept — you can reimport into ${clearTargets.length === 1 ? 'this topic' : 'these scopes'}.`,
+      'success'
+    );
+    setIsClearConfirmOpen(false);
+  };
 
   /**
    * Applies an imported topic the same way `handleImportTopic`
@@ -1885,6 +1957,20 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   <Wrench className="w-4 h-4" />
                   Fix All Gaps ({selectionTargets.allGaps})
                 </button>
+                <div className="w-px h-8 bg-white/10 light:bg-slate-300 self-center" />
+                <button
+                  onClick={() => setIsClearConfirmOpen(true)}
+                  disabled={clearTargets.length === 0}
+                  title={
+                    clearTargets.length > 0
+                      ? `Delete all questions under the selected scope(s), keeping the topic/sub-topic/dot point structure`
+                      : 'Select a course, topic, sub-topic or dot point to clear its questions'
+                  }
+                  className="px-5 h-12 rounded-[20px] bg-red-500/10 text-red-400 border border-red-500/30 font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:bg-red-500 hover:text-white hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale disabled:hover:bg-red-500/10 disabled:hover:text-red-400 flex items-center gap-2"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  Clear Questions ({clearQuestionsCount})
+                </button>
               </div>
             </div>
           )}
@@ -1907,6 +1993,16 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           onImport={handleImportTopicConfirm}
         />
       )}
+
+      <ConfirmationModal
+        isOpen={isClearConfirmOpen}
+        onClose={() => setIsClearConfirmOpen(false)}
+        onConfirm={handleConfirmClearQuestions}
+        title="Clear questions?"
+        message={clearQuestionsMessage}
+        confirmButtonText="Clear Questions"
+        isDestructive
+      />
     </div>,
     document.body
   );
