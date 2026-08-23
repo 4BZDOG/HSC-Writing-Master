@@ -1475,10 +1475,14 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Content audit studio"
-      className="fixed inset-0 z-[200] bg-[rgb(var(--color-bg-base))] light:bg-slate-50 flex flex-col animate-fade-in"
+      className="fixed inset-0 z-[200] bg-[rgb(var(--color-bg-base))] light:bg-slate-50 flex flex-col overflow-y-auto animate-fade-in"
     >
-      {/* Studio Header */}
-      <div className="flex-shrink-0 border-b border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-white z-20 shadow-2xl light:shadow-lg relative">
+      {/* Studio Header — capped and independently scrollable (custom-scrollbar,
+          matching the Tree Container below) so a wide filter/action bar that
+          wraps onto many lines can never push the Tree off-screen with no way
+          back; the outer dialog's overflow-y-auto above is the last-resort
+          fallback if header+footer somehow still exceed the viewport. */}
+      <div className="flex-shrink-0 max-h-[42vh] overflow-y-auto custom-scrollbar border-b border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-white z-20 shadow-2xl light:shadow-lg relative">
         <MeshOverlay opacity="opacity-[0.05]" />
         <div className="px-5 md:px-10 py-6 md:py-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 md:gap-10">
           <div className="flex items-start gap-4 md:gap-8 flex-1 min-w-0">
@@ -1839,7 +1843,14 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
               </button>
             </div>
           ) : (
-            <div className="flex flex-wrap items-center justify-between w-full gap-4 md:gap-6">
+            // Capped and independently scrollable (custom-scrollbar, matching
+            // the header above and the Tree Container) — the button row keeps
+            // growing this list (Fix All Gaps, Clear Questions, etc.), and
+            // without a cap that wrapped growth is what pushes the Tree
+            // toward 0px on a short viewport. Left untouched during the
+            // isProcessing branch above so it doesn't fight the footer's own
+            // transition-all duration-500 height animation.
+            <div className="flex flex-wrap items-center justify-between w-full gap-4 md:gap-6 max-h-[34vh] overflow-y-auto custom-scrollbar py-1">
               <div className="flex flex-wrap items-center gap-3 md:gap-4">
                 <div className="p-3 rounded-xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-200 text-white light:text-slate-900 font-black text-2xl tracking-tighter italic">
                   {selectedIds.size.toString().padStart(2, '0')}
