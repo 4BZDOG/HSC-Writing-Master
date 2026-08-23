@@ -702,6 +702,27 @@ export const filterDataBySelection = (courses: Course[], selectedIds: Set<string
     .filter((c) => c !== null) as Course[];
 };
 
+/**
+ * One topic, packaged as an exportable `Course[]` — a course containing only
+ * that topic, everything under it (sub-topics, dot points, prompts, sample
+ * answers, focus areas) intact. The same shape `filterDataBySelection`
+ * produces when a single topic id is the whole selection, but callable
+ * directly from a `courseId`/`topicId` pair so the Content Audit Studio's
+ * per-topic "Export JSON" action doesn't need to build a selection Set.
+ * Unknown course/topic id is a no-op: returns `[]`, mirroring
+ * `filterDataBySelection`'s "nothing selected" result rather than throwing.
+ */
+export const buildTopicExportPayload = (
+  courses: Course[],
+  courseId: string,
+  topicId: string
+): Course[] => {
+  const course = courses.find((c) => c.id === courseId);
+  const topic = course?.topics.find((t) => t.id === topicId);
+  if (!course || !topic) return [];
+  return [{ ...course, topics: [topic] }];
+};
+
 export const findConflicts = (importedCourses: Course[], existingCourses: Course[]): Course[] => {
   const existingIds = new Set(existingCourses.map((c) => c.id));
   return importedCourses.filter((c) => existingIds.has(c.id));
@@ -1028,6 +1049,15 @@ const mergeDotPointCollections = (existingDPs: DotPoint[], importedDPs: DotPoint
     if (existingDP) {
       existingDP.description =
         mergeScalarText(existingDP.description, importedDP.description) || existingDP.description;
+      // `undefined` vs `[]` is meaningful here (see DotPoint.focusAreas): an
+      // imported dot point with no `focusAreas` key at all means "the
+      // external tool didn't touch this", so the existing value survives.
+      // An imported `[]` is a real, explicit "no focus areas" and must win,
+      // the same way it wins in handleUpdateFocusAreas — otherwise a
+      // reimported file that cleared focus areas silently failed to.
+      if (importedDP.focusAreas !== undefined) {
+        existingDP.focusAreas = importedDP.focusAreas;
+      }
       mergePromptCollections(existingDP.prompts, importedDP.prompts);
     } else {
       existingDPs.push(importedDP);

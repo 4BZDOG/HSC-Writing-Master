@@ -12,6 +12,7 @@ import {
   SampleAnswer,
 } from '../../types';
 import { outcomesForYear, yearOfTopic } from '../../utils/syllabusYear';
+import { buildTopicExportPayload, filterDataBySelection } from '../../utils/dataManagerUtils';
 import {
   BatchTask,
   runBatchOperations,
@@ -67,6 +68,7 @@ import {
   UploadCloud,
   Gauge,
   AlertTriangle,
+  Download,
 } from 'lucide-react';
 
 // --- Shared Components ---
@@ -593,6 +595,71 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       allGaps: questions + rubrics + samples + outcomes,
     };
   }, [selectedIds, flatMap]);
+
+  /**
+   * The single course/topic a click on "Export JSON" would export, or `null`
+   * when the selection doesn't resolve to exactly one. `toggleSelect`
+   * cascades a course/topic pick down to every descendant, so this looks for
+   * the ROOT of the selection (a selected node whose parent isn't also
+   * selected) rather than counting every id — selecting one topic (which
+   * also selects its sub-topics/dot points/prompts) must still count as one
+   * exportable target, not many.
+   */
+  const exportTarget = useMemo(() => {
+    const roots: TreeNode[] = [];
+    selectedIds.forEach((id) => {
+      const node = flatMap.get(id);
+      if (!node) return;
+      if (node.parentId && selectedIds.has(node.parentId)) return;
+      roots.push(node);
+    });
+    if (roots.length !== 1) return null;
+    const [root] = roots;
+    return root.type === 'course' || root.type === 'topic' ? root : null;
+  }, [selectedIds, flatMap]);
+
+  const handleExportJson = () => {
+    if (!exportTarget) return;
+
+    const dataToExport =
+      exportTarget.type === 'topic'
+        ? buildTopicExportPayload(courses, exportTarget.path.courseId!, exportTarget.id)
+        : filterDataBySelection(courses, new Set([exportTarget.id]));
+
+    if (dataToExport.length === 0) {
+      showToast('Nothing to export for this selection.', 'info');
+      return;
+    }
+
+    // Filename convention matches the Data Manager's Export flow
+    // (components/dataManager/ExportFlow.tsx) so exports look consistent
+    // wherever a teacher makes them.
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+    const dateStr = `${day}${month}${year}`;
+    const sanitize = (s: string) => s.replace(/[^a-zA-Z0-9]/g, '');
+
+    const exportedCourse = dataToExport[0];
+    const courseName = sanitize(exportedCourse.name);
+    const filename =
+      exportedCourse.topics.length === 1
+        ? `${courseName}${sanitize(exportedCourse.topics[0].name)}${dateStr}`
+        : `${courseName}${dateStr}`;
+
+    const dataStr = JSON.stringify(dataToExport, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${filename}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    showToast(`Exported "${exportTarget.label}" as JSON.`, 'success');
+  };
 
   const filteredTreeData = useMemo(() => {
     if (!searchQuery && !activeFilter) return treeData;
@@ -1492,6 +1559,20 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
           <div className="flex-1" />
 
+          {selectedIds.size > 0 && (
+            <button
+              onClick={handleExportJson}
+              disabled={isProcessing || !exportTarget}
+              title={
+                exportTarget
+                  ? `Export "${exportTarget.label}" as a JSON file`
+                  : 'Select exactly one topic or course to export'
+              }
+              className="px-5 h-12 rounded-2xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 light:hover:bg-slate-200 hover:text-white light:hover:text-slate-900 transition-all flex items-center gap-2 disabled:opacity-40"
+            >
+              <Download className="w-4 h-4" /> Export JSON
+            </button>
+          )}
           {selectedIds.size > 0 && (
             <button
               onClick={clearSelection}

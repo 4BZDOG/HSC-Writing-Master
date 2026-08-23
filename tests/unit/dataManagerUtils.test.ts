@@ -1,6 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { Course, Topic } from '../../types';
-import { mergeCourseContents, mergeTopicContents } from '../../utils/dataManagerUtils';
+import {
+  mergeCourseContents,
+  mergeTopicContents,
+  buildTopicExportPayload,
+} from '../../utils/dataManagerUtils';
 
 const buildTopic = (): Topic => ({
   id: 'topic-cells',
@@ -173,5 +177,115 @@ describe('dataManagerUtils merge helpers', () => {
     expect(merged.topics[0].subTopics.map((s) => s.name)).toEqual(['Communicating']);
     expect(merged.topics[1].subTopics.map((s) => s.name)).toEqual(['Questioning']);
     expect(merged.outcomes.map((o) => o.code)).toEqual(['BI-12-01', 'BI-11-01']);
+  });
+
+  /**
+   * `undefined` vs `[]` is a meaningful distinction for DotPoint.focusAreas
+   * (see the type's doc comment and handleUpdateFocusAreas in
+   * hooks/useSyllabusData.ts): an explicit empty array is a teacher/tool
+   * saying "this dot point has no focus areas", not "leave it alone".
+   */
+  it('merges imported focusAreas, letting an explicit [] win but leaving the existing value alone when the key is absent', () => {
+    const buildTopicWithFocusAreas = (focusAreas: string[] | undefined, id: string): Topic => ({
+      id,
+      name: 'Cells',
+      subTopics: [
+        {
+          id: 'subtopic-structure',
+          name: 'Cell Structure',
+          dotPoints: [
+            {
+              id: 'dp-membrane',
+              description: 'Investigate membrane transport',
+              ...(focusAreas !== undefined ? { focusAreas } : {}),
+              prompts: [],
+            },
+          ],
+        },
+      ],
+    });
+
+    // (a) an explicit imported [] wins over an existing non-empty value.
+    const existingA = buildTopicWithFocusAreas(['osmosis', 'diffusion'], 'topic-a');
+    const importedA = buildTopicWithFocusAreas([], 'topic-a-import');
+    const mergedA = mergeTopicContents(existingA, importedA);
+    expect(mergedA.subTopics[0].dotPoints[0].focusAreas).toEqual([]);
+
+    // (b) a non-empty imported value wins over the existing value.
+    const existingB = buildTopicWithFocusAreas(['osmosis'], 'topic-b');
+    const importedB = buildTopicWithFocusAreas(['active transport', 'passive transport'], 'topic-b-import');
+    const mergedB = mergeTopicContents(existingB, importedB);
+    expect(mergedB.subTopics[0].dotPoints[0].focusAreas).toEqual([
+      'active transport',
+      'passive transport',
+    ]);
+
+    // (c) no `focusAreas` key at all on the imported dot point leaves the
+    // existing value untouched.
+    const existingC = buildTopicWithFocusAreas(['osmosis'], 'topic-c');
+    const importedC = buildTopicWithFocusAreas(undefined, 'topic-c-import');
+    const mergedC = mergeTopicContents(existingC, importedC);
+    expect(mergedC.subTopics[0].dotPoints[0].focusAreas).toEqual(['osmosis']);
+  });
+});
+
+describe('buildTopicExportPayload', () => {
+  const courses: Course[] = [
+    {
+      id: 'course-bio',
+      name: 'Biology',
+      outcomes: [{ code: 'BIO1', description: 'An outcome' }],
+      topics: [buildTopic(), { ...buildTopic(), id: 'topic-genetics', name: 'Genetics' }],
+    },
+    {
+      id: 'course-chem',
+      name: 'Chemistry',
+      outcomes: [],
+      topics: [{ ...buildTopic(), id: 'topic-bonds', name: 'Bonds' }],
+    },
+  ];
+
+  it('returns exactly one course containing exactly one topic, with prompts/sample answers/focusAreas intact', () => {
+    const withFocusAreas: Course[] = [
+      {
+        ...courses[0],
+        topics: [
+          {
+            ...buildTopic(),
+            subTopics: [
+              {
+                ...buildTopic().subTopics[0],
+                dotPoints: [
+                  { ...buildTopic().subTopics[0].dotPoints[0], focusAreas: ['osmosis', 'diffusion'] },
+                ],
+              },
+            ],
+          },
+          { ...buildTopic(), id: 'topic-genetics', name: 'Genetics' },
+        ],
+      },
+    ];
+
+    const result = buildTopicExportPayload(withFocusAreas, 'course-bio', 'topic-cells');
+
+    expect(result).toHaveLength(1);
+    expect(result[0].id).toBe('course-bio');
+    expect(result[0].topics).toHaveLength(1);
+    expect(result[0].topics[0].id).toBe('topic-cells');
+
+    const dp = result[0].topics[0].subTopics[0].dotPoints[0];
+    expect(dp.focusAreas).toEqual(['osmosis', 'diffusion']);
+    expect(dp.prompts).toHaveLength(1);
+    expect(dp.prompts[0].question).toBe('Explain membrane transport.');
+    expect(dp.prompts[0].sampleAnswers).toHaveLength(1);
+    expect(dp.prompts[0].sampleAnswers?.[0].id).toBe('sa-existing');
+  });
+
+  it('is a no-op on an unknown topic id', () => {
+    expect(buildTopicExportPayload(courses, 'course-bio', 'no-such-topic')).toEqual([]);
+  });
+
+  it('is a no-op on an unknown course id', () => {
+    expect(buildTopicExportPayload(courses, 'no-such-course', 'topic-cells')).toEqual([]);
   });
 });

@@ -144,6 +144,52 @@ describe('ContentAuditModal — gap visibility and batch targeting', () => {
     expect(screen.queryByRole('button', { name: /clear selection/i })).toBeNull();
   });
 
+  it('offers Export JSON only when the selection resolves to a single topic or course, and triggers a download', () => {
+    const createObjectURL = vi.fn(() => 'blob:mock-url');
+    const revokeObjectURL = vi.fn();
+    vi.stubGlobal('URL', { ...URL, createObjectURL, revokeObjectURL });
+    const clickSpy = vi.fn();
+    const originalCreateElement = document.createElement.bind(document);
+    const createElementSpy = vi
+      .spyOn(document, 'createElement')
+      .mockImplementation((tagName: string) => {
+        const el = originalCreateElement(tagName);
+        if (tagName === 'a') el.click = clickSpy;
+        return el;
+      });
+
+    try {
+      renderStudio();
+
+      // Selecting the whole course cascades to every descendant — still one
+      // exportable root, so the button stays enabled.
+      selectWholeCourse();
+      const exportButton = screen.getByRole('button', { name: /export json/i });
+      expect((exportButton as HTMLButtonElement).disabled).toBe(false);
+
+      fireEvent.click(exportButton);
+      expect(createObjectURL).toHaveBeenCalledTimes(1);
+      expect(clickSpy).toHaveBeenCalledTimes(1);
+      expect(revokeObjectURL).toHaveBeenCalledTimes(1);
+    } finally {
+      createElementSpy.mockRestore();
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it('disables Export JSON once the selection no longer resolves to one topic/course', () => {
+    renderStudio();
+    fireEvent.click(screen.getByLabelText('Expand Fixture Topic'));
+    fireEvent.click(screen.getByLabelText('Expand Fixture SubTopic'));
+
+    // Selecting a single dot point (not a topic/course) still shows the
+    // button once something is selected, but it can't resolve an export
+    // target, so it stays disabled.
+    fireEvent.click(screen.getByLabelText('Select describe an untouched dot point'));
+    const exportButton = screen.getByRole('button', { name: /export json/i });
+    expect((exportButton as HTMLButtonElement).disabled).toBe(true);
+  });
+
   it('closes on Escape only while no batch is running', () => {
     const onClose = vi.fn();
     render(
