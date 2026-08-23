@@ -22,7 +22,8 @@ import ValidationSummary from './ValidationSummary';
 import SelectionTree from '../SelectionTree';
 import { useSelectionTree } from '../../hooks/useSelectionTree';
 import Combobox from '../Combobox';
-import { Award, FileJson, GitMerge, ArrowRight, CheckCircle, Sparkles } from 'lucide-react';
+import { Award, FileJson, GitMerge, ArrowRight, CheckCircle, Sparkles, Wrench } from 'lucide-react';
+import { parseJsonWithRepair } from '../../utils/jsonRepair';
 
 interface ImportFlowProps {
   existingCourses: Course[];
@@ -51,6 +52,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
   const [preReconcileData, setPreReconcileData] = useState<Course[]>([]);
   const [processedCourses, setProcessedCourses] = useState<Course[]>([]);
   const [autoResolutions, setAutoResolutions] = useState<Map<string, 'merge' | 'skip'>>(new Map());
+  const [jsonRepaired, setJsonRepaired] = useState(false);
 
   // Bulk Settings State
   const [markAsPastHSC, setMarkAsPastHSC] = useState(false);
@@ -116,6 +118,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
     setPreReconcileData([]);
     setProcessedCourses([]);
     setAutoResolutions(new Map());
+    setJsonRepaired(false);
   };
 
   const handleBackToUpload = () => {
@@ -124,6 +127,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
 
   const handleFileDrop = (file: File) => {
     setError(null);
+    setJsonRepaired(false);
 
     if (!file.name.toLowerCase().endsWith('.json')) {
       setError('Invalid file type. Please upload a valid .json file.');
@@ -133,34 +137,37 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
     setFileName(file.name);
     const reader = new FileReader();
     reader.onload = (e) => {
-      try {
-        const text = e.target?.result as string;
-        const rawData = JSON.parse(text);
-        const analysis = analyzeAndSanitizeImportData(rawData);
+      const text = e.target?.result as string;
+      const { data: rawData, repaired, error: parseError } = parseJsonWithRepair(text);
 
-        if (analysis.type === 'invalid') {
-          setError(analysis.error || 'Invalid file format.');
-          setFileName(null);
-          return;
-        }
-
-        if (analysis.type === 'courses') {
-          const courses = migrateAnalyseVerb(analysis.data as Course[]);
-          previewInitialisedRef.current = false;
-          setImportedCourses(courses);
-          setStep('preview');
-        } else if (analysis.type === 'topic') {
-          const topic = analysis.data as Topic;
-          const report = generateValidationReport([
-            { id: 'temp', name: 'Imported Topic', outcomes: [], topics: [topic] },
-          ]);
-          setImportedTopic(topic);
-          setValidationReport(report);
-          setStep('selectTarget');
-        }
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to parse JSON file.');
+      if (rawData === null) {
+        setError(parseError || 'Failed to parse JSON file.');
         setFileName(null);
+        return;
+      }
+
+      setJsonRepaired(repaired);
+      const analysis = analyzeAndSanitizeImportData(rawData);
+
+      if (analysis.type === 'invalid') {
+        setError(analysis.error || 'Invalid file format.');
+        setFileName(null);
+        return;
+      }
+
+      if (analysis.type === 'courses') {
+        const courses = migrateAnalyseVerb(analysis.data as Course[]);
+        previewInitialisedRef.current = false;
+        setImportedCourses(courses);
+        setStep('preview');
+      } else if (analysis.type === 'topic') {
+        const topic = analysis.data as Topic;
+        const report = generateValidationReport([
+          { id: 'temp', name: 'Imported Topic', outcomes: [], topics: [topic] },
+        ]);
+        setImportedTopic(topic);
+        setValidationReport(report);
+        setStep('selectTarget');
       }
     };
     reader.onerror = () => setError('Error reading file.');
@@ -331,6 +338,16 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
               <div className="flex items-center gap-2 justify-center text-emerald-400 bg-emerald-500/10 py-2 px-4 rounded-lg border border-emerald-500/20">
                 <CheckCircle className="w-4 h-4" />
                 <span className="text-sm font-medium">Selected: {fileName}</span>
+              </div>
+            )}
+
+            {jsonRepaired && (
+              <div className="flex items-start gap-2 text-sky-300 light:text-sky-600 bg-sky-500/10 py-2.5 px-4 rounded-lg border border-sky-500/20">
+                <Wrench className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
+                <span className="text-xs">
+                  The JSON had formatting issues (e.g. missing commas, unquoted keys) that were
+                  automatically repaired. Review the imported data to confirm it looks correct.
+                </span>
               </div>
             )}
 

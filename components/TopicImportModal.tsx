@@ -5,6 +5,7 @@ import {
   generateValidationReport,
   previewTopicMergePlan,
 } from '../utils/dataManagerUtils';
+import { parseJsonWithRepair } from '../utils/jsonRepair';
 import FileDropzone from './dataManager/FileDropzone';
 import {
   UploadCloud,
@@ -19,6 +20,7 @@ import {
   Hash,
   FileText,
   AlertTriangle,
+  Wrench,
 } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
@@ -82,6 +84,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [validationReport, setValidationReport] = useState<DataValidationResult | null>(null);
+  const [jsonRepaired, setJsonRepaired] = useState(false);
   const [expandedSubTopics, setExpandedSubTopics] = useState<Set<number>>(new Set());
 
   // Bulk Settings
@@ -94,6 +97,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
     setError(null);
     setFileName(null);
     setValidationReport(null);
+    setJsonRepaired(false);
     setExpandedSubTopics(new Set());
     setMarkAsPastHSC(false);
     setBulkYear('');
@@ -114,55 +118,51 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
     setFileName(file.name);
     const reader = new FileReader();
     reader.onload = (e) => {
-      try {
-        const text = e.target?.result as string;
-        const rawData = JSON.parse(text);
+      const text = e.target?.result as string;
+      const parsed = parseJsonWithRepair(text);
 
-        const analysis = analyzeAndSanitizeImportData(rawData);
-
-        let validatedTopic: Topic | null = null;
-        if (analysis.type === 'topic' && !analysis.error) {
-          validatedTopic = analysis.data as Topic;
-        } else if (analysis.type === 'courses' && !analysis.error) {
-          // A topic exported as a `Course[]` — the shape both the Data
-          // Manager's Export tab and the Audit Studio's "Export JSON" button
-          // produce for a single-topic export (one course wrapping one
-          // topic) — has exactly one course with exactly one topic. Unwrap
-          // it rather than reject it, so a topic exported from here (or from
-          // the Studio) reimports straight back in as the same round trip.
-          const asCourses = analysis.data as Course[];
-          if (asCourses.length === 1 && asCourses[0].topics.length === 1) {
-            validatedTopic = asCourses[0].topics[0];
-          }
-        }
-
-        if (!validatedTopic) {
-          setError(analysis.error || 'The imported file is not a valid single topic object.');
-          setFileName(null);
-          return;
-        }
-        const tempCourseWrapper = {
-          id: 'temp-course',
-          name: 'Import Preview',
-          outcomes: [],
-          topics: [validatedTopic],
-        };
-        const report = generateValidationReport([tempCourseWrapper]);
-
-        if (!report.isValid) {
-          setError(`The file has structural errors: ${report.errors.join(', ')}`);
-          setFileName(null);
-          return;
-        }
-
-        setImportedTopic(validatedTopic);
-        setValidationReport(report);
-        setExpandedSubTopics(new Set(validatedTopic.subTopics.map((_, i) => i)));
-        setStep('preview');
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to parse JSON file.');
+      if (parsed.data === null) {
+        setError(parsed.error || 'Failed to parse JSON file.');
         setFileName(null);
+        return;
       }
+
+      const analysis = analyzeAndSanitizeImportData(parsed.data);
+
+      let validatedTopic: Topic | null = null;
+      if (analysis.type === 'topic' && !analysis.error) {
+        validatedTopic = analysis.data as Topic;
+      } else if (analysis.type === 'courses' && !analysis.error) {
+        const asCourses = analysis.data as Course[];
+        if (asCourses.length === 1 && asCourses[0].topics.length === 1) {
+          validatedTopic = asCourses[0].topics[0];
+        }
+      }
+
+      if (!validatedTopic) {
+        setError(analysis.error || 'The imported file is not a valid single topic object.');
+        setFileName(null);
+        return;
+      }
+      const tempCourseWrapper = {
+        id: 'temp-course',
+        name: 'Import Preview',
+        outcomes: [],
+        topics: [validatedTopic],
+      };
+      const report = generateValidationReport([tempCourseWrapper]);
+
+      if (!report.isValid) {
+        setError(`The file has structural errors: ${report.errors.join(', ')}`);
+        setFileName(null);
+        return;
+      }
+
+      setImportedTopic(validatedTopic);
+      setValidationReport(report);
+      setJsonRepaired(parsed.repaired);
+      setExpandedSubTopics(new Set(validatedTopic.subTopics.map((_, i) => i)));
+      setStep('preview');
     };
     reader.onerror = () => setError('Error reading file.');
     reader.readAsText(file);
@@ -375,6 +375,17 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                   </div>
                 </div>
               </div>
+
+              {jsonRepaired && (
+                <div className="rounded-xl border border-sky-500/30 light:border-sky-200 bg-sky-500/5 light:bg-sky-50/50 p-3 flex items-start gap-2">
+                  <Wrench className="w-3.5 h-3.5 text-sky-400 light:text-sky-500 flex-shrink-0 mt-0.5" />
+                  <p className="text-xs text-sky-300 light:text-sky-700 leading-relaxed">
+                    The JSON had formatting issues (missing commas, unquoted keys, etc.) that were
+                    automatically repaired. Review the preview below to make sure everything looks
+                    right.
+                  </p>
+                </div>
+              )}
 
               {validationReport && validationReport.warnings.length > 0 && (
                 <div className="rounded-xl border border-amber-500/30 light:border-amber-200 bg-amber-500/5 light:bg-amber-50/50 p-3">
