@@ -18,6 +18,7 @@ import {
   Layers,
   Hash,
   FileText,
+  AlertTriangle,
 } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
@@ -374,6 +375,28 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                   </div>
                 </div>
               </div>
+
+              {validationReport && validationReport.warnings.length > 0 && (
+                <div className="rounded-xl border border-amber-500/30 light:border-amber-200 bg-amber-500/5 light:bg-amber-50/50 p-3">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <AlertTriangle className="w-3.5 h-3.5 text-amber-400 light:text-amber-500 flex-shrink-0" />
+                    <span className="text-xs font-semibold text-amber-400 light:text-amber-600">
+                      {validationReport.warnings.length} validation{' '}
+                      {validationReport.warnings.length === 1 ? 'warning' : 'warnings'}
+                    </span>
+                  </div>
+                  <ul className="space-y-0.5 ml-5.5">
+                    {validationReport.warnings.map((w, i) => (
+                      <li
+                        key={i}
+                        className="text-xs text-amber-300/80 light:text-amber-700 leading-relaxed"
+                      >
+                        {w}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               {/* Bulk Settings */}
               <div
