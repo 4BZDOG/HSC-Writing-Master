@@ -114,6 +114,91 @@ export const findAndUpdateItem = (
  * `produce` recipe's return value IS the new state — returning `{ newPath }`
  * from a branch would try to replace the whole courses array with that object.
  */
+/**
+ * Clears every question (prompt) reachable under a scope node, leaving the
+ * Topic/SubTopic/DotPoint structure — names, ids, `focusAreas` — untouched.
+ *
+ * This is the "delete questions, keep structure" counterpart to
+ * `deleteSyllabusItem`: instead of splicing the target node out of its
+ * parent array, it walks down to every `DotPoint` reachable under the target
+ * and empties `dotPoint.prompts`, so the tree shape survives and a teacher
+ * can reimport questions straight back into the same nodes.
+ *
+ * Mirrors `deleteSyllabusItem`'s no-op-on-missing behaviour: if the scope
+ * node can't be found, returns the original `courses` reference unchanged
+ * and a `clearedCount` of 0, rather than throwing.
+ */
+export const clearQuestionsInScope = (
+  courses: Course[],
+  scope: { courseId: string; type: 'course' | 'topic' | 'subTopic' | 'dotPoint'; id: string }
+): { updatedCourses: Course[]; clearedCount: number } => {
+  let clearedCount = 0;
+  let found = false;
+
+  const clearDotPoint = (dotPoint: DotPoint): void => {
+    clearedCount += dotPoint.prompts.length;
+    dotPoint.prompts = [];
+  };
+
+  const clearSubTopic = (subTopic: SubTopic): void => {
+    subTopic.dotPoints.forEach(clearDotPoint);
+  };
+
+  const clearTopic = (topic: Topic): void => {
+    topic.subTopics.forEach(clearSubTopic);
+  };
+
+  const updatedCourses = produce(courses, (coursesCopy) => {
+    const course = coursesCopy.find((c) => c.id === scope.courseId);
+    if (!course) return;
+
+    if (scope.type === 'course') {
+      if (course.id !== scope.id) return;
+      found = true;
+      course.topics.forEach(clearTopic);
+      return;
+    }
+
+    if (scope.type === 'topic') {
+      const topic = course.topics.find((t) => t.id === scope.id);
+      if (!topic) return;
+      found = true;
+      clearTopic(topic);
+      return;
+    }
+
+    if (scope.type === 'subTopic') {
+      for (const topic of course.topics) {
+        const subTopic = topic.subTopics.find((st) => st.id === scope.id);
+        if (subTopic) {
+          found = true;
+          clearSubTopic(subTopic);
+          return;
+        }
+      }
+      return;
+    }
+
+    // scope.type === 'dotPoint'
+    for (const topic of course.topics) {
+      for (const subTopic of topic.subTopics) {
+        const dotPoint = subTopic.dotPoints.find((dp) => dp.id === scope.id);
+        if (dotPoint) {
+          found = true;
+          clearDotPoint(dotPoint);
+          return;
+        }
+      }
+    }
+  });
+
+  if (!found) {
+    return { updatedCourses: courses, clearedCount: 0 };
+  }
+
+  return { updatedCourses, clearedCount };
+};
+
 export const deleteSyllabusItem = (
   courses: Course[],
   currentPath: StatePath,
