@@ -1698,40 +1698,43 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           <div className="flex-1" />
 
           {selectedIds.size > 0 && (
-            <button
-              onClick={handleExportJson}
-              disabled={isProcessing || !exportTarget}
-              title={
-                exportTarget
-                  ? `Export "${exportTarget.label}" as a JSON file`
-                  : 'Select exactly one topic or course to export'
-              }
-              className="px-5 h-12 rounded-2xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 light:hover:bg-slate-200 hover:text-white light:hover:text-slate-900 transition-all flex items-center gap-2 disabled:opacity-40"
-            >
-              <Download className="w-4 h-4" /> Export JSON
-            </button>
-          )}
-          {selectedIds.size > 0 && (
-            <button
-              onClick={() => importTargetCourseId && setImportCourseId(importTargetCourseId)}
-              disabled={isProcessing || !importTargetCourseId}
-              title={
-                importTargetCourseId
-                  ? `Import a topic JSON file into "${courses.find((c) => c.id === importTargetCourseId)?.name ?? ''}"`
-                  : 'Select exactly one topic or course to import into'
-              }
-              className="px-5 h-12 rounded-2xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 light:hover:bg-slate-200 hover:text-white light:hover:text-slate-900 transition-all flex items-center gap-2 disabled:opacity-40"
-            >
-              <UploadCloud className="w-4 h-4" /> Import JSON…
-            </button>
+            <div className="flex items-center gap-1.5 bg-black/30 light:bg-slate-50 rounded-2xl p-1.5 border border-white/5 light:border-slate-200">
+              <span className="text-[8px] font-black uppercase tracking-[0.2em] text-white/30 light:text-slate-400 px-2 hidden lg:block">
+                Data
+              </span>
+              <button
+                onClick={handleExportJson}
+                disabled={isProcessing || !exportTarget}
+                title={
+                  exportTarget
+                    ? `Export "${exportTarget.label}" as a JSON file`
+                    : 'Select exactly one topic or course to export'
+                }
+                className="px-4 h-10 rounded-xl bg-emerald-500/10 light:bg-emerald-50 border border-emerald-500/20 light:border-emerald-200 text-emerald-400 light:text-emerald-700 text-[10px] font-black uppercase tracking-widest hover:bg-emerald-500/20 light:hover:bg-emerald-100 transition-all flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                <Download className="w-3.5 h-3.5" /> Export JSON
+              </button>
+              <button
+                onClick={() => importTargetCourseId && setImportCourseId(importTargetCourseId)}
+                disabled={isProcessing || !importTargetCourseId}
+                title={
+                  importTargetCourseId
+                    ? `Import a topic JSON file into "${courses.find((c) => c.id === importTargetCourseId)?.name ?? ''}"`
+                    : 'Select exactly one topic or course to import into'
+                }
+                className="px-4 h-10 rounded-xl bg-sky-500/10 light:bg-sky-50 border border-sky-500/20 light:border-sky-200 text-sky-400 light:text-sky-700 text-[10px] font-black uppercase tracking-widest hover:bg-sky-500/20 light:hover:bg-sky-100 transition-all flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                <UploadCloud className="w-3.5 h-3.5" /> Import JSON…
+              </button>
+            </div>
           )}
           {selectedIds.size > 0 && (
             <button
               onClick={clearSelection}
               disabled={isProcessing}
-              className="px-5 h-12 rounded-2xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 light:hover:bg-slate-200 hover:text-white light:hover:text-slate-900 transition-all flex items-center gap-2 disabled:opacity-40"
+              className="px-4 h-10 rounded-xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-200 text-slate-500 light:text-slate-500 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 light:hover:bg-slate-200 hover:text-white light:hover:text-slate-900 transition-all flex items-center gap-1.5 disabled:opacity-40"
             >
-              <Square className="w-4 h-4" /> Clear Selection ({selectedIds.size})
+              <Square className="w-3.5 h-3.5" /> Clear Selection ({selectedIds.size})
             </button>
           )}
           {activeFilter && (
@@ -1898,90 +1901,95 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 )}
               </div>
 
-              <div className="flex gap-3 flex-wrap justify-end">
-                <button
-                  onClick={handleBulkAction.bind(null, 'generateQuestions')}
-                  disabled={selectionTargets.questions === 0}
-                  title="Generate a question for each selected empty dot point"
-                  className="px-5 h-12 rounded-[20px] bg-indigo-600 text-white font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale"
-                >
-                  Questions ({selectionTargets.questions})
-                </button>
-                <button
-                  onClick={handleBulkAction.bind(null, 'generateRubrics')}
-                  disabled={selectionTargets.rubrics === 0}
-                  title="Generate a rubric for each selected question with a missing or non-standard marking guide"
-                  className="px-5 h-12 rounded-[20px] bg-sky-600 text-white font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale"
-                >
-                  Rubrics ({selectionTargets.rubrics})
-                </button>
-                <button
-                  onClick={handleBulkAction.bind(null, 'reviseRubrics')}
-                  disabled={selectionTargets.rubricRevisions === 0}
-                  title="Revise non-standard rubrics into correct descending format while preserving existing criteria"
-                  className="px-5 h-12 rounded-[20px] bg-amber-600 text-white font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale"
-                >
-                  Revise Rubrics ({selectionTargets.rubricRevisions})
-                </button>
-                <button
-                  onClick={handleBulkAction.bind(null, 'linkOutcomes')}
-                  disabled={selectionTargets.outcomes === 0}
-                  title="Suggest syllabus outcomes for each selected question with none linked"
-                  className="px-5 h-12 rounded-[20px] bg-pink-600 text-white font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale flex items-center gap-2"
-                >
-                  <Link2 className="w-4 h-4" />
-                  Outcomes ({selectionTargets.outcomes})
-                </button>
-                <button
-                  onClick={handleBulkAction.bind(null, 'generateSamples')}
-                  disabled={selectionTargets.samples === 0}
-                  title="Draft a full-mark sample answer for each selected question with none"
-                  className="px-5 h-12 rounded-[20px] bg-purple-600 text-white font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale"
-                >
-                  Samples ({selectionTargets.samples})
-                </button>
-                <button
-                  onClick={handleBulkAction.bind(null, 'recalibrateSamples')}
-                  disabled={selectionTargets.recalibrations === 0}
-                  title="Re-mark every existing sample answer under the strict verb/band rules"
-                  className="px-5 h-12 rounded-[20px] bg-teal-600 text-white font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale flex items-center gap-2"
-                >
-                  <Scale className="w-4 h-4" />
-                  Recalibrate ({selectionTargets.recalibrations})
-                </button>
-                <button
-                  onClick={handleBulkAction.bind(null, 'screenQuality')}
-                  disabled={selectionTargets.screenings === 0}
-                  title="AI-score every selected question (0–100) so weak content is flagged, filterable, and triaged in the review queue"
-                  className="px-5 h-12 rounded-[20px] bg-rose-600 text-white font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale flex items-center gap-2"
-                >
-                  <Gauge className="w-4 h-4" />
-                  Screen Quality ({selectionTargets.screenings})
-                </button>
-                <div className="w-px h-8 bg-white/10 light:bg-slate-300 self-center" />
-                <button
-                  onClick={handleBulkAction.bind(null, 'fixAllGaps')}
-                  disabled={selectionTargets.allGaps === 0}
-                  title="One run that fills every gap in the selection: missing questions, rubrics, outcomes and samples"
-                  className="px-6 h-12 rounded-[20px] bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale flex items-center gap-2"
-                >
-                  <Wrench className="w-4 h-4" />
-                  Fix All Gaps ({selectionTargets.allGaps})
-                </button>
-                <div className="w-px h-8 bg-white/10 light:bg-slate-300 self-center" />
-                <button
-                  onClick={() => setIsClearConfirmOpen(true)}
-                  disabled={clearTargets.length === 0}
-                  title={
-                    clearTargets.length > 0
-                      ? `Delete all questions under the selected scope(s), keeping the topic/sub-topic/dot point structure`
-                      : 'Select a course, topic, sub-topic or dot point to clear its questions'
-                  }
-                  className="px-5 h-12 rounded-[20px] bg-red-500/10 text-red-400 border border-red-500/30 font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:bg-red-500 hover:text-white hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale disabled:hover:bg-red-500/10 disabled:hover:text-red-400 flex items-center gap-2"
-                >
-                  <Trash2 className="w-4 h-4" />
-                  Clear Questions ({clearQuestionsCount})
-                </button>
+              <div className="flex flex-col gap-3 items-end">
+                <span className="text-[8px] font-black uppercase tracking-[0.3em] text-white/25 light:text-slate-400 mr-1 hidden md:block">
+                  AI Operations
+                </span>
+                <div className="flex gap-2.5 flex-wrap justify-end">
+                  <button
+                    onClick={handleBulkAction.bind(null, 'generateQuestions')}
+                    disabled={selectionTargets.questions === 0}
+                    title="Generate a question for each selected empty dot point"
+                    className="px-4 h-11 rounded-2xl bg-indigo-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-indigo-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none"
+                  >
+                    Questions ({selectionTargets.questions})
+                  </button>
+                  <button
+                    onClick={handleBulkAction.bind(null, 'generateRubrics')}
+                    disabled={selectionTargets.rubrics === 0}
+                    title="Generate a rubric for each selected question with a missing or non-standard marking guide"
+                    className="px-4 h-11 rounded-2xl bg-sky-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-sky-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none"
+                  >
+                    Rubrics ({selectionTargets.rubrics})
+                  </button>
+                  <button
+                    onClick={handleBulkAction.bind(null, 'reviseRubrics')}
+                    disabled={selectionTargets.rubricRevisions === 0}
+                    title="Revise non-standard rubrics into correct descending format while preserving existing criteria"
+                    className="px-4 h-11 rounded-2xl bg-amber-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-amber-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none"
+                  >
+                    Revise ({selectionTargets.rubricRevisions})
+                  </button>
+                  <button
+                    onClick={handleBulkAction.bind(null, 'linkOutcomes')}
+                    disabled={selectionTargets.outcomes === 0}
+                    title="Suggest syllabus outcomes for each selected question with none linked"
+                    className="px-4 h-11 rounded-2xl bg-pink-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-pink-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none flex items-center gap-1.5"
+                  >
+                    <Link2 className="w-3.5 h-3.5" />
+                    Outcomes ({selectionTargets.outcomes})
+                  </button>
+                  <button
+                    onClick={handleBulkAction.bind(null, 'generateSamples')}
+                    disabled={selectionTargets.samples === 0}
+                    title="Draft a full-mark sample answer for each selected question with none"
+                    className="px-4 h-11 rounded-2xl bg-purple-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-purple-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none"
+                  >
+                    Samples ({selectionTargets.samples})
+                  </button>
+                  <button
+                    onClick={handleBulkAction.bind(null, 'recalibrateSamples')}
+                    disabled={selectionTargets.recalibrations === 0}
+                    title="Re-mark every existing sample answer under the strict verb/band rules"
+                    className="px-4 h-11 rounded-2xl bg-teal-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-teal-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none flex items-center gap-1.5"
+                  >
+                    <Scale className="w-3.5 h-3.5" />
+                    Recalibrate ({selectionTargets.recalibrations})
+                  </button>
+                  <button
+                    onClick={handleBulkAction.bind(null, 'screenQuality')}
+                    disabled={selectionTargets.screenings === 0}
+                    title="AI-score every selected question (0–100) so weak content is flagged, filterable, and triaged in the review queue"
+                    className="px-4 h-11 rounded-2xl bg-rose-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-rose-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none flex items-center gap-1.5"
+                  >
+                    <Gauge className="w-3.5 h-3.5" />
+                    Screen Quality ({selectionTargets.screenings})
+                  </button>
+                  <div className="w-px h-8 bg-white/10 light:bg-slate-300 self-center" />
+                  <button
+                    onClick={handleBulkAction.bind(null, 'fixAllGaps')}
+                    disabled={selectionTargets.allGaps === 0}
+                    title="One run that fills every gap in the selection: missing questions, rubrics, outcomes and samples"
+                    className="px-5 h-11 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-emerald-500/30 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none flex items-center gap-2"
+                  >
+                    <Wrench className="w-4 h-4" />
+                    Fix All Gaps ({selectionTargets.allGaps})
+                  </button>
+                  <div className="w-px h-8 bg-white/10 light:bg-slate-300 self-center" />
+                  <button
+                    onClick={() => setIsClearConfirmOpen(true)}
+                    disabled={clearTargets.length === 0}
+                    title={
+                      clearTargets.length > 0
+                        ? `Delete all questions under the selected scope(s), keeping the topic/sub-topic/dot point structure`
+                        : 'Select a course, topic, sub-topic or dot point to clear its questions'
+                    }
+                    className="px-4 h-11 rounded-2xl bg-red-500/10 text-red-400 border border-red-500/30 font-black text-[10px] uppercase tracking-[0.12em] hover:bg-red-500 hover:text-white hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:hover:bg-red-500/10 disabled:hover:text-red-400 flex items-center gap-2"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    Clear Questions ({clearQuestionsCount})
+                  </button>
+                </div>
               </div>
             </div>
           )}

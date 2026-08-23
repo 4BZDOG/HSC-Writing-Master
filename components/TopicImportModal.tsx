@@ -6,7 +6,19 @@ import {
   previewTopicMergePlan,
 } from '../utils/dataManagerUtils';
 import FileDropzone from './dataManager/FileDropzone';
-import { UploadCloud, X, Award, ChevronRight, Trash2, GitMerge, Sparkles } from 'lucide-react';
+import {
+  UploadCloud,
+  X,
+  Award,
+  ChevronRight,
+  Trash2,
+  GitMerge,
+  Sparkles,
+  FolderTree,
+  Layers,
+  Hash,
+  FileText,
+} from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -295,27 +307,72 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
           )}
 
           {step === 'preview' && importedTopic && mergePlan && (
-            <div className="space-y-5 h-full flex flex-col overflow-hidden">
+            <div className="space-y-4 h-full flex flex-col overflow-hidden">
               <p className="text-sm text-[rgb(var(--color-text-secondary))] light:text-slate-600">
-                Review the contents of "{fileName}" before importing.
+                Review the contents of{' '}
+                <span className="font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800">
+                  "{fileName}"
+                </span>{' '}
+                before importing.
               </p>
 
               {/* Merge-vs-create summary — what this import will actually do */}
               <div
-                className={`rounded-xl border p-4 flex items-start gap-3 ${
+                className={`rounded-xl border p-4 ${
                   mergePlan.matchedTopic
                     ? 'border-[rgb(var(--color-accent))]/30 bg-[rgb(var(--color-accent))]/5'
                     : 'border-emerald-500/30 light:border-emerald-200 bg-emerald-500/5 light:bg-emerald-50/50'
                 }`}
               >
-                {mergePlan.matchedTopic ? (
-                  <GitMerge className="w-4 h-4 mt-0.5 text-[rgb(var(--color-accent))] flex-shrink-0" />
-                ) : (
-                  <UploadCloud className="w-4 h-4 mt-0.5 text-emerald-500 flex-shrink-0" />
-                )}
-                <p className="text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-relaxed">
-                  {describeMergePlan(importedTopic.name, mergePlan)}
-                </p>
+                <div className="flex items-start gap-3">
+                  {mergePlan.matchedTopic ? (
+                    <div className="w-8 h-8 rounded-lg bg-[rgb(var(--color-accent))]/10 flex items-center justify-center flex-shrink-0">
+                      <GitMerge className="w-4 h-4 text-[rgb(var(--color-accent))]" />
+                    </div>
+                  ) : (
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                      <Sparkles className="w-4 h-4 text-emerald-500" />
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-relaxed">
+                      {describeMergePlan(importedTopic.name, mergePlan)}
+                    </p>
+                    {mergePlan.matchedTopic &&
+                      (mergePlan.newPrompts > 0 ||
+                        mergePlan.newDotPoints > 0 ||
+                        mergePlan.newSubTopics > 0) && (
+                        <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-1">
+                          Existing content is preserved; only new items are added.
+                        </p>
+                      )}
+                  </div>
+                </div>
+
+                {/* Stats row */}
+                <div className="flex gap-4 mt-3 pt-3 border-t border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200/60">
+                  <div className="flex items-center gap-1.5 text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                    <Layers className="w-3 h-3" />
+                    <span className="font-bold text-[rgb(var(--color-text-primary))] light:text-slate-700">
+                      {treeStats.subTopics}
+                    </span>{' '}
+                    sub-topics
+                  </div>
+                  <div className="flex items-center gap-1.5 text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                    <Hash className="w-3 h-3" />
+                    <span className="font-bold text-[rgb(var(--color-text-primary))] light:text-slate-700">
+                      {treeStats.dotPoints}
+                    </span>{' '}
+                    dot points
+                  </div>
+                  <div className="flex items-center gap-1.5 text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                    <FileText className="w-3 h-3" />
+                    <span className="font-bold text-[rgb(var(--color-text-primary))] light:text-slate-700">
+                      {treeStats.prompts}
+                    </span>{' '}
+                    questions
+                  </div>
+                </div>
               </div>
 
               {/* Bulk Settings */}
@@ -359,11 +416,15 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
               {/* Editable structure preview — remove anything the source file
                   got wrong before it lands in the course. */}
               <div className="flex-grow overflow-hidden flex flex-col bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-xl">
-                <div className="px-4 py-2.5 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 flex justify-between items-center flex-shrink-0">
-                  <span>{importedTopic.name}</span>
-                  <span className="bg-[rgb(var(--color-bg-surface-inset))] light:bg-white px-2 py-0.5 rounded-full normal-case font-semibold">
-                    {treeStats.subTopics} sub-topics · {treeStats.dotPoints} dot points ·{' '}
-                    {treeStats.prompts} questions
+                <div className="px-4 py-2.5 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-between items-center flex-shrink-0">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <FolderTree className="w-3.5 h-3.5 text-[rgb(var(--color-text-muted))] light:text-slate-400 flex-shrink-0" />
+                    <span className="text-xs font-bold text-[rgb(var(--color-text-primary))] light:text-slate-700 truncate">
+                      {importedTopic.name}
+                    </span>
+                  </div>
+                  <span className="text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 flex-shrink-0 ml-2">
+                    Remove items you don't want to import
                   </span>
                 </div>
                 {importedTopic.subTopics.length === 0 ? (
@@ -375,51 +436,59 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                     {importedTopic.subTopics.map((st, stIdx) => {
                       const isExpanded = expandedSubTopics.has(stIdx);
                       return (
-                        <div key={st.id ?? stIdx} className="mb-1 last:mb-0">
+                        <div key={st.id ?? stIdx} className="mb-0.5 last:mb-0">
                           <div className="group flex items-center gap-1 rounded-lg hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-100 transition">
                             <button
                               onClick={() => toggleSubTopicExpanded(stIdx)}
                               className="flex-1 flex items-center gap-2 p-2 text-left min-w-0"
                             >
                               <ChevronRight
-                                className={`w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-90' : ''}`}
+                                className={`w-3.5 h-3.5 text-[rgb(var(--color-text-muted))] light:text-slate-400 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-90' : ''}`}
                               />
+                              <Layers className="w-3.5 h-3.5 text-purple-400 light:text-purple-500 flex-shrink-0" />
                               <span className="font-semibold text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 truncate">
                                 {st.name}
                               </span>
-                              <span className="ml-auto flex-shrink-0 text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-2 py-0.5 rounded-full">
-                                {st.dotPoints.length} dot points
+                              <span className="ml-auto flex-shrink-0 text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-2 py-0.5 rounded-full">
+                                {st.dotPoints.length} dp
+                                {st.dotPoints.reduce((s, dp) => s + dp.prompts.length, 0) > 0 && (
+                                  <>
+                                    {' '}
+                                    · {st.dotPoints.reduce((s, dp) => s + dp.prompts.length, 0)} q
+                                  </>
+                                )}
                               </span>
                             </button>
                             <button
                               onClick={() => removeSubTopic(stIdx)}
-                              className="p-1.5 mr-1 rounded text-transparent group-hover:text-red-400 light:group-hover:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
-                              title="Remove sub-topic"
+                              className="p-1.5 mr-1 rounded-md opacity-0 group-hover:opacity-100 text-red-400 light:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-all flex-shrink-0"
+                              title="Remove this sub-topic from import"
                               aria-label={`Remove sub-topic ${st.name}`}
                             >
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
                           </div>
                           {isExpanded && st.dotPoints.length > 0 && (
-                            <div className="ml-7 pl-2 border-l border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 mt-1 space-y-0.5">
+                            <div className="ml-8 pl-3 border-l-2 border-[rgb(var(--color-border-secondary))]/20 light:border-slate-200 mt-0.5 space-y-px">
                               {st.dotPoints.map((dp, dpIdx) => (
                                 <div
                                   key={dp.id ?? dpIdx}
-                                  className="group/dp flex items-start gap-2 px-2 py-1 text-xs text-[rgb(var(--color-text-dim))] light:text-slate-600 rounded hover:bg-[rgb(var(--color-bg-surface-light))]/40 light:hover:bg-slate-100"
+                                  className="group/dp flex items-start gap-2 px-2 py-1.5 text-xs text-[rgb(var(--color-text-dim))] light:text-slate-600 rounded-md hover:bg-[rgb(var(--color-bg-surface-light))]/40 light:hover:bg-slate-100 transition-colors"
                                 >
-                                  <span className="mt-1.5 w-1 h-1 rounded-full bg-gray-600 light:bg-slate-400 flex-shrink-0"></span>
-                                  <span className="flex-1">
+                                  <Hash className="w-3 h-3 mt-0.5 text-slate-600 light:text-slate-400 flex-shrink-0" />
+                                  <span className="flex-1 leading-relaxed">
                                     {dp.description}
                                     {dp.prompts.length > 0 && (
-                                      <span className="ml-2 text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-400">
-                                        ({pluralize(dp.prompts.length, 'question')})
+                                      <span className="ml-1.5 inline-flex items-center gap-0.5 text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-400">
+                                        <FileText className="w-2.5 h-2.5" />
+                                        {dp.prompts.length}
                                       </span>
                                     )}
                                   </span>
                                   <button
                                     onClick={() => removeDotPoint(stIdx, dpIdx)}
-                                    className="p-0.5 rounded text-transparent group-hover/dp:text-red-400 light:group-hover/dp:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
-                                    title="Remove dot point"
+                                    className="p-0.5 rounded opacity-0 group-hover/dp:opacity-100 text-red-400 light:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-all flex-shrink-0"
+                                    title="Remove this dot point from import"
                                     aria-label={`Remove dot point ${dp.description}`}
                                   >
                                     <X className="w-3 h-3" />
