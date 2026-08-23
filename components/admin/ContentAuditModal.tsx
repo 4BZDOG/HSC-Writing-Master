@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import type { Updater } from 'use-immer';
 import {
   Course,
   Topic,
@@ -12,6 +13,15 @@ import {
   SampleAnswer,
 } from '../../types';
 import { outcomesForYear, yearOfTopic } from '../../utils/syllabusYear';
+import {
+  buildTopicExportPayload,
+  filterDataBySelection,
+  mergeOrAddTopic,
+  reconcileImportedTopicIds,
+} from '../../utils/dataManagerUtils';
+import { clearQuestionsInScope } from '../../utils/stateUtils';
+import TopicImportModal from '../TopicImportModal';
+import ConfirmationModal from '../ConfirmationModal';
 import {
   BatchTask,
   runBatchOperations,
@@ -67,6 +77,8 @@ import {
   UploadCloud,
   Gauge,
   AlertTriangle,
+  Download,
+  Trash2,
 } from 'lucide-react';
 
 // --- Shared Components ---
@@ -114,7 +126,7 @@ interface ContentAuditModalProps {
   isOpen: boolean;
   onClose: () => void;
   courses: Course[];
-  updateCourses: (updater: (draft: any) => void) => void;
+  updateCourses: Updater<Course[]>;
   showToast: (msg: string, type: 'success' | 'error' | 'info') => void;
 }
 
@@ -473,6 +485,12 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 }) => {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+  // Course id an "Import JSON…" click will import a topic into — set only
+  // while that nested TopicImportModal is open.
+  const [importCourseId, setImportCourseId] = useState<string | null>(null);
+  // Set while the "Clear Questions" confirmation is open, so the destructive
+  // action never fires without the shared ConfirmationModal in between.
+  const [isClearConfirmOpen, setIsClearConfirmOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isStopping, setIsStopping] = useState(false);
   // 'default' = the app's per-role engine selection; otherwise an AI_MODELS
@@ -593,6 +611,189 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       allGaps: questions + rubrics + samples + outcomes,
     };
   }, [selectedIds, flatMap]);
+
+  /**
+   * The single course/topic a click on "Export JSON" would export, or `null`
+   * when the selection doesn't resolve to exactly one. `toggleSelect`
+   * cascades a course/topic pick down to every descendant, so this looks for
+   * the ROOT of the selection (a selected node whose parent isn't also
+   * selected) rather than counting every id — selecting one topic (which
+   * also selects its sub-topics/dot points/prompts) must still count as one
+   * exportable target, not many.
+   */
+  const exportTarget = useMemo(() => {
+    const roots: TreeNode[] = [];
+    selectedIds.forEach((id) => {
+      const node = flatMap.get(id);
+      if (!node) return;
+      if (node.parentId && selectedIds.has(node.parentId)) return;
+      roots.push(node);
+    });
+    if (roots.length !== 1) return null;
+    const [root] = roots;
+    return root.type === 'course' || root.type === 'topic' ? root : null;
+  }, [selectedIds, flatMap]);
+
+  const handleExportJson = () => {
+    if (!exportTarget) return;
+
+    const dataToExport =
+      exportTarget.type === 'topic'
+        ? buildTopicExportPayload(courses, exportTarget.path.courseId!, exportTarget.id)
+        : filterDataBySelection(courses, new Set([exportTarget.id]));
+
+    if (dataToExport.length === 0) {
+      showToast('Nothing to export for this selection.', 'info');
+      return;
+    }
+
+    // Filename convention matches the Data Manager's Export flow
+    // (components/dataManager/ExportFlow.tsx) so exports look consistent
+    // wherever a teacher makes them.
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+    const dateStr = `${day}${month}${year}`;
+    const sanitize = (s: string) => s.replace(/[^a-zA-Z0-9]/g, '');
+
+    const exportedCourse = dataToExport[0];
+    const courseName = sanitize(exportedCourse.name);
+    const filename =
+      exportedCourse.topics.length === 1
+        ? `${courseName}${sanitize(exportedCourse.topics[0].name)}${dateStr}`
+        : `${courseName}${dateStr}`;
+
+    const dataStr = JSON.stringify(dataToExport, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${filename}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    showToast(`Exported "${exportTarget.label}" as JSON.`, 'success');
+  };
+
+  /**
+   * The course an "Import JSON…" click would import a topic into — the same
+   * single-root selection `exportTarget` resolves, just reported as a course
+   * id rather than a tree node: a selected topic imports into its own
+   * course, a selected course imports directly into itself.
+   */
+  const importTargetCourseId = useMemo(() => {
+    if (!exportTarget) return null;
+    return exportTarget.type === 'course' ? exportTarget.id : (exportTarget.path.courseId ?? null);
+  }, [exportTarget]);
+
+  const importTargetCourse = useMemo(
+    () => courses.find((c) => c.id === importCourseId) ?? null,
+    [courses, importCourseId]
+  );
+
+  /**
+   * Every selected root "Clear Questions" would act on — the same root-finding
+   * rule as `exportTarget` (a selected node whose parent isn't also selected,
+   * so a topic and one of its own dot points selected together only count as
+   * one scope), but allowing multiple roots at once rather than requiring
+   * exactly one. `clearQuestionsInScope` has no scope of its own for a lone
+   * `prompt` node (there's no "clear just this question" — that's already
+   * covered by the existing per-item delete), so prompt roots are dropped
+   * rather than silently doing nothing when clicked.
+   */
+  const clearTargets = useMemo(() => {
+    const roots: TreeNode[] = [];
+    selectedIds.forEach((id) => {
+      const node = flatMap.get(id);
+      if (!node) return;
+      if (node.parentId && selectedIds.has(node.parentId)) return;
+      roots.push(node);
+    });
+    return roots.filter((n) => n.type !== 'prompt');
+  }, [selectedIds, flatMap]);
+
+  // Live count of questions the current selection would delete — computed
+  // from the same per-node `stats.questions` totals the tree rows already
+  // show, so it always matches what's on screen before anything is cleared.
+  const clearQuestionsCount = useMemo(
+    () => clearTargets.reduce((sum, n) => sum + n.stats.questions, 0),
+    [clearTargets]
+  );
+
+  const clearQuestionsMessage = useMemo(() => {
+    if (clearTargets.length === 0) return '';
+    const qWord = clearQuestionsCount === 1 ? 'question' : 'questions';
+    if (clearTargets.length === 1) {
+      return `Delete all ${clearQuestionsCount} ${qWord} under "${clearTargets[0].label}"? Sub-topics, dot points and the topic itself are kept — you can reimport questions into this exact structure afterward.`;
+    }
+    const names = clearTargets.map((n) => `"${n.label}"`).join(', ');
+    return `Delete all ${clearQuestionsCount} ${qWord} across the ${clearTargets.length} selected scopes (${names})? Sub-topics, dot points and the scopes themselves are kept — you can reimport questions into this exact structure afterward.`;
+  }, [clearTargets, clearQuestionsCount]);
+
+  /**
+   * Deletes every question under each selected scope, one `clearQuestionsInScope`
+   * call per top-level root (mirrors how `deleteSyllabusItem` is invoked once
+   * per delete elsewhere in the app) while leaving Topic/SubTopic/DotPoint
+   * structure — including `focusAreas` — untouched, so the same structure can
+   * be reimported into afterward.
+   */
+  const handleConfirmClearQuestions = () => {
+    if (clearTargets.length === 0) return;
+    const total = clearQuestionsCount;
+
+    clearTargets.forEach((node) => {
+      const scope = {
+        courseId: node.path.courseId!,
+        type: node.type as 'course' | 'topic' | 'subTopic' | 'dotPoint',
+        id: node.id,
+      };
+      updateCourses((draft: Course[]) => clearQuestionsInScope(draft, scope).updatedCourses);
+    });
+
+    showToast(
+      `${total} question${total === 1 ? '' : 's'} deleted. Structure kept — you can reimport into ${clearTargets.length === 1 ? 'this topic' : 'these scopes'}.`,
+      'success'
+    );
+    setIsClearConfirmOpen(false);
+  };
+
+  /**
+   * Applies an imported topic the same way `handleImportTopic`
+   * (`hooks/useSyllabusData.ts`) does from the main navigator:
+   * `reconcileImportedTopicIds` reconciles the imported topic's ids against
+   * the target course's CURRENT topics — matched nodes take on the existing
+   * node's id (so the merge below finds them directly, by id, no text
+   * fallback needed even when an external edit changed the matching text
+   * field), unmatched nodes get a fresh, collision-safe id exactly like the
+   * old `regenerateTopicIds` gave everything. Then `mergeOrAddTopic`
+   * (`utils/dataManagerUtils.ts`) merges it into an existing topic (matched
+   * by id-or-name) or pushes it as new — the same shared helper
+   * `handleImportTopic` calls, kept here as a direct `updateCourses` call
+   * because the Studio only has that, not `syllabusHandlers`.
+   *
+   * `importTargetCourse` (derived from the `courses` prop) is read before
+   * `updateCourses` runs, rather than looked up inside the updater, because
+   * the reconciliation needs the target course's existing topics as input,
+   * not just as something to mutate — it comes from the same `courses` /
+   * `updateCourses` pair, so it reflects the same pre-update state the
+   * updater's own `draft.find` would see.
+   */
+  const handleImportTopicConfirm = (topic: Topic) => {
+    if (!importCourseId || !importTargetCourse) return;
+    const topicWithNewIds = reconcileImportedTopicIds(topic, importTargetCourse.topics);
+    let resultTopicName = topicWithNewIds.name;
+
+    updateCourses((draft: Course[]) => {
+      const course = draft.find((c: Course) => c.id === importCourseId);
+      if (!course) return;
+      resultTopicName = mergeOrAddTopic(course.topics, topicWithNewIds).name;
+    });
+
+    showToast(`Topic "${resultTopicName}" imported.`, 'success');
+    setImportCourseId(null);
+  };
 
   const filteredTreeData = useMemo(() => {
     if (!searchQuery && !activeFilter) return treeData;
@@ -1274,10 +1475,14 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Content audit studio"
-      className="fixed inset-0 z-[200] bg-[rgb(var(--color-bg-base))] light:bg-slate-50 flex flex-col animate-fade-in"
+      className="fixed inset-0 z-[200] bg-[rgb(var(--color-bg-base))] light:bg-slate-50 flex flex-col overflow-y-auto animate-fade-in"
     >
-      {/* Studio Header */}
-      <div className="flex-shrink-0 border-b border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-white z-20 shadow-2xl light:shadow-lg relative">
+      {/* Studio Header — capped and independently scrollable (custom-scrollbar,
+          matching the Tree Container below) so a wide filter/action bar that
+          wraps onto many lines can never push the Tree off-screen with no way
+          back; the outer dialog's overflow-y-auto above is the last-resort
+          fallback if header+footer somehow still exceed the viewport. */}
+      <div className="flex-shrink-0 max-h-[42vh] overflow-y-auto custom-scrollbar border-b border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-white z-20 shadow-2xl light:shadow-lg relative">
         <MeshOverlay opacity="opacity-[0.05]" />
         <div className="px-5 md:px-10 py-6 md:py-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 md:gap-10">
           <div className="flex items-start gap-4 md:gap-8 flex-1 min-w-0">
@@ -1494,6 +1699,34 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
           {selectedIds.size > 0 && (
             <button
+              onClick={handleExportJson}
+              disabled={isProcessing || !exportTarget}
+              title={
+                exportTarget
+                  ? `Export "${exportTarget.label}" as a JSON file`
+                  : 'Select exactly one topic or course to export'
+              }
+              className="px-5 h-12 rounded-2xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 light:hover:bg-slate-200 hover:text-white light:hover:text-slate-900 transition-all flex items-center gap-2 disabled:opacity-40"
+            >
+              <Download className="w-4 h-4" /> Export JSON
+            </button>
+          )}
+          {selectedIds.size > 0 && (
+            <button
+              onClick={() => importTargetCourseId && setImportCourseId(importTargetCourseId)}
+              disabled={isProcessing || !importTargetCourseId}
+              title={
+                importTargetCourseId
+                  ? `Import a topic JSON file into "${courses.find((c) => c.id === importTargetCourseId)?.name ?? ''}"`
+                  : 'Select exactly one topic or course to import into'
+              }
+              className="px-5 h-12 rounded-2xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 light:hover:bg-slate-200 hover:text-white light:hover:text-slate-900 transition-all flex items-center gap-2 disabled:opacity-40"
+            >
+              <UploadCloud className="w-4 h-4" /> Import JSON…
+            </button>
+          )}
+          {selectedIds.size > 0 && (
+            <button
               onClick={clearSelection}
               disabled={isProcessing}
               className="px-5 h-12 rounded-2xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 light:hover:bg-slate-200 hover:text-white light:hover:text-slate-900 transition-all flex items-center gap-2 disabled:opacity-40"
@@ -1610,7 +1843,14 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
               </button>
             </div>
           ) : (
-            <div className="flex flex-wrap items-center justify-between w-full gap-4 md:gap-6">
+            // Capped and independently scrollable (custom-scrollbar, matching
+            // the header above and the Tree Container) — the button row keeps
+            // growing this list (Fix All Gaps, Clear Questions, etc.), and
+            // without a cap that wrapped growth is what pushes the Tree
+            // toward 0px on a short viewport. Left untouched during the
+            // isProcessing branch above so it doesn't fight the footer's own
+            // transition-all duration-500 height animation.
+            <div className="flex flex-wrap items-center justify-between w-full gap-4 md:gap-6 max-h-[34vh] overflow-y-auto custom-scrollbar py-1">
               <div className="flex flex-wrap items-center gap-3 md:gap-4">
                 <div className="p-3 rounded-xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-200 text-white light:text-slate-900 font-black text-2xl tracking-tighter italic">
                   {selectedIds.size.toString().padStart(2, '0')}
@@ -1728,11 +1968,52 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   <Wrench className="w-4 h-4" />
                   Fix All Gaps ({selectionTargets.allGaps})
                 </button>
+                <div className="w-px h-8 bg-white/10 light:bg-slate-300 self-center" />
+                <button
+                  onClick={() => setIsClearConfirmOpen(true)}
+                  disabled={clearTargets.length === 0}
+                  title={
+                    clearTargets.length > 0
+                      ? `Delete all questions under the selected scope(s), keeping the topic/sub-topic/dot point structure`
+                      : 'Select a course, topic, sub-topic or dot point to clear its questions'
+                  }
+                  className="px-5 h-12 rounded-[20px] bg-red-500/10 text-red-400 border border-red-500/30 font-black text-xs uppercase tracking-[0.15em] shadow-2xl hover:bg-red-500 hover:text-white hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:grayscale disabled:hover:bg-red-500/10 disabled:hover:text-red-400 flex items-center gap-2"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  Clear Questions ({clearQuestionsCount})
+                </button>
               </div>
             </div>
           )}
         </div>
       </div>
+
+      {/* Nested import modal — a second, independent instance of the same
+          component the main navigator opens (see AppModals.tsx), scoped to
+          whatever course the current selection resolves to. This modal isn't
+          part of that navigator's useModalManager stack (the Studio itself
+          sits outside it, as a full-screen surface of its own), so it's
+          rendered directly here rather than through openModal — no stack to
+          nest inside. */}
+      {importCourseId && importTargetCourse && (
+        <TopicImportModal
+          isOpen={!!importCourseId}
+          onClose={() => setImportCourseId(null)}
+          courseName={importTargetCourse.name}
+          existingTopics={importTargetCourse.topics}
+          onImport={handleImportTopicConfirm}
+        />
+      )}
+
+      <ConfirmationModal
+        isOpen={isClearConfirmOpen}
+        onClose={() => setIsClearConfirmOpen(false)}
+        onConfirm={handleConfirmClearQuestions}
+        title="Clear questions?"
+        message={clearQuestionsMessage}
+        confirmButtonText="Clear Questions"
+        isDestructive
+      />
     </div>,
     document.body
   );

@@ -144,6 +144,166 @@ describe('ContentAuditModal — gap visibility and batch targeting', () => {
     expect(screen.queryByRole('button', { name: /clear selection/i })).toBeNull();
   });
 
+  it('offers Export JSON only when the selection resolves to a single topic or course, and triggers a download', () => {
+    const createObjectURL = vi.fn(() => 'blob:mock-url');
+    const revokeObjectURL = vi.fn();
+    vi.stubGlobal('URL', { ...URL, createObjectURL, revokeObjectURL });
+    const clickSpy = vi.fn();
+    const originalCreateElement = document.createElement.bind(document);
+    const createElementSpy = vi
+      .spyOn(document, 'createElement')
+      .mockImplementation((tagName: string) => {
+        const el = originalCreateElement(tagName);
+        if (tagName === 'a') el.click = clickSpy;
+        return el;
+      });
+
+    try {
+      renderStudio();
+
+      // Selecting the whole course cascades to every descendant — still one
+      // exportable root, so the button stays enabled.
+      selectWholeCourse();
+      const exportButton = screen.getByRole('button', { name: /export json/i });
+      expect((exportButton as HTMLButtonElement).disabled).toBe(false);
+
+      fireEvent.click(exportButton);
+      expect(createObjectURL).toHaveBeenCalledTimes(1);
+      expect(clickSpy).toHaveBeenCalledTimes(1);
+      expect(revokeObjectURL).toHaveBeenCalledTimes(1);
+    } finally {
+      createElementSpy.mockRestore();
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it('offers an Import JSON entry point scoped to the selected topic/course, opening TopicImportModal with the right course context', () => {
+    renderStudio();
+
+    // Selecting the whole course resolves to exactly one importable target —
+    // the course itself — same as Export JSON's single-root rule.
+    selectWholeCourse();
+    const importButton = screen.getByRole('button', { name: /import json/i });
+    expect((importButton as HTMLButtonElement).disabled).toBe(false);
+
+    fireEvent.click(importButton);
+
+    // TopicImportModal opened, scoped to "Fixture Course" (the course the
+    // selection resolved to) rather than any other course.
+    expect(screen.getByRole('dialog', { name: /import a topic file/i })).toBeTruthy();
+    expect(screen.getByText('into "Fixture Course"')).toBeTruthy();
+  });
+
+  it('disables Import JSON once the selection no longer resolves to one topic/course', () => {
+    renderStudio();
+    fireEvent.click(screen.getByLabelText('Expand Fixture Topic'));
+    fireEvent.click(screen.getByLabelText('Expand Fixture SubTopic'));
+
+    fireEvent.click(screen.getByLabelText('Select describe an untouched dot point'));
+    const importButton = screen.getByRole('button', { name: /import json/i });
+    expect((importButton as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  it('disables Export JSON once the selection no longer resolves to one topic/course', () => {
+    renderStudio();
+    fireEvent.click(screen.getByLabelText('Expand Fixture Topic'));
+    fireEvent.click(screen.getByLabelText('Expand Fixture SubTopic'));
+
+    // Selecting a single dot point (not a topic/course) still shows the
+    // button once something is selected, but it can't resolve an export
+    // target, so it stays disabled.
+    fireEvent.click(screen.getByLabelText('Select describe an untouched dot point'));
+    const exportButton = screen.getByRole('button', { name: /export json/i });
+    expect((exportButton as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  it('Clear Questions is present but disabled with nothing selected', () => {
+    renderStudio();
+    const btn = screen.getByRole('button', { name: /clear questions \(0\)/i });
+    expect((btn as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  it('Clear Questions opens a destructive confirmation naming the scope and live question count', () => {
+    renderStudio();
+    selectWholeCourse(); // cascades to the whole course → 1 question in the fixture
+
+    const btn = screen.getByRole('button', { name: /clear questions \(1\)/i });
+    expect((btn as HTMLButtonElement).disabled).toBe(false);
+    fireEvent.click(btn);
+
+    expect(screen.getByText('Clear questions?')).toBeTruthy();
+    expect(
+      screen.getByText(/Delete all 1 question under "Fixture Course"\?/)
+    ).toBeTruthy();
+    expect(screen.getByText(/Sub-topics, dot points and the topic itself are kept/)).toBeTruthy();
+  });
+
+  it('confirming Clear Questions empties prompts under the scope via updateCourses, leaving structure and focusAreas untouched', () => {
+    let draftState: Course[] = JSON.parse(JSON.stringify(fixture));
+    const updateCourses = vi.fn((updater: (draft: Course[]) => Course[] | void) => {
+      const result = updater(draftState);
+      if (result) draftState = result;
+    });
+
+    render(
+      <ContentAuditModal
+        isOpen={true}
+        onClose={vi.fn()}
+        courses={fixture}
+        updateCourses={updateCourses}
+        showToast={vi.fn()}
+      />
+    );
+
+    selectWholeCourse();
+    fireEvent.click(screen.getByRole('button', { name: /clear questions \(1\)/i }));
+    fireEvent.click(screen.getByRole('button', { name: /^clear questions$/i }));
+
+    expect(updateCourses).toHaveBeenCalledTimes(1);
+
+    const topic = draftState[0].topics[0];
+    const subTopic = topic.subTopics[0];
+    const dpEmpty = subTopic.dotPoints.find((dp) => dp.id === 'dp-empty')!;
+    const dpFull = subTopic.dotPoints.find((dp) => dp.id === 'dp-full')!;
+
+    // Questions gone…
+    expect(dpFull.prompts).toEqual([]);
+    expect(dpEmpty.prompts).toEqual([]);
+    // …but every bit of structure survives untouched.
+    expect(draftState[0].id).toBe('c1');
+    expect(draftState[0].name).toBe('Fixture Course');
+    expect(topic.id).toBe('t1');
+    expect(topic.name).toBe('Fixture Topic');
+    expect(subTopic.id).toBe('st1');
+    expect(subTopic.name).toBe('Fixture SubTopic');
+    expect(dpFull.id).toBe('dp-full');
+    expect(dpFull.description).toBe('explain a covered dot point');
+    expect(dpEmpty.id).toBe('dp-empty');
+    expect(dpEmpty.description).toBe('describe an untouched dot point');
+  });
+
+  it('cancelling the Clear Questions confirmation leaves data untouched', () => {
+    const updateCourses = vi.fn();
+    render(
+      <ContentAuditModal
+        isOpen={true}
+        onClose={vi.fn()}
+        courses={fixture}
+        updateCourses={updateCourses}
+        showToast={vi.fn()}
+      />
+    );
+
+    selectWholeCourse();
+    fireEvent.click(screen.getByRole('button', { name: /clear questions \(1\)/i }));
+    expect(screen.getByText('Clear questions?')).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('button', { name: /cancel/i }));
+
+    expect(updateCourses).not.toHaveBeenCalled();
+    expect(screen.queryByText('Clear questions?')).toBeNull();
+  });
+
   it('closes on Escape only while no batch is running', () => {
     const onClose = vi.fn();
     render(

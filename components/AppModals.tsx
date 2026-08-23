@@ -20,7 +20,7 @@ import ManifestImportModal from './ManifestImportModal';
 import QuickStartModal from './QuickStartModal';
 import LegalDocumentModal from './LegalDocumentModal';
 import {
-  regenerateTopicIds,
+  reconcileImportedTopicIds,
   mergeTopicContents,
   getFocusAreas,
   parseSubItemsFromDescription,
@@ -446,8 +446,9 @@ const AppModals: React.FC<AppModalsProps> = ({
           isOpen={isModalOpen('topicImport')}
           onClose={() => closeModal('topicImport')}
           courseName={currentCourse.name}
+          existingTopics={currentCourse.topics}
           onImport={(topic) => {
-            const topicWithNewIds = regenerateTopicIds(topic);
+            const topicWithNewIds = reconcileImportedTopicIds(topic, currentCourse.topics);
             // An export from before the two years existed says nothing about
             // which it belongs to; it joins the one being looked at. A file
             // that DOES declare a year keeps it — the file knows better.

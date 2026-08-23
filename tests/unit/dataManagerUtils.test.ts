@@ -1,6 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { Course, Topic } from '../../types';
-import { mergeCourseContents, mergeTopicContents } from '../../utils/dataManagerUtils';
+import {
+  mergeCourseContents,
+  mergeTopicContents,
+  buildTopicExportPayload,
+  previewTopicMergePlan,
+} from '../../utils/dataManagerUtils';
 
 const buildTopic = (): Topic => ({
   id: 'topic-cells',
@@ -173,5 +178,230 @@ describe('dataManagerUtils merge helpers', () => {
     expect(merged.topics[0].subTopics.map((s) => s.name)).toEqual(['Communicating']);
     expect(merged.topics[1].subTopics.map((s) => s.name)).toEqual(['Questioning']);
     expect(merged.outcomes.map((o) => o.code)).toEqual(['BI-12-01', 'BI-11-01']);
+  });
+
+  /**
+   * `undefined` vs `[]` is a meaningful distinction for DotPoint.focusAreas
+   * (see the type's doc comment and handleUpdateFocusAreas in
+   * hooks/useSyllabusData.ts): an explicit empty array is a teacher/tool
+   * saying "this dot point has no focus areas", not "leave it alone".
+   */
+  it('merges imported focusAreas, letting an explicit [] win but leaving the existing value alone when the key is absent', () => {
+    const buildTopicWithFocusAreas = (focusAreas: string[] | undefined, id: string): Topic => ({
+      id,
+      name: 'Cells',
+      subTopics: [
+        {
+          id: 'subtopic-structure',
+          name: 'Cell Structure',
+          dotPoints: [
+            {
+              id: 'dp-membrane',
+              description: 'Investigate membrane transport',
+              ...(focusAreas !== undefined ? { focusAreas } : {}),
+              prompts: [],
+            },
+          ],
+        },
+      ],
+    });
+
+    // (a) an explicit imported [] wins over an existing non-empty value.
+    const existingA = buildTopicWithFocusAreas(['osmosis', 'diffusion'], 'topic-a');
+    const importedA = buildTopicWithFocusAreas([], 'topic-a-import');
+    const mergedA = mergeTopicContents(existingA, importedA);
+    expect(mergedA.subTopics[0].dotPoints[0].focusAreas).toEqual([]);
+
+    // (b) a non-empty imported value wins over the existing value.
+    const existingB = buildTopicWithFocusAreas(['osmosis'], 'topic-b');
+    const importedB = buildTopicWithFocusAreas(['active transport', 'passive transport'], 'topic-b-import');
+    const mergedB = mergeTopicContents(existingB, importedB);
+    expect(mergedB.subTopics[0].dotPoints[0].focusAreas).toEqual([
+      'active transport',
+      'passive transport',
+    ]);
+
+    // (c) no `focusAreas` key at all on the imported dot point leaves the
+    // existing value untouched.
+    const existingC = buildTopicWithFocusAreas(['osmosis'], 'topic-c');
+    const importedC = buildTopicWithFocusAreas(undefined, 'topic-c-import');
+    const mergedC = mergeTopicContents(existingC, importedC);
+    expect(mergedC.subTopics[0].dotPoints[0].focusAreas).toEqual(['osmosis']);
+  });
+});
+
+describe('buildTopicExportPayload', () => {
+  const courses: Course[] = [
+    {
+      id: 'course-bio',
+      name: 'Biology',
+      outcomes: [{ code: 'BIO1', description: 'An outcome' }],
+      topics: [buildTopic(), { ...buildTopic(), id: 'topic-genetics', name: 'Genetics' }],
+    },
+    {
+      id: 'course-chem',
+      name: 'Chemistry',
+      outcomes: [],
+      topics: [{ ...buildTopic(), id: 'topic-bonds', name: 'Bonds' }],
+    },
+  ];
+
+  it('returns exactly one course containing exactly one topic, with prompts/sample answers/focusAreas intact', () => {
+    const withFocusAreas: Course[] = [
+      {
+        ...courses[0],
+        topics: [
+          {
+            ...buildTopic(),
+            subTopics: [
+              {
+                ...buildTopic().subTopics[0],
+                dotPoints: [
+                  { ...buildTopic().subTopics[0].dotPoints[0], focusAreas: ['osmosis', 'diffusion'] },
+                ],
+              },
+            ],
+          },
+          { ...buildTopic(), id: 'topic-genetics', name: 'Genetics' },
+        ],
+      },
+    ];
+
+    const result = buildTopicExportPayload(withFocusAreas, 'course-bio', 'topic-cells');
+
+    expect(result).toHaveLength(1);
+    expect(result[0].id).toBe('course-bio');
+    expect(result[0].topics).toHaveLength(1);
+    expect(result[0].topics[0].id).toBe('topic-cells');
+
+    const dp = result[0].topics[0].subTopics[0].dotPoints[0];
+    expect(dp.focusAreas).toEqual(['osmosis', 'diffusion']);
+    expect(dp.prompts).toHaveLength(1);
+    expect(dp.prompts[0].question).toBe('Explain membrane transport.');
+    expect(dp.prompts[0].sampleAnswers).toHaveLength(1);
+    expect(dp.prompts[0].sampleAnswers?.[0].id).toBe('sa-existing');
+  });
+
+  it('is a no-op on an unknown topic id', () => {
+    expect(buildTopicExportPayload(courses, 'course-bio', 'no-such-topic')).toEqual([]);
+  });
+
+  it('is a no-op on an unknown course id', () => {
+    expect(buildTopicExportPayload(courses, 'no-such-course', 'topic-cells')).toEqual([]);
+  });
+});
+
+describe('previewTopicMergePlan', () => {
+  it('matches an existing topic by name and counts new vs matched sub-topics/dot points/prompts, including a prompt matched by normalized question text', () => {
+    const existingTopic = buildTopic();
+    const existingTopics: Topic[] = [existingTopic];
+
+    const importedTopic: Topic = {
+      id: 'topic-cells-import', // different id — the name match is what's exercised
+      name: 'Cells',
+      subTopics: [
+        {
+          id: 'subtopic-structure-import',
+          name: 'Cell Structure', // matches by name
+          dotPoints: [
+            {
+              id: 'dp-membrane-import',
+              description: 'Investigate membrane transport', // matches by description
+              prompts: [
+                {
+                  // Different id, but the SAME question text (case/whitespace
+                  // aside) — must be counted as matched, not new.
+                  id: 'prompt-transport-import',
+                  question: '  explain MEMBRANE transport.  ',
+                  totalMarks: 5,
+                  verb: 'EXPLAIN',
+                  keywords: [],
+                  sampleAnswers: [],
+                },
+                {
+                  id: 'prompt-new',
+                  question: 'A brand-new question not seen before.',
+                  totalMarks: 3,
+                  verb: 'DESCRIBE',
+                  keywords: [],
+                  sampleAnswers: [],
+                },
+              ],
+            },
+            {
+              id: 'dp-new',
+              description: 'A brand-new dot point',
+              prompts: [
+                {
+                  id: 'prompt-under-new-dp',
+                  question: 'Question under the new dot point.',
+                  totalMarks: 4,
+                  verb: 'EXPLAIN',
+                  keywords: [],
+                  sampleAnswers: [],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'subtopic-new',
+          name: 'A brand-new sub-topic',
+          dotPoints: [
+            {
+              id: 'dp-under-new-st',
+              description: 'A dot point under the new sub-topic',
+              prompts: [],
+            },
+          ],
+        },
+      ],
+    };
+
+    const plan = previewTopicMergePlan(existingTopics, importedTopic);
+
+    expect(plan.matchedTopic?.id).toBe('topic-cells');
+    expect(plan.matchedSubTopics).toBe(1); // Cell Structure
+    expect(plan.newSubTopics).toBe(1); // A brand-new sub-topic
+    expect(plan.matchedDotPoints).toBe(1); // Investigate membrane transport
+    expect(plan.newDotPoints).toBe(2); // dp-new + dp-under-new-st
+    expect(plan.matchedPrompts).toBe(1); // the normalized-text-matched question
+    expect(plan.newPrompts).toBe(2); // prompt-new + prompt-under-new-dp
+  });
+
+  it('reports no match (matchedTopic: null) when nothing in the course matches the imported topic', () => {
+    const existingTopics: Topic[] = [buildTopic()];
+    const importedTopic: Topic = {
+      id: 'topic-unrelated',
+      name: 'An Entirely Different Topic',
+      subTopics: [
+        {
+          id: 'st-1',
+          name: 'Sub 1',
+          dotPoints: [
+            { id: 'dp-1', description: 'Dot 1', prompts: [] },
+          ],
+        },
+      ],
+    };
+
+    const plan = previewTopicMergePlan(existingTopics, importedTopic);
+
+    expect(plan.matchedTopic).toBeNull();
+    expect(plan.newSubTopics).toBe(1);
+    expect(plan.matchedSubTopics).toBe(0);
+    expect(plan.newDotPoints).toBe(1);
+    expect(plan.matchedDotPoints).toBe(0);
+    expect(plan.newPrompts).toBe(0);
+    expect(plan.matchedPrompts).toBe(0);
+  });
+
+  it('matches a topic by id even when the name differs', () => {
+    const existingTopics: Topic[] = [buildTopic()];
+    const importedTopic: Topic = { ...buildTopic(), name: 'Renamed Cells' };
+
+    const plan = previewTopicMergePlan(existingTopics, importedTopic);
+
+    expect(plan.matchedTopic?.id).toBe('topic-cells');
   });
 });
