@@ -58,6 +58,7 @@ import {
   GraduationCap,
   Eye,
   EyeOff,
+  type LucideIcon,
 } from 'lucide-react';
 import {
   getCommandTermInfo,
@@ -290,7 +291,15 @@ const RailNode = ({
   );
 };
 
-const StepHeader = ({ icon: Icon, label, colorKey }: any) => {
+const StepHeader = ({
+  icon: Icon,
+  label,
+  colorKey,
+}: {
+  icon?: LucideIcon;
+  label: string;
+  colorKey: string;
+}) => {
   const theme = THEMES[colorKey] || THEMES.blue; // Defensive fallback
   return (
     <div className="flex items-center gap-2 mb-3">
@@ -311,7 +320,14 @@ const ActionButton = ({
   label,
   variant = 'default',
   locked = false,
-}: any) => (
+}: {
+  onClick: () => void;
+  icon?: LucideIcon;
+  title: string;
+  label?: string;
+  variant?: 'default' | 'danger' | 'special' | 'primary' | 'vault';
+  locked?: boolean;
+}) => (
   <button
     onClick={locked ? () => requestUpgrade('aiContentStudio') : onClick}
     className={`relative p-2 ${label ? 'sm:px-3' : ''} rounded-lg transition-all duration-200 flex-shrink-0 hover:scale-105 active:scale-95 border flex items-center gap-1.5 ${

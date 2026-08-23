@@ -9,6 +9,7 @@ import {
   Hash,
   BookOpen,
   AlertCircle,
+  type LucideIcon,
 } from 'lucide-react';
 
 interface ValidationSummaryProps {
@@ -18,7 +19,7 @@ interface ValidationSummaryProps {
 interface StatItemProps {
   label: string;
   value: string | number;
-  icon: any;
+  icon: LucideIcon;
   color: string;
 }
 

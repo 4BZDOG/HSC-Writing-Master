@@ -20,6 +20,7 @@ import {
   reconcileImportedTopicIds,
 } from '../../utils/dataManagerUtils';
 import { clearQuestionsInScopeDraft } from '../../utils/stateUtils';
+import MeshOverlay from '../MeshOverlay';
 import TopicImportModal from '../TopicImportModal';
 import ConfirmationModal from '../ConfirmationModal';
 import {
@@ -83,15 +84,6 @@ import {
 } from 'lucide-react';
 
 // --- Shared Components ---
-
-const MeshOverlay = ({ opacity = 'opacity-[0.03]' }: { opacity?: string }) => (
-  <div
-    className={`absolute inset-0 ${opacity} pointer-events-none mix-blend-overlay z-0 transition-opacity duration-500`}
-    style={{
-      backgroundImage: `url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v10M0 1h10' stroke='%23ffffff' stroke-width='0.5' fill='none'/%3E%3C/svg%3E")`,
-    }}
-  />
-);
 
 const InstrumentMetric = ({
   label,
@@ -182,7 +174,7 @@ interface TreeNode {
     term: string;
     tier: number;
   };
-  dataRef: any;
+  dataRef: Course | Topic | SubTopic | DotPoint | Prompt;
   path: StatePath;
 }
 
@@ -1088,13 +1080,13 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   // Each returns the batch task(s) that repair one kind of gap on one node.
   // Both the single-action buttons and "Fix All Gaps" compose from these.
 
-  const findDraftPrompt = (draft: any, path: StatePath) =>
+  const findDraftPrompt = (draft: Course[], path: StatePath) =>
     draft
-      .find((x: any) => x.id === path.courseId)
-      ?.topics.find((x: any) => x.id === path.topicId)
-      ?.subTopics.find((x: any) => x.id === path.subTopicId)
-      ?.dotPoints.find((x: any) => x.id === path.dotPointId)
-      ?.prompts.find((x: any) => x.id === path.promptId);
+      .find((c) => c.id === path.courseId)
+      ?.topics.find((t) => t.id === path.topicId)
+      ?.subTopics.find((st) => st.id === path.subTopicId)
+      ?.dotPoints.find((dp) => dp.id === path.dotPointId)
+      ?.prompts.find((p) => p.id === path.promptId);
 
   /**
    * The outcomes an AI may link a question to, for a question anywhere in the
@@ -1114,8 +1106,8 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       const topic = course?.topics.find((t) => t.id === path.topicId);
       if (!course || !topic) return;
 
-      const description = node.dataRef.description;
-      const syllabusVerbInfo = extractCommandVerb(description);
+      const dp = node.dataRef as DotPoint;
+      const syllabusVerbInfo = extractCommandVerb(dp.description);
       let targetMarks = 5;
       let verbsToUse: CommandTermInfo[] = [];
 
@@ -1143,20 +1135,20 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       const prompt = await generateNewPrompt(
         course.name,
         topic.name,
-        description,
+        dp.description,
         targetMarks,
         verbsToUse,
         outcomesForNode(course, path)
       );
       updateCourses((draft) => {
-        const dp = draft
-          .find((x: any) => x.id === path.courseId)
-          ?.topics.find((x: any) => x.id === path.topicId)
-          ?.subTopics.find((x: any) => x.id === path.subTopicId)
-          ?.dotPoints.find((x: any) => x.id === path.dotPointId);
-        if (dp) {
-          if (!dp.prompts) dp.prompts = [];
-          dp.prompts.push(prompt);
+        const draftDp = draft
+          .find((c) => c.id === path.courseId)
+          ?.topics.find((t) => t.id === path.topicId)
+          ?.subTopics.find((st) => st.id === path.subTopicId)
+          ?.dotPoints.find((d) => d.id === path.dotPointId);
+        if (draftDp) {
+          if (!draftDp.prompts) draftDp.prompts = [];
+          draftDp.prompts.push(prompt);
         }
       });
       if (path.dotPointId) recordTouch(prompt.id, path.dotPointId, prompt.question);

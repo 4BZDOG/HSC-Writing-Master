@@ -40,6 +40,7 @@ import {
   Columns2,
   Check,
   ArrowUpRight,
+  type LucideIcon,
 } from 'lucide-react';
 import { getCommandTermInfo, getBandForMark, getNextLevelTarget } from '../data/commandTerms';
 import LoadingIndicator from './LoadingIndicator';
@@ -76,7 +77,7 @@ const MetricCard = ({
   label: string;
   value: string | number;
   subtext?: string;
-  icon: any;
+  icon: LucideIcon;
   theme: BandConfig;
 }) => (
   <div
