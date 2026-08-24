@@ -204,6 +204,10 @@ export const useSyllabusData = ({
   // toast fires once on the transition into failure — not on every 1s tick
   // while storage stays broken, and again (as a recovery note) when it clears.
   const saveFailedRef = useRef(false);
+  // Backups are a bonus safety net, so a failure here (while the main save
+  // still works) is warned about at most once per session — enough to tell the
+  // teacher the restore net has a hole, without nagging on every rollup.
+  const backupWarnedRef = useRef(false);
 
   useEffect(() => {
     const loadInitialData = async () => {
@@ -436,7 +440,17 @@ export const useSyllabusData = ({
         showToast('Saving has recovered — your changes are being stored again.', 'success');
       }
       if (courses.length > 0 && status !== 'Error') {
-        createBackup(courses).catch((err) => console.error('Backup failed:', err));
+        createBackup(courses)
+          .then((ok) => {
+            if (!ok && !backupWarnedRef.current) {
+              backupWarnedRef.current = true;
+              showToast(
+                'Your changes are saving, but the daily backup could not be written — export your data periodically as a safeguard.',
+                'info'
+              );
+            }
+          })
+          .catch((err) => console.error('Backup failed:', err));
       }
     }, 1000);
     return () => clearTimeout(handler);
