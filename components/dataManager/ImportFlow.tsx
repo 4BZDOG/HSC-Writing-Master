@@ -170,7 +170,10 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
         setStep('selectTarget');
       }
     };
-    reader.onerror = () => setError('Error reading file.');
+    reader.onerror = () => {
+      setError('Could not read the file. It may be locked or corrupted — try re-exporting it.');
+      setFileName(null);
+    };
     reader.readAsText(file);
   };
 

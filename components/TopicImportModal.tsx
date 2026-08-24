@@ -174,7 +174,10 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
       setExpandedSubTopics(new Set(validatedTopic.subTopics.map((_, i) => i)));
       setStep('preview');
     };
-    reader.onerror = () => setError('Error reading file.');
+    reader.onerror = () => {
+      setError('Could not read the file. It may be locked or corrupted — try re-exporting it.');
+      setFileName(null);
+    };
     reader.readAsText(file);
   };
 
