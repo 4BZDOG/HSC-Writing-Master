@@ -19,7 +19,8 @@ import {
   mergeOrAddTopic,
   reconcileImportedTopicIds,
 } from '../../utils/dataManagerUtils';
-import { clearQuestionsInScope } from '../../utils/stateUtils';
+import { clearQuestionsInScopeDraft } from '../../utils/stateUtils';
+import MeshOverlay from '../MeshOverlay';
 import TopicImportModal from '../TopicImportModal';
 import ConfirmationModal from '../ConfirmationModal';
 import {
@@ -79,18 +80,10 @@ import {
   AlertTriangle,
   Download,
   Trash2,
+  Target,
 } from 'lucide-react';
 
 // --- Shared Components ---
-
-const MeshOverlay = ({ opacity = 'opacity-[0.03]' }: { opacity?: string }) => (
-  <div
-    className={`absolute inset-0 ${opacity} pointer-events-none mix-blend-overlay z-0 transition-opacity duration-500`}
-    style={{
-      backgroundImage: `url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v10M0 1h10' stroke='%23ffffff' stroke-width='0.5' fill='none'/%3E%3C/svg%3E")`,
-    }}
-  />
-);
 
 const InstrumentMetric = ({
   label,
@@ -118,6 +111,35 @@ const InstrumentMetric = ({
       )}
     </div>
   </div>
+);
+
+const AUDIT_BTN_BASE =
+  'px-4 h-11 rounded-2xl text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none';
+
+const AuditActionButton = ({
+  onClick,
+  disabled,
+  title,
+  colourClass,
+  label,
+  icon,
+}: {
+  onClick: () => void;
+  disabled: boolean;
+  title: string;
+  colourClass: string;
+  label: string;
+  icon?: React.ReactNode;
+}) => (
+  <button
+    onClick={onClick}
+    disabled={disabled}
+    title={title}
+    className={`${AUDIT_BTN_BASE} ${colourClass}${icon ? ' flex items-center gap-1.5' : ''}`}
+  >
+    {icon}
+    {label}
+  </button>
 );
 
 // --- Types ---
@@ -152,7 +174,7 @@ interface TreeNode {
     term: string;
     tier: number;
   };
-  dataRef: any;
+  dataRef: Course | Topic | SubTopic | DotPoint | Prompt;
   path: StatePath;
 }
 
@@ -209,6 +231,38 @@ const isFlagged = (n: TreeNode): boolean => {
 const GAP_BADGE_BASE =
   'px-1.5 py-0.5 rounded-md border text-[8px] font-black uppercase tracking-wider whitespace-nowrap';
 
+const FILTER_CHIP_BASE =
+  'group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border text-[10px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all flex items-center gap-2 md:gap-4';
+
+const FilterChip = ({
+  active,
+  activeStyle,
+  idleStyle,
+  label,
+  count,
+  title,
+  onClick,
+}: {
+  active: boolean;
+  activeStyle: string;
+  idleStyle: string;
+  label: string;
+  count: number;
+  title?: string;
+  onClick: () => void;
+}) => (
+  <button
+    onClick={onClick}
+    title={title}
+    className={`${FILTER_CHIP_BASE} ${active ? activeStyle : idleStyle}`}
+  >
+    <span>{label}</span>
+    <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
+      {count}
+    </span>
+  </button>
+);
+
 /**
  * Inline data-quality flags on tree rows, colour-matched to the filter chips
  * above, so problem content is identifiable while browsing — not only after
@@ -217,6 +271,29 @@ const GAP_BADGE_BASE =
 const GapBadges: React.FC<{ node: TreeNode }> = ({ node }) => {
   const badges: { label: string; tone: string; title: string }[] = [];
 
+  if (node.type === 'dotPoint') {
+    const dp = node.dataRef as DotPoint;
+    if (node.verbInfo) {
+      const tierColour =
+        node.verbInfo.tier >= 4
+          ? 'bg-purple-500/10 border-purple-500/30 text-purple-400'
+          : node.verbInfo.tier >= 3
+            ? 'bg-sky-500/10 border-sky-500/30 text-sky-400'
+            : 'bg-slate-500/10 border-slate-500/30 text-slate-400';
+      badges.push({
+        label: `T${node.verbInfo.tier}`,
+        tone: tierColour,
+        title: `${node.verbInfo.term} — Bloom's tier ${node.verbInfo.tier}`,
+      });
+    }
+    if (dp.focusAreas && dp.focusAreas.length > 0) {
+      badges.push({
+        label: `${dp.focusAreas.length} FA`,
+        tone: 'bg-teal-500/10 border-teal-500/30 text-teal-400',
+        title: `${dp.focusAreas.length} focus area${dp.focusAreas.length === 1 ? '' : 's'}: ${dp.focusAreas.slice(0, 3).join(', ')}${dp.focusAreas.length > 3 ? '…' : ''}`,
+      });
+    }
+  }
   if (isEmptyDotPoint(node))
     badges.push({
       label: 'No Questions',
@@ -732,24 +809,18 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     return `Delete all ${clearQuestionsCount} ${qWord} across the ${clearTargets.length} selected scopes (${names})? Sub-topics, dot points and the scopes themselves are kept — you can reimport questions into this exact structure afterward.`;
   }, [clearTargets, clearQuestionsCount]);
 
-  /**
-   * Deletes every question under each selected scope, one `clearQuestionsInScope`
-   * call per top-level root (mirrors how `deleteSyllabusItem` is invoked once
-   * per delete elsewhere in the app) while leaving Topic/SubTopic/DotPoint
-   * structure — including `focusAreas` — untouched, so the same structure can
-   * be reimported into afterward.
-   */
   const handleConfirmClearQuestions = () => {
     if (clearTargets.length === 0) return;
     const total = clearQuestionsCount;
 
-    clearTargets.forEach((node) => {
-      const scope = {
-        courseId: node.path.courseId!,
-        type: node.type as 'course' | 'topic' | 'subTopic' | 'dotPoint',
-        id: node.id,
-      };
-      updateCourses((draft: Course[]) => clearQuestionsInScope(draft, scope).updatedCourses);
+    updateCourses((draft: Course[]) => {
+      clearTargets.forEach((node) => {
+        clearQuestionsInScopeDraft(draft, {
+          courseId: node.path.courseId!,
+          type: node.type as 'course' | 'topic' | 'subTopic' | 'dotPoint',
+          id: node.id,
+        });
+      });
     });
 
     showToast(
@@ -1009,13 +1080,13 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   // Each returns the batch task(s) that repair one kind of gap on one node.
   // Both the single-action buttons and "Fix All Gaps" compose from these.
 
-  const findDraftPrompt = (draft: any, path: StatePath) =>
+  const findDraftPrompt = (draft: Course[], path: StatePath) =>
     draft
-      .find((x: any) => x.id === path.courseId)
-      ?.topics.find((x: any) => x.id === path.topicId)
-      ?.subTopics.find((x: any) => x.id === path.subTopicId)
-      ?.dotPoints.find((x: any) => x.id === path.dotPointId)
-      ?.prompts.find((x: any) => x.id === path.promptId);
+      .find((c) => c.id === path.courseId)
+      ?.topics.find((t) => t.id === path.topicId)
+      ?.subTopics.find((st) => st.id === path.subTopicId)
+      ?.dotPoints.find((dp) => dp.id === path.dotPointId)
+      ?.prompts.find((p) => p.id === path.promptId);
 
   /**
    * The outcomes an AI may link a question to, for a question anywhere in the
@@ -1035,8 +1106,8 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       const topic = course?.topics.find((t) => t.id === path.topicId);
       if (!course || !topic) return;
 
-      const description = node.dataRef.description;
-      const syllabusVerbInfo = extractCommandVerb(description);
+      const dp = node.dataRef as DotPoint;
+      const syllabusVerbInfo = extractCommandVerb(dp.description);
       let targetMarks = 5;
       let verbsToUse: CommandTermInfo[] = [];
 
@@ -1064,20 +1135,20 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       const prompt = await generateNewPrompt(
         course.name,
         topic.name,
-        description,
+        dp.description,
         targetMarks,
         verbsToUse,
         outcomesForNode(course, path)
       );
       updateCourses((draft) => {
-        const dp = draft
-          .find((x: any) => x.id === path.courseId)
-          ?.topics.find((x: any) => x.id === path.topicId)
-          ?.subTopics.find((x: any) => x.id === path.subTopicId)
-          ?.dotPoints.find((x: any) => x.id === path.dotPointId);
-        if (dp) {
-          if (!dp.prompts) dp.prompts = [];
-          dp.prompts.push(prompt);
+        const draftDp = draft
+          .find((c) => c.id === path.courseId)
+          ?.topics.find((t) => t.id === path.topicId)
+          ?.subTopics.find((st) => st.id === path.subTopicId)
+          ?.dotPoints.find((d) => d.id === path.dotPointId);
+        if (draftDp) {
+          if (!draftDp.prompts) draftDp.prompts = [];
+          draftDp.prompts.push(prompt);
         }
       });
       if (path.dotPointId) recordTouch(prompt.id, path.dotPointId, prompt.question);
@@ -1419,7 +1490,12 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             {node.type === 'course' && <BookOpen className="w-4 h-4 text-sky-400" />}
             {node.type === 'topic' && <Layers className="w-4 h-4 text-purple-400" />}
             {node.type === 'subTopic' && <Folder className="w-4 h-4 text-indigo-400" />}
-            {node.type === 'dotPoint' && <Hash className="w-4 h-4 text-slate-600" />}
+            {node.type === 'dotPoint' &&
+              ((node.dataRef as DotPoint).focusAreas?.length ? (
+                <Target className="w-4 h-4 text-teal-500" />
+              ) : (
+                <Hash className="w-4 h-4 text-slate-600" />
+              ))}
             {node.type === 'prompt' && <FileText className="w-4 h-4 text-emerald-400" />}
             <span
               className={`text-sm truncate font-medium ${node.type === 'course' || node.type === 'topic' ? 'font-black text-white light:text-slate-900 uppercase tracking-tight' : 'text-slate-300 light:text-slate-700'}`}
@@ -1620,80 +1696,72 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
           <div className="h-8 w-px bg-white/5 light:bg-slate-300 mx-2" />
 
-          <button
+          <FilterChip
+            active={activeFilter === 'emptyDotPoints'}
+            activeStyle="bg-red-500/20 border-red-500/40 text-red-400 shadow-lg"
+            idleStyle="bg-red-500/5 border-red-500/10 text-red-400 hover:bg-red-500/10"
+            label="Empty Dot Points"
+            count={counts.emptyDotPoints}
             onClick={() => handleFilterToggle('emptyDotPoints')}
-            className={`group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border text-[10px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all flex items-center gap-2 md:gap-4 ${activeFilter === 'emptyDotPoints' ? 'bg-red-500/20 border-red-500/40 text-red-400 shadow-lg' : 'bg-red-500/5 border-red-500/10 text-red-400 hover:bg-red-500/10'}`}
-          >
-            <span>Empty Dot Points</span>
-            <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
-              {counts.emptyDotPoints}
-            </span>
-          </button>
-          <button
+          />
+          <FilterChip
+            active={activeFilter === 'missingRubrics'}
+            activeStyle="bg-indigo-500/20 border-indigo-500/40 text-indigo-400 shadow-lg"
+            idleStyle="bg-indigo-500/5 border-indigo-500/10 text-indigo-400 hover:bg-indigo-500/10"
+            label="No Marking Guide"
+            count={counts.missingRubrics}
             onClick={() => handleFilterToggle('missingRubrics')}
-            className={`group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border text-[10px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all flex items-center gap-2 md:gap-4 ${activeFilter === 'missingRubrics' ? 'bg-indigo-500/20 border-indigo-500/40 text-indigo-400 shadow-lg' : 'bg-indigo-500/5 border-indigo-500/10 text-indigo-400 hover:bg-indigo-500/10'}`}
-          >
-            <span>No Marking Guide</span>
-            <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
-              {counts.missingRubrics}
-            </span>
-          </button>
-          <button
+          />
+          <FilterChip
+            active={activeFilter === 'rubricNotDescending'}
+            activeStyle="bg-orange-500/20 border-orange-500/40 text-orange-400 shadow-lg"
+            idleStyle="bg-orange-500/5 border-orange-500/10 text-orange-400 hover:bg-orange-500/10"
+            label="Non-Std Rubric"
+            count={counts.nonStandardRubrics}
             onClick={() => handleFilterToggle('rubricNotDescending')}
-            className={`group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border text-[10px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all flex items-center gap-2 md:gap-4 ${activeFilter === 'rubricNotDescending' ? 'bg-orange-500/20 border-orange-500/40 text-orange-400 shadow-lg' : 'bg-orange-500/5 border-orange-500/10 text-orange-400 hover:bg-orange-500/10'}`}
-          >
-            <span>Non-Std Rubric</span>
-            <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
-              {counts.nonStandardRubrics}
-            </span>
-          </button>
-          <button
+          />
+          <FilterChip
+            active={activeFilter === 'missingSamples'}
+            activeStyle="bg-amber-500/20 border-amber-500/40 text-amber-400 shadow-lg"
+            idleStyle="bg-amber-500/5 border-amber-500/10 text-amber-400 hover:bg-amber-500/10"
+            label="Missing Samples"
+            count={counts.missingSamples}
             onClick={() => handleFilterToggle('missingSamples')}
-            className={`group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border text-[10px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all flex items-center gap-2 md:gap-4 ${activeFilter === 'missingSamples' ? 'bg-amber-500/20 border-amber-500/40 text-amber-400 shadow-lg' : 'bg-amber-500/5 border-amber-500/10 text-amber-400 hover:bg-amber-500/10'}`}
-          >
-            <span>Missing Samples</span>
-            <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
-              {counts.missingSamples}
-            </span>
-          </button>
-          <button
+          />
+          <FilterChip
+            active={activeFilter === 'missingOutcomes'}
+            activeStyle="bg-pink-500/20 border-pink-500/40 text-pink-400 shadow-lg"
+            idleStyle="bg-pink-500/5 border-pink-500/10 text-pink-400 hover:bg-pink-500/10"
+            label="Missing Outcomes"
+            count={counts.missingOutcomes}
             onClick={() => handleFilterToggle('missingOutcomes')}
-            className={`group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border text-[10px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all flex items-center gap-2 md:gap-4 ${activeFilter === 'missingOutcomes' ? 'bg-pink-500/20 border-pink-500/40 text-pink-400 shadow-lg' : 'bg-pink-500/5 border-pink-500/10 text-pink-400 hover:bg-pink-500/10'}`}
-          >
-            <span>Missing Outcomes</span>
-            <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
-              {counts.missingOutcomes}
-            </span>
-          </button>
-          <button
+          />
+          <FilterChip
+            active={activeFilter === 'hasSamples'}
+            activeStyle="bg-teal-500/20 border-teal-500/40 text-teal-400 shadow-lg"
+            idleStyle="bg-teal-500/5 border-teal-500/10 text-teal-400 hover:bg-teal-500/10"
+            label="Has Samples"
+            count={counts.hasSamples}
             onClick={() => handleFilterToggle('hasSamples')}
-            className={`group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border text-[10px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all flex items-center gap-2 md:gap-4 ${activeFilter === 'hasSamples' ? 'bg-teal-500/20 border-teal-500/40 text-teal-400 shadow-lg' : 'bg-teal-500/5 border-teal-500/10 text-teal-400 hover:bg-teal-500/10'}`}
-          >
-            <span>Has Samples</span>
-            <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
-              {counts.hasSamples}
-            </span>
-          </button>
-          <button
-            onClick={() => handleFilterToggle('lowQuality')}
+          />
+          <FilterChip
+            active={activeFilter === 'lowQuality'}
+            activeStyle="bg-rose-500/20 border-rose-500/40 text-rose-400 shadow-lg"
+            idleStyle="bg-rose-500/5 border-rose-500/10 text-rose-400 hover:bg-rose-500/10"
+            label="Low Quality"
+            count={counts.lowQuality}
             title="Questions whose AI quality pre-screen scored below 50 (run Screen Quality to score content)"
-            className={`group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border text-[10px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all flex items-center gap-2 md:gap-4 ${activeFilter === 'lowQuality' ? 'bg-rose-500/20 border-rose-500/40 text-rose-400 shadow-lg' : 'bg-rose-500/5 border-rose-500/10 text-rose-400 hover:bg-rose-500/10'}`}
-          >
-            <span>Low Quality</span>
-            <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
-              {counts.lowQuality}
-            </span>
-          </button>
-          <button
-            onClick={() => handleFilterToggle('flagged')}
+            onClick={() => handleFilterToggle('lowQuality')}
+          />
+          <FilterChip
+            active={activeFilter === 'flagged'}
+            activeStyle="bg-amber-500/20 border-amber-500/40 text-amber-400 shadow-lg"
+            idleStyle="bg-amber-500/5 border-amber-500/10 text-amber-400 hover:bg-amber-500/10"
+            label="Flagged"
+            count={counts.flagged}
             title="Questions (or their sample answers) that a user flagged as looking off"
-            className={`group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border text-[10px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all flex items-center gap-2 md:gap-4 ${activeFilter === 'flagged' ? 'bg-amber-500/20 border-amber-500/40 text-amber-400 shadow-lg' : 'bg-amber-500/5 border-amber-500/10 text-amber-400 hover:bg-amber-500/10'}`}
-          >
-            <span>Flagged</span>
-            <span className="bg-black/40 light:bg-black/10 px-2 py-0.5 rounded-lg text-[10px]">
-              {counts.flagged}
-            </span>
-          </button>
+            onClick={() => handleFilterToggle('flagged')}
+          />
 
           <div className="flex-1" />
 
@@ -1906,65 +1974,58 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   AI Operations
                 </span>
                 <div className="flex gap-2.5 flex-wrap justify-end">
-                  <button
+                  <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'generateQuestions')}
                     disabled={selectionTargets.questions === 0}
                     title="Generate a question for each selected empty dot point"
-                    className="px-4 h-11 rounded-2xl bg-indigo-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-indigo-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none"
-                  >
-                    Questions ({selectionTargets.questions})
-                  </button>
-                  <button
+                    colourClass="bg-indigo-600 hover:shadow-indigo-500/25"
+                    label={`Questions (${selectionTargets.questions})`}
+                  />
+                  <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'generateRubrics')}
                     disabled={selectionTargets.rubrics === 0}
                     title="Generate a rubric for each selected question with a missing or non-standard marking guide"
-                    className="px-4 h-11 rounded-2xl bg-sky-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-sky-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none"
-                  >
-                    Rubrics ({selectionTargets.rubrics})
-                  </button>
-                  <button
+                    colourClass="bg-sky-600 hover:shadow-sky-500/25"
+                    label={`Rubrics (${selectionTargets.rubrics})`}
+                  />
+                  <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'reviseRubrics')}
                     disabled={selectionTargets.rubricRevisions === 0}
                     title="Revise non-standard rubrics into correct descending format while preserving existing criteria"
-                    className="px-4 h-11 rounded-2xl bg-amber-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-amber-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none"
-                  >
-                    Revise ({selectionTargets.rubricRevisions})
-                  </button>
-                  <button
+                    colourClass="bg-amber-600 hover:shadow-amber-500/25"
+                    label={`Revise (${selectionTargets.rubricRevisions})`}
+                  />
+                  <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'linkOutcomes')}
                     disabled={selectionTargets.outcomes === 0}
                     title="Suggest syllabus outcomes for each selected question with none linked"
-                    className="px-4 h-11 rounded-2xl bg-pink-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-pink-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none flex items-center gap-1.5"
-                  >
-                    <Link2 className="w-3.5 h-3.5" />
-                    Outcomes ({selectionTargets.outcomes})
-                  </button>
-                  <button
+                    colourClass="bg-pink-600 hover:shadow-pink-500/25"
+                    label={`Outcomes (${selectionTargets.outcomes})`}
+                    icon={<Link2 className="w-3.5 h-3.5" />}
+                  />
+                  <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'generateSamples')}
                     disabled={selectionTargets.samples === 0}
                     title="Draft a full-mark sample answer for each selected question with none"
-                    className="px-4 h-11 rounded-2xl bg-purple-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-purple-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none"
-                  >
-                    Samples ({selectionTargets.samples})
-                  </button>
-                  <button
+                    colourClass="bg-purple-600 hover:shadow-purple-500/25"
+                    label={`Samples (${selectionTargets.samples})`}
+                  />
+                  <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'recalibrateSamples')}
                     disabled={selectionTargets.recalibrations === 0}
                     title="Re-mark every existing sample answer under the strict verb/band rules"
-                    className="px-4 h-11 rounded-2xl bg-teal-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-teal-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none flex items-center gap-1.5"
-                  >
-                    <Scale className="w-3.5 h-3.5" />
-                    Recalibrate ({selectionTargets.recalibrations})
-                  </button>
-                  <button
+                    colourClass="bg-teal-600 hover:shadow-teal-500/25"
+                    label={`Recalibrate (${selectionTargets.recalibrations})`}
+                    icon={<Scale className="w-3.5 h-3.5" />}
+                  />
+                  <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'screenQuality')}
                     disabled={selectionTargets.screenings === 0}
-                    title="AI-score every selected question (0–100) so weak content is flagged, filterable, and triaged in the review queue"
-                    className="px-4 h-11 rounded-2xl bg-rose-600 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-rose-500/25 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none flex items-center gap-1.5"
-                  >
-                    <Gauge className="w-3.5 h-3.5" />
-                    Screen Quality ({selectionTargets.screenings})
-                  </button>
+                    title="AI-score every selected question (0-100) so weak content is flagged, filterable, and triaged in the review queue"
+                    colourClass="bg-rose-600 hover:shadow-rose-500/25"
+                    label={`Screen Quality (${selectionTargets.screenings})`}
+                    icon={<Gauge className="w-3.5 h-3.5" />}
+                  />
                   <div className="w-px h-8 bg-white/10 light:bg-slate-300 self-center" />
                   <button
                     onClick={handleBulkAction.bind(null, 'fixAllGaps')}

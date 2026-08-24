@@ -23,6 +23,7 @@ import {
   Loader2,
   ShieldCheck,
   MailCheck,
+  type LucideIcon,
 } from 'lucide-react';
 import LegalDocumentModal from './LegalDocumentModal';
 
@@ -78,7 +79,7 @@ const InputField = ({
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type: string;
   placeholder: string;
-  icon: any;
+  icon: LucideIcon;
   hasError: boolean;
   /** Overrides the sign-in default. Sign-up needs 'new-password' so a password
    *  manager offers to generate one instead of filling the old one in. */

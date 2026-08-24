@@ -376,7 +376,10 @@ export const loadCoursesFromDB = async (): Promise<{
         const localData = window.localStorage.getItem(STORAGE_KEYS.COURSES);
         if (localData) {
           const parsed = JSON.parse(localData);
-          return { data: parsed, source: 'LocalStorage' };
+          const validation = CoursesArraySchema.safeParse(parsed);
+          if (validation.success) {
+            return { data: validation.data as Course[], source: 'LocalStorage' };
+          }
         }
       } catch (e) {
         console.error('Failed to load fallback from LocalStorage', e);

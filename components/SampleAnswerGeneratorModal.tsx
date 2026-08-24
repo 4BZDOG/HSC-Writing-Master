@@ -165,7 +165,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
   };
 
   const handleGenerate = async () => {
-    if (selectedMarks.length === 0) return;
+    if (selectedMarks.length === 0 || isLoading) return;
 
     setIsLoading(true);
     setError(null);

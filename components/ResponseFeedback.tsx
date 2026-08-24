@@ -27,7 +27,7 @@ const ResponseFeedback: React.FC<ResponseFeedbackProps> = ({
   };
 
   const handleSubmit = () => {
-    if (!rating) return;
+    if (!rating || isSubmitting) return;
     setIsSubmitting(true);
 
     // Simulate network delay for feeling of "sending"

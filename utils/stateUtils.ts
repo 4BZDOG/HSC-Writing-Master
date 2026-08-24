@@ -114,26 +114,19 @@ export const findAndUpdateItem = (
  * `produce` recipe's return value IS the new state — returning `{ newPath }`
  * from a branch would try to replace the whole courses array with that object.
  */
+type ClearScope = {
+  courseId: string;
+  type: 'course' | 'topic' | 'subTopic' | 'dotPoint';
+  id: string;
+};
+
 /**
- * Clears every question (prompt) reachable under a scope node, leaving the
- * Topic/SubTopic/DotPoint structure — names, ids, `focusAreas` — untouched.
- *
- * This is the "delete questions, keep structure" counterpart to
- * `deleteSyllabusItem`: instead of splicing the target node out of its
- * parent array, it walks down to every `DotPoint` reachable under the target
- * and empties `dotPoint.prompts`, so the tree shape survives and a teacher
- * can reimport questions straight back into the same nodes.
- *
- * Mirrors `deleteSyllabusItem`'s no-op-on-missing behaviour: if the scope
- * node can't be found, returns the original `courses` reference unchanged
- * and a `clearedCount` of 0, rather than throwing.
+ * Draft-safe clearing logic: mutates `draft` in place, returning how many
+ * prompts were removed. Safe to call inside an existing Immer `produce` recipe
+ * or `use-immer` updater — no nested `produce`.
  */
-export const clearQuestionsInScope = (
-  courses: Course[],
-  scope: { courseId: string; type: 'course' | 'topic' | 'subTopic' | 'dotPoint'; id: string }
-): { updatedCourses: Course[]; clearedCount: number } => {
+export const clearQuestionsInScopeDraft = (draft: Course[], scope: ClearScope): number => {
   let clearedCount = 0;
-  let found = false;
 
   const clearDotPoint = (dotPoint: DotPoint): void => {
     clearedCount += dotPoint.prompts.length;
@@ -148,51 +141,66 @@ export const clearQuestionsInScope = (
     topic.subTopics.forEach(clearSubTopic);
   };
 
-  const updatedCourses = produce(courses, (coursesCopy) => {
-    const course = coursesCopy.find((c) => c.id === scope.courseId);
-    if (!course) return;
+  const course = draft.find((c) => c.id === scope.courseId);
+  if (!course) return 0;
 
-    if (scope.type === 'course') {
-      if (course.id !== scope.id) return;
-      found = true;
-      course.topics.forEach(clearTopic);
-      return;
-    }
+  if (scope.type === 'course') {
+    if (course.id !== scope.id) return 0;
+    course.topics.forEach(clearTopic);
+    return clearedCount;
+  }
 
-    if (scope.type === 'topic') {
-      const topic = course.topics.find((t) => t.id === scope.id);
-      if (!topic) return;
-      found = true;
-      clearTopic(topic);
-      return;
-    }
+  if (scope.type === 'topic') {
+    const topic = course.topics.find((t) => t.id === scope.id);
+    if (!topic) return 0;
+    clearTopic(topic);
+    return clearedCount;
+  }
 
-    if (scope.type === 'subTopic') {
-      for (const topic of course.topics) {
-        const subTopic = topic.subTopics.find((st) => st.id === scope.id);
-        if (subTopic) {
-          found = true;
-          clearSubTopic(subTopic);
-          return;
-        }
-      }
-      return;
-    }
-
-    // scope.type === 'dotPoint'
+  if (scope.type === 'subTopic') {
     for (const topic of course.topics) {
-      for (const subTopic of topic.subTopics) {
-        const dotPoint = subTopic.dotPoints.find((dp) => dp.id === scope.id);
-        if (dotPoint) {
-          found = true;
-          clearDotPoint(dotPoint);
-          return;
-        }
+      const subTopic = topic.subTopics.find((st) => st.id === scope.id);
+      if (subTopic) {
+        clearSubTopic(subTopic);
+        return clearedCount;
       }
     }
+    return 0;
+  }
+
+  // scope.type === 'dotPoint'
+  for (const topic of course.topics) {
+    for (const subTopic of topic.subTopics) {
+      const dotPoint = subTopic.dotPoints.find((dp) => dp.id === scope.id);
+      if (dotPoint) {
+        clearDotPoint(dotPoint);
+        return clearedCount;
+      }
+    }
+  }
+  return 0;
+};
+
+/**
+ * Clears every question (prompt) reachable under a scope node, leaving the
+ * Topic/SubTopic/DotPoint structure — names, ids, `focusAreas` — untouched.
+ *
+ * Convenience wrapper around `clearQuestionsInScopeDraft` that handles its
+ * own `produce` — use this for standalone calls outside an existing updater.
+ * Inside a `use-immer` updater or another `produce` recipe, call
+ * `clearQuestionsInScopeDraft` directly to avoid nested produce.
+ */
+export const clearQuestionsInScope = (
+  courses: Course[],
+  scope: ClearScope
+): { updatedCourses: Course[]; clearedCount: number } => {
+  let clearedCount = 0;
+
+  const updatedCourses = produce(courses, (coursesCopy) => {
+    clearedCount = clearQuestionsInScopeDraft(coursesCopy, scope);
   });
 
-  if (!found) {
+  if (clearedCount === 0) {
     return { updatedCourses: courses, clearedCount: 0 };
   }
 

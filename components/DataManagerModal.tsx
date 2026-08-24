@@ -24,6 +24,7 @@ import {
   Settings,
   ShieldCheck,
   Box,
+  type LucideIcon,
 } from 'lucide-react';
 
 interface DataManagerModalProps {
@@ -94,7 +95,7 @@ const NavButton = ({
   onSelect,
 }: {
   tab: Tab;
-  icon: any;
+  icon: LucideIcon;
   label: string;
   activeTab: Tab;
   onSelect: (tab: Tab) => void;

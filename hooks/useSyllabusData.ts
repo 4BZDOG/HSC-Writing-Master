@@ -200,6 +200,10 @@ export const useSyllabusData = ({
   const [isDiscoveryInProgress, setIsDiscoveryInProgress] = useState(false);
 
   const initAttempted = useRef(false);
+  // Tracks whether the last auto-save failed, so the "your work isn't saving"
+  // toast fires once on the transition into failure — not on every 1s tick
+  // while storage stays broken, and again (as a recovery note) when it clears.
+  const saveFailedRef = useRef(false);
 
   useEffect(() => {
     const loadInitialData = async () => {
@@ -417,6 +421,19 @@ export const useSyllabusData = ({
       // unless the cache write actually failed, which is worth surfacing.
       if (!isCurriculumRemote() || status === 'Error') {
         setStorageStatus(status);
+      }
+      // A failed save means edits are no longer persisting — the header badge
+      // alone is easy to miss while typing, so raise (and later clear) an
+      // active toast on the transition, guarded so it fires once per change.
+      if (status === 'Error' && !saveFailedRef.current) {
+        saveFailedRef.current = true;
+        showToast(
+          'Your changes are not saving — storage may be full or blocked. Export your data to avoid losing work.',
+          'error'
+        );
+      } else if (status !== 'Error' && saveFailedRef.current) {
+        saveFailedRef.current = false;
+        showToast('Saving has recovered — your changes are being stored again.', 'success');
       }
       if (courses.length > 0 && status !== 'Error') {
         createBackup(courses).catch((err) => console.error('Backup failed:', err));

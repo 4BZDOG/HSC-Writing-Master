@@ -20,6 +20,14 @@ import {
 } from '../data/commandTerms';
 import { generateId } from './idUtils';
 
+const safeClone = <T>(obj: T): T => {
+  try {
+    return safeClone(obj);
+  } catch {
+    return JSON.parse(JSON.stringify(obj));
+  }
+};
+
 // --- Helpers ---
 
 /**
@@ -840,7 +848,7 @@ export const recalculateSampleAnswerBands = (courses: Course[]): Course[] => {
 export const migrateAnalyseVerb = (courses: Course[]): Course[] => {
   const analyseInfo = commandTerms.get('ANALYSE');
   if (!analyseInfo) return courses;
-  const migratedCourses: Course[] = JSON.parse(JSON.stringify(courses));
+  const migratedCourses: Course[] = safeClone(courses);
   migratedCourses.forEach((course) => {
     (course.topics || []).forEach((topic) => {
       (topic.subTopics || []).forEach((subTopic) => {
@@ -909,7 +917,7 @@ export const validateAndFixCourses = (courses: Course[]): Course[] => {
 export const migrateTopicVerbs = (topic: Topic): Topic => {
   const analyseInfo = commandTerms.get('ANALYSE');
   if (!analyseInfo) return topic;
-  const newTopic = JSON.parse(JSON.stringify(topic));
+  const newTopic: Topic = safeClone(topic);
   (newTopic.subTopics || []).forEach((subTopic: SubTopic) => {
     (subTopic.dotPoints || []).forEach((dotPoint: DotPoint) => {
       (dotPoint.prompts || []).forEach((prompt: Prompt) => {
@@ -925,7 +933,7 @@ export const migrateTopicVerbs = (topic: Topic): Topic => {
   return newTopic;
 };
 
-const normalizeText = (value?: string) => (value || '').trim().toLowerCase();
+export const normalizeText = (value?: string) => (value || '').trim().toLowerCase();
 
 const dedupeStringArray = (values: string[] = []) =>
   Array.from(new Set(values.map((value) => value.trim()).filter(Boolean)));
@@ -1084,7 +1092,7 @@ const mergeSubTopicCollections = (existingSTs: SubTopic[], importedSTs: SubTopic
 };
 
 export const mergeTopicContents = (existingTopic: Topic, importedTopic: Topic): Topic => {
-  const mergedTopic = JSON.parse(JSON.stringify(existingTopic)) as Topic;
+  const mergedTopic: Topic = safeClone(existingTopic);
   mergedTopic.name = mergeScalarText(existingTopic.name, importedTopic.name) || existingTopic.name;
   mergedTopic.performanceBandDescriptors = importedTopic.performanceBandDescriptors?.length
     ? importedTopic.performanceBandDescriptors
@@ -1214,7 +1222,7 @@ export const previewTopicMergePlan = (
 };
 
 export const mergeCourseContents = (existingCourse: Course, importedCourse: Course): Course => {
-  const newCourse = JSON.parse(JSON.stringify(existingCourse));
+  const newCourse: Course = safeClone(existingCourse);
   newCourse.name = mergeScalarText(existingCourse.name, importedCourse.name) || existingCourse.name;
   newCourse.subject = mergeScalarText(existingCourse.subject, importedCourse.subject);
   importedCourse.topics.forEach((importedTopic) => {
@@ -1370,7 +1378,7 @@ export const buildReconciledImportData = (
   placements: PlacementMap,
   orphanedGroups: OrphanedGroup[]
 ): Course[] => {
-  const result = JSON.parse(JSON.stringify(importedCourses)) as Course[];
+  const result: Course[] = safeClone(importedCourses);
 
   result.forEach((course) => {
     const targetCourseId = courseMapping.get(course.id);
@@ -1457,7 +1465,7 @@ export const buildReconciledImportData = (
       st.dotPoints.push(dp);
     }
 
-    dp.prompts.push(...JSON.parse(JSON.stringify(group.prompts)));
+    dp.prompts.push(...safeClone(group.prompts));
   });
 
   return result;
@@ -1599,7 +1607,7 @@ export const normalizeSyllabusStructure = (raw: unknown): SyllabusPreviewNode[] 
 };
 
 export const regenerateTopicIds = (topic: Topic): Topic => {
-  const newTopic = JSON.parse(JSON.stringify(topic));
+  const newTopic: Topic = safeClone(topic);
   newTopic.id = generateId('topic');
   (newTopic.subTopics || []).forEach((st: SubTopic) => {
     st.id = generateId('subTopic');
@@ -1666,7 +1674,7 @@ const regenerateSubTopicIds = (st: SubTopic): void => {
  * Never mutates `existingTopics` or `importedTopic` — works on a deep clone.
  */
 export const reconcileImportedTopicIds = (importedTopic: Topic, existingTopics: Topic[]): Topic => {
-  const newTopic = JSON.parse(JSON.stringify(importedTopic)) as Topic;
+  const newTopic: Topic = safeClone(importedTopic);
 
   const matchedTopic =
     existingTopics.find((t) => t.id === newTopic.id) ??

@@ -174,6 +174,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
   };
 
   const handleGenerateRubric = async () => {
+    if (isGenerating) return;
     setIsGenerating(true);
     setGenerateError(null);
     try {
