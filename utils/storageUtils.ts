@@ -207,14 +207,21 @@ export const getStoreData = async (storeName: string): Promise<any[]> => {
 
 // --- User Profile Operations ---
 
-export const saveUserProfile = async (user: User): Promise<void> => {
+/**
+ * Persists the user profile to IndexedDB (with a localStorage mirror for fast
+ * boot). Returns `false` when the durable IndexedDB write failed, so callers
+ * can tell the profile did not actually persist rather than assuming it did.
+ */
+export const saveUserProfile = async (user: User): Promise<boolean> => {
   try {
     const db = await getDB();
     await db.put(STORE_USERS, user);
     // Also update local storage for fast sync retrieval on boot
     safeSetItem(STORAGE_KEYS.AUTH_USER, user);
+    return true;
   } catch (error) {
     console.error('Failed to save user profile:', error);
+    return false;
   }
 };
 
@@ -389,8 +396,14 @@ export const loadCoursesFromDB = async (): Promise<{
   }
 };
 
-export const createBackup = async (courses: Course[]) => {
-  if (courses.length === 0) return;
+/**
+ * Writes today's rolling backup snapshot. Returns `true` when the backup is in
+ * place (written now, or already fresh enough to skip) and `false` when the
+ * write failed — so callers can tell that the restore-from-backup safety net
+ * has a hole, rather than the failure vanishing into the console.
+ */
+export const createBackup = async (courses: Course[]): Promise<boolean> => {
+  if (courses.length === 0) return true;
   try {
     const timestamp = Date.now();
     const dateStr = new Date().toISOString().split('T')[0];
@@ -405,7 +418,7 @@ export const createBackup = async (courses: Course[]) => {
     const existing = await db.get(STORE_BACKUPS, key);
     if (existing && timestamp - existing.timestamp < 60 * 60 * 1000) {
       // Existing backup is fresh enough (less than 1 hour old)
-      return;
+      return true;
     }
 
     await db.put(
@@ -420,8 +433,10 @@ export const createBackup = async (courses: Course[]) => {
 
     console.log(`Backup updated for: ${dateStr}`);
     await cleanupOldBackups();
+    return true;
   } catch (error) {
     console.error('Backup failed:', error);
+    return false;
   }
 };
 
@@ -586,12 +601,20 @@ export const safeGetItem = <T>(
   }
 };
 
-export const safeSetItem = (key: string, value: unknown): void => {
-  if (typeof window === 'undefined') return;
+/**
+ * Returns `true` when the value was persisted, `false` when the write was
+ * refused (quota exceeded, private-browsing, storage disabled) or skipped
+ * (no `window`). Callers that care whether a setting actually stuck — a user
+ * profile, a preference — can react instead of assuming success.
+ */
+export const safeSetItem = (key: string, value: unknown): boolean => {
+  if (typeof window === 'undefined') return false;
   try {
     window.localStorage.setItem(key, JSON.stringify(value));
+    return true;
   } catch (error) {
     console.error(`Error writing to localStorage:`, error);
+    return false;
   }
 };
 

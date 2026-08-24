@@ -4,6 +4,7 @@ import { Course, Topic } from '../types';
 import ImportFlow from './dataManager/ImportFlow';
 import ExportFlow from './dataManager/ExportFlow';
 import TopicReorderList from './dataManager/TopicReorderList';
+import MicroLabel from './MicroLabel';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -63,9 +64,9 @@ const InstrumentMetric = ({
   colorClass: string;
 }) => (
   <div className="flex flex-col gap-1 px-8 py-4 border-r border-white/5 light:border-slate-200 last:border-r-0">
-    <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white/30 light:text-slate-500">
+    <MicroLabel size={9} tracking="0.3" className="text-white/30 light:text-slate-500">
       {label}
-    </span>
+    </MicroLabel>
     <div className="flex items-baseline gap-2">
       <span className={`text-4xl font-black tracking-tighter tabular-nums ${colorClass}`}>
         {value}
@@ -238,9 +239,9 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2 opacity-40">
                 <Zap className="w-3 h-3 text-indigo-400" />
-                <span className="text-[9px] font-black uppercase tracking-[0.5em] text-white light:text-slate-500">
+                <MicroLabel size={9} tracking="0.5" className="text-white light:text-slate-500">
                   System Diagnostics
-                </span>
+                </MicroLabel>
               </div>
               <h3 className="text-2xl md:text-3xl font-black text-white light:text-slate-900 tracking-tighter uppercase italic leading-none">
                 {activeTab === 'maintenance'

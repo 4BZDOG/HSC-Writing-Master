@@ -20,7 +20,7 @@ vi.mock('../../utils/storageUtils', async (importOriginal) => {
     fetchLibrary: vi.fn().mockResolvedValue([]),
     safeGetItem: vi.fn(() => actual.DATA_VERSION),
     safeSetItem: vi.fn(),
-    createBackup: vi.fn().mockResolvedValue(undefined),
+    createBackup: vi.fn().mockResolvedValue(true),
     saveToLibrary: vi.fn(),
     deleteFromLibrary: vi.fn(),
   };
@@ -32,9 +32,14 @@ vi.mock('../../services/curriculumService', () => ({
 }));
 
 import { useSyllabusData } from '../../hooks/useSyllabusData';
-import { loadCoursesFromDB, saveCoursesToDB as saveCoursesToDBImport } from '../../utils/storageUtils';
+import {
+  loadCoursesFromDB,
+  saveCoursesToDB as saveCoursesToDBImport,
+  createBackup as createBackupImport,
+} from '../../utils/storageUtils';
 
 const saveCoursesToDB = saveCoursesToDBImport as unknown as ReturnType<typeof vi.fn>;
+const createBackup = createBackupImport as unknown as ReturnType<typeof vi.fn>;
 
 const baseCourse = (): Course => ({
   id: 'course-1',
@@ -45,6 +50,7 @@ const baseCourse = (): Course => ({
 
 beforeEach(() => {
   vi.clearAllMocks();
+  createBackup.mockResolvedValue(true);
   (loadCoursesFromDB as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
     data: [baseCourse()],
     source: 'IndexedDB',
@@ -111,5 +117,38 @@ describe('useSyllabusData — auto-save failure surfacing', () => {
 
     expect(showToast).not.toHaveBeenCalledWith(expect.stringContaining('not saving'), 'error');
     expect(showToast).not.toHaveBeenCalledWith(expect.stringContaining('recovered'), 'success');
+  });
+
+  it('warns once when the main save works but the daily backup fails', async () => {
+    const showToast = vi.fn();
+    saveCoursesToDB.mockResolvedValue('IndexedDB');
+    createBackup.mockResolvedValue(false);
+
+    const { result } = renderHook(() => useSyllabusData({ showToast }));
+    await waitFor(() => expect(result.current.isReady).toBe(true));
+
+    act(() => {
+      result.current.handleCreateTopic('course-1', 'A New Topic');
+    });
+    await waitFor(
+      () =>
+        expect(showToast).toHaveBeenCalledWith(
+          expect.stringContaining('daily backup could not be written'),
+          'info'
+        ),
+      { timeout: 4000 }
+    );
+    const backupWarnings = showToast.mock.calls.filter(([msg]) =>
+      String(msg).includes('daily backup')
+    ).length;
+
+    // A second failing backup must not re-warn — the ref guards it for the session.
+    act(() => {
+      result.current.handleCreateTopic('course-1', 'Another Topic');
+    });
+    await new Promise((r) => setTimeout(r, 1500));
+    expect(
+      showToast.mock.calls.filter(([msg]) => String(msg).includes('daily backup')).length
+    ).toBe(backupWarnings);
   });
 });

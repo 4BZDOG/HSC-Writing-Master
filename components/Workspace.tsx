@@ -34,6 +34,7 @@ import { isOverlayOpen } from '../hooks/useEscapeKey';
 import { isQuestionTierLocked, requestUpgrade } from '../services/entitlements';
 import { freeTierLimits } from '../services/planPolicy';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
+import type { AppGeminiHandlers, AppModalHandlers } from '../hooks/appHandlerTypes';
 
 const useKeyboardShortcuts = (shortcuts: { [key: string]: (e: KeyboardEvent) => void }) => {
   useEffect(() => {
@@ -123,8 +124,8 @@ interface WorkspaceProps {
   improveAnswerError: string | null;
   evaluatedAnswer: string;
   handleEvaluate: () => void;
-  geminiHandlers: any;
-  modalHandlers: any;
+  geminiHandlers: AppGeminiHandlers;
+  modalHandlers: AppModalHandlers;
   syllabusHandlers: WorkspaceSyllabusHandlers;
   userRole: UserRole;
   isFocusMode: boolean;

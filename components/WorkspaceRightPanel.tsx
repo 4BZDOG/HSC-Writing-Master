@@ -1,5 +1,5 @@
 import React, { useRef, useMemo, useSyncExternalStore } from 'react';
-import { Prompt, EvaluationResult, HierarchyContext, WritingMode } from '../types';
+import { Prompt, EvaluationResult, HierarchyContext, WritingMode, StatePath } from '../types';
 import Editor from './Editor';
 import LiveInsights from './LiveInsights';
 import WritingMetricsDashboard from './WritingMetricsDashboard';
@@ -19,6 +19,7 @@ import { useWritingMetrics } from '../hooks/useWritingMetrics';
 import { freeEvalsRemaining, isFeatureLocked, subscribeEvalCount } from '../services/entitlements';
 import FreeEvalCounter from './FreeEvalCounter';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
+import type { AppGeminiHandlers } from '../hooks/appHandlerTypes';
 
 interface WorkspaceRightPanelProps {
   isFocusMode: boolean;
@@ -35,9 +36,9 @@ interface WorkspaceRightPanelProps {
   isImproving: boolean;
   improveAnswerError: string | null;
   evaluatedAnswer: string;
-  geminiHandlers: any;
+  geminiHandlers: AppGeminiHandlers;
   syllabusHandlers: WorkspaceSyllabusHandlers;
-  statePath: any;
+  statePath: StatePath;
   breadcrumbItems: { label: string }[];
   handleRunQualityCheck: (content: string, type: 'question' | 'code') => void;
   onToggleFocusMode: () => void;
