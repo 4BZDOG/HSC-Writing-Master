@@ -36,6 +36,13 @@ import {
 } from '../utils/syllabusYear';
 import { generateId } from '../utils/idUtils';
 import type { TopicSyllabusImportPayload } from './TopicSyllabusImportModal';
+import type {
+  AppModalProps,
+  AppModalHandlers,
+  AppSyllabusHandlers,
+  AppGeminiHandlers,
+  AppCurrentSelection,
+} from '../hooks/appHandlerTypes';
 
 /**
  * System-admin only, and lazy for it: mounted eagerly it pulled the whole
@@ -45,11 +52,11 @@ const DatabaseDashboard = lazy(() => import('./admin/DatabaseDashboard'));
 
 interface AppModalsProps {
   activeModals: Set<string>;
-  modalProps: any;
-  modalHandlers: any;
-  syllabusHandlers: any;
-  geminiHandlers: any;
-  currentSelection: any;
+  modalProps: AppModalProps;
+  modalHandlers: AppModalHandlers;
+  syllabusHandlers: AppSyllabusHandlers;
+  geminiHandlers: AppGeminiHandlers;
+  currentSelection: AppCurrentSelection;
   statePath: StatePath;
   courses: Course[];
   setStatePath: (path: Partial<StatePath>) => void;
