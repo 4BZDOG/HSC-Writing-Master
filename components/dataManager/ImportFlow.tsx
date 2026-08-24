@@ -22,7 +22,16 @@ import ValidationSummary from './ValidationSummary';
 import SelectionTree from '../SelectionTree';
 import { useSelectionTree } from '../../hooks/useSelectionTree';
 import Combobox from '../Combobox';
-import { Award, FileJson, GitMerge, ArrowRight, CheckCircle, Sparkles, Wrench } from 'lucide-react';
+import {
+  Award,
+  FileJson,
+  GitMerge,
+  ArrowRight,
+  CheckCircle,
+  Sparkles,
+  Wrench,
+  Loader2,
+} from 'lucide-react';
 import { parseJsonWithRepair } from '../../utils/jsonRepair';
 
 interface ImportFlowProps {
@@ -53,6 +62,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
   const [processedCourses, setProcessedCourses] = useState<Course[]>([]);
   const [autoResolutions, setAutoResolutions] = useState<Map<string, 'merge' | 'skip'>>(new Map());
   const [jsonRepaired, setJsonRepaired] = useState(false);
+  const [isAnalysing, setIsAnalysing] = useState(false);
 
   // Bulk Settings State
   const [markAsPastHSC, setMarkAsPastHSC] = useState(false);
@@ -119,25 +129,18 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
     setProcessedCourses([]);
     setAutoResolutions(new Map());
     setJsonRepaired(false);
+    setIsAnalysing(false);
   };
 
   const handleBackToUpload = () => {
     resetState();
   };
 
-  const handleFileDrop = (file: File) => {
-    setError(null);
-    setJsonRepaired(false);
-
-    if (!file.name.toLowerCase().endsWith('.json')) {
-      setError('Invalid file type. Please upload a valid .json file.');
-      return;
-    }
-
-    setFileName(file.name);
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const text = e.target?.result as string;
+  // Synchronous parse/sanitise/validate — deferred a tick behind an
+  // "Analysing…" spinner so a large file doesn't freeze the drop zone with no
+  // feedback (see the matching pattern in TopicImportModal).
+  const processFileText = (text: string) => {
+    try {
       const { data: rawData, repaired, error: parseError } = parseJsonWithRepair(text);
 
       if (rawData === null) {
@@ -169,8 +172,30 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
         setValidationReport(report);
         setStep('selectTarget');
       }
+    } finally {
+      setIsAnalysing(false);
+    }
+  };
+
+  const handleFileDrop = (file: File) => {
+    setError(null);
+    setJsonRepaired(false);
+
+    if (!file.name.toLowerCase().endsWith('.json')) {
+      setError('Invalid file type. Please upload a valid .json file.');
+      return;
+    }
+
+    setFileName(file.name);
+    setIsAnalysing(true);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const text = e.target?.result as string;
+      // Yield a frame so the spinner paints before the parse seizes the thread.
+      setTimeout(() => processFileText(text), 0);
     };
     reader.onerror = () => {
+      setIsAnalysing(false);
       setError('Could not read the file. It may be locked or corrupted — try re-exporting it.');
       setFileName(null);
     };
@@ -337,11 +362,21 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
 
             <FileDropzone onFileDrop={handleFileDrop} />
 
-            {fileName && (
-              <div className="flex items-center gap-2 justify-center text-emerald-400 bg-emerald-500/10 py-2 px-4 rounded-lg border border-emerald-500/20">
-                <CheckCircle className="w-4 h-4" />
-                <span className="text-sm font-medium">Selected: {fileName}</span>
+            {isAnalysing ? (
+              <div
+                role="status"
+                className="flex items-center gap-2 justify-center text-sky-400 bg-sky-500/10 py-2 px-4 rounded-lg border border-sky-500/20"
+              >
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span className="text-sm font-medium">Analysing {fileName ?? 'file'}…</span>
               </div>
+            ) : (
+              fileName && (
+                <div className="flex items-center gap-2 justify-center text-emerald-400 bg-emerald-500/10 py-2 px-4 rounded-lg border border-emerald-500/20">
+                  <CheckCircle className="w-4 h-4" />
+                  <span className="text-sm font-medium">Selected: {fileName}</span>
+                </div>
+              )
             )}
 
             {error && (

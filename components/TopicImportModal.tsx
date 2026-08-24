@@ -22,6 +22,7 @@ import {
   FileText,
   AlertTriangle,
   Wrench,
+  Loader2,
 } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
@@ -86,6 +87,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
   const [fileName, setFileName] = useState<string | null>(null);
   const [validationReport, setValidationReport] = useState<DataValidationResult | null>(null);
   const [jsonRepaired, setJsonRepaired] = useState(false);
+  const [isAnalysing, setIsAnalysing] = useState(false);
   const [expandedSubTopics, setExpandedSubTopics] = useState<Set<number>>(new Set());
 
   // Merge target overrides — let the user redirect the import into an
@@ -106,6 +108,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
     setFileName(null);
     setValidationReport(null);
     setJsonRepaired(false);
+    setIsAnalysing(false);
     setExpandedSubTopics(new Set());
     setTopicTargetId('auto');
     setSubTopicTargets({});
@@ -123,12 +126,12 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
   useEscapeKey(isOpen, handleClose);
   useScrollLock(isOpen);
 
-  const handleFileDrop = (file: File) => {
-    setError(null);
-    setFileName(file.name);
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const text = e.target?.result as string;
+  // The parse → sanitise → validate chain is synchronous and can block the
+  // main thread for a large file. Setting `isAnalysing` before the async file
+  // read lets the spinner paint, and deferring the heavy work a tick (below)
+  // hands the browser a frame to draw it before the thread is tied up.
+  const processFileText = (text: string) => {
+    try {
       const parsed = parseJsonWithRepair(text);
 
       if (parsed.data === null) {
@@ -173,8 +176,24 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
       setJsonRepaired(parsed.repaired);
       setExpandedSubTopics(new Set(validatedTopic.subTopics.map((_, i) => i)));
       setStep('preview');
+    } finally {
+      setIsAnalysing(false);
+    }
+  };
+
+  const handleFileDrop = (file: File) => {
+    setError(null);
+    setFileName(file.name);
+    setIsAnalysing(true);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const text = e.target?.result as string;
+      // Yield a frame so the "Analysing…" spinner is painted before the
+      // synchronous parse/validate chain seizes the main thread.
+      setTimeout(() => processFileText(text), 0);
     };
     reader.onerror = () => {
+      setIsAnalysing(false);
       setError('Could not read the file. It may be locked or corrupted — try re-exporting it.');
       setFileName(null);
     };
@@ -362,10 +381,20 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                 Select a single topic JSON file to add to the current course.
               </p>
               <FileDropzone onFileDrop={handleFileDrop} />
-              {fileName && (
-                <p className="text-center text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-2">
-                  Selected file: {fileName}
+              {isAnalysing ? (
+                <p
+                  role="status"
+                  className="flex items-center justify-center gap-2 text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-2"
+                >
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Analysing {fileName ?? 'file'}…
                 </p>
+              ) : (
+                fileName && (
+                  <p className="text-center text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-2">
+                    Selected file: {fileName}
+                  </p>
+                )
               )}
               {error && (
                 <p className="text-center text-sm text-red-400 light:text-red-600 mt-2 bg-red-900/20 light:bg-red-50 p-3 rounded-lg border border-red-500/20 light:border-red-200">
