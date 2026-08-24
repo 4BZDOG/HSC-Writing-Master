@@ -933,7 +933,7 @@ export const migrateTopicVerbs = (topic: Topic): Topic => {
   return newTopic;
 };
 
-const normalizeText = (value?: string) => (value || '').trim().toLowerCase();
+export const normalizeText = (value?: string) => (value || '').trim().toLowerCase();
 
 const dedupeStringArray = (values: string[] = []) =>
   Array.from(new Set(values.map((value) => value.trim()).filter(Boolean)));

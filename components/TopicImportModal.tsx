@@ -4,6 +4,7 @@ import {
   analyzeAndSanitizeImportData,
   generateValidationReport,
   previewTopicMergePlan,
+  normalizeText,
 } from '../utils/dataManagerUtils';
 import { parseJsonWithRepair } from '../utils/jsonRepair';
 import FileDropzone from './dataManager/FileDropzone';
@@ -87,6 +88,13 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
   const [jsonRepaired, setJsonRepaired] = useState(false);
   const [expandedSubTopics, setExpandedSubTopics] = useState<Set<number>>(new Set());
 
+  // Merge target overrides — let the user redirect the import into an
+  // existing topic (and, within it, existing sub-topics) when the file's own
+  // names don't happen to match the destination exactly. 'auto' keeps the
+  // default id-then-name matching; anything else is an existing topic id.
+  const [topicTargetId, setTopicTargetId] = useState<string>('auto');
+  const [subTopicTargets, setSubTopicTargets] = useState<Record<number, string>>({});
+
   // Bulk Settings
   const [markAsPastHSC, setMarkAsPastHSC] = useState(false);
   const [bulkYear, setBulkYear] = useState('');
@@ -99,6 +107,8 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
     setValidationReport(null);
     setJsonRepaired(false);
     setExpandedSubTopics(new Set());
+    setTopicTargetId('auto');
+    setSubTopicTargets({});
     setMarkAsPastHSC(false);
     setBulkYear('');
   };
@@ -196,10 +206,65 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
       };
     });
 
+  // The topic this import will land in: whichever existing topic the user
+  // manually picked, or — left on 'auto' — the same id-then-name match the
+  // real merge (reconcileImportedTopicIds) uses. Sub-topic overrides below
+  // are only meaningful relative to this topic's own sub-topics.
+  const resolvedTargetTopic = useMemo(() => {
+    if (!importedTopic) return null;
+    if (topicTargetId !== 'auto') {
+      return existingTopics.find((t) => t.id === topicTargetId) ?? null;
+    }
+    return (
+      existingTopics.find((t) => t.id === importedTopic.id) ??
+      existingTopics.find((t) => normalizeText(t.name) === normalizeText(importedTopic.name)) ??
+      null
+    );
+  }, [importedTopic, topicTargetId, existingTopics]);
+
+  // The topic actually handed to onImport / the merge plan: the edited
+  // preview with any manual topic/sub-topic target overrides applied. An
+  // override rewrites the id and name to the chosen existing node's, so the
+  // id-then-name matching downstream (previewTopicMergePlan here,
+  // reconcileImportedTopicIds on confirm) resolves to it deterministically —
+  // no dependence on the file's own naming matching the destination.
+  const effectiveTopic = useMemo(() => {
+    if (!importedTopic) return null;
+    const subTopics = importedTopic.subTopics.map((st, idx) => {
+      const overrideId = subTopicTargets[idx];
+      const target = overrideId
+        ? resolvedTargetTopic?.subTopics.find((s) => s.id === overrideId)
+        : undefined;
+      return target ? { ...st, id: target.id, name: target.name } : st;
+    });
+    let topic: Topic = { ...importedTopic, subTopics };
+    if (topicTargetId !== 'auto' && resolvedTargetTopic) {
+      topic = { ...topic, id: resolvedTargetTopic.id, name: resolvedTargetTopic.name };
+    }
+    return topic;
+  }, [importedTopic, topicTargetId, subTopicTargets, resolvedTargetTopic]);
+
   const mergePlan = useMemo(
-    () => (importedTopic ? previewTopicMergePlan(existingTopics, importedTopic) : null),
-    [importedTopic, existingTopics]
+    () => (effectiveTopic ? previewTopicMergePlan(existingTopics, effectiveTopic) : null),
+    [effectiveTopic, existingTopics]
   );
+
+  const handleTopicTargetChange = (value: string) => {
+    setTopicTargetId(value);
+    // Sub-topic overrides reference ids under the PREVIOUS target topic —
+    // meaningless (and potentially wrong) once the target topic changes.
+    setSubTopicTargets({});
+  };
+
+  const setSubTopicTarget = (idx: number, value: string) => {
+    setSubTopicTargets((prev) => {
+      if (!value) {
+        const { [idx]: _removed, ...rest } = prev;
+        return rest;
+      }
+      return { ...prev, [idx]: value };
+    });
+  };
 
   const treeStats = useMemo(() => {
     if (!importedTopic) return { subTopics: 0, dotPoints: 0, prompts: 0 };
@@ -213,8 +278,8 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
   }, [importedTopic]);
 
   const handleConfirmImport = () => {
-    if (importedTopic) {
-      let finalTopic = importedTopic;
+    if (effectiveTopic) {
+      let finalTopic = effectiveTopic;
 
       if (markAsPastHSC) {
         const year = bulkYear ? parseInt(bulkYear) : undefined;
@@ -376,6 +441,30 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                 </div>
               </div>
 
+              {existingTopics.length > 0 && (
+                <div className="flex items-center gap-3 rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 px-4 py-3">
+                  <label
+                    htmlFor="topic-merge-target"
+                    className="text-xs font-semibold text-[rgb(var(--color-text-secondary))] light:text-slate-600 flex-shrink-0"
+                  >
+                    Merge into
+                  </label>
+                  <select
+                    id="topic-merge-target"
+                    value={topicTargetId}
+                    onChange={(e) => handleTopicTargetChange(e.target.value)}
+                    className="flex-1 min-w-0 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg px-3 py-1.5 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]"
+                  >
+                    <option value="auto">Auto-detect by name (default)</option>
+                    {existingTopics.map((t) => (
+                      <option key={t.id} value={t.id}>
+                        {t.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
               {jsonRepaired && (
                 <div className="rounded-xl border border-sky-500/30 light:border-sky-200 bg-sky-500/5 light:bg-sky-50/50 p-3 flex items-start gap-2">
                   <Wrench className="w-3.5 h-3.5 text-sky-400 light:text-sky-500 flex-shrink-0 mt-0.5" />
@@ -502,6 +591,26 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
                           </div>
+                          {resolvedTargetTopic && resolvedTargetTopic.subTopics.length > 0 && (
+                            <div className="ml-8 mr-1 mb-1 flex items-center gap-2">
+                              <span className="text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 flex-shrink-0">
+                                Merge into
+                              </span>
+                              <select
+                                aria-label={`Merge sub-topic "${st.name}" into`}
+                                value={subTopicTargets[stIdx] ?? ''}
+                                onChange={(e) => setSubTopicTarget(stIdx, e.target.value)}
+                                className="flex-1 min-w-0 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-md px-2 py-1 text-[11px] text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-1 focus:ring-[rgb(var(--color-accent))]"
+                              >
+                                <option value="">New sub-topic (auto)</option>
+                                {resolvedTargetTopic.subTopics.map((s) => (
+                                  <option key={s.id} value={s.id}>
+                                    {s.name}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          )}
                           {isExpanded && st.dotPoints.length > 0 && (
                             <div className="ml-8 pl-3 border-l-2 border-[rgb(var(--color-border-secondary))]/20 light:border-slate-200 mt-0.5 space-y-px">
                               {st.dotPoints.map((dp, dpIdx) => (
