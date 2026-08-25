@@ -512,16 +512,22 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           the trail/meta/question sit on a tightening rhythm so the question
           reads as the heading of the whole report. */}
       <header className="flex flex-col gap-3">
+        {/* Breadcrumb as one scrollable rail rather than a wrapping block: a
+            deep syllabus trail wrapped to four stacked lines on a phone,
+            shoving the question down the screen. It scrolls only when it
+            overflows, so on a desktop that already fits it looks and behaves
+            exactly as before — matching the workspace breadcrumb's own
+            scrollbar-hide rail. */}
         {syllabusTrail.length > 0 && (
           <nav
             aria-label="Syllabus location"
-            className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-slate-500 dark:text-slate-400"
+            className="flex items-center gap-x-1.5 flex-nowrap overflow-x-auto scrollbar-hide text-slate-500 dark:text-slate-400"
           >
             {syllabusTrail.map((segment, i) => (
               <React.Fragment key={i}>
                 {i > 0 && <ChevronRight className="w-3 h-3 shrink-0 opacity-50" />}
                 <span
-                  className="text-[10px] font-bold uppercase tracking-wider truncate max-w-[16rem]"
+                  className="text-[10px] font-bold uppercase tracking-wider whitespace-nowrap"
                   title={segment}
                 >
                   {segment}
