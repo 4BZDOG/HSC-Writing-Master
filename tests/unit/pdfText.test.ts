@@ -56,6 +56,10 @@ describe('degradeToAscii', () => {
   it('normalises smart punctuation', () => {
     expect(degradeToAscii('“quote”')).toBe('"quote"');
     expect(degradeToAscii('a — b')).toBe('a - b');
+    // U+2212 MINUS SIGN — the diff "cut" marker. Left unmapped it is not
+    // WinAnsi-encodable and the built-in-font fallback renders it as a stray
+    // glyph, taking the rest of the line's spacing with it.
+    expect(degradeToAscii('− cut this')).toBe('- cut this');
   });
 
   it('round-trips toText output to legible ASCII', () => {

@@ -285,6 +285,38 @@ export const groupedChanges = (segments: DiffSegment[]): DiffChange[] => {
 };
 
 /**
+ * Narrow a change list to the edits worth printing in a revision aid.
+ *
+ * A word-level diff surfaces every edit, but most of a rewrite's deletions are
+ * uninstructive on paper: a student learns nothing from "you cut the word
+ * *sympathy*". The edits that teach are the ones that ADD wording — a
+ * substitution ("makes the system faster" → "reduces latency") or a pure
+ * insertion (the quotation the answer was missing) — plus the occasional cut
+ * that removes a whole clause of padding rather than a stray word or two.
+ *
+ * A change earns its place when it adds a real phrase (≥2 words), replaces a
+ * phrase (adds something in place of ≥2 removed words), or cuts a whole clause
+ * (≥`minCutWords` words). Trivial one-word↔one-word swaps and stray one- or
+ * two-word deletions are dropped: they are lexical noise a student can't revise
+ * from. This roughly halves a typical list and leaves what remains coherent, so
+ * the printed "What changed" reads as guidance rather than a wall of fragments.
+ */
+export const SUBSTANTIVE_CUT_MIN_WORDS = 6;
+
+export const substantiveChanges = (
+  changes: DiffChange[],
+  minCutWords: number = SUBSTANTIVE_CUT_MIN_WORDS
+): DiffChange[] =>
+  changes.filter((change) => {
+    const addedWords = tokenizeWords(change.added).length;
+    const removedWords = tokenizeWords(change.removed).length;
+    if (addedWords >= 2) return true; // a real phrase was added
+    if (addedWords >= 1 && removedWords >= 2) return true; // a phrase was rewritten
+    if (addedWords === 0 && removedWords >= minCutWords) return true; // a clause was cut
+    return false;
+  });
+
+/**
  * One side of the side-by-side view: the ops that belong to that column, with
  * each `equal` run resolved to the wording that side actually used. Joining the
  * values reproduces that side's text exactly.
