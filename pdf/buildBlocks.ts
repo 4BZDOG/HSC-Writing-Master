@@ -7,7 +7,7 @@
 import { ContentBlock, TextRun } from './types';
 import { normalizeContent } from './text';
 import { parseInlineSpans, type InlineOptions } from './inline';
-import { diffWords, groupedChanges, summariseDiff } from '../utils/textDiff';
+import { diffWords, groupedChanges, substantiveChanges, summariseDiff } from '../utils/textDiff';
 
 /** Brand palette (RGB 0-255). */
 export const COLORS = {
@@ -336,8 +336,11 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
     // placement engine. Every row is prefixed − / + as well as coloured, so the
     // page survives a greyscale printer — which is most school printers.
     if (data.studentAnswer?.trim()) {
-      const changes = groupedChanges(diffWords(data.studentAnswer, data.revisedAnswer));
-      const stats = summariseDiff(diffWords(data.studentAnswer, data.revisedAnswer));
+      const segments = diffWords(data.studentAnswer, data.revisedAnswer);
+      // Stats describe the WHOLE revision; the printed list shows only the
+      // edits worth acting on, so a page isn't spent on one-word cuts.
+      const stats = summariseDiff(segments);
+      const changes = substantiveChanges(groupedChanges(segments));
 
       if (changes.length > 0) {
         blocks.push(spacer(1.5));

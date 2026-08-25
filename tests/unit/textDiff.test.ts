@@ -2,9 +2,12 @@ import { describe, it, expect } from 'vitest';
 import {
   changeAnchors,
   diffWords,
+  groupedChanges,
+  substantiveChanges,
   summariseDiff,
   segmentsForSide,
   tokenizeWords,
+  type DiffChange,
   type DiffSegment,
 } from '../../utils/textDiff';
 
@@ -151,5 +154,42 @@ describe('changeAnchors', () => {
     for (const index of changeAnchors(segments)) {
       expect(segments[index].op).not.toBe('equal');
     }
+  });
+});
+
+describe('substantiveChanges', () => {
+  const change = (removed: string, added: string): DiffChange => ({ removed, added });
+
+  it('keeps additions of a real phrase (two or more words)', () => {
+    const kept = substantiveChanges([change('', 'frequently requested data')]);
+    expect(kept).toHaveLength(1);
+  });
+
+  it('keeps a phrase rewrite (something added in place of two or more cut words)', () => {
+    const kept = substantiveChanges([change('makes the system faster', 'reduces latency')]);
+    expect(kept).toHaveLength(1);
+  });
+
+  it('drops a trivial one-word swap', () => {
+    expect(substantiveChanges([change('cat', 'dog')])).toHaveLength(0);
+  });
+
+  it('drops a stray short deletion but keeps a whole cut clause', () => {
+    expect(substantiveChanges([change('the extra', '')])).toHaveLength(0);
+    const clause = 'the camp overall the composer effectively uses visual techniques';
+    expect(substantiveChanges([change(clause, '')])).toHaveLength(1);
+  });
+
+  it('filters a real diff down to the edits worth revising from', () => {
+    const student = 'The cat sat on the extra mat by the door.';
+    const revised = 'The dog sat on the mat right there by the door.';
+    const all = groupedChanges(diffWords(student, revised));
+    const kept = substantiveChanges(all);
+    // The one-word cat→dog swap and the lone "extra" cut go; the two-word
+    // insertion "right there" stays.
+    expect(kept.every((c) => c.added.includes('right there') || c.added.split(/\s+/).length >= 2)).toBe(
+      true
+    );
+    expect(kept.some((c) => c.added.includes('right there'))).toBe(true);
   });
 });

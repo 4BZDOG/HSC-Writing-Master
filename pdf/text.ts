@@ -182,6 +182,7 @@ const ASCII_SYMBOLS: Record<string, string> = {
   // Common "smart" punctuation that is not WinAnsi-safe in helvetica.
   '—': '-',
   '–': '-',
+  '−': '-', // U+2212 MINUS SIGN — used as the diff "cut" marker; not in WinAnsi.
   '…': '...',
   ' ': ' ',
 };

@@ -444,15 +444,34 @@ describe('the improved response prints what changed', () => {
   });
 
   it('caps a very long change list and says how many are left', () => {
-    const original = Array.from({ length: 60 }, (_, i) => `word${i}`).join(' ');
-    const revised = Array.from({ length: 60 }, (_, i) =>
-      i % 2 === 0 ? `word${i}` : `changed${i}`
-    ).join(' ');
+    // Each region is a two-word → two-word rewrite around a shared anchor, so
+    // every change is substantive (not a trivial one-word swap the printed list
+    // now filters out) — 20 of them, comfortably past the 14 cap.
+    const original = Array.from({ length: 20 }, (_, i) => `anchor${i} old phrase${i}`).join(' ');
+    const revised = Array.from({ length: 20 }, (_, i) => `anchor${i} new wording${i}`).join(' ');
 
     const blocks = withDiff({ studentAnswer: original, revisedAnswer: revised });
 
-    expect(changeBlocks(blocks).length).toBeLessThanOrEqual(14);
+    const shown = changeBlocks(blocks).length;
+    expect(shown).toBeGreaterThan(0);
+    expect(shown).toBeLessThanOrEqual(14);
     const more = blocks.find((b) => b.id.startsWith('chgmore-'));
     expect(more?.runs[0].text).toMatch(/more changes/);
+  });
+
+  it('drops uninstructive edits (one-word swaps and stray short cuts) from the printed list', () => {
+    // "cat" → "dog" is a one-word swap; "extra" is a lone one-word cut — neither
+    // teaches a revision, so only the substantive two-word addition survives.
+    const blocks = withDiff({
+      studentAnswer: 'The cat sat on the extra mat by the door.',
+      revisedAnswer: 'The dog sat on the mat right there by the door.',
+    });
+    const text = changeBlocks(blocks)
+      .flatMap((b) => b.runs.map((r) => r.text))
+      .join('\n');
+
+    expect(text).not.toContain('− cat');
+    expect(text).not.toContain('+ dog');
+    expect(text).toContain('+ right there');
   });
 });
