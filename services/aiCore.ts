@@ -3,7 +3,7 @@ import { safeSetItem, safeGetItem, STORAGE_KEYS } from '../utils/storageUtils';
 import { supabase, isSupabaseConfigured } from './supabaseClient';
 import { getRuntimeKeyOverride } from './runtimeKeys';
 import { observeQuota, notifyAiNotice } from './quotaNotifier';
-import { markModelQuotaDead, getGeminiFreeTierFallback } from './aiConfig';
+import { markModelQuotaDead, getGeminiFreeTierFallback, getOverloadFallback } from './aiConfig';
 import { getModelByProviderModel } from './aiModels';
 
 // All Gemini calls go through a server-side proxy so the API key never
@@ -144,6 +144,21 @@ export class QuotaExceededError extends Error {
     super(message);
     this.name = 'QuotaExceededError';
     this.zeroFreeTierQuota = zeroFreeTierQuota;
+  }
+}
+
+/**
+ * The selected model exhausted its retries because the provider itself is
+ * unavailable right now (503/"high demand") or would not respond in time —
+ * not because the request or the caller's quota is bad. Distinct from a plain
+ * exhausted-retries Error so `generateContentWithRetry` can reroute the
+ * request to a sibling model (see `aiConfig.getOverloadFallback`) instead of
+ * failing the whole call.
+ */
+export class ModelOverloadedError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ModelOverloadedError';
   }
 }
 
@@ -518,6 +533,15 @@ const isTimeoutError = (error: any): boolean => {
   return status === 504 || msg.includes('timed out') || msg.includes('timeout');
 };
 
+/** The provider itself reported it can't serve this model right now (Gemini's
+ *  503 "This model is currently experiencing high demand" is the common case)
+ *  — as opposed to a bad request, a quota problem, or an ordinary hiccup. */
+const isModelOverloadError = (error: any): boolean => {
+  const msg = error instanceof Error ? error.message.toLowerCase() : String(error).toLowerCase();
+  const status = (error as any)?.status;
+  return status === 503 || /unavailable|overloaded|high demand/.test(msg);
+};
+
 const callGeminiWithRetry = async <T>(
   apiCall: () => Promise<T>,
   maxRetries: number = MAX_RETRIES
@@ -645,7 +669,7 @@ const callGeminiWithRetry = async <T>(
           console.error(
             `[API Fail] Timed out after ${elapsed}s total (${timeoutRetries} timeout retries).`
           );
-          throw new Error(
+          throw new ModelOverloadedError(
             `The AI evaluation timed out after ${elapsed} seconds. ` +
               'This can happen with complex questions or slower AI models. ' +
               'Try switching to Gemini Flash in the AI Engine selector, or try again shortly.'
@@ -689,9 +713,11 @@ const callGeminiWithRetry = async <T>(
         `[API Fail] AI call failed after ${attempt} retries (${elapsed}s total).`,
         error
       );
-      throw new Error(
-        `AI Service Unavailable after ${elapsed}s: ${unwrapProviderMessage(errorMsg).split('\n')[0].slice(0, 200)}`
-      );
+      const finalMessage = `AI Service Unavailable after ${elapsed}s: ${unwrapProviderMessage(errorMsg).split('\n')[0].slice(0, 200)}`;
+      if (isModelOverloadError(error)) {
+        throw new ModelOverloadedError(finalMessage);
+      }
+      throw new Error(finalMessage);
     }
   }
 };
@@ -730,6 +756,10 @@ const dedupedExecute = async (request: any): Promise<GenerateContentResponse> =>
   }
 };
 
+// Models already reported as overloaded this session, so the user is only
+// notified once per model rather than on every retried call.
+const overloadNoticeShown = new Set<string>();
+
 export const generateContentWithRetry = async (request: any): Promise<GenerateContentResponse> => {
   try {
     return await dedupedExecute(request);
@@ -763,6 +793,44 @@ export const generateContentWithRetry = async (request: any): Promise<GenerateCo
         message: `Switching to ${getModelByProviderModel(fallback.model)?.label ?? 'Flash'} (free-tier fallback)...`,
       });
       return dedupedExecute({ ...request, provider: fallback.provider, model: fallback.model });
+    }
+
+    // Overload fallback: the model exhausted its retries because the
+    // provider can't currently serve it (503/"high demand") or wouldn't
+    // respond in time, not because the request or the quota is bad. Retry
+    // once on a sibling model rather than failing the whole call. One notice
+    // per overloaded model per session, matching the zero-quota fallback.
+    if (
+      error instanceof ModelOverloadedError &&
+      request?.provider === 'gemini' &&
+      typeof request?.model === 'string'
+    ) {
+      const overloadFallback = getOverloadFallback(request.model);
+      if (overloadFallback && overloadFallback.model !== request.model) {
+        const firstTime = !overloadNoticeShown.has(request.model);
+        if (firstTime) {
+          overloadNoticeShown.add(request.model);
+          const busyLabel = getModelByProviderModel(request.model)?.label ?? request.model;
+          const fallbackLabel =
+            getModelByProviderModel(overloadFallback.model)?.label ?? overloadFallback.model;
+          notifyAiNotice(
+            `${busyLabel} is experiencing high demand right now — using ${fallbackLabel} instead for this request. ` +
+              'Change the engine in the AI Engine selector if this keeps happening.'
+          );
+        }
+        console.warn(
+          `[AI Fallback] ${request.model} is overloaded/unavailable; retrying on ${overloadFallback.model}.`
+        );
+        emitEvalProgress({
+          phase: 'fallback',
+          message: `Switching to ${getModelByProviderModel(overloadFallback.model)?.label ?? overloadFallback.model} (high demand)...`,
+        });
+        return dedupedExecute({
+          ...request,
+          provider: overloadFallback.provider,
+          model: overloadFallback.model,
+        });
+      }
     }
     throw error;
   }

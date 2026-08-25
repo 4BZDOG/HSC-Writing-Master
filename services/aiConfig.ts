@@ -7,7 +7,13 @@
  * onto every request; the proxy then routes by `provider`.
  */
 
-import { AIRole, AIProvider, DEFAULT_SELECTION, getModelById } from './aiModels';
+import {
+  AIRole,
+  AIProvider,
+  DEFAULT_SELECTION,
+  getModelById,
+  getModelByProviderModel,
+} from './aiModels';
 import { safeGetItem, safeSetItem, STORAGE_KEYS } from '../utils/storageUtils';
 
 type Selection = Record<AIRole, string>;
@@ -93,6 +99,31 @@ export const isModelQuotaDead = (model: string): boolean => quotaDeadModels.has(
 export const getGeminiFreeTierFallback = (): { provider: AIProvider; model: string } => {
   const flash = getModelById('gemini-flash')!;
   return { provider: flash.provider, model: flash.model };
+};
+
+// ----------------------------------------------------------------------------
+// Overload rerouting. A provider model string that is currently returning
+// 503/UNAVAILABLE ("high demand") or repeatedly timing out is not dead the way
+// a zero-quota model is — it will likely work again later — but retrying it
+// for the REST of this call is pointless, so aiCore falls over to a sibling
+// model on the same provider for that one request. Preview models in
+// particular see this under load; their GA successor is the natural target.
+// ----------------------------------------------------------------------------
+
+const OVERLOAD_FALLBACK_MODEL: Record<string, string> = {
+  'gemini-3-flash-preview': 'gemini-3.7-flash',
+  'gemini-3.1-pro-preview': 'gemini-3.7-flash',
+  'gemini-3.7-flash': 'gemini-3-flash-preview',
+};
+
+/** The sibling Gemini model to retry on when `model` is persistently
+ *  overloaded/unavailable, or null when none is registered for it. */
+export const getOverloadFallback = (
+  model: string
+): { provider: AIProvider; model: string } | null => {
+  const fallbackModel = OVERLOAD_FALLBACK_MODEL[model];
+  const entry = fallbackModel ? getModelByProviderModel(fallbackModel) : undefined;
+  return entry ? { provider: entry.provider, model: entry.model } : null;
 };
 
 /** Resolves a role to the concrete provider + model the request should target. */
