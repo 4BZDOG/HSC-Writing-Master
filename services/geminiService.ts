@@ -1057,7 +1057,6 @@ export const refineManualPrompt = async (
       ],
     },
     config: {
-      thinkingConfig: { thinkingBudget: 4096 },
       responseMimeType: 'application/json',
       responseSchema: {
         type: Type.OBJECT,
@@ -1197,7 +1196,6 @@ export const generateNewPrompt = async (
       ],
     },
     config: {
-      thinkingConfig: { thinkingBudget: 4096 },
       responseMimeType: 'application/json',
       responseSchema: {
         type: Type.OBJECT,
