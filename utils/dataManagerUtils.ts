@@ -20,9 +20,12 @@ import {
 } from '../data/commandTerms';
 import { generateId } from './idUtils';
 
-const safeClone = <T>(obj: T): T => {
+// Deep clone via structuredClone, falling back to a JSON round-trip only if the
+// value is not structured-cloneable. (Previously this recursed into itself,
+// stack-overflowed on every call, and silently used the JSON path every time.)
+export const safeClone = <T>(obj: T): T => {
   try {
-    return safeClone(obj);
+    return structuredClone(obj);
   } catch {
     return JSON.parse(JSON.stringify(obj));
   }

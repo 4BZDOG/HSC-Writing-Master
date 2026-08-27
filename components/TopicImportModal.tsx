@@ -212,10 +212,32 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
     });
   };
 
-  const removeSubTopic = (idx: number) =>
+  const removeSubTopic = (idx: number) => {
     setImportedTopic((prev) =>
       prev ? { ...prev, subTopics: prev.subTopics.filter((_, i) => i !== idx) } : prev
     );
+    // subTopicTargets and expandedSubTopics are keyed by array index, so removing
+    // a sub-topic shifts every later index down one. Re-key both — drop the
+    // removed entry and slide higher indices down — or a merge-target override
+    // silently lands on the wrong sub-topic and the wrong rows read as expanded.
+    setSubTopicTargets((prev) => {
+      const next: Record<number, string> = {};
+      for (const [k, v] of Object.entries(prev)) {
+        const i = Number(k);
+        if (i === idx) continue;
+        next[i > idx ? i - 1 : i] = v;
+      }
+      return next;
+    });
+    setExpandedSubTopics((prev) => {
+      const next = new Set<number>();
+      prev.forEach((i) => {
+        if (i === idx) return;
+        next.add(i > idx ? i - 1 : i);
+      });
+      return next;
+    });
+  };
 
   const removeDotPoint = (stIdx: number, dpIdx: number) =>
     setImportedTopic((prev) => {
@@ -441,7 +463,9 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                         mergePlan.newDotPoints > 0 ||
                         mergePlan.newSubTopics > 0) && (
                         <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-1">
-                          Existing content is preserved; only new items are added.
+                          {mergePlan.matchedPrompts > 0
+                            ? 'New items are added; questions that match an existing one are updated in place.'
+                            : 'Existing content is preserved; only new items are added.'}
                         </p>
                       )}
                   </div>
