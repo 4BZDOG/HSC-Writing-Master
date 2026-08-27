@@ -7,6 +7,7 @@ import {
   STORAGE_KEYS,
 } from '../utils/storageUtils';
 import { supabase, isSupabaseConfigured } from './supabaseClient';
+import { notifyAiNotice } from './quotaNotifier';
 import type { Provider } from '@supabase/auth-js';
 import {
   isSignupEnabled,
@@ -14,6 +15,16 @@ import {
   isEmailDomainAllowed,
   allowedDomainMessage,
 } from './signupPolicy';
+
+// Surfaced when the durable IndexedDB profile write fails (quota, private
+// browsing) so a silent data-loss no longer looks like a successful save. App
+// wires subscribeAiNotices to a toast.
+const warnProfileNotPersisted = (): void => {
+  notifyAiNotice(
+    'Your profile could not be saved on this device, so recent changes may not persist after you close the tab. ' +
+      'Check your browser storage settings or free up space.'
+  );
+};
 
 const DEFAULT_PREFERENCES: UserPreferences = {
   defaultFocusMode: false,
@@ -183,8 +194,9 @@ const mockLogin = async (username: string, password: string): Promise<User> => {
     // Update streak and last active
     fullUser.stats = calculateStreak(fullUser.stats);
 
-    await saveUserProfile(fullUser);
+    const profileSaved = await saveUserProfile(fullUser);
     safeSetItem(STORAGE_KEYS.AUTH_USER, fullUser);
+    if (!profileSaved) warnProfileNotPersisted();
 
     return fullUser;
   } else {
@@ -875,7 +887,7 @@ export const authService = {
           .eq('id', data.user.id);
       }
     } else if (user.role !== 'guest') {
-      await saveUserProfile(user);
+      if (!(await saveUserProfile(user))) warnProfileNotPersisted();
     }
     safeSetItem(STORAGE_KEYS.AUTH_USER, user);
   },

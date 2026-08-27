@@ -170,8 +170,22 @@ describe('substantiveChanges', () => {
     expect(kept).toHaveLength(1);
   });
 
-  it('drops a trivial one-word swap', () => {
-    expect(substantiveChanges([change('cat', 'dog')])).toHaveLength(0);
+  it('drops a function-word swap but keeps a content-word swap', () => {
+    expect(substantiveChanges([change('a', 'the')])).toHaveLength(0);
+    expect(substantiveChanges([change('cat', 'dog')])).toHaveLength(1);
+  });
+
+  it('keeps the single-word edits that change an HSC answer', () => {
+    // Command-term swap and factual reversal — the most instructive one-word edits.
+    expect(substantiveChanges([change('describe', 'analyse')])).toHaveLength(1);
+    expect(substantiveChanges([change('increases', 'decreases')])).toHaveLength(1);
+    // A one-word negation insertion inverts the claim.
+    expect(substantiveChanges([change('', 'not')])).toHaveLength(1);
+  });
+
+  it('still drops a plain one-word insertion that does not flip meaning', () => {
+    expect(substantiveChanges([change('', 'the')])).toHaveLength(0);
+    expect(substantiveChanges([change('', 'quickly')])).toHaveLength(0);
   });
 
   it('drops a stray short deletion but keeps a whole cut clause', () => {
@@ -185,11 +199,10 @@ describe('substantiveChanges', () => {
     const revised = 'The dog sat on the mat right there by the door.';
     const all = groupedChanges(diffWords(student, revised));
     const kept = substantiveChanges(all);
-    // The one-word cat→dog swap and the lone "extra" cut go; the two-word
-    // insertion "right there" stays.
-    expect(kept.every((c) => c.added.includes('right there') || c.added.split(/\s+/).length >= 2)).toBe(
-      true
-    );
+    // The content swap cat→dog now stays (a real substitution teaches), as does
+    // the two-word insertion "right there"; the lone "extra" cut still goes.
+    expect(kept.some((c) => c.added.includes('dog'))).toBe(true);
     expect(kept.some((c) => c.added.includes('right there'))).toBe(true);
+    expect(kept.some((c) => c.removed.includes('extra') && !c.added)).toBe(false);
   });
 });

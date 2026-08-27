@@ -106,6 +106,34 @@ describe('Gemini overload (503) fallback', () => {
     expect(notices).toHaveLength(1);
   }, 15000);
 
+  it('does not ping-pong when the sibling model is also overloaded', async () => {
+    // Every attempt 503s, on the original model and the sibling alike. The
+    // reroute must fire exactly once and then fail, not loop A→B→A forever.
+    fetchMock.mockResolvedValue(makeResponse({ error: { message: OVERLOAD_MESSAGE } }, false, 503));
+
+    const notices: string[] = [];
+    subscribeAiNotices((m) => notices.push(m));
+
+    const promise = generateContentWithRetry({
+      provider: 'gemini',
+      model: 'gemini-3-flash-preview',
+      contents: 'mark this',
+    });
+    const assertion = expect(promise).rejects.toThrow(/high demand|unavailable/i);
+
+    // Two retry cycles now run back-to-back (original model, then the sibling),
+    // so flush enough backoff windows to cover both.
+    for (let i = 0; i < 8; i++) {
+      await vi.advanceTimersByTimeAsync(21000);
+    }
+
+    await assertion;
+    // 4 on the original (initial + 3 retries) + 4 on the sibling = 8; no third
+    // reroute because the sibling call is flagged rerouted.
+    expect(fetchMock).toHaveBeenCalledTimes(8);
+    expect(notices).toHaveLength(1);
+  }, 15000);
+
   it('does not reroute non-Gemini providers', async () => {
     fetchMock.mockResolvedValue(makeResponse({ error: { message: OVERLOAD_MESSAGE } }, false, 503));
 

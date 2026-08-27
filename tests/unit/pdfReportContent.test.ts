@@ -114,10 +114,10 @@ describe('the report says what it means', () => {
   });
 
   it('still prints the section (with guidance) when every edit is a minor swap', () => {
-    // "cat" -> "dog" is a single-word swap: stats count it, but it filters out
+    // "The" -> "A" is a function-word swap: stats count it, but it filters out
     // of substantiveChanges, so there are no rows to print.
     const blocks = buildEvaluationBlocks(
-      data({ studentAnswer: 'The cat sat.', revisedAnswer: 'The dog sat.' })
+      data({ studentAnswer: 'The cat sat on the mat.', revisedAnswer: 'A cat sat on the mat.' })
     );
     expect(hasHeading(blocks, /what changed/i)).toBe(true);
     expect(hasText(blocks, /minor wording changes/i)).toBe(true);
