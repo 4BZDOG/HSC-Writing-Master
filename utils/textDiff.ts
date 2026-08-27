@@ -57,6 +57,91 @@ const normalise = (token: string): string =>
     .toLowerCase()
     .replace(/[.,;:!?'"()[\]{}—–-]/g, '');
 
+// Function words carry no lesson on their own: swapping one for another
+// ("a" → "the") is lexical noise. A one-word substitution between two of these
+// is dropped; a substitution touching a content word is kept, because a single
+// word can be the most instructive edit a student makes.
+const FUNCTION_WORDS = new Set([
+  'a',
+  'an',
+  'the',
+  'is',
+  'are',
+  'was',
+  'were',
+  'be',
+  'been',
+  'being',
+  'am',
+  'of',
+  'to',
+  'in',
+  'on',
+  'at',
+  'by',
+  'for',
+  'with',
+  'from',
+  'as',
+  'into',
+  'onto',
+  'and',
+  'or',
+  'but',
+  'so',
+  'if',
+  'then',
+  'than',
+  'that',
+  'this',
+  'these',
+  'those',
+  'it',
+  'its',
+  'their',
+  'his',
+  'her',
+  'our',
+  'your',
+  'my',
+  'i',
+  'we',
+  'they',
+  'he',
+  'she',
+  'do',
+  'does',
+  'did',
+  'has',
+  'have',
+  'had',
+  'will',
+  'would',
+  'can',
+  'could',
+]);
+
+// Small words that invert or sharply qualify a claim. Inserting or swapping one
+// ("it is fair" → "it is not fair") changes the meaning even though the word
+// count barely moves, so it is always worth showing.
+const MEANING_FLIPPING = new Set([
+  'not',
+  'no',
+  'never',
+  'none',
+  'cannot',
+  'nor',
+  'without',
+  'neither',
+  'must',
+  'should',
+  'always',
+  'only',
+]);
+
+const isFunctionWord = (side: string): boolean => FUNCTION_WORDS.has(normalise(side));
+const flipsMeaning = (side: string): boolean => MEANING_FLIPPING.has(normalise(side));
+
 interface DiffPart {
   op: DiffOp;
   token: string;
@@ -296,10 +381,14 @@ export const groupedChanges = (segments: DiffSegment[]): DiffChange[] => {
  *
  * A change earns its place when it adds a real phrase (≥2 words), replaces a
  * phrase (adds something in place of ≥2 removed words), or cuts a whole clause
- * (≥`minCutWords` words). Trivial one-word↔one-word swaps and stray one- or
- * two-word deletions are dropped: they are lexical noise a student can't revise
- * from. This roughly halves a typical list and leaves what remains coherent, so
- * the printed "What changed" reads as guidance rather than a wall of fragments.
+ * (≥`minCutWords` words). It ALSO keeps the single-word edits that carry the
+ * most meaning for an HSC answer: a genuine one-word substitution (a command-
+ * term swap like *describe → analyse*, or a factual reversal like *increases →
+ * decreases*) and the insertion of a meaning-flipping word (*it is fair → it is
+ * not fair*). Only lexical noise is dropped — a function-word swap (*a → the*),
+ * a plain one-word insertion that does not flip meaning, and stray one- or
+ * two-word deletions — so the printed "What changed" reads as guidance rather
+ * than a wall of fragments while never hiding an edit that changed the argument.
  */
 export const SUBSTANTIVE_CUT_MIN_WORDS = 6;
 
@@ -313,6 +402,18 @@ export const substantiveChanges = (
     if (addedWords >= 2) return true; // a real phrase was added
     if (addedWords >= 1 && removedWords >= 2) return true; // a phrase was rewritten
     if (addedWords === 0 && removedWords >= minCutWords) return true; // a clause was cut
+    // A single inserted word that inverts the claim ("fair" → "not fair").
+    if (addedWords === 1 && removedWords === 0 && flipsMeaning(change.added)) return true;
+    // A genuine one-word substitution — command-term swaps, factual reversals —
+    // teaches; a function-word-for-function-word swap ("a" → "the") does not.
+    if (
+      addedWords === 1 &&
+      removedWords === 1 &&
+      normalise(change.added) !== normalise(change.removed) &&
+      !(isFunctionWord(change.added) && isFunctionWord(change.removed))
+    ) {
+      return true;
+    }
     return false;
   });
 

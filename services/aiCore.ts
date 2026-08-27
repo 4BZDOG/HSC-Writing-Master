@@ -767,7 +767,13 @@ export const _resetOverloadNotices = (): void => {
   overloadNoticeShown.clear();
 };
 
-export const generateContentWithRetry = async (request: any): Promise<GenerateContentResponse> => {
+export const generateContentWithRetry = async (
+  request: any,
+  // Internal: set when this call is itself an overload reroute, so a second
+  // overload cannot ping-pong back to the original model (A→B→A). Kept in a
+  // param rather than on `request` so it never leaks into the proxy body.
+  opts: { rerouted?: boolean } = {}
+): Promise<GenerateContentResponse> => {
   try {
     return await dedupedExecute(request);
   } catch (error) {
@@ -810,7 +816,8 @@ export const generateContentWithRetry = async (request: any): Promise<GenerateCo
     if (
       error instanceof ModelOverloadedError &&
       request?.provider === 'gemini' &&
-      typeof request?.model === 'string'
+      typeof request?.model === 'string' &&
+      !opts.rerouted
     ) {
       const overloadFallback = getOverloadFallback(request.model);
       if (overloadFallback && overloadFallback.model !== request.model) {
@@ -832,11 +839,15 @@ export const generateContentWithRetry = async (request: any): Promise<GenerateCo
           phase: 'fallback',
           message: `Switching to ${getModelByProviderModel(overloadFallback.model)?.label ?? overloadFallback.model} (high demand)...`,
         });
-        return dedupedExecute({
-          ...request,
-          provider: overloadFallback.provider,
-          model: overloadFallback.model,
-        });
+        // Re-enter the full retry path (not a raw dedupedExecute) so the sibling
+        // gets its own retries and, critically, the zero-quota free-tier fallback
+        // if this key cannot serve it either — otherwise a hard QuotaExceededError
+        // escapes when a free-tier-safe model was one hop away. `rerouted` stops a
+        // second overload from ping-ponging back to the original model.
+        return generateContentWithRetry(
+          { ...request, provider: overloadFallback.provider, model: overloadFallback.model },
+          { rerouted: true }
+        );
       }
     }
     throw error;

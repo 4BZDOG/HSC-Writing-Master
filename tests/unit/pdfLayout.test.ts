@@ -459,9 +459,10 @@ describe('the improved response prints what changed', () => {
     expect(more?.runs[0].text).toMatch(/more changes/);
   });
 
-  it('drops uninstructive edits (one-word swaps and stray short cuts) from the printed list', () => {
-    // "cat" → "dog" is a one-word swap; "extra" is a lone one-word cut — neither
-    // teaches a revision, so only the substantive two-word addition survives.
+  it('keeps instructive edits but drops stray short cuts from the printed list', () => {
+    // "cat" → "dog" is a genuine content-word swap and "right there" is a
+    // two-word insertion — both teach a revision, so both survive. "extra" is a
+    // lone one-word cut that teaches nothing, so it is dropped.
     const blocks = withDiff({
       studentAnswer: 'The cat sat on the extra mat by the door.',
       revisedAnswer: 'The dog sat on the mat right there by the door.',
@@ -470,8 +471,8 @@ describe('the improved response prints what changed', () => {
       .flatMap((b) => b.runs.map((r) => r.text))
       .join('\n');
 
-    expect(text).not.toContain('− cat');
-    expect(text).not.toContain('+ dog');
+    expect(text).toContain('+ dog');
     expect(text).toContain('+ right there');
+    expect(text).not.toContain('− extra');
   });
 });
