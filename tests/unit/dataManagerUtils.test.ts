@@ -5,6 +5,7 @@ import {
   mergeTopicContents,
   buildTopicExportPayload,
   previewTopicMergePlan,
+  safeClone,
 } from '../../utils/dataManagerUtils';
 
 const buildTopic = (): Topic => ({
@@ -403,5 +404,24 @@ describe('previewTopicMergePlan', () => {
     const plan = previewTopicMergePlan(existingTopics, importedTopic);
 
     expect(plan.matchedTopic?.id).toBe('topic-cells');
+  });
+});
+
+describe('safeClone', () => {
+  it('deep-clones, so mutating the copy leaves the original untouched', () => {
+    const original = buildTopic();
+    const copy = safeClone(original);
+    copy.subTopics[0].dotPoints[0].description = 'changed';
+    expect(original.subTopics[0].dotPoints[0].description).toBe('Investigate membrane transport');
+    expect(copy).not.toBe(original);
+  });
+
+  it('clones via structuredClone (regression: it used to recurse into itself)', () => {
+    // The JSON fallback would turn a Date into a string; structuredClone keeps
+    // it a Date. A regression to the old self-recursive body would stack-
+    // overflow, fall through to the JSON path, and fail this assertion.
+    const cloned = safeClone({ when: new Date('2020-01-01T00:00:00Z'), n: 1 });
+    expect(cloned.when).toBeInstanceOf(Date);
+    expect(cloned.when.getTime()).toBe(Date.UTC(2020, 0, 1));
   });
 });
