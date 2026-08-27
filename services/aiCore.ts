@@ -760,6 +760,13 @@ const dedupedExecute = async (request: any): Promise<GenerateContentResponse> =>
 // notified once per model rather than on every retried call.
 const overloadNoticeShown = new Set<string>();
 
+// Test seam: the notice Set is module-level and persists for the session, so
+// suites that assert once-per-model notice counts must clear it between cases.
+// Mirrors quotaNotifier._resetQuotaListeners.
+export const _resetOverloadNotices = (): void => {
+  overloadNoticeShown.clear();
+};
+
 export const generateContentWithRetry = async (request: any): Promise<GenerateContentResponse> => {
   try {
     return await dedupedExecute(request);

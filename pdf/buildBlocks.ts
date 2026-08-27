@@ -342,7 +342,12 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
       const stats = summariseDiff(segments);
       const changes = substantiveChanges(groupedChanges(segments));
 
-      if (changes.length > 0) {
+      // Print the section whenever the revision touched any words at all. The
+      // stats describe the WHOLE revision; the row list below is the substantial
+      // subset, which can be empty when every edit was a minor word-swap. Print
+      // heading + stats + a pointer even then, rather than leaving a silent gap
+      // that reads as "nothing changed".
+      if (stats.added + stats.removed > 0) {
         blocks.push(spacer(1.5));
         blocks.push(heading('What changed', exAccent));
         blocks.push({
@@ -359,49 +364,73 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
           basePadBottom: 1.5,
         });
 
-        // A long revision can run to dozens of edits; past a point the list
-        // stops being a revision aid and becomes a wall. Cap it and say so.
-        const MAX_PRINTED_CHANGES = 14;
-        changes.slice(0, MAX_PRINTED_CHANGES).forEach((change) => {
-          const runs: TextRun[] = [];
-          if (change.removed) {
-            runs.push(
-              run(`− ${change.removed}`, 8.5, { color: COLORS.rose, lineHeightFactor: 1.3 })
-            );
-          }
-          if (change.added) {
-            runs.push(
-              run(`+ ${change.added}`, 8.5, {
-                color: COLORS.emerald,
-                style: 'bold',
-                lineHeightFactor: 1.3,
-              })
-            );
-          }
-          blocks.push({
-            kind: 'listItem',
-            id: nid('chg'),
-            runs,
-            accent: exAccent,
-            breakable: true,
-            basePadBottom: 1.2,
-          });
-        });
-
-        if (changes.length > MAX_PRINTED_CHANGES) {
+        if (changes.length === 0) {
           blocks.push({
             kind: 'paragraph',
-            id: nid('chgmore'),
+            id: nid('chgminor'),
             runs: [
               run(
-                `+ ${changes.length - MAX_PRINTED_CHANGES} more change` +
-                  `${changes.length - MAX_PRINTED_CHANGES === 1 ? '' : 's'} — open the comparison in the app to see them all.`,
-                8,
+                'Only minor wording changes here — open the comparison in the app to see them highlighted.',
+                8.5,
                 { color: COLORS.muted }
               ),
             ],
             basePadBottom: 2,
           });
+        } else {
+          // The rows are the substantial edits only, so the counts above will not
+          // tally with the list — caption it rather than leave a reader counting.
+          blocks.push({
+            kind: 'paragraph',
+            id: nid('chgcap'),
+            runs: [run('The most substantial edits:', 8, { color: COLORS.muted })],
+            basePadBottom: 1,
+          });
+
+          // A long revision can run to dozens of edits; past a point the list
+          // stops being a revision aid and becomes a wall. Cap it and say so.
+          const MAX_PRINTED_CHANGES = 14;
+          changes.slice(0, MAX_PRINTED_CHANGES).forEach((change) => {
+            const runs: TextRun[] = [];
+            if (change.removed) {
+              runs.push(
+                run(`− ${change.removed}`, 8.5, { color: COLORS.rose, lineHeightFactor: 1.3 })
+              );
+            }
+            if (change.added) {
+              runs.push(
+                run(`+ ${change.added}`, 8.5, {
+                  color: COLORS.emerald,
+                  style: 'bold',
+                  lineHeightFactor: 1.3,
+                })
+              );
+            }
+            blocks.push({
+              kind: 'listItem',
+              id: nid('chg'),
+              runs,
+              accent: exAccent,
+              breakable: true,
+              basePadBottom: 1.2,
+            });
+          });
+
+          if (changes.length > MAX_PRINTED_CHANGES) {
+            blocks.push({
+              kind: 'paragraph',
+              id: nid('chgmore'),
+              runs: [
+                run(
+                  `+ ${changes.length - MAX_PRINTED_CHANGES} more change` +
+                    `${changes.length - MAX_PRINTED_CHANGES === 1 ? '' : 's'} — open the comparison in the app to see them all.`,
+                  8,
+                  { color: COLORS.muted }
+                ),
+              ],
+              basePadBottom: 2,
+            });
+          }
         }
       }
     }

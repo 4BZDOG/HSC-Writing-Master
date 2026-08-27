@@ -91,6 +91,44 @@ describe('the report says what it means', () => {
     expect(notes.ruleLines).toBeGreaterThan(0);
     expect(find(withNotes, (b) => /marker/i.test(b.runs[0]?.text ?? ''))).toBeTruthy();
   });
+
+  // The "What changed" section is an edit map of the student's own answer. It
+  // must never leave a silent gap: a revision of only minor word-swaps filters
+  // to zero substantial rows, but the student still deserves the heading, the
+  // stats, and a pointer — not blank space that reads as "nothing changed".
+  const hasHeading = (blocks: ContentBlock[], re: RegExp) =>
+    blocks.some((b) => b.kind === 'heading' && re.test(b.runs[0]?.text ?? ''));
+  const hasText = (blocks: ContentBlock[], re: RegExp) =>
+    blocks.some((b) => b.runs.some((r) => re.test(r.text ?? '')));
+
+  it('lists the substantial edits when the revision made real changes', () => {
+    const blocks = buildEvaluationBlocks(
+      data({
+        studentAnswer: 'The cat sat.',
+        revisedAnswer: 'The cat sat quietly on the warm mat by the fire.',
+      })
+    );
+    expect(hasHeading(blocks, /what changed/i)).toBe(true);
+    expect(hasText(blocks, /most substantial edits/i)).toBe(true);
+    expect(hasText(blocks, /minor wording changes/i)).toBe(false);
+  });
+
+  it('still prints the section (with guidance) when every edit is a minor swap', () => {
+    // "cat" -> "dog" is a single-word swap: stats count it, but it filters out
+    // of substantiveChanges, so there are no rows to print.
+    const blocks = buildEvaluationBlocks(
+      data({ studentAnswer: 'The cat sat.', revisedAnswer: 'The dog sat.' })
+    );
+    expect(hasHeading(blocks, /what changed/i)).toBe(true);
+    expect(hasText(blocks, /minor wording changes/i)).toBe(true);
+    expect(hasText(blocks, /most substantial edits/i)).toBe(false);
+  });
+
+  it('omits the section entirely when the answer was not revised', () => {
+    const same = 'The cat sat on the mat.';
+    const blocks = buildEvaluationBlocks(data({ studentAnswer: same, revisedAnswer: same }));
+    expect(hasHeading(blocks, /what changed/i)).toBe(false);
+  });
 });
 
 describe('the layout reserves room for it', () => {

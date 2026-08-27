@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { generateContentWithRetry } from '../../services/aiCore';
+import { generateContentWithRetry, _resetOverloadNotices } from '../../services/aiCore';
 import { subscribeAiNotices, _resetQuotaListeners } from '../../services/quotaNotifier';
 
 const okJson = { candidates: [{ finishReason: 'STOP' }], text: '{}' };
@@ -34,6 +34,9 @@ describe('Gemini overload (503) fallback', () => {
     vi.useRealTimers();
     vi.unstubAllGlobals();
     _resetQuotaListeners();
+    // The overload-notice Set is module-level and persists across cases; without
+    // this a rerouted model in one test suppresses the notice in the next.
+    _resetOverloadNotices();
   });
 
   it('reroutes to a sibling model once retries on the overloaded model are exhausted', async () => {
@@ -70,6 +73,37 @@ describe('Gemini overload (503) fallback', () => {
 
     expect(notices).toHaveLength(1);
     expect(notices[0]).toMatch(/high demand/i);
+  }, 15000);
+
+  it('notifies only once per overloaded model across separate calls', async () => {
+    // Two independent calls both exhaust retries on the same model and reroute.
+    // The high-demand notice must fire on the first and stay silent on the
+    // second — the once-per-session guard lives in a module-level Set.
+    const overloadThenOk = () =>
+      fetchMock
+        .mockResolvedValueOnce(makeResponse({ error: { message: OVERLOAD_MESSAGE } }, false, 503))
+        .mockResolvedValueOnce(makeResponse({ error: { message: OVERLOAD_MESSAGE } }, false, 503))
+        .mockResolvedValueOnce(makeResponse({ error: { message: OVERLOAD_MESSAGE } }, false, 503))
+        .mockResolvedValueOnce(makeResponse({ error: { message: OVERLOAD_MESSAGE } }, false, 503))
+        .mockResolvedValueOnce(makeResponse(okJson));
+
+    const notices: string[] = [];
+    subscribeAiNotices((m) => notices.push(m));
+
+    for (let call = 0; call < 2; call++) {
+      overloadThenOk();
+      const promise = generateContentWithRetry({
+        provider: 'gemini',
+        model: 'gemini-3-flash-preview',
+        contents: 'mark this',
+      });
+      for (let i = 0; i < 3; i++) {
+        await vi.advanceTimersByTimeAsync(21000);
+      }
+      await promise;
+    }
+
+    expect(notices).toHaveLength(1);
   }, 15000);
 
   it('does not reroute non-Gemini providers', async () => {

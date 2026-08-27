@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   EvaluationResult,
   Prompt,
@@ -427,6 +427,19 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
     [hierarchy]
   );
 
+  // Auto-scroll the trail rail to its leaf on overflow, matching Breadcrumb.tsx:
+  // the deepest segment (the exact dot point marked) is the most useful, but a
+  // left-pinned overflow rail hides it on a narrow viewport. Keyed on the
+  // trail's CONTENT so it only re-scrolls when the location actually changes.
+  const trailRailRef = useRef<HTMLElement>(null);
+  const trailKey = syllabusTrail.join('›');
+  useEffect(() => {
+    const el = trailRailRef.current;
+    if (!el) return;
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    el.scrollTo({ left: el.scrollWidth, behavior: reduce ? 'auto' : 'smooth' });
+  }, [trailKey]);
+
   const handleExportPdf = async () => {
     if (isExporting) return; // guard double-clicks
     setIsExporting(true);
@@ -520,7 +533,11 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             scrollbar-hide rail. */}
         {syllabusTrail.length > 0 && (
           <nav
+            ref={trailRailRef}
             aria-label="Syllabus location"
+            // tabIndex makes the hidden-scrollbar rail reachable by keyboard so a
+            // clipped deep trail can still be scrolled without a pointer.
+            tabIndex={0}
             className="flex items-center gap-x-1.5 flex-nowrap overflow-x-auto scrollbar-hide text-slate-500 dark:text-slate-400"
           >
             {syllabusTrail.map((segment, i) => (
