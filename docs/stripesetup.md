@@ -111,7 +111,7 @@ The webhook is how Stripe tells your app about subscription changes (new checkou
 
    Replace `your-app.vercel.app` with your actual domain.
 
-4. Under **Events to send**, select these four:
+4. Under **Events to send**, select these six:
    - `checkout.session.completed`
    - `customer.subscription.created`
    - `customer.subscription.updated`
