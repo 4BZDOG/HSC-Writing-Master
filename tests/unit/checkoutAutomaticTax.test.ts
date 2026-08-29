@@ -125,4 +125,17 @@ describe('create-checkout: automatic tax (GST)', () => {
     const args = sessionCreateMock.mock.calls[0][0];
     expect(args.tax_id_collection).toEqual({ enabled: true });
   });
+
+  it('requires the billing address when tax is on, and only asks when needed otherwise', async () => {
+    // Stripe recommends a required billing address alongside automatic tax so
+    // it always has a location for the rate; off the tax path we stay on 'auto'.
+    process.env.STRIPE_AUTOMATIC_TAX = 'true';
+    await checkoutHandler(post({ priceId: 'price_plus_yearly' }), makeRes());
+    expect(sessionCreateMock.mock.calls[0][0].billing_address_collection).toBe('required');
+
+    sessionCreateMock.mockClear();
+    delete process.env.STRIPE_AUTOMATIC_TAX;
+    await checkoutHandler(post({ priceId: 'price_plus_yearly' }), makeRes());
+    expect(sessionCreateMock.mock.calls[0][0].billing_address_collection).toBe('auto');
+  });
 });

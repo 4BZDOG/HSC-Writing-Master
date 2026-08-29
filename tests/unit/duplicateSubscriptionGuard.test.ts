@@ -22,13 +22,26 @@ const sessionCreateMock = vi.fn();
 const makeSupabaseMock = () => ({
   from: (table: string) => {
     if (table === 'subscriptions') {
-      // The guard chains .select().eq().in().limit().maybeSingle().
+      // The guard chains .select().eq().in(statuses).limit().maybeSingle().
+      // Honour the .in() status filter so the mock actually models what
+      // Postgres would return: a row is only "found" when its status is one
+      // the guard asked for — this is what makes the `canceled` case below a
+      // real exclusion test rather than one that passes by construction.
+      let allowed: string[] = [];
       const chain = {
         select: () => chain,
         eq: () => chain,
-        in: () => chain,
+        in: (_col: string, statuses: string[]) => {
+          allowed = statuses;
+          return chain;
+        },
         limit: () => chain,
-        maybeSingle: async () => ({ data: existingSubscription }),
+        maybeSingle: async () => ({
+          data:
+            existingSubscription && allowed.includes(existingSubscription.status)
+              ? existingSubscription
+              : null,
+        }),
       };
       return chain;
     }
@@ -135,9 +148,11 @@ describe('create-checkout: duplicate-subscription guard', () => {
   });
 
   it('ignores a cancelled subscription and lets the user re-subscribe', async () => {
-    // A fully `canceled` row is not in the active/trialing/past_due set, so it
-    // must not block a fresh purchase — the user is no longer being billed.
-    existingSubscription = null; // the .in() filter would exclude it server-side
+    // A fully `canceled` row is not in the active/trialing/past_due set, so the
+    // guard's .in() filter excludes it and a fresh purchase proceeds — the user
+    // is no longer being billed. The mock applies the same filter, so this
+    // exercises the exclusion rather than asserting it by construction.
+    existingSubscription = { id: 'sub_dead', status: 'canceled' };
     const res = makeRes();
     await checkoutHandler(post({ priceId: 'price_plus_yearly' }), res);
 

@@ -263,7 +263,12 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       // subscription handler would find no profile and silently drop the plan.
       subscription_data: { metadata: { supabase_user_id: auth.userId } },
       allow_promotion_codes: true,
-      billing_address_collection: 'auto',
+      // With automatic tax on, Stripe needs a reliable location to pick the
+      // right rate, so it recommends REQUIRING the billing address rather than
+      // leaning on 'auto' (which only asks when it thinks it must). Off the tax
+      // path, keep 'auto' so a plain card purchase isn't made to type an
+      // address it doesn't need.
+      billing_address_collection: automaticTaxEnabled ? 'required' : 'auto',
       tax_id_collection: { enabled: true },
     });
 
