@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { QualityCheckResult } from '../types';
 import { performQualityCheck } from '../services/geminiService';
-import { getSelectionSnapshot } from '../services/aiConfig';
+import { resolveTarget } from '../services/aiConfig';
 import { getModelById } from '../services/aiModels';
 import {
   X,
@@ -37,18 +37,24 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
   const [isLoading, setIsLoading] = useState(true);
   const [result, setResult] = useState<QualityCheckResult | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const runningRef = useRef(false);
+  // A monotonic token: only the most recently started run may write state, so a
+  // superseded run (a retry, or a re-open on new content) can never overwrite a
+  // newer one with a stale result. Also covers StrictMode double-invoke.
+  const runIdRef = useRef(0);
 
-  // Escape closes this modal like every other AI modal — but not while a check
-  // is in flight, so a stray keypress can't abandon a run mid-request.
+  // Closing is blocked while a check is in flight — a stray Escape, backdrop
+  // click, X or Close must not abandon a run mid-request. Mirrors the sibling
+  // generator modals, which route every close through one guarded handler.
+  const handleClose = () => {
+    if (isLoading) return;
+    onClose();
+  };
+
   useEscapeKey(isOpen && !isLoading, onClose);
   useScrollLock(isOpen);
 
   const runCheck = async () => {
-    // A second trigger while one is already running would race the result and
-    // error state; ignore it (covers StrictMode double-invoke and fast retries).
-    if (runningRef.current) return;
-    runningRef.current = true;
+    const runId = (runIdRef.current += 1);
     // Clear any previous outcome up front: without this, a retry that SUCCEEDS
     // still fell through to the error card, because the body renders `error`
     // before `result`.
@@ -57,12 +63,13 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
     setIsLoading(true);
     try {
       const checkResult = await performQualityCheck(content, contentType);
-      setResult(checkResult);
+      if (runIdRef.current === runId) setResult(checkResult);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to perform quality check.');
+      if (runIdRef.current === runId) {
+        setError(err instanceof Error ? err.message : 'Failed to perform quality check.');
+      }
     } finally {
-      setIsLoading(false);
-      runningRef.current = false;
+      if (runIdRef.current === runId) setIsLoading(false);
     }
   };
 
@@ -71,7 +78,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
       void runCheck();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, content]);
+  }, [isOpen, content, contentType]);
 
   const handleAutoFix = () => {
     if (result?.refinedContent && onUpdateContent) {
@@ -101,7 +108,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
   // that is actually running, not a hardcoded one. Read at render (never module
   // scope) to stay clear of the eager-read bundle-safety trap.
   const reviewEngineLabel =
-    getModelById(getSelectionSnapshot()['reasoning'])?.label ?? 'the selected AI engine';
+    getModelById(resolveTarget('reasoning').model)?.label ?? 'the selected AI engine';
 
   return createPortal(
     <div
@@ -111,7 +118,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
       aria-modal="true"
       aria-label="Quality check"
       className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[200] p-4"
-      onClick={isLoading ? undefined : onClose}
+      onClick={handleClose}
     >
       <div
         className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-2xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
@@ -140,7 +147,8 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
               </div>
             </div>
             <button
-              onClick={onClose}
+              onClick={handleClose}
+              disabled={isLoading}
               aria-label="Close"
               className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
@@ -267,8 +275,9 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
           </div>
           <div className="flex gap-3">
             <button
-              onClick={onClose}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+              onClick={handleClose}
+              disabled={isLoading}
+              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Close
             </button>

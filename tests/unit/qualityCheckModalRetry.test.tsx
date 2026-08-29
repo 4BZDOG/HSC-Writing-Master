@@ -84,6 +84,14 @@ describe('QualityCheckModal retry', () => {
     fireEvent.click(dialog); // backdrop click while loading
     expect(onClose).not.toHaveBeenCalled();
 
+    // The header X and footer Close (both accessibly named "Close") are disabled
+    // while the check runs, so they cannot abandon it mid-request either.
+    const closeButtons = screen.getAllByRole('button', { name: 'Close' });
+    expect(closeButtons.length).toBeGreaterThanOrEqual(2);
+    for (const btn of closeButtons) {
+      expect((btn as HTMLButtonElement).disabled).toBe(true);
+    }
+
     // Let the check settle so the component leaves its loading state cleanly.
     resolveCheck(okResult);
     await screen.findByText('Quality Score');
