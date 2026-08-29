@@ -422,8 +422,8 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             <p className="text-sm font-bold leading-relaxed">{evaluationError}</p>
             {/timed? ?out/i.test(evaluationError) && (
               <p className="text-xs mt-2 opacity-70">
-                Tip: Try switching to Gemini Flash in the AI Engine selector — it responds faster
-                than Pro.
+                Tip: long answers on a busy connection can time out. Try again in a moment, or
+                shorten your response and re-submit.
               </p>
             )}
             <button
