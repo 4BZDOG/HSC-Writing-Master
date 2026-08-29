@@ -19,6 +19,8 @@
  * services/entitlements.ts — that module can't be imported here (it reads
  * `import.meta.env`, which only exists under Vite), so the values are
  * duplicated and pinned together by tests/unit/entitlementConstants.test.ts.
+ * The client copy also carries a `default` (the seat picker's starting value),
+ * which is intentionally omitted here — only the min/max are enforced server-side.
  */
 export const SCHOOL_SEAT_LIMITS = { min: 5, max: 1000 } as const;
 

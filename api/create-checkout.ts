@@ -32,6 +32,7 @@ import {
 } from './_lib/stripe';
 import { SCHOOL_SEAT_LIMITS } from './_lib/entitlements';
 import { verifyRequestAuth } from './_lib/auth';
+import { corsHeadersFor } from './_lib/cors';
 
 interface RequestLike {
   method?: string;
@@ -49,6 +50,27 @@ const headerValue = (raw: string | string[] | undefined): string | undefined =>
   Array.isArray(raw) ? raw[0] : raw;
 
 export default async function handler(req: RequestLike, res: ResponseLike): Promise<void> {
+  // Opt-in CORS for split hosting (static frontend elsewhere, API here). The
+  // client posts billing to `${VITE_API_BASE_URL}${path}`, so on a split-host
+  // deployment this POST carries Authorization + Content-Type and the browser
+  // fires an OPTIONS preflight first — which we must answer here or the whole
+  // checkout is blocked before it runs. No ALLOWED_ORIGIN configured → no CORS
+  // headers → same-origin only, byte-identical to before.
+  const cors = corsHeadersFor(headerValue(req.headers?.origin), process.env.ALLOWED_ORIGIN);
+  if (cors && res.setHeader) {
+    for (const [name, value] of Object.entries(cors)) res.setHeader(name, value);
+  }
+  if (req.method === 'OPTIONS') {
+    // Preflight: succeed only when the origin was allowed above.
+    if (cors && res.end) {
+      res.status(204);
+      res.end();
+    } else {
+      res.status(403).json({ error: 'Cross-origin access is not enabled for this origin.' });
+    }
+    return;
+  }
+
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed. Use POST.' });
     return;
@@ -143,6 +165,38 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
         return;
       }
 
+      // Refuse a second concurrent subscription. Checkout reuses the Stripe
+      // CUSTOMER (above) but Stripe itself is happy to open a second, parallel
+      // subscription on that customer — and nothing downstream stops it:
+      // resolve_stripe_plan simply picks the newest row, so the older
+      // subscription keeps billing silently while the customer is charged
+      // twice. A user who is already subscribed can reach this endpoint any
+      // number of ways — a teacher re-opening the modal to top up seats, a
+      // `cancel_at_period_end` user who still holds the plan, or anyone who
+      // clicks Upgrade a second time — so the guard lives here on the server
+      // rather than in the UI. `past_due` counts as active: Stripe is still
+      // retrying that charge (see the webhook's grace-period rule), so the
+      // plan is live and a fresh checkout would double-bill.
+      //
+      // Plan CHANGES (upgrade/downgrade, add seats) go through the billing
+      // portal by design — this is only a duplicate-purchase guard, not an
+      // in-app switcher. Applies to both Plus and School because it keys on
+      // the user, before the price is inspected.
+      const { data: existingSub } = await supabase
+        .from('subscriptions')
+        .select('id, status')
+        .eq('user_id', auth.userId)
+        .in('status', ['active', 'trialing', 'past_due'])
+        .limit(1)
+        .maybeSingle();
+      if (existingSub) {
+        res.status(409).json({
+          error:
+            'You already have an active subscription. Use “Manage subscription” to change your plan or seats.',
+        });
+        return;
+      }
+
       // First checkout for this user: prefill their account email so the new
       // Stripe customer is identifiable and receipts / failed-payment recovery
       // emails reach the right inbox. Best-effort — checkout works without it.
@@ -172,6 +226,24 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
         )
       : 1;
 
+    // Stripe only COMPUTES and ADDS tax (GST for AUD sales) when
+    // `automatic_tax` is enabled on the Checkout Session itself — configuring
+    // "Stripe Tax" in the dashboard alone does nothing for Checkout. Without
+    // this key set the customer is charged the GST-exclusive price and the ABN
+    // gathered by `tax_id_collection` below is collected but never acted on, so
+    // GST is under-collected on every sale.
+    //
+    // It is opt-in (default off) because Stripe THROWS when automatic_tax is
+    // enabled on an account that has no configured origin address — so turning
+    // it on unconditionally would break checkout for every deployment that has
+    // not first set an origin address in the Stripe Dashboard. The operator
+    // flips STRIPE_AUTOMATIC_TAX=true only once that dashboard configuration is
+    // in place (see docs/stripesetup.md). When on, Stripe applies tax to the
+    // configured prices per the account's tax settings — whether those prices
+    // are treated as tax-inclusive or tax-exclusive is an account/price setting
+    // the operator reconciles, not something this flag decides.
+    const automaticTaxEnabled = process.env.STRIPE_AUTOMATIC_TAX === 'true';
+
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
       payment_method_types: ['card'],
@@ -179,6 +251,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       success_url: `${returnBase}?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${returnBase}?checkout=cancelled`,
       client_reference_id: auth.userId ?? undefined,
+      ...(automaticTaxEnabled ? { automatic_tax: { enabled: true } } : {}),
       ...(existingCustomerId
         ? { customer: existingCustomerId }
         : customerEmail
@@ -190,7 +263,12 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       // subscription handler would find no profile and silently drop the plan.
       subscription_data: { metadata: { supabase_user_id: auth.userId } },
       allow_promotion_codes: true,
-      billing_address_collection: 'auto',
+      // With automatic tax on, Stripe needs a reliable location to pick the
+      // right rate, so it recommends REQUIRING the billing address rather than
+      // leaning on 'auto' (which only asks when it thinks it must). Off the tax
+      // path, keep 'auto' so a plain card purchase isn't made to type an
+      // address it doesn't need.
+      billing_address_collection: automaticTaxEnabled ? 'required' : 'auto',
       tax_id_collection: { enabled: true },
     });
 

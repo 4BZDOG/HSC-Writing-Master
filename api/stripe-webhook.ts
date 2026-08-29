@@ -7,7 +7,8 @@
  * Handled events:
  *   - checkout.session.completed — link Stripe customer to Supabase user
  *   - customer.subscription.created/updated/deleted — sync subscription state
- *   - invoice.payment_failed — flag the profile for grace-period UI
+ *   - invoice.payment_failed / invoice.payment_action_required — flag the
+ *     profile for grace-period UI (SCA challenge is handled the same way)
  *
  * Security: events are verified with the STRIPE_WEBHOOK_SECRET signing secret.
  * Outside production (no secret set), the body is trusted as-is so the

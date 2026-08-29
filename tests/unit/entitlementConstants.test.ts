@@ -53,6 +53,11 @@ describe('entitlement constants stay in sync', () => {
   it('the checkout endpoint clamps seats to the same bounds as the seat picker', () => {
     expect(SERVER_SEAT_LIMITS.min).toBe(SCHOOL_SEAT_LIMITS.min);
     expect(SERVER_SEAT_LIMITS.max).toBe(SCHOOL_SEAT_LIMITS.max);
+    // The client-only `default` (the seat picker's starting value) is not
+    // mirrored server-side, but it must still fall inside the enforced bounds,
+    // or the picker opens on a value the checkout endpoint would clamp.
+    expect(SCHOOL_SEAT_LIMITS.default).toBeGreaterThanOrEqual(SCHOOL_SEAT_LIMITS.min);
+    expect(SCHOOL_SEAT_LIMITS.default).toBeLessThanOrEqual(SCHOOL_SEAT_LIMITS.max);
   });
 
   it('grants the paid AI allowance on a school licence, not just a personal plan', () => {
