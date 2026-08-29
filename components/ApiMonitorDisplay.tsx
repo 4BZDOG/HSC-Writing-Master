@@ -34,6 +34,7 @@ const AiQuotaPanel: React.FC = () => {
   const [overrideUser, setOverrideUser] = useState('');
   const [overrideLimit, setOverrideLimit] = useState('');
   const [message, setMessage] = useState<string | null>(null);
+  const [messageIsError, setMessageIsError] = useState(false);
   const [isBusy, setIsBusy] = useState(false);
 
   useEffect(() => {
@@ -51,6 +52,7 @@ const AiQuotaPanel: React.FC = () => {
       } catch (e) {
         if (!cancelled) {
           setMessage(e instanceof Error ? e.message : 'Failed to load quota data.');
+          setMessageIsError(true);
         }
       }
     })();
@@ -59,11 +61,15 @@ const AiQuotaPanel: React.FC = () => {
     };
   }, []);
 
-  const report = (text: string) => setMessage(text);
+  const report = (text: string, isError = false) => {
+    setMessage(text);
+    setMessageIsError(isError);
+  };
 
   const handleSaveLimits = async () => {
     setIsBusy(true);
     setMessage(null);
+    setMessageIsError(false);
     try {
       for (const role of ['admin', 'teacher', 'student'] as QuotaRole[]) {
         const parsed = Number.parseInt(limits[role], 10);
@@ -74,7 +80,7 @@ const AiQuotaPanel: React.FC = () => {
       }
       report('Group limits saved.');
     } catch (e) {
-      report(e instanceof Error ? e.message : 'Failed to save limits.');
+      report(e instanceof Error ? e.message : 'Failed to save limits.', true);
     } finally {
       setIsBusy(false);
     }
@@ -83,16 +89,17 @@ const AiQuotaPanel: React.FC = () => {
   const handleSetOverride = async (clear: boolean) => {
     const username = overrideUser.trim();
     if (!username) {
-      report('Enter a username for the override.');
+      report('Enter a username for the override.', true);
       return;
     }
     const parsed = clear ? null : Number.parseInt(overrideLimit, 10);
     if (!clear && (!Number.isFinite(parsed as number) || (parsed as number) < 0)) {
-      report('Enter a non-negative daily limit, or use Clear.');
+      report('Enter a non-negative daily limit, or use Clear.', true);
       return;
     }
     setIsBusy(true);
     setMessage(null);
+    setMessageIsError(false);
     try {
       await setUserQuotaOverride(username, parsed);
       report(
@@ -101,7 +108,7 @@ const AiQuotaPanel: React.FC = () => {
           : `${username} now has a personal limit of ${parsed}/day.`
       );
     } catch (e) {
-      report(e instanceof Error ? e.message : 'Failed to update the override.');
+      report(e instanceof Error ? e.message : 'Failed to update the override.', true);
     } finally {
       setIsBusy(false);
     }
@@ -233,8 +240,13 @@ const AiQuotaPanel: React.FC = () => {
 
       {message && (
         <p
-          className="mt-2 text-[10px] leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600"
-          role="status"
+          className={`mt-2 text-[10px] leading-relaxed ${
+            messageIsError
+              ? 'text-red-400 light:text-red-600'
+              : 'text-[rgb(var(--color-text-secondary))] light:text-slate-600'
+          }`}
+          role={messageIsError ? 'alert' : 'status'}
+          aria-live={messageIsError ? 'assertive' : 'polite'}
         >
           {message}
         </p>
