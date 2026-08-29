@@ -85,6 +85,8 @@ describe('how long a toast stays', () => {
     act(() => result.current.showToast('Saved.', 'success'));
     const plain = result.current.toast!.durationMs;
 
+    // Toasts queue now, so retire the plain one before reading the next head.
+    act(() => result.current.hideToast());
     act(() =>
       result.current.showToast('Merged into "HSC Physics".', 'success', {
         label: 'Go to it',
@@ -105,5 +107,72 @@ describe('how long a toast stays', () => {
     act(() => result.current.showToast('Done.', 'info', { label: 'Go to it', onClick }));
 
     expect(result.current.toast?.action?.label).toBe('Go to it');
+  });
+});
+
+describe('the toast queue', () => {
+  it('keeps the returned shape { toast, showToast, hideToast }', () => {
+    const { result } = renderHook(() => useToast());
+    expect(result.current.toast).toBeNull();
+    expect(typeof result.current.showToast).toBe('function');
+    expect(typeof result.current.hideToast).toBe('function');
+  });
+
+  it('shows the first and queues the second instead of clobbering it', () => {
+    const { result } = renderHook(() => useToast());
+
+    act(() => result.current.showToast('First.', 'info'));
+    act(() => result.current.showToast('Second.', 'success'));
+
+    // Old single-slot behaviour would have shown "Second." here.
+    expect(result.current.toast?.message).toBe('First.');
+
+    act(() => result.current.hideToast());
+    // Retiring the head advances to the next in line.
+    expect(result.current.toast?.message).toBe('Second.');
+
+    act(() => result.current.hideToast());
+    expect(result.current.toast).toBeNull();
+  });
+
+  it('bounds the backlog so a flood cannot grow without limit', () => {
+    const { result } = renderHook(() => useToast());
+
+    act(() => {
+      for (let i = 0; i < 20; i += 1) result.current.showToast(`n${i}`, 'info');
+    });
+
+    // Drain fully; a bounded queue empties in a handful of dismissals, not 20.
+    let drained = 0;
+    while (result.current.toast && drained < 12) {
+      act(() => result.current.hideToast());
+      drained += 1;
+    }
+
+    expect(result.current.toast).toBeNull();
+    expect(drained).toBeLessThanOrEqual(4);
+  });
+
+  it('preserves an actionable offer when trimming a flood of plain toasts', () => {
+    const { result } = renderHook(() => useToast());
+
+    // Head is a plain toast; then an actionable offer; then a flood of plain
+    // ones. The offer must survive the trimming and still be reachable.
+    act(() => result.current.showToast('Head.', 'info'));
+    act(() => result.current.showToast('Do the thing', 'success', { label: 'Go', onClick: vi.fn() }));
+    act(() => {
+      for (let i = 0; i < 10; i += 1) result.current.showToast(`plain ${i}`, 'info');
+    });
+
+    // Drain and confirm the actionable toast appears at some point.
+    const seen: string[] = [];
+    let guard = 0;
+    while (result.current.toast && guard < 12) {
+      seen.push(result.current.toast.message);
+      act(() => result.current.hideToast());
+      guard += 1;
+    }
+
+    expect(seen).toContain('Do the thing');
   });
 });
