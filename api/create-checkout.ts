@@ -32,6 +32,7 @@ import {
 } from './_lib/stripe';
 import { SCHOOL_SEAT_LIMITS } from './_lib/entitlements';
 import { verifyRequestAuth } from './_lib/auth';
+import { corsHeadersFor } from './_lib/cors';
 
 interface RequestLike {
   method?: string;
@@ -49,6 +50,27 @@ const headerValue = (raw: string | string[] | undefined): string | undefined =>
   Array.isArray(raw) ? raw[0] : raw;
 
 export default async function handler(req: RequestLike, res: ResponseLike): Promise<void> {
+  // Opt-in CORS for split hosting (static frontend elsewhere, API here). The
+  // client posts billing to `${VITE_API_BASE_URL}${path}`, so on a split-host
+  // deployment this POST carries Authorization + Content-Type and the browser
+  // fires an OPTIONS preflight first — which we must answer here or the whole
+  // checkout is blocked before it runs. No ALLOWED_ORIGIN configured → no CORS
+  // headers → same-origin only, byte-identical to before.
+  const cors = corsHeadersFor(headerValue(req.headers?.origin), process.env.ALLOWED_ORIGIN);
+  if (cors && res.setHeader) {
+    for (const [name, value] of Object.entries(cors)) res.setHeader(name, value);
+  }
+  if (req.method === 'OPTIONS') {
+    // Preflight: succeed only when the origin was allowed above.
+    if (cors && res.end) {
+      res.status(204);
+      res.end();
+    } else {
+      res.status(403).json({ error: 'Cross-origin access is not enabled for this origin.' });
+    }
+    return;
+  }
+
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed. Use POST.' });
     return;
@@ -139,6 +161,38 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       if (sellablePrices[priceId] === 'school' && !['teacher', 'admin'].includes(profile?.role)) {
         res.status(403).json({
           error: 'School licences are purchased by a teacher or admin account.',
+        });
+        return;
+      }
+
+      // Refuse a second concurrent subscription. Checkout reuses the Stripe
+      // CUSTOMER (above) but Stripe itself is happy to open a second, parallel
+      // subscription on that customer — and nothing downstream stops it:
+      // resolve_stripe_plan simply picks the newest row, so the older
+      // subscription keeps billing silently while the customer is charged
+      // twice. A user who is already subscribed can reach this endpoint any
+      // number of ways — a teacher re-opening the modal to top up seats, a
+      // `cancel_at_period_end` user who still holds the plan, or anyone who
+      // clicks Upgrade a second time — so the guard lives here on the server
+      // rather than in the UI. `past_due` counts as active: Stripe is still
+      // retrying that charge (see the webhook's grace-period rule), so the
+      // plan is live and a fresh checkout would double-bill.
+      //
+      // Plan CHANGES (upgrade/downgrade, add seats) go through the billing
+      // portal by design — this is only a duplicate-purchase guard, not an
+      // in-app switcher. Applies to both Plus and School because it keys on
+      // the user, before the price is inspected.
+      const { data: existingSub } = await supabase
+        .from('subscriptions')
+        .select('id, status')
+        .eq('user_id', auth.userId)
+        .in('status', ['active', 'trialing', 'past_due'])
+        .limit(1)
+        .maybeSingle();
+      if (existingSub) {
+        res.status(409).json({
+          error:
+            'You already have an active subscription. Use “Manage subscription” to change your plan or seats.',
         });
         return;
       }

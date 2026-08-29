@@ -32,6 +32,15 @@ const makeSupabaseMock = () => ({
           data: { id: 'user-1', school_id: 'school-1', role: profileRole },
         }),
         single: async () => ({ data: { id: 'user-1', school_id: 'school-1', role: profileRole } }),
+        // create-checkout's duplicate-subscription guard chains
+        // .in('status', [...]).limit(1).maybeSingle() on the subscriptions
+        // lookup; these seat/allowlist cases have no live subscription, so it
+        // reports none and checkout proceeds as before.
+        in: () => ({
+          limit: () => ({
+            maybeSingle: async () => ({ data: null }),
+          }),
+        }),
       }),
     }),
   }),

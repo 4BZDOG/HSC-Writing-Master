@@ -19,6 +19,7 @@ import {
   STRIPE_MISCONFIGURED_ERROR,
 } from './_lib/stripe';
 import { verifyRequestAuth } from './_lib/auth';
+import { corsHeadersFor } from './_lib/cors';
 
 interface RequestLike {
   method?: string;
@@ -36,6 +37,27 @@ const headerValue = (raw: string | string[] | undefined): string | undefined =>
   Array.isArray(raw) ? raw[0] : raw;
 
 export default async function handler(req: RequestLike, res: ResponseLike): Promise<void> {
+  // Opt-in CORS for split hosting (static frontend elsewhere, API here). The
+  // client posts billing to `${VITE_API_BASE_URL}${path}`, so on a split-host
+  // deployment this POST carries Authorization + Content-Type and the browser
+  // fires an OPTIONS preflight first — which we must answer here or opening the
+  // billing portal is blocked before it runs. No ALLOWED_ORIGIN configured →
+  // no CORS headers → same-origin only, byte-identical to before.
+  const cors = corsHeadersFor(headerValue(req.headers?.origin), process.env.ALLOWED_ORIGIN);
+  if (cors && res.setHeader) {
+    for (const [name, value] of Object.entries(cors)) res.setHeader(name, value);
+  }
+  if (req.method === 'OPTIONS') {
+    // Preflight: succeed only when the origin was allowed above.
+    if (cors && res.end) {
+      res.status(204);
+      res.end();
+    } else {
+      res.status(403).json({ error: 'Cross-origin access is not enabled for this origin.' });
+    }
+    return;
+  }
+
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed. Use POST.' });
     return;
