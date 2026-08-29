@@ -67,6 +67,7 @@ You need to set variables in **two places**: server-side (Vercel / your host) an
 | `STRIPE_PLUS_MONTHLY_PRICE_ID` | `price_...`               | From Step 1                                          |
 | `STRIPE_PLUS_YEARLY_PRICE_ID`  | `price_...`               | From Step 1                                          |
 | `STRIPE_SCHOOL_PRICE_ID`       | `price_...` _(optional)_  | From Step 1 (school product)                         |
+| `STRIPE_AUTOMATIC_TAX`         | `true` _(optional, default off)_ | Set to `true` to compute GST at checkout — requires a Stripe origin address (see Going Live step 6) |
 
 > The price IDs are also the **allowlist**: `/api/create-checkout` refuses any
 > price that isn't one of these three, so a tampered client can't check out
@@ -285,7 +286,9 @@ When you're ready to accept real payments:
 3. **Create live prices**: Products created in test mode don't carry over. Create the same product/prices in live mode and update all Price ID env vars.
 4. **Update Vercel env vars**: Swap every test value for its live counterpart and redeploy.
 5. **Test with a real card**: Make a small real purchase, then cancel/refund it from the Stripe Dashboard.
-6. **Enable Stripe Tax** (optional): In Stripe Dashboard → Tax, configure automatic tax collection for your region.
+6. **Enable Stripe Tax** (optional): For Checkout to actually compute and add GST you must do **both** of the following — dashboard configuration alone does nothing for Checkout:
+   - **(a)** In Stripe Dashboard → Tax, enable Stripe Tax and set an **origin address** for your region. (Stripe refuses to enable automatic tax on an account with no origin address, so this must be done first.)
+   - **(b)** Set the deployment env var `STRIPE_AUTOMATIC_TAX=true` and redeploy. This switches on `automatic_tax` on the Checkout Session — without it Stripe charges the GST-exclusive price and the ABN collected at checkout is never acted upon, so GST is under-collected on every AUD sale.
 
 ---
 

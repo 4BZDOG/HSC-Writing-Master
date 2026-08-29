@@ -226,6 +226,24 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
         )
       : 1;
 
+    // Stripe only COMPUTES and ADDS tax (GST for AUD sales) when
+    // `automatic_tax` is enabled on the Checkout Session itself — configuring
+    // "Stripe Tax" in the dashboard alone does nothing for Checkout. Without
+    // this key set the customer is charged the GST-exclusive price and the ABN
+    // gathered by `tax_id_collection` below is collected but never acted on, so
+    // GST is under-collected on every sale.
+    //
+    // It is opt-in (default off) because Stripe THROWS when automatic_tax is
+    // enabled on an account that has no configured origin address — so turning
+    // it on unconditionally would break checkout for every deployment that has
+    // not first set an origin address in the Stripe Dashboard. The operator
+    // flips STRIPE_AUTOMATIC_TAX=true only once that dashboard configuration is
+    // in place (see docs/stripesetup.md). When on, Stripe applies tax to the
+    // configured prices per the account's tax settings — whether those prices
+    // are treated as tax-inclusive or tax-exclusive is an account/price setting
+    // the operator reconciles, not something this flag decides.
+    const automaticTaxEnabled = process.env.STRIPE_AUTOMATIC_TAX === 'true';
+
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
       payment_method_types: ['card'],
@@ -233,6 +251,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       success_url: `${returnBase}?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${returnBase}?checkout=cancelled`,
       client_reference_id: auth.userId ?? undefined,
+      ...(automaticTaxEnabled ? { automatic_tax: { enabled: true } } : {}),
       ...(existingCustomerId
         ? { customer: existingCustomerId }
         : customerEmail
