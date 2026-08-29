@@ -62,7 +62,7 @@ export interface AnswerImprovement {
 type PreviewNode = SyllabusPreviewNode;
 
 interface GeminiHookProps {
-  showToast: (message: string, type?: 'success' | 'error' | 'info') => void;
+  showToast: (message: string, type?: 'success' | 'error' | 'warning' | 'info') => void;
   updateCourses: (updater: (draft: Draft<Course[]>) => void) => void;
   statePath: StatePath;
   currentPrompt?: Prompt | null;
@@ -489,7 +489,7 @@ export const useGemini = ({
           // teacher never learned which exemplars still carried their old mark.
           showToast(
             `Recalibrated ${updatedCount} sample${updatedCount === 1 ? '' : 's'}, ${failedIds.length} failed — check your connection and retry those.`,
-            'error'
+            'warning'
           );
         } else {
           showToast(`Recalibration complete. Updated ${updatedCount} answers.`, 'success');

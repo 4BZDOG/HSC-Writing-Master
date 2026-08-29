@@ -104,7 +104,7 @@ describe('recalibrateSamples — completion reporting', () => {
 
     expect(showToast).toHaveBeenCalledWith(
       'Recalibrated 2 samples, 1 failed — check your connection and retry those.',
-      'error'
+      'warning'
     );
     // The all-success and all-failed copy must NOT appear on a partial run.
     expect(showToast).not.toHaveBeenCalledWith(

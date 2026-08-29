@@ -123,7 +123,7 @@ interface AuthenticatedAppProps {
   handleLogout: () => void;
   showToast: (
     message: string,
-    type: 'success' | 'error' | 'info',
+    type: 'success' | 'error' | 'warning' | 'info',
     action?: { label: string; onClick: () => void }
   ) => void;
 }

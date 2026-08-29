@@ -656,11 +656,14 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
 
   const totalSamples = groupedAnswers.reduce((sum, g) => sum + g.answers.length, 0);
 
-  const handleRecalibrate = async (sampleIds: string[]) => {
+  const handleRecalibrate = async (
+    sampleIds: string[],
+    onProgress?: (done: number, total: number) => void
+  ) => {
     if (!onRecalibrate) return;
     setIsRecalibrating(true);
     try {
-      await onRecalibrate(sampleIds);
+      await onRecalibrate(sampleIds, onProgress);
     } finally {
       // Always release the spinner — a failed AI call must not leave the
       // button stuck in its "recalibrating" state.
@@ -946,7 +949,10 @@ interface SampleAnswersAccordionProps {
   onContributeSampleAnswer?: (answer: SampleAnswer) => void | Promise<void>;
   userRole: UserRole;
   /** Re-mark the chosen exemplars against the rubric. */
-  onRecalibrate?: (sampleIds: string[]) => Promise<void>;
+  onRecalibrate?: (
+    sampleIds: string[],
+    onProgress?: (done: number, total: number) => void
+  ) => Promise<void>;
   /** Start folded. Defaults to true, matching the rail's other panels. */
   defaultCollapsed?: boolean;
   /** Shared workspace reading size. Omit to keep a private size. */
