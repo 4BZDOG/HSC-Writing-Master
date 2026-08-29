@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import type { ToastType } from '../hooks/useToast';
 import {
   EvaluationResult,
   Prompt,
@@ -315,7 +316,7 @@ interface EvaluationDisplayProps {
   onFeedbackSubmit?: (feedback: UserFeedback) => void;
   hierarchy?: HierarchyContext;
   userName?: string;
-  showToast?: (message: string, type?: 'success' | 'error' | 'info' | 'warning') => void;
+  showToast?: (message: string, type?: ToastType) => void;
 }
 
 const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({

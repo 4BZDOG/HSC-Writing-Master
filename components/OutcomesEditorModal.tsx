@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import type { ToastType } from '../hooks/useToast';
 import { CourseOutcome, SyllabusYear } from '../types';
 import {
   SYLLABUS_YEARS,
@@ -30,7 +31,7 @@ interface OutcomesEditorModalProps {
   courseName: string;
   /** The year the navigator is on — which tab opens, not which years are shown. */
   year: SyllabusYear;
-  showToast: (message: string, type: 'success' | 'error' | 'info') => void;
+  showToast: (message: string, type: ToastType) => void;
 }
 
 const blankRow = (): CourseOutcome[] => [{ code: '', description: '' }];

@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import type { ToastType } from '../hooks/useToast';
 import { createPortal } from 'react-dom';
 import { Course, Topic } from '../types';
 import ImportFlow from './dataManager/ImportFlow';
@@ -38,7 +39,7 @@ interface DataManagerModalProps {
   onResetToDefault: () => void;
   onResetApiStats: () => void;
   onMoveTopic: (courseId: string, topicId: string, direction: 'up' | 'down') => void;
-  showToast: (msg: string, type: 'success' | 'error' | 'info') => void;
+  showToast: (msg: string, type: ToastType) => void;
 }
 
 type Tab = 'maintenance' | 'import' | 'export';

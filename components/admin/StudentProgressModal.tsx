@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import type { ToastType } from '../../hooks/useToast';
 import { createPortal } from 'react-dom';
 import { X, LineChart, Search, Users, Layers, Gauge } from 'lucide-react';
 import {
@@ -29,7 +30,7 @@ import LoadingIndicator from '../LoadingIndicator';
 interface StudentProgressModalProps {
   isOpen: boolean;
   onClose: () => void;
-  showToast: (message: string, type: 'success' | 'error' | 'info') => void;
+  showToast: (message: string, type: ToastType) => void;
 }
 
 const WINDOWS = [30, 90, 365] as const;

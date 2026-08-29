@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import type { ToastType } from '../../hooks/useToast';
 import { createPortal } from 'react-dom';
 import { X, BarChart3, RefreshCw, Users, Layers, Gauge, Info, AlertTriangle } from 'lucide-react';
 import {
@@ -23,7 +24,7 @@ import CohortBreakdown from './CohortBreakdown';
 interface ClassInsightsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  showToast: (message: string, type: 'success' | 'error' | 'info') => void;
+  showToast: (message: string, type: ToastType) => void;
 }
 
 const WINDOWS = [30, 90, 365] as const;

@@ -1,4 +1,5 @@
 import { useImmer, type Updater } from 'use-immer';
+import type { ToastType } from './useToast';
 import { useCallback, useEffect, useState, useRef } from 'react';
 import { Draft } from 'immer';
 import {
@@ -190,7 +191,7 @@ const yearTag = (year?: SyllabusYear): { year?: SyllabusYear } =>
 export const useSyllabusData = ({
   showToast,
 }: {
-  showToast: (message: string, type: 'success' | 'error' | 'info') => void;
+  showToast: (message: string, type: ToastType) => void;
 }) => {
   const [courses, updateCourses] = useImmer<Course[]>([]);
   const [storageStatus, setStorageStatus] = useState<StorageStatus>('Loading');

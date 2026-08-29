@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import type { ToastType } from '../hooks/useToast';
 import { createPortal } from 'react-dom';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { CourseOutcome, Prompt, PromptVerb, ScenarioImageRef } from '../types';
@@ -54,7 +55,7 @@ interface ManualPromptModalProps {
    *  content rather than merely near it. */
   dotPoint?: string;
   subTopicName?: string;
-  showToast?: (message: string, type: 'success' | 'error' | 'info') => void;
+  showToast?: (message: string, type: ToastType) => void;
 }
 
 const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (

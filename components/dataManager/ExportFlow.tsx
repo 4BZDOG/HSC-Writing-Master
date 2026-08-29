@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import type { ToastType } from '../../hooks/useToast';
 import { Course } from '../../types';
 import SelectionTree from '../SelectionTree';
 import { useSelectionTree } from '../../hooks/useSelectionTree';
@@ -8,7 +9,7 @@ import { ActionButtons } from './common';
 interface ExportFlowProps {
   courses: Course[];
   onClose: () => void;
-  showToast: (message: string, type: 'success' | 'error' | 'info') => void;
+  showToast: (message: string, type: ToastType) => void;
 }
 
 const ExportFlow: React.FC<ExportFlowProps> = ({ courses, onClose, showToast }) => {

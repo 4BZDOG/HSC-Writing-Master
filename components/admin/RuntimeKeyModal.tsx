@@ -1,4 +1,5 @@
 import React, { useState, useSyncExternalStore } from 'react';
+import type { ToastType } from '../../hooks/useToast';
 import { createPortal } from 'react-dom';
 import {
   X,
@@ -25,7 +26,7 @@ import AiEngineSelector from './AiEngineSelector';
 interface RuntimeKeyModalProps {
   isOpen: boolean;
   onClose: () => void;
-  showToast: (message: string, type: 'success' | 'error' | 'info') => void;
+  showToast: (message: string, type: ToastType) => void;
 }
 
 const maskKey = (key?: string): string => {

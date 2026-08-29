@@ -1,4 +1,5 @@
 import React, { lazy, Suspense } from 'react';
+import type { ToastType } from '../hooks/useToast';
 import { Course, StatePath, Topic, User } from '../types';
 import { Draft } from 'immer';
 import CourseCreatorModal from './CourseCreatorModal';
@@ -62,7 +63,7 @@ interface AppModalsProps {
   setStatePath: (path: Partial<StatePath>) => void;
   showToast: (
     message: string,
-    type: 'success' | 'error' | 'info',
+    type: ToastType,
     action?: { label: string; onClick: () => void }
   ) => void;
   setNewlyAddedIds: React.Dispatch<React.SetStateAction<Set<string>>>;

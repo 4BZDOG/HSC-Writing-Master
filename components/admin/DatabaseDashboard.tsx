@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import type { ToastType } from '../../hooks/useToast';
 import { createPortal } from 'react-dom';
 import {
   X,
@@ -60,7 +61,7 @@ interface DatabaseDashboardProps {
   isOpen: boolean;
   onClose: () => void;
   courses: Course[];
-  showToast: (message: string, type: 'success' | 'error' | 'info') => void;
+  showToast: (message: string, type: ToastType) => void;
 }
 
 type DashboardView = 'overview' | 'snapshots' | 'inspector';

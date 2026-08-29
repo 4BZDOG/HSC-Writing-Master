@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import type { ToastType } from '../hooks/useToast';
 import { createPortal } from 'react-dom';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import {
@@ -107,7 +108,7 @@ export const ContentLockOverlay: React.FC<{
 };
 
 interface UpgradeModalProps {
-  showToast: (message: string, type: 'success' | 'error' | 'info') => void;
+  showToast: (message: string, type: ToastType) => void;
   /** Current user — used to personalise the prompt with their band average. */
   user?: User | null;
 }

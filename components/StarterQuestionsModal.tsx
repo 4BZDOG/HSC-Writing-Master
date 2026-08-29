@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import type { ToastType } from '../hooks/useToast';
 import type { Course, Prompt } from '../types';
 import { generateNewPrompt } from '../services/geminiService';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
@@ -21,7 +22,7 @@ interface StarterQuestionsModalProps {
   /** Narrow the offer to one topic — e.g. the one just imported. */
   initialTopicId?: string;
   updateCourses: (updater: (draft: any) => void) => void;
-  showToast: (message: string, type: 'success' | 'error' | 'info') => void;
+  showToast: (message: string, type: ToastType) => void;
 }
 
 /**
