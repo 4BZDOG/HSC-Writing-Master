@@ -10,8 +10,9 @@ import {
 } from '../data/commandTerms';
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
-import { X, RefreshCw, AlertCircle, Info } from 'lucide-react';
+import { X, RefreshCw, Info } from 'lucide-react';
 import { getBandConfig } from '../utils/renderUtils';
+import AiErrorNotice from './AiErrorNotice';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -236,21 +237,11 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
 
           {/* Error State */}
           {error && (
-            <div className="p-4 rounded-lg border border-red-500/50 light:border-red-200 bg-red-500/10 light:bg-red-50 flex items-start gap-3 animate-fade-in">
-              <AlertCircle className="w-5 h-5 text-red-400 light:text-red-500 flex-shrink-0 mt-0.5" />
-              <div className="flex-1">
-                <p className="text-sm font-medium text-red-400 light:text-red-600">
-                  Revision Failed
-                </p>
-                <p className="text-xs text-red-300 light:text-red-500 mt-1">{error}</p>
-                <button
-                  onClick={() => setError(null)}
-                  className="text-xs text-red-400 light:text-red-600 hover:text-red-300 light:hover:text-red-700 underline mt-2"
-                >
-                  Dismiss
-                </button>
-              </div>
-            </div>
+            <AiErrorNotice
+              title="Revision failed"
+              message={error}
+              onDismiss={() => setError(null)}
+            />
           )}
         </div>
 

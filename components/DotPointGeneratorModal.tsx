@@ -3,6 +3,7 @@ import { generateDotPointsForSubTopic } from '../services/geminiService';
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import { X, Sparkles } from 'lucide-react';
+import AiErrorNotice from './AiErrorNotice';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -124,9 +125,14 @@ const DotPointGeneratorModal: React.FC<DotPointGeneratorModalProps> = ({
             the topic&apos;s Import Sub-Topics button with pasted syllabus text instead.
           </p>
           {error && !isLoading && (
-            <p className="text-red-400 light:text-red-600 mt-4 text-sm bg-red-900/30 light:bg-red-50 p-3 rounded-md border border-red-500/20 light:border-red-200">
-              {error}
-            </p>
+            <div className="mt-4 text-left">
+              <AiErrorNotice
+                title="Generation failed"
+                message={error}
+                onRetry={handleGenerate}
+                onDismiss={() => setError(null)}
+              />
+            </div>
           )}
         </div>
 
