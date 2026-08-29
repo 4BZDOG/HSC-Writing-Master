@@ -49,6 +49,9 @@ const BackgroundTaskIndicator: React.FC<BackgroundTaskIndicatorProps> = ({ task 
 
   return (
     <div
+      role={task.status === 'error' ? 'alert' : 'status'}
+      aria-live={task.status === 'error' ? 'assertive' : 'polite'}
+      aria-atomic="true"
       className={`
         fixed bottom-20 right-4 z-[400]
         w-80 p-4 rounded-xl
