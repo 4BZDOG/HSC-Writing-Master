@@ -253,7 +253,7 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
           /* The wait as a visible pipeline: steps tick off as the request
              progresses, so students watch the marking process happen instead
              of staring at one looping line. */
-          <ul className="text-left space-y-1.5 px-3" aria-live="polite">
+          <ul className="text-left space-y-1.5 px-3">
             {phases.slice(0, 5).map((phase, i) => {
               const state = i < phaseIndex ? 'done' : i === phaseIndex ? 'active' : 'pending';
               return (

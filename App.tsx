@@ -123,7 +123,7 @@ interface AuthenticatedAppProps {
   handleLogout: () => void;
   showToast: (
     message: string,
-    type: 'success' | 'error' | 'info',
+    type: 'success' | 'error' | 'warning' | 'info',
     action?: { label: string; onClick: () => void }
   ) => void;
 }
@@ -1255,7 +1255,9 @@ const App: React.FC = () => {
   // there so this fires at most once per threshold per UTC day.
   useEffect(
     () =>
-      subscribeQuotaWarnings((w) => showToast(w.message, w.level === 'reached' ? 'error' : 'info')),
+      subscribeQuotaWarnings((w) =>
+        showToast(w.message, w.level === 'reached' ? 'error' : 'warning')
+      ),
     [showToast]
   );
 

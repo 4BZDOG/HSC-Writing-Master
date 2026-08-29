@@ -8,7 +8,6 @@ import AiBusyOverlay from './AiBusyOverlay';
 import {
   X,
   Sparkles,
-  AlertTriangle,
   Info,
   Check,
   Plus,
@@ -18,6 +17,7 @@ import {
   CopyCheck,
   Trash2,
 } from 'lucide-react';
+import AiErrorNotice from './AiErrorNotice';
 import { getBandConfig, stripHtmlTags } from '../utils/renderUtils';
 import { describeSimilarity, findNearDuplicate } from '../utils/answerSimilarity';
 import { useEscapeKey } from '../hooks/useEscapeKey';
@@ -637,15 +637,12 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
           </div>
 
           {error && (
-            <div className="p-4 rounded-xl border border-red-500/50 bg-red-500/10 light:bg-red-50 light:border-red-200 flex items-start gap-3 animate-fade-in">
-              <AlertTriangle className="w-5 h-5 text-red-400 light:text-red-600 flex-shrink-0 mt-0.5" />
-              <div className="flex-1">
-                <p className="text-sm font-bold text-red-400 light:text-red-700">
-                  Generation Failed
-                </p>
-                <p className="text-xs text-red-300 light:text-red-600 mt-1 opacity-90">{error}</p>
-              </div>
-            </div>
+            <AiErrorNotice
+              title="Generation failed"
+              message={error}
+              onRetry={handleGenerate}
+              onDismiss={() => setError(null)}
+            />
           )}
         </div>
 

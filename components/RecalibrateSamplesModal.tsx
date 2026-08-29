@@ -13,8 +13,15 @@ interface RecalibrateSamplesModalProps {
   isOpen: boolean;
   onClose: () => void;
   prompt: Prompt;
-  /** Runs the recalibration for the chosen ids. */
-  onRecalibrate: (sampleIds: string[]) => Promise<void>;
+  /**
+   * Runs the recalibration for the chosen ids. The optional `onProgress`
+   * callback is invoked once per sample as the sequential run advances, so the
+   * modal can show a live {done} of {total} bar instead of a blind spinner.
+   */
+  onRecalibrate: (
+    sampleIds: string[],
+    onProgress?: (done: number, total: number) => void
+  ) => Promise<void>;
 }
 
 /** First line of an answer, for identifying it in a list. */
@@ -66,6 +73,8 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
 }) => {
   const [selected, setSelected] = useState<string[]>([]);
   const [isRunning, setIsRunning] = useState(false);
+  // Per-sample progress driven by the hook's onProgress callback. Null while idle.
+  const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
 
   useEscapeKey(isOpen && !isRunning, onClose);
   useScrollLock(isOpen);
@@ -100,6 +109,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
       // nothing does — the common case is "fix the drift", not "re-mark the lot".
       setSelected(mismatchedIds.length > 0 ? mismatchedIds : rows.map((r) => r.sample.id));
       setIsRunning(false);
+      setProgress(null);
     }
   }, [isOpen, prompt.id, mismatchedIds, rows]);
   const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
@@ -112,11 +122,13 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
   const handleRun = async () => {
     if (selected.length === 0) return;
     setIsRunning(true);
+    setProgress({ done: 0, total: selected.length });
     try {
-      await onRecalibrate(selected);
+      await onRecalibrate(selected, (done, total) => setProgress({ done, total }));
       onClose();
     } finally {
       setIsRunning(false);
+      setProgress(null);
     }
   };
 
@@ -243,12 +255,38 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
         </div>
 
         <div className="px-6 py-4 border-t border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 flex flex-wrap items-center justify-between gap-3">
-          <p className="text-[11px] text-[rgb(var(--color-text-muted))] light:text-slate-500">
-            {/* Recalibration is marking, and the server meters it as such. */}
-            {selected.length === 0
-              ? 'Nothing selected.'
-              : `Re-marks ${selected.length} answer${selected.length === 1 ? '' : 's'} — uses ${selected.length} marking credit${selected.length === 1 ? '' : 's'}.`}
-          </p>
+          {isRunning && progress ? (
+            <div className="flex-1 min-w-[12rem]">
+              <div className="flex items-center justify-between text-[11px] mb-1.5">
+                <span className="font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800">
+                  Recalibrating…
+                </span>
+                <span className="font-mono text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                  {progress.done} of {progress.total}
+                </span>
+              </div>
+              <div
+                className="h-2 rounded-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 overflow-hidden"
+                role="progressbar"
+                aria-valuenow={progress.done}
+                aria-valuemin={0}
+                aria-valuemax={progress.total}
+                aria-label="Recalibration progress"
+              >
+                <div
+                  className="h-full bg-gradient-to-r from-indigo-600 to-sky-500 transition-all"
+                  style={{ width: `${(progress.done / Math.max(progress.total, 1)) * 100}%` }}
+                />
+              </div>
+            </div>
+          ) : (
+            <p className="text-[11px] text-[rgb(var(--color-text-muted))] light:text-slate-500">
+              {/* Recalibration is marking, and the server meters it as such. */}
+              {selected.length === 0
+                ? 'Nothing selected.'
+                : `Re-marks ${selected.length} answer${selected.length === 1 ? '' : 's'} — uses ${selected.length} marking credit${selected.length === 1 ? '' : 's'}.`}
+            </p>
+          )}
           <div className="flex items-center gap-3 ml-auto">
             <button
               onClick={onClose}

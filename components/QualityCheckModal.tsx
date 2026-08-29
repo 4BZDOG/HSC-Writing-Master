@@ -7,12 +7,12 @@ import {
   ShieldCheck,
   CheckCircle,
   AlertTriangle,
-  AlertCircle,
   Sparkles,
   RefreshCw,
   Check,
 } from 'lucide-react';
 import LoadingIndicator from './LoadingIndicator';
+import AiErrorNotice from './AiErrorNotice';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -146,22 +146,14 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
               />
             </div>
           ) : error ? (
-            <div className="p-4 rounded-lg border border-red-500/50 light:border-red-200 bg-red-500/10 light:bg-red-50 flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-red-400 light:text-red-500 flex-shrink-0 mt-0.5" />
-              <div className="flex-1">
-                <p className="text-sm font-medium text-red-400 light:text-red-600">Check Failed</p>
-                <p className="text-xs text-red-300 light:text-red-500 mt-1">{error}</p>
-                <button
-                  onClick={() => {
-                    setIsLoading(true);
-                    runCheck();
-                  }}
-                  className="mt-3 text-xs font-bold text-white bg-red-600/50 hover:bg-red-600 px-3 py-1.5 rounded transition"
-                >
-                  Retry
-                </button>
-              </div>
-            </div>
+            <AiErrorNotice
+              title="Check failed"
+              message={error}
+              onRetry={() => {
+                setIsLoading(true);
+                runCheck();
+              }}
+            />
           ) : result ? (
             <div className="space-y-6 animate-fade-in">
               {/* Score Card */}

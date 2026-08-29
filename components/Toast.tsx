@@ -58,6 +58,10 @@ const Toast: React.FC<ToastProps> = ({
 
   const config = toastConfig[type] || toastConfig.info;
 
+  // Errors and warnings interrupt (assertive/alert); routine success and info
+  // announce politely so they never cut across what a screen reader is saying.
+  const isUrgent = type === 'error' || type === 'warning';
+
   // Timer logic that supports pausing
   useEffect(() => {
     const timer = setInterval(() => {
@@ -86,8 +90,8 @@ const Toast: React.FC<ToastProps> = ({
 
   return (
     <div
-      role="alert"
-      aria-live="assertive"
+      role={isUrgent ? 'alert' : 'status'}
+      aria-live={isUrgent ? 'assertive' : 'polite'}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       className={`

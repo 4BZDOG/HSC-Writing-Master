@@ -38,6 +38,46 @@ describe('a toast with something to do', () => {
   });
 });
 
+describe('toast level semantics', () => {
+  it('renders the amber warning variant, distinct from info', () => {
+    render(<Toast message="You are approaching your daily AI limit." onClose={vi.fn()} type="warning" />);
+
+    // The amber warning variant is a distinct level, not info reused. getByText
+    // throws if the title is absent, so this asserts it is present too.
+    screen.getByText('Warning');
+    const alert = screen.getByRole('alert');
+    expect(alert.className).toContain('border-amber-500/30');
+  });
+
+  it('carries a warning level through the hook so callers can reach it', () => {
+    const { result } = renderHook(() => useToast());
+
+    act(() => result.current.showToast('Approaching your limit.', 'warning'));
+
+    expect(result.current.toast?.type).toBe('warning');
+  });
+
+  it.each(['warning', 'error'] as const)(
+    'announces a %s toast assertively as an alert',
+    (type) => {
+      render(<Toast message="Something urgent." onClose={vi.fn()} type={type} />);
+      const el = screen.getByRole('alert');
+      expect(el.getAttribute('aria-live')).toBe('assertive');
+    }
+  );
+
+  it.each(['info', 'success'] as const)(
+    'announces a %s toast politely as a status',
+    (type) => {
+      render(<Toast message="Just so you know." onClose={vi.fn()} type={type} />);
+      // Non-error levels must not interrupt a screen reader.
+      expect(screen.queryByRole('alert')).toBeNull();
+      const el = screen.getByRole('status');
+      expect(el.getAttribute('aria-live')).toBe('polite');
+    }
+  );
+});
+
 describe('how long a toast stays', () => {
   it('gives an actionable one longer than a plain one', () => {
     const { result } = renderHook(() => useToast());

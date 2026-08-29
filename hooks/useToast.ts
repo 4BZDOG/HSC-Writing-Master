@@ -35,7 +35,7 @@ export interface ToastAction {
 export interface ToastMessage {
   id: string;
   message: string;
-  type: 'success' | 'error' | 'info';
+  type: 'success' | 'error' | 'warning' | 'info';
   action?: ToastAction;
   durationMs: number;
 }
@@ -44,7 +44,11 @@ export const useToast = () => {
   const [toast, setToast] = useState<ToastMessage | null>(null);
 
   const showToast = useCallback(
-    (message: string, type: 'success' | 'error' | 'info' = 'info', action?: ToastAction) => {
+    (
+      message: string,
+      type: 'success' | 'error' | 'warning' | 'info' = 'info',
+      action?: ToastAction
+    ) => {
       const toastId = generateId();
       const durationMs = action ? ACTIONABLE_TOAST_DURATION : TOAST_DURATION;
       setToast({ id: toastId, message, type, action, durationMs });

@@ -62,7 +62,7 @@ export interface AnswerImprovement {
 type PreviewNode = SyllabusPreviewNode;
 
 interface GeminiHookProps {
-  showToast: (message: string, type?: 'success' | 'error' | 'info') => void;
+  showToast: (message: string, type?: 'success' | 'error' | 'warning' | 'info') => void;
   updateCourses: (updater: (draft: Draft<Course[]>) => void) => void;
   statePath: StatePath;
   currentPrompt?: Prompt | null;
@@ -424,7 +424,11 @@ export const useGemini = ({
    * that looks wrong spends seven units for nothing.
    */
   const recalibrateSamples = useCallback(
-    async (prompt: Prompt, sampleIds?: string[]) => {
+    async (
+      prompt: Prompt,
+      sampleIds?: string[],
+      onProgress?: (done: number, total: number) => void
+    ) => {
       const all = prompt.sampleAnswers || [];
       const samples = sampleIds ? all.filter((s) => sampleIds.includes(s.id)) : all;
       if (samples.length === 0) return;
@@ -437,6 +441,7 @@ export const useGemini = ({
       const calibrationPrompt = { ...prompt, sampleAnswers: [] };
 
       let updatedCount = 0;
+      const failedIds: string[] = [];
       const updates: SampleAnswer[] = [];
 
       // Process sequentially to avoid API limits on batch ops
@@ -459,7 +464,12 @@ export const useGemini = ({
           updatedCount++;
         } catch (e) {
           console.error(`Failed to recalibrate sample ${sample.id}`, e);
+          failedIds.push(sample.id);
           updates.push(sample); // Keep original on failure
+        } finally {
+          // Report after every sample — succeeded or failed — so the modal's
+          // progress bar advances one step per metered call, not just on wins.
+          onProgress?.(updatedCount + failedIds.length, samples.length);
         }
       }
 
@@ -474,7 +484,16 @@ export const useGemini = ({
             p.sampleAnswers = (p.sampleAnswers || []).map((s) => byId.get(s.id) ?? s);
           });
         });
-        showToast(`Recalibration complete. Updated ${updatedCount} answers.`, 'success');
+        if (failedIds.length > 0) {
+          // A partial run used to save silently and report only the wins, so a
+          // teacher never learned which exemplars still carried their old mark.
+          showToast(
+            `Recalibrated ${updatedCount} sample${updatedCount === 1 ? '' : 's'}, ${failedIds.length} failed — check your connection and retry those.`,
+            'warning'
+          );
+        } else {
+          showToast(`Recalibration complete. Updated ${updatedCount} answers.`, 'success');
+        }
       } else {
         showToast('Failed to recalibrate samples. Check API connection.', 'error');
       }
