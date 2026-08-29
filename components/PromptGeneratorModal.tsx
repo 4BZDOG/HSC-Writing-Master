@@ -4,6 +4,7 @@ import { Prompt, CourseOutcome, CommandTermInfo, PromptVerb } from '../types';
 import { generateNewPrompt } from '../services/geminiService';
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
+import AiErrorNotice from './AiErrorNotice';
 import {
   getCommandTermsForMarks,
   TIER_GROUPS,
@@ -347,6 +348,16 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
         </div>
 
         <div className="flex-1 overflow-y-auto p-10 space-y-10 relative z-10 custom-scrollbar">
+          {/* Generation failure: surfaced here so a rejected request never
+              leaves the modal silently empty once the busy overlay hides. */}
+          {error && !isLoading && (
+            <AiErrorNotice
+              message={error}
+              onRetry={handleGenerate}
+              onDismiss={() => setError(null)}
+            />
+          )}
+
           {/* Syllabus Context */}
           <div className="rounded-[32px] border p-8 relative overflow-hidden group transition-all duration-500 shadow-2xl bg-black/20 light:bg-slate-50 border-white/5 light:border-slate-200">
             <div className="flex flex-col gap-6 relative z-10">
