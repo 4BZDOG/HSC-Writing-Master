@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { QualityCheckResult } from '../types';
 import { performQualityCheck } from '../services/geminiService';
+import { resolveTarget } from '../services/aiConfig';
+import { getModelById } from '../services/aiModels';
 import {
   X,
   ShieldCheck,
@@ -32,33 +34,51 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
   contentType,
   onUpdateContent,
 }) => {
-  // Escape closes this modal like every other modal surface.
-  useEscapeKey(isOpen, onClose);
-  useScrollLock(isOpen);
   const [isLoading, setIsLoading] = useState(true);
   const [result, setResult] = useState<QualityCheckResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  // A monotonic token: only the most recently started run may write state, so a
+  // superseded run (a retry, or a re-open on new content) can never overwrite a
+  // newer one with a stale result. Also covers StrictMode double-invoke.
+  const runIdRef = useRef(0);
+
+  // Closing is blocked while a check is in flight — a stray Escape, backdrop
+  // click, X or Close must not abandon a run mid-request. Mirrors the sibling
+  // generator modals, which route every close through one guarded handler.
+  const handleClose = () => {
+    if (isLoading) return;
+    onClose();
+  };
+
+  useEscapeKey(isOpen && !isLoading, onClose);
+  useScrollLock(isOpen);
+
+  const runCheck = async () => {
+    const runId = (runIdRef.current += 1);
+    // Clear any previous outcome up front: without this, a retry that SUCCEEDS
+    // still fell through to the error card, because the body renders `error`
+    // before `result`.
+    setError(null);
+    setResult(null);
+    setIsLoading(true);
+    try {
+      const checkResult = await performQualityCheck(content, contentType);
+      if (runIdRef.current === runId) setResult(checkResult);
+    } catch (err) {
+      if (runIdRef.current === runId) {
+        setError(err instanceof Error ? err.message : 'Failed to perform quality check.');
+      }
+    } finally {
+      if (runIdRef.current === runId) setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (isOpen && content) {
-      // Reset state before running new check to avoid stale data flash
-      setResult(null);
-      setError(null);
-      setIsLoading(true);
-      runCheck();
+      void runCheck();
     }
-  }, [isOpen, content]);
-
-  const runCheck = async () => {
-    try {
-      const checkResult = await performQualityCheck(content, contentType);
-      setResult(checkResult);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to perform quality check.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, content, contentType]);
 
   const handleAutoFix = () => {
     if (result?.refinedContent && onUpdateContent) {
@@ -83,6 +103,13 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
     }
   };
 
+  // The quality check routes through the 'reasoning' role, which the admin
+  // engine selector can point at different providers/models — so name the engine
+  // that is actually running, not a hardcoded one. Read at render (never module
+  // scope) to stay clear of the eager-read bundle-safety trap.
+  const reviewEngineLabel =
+    getModelById(resolveTarget('reasoning').model)?.label ?? 'the selected AI engine';
+
   return createPortal(
     <div
       ref={dialogRef}
@@ -91,7 +118,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
       aria-modal="true"
       aria-label="Quality check"
       className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[200] p-4"
-      onClick={onClose}
+      onClick={handleClose}
     >
       <div
         className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-2xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
@@ -120,7 +147,8 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
               </div>
             </div>
             <button
-              onClick={onClose}
+              onClick={handleClose}
+              disabled={isLoading}
               aria-label="Close"
               className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
@@ -146,14 +174,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
               />
             </div>
           ) : error ? (
-            <AiErrorNotice
-              title="Check failed"
-              message={error}
-              onRetry={() => {
-                setIsLoading(true);
-                runCheck();
-              }}
-            />
+            <AiErrorNotice title="Check failed" message={error} onRetry={() => void runCheck()} />
           ) : result ? (
             <div className="space-y-6 animate-fade-in">
               {/* Score Card */}
@@ -250,12 +271,13 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
         {/* Footer */}
         <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-between items-center flex-shrink-0">
           <div className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-500 italic">
-            Review generated by Gemini 2.5 Pro
+            Review generated by {reviewEngineLabel}
           </div>
           <div className="flex gap-3">
             <button
-              onClick={onClose}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+              onClick={handleClose}
+              disabled={isLoading}
+              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Close
             </button>
