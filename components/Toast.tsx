@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
+import type { ToastType } from '../hooks/useToast';
 import { CheckCircle, XCircle, Info, X, AlertTriangle } from 'lucide-react';
 
 interface ToastProps {
   message: string;
   onClose: () => void;
-  type?: 'success' | 'error' | 'info' | 'warning';
+  type?: ToastType;
   duration?: number;
   /** Something to do about what this says. Dismisses the toast when taken. */
   action?: { label: string; onClick: () => void };

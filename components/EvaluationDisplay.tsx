@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import type { ToastType } from '../hooks/useToast';
 import {
   EvaluationResult,
   Prompt,
@@ -42,7 +43,12 @@ import {
   ArrowUpRight,
   type LucideIcon,
 } from 'lucide-react';
-import { getCommandTermInfo, getBandForMark, getNextLevelTarget } from '../data/commandTerms';
+import {
+  getCommandTermInfo,
+  getBandForMark,
+  getNextLevelTarget,
+  tierShortLabel,
+} from '../data/commandTerms';
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import ResponseFeedback from './ResponseFeedback';
@@ -310,7 +316,7 @@ interface EvaluationDisplayProps {
   onFeedbackSubmit?: (feedback: UserFeedback) => void;
   hierarchy?: HierarchyContext;
   userName?: string;
-  showToast?: (message: string, type?: 'success' | 'error' | 'info') => void;
+  showToast?: (message: string, type?: ToastType) => void;
 }
 
 const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
@@ -375,6 +381,14 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
     () => getBandForMark(prompt.totalMarks, prompt.totalMarks, termInfo.tier),
     [prompt.totalMarks, termInfo.tier]
   );
+
+  // The Verb Gate binds only below Band 6: a tier-6 verb (Evaluate, Synthesise…)
+  // leaves the full range open, so there is nothing to explain there. Below that
+  // the ceiling is real, and the report should say why it is where it is.
+  const capIsBinding = maxBand < 6;
+  // Band N's canonical colour equals Tier N's, so the cap note wears the same
+  // hue as the "Band N Goal" card beside it (see getBandConfig / BandGoalCard).
+  const capConfig = getBandConfig(maxBand);
 
   // What the improved response is actually worth: one mark above the student's,
   // and the band that mark maps to. The header used to promise "Band N+1" for a
@@ -726,6 +740,29 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Why the goal above is capped where it is. The "Band N Goal" card states
+          the ceiling; without this a student or teacher can read it as the
+          marker being harsh rather than as the verb's own cognitive limit.
+          Shown only when the cap actually binds (below Band 6) — a tier-6 verb
+          leaves the full range open and needs no explanation. The meaning is
+          carried entirely by the text, not the tier tint, so it stands on a
+          greyscale print and to a screen reader. */}
+      {capIsBinding && (
+        <div className={`${CARD} flex items-start gap-4 p-5`}>
+          <div className={`p-2.5 rounded-xl shrink-0 ${capConfig.iconBg} ${capConfig.text}`}>
+            <Award className="w-5 h-5" />
+          </div>
+          <p className="text-[13px] leading-relaxed text-slate-600 dark:text-slate-300 pt-0.5">
+            <span className="font-bold text-slate-800 dark:text-slate-100">'{prompt.verb}'</span> is
+            a Tier {termInfo.tier} ({tierShortLabel(termInfo.tier)}) command. Its cognitive demand
+            caps the achievable result at{' '}
+            <span className={`font-bold ${capConfig.text}`}>Band {maxBand}</span> — even a flawless
+            response tops out here, so this is the ceiling the mark is measured against, not a harsh
+            marker.
+          </p>
+        </div>
+      )}
 
       {/* Student Response — included so the report can be shared with a
           teacher as a self-contained record of what was actually submitted. */}

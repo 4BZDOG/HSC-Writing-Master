@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
+import type { ToastType } from '../../hooks/useToast';
 import { createPortal } from 'react-dom';
 import type { Updater } from 'use-immer';
 import {
@@ -110,7 +111,7 @@ interface ContentAuditModalProps {
   onClose: () => void;
   courses: Course[];
   updateCourses: Updater<Course[]>;
-  showToast: (msg: string, type: 'success' | 'error' | 'info') => void;
+  showToast: (msg: string, type: ToastType) => void;
 }
 
 const ContentAuditModal: React.FC<ContentAuditModalProps> = ({

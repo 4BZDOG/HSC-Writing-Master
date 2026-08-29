@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import type { ToastType } from '../hooks/useToast';
 import { ImagePlus, Loader2, Trash2, UploadCloud } from 'lucide-react';
 import { ScenarioImageRef } from '../types';
 import {
@@ -9,7 +10,7 @@ import {
 import { isImageMimeType, prepareScenarioImage } from '../utils/scenarioImageCodec';
 import { deleteScenarioImageFromStorage } from '../services/scenarioImageSyncService';
 
-type ToastFn = (message: string, type: 'success' | 'error' | 'info') => void;
+type ToastFn = (message: string, type: ToastType) => void;
 
 interface ScenarioImageUploaderProps {
   promptId: string;

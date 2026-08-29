@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react';
+import type { ToastType } from '../hooks/useToast';
 import {
   Course,
   StatePath,
@@ -139,7 +140,7 @@ interface WorkspaceProps {
    * came to print different names for the same course.
    */
   crumbs: SyllabusCrumb[];
-  showToast?: (message: string, type: 'success' | 'error' | 'info') => void;
+  showToast?: (message: string, type: ToastType) => void;
 }
 
 /**

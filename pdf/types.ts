@@ -1,3 +1,4 @@
+import type { ToastType } from '../hooks/useToast';
 // pdf/types.ts
 //
 // Shared types for the client-side vector-PDF exporter. These deliberately
@@ -304,7 +305,7 @@ export interface JsPdfLike {
 }
 
 /** Toast sink: integrates with a host app or falls back to a DOM toast. */
-export type ToastFn = (message: string, type?: 'success' | 'error' | 'info') => void;
+export type ToastFn = (message: string, type?: ToastType) => void;
 
 /** Progress callback for the export overlay. */
 export type ProgressFn = (fraction: number, label: string) => void;

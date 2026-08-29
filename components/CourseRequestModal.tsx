@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import type { ToastType } from '../hooks/useToast';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { Compass, X, Check, Loader2, Users } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
@@ -25,7 +26,7 @@ interface CourseRequestModalProps {
   onClose: () => void;
   /** Pre-fills the name — the search text that found nothing. */
   initialName?: string;
-  showToast: (message: string, type: 'success' | 'error' | 'info') => void;
+  showToast: (message: string, type: ToastType) => void;
 }
 
 const CourseRequestModal: React.FC<CourseRequestModalProps> = ({

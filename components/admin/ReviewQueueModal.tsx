@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import type { ToastType } from '../../hooks/useToast';
 import { createPortal } from 'react-dom';
 import {
   X,
@@ -56,7 +57,7 @@ const decideItem = (item: ModerationItem, decision: 'approve' | 'reject'): Promi
 interface ReviewQueueModalProps {
   isOpen: boolean;
   onClose: () => void;
-  showToast: (message: string, type: 'success' | 'error' | 'info') => void;
+  showToast: (message: string, type: ToastType) => void;
 }
 
 /** AI pre-screen score badge; colour-coded so reviewers can triage at a glance. */

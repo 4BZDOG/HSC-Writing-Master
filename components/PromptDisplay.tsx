@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import type { ToastType } from '../hooks/useToast';
 import { createPortal } from 'react-dom';
 import { Prompt, UserRole, CourseOutcome } from '../types';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
@@ -90,7 +91,7 @@ interface PromptDisplayProps {
   /** Surfaces paste/upload rejections from the scenario image panel. Optional
    *  so existing callers/tests that don't thread a toast handler through are
    *  unaffected — the panel simply drops the message if absent. */
-  showToast?: (message: string, type: 'success' | 'error' | 'info') => void;
+  showToast?: (message: string, type: ToastType) => void;
 }
 
 const MeshOverlay = ({

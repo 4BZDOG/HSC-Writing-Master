@@ -1,5 +1,5 @@
 import React from 'react';
-import { Wifi, WifiOff, AlertTriangle } from 'lucide-react';
+import { Wifi, AlertTriangle } from 'lucide-react';
 import { useApiStatus } from '../hooks/useApiStatus';
 import { ERROR_THRESHOLD } from '../services/geminiService';
 
@@ -27,16 +27,13 @@ const ApiHealthIndicator: React.FC = () => {
       content: <span className="text-[9px] font-bold text-amber-950">{errorCount}</span>,
       animation: 'animate-pulse',
     },
-    BLOCKED: {
-      Icon: WifiOff,
-      color: 'text-red-400',
-      bgColor: 'bg-red-500/5',
-      borderColor: 'border-red-500/20',
-      shadow: 'shadow-[0_0_15px_rgba(239,68,68,0.05)]',
-      title: 'API Connection: Blocked. See banner for details.',
-      content: <span className="text-[9px] font-bold text-white">!</span>,
-      animation: '',
-    },
+    // The BLOCKED state is deliberately absent: the guard sets `state: 'BLOCKED'`
+    // and `isBlocked: true` together (services/aiCore.ts), so whenever the
+    // connection is blocked the full ApiStatusIndicator banner is already on
+    // screen — assertive, with the reason and a resume countdown. This corner
+    // dot rendering "Blocked. See banner for details." only duplicated it, and
+    // that hint lived in a `title` tooltip no touch user could reach. So the
+    // banner owns BLOCKED; the dot covers HEALTHY and DEGRADED only.
   }[state];
 
   if (!config) return null;
@@ -44,29 +41,24 @@ const ApiHealthIndicator: React.FC = () => {
   return (
     <div
       className={`
-        fixed bottom-4 left-4 z-[500] 
-        flex items-center justify-center w-9 h-9 rounded-full 
-        backdrop-blur-md border 
-        transition-all duration-300 
+        fixed bottom-4 left-4 z-[500]
+        flex items-center justify-center w-9 h-9 rounded-full
+        backdrop-blur-md border
+        transition-all duration-300
         ${config.bgColor} ${config.borderColor} ${config.shadow} ${config.animation}
       `}
       title={config.title}
+      aria-label={config.title}
       role="status"
     >
       <config.Icon className={`w-4 h-4 ${config.color}`} />
 
       {config.content && (
         <div
-          className={`
+          className="
             absolute -top-1 -right-1 flex items-center justify-center w-3.5 h-3.5 rounded-full shadow-sm border border-white/10
-            ${
-              /* White on amber does not reach a readable contrast at ANY shade
-                 of amber, and the count IS the badge — so amber takes dark ink
-                 (set on the glyph itself, above) and the error state keeps
-                 white on a red dark enough to carry it. */
-              state === 'DEGRADED' ? 'bg-amber-500' : 'bg-red-600'
-            }
-        `}
+            bg-amber-500
+        "
         >
           {config.content}
         </div>
