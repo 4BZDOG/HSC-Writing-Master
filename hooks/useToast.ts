@@ -74,9 +74,11 @@ export const useToast = () => {
       let held = prev;
       if (held.length >= MAX_QUEUE) {
         // Never discard the toast currently on screen (the head). Among those
-        // still waiting, drop the oldest that carries no action; if every
-        // waiting toast is actionable, drop the oldest waiting one. This keeps
-        // the backlog bounded while preferring to preserve offers to act.
+        // still waiting, drop the oldest that carries no action so a flood of
+        // routine notices cannot bury an offer to act. Only if every waiting
+        // toast is actionable do we fall back to dropping the oldest waiting
+        // one — a burst of that many simultaneous offers isn't a real flow, and
+        // the cap has to give somewhere.
         const [head, ...waiting] = held;
         const dropAt = waiting.findIndex((t) => !t.action);
         const removeAt = dropAt === -1 ? 0 : dropAt;
