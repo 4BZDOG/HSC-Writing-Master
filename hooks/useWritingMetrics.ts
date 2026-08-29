@@ -14,6 +14,7 @@ import {
   TextAnalysis,
   WritingInsight,
 } from '../utils/writingAnalysis';
+import { computeDraftReadiness, ReadinessResult } from '../utils/draftReadiness';
 
 export interface WritingMetrics {
   wordCount: number;
@@ -30,6 +31,12 @@ export interface WritingMetrics {
     currentBandColor: BandConfig;
   };
   insights: WritingInsight[];
+  /**
+   * A provisional, mechanical draft-readiness signal — how complete and ready
+   * the draft looks from client-side-observable targets only. NOT a predicted
+   * band or mark.
+   */
+  readiness: ReadinessResult;
 }
 
 /**
@@ -58,10 +65,15 @@ export const useWritingMetrics = (userAnswer: string, prompt: Prompt): WritingMe
     [prompt.totalMarks, commandTermInfo]
   );
 
+  // Same helper the marking path uses, so the live target band can't drift
+  // from the band a student is actually awarded. Lifted out of progressInfo so
+  // the readiness memo can share the one band computation.
+  const maxBand = useMemo(
+    () => getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier),
+    [prompt.totalMarks, commandTermInfo.tier]
+  );
+
   const progressInfo = useMemo(() => {
-    // Same helper the marking path uses, so the live target band can't drift
-    // from the band a student is actually awarded.
-    const maxBand = getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier);
     const targetMetric = BAND_METRICS.find((b) => b.band === maxBand) || BAND_METRICS[0];
     // Guard against a malformed/zero-mark prompt producing a 0 target, which
     // would turn the percentage into NaN and render "NaN%".
@@ -83,7 +95,7 @@ export const useWritingMetrics = (userAnswer: string, prompt: Prompt): WritingMe
       percentage: Math.min(100, (wordCount / targetCount) * 100),
       currentBandColor: getBandConfig(maxBand),
     };
-  }, [prompt.totalMarks, commandTermInfo.tier, wordCount]);
+  }, [maxBand, prompt.totalMarks, wordCount]);
 
   const keywordStats = useMemo(() => {
     const keywords = prompt.keywords || [];
@@ -98,6 +110,35 @@ export const useWritingMetrics = (userAnswer: string, prompt: Prompt): WritingMe
   }, [userAnswer, prompt.keywords]);
 
   const analysis = useMemo(() => analyzeText(userAnswer), [userAnswer]);
+
+  // A single provisional readiness signal, computed from values the hook has
+  // already derived, so every surface reads the same object. Purely mechanical
+  // — never a predicted band (see utils/draftReadiness.ts).
+  const readiness = useMemo(
+    () =>
+      computeDraftReadiness({
+        analysis,
+        wordCount,
+        targetWordCount: progressInfo.targetCount,
+        targetWordCountMax: progressInfo.targetCountMax,
+        keywordsTotal: prompt.keywords?.length || 0,
+        keywordsUsed: keywordStats.used.length,
+        tier: commandTermInfo.tier,
+        maxBand,
+        expectedTerms,
+      }),
+    [
+      analysis,
+      wordCount,
+      progressInfo.targetCount,
+      progressInfo.targetCountMax,
+      prompt.keywords,
+      keywordStats.used.length,
+      commandTermInfo.tier,
+      maxBand,
+      expectedTerms,
+    ]
+  );
 
   const insights = useMemo(
     () =>
@@ -130,5 +171,5 @@ export const useWritingMetrics = (userAnswer: string, prompt: Prompt): WritingMe
     ]
   );
 
-  return { wordCount, charCount, analysis, keywordStats, progressInfo, insights };
+  return { wordCount, charCount, analysis, keywordStats, progressInfo, insights, readiness };
 };
