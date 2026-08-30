@@ -341,3 +341,16 @@ Each step is independently testable; a later step depends only on the modules na
 **Ordering constraints:** 1 → (2, 3) → (4, 5). Steps 4 and 5 are independent of each other
 once 2 and 3 land. Every step ends with `npm run test:all` green and the pinned suites in
 §5 unmodified.
+
+---
+
+## 8. Follow-up — colour capped at the question's target band
+
+Shipped after the initial feature: the readiness **colour** now caps at the
+question's target band (`maxBand`), so a green Band-4 question never shows a
+blue/purple accent. `computeDraftReadiness` adds a `chromaLevel = min(level,
+maxBand)` (0 stays neutral); every colour surface (meter, button, caret, glow)
+resolves its hue from `chromaLevel`, while the completeness `label`/`score`
+stay uncapped from `level` — a complete short-answer draft still reads "Ready to
+submit", just in the question's own colour. Pinned by new tests in
+`tests/unit/draftReadiness.test.ts` and `tests/unit/readinessMeter.test.tsx`.

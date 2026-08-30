@@ -6,14 +6,19 @@ import type { ReadinessResult } from '../../utils/draftReadiness';
 
 afterEach(cleanup);
 
-const result = (over: Partial<ReadinessResult>): ReadinessResult => ({
-  score: 0,
-  level: 0,
-  isNeutral: true,
-  label: 'Start writing',
-  subscores: { length: 0, structure: 0, keywords: 0, variety: 0 },
-  ...over,
-});
+const result = (over: Partial<ReadinessResult>): ReadinessResult => {
+  const base = {
+    score: 0,
+    level: 0 as ReadinessResult['level'],
+    isNeutral: true,
+    label: 'Start writing',
+    subscores: { length: 0, structure: 0, keywords: 0, variety: 0 },
+    ...over,
+  };
+  // Colour follows chromaLevel; default it to the (uncapped) level unless a
+  // test overrides it to exercise the target-band colour cap.
+  return { chromaLevel: over.chromaLevel ?? base.level, ...base };
+};
 
 // The progressbar's inner fill div is the element the band gradient lands on.
 const fillOf = (bar: HTMLElement): Element => bar.firstElementChild as Element;
@@ -45,6 +50,22 @@ describe('ReadinessMeter', () => {
     );
     // Band 4 is green in the canonical palette.
     expect(fillOf(screen.getByRole('progressbar')).className).toMatch(/from-green-/);
+  });
+
+  it('colours by chromaLevel (capped), not by the uncapped completeness level', () => {
+    // A complete draft on a Band-4 (green) question: level 6 drives the label
+    // ("Ready to submit") but chromaLevel is capped at 4, so the fill is green,
+    // never blue/purple.
+    render(
+      <ReadinessMeter
+        readiness={result({ score: 95, level: 6, chromaLevel: 4, isNeutral: false, label: 'Ready to submit' })}
+      />
+    );
+    expect(screen.getByText('Ready to submit')).toBeTruthy();
+    const fill = fillOf(screen.getByRole('progressbar')).className;
+    expect(fill).toMatch(/from-green-/); // band 4
+    expect(fill).not.toMatch(/from-blue-/); // band 5
+    expect(fill).not.toMatch(/from-purple-/); // band 6
   });
 
   it('renders the neutral slate state for an empty draft, never band-1 red', () => {

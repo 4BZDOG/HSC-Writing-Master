@@ -322,11 +322,13 @@ const Editor = forwardRef<
     // footer completeness word: decorative surfaces that never sit under body
     // text. Null (no accent) whenever readiness is absent, neutral (an empty /
     // barely-started draft), or exam mode — so exam and the blank page stay
-    // exactly as clean as before. Colour comes from getReadinessChroma, which
-    // reuses the canonical band palette (no new band hex).
+    // exactly as clean as before. Colour comes from getReadinessChroma keyed on
+    // chromaLevel — the completeness level CAPPED at the question's target band,
+    // so the glow/caret never climb past the best colour the question can be
+    // awarded — reusing the canonical band palette (no new band hex).
     const readinessAccent = useMemo(() => {
       if (isExamMode || !readiness || readiness.isNeutral) return null;
-      const { hex, config } = getReadinessChroma(readiness.level);
+      const { hex, config } = getReadinessChroma(readiness.chromaLevel);
       return { hex, glow: config.glow };
     }, [isExamMode, readiness]);
 

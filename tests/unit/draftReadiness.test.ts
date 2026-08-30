@@ -373,6 +373,71 @@ describe('getReadinessChroma — reuse the canonical palette, define no new band
   });
 });
 
+describe('computeDraftReadiness — colour caps at the question’s target band', () => {
+  // A fully complete draft: maxes length, keywords, structure and variety, so
+  // its uncapped completeness level reaches 6 ("Ready to submit").
+  const completeDraft = (maxBand: number) =>
+    computeDraftReadiness(
+      makeInput({
+        analysis: analysis({
+          wordCount: 400,
+          sentenceCount: 8,
+          longestSentenceWords: 22,
+          paragraphCount: 5,
+        }),
+        wordCount: 400,
+        targetWordCount: 300,
+        keywordsTotal: 4,
+        keywordsUsed: 4,
+        maxBand,
+      })
+    );
+
+  it('caps chromaLevel at the target band while the completeness level/label stay uncapped', () => {
+    const green = completeDraft(4); // a Band-4 (green) question
+    expect(green.level).toBe(6); // completeness still tops out
+    expect(green.label).toBe('Ready to submit'); // …and says so
+    expect(green.chromaLevel).toBe(4); // …but the COLOUR is capped at green
+  });
+
+  it('never lets a low-band question show a high-band hue', () => {
+    for (const maxBand of [1, 2, 3, 4, 5, 6]) {
+      const r = completeDraft(maxBand);
+      expect(r.chromaLevel).toBeLessThanOrEqual(maxBand);
+    }
+  });
+
+  it('does not inflate the hue when the draft is below the target band', () => {
+    // A thin draft on a Band-6 question: chromaLevel follows the (low) level,
+    // not the ceiling — the cap only ever lowers, never raises.
+    const thin = computeDraftReadiness(
+      makeInput({
+        analysis: analysis({ wordCount: 40, sentenceCount: 2, paragraphCount: 1 }),
+        wordCount: 40,
+        targetWordCount: 400,
+        keywordsTotal: 4,
+        keywordsUsed: 0,
+        maxBand: 6,
+      })
+    );
+    expect(thin.chromaLevel).toBe(thin.level);
+    expect(thin.chromaLevel).toBeLessThan(6);
+  });
+
+  it('keeps chromaLevel 0 (neutral) for an empty draft regardless of target band', () => {
+    const empty = computeDraftReadiness(
+      makeInput({
+        analysis: analysis({ wordCount: 0 }),
+        wordCount: 0,
+        targetWordCount: 300,
+        maxBand: 6,
+      })
+    );
+    expect(empty.level).toBe(0);
+    expect(empty.chromaLevel).toBe(0);
+  });
+});
+
 describe('READINESS_LABELS never read as a band name', () => {
   it('no readiness label collides with a BAND_NAMES entry', () => {
     // The whole point of readiness is that it is NOT a band. A label that
