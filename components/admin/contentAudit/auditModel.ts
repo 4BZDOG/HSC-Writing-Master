@@ -1,6 +1,7 @@
 import { Course, Topic, SubTopic, DotPoint, Prompt, StatePath } from '../../../types';
 import { outcomesForYear, yearOfTopic } from '../../../utils/syllabusYear';
 import { extractCommandVerb } from '../../../data/commandTerms';
+import { promptHasExemplarMismatch } from '../../../utils/exemplarAudit';
 
 /**
  * The audit tree's shared vocabulary — the node shape, the filter/action enums,
@@ -47,6 +48,7 @@ export type VisibilityFilter =
   | 'hasSamples'
   | 'lowQuality'
   | 'flagged'
+  | 'exemplarMismatch'
   | null;
 
 export type BulkActionType =
@@ -86,6 +88,13 @@ export const isFlagged = (n: TreeNode): boolean => {
     (p.sampleAnswers || []).some((sa) => sa.contentFlag?.status === 'open')
   );
 };
+
+// A question counts as having an exemplar mismatch when one of its sample
+// answers is mechanically out of step with the band it claims — a warning-level
+// finding from utils/exemplarAudit (e.g. a top-band exemplar far too short). A
+// no-AI triage list, complementary to the AI quality screen behind `lowQuality`.
+export const hasExemplarMismatch = (n: TreeNode): boolean =>
+  n.type === 'prompt' && promptHasExemplarMismatch(n.dataRef as Prompt);
 
 export const isNonStandardRubric = (criteria: string | undefined): boolean => {
   if (!criteria || criteria.trim().length <= 25) return false; // Handled by missing logic
