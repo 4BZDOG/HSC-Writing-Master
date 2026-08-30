@@ -24,6 +24,7 @@ afterEach(cleanup);
 const readyish: ReadinessResult = {
   score: 62,
   level: 4,
+  chromaLevel: 4,
   isNeutral: false,
   label: 'Getting there',
   subscores: { length: 0.7, structure: 0.6, keywords: 0.5, variety: 1 },
@@ -33,6 +34,7 @@ const readyish: ReadinessResult = {
 const neutral: ReadinessResult = {
   score: 0,
   level: 0,
+  chromaLevel: 0,
   isNeutral: true,
   label: 'Start writing',
   subscores: { length: 0, structure: 0, keywords: 0, variety: 0 },

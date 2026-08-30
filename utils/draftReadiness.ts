@@ -52,8 +52,10 @@ export interface ReadinessInput {
    *  the score, which represents verb/criteria expectation only mechanically
    *  through keyword coverage and the tier-scaled paragraph target below. */
   tier: number;
-  /** The question's already-computed target band (1..6). INPUT ONLY — used
-   *  purely to scale `expectedParagraphs`. Never recomputed here. */
+  /** The question's already-computed target band (1..6). INPUT ONLY — never
+   *  recomputed here. Used to scale `expectedParagraphs` AND to CAP the colour
+   *  level (`chromaLevel`) so readiness never shows a hue above the best band
+   *  the question can be awarded. */
   maxBand: number;
   /** Tier 4+ syllabus-term expectation. Part of the contract; not read by the
    *  score today (term-target prompting lives in Live Insights). */
@@ -63,8 +65,22 @@ export interface ReadinessInput {
 export interface ReadinessResult {
   /** 0..100, rounded. */
   score: number;
-  /** 0 neutral (empty / barely-started); else 1..6 onto the band palette. */
+  /**
+   * The completeness PROGRESSION, 0 neutral (empty / barely-started) else 1..6.
+   * Drives the label only — it is NOT capped by the target band, so a short
+   * question's draft can still reach "Ready to submit". For colour, use
+   * `chromaLevel`.
+   */
   level: ReadinessLevel;
+  /**
+   * The level used for COLOUR, capped at the question's target band. Readiness
+   * is a completeness signal, so its hue must never climb past the best colour
+   * the question can be awarded — no blue/purple accent on a Band-4 (green)
+   * question. Equals `min(level, maxBand)` (and 0 whenever `level` is 0). Every
+   * colour surface (meter, button, caret, glow) resolves its hue from THIS, via
+   * `getReadinessChroma`; the label and score come from `level`/`score`.
+   */
+  chromaLevel: ReadinessLevel;
   /** True when `level === 0`. */
   isNeutral: boolean;
   /** Completeness words ("Getting there"), never a band name. */
@@ -158,9 +174,20 @@ export const computeDraftReadiness = (input: ReadinessInput): ReadinessResult =>
 
   const level = resolveLevel(score, wordCount);
 
+  // Cap the COLOUR at the question's target band: readiness is a completeness
+  // signal, so its hue must never climb past the best colour this question can
+  // be awarded (no blue/purple accent on a green Band-4 question). The label
+  // and score stay uncapped — a complete short-answer draft can still read
+  // "Ready to submit", just in the question's own colour. `level` 0 stays 0
+  // (neutral slate); otherwise the hue is at least band 1, since maxBand >= 1.
+  const cappedBand = Math.max(1, Math.min(6, Math.trunc(maxBand) || 1)) as ReadinessLevel;
+  const chromaLevel: ReadinessLevel =
+    level === 0 ? 0 : (Math.min(level, cappedBand) as ReadinessLevel);
+
   return {
     score,
     level,
+    chromaLevel,
     isNeutral: level === 0,
     label: READINESS_LABELS[level],
     subscores: { length, structure, keywords, variety },

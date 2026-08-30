@@ -27,8 +27,10 @@ interface ReadinessMeterProps {
  */
 const ReadinessMeter: React.FC<ReadinessMeterProps> = React.memo(
   ({ readiness, compact = false, className = '' }) => {
-    const { score, label, level } = readiness;
-    const chroma = getReadinessChroma(level);
+    // Colour from chromaLevel (capped at the question's target band); the % and
+    // label come from score/label (the uncapped completeness progression).
+    const { score, label, chromaLevel } = readiness;
+    const chroma = getReadinessChroma(chromaLevel);
     const barId = useId();
 
     return (

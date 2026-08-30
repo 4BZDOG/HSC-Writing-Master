@@ -125,8 +125,10 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   // accordingly, which told a student who had padded their response with syllabus
   // terms that they were on a Band 6 before the AI had read a word. That
   // anti-pattern must never return: the colour here comes from
-  // `getReadinessChroma(readiness.level)` — the same canonical palette the
-  // readiness meter beside it uses — and it is honest because it is never colour
+  // `getReadinessChroma(readiness.chromaLevel)` — the same canonical palette the
+  // readiness meter beside it uses, capped at the question's target band so the
+  // accent never climbs above the best colour the question can be awarded — and
+  // it is honest because it is never colour
   // alone. It only ever signals mechanical completeness (length, structure,
   // keyword coverage, sentence variety — see utils/draftReadiness.ts), and it is
   // always reinforced at the point of submission by the adjacent ReadinessMeter's
@@ -162,14 +164,14 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     // Substance to evaluate, coach mode: borrow the readiness palette. The band
     // config drives the gradient, border and text; its `glow` becomes the raised
     // coloured drop shadow so the button keeps the same pressable lift.
-    const { config } = getReadinessChroma(readiness.level);
+    const { config } = getReadinessChroma(readiness.chromaLevel);
     return {
       gradient: config.gradient,
       shadow: `shadow-lg ${config.glow} hover:shadow-xl motion-reduce:transition-none`,
       border: config.border,
       text: config.solidText,
     };
-  }, [readiness.isNeutral, readiness.level, isExamMode]);
+  }, [readiness.isNeutral, readiness.chromaLevel, isExamMode]);
 
   const handleSaveUserResponse = () => {
     if (!currentPrompt || !evaluationResult || !userAnswer) return;
