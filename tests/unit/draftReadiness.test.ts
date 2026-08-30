@@ -373,9 +373,10 @@ describe('getReadinessChroma — reuse the canonical palette, define no new band
   });
 });
 
-describe('computeDraftReadiness — colour caps at the question’s target band', () => {
+describe('computeDraftReadiness — colour caps at, and is calibrated within, the target band', () => {
   // A fully complete draft: maxes length, keywords, structure and variety, so
-  // its uncapped completeness level reaches 6 ("Ready to submit").
+  // its uncapped completeness level reaches 6 ("Ready to submit") and its score
+  // saturates — it earns the TOP of whatever palette the question offers.
   const completeDraft = (maxBand: number) =>
     computeDraftReadiness(
       makeInput({
@@ -393,23 +394,46 @@ describe('computeDraftReadiness — colour caps at the question’s target band'
       })
     );
 
-  it('caps chromaLevel at the target band while the completeness level/label stay uncapped', () => {
+  it('a complete answer reaches the top colour while the label stays uncapped', () => {
     const green = completeDraft(4); // a Band-4 (green) question
     expect(green.level).toBe(6); // completeness still tops out
     expect(green.label).toBe('Ready to submit'); // …and says so
-    expect(green.chromaLevel).toBe(4); // …but the COLOUR is capped at green
+    expect(green.chromaLevel).toBe(4); // …in the question's own top colour (green)
   });
 
-  it('never lets a low-band question show a high-band hue', () => {
+  it('never lets a question show a hue above its target band', () => {
     for (const maxBand of [1, 2, 3, 4, 5, 6]) {
       const r = completeDraft(maxBand);
       expect(r.chromaLevel).toBeLessThanOrEqual(maxBand);
+      expect(r.chromaLevel).toBe(maxBand); // a COMPLETE answer earns the top
     }
   });
 
-  it('does not inflate the hue when the draft is below the target band', () => {
-    // A thin draft on a Band-6 question: chromaLevel follows the (low) level,
-    // not the ceiling — the cap only ever lowers, never raises.
+  // The headline regression: a roughly half-marks answer must sit around the
+  // MIDDLE of the palette, not near its top — a 2-out-of-4 response is NOT green.
+  it('places a ~half-complete Band-4 answer in the middle of the palette, not green', () => {
+    const half = computeDraftReadiness(
+      makeInput({
+        // length 100/200 = 0.5; keywords 2/4 = 0.5; structure 1 para / 2 = 0.5;
+        // variety (2 sentences) = 0.6 → score ≈ 52.
+        analysis: analysis({
+          wordCount: 100,
+          sentenceCount: 2,
+          longestSentenceWords: 20,
+          paragraphCount: 1,
+        }),
+        wordCount: 100,
+        targetWordCount: 200,
+        keywordsTotal: 4,
+        keywordsUsed: 2,
+        maxBand: 4,
+      })
+    );
+    expect(half.chromaLevel).toBeLessThanOrEqual(2); // orange/yellow, never green
+    expect(half.chromaLevel).toBeLessThan(4);
+  });
+
+  it('holds a weak, thin draft near the bottom of the palette (red)', () => {
     const thin = computeDraftReadiness(
       makeInput({
         analysis: analysis({ wordCount: 40, sentenceCount: 2, paragraphCount: 1 }),
@@ -420,8 +444,27 @@ describe('computeDraftReadiness — colour caps at the question’s target band'
         maxBand: 6,
       })
     );
-    expect(thin.chromaLevel).toBe(thin.level);
+    expect(thin.chromaLevel).toBe(1); // red — barely on the palette
     expect(thin.chromaLevel).toBeLessThan(6);
+  });
+
+  it('is monotonic: more complete never means a lower colour', () => {
+    const mk = (wordCount: number, keywordsUsed: number, paragraphCount: number) =>
+      computeDraftReadiness(
+        makeInput({
+          analysis: analysis({ wordCount, sentenceCount: 4, longestSentenceWords: 18, paragraphCount }),
+          wordCount,
+          targetWordCount: 300,
+          keywordsTotal: 4,
+          keywordsUsed,
+          maxBand: 6,
+        })
+      ).chromaLevel;
+    const a = mk(60, 1, 1);
+    const b = mk(180, 2, 2);
+    const c = mk(320, 4, 3);
+    expect(a).toBeLessThanOrEqual(b);
+    expect(b).toBeLessThanOrEqual(c);
   });
 
   it('keeps chromaLevel 0 (neutral) for an empty draft regardless of target band', () => {

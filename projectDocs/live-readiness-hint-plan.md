@@ -354,3 +354,25 @@ resolves its hue from `chromaLevel`, while the completeness `label`/`score`
 stay uncapped from `level` — a complete short-answer draft still reads "Ready to
 submit", just in the question's own colour. Pinned by new tests in
 `tests/unit/draftReadiness.test.ts` and `tests/unit/readinessMeter.test.tsx`.
+
+---
+
+## 9. Follow-up — calibrate the colour against the exemplar library
+
+Testing showed the colour was too generous — a ~2/4 answer glowed the top
+colour of a Band-4 question. Replaying all 773 marked exemplars in the course
+data through the pipeline confirmed it: 68% of every exemplar (weak ones
+included) sat at the top colour, and a half-marks answer reached ~0.74 of the
+palette.
+
+The `chromaLevel` no longer maps `min(level, maxBand)`. It now spreads the
+question's palette across a calibrated slice of the completeness score
+(`CHROMA_FLOOR`..`CHROMA_FLOOR+CHROMA_SPAN`, currently 25..85 — the real weak→
+complete range, since complete answers score well short of 100). After
+calibration, mean colour-fraction by mark band is 0.43 / 0.52 / 0.72 / 0.84 /
+0.90 across 0–35% → 95–100% of marks, so on a Band-4 question a 2/4 answer shows
+orange, 3/4 yellow, and only a near-complete 4/4 answer green — while a complete
+answer still reaches the top colour. `score`/`level`/`label` are unchanged (the
+completeness label stays uncapped). Pinned by new tests in
+`tests/unit/draftReadiness.test.ts` (half-complete Band-4 → ≤ orange; weak →
+red; complete → the target band; monotonic).
