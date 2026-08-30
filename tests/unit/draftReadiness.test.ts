@@ -11,6 +11,7 @@ import {
   getBandHex,
   getBandHexDark,
   getBandConfig,
+  BAND_NAMES,
 } from '../../utils/renderUtils';
 
 /**
@@ -139,7 +140,7 @@ describe('computeDraftReadiness — score → level thresholds', () => {
     expect(result.label).toBe('Taking shape');
   });
 
-  it('score 44 lands on level 3 (Developing)', () => {
+  it('score 44 lands on level 3 (Coming along)', () => {
     // length 1 → 0.35, keywords 3/10 = 0.3 → 0.09; structure/variety 0.
     const result = computeDraftReadiness(
       makeInput({
@@ -157,7 +158,7 @@ describe('computeDraftReadiness — score → level thresholds', () => {
     );
     expect(result.score).toBe(44);
     expect(result.level).toBe(3);
-    expect(result.label).toBe('Developing');
+    expect(result.label).toBe('Coming along');
   });
 
   it('score 60 lands on level 4 (Getting there)', () => {
@@ -369,5 +370,17 @@ describe('getReadinessChroma — reuse the canonical palette, define no new band
     expect(bandHexes).not.toContain(chroma.hexDark);
     // A recognisable slate, not one of the six band configs.
     expect(chroma.hex).toBe('#64748b');
+  });
+});
+
+describe('READINESS_LABELS never read as a band name', () => {
+  it('no readiness label collides with a BAND_NAMES entry', () => {
+    // The whole point of readiness is that it is NOT a band. A label that
+    // matched a band name (as "Developing" once did) can appear beside the
+    // footer's "Band N Target · <band name>" pill and read as a second band.
+    const bandNames = Object.values(BAND_NAMES).map((n) => n.toLowerCase());
+    for (const label of Object.values(READINESS_LABELS)) {
+      expect(bandNames).not.toContain(label.toLowerCase());
+    }
   });
 });

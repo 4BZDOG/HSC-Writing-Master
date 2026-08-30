@@ -82,7 +82,7 @@ export const READINESS_LABELS: Record<ReadinessLevel, string> = {
   0: 'Start writing',
   1: 'Just beginning',
   2: 'Taking shape',
-  3: 'Developing',
+  3: 'Coming along',
   4: 'Getting there',
   5: 'Nearly ready',
   6: 'Ready to submit',
