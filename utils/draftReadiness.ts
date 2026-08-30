@@ -73,11 +73,15 @@ export interface ReadinessResult {
    */
   level: ReadinessLevel;
   /**
-   * The level used for COLOUR, capped at the question's target band. Readiness
-   * is a completeness signal, so its hue must never climb past the best colour
-   * the question can be awarded — no blue/purple accent on a Band-4 (green)
-   * question. Equals `min(level, maxBand)` (and 0 whenever `level` is 0). Every
-   * colour surface (meter, button, caret, glow) resolves its hue from THIS, via
+   * The level used for COLOUR. It walks the question's OWN palette (red → its
+   * target band) in step with how complete the answer is, and is capped at that
+   * target band — no blue/purple accent on a Band-4 (green) question. It is
+   * calibrated (not merely `min(level, maxBand)`): the colour is placed on a
+   * fraction of the palette remapped from the real weak→complete score range, so
+   * a half-marks answer sits around the MIDDLE of the palette and only a
+   * near-complete one earns the top colour (see the chroma comment in
+   * `computeDraftReadiness`). 0 whenever `level` is 0. Every colour surface
+   * (meter, button, caret, glow) resolves its hue from THIS via
    * `getReadinessChroma`; the label and score come from `level`/`score`.
    */
   chromaLevel: ReadinessLevel;
@@ -119,6 +123,17 @@ const RUN_ON_SENTENCE_WORDS = 45;
  * to any band arithmetic.
  */
 const FALLBACK_TARGET_WORDS = 100;
+
+/**
+ * The completeness-score window the colour is spread across, calibrated against
+ * the exemplar library (see the chroma comment in `computeDraftReadiness`): a
+ * score at or below `CHROMA_FLOOR` sits at the bottom of the question's palette,
+ * and `CHROMA_FLOOR + CHROMA_SPAN` (not 100 — complete answers score well short
+ * of it) reaches the top. Widen the span to make the top colour harder to earn;
+ * raise the floor to hold weak answers lower.
+ */
+const CHROMA_FLOOR = 25;
+const CHROMA_SPAN = 60;
 
 const clamp01 = (n: number): number => Math.max(0, Math.min(1, n));
 
@@ -174,15 +189,36 @@ export const computeDraftReadiness = (input: ReadinessInput): ReadinessResult =>
 
   const level = resolveLevel(score, wordCount);
 
-  // Cap the COLOUR at the question's target band: readiness is a completeness
-  // signal, so its hue must never climb past the best colour this question can
-  // be awarded (no blue/purple accent on a green Band-4 question). The label
-  // and score stay uncapped — a complete short-answer draft can still read
-  // "Ready to submit", just in the question's own colour. `level` 0 stays 0
-  // (neutral slate); otherwise the hue is at least band 1, since maxBand >= 1.
-  const cappedBand = Math.max(1, Math.min(6, Math.trunc(maxBand) || 1)) as ReadinessLevel;
+  // The COLOUR walks the question's OWN palette (red → its target band) in step
+  // with how complete the answer is, and is capped at that target band — no
+  // blue/purple accent on a green Band-4 question. Two things it must get right,
+  // and the old `min(level, maxBand)` got the first badly wrong:
+  //
+  //  1. It must not be too GENEROUS. Mapped straight, a half-marks answer landed
+  //     ~three-quarters of the way up the palette — a 2-out-of-4 response glowing
+  //     green. Calibrated against the exemplar library (773 marked samples), the
+  //     readiness score of a weak answer is ~40 and of a complete one ~85, so the
+  //     hue is placed on a FRACTION of the palette remapped from that real range
+  //     (`CHROMA_FLOOR`..`CHROMA_FLOOR+CHROMA_SPAN` → 0..1). A ~50% answer now
+  //     sits around the middle of the palette; only a near-complete answer earns
+  //     the top colour.
+  //  2. It must still REACH the top. A complete answer scores well short of 100,
+  //     so the span tops out at CHROMA_FLOOR+CHROMA_SPAN (not 100) — otherwise a
+  //     full Band-6 response could never turn purple.
+  //
+  // `level` 0 stays neutral slate; any real content is at least band 1 (red).
+  // The label and score are left uncapped and uncalibrated: a complete
+  // short-answer draft still reads "Ready to submit", just in a colour that
+  // reflects the mark it is worth rather than merely its length.
+  const cappedBand = Math.max(1, Math.min(6, Math.trunc(maxBand) || 1));
+  const chromaFraction = clamp01((score - CHROMA_FLOOR) / CHROMA_SPAN);
   const chromaLevel: ReadinessLevel =
-    level === 0 ? 0 : (Math.min(level, cappedBand) as ReadinessLevel);
+    level === 0
+      ? 0
+      : (Math.max(
+          1,
+          Math.min(cappedBand, Math.round(chromaFraction * cappedBand))
+        ) as ReadinessLevel);
 
   return {
     score,
