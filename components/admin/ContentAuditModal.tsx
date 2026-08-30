@@ -35,6 +35,7 @@ import {
   hasSamplesToRecalibrate,
   isLowQuality,
   isFlagged,
+  hasExemplarMismatch,
 } from './contentAudit/auditModel';
 import {
   InstrumentMetric,
@@ -185,6 +186,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     let hasSamples = 0;
     let lowQuality = 0;
     let flagged = 0;
+    let exemplarMismatch = 0;
 
     flatMap.forEach((node) => {
       if (node.type === 'dotPoint' && node.stats.questions === 0) emptyDotPoints++;
@@ -197,6 +199,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         if (node.stats.samples > 0) hasSamples++;
         if (isLowQuality(node)) lowQuality++;
         if (isFlagged(node)) flagged++;
+        if (hasExemplarMismatch(node)) exemplarMismatch++;
       }
     });
 
@@ -210,6 +213,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       hasSamples,
       lowQuality,
       flagged,
+      exemplarMismatch,
     };
   }, [flatMap]);
 
@@ -451,6 +455,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           matchesGap = node.type === 'prompt' && node.stats.samples > 0;
         else if (activeFilter === 'lowQuality') matchesGap = isLowQuality(node);
         else if (activeFilter === 'flagged') matchesGap = isFlagged(node);
+        else if (activeFilter === 'exemplarMismatch') matchesGap = hasExemplarMismatch(node);
       }
 
       // Recursive check for children
@@ -1322,6 +1327,15 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             count={counts.flagged}
             title="Questions (or their sample answers) that a user flagged as looking off"
             onClick={() => handleFilterToggle('flagged')}
+          />
+          <FilterChip
+            active={activeFilter === 'exemplarMismatch'}
+            activeStyle="bg-fuchsia-500/20 border-fuchsia-500/40 text-fuchsia-400 shadow-lg"
+            idleStyle="bg-fuchsia-500/5 border-fuchsia-500/10 text-fuchsia-400 hover:bg-fuchsia-500/10"
+            label="Exemplar Mismatch"
+            count={counts.exemplarMismatch}
+            title="Questions with a sample answer mechanically out of step with the band it claims (e.g. a top-band exemplar far too short) — a no-AI check"
+            onClick={() => handleFilterToggle('exemplarMismatch')}
           />
 
           <div className="flex-1" />
