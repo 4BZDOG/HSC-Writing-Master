@@ -35,6 +35,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import { PromptVerb, WritingMode } from '../types';
+import { getReadinessChroma, type ReadinessResult } from '../utils/draftReadiness';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
 import { MAX_CARD_HEIGHT } from '../utils/layoutConstants';
 import { useChromeHeightReporter } from '../hooks/useChromeHeightReporter';
@@ -72,6 +73,12 @@ interface EditorProps {
   isFocusMode?: boolean;
   onToggleFocusMode?: () => void;
   progress?: number; // 0 to 1 scale representing completeness/quality
+  /** The live draft-readiness signal (see utils/draftReadiness.ts). Optional so
+   *  the editor renders identically without it. When present, non-neutral and
+   *  not in exam mode, it layers SUBTLE accents on top of the question's fixed
+   *  tier hue — a soft outer glow, the caret tint, and a footer completeness
+   *  word — never a band name and never any colour under body text. */
+  readiness?: ReadinessResult;
   /** The workspace-wide reading size. One setting drives the prompt, the
    *  writing surface and the exemplars — see Workspace. */
   syncedFontSize?: number;
@@ -172,6 +179,7 @@ const Editor = forwardRef<
       isFocusMode,
       onToggleFocusMode,
       progress = 0,
+      readiness,
       syncedFontSize,
       onFontSizeChange,
       maxBand = 6,
@@ -307,6 +315,20 @@ const Editor = forwardRef<
         iconColor: 'text-white',
       };
     }, [progress, maxBand, verbTier, isExamMode]);
+
+    // Readiness accents, layered ON TOP of the tier-hue surface above. The base
+    // hue stays the question's fixed tier identity (chroma) — readiness never
+    // morphs it. It only drives a soft outer glow, the caret tint and the
+    // footer completeness word: decorative surfaces that never sit under body
+    // text. Null (no accent) whenever readiness is absent, neutral (an empty /
+    // barely-started draft), or exam mode — so exam and the blank page stay
+    // exactly as clean as before. Colour comes from getReadinessChroma, which
+    // reuses the canonical band palette (no new band hex).
+    const readinessAccent = useMemo(() => {
+      if (isExamMode || !readiness || readiness.isNeutral) return null;
+      const { hex, config } = getReadinessChroma(readiness.level);
+      return { hex, glow: config.glow };
+    }, [isExamMode, readiness]);
 
     // Header and footer height observation. Both cards measure their chrome
     // through the same hook, so the two can never disagree about what a header
@@ -548,7 +570,12 @@ const Editor = forwardRef<
         // `transition-all` here animated min/max-height, so on load — as the
         // prompt card was measured and the synced height arrived — both cards
         // visibly grew into place. Only the colour-and-shadow chrome animates.
-        className={`clip-stable flex flex-col w-full h-auto bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] overflow-hidden border-2 ${chroma.border} shadow-2xl ${chroma.glow} transition-[box-shadow,border-color,background-color] duration-700 ease-in-out ${className}`}
+        // Soft outer glow slot: readiness (when present, non-neutral, non-exam)
+        // tints it in the readiness hue; otherwise the tier-progress glow that
+        // only lit at high progress. Either way it is a gentle band-palette
+        // shadow with light: variants, never colour under text. The wrapper's
+        // existing box-shadow transition is already reduced-motion-safe.
+        className={`clip-stable flex flex-col w-full h-auto bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] overflow-hidden border-2 ${chroma.border} shadow-2xl ${readinessAccent ? readinessAccent.glow : chroma.glow} transition-[box-shadow,border-color,background-color] duration-700 ease-in-out ${className}`}
         // Pinned to the question prompt's height: min and max are the same
         // value, so the writing area matches the card beside it exactly and a
         // response longer than that scrolls inside it. The fallback only
@@ -605,7 +632,14 @@ const Editor = forwardRef<
                       <span className="text-[9px] leading-none whitespace-nowrap bg-white/20 px-2 py-1 rounded-md border border-white/15 font-black uppercase tracking-widest shadow-sm backdrop-blur-sm">
                         Band {chroma.targetBand}
                       </span>
-                      <div className="h-1 w-16 bg-white/20 rounded-full overflow-hidden">
+                      <div
+                        className="h-1 w-16 bg-white/20 rounded-full overflow-hidden"
+                        role="progressbar"
+                        aria-valuenow={Math.round((progress || 0) * 100)}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-label="Draft readiness"
+                      >
                         <div
                           className="h-full bg-white transition-all duration-1000 ease-out"
                           style={{ width: `${Math.min(100, progress * 100)}%` }}
@@ -936,7 +970,11 @@ const Editor = forwardRef<
                 className={`${gridStackItemStyles} bg-transparent text-transparent caret-[currentColor] resize-none border-none outline-none focus-visible:outline-none placeholder:text-[rgb(var(--color-text-dim))] focus:ring-0 selection:bg-[rgb(var(--color-accent))]/20 z-10 h-full`}
                 style={{
                   fontSize: `${internalFontSize}px`,
-                  caretColor: chroma.accent,
+                  // The caret takes the readiness hue when a live signal is
+                  // present (non-neutral, non-exam), reinforcing the "filling
+                  // in" as the draft develops; otherwise it keeps the tier
+                  // accent. A hairline caret, never a surface under text.
+                  caretColor: readinessAccent ? readinessAccent.hex : chroma.accent,
                 }}
                 spellCheck="false"
               />
@@ -1012,6 +1050,15 @@ const Editor = forwardRef<
                       ? 'Exam Conditions'
                       : `Band ${chroma.targetBand} Target · ${chroma.name}`}
                   </span>
+                  {/* The target-band pill above is the question's honest, fixed
+                      goal. This muted word names the fill's meaning as READINESS
+                      — a completeness word (never a band name), only once the
+                      draft has real substance and outside exam mode. */}
+                  {!isExamMode && readiness && !readiness.isNeutral && (
+                    <span className="text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-dim))]">
+                      · {readiness.label}
+                    </span>
+                  )}
                 </div>
                 {footerAction}
               </div>
