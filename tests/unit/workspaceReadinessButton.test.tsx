@@ -99,9 +99,11 @@ const renderPanel = (
 describe('the Evaluate button + readiness meter (step 4)', () => {
   it('mounts the readiness meter in the footer for a non-exam draft', () => {
     renderPanel({ userAnswer: SUBSTANTIAL_DRAFT });
-    const meter = screen.getByRole('progressbar');
+    // The editor header now also carries a "Draft readiness" progress bar
+    // (Surface B, step 5); the meter is the one whose accessible name also
+    // speaks the label and percentage, so colour never travels alone.
+    const meter = screen.getByRole('progressbar', { name: /draft readiness:/i });
     expect(meter).toBeTruthy();
-    // Colour never travels alone: the accessible name carries the label + %.
     expect(meter.getAttribute('aria-label')).toMatch(/draft readiness/i);
   });
 

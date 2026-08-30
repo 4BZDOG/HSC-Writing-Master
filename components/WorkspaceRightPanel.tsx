@@ -400,6 +400,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             // is 0..100, so it is scaled down. Same signal the Evaluate button
             // and the ReadinessMeter read, so the three never disagree.
             progress={readiness.score / 100}
+            readiness={readiness}
             syncedFontSize={promptFontSize}
             onFontSizeChange={onPromptFontSizeChange}
             maxBand={maxBand}
