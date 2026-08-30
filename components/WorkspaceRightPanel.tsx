@@ -12,10 +12,10 @@ import {
   getTargetBand,
   getNextLevelTarget,
   getBandForMark,
-  BAND_METRICS,
 } from '../data/commandTerms';
-import { textContainsKeyword } from '../utils/renderUtils';
 import { useWritingMetrics } from '../hooks/useWritingMetrics';
+import { getReadinessChroma } from '../utils/draftReadiness';
+import ReadinessMeter from './ReadinessMeter';
 import { freeEvalsRemaining, isFeatureLocked, subscribeEvalCount } from '../services/entitlements';
 import FreeEvalCounter from './FreeEvalCounter';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
@@ -113,64 +113,63 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   );
 
   // Live analysis of the draft, shared with the metrics dashboard below so the
-  // two panels can never describe the same text differently.
-  const { insights } = useWritingMetrics(debouncedUserAnswer, currentPrompt);
+  // two panels can never describe the same text differently. `readiness` is the
+  // single provisional completeness signal (see utils/draftReadiness.ts) — it
+  // feeds both the editor's progress meter and the Evaluate button's accent, so
+  // the two can never tell a student two different stories about the same draft.
+  const { insights, readiness } = useWritingMetrics(debouncedUserAnswer, currentPrompt);
 
-  // Unified progression score for the entire workspace
-  const progressScore = useMemo(() => {
-    if (!currentPrompt) return 0;
-
-    const wordCount = debouncedUserAnswer.trim().split(/\s+/).filter(Boolean).length;
-    // Use metrics target for the Max Band of this prompt
-    const targetMetric = BAND_METRICS.find((b) => b.band === maxBand) || BAND_METRICS[0];
-    // Guard against a malformed/zero-mark prompt producing a 0 target, which
-    // would turn the progress ratio into NaN/Infinity and render "NaN%".
-    const targetCount = Math.max(
-      1,
-      Math.ceil(currentPrompt.totalMarks * targetMetric.wordCountMultiplier.min)
-    );
-
-    // Allow progression to go slightly over 1.0 for "Exemplar" feel
-    const wordProg = Math.min(1.1, wordCount / targetCount);
-
-    const keywords = currentPrompt.keywords || [];
-    let keyProg = 0;
-    if (keywords.length > 0) {
-      // Shares the highlighter's matcher, so this meter can never say a term
-      // is missing while the editor overlay shows it lit up (or vice versa).
-      const used = keywords.filter((kw) => textContainsKeyword(debouncedUserAnswer, kw));
-      keyProg = used.length / keywords.length;
-    } else {
-      keyProg = Math.min(1, wordProg);
-    }
-
-    // Weighted score: 60% volume, 40% keywords
-    return wordProg * 0.6 + keyProg * 0.4;
-  }, [debouncedUserAnswer, currentPrompt, commandTermInfo, maxBand]);
-
-  // The Evaluate button is deliberately NOT band-coloured. It used to predict a
-  // band from word count and keyword hits and paint itself accordingly, which
-  // told a student who had padded their response with syllabus terms that they
-  // were on a Band 6 before the AI had read a word. Length and coverage are
-  // honest signals of progress, not of quality, so they stay in the editor's
-  // progress meter; the button is one steady accent colour once there is
-  // something to evaluate.
+  // The Evaluate button's accent tracks draft READINESS, never a predicted band.
   //
-  // It does need to read as the one thing on the bar you press, though. It sits
-  // in a footer of muted grey metrics, so its edge is drawn explicitly: a solid
-  // indigo border, an inset highlight along the top of the fill, and a coloured
-  // drop shadow that lifts it off the bar rather than the flat `shadow-lg` that
-  // vanished against a dark footer.
-  const buttonConfig = useMemo(
-    () => ({
+  // It once predicted a band from word count and keyword hits and painted itself
+  // accordingly, which told a student who had padded their response with syllabus
+  // terms that they were on a Band 6 before the AI had read a word. That
+  // anti-pattern must never return: the colour here comes from
+  // `getReadinessChroma(readiness.level)` — the same canonical palette the
+  // readiness meter beside it uses — and it is honest because it is never colour
+  // alone. It only ever signals mechanical completeness (length, structure,
+  // keyword coverage, sentence variety — see utils/draftReadiness.ts), and it is
+  // always reinforced at the point of submission by the adjacent ReadinessMeter's
+  // number + completeness word AND by the button's own aria-label, which speaks
+  // the same readiness label and percentage. No surface reads out a band.
+  //
+  // The accent stays NEUTRAL — the calm indigo below — while there is nothing
+  // real to evaluate (`readiness.isNeutral`, i.e. an empty or barely-started
+  // draft) and IN EXAM MODE, where nothing may ever hint at scoring. The
+  // disabled and evaluating states are painted by the button's own JSX branches
+  // and never consume this config, so they stay neutral too. Palette colour is
+  // earned only once there is substance to mark.
+  //
+  // Whatever the accent, the button has to read as the one thing on the bar you
+  // press. It sits in a footer of muted grey metrics, so its edge is drawn
+  // explicitly: a solid border in the accent hue, and a coloured drop shadow (the
+  // band's own `glow`, or indigo's inset-highlighted shadow) that lifts it off
+  // the bar rather than the flat `shadow-lg` that vanished against a dark footer.
+  const buttonConfig = useMemo(() => {
+    // The calm indigo default — the button's resting accent, and what it keeps
+    // in every neutral/exam/disabled case so colour is never mistaken for a mark.
+    const neutralConfig = {
       gradient: 'from-indigo-600 to-indigo-500',
       shadow:
         'shadow-[0_4px_16px_-4px_rgba(79,70,229,0.65),inset_0_1px_0_0_rgba(255,255,255,0.25)] hover:shadow-[0_8px_24px_-4px_rgba(79,70,229,0.85),inset_0_1px_0_0_rgba(255,255,255,0.3)]',
       border: 'border-indigo-400/70 light:border-indigo-500',
       text: 'text-white',
-    }),
-    []
-  );
+    };
+
+    // Neutral while empty/barely-started, and always neutral in Exam Mode.
+    if (readiness.isNeutral || isExamMode) return neutralConfig;
+
+    // Substance to evaluate, coach mode: borrow the readiness palette. The band
+    // config drives the gradient, border and text; its `glow` becomes the raised
+    // coloured drop shadow so the button keeps the same pressable lift.
+    const { config } = getReadinessChroma(readiness.level);
+    return {
+      gradient: config.gradient,
+      shadow: `shadow-lg ${config.glow} hover:shadow-xl motion-reduce:transition-none`,
+      border: config.border,
+      text: config.solidText,
+    };
+  }, [readiness.isNeutral, readiness.level, isExamMode]);
 
   const handleSaveUserResponse = () => {
     if (!currentPrompt || !evaluationResult || !userAnswer) return;
@@ -291,9 +290,23 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           — see the note in FreeEvalCounter. Renders nothing for anyone who
           isn't metered. */}
       <FreeEvalCounter />
+      {/* The draft-readiness meter, docked immediately left of the button so
+          the accent hue, its number and its completeness word sit together at
+          the point of submission — colour never travels alone. Hidden in Exam
+          Mode exactly as Live Insights is, so nothing hints at scoring there. */}
+      {!isExamMode && <ReadinessMeter readiness={readiness} />}
       <button
         onClick={onEvaluate}
         disabled={isEvaluating || !userAnswer.trim()}
+        // The accent hue is honest only when the readiness label + percentage
+        // ride with it. When the button is coloured (substance to mark, coach
+        // mode), the accessible name speaks that same readiness; otherwise it
+        // falls back to the visible "Evaluate"/"Evaluating" text.
+        aria-label={
+          !isEvaluating && userAnswer.trim() && !readiness.isNeutral && !isExamMode
+            ? `Evaluate — draft readiness: ${readiness.label}, ${readiness.score}%`
+            : undefined
+        }
         title={
           isEvaluating
             ? 'Evaluating your response…'
@@ -383,7 +396,10 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             promptId={currentPrompt.id}
             isFocusMode={isFocusMode}
             onToggleFocusMode={onToggleFocusMode}
-            progress={progressScore}
+            // The editor's progress prop is a 0..1 completeness ratio; readiness
+            // is 0..100, so it is scaled down. Same signal the Evaluate button
+            // and the ReadinessMeter read, so the three never disagree.
+            progress={readiness.score / 100}
             syncedFontSize={promptFontSize}
             onFontSizeChange={onPromptFontSizeChange}
             maxBand={maxBand}

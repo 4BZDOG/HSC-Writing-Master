@@ -27,12 +27,7 @@
  */
 
 import type { TextAnalysis } from './writingAnalysis';
-import {
-  type BandConfig,
-  getBandConfig,
-  getBandHex,
-  getBandHexDark,
-} from './renderUtils';
+import { type BandConfig, getBandConfig, getBandHex, getBandHexDark } from './renderUtils';
 
 /** 0 is the neutral pre-writing state; 1..6 map onto the band colour palette. */
 export type ReadinessLevel = 0 | 1 | 2 | 3 | 4 | 5 | 6;
@@ -128,14 +123,7 @@ const resolveLevel = (score: number, wordCount: number): ReadinessLevel => {
 };
 
 export const computeDraftReadiness = (input: ReadinessInput): ReadinessResult => {
-  const {
-    analysis,
-    wordCount,
-    targetWordCount,
-    keywordsTotal,
-    keywordsUsed,
-    maxBand,
-  } = input;
+  const { analysis, wordCount, targetWordCount, keywordsTotal, keywordsUsed, maxBand } = input;
   const { sentenceCount, longestSentenceWords, paragraphCount } = analysis;
 
   const isRunOn = longestSentenceWords > RUN_ON_SENTENCE_WORDS;
@@ -163,13 +151,7 @@ export const computeDraftReadiness = (input: ReadinessInput): ReadinessResult =>
   // 4. Variety — a crude but honest "more than one sentence, none of them a
   //    runaway" check. A run-on caps the top rung.
   const variety =
-    sentenceCount >= 3 && !isRunOn
-      ? 1
-      : sentenceCount >= 2
-        ? 0.6
-        : sentenceCount >= 1
-          ? 0.3
-          : 0;
+    sentenceCount >= 3 && !isRunOn ? 1 : sentenceCount >= 2 ? 0.6 : sentenceCount >= 1 ? 0.3 : 0;
 
   const raw = 0.35 * length + 0.3 * keywords + 0.2 * structure + 0.15 * variety;
   const score = Math.round(raw * 100);
