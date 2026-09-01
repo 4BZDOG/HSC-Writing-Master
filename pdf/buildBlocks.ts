@@ -55,6 +55,12 @@ export interface EvaluationExportData {
   studentAnswer?: string;
   overallMark: number;
   overallBand: number;
+  /**
+   * The question's target (max achievable) band — its tier ceiling. Caps the
+   * band ladder so a lower-tier question does not draw empty rungs up to Band 6.
+   * Absent means the full six-band ladder.
+   */
+  targetBand?: number;
   overallFeedback: string;
   quickTip?: string;
   strengths: string[];
@@ -189,6 +195,10 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
   if (typeof data.keywordsUsed === 'number' && typeof data.keywordsTotal === 'number') {
     metricBits.push(`${data.keywordsUsed}/${data.keywordsTotal} key terms`);
   }
+  // Cap the ladder at the question's target (max achievable) band, clamped to a
+  // whole 1..6. A lower-tier question stops the rungs at its ceiling instead of
+  // showing empty (never reachable) segments up to Band 6.
+  const bandScaleMax = Math.max(1, Math.min(6, Math.round(data.targetBand ?? 6)));
   blocks.push({
     kind: 'scoreSummary',
     id: nid('score'),
@@ -196,9 +206,10 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
     chip: `${data.overallMark} / ${data.totalMarks}`,
     accent,
     // The ladder under the metrics. A mark out of 8 means little on its own;
-    // where it sits on the six bands, and how far the next one is, is the
-    // question every student asks first.
-    bandScale: data.overallBand,
+    // where it sits on the bands, and how far the next one is, is the question
+    // every student asks first.
+    bandScale: Math.min(data.overallBand, bandScaleMax),
+    bandScaleMax,
     runs: [run(metricBits.join('   ·   '), 9, { style: 'bold', color: COLORS.body })],
     basePadTop: 1,
     basePadBottom: 3,

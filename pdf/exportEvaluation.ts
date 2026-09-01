@@ -145,14 +145,15 @@ const drawBandScale = (
   x: number,
   y: number,
   width: number,
-  pScale: number
+  pScale: number,
+  segments: number = BAND_SCALE.segments
 ): void => {
   const h = BAND_SCALE.heightBaseMm * pScale;
   const gap = BAND_SCALE.segmentGapBaseMm * pScale;
-  const segW = (width - gap * (BAND_SCALE.segments - 1)) / BAND_SCALE.segments;
+  const segW = (width - gap * (segments - 1)) / segments;
   if (segW <= 0) return;
 
-  for (let i = 0; i < BAND_SCALE.segments; i++) {
+  for (let i = 0; i < segments; i++) {
     const segX = x + i * (segW + gap);
     const reached = i + 1 <= band;
     if (reached) {
@@ -176,7 +177,7 @@ const drawBandScale = (
     style: 'bold',
     color: COLORS.muted,
   });
-  drawLines(doc, ['BAND 6'], {
+  drawLines(doc, [`BAND ${segments}`], {
     ...ctx,
     x: x + width,
     y: y + h + labelPt * MM_PER_PT * 1.25,
@@ -398,7 +399,8 @@ const drawScoreSummary = (
       textX,
       metricsBottom + BAND_SCALE.gapBaseMm * pScale,
       xLeft + colW - pad - textX,
-      pScale
+      pScale,
+      block.bandScaleMax ?? BAND_SCALE.segments
     );
   }
 };

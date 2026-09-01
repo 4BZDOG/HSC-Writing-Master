@@ -470,6 +470,9 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           studentAnswer: pdfPrefs.includeResponse ? userAnswer.trim() || undefined : undefined,
           overallMark: result.overallMark,
           overallBand: result.overallBand,
+          // Caps the PDF band ladder at the question's tier ceiling so a
+          // lower-tier question does not draw empty rungs up to Band 6.
+          targetBand: maxBand,
           overallFeedback: result.overallFeedback || '',
           quickTip: result.quickTip,
           strengths: result.strengths || [],
