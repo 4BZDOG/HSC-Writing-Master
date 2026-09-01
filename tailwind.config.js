@@ -15,12 +15,37 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      // `colors` still feeds every colour utility (bg-*, text-*, border-*,
+      // from-*, ring-*, …), so keep `primary`/`accent` here. The per-utility
+      // palettes below add the app's SEMANTIC tokens, each mapped to a CSS var
+      // that already flips per theme in index.css — so they are theme-aware
+      // WITHOUT a `light:` counterpart. They deep-merge on top of the
+      // colours-derived defaults; the semantic names (primary/secondary/…) are
+      // unused as utility classes today, so this only ADDS classes.
       colors: {
         primary: 'rgb(var(--color-primary) / <alpha-value>)',
         accent: 'rgb(var(--color-accent) / <alpha-value>)',
-        'bg-base': 'rgb(var(--color-bg-base) / <alpha-value>)',
-        'bg-surface': 'rgb(var(--color-bg-surface) / <alpha-value>)',
-        'bg-surface-elevated': 'rgb(var(--color-bg-surface-elevated) / <alpha-value>)',
+      },
+      backgroundColor: {
+        base: 'rgb(var(--color-bg-base) / <alpha-value>)',
+        surface: {
+          DEFAULT: 'rgb(var(--color-bg-surface) / <alpha-value>)',
+          elevated: 'rgb(var(--color-bg-surface-elevated) / <alpha-value>)',
+          inset: 'rgb(var(--color-bg-surface-inset) / <alpha-value>)',
+          light: 'rgb(var(--color-bg-surface-light) / <alpha-value>)',
+        },
+        accent: 'rgb(var(--color-accent) / <alpha-value>)',
+      },
+      textColor: {
+        primary: 'rgb(var(--color-text-primary) / <alpha-value>)',
+        secondary: 'rgb(var(--color-text-secondary) / <alpha-value>)',
+        muted: 'rgb(var(--color-text-muted) / <alpha-value>)',
+        dim: 'rgb(var(--color-text-dim) / <alpha-value>)',
+      },
+      borderColor: {
+        primary: 'rgb(var(--color-border-primary) / <alpha-value>)',
+        secondary: 'rgb(var(--color-border-secondary) / <alpha-value>)',
+        accent: 'rgb(var(--color-border-accent) / <alpha-value>)',
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],

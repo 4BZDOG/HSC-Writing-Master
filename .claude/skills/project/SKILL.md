@@ -63,12 +63,16 @@ commit — fix failures rather than using `--no-verify`.
 - New data fields: update `types.ts`, the Zod schemas in
   `utils/dataManagerUtils.ts`, and bump `DATA_VERSION` with a migration.
 - Mock `services/geminiService.ts` in all tests — never hit the real API.
-- **Styling uses arbitrary-value CSS-variable classes, not semantic Tailwind
-  tokens** — `bg-[rgb(var(--color-bg-surface))] light:bg-white`, never bare
-  `bg-surface` (it compiles to nothing). Light theme is the `light:` variant, not
-  `prefers-color-scheme`. For band/tier colour call `getBandConfig()` from
-  `utils/renderUtils.ts` — never hand-write colour literals. See
-  `.claude/skills/hsc-feature.md` §6.
+- **Styling.** Existing code uses arbitrary-value CSS-variable classes —
+  `bg-[rgb(var(--color-bg-surface))] light:bg-white` — and that form stays valid
+  (don't migrate it). Semantic tokens now also compile and are theme-aware via the
+  CSS vars, so **no `light:` needed for these**: `bg-surface` /
+  `bg-surface-inset` / `bg-surface-elevated` / `bg-surface-light` / `bg-base`,
+  `text-primary|secondary|muted|dim`, `border-primary|secondary|accent`
+  (e.g. `bg-surface-inset` == `bg-[rgb(var(--color-bg-surface-inset))]`). The
+  `light:` variant (not `prefers-color-scheme`) still drives the arbitrary form.
+  For band/tier colour call `getBandConfig()` from `utils/renderUtils.ts` — never
+  hand-write colour literals. See `.claude/skills/hsc-feature.md` §6.
 
 For detailed feature-development patterns (modals, AI functions, UI design
 system, testing requirements), see `.claude/skills/hsc-feature.md`.
