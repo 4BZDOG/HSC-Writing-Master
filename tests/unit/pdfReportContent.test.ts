@@ -71,6 +71,52 @@ describe('the report says what it means', () => {
     expect(score.bandScale).toBe(5);
   });
 
+  it('caps the ladder at the question target band and clamps the value to it', () => {
+    // A Band-4-ceiling question: the ladder stops at 4, not 6, and the value
+    // can never exceed the ceiling even if overallBand is passed higher.
+    const score = find(
+      buildEvaluationBlocks(data({ overallBand: 4, targetBand: 4 })),
+      (b) => b.kind === 'scoreSummary'
+    )!;
+    expect(score.bandScaleMax).toBe(4);
+    expect(score.bandScale).toBe(4);
+
+    const clamped = find(
+      buildEvaluationBlocks(data({ overallBand: 6, targetBand: 3 })),
+      (b) => b.kind === 'scoreSummary'
+    )!;
+    expect(clamped.bandScaleMax).toBe(3);
+    expect(clamped.bandScale).toBe(3);
+  });
+
+  it('draws the full six-rung ladder when no target band is given', () => {
+    const score = find(
+      buildEvaluationBlocks(data({ overallBand: 4 })),
+      (b) => b.kind === 'scoreSummary'
+    )!;
+    expect(score.bandScaleMax).toBe(6);
+    expect(score.bandScale).toBe(4);
+  });
+
+  it('spans the prose sections full width and keeps the analysis in columns', () => {
+    const blocks = buildEvaluationBlocks(
+      data({ studentAnswer: 'My answer.', revisedAnswer: 'A better answer.' })
+    );
+    // The long prose — question, student response, improved response — is
+    // flagged fullWidth so it spans the page.
+    const q = find(blocks, (b) => b.id.startsWith('q'))!;
+    const ans = find(blocks, (b) => b.id.startsWith('ans'))!;
+    const rev = find(blocks, (b) => b.id.startsWith('rev'))!;
+    expect(q.fullWidth).toBe(true);
+    expect(ans.fullWidth).toBe(true);
+    expect(rev.fullWidth).toBe(true);
+    // The analytical sections stay in the two-column flow.
+    const score = find(blocks, (b) => b.kind === 'scoreSummary')!;
+    const criterion = find(blocks, (b) => b.kind === 'criterion')!;
+    expect(score.fullWidth).toBeFalsy();
+    expect(criterion.fullWidth).toBeFalsy();
+  });
+
   // The next steps are a list of things to do, so they are drawn as boxes to
   // tick. Strong evidence is a list of things already done, so it is not.
   it('makes the next steps tickable and leaves the strengths as bullets', () => {

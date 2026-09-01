@@ -55,6 +55,12 @@ export interface EvaluationExportData {
   studentAnswer?: string;
   overallMark: number;
   overallBand: number;
+  /**
+   * The question's target (max achievable) band — its tier ceiling. Caps the
+   * band ladder so a lower-tier question does not draw empty rungs up to Band 6.
+   * Absent means the full six-band ladder.
+   */
+  targetBand?: number;
   overallFeedback: string;
   quickTip?: string;
   strengths: string[];
@@ -153,10 +159,14 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
   const hl: InlineOptions = { keywords: data.keywords, verb: data.verb };
 
   // 1. Question -------------------------------------------------------------
-  blocks.push(heading('Question'));
+  // The question, the student response and the improved response are the long
+  // prose sections; they read better across the full page than squeezed into a
+  // narrow column, so each is flagged `fullWidth` (see flowBlocks).
+  blocks.push({ ...heading('Question'), fullWidth: true });
   blocks.push({
     kind: 'paragraph',
     id: nid('meta'),
+    fullWidth: true,
     runs: [
       run(`${data.verb}  ·  ${data.totalMarks} ${data.totalMarks === 1 ? 'mark' : 'marks'}`, 7.5, {
         style: 'bold',
@@ -169,6 +179,7 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
     blocks.push({
       kind: 'paragraph',
       id: nid('path'),
+      fullWidth: true,
       runs: [run(data.syllabusPath, 7.5, { color: COLORS.muted, lineHeightFactor: 1.25 })],
       breakable: true,
       basePadBottom: 1.5,
@@ -177,6 +188,7 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
   blocks.push({
     kind: 'paragraph',
     id: nid('q'),
+    fullWidth: true,
     runs: [richRun(data.question, 12.5, { color: COLORS.ink, lineHeightFactor: 1.25 }, hl)],
     breakable: true,
     basePadBottom: 2,
@@ -189,6 +201,10 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
   if (typeof data.keywordsUsed === 'number' && typeof data.keywordsTotal === 'number') {
     metricBits.push(`${data.keywordsUsed}/${data.keywordsTotal} key terms`);
   }
+  // Cap the ladder at the question's target (max achievable) band, clamped to a
+  // whole 1..6. A lower-tier question stops the rungs at its ceiling instead of
+  // showing empty (never reachable) segments up to Band 6.
+  const bandScaleMax = Math.max(1, Math.min(6, Math.round(data.targetBand ?? 6)));
   blocks.push({
     kind: 'scoreSummary',
     id: nid('score'),
@@ -196,9 +212,10 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
     chip: `${data.overallMark} / ${data.totalMarks}`,
     accent,
     // The ladder under the metrics. A mark out of 8 means little on its own;
-    // where it sits on the six bands, and how far the next one is, is the
-    // question every student asks first.
-    bandScale: data.overallBand,
+    // where it sits on the bands, and how far the next one is, is the question
+    // every student asks first.
+    bandScale: Math.min(data.overallBand, bandScaleMax),
+    bandScaleMax,
     runs: [run(metricBits.join('   ·   '), 9, { style: 'bold', color: COLORS.body })],
     basePadTop: 1,
     basePadBottom: 3,
@@ -208,10 +225,11 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
   // The submitted answer travels with the feedback so the report stands on its
   // own when handed to a teacher.
   if (data.studentAnswer && data.studentAnswer.trim()) {
-    blocks.push(heading('Student Response', COLORS.slate));
+    blocks.push({ ...heading('Student Response', COLORS.slate), fullWidth: true });
     blocks.push({
       kind: 'paragraph',
       id: nid('ans'),
+      fullWidth: true,
       runs: [richRun(data.studentAnswer, 9.5, { color: COLORS.body, lineHeightFactor: 1.35 }, hl)],
       accent: COLORS.slate,
       breakable: true,
@@ -313,13 +331,15 @@ export const buildEvaluationBlocks = (data: EvaluationExportData): ContentBlock[
     const exAccent = bandColor(exBand);
     const exMark = data.exemplarMark ?? Math.min(data.totalMarks, data.overallMark + 1);
     blocks.push(spacer(2));
-    blocks.push(divider());
-    blocks.push(
-      heading(`Improved Response — ${exMark}/${data.totalMarks} (Band ${exBand})`, exAccent)
-    );
+    blocks.push({ ...divider(), fullWidth: true });
+    blocks.push({
+      ...heading(`Improved Response — ${exMark}/${data.totalMarks} (Band ${exBand})`, exAccent),
+      fullWidth: true,
+    });
     blocks.push({
       kind: 'paragraph',
       id: nid('rev'),
+      fullWidth: true,
       runs: [richRun(data.revisedAnswer, 9.5, { color: COLORS.ink, lineHeightFactor: 1.4 }, hl)],
       accent: exAccent,
       breakable: true,

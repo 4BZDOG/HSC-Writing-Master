@@ -6,6 +6,7 @@ import {
   measureBlocks,
   splitOversized,
   columnLeft,
+  fullContentWidth,
 } from '../../pdf/layout';
 import { ContentBlock, MeasuredBlock, TextMeasurer } from '../../pdf/types';
 import { buildEvaluationBlocks, COLORS, EvaluationExportData } from '../../pdf/buildBlocks';
@@ -136,6 +137,91 @@ describe('flowBlocks (column-major)', () => {
     // Both blocks stack in column 0: 120 + 90 = 210mm deep.
     const { deepestPerPage } = flowBlocks([block(120), block(90)], geo);
     expect(deepestPerPage[0]).toBeCloseTo(210, 5);
+  });
+});
+
+describe('flowBlocks (full-width bands)', () => {
+  const geo = computeGeometry({
+    size: 'a4',
+    columnsPerPage: 2,
+    columnGap: 8,
+    headerHeight: 30,
+    footerHeight: 8,
+    margin: 10,
+  }); // columnHeight ≈ 239, columnWidth 91, fullContentWidth 190
+  const span = (height: number, kind: MeasuredBlock['kind'] = 'paragraph'): MeasuredBlock => ({
+    ...block(height, kind),
+    fullWidth: true,
+  });
+
+  it('exposes the full content width (both columns + gap)', () => {
+    expect(fullContentWidth(geo)).toBeCloseTo(190, 5);
+  });
+
+  it('stacks a full-width band beneath the deepest of both columns', () => {
+    // col0 fills with 200mm; the 100mm block spills to col1; the full-width
+    // block then spans, starting below the deeper column (200), not at 0.
+    const blocks = [block(200), block(100), span(30)];
+    const { placements } = flowBlocks(blocks, geo);
+    expect(placements[0]).toMatchObject({ page: 0, column: 0, top: 0 });
+    expect(placements[1]).toMatchObject({ page: 0, column: 1, top: 0 });
+    expect(placements[2]).toMatchObject({ page: 0, top: 200 }); // spans full width
+  });
+
+  it('resumes two columns beneath a leading full-width band', () => {
+    // A 40mm full-width band at the top; the two-column band then begins at y=40.
+    const blocks = [span(40), block(100), block(100)];
+    const { placements } = flowBlocks(blocks, geo);
+    expect(placements[0]).toMatchObject({ page: 0, top: 0 }); // the span
+    expect(placements[1]).toMatchObject({ page: 0, column: 0, top: 40 });
+    // col0 now holds 40+100=140; another 100 overflows (240>239) -> col1 at y=40.
+    expect(placements[2]).toMatchObject({ page: 0, column: 1, top: 40 });
+  });
+
+  it('pushes a full-width band to a new page when it will not fit', () => {
+    // 220mm of column content leaves ~19mm; a 30mm full-width band cannot fit,
+    // so it starts a fresh page at the top.
+    const blocks = [block(220), span(30)];
+    const { placements, pageCount } = flowBlocks(blocks, geo);
+    expect(placements[0]).toMatchObject({ page: 0, column: 0, top: 0 });
+    expect(placements[1]).toMatchObject({ page: 1, top: 0 });
+    expect(pageCount).toBe(2);
+  });
+
+  it('measures a full-width block at the full content width', () => {
+    // A paragraph whose text is wider than one column but fits the full width
+    // wraps to ONE line when full-width, and to more when column-bound.
+    const measurer: TextMeasurer = {
+      wrap: (text, maxWidthMm) => {
+        // ~2mm per character; split into as many lines as needed.
+        const perLine = Math.max(1, Math.floor(maxWidthMm / 2));
+        const words = text.split(' ');
+        const lines: string[] = [];
+        let cur = '';
+        for (const w of words) {
+          const trial = cur ? `${cur} ${w}` : w;
+          if (trial.length > perLine && cur) {
+            lines.push(cur);
+            cur = w;
+          } else cur = trial;
+        }
+        if (cur) lines.push(cur);
+        return lines;
+      },
+      lineHeight: (fontPt, factor = 1.15) => fontPt * factor * 0.3528,
+      measure: (text) => text.length * 2, // ~2mm per character, matching wrap
+    };
+    const text = 'w '.repeat(60).trim(); // 120 chars
+    const cb: ContentBlock = {
+      kind: 'paragraph',
+      id: 'p',
+      runs: [{ text, baseFontPt: 10 }],
+    };
+    const narrow = measureBlocks([cb], measurer, geo, 1);
+    const wide = measureBlocks([{ ...cb, fullWidth: true }], measurer, geo, 1);
+    // The full-width version fits on fewer lines, so it is shorter.
+    expect(wide[0].wrapped[0].length).toBeLessThan(narrow[0].wrapped[0].length);
+    expect(wide[0].height).toBeLessThan(narrow[0].height);
   });
 });
 

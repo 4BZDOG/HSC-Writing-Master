@@ -172,8 +172,22 @@ export interface ContentBlock {
    * a glance (see METER).
    */
   meter?: { value: number; max: number };
+  /**
+   * Draw this block across the full content width (both columns + the gap)
+   * rather than confined to one column. The long prose sections — the question,
+   * the student response, and the improved response — read better full-width
+   * than in a narrow column. The layout engine flows such blocks as a
+   * full-width "band" that interrupts the two-column flow (see flowBlocks).
+   */
+  fullWidth?: boolean;
   /** Band reached, drawn as a segmented ladder (see BAND_SCALE). */
   bandScale?: number;
+  /**
+   * Number of rungs to draw on the band ladder — the question's target (max
+   * achievable) band. A lower-tier question caps below 6; absent means the full
+   * six-band ladder. See BAND_SCALE.
+   */
+  bandScaleMax?: number;
   /**
    * Draw this list item's marker as an empty tick box rather than a bullet —
    * for the next steps, which are meant to be worked through and ticked off.

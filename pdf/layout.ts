@@ -73,6 +73,17 @@ export const computeGeometry = (opts: GeometryOptions): ColumnGeometry => {
 export const columnLeft = (geo: ColumnGeometry, column: number): number =>
   geo.contentLeft + column * (geo.columnWidth + geo.columnGap);
 
+/**
+ * Width (mm) of the full content area — both columns plus the gap between them.
+ * A `fullWidth` block is measured and drawn at this width so it spans the page.
+ */
+export const fullContentWidth = (geo: ColumnGeometry): number =>
+  geo.columnWidth * geo.columnsPerPage + geo.columnGap * (geo.columnsPerPage - 1);
+
+/** The width a block is laid out at: full content width when it spans, else one column. */
+const layoutWidth = (block: ContentBlock, geo: ColumnGeometry): number =>
+  block.fullWidth ? fullContentWidth(geo) : geo.columnWidth;
+
 const runLineHeight = (m: TextMeasurer, run: TextRun, pScale: number): number =>
   m.lineHeight(run.baseFontPt * pScale, run.lineHeightFactor ?? 1.15);
 
@@ -234,7 +245,7 @@ export const measureBlocks = (
   measurer: TextMeasurer,
   geo: ColumnGeometry,
   pScale: number
-): MeasuredBlock[] => blocks.map((b) => measureBlock(b, measurer, geo.columnWidth, pScale));
+): MeasuredBlock[] => blocks.map((b) => measureBlock(b, measurer, layoutWidth(b, geo), pScale));
 
 /**
  * The styled lines of a block's first run, when it has them. Every fragment a
@@ -384,53 +395,64 @@ export interface FlowResult {
  * vanish — measure-then-place guarantees we never silently clip earlier
  * blocks). Leading spacers at the top of a column are suppressed.
  */
-export const flowBlocks = (blocks: MeasuredBlock[], geo: ColumnGeometry): FlowResult => {
-  const placements: PlacedBlock[] = [];
-  const deepestPerPage: number[] = [];
-  let page = 0;
+/**
+ * Reserve height for a heading's body so it is never orphaned at a column/page
+ * foot. Every block reaching the flow has been through `splitOversized`, so
+ * nothing splits further — a heading moves as a unit with the block beneath it.
+ */
+const requiredHeight = (blocks: MeasuredBlock[], i: number): number => {
+  const block = blocks[i];
+  let required = block.height;
+  if (block.kind === 'heading') {
+    const next = blocks[i + 1];
+    if (next && next.kind !== 'spacer') required += next.height;
+  }
+  return required;
+};
+
+/**
+ * Flow a run of non-`fullWidth` blocks column-major, confined to the region that
+ * begins at `startY` on `startPage`. On the band's first page both columns start
+ * at `startY`; pages the band spills onto are used in full. Returns where the
+ * band ended so the next band stacks beneath it.
+ *
+ * With `startPage=0` and `startY=0` this reproduces the classic
+ * whole-document column-major flow exactly — the case the layout tests pin.
+ */
+const flowColumnBand = (
+  blocks: MeasuredBlock[],
+  geo: ColumnGeometry,
+  startPage: number,
+  startY: number,
+  placements: PlacedBlock[],
+  deepestPerPage: number[]
+): { endPage: number; endY: number } => {
+  let page = startPage;
   let column = 0;
-  let cursor = 0; // mm from column top
+  // A column's top: the band top on the band's first page, the page top after.
+  const colTop = (p: number): number => (p === startPage ? startY : 0);
+  let cursor = colTop(page);
 
   const recordDepth = () => {
     deepestPerPage[page] = Math.max(deepestPerPage[page] ?? 0, cursor);
   };
-
   const advanceColumn = () => {
     recordDepth();
     column += 1;
-    cursor = 0;
     if (column >= geo.columnsPerPage) {
       column = 0;
       page += 1;
     }
+    cursor = colTop(page);
   };
 
   for (let i = 0; i < blocks.length; i++) {
     const block = blocks[i];
-    const atColumnTop = cursor === 0;
+    const atColumnTop = cursor === colTop(page);
     // Never start a column with whitespace.
     if (atColumnTop && block.kind === 'spacer') continue;
 
-    // Keep-with-next: a heading must not be orphaned at the foot of a column.
-    //
-    // Reserving one LINE of what follows was not enough. Every block reaching
-    // the flow has already been through `splitOversized`, so nothing here is
-    // taller than a column and nothing splits further — each one moves as a
-    // unit. A heading that fit alongside a single reserved line therefore
-    // stayed put while its whole body jumped to the next column, which is
-    // exactly the orphan the rule exists to prevent ("IMPROVED RESPONSE" at the
-    // foot of one column, the response itself at the head of the next).
-    //
-    // Reserving the body's full height can leave more white space at a column
-    // foot, which is the trade every typesetter makes: a heading with nothing
-    // under it is a worse page than a short column.
-    let required = block.height;
-    if (block.kind === 'heading') {
-      const next = blocks[i + 1];
-      if (next && next.kind !== 'spacer') required += next.height;
-    }
-
-    const fits = cursor + required <= geo.columnHeight + 1e-6;
+    const fits = cursor + requiredHeight(blocks, i) <= geo.columnHeight + 1e-6;
     if (!fits && !atColumnTop) {
       advanceColumn();
       // A spacer that triggers a break is redundant — the break separates.
@@ -440,6 +462,78 @@ export const flowBlocks = (blocks: MeasuredBlock[], geo: ColumnGeometry): FlowRe
     cursor += block.height;
   }
   recordDepth();
+  return { endPage: page, endY: deepestPerPage[page] ?? cursor };
+};
+
+/**
+ * Flow a run of `fullWidth` blocks as a single spanning column down the page,
+ * starting at `startY` on `startPage`. Each block is DRAWN across the full
+ * content width (the drawer keys off `block.fullWidth`), so its recorded column
+ * is 0 and the drawer positions it from the content-left edge.
+ */
+const flowSpanBand = (
+  blocks: MeasuredBlock[],
+  geo: ColumnGeometry,
+  startPage: number,
+  startY: number,
+  placements: PlacedBlock[],
+  deepestPerPage: number[]
+): { endPage: number; endY: number } => {
+  let page = startPage;
+  let cursor = startY;
+  const recordDepth = () => {
+    deepestPerPage[page] = Math.max(deepestPerPage[page] ?? 0, cursor);
+  };
+
+  for (let i = 0; i < blocks.length; i++) {
+    const block = blocks[i];
+    const atTop = cursor === 0;
+    if (atTop && block.kind === 'spacer') continue;
+
+    const fits = cursor + requiredHeight(blocks, i) <= geo.columnHeight + 1e-6;
+    if (!fits && !atTop) {
+      recordDepth();
+      page += 1;
+      cursor = 0;
+      if (block.kind === 'spacer') continue;
+    }
+    placements.push({ block, page, column: 0, top: cursor });
+    cursor += block.height;
+  }
+  recordDepth();
+  return { endPage: page, endY: deepestPerPage[page] ?? cursor };
+};
+
+/**
+ * Banded flow. The block list is split into maximal runs of same-width blocks:
+ * `fullWidth` runs render as page-spanning bands, the rest as two-column bands.
+ * Bands stack vertically — each starts beneath the deepest extent of the last —
+ * so a full-width question / response / improved-response interrupts the compact
+ * two-column flow of the analytical sections without disturbing their order.
+ *
+ * When no block is `fullWidth` the whole document is a single two-column band
+ * and this collapses to the classic column-major flow, unchanged.
+ */
+export const flowBlocks = (blocks: MeasuredBlock[], geo: ColumnGeometry): FlowResult => {
+  const placements: PlacedBlock[] = [];
+  const deepestPerPage: number[] = [];
+  let page = 0;
+  let y = 0;
+
+  let i = 0;
+  while (i < blocks.length) {
+    const spanning = !!blocks[i].fullWidth;
+    let j = i;
+    while (j < blocks.length && !!blocks[j].fullWidth === spanning) j += 1;
+    const band = blocks.slice(i, j);
+    const res = spanning
+      ? flowSpanBand(band, geo, page, y, placements, deepestPerPage)
+      : flowColumnBand(band, geo, page, y, placements, deepestPerPage);
+    page = res.endPage;
+    y = res.endY;
+    i = j;
+  }
+  if (deepestPerPage.length === 0) deepestPerPage[0] = 0;
 
   return {
     placements,

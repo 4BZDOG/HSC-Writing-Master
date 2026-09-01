@@ -22,7 +22,7 @@ import {
 } from './types';
 import { buildEvaluationBlocks, COLORS, EvaluationExportData } from './buildBlocks';
 import { AI_MARKING_DISCLAIMER } from '../data/legalContent';
-import { chooseScale, columnLeft, computeGeometry, planLayout } from './layout';
+import { chooseScale, columnLeft, computeGeometry, fullContentWidth, planLayout } from './layout';
 import {
   createMeasurer,
   drawFooter,
@@ -145,14 +145,15 @@ const drawBandScale = (
   x: number,
   y: number,
   width: number,
-  pScale: number
+  pScale: number,
+  segments: number = BAND_SCALE.segments
 ): void => {
   const h = BAND_SCALE.heightBaseMm * pScale;
   const gap = BAND_SCALE.segmentGapBaseMm * pScale;
-  const segW = (width - gap * (BAND_SCALE.segments - 1)) / BAND_SCALE.segments;
+  const segW = (width - gap * (segments - 1)) / segments;
   if (segW <= 0) return;
 
-  for (let i = 0; i < BAND_SCALE.segments; i++) {
+  for (let i = 0; i < segments; i++) {
     const segX = x + i * (segW + gap);
     const reached = i + 1 <= band;
     if (reached) {
@@ -176,7 +177,7 @@ const drawBandScale = (
     style: 'bold',
     color: COLORS.muted,
   });
-  drawLines(doc, ['BAND 6'], {
+  drawLines(doc, [`BAND ${segments}`], {
     ...ctx,
     x: x + width,
     y: y + h + labelPt * MM_PER_PT * 1.25,
@@ -214,7 +215,9 @@ const drawBlock = (
   geo: ColumnGeometry,
   pScale: number
 ): void => {
-  const colW = geo.columnWidth;
+  // A full-width block was measured (wrapped) at the full content width, so it
+  // must be drawn at that width too — otherwise its text overruns the column.
+  const colW = block.fullWidth ? fullContentWidth(geo) : geo.columnWidth;
   const padTop = block.padTopMm;
   const y = yTop + padTop;
 
@@ -398,7 +401,8 @@ const drawScoreSummary = (
       textX,
       metricsBottom + BAND_SCALE.gapBaseMm * pScale,
       xLeft + colW - pad - textX,
-      pScale
+      pScale,
+      block.bandScaleMax ?? BAND_SCALE.segments
     );
   }
 };
@@ -645,7 +649,9 @@ export const exportEvaluationPdf = async (
         });
 
         for (const { block, column, top } of byPage[page]) {
-          const xLeft = columnLeft(geo, column);
+          // A full-width block spans from the content-left edge; a column block
+          // sits at its column's left edge.
+          const xLeft = block.fullWidth ? geo.contentLeft : columnLeft(geo, column);
           drawBlock(doc, ctx, block, xLeft, geo.contentTop + top, geo, pScale);
         }
 
