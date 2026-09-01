@@ -1,6 +1,30 @@
 # HSC AI Evaluator - Deployment Plan
 
-**Version**: 2.2.1 | **Last Updated**: March 2026
+> [!IMPORTANT]
+> **This document is superseded and retained only as historical context. The
+> authoritative deployment guide is [`DEPLOYMENT.md`](./DEPLOYMENT.md) — follow
+> that one.** This plan predates the serverless AI proxy (`api/gemini.ts`) and
+> the optional Supabase backend the app now ships. In particular, the
+> environment-variable and model instructions below are **dangerous and must NOT
+> be followed**:
+>
+> - The app no longer calls Google Gemini directly from the browser. AI requests
+>   are proxied server-side through `api/gemini.ts`, which reads a **server-side
+>   `GEMINI_API_KEY`** (no `VITE_` prefix). Any `VITE_`-prefixed key is bundled
+>   into the public client JavaScript and leaks — never put a provider key in one.
+> - `VITE_GOOGLE_API_KEY`, `VITE_GEMINI_MODEL_*` and `VITE_GEMINI_THINKING_BUDGET`
+>   do not exist in this app.
+> - `gemini-3-pro-preview` is a **dead model** (shut down 2026-03-09); the current
+>   reasoning model is `gemini-3.1-pro-preview`.
+> - The `vercel.json` snippet below does not match the committed file. The real
+>   `vercel.json` pins `regions: ["syd1"]`, `functions` `maxDuration: 60`, an
+>   `installCommand` of `npm ci --legacy-peer-deps`, and SPA rewrites.
+>
+> For current environment variables see [`.env.example`](./.env.example) and
+> [`DEPLOYMENT.md`](./DEPLOYMENT.md). The historical content below is left
+> unchanged except for the corrective notes flagged inline.
+
+**Version**: 2.2.1 _(historical — the current app version is 2.3.23)_ | **Last Updated**: March 2026
 
 ---
 
@@ -25,6 +49,14 @@ This is a **static SPA (Single Page Application)** with:
 - API calls directly to Google Gemini
 - Build output: Single `dist/` folder for hosting
 
+> [!WARNING]
+> **Obsolete.** This is no longer accurate. The app ships **five serverless
+> functions** under `api/` — chief among them `api/gemini.ts`, which proxies the
+> AI provider so the key stays server-side — so AI calls are **not** made directly
+> to Google from the browser. An **optional Supabase** backend is also supported
+> for real multi-user auth and a shared library. IndexedDB remains the default
+> client-side store. See [`DEPLOYMENT.md`](./DEPLOYMENT.md).
+
 ---
 
 ## 2. Deployment Options
@@ -45,6 +77,14 @@ vercel
 ```
 
 **Configuration** (`vercel.json`):
+
+> [!WARNING]
+> **Obsolete — does not match the checked-in file.** Do not copy the snippet
+> below. The committed [`vercel.json`](./vercel.json) pins `regions: ["syd1"]`
+> (Australian region, required for NSW student data), `functions` with
+> `maxDuration: 60`, an `installCommand` of `npm ci --legacy-peer-deps`, and SPA
+> rewrites. It does **not** declare `VITE_GOOGLE_API_KEY` (that variable does not
+> exist). Refer to the checked-in `vercel.json` rather than the example below.
 
 ```json
 {
@@ -166,6 +206,23 @@ server {
 ## 3. Environment & Secrets Management
 
 ### Required Environment Variables
+
+> [!WARNING]
+> **Obsolete and dangerous — do not use the block below.** Every variable in it is
+> either non-existent or a client-side key-exposure anti-pattern:
+>
+> - AI requests are proxied through `api/gemini.ts` using a **server-side
+>   `GEMINI_API_KEY`** — no `VITE_` prefix. A `VITE_`-prefixed provider key is
+>   compiled into the public client bundle and leaks.
+> - `VITE_GOOGLE_API_KEY`, `VITE_GEMINI_MODEL_REASONING`,
+>   `VITE_GEMINI_MODEL_SPEED` and `VITE_GEMINI_THINKING_BUDGET` **do not exist**
+>   in this app.
+> - `gemini-3-pro-preview` is a **dead model** (shut down 2026-03-09); the current
+>   reasoning model is `gemini-3.1-pro-preview`.
+>
+> The correct approach: set an unprefixed `GEMINI_API_KEY` in your host's secret
+> store and let `api/gemini.ts` use it server-side. For the full, current variable
+> list see [`.env.example`](./.env.example) and [`DEPLOYMENT.md`](./DEPLOYMENT.md).
 
 ```env
 # Google Gemini API Configuration

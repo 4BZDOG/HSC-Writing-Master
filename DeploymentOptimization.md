@@ -1,5 +1,25 @@
 # Deployment & Update Improvements Roadmap
 
+> [!IMPORTANT]
+> **This is a completed historical roadmap, kept only as a record. Do not treat
+> it as a to-do list, and do not follow its code snippets.** The authoritative
+> deployment guide is [`DEPLOYMENT.md`](./DEPLOYMENT.md).
+>
+> - **The Priority 1–4 items are already implemented.** ESLint, Prettier,
+>   Husky/lint-staged pre-commit hooks, Vitest unit testing, Playwright E2E
+>   testing, Sentry error tracking and Supabase auth all ship in the app today.
+> - **The Priority 5 backend recommendations were superseded.** The app does
+>   **not** use a Netlify Edge Function proxy (§5.1); it ships a **Vercel
+>   serverless proxy** at `api/gemini.ts` that reads a **server-side
+>   `GEMINI_API_KEY`** (no `VITE_` prefix).
+> - **The API-key snippets throughout are a dangerous anti-pattern.** Any
+>   `VITE_`-prefixed provider key (`VITE_API_KEY`, `VITE_GEMINI_API_KEY`, etc.) is
+>   compiled into the public client bundle and leaks. The provider key must stay
+>   server-side. See §1.1, §1.2 and §5.1 notes below.
+> - The `.env.example` shown in §1.2 is **fictional** — its `VITE_GEMINI_API_KEY`
+>   and other `VITE_*` keys do not describe the real file. Refer to the committed
+>   [`.env.example`](./.env.example) instead.
+
 **Status**: Production-ready code, Development-grade infrastructure
 **Goal**: Enterprise-grade CI/CD, monitoring, and deployment ease
 **Total Effort**: 80-120 hours across 6 weeks
@@ -22,6 +42,14 @@ define: {
 
 **Solution**: Use Vite's secure env variable approach
 
+> [!WARNING]
+> **Obsolete and unsafe — do not apply.** Moving the key to a `VITE_`-prefixed
+> variable does **not** make it safe: every `VITE_*` value is bundled into the
+> public client JavaScript, so `VITE_API_KEY` / `VITE_GEMINI_API_KEY` still leaks
+> the provider key. This was superseded by the shipped `api/gemini.ts` serverless
+> proxy, which reads a **server-side `GEMINI_API_KEY`** (no `VITE_` prefix). The
+> key must never reach the client bundle. See [`DEPLOYMENT.md`](./DEPLOYMENT.md).
+
 ```typescript
 // SAFE - only VITE_* variables are exposed
 define: {
@@ -37,6 +65,12 @@ define: {
 4. Create backend proxy (Phase 2)
 
 ### 1.2 Create `.env.example` ✅ LOW EFFORT
+
+> [!WARNING]
+> **Fictional — already done differently.** A real [`.env.example`](./.env.example)
+> now exists and does **not** match the block below. The provider key is the
+> unprefixed, server-side `GEMINI_API_KEY`; `VITE_GEMINI_API_KEY` and the other
+> `VITE_*` keys shown here are not part of the app. Use the committed file.
 
 **Creates**: `/home/user/HSC-Writing-Master/.env.example`
 
@@ -481,6 +515,13 @@ export const analytics = {
 ## Priority 5: Backend Infrastructure (Week 4-5 - 32 hours)
 
 ### 5.1 API Key Protection with Netlify Edge Functions
+
+> [!WARNING]
+> **Superseded — not the approach the app uses.** The app ships a **Vercel
+> serverless proxy** at `api/gemini.ts` (reading a server-side `GEMINI_API_KEY`),
+> not the Netlify Edge Function proposed below. There is no `netlify/edge-functions`
+> directory. This section is retained only as the original proposal; follow
+> [`DEPLOYMENT.md`](./DEPLOYMENT.md) for the real proxy.
 
 **Creates**: `netlify/edge-functions/api-proxy.ts`
 

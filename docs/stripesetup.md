@@ -64,6 +64,7 @@ You need to set variables in **two places**: server-side (Vercel / your host) an
 | `STRIPE_WEBHOOK_SECRET`        | `whsec_...`               | Created in Step 4 below — **required in production** |
 | `SUPABASE_SERVICE_ROLE_KEY`    | `eyJ...`                  | Supabase → Settings → API → `service_role`           |
 | `SUPABASE_URL`                 | `https://xxx.supabase.co` | Supabase → Settings → API                            |
+| `SUPABASE_ANON_KEY`            | `eyJ...`                  | Supabase → Settings → API → `anon` / `public`        |
 | `STRIPE_PLUS_MONTHLY_PRICE_ID` | `price_...`               | From Step 1                                          |
 | `STRIPE_PLUS_YEARLY_PRICE_ID`  | `price_...`               | From Step 1                                          |
 | `STRIPE_SCHOOL_PRICE_ID`       | `price_...` _(optional)_  | From Step 1 (school product)                         |
@@ -134,7 +135,7 @@ The webhook is how Stripe tells your app about subscription changes (new checkou
    ```
 3. Forward events to your local dev server:
    ```bash
-   stripe listen --forward-to localhost:5173/api/stripe-webhook
+   stripe listen --forward-to localhost:3000/api/stripe-webhook
    ```
 4. The CLI prints a temporary webhook secret (`whsec_...`). Set it in your `.env.local`:
    ```

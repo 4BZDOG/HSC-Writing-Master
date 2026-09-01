@@ -61,7 +61,7 @@ In **Vercel → Project → Settings → Environment Variables**, add:
 | `VITE_SUPABASE_ANON_KEY`  | Optional | Supabase anon (public) key — pairs with the URL above         |
 | `VITE_SENTRY_DSN`         | Optional | Sentry DSN for error tracking                                 |
 | `VITE_SENTRY_ENVIRONMENT` | Optional | `production`                                                  |
-| `VITE_SENTRY_RELEASE`     | Optional | e.g. `2.2.2` (match `package.json`)                           |
+| `VITE_SENTRY_RELEASE`     | Optional | e.g. `2.3.23` (match `package.json`)                          |
 
 Set each variable for the **Production**, **Preview**, and **Development** environments as needed. After changing a variable you must **redeploy** for it to take effect.
 

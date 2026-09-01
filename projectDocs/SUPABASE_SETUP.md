@@ -56,7 +56,7 @@ demo accounts) — so this is only needed when you want real users.
    | --------------------- | ---------------------------- | ----------------------------------------------- |
    | **Project URL**       | `https://xxxx.supabase.co`   | Both client and server env vars                 |
    | **anon / public** key | A long `eyJ...` string       | Both client and server env vars                 |
-   | **service_role** key  | Another long `eyJ...` string | **Only** for the seed script — never in the app |
+   | **service_role** key  | Another long `eyJ...` string | For the seed script and the Stripe webhook handler — never in client code. |
 
 3. Keep this page open — you'll copy these values in the next steps.
 
@@ -159,7 +159,7 @@ dashboard).
 
 ## Step 5 — Create your admin account
 
-1. Open your deployed app (or `localhost:5173` for local dev) and use
+1. Open your deployed app (or `localhost:3000` for local dev) and use
    **Create one** on the login page. If email confirmation is on, follow the
    link Supabase emails you.
    (Prefer not to wait on email? Supabase dashboard → **Authentication** →
@@ -325,7 +325,8 @@ section entirely.
 For a NSW DoE school, `azure` is the one that matters: staff and students
 already hold `@education.nsw.gov.au` Entra accounts, so SSO both provisions
 them and removes the password-reset problem above. See `DEPLOYMENT.md` for the
-Entra app registration steps (use the multi-tenant account type).
+Entra app registration steps (prefer the single-tenant account type — see the
+account-type warning in DEPLOYMENT.md).
 
 ---
 
@@ -456,8 +457,8 @@ use the system.
 ```
 Browser (React/Vite)
   │
-  ├─ Auth ──────────────► Supabase Auth (email/password, OAuth — no in-app
-  │                       sign-up or password reset; see Step 7)
+  ├─ Auth ──────────────► Supabase Auth (email/password with in-app sign-up
+  │                       and password reset, plus OAuth — see Step 7)
   │                           │
   │                           ▼
   │                       profiles table (role, preferences, stats)
