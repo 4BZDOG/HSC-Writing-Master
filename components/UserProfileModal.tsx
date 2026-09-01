@@ -480,7 +480,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Your profile"
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[2000] p-4"
+      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-profile p-4"
       onClick={onClose}
     >
       <div

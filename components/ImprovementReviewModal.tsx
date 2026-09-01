@@ -274,7 +274,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
 
   return createPortal(
     <div
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[1300] p-4"
+      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-improvement p-4"
       onClick={onClose}
     >
       <div

@@ -271,7 +271,7 @@ const ApiMonitorDisplay: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-[500] select-none font-sans">
+    <div className="fixed bottom-4 right-4 z-overlay-status select-none font-sans">
       {!isExpanded ? (
         <button
           onClick={() => setIsExpanded(true)}

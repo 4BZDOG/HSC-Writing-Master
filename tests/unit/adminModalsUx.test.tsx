@@ -124,7 +124,7 @@ describe('ReviewQueueModal UX', () => {
     expect(contributionService.rejectPrompt).not.toHaveBeenCalled();
 
     // …and only the explicit confirm (inside the dialog) fires the RPC.
-    const dialog = dialogTitle.closest('.z-\\[2200\\]') as HTMLElement;
+    const dialog = dialogTitle.closest('.z-critical') as HTMLElement;
     fireEvent.click(within(dialog).getByRole('button', { name: /^Reject$/ }));
     await waitFor(() => expect(contributionService.rejectPrompt).toHaveBeenCalledWith('p1'));
     expect(confirmSpy).not.toHaveBeenCalled();

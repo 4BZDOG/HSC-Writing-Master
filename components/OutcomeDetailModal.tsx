@@ -160,7 +160,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
 
   return createPortal(
     <div
-      className="fixed inset-0 bg-black/60 light:bg-black/40 backdrop-blur-sm flex items-center justify-center z-[100] p-4 sm:p-6"
+      className="fixed inset-0 bg-black/60 light:bg-black/40 backdrop-blur-sm flex items-center justify-center z-modal p-4 sm:p-6"
       onClick={onClose}
     >
       <div

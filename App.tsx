@@ -817,7 +817,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         <button
           onClick={() => setIsFocusMode(false)}
           title="Exit focus mode (Esc)"
-          className="fixed top-4 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-2.5 pl-3 pr-4 py-2 rounded-full bg-black/40 light:bg-white/70 backdrop-blur-xl border border-white/15 light:border-slate-300 text-white light:text-slate-700 shadow-2xl hover:bg-black/60 light:hover:bg-white transition-all animate-fade-in group"
+          className="fixed top-4 left-1/2 -translate-x-1/2 z-header-pill flex items-center gap-2.5 pl-3 pr-4 py-2 rounded-full bg-black/40 light:bg-white/70 backdrop-blur-xl border border-white/15 light:border-slate-300 text-white light:text-slate-700 shadow-2xl hover:bg-black/60 light:hover:bg-white transition-all animate-fade-in group"
         >
           <span className="w-6 h-6 rounded-full bg-amber-500/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
             <Minimize className="w-3.5 h-3.5 text-white" />
@@ -838,7 +838,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           the usual convention — it is a keyboard affordance, not chrome. */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[200]
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-skip-link
                    focus:px-4 focus:py-2 focus:rounded-xl focus:text-xs focus:font-black
                    focus:uppercase focus:tracking-widest focus:bg-white focus:text-slate-900
                    focus:shadow-2xl dark:focus:bg-[rgb(var(--color-bg-surface-elevated))]
@@ -1451,7 +1451,7 @@ const App: React.FC = () => {
         />
       )}
       {toast && (
-        <div className="fixed top-24 right-4 z-[1000] animate-slide-in">
+        <div className="fixed top-24 right-4 z-toast animate-slide-in">
           <Toast
             key={toast.id}
             message={toast.message}

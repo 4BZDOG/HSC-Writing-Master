@@ -33,7 +33,7 @@ const ApiStatusIndicator: React.FC = () => {
   return (
     <div
       className="
-        fixed bottom-8 left-1/2 -translate-x-1/2 z-[1000] 
+        fixed bottom-8 left-1/2 -translate-x-1/2 z-status-banner 
         w-full max-w-lg mx-4
         bg-red-950/80 light:bg-red-50/95 backdrop-blur-xl 
         border border-red-500/40 light:border-red-200 rounded-2xl 

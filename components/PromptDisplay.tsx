@@ -186,7 +186,7 @@ const OutcomeChip: React.FC<{
         createPortal(
           <div
             role="tooltip"
-            className="fixed z-[100] w-72 -translate-x-1/2 -translate-y-full p-4 text-xs text-left font-medium leading-relaxed text-white light:text-slate-800 bg-[rgb(var(--color-bg-surface-elevated))]/95 light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-2xl shadow-2xl pointer-events-none backdrop-blur-xl animate-fade-in"
+            className="fixed z-tooltip w-72 -translate-x-1/2 -translate-y-full p-4 text-xs text-left font-medium leading-relaxed text-white light:text-slate-800 bg-[rgb(var(--color-bg-surface-elevated))]/95 light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-2xl shadow-2xl pointer-events-none backdrop-blur-xl animate-fade-in"
             style={{ left: anchor.left, top: anchor.top - 12 }}
           >
             <div className={`flex items-center gap-2 mb-2 ${bandConfig.text}`}>

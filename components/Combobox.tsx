@@ -540,7 +540,7 @@ const Combobox: React.FC<ComboboxProps> = ({
               left: menuRect.left,
               width: menuRect.width,
             }}
-            className={`z-[100] rounded-xl overflow-hidden animate-fade-in border ${listStateStyles}`}
+            className={`z-dropdown rounded-xl overflow-hidden animate-fade-in border ${listStateStyles}`}
           >
             {/* Sits outside the scroll region so it stays put while the list
             moves under it. */}

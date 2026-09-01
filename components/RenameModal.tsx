@@ -122,9 +122,9 @@ const RenameModal: React.FC<RenameModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Rename"
-      // z-[2200]: matches ConfirmationModal — must out-rank every other
+      // z-critical (2200): matches ConfirmationModal — must out-rank every other
       // modal/overlay since rename can be requested while another is open.
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[2200] p-4"
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-critical p-4"
       onClick={onClose}
     >
       <div

@@ -83,7 +83,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Edit sample answer"
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-modal p-4"
       onClick={onClose}
     >
       <div

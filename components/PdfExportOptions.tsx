@@ -180,7 +180,7 @@ const PdfExportOptions: React.FC<PdfExportOptionsProps> = ({
       role="dialog"
       aria-label="PDF export options"
       style={{ left: anchor.left, top: anchor.top, width: PANEL_WIDTH }}
-      className="fixed z-[120] max-w-[calc(100vw-2rem)] p-2 rounded-2xl bg-white dark:bg-[rgb(var(--color-bg-surface-elevated))] border border-slate-200 dark:border-white/10 shadow-2xl animate-fade-in text-left"
+      className="fixed z-popover max-w-[calc(100vw-2rem)] p-2 rounded-2xl bg-white dark:bg-[rgb(var(--color-bg-surface-elevated))] border border-slate-200 dark:border-white/10 shadow-2xl animate-fade-in text-left"
     >
       <div className="flex items-center gap-2 px-3 py-2">
         <Settings2 className="w-3.5 h-3.5 text-slate-400" />

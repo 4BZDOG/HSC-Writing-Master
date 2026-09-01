@@ -21,7 +21,7 @@
  *  rather than behind an opaque wall, which is the point of §1's glassmorphism.
  *  Painted on the page background and `AnimatedBackground` beneath it. */
 export const HEADER_BAR =
-  'sticky top-0 z-[60] h-16 flex items-center ' +
+  'sticky top-0 z-header h-16 flex items-center ' +
   'bg-white/80 dark:bg-[rgb(var(--color-bg-surface))]/70 backdrop-blur-2xl ' +
   'border-b border-slate-200 dark:border-white/10 ' +
   'shadow-sm dark:shadow-lg dark:shadow-black/20';
@@ -99,7 +99,7 @@ export const HEADER_ACTION_OPEN = 'bg-slate-100 text-slate-900 dark:bg-white/10 
  *  portal, so it paints an opaque surface of its own rather than borrowing the
  *  bar's glass; a translucent menu over live content is unreadable. */
 export const HEADER_MENU_PANEL =
-  'fixed z-[120] w-64 p-1.5 rounded-2xl shadow-2xl animate-fade-in text-left ' +
+  'fixed z-popover w-64 p-1.5 rounded-2xl shadow-2xl animate-fade-in text-left ' +
   'bg-white border border-slate-200 ' +
   'dark:bg-[rgb(var(--color-bg-surface-elevated))] dark:border-white/10';
 

@@ -219,7 +219,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Import a course pack"
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[200] p-3 sm:p-6 animate-fade-in"
+      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-modal-elevated p-3 sm:p-6 animate-fade-in"
     >
       <div className="bg-[rgb(var(--color-bg-surface))]/90 light:bg-white/95 rounded-[32px] sm:rounded-[48px] shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-[1200px] border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[94vh] sm:max-h-[90vh] relative group">
         <MeshOverlay opacity="opacity-[0.03]" />

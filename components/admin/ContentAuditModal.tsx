@@ -14,6 +14,7 @@ import {
   SampleAnswer,
 } from '../../types';
 import { outcomesForYear, yearOfTopic } from '../../utils/syllabusYear';
+import { LEVEL_ICON_TINT } from '../../utils/levelColors';
 import {
   buildTopicExportPayload,
   filterDataBySelection,
@@ -1053,16 +1054,18 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             )}
           </button>
           <div className="flex items-center gap-3 flex-1 min-w-0 mr-4">
-            {node.type === 'course' && <BookOpen className="w-4 h-4 text-sky-400" />}
-            {node.type === 'topic' && <Layers className="w-4 h-4 text-purple-400" />}
-            {node.type === 'subTopic' && <Folder className="w-4 h-4 text-indigo-400" />}
+            {node.type === 'course' && <BookOpen className={`w-4 h-4 ${LEVEL_ICON_TINT.course}`} />}
+            {node.type === 'topic' && <Layers className={`w-4 h-4 ${LEVEL_ICON_TINT.topic}`} />}
+            {node.type === 'subTopic' && (
+              <Folder className={`w-4 h-4 ${LEVEL_ICON_TINT.subTopic}`} />
+            )}
             {node.type === 'dotPoint' &&
               ((node.dataRef as DotPoint).focusAreas?.length ? (
-                <Target className="w-4 h-4 text-teal-500" />
+                <Target className={`w-4 h-4 ${LEVEL_ICON_TINT.dotPoint}`} />
               ) : (
                 <Hash className="w-4 h-4 text-slate-600" />
               ))}
-            {node.type === 'prompt' && <FileText className="w-4 h-4 text-emerald-400" />}
+            {node.type === 'prompt' && <FileText className={`w-4 h-4 ${LEVEL_ICON_TINT.prompt}`} />}
             <span
               className={`text-sm truncate font-medium ${node.type === 'course' || node.type === 'topic' ? 'font-black text-white light:text-slate-900 uppercase tracking-tight' : 'text-slate-300 light:text-slate-700'}`}
             >
@@ -1117,7 +1120,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Content audit studio"
-      className="fixed inset-0 z-[200] bg-[rgb(var(--color-bg-base))] light:bg-slate-50 flex flex-col overflow-y-auto animate-fade-in"
+      className="fixed inset-0 z-modal-elevated bg-[rgb(var(--color-bg-base))] light:bg-slate-50 flex flex-col overflow-y-auto animate-fade-in"
     >
       {/* Studio Header — capped and independently scrollable (custom-scrollbar,
           matching the Tree Container below) so a wide filter/action bar that

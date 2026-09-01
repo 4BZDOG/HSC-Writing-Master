@@ -49,7 +49,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
     <div
       ref={dialogRef}
       tabIndex={-1}
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-modal p-4"
       onClick={handleOverlayClick}
       role="dialog"
       aria-modal="true"

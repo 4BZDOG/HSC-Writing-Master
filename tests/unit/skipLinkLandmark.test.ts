@@ -50,8 +50,8 @@ describe('the app shell offers a way past the header', () => {
     const attrs = app.slice(link, link + 600);
     expect(attrs).toContain('sr-only');
     expect(attrs).toContain('focus:not-sr-only');
-    // Above the header's z-[60] and the tools popover's z-[120]; below modals.
-    expect(attrs).toContain('focus:z-[200]');
+    // Above the header's z-header (60) and the tools popover's z-popover (120); below modals.
+    expect(attrs).toContain('focus:z-skip-link');
     // It lands on a light theme surface too, not white text on white.
     expect(attrs).toContain('focus:bg-white');
     expect(attrs).toContain('dark:focus:bg-[rgb(var(--color-bg-surface-elevated))]');

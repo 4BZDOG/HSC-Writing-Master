@@ -40,7 +40,7 @@ const GlobalLoadingOverlay: React.FC<GlobalLoadingOverlayProps> = ({ message, er
   if (!shouldShow || !mounted || typeof document === 'undefined' || !document.body) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-[2000] bg-white/80 dark:bg-[rgb(var(--color-bg-base))]/75 backdrop-blur-xl flex items-center justify-center p-4 animate-fade-in cursor-wait">
+    <div className="fixed inset-0 z-loading bg-white/80 dark:bg-[rgb(var(--color-bg-base))]/75 backdrop-blur-xl flex items-center justify-center p-4 animate-fade-in cursor-wait">
       <div className="relative">
         {/* Animated Glow Background */}
         <div

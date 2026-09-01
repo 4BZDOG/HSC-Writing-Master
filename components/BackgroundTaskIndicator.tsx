@@ -53,7 +53,7 @@ const BackgroundTaskIndicator: React.FC<BackgroundTaskIndicatorProps> = ({ task 
       aria-live={task.status === 'error' ? 'assertive' : 'polite'}
       aria-atomic="true"
       className={`
-        fixed bottom-20 right-4 z-[400]
+        fixed bottom-20 right-4 z-background-task
         w-80 p-4 rounded-xl
         bg-[rgb(var(--color-bg-surface-elevated))]/80 backdrop-blur-md
         border ${config.borderColor}

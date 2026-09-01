@@ -147,7 +147,13 @@ Most features are surfaced through modals. Follow the established pattern:
 
 Apply these Tailwind patterns consistently.
 
-**Colours are applied as arbitrary-value classes referencing CSS variables, not semantic Tailwind tokens.** The `theme.extend.colors` block in `tailwind.config.js:18-24` is effectively dead — its keys (`primary`, `accent`, `'bg-base'`, `'bg-surface'`, `'bg-surface-elevated'`) compile to `bg-primary` / `bg-bg-surface` / etc., none of which are used. Bare `bg-surface` / `bg-surface-inset` / `bg-surface-light` compile to **nothing**, so never write those. Use `bg-[rgb(var(--color-…))]` instead. The CSS variables are defined for both themes in `index.css:12-62`.
+**Existing code applies colours as arbitrary-value classes referencing CSS variables** (e.g. `bg-[rgb(var(--color-bg-surface))] light:bg-white`), and that form remains valid — do not migrate existing call sites. The CSS variables are defined for both themes in `index.css:12-62`.
+
+**Semantic Tailwind tokens now also compile** (per-utility palettes in `tailwind.config.js` `theme.extend`, each mapped to a CSS var). Because those vars already flip between `:root` and `[data-theme='light']`, these tokens are **theme-aware without a `light:` counterpart** — the class stays the same and the colour follows the theme:
+  - Backgrounds: `bg-base`, `bg-surface`, `bg-surface-elevated`, `bg-surface-inset`, `bg-surface-light` (opacity modifiers like `bg-surface/50` work).
+  - Text: `text-primary`, `text-secondary`, `text-muted`, `text-dim`.
+  - Borders: `border-primary`, `border-secondary`, `border-accent`.
+  So `bg-surface-inset rounded-xl` is equivalent to `bg-[rgb(var(--color-bg-surface-inset))]` and needs no `light:`. (The old misnamed `'bg-surface'` colour keys that compiled to unused `bg-bg-*` have been removed.)
 
 **Dark is the default** (`:root` in `index.css`); light theme is opt-in via `[data-theme='light']`, exposed to Tailwind as the `light:` variant (registered in `tailwind.config.js:142-145`) — **not** `prefers-color-scheme`. Every coloured surface needs a `light:` counterpart.
 

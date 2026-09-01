@@ -256,7 +256,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
     <div
       ref={dialogRef}
       tabIndex={-1}
-      className="fixed inset-0 z-[900] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
+      className="fixed inset-0 z-upgrade bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
       onClick={(e) => {
         if (e.target === e.currentTarget) close();
       }}
