@@ -172,6 +172,14 @@ export interface ContentBlock {
    * a glance (see METER).
    */
   meter?: { value: number; max: number };
+  /**
+   * Draw this block across the full content width (both columns + the gap)
+   * rather than confined to one column. The long prose sections — the question,
+   * the student response, and the improved response — read better full-width
+   * than in a narrow column. The layout engine flows such blocks as a
+   * full-width "band" that interrupts the two-column flow (see flowBlocks).
+   */
+  fullWidth?: boolean;
   /** Band reached, drawn as a segmented ladder (see BAND_SCALE). */
   bandScale?: number;
   /**

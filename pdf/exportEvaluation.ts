@@ -22,7 +22,7 @@ import {
 } from './types';
 import { buildEvaluationBlocks, COLORS, EvaluationExportData } from './buildBlocks';
 import { AI_MARKING_DISCLAIMER } from '../data/legalContent';
-import { chooseScale, columnLeft, computeGeometry, planLayout } from './layout';
+import { chooseScale, columnLeft, computeGeometry, fullContentWidth, planLayout } from './layout';
 import {
   createMeasurer,
   drawFooter,
@@ -215,7 +215,9 @@ const drawBlock = (
   geo: ColumnGeometry,
   pScale: number
 ): void => {
-  const colW = geo.columnWidth;
+  // A full-width block was measured (wrapped) at the full content width, so it
+  // must be drawn at that width too — otherwise its text overruns the column.
+  const colW = block.fullWidth ? fullContentWidth(geo) : geo.columnWidth;
   const padTop = block.padTopMm;
   const y = yTop + padTop;
 
@@ -647,7 +649,9 @@ export const exportEvaluationPdf = async (
         });
 
         for (const { block, column, top } of byPage[page]) {
-          const xLeft = columnLeft(geo, column);
+          // A full-width block spans from the content-left edge; a column block
+          // sits at its column's left edge.
+          const xLeft = block.fullWidth ? geo.contentLeft : columnLeft(geo, column);
           drawBlock(doc, ctx, block, xLeft, geo.contentTop + top, geo, pScale);
         }
 

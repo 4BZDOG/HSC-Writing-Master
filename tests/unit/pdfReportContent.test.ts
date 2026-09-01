@@ -98,6 +98,25 @@ describe('the report says what it means', () => {
     expect(score.bandScale).toBe(4);
   });
 
+  it('spans the prose sections full width and keeps the analysis in columns', () => {
+    const blocks = buildEvaluationBlocks(
+      data({ studentAnswer: 'My answer.', revisedAnswer: 'A better answer.' })
+    );
+    // The long prose — question, student response, improved response — is
+    // flagged fullWidth so it spans the page.
+    const q = find(blocks, (b) => b.id.startsWith('q'))!;
+    const ans = find(blocks, (b) => b.id.startsWith('ans'))!;
+    const rev = find(blocks, (b) => b.id.startsWith('rev'))!;
+    expect(q.fullWidth).toBe(true);
+    expect(ans.fullWidth).toBe(true);
+    expect(rev.fullWidth).toBe(true);
+    // The analytical sections stay in the two-column flow.
+    const score = find(blocks, (b) => b.kind === 'scoreSummary')!;
+    const criterion = find(blocks, (b) => b.kind === 'criterion')!;
+    expect(score.fullWidth).toBeFalsy();
+    expect(criterion.fullWidth).toBeFalsy();
+  });
+
   // The next steps are a list of things to do, so they are drawn as boxes to
   // tick. Strong evidence is a list of things already done, so it is not.
   it('makes the next steps tickable and leaves the strengths as bullets', () => {
