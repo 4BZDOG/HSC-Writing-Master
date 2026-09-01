@@ -1,8 +1,8 @@
-# HSC AI Evaluator (v2.2.1)
+# HSC AI Evaluator (v2.3.23)
 
-> "An AI-powered cognitive engine that transforms NESA syllabus content into rigorous, exam-ready assessment tasks using Google's Gemini 3 architecture."
+> "An AI-powered cognitive engine that transforms NESA syllabus content into rigorous, exam-ready assessment tasks using Google's Gemini 3.1 Pro architecture."
 
-![Version](https://img.shields.io/badge/version-2.2.1-indigo) ![AI](https://img.shields.io/badge/AI-Gemini_3_Pro-purple) ![Status](https://img.shields.io/badge/status-Production_Ready-emerald)
+![Version](https://img.shields.io/badge/version-2.3.23-indigo) ![AI](https://img.shields.io/badge/AI-Gemini_3.1_Pro-purple) ![Status](https://img.shields.io/badge/status-Production_Ready-emerald)
 
 ## 🏗️ The Vision
 
@@ -12,7 +12,7 @@ The **HSC AI Evaluator** is not a simple chatbot. It is a structured pedagogical
 
 ### 1. The Evaluation Engine
 
-- **Gemini 3.1 Pro Reasoning**: Utilises the `gemini-3.1-pro-preview` model with expanded thinking budgets (up to 8k tokens) to deconstruct student responses.
+- **Gemini 3.1 Pro Reasoning**: Utilises the `gemini-3.1-pro-preview` model with expanded thinking budgets (up to 4k tokens) to deconstruct student responses.
 - **Ruthless Marking Persona**: Applies a strict "Band Cut-off" logic. A response that "Describes" when asked to "Analyse" is capped at Band 3, regardless of length.
 - **The Improvement Loop**: Provides specific, actionable "Band N+1" feedback to guide students to the next performance level.
 
@@ -36,6 +36,7 @@ The **HSC AI Evaluator** is not a simple chatbot. It is a structured pedagogical
 - **AI Layer**: `@google/genai` SDK
   - **Reasoning**: `gemini-3.1-pro-preview` (Marking, Complex Generation)
   - **Speed**: `gemini-3-flash-preview` (Keyword Extraction, UI Suggestions)
+  - **Multi-Provider**: Gemini is the default engine, but an admin "AI Engine" selector can switch the active engine to Anthropic Claude, Groq, Kimi or OpenRouter models (all provider keys are server-side only).
 - **Resilience**: Custom `ApiGuard` circuit breaker to manage quota limits and rate-limiting (429s).
 
 ## 🚀 Getting Started
