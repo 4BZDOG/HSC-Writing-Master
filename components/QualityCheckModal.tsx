@@ -117,7 +117,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Quality check"
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[200] p-4"
+      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-modal-elevated p-4"
       onClick={handleClose}
     >
       <div

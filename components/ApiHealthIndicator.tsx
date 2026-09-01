@@ -41,7 +41,7 @@ const ApiHealthIndicator: React.FC = () => {
   return (
     <div
       className={`
-        fixed bottom-4 left-4 z-[500]
+        fixed bottom-4 left-4 z-overlay-status
         flex items-center justify-center w-9 h-9 rounded-full
         backdrop-blur-md border
         transition-all duration-300

@@ -57,11 +57,11 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Confirm"
-      // z-[2200]: this dialog is opened globally (e.g. DataManagerModal's
+      // z-critical (2200): this dialog is opened globally (e.g. DataManagerModal's
       // "Clear All Data" / "Reset to Default" trigger it from inside their
-      // own z-[500] overlay), so it must out-rank every other modal/overlay
+      // own z-modal-data (500) overlay), so it must out-rank every other modal/overlay
       // in the app or the confirmation renders invisibly behind its caller.
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[2200] p-4"
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-critical p-4"
       onClick={(e) => {
         // Don't let the click bubble to a parent overlay (this dialog can be
         // nested inside another modal's backdrop) — it would close both.

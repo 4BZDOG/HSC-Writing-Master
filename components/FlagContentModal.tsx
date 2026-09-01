@@ -65,7 +65,7 @@ const FlagContentModal: React.FC<FlagContentModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Report a problem with this content"
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[2200] p-4"
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-critical p-4"
       onClick={(e) => {
         e.stopPropagation();
         onClose();

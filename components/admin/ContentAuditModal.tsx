@@ -1120,7 +1120,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Content audit studio"
-      className="fixed inset-0 z-[200] bg-[rgb(var(--color-bg-base))] light:bg-slate-50 flex flex-col overflow-y-auto animate-fade-in"
+      className="fixed inset-0 z-modal-elevated bg-[rgb(var(--color-bg-base))] light:bg-slate-50 flex flex-col overflow-y-auto animate-fade-in"
     >
       {/* Studio Header — capped and independently scrollable (custom-scrollbar,
           matching the Tree Container below) so a wide filter/action bar that

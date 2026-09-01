@@ -103,7 +103,7 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Edit focus areas"
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[2100] p-4"
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-focus-editor p-4"
       onClick={onClose}
     >
       <div

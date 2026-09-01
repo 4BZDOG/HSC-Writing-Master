@@ -89,7 +89,7 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[980] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in"
+      className="fixed inset-0 z-agreement bg-black/85 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in"
       onClick={(e) => {
         if (!blocking && e.target === e.currentTarget) onDismiss();
       }}

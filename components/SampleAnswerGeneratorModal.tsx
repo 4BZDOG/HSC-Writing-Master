@@ -283,7 +283,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Generate a sample answer"
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[100] p-4 transition-all duration-300"
+      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-modal p-4 transition-all duration-300"
       onClick={handleClose}
     >
       <div

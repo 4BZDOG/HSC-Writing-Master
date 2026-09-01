@@ -15,6 +15,77 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      // ────────────────────────────────────────────────────────────────────
+      // DESIGNED LAYER SCALE (single source of truth for stacking order)
+      //
+      // Every global overlay/floating layer draws its `z-<token>` from this
+      // table instead of a scattered arbitrary `z-[NNN]`. The NUMBERS are the
+      // app's historically-grown ranks, preserved EXACTLY so that no layer
+      // changes its relative stacking order — the names add meaning and a
+      // single edit point without renumbering anything. Tiers are listed
+      // strictly bottom → top; equal numbers are deliberate co-tiers that let
+      // DOM order decide (unchanged from before).
+      //
+      //   token             │  z   │ purpose
+      //   ──────────────────┼──────┼──────────────────────────────────────────
+      //   header            │  60  │ sticky app header / top nav bar
+      //   header-pill       │  70  │ floating action pill above the header
+      //                     │      │   (exit-focus-mode pill)
+      //   modal             │ 100  │ BASE tier — standard modal scrim + panel
+      //   dropdown          │ 100  │ co-tier: portal listbox/menu (Combobox)
+      //   tooltip           │ 100  │ co-tier: portal hover tooltip
+      //   popover           │ 120  │ anchored menus that open above base modals
+      //                     │      │   (header tools menu, PDF export options)
+      //   modal-elevated    │ 200  │ elevated / full-screen / admin modals
+      //                     │      │   (must clear popovers)
+      //   skip-link         │ 200  │ co-tier: keyboard skip-to-content link
+      //   background-task   │ 400  │ persistent background-task indicator
+      //   overlay-status    │ 500  │ persistent status chips (API health/monitor)
+      //   modal-data        │ 500  │ co-tier: Data Manager modal
+      //   upgrade           │ 900  │ upgrade / paywall modal
+      //   quickstart        │ 940  │ first-run quick-start modal
+      //   legal             │ 950  │ legal document modal
+      //   agreement         │ 980  │ user agreement / consent modal
+      //   toast             │ 1000 │ toast notifications
+      //   status-banner     │ 1000 │ co-tier: API status (blocked) banner
+      //   recalibrate       │ 1200 │ sample recalibration modal
+      //   improvement       │ 1300 │ improvement review modal
+      //   loading           │ 2000 │ global full-screen loading overlay
+      //   profile           │ 2000 │ co-tier: user profile modal
+      //   focus-editor      │ 2100 │ focus-area editor modal
+      //   critical          │ 2200 │ confirmation / rename / flag — out-ranks all
+      //
+      // NOT in this scale (deliberately kept as local values):
+      //   • AiBusyOverlay's `z` prop (default standard `z-50`, one call site
+      //     overrides to `z-[100]`) — a component-LOCAL scrim inside a
+      //     positioned modal panel, not a global layer.
+      //   • WorkspaceRightPanel's `z-[30]` clip layer — local card stacking.
+      // ────────────────────────────────────────────────────────────────────
+      zIndex: {
+        header: '60',
+        'header-pill': '70',
+        modal: '100',
+        dropdown: '100',
+        tooltip: '100',
+        popover: '120',
+        'modal-elevated': '200',
+        'skip-link': '200',
+        'background-task': '400',
+        'overlay-status': '500',
+        'modal-data': '500',
+        upgrade: '900',
+        quickstart: '940',
+        legal: '950',
+        agreement: '980',
+        toast: '1000',
+        'status-banner': '1000',
+        recalibrate: '1200',
+        improvement: '1300',
+        loading: '2000',
+        profile: '2000',
+        'focus-editor': '2100',
+        critical: '2200',
+      },
       // `colors` still feeds every colour utility (bg-*, text-*, border-*,
       // from-*, ring-*, …), so keep `primary`/`accent` here. The per-utility
       // palettes below add the app's SEMANTIC tokens, each mapped to a CSS var

@@ -139,7 +139,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Recalibrate sample answers"
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[1200] p-4"
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-recalibrate p-4"
       onClick={isRunning ? undefined : onClose}
     >
       <div
