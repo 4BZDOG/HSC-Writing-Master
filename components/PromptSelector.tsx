@@ -17,6 +17,7 @@ import {
   widestFilter,
 } from '../utils/questionFilter';
 import { suggestNextQuestion } from '../utils/personalOrdering';
+import { LEVEL_HUE } from '../utils/levelColors';
 import {
   SYLLABUS_YEARS,
   activeSyllabusYear,
@@ -132,7 +133,9 @@ interface PromptSelectorProps {
 // Static lookup map for Tailwind classes to ensure they are not purged.
 // The five journey levels use clearly separated hues (blue → purple → teal →
 // pink → amber); completion is a SEPARATE semantic (emerald tick on the rail),
-// so a level's hue never doubles as a status light.
+// so a level's hue never doubles as a status light. The level → hue mapping is
+// the canonical one in `utils/levelColors.ts` (`LEVEL_HUE`), consumed below;
+// this THEMES table is only the hue-name → class bundle it resolves to.
 /** The tier's own heading, as the cognitive spectrum names it. */
 const tierGroupTitle = (tier: number): string =>
   TIER_GROUPS.find((g) => g.tier === tier)?.title ?? `Tier ${tier}`;
@@ -992,11 +995,17 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
 
       {/* 1. Course Selection */}
       <div className={getContainerClasses(isCourseSelected, 'z-50')}>
-        <div className={getBoxClasses(isCourseSelected, !isCourseSelected, 'blue')}>
+        <div className={getBoxClasses(isCourseSelected, !isCourseSelected, LEVEL_HUE.course)}>
           <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
-            <RailNode isSelected={isCourseSelected} isComplete={isTopicSelected} colorKey="blue" />
+            <RailNode
+              isSelected={isCourseSelected}
+              isComplete={isTopicSelected}
+              colorKey={LEVEL_HUE.course}
+            />
           </div>
-          {!isCourseSelected && <StepHeader icon={BookOpen} label="Course" colorKey="blue" />}
+          {!isCourseSelected && (
+            <StepHeader icon={BookOpen} label="Course" colorKey={LEVEL_HUE.course} />
+          )}
           <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
             <div className="flex-1 w-full">
               <Combobox
@@ -1131,15 +1140,17 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       {/* 2. Topic Selection */}
       {selectedCourse && (
         <div className={getContainerClasses(isTopicSelected, 'z-40')}>
-          <div className={getBoxClasses(isTopicSelected, !isTopicSelected, 'purple')}>
+          <div className={getBoxClasses(isTopicSelected, !isTopicSelected, LEVEL_HUE.topic)}>
             <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
               <RailNode
                 isSelected={isTopicSelected}
                 isComplete={isSubTopicSelected}
-                colorKey="purple"
+                colorKey={LEVEL_HUE.topic}
               />
             </div>
-            {!isTopicSelected && <StepHeader icon={Layers} label="Topic" colorKey="purple" />}
+            {!isTopicSelected && (
+              <StepHeader icon={Layers} label="Topic" colorKey={LEVEL_HUE.topic} />
+            )}
             {topicOptions.length === 0 && (
               <p className="mb-3 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
                 <Upload className="w-3.5 h-3.5" />
@@ -1325,16 +1336,18 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       {/* 3. Sub-Topic Selection */}
       {selectedTopic && (
         <div className={getContainerClasses(isSubTopicSelected, 'z-30')}>
-          <div className={getBoxClasses(isSubTopicSelected, !isSubTopicSelected, 'teal')}>
+          <div
+            className={getBoxClasses(isSubTopicSelected, !isSubTopicSelected, LEVEL_HUE.subTopic)}
+          >
             <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
               <RailNode
                 isSelected={isSubTopicSelected}
                 isComplete={isDotPointSelected}
-                colorKey="teal"
+                colorKey={LEVEL_HUE.subTopic}
               />
             </div>
             {!isSubTopicSelected && (
-              <StepHeader icon={FolderOpen} label="Sub-Topic" colorKey="teal" />
+              <StepHeader icon={FolderOpen} label="Sub-Topic" colorKey={LEVEL_HUE.subTopic} />
             )}
             {/* Same shape and the same curator/student split as the Topic stage
                 above: a picker that opens onto a bare "No options available."
@@ -1408,16 +1421,18 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       {/* 4. Dot Point & Syllabus Focus (Merged Row) */}
       {selectedSubTopic && (
         <div className={getContainerClasses(isDotPointSelected, 'z-20')}>
-          <div className={getBoxClasses(isDotPointSelected, !isDotPointSelected, 'pink')}>
+          <div
+            className={getBoxClasses(isDotPointSelected, !isDotPointSelected, LEVEL_HUE.dotPoint)}
+          >
             <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
               <RailNode
                 isSelected={isDotPointSelected}
                 isComplete={isPromptSelected}
-                colorKey="pink"
+                colorKey={LEVEL_HUE.dotPoint}
               />
             </div>
             {!isDotPointSelected && (
-              <StepHeader icon={List} label="Syllabus Content" colorKey="pink" />
+              <StepHeader icon={List} label="Syllabus Content" colorKey={LEVEL_HUE.dotPoint} />
             )}
             {dotPointOptions.length === 0 && (
               <p className="mb-3 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
@@ -1603,12 +1618,16 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       {/* 5. Question Selection */}
       {selectedDotPoint && (
         <div className={getContainerClasses(isPromptSelected, 'z-10')}>
-          <div className={getBoxClasses(isPromptSelected, !isPromptSelected, 'amber')}>
+          <div className={getBoxClasses(isPromptSelected, !isPromptSelected, LEVEL_HUE.prompt)}>
             <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
-              <RailNode isSelected={isPromptSelected} isComplete={false} colorKey="amber" />
+              <RailNode
+                isSelected={isPromptSelected}
+                isComplete={false}
+                colorKey={LEVEL_HUE.prompt}
+              />
             </div>
             {!isPromptSelected && (
-              <StepHeader icon={FileQuestion} label="Question" colorKey="amber" />
+              <StepHeader icon={FileQuestion} label="Question" colorKey={LEVEL_HUE.prompt} />
             )}
             {promptOptions.length === 0 && (
               <p className="mb-3 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
