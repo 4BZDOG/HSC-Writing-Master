@@ -791,7 +791,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                   </div>
                 </div>
 
-                <div className="flex-1 rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 bg-[#0d1117] light:bg-slate-50 p-4 overflow-auto custom-scrollbar relative shadow-inner">
+                <div className="flex-1 rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 p-4 overflow-auto custom-scrollbar relative shadow-inner">
                   {isLoadingData ? (
                     <div className="absolute inset-0 flex items-center justify-center">
                       <LoadingIndicator

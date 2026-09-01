@@ -116,7 +116,7 @@ const ResponseFeedback: React.FC<ResponseFeedbackProps> = ({
                 className={`
                   px-4 py-2 rounded-lg text-xs font-bold text-white 
                   bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))]
-                  hover:shadow-lg active:scale-95 transition-all flex items-center gap-2
+                  hover:shadow-lg active:scale-[0.98] transition-all flex items-center gap-2
                   disabled:opacity-50 disabled:cursor-not-allowed
                 `}
               >

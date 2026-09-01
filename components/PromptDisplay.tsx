@@ -175,7 +175,7 @@ const OutcomeChip: React.FC<{
           ${bandConfig.bg} border ${bandConfig.border}
           ${bandConfig.text} transition-all duration-300 cursor-pointer
           hover:brightness-125 hover:shadow-md
-          active:scale-95
+          active:scale-[0.98]
         `}
       >
         <Target className="w-2.5 h-2.5 opacity-60" />
@@ -548,7 +548,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     }
                     title={examMode ? undefined : `What a ${prompt.verb} question asks for`}
                     className={`text-[11px] leading-none whitespace-nowrap bg-white/20 px-2.5 py-1 rounded-md border border-white/15 font-black uppercase tracking-widest shadow-sm backdrop-blur-sm transition-all ${
-                      examMode ? 'cursor-default' : 'hover:bg-white/30 active:scale-95'
+                      examMode ? 'cursor-default' : 'hover:bg-white/30 active:scale-[0.98]'
                     }`}
                   >
                     {prompt.verb}
@@ -697,7 +697,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     </button>
                     <button
                       onClick={handleSaveQuestion}
-                      className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-95"
+                      className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-[0.98]"
                     >
                       <Save className="w-3.5 h-3.5" /> Save Changes
                     </button>
@@ -831,7 +831,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       </button>
                       <button
                         onClick={handleSaveScenario}
-                        className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 flex items-center gap-2 shadow-md hover:scale-105 active:scale-95 transition-all"
+                        className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 flex items-center gap-2 shadow-md hover:scale-105 active:scale-[0.98] transition-all"
                       >
                         <Save className="w-3.5 h-3.5" /> Save Scenario
                       </button>

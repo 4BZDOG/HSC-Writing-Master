@@ -113,7 +113,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
                         ? 'bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-primary))] border-white/10 light:border-slate-200 shadow-sm font-bold'
                         : 'bg-transparent text-[rgb(var(--color-text-secondary))] border-transparent hover:bg-[rgb(var(--color-bg-surface-light))]/50 hover:text-[rgb(var(--color-text-primary))]'
                     }
-                    ${canJump ? 'cursor-pointer active:scale-95' : 'cursor-default'}
+                    ${canJump ? 'cursor-pointer active:scale-[0.98]' : 'cursor-default'}
                 `}
               >
                 <span

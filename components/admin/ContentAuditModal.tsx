@@ -1209,9 +1209,9 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             <button
               onClick={onClose}
               aria-label="Close"
-              className="p-3 md:p-4 rounded-full hover:bg-white/5 light:hover:bg-slate-200 text-slate-500 light:text-slate-500 transition-colors ml-auto lg:ml-4 mr-2"
+              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center ml-auto lg:ml-4 mr-2"
             >
-              <X className="w-6 h-6 md:w-8 md:h-8" />
+              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
             </button>
           </div>
         </div>
@@ -1606,7 +1606,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                     onClick={handleBulkAction.bind(null, 'fixAllGaps')}
                     disabled={selectionTargets.allGaps === 0}
                     title="One run that fills every gap in the selection: missing questions, rubrics, outcomes and samples"
-                    className="px-5 h-11 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-emerald-500/30 hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none flex items-center gap-2"
+                    className="px-5 h-11 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:shadow-emerald-500/30 hover:scale-[1.03] active:scale-[0.98] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none flex items-center gap-2"
                   >
                     <Wrench className="w-4 h-4" />
                     Fix All Gaps ({selectionTargets.allGaps})
@@ -1620,7 +1620,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                         ? `Delete all questions under the selected scope(s), keeping the topic/sub-topic/dot point structure`
                         : 'Select a course, topic, sub-topic or dot point to clear its questions'
                     }
-                    className="px-4 h-11 rounded-2xl bg-red-500/10 text-red-400 border border-red-500/30 font-black text-[10px] uppercase tracking-[0.12em] hover:bg-red-500 hover:text-white hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:hover:bg-red-500/10 disabled:hover:text-red-400 flex items-center gap-2"
+                    className="px-4 h-11 rounded-2xl bg-red-500/10 text-red-400 border border-red-500/30 font-black text-[10px] uppercase tracking-[0.12em] hover:bg-red-500 hover:text-white hover:scale-[1.03] active:scale-[0.98] transition-all disabled:opacity-25 disabled:grayscale disabled:hover:bg-red-500/10 disabled:hover:text-red-400 flex items-center gap-2"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                     Clear Questions ({clearQuestionsCount})

@@ -89,7 +89,7 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
           {onShareAssignment && (
             <button
               onClick={onShareAssignment}
-              className={`flex items-center justify-center w-9 h-9 rounded-xl ${band.text} ${band.border} border ${band.bg} hover:brightness-110 active:scale-95 transition-all`}
+              className={`flex items-center justify-center w-9 h-9 rounded-xl ${band.text} ${band.border} border ${band.bg} hover:brightness-110 active:scale-[0.98] transition-all`}
               title="Copy assignment link — students who open it land on this question"
               aria-label="Copy assignment link"
             >
@@ -99,7 +99,7 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
           <button
             ref={expandButtonRef}
             onClick={onExpand}
-            className={`flex items-center gap-2 px-3.5 h-9 rounded-xl text-[11px] font-black uppercase tracking-wider border ${band.border} ${band.bg} ${band.text} hover:brightness-110 active:scale-95 transition-all`}
+            className={`flex items-center gap-2 px-3.5 h-9 rounded-xl text-[11px] font-black uppercase tracking-wider border ${band.border} ${band.bg} ${band.text} hover:brightness-110 active:scale-[0.98] transition-all`}
             title="Open the syllabus navigator to change your selection"
           >
             <Pencil className="w-3.5 h-3.5" />

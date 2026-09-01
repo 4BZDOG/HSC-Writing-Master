@@ -1017,7 +1017,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                                     ${
                                       !draftQuestion.trim() || isRefining
                                         ? 'bg-slate-700 opacity-50 cursor-not-allowed'
-                                        : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:scale-105 active:scale-95'
+                                        : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:scale-105 active:scale-[0.98]'
                                     }
                                 `}
               >
@@ -1036,7 +1036,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
               <button
                 onClick={handleConfirm}
                 disabled={!editedQuestion.trim()}
-                className="group px-10 py-3 rounded-2xl font-black text-xs uppercase tracking-[0.2em] text-white bg-gradient-to-r from-emerald-600 to-teal-600 shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="group px-10 py-3 rounded-2xl font-black text-xs uppercase tracking-[0.2em] text-white bg-gradient-to-r from-emerald-600 to-teal-600 shadow-xl hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 <Save className="w-4 h-4" /> Save to Syllabus
               </button>

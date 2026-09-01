@@ -240,7 +240,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
             className={`
                     px-6 py-2.5 rounded-xl font-bold text-white shadow-lg
                     bg-gradient-to-r ${bandConfig.gradient}
-                    hover:shadow-lg hover:brightness-110 active:scale-95 transition-all
+                    hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all
                 `}
           >
             Done

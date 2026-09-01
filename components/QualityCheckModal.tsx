@@ -284,7 +284,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
             {result?.refinedContent && onUpdateContent && (
               <button
                 onClick={handleAutoFix}
-                className="px-5 py-2 rounded-lg text-sm font-bold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-95 transition flex items-center gap-2"
+                className="px-5 py-2 rounded-lg text-sm font-bold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2"
               >
                 <Sparkles className="w-4 h-4" />
                 Apply Auto-Fixes

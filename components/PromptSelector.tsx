@@ -330,7 +330,7 @@ const ActionButton = ({
 }) => (
   <button
     onClick={locked ? () => requestUpgrade('aiContentStudio') : onClick}
-    className={`relative p-2 ${label ? 'sm:px-3' : ''} rounded-lg transition-all duration-200 flex-shrink-0 hover:scale-105 active:scale-95 border flex items-center gap-1.5 ${
+    className={`relative p-2 ${label ? 'sm:px-3' : ''} rounded-lg transition-all duration-200 flex-shrink-0 hover:scale-105 active:scale-[0.98] border flex items-center gap-1.5 ${
       locked
         ? 'bg-amber-400/10 border-amber-400/40 text-amber-500 light:text-amber-600'
         : variant === 'danger'
@@ -1702,7 +1702,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                               ? 'AI question generation is part of Band 6 Plus — tap to learn more'
                               : undefined
                           }
-                          className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all ${
+                          className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-[0.98] transition-all ${
                             studioLocked
                               ? 'bg-amber-400/15 text-amber-500 light:text-amber-600 border border-amber-400/40'
                               : 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white'

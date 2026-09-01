@@ -98,7 +98,7 @@ export const ContentLockOverlay: React.FC<{
           onClick={() =>
             window.dispatchEvent(new CustomEvent(UPGRADE_REQUEST_EVENT, { detail: { feature } }))
           }
-          className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-[10px] uppercase tracking-widest shadow-lg hover:scale-105 active:scale-95 transition-all"
+          className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-[10px] uppercase tracking-widest shadow-lg hover:scale-105 active:scale-[0.98] transition-all"
         >
           Unlock with {lockLabelFor(feature)}
         </button>
@@ -423,7 +423,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
               <button
                 onClick={handleUpgrade}
                 disabled={isRedirecting}
-                className="flex-1 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-xs uppercase tracking-widest shadow-xl shadow-amber-900/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
+                className="flex-1 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-xs uppercase tracking-widest shadow-xl shadow-amber-900/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60"
               >
                 <Crown className="w-4 h-4" />{' '}
                 {isRedirecting
@@ -503,7 +503,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                         setIsBuyingSeats(false);
                       }
                     }}
-                    className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all disabled:opacity-60"
+                    className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg active:scale-[0.98] transition-all disabled:opacity-60"
                   >
                     {isBuyingSeats ? 'Redirecting…' : `Buy ${seats} seats`}
                   </button>

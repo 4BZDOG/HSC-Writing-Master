@@ -145,18 +145,17 @@ Most features are surfaced through modals. Follow the established pattern:
 
 ### 6. UI Conventions
 
-Apply these Tailwind patterns consistently:
+Apply these Tailwind patterns consistently.
 
-- **Glassmorphism surface**: `bg-surface/80 backdrop-blur-3xl border border-white/10 rounded-2xl`
-- **Inlay/input well**: `bg-surface-inset rounded-xl`
-- **Cognitive tier colours** (use semantic classes, not raw hex):
-  - Tier 1 Recall: `text-red-400 / border-red-500`
-  - Tier 2 Describe: `text-orange-400 / border-orange-500`
-  - Tier 3 Apply: `text-amber-400 / border-amber-500`
-  - Tier 4 Analyse: `text-emerald-400 / border-emerald-500`
-  - Tier 5 Discuss: `text-sky-400 / border-sky-500`
-  - Tier 6 Evaluate: `text-indigo-400 / border-indigo-500`
-- **Haptic buttons**: `hover:scale-105 active:scale-95 transition-transform shadow-lg`
+**Colours are applied as arbitrary-value classes referencing CSS variables, not semantic Tailwind tokens.** The `theme.extend.colors` block in `tailwind.config.js:18-24` is effectively dead — its keys (`primary`, `accent`, `'bg-base'`, `'bg-surface'`, `'bg-surface-elevated'`) compile to `bg-primary` / `bg-bg-surface` / etc., none of which are used. Bare `bg-surface` / `bg-surface-inset` / `bg-surface-light` compile to **nothing**, so never write those. Use `bg-[rgb(var(--color-…))]` instead. The CSS variables are defined for both themes in `index.css:12-62`.
+
+**Dark is the default** (`:root` in `index.css`); light theme is opt-in via `[data-theme='light']`, exposed to Tailwind as the `light:` variant (registered in `tailwind.config.js:142-145`) — **not** `prefers-color-scheme`. Every coloured surface needs a `light:` counterpart.
+
+- **Glassmorphism surface**: `bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 rounded-2xl` (add `backdrop-blur-*` where a real blur is wanted).
+- **Inlay/input well**: `bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 rounded-xl`
+- **Text / borders / accent**: `text-[rgb(var(--color-text-primary))]` (`-secondary` / `-muted` / `-dim`); `border-[rgb(var(--color-border-secondary))]` (`-primary` / `-accent`); `bg-[rgb(var(--color-accent))]`.
+- **Cognitive tier / band colours**: do **not** hand-write colour literals. Call `getBandConfig(bandOrTier)` from `utils/renderUtils.ts` — the single, unit-tested source of truth (pinned by `tests/unit/bandColors.test.ts`). It returns dark / `light:` / `print:` class bundles (`bg`, `solidBg`, `border`, `text`, `gradient`, `glow`, …). Bands 1→6 are **red / orange / yellow / green / blue / purple** (`BAND_HEX`). Never re-declare band colours inline.
+- **Haptic buttons**: `hover:scale-105 active:scale-[0.98] transition-transform shadow-lg` (`active:scale-[0.98]` is the codebase standard).
 - **Typography**: Interface text → `font-sans (Inter)`; writing/exemplar areas → `font-serif (Newsreader)`; telemetry/marks → `font-mono (JetBrains Mono)`
 - **Language**: Strictly British/Australian English — "Analyse", "Programme", "Colour", "Summarise".
 

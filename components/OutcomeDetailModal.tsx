@@ -424,7 +424,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
           )}
           <button
             onClick={onClose}
-            className={`py-2 px-5 rounded-lg font-bold text-sm text-white tracking-tight bg-gradient-to-r ${bandConfig.gradient} hover:shadow-lg active:scale-[0.97] transition-all`}
+            className={`py-2 px-5 rounded-lg font-bold text-sm text-white tracking-tight bg-gradient-to-r ${bandConfig.gradient} hover:shadow-lg active:scale-[0.98] transition-all`}
           >
             Close
           </button>

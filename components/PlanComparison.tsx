@@ -196,7 +196,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({ user, showUpgradeCta = 
           </p>
           <button
             onClick={() => requestUpgrade('fullFeedback')}
-            className="shrink-0 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-[10px] uppercase tracking-widest shadow-lg hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
+            className="shrink-0 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-[10px] uppercase tracking-widest shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-2"
           >
             <Crown className="w-3.5 h-3.5" /> See {PLAN_LABELS.plus}
           </button>

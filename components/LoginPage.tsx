@@ -673,7 +673,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                       type="button"
                       onClick={() => handleOAuthLogin(id)}
                       disabled={isLoading || oauthLoading !== null}
-                      className="flex-1 py-3.5 rounded-2xl font-bold text-xs text-slate-300 light:text-slate-600 bg-white/5 light:bg-slate-50 border-2 border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-100 active:scale-[0.97] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex-1 py-3.5 rounded-2xl font-bold text-xs text-slate-300 light:text-slate-600 bg-white/5 light:bg-slate-50 border-2 border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-100 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                       title={`Sign in with ${label}`}
                     >
                       {oauthLoading === id ? (

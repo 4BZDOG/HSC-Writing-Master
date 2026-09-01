@@ -239,7 +239,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
           </span>
           <button
             onClick={onClose}
-            className="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-[11px] uppercase tracking-widest shadow-lg active:scale-95 transition-all"
+            className="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-[11px] uppercase tracking-widest shadow-lg active:scale-[0.98] transition-all"
           >
             {tab === 'guide' ? 'Start writing' : 'Close'}
           </button>
