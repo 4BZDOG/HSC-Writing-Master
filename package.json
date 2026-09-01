@@ -27,7 +27,8 @@
     "check:api-health": "node scripts/check-api-health.js",
     "check:bundle": "node scripts/checkChunkInitOrder.mjs",
     "measure:similarity": "node scripts/measureAnswerSimilarity.mjs",
-    "check:eager-reads": "node scripts/findModuleInitReads.mjs"
+    "check:eager-reads": "node scripts/findModuleInitReads.mjs",
+    "samples:pdf": "node scripts/generatePdfSamples.mjs"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
