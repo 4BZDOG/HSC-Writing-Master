@@ -363,7 +363,7 @@ const CarouselAccordionItem: React.FC<{
                 />
               )}
               <div
-                className={`relative rounded-2xl bg-slate-50 dark:bg-[#0f1115] border ${bandConfig.border} overflow-hidden shadow-inner ${isSampleAnswerLocked(displayBand) ? 'blur-sm select-none pointer-events-none' : ''}`}
+                className={`relative rounded-2xl bg-slate-50 dark:bg-[rgb(var(--color-bg-surface-inset))] border ${bandConfig.border} overflow-hidden shadow-inner ${isSampleAnswerLocked(displayBand) ? 'blur-sm select-none pointer-events-none' : ''}`}
               >
                 {/* Which exemplar, of the several at this mark.
                     The arrows in the header can step through them, but they
