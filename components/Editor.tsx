@@ -153,7 +153,7 @@ const ToolbarButton: React.FC<{
                 ? 'bg-white/20 text-white shadow-sm'
                 : 'text-white/60 hover:text-white hover:bg-white/10'
             }
-            disabled:opacity-30 disabled:cursor-not-allowed active:scale-95
+            disabled:opacity-30 disabled:cursor-not-allowed active:scale-[0.98]
         `}
   >
     {icon}
@@ -674,7 +674,7 @@ const Editor = forwardRef<
                           onClick={() => onWritingModeChange('coach')}
                           aria-pressed={!isExamMode}
                           title="Coach Mode — live highlighting, insights and exemplars"
-                          className={`px-2.5 h-6 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 ${!isExamMode ? 'bg-white text-slate-900 shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                          className={`px-2.5 h-6 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-[0.98] ${!isExamMode ? 'bg-white text-slate-900 shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
                         >
                           <Lightbulb className="w-3.5 h-3.5" />
                           <span className="hidden 2xl:inline">Coach</span>
@@ -690,7 +690,7 @@ const Editor = forwardRef<
                           }}
                           aria-pressed={isExamMode}
                           title="Exam Mode — HSC exam simulation: no assistance, timed"
-                          className={`px-2.5 h-6 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 ${isExamMode ? 'bg-red-500 text-white shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                          className={`px-2.5 h-6 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-[0.98] ${isExamMode ? 'bg-red-500 text-white shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
                         >
                           <GraduationCap className="w-3.5 h-3.5" />
                           <span className="hidden 2xl:inline">Exam</span>

@@ -1006,7 +1006,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                       ? 'AI answer upgrades are part of Band 6 Plus — tap to learn more'
                       : undefined
                   }
-                  className={`px-5 py-3 rounded-xl text-white border text-[11px] font-bold uppercase tracking-widest transition-all hover:scale-105 active:scale-95 flex items-center gap-2 backdrop-blur-sm ${
+                  className={`px-5 py-3 rounded-xl text-white border text-[11px] font-bold uppercase tracking-widest transition-all hover:scale-105 active:scale-[0.98] flex items-center gap-2 backdrop-blur-sm ${
                     upgradesLocked
                       ? 'bg-amber-400/15 hover:bg-amber-400/25 border-amber-300/50'
                       : 'bg-white/10 hover:bg-white/20 border-white/20'
@@ -1029,7 +1029,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
               {revisedText && onCompareImprovement && (
                 <button
                   onClick={onCompareImprovement}
-                  className="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 text-[11px] font-bold uppercase tracking-widest transition-all hover:scale-105 active:scale-95 flex items-center gap-2 backdrop-blur-sm"
+                  className="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 text-[11px] font-bold uppercase tracking-widest transition-all hover:scale-105 active:scale-[0.98] flex items-center gap-2 backdrop-blur-sm"
                 >
                   <Columns2 className="w-4 h-4" />
                   Compare with mine
@@ -1038,7 +1038,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
               {revisedText && (
                 <button
                   onClick={() => onUseRevisedAnswer(stripHtmlTags(revisedText))}
-                  className="px-6 py-3 rounded-xl bg-white text-indigo-900 hover:bg-indigo-50 border-2 border-transparent hover:border-white/50 text-[11px] font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-95 shadow-xl flex items-center gap-2"
+                  className="px-6 py-3 rounded-xl bg-white text-indigo-900 hover:bg-indigo-50 border-2 border-transparent hover:border-white/50 text-[11px] font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-[0.98] shadow-xl flex items-center gap-2"
                 >
                   <span>Use This Answer</span>
                   <ArrowUpCircle className="w-4 h-4" />
@@ -1067,7 +1067,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 </p>
                 <button
                   onClick={() => requestUpgrade('answerUpgrades')}
-                  className={`mt-1 px-6 py-3 rounded-xl text-white text-[11px] font-black uppercase tracking-widest shadow-lg bg-gradient-to-r ${exemplarConfig.gradient} hover:scale-105 active:scale-95 transition-all`}
+                  className={`mt-1 px-6 py-3 rounded-xl text-white text-[11px] font-black uppercase tracking-widest shadow-lg bg-gradient-to-r ${exemplarConfig.gradient} hover:scale-105 active:scale-[0.98] transition-all`}
                 >
                   See what Plus unlocks
                 </button>

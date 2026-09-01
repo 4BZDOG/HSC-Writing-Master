@@ -95,7 +95,7 @@ const LockedQuestionNotice: React.FC<{ verb: string; marks: number; question: st
       </p>
       <button
         onClick={() => requestUpgrade('advancedQuestions')}
-        className="px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-[11px] uppercase tracking-widest shadow-lg hover:scale-105 active:scale-95 transition-all"
+        className="px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-[11px] uppercase tracking-widest shadow-lg hover:scale-105 active:scale-[0.98] transition-all"
       >
         Unlock with Plus
       </button>

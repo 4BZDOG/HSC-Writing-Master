@@ -182,7 +182,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                   setSelectedOutcome(outcome);
                   markSupportOpened(prompt.id, 'outcomeBriefing');
                 }}
-                className={`w-full text-left rounded-2xl border ${tierConfig.border} ${tierConfig.bg} p-4 transition-all hover:shadow-md hover:brightness-110 active:scale-[0.99] group/outcome-row`}
+                className={`w-full text-left rounded-2xl border ${tierConfig.border} ${tierConfig.bg} p-4 transition-all hover:shadow-md hover:brightness-110 active:scale-[0.98] group/outcome-row`}
               >
                 <div className="flex items-center gap-2 mb-1.5">
                   {/* The same target that heads the panel and marks every

@@ -50,7 +50,7 @@ export const InstrumentMetric = ({
 );
 
 const AUDIT_BTN_BASE =
-  'px-4 h-11 rounded-2xl text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:scale-[1.03] active:scale-[0.97] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none';
+  'px-4 h-11 rounded-2xl text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:scale-[1.03] active:scale-[0.98] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none';
 
 export const AuditActionButton = ({
   onClick,

@@ -72,7 +72,7 @@ const StructureTile: React.FC<{
 
 const Pill: React.FC<PillProps> = React.memo(({ label, active, theme, onClick }) => {
   const interactiveStyle = onClick
-    ? 'cursor-pointer hover:scale-[1.02] active:scale-95'
+    ? 'cursor-pointer hover:scale-[1.02] active:scale-[0.98]'
     : 'cursor-default';
 
   const baseStyle = `inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-[11px] font-semibold tracking-tight transition-all duration-300 border ${interactiveStyle}`;

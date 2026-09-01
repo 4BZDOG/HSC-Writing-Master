@@ -65,7 +65,7 @@ const BillingAlertBanner: React.FC = () => {
       <button
         onClick={openPortal}
         disabled={isOpeningPortal}
-        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 text-white text-[10px] font-black uppercase tracking-widest shadow hover:brightness-105 active:scale-95 transition-all disabled:opacity-60"
+        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 text-white text-[10px] font-black uppercase tracking-widest shadow hover:brightness-105 active:scale-[0.98] transition-all disabled:opacity-60"
       >
         {isOpeningPortal ? (
           <Loader2 className="w-3.5 h-3.5 animate-spin" />

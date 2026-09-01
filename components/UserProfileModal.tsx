@@ -234,7 +234,7 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
         {!isPaid && selling && (
           <button
             onClick={() => requestUpgrade('fullFeedback')}
-            className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
+            className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-2"
           >
             <Crown className="w-3 h-3" />
             Upgrade to Plus
@@ -1031,7 +1031,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
               <div className="flex justify-end pt-4">
                 <button
                   onClick={handleSaveSettings}
-                  className="px-10 py-4 rounded-[20px] font-bold text-sm uppercase tracking-widest text-white bg-indigo-600 hover:bg-indigo-500 shadow-2xl active:scale-95 transition-all flex items-center gap-3"
+                  className="px-10 py-4 rounded-[20px] font-bold text-sm uppercase tracking-widest text-white bg-indigo-600 hover:bg-indigo-500 shadow-2xl active:scale-[0.98] transition-all flex items-center gap-3"
                 >
                   <Save className="w-4 h-4" /> Save Settings
                 </button>

@@ -508,7 +508,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                     w-full sm:w-auto sm:min-w-[280px] px-6 py-4 rounded-[24px] font-black text-sm uppercase tracking-[0.2em] text-white shadow-2xl transition-all flex items-center justify-center gap-4
                     ${
                       selectedIds.size > 0 && !isImporting
-                        ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 hover:scale-105 active:scale-95 shadow-indigo-500/20'
+                        ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 hover:scale-105 active:scale-[0.98] shadow-indigo-500/20'
                         : 'bg-white/5 light:bg-slate-100 text-slate-600 cursor-not-allowed border border-white/5 light:border-slate-200'
                     }
                 `}

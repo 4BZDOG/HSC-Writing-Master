@@ -778,7 +778,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
             <button
               onClick={handleGenerate}
               disabled={isLoading}
-              className={`group px-10 py-4 rounded-[20px] font-bold text-xs uppercase tracking-[0.2em] text-white shadow-2xl bg-gradient-to-r ${activeBandConfig.gradient} hover:scale-105 active:scale-95 transition-all duration-300 disabled:opacity-70 flex items-center gap-3`}
+              className={`group px-10 py-4 rounded-[20px] font-bold text-xs uppercase tracking-[0.2em] text-white shadow-2xl bg-gradient-to-r ${activeBandConfig.gradient} hover:scale-105 active:scale-[0.98] transition-all duration-300 disabled:opacity-70 flex items-center gap-3`}
             >
               {isLoading ? (
                 <>

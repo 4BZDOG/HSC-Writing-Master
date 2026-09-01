@@ -239,7 +239,7 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
             <button
               onClick={blocking ? onAccept : onDismiss}
               disabled={!canContinue}
-              className="flex-1 px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs uppercase tracking-widest shadow-xl shadow-indigo-900/30 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:hover:scale-100 disabled:cursor-not-allowed"
+              className="flex-1 px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs uppercase tracking-widest shadow-xl shadow-indigo-900/30 hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:hover:scale-100 disabled:cursor-not-allowed"
             >
               {isSaving ? (
                 'Saving…'

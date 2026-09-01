@@ -59,10 +59,10 @@ const WRAP_DEFS: WrapDef[] = [
 ];
 
 const PILL_CLASS =
-  'flex-shrink-0 hover:scale-105 active:scale-95 transition-transform text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))] px-2 py-1 text-[rgb(var(--color-text-primary))] light:text-slate-800 border border-white/10 light:border-slate-300';
+  'flex-shrink-0 hover:scale-105 active:scale-[0.98] transition-transform text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))] px-2 py-1 text-[rgb(var(--color-text-primary))] light:text-slate-800 border border-white/10 light:border-slate-300';
 
 const WRAP_PILL_CLASS =
-  'flex-shrink-0 hover:scale-105 active:scale-95 transition-transform text-xs font-bold rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 px-2 py-1';
+  'flex-shrink-0 hover:scale-105 active:scale-[0.98] transition-transform text-xs font-bold rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 px-2 py-1';
 
 const MathSymbolToolbar: React.FC<MathSymbolToolbarProps> = ({ textareaRef, value, onChange }) => {
   /** Focus the textarea and place the caret/selection after React commits the

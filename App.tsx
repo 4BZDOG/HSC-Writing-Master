@@ -1081,7 +1081,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                   <button
                     onClick={() => openModal('manifestImport')}
-                    className="px-8 py-3 rounded-2xl bg-indigo-600 text-white font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
+                    className="px-8 py-3 rounded-2xl bg-indigo-600 text-white font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3"
                   >
                     <Sparkles className="w-4 h-4" /> Load Curriculum Library
                   </button>
@@ -1095,7 +1095,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                     <button
                       onClick={() => openModal('fullSyllabusImport')}
                       title="Build a course by pasting NESA syllabus text or fetching a syllabus URL"
-                      className="px-8 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-700 border border-white/10 light:border-slate-300 font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
+                      className="px-8 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-700 border border-white/10 light:border-slate-300 font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3"
                     >
                       <UploadCloud className="w-4 h-4" /> Import a Syllabus
                     </button>
@@ -1108,7 +1108,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                         setCourseRequestPrefill('');
                         openModal('courseRequest');
                       }}
-                      className="px-8 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-700 border border-white/10 light:border-slate-300 font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
+                      className="px-8 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-700 border border-white/10 light:border-slate-300 font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3"
                     >
                       <Compass className="w-4 h-4" /> Request a Course
                     </button>
