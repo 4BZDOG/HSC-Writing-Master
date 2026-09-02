@@ -433,3 +433,205 @@ export const segmentsForSide = (
         ? { op: s.op, value: s.original }
         : { op: s.op, value: s.value }
     );
+
+// ---------------------------------------------------------------------------
+// Sentence-level changes, for the printed revision aid
+// ---------------------------------------------------------------------------
+
+/** One rewritten sentence: what the student wrote, and what it became. */
+export interface SentenceChange {
+  before: string;
+  after: string;
+}
+
+/**
+ * Sentences, carrying their own trailing whitespace so joining them reproduces
+ * the input. A paragraph break ends a sentence even without a full stop —
+ * students write headings and list fragments, and gluing one to the next
+ * paragraph makes a "sentence" nobody wrote.
+ */
+export const tokenizeSentences = (text: string): string[] => {
+  if (!text) return [];
+  const chunks: string[] = [];
+  for (const para of text.split(/\n{2,}/)) {
+    for (const line of para.split(/\n/)) {
+      const matches = line.match(/[^.!?]+(?:[.!?]+["')\]]*|$)/g);
+      if (matches) chunks.push(...matches);
+    }
+  }
+  return chunks.map((c) => c.trim()).filter(Boolean);
+};
+
+/** Sentence identity for the LCS: case, punctuation and spacing are noise. */
+const sentenceKey = (sentence: string): string =>
+  sentence
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]+/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+/** Beyond this many sentences per side the pairing is not worth computing. */
+const MAX_SENTENCE_TOKENS = 400;
+
+/** A sentence with its offsets in the text it came from. */
+interface SentenceSpan {
+  text: string;
+  start: number;
+  end: number;
+}
+
+/** Sentences with offsets, so a word-level edit can be traced to the one it fell in. */
+const sentenceSpans = (text: string): SentenceSpan[] => {
+  const spans: SentenceSpan[] = [];
+  const re = /[^\n.!?]*(?:[.!?]+["')\]]*|(?=\n)|$)/g;
+  let match: RegExpExecArray | null;
+  while ((match = re.exec(text))) {
+    const raw = match[0];
+    if (re.lastIndex === match.index) re.lastIndex += 1; // zero-length guard
+    const trimmed = raw.trim();
+    if (trimmed) {
+      const lead = raw.length - raw.trimStart().length;
+      spans.push({
+        text: trimmed,
+        start: match.index + lead,
+        end: match.index + lead + trimmed.length,
+      });
+    }
+    if (re.lastIndex >= text.length) break;
+  }
+  return spans;
+};
+
+/** Indices of the spans overlapping [start, end), or the one containing `start`. */
+const spanIndicesTouching = (spans: SentenceSpan[], start: number, end: number): number[] => {
+  const hit: number[] = [];
+  spans.forEach((s, i) => {
+    if (s.start < Math.max(end, start + 1) && s.end > start) hit.push(i);
+  });
+  if (hit.length) return hit;
+  const containing = spans.findIndex((s) => s.start <= start && s.end >= start);
+  return containing >= 0 ? [containing] : [];
+};
+
+/**
+ * At most this many sentences either side of one row.
+ *
+ * Beyond it the edit is not a sentence-level rewrite at all — it is a passage
+ * replaced wholesale, and printing the first two sentences of each side would
+ * be a truncated quotation posing as a comparison. Such a group is dropped, and
+ * the caller says plainly that the rewrite reworks the response throughout.
+ */
+const MAX_SPANS_PER_ROW = 2;
+
+/**
+ * The revision as a list of REWRITTEN SENTENCES.
+ *
+ * `groupedChanges` gives every word-level edit, which is the right unit on
+ * screen — the words are marked in place, inside the sentence that gives them
+ * their sense. On paper the marks cannot sit in place, so each edit is printed
+ * as its own row, and a word-level row is a fragment with its sense removed:
+ * "− this response I will evaluate how well current practices / + data
+ * management, but" is not something a student can learn anything from.
+ *
+ * So the edits are found at word level, where they are accurate, and then
+ * WIDENED to the sentence each one fell in, where they are readable. Edits that
+ * land in the same sentence collapse into one row, keyed on the sentence's
+ * index rather than its text — which is also what a rewrite that merged three
+ * sentences into one should look like: this is what you wrote, this is what it
+ * needed to say.
+ */
+export const sentenceChanges = (original: string, revised: string): SentenceChange[] => {
+  const segments = diffWords(original, revised);
+  const beforeSpans = sentenceSpans(original);
+  const afterSpans = sentenceSpans(revised);
+  if (!beforeSpans.length && !afterSpans.length) return [];
+
+  // Walk the segments, tracking where each side has reached, and group runs of
+  // non-equal segments into one edit with a span on each side.
+  interface Edit {
+    removed: string;
+    added: string;
+    oStart: number;
+    oEnd: number;
+    rStart: number;
+    rEnd: number;
+  }
+  const edits: Edit[] = [];
+  let current: Edit | null = null;
+  let oi = 0;
+  let ri = 0;
+  for (const segment of segments) {
+    if (segment.op === 'equal') {
+      if (current) edits.push(current);
+      current = null;
+      oi += (segment.original ?? segment.value).length;
+      ri += segment.value.length;
+      continue;
+    }
+    current ??= { removed: '', added: '', oStart: oi, oEnd: oi, rStart: ri, rEnd: ri };
+    if (segment.op === 'delete') {
+      current.removed += segment.value;
+      oi += segment.value.length;
+      current.oEnd = oi;
+    } else {
+      current.added += segment.value;
+      ri += segment.value.length;
+      current.rEnd = ri;
+    }
+  }
+  if (current) edits.push(current);
+
+  // Group the edits by the sentences they touch. Edits arrive in document
+  // order, so an edit either extends the group before it or starts a new one.
+  interface Group {
+    before: Set<number>;
+    after: Set<number>;
+  }
+  const groups: Group[] = [];
+  for (const edit of edits) {
+    // The same "is this worth printing?" rule the word-level list used.
+    if (!substantiveChanges([{ removed: edit.removed.trim(), added: edit.added.trim() }]).length) {
+      continue;
+    }
+    const before = spanIndicesTouching(beforeSpans, edit.oStart, edit.oEnd);
+    const after = spanIndicesTouching(afterSpans, edit.rStart, edit.rEnd);
+    if (!before.length && !after.length) continue;
+
+    const last = groups[groups.length - 1];
+    const sharesSentence =
+      last && (before.some((i) => last.before.has(i)) || after.some((i) => last.after.has(i)));
+    const target = sharesSentence ? last : { before: new Set<number>(), after: new Set<number>() };
+    before.forEach((i) => target.before.add(i));
+    after.forEach((i) => target.after.add(i));
+    if (!sharesSentence) groups.push(target);
+  }
+
+  const join = (spans: SentenceSpan[], indices: Set<number>): string =>
+    [...indices]
+      .sort((a, b) => a - b)
+      .map((i) => spans[i].text)
+      .join(' ');
+
+  return groups
+    .filter((g) => g.before.size <= MAX_SPANS_PER_ROW && g.after.size <= MAX_SPANS_PER_ROW)
+    .map((g) => ({ before: join(beforeSpans, g.before), after: join(afterSpans, g.after) }))
+    .filter((row) => row.before || row.after);
+};
+
+/**
+ * How much of the response the revision reworked, as a sentence count.
+ *
+ * The printed report used to state `retention` — "23% of your own writing
+ * kept". It is an accurate number and a demoralising one: a rewrite one band up
+ * restates most sentences, so the figure is always low, and it reads as a verdict
+ * on the student rather than a description of the edit. A count of rewritten
+ * sentences says the same thing as a fact they can act on.
+ */
+export const rewrittenSentenceCount = (
+  original: string,
+  changes: SentenceChange[]
+): { rewritten: number; total: number } => {
+  const total = tokenizeSentences(original).length;
+  const touched = new Set(changes.map((c) => c.before).filter(Boolean));
+  return { rewritten: Math.min(touched.size, total), total };
+};

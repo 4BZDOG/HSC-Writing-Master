@@ -28,6 +28,8 @@ import {
   METER,
   RULE_LINES,
   SCORE_SUMMARY,
+  PANEL,
+  HEADING,
   TextMeasurer,
   TextRun,
   InlineSpan,
@@ -37,6 +39,18 @@ import { wrapRich } from './wrapRich';
 import { spansToText } from './inline';
 
 export const getPageDimensions = (size: PageSizeName): PageDimensions => PAGE_DIMENSIONS[size];
+
+/** Masthead type sizes, shared by the measurer and the drawer. */
+export const MASTHEAD_TITLE_PT = 17;
+export const MASTHEAD_SUB_PT = 9;
+export const MASTHEAD_FIELD_PT = 7.5;
+export const MASTHEAD_FIELD_WIDTH_MM = 58;
+export const MASTHEAD_SUB_GAP_MM = 1.4;
+
+/** Question-card type sizes, shared by the measurer and the drawer. */
+export const QUESTION_EYEBROW_PT = 8;
+export const QUESTION_SUB_PT = 7.5;
+export const QUESTION_SUB_GAP_MM = 2;
 
 export interface GeometryOptions {
   size: PageSizeName;
@@ -115,8 +129,8 @@ export const measureBlock = (
   columnWidth: number,
   pScale: number
 ): MeasuredBlock => {
-  const padTop = (block.basePadTop ?? 0) * pScale;
-  const padBottom = (block.basePadBottom ?? 0) * pScale;
+  let padTop = (block.basePadTop ?? 0) * pScale;
+  let padBottom = (block.basePadBottom ?? 0) * pScale;
   const primaryPt = (block.runs[0]?.baseFontPt ?? 9) * pScale;
   const lineHeightMm = measurer.lineHeight(primaryPt, block.runs[0]?.lineHeightFactor ?? 1.15);
 
@@ -126,7 +140,14 @@ export const measureBlock = (
     block.kind === 'listItem' ||
     block.kind === 'criterion' ||
     (block.kind === 'paragraph' && !!block.accent);
-  const textIndentMm = indented ? LAYOUT.contentIndentBaseMm * pScale : 0;
+  // A panelled block's text is inset by the frame; a diff row's by its gutter
+  // marker. Both have to be in the wrap width, or the text is drawn narrower
+  // than it was measured and the frame closes over the last word.
+  const panelPadX = block.panel ? PANEL.padXBaseMm * pScale : 0;
+  const textIndentMm = block.panel ? panelPadX : indented ? LAYOUT.contentIndentBaseMm * pScale : 0;
+  const panelPadY = block.panel ? PANEL.padYBaseMm * pScale : 0;
+  padTop += panelPadY;
+  padBottom += panelPadY;
 
   if (block.kind === 'divider') {
     return {
@@ -151,29 +172,96 @@ export const measureBlock = (
     };
   }
 
-  // The score-summary box must be tall enough for its chip + label + metrics.
-  if (block.kind === 'scoreSummary') {
-    const pad = SCORE_SUMMARY.innerPadBaseMm * pScale;
-    const bar = SCORE_SUMMARY.accentBarBaseMm * pScale;
-    const chipH = SCORE_SUMMARY.chipPt * pScale * MM_PER_PT;
-    const labelH = SCORE_SUMMARY.labelPt * pScale * SCORE_SUMMARY.labelLineFactor * MM_PER_PT;
-    const metricsRun = block.runs[0];
-    const metricsPt = (metricsRun?.baseFontPt ?? 9) * pScale;
-    const chipReserve = SCORE_SUMMARY.chipReserveBaseMm * pScale;
-    const metricsLines = metricsRun
-      ? measurer.wrap(
-          metricsRun.text,
-          columnWidth - pad * 2 - bar - chipReserve,
-          metricsPt,
-          metricsRun.style ?? 'bold'
-        )
-      : [];
-    const metricsH =
-      metricsLines.length * measurer.lineHeight(metricsPt, SCORE_SUMMARY.metricsLineFactor);
-    const inner = Math.max(chipH, labelH + metricsH) + bandScaleHeight(block, pScale);
+  // The masthead: the report's name over its subtitle, with the name/class/date
+  // rules in the right-hand half.
+  if (block.kind === 'masthead') {
+    const titleH = MASTHEAD_TITLE_PT * pScale * MM_PER_PT * 1.25;
+    const subPt = MASTHEAD_SUB_PT * pScale;
+    // Wrapped, not assumed to be one line: a topic-and-subtopic subtitle runs to
+    // two lines at a narrow scale, and the second used to be drawn into the top
+    // of the question card below it.
+    const subWidth = columnWidth - (block.fields ? MASTHEAD_FIELD_WIDTH_MM * pScale + 8 : 0);
+    const subWrapped = block.subText ? measurer.wrap(block.subText, subWidth, subPt, 'normal') : [];
+    const subH = subWrapped.length
+      ? MASTHEAD_SUB_GAP_MM * pScale + subWrapped.length * measurer.lineHeight(subPt, 1.35)
+      : 0;
+    const fieldsH = block.fields ? 3 * MASTHEAD_FIELD_PT * pScale * MM_PER_PT * 1.9 : 0;
     return {
       ...block,
-      wrapped: [metricsLines],
+      wrapped: [],
+      subWrapped,
+      padTopMm: padTop,
+      padBottomMm: padBottom,
+      lineHeightMm: titleH,
+      textIndentMm: 0,
+      height: padTop + Math.max(titleH + subH, fieldsH) + padBottom,
+    };
+  }
+
+  // A heading is an icon, a line of display type, and the rule under them.
+  if (block.kind === 'heading') {
+    const pt = (block.runs[0]?.baseFontPt ?? 9) * pScale;
+    const rowH = Math.max(pt * MM_PER_PT * 1.2, HEADING.iconBaseMm * pScale);
+    const ruleH = (HEADING.ruleGapBaseMm + HEADING.ruleWeightBaseMm) * pScale;
+    return {
+      ...block,
+      wrapped: [[block.runs[0]?.text ?? '']],
+      padTopMm: padTop,
+      padBottomMm: padBottom,
+      lineHeightMm: rowH,
+      textIndentMm: 0,
+      height: padTop + rowH + ruleH + padBottom,
+    };
+  }
+
+  // The question card: an eyebrow row, the question, and the syllabus trail.
+  if (block.kind === 'questionCard') {
+    const eyebrowH = QUESTION_EYEBROW_PT * pScale * MM_PER_PT * 1.5;
+    const inner = columnWidth - textIndentMm * 2;
+    const q = block.runs[0];
+    const qPt = (q?.baseFontPt ?? 14) * pScale;
+    const qLines = q?.spans?.length
+      ? wrapRich(q.spans, inner, qPt, measurer).map(spansToText)
+      : measurer.wrap(q?.text ?? '', inner, qPt, q?.style ?? 'bold');
+    const qRich = q?.spans?.length ? wrapRich(q.spans, inner, qPt, measurer) : null;
+    const qH = qLines.length * runLineHeight(measurer, q, pScale);
+    const subPt = QUESTION_SUB_PT * pScale;
+    const subWrapped = block.subText ? measurer.wrap(block.subText, inner, subPt, 'normal') : [];
+    const subH = subWrapped.length
+      ? QUESTION_SUB_GAP_MM * pScale + subWrapped.length * measurer.lineHeight(subPt, 1.3)
+      : 0;
+    return {
+      ...block,
+      wrapped: [qLines],
+      wrappedRich: [qRich],
+      subWrapped,
+      padTopMm: padTop,
+      padBottomMm: padBottom,
+      lineHeightMm: runLineHeight(measurer, q, pScale),
+      textIndentMm,
+      height: padTop + eyebrowH + qH + subH + padBottom,
+    };
+  }
+
+  // The result strip: three cells across the full content width. Its height is
+  // whichever cell is tallest, and the mark is by far the tallest thing in it.
+  if (block.kind === 'scoreSummary') {
+    const pad = SCORE_SUMMARY.innerPadBaseMm * pScale;
+    const markH = SCORE_SUMMARY.chipPt * pScale * MM_PER_PT;
+    const labelH = SCORE_SUMMARY.labelPt * pScale * SCORE_SUMMARY.labelLineFactor * MM_PER_PT;
+    const bandH = SCORE_SUMMARY.bandPt * pScale * MM_PER_PT * 1.4;
+    const metricsRun = block.runs[0];
+    const metricsPt = (metricsRun?.baseFontPt ?? 8.5) * pScale;
+    // Metrics arrive newline-separated — one fact per line, so the cell reads
+    // as a list rather than a sentence with dots in it.
+    const metricLines = (metricsRun?.text ?? '').split('\n').filter(Boolean);
+    const metricsH =
+      metricLines.length * measurer.lineHeight(metricsPt, SCORE_SUMMARY.metricsLineFactor);
+    const bandCell = labelH + bandH + bandScaleHeight(block, pScale);
+    const inner = Math.max(markH, bandCell, labelH + metricsH);
+    return {
+      ...block,
+      wrapped: [metricLines],
       padTopMm: padTop,
       padBottomMm: padBottom,
       lineHeightMm,
@@ -184,16 +272,19 @@ export const measureBlock = (
 
   // A criterion reserves wrapped label/chip lines above its feedback runs.
   let labelWrapped: string[] | undefined;
+  let labelWrappedRich: InlineSpan[][] | null = null;
   let labelHeightMm = 0;
   if (block.kind === 'criterion' && block.label) {
     const labelPt = (block.runs[0]?.baseFontPt ?? 9) * pScale;
     const chipReserve = block.chip ? LAYOUT.criterionChipReserveBaseMm * pScale : 0;
-    labelWrapped = measurer.wrap(
-      block.label,
-      columnWidth - textIndentMm - chipReserve,
-      labelPt,
-      'bold'
-    );
+    const labelWidth = columnWidth - textIndentMm - chipReserve;
+    const labelRun = block.labelRuns?.[0];
+    if (labelRun?.spans?.length) {
+      labelWrappedRich = wrapRich(labelRun.spans, labelWidth, labelPt, measurer);
+      labelWrapped = labelWrappedRich.map(spansToText);
+    } else {
+      labelWrapped = measurer.wrap(block.label, labelWidth, labelPt, 'bold');
+    }
     labelHeightMm = labelWrapped.length * measurer.lineHeight(labelPt, 1.3);
   }
   const labelExtraMm = meterHeight(block, pScale);
@@ -229,6 +320,7 @@ export const measureBlock = (
     wrapped,
     wrappedRich,
     labelWrapped,
+    labelWrappedRich,
     padTopMm: padTop,
     padBottomMm: padBottom,
     lineHeightMm,
@@ -263,16 +355,20 @@ const splitParagraph = (b: MeasuredBlock, columnHeight: number): MeasuredBlock[]
   let index = 0;
   let firstFragment = true;
   while (index < lines.length) {
-    const padTop = firstFragment ? b.padTopMm : 0;
+    // A panelled block's frame closes and reopens across the break, so every
+    // fragment keeps its inner padding; an unpanelled one only pads its ends.
+    const padTop = firstFragment || b.panel ? b.padTopMm : 0;
     const linesThatFit = Math.max(1, Math.floor((columnHeight - padTop) / b.lineHeightMm));
     const start = index;
     const chunk = lines.slice(start, start + linesThatFit);
     index += chunk.length;
     const isLast = index >= lines.length;
-    const padBottom = isLast ? b.padBottomMm : 0;
+    const padBottom = isLast || b.panel ? b.padBottomMm : 0;
     out.push({
       ...b,
       id: firstFragment ? b.id : `${b.id}-cont${index}`,
+      checkbox: firstFragment ? b.checkbox : undefined,
+      diffMarker: firstFragment ? b.diffMarker : undefined,
       wrapped: [chunk],
       wrappedRich: rich ? [rich.slice(start, start + chunk.length)] : b.wrappedRich,
       padTopMm: padTop,
@@ -382,6 +478,152 @@ export const splitOversized = (blocks: MeasuredBlock[], columnHeight: number): M
   return out;
 };
 
+/**
+ * How much of a breakable block must stay behind, and how much must travel.
+ *
+ * Without a floor on both, the split trades one bad page for another: a lone
+ * line stranded at the foot of a column, or a lone line arriving at the head of
+ * the next. Three and two are the printer's usual orphan/widow minimums.
+ */
+export const MIN_HEAD_LINES = 3;
+export const MIN_TAIL_LINES = 2;
+
+/** Slice a measured paragraph so its head fits `available` mm. */
+const splitParagraphAt = (
+  b: MeasuredBlock,
+  available: number
+): [MeasuredBlock, MeasuredBlock] | null => {
+  const lines = b.wrapped[0] ?? [];
+  const rich = richOf(b);
+  const headPadBottom = b.panel ? b.padBottomMm : 0;
+  const room = available - b.padTopMm - headPadBottom;
+  const headLines = Math.floor(room / b.lineHeightMm);
+  if (headLines < MIN_HEAD_LINES) return null;
+  if (lines.length - headLines < MIN_TAIL_LINES) return null;
+
+  const head: MeasuredBlock = {
+    ...b,
+    wrapped: [lines.slice(0, headLines)],
+    wrappedRich: rich ? [rich.slice(0, headLines)] : b.wrappedRich,
+    padBottomMm: headPadBottom,
+    height: b.padTopMm + headLines * b.lineHeightMm + headPadBottom,
+  };
+  const tailPadTop = b.panel ? b.padTopMm : 0;
+  const tail: MeasuredBlock = {
+    ...b,
+    id: `${b.id}-cont`,
+    // The bullet, tick box or diff marker belongs to the item's first line, and
+    // the first line stayed behind.
+    checkbox: undefined,
+    diffMarker: undefined,
+    wrapped: [lines.slice(headLines)],
+    wrappedRich: rich ? [rich.slice(headLines)] : b.wrappedRich,
+    padTopMm: tailPadTop,
+    height: tailPadTop + (lines.length - headLines) * b.lineHeightMm + b.padBottomMm,
+    // The ruled notes belong to the block's foot, and the foot is in the tail.
+    ruleLines: b.ruleLines,
+  };
+  return [{ ...head, ruleLines: undefined }, tail];
+};
+
+/**
+ * Slice a measured criterion: the head keeps the title, chip and meter plus as
+ * many feedback lines as fit; the tail continues as a plain accented paragraph.
+ */
+const splitCriterionAt = (
+  b: MeasuredBlock,
+  available: number
+): [MeasuredBlock, MeasuredBlock] | null => {
+  const lines = b.wrapped[0] ?? [];
+  const rich = richOf(b);
+  const labelLines = b.labelWrapped?.length ?? 1;
+  const head = b.padTopMm + labelLines * b.lineHeightMm + (b.labelExtraMm ?? 0);
+  const headLines = Math.floor((available - head) / b.lineHeightMm);
+  if (headLines < MIN_HEAD_LINES) return null;
+  if (lines.length - headLines < MIN_TAIL_LINES) return null;
+
+  return [
+    {
+      ...b,
+      wrapped: [lines.slice(0, headLines)],
+      wrappedRich: rich ? [rich.slice(0, headLines)] : b.wrappedRich,
+      padBottomMm: 0,
+      height: head + headLines * b.lineHeightMm,
+    },
+    {
+      ...b,
+      kind: 'paragraph',
+      id: `${b.id}-cont`,
+      label: undefined,
+      labelRuns: undefined,
+      chip: undefined,
+      labelWrapped: undefined,
+      labelWrappedRich: null,
+      // The head furniture belongs to the first fragment only — a meter
+      // repeated above the continuation would state the same mark twice.
+      meter: undefined,
+      labelExtraMm: 0,
+      icon: undefined,
+      wrapped: [lines.slice(headLines)],
+      wrappedRich: rich ? [rich.slice(headLines)] : b.wrappedRich,
+      padTopMm: 0,
+      height: (lines.length - headLines) * b.lineHeightMm + b.padBottomMm,
+    },
+  ];
+};
+
+/**
+ * Split `b` so its head fits `available` mm, or return null to move it whole.
+ *
+ * This is the fix for the single largest defect the exported report had. The
+ * flow used to place a block only where it fit ENTIRELY: a 70mm paragraph
+ * arriving with 40mm of column left moved to the next column and left the 40mm
+ * blank. Across a report that is most of a page — one sample's second page was
+ * 86% white — and the content that was pushed out is the content the reader
+ * came for.
+ *
+ * Only prose splits. A list item, a heading, the question card and the result
+ * strip are single objects; breaking one across a column boundary would cost
+ * more sense than the space it recovered.
+ */
+/**
+ * Grow a flexible ruled block into the space it landed in.
+ *
+ * Ruled space is the one block whose height is not content: it is however much
+ * room is going. Fixed, the marker's notes either overflowed the page they
+ * landed on or started a fresh one and left it 90% white.
+ */
+export const growToFit = (
+  b: MeasuredBlock,
+  available: number,
+  columnHeight: number,
+  pScale: number
+): MeasuredBlock => {
+  if (!b.flexibleRules || !b.ruleLines) return b;
+  const gap = RULE_LINES.gapBaseMm * pScale;
+  const fixed = b.height - b.ruleLines * gap;
+  // Sharing a page, the notes take a decent block and leave the rest to the
+  // content around them. Landing on a page of their own, that restraint has
+  // nothing to protect — the space below would simply be blank — so they take
+  // the whole page and hand it to the teacher.
+  const ownsThePage = available >= columnHeight * 0.75;
+  const cap = ownsThePage ? Number.POSITIVE_INFINITY : RULE_LINES.maxFlexible;
+  const room = Math.min(cap, Math.floor((available - fixed) / gap));
+  if (room <= b.ruleLines) return b;
+  return { ...b, ruleLines: room, height: fixed + room * gap };
+};
+
+export const splitToFit = (
+  b: MeasuredBlock,
+  available: number
+): [MeasuredBlock, MeasuredBlock] | null => {
+  if (!b.breakable || b.lineHeightMm <= 0 || b.runs.length !== 1) return null;
+  if (available <= 0) return null;
+  if (b.kind === 'paragraph' || b.kind === 'listItem') return splitParagraphAt(b, available);
+  if (b.kind === 'criterion') return splitCriterionAt(b, available);
+  return null;
+};
+
 export interface FlowResult {
   placements: PlacedBlock[];
   pageCount: number;
@@ -405,10 +647,19 @@ const requiredHeight = (blocks: MeasuredBlock[], i: number): number => {
   let required = block.height;
   if (block.kind === 'heading') {
     const next = blocks[i + 1];
-    if (next && next.kind !== 'spacer') required += next.height;
+    // A breakable body only has to bring its minimum head along; demanding the
+    // whole paragraph sends the heading to the next column over prose that
+    // would have split happily beneath it.
+    if (next && next.kind !== 'spacer') required += minimumHeight(next);
   }
   return required;
 };
+
+/** The least room a block can be placed in: its full height unless it splits. */
+const minimumHeight = (b: MeasuredBlock): number =>
+  b.breakable && b.runs.length === 1 && (b.kind === 'paragraph' || b.kind === 'criterion')
+    ? Math.min(b.height, b.padTopMm + MIN_HEAD_LINES * b.lineHeightMm + (b.labelExtraMm ?? 0))
+    : b.height;
 
 /**
  * Flow a run of non-`fullWidth` blocks column-major, confined to the region that
@@ -425,7 +676,8 @@ const flowColumnBand = (
   startPage: number,
   startY: number,
   placements: PlacedBlock[],
-  deepestPerPage: number[]
+  deepestPerPage: number[],
+  pScale: number
 ): { endPage: number; endY: number } => {
   let page = startPage;
   let column = 0;
@@ -447,19 +699,53 @@ const flowColumnBand = (
   };
 
   for (let i = 0; i < blocks.length; i++) {
-    const block = blocks[i];
-    const atColumnTop = cursor === colTop(page);
-    // Never start a column with whitespace.
-    if (atColumnTop && block.kind === 'spacer') continue;
+    let block = blocks[i];
+    // A block can be split at the boundary and continue in the next column, so
+    // one input block may need several placements.
+    for (;;) {
+      const atColumnTop = cursor === colTop(page);
+      // Never start a column with whitespace.
+      if (atColumnTop && block.kind === 'spacer') break;
 
-    const fits = cursor + requiredHeight(blocks, i) <= geo.columnHeight + 1e-6;
-    if (!fits && !atColumnTop) {
+      if (block.flexibleRules) {
+        block = growToFit(block, geo.columnHeight - cursor, geo.columnHeight, pScale);
+      }
+      const required = block === blocks[i] ? requiredHeight(blocks, i) : block.height;
+      if (cursor + required <= geo.columnHeight + 1e-6) {
+        placements.push({ block, page, column, top: cursor });
+        cursor += block.height;
+        break;
+      }
+      if (atColumnTop) {
+        if (colTop(page) === 0) {
+          // Taller than a whole empty column: place it and let it overflow
+          // rather than loop. `splitOversized` has already sliced what it could.
+          placements.push({ block, page, column, top: cursor });
+          cursor += block.height;
+          break;
+        }
+        // The band began part-way down this page, so both of its columns are
+        // equally short — moving across gains nothing, and placing here would
+        // strand a heading from the block it introduces. Take the whole band
+        // over to a full page instead.
+        recordDepth();
+        page += 1;
+        column = 0;
+        cursor = colTop(page);
+        continue;
+      }
+      const split = splitToFit(block, geo.columnHeight - cursor);
+      if (split) {
+        placements.push({ block: split[0], page, column, top: cursor });
+        cursor += split[0].height;
+        advanceColumn();
+        block = split[1];
+        continue;
+      }
       advanceColumn();
       // A spacer that triggers a break is redundant — the break separates.
-      if (block.kind === 'spacer') continue;
+      if (block.kind === 'spacer') break;
     }
-    placements.push({ block, page, column, top: cursor });
-    cursor += block.height;
   }
   recordDepth();
   return { endPage: page, endY: deepestPerPage[page] ?? cursor };
@@ -477,7 +763,8 @@ const flowSpanBand = (
   startPage: number,
   startY: number,
   placements: PlacedBlock[],
-  deepestPerPage: number[]
+  deepestPerPage: number[],
+  pScale: number
 ): { endPage: number; endY: number } => {
   let page = startPage;
   let cursor = startY;
@@ -486,22 +773,91 @@ const flowSpanBand = (
   };
 
   for (let i = 0; i < blocks.length; i++) {
-    const block = blocks[i];
-    const atTop = cursor === 0;
-    if (atTop && block.kind === 'spacer') continue;
+    let block = blocks[i];
+    for (;;) {
+      const atTop = cursor === 0;
+      if (atTop && block.kind === 'spacer') break;
 
-    const fits = cursor + requiredHeight(blocks, i) <= geo.columnHeight + 1e-6;
-    if (!fits && !atTop) {
+      if (block.flexibleRules) {
+        block = growToFit(block, geo.columnHeight - cursor, geo.columnHeight, pScale);
+      }
+      const required = block === blocks[i] ? requiredHeight(blocks, i) : block.height;
+      if (cursor + required <= geo.columnHeight + 1e-6 || atTop) {
+        placements.push({ block, page, column: 0, top: cursor });
+        cursor += block.height;
+        break;
+      }
+      const split = splitToFit(block, geo.columnHeight - cursor);
+      if (split) {
+        placements.push({ block: split[0], page, column: 0, top: cursor });
+        cursor += split[0].height;
+        recordDepth();
+        page += 1;
+        cursor = 0;
+        block = split[1];
+        continue;
+      }
       recordDepth();
       page += 1;
       cursor = 0;
-      if (block.kind === 'spacer') continue;
+      if (block.kind === 'spacer') break;
     }
-    placements.push({ block, page, column: 0, top: cursor });
-    cursor += block.height;
   }
   recordDepth();
   return { endPage: page, endY: deepestPerPage[page] ?? cursor };
+};
+
+/**
+ * Even out the last page of a two-column band.
+ *
+ * A band that runs out of content part-way down its first column leaves the
+ * second column empty — and it stays empty, because the full-width band that
+ * follows has to start below the deepest point on the page. That is a whole
+ * column of paper lost to nothing, and on a short report it was the entire
+ * right-hand side of the only page.
+ *
+ * Reading order is column-major, so moving a run of blocks from the foot of
+ * column one to the head of column two preserves it exactly. The split is
+ * chosen to make the two columns as near equal as possible, and never falls
+ * between a heading and the block it introduces.
+ */
+const balanceLastColumn = (placements: PlacedBlock[], geo: ColumnGeometry, page: number): void => {
+  if (geo.columnsPerPage < 2) return;
+  const onPage = placements.filter((p) => p.page === page);
+  if (!onPage.length || onPage.some((p) => p.column !== 0)) return;
+  const column = onPage.sort((a, b) => a.top - b.top);
+  if (column.length < 3) return;
+
+  const startY = column[0].top;
+  const heights = column.map((p) => p.block.height);
+  const total = heights.reduce((sum, h) => sum + h, 0);
+
+  let best = -1;
+  let bestScore = Infinity;
+  let head = 0;
+  for (let k = 0; k < column.length - 1; k++) {
+    head += heights[k];
+    // Never strand a heading at the foot of a column without its body.
+    if (column[k].block.kind === 'heading') continue;
+    // A spacer at the head of the new column would print as a gap.
+    if (column[k + 1].block.kind === 'spacer') continue;
+    const tail = total - head;
+    if (startY + tail > geo.columnHeight) continue;
+    const score = Math.abs(head - tail);
+    if (score < bestScore) {
+      bestScore = score;
+      best = k;
+    }
+  }
+  // Only worth doing when it actually evens things out.
+  if (best < 0 || bestScore >= total) return;
+
+  let cursor = startY;
+  for (let i = best + 1; i < column.length; i++) {
+    column[i].column = 1;
+    column[i].top = cursor;
+    cursor += column[i].block.height;
+  }
 };
 
 /**
@@ -514,7 +870,11 @@ const flowSpanBand = (
  * When no block is `fullWidth` the whole document is a single two-column band
  * and this collapses to the classic column-major flow, unchanged.
  */
-export const flowBlocks = (blocks: MeasuredBlock[], geo: ColumnGeometry): FlowResult => {
+export const flowBlocks = (
+  blocks: MeasuredBlock[],
+  geo: ColumnGeometry,
+  pScale = 1
+): FlowResult => {
   const placements: PlacedBlock[] = [];
   const deepestPerPage: number[] = [];
   let page = 0;
@@ -526,11 +886,21 @@ export const flowBlocks = (blocks: MeasuredBlock[], geo: ColumnGeometry): FlowRe
     let j = i;
     while (j < blocks.length && !!blocks[j].fullWidth === spanning) j += 1;
     const band = blocks.slice(i, j);
+    const before = placements.length;
     const res = spanning
-      ? flowSpanBand(band, geo, page, y, placements, deepestPerPage)
-      : flowColumnBand(band, geo, page, y, placements, deepestPerPage);
+      ? flowSpanBand(band, geo, page, y, placements, deepestPerPage, pScale)
+      : flowColumnBand(band, geo, page, y, placements, deepestPerPage, pScale);
+    if (!spanning) {
+      balanceLastColumn(placements.slice(before), geo, res.endPage);
+      // Balancing moves blocks between columns, so the page's deepest extent —
+      // which is where the next band starts — has to be measured again.
+      deepestPerPage[res.endPage] = placements
+        .slice(before)
+        .filter((p) => p.page === res.endPage)
+        .reduce((deepest, p) => Math.max(deepest, p.top + p.block.height), 0);
+    }
     page = res.endPage;
-    y = res.endY;
+    y = deepestPerPage[res.endPage] ?? res.endY;
     i = j;
   }
   if (deepestPerPage.length === 0) deepestPerPage[0] = 0;
@@ -556,7 +926,7 @@ export const planLayout = (
   pScale: number
 ): LayoutPlan => {
   const measured = splitOversized(measureBlocks(blocks, measurer, geo, pScale), geo.columnHeight);
-  return { blocks: measured, flow: flowBlocks(measured, geo) };
+  return { blocks: measured, flow: flowBlocks(measured, geo, pScale) };
 };
 
 export interface ScaleChoice {

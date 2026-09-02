@@ -1,5 +1,58 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-02 (The exported report is a document now)
+
+### 📄 A design for the marking-feedback PDF
+
+The export had the right content and no document design. Three samples
+(`npm run samples:pdf`) showed it: pages between a quarter and seven-eighths
+blank, the three things a reader opens the file for carrying no more weight
+than an aside, and four unrelated meanings sharing one green on a Band 4
+report. `projectDocs/Plan-PdfExportDesign.md` records the findings; this is
+the work.
+
+**Half the paper was blank for one reason.** `splitOversized` only split a
+breakable block taller than a _whole_ column, and neither flow function split
+at a boundary — so a 70mm paragraph arriving with 40mm of column left moved
+whole and the 40mm was lost. `splitToFit` (`pdf/layout.ts`) now splits prose at
+the boundary with three-line orphan and two-line widow minimums, and
+`balanceLastColumn` evens the last page of a two-column band so a short report
+stops leaving its right-hand column empty. One sample's second page went from
+86% white to the best-filled page in the file.
+
+**The question, the response and the rewrite are the document.** The question
+sits in a bounding box at 14pt bold with the syllabus trail beneath it, where
+it belongs — the trail says where the question came from, which is context a
+reader wants after the question rather than in front of it. The student's
+response and the improved response are framed as a matched pair, so the
+comparison the whole report builds towards is one a reader can actually make.
+
+**One colour, one meaning.** The band accent (now read from the app's own
+`BAND_HEX_DARK` rather than a literal map that had already drifted at Band 4)
+means attainment and nothing else; emerald means a syllabus term and appears
+only in the prose; rose means something to fix; slate is structure. The command
+verb is coloured in the question alone — it used to be coloured wherever it
+occurred, so "explaining" and "explained" came out indigo in the commentary.
+
+**"What changed" is readable.** Edits are still found at word level, where they
+are accurate, then widened to the sentence each fell in, where they can be read
+and acted on. The −/+ marker moved into the gutter, so a change that wraps
+marks every line of itself rather than only the first. Where a rewrite reworks
+the response throughout, the section says so instead of printing a truncated
+quotation from each side and letting it pose as a comparison. The retention
+figure ("23% of your own writing kept") is gone: accurate, demoralising, and
+always low for a rewrite a band up.
+
+**Everything else.** Section headings take the app's own display voice —
+uppercase, bold, sheared into an oblique — with a vector icon each
+(`pdf/icons.ts`). The score box is a full-width result strip reading RESULT,
+not "Assessment Score" ("assessment" carries weight in an HSC year, and this is
+practice marking); it names the band as well as numbering it. The masthead
+became content rather than page chrome, so its ~20mm is spent once instead of
+on every page, and continuation pages carry a one-line running head. Marker's
+notes span the full width and grow into whatever space they land in. The
+watermark is opt-in. Multi-page reports carry bookmarks.
+
 ## [Unreleased] - 2026-08-23 (A unit round-trips now, and the Studio fits the screen)
 
 ### 🗑️ Clear Questions, keep everything else

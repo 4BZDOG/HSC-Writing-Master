@@ -4,6 +4,12 @@ _The marking-feedback report produced by `pdf/` when a student response is
 evaluated. Written against three rendered samples (`npm run samples:pdf`).
 British/Australian English throughout._
 
+> **Status: delivered.** Every step below is implemented. Measured against the
+> same three samples, the right-hand column now carries ink on 23–46% of body
+> rows where it carried 0–40% before, and the worst page in the set went from
+> 86% white to the best-filled page in its file. Re-render with
+> `npm run samples:pdf -- --png` and re-measure rather than eyeballing.
+
 ## Context
 
 The exported report has the right content. A teacher gets the question, the

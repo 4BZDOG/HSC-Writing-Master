@@ -22,13 +22,13 @@ const fakeDoc = () => {
   const chain =
     () =>
     (..._args: unknown[]) =>
-      (self as unknown as JsPdfLike);
+      self as unknown as JsPdfLike;
 
   Object.assign(self, {
     internal: { pageSize: { getWidth: () => 210, getHeight: () => 297 } },
     addPage: () => {
       calls.pages += 1;
-      return (self as unknown as JsPdfLike);
+      return self as unknown as JsPdfLike;
     },
     setPage: chain(),
     setFont: chain(),
@@ -42,6 +42,14 @@ const fakeDoc = () => {
     line: chain(),
     rect: chain(),
     roundedRect: chain(),
+    circle: chain(),
+    // The transform trio the display headings shear with, and the outline the
+    // report bookmarks itself into.
+    saveGraphicsState: chain(),
+    restoreGraphicsState: chain(),
+    setCurrentTransformationMatrix: chain(),
+    Matrix: function Matrix() {},
+    outline: { add: () => ({}) },
     // Deterministic wrapping: ~2.2 characters per millimetre at any size.
     splitTextToSize: (text: string, maxWidth: number) => {
       const perLine = Math.max(8, Math.floor(maxWidth * 2.2));
@@ -68,7 +76,7 @@ const fakeDoc = () => {
     GState: function GState() {},
     setProperties: (p: unknown) => {
       calls.properties.push(p);
-      return (self as unknown as JsPdfLike);
+      return self as unknown as JsPdfLike;
     },
     save: (name: string) => {
       calls.saved.push(name);
