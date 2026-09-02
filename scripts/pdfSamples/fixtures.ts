@@ -192,6 +192,99 @@ export const longBand5: EvaluationExportData = {
   keywords: ['enterprise data', 'privacy', 'security', 'intelligent systems', 'legal', 'ethical'],
 };
 
+/**
+ * The edited case: a rewrite that changes the response IN PLACES rather than
+ * reworking it wholesale, so "What changed" fills with sentence pairs.
+ *
+ * The other three fixtures all happen to get rewrites that share almost no
+ * wording, which means none of them ever produced more than one pair — and a
+ * diff list that never has more than one row cannot show a pair being split
+ * across a column boundary, which is the defect that lived there.
+ */
+const editedAnswer = `Enterprise systems need good security because they hold a lot of personal data. The main control is passwords, which stop people getting in.
+
+Encryption is also used. This scrambles the data so it cannot be read. Most enterprises encrypt data when it is being sent.
+
+Access control is another control. It means only certain staff can see certain records. This limits the damage if an account is taken over.
+
+Backups protect against data loss. If a system fails the enterprise can restore from a backup. Backups should be tested regularly.
+
+Overall these controls work together to protect enterprise data.`;
+
+const editedRevision = `Enterprise systems need good security because they hold a lot of personal data. The primary access control is multi-factor authentication, which requires something the user knows and something they hold, so a stolen password alone is not enough.
+
+Encryption is also used. This renders data unreadable without the key. Most enterprises encrypt data both in transit and at rest, because data sitting in storage is the larger target.
+
+Access control is another control. Role-based access means a staff member sees only the records their role requires. This limits the damage if an account is taken over.
+
+Backups protect against data loss. If a system fails the enterprise can restore from a backup. Backups must be tested by restoring them, since an untested backup is an assumption rather than a control.
+
+Together these controls form a layered security architecture, in which no single failure exposes the data.`;
+
+export const editedBand4: EvaluationExportData = {
+  question:
+    'Describe the security controls an enterprise uses to protect the data it holds, and explain why each is necessary.',
+  verb: 'DESCRIBE',
+  totalMarks: 6,
+  syllabusPath:
+    'HSC Enterprise Computing  ›  Data management  ›  Securing enterprise data  ›  Describe the controls used to protect enterprise data',
+  studentAnswer: editedAnswer,
+  overallMark: 4,
+  overallBand: 4,
+  targetBand: 6,
+  overallFeedback:
+    'Four controls, correctly named and correctly grouped — the structure of this response is **sound**. What holds it at Band 4 is that each control is described but not justified: the question asks why each is necessary, and "stop people getting in" is a restatement rather than a reason. Name the threat each control answers and the response moves up a band without gaining a paragraph.',
+  quickTip:
+    'For each control, finish the sentence "…because without it, an attacker could ___". That clause is the explanation the question is asking for.',
+  strengths: [
+    'Four distinct controls, correctly named and not confused with one another.',
+    'Correctly identifies that access control limits **damage** after a compromise rather than preventing one.',
+    'The paragraph structure gives one control per paragraph, which a marker can follow.',
+  ],
+  improvements: [
+    'Replace passwords with **multi-factor authentication** — passwords alone are the control the syllabus treats as insufficient.',
+    'Say that encryption protects data **at rest** as well as in transit; storage is the larger target.',
+    'Name the access model: **role-based access control**, not "certain staff".',
+    'Close with the layered principle — that no single failure should expose the data.',
+  ],
+  criteria: [
+    {
+      criterion: 'Describes a range of security controls',
+      mark: 2,
+      maxMark: 2,
+      feedback: 'Four controls, correctly named and distinguished. Full marks.',
+    },
+    {
+      criterion: 'Explains why each control is necessary',
+      mark: 1,
+      maxMark: 2,
+      feedback:
+        'The reasons restate the control rather than naming the threat it answers. "Stops people getting in" is what a password is, not why one is needed.',
+    },
+    {
+      criterion: 'Uses syllabus terminology accurately',
+      mark: 1,
+      maxMark: 2,
+      feedback:
+        '**Encryption** and **backups** are correct; **multi-factor authentication**, **role-based access control** and **security architecture** are all absent.',
+    },
+  ],
+  revisedAnswer: editedRevision,
+  exemplarBand: 6,
+  exemplarMark: 6,
+  wordCount: 132,
+  keywordsUsed: 2,
+  keywordsTotal: 5,
+  markerNotes: true,
+  keywords: [
+    'encryption',
+    'access control',
+    'multi-factor authentication',
+    'security architecture',
+    'backups',
+  ],
+};
+
 export const SAMPLES: { name: string; subtitle: string; data: EvaluationExportData }[] = [
   {
     name: 'A-typical-band4',
@@ -207,5 +300,10 @@ export const SAMPLES: { name: string; subtitle: string; data: EvaluationExportDa
     name: 'C-long-band5',
     subtitle: 'Data management — Legal, social and ethical responsibilities',
     data: longBand5,
+  },
+  {
+    name: 'D-edited-band4',
+    subtitle: 'Data management — Securing enterprise data',
+    data: editedBand4,
   },
 ];

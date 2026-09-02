@@ -84,6 +84,8 @@ export const PANEL = {
   borderBaseMm: 0.3,
   /** How far the panel fill is mixed from its accent towards paper white. */
   fillMix: 0.94,
+  /** The same for a borderless tint, which has no frame to sit inside. */
+  tintMix: 0.92,
 };
 
 /**
@@ -315,6 +317,25 @@ export interface ContentBlock {
   diffMarker?: string;
   /** Draw dashed Name / Class / Date rules in the block's right-hand half. */
   fields?: boolean;
+  /**
+   * Never let a column or page break fall between this block and the next.
+   *
+   * A diff pair is one thought in two blocks: the sentence the student wrote and
+   * the sentence it became. Split across a column boundary the reader has to
+   * hold the first half in their head while their eye travels to the top of the
+   * next column, which is the one thing the pair exists to spare them.
+   */
+  keepWithNext?: boolean;
+  /**
+   * Draw the panel as a tint alone, no border. For the diff rows, where a frame
+   * round every row would out-weigh the text inside it.
+   */
+  panelBorderless?: boolean;
+  /**
+   * Draw this list item's marker as a tick rather than a bullet — evidence the
+   * response already shows, against the empty box of a thing still to do.
+   */
+  tick?: boolean;
 }
 
 /** A block with a computed rendered height (mm) at a given scale. */
