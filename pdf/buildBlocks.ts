@@ -47,8 +47,23 @@ export const COLORS = {
   /** Structure: heading rules, bullets, accent bars, frames. */
   slate: [100, 116, 139] as [number, number, number],
   rule: [203, 213, 225] as [number, number, number],
-  /** Something to fix. */
-  rose: [190, 18, 60] as [number, number, number],
+  /**
+   * Something to fix, and the words a rewrite cut.
+   *
+   * Dark crimson rather than the old rose: a diff has a convention older than
+   * this report, and a reader arrives expecting red for what went and green for
+   * what came. Rose read as magenta beside it.
+   */
+  rose: [185, 28, 28] as [number, number, number], // red-700
+  /**
+   * The words a rewrite added.
+   *
+   * The one place the band accent does NOT stand for attainment. Additions were
+   * drawn in it, which meant they were amber on a Band 3 report and purple on a
+   * Band 6 one — a diff in colours nobody reads as a diff. Green/red is the
+   * convention, and it is worth more here than the consistency it costs.
+   */
+  added: [21, 128, 61] as [number, number, number], // green-700
   /**
    * Syllabus terms and the command verb, in print.
    *
@@ -369,6 +384,10 @@ export const buildEvaluationBlocks = (
         id: nid('str'),
         runs: [richRun(str, 9, { color: COLORS.body, lineHeightFactor: 1.35 }, plain)],
         accent: COLORS.slate,
+        // A tick against the next steps' empty box: the two lists are the same
+        // gesture in two states — what the response already does, and what it
+        // has yet to. Solid squares beside empty boxes read as two systems.
+        tick: true,
         breakable: true,
         basePadBottom: 1.6,
       })
@@ -425,14 +444,17 @@ export const buildEvaluationBlocks = (
   // 9. Improved response (exemplar) -----------------------------------------
   if (data.revisedAnswer && data.revisedAnswer.trim()) {
     const exBand = data.exemplarBand ?? data.overallBand + 1;
-    const exAccent = bandColor(exBand);
     const exMark = data.exemplarMark ?? Math.min(data.totalMarks, data.overallMark + 1);
+    // The report has ONE accent, and it is the band this response reached. The
+    // rewrite used to be framed in the EXEMPLAR's band instead, which put a
+    // second hue on the page — purple beside a green result strip — for a fact
+    // the heading beside it already states in words.
     blocks.push(spacer(2));
     blocks.push({
       ...heading(
         `Improved Response — ${exMark}/${data.totalMarks} · Band ${exBand} ${getBandName(exBand)}`,
         'sparkle',
-        exAccent
+        accent
       ),
       fullWidth: true,
     });
@@ -444,7 +466,7 @@ export const buildEvaluationBlocks = (
       fullWidth: true,
       runs: [richRun(data.revisedAnswer, 9.5, { color: COLORS.ink, lineHeightFactor: 1.4 }, hl)],
       panel: true,
-      panelAccent: exAccent,
+      panelAccent: accent,
       breakable: true,
       basePadBottom: 2,
     });
@@ -515,8 +537,17 @@ export const buildEvaluationBlocks = (
                 runs: [run(change.before, 8.5, { color: COLORS.rose, lineHeightFactor: 1.35 })],
                 diffMarker: '\u2212',
                 accent: COLORS.rose,
+                panel: true,
+                panelBorderless: true,
+                panelAccent: COLORS.rose,
+                // The pair is one thought. A break between the two halves puts
+                // the sentence and its rewrite in different columns, which is
+                // the one thing the pairing exists to spare the reader.
+                keepWithNext: !!change.after,
                 breakable: true,
-                basePadBottom: change.after ? 0.6 : 2,
+                // No gap under a row that has a partner: the two tints meet, so
+                // the pair reads as one card rather than two neighbouring rows.
+                basePadBottom: change.after ? 0 : 2.6,
               });
             }
             if (change.after) {
@@ -525,15 +556,18 @@ export const buildEvaluationBlocks = (
                 id: nid('chgnew'),
                 runs: [
                   run(change.after, 8.5, {
-                    color: exAccent,
+                    color: COLORS.added,
                     style: 'bold',
                     lineHeightFactor: 1.35,
                   }),
                 ],
                 diffMarker: '+',
-                accent: exAccent,
+                accent: COLORS.added,
+                panel: true,
+                panelBorderless: true,
+                panelAccent: COLORS.added,
                 breakable: true,
-                basePadBottom: 2.4,
+                basePadBottom: 2.6,
               });
             }
           });

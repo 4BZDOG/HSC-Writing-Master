@@ -1,5 +1,57 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-02 (Formatting review follow-ups)
+
+### 📐 Structural and accessibility fixes to the exported report
+
+A formatting review of the export raised thirteen points. Several described the
+pre-redesign build and were already resolved (the "Band 6 —" title, the
+watermark, "Assessment Score", the unstructured diff). These are the ones that
+were still live.
+
+**A diff pair could be split across the column boundary.** The sentence a
+student wrote and the sentence it became are one thought in two blocks, and the
+flow — and then the column balancer — were free to put them in different
+columns. `keepWithNext` binds them: the flow reserves both, the balancer will
+not break between them, and neither half is split internally. A new fixture
+(`D-edited-band4`) exercises a rewrite that edits in places rather than
+wholesale, so the sample set actually produces a multi-row diff list — none of
+the previous three did, which is why the defect survived.
+
+**A section could be torn in half.** Next Steps printed its heading and one tick
+box at the foot of a column with the other three arriving at the head of the
+next, above an unrelated card: correct column-major flow that reads as three
+orphaned checkboxes under nothing. A heading now moves with everything it
+introduces, whenever the section would fit a column of its own.
+
+**Green and red for the diff.** Additions were drawn in the band accent, which
+made them amber on a Band 3 report and purple on a Band 6 one — a diff in
+colours nobody reads as a diff. Additions are green-700, cuts are red-700, each
+on a soft tint of its own, and the pair's two tints meet so it reads as one
+card. This is the one place the band accent does not mean attainment, and it is
+worth the exception.
+
+**One accent per document.** The improved response was framed in the EXEMPLAR's
+band colour, putting a second hue on the page — purple beside a green result
+strip — for a fact its heading already states in words. It now takes the
+report's own accent.
+
+**The footer was failing WCAG AA.** The disclaimer — the line that says this is
+practice feedback and not a NESA result — was 6pt in #9CA3AF, about 2.3:1 on
+white. It is 7pt in #6B7280 (4.8:1), and the page-number line 7.5pt.
+
+**Shrink to save a page.** `chooseScale` took the largest scale that merely fit
+the page budget, so a report needing 1.05 pages printed as two. It now takes the
+fewest pages first and the largest scale that reaches that count — sample C went
+from three pages to two.
+
+**Also:** a wrapped line that is nothing but a closing full stop is rejoined to
+the line before it (the wrap's doing, not the text's); Strong Evidence takes
+ticks rather than solid squares, so it and the Next Steps boxes read as one
+system in two states; heading icons are centred on the cap height of the
+uppercase text rather than on its line box; and the watermark, when asked for,
+draws at 4% rather than 6%.
+
 ## [Unreleased] - 2026-09-02 (The exported report is a document now)
 
 ### 📄 A design for the marking-feedback PDF

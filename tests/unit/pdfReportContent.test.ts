@@ -234,6 +234,35 @@ describe('the layout reserves room for it', () => {
   });
 });
 
+describe('the wrap does not invent punctuation', () => {
+  /**
+   * A wrap that lands a lone "." on its own line reads as a hard return the
+   * marker never typed. It is the wrap's doing, not the text's, so the wrap
+   * undoes it.
+   */
+  const narrow: TextMeasurer = {
+    // Breaks before the final full stop on purpose.
+    wrap: (text) => {
+      const trimmed = text.trim();
+      return trimmed.endsWith('.') ? [trimmed.slice(0, -1).trim(), '.'] : [trimmed];
+    },
+    lineHeight: (fontPt, factor) => fontPt * factor * MM_PER_PT,
+    measure: (text) => text.length / 2.2,
+  };
+
+  it('rejoins a stranded closing mark with the line before it', () => {
+    const block: ContentBlock = {
+      kind: 'paragraph',
+      id: 'p',
+      runs: [{ text: 'Weigh the trade-off between security and usability.', baseFontPt: 9 }],
+    };
+
+    const measured = measureBlock(block, narrow, 60, 1);
+
+    expect(measured.wrapped[0]).toEqual(['Weigh the trade-off between security and usability.']);
+  });
+});
+
 describe('export preferences', () => {
   beforeEach(() => window.localStorage.clear());
 

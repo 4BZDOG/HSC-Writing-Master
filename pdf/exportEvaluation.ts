@@ -241,8 +241,14 @@ const drawPanel = (
 ): void => {
   const c = block.panelAccent ?? block.accent ?? COLORS.slate;
   const r = PANEL.radiusBaseMm * pScale;
-  const fill = tint(c, PANEL.fillMix);
+  // A borderless panel is a tint alone: on a diff row, a frame round every row
+  // would out-weigh the sentence inside it.
+  const fill = tint(c, block.panelBorderless ? PANEL.tintMix : PANEL.fillMix);
   doc.setFillColor(fill[0], fill[1], fill[2]);
+  if (block.panelBorderless) {
+    doc.roundedRect(xLeft, yTop, width, Math.max(block.height, r * 2), r, r, 'F');
+    return;
+  }
   doc.setDrawColor(c[0], c[1], c[2]);
   doc.setLineWidth(PANEL.borderBaseMm * pScale);
   doc.roundedRect(xLeft, yTop, width, Math.max(block.height, r * 2), r, r, 'FD');
@@ -307,6 +313,10 @@ const drawBlock = (
       doc.setDrawColor(c[0], c[1], c[2]);
       doc.setLineWidth(0.3 * pScale);
       doc.rect(xLeft, baseline - firstPt * MM_PER_PT * 0.72, boxSize, boxSize, 'S');
+    } else if (block.tick) {
+      // The same gesture in the other state: what the response already does.
+      const size = 2.9 * pScale;
+      drawIcon(doc, 'check', xLeft - 0.2 * pScale, baseline - firstPt * MM_PER_PT * 0.78, size, c);
     } else if (!block.diffMarker) {
       doc.setFillColor(c[0], c[1], c[2]);
       doc.rect(xLeft, baseline - firstPt * MM_PER_PT * 0.42, 1.3 * pScale, 1.3 * pScale, 'F');
@@ -450,8 +460,12 @@ const drawHeading = (
   let x = xLeft;
 
   if (block.icon) {
+    // Centred on the CAP HEIGHT of the heading, not on its line box. Uppercase
+    // type has no descenders and its optical centre sits well above the middle
+    // of the line, so a box-centred icon reads as sitting low beside it.
     const size = HEADING.iconBaseMm * pScale;
-    drawIcon(doc, block.icon, x, y + (rowH - size) / 2, size, accent);
+    const capHeight = pt * MM_PER_PT * 0.72;
+    drawIcon(doc, block.icon, x, baseline - capHeight / 2 - size / 2, size, accent);
     x += size + HEADING.iconGapBaseMm * pScale;
   }
   drawDisplayLine(doc, r.text, {
@@ -496,8 +510,9 @@ const drawQuestionCard = (
   const eyeBase = y + ascentMm(eyePt);
   let ex = x;
   if (block.icon) {
-    const size = eyePt * MM_PER_PT * 1.1;
-    drawIcon(doc, block.icon, ex, eyeBase - size * 0.84, size, accent);
+    const size = eyePt * MM_PER_PT * 1.15;
+    const capHeight = eyePt * MM_PER_PT * 0.72;
+    drawIcon(doc, block.icon, ex, eyeBase - capHeight / 2 - size / 2, size, accent);
     ex += size + 1.6 * pScale;
   }
   drawDisplayLine(doc, block.label ?? 'Question', {

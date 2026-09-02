@@ -4,17 +4,13 @@ import {
   flowBlocks,
   chooseScale,
   measureBlocks,
+  planLayout,
   splitOversized,
   columnLeft,
   fullContentWidth,
 } from '../../pdf/layout';
 import { ContentBlock, MeasuredBlock, TextMeasurer } from '../../pdf/types';
-import {
-  bandColor,
-  buildEvaluationBlocks,
-  COLORS,
-  EvaluationExportData,
-} from '../../pdf/buildBlocks';
+import { buildEvaluationBlocks, COLORS, EvaluationExportData } from '../../pdf/buildBlocks';
 
 const block = (height: number, kind: MeasuredBlock['kind'] = 'paragraph'): MeasuredBlock => ({
   kind,
@@ -105,6 +101,44 @@ describe('flowBlocks (column-major)', () => {
     expect(placements[0]).toMatchObject({ column: 0, top: 0 });
     expect(placements[1]).toMatchObject({ column: 1, top: 0 }); // the heading
     expect(placements[2]).toMatchObject({ column: 1 }); // its content follows
+  });
+
+  it('never breaks a bound pair across a column', () => {
+    // A diff pair is one thought in two blocks. Split across the boundary, the
+    // reader holds the first half in their head while their eye travels to the
+    // top of the next column — the one thing the pairing exists to spare them.
+    const before = { ...block(30), keepWithNext: true, id: 'minus' };
+    const after = { ...block(30), id: 'plus' };
+    const { placements } = flowBlocks([block(200), before, after], geo);
+    const minus = placements.find((p) => p.block.id === 'minus')!;
+    const plus = placements.find((p) => p.block.id === 'plus')!;
+
+    expect(plus.page).toBe(minus.page);
+    expect(plus.column).toBe(minus.column);
+    expect(plus.top).toBeCloseTo(minus.top + 30, 5);
+  });
+
+  it('moves a whole section rather than strand most of its items', () => {
+    // Four checkboxes under a heading, with room for the heading and one. The
+    // section fits a column of its own, so all five travel together — a heading
+    // with one item, and three orphans at the head of the next column above an
+    // unrelated card, reads as a rendering fault.
+    const heading = { ...block(10, 'heading'), id: 'h' };
+    const items = [1, 2, 3, 4].map((n) => ({ ...block(12), id: `i${n}` }));
+    const { placements } = flowBlocks([block(200), heading, ...items], geo);
+    const placed = placements.filter((p) => p.block.id === 'h' || p.block.id.startsWith('i'));
+
+    expect(new Set(placed.map((p) => `${p.page}/${p.column}`)).size).toBe(1);
+  });
+
+  it('splits a section that could never fit a column, rather than loop', () => {
+    // The rule is "move it if a fresh column would hold it". One that would not
+    // has to break somewhere, and here is as good as anywhere.
+    const heading = { ...block(10, 'heading'), id: 'h' };
+    const items = Array.from({ length: 30 }, (_, n) => ({ ...block(12), id: `i${n}` }));
+    const { placements } = flowBlocks([block(200), heading, ...items], geo);
+
+    expect(placements).toHaveLength(32);
   });
 
   it('does not gratuitously break a heading from its content', () => {
@@ -357,16 +391,38 @@ describe('chooseScale', () => {
     expect(choice.fitsTarget).toBe(true);
   });
 
-  it('falls back to the smallest scale when nothing fits, flagging overflow', () => {
+  it('flags overflow, and keeps the largest scale when shrinking saves nothing', () => {
+    // Every scale needs the same number of pages here, so there is nothing to
+    // buy by shrinking — and a smaller type size that saves no paper is a
+    // straight loss.
     const huge: ContentBlock[] = Array.from({ length: 60 }, (_, i) => ({
       kind: 'paragraph' as const,
       id: `p${i}`,
       runs: [{ text: 'x'.repeat(4000), baseFontPt: 12 }],
     }));
     const choice = chooseScale(huge, fakeMeasurer(), geoFor, [1, 0.9, 0.8], 2);
-    expect(choice.pScale).toBe(0.8);
+    expect(choice.pScale).toBe(1);
     expect(choice.fitsTarget).toBe(false);
     expect(choice.pageCount).toBeGreaterThan(2);
+  });
+
+  it('shrinks to save a page rather than print a nearly empty one', () => {
+    // It used to take the largest scale that merely fit the page BUDGET, so a
+    // report needing 1.05 pages printed as two — a full sheet and a second one
+    // at 5% ink. A couple of points of type is the right price for that sheet.
+    const measurer = fakeMeasurer();
+    // Wraps into many lines, so a smaller scale genuinely fits more per column.
+    const long: ContentBlock[] = Array.from({ length: 40 }, (_, i) => ({
+      kind: 'paragraph' as const,
+      id: `p${i}`,
+      runs: [{ text: Array.from({ length: 120 }, (_, w) => `word${w}`).join(' '), baseFontPt: 12 }],
+    }));
+
+    const atFullSize = planLayout(long, measurer, geoFor(1), 1).flow.pageCount;
+    const choice = chooseScale(long, measurer, geoFor, [1, 0.9, 0.8], 99);
+
+    expect(choice.pageCount).toBeLessThan(atFullSize);
+    expect(choice.pScale).toBeLessThan(1);
   });
 });
 
@@ -522,10 +578,10 @@ describe('the improved response prints what changed', () => {
     const cut = blocks.filter((b) => b.diffMarker === '\u2212');
     expect(added.length).toBeGreaterThan(0);
     expect(cut.every((b) => b.runs.every((r) => r.color === COLORS.rose))).toBe(true);
-    // Added words are attainment, so they take the exemplar's band colour.
-    expect(added.every((b) => b.runs.every((r) => r.color?.join() === bandColor(5).join()))).toBe(
-      true
-    );
+    // Green for what came, red for what went — the convention a reader arrives
+    // with. Additions used to take the exemplar's band colour, which made them
+    // amber on one report and purple on another.
+    expect(added.every((b) => b.runs.every((r) => r.color === COLORS.added))).toBe(true);
   });
 
   it('summarises the scale of the revision without grading the student on it', () => {

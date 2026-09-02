@@ -101,6 +101,29 @@ const layoutWidth = (block: ContentBlock, geo: ColumnGeometry): number =>
 const runLineHeight = (m: TextMeasurer, run: TextRun, pScale: number): number =>
   m.lineHeight(run.baseFontPt * pScale, run.lineHeightFactor ?? 1.15);
 
+/** A line that is nothing but closing punctuation. */
+const isOrphanPunctuation = (line: string): boolean => /^[).,;:!?"'\]\u2019\u201d\s]+$/.test(line);
+
+/**
+ * Pull a stranded closing mark back onto the line before it.
+ *
+ * A wrap that lands a lone "." (or ")." or ".") on its own line reads as a
+ * typo — a hard return the marker never typed — and it is the wrap's doing, not
+ * the text's. Rejoining costs the previous line a couple of characters of
+ * overhang, which is invisible; the orphan is not.
+ */
+const healOrphanPunctuation = (lines: string[]): string[] => {
+  if (lines.length < 2) return lines;
+  const out = lines.slice();
+  for (let i = out.length - 1; i > 0; i--) {
+    if (isOrphanPunctuation(out[i])) {
+      out[i - 1] = `${out[i - 1].replace(/\s+$/, '')}${out[i].trim()}`;
+      out.splice(i, 1);
+    }
+  }
+  return out;
+};
+
 /**
  * Height (mm) of the extras a block can carry — the proportion meter, the band
  * ladder, the ruled notes. Exported because the drawer needs the identical
@@ -304,11 +327,8 @@ export const measureBlock = (
       body += richLines.length * runLineHeight(measurer, run, pScale);
       continue;
     }
-    const lines = measurer.wrap(
-      run.text,
-      columnWidth - textIndentMm,
-      fontPt,
-      run.style ?? 'normal'
+    const lines = healOrphanPunctuation(
+      measurer.wrap(run.text, columnWidth - textIndentMm, fontPt, run.style ?? 'normal')
     );
     wrappedRich.push(null);
     wrapped.push(lines);
@@ -618,6 +638,9 @@ export const splitToFit = (
   available: number
 ): [MeasuredBlock, MeasuredBlock] | null => {
   if (!b.breakable || b.lineHeightMm <= 0 || b.runs.length !== 1) return null;
+  // Splitting the first half of a bound pair would put the break inside the
+  // pair by another route.
+  if (b.keepWithNext) return null;
   if (available <= 0) return null;
   if (b.kind === 'paragraph' || b.kind === 'listItem') return splitParagraphAt(b, available);
   if (b.kind === 'criterion') return splitCriterionAt(b, available);
@@ -645,12 +668,18 @@ export interface FlowResult {
 const requiredHeight = (blocks: MeasuredBlock[], i: number): number => {
   const block = blocks[i];
   let required = block.height;
+  const next = blocks[i + 1];
   if (block.kind === 'heading') {
-    const next = blocks[i + 1];
     // A breakable body only has to bring its minimum head along; demanding the
     // whole paragraph sends the heading to the next column over prose that
     // would have split happily beneath it.
     if (next && next.kind !== 'spacer') required += minimumHeight(next);
+  } else if (block.keepWithNext && next) {
+    // A bound pair travels whole — the sentence a student wrote and the
+    // sentence it became are one thought, and a column boundary between them
+    // makes the reader hold the first half in their head while their eye
+    // travels. Its partner may still split internally once it lands.
+    required += minimumHeight(next);
   }
   return required;
 };
@@ -660,6 +689,24 @@ const minimumHeight = (b: MeasuredBlock): number =>
   b.breakable && b.runs.length === 1 && (b.kind === 'paragraph' || b.kind === 'criterion')
     ? Math.min(b.height, b.padTopMm + MIN_HEAD_LINES * b.lineHeightMm + (b.labelExtraMm ?? 0))
     : b.height;
+
+/**
+ * The height of a heading and everything it introduces, up to the next heading.
+ *
+ * A section is a unit to a reader even though it is many blocks to the engine.
+ * Next Steps printing its heading and one tick box at the foot of a column,
+ * with the other three arriving at the head of the next one above an unrelated
+ * card, is correct column-major flow and reads as a rendering fault: three
+ * orphaned checkboxes under nothing.
+ */
+const sectionHeight = (blocks: MeasuredBlock[], start: number): number => {
+  let total = 0;
+  for (let i = start; i < blocks.length; i++) {
+    if (i > start && (blocks[i].kind === 'heading' || blocks[i].kind === 'divider')) break;
+    total += blocks[i].height;
+  }
+  return total;
+};
 
 /**
  * Flow a run of non-`fullWidth` blocks column-major, confined to the region that
@@ -700,6 +747,16 @@ const flowColumnBand = (
 
   for (let i = 0; i < blocks.length; i++) {
     let block = blocks[i];
+
+    // Move a whole SECTION rather than tear one in half, but only when the
+    // section would fit a column of its own — otherwise it has to break
+    // somewhere and breaking it here is as good as anywhere.
+    if (block.kind === 'heading' && cursor > colTop(page)) {
+      const section = sectionHeight(blocks, i);
+      const fitsAColumn = section <= geo.columnHeight - colTop(page) + 1e-6;
+      if (fitsAColumn && cursor + section > geo.columnHeight + 1e-6) advanceColumn();
+    }
+
     // A block can be split at the boundary and continue in the next column, so
     // one input block may need several placements.
     for (;;) {
@@ -837,8 +894,11 @@ const balanceLastColumn = (placements: PlacedBlock[], geo: ColumnGeometry, page:
   let head = 0;
   for (let k = 0; k < column.length - 1; k++) {
     head += heights[k];
-    // Never strand a heading at the foot of a column without its body.
-    if (column[k].block.kind === 'heading') continue;
+    // Never strand a heading at the foot of a column without its body, and
+    // never break a bound pair — the balancer used to move the second half of a
+    // diff pair into the next column, which is precisely the split the binding
+    // exists to prevent.
+    if (column[k].block.kind === 'heading' || column[k].block.keepWithNext) continue;
     // A spacer at the head of the new column would print as a gap.
     if (column[k + 1].block.kind === 'spacer') continue;
     const tail = total - head;
@@ -948,15 +1008,28 @@ export const chooseScale = (
   scales: number[],
   maxPages: number
 ): ScaleChoice => {
-  let smallest: ScaleChoice | null = null;
+  const tried: ScaleChoice[] = [];
+  let fewest = Number.POSITIVE_INFINITY;
   for (const pScale of scales) {
     const geo = geoFor(pScale);
     const { pageCount } = planLayout(blocks, measurer, geo, pScale).flow;
-    const choice: ScaleChoice = { pScale, pageCount, fitsTarget: pageCount <= maxPages };
-    if (choice.fitsTarget) return choice;
-    smallest = choice; // keep last (smallest, since descending)
+    tried.push({ pScale, pageCount, fitsTarget: pageCount <= maxPages });
+    fewest = Math.min(fewest, pageCount);
+    // Nothing below this can do better than one page, so stop paying for it.
+    if (pageCount <= 1) break;
   }
-  return smallest ?? { pScale: scales[scales.length - 1] ?? 1, pageCount: 1, fitsTarget: false };
+  if (!tried.length) {
+    return { pScale: scales[scales.length - 1] ?? 1, pageCount: 1, fitsTarget: false };
+  }
+
+  // Fewest pages first, then the largest scale that reaches that count.
+  //
+  // It used to take the largest scale that merely fit the page budget, which
+  // meant a report needing 1.05 pages printed as two — a full sheet at 40% ink
+  // and a second one nobody wanted. A report that can be a page shorter should
+  // be, and a couple of points of type is the right price for it.
+  const best = tried.filter((c) => c.pageCount === fewest);
+  return best[0];
 };
 
 /** Convenience: mm height of `n` lines at `fontPt`/leading (engine-independent). */

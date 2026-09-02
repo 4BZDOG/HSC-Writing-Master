@@ -488,9 +488,13 @@ export interface FooterOptions extends TextStyleCtx {
  * drawn on the current page, with an optional centred disclaimer above them.
  */
 export const drawFooter = (doc: JsPdfLike, opts: FooterOptions): void => {
-  const fontPt = 6.5 * opts.pScale;
+  // 7.5pt in a mid-grey, not 6.5pt in #9CA3AF. The disclaimer is the line that
+  // says this is practice feedback and not a NESA result — the one line on the
+  // page that must survive a photocopier and a low-brightness screen — and at
+  // its old weight it cleared about 2.3:1 against white, well under WCAG AA.
+  const fontPt = 7.5 * opts.pScale;
   const y = opts.pageHeight - opts.margin + 4 * opts.pScale;
-  const color: [number, number, number] = [156, 163, 175];
+  const color: [number, number, number] = [107, 114, 128]; // #6B7280, 4.8:1 on white
 
   if (opts.disclaimer) {
     drawText(doc, opts.disclaimer, {
@@ -498,8 +502,8 @@ export const drawFooter = (doc: JsPdfLike, opts: FooterOptions): void => {
       x: opts.pageWidth / 2,
       // Above the page-number line so it never collides with it on a narrow
       // page, and still inside the reserved footer band.
-      y: y - 3.2 * opts.pScale,
-      fontPt: 6 * opts.pScale,
+      y: y - 3.6 * opts.pScale,
+      fontPt: 7 * opts.pScale,
       style: 'normal',
       color,
       align: 'center',
@@ -542,7 +546,10 @@ export interface WatermarkOptions extends TextStyleCtx {
 
 /** Draw a centred low-opacity watermark, then restore full opacity. */
 export const drawWatermark = (doc: JsPdfLike, opts: WatermarkOptions): void => {
-  const opacity = opts.opacity ?? 0.06;
+  // 0.04, not 0.06: the mark sits behind the student's own response and the
+  // rewrite, the two blocks of the document that are read closely, and at the
+  // old value it was legible enough to compete with them.
+  const opacity = opts.opacity ?? 0.04;
   try {
     doc.setGState(new doc.GState({ opacity }));
     doc.setFont(opts.family, resolveFontStyle(opts.family, 'bold', opts.customFontAvailable));
