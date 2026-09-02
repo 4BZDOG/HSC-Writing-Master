@@ -1,5 +1,57 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-02 (Band calibration on short questions, and export polish)
+
+### 🎯 A short question's band is a proportion now, not a countdown
+
+`getBandForMark` gave full marks the verb's ceiling band and took one band off
+for each mark dropped. On a question with enough marks to spread across the
+range that is right. On a short one it is not: a 4-mark tier-6 question scoring
+1 came out at **Band 3 "Developing"** — a quarter of the marks, described as
+work no standards-based reading puts above Band 2.
+
+At or below `PROPORTIONAL_MARK_CEILING` (4 marks) the band now follows the
+fraction of marks earned. Above it the original ladder stands, so nothing
+changes for the 5-, 6- and 8-mark questions that make up most of the bank.
+
+| 4-mark, tier 6 | was    | now        |
+| -------------- | ------ | ---------- |
+| 1/4            | Band 3 | **Band 2** |
+| 2/4            | Band 4 | **Band 3** |
+| 3/4            | Band 5 | **Band 5** |
+| 4/4            | Band 6 | Band 6     |
+
+Full marks still reach the verb's ceiling under both rules. This moves the band
+shown against existing evaluations of short questions, and the exemplar targets
+derived from them.
+
+### 🔤 A term written out in full now matches the acronym a student writes
+
+A keyword curated as "multi-factor authentication" never matched "MFA" in a
+response, so a report whose commentary praised the student's use of MFA could
+show **2 of 7 key terms**. `getKeywordVariants` now derives the initialism of a
+multi-word term. Three letters minimum, stop words dropped, and never an
+ordinary English word — "intelligent systems" must not derive "IS", and
+"customer analysis needs" must not credit every "can" in the response.
+
+### 🎨 Export polish
+
+**Syllabus terms are teal, not emerald.** Adopting the green/red diff convention
+put two greens on the page meaning different things — "this is a syllabus term"
+and "the rewrite added this". The terms move to the neighbouring hue; the diff
+keeps the green.
+
+**A legend under "What Changed"** says what − and + mean, once, for the reader
+who does not arrive with the convention and for anyone holding a greyscale
+photocopy.
+
+**The footer is #4B5563.** It was #6B7280, which clears WCAG AA on a screen;
+this is a print-first document and toner lays down lighter than the same grey
+on a display.
+
+**The evidence ticks** centre on the cap height of the line beside them rather
+than hanging off its baseline.
+
 ## [Unreleased] - 2026-09-02 (Formatting review follow-ups)
 
 ### 📐 Structural and accessibility fixes to the exported report

@@ -494,7 +494,10 @@ export const drawFooter = (doc: JsPdfLike, opts: FooterOptions): void => {
   // its old weight it cleared about 2.3:1 against white, well under WCAG AA.
   const fontPt = 7.5 * opts.pScale;
   const y = opts.pageHeight - opts.margin + 4 * opts.pScale;
-  const color: [number, number, number] = [107, 114, 128]; // #6B7280, 4.8:1 on white
+  // #4B5563 rather than #6B7280: this is a print-first document, and toner on
+  // a school laser printer lays down lighter than the same grey on a screen.
+  // 7.6:1 on white leaves headroom for that.
+  const color: [number, number, number] = [75, 85, 99]; // #4B5563
 
   if (opts.disclaimer) {
     drawText(doc, opts.disclaimer, {

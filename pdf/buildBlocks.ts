@@ -67,14 +67,17 @@ export const COLORS = {
   /**
    * Syllabus terms and the command verb, in print.
    *
-   * These are the light-theme colours the app already highlights with —
-   * `KEYWORD_HIGHLIGHT_CLASS`'s emerald-800 and the accent — rather than the
-   * dark-theme ones, because paper is white. The screen's tinted background
-   * behind a keyword has no print equivalent worth having (a wash of green
-   * behind every third word is unreadable on a school laser printer), so the
-   * ink carries it alone.
+   * Teal rather than the screen's emerald. On screen a keyword sits on a
+   * tinted background and nothing else is green; on paper the wash has no
+   * equivalent worth having (a green haze behind every third word is
+   * unreadable on a school laser printer) and the diff below it is already
+   * using green for "the rewrite added this". Two greens a page apart, meaning
+   * different things, is the collision this palette exists to prevent — so the
+   * syllabus terms move to the neighbouring hue and keep the green for the diff.
+   *
+   * The verb stays the app's accent indigo.
    */
-  keyword: [6, 95, 70] as [number, number, number], // emerald-800
+  keyword: [15, 118, 110] as [number, number, number], // teal-700
   verb: [67, 56, 202] as [number, number, number], // indigo-700
 };
 
@@ -489,6 +492,20 @@ export const buildEvaluationBlocks = (
         // The rule the user reads as "the rewrite ends here".
         blocks.push({ ...divider(COLORS.rule), fullWidth: true });
         blocks.push(heading('What Changed', 'swap'));
+        // What the two markers mean, once, where the rows begin. The colours
+        // say it to a reader who knows the convention; this says it to the one
+        // who does not, and to anyone holding a greyscale photocopy.
+        blocks.push({
+          kind: 'paragraph',
+          id: nid('difflegend'),
+          runs: [
+            run('\u2212  what you wrote          +  what it became', 7.5, {
+              style: 'bold',
+              color: COLORS.muted,
+            }),
+          ],
+          basePadBottom: 1.6,
+        });
         const { rewritten, total } = rewrittenSentenceCount(data.studentAnswer, changes);
         const summary = changes.length
           ? `${rewritten} of your ${total} sentence${total === 1 ? '' : 's'} rewritten` +

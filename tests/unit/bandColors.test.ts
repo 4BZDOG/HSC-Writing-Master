@@ -63,7 +63,7 @@ describe('getTierTargetBand', () => {
 });
 
 describe('band model consistency', () => {
-  it('each tier\'s maxBand equals its tier number', () => {
+  it("each tier's maxBand equals its tier number", () => {
     for (const group of TIER_GROUPS) {
       expect(group.maxBand).toBe(group.tier);
       expect(getTierTargetBand(group.tier)).toBe(group.tier);
@@ -82,10 +82,10 @@ describe('band model consistency', () => {
 
   it('resolves a verb to its tier-identity band ceiling', () => {
     expect(getVerbBandCeiling('DESCRIBE')).toBe(2); // Tier 2
-    expect(getVerbBandCeiling('ANALYSE')).toBe(4);  // Tier 4
+    expect(getVerbBandCeiling('ANALYSE')).toBe(4); // Tier 4
     expect(getVerbBandCeiling('EVALUATE')).toBe(6); // Tier 6
     expect(getVerbBandCeiling('IDENTIFY')).toBe(1); // Tier 1
-    expect(getVerbBandCeiling('EXPLAIN')).toBe(3);  // Tier 3
+    expect(getVerbBandCeiling('EXPLAIN')).toBe(3); // Tier 3
   });
 });
 
@@ -128,7 +128,7 @@ describe('band tints are visible in BOTH themes', () => {
  * band a tidy-up is likely to "correct" back into line with its neighbours, and
  * the numbers below are the argument against doing so.
  */
-describe('band 3\'s solid pairing', () => {
+describe("band 3's solid pairing", () => {
   it('uses text-yellow-950, because -900 fails AA on the light fill', () => {
     const band3 = getBandConfig(3);
 
@@ -161,7 +161,7 @@ describe('band 3\'s solid pairing', () => {
 });
 
 describe('getTierBandConfig', () => {
-  it('returns the colour config of the tier\'s target band', () => {
+  it("returns the colour config of the tier's target band", () => {
     // Every tier's config matches its target band's config.
     for (let tier = 1; tier <= 6; tier++) {
       expect(getTierBandConfig(tier)).toEqual(getBandConfig(getTierTargetBand(tier)));
@@ -186,11 +186,39 @@ describe('NESA-aligned band mapping (tier is the only cap)', () => {
     expect(getTargetBand(5, 3)).toBe(3);
   });
 
-  it('maps a 3-mark Tier-6 question to the NESA spread', () => {
-    expect(getBandForMark(0, 3, 6)).toBe(1);
-    expect(getBandForMark(1, 3, 6)).toBe(4);
-    expect(getBandForMark(2, 3, 6)).toBe(5);
+  it('scales a short question by proportion, not by marks dropped', () => {
+    // At or below PROPORTIONAL_MARK_CEILING the band follows the FRACTION of
+    // marks earned. The old rule (ceiling minus marks dropped) compressed a
+    // short question into the top bands, so a quarter of the marks on a 4-mark
+    // question came out at Band 3 "Developing" — work no standards-based
+    // reading puts above Band 2.
+    expect(getBandForMark(0, 4, 6)).toBe(1);
+    expect(getBandForMark(1, 4, 6)).toBe(2);
+    expect(getBandForMark(2, 4, 6)).toBe(3);
+    expect(getBandForMark(3, 4, 6)).toBe(5);
+    expect(getBandForMark(4, 4, 6)).toBe(6);
+
+    expect(getBandForMark(1, 3, 6)).toBe(2);
+    expect(getBandForMark(2, 3, 6)).toBe(4);
     expect(getBandForMark(3, 3, 6)).toBe(6);
+  });
+
+  it('keeps the marks-dropped ladder once a question is long enough to spread', () => {
+    // Above the ceiling the original rule stands: full marks at the verb's
+    // ceiling, one band for each mark dropped.
+    expect(Array.from({ length: 5 }, (_, i) => getBandForMark(i + 1, 5, 6))).toEqual([
+      2, 3, 4, 5, 6,
+    ]);
+    expect(Array.from({ length: 6 }, (_, i) => getBandForMark(i + 1, 6, 6))).toEqual([
+      1, 2, 3, 4, 5, 6,
+    ]);
+  });
+
+  it('still reaches the tier ceiling on full marks under either rule', () => {
+    expect(getBandForMark(2, 2, 6)).toBe(6);
+    expect(getBandForMark(4, 4, 6)).toBe(6);
+    expect(getBandForMark(6, 6, 6)).toBe(6);
+    expect(getBandForMark(2, 2, 3)).toBe(3);
   });
 });
 
