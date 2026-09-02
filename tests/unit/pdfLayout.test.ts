@@ -103,6 +103,40 @@ describe('flowBlocks (column-major)', () => {
     expect(placements[2]).toMatchObject({ column: 1 }); // its content follows
   });
 
+  it('evens two ragged columns, not just an empty one', () => {
+    // A band whose columns end at very different depths wastes the space under
+    // the shallower one, because the full-width band after it has to start
+    // below the deeper. The balancer used to act only when column two was
+    // entirely empty.
+    // Eight equal blocks: unbalanced they all sit in column one, 200mm deep
+    // against an empty column two. There is an exact even split available.
+    const blocks = Array.from({ length: 8 }, () => block(25));
+    const { placements, deepestPerPage } = flowBlocks(blocks, geo);
+    const depth = (column: number) =>
+      placements
+        .filter((p) => p.column === column)
+        .reduce((deepest, p) => Math.max(deepest, p.top + p.block.height), 0);
+
+    expect(depth(0)).toBeCloseTo(100, 5);
+    expect(depth(1)).toBeCloseTo(100, 5);
+    expect(deepestPerPage[0]).toBeCloseTo(100, 5);
+  });
+
+  it('keeps a page depth recorded when a later band lands nothing on it', () => {
+    // The recomputation after balancing used to REPLACE the page's depth with a
+    // reduce seeded at 0. A band that ends on a page it put nothing on reduced
+    // to that 0, wiped every earlier band's extent, and the next band printed
+    // straight over content that was already there.
+    const spanning = { ...block(40), fullWidth: true, id: 'span' };
+    const { placements } = flowBlocks([block(60), block(60), spanning], geo);
+    const columnFeet = placements
+      .filter((p) => !p.block.fullWidth)
+      .reduce((deepest, p) => Math.max(deepest, p.top + p.block.height), 0);
+    const span = placements.find((p) => p.block.id === 'span')!;
+
+    expect(span.top).toBeGreaterThanOrEqual(columnFeet - 1e-6);
+  });
+
   it('never breaks a bound pair across a column', () => {
     // A diff pair is one thought in two blocks. Split across the boundary, the
     // reader holds the first half in their head while their eye travels to the

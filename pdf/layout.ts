@@ -867,57 +867,63 @@ const flowSpanBand = (
 /**
  * Even out the last page of a two-column band.
  *
- * A band that runs out of content part-way down its first column leaves the
- * second column empty — and it stays empty, because the full-width band that
- * follows has to start below the deepest point on the page. That is a whole
- * column of paper lost to nothing, and on a short report it was the entire
- * right-hand side of the only page.
+ * A band that runs out of content part-way down leaves the page ragged: in the
+ * worst case the second column is empty, and in the ordinary case the two end
+ * at very different depths. Either way the space below the shallower column is
+ * lost, because the full-width band that follows has to start below the DEEPER
+ * one. On a short report that was the entire right-hand side of the only page.
  *
- * Reading order is column-major, so moving a run of blocks from the foot of
- * column one to the head of column two preserves it exactly. The split is
- * chosen to make the two columns as near equal as possible, and never falls
- * between a heading and the block it introduces.
+ * Reading order is column-major, so the page's blocks are one sequence and the
+ * only question is where to cut it. The cut is chosen to make the two columns
+ * as near equal as possible, and never falls between a heading and the block it
+ * introduces, or between the halves of a bound pair.
  */
 const balanceLastColumn = (placements: PlacedBlock[], geo: ColumnGeometry, page: number): void => {
   if (geo.columnsPerPage < 2) return;
   const onPage = placements.filter((p) => p.page === page);
-  if (!onPage.length || onPage.some((p) => p.column !== 0)) return;
-  const column = onPage.sort((a, b) => a.top - b.top);
-  if (column.length < 3) return;
+  if (onPage.length < 3) return;
 
-  const startY = column[0].top;
-  const heights = column.map((p) => p.block.height);
+  // Column-major reading order: everything in column one, then column two.
+  const ordered = onPage.sort((a, b) => a.column - b.column || a.top - b.top);
+  const startY = Math.min(...ordered.map((p) => p.top));
+  const heights = ordered.map((p) => p.block.height);
   const total = heights.reduce((sum, h) => sum + h, 0);
+  const depthOf = (from: number, to: number) =>
+    heights.slice(from, to).reduce((sum, h) => sum + h, 0);
+
+  // How ragged the page is now — the gap between the two columns' feet.
+  const firstInColumnTwo = ordered.findIndex((p) => p.column === 1);
+  const currentSplit = firstInColumnTwo < 0 ? ordered.length : firstInColumnTwo;
+  const currentScore = Math.abs(depthOf(0, currentSplit) - depthOf(currentSplit, ordered.length));
 
   let best = -1;
-  let bestScore = Infinity;
-  let head = 0;
-  for (let k = 0; k < column.length - 1; k++) {
-    head += heights[k];
+  let bestScore = currentScore;
+  for (let k = 0; k < ordered.length - 1; k++) {
     // Never strand a heading at the foot of a column without its body, and
     // never break a bound pair — the balancer used to move the second half of a
     // diff pair into the next column, which is precisely the split the binding
     // exists to prevent.
-    if (column[k].block.kind === 'heading' || column[k].block.keepWithNext) continue;
+    if (ordered[k].block.kind === 'heading' || ordered[k].block.keepWithNext) continue;
     // A spacer at the head of the new column would print as a gap.
-    if (column[k + 1].block.kind === 'spacer') continue;
+    if (ordered[k + 1].block.kind === 'spacer') continue;
+    const head = depthOf(0, k + 1);
     const tail = total - head;
-    if (startY + tail > geo.columnHeight) continue;
+    if (startY + head > geo.columnHeight || startY + tail > geo.columnHeight) continue;
     const score = Math.abs(head - tail);
     if (score < bestScore) {
       bestScore = score;
       best = k;
     }
   }
-  // Only worth doing when it actually evens things out.
-  if (best < 0 || bestScore >= total) return;
+  if (best < 0) return;
 
   let cursor = startY;
-  for (let i = best + 1; i < column.length; i++) {
-    column[i].column = 1;
-    column[i].top = cursor;
-    cursor += column[i].block.height;
-  }
+  ordered.forEach((placement, index) => {
+    if (index === best + 1) cursor = startY;
+    placement.column = index <= best ? 0 : 1;
+    placement.top = cursor;
+    cursor += placement.block.height;
+  });
 };
 
 /**
@@ -947,17 +953,29 @@ export const flowBlocks = (
     while (j < blocks.length && !!blocks[j].fullWidth === spanning) j += 1;
     const band = blocks.slice(i, j);
     const before = placements.length;
+    // What the pages were carrying before this band touched them.
+    const priorDepths = deepestPerPage.slice();
     const res = spanning
       ? flowSpanBand(band, geo, page, y, placements, deepestPerPage, pScale)
       : flowColumnBand(band, geo, page, y, placements, deepestPerPage, pScale);
     if (!spanning) {
       balanceLastColumn(placements.slice(before), geo, res.endPage);
-      // Balancing moves blocks between columns, so the page's deepest extent —
-      // which is where the next band starts — has to be measured again.
-      deepestPerPage[res.endPage] = placements
-        .slice(before)
-        .filter((p) => p.page === res.endPage)
-        .reduce((deepest, p) => Math.max(deepest, p.top + p.block.height), 0);
+      // Balancing moves blocks between columns, so this band's extent has to be
+      // measured again — over ITS OWN placements, and floored by whatever
+      // earlier bands had already put on the same page.
+      //
+      // Getting this wrong is how content lands on top of content. Recomputing
+      // from the band alone, seeded at zero, wiped earlier bands off a page the
+      // band ended on but placed nothing on. Taking the maximum with the value
+      // already recorded kept the band's own PRE-balance depth instead, so the
+      // evening-out bought the next band nothing.
+      const bandPlacements = placements.slice(before);
+      for (const touched of new Set(bandPlacements.map((p) => p.page))) {
+        const bandDepth = bandPlacements
+          .filter((p) => p.page === touched)
+          .reduce((deepest, p) => Math.max(deepest, p.top + p.block.height), 0);
+        deepestPerPage[touched] = Math.max(priorDepths[touched] ?? 0, bandDepth);
+      }
     }
     page = res.endPage;
     y = deepestPerPage[res.endPage] ?? res.endY;
