@@ -43,3 +43,6 @@ dist-test
 
 # Supabase export output — review, then move desired files into courseData/
 courseData/exported/
+
+# PDF sample renders (npm run samples:pdf)
+.pdf-samples
