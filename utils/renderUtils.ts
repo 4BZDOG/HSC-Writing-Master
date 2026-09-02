@@ -121,6 +121,94 @@ const hyphenSwaps = (t: string): string[] => {
   return Array.from(out);
 };
 
+/**
+ * Words that carry no letter into an initialism. "Cost of goods sold" is CGS to
+ * everyone who writes it down.
+ */
+const INITIALISM_STOP_WORDS = new Set(['of', 'the', 'a', 'an', 'and', 'or', 'for', 'to', 'in']);
+
+/**
+ * Three-letter strings that are ordinary English words far more often than they
+ * are anybody's initialism.
+ *
+ * Without this, a syllabus term like "customer analysis needs" would derive
+ * "CAN" and light up — and credit the student for — every "can" in their
+ * response. The list is short on purpose: it only has to cover initialisms a
+ * three-word syllabus term could plausibly produce.
+ */
+const INITIALISM_DENYLIST = new Set([
+  'all',
+  'and',
+  'any',
+  'are',
+  'but',
+  'can',
+  'did',
+  'end',
+  'far',
+  'few',
+  'for',
+  'get',
+  'got',
+  'had',
+  'has',
+  'her',
+  'him',
+  'his',
+  'how',
+  'its',
+  'key',
+  'let',
+  'low',
+  'new',
+  'not',
+  'now',
+  'old',
+  'one',
+  'out',
+  'own',
+  'put',
+  'run',
+  'say',
+  'see',
+  'set',
+  'she',
+  'the',
+  'top',
+  'two',
+  'use',
+  'was',
+  'way',
+  'who',
+  'why',
+  'you',
+]);
+
+/**
+ * The initialism of a multi-word term — "multi-factor authentication" -> "MFA".
+ *
+ * A curator who writes the term out in full gets no credit for the student who
+ * writes the acronym, which is the form the acronym exists for. That produced
+ * the paradox where a response the marker praised for "using MFA" scored two of
+ * seven key terms.
+ *
+ * Only three letters or more, and never an ordinary English word: a two-letter
+ * initialism ("intelligent systems" -> "IS") would match half the response.
+ */
+export const initialismOf = (keyword: string): string | null => {
+  const parts = keyword
+    .replace(/\(.*?\)/g, ' ')
+    .split(/[\s\-\u2011-\u2015/]+/)
+    .map((w) => w.replace(/[^\p{L}\p{N}]/gu, ''))
+    .filter((w) => w && !INITIALISM_STOP_WORDS.has(w.toLowerCase()));
+  if (parts.length < 2) return null;
+
+  const letters = parts.map((w) => w[0]).join('');
+  if (letters.length < 3) return null;
+  if (INITIALISM_DENYLIST.has(letters.toLowerCase())) return null;
+  return letters.toUpperCase();
+};
+
 export const getKeywordVariants = (keyword: string): string[] => {
   if (typeof keyword !== 'string') return [];
   const trimmed = keyword.trim();
@@ -203,6 +291,10 @@ export const getKeywordVariants = (keyword: string): string[] => {
     variants.add(b);
     addInflections(b);
   });
+
+  // The initialism a student is far more likely to write than the full term.
+  const initialism = initialismOf(trimmed);
+  if (initialism) variants.add(initialism);
 
   // Backstop: a one- or two-letter DERIVED variant is never a real term, and
   // matching one against a whole response is how a stray "do" or "re" ends up

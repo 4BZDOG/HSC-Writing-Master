@@ -315,8 +315,11 @@ const drawBlock = (
       doc.rect(xLeft, baseline - firstPt * MM_PER_PT * 0.72, boxSize, boxSize, 'S');
     } else if (block.tick) {
       // The same gesture in the other state: what the response already does.
+      // Centred on the cap height of the line beside it, not hung off its
+      // baseline — a tick sized to the text sits low when it is baseline-hung.
       const size = 2.9 * pScale;
-      drawIcon(doc, 'check', xLeft - 0.2 * pScale, baseline - firstPt * MM_PER_PT * 0.78, size, c);
+      const capHeight = firstPt * MM_PER_PT * 0.72;
+      drawIcon(doc, 'check', xLeft - 0.2 * pScale, baseline - capHeight / 2 - size / 2, size, c);
     } else if (!block.diffMarker) {
       doc.setFillColor(c[0], c[1], c[2]);
       doc.rect(xLeft, baseline - firstPt * MM_PER_PT * 0.42, 1.3 * pScale, 1.3 * pScale, 'F');

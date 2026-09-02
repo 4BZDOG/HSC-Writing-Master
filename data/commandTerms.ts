@@ -920,12 +920,28 @@ export const getCommandTermsForMarks = (
 };
 
 /**
+ * At or below this many marks, the band is a PROPORTION of the marks earned
+ * rather than a count of marks dropped.
+ *
+ * The offset rule below — full marks at the verb's ceiling, one band lost per
+ * mark — is right where a question has enough marks to spread across the range.
+ * On a short question it is not: it compresses everything into the top bands,
+ * so a 4-mark question scoring 1 came out at Band 3 "Developing" when a quarter
+ * of the marks is Band 1-2 work by any standards-based reading. Four is the
+ * line because a 4-mark question spanning six bands is where the compression
+ * starts to misdescribe the response.
+ */
+export const PROPORTIONAL_MARK_CEILING = 4;
+
+/**
  * Calculates the Performance Band (1-6) based on the mark achieved,
  * constrained only by the verb's cognitive tier (tier N → max Band N).
  *
  * NESA's own band descriptors map full marks to the verb's ceiling band
  * regardless of mark count (3/3 on an Evaluate = Band 6), so the verb tier
- * is the sole cap — there is no secondary marks-based limit.
+ * is the sole cap — there is no secondary marks-based limit. Full marks reach
+ * the ceiling under both rules below; what differs is how fast a response falls
+ * away from it.
  *
  * @param mark The mark achieved or target mark.
  * @param totalMarks The total marks available for the question.
@@ -937,13 +953,14 @@ export const getBandForMark = (mark: number, totalMarks: number, tier: number = 
 
   const tierGroup = TIER_GROUPS.find((g) => g.tier === tier);
   const maxBand = tierGroup ? tierGroup.maxBand : Math.max(1, Math.min(6, tier));
+  const clampedMark = Math.min(mark, totalMarks);
 
-  if (totalMarks <= maxBand) {
-    const clampedMark = Math.min(mark, totalMarks);
+  // A short question's marks are a proportion of the whole, not a ladder of
+  // bands: on a 4-mark question, 1 mark is Band 2 work, not Band 3.
+  if (totalMarks > PROPORTIONAL_MARK_CEILING && totalMarks <= maxBand) {
     return maxBand - totalMarks + clampedMark;
   }
 
-  const clampedMark = Math.min(mark, totalMarks);
   return Math.min(maxBand, Math.max(1, Math.ceil((clampedMark / totalMarks) * maxBand)));
 };
 
