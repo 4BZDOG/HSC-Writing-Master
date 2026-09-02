@@ -9,7 +9,12 @@ import {
   fullContentWidth,
 } from '../../pdf/layout';
 import { ContentBlock, MeasuredBlock, TextMeasurer } from '../../pdf/types';
-import { buildEvaluationBlocks, COLORS, EvaluationExportData } from '../../pdf/buildBlocks';
+import {
+  bandColor,
+  buildEvaluationBlocks,
+  COLORS,
+  EvaluationExportData,
+} from '../../pdf/buildBlocks';
 
 const block = (height: number, kind: MeasuredBlock['kind'] = 'paragraph'): MeasuredBlock => ({
   kind,
@@ -102,10 +107,14 @@ describe('flowBlocks (column-major)', () => {
     expect(placements[2]).toMatchObject({ column: 1 }); // its content follows
   });
 
-  it('does not gratuitously break a heading that fits with its content', () => {
+  it('does not gratuitously break a heading from its content', () => {
+    // Where the pair LANDS is the balancer's business (a band that ends part-way
+    // down column one is evened across both). What must never change is that the
+    // heading and the block it introduces stay together.
     const heading = block(10, 'heading');
     const { placements } = flowBlocks([block(50), heading, block(50)], geo);
-    expect(placements[1]).toMatchObject({ column: 0, top: 50 });
+    expect(placements[2].column).toBe(placements[1].column);
+    expect(placements[2].top).toBeCloseTo(placements[1].top + 10, 5);
   });
 
   it('moves a heading whose whole body cannot follow it', () => {
@@ -449,9 +458,7 @@ describe('buildEvaluationBlocks + measureBlocks integration', () => {
       margin: 10,
     });
     const measured = measureBlocks(blocks, fakeMeasurer(), geo, 1);
-    measured
-      .filter((b) => b.kind !== 'spacer')
-      .forEach((b) => expect(b.height).toBeGreaterThan(0));
+    measured.filter((b) => b.kind !== 'spacer').forEach((b) => expect(b.height).toBeGreaterThan(0));
   });
 });
 
@@ -487,33 +494,47 @@ describe('the improved response prints what changed', () => {
     });
 
   const changeBlocks = (blocks: ReturnType<typeof buildEvaluationBlocks>) =>
-    blocks.filter((b) => b.id.startsWith('chg-'));
+    blocks.filter((b) => b.id.startsWith('chgold-') || b.id.startsWith('chgnew-'));
 
-  it('lists each edit as a cut/added pair', () => {
-    const changes = changeBlocks(withDiff());
+  const changeText = (blocks: ReturnType<typeof buildEvaluationBlocks>) =>
+    changeBlocks(blocks)
+      .map((b) => `${b.diffMarker ?? ''} ${b.runs.map((r) => r.text).join(' ')}`)
+      .join('\n');
 
-    expect(changes.length).toBeGreaterThan(0);
-    const text = changes.flatMap((b) => b.runs.map((r) => r.text)).join('\n');
-    expect(text).toContain('+ frequently requested');
-    expect(text).toContain('− makes the system faster');
-    expect(text).toContain('+ reduces latency');
+  it('pairs each rewritten sentence with what the student wrote', () => {
+    // Whole sentences, not word runs: a word-level row on paper is a fragment
+    // with its sense removed, and a student cannot revise from one.
+    const text = changeText(withDiff());
+
+    expect(changeBlocks(withDiff()).length).toBeGreaterThan(0);
+    expect(text).toContain('Caching stores frequently requested data');
+    expect(text).toContain('It makes the system faster');
+    expect(text).toContain('It reduces latency');
   });
 
   it('marks additions and cuts by symbol as well as by colour', () => {
-    // Colour alone would vanish on a school photocopier.
-    const runs = changeBlocks(withDiff()).flatMap((b) => b.runs);
+    // Colour alone would vanish on a school photocopier, and the symbol lives in
+    // the gutter rather than in the text so a row that wraps stays marked.
+    const blocks = changeBlocks(withDiff());
 
-    expect(runs.every((r) => r.text.startsWith('+ ') || r.text.startsWith('− '))).toBe(true);
-    const added = runs.filter((r) => r.text.startsWith('+ '));
-    const cut = runs.filter((r) => r.text.startsWith('− '));
-    expect(added.every((r) => r.color === COLORS.emerald)).toBe(true);
-    expect(cut.every((r) => r.color === COLORS.rose)).toBe(true);
+    expect(blocks.every((b) => b.diffMarker === '+' || b.diffMarker === '\u2212')).toBe(true);
+    const added = blocks.filter((b) => b.diffMarker === '+');
+    const cut = blocks.filter((b) => b.diffMarker === '\u2212');
+    expect(added.length).toBeGreaterThan(0);
+    expect(cut.every((b) => b.runs.every((r) => r.color === COLORS.rose))).toBe(true);
+    // Added words are attainment, so they take the exemplar's band colour.
+    expect(added.every((b) => b.runs.every((r) => r.color?.join() === bandColor(5).join()))).toBe(
+      true
+    );
   });
 
-  it('summarises the scale of the revision', () => {
+  it('summarises the scale of the revision without grading the student on it', () => {
     const summary = withDiff().find((b) => b.id.startsWith('diffsum-'));
 
-    expect(summary?.runs[0].text).toMatch(/\d+ words added · \d+ cut · \d+% of your own writing kept/);
+    expect(summary?.runs[0].text).toMatch(/\d+ words added · \d+ cut/);
+    // "23% of your own writing kept" is accurate, demoralising, and always low
+    // for a rewrite a band up.
+    expect(summary?.runs[0].text).not.toMatch(/kept/);
   });
 
   it('says nothing when there is no rewrite to compare', () => {
@@ -530,35 +551,36 @@ describe('the improved response prints what changed', () => {
   });
 
   it('caps a very long change list and says how many are left', () => {
-    // Each region is a two-word → two-word rewrite around a shared anchor, so
-    // every change is substantive (not a trivial one-word swap the printed list
-    // now filters out) — 20 of them, comfortably past the 14 cap.
-    const original = Array.from({ length: 20 }, (_, i) => `anchor${i} old phrase${i}`).join(' ');
-    const revised = Array.from({ length: 20 }, (_, i) => `anchor${i} new wording${i}`).join(' ');
+    // Twenty separate rewritten sentences, comfortably past the printed cap.
+    const original = Array.from({ length: 20 }, (_, i) => `Anchor${i} is old phrase${i}.`).join(
+      ' '
+    );
+    const revised = Array.from({ length: 20 }, (_, i) => `Anchor${i} is new wording${i}.`).join(
+      ' '
+    );
 
     const blocks = withDiff({ studentAnswer: original, revisedAnswer: revised });
 
-    const shown = changeBlocks(blocks).length;
-    expect(shown).toBeGreaterThan(0);
-    expect(shown).toBeLessThanOrEqual(14);
+    // One block per side of each printed pair.
+    const pairs = blocks.filter((b) => b.id.startsWith('chgnew-')).length;
+    expect(pairs).toBeGreaterThan(0);
+    expect(pairs).toBeLessThanOrEqual(5);
     const more = blocks.find((b) => b.id.startsWith('chgmore-'));
-    expect(more?.runs[0].text).toMatch(/more changes/);
+    expect(more?.runs[0].text).toMatch(/more rewritten sentence/);
   });
 
   it('keeps instructive edits but drops stray short cuts from the printed list', () => {
     // "cat" → "dog" is a genuine content-word swap and "right there" is a
-    // two-word insertion — both teach a revision, so both survive. "extra" is a
-    // lone one-word cut that teaches nothing, so it is dropped.
+    // two-word insertion — both teach a revision, so both survive and widen to
+    // the sentence they fell in. "extra" is a lone one-word cut that teaches
+    // nothing, so it raises no row of its own.
     const blocks = withDiff({
       studentAnswer: 'The cat sat on the extra mat by the door.',
       revisedAnswer: 'The dog sat on the mat right there by the door.',
     });
-    const text = changeBlocks(blocks)
-      .flatMap((b) => b.runs.map((r) => r.text))
-      .join('\n');
+    const text = changeText(blocks);
 
-    expect(text).toContain('+ dog');
-    expect(text).toContain('+ right there');
-    expect(text).not.toContain('− extra');
+    expect(text).toContain('The dog sat on the mat right there by the door.');
+    expect(text).toContain('The cat sat on the extra mat by the door.');
   });
 });

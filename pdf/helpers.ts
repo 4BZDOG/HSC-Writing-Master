@@ -4,7 +4,8 @@
 // transforms live in ./text and are re-exported here so callers have one
 // import surface. Anything DOM-dependent (emoji canvas, toast) is guarded.
 
-import { FontStyle, InlineSpan, JsPdfLike, MM_PER_PT, TextMeasurer } from './types';
+import { DISPLAY, FontStyle, InlineSpan, JsPdfLike, MM_PER_PT, TextMeasurer } from './types';
+import { drawIcon, type IconName } from './icons';
 import { containsEmoji, degradeToAscii, toText } from './text';
 
 export { toText, degradeToAscii, containsEmoji };
@@ -253,128 +254,210 @@ export const drawText = (doc: JsPdfLike, text: string, opts: DrawLinesOptions): 
 };
 
 // ---------------------------------------------------------------------------
-// Header
+// Colour + display type
 // ---------------------------------------------------------------------------
 
-const HEADER = {
-  titlePt: 15,
-  subtitlePt: 9.5,
-  instructionPt: 8.5,
-  fieldPt: 7.5,
-};
+/**
+ * Mix a colour towards paper white. `amount` is how far: 0 is the colour
+ * itself, 1 is white.
+ *
+ * Used for panel fills. A tint computed here rather than an alpha fill because
+ * a transparency group is one more thing a school printer's driver can decide
+ * to flatten differently from the screen; a solid light colour prints as the
+ * solid light colour everywhere.
+ */
+export const tint = (color: [number, number, number], amount: number): [number, number, number] => [
+  Math.round(color[0] + (255 - color[0]) * amount),
+  Math.round(color[1] + (255 - color[1]) * amount),
+  Math.round(color[2] + (255 - color[2]) * amount),
+];
 
-/** Reserved header height (mm) for a given scale — kept in sync with drawHeader. */
-export const headerReserve = (pScale: number): number => {
-  const title = HEADER.titlePt * 1.2 * MM_PER_PT * pScale;
-  const subtitle = HEADER.subtitlePt * 1.4 * MM_PER_PT * pScale;
-  const instruction = HEADER.instructionPt * 1.6 * MM_PER_PT * pScale;
-  return title + subtitle + instruction + 4 * pScale; // + divider gap
-};
-
-export interface HeaderOptions extends TextStyleCtx {
-  title: string;
-  subtitle?: string;
-  instruction?: string;
-  accent: [number, number, number];
-  pScale: number;
-  margin: number;
-  pageWidth: number;
-  showFields?: boolean;
+export interface DisplayLineOptions extends TextStyleCtx {
+  x: number;
+  /** Baseline, in mm from the page top. */
+  y: number;
+  fontPt: number;
+  color: [number, number, number];
+  align?: 'left' | 'right';
 }
 
 /**
- * Draw the page header: uppercase bold title, italic subtitle, an accent bar to
- * the left of the instruction line (bar height derived from cap-height so it
- * aligns to the text), a horizontal divider, and optional dashed Name/Class/Date
- * fill-in fields top-right. Returns the Y at which body content should begin.
+ * Draw one line in the report's DISPLAY voice: uppercase, bold, and sheared
+ * into an oblique.
+ *
+ * The app sets its card titles in uppercase black italic, and the printed
+ * report answers to the same voice. The embedded Inter has no italic face, and
+ * a second face would add ~340KB to every exported file for eleven headings, so
+ * the oblique is a shear of the text matrix — which is what a PDF producer does
+ * for a synthetic italic anyway.
+ *
+ * The shear is applied in PDF user space, where y runs UP from the foot of the
+ * page, so a glyph's horizontal offset grows with its distance from that foot.
+ * The pen is pulled back by exactly that offset, or a heading near the top of
+ * the page lands most of a page-width to the right of where it was measured.
  */
-export const drawHeader = (doc: JsPdfLike, opts: HeaderOptions): number => {
-  const { pScale, margin, pageWidth, accent } = opts;
-  const ink: [number, number, number] = [17, 24, 39];
-  const muted: [number, number, number] = [107, 114, 128];
-  let y = margin + HEADER.titlePt * MM_PER_PT * pScale;
+export const drawDisplayLine = (doc: JsPdfLike, text: string, opts: DisplayLineOptions): void => {
+  const prepared = opts.customFontAvailable ? toText(text) : degradeToAscii(toText(text));
+  const upper = prepared.toUpperCase();
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const shear = DISPLAY.shear;
+  const charSpace = opts.fontPt * MM_PER_PT * DISPLAY.letterSpacingEm;
 
-  // Title.
-  drawText(doc, opts.title, {
-    ...opts,
-    x: margin,
-    y,
-    fontPt: HEADER.titlePt * pScale,
-    style: 'bold',
-    color: ink,
-  });
+  setStyle(doc, opts, opts.fontPt, 'bold', opts.color);
 
-  // Name / Class / Date fields (dashed underlines), top-right.
-  if (opts.showFields) {
-    const fieldPt = HEADER.fieldPt * pScale;
-    const labels = ['Name', 'Class', 'Date'];
-    const lineW = 26 * pScale;
-    const labelGap = 2 * pScale;
-    let fy = margin + HEADER.fieldPt * MM_PER_PT * pScale;
-    doc.setDrawColor(muted[0], muted[1], muted[2]);
-    doc.setLineWidth(0.2 * pScale);
-    for (const label of labels) {
-      setStyleField(doc, opts, fieldPt, muted);
-      const labelW = doc.getTextWidth(label + ':');
-      const right = pageWidth - margin;
-      const lineStart = right - lineW;
-      doc.text(label + ':', lineStart - labelGap - labelW, fy, { baseline: 'alphabetic' });
-      doc.setLineDashPattern([0.6 * pScale, 0.6 * pScale], 0);
-      doc.line(lineStart, fy + 0.5 * pScale, right, fy + 0.5 * pScale);
-      doc.setLineDashPattern([], 0);
-      fy += fieldPt * 1.7 * MM_PER_PT;
-    }
-  }
+  // The transform trio is an optional part of the engine's surface. Without it
+  // the heading is drawn upright — the same words at the same size in the same
+  // place, just not sheared. A missing oblique is a cosmetic loss; a thrown
+  // exception here would take the whole export down.
+  const canShear =
+    typeof doc.saveGraphicsState === 'function' &&
+    typeof doc.restoreGraphicsState === 'function' &&
+    typeof doc.setCurrentTransformationMatrix === 'function' &&
+    typeof doc.Matrix === 'function';
 
-  // Subtitle.
-  if (opts.subtitle) {
-    y += HEADER.subtitlePt * 1.4 * MM_PER_PT * pScale;
-    drawText(doc, opts.subtitle, {
-      ...opts,
-      x: margin,
-      y,
-      fontPt: HEADER.subtitlePt * pScale,
-      style: 'italic',
-      color: muted,
+  const draw = (x: number) =>
+    doc.text(upper, x, opts.y, {
+      baseline: 'alphabetic',
+      align: opts.align ?? 'left',
+      charSpace,
     });
+
+  if (!canShear) {
+    draw(opts.x);
+    return;
   }
-
-  // Instruction with accent bar (bar height ≈ cap-height of the line).
-  if (opts.instruction) {
-    y += HEADER.instructionPt * 1.6 * MM_PER_PT * pScale;
-    const capHeight = HEADER.instructionPt * 0.7 * MM_PER_PT * pScale;
-    const barW = 1.2 * pScale;
-    const barX = margin;
-    doc.setFillColor(accent[0], accent[1], accent[2]);
-    doc.rect(barX, y - capHeight, barW, capHeight, 'F');
-    drawText(doc, opts.instruction, {
-      ...opts,
-      x: barX + barW + 2 * pScale,
-      y,
-      fontPt: HEADER.instructionPt * pScale,
-      style: 'normal',
-      color: muted,
-    });
+  try {
+    doc.saveGraphicsState();
+    doc.setCurrentTransformationMatrix(new doc.Matrix(1, 0, shear, 1, 0, 0));
+    draw(opts.x - shear * (pageHeight - opts.y));
+  } finally {
+    doc.restoreGraphicsState();
   }
-
-  // Divider.
-  y += 3 * pScale;
-  doc.setDrawColor(accent[0], accent[1], accent[2]);
-  doc.setLineWidth(0.4 * pScale);
-  doc.line(margin, y, pageWidth - margin, y);
-
-  return margin + headerReserve(pScale);
 };
 
-const setStyleField = (
+/** Width (mm) of a display line, so a caller can right-align or rule beside it. */
+export const measureDisplayLine = (
   doc: JsPdfLike,
+  text: string,
   ctx: TextStyleCtx,
-  fontPt: number,
-  color: [number, number, number]
-) => {
+  fontPt: number
+): number => {
+  const prepared = ctx.customFontAvailable ? toText(text) : degradeToAscii(toText(text));
+  const upper = prepared.toUpperCase();
   doc.setFont(ctx.family, resolveFontStyle(ctx.family, 'bold', ctx.customFontAvailable));
   doc.setFontSize(fontPt);
-  doc.setTextColor(color[0], color[1], color[2]);
+  return doc.getTextWidth(upper) + upper.length * fontPt * MM_PER_PT * DISPLAY.letterSpacingEm;
+};
+
+// ---------------------------------------------------------------------------
+// Running head
+// ---------------------------------------------------------------------------
+
+const HEAD = {
+  linePt: 7.5,
+  iconMm: 3.2,
+  ruleGapMm: 2.2,
+  bottomGapMm: 3.5,
+};
+
+/**
+ * Reserved header height (mm) for a given scale — kept in sync with
+ * `drawRunningHead`.
+ *
+ * One compact line on EVERY page, including the first. The masthead — the
+ * report's title, its subtitle and the name/class/date rules — used to be page
+ * chrome, which meant its ~20mm was reserved on every page and reprinted
+ * verbatim on every page. It is content, so it flows as content (see the
+ * `masthead` block), and pages two and after get that space back.
+ */
+export const headerReserve = (pScale: number): number =>
+  (HEAD.linePt * MM_PER_PT * 1.2 + HEAD.ruleGapMm + HEAD.bottomGapMm) * pScale;
+
+export interface RunningHeadOptions extends TextStyleCtx {
+  /** Left half: what this document is. */
+  title: string;
+  /** Right half: which question, at a glance. */
+  context?: string;
+  accent: [number, number, number];
+  muted: [number, number, number];
+  pScale: number;
+  margin: number;
+  pageWidth: number;
+  icon?: IconName;
+  /**
+   * Page 1 carries the masthead, which states the report's name in full. The
+   * running head repeating it directly above would be the same words twice in
+   * two sizes, so on page 1 the head is the rule and the context line alone.
+   */
+  showTitle?: boolean;
+}
+
+/** The one-line head every page carries: what this is, and which question. */
+export const drawRunningHead = (doc: JsPdfLike, opts: RunningHeadOptions): void => {
+  const { pScale, margin, pageWidth } = opts;
+  const pt = HEAD.linePt * pScale;
+  const y = margin + pt * MM_PER_PT;
+  let x = margin;
+
+  if (opts.showTitle !== false) {
+    if (opts.icon) {
+      const size = HEAD.iconMm * pScale;
+      drawIcon(doc, opts.icon, x, y - size * 0.85, size, opts.accent);
+      x += size + 1.4 * pScale;
+    }
+    drawDisplayLine(doc, opts.title, { ...opts, x, y, fontPt: pt, color: opts.accent });
+  }
+
+  if (opts.context) {
+    drawText(doc, opts.context, {
+      ...opts,
+      x: pageWidth - margin,
+      y,
+      fontPt: 7 * pScale,
+      style: 'bold',
+      color: opts.muted,
+      align: 'right',
+    });
+  }
+
+  // The rule separates a running head from the content under it. On page one
+  // there is no running head to separate — the masthead is the content — so the
+  // band carries the ident line alone and the page opens on the title.
+  if (opts.showTitle !== false) {
+    const ruleY = y + HEAD.ruleGapMm * pScale;
+    doc.setDrawColor(opts.accent[0], opts.accent[1], opts.accent[2]);
+    doc.setLineWidth(0.5 * pScale);
+    doc.line(margin, ruleY, pageWidth - margin, ruleY);
+  }
+};
+
+/** Dashed Name / Class / Date rules, drawn by the masthead block. */
+export const drawFields = (
+  doc: JsPdfLike,
+  ctx: TextStyleCtx,
+  x: number,
+  y: number,
+  width: number,
+  pScale: number,
+  muted: [number, number, number]
+): number => {
+  const fieldPt = 7.5 * pScale;
+  const lineW = width;
+  let fy = y;
+  doc.setDrawColor(muted[0], muted[1], muted[2]);
+  doc.setLineWidth(0.2 * pScale);
+  for (const label of ['Name', 'Class', 'Date']) {
+    doc.setFont(ctx.family, resolveFontStyle(ctx.family, 'bold', ctx.customFontAvailable));
+    doc.setFontSize(fieldPt);
+    doc.setTextColor(muted[0], muted[1], muted[2]);
+    const labelW = doc.getTextWidth(label + ':');
+    doc.text(label + ':', x, fy, { baseline: 'alphabetic' });
+    doc.setLineDashPattern([0.6 * pScale, 0.6 * pScale], 0);
+    doc.line(x + labelW + 1.5 * pScale, fy + 0.5 * pScale, x + lineW, fy + 0.5 * pScale);
+    doc.setLineDashPattern([], 0);
+    fy += fieldPt * 1.9 * MM_PER_PT;
+  }
+  return fy - y;
 };
 
 // ---------------------------------------------------------------------------

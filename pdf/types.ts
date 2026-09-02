@@ -1,4 +1,5 @@
 import type { ToastType } from '../hooks/useToast';
+import type { IconName } from './icons';
 // pdf/types.ts
 //
 // Shared types for the client-side vector-PDF exporter. These deliberately
@@ -41,18 +42,72 @@ export interface InlineSpan {
 }
 
 /**
- * Geometry of the score-summary box, shared by the measurer (layout) and the
- * drawer (orchestrator) so the box is always tall enough for its contents.
- * All *Pt values are base point sizes (pre-scale); *Mm values are base mm.
+ * Geometry of the result strip, shared by the measurer (layout) and the drawer
+ * (orchestrator) so the strip is always tall enough for its contents. All *Pt
+ * values are base point sizes (pre-scale); *Mm values are base mm.
+ *
+ * It spans the full content width in three cells — the mark, the band it sits
+ * on, and the metrics. It used to be a single-column box, which meant the
+ * column beside it was structurally guaranteed to be empty: nothing else could
+ * flow there, because the full-width band under it started below the box.
  */
 export const SCORE_SUMMARY = {
-  innerPadBaseMm: 3,
-  accentBarBaseMm: 1.6,
-  chipPt: 17,
+  innerPadBaseMm: 4,
+  accentBarBaseMm: 1.8,
+  /** The mark itself — the largest thing on the page after the question. */
+  chipPt: 26,
   labelPt: 7,
+  /** "BAND 4 · SOUND". */
+  bandPt: 10.5,
+  metricPt: 8.5,
   labelLineFactor: 1.6,
-  metricsLineFactor: 1.3,
-  chipReserveBaseMm: 22,
+  metricsLineFactor: 1.45,
+  /** Width of the mark cell and the metrics cell; the band cell takes the rest. */
+  markCellBaseMm: 44,
+  metricCellBaseMm: 44,
+  cellGapBaseMm: 6,
+  /** Hairline between cells, so the three read as one instrument. */
+  cellRuleBaseMm: 0.25,
+};
+
+/**
+ * The bounding box drawn round the question, and round the two long responses.
+ *
+ * Paper has no hover state and no scroll position: a reader coming back to the
+ * page needs the question, their own words and the better answer to be findable
+ * without reading any of them. A frame does that where a heading alone does not.
+ */
+export const PANEL = {
+  padXBaseMm: 3.6,
+  padYBaseMm: 3.2,
+  radiusBaseMm: 1.8,
+  borderBaseMm: 0.3,
+  /** How far the panel fill is mixed from its accent towards paper white. */
+  fillMix: 0.94,
+};
+
+/**
+ * The oblique applied to a display heading.
+ *
+ * The app sets its card titles in uppercase black italic (`CARD_HEADER_TITLE`),
+ * and the printed report answers to the same voice — but the embedded Inter
+ * carries normal and bold only, and adding an italic face would put another
+ * ~340KB into every exported file. A shear of the text matrix is what a PDF
+ * producer does for a synthetic oblique, and at 12 degrees it reads as the same
+ * heading rather than as a different font.
+ */
+export const DISPLAY = {
+  shear: Math.tan((12 * Math.PI) / 180),
+  /** Uppercase display type needs its letters opened up a little. */
+  letterSpacingEm: 0.02,
+};
+
+/** Section-heading furniture: the icon, its gap, and the rule under the row. */
+export const HEADING = {
+  iconBaseMm: 3.5,
+  iconGapBaseMm: 1.8,
+  ruleGapBaseMm: 1.2,
+  ruleWeightBaseMm: 0.25,
 };
 
 /**
@@ -109,6 +164,11 @@ export const BAND_SCALE = {
 export const RULE_LINES = {
   gapBaseMm: 6,
   inset: 0.5,
+  /**
+   * A ceiling on how far `flexibleRules` will grow. Space a teacher can write in
+   * is worth having; a page ruled from head to foot is a notebook, not a report.
+   */
+  maxFlexible: 14,
 };
 
 /**
@@ -137,6 +197,8 @@ export interface TextRun {
 
 /** Block kinds the orchestrator knows how to draw. */
 export type BlockKind =
+  | 'masthead'
+  | 'questionCard'
   | 'heading'
   | 'paragraph'
   | 'scoreSummary'
@@ -195,6 +257,64 @@ export interface ContentBlock {
   checkbox?: boolean;
   /** Blank ruled lines drawn under the block, for handwritten notes. */
   ruleLines?: number;
+  /**
+   * Grow `ruleLines` to fill whatever column space the block lands in.
+   *
+   * The notes are deliberately empty, so their height is not content — it is
+   * however much room is going. Fixed at eight rules they either overflowed the
+   * page they landed on or started a fresh one and left it 90% white; grown to
+   * fit, they take the space that was going to be blank anyway and hand it to
+   * the teacher as somewhere to write.
+   */
+  flexibleRules?: boolean;
+  /**
+   * The glyph drawn to the left of a heading (see `pdf/icons.ts`). A second way
+   * to recognise a section at a glance; never the only way, since the heading
+   * beside it says the same thing in words.
+   */
+  icon?: IconName;
+  /**
+   * Set the block's text as a DISPLAY heading — uppercase, bold, sheared into
+   * an oblique — the way the app sets its card titles. Reserved for the
+   * report's own section headings, so a reader can tell the report's voice from
+   * the marker's at a glance.
+   */
+  display?: boolean;
+  /**
+   * Draw a bounding box behind and around the block: a hairline border, a
+   * radius, and a fill mixed from `panelAccent` towards paper white. The block's
+   * measured padding already includes the panel's inset, so a panelled block
+   * takes exactly the room its frame needs.
+   */
+  panel?: boolean;
+  /** The panel's border and fill hue. Falls back to the block's accent. */
+  panelAccent?: [number, number, number];
+  /**
+   * A quieter second line under the block's main text, in muted colour — the
+   * syllabus trail under the question. Part of the same block so the frame
+   * round the question can never separate from the trail that qualifies it.
+   */
+  subText?: string;
+  /** A right-aligned chip drawn in the block's eyebrow row, e.g. "6 MARKS". */
+  eyebrow?: string;
+  /** The eyebrow's right-hand half, e.g. the command verb. */
+  eyebrowChip?: string;
+  /**
+   * The label as styled runs, so a criterion title carries the same syllabus
+   * highlighting its feedback does. `label` stays alongside as the plain
+   * fallback and as what a caller comparing content should read.
+   */
+  labelRuns?: TextRun[];
+  /**
+   * Draw this marker in the gutter beside the item's first line — the − of a
+   * sentence the rewrite replaced, or the + of what replaced it. In the gutter
+   * rather than prefixed to the text, because as text it landed on the first
+   * wrapped line only and the tail of a wrapped change printed as an unmarked
+   * line that read like a heading.
+   */
+  diffMarker?: string;
+  /** Draw dashed Name / Class / Date rules in the block's right-hand half. */
+  fields?: boolean;
 }
 
 /** A block with a computed rendered height (mm) at a given scale. */
@@ -221,6 +341,10 @@ export interface MeasuredBlock extends ContentBlock {
   textIndentMm: number;
   /** Pre-wrapped label lines (criterion titles can span multiple lines). */
   labelWrapped?: string[];
+  /** Pre-wrapped `subText` lines (the syllabus trail under the question). */
+  subWrapped?: string[];
+  /** Pre-wrapped label lines as styled spans, when `labelRuns` carried them. */
+  labelWrappedRich?: InlineSpan[][] | null;
   /**
    * Height (mm) of anything sitting between the label and the body — today the
    * criterion's proportion meter. Resolved once at measure time so splitting
@@ -229,7 +353,13 @@ export interface MeasuredBlock extends ContentBlock {
   labelExtraMm?: number;
 }
 
-/** Result of placing a block during the column-major flow. */
+/**
+ * Result of placing a block during the column-major flow.
+ *
+ * `column` and `top` are mutable: the balancing pass moves a run of blocks from
+ * the foot of the first column to the head of the second once a band's extent
+ * is known, which cannot be decided while the band is still being flowed.
+ */
 export interface PlacedBlock {
   block: MeasuredBlock;
   /** 0-based page index. */
@@ -291,6 +421,7 @@ export interface JsPdfLike {
   text(text: string | string[], x: number, y: number, opts?: Record<string, unknown>): JsPdfLike;
   line(x1: number, y1: number, x2: number, y2: number): JsPdfLike;
   rect(x: number, y: number, w: number, h: number, style?: string): JsPdfLike;
+  circle(x: number, y: number, r: number, style?: string): JsPdfLike;
   roundedRect(
     x: number,
     y: number,
@@ -308,6 +439,18 @@ export interface JsPdfLike {
   getFontList(): Record<string, string[]>;
   setGState(gState: unknown): JsPdfLike;
   GState: new (opts: { opacity: number }) => unknown;
+  /**
+   * The graphics-state + transform trio, used for one thing: shearing the
+   * display headings into an oblique. The bundled Inter has no italic face, and
+   * a second embedded font for headings would cost more than the effect is
+   * worth — see `DISPLAY` and `drawDisplayLine`.
+   */
+  saveGraphicsState?(): JsPdfLike;
+  restoreGraphicsState?(): JsPdfLike;
+  setCurrentTransformationMatrix?(matrix: unknown): JsPdfLike;
+  Matrix?: new (a: number, b: number, c: number, d: number, e: number, f: number) => unknown;
+  /** Document bookmarks, so a multi-page report has an outline to jump by. */
+  outline?: { add(parent: unknown, title: string, options: { pageNumber: number }): unknown };
   setProperties(props: {
     title?: string;
     subject?: string;

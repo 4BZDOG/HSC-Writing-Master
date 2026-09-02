@@ -113,7 +113,9 @@ describe('the report says what it means', () => {
     // The analytical sections stay in the two-column flow.
     const score = find(blocks, (b) => b.kind === 'scoreSummary')!;
     const criterion = find(blocks, (b) => b.kind === 'criterion')!;
-    expect(score.fullWidth).toBeFalsy();
+    // The result strip spans too: as a single-column box it guaranteed an empty
+    // column beside it, because the full-width band under it began below the box.
+    expect(score.fullWidth).toBe(true);
     expect(criterion.fullWidth).toBeFalsy();
   });
 
@@ -155,8 +157,8 @@ describe('the report says what it means', () => {
       })
     );
     expect(hasHeading(blocks, /what changed/i)).toBe(true);
-    expect(hasText(blocks, /most substantial edits/i)).toBe(true);
-    expect(hasText(blocks, /minor wording changes/i)).toBe(false);
+    expect(blocks.some((b) => b.id.startsWith('chgnew-'))).toBe(true);
+    expect(hasText(blocks, /reworks the response throughout/i)).toBe(false);
   });
 
   it('still prints the section (with guidance) when every edit is a minor swap', () => {
@@ -166,8 +168,8 @@ describe('the report says what it means', () => {
       data({ studentAnswer: 'The cat sat on the mat.', revisedAnswer: 'A cat sat on the mat.' })
     );
     expect(hasHeading(blocks, /what changed/i)).toBe(true);
-    expect(hasText(blocks, /minor wording changes/i)).toBe(true);
-    expect(hasText(blocks, /most substantial edits/i)).toBe(false);
+    expect(hasText(blocks, /reworks the response throughout/i)).toBe(true);
+    expect(blocks.some((b) => b.id.startsWith('chgnew-'))).toBe(false);
   });
 
   it('omits the section entirely when the answer was not revised', () => {
@@ -196,14 +198,17 @@ describe('the layout reserves room for it', () => {
     expect(measure(criterion).labelExtraMm).toBeCloseTo(meterHeight(criterion, 1), 5);
   });
 
-  it('makes the score box taller by exactly its band ladder', () => {
+  it('never lets the band ladder outgrow the strip it sits in', () => {
+    // The strip is as tall as its tallest cell, and the ladder lives in the
+    // band cell. Height no longer grows one-for-one with the ladder — the mark
+    // beside it can be taller — but the strip must always have room for it, or
+    // the ladder paints over the block below.
     const score = find(buildEvaluationBlocks(data()), (b) => b.kind === 'scoreSummary')!;
     const without = { ...score, bandScale: undefined };
+    const measured = measure(score);
 
-    expect(measure(score).height - measure(without).height).toBeCloseTo(
-      bandScaleHeight(score, 1),
-      5
-    );
+    expect(measured.height).toBeGreaterThanOrEqual(measure(without).height);
+    expect(measured.height).toBeGreaterThan(bandScaleHeight(score, 1));
   });
 
   it('reserves the ruled lines', () => {

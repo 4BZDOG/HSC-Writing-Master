@@ -18,21 +18,49 @@ import {
   METER,
   RULE_LINES,
   SCORE_SUMMARY,
+  PANEL,
+  HEADING,
   ToastFn,
 } from './types';
-import { buildEvaluationBlocks, COLORS, EvaluationExportData } from './buildBlocks';
+import {
+  bandColor,
+  buildEvaluationBlocks,
+  COLORS,
+  DEFAULT_TITLE,
+  EvaluationExportData,
+} from './buildBlocks';
 import { AI_MARKING_DISCLAIMER } from '../data/legalContent';
-import { chooseScale, columnLeft, computeGeometry, fullContentWidth, planLayout } from './layout';
+import {
+  chooseScale,
+  columnLeft,
+  computeGeometry,
+  fullContentWidth,
+  MASTHEAD_FIELD_PT,
+  MASTHEAD_FIELD_WIDTH_MM,
+  MASTHEAD_SUB_GAP_MM,
+  MASTHEAD_SUB_PT,
+  MASTHEAD_TITLE_PT,
+  planLayout,
+  QUESTION_EYEBROW_PT,
+  QUESTION_SUB_GAP_MM,
+  QUESTION_SUB_PT,
+} from './layout';
 import {
   createMeasurer,
+  drawDisplayLine,
+  drawFields,
   drawFooter,
-  drawHeader,
   drawLines,
+  drawRunningHead,
+  drawText,
   drawWatermark,
   headerReserve,
   HELVETICA,
+  measureDisplayLine,
+  tint,
   TextStyleCtx,
 } from './helpers';
+import { drawIcon } from './icons';
 import { FontSource, loadInterFont, loadJsPdf, FONT_FAMILY } from './fontLoader';
 import { domToast } from './toast';
 
@@ -99,14 +127,16 @@ const geometryFor = (pageSize: PageSizeName, pScale: number): ColumnGeometry =>
 /**
  * A filled proportion track — marks earned against marks available.
  *
- * Colour carries the same judgement the numbers do (earned nearly everything /
- * most of it / not much), but the FILL LENGTH carries it too, so the meaning
- * survives a greyscale printer and a colour-blind reader. Nothing here is the
- * only way to read the fact: the chip beside it states it in numerals.
+ * One colour, the band's, because attainment is what the band colour means in
+ * this report; the FILL LENGTH carries the judgement, so it survives a
+ * greyscale printer and a colour-blind reader alike. It used to switch between
+ * emerald, indigo and rose by ratio, which put three more meanings on three
+ * colours that already meant other things elsewhere on the page.
  */
 const drawMeter = (
   doc: JsPdfLike,
   meter: { value: number; max: number },
+  accent: [number, number, number],
   x: number,
   y: number,
   width: number,
@@ -114,17 +144,11 @@ const drawMeter = (
 ): void => {
   const h = METER.heightBaseMm * pScale;
   const ratio = meter.max > 0 ? Math.max(0, Math.min(1, meter.value / meter.max)) : 0;
-  const fill =
-    ratio >= METER.strongRatio
-      ? COLORS.emerald
-      : ratio >= METER.fairRatio
-        ? COLORS.accent
-        : COLORS.rose;
 
   doc.setFillColor(COLORS.rule[0], COLORS.rule[1], COLORS.rule[2]);
   doc.roundedRect(x, y, width, h, h / 2, h / 2, 'F');
   if (ratio > 0) {
-    doc.setFillColor(fill[0], fill[1], fill[2]);
+    doc.setFillColor(accent[0], accent[1], accent[2]);
     doc.roundedRect(x, y, Math.max(width * ratio, h), h, h / 2, h / 2, 'F');
   }
 };
@@ -206,6 +230,24 @@ const drawRuleLines = (
   }
 };
 
+/** The frame behind a panelled block: hairline border over a paper-tinted fill. */
+const drawPanel = (
+  doc: JsPdfLike,
+  block: MeasuredBlock,
+  xLeft: number,
+  yTop: number,
+  width: number,
+  pScale: number
+): void => {
+  const c = block.panelAccent ?? block.accent ?? COLORS.slate;
+  const r = PANEL.radiusBaseMm * pScale;
+  const fill = tint(c, PANEL.fillMix);
+  doc.setFillColor(fill[0], fill[1], fill[2]);
+  doc.setDrawColor(c[0], c[1], c[2]);
+  doc.setLineWidth(PANEL.borderBaseMm * pScale);
+  doc.roundedRect(xLeft, yTop, width, Math.max(block.height, r * 2), r, r, 'FD');
+};
+
 const drawBlock = (
   doc: JsPdfLike,
   ctx: TextStyleCtx,
@@ -223,40 +265,39 @@ const drawBlock = (
 
   if (block.kind === 'spacer') return;
 
+  if (block.panel) drawPanel(doc, block, xLeft, yTop, colW, pScale);
+
   if (block.kind === 'divider') {
     const c = block.accent ?? COLORS.rule;
     doc.setDrawColor(c[0], c[1], c[2]);
     doc.setLineWidth(0.4 * pScale);
-    doc.setLineDashPattern([1.2 * pScale, 1.2 * pScale], 0);
     doc.line(xLeft, y, xLeft + colW, y);
-    doc.setLineDashPattern([], 0);
+    return;
+  }
+
+  if (block.kind === 'masthead') {
+    drawMasthead(doc, ctx, block, xLeft, yTop, colW, pScale);
+    return;
+  }
+
+  if (block.kind === 'questionCard') {
+    drawQuestionCard(doc, ctx, block, xLeft, yTop, colW, pScale);
     return;
   }
 
   if (block.kind === 'scoreSummary') {
-    drawScoreSummary(doc, ctx, block, xLeft, yTop, geo, pScale);
+    drawScoreSummary(doc, ctx, block, xLeft, yTop, colW, pScale);
     return;
   }
 
   if (block.kind === 'heading') {
-    const r = block.runs[0];
-    const pt = r.baseFontPt * pScale;
-    drawLines(doc, block.wrapped[0] ?? [r.text], {
-      ...ctx,
-      x: xLeft,
-      y: y + ascentMm(pt),
-      fontPt: pt,
-      style: r.style ?? 'bold',
-      color: r.color ?? COLORS.muted,
-      lineHeightFactor: r.lineHeightFactor ?? 1.15,
-      maxWidthMm: colW,
-    });
+    drawHeading(doc, ctx, block, xLeft, yTop, colW, pScale);
     return;
   }
 
   if (block.kind === 'listItem') {
     const indent = block.textIndentMm;
-    const c = block.accent ?? COLORS.accent;
+    const c = block.accent ?? COLORS.slate;
     const firstPt = block.runs[0].baseFontPt * pScale;
     const baseline = y + ascentMm(firstPt);
     if (block.checkbox) {
@@ -266,7 +307,7 @@ const drawBlock = (
       doc.setDrawColor(c[0], c[1], c[2]);
       doc.setLineWidth(0.3 * pScale);
       doc.rect(xLeft, baseline - firstPt * MM_PER_PT * 0.72, boxSize, boxSize, 'S');
-    } else {
+    } else if (!block.diffMarker) {
       doc.setFillColor(c[0], c[1], c[2]);
       doc.rect(xLeft, baseline - firstPt * MM_PER_PT * 0.42, 1.3 * pScale, 1.3 * pScale, 'F');
     }
@@ -278,6 +319,19 @@ const drawBlock = (
     let cursor = baseline;
     block.runs.forEach((r, index) => {
       const pt = r.baseFontPt * pScale;
+      // The diff marker is drawn in the gutter beside the run, not prefixed to
+      // its text: as text it landed on the first wrapped line only, and the tail
+      // of a wrapped change printed as an unmarked line that read like a heading.
+      if (block.diffMarker && index === 0) {
+        drawLines(doc, [block.diffMarker], {
+          ...ctx,
+          x: xLeft,
+          y: cursor,
+          fontPt: pt,
+          style: 'bold',
+          color: r.color ?? COLORS.body,
+        });
+      }
       cursor += drawLines(doc, block.wrapped[index] ?? [r.text], {
         ...ctx,
         richLines: block.wrappedRich?.[index],
@@ -304,8 +358,8 @@ const drawBlock = (
   const r = block.runs[0];
   const pt = r.baseFontPt * pScale;
   const textX = xLeft + block.textIndentMm;
-  if (block.accent) {
-    // Left accent bar spanning the paragraph body (tip / exemplar / criterion
+  if (block.accent && !block.panel) {
+    // Left accent bar spanning the paragraph body (tip / criterion
     // continuation). Bar geometry matches criterion feedback for consistency.
     const c = block.accent;
     const barH = block.height - padTop - block.padBottomMm;
@@ -321,7 +375,7 @@ const drawBlock = (
     style: r.style ?? 'normal',
     color: r.color ?? COLORS.body,
     lineHeightFactor: r.lineHeightFactor ?? 1.3,
-    maxWidthMm: colW - block.textIndentMm,
+    maxWidthMm: colW - block.textIndentMm * (block.panel ? 2 : 1),
   });
 
   if (block.ruleLines) {
@@ -329,81 +383,297 @@ const drawBlock = (
   }
 };
 
+/** The report's name, its subtitle, and the name/class/date rules. Page 1 only. */
+const drawMasthead = (
+  doc: JsPdfLike,
+  ctx: TextStyleCtx,
+  block: MeasuredBlock,
+  xLeft: number,
+  yTop: number,
+  colW: number,
+  pScale: number
+): void => {
+  const y = yTop + block.padTopMm;
+  const titlePt = MASTHEAD_TITLE_PT * pScale;
+  const baseline = y + ascentMm(titlePt);
+  drawDisplayLine(doc, block.label ?? DEFAULT_TITLE, {
+    ...ctx,
+    x: xLeft,
+    y: baseline,
+    fontPt: titlePt,
+    color: COLORS.ink,
+  });
+
+  if (block.subWrapped?.length) {
+    const subPt = MASTHEAD_SUB_PT * pScale;
+    drawLines(doc, block.subWrapped, {
+      ...ctx,
+      x: xLeft,
+      y: baseline + MASTHEAD_SUB_GAP_MM * pScale + ascentMm(subPt),
+      fontPt: subPt,
+      style: 'normal',
+      color: COLORS.muted,
+      lineHeightFactor: 1.35,
+    });
+  }
+
+  if (block.fields) {
+    const width = MASTHEAD_FIELD_WIDTH_MM * pScale;
+    drawFields(
+      doc,
+      ctx,
+      xLeft + colW - width,
+      y + ascentMm(MASTHEAD_FIELD_PT * pScale),
+      width,
+      pScale,
+      COLORS.muted
+    );
+  }
+};
+
+/** A section heading: icon, display label, and the hairline under the row. */
+const drawHeading = (
+  doc: JsPdfLike,
+  ctx: TextStyleCtx,
+  block: MeasuredBlock,
+  xLeft: number,
+  yTop: number,
+  colW: number,
+  pScale: number
+): void => {
+  const accent = block.accent ?? COLORS.slate;
+  const r = block.runs[0];
+  const pt = r.baseFontPt * pScale;
+  const rowH = block.lineHeightMm;
+  const y = yTop + block.padTopMm;
+  const baseline = y + rowH * 0.78;
+  let x = xLeft;
+
+  if (block.icon) {
+    const size = HEADING.iconBaseMm * pScale;
+    drawIcon(doc, block.icon, x, y + (rowH - size) / 2, size, accent);
+    x += size + HEADING.iconGapBaseMm * pScale;
+  }
+  drawDisplayLine(doc, r.text, {
+    ...ctx,
+    x,
+    y: baseline,
+    fontPt: pt,
+    color: r.color ?? COLORS.ink,
+  });
+
+  const ruleY = y + rowH + HEADING.ruleGapBaseMm * pScale;
+  doc.setDrawColor(accent[0], accent[1], accent[2]);
+  doc.setLineWidth(HEADING.ruleWeightBaseMm * pScale);
+  doc.line(xLeft, ruleY, xLeft + colW, ruleY);
+};
+
+/**
+ * The question, in a box.
+ *
+ * An eyebrow row naming the section and the command term, the question itself
+ * in bold at the largest size in the document, and the syllabus trail beneath
+ * it — beneath, because the trail says where the question came from, which is
+ * context a reader wants after the question rather than in front of it.
+ */
+const drawQuestionCard = (
+  doc: JsPdfLike,
+  ctx: TextStyleCtx,
+  block: MeasuredBlock,
+  xLeft: number,
+  yTop: number,
+  colW: number,
+  pScale: number
+): void => {
+  const accent = block.accent ?? COLORS.slate;
+  const inset = block.textIndentMm;
+  const x = xLeft + inset;
+  const innerW = colW - inset * 2;
+  const y = yTop + block.padTopMm;
+
+  // Eyebrow: icon + "QUESTION" left, verb + marks right.
+  const eyePt = QUESTION_EYEBROW_PT * pScale;
+  const eyeBase = y + ascentMm(eyePt);
+  let ex = x;
+  if (block.icon) {
+    const size = eyePt * MM_PER_PT * 1.1;
+    drawIcon(doc, block.icon, ex, eyeBase - size * 0.84, size, accent);
+    ex += size + 1.6 * pScale;
+  }
+  drawDisplayLine(doc, block.label ?? 'Question', {
+    ...ctx,
+    x: ex,
+    y: eyeBase,
+    fontPt: eyePt,
+    color: accent,
+  });
+
+  const right = [block.eyebrow, block.eyebrowChip].filter(Boolean).join('  ·  ');
+  if (right) {
+    drawText(doc, right.toUpperCase(), {
+      ...ctx,
+      x: x + innerW,
+      y: eyeBase,
+      fontPt: 7.5 * pScale,
+      style: 'bold',
+      color: COLORS.muted,
+      align: 'right',
+    });
+  }
+
+  // The question.
+  const q = block.runs[0];
+  const qPt = q.baseFontPt * pScale;
+  const qTop = y + eyePt * MM_PER_PT * 1.5;
+  const qHeight = drawLines(doc, block.wrapped[0] ?? [q.text], {
+    ...ctx,
+    richLines: block.wrappedRich?.[0],
+    x,
+    y: qTop + ascentMm(qPt),
+    fontPt: qPt,
+    style: q.style ?? 'bold',
+    color: q.color ?? COLORS.ink,
+    lineHeightFactor: q.lineHeightFactor ?? 1.3,
+    maxWidthMm: innerW,
+  });
+
+  // The syllabus trail, under the question it qualifies.
+  if (block.subWrapped?.length) {
+    const subPt = QUESTION_SUB_PT * pScale;
+    drawLines(doc, block.subWrapped, {
+      ...ctx,
+      x,
+      y: qTop + qHeight + QUESTION_SUB_GAP_MM * pScale + ascentMm(subPt),
+      fontPt: subPt,
+      style: 'normal',
+      color: COLORS.muted,
+      lineHeightFactor: 1.3,
+      maxWidthMm: innerW,
+    });
+  }
+};
+
+/**
+ * The result strip: the mark, the band it sits on, and the metrics — three
+ * cells across the full content width.
+ *
+ * Full width because as a single-column box it guaranteed an empty column
+ * beside it: nothing else could flow there, since the full-width band under it
+ * began below the box. And it says RESULT, not "Assessment Score" — this is
+ * practice marking, and "assessment" is a word with weight in an HSC year.
+ */
 const drawScoreSummary = (
   doc: JsPdfLike,
   ctx: TextStyleCtx,
   block: MeasuredBlock,
   xLeft: number,
   yTop: number,
-  geo: ColumnGeometry,
+  colW: number,
   pScale: number
 ): void => {
-  const padTop = block.padTopMm;
-  const padBottom = block.padBottomMm;
-  const top = yTop + padTop;
-  const boxH = block.height - padTop - padBottom;
-  const colW = geo.columnWidth;
-  const accent = block.accent ?? COLORS.accent;
+  const top = yTop + block.padTopMm;
+  const boxH = block.height - block.padTopMm - block.padBottomMm;
+  const accent = block.accent ?? COLORS.slate;
   const pad = SCORE_SUMMARY.innerPadBaseMm * pScale;
   const bar = SCORE_SUMMARY.accentBarBaseMm * pScale;
+  const gap = SCORE_SUMMARY.cellGapBaseMm * pScale;
 
+  const fill = tint(accent, PANEL.fillMix);
+  doc.setFillColor(fill[0], fill[1], fill[2]);
   doc.setDrawColor(accent[0], accent[1], accent[2]);
   doc.setLineWidth(0.4 * pScale);
-  doc.roundedRect(xLeft, top, colW, boxH, 2 * pScale, 2 * pScale, 'S');
+  doc.roundedRect(xLeft, top, colW, boxH, 2 * pScale, 2 * pScale, 'FD');
   doc.setFillColor(accent[0], accent[1], accent[2]);
   doc.rect(xLeft, top, bar, boxH, 'F');
 
-  // Big score chip, right-aligned.
-  const chipPt = SCORE_SUMMARY.chipPt * pScale;
-  drawLines(doc, [block.chip ?? ''], {
-    ...ctx,
-    x: xLeft + colW - pad,
-    y: top + pad + ascentMm(chipPt),
-    fontPt: chipPt,
-    style: 'bold',
-    color: accent,
-    align: 'right',
-  });
-
-  // Label + metrics, left.
+  const markW = SCORE_SUMMARY.markCellBaseMm * pScale;
+  const metricW = SCORE_SUMMARY.metricCellBaseMm * pScale;
+  const markX = xLeft + bar + pad;
+  const bandX = markX + markW + gap;
+  const metricX = xLeft + colW - pad - metricW;
+  const bandW = metricX - gap - bandX;
   const labelPt = SCORE_SUMMARY.labelPt * pScale;
-  const textX = xLeft + pad + bar;
-  drawLines(doc, [(block.label ?? '').toUpperCase()], {
-    ...ctx,
-    x: textX,
-    y: top + pad + ascentMm(labelPt),
-    fontPt: labelPt,
-    style: 'bold',
-    color: COLORS.muted,
-  });
-  const r = block.runs[0];
-  let metricsBottom = top + pad + labelPt * SCORE_SUMMARY.labelLineFactor * MM_PER_PT;
-  if (r) {
-    const pt = r.baseFontPt * pScale;
-    metricsBottom += drawLines(doc, block.wrapped[0] ?? [r.text], {
-      ...ctx,
-      x: textX,
-      y: metricsBottom + ascentMm(pt),
-      fontPt: pt,
-      style: r.style ?? 'bold',
-      color: r.color ?? COLORS.body,
-      lineHeightFactor: SCORE_SUMMARY.metricsLineFactor,
-      maxWidthMm: colW - pad * 2 - bar - SCORE_SUMMARY.chipReserveBaseMm * pScale,
-    });
+  const labelBase = top + pad + ascentMm(labelPt);
+  const bodyTop = top + pad + labelPt * SCORE_SUMMARY.labelLineFactor * MM_PER_PT;
+
+  // Hairlines between the cells, so the three read as one instrument.
+  doc.setDrawColor(accent[0], accent[1], accent[2]);
+  doc.setLineWidth(SCORE_SUMMARY.cellRuleBaseMm * pScale);
+  for (const rx of [bandX - gap / 2, metricX - gap / 2]) {
+    doc.line(rx, top + pad, rx, top + boxH - pad);
   }
 
+  // Cell 1 — the mark.
+  drawDisplayLine(doc, block.label ?? 'Result', {
+    ...ctx,
+    x: markX,
+    y: labelBase,
+    fontPt: labelPt,
+    color: COLORS.muted,
+  });
+  const markPt = SCORE_SUMMARY.chipPt * pScale;
+  drawLines(doc, [block.chip ?? ''], {
+    ...ctx,
+    x: markX,
+    y: bodyTop + ascentMm(markPt),
+    fontPt: markPt,
+    style: 'bold',
+    color: accent,
+  });
+
+  // Cell 2 — the band, named, over its ladder.
+  drawDisplayLine(doc, 'Band', {
+    ...ctx,
+    x: bandX,
+    y: labelBase,
+    fontPt: labelPt,
+    color: COLORS.muted,
+  });
+  const bandPt = SCORE_SUMMARY.bandPt * pScale;
+  drawText(doc, block.subText ?? '', {
+    ...ctx,
+    x: bandX,
+    y: bodyTop + ascentMm(bandPt),
+    fontPt: bandPt,
+    style: 'bold',
+    color: COLORS.ink,
+    maxWidthMm: bandW,
+  });
   if (block.bandScale) {
     drawBandScale(
       doc,
       ctx,
       block.bandScale,
       accent,
-      textX,
-      metricsBottom + BAND_SCALE.gapBaseMm * pScale,
-      xLeft + colW - pad - textX,
+      bandX,
+      bodyTop + bandPt * MM_PER_PT * 1.4 + BAND_SCALE.gapBaseMm * pScale,
+      bandW,
       pScale,
       block.bandScaleMax ?? BAND_SCALE.segments
     );
+  }
+
+  // Cell 3 — the metrics, one fact per line.
+  drawDisplayLine(doc, 'Response', {
+    ...ctx,
+    x: metricX,
+    y: labelBase,
+    fontPt: labelPt,
+    color: COLORS.muted,
+  });
+  const metricsRun = block.runs[0];
+  if (metricsRun && block.wrapped[0]?.length) {
+    const pt = metricsRun.baseFontPt * pScale;
+    drawLines(doc, block.wrapped[0], {
+      ...ctx,
+      x: metricX,
+      y: bodyTop + ascentMm(pt),
+      fontPt: pt,
+      style: metricsRun.style ?? 'bold',
+      color: metricsRun.color ?? COLORS.body,
+      lineHeightFactor: SCORE_SUMMARY.metricsLineFactor,
+      maxWidthMm: metricW,
+    });
   }
 };
 
@@ -418,7 +688,7 @@ const drawCriterion = (
 ): void => {
   const padTop = block.padTopMm;
   const colW = geo.columnWidth;
-  const accent = block.accent ?? COLORS.accent;
+  const accent = block.accent ?? COLORS.slate;
   const indent = block.textIndentMm;
   const y = yTop + padTop;
 
@@ -430,6 +700,7 @@ const drawCriterion = (
   const labelBaseline = y + ascentMm(labelPt);
   drawLines(doc, labelLines, {
     ...ctx,
+    richLines: block.labelWrappedRich,
     x: xLeft + indent,
     y: labelBaseline,
     fontPt: labelPt,
@@ -458,6 +729,7 @@ const drawCriterion = (
     drawMeter(
       doc,
       block.meter,
+      accent,
       xLeft + indent,
       y + labelLines.length * labelLineMm + METER.gapAboveBaseMm * pScale,
       colW - indent,
@@ -567,7 +839,11 @@ export const exportEvaluationPdf = async (
   let pageCount: number;
   let byPage: MeasuredBlockPlacement[][];
   try {
-    const blocks = buildEvaluationBlocks(opts.data);
+    const blocks = buildEvaluationBlocks(opts.data, {
+      title: opts.title,
+      subtitle: opts.subtitle,
+      showFields: opts.showFields,
+    });
     const measurer = createMeasurer(doc, ctx);
     const targetPages = opts.data.studentAnswer?.trim() ? TARGET_PAGES_WITH_ANSWER : TARGET_PAGES;
     const choice = chooseScale(
@@ -594,20 +870,20 @@ export const exportEvaluationPdf = async (
 
   const exportId = makeExportId();
   const dateStr = formatDate();
-  const title = opts.title ?? 'Band 6 — HSC Writing Coach';
+  const title = opts.title ?? DEFAULT_TITLE;
   const subtitle = opts.subtitle ?? 'Marking Feedback Report';
-  const instruction =
+  const runningContext =
     opts.instruction ??
     `${opts.data.verb} · ${opts.data.totalMarks} marks · Band ${opts.data.overallBand}`;
-  const watermarkText = opts.watermarkText ?? 'HSC WRITING MASTER';
+  const accent = bandColor(opts.data.overallBand);
 
   // Document metadata (shown in the viewer title bar / file properties).
   try {
     doc.setProperties({
       title: `${title} — ${subtitle}`,
-      subject: instruction,
+      subject: runningContext,
       author: title,
-      creator: 'Band 6 PDF Exporter',
+      creator: 'HSC Writing Coach PDF exporter',
       keywords: ['HSC', 'marking feedback', opts.data.verb, `Band ${opts.data.overallBand}`].join(
         ', '
       ),
@@ -619,6 +895,7 @@ export const exportEvaluationPdf = async (
   const totalPages = pageCount * copies;
   let pageNo = 0;
   let first = true;
+  const bookmarked = new Set<string>();
 
   try {
     for (let copy = 0; copy < copies; copy++) {
@@ -628,24 +905,30 @@ export const exportEvaluationPdf = async (
         pageNo++;
         progress(0.3 + (0.65 * pageNo) / totalPages, `Rendering page ${pageNo} of ${totalPages}…`);
 
-        drawWatermark(doc, {
-          ...ctx,
-          text: watermarkText,
-          pageWidth: dims.width,
-          pageHeight: dims.height,
-        });
+        // Opt-in now, and off by default. It sat behind the student's own
+        // response and the rewrite on every page — legible enough to interfere
+        // with the two things the file exists to be read against each other,
+        // and redundant beside a footer that already carries the disclaimer and
+        // the export id.
+        if (opts.watermarkText) {
+          drawWatermark(doc, {
+            ...ctx,
+            text: opts.watermarkText,
+            pageWidth: dims.width,
+            pageHeight: dims.height,
+          });
+        }
 
-        drawHeader(doc, {
+        drawRunningHead(doc, {
           ...ctx,
           title,
-          subtitle,
-          instruction,
-          accent: COLORS.accent,
+          context: runningContext,
+          accent,
+          muted: COLORS.muted,
           pScale,
           margin: PAGE_MARGIN_MM,
           pageWidth: dims.width,
-          // Name/Class/Date fill-in fields belong on the first page only.
-          showFields: (opts.showFields ?? true) && page === 0,
+          showTitle: page > 0,
         });
 
         for (const { block, column, top } of byPage[page]) {
@@ -667,6 +950,24 @@ export const exportEvaluationPdf = async (
           pageTotal: pageCount,
           disclaimer: AI_MARKING_DISCLAIMER,
         });
+
+        // Bookmarks, so a three-page report can be jumped through rather than
+        // scrolled. Best-effort: the outline is an optional part of the engine's
+        // surface, and a viewer without a sidebar loses nothing by its absence.
+        if (copy === 0) {
+          try {
+            for (const { block } of byPage[page]) {
+              if (block.kind !== 'heading' && block.kind !== 'questionCard') continue;
+              const name = block.kind === 'questionCard' ? 'Question' : block.runs[0]?.text;
+              if (name && !bookmarked.has(name)) {
+                bookmarked.add(name);
+                doc.outline?.add(null, name, { pageNumber: pageNo });
+              }
+            }
+          } catch {
+            // An outline is navigation, not content.
+          }
+        }
 
         // Let the progress UI repaint between pages.
         await repaint();

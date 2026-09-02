@@ -205,7 +205,22 @@ describe('the report blocks carry their styling to the page', () => {
     const commentary = blocks.find((b) => b.runs[0]?.text.includes('do not analyse'));
 
     expect(commentary?.runs[0].spans?.some((s) => s.style === 'bold')).toBe(true);
-    expect(commentary?.runs[0].spans?.some((s) => s.color === COLORS.keyword)).toBe(true);
+  });
+
+  it('colours syllabus terms in the prose, and not in the commentary', () => {
+    // "Did I use the term?" is the reader's question about the response and the
+    // rewrite. In the marker's own commentary a second colour only competes with
+    // the **bold** the marker put there, so a page of feedback stops reading as
+    // a page of highlighter.
+    const blocks = buildEvaluationBlocks(
+      data({ studentAnswer: 'Caching stores data close to the user and cuts latency.' })
+    );
+    const carries = (b: (typeof blocks)[number] | undefined) =>
+      b?.runs[0].spans?.some((s) => s.color === COLORS.keyword) ?? false;
+
+    expect(carries(blocks.find((b) => b.kind === 'questionCard'))).toBe(true);
+    expect(carries(blocks.find((b) => b.id.startsWith('ans-')))).toBe(true);
+    expect(carries(blocks.find((b) => b.runs[0]?.text.includes('do not analyse')))).toBe(false);
   });
 
   it('leaves the report’s own furniture plain', () => {
@@ -227,9 +242,10 @@ describe('the report blocks carry their styling to the page', () => {
 
   it('prints in body colour throughout when no keywords are supplied', () => {
     const blocks = buildEvaluationBlocks(data({ keywords: undefined }));
+    const question = blocks.find((b) => b.kind === 'questionCard');
     const commentary = blocks.find((b) => b.runs[0]?.text.includes('do not analyse'));
 
-    expect(commentary?.runs[0].spans?.some((s) => s.color === COLORS.keyword)).toBe(false);
+    expect(question?.runs[0].spans?.some((s) => s.color === COLORS.keyword)).toBe(false);
     // Bold survives — it is the marker's, not the syllabus's.
     expect(commentary?.runs[0].spans?.some((s) => s.style === 'bold')).toBe(true);
   });
