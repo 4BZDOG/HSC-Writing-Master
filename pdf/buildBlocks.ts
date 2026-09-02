@@ -8,7 +8,7 @@ import { ContentBlock, TextRun } from './types';
 import { normalizeContent } from './text';
 import { parseInlineSpans, type InlineOptions } from './inline';
 import type { IconName } from './icons';
-import { getBandHexDark, getBandName } from '../utils/renderUtils';
+import { getBandHexDark, getBandName, textContainsKeyword } from '../utils/renderUtils';
 import {
   diffWords,
   rewrittenSentenceCount,
@@ -344,6 +344,35 @@ export const buildEvaluationBlocks = (
     });
   }
 
+  // 3b. The terms still to reach for --------------------------------------
+  // "2 of 7 key terms" is a scoreboard: it says how many without saying which,
+  // so a report whose commentary praises the student's terminology can look
+  // like it contradicts its own metric. Naming the ones still missing turns the
+  // number into something to do, and shows the count was right all along.
+  if (data.studentAnswer?.trim() && data.keywords?.length) {
+    const unused = data.keywords.filter((kw) => !textContainsKeyword(data.studentAnswer!, kw));
+    if (unused.length) {
+      const MAX_NAMED = 6;
+      const named = unused.slice(0, MAX_NAMED).join(', ');
+      const more = unused.length - MAX_NAMED;
+      blocks.push({
+        kind: 'paragraph',
+        id: nid('unused'),
+        fullWidth: true,
+        runs: [
+          run(
+            `Syllabus terms not yet used: ${named}` + (more > 0 ? ` (and ${more} more)` : '') + '.',
+            8,
+            { color: COLORS.muted, lineHeightFactor: 1.3 }
+          ),
+        ],
+        breakable: true,
+        basePadTop: 0.5,
+        basePadBottom: 2.5,
+      });
+    }
+  }
+
   // 4. Coach's tip ----------------------------------------------------------
   if (data.quickTip && data.quickTip.trim()) {
     blocks.push(heading("Coach's Tip", 'bulb'));
@@ -491,21 +520,12 @@ export const buildEvaluationBlocks = (
       if (stats.added + stats.removed > 0) {
         // The rule the user reads as "the rewrite ends here".
         blocks.push({ ...divider(COLORS.rule), fullWidth: true });
-        blocks.push(heading('What Changed', 'swap'));
-        // What the two markers mean, once, where the rows begin. The colours
-        // say it to a reader who knows the convention; this says it to the one
-        // who does not, and to anyone holding a greyscale photocopy.
-        blocks.push({
-          kind: 'paragraph',
-          id: nid('difflegend'),
-          runs: [
-            run('\u2212  what you wrote          +  what it became', 7.5, {
-              style: 'bold',
-              color: COLORS.muted,
-            }),
-          ],
-          basePadBottom: 1.6,
-        });
+
+        // With no rows to draw, the section is a single sentence — so it spans
+        // the page rather than sitting in a narrow column with the heading
+        // beside it and the sentence wrapping awkwardly in the other.
+        const holistic = changes.length === 0;
+        blocks.push({ ...heading('What Changed', 'swap'), fullWidth: holistic });
         const { rewritten, total } = rewrittenSentenceCount(data.studentAnswer, changes);
         const summary = changes.length
           ? `${rewritten} of your ${total} sentence${total === 1 ? '' : 's'} rewritten` +
@@ -514,6 +534,7 @@ export const buildEvaluationBlocks = (
         blocks.push({
           kind: 'paragraph',
           id: nid('diffsum'),
+          fullWidth: holistic,
           runs: [run(summary, 8, { style: 'bold', color: COLORS.muted })],
           basePadBottom: 2,
         });
@@ -527,6 +548,7 @@ export const buildEvaluationBlocks = (
           blocks.push({
             kind: 'paragraph',
             id: nid('chgminor'),
+            fullWidth: true,
             runs: [
               run(
                 'This rewrite reworks the response throughout rather than editing it in places, ' +
@@ -540,6 +562,20 @@ export const buildEvaluationBlocks = (
             basePadBottom: 2,
           });
         } else {
+          // The key to the two markers, and only where there are markers to
+          // key. Printed unconditionally it sat above the "reworked throughout"
+          // message explaining a red and a green that were nowhere on the page.
+          blocks.push({
+            kind: 'paragraph',
+            id: nid('difflegend'),
+            runs: [
+              run('\u2212  what you wrote          +  what it became', 7.5, {
+                style: 'bold',
+                color: COLORS.muted,
+              }),
+            ],
+            basePadBottom: 1.6,
+          });
           // A long revision rewrites most of the answer; past a point the list
           // stops being a revision aid and becomes a second copy of the rewrite.
           const MAX_PRINTED_CHANGES = 5;

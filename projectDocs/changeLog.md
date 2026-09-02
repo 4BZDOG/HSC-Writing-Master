@@ -1,5 +1,46 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-02 (Holistic-rewrite mode, and a band-stacking bug)
+
+### 🧾 A legend for markers that are not on the page
+
+Where a rewrite reworks the response throughout, "What Changed" prints a
+sentence saying so instead of a row list. It was still printing the −/+ colour
+key above that sentence — a key to two colours that appeared nowhere. The legend
+now goes with the rows, and in holistic mode the heading, the stats and the
+message span the page instead of leaving the heading in a narrow column with
+the sentence wrapping awkwardly beside it.
+
+### 📐 Two columns that end level
+
+`balanceLastColumn` only acted when the second column was entirely empty. A band
+whose columns merely ended at very different depths left the space under the
+shallower one dead, because the full-width band after it starts below the
+deeper. It now evens any ragged last page, cutting the page's block sequence
+wherever the two halves come closest — never between a heading and its body, or
+between the halves of a bound pair.
+
+**And a bug that came with it.** The depth recomputation after balancing was
+seeded at zero and REPLACED the page's recorded extent, so a band that ended on
+a page it placed nothing on wiped every earlier band off it and the next band
+printed straight over content already there. Taking the maximum with the
+existing value fixed the overprint but kept the band's own pre-balance depth,
+so the evening-out bought nothing. The depth is now recomputed from the band's
+own placements and floored by a snapshot taken before the band ran.
+
+### 🔤 The metric says which terms, not just how many
+
+"2 of 4 key terms" is a scoreboard: it says how many without saying which, so a
+report whose commentary praises the student's terminology can look like it
+contradicts its own metric. Under the response, the report now names the
+syllabus terms still missing — computed with the same matcher that produced the
+count, so the two cannot disagree.
+
+Worth recording: the matcher was probed against the terms in the review before
+anything was changed, and it already caught every one — `biometric login`,
+`biometrics`, `high contrast`, `password`. The count was right; what was missing
+was the list behind it.
+
 ## [Unreleased] - 2026-09-02 (Band calibration on short questions, and export polish)
 
 ### 🎯 A short question's band is a proportion now, not a countdown
