@@ -132,6 +132,40 @@ describe('the accordion renders a row per mark level', () => {
   });
 
   /**
+   * A rubric row can be written with a band label rather than a mark. The band
+   * it is DRAWN as has to be one this question can award, or the guide paints a
+   * colour the exemplar ladder never shows at the same mark.
+   */
+  it('snaps a band-labelled row onto the ladder this question can award', () => {
+    // A 4-mark Evaluate is the outlier this rule exists for: Tier 6, so the
+    // ladder runs 4/4 Band 6 down to 1/4 Band 3 and Band 2 is unreachable.
+    // The row belongs at mark 1, where the exemplar is Band 3 — so the row is
+    // Band 3 too, and both are drawn yellow.
+    const { container } = renderCriteria('Band 2: Elementary statements only.', {
+      verb: 'EVALUATE' as PromptVerb,
+      totalMarks: 4,
+    });
+
+    expect(screen.getByText('Band 3')).toBeTruthy();
+    expect(screen.queryByText('Band 2')).toBeNull();
+    const row = container.querySelector('div.items-stretch');
+    expect(row?.className).toMatch(/bg-yellow-500\/10/);
+  });
+
+  it('leaves a band-labelled row alone when the question can award that band', () => {
+    // Same verb, enough marks to spread: Band 2 is a real rung here, so the
+    // row keeps the number its author wrote and its own orange.
+    const { container } = renderCriteria('Band 2: Elementary statements only.', {
+      verb: 'EVALUATE' as PromptVerb,
+      totalMarks: 6,
+    });
+
+    expect(screen.getByText('Band 2')).toBeTruthy();
+    const row = container.querySelector('div.items-stretch');
+    expect(row?.className).toMatch(/bg-orange-500\/10/);
+  });
+
+  /**
    * The ladder has to READ as a ladder in both themes, and it paints itself
    * entirely from `getBandConfig` — so a level's row carries the band's fill in
    * both, not just its border. See `bandColors.test.ts` for the light-tint

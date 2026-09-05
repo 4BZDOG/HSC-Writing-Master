@@ -2,7 +2,12 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Prompt, SampleAnswer } from '../types';
 import { generateSampleAnswer } from '../services/geminiService';
-import { getCommandTermInfo, getBandForMark, TIER_GROUPS } from '../data/commandTerms';
+import {
+  getCommandTermInfo,
+  getBandForMark,
+  bandsForQuestion,
+  TIER_GROUPS,
+} from '../data/commandTerms';
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import {
@@ -100,8 +105,13 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
     [commandTermInfo.tier]
   );
 
-  const maxBand = useMemo(
-    () => getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier),
+  // The rungs this question HAS, highest first. A question with fewer marks
+  // than bands cannot award the bottom of the range — a 4-mark Evaluate runs
+  // Band 6 down to Band 3 — and counting 1..ceiling instead left the coverage
+  // strip showing dashed chips for bands no exemplar could ever fill, so
+  // "2 bands missing" never cleared and "Complete the ladder" never completed.
+  const ladderBands = useMemo(
+    () => bandsForQuestion(prompt.totalMarks, commandTermInfo.tier),
     [prompt.totalMarks, commandTermInfo.tier]
   );
 
@@ -117,22 +127,19 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
     // No samples yet → start with full marks (natural first exemplar)
     if (coveredBands.size === 0) return prompt.totalMarks;
     // Find the highest missing band and suggest the highest mark that maps to it
-    for (let b = maxBand; b >= 1; b--) {
+    for (const b of ladderBands) {
       if (!coveredBands.has(b)) {
         const options = markOptions.filter((o) => o.band === b && o.mark > 0);
         if (options.length > 0) return options[options.length - 1].mark;
       }
     }
     return prompt.totalMarks;
-  }, [maxBand, coveredBands, markOptions, prompt.totalMarks]);
+  }, [ladderBands, coveredBands, markOptions, prompt.totalMarks]);
 
-  const missingBands = useMemo(() => {
-    const missing: number[] = [];
-    for (let b = 1; b <= maxBand; b++) {
-      if (!coveredBands.has(b)) missing.push(b);
-    }
-    return missing;
-  }, [maxBand, coveredBands]);
+  const missingBands = useMemo(
+    () => ladderBands.filter((b) => !coveredBands.has(b)),
+    [ladderBands, coveredBands]
+  );
 
   /** One mark per band that has no exemplar yet — the "complete the ladder" pick. */
   const missingBandMarks = useMemo(() => {
@@ -538,7 +545,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                 <span className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider">
                   Coverage:
                 </span>
-                {Array.from({ length: maxBand }, (_, i) => i + 1).map((b) => {
+                {[...ladderBands].reverse().map((b) => {
                   const bConfig = getBandConfig(b);
                   const covered = coveredBands.has(b);
                   return (

@@ -28,13 +28,13 @@ import {
   getCommandTermInfo,
   getCommandTermsForMarks,
   getBandForMark,
-  markForBand,
+  bandMarkRanges,
   getNextLevelTarget,
   getStructureGuide,
   getExpectedCharRange,
   getExpectedTerms,
   getTargetBand,
-  TIER_GROUPS,
+  getTierTargetBand,
 } from '../data/commandTerms';
 import { generateId } from '../utils/idUtils';
 import {
@@ -91,8 +91,14 @@ const ROW_SEPARATION_RULE =
 /**
  * Build the marking-criteria instruction for AI prompts. For ≤6 marks, one line
  * per mark. For >6 marks, use band-aligned mark ranges (full marks first, then
- * descending bands down to Band 2) so the rubric stays concise and pedagogically
- * meaningful rather than listing 8-20 near-identical per-mark lines.
+ * one row per band) so the rubric stays concise and pedagogically meaningful
+ * rather than listing 8-20 near-identical per-mark lines.
+ *
+ * Both shapes name the band each row sits at, and both take it from the same
+ * ladder the exemplars and the marking guide's colours come from — per mark via
+ * `getBandForMark`, per range via `bandMarkRanges`. The model then writes each
+ * row against the band the app will actually label it with, rather than against
+ * a bare mark value.
  */
 const buildMarkingCriteriaInstruction = (
   marks: number,
@@ -100,39 +106,48 @@ const buildMarkingCriteriaInstruction = (
   verb?: string
 ): string => {
   if (marks <= 6) {
-    const lines = Array.from(
-      { length: marks },
-      (_, i) => `${marks - i} mark${marks - i !== 1 ? 's' : ''}: [criteria]`
-    ).join('\n');
+    const lines = Array.from({ length: marks }, (_, i) => {
+      const mark = marks - i;
+      return (
+        `${mark} mark${mark !== 1 ? 's' : ''}: ` +
+        `[criteria — Band ${getBandForMark(mark, marks, tier)}]`
+      );
+    }).join('\n');
     return (
       `A marking rubric in DESCENDING mark order addressing EVERY mark value individually. ` +
       `Each line MUST start with the mark value followed by a colon. ` +
       `For a ${marks}-mark question you MUST have exactly ${marks} lines:\n${lines}\n` +
+      `Write each row to the BAND named against it — that is the band this app labels ` +
+      `that mark with, and the band its exemplar answers demonstrate. ` +
       `NEVER skip a mark value, use ranges, or group marks together. ` +
       `NEVER use bullet points or paragraphs — only "N marks: description" lines. ` +
       ROW_SEPARATION_RULE
     );
   }
 
-  const tierGroup = TIER_GROUPS.find((g) => g.tier === tier);
-  const maxBand = tierGroup ? tierGroup.maxBand : Math.max(1, Math.min(6, tier));
-  const tiers: string[] = [];
-  tiers.push(`${marks} marks: [criteria for full marks — Band ${maxBand}]`);
-  for (let band = maxBand - 1; band >= 2; band--) {
-    const lo = markForBand(band, marks, tier);
-    const hi = markForBand(band + 1, marks, tier) - 1;
-    if (lo === hi) {
-      tiers.push(`${lo} mark${lo !== 1 ? 's' : ''}: [criteria — Band ${band}]`);
-    } else {
-      tiers.push(`${lo}-${hi} marks: [criteria — Band ${band}]`);
-    }
-  }
-  const lowestHi = markForBand(2, marks, tier) - 1;
-  if (lowestHi >= 1) {
-    tiers.push(
-      `1${lowestHi > 1 ? `-${lowestHi}` : ''} mark${lowestHi > 1 ? 's' : ''}: [minimal response — Band 1]`
-    );
-  }
+  // The rows are the bands this question can ACTUALLY award, and their real
+  // mark ranges, taken from the same ladder the exemplars and the marking-guide
+  // colours are drawn from. The previous shape counted bands down from the
+  // ceiling to Band 2 and derived each range from two markForBand() calls,
+  // which is only correct while every band in that count is reachable: for an
+  // unreachable one the two calls cross and the row came out as a reversed
+  // range ("3-2 marks: [criteria — Band 4]"). Nothing routed here hit that —
+  // the ≤6-mark branch above returns first, and above six marks the
+  // proportional rule reaches every band — but the ladder is the thing being
+  // described, so it is now the thing being read.
+  const ranges = bandMarkRanges(marks, tier);
+  const maxBand = ranges.length ? ranges[0].band : getTierTargetBand(tier);
+  const lowestBand = ranges.length ? ranges[ranges.length - 1].band : maxBand;
+  const tiers = ranges.map(({ band, lo, hi }) => {
+    const label = lo === hi ? `${lo} mark${lo === 1 ? '' : 's'}` : `${lo}-${hi} marks`;
+    const note =
+      band === maxBand
+        ? 'criteria for full marks'
+        : band === lowestBand
+          ? 'minimal response'
+          : 'criteria';
+    return `${label}: [${note} — Band ${band}]`;
+  });
 
   // Extended-response rubrics live or die on band DISCRIMINATION: each range
   // must be separable from its neighbours by quality of thinking, not length.
@@ -145,8 +160,9 @@ const buildMarkingCriteriaInstruction = (
   const verbLower = verb ? verb.toLowerCase() : 'meet the verb';
   return (
     `A marking rubric in DESCENDING order using NESA band-aligned mark ranges. ` +
-    `Start with full marks (${marks}/${marks}) at the top, then provide a criteria row ` +
-    `for each band down to Band 2, plus a minimal-response row for Band 1. ` +
+    `Start with full marks (${marks}/${marks}) at the top and write exactly one criteria row ` +
+    `for each band below, down to Band ${lowestBand}. ` +
+    `Do NOT add rows for bands outside that list — on a question this length they are not achievable. ` +
     `Format:\n${tiers.join('\n')}\n` +
     `Each line MUST start with the mark value or range followed by a colon. ` +
     `Write each row in NESA marker language and discriminate bands by COGNITIVE DEPTH, not response length: ` +

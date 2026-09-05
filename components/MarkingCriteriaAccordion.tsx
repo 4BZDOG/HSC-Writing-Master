@@ -123,11 +123,19 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
         // ignored the verb's ceiling, so a Tier-2 question's rows were placed
         // against marks it can never award.
         const bandMark = markForBand(topBand, prompt.totalMarks, commandTermInfo.tier);
+        // Then the band that mark ACTUALLY earns here, which is what both the
+        // label and the colour are read from. A question with fewer marks than
+        // bands cannot award the bottom of the range — a 4-mark Evaluate runs
+        // Band 6 down to Band 3 — so a row an author wrote as "Band 2:" was
+        // painting orange at mark 1 while the exemplar at that same mark sat
+        // yellow at Band 3. Where the authored band IS reachable this is a
+        // no-op and the row keeps the number it was written with.
+        const rowBand = getBandForMark(bandMark, prompt.totalMarks, commandTermInfo.tier);
         currentItem = {
-          markLabel: `Band ${topBand}`,
+          markLabel: `Band ${rowBand}`,
           markRange: [bandMark, bandMark],
           description: bandMatch[2].trim(),
-          band: topBand,
+          band: rowBand,
         };
       } else if (endMatch) {
         if (currentItem) items.push(currentItem);
