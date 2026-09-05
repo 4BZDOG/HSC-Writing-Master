@@ -171,32 +171,39 @@ provides.
 - **Manuscript**: `Newsreader` (Serif) - Used for the main writing area and AI exemplars to simulate the gravity of an official examination paper.
 - **Telemetry**: `JetBrains Mono` - Used for marks, token counts, and system logs.
 
-### Measure
+### Measure — an open problem, not a solved one
 
-A reading surface — a whole student response, the rewrite, the marker's
-commentary, an exemplar — carries `max-w-[56ch]`. Nothing else needs it: an
-11px criteria row in a 300px column is already narrower than any cap would make
-it, and a textarea is being written in, not read back.
+The reading surfaces have **no line-length cap**, and lines run long: about 148
+characters in a 1022px panel at 16px serif, and 114 in the improvement modal.
+The skill asks for under 80. This is a real defect and it is recorded here
+rather than fixed, because the obvious fix was tried and is worse.
 
-**`ch` is not a character.** It is the advance width of "0", which in Newsreader
-is noticeably wider than average lowercase, so a `ch` cap renders about 1.35×
-its number in real characters. Measured in the browser at 1600px: `68ch` gave
-**89** characters, and `56ch` gives **74–76**. That is why the number is 56 and
-not 65 or 68 — the obvious values are all over the 80-character line.
+`max-w-[56ch]` was added to five reading blocks and then reverted. Two
+measurements explain why:
 
-Two things this replaced. The three main reading blocks carried
-`prose prose-slate dark:prose-invert max-w-none`, and `@tailwindcss/typography`
-is not installed — `.prose` appears zero times in the built CSS. So those
-classes did nothing at all except `max-w-none`, which turned off a measure that
-was never on. And `max-w-prose` and `ch` units appeared nowhere in the codebase.
+- **The cap works.** 56ch renders 74–76 real characters, comfortably under 80.
+  (`ch` is the advance width of "0", about 1.35× wider than Newsreader's average
+  lowercase, so 68ch gives 89 characters and 65ch gives 88 — the intuitive
+  values are all over the line.)
+- **The container is twice as wide as prose wants.** 508px of text in a 1022px
+  panel. No cap both respects the measure and fills the panel: filling it needs
+  ~148 characters.
 
-**The writing surface is deliberately not capped.** At 1600px it runs to 114
-characters, which is too wide to read back comfortably — but its three stacked
-layers (textarea, highlight overlay, measuring mirror) must align pixel for
-pixel, and the card's width comes from the question above it, so a cap leaves a
-few hundred pixels of empty card. It shares one constant
-(`gridStackItemStyles` in `Editor.tsx`), so the change is one line when someone
-decides the trade is worth it.
+So the slack has to go somewhere, and neither option is acceptable as a text
+change alone. Left-aligned, the text stops halfway across its panel and reads as
+a bug — which is exactly how it was reported. Centred with `mx-auto`, the prose
+starts ~240px right of its own panel header, misaligning with the chrome
+directly above it.
+
+**The fix belongs to the container, not the text.** Either the reading panels
+get narrower, or the space beside them earns its keep — the PDF export solved
+the same problem by setting two columns. Both are layout decisions with their
+own review; capping the text inside a container nobody narrowed is not a
+shortcut to either.
+
+What not to repeat: the first attempt was verified by measuring characters per
+line, which looked right, and never by measuring the text against its container,
+which was the thing that was wrong.
 
 ### Weight
 

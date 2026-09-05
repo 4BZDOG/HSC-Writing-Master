@@ -770,7 +770,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             </span>
           </div>
           <div className="p-6 sm:p-8">
-            <div className="max-w-[56ch] font-serif leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-line">
+            <div className="font-serif leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-line">
               {renderFormattedText(userAnswer, prompt.keywords, prompt.verb)}
             </div>
           </div>
@@ -813,7 +813,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           {/* Serif, because this is the one passage on the page written TO the
               student — but at reading size. It used to be text-xl italic, which
               set the marker's aside larger than the question it was about. */}
-          <div className="max-w-[56ch] font-serif text-base sm:text-[17px] leading-relaxed text-slate-700 dark:text-slate-300 pl-3">
+          <div className="font-serif text-base sm:text-[17px] leading-relaxed text-slate-700 dark:text-slate-300 pl-3">
             {renderFormattedText(result.overallFeedback, prompt.keywords, prompt.verb)}
           </div>
         </div>
@@ -1035,7 +1035,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
               colour on this page that could not follow a theme change. */}
           <div className="p-6 sm:p-8 bg-white dark:bg-[rgb(var(--color-bg-surface))] relative z-10">
             {revisedText ? (
-              <div className="max-w-[56ch] font-serif text-base sm:text-[17px] leading-relaxed text-slate-800 dark:text-slate-200">
+              <div className="font-serif text-base sm:text-[17px] leading-relaxed text-slate-800 dark:text-slate-200">
                 {renderFormattedText(revisedText, prompt.keywords, prompt.verb)}
               </div>
             ) : (
