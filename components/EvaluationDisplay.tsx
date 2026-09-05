@@ -598,7 +598,11 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                       /{prompt.totalMarks}
                     </span>
                   </h1>
-                  <p className="t-label opacity-80 mt-2">Assessment Score</p>
+                  {/* "Result", not "Assessment Score". The word carries weight in the HSC
+                      that practice marking has not earned, which is why it was taken out
+                      of the exported report; the screen it was exported from still said
+                      it. See pdf/buildBlocks.ts, where the same cell is labelled. */}
+                  <p className="t-label opacity-80 mt-2">Result</p>
                 </div>
                 <div
                   className={`w-14 h-14 shrink-0 rounded-2xl flex items-center justify-center bg-white/20 backdrop-blur-md border border-white/20 shadow-lg no-print`}
