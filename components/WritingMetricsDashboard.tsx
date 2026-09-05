@@ -36,9 +36,7 @@ const StatBox: React.FC<{
   <div className="flex-1 flex flex-col items-center justify-center py-3 px-2 border-r border-slate-200 dark:border-white/10 last:border-r-0 transition-colors">
     <div className="flex items-center gap-1.5">
       <Icon className="w-3 h-3 text-slate-500 dark:text-slate-400" />
-      <span className="text-[9px] font-black uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
-        {label}
-      </span>
+      <span className="t-label text-slate-500 dark:text-slate-400">{label}</span>
     </div>
     <span className={`text-lg font-black tabular-nums tracking-tight leading-tight ${colorClass}`}>
       {value}
@@ -64,9 +62,7 @@ const StructureTile: React.FC<{
     <span className="block text-lg font-black tabular-nums tracking-tight text-slate-900 dark:text-white">
       {value}
     </span>
-    <span className="block text-[9px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mt-0.5">
-      {label}
-    </span>
+    <span className="t-label block text-slate-500 dark:text-slate-400 mt-0.5">{label}</span>
   </div>
 );
 
@@ -261,7 +257,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
               >
                 {/* Named, not just a chevron — the panel starts collapsed, so
                     nothing else tells a student the term tracker is in here. */}
-                <span className="text-[9px] font-black uppercase tracking-[0.15em] whitespace-nowrap">
+                <span className="t-label whitespace-nowrap">
                   {isCollapsed ? 'Terms & Structure' : 'Hide'}
                 </span>
                 <PanelReadChip show={opened && isCollapsed} />
@@ -285,11 +281,11 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                 <div className="flex items-center justify-between gap-4 mb-3 px-0.5">
                   <div className="flex items-center gap-3 min-w-0">
                     <BarChart3 className="w-4 h-4 shrink-0 text-indigo-500 dark:text-indigo-400" />
-                    <span className="text-[10px] font-black uppercase tracking-widest sm:tracking-[0.3em] text-slate-500 dark:text-slate-400 truncate">
+                    <span className="t-label sm:tracking-[0.3em] text-slate-500 dark:text-slate-400 truncate">
                       Target Standard: {progressInfo.targetLabel}
                     </span>
                   </div>
-                  <span className="text-[10px] font-mono font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest whitespace-nowrap">
+                  <span className="t-label font-mono text-slate-500 dark:text-slate-400 whitespace-nowrap">
                     {Math.round(progressInfo.percentage)}% Capacity
                   </span>
                 </div>
@@ -306,13 +302,11 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                   <div className="flex items-center justify-between gap-3 px-0.5">
                     <div className="flex items-center gap-3">
                       <Sparkles className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
-                      <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400">
-                        Syllabus Terms
-                      </h4>
+                      <h4 className="t-label text-slate-500 dark:text-slate-400">Syllabus Terms</h4>
                     </div>
                     {(prompt.keywords?.length || 0) > 0 && (
                       <span
-                        className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border ${
+                        className={`t-label px-2 py-0.5 rounded-full border ${
                           keywordStats.missed.length === 0
                             ? `${progressInfo.currentBandColor.bg} ${progressInfo.currentBandColor.text} ${progressInfo.currentBandColor.border}`
                             : 'text-slate-500 dark:text-slate-400 border-slate-200 dark:border-white/10'
@@ -345,9 +339,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                 <div className="flex flex-col gap-2.5">
                   <div className="flex items-center gap-3 px-0.5">
                     <AlignLeft className="w-4 h-4 text-sky-500 dark:text-sky-400" />
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400">
-                      Structure
-                    </h4>
+                    <h4 className="t-label text-slate-500 dark:text-slate-400">Structure</h4>
                   </div>
                   <div className="grid grid-cols-3 gap-2">
                     <StructureTile

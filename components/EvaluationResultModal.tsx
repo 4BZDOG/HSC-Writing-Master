@@ -92,15 +92,15 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
               <FileCheck className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div className="min-w-0">
-              <h2 className="text-lg sm:text-xl font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 tracking-normal uppercase italic leading-none whitespace-nowrap">
+              <h2 className="text-lg sm:text-xl font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 tracking-normal italic leading-none whitespace-nowrap">
                 Marking Feedback
               </h2>
               <div className="flex items-center gap-2 mt-1.5">
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[rgb(var(--color-text-muted))] light:text-slate-500 whitespace-nowrap">
+                <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 whitespace-nowrap">
                   {prompt.verb}
                 </span>
                 <span className="w-1 h-1 rounded-full bg-white/20 light:bg-slate-300"></span>
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[rgb(var(--color-text-muted))] light:text-slate-500 whitespace-nowrap">
+                <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 whitespace-nowrap">
                   {prompt.totalMarks} Marks
                 </span>
               </div>
@@ -111,7 +111,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
               close button always stays on screen. */}
           <div className="flex items-center gap-2 sm:gap-3 relative z-10 shrink-0">
             <div
-              className="flex items-center gap-2 p-2.5 sm:px-5 sm:py-2.5 rounded-xl bg-emerald-500/10 light:bg-emerald-50 text-emerald-500 light:text-emerald-700 text-xs font-bold uppercase tracking-wider border border-emerald-500/20 light:border-emerald-200"
+              className="t-label flex items-center gap-2 p-2.5 sm:px-5 sm:py-2.5 rounded-xl bg-emerald-500/10 light:bg-emerald-50 text-emerald-500 light:text-emerald-700 border border-emerald-500/20 light:border-emerald-200"
               title="This marked response has been auto-saved to your library"
             >
               <Check className="w-4 h-4" />

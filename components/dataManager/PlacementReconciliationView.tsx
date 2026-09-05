@@ -242,7 +242,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
               <div>
                 <label
                   htmlFor="bulk-topic"
-                  className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1 block"
+                  className="t-label text-[rgb(var(--color-text-muted))] mb-1 block"
                 >
                   Topic
                 </label>
@@ -263,7 +263,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
               <div>
                 <label
                   htmlFor="bulk-subtopic"
-                  className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1 block"
+                  className="t-label text-[rgb(var(--color-text-muted))] mb-1 block"
                 >
                   Sub-topic
                 </label>
@@ -292,7 +292,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
               <div>
                 <label
                   htmlFor="bulk-dotpoint"
-                  className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1 block"
+                  className="t-label text-[rgb(var(--color-text-muted))] mb-1 block"
                 >
                   Dot Point
                 </label>
@@ -373,7 +373,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                         ) : (
                           <Package className="w-4 h-4 text-[rgb(var(--color-text-muted))] shrink-0" />
                         )}
-                        <span className="text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
+                        <span className="t-label text-[rgb(var(--color-text-muted))]">
                           {group.prompts.length} question
                           {group.prompts.length !== 1 ? 's' : ''}
                         </span>
@@ -410,7 +410,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
 
                   {isExpanded && (
                     <div className="mb-4 sm:ml-6 p-3 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 border border-[rgb(var(--color-border-secondary))]/50 animate-fade-in">
-                      <p className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-2">
+                      <p className="t-label text-[rgb(var(--color-text-muted))] mb-2">
                         Questions in this group
                       </p>
                       <ul className="space-y-1.5">
@@ -454,7 +454,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                         <div>
                           <label
                             htmlFor={`${group.id}-topic`}
-                            className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1 block"
+                            className="t-label text-[rgb(var(--color-text-muted))] mb-1 block"
                           >
                             Topic
                           </label>
@@ -478,7 +478,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                         <div>
                           <label
                             htmlFor={`${group.id}-subtopic`}
-                            className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1 block"
+                            className="t-label text-[rgb(var(--color-text-muted))] mb-1 block"
                           >
                             Sub-topic
                           </label>
@@ -507,7 +507,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                         <div>
                           <label
                             htmlFor={`${group.id}-dotpoint`}
-                            className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1 block"
+                            className="t-label text-[rgb(var(--color-text-muted))] mb-1 block"
                           >
                             Dot Point
                           </label>

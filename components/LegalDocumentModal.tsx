@@ -51,9 +51,7 @@ const LegalDocumentModal: React.FC<LegalDocumentModalProps> = ({
             <Scale className="w-5 h-5" />
           </div>
           <div className="min-w-0">
-            <span className="text-[10px] font-black uppercase tracking-[0.25em] text-white/70 block">
-              The fine print
-            </span>
+            <span className="t-label text-white/70 block">The fine print</span>
             <h2 id="legal-modal-title" className="text-lg font-black tracking-tight leading-tight">
               Terms &amp; Privacy
             </h2>

@@ -624,14 +624,14 @@ const Editor = forwardRef<
                   <h3 className={CARD_HEADER_TITLE}>Written Response</h3>
                   {isExamMode ? (
                     <div className={CARD_HEADER_META_ROW}>
-                      <span className="text-[9px] leading-none bg-red-500/90 px-2 py-1 rounded-md border border-white/20 font-black uppercase tracking-widest flex items-center gap-1 shadow-sm">
+                      <span className="t-label leading-none bg-red-500/90 px-2 py-1 rounded-md border border-white/20 flex items-center gap-1 shadow-sm">
                         <GraduationCap className="w-3 h-3" /> Exam
                       </span>
                       <p className={CARD_HEADER_META}>No assistance</p>
                     </div>
                   ) : (
                     <div className={CARD_HEADER_META_ROW}>
-                      <span className="text-[9px] leading-none whitespace-nowrap bg-white/20 px-2 py-1 rounded-md border border-white/15 font-black uppercase tracking-widest shadow-sm backdrop-blur-sm">
+                      <span className="t-label leading-none whitespace-nowrap bg-white/20 px-2 py-1 rounded-md border border-white/15 shadow-sm backdrop-blur-sm">
                         Band {chroma.targetBand}
                       </span>
                       <div
@@ -674,7 +674,7 @@ const Editor = forwardRef<
                           onClick={() => onWritingModeChange('coach')}
                           aria-pressed={!isExamMode}
                           title="Coach Mode — live highlighting, insights and exemplars"
-                          className={`px-2.5 h-6 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-[0.98] ${!isExamMode ? 'bg-white text-slate-900 shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                          className={`t-label px-2.5 h-6 rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${!isExamMode ? 'bg-white text-slate-900 shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
                         >
                           <Lightbulb className="w-3.5 h-3.5" />
                           <span className="hidden 2xl:inline">Coach</span>
@@ -690,7 +690,7 @@ const Editor = forwardRef<
                           }}
                           aria-pressed={isExamMode}
                           title="Exam Mode — HSC exam simulation: no assistance, timed"
-                          className={`px-2.5 h-6 rounded-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all active:scale-[0.98] ${isExamMode ? 'bg-red-500 text-white shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                          className={`t-label px-2.5 h-6 rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${isExamMode ? 'bg-red-500 text-white shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
                         >
                           <GraduationCap className="w-3.5 h-3.5" />
                           <span className="hidden 2xl:inline">Exam</span>
@@ -768,7 +768,7 @@ const Editor = forwardRef<
                           ? 'Exit focus mode (Esc)'
                           : 'Distraction-free writing (Ctrl / ⌘ + Shift + F)'
                       }
-                      className={`ml-1.5 px-2.5 h-6 rounded-lg transition-all font-black text-[10px] uppercase tracking-wider flex items-center gap-1.5 ${isFocusMode ? 'bg-amber-500 text-white shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'}`}
+                      className={`t-label ml-1.5 px-2.5 h-6 rounded-lg transition-all flex items-center gap-1.5 ${isFocusMode ? 'bg-amber-500 text-white shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'}`}
                     >
                       {isFocusMode ? (
                         <Minimize className="w-3.5 h-3.5" />
@@ -845,7 +845,7 @@ const Editor = forwardRef<
                   />
                 )}
                 <span
-                  className={`text-[10px] font-black uppercase tracking-[0.15em] flex-shrink-0 ${
+                  className={`t-label flex-shrink-0 ${
                     strategySpent
                       ? 'text-[rgb(var(--color-text-dim))] light:text-slate-500'
                       : 'text-amber-400/90 light:text-amber-700'
@@ -916,7 +916,7 @@ const Editor = forwardRef<
                 <div className="flex items-start gap-3 px-4 py-3 rounded-2xl border border-amber-400/40 bg-amber-50 light:bg-amber-50 dark:bg-amber-950/80 backdrop-blur-xl shadow-xl">
                   <PenTool className="w-4 h-4 mt-0.5 shrink-0 text-amber-600 dark:text-amber-400" />
                   <div className="min-w-0">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-600 dark:text-amber-400">
+                    <p className="t-label text-amber-600 dark:text-amber-400">
                       Pasting is switched off
                     </p>
                     <p className="text-xs font-medium leading-relaxed text-amber-900 dark:text-amber-100/90 mt-1">
@@ -1005,7 +1005,7 @@ const Editor = forwardRef<
               ref={footerContentRef}
               className="w-full flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5"
             >
-              <div className="flex items-center gap-4 sm:gap-6 text-[10px] text-[rgb(var(--color-text-dim))] font-black uppercase tracking-widest select-none whitespace-nowrap">
+              <div className="t-label flex items-center gap-4 sm:gap-6 text-[rgb(var(--color-text-dim))] select-none whitespace-nowrap">
                 <span className="flex items-center gap-1.5">
                   <Type className="w-3.5 h-3.5 opacity-50" /> {value.length}{' '}
                   {value.length === 1 ? 'Char' : 'Chars'}
@@ -1047,7 +1047,7 @@ const Editor = forwardRef<
                     className="w-2.5 h-2.5 rounded-full transition-colors duration-700 ring-2 ring-slate-900/10 dark:ring-white/10"
                     style={{ backgroundColor: chroma.accent }}
                   />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-secondary))]">
+                  <span className="t-label text-[rgb(var(--color-text-secondary))]">
                     {isExamMode
                       ? 'Exam Conditions'
                       : `Band ${chroma.targetBand} Target · ${chroma.name}`}
@@ -1057,7 +1057,7 @@ const Editor = forwardRef<
                       — a completeness word (never a band name), only once the
                       draft has real substance and outside exam mode. */}
                   {!isExamMode && readiness && !readiness.isNeutral && (
-                    <span className="text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-dim))]">
+                    <span className="t-label text-[rgb(var(--color-text-dim))]">
                       · {readiness.label}
                     </span>
                   )}

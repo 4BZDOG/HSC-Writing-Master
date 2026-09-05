@@ -429,7 +429,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             <AlertTriangle className="w-6 h-6 shrink-0" />
           </div>
           <div>
-            <h4 className="font-black uppercase tracking-[0.2em] text-xs mb-2">
+            <h4 className="t-label mb-2">
               {/timed? ?out/i.test(evaluationError)
                 ? 'Evaluation Timed Out'
                 : /quota|limit|429/i.test(evaluationError)
@@ -447,7 +447,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             )}
             <button
               onClick={onEvaluate}
-              className="mt-3 text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 transition-colors"
+              className="t-label mt-3 px-4 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 transition-colors"
             >
               Try Again
             </button>

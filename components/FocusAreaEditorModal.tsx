@@ -139,7 +139,7 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
 
         <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-5 bg-[rgb(var(--color-bg-surface))] light:bg-white">
           <div className="p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200">
-            <p className="text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2">
+            <p className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2">
               Syllabus dot point
             </p>
             <p className="text-sm leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-700 font-serif">
@@ -151,14 +151,14 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
             <div className="flex items-center justify-between gap-3 mb-3">
               <label
                 htmlFor="focus-area-input"
-                className="text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-muted))] light:text-slate-500"
+                className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500"
               >
                 Focus areas ({items.length})
               </label>
               {differsFromParsed && parsed.length > 0 && (
                 <button
                   onClick={() => setItems(parsed)}
-                  className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-emerald-500 transition-colors flex items-center gap-1.5"
+                  className="t-label px-2.5 py-1 rounded-lg text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-emerald-500 transition-colors flex items-center gap-1.5"
                   title={`Automatic reading: ${parsed.join(', ')}`}
                 >
                   <RotateCcw className="w-3 h-3" /> Use the automatic reading
@@ -233,7 +233,7 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
               <button
                 onClick={addDraft}
                 disabled={!draft.trim()}
-                className="px-4 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25 transition-all disabled:opacity-40 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider"
+                className="t-label px-4 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25 transition-all disabled:opacity-40 flex items-center gap-1.5"
               >
                 <Plus className="w-3.5 h-3.5" /> Add
               </button>
@@ -259,7 +259,7 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
                 ? 'Discard the hand-set list and read the syllabus wording again'
                 : 'This dot point is already using the automatic reading'
             }
-            className="py-2.5 px-4 rounded-lg text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:text-red-500 transition disabled:opacity-40 disabled:hover:text-[rgb(var(--color-text-muted))] flex items-center gap-2"
+            className="t-label py-2.5 px-4 rounded-lg text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:text-red-500 transition disabled:opacity-40 disabled:hover:text-[rgb(var(--color-text-muted))] flex items-center gap-2"
           >
             <RotateCcw className="w-3.5 h-3.5" /> Reset to automatic
           </button>

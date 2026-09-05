@@ -234,8 +234,15 @@ describe('the bar carries both themes', () => {
   });
 
   it('stopped changing the sub-label’s tracking at a breakpoint', () => {
-    expect(HEADER_SUBLABEL).toContain('tracking-[0.2em]');
-    expect(HEADER_SUBLABEL).not.toContain('sm:tracking-');
+    // The fault this pins is a tracking that JUMPED at `sm` — it was the only
+    // responsive tracking in the codebase, and it made the label resize itself
+    // mid-breakpoint. The `tracking-[0.2em]` it used to assert was incidental
+    // to that: the sub-label is a label, so it now carries `.t-label` and takes
+    // its letter-spacing from there (normal, per DesignSpec §4). No tracking
+    // utility at all satisfies the original intent more completely than a
+    // single one did.
+    expect(HEADER_SUBLABEL).toContain('t-label');
+    expect(HEADER_SUBLABEL).not.toMatch(/(^|\s|:)tracking-/);
   });
 });
 

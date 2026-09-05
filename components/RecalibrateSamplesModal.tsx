@@ -59,7 +59,7 @@ const QuickPick: React.FC<{
   <button
     onClick={() => onPick(ids)}
     disabled={disabled}
-    className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 border border-[rgb(var(--color-border-secondary))]/25 light:border-slate-200 hover:text-indigo-500 transition-colors disabled:opacity-40"
+    className="t-label px-2.5 py-1 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 border border-[rgb(var(--color-border-secondary))]/25 light:border-slate-200 hover:text-indigo-500 transition-colors disabled:opacity-40"
   >
     {label}
   </button>
@@ -171,7 +171,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
         </div>
 
         <div className="px-6 py-3 border-b border-[rgb(var(--color-border-secondary))]/20 light:border-slate-200 flex flex-wrap items-center gap-2 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50">
-          <span className="text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-muted))] light:text-slate-500 mr-1">
+          <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mr-1">
             Select
           </span>
           <QuickPick
@@ -226,7 +226,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
                     <span className={`text-xs font-black ${config.text}`}>
                       {sample.mark}/{prompt.totalMarks}
                     </span>
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                    <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
                       Band {derivedBand}
                       {sample.source === 'AI' && sample.derivedFromStudent
                         ? ' · Student + AI'
@@ -238,7 +238,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
                     </span>
                     {mismatched && (
                       <span
-                        className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30"
+                        className="t-label inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30"
                         title={`Stored as Band ${sample.band}, but ${sample.mark}/${prompt.totalMarks} is Band ${derivedBand} on this question`}
                       >
                         <AlertTriangle className="w-2.5 h-2.5" /> Band {sample.band} stored

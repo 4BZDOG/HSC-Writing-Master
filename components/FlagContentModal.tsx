@@ -93,7 +93,7 @@ const FlagContentModal: React.FC<FlagContentModalProps> = ({
                     “{existingFlag?.reason}”
                   </blockquote>
                   {existingFlag?.flaggedAt ? (
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                    <p className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
                       Flagged {new Date(existingFlag.flaggedAt).toLocaleDateString()}
                       {existingFlag.flaggedBy ? ` · ${existingFlag.flaggedBy}` : ''}
                     </p>

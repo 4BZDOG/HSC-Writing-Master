@@ -31,7 +31,7 @@ const StatItem = ({ label, value, icon: Icon, color }: StatItemProps) => (
       >
         <Icon className="w-4 h-4" />
       </div>
-      <span className="text-xs font-bold uppercase tracking-wider text-slate-500 light:text-slate-500 group-hover:text-slate-300 light:group-hover:text-slate-700 transition-colors">
+      <span className="t-label text-slate-500 light:text-slate-500 group-hover:text-slate-300 light:group-hover:text-slate-700 transition-colors">
         {label}
       </span>
     </div>
@@ -61,16 +61,14 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
         </div>
         <div>
           <div className="flex items-center gap-3 mb-1">
-            <span
-              className={`text-[10px] font-black uppercase tracking-[0.4em] ${result.isValid ? 'text-emerald-500' : 'text-red-500'}`}
-            >
+            <span className={`t-label ${result.isValid ? 'text-emerald-500' : 'text-red-500'}`}>
               Validation
             </span>
             <div
               className={`h-1 w-1 rounded-full ${result.isValid ? 'bg-emerald-500' : 'bg-red-500'}`}
             />
           </div>
-          <h4 className="text-2xl font-black text-white light:text-slate-900 tracking-tight uppercase italic">
+          <h4 className="text-2xl font-black text-white light:text-slate-900 tracking-tight italic">
             {result.isValid
               ? result.warnings.length > 0
                 ? 'Valid with Warnings'
@@ -113,7 +111,7 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
             <div className="p-1.5 rounded-lg bg-red-500/20">
               <AlertCircle className="w-4 h-4 text-red-400" />
             </div>
-            <h5 className="text-xs font-bold text-red-500 uppercase tracking-wider">Errors</h5>
+            <h5 className="t-label text-red-500">Errors</h5>
           </div>
           <ul className="space-y-3">
             {result.errors.slice(0, 5).map((err, i) => (
@@ -140,7 +138,7 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
             <div className="p-1.5 rounded-lg bg-amber-500/20">
               <AlertTriangle className="w-4 h-4 text-amber-400" />
             </div>
-            <h5 className="text-xs font-bold text-amber-500 uppercase tracking-wider">Warnings</h5>
+            <h5 className="t-label text-amber-500">Warnings</h5>
           </div>
           <ul className="space-y-3">
             {result.warnings.slice(0, 5).map((warn, i) => (

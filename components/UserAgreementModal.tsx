@@ -106,7 +106,7 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
         <div className="relative px-6 sm:px-8 py-6 bg-gradient-to-br from-indigo-600 via-indigo-500 to-sky-500 text-white overflow-hidden shrink-0">
           <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/20 blur-3xl rounded-full pointer-events-none" />
           <div className="relative z-10">
-            <span className="text-[10px] font-black uppercase tracking-[0.25em] text-white/75 block">
+            <span className="t-label text-white/75 block">
               {charter.eyebrow} · v{AGREEMENT_VERSION}
             </span>
             <h2
@@ -126,7 +126,7 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
               earlier version, and only when we can actually say what moved. */}
           {returning && changes.length > 0 && (
             <div className="mb-6 rounded-2xl bg-amber-400/5 light:bg-amber-50 border border-amber-400/20 light:border-amber-200 p-4">
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 light:text-amber-700 flex items-center gap-2 mb-3">
+              <span className="t-label text-amber-500 light:text-amber-700 flex items-center gap-2 mb-3">
                 <History className="w-3.5 h-3.5" /> What changed
               </span>
               <ul className="space-y-2">
@@ -190,7 +190,7 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
             >
               <ScrollText className="w-4 h-4 text-indigo-400 light:text-indigo-600 shrink-0" />
               <span className="flex-1 min-w-0">
-                <span className="block text-xs font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 uppercase tracking-wide">
+                <span className="t-label block text-[rgb(var(--color-text-primary))] light:text-slate-900">
                   Read the full Terms of Use and Privacy Notice
                 </span>
                 <span className="block text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-0.5 font-medium">
@@ -239,7 +239,7 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
             <button
               onClick={blocking ? onAccept : onDismiss}
               disabled={!canContinue}
-              className="flex-1 px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs uppercase tracking-widest shadow-xl shadow-indigo-900/30 hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:hover:scale-100 disabled:cursor-not-allowed"
+              className="t-label flex-1 px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-xl shadow-indigo-900/30 hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:hover:scale-100 disabled:cursor-not-allowed"
             >
               {isSaving ? (
                 'Saving…'
@@ -256,7 +256,7 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
             {blocking && (
               <button
                 onClick={onLogout}
-                className="px-5 py-3.5 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-bold text-xs uppercase tracking-widest border border-white/5 light:border-slate-200 hover:bg-white/10 light:hover:bg-slate-200 transition-all flex items-center justify-center gap-2"
+                className="t-label px-5 py-3.5 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-secondary))] light:text-slate-600 border border-white/5 light:border-slate-200 hover:bg-white/10 light:hover:bg-slate-200 transition-all flex items-center justify-center gap-2"
               >
                 <LogOut className="w-3.5 h-3.5" /> Sign out
               </button>

@@ -98,19 +98,13 @@ const MetricCard = ({
       >
         <Icon className="w-4 h-4" />
       </div>
-      <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 truncate">
-        {label}
-      </h4>
+      <h4 className="t-label text-slate-500 dark:text-slate-400 truncate">{label}</h4>
     </div>
     <div className="flex items-baseline gap-1.5 mt-auto">
       <span className="text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-none">
         {value}
       </span>
-      {subtext && (
-        <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-          {subtext}
-        </span>
-      )}
+      {subtext && <span className="t-label text-slate-500 dark:text-slate-400">{subtext}</span>}
     </div>
   </div>
 );
@@ -133,9 +127,7 @@ const BandGoalCard = ({ currentBand, maxBand }: { currentBand: number; maxBand: 
         >
           <Trophy className="w-4 h-4" />
         </div>
-        <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 truncate">
-          Band {maxBand} Goal
-        </h4>
+        <h4 className="t-label text-slate-500 dark:text-slate-400 truncate">Band {maxBand} Goal</h4>
       </div>
       <div>
         <span className="block text-2xl font-black text-slate-900 dark:text-white tracking-tight leading-none mb-3">
@@ -170,7 +162,7 @@ const BandGoalCard = ({ currentBand, maxBand }: { currentBand: number; maxBand: 
         </div>
         {/* The band name belongs to the CURRENT band, so it reads as a caption
             on the meter rather than as a modifier of "n bands to go" above. */}
-        <p className="mt-2.5 text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        <p className="t-label mt-2.5 text-slate-500 dark:text-slate-400">
           Now Band {currentBand} · {getBandName(currentBand)}
         </p>
       </div>
@@ -208,7 +200,7 @@ const SectionHeading: React.FC<{
     <div className={`p-1.5 rounded-lg ${toneBg ?? 'bg-slate-100 dark:bg-white/10'} ${tone}`}>
       <Icon className="w-3.5 h-3.5" />
     </div>
-    <h3 className={`text-[11px] font-black uppercase tracking-[0.18em] ${tone}`}>{label}</h3>
+    <h3 className={`t-label ${tone}`}>{label}</h3>
     {children}
   </div>
 );
@@ -560,10 +552,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             {syllabusTrail.map((segment, i) => (
               <React.Fragment key={i}>
                 {i > 0 && <ChevronRight className="w-3 h-3 shrink-0 opacity-50" />}
-                <span
-                  className="text-[10px] font-bold uppercase tracking-wider whitespace-nowrap"
-                  title={segment}
-                >
+                <span className="t-label whitespace-nowrap" title={segment}>
                   {segment}
                 </span>
               </React.Fragment>
@@ -571,10 +560,10 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           </nav>
         )}
         <div className="flex flex-wrap items-center gap-2">
-          <span className="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-[0.15em] bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300">
+          <span className="t-label px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300">
             {prompt.verb}
           </span>
-          <span className="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-[0.15em] bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300">
+          <span className="t-label px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300">
             {prompt.totalMarks} Marks
           </span>
         </div>
@@ -599,7 +588,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                     className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/20 mb-4 shadow-sm backdrop-blur-md bg-white/20`}
                   >
                     <Award className="w-3.5 h-3.5" />
-                    <span className="text-[10px] font-black uppercase tracking-widest">
+                    <span className="t-label">
                       Band {result.overallBand} · {getBandName(result.overallBand)}
                     </span>
                   </div>
@@ -609,9 +598,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                       /{prompt.totalMarks}
                     </span>
                   </h1>
-                  <p className="text-xs font-bold opacity-80 mt-2 tracking-[0.15em] uppercase">
-                    Assessment Score
-                  </p>
+                  <p className="t-label opacity-80 mt-2">Assessment Score</p>
                 </div>
                 <div
                   className={`w-14 h-14 shrink-0 rounded-2xl flex items-center justify-center bg-white/20 backdrop-blur-md border border-white/20 shadow-xl no-print`}
@@ -776,11 +763,9 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
               <div className="p-2 rounded-xl bg-slate-200/70 dark:bg-white/10 text-slate-600 dark:text-slate-300">
                 <PenLine className="w-4 h-4" />
               </div>
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
-                {userName}'s Response
-              </h3>
+              <h3 className="t-label text-slate-500 dark:text-slate-400">{userName}'s Response</h3>
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            <span className="t-label text-slate-500 dark:text-slate-400">
               {wordCount} words · as submitted
             </span>
           </div>
@@ -807,11 +792,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             <Lightbulb className="w-5 h-5" />
           </div>
           <div className="min-w-0 pt-0.5">
-            <span
-              className={`block mb-1 text-[10px] font-black uppercase tracking-[0.18em] ${bandConfig.text}`}
-            >
-              Coach's Tip
-            </span>
+            <span className={`t-label block mb-1 ${bandConfig.text}`}>Coach's Tip</span>
             {/* Run through the formatter like every other piece of marker prose
                 — it used to be the one place a syllabus term printed plain. */}
             <p className="text-sm font-semibold leading-relaxed text-slate-700 dark:text-slate-200">
@@ -976,17 +957,17 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 <Zap className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="text-lg font-black uppercase tracking-normal italic text-white">
+                <h4 className="text-lg font-black tracking-normal italic text-white">
                   Improved Response
                 </h4>
                 <div className="flex items-center gap-3 mt-1">
-                  <span className="text-[10px] font-bold text-white/90 uppercase tracking-widest">
+                  <span className="t-label text-white/90">
                     {revisedText
                       ? `Your answer, lifted to ${exemplarMark}/${prompt.totalMarks} — Band ${exemplarBand}`
                       : `See your answer rewritten to ${exemplarMark}/${prompt.totalMarks}`}
                   </span>
                   {revisedText && result.overallMark < exemplarMark && (
-                    <span className="px-2 py-0.5 rounded-lg bg-white/20 text-white text-[9px] font-black uppercase tracking-wider backdrop-blur-sm no-print">
+                    <span className="t-label px-2 py-0.5 rounded-lg bg-white/20 text-white backdrop-blur-sm no-print">
                       +{exemplarMark - result.overallMark} Mark
                     </span>
                   )}
@@ -1009,7 +990,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                       ? 'AI answer upgrades are part of Band 6 Plus — tap to learn more'
                       : undefined
                   }
-                  className={`px-5 py-3 rounded-xl text-white border text-[11px] font-bold uppercase tracking-widest transition-all hover:scale-105 active:scale-[0.98] flex items-center gap-2 backdrop-blur-sm ${
+                  className={`t-label px-5 py-3 rounded-xl text-white border transition-all hover:scale-105 active:scale-[0.98] flex items-center gap-2 backdrop-blur-sm ${
                     upgradesLocked
                       ? 'bg-amber-400/15 hover:bg-amber-400/25 border-amber-300/50'
                       : 'bg-white/10 hover:bg-white/20 border-white/20'
@@ -1032,7 +1013,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
               {revisedText && onCompareImprovement && (
                 <button
                   onClick={onCompareImprovement}
-                  className="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 text-[11px] font-bold uppercase tracking-widest transition-all hover:scale-105 active:scale-[0.98] flex items-center gap-2 backdrop-blur-sm"
+                  className="t-label px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all hover:scale-105 active:scale-[0.98] flex items-center gap-2 backdrop-blur-sm"
                 >
                   <Columns2 className="w-4 h-4" />
                   Compare with mine
@@ -1041,7 +1022,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
               {revisedText && (
                 <button
                   onClick={() => onUseRevisedAnswer(stripHtmlTags(revisedText))}
-                  className="px-6 py-3 rounded-xl bg-white text-indigo-900 hover:bg-indigo-50 border-2 border-transparent hover:border-white/50 text-[11px] font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-[0.98] shadow-xl flex items-center gap-2"
+                  className="t-label px-6 py-3 rounded-xl bg-white text-indigo-900 hover:bg-indigo-50 border-2 border-transparent hover:border-white/50 transition-all hover:scale-105 active:scale-[0.98] shadow-xl flex items-center gap-2"
                 >
                   <span>Use This Answer</span>
                   <ArrowUpCircle className="w-4 h-4" />
@@ -1070,7 +1051,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 </p>
                 <button
                   onClick={() => requestUpgrade('answerUpgrades')}
-                  className={`mt-1 px-6 py-3 rounded-xl text-white text-[11px] font-black uppercase tracking-widest shadow-lg bg-gradient-to-r ${exemplarConfig.gradient} hover:scale-105 active:scale-[0.98] transition-all`}
+                  className={`t-label mt-1 px-6 py-3 rounded-xl text-white shadow-lg bg-gradient-to-r ${exemplarConfig.gradient} hover:scale-105 active:scale-[0.98] transition-all`}
                 >
                   See what Plus unlocks
                 </button>

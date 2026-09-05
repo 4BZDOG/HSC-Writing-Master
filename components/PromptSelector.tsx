@@ -309,7 +309,7 @@ const StepHeader = ({
       <div className={`p-1.5 rounded-md ${theme.headerIcon}`}>
         {Icon && <Icon className="w-4 h-4" />}
       </div>
-      <span className="text-xs font-black uppercase tracking-widest text-[rgb(var(--color-text-primary))] light:text-slate-900">
+      <span className="t-label text-[rgb(var(--color-text-primary))] light:text-slate-900">
         {label}
       </span>
     </div>
@@ -349,11 +349,7 @@ const ActionButton = ({
     title={locked ? `${title} — part of Band 6 Plus` : title}
   >
     {Icon && <Icon className="w-4 h-4" />}
-    {label && (
-      <span className="hidden sm:inline text-[11px] font-bold uppercase tracking-wide whitespace-nowrap">
-        {label}
-      </span>
-    )}
+    {label && <span className="t-label hidden sm:inline whitespace-nowrap">{label}</span>}
     {locked && (
       <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-amber-500 text-white flex items-center justify-center shadow">
         <Lock className="w-2.5 h-2.5" />
@@ -459,7 +455,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             </div>
             <span className="font-medium flex-1 min-w-0 truncate">{c.name}</span>
             {canCreateTree && c.status === 'draft' && (
-              <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-500 border border-amber-500/30 flex-shrink-0">
+              <span className="t-label px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-500 border border-amber-500/30 flex-shrink-0">
                 Draft
               </span>
             )}
@@ -505,7 +501,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     name. A curator who goes there gets the same message with
                     more room, from the empty state under the topic picker. */}
                 {!selectable && (
-                  <span className="block mt-0.5 text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))]">
+                  <span className="t-label block mt-0.5 text-[rgb(var(--color-text-muted))]">
                     No content yet
                   </span>
                 )}
@@ -572,7 +568,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               </div>
               <span className="font-medium flex-1 min-w-0 truncate">{st.name}</span>
               {questionCount > 0 && (
-                <span className="flex-shrink-0 text-[10px] font-bold uppercase tracking-wider text-indigo-500/80 light:text-indigo-700">
+                <span className="t-label flex-shrink-0 text-indigo-500/80 light:text-indigo-700">
                   {questionCount} question{questionCount === 1 ? '' : 's'}
                 </span>
               )}
@@ -605,7 +601,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               <span className="min-w-0">
                 <span className="block leading-snug font-medium">{stem}</span>
                 {items.length > 0 && (
-                  <span className="block mt-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-500/80">
+                  <span className="t-label block mt-0.5 text-emerald-500/80">
                     {items.length} focus area{items.length === 1 ? '' : 's'}
                   </span>
                 )}
@@ -806,7 +802,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   </span>
                   <div className="flex flex-wrap items-center gap-2 mt-1.5">
                     <span
-                      className={`text-[9px] font-black uppercase tracking-wider px-1.5 py-px rounded border ${tierConfig.solidBg} ${tierConfig.solidText} ${tierConfig.border} shadow-sm`}
+                      className={`t-label px-1.5 py-px rounded border ${tierConfig.solidBg} ${tierConfig.solidText} ${tierConfig.border} shadow-sm`}
                     >
                       {verbInfo.term}
                     </span>
@@ -814,14 +810,14 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       {p.totalMarks} {p.totalMarks === 1 ? 'Mark' : 'Marks'}
                     </span>
                     <span
-                      className={`text-[9px] font-black uppercase tracking-wider px-1.5 py-px rounded border ${tierConfig.bg} ${tierConfig.text} ${tierConfig.border}`}
+                      className={`t-label px-1.5 py-px rounded border ${tierConfig.bg} ${tierConfig.text} ${tierConfig.border}`}
                       title={`A full-mark response to this question reaches Band ${targetBand}`}
                     >
                       Band {targetBand}
                     </span>
                     {pastHsc && (
                       <span
-                        className="flex items-center gap-1 text-[9px] font-black uppercase tracking-wider px-1.5 py-px rounded border bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border-amber-500/40 light:border-amber-400"
+                        className="t-label flex items-center gap-1 px-1.5 py-px rounded border bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border-amber-500/40 light:border-amber-400"
                         title={pastHsc.title}
                       >
                         <Landmark className="w-2.5 h-2.5" />
@@ -830,7 +826,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     )}
                     {attempt && (
                       <span
-                        className="flex items-center gap-1 text-[9px] font-black uppercase tracking-wider px-1.5 py-px rounded border bg-emerald-500/15 light:bg-emerald-100 text-emerald-400 light:text-emerald-800 border-emerald-500/40 light:border-emerald-500"
+                        className="t-label flex items-center gap-1 px-1.5 py-px rounded border bg-emerald-500/15 light:bg-emerald-100 text-emerald-400 light:text-emerald-800 border-emerald-500/40 light:border-emerald-500"
                         title={
                           attempt.mark === null
                             ? 'You have answered this question'
@@ -1562,7 +1558,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 {statePath.selectedSubItems?.map((item) => (
                   <div
                     key={item}
-                    className="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 light:text-emerald-800 text-[10px] font-black uppercase border border-emerald-500/20"
+                    className="t-label flex items-center gap-2 px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 light:text-emerald-800 border border-emerald-500/20"
                   >
                     {item}
                     <button
@@ -1705,7 +1701,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     <div className="flex gap-2 flex-wrap justify-end">
                       <button
                         onClick={onManualEntry}
-                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 font-bold text-xs uppercase tracking-widest border border-purple-500/30 transition-all"
+                        className="t-label flex items-center gap-2 px-5 py-2.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 border border-purple-500/30 transition-all"
                       >
                         <PenTool className="w-4 h-4" /> Manual
                       </button>
@@ -1721,7 +1717,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                               ? 'AI question generation is part of Band 6 Plus — tap to learn more'
                               : undefined
                           }
-                          className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-[0.98] transition-all ${
+                          className={`t-label flex items-center gap-2 px-6 py-2.5 rounded-xl shadow-xl hover:scale-105 active:scale-[0.98] transition-all ${
                             studioLocked
                               ? 'bg-amber-400/15 text-amber-500 light:text-amber-600 border border-amber-400/40'
                               : 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white'

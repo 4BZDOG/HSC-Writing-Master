@@ -111,9 +111,7 @@ const Toast: React.FC<ToastProps> = ({
 
         {/* Content */}
         <div className="flex-grow pt-0.5 min-w-0">
-          <h4 className={`text-xs font-bold ${config.iconColor} mb-1 uppercase tracking-wider`}>
-            {config.title}
-          </h4>
+          <h4 className={`t-label ${config.iconColor} mb-1`}>{config.title}</h4>
           <p className="text-sm font-medium text-[rgb(var(--color-text-primary))] leading-relaxed break-words">
             {message}
           </p>

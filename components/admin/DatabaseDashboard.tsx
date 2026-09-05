@@ -70,7 +70,7 @@ const SnapshotPreview: React.FC<{ data: Course[] | null }> = ({ data }) => {
   if (!data) return null;
   return (
     <div className="mt-3 p-4 bg-[rgb(var(--color-bg-surface-inset))] rounded-xl border border-[rgb(var(--color-border-secondary))] animate-fade-in">
-      <h4 className="text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-3 flex items-center gap-2">
+      <h4 className="t-label text-[rgb(var(--color-text-muted))] mb-3 flex items-center gap-2">
         <Eye className="w-3 h-3" /> Backup Contents Preview
       </h4>
       <div className="space-y-2 max-h-60 overflow-y-auto custom-scrollbar pr-2">
@@ -569,7 +569,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                       </h3>
                       <div className="bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden">
                         <table className="w-full text-left text-sm">
-                          <thead className="bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 uppercase text-xs font-bold">
+                          <thead className="t-label bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
                             <tr>
                               <th className="px-6 py-3">Name</th>
                               <th className="px-6 py-3">Items</th>
@@ -681,7 +681,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                                   </span>
                                 )}
                                 {backup.isImported && (
-                                  <span className="px-1.5 py-0.5 rounded-md border border-purple-500/30 bg-purple-500/10 text-purple-400 light:text-purple-700 text-[10px] font-bold uppercase tracking-wider">
+                                  <span className="t-label px-1.5 py-0.5 rounded-md border border-purple-500/30 bg-purple-500/10 text-purple-400 light:text-purple-700">
                                     Imported
                                   </span>
                                 )}

@@ -60,14 +60,12 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
           </div>
           <span className="text-left">
             <span
-              className={`block text-[10px] font-black uppercase tracking-[0.2em] ${isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
+              className={`t-label block ${isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
             >
               {title}
             </span>
             {subtitle && (
-              <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
-                {subtitle}
-              </span>
+              <span className="t-label block text-slate-600 dark:text-slate-400">{subtitle}</span>
             )}
           </span>
         </div>
@@ -194,12 +192,8 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                   >
                     <Target className={`w-3 h-3 ${tierConfig.text}`} />
                   </span>
-                  <span
-                    className={`text-[10px] font-black uppercase tracking-widest ${tierConfig.text}`}
-                  >
-                    {outcome.code}
-                  </span>
-                  <span className="ml-auto flex items-center gap-1.5 text-[9px] font-black uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400 opacity-70 group-hover/outcome-row:opacity-100 transition-opacity">
+                  <span className={`t-label ${tierConfig.text}`}>{outcome.code}</span>
+                  <span className="t-label ml-auto flex items-center gap-1.5 text-slate-500 dark:text-slate-400 opacity-70 group-hover/outcome-row:opacity-100 transition-opacity">
                     <Sparkles className="w-3 h-3" />
                     Explain for this question
                     {briefingLocked && <PlusLockChip feature="outcomeBriefing" />}
@@ -257,17 +251,13 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                       </div>
                       <div>
                         <div className="flex items-center gap-2 mb-1.5">
-                          <span
-                            className={`text-[10px] font-black ${bConfig.text} uppercase tracking-widest`}
-                          >
-                            Band {descriptor.band}
-                          </span>
+                          <span className={`t-label ${bConfig.text}`}>Band {descriptor.band}</span>
                           {/* The band's word ("Outstanding", "Sound") sits on a
                               tinted card in both themes, so it cannot afford a
                               muted tone AND an opacity on top: at 8px that
                               landed under every readability floor the rest of
                               the app respects. */}
-                          <span className="text-[9px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-[0.2em]">
+                          <span className="t-label text-slate-600 dark:text-slate-300">
                             • {descriptor.shortLabel}
                           </span>
                         </div>

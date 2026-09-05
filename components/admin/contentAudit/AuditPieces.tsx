@@ -29,28 +29,20 @@ export const InstrumentMetric = ({
   colorClass: string;
 }) => (
   <div className="flex flex-col gap-1 px-4 md:px-8 py-3 md:py-4 border-r border-white/5 light:border-slate-200 last:border-r-0">
-    <MicroLabel
-      size={9}
-      tracking="0.3"
-      className="text-white/50 light:text-slate-500 whitespace-nowrap"
-    >
+    <MicroLabel className="text-white/50 light:text-slate-500 whitespace-nowrap">
       {label}
     </MicroLabel>
     <div className="flex items-baseline gap-2">
       <span className={`text-4xl font-black tracking-tighter tabular-nums ${colorClass}`}>
         {value}
       </span>
-      {subValue && (
-        <span className="text-xs font-bold text-white/10 light:text-slate-300 uppercase tracking-widest">
-          {subValue}
-        </span>
-      )}
+      {subValue && <span className="t-label text-white/10 light:text-slate-300">{subValue}</span>}
     </div>
   </div>
 );
 
 const AUDIT_BTN_BASE =
-  'px-4 h-11 rounded-2xl text-white font-black text-[10px] uppercase tracking-[0.12em] shadow-lg hover:scale-[1.03] active:scale-[0.98] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none';
+  't-label px-4 h-11 rounded-2xl text-white shadow-lg hover:scale-[1.03] active:scale-[0.98] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none';
 
 export const AuditActionButton = ({
   onClick,
@@ -79,7 +71,7 @@ export const AuditActionButton = ({
 );
 
 const FILTER_CHIP_BASE =
-  'group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border text-[10px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all flex items-center gap-2 md:gap-4';
+  't-label group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border transition-all flex items-center gap-2 md:gap-4';
 
 export const FilterChip = ({
   active,
@@ -110,8 +102,7 @@ export const FilterChip = ({
   </button>
 );
 
-const GAP_BADGE_BASE =
-  'px-1.5 py-0.5 rounded-md border text-[8px] font-black uppercase tracking-wider whitespace-nowrap';
+const GAP_BADGE_BASE = 't-label px-1.5 py-0.5 rounded-md border whitespace-nowrap';
 
 /**
  * Inline data-quality flags on tree rows, colour-matched to the filter chips

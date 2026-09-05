@@ -191,7 +191,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
                 <h2 className="text-lg font-black text-white tracking-tight leading-tight">
                   {activeOutcome.code}
                 </h2>
-                <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-white/60 mt-0.5">
+                <p className="t-label text-white/60 mt-0.5">
                   {hasTabs
                     ? `Outcome ${activeIndex + 1} of ${outcomes.length}`
                     : 'Syllabus Outcome'}
@@ -274,7 +274,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
                     {i > 0 && (
                       <ChevronRight className="w-3 h-3 text-[rgb(var(--color-text-dim))] light:text-slate-500 flex-shrink-0" />
                     )}
-                    <span className="text-[10px] font-bold text-[rgb(var(--color-text-dim))] light:text-slate-500 uppercase tracking-wider truncate max-w-[140px]">
+                    <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500 truncate max-w-[140px]">
                       {crumb}
                     </span>
                   </React.Fragment>
@@ -290,7 +290,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
                 {verb && totalMarks && (
                   <div className="flex items-center gap-2 mt-2">
                     <span
-                      className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md text-white"
+                      className="t-label px-2 py-0.5 rounded-md text-white"
                       style={{ backgroundColor: bandHex }}
                     >
                       {verbInfo?.term || verb}
@@ -306,7 +306,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
 
           {/* Outcome description */}
           <div className={`rounded-xl border ${bandConfig.border} ${bandConfig.bg} p-4`}>
-            <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2">
+            <p className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2">
               What Students Must Demonstrate
             </p>
             <div className="flex items-start gap-3">
@@ -369,9 +369,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
               ) : state.status === 'loading' || state.status === 'idle' ? (
                 <div className="flex flex-col items-center justify-center h-28 gap-2.5">
                   <Loader2 className={`w-6 h-6 animate-spin ${bandConfig.text}`} />
-                  <p
-                    className={`text-[10px] font-black uppercase tracking-[0.15em] ${bandConfig.text} opacity-60 animate-pulse`}
-                  >
+                  <p className={`t-label ${bandConfig.text} opacity-60 animate-pulse`}>
                     Analysing context...
                   </p>
                 </div>

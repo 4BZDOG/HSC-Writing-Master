@@ -132,7 +132,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
           <div>
             <label
               htmlFor="answer-text"
-              className="block text-sm font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-2"
+              className="block text-sm font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2"
             >
               Answer Text
             </label>
@@ -149,7 +149,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
             <div>
               <label
                 htmlFor="mark-input"
-                className="block text-sm font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-3"
+                className="block text-sm font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3"
               >
                 Mark ({`out of ${prompt.totalMarks}`})
               </label>
@@ -173,7 +173,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-3">
+              <label className="block text-sm font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
                 Performance Band
               </label>
               <div className="flex items-center gap-1.5">
@@ -209,12 +209,12 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
                 })}
               </div>
               {band > tierMaxBand ? (
-                <p className="mt-2 text-[10px] font-bold text-amber-400 light:text-amber-600 uppercase tracking-widest flex items-center gap-1.5">
+                <p className="t-label mt-2 text-amber-400 light:text-amber-600 flex items-center gap-1.5">
                   <AlertCircle className="w-3 h-3" /> Above the Band {tierMaxBand} cap for '
                   {prompt.verb}' — recalibration will lower it
                 </p>
               ) : (
-                <p className="mt-2 text-[10px] font-bold text-slate-500 light:text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
+                <p className="t-label mt-2 text-slate-500 light:text-slate-500 flex items-center gap-1.5">
                   <Award className="w-3 h-3" /> Manually overridable up to Band {tierMaxBand} (
                   {`'${prompt.verb}'`} verb cap)
                 </p>

@@ -111,7 +111,7 @@ const EvaluationProgressBar: React.FC = () => {
         </div>
 
         {/* Status line */}
-        <p className="text-center text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+        <p className="t-label text-center font-mono text-slate-500 dark:text-slate-400">
           {displayMessage}
         </p>
 
@@ -128,7 +128,7 @@ const EvaluationProgressBar: React.FC = () => {
         {/* Retry / fallback badge */}
         {(isRetrying || isFallback) && (
           <div className="flex justify-center">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+            <span className="t-label inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
               <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
               {isFallback ? 'Switching to faster model' : 'Retrying'}
             </span>

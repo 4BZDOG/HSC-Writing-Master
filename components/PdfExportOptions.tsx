@@ -184,9 +184,7 @@ const PdfExportOptions: React.FC<PdfExportOptionsProps> = ({
     >
       <div className="flex items-center gap-2 px-3 py-2">
         <Settings2 className="w-3.5 h-3.5 text-slate-400" />
-        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
-          Export options
-        </span>
+        <span className="t-label text-slate-500 dark:text-slate-400">Export options</span>
         <button
           onClick={onClose}
           aria-label="Close export options"
@@ -197,9 +195,7 @@ const PdfExportOptions: React.FC<PdfExportOptionsProps> = ({
       </div>
 
       <div className="px-3 py-2">
-        <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">
-          Paper
-        </span>
+        <span className="t-label block text-slate-400 mb-1.5">Paper</span>
         <div
           role="group"
           aria-label="Page size"

@@ -484,6 +484,33 @@ a:focus-visible,
 }
 
 /*
+ * `.t-label` — the one decision about what a label looks like.
+ *
+ * See docs/design-direction.md, principle 3. Every small label in the app used
+ * to be written inline as `text-[10px] font-black uppercase tracking-[0.2em]`
+ * or a near-variant: 467 className regions across 73 of 106 component files.
+ * At that density it was not an accent, it was the voice of the whole app —
+ * and it shouted at a size too small to read comfortably.
+ *
+ * The floor rules above were the previous, cheaper answer to the same problem:
+ * raise the rendered size centrally rather than touch 280 call sites. They stay
+ * as a backstop for the arbitrary sizes still used elsewhere (data readouts,
+ * chips), but labels no longer rely on them — they carry this class instead,
+ * and the size lives here rather than being restated per call site.
+ *
+ * Sentence case is not set here, it is RESTORED here: dropping the
+ * `uppercase` transform gives back the casing each label was already authored
+ * in, so no copy had to be rewritten.
+ */
+.t-label {
+  font-size: 0.75rem;
+  line-height: 1.35;
+  font-weight: 500;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+/*
  * PDF export is handled entirely client-side by the jsPDF vector
  * exporter in /pdf (see EvaluationDisplay "Export PDF"). The previous
  * window.print() + @media print stylesheet approach has been removed.

@@ -60,6 +60,7 @@ the wrong tool — most white-alpha classes in this codebase are already correct
   underline. The rule is unchanged; only the illustration moved. Check what a
   class is painted on, not what this list happened to name when it was
   written.
+
 - **On a theme surface** — anything over `--color-bg-surface`, a `bg-white`
   card, or a `slate-100/200` track. Here white-alpha is invisible in light
   mode, and the element silently loses its ring, rim, tick or divider. These
@@ -120,6 +121,34 @@ surface acts, because dialogs do open over each other.
 - **Interface**: `Inter` - High legibility for data-dense controls.
 - **Manuscript**: `Newsreader` (Serif) - Used for the main writing area and AI exemplars to simulate the gravity of an official examination paper.
 - **Telemetry**: `JetBrains Mono` - Used for marks, token counts, and system logs.
+
+### Labels
+
+A small label — a section caption, a stat's name, the text in a chip — is set by
+`.t-label` in `index.css`, and by nothing else. Sentence case, 12px, weight 500,
+normal tracking. Write `t-label` and add only colour and layout beside it; do
+not restate the size, the weight or the tracking at the call site.
+
+This rule exists because the alternative was measured. Labels were written
+inline as `text-[10px] font-black uppercase tracking-[0.2em]` or a near-variant
+in **467 className regions across 73 of 106 component files**, with four sizes
+and eight tracking steps in play. At that density the treatment was not an
+accent, it was the voice of the whole app — and it shouted at a size the
+`text-[Npx]` readability floor at the bottom of `index.css` had already been
+added to compensate for. That floor stays as a backstop for the arbitrary sizes
+still used by data readouts; labels no longer depend on it.
+
+Sentence case is _restored_, not imposed: dropping the `uppercase` transform
+gives back the casing each label was already authored in, so no copy changed.
+
+**Two exceptions, both deliberate.**
+
+1. The house display treatment — `font-black … italic uppercase` at `text-lg`
+   and above — is the card and header title style (`CARD_HEADER_TITLE`,
+   `HEADER_WORDMARK`, `RIBBON_VERB_DISPLAY`). It was asked for, it reads as a
+   masthead rather than as chrome, and it is not the micro-label pattern above.
+2. Telemetry keeps `font-mono` per §4. `.t-label` sets size, weight, tracking
+   and case; it does not set the family, so the two compose.
 
 ## 5. Print & Export
 

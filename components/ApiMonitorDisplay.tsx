@@ -119,7 +119,7 @@ const AiQuotaPanel: React.FC = () => {
 
   return (
     <div className="mt-4 pt-4 border-t border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200">
-      <div className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+      <div className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2 flex items-center gap-2">
         <Gauge className="w-3.5 h-3.5" />
         Daily AI Quotas
       </div>
@@ -192,7 +192,7 @@ const AiQuotaPanel: React.FC = () => {
       <button
         onClick={handleSaveLimits}
         disabled={isBusy}
-        className="w-full mt-2 text-[10px] font-bold uppercase tracking-widest py-1.5 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 transition-all disabled:opacity-50"
+        className="t-label w-full mt-2 py-1.5 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 transition-all disabled:opacity-50"
       >
         Save Group Limits
       </button>
@@ -224,14 +224,14 @@ const AiQuotaPanel: React.FC = () => {
           <button
             onClick={() => handleSetOverride(false)}
             disabled={isBusy}
-            className="flex-1 text-[10px] font-bold uppercase tracking-widest py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-100 text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:text-white light:hover:text-slate-800 transition-all disabled:opacity-50 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300"
+            className="t-label flex-1 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-100 text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:text-white light:hover:text-slate-800 transition-all disabled:opacity-50 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300"
           >
             Set Override
           </button>
           <button
             onClick={() => handleSetOverride(true)}
             disabled={isBusy}
-            className="flex-1 text-[10px] font-bold uppercase tracking-widest py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-white light:hover:text-slate-800 transition-all disabled:opacity-50 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300"
+            className="t-label flex-1 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-white light:hover:text-slate-800 transition-all disabled:opacity-50 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300"
           >
             Clear
           </button>
@@ -310,7 +310,7 @@ const ApiMonitorDisplay: React.FC = () => {
           <div className="flex justify-between items-center mb-4 border-b border-[rgb(var(--color-border-secondary))]/50 light:border-slate-200 pb-3">
             <h3
               id="api-monitor-title"
-              className="flex items-center gap-2 text-sm font-black text-[rgb(var(--color-accent))] uppercase tracking-wide"
+              className="flex items-center gap-2 text-sm font-black text-[rgb(var(--color-accent))]"
             >
               <BarChart className="w-4 h-4" />
               API Telemetry
@@ -325,7 +325,7 @@ const ApiMonitorDisplay: React.FC = () => {
 
           <div className="space-y-3">
             <div className="bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 rounded-xl p-3 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200">
-              <div className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+              <div className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2 flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
                 Current Session
               </div>

@@ -758,7 +758,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                 {/* Content Editor Area */}
                 <div className="flex-1 flex flex-col p-4 md:p-5 overflow-hidden bg-[rgb(var(--color-bg-surface))]/30 light:bg-white min-h-0">
                   <div className="mb-4 p-3.5 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/50 light:border-slate-200">
-                    <label className="block text-xs font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-2">
+                    <label className="t-label block text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2">
                       Topic Name
                     </label>
                     <input
@@ -770,7 +770,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                   </div>
                   <div className="flex-1 flex flex-col min-h-0">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
-                      <label className="block text-xs font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider">
+                      <label className="t-label block text-[rgb(var(--color-text-muted))] light:text-slate-500">
                         Syllabus Content
                       </label>
                       <button
@@ -799,7 +799,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
           {step === 'preview' && (
             <div className="animate-fade-in p-6 overflow-y-auto h-full">
               <div className="bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-xl overflow-hidden">
-                <div className="px-4 py-2.5 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 flex justify-between items-center">
+                <div className="t-label px-4 py-2.5 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-500 flex justify-between items-center">
                   <span>
                     {targetCourse ? `Merge into "${targetCourse.name}"` : 'Structure Preview'}
                   </span>

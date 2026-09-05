@@ -86,10 +86,7 @@ const InputField = ({
   autoComplete?: string;
 }) => (
   <div className="space-y-2.5">
-    <label
-      htmlFor={id}
-      className="block text-[11px] font-bold text-slate-400 light:text-slate-600 uppercase tracking-widest ml-1"
-    >
+    <label htmlFor={id} className="t-label block text-slate-400 light:text-slate-600 ml-1">
       {label}
     </label>
     <div
@@ -398,9 +395,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-indigo-400 opacity-80">
-            HSC Writing Coach
-          </span>
+          <span className="t-label text-indigo-400 opacity-80">HSC Writing Coach</span>
           <h1 className="text-4xl font-bold tracking-tight text-white light:text-slate-900 leading-none">
             Band <span className="text-indigo-500">6</span>
           </h1>
@@ -450,7 +445,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                     setResetSentTo(null);
                     switchMode('signin');
                   }}
-                  className="w-full py-4 rounded-2xl font-bold text-sm uppercase tracking-widest text-white bg-indigo-600 hover:bg-indigo-500 shadow-xl shadow-indigo-900/40 active:scale-[0.98] transition-all flex items-center justify-center gap-3 border-2 border-white/10 hover:border-white/20"
+                  className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-xl shadow-indigo-900/40 active:scale-[0.98] transition-all flex items-center justify-center gap-3 border-2 border-white/10 hover:border-white/20"
                 >
                   Back to sign in <ArrowRight className="w-4 h-4" />
                 </button>
@@ -484,7 +479,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                     setConfirmationSentTo(null);
                     switchMode('signin');
                   }}
-                  className="w-full py-4 rounded-2xl font-bold text-sm uppercase tracking-widest text-white bg-indigo-600 hover:bg-indigo-500 shadow-xl shadow-indigo-900/40 active:scale-[0.98] transition-all flex items-center justify-center gap-3 border-2 border-white/10 hover:border-white/20"
+                  className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-xl shadow-indigo-900/40 active:scale-[0.98] transition-all flex items-center justify-center gap-3 border-2 border-white/10 hover:border-white/20"
                 >
                   Back to sign in <ArrowRight className="w-4 h-4" />
                 </button>
@@ -595,7 +590,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                 <button
                   type="submit"
                   disabled={isLoading || oauthLoading !== null}
-                  className="w-full py-4 rounded-2xl font-bold text-sm uppercase tracking-widest text-white bg-indigo-600 hover:bg-indigo-500 shadow-xl shadow-indigo-900/40 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3 group/btn border-2 border-white/10 hover:border-white/20"
+                  className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-xl shadow-indigo-900/40 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3 group/btn border-2 border-white/10 hover:border-white/20"
                 >
                   {isLoading ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
@@ -661,9 +656,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
               <div className="mt-7">
                 <div className="flex items-center gap-4 mb-5">
                   <div className="flex-1 h-px bg-white/10 light:bg-slate-300" />
-                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                    or continue with
-                  </span>
+                  <span className="t-label text-slate-500">or continue with</span>
                   <div className="flex-1 h-px bg-white/10 light:bg-slate-300" />
                 </div>
                 <div className="flex gap-3">
@@ -692,7 +685,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
               <button
                 onClick={handleGuestLogin}
                 disabled={isLoading || oauthLoading !== null}
-                className="w-full py-4 rounded-2xl font-bold text-xs uppercase tracking-[0.1em] text-slate-300 light:text-slate-600 bg-white/5 light:bg-slate-100 border-2 border-white/5 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-200 active:scale-[0.98] transition-all flex items-center justify-center gap-3 shadow-inner disabled:opacity-50 disabled:cursor-not-allowed"
+                className="t-label w-full py-4 rounded-2xl text-slate-300 light:text-slate-600 bg-white/5 light:bg-slate-100 border-2 border-white/5 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-200 active:scale-[0.98] transition-all flex items-center justify-center gap-3 shadow-inner disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <BookOpen className="w-4 h-4" /> Continue as Guest
               </button>
@@ -700,7 +693,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           </div>
 
           {/* Footer Info */}
-          <div className="bg-black/40 light:bg-slate-100 px-10 py-5 border-t border-white/10 light:border-slate-200 flex justify-between items-center text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+          <div className="t-label bg-black/40 light:bg-slate-100 px-10 py-5 border-t border-white/10 light:border-slate-200 flex justify-between items-center text-slate-500">
             <div className="flex items-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-500/50" /> Secure System
             </div>
@@ -708,7 +701,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
               <button
                 type="button"
                 onClick={() => setIsLegalOpen(true)}
-                className="uppercase tracking-widest hover:text-indigo-400 transition-colors"
+                className="hover:text-indigo-400 transition-colors"
               >
                 Terms &amp; Privacy
               </button>
@@ -729,33 +722,25 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
             logins are real email accounts and these hints would mislead. */}
         {!isSupabaseConfigured && isDemoAuthEnabled() && (
           <div className="mt-10 text-center animate-fade-in" style={{ animationDelay: '500ms' }}>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">
-              Demo Accounts
-            </p>
+            <p className="t-label text-slate-500 mb-4">Demo Accounts</p>
             <div className="flex justify-center gap-10">
               <div className="flex flex-col items-center">
                 <span className="text-white light:text-slate-800 text-xs font-mono font-bold tracking-tight px-3 py-1 rounded-lg bg-white/5 light:bg-slate-200 border border-white/10 light:border-slate-300 shadow-lg">
                   admin
                 </span>
-                <span className="text-[10px] text-slate-500 uppercase mt-2 font-bold tracking-wider">
-                  Admin
-                </span>
+                <span className="t-label text-slate-500 mt-2">Admin</span>
               </div>
               <div className="flex flex-col items-center">
                 <span className="text-white light:text-slate-800 text-xs font-mono font-bold tracking-tight px-3 py-1 rounded-lg bg-white/5 light:bg-slate-200 border border-white/10 light:border-slate-300 shadow-lg">
                   teacher
                 </span>
-                <span className="text-[10px] text-slate-500 uppercase mt-2 font-bold tracking-wider">
-                  Teacher
-                </span>
+                <span className="t-label text-slate-500 mt-2">Teacher</span>
               </div>
               <div className="flex flex-col items-center">
                 <span className="text-white light:text-slate-800 text-xs font-mono font-bold tracking-tight px-3 py-1 rounded-lg bg-white/5 light:bg-slate-200 border border-white/10 light:border-slate-300 shadow-lg">
                   user
                 </span>
-                <span className="text-[10px] text-slate-500 uppercase mt-2 font-bold tracking-wider">
-                  Student
-                </span>
+                <span className="t-label text-slate-500 mt-2">Student</span>
               </div>
             </div>
           </div>

@@ -83,7 +83,7 @@ const LockedQuestionNotice: React.FC<{ verb: string; marks: number; question: st
       <div className="w-14 h-14 mx-auto mb-6 rounded-2xl bg-amber-400/15 border border-amber-400/30 flex items-center justify-center">
         <Lock className="w-7 h-7 text-amber-500" />
       </div>
-      <p className="text-[10px] font-black uppercase tracking-[0.25em] text-amber-500 mb-3">
+      <p className="t-label text-amber-500 mb-3">
         {verb} · {marks} {marks === 1 ? 'mark' : 'marks'} · Band 6 Plus
       </p>
       <h3 className="text-lg font-serif leading-relaxed text-slate-800 dark:text-slate-200 mb-6">
@@ -95,7 +95,7 @@ const LockedQuestionNotice: React.FC<{ verb: string; marks: number; question: st
       </p>
       <button
         onClick={() => requestUpgrade('advancedQuestions')}
-        className="px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-[11px] uppercase tracking-widest shadow-lg hover:scale-105 active:scale-[0.98] transition-all"
+        className="t-label px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-lg hover:scale-105 active:scale-[0.98] transition-all"
       >
         Unlock with Plus
       </button>

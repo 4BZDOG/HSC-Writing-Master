@@ -42,10 +42,7 @@ const Field = ({
   hasError: boolean;
 }) => (
   <div className="space-y-2.5">
-    <label
-      htmlFor={id}
-      className="block text-[11px] font-bold text-slate-400 light:text-slate-600 uppercase tracking-widest ml-1"
-    >
+    <label htmlFor={id} className="t-label block text-slate-400 light:text-slate-600 ml-1">
       {label}
     </label>
     <div
@@ -117,9 +114,7 @@ const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ onComplete, onCan
         <div className="relative w-20 h-20 mx-auto mb-6 rounded-[32px] bg-gradient-to-br from-indigo-500 to-sky-500 border border-white/20 shadow-2xl flex items-center justify-center">
           <Sparkles className="w-10 h-10 text-white" />
         </div>
-        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-indigo-400 opacity-80">
-          HSC Writing Coach
-        </span>
+        <span className="t-label text-indigo-400 opacity-80">HSC Writing Coach</span>
         <h1 className="text-4xl font-bold tracking-tight text-white light:text-slate-900 leading-none mt-2">
           Band <span className="text-indigo-500">6</span>
         </h1>
@@ -189,7 +184,7 @@ const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ onComplete, onCan
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-4 rounded-2xl font-bold text-sm uppercase tracking-widest text-white bg-indigo-600 hover:bg-indigo-500 shadow-xl shadow-indigo-900/40 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3 border-2 border-white/10"
+                className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-xl shadow-indigo-900/40 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3 border-2 border-white/10"
               >
                 {isLoading ? (
                   <Loader2 className="w-5 h-5 animate-spin" />

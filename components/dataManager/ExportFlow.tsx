@@ -75,7 +75,7 @@ const ExportFlow: React.FC<ExportFlowProps> = ({ courses, onClose, showToast }) 
 
       <div className="flex-1 overflow-hidden flex flex-col p-6">
         <div className="px-4 py-3 bg-[rgb(var(--color-bg-surface-elevated))]/50 border border-[rgb(var(--color-border-secondary))] rounded-t-xl flex items-center justify-between flex-shrink-0">
-          <span className="text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
+          <span className="t-label text-[rgb(var(--color-text-muted))]">
             {selectedIds.size} items selected
           </span>
           <div className="flex gap-2">

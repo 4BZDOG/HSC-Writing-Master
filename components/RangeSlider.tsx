@@ -65,7 +65,7 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
       <div className="flex items-baseline justify-between gap-3 mb-1.5">
         <span
           id={labelId}
-          className="text-[10px] font-black uppercase tracking-[0.15em] text-[rgb(var(--color-text-muted))] light:text-slate-500"
+          className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500"
         >
           {label}
         </span>

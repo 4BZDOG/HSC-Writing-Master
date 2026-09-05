@@ -333,7 +333,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                 </h2>
                 <div className="flex items-center gap-2 mt-1 text-sm font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-600">
                   <span
-                    className={`px-2 py-0.5 rounded text-xs font-black uppercase tracking-wider bg-white/10 light:bg-white/60 border border-white/20 light:border-slate-300/50`}
+                    className={`t-label px-2 py-0.5 rounded bg-white/10 light:bg-white/60 border border-white/20 light:border-slate-300/50`}
                   >
                     '{prompt.verb}'
                   </span>
@@ -361,7 +361,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                   <CopyCheck className="w-4 h-4 text-amber-400 light:text-amber-700" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-sm font-black text-amber-300 light:text-amber-800 uppercase tracking-wider">
+                  <h3 className="text-sm font-black text-amber-300 light:text-amber-800">
                     {duplicates.length === 1
                       ? 'One answer repeats an exemplar already at that mark'
                       : `${duplicates.length} answers repeat exemplars already at their mark`}
@@ -389,19 +389,19 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                         >
                           {answer.mark}/{prompt.totalMarks}
                         </span>
-                        <span className="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border border-amber-500/30">
+                        <span className="t-label px-2 py-0.5 rounded bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border border-amber-500/30">
                           {describeSimilarity(score)} · {Math.round(score * 100)}% overlap
                         </span>
                         <div className="ml-auto flex items-center gap-2">
                           <button
                             onClick={() => keepDuplicate(answer.id)}
-                            className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 light:bg-emerald-50 text-emerald-400 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500 hover:text-white transition-all"
+                            className="t-label flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/10 light:bg-emerald-50 text-emerald-400 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500 hover:text-white transition-all"
                           >
                             <Check className="w-3 h-3" /> Keep it
                           </button>
                           <button
                             onClick={() => discardDuplicate(answer.id)}
-                            className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider bg-red-500/10 light:bg-red-50 text-red-400 light:text-red-700 border border-red-500/30 hover:bg-red-500 hover:text-white transition-all"
+                            className="t-label flex items-center gap-1 px-2.5 py-1 rounded-lg bg-red-500/10 light:bg-red-50 text-red-400 light:text-red-700 border border-red-500/30 hover:bg-red-500 hover:text-white transition-all"
                           >
                             <Trash2 className="w-3 h-3" /> Discard
                           </button>
@@ -409,7 +409,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                       </div>
                       <div className="grid sm:grid-cols-2 gap-2">
                         <div>
-                          <span className="block text-[9px] font-black uppercase tracking-[0.15em] text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1">
+                          <span className="t-label block text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1">
                             New
                           </span>
                           <p className="text-[11px] leading-snug font-serif text-[rgb(var(--color-text-secondary))] light:text-slate-700 line-clamp-3">
@@ -417,7 +417,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                           </p>
                         </div>
                         <div>
-                          <span className="block text-[9px] font-black uppercase tracking-[0.15em] text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1">
+                          <span className="t-label block text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1">
                             Already in the library
                           </span>
                           <p className="text-[11px] leading-snug font-serif text-[rgb(var(--color-text-muted))] light:text-slate-500 line-clamp-3">
@@ -434,13 +434,13 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                 <div className="mt-3 flex items-center justify-end gap-2">
                   <button
                     onClick={keepAllDuplicates}
-                    className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-emerald-500/10 light:bg-emerald-50 text-emerald-400 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all"
+                    className="t-label px-3 py-1.5 rounded-lg bg-emerald-500/10 light:bg-emerald-50 text-emerald-400 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all"
                   >
                     Keep all {duplicates.length}
                   </button>
                   <button
                     onClick={() => setDuplicates([])}
-                    className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 hover:text-[rgb(var(--color-text-secondary))] transition-all"
+                    className="t-label px-3 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 hover:text-[rgb(var(--color-text-secondary))] transition-all"
                   >
                     Discard all
                   </button>
@@ -450,7 +450,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
           )}
           <div>
             <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-              <h3 className="text-xs font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-widest flex items-center gap-2">
+              <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 flex items-center gap-2">
                 <Target className="w-3.5 h-3.5" /> Select Target Marks
                 <span className="normal-case tracking-normal font-medium opacity-70">
                   — pick as many as you like
@@ -462,7 +462,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                   <button
                     onClick={() => !isLoading && setSelectedMarks(missingBandMarks)}
                     disabled={isLoading}
-                    className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all disabled:opacity-50"
+                    className="t-label px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all disabled:opacity-50"
                     title="Select one mark for every band that has no exemplar yet"
                   >
                     Complete the ladder ({missingBandMarks.length})
@@ -472,7 +472,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                   <button
                     onClick={() => !isLoading && setSelectedMarks([])}
                     disabled={isLoading}
-                    className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 hover:text-[rgb(var(--color-text-secondary))] transition-all disabled:opacity-50"
+                    className="t-label px-3 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 hover:text-[rgb(var(--color-text-secondary))] transition-all disabled:opacity-50"
                   >
                     Clear
                   </button>
@@ -515,7 +515,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                       {option.mark}
                     </span>
                     <span
-                      className={`text-[9px] font-black uppercase tracking-wider ${isSelected ? optionBandConfig.text : 'text-[rgb(var(--color-text-muted))] light:text-slate-500'}`}
+                      className={`t-label ${isSelected ? optionBandConfig.text : 'text-[rgb(var(--color-text-muted))] light:text-slate-500'}`}
                     >
                       Band {option.band}
                     </span>
@@ -542,7 +542,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
             {/* Band coverage indicator */}
             {prompt.sampleAnswers && prompt.sampleAnswers.length > 0 && (
               <div className="mt-4 flex items-center gap-2 flex-wrap">
-                <span className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider">
+                <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
                   Coverage:
                 </span>
                 {[...ladderBands].reverse().map((b) => {
@@ -660,7 +660,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
               it away without anyone deciding to — the one thing this check
               exists to prevent. */}
           {duplicates.length > 0 && (
-            <p className="mb-3 text-center text-[11px] font-bold uppercase tracking-wider text-amber-400 light:text-amber-700">
+            <p className="t-label mb-3 text-center text-amber-400 light:text-amber-700">
               Keep or discard the repeated answer{duplicates.length > 1 ? 's' : ''} above first
             </p>
           )}

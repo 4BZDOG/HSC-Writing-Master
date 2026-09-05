@@ -65,18 +65,12 @@ const InstrumentMetric = ({
   colorClass: string;
 }) => (
   <div className="flex flex-col gap-1 px-8 py-4 border-r border-white/5 light:border-slate-200 last:border-r-0">
-    <MicroLabel size={9} tracking="0.3" className="text-white/30 light:text-slate-500">
-      {label}
-    </MicroLabel>
+    <MicroLabel className="text-white/30 light:text-slate-500">{label}</MicroLabel>
     <div className="flex items-baseline gap-2">
       <span className={`text-4xl font-black tracking-tighter tabular-nums ${colorClass}`}>
         {value}
       </span>
-      {subValue && (
-        <span className="text-xs font-bold text-white/10 light:text-slate-500 uppercase tracking-widest">
-          {subValue}
-        </span>
-      )}
+      {subValue && <span className="t-label text-white/10 light:text-slate-500">{subValue}</span>}
     </div>
   </div>
 );
@@ -106,7 +100,7 @@ const NavButton = ({
     onClick={() => onSelect(tab)}
     aria-current={activeTab === tab ? 'page' : undefined}
     className={`
-            w-auto md:w-full flex items-center gap-3 md:gap-4 px-4 md:px-6 py-3 md:py-4 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] whitespace-nowrap transition-all duration-300
+            t-label w-auto md:w-full flex items-center gap-3 md:gap-4 px-4 md:px-6 py-3 md:py-4 rounded-2xl whitespace-nowrap transition-all duration-300
             ${
               activeTab === tab
                 ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-900/20 scale-[1.02] border border-white/20'
@@ -180,12 +174,10 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                 <Database className="w-5 h-5 md:w-6 md:h-6 text-white" />
               </div>
               <div className="flex-1 min-w-0">
-                <h2 className="text-xl font-black text-white light:text-slate-900 tracking-tighter italic uppercase leading-none">
+                <h2 className="text-xl font-black text-white light:text-slate-900 tracking-tighter italic leading-none">
                   Studio
                 </h2>
-                <span className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.4em]">
-                  Vault
-                </span>
+                <span className="t-label text-indigo-400">Vault</span>
               </div>
               {/* Phones have no Escape key and the Disconnect footer is hidden
                   below md, so the compact header carries the close control. */}
@@ -226,7 +218,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
           <div className="hidden md:block p-8 border-t border-white/5 light:border-slate-200 bg-black/20 light:bg-slate-50">
             <button
               onClick={onClose}
-              className="w-full py-4 rounded-2xl bg-white/5 light:bg-slate-100 hover:bg-white/10 light:hover:bg-slate-200 text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 hover:text-white light:hover:text-slate-900 transition-all flex items-center justify-center gap-3 border border-white/5 light:border-slate-200 shadow-lg"
+              className="t-label w-full py-4 rounded-2xl bg-white/5 light:bg-slate-100 hover:bg-white/10 light:hover:bg-slate-200 text-slate-400 hover:text-white light:hover:text-slate-900 transition-all flex items-center justify-center gap-3 border border-white/5 light:border-slate-200 shadow-lg"
             >
               <X className="w-4 h-4" /> Disconnect
             </button>
@@ -240,11 +232,11 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2 opacity-40">
                 <Zap className="w-3 h-3 text-indigo-400" />
-                <MicroLabel size={9} tracking="0.5" className="text-white light:text-slate-500">
+                <MicroLabel className="text-white light:text-slate-500">
                   System Diagnostics
                 </MicroLabel>
               </div>
-              <h3 className="text-2xl md:text-3xl font-black text-white light:text-slate-900 tracking-tighter uppercase italic leading-none">
+              <h3 className="text-2xl md:text-3xl font-black text-white light:text-slate-900 tracking-tighter italic leading-none">
                 {activeTab === 'maintenance'
                   ? 'Storage Calibrator'
                   : activeTab === 'import'
@@ -279,7 +271,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                         <ListOrdered className="w-5 h-5 text-indigo-400" />
                       </div>
                       <div>
-                        <h4 className="text-sm font-black text-white light:text-slate-900 uppercase tracking-widest italic">
+                        <h4 className="text-sm font-black text-white light:text-slate-900 italic">
                           Sequence Manager
                         </h4>
                         <p className="text-xs text-slate-500 font-bold">
@@ -296,9 +288,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                         <div className="p-3 rounded-2xl bg-blue-500/20 text-blue-400">
                           <Gauge className="w-6 h-6" />
                         </div>
-                        <h4 className="text-xs font-black text-white light:text-slate-900 uppercase tracking-[0.2em]">
-                          Sensor Reset
-                        </h4>
+                        <h4 className="t-label text-white light:text-slate-900">Sensor Reset</h4>
                       </div>
                       <p className="text-sm text-slate-400 light:text-slate-600 font-medium leading-relaxed mb-8">
                         Purge session and lifetime telemetry from the AI monitor. This recalibrates
@@ -306,7 +296,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                       </p>
                       <button
                         onClick={onResetApiStats}
-                        className="w-full py-4 rounded-2xl bg-blue-600/10 text-blue-400 text-[10px] font-black uppercase tracking-widest border border-blue-600/20 hover:bg-blue-600 hover:text-white transition-all shadow-xl shadow-blue-900/10"
+                        className="t-label w-full py-4 rounded-2xl bg-blue-600/10 text-blue-400 border border-blue-600/20 hover:bg-blue-600 hover:text-white transition-all shadow-xl shadow-blue-900/10"
                       >
                         Reset Telemetry
                       </button>
@@ -317,9 +307,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                         <div className="p-3 rounded-2xl bg-red-500/20 text-red-400">
                           <ShieldAlert className="w-6 h-6" />
                         </div>
-                        <h4 className="text-xs font-black text-white light:text-slate-900 uppercase tracking-[0.2em]">
-                          Engine Wipe
-                        </h4>
+                        <h4 className="t-label text-white light:text-slate-900">Engine Wipe</h4>
                       </div>
                       <p className="text-sm text-slate-400 light:text-slate-600 font-medium leading-relaxed mb-8">
                         Permanently discard all curriculum and session data. Revert the local
@@ -328,13 +316,13 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                       <div className="flex gap-4">
                         <button
                           onClick={onClearAll}
-                          className="flex-1 py-4 rounded-2xl bg-red-600/10 text-red-400 text-[10px] font-black uppercase tracking-widest border border-red-600/20 hover:bg-red-600 hover:text-white transition-all"
+                          className="t-label flex-1 py-4 rounded-2xl bg-red-600/10 text-red-400 border border-red-600/20 hover:bg-red-600 hover:text-white transition-all"
                         >
                           Purge All
                         </button>
                         <button
                           onClick={onResetToDefault}
-                          className="flex-1 py-4 rounded-2xl bg-slate-800/40 light:bg-slate-100 text-slate-400 light:text-slate-600 text-[10px] font-black uppercase tracking-widest border border-white/5 light:border-slate-200 hover:bg-white/10 light:hover:bg-slate-200 hover:text-white light:hover:text-slate-900 transition-all"
+                          className="t-label flex-1 py-4 rounded-2xl bg-slate-800/40 light:bg-slate-100 text-slate-400 light:text-slate-600 border border-white/5 light:border-slate-200 hover:bg-white/10 light:hover:bg-slate-200 hover:text-white light:hover:text-slate-900 transition-all"
                         >
                           Defaults
                         </button>

@@ -42,16 +42,16 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
               </div>
               <div>
                 <span
-                  className={`text-lg font-black tracking-tight italic uppercase leading-none block mb-1 ${expandedCourseId === course.id ? 'text-white light:text-slate-900' : 'text-slate-400 light:text-slate-600 group-hover:text-white light:group-hover:text-slate-900'}`}
+                  className={`text-lg font-black tracking-tight italic leading-none block mb-1 ${expandedCourseId === course.id ? 'text-white light:text-slate-900' : 'text-slate-400 light:text-slate-600 group-hover:text-white light:group-hover:text-slate-900'}`}
                 >
                   {course.name}
                 </span>
                 <div className="flex items-center gap-3">
-                  <span className="text-[10px] font-bold text-slate-500 light:text-slate-500 uppercase tracking-widest">
+                  <span className="t-label text-slate-500 light:text-slate-500">
                     {course.topics.length} {course.topics.length === 1 ? 'Topic' : 'Topics'}
                   </span>
                   <div className="h-1 w-1 rounded-full bg-slate-700 light:bg-slate-300" />
-                  <span className="text-[10px] font-bold text-indigo-400/60 light:text-indigo-500 uppercase tracking-widest">
+                  <span className="t-label text-indigo-400/60 light:text-indigo-500">
                     {course.subject || 'General'}
                   </span>
                 </div>
@@ -97,7 +97,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
                                 marked: Year 12 is the default and marking it
                                 would label almost every row for no gain. */}
                             {yearOfTopic(topic) === 'year11' && (
-                              <span className="px-1.5 py-px rounded border text-[9px] font-black uppercase tracking-wider bg-sky-500/10 light:bg-sky-50 text-sky-500 light:text-sky-700 border-sky-500/30 light:border-sky-300">
+                              <span className="t-label px-1.5 py-px rounded border bg-sky-500/10 light:bg-sky-50 text-sky-500 light:text-sky-700 border-sky-500/30 light:border-sky-300">
                                 {yearShortLabel('year11')}
                               </span>
                             )}

@@ -84,7 +84,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
             <X className="w-4 h-4" />
           </button>
           <div className="relative z-10 pr-10">
-            <span className="text-[10px] font-black uppercase tracking-[0.25em] text-white/75 flex items-center gap-2">
+            <span className="t-label text-white/75 flex items-center gap-2">
               {track.eyebrow}
               <span className="inline-flex items-center gap-1 text-white/60">
                 <Clock className="w-3 h-3" /> {track.timeToRead}
@@ -109,7 +109,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
               key={id}
               onClick={() => setTab(id)}
               aria-pressed={tab === id}
-              className={`px-4 sm:px-5 py-4 text-[11px] font-black uppercase tracking-[0.1em] border-b-2 transition-all flex items-center gap-2 whitespace-nowrap ${
+              className={`t-label px-4 sm:px-5 py-4 border-b-2 transition-all flex items-center gap-2 whitespace-nowrap ${
                 tab === id
                   ? 'border-indigo-500 text-[rgb(var(--color-text-primary))] light:text-slate-900'
                   : 'border-transparent text-slate-500 hover:text-slate-300 light:hover:text-slate-700'
@@ -175,7 +175,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
               </ol>
 
               <div className="mt-5 p-5 rounded-2xl bg-indigo-500/[0.07] light:bg-indigo-50 border border-indigo-500/20 light:border-indigo-200">
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400 light:text-indigo-600 block mb-2">
+                <span className="t-label text-indigo-400 light:text-indigo-600 block mb-2">
                   The one thing to remember
                 </span>
                 <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-medium">
@@ -204,7 +204,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
                     key={tip.label}
                     className="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200"
                   >
-                    <span className="shrink-0 px-2.5 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-[10px] font-black uppercase tracking-wider text-indigo-400 light:text-indigo-600">
+                    <span className="t-label shrink-0 px-2.5 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 light:text-indigo-600">
                       {tip.label}
                     </span>
                     <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 pt-0.5">
@@ -220,7 +220,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
               >
                 <Scale className="w-4 h-4 text-indigo-400 light:text-indigo-600 shrink-0" />
                 <span className="flex-1 min-w-0">
-                  <span className="block text-xs font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 uppercase tracking-wide">
+                  <span className="t-label block text-[rgb(var(--color-text-primary))] light:text-slate-900">
                     Your agreement, terms and privacy
                   </span>
                   <span className="block text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-0.5 font-medium">
@@ -234,12 +234,12 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
         </div>
 
         <div className="px-6 sm:px-8 py-4 border-t border-white/5 light:border-slate-200 shrink-0 flex items-center justify-between gap-4">
-          <span className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-widest">
+          <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
             Re-open any time from your profile
           </span>
           <button
             onClick={onClose}
-            className="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-[11px] uppercase tracking-widest shadow-lg active:scale-[0.98] transition-all"
+            className="t-label px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg active:scale-[0.98] transition-all"
           >
             {tab === 'guide' ? 'Start writing' : 'Close'}
           </button>

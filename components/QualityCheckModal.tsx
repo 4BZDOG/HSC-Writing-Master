@@ -226,7 +226,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
 
               {/* Issues List */}
               <div>
-                <h3 className="text-sm font-bold text-[rgb(var(--color-text-primary))] mb-3 uppercase tracking-wider flex items-center gap-2">
+                <h3 className="text-sm font-bold text-[rgb(var(--color-text-primary))] mb-3 flex items-center gap-2">
                   <AlertTriangle className="w-4 h-4 text-amber-400" /> Findings (
                   {result.issues.length})
                 </h3>
@@ -252,7 +252,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
                               {issue.message}
                             </p>
                             <p className="text-xs text-[rgb(var(--color-text-muted))] mt-1.5 flex items-start gap-1.5">
-                              <span className="bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] px-1.5 rounded font-bold uppercase text-[10px] tracking-wide pt-0.5">
+                              <span className="t-label bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] px-1.5 rounded pt-0.5">
                                 Fix
                               </span>
                               {issue.suggestion}

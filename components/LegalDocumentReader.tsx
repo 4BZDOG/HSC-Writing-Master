@@ -67,7 +67,7 @@ const LegalDocumentReader: React.FC<LegalDocumentReaderProps> = ({
                 scrollRef.current?.scrollTo({ top: 0 });
               }}
               aria-pressed={isActive}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all border ${
+              className={`t-label flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all border ${
                 isActive
                   ? 'bg-indigo-500/15 border-indigo-500/40 text-indigo-400 light:text-indigo-600'
                   : 'bg-white/[0.03] light:bg-slate-50 border-white/5 light:border-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-[rgb(var(--color-text-primary))]'

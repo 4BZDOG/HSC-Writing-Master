@@ -296,7 +296,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
               {/* Destination Section */}
               <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden">
                 <div className="px-4 py-2.5 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                  <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
                     Destination
                   </span>
                 </div>
@@ -353,7 +353,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
               <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden">
                 <div className="px-4 py-2.5 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex items-center gap-2">
                   <Globe className="w-3.5 h-3.5 text-[rgb(var(--color-accent))]" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                  <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
                     Fetch from URL
                   </span>
                   <span className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-1.5 py-0.5 rounded-full">
@@ -432,7 +432,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
               )}
 
               <div className="bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-xl overflow-hidden">
-                <div className="px-4 py-2.5 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 flex justify-between items-center">
+                <div className="t-label px-4 py-2.5 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-500 flex justify-between items-center">
                   <span>
                     {targetTopic ? `Add into "${targetTopic.name}"` : `New topic structure`}
                   </span>

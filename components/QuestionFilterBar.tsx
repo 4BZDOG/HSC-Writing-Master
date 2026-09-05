@@ -66,7 +66,7 @@ const QuestionFilterBar: React.FC<QuestionFilterBarProps> = ({
           <ListFilter
             className={`w-3.5 h-3.5 flex-shrink-0 ${active ? 'text-amber-400 light:text-amber-600' : 'text-[rgb(var(--color-text-muted))] light:text-slate-500'}`}
           />
-          <span className="text-[10px] font-black uppercase tracking-[0.15em] text-[rgb(var(--color-text-secondary))] light:text-slate-600 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors">
+          <span className="t-label text-[rgb(var(--color-text-secondary))] light:text-slate-600 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors">
             Refine
           </span>
           {/* The count is the honesty clause: a filtered list always says how
@@ -92,7 +92,7 @@ const QuestionFilterBar: React.FC<QuestionFilterBarProps> = ({
           <button
             type="button"
             onClick={reset}
-            className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wide bg-red-500/10 light:bg-red-50 text-red-400 light:text-red-700 border border-red-500/20 light:border-red-300 hover:bg-red-500 hover:text-white transition-all flex-shrink-0"
+            className="t-label flex items-center gap-1 px-2 py-1 rounded-lg bg-red-500/10 light:bg-red-50 text-red-400 light:text-red-700 border border-red-500/20 light:border-red-300 hover:bg-red-500 hover:text-white transition-all flex-shrink-0"
             title="Show every question again"
           >
             <RotateCcw className="w-3 h-3" />
@@ -109,7 +109,7 @@ const QuestionFilterBar: React.FC<QuestionFilterBarProps> = ({
           {summary.map((part) => (
             <span
               key={part}
-              className="px-1.5 py-px rounded border text-[9px] font-black uppercase tracking-wider bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border-amber-500/30 light:border-amber-400"
+              className="t-label px-1.5 py-px rounded border bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border-amber-500/30 light:border-amber-400"
             >
               {part}
             </span>
@@ -152,7 +152,7 @@ const QuestionFilterBar: React.FC<QuestionFilterBarProps> = ({
                   type="button"
                   onClick={() => onChange({ ...filter, unattemptedOnly: !filter.unattemptedOnly })}
                   aria-pressed={filter.unattemptedOnly}
-                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[10px] font-black uppercase tracking-wider transition-all ${
+                  className={`t-label flex items-center gap-1.5 px-2.5 py-1 rounded-lg border transition-all ${
                     filter.unattemptedOnly
                       ? 'bg-emerald-500 text-white border-emerald-400 shadow-sm'
                       : 'bg-[rgb(var(--color-bg-surface))] light:bg-white text-emerald-400 light:text-emerald-700 border-white/10 light:border-slate-300 hover:border-emerald-500/40'
@@ -167,7 +167,7 @@ const QuestionFilterBar: React.FC<QuestionFilterBarProps> = ({
                   type="button"
                   onClick={() => onChange({ ...filter, pastHscOnly: !filter.pastHscOnly })}
                   aria-pressed={filter.pastHscOnly}
-                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[10px] font-black uppercase tracking-wider transition-all ${
+                  className={`t-label flex items-center gap-1.5 px-2.5 py-1 rounded-lg border transition-all ${
                     // Amber is the provenance colour the rows use for a past-HSC
                     // chip, so it stays on the icon and label either way — but
                     // the fill is what says pressed, and an amber-tinted OFF

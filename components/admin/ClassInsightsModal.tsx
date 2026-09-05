@@ -47,7 +47,7 @@ const StatTile: React.FC<{ icon: React.ReactNode; label: string; value: string; 
   sub,
 }) => (
   <div className="flex-1 min-w-[140px] p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200">
-    <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1.5">
+    <div className="t-label flex items-center gap-2 text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1.5">
       {icon}
       {label}
     </div>
@@ -262,7 +262,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                   one, since a single class needs no choosing. */}
               {classes.length > 1 && (
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                  <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500">
                     Class
                   </span>
                   <button
@@ -295,7 +295,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
               {/* Window + dimension selectors */}
               <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                  <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500">
                     Window
                   </span>
                   {WINDOWS.map((w) => (
@@ -313,7 +313,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                   ))}
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                  <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500">
                     Break down
                   </span>
                   {DIMENSIONS.map((d) => (
@@ -375,7 +375,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                   ) : (
                     /* Per-dimension weakness table */
                     <section>
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                      <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                         <AlertTriangle className="w-3.5 h-3.5" />
                         {dimension === 'verb' ? 'Struggle by command verb' : 'Struggle by topic'}
                       </h3>
@@ -386,7 +386,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                       ) : (
                         <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
                           <table className="w-full text-left text-sm min-w-[500px]">
-                            <thead className="bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 uppercase text-[10px] font-bold">
+                            <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
                               <tr>
                                 <th className="px-4 py-2.5">
                                   {dimension === 'verb' ? 'Verb' : 'Topic'}

@@ -68,7 +68,7 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
           {/* The selected question + its verb / marks / target band. */}
           <div className="flex items-center gap-2.5 mt-2 pl-2">
             <span
-              className={`shrink-0 text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-md ${band.solidBg} ${band.solidText} shadow-sm`}
+              className={`t-label shrink-0 px-2 py-0.5 rounded-md ${band.solidBg} ${band.solidText} shadow-sm`}
             >
               {prompt.verb}
             </span>
@@ -79,7 +79,7 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
         </div>
 
         <div className="flex items-center gap-2.5 shrink-0">
-          <div className="hidden md:flex items-center gap-2.5 text-[10px] font-black uppercase tracking-widest text-[rgb(var(--color-text-muted))]">
+          <div className="t-label hidden md:flex items-center gap-2.5 text-[rgb(var(--color-text-muted))]">
             <span>{prompt.totalMarks} marks</span>
             <span className="w-px h-3.5 bg-[rgb(var(--color-border-secondary))]" />
             <span className={`flex items-center gap-1.5 ${band.text}`}>
@@ -99,7 +99,7 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
           <button
             ref={expandButtonRef}
             onClick={onExpand}
-            className={`flex items-center gap-2 px-3.5 h-9 rounded-xl text-[11px] font-black uppercase tracking-wider border ${band.border} ${band.bg} ${band.text} hover:brightness-110 active:scale-[0.98] transition-all`}
+            className={`t-label flex items-center gap-2 px-3.5 h-9 rounded-xl border ${band.border} ${band.bg} ${band.text} hover:brightness-110 active:scale-[0.98] transition-all`}
             title="Open the syllabus navigator to change your selection"
           >
             <Pencil className="w-3.5 h-3.5" />

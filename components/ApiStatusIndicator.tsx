@@ -58,9 +58,7 @@ const ApiStatusIndicator: React.FC = () => {
       </div>
 
       <div className="flex-shrink-0 text-center pl-4 border-l border-red-500/20 light:border-red-200">
-        <p className="text-[10px] font-bold text-red-400 light:text-red-600 uppercase tracking-wider mb-0.5">
-          Resuming
-        </p>
+        <p className="t-label text-red-400 light:text-red-600 mb-0.5">Resuming</p>
         <p className="font-mono text-xl font-black text-white light:text-red-900 tracking-tight">
           {formatTime(timeLeft)}
         </p>

@@ -84,9 +84,7 @@ const SupportUsageSummary: React.FC<SupportUsageSummaryProps> = ({ promptId }) =
             <BookOpenCheck className="w-4 h-4" />
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
-              Before you wrote
-            </h3>
+            <h3 className="t-label text-slate-500 dark:text-slate-400">Before you wrote</h3>
             <p className="mt-1 text-sm font-semibold text-slate-800 dark:text-slate-100">
               {readAll
                 ? `You opened all ${usage.available.length} supports for this question.`
@@ -112,7 +110,7 @@ const SupportUsageSummary: React.FC<SupportUsageSummaryProps> = ({ promptId }) =
           <button
             type="button"
             onClick={() => setExpanded(true)}
-            className="mt-3 text-[11px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 hover:underline"
+            className="t-label mt-3 text-indigo-600 dark:text-indigo-400 hover:underline"
           >
             Show all {usage.available.length}
           </button>

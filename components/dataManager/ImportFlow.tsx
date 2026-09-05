@@ -415,9 +415,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
             {/* Left Column: Selection Tree */}
             <div className="flex flex-col md:h-full border-b md:border-b-0 md:border-r border-[rgb(var(--color-border-secondary))]">
               <div className="px-4 py-3 bg-[rgb(var(--color-bg-surface-elevated))]/50 border-b border-[rgb(var(--color-border-secondary))] flex items-center justify-between">
-                <h4 className="text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
-                  Select Content
-                </h4>
+                <h4 className="t-label text-[rgb(var(--color-text-muted))]">Select Content</h4>
                 <div className="flex gap-2">
                   <button
                     onClick={selectAll}
@@ -448,9 +446,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
             {/* Right Column: Settings */}
             <div className="flex flex-col md:h-full md:overflow-y-auto custom-scrollbar bg-[rgb(var(--color-bg-surface))]/30">
               <div className="px-4 py-3 bg-[rgb(var(--color-bg-surface-elevated))]/50 border-b border-[rgb(var(--color-border-secondary))]">
-                <h4 className="text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
-                  Configuration
-                </h4>
+                <h4 className="t-label text-[rgb(var(--color-text-muted))]">Configuration</h4>
               </div>
 
               <div className="p-6 space-y-6">

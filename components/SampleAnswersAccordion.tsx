@@ -135,7 +135,7 @@ const SourceBadge: React.FC<{ source?: string; derivedFromStudent?: boolean }> =
   return (
     <span
       title={title}
-      className={`inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${config}`}
+      className={`t-label inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border ${config}`}
     >
       {isUpgrade ? (
         <span className="inline-flex items-center gap-0.5">
@@ -276,7 +276,7 @@ const CarouselAccordionItem: React.FC<{
                 className={`absolute inset-0 bg-gradient-to-br ${bandConfig.gradient} ${isOpen ? 'opacity-15' : 'opacity-5 group-hover:opacity-10'}`}
               />
               <span
-                className={`text-[8px] font-black uppercase tracking-widest mb-0.5 relative z-10 ${isOpen ? bandConfig.text : 'text-slate-500 dark:text-slate-400'}`}
+                className={`t-label mb-0.5 relative z-10 ${isOpen ? bandConfig.text : 'text-slate-500 dark:text-slate-400'}`}
               >
                 Band
               </span>
@@ -293,7 +293,7 @@ const CarouselAccordionItem: React.FC<{
                   {group.mark}/{prompt.totalMarks} Marks
                 </span>
                 {group.answers.length > 1 && (
-                  <span className="flex items-center gap-1 text-[9px] font-bold text-slate-400 uppercase tracking-wider bg-slate-200/50 dark:bg-white/10 px-1.5 py-0.5 rounded-md">
+                  <span className="t-label flex items-center gap-1 text-slate-400 bg-slate-200/50 dark:bg-white/10 px-1.5 py-0.5 rounded-md">
                     <Layers className="w-2.5 h-2.5" /> {group.answers.length}
                   </span>
                 )}
@@ -305,7 +305,7 @@ const CarouselAccordionItem: React.FC<{
                 />
                 {currentSample.contentFlag?.status === 'open' && (
                   <span
-                    className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border bg-amber-500/10 text-amber-500 border-amber-500/30"
+                    className="t-label inline-flex items-center gap-1 px-2 py-0.5 rounded-full border bg-amber-500/10 text-amber-500 border-amber-500/30"
                     title={`Flagged for review: ${currentSample.contentFlag.reason}`}
                   >
                     <Flag className="w-2.5 h-2.5 fill-current" /> Flagged
@@ -375,7 +375,7 @@ const CarouselAccordionItem: React.FC<{
                     want the Official one and one contrast, not the set. */}
                 {group.answers.length > 1 && (
                   <div className="px-4 pt-4">
-                    <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 mb-2">
+                    <p className="t-label text-slate-500 dark:text-slate-400 mb-2">
                       {group.answers.length} exemplars at {group.mark}/{prompt.totalMarks}
                     </p>
                     <div
@@ -440,14 +440,14 @@ const CarouselAccordionItem: React.FC<{
                       <button
                         onClick={handleUseSample}
                         title="Load this exemplar into the writing surface"
-                        className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-500/30 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-all flex items-center gap-1.5"
+                        className="t-label px-3 py-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-500/30 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-all flex items-center gap-1.5"
                       >
                         <Copy className="w-3 h-3" /> Use
                       </button>
                     )}
                     <button
                       onClick={handleCopy}
-                      className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/10 hover:bg-slate-200 dark:hover:bg-white/10 transition-all flex items-center gap-1.5"
+                      className="t-label px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/10 hover:bg-slate-200 dark:hover:bg-white/10 transition-all flex items-center gap-1.5"
                     >
                       {isCopied ? <Check className="w-3 h-3" /> : <FileText className="w-3 h-3" />}
                       {isCopied ? 'Copied' : 'Copy'}
@@ -457,7 +457,7 @@ const CarouselAccordionItem: React.FC<{
                         onClick={handleContribute}
                         disabled={isContributing}
                         title="Submit this sample answer to the shared library for review"
-                        className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-500/30 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 transition-all flex items-center gap-1.5 disabled:opacity-50"
+                        className="t-label px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-500/30 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 transition-all flex items-center gap-1.5 disabled:opacity-50"
                       >
                         <UploadCloud className="w-3 h-3" />{' '}
                         {isContributing ? 'Submitting…' : 'Submit'}
@@ -523,7 +523,7 @@ const CarouselAccordionItem: React.FC<{
                 <div className="mt-3">
                   <button
                     onClick={() => setFeedbackExpanded((prev) => !prev)}
-                    className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-secondary))] transition-colors mb-2"
+                    className="t-label flex items-center gap-1.5 text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-secondary))] transition-colors mb-2"
                   >
                     <ChevronDown
                       className={`w-3 h-3 transition-transform duration-200 ${feedbackExpanded ? '' : '-rotate-90'}`}
@@ -543,7 +543,7 @@ const CarouselAccordionItem: React.FC<{
                             <Lightbulb className="w-3 h-3" />
                           </div>
                           <div>
-                            <p className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-1">
+                            <p className="t-label text-indigo-600 dark:text-indigo-400 mb-1">
                               Coach's Tip
                             </p>
                             <p className="text-xs text-indigo-900 dark:text-indigo-200/90 leading-relaxed font-medium">
@@ -559,7 +559,7 @@ const CarouselAccordionItem: React.FC<{
                             <BookOpen className="w-3 h-3" />
                           </div>
                           <div>
-                            <p className="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider mb-1">
+                            <p className="t-label text-amber-600 dark:text-amber-400 mb-1">
                               Feedback
                             </p>
                             <p className="text-xs text-amber-800 dark:text-amber-200/80 leading-relaxed">
@@ -711,7 +711,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           </div>
           <div className="text-left min-w-0">
             <span
-              className={`block text-[10px] font-black uppercase tracking-[0.2em] ${
+              className={`t-label block ${
                 isCollapsed
                   ? 'text-slate-500 dark:text-slate-400'
                   : 'text-slate-900 dark:text-white'
@@ -719,9 +719,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             >
               Sample Answers
             </span>
-            <span
-              className={`block truncate text-[10px] font-bold uppercase tracking-wider opacity-80 ${maxBandConfig.text}`}
-            >
+            <span className={`t-label block truncate opacity-80 ${maxBandConfig.text}`}>
               {/* The exemplar TOTAL, not just the level count. Eleven models
                   spread over three levels and three models over three levels
                   are very different things to walk into, and the folded card

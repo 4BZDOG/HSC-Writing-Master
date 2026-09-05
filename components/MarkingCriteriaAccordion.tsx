@@ -218,7 +218,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                   ? 'AI rubric drafting is part of the AI Content Studio — tap to learn more'
                   : undefined
               }
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all shadow-sm text-[10px] font-bold uppercase tracking-wider hover:shadow ${
+              className={`t-label flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all shadow-sm hover:shadow ${
                 studioLocked
                   ? 'bg-amber-400/15 border-amber-400/40 text-amber-500 light:text-amber-600'
                   : 'bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-indigo-500/30 text-indigo-500 dark:text-indigo-400'
@@ -283,9 +283,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
               <ListChecks className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-[0.2em]">
-                Marking Criteria
-              </h3>
+              <h3 className="t-label text-slate-900 dark:text-white">Marking Criteria</h3>
               <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium opacity-80">
                 Top Level: Band {maxPossibleBand}
               </p>
@@ -367,9 +365,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
               </div>
             ) : (
               <div className="py-8 px-4 text-center border-2 border-dashed border-slate-200 dark:border-white/10 rounded-xl">
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                  No detailed criteria available.
-                </p>
+                <p className="t-label text-slate-400">No detailed criteria available.</p>
               </div>
             )}
           </div>

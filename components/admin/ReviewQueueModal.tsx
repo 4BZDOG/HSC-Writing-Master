@@ -300,7 +300,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))]">
+                      <span className="t-label text-[rgb(var(--color-text-muted))]">
                         {KIND_LABEL[item.kind]}
                       </span>
                       <QualityBadge score={item.qualityScore} />

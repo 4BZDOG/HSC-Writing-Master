@@ -171,7 +171,7 @@ const OutcomeChip: React.FC<{
         onBlur={hide}
         title={`Open the brief for ${outcome.code} — what it asks for and how it applies to this question`}
         className={`
-          flex items-center gap-1 px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider whitespace-nowrap flex-shrink-0
+          t-label flex items-center gap-1 px-2.5 py-1 rounded-lg whitespace-nowrap flex-shrink-0
           ${bandConfig.bg} border ${bandConfig.border}
           ${bandConfig.text} transition-all duration-300 cursor-pointer
           hover:brightness-125 hover:shadow-md
@@ -191,11 +191,11 @@ const OutcomeChip: React.FC<{
           >
             <div className={`flex items-center gap-2 mb-2 ${bandConfig.text}`}>
               <Award className="w-3.5 h-3.5" />
-              <span className="font-black uppercase tracking-widest text-[10px]">Objective</span>
+              <span className="t-label">Objective</span>
             </div>
             {outcome.description}
             <div
-              className={`mt-2.5 pt-2.5 border-t border-white/10 light:border-slate-200 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest ${bandConfig.text}`}
+              className={`t-label mt-2.5 pt-2.5 border-t border-white/10 light:border-slate-200 flex items-center gap-1.5 ${bandConfig.text}`}
             >
               <Sparkles className="w-3 h-3" />
               Click for the full brief
@@ -230,15 +230,11 @@ const ProvenanceEditor: React.FC<{
     <div className="animate-fade-in p-4 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 border border-amber-500/30 light:border-amber-300 space-y-3">
       <div className="flex items-center gap-2">
         <Landmark className="w-4 h-4 text-amber-400 light:text-amber-600" />
-        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-400 light:text-amber-700">
-          Past HSC paper
-        </h4>
+        <h4 className="t-label text-amber-400 light:text-amber-700">Past HSC paper</h4>
       </div>
       <div className="flex flex-wrap items-end gap-3">
         <label className="flex flex-col gap-1.5">
-          <span className="text-[9px] font-black uppercase tracking-widest text-slate-500">
-            Year
-          </span>
+          <span className="t-label text-slate-500">Year</span>
           <input
             type="number"
             value={year}
@@ -248,9 +244,7 @@ const ProvenanceEditor: React.FC<{
           />
         </label>
         <label className="flex flex-col gap-1.5">
-          <span className="text-[9px] font-black uppercase tracking-widest text-slate-500">
-            Question No.
-          </span>
+          <span className="t-label text-slate-500">Question No.</span>
           <input
             type="text"
             value={questionNumber}
@@ -547,7 +541,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       examMode ? undefined : `Open the command verb guide for ${prompt.verb}`
                     }
                     title={examMode ? undefined : `What a ${prompt.verb} question asks for`}
-                    className={`text-[11px] leading-none whitespace-nowrap bg-white/20 px-2.5 py-1 rounded-md border border-white/15 font-black uppercase tracking-widest shadow-sm backdrop-blur-sm transition-all ${
+                    className={`t-label leading-none whitespace-nowrap bg-white/20 px-2.5 py-1 rounded-md border border-white/15 shadow-sm backdrop-blur-sm transition-all ${
                       examMode ? 'cursor-default' : 'hover:bg-white/30 active:scale-[0.98]'
                     }`}
                   >
@@ -555,7 +549,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   </button>
                   {isEnriching && (
                     <span
-                      className="inline-flex items-center gap-1 text-[9px] leading-none font-black uppercase tracking-[0.1em] bg-white/15 border border-white/20 rounded-full px-1.5 py-0.5 animate-fade-in"
+                      className="t-label inline-flex items-center gap-1 leading-none bg-white/15 border border-white/20 rounded-full px-1.5 py-0.5 animate-fade-in"
                       title="Fetching this question's scenario and syllabus terms in the background — you can start writing now."
                     >
                       <Loader2 className="w-2.5 h-2.5 animate-spin" />
@@ -565,7 +559,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   {hasOpenFlag && (
                     <button
                       onClick={() => setIsFlagModalOpen(true)}
-                      className="inline-flex items-center gap-1 text-[9px] leading-none font-black uppercase tracking-[0.1em] bg-amber-300/25 border border-amber-200/50 rounded-full px-1.5 py-0.5 animate-fade-in hover:bg-amber-300/40 transition-colors"
+                      className="t-label inline-flex items-center gap-1 leading-none bg-amber-300/25 border border-amber-200/50 rounded-full px-1.5 py-0.5 animate-fade-in hover:bg-amber-300/40 transition-colors"
                       title={`Flagged for review: ${prompt.contentFlag?.reason ?? ''}`}
                     >
                       <Flag className="w-2.5 h-2.5" />
@@ -609,9 +603,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               twin of the writing card's tool bar across the gap: same tray,
               same height, same fill. */}
             <div className={CARD_HEADER_TRAY}>
-              <div
-                className={`${CARD_HEADER_BAR} gap-1.5 text-[9px] font-bold uppercase tracking-wider`}
-              >
+              <div className={`t-label ${CARD_HEADER_BAR} gap-1.5`}>
                 {/* First to go when the row is tight: the suggested time is
                   the least load-bearing of the three (the metrics strip runs a
                   countdown on the same number), and the question card is at
@@ -747,7 +739,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             {showScenarioSection && (
               <div className="relative group/scenario">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500 light:text-slate-600 flex items-center gap-2">
+                  <h3 className="t-label text-slate-500 light:text-slate-600 flex items-center gap-2">
                     <BookOpen className="w-3.5 h-3.5" /> Context Scenario
                   </h3>
                   {canCurate && !isEditingScenario && (
@@ -896,9 +888,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     >
                       <div className="flex flex-col items-center gap-3 text-indigo-500 dark:text-indigo-400">
                         <Loader2 className="w-10 h-10 animate-spin" />
-                        <span className="text-[10px] font-black uppercase tracking-[0.25em]">
-                          Generating context…
-                        </span>
+                        <span className="t-label">Generating context…</span>
                       </div>
                     </AiBusyOverlay>
                   </div>
@@ -921,7 +911,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               already full. Never in Exam Mode, where the terms are assistance. */}
             {showKeywordFiller && (
               <div className="animate-fade-in">
-                <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400 flex items-center gap-2 mb-3">
+                <h3 className="t-label text-slate-500 dark:text-slate-400 flex items-center gap-2 mb-3">
                   <Sparkles className="w-3.5 h-3.5" /> Syllabus terms to weave in
                 </h3>
                 <div className="flex flex-wrap gap-2">
@@ -1005,7 +995,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                         assessed" already says what the button does. It costs a
                         whole extra footer row on a phone AND in the two-column
                         layout below xl, where this card is only ~380px wide. */}
-                      <span className="hidden xl:block text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 leading-none mb-1">
+                      <span className="t-label hidden xl:block text-slate-500 dark:text-slate-400 leading-none mb-1">
                         Before you write
                       </span>
                       <span
@@ -1027,7 +1017,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       <Link2 className={`w-4 h-4 ${bandConfig.text}`} />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 leading-none mb-1">
+                      <span className="t-label text-slate-500 dark:text-slate-400 leading-none mb-1">
                         Syllabus
                       </span>
                       <span className={`text-xs font-bold ${bandConfig.text}`}>Outcome Link</span>

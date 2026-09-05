@@ -822,9 +822,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           <span className="w-6 h-6 rounded-full bg-amber-500/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
             <Minimize className="w-3.5 h-3.5 text-white" />
           </span>
-          <span className="text-[11px] font-black uppercase tracking-[0.2em] whitespace-nowrap">
-            Focus Mode
-          </span>
+          <span className="t-label whitespace-nowrap">Focus Mode</span>
           <kbd className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-white/10 light:bg-slate-200 border border-white/10 light:border-slate-300 tracking-widest">
             ESC
           </kbd>
@@ -1066,7 +1064,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
             <div className="text-center p-12 rounded-[48px] bg-[rgb(var(--color-bg-surface))]/40 light:bg-white border border-white/5 light:border-slate-300 relative group overflow-hidden">
               <MeshOverlay opacity="opacity-[0.05]" />
               <Compass className="w-20 h-20 text-indigo-500 mx-auto mb-8 opacity-40 group-hover:rotate-45 transition-transform duration-700" />
-              <h3 className="text-3xl font-black text-white light:text-slate-900 mb-4 tracking-tighter uppercase italic">
+              <h3 className="text-3xl font-black text-white light:text-slate-900 mb-4 tracking-tighter italic">
                 Ready to Write
               </h3>
               <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-500 max-w-sm mx-auto font-medium">
@@ -1081,7 +1079,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                   <button
                     onClick={() => openModal('manifestImport')}
-                    className="px-8 py-3 rounded-2xl bg-indigo-600 text-white font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3"
+                    className="t-label px-8 py-3 rounded-2xl bg-indigo-600 text-white shadow-xl hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3"
                   >
                     <Sparkles className="w-4 h-4" /> Load Curriculum Library
                   </button>
@@ -1095,7 +1093,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                     <button
                       onClick={() => openModal('fullSyllabusImport')}
                       title="Build a course by pasting NESA syllabus text or fetching a syllabus URL"
-                      className="px-8 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-700 border border-white/10 light:border-slate-300 font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3"
+                      className="t-label px-8 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-700 border border-white/10 light:border-slate-300 shadow-xl hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3"
                     >
                       <UploadCloud className="w-4 h-4" /> Import a Syllabus
                     </button>
@@ -1108,7 +1106,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                         setCourseRequestPrefill('');
                         openModal('courseRequest');
                       }}
-                      className="px-8 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-700 border border-white/10 light:border-slate-300 font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3"
+                      className="t-label px-8 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-700 border border-white/10 light:border-slate-300 shadow-xl hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3"
                     >
                       <Compass className="w-4 h-4" /> Request a Course
                     </button>

@@ -46,7 +46,7 @@ export const PanelReadChip: React.FC<{ show: boolean; className?: string }> = ({
   show ? (
     <span
       title="You have opened this panel for this question"
-      className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 animate-fade-in ${className}`}
+      className={`t-label inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 animate-fade-in ${className}`}
     >
       <Check className="w-2.5 h-2.5" strokeWidth={3} />
       Read

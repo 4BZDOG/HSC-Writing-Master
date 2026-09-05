@@ -54,8 +54,7 @@ export const CARD_HEADER_TITLE =
  *  Floored for the same reason: both cards put a chip on this line. */
 export const CARD_HEADER_META_ROW = 'flex flex-wrap items-center gap-2 min-h-6 mt-1';
 
-export const CARD_HEADER_META =
-  'text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 leading-none';
+export const CARD_HEADER_META = 't-label text-white/60 leading-none';
 
 /**
  * The bottom-right corner of the header, where each card docks its controls.
