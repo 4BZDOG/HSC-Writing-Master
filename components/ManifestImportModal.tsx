@@ -377,7 +377,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                           >
                             {/* Selection Pulse Glow */}
                             {isSelected && (
-                              <div className="absolute -top-10 -right-10 w-24 h-24 bg-indigo-500/20 blur-3xl animate-pulse" />
+                              <div className="absolute -top-10 -right-10 w-24 h-24 bg-indigo-500/20 blur-3xl" />
                             )}
                             <MeshOverlay
                               opacity={isSelected ? 'opacity-[0.06]' : 'opacity-[0.02]'}

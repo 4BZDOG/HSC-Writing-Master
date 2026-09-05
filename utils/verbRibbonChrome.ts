@@ -343,7 +343,7 @@ export const RIBBON_TIMELINE_CUE_TIER = 't-label';
  *  sets the same number in mono six inches above. Painted on the page
  *  background. */
 export const RIBBON_TIMELINE_CUE_BAND =
-  't-label font-mono tabular-nums' + 'text-slate-700 dark:text-slate-300';
+  't-label font-mono tabular-nums ' + 'text-slate-700 dark:text-slate-300';
 
 /** The timeline's progress track — the unlit ground the spectrum is painted
  *  on, and the box that clips it. Painted on the page background.
@@ -455,7 +455,7 @@ export const RIBBON_SPECTRUM_SCALE_RAIL =
  *  text from the audit is the blind spot that let this component's three
  *  contrast defects ship in the first place. */
 export const RIBBON_SPECTRUM_SCALE_SPAN =
-  't-label whitespace-nowrap' + 'text-slate-600 dark:text-slate-400';
+  't-label whitespace-nowrap ' + 'text-slate-600 dark:text-slate-400';
 
 /** The band-cap fragment of a span caption — the number the leap across the
  *  threshold is measured in. Set in the telemetry face per DesignSpec §4, like
@@ -511,7 +511,7 @@ export const RIBBON_TIMELINE_STEP_LABEL_IDLE =
  *  painting, and saying it out loud is what lets the parity sweep read this
  *  constant at all. */
 export const RIBBON_TIMELINE_THRESHOLD_CHIP =
-  't-label hidden sm:block px-2 py-0.5 rounded-full' +
+  't-label hidden sm:block px-2 py-0.5 rounded-full ' +
   'border shadow-sm whitespace-nowrap mb-2 transform -translate-y-1/2 ' +
   'bg-white text-slate-600 border-slate-300 ' +
   'dark:bg-[rgb(var(--color-bg-surface))] dark:text-slate-400 dark:border-white/10';

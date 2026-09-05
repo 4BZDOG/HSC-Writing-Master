@@ -256,6 +256,36 @@ gives back the casing each label was already authored in, so no copy changed.
 Words in the UI are design content, not decoration. Three rules, each of which
 the app was breaking somewhere.
 
+### Don't dress a page in the default treatments
+
+Four habits read as generic wherever they appear, and all four had collected on
+the auth pages — the first screens anyone sees.
+
+**One word of a headline in a different colour.** `Band <span
+className="text-indigo-500">6</span>` on both the login and reset-password
+pages. The headline is a name; colouring one character of it adds no meaning and
+is the single most recognisable tell of a generated page. Set a headline in one
+colour.
+
+**A label above a heading that repeats it.** Both pages carried an eyebrow
+reading "HSC Writing Coach" above a "Band 6" headline, with a line underneath
+saying the product was an HSC writing coach. Three elements, one fact. A label
+earns its place by saying something the heading does not.
+
+**An arrow appended to button or link text.** "Sign In →", "Back to sign in →"
+(pointing away from where the link went), "Request this course →". A button
+already says what pressing it does.
+
+**An infinite animation on a state that is not changing.** A pulsing dot on an
+already-selected card, a sparkle throbbing beside a "new" option, a glow
+breathing behind a selection. Motion earns its place by showing something
+happen: a spinner while work runs, a pulse on an error that just appeared, a
+reveal when content arrives. A heartbeat on a static state is decoration that
+moves.
+
+Also retired: **a trust badge that asserts nothing checkable.** "Secure System"
+sat in the login footer beside the legal terms and the version, which are real.
+
 ### Name things as the reader knows them
 
 Not as the system is built. A teacher has courses and topics; the app has

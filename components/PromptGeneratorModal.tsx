@@ -526,7 +526,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                           {tier.title}
                         </div>
                         {isSelected && (
-                          <div className="absolute bottom-2 right-4 w-1 h-1 rounded-full bg-current animate-pulse" />
+                          <div className="absolute bottom-2 right-4 w-1 h-1 rounded-full bg-current" />
                         )}
                       </button>
                     );
