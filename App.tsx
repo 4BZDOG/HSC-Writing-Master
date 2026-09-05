@@ -1448,15 +1448,21 @@ const App: React.FC = () => {
           isSaving={isAcceptingAgreement}
         />
       )}
-      {/* Below `sm` the top of the screen is the breadcrumb and the course
-          picker — the two controls a student navigates with — and a 351px toast
-          at `top-24` covered both, and blocked clicks on them, for up to
-          fourteen seconds. Phones get it docked to the bottom instead, which is
-          where a transient notice belongs on a small screen: out of the
-          navigation, and over content the reader can scroll. From `sm` up there
-          is room at the top right, so nothing changes there. */}
+      {/* Toasts dock at the bottom: full width below `sm`, bottom-LEFT above it.
+
+          Every other corner is occupied. `top-24 right-4`, where this used to
+          sit, put the card on the breadcrumb bar — at 390px it covered the whole
+          of it, and at 1440px it still covered "Change", the control for
+          switching question. Moving it to bottom-right cleared that and landed
+          on "Evaluate" instead, which is worse: that is the primary action.
+
+          Bottom-left is the one corner that holds only reference material —
+          measured, it covers the syllabus accordions and some verb chips, and
+          no button a student needs. An informational notice should not be
+          blocking clicks on anything for the fourteen seconds an actionable
+          toast can live. */}
       {toast && (
-        <div className="fixed inset-x-4 bottom-4 sm:inset-x-auto sm:bottom-auto sm:top-24 sm:right-4 z-toast animate-slide-in">
+        <div className="fixed inset-x-4 bottom-4 sm:inset-x-auto sm:left-4 z-toast animate-slide-in">
           <Toast
             key={toast.id}
             message={toast.message}

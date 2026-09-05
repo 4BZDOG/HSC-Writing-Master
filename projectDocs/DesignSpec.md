@@ -319,6 +319,20 @@ where that differs. `PromptSelector` already sets the pattern:
 
 A bare "No detailed criteria available." or "Nothing selected." is a dead end.
 
+### A transient notice never sits on a control
+
+Toasts dock at the bottom — full width below `sm`, bottom-left above it — and
+that corner was chosen by measuring what each one covers, not by convention.
+
+`top-24 right-4` put the card on the breadcrumb bar: at 390px it covered the
+whole of it, and at 1440px it still covered "Change", the control for switching
+question. Bottom-right cleared that and landed on "Evaluate", the primary
+action. Bottom-left covers the syllabus accordions and some verb chips, and no
+button a student needs.
+
+An actionable toast lives for fourteen seconds. Nothing under it can be clicked
+for that whole time, so where it lands is a layout decision, not a detail.
+
 ### One glyph, one job
 
 `·` separates items on a line. `•` starts a list item. Both were being used as
