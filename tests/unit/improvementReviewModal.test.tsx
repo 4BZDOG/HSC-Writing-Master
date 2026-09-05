@@ -44,6 +44,32 @@ const renderModal = (over: Partial<React.ComponentProps<typeof ImprovementReview
 };
 
 describe('ImprovementReviewModal', () => {
+  /**
+   * The unified view is one reading column in a 1152px modal; side by side is
+   * already two narrow panes. The bound belongs to the first and not the second,
+   * and it belongs to the wrapper holding BOTH the legend and the prose, so the
+   * two narrow together instead of the text stranding itself inside a card
+   * nobody narrowed — which is what the reverted `max-w-[56ch]` on the text did.
+   *
+   * This pins the structure. It does not measure pixels: jsdom does no layout,
+   * so the character count this buys was reasoned from the modal's width, not
+   * observed. See DesignSpec §4, "Measure".
+   */
+  it('bounds the unified reading column, and only that view', () => {
+    renderModal();
+
+    const marked = screen.getByText(/everything unmarked is your own writing/i);
+    const column = marked.closest('div');
+    expect(column?.className, 'the unified column carries the reading bound').toMatch(/max-w-3xl/);
+    expect(column?.className).toMatch(/mx-auto/);
+
+    fireEvent.click(screen.getByText('Side by side'));
+    expect(
+      document.body.querySelectorAll('.max-w-3xl').length,
+      'side by side needs no bound — its panes are already half the modal'
+    ).toBe(0);
+  });
+
   it('marks the added words and leaves the student’s own words unmarked', () => {
     renderModal();
 

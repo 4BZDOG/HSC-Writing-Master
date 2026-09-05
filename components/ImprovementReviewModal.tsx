@@ -454,7 +454,12 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
           )}
 
           {!hasOriginal || view === 'unified' ? (
-            <div className="p-6 sm:p-8">
+            /* Unified view is one reading column in a 1152px modal, so it takes
+               the same bound as the report: the legend and the marked-up prose
+               narrow together and stay aligned with each other, while the
+               modal's header and footer stay full-width chrome. Side by side
+               needs no cap — its panes are already about half this. */
+            <div className="p-6 sm:p-8 max-w-3xl mx-auto">
               {hasOriginal && anchors.length > 0 && (
                 <p className="t-label mb-5 text-slate-400 flex flex-wrap items-center gap-x-4 gap-y-1">
                   <span className="inline-flex items-center gap-1.5">
