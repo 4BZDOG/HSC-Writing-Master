@@ -91,7 +91,7 @@ export const ContentLockOverlay: React.FC<{
         <div className="w-10 h-10 rounded-2xl bg-amber-400/15 border border-amber-400/30 flex items-center justify-center">
           <Lock className="w-5 h-5 text-amber-500" />
         </div>
-        <p className="text-xs font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
+        <p className="text-xs font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900">
           {message || meta?.title || 'Plus Feature'}
         </p>
         <button
@@ -310,7 +310,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
               <TrendingUp className="w-4 h-4 text-indigo-400 light:text-indigo-600 mt-0.5 shrink-0" />
               <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600">
                 You're averaging{' '}
-                <span className="font-black text-indigo-400 light:text-indigo-600">
+                <span className="font-bold text-indigo-400 light:text-indigo-600">
                   Band {avgBand.toFixed(1)}
                 </span>{' '}
                 across {user!.stats.questionsAnswered} marked answers. Full criterion feedback,
@@ -360,7 +360,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                   }`}
                 >
                   <span className="t-label block text-slate-400">Monthly</span>
-                  <span className="block text-lg font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
+                  <span className="block text-lg font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
                     {PLAN_PRICING.monthly}
                     <span className="text-[10px] font-bold text-slate-400"> /month</span>
                   </span>
@@ -377,14 +377,14 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                   <span className="t-label text-slate-400 flex items-center gap-1">
                     Yearly <Zap className="w-3 h-3 text-amber-500" />
                   </span>
-                  <span className="block text-lg font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
+                  <span className="block text-lg font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
                     {PLAN_PRICING.yearly}
                     <span className="text-[10px] font-bold text-slate-400"> /year</span>
                   </span>
                 </button>
               </div>
               {billingPeriod === 'yearly' && (
-                <p className="mt-2 text-center text-[10px] font-bold text-emerald-500">
+                <p className="mt-2 text-center text-[10px] text-emerald-500">
                   {PLAN_PRICING.yearlyNote}
                   <span className="block mt-0.5 font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500">
                     A year of unlimited marking for less than one hour of tutoring.
@@ -402,7 +402,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
               <span className="t-label block text-slate-400">
                 {effectivePeriod === 'yearly' ? 'Yearly' : 'Monthly'}
               </span>
-              <span className="block text-lg font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
+              <span className="block text-lg font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
                 {plusPriceDisplay}
                 <span className="text-[10px] font-bold text-slate-400">
                   {effectivePeriod === 'yearly' ? ' /year' : ' /month'}

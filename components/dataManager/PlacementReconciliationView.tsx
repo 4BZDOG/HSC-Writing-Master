@@ -234,7 +234,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
 
         {showBulkPlacer && bulkCourse && (
           <div className="mt-4 p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 animate-fade-in">
-            <p className="text-xs font-bold text-emerald-400 mb-3 flex items-center gap-1.5">
+            <p className="text-xs text-emerald-400 mb-3 flex items-center gap-1.5">
               <Layers className="w-3.5 h-3.5" />
               Place all {stats.remaining} remaining group{stats.remaining !== 1 ? 's' : ''} into:
             </p>

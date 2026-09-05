@@ -273,7 +273,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
           part.toLowerCase() === syllabusVerbInfo.term.toLowerCase() ? (
             <span
               key={i}
-              className={`relative inline-block px-1.5 py-0.5 mx-1 rounded-lg shadow-sm bg-gradient-to-r ${verbConfig.gradient} text-white font-black tracking-wide transform -skew-x-3 decoration-clone`}
+              className={`relative inline-block px-1.5 py-0.5 mx-1 rounded-lg shadow-sm bg-gradient-to-r ${verbConfig.gradient} text-white font-bold tracking-wide transform -skew-x-3 decoration-clone`}
             >
               <span className="block transform skew-x-3">{part.toUpperCase()}</span>
             </span>

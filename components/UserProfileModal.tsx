@@ -220,16 +220,14 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
           </button>
         )}
         {perkPlan && (
-          <p className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed">
+          <p className="text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed">
             {plan === 'school'
               ? 'Held through your school’s licence — there is nothing to pay and no subscription of your own to manage. Your school administrator handles the billing.'
               : 'Included with your account — there is nothing to pay and no subscription of your own to manage.'}
           </p>
         )}
         {isPaid && portalError && (
-          <p className="mt-2 text-[10px] font-bold text-red-400 light:text-red-600">
-            {portalError}
-          </p>
+          <p className="mt-2 text-[10px] text-red-400 light:text-red-600">{portalError}</p>
         )}
         {!isPaid && selling && (
           <button
@@ -503,7 +501,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
               </span>
             </div>
             <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-2xl bg-black light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center shadow-lg">
-              <span className={`text-xs font-black ${bandConfig.text}`}>{user.stats.level}</span>
+              <span className={`text-xs font-bold ${bandConfig.text}`}>{user.stats.level}</span>
             </div>
           </div>
 
@@ -970,7 +968,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 {isConfirmingDelete && (
                   <div className="px-6 sm:px-10 pb-6 animate-fade-in">
                     <div className="p-5 rounded-panel bg-red-500/[0.07] border border-red-500/30">
-                      <p className="text-xs font-bold text-red-400 light:text-red-600 leading-relaxed">
+                      <p className="text-xs text-red-400 light:text-red-600 leading-relaxed">
                         This deletes your profile, your responses and all your progress. It cannot
                         be undone.
                       </p>
@@ -1017,7 +1015,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 {dataRightsMessage && (
                   <p
                     role="status"
-                    className="px-6 sm:px-10 pb-6 -mt-2 text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed"
+                    className="px-6 sm:px-10 pb-6 -mt-2 text-xs text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed"
                   >
                     {dataRightsMessage}
                   </p>

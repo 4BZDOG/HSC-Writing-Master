@@ -72,7 +72,7 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
             >
               {prompt.verb}
             </span>
-            <p className="min-w-0 truncate text-[13px] font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 leading-snug">
+            <p className="min-w-0 truncate text-[13px] font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900 leading-snug">
               {prompt.question}
             </p>
           </div>

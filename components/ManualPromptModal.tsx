@@ -446,7 +446,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                 return (
                   <div key={id} className="flex items-center gap-2">
                     <span
-                      className={`w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black transition-colors ${
+                      className={`w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-bold transition-colors ${
                         active
                           ? 'bg-indigo-500 text-white shadow-lg'
                           : done

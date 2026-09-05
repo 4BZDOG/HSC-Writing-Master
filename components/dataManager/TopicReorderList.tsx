@@ -78,7 +78,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
                       className="flex items-center justify-between p-3 rounded-2xl hover:bg-white/[0.03] light:hover:bg-slate-100 transition-all group/row"
                     >
                       <div className="flex items-center gap-5 flex-1 min-w-0">
-                        <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-black/40 light:bg-slate-100 border border-white/5 light:border-slate-200 text-[10px] font-mono font-black text-indigo-400/40 light:text-indigo-400 group-hover/row:text-indigo-400 transition-colors shadow-inner shrink-0">
+                        <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-black/40 light:bg-slate-100 border border-white/5 light:border-slate-200 text-[10px] font-mono font-bold text-indigo-400/40 light:text-indigo-400 group-hover/row:text-indigo-400 transition-colors shadow-inner shrink-0">
                           {(index + 1).toString().padStart(2, '0')}
                         </div>
                         <div className="min-w-0">

@@ -127,7 +127,7 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
           <div className="flex items-center justify-between gap-3">
             <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 leading-snug">
               Weave these syllabus terms in for a{' '}
-              <span className={`font-black ${bandConfig.text}`}>Band {targetBand}</span> response.
+              <span className={`font-bold ${bandConfig.text}`}>Band {targetBand}</span> response.
             </p>
             <span
               className={`t-label shrink-0 px-2.5 py-1 rounded-full border ${

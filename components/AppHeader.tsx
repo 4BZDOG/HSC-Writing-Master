@@ -161,7 +161,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
             <span className="text-xs font-bold hidden sm:block text-slate-900 dark:text-white">
               {user.displayName}
             </span>
-            <div className="w-8 h-8 rounded-xl bg-indigo-500 flex items-center justify-center text-white font-black text-xs shadow-lg">
+            <div className="w-8 h-8 rounded-xl bg-indigo-500 flex items-center justify-center text-white font-bold text-xs shadow-lg">
               {user.displayName.charAt(0)}
             </div>
           </button>

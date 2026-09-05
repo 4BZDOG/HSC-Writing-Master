@@ -1177,7 +1177,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                     className={`${healthColor} transition-all duration-1000`}
                   />
                 </svg>
-                <span className={`absolute text-xs font-black ${healthColor}`}>
+                <span className={`absolute text-xs font-bold ${healthColor}`}>
                   {healthPercentage}%
                 </span>
               </div>
@@ -1405,7 +1405,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
               <h3 className="text-2xl font-black text-white light:text-slate-900 tracking-tight italic">
                 No items found
               </h3>
-              <p className="text-sm text-slate-500 mt-2 font-bold">Refine your search or filters</p>
+              <p className="text-sm text-slate-500 mt-2">Refine your search or filters</p>
             </div>
           )}
         </div>
@@ -1442,7 +1442,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 <div className="flex items-start gap-3 p-3 mb-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 light:text-red-600 animate-fade-in">
                   <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="font-bold text-xs">{progress.fatalError.userMessage}</p>
+                    <p className="text-xs">{progress.fatalError.userMessage}</p>
                     <p className="text-[11px] opacity-80 mt-0.5">
                       {progress.fatalError.suggestion}
                     </p>

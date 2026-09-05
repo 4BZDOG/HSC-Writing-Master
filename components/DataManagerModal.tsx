@@ -274,7 +274,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                         <h4 className="text-sm font-black text-white light:text-slate-900 italic">
                           Sequence Manager
                         </h4>
-                        <p className="text-xs text-slate-500 font-bold">
+                        <p className="text-xs text-slate-500">
                           Reorder curriculum hierarchy for optimal session flow and NESA alignment.
                         </p>
                       </div>

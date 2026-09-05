@@ -58,7 +58,7 @@ const BillingAlertBanner: React.FC = () => {
       <div className="w-8 h-8 rounded-xl bg-amber-500/20 flex items-center justify-center shrink-0">
         <AlertTriangle className="w-4 h-4 text-amber-500" />
       </div>
-      <p className="flex-1 min-w-[200px] text-xs font-bold text-amber-600 light:text-amber-700 leading-relaxed">
+      <p className="flex-1 min-w-[200px] text-xs text-amber-600 light:text-amber-700 leading-relaxed">
         There's a payment issue with your {planLabel} subscription. Your access continues while the
         payment is retried — update your card to keep it that way.
       </p>
@@ -82,9 +82,7 @@ const BillingAlertBanner: React.FC = () => {
         <X className="w-4 h-4" />
       </button>
       {portalError && (
-        <p className="w-full text-[11px] font-bold text-red-500 light:text-red-600">
-          {portalError}
-        </p>
+        <p className="w-full text-[11px] text-red-500 light:text-red-600">{portalError}</p>
       )}
     </div>
   );

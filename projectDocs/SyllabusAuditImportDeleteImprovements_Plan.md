@@ -33,6 +33,7 @@ There is already a fairly complete JSON structure-import pipeline, split across 
 ### 1d. Content Audit Studio resize/scroll bug — concrete root cause
 
 `ContentAuditModal.tsx:1271-1277` renders the whole studio as `fixed inset-0 z-[200] ... flex flex-col` — a genuine full-viewport (not a capped/centred) dialog, unlike every other admin modal in the app (e.g. `components/admin/DatabaseDashboard.tsx:426` uses `w-full max-w-5xl ... max-h-[90vh] ... overflow-hidden flex flex-col`, i.e. explicitly bounded). The three flex children are:
+
 - Header, `flex-shrink-0` (`ContentAuditModal.tsx:1280`) — contains the hero row (health ring + metrics + close, `1282-1370`) **and** a `flex flex-wrap` "Smart Select Action Bar" of ~9 controls (search, expand/collapse, 7 filter-count chips) at `1372-1512`. This whole block has **no `max-height` and no `overflow-y`** of its own.
 - Tree, `flex-1 min-h-0 overflow-auto` (`ContentAuditModal.tsx:1516`) — this part is correctly built to scroll and shrink.
 - Footer, `flex-shrink-0`, height jumps between `min-h-[6rem] py-3` and a hard `h-80` while a batch is running (`ContentAuditModal.tsx:1538`), and independently contains its own `flex flex-wrap` row of ~9 controls (engine selector, sync button, 7 action buttons, `1613-1731`) with no `overflow-y` either.
@@ -82,11 +83,13 @@ It locates the target node by `courseId` + (`type`,`id`) using the same traversa
 **Files touched:** `utils/dataManagerUtils.ts`, `tests/unit/dataManagerUtils.test.ts`, `components/dataManager/ExportFlow.tsx` (reference only — reuse `filterDataBySelection`), new small export helper (place in `utils/dataManagerUtils.ts` beside `filterDataBySelection`, e.g. `exportTopicToJsonFile`), `components/admin/ContentAuditModal.tsx`, `tests/unit/contentAuditStudio.test.tsx`.
 
 **Behaviour to implement:**
+
 1. **Bug fix** in `mergeDotPointCollections` (`utils/dataManagerUtils.ts:1019-1036`): when an existing dot point is matched, also merge `focusAreas` — imported wins when present and non-empty (same "imported explicit value wins" rule the codebase already uses for `focusAreas` elsewhere, see `hooks/useSyllabusData.ts:577-598` comment about `undefined` vs `[]` semantics), otherwise keep existing.
 2. **New export helper** — a thin, directly-callable wrapper around the existing `filterDataBySelection` + Blob-download logic already proven in `ExportFlow.tsx:25-64`, parameterised by a single topic id (and its course id) instead of a whole `selectedIds` set, e.g. `buildTopicExportPayload(courses: Course[], courseId: string, topicId: string): Course[]` (pure, testable — returns the filtered `Course[]`; the actual `Blob`/`<a download>` browser call stays in the UI layer that invokes it, following the existing `ExportFlow.tsx` pattern).
 3. **Wire it into the Studio**: add an "Export JSON" button in `ContentAuditModal.tsx`'s per-node row (or a header action enabled when exactly one topic/course is selected) that calls `buildTopicExportPayload` and downloads the result with the same filename convention as `ExportFlow.tsx:28-50`.
 
 **Tests to add:**
+
 - `tests/unit/dataManagerUtils.test.ts`: a `mergeDotPointCollections`/`mergeTopicContents` case asserting an imported `focusAreas: []` (explicit "no focus areas") and a non-empty imported `focusAreas` both win over the existing value, and that an imported dot point with **no** `focusAreas` key leaves the existing value untouched.
 - `tests/unit/dataManagerUtils.test.ts` (or a new `tests/unit/topicExport.test.ts`): `buildTopicExportPayload` returns a `Course[]` with exactly one course/one topic, all prompts/sample answers/focusAreas intact, and is a no-op on an unknown topic id.
 - `tests/unit/contentAuditStudio.test.tsx`: the Export button is present/enabled only for an appropriate selection and triggers the download helper (mock `URL.createObjectURL`/`<a>` click, matching how other tests in this file mock DOM APIs).
@@ -103,7 +106,7 @@ It locates the target node by `courseId` + (`type`,`id`) using the same traversa
 
 **Behaviour to implement:** the create-or-update merge engine (`mergeTopicContents`/`mergeSubTopicCollections`/`mergeDotPointCollections`/`mergePromptCollections`, §1b) already does "match by stable identity, fall back to text, merge don't duplicate" — this step is about making that visible and adjustable to the user **before** it applies, matching the bar `TopicSyllabusImportModal.tsx:408-511` already sets for AI-parsed imports:
 
-1. In `TopicImportModal.tsx`'s `preview` step, compute (pure, testable — put it in `utils/dataManagerUtils.ts` as e.g. `previewTopicMergePlan(existingTopics: Topic[], importedTopic: Topic)`), returning something like `{ matchedTopic: Topic | null; newSubTopics: number; matchedSubTopics: number; newDotPoints: number; matchedDotPoints: number; newPrompts: number; matchedPrompts: number }` by walking the same id-then-text matching rules the merge functions use (do not run the merge itself — just report what *would* match).
+1. In `TopicImportModal.tsx`'s `preview` step, compute (pure, testable — put it in `utils/dataManagerUtils.ts` as e.g. `previewTopicMergePlan(existingTopics: Topic[], importedTopic: Topic)`), returning something like `{ matchedTopic: Topic | null; newSubTopics: number; matchedSubTopics: number; newDotPoints: number; matchedDotPoints: number; newPrompts: number; matchedPrompts: number }` by walking the same id-then-text matching rules the merge functions use (do not run the merge itself — just report what _would_ match).
 2. Render that plan in the preview step (replacing/augmenting the current stats-only `ValidationSummary`) — e.g. "Will merge into «Photosynthesis» — 2 new sub-topics, 1 matched (3 new dot points inside), 4 questions matched and updated, 6 new questions added." When there's no name match, show "Will create a new topic «X»."
 3. Keep the existing per-node pruning UX from `TopicSyllabusImportModal.tsx` (remove a sub-topic/dot point before import) — port the same `removeSubTopic`/`removeDotPoint`-style controls into `TopicImportModal.tsx`'s preview so a teacher can drop anything the external tool got wrong before committing, exactly satisfying "reviewing/adjusting the proposed structure before it's applied."
 4. Reachability: add an "Import JSON…" entry point directly in `ContentAuditModal.tsx` (per-topic row action, or a header button that opens `TopicImportModal` pre-scoped to the selected topic's course) — currently `TopicImportModal` is only reachable via a different part of the UI (`AppModals.tsx:444-469` shows it's gated on `currentCourse`, wired from wherever `openModal('topicImport')` is currently called; confirm that call site and either reuse it or add a Studio-local trigger that calls the same `openModal('topicImport')` with the Studio's currently-selected course/topic as context).
@@ -111,6 +114,7 @@ It locates the target node by `courseId` + (`type`,`id`) using the same traversa
 **Do not change** `regenerateTopicIds` or the id-then-name matching strategy itself — see Ambiguity #1 for why this is a deliberate scope boundary, not an oversight.
 
 **Tests to add:**
+
 - `tests/unit/dataImportIntegrity.test.ts` or a new file: `previewTopicMergePlan` — matches an existing topic by name, counts new vs matched sub-topics/dot points/prompts correctly (including the prompt-matched-by-normalized-question-text case), and reports "no match" (create-new) when nothing matches.
 - `tests/unit/contentAuditStudio.test.tsx`: the Studio's "Import JSON" entry point opens `TopicImportModal` with the right course context.
 - A round-trip test: export a topic (Step 2's helper) → mutate a field in the resulting JS object (simulate "improved externally") → run it back through `analyzeAndSanitizeImportData` + `previewTopicMergePlan` + `mergeTopicContents` → assert the topic/sub-topic/dot-point/prompt counts in the result equal the original counts (no duplicates), and the mutated field won.
@@ -126,6 +130,7 @@ It locates the target node by `courseId` + (`type`,`id`) using the same traversa
 **Files touched:** `components/admin/ContentAuditModal.tsx`, `tests/unit/contentAuditStudio.test.tsx`.
 
 **Behaviour to implement:**
+
 1. Add a destructive action — button in the per-node row (`renderNode`, `ContentAuditModal.tsx:1172-1251`, alongside the existing checkbox/expand controls, or a new footer button next to "Fix All Gaps" that operates on `selectedIds`) — "Clear Questions" scoped to whatever node(s) are selected. Compute the target scopes from `selectedIds` the same way the existing `selectionTargets` aggregation does (top-level selected ancestors only, to avoid double-clearing a dot point whose parent topic is also selected).
 2. On click, open the shared `ConfirmationModal` (`components/ConfirmationModal.tsx`, `isDestructive`) with a message naming the scope and a live-computed question count, e.g. "Delete all 42 questions under «Cell Biology»? Sub-topics, dot points and the topic itself are kept — you can reimport questions into this exact structure afterward."
 3. On confirm, call `clearQuestionsInScope` (Step 1) via `updateCourses`, and `showToast` the returned `clearedCount`.
@@ -143,9 +148,10 @@ It locates the target node by `courseId` + (`type`,`id`) using the same traversa
 **Files touched:** `components/admin/ContentAuditModal.tsx` only.
 
 **Behaviour to implement**, addressing the root cause in §1d directly:
+
 1. Give the header (`ContentAuditModal.tsx:1280`) a `max-h-[45vh] overflow-y-auto` (or similar) so a wrapped filter-chip row can never itself exceed a sane share of the viewport and gains its own scrollbar (`custom-scrollbar`, matching the class already used at `ContentAuditModal.tsx:1516`) instead of pushing content off-screen with no way back.
 2. Give the footer's non-processing content (`ContentAuditModal.tsx:1538`) the same treatment — cap its wrapped-button-row height and let it scroll internally, or restructure the row to wrap onto a second visual line inside a bounded, scrollable strip rather than growing `flex-shrink-0` height unbounded. Confirm the existing `h-80` processing-state height still fits comfortably below a `max-h` cap.
-3. As a belt-and-braces fallback (matching the bounded-dialog pattern already used everywhere else in the app, e.g. `DatabaseDashboard.tsx:426`), consider adding `overflow-y-auto` to the *outer* `fixed inset-0 ... flex flex-col` container itself, so that even if header+footer content somehow still exceeds viewport height, the whole studio becomes page-scrollable rather than silently clipping. This is the cheapest, lowest-risk fix if the header/footer max-height approach proves fiddly with the existing `transition-all duration-500` height animation on the footer — see Ambiguity #2.
+3. As a belt-and-braces fallback (matching the bounded-dialog pattern already used everywhere else in the app, e.g. `DatabaseDashboard.tsx:426`), consider adding `overflow-y-auto` to the _outer_ `fixed inset-0 ... flex flex-col` container itself, so that even if header+footer content somehow still exceeds viewport height, the whole studio becomes page-scrollable rather than silently clipping. This is the cheapest, lowest-risk fix if the header/footer max-height approach proves fiddly with the existing `transition-all duration-500` height animation on the footer — see Ambiguity #2.
 4. Re-check the tree container's `min-w-[700px]` (`ContentAuditModal.tsx:1517`) still behaves sensibly (horizontal scroll is intentional there for deep tree indentation — do not remove it, just confirm it's not contributing to the vertical problem).
 
 No behavioural/logic changes — this step is CSS/className only, so no new unit test coverage is expected beyond a smoke check that the modal still renders and existing `tests/unit/contentAuditStudio.test.tsx` assertions (button presence, click handlers) still pass unchanged (jsdom doesn't lay out real heights, so this step is primarily verified manually).
@@ -161,6 +167,7 @@ No behavioural/logic changes — this step is CSS/className only, so no new unit
 **Files touched:** whatever loose ends steps 1-5 leave (e.g. `projectDocs/changeLog.md` entry, any prop-typing cleanup in `ContentAuditModal.tsx` if new props were threaded through from `AppModals.tsx`), plus a final pass over all new/changed tests.
 
 **Behaviour to implement:**
+
 1. Confirm the "Import JSON" entry point added in Step 3 and the "Export JSON"/"Clear Questions" actions added in Steps 2/4 are all reachable from the same Studio session without closing/reopening modals unnecessarily (per the house rule that only one modal is open at a time via `useModalManager` — confirm `TopicImportModal` opening from within `ContentAuditModal` follows the existing single-modal-stack convention rather than nesting).
 2. Add a short entry to `projectDocs/changeLog.md` describing the three changes (delete-questions-keep-structure, topic export/reimport round-trip, Studio resize fix), matching the existing changelog's style/section format.
 3. Run the full check suite and fix anything red.

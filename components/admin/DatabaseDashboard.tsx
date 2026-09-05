@@ -673,7 +673,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                               <Calendar className="w-5 h-5" />
                             </div>
                             <div>
-                              <p className="text-sm font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 flex items-center gap-2">
+                              <p className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900 flex items-center gap-2">
                                 {backup.date}
                                 {backup.timestamp > 0 && (
                                   <span className="font-normal text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">

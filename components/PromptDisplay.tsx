@@ -621,7 +621,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 </span>
                 <span className="w-px h-2.5 bg-white/20"></span>
                 <span
-                  className="flex items-center gap-1 font-black"
+                  className="flex items-center gap-1 font-bold"
                   title={`A full-mark response to this ${prompt.verb} question reaches Band ${targetBand}.`}
                 >
                   <Target className="w-3 h-3 text-white/70" /> Band {targetBand}

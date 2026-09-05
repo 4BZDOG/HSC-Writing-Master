@@ -223,7 +223,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
                 />
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2 mb-1">
-                    <span className={`text-xs font-black ${config.text}`}>
+                    <span className={`text-xs font-bold ${config.text}`}>
                       {sample.mark}/{prompt.totalMarks}
                     </span>
                     <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">

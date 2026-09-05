@@ -63,11 +63,30 @@ named the same problem and chose not to touch 280 call sites.
 Labels are now 12px via the token. The floor stays for data readouts and chips,
 which were not in scope.
 
-### 3. Everything is bold, so weight encodes nothing — OPEN
+### 3. Everything is bold, so weight encodes nothing — PARTLY FIXED
 
 `font-bold` 562 + `font-black` 280 = 842, against `font-normal` 4 and
-`font-medium` 122. The label token takes weight 500 at its 424 call sites, which
-is a dent, not a fix. Body copy is untouched.
+`font-medium` 122.
+
+A weight ladder is now documented in `DesignSpec.md` §4 — 400 prose, 500 label,
+600 a title inside a block, 700 headings and buttons and numbers, 900 display —
+and the two ends of it are gated by `tests/unit/weightLadder.test.ts`: prose no
+longer takes bold (33 elements), and 900 no longer sits on 10px chips (23
+elements). `font-black` fell from 148 to 113, all of it now display type, large
+headings or telemetry figures.
+
+**The gate this phase was given was wrong, and was changed.** It said
+"`font-bold`+`font-black` falls below 300". `font-bold` is still 560, and no
+honest mechanical pass gets it to 300: deciding whether any given
+`font-bold` span is a heading, a control, a number or emphasis needs per-site
+judgement, the same as `rounded-2xl` in phase 3. The gate is now the ladder's two
+checkable ends, and the middle — demoting secondary text from 700 to 500 or 600
+— is left as reading work rather than pretended at with a codemod.
+
+One thing the size-based rule could not see: a `<p>` is not automatically prose.
+Seven held a title above their own body line — the error notice's heading, a
+course name above its topic count — or a figure in a table cell. Those were
+restored by hand to 600 and 700.
 
 ### 4. Motion is scattered rather than orchestrated — OPEN
 
@@ -107,12 +126,27 @@ its own background colours, so pushing it onto panels inside modals would change
 their surface, not just their radius. It stays what it is: the shared surface
 for the workspace reference rail.
 
-### 6. Line length is never constrained — OPEN
+### 6. Line length is never constrained — FIXED
 
-`max-w-prose` and `ch` units appear zero times. Reading surfaces are bounded by
-container width only. The skill asks for under 80 characters; `DesignSpec.md` §4
-already assigns Newsreader to the manuscript surfaces, so the measure is the
-missing half of a rule the spec has started.
+`max-w-prose` and `ch` units appeared zero times. Worse: the three main reading
+blocks carried `prose prose-slate dark:prose-invert max-w-none`, and
+`@tailwindcss/typography` is not installed — `.prose` appears zero times in the
+built CSS — so those classes were inert except `max-w-none`, which switched off
+a measure that had never been on.
+
+Five reading surfaces now carry `max-w-[56ch]`, documented in `DesignSpec.md` §4
+and gated by `tests/unit/readingMeasure.test.ts`.
+
+The number was measured in a browser rather than reasoned about, and the obvious
+values were all wrong: `ch` is the advance width of "0", about 1.35× wider than
+Newsreader's average lowercase, so `68ch` rendered **89** characters. `56ch`
+gives **74–76**, which is where a serif wants to be.
+
+The writing surface is deliberately still uncapped, at 114 characters. Its three
+stacked layers must align pixel for pixel, and the card's width comes from the
+question above it, so a cap leaves a few hundred pixels of empty card. They
+share one constant, so it is a one-line change whenever that trade is judged
+worth making.
 
 ### 7. Middle-dot meta strings — OPEN
 
@@ -140,11 +174,9 @@ evaluations"). Named by the skill as template chrome. Low value, low risk.
 Each is a separate PR, each verifiable by a grep count plus the existing
 `tests/e2e/support/contrast.ts` audit.
 
-| Phase | Scope                                                        | Gate                                           |
-| ----- | ------------------------------------------------------------ | ---------------------------------------------- |
-| 2     | Body copy to normal weight; bold means something (finding 3) | `font-bold`+`font-black` count falls below 300 |
-| 4     | One orchestrated entrance per screen (finding 4)             | files with an entrance animation < 20          |
-| 5     | Measure caps on prose surfaces (finding 6)                   | every manuscript surface carries a `ch` cap    |
+| Phase | Scope                                            | Gate                                  |
+| ----- | ------------------------------------------------ | ------------------------------------- |
+| 4     | One orchestrated entrance per screen (finding 4) | files with an entrance animation < 20 |
 
 Phases 2–5 are deliberately not started. Colour work is not listed at all, and
 should not begin before question 1 is answered.

@@ -22,7 +22,7 @@ band/mark logic (`getBandForMark`, the Verb Gate, `getBandForColour`) is the sin
 source of truth for actual bands and is **not touched, duplicated, or fed by this
 feature.** The readiness value is a **separate, provisional, mechanical score** named
 `readinessScore` / `readinessLevel` throughout — deliberately never `band` — that merely
-*borrows* the palette via the canonical helpers in `utils/renderUtils.ts`. This keeps the
+_borrows_ the palette via the canonical helpers in `utils/renderUtils.ts`. This keeps the
 hint consistent with the app's ruthless-marker persona: it says "your draft is taking
 shape", it never promises a grade before the AI has read a word.
 
@@ -91,7 +91,7 @@ naming a band.
 
 ### 2.2 Sub-scores (each 0..1)
 
-1. **Length** `= clamp(wordCount / targetWordCount, 0, 1)`. Uses the *question's own*
+1. **Length** `= clamp(wordCount / targetWordCount, 0, 1)`. Uses the _question's own_
    `targetWordCount` (`progressInfo.targetCount`, itself derived from `BAND_METRICS` ×
    marks in `useWritingMetrics.ts:61-86`), so a 2-mark and a 10-mark question reach the
    same length sub-score at very different word counts. No over-length penalty here (the
@@ -105,12 +105,12 @@ naming a band.
    `longestSentenceWords > 45` (the run-on threshold, `writingAnalysis.ts:87`) — a wall of
    one sentence is structurally weaker.
 4. **Variety** `= sentenceCount >= 3 && longestSentenceWords <= 45 ? 1
-   : sentenceCount >= 2 ? 0.6 : sentenceCount >= 1 ? 0.3 : 0`. A crude but honest
+: sentenceCount >= 2 ? 0.6 : sentenceCount >= 1 ? 0.3 : 0`. A crude but honest
    "more than one, none of them runaway" check on `analysis.sentenceCount` /
    `analysis.longestSentenceWords`.
 
 The **command-verb / marking-criteria coverage** the brief lists is represented
-*mechanically only* — via keyword coverage (sub-score 2) and the tier-scaled
+_mechanically only_ — via keyword coverage (sub-score 2) and the tier-scaled
 `expectedParagraphs` (sub-score 3). Genuine semantic checking of criteria or verb intent
 is **out of scope** (§6); we do not pretend to detect analysis/evaluation in prose.
 
@@ -121,24 +121,24 @@ raw   = 0.35*length + 0.30*keywords + 0.20*structure + 0.15*variety   // 0..1
 score = round(raw * 100)                                              // 0..100
 ```
 
-**Empty / barely-started must be neutral, not a red alarm.** Level 0 (a calm slate, *not*
+**Empty / barely-started must be neutral, not a red alarm.** Level 0 (a calm slate, _not_
 band 1 red) is returned whenever `wordCount === 0` **or** `score < 12`. Only once the
 draft has real substance does it enter the palette at level 1.
 
-| Condition            | `level` | Palette colour (via helper) | `label`          |
-|----------------------|:-------:|-----------------------------|------------------|
-| `wordCount === 0`    |  **0**  | slate (neutral, no band)    | Start writing    |
-| `score < 12`         |  **0**  | slate (neutral, no band)    | Start writing    |
-| `12 ≤ score ≤ 27`    |  **1**  | `getBandHex(1)` red         | Just beginning   |
-| `28 ≤ score ≤ 43`    |  **2**  | `getBandHex(2)` orange      | Taking shape     |
-| `44 ≤ score ≤ 59`    |  **3**  | `getBandHex(3)` yellow      | Developing       |
-| `60 ≤ score ≤ 74`    |  **4**  | `getBandHex(4)` green       | Getting there    |
-| `75 ≤ score ≤ 88`    |  **5**  | `getBandHex(5)` blue        | Nearly ready     |
-| `89 ≤ score ≤ 100`   |  **6**  | `getBandHex(6)` purple      | Ready to submit  |
+| Condition          | `level` | Palette colour (via helper) | `label`         |
+| ------------------ | :-----: | --------------------------- | --------------- |
+| `wordCount === 0`  |  **0**  | slate (neutral, no band)    | Start writing   |
+| `score < 12`       |  **0**  | slate (neutral, no band)    | Start writing   |
+| `12 ≤ score ≤ 27`  |  **1**  | `getBandHex(1)` red         | Just beginning  |
+| `28 ≤ score ≤ 43`  |  **2**  | `getBandHex(2)` orange      | Taking shape    |
+| `44 ≤ score ≤ 59`  |  **3**  | `getBandHex(3)` yellow      | Developing      |
+| `60 ≤ score ≤ 74`  |  **4**  | `getBandHex(4)` green       | Getting there   |
+| `75 ≤ score ≤ 88`  |  **5**  | `getBandHex(5)` blue        | Nearly ready    |
+| `89 ≤ score ≤ 100` |  **6**  | `getBandHex(6)` purple      | Ready to submit |
 
 Level → colour is resolved **exclusively** through `getReadinessChroma`, which calls the
 pinned helpers `getBandHex` / `getBandHexDark` / `getBandConfig`
-(`renderUtils.ts:264,265,289`). Level 0 is the one colour *outside* the palette — a
+(`renderUtils.ts:264,265,289`). Level 0 is the one colour _outside_ the palette — a
 deliberate slate so an empty box reads as "not started", never as "failing".
 
 ---
@@ -153,9 +153,9 @@ Readiness is computed once in `hooks/useWritingMetrics.ts` and returned on
 ```ts
 // hooks/useWritingMetrics.ts — add to the returned WritingMetrics
 readiness: ReadinessResult; // computeDraftReadiness({ analysis, wordCount, targetWordCount:
-                            // progressInfo.targetCount, targetWordCountMax: progressInfo.targetCountMax,
-                            // keywordsTotal, keywordsUsed, tier: commandTermInfo.tier,
-                            // maxBand, expectedTerms })
+// progressInfo.targetCount, targetWordCountMax: progressInfo.targetCountMax,
+// keywordsTotal, keywordsUsed, tier: commandTermInfo.tier,
+// maxBand, expectedTerms })
 ```
 
 **Exam mode is exempt on every surface** — the writing area already goes deliberately
@@ -175,7 +175,7 @@ when `writingMode === 'exam'` so nothing signals scoring under exam conditions.
   state), keep the current calm indigo/slate accent — so the button only takes palette
   colour once there is something to evaluate.
 - **Note on the prior decision:** the current comment (`:151-163`) explains the button was
-  deliberately *de*-banded because it once predicted a band from word count. This plan is
+  deliberately _de_-banded because it once predicted a band from word count. This plan is
   compatible with that intent: the accent now tracks **readiness/completeness**, is
   labelled as such, and is reinforced by the adjacent meter's number — it is not a band
   prediction. Update that comment to describe the readiness colouring rather than delete
@@ -193,7 +193,7 @@ when `writingMode === 'exam'` so nothing signals scoring under exam conditions.
   `:604-618`, caret `:939`, footer identity dot/label `:1006-1014`; card wrapper in
   `components/WorkspaceRightPanel.tsx:366-401`.
 - **Keep the header's tier-hue identity** (`chroma.background`, `:301`) — that colour says
-  "this is a Tier-N question" and is a *different* language from readiness. Readiness is
+  "this is a Tier-N question" and is a _different_ language from readiness. Readiness is
   layered on as **ambient accents that never touch text**:
   1. **Veil / fill:** feed `readiness.score / 100` (not the separate `progressScore`) into
      the veil lift (`:295`) and the header's white progress bar width (`:611,615`), so the
@@ -254,7 +254,7 @@ when `writingMode === 'exam'` so nothing signals scoring under exam conditions.
   card **border/glow, caret, header bar, and meter**. The `<textarea>` background stays
   transparent and its visible text is the highlight overlay using
   `text-[rgb(var(--color-text-primary))] light:text-slate-800` (`Editor.tsx:946`). Because
-  no readiness colour is ever painted *under* the glyphs, body-text contrast cannot drop
+  no readiness colour is ever painted _under_ the glyphs, body-text contrast cannot drop
   below AA in either theme.
 - **Print:** the meter and glow are `print:hidden`; the header keeps its existing
   print behaviour. Band configs already ship `print:` variants for anything that survives
@@ -267,12 +267,13 @@ when `writingMode === 'exam'` so nothing signals scoring under exam conditions.
 ## 5. Testing
 
 ### New tests
+
 - **`tests/unit/draftReadiness.test.ts`** (pure model):
   - empty draft → `level 0`, `isNeutral true`, `score 0`, label "Start writing" (the
     "no red alarm on an empty box" guarantee);
   - a barely-started draft (`score < 12`) stays neutral, not red;
   - **threshold boundaries** 12/28/44/60/75/89 map to levels 1–6 exactly;
-  - **per-question targets:** the *same* word count yields a different level for a 2-mark
+  - **per-question targets:** the _same_ word count yields a different level for a 2-mark
     vs a 10-mark prompt (different `targetWordCount`), proving it reads the question's own
     target, not a fixed count;
   - all keywords + target length + enough paragraphs → level 5/6;
@@ -286,6 +287,7 @@ when `writingMode === 'exam'` so nothing signals scoring under exam conditions.
   for a mid-level draft.
 
 ### Must stay green (do not modify their subjects)
+
 - `tests/unit/bandColors.test.ts` — palette/helpers untouched.
 - `tests/unit/writingAnalysis.test.ts` — `analyzeText` / `buildWritingInsights` unchanged.
 - `tests/unit/liveInsightsPanel.test.tsx` — Live Insights unchanged.
@@ -302,7 +304,7 @@ when `writingMode === 'exam'` so nothing signals scoring under exam conditions.
 
 - **AI-based live prediction** of band/mark while typing (any per-keystroke model call).
 - **Rubric-criterion / marking-criteria NLP** — semantic detection of whether the prose
-  actually *analyses*, *evaluates*, or satisfies `prompt.markingCriteria`. Readiness only
+  actually _analyses_, _evaluates_, or satisfies `prompt.markingCriteria`. Readiness only
   measures mechanical completeness.
 - **Command-verb intent detection** beyond the mechanical keyword/structure proxies.
 - Any change to `getBandForMark`, `getTargetBand`, the Verb Gate, `getBandForColour`, or
@@ -319,24 +321,24 @@ Each step is independently testable; a later step depends only on the modules na
 
 1. **Pure model + tests.** Create `utils/draftReadiness.ts`
    (`computeDraftReadiness`, `READINESS_LABELS`, `getReadinessChroma`) and
-   `tests/unit/draftReadiness.test.ts`. No UI. *No dependencies.* — **do this first.**
+   `tests/unit/draftReadiness.test.ts`. No UI. _No dependencies._ — **do this first.**
 2. **Expose readiness from the metrics hook.** In `hooks/useWritingMetrics.ts` call
    `computeDraftReadiness` with the values it already computes and add `readiness` to the
-   returned `WritingMetrics`. *Depends on 1.* This is the single feed for all surfaces and
+   returned `WritingMetrics`. _Depends on 1._ This is the single feed for all surfaces and
    lets the existing `progressScore`/veil be unified.
 3. **Readiness meter component + tests.** Create `components/ReadinessMeter.tsx` and
-   `tests/unit/readinessMeter.test.tsx`. *Depends on 1 (types only).* Can be built in
+   `tests/unit/readinessMeter.test.tsx`. _Depends on 1 (types only)._ Can be built in
    parallel with 2.
 4. **Wire button + meter (Surfaces A & C).** In `components/WorkspaceRightPanel.tsx`
    consume `readiness` from the hook, colour `buttonConfig` via `getReadinessChroma`
    (keeping disabled/evaluating branches), add `aria-label`, and mount `<ReadinessMeter>`
    in `evaluateAction`. Drop the now-redundant local `progressScore`, passing
-   `readiness.score/100` where `progress` is handed to `<Editor>`. *Depends on 2 & 3.*
+   `readiness.score/100` where `progress` is handed to `<Editor>`. _Depends on 2 & 3._
 5. **Wire ambient hue (Surface B).** In `components/Editor.tsx` feed readiness into the
    veil/header-bar/caret, add the card glow (in `WorkspaceRightPanel.tsx` wrapper), give
    the header bar `role="progressbar"` + label, and relabel the footer completeness copy.
-   Keep the tier-hue header identity and the exam-mode neutral branch. *Depends on 2;
-   independent of 4.*
+   Keep the tier-hue header identity and the exam-mode neutral branch. _Depends on 2;
+   independent of 4._
 
 **Ordering constraints:** 1 → (2, 3) → (4, 5). Steps 4 and 5 are independent of each other
 once 2 and 3 land. Every step ends with `npm run test:all` green and the pinned suites in

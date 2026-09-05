@@ -150,7 +150,7 @@ const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ onComplete, onCan
                   hasError={Boolean(fieldErrors.password)}
                 />
                 {fieldErrors.password && (
-                  <p className="flex items-center gap-1.5 text-red-400 light:text-red-600 text-[11px] font-bold mt-2 ml-1">
+                  <p className="flex items-center gap-1.5 text-red-400 light:text-red-600 text-[11px] mt-2 ml-1">
                     <AlertCircle className="w-3 h-3 shrink-0" /> {fieldErrors.password}
                   </p>
                 )}
@@ -169,7 +169,7 @@ const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ onComplete, onCan
                   hasError={Boolean(fieldErrors.confirmPassword)}
                 />
                 {fieldErrors.confirmPassword && (
-                  <p className="flex items-center gap-1.5 text-red-400 light:text-red-600 text-[11px] font-bold mt-2 ml-1">
+                  <p className="flex items-center gap-1.5 text-red-400 light:text-red-600 text-[11px] mt-2 ml-1">
                     <AlertCircle className="w-3 h-3 shrink-0" /> {fieldErrors.confirmPassword}
                   </p>
                 )}

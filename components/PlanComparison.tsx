@@ -100,7 +100,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({ user, showUpgradeCta = 
               <h4 className="text-sm font-black text-[rgb(var(--color-text-primary))] light:text-slate-900">
                 {PLAN_LABELS[plan]}
               </h4>
-              <p className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-1">
+              <p className="text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-1">
                 {planPriceLine(plan)}
               </p>
               <p className="text-[11px] leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 mt-2 font-medium">

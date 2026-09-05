@@ -35,7 +35,7 @@ const AiErrorNotice: React.FC<AiErrorNoticeProps> = ({
     >
       <AlertTriangle className="w-5 h-5 text-red-400 light:text-red-600 flex-shrink-0 mt-0.5" />
       <div className="flex-1">
-        <p className="text-sm font-bold text-red-400 light:text-red-700">{title}</p>
+        <p className="text-sm font-semibold text-red-400 light:text-red-700">{title}</p>
         <p className="text-xs text-red-300 light:text-red-600 mt-1 opacity-90">{message}</p>
         {(onRetry || onDismiss) && (
           <div className="flex flex-wrap items-center gap-2 mt-3">

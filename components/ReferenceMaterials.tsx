@@ -168,7 +168,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
               against. Tap any outcome for a briefing on what it wants from this question.
             </p>
             {briefingLocked && (
-              <p className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500 dark:text-slate-400">
+              <p className="flex items-center gap-1.5 text-[10px] text-slate-500 dark:text-slate-400">
                 <PlusLockChip feature="outcomeBriefing" />
                 Briefings are part of Band 6 Plus — the outcomes themselves are always free to read.
               </p>

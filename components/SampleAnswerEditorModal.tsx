@@ -225,7 +225,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
           {error && (
             <div className="p-4 rounded-xl border border-red-500/50 light:border-red-200 bg-red-500/10 light:bg-red-50 flex items-start gap-3 animate-fade-in">
               <AlertCircle className="w-5 h-5 text-red-400 light:text-red-500 flex-shrink-0 mt-0.5" />
-              <p className="text-xs font-bold text-red-300 light:text-red-600">{error}</p>
+              <p className="text-xs text-red-300 light:text-red-600">{error}</p>
             </div>
           )}
         </div>

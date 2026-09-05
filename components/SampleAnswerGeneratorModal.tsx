@@ -385,7 +385,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     >
                       <div className="flex flex-wrap items-center gap-2 mb-2">
                         <span
-                          className={`px-2 py-0.5 rounded-lg text-[10px] font-black tracking-wider ${config.bg} ${config.text} border ${config.border}`}
+                          className={`px-2 py-0.5 rounded-lg text-[10px] font-bold tracking-wider ${config.bg} ${config.text} border ${config.border}`}
                         >
                           {answer.mark}/{prompt.totalMarks}
                         </span>
@@ -526,7 +526,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     )}
                     {isSelected && (
                       <div
-                        className={`absolute -top-2 -right-2 flex items-center justify-center w-5 h-5 rounded-full text-white text-[9px] font-black shadow-sm bg-gradient-to-br ${optionBandConfig.gradient}`}
+                        className={`absolute -top-2 -right-2 flex items-center justify-center w-5 h-5 rounded-full text-white text-[9px] font-bold shadow-sm bg-gradient-to-br ${optionBandConfig.gradient}`}
                         title={`Will be written ${order === 1 ? 'first' : `${order}${order === 2 ? 'nd' : order === 3 ? 'rd' : 'th'}`}`}
                       >
                         {/* The order number matters: the batch runs bottom-up so
@@ -600,7 +600,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     return (
                       <span
                         key={m}
-                        className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-black tracking-wider ${c.bg} ${c.text} border ${c.border}`}
+                        className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold tracking-wider ${c.bg} ${c.text} border ${c.border}`}
                       >
                         {m}/{prompt.totalMarks}
                       </span>

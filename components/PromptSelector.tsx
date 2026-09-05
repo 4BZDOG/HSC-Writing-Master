@@ -806,7 +806,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     >
                       {verbInfo.term}
                     </span>
-                    <span className="text-[10px] font-mono font-black text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                    <span className="text-[10px] font-mono font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500">
                       {p.totalMarks} {p.totalMarks === 1 ? 'Mark' : 'Marks'}
                     </span>
                     <span

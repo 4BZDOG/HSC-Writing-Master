@@ -149,7 +149,7 @@ const CourseRequestModal: React.FC<CourseRequestModalProps> = ({
                   they could open now. */}
               {result.status === 'available' ? (
                 <>
-                  <p className="text-sm font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
+                  <p className="text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900">
                     “{result.name}” is already available.
                   </p>
                   <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600">
@@ -160,7 +160,7 @@ const CourseRequestModal: React.FC<CourseRequestModalProps> = ({
                 </>
               ) : (
                 <>
-                  <p className="text-sm font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
+                  <p className="text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900">
                     {result.alreadyAsked
                       ? `You had already asked for “${result.name}”.`
                       : `“${result.name}” is on the list.`}
@@ -172,7 +172,7 @@ const CourseRequestModal: React.FC<CourseRequestModalProps> = ({
                       : `${result.requesters} people are waiting for this course.`}
                   </p>
                   {result.status === 'planned' && (
-                    <p className="text-xs font-bold text-indigo-400 light:text-indigo-600">
+                    <p className="text-xs text-indigo-400 light:text-indigo-600">
                       Good news — this one is already planned.
                     </p>
                   )}
@@ -237,9 +237,7 @@ const CourseRequestModal: React.FC<CourseRequestModalProps> = ({
                   placeholder="Which year group, and when do you start it?"
                 />
               </div>
-              {error && (
-                <p className="text-red-400 light:text-red-600 text-xs font-bold">{error}</p>
-              )}
+              {error && <p className="text-red-400 light:text-red-600 text-xs">{error}</p>}
             </div>
 
             <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end space-x-3">

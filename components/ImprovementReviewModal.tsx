@@ -92,7 +92,7 @@ const DiffText: React.FC<{
   registerMark?: (index: number, el: HTMLElement | null) => void;
 }> = ({ segments, fontSize, activeIndex = null, registerMark }) => (
   <p
-    className="font-serif leading-loose whitespace-pre-wrap text-slate-800 dark:text-slate-200"
+    className="max-w-[56ch] font-serif leading-loose whitespace-pre-wrap text-slate-800 dark:text-slate-200"
     style={{ fontSize: `${fontSize}px` }}
   >
     {segments.map((segment, index) =>
@@ -442,7 +442,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
             <div className="mx-6 sm:mx-8 mt-6 p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-200 dark:border-emerald-500/25 flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-emerald-600 dark:text-emerald-400" />
               <div>
-                <p className="text-sm font-bold text-emerald-800 dark:text-emerald-300">
+                <p className="text-sm text-emerald-800 dark:text-emerald-300">
                   No changes — this is already your answer
                 </p>
                 <p className="text-xs text-emerald-700/80 dark:text-emerald-400/80 mt-0.5 leading-relaxed">

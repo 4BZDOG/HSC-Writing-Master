@@ -53,7 +53,7 @@ const FieldError = ({ message }: { message?: string }) =>
   message ? (
     <p
       role="alert"
-      className="flex items-center gap-1.5 text-red-400 light:text-red-600 text-[11px] font-bold mt-2 ml-1 animate-fade-in"
+      className="flex items-center gap-1.5 text-red-400 light:text-red-600 text-[11px] mt-2 ml-1 animate-fade-in"
     >
       <AlertCircle className="w-3 h-3 shrink-0" /> {message}
     </p>

@@ -325,7 +325,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
               >
                 <Sparkles className={`w-3 h-3 ${bandConfig.text}`} />
               </div>
-              <span className="text-xs font-black text-[rgb(var(--color-text-primary))] light:text-slate-800 tracking-tight">
+              <span className="text-xs font-bold text-[rgb(var(--color-text-primary))] light:text-slate-800 tracking-tight">
                 How {activeOutcome.code} Connects To This Question
               </span>
               {briefingLocked && <PlusLockChip feature="outcomeBriefing" className="ml-auto" />}
@@ -377,7 +377,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
                 <div className="bg-red-500/10 light:bg-red-50 p-3 rounded-lg border border-red-500/20 light:border-red-200 flex items-start gap-2.5">
                   <AlertCircle className="w-4 h-4 text-red-400 light:text-red-500 flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-xs text-red-300 light:text-red-700 font-bold">
+                    <p className="text-xs font-semibold text-red-300 light:text-red-700">
                       Analysis Failed
                     </p>
                     <p className="text-[11px] text-red-400/70 light:text-red-600/70 mt-0.5">

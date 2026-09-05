@@ -30,13 +30,13 @@ never mounts: white screen, whole app.
 
 ## Why nothing caught it
 
-| Check | Why it passed |
-|---|---|
-| `npm run dev` | Vite serves modules unbundled — the chunk cycle does not exist |
-| `npm run build` | It is a *runtime* ordering fault, not a compile error |
-| Unit tests | Vitest resolves modules individually, like dev |
-| Playwright e2e | Runs against the **dev server** |
-| Type check / lint | Nothing type-incorrect about it |
+| Check             | Why it passed                                                  |
+| ----------------- | -------------------------------------------------------------- |
+| `npm run dev`     | Vite serves modules unbundled — the chunk cycle does not exist |
+| `npm run build`   | It is a _runtime_ ordering fault, not a compile error          |
+| Unit tests        | Vitest resolves modules individually, like dev                 |
+| Playwright e2e    | Runs against the **dev server**                                |
+| Type check / lint | Nothing type-incorrect about it                                |
 
 Every gate was green while the deployed site was blank. That is the whole reason
 this document and the two checks below exist.
@@ -88,7 +88,7 @@ Verified against the broken commit: it reported all three constants
 ### `npm run check:eager-reads` — the early warning
 
 `scripts/findModuleInitReads.mjs` scans the TypeScript sources for module-scope
-reads of imported values. It flags *latent* hazards — code that is fine only
+reads of imported values. It flags _latent_ hazards — code that is fine only
 because of where the bundler currently puts it. It found
 `components/PlanComparison.tsx` building a price-line object at module scope,
 one component import away from the identical crash.
@@ -119,7 +119,7 @@ silence the check.
 
 Chunking is a performance decision (the sentence above still holds — never fix a
 correctness bug by rearranging it). The current split is deliberate, and two of
-its rules exist to keep bytes out of the *eager* graph rather than to tidy the
+its rules exist to keep bytes out of the _eager_ graph rather than to tidy the
 build output. Measured at the time of writing: **524.5 kB → 442.0 kB gzipped**
 on first load.
 

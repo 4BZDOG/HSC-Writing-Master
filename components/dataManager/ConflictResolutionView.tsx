@@ -67,7 +67,7 @@ const ConflictResolutionView = ({ conflicts, onResolve, onBack }: ConflictResolu
               >
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                   <div className="min-w-0">
-                    <p className="font-bold text-[rgb(var(--color-text-primary))] text-sm">
+                    <p className="text-[rgb(var(--color-text-primary))] text-sm font-semibold">
                       {course.name}
                     </p>
                     <p className="text-xs text-[rgb(var(--color-text-muted))] mt-0.5">

@@ -505,7 +505,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
             onClick={handleImportClick}
             disabled={selectedIds.size === 0 || isImporting}
             className={`
- w-full sm:w-auto sm:min-w-[280px] px-6 py-4 rounded-panel font-black text-sm text-white shadow-lg transition-all flex items-center justify-center gap-4
+ w-full sm:w-auto sm:min-w-[280px] px-6 py-4 rounded-panel font-bold text-sm text-white shadow-lg transition-all flex items-center justify-center gap-4
                     ${
                       selectedIds.size > 0 && !isImporting
                         ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 hover:scale-105 active:scale-[0.98] shadow-indigo-500/20'

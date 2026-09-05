@@ -171,6 +171,58 @@ provides.
 - **Manuscript**: `Newsreader` (Serif) - Used for the main writing area and AI exemplars to simulate the gravity of an official examination paper.
 - **Telemetry**: `JetBrains Mono` - Used for marks, token counts, and system logs.
 
+### Measure
+
+A reading surface — a whole student response, the rewrite, the marker's
+commentary, an exemplar — carries `max-w-[56ch]`. Nothing else needs it: an
+11px criteria row in a 300px column is already narrower than any cap would make
+it, and a textarea is being written in, not read back.
+
+**`ch` is not a character.** It is the advance width of "0", which in Newsreader
+is noticeably wider than average lowercase, so a `ch` cap renders about 1.35×
+its number in real characters. Measured in the browser at 1600px: `68ch` gave
+**89** characters, and `56ch` gives **74–76**. That is why the number is 56 and
+not 65 or 68 — the obvious values are all over the 80-character line.
+
+Two things this replaced. The three main reading blocks carried
+`prose prose-slate dark:prose-invert max-w-none`, and `@tailwindcss/typography`
+is not installed — `.prose` appears zero times in the built CSS. So those
+classes did nothing at all except `max-w-none`, which turned off a measure that
+was never on. And `max-w-prose` and `ch` units appeared nowhere in the codebase.
+
+**The writing surface is deliberately not capped.** At 1600px it runs to 114
+characters, which is too wide to read back comfortably — but its three stacked
+layers (textarea, highlight overlay, measuring mirror) must align pixel for
+pixel, and the card's width comes from the question above it, so a cap leaves a
+few hundred pixels of empty card. It shares one constant
+(`gridStackItemStyles` in `Editor.tsx`), so the change is one line when someone
+decides the trade is worth it.
+
+### Weight
+
+Weight carries hierarchy, so it has to mean something. One step per job:
+
+| Weight | Class           | Job                                                                                    |
+| ------ | --------------- | -------------------------------------------------------------------------------------- |
+| 400    | (none)          | Prose. Sentences, messages, help text, descriptions                                    |
+| 500    | `.t-label`      | A small label — see below                                                              |
+| 600    | `font-semibold` | A title inside a block, sitting above its own body line                                |
+| 700    | `font-bold`     | Headings, buttons, chips, numbers                                                      |
+| 900    | `font-black`    | Display type (the italic masthead), large headings (`text-xl`+), and telemetry figures |
+
+`font-bold` and `font-black` together were used 842 times against 4 uses of
+`font-normal`. When almost everything is heavy, weight stops encoding anything —
+so the ladder above is what a new element picks from, and prose picks nothing.
+
+**900 is not "more bold".** At 10px the extra 200 is a smudge rather than
+emphasis, which is where 23 of its uses were. It is reserved for type big enough
+to carry it.
+
+**A `<p>` is not automatically prose.** Some hold a title with a body line
+beneath: the error notice's heading, a course name above its topic count, a
+backup's date above its size. Those take 600, not 400 — a size-based rule cannot
+tell them apart from a sentence, and seven were restored by hand after it tried.
+
 ### Labels
 
 A small label — a section caption, a stat's name, the text in a chip — is set by

@@ -837,7 +837,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-skip-link
-                   focus:px-4 focus:py-2 focus:rounded-xl focus:text-xs focus:font-black
+                   focus:px-4 focus:py-2 focus:rounded-xl focus:text-xs focus:font-bold
                    focus:uppercase focus:tracking-widest focus:bg-white focus:text-slate-900
                    focus:shadow-lg dark:focus:bg-[rgb(var(--color-bg-surface-elevated))]
                    dark:focus:text-white"

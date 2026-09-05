@@ -12,7 +12,7 @@ Both gating questions are settled. These are binding; where the prose below stil
 1. **D0 — GRANTED, "render it, shut, below the breadcrumb."** The ribbon renders whenever there is a question and Focus Mode is off, collapsed by default in the folded-navigator state. Steps 10 and 11 are in scope. The full series (Steps 1–12) is dispatched.
 2. **D1 — GRANTED, fix the shared token.** Step 7 changes `getBandConfig`'s band-3 `solidText` in `utils/renderUtils.ts` and pins it with the ratio in a comment. It is in scope, it repairs `SyllabusNavBar` and `PromptSelector` at the same time, and R4's concern is answered by the pinning test rather than by narrowing the fix.
 3. **D2 — as the plan proposed:** the cognitive-timeline step buttons stay, with corrected labels (Step 8). R5 remains an open design question for later.
-4. **R10 — RESOLVED AGAINST THE PLAN, after Step 3 shipped.** Step 3 took `getCommandTermInfo`'s case-insensitive lookup *and* its `EXPLAIN` fallback. The fallback has been reverted; the lookup is now `commandTerms.get(v) ?? commandTerms.get(v.toUpperCase()) ?? null`. Reason: everywhere else that fallback degrades something incidental, but here the content *is* the claim "your verb is X, it caps you at Band N" — an unrecognised verb would render that claim in full and confidently about a verb nobody asked for. Showing nothing is honest and is a state the component already draws. **Step 12's changelog must describe the case fix only, not a fallback.**
+4. **R10 — RESOLVED AGAINST THE PLAN, after Step 3 shipped.** Step 3 took `getCommandTermInfo`'s case-insensitive lookup _and_ its `EXPLAIN` fallback. The fallback has been reverted; the lookup is now `commandTerms.get(v) ?? commandTerms.get(v.toUpperCase()) ?? null`. Reason: everywhere else that fallback degrades something incidental, but here the content _is_ the claim "your verb is X, it caps you at Band N" — an unrecognised verb would render that claim in full and confidently about a verb nobody asked for. Showing nothing is honest and is a state the component already draws. **Step 12's changelog must describe the case fix only, not a fallback.**
 
 ## 0. Decisions the maintainer must take before Step 5 is dispatched
 
@@ -64,20 +64,20 @@ Accumulated during the audit. Each step runs with no memory of the others, so th
 
 ## Step summary
 
-| Step | Summary | Gated on |
-|---|---|---|
-| 1 | Make the shut ribbon unreachable: `inert`, `aria-controls`, grid-rows in place of `max-h-[1600px]` | — |
-| 2 | Migrate to the shared `components/MeshOverlay`; delete the local copy | — |
-| 3 | Honour `prefers-reduced-motion` in the auto-scroll; look the verb up through `getCommandTermInfo` | — |
-| 4 | Add `utils/verbRibbonChrome.ts` + `tests/unit/verbRibbonChrome.test.tsx`; route the ribbon through it, class values unchanged | — |
-| 5 | Tokenise: glass header bar, tier colour demoted to the tile and a 2px underline, `dark:`-first pairs throughout | — |
-| 6 | Pair every solid fill with `solidText`; give the tier headers a visible focus ring; lift the dimmed cards off the contrast floor | — |
-| 7 | Fix tier 3's solid pairing in `getBandConfig` (shared token) | **D1** |
-| 8 | Say tier where it means tier; derive the timeline labels from `tierShortLabel`; set the four stat numbers in mono | — |
-| 9 | Give the strip an accessible name, an overflow affordance and snapping that does not fight focus | — |
-| 10 | Let the e2e contrast suite reach the ribbon | **D0** |
-| 11 | Render the ribbon while the navigator is folded | **D0** |
-| 12 | Changelog | — |
+| Step | Summary                                                                                                                          | Gated on |
+| ---- | -------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| 1    | Make the shut ribbon unreachable: `inert`, `aria-controls`, grid-rows in place of `max-h-[1600px]`                               | —        |
+| 2    | Migrate to the shared `components/MeshOverlay`; delete the local copy                                                            | —        |
+| 3    | Honour `prefers-reduced-motion` in the auto-scroll; look the verb up through `getCommandTermInfo`                                | —        |
+| 4    | Add `utils/verbRibbonChrome.ts` + `tests/unit/verbRibbonChrome.test.tsx`; route the ribbon through it, class values unchanged    | —        |
+| 5    | Tokenise: glass header bar, tier colour demoted to the tile and a 2px underline, `dark:`-first pairs throughout                  | —        |
+| 6    | Pair every solid fill with `solidText`; give the tier headers a visible focus ring; lift the dimmed cards off the contrast floor | —        |
+| 7    | Fix tier 3's solid pairing in `getBandConfig` (shared token)                                                                     | **D1**   |
+| 8    | Say tier where it means tier; derive the timeline labels from `tierShortLabel`; set the four stat numbers in mono                | —        |
+| 9    | Give the strip an accessible name, an overflow affordance and snapping that does not fight focus                                 | —        |
+| 10   | Let the e2e contrast suite reach the ribbon                                                                                      | **D0**   |
+| 11   | Render the ribbon while the navigator is folded                                                                                  | **D0**   |
+| 12   | Changelog                                                                                                                        | —        |
 
 Steps 1–6, 8 and 9 are independent of every decision and can be dispatched immediately, in order.
 
@@ -184,11 +184,11 @@ This is invisible to `light-theme.spec.ts` only because of A0 — the suite neve
 
 `getBandConfig` returns a `solidText` field for exactly this reason, and it is `text-yellow-900` for tier 3 while every other tier gets `text-white` (`renderUtils.ts:317–320` and neighbours). Two other components already pair them: `SyllabusNavBar.tsx:78` (`${band.solidBg} ${band.solidText}`) and `PromptSelector.tsx:733`. The ribbon hard-codes `text-white` instead, at:
 
-| Site | Class | Tier 3 dark | Tier 3 light |
-|---|---|---|---|
+| Site                                                 | Class        | Tier 3 dark                     | Tier 3 light                    |
+| ---------------------------------------------------- | ------------ | ------------------------------- | ------------------------------- |
 | `:117` ribbon header text on `activeConfig.gradient` | `text-white` | white on `#eab308` = **1.92:1** | white on `#f59e0b` = **2.15:1** |
-| `:365` tier card header when current | `text-white` | 1.92:1 | 2.15:1 |
-| `:414` selected verb chip on `solidBg` | `text-white` | 1.92:1 | 2.15:1 |
+| `:365` tier card header when current                 | `text-white` | 1.92:1                          | 2.15:1                          |
+| `:414` selected verb chip on `solidBg`               | `text-white` | 1.92:1                          | 2.15:1                          |
 
 Substituting `tierConfig.solidText` gives `#713f12` on `#facc15` = **5.66:1** (dark) and `#713f12` on `#fbbf24` = **5.19:1** (light gradient) — both pass. The one cell it does not fix is the selected chip's flat light fill, `#713f12` on `amber-500 #f59e0b` = **4.04:1**, which is what D1/Step 7 is for.
 
@@ -206,7 +206,7 @@ const reduceMotion =
 
 **A6 — `COGNITIVE_STEPS` is a fourth, drifted copy of the tier labels.** `:21–28` hand-writes `Remember, Describe, Explain, Analyse, Argue, Evaluate`. `tierShortLabel` (`commandTerms.ts:92–97`) derives `Remember, Define, Explain, Analyse, Discuss, Evaluate` from `TIER_GROUPS`. Tier 2 and tier 5 disagree. The doc comment on `tierShortLabel` is a written record of two admin components that kept hand-written copies, both of which had drifted and both of which mislabelled a tier with another tier's verb — "the mistake read as self-consistent". This is a third such copy, and the helper written to prevent it is not being used. A fifth vocabulary sits in the footer band labels at `:438–449` (`Basic Recall`, `Explain & Compare`, `Analyse & Apply`, `Evaluate & Create`), and the "Deep Learning Threshold" comment at `:479` calls tier 3 "Apply" — Apply is tier 4.
 
-**A7 — the "measurement ticks" measure nothing.** *(Closed 2026-08-20 by `Plan-CognitiveSpectrum.md`: the ticks are gone, replaced by the five real boundaries at `i/6`.)* `:458–463` — four 1px ticks inside `flex justify-between px-[16%]`, so they land at 16%, 38.7%, 61.3% and 84%. The six timeline steps sit at roughly 0/20/40/60/80/100%, and the five boundaries between six tiers are at 16.7/33.3/50/66.7/83.3%. The ticks align with neither. The comment above them says they exist "for visual measurement". They are decoration, and only the first and last happen to be near anything.
+**A7 — the "measurement ticks" measure nothing.** _(Closed 2026-08-20 by `Plan-CognitiveSpectrum.md`: the ticks are gone, replaced by the five real boundaries at `i/6`.)_ `:458–463` — four 1px ticks inside `flex justify-between px-[16%]`, so they land at 16%, 38.7%, 61.3% and 84%. The six timeline steps sit at roughly 0/20/40/60/80/100%, and the five boundaries between six tiers are at 16.7/33.3/50/66.7/83.3%. The ticks align with neither. The comment above them says they exist "for visual measurement". They are decoration, and only the first and last happen to be near anything.
 
 **A8 — the horizontal strip has no name, no overflow affordance, and mandatory snapping.** `:293–296`:
 
@@ -264,11 +264,11 @@ This satisfies §1's glassmorphism, keeps the tier legible at a glance, removes 
 
 **D-D — The focus ring becomes a real ring in both themes.** _(§3, Finding A1)_ The ring is `focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60`, inset.
 
-> **This decision originally preferred dropping `focus-visible:outline-none` and letting `index.css:240–249`'s global accent outline apply. That cannot work here, and Step 6 established why:** the global outline is drawn 2px *outside* the element, and the tier card is `overflow-hidden`, so the outline is clipped on three sides. The inset ring — the fallback the decision listed second — is the only one of the two that is visible, and it is what shipped.
+> **This decision originally preferred dropping `focus-visible:outline-none` and letting `index.css:240–249`'s global accent outline apply. That cannot work here, and Step 6 established why:** the global outline is drawn 2px _outside_ the element, and the tier card is `overflow-hidden`, so the outline is clipped on three sides. The inset ring — the fallback the decision listed second — is the only one of the two that is visible, and it is what shipped.
 
 **D-E — Dimming stops at `opacity-90`, AND the tint darkens.** _(§2, Finding A2)_ A card holding 6–8 focusable buttons may not be dimmed below the point where its text fails AA.
 
-> **The arithmetic in this decision as first written was wrong, and Step 6 caught it by measuring.** "`opacity-90` costs about 5% of contrast (4.76 → ~4.5)" assumes a linear loss. Opacity composites the text *towards its background*, so the fall is much steeper: `slate-500` on the card measures **4.81:1** at rest and **3.91:1** at `opacity-90` — still failing. Even `opacity-95` only reaches 4.34:1. Reducing the opacity alone could never have fixed this. The shipped fix is `opacity-90` **plus** `slate-600` on the idle subtitle (measured **5.83:1**), pinned by a test carrying the numbers. Never estimate a composited contrast ratio; measure it.
+> **The arithmetic in this decision as first written was wrong, and Step 6 caught it by measuring.** "`opacity-90` costs about 5% of contrast (4.76 → ~4.5)" assumes a linear loss. Opacity composites the text _towards its background_, so the fall is much steeper: `slate-500` on the card measures **4.81:1** at rest and **3.91:1** at `opacity-90` — still failing. Even `opacity-95` only reaches 4.34:1. Reducing the opacity alone could never have fixed this. The shipped fix is `opacity-90` **plus** `slate-600` on the idle subtitle (measured **5.83:1**), pinned by a test carrying the numbers. Never estimate a composited contrast ratio; measure it.
 
 **D-F — One number, one label, and the word "tier" where tier is meant.** _(§4, Findings 6 and A6)_
 
@@ -288,21 +288,21 @@ This satisfies §1's glassmorphism, keeps the tier legible at a glance, removes 
 
 Per §2, the question is "what is it painted on?", not "is this class dark-only?".
 
-| Current class | Site | Sits on | Verdict |
-|---|---|---|---|
-| `bg-white/20 border-white/30` icon tile | `:118–120` | tier gradient (goes; tile becomes `solidBg`) | **Replaced** — D-B |
-| `bg-white/20 border-white/30` selected chip | `:185` | tier gradient (goes) | **Pair required** → `${tierConfig.bg} ${tierConfig.text} ${tierConfig.border}` |
-| `text-white` header text | `:117` | tier gradient (goes) | **Pair required** → `text-slate-900 dark:text-white` |
-| `bg-black/10 dark:bg-white/10` chevron chip | `:191` | the bar | **Already correct** — leave |
-| `text-white light:text-slate-900` verb heading | `:223` | detail card `activeConfig.bg` | **Re-express** `dark:`-first |
-| `bg-black/10 light:bg-slate-100` stat tray | `:243` | detail card | **Re-express** → `bg-slate-100 dark:bg-black/20` |
-| `bg-black/10 light:bg-slate-300` dividers ×4 | `:252, 264, 273` | the tray | **Re-express** → `bg-slate-300 dark:bg-white/10` |
-| `text-slate-500 light:text-slate-600` labels ×4 | `:245, 257, 266, 278` | the tray | **Re-express** → `text-slate-600 dark:text-slate-400` |
-| `bg-white/[0.03] light:bg-white border-white/5 light:border-slate-300` cards | `:332` | the page | **Re-express** → `bg-white dark:bg-white/[0.03] border-slate-300 dark:border-white/5` |
-| `focus-visible:ring-white/50` | `:365` | `tierConfig.bg` (a theme surface) | **Defect** — D-D |
-| `opacity-50 light:opacity-70` | `:317` | n/a | **Defect** — D-E |
-| `text-white` on `solidBg` / gradients ×3 | `:117, 365, 414` | solid tier fill | **Defect** — D-C (`solidText`) |
-| `border-white/10` on the tile | (new, D-B) | solid tier fill | **Leave** — same colour in both themes, per §2 |
+| Current class                                                                | Site                  | Sits on                                      | Verdict                                                                               |
+| ---------------------------------------------------------------------------- | --------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `bg-white/20 border-white/30` icon tile                                      | `:118–120`            | tier gradient (goes; tile becomes `solidBg`) | **Replaced** — D-B                                                                    |
+| `bg-white/20 border-white/30` selected chip                                  | `:185`                | tier gradient (goes)                         | **Pair required** → `${tierConfig.bg} ${tierConfig.text} ${tierConfig.border}`        |
+| `text-white` header text                                                     | `:117`                | tier gradient (goes)                         | **Pair required** → `text-slate-900 dark:text-white`                                  |
+| `bg-black/10 dark:bg-white/10` chevron chip                                  | `:191`                | the bar                                      | **Already correct** — leave                                                           |
+| `text-white light:text-slate-900` verb heading                               | `:223`                | detail card `activeConfig.bg`                | **Re-express** `dark:`-first                                                          |
+| `bg-black/10 light:bg-slate-100` stat tray                                   | `:243`                | detail card                                  | **Re-express** → `bg-slate-100 dark:bg-black/20`                                      |
+| `bg-black/10 light:bg-slate-300` dividers ×4                                 | `:252, 264, 273`      | the tray                                     | **Re-express** → `bg-slate-300 dark:bg-white/10`                                      |
+| `text-slate-500 light:text-slate-600` labels ×4                              | `:245, 257, 266, 278` | the tray                                     | **Re-express** → `text-slate-600 dark:text-slate-400`                                 |
+| `bg-white/[0.03] light:bg-white border-white/5 light:border-slate-300` cards | `:332`                | the page                                     | **Re-express** → `bg-white dark:bg-white/[0.03] border-slate-300 dark:border-white/5` |
+| `focus-visible:ring-white/50`                                                | `:365`                | `tierConfig.bg` (a theme surface)            | **Defect** — D-D                                                                      |
+| `opacity-50 light:opacity-70`                                                | `:317`                | n/a                                          | **Defect** — D-E                                                                      |
+| `text-white` on `solidBg` / gradients ×3                                     | `:117, 365, 414`      | solid tier fill                              | **Defect** — D-C (`solidText`)                                                        |
+| `border-white/10` on the tile                                                | (new, D-B)            | solid tier fill                              | **Leave** — same colour in both themes, per §2                                        |
 
 ---
 
@@ -358,9 +358,7 @@ The panel closes at `:527`. Everything between — the detail card, the tier str
   inert={!isOpen}
   className={`grid transition-all duration-700 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
 >
-  <div className="overflow-hidden">
-    {/* everything currently between :202 and :526 */}
-  </div>
+  <div className="overflow-hidden">{/* everything currently between :202 and :526 */}</div>
 </div>
 ```
 
@@ -495,33 +493,33 @@ Note the behaviour change this does introduce: an **unrecognised** verb now reso
 
 **Current code.** All of the ribbon's chrome is literal template strings in the JSX. Lift these, **byte for byte as they are today**, into named exports:
 
-| Export | Lifted from | Current value (abbreviated — copy the real one) |
-|---|---|---|
-| `RIBBON_ROOT` | `:134` | `clip-stable relative overflow-hidden transition-all duration-700 ease-out animate-fade-in` |
-| `RIBBON_HEADER_BAR` | `:153–157`, the theme-neutral part only | `w-full px-0 py-3 sm:py-3.5 min-h-[60px] sm:min-h-[64px] flex items-center justify-between gap-3 relative z-10 overflow-hidden transition-all duration-500 group/header rounded-xl` |
-| `RIBBON_HEADER_TITLE` | `:170` | `text-sm sm:text-base font-black tracking-tight leading-none truncate` |
-| `RIBBON_HEADER_SUBLABEL` | `:173` | `block truncate text-[9px] font-black uppercase tracking-[0.2em] opacity-70` |
-| `RIBBON_SELECTED_LABEL` | `:182` | `text-[10px] font-black opacity-60 uppercase tracking-widest whitespace-nowrap` |
-| `RIBBON_SELECTED_CHIP` | `:185` | `px-2.5 py-0.5 rounded-lg … bg-white/20 border border-white/30 backdrop-blur-md shadow-sm` |
-| `RIBBON_CHEVRON_CHIP` | `:191` | `w-7 h-7 rounded-full bg-black/10 dark:bg-white/10 …` |
-| `RIBBON_DETAIL_CARD` | `:206` | `clip-stable relative overflow-hidden rounded-2xl p-5 border …` (structure only; the tier `border`/`bg` stay interpolated) |
-| `RIBBON_DETAIL_TERM` | `:223` | `text-3xl font-black tracking-tighter text-white light:text-slate-900 uppercase italic leading-none` |
-| `RIBBON_DETAIL_DEFINITION` | `:232` | `text-sm font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 max-w-xl leading-relaxed opacity-90` |
-| `RIBBON_STAT_TRAY` | `:243` | `flex items-center gap-4 bg-black/10 light:bg-slate-100 …` |
-| `RIBBON_STAT_LABEL` | `:245` etc. | `text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5` |
-| `RIBBON_STAT_VALUE` | `:248` etc. | `text-lg font-black` |
-| `RIBBON_STAT_DIVIDER` | `:252` etc. | `w-px h-8 bg-black/10 light:bg-slate-300` |
-| `RIBBON_STRIP` | `:294` | `flex overflow-x-auto gap-4 pb-4 pt-2 snap-x snap-mandatory scrollbar-hide` |
-| `RIBBON_TIER_CARD` | `:328` | `clip-stable flex-shrink-0 w-[260px] min-h-[256px] snap-center …` |
-| `RIBBON_TIER_CARD_IDLE` | `:332` | `bg-white/[0.03] light:bg-white border-white/5 light:border-slate-300 light:shadow-sm` |
-| `RIBBON_TIER_CARD_DIMMED` | `:317`, the non-tier part | `scale-90 opacity-50 light:opacity-70 hover:opacity-100 hover:scale-95 border-2` |
-| `RIBBON_TIER_HEADER` | `:365`, the theme-neutral part | `w-full text-left px-6 py-4 border-b relative flex items-center gap-4 flex-shrink-0 cursor-pointer transition-[filter] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/50` |
-| `RIBBON_TIER_SUBTITLE` | `:386` | both branches, as two exports if cleaner |
-| `RIBBON_VERB_CHIP` | `:411` | `px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border transition-all duration-300` |
-| `RIBBON_TIMELINE_LABEL` | `:438` | `text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em]` |
-| `RIBBON_TIMELINE_TRACK` | `:453` | `relative h-2 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden mb-4` |
-| `RIBBON_TIMELINE_TICK` | `:459` | `w-px h-full bg-slate-400/50 dark:bg-white/20` |
-| `RIBBON_TIMELINE_DOT` | `:499` | `w-4 h-4 rounded-full border-2 transition-all duration-500 relative` |
+| Export                     | Lifted from                             | Current value (abbreviated — copy the real one)                                                                                                                                                                                                   |
+| -------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `RIBBON_ROOT`              | `:134`                                  | `clip-stable relative overflow-hidden transition-all duration-700 ease-out animate-fade-in`                                                                                                                                                       |
+| `RIBBON_HEADER_BAR`        | `:153–157`, the theme-neutral part only | `w-full px-0 py-3 sm:py-3.5 min-h-[60px] sm:min-h-[64px] flex items-center justify-between gap-3 relative z-10 overflow-hidden transition-all duration-500 group/header rounded-xl`                                                               |
+| `RIBBON_HEADER_TITLE`      | `:170`                                  | `text-sm sm:text-base font-black tracking-tight leading-none truncate`                                                                                                                                                                            |
+| `RIBBON_HEADER_SUBLABEL`   | `:173`                                  | `block truncate text-[9px] font-black uppercase tracking-[0.2em] opacity-70`                                                                                                                                                                      |
+| `RIBBON_SELECTED_LABEL`    | `:182`                                  | `text-[10px] font-black opacity-60 uppercase tracking-widest whitespace-nowrap`                                                                                                                                                                   |
+| `RIBBON_SELECTED_CHIP`     | `:185`                                  | `px-2.5 py-0.5 rounded-lg … bg-white/20 border border-white/30 backdrop-blur-md shadow-sm`                                                                                                                                                        |
+| `RIBBON_CHEVRON_CHIP`      | `:191`                                  | `w-7 h-7 rounded-full bg-black/10 dark:bg-white/10 …`                                                                                                                                                                                             |
+| `RIBBON_DETAIL_CARD`       | `:206`                                  | `clip-stable relative overflow-hidden rounded-2xl p-5 border …` (structure only; the tier `border`/`bg` stay interpolated)                                                                                                                        |
+| `RIBBON_DETAIL_TERM`       | `:223`                                  | `text-3xl font-black tracking-tighter text-white light:text-slate-900 uppercase italic leading-none`                                                                                                                                              |
+| `RIBBON_DETAIL_DEFINITION` | `:232`                                  | `text-sm font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 max-w-xl leading-relaxed opacity-90`                                                                                                                              |
+| `RIBBON_STAT_TRAY`         | `:243`                                  | `flex items-center gap-4 bg-black/10 light:bg-slate-100 …`                                                                                                                                                                                        |
+| `RIBBON_STAT_LABEL`        | `:245` etc.                             | `text-[9px] text-slate-500 light:text-slate-600 uppercase tracking-widest font-black mb-0.5`                                                                                                                                                      |
+| `RIBBON_STAT_VALUE`        | `:248` etc.                             | `text-lg font-black`                                                                                                                                                                                                                              |
+| `RIBBON_STAT_DIVIDER`      | `:252` etc.                             | `w-px h-8 bg-black/10 light:bg-slate-300`                                                                                                                                                                                                         |
+| `RIBBON_STRIP`             | `:294`                                  | `flex overflow-x-auto gap-4 pb-4 pt-2 snap-x snap-mandatory scrollbar-hide`                                                                                                                                                                       |
+| `RIBBON_TIER_CARD`         | `:328`                                  | `clip-stable flex-shrink-0 w-[260px] min-h-[256px] snap-center …`                                                                                                                                                                                 |
+| `RIBBON_TIER_CARD_IDLE`    | `:332`                                  | `bg-white/[0.03] light:bg-white border-white/5 light:border-slate-300 light:shadow-sm`                                                                                                                                                            |
+| `RIBBON_TIER_CARD_DIMMED`  | `:317`, the non-tier part               | `scale-90 opacity-50 light:opacity-70 hover:opacity-100 hover:scale-95 border-2`                                                                                                                                                                  |
+| `RIBBON_TIER_HEADER`       | `:365`, the theme-neutral part          | `w-full text-left px-6 py-4 border-b relative flex items-center gap-4 flex-shrink-0 cursor-pointer transition-[filter] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/50` |
+| `RIBBON_TIER_SUBTITLE`     | `:386`                                  | both branches, as two exports if cleaner                                                                                                                                                                                                          |
+| `RIBBON_VERB_CHIP`         | `:411`                                  | `px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border transition-all duration-300`                                                                                                                                       |
+| `RIBBON_TIMELINE_LABEL`    | `:438`                                  | `text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest sm:tracking-[0.2em]`                                                                                                                                         |
+| `RIBBON_TIMELINE_TRACK`    | `:453`                                  | `relative h-2 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden mb-4`                                                                                                                                                                    |
+| `RIBBON_TIMELINE_TICK`     | `:459`                                  | `w-px h-full bg-slate-400/50 dark:bg-white/20`                                                                                                                                                                                                    |
+| `RIBBON_TIMELINE_DOT`      | `:499`                                  | `w-4 h-4 rounded-full border-2 transition-all duration-500 relative`                                                                                                                                                                              |
 
 **Scope limit, stated at the top of the new file:** this file holds the ribbon's **theme-neutral chrome only**. Everything tier-coloured stays interpolated from `getTierScaleConfig(tier)` at the call site — baking six tiers × six slots into constants would duplicate `utils/renderUtils.ts`, which is pinned by `tests/unit/bandColors.test.ts` and shared with a dozen other surfaces. Give each constant a comment saying **what it is painted on**; that is the question DesignSpec §2 asks and it is not answerable from the class string.
 
@@ -577,7 +575,8 @@ export const RIBBON_HEADER_BAR =
 
 /** Edge-lighting under the bar, and where the tier colour went. Painted on the
  *  bar's own bottom edge; the gradient is interpolated at the call site. */
-export const RIBBON_TIER_UNDERLINE = 'absolute inset-x-0 bottom-0 h-0.5 pointer-events-none bg-gradient-to-r';
+export const RIBBON_TIER_UNDERLINE =
+  'absolute inset-x-0 bottom-0 h-0.5 pointer-events-none bg-gradient-to-r';
 ```
 
 Delete `headerGradientClass`, `headerTextClass` and `headerIconBg` from `:113–120`. The header text becomes `text-slate-900 dark:text-white`; the sub-label becomes `text-slate-500 dark:text-slate-400` (drop the `opacity-70`, which was there to soften white-on-gradient).
@@ -586,12 +585,12 @@ Delete `headerGradientClass`, `headerTextClass` and `headerIconBg` from `:113–
 
 ```tsx
 `w-9 h-9 shrink-0 rounded-xl flex items-center justify-center border border-white/20 shadow-md
- group-hover/header:scale-110 transition-transform ${activeConfig.solidBg} ${activeConfig.solidText}`
+ group-hover/header:scale-110 transition-transform ${activeConfig.solidBg} ${activeConfig.solidText}`;
 ```
 
 and, when none is, `bg-slate-200 text-slate-500 dark:bg-slate-700 dark:text-slate-300 border-slate-300 dark:border-white/10`. The `border-white/20` on the coloured branch sits on a solid tier fill and is correct without a `dark:` partner — say so in the comment; the parity sweep will need it exempted.
 
-   Use `activeConfig.solidText`, **not** `text-white`. Tier 3's fill is yellow, and white on it is 1.9:1.
+Use `activeConfig.solidText`, **not** `text-white`. Tier 3's fill is yellow, and white on it is 1.9:1.
 
 3. **The "Selected" chip stops being white-alpha.** `RIBBON_SELECTED_CHIP` at `:185` loses `bg-white/20 border border-white/30 backdrop-blur-md` and becomes structure only; the call site adds `${activeConfig.bg} ${activeConfig.text} border ${activeConfig.border}`. The `Selected:` label becomes `text-slate-500 dark:text-slate-400` and drops `opacity-60`.
 
@@ -709,10 +708,10 @@ solidText: 'text-yellow-900 print:text-yellow-900',
 
 Every other band pairs a `-600`/`-700` fill with `text-white`. Band 3 is the exception because yellow is too light for white text, so it uses a dark text on a light fill — which is right in principle and lands just short in the light theme:
 
-| Pairing | Ratio | Verdict |
-|---|---|---|
-| `text-yellow-900` on `bg-yellow-500` (`#713f12` on `#eab308`) | **4.52:1** | passes, no margin |
-| `text-yellow-900` on `bg-amber-500` (`#713f12` on `#f59e0b`) | **4.04:1** | **fails** the 4.5 floor |
+| Pairing                                                       | Ratio      | Verdict                 |
+| ------------------------------------------------------------- | ---------- | ----------------------- |
+| `text-yellow-900` on `bg-yellow-500` (`#713f12` on `#eab308`) | **4.52:1** | passes, no margin       |
+| `text-yellow-900` on `bg-amber-500` (`#713f12` on `#f59e0b`)  | **4.04:1** | **fails** the 4.5 floor |
 
 Three surfaces wear this pairing: `components/SyllabusNavBar.tsx:78`, `components/PromptSelector.tsx:733`, and (after Step 6) `components/CommandVerbHierarchy.tsx:414`.
 
@@ -761,8 +760,12 @@ Every `TIER_GROUPS` entry has `maxBand === tier` (`commandTerms.ts:34–77`), an
 
 ```ts
 const COGNITIVE_STEPS = [
-  { label: 'Remember', tier: 1 }, { label: 'Describe', tier: 2 }, { label: 'Explain', tier: 3 },
-  { label: 'Analyse', tier: 4 }, { label: 'Argue', tier: 5 }, { label: 'Evaluate', tier: 6 },
+  { label: 'Remember', tier: 1 },
+  { label: 'Describe', tier: 2 },
+  { label: 'Explain', tier: 3 },
+  { label: 'Analyse', tier: 4 },
+  { label: 'Argue', tier: 5 },
+  { label: 'Evaluate', tier: 6 },
 ];
 ```
 
@@ -859,7 +862,7 @@ export const openVerbRibbon = async (page: Page): Promise<void> => {
 - the **"Band N ceiling"** label (`tierConfig.text` + `opacity-60`) — **2.70–2.97:1**;
 - the six **timeline step labels** (`opacity-70`) — **2.65:1**.
 
-In each case the current tier's instance is `unassessable` (it sits on a gradient) and the other five are measurable and will be gated. The fix is the same shape as Step 6's — drop or raise the opacity *and* darken the tint, because opacity alone cannot recover the ratio (see D-E). **Not an exclusion.**
+In each case the current tier's instance is `unassessable` (it sits on a gradient) and the other five are measurable and will be gated. The fix is the same shape as Step 6's — drop or raise the opacity _and_ darken the tint, because opacity alone cannot recover the ratio (see D-E). **Not an exclusion.**
 
 Also on the watchlist: the bar's sub-label and "Selected:" label measure **4.67:1** (`slate-500` on `bg-white/60`) — passing with the least margin in the component, and the first thing to move to `slate-600` if anything tightens.
 
@@ -928,15 +931,15 @@ Two things worth recording explicitly, because the next reader will not rediscov
 
 ### Must keep passing, unchanged
 
-| Test | Why it is at risk |
-|---|---|
-| `tests/unit/commandVerbHierarchy.test.tsx` — the header height lock (`:128–172`) | Pins `min-h-[60px]`, `whitespace-nowrap` on the chip and the "Selected:" label, `truncate` on the title, and identical geometry for `STATE` and `DIFFERENTIATE`. Steps 5 and 8 both edit that header; the geometry filter at `:155–160` deliberately drops colour tokens, so a colour change is safe and a padding change is not. |
-| `tests/unit/commandVerbHierarchy.test.tsx:91–104` — the strip scrolls, not the page | Step 3 edits that exact call. `scrollIntoView` must still never be called; `scrollTo` must still be called. |
-| `tests/unit/commandVerbHierarchy.test.tsx:71–79` — the tier header is keyboard-reachable | Finds it by `/Band 1 ceiling Remember & List/i`. Step 8 must leave `Band {n} ceiling` alone. |
-| `tests/unit/bandColors.test.ts` | Pins `getBandConfig` and the tier↔band invariant. Only Step 7 may touch it, and only with D1. |
-| `tests/unit/focusTrap.test.tsx` | Step 1 adopts the same `inert` pattern it pins for `AccordionSection`; that test must stay green with no edits. |
-| `tests/unit/appHeaderChrome.test.tsx`, `cardHeaderHeightLock.test.tsx`, `workspacePanelChrome.test.tsx` | Different surfaces (`headerChrome`, `cardChrome`, `panelStyles`). If a change here moves any of them, the change has strayed. |
-| `tests/e2e/light-theme.spec.ts` | Green today only because the ribbon is unmounted. Steps 10 and 11 change that deliberately; until then it must stay green by accident, which means Steps 1–9 must not alter `App.tsx`. |
+| Test                                                                                                    | Why it is at risk                                                                                                                                                                                                                                                                                                                 |
+| ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tests/unit/commandVerbHierarchy.test.tsx` — the header height lock (`:128–172`)                        | Pins `min-h-[60px]`, `whitespace-nowrap` on the chip and the "Selected:" label, `truncate` on the title, and identical geometry for `STATE` and `DIFFERENTIATE`. Steps 5 and 8 both edit that header; the geometry filter at `:155–160` deliberately drops colour tokens, so a colour change is safe and a padding change is not. |
+| `tests/unit/commandVerbHierarchy.test.tsx:91–104` — the strip scrolls, not the page                     | Step 3 edits that exact call. `scrollIntoView` must still never be called; `scrollTo` must still be called.                                                                                                                                                                                                                       |
+| `tests/unit/commandVerbHierarchy.test.tsx:71–79` — the tier header is keyboard-reachable                | Finds it by `/Band 1 ceiling Remember & List/i`. Step 8 must leave `Band {n} ceiling` alone.                                                                                                                                                                                                                                      |
+| `tests/unit/bandColors.test.ts`                                                                         | Pins `getBandConfig` and the tier↔band invariant. Only Step 7 may touch it, and only with D1.                                                                                                                                                                                                                                     |
+| `tests/unit/focusTrap.test.tsx`                                                                         | Step 1 adopts the same `inert` pattern it pins for `AccordionSection`; that test must stay green with no edits.                                                                                                                                                                                                                   |
+| `tests/unit/appHeaderChrome.test.tsx`, `cardHeaderHeightLock.test.tsx`, `workspacePanelChrome.test.tsx` | Different surfaces (`headerChrome`, `cardChrome`, `panelStyles`). If a change here moves any of them, the change has strayed.                                                                                                                                                                                                     |
+| `tests/e2e/light-theme.spec.ts`                                                                         | Green today only because the ribbon is unmounted. Steps 10 and 11 change that deliberately; until then it must stay green by accident, which means Steps 1–9 must not alter `App.tsx`.                                                                                                                                            |
 
 ### Must be updated
 
@@ -982,9 +985,9 @@ Mock `services/geminiService` in every render test (house rule; the current ribb
 
 **R4 — Step 7 is a shared-token change wearing a ribbon commit's clothes.** It fixes three surfaces at once, which is the argument for it, and it is exactly the kind of change that gets reverted six months later by someone tidying `renderUtils.ts` who does not know why band 3 is different. The mitigation is the test case with the ratio in the comment. If D1 is refused, say so in the changelog, because the failure then ships knowingly.
 
-**R5 — The cognitive timeline is redundant and this plan does not resolve it.** *(Answered 2026-08-20 by `Plan-CognitiveSpectrum.md`: **no** — the six step buttons stay, because they are a pinned accessibility fix; the BAR became the read-only statement instead.)* Three controls select a tier (the card header, the verb chip, the timeline dot); the timeline adds six tab stops and, per A7, four "measurement ticks" that align with nothing. Deleting the step buttons is the tidier design and would undo a deliberate accessibility fix (`commandVerbHierarchy.test.tsx:106–113`), so this plan keeps them and only fixes their labels. **Open question for the maintainer:** should the timeline become a read-only progress statement with the strip as the single selection surface?
+**R5 — The cognitive timeline is redundant and this plan does not resolve it.** _(Answered 2026-08-20 by `Plan-CognitiveSpectrum.md`: **no** — the six step buttons stay, because they are a pinned accessibility fix; the BAR became the read-only statement instead.)_ Three controls select a tier (the card header, the verb chip, the timeline dot); the timeline adds six tab stops and, per A7, four "measurement ticks" that align with nothing. Deleting the step buttons is the tidier design and would undo a deliberate accessibility fix (`commandVerbHierarchy.test.tsx:106–113`), so this plan keeps them and only fixes their labels. **Open question for the maintainer:** should the timeline become a read-only progress statement with the strip as the single selection surface?
 
-**R6 — The footer's four band-range labels are a fifth vocabulary** *(Closed 2026-08-20 by `Plan-CognitiveSpectrum.md`: the four labels are deleted; one derived cue line replaces them.)* (`Basic Recall`, `Explain & Compare`, `Analyse & Apply`, `Evaluate & Create`, `:438–449`). They describe spans across the six tiers rather than individual tiers, so `tierShortLabel` cannot derive them and renaming them is a copy decision. Left alone. Someone should decide whether four span labels and six tier labels on the same 200px-tall footer is one vocabulary too many.
+**R6 — The footer's four band-range labels are a fifth vocabulary** _(Closed 2026-08-20 by `Plan-CognitiveSpectrum.md`: the four labels are deleted; one derived cue line replaces them.)_ (`Basic Recall`, `Explain & Compare`, `Analyse & Apply`, `Evaluate & Create`, `:438–449`). They describe spans across the six tiers rather than individual tiers, so `tierShortLabel` cannot derive them and renaming them is a copy decision. Left alone. Someone should decide whether four span labels and six tier labels on the same 200px-tall footer is one vocabulary too many.
 
 **R7a — the ribbon's own detail-card Sparkles tile still hard-codes `text-white`** on `bg-gradient-to-br ${gradient}` — the same bug class as A3, and on tier 3 that is an icon at roughly 1.9:1. It was not among the three sites Step 6 was scoped to and was deliberately left. Add it to the sweep below.
 
@@ -1007,7 +1010,6 @@ Mock `services/geminiService` in every render test (house rule; the current ribb
 - `/home/user/HSC-Writing-Master/App.tsx`
 
 Reference-only, but read before Steps 4–6: `/home/user/HSC-Writing-Master/utils/headerChrome.ts`, `/home/user/HSC-Writing-Master/tests/unit/appHeaderChrome.test.tsx` (the parity sweep to copy), and `/home/user/HSC-Writing-Master/components/ReferenceMaterials.tsx` (the `inert` + grid-rows disclosure to copy in Step 1).
-
 
 ---
 
@@ -1075,7 +1077,7 @@ empty). 1771 unit tests, `chromium` 18/18, `supabase-chromium` 6/6.
    DesignSpec §2's contradicting table.
 
    **Amended 2026-08-20, second pass** (`projectDocs/Plan-SpectrumScaleLabels.md`):
-   R6 stays closed, but its *premise* was wrong and the wrongness propagated.
+   R6 stays closed, but its _premise_ was wrong and the wrongness propagated.
    R6 called the four labels **span labels** and `Plan-CognitiveSpectrum.md` F5
    inherited that reading. They were not spans. `Explain & Compare` is
    byte-identical to `TIER_GROUPS[2].title` and `Analyse & Apply` to

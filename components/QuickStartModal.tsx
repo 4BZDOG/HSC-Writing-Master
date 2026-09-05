@@ -163,7 +163,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
                             cannot do — the note only appears when the feature
                             is genuinely beyond their plan. */}
                         {step.planNote && plan === 'free' && (
-                          <p className="mt-3 inline-flex items-start gap-2 text-[10px] font-bold text-amber-500 leading-relaxed">
+                          <p className="mt-3 inline-flex items-start gap-2 text-[10px] text-amber-500 leading-relaxed">
                             <Lock className="w-3 h-3 mt-0.5 shrink-0" />
                             {step.planNote}
                           </p>
@@ -188,7 +188,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
           {tab === 'plans' && (
             <>
               <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 mb-5">
-                You are on <span className="font-black">{PLAN_LABELS[plan]}</span>. Here is exactly
+                You are on <span className="font-bold">{PLAN_LABELS[plan]}</span>. Here is exactly
                 what that includes — and what the other plans add. Everything below is read straight
                 from the app’s own access rules, so it is always current.
               </p>

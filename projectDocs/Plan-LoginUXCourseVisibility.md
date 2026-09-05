@@ -28,9 +28,11 @@ competing sign-in flows, and an inconsistency with the rest of the page's own
 pattern.
 
 **Fix:**
+
 ```tsx
 disabled={isLoading || oauthLoading !== null}
 ```
+
 on the submit button at line 590 (and drop the now-redundant `isLoading`
 check nowhere else needs changing — the OAuth/guest buttons are already
 correct).
@@ -49,6 +51,7 @@ who mistypes a password, or hits a signup validation error, gets no
 announcement — they only find out by reading the page again.
 
 **Fix:** add `role="alert"` to both:
+
 ```tsx
 // FieldError, line 53
 <p role="alert" className="flex items-center gap-1.5 text-red-400 ...">
@@ -56,10 +59,12 @@ announcement — they only find out by reading the page again.
 // inline submit error, line 583
 <div role="alert" className="flex items-start gap-2 text-red-400 ...">
 ```
+
 This is a targeted, one-line-per-site fix using the codebase's own existing
 pattern — not a new convention.
 
 ### Everything else checked and found solid (no action needed)
+
 - Empty-field submission is blocked in all three modes (signin/signup/reset)
   with clear per-field or banner messaging.
 - Enter key submits correctly in both fields (native form behaviour, no
@@ -75,6 +80,7 @@ pattern — not a new convention.
   user-facing string (verified by grep across common offenders).
 
 ### Tests to run/add
+
 - `npm run type-check`
 - `npm test -- tests/unit/loginPageSignUp.test.tsx tests/unit/loginOAuthProviders.test.ts tests/unit/passwordResetUi.test.tsx tests/unit/authService.test.ts`
 - Add one unit assertion (in `loginOAuthProviders.test.ts` or a new
@@ -90,6 +96,7 @@ pattern — not a new convention.
 ## Part 2 — Admin course visibility toggle (draft/hidden courses)
 
 ### Key discovery
+
 `supabase/schema.sql` **already has** a `courses.status content_status`
 column (line 75) with RLS (`courses_read`, line 529–531:
 `status = 'approved' or created_by = auth.uid() or public.is_reviewer()`)
@@ -107,6 +114,7 @@ remote course-creation path exists.
 ### 2.1 Data model — `types.ts`
 
 Add, immediately after `Course.subject` (types.ts line ~182):
+
 ```ts
 /**
  * Admin publication gate. Absent (or 'published') means visible to everyone
@@ -126,6 +134,7 @@ status?: 'draft' | 'published';
 `CourseSchema` (dataManagerUtils.ts line 610) is `.passthrough()`, so the
 field already survives parsing untouched — but add it explicitly for
 validation/documentation parity with the rest of the file:
+
 ```ts
 export const CourseSchema = z
   .object({
@@ -137,6 +146,7 @@ export const CourseSchema = z
   })
   .passthrough();
 ```
+
 Bump `DATA_VERSION` in `utils/storageUtils.ts` (currently `'2.7.0'` →
 `'2.8.0'`) per house convention. No `runMigrations()` case is functionally
 required — old data has no `status`, which already reads as "published" —
@@ -144,7 +154,7 @@ but bump for traceability as the skill file directs.
 
 ### 2.3 Permission gate — reuse `canCreateCurriculum`
 
-Do **not** use `isSystemAdmin` (that's for system-administration *tools*,
+Do **not** use `isSystemAdmin` (that's for system-administration _tools_,
 unrelated) or `canCurateContent` (admin+teacher — too broad; the task
 explicitly wants this hidden from teachers too). `utils/permissions.ts`'s
 `canCreateCurriculum` (admin-only) is the exact existing gate for "creating
@@ -165,20 +175,19 @@ export const isCourseVisible = (course: Course, role: UserRole): boolean =>
 export const visibleCourses = (courses: Course[], role: UserRole): Course[] =>
   courses.filter((c) => isCourseVisible(c, role));
 ```
+
 Small and independently unit-testable (matches the "pure utility" pattern
 this codebase already uses, e.g. `signupPolicy.ts`).
 
 ### 2.5 Wire filtering into `App.tsx`
 
-`courses` (raw) is currently passed unfiltered to `PromptSelector` (line
-844) and `Workspace` (line 952) — the two user-facing navigator surfaces.
+`courses` (raw) is currently passed unfiltered to `PromptSelector` (line 844) and `Workspace` (line 952) — the two user-facing navigator surfaces.
 Add:
+
 ```ts
-const navigatorCourses = useMemo(
-  () => visibleCourses(courses, user.role),
-  [courses, user.role]
-);
+const navigatorCourses = useMemo(() => visibleCourses(courses, user.role), [courses, user.role]);
 ```
+
 and pass `courses={navigatorCourses}` at both of those call sites. **Do
 not** change `AppModals` (line 1040) or `ContentAuditModal` (line 1070) —
 those are admin-gated tools (`isSystemAdmin`/`canModerate` already wrap
@@ -197,6 +206,7 @@ plan doesn't attempt a full trace of every modal.
 ### 2.6 Admin toggle handler — `hooks/useSyllabusData.ts`
 
 Add near `handleUpdateOutcomes` (line 675):
+
 ```ts
 const handleSetCourseStatus = useCallback(
   (courseId: string, status: 'draft' | 'published') => {
@@ -221,6 +231,7 @@ const handleSetCourseStatus = useCallback(
   [updateCourses, showToast]
 );
 ```
+
 Deleting the field (rather than storing `'published'`) keeps the same
 absence-means-default idiom as `DotPoint.focusAreas` elsewhere in this same
 file. Export `handleSetCourseStatus` from the hook's return object and thread
@@ -230,6 +241,7 @@ prop, gated the same way `onAddCourse` is (`canCreateTree`).
 ### 2.7 Remote write path — `services/contributionService.ts`
 
 Add (near `resolvePromptRowId`, line 301):
+
 ```ts
 export const resolveCourseRowId = (appId: string): Promise<string | null> =>
   resolveRowId('courses', appId);
@@ -251,6 +263,7 @@ export const updateCourseStatus = async (
   if (error) throw new Error(`Could not update course visibility: ${error.message}`);
 };
 ```
+
 Call this as `updateRemoteCourseStatus` from `useSyllabusData.ts` (import
 and re-export/alias, or import directly).
 
@@ -275,39 +288,44 @@ query.
   the existing `canCurate && <CoverageChip .../>` pattern (line 412), gated
   on `canCreateTree` (admin-only) instead of `canCurate`:
   ```tsx
-  {canCreateTree && c.status === 'draft' && (
-    <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-500 border border-amber-500/30 flex-shrink-0">
-      Draft
-    </span>
-  )}
+  {
+    canCreateTree && c.status === 'draft' && (
+      <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-500 border border-amber-500/30 flex-shrink-0">
+        Draft
+      </span>
+    );
+  }
   ```
 - **Toggle control**: a new `ActionButton` beside the existing "Add Course"
   button (line 940–942), shown when `canCreateTree && selectedCourse`:
   ```tsx
-  {canCreateTree && selectedCourse && (
-    <ActionButton
-      onClick={() =>
-        onToggleCourseStatus(
-          selectedCourse.id,
-          selectedCourse.status === 'draft' ? 'published' : 'draft'
-        )
-      }
-      icon={selectedCourse.status === 'draft' ? Eye : EyeOff}
-      title={
-        selectedCourse.status === 'draft'
-          ? 'Publish — make visible to everyone'
-          : 'Hide — draft, visible to admins only'
-      }
-      label={selectedCourse.status === 'draft' ? 'Publish' : 'Hide'}
-      variant={selectedCourse.status === 'draft' ? 'special' : 'default'}
-    />
-  )}
+  {
+    canCreateTree && selectedCourse && (
+      <ActionButton
+        onClick={() =>
+          onToggleCourseStatus(
+            selectedCourse.id,
+            selectedCourse.status === 'draft' ? 'published' : 'draft'
+          )
+        }
+        icon={selectedCourse.status === 'draft' ? Eye : EyeOff}
+        title={
+          selectedCourse.status === 'draft'
+            ? 'Publish — make visible to everyone'
+            : 'Hide — draft, visible to admins only'
+        }
+        label={selectedCourse.status === 'draft' ? 'Publish' : 'Hide'}
+        variant={selectedCourse.status === 'draft' ? 'special' : 'default'}
+      />
+    );
+  }
   ```
   (`Eye`/`EyeOff` from `lucide-react`, already the icon set used throughout
   this file.) Add `onToggleCourseStatus: (courseId: string, status: 'draft' | 'published') => void;`
   to `PromptSelectorProps`.
 
 ### Tasks (implementation order)
+
 1. `types.ts` — add `Course.status`.
 2. `utils/dataManagerUtils.ts` — extend `CourseSchema`; `utils/storageUtils.ts` — bump `DATA_VERSION`.
 3. `utils/courseVisibility.ts` — new pure helpers + unit tests.
@@ -318,6 +336,7 @@ query.
 8. `components/PromptSelector.tsx` — draft badge + toggle `ActionButton`.
 
 ### Tests to run/add
+
 - `npm run type-check`
 - New `tests/unit/courseVisibility.test.ts` — `isCourseVisible`/`visibleCourses` for admin/teacher/user/guest × draft/published/absent.
 - New/updated unit test on `assembleCourses` (likely alongside existing curriculumService tests) confirming `status: 'approved'` → no client field, anything else → `status: 'draft'`.

@@ -511,7 +511,7 @@ const CarouselAccordionItem: React.FC<{
 
                 {/* Content */}
                 <div
-                  className="p-6 font-serif leading-loose text-slate-700 dark:text-slate-300 whitespace-pre-wrap transition-all duration-200"
+                  className="p-6 max-w-[56ch] font-serif leading-loose text-slate-700 dark:text-slate-300 whitespace-pre-wrap transition-all duration-200"
                   style={{ fontSize: `${fontSize}px`, lineHeight: 1.6 }}
                 >
                   {renderFormattedText(currentSample.answer, prompt.keywords, prompt.verb)}

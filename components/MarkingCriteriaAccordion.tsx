@@ -347,7 +347,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                     <div
                       className={`w-14 flex flex-col items-center justify-center p-2 border-r ${itemConfig.border} ${itemConfig.bg} flex-shrink-0`}
                     >
-                      <span className={`text-lg font-black ${itemConfig.text} leading-none`}>
+                      <span className={`text-lg font-bold ${itemConfig.text} leading-none`}>
                         {item.markLabel}
                       </span>
                     </div>

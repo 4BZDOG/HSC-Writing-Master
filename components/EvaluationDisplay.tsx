@@ -147,7 +147,7 @@ const BandGoalCard = ({ currentBand, maxBand }: { currentBand: number; maxBand: 
                 style={b <= currentBand ? { backgroundColor: getBandHex(b) } : undefined}
               />
               <span
-                className={`text-[9px] font-black leading-none ${
+                className={`text-[9px] font-bold leading-none ${
                   b === maxBand
                     ? goalConfig.text
                     : b <= currentBand
@@ -770,7 +770,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             </span>
           </div>
           <div className="p-6 sm:p-8">
-            <div className="prose prose-slate dark:prose-invert max-w-none font-serif leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-line">
+            <div className="max-w-[56ch] font-serif leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-line">
               {renderFormattedText(userAnswer, prompt.keywords, prompt.verb)}
             </div>
           </div>
@@ -813,7 +813,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           {/* Serif, because this is the one passage on the page written TO the
               student — but at reading size. It used to be text-xl italic, which
               set the marker's aside larger than the question it was about. */}
-          <div className="prose prose-slate dark:prose-invert max-w-none font-serif text-base sm:text-[17px] leading-relaxed text-slate-700 dark:text-slate-300 pl-3">
+          <div className="max-w-[56ch] font-serif text-base sm:text-[17px] leading-relaxed text-slate-700 dark:text-slate-300 pl-3">
             {renderFormattedText(result.overallFeedback, prompt.keywords, prompt.verb)}
           </div>
         </div>
@@ -923,7 +923,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
         <div className="flex items-start gap-3 p-4 rounded-2xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 no-print">
           <AlertCircle className="w-5 h-5 shrink-0 mt-0.5 text-red-600 dark:text-red-400" />
           <div>
-            <p className="text-sm font-bold text-red-700 dark:text-red-400">
+            <p className="text-sm text-red-700 dark:text-red-400">
               The improved response could not be generated.
             </p>
             <p className="text-xs text-red-600/80 dark:text-red-400/80 mt-0.5">
@@ -1035,13 +1035,13 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
               colour on this page that could not follow a theme change. */}
           <div className="p-6 sm:p-8 bg-white dark:bg-[rgb(var(--color-bg-surface))] relative z-10">
             {revisedText ? (
-              <div className="prose prose-slate dark:prose-invert max-w-none font-serif text-base sm:text-[17px] leading-relaxed text-slate-800 dark:text-slate-200">
+              <div className="max-w-[56ch] font-serif text-base sm:text-[17px] leading-relaxed text-slate-800 dark:text-slate-200">
                 {renderFormattedText(revisedText, prompt.keywords, prompt.verb)}
               </div>
             ) : (
               <div className="flex flex-col items-center text-center gap-3 py-6 no-print">
                 <Zap className={`w-8 h-8 ${exemplarConfig.text} opacity-60`} />
-                <p className="text-sm font-bold text-slate-700 dark:text-slate-200">
+                <p className="text-sm text-slate-700 dark:text-slate-200">
                   Your answer, rewritten one mark higher — in your own words
                 </p>
                 <p className="max-w-md text-xs leading-relaxed text-slate-500 dark:text-slate-400">
