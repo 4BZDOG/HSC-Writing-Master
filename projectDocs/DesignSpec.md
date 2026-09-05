@@ -171,39 +171,47 @@ provides.
 - **Manuscript**: `Newsreader` (Serif) - Used for the main writing area and AI exemplars to simulate the gravity of an official examination paper.
 - **Telemetry**: `JetBrains Mono` - Used for marks, token counts, and system logs.
 
-### Measure — an open problem, not a solved one
+### Measure
 
-The reading surfaces have **no line-length cap**, and lines run long: about 148
-characters in a 1022px panel at 16px serif, and 114 in the improvement modal.
-The skill asks for under 80. This is a real defect and it is recorded here
-rather than fixed, because the obvious fix was tried and is worse.
+A reading column is bounded by what prose can be read at, not by the window it
+sits in. The report column and the improvement modal's unified view both take
+`max-w-3xl`.
 
-`max-w-[56ch]` was added to five reading blocks and then reverted. Two
-measurements explain why:
+**Measured across viewports before choosing it.** The line length only ever went
+wrong from about 1024px up, because below that the column is already bounded by
+the screen:
 
-- **The cap works.** 56ch renders 74–76 real characters, comfortably under 80.
-  (`ch` is the advance width of "0", about 1.35× wider than Newsreader's average
-  lowercase, so 68ch gives 89 characters and 65ch gives 88 — the intuitive
-  values are all over the line.)
-- **The container is twice as wide as prose wants.** 508px of text in a 1022px
-  panel. No cap both respects the measure and fills the panel: filling it needs
-  ~148 characters.
+| Viewport     | Panel  | Fill | Characters | After     |
+| ------------ | ------ | ---- | ---------- | --------- |
+| 390 phone    | 306px  | 84%  | 38         | unchanged |
+| 768 tablet   | 652px  | 90%  | 87         | unchanged |
+| 1024 laptop  | 908px  | 93%  | 125        | **104**   |
+| 1440 desktop | 1022px | 94%  | 142        | **104**   |
+| 1920 wide    | 1022px | 94%  | 142        | **104**   |
 
-So the slack has to go somewhere, and neither option is acceptable as a text
-change alone. Left-aligned, the text stops halfway across its panel and reads as
-a bug — which is exactly how it was reported. Centred with `mx-auto`, the prose
-starts ~240px right of its own panel header, misaligning with the chrome
-directly above it.
+Phone and tablet are untouched by construction, not by a breakpoint: their
+column is narrower than the cap, so it never engages. The text fills its panel
+at every size — 84–94% before, 90–92% after — so filling was never the problem.
 
-**The fix belongs to the container, not the text.** Either the reading panels
-get narrower, or the space beside them earns its keep — the PDF export solved
-the same problem by setting two columns. Both are layout decisions with their
-own review; capping the text inside a container nobody narrowed is not a
-shortcut to either.
+**Why not tighter.** The column also holds the score cards and the stat grid,
+and narrowing it takes them along. Measured on the same screen: 44rem reaches 95
+characters but clips "Key Terms" to "Key…"; 40rem takes "Volume" with it; 38rem
+hits the 80 the skill asks for and clips both. `3xl` (48rem) is the tightest
+line this layout buys without spending a label to get it — 104 characters,
+longer than ideal, against 142 before.
 
-What not to repeat: the first attempt was verified by measuring characters per
-line, which looked right, and never by measuring the text against its container,
-which was the thing that was wrong.
+**Bound the column, never the text inside it.** `max-w-[56ch]` on the prose was
+tried and reverted: the card stayed 1022px while the text stopped at 508, which
+reads as a defect rather than a margin, and centring it with `mx-auto` put the
+prose 240px right of its own card header. The container is the thing that is too
+wide; capping its contents only moves the problem inward. Where a reading
+surface is one column among wider chrome — the unified diff view — the bound
+goes on the wrapper holding the legend AND the prose, so they narrow together.
+
+`ch` is the advance width of "0", about 1.35× wider than Newsreader's average
+lowercase, so a `ch` cap renders about 1.35× its number in characters: `68ch`
+measured 89, `56ch` measured 74–76. That is why the reverted cap looked correct
+in characters while being wrong on screen.
 
 ### Weight
 

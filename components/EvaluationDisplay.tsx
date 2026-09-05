@@ -514,7 +514,21 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
       /* gap-6, not gap-8: each section now carries its own heading with its own
          margin, so the old gap stacked two separations on top of each other and
          pushed the criteria a scroll further down than they needed to be. */
-      className="relative flex flex-col gap-6 max-w-5xl mx-auto pb-20 EvaluationDisplay"
+      /* The report is a document, so its column is bounded by what prose can be
+         read at rather than by the modal it sits in. At `max-w-5xl` the reading
+         cards ran 142 characters a line on a laptop and wider; `3xl` brings that
+         to 104. Measured across viewports: phone (306px panel, 38 chars) and
+         tablet (652px, 87) are untouched, because their column is already
+         narrower than this — the cap only engages from about 1024px up, which is
+         exactly where the lines were too long.
+
+         Not tighter than `3xl`: 44rem reaches 95 characters but starts clipping
+         "Key Terms" to "Key…" in the stat grid, and 40rem takes "Volume" with
+         it. 104 characters is the tightest line this layout buys without
+         spending a label to get it. Narrowing the text inside these cards
+         instead was tried and reverted — it left the prose stranded halfway
+         across a card nobody had narrowed. See DesignSpec §4, "Measure". */
+      className="relative flex flex-col gap-6 max-w-3xl mx-auto pb-20 EvaluationDisplay"
     >
       <AiBusyOverlay show={isImproving} rounded="rounded-panel">
         <LoadingIndicator
