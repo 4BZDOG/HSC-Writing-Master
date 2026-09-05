@@ -31,9 +31,10 @@ alone.** There is a real question underneath — whether a UI colour and a band
 colour can be told apart when they are the same hue — but it is a question for
 the spec's owner, not a defect. It is recorded as open question 1 below.
 
-## Findings that stand
+## The findings
 
-Checked against `DesignSpec.md`; none of these contradict it.
+Each checked against `DesignSpec.md` before acting on it. One did not survive
+that check and is marked withdrawn.
 
 ### 1. The all-caps micro-label was the app's entire labelling voice — FIXED
 
@@ -88,16 +89,39 @@ Seven held a title above their own body line — the error notice's heading, a
 course name above its topic count — or a figure in a table cell. Those were
 restored by hand to 600 and 700.
 
-### 4. Motion is scattered rather than orchestrated — OPEN
+### 4. Motion is scattered rather than orchestrated — WITHDRAWN
 
-103 `animate-fade-in` + 41 `animate-fade-in-up` across 73 of 106 files, 340
-`transition-all`, 53 `hover:shadow`, 50 `hover:scale`. The skill calls
-per-section fade-and-slide-up plus per-card hover transitions the generic
-default.
+The count was right and the reading of it was wrong. 103 `animate-fade-in` + 41
+`animate-fade-in-up` across 73 of 106 files, 340 `transition-all`, 53
+`hover:shadow`, 50 `hover:scale` — and the skill does name per-section
+fade-and-slide-up plus per-card hover transitions as the generic default. But
+the skill draws a line the raw count cannot see:
 
-Note in mitigation: `prefers-reduced-motion` is honoured in `index.css` and five
-components, and every keyframe animates only `transform`/`opacity`. The quality
-floor is real; the budget is not.
+> Motion that answers a person's action (opening, expanding, confirming) is
+> welcome when it shows what changed.
+
+Every one of the 156 entrances was read before deciding. 99 sit directly inside
+a conditional render — `isEnriching &&`, `enrichError &&`, `isEditingQuestion ?`.
+Of the 58 that looked unconditional, about 25 are modal shells whose mount gate
+(`if (!isOpen) return null`) is earlier in the file, eight are banners and
+overlays that only exist in an error or busy state, four are dropdown popovers,
+and the rest are per-item reveals as content arrives — carousel slides, insight
+rows, audit log lines.
+
+That leaves the login and reset-password pages, which each fade in a wordmark
+and then a form card: two elements, one page, in sequence. That is not the
+pathology, it is the single orchestrated page-load moment the skill asks for.
+
+There is no fade-and-slide-up-on-every-section at load in this app, so nothing
+was changed. The quality floor is met properly too: `index.css` neutralises
+every animation and transition under `prefers-reduced-motion` with a global
+`*, *::before, *::after` rule, and every keyframe animates only `transform` and
+`opacity`.
+
+The one thing left standing is `transition-all` at 340 sites, which animates
+every property that changes rather than the ones intended. That is a precision
+question rather than a design-language one, and naming the properties needs
+per-site knowledge of what actually changes, so it is not codemod work.
 
 ### 5. No radius or shadow system — FIXED
 
@@ -169,14 +193,25 @@ evaluations"). Named by the skill as template chrome. Low value, low risk.
    which is the half of the system specific to this subject. Changing the
    interface face is a bundle and legibility decision, not a styling one.
 
-## Remaining phases
+## Where this leaves the review
 
-Each is a separate PR, each verifiable by a grep count plus the existing
-`tests/e2e/support/contrast.ts` audit.
+Findings 1, 5 and 6 are fixed and gated. Findings 2 and 3 are partly fixed, with
+their middles left as reading work. Finding 4 and the colour finding were
+withdrawn after investigation. Finding 7 is untouched.
 
-| Phase | Scope                                            | Gate                                  |
-| ----- | ------------------------------------------------ | ------------------------------------- |
-| 4     | One orchestrated entrance per screen (finding 4) | files with an entrance animation < 20 |
+Two of the seven did not survive contact with the code, and both failed the same
+way: a grep produced a large number and the number was read as a verdict.
+Amber's 509 uses were the tier palette doing its job. The 156 entrance
+animations were reveals answering a click. Counting is how the rest of this
+review found things worth fixing, so the lesson is not to stop counting — it is
+that a count locates a question and never answers one.
 
-Phases 2–5 are deliberately not started. Colour work is not listed at all, and
-should not begin before question 1 is answered.
+What remains, none of it codemod work:
+
+- **Finding 7**, the middle-dot meta strings, 63 across 27 files. Low value, and
+  changing them is a copywriting decision rather than a styling one.
+- **`font-bold` at 560 uses** (finding 3's middle) and **`rounded-2xl` at 236**
+  (phase 3's). Both need someone to look at each site and say what it is.
+- **The writing surface's 114-character measure** (finding 6), which is a
+  one-line change behind a design trade — see `DesignSpec.md` §4.
+- **The three open colour questions above**, which are the spec owner's.
