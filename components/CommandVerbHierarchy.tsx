@@ -368,7 +368,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                 conflation `tierShortLabel`'s doc comment exists to warn
                 about. What is being counted here is tiers. */}
             <span className={RIBBON_HEADER_SUBLABEL}>
-              Reference • {sortedVerbsByGroup.length} cognitive tiers
+              Reference · {sortedVerbsByGroup.length} cognitive tiers
             </span>
           </div>
         </div>

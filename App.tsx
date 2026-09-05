@@ -1448,8 +1448,15 @@ const App: React.FC = () => {
           isSaving={isAcceptingAgreement}
         />
       )}
+      {/* Below `sm` the top of the screen is the breadcrumb and the course
+          picker — the two controls a student navigates with — and a 351px toast
+          at `top-24` covered both, and blocked clicks on them, for up to
+          fourteen seconds. Phones get it docked to the bottom instead, which is
+          where a transient notice belongs on a small screen: out of the
+          navigation, and over content the reader can scroll. From `sm` up there
+          is room at the top right, so nothing changes there. */}
       {toast && (
-        <div className="fixed top-24 right-4 z-toast animate-slide-in">
+        <div className="fixed inset-x-4 bottom-4 sm:inset-x-auto sm:bottom-auto sm:top-24 sm:right-4 z-toast animate-slide-in">
           <Toast
             key={toast.id}
             message={toast.message}

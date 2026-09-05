@@ -29,7 +29,7 @@ describe('CommandVerbHierarchy', () => {
   it('renders the header and all six tier groups without a selected verb', () => {
     render(<CommandVerbHierarchy />);
     expect(screen.getByText('HSC Command Verb Hierarchy')).toBeTruthy();
-    expect(screen.getByText(/Reference • 6 cognitive tiers/i)).toBeTruthy();
+    expect(screen.getByText(/Reference · 6 cognitive tiers/i)).toBeTruthy();
     expect(getToggle().getAttribute('aria-expanded')).toBe('true');
   });
 
@@ -210,7 +210,7 @@ describe('CommandVerbHierarchy', () => {
 
     // The ladder itself still renders — the reference is intact, it just makes
     // no claim about this particular verb.
-    expect(screen.getByText(/Reference • 6 cognitive tiers/i)).toBeTruthy();
+    expect(screen.getByText(/Reference · 6 cognitive tiers/i)).toBeTruthy();
   });
 
   it('honours prefers-reduced-motion when it scrolls the strip', () => {

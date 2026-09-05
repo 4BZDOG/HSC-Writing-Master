@@ -695,7 +695,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                                 )}
                               </p>
                               <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 font-mono">
-                                {backup.courseCount} Courses • {formatBytes(backup.size)}
+                                {backup.courseCount} Courses · {formatBytes(backup.size)}
                               </p>
                             </div>
                           </div>

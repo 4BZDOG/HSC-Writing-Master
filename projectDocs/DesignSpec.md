@@ -311,6 +311,18 @@ where that differs. `PromptSelector` already sets the pattern:
 
 A bare "No detailed criteria available." or "Nothing selected." is a dead end.
 
+### One glyph, one job
+
+`·` separates items on a line. `•` starts a list item. Both were being used as
+inline separators, which put them in the same rendered line in two places —
+"2 levels · 2 exemplars • Band ceiling 4".
+
+The skill lists "meta strings joined with middle dots" among the template
+chrome, and it is right that a line of them is a smell. But a compact summary
+line does need a separator, and the answer to two glyphs doing one job is one
+glyph, not a third. Where a meta line is long enough to need three separators,
+that is the signal to write words instead.
+
 ### An error says what happened, and what is left
 
 Never apologise, never be vague, and never assert a cause that has not been

@@ -727,7 +727,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
               {groupedAnswers.length > 0
                 ? `${groupedAnswers.length} level${groupedAnswers.length === 1 ? '' : 's'} · ${totalSamples} exemplar${totalSamples === 1 ? '' : 's'}`
                 : 'No models yet'}
-              {` • Band ceiling ${maxPossibleBand}`}
+              {` · Band ceiling ${maxPossibleBand}`}
             </span>
           </div>
           <div className="flex items-center gap-2.5 shrink-0 ml-auto">

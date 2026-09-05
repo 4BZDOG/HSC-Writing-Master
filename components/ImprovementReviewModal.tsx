@@ -322,7 +322,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                     targetMark !== undefined &&
                     targetMark > originalMark && (
                       <>
-                        <span className="opacity-60">•</span>
+                        <span className="opacity-60">·</span>
                         <span className="inline-flex items-center gap-1">
                           <TrendingUp className="w-3 h-3" />+{targetMark - originalMark} mark
                         </span>
