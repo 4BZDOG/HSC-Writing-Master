@@ -365,7 +365,13 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
               </div>
             ) : (
               <div className="py-8 px-4 text-center border-2 border-dashed border-slate-200 dark:border-white/10 rounded-xl">
-                <p className="t-label text-slate-400">No detailed criteria available.</p>
+                <p className="t-label text-slate-400">
+                  {canCurate
+                    ? canGenerate
+                      ? 'No marking criteria yet — add them with Edit, or start one with AI Draft.'
+                      : 'No marking criteria yet — add them with Edit.'
+                    : 'No marking criteria for this question yet. Your teacher can add them.'}
+                </p>
               </div>
             )}
           </div>

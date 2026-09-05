@@ -273,13 +273,16 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
           );
           const status = await saveCoursesToDB(fixedData);
           if (status === 'Error') {
-            showToast('Failed to restore backup: could not write to storage.', 'error');
+            showToast(
+              'Could not write to storage, so nothing was restored. Your existing data is unchanged.',
+              'error'
+            );
             return;
           }
           showToast('Backup restored. Reloading application...', 'success');
           setTimeout(() => window.location.reload(), 1500);
         } catch (e) {
-          showToast('Error during restoration.', 'error');
+          showToast('The restore failed. Your existing data is unchanged.', 'error');
         } finally {
           setIsRestoring(false);
         }
@@ -348,14 +351,16 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
         // import data: …", "Backup file contains no courses.") — don't
         // stack another prefix on top.
         showToast(
-          err instanceof Error ? err.message : 'Failed to import backup: Invalid file.',
+          err instanceof Error
+            ? err.message
+            : 'That file is not a backup this app can read. Nothing was imported.',
           'error'
         );
       }
       if (fileInputRef.current) fileInputRef.current.value = '';
     };
     reader.onerror = () => {
-      showToast('Failed to read the selected file.', 'error');
+      showToast('Could not read that file. Nothing was imported — pick the file again.', 'error');
       if (fileInputRef.current) fileInputRef.current.value = '';
     };
     reader.readAsText(file);
@@ -394,7 +399,10 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
       await navigator.clipboard.writeText(filteredInspectData);
       showToast('Data copied to clipboard.', 'success');
     } catch (e) {
-      showToast('Failed to copy data to clipboard.', 'error');
+      showToast(
+        'Could not copy to the clipboard — your browser may have blocked it. Select the text and copy it by hand.',
+        'error'
+      );
     }
   };
 
@@ -801,7 +809,8 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                     </div>
                   ) : (
                     <pre className="text-xs font-mono text-gray-300 light:text-slate-800 whitespace-pre-wrap break-all leading-relaxed">
-                      {filteredInspectData || 'No data found matching query.'}
+                      {filteredInspectData ||
+                        'Nothing matches that query. Clear it to see everything in this store.'}
                     </pre>
                   )}
                 </div>
