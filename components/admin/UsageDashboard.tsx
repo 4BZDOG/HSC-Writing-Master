@@ -401,7 +401,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
 
   const handleExportCsv = () => {
     if (report.length === 0) {
-      showToast('No usage data to export yet.', 'info');
+      showToast('No usage recorded for this period yet, so there is nothing to export.', 'info');
       return;
     }
     try {

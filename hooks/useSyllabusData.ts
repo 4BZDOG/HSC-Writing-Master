@@ -399,18 +399,31 @@ export const useSyllabusData = ({
         );
 
         if (importedCount > 0) {
+          // Plural agreement on the VERB as well as the noun. The old string
+          // pluralised "topic file" and left "still need", so a single skipped
+          // topic read "1 topic file still need a target course in manifest
+          // metadata" — which also named the file format rather than the thing
+          // the teacher is missing, and did not say what to do about it.
+          const items = `${importedCount} ${importedCount === 1 ? 'item' : 'items'}`;
+          const leftOut =
+            skippedTopics === 1
+              ? 'One topic was left out because the course it belongs to is not in your workspace'
+              : `${skippedTopics} topics were left out because the courses they belong to are not in your workspace`;
           const syncMessage =
             skippedTopics > 0
-              ? `Synchronised ${importedCount} items. ${skippedTopics} topic file${skippedTopics === 1 ? '' : 's'} still need a target course in manifest metadata.`
-              : `Synchronised ${importedCount} items to workspace.`;
+              ? `Imported ${items}. ${leftOut}. Import the missing course first, then bring these in again.`
+              : `Imported ${items}.`;
           showToast(syncMessage, skippedTopics > 0 ? 'info' : 'success');
           return true;
         }
 
-        showToast('No discovered JSON files could be imported.', 'info');
+        showToast(
+          'Nothing could be imported. Every topic needs a course in your workspace to belong to — import the course first.',
+          'info'
+        );
         return false;
       } catch (error) {
-        showToast('Data synthesis failed.', 'error');
+        showToast('The import failed and nothing was changed. Try again in a moment.', 'error');
         return false;
       }
     },

@@ -286,7 +286,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         : filterDataBySelection(courses, new Set([exportTarget.id]));
 
     if (dataToExport.length === 0) {
-      showToast('Nothing to export for this selection.', 'info');
+      showToast('Nothing to export. Widen the filters, or select some items first.', 'info');
       return;
     }
 
@@ -929,7 +929,10 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
     const tasks = buildTasks(actionType);
     if (tasks.length === 0) {
-      showToast('No target items found in current selection.', 'info');
+      showToast(
+        'Nothing in this selection needs that action. Widen the filters and try again.',
+        'info'
+      );
       return;
     }
 

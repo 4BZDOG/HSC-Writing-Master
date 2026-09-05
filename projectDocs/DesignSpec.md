@@ -251,7 +251,50 @@ gives back the casing each label was already authored in, so no copy changed.
 2. Telemetry keeps `font-mono` per §4. `.t-label` sets size, weight, tracking
    and case; it does not set the family, so the two compose.
 
-## 5. Print & Export
+## 5. Writing in the interface
+
+Words in the UI are design content, not decoration. Three rules, each of which
+the app was breaking somewhere.
+
+### Name things as the reader knows them
+
+Not as the system is built. A teacher has courses and topics; the app has
+manifests, target courses and discovered JSON files. An import toast read
+"1 topic file still need a target course in manifest metadata" — which names a
+file format, a resolver's variable, and a data shape, and tells the reader
+nothing they can act on. It now names the missing course and says to import it
+first.
+
+### An empty screen is an invitation to act
+
+State what is missing AND what closes the gap, and split by who can close it
+where that differs. `PromptSelector` already sets the pattern:
+
+> No sub-topics in this topic yet. _(then a curator/student split)_
+
+A bare "No detailed criteria available." or "Nothing selected." is a dead end.
+
+### An error says what happened, and what is left
+
+Never apologise, never be vague, and never assert a cause that has not been
+established. The most useful sentence is usually about the reader's data:
+"Your existing data is unchanged" answers the only question a failed restore
+actually raises.
+
+"Please try again" on its own is not an instruction — it names no cause and no
+remedy. Where the cause genuinely is not knowable, say what state things are in
+rather than filling the space.
+
+Validation messages are already the standard to copy: "Enter a username.",
+"Pick the school to place them in." Imperative, specific, and about the next
+action rather than the failure.
+
+**About 80 `Failed to …` strings still predate this section.** They were left
+rather than rewritten in bulk: an error that confidently asserts the wrong
+cause is worse than one that is merely thin, and establishing the real cause is
+per-site work. Fix them against these rules as each is touched.
+
+## 6. Print & Export
 
 Custom `@media print` styles ensure:
 

@@ -283,7 +283,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
             <p className="text-[11px] text-[rgb(var(--color-text-muted))] light:text-slate-500">
               {/* Recalibration is marking, and the server meters it as such. */}
               {selected.length === 0
-                ? 'Nothing selected.'
+                ? 'Pick the answers you want re-marked.'
                 : `Re-marks ${selected.length} answer${selected.length === 1 ? '' : 's'} — uses ${selected.length} marking credit${selected.length === 1 ? '' : 's'}.`}
             </p>
           )}
