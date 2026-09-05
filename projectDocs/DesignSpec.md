@@ -171,32 +171,39 @@ provides.
 - **Manuscript**: `Newsreader` (Serif) - Used for the main writing area and AI exemplars to simulate the gravity of an official examination paper.
 - **Telemetry**: `JetBrains Mono` - Used for marks, token counts, and system logs.
 
-### Measure
+### Measure — an open problem, not a solved one
 
-A reading surface — a whole student response, the rewrite, the marker's
-commentary, an exemplar — carries `max-w-[56ch]`. Nothing else needs it: an
-11px criteria row in a 300px column is already narrower than any cap would make
-it, and a textarea is being written in, not read back.
+The reading surfaces have **no line-length cap**, and lines run long: about 148
+characters in a 1022px panel at 16px serif, and 114 in the improvement modal.
+The skill asks for under 80. This is a real defect and it is recorded here
+rather than fixed, because the obvious fix was tried and is worse.
 
-**`ch` is not a character.** It is the advance width of "0", which in Newsreader
-is noticeably wider than average lowercase, so a `ch` cap renders about 1.35×
-its number in real characters. Measured in the browser at 1600px: `68ch` gave
-**89** characters, and `56ch` gives **74–76**. That is why the number is 56 and
-not 65 or 68 — the obvious values are all over the 80-character line.
+`max-w-[56ch]` was added to five reading blocks and then reverted. Two
+measurements explain why:
 
-Two things this replaced. The three main reading blocks carried
-`prose prose-slate dark:prose-invert max-w-none`, and `@tailwindcss/typography`
-is not installed — `.prose` appears zero times in the built CSS. So those
-classes did nothing at all except `max-w-none`, which turned off a measure that
-was never on. And `max-w-prose` and `ch` units appeared nowhere in the codebase.
+- **The cap works.** 56ch renders 74–76 real characters, comfortably under 80.
+  (`ch` is the advance width of "0", about 1.35× wider than Newsreader's average
+  lowercase, so 68ch gives 89 characters and 65ch gives 88 — the intuitive
+  values are all over the line.)
+- **The container is twice as wide as prose wants.** 508px of text in a 1022px
+  panel. No cap both respects the measure and fills the panel: filling it needs
+  ~148 characters.
 
-**The writing surface is deliberately not capped.** At 1600px it runs to 114
-characters, which is too wide to read back comfortably — but its three stacked
-layers (textarea, highlight overlay, measuring mirror) must align pixel for
-pixel, and the card's width comes from the question above it, so a cap leaves a
-few hundred pixels of empty card. It shares one constant
-(`gridStackItemStyles` in `Editor.tsx`), so the change is one line when someone
-decides the trade is worth it.
+So the slack has to go somewhere, and neither option is acceptable as a text
+change alone. Left-aligned, the text stops halfway across its panel and reads as
+a bug — which is exactly how it was reported. Centred with `mx-auto`, the prose
+starts ~240px right of its own panel header, misaligning with the chrome
+directly above it.
+
+**The fix belongs to the container, not the text.** Either the reading panels
+get narrower, or the space beside them earns its keep — the PDF export solved
+the same problem by setting two columns. Both are layout decisions with their
+own review; capping the text inside a container nobody narrowed is not a
+shortcut to either.
+
+What not to repeat: the first attempt was verified by measuring characters per
+line, which looked right, and never by measuring the text against its container,
+which was the thing that was wrong.
 
 ### Weight
 
@@ -256,6 +263,36 @@ gives back the casing each label was already authored in, so no copy changed.
 Words in the UI are design content, not decoration. Three rules, each of which
 the app was breaking somewhere.
 
+### Don't dress a page in the default treatments
+
+Four habits read as generic wherever they appear, and all four had collected on
+the auth pages — the first screens anyone sees.
+
+**One word of a headline in a different colour.** `Band <span
+className="text-indigo-500">6</span>` on both the login and reset-password
+pages. The headline is a name; colouring one character of it adds no meaning and
+is the single most recognisable tell of a generated page. Set a headline in one
+colour.
+
+**A label above a heading that repeats it.** Both pages carried an eyebrow
+reading "HSC Writing Coach" above a "Band 6" headline, with a line underneath
+saying the product was an HSC writing coach. Three elements, one fact. A label
+earns its place by saying something the heading does not.
+
+**An arrow appended to button or link text.** "Sign In →", "Back to sign in →"
+(pointing away from where the link went), "Request this course →". A button
+already says what pressing it does.
+
+**An infinite animation on a state that is not changing.** A pulsing dot on an
+already-selected card, a sparkle throbbing beside a "new" option, a glow
+breathing behind a selection. Motion earns its place by showing something
+happen: a spinner while work runs, a pulse on an error that just appeared, a
+reveal when content arrives. A heartbeat on a static state is decoration that
+moves.
+
+Also retired: **a trust badge that asserts nothing checkable.** "Secure System"
+sat in the login footer beside the legal terms and the version, which are real.
+
 ### Name things as the reader knows them
 
 Not as the system is built. A teacher has courses and topics; the app has
@@ -273,6 +310,18 @@ where that differs. `PromptSelector` already sets the pattern:
 > No sub-topics in this topic yet. _(then a curator/student split)_
 
 A bare "No detailed criteria available." or "Nothing selected." is a dead end.
+
+### One glyph, one job
+
+`·` separates items on a line. `•` starts a list item. Both were being used as
+inline separators, which put them in the same rendered line in two places —
+"2 levels · 2 exemplars • Band ceiling 4".
+
+The skill lists "meta strings joined with middle dots" among the template
+chrome, and it is right that a line of them is a smell. But a compact summary
+line does need a separator, and the answer to two glyphs doing one job is one
+glyph, not a third. Where a meta line is long enough to need three separators,
+that is the signal to write words instead.
 
 ### An error says what happened, and what is left
 

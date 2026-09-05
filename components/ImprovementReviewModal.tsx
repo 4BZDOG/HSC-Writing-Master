@@ -92,7 +92,7 @@ const DiffText: React.FC<{
   registerMark?: (index: number, el: HTMLElement | null) => void;
 }> = ({ segments, fontSize, activeIndex = null, registerMark }) => (
   <p
-    className="max-w-[56ch] font-serif leading-loose whitespace-pre-wrap text-slate-800 dark:text-slate-200"
+    className="font-serif leading-loose whitespace-pre-wrap text-slate-800 dark:text-slate-200"
     style={{ fontSize: `${fontSize}px` }}
   >
     {segments.map((segment, index) =>
@@ -322,7 +322,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                     targetMark !== undefined &&
                     targetMark > originalMark && (
                       <>
-                        <span className="opacity-60">•</span>
+                        <span className="opacity-60">·</span>
                         <span className="inline-flex items-center gap-1">
                           <TrendingUp className="w-3 h-3" />+{targetMark - originalMark} mark
                         </span>

@@ -114,9 +114,8 @@ const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ onComplete, onCan
         <div className="relative w-20 h-20 mx-auto mb-6 rounded-tile bg-gradient-to-br from-indigo-500 to-sky-500 border border-white/20 shadow-lg flex items-center justify-center">
           <Sparkles className="w-10 h-10 text-white" />
         </div>
-        <span className="t-label text-indigo-400 opacity-80">HSC Writing Coach</span>
-        <h1 className="text-4xl font-bold tracking-tight text-white light:text-slate-900 leading-none mt-2">
-          Band <span className="text-indigo-500">6</span>
+        <h1 className="text-4xl font-bold tracking-tight text-white light:text-slate-900 leading-none">
+          Band 6
         </h1>
       </div>
 

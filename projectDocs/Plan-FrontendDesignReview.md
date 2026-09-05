@@ -150,27 +150,27 @@ its own background colours, so pushing it onto panels inside modals would change
 their surface, not just their radius. It stays what it is: the shared surface
 for the workspace reference rail.
 
-### 6. Line length is never constrained — FIXED
+### 6. Line length is never constrained — REOPENED
 
-`max-w-prose` and `ch` units appeared zero times. Worse: the three main reading
-blocks carried `prose prose-slate dark:prose-invert max-w-none`, and
-`@tailwindcss/typography` is not installed — `.prose` appears zero times in the
-built CSS — so those classes were inert except `max-w-none`, which switched off
-a measure that had never been on.
+`max-w-prose` and `ch` units appeared zero times, and the three main reading
+blocks carried `prose prose-slate dark:prose-invert max-w-none` while
+`@tailwindcss/typography` is not installed — so those classes were inert except
+`max-w-none`, which switched off a measure that had never been on.
 
-Five reading surfaces now carry `max-w-[56ch]`, documented in `DesignSpec.md` §4
-and gated by `tests/unit/readingMeasure.test.ts`.
+A `max-w-[56ch]` cap was added to five reading surfaces, then **reverted after it
+shipped**, because it made the text stop halfway across its panel. The measured
+reason: 508px of text in a 1022px container. The cap itself is right — 56ch
+renders 74-76 characters — but the container is about twice as wide as a single
+column of prose wants, and filling it needs ~148 characters. Centring the column
+instead misaligned the prose with its own panel header.
 
-The number was measured in a browser rather than reasoned about, and the obvious
-values were all wrong: `ch` is the advance width of "0", about 1.35× wider than
-Newsreader's average lowercase, so `68ch` rendered **89** characters. `56ch`
-gives **74–76**, which is where a serif wants to be.
+The fix belongs to the container, not the text: narrower reading panels, or
+something else in the space beside them. See `DesignSpec.md` §4, "Measure".
 
-The writing surface is deliberately still uncapped, at 114 characters. Its three
-stacked layers must align pixel for pixel, and the card's width comes from the
-question above it, so a cap leaves a few hundred pixels of empty card. They
-share one constant, so it is a one-line change whenever that trade is judged
-worth making.
+**How this was missed.** The change was verified by measuring characters per
+line — 74-76, correct — and never by measuring the text against its container,
+which is where the defect was. A number that confirms the thing you set out to
+check is not a test of the thing you changed.
 
 ### 7. Middle-dot meta strings — OPEN
 

@@ -78,7 +78,7 @@ export const HEADER_WORDMARK =
  *  under them is the part a phone can spare, which is the same call the profile
  *  control's display name and the storage chip's text already make. */
 export const HEADER_SUBLABEL =
-  't-label hidden sm:block mt-1 truncate' + 'text-slate-500 dark:text-slate-400';
+  't-label hidden sm:block mt-1 truncate ' + 'text-slate-500 dark:text-slate-400';
 
 /** The square controls that stay on the rail whatever the role: the tools
  *  trigger, help and the theme toggle. On the rail, so they carry the pair; the
@@ -142,14 +142,14 @@ export const HEADER_TELEMETRY = 't-label font-mono text-slate-500 dark:text-slat
  *  buttons, so `sm` would only have moved the fault rather than fixed it.
  *  On the rail, so it carries the pair. */
 export const HEADER_STORAGE_ALERT =
-  't-label flex items-center gap-2 px-2 lg:px-3 h-9 rounded-xl font-mono' +
-  'tracking-wider border ' +
+  't-label flex items-center gap-2 px-2 lg:px-3 h-9 rounded-xl font-mono ' +
+  'border ' +
   'bg-red-100 text-red-700 border-red-200 ' +
   'dark:bg-red-500/15 dark:text-red-300 dark:border-red-500/30';
 
 /** Library / Moderation / AI. Painted on the panel. */
 export const HEADER_MENU_GROUP_LABEL =
-  't-label px-3 pt-2 pb-1' + 'text-slate-400 dark:text-slate-500';
+  't-label px-3 pt-2 pb-1 ' + 'text-slate-400 dark:text-slate-500';
 
 /** The profile control at the far right — name plus avatar chip. On the rail.
  *  The chip's own `bg-indigo-500` is brand-solid by intent and is not part of

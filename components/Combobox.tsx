@@ -518,9 +518,7 @@ const Combobox: React.FC<ComboboxProps> = ({
         aria-activedescendant={isOpen ? `${listboxId}-opt-${highlightedIndex}` : undefined}
       >
         <span className={`flex items-center truncate w-full ${selectedOption ? 'font-bold' : ''}`}>
-          {selectedOption?.isNew && (
-            <Sparkles className="w-4 h-4 text-yellow-400 mr-2 animate-pulse" />
-          )}
+          {selectedOption?.isNew && <Sparkles className="w-4 h-4 text-yellow-400 mr-2" />}
           <span className="truncate w-full block">
             {selectedOption ? selectedOption.renderLabel || selectedOption.label : placeholder}
           </span>

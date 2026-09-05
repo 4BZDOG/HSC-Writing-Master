@@ -1024,7 +1024,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 emptyAction={
                   canRequestCourse
                     ? {
-                        label: "Can't find it? Request this course →",
+                        label: "Can't find it? Request this course",
                         onAction: (query) => onRequestCourse?.(query),
                       }
                     : undefined

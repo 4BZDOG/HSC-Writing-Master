@@ -90,7 +90,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
                   <span className="t-label bg-white/20 px-2 py-0.5 rounded-lg">
                     Tier {termInfo.tier}
                   </span>
-                  <span>•</span>
+                  <span>·</span>
                   <span>{termInfo.markRange.join('-')} Marks</span>
                 </div>
               </div>

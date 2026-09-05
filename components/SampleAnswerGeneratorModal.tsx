@@ -337,7 +337,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                   >
                     '{prompt.verb}'
                   </span>
-                  <span className="opacity-50">•</span>
+                  <span className="opacity-50">·</span>
                   <span className="opacity-80">{tierInfo?.title}</span>
                 </div>
               </div>
@@ -592,7 +592,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     <Award className="w-3.5 h-3.5" />
                     {selectedMarks.length === 1
                       ? `Expected Result: Band ${selectedBand}`
-                      : `${selectedMarks.length} answers • Band${selectedBands.length > 1 ? 's' : ''} ${selectedBands.join(', ')}`}
+                      : `${selectedMarks.length} answers · Band${selectedBands.length > 1 ? 's' : ''} ${selectedBands.join(', ')}`}
                   </span>
                   {selectedMarks.map((m) => {
                     const b = getBandForMark(m, prompt.totalMarks, commandTermInfo.tier);
