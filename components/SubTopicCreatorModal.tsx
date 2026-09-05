@@ -68,7 +68,7 @@ const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-md border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden"
+        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-md border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -142,7 +142,7 @@ const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
                   type="checkbox"
                   checked={shouldGenerate}
                   onChange={(e) => setShouldGenerate(e.target.checked)}
-                  className="h-4 w-4 mt-0.5 rounded bg-gray-700 light:bg-white border-gray-600 light:border-slate-300 text-[rgb(var(--color-accent))] focus:ring-[rgb(var(--color-accent))]/50 flex-shrink-0"
+                  className="h-4 w-4 mt-0.5 rounded-lg bg-gray-700 light:bg-white border-gray-600 light:border-slate-300 text-[rgb(var(--color-accent))] focus:ring-[rgb(var(--color-accent))]/50 flex-shrink-0"
                 />
                 <div className="flex-1 min-w-0">
                   <span className="flex items-center gap-2 font-semibold text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800">

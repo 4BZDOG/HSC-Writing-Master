@@ -100,7 +100,7 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
       <div
         ref={dialogRef}
         tabIndex={-1}
-        className="clip-stable w-full max-w-2xl rounded-[32px] bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-200 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.75)] overflow-hidden animate-fade-in-up flex flex-col max-h-[92vh] outline-none"
+        className="clip-stable w-full max-w-2xl rounded-surface bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-200 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.75)] overflow-hidden animate-fade-in-up flex flex-col max-h-[92vh] outline-none"
       >
         {/* Header */}
         <div className="relative px-6 sm:px-8 py-6 bg-gradient-to-br from-indigo-600 via-indigo-500 to-sky-500 text-white overflow-hidden shrink-0">
@@ -217,7 +217,7 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
                 type="checkbox"
                 checked={agreed}
                 onChange={(e) => setAgreed(e.target.checked)}
-                className="mt-0.5 w-4 h-4 shrink-0 rounded accent-indigo-500 cursor-pointer"
+                className="mt-0.5 w-4 h-4 shrink-0 rounded-lg accent-indigo-500 cursor-pointer"
               />
               <span className="text-xs font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 leading-relaxed">
                 {charter.acceptLabel}, including the Terms of Use and Privacy Notice.
@@ -239,7 +239,7 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
             <button
               onClick={blocking ? onAccept : onDismiss}
               disabled={!canContinue}
-              className="t-label flex-1 px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-xl shadow-indigo-900/30 hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:hover:scale-100 disabled:cursor-not-allowed"
+              className="t-label flex-1 px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-900/30 hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:hover:scale-100 disabled:cursor-not-allowed"
             >
               {isSaving ? (
                 'Saving…'

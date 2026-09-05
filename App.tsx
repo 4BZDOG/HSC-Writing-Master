@@ -817,13 +817,13 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         <button
           onClick={() => setIsFocusMode(false)}
           title="Exit focus mode (Esc)"
-          className="fixed top-4 left-1/2 -translate-x-1/2 z-header-pill flex items-center gap-2.5 pl-3 pr-4 py-2 rounded-full bg-black/40 light:bg-white/70 backdrop-blur-xl border border-white/15 light:border-slate-300 text-white light:text-slate-700 shadow-2xl hover:bg-black/60 light:hover:bg-white transition-all animate-fade-in group"
+          className="fixed top-4 left-1/2 -translate-x-1/2 z-header-pill flex items-center gap-2.5 pl-3 pr-4 py-2 rounded-full bg-black/40 light:bg-white/70 backdrop-blur-xl border border-white/15 light:border-slate-300 text-white light:text-slate-700 shadow-lg hover:bg-black/60 light:hover:bg-white transition-all animate-fade-in group"
         >
           <span className="w-6 h-6 rounded-full bg-amber-500/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
             <Minimize className="w-3.5 h-3.5 text-white" />
           </span>
           <span className="t-label whitespace-nowrap">Focus Mode</span>
-          <kbd className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-white/10 light:bg-slate-200 border border-white/10 light:border-slate-300 tracking-widest">
+          <kbd className="text-[9px] font-bold px-1.5 py-0.5 rounded-lg bg-white/10 light:bg-slate-200 border border-white/10 light:border-slate-300 tracking-widest">
             ESC
           </kbd>
         </button>
@@ -839,7 +839,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-skip-link
                    focus:px-4 focus:py-2 focus:rounded-xl focus:text-xs focus:font-black
                    focus:uppercase focus:tracking-widest focus:bg-white focus:text-slate-900
-                   focus:shadow-2xl dark:focus:bg-[rgb(var(--color-bg-surface-elevated))]
+                   focus:shadow-lg dark:focus:bg-[rgb(var(--color-bg-surface-elevated))]
                    dark:focus:text-white"
       >
         Skip to main content
@@ -1079,7 +1079,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                   <button
                     onClick={() => openModal('manifestImport')}
-                    className="t-label px-8 py-3 rounded-2xl bg-indigo-600 text-white shadow-xl hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3"
+                    className="t-label px-8 py-3 rounded-2xl bg-indigo-600 text-white shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3"
                   >
                     <Sparkles className="w-4 h-4" /> Load Curriculum Library
                   </button>
@@ -1093,7 +1093,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                     <button
                       onClick={() => openModal('fullSyllabusImport')}
                       title="Build a course by pasting NESA syllabus text or fetching a syllabus URL"
-                      className="t-label px-8 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-700 border border-white/10 light:border-slate-300 shadow-xl hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3"
+                      className="t-label px-8 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-700 border border-white/10 light:border-slate-300 shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3"
                     >
                       <UploadCloud className="w-4 h-4" /> Import a Syllabus
                     </button>
@@ -1106,7 +1106,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                         setCourseRequestPrefill('');
                         openModal('courseRequest');
                       }}
-                      className="t-label px-8 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-700 border border-white/10 light:border-slate-300 shadow-xl hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3"
+                      className="t-label px-8 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-700 border border-white/10 light:border-slate-300 shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3"
                     >
                       <Compass className="w-4 h-4" /> Request a Course
                     </button>

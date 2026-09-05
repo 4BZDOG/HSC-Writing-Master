@@ -83,7 +83,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
       aria-label="Marking result"
       className="fixed inset-0 z-modal bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
     >
-      <div className="clip-stable w-full max-w-6xl min-h-[80vh] max-h-[95vh] bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] shadow-2xl border border-white/10 light:border-slate-300 flex flex-col relative animate-fade-in-up overflow-hidden">
+      <div className="clip-stable w-full max-w-6xl min-h-[80vh] max-h-[95vh] bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface shadow-lg border border-white/10 light:border-slate-300 flex flex-col relative animate-fade-in-up overflow-hidden">
         <div className="px-4 sm:px-8 py-4 sm:py-5 border-b border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-50 flex justify-between items-center gap-3 shrink-0 z-20 relative overflow-hidden">
           <MeshOverlay opacity="opacity-[0.03]" />
 

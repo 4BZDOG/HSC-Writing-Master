@@ -306,7 +306,7 @@ const StepHeader = ({
   const theme = THEMES[colorKey] || THEMES.blue; // Defensive fallback
   return (
     <div className="flex items-center gap-2 mb-3">
-      <div className={`p-1.5 rounded-md ${theme.headerIcon}`}>
+      <div className={`p-1.5 rounded-lg ${theme.headerIcon}`}>
         {Icon && <Icon className="w-4 h-4" />}
       </div>
       <span className="t-label text-[rgb(var(--color-text-primary))] light:text-slate-900">
@@ -341,7 +341,7 @@ const ActionButton = ({
           : variant === 'special'
             ? 'bg-amber-500/10 border-amber-500/20 text-yellow-400 light:text-amber-600'
             : variant === 'primary'
-              ? 'bg-gradient-to-r from-indigo-500 to-sky-500 border-transparent text-white shadow-md'
+              ? 'bg-gradient-to-r from-indigo-500 to-sky-500 border-transparent text-white shadow-sm'
               : variant === 'vault'
                 ? 'bg-blue-600/10 light:bg-blue-50 border-blue-600/20 light:border-blue-300 text-blue-400 light:text-blue-700'
                 : 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border border-white/5 light:border-slate-400 text-[rgb(var(--color-text-secondary))] light:text-slate-600'
@@ -351,7 +351,7 @@ const ActionButton = ({
     {Icon && <Icon className="w-4 h-4" />}
     {label && <span className="t-label hidden sm:inline whitespace-nowrap">{label}</span>}
     {locked && (
-      <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-amber-500 text-white flex items-center justify-center shadow">
+      <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-sm">
         <Lock className="w-2.5 h-2.5" />
       </span>
     )}
@@ -450,7 +450,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
         isNew: newlyAddedIds.has(c.id),
         renderLabel: (
           <div className="flex items-center gap-3">
-            <div className="p-1.5 rounded-md bg-blue-500/20 text-blue-500 light:bg-blue-100 light:text-blue-700 border border-blue-500/20 flex-shrink-0">
+            <div className="p-1.5 rounded-lg bg-blue-500/20 text-blue-500 light:bg-blue-100 light:text-blue-700 border border-blue-500/20 flex-shrink-0">
               <Book className="w-4 h-4" />
             </div>
             <span className="font-medium flex-1 min-w-0 truncate">{c.name}</span>
@@ -490,7 +490,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           disabled: !selectable,
           renderLabel: (
             <div className={`flex items-center gap-3 ${selectable ? '' : 'opacity-60'}`}>
-              <div className="p-1.5 rounded-md bg-blue-500/20 text-blue-500 light:bg-blue-100 light:text-blue-700 border border-blue-500/20 flex-shrink-0">
+              <div className="p-1.5 rounded-lg bg-blue-500/20 text-blue-500 light:bg-blue-100 light:text-blue-700 border border-blue-500/20 flex-shrink-0">
                 <GraduationCap className="w-4 h-4" />
               </div>
               <span className="min-w-0">
@@ -539,7 +539,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
         isNew: newlyAddedIds.has(t.id),
         renderLabel: (
           <div className="flex items-center gap-3">
-            <div className="p-1.5 rounded-md bg-purple-500/20 text-purple-500 light:bg-purple-100 light:text-purple-700 border border-purple-500/20 flex-shrink-0">
+            <div className="p-1.5 rounded-lg bg-purple-500/20 text-purple-500 light:bg-purple-100 light:text-purple-700 border border-purple-500/20 flex-shrink-0">
               <Layers className="w-4 h-4" />
             </div>
             <span className="font-medium flex-1 min-w-0 truncate">{t.name}</span>
@@ -563,7 +563,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           isNew: newlyAddedIds.has(st.id),
           renderLabel: (
             <div className="flex items-center gap-3">
-              <div className="p-1.5 rounded-md bg-indigo-500/20 text-indigo-500 light:bg-indigo-100 light:text-indigo-700 border border-indigo-500/20 flex-shrink-0">
+              <div className="p-1.5 rounded-lg bg-indigo-500/20 text-indigo-500 light:bg-indigo-100 light:text-indigo-700 border border-indigo-500/20 flex-shrink-0">
                 <FolderOpen className="w-4 h-4" />
               </div>
               <span className="font-medium flex-1 min-w-0 truncate">{st.name}</span>
@@ -595,7 +595,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           isNew: newlyAddedIds.has(dp.id),
           renderLabel: (
             <div className="flex items-start gap-3">
-              <div className="p-1.5 rounded-md bg-pink-500/20 text-pink-500 light:bg-pink-100 light:text-pink-700 border border-pink-500/20 mt-0.5 flex-shrink-0">
+              <div className="p-1.5 rounded-lg bg-pink-500/20 text-pink-500 light:bg-pink-100 light:text-pink-700 border border-pink-500/20 mt-0.5 flex-shrink-0">
                 <List className="w-4 h-4" />
               </div>
               <span className="min-w-0">
@@ -623,7 +623,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-3">
               <div
-                className={`p-1.5 rounded-md border transition-all ${isSelected ? 'bg-emerald-500 text-white border-emerald-400/30' : 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'}`}
+                className={`p-1.5 rounded-lg border transition-all ${isSelected ? 'bg-emerald-500 text-white border-emerald-400/30' : 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'}`}
               >
                 <Target className="w-4 h-4" />
               </div>
@@ -802,7 +802,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   </span>
                   <div className="flex flex-wrap items-center gap-2 mt-1.5">
                     <span
-                      className={`t-label px-1.5 py-px rounded border ${tierConfig.solidBg} ${tierConfig.solidText} ${tierConfig.border} shadow-sm`}
+                      className={`t-label px-1.5 py-px rounded-lg border ${tierConfig.solidBg} ${tierConfig.solidText} ${tierConfig.border} shadow-sm`}
                     >
                       {verbInfo.term}
                     </span>
@@ -810,14 +810,14 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       {p.totalMarks} {p.totalMarks === 1 ? 'Mark' : 'Marks'}
                     </span>
                     <span
-                      className={`t-label px-1.5 py-px rounded border ${tierConfig.bg} ${tierConfig.text} ${tierConfig.border}`}
+                      className={`t-label px-1.5 py-px rounded-lg border ${tierConfig.bg} ${tierConfig.text} ${tierConfig.border}`}
                       title={`A full-mark response to this question reaches Band ${targetBand}`}
                     >
                       Band {targetBand}
                     </span>
                     {pastHsc && (
                       <span
-                        className="t-label flex items-center gap-1 px-1.5 py-px rounded border bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border-amber-500/40 light:border-amber-400"
+                        className="t-label flex items-center gap-1 px-1.5 py-px rounded-lg border bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border-amber-500/40 light:border-amber-400"
                         title={pastHsc.title}
                       >
                         <Landmark className="w-2.5 h-2.5" />
@@ -826,7 +826,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     )}
                     {attempt && (
                       <span
-                        className="t-label flex items-center gap-1 px-1.5 py-px rounded border bg-emerald-500/15 light:bg-emerald-100 text-emerald-400 light:text-emerald-800 border-emerald-500/40 light:border-emerald-500"
+                        className="t-label flex items-center gap-1 px-1.5 py-px rounded-lg border bg-emerald-500/15 light:bg-emerald-100 text-emerald-400 light:text-emerald-800 border-emerald-500/40 light:border-emerald-500"
                         title={
                           attempt.mark === null
                             ? 'You have answered this question'
@@ -980,7 +980,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface))]/60 light:bg-white border ${theme.selectedBorder} light:border-slate-300 light:shadow-sm py-3 px-4 z-10`;
     }
     if (isActive) {
-      return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 ${theme.activeBorder} shadow-xl ${theme.activeShadow} py-6 px-6 scale-[1.01] z-20`;
+      return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 ${theme.activeBorder} shadow-lg ${theme.activeShadow} py-6 px-6 scale-[1.01] z-20`;
     }
     return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-white/5 light:border-slate-300 py-4 px-6 opacity-60 grayscale hover:grayscale-0 hover:opacity-100`;
   };
@@ -1717,7 +1717,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                               ? 'AI question generation is part of Band 6 Plus — tap to learn more'
                               : undefined
                           }
-                          className={`t-label flex items-center gap-2 px-6 py-2.5 rounded-xl shadow-xl hover:scale-105 active:scale-[0.98] transition-all ${
+                          className={`t-label flex items-center gap-2 px-6 py-2.5 rounded-xl shadow-lg hover:scale-105 active:scale-[0.98] transition-all ${
                             studioLocked
                               ? 'bg-amber-400/15 text-amber-500 light:text-amber-600 border border-amber-400/40'
                               : 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white'

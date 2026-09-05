@@ -78,7 +78,7 @@ const SupportUsageSummary: React.FC<SupportUsageSummaryProps> = ({ promptId }) =
 
   return (
     <section className="no-print">
-      <div className="rounded-3xl border border-slate-200/80 dark:border-white/10 bg-white dark:bg-white/5 shadow-sm p-5 sm:p-6">
+      <div className="rounded-panel border border-slate-200/80 dark:border-white/10 bg-white dark:bg-white/5 shadow-sm p-5 sm:p-6">
         <div className="flex items-start gap-3">
           <div className="p-2 rounded-xl bg-indigo-100 dark:bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 shrink-0">
             <BookOpenCheck className="w-4 h-4" />

@@ -143,7 +143,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
       onClick={isRunning ? undefined : onClose}
     >
       <div
-        className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-2xl border border-indigo-500/30 animate-fade-in-up overflow-hidden flex flex-col max-h-[88vh]"
+        className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-2xl border border-indigo-500/30 animate-fade-in-up overflow-hidden flex flex-col max-h-[88vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50 flex items-center justify-between gap-4">
@@ -238,7 +238,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
                     </span>
                     {mismatched && (
                       <span
-                        className="t-label inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30"
+                        className="t-label inline-flex items-center gap-1 px-1.5 py-0.5 rounded-lg bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30"
                         title={`Stored as Band ${sample.band}, but ${sample.mark}/${prompt.totalMarks} is Band ${derivedBand} on this question`}
                       >
                         <AlertTriangle className="w-2.5 h-2.5" /> Band {sample.band} stored

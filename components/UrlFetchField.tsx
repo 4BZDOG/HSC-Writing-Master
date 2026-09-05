@@ -116,7 +116,7 @@ const UrlFetchField: React.FC<UrlFetchFieldProps> = ({
       {error && (
         <p
           role="alert"
-          className="text-red-400 light:text-red-600 text-xs bg-red-900/20 light:bg-red-50 p-2.5 rounded-md border border-red-500/20 light:border-red-200"
+          className="text-red-400 light:text-red-600 text-xs bg-red-900/20 light:bg-red-50 p-2.5 rounded-lg border border-red-500/20 light:border-red-200"
         >
           {error}
         </p>

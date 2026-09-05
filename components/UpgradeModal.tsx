@@ -61,7 +61,7 @@ export const PlusLockChip: React.FC<{ className?: string; feature?: PremiumFeatu
   feature,
 }) => (
   <span
-    className={`t-label inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-amber-400/15 border border-amber-400/40 text-amber-500 light:text-amber-600 ${className}`}
+    className={`t-label inline-flex items-center gap-1 px-1.5 py-0.5 rounded-lg bg-amber-400/15 border border-amber-400/40 text-amber-500 light:text-amber-600 ${className}`}
   >
     <Lock className="w-2.5 h-2.5" /> {lockLabelFor(feature)}
   </span>
@@ -264,7 +264,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
       aria-modal="true"
       aria-labelledby="upgrade-modal-title"
     >
-      <div className="clip-stable w-full max-w-md rounded-[32px] bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 border-amber-400/40 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.7)] overflow-hidden animate-fade-in-up flex flex-col max-h-[90vh]">
+      <div className="clip-stable w-full max-w-md rounded-surface bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 border-amber-400/40 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.7)] overflow-hidden animate-fade-in-up flex flex-col max-h-[90vh]">
         {/* Golden header */}
         <div className="relative px-6 py-6 bg-gradient-to-br from-amber-400 via-amber-500 to-orange-500 text-white overflow-hidden shrink-0">
           <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/20 blur-3xl rounded-full pointer-events-none" />
@@ -419,7 +419,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
               <button
                 onClick={handleUpgrade}
                 disabled={isRedirecting}
-                className="t-label flex-1 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-xl shadow-amber-900/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60"
+                className="t-label flex-1 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-lg shadow-amber-900/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60"
               >
                 <Crown className="w-4 h-4" />{' '}
                 {isRedirecting

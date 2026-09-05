@@ -57,7 +57,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
     >
       <div
         className={`
-        clip-stable w-full max-w-3xl rounded-2xl shadow-2xl
+        clip-stable w-full max-w-3xl rounded-2xl shadow-lg
         border-2 ${bandConfig.border} ${bandConfig.glow}
         bg-[rgb(var(--color-bg-surface))]/95
         animate-fade-in-up
@@ -87,7 +87,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
                   {termInfo.term}
                 </h2>
                 <div className="flex items-center gap-2 mt-0.5 text-white/90 font-medium text-sm">
-                  <span className="t-label bg-white/20 px-2 py-0.5 rounded">
+                  <span className="t-label bg-white/20 px-2 py-0.5 rounded-lg">
                     Tier {termInfo.tier}
                   </span>
                   <span>•</span>
@@ -114,7 +114,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
             className={`
             p-5 rounded-xl border-2 ${bandConfig.border}
             bg-[rgb(var(--color-bg-surface-inset))]/30
-            transition-all duration-200 hover:shadow-md ${bandConfig.glow}
+            transition-all duration-200 hover:shadow-lg ${bandConfig.glow}
           `}
           >
             <div className="flex items-center gap-3 mb-3">

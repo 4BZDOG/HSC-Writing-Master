@@ -484,7 +484,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
                             <select
                               value={currentTarget || 'create_new'}
                               onChange={(e) => handleCourseMappingChange(course.id, e.target.value)}
-                              className="flex-1 bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded p-1.5 focus:outline-none focus:ring-1 focus:ring-[rgb(var(--color-accent))]"
+                              className="flex-1 bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-1.5 focus:outline-none focus:ring-1 focus:ring-[rgb(var(--color-accent))]"
                             >
                               <option value="create_new">Create New Course</option>
                               {existingCourses.length > 0 && (
@@ -516,7 +516,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
                       type="checkbox"
                       checked={markAsPastHSC}
                       onChange={(e) => setMarkAsPastHSC(e.target.checked)}
-                      className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-[rgb(var(--color-accent))]"
+                      className="w-4 h-4 rounded-lg border-gray-600 bg-gray-700 text-[rgb(var(--color-accent))]"
                     />
                   </label>
                   {markAsPastHSC && (
@@ -580,7 +580,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
                   type="checkbox"
                   checked={markAsPastHSC}
                   onChange={(e) => setMarkAsPastHSC(e.target.checked)}
-                  className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-[rgb(var(--color-accent))]"
+                  className="w-4 h-4 rounded-lg border-gray-600 bg-gray-700 text-[rgb(var(--color-accent))]"
                 />
               </label>
               {markAsPastHSC && (
@@ -593,7 +593,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
                     value={bulkYear}
                     onChange={(e) => setBulkYear(e.target.value)}
                     placeholder="e.g. 2023"
-                    className="w-24 bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] rounded px-2 py-1 text-sm focus:outline-none focus:border-[rgb(var(--color-accent))]"
+                    className="w-24 bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] rounded-lg px-2 py-1 text-sm focus:outline-none focus:border-[rgb(var(--color-accent))]"
                   />
                 </div>
               )}

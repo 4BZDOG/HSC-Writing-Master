@@ -28,7 +28,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
       {courses.map((course) => (
         <div
           key={course.id}
-          className={`clip-stable rounded-[32px] overflow-hidden transition-all duration-500 border ${expandedCourseId === course.id ? 'bg-black/40 light:bg-indigo-50/60 border-indigo-500/30 light:border-indigo-300 shadow-2xl' : 'bg-white/[0.03] light:bg-slate-50 border-white/5 light:border-slate-200'}`}
+          className={`clip-stable rounded-panel overflow-hidden transition-all duration-500 border ${expandedCourseId === course.id ? 'bg-black/40 light:bg-indigo-50/60 border-indigo-500/30 light:border-indigo-300 shadow-lg' : 'bg-white/[0.03] light:bg-slate-50 border-white/5 light:border-slate-200'}`}
         >
           <button
             onClick={() => toggleCourse(course.id)}
@@ -97,7 +97,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
                                 marked: Year 12 is the default and marking it
                                 would label almost every row for no gain. */}
                             {yearOfTopic(topic) === 'year11' && (
-                              <span className="t-label px-1.5 py-px rounded border bg-sky-500/10 light:bg-sky-50 text-sky-500 light:text-sky-700 border-sky-500/30 light:border-sky-300">
+                              <span className="t-label px-1.5 py-px rounded-lg border bg-sky-500/10 light:bg-sky-50 text-sky-500 light:text-sky-700 border-sky-500/30 light:border-sky-300">
                                 {yearShortLabel('year11')}
                               </span>
                             )}
@@ -133,7 +133,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
       ))}
       {courses.length === 0 && (
         <div className="py-20 text-center flex flex-col items-center gap-6">
-          <div className="w-20 h-20 rounded-[28px] bg-white/5 light:bg-slate-100 flex items-center justify-center border border-white/5 light:border-slate-200 shadow-inner">
+          <div className="w-20 h-20 rounded-tile bg-white/5 light:bg-slate-100 flex items-center justify-center border border-white/5 light:border-slate-200 shadow-inner">
             <Hash className="w-10 h-10 text-white/10 light:text-slate-300" />
           </div>
           <p className="text-xs font-semibold text-slate-500 light:text-slate-500">

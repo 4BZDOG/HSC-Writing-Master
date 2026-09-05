@@ -273,7 +273,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
           part.toLowerCase() === syllabusVerbInfo.term.toLowerCase() ? (
             <span
               key={i}
-              className={`relative inline-block px-1.5 py-0.5 mx-1 rounded-md shadow-sm bg-gradient-to-r ${verbConfig.gradient} text-white font-black tracking-wide transform -skew-x-3 decoration-clone`}
+              className={`relative inline-block px-1.5 py-0.5 mx-1 rounded-lg shadow-sm bg-gradient-to-r ${verbConfig.gradient} text-white font-black tracking-wide transform -skew-x-3 decoration-clone`}
             >
               <span className="block transform skew-x-3">{part.toUpperCase()}</span>
             </span>
@@ -303,7 +303,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
       onClick={handleClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-base))] light:bg-white rounded-[40px] shadow-2xl w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[95vh] relative"
+        className="bg-[rgb(var(--color-bg-base))] light:bg-white rounded-surface shadow-lg w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[95vh] relative"
         onClick={(e) => e.stopPropagation()}
       >
         <div
@@ -357,7 +357,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
           )}
 
           {/* Syllabus Context */}
-          <div className="rounded-[32px] border p-8 relative overflow-hidden group transition-all duration-500 shadow-2xl bg-black/20 light:bg-slate-50 border-white/5 light:border-slate-200">
+          <div className="rounded-panel border p-8 relative overflow-hidden group transition-all duration-500 shadow-lg bg-black/20 light:bg-slate-50 border-white/5 light:border-slate-200">
             <div className="flex flex-col gap-6 relative z-10">
               <div className="flex flex-wrap items-center gap-3">
                 <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-xl bg-white/5 light:bg-slate-100 text-[rgb(var(--color-text-secondary))] border border-white/10 light:border-slate-200 shadow-inner">
@@ -479,7 +479,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                       width: `${((marks - (selectedVerbInfo?.markRange[0] ?? 1)) / ((selectedVerbInfo?.markRange[1] ?? MAX_GENERATOR_MARKS) - (selectedVerbInfo?.markRange[0] ?? 1) || 1)) * 100}%`,
                     }}
                   >
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white shadow-xl scale-125 group-hover/slider:scale-150 transition-transform" />
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white shadow-lg scale-125 group-hover/slider:scale-150 transition-transform" />
                   </div>
                 </div>
               </section>
@@ -503,7 +503,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                         title={
                           isSyllabusLevel ? 'The level the syllabus dot point asks for' : undefined
                         }
-                        className={`group relative p-5 rounded-[24px] border text-left transition-all duration-500 ${isSelected ? `${config.bg} ${config.border} shadow-2xl scale-[1.03]` : isSyllabusLevel ? 'bg-white/[0.04] light:bg-emerald-50 border-emerald-500/30 hover:bg-white/[0.06]' : 'bg-white/[0.03] light:bg-slate-50 border-white/5 light:border-slate-200 hover:bg-white/[0.05] light:hover:bg-slate-100 hover:border-white/10'}`}
+                        className={`group relative p-5 rounded-panel border text-left transition-all duration-500 ${isSelected ? `${config.bg} ${config.border} shadow-2xl scale-[1.03]` : isSyllabusLevel ? 'bg-white/[0.04] light:bg-emerald-50 border-emerald-500/30 hover:bg-white/[0.06]' : 'bg-white/[0.03] light:bg-slate-50 border-white/5 light:border-slate-200 hover:bg-white/[0.05] light:hover:bg-slate-100 hover:border-white/10'}`}
                       >
                         {isSyllabusLevel && (
                           <span className="t-label absolute -top-2 left-4 px-2 py-0.5 rounded-full bg-emerald-500 text-white shadow-lg flex items-center gap-1">
@@ -606,7 +606,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                       className={`relative w-9 h-5 rounded-full transition-colors ${includeScenario ? 'bg-blue-500' : 'bg-slate-600'}`}
                     >
                       <span
-                        className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all ${includeScenario ? 'left-[1.15rem]' : 'left-0.5'}`}
+                        className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-all ${includeScenario ? 'left-[1.15rem]' : 'left-0.5'}`}
                       />
                     </span>
                   </button>
@@ -617,7 +617,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                       <button
                         key={type.id}
                         onClick={() => setScenarioType(type.id)}
-                        className={`flex items-center gap-4 p-4 rounded-2xl border transition-all duration-300 ${scenarioType === type.id ? 'bg-blue-500/10 border-blue-500/30 shadow-xl' : 'bg-white/[0.03] light:bg-slate-50 border-white/5 light:border-slate-200 hover:bg-white/[0.05] light:hover:bg-slate-100'}`}
+                        className={`flex items-center gap-4 p-4 rounded-2xl border transition-all duration-300 ${scenarioType === type.id ? 'bg-blue-500/10 border-blue-500/30 shadow-lg' : 'bg-white/[0.03] light:bg-slate-50 border-white/5 light:border-slate-200 hover:bg-white/[0.05] light:hover:bg-slate-100'}`}
                       >
                         <div
                           className={`p-2 rounded-xl flex-shrink-0 transition-colors ${scenarioType === type.id ? 'bg-blue-500 text-white shadow-lg' : 'bg-black/20 light:bg-slate-200 text-slate-500'}`}
@@ -651,7 +651,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
               </section>
 
               <section
-                className={`p-6 rounded-[32px] border transition-all duration-700 ${activeBandConfig.bg} ${activeBandConfig.border} shadow-2xl`}
+                className={`p-6 rounded-panel border transition-all duration-700 ${activeBandConfig.bg} ${activeBandConfig.border} shadow-lg`}
               >
                 <div className="flex justify-between items-center mb-6">
                   <label className={`t-label flex items-center gap-3 ${activeBandConfig.text}`}>
@@ -682,7 +682,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                           }
                           className={`relative z-10 w-10 h-10 rounded-2xl flex items-center justify-center text-xs font-black transition-all duration-500 transform ${
                             isTarget
-                              ? `${bConf.solidBg} ${bConf.solidText} shadow-2xl scale-125 rotate-6 border border-white/20`
+                              ? `${bConf.solidBg} ${bConf.solidText} shadow-lg scale-125 rotate-6 border border-white/20`
                               : isCappedOut
                                 ? 'bg-black/20 light:bg-slate-100 text-slate-700 border border-white/5 light:border-slate-200 cursor-not-allowed line-through'
                                 : 'bg-black/40 light:bg-slate-200 text-slate-500 hover:scale-110 hover:text-white light:hover:text-slate-900 border border-white/5 light:border-slate-300'
@@ -707,7 +707,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
             <h4 className="text-sm font-bold text-white light:text-slate-900 flex items-center gap-3 mb-6">
               <Wrench className="w-5 h-5 text-amber-400" /> Command Verb
             </h4>
-            <div className="flex flex-wrap gap-2 p-6 bg-black/40 light:bg-slate-100 rounded-[32px] border border-white/5 light:border-slate-200 shadow-inner">
+            <div className="flex flex-wrap gap-2 p-6 bg-black/40 light:bg-slate-100 rounded-panel border border-white/5 light:border-slate-200 shadow-inner">
               {verbsForCurrentTier.map((verb) => (
                 <button
                   key={verb.term}
@@ -764,7 +764,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
             <button
               onClick={handleGenerate}
               disabled={isLoading}
-              className={`t-label group px-10 py-4 rounded-[20px] text-white shadow-2xl bg-gradient-to-r ${activeBandConfig.gradient} hover:scale-105 active:scale-[0.98] transition-all duration-300 disabled:opacity-70 flex items-center gap-3`}
+              className={`t-label group px-10 py-4 rounded-panel text-white shadow-lg bg-gradient-to-r ${activeBandConfig.gradient} hover:scale-105 active:scale-[0.98] transition-all duration-300 disabled:opacity-70 flex items-center gap-3`}
             >
               {isLoading ? (
                 <>

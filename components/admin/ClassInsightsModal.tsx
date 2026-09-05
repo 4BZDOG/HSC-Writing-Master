@@ -204,7 +204,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -412,7 +412,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                                       </span>
                                       {cfg && (
                                         <span
-                                          className={`ml-2 px-1.5 py-0.5 rounded-md border text-[9px] font-bold ${cfg.bg} ${cfg.text} ${cfg.border}`}
+                                          className={`ml-2 px-1.5 py-0.5 rounded-lg border text-[9px] font-bold ${cfg.bg} ${cfg.text} ${cfg.border}`}
                                         >
                                           B{r.tier}
                                         </span>

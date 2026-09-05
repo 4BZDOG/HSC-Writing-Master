@@ -103,7 +103,7 @@ const NavButton = ({
             t-label w-auto md:w-full flex items-center gap-3 md:gap-4 px-4 md:px-6 py-3 md:py-4 rounded-2xl whitespace-nowrap transition-all duration-300
             ${
               activeTab === tab
-                ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-900/20 scale-[1.02] border border-white/20'
+                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-900/20 scale-[1.02] border border-white/20'
                 : 'text-slate-500 hover:text-slate-300 light:hover:text-slate-700 hover:bg-white/5 light:hover:bg-slate-100 border border-transparent'
             }
         `}
@@ -160,7 +160,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
       className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-modal-data p-3 sm:p-6 animate-fade-in"
     >
       <div
-        className="bg-[rgb(var(--color-bg-base))] light:bg-white rounded-[32px] sm:rounded-[48px] shadow-[0_64px_128px_-24px_rgba(0,0,0,0.8)] w-full max-w-6xl border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col md:flex-row h-[92vh] md:h-[85vh] relative"
+        className="bg-[rgb(var(--color-bg-base))] light:bg-white rounded-surface shadow-[0_64px_128px_-24px_rgba(0,0,0,0.8)] w-full max-w-6xl border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col md:flex-row h-[92vh] md:h-[85vh] relative"
         onClick={(e) => e.stopPropagation()}
       >
         <MeshOverlay opacity="opacity-[0.05]" />
@@ -170,7 +170,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
         <div className="w-full md:w-72 bg-black/40 light:bg-slate-50 border-b md:border-b-0 md:border-r border-white/5 light:border-slate-200 flex flex-col flex-shrink-0 z-10 relative">
           <div className="p-5 md:p-10 border-b border-white/5 light:border-slate-200">
             <div className="flex items-center gap-4 md:mb-2">
-              <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-2xl border border-white/10">
+              <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg border border-white/10">
                 <Database className="w-5 h-5 md:w-6 md:h-6 text-white" />
               </div>
               <div className="flex-1 min-w-0">
@@ -245,7 +245,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
               </h3>
             </div>
 
-            <div className="flex bg-black/40 light:bg-slate-100 rounded-3xl border border-white/5 light:border-slate-200 p-1 shadow-inner">
+            <div className="flex bg-black/40 light:bg-slate-100 rounded-panel border border-white/5 light:border-slate-200 p-1 shadow-inner">
               <InstrumentMetric
                 label="Logical Units"
                 value={courses.length}
@@ -283,7 +283,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                   </section>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-12 border-t border-white/5 light:border-slate-200">
-                    <section className="p-8 rounded-[40px] bg-blue-500/5 border border-blue-500/10 group hover:border-blue-500/30 transition-all">
+                    <section className="p-8 rounded-panel bg-blue-500/5 border border-blue-500/10 group hover:border-blue-500/30 transition-all">
                       <div className="flex items-center gap-4 mb-6">
                         <div className="p-3 rounded-2xl bg-blue-500/20 text-blue-400">
                           <Gauge className="w-6 h-6" />
@@ -296,13 +296,13 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                       </p>
                       <button
                         onClick={onResetApiStats}
-                        className="t-label w-full py-4 rounded-2xl bg-blue-600/10 text-blue-400 border border-blue-600/20 hover:bg-blue-600 hover:text-white transition-all shadow-xl shadow-blue-900/10"
+                        className="t-label w-full py-4 rounded-2xl bg-blue-600/10 text-blue-400 border border-blue-600/20 hover:bg-blue-600 hover:text-white transition-all shadow-lg shadow-blue-900/10"
                       >
                         Reset Telemetry
                       </button>
                     </section>
 
-                    <section className="p-8 rounded-[40px] bg-red-500/5 border border-red-500/10 group hover:border-red-500/30 transition-all">
+                    <section className="p-8 rounded-panel bg-red-500/5 border border-red-500/10 group hover:border-red-500/30 transition-all">
                       <div className="flex items-center gap-4 mb-6">
                         <div className="p-3 rounded-2xl bg-red-500/20 text-red-400">
                           <ShieldAlert className="w-6 h-6" />

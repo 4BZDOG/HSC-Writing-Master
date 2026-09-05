@@ -93,7 +93,7 @@ const EvaluationProgressBar: React.FC = () => {
           className="absolute inset-1 rounded-full border-[3px] border-transparent border-t-indigo-500 animate-spin"
           style={{ animationDuration: '1.5s' }}
         />
-        <div className="w-14 h-14 rounded-[18px] bg-white dark:bg-slate-800 shadow-lg border border-white/40 dark:border-white/10 flex items-center justify-center">
+        <div className="w-14 h-14 rounded-tile bg-white dark:bg-slate-800 shadow-lg border border-white/40 dark:border-white/10 flex items-center justify-center">
           <ScanSearch className="w-7 h-7 text-indigo-500 dark:text-indigo-400 animate-pulse" />
         </div>
       </div>

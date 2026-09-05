@@ -68,7 +68,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
             </div>
             <div>
               <h3 className="text-lg font-bold text-white">Component Error</h3>
-              <p className="text-sm text-red-300/80 mt-2 max-w-md mx-auto font-mono bg-black/20 p-2 rounded break-words">
+              <p className="text-sm text-red-300/80 mt-2 max-w-md mx-auto font-mono bg-black/20 p-2 rounded-lg break-words">
                 {error?.message || 'An unexpected error occurred while rendering.'}
               </p>
               <p className="text-xs text-red-400/60 mt-1">Check console for debug details.</p>

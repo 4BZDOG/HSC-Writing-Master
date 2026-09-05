@@ -102,7 +102,7 @@ export const FilterChip = ({
   </button>
 );
 
-const GAP_BADGE_BASE = 't-label px-1.5 py-0.5 rounded-md border whitespace-nowrap';
+const GAP_BADGE_BASE = 't-label px-1.5 py-0.5 rounded-lg border whitespace-nowrap';
 
 /**
  * Inline data-quality flags on tree rows, colour-matched to the filter chips

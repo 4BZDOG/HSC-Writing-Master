@@ -24,7 +24,7 @@ interface StatItemProps {
 }
 
 const StatItem = ({ label, value, icon: Icon, color }: StatItemProps) => (
-  <div className="flex items-center justify-between p-5 rounded-[24px] bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200 w-full transition-all duration-300 hover:bg-white/[0.05] light:hover:bg-slate-100 hover:border-white/10 light:hover:border-slate-300 group">
+  <div className="flex items-center justify-between p-5 rounded-panel bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200 w-full transition-all duration-300 hover:bg-white/[0.05] light:hover:bg-slate-100 hover:border-white/10 light:hover:border-slate-300 group">
     <div className="flex items-center gap-4">
       <div
         className={`p-2.5 rounded-xl bg-black/40 light:bg-slate-100 border border-white/5 light:border-slate-200 ${color} transition-transform group-hover:-rotate-6 shadow-inner`}
@@ -46,11 +46,11 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
 
   return (
     <div
-      className={`p-8 rounded-[40px] border transition-all duration-700 animate-fade-in ${result.isValid ? 'border-emerald-500/10 bg-emerald-500/[0.02]' : 'border-red-500/10 bg-red-500/[0.02]'}`}
+      className={`p-8 rounded-panel border transition-all duration-700 animate-fade-in ${result.isValid ? 'border-emerald-500/10 bg-emerald-500/[0.02]' : 'border-red-500/10 bg-red-500/[0.02]'}`}
     >
       <div className="flex items-center gap-6 mb-10">
         <div
-          className={`p-4 rounded-[24px] shadow-2xl flex items-center justify-center relative overflow-hidden group/status ${result.isValid ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'}`}
+          className={`p-4 rounded-panel shadow-lg flex items-center justify-center relative overflow-hidden group/status ${result.isValid ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'}`}
         >
           <div className="absolute inset-0 bg-white/20 animate-pulse opacity-0 group-hover/status:opacity-100 transition-opacity" />
           {result.isValid ? (
@@ -106,7 +106,7 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
       </div>
 
       {result.errors.length > 0 && (
-        <div className="mb-6 bg-red-500/5 rounded-3xl p-6 border border-red-500/20">
+        <div className="mb-6 bg-red-500/5 rounded-panel p-6 border border-red-500/20">
           <div className="flex items-center gap-3 mb-5">
             <div className="p-1.5 rounded-lg bg-red-500/20">
               <AlertCircle className="w-4 h-4 text-red-400" />
@@ -133,7 +133,7 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
       )}
 
       {result.warnings.length > 0 && (
-        <div className="bg-amber-500/5 rounded-3xl p-6 border border-amber-500/20">
+        <div className="bg-amber-500/5 rounded-panel p-6 border border-amber-500/20">
           <div className="flex items-center gap-3 mb-5">
             <div className="p-1.5 rounded-lg bg-amber-500/20">
               <AlertTriangle className="w-4 h-4 text-amber-400" />

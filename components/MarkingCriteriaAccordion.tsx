@@ -218,7 +218,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                   ? 'AI rubric drafting is part of the AI Content Studio — tap to learn more'
                   : undefined
               }
-              className={`t-label flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all shadow-sm hover:shadow ${
+              className={`t-label flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all shadow-sm hover:shadow-lg ${
                 studioLocked
                   ? 'bg-amber-400/15 border-amber-400/40 text-amber-500 light:text-amber-600'
                   : 'bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-indigo-500/30 text-indigo-500 dark:text-indigo-400'
@@ -271,7 +271,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
       className={
         embedded
           ? 'flex flex-col gap-3'
-          : 'clip-stable bg-white dark:bg-[rgb(var(--color-bg-surface))] rounded-[24px] border border-slate-200 dark:border-white/10 shadow-sm overflow-hidden flex flex-col'
+          : 'clip-stable bg-white dark:bg-[rgb(var(--color-bg-surface))] rounded-panel border border-slate-200 dark:border-white/10 shadow-sm overflow-hidden flex flex-col'
       }
     >
       {embedded ? (
@@ -303,7 +303,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
             <button
               onClick={() => setGenerateError(null)}
               aria-label="Dismiss"
-              className="p-1 rounded hover:bg-red-500/10 transition-colors"
+              className="p-1 rounded-lg hover:bg-red-500/10 transition-colors"
             >
               <X className="w-3 h-3" />
             </button>

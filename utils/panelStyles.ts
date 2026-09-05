@@ -11,7 +11,7 @@
  * joins the set by importing one constant.
  */
 export const PANEL_SURFACE =
-  'clip-stable rounded-[20px] border border-slate-300 dark:border-white/20 bg-white/60 dark:bg-[rgb(var(--color-bg-surface))]/30 light:bg-white shadow-sm overflow-hidden transition-all duration-300';
+  'clip-stable rounded-panel border border-slate-300 dark:border-white/20 bg-white/60 dark:bg-[rgb(var(--color-bg-surface))]/30 light:bg-white shadow-sm overflow-hidden transition-all duration-300';
 
 /** The tone a panel's header row takes while its body is open. */
 export const PANEL_HEADER_OPEN = 'bg-slate-50/50 dark:bg-white/[0.03]';

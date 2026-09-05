@@ -72,7 +72,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
       aria-modal="true"
       aria-labelledby="quickstart-title"
     >
-      <div className="clip-stable w-full max-w-3xl rounded-[32px] bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-200 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.7)] overflow-hidden animate-fade-in-up flex flex-col max-h-[92vh]">
+      <div className="clip-stable w-full max-w-3xl rounded-surface bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-200 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.7)] overflow-hidden animate-fade-in-up flex flex-col max-h-[92vh]">
         {/* Header */}
         <div className="relative px-6 sm:px-8 py-6 bg-gradient-to-br from-indigo-600 via-indigo-500 to-sky-500 text-white overflow-hidden shrink-0">
           <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/20 blur-3xl rounded-full pointer-events-none" />

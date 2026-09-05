@@ -79,7 +79,7 @@ const LockedQuestionNotice: React.FC<{ verb: string; marks: number; question: st
   question,
 }) => (
   <div className="flex flex-col items-center justify-center min-h-[50vh] animate-fade-in px-4">
-    <div className="clip-stable max-w-xl w-full text-center p-10 rounded-[32px] bg-white/70 dark:bg-[rgb(var(--color-bg-surface))]/60 border border-amber-400/30 shadow-2xl">
+    <div className="clip-stable max-w-xl w-full text-center p-10 rounded-surface bg-white/70 dark:bg-[rgb(var(--color-bg-surface))]/60 border border-amber-400/30 shadow-lg">
       <div className="w-14 h-14 mx-auto mb-6 rounded-2xl bg-amber-400/15 border border-amber-400/30 flex items-center justify-center">
         <Lock className="w-7 h-7 text-amber-500" />
       </div>

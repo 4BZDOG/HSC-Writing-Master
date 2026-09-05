@@ -17,7 +17,7 @@
 /** The header box itself. Each card adds its own background — a band gradient
  *  on the question, the progress-driven colour on the writing area. */
 export const CARD_HEADER_BOX =
-  'px-4 sm:px-6 py-3 text-white flex justify-between items-start relative overflow-hidden flex-shrink-0 rounded-t-[30px]';
+  'px-4 sm:px-6 py-3 text-white flex justify-between items-start relative overflow-hidden flex-shrink-0 rounded-t-surface-inner';
 
 /**
  * The row inside it. TOP-aligned, and it must stay that way: the two headers

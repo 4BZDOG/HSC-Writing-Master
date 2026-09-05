@@ -127,7 +127,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
                     still yields the plain names the PDF export and the AI
                     hierarchy context consume. */}
                 {item.badge && (
-                  <span className="t-label shrink-0 px-1.5 py-px rounded bg-slate-900/10 dark:bg-white/10">
+                  <span className="t-label shrink-0 px-1.5 py-px rounded-lg bg-slate-900/10 dark:bg-white/10">
                     {item.badge}
                   </span>
                 )}

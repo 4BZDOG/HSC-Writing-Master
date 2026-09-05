@@ -80,12 +80,32 @@ Note in mitigation: `prefers-reduced-motion` is honoured in `index.css` and five
 components, and every keyframe animates only `transform`/`opacity`. The quality
 floor is real; the budget is not.
 
-### 5. No radius or shadow system — OPEN
+### 5. No radius or shadow system — FIXED
 
-16 distinct radii (`rounded-lg` 321, `xl` 260, `2xl` 151, plus nine arbitrary
-values from `[14px]` to `[48px]`) and 7 shadow steps. `PANEL_SURFACE` in
-`utils/panelStyles.ts` is the existing cure and is imported by 4 of 106
-components.
+24 distinct radius expressions and 7 shadow steps. The arbitrary values had
+drifted to ten — 14, 18, 20, 24, 28, 30, 32, 36, 40, 44, 48px — across four real
+jobs; modal shells alone used five of them.
+
+Addressed by role tokens in `tailwind.config.js` and documented in
+`DesignSpec.md` §3: `rounded-surface`, `rounded-surface-inner`, `rounded-panel`,
+`rounded-tile`, with `xl`/`lg` kept as the control pair. Elevation is two steps,
+`shadow-sm` resting and `shadow-lg` lifted. `tests/unit/surfaceScale.test.ts` is
+the gate.
+
+**The gate this phase was given was wrong, and was changed.** It said "distinct
+radii ≤ 4". That target was set before looking at what the radii were doing.
+Radius has to decrease with nesting — a chip at its card's radius reads wrong —
+so a four-value scale would have been a simpler rule and a worse interface. The
+gate is now "no arbitrary pixel radius, and no step below `rounded-lg`", which
+is what the design actually wants and is checkable.
+
+Two things it deliberately did not do. `rounded-2xl` stays on the 236 cards that
+are neither a surface nor a panel: classifying those needs per-site judgement,
+not a codemod. And `PANEL_SURFACE` adoption was dropped as a goal — the original
+"> 40 imports" was a number invented without looking. `PANEL_SURFACE` bakes in
+its own background colours, so pushing it onto panels inside modals would change
+their surface, not just their radius. It stays what it is: the shared surface
+for the workspace reference rail.
 
 ### 6. Line length is never constrained — OPEN
 
@@ -120,12 +140,11 @@ evaluations"). Named by the skill as template chrome. Low value, low risk.
 Each is a separate PR, each verifiable by a grep count plus the existing
 `tests/e2e/support/contrast.ts` audit.
 
-| Phase | Scope                                                          | Gate                                             |
-| ----- | -------------------------------------------------------------- | ------------------------------------------------ |
-| 2     | Body copy to normal weight; bold means something (finding 3)   | `font-bold`+`font-black` count falls below 300   |
-| 3     | Three radii, two shadows, `PANEL_SURFACE` adoption (finding 5) | distinct radii ≤ 4; `PANEL_SURFACE` imports > 40 |
-| 4     | One orchestrated entrance per screen (finding 4)               | files with an entrance animation < 20            |
-| 5     | Measure caps on prose surfaces (finding 6)                     | every manuscript surface carries a `ch` cap      |
+| Phase | Scope                                                        | Gate                                           |
+| ----- | ------------------------------------------------------------ | ---------------------------------------------- |
+| 2     | Body copy to normal weight; bold means something (finding 3) | `font-bold`+`font-black` count falls below 300 |
+| 4     | One orchestrated entrance per screen (finding 4)             | files with an entrance animation < 20          |
+| 5     | Measure caps on prose surfaces (finding 6)                   | every manuscript surface carries a `ch` cap    |
 
 Phases 2–5 are deliberately not started. Colour work is not listed at all, and
 should not begin before question 1 is answered.

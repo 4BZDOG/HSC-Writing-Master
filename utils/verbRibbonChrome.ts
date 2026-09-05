@@ -65,7 +65,7 @@ export const RIBBON_TIER_UNDERLINE =
  *  both themes on a solid tier fill (§2) and wrong on the slate one. Painted on
  *  the bar. */
 export const RIBBON_HEADER_TILE =
-  'w-9 h-9 shrink-0 rounded-xl flex items-center justify-center border shadow-md group-hover/header:scale-110 transition-transform';
+  'w-9 h-9 shrink-0 rounded-xl flex items-center justify-center border shadow-sm group-hover/header:scale-110 transition-transform';
 
 /** "HSC Command Verb Hierarchy". Truncates rather than wraps: an ellipsis on a
  *  title the reader already knows costs nothing, a second line costs the height
@@ -395,7 +395,7 @@ export const RIBBON_SPECTRUM_EDGE =
  *  remounts it and it replays. Its fill is the tier's own hex, inline. Painted
  *  over the track, outside its clip so the flare can bloom past the bar. */
 export const RIBBON_SPECTRUM_IGNITION =
-  'absolute inset-y-0 rounded-sm pointer-events-none z-10 origin-center';
+  'absolute inset-y-0 rounded-lg pointer-events-none z-10 origin-center';
 
 /** The same ignition on the current step's dot, one bloom out of the circle.
  *  Its fill is the tier's `solidBg` at the call site, and it is keyed on the

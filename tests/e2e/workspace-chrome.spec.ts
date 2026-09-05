@@ -152,7 +152,9 @@ test.describe('workspace card chrome', () => {
       const h3 = Array.from(document.querySelectorAll('h3')).find((h) =>
         h.textContent?.includes('Written Response')
       );
-      const box = h3?.closest('[class*="rounded-[32px]"]') as HTMLElement | null;
+      // The card shell's radius token (DesignSpec §3). It was written here as
+      // the literal `rounded-[32px]` until that value was given a role name.
+      const box = h3?.closest('[class*="rounded-surface"]') as HTMLElement | null;
       const body = box?.querySelector('[class*="overflow-y-auto"]') as HTMLElement | null;
       return {
         height: box ? Math.round(box.getBoundingClientRect().height) : null,

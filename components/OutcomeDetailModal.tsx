@@ -169,7 +169,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
         role="dialog"
         aria-modal="true"
         aria-label={`Syllabus outcome ${activeOutcome.code}`}
-        className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[28px] shadow-2xl light:shadow-xl w-full max-w-2xl border border-white/10 light:border-slate-200 animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface shadow-lg light:shadow-lg w-full max-w-2xl border border-white/10 light:border-slate-200 animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -290,7 +290,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
                 {verb && totalMarks && (
                   <div className="flex items-center gap-2 mt-2">
                     <span
-                      className="t-label px-2 py-0.5 rounded-md text-white"
+                      className="t-label px-2 py-0.5 rounded-lg text-white"
                       style={{ backgroundColor: bandHex }}
                     >
                       {verbInfo?.term || verb}
@@ -321,7 +321,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
           <div className="relative">
             <div className="flex items-center gap-2 mb-3">
               <div
-                className={`w-6 h-6 rounded-md ${bandConfig.bg} flex items-center justify-center`}
+                className={`w-6 h-6 rounded-lg ${bandConfig.bg} flex items-center justify-center`}
               >
                 <Sparkles className={`w-3 h-3 ${bandConfig.text}`} />
               </div>
@@ -334,7 +334,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
                   onClick={() => fetchExplanation(activeOutcome, { force: true })}
                   title="Ask again"
                   aria-label={`Regenerate the analysis for ${activeOutcome.code}`}
-                  className="ml-auto p-1.5 rounded-md text-[rgb(var(--color-text-dim))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-slate-100 transition-colors"
+                  className="ml-auto p-1.5 rounded-lg text-[rgb(var(--color-text-dim))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-slate-100 transition-colors"
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
                 </button>
@@ -401,7 +401,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-5 sm:px-6 py-3 bg-[rgb(var(--color-bg-surface-inset))]/20 light:bg-slate-50 border-t border-white/5 light:border-slate-200 flex items-center justify-between gap-3 rounded-b-[28px] flex-shrink-0">
+        <div className="px-5 sm:px-6 py-3 bg-[rgb(var(--color-bg-surface-inset))]/20 light:bg-slate-50 border-t border-white/5 light:border-slate-200 flex items-center justify-between gap-3 rounded-b-surface-inner flex-shrink-0">
           {hasTabs ? (
             <div className="flex items-center gap-1.5">
               <button

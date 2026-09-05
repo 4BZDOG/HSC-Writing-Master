@@ -295,7 +295,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
     >
       <div
         className={`
-          clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl
+          clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg
           w-full max-w-3xl border-2 ${activeBandConfig.border}
           animate-fade-in-up overflow-hidden flex flex-col h-[85vh] sm:h-[650px]
           ${activeBandConfig.glow}
@@ -333,7 +333,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                 </h2>
                 <div className="flex items-center gap-2 mt-1 text-sm font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-600">
                   <span
-                    className={`t-label px-2 py-0.5 rounded bg-white/10 light:bg-white/60 border border-white/20 light:border-slate-300/50`}
+                    className={`t-label px-2 py-0.5 rounded-lg bg-white/10 light:bg-white/60 border border-white/20 light:border-slate-300/50`}
                   >
                     '{prompt.verb}'
                   </span>
@@ -385,11 +385,11 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     >
                       <div className="flex flex-wrap items-center gap-2 mb-2">
                         <span
-                          className={`px-2 py-0.5 rounded text-[10px] font-black tracking-wider ${config.bg} ${config.text} border ${config.border}`}
+                          className={`px-2 py-0.5 rounded-lg text-[10px] font-black tracking-wider ${config.bg} ${config.text} border ${config.border}`}
                         >
                           {answer.mark}/{prompt.totalMarks}
                         </span>
-                        <span className="t-label px-2 py-0.5 rounded bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border border-amber-500/30">
+                        <span className="t-label px-2 py-0.5 rounded-lg bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border border-amber-500/30">
                           {describeSimilarity(score)} · {Math.round(score * 100)}% overlap
                         </span>
                         <div className="ml-auto flex items-center gap-2">
@@ -526,7 +526,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     )}
                     {isSelected && (
                       <div
-                        className={`absolute -top-2 -right-2 flex items-center justify-center w-5 h-5 rounded-full text-white text-[9px] font-black shadow-md bg-gradient-to-br ${optionBandConfig.gradient}`}
+                        className={`absolute -top-2 -right-2 flex items-center justify-center w-5 h-5 rounded-full text-white text-[9px] font-black shadow-sm bg-gradient-to-br ${optionBandConfig.gradient}`}
                         title={`Will be written ${order === 1 ? 'first' : `${order}${order === 2 ? 'nd' : order === 3 ? 'rd' : 'th'}`}`}
                       >
                         {/* The order number matters: the batch runs bottom-up so
@@ -551,7 +551,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                   return (
                     <span
                       key={b}
-                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] font-bold ${
                         covered
                           ? `${bConfig.bg} ${bConfig.text} ${bConfig.border} border`
                           : 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 border border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300'

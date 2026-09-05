@@ -602,7 +602,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-4xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-4xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -723,9 +723,9 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                       <span className="w-24 shrink-0 text-[11px] text-[rgb(var(--color-text-muted))] light:text-slate-500">
                         {dayLabel(day)}
                       </span>
-                      <div className="flex-1 h-4 rounded bg-black/30 light:bg-slate-100 overflow-hidden">
+                      <div className="flex-1 h-4 rounded-lg bg-black/30 light:bg-slate-100 overflow-hidden">
                         <div
-                          className="h-full rounded bg-[rgb(var(--color-accent))]/80"
+                          className="h-full rounded-lg bg-[rgb(var(--color-accent))]/80"
                           style={{ width: `${(calls / trend.max) * 100}%` }}
                         />
                       </div>
@@ -868,7 +868,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                             </td>
                             <td className="px-4 py-2.5">
                               <span
-                                className={`px-1.5 py-0.5 rounded-md border text-[10px] font-bold ${ROLE_TONE[row.role]}`}
+                                className={`px-1.5 py-0.5 rounded-lg border text-[10px] font-bold ${ROLE_TONE[row.role]}`}
                               >
                                 {ROLE_LABEL[row.role]}
                               </span>
@@ -1226,7 +1226,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                     <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 flex items-center gap-2">
                       <Compass className="w-3.5 h-3.5" /> Course demand
                       {demand.length > 0 && (
-                        <span className="px-1.5 py-0.5 rounded-md bg-indigo-500/15 text-indigo-400 text-[10px] font-black tabular-nums">
+                        <span className="px-1.5 py-0.5 rounded-lg bg-indigo-500/15 text-indigo-400 text-[10px] font-black tabular-nums">
                           {demand.length}
                         </span>
                       )}

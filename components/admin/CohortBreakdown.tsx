@@ -97,7 +97,7 @@ const HeatCell: React.FC<{ frac: number | null; attempts: number; title: string 
       <td className="p-0.5">
         <div
           title={title}
-          className="h-8 rounded flex items-center justify-center text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-black/20 light:bg-slate-100"
+          className="h-8 rounded-lg flex items-center justify-center text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-black/20 light:bg-slate-100"
         >
           —
         </div>
@@ -109,7 +109,7 @@ const HeatCell: React.FC<{ frac: number | null; attempts: number; title: string 
       <td className="p-0.5">
         <div
           title={`${title} · no marks recorded on these questions`}
-          className="h-8 rounded flex items-center justify-center text-[10px] italic text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-black/20 light:bg-slate-100"
+          className="h-8 rounded-lg flex items-center justify-center text-[10px] italic text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-black/20 light:bg-slate-100"
         >
           n/a
         </div>
@@ -120,7 +120,7 @@ const HeatCell: React.FC<{ frac: number | null; attempts: number; title: string 
     <td className="p-0.5">
       <div
         title={title}
-        className={`h-8 rounded flex items-center justify-center text-[10px] font-bold tabular-nums ${heatClasses(frac)}`}
+        className={`h-8 rounded-lg flex items-center justify-center text-[10px] font-bold tabular-nums ${heatClasses(frac)}`}
       >
         {Math.round(frac * 100)}%
       </div>

@@ -189,7 +189,7 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
       className={`
         relative overflow-hidden
         ${theme.bg} backdrop-blur-3xl
-        rounded-[32px] shadow-2xl ${theme.glow}
+ rounded-panel shadow-lg ${theme.glow}
         border border-white/20 dark:border-white/10
         p-8 sm:p-10 w-full max-w-[400px] mx-auto
         flex flex-col items-center justify-center gap-6
@@ -227,7 +227,7 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
         {/* Center Icon */}
         <div
           className={`
-            relative w-16 h-16 rounded-[20px] flex items-center justify-center
+ relative w-16 h-16 rounded-tile flex items-center justify-center
             bg-gradient-to-br from-white to-slate-100 dark:from-slate-800 dark:to-slate-900
             shadow-lg border border-white/40 dark:border-white/10
         `}

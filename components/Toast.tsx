@@ -97,7 +97,7 @@ const Toast: React.FC<ToastProps> = ({
       onMouseLeave={() => setIsPaused(false)}
       className={`
         relative w-[380px] max-w-[90vw] overflow-hidden rounded-xl
-        backdrop-blur-xl border shadow-2xl shadow-black/20
+        backdrop-blur-xl border shadow-lg shadow-black/20
         animate-toast-entry
         ${config.containerClass}
         group

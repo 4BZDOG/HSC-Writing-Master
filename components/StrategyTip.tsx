@@ -43,7 +43,7 @@ const StrategyTip: React.FC<StrategyTipProps> = ({
                 {segment.items.map((item) => (
                   <span
                     key={item}
-                    className={`px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wide bg-white/[0.06] light:bg-slate-100 border border-white/10 light:border-slate-200 ${accentClass}`}
+                    className={`px-2 py-0.5 rounded-lg text-[10px] font-bold tracking-wide bg-white/[0.06] light:bg-slate-100 border border-white/10 light:border-slate-200 ${accentClass}`}
                   >
                     {item}
                   </span>

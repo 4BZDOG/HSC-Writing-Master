@@ -125,7 +125,7 @@ const ScenarioCarousel: React.FC<ScenarioCarouselProps> = ({
               onClick={() => setActiveSlide(slide)}
               className={`t-label px-3 py-1 rounded-full transition-all ${
                 activeSlide === slide
-                  ? 'bg-[rgb(var(--color-accent))] text-white shadow-md'
+                  ? 'bg-[rgb(var(--color-accent))] text-white shadow-sm'
                   : 'bg-white/5 light:bg-slate-100 text-slate-500 hover:text-slate-300 light:hover:text-slate-700'
               }`}
             >

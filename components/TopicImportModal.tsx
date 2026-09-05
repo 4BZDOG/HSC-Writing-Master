@@ -362,7 +362,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
       onClick={handleClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-2xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-2xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50 flex-shrink-0">
@@ -571,7 +571,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                     type="checkbox"
                     checked={markAsPastHSC}
                     onChange={(e) => setMarkAsPastHSC(e.target.checked)}
-                    className="w-4 h-4 rounded bg-gray-700 light:bg-white border-gray-600 light:border-slate-300 text-[rgb(var(--color-accent))] focus:ring-[rgb(var(--color-accent))]/50"
+                    className="w-4 h-4 rounded-lg bg-gray-700 light:bg-white border-gray-600 light:border-slate-300 text-[rgb(var(--color-accent))] focus:ring-[rgb(var(--color-accent))]/50"
                   />
                 </label>
                 {markAsPastHSC && (
@@ -640,7 +640,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                             </button>
                             <button
                               onClick={() => removeSubTopic(stIdx)}
-                              className="p-1.5 mr-1 rounded-md opacity-0 group-hover:opacity-100 text-red-400 light:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-all flex-shrink-0"
+                              className="p-1.5 mr-1 rounded-lg opacity-0 group-hover:opacity-100 text-red-400 light:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-all flex-shrink-0"
                               title="Remove this sub-topic from import"
                               aria-label={`Remove sub-topic ${st.name}`}
                             >
@@ -656,7 +656,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                                 aria-label={`Merge sub-topic "${st.name}" into`}
                                 value={subTopicTargets[stIdx] ?? ''}
                                 onChange={(e) => setSubTopicTarget(stIdx, e.target.value)}
-                                className="flex-1 min-w-0 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-md px-2 py-1 text-[11px] text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-1 focus:ring-[rgb(var(--color-accent))]"
+                                className="flex-1 min-w-0 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg px-2 py-1 text-[11px] text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-1 focus:ring-[rgb(var(--color-accent))]"
                               >
                                 <option value="">New sub-topic (auto)</option>
                                 {resolvedTargetTopic.subTopics.map((s) => (
@@ -672,7 +672,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                               {st.dotPoints.map((dp, dpIdx) => (
                                 <div
                                   key={dp.id ?? dpIdx}
-                                  className="group/dp flex items-start gap-2 px-2 py-1.5 text-xs text-[rgb(var(--color-text-dim))] light:text-slate-600 rounded-md hover:bg-[rgb(var(--color-bg-surface-light))]/40 light:hover:bg-slate-100 transition-colors"
+                                  className="group/dp flex items-start gap-2 px-2 py-1.5 text-xs text-[rgb(var(--color-text-dim))] light:text-slate-600 rounded-lg hover:bg-[rgb(var(--color-bg-surface-light))]/40 light:hover:bg-slate-100 transition-colors"
                                 >
                                   <Hash className="w-3 h-3 mt-0.5 text-slate-600 light:text-slate-400 flex-shrink-0" />
                                   <span className="flex-1 leading-relaxed">
@@ -686,7 +686,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                                   </span>
                                   <button
                                     onClick={() => removeDotPoint(stIdx, dpIdx)}
-                                    className="p-0.5 rounded opacity-0 group-hover/dp:opacity-100 text-red-400 light:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-all flex-shrink-0"
+                                    className="p-0.5 rounded-lg opacity-0 group-hover/dp:opacity-100 text-red-400 light:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-all flex-shrink-0"
                                     title="Remove this dot point from import"
                                     aria-label={`Remove dot point ${dp.description}`}
                                   >

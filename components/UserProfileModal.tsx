@@ -148,7 +148,7 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
 
   return (
     <div
-      className={`p-6 rounded-[32px] border flex items-start gap-5 ${
+      className={`p-6 rounded-panel border flex items-start gap-5 ${
         isPaid
           ? 'bg-amber-400/5 border-amber-400/20'
           : 'bg-white/[0.03] light:bg-slate-100 border-white/5 light:border-slate-200'
@@ -484,7 +484,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))]/90 light:bg-white/95 backdrop-blur-sm rounded-[48px] shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-4xl border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))]/90 light:bg-white/95 backdrop-blur-sm rounded-surface shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-4xl border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <MeshOverlay opacity="opacity-[0.03]" />
@@ -496,13 +496,13 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
               className={`absolute inset-0 bg-gradient-to-br ${bandConfig.gradient} blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-700`}
             />
             <div
-              className={`relative w-20 h-20 sm:w-28 sm:h-28 rounded-[28px] sm:rounded-[36px] bg-gradient-to-br ${bandConfig.gradient} flex items-center justify-center shadow-2xl border-4 border-white/10 transform group-hover:scale-105 transition-transform duration-500`}
+              className={`relative w-20 h-20 sm:w-28 sm:h-28 rounded-tile bg-gradient-to-br ${bandConfig.gradient} flex items-center justify-center shadow-lg border-4 border-white/10 transform group-hover:scale-105 transition-transform duration-500`}
             >
               <span className="text-4xl sm:text-5xl font-black text-white">
                 {user.displayName.charAt(0).toUpperCase()}
               </span>
             </div>
-            <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-2xl bg-black light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center shadow-xl">
+            <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-2xl bg-black light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center shadow-lg">
               <span className={`text-xs font-black ${bandConfig.text}`}>{user.stats.level}</span>
             </div>
           </div>
@@ -647,7 +647,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 ].map((stat) => (
                   <div
                     key={stat.label}
-                    className="p-5 rounded-[28px] bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200 flex flex-col items-center text-center group hover:bg-white/[0.06] light:hover:bg-slate-100 transition-all duration-300 hover:border-white/10 light:hover:border-slate-300"
+                    className="p-5 rounded-panel bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200 flex flex-col items-center text-center group hover:bg-white/[0.06] light:hover:bg-slate-100 transition-all duration-300 hover:border-white/10 light:hover:border-slate-300"
                   >
                     <div className="relative mb-3">
                       <MiniProgressRing percent={stat.ringPercent} color={stat.ringColor} />
@@ -666,7 +666,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
               </div>
 
               {/* XP & Level Card */}
-              <div className="p-6 rounded-[32px] bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200">
+              <div className="p-6 rounded-panel bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <div className={`p-2.5 rounded-xl ${bandConfig.iconBg}`}>
@@ -697,7 +697,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
 
               {/* Performance Summary */}
               <div
-                className={`p-6 rounded-[32px] border flex items-start gap-5 ${performanceSummary.positive ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-indigo-500/5 border-indigo-500/20'}`}
+                className={`p-6 rounded-panel border flex items-start gap-5 ${performanceSummary.positive ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-indigo-500/5 border-indigo-500/20'}`}
               >
                 <div
                   className={`p-3.5 rounded-2xl ${performanceSummary.positive ? 'bg-emerald-500/20 text-emerald-400' : 'bg-indigo-500/20 text-indigo-400'}`}
@@ -719,7 +719,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
           {activeTab === 'achievements' && (
             <div className="space-y-6 animate-fade-in">
               {/* Progress overview */}
-              <div className="flex items-center gap-4 p-5 rounded-[28px] bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200">
+              <div className="flex items-center gap-4 p-5 rounded-panel bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200">
                 <div className="relative">
                   <MiniProgressRing
                     percent={(unlockedCount / achievements.length) * 100}
@@ -748,7 +748,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   return (
                     <div
                       key={ach.id}
-                      className={`flex items-center gap-5 p-5 rounded-[28px] border transition-all duration-500 ${ach.unlocked ? 'bg-white/[0.03] light:bg-slate-50 border-white/10 light:border-slate-200' : 'bg-black/20 light:bg-slate-100 border-transparent'}`}
+                      className={`flex items-center gap-5 p-5 rounded-panel border transition-all duration-500 ${ach.unlocked ? 'bg-white/[0.03] light:bg-slate-50 border-white/10 light:border-slate-200' : 'bg-black/20 light:bg-slate-100 border-transparent'}`}
                     >
                       <div className="relative shrink-0">
                         <MiniProgressRing percent={pct} color={ach.accent} />
@@ -791,7 +791,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
 
           {activeTab === 'settings' && (
             <div className="space-y-4 animate-fade-in">
-              <div className="bg-white/[0.02] light:bg-slate-100 rounded-[40px] border border-white/5 light:border-slate-200 overflow-hidden">
+              <div className="bg-white/[0.02] light:bg-slate-100 rounded-panel border border-white/5 light:border-slate-200 overflow-hidden">
                 {[
                   {
                     id: 'theme',
@@ -873,7 +873,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   tab so there is exactly one place a user looks when they want
                   to re-read what they agreed to or how something works. */}
               {(onOpenQuickStart || onComparePlans || onOpenLegal) && (
-                <div className="bg-white/[0.02] light:bg-slate-100 rounded-[40px] border border-white/5 light:border-slate-200 overflow-hidden">
+                <div className="bg-white/[0.02] light:bg-slate-100 rounded-panel border border-white/5 light:border-slate-200 overflow-hidden">
                   {[
                     onOpenQuickStart && {
                       id: 'quickStart',
@@ -934,7 +934,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
 
               {/* Your data — the Privacy Notice promises access, export and
                   erasure, so the product has to actually provide them. */}
-              <div className="bg-white/[0.02] light:bg-slate-100 rounded-[40px] border border-white/5 light:border-slate-200 overflow-hidden">
+              <div className="bg-white/[0.02] light:bg-slate-100 rounded-panel border border-white/5 light:border-slate-200 overflow-hidden">
                 <div className="px-6 sm:px-10 pt-6 pb-2">
                   <h4 className="text-sm font-bold text-white light:text-slate-900 flex items-center gap-3">
                     <Database className="w-4 h-4 text-slate-500" /> Your Data
@@ -969,7 +969,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
 
                 {isConfirmingDelete && (
                   <div className="px-6 sm:px-10 pb-6 animate-fade-in">
-                    <div className="p-5 rounded-3xl bg-red-500/[0.07] border border-red-500/30">
+                    <div className="p-5 rounded-panel bg-red-500/[0.07] border border-red-500/30">
                       <p className="text-xs font-bold text-red-400 light:text-red-600 leading-relaxed">
                         This deletes your profile, your responses and all your progress. It cannot
                         be undone.
@@ -1027,7 +1027,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
               <div className="flex justify-end pt-4">
                 <button
                   onClick={handleSaveSettings}
-                  className="px-10 py-4 rounded-[20px] font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-2xl active:scale-[0.98] transition-all flex items-center gap-3"
+                  className="px-10 py-4 rounded-panel font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg active:scale-[0.98] transition-all flex items-center gap-3"
                 >
                   <Save className="w-4 h-4" /> Save Settings
                 </button>

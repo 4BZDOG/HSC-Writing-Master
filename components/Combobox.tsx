@@ -569,7 +569,7 @@ const Combobox: React.FC<ComboboxProps> = ({
                       searchRef.current?.focus();
                     }}
                     aria-label="Clear search"
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-md text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-slate-100 transition-colors"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-lg text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-slate-100 transition-colors"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>

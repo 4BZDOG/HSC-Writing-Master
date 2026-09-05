@@ -71,7 +71,7 @@ const QualityBadge: React.FC<{ score: number | null }> = ({ score }) => {
         : 'bg-red-500/15 text-red-400 border-red-500/30';
   return (
     <span
-      className={`px-1.5 py-0.5 rounded-md border text-[10px] font-bold ${tone}`}
+      className={`px-1.5 py-0.5 rounded-lg border text-[10px] font-bold ${tone}`}
       title="AI quality pre-screen score (client-reported — advisory only, review the content itself)"
     >
       AI {score}/100
@@ -187,7 +187,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 flex items-center justify-between">

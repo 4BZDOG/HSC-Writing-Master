@@ -174,7 +174,7 @@ const OutcomeChip: React.FC<{
           t-label flex items-center gap-1 px-2.5 py-1 rounded-lg whitespace-nowrap flex-shrink-0
           ${bandConfig.bg} border ${bandConfig.border}
           ${bandConfig.text} transition-all duration-300 cursor-pointer
-          hover:brightness-125 hover:shadow-md
+          hover:brightness-125 hover:shadow-lg
           active:scale-[0.98]
         `}
       >
@@ -186,7 +186,7 @@ const OutcomeChip: React.FC<{
         createPortal(
           <div
             role="tooltip"
-            className="fixed z-tooltip w-72 -translate-x-1/2 -translate-y-full p-4 text-xs text-left font-medium leading-relaxed text-white light:text-slate-800 bg-[rgb(var(--color-bg-surface-elevated))]/95 light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-2xl shadow-2xl pointer-events-none backdrop-blur-xl animate-fade-in"
+            className="fixed z-tooltip w-72 -translate-x-1/2 -translate-y-full p-4 text-xs text-left font-medium leading-relaxed text-white light:text-slate-800 bg-[rgb(var(--color-bg-surface-elevated))]/95 light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-2xl shadow-lg pointer-events-none backdrop-blur-xl animate-fade-in"
             style={{ left: anchor.left, top: anchor.top - 12 }}
           >
             <div className={`flex items-center gap-2 mb-2 ${bandConfig.text}`}>
@@ -484,9 +484,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
     <div
       ref={containerRef}
       className={`
-            clip-stable relative overflow-hidden rounded-[32px]
+ clip-stable relative overflow-hidden rounded-surface
             bg-[rgb(var(--color-bg-surface))] light:bg-white
-            border-2 ${bandConfig.border} shadow-2xl ${bandConfig.glow}
+            border-2 ${bandConfig.border} shadow-lg ${bandConfig.glow}
             transition-[box-shadow,border-color,background-color] duration-500
             group/prompt flex flex-col h-full
         `}
@@ -541,7 +541,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       examMode ? undefined : `Open the command verb guide for ${prompt.verb}`
                     }
                     title={examMode ? undefined : `What a ${prompt.verb} question asks for`}
-                    className={`t-label leading-none whitespace-nowrap bg-white/20 px-2.5 py-1 rounded-md border border-white/15 shadow-sm backdrop-blur-sm transition-all ${
+                    className={`t-label leading-none whitespace-nowrap bg-white/20 px-2.5 py-1 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm transition-all ${
                       examMode ? 'cursor-default' : 'hover:bg-white/30 active:scale-[0.98]'
                     }`}
                   >
@@ -664,7 +664,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             {/* Question Section - "The Canvas" */}
             <div className="group/question relative pt-2">
               {isEditingQuestion ? (
-                <div className="animate-fade-in space-y-3 p-2 bg-[rgb(var(--color-bg-surface-inset))] light:bg-white rounded-3xl border border-white/10 light:border-slate-300 shadow-inner">
+                <div className="animate-fade-in space-y-3 p-2 bg-[rgb(var(--color-bg-surface-inset))] light:bg-white rounded-panel border border-white/10 light:border-slate-300 shadow-inner">
                   <div className="px-2 pt-2">
                     <MathSymbolToolbar
                       textareaRef={questionTextareaRef}
@@ -713,7 +713,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                           onClick={studioAction(() =>
                             onRunQualityCheck(prompt.question, 'question')
                           )}
-                          className={`p-2.5 rounded-xl shadow-xl hover:scale-110 transition-all ${
+                          className={`p-2.5 rounded-xl shadow-lg hover:scale-110 transition-all ${
                             studioChrome ||
                             'bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-300 text-emerald-400 hover:text-emerald-300'
                           }`}
@@ -724,7 +724,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       )}
                       <button
                         onClick={() => setIsEditingQuestion(true)}
-                        className="p-2.5 rounded-xl bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-500 hover:text-white light:hover:text-indigo-600 shadow-xl hover:scale-110 transition-all"
+                        className="p-2.5 rounded-xl bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-500 hover:text-white light:hover:text-indigo-600 shadow-lg hover:scale-110 transition-all"
                         title="Edit Question"
                       >
                         <Edit3 className="w-4 h-4" />
@@ -823,7 +823,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       </button>
                       <button
                         onClick={handleSaveScenario}
-                        className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 flex items-center gap-2 shadow-md hover:scale-105 active:scale-[0.98] transition-all"
+                        className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 flex items-center gap-2 shadow-sm hover:scale-105 active:scale-[0.98] transition-all"
                       >
                         <Save className="w-3.5 h-3.5" /> Save Scenario
                       </button>
@@ -937,7 +937,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 <button
                   onClick={onDismissEnrichError}
                   aria-label="Dismiss"
-                  className="p-1 hover:bg-amber-500/20 rounded text-amber-400"
+                  className="p-1 hover:bg-amber-500/20 rounded-lg text-amber-400"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -953,7 +953,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
         {!(condensed && linkedOutcomes.length === 0) && (
           <div
             ref={footerRef}
-            className="relative z-10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border-t border-white/10 light:border-slate-200/50 px-4 sm:px-6 py-3 flex items-center backdrop-blur-sm mt-auto flex-shrink-0 rounded-b-[30px]"
+            className="relative z-10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border-t border-white/10 light:border-slate-200/50 px-4 sm:px-6 py-3 flex items-center backdrop-blur-sm mt-auto flex-shrink-0 rounded-b-surface-inner"
             style={{ minHeight: minFooterHeight || 52 }}
           >
             {/* Inner wrapper carries the row layout so its height stays
@@ -1096,7 +1096,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     // tooltip, and not every screen reader treats one as the
                     // accessible name.
                     aria-label="Decrease reading size"
-                    className="p-1 sm:p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-md transition-colors"
+                    className="p-1 sm:p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-lg transition-colors"
                     title="Decrease font size"
                   >
                     <ZoomOut className="w-3.5 h-3.5" />
@@ -1107,7 +1107,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   <button
                     onClick={() => onFontSizeChange(Math.min(48, fontSize + 2))}
                     aria-label="Increase reading size"
-                    className="p-1 sm:p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-md transition-colors"
+                    className="p-1 sm:p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-lg transition-colors"
                     title="Increase font size"
                   >
                     <ZoomIn className="w-3.5 h-3.5" />

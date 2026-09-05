@@ -180,14 +180,14 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                   setSelectedOutcome(outcome);
                   markSupportOpened(prompt.id, 'outcomeBriefing');
                 }}
-                className={`w-full text-left rounded-2xl border ${tierConfig.border} ${tierConfig.bg} p-4 transition-all hover:shadow-md hover:brightness-110 active:scale-[0.98] group/outcome-row`}
+                className={`w-full text-left rounded-2xl border ${tierConfig.border} ${tierConfig.bg} p-4 transition-all hover:shadow-lg hover:brightness-110 active:scale-[0.98] group/outcome-row`}
               >
                 <div className="flex items-center gap-2 mb-1.5">
                   {/* The same target that heads the panel and marks every
                       outcome chip on the question card, so an outcome is
                       recognisable as one wherever it appears. */}
                   <span
-                    className={`w-5 h-5 shrink-0 rounded-md flex items-center justify-center border ${tierConfig.border} ${tierConfig.bg}`}
+                    className={`w-5 h-5 shrink-0 rounded-lg flex items-center justify-center border ${tierConfig.border} ${tierConfig.bg}`}
                     aria-hidden="true"
                   >
                     <Target className={`w-3 h-3 ${tierConfig.text}`} />
@@ -241,7 +241,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                 return (
                   <div
                     key={descriptor.band}
-                    className={`relative rounded-2xl border ${bConfig.bg} ${bConfig.border} p-4 shadow-sm group/descriptor transition-all hover:shadow-md`}
+                    className={`relative rounded-2xl border ${bConfig.bg} ${bConfig.border} p-4 shadow-sm group/descriptor transition-all hover:shadow-lg`}
                   >
                     <div className="flex gap-4 items-start">
                       <div

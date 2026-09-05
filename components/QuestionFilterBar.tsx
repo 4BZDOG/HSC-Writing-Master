@@ -109,7 +109,7 @@ const QuestionFilterBar: React.FC<QuestionFilterBarProps> = ({
           {summary.map((part) => (
             <span
               key={part}
-              className="t-label px-1.5 py-px rounded border bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border-amber-500/30 light:border-amber-400"
+              className="t-label px-1.5 py-px rounded-lg border bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border-amber-500/30 light:border-amber-400"
             >
               {part}
             </span>

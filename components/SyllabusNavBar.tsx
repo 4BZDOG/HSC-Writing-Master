@@ -53,7 +53,7 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
 
   return (
     <div
-      className={`clip-stable relative overflow-hidden rounded-[24px] border ${band.border} bg-[rgb(var(--color-bg-surface-elevated))]/50 light:bg-white backdrop-blur-xl shadow-lg animate-fade-in`}
+      className={`clip-stable relative overflow-hidden rounded-panel border ${band.border} bg-[rgb(var(--color-bg-surface-elevated))]/50 light:bg-white backdrop-blur-xl shadow-lg animate-fade-in`}
     >
       <div
         className={`absolute inset-y-0 left-0 w-1.5 bg-gradient-to-b ${band.gradient}`}
@@ -68,7 +68,7 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
           {/* The selected question + its verb / marks / target band. */}
           <div className="flex items-center gap-2.5 mt-2 pl-2">
             <span
-              className={`t-label shrink-0 px-2 py-0.5 rounded-md ${band.solidBg} ${band.solidText} shadow-sm`}
+              className={`t-label shrink-0 px-2 py-0.5 rounded-lg ${band.solidBg} ${band.solidText} shadow-sm`}
             >
               {prompt.verb}
             </span>

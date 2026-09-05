@@ -1127,11 +1127,11 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           wraps onto many lines can never push the Tree off-screen with no way
           back; the outer dialog's overflow-y-auto above is the last-resort
           fallback if header+footer somehow still exceed the viewport. */}
-      <div className="flex-shrink-0 max-h-[42vh] overflow-y-auto custom-scrollbar border-b border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-white z-20 shadow-2xl light:shadow-lg relative">
+      <div className="flex-shrink-0 max-h-[42vh] overflow-y-auto custom-scrollbar border-b border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-white z-20 shadow-lg light:shadow-lg relative">
         <MeshOverlay opacity="opacity-[0.05]" />
         <div className="px-5 md:px-10 py-6 md:py-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 md:gap-10">
           <div className="flex items-start gap-4 md:gap-8 flex-1 min-w-0">
-            <div className="w-14 h-14 md:w-20 md:h-20 rounded-[24px] md:rounded-[32px] bg-gradient-to-br from-indigo-500/20 to-purple-600/20 light:from-indigo-100 light:to-purple-100 border border-white/10 light:border-indigo-200 flex items-center justify-center shadow-2xl shadow-indigo-900/20 light:shadow-indigo-200/50 shrink-0">
+            <div className="w-14 h-14 md:w-20 md:h-20 rounded-tile bg-gradient-to-br from-indigo-500/20 to-purple-600/20 light:from-indigo-100 light:to-purple-100 border border-white/10 light:border-indigo-200 flex items-center justify-center shadow-lg shadow-indigo-900/20 light:shadow-indigo-200/50 shrink-0">
               <Activity className="w-7 h-7 md:w-10 md:h-10 text-indigo-400" />
             </div>
             <div className="min-w-0">
@@ -1151,7 +1151,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center w-full lg:w-auto bg-black/40 light:bg-slate-50 rounded-[28px] md:rounded-[40px] border border-white/5 light:border-slate-200 p-2 shadow-inner light:shadow-sm gap-y-2">
+          <div className="flex flex-wrap items-center w-full lg:w-auto bg-black/40 light:bg-slate-50 rounded-panel border border-white/5 light:border-slate-200 p-2 shadow-inner light:shadow-sm gap-y-2">
             <div className="flex items-center gap-4 md:gap-6 px-4 md:px-10 py-3 md:py-4 sm:border-r border-white/5 light:border-slate-200">
               <div className="relative w-16 h-16 flex items-center justify-center">
                 <svg className="transform -rotate-90 w-16 h-16" viewBox="0 0 64 64">
@@ -1399,7 +1399,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             filteredTreeData.map((node) => renderNode(node))
           ) : (
             <div className="py-40 text-center animate-fade-in">
-              <div className="w-24 h-24 rounded-[40px] bg-white/5 light:bg-slate-100 flex items-center justify-center border border-white/5 light:border-slate-200 mb-8 mx-auto shadow-inner">
+              <div className="w-24 h-24 rounded-tile bg-white/5 light:bg-slate-100 flex items-center justify-center border border-white/5 light:border-slate-200 mb-8 mx-auto shadow-inner">
                 <Filter className="w-12 h-12 text-slate-700 light:text-slate-300" />
               </div>
               <h3 className="text-2xl font-black text-white light:text-slate-900 tracking-tight italic">
@@ -1437,7 +1437,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 <span className="text-slate-500">Total: {progress.total}</span>
               </div>
             </div>
-            <div className="flex-1 bg-black/40 light:bg-slate-50 rounded-3xl border border-white/5 light:border-slate-200 p-6 overflow-y-auto font-mono text-xs space-y-2 custom-scrollbar shadow-inner">
+            <div className="flex-1 bg-black/40 light:bg-slate-50 rounded-panel border border-white/5 light:border-slate-200 p-6 overflow-y-auto font-mono text-xs space-y-2 custom-scrollbar shadow-inner">
               {progress.fatalError && (
                 <div className="flex items-start gap-3 p-3 mb-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 light:text-red-600 animate-fade-in">
                   <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
@@ -1533,7 +1533,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   <button
                     onClick={handleSyncToLibrary}
                     title="Push the questions repaired by this studio to the shared library as pending contributions — they go through the review queue before publishing"
-                    className="t-label ml-2 px-5 h-12 rounded-[20px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all flex items-center gap-2"
+                    className="t-label ml-2 px-5 h-12 rounded-panel bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all flex items-center gap-2"
                   >
                     <UploadCloud className="w-4 h-4" />
                     Sync to Library ({pendingSyncCount})

@@ -111,7 +111,7 @@ const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ onComplete, onCan
       <AuthBackdrop />
 
       <div className="text-center mb-10 relative z-10 animate-fade-in">
-        <div className="relative w-20 h-20 mx-auto mb-6 rounded-[32px] bg-gradient-to-br from-indigo-500 to-sky-500 border border-white/20 shadow-2xl flex items-center justify-center">
+        <div className="relative w-20 h-20 mx-auto mb-6 rounded-tile bg-gradient-to-br from-indigo-500 to-sky-500 border border-white/20 shadow-lg flex items-center justify-center">
           <Sparkles className="w-10 h-10 text-white" />
         </div>
         <span className="t-label text-indigo-400 opacity-80">HSC Writing Coach</span>
@@ -121,7 +121,7 @@ const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ onComplete, onCan
       </div>
 
       <div className="w-full max-w-[420px] relative z-10 animate-fade-in-up">
-        <div className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 border-white/20 light:border-slate-300/80 rounded-[44px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] light:shadow-[0_28px_60px_-20px_rgba(51,65,85,0.35)] overflow-hidden relative">
+        <div className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 border-white/20 light:border-slate-300/80 rounded-surface shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] light:shadow-[0_28px_60px_-20px_rgba(51,65,85,0.35)] overflow-hidden relative">
           <MeshOverlay />
           <div className="p-10 relative z-10">
             <form onSubmit={handleSubmit} className="space-y-7" data-testid="reset-password-form">
@@ -184,7 +184,7 @@ const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ onComplete, onCan
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-xl shadow-indigo-900/40 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3 border-2 border-white/10"
+                className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg shadow-indigo-900/40 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3 border-2 border-white/10"
               >
                 {isLoading ? (
                   <Loader2 className="w-5 h-5 animate-spin" />

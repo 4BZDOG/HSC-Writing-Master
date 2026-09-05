@@ -302,7 +302,7 @@ const ApiMonitorDisplay: React.FC = () => {
             w-72 p-5 rounded-2xl
             bg-[rgb(var(--color-bg-surface-elevated))]/90 light:bg-white/95 backdrop-blur-xl
             border border-[rgb(var(--color-border-accent))]/30 light:border-slate-300
-            shadow-2xl animate-fade-in-up ring-1 ring-[rgb(var(--color-accent))]/10
+            shadow-lg animate-fade-in-up ring-1 ring-[rgb(var(--color-accent))]/10
           "
           role="dialog"
           aria-labelledby="api-monitor-title"
@@ -373,7 +373,7 @@ const ApiMonitorDisplay: React.FC = () => {
 
           <button
             onClick={handleResetSession}
-            className="w-full mt-4 text-xs font-bold flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-100 text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:text-white light:hover:text-slate-800 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-200 transition-all active:scale-[0.98] hover:shadow-md border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300"
+            className="w-full mt-4 text-xs font-bold flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-100 text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:text-white light:hover:text-slate-800 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-200 transition-all active:scale-[0.98] hover:shadow-lg border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300"
           >
             <RotateCcw className="w-3 h-3" />
             Reset Session Metrics

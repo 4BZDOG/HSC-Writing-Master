@@ -98,7 +98,7 @@ export const HEADER_ACTION_OPEN = 'bg-slate-100 text-slate-900 dark:bg-white/10 
  *  portal, so it paints an opaque surface of its own rather than borrowing the
  *  bar's glass; a translucent menu over live content is unreadable. */
 export const HEADER_MENU_PANEL =
-  'fixed z-popover w-64 p-1.5 rounded-2xl shadow-2xl animate-fade-in text-left ' +
+  'fixed z-popover w-64 p-1.5 rounded-2xl shadow-lg animate-fade-in text-left ' +
   'bg-white border border-slate-200 ' +
   'dark:bg-[rgb(var(--color-bg-surface-elevated))] dark:border-white/10';
 

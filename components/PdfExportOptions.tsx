@@ -26,7 +26,7 @@ const Row: React.FC<{
       className="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 cursor-pointer transition-colors"
     >
       <span
-        className={`mt-0.5 w-4 h-4 shrink-0 rounded-md border flex items-center justify-center transition-all ${
+        className={`mt-0.5 w-4 h-4 shrink-0 rounded-lg border flex items-center justify-center transition-all ${
           checked
             ? 'bg-indigo-600 border-indigo-600 text-white'
             : 'border-slate-300 dark:border-white/20'
@@ -180,7 +180,7 @@ const PdfExportOptions: React.FC<PdfExportOptionsProps> = ({
       role="dialog"
       aria-label="PDF export options"
       style={{ left: anchor.left, top: anchor.top, width: PANEL_WIDTH }}
-      className="fixed z-popover max-w-[calc(100vw-2rem)] p-2 rounded-2xl bg-white dark:bg-[rgb(var(--color-bg-surface-elevated))] border border-slate-200 dark:border-white/10 shadow-2xl animate-fade-in text-left"
+      className="fixed z-popover max-w-[calc(100vw-2rem)] p-2 rounded-2xl bg-white dark:bg-[rgb(var(--color-bg-surface-elevated))] border border-slate-200 dark:border-white/10 shadow-lg animate-fade-in text-left"
     >
       <div className="flex items-center gap-2 px-3 py-2">
         <Settings2 className="w-3.5 h-3.5 text-slate-400" />

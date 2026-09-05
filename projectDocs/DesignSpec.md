@@ -116,6 +116,55 @@ state as if it were a DOM state.
 Both concerns arbitrate by stack, matching `useEscapeKey`: only the topmost
 surface acts, because dialogs do open over each other.
 
+### Radius
+
+Radius is chosen by ROLE, from `theme.extend.borderRadius` in
+`tailwind.config.js`. Never write an arbitrary `rounded-[Npx]`.
+
+| Token                       | Value      | Role                                                                                      |
+| --------------------------- | ---------- | ----------------------------------------------------------------------------------------- |
+| `rounded-surface`           | 32px       | A modal shell or a workspace card — the outermost box of a surface floating over the page |
+| `rounded-surface-inner`     | 30px       | That surface's inner edge: a header or footer inside its border                           |
+| `rounded-panel`             | 20px       | A section within a surface: an accordion, a reference panel, a bordered block             |
+| `rounded-tile`              | 32%        | A fixed-size square: an icon tile, an avatar, a badge                                     |
+| `rounded-xl` / `rounded-lg` | 12px / 8px | Controls, and the smaller controls nested inside them                                     |
+| `rounded-full`              | —          | Pills, dots, avatars                                                                      |
+
+Two things this replaced. Arbitrary values had drifted to ten — 14, 18, 20, 24,
+28, 30, 32, 36, 40, 44, 48px — across four real jobs; modal shells alone used
+five of them. And `rounded`, `rounded-sm` and `rounded-md` (4, 2 and 6px) sat
+around `rounded-lg` doing the same job at near-identical values.
+
+**Why the scale is not flatter.** Radius has to decrease with nesting: a chip at
+its card's radius reads wrong. So `xl`/`lg` stay as a pair, and `2xl` remains on
+cards that are neither a surface nor a panel. Collapsing everything to one value
+would be a simpler rule and a worse interface.
+
+**`rounded-tile` is a percentage on purpose.** The same 32px on a 56px tile and
+a 112px one reads as two different shapes; a percentage keeps the corner
+proportional at every size. It is the one place a non-token radius was doing
+real work rather than drifting.
+
+**`surface` and `surface-inner` move together.** A `rounded-surface` box with
+`border-2` has an inner edge of 32 − 2 = 30px, which is what a header or footer
+sitting inside it must use, or the corner shows a sliver of the wrong curve.
+Change one and change the other.
+
+### Elevation
+
+Two steps, and one effect:
+
+- `shadow-sm` — resting. A panel sitting on the page.
+- `shadow-lg` — lifted. A modal, a popover, a dragged item, and every
+  `hover:`/`focus:` lift. An interactive shadow always means lift, whatever step
+  it was written at; a hover that resolved to the resting step did nothing.
+- `shadow-inner` is not an elevation and is unaffected.
+
+Band glows (`getBandConfig().glow`) are part of the colour system, not this
+scale, and keep their own coloured shadows. Three modal shells keep a bespoke
+`shadow-[0_64px_128px…]`: a deliberately deep shadow no step on this scale
+provides.
+
 ## 4. Typography
 
 - **Interface**: `Inter` - High legibility for data-dense controls.

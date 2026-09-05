@@ -293,7 +293,7 @@ const CarouselAccordionItem: React.FC<{
                   {group.mark}/{prompt.totalMarks} Marks
                 </span>
                 {group.answers.length > 1 && (
-                  <span className="t-label flex items-center gap-1 text-slate-400 bg-slate-200/50 dark:bg-white/10 px-1.5 py-0.5 rounded-md">
+                  <span className="t-label flex items-center gap-1 text-slate-400 bg-slate-200/50 dark:bg-white/10 px-1.5 py-0.5 rounded-lg">
                     <Layers className="w-2.5 h-2.5" /> {group.answers.length}
                   </span>
                 )}
@@ -324,7 +324,7 @@ const CarouselAccordionItem: React.FC<{
                 <button
                   onClick={handlePrev}
                   aria-label="Previous sample"
-                  className="p-1 hover:bg-slate-100 dark:hover:bg-white/10 rounded text-slate-500 transition-colors"
+                  className="p-1 hover:bg-slate-100 dark:hover:bg-white/10 rounded-lg text-slate-500 transition-colors"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
                 </button>
@@ -337,7 +337,7 @@ const CarouselAccordionItem: React.FC<{
                 <button
                   onClick={handleNext}
                   aria-label="Next sample"
-                  className="p-1 hover:bg-slate-100 dark:hover:bg-white/10 rounded text-slate-500 transition-colors"
+                  className="p-1 hover:bg-slate-100 dark:hover:bg-white/10 rounded-lg text-slate-500 transition-colors"
                 >
                   <ChevronRight className="w-3.5 h-3.5" />
                 </button>
@@ -745,7 +745,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             <button
               onClick={() => setFontSize(Math.max(12, fontSize - 2))}
               disabled={fontSize <= 12}
-              className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors rounded-md hover:bg-slate-100 dark:hover:bg-white/10 disabled:opacity-40"
+              className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-white/10 disabled:opacity-40"
               title="Decrease text size"
             >
               <ZoomOut className="w-3.5 h-3.5" />
@@ -756,7 +756,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             <button
               onClick={() => setFontSize(Math.min(32, fontSize + 2))}
               disabled={fontSize >= 32}
-              className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors rounded-md hover:bg-slate-100 dark:hover:bg-white/10 disabled:opacity-40"
+              className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-white/10 disabled:opacity-40"
               title="Increase text size"
             >
               <ZoomIn className="w-3.5 h-3.5" />
@@ -790,7 +790,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
                     ? 'AI sample-answer generation is part of Band 6 Plus — tap to learn more'
                     : 'Add a sample answer with AI'
                 }
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-bold shadow-sm hover:shadow transition-all ${
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-bold shadow-sm hover:shadow-lg transition-all ${
                   studioLocked
                     ? 'bg-amber-400/10 border-amber-400/40 text-amber-600 dark:text-amber-400'
                     : 'bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-indigo-500/30 text-slate-600 dark:text-slate-300'

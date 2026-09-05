@@ -577,7 +577,7 @@ const Editor = forwardRef<
         // only lit at high progress. Either way it is a gentle band-palette
         // shadow with light: variants, never colour under text. The wrapper's
         // existing box-shadow transition is already reduced-motion-safe.
-        className={`clip-stable flex flex-col w-full h-auto bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] overflow-hidden border-2 ${chroma.border} shadow-2xl ${readinessAccent ? readinessAccent.glow : chroma.glow} transition-[box-shadow,border-color,background-color] duration-700 ease-in-out ${className}`}
+        className={`clip-stable flex flex-col w-full h-auto bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface overflow-hidden border-2 ${chroma.border} shadow-lg ${readinessAccent ? readinessAccent.glow : chroma.glow} transition-[box-shadow,border-color,background-color] duration-700 ease-in-out ${className}`}
         // Pinned to the question prompt's height: min and max are the same
         // value, so the writing area matches the card beside it exactly and a
         // response longer than that scrolls inside it. The fallback only
@@ -624,14 +624,14 @@ const Editor = forwardRef<
                   <h3 className={CARD_HEADER_TITLE}>Written Response</h3>
                   {isExamMode ? (
                     <div className={CARD_HEADER_META_ROW}>
-                      <span className="t-label leading-none bg-red-500/90 px-2 py-1 rounded-md border border-white/20 flex items-center gap-1 shadow-sm">
+                      <span className="t-label leading-none bg-red-500/90 px-2 py-1 rounded-lg border border-white/20 flex items-center gap-1 shadow-sm">
                         <GraduationCap className="w-3 h-3" /> Exam
                       </span>
                       <p className={CARD_HEADER_META}>No assistance</p>
                     </div>
                   ) : (
                     <div className={CARD_HEADER_META_ROW}>
-                      <span className="t-label leading-none whitespace-nowrap bg-white/20 px-2 py-1 rounded-md border border-white/15 shadow-sm backdrop-blur-sm">
+                      <span className="t-label leading-none whitespace-nowrap bg-white/20 px-2 py-1 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm">
                         Band {chroma.targetBand}
                       </span>
                       <div
@@ -674,7 +674,7 @@ const Editor = forwardRef<
                           onClick={() => onWritingModeChange('coach')}
                           aria-pressed={!isExamMode}
                           title="Coach Mode — live highlighting, insights and exemplars"
-                          className={`t-label px-2.5 h-6 rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${!isExamMode ? 'bg-white text-slate-900 shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                          className={`t-label px-2.5 h-6 rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${!isExamMode ? 'bg-white text-slate-900 shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
                         >
                           <Lightbulb className="w-3.5 h-3.5" />
                           <span className="hidden 2xl:inline">Coach</span>
@@ -690,7 +690,7 @@ const Editor = forwardRef<
                           }}
                           aria-pressed={isExamMode}
                           title="Exam Mode — HSC exam simulation: no assistance, timed"
-                          className={`t-label px-2.5 h-6 rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${isExamMode ? 'bg-red-500 text-white shadow' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                          className={`t-label px-2.5 h-6 rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${isExamMode ? 'bg-red-500 text-white shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
                         >
                           <GraduationCap className="w-3.5 h-3.5" />
                           <span className="hidden 2xl:inline">Exam</span>
@@ -913,7 +913,7 @@ const Editor = forwardRef<
                 role="status"
                 className="absolute top-3 left-1/2 -translate-x-1/2 z-20 w-[min(28rem,calc(100%-2rem))] animate-fade-in"
               >
-                <div className="flex items-start gap-3 px-4 py-3 rounded-2xl border border-amber-400/40 bg-amber-50 light:bg-amber-50 dark:bg-amber-950/80 backdrop-blur-xl shadow-xl">
+                <div className="flex items-start gap-3 px-4 py-3 rounded-2xl border border-amber-400/40 bg-amber-50 light:bg-amber-50 dark:bg-amber-950/80 backdrop-blur-xl shadow-lg">
                   <PenTool className="w-4 h-4 mt-0.5 shrink-0 text-amber-600 dark:text-amber-400" />
                   <div className="min-w-0">
                     <p className="t-label text-amber-600 dark:text-amber-400">
@@ -995,7 +995,7 @@ const Editor = forwardRef<
           {/* Footer Metrics */}
           <div
             ref={footerRef}
-            className={`px-4 sm:px-6 py-3 flex items-center border-t border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50 rounded-b-[30px] transition-[box-shadow,border-color] duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
+            className={`px-4 sm:px-6 py-3 flex items-center border-t border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50 rounded-b-surface-inner transition-[box-shadow,border-color] duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
             style={{ minHeight: minFooterHeight || 52 }}
           >
             {/* Inner wrapper carries the row layout so its height stays

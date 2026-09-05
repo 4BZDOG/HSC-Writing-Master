@@ -107,7 +107,7 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-2xl border border-emerald-500/30 light:border-emerald-600/30 animate-fade-in-up overflow-hidden flex flex-col max-h-[88vh]"
+        className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-2xl border border-emerald-500/30 light:border-emerald-600/30 animate-fade-in-up overflow-hidden flex flex-col max-h-[88vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50 flex-shrink-0">

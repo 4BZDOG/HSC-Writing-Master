@@ -76,7 +76,7 @@ const Section: React.FC<{
   action?: React.ReactNode;
   children: React.ReactNode;
 }> = ({ icon: Icon, iconClass, eyebrow, title, action, children }) => (
-  <section className="p-6 rounded-[24px] bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200">
+  <section className="p-6 rounded-panel bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200">
     <div className="flex flex-wrap justify-between items-center gap-3 mb-5">
       <div className="flex flex-col gap-1 min-w-0">
         <span className="t-label text-white/20 light:text-slate-500">{eyebrow}</span>
@@ -123,7 +123,7 @@ const Toggle: React.FC<{
         }`}
       >
         <span
-          className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all ${
+          className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-all ${
             checked ? 'left-[1.15rem]' : 'left-0.5'
           }`}
         />
@@ -383,7 +383,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
           aria-modal="true"
           aria-labelledby="manual-prompt-title"
           className={`
-                        bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] shadow-2xl
+ bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-panel shadow-lg
                         w-full max-w-4xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300
                         clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh] relative
                     `}
@@ -542,7 +542,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       className={`h-full bg-gradient-to-r ${markGradient} rounded-full transition-all duration-300 relative`}
                       style={{ width: `${((marks - 1) / 19) * 100}%` }}
                     >
-                      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white shadow-xl scale-125 group-hover/slider:scale-150 transition-transform" />
+                      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white shadow-lg scale-125 group-hover/slider:scale-150 transition-transform" />
                     </div>
                   </div>
                   <div className="flex justify-between mt-2 px-1 gap-2">
@@ -988,7 +988,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                 onClick={handleRefine}
                 disabled={!draftQuestion.trim() || isRefining}
                 className={`
-                                    t-label group px-8 py-3 rounded-2xl text-white shadow-xl transition-all flex items-center gap-3
+                                    t-label group px-8 py-3 rounded-2xl text-white shadow-lg transition-all flex items-center gap-3
                                     ${
                                       !draftQuestion.trim() || isRefining
                                         ? 'bg-slate-700 opacity-50 cursor-not-allowed'
@@ -1011,7 +1011,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
               <button
                 onClick={handleConfirm}
                 disabled={!editedQuestion.trim()}
-                className="t-label group px-10 py-3 rounded-2xl text-white bg-gradient-to-r from-emerald-600 to-teal-600 shadow-xl hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="t-label group px-10 py-3 rounded-2xl text-white bg-gradient-to-r from-emerald-600 to-teal-600 shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 <Save className="w-4 h-4" /> Save to Syllabus
               </button>

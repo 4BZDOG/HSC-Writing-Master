@@ -118,6 +118,31 @@ export default {
         secondary: 'rgb(var(--color-border-secondary) / <alpha-value>)',
         accent: 'rgb(var(--color-border-accent) / <alpha-value>)',
       },
+      /*
+       * Radius by ROLE, not by eye. See DesignSpec §3, "Radius & Elevation".
+       *
+       * Arbitrary values had drifted to ten of them — 14, 18, 20, 24, 28, 30,
+       * 32, 36, 40, 44, 48px — across what are really four jobs. Each job now
+       * has one name, so a new surface joins the set instead of picking a
+       * number that looked about right.
+       */
+      borderRadius: {
+        // A modal shell or a workspace card: the outermost box of a surface
+        // that floats over the page.
+        surface: '32px',
+        // The same surface's INNER edge, for a header or footer that sits
+        // inside its 2px border. 32 - 2 = 30; the pair has to move together or
+        // the corner shows a sliver of the wrong curve.
+        'surface-inner': '30px',
+        // A section inside a surface: an accordion, a reference panel, a
+        // bordered block of settings. Matches PANEL_SURFACE.
+        panel: '20px',
+        // A fixed-size square: an icon tile, an avatar, a badge. A percentage
+        // because the radius has to track the box — the same 32px on a 56px
+        // tile and a 112px one reads as two different shapes. This is the one
+        // place a non-token radius was doing real work.
+        tile: '32%',
+      },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
