@@ -2,7 +2,12 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Prompt, SampleAnswer } from '../types';
 import { generateSampleAnswer } from '../services/geminiService';
-import { getCommandTermInfo, getBandForMark, TIER_GROUPS } from '../data/commandTerms';
+import {
+  getCommandTermInfo,
+  getBandForMark,
+  bandsForQuestion,
+  TIER_GROUPS,
+} from '../data/commandTerms';
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import {
@@ -100,8 +105,13 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
     [commandTermInfo.tier]
   );
 
-  const maxBand = useMemo(
-    () => getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier),
+  // The rungs this question HAS, highest first. A question with fewer marks
+  // than bands cannot award the bottom of the range — a 4-mark Evaluate runs
+  // Band 6 down to Band 3 — and counting 1..ceiling instead left the coverage
+  // strip showing dashed chips for bands no exemplar could ever fill, so
+  // "2 bands missing" never cleared and "Complete the ladder" never completed.
+  const ladderBands = useMemo(
+    () => bandsForQuestion(prompt.totalMarks, commandTermInfo.tier),
     [prompt.totalMarks, commandTermInfo.tier]
   );
 
@@ -117,22 +127,19 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
     // No samples yet → start with full marks (natural first exemplar)
     if (coveredBands.size === 0) return prompt.totalMarks;
     // Find the highest missing band and suggest the highest mark that maps to it
-    for (let b = maxBand; b >= 1; b--) {
+    for (const b of ladderBands) {
       if (!coveredBands.has(b)) {
         const options = markOptions.filter((o) => o.band === b && o.mark > 0);
         if (options.length > 0) return options[options.length - 1].mark;
       }
     }
     return prompt.totalMarks;
-  }, [maxBand, coveredBands, markOptions, prompt.totalMarks]);
+  }, [ladderBands, coveredBands, markOptions, prompt.totalMarks]);
 
-  const missingBands = useMemo(() => {
-    const missing: number[] = [];
-    for (let b = 1; b <= maxBand; b++) {
-      if (!coveredBands.has(b)) missing.push(b);
-    }
-    return missing;
-  }, [maxBand, coveredBands]);
+  const missingBands = useMemo(
+    () => ladderBands.filter((b) => !coveredBands.has(b)),
+    [ladderBands, coveredBands]
+  );
 
   /** One mark per band that has no exemplar yet — the "complete the ladder" pick. */
   const missingBandMarks = useMemo(() => {
@@ -288,7 +295,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
     >
       <div
         className={`
-          clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl
+          clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg
           w-full max-w-3xl border-2 ${activeBandConfig.border}
           animate-fade-in-up overflow-hidden flex flex-col h-[85vh] sm:h-[650px]
           ${activeBandConfig.glow}
@@ -326,7 +333,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                 </h2>
                 <div className="flex items-center gap-2 mt-1 text-sm font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-600">
                   <span
-                    className={`px-2 py-0.5 rounded text-xs font-black uppercase tracking-wider bg-white/10 light:bg-white/60 border border-white/20 light:border-slate-300/50`}
+                    className={`t-label px-2 py-0.5 rounded-lg bg-white/10 light:bg-white/60 border border-white/20 light:border-slate-300/50`}
                   >
                     '{prompt.verb}'
                   </span>
@@ -354,7 +361,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                   <CopyCheck className="w-4 h-4 text-amber-400 light:text-amber-700" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-sm font-black text-amber-300 light:text-amber-800 uppercase tracking-wider">
+                  <h3 className="text-sm font-black text-amber-300 light:text-amber-800">
                     {duplicates.length === 1
                       ? 'One answer repeats an exemplar already at that mark'
                       : `${duplicates.length} answers repeat exemplars already at their mark`}
@@ -378,23 +385,23 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     >
                       <div className="flex flex-wrap items-center gap-2 mb-2">
                         <span
-                          className={`px-2 py-0.5 rounded text-[10px] font-black tracking-wider ${config.bg} ${config.text} border ${config.border}`}
+                          className={`px-2 py-0.5 rounded-lg text-[10px] font-bold tracking-wider ${config.bg} ${config.text} border ${config.border}`}
                         >
                           {answer.mark}/{prompt.totalMarks}
                         </span>
-                        <span className="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border border-amber-500/30">
+                        <span className="t-label px-2 py-0.5 rounded-lg bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border border-amber-500/30">
                           {describeSimilarity(score)} · {Math.round(score * 100)}% overlap
                         </span>
                         <div className="ml-auto flex items-center gap-2">
                           <button
                             onClick={() => keepDuplicate(answer.id)}
-                            className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 light:bg-emerald-50 text-emerald-400 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500 hover:text-white transition-all"
+                            className="t-label flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/10 light:bg-emerald-50 text-emerald-400 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500 hover:text-white transition-all"
                           >
                             <Check className="w-3 h-3" /> Keep it
                           </button>
                           <button
                             onClick={() => discardDuplicate(answer.id)}
-                            className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider bg-red-500/10 light:bg-red-50 text-red-400 light:text-red-700 border border-red-500/30 hover:bg-red-500 hover:text-white transition-all"
+                            className="t-label flex items-center gap-1 px-2.5 py-1 rounded-lg bg-red-500/10 light:bg-red-50 text-red-400 light:text-red-700 border border-red-500/30 hover:bg-red-500 hover:text-white transition-all"
                           >
                             <Trash2 className="w-3 h-3" /> Discard
                           </button>
@@ -402,7 +409,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                       </div>
                       <div className="grid sm:grid-cols-2 gap-2">
                         <div>
-                          <span className="block text-[9px] font-black uppercase tracking-[0.15em] text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1">
+                          <span className="t-label block text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1">
                             New
                           </span>
                           <p className="text-[11px] leading-snug font-serif text-[rgb(var(--color-text-secondary))] light:text-slate-700 line-clamp-3">
@@ -410,7 +417,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                           </p>
                         </div>
                         <div>
-                          <span className="block text-[9px] font-black uppercase tracking-[0.15em] text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1">
+                          <span className="t-label block text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1">
                             Already in the library
                           </span>
                           <p className="text-[11px] leading-snug font-serif text-[rgb(var(--color-text-muted))] light:text-slate-500 line-clamp-3">
@@ -427,13 +434,13 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                 <div className="mt-3 flex items-center justify-end gap-2">
                   <button
                     onClick={keepAllDuplicates}
-                    className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-emerald-500/10 light:bg-emerald-50 text-emerald-400 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all"
+                    className="t-label px-3 py-1.5 rounded-lg bg-emerald-500/10 light:bg-emerald-50 text-emerald-400 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all"
                   >
                     Keep all {duplicates.length}
                   </button>
                   <button
                     onClick={() => setDuplicates([])}
-                    className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 hover:text-[rgb(var(--color-text-secondary))] transition-all"
+                    className="t-label px-3 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 hover:text-[rgb(var(--color-text-secondary))] transition-all"
                   >
                     Discard all
                   </button>
@@ -443,7 +450,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
           )}
           <div>
             <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-              <h3 className="text-xs font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-widest flex items-center gap-2">
+              <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 flex items-center gap-2">
                 <Target className="w-3.5 h-3.5" /> Select Target Marks
                 <span className="normal-case tracking-normal font-medium opacity-70">
                   — pick as many as you like
@@ -455,7 +462,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                   <button
                     onClick={() => !isLoading && setSelectedMarks(missingBandMarks)}
                     disabled={isLoading}
-                    className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all disabled:opacity-50"
+                    className="t-label px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all disabled:opacity-50"
                     title="Select one mark for every band that has no exemplar yet"
                   >
                     Complete the ladder ({missingBandMarks.length})
@@ -465,7 +472,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                   <button
                     onClick={() => !isLoading && setSelectedMarks([])}
                     disabled={isLoading}
-                    className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 hover:text-[rgb(var(--color-text-secondary))] transition-all disabled:opacity-50"
+                    className="t-label px-3 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 hover:text-[rgb(var(--color-text-secondary))] transition-all disabled:opacity-50"
                   >
                     Clear
                   </button>
@@ -508,7 +515,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                       {option.mark}
                     </span>
                     <span
-                      className={`text-[9px] font-black uppercase tracking-wider ${isSelected ? optionBandConfig.text : 'text-[rgb(var(--color-text-muted))] light:text-slate-500'}`}
+                      className={`t-label ${isSelected ? optionBandConfig.text : 'text-[rgb(var(--color-text-muted))] light:text-slate-500'}`}
                     >
                       Band {option.band}
                     </span>
@@ -519,7 +526,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     )}
                     {isSelected && (
                       <div
-                        className={`absolute -top-2 -right-2 flex items-center justify-center w-5 h-5 rounded-full text-white text-[9px] font-black shadow-md bg-gradient-to-br ${optionBandConfig.gradient}`}
+                        className={`absolute -top-2 -right-2 flex items-center justify-center w-5 h-5 rounded-full text-white text-[9px] font-bold shadow-sm bg-gradient-to-br ${optionBandConfig.gradient}`}
                         title={`Will be written ${order === 1 ? 'first' : `${order}${order === 2 ? 'nd' : order === 3 ? 'rd' : 'th'}`}`}
                       >
                         {/* The order number matters: the batch runs bottom-up so
@@ -535,16 +542,16 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
             {/* Band coverage indicator */}
             {prompt.sampleAnswers && prompt.sampleAnswers.length > 0 && (
               <div className="mt-4 flex items-center gap-2 flex-wrap">
-                <span className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider">
+                <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
                   Coverage:
                 </span>
-                {Array.from({ length: maxBand }, (_, i) => i + 1).map((b) => {
+                {[...ladderBands].reverse().map((b) => {
                   const bConfig = getBandConfig(b);
                   const covered = coveredBands.has(b);
                   return (
                     <span
                       key={b}
-                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] font-bold ${
                         covered
                           ? `${bConfig.bg} ${bConfig.text} ${bConfig.border} border`
                           : 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 border border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300'
@@ -593,7 +600,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     return (
                       <span
                         key={m}
-                        className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-black tracking-wider ${c.bg} ${c.text} border ${c.border}`}
+                        className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold tracking-wider ${c.bg} ${c.text} border ${c.border}`}
                       >
                         {m}/{prompt.totalMarks}
                       </span>
@@ -653,7 +660,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
               it away without anyone deciding to — the one thing this check
               exists to prevent. */}
           {duplicates.length > 0 && (
-            <p className="mb-3 text-center text-[11px] font-bold uppercase tracking-wider text-amber-400 light:text-amber-700">
+            <p className="t-label mb-3 text-center text-amber-400 light:text-amber-700">
               Keep or discard the repeated answer{duplicates.length > 1 ? 's' : ''} above first
             </p>
           )}

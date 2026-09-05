@@ -3,8 +3,8 @@
 Target: `components/CommandVerbHierarchy.tsx` lines 581–689 (the "Cognitive Timeline
 Footer") and the `RIBBON_TIMELINE_*` block in `utils/verbRibbonChrome.ts` lines 293–347.
 
-Brief, verbatim: *"Try to implement an elegant spectrum the lights up as the levels
-change. Give it gorgeous animations and appropriate text cues."*
+Brief, verbatim: _"Try to implement an elegant spectrum the lights up as the levels
+change. Give it gorgeous animations and appropriate text cues."_
 
 ---
 
@@ -13,27 +13,27 @@ change. Give it gorgeous animations and appropriate text cues."*
 `git log -L 581,689:components/CommandVerbHierarchy.tsx` narrows 22 commits to six that
 touched the footer:
 
-| Commit | Date | What it changed in the footer |
-|---|---|---|
+| Commit    | Date       | What it changed in the footer                                                                                                  |
+| --------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | `ce544fc` | 2026-08-14 | Contrast only — idle step labels `slate-500 opacity-70` → `slate-600`, threshold chip `slate-400` → `slate-600 dark:slate-400` |
-| `9188321` | 2026-08-14 | Terminology only — the six step labels became `tierShortLabel(tier)` |
-| `e0d1fd7` | 2026-08-14 | Extraction only — class strings moved verbatim into `RIBBON_TIMELINE_*` |
-| `fe6f265` | 2026-08-14 | `inert` on the shut panel (surrounding, not the footer) |
-| `da16c19` | 2026-08-09 | Corner masking / header lock (surrounding) |
-| `ae1b121` | 2026-07-24 | **The repo's initial import.** |
+| `9188321` | 2026-08-14 | Terminology only — the six step labels became `tierShortLabel(tier)`                                                           |
+| `e0d1fd7` | 2026-08-14 | Extraction only — class strings moved verbatim into `RIBBON_TIMELINE_*`                                                        |
+| `fe6f265` | 2026-08-14 | `inert` on the shut panel (surrounding, not the footer)                                                                        |
+| `da16c19` | 2026-08-09 | Corner masking / header lock (surrounding)                                                                                     |
+| `ae1b121` | 2026-07-24 | **The repo's initial import.**                                                                                                 |
 
 The concrete statement of staleness: the footer's **geometry, fill model and motion are
 byte-for-byte as they arrived in the initial import.** Verified with `git log -S`:
 `px-[16%]`, `(activeTermInfo.tier / 6) * 100`, `animate-ping` and `Deep Learning
 Threshold` all trace to `ae1b121` and have never been touched (only the threshold chip's
-*colour* changed). Everything since has been text tokens and contrast ratios. Nobody has
-revised what the thing *is*.
+_colour_ changed). Everything since has been text tokens and contrast ratios. Nobody has
+revised what the thing _is_.
 
 The existing audit already said so and deferred it — `projectDocs/VerbRibbonRedesignPlan.md`
 **R5** ("should the timeline become a read-only progress statement?"), **R6** (the four span
 labels are a fifth vocabulary), **A7** ("the 'measurement ticks' measure nothing").
 This plan closes A7 and R6, and answers R5 with "no — keep the six buttons, they are a
-pinned accessibility fix (`commandVerbHierarchy.test.tsx:228`); make the *bar* the
+pinned accessibility fix (`commandVerbHierarchy.test.tsx:228`); make the _bar_ the
 read-only statement instead."
 
 ---
@@ -76,13 +76,13 @@ student writes.
 `:587–592` hand-writes `Basic Recall`, `Explain & Compare`, `Analyse & Apply`,
 `Evaluate & Create`. Two are verbatim `TIER_GROUPS[].title`; two are paraphrases.
 `tierShortLabel`'s doc comment is a written record of this drift class happening twice in
-admin components, and `commandVerbHierarchy.test.tsx:263` pins the *six* labels — the
-*four* slipped past because they name spans rather than tiers.
+admin components, and `commandVerbHierarchy.test.tsx:263` pins the _six_ labels — the
+_four_ slipped past because they name spans rather than tiers.
 
 > **Corrected 2026-08-20** — see `projectDocs/Plan-SpectrumScaleLabels.md` §0.
 > The last clause is false and it cost the feature. They do **not** name spans:
 > `Explain & Compare` is byte-identical to `TIER_GROUPS[2].title` and `Analyse &
-> Apply` to `TIER_GROUPS[3].title`, while `Basic Recall` and `Evaluate & Create`
+Apply` to `TIER_GROUPS[3].title`, while `Basic Recall` and `Evaluate & Create`
 > are paraphrases of `TIER_GROUPS[0].title` and `TIER_GROUPS[5].title`. The row
 > was four **tier** titles — tiers 1, 3, 4 and 6 — with tiers 2 and 5 dropped,
 > and `justify-between` put none of them over the tier it named. This heading
@@ -156,13 +156,13 @@ this; `projectDocs/bundleSafety.md` documents the crash class. **Build the gradi
 
 ### 3.1 One geometry: six equal bands
 
-- Band *i* occupies `[(i−1)/6, i/6]`.
-- Dot *i* sits at its band **centre**: `(2i−1)/12` → 8.333, 25, 41.667, 58.333, 75, 91.667%.
-- Boundaries (the honest replacement for F2) at `i/6` for *i* = 1…5.
+- Band _i_ occupies `[(i−1)/6, i/6]`.
+- Dot _i_ sits at its band **centre**: `(2i−1)/12` → 8.333, 25, 41.667, 58.333, 75, 91.667%.
+- Boundaries (the honest replacement for F2) at `i/6` for _i_ = 1…5.
 - The fill formula `(tier / 6) * 100` is **unchanged** — the only part of the geometry that
   was already right.
 
-Filling to `tier/6` now means "tier *i*'s whole band is lit, with its dot inside the lit
+Filling to `tier/6` now means "tier _i_'s whole band is lit, with its dot inside the lit
 region". The Deep Learning Threshold at `left-1/2` lands exactly on the 3/4 boundary — it
 already did, so **its position needs no change**.
 
@@ -192,7 +192,7 @@ visual judgement, stated as one.
 Two elements, both `absolute inset-0`, both carrying that string as `backgroundImage`:
 
 1. **Dormant** — `opacity-20 dark:opacity-25`. The whole journey, visible but unlit. This
-   is what makes "not yet reached" read as *ahead of you* rather than *empty*.
+   is what makes "not yet reached" read as _ahead of you_ rather than _empty_.
 2. **Lit** — full opacity, clipped:
 
 ```tsx
@@ -246,7 +246,7 @@ six-colour spectrum in. Visual judgement, stated as one.
    what `RIBBON_ROOT`, the disclosure panel and `RIBBON_TIER_CARD` already use. The current
    `duration-1000 ease-out` appears nowhere else in the component.
 
-2. **The newly-reached band ignites** — a one-shot bloom confined to band *tier*, with
+2. **The newly-reached band ignites** — a one-shot bloom confined to band _tier_, with
    `key={tier}` so React remounts it and it replays on every change:
 
 ```tsx
@@ -283,7 +283,7 @@ flare must end at 0 or it burns in. It animates transform and opacity only, hono
 
 3. **The dot** — `isActive` keeps `solidBg` + `scale-125`; `isCurrent` keeps
    `ring-4 scale-150 shadow-lg`. The `animate-ping` child is deleted and replaced by the
-   *same* `animate-tier-ignite` on a `rounded-full` child, also `key`ed on tier.
+   _same_ `animate-tier-ignite` on a `rounded-full` child, also `key`ed on tier.
 
 ### 3.4 The reduced-motion trap, written down
 
@@ -305,7 +305,7 @@ Delete the four span labels (F5 / R6). One cue line takes their slot, above the 
 > **Corrected 2026-08-20** — see `projectDocs/Plan-SpectrumScaleLabels.md`. The
 > four were not span labels (F5's correction above), so "nothing can derive
 > them" was never the reason to delete them. The cue line stays and is right;
-> what was lost with the four was the *arc* — the floor, the ceiling and the
+> what was lost with the four was the _arc_ — the floor, the ceiling and the
 > gate between tiers 3 and 4 — and that is restored as a scale rail naming the
 > two spans those rungs bound. The cue's prose-subtitle fragment sketched below
 > is also gone, replaced by a threshold-side clause.
@@ -318,8 +318,7 @@ Delete the four span labels (F5 / R6). One cue line takes their slot, above the 
         Tier {activeTermInfo.tier} · {tierShortLabel(activeTermInfo.tier)}
       </span>
       {' — '}
-      {sortedVerbsByGroup.find((g) => g.tier === activeTermInfo.tier)?.subtitle}
-      {' '}
+      {sortedVerbsByGroup.find((g) => g.tier === activeTermInfo.tier)?.subtitle}{' '}
       <span className={RIBBON_TIMELINE_CUE_BAND}>
         Ceiling: Band {getTierTargetBand(activeTermInfo.tier)} ·{' '}
         {getBandName(getTierTargetBand(activeTermInfo.tier))}
@@ -331,8 +330,8 @@ Delete the four span labels (F5 / R6). One cue line takes their slot, above the 
 </p>
 ```
 
-At tier 4 a student reads: *"Tier 4 · Analyse — Break things apart and use knowledge in new
-situations — dig deep. Ceiling: Band 4 · Sound."* Every fragment is sourced, not written.
+At tier 4 a student reads: _"Tier 4 · Analyse — Break things apart and use knowledge in new
+situations — dig deep. Ceiling: Band 4 · Sound."_ Every fragment is sourced, not written.
 
 Four properties matter:
 
@@ -414,24 +413,26 @@ carry the crossing — the cue line names it in words (C3).
 11. **`projectDocs/changeLog.md`** — `[Unreleased]` entry in the house voice: traffic-light →
     spectrum; F1/F2 as geometry defects present since the initial import; R5 answered and R6
     closed; the `tierIgnite` keyframe and why; `animate-ping` removal as a battery decision.
-12. **`projectDocs/VerbRibbonRedesignPlan.md`** — mark R5, R6, A7 closed in *"Open items —
-    carried, not closed"* (`:1027`). Leave R8 open.
+12. **`projectDocs/VerbRibbonRedesignPlan.md`** — mark R5, R6, A7 closed in _"Open items —
+    carried, not closed"_ (`:1027`). Leave R8 open.
 
 ---
 
 ## 5. Tests
 
 ### Must keep passing, unchanged
+
 - `verbRibbonChrome.test.tsx` → `leaves the timeline step labels their contrast` (`:289`),
   `gives the threshold marker a light-theme tone` (`:297`) — **the contrast suite that must
   not regress** (F8).
 - `verbRibbonChrome.test.tsx` → `gives every colour on a theme surface a light value and a
-  dark partner` (`:147`), `is written in the new idiom throughout` (`:190`) — these pick up
+dark partner` (`:147`), `is written in the new idiom throughout` (`:190`) — these pick up
   the eight new constants automatically (C6).
 - `commandVerbHierarchy.test.tsx` → `:228`, `:263`, `:195`, `:115`.
 - `bandColors.test.ts` — the whole file; it is the invariant the spectrum derives from.
 
 ### New, in `verbRibbonChrome.test.tsx`
+
 1. `paints the spectrum from BAND_HEX rather than from literals` — all six `BAND_HEX` appear
    in tier order in the dormant layer's `backgroundImage`. The drift guard.
 2. `lights the spectrum to the tier's share of six` — `clipPath` is `inset(0 83.333% 0 0)`
@@ -445,18 +446,21 @@ carry the crossing — the cue line names it in words (C3).
    `keyframes.tierIgnite['100%'].opacity === '0'` (§3.4).
 
 ### New, in `commandVerbHierarchy.test.tsx`
+
 7. `announces the level politely, in words` — a `role="status"` node contains `Tier 4`,
    `Analyse`, `Band 4` for `ANALYSE`, and is not `aria-live="assertive"`.
 8. `keeps the live region mounted when no verb is chosen, and names no tier` — extends `:195`.
 9. `locks the footer's height across every tier` — cue line carries `min-h-`/`line-clamp-2`.
 
 ### E2E
+
 - `npx playwright test tests/e2e/light-theme.spec.ts` — `freezeAnimations` measures the
   resting state, which is what you want. The cue line is on the page background (C7) and is
   measured; the spectrum carries no text and is correctly `unassessable`.
 - `npm run test:e2e` — CI runs Mobile Safari, the only place `clip-path` risk will surface.
 
 ### Commands
+
 ```bash
 npm run test -- --run tests/unit/verbRibbonChrome.test.tsx \
                      tests/unit/commandVerbHierarchy.test.tsx \
@@ -467,6 +471,7 @@ npx playwright test tests/e2e/light-theme.spec.ts
 ```
 
 ### Verification by eye — non-negotiable
+
 This component has no visual-regression baseline (R2). Check **both themes**, with **tier 3**
 selected (yellow is where every contrast defect here has been), with **no verb** selected, at
 **1400px and 375px**, and by **changing question repeatedly** to confirm the motion is not

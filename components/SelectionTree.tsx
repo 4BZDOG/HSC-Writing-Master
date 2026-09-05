@@ -85,7 +85,7 @@ const TreeItemComponent: React.FC<TreeItemComponentProps> = ({
       >
         <button
           onClick={() => onToggleExpand(item.id)}
-          className={`mr-1 p-0.5 rounded hover:bg-white/10 light:hover:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-500 transition-colors ${hasChildren ? 'opacity-100' : 'opacity-0'}`}
+          className={`mr-1 p-0.5 rounded-lg hover:bg-white/10 light:hover:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-500 transition-colors ${hasChildren ? 'opacity-100' : 'opacity-0'}`}
         >
           <ChevronRight
             className={`h-3 w-3 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}
@@ -97,7 +97,7 @@ const TreeItemComponent: React.FC<TreeItemComponentProps> = ({
           checked={isSelected}
           onChange={(e) => onToggleSelect(item.id, e.target.checked)}
           onKeyDown={handleCheckboxKeyDown}
-          className="h-3.5 w-3.5 rounded border-gray-600 light:border-slate-400 bg-[rgb(var(--color-bg-surface-inset))] light:bg-white text-[rgb(var(--color-accent))] focus:ring-[rgb(var(--color-accent))] mr-2.5 cursor-pointer"
+          className="h-3.5 w-3.5 rounded-lg border-gray-600 light:border-slate-400 bg-[rgb(var(--color-bg-surface-inset))] light:bg-white text-[rgb(var(--color-accent))] focus:ring-[rgb(var(--color-accent))] mr-2.5 cursor-pointer"
           aria-label={`Select ${item.label}`}
         />
 

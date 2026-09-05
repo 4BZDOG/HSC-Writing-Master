@@ -104,7 +104,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-lg border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-lg border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -165,7 +165,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
 
           {/* Gemini */}
           <label className="block">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
+            <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
               Gemini API key
             </span>
             <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-500">
@@ -186,7 +186,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
 
           {/* Anthropic */}
           <label className="block">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
+            <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
               Anthropic (Claude) API key
             </span>
             <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-500">
@@ -207,7 +207,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
 
           {/* OpenRouter */}
           <label className="block">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
+            <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
               OpenRouter API key
             </span>
             <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-500">
@@ -239,7 +239,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
 
           {/* Groq */}
           <label className="block">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
+            <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
               Groq API key
             </span>
             <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-500">
@@ -271,7 +271,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
 
           {/* Kimi */}
           <label className="block">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
+            <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
               Kimi (Moonshot AI) API key
             </span>
             <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-500">
@@ -326,7 +326,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
           </button>
           <button
             onClick={handleSave}
-            className="flex items-center gap-2 px-5 py-2 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 text-xs font-bold uppercase tracking-wider transition-all"
+            className="t-label flex items-center gap-2 px-5 py-2 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 transition-all"
           >
             <Check className="w-3.5 h-3.5" />
             Save Keys

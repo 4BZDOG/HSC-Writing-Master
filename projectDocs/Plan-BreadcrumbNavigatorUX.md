@@ -13,12 +13,12 @@ distinction is the whole finding.
 
 DOM order in `App.tsx`:
 
-| Line | Element | Rendered when |
-|---|---|---|
-| 784–828 | `<SyllabusNavBar>` | `isNavCollapsed` (a question is chosen) |
-| 836–931 | `<PromptSelector>` in the `grid-rows-[0fr]/[1fr]` wrapper | always mounted, `inert` when collapsed |
-| 951 | `<CommandVerbHierarchy>` (the ribbon) | always |
-| 968 | `<Workspace>`, whose **first child** is `<Breadcrumb>` (`Workspace.tsx:585–589`) | `showBreadcrumb={!isNavCollapsed}` |
+| Line    | Element                                                                          | Rendered when                           |
+| ------- | -------------------------------------------------------------------------------- | --------------------------------------- |
+| 784–828 | `<SyllabusNavBar>`                                                               | `isNavCollapsed` (a question is chosen) |
+| 836–931 | `<PromptSelector>` in the `grid-rows-[0fr]/[1fr]` wrapper                        | always mounted, `inert` when collapsed  |
+| 951     | `<CommandVerbHierarchy>` (the ribbon)                                            | always                                  |
+| 968     | `<Workspace>`, whose **first child** is `<Breadcrumb>` (`Workspace.tsx:585–589`) | `showBreadcrumb={!isNavCollapsed}`      |
 
 So `SyllabusNavBar` is **above** the ribbon, and the breadcrumb **below** the
 ribbon is `components/Breadcrumb.tsx`. The two are mutually exclusive —
@@ -89,7 +89,7 @@ rename it. It should name the destination, not the crumb.
 
 **G. Dead guard.** `SyllabusNavBar.tsx:63`'s `disabled={!crumb.onClick}` can
 never be true: `App.tsx:786–823` supplies `onClick` for all four crumbs.
-Harmless, but it is why nobody noticed that the *other* breadcrumb's identical
+Harmless, but it is why nobody noticed that the _other_ breadcrumb's identical
 guard disables everything.
 
 **H. `hierarchyContext` never memoises.** `WorkspaceRightPanel.tsx:248–256`
@@ -125,7 +125,7 @@ divergence in a persisted value that feeds `AppModals.tsx:251`.
   same viewport a few hundred pixels below `SyllabusNavBar`. Adding them to the
   breadcrumb duplicates a chip against itself. Neither is hidden in Focus Mode
   either — Focus Mode drops both the bar and the card together.
-- **Attempt history does not belong there.** "You: 4/6" is a *choosing* signal;
+- **Attempt history does not belong there.** "You: 4/6" is a _choosing_ signal;
   it is already on the question row in the picker (`PromptSelector.tsx:766–780`).
   Once the student is on the question it is noise.
 - **`Course.status` draft badge does not belong there.**
@@ -140,6 +140,7 @@ Root cause of the drift is that the crumb array is constructed twice, in two
 files, by two different rules. Fix the cause.
 
 1. **`types.ts`** — add the shared shape next to `StatePath`:
+
    ```ts
    export interface SyllabusCrumb {
      label: string;
@@ -151,6 +152,7 @@ files, by two different rules. Fix the cause.
      onClick?: () => void;
    }
    ```
+
    Type-only, so no module-scope import read (`.claude/skills/hsc-feature.md`
    gotcha) and no `DATA_VERSION` bump — this is not persisted data.
 
@@ -163,7 +165,7 @@ files, by two different rules. Fix the cause.
    - Props: `{ items: SyllabusCrumb[]; size?: 'default' | 'dense' }`. Delete the
      local `BreadcrumbItem`.
    - `disabled={!item.onClick}` only — drop `isLast ||`. The last crumb is the
-     syllabus dot point, which is a legitimate jump target; the *question* is the
+     syllabus dot point, which is a legitimate jump target; the _question_ is the
      current page and is not in this list.
    - `aria-current={isLast ? 'location' : undefined}` on the last crumb.
      `location` rather than `page`, because the last crumb names the deepest place
@@ -205,11 +207,13 @@ files, by two different rules. Fix the cause.
 
 4. **`components/SyllabusNavBar.tsx`** — replace lines 53–73 (the whole
    hand-rolled `<ol>`) with:
+
    ```tsx
    <nav aria-label="Syllabus path">
      <Breadcrumb items={crumbs} size="dense" />
    </nav>
    ```
+
    Delete `CRUMB_ICONS` (line 24) and the now-unused `ChevronRight`, `BookOpen`,
    `Layers`, `Folder`, `Hash` imports. The tier stripe, the verb/marks/band chips,
    and the share/Change buttons are untouched.
@@ -219,6 +223,7 @@ files, by two different rules. Fix the cause.
 
 5. **`App.tsx`** — hoist the inline array (lines 786–823) into a memo above the
    return:
+
    ```tsx
    const syllabusCrumbs: SyllabusCrumb[] = useMemo(() => {
      const year = resolveSyllabusYear(currentCourse, statePath.syllabusYear);
@@ -229,14 +234,49 @@ files, by two different rules. Fix the cause.
          // stays quiet. A chip rather than a suffix, so `label` stays the
          // course's actual name for the PDF export and the AI hierarchy context.
          badge: year === 'year12' ? undefined : yearShortLabel(year),
-         onClick: () => handlePathChange({ topicId: undefined, subTopicId: undefined, dotPointId: undefined, promptId: undefined, selectedSubItems: undefined }),
+         onClick: () =>
+           handlePathChange({
+             topicId: undefined,
+             subTopicId: undefined,
+             dotPointId: undefined,
+             promptId: undefined,
+             selectedSubItems: undefined,
+           }),
        },
-       { label: currentTopic?.name || 'Topic', onClick: () => handlePathChange({ subTopicId: undefined, dotPointId: undefined, promptId: undefined, selectedSubItems: undefined }) },
-       { label: currentSubTopic?.name || 'Sub-Topic', onClick: () => handlePathChange({ dotPointId: undefined, promptId: undefined, selectedSubItems: undefined }) },
-       { label: getDotPointLabel(currentDotPoint) || 'Dot Point', onClick: () => handlePathChange({ promptId: undefined }) },
+       {
+         label: currentTopic?.name || 'Topic',
+         onClick: () =>
+           handlePathChange({
+             subTopicId: undefined,
+             dotPointId: undefined,
+             promptId: undefined,
+             selectedSubItems: undefined,
+           }),
+       },
+       {
+         label: currentSubTopic?.name || 'Sub-Topic',
+         onClick: () =>
+           handlePathChange({
+             dotPointId: undefined,
+             promptId: undefined,
+             selectedSubItems: undefined,
+           }),
+       },
+       {
+         label: getDotPointLabel(currentDotPoint) || 'Dot Point',
+         onClick: () => handlePathChange({ promptId: undefined }),
+       },
      ];
-   }, [currentCourse, currentTopic, currentSubTopic, currentDotPoint, statePath.syllabusYear, handlePathChange]);
+   }, [
+     currentCourse,
+     currentTopic,
+     currentSubTopic,
+     currentDotPoint,
+     statePath.syllabusYear,
+     handlePathChange,
+   ]);
    ```
+
    This also lands finding J (`selectedSubItems`) and finding B (the year now
    reaches both bars). Pass `crumbs={syllabusCrumbs}` to `SyllabusNavBar` and a
    new `crumbs={syllabusCrumbs}` to `Workspace`.
@@ -313,14 +353,18 @@ destroyed or made `inert` by its own click, and nothing catches the focus.
 
 **(a) `components/Combobox.tsx` — selecting an option loses focus.** Escape
 already does the right thing (line 328: `buttonRef.current?.focus()`), but the two
-paths that actually *commit* a selection do not — Enter (311–319) and the option
+paths that actually _commit_ a selection do not — Enter (311–319) and the option
 click (521–525) both just `setIsOpen(false)`. In a searchable list (≥ 7 options,
 so every course list and most question lists) focus was on the search input, which
 unmounts; focus falls to `document.body` and the next Tab restarts from the top of
 the document. Fix: extract
 
 ```ts
-const commit = (id: string) => { onChange(id); setIsOpen(false); buttonRef.current?.focus(); };
+const commit = (id: string) => {
+  onChange(id);
+  setIsOpen(false);
+  buttonRef.current?.focus();
+};
 ```
 
 and call it from both. Matches the file's own Escape precedent; no new dependency.
@@ -334,7 +378,7 @@ effect that on the collapsed → expanded edge calls
 `navigatorRef.current?.focus({ preventScroll: true })` then
 `scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' })`. The
 scroll matters independently of a11y: when the page is scrolled down to the
-writing area, pressing "Change" unfolds a ~700px picker *above the fold* and
+writing area, pressing "Change" unfolds a ~700px picker _above the fold_ and
 nothing visible moves.
 
 **(c) `App.tsx:919–928` — "Collapse to breadcrumb" makes itself inert.** The
@@ -352,7 +396,7 @@ Every stage `onChange` in `PromptSelector.tsx` (907–916, 1059–1068, 1244–1
 unmounts the entire `Workspace` and replaces it with the "Ready to Write" card
 (`App.tsx:996–1007`) — the single largest state change in the app, with no
 explanation. The stage cards do re-expand over 500ms and the `RailNode` ticks
-revert, but nothing *says* what happened, and a screen-reader user gets nothing at
+revert, but nothing _says_ what happened, and a screen-reader user gets nothing at
 all.
 
 Fix, in `PromptSelector.tsx`, small and local:
@@ -360,16 +404,26 @@ Fix, in `PromptSelector.tsx`, small and local:
 ```tsx
 // Named because the change is invisible where it lands: choosing a different
 // topic takes the question with it, and the workspace below simply vanishes.
-const LEVEL_LABEL = { courseId: 'course', topicId: 'topic', subTopicId: 'sub-topic', dotPointId: 'syllabus point' };
+const LEVEL_LABEL = {
+  courseId: 'course',
+  topicId: 'topic',
+  subTopicId: 'sub-topic',
+  dotPointId: 'syllabus point',
+};
 const [clearedNotice, setClearedNotice] = useState<string | null>(null);
 const prev = useRef(statePath);
 useEffect(() => {
   const before = prev.current;
   prev.current = statePath;
-  if (!before.promptId || statePath.promptId) { setClearedNotice(null); return; }
-  const changed = (Object.keys(LEVEL_LABEL) as (keyof typeof LEVEL_LABEL)[])
-    .find((k) => before[k] !== statePath[k]);
-  if (changed) setClearedNotice(`New ${LEVEL_LABEL[changed]} chosen — your question selection was cleared.`);
+  if (!before.promptId || statePath.promptId) {
+    setClearedNotice(null);
+    return;
+  }
+  const changed = (Object.keys(LEVEL_LABEL) as (keyof typeof LEVEL_LABEL)[]).find(
+    (k) => before[k] !== statePath[k]
+  );
+  if (changed)
+    setClearedNotice(`New ${LEVEL_LABEL[changed]} chosen — your question selection was cleared.`);
 }, [statePath]);
 ```
 
@@ -377,11 +431,16 @@ Rendered once, immediately above the Question stage card (before line 1466's
 empty-state block):
 
 ```tsx
-{clearedNotice && (
-  <p role="status" className="mb-3 flex items-center gap-1.5 text-xs font-medium text-amber-400 dark:text-amber-400 animate-fade-in-up-sm">
-    <RotateCcw className="w-3.5 h-3.5 shrink-0" aria-hidden="true" /> {clearedNotice}
-  </p>
-)}
+{
+  clearedNotice && (
+    <p
+      role="status"
+      className="mb-3 flex items-center gap-1.5 text-xs font-medium text-amber-400 dark:text-amber-400 animate-fade-in-up-sm"
+    >
+      <RotateCcw className="w-3.5 h-3.5 shrink-0" aria-hidden="true" /> {clearedNotice}
+    </p>
+  );
+}
 ```
 
 `RotateCcw` and `animate-fade-in-up-sm` are both already in use in this file.

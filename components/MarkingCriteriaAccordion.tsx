@@ -123,11 +123,19 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
         // ignored the verb's ceiling, so a Tier-2 question's rows were placed
         // against marks it can never award.
         const bandMark = markForBand(topBand, prompt.totalMarks, commandTermInfo.tier);
+        // Then the band that mark ACTUALLY earns here, which is what both the
+        // label and the colour are read from. A question with fewer marks than
+        // bands cannot award the bottom of the range — a 4-mark Evaluate runs
+        // Band 6 down to Band 3 — so a row an author wrote as "Band 2:" was
+        // painting orange at mark 1 while the exemplar at that same mark sat
+        // yellow at Band 3. Where the authored band IS reachable this is a
+        // no-op and the row keeps the number it was written with.
+        const rowBand = getBandForMark(bandMark, prompt.totalMarks, commandTermInfo.tier);
         currentItem = {
-          markLabel: `Band ${topBand}`,
+          markLabel: `Band ${rowBand}`,
           markRange: [bandMark, bandMark],
           description: bandMatch[2].trim(),
-          band: topBand,
+          band: rowBand,
         };
       } else if (endMatch) {
         if (currentItem) items.push(currentItem);
@@ -210,7 +218,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                   ? 'AI rubric drafting is part of the AI Content Studio — tap to learn more'
                   : undefined
               }
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all shadow-sm text-[10px] font-bold uppercase tracking-wider hover:shadow ${
+              className={`t-label flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all shadow-sm hover:shadow-lg ${
                 studioLocked
                   ? 'bg-amber-400/15 border-amber-400/40 text-amber-500 light:text-amber-600'
                   : 'bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-indigo-500/30 text-indigo-500 dark:text-indigo-400'
@@ -263,7 +271,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
       className={
         embedded
           ? 'flex flex-col gap-3'
-          : 'clip-stable bg-white dark:bg-[rgb(var(--color-bg-surface))] rounded-[24px] border border-slate-200 dark:border-white/10 shadow-sm overflow-hidden flex flex-col'
+          : 'clip-stable bg-white dark:bg-[rgb(var(--color-bg-surface))] rounded-panel border border-slate-200 dark:border-white/10 shadow-sm overflow-hidden flex flex-col'
       }
     >
       {embedded ? (
@@ -275,9 +283,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
               <ListChecks className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-[0.2em]">
-                Marking Criteria
-              </h3>
+              <h3 className="t-label text-slate-900 dark:text-white">Marking Criteria</h3>
               <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium opacity-80">
                 Top Level: Band {maxPossibleBand}
               </p>
@@ -297,7 +303,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
             <button
               onClick={() => setGenerateError(null)}
               aria-label="Dismiss"
-              className="p-1 rounded hover:bg-red-500/10 transition-colors"
+              className="p-1 rounded-lg hover:bg-red-500/10 transition-colors"
             >
               <X className="w-3 h-3" />
             </button>
@@ -341,7 +347,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                     <div
                       className={`w-14 flex flex-col items-center justify-center p-2 border-r ${itemConfig.border} ${itemConfig.bg} flex-shrink-0`}
                     >
-                      <span className={`text-lg font-black ${itemConfig.text} leading-none`}>
+                      <span className={`text-lg font-bold ${itemConfig.text} leading-none`}>
                         {item.markLabel}
                       </span>
                     </div>
@@ -359,9 +365,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
               </div>
             ) : (
               <div className="py-8 px-4 text-center border-2 border-dashed border-slate-200 dark:border-white/10 rounded-xl">
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                  No detailed criteria available.
-                </p>
+                <p className="t-label text-slate-400">No detailed criteria available.</p>
               </div>
             )}
           </div>

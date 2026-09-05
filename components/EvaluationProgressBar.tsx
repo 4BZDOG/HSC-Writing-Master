@@ -93,7 +93,7 @@ const EvaluationProgressBar: React.FC = () => {
           className="absolute inset-1 rounded-full border-[3px] border-transparent border-t-indigo-500 animate-spin"
           style={{ animationDuration: '1.5s' }}
         />
-        <div className="w-14 h-14 rounded-[18px] bg-white dark:bg-slate-800 shadow-lg border border-white/40 dark:border-white/10 flex items-center justify-center">
+        <div className="w-14 h-14 rounded-tile bg-white dark:bg-slate-800 shadow-lg border border-white/40 dark:border-white/10 flex items-center justify-center">
           <ScanSearch className="w-7 h-7 text-indigo-500 dark:text-indigo-400 animate-pulse" />
         </div>
       </div>
@@ -111,7 +111,7 @@ const EvaluationProgressBar: React.FC = () => {
         </div>
 
         {/* Status line */}
-        <p className="text-center text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+        <p className="t-label text-center font-mono text-slate-500 dark:text-slate-400">
           {displayMessage}
         </p>
 
@@ -128,7 +128,7 @@ const EvaluationProgressBar: React.FC = () => {
         {/* Retry / fallback badge */}
         {(isRetrying || isFallback) && (
           <div className="flex justify-center">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+            <span className="t-label inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
               <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
               {isFallback ? 'Switching to faster model' : 'Retrying'}
             </span>

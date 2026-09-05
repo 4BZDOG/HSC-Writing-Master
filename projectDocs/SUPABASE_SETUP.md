@@ -52,10 +52,10 @@ demo accounts) — so this is only needed when you want real users.
    under "Project Settings").
 2. You'll see:
 
-   | Key                   | What it is                   | Where you'll use it                             |
-   | --------------------- | ---------------------------- | ----------------------------------------------- |
-   | **Project URL**       | `https://xxxx.supabase.co`   | Both client and server env vars                 |
-   | **anon / public** key | A long `eyJ...` string       | Both client and server env vars                 |
+   | Key                   | What it is                   | Where you'll use it                                                        |
+   | --------------------- | ---------------------------- | -------------------------------------------------------------------------- |
+   | **Project URL**       | `https://xxxx.supabase.co`   | Both client and server env vars                                            |
+   | **anon / public** key | A long `eyJ...` string       | Both client and server env vars                                            |
    | **service_role** key  | Another long `eyJ...` string | For the seed script and the Stripe webhook handler — never in client code. |
 
 3. Keep this page open — you'll copy these values in the next steps.

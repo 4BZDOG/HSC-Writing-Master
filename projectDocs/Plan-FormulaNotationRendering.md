@@ -39,6 +39,7 @@ disagreement a student notices and a teacher cannot explain" —
 Two things get genuinely new, better treatment on screen (not just parity
 with PDF, because screen has real DOM/CSS that PDF's flat Unicode text
 cannot match):
+
 - **Fractions**: PDF is forced to flatten `\frac{a}{b}` to the string
   `"a/b"` (no stacked-fraction glyph exists in plain Unicode). On screen we
   render a real stacked fraction (numerator / rule / denominator) using
@@ -51,7 +52,7 @@ cannot match):
 **No storage/schema/Zod/DATA_VERSION change is needed.** Confirmed:
 `Prompt.question`, `Prompt.scenario`, `Prompt.markingCriteria`, and
 `SampleAnswer.answer` (`types.ts:80`) are already plain `z.string()` fields
-(`utils/dataManagerUtils.ts:520,533,549`). This feature is additive *syntax*
+(`utils/dataManagerUtils.ts:520,533,549`). This feature is additive _syntax_
 inside content that was always free-form text — unlike the scenario-image
 feature on this branch, there is no new field shape to migrate.
 
@@ -73,13 +74,13 @@ Ported from `pdf/text.ts` lines 13-142 with additions:
 export const MATH_SYMBOLS: Record<string, string> = {
   // ...existing 30 entries verbatim from pdf/text.ts SYMBOLS (lines 54-94)...
   '\\rightleftharpoons': '⇌', // chemical equilibrium
-  '\\leftrightarrow': '↔',    // resonance structures
-  '\\propto': '∝',            // physics/economics proportionality
-  '\\perp': '⊥',              // geometry/physics perpendicular
+  '\\leftrightarrow': '↔', // resonance structures
+  '\\propto': '∝', // physics/economics proportionality
+  '\\perp': '⊥', // geometry/physics perpendicular
   '\\parallel': '∥',
-  '\\angle': '∠',             // geometry / geography bearings
-  '\\partial': '∂',           // physics/economics partial derivatives
-  '\\int': '∫',                // extension maths
+  '\\angle': '∠', // geometry / geography bearings
+  '\\partial': '∂', // physics/economics partial derivatives
+  '\\int': '∫', // extension maths
   '\\in': '∈',
   '\\notin': '∉',
   '\\subset': '⊂',
@@ -90,14 +91,22 @@ export const MATH_SYMBOLS: Record<string, string> = {
 /** Unicode superscript/subscript glyph tables — ported verbatim from
  *  pdf/text.ts's SUPERSCRIPTS/SUBSCRIPTS (needed there for degradeToAscii's
  *  invert() and for plain-text flattening in cleanMarkdown, below). */
-export const SUPERSCRIPT_UNICODE: Record<string, string> = { /* ... */ };
-export const SUBSCRIPT_UNICODE: Record<string, string> = { /* ... */ };
+export const SUPERSCRIPT_UNICODE: Record<string, string> = {
+  /* ... */
+};
+export const SUBSCRIPT_UNICODE: Record<string, string> = {
+  /* ... */
+};
 
 const mapEach = (token: string, table: Record<string, string>): string =>
-  Array.from(token).map((ch) => table[ch] ?? ch).join('');
+  Array.from(token)
+    .map((ch) => table[ch] ?? ch)
+    .join('');
 
 /** \sqrt{x} -> √x ; \sqrt x -> √x. Ported verbatim from pdf/text.ts:114-116. */
-export const expandSqrt = (text: string): string => { /* ... */ };
+export const expandSqrt = (text: string): string => {
+  /* ... */
+};
 
 /** \frac{a}{b} -> a/b (also \frac12 -> 1/2). PDF-only concern (no stacked
  *  fraction possible in flat text) — the screen renderer deliberately does
@@ -105,7 +114,9 @@ export const expandSqrt = (text: string): string => { /* ... */ };
  *  renderUtils.ts). Also used by cleanMarkdown for the same reason (plain
  *  text has the same flattening constraint as PDF). Ported verbatim from
  *  pdf/text.ts:111-112. */
-export const expandFracToSlash = (text: string): string => { /* ... */ };
+export const expandFracToSlash = (text: string): string => {
+  /* ... */
+};
 
 /** \vec{v} -> v followed by a combining arrow-above (U+20D7), e.g. "v⃗".
  *  NEW — physics vector notation, absent from both pipelines today. */
@@ -114,17 +125,23 @@ export const expandVector = (text: string): string =>
 
 /** Longest-token-first symbol replace, so \le doesn't get eaten mid-\leq.
  *  Ported verbatim from pdf/text.ts:118-123. */
-export const expandMathSymbolTokens = (text: string): string => { /* ... */ };
+export const expandMathSymbolTokens = (text: string): string => {
+  /* ... */
+};
 
 /** ^{...} / ^token -> Unicode superscript glyphs (mappable chars only —
  *  keeps the carat form otherwise, e.g. `x^abc` stays `x^abc`, pinned by
  *  the existing pdfText.test.ts case). Ported verbatim from
  *  pdf/text.ts:129-135. */
-export const expandSuperscriptsToUnicode = (text: string): string => { /* ... */ };
+export const expandSuperscriptsToUnicode = (text: string): string => {
+  /* ... */
+};
 
 /** _{...} / _digits -> Unicode subscript glyphs. Ported verbatim from
  *  pdf/text.ts:137-139. */
-export const expandSubscriptsToUnicode = (text: string): string => { /* ... */ };
+export const expandSubscriptsToUnicode = (text: string): string => {
+  /* ... */
+};
 ```
 
 ---
@@ -132,7 +149,7 @@ export const expandSubscriptsToUnicode = (text: string): string => { /* ... */ }
 ## `pdf/text.ts` changes — de-duplicate, preserve exact behaviour
 
 `toText()` keeps its **exact existing step order** (frac → sqrt → symbols →
-emphasis-strip → superscripts → subscripts) — only the *source* of each
+emphasis-strip → superscripts → subscripts) — only the _source_ of each
 step's logic moves to the shared module; add `expandVector` as a new step
 between sqrt and symbols:
 
@@ -154,7 +171,7 @@ export const toText = (input: string): string => {
   let s = input;
   s = expandFracToSlash(s);
   s = expandSqrt(s);
-  s = expandVector(s);            // new step
+  s = expandVector(s); // new step
   s = expandMathSymbolTokens(s);
 
   // Strip markdown emphasis markers but keep the inner text (unchanged,
@@ -221,9 +238,7 @@ In the two split-handling blocks (currently `part.slice(1)`), branch on
 whether the match is brace-form or bare-form:
 
 ```ts
-const inner = part.startsWith('^{') || part.startsWith('_{')
-  ? part.slice(2, -1)
-  : part.slice(1);
+const inner = part.startsWith('^{') || part.startsWith('_{') ? part.slice(2, -1) : part.slice(1);
 ```
 
 Note: on screen, unlike PDF, letters inside a subscript/superscript are
@@ -363,6 +378,7 @@ interface MathSymbolToolbarProps {
 ```
 
 Behaviour:
+
 - A horizontally-scrollable row of small pill buttons (house style:
   `hover:scale-105 active:scale-95 transition-transform`,
   `text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))] px-2 py-1`)
@@ -404,6 +420,7 @@ assumed covered.
 
 Per the requirement's own framing ("elegantly incorporate the broad
 spectrum... humanities like economics and geography"):
+
 - **Diagrams/graphs (economics supply-demand curves, geography maps)**:
   already covered by the scenario image carousel shipped earlier on this
   branch (`components/ScenarioCarousel.tsx`, `scenarioImage` field) — no
@@ -434,17 +451,17 @@ spectrum... humanities like economics and geography"):
    `npm test -- tests/unit/pdfText.test.ts` — must pass unmodified.
 3. Edit `utils/renderUtils.ts`:
    a. Add the pre-pass (`expandSqrt`/`expandVector`/`expandMathSymbolTokens`)
-      to the top of `renderFormattedText`.
+   to the top of `renderFormattedText`.
    b. Widen `REGEX_SUPERSCRIPT`/`REGEX_SUBSCRIPT` to accept `{...}` groups;
-      update the two split-handling blocks to strip brace vs bare markers.
+   update the two split-handling blocks to strip brace vs bare markers.
    c. Add the new Fraction step (step 0) to `processInlineFormatting`.
    d. Extend `cleanMarkdown` with the full plain-text flatten (frac, sqrt,
-      vector, symbols, sup/sub-to-unicode).
+   vector, symbols, sup/sub-to-unicode).
 4. New file `components/MathSymbolToolbar.tsx`: insert/wrap toolbar per the
    spec above.
 5. Wire `MathSymbolToolbar` into the 5 curator textareas listed above:
    `components/PromptDisplay.tsx` (x2), `components/
-   MarkingCriteriaAccordion.tsx` (x1), `components/ManualPromptModal.tsx`
+MarkingCriteriaAccordion.tsx` (x1), `components/ManualPromptModal.tsx`
    (x3).
 6. Manually sanity-check in the dev server: create/edit a question with
    `\pi r^2`, `\frac{PV}{nR}`, `H_2O \rightleftharpoons H^+ + OH^-`,

@@ -49,7 +49,7 @@ const FreeEvalCounter: React.FC<{ className?: string }> = ({ className = '' }) =
           ? `You have used all ${limit} free evaluations for today. The allowance resets at midnight UTC.`
           : `Free plan: ${remaining} of ${limit} daily evaluations left. Resets at midnight UTC.`
       }
-      className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider border flex-shrink-0 tabular-nums ${tone} ${className}`}
+      className={`t-label inline-flex items-center gap-1 px-2 py-1 rounded-lg border flex-shrink-0 tabular-nums ${tone} ${className}`}
     >
       {remaining === 0 ? (
         <>

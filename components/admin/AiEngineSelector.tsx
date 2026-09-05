@@ -29,7 +29,7 @@ const AiEngineSelector: React.FC<{ className?: string }> = ({ className = '' }) 
 
   return (
     <div className={className}>
-      <div className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+      <div className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2 flex items-center gap-2">
         <Cpu className="w-3.5 h-3.5" />
         AI Engine
       </div>

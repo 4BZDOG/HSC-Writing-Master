@@ -128,7 +128,7 @@ const RenameModal: React.FC<RenameModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-md border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden"
+        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-md border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50 flex-shrink-0">
@@ -209,7 +209,7 @@ const RenameModal: React.FC<RenameModalProps> = ({
 
             {focusAreaChange && (
               <div className="mt-4 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 animate-fade-in">
-                <p className="flex items-center gap-2 text-[11px] font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-2">
+                <p className="t-label flex items-center gap-2 text-amber-600 dark:text-amber-400 mb-2">
                   <AlertTriangle className="w-3.5 h-3.5" /> This changes the focus areas
                 </p>
                 <p className="text-[11px] leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 mb-3">

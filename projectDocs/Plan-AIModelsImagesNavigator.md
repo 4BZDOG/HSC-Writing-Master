@@ -32,6 +32,7 @@ Use has no migration path yet — so it is safe to leave untouched.
 
 Confirmed current Gemini lineup (ai.google.dev / Google Cloud docs, several
 independent sources cross-checked):
+
 - `gemini-3.7-flash` — GA 2026-08-13. Pricing (introductory, through
   2026-12-31): $0.75/M input, $3.75/M output tokens.
 - `gemini-3.1-pro-preview` — preview, current Pro tier (successor to the dead
@@ -49,13 +50,14 @@ independent sources cross-checked):
 
 Confirmed current Anthropic lineup (fetched directly from
 `platform.claude.com/docs/en/about-claude/models/overview`, primary source):
+
 - `claude-sonnet-5` — "the best combination of speed and intelligence",
   adaptive thinking. $2/M input, $10/M output. This is the direct successor to
   the existing `claude-sonnet-4-6` entry.
 - `claude-opus-5` — "for complex agentic coding and enterprise work", adaptive
   thinking, moderate latency. $5/M input, $25/M output.
 - `claude-haiku-4-5` — **unchanged**, still Anthropic's current fastest tier
-  (appears in the *latest* models table, not the legacy one). No action needed.
+  (appears in the _latest_ models table, not the legacy one). No action needed.
 - `claude-fable-5` — Anthropic's most capable model ("next-gen intelligence for
   long-running agents"), $10/M input, $50/M output. Not proposed for addition:
   it's positioned for agentic workloads, not classroom marking, and is 3-5x
@@ -156,6 +158,7 @@ blends to ~$0.021/call by this file's own formula. Out of scope here — note it
 for whoever next touches Anthropic pricing.
 
 ### Task list
+
 1. Edit `services/aiModels.ts`: apply change (A) to the existing `gemini-pro`
    object in place.
 2. Insert the new `gemini-flash-3-7` object (change B) directly after the
@@ -169,6 +172,7 @@ for whoever next touches Anthropic pricing.
    `modelsForRole`/`getModelById` reads the array directly.
 
 ### Tests to run
+
 - `npm test -- tests/unit/aiModelRegistry.test.ts` — enforces unique `id`,
   unique `model` string, correct `keyEnv` per provider, non-empty
   label/roles/estCostPerCall. New entries must satisfy this unmodified.
@@ -227,7 +231,7 @@ scenarioImage?: ScenarioImageRef;
 ### `utils/dataManagerUtils.ts` changes
 
 1. Add a Zod shape and field on `PromptSchema` (near `scenario:
-   z.string().optional().default('')`, line 533):
+z.string().optional().default('')`, line 533):
 
 ```ts
 scenarioImage: z
@@ -242,7 +246,7 @@ scenarioImage: z
 
 2. In `mergePromptContent` (line 928), add an explicit merge line near the
    other scalar/object merges (around line 938, next to `scenario:
-   mergeScalarText(...)`) — do **not** rely on the object spread alone, to
+mergeScalarText(...)`) — do **not** rely on the object spread alone, to
    avoid an imported `undefined` clobbering an existing image:
 
 ```ts
@@ -318,6 +322,7 @@ eventually in the LocalStorage fallback budget). Reject/toast (via
 `hooks/useToast.ts`) if the pasted/dropped item isn't an image MIME type.
 
 ### Admin UI — paste/upload affordance (new file:
+
 `components/ScenarioImageUploader.tsx`)
 
 Location: wired into `components/PromptDisplay.tsx`'s "Scenario Section"
@@ -325,6 +330,7 @@ button row — the `canCurate && !isEditingScenario` block at lines 729-753,
 next to the existing regenerate/edit-pencil buttons. Add an `ImagePlus`
 (lucide-react) icon button that toggles a small inline panel (same collapsed/
 expanded pattern the component already uses for `isEditingScenario`), with:
+
 - A `tabIndex={0}` paste-target `div` with `onPaste` reading
   `e.clipboardData.items`, finding an `image/*` item, converting via
   `FileReader.readAsDataURL`.
@@ -349,13 +355,14 @@ Props needed: `promptId: string`, `existingImage?: ScenarioImageRef`,
 ### Display — the carousel (new file: `components/ScenarioCarousel.tsx`)
 
 Replaces the non-editing scenario render block currently at
-`components/PromptDisplay.tsx` lines 784-839 *only when* `prompt.scenarioImage`
+`components/PromptDisplay.tsx` lines 784-839 _only when_ `prompt.scenarioImage`
 is present; when absent, render exactly what's there today (zero visual
 change for the overwhelming majority of existing prompts — satisfies "keep
 existing entries working").
 
 Design, using **only existing Tailwind/animation conventions** (no new
 colours/spacing system):
+
 - Two "slides": Slide 1 = the current text block (the `<Quote>`-decorated
   `renderFormattedText(prompt.scenario, ...)` paragraph, unchanged). Slide 2 =
   the image, lazy-loaded via `loadScenarioImage(prompt.id)` on mount (loading
@@ -428,8 +435,9 @@ on conflict (id) do nothing;
    sensitivity above.
 
 ### Task list
+
 1. `types.ts`: add `ScenarioImageRef` interface + `scenarioImage?:
-   ScenarioImageRef` on `Prompt`.
+ScenarioImageRef` on `Prompt`.
 2. `utils/dataManagerUtils.ts`: add the Zod shape to `PromptSchema`; add the
    explicit merge line in `mergePromptContent`.
 3. `utils/storageUtils.ts`: bump `DB_VERSION` 3→4, add
@@ -454,6 +462,7 @@ on conflict (id) do nothing;
     shape (confirm/extend — file exists in this repo).
 
 ### Tests to run
+
 - `npm run type-check`
 - `npm test -- tests/unit/promptScenarioPlaceholder.test.tsx` (existing —
   must keep passing unmodified for prompts with no `scenarioImage`, proving
@@ -480,7 +489,7 @@ on conflict (id) do nothing;
 The planning agent read `components/SelectionTree.tsx` (an admin-only
 Import/Export checkbox tree) as "the navigator." That is wrong. The app's own
 code names the real thing: `components/SyllabusNavBar.tsx`'s doc-comment
-literally says *"the syllabus navigator"* and *"the full syllabus navigator"*
+literally says _"the syllabus navigator"_ and _"the full syllabus navigator"_
 for the expanded picker its "Change" button reopens — which is
 `components/PromptSelector.tsx`, a 4-stage vertical stepper (Course → Topic →
 Sub-Topic → Question) driven by `hooks/useNavigation.ts`'s `StatePath`, using
@@ -489,12 +498,13 @@ student/teacher actually uses to browse the syllabus.** `SelectionTree.tsx` is
 unrelated (admin bulk import/export only) — do not touch it for this feature.
 
 ### What's already there (read from source)
+
 - `PromptSelector.tsx`: stage cards already animate width/border/scale on
   selection change (`transition-all duration-500`, `getBoxClasses` ~line 849);
   `RailNode` (~line 218) shows done/current/upcoming with icon + colour but
   the checkmark **pops in instantly** with no reveal motion when a step newly
   completes; the "upcoming" (greyscale) stage card already has
-  `hover:grayscale-0 hover:opacity-100` (nice) but the *collapsed selected*
+  `hover:grayscale-0 hover:opacity-100` (nice) but the _collapsed selected_
   stage row has no click/press feedback of its own beyond the `Combobox`
   inside it.
 - `Combobox.tsx`: the closed trigger button already has the house haptic
@@ -509,7 +519,9 @@ unrelated (admin bulk import/export only) — do not touch it for this feature.
   breadcrumbs are the one inconsistent element.
 
 ### Confirmed existing animation vocabulary to reuse (from `tailwind.config.js`
+
 — do not invent new keyframes/colours)
+
 - `animate-fade-in` (0.5s), `animate-fade-in-up-sm` (0.45s, 8px slide+fade).
 - House haptic convention already used throughout both files:
   `hover:scale-105 active:scale-95 transition-transform` for buttons;
@@ -518,6 +530,7 @@ unrelated (admin bulk import/export only) — do not touch it for this feature.
 ### Concrete changes
 
 **`components/Combobox.tsx`**
+
 1. Add `active:scale-[0.98] transition-transform` to the option `<li>`
    className (line 473-477), matching the trigger button's own press feedback
    — right now selecting a row feels less responsive than opening the list.
@@ -528,20 +541,17 @@ unrelated (admin bulk import/export only) — do not touch it for this feature.
    transitioning false→true via a small `useEffect`/local state, not a bare
    className, so it doesn't replay on unrelated parent re-renders).
 
-**`components/PromptSelector.tsx`**
-3. `RailNode`: when a step transitions to `isComplete`, wrap the emerald
-   check-circle in `animate-fade-in-up-sm` instead of appearing instantly
-   (small, local — keyed on `isComplete` becoming true) so completing a stage
-   reads as an event, not a flicker.
-4. Stage card container (`getContainerClasses`/`getBoxClasses`): already has
-   `duration-500` transitions on collapse — leave as-is, it's already tactile.
-   No change needed here; don't over-add motion on top of an already-animated
-   500ms transition.
+**`components/PromptSelector.tsx`** 3. `RailNode`: when a step transitions to `isComplete`, wrap the emerald
+check-circle in `animate-fade-in-up-sm` instead of appearing instantly
+(small, local — keyed on `isComplete` becoming true) so completing a stage
+reads as an event, not a flicker. 4. Stage card container (`getContainerClasses`/`getBoxClasses`): already has
+`duration-500` transitions on collapse — leave as-is, it's already tactile.
+No change needed here; don't over-add motion on top of an already-animated
+500ms transition.
 
-**`components/SyllabusNavBar.tsx`**
-5. Add `active:scale-95` to the breadcrumb `<button>` className (line 65),
-   consistent with the "Change" and share buttons in the same component —
-   this is the one missing press-state in an otherwise-consistent file.
+**`components/SyllabusNavBar.tsx`** 5. Add `active:scale-95` to the breadcrumb `<button>` className (line 65),
+consistent with the "Change" and share buttons in the same component —
+this is the one missing press-state in an otherwise-consistent file.
 
 ### Explicitly out of scope for this pass (documented, not silently dropped)
 
@@ -552,6 +562,7 @@ carry aggregate counts to the picker today) and risks reading as a new visual
 element rather than restyled existing information. Skip for this pass.
 
 ### Task list
+
 1. Edit `components/Combobox.tsx`: apply changes 1-2.
 2. Edit `components/PromptSelector.tsx`: apply change 3 to `RailNode`.
 3. Edit `components/SyllabusNavBar.tsx`: apply change 5.
@@ -567,6 +578,7 @@ element rather than restyled existing information. Skip for this pass.
    needed for them.
 
 ### Tests to run
+
 - `npm run type-check`
 - Check for and run any existing Vitest files covering `Combobox.tsx` /
   `PromptSelector.tsx` (search `tests/unit/` — component may have light

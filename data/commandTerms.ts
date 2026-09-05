@@ -920,28 +920,28 @@ export const getCommandTermsForMarks = (
 };
 
 /**
- * At or below this many marks, the band is a PROPORTION of the marks earned
- * rather than a count of marks dropped.
- *
- * The offset rule below — full marks at the verb's ceiling, one band lost per
- * mark — is right where a question has enough marks to spread across the range.
- * On a short question it is not: it compresses everything into the top bands,
- * so a 4-mark question scoring 1 came out at Band 3 "Developing" when a quarter
- * of the marks is Band 1-2 work by any standards-based reading. Four is the
- * line because a 4-mark question spanning six bands is where the compression
- * starts to misdescribe the response.
- */
-export const PROPORTIONAL_MARK_CEILING = 4;
-
-/**
  * Calculates the Performance Band (1-6) based on the mark achieved,
  * constrained only by the verb's cognitive tier (tier N → max Band N).
  *
  * NESA's own band descriptors map full marks to the verb's ceiling band
- * regardless of mark count (3/3 on an Evaluate = Band 6), so the verb tier
- * is the sole cap — there is no secondary marks-based limit. Full marks reach
- * the ceiling under both rules below; what differs is how fast a response falls
- * away from it.
+ * regardless of mark count (3/3 on an Evaluate = Band 6), so the verb tier is
+ * the sole cap — there is no secondary marks-based limit.
+ *
+ * Below that ceiling there is ONE rule, and it is a ladder of marks, not a
+ * fraction of them: each mark dropped costs exactly one band. On a 4-mark
+ * Evaluate (Tier 6) that reads 4/4 → Band 6, 3/4 → Band 5, 2/4 → Band 4,
+ * 1/4 → Band 3, and 0 → Band 1. Bands below the bottom rung are simply not
+ * reachable on a question that short — see {@link bandsForQuestion}, which is
+ * what every surface should ask for the ladder rather than assuming Bands
+ * 1..maxBand are all in play.
+ *
+ * A proportional rule for short questions was tried and withdrawn. Scaling by
+ * the FRACTION of marks earned (ceil(mark / total × maxBand)) reads plausibly
+ * in isolation but breaks the thing the ladder is for: it puts 2/4 and 3/4 two
+ * bands apart while 1/4 and 2/4 sit one apart, so the exemplars, the marking
+ * guide rows and the colour of each stopped stepping evenly. The offset rule
+ * below is what the marking guide is written against, so it is what the bands
+ * are read from.
  *
  * @param mark The mark achieved or target mark.
  * @param totalMarks The total marks available for the question.
@@ -955,14 +955,53 @@ export const getBandForMark = (mark: number, totalMarks: number, tier: number = 
   const maxBand = tierGroup ? tierGroup.maxBand : Math.max(1, Math.min(6, tier));
   const clampedMark = Math.min(mark, totalMarks);
 
-  // A short question's marks are a proportion of the whole, not a ladder of
-  // bands: on a 4-mark question, 1 mark is Band 2 work, not Band 3.
-  if (totalMarks > PROPORTIONAL_MARK_CEILING && totalMarks <= maxBand) {
+  // Fewer marks than bands: one band per mark, counted DOWN from the ceiling.
+  if (totalMarks <= maxBand) {
     return maxBand - totalMarks + clampedMark;
   }
 
   return Math.min(maxBand, Math.max(1, Math.ceil((clampedMark / totalMarks) * maxBand)));
 };
+
+/**
+ * The inclusive mark range that earns each band on this question, highest band
+ * first. The single source for "which marks are Band 5 here" — the rubric brief
+ * builds its rows from this, so a generated marking guide steps through exactly
+ * the bands the exemplar ladder does.
+ */
+export const bandMarkRanges = (
+  totalMarks: number,
+  tier: number = 4
+): { band: number; lo: number; hi: number }[] => {
+  const ranges = new Map<number, { band: number; lo: number; hi: number }>();
+  for (let mark = 1; mark <= Math.max(0, totalMarks); mark++) {
+    const band = getBandForMark(mark, totalMarks, tier);
+    const existing = ranges.get(band);
+    if (existing) {
+      existing.lo = Math.min(existing.lo, mark);
+      existing.hi = Math.max(existing.hi, mark);
+    } else {
+      ranges.set(band, { band, lo: mark, hi: mark });
+    }
+  }
+  return Array.from(ranges.values()).sort((a, b) => b.band - a.band);
+};
+
+/**
+ * The bands a question can actually award, highest first.
+ *
+ * On a question with fewer marks than its verb's band range, the bottom of the
+ * ladder is unreachable: a 4-mark Evaluate runs 4/4 → Band 6 down to 1/4 →
+ * Band 3, and no mark maps to Band 2. Anything that draws the ladder — the
+ * exemplar coverage strip, the rubric rows the AI is asked to write — has to
+ * ask for it rather than counting 1..maxBand, or it reports bands as "missing"
+ * that no answer to this question could ever demonstrate.
+ *
+ * Band 1 appears only when some mark of 1 or more maps to it. A zero-mark
+ * response is Band 1 everywhere, but zero is not a rung the ladder shows.
+ */
+export const bandsForQuestion = (totalMarks: number, tier: number = 4): number[] =>
+  bandMarkRanges(totalMarks, tier).map((r) => r.band);
 
 /**
  * Inverse of getBandForMark: the smallest integer mark (1..totalMarks) that maps

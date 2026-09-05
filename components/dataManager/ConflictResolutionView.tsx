@@ -67,7 +67,7 @@ const ConflictResolutionView = ({ conflicts, onResolve, onBack }: ConflictResolu
               >
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                   <div className="min-w-0">
-                    <p className="font-bold text-[rgb(var(--color-text-primary))] text-sm">
+                    <p className="text-[rgb(var(--color-text-primary))] text-sm font-semibold">
                       {course.name}
                     </p>
                     <p className="text-xs text-[rgb(var(--color-text-muted))] mt-0.5">
@@ -91,14 +91,14 @@ const ConflictResolutionView = ({ conflicts, onResolve, onBack }: ConflictResolu
                     <button
                       onClick={() => handleResolutionChange(course.id, 'merge')}
                       aria-pressed={action === 'merge'}
-                      className={`flex-1 sm:flex-none justify-center px-3 py-2 sm:py-1.5 rounded-md text-xs font-bold transition-all flex items-center gap-1.5 ${action === 'merge' ? 'bg-blue-500 text-white shadow-sm' : 'text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]'}`}
+                      className={`flex-1 sm:flex-none justify-center px-3 py-2 sm:py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${action === 'merge' ? 'bg-blue-500 text-white shadow-sm' : 'text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]'}`}
                     >
                       <GitMerge className="w-3 h-3" /> Merge
                     </button>
                     <button
                       onClick={() => handleResolutionChange(course.id, 'skip')}
                       aria-pressed={action === 'skip'}
-                      className={`flex-1 sm:flex-none justify-center px-3 py-2 sm:py-1.5 rounded-md text-xs font-bold transition-all flex items-center gap-1.5 ${action === 'skip' ? 'bg-amber-500 text-white shadow-sm' : 'text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]'}`}
+                      className={`flex-1 sm:flex-none justify-center px-3 py-2 sm:py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${action === 'skip' ? 'bg-amber-500 text-white shadow-sm' : 'text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]'}`}
                     >
                       <SkipForward className="w-3 h-3" /> Skip
                     </button>

@@ -348,7 +348,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
               grey one. Unset, the label inherits the button's own colour. */}
             <span className={userAnswer.trim() ? buttonConfig.text : undefined}>Evaluate</span>
             <kbd
-              className={`hidden md:inline text-[9px] font-bold border rounded px-1 py-0.5 tracking-normal transition-opacity ${
+              className={`hidden md:inline text-[9px] font-bold border rounded-lg px-1 py-0.5 tracking-normal transition-opacity ${
                 userAnswer.trim()
                   ? 'bg-white/15 border-white/10 opacity-60 group-hover:opacity-100'
                   : 'bg-black/5 border-current/20 opacity-50'
@@ -379,8 +379,8 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           that is now much taller opened a void between the writing card and
           everything below it. */}
       <div className="relative group flex flex-col">
-        <div className="flex flex-col relative shadow-2xl rounded-[32px]">
-          <div className="clip-stable absolute inset-0 z-[30] pointer-events-none rounded-[32px] overflow-hidden">
+        <div className="flex flex-col relative shadow-lg rounded-surface">
+          <div className="clip-stable absolute inset-0 z-[30] pointer-events-none rounded-surface overflow-hidden">
             {isEvaluating && <EvaluationProgressBar />}
           </div>
 
@@ -424,12 +424,12 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           at the foot of the column it landed ~1000px below the Evaluate
           control — a student waited fifteen seconds and saw nothing happen. */}
       {evaluationError && (
-        <div className="bg-red-500/10 light:bg-red-50 border border-red-500/20 light:border-red-200 text-red-400 light:text-red-700 p-8 rounded-[40px] animate-fade-in flex items-start gap-5 shadow-2xl shadow-red-900/10 backdrop-blur-xl">
+        <div className="bg-red-500/10 light:bg-red-50 border border-red-500/20 light:border-red-200 text-red-400 light:text-red-700 p-8 rounded-panel animate-fade-in flex items-start gap-5 shadow-lg shadow-red-900/10 backdrop-blur-xl">
           <div className="p-3 rounded-2xl bg-red-500/20">
             <AlertTriangle className="w-6 h-6 shrink-0" />
           </div>
           <div>
-            <h4 className="font-black uppercase tracking-[0.2em] text-xs mb-2">
+            <h4 className="t-label mb-2">
               {/timed? ?out/i.test(evaluationError)
                 ? 'Evaluation Timed Out'
                 : /quota|limit|429/i.test(evaluationError)
@@ -438,7 +438,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
                     ? 'API Key Issue'
                     : 'Evaluation Failed'}
             </h4>
-            <p className="text-sm font-bold leading-relaxed">{evaluationError}</p>
+            <p className="text-sm leading-relaxed">{evaluationError}</p>
             {/timed? ?out/i.test(evaluationError) && (
               <p className="text-xs mt-2 opacity-70">
                 Tip: long answers on a busy connection can time out. Try again in a moment, or
@@ -447,7 +447,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             )}
             <button
               onClick={onEvaluate}
-              className="mt-3 text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 transition-colors"
+              className="t-label mt-3 px-4 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 transition-colors"
             >
               Try Again
             </button>

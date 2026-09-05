@@ -497,7 +497,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
       onClick={guard.requestCloseFromBackdrop}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-6xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden relative flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-6xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden relative flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -634,7 +634,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                         role="radio"
                         aria-checked={y.id === year}
                         onClick={() => setYear(y.id)}
-                        className={`flex-1 py-1.5 px-3 rounded-md text-xs font-semibold border transition-colors ${
+                        className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold border transition-colors ${
                           y.id === year
                             ? 'bg-[rgb(var(--color-bg-surface-light))] light:bg-white border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-[rgb(var(--color-text-primary))] light:text-slate-900 shadow-sm'
                             : 'border-transparent text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900'
@@ -734,7 +734,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                         `}
                       >
                         <div className="flex items-center gap-2 min-w-0">
-                          <span className="flex-shrink-0 w-5 h-5 rounded-md bg-black/20 light:bg-slate-200 flex items-center justify-center text-[10px] font-bold opacity-70 light:opacity-100 light:text-slate-500">
+                          <span className="flex-shrink-0 w-5 h-5 rounded-lg bg-black/20 light:bg-slate-200 flex items-center justify-center text-[10px] font-bold opacity-70 light:opacity-100 light:text-slate-500">
                             {index + 1}
                           </span>
                           <span className="truncate text-sm font-medium whitespace-nowrap">
@@ -744,7 +744,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                         {topicTabs.length > 1 && (
                           <button
                             onClick={(e) => handleRemoveTab(tab.id, e)}
-                            className="p-1 rounded hover:bg-red-500/20 light:hover:bg-red-50 text-transparent group-hover:text-red-400 light:group-hover:text-red-500 transition-colors ml-2"
+                            className="p-1 rounded-lg hover:bg-red-500/20 light:hover:bg-red-50 text-transparent group-hover:text-red-400 light:group-hover:text-red-500 transition-colors ml-2"
                             title="Remove Topic"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -758,7 +758,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                 {/* Content Editor Area */}
                 <div className="flex-1 flex flex-col p-4 md:p-5 overflow-hidden bg-[rgb(var(--color-bg-surface))]/30 light:bg-white min-h-0">
                   <div className="mb-4 p-3.5 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/50 light:border-slate-200">
-                    <label className="block text-xs font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-2">
+                    <label className="t-label block text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2">
                       Topic Name
                     </label>
                     <input
@@ -770,7 +770,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                   </div>
                   <div className="flex-1 flex flex-col min-h-0">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
-                      <label className="block text-xs font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider">
+                      <label className="t-label block text-[rgb(var(--color-text-muted))] light:text-slate-500">
                         Syllabus Content
                       </label>
                       <button
@@ -799,7 +799,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
           {step === 'preview' && (
             <div className="animate-fade-in p-6 overflow-y-auto h-full">
               <div className="bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-xl overflow-hidden">
-                <div className="px-4 py-2.5 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 flex justify-between items-center">
+                <div className="t-label px-4 py-2.5 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-500 flex justify-between items-center">
                   <span>
                     {targetCourse ? `Merge into "${targetCourse.name}"` : 'Structure Preview'}
                   </span>
@@ -835,14 +835,14 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                               value={topic.name}
                               onChange={(e) => renameTopic(tIdx, e.target.value)}
                               aria-label={`Topic ${tIdx + 1} name`}
-                              className="flex-1 min-w-0 bg-transparent font-bold text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 rounded px-1.5 py-1 border border-transparent hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 focus:outline-none focus:border-[rgb(var(--color-accent))] focus:bg-[rgb(var(--color-bg-surface-light))] light:focus:bg-white"
+                              className="flex-1 min-w-0 bg-transparent font-bold text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 rounded-lg px-1.5 py-1 border border-transparent hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 focus:outline-none focus:border-[rgb(var(--color-accent))] focus:bg-[rgb(var(--color-bg-surface-light))] light:focus:bg-white"
                             />
                             <span className="flex-shrink-0 text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-2 py-0.5 rounded-full">
                               {topic.subTopics?.length || 0} sub-topics
                             </span>
                             <button
                               onClick={() => removeTopic(tIdx)}
-                              className="p-1.5 mr-1 rounded text-transparent group-hover:text-red-400 light:group-hover:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
+                              className="p-1.5 mr-1 rounded-lg text-transparent group-hover:text-red-400 light:group-hover:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
                               title="Remove topic"
                               aria-label={`Remove topic ${topic.name}`}
                             >
@@ -854,17 +854,17 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                             <div className="ml-6 pl-2 border-l border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 mt-1 space-y-1">
                               {(topic.subTopics || []).map((st, stIdx) => (
                                 <div key={stIdx} className="py-1">
-                                  <div className="group/st flex items-center gap-2 px-2 py-1 rounded hover:bg-[rgb(var(--color-bg-surface-light))]/50 light:hover:bg-slate-100">
+                                  <div className="group/st flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-[rgb(var(--color-bg-surface-light))]/50 light:hover:bg-slate-100">
                                     <div className="w-1.5 h-1.5 rounded-full bg-indigo-400/50 light:bg-indigo-400 flex-shrink-0"></div>
                                     <input
                                       value={st.name}
                                       onChange={(e) => renameSubTopic(tIdx, stIdx, e.target.value)}
                                       aria-label={`Sub-topic ${stIdx + 1} name`}
-                                      className="flex-1 min-w-0 bg-transparent text-sm font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-700 rounded px-1.5 py-0.5 border border-transparent hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 focus:outline-none focus:border-[rgb(var(--color-accent))] focus:bg-[rgb(var(--color-bg-surface-light))] light:focus:bg-white"
+                                      className="flex-1 min-w-0 bg-transparent text-sm font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-700 rounded-lg px-1.5 py-0.5 border border-transparent hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 focus:outline-none focus:border-[rgb(var(--color-accent))] focus:bg-[rgb(var(--color-bg-surface-light))] light:focus:bg-white"
                                     />
                                     <button
                                       onClick={() => removeSubTopic(tIdx, stIdx)}
-                                      className="p-1 rounded text-transparent group-hover/st:text-red-400 light:group-hover/st:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
+                                      className="p-1 rounded-lg text-transparent group-hover/st:text-red-400 light:group-hover/st:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
                                       title="Remove sub-topic"
                                       aria-label={`Remove sub-topic ${st.name}`}
                                     >
@@ -876,7 +876,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                                       {st.dotPoints.map((dp, dpIdx) => (
                                         <div
                                           key={dpIdx}
-                                          className="group/dp flex items-start gap-2 px-2 py-0.5 text-xs text-[rgb(var(--color-text-dim))] light:text-slate-600 rounded hover:bg-[rgb(var(--color-bg-surface-light))]/40 light:hover:bg-slate-100"
+                                          className="group/dp flex items-start gap-2 px-2 py-0.5 text-xs text-[rgb(var(--color-text-dim))] light:text-slate-600 rounded-lg hover:bg-[rgb(var(--color-bg-surface-light))]/40 light:hover:bg-slate-100"
                                         >
                                           <span className="mt-2 w-1 h-1 rounded-full bg-gray-600 light:bg-slate-400 flex-shrink-0"></span>
                                           <textarea
@@ -886,11 +886,11 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                                             }
                                             rows={1}
                                             aria-label={`Dot point ${dpIdx + 1}`}
-                                            className="flex-1 min-w-0 bg-transparent resize-y rounded px-1.5 py-0.5 border border-transparent hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 focus:outline-none focus:border-[rgb(var(--color-accent))] focus:bg-[rgb(var(--color-bg-surface-light))] light:focus:bg-white text-[rgb(var(--color-text-dim))] light:text-slate-600"
+                                            className="flex-1 min-w-0 bg-transparent resize-y rounded-lg px-1.5 py-0.5 border border-transparent hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 focus:outline-none focus:border-[rgb(var(--color-accent))] focus:bg-[rgb(var(--color-bg-surface-light))] light:focus:bg-white text-[rgb(var(--color-text-dim))] light:text-slate-600"
                                           />
                                           <button
                                             onClick={() => removeDotPoint(tIdx, stIdx, dpIdx)}
-                                            className="p-0.5 rounded text-transparent group-hover/dp:text-red-400 light:group-hover/dp:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
+                                            className="p-0.5 rounded-lg text-transparent group-hover/dp:text-red-400 light:group-hover/dp:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
                                             title="Remove dot point"
                                             aria-label="Remove dot point"
                                           >

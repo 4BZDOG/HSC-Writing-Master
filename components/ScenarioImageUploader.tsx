@@ -126,7 +126,7 @@ const ScenarioImageUploader: React.FC<ScenarioImageUploaderProps> = ({
 
   return (
     <div className="animate-fade-in space-y-3 p-4 bg-[rgb(var(--color-bg-surface-inset))] light:bg-white rounded-2xl border border-white/10 light:border-slate-300">
-      <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 light:text-slate-600">
+      <div className="t-label flex items-center gap-2 text-slate-500 light:text-slate-600">
         <ImagePlus className="w-3.5 h-3.5" /> Scenario Image
       </div>
 

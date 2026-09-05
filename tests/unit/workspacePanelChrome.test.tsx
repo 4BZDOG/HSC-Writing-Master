@@ -77,14 +77,27 @@ const promptProps = {
   onFontSizeChange: vi.fn(),
 };
 
-/** The header box a heading sits in, and the rows between the two. */
+/**
+ * The header box a heading sits in, and the rows between the two.
+ *
+ * The box is recognised by the radius token `CARD_HEADER_BOX` actually carries,
+ * read from the constant rather than written out here. It used to look for the
+ * literal `rounded-t-[30px]`; when that value was given a name
+ * (`rounded-t-surface-inner`, DesignSpec §3) the walk ran off the top of the
+ * tree and both assertions started reading `<body>`, which has no className and
+ * fails in a way that says nothing about the layout this is guarding.
+ */
+const HEADER_RADIUS_CLASS =
+  CARD_HEADER_BOX.split(/\s+/).find((c) => c.startsWith('rounded-')) ?? '';
+
 const headingChain = (heading: HTMLElement): HTMLElement[] => {
   const chain: HTMLElement[] = [];
   let el = heading.parentElement;
-  while (el && !el.className.includes('rounded-t-[30px]')) {
+  while (el && !el.className.includes(HEADER_RADIUS_CLASS)) {
     chain.push(el);
     el = el.parentElement;
   }
+  expect(el, 'never found the card header box walking up from the heading').toBeTruthy();
   if (el) chain.push(el);
   return chain;
 };
@@ -220,9 +233,7 @@ describe('the panels below the cards share one surface', () => {
 
   it('dresses Live Insights the same way', () => {
     const { container } = render(
-      <LiveInsights
-        insights={[{ id: 'i1', tone: 'info', message: 'Add a second point.' }]}
-      />
+      <LiveInsights insights={[{ id: 'i1', tone: 'info', message: 'Add a second point.' }]} />
     );
     expect(surfaceOf(container)).toContain(PANEL_SURFACE);
   });

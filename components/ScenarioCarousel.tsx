@@ -91,7 +91,7 @@ const ScenarioCarousel: React.FC<ScenarioCarouselProps> = ({
       {isLoadingImage ? (
         <div className="flex flex-col items-center gap-3 text-indigo-500 dark:text-indigo-400 py-6">
           <Loader2 className="w-8 h-8 animate-spin" />
-          <span className="text-[10px] font-black uppercase tracking-[0.25em]">Loading image…</span>
+          <span className="t-label">Loading image…</span>
         </div>
       ) : imageDataUrl ? (
         <img
@@ -123,9 +123,9 @@ const ScenarioCarousel: React.FC<ScenarioCarouselProps> = ({
               role="tab"
               aria-selected={activeSlide === slide}
               onClick={() => setActiveSlide(slide)}
-              className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${
+              className={`t-label px-3 py-1 rounded-full transition-all ${
                 activeSlide === slide
-                  ? 'bg-[rgb(var(--color-accent))] text-white shadow-md'
+                  ? 'bg-[rgb(var(--color-accent))] text-white shadow-sm'
                   : 'bg-white/5 light:bg-slate-100 text-slate-500 hover:text-slate-300 light:hover:text-slate-700'
               }`}
             >

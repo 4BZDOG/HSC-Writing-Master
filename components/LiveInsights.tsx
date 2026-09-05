@@ -89,7 +89,7 @@ const LiveInsights: React.FC<LiveInsightsProps> = React.memo(
               rail's other panels label themselves the same way. */}
           <span className="text-left">
             <span
-              className={`block text-[10px] font-black uppercase tracking-[0.25em] ${
+              className={`t-label block ${
                 isCollapsed
                   ? 'text-slate-500 dark:text-slate-400'
                   : 'text-slate-900 dark:text-white'
@@ -97,7 +97,7 @@ const LiveInsights: React.FC<LiveInsightsProps> = React.memo(
             >
               Live Insights
             </span>
-            <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 opacity-80">
+            <span className="t-label block text-slate-500 dark:text-slate-400 opacity-80">
               {summary}
             </span>
           </span>

@@ -189,7 +189,7 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
       className={`
         relative overflow-hidden
         ${theme.bg} backdrop-blur-3xl
-        rounded-[32px] shadow-2xl ${theme.glow}
+ rounded-panel shadow-lg ${theme.glow}
         border border-white/20 dark:border-white/10
         p-8 sm:p-10 w-full max-w-[400px] mx-auto
         flex flex-col items-center justify-center gap-6
@@ -227,7 +227,7 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
         {/* Center Icon */}
         <div
           className={`
-            relative w-16 h-16 rounded-[20px] flex items-center justify-center
+ relative w-16 h-16 rounded-tile flex items-center justify-center
             bg-gradient-to-br from-white to-slate-100 dark:from-slate-800 dark:to-slate-900
             shadow-lg border border-white/40 dark:border-white/10
         `}
@@ -246,7 +246,7 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
         </h3>
 
         {isError ? (
-          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 px-4">
+          <p className="t-label text-slate-500 dark:text-slate-400 px-4">
             {error || 'Operation failed.'}
           </p>
         ) : (
@@ -276,7 +276,7 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
                     )}
                   </span>
                   <span
-                    className={`text-[10px] font-bold uppercase tracking-wider truncate ${
+                    className={`t-label truncate ${
                       state === 'active'
                         ? 'text-slate-700 dark:text-slate-200'
                         : 'text-slate-500 dark:text-slate-400'
@@ -311,11 +311,11 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
         <div className="flex justify-center gap-4 opacity-40 z-10 -mt-2">
           <div className="flex items-center gap-1">
             <BrainCircuit className="w-2.5 h-2.5" />
-            <span className="text-[8px] font-mono font-bold uppercase">{engineLabel}</span>
+            <span className="t-label font-mono">{engineLabel}</span>
           </div>
           <div className="flex items-center gap-1">
             <Layers className="w-2.5 h-2.5" />
-            <span className="text-[8px] font-mono font-bold uppercase">{taskType}</span>
+            <span className="t-label font-mono">{taskType}</span>
           </div>
         </div>
       )}

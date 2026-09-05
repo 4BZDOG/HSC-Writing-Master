@@ -72,9 +72,9 @@ type ViewMode = 'unified' | 'split';
 const OP_CLASS: Record<DiffSegment['op'], string> = {
   equal: '',
   insert:
-    'bg-emerald-500/20 text-emerald-900 dark:text-emerald-200 rounded px-0.5 underline decoration-emerald-500/60 decoration-2 underline-offset-2',
+    'bg-emerald-500/20 text-emerald-900 dark:text-emerald-200 rounded-lg px-0.5 underline decoration-emerald-500/60 decoration-2 underline-offset-2',
   delete:
-    'bg-rose-500/20 text-rose-900/80 dark:text-rose-200/75 rounded px-0.5 line-through decoration-rose-500/70 decoration-2',
+    'bg-rose-500/20 text-rose-900/80 dark:text-rose-200/75 rounded-lg px-0.5 line-through decoration-rose-500/70 decoration-2',
 };
 
 /**
@@ -92,7 +92,7 @@ const DiffText: React.FC<{
   registerMark?: (index: number, el: HTMLElement | null) => void;
 }> = ({ segments, fontSize, activeIndex = null, registerMark }) => (
   <p
-    className="font-serif leading-loose whitespace-pre-wrap text-slate-800 dark:text-slate-200"
+    className="max-w-[56ch] font-serif leading-loose whitespace-pre-wrap text-slate-800 dark:text-slate-200"
     style={{ fontSize: `${fontSize}px` }}
   >
     {segments.map((segment, index) =>
@@ -132,7 +132,7 @@ const StatChip: React.FC<{
   };
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[10px] font-bold uppercase tracking-wider ${tones[tone]}`}
+      className={`t-label inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border ${tones[tone]}`}
     >
       <Icon className="w-3 h-3" />
       <span className="tabular-nums">{value}</span>
@@ -283,7 +283,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className={`clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-6xl border-2 ${bandConfig.border} animate-fade-in-up overflow-hidden flex flex-col max-h-[92vh]`}
+        className={`clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-6xl border-2 ${bandConfig.border} animate-fade-in-up overflow-hidden flex flex-col max-h-[92vh]`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -304,14 +304,14 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
               <div className="min-w-0">
                 <h2
                   id={titleId}
-                  className="text-xl font-black text-white tracking-normal uppercase italic leading-none truncate"
+                  className="text-xl font-black text-white tracking-normal italic leading-none truncate"
                 >
                   {unchanged ? 'Your answer, unchanged' : 'Your answer, improved'}
                 </h2>
                 <div className="flex flex-wrap items-center gap-2 text-white/90 font-medium text-xs mt-0.5">
                   {unchanged && <span>The marker left it as you wrote it</span>}
                   {!unchanged && targetMark !== undefined && (
-                    <span className="bg-white/20 px-2 py-0.5 rounded font-bold uppercase tracking-wider">
+                    <span className="bg-white/20 px-2 py-0.5 rounded-lg font-bold">
                       {originalMark !== undefined ? `${originalMark} → ` : ''}
                       {targetMark}/{originalPrompt.totalMarks}
                     </span>
@@ -365,7 +365,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                 <button
                   onClick={() => jumpToChange(-1)}
                   aria-label="Previous change"
-                  className="p-1.5 rounded-md text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
                 </button>
@@ -375,7 +375,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                 <button
                   onClick={() => jumpToChange(1)}
                   aria-label="Next change"
-                  className="p-1.5 rounded-md text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
                 >
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
@@ -408,7 +408,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                 <button
                   onClick={() => setView('unified')}
                   aria-pressed={view === 'unified'}
-                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all ${
+                  className={`t-label flex items-center gap-1.5 px-2.5 py-1 rounded-lg transition-all ${
                     view === 'unified'
                       ? 'bg-slate-200 dark:bg-white/10 text-slate-800 dark:text-white'
                       : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
@@ -419,7 +419,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                 <button
                   onClick={() => setView('split')}
                   aria-pressed={view === 'split'}
-                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all ${
+                  className={`t-label flex items-center gap-1.5 px-2.5 py-1 rounded-lg transition-all ${
                     view === 'split'
                       ? 'bg-slate-200 dark:bg-white/10 text-slate-800 dark:text-white'
                       : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
@@ -442,7 +442,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
             <div className="mx-6 sm:mx-8 mt-6 p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-200 dark:border-emerald-500/25 flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-emerald-600 dark:text-emerald-400" />
               <div>
-                <p className="text-sm font-bold text-emerald-800 dark:text-emerald-300">
+                <p className="text-sm text-emerald-800 dark:text-emerald-300">
                   No changes — this is already your answer
                 </p>
                 <p className="text-xs text-emerald-700/80 dark:text-emerald-400/80 mt-0.5 leading-relaxed">
@@ -456,13 +456,13 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
           {!hasOriginal || view === 'unified' ? (
             <div className="p-6 sm:p-8">
               {hasOriginal && anchors.length > 0 && (
-                <p className="mb-5 text-[11px] font-bold uppercase tracking-widest text-slate-400 flex flex-wrap items-center gap-x-4 gap-y-1">
+                <p className="t-label mb-5 text-slate-400 flex flex-wrap items-center gap-x-4 gap-y-1">
                   <span className="inline-flex items-center gap-1.5">
-                    <span className="w-3 h-3 rounded bg-emerald-500/30 border border-emerald-500/50" />
+                    <span className="w-3 h-3 rounded-lg bg-emerald-500/30 border border-emerald-500/50" />
                     added
                   </span>
                   <span className="inline-flex items-center gap-1.5">
-                    <span className="w-3 h-3 rounded bg-rose-500/30 border border-rose-500/50" />
+                    <span className="w-3 h-3 rounded-lg bg-rose-500/30 border border-rose-500/50" />
                     cut
                   </span>
                   <span className="normal-case tracking-normal font-medium opacity-70">
@@ -482,9 +482,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
               <div>
                 <div className="sticky top-0 px-6 py-2.5 bg-slate-100/90 dark:bg-white/[0.04] backdrop-blur-sm border-b border-slate-200 dark:border-white/10 flex items-center gap-2 z-10">
                   <UserIcon className="w-3.5 h-3.5 text-slate-500" />
-                  <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300">
-                    Your original
-                  </h3>
+                  <h3 className="t-label text-slate-600 dark:text-slate-300">Your original</h3>
                   <span className="ml-auto text-[10px] font-bold text-slate-400 tabular-nums">
                     {stats.originalWords} words
                   </span>
@@ -498,11 +496,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   className={`sticky top-0 px-6 py-2.5 ${bandConfig.bg} backdrop-blur-sm border-b border-slate-200 dark:border-white/10 flex items-center gap-2 z-10`}
                 >
                   <Sparkles className={`w-3.5 h-3.5 ${bandConfig.text}`} />
-                  <h3
-                    className={`text-[10px] font-black uppercase tracking-widest ${bandConfig.text}`}
-                  >
-                    Improved
-                  </h3>
+                  <h3 className={`t-label ${bandConfig.text}`}>Improved</h3>
                   <span className="ml-auto text-[10px] font-bold text-slate-400 tabular-nums">
                     {stats.revisedWords} words
                   </span>
@@ -523,7 +517,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
 
           {newKeywords.length > 0 && (
             <div className="mx-6 sm:mx-8 mb-8 p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-500/20">
-              <p className="text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400 mb-2.5 flex items-center gap-2">
+              <p className="t-label text-indigo-600 dark:text-indigo-400 mb-2.5 flex items-center gap-2">
                 <Target className="w-3.5 h-3.5" /> Syllabus terms the revision added
               </p>
               <div className="flex flex-wrap gap-2">
@@ -555,7 +549,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
           <div className="flex flex-wrap items-center justify-end gap-3 w-full sm:w-auto">
             <button
               onClick={handleCopy}
-              className="flex-1 sm:flex-none py-2.5 px-5 rounded-xl font-bold text-xs uppercase tracking-wider text-slate-600 dark:text-slate-300 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 transition-all flex items-center justify-center gap-2"
+              className="t-label flex-1 sm:flex-none py-2.5 px-5 rounded-xl text-slate-600 dark:text-slate-300 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 transition-all flex items-center justify-center gap-2"
             >
               {isCopied ? (
                 <Check className="w-4 h-4 text-emerald-500" />
@@ -575,8 +569,8 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                     ? // The way forward is the filled button when there is one,
                       // so this steps back to the outline treatment rather than
                       // competing with it.
-                      'flex-1 sm:flex-none py-2.5 px-5 rounded-xl font-bold text-xs uppercase tracking-wider text-slate-600 dark:text-slate-300 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 transition-all flex items-center justify-center gap-2'
-                    : `flex-1 sm:flex-none py-2.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider text-white shadow-lg bg-gradient-to-r ${bandConfig.gradient} hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2`
+                      't-label flex-1 sm:flex-none py-2.5 px-5 rounded-xl text-slate-600 dark:text-slate-300 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 transition-all flex items-center justify-center gap-2'
+                    : `t-label flex-1 sm:flex-none py-2.5 px-6 rounded-xl text-white shadow-lg bg-gradient-to-r ${bandConfig.gradient} hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2`
                 }
               >
                 <span>Use this version</span>
@@ -591,7 +585,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
               <button
                 onClick={onClose}
                 autoFocus
-                className={`flex-1 sm:flex-none py-2.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider text-white shadow-lg bg-gradient-to-r ${bandConfig.gradient} hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2`}
+                className={`t-label flex-1 sm:flex-none py-2.5 px-6 rounded-xl text-white shadow-lg bg-gradient-to-r ${bandConfig.gradient} hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2`}
               >
                 <span>{continueLabel}</span>
                 <ArrowRight className="w-4 h-4" />

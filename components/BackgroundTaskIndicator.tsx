@@ -78,7 +78,7 @@ const BackgroundTaskIndicator: React.FC<BackgroundTaskIndicatorProps> = ({ task 
             {task.message}
           </p>
           {task.status === 'error' && task.error && (
-            <p className="text-[10px] text-red-600 dark:text-red-400 mt-1 leading-tight break-words bg-red-100 dark:bg-red-900/20 p-1.5 rounded border border-red-200 dark:border-red-500/20">
+            <p className="text-[10px] text-red-600 dark:text-red-400 mt-1 leading-tight break-words bg-red-100 dark:bg-red-900/20 p-1.5 rounded-lg border border-red-200 dark:border-red-500/20">
               {task.error}
             </p>
           )}

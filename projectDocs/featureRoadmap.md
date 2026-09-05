@@ -5,11 +5,13 @@ _Last updated: 2026-07-05 · reflects v2.3.12._
 ## 1. Current Capabilities (v2.3.0)
 
 ### 🧭 Intelligent Syllabus Navigator
+
 - **Hierarchical Browsing**: Course > Topic > Sub-Topic > Dot Point > Question.
 - **Discovery Engine**: Automatically detects local course manifests and suggests relevant modules.
 - **Visual Health Rings**: Real-time coverage analytics for syllabus dot points.
 
 ### 🧠 AI-Powered Evaluation Engine
+
 - **Reasoning-tier marking**: strict NESA-verb adherence, no "participation marks" for off-verb responses.
 - **Dynamic Rubric Synthesis**: generates descending 1–N mark rubrics on demand for any question.
 - **The Improvement Loop**: guided "N+1" band upgrades with side-by-side comparison.
@@ -17,16 +19,19 @@ _Last updated: 2026-07-05 · reflects v2.3.12._
 - **Secure AI proxy**: all provider calls go through the server-side `/api/gemini` proxy so keys never reach the browser; the proxy authenticates the caller and enforces daily quotas.
 
 ### ✍️ Writing Workspace
+
 - **Chromatic Editor**: visual theme shifts based on response quality.
 - **Live Metrics**: word count, keywords, and structural signposts.
 - **Reference Pane**: Band Descriptors and tailored Marking Criteria.
 
 ### 👥 Roles, Moderation & Shared Library
+
 - **Role split**: `admin` / `teacher` / `user` / `guest`. Teachers curate content + run the Review Queue but do **not** get the system-administration tools. Capabilities live in `utils/permissions.ts` (`canCurateContent` / `canModerate` / `isSystemAdmin`), mirroring the schema's `is_reviewer()` / `is_admin()`.
 - **Contribution loop**: users/AI draft content as `private`, submit to `pending`, and reviewers approve to `approved` via reviewer-gated RPCs. Enforced in the database, not just the UI (`enforce_content_status_authority`).
 - **Review Queue**: lowest-quality-first triage with an AI pre-screen score, parent-question context, and bulk "Approve All (visible)".
 
 ### 🛠️ Admin & Data Tools
+
 - **Content Audit Studio**: batch-generate/repair questions, rubrics, samples, and outcome links across a whole selection with a selectable AI engine, "Fix All Gaps", inline data-quality badges, and "Sync to Library" (repairs flow through the review queue).
 - **Data Vault**: backups (Time Machine) + full JSON Import/Export with conflict resolution.
 - **Database Manager**: internal storage health, force-sync, restore, data browser.
@@ -36,6 +41,7 @@ _Last updated: 2026-07-05 · reflects v2.3.12._
 - **Circuit Breaker**: API Guard monitoring error rates (429s) to prevent lockout.
 
 ### 🏭 Production Hardening
+
 - Server-enforced **AI usage quotas** (per user + per group, fail-open); compiled Tailwind + self-hosted fonts (**zero external requests**, renders offline); demo-auth opt-in for production builds.
 
 ---
@@ -47,21 +53,25 @@ _Last updated: 2026-07-05 · reflects v2.3.12._
 > gates real student use.
 
 ### Near-term — finish the loops we started
+
 - **Server-side quality screening**: move the contribution pre-screen from the author's browser to an edge function so the score can't be forged (currently advisory only — see `supabase/README.md`). Hardens the moderation flow.
 - **Dashboard depth**: ✅ _shipped (v2.3.2 + v2.3.3)_ — estimated daily cost, a **per-engine spend breakdown**, and CSV export of the usage report. The proxy now attributes each call to its engine via a reporting-only `ai_model_usage` table (`record_ai_model_usage()`, best-effort and fully separate from budget enforcement), so the cost figure is exact once attributed data exists and falls back to the bounded estimate otherwise.
 - **e2e coverage for quotas**: add the 429-enforcement + dashboard-override path to the stubbed Playwright suite. It gates spend, so it's the highest-value flow to protect.
 
 ### Mid-term — close the "next phase" gaps
+
 - **Structural write path + moderation** for courses/topics/dot points: ✅ _v2.3.11 (backend) + v2.3.12 (UI)_ — topics/sub-topics/dot points carry the full status/created_by moderation model, status-gated RLS, and a reviewer-gated `set_structure_status` RPC (verified on Postgres). Creating structure in Supabase mode auto-contributes it as `pending`, and the Review Queue lists/approves/rejects pending structure alongside prompts and sample answers.
 - **Persist responses**: ✅ _shipped in v2.3.5_ — each evaluation upserts the student's draft + AI feedback (mark/band/evaluation JSON, and thumbs rating) to the `responses` table, one row per `(student, prompt)`. Best-effort, Supabase-mode only. **Next**: per-attempt history (currently latest-only) if the analytics want a trend line rather than current standing.
 - **Quota-exhaustion notification**: ✅ _shipped in v2.3.4_ — in-app toast at 80% / 100% (deduped once per threshold per UTC day), fed by the caller usage the proxy now echoes on each response. Optional **email** notification still outstanding.
 
 ### Longer-term — deployment gate & payoff
+
 - **Privacy & data residency** (hard gate before real students): Australian region, pseudonymisation of student work, DoE third-party-tool policy sign-off.
 - **Longitudinal analytics**: Weakness Heatmap of difficult verbs/topics ✅ _v2.3.6–2.3.7_ (Class Insights). Student Progress across cognitive tiers ✅ _v2.3.8_ plus a **band trend over time** ✅ _v2.3.10_ (append-only `response_events` history + a sparkline). The core longitudinal loop is now in place; remaining polish is cohort-level trends and richer per-attempt drill-down.
 - **Teacher-facing class analytics**: ✅ _v2.3.6–2.3.9_ — the reviewer-gated Class Insights panel (cohort, by verb or topic), the Student Progress modal (one student across the cognitive tiers), and a **student roster/picker** so teachers pick from a list instead of typing usernames. **Next**: per-attempt trend lines (needs response history).
 
 ### Exploratory
+
 - **Multimodal OCR**: photograph handwritten papers for transcription + marking.
 - **Socratic Mode**: guiding questions instead of direct answers.
 - **Subject expansion**: domain-specific reasoning modules (English PEEL, History historiography, Maths working).

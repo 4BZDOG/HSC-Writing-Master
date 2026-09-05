@@ -60,14 +60,12 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
           </div>
           <span className="text-left">
             <span
-              className={`block text-[10px] font-black uppercase tracking-[0.2em] ${isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
+              className={`t-label block ${isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
             >
               {title}
             </span>
             {subtitle && (
-              <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
-                {subtitle}
-              </span>
+              <span className="t-label block text-slate-600 dark:text-slate-400">{subtitle}</span>
             )}
           </span>
         </div>
@@ -170,7 +168,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
               against. Tap any outcome for a briefing on what it wants from this question.
             </p>
             {briefingLocked && (
-              <p className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500 dark:text-slate-400">
+              <p className="flex items-center gap-1.5 text-[10px] text-slate-500 dark:text-slate-400">
                 <PlusLockChip feature="outcomeBriefing" />
                 Briefings are part of Band 6 Plus — the outcomes themselves are always free to read.
               </p>
@@ -182,24 +180,20 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                   setSelectedOutcome(outcome);
                   markSupportOpened(prompt.id, 'outcomeBriefing');
                 }}
-                className={`w-full text-left rounded-2xl border ${tierConfig.border} ${tierConfig.bg} p-4 transition-all hover:shadow-md hover:brightness-110 active:scale-[0.98] group/outcome-row`}
+                className={`w-full text-left rounded-2xl border ${tierConfig.border} ${tierConfig.bg} p-4 transition-all hover:shadow-lg hover:brightness-110 active:scale-[0.98] group/outcome-row`}
               >
                 <div className="flex items-center gap-2 mb-1.5">
                   {/* The same target that heads the panel and marks every
                       outcome chip on the question card, so an outcome is
                       recognisable as one wherever it appears. */}
                   <span
-                    className={`w-5 h-5 shrink-0 rounded-md flex items-center justify-center border ${tierConfig.border} ${tierConfig.bg}`}
+                    className={`w-5 h-5 shrink-0 rounded-lg flex items-center justify-center border ${tierConfig.border} ${tierConfig.bg}`}
                     aria-hidden="true"
                   >
                     <Target className={`w-3 h-3 ${tierConfig.text}`} />
                   </span>
-                  <span
-                    className={`text-[10px] font-black uppercase tracking-widest ${tierConfig.text}`}
-                  >
-                    {outcome.code}
-                  </span>
-                  <span className="ml-auto flex items-center gap-1.5 text-[9px] font-black uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400 opacity-70 group-hover/outcome-row:opacity-100 transition-opacity">
+                  <span className={`t-label ${tierConfig.text}`}>{outcome.code}</span>
+                  <span className="t-label ml-auto flex items-center gap-1.5 text-slate-500 dark:text-slate-400 opacity-70 group-hover/outcome-row:opacity-100 transition-opacity">
                     <Sparkles className="w-3 h-3" />
                     Explain for this question
                     {briefingLocked && <PlusLockChip feature="outcomeBriefing" />}
@@ -247,7 +241,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                 return (
                   <div
                     key={descriptor.band}
-                    className={`relative rounded-2xl border ${bConfig.bg} ${bConfig.border} p-4 shadow-sm group/descriptor transition-all hover:shadow-md`}
+                    className={`relative rounded-2xl border ${bConfig.bg} ${bConfig.border} p-4 shadow-sm group/descriptor transition-all hover:shadow-lg`}
                   >
                     <div className="flex gap-4 items-start">
                       <div
@@ -257,17 +251,13 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                       </div>
                       <div>
                         <div className="flex items-center gap-2 mb-1.5">
-                          <span
-                            className={`text-[10px] font-black ${bConfig.text} uppercase tracking-widest`}
-                          >
-                            Band {descriptor.band}
-                          </span>
+                          <span className={`t-label ${bConfig.text}`}>Band {descriptor.band}</span>
                           {/* The band's word ("Outstanding", "Sound") sits on a
                               tinted card in both themes, so it cannot afford a
                               muted tone AND an opacity on top: at 8px that
                               landed under every readability floor the rest of
                               the app respects. */}
-                          <span className="text-[9px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-[0.2em]">
+                          <span className="t-label text-slate-600 dark:text-slate-300">
                             • {descriptor.shortLabel}
                           </span>
                         </div>

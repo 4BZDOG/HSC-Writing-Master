@@ -65,7 +65,7 @@ export const RIBBON_TIER_UNDERLINE =
  *  both themes on a solid tier fill (§2) and wrong on the slate one. Painted on
  *  the bar. */
 export const RIBBON_HEADER_TILE =
-  'w-9 h-9 shrink-0 rounded-xl flex items-center justify-center border shadow-md group-hover/header:scale-110 transition-transform';
+  'w-9 h-9 shrink-0 rounded-xl flex items-center justify-center border shadow-sm group-hover/header:scale-110 transition-transform';
 
 /** "HSC Command Verb Hierarchy". Truncates rather than wraps: an ellipsis on a
  *  title the reader already knows costs nothing, a second line costs the height
@@ -74,13 +74,11 @@ export const RIBBON_HEADER_TITLE =
   'text-sm sm:text-base font-black tracking-tight leading-none truncate';
 
 /** "Reference • 6 cognitive tiers", under the title. Painted on the bar. */
-export const RIBBON_HEADER_SUBLABEL =
-  'block truncate text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400';
+export const RIBBON_HEADER_SUBLABEL = 't-label block truncate text-slate-500 dark:text-slate-400';
 
 /** The word "Selected:" before the chip. `whitespace-nowrap` is half of the
  *  height lock. Painted on the bar. */
-export const RIBBON_SELECTED_LABEL =
-  'text-[10px] font-black uppercase tracking-widest whitespace-nowrap text-slate-500 dark:text-slate-400';
+export const RIBBON_SELECTED_LABEL = 't-label whitespace-nowrap text-slate-500 dark:text-slate-400';
 
 /** The chip carrying the selected verb. `whitespace-nowrap` is the other half
  *  of the height lock — DIFFERENTIATE is thirteen characters.
@@ -89,7 +87,7 @@ export const RIBBON_SELECTED_LABEL =
  *  bar was a gradient and would be a smudge on glass, so the colour comes from
  *  the tier config at the call site — the same wash the detail card wears. */
 export const RIBBON_SELECTED_CHIP =
-  'px-2.5 py-0.5 rounded-lg text-[10px] font-black uppercase tracking-widest whitespace-nowrap border shadow-sm';
+  't-label px-2.5 py-0.5 rounded-lg whitespace-nowrap border shadow-sm';
 
 /** The chevron's round chip at the far end of the bar. Already a pair, because
  *  it is the one thing in the bar that has to read on both a tier gradient and
@@ -109,8 +107,7 @@ export const RIBBON_DETAIL_TERM =
 
 /** The tier chip beside the verb. Its colours come from the tier config.
  *  Painted on the detail card. */
-export const RIBBON_DETAIL_TIER_CHIP =
-  'px-3 py-0.5 rounded-full border font-black text-[9px] uppercase tracking-widest shadow-sm';
+export const RIBBON_DETAIL_TIER_CHIP = 't-label px-3 py-0.5 rounded-full border shadow-sm';
 
 /** The verb's definition. Painted on the detail card. The `opacity-90` it used
  *  to carry was softening white-on-gradient text; on a tier wash it only cost
@@ -132,8 +129,7 @@ export const RIBBON_STAT_TRAY =
   'bg-slate-100 border border-slate-200 dark:bg-black/20 dark:border-white/10';
 
 /** "Marks", "Band Cap", "Time", "Terms". Painted on the tray. */
-export const RIBBON_STAT_LABEL =
-  'text-[9px] uppercase tracking-widest font-black mb-0.5 text-slate-600 dark:text-slate-400';
+export const RIBBON_STAT_LABEL = 't-label mb-0.5 text-slate-600 dark:text-slate-400';
 
 /** The number under each label; its colour is the tier's. Painted on the
  *  tray.
@@ -258,8 +254,7 @@ export const RIBBON_TIER_HEADER =
  *  offers (`-900`), so there was nothing left to darken — the opacity had to go.
  *  The eyebrow still reads as an eyebrow: ten pixels against the title's
  *  fourteen, with 0.2em of tracking doing the rest. */
-export const RIBBON_TIER_HEADER_LABEL =
-  'text-[10px] font-black uppercase tracking-[0.2em] block mb-0.5 truncate';
+export const RIBBON_TIER_HEADER_LABEL = 't-label block mb-0.5 truncate';
 
 /** The tier's title. Painted on the tier card header. */
 export const RIBBON_TIER_HEADER_TITLE = 'text-sm font-black truncate tracking-tight';
@@ -287,8 +282,7 @@ export const RIBBON_TIER_SUBTITLE_IDLE = 'text-slate-600 dark:text-[rgb(var(--co
 
 /** One verb chip. The selected/unselected fills are the tier config's, at the
  *  call site. Painted on the tier card body. */
-export const RIBBON_VERB_CHIP =
-  'px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border transition-all duration-300';
+export const RIBBON_VERB_CHIP = 't-label px-3 py-1.5 rounded-xl border transition-all duration-300';
 
 /** The one line of text above the spectrum, which says in words what the
  *  spectrum says in colour (DesignSpec §2: colour is never the only signal).
@@ -342,15 +336,14 @@ export const RIBBON_TIMELINE_CUE =
 /** The tier fragment of the cue line. Carries no colour of its own — the tier's
  *  `text` token is interpolated at the call site, the way everything
  *  tier-coloured in this component is. Painted on the page background. */
-export const RIBBON_TIMELINE_CUE_TIER = 'font-black uppercase tracking-widest text-[10px]';
+export const RIBBON_TIMELINE_CUE_TIER = 't-label';
 
 /** The band-cap fragment of the cue line. Set in the telemetry face per
  *  DesignSpec §4 — a band number is a mark, and `RIBBON_STAT_VALUE` already
  *  sets the same number in mono six inches above. Painted on the page
  *  background. */
 export const RIBBON_TIMELINE_CUE_BAND =
-  'font-mono font-black tabular-nums text-[10px] uppercase tracking-wider ' +
-  'text-slate-700 dark:text-slate-300';
+  't-label font-mono tabular-nums' + 'text-slate-700 dark:text-slate-300';
 
 /** The timeline's progress track — the unlit ground the spectrum is painted
  *  on, and the box that clips it. Painted on the page background.
@@ -402,7 +395,7 @@ export const RIBBON_SPECTRUM_EDGE =
  *  remounts it and it replays. Its fill is the tier's own hex, inline. Painted
  *  over the track, outside its clip so the flare can bloom past the bar. */
 export const RIBBON_SPECTRUM_IGNITION =
-  'absolute inset-y-0 rounded-sm pointer-events-none z-10 origin-center';
+  'absolute inset-y-0 rounded-lg pointer-events-none z-10 origin-center';
 
 /** The same ignition on the current step's dot, one bloom out of the circle.
  *  Its fill is the tier's `solidBg` at the call site, and it is keyed on the
@@ -462,8 +455,7 @@ export const RIBBON_SPECTRUM_SCALE_RAIL =
  *  text from the audit is the blind spot that let this component's three
  *  contrast defects ship in the first place. */
 export const RIBBON_SPECTRUM_SCALE_SPAN =
-  'text-[9px] font-bold uppercase tracking-wider whitespace-nowrap ' +
-  'text-slate-600 dark:text-slate-400';
+  't-label whitespace-nowrap' + 'text-slate-600 dark:text-slate-400';
 
 /** The band-cap fragment of a span caption — the number the leap across the
  *  threshold is measured in. Set in the telemetry face per DesignSpec §4, like
@@ -489,8 +481,7 @@ export const RIBBON_TIMELINE_DOT =
   'w-4 h-4 rounded-full border-2 transition-all duration-500 relative';
 
 /** A timeline step's label, under its dot. Painted on the page background. */
-export const RIBBON_TIMELINE_STEP_LABEL =
-  'text-[9px] font-bold uppercase tracking-wider sm:tracking-widest transition-all duration-300';
+export const RIBBON_TIMELINE_STEP_LABEL = 't-label sm:tracking-widest transition-all duration-300';
 
 /** The five steps that are not the reader's current tier. On phones six tracked
  *  labels collide, so only the current one keeps its label below `sm`.
@@ -520,7 +511,7 @@ export const RIBBON_TIMELINE_STEP_LABEL_IDLE =
  *  painting, and saying it out loud is what lets the parity sweep read this
  *  constant at all. */
 export const RIBBON_TIMELINE_THRESHOLD_CHIP =
-  'hidden sm:block text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ' +
+  't-label hidden sm:block px-2 py-0.5 rounded-full' +
   'border shadow-sm whitespace-nowrap mb-2 transform -translate-y-1/2 ' +
   'bg-white text-slate-600 border-slate-300 ' +
   'dark:bg-[rgb(var(--color-bg-surface))] dark:text-slate-400 dark:border-white/10';

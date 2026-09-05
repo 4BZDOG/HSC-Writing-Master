@@ -57,7 +57,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
     >
       <div
         className={`
-        clip-stable w-full max-w-3xl rounded-2xl shadow-2xl
+        clip-stable w-full max-w-3xl rounded-2xl shadow-lg
         border-2 ${bandConfig.border} ${bandConfig.glow}
         bg-[rgb(var(--color-bg-surface))]/95
         animate-fade-in-up
@@ -87,7 +87,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
                   {termInfo.term}
                 </h2>
                 <div className="flex items-center gap-2 mt-0.5 text-white/90 font-medium text-sm">
-                  <span className="bg-white/20 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider">
+                  <span className="t-label bg-white/20 px-2 py-0.5 rounded-lg">
                     Tier {termInfo.tier}
                   </span>
                   <span>•</span>
@@ -114,12 +114,12 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
             className={`
             p-5 rounded-xl border-2 ${bandConfig.border}
             bg-[rgb(var(--color-bg-surface-inset))]/30
-            transition-all duration-200 hover:shadow-md ${bandConfig.glow}
+            transition-all duration-200 hover:shadow-lg ${bandConfig.glow}
           `}
           >
             <div className="flex items-center gap-3 mb-3">
               <Zap className={`w-5 h-5 ${bandConfig.text}`} />
-              <h3 className="text-sm font-bold text-[rgb(var(--color-text-primary))] uppercase tracking-wider">
+              <h3 className="text-sm font-bold text-[rgb(var(--color-text-primary))]">
                 Definition
               </h3>
             </div>
@@ -141,9 +141,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
               >
                 <Target className={`w-5 h-5 ${bandConfig.text}`} />
               </div>
-              <p className="text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1">
-                Command Tier
-              </p>
+              <p className="t-label text-[rgb(var(--color-text-muted))] mb-1">Command Tier</p>
               <p className={`font-black text-2xl ${bandConfig.text}`}>{termInfo.tier}</p>
             </div>
 
@@ -158,9 +156,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
               >
                 <Hash className={`w-5 h-5 ${bandConfig.text}`} />
               </div>
-              <p className="text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1">
-                Mark Range
-              </p>
+              <p className="t-label text-[rgb(var(--color-text-muted))] mb-1">Mark Range</p>
               <p className={`font-black text-2xl ${bandConfig.text}`}>
                 {termInfo.markRange.join('-')}
               </p>
@@ -177,9 +173,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
               >
                 <Award className={`w-5 h-5 ${bandConfig.text}`} />
               </div>
-              <p className="text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider mb-1">
-                Band Ceiling
-              </p>
+              <p className="t-label text-[rgb(var(--color-text-muted))] mb-1">Band Ceiling</p>
               <p className={`font-black text-2xl ${bandConfig.text}`}>
                 Band {getTierTargetBand(termInfo.tier)}
               </p>
@@ -192,7 +186,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
             p-5 rounded-xl border ${bandConfig.border} bg-[rgb(var(--color-bg-surface-inset))]/30
           `}
           >
-            <h3 className="flex items-center gap-2 text-sm font-bold text-[rgb(var(--color-text-primary))] uppercase tracking-wider mb-3">
+            <h3 className="flex items-center gap-2 text-sm font-bold text-[rgb(var(--color-text-primary))] mb-3">
               <ChevronRight className={`w-4 h-4 ${bandConfig.text}`} />
               Discrimination Factors
             </h3>
@@ -207,7 +201,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
             p-5 rounded-xl border ${bandConfig.border} bg-[rgb(var(--color-bg-surface-inset))]/30
           `}
           >
-            <h3 className="flex items-center gap-2 text-sm font-bold text-[rgb(var(--color-text-primary))] uppercase tracking-wider mb-3">
+            <h3 className="flex items-center gap-2 text-sm font-bold text-[rgb(var(--color-text-primary))] mb-3">
               <Award className={`w-4 h-4 ${bandConfig.text}`} />
               NESA Marking Guide
             </h3>

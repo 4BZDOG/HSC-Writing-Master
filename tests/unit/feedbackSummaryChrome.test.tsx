@@ -6,7 +6,7 @@ import type { EvaluationResult, Prompt, PromptVerb } from '../../types';
 
 /**
  * The marking summary's chrome had drifted into four different section
- * treatments — a tinted `rounded-[32px]` panel, a white card, a dashed-border
+ * treatments — a tinted 32px-radius panel, a white card, a dashed-border
  * callout, and a bare region between two hairline rules — which is most of what
  * "looks dated" meant. Most of that pass is visual and belongs to the eye, but
  * two parts of it changed what the page actually TELLS a student, and those are

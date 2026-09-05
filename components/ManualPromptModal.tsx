@@ -76,13 +76,11 @@ const Section: React.FC<{
   action?: React.ReactNode;
   children: React.ReactNode;
 }> = ({ icon: Icon, iconClass, eyebrow, title, action, children }) => (
-  <section className="p-6 rounded-[24px] bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200">
+  <section className="p-6 rounded-panel bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200">
     <div className="flex flex-wrap justify-between items-center gap-3 mb-5">
       <div className="flex flex-col gap-1 min-w-0">
-        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 light:text-slate-500">
-          {eyebrow}
-        </span>
-        <h4 className="text-sm font-bold text-white light:text-slate-900 uppercase tracking-widest flex items-center gap-3">
+        <span className="t-label text-white/20 light:text-slate-500">{eyebrow}</span>
+        <h4 className="text-sm font-bold text-white light:text-slate-900 flex items-center gap-3">
           <Icon className={`w-5 h-5 ${iconClass}`} /> {title}
         </h4>
       </div>
@@ -118,16 +116,14 @@ const Toggle: React.FC<{
           : 'bg-white/[0.03] light:bg-slate-100 border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600'
       }`}
     >
-      <span className="text-[9px] font-black uppercase tracking-widest">
-        {checked ? onLabel : offLabel}
-      </span>
+      <span className="t-label">{checked ? onLabel : offLabel}</span>
       <span
         className={`relative w-9 h-5 rounded-full transition-colors ${
           checked ? (accent === 'amber' ? 'bg-amber-500' : 'bg-blue-500') : 'bg-slate-600'
         }`}
       >
         <span
-          className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all ${
+          className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-all ${
             checked ? 'left-[1.15rem]' : 'left-0.5'
           }`}
         />
@@ -363,7 +359,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
         aria-pressed={pinned}
         onClick={() => setPinnedVerb(pinned ? null : (info.term as PromptVerb))}
         title={`${info.definition} · typical range ${info.markRange[0]}–${info.markRange[1]} marks`}
-        className={`px-3 py-1.5 rounded-xl border text-[10px] font-black uppercase tracking-widest transition-all ${
+        className={`t-label px-3 py-1.5 rounded-xl border transition-all ${
           pinned
             ? `${config.bg} ${config.border} ${config.text} shadow-lg scale-[1.03]`
             : 'bg-white/[0.03] light:bg-white border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900 hover:border-white/25'
@@ -387,7 +383,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
           aria-modal="true"
           aria-labelledby="manual-prompt-title"
           className={`
-                        bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-[32px] shadow-2xl
+ bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-panel shadow-lg
                         w-full max-w-4xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300
                         clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh] relative
                     `}
@@ -406,13 +402,13 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                 <div className="min-w-0">
                   <h2
                     id="manual-prompt-title"
-                    className="text-2xl font-black text-white light:text-slate-900 tracking-tight leading-none uppercase italic"
+                    className="text-2xl font-black text-white light:text-slate-900 tracking-tight leading-none italic"
                   >
                     Manual Entry
                   </h2>
                   {/* The breadcrumb the question will be filed under — the same
                     reassurance the AI generator gives before it writes. */}
-                  <div className="flex flex-wrap items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-1.5">
+                  <div className="t-label flex flex-wrap items-center gap-1.5 text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-1.5">
                     <span className="truncate max-w-[10rem]">{courseName || 'Course'}</span>
                     <ChevronRight className="w-3 h-3 opacity-30" />
                     <span className="truncate max-w-[10rem]">{topicName || 'Topic'}</span>
@@ -450,7 +446,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                 return (
                   <div key={id} className="flex items-center gap-2">
                     <span
-                      className={`w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black transition-colors ${
+                      className={`w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-bold transition-colors ${
                         active
                           ? 'bg-indigo-500 text-white shadow-lg'
                           : done
@@ -461,7 +457,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       {done ? <Check className="w-3.5 h-3.5" strokeWidth={4} /> : num}
                     </span>
                     <span
-                      className={`text-[10px] font-black uppercase tracking-[0.2em] ${
+                      className={`t-label ${
                         active
                           ? 'text-white light:text-slate-900'
                           : 'text-slate-500 light:text-slate-500'
@@ -483,10 +479,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                 {/* Your idea comes first: everything below it is calibration. */}
                 <div className="flex flex-col">
                   <div className="flex justify-between items-end mb-3">
-                    <label
-                      htmlFor="manual-prompt-draft"
-                      className="text-xs font-bold text-slate-500 uppercase tracking-widest block"
-                    >
+                    <label htmlFor="manual-prompt-draft" className="t-label text-slate-500 block">
                       Your Rough Question Idea
                     </label>
                     <span className="text-[10px] font-mono font-bold text-slate-600 tabular-nums">
@@ -501,7 +494,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     className="w-full h-32 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-2xl p-6 text-lg font-medium text-white light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 resize-none transition-shadow shadow-inner"
                   />
                   {dotPoint && (
-                    <p className="mt-2 text-[10px] font-bold uppercase tracking-widest text-slate-600 flex items-start gap-2">
+                    <p className="t-label mt-2 text-slate-600 flex items-start gap-2">
                       <ListChecks className="w-3.5 h-3.5 flex-shrink-0 mt-px opacity-60" />
                       <span className="normal-case tracking-normal font-medium text-slate-500 leading-relaxed">
                         Grounded in this syllabus point: {dotPoint}
@@ -523,9 +516,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       >
                         {marks}
                       </span>
-                      <span className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-2">
-                        Marks
-                      </span>
+                      <span className="t-label text-slate-500 ml-2">Marks</span>
                     </div>
                   }
                 >
@@ -551,19 +542,15 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       className={`h-full bg-gradient-to-r ${markGradient} rounded-full transition-all duration-300 relative`}
                       style={{ width: `${((marks - 1) / 19) * 100}%` }}
                     >
-                      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white shadow-xl scale-125 group-hover/slider:scale-150 transition-transform" />
+                      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white shadow-lg scale-125 group-hover/slider:scale-150 transition-transform" />
                     </div>
                   </div>
                   <div className="flex justify-between mt-2 px-1 gap-2">
-                    <span className="text-[10px] font-bold text-slate-600 uppercase">
-                      Simple (1)
-                    </span>
-                    <span className="text-[10px] font-bold text-slate-500 uppercase text-center">
+                    <span className="t-label text-slate-600">Simple (1)</span>
+                    <span className="t-label text-slate-500 text-center">
                       {activeVerb.term} range: {activeVerb.markRange[0]}–{activeVerb.markRange[1]}
                     </span>
-                    <span className="text-[10px] font-bold text-slate-600 uppercase">
-                      Extended (20)
-                    </span>
+                    <span className="t-label text-slate-600">Extended (20)</span>
                   </div>
                   {outOfRange && (
                     <div className="mt-3 p-3 rounded-lg bg-amber-500/10 light:bg-amber-50 border border-amber-500/20 light:border-amber-200 flex items-start gap-2">
@@ -591,14 +578,8 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     <div
                       className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border ${markTierConfig.bg} ${markTierConfig.border}`}
                     >
-                      <span className="text-[9px] font-bold uppercase tracking-widest text-slate-500">
-                        Ceiling
-                      </span>
-                      <span
-                        className={`text-[11px] font-black uppercase tracking-widest ${markBandColor}`}
-                      >
-                        Band {ceilingBand}
-                      </span>
+                      <span className="t-label text-slate-500">Ceiling</span>
+                      <span className={`t-label ${markBandColor}`}>Band {ceilingBand}</span>
                     </div>
                   }
                 >
@@ -607,7 +588,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       type="button"
                       aria-pressed={pinnedVerb === null}
                       onClick={() => setPinnedVerb(null)}
-                      className={`px-3 py-1.5 rounded-xl border text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-1.5 ${
+                      className={`t-label px-3 py-1.5 rounded-xl border transition-all flex items-center gap-1.5 ${
                         pinnedVerb === null
                           ? 'bg-indigo-500/15 border-indigo-500/40 text-indigo-300 light:text-indigo-700 shadow-lg'
                           : 'bg-white/[0.03] light:bg-white border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600 hover:border-white/25'
@@ -620,7 +601,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     <button
                       type="button"
                       onClick={() => setShowAllVerbs((v) => !v)}
-                      className="px-2.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white light:hover:text-slate-900 transition-colors"
+                      className="t-label px-2.5 py-1.5 rounded-xl text-slate-500 hover:text-white light:hover:text-slate-900 transition-colors"
                     >
                       {showAllVerbs ? 'Fewer' : `+${otherVerbs.length} more`}
                     </button>
@@ -704,10 +685,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     {isPastHSC ? (
                       <div className="flex flex-wrap items-end gap-3 animate-fade-in">
                         <div className="flex flex-col gap-1.5">
-                          <label
-                            htmlFor="manual-hsc-year"
-                            className="text-[9px] font-black uppercase tracking-widest text-slate-500"
-                          >
+                          <label htmlFor="manual-hsc-year" className="t-label text-slate-500">
                             Year
                           </label>
                           <input
@@ -721,10 +699,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                           />
                         </div>
                         <div className="flex flex-col gap-1.5">
-                          <label
-                            htmlFor="manual-hsc-question"
-                            className="text-[9px] font-black uppercase tracking-widest text-slate-500"
-                          >
+                          <label htmlFor="manual-hsc-question" className="t-label text-slate-500">
                             Question No.
                           </label>
                           <input
@@ -738,7 +713,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                         </div>
                         {previewPastHsc && (
                           <span
-                            className="flex items-center gap-1 mb-2 px-2 py-1 rounded-lg border bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border-amber-500/40 text-[9px] font-black uppercase tracking-wider"
+                            className="t-label flex items-center gap-1 mb-2 px-2 py-1 rounded-lg border bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border-amber-500/40"
                             title={previewPastHsc.title}
                           >
                             <Landmark className="w-2.5 h-2.5" />
@@ -768,12 +743,12 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                         <button
                           type="button"
                           onClick={() => setPinnedOutcomes([])}
-                          className="text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white light:hover:text-slate-900 transition-colors"
+                          className="t-label text-slate-500 hover:text-white light:hover:text-slate-900 transition-colors"
                         >
                           Clear · let AI choose
                         </button>
                       ) : (
-                        <span className="text-[10px] font-black uppercase tracking-widest text-indigo-400 flex items-center gap-1.5">
+                        <span className="t-label text-indigo-400 flex items-center gap-1.5">
                           <Sparkles className="w-3 h-3" /> AI Chooses
                         </span>
                       )
@@ -789,7 +764,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                             aria-pressed={active}
                             onClick={() => toggleOutcome(o.code)}
                             title={o.description}
-                            className={`px-3 py-1.5 rounded-xl border text-[10px] font-black uppercase tracking-widest transition-all ${
+                            className={`t-label px-3 py-1.5 rounded-xl border transition-all ${
                               active
                                 ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400 shadow-lg'
                                 : 'bg-white/[0.03] light:bg-white border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600 hover:border-white/25'
@@ -820,7 +795,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                   </div>
                   <label
                     htmlFor="manual-preview-question"
-                    className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-2 block"
+                    className="t-label text-indigo-400 mb-2 block"
                   >
                     Polished Question · edit before saving
                   </label>
@@ -838,7 +813,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     className="w-full bg-transparent border border-transparent hover:border-white/10 focus:border-indigo-500/40 rounded-xl p-2 -m-2 text-xl font-serif font-medium text-white light:text-slate-900 leading-relaxed focus:outline-none resize-none transition-colors"
                   />
                   {editedQuestion !== result.question && (
-                    <p className="mt-2 text-[10px] font-black uppercase tracking-widest text-amber-400 flex items-center gap-1.5">
+                    <p className="t-label mt-2 text-amber-400 flex items-center gap-1.5">
                       <AlertTriangle className="w-3 h-3" /> Edited — the AI wrote:{' '}
                       <span className="font-medium normal-case tracking-normal text-slate-500 truncate">
                         {renderFormattedText(result.question, result.keywords, result.verb)}
@@ -846,19 +821,19 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     </p>
                   )}
                   <div className="flex flex-wrap items-center gap-2 mt-4">
-                    <div className="px-3 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 text-[10px] font-black uppercase tracking-widest border border-indigo-500/20">
+                    <div className="t-label px-3 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/20">
                       {result.verb}
                     </div>
-                    <div className="px-3 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 text-[10px] font-black uppercase tracking-widest border border-indigo-500/20">
+                    <div className="t-label px-3 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/20">
                       {result.totalMarks} Marks
                     </div>
-                    <div className="px-3 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 text-[10px] font-black uppercase tracking-widest border border-indigo-500/20">
+                    <div className="t-label px-3 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/20">
                       Max Band{' '}
                       {getTargetBand(result.totalMarks, getCommandTermInfo(result.verb).tier)}
                     </div>
                     {previewPastHsc && (
                       <div
-                        className="px-3 py-1 rounded-lg bg-amber-500/15 text-amber-400 text-[10px] font-black uppercase tracking-widest border border-amber-500/40 flex items-center gap-1.5"
+                        className="t-label px-3 py-1 rounded-lg bg-amber-500/15 text-amber-400 border border-amber-500/40 flex items-center gap-1.5"
                         title={previewPastHsc.title}
                       >
                         <Landmark className="w-3 h-3" />
@@ -873,7 +848,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     <div className="flex items-center justify-between">
                       <label
                         htmlFor="manual-preview-scenario"
-                        className="text-[10px] font-black text-slate-500 uppercase tracking-widest block"
+                        className="t-label text-slate-500 block"
                       >
                         Scenario
                       </label>
@@ -928,7 +903,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                   <div className="space-y-2">
                     <label
                       htmlFor="manual-preview-criteria"
-                      className="text-[10px] font-black text-slate-500 uppercase tracking-widest block"
+                      className="t-label text-slate-500 block"
                     >
                       Marking Criteria
                     </label>
@@ -952,7 +927,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                   then never shown — a teacher was saving them unseen. */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                    <span className="t-label text-slate-500 flex items-center gap-2">
                       <Link2 className="w-3.5 h-3.5" /> Linked Outcomes
                     </span>
                     <div className="flex flex-wrap gap-2">
@@ -961,7 +936,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                           <span
                             key={code}
                             title={outcomes.find((o) => o.code === code)?.description}
-                            className="px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[9px] font-black uppercase tracking-wider"
+                            className="t-label px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400"
                           >
                             {code}
                           </span>
@@ -972,7 +947,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                    <span className="t-label text-slate-500 flex items-center gap-2">
                       <Tag className="w-3.5 h-3.5" /> Syllabus Keywords
                     </span>
                     <div className="flex flex-wrap gap-2">
@@ -1013,7 +988,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                 onClick={handleRefine}
                 disabled={!draftQuestion.trim() || isRefining}
                 className={`
-                                    group px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-[0.2em] text-white shadow-xl transition-all flex items-center gap-3
+                                    t-label group px-8 py-3 rounded-2xl text-white shadow-lg transition-all flex items-center gap-3
                                     ${
                                       !draftQuestion.trim() || isRefining
                                         ? 'bg-slate-700 opacity-50 cursor-not-allowed'
@@ -1036,7 +1011,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
               <button
                 onClick={handleConfirm}
                 disabled={!editedQuestion.trim()}
-                className="group px-10 py-3 rounded-2xl font-black text-xs uppercase tracking-[0.2em] text-white bg-gradient-to-r from-emerald-600 to-teal-600 shadow-xl hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="t-label group px-10 py-3 rounded-2xl text-white bg-gradient-to-r from-emerald-600 to-teal-600 shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 <Save className="w-4 h-4" /> Save to Syllabus
               </button>

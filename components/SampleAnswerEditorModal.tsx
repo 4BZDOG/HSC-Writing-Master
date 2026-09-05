@@ -88,7 +88,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
     >
       <div
         className="
-          bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl
+          bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg
           w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200
           clip-stable animate-fade-in-up overflow-hidden
           flex flex-col max-h-[90vh]
@@ -132,7 +132,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
           <div>
             <label
               htmlFor="answer-text"
-              className="block text-sm font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-2"
+              className="block text-sm font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2"
             >
               Answer Text
             </label>
@@ -149,7 +149,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
             <div>
               <label
                 htmlFor="mark-input"
-                className="block text-sm font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-3"
+                className="block text-sm font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3"
               >
                 Mark ({`out of ${prompt.totalMarks}`})
               </label>
@@ -173,7 +173,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-3">
+              <label className="block text-sm font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
                 Performance Band
               </label>
               <div className="flex items-center gap-1.5">
@@ -209,12 +209,12 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
                 })}
               </div>
               {band > tierMaxBand ? (
-                <p className="mt-2 text-[10px] font-bold text-amber-400 light:text-amber-600 uppercase tracking-widest flex items-center gap-1.5">
+                <p className="t-label mt-2 text-amber-400 light:text-amber-600 flex items-center gap-1.5">
                   <AlertCircle className="w-3 h-3" /> Above the Band {tierMaxBand} cap for '
                   {prompt.verb}' — recalibration will lower it
                 </p>
               ) : (
-                <p className="mt-2 text-[10px] font-bold text-slate-500 light:text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
+                <p className="t-label mt-2 text-slate-500 light:text-slate-500 flex items-center gap-1.5">
                   <Award className="w-3 h-3" /> Manually overridable up to Band {tierMaxBand} (
                   {`'${prompt.verb}'`} verb cap)
                 </p>
@@ -225,7 +225,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
           {error && (
             <div className="p-4 rounded-xl border border-red-500/50 light:border-red-200 bg-red-500/10 light:bg-red-50 flex items-start gap-3 animate-fade-in">
               <AlertCircle className="w-5 h-5 text-red-400 light:text-red-500 flex-shrink-0 mt-0.5" />
-              <p className="text-xs font-bold text-red-300 light:text-red-600">{error}</p>
+              <p className="text-xs text-red-300 light:text-red-600">{error}</p>
             </div>
           )}
         </div>

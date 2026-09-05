@@ -17,7 +17,7 @@
 /** The header box itself. Each card adds its own background — a band gradient
  *  on the question, the progress-driven colour on the writing area. */
 export const CARD_HEADER_BOX =
-  'px-4 sm:px-6 py-3 text-white flex justify-between items-start relative overflow-hidden flex-shrink-0 rounded-t-[30px]';
+  'px-4 sm:px-6 py-3 text-white flex justify-between items-start relative overflow-hidden flex-shrink-0 rounded-t-surface-inner';
 
 /**
  * The row inside it. TOP-aligned, and it must stay that way: the two headers
@@ -54,8 +54,7 @@ export const CARD_HEADER_TITLE =
  *  Floored for the same reason: both cards put a chip on this line. */
 export const CARD_HEADER_META_ROW = 'flex flex-wrap items-center gap-2 min-h-6 mt-1';
 
-export const CARD_HEADER_META =
-  'text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 leading-none';
+export const CARD_HEADER_META = 't-label text-white/60 leading-none';
 
 /**
  * The bottom-right corner of the header, where each card docks its controls.

@@ -90,17 +90,17 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({ user, showUpgradeCta = 
               }`}
             >
               {isCurrent && (
-                <span className="absolute top-3 right-3 px-2 py-0.5 rounded-lg bg-indigo-500/20 text-indigo-400 light:text-indigo-600 text-[9px] font-black uppercase tracking-widest">
+                <span className="t-label absolute top-3 right-3 px-2 py-0.5 rounded-lg bg-indigo-500/20 text-indigo-400 light:text-indigo-600">
                   Your plan
                 </span>
               )}
               <Icon
                 className={`w-5 h-5 mb-2 ${plan === 'free' ? 'text-slate-400' : plan === 'plus' ? 'text-amber-500' : 'text-indigo-400'}`}
               />
-              <h4 className="text-sm font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 uppercase tracking-wide">
+              <h4 className="text-sm font-black text-[rgb(var(--color-text-primary))] light:text-slate-900">
                 {PLAN_LABELS[plan]}
               </h4>
-              <p className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-1">
+              <p className="text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-1">
                 {planPriceLine(plan)}
               </p>
               <p className="text-[11px] leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 mt-2 font-medium">
@@ -116,14 +116,14 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({ user, showUpgradeCta = 
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-white/[0.03] light:bg-slate-50">
-              <th className="px-4 py-3 text-[10px] font-black uppercase tracking-[0.15em] text-[rgb(var(--color-text-muted))] light:text-slate-500">
+              <th className="t-label px-4 py-3 text-[rgb(var(--color-text-muted))] light:text-slate-500">
                 What you get
               </th>
               {COMPARED_PLANS.map((plan) => (
                 <th
                   key={plan}
                   scope="col"
-                  className={`px-4 py-3 text-center text-[10px] font-black uppercase tracking-[0.15em] ${
+                  className={`t-label px-4 py-3 text-center ${
                     plan === currentPlan
                       ? 'text-indigo-400 light:text-indigo-600'
                       : 'text-[rgb(var(--color-text-muted))] light:text-slate-500'
@@ -174,7 +174,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({ user, showUpgradeCta = 
             <div className="mt-2 grid grid-cols-3 gap-2">
               {COMPARED_PLANS.map((plan) => (
                 <div key={plan} className="text-center">
-                  <span className="block text-[9px] font-black uppercase tracking-widest text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1">
+                  <span className="t-label block text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1">
                     {PLAN_LABELS[plan]}
                   </span>
                   <Cell cell={row.cells[plan]} />
@@ -196,7 +196,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({ user, showUpgradeCta = 
           </p>
           <button
             onClick={() => requestUpgrade('fullFeedback')}
-            className="shrink-0 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-[10px] uppercase tracking-widest shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-2"
+            className="t-label shrink-0 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-2"
           >
             <Crown className="w-3.5 h-3.5" /> See {PLAN_LABELS.plus}
           </button>

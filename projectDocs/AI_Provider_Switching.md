@@ -26,18 +26,18 @@ geminiService → aiTarget(role) → resolveTarget(role)   (services/aiConfig.ts
                                   └─ kimi       → runKimiProxy
 ```
 
-| Piece | File |
-| --- | --- |
-| Registry of selectable engines | `services/aiModels.ts` |
-| Runtime selection + persistence | `services/aiConfig.ts` |
-| Per-request provider/model stamping | `services/geminiService.ts` (`aiTarget`) |
-| Proxy router (strips `provider`, picks key) | `api/_lib/providers.ts` |
-| Gemini adapter | `api/_lib/generate.ts` |
-| Anthropic (Claude) adapter + translation | `api/_lib/anthropic.ts` |
-| OpenRouter adapter | `api/_lib/openrouter.ts` |
-| Groq adapter | `api/_lib/groq.ts` |
-| Kimi adapter | `api/_lib/kimi.ts` |
-| Admin selector UI | `components/ApiMonitorDisplay.tsx` |
+| Piece                                       | File                                     |
+| ------------------------------------------- | ---------------------------------------- |
+| Registry of selectable engines              | `services/aiModels.ts`                   |
+| Runtime selection + persistence             | `services/aiConfig.ts`                   |
+| Per-request provider/model stamping         | `services/geminiService.ts` (`aiTarget`) |
+| Proxy router (strips `provider`, picks key) | `api/_lib/providers.ts`                  |
+| Gemini adapter                              | `api/_lib/generate.ts`                   |
+| Anthropic (Claude) adapter + translation    | `api/_lib/anthropic.ts`                  |
+| OpenRouter adapter                          | `api/_lib/openrouter.ts`                 |
+| Groq adapter                                | `api/_lib/groq.ts`                       |
+| Kimi adapter                                | `api/_lib/kimi.ts`                       |
+| Admin selector UI                           | `components/ApiMonitorDisplay.tsx`       |
 
 ## Choosing the engine
 
@@ -65,7 +65,7 @@ you can switch back to Gemini.
    string, label, roles, `keyEnv`).
 2. If it is a **new provider**, add an adapter (a `runXProxy` that translates the
    Gemini-shaped request and maps the response into the `{ text, candidates,
-   usageMetadata }` envelope — see `api/_lib/anthropic.ts`) and a branch in
+usageMetadata }` envelope — see `api/_lib/anthropic.ts`) and a branch in
    `runAiProxy`, plus the key in the two proxy entry points (`api/gemini.ts`,
    `vite.config.ts`).
 

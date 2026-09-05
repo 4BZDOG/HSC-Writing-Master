@@ -106,7 +106,7 @@ const StatTile: React.FC<{
   sub?: string;
 }> = ({ icon, label, value, sub }) => (
   <div className="flex-1 min-w-[140px] p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200">
-    <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1.5">
+    <div className="t-label flex items-center gap-2 text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1.5">
       {icon}
       {label}
     </div>
@@ -602,7 +602,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-4xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-4xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -710,7 +710,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
 
               {/* 7-day trend */}
               <section>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                   <TrendingUp className="w-3.5 h-3.5" /> Calls — last 7 days
                 </h3>
                 <div className="space-y-1.5">
@@ -723,9 +723,9 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                       <span className="w-24 shrink-0 text-[11px] text-[rgb(var(--color-text-muted))] light:text-slate-500">
                         {dayLabel(day)}
                       </span>
-                      <div className="flex-1 h-4 rounded bg-black/30 light:bg-slate-100 overflow-hidden">
+                      <div className="flex-1 h-4 rounded-lg bg-black/30 light:bg-slate-100 overflow-hidden">
                         <div
-                          className="h-full rounded bg-[rgb(var(--color-accent))]/80"
+                          className="h-full rounded-lg bg-[rgb(var(--color-accent))]/80"
                           style={{ width: `${(calls / trend.max) * 100}%` }}
                         />
                       </div>
@@ -741,12 +741,12 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   per-model usage (best-effort; absent on an un-migrated DB). */}
               {modelCost7d.rows.length > 0 && (
                 <section>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                  <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                     <DollarSign className="w-3.5 h-3.5" /> Spend by engine — last 7 days
                   </h3>
                   <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
                     <table className="w-full text-left text-sm min-w-[360px]">
-                      <thead className="bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 uppercase text-[10px] font-bold">
+                      <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
                         <tr>
                           <th className="px-4 py-2.5">Engine</th>
                           <th className="px-4 py-2.5 text-right">Calls</th>
@@ -801,7 +801,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   table that would read as "nobody has accepted". */}
               {acceptance && acceptance.length > 0 && (
                 <section>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                  <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                     <ScrollText className="w-3.5 h-3.5" /> Agreement v{AGREEMENT_VERSION} ·
                     acceptance
                   </h3>
@@ -819,9 +819,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   </div>
                   {acceptance.some((a) => !a.accepted) && (
                     <div className="rounded-xl border border-amber-400/25 bg-amber-400/5 p-3">
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-amber-500 mb-2">
-                        Yet to accept
-                      </p>
+                      <p className="t-label text-amber-500 mb-2">Yet to accept</p>
                       <p className="text-xs text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed">
                         {acceptance
                           .filter((a) => !a.accepted)
@@ -841,7 +839,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
 
               {/* Per-user usage today, with inline override editing */}
               <section>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                   <Users className="w-3.5 h-3.5" /> Usage today · per user
                 </h3>
                 {todayRows.length === 0 ? (
@@ -851,7 +849,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                 ) : (
                   <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
                     <table className="w-full text-left text-sm min-w-[500px]">
-                      <thead className="bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 uppercase text-[10px] font-bold">
+                      <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
                         <tr>
                           <th className="px-4 py-2.5">User</th>
                           <th className="px-4 py-2.5">Group</th>
@@ -870,7 +868,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                             </td>
                             <td className="px-4 py-2.5">
                               <span
-                                className={`px-1.5 py-0.5 rounded-md border text-[10px] font-bold ${ROLE_TONE[row.role]}`}
+                                className={`px-1.5 py-0.5 rounded-lg border text-[10px] font-bold ${ROLE_TONE[row.role]}`}
                               >
                                 {ROLE_LABEL[row.role]}
                               </span>
@@ -964,13 +962,13 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
 
               {/* Group limits */}
               <section>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                   <Gauge className="w-3.5 h-3.5" /> Group daily limits
                 </h3>
                 <div className="flex flex-wrap items-end gap-3">
                   {(['admin', 'teacher', 'student'] as QuotaRole[]).map((role) => (
                     <label key={role} className="flex flex-col gap-1">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                      <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500">
                         {ROLE_LABEL[role]}s
                       </span>
                       <input
@@ -986,7 +984,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   <button
                     onClick={handleSaveLimits}
                     disabled={isBusy}
-                    className="px-4 py-2 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 text-xs font-bold uppercase tracking-wider transition-all disabled:opacity-50"
+                    className="t-label px-4 py-2 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 transition-all disabled:opacity-50"
                   >
                     Save Group Limits
                   </button>
@@ -1005,7 +1003,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   predating §14) rather than offering to change a guess. */}
               {freeEvalLimit !== null && (
                 <section>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                  <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                     <ScrollText className="w-3.5 h-3.5" /> Free plan · daily marked evaluations
                   </h3>
                   <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 mb-3 max-w-xl">
@@ -1016,7 +1014,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   </p>
                   <div className="flex flex-wrap items-end gap-3">
                     <label className="flex flex-col gap-1">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                      <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500">
                         Evaluations per day
                       </span>
                       <input
@@ -1032,7 +1030,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                     <button
                       onClick={handleSaveFreeEvalLimit}
                       disabled={isBusy || freeEvalDraft.trim() === String(freeEvalLimit)}
-                      className="px-4 py-2 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 text-xs font-bold uppercase tracking-wider transition-all disabled:opacity-50"
+                      className="t-label px-4 py-2 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 transition-all disabled:opacity-50"
                     >
                       Save Allowance
                     </button>
@@ -1048,7 +1046,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   pre-dates the schools migration (schema §12). */}
               {schools !== null && (
                 <section>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                  <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                     <School className="w-3.5 h-3.5" /> Schools · shared daily pools
                   </h3>
                   <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 mb-3 max-w-xl">
@@ -1061,7 +1059,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   {schools.length > 0 && (
                     <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto mb-3">
                       <table className="w-full text-left text-sm min-w-[480px]">
-                        <thead className="bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 uppercase text-[10px] font-bold">
+                        <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
                           <tr>
                             <th className="px-4 py-2.5">School</th>
                             <th className="px-4 py-2.5 text-right">Members</th>
@@ -1225,15 +1223,15 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
               {demand !== null && (
                 <section>
                   <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 flex items-center gap-2">
+                    <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 flex items-center gap-2">
                       <Compass className="w-3.5 h-3.5" /> Course demand
                       {demand.length > 0 && (
-                        <span className="px-1.5 py-0.5 rounded-md bg-indigo-500/15 text-indigo-400 text-[10px] font-black tabular-nums">
+                        <span className="px-1.5 py-0.5 rounded-lg bg-indigo-500/15 text-indigo-400 text-[10px] font-black tabular-nums">
                           {demand.length}
                         </span>
                       )}
                     </h3>
-                    <label className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-500 cursor-pointer">
+                    <label className="t-label flex items-center gap-2 text-[rgb(var(--color-text-dim))] light:text-slate-500 cursor-pointer">
                       <input
                         type="checkbox"
                         checked={showClosedDemand}
@@ -1260,7 +1258,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   ) : (
                     <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
                       <table className="w-full text-left text-sm min-w-[560px]">
-                        <thead className="bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 uppercase text-[10px] font-bold">
+                        <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
                           <tr>
                             <th className="px-4 py-2.5">Course</th>
                             <th className="px-4 py-2.5 text-right">People</th>
@@ -1311,7 +1309,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                                       key={status}
                                       onClick={() => handleDemandStatus(row, status)}
                                       disabled={isBusy || row.status === status}
-                                      className={`px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all disabled:opacity-100 ${
+                                      className={`t-label px-2 py-1 rounded-lg border transition-all disabled:opacity-100 ${
                                         row.status === status
                                           ? 'bg-indigo-500/20 text-indigo-400 border-indigo-500/40'
                                           : 'bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))] disabled:opacity-50'

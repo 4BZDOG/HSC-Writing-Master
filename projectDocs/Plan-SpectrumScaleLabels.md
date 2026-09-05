@@ -4,10 +4,10 @@ Target: `components/CommandVerbHierarchy.tsx` lines 673–908 (the Cognitive Tim
 Footer, as it shipped in #167) and the `RIBBON_TIMELINE_*` / `RIBBON_SPECTRUM_*` block
 in `utils/verbRibbonChrome.ts` lines 293–458.
 
-Brief, verbatim: *"Reincorporate the old scale labels that started with basic recall and
+Brief, verbatim: _"Reincorporate the old scale labels that started with basic recall and
 show the leap in knowledge needed from band 3 to band 4. Remove the full text
 descriptions and try to provide short appropriate context for linking these concepts to
-the user. Improve the design as needed."*
+the user. Improve the design as needed."_
 
 > **Amended 2026-08-20, after implementation.** Four values below were estimates
 > and three of them were wrong. Measured in a browser, then re-measured by an
@@ -25,7 +25,7 @@ the user. Improve the design as needed."*
 > - **Q4 resolved: `w-2` stays.** At 375px the 8px slot reads as a deliberate
 >   cut in both themes, not as damage.
 > - **Q5's premise was wrong, harmlessly.** The dashed rule does not run
->   *through* the slot — it is drawn from the dot row and the track paints over
+>   _through_ the slot — it is drawn from the dot row and the track paints over
 >   it, so the slot is empty page background with the rule arriving above and
 >   leaving below. It still reads as one gate.
 > - **Q2/Q3 are closed by the two measurements above.** Q1 was decided before
@@ -93,19 +93,19 @@ row naming the same six tiers in longer words is the "one vocabulary too many" R
 about, restated.
 
 **Four cannot be derived as spans**, because per F1 they were not spans. Deriving them as
-*tier titles* is trivial (`TIER_GROUPS[0/2/3/5].title`) but reintroduces the collision F4
+_tier titles_ is trivial (`TIER_GROUPS[0/2/3/5].title`) but reintroduces the collision F4
 describes: a label for tier 3 belongs at 41.667%, which is exactly where the dot row
 already prints `Explain` one row below.
 
 **Two spans is the only partition the codebase's own logic supports.** The Deep Learning
 Threshold at the 3/4 boundary is not decoration — it is where `getBandForMark` stops being
 able to return Band 4 (`data/commandTerms.ts:938–947`, `getTierTargetBand` at `:1005`), and
-it is the Verb Gate's cap: *"If a student 'Describes' when the verb is 'Analyse', you MUST
-cap their mark at 50% (Band 3)"* (`projectDocs/systemPrompt.md:15`). Every other grouping
+it is the Verb Gate's cap: _"If a student 'Describes' when the verb is 'Analyse', you MUST
+cap their mark at 50% (Band 3)"_ (`projectDocs/systemPrompt.md:15`). Every other grouping
 of six tiers into fewer labels is arbitrary. This one is load-bearing.
 
 So: **one rail, two span captions, one either side of the threshold, each named by its
-endpoint tiers.** That restores F2's intent (the poles *and* the gate), restores F3's phone
+endpoint tiers.** That restores F2's intent (the poles _and_ the gate), restores F3's phone
 reading (the arc), collides with nothing, and every word comes from `tierShortLabel` /
 `TIER_GROUPS[].title` / `getTierTargetBand`, so it cannot drift. At `lg` and above the
 captions use the full titles, which puts `Explain & Compare` and `Analyse & Apply` back on
@@ -127,17 +127,17 @@ decision, out of scope here, and flagged as **Q1**.
 
 ## 2. Constraints inherited (from `Plan-CognitiveSpectrum.md` §2), all honoured
 
-| | Constraint | How this plan meets it |
-|---|---|---|
-| C1 | Colours only from `getBandHex` / the tier config | The rail's band fragments interpolate `getTierScaleConfig(3).text` and `getTierScaleConfig(4).text` at the call site. No new hex, no new palette. |
-| C2 | No new copy; assemble from existing sources | Every string is `tierShortLabel`, `TIER_GROUPS[].title`, `getTierTargetBand`, or the chip's own label hoisted to a constant. |
-| C3 | Colour is never the only signal | The rail states `Band Caps 1–3` / `Band Caps 4–6` in words and numbers; the cue names the side in words. |
-| C6 | New constants pair colours with `dark:`, no `light:` | Three of the four new constants carry no colour at all; the fourth is `text-slate-600 dark:text-slate-400`. |
-| C7 | No text on the spectrum | The rail sits **above** the track, on the page background, and is deliberately **not** `aria-hidden` — see §3.1. |
-| C8 | No module-scope read of an imported value | The two new module constants are a number and a string literal. Everything that dereferences an import stays in the component body. |
-| — | Don't touch `RIBBON_TIMELINE_STEP_LABEL_IDLE` / `RIBBON_TIMELINE_THRESHOLD_CHIP` | Neither constant changes, and neither moves in the tree. |
-| — | Six step buttons' `onClick`/`aria-label` byte-for-byte | `:845–861` is untouched. |
-| — | New keyframes end at rest | **This plan adds no keyframe.** See §3.5. |
+|     | Constraint                                                                       | How this plan meets it                                                                                                                            |
+| --- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| C1  | Colours only from `getBandHex` / the tier config                                 | The rail's band fragments interpolate `getTierScaleConfig(3).text` and `getTierScaleConfig(4).text` at the call site. No new hex, no new palette. |
+| C2  | No new copy; assemble from existing sources                                      | Every string is `tierShortLabel`, `TIER_GROUPS[].title`, `getTierTargetBand`, or the chip's own label hoisted to a constant.                      |
+| C3  | Colour is never the only signal                                                  | The rail states `Band Caps 1–3` / `Band Caps 4–6` in words and numbers; the cue names the side in words.                                          |
+| C6  | New constants pair colours with `dark:`, no `light:`                             | Three of the four new constants carry no colour at all; the fourth is `text-slate-600 dark:text-slate-400`.                                       |
+| C7  | No text on the spectrum                                                          | The rail sits **above** the track, on the page background, and is deliberately **not** `aria-hidden` — see §3.1.                                  |
+| C8  | No module-scope read of an imported value                                        | The two new module constants are a number and a string literal. Everything that dereferences an import stays in the component body.               |
+| —   | Don't touch `RIBBON_TIMELINE_STEP_LABEL_IDLE` / `RIBBON_TIMELINE_THRESHOLD_CHIP` | Neither constant changes, and neither moves in the tree.                                                                                          |
+| —   | Six step buttons' `onClick`/`aria-label` byte-for-byte                           | `:845–861` is untouched.                                                                                                                          |
+| —   | New keyframes end at rest                                                        | **This plan adds no keyframe.** See §3.5.                                                                                                         |
 
 ---
 
@@ -152,7 +152,8 @@ Insert as the first child of the track wrapper at `:745` (`<div className="relat
 mb-4">`), before `<div className={RIBBON_TIMELINE_TRACK}>`:
 
 ```tsx
-{/* The scale rail.
+{
+  /* The scale rail.
 
     The arc four hand-written labels used to draw — `Basic Recall`,
     `Explain & Compare`, `Analyse & Apply`, `Evaluate & Create` — derived this
@@ -168,7 +169,8 @@ mb-4">`), before `<div className={RIBBON_TIMELINE_TRACK}>`:
     able to return Band 4, and it is the Verb Gate's cap.
 
     Naming the tiers again, one per rung, is what the dot row below already
-    does from `tierShortLabel`. This names the two halves. */}
+    does from `tierShortLabel`. This names the two halves. */
+}
 <div className={RIBBON_SPECTRUM_SCALE_RAIL}>
   <span className={RIBBON_SPECTRUM_SCALE_SPAN}>
     <span className="lg:hidden">
@@ -198,7 +200,7 @@ mb-4">`), before `<div className={RIBBON_TIMELINE_TRACK}>`:
       {getTierTargetBand(TIER_STEPS.length)}
     </span>
   </span>
-</div>
+</div>;
 ```
 
 Two small additions beside `TIER_STEPS` at `:91` (literals only, so safe at module scope —
@@ -227,12 +229,12 @@ const tierTitle = (tier: number): string =>
 
 What renders, at each breakpoint:
 
-| Width | Left caption | Right caption |
-|---|---|---|
-| `< sm` | *(hidden, as the chip and five step labels already are)* | — |
-| `sm`–`md` | `REMEMBER – EXPLAIN` | `ANALYSE – EVALUATE` |
-| `md`–`lg` | `REMEMBER – EXPLAIN · BAND CAPS 1–3` | `ANALYSE – EVALUATE · BAND CAPS 4–6` |
-| `lg`+ | `REMEMBER & LIST – EXPLAIN & COMPARE · BAND CAPS 1–3` | `ANALYSE & APPLY – EVALUATE, SYNTHESISE & CREATE · BAND CAPS 4–6` |
+| Width     | Left caption                                             | Right caption                                                     |
+| --------- | -------------------------------------------------------- | ----------------------------------------------------------------- |
+| `< sm`    | _(hidden, as the chip and five step labels already are)_ | —                                                                 |
+| `sm`–`md` | `REMEMBER – EXPLAIN`                                     | `ANALYSE – EVALUATE`                                              |
+| `md`–`lg` | `REMEMBER – EXPLAIN · BAND CAPS 1–3`                     | `ANALYSE – EVALUATE · BAND CAPS 4–6`                              |
+| `lg`+     | `REMEMBER & LIST – EXPLAIN & COMPARE · BAND CAPS 1–3`    | `ANALYSE & APPLY – EVALUATE, SYNTHESISE & CREATE · BAND CAPS 4–6` |
 
 **Why an en dash and not an arrow.** `contrast.ts:128` skips every node inside
 `[aria-hidden="true"]`. An arrow would want `aria-hidden` on the glyph or on the whole rail,
@@ -245,14 +247,14 @@ leaves the rail measured.
 
 The footer's current stack, measured from the constants:
 
-| Element | Height |
-|---|---|
-| Cue `<p>` — `min-h-[2.25rem]` | 36px |
-| Cue's `mb-7` | 28px |
-| Track wrapper — `h-3` + `mb-4` | 28px |
-| Dot row — `h-10` | 40px |
-| `py-4` on the footer | 32px |
-| **Total** | **164px** |
+| Element                        | Height    |
+| ------------------------------ | --------- |
+| Cue `<p>` — `min-h-[2.25rem]`  | 36px      |
+| Cue's `mb-7`                   | 28px      |
+| Track wrapper — `h-3` + `mb-4` | 28px      |
+| Dot row — `h-10`               | 40px      |
+| `py-4` on the footer           | 32px      |
+| **Total**                      | **164px** |
 
 That `mb-7` is not slack. `RIBBON_TIMELINE_CUE`'s doc comment (`utils/verbRibbonChrome.ts:311–319`)
 records it being measured at 640/720/800/900px: the threshold chip hangs from the dot row at
@@ -311,7 +313,7 @@ reaches Band 4, 5 or 6. It is the same claim `RIBBON_STAT_CAPTION` makes per ver
 
 Span statements, not tier statements, on purpose: a student at tier 4 has a cap of 4, and
 the cue line 20px above says exactly that (`Band Cap 4 · Sound`). The rail says what the
-*side* is worth; the cue says what *their* tier is worth. Neither can be read as promising
+_side_ is worth; the cue says what _their_ tier is worth. Neither can be read as promising
 the other.
 
 **(c) Colour placed at the shoulders.** The left band fragment takes
@@ -322,16 +324,16 @@ C1's source of truth, and per C3 the numbers carry the meaning without it.
 
 **What was considered and rejected:**
 
-- *Splitting the dormant layer at 50% so the far side reads dimmer until crossed.*
+- _Splitting the dormant layer at 50% so the far side reads dimmer until crossed._
   Structurally attractive, but `verbRibbonChrome.test.tsx:404–411` finds the dormant layer
-  as *the gradient layer with no `clipPath`* and the lit layer as *the one with a
-  `clipPath`*. Two clipped dormant halves would make `dormantLayer()` return `undefined` and
+  as _the gradient layer with no `clipPath`_ and the lit layer as _the one with a
+  `clipPath`_. Two clipped dormant halves would make `dormantLayer()` return `undefined` and
   `litLayer()` return a dormant layer — silently breaking three shipped tests to gain an
   effect colour already conveys.
-- *A physical riser — the track's right half drawn taller than its left.* Needs two track
+- _A physical riser — the track's right half drawn taller than its left._ Needs two track
   segments, each with `background-size: 200%` to keep the gradient from rescaling, and it
   invalidates the two pinned `clipPath` values. Too much structural risk for a 2px effect.
-- *`animate-fade-in-up-sm` on the chip when the tier crosses* — `Plan-CognitiveSpectrum.md`
+- _`animate-fade-in-up-sm` on the chip when the tier crosses_ — `Plan-CognitiveSpectrum.md`
   §3.6 floated this as an optional flourish. **It is a trap and should not be taken as
   written.** `fadeInUpSm` ends at `transform: translateY(0)` with `forwards`, and
   `RIBBON_TIMELINE_THRESHOLD_CHIP` carries `transform -translate-y-1/2`. The animation's
@@ -346,9 +348,7 @@ region's content does not change by a single byte.**
 
 ```tsx
 <p className={RIBBON_TIMELINE_CUE}>
-  <span role="status">
-    {/* …unchanged, :712–726… */}
-  </span>
+  <span role="status">{/* …unchanged, :712–726… */}</span>
   {activeTermInfo && (
     <span className={RIBBON_TIMELINE_CUE_SIDE}>
       {' — '}
@@ -368,13 +368,13 @@ Four properties, each deliberate:
 - **The tail is outside the live region**, exactly where the subtitle was, for the reason
   recorded at `:698–709`: a `status` re-announces its whole content on every change, and
   "Above the Deep Learning Threshold" is the same for three tiers running.
-- **Length.** The subtitles ran 44–96 characters of prose *about the tier*; this is 32–33
-  characters of *structure*, with only two possible values. The visible cue drops from ~140
+- **Length.** The subtitles ran 44–96 characters of prose _about the tier_; this is 32–33
+  characters of _structure_, with only two possible values. The visible cue drops from ~140
   characters to ~100 at tier 6, and the removed part is all of the prose.
 - **`hidden sm:inline`.** Below `sm` the threshold chip is hidden
   (`RIBBON_TIMELINE_THRESHOLD_CHIP` begins `hidden sm:block`), so naming the threshold there
   would point at a marker that is not on screen. Above `sm` the words and the marker appear
-  together — that pointing *is* the "short context linking these concepts" the brief asks
+  together — that pointing _is_ the "short context linking these concepts" the brief asks
   for.
 
 **The prose subtitle is not lost, and the comment that says it might be is wrong.** `:708`
@@ -386,7 +386,7 @@ inside the same `overflow-hidden` wrapper (`:394`) inside the same `inert={!isOp
 Removing the footer's copy loses nothing that was ever reachable — verified by indentation
 and by the `inert` attribute's placement.
 
-**The `own words` collision gets *better*, not worse.** `data/commandTerms.ts:44` — tier 2's
+**The `own words` collision gets _better_, not worse.** `data/commandTerms.ts:44` — tier 2's
 subtitle — ends "in your own words", which is why `tests/e2e/workspace-chrome.spec.ts:196–204`
 had to scope its paste-guard assertion by "Pasting is switched off" instead of by the body
 prose. #167 already defused this by moving the subtitle outside the `role="status"` span;
@@ -443,8 +443,7 @@ export const RIBBON_SPECTRUM_SCALE_SPAN =
  *  adjoining tier's and is interpolated at the call site, the way everything
  *  tier-coloured in this component is. Shown from `md`, where there is room for
  *  it beside the threshold chip. Painted on the page background. */
-export const RIBBON_SPECTRUM_SCALE_BAND =
-  'hidden md:inline font-mono font-black tabular-nums';
+export const RIBBON_SPECTRUM_SCALE_BAND = 'hidden md:inline font-mono font-black tabular-nums';
 
 /** The cue's tail — which side of the Deep Learning Threshold the reader's tier
  *  falls on. It replaces the tier's full prose subtitle, which ran 44–96
@@ -484,14 +483,14 @@ single `text-slate-600` has its `dark:text-slate-400` partner. None contains `li
    cue holds the only copy of the subtitle. It is wrong today (§3.4).
 10. **Optional, separable commit** — hoist the threshold marker (`:837–843`) out of
     `sortedVerbsByGroup.map` and render it once from `DEEP_LEARNING_TIER` instead of `idx ===
-    3`. It currently depends on array order rather than on the tier.
+3`. It currently depends on array order rather than on the tier.
 11. **`tests/unit/commandVerbHierarchy.test.tsx`** and **`tests/unit/verbRibbonChrome.test.tsx`** — §5.
 12. **`tests/e2e/workspace-chrome.spec.ts` `:196–199`** — correct the comment. The filter and
     the assertions stay.
 13. **`projectDocs/changeLog.md`** — a subsection under the existing `[Unreleased] -
-    2026-08-20 (The cognitive spectrum)` block, not a new release heading.
+2026-08-20 (The cognitive spectrum)` block, not a new release heading.
 14. **`projectDocs/VerbRibbonRedesignPlan.md` `:1067–1075`** — amend open item 9. R6 stays
-    closed but its *premise* was wrong: the four labels were tier titles, not span labels.
+    closed but its _premise_ was wrong: the four labels were tier titles, not span labels.
 15. **`projectDocs/Plan-CognitiveSpectrum.md`** — annotate F5 and §3.5 with the same
     correction and a pointer here.
 
@@ -500,28 +499,31 @@ single `text-slate-600` has its `dark:text-slate-400` partner. None contains `li
 ## 5. Tests
 
 ### Must keep passing, unchanged
+
 - `verbRibbonChrome.test.tsx` → `leaves the timeline step labels their contrast` (`:291`),
   `gives the threshold marker a light-theme tone` (`:299`).
 - `verbRibbonChrome.test.tsx` → `gives every colour on a theme surface a light value and a
-  dark partner` (`:149`), `is written in the new idiom throughout` (`:192`) — these sweep
+dark partner` (`:149`), `is written in the new idiom throughout` (`:192`) — these sweep
   every export and pick up the four new constants for free.
 - `verbRibbonChrome.test.tsx` → the whole `the cognitive spectrum lights one geometry from
-  one palette` block (`:395–531`). The rail adds no element with an inline
+one palette` block (`:395–531`). The rail adds no element with an inline
   `linear-gradient`, so `spectrumLayers` / `dormantLayer` / `litLayer` are unaffected.
 - `commandVerbHierarchy.test.tsx` → `announces the level politely, in words` (`:347`) — the
   lede is byte-identical. Also `:115`, `:195`, `:228`, `:263`, `:404`.
 - `tests/unit/bandColors.test.ts` — whole file.
 
 ### Must be rewritten
+
 - `commandVerbHierarchy.test.tsx` → `keeps the tier's own subtitle in the line, readable but
-  unannounced` (`:376`). Its premise dies with the subtitle. Replace with **`moves the
-  tier's prose subtitle off the footer without losing it`**: render `ANALYSE`, assert
+unannounced` (`:376`). Its premise dies with the subtitle. Replace with **`moves the
+tier's prose subtitle off the footer without losing it`**: render `ANALYSE`, assert
   `screen.getAllByText(/Break things apart and use knowledge/).length === 1`, and assert the
   survivor is inside the tier card (`RIBBON_TIER_SUBTITLE`), not the cue's `<p>`.
 
 ### New, in `commandVerbHierarchy.test.tsx`
+
 1. **`restores the scale labels without restoring the drift`** — the rail contains `Remember
-   & List` and `Evaluate, Synthesise & Create`; the document contains **no** `Basic Recall`
+& List` and `Evaluate, Synthesise & Create`; the document contains **no** `Basic Recall`
    and no `Evaluate & Create`. (jsdom applies no media queries, so both the `lg:hidden` and
    `hidden lg:inline` copies are in the tree — scope by the rail and match with a regex.)
 2. **`names the two spans from the tier data rather than from literals`** — for tiers 1, 3,
@@ -535,12 +537,13 @@ single `text-slate-600` has its `dark:text-slate-400` partner. None contains `li
 5. **`keeps the announcement to the lede`** — `getByRole('status').textContent` does not
    contain `Deep Learning`, and is still under 80 characters at tier 6.
 6. **`says nothing about a threshold when no verb is chosen`** — the cue is exactly `Choose a
-   command verb to light the spectrum.` and the document contains no `Above`/`Below the Deep
-   Learning Threshold`.
+command verb to light the spectrum.` and the document contains no `Above`/`Below the Deep
+Learning Threshold`.
 7. **`spends no footer height on the scale rail`** — the rail's `className` contains
    `absolute`; the cue's `min-h-[2.25rem] line-clamp-2` is unchanged.
 
 ### New, in `verbRibbonChrome.test.tsx`
+
 8. **`cuts the deep-learning boundary wider than the four ordinary ones`** — the boundary
    whose inline `left` is `50%` carries `w-2`; the other four carry `w-0.5`.
 9. **`keeps the scale rail inside the contrast audit`** — `RIBBON_SPECTRUM_SCALE_RAIL` and
@@ -548,6 +551,7 @@ single `text-slate-600` has its `dark:text-slate-400` partner. None contains `li
    `aria-hidden="true"` ancestor.
 
 ### E2E
+
 - `npx playwright test tests/e2e/light-theme.spec.ts` — runs at `WIDE` and opens the ribbon
   (`:69`), so the rail is rendered, on the page background, and measured.
 - `npx playwright test tests/e2e/workspace-chrome.spec.ts` — the paste guard; run it because
@@ -555,6 +559,7 @@ single `text-slate-600` has its `dark:text-slate-400` partner. None contains `li
 - `npm run test:e2e` — CI's Mobile Safari leg.
 
 ### Commands
+
 ```bash
 npm run test -- --run tests/unit/commandVerbHierarchy.test.tsx \
                      tests/unit/verbRibbonChrome.test.tsx \
@@ -566,6 +571,7 @@ npx playwright test tests/e2e/light-theme.spec.ts tests/e2e/workspace-chrome.spe
 ```
 
 ### Verification by eye — non-negotiable
+
 No visual-regression baseline exists (R2). Check **both themes**, at **375 / 640 / 768 /
 1024 / 1400px**, with **tier 3** selected (yellow is where every contrast defect in this
 component has been), **tier 4** (the crossing), and **no verb**. Specifically: the captions
@@ -614,7 +620,7 @@ deficient question — it is a question whose verb caps at Band 1 by design.
 
 - The four deleted labels were **not span labels**. Two are byte-identical to
   `TIER_GROUPS[2].title` and `TIER_GROUPS[3].title`; the other two are paraphrases of
-  `TIER_GROUPS[0].title` and `TIER_GROUPS[5].title`. The row was four *tier* titles — tiers
+  `TIER_GROUPS[0].title` and `TIER_GROUPS[5].title`. The row was four _tier_ titles — tiers
   1, 3, 4, 6 — with tiers 2 and 5 dropped, and `justify-between` put none of them over the
   tier it named. R6 and F5 both inherited the wrong premise, which is why the labels looked
   underivable.

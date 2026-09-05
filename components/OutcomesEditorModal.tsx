@@ -256,7 +256,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
       onClick={guard.requestCloseFromBackdrop}
     >
       <div
-        className="relative bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="relative bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -414,7 +414,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                     key={index}
                     className="group flex items-start gap-2.5 p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50/80 border border-[rgb(var(--color-border-secondary))]/60 light:border-slate-200 hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 transition-colors"
                   >
-                    <span className="hidden sm:flex items-center justify-center w-6 h-6 rounded-md bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200/80 text-[10px] font-bold text-[rgb(var(--color-text-muted))]/60 light:text-slate-500 flex-shrink-0 mt-1.5">
+                    <span className="hidden sm:flex items-center justify-center w-6 h-6 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200/80 text-[10px] font-bold text-[rgb(var(--color-text-muted))]/60 light:text-slate-500 flex-shrink-0 mt-1.5">
                       {index + 1}
                     </span>
                     <div className="flex flex-col gap-2.5 flex-1 min-w-0">

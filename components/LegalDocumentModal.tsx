@@ -45,15 +45,13 @@ const LegalDocumentModal: React.FC<LegalDocumentModalProps> = ({
       aria-modal="true"
       aria-labelledby="legal-modal-title"
     >
-      <div className="clip-stable w-full max-w-4xl rounded-[32px] bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-200 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.7)] overflow-hidden animate-fade-in-up flex flex-col max-h-[90vh]">
+      <div className="clip-stable w-full max-w-4xl rounded-surface bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-200 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.7)] overflow-hidden animate-fade-in-up flex flex-col max-h-[90vh]">
         <div className="relative px-6 py-5 bg-gradient-to-r from-indigo-600 to-sky-500 text-white shrink-0 flex items-center gap-4">
           <div className="w-11 h-11 shrink-0 rounded-2xl bg-white/20 backdrop-blur border border-white/30 flex items-center justify-center">
             <Scale className="w-5 h-5" />
           </div>
           <div className="min-w-0">
-            <span className="text-[10px] font-black uppercase tracking-[0.25em] text-white/70 block">
-              The fine print
-            </span>
+            <span className="t-label text-white/70 block">The fine print</span>
             <h2 id="legal-modal-title" className="text-lg font-black tracking-tight leading-tight">
               Terms &amp; Privacy
             </h2>

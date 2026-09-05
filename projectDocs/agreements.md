@@ -1,6 +1,6 @@
 # Agreements, onboarding and plan messaging
 
-Everything a student or teacher reads *about* the product rather than *in* it:
+Everything a student or teacher reads _about_ the product rather than _in_ it:
 the user agreement, the quick-start guide, and the free-vs-paid comparison.
 
 The whole thing is built so that changing the words never means changing a
@@ -11,15 +11,15 @@ been wired up wrong — the fix belongs in `data/`.
 
 ## Where the words live
 
-| File | Holds |
-|---|---|
-| `data/agreementVersion.ts` | `AGREEMENT_VERSION` and `QUICK_START_VERSION`, in a module with **no imports** (see below) |
-| `services/planLimits.ts` | The free/paid limit numbers, also **import-free**. `entitlements.ts` re-exports them |
-| `data/legalContent.ts` | The charter (student + teacher), the Terms of Use, the Privacy Notice, the changelog, and the one-line AI marking disclaimer |
-| `data/quickStartContent.ts` | The quick-start tracks (student / teacher / guest) and the power tips |
-| `utils/planComparison.ts` | The Free / Plus / School table — **derived**, not written |
-| `services/agreementService.ts` | Who has to accept, why, and recording it |
-| `services/dataRightsService.ts` | Export my data, delete my account |
+| File                            | Holds                                                                                                                        |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `data/agreementVersion.ts`      | `AGREEMENT_VERSION` and `QUICK_START_VERSION`, in a module with **no imports** (see below)                                   |
+| `services/planLimits.ts`        | The free/paid limit numbers, also **import-free**. `entitlements.ts` re-exports them                                         |
+| `data/legalContent.ts`          | The charter (student + teacher), the Terms of Use, the Privacy Notice, the changelog, and the one-line AI marking disclaimer |
+| `data/quickStartContent.ts`     | The quick-start tracks (student / teacher / guest) and the power tips                                                        |
+| `utils/planComparison.ts`       | The Free / Plus / School table — **derived**, not written                                                                    |
+| `services/agreementService.ts`  | Who has to accept, why, and recording it                                                                                     |
+| `services/dataRightsService.ts` | Export my data, delete my account                                                                                            |
 
 Components under `components/` render whatever these files contain. They hold
 layout and interaction, no copy of substance.
@@ -71,12 +71,12 @@ literal braces to a student.
 
 `agreementPromptReason(user)` returns one of:
 
-| Reason | When | What the dialog says |
-|---|---|---|
-| `first` | Never accepted | The charter, plainly |
-| `updated` | Accepted an older version | "We have updated this" + changelog |
-| `roleChanged` | Accepted as a student, now staff (or vice versa) | "Your account has changed" |
-| `none` | Up to date | Nothing — no dialog |
+| Reason        | When                                             | What the dialog says               |
+| ------------- | ------------------------------------------------ | ---------------------------------- |
+| `first`       | Never accepted                                   | The charter, plainly               |
+| `updated`     | Accepted an older version                        | "We have updated this" + changelog |
+| `roleChanged` | Accepted as a student, now staff (or vice versa) | "Your account has changed"         |
+| `none`        | Up to date                                       | Nothing — no dialog                |
 
 The `roleChanged` case matters: the staff charter covers student visibility and
 moderation, which the student charter says nothing about. A promoted teacher
@@ -132,7 +132,7 @@ That is all. `tests/unit/planComparison.test.ts` asserts that no cell shows a
 tick for a plan that does not unlock the feature, and that every gated feature
 has a row.
 
-Features the free tier holds *partially* (question tiers, feedback depth,
+Features the free tier holds _partially_ (question tiers, feedback depth,
 sample-answer bands) list their real limit in `FREE_PARTIAL` and render amber.
 Showing a bare cross there would be derived-but-wrong: free genuinely gets
 Bands 1–3.
@@ -215,7 +215,7 @@ The Privacy Notice promises access, export and erasure, so
 the profile's Settings tab.
 
 - **Export** builds a JSON document of profile, preferences, progress,
-  agreement record and saved responses *including the marking on them*.
+  agreement record and saved responses _including the marking on them_.
   Curriculum content is excluded — it is the app's material, not the user's
   personal data, and bundling it buries the part that is actually about them.
 - **Deletion** calls `delete_my_account()` (schema §16), which derives the

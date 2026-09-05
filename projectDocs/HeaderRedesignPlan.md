@@ -1,7 +1,7 @@
 # Header Redesign Plan
 
-*HSC Writing Master — application header (`App.tsx`, inline, lines 730–899)*
-*Written against DesignSpec v2.2.1. British/Australian English throughout.*
+_HSC Writing Master — application header (`App.tsx`, inline, lines 730–899)_
+_Written against DesignSpec v2.2.1. British/Australian English throughout._
 
 ## Decisions taken by the maintainer
 
@@ -10,7 +10,7 @@ conflict with the prose further down, these win.
 
 1. **`dark:`-first, and document it.** New header code uses light as the base
    with `dark:` carrying the override. The existing `light:` variant stays
-   valid and existing components are *not* migrated. Step 4 additionally adds
+   valid and existing components are _not_ migrated. Step 4 additionally adds
    a short "which variant to use in new code" rule to DesignSpec §2, so the
    split is documented rather than accidental. (Resolves R6.)
 2. **The overflow trigger is role-labelled**: `Admin tools` for system admins,
@@ -27,27 +27,27 @@ conflict with the prose further down, these win.
 Accumulated by the agents that ran earlier steps. Each step runs with no memory
 of the others, so this is the only channel between them.
 
-- **A parity sweep now guards `utils/headerChrome.ts`.** `tests/unit/appHeaderChrome.test.tsx` iterates *every* string export and requires each unprefixed colour utility to have a `dark:` partner for the same property. Any constant a later step adds must satisfy it or be added to the `exempt` set with a stated reason. `HEADER_MENU_*`, `HEADER_TELEMETRY` and `HEADER_STORAGE_ALERT` as drafted all pass.
-- **`MeshOverlay` bakes in `light:opacity-[0.06]`, and `[data-theme="light"] .x` outranks a plain utility.** A call site therefore *cannot* set its own light-theme opacity — `opacity-0` is not zero in light, it is the 0.06 residue. This is a real flaw in the component's API, not a quirk to work around: if a future series consolidates the fourteen remaining copies, fix it there by making the light opacity a prop. Do not fix it in a header commit.
+- **A parity sweep now guards `utils/headerChrome.ts`.** `tests/unit/appHeaderChrome.test.tsx` iterates _every_ string export and requires each unprefixed colour utility to have a `dark:` partner for the same property. Any constant a later step adds must satisfy it or be added to the `exempt` set with a stated reason. `HEADER_MENU_*`, `HEADER_TELEMETRY` and `HEADER_STORAGE_ALERT` as drafted all pass.
+- **`MeshOverlay` bakes in `light:opacity-[0.06]`, and `[data-theme="light"] .x` outranks a plain utility.** A call site therefore _cannot_ set its own light-theme opacity — `opacity-0` is not zero in light, it is the 0.06 residue. This is a real flaw in the component's API, not a quirk to work around: if a future series consolidates the fourteen remaining copies, fix it there by making the light opacity a prop. Do not fix it in a header commit.
 - **Playwright**: `/opt/pw-browsers` holds `chromium-1194` but the installed `@playwright/test` wants `1208`, so `PLAYWRIGHT_BROWSERS_PATH` alone fails. Launch with `executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'`.
 - **`lint-staged` runs `prettier --write` on `*.md`**, and the `projectDocs/` files predate Prettier. The first commit to touch one reformats it wholesale (bullet markers, emphasis markers, blank lines after headings) and inflates the diff. `DesignSpec.md` has already taken this hit in Step 4; **Step 11 will take it on `changeLog.md`**. It is one-off cosmetic churn — do not fight it, and do not let it disguise the real change.
 - **Locally `isCurriculumRemote()` is false**, so only five of the eight admin buttons render when the app is run by hand. Not a regression.
 
 ## Step summary
 
-| Step | Summary |
-|---|---|
-| 1 | Extract the header verbatim into `components/AppHeader.tsx` — zero visual change |
-| 2 | Extract `components/MeshOverlay.tsx`; migrate `App.tsx`'s local copy |
-| 3 | Add `utils/headerChrome.ts` + `tests/unit/appHeaderChrome.test.tsx`; route `AppHeader` through it (classes unchanged) |
-| 4 | Tokenise the bar: glass surface, light/dark pairs, brand gradient demoted to the wordmark tile, mesh, hairline |
-| 5 | Collapse the 8 admin/moderator buttons into one non-modal overflow popover |
-| 6 | Update the two `supabase-chromium` e2e specs to open the popover first |
-| 7 | Retire the API/storage pill; keep an Error-only storage warning chip; drop the `apiStatus` prop |
-| 8 | Lock the height: `h-16`, `flex-nowrap` at every width; typography tidy |
-| 9 | Add a skip link and a `<main>` landmark |
-| 10 | Lift the `header` exclusion in `tests/e2e/support/contrast.ts` |
-| 11 | Changelog entry |
+| Step | Summary                                                                                                               |
+| ---- | --------------------------------------------------------------------------------------------------------------------- |
+| 1    | Extract the header verbatim into `components/AppHeader.tsx` — zero visual change                                      |
+| 2    | Extract `components/MeshOverlay.tsx`; migrate `App.tsx`'s local copy                                                  |
+| 3    | Add `utils/headerChrome.ts` + `tests/unit/appHeaderChrome.test.tsx`; route `AppHeader` through it (classes unchanged) |
+| 4    | Tokenise the bar: glass surface, light/dark pairs, brand gradient demoted to the wordmark tile, mesh, hairline        |
+| 5    | Collapse the 8 admin/moderator buttons into one non-modal overflow popover                                            |
+| 6    | Update the two `supabase-chromium` e2e specs to open the popover first                                                |
+| 7    | Retire the API/storage pill; keep an Error-only storage warning chip; drop the `apiStatus` prop                       |
+| 8    | Lock the height: `h-16`, `flex-nowrap` at every width; typography tidy                                                |
+| 9    | Add a skip link and a `<main>` landmark                                                                               |
+| 10   | Lift the `header` exclusion in `tests/e2e/support/contrast.ts`                                                        |
+| 11   | Changelog entry                                                                                                       |
 
 ---
 
@@ -62,11 +62,11 @@ of the others, so this is the only channel between them.
 - `bg-white/10` ×12, `bg-white/20` ×12, `border-white/10` ×10, `border-white/20` ×1, `bg-black/20` ×1
 - `App.tsx:731` — `shadow-2xl shadow-indigo-900/20`
 
-The Focus-Mode exit pill immediately above it (`App.tsx:708–724`) *does* carry `light:bg-white/70 light:border-slate-300 light:text-slate-700`, so this is not ignorance of the idiom — the header simply never received it.
+The Focus-Mode exit pill immediately above it (`App.tsx:708–724`) _does_ carry `light:bg-white/70 light:border-slate-300 light:text-slate-700`, so this is not ignorance of the idiom — the header simply never received it.
 
-**Refined, though:** the header is not the only surface using raw white-alpha. `utils/cardChrome.ts` (`CARD_HEADER_ICON`, `CARD_HEADER_BAR`) does the same, and that is *correct* under §2 because those sit on a coloured band gradient. What is unique to the header is that **its gradient itself never responds to the theme and is derived from nothing** — not a token, not `getBandConfig`, not `BAND_HEX`.
+**Refined, though:** the header is not the only surface using raw white-alpha. `utils/cardChrome.ts` (`CARD_HEADER_ICON`, `CARD_HEADER_BAR`) does the same, and that is _correct_ under §2 because those sit on a coloured band gradient. What is unique to the header is that **its gradient itself never responds to the theme and is derived from nothing** — not a token, not `getBandConfig`, not `BAND_HEX`.
 
-**Bonus discovery:** `tailwind.config.js:18–24` binds `primary`, `accent`, `bg-base`, `bg-surface`, `bg-surface-elevated` as Tailwind colours. A regex sweep for `bg-surface`/`text-primary`/`border-accent` as *utility classes* across all `.tsx` returns **zero hits**. Every component instead uses the arbitrary form, e.g. `SyllabusNavBar.tsx:41` — `bg-[rgb(var(--color-bg-surface-elevated))]/50 light:bg-white backdrop-blur-xl`. The Tailwind colour aliases are dead config, and DesignSpec §1's `bg-surface/80` shorthand and hsc-feature §6's `bg-surface-inset rounded-xl` **do not compile**. New header code must use the arbitrary-value form.
+**Bonus discovery:** `tailwind.config.js:18–24` binds `primary`, `accent`, `bg-base`, `bg-surface`, `bg-surface-elevated` as Tailwind colours. A regex sweep for `bg-surface`/`text-primary`/`border-accent` as _utility classes_ across all `.tsx` returns **zero hits**. Every component instead uses the arbitrary form, e.g. `SyllabusNavBar.tsx:41` — `bg-[rgb(var(--color-bg-surface-elevated))]/50 light:bg-white backdrop-blur-xl`. The Tailwind colour aliases are dead config, and DesignSpec §1's `bg-surface/80` shorthand and hsc-feature §6's `bg-surface-inset rounded-xl` **do not compile**. New header code must use the arbitrary-value form.
 
 ### Finding 2 — spends the earned Band 6 colour on chrome: **REFUTED**
 
@@ -80,7 +80,7 @@ BAND_HEX = { …, 5: '#3b82f6' /* blue-500 */, 6: '#a855f7' /* purple-500 */ }
 
 and `getBandConfig(6)` (`renderUtils.ts:282–292`) returns `bg-purple-500/10 … text-purple-400 … from-purple-500 to-purple-400`. The editor's Mastery glow comes from `chroma` in `Editor.tsx:288–307`, which reads `getBandHex(hue)`/`getBandConfig(hue)`. **The editor never paints indigo.** The header cannot be competing with a colour the reward does not use. (DesignSpec §2's tier table — "Tier 6 Purple/Indigo `#6366f1`", "Tier 5 Blue/Sky `#0ea5e9`" — is stale relative to `renderUtils.ts`. Flagged as an extra finding below.)
 
-**(b) `from-indigo-600 to-sky-500` is the product's brand mark, not chrome opportunism.** The same gradient appears at `LegalDocumentModal.tsx:49`, `RecalibrateSamplesModal.tsx:263`, and in its `via-indigo-500` variant at `UserAgreementModal.tsx:106` and `QuickStartModal.tsx:77`. A first-run user meets it on the charter gate, then on the quick-start guide — *then* on the header. Abolishing it in the header alone orphans the identity.
+**(b) `from-indigo-600 to-sky-500` is the product's brand mark, not chrome opportunism.** The same gradient appears at `LegalDocumentModal.tsx:49`, `RecalibrateSamplesModal.tsx:263`, and in its `via-indigo-500` variant at `UserAgreementModal.tsx:106` and `QuickStartModal.tsx:77`. A first-run user meets it on the charter gate, then on the quick-start guide — _then_ on the header. Abolishing it in the header alone orphans the identity.
 
 **Consequence for the direction:** "make indigo mean Band 6 again" is the wrong goal, because it already doesn't and never did. The right goal is **demote, don't abolish** — see Design decision D2.
 
@@ -94,21 +94,21 @@ Sharpest evidence: `App.tsx:133–141` defines a local `MeshOverlay` component, 
 
 The count is 8 admin/moderator buttons, not 7:
 
-| Gate | Buttons | Lines |
-|---|---|---|
-| `isSystemAdmin` | Data Vault, Syllabus Audit Studio | 754–770 |
-| `canModerate && isCurriculumRemote()` | Review Queue, Class Insights, Student Progress | 774–798 |
-| `isSystemAdmin` | Internal Database Health, AI Usage Dashboard, Runtime AI Keys | 802–826 |
+| Gate                                  | Buttons                                                       | Lines   |
+| ------------------------------------- | ------------------------------------------------------------- | ------- |
+| `isSystemAdmin`                       | Data Vault, Syllabus Audit Studio                             | 754–770 |
+| `canModerate && isCurriculumRemote()` | Review Queue, Class Insights, Student Progress                | 774–798 |
+| `isSystemAdmin`                       | Internal Database Health, AI Usage Dashboard, Runtime AI Keys | 802–826 |
 
-Every one of the eight carries the identical string `p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10`. Add the status pill (`:830`), help (`:848`), theme (`:855`) and profile (`:884`) and an admin on a Supabase deployment gets **12 tab stops** before any content. The `isSystemAdmin` group is also *split in two* by the moderator group, so Data Vault and Database Health — both storage tools — are four buttons apart.
+Every one of the eight carries the identical string `p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all shadow-lg border border-white/10`. Add the status pill (`:830`), help (`:848`), theme (`:855`) and profile (`:884`) and an admin on a Supabase deployment gets **12 tab stops** before any content. The `isSystemAdmin` group is also _split in two_ by the moderator group, so Data Vault and Database Health — both storage tools — are four buttons apart.
 
 ### Finding 5 — the wordmark is a fifth typographic voice: **REFUTED (one half salvageable)**
 
-`App.tsx:741` is `font-black tracking-tighter leading-none italic uppercase` in the default `font-sans`, i.e. **Inter**. It is not a fourth family, and it is not unusual: `italic uppercase` + `font-black tracking-tighter` is a house display treatment used in 20+ files, including `App.tsx:1078` ("Ready to Write") thirty lines from the empty state the header sits above. §4 names three *families*, not three weights.
+`App.tsx:741` is `font-black tracking-tighter leading-none italic uppercase` in the default `font-sans`, i.e. **Inter**. It is not a fourth family, and it is not unusual: `italic uppercase` + `font-black tracking-tighter` is a house display treatment used in 20+ files, including `App.tsx:1078` ("Ready to Write") thirty lines from the empty state the header sits above. §4 names three _families_, not three weights.
 
 The `tracking-[0.4em]` sub-label claim is also overstated: `index.css:490–492` raises `text-[10px]` to `11.5px` centrally, with a comment explaining that ~280 arbitrary micro-label call sites are floored there rather than at each site. `tracking-[0.4em]` itself appears at four other sites (`PromptGeneratorModal.tsx:322`, `ContentAuditModal.tsx:1546`, `ValidationSummary.tsx:64`, `DataManagerModal.tsx:183`).
 
-**What survives:** `App.tsx:744` is the only place in the codebase that *jumps* tracking responsively — `tracking-[0.2em] sm:tracking-[0.4em]`. The sub-label therefore reads as a different label at different widths for no reason. Fix that one thing; leave the voice alone.
+**What survives:** `App.tsx:744` is the only place in the codebase that _jumps_ tracking responsively — `tracking-[0.2em] sm:tracking-[0.4em]`. The sub-label therefore reads as a different label at different widths for no reason. Fix that one thing; leave the voice alone.
 
 ### Finding 6 — telemetry rendered in Inter, hidden when space is tightest: **CONFIRMED, and it should be deleted rather than restyled**
 
@@ -120,7 +120,7 @@ It is also the **sole consumer of the `apiStatus` prop**: `apiStatus` is created
 
 ### Finding 7 — sticky header changes height by role and viewport: **CONFIRMED**
 
-`App.tsx:731` `min-h-20` (a *minimum*, not a height) + `App.tsx:735` `flex flex-wrap sm:flex-nowrap … py-3 sm:py-0`. Below `sm`, the admin cluster (itself `flex-wrap`, `:751`) drops to a second row and the header grows; the inner `justify-end` cluster at `:749` is `flex-wrap` too. Because the element is `sticky top-0`, a height change reflows everything beneath it.
+`App.tsx:731` `min-h-20` (a _minimum_, not a height) + `App.tsx:735` `flex flex-wrap sm:flex-nowrap … py-3 sm:py-0`. Below `sm`, the admin cluster (itself `flex-wrap`, `:751`) drops to a second row and the header grows; the inner `justify-end` cluster at `:749` is `flex-wrap` too. Because the element is `sticky top-0`, a height change reflows everything beneath it.
 
 `utils/layoutConstants.ts:52` hard-codes `VIEWPORT_RESERVE = 180` as "room left for the app header, breadcrumb and the page margins" — a hand-tuned constant that assumes a header height the header does not guarantee.
 
@@ -138,11 +138,11 @@ A condensing header in Focus Mode would collide with the exit pill and reintrodu
 
 **A9 — no `<main>` landmark and no skip link, anywhere.** A repo-wide search for `<main` across `.tsx` and `.html` returns nothing; so does a search for skip-link markup or `sr-only`. `<header>` is currently the app's only landmark. With 12 header tab stops ahead of the writing surface, a keyboard user Tabs through the entire admin cluster on every page load. This is the single highest-value accessibility item in the whole redesign, and it is not in the brief.
 
-**A10 — `MeshOverlay` is defined fifteen times.** *(Corrected during Step 2 — the original count of four was wrong by a factor of nearly four, found only because the implementing agent checked rather than trusted.)* Beyond `App.tsx:133`, `Editor.tsx:108` (the best version — takes a `color` and adds `light:opacity-[0.06]`), `CommandVerbHierarchy.tsx:12` and `admin/ContentAuditModal.tsx:74`, local copies also live in `ResetPasswordPage.tsx`, `LoadingIndicator.tsx`, `LoginPage.tsx`, `EvaluationResultModal.tsx`, `SampleAnswersAccordion.tsx`, `ManualPromptModal.tsx`, `UserProfileModal.tsx`, `DataManagerModal.tsx`, `PromptDisplay.tsx`, `ManifestImportModal.tsx` and `EvaluationDisplay.tsx`. Plus the dead `.mesh-overlay` class in `index.css:423`.
+**A10 — `MeshOverlay` is defined fifteen times.** _(Corrected during Step 2 — the original count of four was wrong by a factor of nearly four, found only because the implementing agent checked rather than trusted.)_ Beyond `App.tsx:133`, `Editor.tsx:108` (the best version — takes a `color` and adds `light:opacity-[0.06]`), `CommandVerbHierarchy.tsx:12` and `admin/ContentAuditModal.tsx:74`, local copies also live in `ResetPasswordPage.tsx`, `LoadingIndicator.tsx`, `LoginPage.tsx`, `EvaluationResultModal.tsx`, `SampleAnswersAccordion.tsx`, `ManualPromptModal.tsx`, `UserProfileModal.tsx`, `DataManagerModal.tsx`, `PromptDisplay.tsx`, `ManifestImportModal.tsx` and `EvaluationDisplay.tsx`. Plus the dead `.mesh-overlay` class in `index.css:423`.
 
 Step 2 extracts the shared component and migrates `App.tsx` only; **fourteen local copies remain**. Consolidating them is a much larger tidy than this plan implied and belongs in its own series with its own visual-regression pass — each call site passes different defaults, and several sit on coloured gradients where the light-opacity lift would be wrong.
 
-**A11 — the e2e contrast suite deliberately cannot see the header.** `tests/e2e/support/contrast.ts:119` — `if (el.closest('header')) continue;` — documented at `:17–19` as "its gradient is painted by an absolutely-positioned child, so the text above it resolves to the page background and every reading is wrong by construction". That is a true statement about the *current* header only. Tokenising it makes the exclusion removable, which converts the whole redesign into something the suite can defend.
+**A11 — the e2e contrast suite deliberately cannot see the header.** `tests/e2e/support/contrast.ts:119` — `if (el.closest('header')) continue;` — documented at `:17–19` as "its gradient is painted by an absolutely-positioned child, so the text above it resolves to the page background and every reading is wrong by construction". That is a true statement about the _current_ header only. Tokenising it makes the exclusion removable, which converts the whole redesign into something the suite can defend.
 
 **A12 — DesignSpec §2's tier table contradicts `renderUtils.ts`.** Spec: Tier 5 `#0ea5e9`, Tier 6 `#6366f1`. Code: Band 5 `#3b82f6`, Band 6 `#a855f7`. `bandColors.test.ts` pins the code. The spec should be corrected, but **not in this series** — it is a separate documentation fix with its own reviewers.
 
@@ -154,7 +154,7 @@ Step 2 extracts the shared component and migrates `App.tsx` only; **fourteen loc
 
 Standing convention for all new code in this series: **light is the base, `dark:` carries the override.** That is the Tailwind-native form and what `utils/panelStyles.ts` and `components/PdfExportOptions.tsx` already do. The `light:` variant (`tailwind.config.js:93–95`) stays valid and existing code is not migrated; the two coexist because `App.tsx:469–479` maintains both `.dark` and `[data-theme='light']`.
 
-**D1 — The bar becomes a token glass rail.** *(§1 Studio aesthetic, §2 Light Theme Parity, §3 Layering)*
+**D1 — The bar becomes a token glass rail.** _(§1 Studio aesthetic, §2 Light Theme Parity, §3 Layering)_
 
 ```
 bg-white/80 dark:bg-[rgb(var(--color-bg-surface))]/70
@@ -163,29 +163,29 @@ border-b border-slate-200 dark:border-white/10
 shadow-sm dark:shadow-lg dark:shadow-black/20
 ```
 
-Content scrolls *under* a translucent surface rather than behind a wall, which is the point of §1's glassmorphism.
+Content scrolls _under_ a translucent surface rather than behind a wall, which is the point of §1's glassmorphism.
 
-**D2 — The brand gradient is demoted, not abolished.** *(§1 philosophy; overrides the brief)*
+**D2 — The brand gradient is demoted, not abolished.** _(§1 philosophy; overrides the brief)_
 
 `from-indigo-600 to-sky-500` moves off the 1600×80px bar and onto the **40×40px wordmark tile**. The brand survives, in proportion. This is the concrete disagreement with the brief's "indigo goes back to meaning Band 6": it never meant Band 6 (Finding 2), and removing it entirely would break continuity with four other surfaces.
 
-**D3 — The hairline is static, not tier-derived.** *(overrides the brief)*
+**D3 — The hairline is static, not tier-derived.** _(overrides the brief)_
 
 The brief proposes "tier/progress accent reduced to a thin hairline". I recommend against wiring the header to the current question's tier:
 
 - the **editor already is** the tier colour (`Editor.tsx:288–307`), and
 - `SyllabusNavBar.tsx:46` already paints a tier gradient stripe down its left edge.
 
-A third simultaneous statement of the same fact, at the top of the viewport, is noise — and it reintroduces a *moving* header, which is what Finding 7 exists to stop. Use instead a fixed 1px hairline that reads as edge-lighting on glass:
+A third simultaneous statement of the same fact, at the top of the viewport, is noise — and it reintroduces a _moving_ header, which is what Finding 7 exists to stop. Use instead a fixed 1px hairline that reads as edge-lighting on glass:
 
 ```
 absolute inset-x-0 bottom-0 h-px pointer-events-none
 bg-gradient-to-r from-transparent via-indigo-500/40 dark:via-indigo-400/30 to-transparent
 ```
 
-**D4 — Mesh at low opacity.** *(§1 Cubic Mesh Textures)* Reuse the extracted `MeshOverlay` at `opacity-[0.03]`.
+**D4 — Mesh at low opacity.** _(§1 Cubic Mesh Textures)_ Reuse the extracted `MeshOverlay` at `opacity-[0.03]`.
 
-**Corrected after Step 2 — the light-theme trap is not solved by `light:opacity-[0.06]`.** The shared component draws white strokes through `mix-blend-overlay`. On the dark surface that reads correctly; on Step 4's `bg-white/80` rail, 6% white blended over near-white is *nothing*, and no opacity value fixes it because the colour itself is wrong. The `color` prop is the escape hatch, and Step 4 must use it:
+**Corrected after Step 2 — the light-theme trap is not solved by `light:opacity-[0.06]`.** The shared component draws white strokes through `mix-blend-overlay`. On the dark surface that reads correctly; on Step 4's `bg-white/80` rail, 6% white blended over near-white is _nothing_, and no opacity value fixes it because the colour itself is wrong. The `color` prop is the escape hatch, and Step 4 must use it:
 
 ```tsx
 {/* Two passes: white texture for the dark rail, a slate one for the light
@@ -199,9 +199,9 @@ Verify by eye in **both** themes before committing Step 4. If the light pass sti
 
 Note also that `MeshOverlay`'s root is `absolute inset-0 … z-0`. The header is `sticky`, which does establish a positioned ancestor, so `inset-0` resolves correctly against the header itself — but the inner content row must sit above `z-0` or the blend will wash over the text.
 
-**D5 — One overflow popover for all 8 admin/moderator tools.** *(§3 Keyboard Reach)*
+**D5 — One overflow popover for all 8 admin/moderator tools.** _(§3 Keyboard Reach)_
 
-Non-modal, following `components/PdfExportOptions.tsx` exactly — §3 names it as *the* non-modal exemplar. `role="dialog"` with `aria-label`, **no `aria-modal`**, **no `useFocusTrap`**, portal to `document.body` at `z-[120]` (above the header's `z-[60]` and the Focus pill's `z-[70]`, below modals at `z-[500]`). Escape via a **capture-phase** `keydown` listener that calls `stopPropagation` (`PdfExportOptions.tsx:145–155` explains why this, and not `useEscapeKey`, is correct for a non-modal layer: registering another bubble-phase listener alongside the stack would fire both). Click-away on `mousedown`. Focus returns to the trigger manually on close — `useFocusTrap` does restore focus, but we must not use it here.
+Non-modal, following `components/PdfExportOptions.tsx` exactly — §3 names it as _the_ non-modal exemplar. `role="dialog"` with `aria-label`, **no `aria-modal`**, **no `useFocusTrap`**, portal to `document.body` at `z-[120]` (above the header's `z-[60]` and the Focus pill's `z-[70]`, below modals at `z-[500]`). Escape via a **capture-phase** `keydown` listener that calls `stopPropagation` (`PdfExportOptions.tsx:145–155` explains why this, and not `useEscapeKey`, is correct for a non-modal layer: registering another bubble-phase listener alongside the stack would fire both). Click-away on `mousedown`. Focus returns to the trigger manually on close — `useFocusTrap` does restore focus, but we must not use it here.
 
 `role="menu"` with roving arrow-key focus was considered and rejected: it adds a keyboard contract with no user benefit over a short list of buttons, and diverges from the house pattern §3 points at.
 
@@ -209,29 +209,29 @@ Grouped as **Library** (Data Vault, Syllabus Audit Studio, Internal Database Hea
 
 **D6 — Only four controls stay on the rail:** overflow trigger, help, theme, profile. The theme toggle in particular **must not** move into the popover — `light-theme.spec.ts:45` finds it by `getByRole('button', { name: /switch to (light|dark) theme/i })`, and hiding it would break the entire light-theme suite.
 
-**D7 — The status pill is deleted, not restyled.** *(§4 Telemetry, Finding 6)* API health is already covered twice over. Storage mode is genuinely useful but is not per-second telemetry — it moves to the profile control's `title` and the popover footer, rendered `font-mono text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400`. This satisfies §4's mono rule *and* Finding 6's "disappears when space is tightest", because a `title` and a popover row do not have a breakpoint.
+**D7 — The status pill is deleted, not restyled.** _(§4 Telemetry, Finding 6)_ API health is already covered twice over. Storage mode is genuinely useful but is not per-second telemetry — it moves to the profile control's `title` and the popover footer, rendered `font-mono text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400`. This satisfies §4's mono rule _and_ Finding 6's "disappears when space is tightest", because a `title` and a popover row do not have a breakpoint.
 
-**D8 — Fixed height, no wrapping.** *(Finding 7)* `h-16` (64px) at every width; inner row `flex-nowrap` unconditionally. Feasible only after D5 removes the wrap pressure. **Do not scroll-condense** — with `sticky top-0`, animating the height reflows content on every scroll, which is the fault Finding 7 names; the 16px saved is not worth a moving element above a writing surface.
+**D8 — Fixed height, no wrapping.** _(Finding 7)_ `h-16` (64px) at every width; inner row `flex-nowrap` unconditionally. Feasible only after D5 removes the wrap pressure. **Do not scroll-condense** — with `sticky top-0`, animating the height reflows content on every scroll, which is the fault Finding 7 names; the 16px saved is not worth a moving element above a writing surface.
 
 `utils/layoutConstants.ts:52`'s `VIEWPORT_RESERVE = 180` becomes 16px conservative. Leave it: it is hand-tuned, `layoutConstants.test.ts:65–109` pins `cardHeightCap` behaviour, and being conservative is the safe direction.
 
-**D9 — Skip link + `<main>`.** *(§3 Keyboard Reach, Finding A9)* `sr-only focus:not-sr-only` anchor as the first child of the app shell, targeting a new `<main id="main-content">` wrapping the content container at `App.tsx:900–906`.
+**D9 — Skip link + `<main>`.** _(§3 Keyboard Reach, Finding A9)_ `sr-only focus:not-sr-only` anchor as the first child of the app shell, targeting a new `<main id="main-content">` wrapping the content container at `App.tsx:900–906`.
 
 ### Light-theme parity ledger
 
 Per §2, the question is "what is it painted on?", not "is this class dark-only?". Every white-alpha class in the current header, classified:
 
-| Current class | Site | Sits on | Verdict |
-|---|---|---|---|
-| `bg-white/20`, `border-white/20` | `:737` wordmark tile | brand gradient (retained, D2) | **Leave alone** — same colour in both themes |
-| `text-white` on the tile icon | `:738` | brand gradient | **Leave alone** |
-| `bg-white/10 hover:bg-white/20 border-white/10` ×8 | `:757`–`:825` admin buttons | *was* gradient, becomes theme surface | **Pair required** → popover item styles |
-| `bg-white/10 hover:bg-white/20` | `:852`, `:874` help + theme | becomes theme surface | **Pair required** → `HEADER_ACTION` |
-| `bg-white/10 border-white/10` | `:887` profile | becomes theme surface | **Pair required** |
-| `bg-black/20 border-white/10` | `:830` status pill | n/a | **Deleted** (D7) |
-| `text-white` ×14, `text-white/70`, `text-white/80` | throughout | becomes theme surface | **Pair required** → `text-slate-900 dark:text-white`, `text-slate-500 dark:text-slate-400` |
-| `bg-indigo-500` avatar chip | `:890` | brand-solid by intent | **Leave alone** |
-| `shadow-indigo-900/20` | `:731` | n/a | **Replace** with `shadow-sm dark:shadow-lg dark:shadow-black/20` |
+| Current class                                      | Site                        | Sits on                               | Verdict                                                                                    |
+| -------------------------------------------------- | --------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `bg-white/20`, `border-white/20`                   | `:737` wordmark tile        | brand gradient (retained, D2)         | **Leave alone** — same colour in both themes                                               |
+| `text-white` on the tile icon                      | `:738`                      | brand gradient                        | **Leave alone**                                                                            |
+| `bg-white/10 hover:bg-white/20 border-white/10` ×8 | `:757`–`:825` admin buttons | _was_ gradient, becomes theme surface | **Pair required** → popover item styles                                                    |
+| `bg-white/10 hover:bg-white/20`                    | `:852`, `:874` help + theme | becomes theme surface                 | **Pair required** → `HEADER_ACTION`                                                        |
+| `bg-white/10 border-white/10`                      | `:887` profile              | becomes theme surface                 | **Pair required**                                                                          |
+| `bg-black/20 border-white/10`                      | `:830` status pill          | n/a                                   | **Deleted** (D7)                                                                           |
+| `text-white` ×14, `text-white/70`, `text-white/80` | throughout                  | becomes theme surface                 | **Pair required** → `text-slate-900 dark:text-white`, `text-slate-500 dark:text-slate-400` |
+| `bg-indigo-500` avatar chip                        | `:890`                      | brand-solid by intent                 | **Leave alone**                                                                            |
+| `shadow-indigo-900/20`                             | `:731`                      | n/a                                   | **Replace** with `shadow-sm dark:shadow-lg dark:shadow-black/20`                           |
 
 ---
 
@@ -276,28 +276,30 @@ interface AppHeaderProps {
 Move the JSX **unchanged**, character for character. In `App.tsx`, replace lines 730–899 with:
 
 ```tsx
-{!isFocusMode && (
-  <AppHeader
-    user={user}
-    onUpdateUser={onUpdateUser}
-    apiStatus={apiStatus}
-    storageStatus={storageStatus}
-    openModal={openModal}
-    onOpenAudit={() => setIsAuditModalOpen(true)}
-    onOpenReviewQueue={() => setIsReviewQueueOpen(true)}
-    onOpenClassInsights={() => setIsClassInsightsOpen(true)}
-    onOpenStudentProgress={() => setIsStudentProgressOpen(true)}
-    onOpenUsageDashboard={() => setIsUsageDashboardOpen(true)}
-    onOpenRuntimeKeys={() => setIsRuntimeKeyOpen(true)}
-  />
-)}
+{
+  !isFocusMode && (
+    <AppHeader
+      user={user}
+      onUpdateUser={onUpdateUser}
+      apiStatus={apiStatus}
+      storageStatus={storageStatus}
+      openModal={openModal}
+      onOpenAudit={() => setIsAuditModalOpen(true)}
+      onOpenReviewQueue={() => setIsReviewQueueOpen(true)}
+      onOpenClassInsights={() => setIsClassInsightsOpen(true)}
+      onOpenStudentProgress={() => setIsStudentProgressOpen(true)}
+      onOpenUsageDashboard={() => setIsUsageDashboardOpen(true)}
+      onOpenRuntimeKeys={() => setIsRuntimeKeyOpen(true)}
+    />
+  );
+}
 ```
 
 The `!isFocusMode &&` guard stays in `App.tsx` (Finding 8 — this is deliberate).
 
 **Do not touch:** the Focus-Mode exit pill (`App.tsx:708–724`), the content container and its `pt-16` compensation (`App.tsx:900–906`), any theme-toggle logic beyond relocating it, `AnimatedBackground`, `MeshOverlay`.
 
-**Gotcha:** `hsc-feature.md` — never import from `App.tsx`. `AppHeader.tsx` must import `ApiStatus` from `services/geminiService`, `StorageStatus` from `utils/storageUtils`, `ModalName` from `hooks/useModalManager`. Prune any lucide imports in `App.tsx` that are now unused *only* by the header — check each against the rest of the file (`Sparkles` and `Database` are both used elsewhere).
+**Gotcha:** `hsc-feature.md` — never import from `App.tsx`. `AppHeader.tsx` must import `ApiStatus` from `services/geminiService`, `StorageStatus` from `utils/storageUtils`, `ModalName` from `hooks/useModalManager`. Prune any lucide imports in `App.tsx` that are now unused _only_ by the header — check each against the rest of the file (`Sparkles` and `Database` are both used elsewhere).
 
 **Verify:** `npm run type-check`, `npm run test:all`. Visual output must be pixel-identical.
 
@@ -315,7 +317,7 @@ The `!isFocusMode &&` guard stays in `App.tsx` (Finding 8 — this is deliberate
 
 **Verify:** `npm run test:all`.
 
-**Known, accepted divergence (recorded during Step 2):** "the empty state must be unchanged" cannot hold alongside "extract the `Editor.tsx` version", because the two bodies differ. `App.tsx`'s deleted copy had `transition-opacity duration-500` and **no** `light:opacity-[0.06]`; the `Editor.tsx` version has `transition-all duration-700 ease-in-out` and the light lift. So the "Ready to Write" mesh now renders faintly in the light theme where it previously did not, and fades a little slower. This is a deliberate consequence of consolidating on the better version and is left in place — it moves the empty state *towards* light-theme parity, which is the direction §2 wants. Flagged here so the Phase 3 verifier does not report it as an accident.
+**Known, accepted divergence (recorded during Step 2):** "the empty state must be unchanged" cannot hold alongside "extract the `Editor.tsx` version", because the two bodies differ. `App.tsx`'s deleted copy had `transition-opacity duration-500` and **no** `light:opacity-[0.06]`; the `Editor.tsx` version has `transition-all duration-700 ease-in-out` and the light lift. So the "Ready to Write" mesh now renders faintly in the light theme where it previously did not, and fades a little slower. This is a deliberate consequence of consolidating on the better version and is left in place — it moves the empty state _towards_ light-theme parity, which is the direction §2 wants. Flagged here so the Phase 3 verifier does not report it as an accident.
 
 ---
 
@@ -325,7 +327,7 @@ The `!isFocusMode &&` guard stays in `App.tsx` (Finding 8 — this is deliberate
 
 **Files:** create `utils/headerChrome.ts` and `tests/unit/appHeaderChrome.test.tsx`; edit `components/AppHeader.tsx`.
 
-**This step changes no classes.** Lift the literal strings currently in `AppHeader.tsx` into named exports and consume them, so Step 4's diff is a diff of *values* in one file rather than of JSX. Initial exports (values copied verbatim from the current JSX):
+**This step changes no classes.** Lift the literal strings currently in `AppHeader.tsx` into named exports and consume them, so Step 4's diff is a diff of _values_ in one file rather than of JSX. Initial exports (values copied verbatim from the current JSX):
 
 `HEADER_BAR`, `HEADER_INNER`, `HEADER_MARK_TILE`, `HEADER_WORDMARK`, `HEADER_SUBLABEL`, `HEADER_ADMIN_BUTTON`, `HEADER_ACTION`, `HEADER_PROFILE`.
 
@@ -336,6 +338,7 @@ doomed value here only to overwrite it there is churn.)
 Each gets a comment explaining what it is painted on — that is the §2 question and it is what stops the next reader from doing a blanket find-and-replace.
 
 **New test** (`tests/unit/appHeaderChrome.test.tsx`) — renders `AppHeader` with a mock `user` for each of `admin` / `teacher` / `user` roles and asserts:
+
 1. the theme toggle's accessible name is exactly `Switch to dark theme` / `Switch to light theme` (the string `light-theme.spec.ts:45` depends on);
 2. a `user`-role render shows none of the eight admin controls;
 3. the constants are actually applied (`expect(el.className).toContain(HEADER_ACTION)`).
@@ -399,7 +402,7 @@ Drop `sm:tracking-[0.4em]` from the sub-label (Finding 5's salvageable half).
 
 **Do not touch:** `min-h-20` and `flex-wrap sm:flex-nowrap` — those are Step 8, after Step 5 removes the wrap pressure. Do not touch button structure or any `aria-label`/`title` string.
 
-**Extend the test:** assert `HEADER_BAR` contains both a light and a `dark:` background; assert no export contains a bare `text-white` without a light partner *except* `HEADER_MARK_TILE` (comment the exception).
+**Extend the test:** assert `HEADER_BAR` contains both a light and a `dark:` background; assert no export contains a bare `text-white` without a light partner _except_ `HEADER_MARK_TILE` (comment the exception).
 
 **Risk:** this is the one visually dramatic step. `backdrop-blur-2xl` on a `sticky` element over `AnimatedBackground` (`fixed inset-0 z-0`) is fine; verify by scrolling in both themes.
 
@@ -416,10 +419,11 @@ Drop `sm:tracking-[0.4em]` from the sub-label (Finding 5's salvageable half).
 Trigger: `HEADER_ACTION` styling, lucide `SlidersHorizontal`, `aria-haspopup="dialog"`, `aria-expanded={open}`, `aria-controls`, `aria-label="Admin tools"` (system admin) or `"Teaching tools"` (moderator only). Rendered only when `isSystemAdmin(user.role) || canModerate(user.role)`.
 
 Panel — **copy the mechanics from `components/PdfExportOptions.tsx` lines 88–175**, which is the pattern DesignSpec §3 names as the non-modal exemplar:
+
 - `createPortal` to `document.body`, `className="fixed z-[120] …"`, anchored off the trigger's `getBoundingClientRect()` and clamped to the viewport;
 - `role="dialog"` + `aria-label`, **and deliberately no `aria-modal`**;
 - **no `useFocusTrap`** — §3: "Non-modal popovers must NOT trap. The page behind them is live and Tab is expected to move on";
-- Escape via a **capture-phase** `window` `keydown` listener that calls `e.stopPropagation()` then closes — this is the codebase's own arbitration for a non-modal layer over `useEscapeKey`'s stack (`PdfExportOptions.tsx:139–156` explains why a bubble-phase listener would close this *and* whatever is beneath it);
+- Escape via a **capture-phase** `window` `keydown` listener that calls `e.stopPropagation()` then closes — this is the codebase's own arbitration for a non-modal layer over `useEscapeKey`'s stack (`PdfExportOptions.tsx:139–156` explains why a bubble-phase listener would close this _and_ whatever is beneath it);
 - click-away on `mousedown`, excluding both the panel and the trigger;
 - reposition on `scroll` (capture) and `resize`;
 - on close, `triggerRef.current?.focus()` — restoring focus manually, because the trap that normally does it is forbidden here.
@@ -444,6 +448,7 @@ export const HEADER_MENU_GROUP_LABEL =
 Groups: **Library** (Data Vault, Syllabus Audit Studio, Internal Database Health) · **Moderation** (Review Queue, Class Insights, Student Progress) · **AI** (AI Usage Dashboard, Runtime AI Keys). Same role gates as now; a group renders only if it has at least one visible item.
 
 **Every item keeps its current `title` and `aria-label` byte-for-byte.** These are load-bearing e2e selectors:
+
 - `Data Vault (Import/Export/Reorder)`
 - `Syllabus Audit Studio`
 - `Review Queue (approve/reject contributions)` ← matched by `button[title^="Review Queue"]`
@@ -475,13 +480,14 @@ the threshold should rise.
 
 **Two notes from Step 3 about the existing test file:**
 
-- `tests/unit/appHeaderChrome.test.tsx` currently mocks `isCurriculumRemote` to a constant `true` at module scope. This step needs *both* branches (a `teacher` with remote off must see nothing), so convert it to a `vi.hoisted` mutable flag rather than stacking a second `vi.mock` on the same module.
+- `tests/unit/appHeaderChrome.test.tsx` currently mocks `isCurriculumRemote` to a constant `true` at module scope. This step needs _both_ branches (a `teacher` with remote off must see nothing), so convert it to a `vi.hoisted` mutable flag rather than stacking a second `vi.mock` on the same module.
 - The file's `ADMIN_TOOLS` array is the canonical list of the eight load-bearing labels, in rail order. It is the cheapest place to assert the strings survive the move into the popover byte-identical — use it rather than re-typing them.
 
 **Extend the unit test** with the §3 contract:
+
 - the panel has `role="dialog"` and **no** `aria-modal` attribute;
 - Escape closes it and focus returns to the trigger;
-- Tab from the last panel item moves *out* of the panel (no trap);
+- Tab from the last panel item moves _out_ of the panel (no trap);
 - a `user`-role render shows no trigger at all;
 - a `teacher` role with `isCurriculumRemote()` mocked true shows Moderation but not Library/AI.
 
@@ -494,6 +500,7 @@ the threshold should rise.
 **Files:** `tests/e2e/contribution-loop.spec.ts`, `tests/e2e/class-analytics-ranking.spec.ts`.
 
 **Current:**
+
 - `contribution-loop.spec.ts:339–342` — `const queueButton = page.locator('button[title^="Review Queue"]'); await expect(queueButton).toBeVisible({timeout: 30_000}); await queueButton.click();` with the comment "Admin header cluster renders once the profile role maps to admin."
 - `class-analytics-ranking.spec.ts:272, 302, 322, 350` — `page.getByRole('button', { name: /class insights/i }).click()` and `.../student progress/i`.
 
@@ -511,13 +518,13 @@ export const openHeaderTool = async (page: Page, name: RegExp): Promise<void> =>
 };
 ```
 
-**What Step 5 left this step to inherit** *(recorded by the agent that wrote the popover)*:
+**What Step 5 left this step to inherit** _(recorded by the agent that wrote the popover)_:
 
-- **`contribution-loop.spec.ts:339–342` is not a straight call-site swap.** Its 30-second `toBeVisible` wait is what absorbs the delay while the Supabase profile role resolves to admin. That wait must move onto the *trigger* — hence its place in the helper above. Click the trigger without it and the click races the role resolution, and the trigger will not exist yet.
+- **`contribution-loop.spec.ts:339–342` is not a straight call-site swap.** Its 30-second `toBeVisible` wait is what absorbs the delay while the Supabase profile role resolves to admin. That wait must move onto the _trigger_ — hence its place in the helper above. Click the trigger without it and the click races the role resolution, and the trigger will not exist yet.
 - **The panel is portalled to `document.body`, outside `<header>`.** Any locator scoped to the header element will miss it.
 - **Each item's visible text is now split** — short name, then the parenthetical on a second line. The `title` and `aria-label` remain the full canonical string byte-identical, so `button[title^="Review Queue"]` and `/class insights/i` still match, but **a locator matching on visible text alone will fail**, because the accessible name comes from `aria-label`.
 - **Nothing else in the header matches `/(admin|teaching) tools/i`.** Step 5 deliberately omitted a close button so no second element could collide with the helper. If this step adds one, keep its label clear of both words.
-- `contribution-loop.spec.ts:344` asserts a `Review Queue` *heading* after the click. The popover contributes no heading — group labels are `<div role="group">` with `aria-labelledby` — and it closes on select, so there is no ambiguity to resolve.
+- `contribution-loop.spec.ts:344` asserts a `Review Queue` _heading_ after the click. The popover contributes no heading — group labels are `<div role="group">` with `aria-labelledby` — and it closes on select, so there is no ambiguity to resolve.
 - **A `teacher` with `isCurriculumRemote()` false now sees no trigger at all**, not an empty menu. The plan never said what should happen to a moderator with no moderation tools; Step 5 gated the whole component on `isSystemAdmin(user.role) || (canModerate(user.role) && isCurriculumRemote())`. Since `isCurriculumRemote()` is false in local runs, an admin sees five tools by hand and a teacher sees nothing.
 
 Replace the four call sites, and update the `contribution-loop.spec.ts` comment to say the cluster is now behind the overflow control.
@@ -537,6 +544,7 @@ Replace the four call sites, and update the `contribution-loop.spec.ts` comment 
 **Rationale, so this is not re-litigated:** `components/ApiHealthIndicator.tsx` already renders API health unconditionally at `fixed bottom-4 left-4 z-[500]` with `role="status"` and three states (`App.tsx:1469`), and `components/ApiStatusIndicator.tsx` covers the blocked case with a countdown. The header pill is a third, less informative rendering, and it is the only reader of `apiStatus` in `AuthenticatedApp`.
 
 **Target:**
+
 1. Delete the pill entirely from `AppHeader.tsx` — **including the interim light/dark pairing and the `interim parity only` comment Step 4 added to it.** That pairing exists solely so the light theme is not broken in the commits between Step 4 and this one; it must not outlive the pill. Also remove the profile display-name span's interim pairing only if the span itself goes, which it does not — that one is permanent.
 2. Add a storage-mode footer row to the tools popover, in mono per §4:
    ```ts
@@ -545,8 +553,8 @@ Replace the four call sites, and update the `contribution-loop.spec.ts` comment 
    ```
    rendered as `Storage · {storageStatus}` above a `border-t border-slate-200 dark:border-white/10` divider.
 3. Append `— storage: ${storageStatus}` to the profile button's `title`, so the fact is reachable for a non-admin at every width (the `hidden lg:flex` complaint in Finding 6).
-3a. **Add an Error-only storage warning chip** (maintainer decision 3). When
-   `storageStatus === 'Error'` — and *only* then — render a chip on the rail,
+   3a. **Add an Error-only storage warning chip** (maintainer decision 3). When
+   `storageStatus === 'Error'` — and _only_ then — render a chip on the rail,
    before the tools trigger, at every width (no `hidden lg:` breakpoint):
 
    ```ts
@@ -566,6 +574,7 @@ Replace the four call sites, and update the `contribution-loop.spec.ts` comment 
 
    Unit test: `storageStatus="Error"` renders the chip with `role="status"`;
    every other `StorageStatus` value renders no chip at all.
+
 4. Remove `apiStatus` from `AppHeaderProps` and its pass-through in `App.tsx`.
 5. Remove the `apiStatus` prop from `AuthenticatedAppProps` (`App.tsx:151`), the destructure (`:159`) and the call site (`:1445`). **Keep `const apiStatus = useApiStatus()` at `App.tsx:1227`** only if something else reads it — check; if nothing does, remove it and the `useApiStatus` import too, but leave `hooks/useApiStatus.ts` alone (`ApiHealthIndicator` and `ApiStatusIndicator` both use it).
 
@@ -579,14 +588,14 @@ Replace the four call sites, and update the `contribution-loop.spec.ts` comment 
 
 **Files:** `utils/headerChrome.ts`, `components/AppHeader.tsx`, `tests/unit/appHeaderChrome.test.tsx`.
 
-**This is NOT a one-file change, despite what the constants suggest** *(found during Step 3)*. Step 3 lifted only the class strings the plan named; five stayed as literals in `AppHeader.tsx`'s JSX. Two of them carry `flex-wrap` and are therefore this step's business:
+**This is NOT a one-file change, despite what the constants suggest** _(found during Step 3)_. Step 3 lifted only the class strings the plan named; five stayed as literals in `AppHeader.tsx`'s JSX. Two of them carry `flex-wrap` and are therefore this step's business:
 
 - the right-hand action cluster — `flex flex-wrap items-center justify-end gap-2 sm:gap-4 ml-auto`
 - the admin-cluster wrapper — `flex flex-wrap items-center justify-end gap-2 sm:mr-2` (this one disappears entirely with Step 5)
 
 Removing `flex-wrap` from `HEADER_INNER` alone will not stop the header wrapping. Grep `AppHeader.tsx` for `flex-wrap` and clear every occurrence.
 
-**Two stale comments must die with the wrapping** *(also found during Step 3)*: the `{/* Wraps below sm so admin/moderator tool buttons drop onto their own row… */}` comment above the inner row in `AppHeader.tsx`, and the matching sentence in `HEADER_INNER`'s doc comment in `utils/headerChrome.ts`. Both describe behaviour this step deletes; leaving them is worse than never having written them.
+**Two stale comments must die with the wrapping** _(also found during Step 3)_: the `{/* Wraps below sm so admin/moderator tool buttons drop onto their own row… */}` comment above the inner row in `AppHeader.tsx`, and the matching sentence in `HEADER_INNER`'s doc comment in `utils/headerChrome.ts`. Both describe behaviour this step deletes; leaving them is worse than never having written them.
 
 **Current:** `HEADER_BAR` contains `min-h-20`; `HEADER_INNER` contains `py-3 sm:py-0 … flex flex-wrap sm:flex-nowrap`.
 
@@ -594,9 +603,9 @@ Removing `flex-wrap` from `HEADER_INNER` alone will not stop the header wrapping
 
 **Prerequisite:** Steps 5 and 7 must be done, or this will clip content on narrow viewports.
 
-**The storage chip collides with the height lock, and resolving it is part of this step** *(measured live during Step 7)*. The chip is `px-3 h-9` and about **147px wide**. At a 360px viewport the header measures 117px without it and **165px with it** — so `h-16` plus `flex-nowrap` will overflow horizontally in exactly the failure case the chip exists to announce.
+**The storage chip collides with the height lock, and resolving it is part of this step** _(measured live during Step 7)_. The chip is `px-3 h-9` and about **147px wide**. At a 360px viewport the header measures 117px without it and **165px with it** — so `h-16` plus `flex-nowrap` will overflow horizontally in exactly the failure case the chip exists to announce.
 
-Maintainer decision 3 says the chip must be visible at every width, and that stands. Satisfy both by dropping the *text*, never the chip:
+Maintainer decision 3 says the chip must be visible at every width, and that stands. Satisfy both by dropping the _text_, never the chip:
 
 ```
 // on HEADER_STORAGE_ALERT — the icon alone carries it below `lg`
@@ -654,7 +663,7 @@ Change the content container currently at `App.tsx:900–906` from `<div classNa
 
 **Files:** `tests/e2e/support/contrast.ts`.
 
-**Current:** line 119 — `if (el.closest('header')) continue;` — justified in the file header comment at lines 17–19: *"The app header is skipped entirely. Its gradient is painted by an absolutely-positioned child, so the text above it resolves to the page background and every reading is wrong by construction."*
+**Current:** line 119 — `if (el.closest('header')) continue;` — justified in the file header comment at lines 17–19: _"The app header is skipped entirely. Its gradient is painted by an absolutely-positioned child, so the text above it resolves to the page background and every reading is wrong by construction."_
 
 That justification expired at Step 4: the header now paints its own background colour, and `resolveBackground` (lines 84–101) walks the compositing chain correctly through `bg-white/80` and `dark:bg-[rgb(var(--color-bg-surface))]/70`.
 
@@ -672,7 +681,7 @@ Two parts remain unassessed, and the comment should name both rather than implyi
 
 **Files:** `projectDocs/changeLog.md`.
 
-Add a new `## [Unreleased] - <date>` section at the top, following the existing prose style — house voice is a short narrative explaining *why*, not a bullet list of classes. Cover: the header now uses the same token surface as everything else and therefore has a light theme; the brand gradient moved from a 1600px wall to a 40px tile; eight admin buttons became one menu; API status was removed because two other surfaces already show it; the header is a fixed 64px and no longer reflows the page; a skip link and `<main>` landmark now exist.
+Add a new `## [Unreleased] - <date>` section at the top, following the existing prose style — house voice is a short narrative explaining _why_, not a bullet list of classes. Cover: the header now uses the same token surface as everything else and therefore has a light theme; the brand gradient moved from a 1600px wall to a 40px tile; eight admin buttons became one menu; API status was removed because two other surfaces already show it; the header is a fixed 64px and no longer reflows the page; a skip link and `<main>` landmark now exist.
 
 Worth recording explicitly: **indigo was never the Band 6 colour.** `BAND_HEX[6]` is `#a855f7`. The next person to read DesignSpec §2 will believe otherwise.
 
@@ -682,15 +691,15 @@ Worth recording explicitly: **indigo was never the Band 6 colour.** `BAND_HEX[6]
 
 ### Must keep passing (unchanged)
 
-| Test | Why it is at risk |
-|---|---|
-| `tests/e2e/light-theme.spec.ts` | Finds the theme toggle by `/switch to (light\|dark) theme/i`. The label must stay verbatim and the button must stay directly clickable — never inside the popover. |
-| `tests/unit/layoutConstants.test.ts` | Pins `cardHeightCap`/`MIN_CARD_HEIGHT`. Step 8 must not touch `VIEWPORT_RESERVE`. |
-| `tests/unit/cardHeaderHeightLock.test.tsx` | Concerns the two *workspace card* headers via `utils/cardChrome.ts` — a different surface. It must remain untouched; if a change here affects it, the change has strayed. |
-| `tests/unit/workspacePanelChrome.test.tsx` | Same: `PANEL_SURFACE` and `CARD_HEADER_*` are out of scope. |
-| `tests/unit/focusTrap.test.tsx`, `tests/unit/escapeStack.test.tsx` | The new popover must not perturb the escape stack. It registers a capture-phase listener, not a `useEscapeKey` entry — these must stay green with no edits. |
-| `tests/unit/bandColors.test.ts` | Pins `getBandConfig`. Nothing in this series touches band colour. |
-| `tests/e2e/workspace-chrome.spec.ts`, `modal-scroll.spec.ts`, `evaluation-flow.spec.ts`, `agreement-gate.spec.ts` | Regression watch for the height change and the new `<main>` wrapper. |
+| Test                                                                                                              | Why it is at risk                                                                                                                                                         |
+| ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tests/e2e/light-theme.spec.ts`                                                                                   | Finds the theme toggle by `/switch to (light\|dark) theme/i`. The label must stay verbatim and the button must stay directly clickable — never inside the popover.        |
+| `tests/unit/layoutConstants.test.ts`                                                                              | Pins `cardHeightCap`/`MIN_CARD_HEIGHT`. Step 8 must not touch `VIEWPORT_RESERVE`.                                                                                         |
+| `tests/unit/cardHeaderHeightLock.test.tsx`                                                                        | Concerns the two _workspace card_ headers via `utils/cardChrome.ts` — a different surface. It must remain untouched; if a change here affects it, the change has strayed. |
+| `tests/unit/workspacePanelChrome.test.tsx`                                                                        | Same: `PANEL_SURFACE` and `CARD_HEADER_*` are out of scope.                                                                                                               |
+| `tests/unit/focusTrap.test.tsx`, `tests/unit/escapeStack.test.tsx`                                                | The new popover must not perturb the escape stack. It registers a capture-phase listener, not a `useEscapeKey` entry — these must stay green with no edits.               |
+| `tests/unit/bandColors.test.ts`                                                                                   | Pins `getBandConfig`. Nothing in this series touches band colour.                                                                                                         |
+| `tests/e2e/workspace-chrome.spec.ts`, `modal-scroll.spec.ts`, `evaluation-flow.spec.ts`, `agreement-gate.spec.ts` | Regression watch for the height change and the new `<main>` wrapper.                                                                                                      |
 
 ### Must be updated
 
@@ -766,7 +775,7 @@ Test results at `d7ae304`: 1736 unit tests, `chromium` 18/18, `supabase-chromium
    only renders when storage has failed.
 3. **The dark mesh is barely perceptible either.** The light pass was dropped
    because it moved the rail by one luminance level; verification found the
-   *dark* pass moves it by only one or two. It is honest texture rather than
+   _dark_ pass moves it by only one or two. It is honest texture rather than
    decoration, but §1's "tactile depth" is doing very little work here, and a
    future pass might reasonably drop it altogether.
 4. **The sub-label has ~0.2 of contrast margin** (4.68–4.72:1 against a 4.5

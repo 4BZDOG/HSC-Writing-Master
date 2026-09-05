@@ -39,7 +39,7 @@ const ReadinessMeter: React.FC<ReadinessMeterProps> = React.memo(
         // print:hidden — a live pre-submission signal has no place on paper.
       >
         {!compact && (
-          <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-600 whitespace-nowrap">
+          <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-600 whitespace-nowrap">
             {label}
           </span>
         )}

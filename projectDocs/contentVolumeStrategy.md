@@ -3,14 +3,14 @@
 The library grows in two directions, and both of them degrade the student
 experience long before anyone notices the content is "too good":
 
-1. **Many sample answers at the same mark level.** One click of *Generate*
+1. **Many sample answers at the same mark level.** One click of _Generate_
    drops a batch onto a single mark, recalibration adds more, and every
    contributed student response lands there too.
 2. **Many questions under one syllabus dot point.** A dot point is the natural
    place to hang questions, so a well-curated one accumulates a dozen or more.
 
 Neither is a content problem — more exemplars and more questions are the
-product working. They are *presentation* problems, and the failure mode is the
+product working. They are _presentation_ problems, and the failure mode is the
 same in both: a flat list of near-identical rows, where nothing on screen says
 what distinguishes one row from the next, so the only way to choose is to read
 them all. A student who has to read five exemplars to discover that four were
@@ -23,7 +23,7 @@ AI variations on the same shape has been charged four readings for nothing.
 Not "show fewer things". Hiding content a teacher deliberately curated is its
 own failure, and a cap that silently drops the sixth exemplar makes the library
 untrustworthy. Everything stays reachable; what changes is that the first
-screen answers *which of these do I want* without being read end to end.
+screen answers _which of these do I want_ without being read end to end.
 
 Three moves, in this order:
 
@@ -45,8 +45,8 @@ Three moves, in this order:
 
 ## The fourth move: let the reader narrow, never the app
 
-Distinguishing, ordering and folding all work on the reader who is *still
-deciding*. They do nothing for the reader who already knows what they want: a
+Distinguishing, ordering and folding all work on the reader who is _still
+deciding_. They do nothing for the reader who already knows what they want: a
 student with fifteen minutes wants the short questions, a student revising
 Section III wants the extended ones, a teacher building a trial paper wants the
 real HSC ones. Grouping still makes them scroll past everything else to find
@@ -73,22 +73,22 @@ of this strategy, which is what separates it from a cap:
   the picker's own search box (`SEARCH_THRESHOLD`, 7). One rule, not two.
 
 Difficulty here means the **cognitive tier of the command term**, not the mark
-value. A 6-mark *Describe* is longer than a 4-mark *Evaluate*; only the second
+value. A 6-mark _Describe_ is longer than a 4-mark _Evaluate_; only the second
 demands judgement. Marks are offered as their own separate axis, labelled
-*Length*, because the reader choosing on time is asking a different question
+_Length_, because the reader choosing on time is asking a different question
 from the reader choosing on difficulty and should not have to answer both at
 once.
 
 ## The fifth move: don't produce the duplicate in the first place
 
-Everything above makes a crowded level *readable*. None of it makes the fifth
-exemplar *worth reading*. Two changes address the cause rather than the
+Everything above makes a crowded level _readable_. None of it makes the fifth
+exemplar _worth reading_. Two changes address the cause rather than the
 presentation:
 
 1. **The generator can now see what it already wrote.** `generateSampleAnswer`
    was given only the current batch, so a second batch at 6/6 was written in
    ignorance of the first — the model was never told not to repeat it. It now
-   reads the question's saved exemplars too, and the ones at the *same mark* get
+   reads the question's saved exemplars too, and the ones at the _same mark_ get
    their own instruction: a different example, structure or emphasis, not a
    paraphrase.
 2. **What comes back is checked, and a repeat is held back rather than saved.**
@@ -107,7 +107,7 @@ entirely.
 Everything above is impersonal — the same list, in the same order, for
 everybody. The app has been storing every marked attempt since
 `persistResponse` landed, and nothing read it back into the picker. Doing so is
-the only move here that shortens a list *for this reader* without them setting
+the only move here that shortens a list _for this reader_ without them setting
 anything:
 
 - **A question already answered is a different object**, and the row says so
@@ -135,21 +135,21 @@ picker is exactly what it was before.
 
 ## Where this is implemented
 
-| Surface | What it does |
-|---|---|
-| `components/SampleAnswersAccordion.tsx` | One row per mark level, one exemplar shown at a time. Within a level, a chip per exemplar labelled by source and word count (`sourceLabel`, `wordCountOf`), sorted by `byTrustworthiness`, with the tail behind `+N more` (`VISIBLE_VARIANTS`). The folded panel header states levels **and** total exemplars. |
-| `components/Combobox.tsx` | Optional `group` on an option renders a sticky heading wherever the group changes. Options must arrive pre-sorted by group. |
-| `components/PromptSelector.tsx` | Questions grouped by cognitive tier (`TIER_GROUPS` title + target band) and sorted tier-then-marks, so a long list reads as a handful of named runs. Search already matches verb, marks, band and HSC paper via `searchText`. Holds the refinement filter, resets it when the dot point changes, and pins the selected question into the filtered list. |
-| `utils/questionFilter.ts` | The filter model, as pure functions: `describeQuestions` (bounds from content), `widestFilter`, `clampFilter` (re-fit when the questions change), `matchesFilter` / `applyQuestionFilter` (with the pinned selection), `isFilterActive` and `summariseFilter` (the collapsed-state chips). |
-| `components/QuestionFilterBar.tsx` | The strip itself: count line, collapsed summary chips, difficulty and length sliders, a Past-HSC toggle where the dot point holds any, Clear, and the "nothing matches those settings" explanation in place of an empty picker. |
-| `services/geminiService.ts` | `generateSampleAnswer` now reads the question's SAVED exemplars as well as the caller's batch, and gives the ones at the same mark their own brief ("a genuinely different response of the same quality, not a paraphrase"). Previously a second batch at 6/6 was written with no sight of the first — the mechanism by which a level accumulated variations. |
-| `utils/answerSimilarity.ts` | Jaccard overlap over word BIGRAMS (`answerSimilarity`, `findNearDuplicate`). Unigrams are useless here: two answers to one question necessarily share their vocabulary. Bigrams carry phrasing, which is what a paraphrase preserves. Tags stripped, so stored mark-up does not register as difference. |
-| `components/SampleAnswerGeneratorModal.tsx` | Compares each generated answer against the exemplars at ITS OWN mark (a 4/6 resembling the 6/6 is a tight ladder, not a duplicate). A repeat is held back — never written, never silently dropped — and shown beside the exemplar it repeats with its overlap, for Keep or Discard. The modal will not close or generate again over an undecided one. |
-| `services/responseService.ts` | `fetchMyAttempts` — the read side of `persistResponse`, scoped to the caller by the `responses_read` RLS policy and asking for the mark and band only, never anyone's draft. Best-effort: local mode, a guest, or a failed lookup all return an empty map. |
-| `services/contributionService.ts` | `resolvePromptRowIds` resolves a whole dot point's app ids in one round trip, with the same seeded-content-wins tie-break as the single-id version — `legacy_id` is not unique, and picking a teacher's private variant would attach a student's marks to the wrong question. |
-| `utils/personalOrdering.ts` | The suggestion rule, pure: `mostRecentAttempt`, `suggestNextQuestion`, `STEP_UP_THRESHOLD`. |
-| `hooks/useAttemptHistory.ts` | One fetch per set of question ids, keyed on the sorted list so re-rendering the picker does not re-ask the server. No loading or error surface — nothing here is worth interrupting navigation for. |
-| `components/RangeSlider.tsx` | Two-handled range built from two native `input[type=range]`s, so arrow keys, Home/End and screen-reader announcement come from the platform. Handles cannot cross. Paint is in `.dual-range` (`index.css`), tinted from `currentColor` so one Tailwind class themes the control. |
+| Surface                                     | What it does                                                                                                                                                                                                                                                                                                                                                  |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `components/SampleAnswersAccordion.tsx`     | One row per mark level, one exemplar shown at a time. Within a level, a chip per exemplar labelled by source and word count (`sourceLabel`, `wordCountOf`), sorted by `byTrustworthiness`, with the tail behind `+N more` (`VISIBLE_VARIANTS`). The folded panel header states levels **and** total exemplars.                                                |
+| `components/Combobox.tsx`                   | Optional `group` on an option renders a sticky heading wherever the group changes. Options must arrive pre-sorted by group.                                                                                                                                                                                                                                   |
+| `components/PromptSelector.tsx`             | Questions grouped by cognitive tier (`TIER_GROUPS` title + target band) and sorted tier-then-marks, so a long list reads as a handful of named runs. Search already matches verb, marks, band and HSC paper via `searchText`. Holds the refinement filter, resets it when the dot point changes, and pins the selected question into the filtered list.       |
+| `utils/questionFilter.ts`                   | The filter model, as pure functions: `describeQuestions` (bounds from content), `widestFilter`, `clampFilter` (re-fit when the questions change), `matchesFilter` / `applyQuestionFilter` (with the pinned selection), `isFilterActive` and `summariseFilter` (the collapsed-state chips).                                                                    |
+| `components/QuestionFilterBar.tsx`          | The strip itself: count line, collapsed summary chips, difficulty and length sliders, a Past-HSC toggle where the dot point holds any, Clear, and the "nothing matches those settings" explanation in place of an empty picker.                                                                                                                               |
+| `services/geminiService.ts`                 | `generateSampleAnswer` now reads the question's SAVED exemplars as well as the caller's batch, and gives the ones at the same mark their own brief ("a genuinely different response of the same quality, not a paraphrase"). Previously a second batch at 6/6 was written with no sight of the first — the mechanism by which a level accumulated variations. |
+| `utils/answerSimilarity.ts`                 | Jaccard overlap over word BIGRAMS (`answerSimilarity`, `findNearDuplicate`). Unigrams are useless here: two answers to one question necessarily share their vocabulary. Bigrams carry phrasing, which is what a paraphrase preserves. Tags stripped, so stored mark-up does not register as difference.                                                       |
+| `components/SampleAnswerGeneratorModal.tsx` | Compares each generated answer against the exemplars at ITS OWN mark (a 4/6 resembling the 6/6 is a tight ladder, not a duplicate). A repeat is held back — never written, never silently dropped — and shown beside the exemplar it repeats with its overlap, for Keep or Discard. The modal will not close or generate again over an undecided one.         |
+| `services/responseService.ts`               | `fetchMyAttempts` — the read side of `persistResponse`, scoped to the caller by the `responses_read` RLS policy and asking for the mark and band only, never anyone's draft. Best-effort: local mode, a guest, or a failed lookup all return an empty map.                                                                                                    |
+| `services/contributionService.ts`           | `resolvePromptRowIds` resolves a whole dot point's app ids in one round trip, with the same seeded-content-wins tie-break as the single-id version — `legacy_id` is not unique, and picking a teacher's private variant would attach a student's marks to the wrong question.                                                                                 |
+| `utils/personalOrdering.ts`                 | The suggestion rule, pure: `mostRecentAttempt`, `suggestNextQuestion`, `STEP_UP_THRESHOLD`.                                                                                                                                                                                                                                                                   |
+| `hooks/useAttemptHistory.ts`                | One fetch per set of question ids, keyed on the sorted list so re-rendering the picker does not re-ask the server. No loading or error surface — nothing here is worth interrupting navigation for.                                                                                                                                                           |
+| `components/RangeSlider.tsx`                | Two-handled range built from two native `input[type=range]`s, so arrow keys, Home/End and screen-reader announcement come from the platform. Handles cannot cross. Paint is in `.dual-range` (`index.css`), tinted from `currentColor` so one Tailwind class themes the control.                                                                              |
 
 ## What was considered and rejected
 
@@ -157,7 +157,7 @@ picker is exactly what it was before.
   contents, and the sixth exemplar is often the contributed student one that a
   teacher most wants seen.
 - **Auto-selecting "the best" exemplar and hiding the rest.** The comparison
-  between a Band 4 and a Band 6 answer *is* the teaching; collapsing it to one
+  between a Band 4 and a Band 6 answer _is_ the teaching; collapsing it to one
   answer removes the thing the panel exists for.
 - **Paginating the question picker.** Pagination answers "how do I get to item
   30" — nobody's question. The reader's question is "which kind of question is

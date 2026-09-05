@@ -42,18 +42,18 @@ and the `...(year === 'year11' ? …)` spreads elsewhere all exist to enforce it
 
 ## Where the choice lives
 
-| Surface | Behaviour |
-|---|---|
-| `components/PromptSelector.tsx` | The control, beside the course picker. Filters the topic list; changing it clears everything below the course, because a topic id from one year means nothing in the other. |
-| `utils/syllabusYear.ts` | The model: `yearOfTopic`, `topicsForYear`, `hasContentForYear`, `resolveSyllabusYear`, `outcomesForYear`. |
-| `hooks/useNavigation.ts` | Resolves the path against the year, so a topic from the other year is as gone as a deleted one. Without this the workspace would keep showing a Year 12 question while the picker sat on Year 11 with nothing selected. |
-| `utils/assignmentLink.ts` | A shared question's year is read off its topic. The link carries ids only; a Year 11 question opened without a year would resolve to Year 12, where the navigator filters its own topic out and the question never opens. |
-| `components/AppModals.tsx` | Everything created or imported from the modals lands in the year on screen — new topics, pasted syllabus text, imported topic files, outcomes. |
-| `components/OutcomesEditorModal.tsx` | Edits both years, on tabs, opening on the navigator's. See below — this is where the exact filter matters. |
-| `components/CourseCreatorModal.tsx` | Both years' outcomes are entered when the course is defined, on two tabs. |
-| `components/Workspace.tsx` | The outcomes a question may be linked to are its topic's year's. |
-| `components/admin/ContentAuditModal.tsx` | Audits, generates and links against each question's own year. |
-| `components/dataManager/TopicReorderList.tsx` | Both years share one list in the Vault, so Year 11 rows carry a badge. |
+| Surface                                       | Behaviour                                                                                                                                                                                                                 |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `components/PromptSelector.tsx`               | The control, beside the course picker. Filters the topic list; changing it clears everything below the course, because a topic id from one year means nothing in the other.                                               |
+| `utils/syllabusYear.ts`                       | The model: `yearOfTopic`, `topicsForYear`, `hasContentForYear`, `resolveSyllabusYear`, `outcomesForYear`.                                                                                                                 |
+| `hooks/useNavigation.ts`                      | Resolves the path against the year, so a topic from the other year is as gone as a deleted one. Without this the workspace would keep showing a Year 12 question while the picker sat on Year 11 with nothing selected.   |
+| `utils/assignmentLink.ts`                     | A shared question's year is read off its topic. The link carries ids only; a Year 11 question opened without a year would resolve to Year 12, where the navigator filters its own topic out and the question never opens. |
+| `components/AppModals.tsx`                    | Everything created or imported from the modals lands in the year on screen — new topics, pasted syllabus text, imported topic files, outcomes.                                                                            |
+| `components/OutcomesEditorModal.tsx`          | Edits both years, on tabs, opening on the navigator's. See below — this is where the exact filter matters.                                                                                                                |
+| `components/CourseCreatorModal.tsx`           | Both years' outcomes are entered when the course is defined, on two tabs.                                                                                                                                                 |
+| `components/Workspace.tsx`                    | The outcomes a question may be linked to are its topic's year's.                                                                                                                                                          |
+| `components/admin/ContentAuditModal.tsx`      | Audits, generates and links against each question's own year.                                                                                                                                                             |
+| `components/dataManager/TopicReorderList.tsx` | Both years share one list in the Vault, so Year 11 rows carry a badge.                                                                                                                                                    |
 
 ## When a year is empty
 
@@ -106,7 +106,7 @@ Three routes, and all three carry the year:
 
 1. **Creating the course.** `CourseCreatorModal` has a tab per year. This one is
    load-bearing rather than convenient: the navigator's year control needs
-   *content* to be selectable, and a brand-new course has none — so without the
+   _content_ to be selectable, and a brand-new course has none — so without the
    tabs, the Year 11 outcomes could not be entered until a Year 11 topic
    existed to make Year 11 reachable.
 2. **The outcomes editor**, which has the same two tabs and opens on the

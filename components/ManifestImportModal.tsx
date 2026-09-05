@@ -221,7 +221,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
       aria-label="Import a course pack"
       className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-modal-elevated p-3 sm:p-6 animate-fade-in"
     >
-      <div className="bg-[rgb(var(--color-bg-surface))]/90 light:bg-white/95 rounded-[32px] sm:rounded-[48px] shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-[1200px] border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[94vh] sm:max-h-[90vh] relative group">
+      <div className="bg-[rgb(var(--color-bg-surface))]/90 light:bg-white/95 rounded-surface shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-[1200px] border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[94vh] sm:max-h-[90vh] relative group">
         <MeshOverlay opacity="opacity-[0.03]" />
 
         {/* Global Banner Glow */}
@@ -232,13 +232,13 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
           <div className="flex items-center gap-4 sm:gap-8">
             <div className="relative group/icon shrink-0">
               <div className="absolute inset-0 bg-indigo-500 blur-2xl opacity-20 group-hover/icon:opacity-40 transition-opacity duration-700" />
-              <div className="relative w-14 h-14 sm:w-20 sm:h-20 rounded-[20px] sm:rounded-[28px] bg-gradient-to-br from-indigo-500 to-sky-500 border border-white/20 shadow-2xl flex items-center justify-center transform transition-transform duration-500 group-hover/icon:scale-105">
+              <div className="relative w-14 h-14 sm:w-20 sm:h-20 rounded-tile bg-gradient-to-br from-indigo-500 to-sky-500 border border-white/20 shadow-lg flex items-center justify-center transform transition-transform duration-500 group-hover/icon:scale-105">
                 <Library className="w-7 h-7 sm:w-10 sm:h-10 text-white" />
               </div>
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-3 mb-2">
-                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-indigo-400 opacity-80 whitespace-nowrap">
+                <span className="t-label text-indigo-400 opacity-80 whitespace-nowrap">
                   Content Library
                 </span>
                 <div className="h-px w-8 bg-indigo-500/30" />
@@ -280,7 +280,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
         <div className="flex-1 overflow-y-auto px-5 sm:px-12 pb-8 sm:pb-12 custom-scrollbar bg-black/10 light:bg-slate-50/50 relative">
           <div className="sticky top-0 z-20 py-4 sm:py-6 flex flex-wrap justify-between items-center gap-3 bg-[rgb(var(--color-bg-surface))]/60 light:bg-white/80 backdrop-blur-md -mx-5 sm:-mx-12 px-5 sm:px-12 border-b border-white/5 light:border-slate-200 mb-8">
             <div className="flex items-center gap-6 flex-wrap">
-              <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-300 text-[10px] font-bold uppercase tracking-widest text-slate-400 light:text-slate-600">
+              <div className="t-label flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600">
                 <Filter className="w-3.5 h-3.5" /> Filter Content
               </div>
               <div className="h-4 w-px bg-white/10" />
@@ -292,7 +292,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                 units
               </span>
               {unresolvedTopicCount > 0 && (
-                <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[10px] font-bold uppercase tracking-widest text-amber-300 light:text-amber-700">
+                <div className="t-label flex items-center gap-2.5 px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 light:text-amber-700">
                   <AlertCircle className="w-3.5 h-3.5" />
                   {unresolvedTopicCount} topic manifest
                   {unresolvedTopicCount === 1 ? ' entry is' : ' entries are'} missing target-course
@@ -304,7 +304,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
             <button
               onClick={toggleSelectAll}
               disabled={isImporting}
-              className="text-[10px] font-bold uppercase tracking-[0.2em] text-indigo-400 hover:text-indigo-300 transition-colors py-2 px-4 rounded-xl hover:bg-indigo-500/5"
+              className="t-label text-indigo-400 hover:text-indigo-300 transition-colors py-2 px-4 rounded-xl hover:bg-indigo-500/5"
             >
               {filteredGroupedDocs.allVisibleDocIds.every((id) => selectedIds.has(id))
                 ? 'Deselect Collection'
@@ -314,7 +314,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
 
           {!hasResults ? (
             <div className="flex flex-col items-center justify-center py-32 animate-fade-in">
-              <div className="w-24 h-24 rounded-[32px] bg-white/5 light:bg-slate-100 flex items-center justify-center mb-8 border border-white/5 light:border-slate-200">
+              <div className="w-24 h-24 rounded-tile bg-white/5 light:bg-slate-100 flex items-center justify-center mb-8 border border-white/5 light:border-slate-200">
                 <Search className="w-10 h-10 text-slate-600" />
               </div>
               <p className="text-xl font-black text-slate-500 tracking-tight">
@@ -341,17 +341,17 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                   <section key={subject} className="animate-fade-in">
                     <div className="flex items-center gap-5 mb-8 px-2">
                       <div
-                        className={`p-2.5 rounded-[14px] ${colorClass.split(' ')[1]} ${colorClass.split(' ')[2]} border ${colorClass.split(' ')[3]} shadow-lg`}
+                        className={`p-2.5 rounded-xl ${colorClass.split('')[1]} ${colorClass.split('')[2]} border ${colorClass.split('')[3]} shadow-lg`}
                       >
                         <Icon className={`w-5 h-5 ${colorClass.split(' ')[0]}`} />
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-xl font-black text-white light:text-slate-900 uppercase italic tracking-tight">
+                        <h3 className="text-xl font-black text-white light:text-slate-900 italic tracking-tight">
                           {subject}
                         </h3>
                         <div className="flex items-center gap-2 mt-1">
                           <div className="h-1 w-1 rounded-full bg-slate-700" />
-                          <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                          <span className="t-label text-slate-500">
                             {docs.length} Active Records
                           </span>
                         </div>
@@ -365,10 +365,10 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                           <div
                             key={doc.id}
                             className={`
-                                                    relative flex flex-col p-6 rounded-[32px] border transition-all duration-500 group cursor-pointer overflow-hidden
+ relative flex flex-col p-6 rounded-panel border transition-all duration-500 group cursor-pointer overflow-hidden
                                                     ${
                                                       isSelected
-                                                        ? 'bg-indigo-500/10 border-indigo-500/40 shadow-2xl shadow-indigo-900/20 scale-[1.03]'
+                                                        ? 'bg-indigo-500/10 border-indigo-500/40 shadow-lg shadow-indigo-900/20 scale-[1.03]'
                                                         : 'bg-white/[0.03] light:bg-white border-white/5 light:border-slate-200 hover:border-white/20 light:hover:border-slate-300 hover:bg-white/[0.05] light:hover:bg-slate-50 hover:-translate-y-1'
                                                     }
                                                     ${isImporting ? 'opacity-40 grayscale pointer-events-none' : ''}
@@ -410,24 +410,24 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                                 {doc.name}
                               </h4>
                               <div className="flex flex-wrap items-center gap-2 mb-3">
-                                <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-300 bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-500/20">
+                                <span className="t-label text-indigo-300 bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-500/20">
                                   {doc.type === 'topic' ? 'Topic JSON' : 'Course JSON'}
                                 </span>
                                 {doc.type === 'topic' &&
                                   (doc.targetCourseName || doc.targetCourseId) && (
-                                    <span className="text-[10px] font-bold uppercase tracking-widest text-sky-300 bg-sky-500/10 px-2.5 py-1 rounded-full border border-sky-500/20">
+                                    <span className="t-label text-sky-300 bg-sky-500/10 px-2.5 py-1 rounded-full border border-sky-500/20">
                                       Target {doc.targetCourseName || doc.targetCourseId}
                                     </span>
                                   )}
                                 {doc.type === 'topic' &&
                                   !doc.targetCourseName &&
                                   !doc.targetCourseId && (
-                                    <span className="text-[10px] font-bold uppercase tracking-widest text-amber-300 bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/20">
+                                    <span className="t-label text-amber-300 bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/20">
                                       Missing target
                                     </span>
                                   )}
                               </div>
-                              <p className="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                              <p className="t-label text-slate-500 flex items-center gap-2">
                                 <Database className="w-3 h-3" /> {doc.source}
                               </p>
                             </div>
@@ -440,7 +440,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                                 <select
                                   value={doc.subject || 'Other'}
                                   onChange={(e) => handleSubjectChange(doc.id, e.target.value)}
-                                  className="w-full bg-black/30 light:bg-slate-100 border border-white/5 light:border-slate-200 text-slate-400 light:text-slate-600 text-[10px] font-bold uppercase tracking-widest rounded-xl py-2.5 px-4 appearance-none cursor-pointer hover:border-indigo-500/30 transition-colors focus:outline-none"
+                                  className="t-label w-full bg-black/30 light:bg-slate-100 border border-white/5 light:border-slate-200 text-slate-400 light:text-slate-600 rounded-xl py-2.5 px-4 appearance-none cursor-pointer hover:border-indigo-500/30 transition-colors focus:outline-none"
                                 >
                                   {AvailableSubjects.map((s) => (
                                     <option key={s} value={s}>
@@ -459,17 +459,17 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                       {placeholders.map((ph, i) => (
                         <div
                           key={`ph-${i}`}
-                          className="relative flex items-center justify-between p-6 rounded-[32px] border border-dashed border-white/5 light:border-slate-200 bg-black/10 light:bg-slate-50/50 opacity-40 cursor-not-allowed select-none transition-opacity hover:opacity-50"
+                          className="relative flex items-center justify-between p-6 rounded-panel border border-dashed border-white/5 light:border-slate-200 bg-black/10 light:bg-slate-50/50 opacity-40 cursor-not-allowed select-none transition-opacity hover:opacity-50"
                         >
                           <div className="flex items-center gap-4">
                             <div className="p-2 rounded-xl bg-white/5 light:bg-slate-100 border border-white/5 light:border-slate-200 text-slate-700">
                               <Lock className="w-5 h-5" />
                             </div>
-                            <span className="text-sm font-black text-slate-500 uppercase tracking-tight italic">
+                            <span className="text-sm font-black text-slate-500 tracking-tight italic">
                               {ph}
                             </span>
                           </div>
-                          <span className="text-[9px] font-black uppercase tracking-widest text-indigo-400/50 bg-indigo-500/5 px-2.5 py-1 rounded-full border border-indigo-500/10">
+                          <span className="t-label text-indigo-400/50 bg-indigo-500/5 px-2.5 py-1 rounded-full border border-indigo-500/10">
                             Coming Soon
                           </span>
                         </div>
@@ -488,7 +488,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
             <button
               onClick={onClose}
               disabled={isImporting}
-              className="px-6 sm:px-10 py-3 sm:py-4 rounded-[20px] text-xs font-bold uppercase tracking-[0.2em] text-slate-500 hover:text-white light:hover:text-slate-900 transition-all disabled:opacity-30"
+              className="t-label px-6 sm:px-10 py-3 sm:py-4 rounded-panel text-slate-500 hover:text-white light:hover:text-slate-900 transition-all disabled:opacity-30"
             >
               Skip Import
             </button>
@@ -505,7 +505,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
             onClick={handleImportClick}
             disabled={selectedIds.size === 0 || isImporting}
             className={`
-                    w-full sm:w-auto sm:min-w-[280px] px-6 py-4 rounded-[24px] font-black text-sm uppercase tracking-[0.2em] text-white shadow-2xl transition-all flex items-center justify-center gap-4
+ w-full sm:w-auto sm:min-w-[280px] px-6 py-4 rounded-panel font-bold text-sm text-white shadow-lg transition-all flex items-center justify-center gap-4
                     ${
                       selectedIds.size > 0 && !isImporting
                         ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 hover:scale-105 active:scale-[0.98] shadow-indigo-500/20'

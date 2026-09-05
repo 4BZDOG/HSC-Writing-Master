@@ -121,7 +121,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
       onClick={handleClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-2xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-2xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -210,7 +210,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <span
-                      className={`text-sm font-bold px-2 py-0.5 rounded ${getStatusColor(result.status)}`}
+                      className={`text-sm font-bold px-2 py-0.5 rounded-lg ${getStatusColor(result.status)}`}
                     >
                       {result.status}
                     </span>
@@ -226,7 +226,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
 
               {/* Issues List */}
               <div>
-                <h3 className="text-sm font-bold text-[rgb(var(--color-text-primary))] mb-3 uppercase tracking-wider flex items-center gap-2">
+                <h3 className="text-sm font-bold text-[rgb(var(--color-text-primary))] mb-3 flex items-center gap-2">
                   <AlertTriangle className="w-4 h-4 text-amber-400" /> Findings (
                   {result.issues.length})
                 </h3>
@@ -252,7 +252,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
                               {issue.message}
                             </p>
                             <p className="text-xs text-[rgb(var(--color-text-muted))] mt-1.5 flex items-start gap-1.5">
-                              <span className="bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] px-1.5 rounded font-bold uppercase text-[10px] tracking-wide pt-0.5">
+                              <span className="t-label bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] px-1.5 rounded-lg pt-0.5">
                                 Fix
                               </span>
                               {issue.suggestion}

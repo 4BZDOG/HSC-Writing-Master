@@ -415,9 +415,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
             {/* Left Column: Selection Tree */}
             <div className="flex flex-col md:h-full border-b md:border-b-0 md:border-r border-[rgb(var(--color-border-secondary))]">
               <div className="px-4 py-3 bg-[rgb(var(--color-bg-surface-elevated))]/50 border-b border-[rgb(var(--color-border-secondary))] flex items-center justify-between">
-                <h4 className="text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
-                  Select Content
-                </h4>
+                <h4 className="t-label text-[rgb(var(--color-text-muted))]">Select Content</h4>
                 <div className="flex gap-2">
                   <button
                     onClick={selectAll}
@@ -448,9 +446,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
             {/* Right Column: Settings */}
             <div className="flex flex-col md:h-full md:overflow-y-auto custom-scrollbar bg-[rgb(var(--color-bg-surface))]/30">
               <div className="px-4 py-3 bg-[rgb(var(--color-bg-surface-elevated))]/50 border-b border-[rgb(var(--color-border-secondary))]">
-                <h4 className="text-xs font-bold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
-                  Configuration
-                </h4>
+                <h4 className="t-label text-[rgb(var(--color-text-muted))]">Configuration</h4>
               </div>
 
               <div className="p-6 space-y-6">
@@ -488,7 +484,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
                             <select
                               value={currentTarget || 'create_new'}
                               onChange={(e) => handleCourseMappingChange(course.id, e.target.value)}
-                              className="flex-1 bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded p-1.5 focus:outline-none focus:ring-1 focus:ring-[rgb(var(--color-accent))]"
+                              className="flex-1 bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-1.5 focus:outline-none focus:ring-1 focus:ring-[rgb(var(--color-accent))]"
                             >
                               <option value="create_new">Create New Course</option>
                               {existingCourses.length > 0 && (
@@ -520,7 +516,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
                       type="checkbox"
                       checked={markAsPastHSC}
                       onChange={(e) => setMarkAsPastHSC(e.target.checked)}
-                      className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-[rgb(var(--color-accent))]"
+                      className="w-4 h-4 rounded-lg border-gray-600 bg-gray-700 text-[rgb(var(--color-accent))]"
                     />
                   </label>
                   {markAsPastHSC && (
@@ -584,7 +580,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
                   type="checkbox"
                   checked={markAsPastHSC}
                   onChange={(e) => setMarkAsPastHSC(e.target.checked)}
-                  className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-[rgb(var(--color-accent))]"
+                  className="w-4 h-4 rounded-lg border-gray-600 bg-gray-700 text-[rgb(var(--color-accent))]"
                 />
               </label>
               {markAsPastHSC && (
@@ -597,7 +593,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
                     value={bulkYear}
                     onChange={(e) => setBulkYear(e.target.value)}
                     placeholder="e.g. 2023"
-                    className="w-24 bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] rounded px-2 py-1 text-sm focus:outline-none focus:border-[rgb(var(--color-accent))]"
+                    className="w-24 bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] rounded-lg px-2 py-1 text-sm focus:outline-none focus:border-[rgb(var(--color-accent))]"
                   />
                 </div>
               )}

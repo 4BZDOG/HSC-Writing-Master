@@ -500,7 +500,7 @@ const Combobox: React.FC<ComboboxProps> = ({
       {label && (
         <label
           id={labelId}
-          className="block text-xs font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 uppercase tracking-wider mb-2 ml-1"
+          className="t-label block text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2 ml-1"
         >
           {label}
         </label>
@@ -569,7 +569,7 @@ const Combobox: React.FC<ComboboxProps> = ({
                       searchRef.current?.focus();
                     }}
                     aria-label="Clear search"
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-md text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-slate-100 transition-colors"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-lg text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-slate-100 transition-colors"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
@@ -596,7 +596,7 @@ const Combobox: React.FC<ComboboxProps> = ({
                       <li
                         key={`group-${option.group}`}
                         role="presentation"
-                        className="sticky top-0 z-10 px-4 pt-2.5 pb-1.5 text-[9px] font-black uppercase tracking-[0.2em] text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white"
+                        className="t-label sticky top-0 z-10 px-4 pt-2.5 pb-1.5 text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white"
                       >
                         {option.group}
                       </li>

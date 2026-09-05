@@ -240,7 +240,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
       onClick={guard.requestCloseFromBackdrop}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-4xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden relative flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-4xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden relative flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -296,7 +296,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
               {/* Destination Section */}
               <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden">
                 <div className="px-4 py-2.5 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                  <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
                     Destination
                   </span>
                 </div>
@@ -353,7 +353,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
               <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden">
                 <div className="px-4 py-2.5 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex items-center gap-2">
                   <Globe className="w-3.5 h-3.5 text-[rgb(var(--color-accent))]" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                  <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
                     Fetch from URL
                   </span>
                   <span className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-1.5 py-0.5 rounded-full">
@@ -432,7 +432,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
               )}
 
               <div className="bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-xl overflow-hidden">
-                <div className="px-4 py-2.5 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 flex justify-between items-center">
+                <div className="t-label px-4 py-2.5 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-500 flex justify-between items-center">
                   <span>
                     {targetTopic ? `Add into "${targetTopic.name}"` : `New topic structure`}
                   </span>
@@ -467,7 +467,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                             </button>
                             <button
                               onClick={() => removeSubTopic(stIdx)}
-                              className="p-1.5 mr-1 rounded text-transparent group-hover:text-red-400 light:group-hover:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
+                              className="p-1.5 mr-1 rounded-lg text-transparent group-hover:text-red-400 light:group-hover:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
                               title="Remove sub-topic"
                               aria-label={`Remove sub-topic ${st.name}`}
                             >
@@ -479,13 +479,13 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                               {st.dotPoints.map((dp, dpIdx) => (
                                 <div
                                   key={dpIdx}
-                                  className="group/dp flex items-start gap-2 px-2 py-0.5 text-xs text-[rgb(var(--color-text-dim))] light:text-slate-600 rounded hover:bg-[rgb(var(--color-bg-surface-light))]/40 light:hover:bg-slate-100"
+                                  className="group/dp flex items-start gap-2 px-2 py-0.5 text-xs text-[rgb(var(--color-text-dim))] light:text-slate-600 rounded-lg hover:bg-[rgb(var(--color-bg-surface-light))]/40 light:hover:bg-slate-100"
                                 >
                                   <span className="mt-1.5 w-1 h-1 rounded-full bg-gray-600 light:bg-slate-400 flex-shrink-0"></span>
                                   <span className="flex-1">{dp}</span>
                                   <button
                                     onClick={() => removeDotPoint(stIdx, dpIdx)}
-                                    className="p-0.5 rounded text-transparent group-hover/dp:text-red-400 light:group-hover/dp:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
+                                    className="p-0.5 rounded-lg text-transparent group-hover/dp:text-red-400 light:group-hover/dp:text-red-500 hover:bg-red-500/20 light:hover:bg-red-50 transition-colors flex-shrink-0"
                                     title="Remove dot point"
                                     aria-label="Remove dot point"
                                   >

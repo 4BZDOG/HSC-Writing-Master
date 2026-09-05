@@ -44,7 +44,7 @@ const StatTile: React.FC<{ icon: React.ReactNode; label: string; value: string; 
   sub,
 }) => (
   <div className="flex-1 min-w-[130px] p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200">
-    <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1.5">
+    <div className="t-label flex items-center gap-2 text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1.5">
       {icon}
       {label}
     </div>
@@ -273,7 +273,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
       onClick={isLoading ? undefined : onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-2xl w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -318,7 +318,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
               {/* Lookup controls */}
               <div className="flex flex-wrap items-end gap-3">
                 <label className="flex flex-col gap-1">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                  <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500">
                     Student username
                   </span>
                   <input
@@ -354,7 +354,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                 <button
                   onClick={() => load(username, days)}
                   disabled={isLoading}
-                  className="px-4 py-2 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 text-xs font-bold uppercase tracking-wider transition-all disabled:opacity-50 flex items-center gap-2"
+                  className="t-label px-4 py-2 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 transition-all disabled:opacity-50 flex items-center gap-2"
                 >
                   <Search className="w-3.5 h-3.5" /> Look up
                 </button>
@@ -366,7 +366,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                 </div>
               ) : !data ? (
                 <section>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                  <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                     <Users className="w-3.5 h-3.5" /> Students · pick one
                   </h3>
                   {isRosterLoading ? (
@@ -453,7 +453,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
 
                   {/* Cognitive tier profile */}
                   <section>
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
+                    <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
                       Command verb profile
                     </h3>
                     <div className="space-y-2.5">
@@ -472,7 +472,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                   {/* Band trend over time (from the per-attempt history) */}
                   {trendBands >= 2 && (
                     <section>
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
+                      <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
                         Band trend
                       </h3>
                       <BandTrend points={data.trend} />
@@ -486,12 +486,12 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                   {/* Per-verb detail */}
                   {verbRows.length > 0 && (
                     <section>
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
+                      <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
                         By command verb
                       </h3>
                       <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
                         <table className="w-full text-left text-sm min-w-[360px]">
-                          <thead className="bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 uppercase text-[10px] font-bold">
+                          <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
                             <tr>
                               <th className="px-4 py-2.5">Verb</th>
                               <th className="px-4 py-2.5 text-right">Attempts</th>

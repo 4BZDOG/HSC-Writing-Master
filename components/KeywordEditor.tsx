@@ -127,10 +127,10 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
           <div className="flex items-center justify-between gap-3">
             <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 leading-snug">
               Weave these syllabus terms in for a{' '}
-              <span className={`font-black ${bandConfig.text}`}>Band {targetBand}</span> response.
+              <span className={`font-bold ${bandConfig.text}`}>Band {targetBand}</span> response.
             </p>
             <span
-              className={`shrink-0 text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full border ${
+              className={`t-label shrink-0 px-2.5 py-1 rounded-full border ${
                 allUsed
                   ? `${bandConfig.bg} ${bandConfig.text} ${bandConfig.border}`
                   : 'text-slate-500 dark:text-slate-400 border-slate-200 dark:border-white/10'
@@ -204,9 +204,7 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
         })}
         {keywords.length === 0 && (
           <div className="w-full py-4 text-center border-2 border-dashed border-slate-200 dark:border-white/5 rounded-2xl">
-            <span className="text-[11px] font-medium text-slate-400 uppercase tracking-widest">
-              No syllabus terms defined
-            </span>
+            <span className="t-label font-medium text-slate-400">No syllabus terms defined</span>
           </div>
         )}
       </div>

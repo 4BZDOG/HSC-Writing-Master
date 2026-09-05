@@ -119,9 +119,10 @@ export const syncScenarioImageDown = async (
      ? new Date(prompt.scenarioImage.updatedAt).toISOString()
      : null,
    ```
-3. `savePromptContribution` (line 422) does the upload *before* mapping,
+3. `savePromptContribution` (line 422) does the upload _before_ mapping,
    then returns the resolved ref so the caller can persist it locally (so a
    second submission of the same prompt doesn't re-upload unchanged bytes):
+
    ```ts
    export const savePromptContribution = async (
      dotPointAppId: string,
@@ -140,6 +141,7 @@ export const syncScenarioImageDown = async (
      return { id, scenarioImage };
    };
    ```
+
    Return-type change is safe: `App.tsx:214` is the **only** call site
    (`await savePromptContribution(...)`, result currently discarded).
 
@@ -159,7 +161,10 @@ lookup comes back empty but `scenarioImage.storagePath` is present, call
 
 ```ts
 useEffect(() => {
-  if (!scenarioImage) { setImageDataUrl(null); return; }
+  if (!scenarioImage) {
+    setImageDataUrl(null);
+    return;
+  }
   let cancelled = false;
   setIsLoadingImage(true);
   (async () => {
@@ -168,9 +173,14 @@ useEffect(() => {
       await syncScenarioImageDown(scenarioImage.id, scenarioImage);
       row = await loadScenarioImage(scenarioImage.id);
     }
-    if (!cancelled) { setImageDataUrl(row?.dataUrl ?? null); setIsLoadingImage(false); }
+    if (!cancelled) {
+      setImageDataUrl(row?.dataUrl ?? null);
+      setIsLoadingImage(false);
+    }
   })();
-  return () => { cancelled = true; };
+  return () => {
+    cancelled = true;
+  };
 }, [scenarioImage?.id, scenarioImage?.updatedAt, scenarioImage?.storagePath]);
 ```
 
@@ -200,6 +210,7 @@ carousel's existing `Loader2`/"Image unavailable." fail states for free.
    ```
 
 ### Task list
+
 1. New file `services/scenarioImageSyncService.ts` (`syncScenarioImageUp`,
    `syncScenarioImageDown`, private `dataUrlToBlob`/`blobToDataUrl`).
 2. `services/contributionService.ts`: extend `PromptInsertRow`, `promptToRow`
@@ -216,6 +227,7 @@ carousel's existing `Loader2`/"Image unavailable." fail states for free.
    to fix here.
 
 ### Tests to run / add
+
 - `npm test -- tests/unit/contributionService.test.ts` — extend with a case
   asserting `promptToRow` maps `scenarioImage.storagePath/alt/updatedAt`
   into the three new columns, and defaults them to `null` when absent.
@@ -258,10 +270,7 @@ zero new data plumbing, no new fetch, no hook.
 const subTopicOptions = useMemo(
   () =>
     selectedTopic?.subTopics?.map((st) => {
-      const questionCount = st.dotPoints.reduce(
-        (n, dp) => n + (dp.prompts?.length ?? 0),
-        0
-      );
+      const questionCount = st.dotPoints.reduce((n, dp) => n + (dp.prompts?.length ?? 0), 0);
       return {
         id: st.id,
         label: st.name,
@@ -286,6 +295,7 @@ const subTopicOptions = useMemo(
 ```
 
 Notes on why this shape:
+
 - `FolderOpen` is already imported (used at the existing line 513) — no new
   import.
 - Colour: `indigo-500`, matching this exact row's own icon tint (line 512)
@@ -306,7 +316,7 @@ Notes on why this shape:
 ### Explicitly out of scope for this pass (documented, not silently dropped)
 
 An **attempted-fraction** badge (e.g. "2/3 answered") at the Sub-Topic stage
-would need `useAttemptHistory` called with every prompt id across *all* of
+would need `useAttemptHistory` called with every prompt id across _all_ of
 the selected topic's sub-topics (a wider id list than the Question stage's
 `dotPointPromptIds`, which is scoped to one dot point) — an extra
 `fetchMyAttempts` round trip per topic selection. Worth doing later, but
@@ -315,12 +325,14 @@ above; keeping this pass to the zero-cost version matches "much smaller
 than a TreeItem schema change."
 
 ### Task list
+
 1. Edit `components/PromptSelector.tsx`: apply the `subTopicOptions` change.
 2. Manually sanity-check in the dev server: select a course/topic with a
    mix of empty and populated sub-topics, confirm counts match, confirm no
    badge on an empty sub-topic, confirm no layout shift/new colours.
 
 ### Tests to run
+
 - `npm run type-check`.
 - Any existing Vitest coverage of `PromptSelector.tsx` (check `tests/unit/`)
   — keep passing; add a case asserting a sub-topic option's rendered label
@@ -336,16 +348,16 @@ than a TreeItem schema change."
 
 **Yes.** `services/geminiService.ts`'s `refineManualPrompt` (line 977)
 builds the returned `Prompt` with `id: generateId('prompt')` (line 1088) —
-this happens the moment "Refine" succeeds, at the *start* of the modal's
+this happens the moment "Refine" succeeds, at the _start_ of the modal's
 `preview` step, not at final save. `ManualPromptModal.tsx`'s `handleConfirm`
 (line 259) spreads `...result` unchanged into `onSave(...)`, so `result.id`
-*is* the prompt's final id. This means `ScenarioImageUploader.tsx`'s
+_is_ the prompt's final id. This means `ScenarioImageUploader.tsx`'s
 existing immediate-commit design (writes to IDB the moment an image is
 pasted, keyed on `promptId`) can be wired in exactly as `PromptDisplay.tsx`
 already does it — **no deferred-commit variant needed**, `promptId={result.id}`
 is already correct and stable for the whole `preview` step.
 
-The one real wrinkle: unlike `PromptDisplay.tsx` (editing an *already-saved*
+The one real wrinkle: unlike `PromptDisplay.tsx` (editing an _already-saved_
 prompt, where the id will always resolve to something), this modal can
 discard the draft entirely, or re-run "Refine" (which mints a **new** id via
 a fresh `generateId('prompt')` call, line 246–250 already overwrites
@@ -367,6 +379,7 @@ id no prompt will ever have. This plan adds explicit cleanup for both.
 3. `handleClose` (line 197) — accept a `saved` flag so it can distinguish a
    real discard from the close-after-save it already does at the end of
    `handleConfirm`:
+
    ```tsx
    const handleClose = (saved = false) => {
      if (isRefining) return;
@@ -380,6 +393,7 @@ id no prompt will ever have. This plan adds explicit cleanup for both.
      onClose();
    };
    ```
+
    All existing call sites (`guard.requestClose`, `guard.requestCloseFromBackdrop`,
    `useEscapeKey(..., guard.requestClose)`, the `X` button, `confirmDiscard`)
    call it via `useDiscardGuard`'s `close` callback with no args — they all
@@ -390,21 +404,25 @@ id no prompt will ever have. This plan adds explicit cleanup for both.
    it just told the caller about.
 
 5. `handleRefine` (line 219): before `setResult(refinedPrompt)` (line 246),
-   clean up any image committed under the *previous* `result`'s id (the
+   clean up any image committed under the _previous_ `result`'s id (the
    re-refine case):
+
    ```tsx
    if (result?.scenarioImage) void deleteScenarioImage(result.id);
    ```
+
    Also reset `setIsUploadingImage(false)` here and in `resetAll` (line 182),
    matching how the other preview-only UI state should not leak across a
    re-refine or a fresh open.
 
 6. `onImageChange` handler — updates `result` directly (single source of
    truth, same way `PromptDisplay.tsx` calls `onUpdatePrompt`):
+
    ```tsx
    const handleScenarioImageChange = (ref: ScenarioImageRef | undefined) =>
      setResult((prev) => (prev ? { ...prev, scenarioImage: ref } : prev));
    ```
+
    Because `handleConfirm` already spreads `...result` into `onSave`, this
    is the only plumbing needed — `scenarioImage` rides along automatically,
    no change to `handleConfirm`'s save payload required.
@@ -413,6 +431,7 @@ id no prompt will ever have. This plan adds explicit cleanup for both.
    `PromptDisplay.tsx`'s header-row toggle button (its lines 775–788) but
    placed beside the "Scenario" label (line 851–856) instead of a hover-only
    header row (this modal has no hover-revealed chrome pattern to match):
+
    ```tsx
    <div className="space-y-2">
      <div className="flex items-center justify-between">
@@ -450,6 +469,7 @@ id no prompt will ever have. This plan adds explicit cleanup for both.
      )}
    </div>
    ```
+
    Placed above the `includeScenario` branch (not inside it) so an image can
    still be attached to a scenario-less question — same independence between
    text and image that `PromptDisplay.tsx`/`ScenarioCarousel.tsx` already
@@ -461,6 +481,7 @@ id no prompt will ever have. This plan adds explicit cleanup for both.
    scope (used two lines below at line 263) — `showToast={showToast}`.
 
 ### Task list
+
 1. Edit `components/ManualPromptModal.tsx`: apply changes 1–7 above.
 2. Edit `components/ManualPromptModal.tsx` props + `components/AppModals.tsx`:
    thread `showToast` through (change 8).
@@ -472,6 +493,7 @@ id no prompt will ever have. This plan adds explicit cleanup for both.
    the whole modal (Escape → confirm discard) — confirm the IDB row is gone.
 
 ### Tests to run
+
 - `npm run type-check`.
 - Any existing Vitest coverage of `ManualPromptModal.tsx` (check
   `tests/unit/`) — keep passing; consider a new case asserting

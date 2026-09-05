@@ -11,6 +11,8 @@ import {
   getTierTargetBand,
   getVerbBandCeiling,
   getBandForMark,
+  bandsForQuestion,
+  bandMarkRanges,
   TIER_GROUPS,
 } from '../../data/commandTerms';
 import { sanitiseKeywords } from '../../services/geminiService';
@@ -186,21 +188,50 @@ describe('NESA-aligned band mapping (tier is the only cap)', () => {
     expect(getTargetBand(5, 3)).toBe(3);
   });
 
-  it('scales a short question by proportion, not by marks dropped', () => {
-    // At or below PROPORTIONAL_MARK_CEILING the band follows the FRACTION of
-    // marks earned. The old rule (ceiling minus marks dropped) compressed a
-    // short question into the top bands, so a quarter of the marks on a 4-mark
-    // question came out at Band 3 "Developing" — work no standards-based
-    // reading puts above Band 2.
-    expect(getBandForMark(0, 4, 6)).toBe(1);
-    expect(getBandForMark(1, 4, 6)).toBe(2);
-    expect(getBandForMark(2, 4, 6)).toBe(3);
-    expect(getBandForMark(3, 4, 6)).toBe(5);
-    expect(getBandForMark(4, 4, 6)).toBe(6);
+  it('steps one band per mark down from the ceiling on a short question', () => {
+    // The outlier case this rule exists for: a Tier-6 verb on a 4-mark
+    // question. Full marks reach the ceiling and every mark dropped costs
+    // exactly one band, so the ladder is even — 4/4 Band 6, 3/4 Band 5, 2/4
+    // Band 4, 1/4 Band 3 — and Bands 1-2 are simply not reachable.
+    expect(Array.from({ length: 5 }, (_, i) => getBandForMark(i, 4, 6))).toEqual([1, 3, 4, 5, 6]);
 
-    expect(getBandForMark(1, 3, 6)).toBe(2);
-    expect(getBandForMark(2, 3, 6)).toBe(4);
-    expect(getBandForMark(3, 3, 6)).toBe(6);
+    // Shorter still: a 3-mark and a 2-mark Evaluate step the same way.
+    expect(Array.from({ length: 4 }, (_, i) => getBandForMark(i, 3, 6))).toEqual([1, 4, 5, 6]);
+    expect(Array.from({ length: 3 }, (_, i) => getBandForMark(i, 2, 6))).toEqual([1, 5, 6]);
+
+    // A proportional rule was tried here and withdrawn: ceil(mark/total × 6)
+    // put 2/4 and 3/4 two bands apart while 1/4 and 2/4 sat one apart, so the
+    // exemplar ladder and its colours stopped stepping evenly.
+    expect(getBandForMark(3, 4, 6) - getBandForMark(2, 4, 6)).toBe(1);
+  });
+
+  it('reports only the bands a question can actually award', () => {
+    // The coverage strip and the AI rubric brief both read the ladder from
+    // here. On a 4-mark Evaluate, Bands 1-2 are unreachable: counting
+    // 1..ceiling instead left the exemplar coverage strip permanently
+    // "2 bands missing", with dashed chips no exemplar could ever fill.
+    expect(bandsForQuestion(4, 6)).toEqual([6, 5, 4, 3]);
+    expect(bandsForQuestion(2, 6)).toEqual([6, 5]);
+    expect(bandMarkRanges(4, 6)).toEqual([
+      { band: 6, lo: 4, hi: 4 },
+      { band: 5, lo: 3, hi: 3 },
+      { band: 4, lo: 2, hi: 2 },
+      { band: 3, lo: 1, hi: 1 },
+    ]);
+
+    // Long enough to spread and every band is in play, some over a range.
+    expect(bandsForQuestion(6, 6)).toEqual([6, 5, 4, 3, 2, 1]);
+    expect(bandMarkRanges(8, 6)).toEqual([
+      { band: 6, lo: 7, hi: 8 },
+      { band: 5, lo: 6, hi: 6 },
+      { band: 4, lo: 5, hi: 5 },
+      { band: 3, lo: 3, hi: 4 },
+      { band: 2, lo: 2, hi: 2 },
+      { band: 1, lo: 1, hi: 1 },
+    ]);
+
+    // A low-tier verb never lists a band above its ceiling.
+    expect(bandsForQuestion(6, 2)).toEqual([2, 1]);
   });
 
   it('keeps the marks-dropped ladder once a question is long enough to spread', () => {

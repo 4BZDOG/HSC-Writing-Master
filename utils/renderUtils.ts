@@ -1000,7 +1000,7 @@ const renderTable = (
       {
         key: col,
         scope: 'col',
-        className: `px-3 py-2 align-bottom font-black text-[0.85em] uppercase tracking-wider text-[rgb(var(--color-text-primary))] light:text-slate-900 border-b border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300 ${alignFor(col)}`,
+        className: `px-3 py-2 align-bottom t-label text-[rgb(var(--color-text-primary))] light:text-slate-900 border-b border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300 ${alignFor(col)}`,
       },
       processInlineFormatting(table.header[col] ?? '', verbRegex, keywordRegex)
     )

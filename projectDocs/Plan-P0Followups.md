@@ -10,14 +10,14 @@ are trivial and safe to apply directly.
 
 **This section is explicitly NOT ready to ship.** It is scaffolding for a
 human security reviewer to read, correct, and approve — the existing
-`-- TODO(security-review):` comment in `supabase/schema.sql` (around line
-435) was left unauthored on purpose for exactly this reason. Do not apply
+`-- TODO(security-review):` comment in `supabase/schema.sql` (around line 435) was left unauthored on purpose for exactly this reason. Do not apply
 this SQL to a live database and do not merge it without sign-off from
 someone doing a deliberate security pass.
 
 ### Access model this mirrors
 
 Read from `supabase/schema.sql`:
+
 - `prompts_read`/`prompts_insert`/`prompts_update`/`prompts_delete` (lines
   582-593): status-gated read (`approved` OR own OR reviewer), owner-only
   insert, owner-or-reviewer update, owner-or-admin delete.
@@ -125,8 +125,8 @@ create policy scenario_images_delete on storage.objects for delete
   reviewer/admin can see it earlier (e.g. while curating). Matches "student:
   read-only, only for approved/published content."
 - **Insert/Update**: uses the `prompts_update` bar (`created_by = auth.uid()
-  or is_reviewer()`), not the stricter `prompts_insert` bar — because
-  uploading a scenario image is editing an *existing* prompt (per
+or is_reviewer()`), not the stricter `prompts_insert` bar — because
+  uploading a scenario image is editing an _existing_ prompt (per
   `Plan-AIModelsImagesNavigator.md`, wired into `PromptDisplay.tsx`'s
   `canCurate` block on an already-created prompt), not creating a new one.
   This lets any reviewer/admin fix or replace another teacher's image, same
@@ -158,6 +158,7 @@ create policy scenario_images_delete on storage.objects for delete
    or need an explicit test.
 
 ### Task list
+
 1. Human security reviewer reads this section end-to-end.
 2. Once approved (with or without edits), replace the
    `-- TODO(security-review):` comment block in `supabase/schema.sql`
@@ -195,10 +196,12 @@ matches what CI's "Lint & Format Check" job already gates on, so a local
 missing this class of bug (as it did for PR #160).
 
 ### Task list
+
 1. Edit `package.json` line 22 as above.
 2. Run `npm run test:all` once to confirm the full chain still passes.
 
 ### Tests to run
+
 - `npm run test:all` (the edited script itself is the test).
 
 ---
@@ -239,6 +242,7 @@ No other fields on this entry change — `model: 'claude-sonnet-4-6'` stays
 as-is (still a valid, listed legacy model, no forced migration).
 
 ### Task list
+
 1. Edit `services/aiModels.ts`: change `estCostPerCall` on the `claude-sonnet`
    entry from `0.009` to `0.021`, with the comment above.
 2. Run `npm test -- tests/unit/aiModelRegistry.test.ts` (or equivalent) to
@@ -246,6 +250,7 @@ as-is (still a valid, listed legacy model, no forced migration).
 3. `npm run type-check`.
 
 ### Tests to run
+
 - Any existing `tests/unit/aiModelRegistry.test.ts` / `aiConfig.test.ts`.
 - `npm run test:all`.
 

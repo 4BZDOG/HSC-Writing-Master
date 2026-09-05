@@ -97,7 +97,7 @@ const HeatCell: React.FC<{ frac: number | null; attempts: number; title: string 
       <td className="p-0.5">
         <div
           title={title}
-          className="h-8 rounded flex items-center justify-center text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-black/20 light:bg-slate-100"
+          className="h-8 rounded-lg flex items-center justify-center text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-black/20 light:bg-slate-100"
         >
           —
         </div>
@@ -109,7 +109,7 @@ const HeatCell: React.FC<{ frac: number | null; attempts: number; title: string 
       <td className="p-0.5">
         <div
           title={`${title} · no marks recorded on these questions`}
-          className="h-8 rounded flex items-center justify-center text-[10px] italic text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-black/20 light:bg-slate-100"
+          className="h-8 rounded-lg flex items-center justify-center text-[10px] italic text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-black/20 light:bg-slate-100"
         >
           n/a
         </div>
@@ -120,7 +120,7 @@ const HeatCell: React.FC<{ frac: number | null; attempts: number; title: string 
     <td className="p-0.5">
       <div
         title={title}
-        className={`h-8 rounded flex items-center justify-center text-[10px] font-bold tabular-nums ${heatClasses(frac)}`}
+        className={`h-8 rounded-lg flex items-center justify-center text-[10px] font-bold tabular-nums ${heatClasses(frac)}`}
       >
         {Math.round(frac * 100)}%
       </div>
@@ -214,7 +214,7 @@ const ActivityChart: React.FC<{ cohort: ClassCohort; days: number }> = ({ cohort
 
   return (
     <section>
-      <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+      <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
         <Activity className="w-3.5 h-3.5" />
         Cohort activity
       </h3>
@@ -274,13 +274,13 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
     <div className="space-y-6">
       {/* Tier heatmap */}
       <section>
-        <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+        <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
           <Grid3x3 className="w-3.5 h-3.5" />
           Marks achieved by student and verb group
         </h3>
         <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
           <table className="w-full text-left text-sm min-w-[620px]">
-            <thead className="bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 uppercase text-[10px] font-bold">
+            <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
               <tr>
                 <th className="px-3 py-2.5">Student</th>
                 {COGNITIVE_TIERS.map((t) => (
@@ -347,7 +347,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
 
       {/* Per-student trajectories */}
       <section>
-        <h3 className="text-xs font-bold uppercase tracking-wider text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+        <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
           <TrendingUp className="w-3.5 h-3.5" />
           Weekly trajectories
         </h3>
