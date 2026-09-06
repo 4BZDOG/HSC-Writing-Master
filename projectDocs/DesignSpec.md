@@ -179,7 +179,9 @@ provides.
 
 A reading column is bounded by what prose can be read at, not by the window it
 sits in. The report column and the improvement modal's unified view both take
-`max-w-3xl`.
+`max-w-3xl`. From `xl` up the report goes further and becomes a document with a
+margin: the score placard and the metrics move into the space beside the column,
+and the prose narrows behind them.
 
 **Measured across viewports before choosing it.** The line length only ever went
 wrong from about 1024px up, because below that the column is already bounded by
@@ -197,12 +199,44 @@ Phone and tablet are untouched by construction, not by a breakpoint: their
 column is narrower than the cap, so it never engages. The text fills its panel
 at every size — 84–94% before, 90–92% after — so filling was never the problem.
 
-**Why not tighter.** The column also holds the score cards and the stat grid,
-and narrowing it takes them along. Measured on the same screen: 44rem reaches 95
-characters but clips "Key Terms" to "Key…"; 40rem takes "Volume" with it; 38rem
-hits the 80 the skill asks for and clips both. `3xl` (48rem) is the tightest
-line this layout buys without spending a label to get it — 104 characters,
-longer than ideal, against 142 before.
+**Why the column alone could not get tighter.** It also held the score cards and
+the stat grid, and narrowing it took them along. Measured on the same screen:
+44rem reached 95 characters but clipped "Key Terms" to "Key…"; 40rem took
+"Volume" with it; 38rem hit the 80 the skill asks for and clipped both. `3xl`
+(48rem) was the tightest line that layout bought without spending a label to get
+it.
+
+**So the layout changed instead, and the trade went away.** Capping the column
+left about 400px of nothing beside it on a desktop, which is the half of the
+problem a cap cannot reach: the container was the thing that was too wide. From
+`xl` the report is a `minmax(0,1fr)` reading column and a 22rem margin holding
+the placard, the goal card and the metrics, inside a `5xl` shell:
+
+| Viewport     | Column | Margin | Characters | Was |
+| ------------ | ------ | ------ | ---------- | --- |
+| 390 phone    | 308px  | —      | 33         | 33  |
+| 768 tablet   | 654px  | —      | 88         | 88  |
+| 1024 laptop  | 768px  | —      | 106        | 106 |
+| 1280 desktop | 640px  | 352px  | **86**     | 106 |
+| 1440 desktop | 640px  | 352px  | **86**     | 106 |
+| 1920 wide    | 640px  | 352px  | **86**     | 106 |
+
+Below `xl` nothing changed, by construction rather than by a second rule: the
+wrapper is a flex column there and the aside is its first child, so a phone
+still meets the mark before the report. The `order` swap only applies once there
+are two columns to swap between. Nothing clips in the 352px margin at any width,
+including the two metric cards side by side. `tests/e2e/report-column.spec.ts`
+measures all six widths.
+
+**The margin does not follow the reader.** A sticky aside was built first and
+worked — pinned at `top-6` the mark stayed in view through the whole report —
+and was taken out. The aside measures 687px against a scroll container of 572px
+at 1440x700 and 496px at 1280x620, a laptop with a browser bar. Pinned, the top
+holds and the bottom of the column, where the Volume and Key Terms figures are,
+can never be scrolled to. A capped height with its own scrollbar inside a 352px
+margin is worse than scrolling with the page, and a `min-height` media query
+guessing where the sidebar stops fitting breaks the first time the goal card
+gains a line.
 
 **Bound the column, never the text inside it.** `max-w-[56ch]` on the prose was
 tried and reverted: the card stayed 1022px while the text stopped at 508, which

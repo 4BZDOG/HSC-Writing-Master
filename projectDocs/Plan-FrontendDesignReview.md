@@ -150,7 +150,7 @@ its own background colours, so pushing it onto panels inside modals would change
 their surface, not just their radius. It stays what it is: the shared surface
 for the workspace reference rail.
 
-### 6. Line length is never constrained — REOPENED
+### 6. Line length is never constrained — FIXED
 
 `max-w-prose` and `ch` units appeared zero times, and the three main reading
 blocks carried `prose prose-slate dark:prose-invert max-w-none` while
@@ -165,7 +165,21 @@ column of prose wants, and filling it needs ~148 characters. Centring the column
 instead misaligned the prose with its own panel header.
 
 The fix belongs to the container, not the text: narrower reading panels, or
-something else in the space beside them. See `DesignSpec.md` §4, "Measure".
+something else in the space beside them.
+
+**Both halves are now done.** `max-w-3xl` on the report column took the line
+from 142 characters to 104 and left ~400px of nothing beside it on a desktop.
+From `xl` the score placard, the goal card and the metrics move into that space
+— a `minmax(0,1fr)` column and a 22rem margin inside a `5xl` shell — and the
+prose narrows behind them to **86 characters**. Below `xl` nothing changed, by
+construction rather than by a second rule: the wrapper is a flex column there
+and the aside is its first child, so a phone still meets the mark before the
+report. Measured at six widths, nothing clips in the 352px margin, and
+`tests/e2e/report-column.spec.ts` holds it — verified to fail without the change.
+
+A sticky margin was built, worked, and was removed: the aside is 687px against a
+572px scroll container at 1440x700, so pinning it puts the metrics permanently
+out of reach on a short window. See `DesignSpec.md` §4, "Measure".
 
 **How this was missed.** The change was verified by measuring characters per
 line — 74-76, correct — and never by measuring the text against its container,
@@ -254,7 +268,7 @@ is a genuine open item, not an oversight — see the follow-ups.
 
 ## Where this leaves the review
 
-Findings 1, 5 and 6 are fixed and gated. Findings 2 and 3 are partly fixed, with
+Findings 1, 5 and 6 are fixed and gated — 6 after being reopened once. Findings 2 and 3 are partly fixed, with
 their middles left as reading work. Finding 4 and the colour finding were
 withdrawn after investigation. Finding 7 is untouched.
 
@@ -271,6 +285,11 @@ What remains, none of it codemod work:
   changing them is a copywriting decision rather than a styling one.
 - **`font-bold` at 560 uses** (finding 3's middle) and **`rounded-2xl` at 236**
   (phase 3's). Both need someone to look at each site and say what it is.
-- **The writing surface's 114-character measure** (finding 6), which is a
-  one-line change behind a design trade — see `DesignSpec.md` §4.
+- **The writing surface's 114-character measure**, which is the editor rather
+  than the report, and is a live typing surface rather than a reading one — a
+  different question from finding 6, and still open.
+- **The PDF export is still set in Inter.** `pdf/fontLoader.ts` embeds
+  `public/fonts/Inter-{Regular,Bold}.ttf`, so a report now leaves the app in a
+  different face from the app. Swapping the TTFs changes the line breaks and
+  pagination of every export, which needs verification against the PDF samples.
 - **The three open colour questions above**, which are the spec owner's.
