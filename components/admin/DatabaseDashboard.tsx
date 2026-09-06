@@ -70,7 +70,7 @@ const SnapshotPreview: React.FC<{ data: Course[] | null }> = ({ data }) => {
   if (!data) return null;
   return (
     <div className="mt-3 p-4 bg-[rgb(var(--color-bg-surface-inset))] rounded-xl border border-[rgb(var(--color-border-secondary))] animate-fade-in">
-      <h4 className="t-label text-[rgb(var(--color-text-muted))] mb-3 flex items-center gap-2">
+      <h4 className="t-section text-[rgb(var(--color-text-muted))] mb-3 flex items-center gap-2">
         <Eye className="w-3 h-3" /> Backup Contents Preview
       </h4>
       <div className="space-y-2 max-h-60 overflow-y-auto custom-scrollbar pr-2">

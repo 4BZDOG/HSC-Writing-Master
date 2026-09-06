@@ -123,7 +123,12 @@ describe('ReferenceMaterials rail', () => {
         breadcrumb={['Biology', 'Heredity', 'Synthesis', 'Dot point']}
       />
     );
-    expect(screen.getByText(/What's Assessed · 2 Outcomes/i)).toBeTruthy();
+    // The count moved out of the title and into the `subtitle` prop that
+    // AccordionSection already had for it — the title is the panel's name, and
+    // it now renders in the display voice, where a middle-dot meta string was
+    // the loudest thing on the rail. See DesignSpec §4, "Headings".
+    expect(screen.getByText(/^What's Assessed$/i)).toBeTruthy();
+    expect(screen.getByText(/^2 outcomes$/i)).toBeTruthy();
     // The description is spelled out in the rail, not hidden behind a chip.
     expect(screen.getByText(OUTCOMES[0].description)).toBeTruthy();
 

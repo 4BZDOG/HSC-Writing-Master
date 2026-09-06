@@ -711,7 +711,10 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           </div>
           <div className="text-left min-w-0">
             <span
-              className={`t-label block ${
+              // The panel's own name, so it takes the section voice like every
+              // other panel heading on the workspace. The exemplar count under
+              // it stays `.t-label` — a caption for this heading, not another.
+              className={`t-section block ${
                 isCollapsed
                   ? 'text-slate-500 dark:text-slate-400'
                   : 'text-slate-900 dark:text-white'

@@ -187,3 +187,38 @@ describe('the accordion renders a row per mark level', () => {
     }
   });
 });
+
+/**
+ * The criteria are read, not glanced at.
+ *
+ * They were set at `text-[11px]` in the panel whose own description is "the
+ * criteria your answer is scored against, mark by mark" — while the mark
+ * NUMBER beside each row is `text-lg`, 18px. The thing a student glances at was
+ * two-thirds larger than the thing they have to read.
+ *
+ * This is the one reading surface the app had left behind. The others set their
+ * size inline from a zoom control and are already 16-21.6px, which is why a
+ * count of `text-*` classes said the app had no body size and was measuring the
+ * wrong thing. See `.t-body` in index.css.
+ */
+describe('the criteria are set at reading size', () => {
+  it('carries the body token rather than a caption size', () => {
+    const { container } = renderCriteria('8 marks: Comprehensive analysis.\n6 marks: Thorough.');
+    const rows = container.querySelectorAll('.t-body');
+    expect(rows.length, 'no criterion row carries .t-body').toBeGreaterThan(0);
+    for (const row of rows) {
+      const cls = row.getAttribute('class') ?? '';
+      expect(cls, 'a caption size is still competing with the body token').not.toMatch(
+        /text-\[(9|10|11|12)px\]|text-xs\b/
+      );
+    }
+  });
+
+  it('keeps the prose fallback at reading size too', () => {
+    // The branch taken when the criteria do not parse into a ladder.
+    const { container } = renderCriteria(
+      'For full marks the response must clearly relate structure to function throughout.'
+    );
+    expect(container.querySelectorAll('.t-body').length).toBeGreaterThan(0);
+  });
+});

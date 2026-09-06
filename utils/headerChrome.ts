@@ -63,7 +63,7 @@ export const HEADER_MARK_TILE =
  *  overlap; only the ink escaped. Clipped, the worst case degrades to a short
  *  wordmark instead of a wordmark printed underneath the buttons. */
 export const HEADER_WORDMARK =
-  'text-lg sm:text-2xl font-black tracking-tighter leading-none italic uppercase ' +
+  't-display text-lg sm:text-2xl tracking-tighter leading-none italic uppercase ' +
   'truncate text-slate-900 dark:text-white';
 
 /** "HSC Writing Coach". On the rail. The tracking no longer jumps at `sm` —

@@ -487,7 +487,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
               <div>
                 <div className="sticky top-0 px-6 py-2.5 bg-slate-100/90 dark:bg-white/[0.04] backdrop-blur-sm border-b border-slate-200 dark:border-white/10 flex items-center gap-2 z-10">
                   <UserIcon className="w-3.5 h-3.5 text-slate-500" />
-                  <h3 className="t-label text-slate-600 dark:text-slate-300">Your original</h3>
+                  <h3 className="t-section text-slate-600 dark:text-slate-300">Your original</h3>
                   <span className="ml-auto text-[10px] font-bold text-slate-400 tabular-nums">
                     {stats.originalWords} words
                   </span>
@@ -501,7 +501,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   className={`sticky top-0 px-6 py-2.5 ${bandConfig.bg} backdrop-blur-sm border-b border-slate-200 dark:border-white/10 flex items-center gap-2 z-10`}
                 >
                   <Sparkles className={`w-3.5 h-3.5 ${bandConfig.text}`} />
-                  <h3 className={`t-label ${bandConfig.text}`}>Improved</h3>
+                  <h3 className={`t-section ${bandConfig.text}`}>Improved</h3>
                   <span className="ml-auto text-[10px] font-bold text-slate-400 tabular-nums">
                     {stats.revisedWords} words
                   </span>

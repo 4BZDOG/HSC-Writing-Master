@@ -288,7 +288,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                         <div className="p-3 rounded-2xl bg-blue-500/20 text-blue-400">
                           <Gauge className="w-6 h-6" />
                         </div>
-                        <h4 className="t-label text-white light:text-slate-900">Sensor Reset</h4>
+                        <h4 className="t-section text-white light:text-slate-900">Sensor Reset</h4>
                       </div>
                       <p className="text-sm text-slate-400 light:text-slate-600 font-medium leading-relaxed mb-8">
                         Purge session and lifetime telemetry from the AI monitor. This recalibrates
@@ -307,7 +307,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                         <div className="p-3 rounded-2xl bg-red-500/20 text-red-400">
                           <ShieldAlert className="w-6 h-6" />
                         </div>
-                        <h4 className="t-label text-white light:text-slate-900">Engine Wipe</h4>
+                        <h4 className="t-section text-white light:text-slate-900">Engine Wipe</h4>
                       </div>
                       <p className="text-sm text-slate-400 light:text-slate-600 font-medium leading-relaxed mb-8">
                         Permanently discard all curriculum and session data. Revert the local

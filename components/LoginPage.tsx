@@ -390,7 +390,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <h1 className="text-4xl font-bold tracking-tight text-white light:text-slate-900 leading-none">
+          {/* The same name the header sets, set the same way. This was Plex
+              700 in sentence case while `HEADER_WORDMARK` was Inter 900 italic
+              caps — the two screens everyone sees, disagreeing about the brand,
+              with the disagreement on the FIRST of them. `t-display` carries
+              the face and the weight; the caps, slope and tracking are the
+              wordmark's own and are repeated here rather than shared, because
+              the two differ in size and nothing else. */}
+          <h1 className="t-display text-4xl tracking-tighter uppercase italic text-white light:text-slate-900 leading-none">
             Band 6
           </h1>
           <p className="text-slate-400 light:text-slate-500 text-sm mt-4 max-w-sm mx-auto leading-relaxed">

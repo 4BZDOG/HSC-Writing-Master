@@ -16,6 +16,15 @@ import ErrorBoundary from './components/ErrorBoundary';
 // The axis stops at 700. See `tailwind.config.js` for what that costs and how
 // the weight ladder absorbs it.
 import '@fontsource-variable/ibm-plex-sans/wght.css';
+// Inter carries the display roles — the wordmark, the card headings and the
+// section headings. The latin `wght` subset is 48KB and covers 100-900, which
+// is what gives `font-black` a real 900 again; Plex's axis stops at 700.
+import '@fontsource-variable/inter/wght.css';
+// The italic axis is not optional here: every display role this face carries
+// is set in italic caps, and `font-synthesis-style: none` (index.css) forbids
+// faking a slope. Without this line the wordmark and both card headings ask
+// for italic and render upright, which screenshots perfectly plausibly.
+import '@fontsource-variable/inter/wght-italic.css';
 import '@fontsource-variable/ibm-plex-sans/wght-italic.css';
 import '@fontsource/jetbrains-mono/400.css';
 import '@fontsource/jetbrains-mono/700.css';

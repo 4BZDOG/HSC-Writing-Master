@@ -149,6 +149,11 @@ export default {
         // Plex installed but cannot load a variable font still gets the right
         // face rather than dropping to the system sans.
         sans: ['IBM Plex Sans Variable', 'IBM Plex Sans', 'sans-serif'],
+        // Two faces, two jobs. Plex reads the prose and the UI; Inter carries
+        // the display roles it always carried here — the wordmark, the two
+        // card headings and the section headings — where its 900 and its
+        // tighter caps are the point. See `.t-display` / `.t-section`.
+        display: ['Inter Variable', 'Inter', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
         serif: ['Newsreader', 'Georgia', 'serif'],
       },

@@ -84,7 +84,7 @@ const SupportUsageSummary: React.FC<SupportUsageSummaryProps> = ({ promptId }) =
             <BookOpenCheck className="w-4 h-4" />
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="t-label text-slate-500 dark:text-slate-400">Before you wrote</h3>
+            <h3 className="t-section text-slate-500 dark:text-slate-400">Before you wrote</h3>
             <p className="mt-1 text-sm font-semibold text-slate-800 dark:text-slate-100">
               {readAll
                 ? `You opened all ${usage.available.length} supports for this question.`

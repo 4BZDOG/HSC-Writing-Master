@@ -16,9 +16,14 @@
  * above the axis has nowhere real to land. The default is to smear the 700
  * outlines into a faux-bold, which at display sizes reads as a printing fault
  * rather than as emphasis. Off, an over-range request renders the nearest real
- * face instead — a quieter and more honest failure. The ladder is capped at
- * 700 in tailwind.config.js so this should never fire; it is here to catch the
- * next raw `font-weight: 800` before a person does.
+ * face instead — a quieter and more honest failure.
+ *
+ * Inter is the exception, and the reason the theme's cap and this rule are not
+ * the same number: it carries the display roles and runs the full 100-900, so
+ * `.t-display` and `.t-section` below ask for 900 and get a real 900. The
+ * theme's `font-black` stays 700 because it applies to Plex as well, and
+ * `tests/unit/typefaceLadder.test.ts` holds the boundary — a weight above 700
+ * anywhere in this file has to sit in a rule that names Inter.
  *
  * The same applies to italics: the faces that need them carry real ones.
  */
@@ -520,6 +525,75 @@ a:focus-visible,
  * `uppercase` transform gives back the casing each label was already authored
  * in, so no copy had to be rewritten.
  */
+/*
+ * `.t-display` — the display face, at the weight it was chosen for.
+ *
+ * The theme's `font-black` maps to 700 because `sans` is IBM Plex, whose axis
+ * stops there. Inter's runs to 900, and the 900 is most of why the wordmark and
+ * the two card headings read the way they do — at three times body size the
+ * weight is the difference between a heading and a large paragraph.
+ *
+ * So the 900 lives HERE, bound to the face that can draw it, rather than in the
+ * theme where it would also be handed to Plex and silently clamp back to 700.
+ * `tests/unit/typefaceLadder.test.ts` holds that boundary.
+ *
+ * Applied to the wordmark and `CARD_HEADER_TITLE`, which already carry their
+ * own `uppercase italic` — this adds the face and the weight, nothing else.
+ */
+.t-display {
+  font-family: 'Inter Variable', 'Inter', sans-serif;
+  font-weight: 900;
+}
+
+/*
+ * `.t-body` — the size prose is READ at, as opposed to glanced at.
+ *
+ * The scale had no middle. Counting `text-*` classes said the app had no body
+ * size at all — `text-base` appeared six times against 299 uses of 12px — but
+ * that count was measuring the wrong thing, and the correction is worth keeping
+ * next to the rule. The surfaces people actually read set their size inline
+ * from a zoom control, so they never appear in a class count: the question
+ * renders at 21.6px, the scenario and the exemplars at 18px, and the marking
+ * report at 16-17px. Those are all fine, and pushing them to a 16px token would
+ * have made the app worse.
+ *
+ * One reading surface was missed by that arrangement, and it is the one this
+ * class exists for: the marking guide's criteria were set at 11px, in the panel
+ * whose whole job is "the criteria your answer is scored against, mark by
+ * mark". The mark NUMBER beside each row is 18px. The thing a student glances
+ * at was two-thirds larger than the thing they have to read.
+ *
+ * So this is not a migration target. It is where the next reading surface goes,
+ * and 12px labels and 14px controls stay exactly where they are.
+ */
+.t-body {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+/*
+ * `.t-section` — a section heading, which is not the same thing as a label.
+ *
+ * Panel titles and 10px inline labels had both collapsed into `.t-label`, so
+ * the heading of a section and the caption inside it were set identically. This
+ * is the heading half, given back the tracked-out caps it used to have.
+ *
+ * Two things from the label work are kept deliberately. The size stays 12px
+ * rather than returning to 10px, which was the readability floor that started
+ * that change. And `.t-label` itself is untouched, so the small captions stay
+ * in sentence case — the caps are now a promotion a title earns, not the
+ * app's whole labelling voice.
+ */
+.t-section {
+  font-family: 'Inter Variable', 'Inter', sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
 .t-label {
   font-size: 0.75rem;
   line-height: 1.35;

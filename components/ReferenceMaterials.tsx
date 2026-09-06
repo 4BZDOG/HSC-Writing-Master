@@ -61,7 +61,10 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
           </div>
           <span className="text-left">
             <span
-              className={`t-label block ${isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
+              // The panel's NAME, so it takes the section treatment; the
+              // subtitle under it stays `.t-label`, which is what makes the
+              // pair read as a heading and its caption rather than two labels.
+              className={`t-section block ${isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
             >
               {title}
             </span>
@@ -161,7 +164,8 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
     <div className="flex flex-col gap-1 animate-fade-in">
       {linkedOutcomes.length > 0 && (
         <AccordionSection
-          title={`What's Assessed · ${linkedOutcomes.length} Outcome${linkedOutcomes.length === 1 ? '' : 's'}`}
+          title="What's Assessed"
+          subtitle={`${linkedOutcomes.length} outcome${linkedOutcomes.length === 1 ? '' : 's'}`}
           icon={<Target />}
           band={verbInfo.tier}
           resetKey={prompt.id}
