@@ -327,3 +327,177 @@ What remains, none of it codemod work:
   different face from the app. Swapping the TTFs changes the line breaks and
   pagination of every export, which needs verification against the PDF samples.
 - **The three open colour questions above**, which are the spec owner's.
+
+---
+
+# Second pass
+
+The skill is now **installed in the repo** at `.claude/skills/frontend-design/`
+(SKILL.md + Apache-2.0 LICENSE.txt), rather than read ad hoc as the first pass
+did. Upstream `anthropics/skills` is still at `41bbe19` — the same commit the
+first pass measured against — so nothing in the guidance has moved, and the
+findings above were made against current text.
+
+This pass covers the parts of the skill the first pass did not reach, and
+re-runs the earlier greps to see whether what was fixed has stayed fixed.
+
+## Regression check on the first pass
+
+| Finding                       | Then                  | Now                       | Verdict             |
+| ----------------------------- | --------------------- | ------------------------- | ------------------- |
+| 1 · all-caps labels           | 475 `uppercase`       | 11 (3 real)               | Holding             |
+| 5 · radius system             | 10 arbitrary px radii | 1 site                    | Holding             |
+| 5 · `rounded-2xl` (left open) | 236                   | 154                       | Improved unasked    |
+| 5 · elevation                 | 7 shadow steps        | 286 of ~340 are `sm`/`lg` | Holding             |
+| 7 · middle-dot meta strings   | 63                    | 65                        | Still open, drifted |
+
+`.t-label` still resolves to 12px / 500 / no tracking / no caps, so the label
+voice has not crept back. The three surviving `uppercase` hits are two code
+comments explaining why a treatment was _not_ applied, and the skip-link's
+`focus:uppercase` — which is chrome that appears only under a keyboard tab.
+
+## New findings
+
+### 8. The login hero opens on a Sparkles icon — OPEN
+
+`components/LoginPage.tsx:387-403`. This is the first screen every user sees.
+
+> Open with the most characteristic thing in the subject's world.
+
+The headline underneath is **"Band 6"** — exactly right, and unmistakably NESA's
+vernacular rather than anyone else's. The element above it is a `Sparkles` glyph
+in a `bg-gradient-to-br from-indigo-500 to-sky-500` tile with an indigo blur
+behind it. That is the generic AI-product mark; it belongs to no subject, and it
+is the first thing on the page, sitting above the one element that is genuinely
+specific.
+
+The tile also carries `group-hover:scale-105` and a blur that runs 20% → 40% on
+hover, on an element that is not interactive and has no action to answer. The
+skill asks for motion that answers a person's action, or one orchestrated
+moment; the page already has its orchestrated moment in the wordmark-then-card
+sequence the first pass defended.
+
+Worth noting what this is _not_: the hero is not the "big number, small label,
+supporting stats" default. The copy is a plain sentence that says what the app
+does. The defect is one element, not the composition.
+
+### 9. Numbered markers on content that is not a sequence — 2 sites
+
+> Before adding numbered markers, check the content really is a sequence.
+
+- **`components/CommandTermGuideModal.tsx:220`** numbers the NESA marking-guide
+  criteria `01`, `02`, `03`. A marking guide is a set of descriptors a marker
+  weighs together, not steps worked through in order — numbering them tells a
+  student there is a first criterion and a last one, which is not true of the
+  thing being described. The same `<li>` also carries `hover:translate-x-1` on a
+  non-interactive list item.
+- **`components/admin/ContentAuditModal.tsx:1504`** renders
+  `selectedIds.size.toString().padStart(2, '0')` — a **count**, shown as `07`.
+  There is no index here to zero-pad; the leading zero is the 01/02/03 look
+  applied to a number that never had a position in a list.
+
+Checked and left alone: `TopicReorderList` (the position _is_ the content being
+edited) and `QuickStartModal` (genuine ordered steps). Both are the case the
+skill says numbering is for.
+
+### 10. An arrow appended to a link — 1 site
+
+> a '→' appended to link and button text
+
+`components/PromptSelector.tsx:1130`, "Can't find your course? Request it →".
+The sentence is complete without the glyph and no direction is being encoded.
+
+**Seventeen other arrow hits were read and cleared.** `OutcomeDetailModal:417`
+is the interesting one: `← Previous` / `Next →` looks like the same tell, but
+it is a paired pager where the glyph _is_ the direction affordance rather than
+decoration on a CTA. The rest are the maths symbol toolbar, before→after mark
+ranges, and prose in code comments.
+
+## Checked and cleared
+
+Recorded so the next pass does not re-litigate them.
+
+- **Tinted near-black standing in for black** — one `slate-950` in the whole app.
+- **Single-word headline accenting** — none. Every coloured `<span>` near an
+  `<h1>`–`<h3>` is a badge or a count beside the heading, not a word lifted out
+  of it.
+- **Gradient washes as decoration** — 120 uses, but no file has more than six and
+  the hue always follows something real: indigo for the primary action, or the
+  amber/emerald/sky tier palette from `DesignSpec.md` §2. Not a wash.
+- **Monospace for small data labels** — 94 uses, 20 at ≤10px, and all of the
+  small ones are masked API keys or `tabular-nums` figures in tables. Mono is
+  doing character alignment, which is its job, not standing in for a label voice.
+- **Quality floor** — `index.css:258` gives every focusable element a 2px accent
+  `:focus-visible` outline, and `index.css:235` neutralises animation and
+  transition under `prefers-reduced-motion` with a global `*` rule.
+
+## Findings 8-10, as built
+
+### 8 — the hero mark, and where it went wrong twice
+
+`Sparkles` was replaced with **six rungs rising left to right**, which is the
+signal-strength glyph. One stock mark for another, and it took a screenshot to
+see it — the reasoning that produced it ("a ladder, in the app's own band
+colours") was sound the whole way and still landed on a wifi icon.
+
+What shipped is the ladder `pdf/exportEvaluation.ts` already prints at the top
+of every marking report: **six equal segments, filled to the band reached**.
+Horizontal and equal is what makes it a scale rather than a bar chart. The
+segments are square and carry no radius at all, because `drawBandScale` prints
+them as `doc.rect` and the radius scale starts at `rounded-lg` — 8px on a 4px
+rung is a capsule, which is a different mark. `tests/unit/surfaceScale.test.ts`
+caught the arbitrary `rounded-[3px]` that the first attempt reached for, which
+is the gate from finding 5 doing exactly its job.
+
+The tile, its gradient and its hover all went with the glyph.
+
+**It also went into the app header**, which was not in the finding. Changing
+only the login page would have left the generic glyph on every in-app screen
+and given the app two brand marks that disagree, so `components/BandLadderMark.tsx`
+is shared and `AppHeader` renders it at `size="mark"`. That size is a judgement
+call worth flagging: at 40px the report's true proportion is about 1.6px tall,
+so the header rungs are thicker than the ladder really is. `HEADER_MARK_TILE`
+and its brand gradient are untouched.
+
+### 9 — numbered markers
+
+The NESA marking-guide criteria lost their `01`/`02`/`03`, and the
+`hover:translate-x-1` on each non-interactive `<li>` went with them; the
+band-coloured left border already marks each row. `ContentAuditModal`'s
+selection count no longer zero-pads to `07`. `TopicReorderList` and
+`QuickStartModal` keep their numbering — both are genuine sequences.
+
+### 10 — the trailing arrow
+
+Gone from "Request it". The prev/next pager keeps its pair.
+
+## Two asks that came with the fixes
+
+**The command verb ribbon now has room.** It always had hairlines top and
+bottom, but they sat flush against the header bar, where a hairline reads as
+that bar's own edge rather than as the boundary of a section. The two outer
+rules stopped sharing a class with the ribbon's internal seam — they do a
+different job — and now take `RIBBON_EDGE_RULE_GAP_TOP` / `_BOTTOM` off the
+content they bound, one opacity step up, with the transparent ends pulled
+inward so the rule is a line for most of its span instead of a smudge at the
+midpoint. `RIBBON_ROOT` carries vertical margin on top of `<main>`'s `gap-6`,
+because at the shared 24px rhythm the ribbon read as the next block down rather
+than as a change of register between the chooser above and the question below.
+
+**Syllabus Terms is now two groups with a rule between them.** The essential
+terms and the supporting ones were one wrapping row ordered syllabus-first: the
+boundary was real, but it had to be inferred from a change of chip colour
+partway along a row that wraps to a different place at every panel width. The
+label sits in the rule rather than above the group, so the boundary and its
+name are one device — the terms above it are already named by the lead sentence
+and by the legend under it, and a third heading there would be the accessory to
+take off. The rule is drawn only when both groups exist.
+`tests/unit/keywordGrouping.test.tsx` pins that, and pins that a screen reader
+gets the split from the two groups' `aria-label`s rather than from a decorative
+line it cannot see.
+
+## What remains
+
+Everything the first pass left open still stands. Of this pass, finding 7 (the
+middle-dot meta strings, now 65) is still untouched, and the header mark's
+proportion is the one new open question — see finding 8 above.

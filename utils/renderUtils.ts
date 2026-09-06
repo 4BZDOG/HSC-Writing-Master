@@ -260,7 +260,14 @@ export const getKeywordVariants = (keyword: string): string[] => {
 
     // Verb forms / Gerunds — both directions, so the keyword "test" lights up
     // "testing"/"tested" in an answer, and "Testing" still matches "test".
-    if (lower.endsWith('ing')) {
+    //
+    // The -ied rule has to come FIRST, for the same reason the -is plural does
+    // above: every word ending "ied" also ends "ed", so behind the general rule
+    // it was unreachable and "identified" resolved to "identifi"/"identifie" —
+    // neither of which is a word, and neither of which is "identify".
+    if (lower.endsWith('ied')) {
+      variants.add(t.slice(0, -3) + 'y'); // Identified -> Identify
+    } else if (lower.endsWith('ing')) {
       variants.add(t.slice(0, -3)); // Testing -> Test
       variants.add(t.slice(0, -3) + 'e'); // Computing -> Compute
     } else if (lower.endsWith('ed')) {
@@ -269,6 +276,20 @@ export const getKeywordVariants = (keyword: string): string[] => {
     } else if (lower.endsWith('e') && !lower.endsWith('ee')) {
       variants.add(t.slice(0, -1) + 'ing'); // Compute -> Computing
       variants.add(t + 'd'); // Compute -> Computed
+    } else if (/[^aeiou]y$/i.test(t)) {
+      // A consonant + y takes -ied, not -ed. The general rule below spells
+      // "identifyed", so five of the thirty-eight command terms — IDENTIFY,
+      // CLARIFY, CLASSIFY, APPLY, JUSTIFY — went uncoloured in their own
+      // question the moment the writer used the past tense, and so did every
+      // -y keyword ("verify", "query", "specify", "modify").
+      //
+      // The -ies plural is already added above; only the verb forms are new.
+      // On a -y NOUN ("validity") this also derives "validitied", which is not
+      // a word and therefore matches nothing — the same inert over-generation
+      // the singularisation rules above already accept, since telling a noun
+      // from a verb needs a lexicon this file does not have.
+      variants.add(t.slice(0, -1) + 'ied'); // Apply -> Applied
+      variants.add(t + 'ing'); // Apply -> Applying
     } else {
       variants.add(t + 'ing'); // Test -> Testing
       variants.add(t + 'ed'); // Test -> Tested
@@ -291,6 +312,23 @@ export const getKeywordVariants = (keyword: string): string[] => {
     variants.add(b);
     addInflections(b);
   });
+
+  // Run the DERIVED forms back through the spelling swaps.
+  //
+  // `spellingSwaps` already knows that a final -l doubles before a suffix
+  // ("modelling" ↔ "modeling"), but it only ever saw the base, and a base like
+  // "control" has no suffix for that rule to fire on. So the inflections came
+  // out "controling"/"controled" — the single-l spellings — and "controlled",
+  // which is what the syllabus keyword "Control" actually looks like in a
+  // student's answer, matched nothing.
+  //
+  // Reusing the existing rule rather than adding a general consonant-doubling
+  // heuristic is deliberate: that rule carries a four-character stem floor that
+  // keeps "filing" from matching "filling", and a blanket CVC rule would derive
+  // "codonned" and "relationshipped" from two of the commonest nouns in the
+  // shipped Biology data. Doubling that is not an -l ("commit", "grep") is
+  // still not covered; that needs a lexicon, not a wider regex.
+  Array.from(variants).forEach((v) => spellingSwaps(v).forEach((sw) => variants.add(sw)));
 
   // The initialism a student is far more likely to write than the full term.
   const initialism = initialismOf(trimmed);

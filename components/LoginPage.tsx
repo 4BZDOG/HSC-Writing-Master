@@ -16,7 +16,6 @@ import AuthBackdrop from './AuthBackdrop';
 import {
   Lock,
   User as UserIcon,
-  Sparkles,
   BookOpen,
   AlertCircle,
   Loader2,
@@ -24,6 +23,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import LegalDocumentModal from './LegalDocumentModal';
+import BandLadderMark from './BandLadderMark';
 
 interface LoginPageProps {
   onLogin: (user: User) => void;
@@ -385,11 +385,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
       {/* Hero Branding Section */}
       <div className="text-center mb-12 relative z-10 animate-fade-in">
-        <div className="relative inline-block mb-6 group">
-          <div className="absolute inset-0 bg-indigo-500 blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-700" />
-          <div className="relative w-20 h-20 rounded-tile bg-gradient-to-br from-indigo-500 to-sky-500 border border-white/20 shadow-lg flex items-center justify-center transform group-hover:scale-105 transition-transform duration-700">
-            <Sparkles className="w-10 h-10 text-white" />
-          </div>
+        <div className="inline-block mb-6">
+          <BandLadderMark />
         </div>
 
         <div className="flex flex-col gap-2">
