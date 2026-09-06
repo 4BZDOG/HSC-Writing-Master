@@ -144,9 +144,30 @@ export default {
         tile: '32%',
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        // 'IBM Plex Sans Variable' is the family name @fontsource-variable
+        // registers; the static family name follows it so a browser that has
+        // Plex installed but cannot load a variable font still gets the right
+        // face rather than dropping to the system sans.
+        sans: ['IBM Plex Sans Variable', 'IBM Plex Sans', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
         serif: ['Newsreader', 'Georgia', 'serif'],
+      },
+      fontWeight: {
+        // IBM Plex Sans has no 900. Its weight axis stops at 700, and so does
+        // Newsreader's, so the ladder in DesignSpec §4 has five rungs and four
+        // faces to put them on: one pair has to merge.
+        //
+        // 600 and 700 must not, because a card title at 600 and its section
+        // heading at 700 sit next to each other on nearly every surface, and
+        // merging them flattens the hierarchy people actually read. 700 and 900
+        // can, because display type is already carrying its rank at three times
+        // the size — the weight was a refinement on top of that.
+        //
+        // So `font-black` emits 700 rather than 900. Stating it here, instead
+        // of leaving 900 in the config to be silently clamped at paint time,
+        // means the config and the screen agree — grep for the weight and you
+        // get what renders.
+        black: '700',
       },
       animation: {
         // Unified on a refined easeOutExpo curve for a cohesive, snappy feel.

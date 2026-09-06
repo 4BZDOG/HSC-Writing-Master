@@ -528,7 +528,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
          spending a label to get it. Narrowing the text inside these cards
          instead was tried and reverted — it left the prose stranded halfway
          across a card nobody had narrowed. See DesignSpec §4, "Measure". */
-      className="relative flex flex-col gap-6 max-w-3xl mx-auto pb-20 EvaluationDisplay"
+      className="relative flex flex-col gap-6 max-w-3xl xl:max-w-5xl mx-auto pb-20 EvaluationDisplay"
     >
       <AiBusyOverlay show={isImproving} rounded="rounded-panel">
         <LoadingIndicator
@@ -586,506 +586,546 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
         </h2>
       </header>
 
-      {/* Score & Metrics Dashboard */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
-        {/* Main Vibrant Placard */}
-        <div
-          className={`clip-stable lg:col-span-7 relative rounded-panel overflow-hidden p-7 sm:p-8 shadow-lg transition-all duration-500 bg-gradient-to-br ${bandConfig.gradient}`}
-        >
-          <MeshOverlay opacity="opacity-[0.15]" />
+      {/* From `xl` up the report is a document with a margin, not one column in
+          a wide empty card. Bounding the column at `3xl` fixed the 142-character
+          line but left about 400px of nothing beside it on a desktop, which is
+          the half of the problem the cap could not reach: the container was the
+          thing that was too wide. So the score placard and the metrics move into
+          that space and the prose narrows behind them, which uses the width and
+          shortens the line in one move rather than trading one against the
+          other.
 
-          <div className="relative z-10 flex flex-col justify-between h-full gap-6 text-white">
-            <div className="flex flex-col gap-5">
-              <div className="flex justify-between items-start gap-4">
-                <div className="min-w-0">
-                  <div
-                    className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/20 mb-4 shadow-sm backdrop-blur-md bg-white/20`}
-                  >
-                    <Award className="w-3.5 h-3.5" />
-                    <span className="t-label">
-                      Band {result.overallBand} · {getBandName(result.overallBand)}
-                    </span>
-                  </div>
-                  <h1 className="text-6xl sm:text-7xl font-black tracking-tight italic leading-none">
-                    {result.overallMark}
-                    <span className="text-3xl font-medium align-top opacity-60">
-                      /{prompt.totalMarks}
-                    </span>
-                  </h1>
-                  {/* "Result", not "Assessment Score". The word carries weight in the HSC
+          Below `xl` nothing changes. The wrapper is a flex column there and the
+          aside is its first child, so the reading order is the order it has
+          always been — question, score, then the report. The `order` swap only
+          applies once there are two columns to swap between. */}
+      <div className="flex flex-col gap-6 xl:grid xl:grid-cols-[minmax(0,1fr)_22rem] xl:items-start xl:gap-8">
+        {/* NOT sticky, though it was built that way first and it worked: pinned
+            at `top-6` the mark stayed in view through the whole report. It came
+            out because it fails on a short window. The aside measures 687px and
+            the modal's scroll container is 572px at 1440x700 and 496px at
+            1280x620 — a laptop with a browser bar. Pinned, the top holds and the
+            bottom of the column, which is where the Volume and Key Terms figures
+            are, can never be scrolled to. A capped height with its own scrollbar
+            inside a 352px margin is worse than scrolling with the page, and a
+            `min-height` media query guessing where the sidebar stops fitting is
+            a rule that breaks the first time the goal card gains a line.
+
+            `self-start` stays: without it the aside stretches to the reading
+            column's full height and the gradient placard grows a void. */}
+        <aside className="flex flex-col gap-4 xl:order-2 xl:self-start">
+          {/* Score & Metrics Dashboard */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 xl:grid-cols-1 gap-4 items-stretch">
+            {/* Main Vibrant Placard */}
+            <div
+              className={`clip-stable lg:col-span-7 xl:col-span-full relative rounded-panel overflow-hidden p-7 sm:p-8 shadow-lg transition-all duration-500 bg-gradient-to-br ${bandConfig.gradient}`}
+            >
+              <MeshOverlay opacity="opacity-[0.15]" />
+
+              <div className="relative z-10 flex flex-col justify-between h-full gap-6 text-white">
+                <div className="flex flex-col gap-5">
+                  <div className="flex justify-between items-start gap-4">
+                    <div className="min-w-0">
+                      <div
+                        className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/20 mb-4 shadow-sm backdrop-blur-md bg-white/20`}
+                      >
+                        <Award className="w-3.5 h-3.5" />
+                        <span className="t-label">
+                          Band {result.overallBand} · {getBandName(result.overallBand)}
+                        </span>
+                      </div>
+                      <h1 className="text-6xl sm:text-7xl font-black tracking-tight italic leading-none">
+                        {result.overallMark}
+                        <span className="text-3xl font-medium align-top opacity-60">
+                          /{prompt.totalMarks}
+                        </span>
+                      </h1>
+                      {/* "Result", not "Assessment Score". The word carries weight in the HSC
                       that practice marking has not earned, which is why it was taken out
                       of the exported report; the screen it was exported from still said
                       it. See pdf/buildBlocks.ts, where the same cell is labelled. */}
-                  <p className="t-label opacity-80 mt-2">Result</p>
-                </div>
-                <div
-                  className={`w-14 h-14 shrink-0 rounded-2xl flex items-center justify-center bg-white/20 backdrop-blur-md border border-white/20 shadow-lg no-print`}
-                >
-                  {result.overallBand >= 5 ? (
-                    <Trophy className="w-7 h-7 text-white" />
-                  ) : result.overallBand >= 3 ? (
-                    <Target className="w-7 h-7 text-white" />
-                  ) : (
-                    <AlertTriangle className="w-7 h-7 text-white" />
-                  )}
-                </div>
-              </div>
+                      <p className="t-label opacity-80 mt-2">Result</p>
+                    </div>
+                    <div
+                      className={`w-14 h-14 shrink-0 rounded-2xl flex items-center justify-center bg-white/20 backdrop-blur-md border border-white/20 shadow-lg no-print`}
+                    >
+                      {result.overallBand >= 5 ? (
+                        <Trophy className="w-7 h-7 text-white" />
+                      ) : result.overallBand >= 3 ? (
+                        <Target className="w-7 h-7 text-white" />
+                      ) : (
+                        <AlertTriangle className="w-7 h-7 text-white" />
+                      )}
+                    </div>
+                  </div>
 
-              {/* Marks awarded as a share of the total — gives the placard's
+                  {/* Marks awarded as a share of the total — gives the placard's
                 middle a purpose instead of leaving a gradient void when the
                 column stretches to match the metrics beside it. */}
-              <div
-                className="h-1.5 w-full rounded-full bg-white/25 overflow-hidden"
-                role="img"
-                aria-label={`${result.overallMark} of ${prompt.totalMarks} marks awarded`}
-              >
-                <div
-                  className="h-full rounded-full bg-white/90 transition-all duration-700"
-                  style={{
-                    width: `${prompt.totalMarks > 0 ? Math.min(100, (result.overallMark / prompt.totalMarks) * 100) : 0}%`,
-                  }}
-                />
-              </div>
-            </div>
+                  <div
+                    className="h-1.5 w-full rounded-full bg-white/25 overflow-hidden"
+                    role="img"
+                    aria-label={`${result.overallMark} of ${prompt.totalMarks} marks awarded`}
+                  >
+                    <div
+                      className="h-full rounded-full bg-white/90 transition-all duration-700"
+                      style={{
+                        width: `${prompt.totalMarks > 0 ? Math.min(100, (result.overallMark / prompt.totalMarks) * 100) : 0}%`,
+                      }}
+                    />
+                  </div>
+                </div>
 
-            <div className="flex flex-wrap gap-3 no-print">
-              {/* Export, and the options behind a chevron. Splitting them keeps
+                <div className="flex flex-wrap gap-3 no-print">
+                  {/* Export, and the options behind a chevron. Splitting them keeps
                   the common case one click while making paper size, copies and
                   what goes in the report reachable at all — every one of them
                   was already supported by the exporter and unreachable. */}
-              <div className="relative flex" ref={pdfMenuRef}>
-                <button
-                  onClick={pdfLocked ? () => requestUpgrade('pdfExport') : handleExportPdf}
-                  disabled={isExporting}
-                  aria-busy={isExporting}
-                  title={
-                    pdfLocked ? 'PDF export is part of Band 6 Plus — tap to learn more' : undefined
-                  }
-                  className={`px-5 py-3 rounded-l-2xl text-white text-xs font-bold shadow-sm transition-all border border-r-0 backdrop-blur-sm flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed ${
-                    pdfLocked
-                      ? 'bg-amber-400/15 hover:bg-amber-400/25 border-amber-300/50'
-                      : 'bg-white/20 hover:bg-white/30 border-white/20'
-                  }`}
-                >
-                  {isExporting ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      {/* The stage text updates several times during a multi-second
+                  <div className="relative flex" ref={pdfMenuRef}>
+                    <button
+                      onClick={pdfLocked ? () => requestUpgrade('pdfExport') : handleExportPdf}
+                      disabled={isExporting}
+                      aria-busy={isExporting}
+                      title={
+                        pdfLocked
+                          ? 'PDF export is part of Band 6 Plus — tap to learn more'
+                          : undefined
+                      }
+                      className={`px-5 py-3 rounded-l-2xl text-white text-xs font-bold shadow-sm transition-all border border-r-0 backdrop-blur-sm flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed ${
+                        pdfLocked
+                          ? 'bg-amber-400/15 hover:bg-amber-400/25 border-amber-300/50'
+                          : 'bg-white/20 hover:bg-white/30 border-white/20'
+                      }`}
+                    >
+                      {isExporting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          {/* The stage text updates several times during a multi-second
                           export (engine → fonts → page N of M). aria-busy on the
                           button says "working", but without a live region none of
                           the progress is announced. */}
-                      <span role="status" aria-live="polite">
-                        {exportStatus || 'Exporting…'}
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <FileDown className="w-4 h-4" /> Export PDF
-                      {pdfLocked && (
-                        <PlusLockChip className="bg-white/15 border-white/40 text-white" />
+                          <span role="status" aria-live="polite">
+                            {exportStatus || 'Exporting…'}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <FileDown className="w-4 h-4" /> Export PDF
+                          {pdfLocked && (
+                            <PlusLockChip className="bg-white/15 border-white/40 text-white" />
+                          )}
+                        </>
                       )}
-                    </>
+                    </button>
+                    <button
+                      onClick={() => setShowPdfOptions((v) => !v)}
+                      disabled={isExporting}
+                      aria-label="PDF export options"
+                      aria-expanded={showPdfOptions}
+                      title="Paper size, copies and what to include"
+                      className={`px-2.5 rounded-r-2xl text-white border backdrop-blur-sm transition-all disabled:opacity-60 disabled:cursor-not-allowed ${
+                        showPdfOptions ? 'bg-white/30' : 'bg-white/20 hover:bg-white/30'
+                      } border-white/20`}
+                    >
+                      <Settings2 className="w-4 h-4" />
+                    </button>
+                    <PdfExportOptions
+                      open={showPdfOptions}
+                      onClose={() => setShowPdfOptions(false)}
+                      value={pdfPrefs}
+                      onChange={updatePdfPrefs}
+                      anchorRef={pdfMenuRef}
+                    />
+                  </div>
+                  {onSaveToSamples && (
+                    <button
+                      onClick={onSaveToSamples}
+                      className="px-5 py-3 rounded-2xl bg-white text-indigo-900 hover:bg-indigo-50 text-xs font-bold shadow-lg transition-all hover:scale-105 flex items-center gap-2 border-2 border-transparent"
+                    >
+                      <Save className="w-4 h-4" /> Save Result
+                    </button>
                   )}
-                </button>
-                <button
-                  onClick={() => setShowPdfOptions((v) => !v)}
-                  disabled={isExporting}
-                  aria-label="PDF export options"
-                  aria-expanded={showPdfOptions}
-                  title="Paper size, copies and what to include"
-                  className={`px-2.5 rounded-r-2xl text-white border backdrop-blur-sm transition-all disabled:opacity-60 disabled:cursor-not-allowed ${
-                    showPdfOptions ? 'bg-white/30' : 'bg-white/20 hover:bg-white/30'
-                  } border-white/20`}
-                >
-                  <Settings2 className="w-4 h-4" />
-                </button>
-                <PdfExportOptions
-                  open={showPdfOptions}
-                  onClose={() => setShowPdfOptions(false)}
-                  value={pdfPrefs}
-                  onChange={updatePdfPrefs}
-                  anchorRef={pdfMenuRef}
-                />
-              </div>
-              {onSaveToSamples && (
-                <button
-                  onClick={onSaveToSamples}
-                  className="px-5 py-3 rounded-2xl bg-white text-indigo-900 hover:bg-indigo-50 text-xs font-bold shadow-lg transition-all hover:scale-105 flex items-center gap-2 border-2 border-transparent"
-                >
-                  <Save className="w-4 h-4" /> Save Result
-                </button>
-              )}
-            </div>
+                </div>
 
-            {/* The agreement makes this point once, at sign-up. This is where
+                {/* The agreement makes this point once, at sign-up. This is where
                 it actually matters: next to a mark and a band that look
                 exactly like a real result. Deliberately quiet, and always
                 present — including on the printed page. */}
-            <p className="text-[10px] leading-relaxed text-white/60 max-w-md">
-              {AI_MARKING_DISCLAIMER}
-            </p>
-          </div>
-        </div>
+                <p className="text-[10px] leading-relaxed text-white/60 max-w-md">
+                  {AI_MARKING_DISCLAIMER}
+                </p>
+              </div>
+            </div>
 
-        {/* Goal + Metrics */}
-        <div className="lg:col-span-5 flex flex-col gap-4">
-          <BandGoalCard currentBand={result.overallBand} maxBand={maxBand} />
-          <div className="grid grid-cols-2 gap-4">
-            <MetricCard
-              label="Volume"
-              value={wordCount}
-              subtext="Words"
-              icon={FileText}
-              theme={bandConfig}
-            />
-            <MetricCard
-              label="Key Terms"
-              value={keywordsUsedCount}
-              subtext={`of ${prompt.keywords?.length || 0}`}
-              icon={Hash}
-              theme={bandConfig}
-            />
+            {/* Goal + Metrics */}
+            <div className="lg:col-span-5 xl:col-span-full flex flex-col gap-4">
+              <BandGoalCard currentBand={result.overallBand} maxBand={maxBand} />
+              <div className="grid grid-cols-2 gap-4">
+                <MetricCard
+                  label="Volume"
+                  value={wordCount}
+                  subtext="Words"
+                  icon={FileText}
+                  theme={bandConfig}
+                />
+                <MetricCard
+                  label="Key Terms"
+                  value={keywordsUsedCount}
+                  subtext={`of ${prompt.keywords?.length || 0}`}
+                  icon={Hash}
+                  theme={bandConfig}
+                />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </aside>
 
-      {/* Why the goal above is capped where it is. The "Band N Goal" card states
+        <div className="flex flex-col gap-6 min-w-0 xl:order-1">
+          {/* Why the goal above is capped where it is. The "Band N Goal" card states
           the ceiling; without this a student or teacher can read it as the
           marker being harsh rather than as the verb's own cognitive limit.
           Shown only when the cap actually binds (below Band 6) — a tier-6 verb
           leaves the full range open and needs no explanation. The meaning is
           carried entirely by the text, not the tier tint, so it stands on a
           greyscale print and to a screen reader. */}
-      {capIsBinding && (
-        <div className={`${CARD} flex items-start gap-4 p-5`}>
-          <div className={`p-2.5 rounded-xl shrink-0 ${capConfig.iconBg} ${capConfig.text}`}>
-            <Award className="w-5 h-5" />
-          </div>
-          <p className="text-[13px] leading-relaxed text-slate-600 dark:text-slate-300 pt-0.5">
-            <span className="font-bold text-slate-800 dark:text-slate-100">'{prompt.verb}'</span> is
-            a Tier {termInfo.tier} ({tierShortLabel(termInfo.tier)}) command. Its cognitive demand
-            caps the achievable result at{' '}
-            <span className={`font-bold ${capConfig.text}`}>Band {maxBand}</span> — even a flawless
-            response tops out here, so this is the ceiling the mark is measured against, not a harsh
-            marker.
-          </p>
-        </div>
-      )}
-
-      {/* Student Response — included so the report can be shared with a
-          teacher as a self-contained record of what was actually submitted. */}
-      {userAnswer.trim() && (
-        <section className={`${CARD} overflow-hidden`}>
-          <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-white/5 bg-slate-50/70 dark:bg-white/[0.03]">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-slate-200/70 dark:bg-white/10 text-slate-600 dark:text-slate-300">
-                <PenLine className="w-4 h-4" />
+          {capIsBinding && (
+            <div className={`${CARD} flex items-start gap-4 p-5`}>
+              <div className={`p-2.5 rounded-xl shrink-0 ${capConfig.iconBg} ${capConfig.text}`}>
+                <Award className="w-5 h-5" />
               </div>
-              <h3 className="t-label text-slate-500 dark:text-slate-400">{userName}'s Response</h3>
+              <p className="text-[13px] leading-relaxed text-slate-600 dark:text-slate-300 pt-0.5">
+                <span className="font-bold text-slate-800 dark:text-slate-100">
+                  '{prompt.verb}'
+                </span>{' '}
+                is a Tier {termInfo.tier} ({tierShortLabel(termInfo.tier)}) command. Its cognitive
+                demand caps the achievable result at{' '}
+                <span className={`font-bold ${capConfig.text}`}>Band {maxBand}</span> — even a
+                flawless response tops out here, so this is the ceiling the mark is measured
+                against, not a harsh marker.
+              </p>
             </div>
-            <span className="t-label text-slate-500 dark:text-slate-400">
-              {wordCount} words · as submitted
-            </span>
-          </div>
-          <div className="p-6 sm:p-8">
-            <div className="font-serif leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-line">
-              {renderFormattedText(userAnswer, prompt.keywords, prompt.verb)}
-            </div>
-          </div>
-        </section>
-      )}
+          )}
 
-      {/* Coach's Tip — the one sentence to act on first. A solid card with a
+          {/* Student Response — included so the report can be shared with a
+          teacher as a self-contained record of what was actually submitted. */}
+          {userAnswer.trim() && (
+            <section className={`${CARD} overflow-hidden`}>
+              <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-white/5 bg-slate-50/70 dark:bg-white/[0.03]">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-xl bg-slate-200/70 dark:bg-white/10 text-slate-600 dark:text-slate-300">
+                    <PenLine className="w-4 h-4" />
+                  </div>
+                  <h3 className="t-label text-slate-500 dark:text-slate-400">
+                    {userName}'s Response
+                  </h3>
+                </div>
+                <span className="t-label text-slate-500 dark:text-slate-400">
+                  {wordCount} words · as submitted
+                </span>
+              </div>
+              <div className="p-6 sm:p-8">
+                <div className="font-serif leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-line">
+                  {renderFormattedText(userAnswer, prompt.keywords, prompt.verb)}
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* Coach's Tip — the one sentence to act on first. A solid card with a
           band-coloured rail rather than the dashed callout it used to be: the
           dashes read as a placeholder, and the tip is the opposite of one. */}
-      {result.quickTip && (
-        <div
-          className={`relative overflow-hidden ${CARD} flex items-start gap-4 p-5 animate-fade-in`}
-        >
-          <div
-            className={`absolute inset-y-0 left-0 w-1 bg-gradient-to-b ${bandConfig.gradient}`}
-            aria-hidden="true"
-          />
-          <div className={`ml-1 p-2.5 rounded-xl ${bandConfig.iconBg} ${bandConfig.text} shrink-0`}>
-            <Lightbulb className="w-5 h-5" />
-          </div>
-          <div className="min-w-0 pt-0.5">
-            <span className={`t-label block mb-1 ${bandConfig.text}`}>Coach's Tip</span>
-            {/* Run through the formatter like every other piece of marker prose
+          {result.quickTip && (
+            <div
+              className={`relative overflow-hidden ${CARD} flex items-start gap-4 p-5 animate-fade-in`}
+            >
+              <div
+                className={`absolute inset-y-0 left-0 w-1 bg-gradient-to-b ${bandConfig.gradient}`}
+                aria-hidden="true"
+              />
+              <div
+                className={`ml-1 p-2.5 rounded-xl ${bandConfig.iconBg} ${bandConfig.text} shrink-0`}
+              >
+                <Lightbulb className="w-5 h-5" />
+              </div>
+              <div className="min-w-0 pt-0.5">
+                <span className={`t-label block mb-1 ${bandConfig.text}`}>Coach's Tip</span>
+                {/* Run through the formatter like every other piece of marker prose
                 — it used to be the one place a syllabus term printed plain. */}
-            <p className="text-sm font-semibold leading-relaxed text-slate-700 dark:text-slate-200">
-              {renderFormattedText(result.quickTip, prompt.keywords, prompt.verb)}
-            </p>
-          </div>
-        </div>
-      )}
+                <p className="text-sm font-semibold leading-relaxed text-slate-700 dark:text-slate-200">
+                  {renderFormattedText(result.quickTip, prompt.keywords, prompt.verb)}
+                </p>
+              </div>
+            </div>
+          )}
 
-      {/* Marker's Commentary */}
-      <section>
-        <SectionHeading icon={Quote} label="Marker's Commentary" />
-        <div className={`relative overflow-hidden ${CARD} p-6 sm:p-8`}>
-          <div
-            className={`absolute inset-y-0 left-0 w-1 bg-gradient-to-b ${bandConfig.gradient}`}
-            aria-hidden="true"
-          />
-          {/* Serif, because this is the one passage on the page written TO the
+          {/* Marker's Commentary */}
+          <section>
+            <SectionHeading icon={Quote} label="Marker's Commentary" />
+            <div className={`relative overflow-hidden ${CARD} p-6 sm:p-8`}>
+              <div
+                className={`absolute inset-y-0 left-0 w-1 bg-gradient-to-b ${bandConfig.gradient}`}
+                aria-hidden="true"
+              />
+              {/* Serif, because this is the one passage on the page written TO the
               student — but at reading size. It used to be text-xl italic, which
               set the marker's aside larger than the question it was about. */}
-          <div className="font-serif text-base sm:text-[17px] leading-relaxed text-slate-700 dark:text-slate-300 pl-3">
-            {renderFormattedText(result.overallFeedback, prompt.keywords, prompt.verb)}
-          </div>
-        </div>
-      </section>
+              <div className="font-serif text-base sm:text-[17px] leading-relaxed text-slate-700 dark:text-slate-300 pl-3">
+                {renderFormattedText(result.overallFeedback, prompt.keywords, prompt.verb)}
+              </div>
+            </div>
+          </section>
 
-      {/* Strengths & Growth */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <section>
-          <SectionHeading
-            icon={CheckCircle}
-            label="Strong Evidence"
-            tone="text-emerald-600 dark:text-emerald-400"
-            toneBg="bg-emerald-100 dark:bg-emerald-500/15"
-          />
-          <ul className={`${CARD} p-5 sm:p-6 space-y-3.5`}>
-            {result.strengths.map((s, i) => (
-              <li
-                key={i}
-                className="flex gap-3 text-sm text-slate-700 dark:text-slate-300 leading-relaxed animate-fade-in-up-sm"
-                style={{ animationDelay: `${Math.min(i, 8) * 60}ms` }}
-              >
-                {/* A tick, not a dot. The two lists mean opposite things and
+          {/* Strengths & Growth */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <section>
+              <SectionHeading
+                icon={CheckCircle}
+                label="Strong Evidence"
+                tone="text-emerald-600 dark:text-emerald-400"
+                toneBg="bg-emerald-100 dark:bg-emerald-500/15"
+              />
+              <ul className={`${CARD} p-5 sm:p-6 space-y-3.5`}>
+                {result.strengths.map((s, i) => (
+                  <li
+                    key={i}
+                    className="flex gap-3 text-sm text-slate-700 dark:text-slate-300 leading-relaxed animate-fade-in-up-sm"
+                    style={{ animationDelay: `${Math.min(i, 8) * 60}ms` }}
+                  >
+                    {/* A tick, not a dot. The two lists mean opposite things and
                     used to be told apart only by the colour of a 6px circle —
                     which is no distinction at all on a greyscale print. */}
-                <Check className="w-4 h-4 mt-0.5 shrink-0 text-emerald-500" />
-                <span>{renderFormattedText(s, prompt.keywords)}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-        {/* The improvement path is REDACTED server-side for the free tier
+                    <Check className="w-4 h-4 mt-0.5 shrink-0 text-emerald-500" />
+                    <span>{renderFormattedText(s, prompt.keywords)}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+            {/* The improvement path is REDACTED server-side for the free tier
             (api/_lib/entitlements.ts replaces it with the upgrade
             placeholder), so it has to carry the same lock treatment as the
             criteria below. Without it a free user reads
             "Upgrade to see this feedback." as if it were the marker's actual
             advice, with nothing to click. */}
-        <section className="relative">
-          <SectionHeading
-            icon={XCircle}
-            label="Areas for Growth"
-            tone="text-rose-600 dark:text-rose-400"
-            toneBg="bg-rose-100 dark:bg-rose-500/15"
-          >
-            {feedbackLocked && <PlusLockChip />}
-          </SectionHeading>
-          {feedbackLocked && (
-            <ContentLockOverlay
-              feature="fullFeedback"
-              message="Your improvement path is a Plus feature"
-              className="rounded-panel"
-            />
-          )}
-          <ul
-            className={`${CARD} p-5 sm:p-6 space-y-3.5 ${feedbackLocked ? 'blur-sm select-none pointer-events-none' : ''}`}
-          >
-            {result.improvements.map((im, i) => (
-              <li
-                key={i}
-                className="flex gap-3 text-sm text-slate-700 dark:text-slate-300 leading-relaxed animate-fade-in-up-sm"
-                style={{ animationDelay: `${Math.min(i, 8) * 60}ms` }}
+            <section className="relative">
+              <SectionHeading
+                icon={XCircle}
+                label="Areas for Growth"
+                tone="text-rose-600 dark:text-rose-400"
+                toneBg="bg-rose-100 dark:bg-rose-500/15"
               >
-                <ArrowUpRight className="w-4 h-4 mt-0.5 shrink-0 text-rose-500" />
-                <span>{renderFormattedText(im, prompt.keywords)}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      </div>
+                {feedbackLocked && <PlusLockChip />}
+              </SectionHeading>
+              {feedbackLocked && (
+                <ContentLockOverlay
+                  feature="fullFeedback"
+                  message="Your improvement path is a Plus feature"
+                  className="rounded-panel"
+                />
+              )}
+              <ul
+                className={`${CARD} p-5 sm:p-6 space-y-3.5 ${feedbackLocked ? 'blur-sm select-none pointer-events-none' : ''}`}
+              >
+                {result.improvements.map((im, i) => (
+                  <li
+                    key={i}
+                    className="flex gap-3 text-sm text-slate-700 dark:text-slate-300 leading-relaxed animate-fade-in-up-sm"
+                    style={{ animationDelay: `${Math.min(i, 8) * 60}ms` }}
+                  >
+                    <ArrowUpRight className="w-4 h-4 mt-0.5 shrink-0 text-rose-500" />
+                    <span>{renderFormattedText(im, prompt.keywords)}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </div>
 
-      {/* What the student had open before writing. Placed directly under the
+          {/* What the student had open before writing. Placed directly under the
           improvement path, where "you did not open the Marking Guide" reads as
           a route to the advice above rather than a reprimand of its own. */}
-      <SupportUsageSummary promptId={prompt.id} />
+          <SupportUsageSummary promptId={prompt.id} />
 
-      {/* Criteria Breakdown */}
-      <section className="relative">
-        <div className="no-print">
-          <SectionHeading icon={ClipboardList} label="Criteria Breakdown">
-            {feedbackLocked && <PlusLockChip />}
-          </SectionHeading>
-        </div>
-        {feedbackLocked && (
-          <ContentLockOverlay
-            feature="fullFeedback"
-            message="Detailed criterion feedback is a Plus feature"
-          />
-        )}
-        <div
-          className={`grid grid-cols-1 gap-3 ${feedbackLocked ? 'blur-sm select-none pointer-events-none' : ''}`}
-        >
-          {result.criteria.map((criterion, idx) => (
-            <CriteriaRow
-              key={idx}
-              index={idx}
-              criterion={criterion}
-              maxMark={criterion.maxMark}
-              mark={criterion.mark}
-              feedback={criterion.feedback}
-              prompt={prompt}
-            />
-          ))}
-        </div>
-      </section>
+          {/* Criteria Breakdown */}
+          <section className="relative">
+            <div className="no-print">
+              <SectionHeading icon={ClipboardList} label="Criteria Breakdown">
+                {feedbackLocked && <PlusLockChip />}
+              </SectionHeading>
+            </div>
+            {feedbackLocked && (
+              <ContentLockOverlay
+                feature="fullFeedback"
+                message="Detailed criterion feedback is a Plus feature"
+              />
+            )}
+            <div
+              className={`grid grid-cols-1 gap-3 ${feedbackLocked ? 'blur-sm select-none pointer-events-none' : ''}`}
+            >
+              {result.criteria.map((criterion, idx) => (
+                <CriteriaRow
+                  key={idx}
+                  index={idx}
+                  criterion={criterion}
+                  maxMark={criterion.maxMark}
+                  mark={criterion.mark}
+                  feedback={criterion.feedback}
+                  prompt={prompt}
+                />
+              ))}
+            </div>
+          </section>
 
-      {/* Failed answer upgrades were silently swallowed before — surface them. */}
-      {improveAnswerError && !isImproving && (
-        <div className="flex items-start gap-3 p-4 rounded-2xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 no-print">
-          <AlertCircle className="w-5 h-5 shrink-0 mt-0.5 text-red-600 dark:text-red-400" />
-          <div>
-            <p className="text-sm text-red-700 dark:text-red-400">
-              The improved response could not be generated.
-            </p>
-            <p className="text-xs text-red-600/80 dark:text-red-400/80 mt-0.5">
-              {improveAnswerError}
-            </p>
-          </div>
-        </div>
-      )}
+          {/* Failed answer upgrades were silently swallowed before — surface them. */}
+          {improveAnswerError && !isImproving && (
+            <div className="flex items-start gap-3 p-4 rounded-2xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 no-print">
+              <AlertCircle className="w-5 h-5 shrink-0 mt-0.5 text-red-600 dark:text-red-400" />
+              <div>
+                <p className="text-sm text-red-700 dark:text-red-400">
+                  The improved response could not be generated.
+                </p>
+                <p className="text-xs text-red-600/80 dark:text-red-400/80 mt-0.5">
+                  {improveAnswerError}
+                </p>
+              </div>
+            </div>
+          )}
 
-      {/* Improved Response (Exemplar).
+          {/* Improved Response (Exemplar).
           Rendered when there IS a rewrite — or when the plan withheld one. The
           proxy redacts the rewrite for an account whose plan doesn't include
           answer upgrades (redactPaidFeedback), which left `revisedText` empty
           and hid this whole section — including the upgrade button inside it
           that is the only thing selling the feature. The section a free user
           sees is the locked state below: no exemplar text, one clear CTA. */}
-      {(revisedText || (upgradesLocked && result.overallMark < prompt.totalMarks)) && (
-        <section
-          className={`clip-stable relative rounded-panel border ${exemplarConfig.border} overflow-hidden shadow-lg transition-all duration-500 group mt-4`}
-        >
-          <div
-            className={`absolute inset-0 ${exemplarConfig.bg} opacity-[0.03] pointer-events-none no-print`}
-          />
-          <MeshOverlay />
+          {(revisedText || (upgradesLocked && result.overallMark < prompt.totalMarks)) && (
+            <section
+              className={`clip-stable relative rounded-panel border ${exemplarConfig.border} overflow-hidden shadow-lg transition-all duration-500 group mt-4`}
+            >
+              <div
+                className={`absolute inset-0 ${exemplarConfig.bg} opacity-[0.03] pointer-events-none no-print`}
+              />
+              <MeshOverlay />
 
-          <div
-            className={`px-8 py-5 bg-gradient-to-r ${exemplarConfig.gradient} flex flex-wrap justify-between items-center gap-4 relative z-10`}
-          >
-            <div className="flex items-center gap-5">
-              <div className="p-3 rounded-2xl bg-white/20 shadow-inner backdrop-blur-sm text-white">
-                <Zap className="w-6 h-6" />
-              </div>
-              <div>
-                <h4 className="text-lg font-black tracking-normal italic text-white">
-                  Improved Response
-                </h4>
-                <div className="flex items-center gap-3 mt-1">
-                  <span className="t-label text-white/90">
-                    {revisedText
-                      ? `Your answer, lifted to ${exemplarMark}/${prompt.totalMarks} — Band ${exemplarBand}`
-                      : `See your answer rewritten to ${exemplarMark}/${prompt.totalMarks}`}
-                  </span>
-                  {revisedText && result.overallMark < exemplarMark && (
-                    <span className="t-label px-2 py-0.5 rounded-lg bg-white/20 text-white backdrop-blur-sm no-print">
-                      +{exemplarMark - result.overallMark} Mark
-                    </span>
+              <div
+                className={`px-8 py-5 bg-gradient-to-r ${exemplarConfig.gradient} flex flex-wrap justify-between items-center gap-4 relative z-10`}
+              >
+                <div className="flex items-center gap-5">
+                  <div className="p-3 rounded-2xl bg-white/20 shadow-inner backdrop-blur-sm text-white">
+                    <Zap className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-black tracking-normal italic text-white">
+                      Improved Response
+                    </h4>
+                    <div className="flex items-center gap-3 mt-1">
+                      <span className="t-label text-white/90">
+                        {revisedText
+                          ? `Your answer, lifted to ${exemplarMark}/${prompt.totalMarks} — Band ${exemplarBand}`
+                          : `See your answer rewritten to ${exemplarMark}/${prompt.totalMarks}`}
+                      </span>
+                      {revisedText && result.overallMark < exemplarMark && (
+                        <span className="t-label px-2 py-0.5 rounded-lg bg-white/20 text-white backdrop-blur-sm no-print">
+                          +{exemplarMark - result.overallMark} Mark
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-3 no-print">
+                  {/* Gated on MARKS, not bands: a student sitting at 5/6 inside the
+                  top band still has a mark to win, and the band test hid the
+                  control from them. */}
+                  {result.overallMark < prompt.totalMarks && (
+                    <button
+                      onClick={
+                        upgradesLocked ? () => requestUpgrade('answerUpgrades') : onImproveAnswer
+                      }
+                      disabled={isImproving}
+                      title={
+                        upgradesLocked
+                          ? 'AI answer upgrades are part of Band 6 Plus — tap to learn more'
+                          : undefined
+                      }
+                      className={`t-label px-5 py-3 rounded-xl text-white border transition-all hover:scale-105 active:scale-[0.98] flex items-center gap-2 backdrop-blur-sm ${
+                        upgradesLocked
+                          ? 'bg-amber-400/15 hover:bg-amber-400/25 border-amber-300/50'
+                          : 'bg-white/10 hover:bg-white/20 border-white/20'
+                      }`}
+                    >
+                      <RefreshCw className={`w-4 h-4 ${isImproving ? 'animate-spin' : ''}`} />
+                      {isImproving
+                        ? 'Regenerating...'
+                        : revisedText
+                          ? 'Regenerate'
+                          : 'Improve my answer'}
+                      {upgradesLocked && (
+                        <PlusLockChip className="bg-white/15 border-white/40 text-white" />
+                      )}
+                    </button>
+                  )}
+                  {/* The comparison is the point: the rewrite is an EDIT of the
+                  student's own answer, and reading it as a block of prose hides
+                  the handful of words that earned the extra mark. */}
+                  {revisedText && onCompareImprovement && (
+                    <button
+                      onClick={onCompareImprovement}
+                      className="t-label px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all hover:scale-105 active:scale-[0.98] flex items-center gap-2 backdrop-blur-sm"
+                    >
+                      <Columns2 className="w-4 h-4" />
+                      Compare with mine
+                    </button>
+                  )}
+                  {revisedText && (
+                    <button
+                      onClick={() => onUseRevisedAnswer(stripHtmlTags(revisedText))}
+                      className="t-label px-6 py-3 rounded-xl bg-white text-indigo-900 hover:bg-indigo-50 border-2 border-transparent hover:border-white/50 transition-all hover:scale-105 active:scale-[0.98] shadow-lg flex items-center gap-2"
+                    >
+                      <span>Use This Answer</span>
+                      <ArrowUpCircle className="w-4 h-4" />
+                    </button>
                   )}
                 </div>
               </div>
-            </div>
 
-            <div className="flex flex-wrap gap-3 no-print">
-              {/* Gated on MARKS, not bands: a student sitting at 5/6 inside the
-                  top band still has a mark to win, and the band test hid the
-                  control from them. */}
-              {result.overallMark < prompt.totalMarks && (
-                <button
-                  onClick={
-                    upgradesLocked ? () => requestUpgrade('answerUpgrades') : onImproveAnswer
-                  }
-                  disabled={isImproving}
-                  title={
-                    upgradesLocked
-                      ? 'AI answer upgrades are part of Band 6 Plus — tap to learn more'
-                      : undefined
-                  }
-                  className={`t-label px-5 py-3 rounded-xl text-white border transition-all hover:scale-105 active:scale-[0.98] flex items-center gap-2 backdrop-blur-sm ${
-                    upgradesLocked
-                      ? 'bg-amber-400/15 hover:bg-amber-400/25 border-amber-300/50'
-                      : 'bg-white/10 hover:bg-white/20 border-white/20'
-                  }`}
-                >
-                  <RefreshCw className={`w-4 h-4 ${isImproving ? 'animate-spin' : ''}`} />
-                  {isImproving
-                    ? 'Regenerating...'
-                    : revisedText
-                      ? 'Regenerate'
-                      : 'Improve my answer'}
-                  {upgradesLocked && (
-                    <PlusLockChip className="bg-white/15 border-white/40 text-white" />
-                  )}
-                </button>
-              )}
-              {/* The comparison is the point: the rewrite is an EDIT of the
-                  student's own answer, and reading it as a block of prose hides
-                  the handful of words that earned the extra mark. */}
-              {revisedText && onCompareImprovement && (
-                <button
-                  onClick={onCompareImprovement}
-                  className="t-label px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all hover:scale-105 active:scale-[0.98] flex items-center gap-2 backdrop-blur-sm"
-                >
-                  <Columns2 className="w-4 h-4" />
-                  Compare with mine
-                </button>
-              )}
-              {revisedText && (
-                <button
-                  onClick={() => onUseRevisedAnswer(stripHtmlTags(revisedText))}
-                  className="t-label px-6 py-3 rounded-xl bg-white text-indigo-900 hover:bg-indigo-50 border-2 border-transparent hover:border-white/50 transition-all hover:scale-105 active:scale-[0.98] shadow-lg flex items-center gap-2"
-                >
-                  <span>Use This Answer</span>
-                  <ArrowUpCircle className="w-4 h-4" />
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* The surface token, not a hand-picked hex. `#0f1420` was the one
+              {/* The surface token, not a hand-picked hex. `#0f1420` was the one
               colour on this page that could not follow a theme change. */}
-          <div className="p-6 sm:p-8 bg-white dark:bg-[rgb(var(--color-bg-surface))] relative z-10">
-            {revisedText ? (
-              <div className="font-serif text-base sm:text-[17px] leading-relaxed text-slate-800 dark:text-slate-200">
-                {renderFormattedText(revisedText, prompt.keywords, prompt.verb)}
+              <div className="p-6 sm:p-8 bg-white dark:bg-[rgb(var(--color-bg-surface))] relative z-10">
+                {revisedText ? (
+                  <div className="font-serif text-base sm:text-[17px] leading-relaxed text-slate-800 dark:text-slate-200">
+                    {renderFormattedText(revisedText, prompt.keywords, prompt.verb)}
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center text-center gap-3 py-6 no-print">
+                    <Zap className={`w-8 h-8 ${exemplarConfig.text} opacity-60`} />
+                    <p className="text-sm text-slate-700 dark:text-slate-200">
+                      Your answer, rewritten one mark higher — in your own words
+                    </p>
+                    <p className="max-w-md text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                      Band 6 Plus rewrites what you wrote to reach {exemplarMark}/
+                      {prompt.totalMarks}, keeping your structure and voice, and shows you the
+                      changes side by side so you can see exactly what the extra mark was for.
+                    </p>
+                    <button
+                      onClick={() => requestUpgrade('answerUpgrades')}
+                      className={`t-label mt-1 px-6 py-3 rounded-xl text-white shadow-lg bg-gradient-to-r ${exemplarConfig.gradient} hover:scale-105 active:scale-[0.98] transition-all`}
+                    >
+                      See what Plus unlocks
+                    </button>
+                  </div>
+                )}
               </div>
-            ) : (
-              <div className="flex flex-col items-center text-center gap-3 py-6 no-print">
-                <Zap className={`w-8 h-8 ${exemplarConfig.text} opacity-60`} />
-                <p className="text-sm text-slate-700 dark:text-slate-200">
-                  Your answer, rewritten one mark higher — in your own words
-                </p>
-                <p className="max-w-md text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-                  Band 6 Plus rewrites what you wrote to reach {exemplarMark}/{prompt.totalMarks},
-                  keeping your structure and voice, and shows you the changes side by side so you
-                  can see exactly what the extra mark was for.
-                </p>
-                <button
-                  onClick={() => requestUpgrade('answerUpgrades')}
-                  className={`t-label mt-1 px-6 py-3 rounded-xl text-white shadow-lg bg-gradient-to-r ${exemplarConfig.gradient} hover:scale-105 active:scale-[0.98] transition-all`}
-                >
-                  See what Plus unlocks
-                </button>
-              </div>
-            )}
-          </div>
-        </section>
-      )}
+            </section>
+          )}
 
-      {/* Feedback Footer */}
-      <div className="mt-4 flex justify-center no-print">
-        <div className="w-full max-w-2xl bg-slate-50 dark:bg-white/5 rounded-panel p-1 border border-slate-200/80 dark:border-white/10">
-          <ResponseFeedback
-            onFeedbackSubmit={onFeedbackSubmit}
-            existingFeedback={result.userFeedback}
-          />
+          {/* Feedback Footer */}
+          <div className="mt-4 flex justify-center no-print">
+            <div className="w-full max-w-2xl bg-slate-50 dark:bg-white/5 rounded-panel p-1 border border-slate-200/80 dark:border-white/10">
+              <ResponseFeedback
+                onFeedbackSubmit={onFeedbackSubmit}
+                existingFeedback={result.userFeedback}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -9,6 +9,24 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Never let the browser fake a weight or a slope it was not given.
+ *
+ * IBM Plex Sans stops at 700 and Newsreader ships 400 and 700, so a request
+ * above the axis has nowhere real to land. The default is to smear the 700
+ * outlines into a faux-bold, which at display sizes reads as a printing fault
+ * rather than as emphasis. Off, an over-range request renders the nearest real
+ * face instead — a quieter and more honest failure. The ladder is capped at
+ * 700 in tailwind.config.js so this should never fire; it is here to catch the
+ * next raw `font-weight: 800` before a person does.
+ *
+ * The same applies to italics: the faces that need them carry real ones.
+ */
+html {
+  font-synthesis-weight: none;
+  font-synthesis-style: none;
+}
+
 :root {
   --color-primary: 99 102 241;
   --color-accent: 14 165 233;

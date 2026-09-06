@@ -797,7 +797,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   )}
                 </div>
                 <div className="flex flex-col min-w-0 flex-1">
-                  <span className="leading-snug font-bold line-clamp-2 block break-words text-[rgb(var(--color-text-primary))] light:text-slate-900">
+                  <span className="leading-snug font-semibold line-clamp-2 block break-words text-[rgb(var(--color-text-primary))] light:text-slate-900">
                     {p.question}
                   </span>
                   <div className="flex flex-wrap items-center gap-2 mt-1.5">

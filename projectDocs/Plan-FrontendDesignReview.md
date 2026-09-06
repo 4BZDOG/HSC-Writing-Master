@@ -150,7 +150,7 @@ its own background colours, so pushing it onto panels inside modals would change
 their surface, not just their radius. It stays what it is: the shared surface
 for the workspace reference rail.
 
-### 6. Line length is never constrained — REOPENED
+### 6. Line length is never constrained — FIXED
 
 `max-w-prose` and `ch` units appeared zero times, and the three main reading
 blocks carried `prose prose-slate dark:prose-invert max-w-none` while
@@ -165,7 +165,21 @@ column of prose wants, and filling it needs ~148 characters. Centring the column
 instead misaligned the prose with its own panel header.
 
 The fix belongs to the container, not the text: narrower reading panels, or
-something else in the space beside them. See `DesignSpec.md` §4, "Measure".
+something else in the space beside them.
+
+**Both halves are now done.** `max-w-3xl` on the report column took the line
+from 142 characters to 104 and left ~400px of nothing beside it on a desktop.
+From `xl` the score placard, the goal card and the metrics move into that space
+— a `minmax(0,1fr)` column and a 22rem margin inside a `5xl` shell — and the
+prose narrows behind them to **86 characters**. Below `xl` nothing changed, by
+construction rather than by a second rule: the wrapper is a flex column there
+and the aside is its first child, so a phone still meets the mark before the
+report. Measured at six widths, nothing clips in the 352px margin, and
+`tests/e2e/report-column.spec.ts` holds it — verified to fail without the change.
+
+A sticky margin was built, worked, and was removed: the aside is 687px against a
+572px scroll container at 1440x700, so pinning it puts the metrics permanently
+out of reach on a short window. See `DesignSpec.md` §4, "Measure".
 
 **How this was missed.** The change was verified by measuring characters per
 line — 74-76, correct — and never by measuring the text against its container,
@@ -184,14 +198,16 @@ evaluations"). Named by the skill as template chrome. Low value, low risk.
    meaning (amber for locks and warnings, emerald for success, indigo for
    primary actions). Either that is fine because context disambiguates, or the
    non-band uses need their own hues. This review has no mandate to decide it.
-2. **Does "Luminous Progression" survive contact with the band colours?** The
-   editor shifts Slate → Emerald → Sky → Indigo with word count, which is the
-   same ramp as Tiers 4–6. Two different things moving through one set of
-   colours.
-3. **Is Inter still the right interface face?** The skill calls it the default
-   pairing of every AI-built product. Newsreader already carries the manuscript,
-   which is the half of the system specific to this subject. Changing the
-   interface face is a bundle and legibility decision, not a styling one.
+2. ~~**Does "Luminous Progression" survive contact with the band colours?**~~
+   **ANSWERED — leave it.** The spec's owner's call: context disambiguates. The
+   editor glow and a band chip never appear in the same role, so a student is
+   unlikely to read the editor turning indigo as "this is Band 6". Same answer
+   as question 1, and it closes both. Nothing changed.
+3. ~~**Is Inter still the right interface face?**~~ **ANSWERED — IBM Plex Sans.**
+   Four candidates (Inter, IBM Plex Sans, Source Sans 3, Public Sans) were
+   rendered on the workspace and the marking report and put to the spec's owner,
+   who chose Plex. See "The typeface change" below for what it actually cost,
+   which was not what the question assumed.
 
 ## The bold slice, and what it found
 
@@ -214,9 +230,79 @@ screens were already disciplined about weight, and that `font-bold`'s 560 total
 lives mostly in admin dashboards, import wizards and the content studio. If the
 middle of the ladder is worth more work, that is where it is — not here.
 
+## The typeface change
+
+The question was framed as a trade — a more specific face, paid for in bundle
+size and in truncation risk from wider glyphs. Measuring it, both halves of the
+price turned out to be wrong.
+
+**It is lighter, not heavier.** Taken as a variable font, IBM Plex Sans is one
+96KB latin file (`wght` plus `wght-italic`) covering the whole 100–700 axis. It
+replaced twelve static Inter faces totalling 289KB. Net saving: ~193KB and ten
+fewer requests.
+
+**It is narrower, not wider.** Measured at 390, 768, 1024 and 1440 against the
+Inter baseline on the same page, the set of clipped strings is identical — 11 on
+a phone, 4 above it, the same strings — and every one overflows _less_ under
+Plex. "Evaluate, Synthesise & Create" went 200px → 187, "Construct models of the
+processes" 313 → 296. No new truncation at any width. Part of that is the face
+and part is `font-black` becoming 700; the two are not separated here because
+the shipped combination is what matters.
+
+**The real cost was somewhere else: the ladder lost a rung.** Plex stops at 700,
+and so does Newsreader, so five rungs had four faces to sit on. 700 and 900 now
+share a value — the merge that costs least, because display type carries its
+rank at three times the size, where 600 and 700 sit side by side on every card.
+`font-black` keeps its own class so the job stays marked. Recorded in
+`DesignSpec.md` §4 and gated by `tests/unit/typefaceLadder.test.ts`, which fails
+if the theme names a face the app does not import or asks for a weight the face
+cannot draw — both of which fail silently on screen.
+
+**Still on Inter: the PDF export.** `pdf/fontLoader.ts` embeds
+`public/fonts/Inter-{Regular,Bold}.ttf` into the jsPDF document, so an exported
+report is now set in a different face from the app that made it. The export
+toast, which is on-screen chrome rather than print, was moved to Plex. The
+embedded TTFs were not: swapping them changes the line breaks and pagination of
+every export, which needs its own verification pass against the PDF samples. It
+is a genuine open item, not an oversight — see the follow-ups.
+
+## The second slice: the content studio
+
+Where the first slice's ratio pointed. The studio is not one screen but the set
+of AI authoring surfaces — the prompt generator, the manual prompt builder, the
+sample-answer generator, the dot-point and outcomes editors, the keyword and
+rubric helpers — read the same way, site by site.
+
+**44 heavy-weight regions, of which 31 were already correct**: modal headings,
+primary and tertiary buttons, mark figures, step numbers in their tiles, mono
+telemetry, and three genuine emphases inside prose (the pinned verb, the tier's
+name, "a **direct question** with no scenario").
+
+Thirteen moved, in five kinds:
+
+| Kind                                          | Sites | To      |
+| --------------------------------------------- | ----- | ------- |
+| Number and text inputs                        | 2     | 400     |
+| Chips already carrying colour + border + fill | 5     | 500     |
+| A notice's own message                        | 3     | 400/500 |
+| A card's title, which is a title in a block   | 1     | 600     |
+| `font-black` on 12–14px type                  | 2     | 700     |
+
+**The ratio fell, and that is the point of running it here.** 31 of 44 is 70%,
+against 46 of 50 — 92% — on the student screens. The authoring surfaces are
+where the habit actually lives, which is what the first slice predicted, and it
+is a milder gap than the raw count suggested.
+
+**Two rules came out of it and went into the spec**, because both were being
+applied by feel: a chip that already has a colour, a border and a fill does not
+also need 700, and a notice's message is prose. The first resolves a genuine
+contradiction — the ladder's table said chips take 700 while the workspace slice
+had demoted them to 500 — so `DesignSpec.md` §4 now says which chips take which,
+rather than leaving the next person to guess from precedent.
+
 ## Where this leaves the review
 
-Findings 1, 5 and 6 are fixed and gated. Findings 2 and 3 are partly fixed, with
+Findings 1, 5 and 6 are fixed and gated — 6 after being reopened once. Findings 2 and 3 are partly fixed, with
 their middles left as reading work. Finding 4 and the colour finding were
 withdrawn after investigation. Finding 7 is untouched.
 
@@ -233,6 +319,11 @@ What remains, none of it codemod work:
   changing them is a copywriting decision rather than a styling one.
 - **`font-bold` at 560 uses** (finding 3's middle) and **`rounded-2xl` at 236**
   (phase 3's). Both need someone to look at each site and say what it is.
-- **The writing surface's 114-character measure** (finding 6), which is a
-  one-line change behind a design trade — see `DesignSpec.md` §4.
+- **The writing surface's 114-character measure**, which is the editor rather
+  than the report, and is a live typing surface rather than a reading one — a
+  different question from finding 6, and still open.
+- **The PDF export is still set in Inter.** `pdf/fontLoader.ts` embeds
+  `public/fonts/Inter-{Regular,Bold}.ttf`, so a report now leaves the app in a
+  different face from the app. Swapping the TTFs changes the line breaks and
+  pagination of every export, which needs verification against the PDF samples.
 - **The three open colour questions above**, which are the spec owner's.

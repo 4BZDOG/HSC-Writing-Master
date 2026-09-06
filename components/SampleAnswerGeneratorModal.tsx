@@ -361,7 +361,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                   <CopyCheck className="w-4 h-4 text-amber-400 light:text-amber-700" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-sm font-black text-amber-300 light:text-amber-800">
+                  <h3 className="text-sm font-bold text-amber-300 light:text-amber-800">
                     {duplicates.length === 1
                       ? 'One answer repeats an exemplar already at that mark'
                       : `${duplicates.length} answers repeat exemplars already at their mark`}
@@ -385,7 +385,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     >
                       <div className="flex flex-wrap items-center gap-2 mb-2">
                         <span
-                          className={`px-2 py-0.5 rounded-lg text-[10px] font-bold tracking-wider ${config.bg} ${config.text} border ${config.border}`}
+                          className={`px-2 py-0.5 rounded-lg text-[10px] font-medium tracking-wider ${config.bg} ${config.text} border ${config.border}`}
                         >
                           {answer.mark}/{prompt.totalMarks}
                         </span>
@@ -551,7 +551,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                   return (
                     <span
                       key={b}
-                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] font-bold ${
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] font-medium ${
                         covered
                           ? `${bConfig.bg} ${bConfig.text} ${bConfig.border} border`
                           : 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 border border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300'
@@ -585,7 +585,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                 <div className="flex flex-wrap items-center gap-3 mb-4">
                   <span
                     className={`
-                                inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm
+                                inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium shadow-sm
                                 bg-[rgb(var(--color-bg-surface))] light:bg-white border ${activeBandConfig.border} ${activeBandConfig.text}
                             `}
                   >
@@ -600,7 +600,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     return (
                       <span
                         key={m}
-                        className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold tracking-wider ${c.bg} ${c.text} border ${c.border}`}
+                        className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium tracking-wider ${c.bg} ${c.text} border ${c.border}`}
                       >
                         {m}/{prompt.totalMarks}
                       </span>

@@ -167,7 +167,11 @@ provides.
 
 ## 4. Typography
 
-- **Interface**: `Inter` - High legibility for data-dense controls.
+- **Interface**: `IBM Plex Sans` — high legibility for data-dense controls, in a
+  voice that reads as engineered rather than as the default sans of every
+  AI-built product. Shipped as its variable font: one 96KB latin file carries
+  the whole 100–700 axis, against 289KB for the twelve static Inter faces it
+  replaced, so the change made the app lighter as well as more specific.
 - **Manuscript**: `Newsreader` (Serif) - Used for the main writing area and AI exemplars to simulate the gravity of an official examination paper.
 - **Telemetry**: `JetBrains Mono` - Used for marks, token counts, and system logs.
 
@@ -175,7 +179,9 @@ provides.
 
 A reading column is bounded by what prose can be read at, not by the window it
 sits in. The report column and the improvement modal's unified view both take
-`max-w-3xl`.
+`max-w-3xl`. From `xl` up the report goes further and becomes a document with a
+margin: the score placard and the metrics move into the space beside the column,
+and the prose narrows behind them.
 
 **Measured across viewports before choosing it.** The line length only ever went
 wrong from about 1024px up, because below that the column is already bounded by
@@ -193,12 +199,44 @@ Phone and tablet are untouched by construction, not by a breakpoint: their
 column is narrower than the cap, so it never engages. The text fills its panel
 at every size — 84–94% before, 90–92% after — so filling was never the problem.
 
-**Why not tighter.** The column also holds the score cards and the stat grid,
-and narrowing it takes them along. Measured on the same screen: 44rem reaches 95
-characters but clips "Key Terms" to "Key…"; 40rem takes "Volume" with it; 38rem
-hits the 80 the skill asks for and clips both. `3xl` (48rem) is the tightest
-line this layout buys without spending a label to get it — 104 characters,
-longer than ideal, against 142 before.
+**Why the column alone could not get tighter.** It also held the score cards and
+the stat grid, and narrowing it took them along. Measured on the same screen:
+44rem reached 95 characters but clipped "Key Terms" to "Key…"; 40rem took
+"Volume" with it; 38rem hit the 80 the skill asks for and clipped both. `3xl`
+(48rem) was the tightest line that layout bought without spending a label to get
+it.
+
+**So the layout changed instead, and the trade went away.** Capping the column
+left about 400px of nothing beside it on a desktop, which is the half of the
+problem a cap cannot reach: the container was the thing that was too wide. From
+`xl` the report is a `minmax(0,1fr)` reading column and a 22rem margin holding
+the placard, the goal card and the metrics, inside a `5xl` shell:
+
+| Viewport     | Column | Margin | Characters | Was |
+| ------------ | ------ | ------ | ---------- | --- |
+| 390 phone    | 308px  | —      | 33         | 33  |
+| 768 tablet   | 654px  | —      | 88         | 88  |
+| 1024 laptop  | 768px  | —      | 106        | 106 |
+| 1280 desktop | 640px  | 352px  | **86**     | 106 |
+| 1440 desktop | 640px  | 352px  | **86**     | 106 |
+| 1920 wide    | 640px  | 352px  | **86**     | 106 |
+
+Below `xl` nothing changed, by construction rather than by a second rule: the
+wrapper is a flex column there and the aside is its first child, so a phone
+still meets the mark before the report. The `order` swap only applies once there
+are two columns to swap between. Nothing clips in the 352px margin at any width,
+including the two metric cards side by side. `tests/e2e/report-column.spec.ts`
+measures all six widths.
+
+**The margin does not follow the reader.** A sticky aside was built first and
+worked — pinned at `top-6` the mark stayed in view through the whole report —
+and was taken out. The aside measures 687px against a scroll container of 572px
+at 1440x700 and 496px at 1280x620, a laptop with a browser bar. Pinned, the top
+holds and the bottom of the column, where the Volume and Key Terms figures are,
+can never be scrolled to. A capped height with its own scrollbar inside a 352px
+margin is worse than scrolling with the page, and a `min-height` media query
+guessing where the sidebar stops fitting breaks the first time the goal card
+gains a line.
 
 **Bound the column, never the text inside it.** `max-w-[56ch]` on the prose was
 tried and reverted: the card stayed 1022px while the text stopped at 508, which
@@ -222,16 +260,51 @@ Weight carries hierarchy, so it has to mean something. One step per job:
 | 400    | (none)          | Prose. Sentences, messages, help text, descriptions                                    |
 | 500    | `.t-label`      | A small label — see below                                                              |
 | 600    | `font-semibold` | A title inside a block, sitting above its own body line                                |
-| 700    | `font-bold`     | Headings, buttons, chips, numbers                                                      |
-| 900    | `font-black`    | Display type (the italic masthead), large headings (`text-xl`+), and telemetry figures |
+| 700    | `font-bold`     | Headings, buttons, numbers, and a chip that has nothing else marking it out            |
+| 700    | `font-black`    | Display type (the italic masthead), large headings (`text-xl`+), and telemetry figures |
 
 `font-bold` and `font-black` together were used 842 times against 4 uses of
 `font-normal`. When almost everything is heavy, weight stops encoding anything —
 so the ladder above is what a new element picks from, and prose picks nothing.
 
-**900 is not "more bold".** At 10px the extra 200 is a smudge rather than
-emphasis, which is where 23 of its uses were. It is reserved for type big enough
-to carry it.
+**The ladder has five rungs and four faces.** IBM Plex Sans stops at 700, and so
+does Newsreader, so one pair has to share a weight. 600 and 700 must not: a card
+title at 600 and its section heading at 700 sit next to each other on nearly
+every surface, and merging them flattens the hierarchy people actually read. 700
+and 900 can, because display type is already carrying its rank at three times
+the size — the weight was a refinement on top of that. So `font-black` emits
+700, stated in `tailwind.config.js` rather than left as a 900 to be clamped
+silently at paint time, and `font-synthesis-weight: none` in `index.css` stops a
+browser faking the difference. `tests/unit/typefaceLadder.test.ts` holds all
+three together: the face named in the theme must be one the app imports, and no
+weight in the theme may exceed what that face can draw.
+
+**`font-black` still keeps its own rung**, even sharing a value. It marks the
+job — display type — so the ladder survives a future face that does have a 900.
+
+**900 was not "more bold".** At 10px the extra 200 was a smudge rather than
+emphasis, which is where 23 of its uses were. The rung is still reserved for
+type big enough to carry it.
+
+**Measured, not assumed: Plex is narrower here, not wider.** The worry when
+choosing it was that a wider face would push the stat labels into truncation.
+Measured at 390, 768, 1024 and 1440 against the Inter baseline, the set of
+clipped strings is identical — 11 on a phone, 4 above it — and every one of them
+overflows _less_ under Plex: "Evaluate, Synthesise & Create" 200px → 187,
+"Construct models of the processes" 313 → 296. Part of that is the face and part
+is 900 becoming 700. Either way the change introduced no new truncation
+anywhere.
+
+**A chip that already has a colour, a border and a fill does not also need 700.** The weight was the fourth thing saying "this is separate", and the first
+three were doing it. Those chips take the label weight, 500 — the syllabus terms
+in the workspace, the band and tier pills in the sample-answer studio, the tag
+row under a question. 700 stays for a chip carrying a number, and for one whose
+only marker is its weight.
+
+**A notice's message is prose.** An error or a warning is a sentence, and the
+tint, the border and the icon have already said it is a notice — so it reads at
+400, not 700. The exception is a notice set below 12px, where the readability
+floor renders it at 11.5px and 400 goes thin against a tinted ground: those take 500.
 
 **A `<p>` is not automatically prose.** Some hold a title with a body line
 beneath: the error notice's heading, a course name above its topic count, a
