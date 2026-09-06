@@ -86,13 +86,17 @@ reading as a warning. A curator pass.
 
 ## Code
 
-### 6. The PDF export is still set in Inter — MEDIUM
+### 6. The PDF export is still set in Inter — REFRAMED, and smaller
 
-The app has been IBM Plex Sans since #204. `pdf/fontLoader.ts` still embeds
-`public/fonts/Inter-{Regular,Bold}.ttf`, so a report leaves the app in a
-different face from the app that made it. Swapping the TTFs changes line breaks
-and pagination on every export, so it needs a verification pass against the PDF
-samples — which is why it has been carried rather than done.
+Written when the app was Plex throughout. It is now Plex for prose and UI and
+**Inter for display** — the wordmark, the two card headings and the section
+headings — at the spec owner's call, so the PDF's Inter is no longer simply
+wrong. What remains is narrower: the export sets its BODY text in Inter where
+the app sets body in Plex, while the two now agree on the display face.
+
+That is a smaller and more arguable question than "the app contradicts itself",
+and it still costs a pagination pass against the PDF samples to answer, so it
+stays open rather than being done on the way past.
 
 ### 7. The keyword matcher still cannot double a consonant that is not -l — LOW
 
@@ -119,6 +123,6 @@ rather than a defect; worth a sweep when something else is open in those files.
 ## Suggested order
 
 3 and 1 are the two a student would actually feel, and both are curator passes
-with tools that already exist — so the useful code work is 6, the PDF face,
-which is the last place the app still contradicts itself. 4 needs a decision
-from the owner before anything can be done with it.
+with tools that already exist. 6 has shrunk since this was written — see the
+note there — so the content work is now the whole of the useful list. 4 needs a
+decision from the owner before anything can be done with it.

@@ -21,6 +21,9 @@ const entry = readFileSync('index.tsx', 'utf8');
 /** The heaviest face IBM Plex Sans and Newsreader both provide. */
 const AXIS_CEILING = 700;
 
+/** Inter carries the display roles and runs the full axis. */
+const DISPLAY_CEILING = 900;
+
 const themeBlock = (name: string): string => {
   const at = config.indexOf(`${name}: {`);
   if (at === -1) return '';
@@ -58,6 +61,49 @@ describe('the interface face and the weight ladder agree', () => {
         .replace(/\s+variable$/, '')
         .replace(/\s+/g, '-');
     expect(entry).toContain(`fontsource-variable/${slug(named[0])}`);
+  });
+
+  it('sets a display stack whose first family is imported too', () => {
+    // Two faces now: Plex reads, Inter displays. A display family named in the
+    // theme but never imported fails exactly as silently as a body one — the
+    // browser drops to the system sans and the screenshot still looks fine.
+    const display = /display:\s*\[([^\]]*)\]/.exec(themeBlock('fontFamily'));
+    expect(display, 'fontFamily.display is missing from tailwind.config.js').not.toBeNull();
+    const named = (display as RegExpExecArray)[1]
+      .split(',')
+      .map((f) => f.trim().replace(/^['"]|['"]$/g, ''))
+      .filter((f) => f && !/^(sans-serif|serif|monospace|system-ui)$/.test(f));
+    expect(named.length).toBeGreaterThan(0);
+    const slug = (family: string) =>
+      family
+        .toLowerCase()
+        .replace(/\s+variable$/, '')
+        .replace(/\s+/g, '-');
+    expect(entry).toContain(`fontsource-variable/${slug(named[0])}`);
+  });
+
+  it('keeps every weight above the Plex ceiling bound to the face that can draw it', () => {
+    // The 900 lives in `.t-display` / `.t-section` rather than in the theme,
+    // because a theme-level 900 is handed to Plex too and clamps back to 700 in
+    // silence. This is the boundary that arrangement depends on: any rule in
+    // index.css asking for more than 700 must also name the display family.
+    // Comments are stripped first: the note above `font-synthesis-weight`
+    // mentions a raw `font-weight: 800` as the thing it exists to catch, and
+    // scanning the prose flagged the explanation as the defect.
+    const css = readFileSync('index.css', 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+    const offenders: string[] = [];
+    for (const block of css.split('}')) {
+      const weight = /font-weight:\s*(\d{3})/.exec(block);
+      if (!weight) continue;
+      const asked = Number(weight[1]);
+      if (asked <= AXIS_CEILING) continue;
+      expect(asked).toBeLessThanOrEqual(DISPLAY_CEILING);
+      if (!/font-family:[^;]*Inter/i.test(block)) {
+        const selector = (block.split('{')[0] || '').trim().split('\n').pop() ?? '?';
+        offenders.push(`${selector} asks for ${asked} without naming Inter`);
+      }
+    }
+    expect(offenders, offenders.join('\n')).toEqual([]);
   });
 
   it('asks for no weight the face cannot draw', () => {

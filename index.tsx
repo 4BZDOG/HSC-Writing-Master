@@ -16,6 +16,10 @@ import ErrorBoundary from './components/ErrorBoundary';
 // The axis stops at 700. See `tailwind.config.js` for what that costs and how
 // the weight ladder absorbs it.
 import '@fontsource-variable/ibm-plex-sans/wght.css';
+// Inter carries the display roles — the wordmark, the card headings and the
+// section headings. The latin `wght` subset is 48KB and covers 100-900, which
+// is what gives `font-black` a real 900 again; Plex's axis stops at 700.
+import '@fontsource-variable/inter/wght.css';
 import '@fontsource-variable/ibm-plex-sans/wght-italic.css';
 import '@fontsource/jetbrains-mono/400.css';
 import '@fontsource/jetbrains-mono/700.css';
