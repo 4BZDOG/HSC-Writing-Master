@@ -164,3 +164,36 @@ stays as it is; it earned its place by being the app's own device.
 1 and 4 are small and self-contained. 2 and 3 are the real work, and both need
 the rule written before the edit — which is the lesson from the `font-bold`
 pass, where a codemod without a rule produced a number nobody could defend.
+
+---
+
+# Built, and where the plan was wrong
+
+Items 1, 2 and 4 landed as written. **Item 3 did not, and would have made the
+app worse if it had.**
+
+The plan said the app has no body size, from a count of `text-*` classes:
+`text-base` six times against 299 uses of 12px. That count measured the wrong
+thing. The surfaces people actually read set their size **inline from a zoom
+control**, so they never appear in a class count at all — the question renders
+at 21.6px, the scenario and the exemplars at 18px, and the marking report at
+16–17px, which is where those six `text-base` uses live. Converting the reading
+surfaces to a 16px token, as written, would have shrunk every one of them.
+
+The real finding is narrower and was invisible to the count: **the marking
+guide's criteria were set at `text-[11px]`** — in the panel whose own
+description is "the criteria your answer is scored against, mark by mark", with
+the mark NUMBER beside each row at 18px. The thing a student glances at was
+two-thirds larger than the thing they have to read. That is the one reading
+surface the arrangement had left behind, and `.t-body` now exists for it.
+
+So `.t-body` is not a migration target and the plan's "217 sub-12px uses" framing
+is retired: 12px labels and 14px controls stay where they are, and the token is
+where the next reading surface goes.
+
+**The critique pass also caught the caps work being incomplete.** The rule was
+applied by a regex over `<h2>`–`<h4>`, and screenshotting the workspace showed
+"Sample Answers" still in sentence case beside siblings that had changed — it is
+a `<span>`, so the selector never saw it. Same for "Coach's Tip". Three more
+spans matching that pattern turned out to be link-row labels and a notice title,
+which the rule says are not boundaries, so they were left.

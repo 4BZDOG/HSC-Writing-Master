@@ -546,6 +546,32 @@ a:focus-visible,
 }
 
 /*
+ * `.t-body` — the size prose is READ at, as opposed to glanced at.
+ *
+ * The scale had no middle. Counting `text-*` classes said the app had no body
+ * size at all — `text-base` appeared six times against 299 uses of 12px — but
+ * that count was measuring the wrong thing, and the correction is worth keeping
+ * next to the rule. The surfaces people actually read set their size inline
+ * from a zoom control, so they never appear in a class count: the question
+ * renders at 21.6px, the scenario and the exemplars at 18px, and the marking
+ * report at 16-17px. Those are all fine, and pushing them to a 16px token would
+ * have made the app worse.
+ *
+ * One reading surface was missed by that arrangement, and it is the one this
+ * class exists for: the marking guide's criteria were set at 11px, in the panel
+ * whose whole job is "the criteria your answer is scored against, mark by
+ * mark". The mark NUMBER beside each row is 18px. The thing a student glances
+ * at was two-thirds larger than the thing they have to read.
+ *
+ * So this is not a migration target. It is where the next reading surface goes,
+ * and 12px labels and 14px controls stay exactly where they are.
+ */
+.t-body {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+/*
  * `.t-section` — a section heading, which is not the same thing as a label.
  *
  * Panel titles and 10px inline labels had both collapsed into `.t-label`, so
