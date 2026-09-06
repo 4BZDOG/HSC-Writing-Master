@@ -417,7 +417,7 @@
                     "id": "prompt-1763040000002-d4e5f6g",
                     "question": "Analyse the role of the 'maintenance' phase of the software development life cycle in preserving the security of an application over time. Use examples to support your answer.",
                     "totalMarks": 4,
-                    "verb": "APPLY",
+                    "verb": "ANALYSE",
                     "scenario": "A company launched a successful web application two years ago. The management team now wants to reduce the budget for the original development team, arguing that the project is 'finished'. The lead engineer must prepare a report analysing the critical role of the ongoing maintenance phase in protecting the application from new and emerging security threats.",
                     "linkedOutcomes": [
                       "SE-12-08",
@@ -1359,7 +1359,7 @@
                     "id": "prompt-1763170000001-final30-01",
                     "question": "Analyse the role of data encryption as a security feature for ensuring both data protection and regulatory compliance.",
                     "totalMarks": 5,
-                    "verb": "APPLY",
+                    "verb": "ANALYSE",
                     "scenario": "A company is preparing for its annual privacy audit. The legal counsel asks the head of software engineering to analyse and document how the company's use of end-to-end encryption specifically helps them meet their obligations under the GDPR.",
                     "linkedOutcomes": [
                       "SE-12-04",
@@ -4858,7 +4858,7 @@
                     "id": "prompt-1763170000004-final30-04",
                     "question": "Analyse how the use of a Content Delivery Network (CDN) can help manage and improve the load times of a global web application.",
                     "totalMarks": 5,
-                    "verb": "APPLY",
+                    "verb": "ANALYSE",
                     "scenario": "An Australian e-commerce company is expanding into the European market. They notice that European users are complaining that the website is very slow to load. A network engineer is tasked with analysing how a CDN could solve this problem.",
                     "linkedOutcomes": [
                       "SE-12-03",
@@ -6218,7 +6218,7 @@
                     "id": "prompt-1763190000003-er-03",
                     "question": "A social media platform has three tables: Users (UserID, Username), Posts (PostID, PostContent, AuthorID), and Comments (CommentID, CommentText, PostID, CommenterID). Construct an SQL script that retrieves the CommentText and the Username of the commenter for all comments on a specific post with PostID = 123.",
                     "totalMarks": 3,
-                    "verb": "APPLY",
+                    "verb": "CONSTRUCT",
                     "scenario": "A back-end developer needs to create an API endpoint that will display all the comments for a given blog post. To do this, they need to construct an SQL query that retrieves the comment text from one table and the commenter's username from another table.",
                     "linkedOutcomes": [
                       "SE-12-02"
@@ -6662,7 +6662,7 @@
                     "id": "prompt-1763034567890-klmn901",
                     "question": "Analyse the importance of distinguishing between functional and non-functional requirements when defining a new software project. Provide an example of each for a school library management system.",
                     "totalMarks": 5,
-                    "verb": "APPLY",
+                    "verb": "ANALYSE",
                     "scenario": "A software engineer is leading the first client meeting for a new school library management system. They need to explain to the school principal how the development team will capture not just the required features, but also the performance and usability expectations for the software.",
                     "linkedOutcomes": [
                       "SE-12-01",

@@ -600,7 +600,7 @@
                     "id": "prompt-process-data-2",
                     "question": "A cell measures 45 micrometres (µm) in length. Convert this length to millimetres (mm) and justify the importance of standard units.",
                     "totalMarks": 3,
-                    "verb": "APPLY",
+                    "verb": "JUSTIFY",
                     "scenario": "",
                     "linkedOutcomes": [],
                     "relatedTopics": [],
@@ -619,7 +619,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-process-data-2-6",
-                        "band": 4,
+                        "band": 5,
                         "answer": "45 µm = 45 / 1000 = 0.045 mm. Standard units (SI) are critical for global scientific communication, allowing researchers to compare data accurately without conversion errors.",
                         "mark": 3,
                         "source": "AI"
@@ -2355,7 +2355,7 @@
                         "id": "sa-c832e439-1d59-4ec7-973e-d417afddf46f",
                         "answer": "Sex-linked genes are on X chromosomes, autosomal on autosomes. Males are hemizygous for X-linked traits, causing distinct genotype and phenotype ratios.",
                         "mark": 2,
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "question": "Explain the genetic basis for the differences in genotype and phenotype ratios observed in Punnett squares when comparing sex-linked and autosomal inheritance.",
@@ -2387,7 +2387,7 @@
                     ],
                     "id": "prompt-1d991b45-fb55-4f90-9be5-f5c1763fe867",
                     "totalMarks": 2,
-                    "verb": "DEFINE"
+                    "verb": "EXPLAIN"
                   }
                 ]
               },
@@ -4148,7 +4148,7 @@
                     "id": "prompt-disease-epi-6",
                     "question": "Analyse the provided data showing high prevalence but low mortality for Type 2 Diabetes compared to low prevalence but high mortality for Ebola.",
                     "totalMarks": 4,
-                    "verb": "CLARIFY",
+                    "verb": "ANALYSE",
                     "scenario": "",
                     "linkedOutcomes": [],
                     "relatedTopics": [],
@@ -4167,14 +4167,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-6-full",
-                        "band": 3,
+                        "band": 4,
                         "answer": "The data reflects the nature of the diseases. Type 2 Diabetes has high prevalence because it is a chronic, non-infectious condition that is managed long-term; patients survive for years, allowing cases to accumulate. Ebola has low prevalence but high mortality because it is an acute infectious disease with a high fatality rate; patients either die or recover quickly, preventing a large population of active cases from accumulating.",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-epi-6-half",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Diabetes has high prevalence which means lots of people have it but don't die often. Ebola kills people fast so the mortality is high, but not many people have it at once.",
                         "mark": 2,
                         "source": "AI"
@@ -4368,7 +4368,7 @@
                     "id": "prompt-disease-epi-11",
                     "question": "Analyse the relationship between asbestos exposure and mesothelioma.",
                     "totalMarks": 3,
-                    "verb": "CLARIFY",
+                    "verb": "ANALYSE",
                     "scenario": "",
                     "linkedOutcomes": [],
                     "relatedTopics": [],
@@ -4387,7 +4387,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-11-full",
-                        "band": 3,
+                        "band": 4,
                         "answer": "Data shows a direct causal link between inhaling asbestos fibres and developing mesothelioma. The fibres lodge in the lung lining, causing chronic inflammation and mutation over decades. The data reveals a dose-response relationship, where higher exposure correlates with higher disease incidence, confirming asbestos is a carcinogen.",
                         "mark": 3,
                         "source": "AI"
@@ -4688,7 +4688,7 @@
                     "id": "prompt-bio-change-4",
                     "question": "Analyse the causes for the decline of a selected Australian threatened species.",
                     "totalMarks": 4,
-                    "verb": "CLARIFY",
+                    "verb": "ANALYSE",
                     "scenario": "",
                     "linkedOutcomes": [],
                     "relatedTopics": [],
@@ -4707,14 +4707,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-change-4-full",
-                        "band": 3,
+                        "band": 4,
                         "answer": "For the Regent Honeyeater, the primary human-induced cause of decline is land clearing for agriculture, which has fragmented their box-ironbark woodland habitat, reducing food availability. Natural causes such as prolonged drought have exacerbated this by inhibiting the flowering of eucalypts. The combination of habitat loss and environmental stress has critically reduced their population size and genetic diversity.",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-change-4-half",
-                        "band": 3,
+                        "band": 2,
                         "answer": "The Koala is threatened because humans cut down trees for houses (habitat loss). Also, bushfires which are natural kill them. Chlamydia is a disease that also hurts them.",
                         "mark": 2,
                         "source": "AI"
@@ -5178,7 +5178,7 @@
                     "id": "prompt-bio-gen-9",
                     "question": "Analyse how low genetic diversity in the Major Histocompatibility Complex (MHC) of Tasmanian Devils has impacted their survival against Devil Facial Tumour Disease (DFTD).",
                     "totalMarks": 4,
-                    "verb": "CLARIFY",
+                    "verb": "ANALYSE",
                     "scenario": "",
                     "linkedOutcomes": [],
                     "relatedTopics": [],
@@ -5197,14 +5197,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-9-full",
-                        "band": 3,
+                        "band": 4,
                         "answer": "Tasmanian Devils have extremely low genetic diversity in their MHC genes due to past bottlenecks. The MHC is responsible for immune recognition of 'self' vs 'non-self'. Because the contagious tumour cells (DFTD) are genetically similar to the devils' own cells, and the devils share similar MHC alleles, their immune systems fail to recognise the tumour as foreign. Consequently, no immune response is mounted, allowing the cancer to spread rapidly with 100% mortality, threatening the species with extinction.",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-gen-9-half",
-                        "band": 3,
+                        "band": 2,
                         "answer": "The Tasmanian devils are all very genetically similar. This means their immune system doesn't notice the facial tumour disease because it looks like their own cells. So they can't fight it off and they die.",
                         "mark": 2,
                         "source": "AI"
@@ -5801,7 +5801,7 @@
                     "id": "prompt-bio-sus-7",
                     "question": "Analyse the ethical issues associated with de-extinction projects, such as cloning the Thylacine.",
                     "totalMarks": 4,
-                    "verb": "CLARIFY",
+                    "verb": "ANALYSE",
                     "scenario": "",
                     "linkedOutcomes": [],
                     "relatedTopics": [],
@@ -5820,14 +5820,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-sus-7-full",
-                        "band": 3,
+                        "band": 4,
                         "answer": "Reintroducing the Thylacine raises significant ethical issues. Firstly, animal welfare: clones may suffer from health defects. Secondly, ecological suitability: the habitat may have changed, leaving the animal with no place to live. Finally, resource allocation: spending millions on de-extinction acts as a 'moral hazard', diverting critical funds from saving currently endangered species that could be saved more cheaply.",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-sus-7-half",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Bringing back the Thylacine might be cruel to the animal if it is sick. Also, where would it live? We should spend the money on saving animals that are alive now instead.",
                         "mark": 2,
                         "source": "AI"
