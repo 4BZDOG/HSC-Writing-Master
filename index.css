@@ -563,6 +563,7 @@ a:focus-visible,
   font-size: 0.75rem;
   line-height: 1.35;
   font-weight: 900;
+  font-style: italic;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }

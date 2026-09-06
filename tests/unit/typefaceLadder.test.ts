@@ -114,6 +114,25 @@ describe('the interface face and the weight ladder agree', () => {
     for (const w of asked) expect(w).toBeLessThanOrEqual(AXIS_CEILING);
   });
 
+  it('imports an italic axis for every face that is set in italic', () => {
+    // The failure this catches actually shipped. Inter was added for the
+    // display roles with only `wght.css` — the upright axis — while every one
+    // of those roles (the wordmark, both card headings, the section headings)
+    // is set in italic caps. `font-synthesis-style: none` forbids faking a
+    // slope, so CSS matched the upright face for an italic request and the
+    // wordmark rendered bolt upright. Rendered side by side, "asked for italic"
+    // and "asked for upright" were pixel-identical, and every screenshot of it
+    // looked entirely plausible.
+    //
+    // Both families here carry italic display type, so both owe both axes.
+    for (const family of ['ibm-plex-sans', 'inter']) {
+      expect(entry, `${family} is imported without its italic axis`).toContain(
+        `fontsource-variable/${family}/wght-italic.css`
+      );
+      expect(entry).toContain(`fontsource-variable/${family}/wght.css`);
+    }
+  });
+
   it('refuses to let the browser fake the weights it is missing', () => {
     const css = readFileSync('index.css', 'utf8');
     expect(css).toMatch(/font-synthesis-weight:\s*none/);
