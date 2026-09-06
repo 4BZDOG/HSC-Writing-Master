@@ -83,9 +83,6 @@ export const cloneCourses = (courses: Course[]): Course[] => {
             ...prompt,
             sampleAnswers: prompt.sampleAnswers ? [...prompt.sampleAnswers] : undefined,
             keywords: prompt.keywords ? [...prompt.keywords] : undefined,
-            targetPerformanceBands: prompt.targetPerformanceBands
-              ? [...prompt.targetPerformanceBands]
-              : undefined,
           })),
         })),
       })),

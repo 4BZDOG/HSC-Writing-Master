@@ -20,7 +20,6 @@
                 "SE-12-04",
                 "SE-12-08"
               ],
-              "estimatedTime": "5 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -42,12 +41,6 @@
                 "Confidentiality"
               ],
               "markingCriteria": "Provides one mark for each distinct benefit of developing secure software that is correctly outlined with relevant features. Maximum of three marks. Benefits can include data protection, minimising cyber attacks, or reducing vulnerabilities.",
-              "targetPerformanceBands": [
-                1,
-                2,
-                3,
-                4
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-1a2e3a02-17b1-4586-8e0d-58d75db5973f",
@@ -90,7 +83,6 @@
                 "SE-12-01",
                 "SE-12-05"
               ],
-              "estimatedTime": "8 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -114,11 +106,6 @@
                 "Customer trust"
               ],
               "markingCriteria": "- Provides a clear justification linking secure practices to mitigating long-term risks (1 mark). • Supports the justification by explaining the high cost of fixing post-release vulnerabilities (1 mark). • Supports the justification by discussing the impact of a security breach on a startup's reputation and customer trust (2 marks). • Presents a cohesive and logical argument (1 mark).",
-              "targetPerformanceBands": [
-                1,
-                4,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-17810d3e-6118-4e53-aef7-7ce69c329c0b",
@@ -154,7 +141,6 @@
                 "SE-12-04",
                 "SE-12-01"
               ],
-              "estimatedTime": "12 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -177,11 +163,6 @@
                 "Security strategy"
               ],
               "markingCriteria": "- Makes a clear evaluative judgement that a balanced approach is most effective (1 mark). • Applies the criterion of 'data protection', explaining its importance but also its limitations if vulnerabilities exist (2 marks). • Applies the criterion of 'vulnerability management', explaining its importance but also its limitations if data is not protected at its core (2 marks). • Provides a comprehensive synthesis, arguing for a 'defense in depth' strategy (2 marks).",
-              "targetPerformanceBands": [
-                1,
-                4,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-b45ad2a2-343b-4679-aa73-b957baadc449",
@@ -217,7 +198,6 @@
                 "SE-12-04",
                 "SE-12-07"
               ],
-              "estimatedTime": "20 minutes",
               "relatedTopics": [
                 "Software Development Lifecycle (SDLC)",
                 "Cybersecurity principles",
@@ -261,7 +241,6 @@
                 "Critical evaluation"
               ],
               "markingCriteria": "1 0- 1\n2 Marks: Provides a comprehensive, insightful, and highly perceptive critical evaluation of the extent to which secure software development delivers benefits in data protection, minimising cyber attacks, and reducing vulnerabilities. Demonstrates a sophisticated understanding of the challenges inherent in a dynamic FinTech environment (e.g., rapid feature deployment, cloud infrastructure, regulatory compliance) and discusses how secure software practices address or are impacted by these. Justifies judgments with specific, well-articulated examples and a nuanced discussion of both successes and limitations. Arguments are well-structured, coherent, and demonstrate superior knowledge of secure software architecture principles.\n7-9 Marks: Provides a detailed and well-structured critical evaluation of the benefits of secure software development in data protection, minimising cyber attacks, and reducing vulnerabilities. Demonstrates a sound understanding of the FinTech context and how secure software practices contribute to these benefits. Arguments are supported with relevant examples, and a clear judgment is made regarding the effectiveness, though it may lack the depth or nuance of a top-range response. Discussion is mostly coherent with good application of relevant concepts.\n4-6 Marks: Describes the benefits of developing secure software (data protection, minimising cyber attacks, reducing vulnerabilities) with some attempt at evaluation. Identifies some relevant secure software practices and their impact within the FinTech scenario, but the evaluation may be more descriptive than critical, or lack depth regarding the 'extent' to which benefits are achieved. Arguments may be general or lack specific supporting examples. Understanding of the FinTech environment's unique challenges may be limited.\n2-3 Marks: Provides a basic description of one or two benefits of secure software development. Lacks significant evaluation or contextualisation within the FinTech scenario. Response is superficial, with limited detail or relevance to the question's demands.\n0-1 Mark: Provides an irrelevant or minimal response, demonstrating no understanding of the question or the syllabus content.",
-              "targetPerformanceBands": [],
               "sampleAnswers": [
                 {
                   "id": "sa-bc059dc1-437f-4130-9801-24f7d834cc14",
@@ -289,7 +268,6 @@
                 "SE-12-02",
                 "SE-12-06"
               ],
-              "estimatedTime": "9 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -316,14 +294,6 @@
                 "Code review"
               ],
               "markingCriteria": "- Provides a clear and detailed explanation of how the design phase contributes to secure code, supported by relevant examples (e.g., threat modelling, principle of least privilege). (2 marks) • Provides a clear and detailed explanation of how the testing phase contributes to secure code, supported by relevant examples (e.g., penetration testing, fuzz testing). (2 marks) • Demonstrates a logical and coherent structure, using appropriate terminology accurately throughout the response. (1 mark)",
-              "targetPerformanceBands": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-3e574c04-91d7-4c56-8041-62d4d272e29e",
@@ -380,7 +350,6 @@
                 "SE-12-08",
                 "SE-12-01"
               ],
-              "estimatedTime": "6 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -405,11 +374,6 @@
                 "Security posture"
               ],
               "markingCriteria": "- Identifies the key purpose of the maintenance phase in relation to ongoing security (1 mark). • Analyses the importance of proactive maintenance activities, such as patching and monitoring (2 marks). • Supports the analysis with a relevant example, such as responding to a newly discovered vulnerability in a library (1 mark).",
-              "targetPerformanceBands": [
-                1,
-                3,
-                5
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-d65f6568-6150-4dc9-969c-956ab723612d",
@@ -445,7 +409,6 @@
                 "SE-12-01",
                 "SE-12-09"
               ],
-              "estimatedTime": "5 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -467,11 +430,6 @@
                 "Threat modelling"
               ],
               "markingCriteria": "- Provides characteristics of security requirements gathering (1 mark). • Describes specific types of security requirements, such as data privacy or access control (1 mark). • Gives an example of a security requirement (1 mark).",
-              "targetPerformanceBands": [
-                1,
-                2,
-                5
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-0814b7c2-6df9-4d91-b1bc-6dfae2626fab",
@@ -513,7 +471,6 @@
                 "SE-12-03",
                 "SE-12-06"
               ],
-              "estimatedTime": "4 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -535,12 +492,6 @@
                 "Authentication"
               ],
               "markingCriteria": "Provides clear characteristics and features of how end-user capabilities influence secure software design. -\n3 Marks: Clearly describes two or more influences with relevant examples and terminology. -\n2 Marks: Describes one influence with some detail or lists multiple influences. -\n1 Mark: Identifies a basic link between users and security.",
-              "targetPerformanceBands": [
-                1,
-                2,
-                3,
-                4
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-57970f8b-d5cc-48ed-8498-49201d11ad34",
@@ -583,7 +534,6 @@
                 "SE-12-07",
                 "SE-12-05"
               ],
-              "estimatedTime": "7 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -607,11 +557,6 @@
                 "Secure design"
               ],
               "markingCriteria": "- Proposes a relevant first secure design feature (1 mark). • Justifies the first choice by linking it to the specific user group's needs (1 mark). • Proposes a relevant second secure design feature (1 mark). • Justifies the second choice by linking it to the specific user group's needs (1 mark).",
-              "targetPerformanceBands": [
-                1,
-                3,
-                5
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-6b16246c-8f32-4904-bdb6-e1fe21fafbe6",
@@ -647,7 +592,6 @@
                 "SE-12-05",
                 "SE-12-06"
               ],
-              "estimatedTime": "12 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -670,11 +614,6 @@
                 "Human factor"
               ],
               "markingCriteria": "- Identifies the key issue: the inherent conflict between security controls and user experience (1 mark). • Develops points for one perspective, explaining how strong security measures can create 'friction' and make a system unusable (2 marks). • Develops points for the alternative perspective, explaining how unusable security leads to users bypassing it, making the system insecure (2 marks). • Provides a balanced, nuanced treatment showing that the most effective security is both strong and usable (2 marks).",
-              "targetPerformanceBands": [
-                1,
-                3,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-6fa6df29-5b5b-4586-9889-9f2bed5c87e6",
@@ -721,7 +660,6 @@
               "linkedOutcomes": [
                 "SE-12-05"
               ],
-              "estimatedTime": "9 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -746,14 +684,6 @@
                 "Security mechanisms"
               ],
               "markingCriteria": "Provides a clear definition for authentication (1 mark) and authorisation (1 mark). Compares the concepts, explaining how they work together sequentially (1 mark). Contrasts the concepts, explaining their distinct purposes (1 mark). Provides a relevant and well-explained example illustrating both concepts in a software context (1 mark).",
-              "targetPerformanceBands": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-03386d6e-f116-41b4-9271-077868e19d43",
@@ -810,7 +740,6 @@
                 "SE-12-07",
                 "SE-12-04"
               ],
-              "estimatedTime": "9 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -835,11 +764,6 @@
                 "Redundancy"
               ],
               "markingCriteria": "- Explains the application of Confidentiality in the context of a voting system, with an example (2 marks). • Explains the application of Integrity in the context of a voting system, with an example (2 marks). • Explains the application of Availability in the context of a voting system, with an example (2 marks).",
-              "targetPerformanceBands": [
-                1,
-                4,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-726ea2d7-e5aa-4074-af92-d814ebd9bb16",
@@ -875,7 +799,6 @@
                 "SE-12-04",
                 "SE-12-05"
               ],
-              "estimatedTime": "6 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -897,11 +820,6 @@
                 "Security concepts"
               ],
               "markingCriteria": "- Explains the concept of accountability as the ability to trace actions to a specific entity (1 mark). • Relates this concept to security, explaining how it helps in forensic analysis and acts as a deterrent (2 marks). • Provides a relevant example, such as detailed audit logs (1 mark).",
-              "targetPerformanceBands": [
-                1,
-                2,
-                5
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-258e3eb4-7521-44b3-a02a-dce7eb6ccd32",
@@ -937,7 +855,6 @@
                 "SE-12-04",
                 "SE-12-01"
               ],
-              "estimatedTime": "12 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -960,11 +877,6 @@
                 "Trade-offs"
               ],
               "markingCriteria": "- Identifies the key issue: the potential conflict between availability and security (1 mark). • Develops points for one perspective (stronger security can negatively impact availability) with examples like strict firewalls or complex MFA (2 marks). • Develops points for the alternative perspective (poor security can lead to a total loss of availability) with examples like DDoS or ransomware attacks (2 marks). • Provides a balanced treatment, showing an understanding that a trade-off must be managed (2 marks).",
-              "targetPerformanceBands": [
-                1,
-                3,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-c8b91a1e-467d-485f-876d-e6628b8b0cb6",
@@ -999,7 +911,6 @@
               "linkedOutcomes": [
                 "SE-12-04"
               ],
-              "estimatedTime": "3 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -1017,11 +928,6 @@
                 "Security concepts"
               ],
               "markingCriteria": "- Provides a complete definition for confidentiality (1 mark). • Provides a complete definition for integrity (1 mark).",
-              "targetPerformanceBands": [
-                1,
-                2,
-                4
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-66205fc3-b035-40f2-a08f-2ef31501fc25",
@@ -1063,7 +969,6 @@
                 "SE-12-03",
                 "SE-12-02"
               ],
-              "estimatedTime": "15 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -1095,14 +1000,6 @@
                 "Threat landscape"
               ],
               "markingCriteria": "- 7-8 Marks: Makes a clear and well-supported judgment on the effectiveness of both models. Provides a detailed and accurate evaluation, linking specific architectural principles and features (e.g., micro-segmentation, MFA, least privilege) to data protection, privacy, and regulatory compliance within the FinTech context. Justifies the evaluation with logical reasoning and relevant examples. •\n5-6 Marks: Makes a sound judgment. Provides a good description and some evaluation of both models. Links some security features to the requirements but may lack depth or specific application to the scenario. Justification is present but may not be fully developed. •\n3-4 Marks: Describes one or both security models with a limited attempt at evaluation or comparison. May list some security features without clearly explaining their effectiveness or relevance. The response is more descriptive than evaluative. •\n1-2 Marks: Provides a very basic or confused description of security concepts. May identify a relevant term (e.g., firewall, password) with little or no correct explanation. Fails to address the core aspects of the question. •\n0 Marks: Provides an irrelevant or non-attempted response.",
-              "targetPerformanceBands": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-851adadf-cd8e-4a9b-97e8-754cb86cc6e8",
@@ -1159,7 +1056,6 @@
                 "SE-12-04",
                 "SE-12-05"
               ],
-              "estimatedTime": "8 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -1181,11 +1077,6 @@
                 "Confidentiality"
               ],
               "markingCriteria": "- Identifies key components: encryption, data protection, and compliance (1 mark). • Examines the relationship between encryption and data protection, explaining how it ensures confidentiality (2 marks). • Examines the relationship between encryption and regulatory compliance, explaining how it helps meet legal requirements (2 marks).",
-              "targetPerformanceBands": [
-                1,
-                3,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-94bca71e-edf6-42ac-882d-99324de91228",
@@ -1227,7 +1118,6 @@
                 "SE-12-07",
                 "SE-12-01"
               ],
-              "estimatedTime": "8 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -1253,13 +1143,6 @@
                 "Vulnerability management"
               ],
               "markingCriteria": "- Provides a clear explanation of cryptography's role in security by design, with a relevant example (2 marks). • Provides a clear explanation of sandboxing's role in security by design, with a relevant example (2 marks). • Effectively links both concepts to the proactive nature of the 'security by design' approach, using appropriate terminology (1 mark).",
-              "targetPerformanceBands": [
-                1,
-                2,
-                3,
-                4,
-                5
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-da3e2328-733a-4167-a74f-7fd82dd42c33",
@@ -1309,7 +1192,6 @@
                 "SE-12-07",
                 "SE-12-01"
               ],
-              "estimatedTime": "10 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -1332,11 +1214,6 @@
                 "Defense in depth"
               ],
               "markingCriteria": "- Makes a judgement on its effectiveness (e.g., 'highly effective but not foolproof') (1 mark). • Provides evidence of its benefits, focusing on containment and isolation of untrusted code (2 marks). • Discusses its limitations, such as the possibility of sandbox escape vulnerabilities (2 marks). • Draws a warranted conclusion about its role within a wider 'defense in depth' strategy (1 mark).",
-              "targetPerformanceBands": [
-                1,
-                3,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-cb79fc93-a660-4062-8dc4-a257186eb528",
@@ -1378,7 +1255,6 @@
                 "SE-12-04",
                 "SE-12-08"
               ],
-              "estimatedTime": "7 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -1405,14 +1281,6 @@
                 "security principles"
               ],
               "markingCriteria": "- Clearly defines 'privacy by design' and its proactive nature, contrasting it with reactive approaches (2 marks). • Explains how specific principles of the approach (e.g., privacy embedded into design, data minimisation) respect user privacy (2 marks). • Provides a relevant and detailed example that illustrates the concept (1 mark).",
-              "targetPerformanceBands": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-4e6c9e5a-fa2d-45dd-9934-9f10d09e7afe",
@@ -1475,7 +1343,6 @@
                 "SE-12-08",
                 "SE-12-09"
               ],
-              "estimatedTime": "12 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -1506,14 +1373,6 @@
                 "System reliability"
               ],
               "markingCriteria": "Provides a detailed evaluation of both hot and cold sites, making a clear judgement based on criteria like RTO, RPO, and cost. Justifies the recommendation effectively within the context of a financial services company. Demonstrates a comprehensive understanding of disaster recovery and business continuity principles. Communicates using appropriate terminology in a well-structured response.",
-              "targetPerformanceBands": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-c1ba145c-fb6c-4faa-9d8c-3cda8cef55ea",
@@ -1570,7 +1429,6 @@
                 "SE-12-01",
                 "SE-12-09"
               ],
-              "estimatedTime": "10 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -1593,11 +1451,6 @@
                 "Risk assessment"
               ],
               "markingCriteria": "- States a clear recommendation for a cold site and regular off-site backups (2 marks). • Provides multiple reasons supporting the recommendation, focusing on risk mitigation for a critical system (2 marks). • Links the justification to the concepts of a high acceptable RTO and RPO for this specific scenario (2 marks).",
-              "targetPerformanceBands": [
-                1,
-                3,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-fade8f6b-f831-44bf-8bb7-04510002b9d9",
@@ -1633,7 +1486,6 @@
                 "SE-12-09",
                 "SE-12-04"
               ],
-              "estimatedTime": "10 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -1656,11 +1508,6 @@
                 "Communication"
               ],
               "markingCriteria": "- Proposes a clear, specific plan with several distinct phases (2 marks). • The plan includes a 'Containment' step to stop further damage (1 mark). • The plan includes 'Eradication' and 'Recovery' steps (1 mark). • The plan includes a 'Communication' step for notifying affected users and authorities (2 marks).",
-              "targetPerformanceBands": [
-                1,
-                3,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-801cc11a-da13-4a3b-bc4b-bcb46724914a",
@@ -1702,7 +1549,6 @@
                 "SE-12-05",
                 "SE-12-06"
               ],
-              "estimatedTime": "12 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -1733,14 +1579,6 @@
                 "Quality Assurance"
               ],
               "markingCriteria": "Provides a sophisticated evaluation of the combined effectiveness of SAST, DAST, and penetration testing within the SDLC. Makes a well-supported judgement on the relative importance of each strategy, referencing the specific context of an e-commerce platform. Demonstrates a comprehensive understanding of the strengths and limitations of each approach. Uses relevant terminology accurately and effectively. (7-8 marks). Describes the strategies and provides some evaluation of their effectiveness, with a clear link to the SDLC. (5-6 marks). Outlines one or more strategies with limited evaluation. (3-4 marks). Identifies a security strategy with a basic description. (1-2 marks).",
-              "targetPerformanceBands": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-9f95d709-853f-4f7d-9fa9-6b9925a91ac1",
@@ -1797,7 +1635,6 @@
                 "SE-12-06",
                 "SE-12-09"
               ],
-              "estimatedTime": "10 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -1819,11 +1656,6 @@
                 "Continuous integration"
               ],
               "markingCriteria": "- Proposes a clear, specific process (e.g., using pull requests with mandatory peer review) (2 marks). • Justifies the proposal by explaining how the process integrates into an Agile workflow without causing bottlenecks (2 marks). • Explains how the process improves security (e.g., knowledge sharing, catching vulnerabilities early) (2 marks).",
-              "targetPerformanceBands": [
-                1,
-                3,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-5b741504-94db-4aae-86b9-3d959a2c9419",
@@ -1865,7 +1697,6 @@
                 "SE-12-04",
                 "SE-12-06"
               ],
-              "estimatedTime": "7 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -1892,13 +1723,6 @@
                 "User input"
               ],
               "markingCriteria": "- 1 mark for a basic definition of either validation or sanitisation. • 2 marks for a basic comparison identifying a point of difference. • 3 marks for a clear comparison of both practices and one correct example. • 4 marks for a comprehensive comparison clearly distinguishing between the two practices, and providing a correct, relevant example for each.",
-              "targetPerformanceBands": [
-                1,
-                2,
-                3,
-                4,
-                5
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-e9f4ecbe-72a8-4a76-98c5-f2676be507f4",
@@ -1954,7 +1778,6 @@
                 "SE-12-03",
                 "SE-12-06"
               ],
-              "estimatedTime": "7 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -1980,13 +1803,6 @@
                 "Secure coding practices"
               ],
               "markingCriteria": "Provides a clear and detailed explanation of how input validation prevents specific vulnerabilities like injection attacks (2 marks). Provides a clear and detailed explanation of how rate limiting prevents specific vulnerabilities like Denial of Service or brute-force attacks (2 marks). The response must explicitly link both security measures to the creation of a safe API using appropriate terminology.",
-              "targetPerformanceBands": [
-                1,
-                2,
-                3,
-                4,
-                5
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-604fddf0-3a27-41d2-be66-86480999623f",
@@ -2042,7 +1858,6 @@
                 "SE-12-06",
                 "SE-12-07"
               ],
-              "estimatedTime": "12 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -2069,13 +1884,6 @@
                 "Performance"
               ],
               "markingCriteria": "- 4 marks: Provides a clear and detailed comparison of both session and exception management, explicitly linking both to efficient execution for the user with relevant technical detail. •\n3 marks: Explains both concepts with some valid points of comparison related to efficiency. •\n2 marks: Provides a sound description of both concepts but with limited comparison or link to efficiency. •\n1 mark: Provides a limited description of one or both concepts.",
-              "targetPerformanceBands": [
-                1,
-                2,
-                3,
-                4,
-                5
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-be15eeaa-d0a3-4da3-b73e-0446ed2be671",
@@ -2125,7 +1933,6 @@
                 "SE-12-07",
                 "SE-12-03"
               ],
-              "estimatedTime": "12 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -2149,11 +1956,6 @@
                 "Statefulness"
               ],
               "markingCriteria": "- Identifies the key components: server-side and client-side session management (1 mark). • Examines server-side sessions, explaining their stateful nature and security benefits (e.g., server control) but also their scalability challenges (2 marks). • Examines client-side sessions (JWTs), explaining their stateless nature and scalability benefits but also their security challenges (e.g., token theft) (3 marks). • Draws a conclusion about the architectural trade-offs (1 mark).",
-              "targetPerformanceBands": [
-                1,
-                4,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-320060d4-304b-45bf-9791-128f2aebb462",
@@ -2189,7 +1991,6 @@
                 "SE-12-07",
                 "SE-12-08"
               ],
-              "estimatedTime": "4 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -2208,11 +2009,6 @@
                 "try-catch"
               ],
               "markingCriteria": "- Outlines the main point that it prevents crashes (1 mark). • Outlines the point that it allows for graceful failure or recovery (1 mark). • Outlines the point that it helps with debugging via logging (1 mark).",
-              "targetPerformanceBands": [
-                1,
-                2,
-                5
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-aea52549-1ba4-4c2c-9c6f-1e65cfdb738e",
@@ -2254,7 +2050,6 @@
                 "SE-12-04",
                 "SE-12-05"
               ],
-              "estimatedTime": "7 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -2281,13 +2076,6 @@
                 "Threat mitigation"
               ],
               "markingCriteria": "Provides a clear explanation of Cross-Site Scripting (XSS) and its impact (1 mark). Identifies a correct mitigation strategy for XSS (1 mark). Provides a clear explanation of Cross-Site Request Forgery (CSRF) and its impact (1 mark). Identifies a correct mitigation strategy for CSRF (1 mark).",
-              "targetPerformanceBands": [
-                1,
-                2,
-                3,
-                4,
-                5
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-c811a639-655f-47ac-82d6-0b7da134118d",
@@ -2337,7 +2125,6 @@
                 "SE-12-07",
                 "SE-12-02"
               ],
-              "estimatedTime": "6 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -2358,10 +2145,6 @@
                 "Vulnerability"
               ],
               "markingCriteria": "- Explains that a race condition relates to the sequence of events in a concurrent system (1 mark). • Describes a plausible scenario (e.g., financial transaction, redeeming a voucher) (1 mark). • Explains how an attacker can exploit the time gap between a check and an action (2 marks).",
-              "targetPerformanceBands": [
-                2,
-                5
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-84b90446-edf8-4a50-b9ae-309de53fe4fb",
@@ -2389,7 +2172,6 @@
               "linkedOutcomes": [
                 "SE-12-07"
               ],
-              "estimatedTime": "3 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -2407,10 +2189,6 @@
                 "Session management"
               ],
               "markingCriteria": "- States that it is a vulnerability related to managing user identity (1 mark). • Elaborates with an example, such as credential stuffing or insecure session handling (1 mark).",
-              "targetPerformanceBands": [
-                1,
-                4
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-3719bd47-7751-4e03-83b9-52af7140b60c",
@@ -2439,7 +2217,6 @@
                 "SE-12-04",
                 "SE-12-07"
               ],
-              "estimatedTime": "10 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -2462,10 +2239,6 @@
                 "User impersonation"
               ],
               "markingCriteria": "- Explains the mechanism of XSS (injecting malicious script into a trusted site) (1 mark). • Explains the mechanism of CSRF (tricking an authenticated user's browser into sending a forged request) (1 mark). • Contrasts their primary goals: XSS steals information from the user, while CSRF makes the user perform an unwanted action (2 marks). • Compares their potential impacts (e.g., both can lead to account compromise, but in different ways) (2 marks).",
-              "targetPerformanceBands": [
-                3,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-14e695c0-33e9-45a9-9684-49725e1c048f",
@@ -2500,7 +2273,6 @@
                 "SE-12-04",
                 "SE-12-01"
               ],
-              "estimatedTime": "7 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -2527,13 +2299,6 @@
                 "Vulnerability mitigation"
               ],
               "markingCriteria": "- 1 mark: Sketches in general terms a relevant practice. •\n2 marks: Describes a secure coding practice for either a file attack OR a side-channel attack. •\n3 marks: Explains secure coding practices for both file and side-channel attacks, with some reference to examples. •\n4 marks: Provides a comprehensive explanation of secure coding practices for both file and side-channel attacks, supported by clear and specific examples for each.",
-              "targetPerformanceBands": [
-                1,
-                2,
-                3,
-                4,
-                5
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-70acc2e1-28d0-4173-a306-5a5a2f743ba2",
@@ -2583,7 +2348,6 @@
                 "SE-12-04",
                 "SE-12-07"
               ],
-              "estimatedTime": "4 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -2603,11 +2367,6 @@
                 "Constant-time"
               ],
               "markingCriteria": "- Provides characteristics of a timing attack, identifying it as a side-channel attack (1 mark). • Describes the mechanism: inferring information based on how long an operation takes (2 marks).",
-              "targetPerformanceBands": [
-                1,
-                2,
-                5
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-1d99e355-f75e-49a4-8dd4-caac82832d6f",
@@ -2672,13 +2431,6 @@
                 "software engineering practices"
               ],
               "markingCriteria": "- 4 marks: Provides a comprehensive explanation linking collaboration to BOTH safety/security AND quality, clearly referencing the role of delegating tasks based on expertise. •\n3 marks: Explains how collaboration improves software quality OR security, with some reference to task delegation. •\n2 marks: Describes a benefit of collaboration related to software development, with a limited link to security. •\n1 mark: Sketches in general terms some aspect of collaboration or software development.",
-              "targetPerformanceBands": [
-                1,
-                2,
-                3,
-                4,
-                5
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-a15023c2-4cd7-4e59-9bb3-bde9ea46726a",
@@ -2734,14 +2486,6 @@
                 "software engineering"
               ],
               "markingCriteria": "- 5 marks: Provides a comprehensive and detailed explanation of how secure practices benefit an enterprise across products, productivity, and business interactivity, using relevant examples and terminology. •\n4 marks: Explains several benefits, making clear links to products, productivity, and/or business interactivity. •\n2-3 marks: Provides a basic explanation of one or more benefits to an enterprise. •\n1 mark: Identifies at least one benefit of secure practices.",
-              "targetPerformanceBands": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-bd9605c5-ba3c-4427-a4af-dede5295ceb6",
@@ -2776,7 +2520,6 @@
                 "SE-12-05",
                 "SE-12-08"
               ],
-              "estimatedTime": "15 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -2810,14 +2553,6 @@
                 "Regulation and legislation"
               ],
               "markingCriteria": "Provides a clear and well-supported judgement on the extent of the ramifications. Sophisticated evaluation links digital disruption, secure software, and specific social/ethical issues (employment, data security) with relevant examples. Acknowledges both positive and negative impacts. Response is logical, cohesive, and uses precise industry terminology. At the lower end, the response may be descriptive, identifying some issues with limited links to the question's core concepts of evaluation and digital disruption.",
-              "targetPerformanceBands": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-5aaaa509-3d5a-4e00-92c1-1535747559b4",
@@ -2861,12 +2596,6 @@
                 "software engineering"
               ],
               "markingCriteria": "- Provides a clear outline of one relevant social issue (1 mark). • Provides a clear outline of one relevant ethical issue (1 mark). • Links the issues to data privacy in the context of an enterprise developing secure software (1 mark).",
-              "targetPerformanceBands": [
-                1,
-                2,
-                3,
-                4
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-87e9b34c-3a20-4d32-9fd5-7b99ccbede8d",
@@ -2894,7 +2623,6 @@
               "linkedOutcomes": [
                 "SE-12-05"
               ],
-              "estimatedTime": "15 minutes",
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
               "markerNotes": [
@@ -2918,11 +2646,6 @@
                 "Secure software"
               ],
               "markingCriteria": "- Identifies the key issue: the conflict between data-driven business models and user privacy (2 marks). • Develops points for the business perspective, explaining why data collection is valuable (e.g., personalisation, targeted advertising) (2 marks). • Develops points for the user's perspective, referencing the right to privacy and the risks of surveillance (2 marks). • Provides a balanced treatment, showing an understanding of the tension and the role of secure software as both an enabler and a mitigator (2 marks).",
-              "targetPerformanceBands": [
-                1,
-                4,
-                6
-              ],
               "sampleAnswers": [
                 {
                   "id": "sa-2c469616-ab2c-4726-bbc3-75714af63664",

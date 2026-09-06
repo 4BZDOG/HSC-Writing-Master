@@ -82,7 +82,6 @@
                       "Testable"
                     ],
                     "markingCriteria": "-\n2\nmarks: Constructs a clear, testable hypothesis linking light intensity (independent variable) to the rate of photosynthesis (dependent variable) with a predicted direction. -\n1\nmark: Proposes a general question or statement about light and plants.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-q-and-p-1-6",
@@ -119,7 +118,6 @@
                       "Testability"
                     ],
                     "markingCriteria": "-\n3\nmarks: Evaluates validity based on scientific principles (e.g., lack of auditory receptors in plants), identifies confounding variables (vibration), and concludes on testability. -\n2\nmarks: Discusses scientific plausibility but lacks depth. -\n1\nmark: States an opinion without scientific basis.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-q-and-p-2-6",
@@ -155,7 +153,6 @@
                       "Refinement"
                     ],
                     "markingCriteria": "-\n2\nmarks: Modifies hypothesis to account for resistance or specificity (e.g., Gram-negative bacteria). -\n1\nmark: General statement that the hypothesis was wrong.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-q-and-p-3-6",
@@ -198,7 +195,6 @@
                       "Comparison"
                     ],
                     "markingCriteria": "-\n3\nmarks: Explains the purpose of a control (baseline for comparison), links it to establishing causality (ensuring the antibiotic causes the effect), and reducing bias. -\n2\nmarks: Mentions comparison but lacks depth on causality. -\n1\nmark: States a control is needed.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-plan-inv-1-6",
@@ -235,7 +231,6 @@
                       "Consistency"
                     ],
                     "markingCriteria": "-\n4\nmarks: Identifies two strategies (repetition, averaging, consistent method) and explains *how* each improves consistency/reliability. -\n3\nmarks: Identifies strategies but explanation is weak. -\n2\nmarks: Identifies one strategy with explanation. -\n1\nmark: General statement about being careful.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-plan-inv-2-6",
@@ -272,7 +267,6 @@
                       "Source verification"
                     ],
                     "markingCriteria": "-\n3\nmarks: Makes a judgement (low/variable reliability), supports with reasons (open editing, lack of peer review), and suggests verification. -\n2\nmarks: Discusses pros/cons without a clear judgement. -\n1\nmark: States it is unreliable.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-plan-inv-3-6",
@@ -308,7 +302,6 @@
                       "Sharps"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies hazard (sharp blade), associated risk (cuts/infection), and control measure (safe handling/disposal). -\n2\nmarks: Identifies hazard and risk. -\n1\nmark: Identifies hazard.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-plan-inv-4-6",
@@ -344,7 +337,6 @@
                       "Potometer"
                     ],
                     "markingCriteria": "-\n3\nmarks: Selects potometer, justifies based on accuracy of measuring water uptake as a proxy for transpiration. -\n2\nmarks: Selects potometer but justification is weak. -\n1\nmark: Selects generic equipment (e.g., ruler).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-plan-inv-5-6",
@@ -381,7 +373,6 @@
                       "Unforeseen consequences"
                     ],
                     "markingCriteria": "-\n4\nmarks: Identifies specific ethical issues (consent of future generations, eugenics, unforeseen consequences) and provides arguments for/against. -\n3\nmarks: Discusses issues generally. -\n2\nmarks: Identifies one issue. -\n1\nmark: General statement on ethics.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-plan-inv-6-6",
@@ -424,7 +415,6 @@
                       "Risk management"
                     ],
                     "markingCriteria": "-\n3\nmarks: Outlines specific practices (PPE, spill management, handling technique). -\n2\nmarks: Mentions PPE generally. -\n1\nmark: States 'be careful'.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-conduct-inv-1-6",
@@ -461,7 +451,6 @@
                       "Microscopy"
                     ],
                     "markingCriteria": "-\n3\nmarks: Steps include thin layer, stain application (iodine), lowering coverslip at an angle to avoid air bubbles. -\n2\nmarks: Misses key detail like air bubbles. -\n1\nmark: General description.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-conduct-inv-2-6",
@@ -498,7 +487,6 @@
                       "Precision"
                     ],
                     "markingCriteria": "-\n3\nmarks: Links systematic recording (tables, initial/final readings) to accuracy, preventing data loss, and enabling error checking. -\n2\nmarks: Mentions being organised. -\n1\nmark: States it is important.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-conduct-inv-3-6",
@@ -535,7 +523,6 @@
                       "Scientific rigour"
                     ],
                     "markingCriteria": "-\n4\nmarks: Contrasts reliability, depth, and intended audience. Journals: rigorous, technical. Media: accessible, potential bias. -\n3\nmarks: Compares reliability well. -\n2\nmarks: Describes both. -\n1\nmark: General statement.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-conduct-inv-4-6",
@@ -578,7 +565,6 @@
                       "Subjective/Objective"
                     ],
                     "markingCriteria": "-\n3\nmarks: Defines both types clearly. Quantitative: numerical (e.g., pH 7.2). Qualitative: descriptive (e.g., water is turbid). -\n2\nmarks: Defines both, examples weak. -\n1\nmark: Definitions only.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-process-data-1-6",
@@ -615,7 +601,6 @@
                       "SI units"
                     ],
                     "markingCriteria": "-\n3\nmarks: Correct conversion (0.045 mm) + justification (communication/comparison). -\n2\nmarks: Correct conversion only. -\n1\nmark: Incorrect conversion attempt.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-process-data-2-6",
@@ -652,7 +637,6 @@
                       "Independent variable"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies continuous nature of time variable. Explains line graphs show trends/rate of change better than discrete bars. -\n2\nmarks: Mentions continuous data. -\n1\nmark: States line graph is better.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-process-data-3-6",
@@ -689,7 +673,6 @@
                       "Credibility"
                     ],
                     "markingCriteria": "-\n3\nmarks: Links referencing to avoiding plagiarism, allowing verification of data, and acknowledging intellectual property. -\n2\nmarks: Mentions plagiarism. -\n1\nmark: General statement.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-process-data-4-6",
@@ -726,7 +709,6 @@
                       "Ecological stewardship"
                     ],
                     "markingCriteria": "-\n4\nmarks: Describes traditional knowledge (cool burns, mosaic burning). Explains contribution (biodiversity maintenance, fuel load reduction). Links to modern acceptance/integration. -\n3\nmarks: Good description of practices. -\n2\nmarks: Brief mention of fire. -\n1\nmark: General statement.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-process-data-5-6",
@@ -769,7 +751,6 @@
                       "Protein structure"
                     ],
                     "markingCriteria": "-\n3\nmarks: Describes increase to optimum, then rapid decrease. Uses terms like kinetic energy and denaturation. -\n2\nmarks: Describes shape (up then down). -\n1\nmark: General statement.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-analyse-data-1-6",
@@ -806,7 +787,6 @@
                       "Mean"
                     ],
                     "markingCriteria": "-\n3\nmarks: Explains causes (measurement error, genetic variation, disease). Discusses handling (exclude if error, keep if genuine anomaly, note in discussion). -\n2\nmarks: Explains cause or handling. -\n1\nmark: Defines outlier.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-analyse-data-2-6",
@@ -843,7 +823,6 @@
                       "Uncertainty"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies subjectivity/precision issues with paper. Contrasts with quantitative precision of probe. Judgement on suitability for quantitative analysis. -\n2\nmarks: Comparison of accuracy. -\n1\nmark: States probe is better.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-analyse-data-3-6",
@@ -880,7 +859,6 @@
                       "Fairness"
                     ],
                     "markingCriteria": "-\n3\nmarks: Validity = fairness/testing hypothesis (controlling variables). Reliability = consistency/repeatability. Clear distinction. -\n2\nmarks: Defines both, distinction weak. -\n1\nmark: Confusion between terms.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-analyse-data-4-6",
@@ -917,7 +895,6 @@
                       "Evolution"
                     ],
                     "markingCriteria": "-\n4\nmarks: Interprets trend (correlation). Explains mechanism (selection pressure, survival of resistant strains, reproduction). Concludes use drives evolution. -\n3\nmarks: Explains selection well. -\n2\nmarks: General statement on resistance. -\n1\nmark: Re-states trend.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-analyse-data-5-6",
@@ -954,7 +931,6 @@
                       "Validity"
                     ],
                     "markingCriteria": "-\n3\nmarks: Evaluates reliability (poor due to sample size/outliers). Suggests improvement (increase sample size/repetition). Justifies (averaging results). -\n2\nmarks: Identifies issue and improvement. -\n1\nmark: Suggests improvement only.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-analyse-data-6-6",
@@ -997,7 +973,6 @@
                       "Public health"
                     ],
                     "markingCriteria": "-\n4\nmarks: Identifies transmission mode (airborne). Applies principles (isolation, masks, vaccination, distancing) to break the chain of infection. Justifies strategy. -\n3\nmarks: Good strategy, less justification. -\n2\nmarks: General hygiene tips. -\n1\nmark: One suggestion.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-problem-solve-1-6",
@@ -1033,7 +1008,6 @@
                       "Recessive"
                     ],
                     "markingCriteria": "-\n3\nmarks: Correct Punnett square layout. Correct genotypic ratio identification (25% homozygous recessive). Explanation of cause-and-effect (recessive inheritance). -\n2\nmarks: Correct square and probability. -\n1\nmark: Attempt at square.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-problem-solve-2-6",
@@ -1070,7 +1044,6 @@
                       "Species difference"
                     ],
                     "markingCriteria": "-\n4\nmarks: Evaluates limitation of animal models (biological difference). Modifies design to include human cell lines or small-scale clinical phases. Justifies modification. -\n3\nmarks: Identifies issue and modification. -\n2\nmarks: States mice aren't humans. -\n1\nmark: General comment.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-problem-solve-3-6",
@@ -1107,7 +1080,6 @@
                       "Peer review"
                     ],
                     "markingCriteria": "-\n3\nmarks: Explains testability (falsifiable via evidence like fossils/DNA). Explains contestability (open to revision with new evidence). Concludes this defines science. -\n2\nmarks: Covers testability or contestability well. -\n1\nmark: General statement.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-problem-solve-4-6",
@@ -1150,7 +1122,6 @@
                       "Quality control"
                     ],
                     "markingCriteria": "-\n3\nmarks: Explains process (expert checking). Explains purpose (error detection, bias check, validity). Links to credibility. -\n2\nmarks: Describes process. -\n1\nmark: General statement.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-communicate-1-6",
@@ -1186,7 +1157,6 @@
                       "Percentage"
                     ],
                     "markingCriteria": "-\n3\nmarks: Selects pie chart. Justifies based on showing parts of a whole (proportions) clearly. -\n2\nmarks: Selects chart with weak justification. -\n1\nmark: Selects incorrect chart.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-communicate-2-6",
@@ -1223,7 +1193,6 @@
                       "convention"
                     ],
                     "markingCriteria": "-\n2\nmarks: *Homo sapiens* (Capitalised Genus, lowercase species, italicised or underlined). -\n1\nmark: Correct words but incorrect formatting.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-communicate-3-6",
@@ -1260,7 +1229,6 @@
                       "Accessible language"
                     ],
                     "markingCriteria": "-\n3\nmarks: Uses age-appropriate language (analogy like 'training'). Accurate concept (safe exposure for memory). Avoids jargon. -\n2\nmarks: Too complex or slightly inaccurate. -\n1\nmark: Poor explanation.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-communicate-4-6",
@@ -1309,7 +1277,6 @@
                       "Double helix"
                     ],
                     "markingCriteria": "-\n4\nmarks: Provides a comprehensive comparison including differences in sugar (deoxyribose vs ribose), bases (thymine vs uracil), strands (double vs single), and longevity/stability. -\n3\nmarks: Compares 2-3 key features. -\n2\nmarks: Identifies differences but lacks detail (e.g., just mentions single vs double strand). -\n1\nmark: States one difference.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-1-6",
@@ -1382,7 +1349,6 @@
                       "Not adequately explaining the mechanism and importance of peptide bond formation.",
                       "Failing to link the accuracy of polypeptide synthesis directly to the precise reading of codons and anticodons."
                     ],
-                    "estimatedTime": "8-10 minutes",
                     "markerNotes": [
                       "Assess for a clear, logical sequence of events covering both transcription and translation.",
                       "Emphasis should be placed on the 'interconnected roles' and the 'significance' of each component, not just isolated definitions.",
@@ -1432,7 +1398,6 @@
                       "Peptide bond"
                     ],
                     "markingCriteria": "-\n3\nmarks: Explains tRNA's role in carrying specific amino acids to the ribosome and matching its anticodon to the mRNA codon to ensure correct sequence. -\n2\nmarks: Mentions carrying amino acids or matching codons. -\n1\nmark: General statement about protein synthesis.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-2-6",
@@ -1476,7 +1441,6 @@
                       "Isoforms"
                     ],
                     "markingCriteria": "-\n3\nmarks: Explains that pre-mRNA contains introns and exons, introns are removed, and exons can be combined in different combinations to create different mRNA transcripts. -\n2\nmarks: Mentions removal of introns and joining of exons. -\n1\nmark: States one gene can make different proteins.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-3-6",
@@ -1518,7 +1482,6 @@
                       "Codon"
                     ],
                     "markingCriteria": "-\n3\nmarks: Correct mRNA (AUG CCG UAA) and correct Amino Acids (Met - Pro - Stop). -\n2\nmarks: Correct mRNA but error in translation, or vice versa. -\n1\nmark: Attempt at base pairing.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-4-6",
@@ -1593,7 +1556,6 @@
                       "Describing denaturation without explicitly linking it to the disruption of specific structural levels and the loss of function.",
                       "Insufficient detail for a 7-mark question, especially in explaining the interplay of forces for tertiary/quaternary structure."
                     ],
-                    "estimatedTime": "12-15 minutes",
                     "markerNotes": [
                       "Students must use a specific, named protein example (e.g., haemoglobin, lysozyme, insulin) and clearly articulate how its structure at each level relates to its specific role.",
                       "Look for correct terminology when describing the types of bonds and intermolecular forces at each structural level (e.g., peptide bonds for primary, hydrogen bonds for secondary, disulfide bridges, ionic, hydrogen, hydrophobic/hydrophilic for tertiary/quaternary).",
@@ -1642,7 +1604,6 @@
                       "Hormones"
                     ],
                     "markingCriteria": "-\n4\nmarks: Describes two distinct functions (e.g., catalysis, transport, structure) with a correct example for each (e.g., amylase, haemoglobin, collagen). -\n3\nmarks: Describes two functions with general examples. -\n2\nmarks: Describes one function with example. -\n1\nmark: General statement about proteins.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-5-6",
@@ -1713,7 +1674,6 @@
                       "Focusing too much on the general steps of protein synthesis without explaining its 'role' as the bridge between DNA and phenotype, as requested.",
                       "Not specifically addressing the scenario provided."
                     ],
-                    "estimatedTime": "7-8 minutes",
                     "markerNotes": [
                       "Assess for a clear, logical, and sequential explanation that traces the flow of genetic information from DNA to phenotype.",
                       "Students must use appropriate scientific terminology for each stage of protein synthesis (e.g., RNA polymerase, codons, anticodons, peptide bonds).",
@@ -1763,7 +1723,6 @@
                       "Phenotype"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies pH as the environmental factor. Explains the mechanism (acidic soil = blue, alkaline = pink). Concludes phenotype is gene + environment. -\n2\nmarks: Explains pH affects colour but lacks assessment/conclusion. -\n1\nmark: States environment affects colour.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-6-6",
@@ -1825,7 +1784,6 @@
                       "Not explicitly linking the observed phenotypic change directly to altered gene activity or expression mechanisms.",
                       "Providing a generic explanation without referencing specific experimental design elements or interpretation of results."
                     ],
-                    "estimatedTime": "5 minutes",
                     "markerNotes": [
                       "Look for a clear logical flow from environmental factor to gene expression change to observed phenotype.",
                       "Award marks for a sound understanding of experimental design principles (e.g., control group, manipulating one variable, replicates).",
@@ -1891,7 +1849,6 @@
                       "Not addressing both parts of the question (role AND application) adequately.",
                       "Discussing non-regulatory RNA types (e.g., mRNA, tRNA) as regulatory."
                     ],
-                    "estimatedTime": "8 minutes",
                     "markerNotes": [
                       "Look for specific examples of regulatory RNA (e.g., miRNA, siRNA) and their distinct mechanisms.",
                       "Evaluate the clarity and specificity of the biotechnological application described, ensuring it directly relates to regulating gene expression via RNA.",
@@ -1962,7 +1919,6 @@
                       "Not providing a clear 'assessment' of the influence, instead just describing it.",
                       "Only discussing one of the two required gene examples, or providing inaccurate information for them."
                     ],
-                    "estimatedTime": "15-18 minutes",
                     "markerNotes": [
                       "Candidates must clearly define and explain epigenetic changes and their role in gene expression.",
                       "Detailed and accurate use of BOTH the Glucocorticoid receptor (GR) gene and the agouti gene examples is crucial.",
@@ -2020,7 +1976,6 @@
                       "Confusing polypeptide synthesis with transcription or DNA replication.",
                       "Lack of specific biological examples to illustrate importance."
                     ],
-                    "estimatedTime": "3 minutes",
                     "markerNotes": [
                       "Look for explicit links between polypeptide synthesis and crucial cellular or organismal functions. Students should move beyond a mere definition and provide context for its 'importance'. Specific examples like enzymes or structural proteins will score well."
                     ],
@@ -2089,7 +2044,6 @@
                       "Not providing sufficient detail on the molecular or chromosomal location of each term.",
                       "Omitting the interrelationship between the three terms and their collective role in phenotypic expression."
                     ],
-                    "estimatedTime": "10 minutes",
                     "markerNotes": [
                       "Responses must clearly define each term and articulate their differences and connections.",
                       "The use of the specific example (cystic fibrosis or another relevant trait) is crucial for full marks, demonstrating application of knowledge.",
@@ -2136,7 +2090,6 @@
                       "Locus"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies Prophase 1 of meiosis. Explains exchange of genetic material between homologous chromosomes. States result: new combinations of alleles (recombinant chromatids). -\n2\nmarks: Describes swapping of genes. -\n1\nmark: General statement about mixing DNA.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-7-6",
@@ -2174,7 +2127,6 @@
                       "Independent"
                     ],
                     "markingCriteria": "-\n3\nmarks: Segregation: separation of allele pairs (homologous chromosomes) into different gametes. Assortment: separation of *different* gene pairs independently of one another. Clearly distinguishes the scope (single pair vs multiple pairs). -\n2\nmarks: Defines both but distinction is blurry. -\n1\nmark: Definitions only.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-8-6",
@@ -2218,7 +2170,6 @@
                       "Phenotype"
                     ],
                     "markingCriteria": "-\n4\nmarks: Defines codominance (both expressed fully) with example (e.g., Roan cattle/Blood type AB). Defines incomplete dominance (blending) with example (e.g., Snapdragon flowers). Highlights the difference in phenotype expression. -\n3\nmarks: Good definitions and examples but distinction is implicit. -\n2\nmarks: Definitions or examples only. -\n1\nmark: Confuses the two.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-9-6",
@@ -2262,7 +2213,6 @@
                       "Recessive"
                     ],
                     "markingCriteria": "-\n3\nmarks: Autosomal: equal probability in males/females. Sex-linked (recessive): higher frequency in males due to having only one X chromosome (hemizygous). Explains why (no backup allele). -\n2\nmarks: States males get sex-linked more often. -\n1\nmark: General statement.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-10-6",
@@ -2306,7 +2256,6 @@
                       "Probability"
                     ],
                     "markingCriteria": "-\n4\nmarks: Correct genotypes (X^H X^h, X^H Y). Correct Punnett square. Correct identification of affected offspring (X^h Y). Calculation of probability (25% total, or 50% of sons). -\n3\nmarks: Correct square but probability error. -\n2\nmarks: Error in parental genotypes. -\n1\nmark: Attempt at square.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-11-6",
@@ -2367,7 +2316,6 @@
                       "Confusing sex-linked inheritance with sex-influenced or sex-limited inheritance.",
                       "Not linking the chromosomal location directly to the altered ratios."
                     ],
-                    "estimatedTime": "4 minutes",
                     "markerNotes": [
                       "Look for a clear distinction between the location of genes (sex chromosome vs. autosome).",
                       "Award marks for explaining *how* this location affects the transmission and expression, particularly noting the implications for males in X-linked inheritance.",
@@ -2414,7 +2362,6 @@
                       "Skipping generations"
                     ],
                     "markingCriteria": "-\n3\nmarks: Explains logic: if two affected parents have an unaffected child, the trait is dominant (parents were heterozygous). If two unaffected parents have an affected child, the trait is recessive (parents were carriers). -\n2\nmarks: Explains one scenario (e.g. recessive). -\n1\nmark: General statement about generations.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-12-6",
@@ -2464,7 +2411,6 @@
                       "Distortion"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies mechanism (excitation of electrons). Describes formation of Pyrimidine/Thymine dimers. Explains consequence (disrupts replication/transcription). -\n2\nmarks: Mentions thymine dimers or bonding issues. -\n1\nmark: States UV damages DNA.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-13-6",
@@ -2531,7 +2477,6 @@
                       "Confusing DNA mutations with gene expression regulation or epigenetic changes.",
                       "Failing to explicitly link altered structure to altered specific function (e.g., enzyme active site)."
                     ],
-                    "estimatedTime": "12-15 minutes",
                     "markerNotes": [
                       "Students must demonstrate a clear mechanistic understanding, tracing the impact from DNA mutation through mRNA, amino acid sequence, protein folding (structure), to final protein function. Encourage specific examples of how active sites or structural integrity are compromised. Marks should be awarded for distinguishing between types of mutations (e.g., silent, missense, nonsense, frameshift) and explaining their varied impacts on the polypeptide chain."
                     ],
@@ -2595,7 +2540,6 @@
                       "Not linking the base change to the subsequent alteration of the polypeptide sequence.",
                       "Incorrectly describing the direction or impact of the reading frame shift."
                     ],
-                    "estimatedTime": "3 minutes",
                     "markerNotes": [
                       "Assess for a clear distinction based on the addition vs. removal of a nucleotide. Emphasis should be placed on the frameshift consequence and its impact on the polypeptide sequence for full marks. No diagram is required, but the explanation should accurately reflect the effects that a diagram would illustrate."
                     ],
@@ -2639,7 +2583,6 @@
                       "Functionality"
                     ],
                     "markingCriteria": "-\n4\nmarks: Defines Missense (swaps one amino acid) and Nonsense (creates stop codon). Compares outcome: Missense alters protein function (maybe functional), Nonsense truncates protein (usually non-functional). -\n3\nmarks: Good definitions but comparison of impact is weak. -\n2\nmarks: Defines one or gives vague comparison. -\n1\nmark: General statement about mutations.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-14-6",
@@ -2683,7 +2626,6 @@
                       "Structural change"
                     ],
                     "markingCriteria": "-\n3\nmarks: Inversion: section breaks, flips 180, reattaches to *same* chromosome. Translocation: section breaks and attaches to a *non-homologous* chromosome. Clear distinction on location. -\n2\nmarks: Describes both but misses 'non-homologous' or 'same' distinction. -\n1\nmark: Definitions only.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-15-6",
@@ -2759,7 +2701,6 @@
                       "Failing to address the 'implications for human health' comprehensively.",
                       "Using vague terminology instead of precise biological terms."
                     ],
-                    "estimatedTime": "15 minutes",
                     "markerNotes": [
                       "Students must clearly compare and contrast the two types of mutations across all three specified criteria (mechanisms, consequences, implications).",
                       "Award higher marks for specific examples (e.g., Sickle Cell Anemia for point mutation, Down Syndrome for chromosomal) and accurate biological terminology.",
@@ -2828,7 +2769,6 @@
                       "Simply defining non-disjunction without explaining 'how' it results in the specific karyotype.",
                       "Not distinguishing between homologous chromosomes and sister chromatids during the description of meiotic errors."
                     ],
-                    "estimatedTime": "12-15 minutes",
                     "markerNotes": [
                       "Students must clearly differentiate between non-disjunction of homologous chromosomes in Meiosis I and non-disjunction of sister chromatids in Meiosis II.",
                       "Emphasis should be placed on how the initial arrangement of homologous pairs influences the potential sites of error.",
@@ -2879,7 +2819,6 @@
                       "Cancer"
                     ],
                     "markingCriteria": "-\n5\nmarks: Identifies location (body cell vs gamete). Implications for individual (Somatic: cancer/disease, Germline: carrier/silent). Implications for offspring/evolution (Somatic: not passed on, Germline: heritable, affects gene pool). Synthesis of impact. -\n4\nmarks: Covers heritability and individual impact well. -\n3\nmarks: Distinguishes heritability only. -\n2\nmarks: Defines both types. -\n1\nmark: General statement.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-16-6",
@@ -2923,7 +2862,6 @@
                       "Frequency"
                     ],
                     "markingCriteria": "-\n3\nmarks: Defines SNP (single base variation). Explains association (frequency difference in diseased vs healthy groups). Explains utility (predictive marker/GWAS). -\n2\nmarks: Defines SNP and mentions disease link. -\n1\nmark: General statement about DNA differences.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-17-6",
@@ -2995,7 +2933,6 @@
                       "Generalising about genetic testing without specific reference to SNPs.",
                       "Not addressing the 'diagnostic medicine' aspect specifically."
                     ],
-                    "estimatedTime": "20-25 minutes",
                     "markerNotes": [
                       "Responses should demonstrate a balanced discussion of both 'limitations' and 'constraints' pertaining to *both* SNP testing *and* SNP databases. Expect analysis of scientific (e.g., polygenic traits, incomplete penetrance, rare variants, predictive accuracy), ethical (e.g., privacy, informed consent, discrimination, incidental findings), social (e.g., equity of access, societal anxiety, genetic determinism), and practical (e.g., cost, data storage/management, expertise required for interpretation, false positives/negatives) issues. Students must not merely list points but critically explain *why* they are limitations/constraints and *how* they impact diagnostic medicine. A clear, substantiated judgement or conclusion is crucial for higher marks."
                     ],
@@ -3056,7 +2993,6 @@
                       "Lifestyle"
                     ],
                     "markingCriteria": "-\n4\nmarks: Identifies a specific disease (e.g., Type 2 Diabetes or Lung Cancer). Explains the genetic predisposition. Explains the environmental trigger. Links the interaction to the disease development. -\n2\nmarks: Mentions a disease and factors but the explanation of interaction is weak.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ni-1-full",
@@ -3100,7 +3036,6 @@
                       "Symptoms"
                     ],
                     "markingCriteria": "-\n4\nmarks: Identifies cause of Scurvy (nutritional) and Cystic Fibrosis (genetic). Identifies effects of both. Draws a comparison (preventable vs inherited). -\n2\nmarks: Describes both but comparison is limited.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ni-2-full",
@@ -3144,7 +3079,6 @@
                       "Traditional methods"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies practice (grinding native seeds/grasses). Explains nutritional content (high fibre/low GI). Links to disease prevention (diabetes/CV disease). -\n1-\n2\nmarks: Mentions eating grass seeds is healthy.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ni-3-full",
@@ -3188,7 +3122,6 @@
                       "Awareness"
                     ],
                     "markingCriteria": "-\n4\nmarks: Describes campaign strategies (education/jingle). Provides evidence of effectiveness (behavioral change, eventual plateau in incidence rates in younger cohorts). Provides a judgement. -\n2\nmarks: Describes campaign, limited evaluation.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ni-4-full",
@@ -3238,7 +3171,6 @@
                       "Fungi"
                     ],
                     "markingCriteria": "-\n3\nmarks: Correctly classifies all three. Influenza (Non-cellular/Virus), Malaria (Microorganism/Protozoan), Tinea (Microorganism/Fungus). -\n1-\n2\nmarks: 1 or 2 correct classifications.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-1-full",
@@ -3284,7 +3216,6 @@
                       "Transmission"
                     ],
                     "markingCriteria": "-\n2\nmarks: Identifies feature (e.g., scolex/hooks) and describes function (anchoring to intestine to resist peristalsis). -\n1\nmark: Identifies feature only.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-2-full",
@@ -3321,7 +3252,6 @@
                       "Pathogen"
                     ],
                     "markingCriteria": "-\n3\nmarks: Explains Indirect (via fomites/environment) vs Vector (via living organism). Compares mechanism of transfer. -\n2\nmarks: Describes both but comparison is weak. -\n1\nmark: Definitions only.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-3-full",
@@ -3365,7 +3295,6 @@
                       "Sterile technique"
                     ],
                     "markingCriteria": "-\n3\nmarks: Steps: Control (unboiled) vs Test (boiled). Inoculation onto agar plates. Incubation. Measuring/counting colonies. -\n2\nmarks: Missing control or measurement detail. -\n1\nmark: General description.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-4-full",
@@ -3409,7 +3338,6 @@
                       "Broad-spectrum"
                     ],
                     "markingCriteria": "-\n4\nmarks: Innate: non-specific, no memory, immediate. Adaptive: specific to antigen, immunological memory, delayed. Explicit distinction on both criteria. -\n3\nmarks: Covers specificity and memory but distinction is less clear. -\n2\nmarks: Describes one system well. -\n1\nmark: General statement.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-5-full",
@@ -3453,7 +3381,6 @@
                       "Non-specific"
                     ],
                     "markingCriteria": "-\n3\nmarks: Mentions release of histamines, vasodilation/blood flow, and migration of phagocytes to the site. -\n2\nmarks: Mentions swelling and heat to kill bacteria. -\n1\nmark: Mentions it gets red and hot.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-6-full",
@@ -3497,7 +3424,6 @@
                       "Viability"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies 37°C as optimum/body temperature. Relates to enzyme activity. Explains metabolic rate. -\n2\nmarks: Mentions it's body temp and bacteria like it. -\n1\nmark: States it grows best.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-7-full",
@@ -3541,7 +3467,6 @@
                       "Proliferation"
                     ],
                     "markingCriteria": "-\n3\nmarks: Macrophage releases Interleukin-1 (IL-1) after antigen presentation. Activates Helper T cell. Helper T cell releases Interleukin-2 (IL-2) to proliferate. Connects innate to adaptive. -\n2\nmarks: Mentions chemical signals activating T cells. -\n1\nmark: Says they talk to each other.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-8-full",
@@ -3585,7 +3510,6 @@
                       "Intracellular pathogens"
                     ],
                     "markingCriteria": "-\n2\nmarks: Mentions detection of infected body cells/MHC-I markers. Describes destruction via perforins/apoptosis. -\n1\nmark: Says they kill infected cells.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-9-full",
@@ -3629,7 +3553,6 @@
                       "Humoral"
                     ],
                     "markingCriteria": "-\n3\nmarks: Activation by Helper T / Antigen. Clonal expansion. Differentiation into Plasma Cells (make antibodies) and Memory B Cells. -\n2\nmarks: Mentions B cells make plasma cells which make antibodies. -\n1\nmark: B cells make antibodies.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-10-full",
@@ -3673,7 +3596,6 @@
                       "Peak"
                     ],
                     "markingCriteria": "-\n3\nmarks: Primary: slow, lower peak (IgM then IgG). Secondary: rapid, higher peak, sustained longer due to Memory cells. -\n2\nmarks: Secondary is faster and stronger. -\n1\nmark: Secondary is better.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-11-full",
@@ -3717,7 +3639,6 @@
                       "Long-term vs Short-term"
                     ],
                     "markingCriteria": "-\n4\nmarks: Active: Body makes antibodies/memory cells (long term). Example: Catching flu. Passive: Body receives antibodies (short term). Example: Anti-venom injection. -\n3\nmarks: Distinguishes concepts well but examples incorrect or missing. -\n2\nmarks: Definitions only. -\n1\nmark: General statement.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-12-full",
@@ -3761,7 +3682,6 @@
                       "Harmless"
                     ],
                     "markingCriteria": "-\n3\nmarks: Mention attenuated/dead pathogen or antigen. Immune system response (primary). Formation of Memory Cells. No pathogenicity. -\n2\nmarks: Explains it teaches body to fight germ. -\n1\nmark: Vaccines protect you.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-13-full",
@@ -3805,7 +3725,6 @@
                       "Inhibition"
                     ],
                     "markingCriteria": "-\n4\nmarks: Antibiotics: Target bacteria structures (cell wall/ribosomes). Antivirals: Inhibit viral replication cycle (entry/DNA synthesis). Notes specificity (antibiotics don't work on viruses). -\n2-\n3\nmarks: Mentions one kills bacteria and one stops viruses. -\n1\nmark: General statement.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-14-full",
@@ -3849,7 +3768,6 @@
                       "Traditional application"
                     ],
                     "markingCriteria": "-\n3\nmarks: Traditional use (crushed leaves/paste for wounds). Active property (antiseptic/antimicrobial). Modern validation. -\n2\nmarks: Mentions it cleans cuts. -\n1\nmark: It is good for skin.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-15-full",
@@ -3893,7 +3811,6 @@
                       "Public health"
                     ],
                     "markingCriteria": "-\n3\nmarks: Explains isolation of infected/suspected individuals. Prevention of contact with susceptible population. Breaking the chain of transmission/Incubation period. -\n2\nmarks: Keeps sick people away. -\n1\nmark: Stops spread.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-16-full",
@@ -3943,7 +3860,6 @@
                       "Prevention"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identification of cause/source. Tracking patterns (who/where/when). Developing prevention strategies (policy/vaccination). -\n2\nmarks: Tracking disease and stopping it. -\n1\nmark: Study of disease.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-1-full",
@@ -3987,7 +3903,6 @@
                       "Manipulation"
                     ],
                     "markingCriteria": "-\n4\nmarks: Analytical: tests hypotheses (Case-control/Cohort) to find cause (Observational). Experimental: manipulates variables (Intervention/Clinical Trial) to test efficacy. Distinguishes 'observing' vs 'intervening'. -\n2-\n3\nmarks: Describes both but comparison weak. -\n1\nmark: General statement.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-2-full",
@@ -4031,7 +3946,6 @@
                       "Causation"
                     ],
                     "markingCriteria": "-\n3\nmarks: Longitudinal (over time). Two groups (exposed vs unexposed). Comparison of incidence rates. establishing causation. -\n2\nmarks: Studying a group over time. -\n1\nmark: A study of people.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-3-full",
@@ -4075,7 +3989,6 @@
                       "Outbreak"
                     ],
                     "markingCriteria": "-\n4\nmarks: Describes method (doctors legally required to report). Benefits (early warning, resource allocation). Limitations (under-reporting/asymptomatic). Judgment of effectiveness. -\n2-\n3\nmarks: Discusses reporting but lacks assessment. -\n1\nmark: Doctors report sickness.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-4-full",
@@ -4119,7 +4032,6 @@
                       "Time period"
                     ],
                     "markingCriteria": "-\n3\nmarks: Incidence = rate of *new* cases over a period. Prevalence = total number of *existing* cases at a point in time. Clear distinction. -\n2\nmarks: Definitions correct but distinction weak. -\n1\nmark: Confusion between terms.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-5-full",
@@ -4163,7 +4075,6 @@
                       "Accumulation"
                     ],
                     "markingCriteria": "-\n4\nmarks: Interprets T2D (chronic, managed = high prevalence, low death). Interprets Ebola (acute, fatal = low prevalence, high death). Compares nature of diseases based on data. -\n2-\n3\nmarks: Reads data correctly but analysis shallow. -\n1\nmark: States data values.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-6-full",
@@ -4207,7 +4118,6 @@
                       "Risk factor"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies link (Doll & Hill studies). Strategy creation (Taxation, Plain packaging, bans). Outcome (reduced smoking rates). -\n2\nmarks: Smoking causes cancer so they banned ads. -\n1\nmark: Smoking is bad.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-7-full",
@@ -4251,7 +4161,6 @@
                       "Diagnostics"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies discovery (Franklin: DNA structure / McClintock: Transposons). Links to management (Understanding genetic basis of disease/Gene regulation). -\n2\nmarks: Identifies discovery. -\n1\nmark: General statement.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-8-full",
@@ -4295,7 +4204,6 @@
                       "Evidence"
                     ],
                     "markingCriteria": "-\n3\nmarks: Correlation: Trend matches (A goes up, B goes up). Causal: Mechanism where A *causes* B. Distinction: Correlation does not imply causation. -\n2\nmarks: Defines both. -\n1\nmark: General statement.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-9-full",
@@ -4339,7 +4247,6 @@
                       "Causation"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies strong correlation (HPV DNA found in nearly all cervical cancers). Identifies mechanism (viral proteins integrate into host DNA). Concludes causation is established. -\n2\nmarks: HPV causes cancer. -\n1\nmark: Vague link.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-10-full",
@@ -4383,7 +4290,6 @@
                       "Occupational health"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies trend (exposure leads to disease). Explains lag time. Identifies mechanism (fibres in lungs). Concludes causal link. -\n2\nmarks: Asbestos causes lung cancer. -\n1\nmark: Asbestos is bad.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-11-full",
@@ -4427,7 +4333,6 @@
                       "Randomisation"
                     ],
                     "markingCriteria": "-\n3\nmarks: Defines selection error (bias in choosing participants). Explains random sampling (equal chance). Judgement: Essential for validity/representative data. -\n2\nmarks: Random is fairer. -\n1\nmark: General statement.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-12-full",
@@ -4471,7 +4376,6 @@
                       "Bias"
                     ],
                     "markingCriteria": "-\n2\nmarks: Identifies bias (e.g., inconsistent testing). Explains effect (undercounting cases). -\n1\nmark: Identifies bias.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-13-full",
@@ -4515,7 +4419,6 @@
                       "Hypertension"
                     ],
                     "markingCriteria": "-\n4\nmarks: Identifies study (long-term cohort). Identifies findings (risk factors: smoking, cholesterol). Explains benefit (prevention guidelines). Judgement: Transformative for public health. -\n2-\n3\nmarks: Good description of benefits. -\n1\nmark: It helped hearts.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-14-full",
@@ -4571,7 +4474,6 @@
                       "Biodiversity"
                     ],
                     "markingCriteria": "-\n3\nmarks: Explains the introduction context (biocontrol). Explains specific ecological changes (poisoning of predators, competition for resources). Links to decline in native biodiversity. -\n1-\n2\nmarks: Describes the Cane Toad problem generally.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-change-1-full",
@@ -4615,7 +4517,6 @@
                       "Resilience"
                     ],
                     "markingCriteria": "-\n3\nmarks: Defines monoculture. Explains impact on biodiversity (reduction). Explains impact on resilience (disease susceptibility/soil degradation). -\n1-\n2\nmarks: States monoculture is bad for soil.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-change-2-full",
@@ -4659,7 +4560,6 @@
                       "Correlation"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies trend (Inverse relationship). Uses data points from graph. Deduces competitive exclusion or predation as the mechanism. -\n1-\n2\nmarks: Reads graph but fails to link to ecological mechanism.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-change-3-full",
@@ -4703,7 +4603,6 @@
                       "Selection pressure"
                     ],
                     "markingCriteria": "-\n4\nmarks: Identifies species. Analyses human cause (e.g., habitat loss). Analyses natural cause (e.g., drought/fire). Relates combination to threatened status. -\n2\nmarks: Lists causes without analysis.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-change-4-full",
@@ -4747,7 +4646,6 @@
                       "Ecosystem structure"
                     ],
                     "markingCriteria": "-\n3\nmarks: Defines keystone species (disproportionate impact). Describes specific role (seed dispersal of large fruits). Explains consequence (maintaining plant diversity/structure). -\n1-\n2\nmarks: Says they spread seeds.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-change-5-full",
@@ -4791,7 +4689,6 @@
                       "Balance"
                     ],
                     "markingCriteria": "-\n3\nmarks: Predicts increase in mesopredators (cats/foxes) or herbivores (kangaroos). Predicts decrease in small prey or overgrazing of vegetation. Links to trophic cascade/collapse. -\n1-\n2\nmarks: Says kangaroos will take over.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-change-6-full",
@@ -4841,7 +4738,6 @@
                       "Stability"
                     ],
                     "markingCriteria": "-\n3\nmarks: Defines genetic diversity. Explains how it allows adaptation to change (selection pressures). Links species survival to ecosystem stability. -\n1-\n2\nmarks: More diversity means better survival.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-1-full",
@@ -4885,7 +4781,6 @@
                       "Alleles"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies risk (inbreeding depression, lack of variation). Explains consequence (susceptibility to disease/change). Judgement: Critical threat to survival. -\n1-\n2\nmarks: Small gene pool is bad.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-2-full",
@@ -4929,7 +4824,6 @@
                       "Gametes"
                     ],
                     "markingCriteria": "-\n3\nmarks: Runners (asexual): clones, no variation (unless mutation). Pollination (sexual): meiosis/fertilisation, high variation. Comparison of outcome. -\n1-\n2\nmarks: Sexual creates difference, asexual is same.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-3-full",
@@ -4973,7 +4867,6 @@
                       "Protection"
                     ],
                     "markingCriteria": "-\n3\nmarks: External (e.g. Fish): High gamete count, low success rate (environmental hazard). Internal (e.g. Mammals): Low gamete count, high success rate (protected). Both involve gamete fusion. -\n1-\n2\nmarks: Internal is inside, external is outside.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-4-full",
@@ -5017,7 +4910,6 @@
                       "Extinction"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies binary fission produces clones. Explains lack of genetic diversity. Links to vulnerability (if environment changes, entire population may lack adaptation), leading to extinction risk. -\n1-\n2\nmarks: Clones are bad for change.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-5-full",
@@ -5061,7 +4953,6 @@
                       "Population"
                     ],
                     "markingCriteria": "-\n3\nmarks: Defines Founder Effect (small group isolates). Explains mechanism (non-representative allele frequency). Links to random change (drift) in new population. -\n1-\n2\nmarks: Small group moves away and becomes different.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-6-full",
@@ -5105,7 +4996,6 @@
                       "Variation"
                     ],
                     "markingCriteria": "-\n4\nmarks: Defines Gene Flow (migration/mixing). Effect: increases diversity/homogenises populations. Defines Selection Pressures (environmental factors). Effect: directional change (increases favourable alleles). Comparison of random vs directional nature. -\n2-\n3\nmarks: Defines both, comparison weak.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-7-full",
@@ -5149,7 +5039,6 @@
                       "Scale"
                     ],
                     "markingCriteria": "-\n3\nmarks: Describes model (e.g., coloured beads for alleles). Describes method (random selection/removal). Identifies limitation (oversimplification/no environment). -\n1-\n2\nmarks: Used beads to show genetics.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-8-full",
@@ -5193,7 +5082,6 @@
                       "Transmission"
                     ],
                     "markingCriteria": "-\n4\nmarks: Identifies MHC role (immune recognition). Relates low diversity to inability to recognise tumour as foreign. Explains transmission (contagious cancer). Conclusion: Rapid spread/high mortality. -\n2-\n3\nmarks: Explains they are genetically similar so they can't fight the cancer.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-9-full",
@@ -5237,7 +5125,6 @@
                       "Mechanism"
                     ],
                     "markingCriteria": "-\n4\nmarks: Mutation: introduces new alleles (slow/rare). Selection: acts on existing alleles (fast/directional). Judgement: Selection is the primary driver of frequency change; mutation provides the raw material. -\n2-\n3\nmarks: Describes both but evaluation is weak.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-10-full",
@@ -5280,7 +5167,6 @@
                       "Time"
                     ],
                     "markingCriteria": "-\n3\nmarks: Defines SNPs (point mutations). Relates accumulation to genetic divergence. Explains how this leads to speciation/evolution over time. -\n1-\n2\nmarks: SNPs are changes in DNA that show evolution.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-11-full",
@@ -5324,7 +5210,6 @@
                       "Barrier"
                     ],
                     "markingCriteria": "-\n4\nmarks: Physical: Cell wall thickening/callose deposition (barrier). Chemical: Secretion of enzymes (chitinases) or toxins (phytoalexins). Explains function of each. -\n2-\n3\nmarks: Identifies responses but explanation is general. -\n1\nmark: Plants fight back.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-12-full",
@@ -5368,7 +5253,6 @@
                       "Resistance"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies TR4 affects Cavendish (clones). Explains mechanism (soil fungus blocks vascular tissue). Evaluates impact (devastating due to lack of genetic resistance/monoculture). -\n1-\n2\nmarks: Panama disease kills bananas.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-13-full",
@@ -5412,7 +5296,6 @@
                       "Pathogen"
                     ],
                     "markingCriteria": "-\n4\nmarks: Ecological: Loss of biodiversity/habitat structure (eucalypt dieback). Economic: Cost to forestry/tourism/management. Judgement of severity. -\n2-\n3\nmarks: Discusses dieback generally. -\n1\nmark: It kills trees.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-14-full",
@@ -5456,7 +5339,6 @@
                       "Early warning"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies feature (permeable skin). Explains sensitivity to pollutants/pH. Justifies that their presence/absence reliably indicates ecosystem health. -\n1-\n2\nmarks: Frogs are sensitive.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-15-full",
@@ -5500,7 +5382,6 @@
                       "Collapse"
                     ],
                     "markingCriteria": "-\n3\nmarks: Explains species interactions (food webs/symbiosis). Explains functional redundancy (if one species is lost, another takes its role). Links to stability against disturbance. -\n1-\n2\nmarks: More species means a stronger ecosystem.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-16-full",
@@ -5552,7 +5433,6 @@
                       "Balance"
                     ],
                     "markingCriteria": "-\n3\nmarks: Defines sustainability (needs of present without compromising future). Discusses intra-generational equity and biodiversity conservation. -\n1-\n2\nmarks: Defines sustainability.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-sus-1-full",
@@ -5596,7 +5476,6 @@
                       "Sustainability"
                     ],
                     "markingCriteria": "-\n3\nmarks: Explains totem (spiritual connection to species). Explains restriction (cannot eat/harm totem). Links to conservation/population recovery. -\n1-\n2\nmarks: Totems are sacred animals.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-sus-2-full",
@@ -5640,7 +5519,6 @@
                       "Prevention"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies procedure (screening imports/luggage). Explains purpose (preventing entry of exotic pathogens/vectors). Links to protecting agriculture/environment. -\n1-\n2\nmarks: Stopping bad food coming in.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-sus-3-full",
@@ -5684,7 +5562,6 @@
                       "Quarantine"
                     ],
                     "markingCriteria": "-\n4\nmarks: Describes methods (Lockdown/Quarantine zones, Vaccination). Assesses outcome (Eradication achieved). Judgement: Highly successful but costly. -\n2-\n3\nmarks: Discusses the horse flu outbreak and stopping movement.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-sus-4-full",
@@ -5728,7 +5605,6 @@
                       "Eradication"
                     ],
                     "markingCriteria": "-\n4\nmarks: Chemical: ineffective, expensive, environmental harm. Biological: Cactoblastis moth introduction. Outcome: Rapid reduction of cactus. Judgement: Biological was superior and highly successful. -\n2-\n3\nmarks: The moth ate the cactus.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-sus-5-full",
@@ -5772,7 +5648,6 @@
                       "Resilience"
                     ],
                     "markingCriteria": "-\n3\nmarks: Describes role (No-take zones). Explains mechanism (Habitat protection, breeding sanctuary). Judgement: Effective spill-over effect increases surrounding populations. -\n1-\n2\nmarks: Fishing is banned so fish grow.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-sus-6-full",
@@ -5816,7 +5691,6 @@
                       "Conservation"
                     ],
                     "markingCriteria": "-\n4\nmarks: Identifies issues (animal welfare, resource allocation, ecosystem suitability). Analyses consequences (suffering of clones, distraction from saving current species). Synthesis of view. -\n2-\n3\nmarks: Discusses if we should bring it back.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-sus-7-full",
@@ -5860,7 +5734,6 @@
                       "Extinction"
                     ],
                     "markingCriteria": "-\n3\nmarks: Describes strategy (Captive breeding, disease-free enclosures). Outcome (Successful breeding, reintroduction challenges with Chytrid fungus). Judgement: Successful in preventing extinction, but self-sustaining wild population is difficult. -\n1-\n2\nmarks: Breeding frogs in zoos helps.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-sus-8-full",
@@ -5904,7 +5777,6 @@
                       "Selection pressure"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies pressure (Heat stress/Bleaching). Mechanism (Coral expels zooxanthellae/death). Impact (Loss of habitat structure -> collapse of fish populations -> Reduced biodiversity). -\n1-\n2\nmarks: Coral will die and fish will leave.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-sus-9-full",
@@ -5962,7 +5834,6 @@
                       "Efficiency"
                     ],
                     "markingCriteria": "-\n5\nmarks: Identifies role of bioinformatics (analysing massive datasets/sequences). Identifies role of genetic engineering (manipulating DNA). Discusses the synergy (bioinformatics identifies target genes -> GE modifies them). Provides an example (e.g., vaccine design/CRISPR). -\n2-\n3\nmarks: Describes both but link/discussion is weak.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-mod-1-full",
@@ -6006,7 +5877,6 @@
                       "Sustainability"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies example (e.g., Bt Cotton). Explains mechanism (insertion of bacterial gene). Explains benefit/application (pest resistance/reduced pesticide use). -\n1-\n2\nmarks: Bt Cotton stops bugs.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-mod-2-full",
@@ -6050,7 +5920,6 @@
                       "Insertion"
                     ],
                     "markingCriteria": "-\n4\nmarks: Defines GMO (any genetic alteration). Defines Transgenic (gene from *different* species). Identifies relationship (All transgenic are GMOs, not vice versa). Examples (e.g., CRISPR silenced apple vs Bt Cotton). -\n2-\n3\nmarks: Definitions correct but relationship/comparison unclear.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-mod-3-full",
@@ -6094,7 +5963,6 @@
                       "Evolution"
                     ],
                     "markingCriteria": "-\n3\nmarks: Somatic: Affects body cells, not passed to offspring (non-heritable). Germline: Affects gametes/embryos, passed to offspring (heritable). Comparison of evolutionary impact. -\n1-\n2\nmarks: Germline is passed on.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-mod-4-full",
@@ -6138,7 +6006,6 @@
                       "Drug design"
                     ],
                     "markingCriteria": "-\n4\nmarks: Describes role (simulating protein interactions/docking). Explains benefit (speed/cost reduction vs trial and error). Judgement: Essential for modern drug discovery. -\n2-\n3\nmarks: Mentions computers help design drugs.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-mod-5-full",
@@ -6188,7 +6055,6 @@
                       "Comparison"
                     ],
                     "markingCriteria": "-\n4\nmarks: PCR amplifies specific gene region (CFTR). Gel Electrophoresis separates fragments by size. Comparison to healthy control reveals mutation (e.g., deletion causes shorter fragment). Diagnosis confirmed. -\n2-\n3\nmarks: Mentions amplifying DNA and seeing lines on a gel.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-dis-1-full",
@@ -6232,7 +6098,6 @@
                       "Research acceleration"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies function (storage of sequence data). Explains value (global collaboration, identifying trends/prevalence, comparing mutations). Judgement: Essential for research. -\n1-\n2\nmarks: It stores DNA data.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-dis-2-full",
@@ -6276,7 +6141,6 @@
                       "Data privacy"
                     ],
                     "markingCriteria": "-\n4\nmarks: Benefit: Early intervention (mastectomy/screening), peace of mind. Risk: Anxiety/Psychological impact, Insurance discrimination, privacy. Balanced discussion. -\n2-\n3\nmarks: Defines screening and lists one pro/con.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-dis-3-full",
@@ -6320,7 +6184,6 @@
                       "RPE65 gene"
                     ],
                     "markingCriteria": "-\n3\nmarks: Method: Viral vector (AAV) delivers functional RPE65 gene into retinal cells. Outcome: Restoration of vision/production of functional enzyme. -\n1-\n2\nmarks: Injects a gene to fix eyes.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-dis-4-full",
@@ -6364,7 +6227,6 @@
                       "Fermentation"
                     ],
                     "markingCriteria": "-\n4\nmarks: Isolation (Human insulin gene). Restriction Enzymes (cut gene and plasmid). Ligation (Ligase joins them). Transformation (Plasmid into bacteria). Expression (Bacteria divide/produce protein). -\n2-\n3\nmarks: Misses key steps or enzymes.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-dis-5-full",
@@ -6408,7 +6270,6 @@
                       "Precision medicine"
                     ],
                     "markingCriteria": "-\n4\nmarks: Describes MABs (targeted therapy). Analyses data trend (increased survival rates/reduced side effects compared to chemo). Judgement: Highly successful precision medicine. -\n2-\n3\nmarks: Discusses MABs generally.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-dis-6-full",
@@ -6452,7 +6313,6 @@
                       "Accessibility"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies disease cause (point mutation). Explains CRISPR application (editing stem cells to fix mutation or boost fetal haemoglobin). Discusses outcome (permanent cure vs symptom management). -\n1-\n2\nmarks: CRISPR can fix the gene.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-dis-7-full",
@@ -6496,7 +6356,6 @@
                       "Healthcare access"
                     ],
                     "markingCriteria": "-\n4\nmarks: Identifies issue (high cost of development/treatment). Implication (only wealthy access/widening health gap). Judgement: Creates ethical conflict between profit and right to health. -\n2-\n3\nmarks: It is expensive so poor people can't get it.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-dis-8-full",
@@ -6540,7 +6399,6 @@
                       "Mechanism"
                     ],
                     "markingCriteria": "-\n4\nmarks: PCR detects genetic material (DNA/RNA) via amplification. ELISA detects proteins (antigens/antibodies) via colour change reaction. Comparison: PCR identifies pathogen presence directly (early infection); ELISA often identifies immune response (later stage). -\n2-\n3\nmarks: Describes both methods.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-dis-9-full",
@@ -6584,7 +6442,6 @@
                       "Sustainable"
                     ],
                     "markingCriteria": "-\n3\nmarks: Describes method (injecting mosquitoes with *Wolbachia* blocks virus transmission). Outcome (Reduction in local Dengue cases). Judgement: Effective, self-sustaining, and eco-friendly. -\n1-\n2\nmarks: Using bacteria to stop mosquitoes.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-dis-10-full",
@@ -6628,7 +6485,6 @@
                       "Mortality"
                     ],
                     "markingCriteria": "-\n4\nmarks: Identifies speed of development (synthetic production). Benefit: Rapid deployment reducing mortality/lockdowns. Benefit: Adaptability to variants. Judgement: Critical for societal stability and economic recovery. -\n2-\n3\nmarks: Vaccines save lives.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-dis-11-full",
@@ -6678,7 +6534,6 @@
                       "Resource management"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies technology (Eel traps/channels). Explains manipulation of environment/breeding cycles to ensure supply. Links to sustainable management. -\n1-\n2\nmarks: They built traps for fish.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-ag-1-full",
@@ -6721,7 +6576,6 @@
                       "Fruit set"
                     ],
                     "markingCriteria": "-\n3\nmarks: Reason: Lack of natural pollinators (specific bee) outside Mexico. Method: Manual transfer of pollen. Outcome: Ensures fruit set/yield/commercial viability. -\n1-\n2\nmarks: Bees are gone so humans do it.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-ag-2-full",
@@ -6765,7 +6619,6 @@
                       "Rapid propagation"
                     ],
                     "markingCriteria": "-\n3\nmarks: Method: Cloning from small tissue samples. Benefit: Rapid propagation of rare species/virus-free stock. Limitation: Low genetic diversity (clones). Judgement: Crucial for critically endangered species recovery. -\n1-\n2\nmarks: Growing plants in tubes helps save them.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-ag-3-full",
@@ -6809,7 +6662,6 @@
                       "Species richness"
                     ],
                     "markingCriteria": "-\n3\nmarks: Defines eDNA (trace DNA in water/soil). Application: Bioinformatic matching to species databases. Benefit: Non-invasive detection of cryptic/rare species or biodiversity levels. -\n1-\n2\nmarks: Testing water for DNA.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-ag-4-full",
@@ -6852,7 +6704,6 @@
                       "Breeding program"
                     ],
                     "markingCriteria": "-\n4\nmarks: Problem: Low diversity/DFTD. Method: Sequencing genomes of individuals. Application: Selecting genetically distinct mates for captive breeding (Insurance population). Outcome: Maximising diversity/resistance. -\n2-\n3\nmarks: Testing genes to help them breed.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-ag-5-full",
@@ -6896,7 +6747,6 @@
                       "Safety"
                     ],
                     "markingCriteria": "-\n4\nmarks: Benefit: Vitamin A enrichment prevents blindness/death in developing nations. Ethical Concern: Corporate control/patent issues, safety concerns, potential loss of biodiversity. Balanced discussion. -\n2-\n3\nmarks: It helps blind people but might be bad.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-ag-6-full",
@@ -6940,7 +6790,6 @@
                       "Ecological disruption"
                     ],
                     "markingCriteria": "-\n4\nmarks: Identifies modification (Growth hormone). Prediction: Outcompete wild salmon for food/mates due to size. Consequence: Disruption of food webs/extinction of wild genotype. Judgement: High risk requiring containment. -\n2-\n3\nmarks: They grow big and eat everything.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-ag-7-full",
@@ -6984,7 +6833,6 @@
                       "Labelling"
                     ],
                     "markingCriteria": "-\n4\nmarks: Economic: Higher yield/lower pesticide cost drives uptake. Social: Consumer resistance/labelling laws might hinder it. Assessment: Economic benefits for farmers usually outweigh social stigma in non-food crops like cotton. -\n2-\n3\nmarks: Farmers like it because it makes money.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-ag-8-full",

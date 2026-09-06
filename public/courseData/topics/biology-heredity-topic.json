@@ -29,7 +29,6 @@
                 "Double helix"
               ],
               "markingCriteria": "-\n4\nmarks: Provides a comprehensive comparison including differences in sugar (deoxyribose vs ribose), bases (thymine vs uracil), strands (double vs single), and longevity/stability. -\n3\nmarks: Compares 2-3 key features. -\n2\nmarks: Identifies differences but lacks detail (e.g., just mentions single vs double strand). -\n1\nmark: States one difference.",
-              "targetPerformanceBands": [],
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-1-6",
@@ -102,7 +101,6 @@
                 "Not adequately explaining the mechanism and importance of peptide bond formation.",
                 "Failing to link the accuracy of polypeptide synthesis directly to the precise reading of codons and anticodons."
               ],
-              "estimatedTime": "8-10 minutes",
               "markerNotes": [
                 "Assess for a clear, logical sequence of events covering both transcription and translation.",
                 "Emphasis should be placed on the 'interconnected roles' and the 'significance' of each component, not just isolated definitions.",
@@ -152,7 +150,6 @@
                 "Peptide bond"
               ],
               "markingCriteria": "-\n3\nmarks: Explains tRNA's role in carrying specific amino acids to the ribosome and matching its anticodon to the mRNA codon to ensure correct sequence. -\n2\nmarks: Mentions carrying amino acids or matching codons. -\n1\nmark: General statement about protein synthesis.",
-              "targetPerformanceBands": [],
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-2-6",
@@ -196,7 +193,6 @@
                 "Isoforms"
               ],
               "markingCriteria": "-\n3\nmarks: Explains that pre-mRNA contains introns and exons, introns are removed, and exons can be combined in different combinations to create different mRNA transcripts. -\n2\nmarks: Mentions removal of introns and joining of exons. -\n1\nmark: States one gene can make different proteins.",
-              "targetPerformanceBands": [],
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-3-6",
@@ -238,7 +234,6 @@
                 "Codon"
               ],
               "markingCriteria": "-\n3\nmarks: Correct mRNA (AUG CCG UAA) and correct Amino Acids (Met - Pro - Stop). -\n2\nmarks: Correct mRNA but error in translation, or vice versa. -\n1\nmark: Attempt at base pairing.",
-              "targetPerformanceBands": [],
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-4-6",
@@ -313,7 +308,6 @@
                 "Describing denaturation without explicitly linking it to the disruption of specific structural levels and the loss of function.",
                 "Insufficient detail for a 7-mark question, especially in explaining the interplay of forces for tertiary/quaternary structure."
               ],
-              "estimatedTime": "12-15 minutes",
               "markerNotes": [
                 "Students must use a specific, named protein example (e.g., haemoglobin, lysozyme, insulin) and clearly articulate how its structure at each level relates to its specific role.",
                 "Look for correct terminology when describing the types of bonds and intermolecular forces at each structural level (e.g., peptide bonds for primary, hydrogen bonds for secondary, disulfide bridges, ionic, hydrogen, hydrophobic/hydrophilic for tertiary/quaternary).",
@@ -362,7 +356,6 @@
                 "Hormones"
               ],
               "markingCriteria": "-\n4\nmarks: Describes two distinct functions (e.g., catalysis, transport, structure) with a correct example for each (e.g., amylase, haemoglobin, collagen). -\n3\nmarks: Describes two functions with general examples. -\n2\nmarks: Describes one function with example. -\n1\nmark: General statement about proteins.",
-              "targetPerformanceBands": [],
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-5-6",
@@ -433,7 +426,6 @@
                 "Focusing too much on the general steps of protein synthesis without explaining its 'role' as the bridge between DNA and phenotype, as requested.",
                 "Not specifically addressing the scenario provided."
               ],
-              "estimatedTime": "7-8 minutes",
               "markerNotes": [
                 "Assess for a clear, logical, and sequential explanation that traces the flow of genetic information from DNA to phenotype.",
                 "Students must use appropriate scientific terminology for each stage of protein synthesis (e.g., RNA polymerase, codons, anticodons, peptide bonds).",
@@ -483,7 +475,6 @@
                 "Phenotype"
               ],
               "markingCriteria": "-\n3\nmarks: Identifies pH as the environmental factor. Explains the mechanism (acidic soil = blue, alkaline = pink). Concludes phenotype is gene + environment. -\n2\nmarks: Explains pH affects colour but lacks assessment/conclusion. -\n1\nmark: States environment affects colour.",
-              "targetPerformanceBands": [],
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-6-6",
@@ -545,7 +536,6 @@
                 "Not explicitly linking the observed phenotypic change directly to altered gene activity or expression mechanisms.",
                 "Providing a generic explanation without referencing specific experimental design elements or interpretation of results."
               ],
-              "estimatedTime": "5 minutes",
               "markerNotes": [
                 "Look for a clear logical flow from environmental factor to gene expression change to observed phenotype.",
                 "Award marks for a sound understanding of experimental design principles (e.g., control group, manipulating one variable, replicates).",
@@ -611,7 +601,6 @@
                 "Not addressing both parts of the question (role AND application) adequately.",
                 "Discussing non-regulatory RNA types (e.g., mRNA, tRNA) as regulatory."
               ],
-              "estimatedTime": "8 minutes",
               "markerNotes": [
                 "Look for specific examples of regulatory RNA (e.g., miRNA, siRNA) and their distinct mechanisms.",
                 "Evaluate the clarity and specificity of the biotechnological application described, ensuring it directly relates to regulating gene expression via RNA.",
@@ -682,7 +671,6 @@
                 "Not providing a clear 'assessment' of the influence, instead just describing it.",
                 "Only discussing one of the two required gene examples, or providing inaccurate information for them."
               ],
-              "estimatedTime": "15-18 minutes",
               "markerNotes": [
                 "Candidates must clearly define and explain epigenetic changes and their role in gene expression.",
                 "Detailed and accurate use of BOTH the Glucocorticoid receptor (GR) gene and the agouti gene examples is crucial.",
@@ -740,7 +728,6 @@
                 "Confusing polypeptide synthesis with transcription or DNA replication.",
                 "Lack of specific biological examples to illustrate importance."
               ],
-              "estimatedTime": "3 minutes",
               "markerNotes": [
                 "Look for explicit links between polypeptide synthesis and crucial cellular or organismal functions. Students should move beyond a mere definition and provide context for its 'importance'. Specific examples like enzymes or structural proteins will score well."
               ],
@@ -809,7 +796,6 @@
                 "Not providing sufficient detail on the molecular or chromosomal location of each term.",
                 "Omitting the interrelationship between the three terms and their collective role in phenotypic expression."
               ],
-              "estimatedTime": "10 minutes",
               "markerNotes": [
                 "Responses must clearly define each term and articulate their differences and connections.",
                 "The use of the specific example (cystic fibrosis or another relevant trait) is crucial for full marks, demonstrating application of knowledge.",
@@ -856,7 +842,6 @@
                 "Locus"
               ],
               "markingCriteria": "-\n3\nmarks: Identifies Prophase 1 of meiosis. Explains exchange of genetic material between homologous chromosomes. States result: new combinations of alleles (recombinant chromatids). -\n2\nmarks: Describes swapping of genes. -\n1\nmark: General statement about mixing DNA.",
-              "targetPerformanceBands": [],
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-7-6",
@@ -894,7 +879,6 @@
                 "Independent"
               ],
               "markingCriteria": "-\n3\nmarks: Segregation: separation of allele pairs (homologous chromosomes) into different gametes. Assortment: separation of *different* gene pairs independently of one another. Clearly distinguishes the scope (single pair vs multiple pairs). -\n2\nmarks: Defines both but distinction is blurry. -\n1\nmark: Definitions only.",
-              "targetPerformanceBands": [],
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-8-6",
@@ -938,7 +922,6 @@
                 "Phenotype"
               ],
               "markingCriteria": "-\n4\nmarks: Defines codominance (both expressed fully) with example (e.g., Roan cattle/Blood type AB). Defines incomplete dominance (blending) with example (e.g., Snapdragon flowers). Highlights the difference in phenotype expression. -\n3\nmarks: Good definitions and examples but distinction is implicit. -\n2\nmarks: Definitions or examples only. -\n1\nmark: Confuses the two.",
-              "targetPerformanceBands": [],
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-9-6",
@@ -982,7 +965,6 @@
                 "Recessive"
               ],
               "markingCriteria": "-\n3\nmarks: Autosomal: equal probability in males/females. Sex-linked (recessive): higher frequency in males due to having only one X chromosome (hemizygous). Explains why (no backup allele). -\n2\nmarks: States males get sex-linked more often. -\n1\nmark: General statement.",
-              "targetPerformanceBands": [],
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-10-6",
@@ -1026,7 +1008,6 @@
                 "Probability"
               ],
               "markingCriteria": "-\n4\nmarks: Correct genotypes (X^H X^h, X^H Y). Correct Punnett square. Correct identification of affected offspring (X^h Y). Calculation of probability (25% total, or 50% of sons). -\n3\nmarks: Correct square but probability error. -\n2\nmarks: Error in parental genotypes. -\n1\nmark: Attempt at square.",
-              "targetPerformanceBands": [],
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-11-6",
@@ -1087,7 +1068,6 @@
                 "Confusing sex-linked inheritance with sex-influenced or sex-limited inheritance.",
                 "Not linking the chromosomal location directly to the altered ratios."
               ],
-              "estimatedTime": "4 minutes",
               "markerNotes": [
                 "Look for a clear distinction between the location of genes (sex chromosome vs. autosome).",
                 "Award marks for explaining *how* this location affects the transmission and expression, particularly noting the implications for males in X-linked inheritance.",
@@ -1134,7 +1114,6 @@
                 "Skipping generations"
               ],
               "markingCriteria": "-\n3\nmarks: Explains logic: if two affected parents have an unaffected child, the trait is dominant (parents were heterozygous). If two unaffected parents have an affected child, the trait is recessive (parents were carriers). -\n2\nmarks: Explains one scenario (e.g. recessive). -\n1\nmark: General statement about generations.",
-              "targetPerformanceBands": [],
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-12-6",
@@ -1184,7 +1163,6 @@
                 "Distortion"
               ],
               "markingCriteria": "-\n3\nmarks: Identifies mechanism (excitation of electrons). Describes formation of Pyrimidine/Thymine dimers. Explains consequence (disrupts replication/transcription). -\n2\nmarks: Mentions thymine dimers or bonding issues. -\n1\nmark: States UV damages DNA.",
-              "targetPerformanceBands": [],
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-13-6",
@@ -1251,7 +1229,6 @@
                 "Confusing DNA mutations with gene expression regulation or epigenetic changes.",
                 "Failing to explicitly link altered structure to altered specific function (e.g., enzyme active site)."
               ],
-              "estimatedTime": "12-15 minutes",
               "markerNotes": [
                 "Students must demonstrate a clear mechanistic understanding, tracing the impact from DNA mutation through mRNA, amino acid sequence, protein folding (structure), to final protein function. Encourage specific examples of how active sites or structural integrity are compromised. Marks should be awarded for distinguishing between types of mutations (e.g., silent, missense, nonsense, frameshift) and explaining their varied impacts on the polypeptide chain."
               ],
@@ -1315,7 +1292,6 @@
                 "Not linking the base change to the subsequent alteration of the polypeptide sequence.",
                 "Incorrectly describing the direction or impact of the reading frame shift."
               ],
-              "estimatedTime": "3 minutes",
               "markerNotes": [
                 "Assess for a clear distinction based on the addition vs. removal of a nucleotide. Emphasis should be placed on the frameshift consequence and its impact on the polypeptide sequence for full marks. No diagram is required, but the explanation should accurately reflect the effects that a diagram would illustrate."
               ],
@@ -1359,7 +1335,6 @@
                 "Functionality"
               ],
               "markingCriteria": "-\n4\nmarks: Defines Missense (swaps one amino acid) and Nonsense (creates stop codon). Compares outcome: Missense alters protein function (maybe functional), Nonsense truncates protein (usually non-functional). -\n3\nmarks: Good definitions but comparison of impact is weak. -\n2\nmarks: Defines one or gives vague comparison. -\n1\nmark: General statement about mutations.",
-              "targetPerformanceBands": [],
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-14-6",
@@ -1403,7 +1378,6 @@
                 "Structural change"
               ],
               "markingCriteria": "-\n3\nmarks: Inversion: section breaks, flips 180, reattaches to *same* chromosome. Translocation: section breaks and attaches to a *non-homologous* chromosome. Clear distinction on location. -\n2\nmarks: Describes both but misses 'non-homologous' or 'same' distinction. -\n1\nmark: Definitions only.",
-              "targetPerformanceBands": [],
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-15-6",
@@ -1479,7 +1453,6 @@
                 "Failing to address the 'implications for human health' comprehensively.",
                 "Using vague terminology instead of precise biological terms."
               ],
-              "estimatedTime": "15 minutes",
               "markerNotes": [
                 "Students must clearly compare and contrast the two types of mutations across all three specified criteria (mechanisms, consequences, implications).",
                 "Award higher marks for specific examples (e.g., Sickle Cell Anemia for point mutation, Down Syndrome for chromosomal) and accurate biological terminology.",
@@ -1548,7 +1521,6 @@
                 "Simply defining non-disjunction without explaining 'how' it results in the specific karyotype.",
                 "Not distinguishing between homologous chromosomes and sister chromatids during the description of meiotic errors."
               ],
-              "estimatedTime": "12-15 minutes",
               "markerNotes": [
                 "Students must clearly differentiate between non-disjunction of homologous chromosomes in Meiosis I and non-disjunction of sister chromatids in Meiosis II.",
                 "Emphasis should be placed on how the initial arrangement of homologous pairs influences the potential sites of error.",
@@ -1599,7 +1571,6 @@
                 "Cancer"
               ],
               "markingCriteria": "-\n5\nmarks: Identifies location (body cell vs gamete). Implications for individual (Somatic: cancer/disease, Germline: carrier/silent). Implications for offspring/evolution (Somatic: not passed on, Germline: heritable, affects gene pool). Synthesis of impact. -\n4\nmarks: Covers heritability and individual impact well. -\n3\nmarks: Distinguishes heritability only. -\n2\nmarks: Defines both types. -\n1\nmark: General statement.",
-              "targetPerformanceBands": [],
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-16-6",
@@ -1643,7 +1614,6 @@
                 "Frequency"
               ],
               "markingCriteria": "-\n3\nmarks: Defines SNP (single base variation). Explains association (frequency difference in diseased vs healthy groups). Explains utility (predictive marker/GWAS). -\n2\nmarks: Defines SNP and mentions disease link. -\n1\nmark: General statement about DNA differences.",
-              "targetPerformanceBands": [],
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-17-6",
@@ -1715,7 +1685,6 @@
                 "Generalising about genetic testing without specific reference to SNPs.",
                 "Not addressing the 'diagnostic medicine' aspect specifically."
               ],
-              "estimatedTime": "20-25 minutes",
               "markerNotes": [
                 "Responses should demonstrate a balanced discussion of both 'limitations' and 'constraints' pertaining to *both* SNP testing *and* SNP databases. Expect analysis of scientific (e.g., polygenic traits, incomplete penetrance, rare variants, predictive accuracy), ethical (e.g., privacy, informed consent, discrimination, incidental findings), social (e.g., equity of access, societal anxiety, genetic determinism), and practical (e.g., cost, data storage/management, expertise required for interpretation, false positives/negatives) issues. Students must not merely list points but critically explain *why* they are limitations/constraints and *how* they impact diagnostic medicine. A clear, substantiated judgement or conclusion is crucial for higher marks."
               ],

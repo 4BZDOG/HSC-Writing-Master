@@ -398,6 +398,33 @@ export const normaliseOutcomeCode = (value: string): string => {
 export const normaliseOutcomeLinks = (values: string[] = []): string[] =>
   Array.from(new Set(values.map(normaliseOutcomeCode).filter(Boolean)));
 
+/**
+ * The three fields that are gone, taken back out of a file that still has them.
+ *
+ * `.passthrough()` above is deliberate: an import must not silently discard
+ * content this app does not yet model, because the file is a teacher's whole
+ * course. These three are the exception, because they are not content this app
+ * does not model — they are content it deliberately stopped modelling, and
+ * carrying them forward means every re-export writes stale values back out.
+ *
+ * `estimatedTime` and `targetPerformanceBands` were denormalised copies of
+ * `getRecommendedTime` and `bandsForQuestion`; 188 shipped bands had already
+ * drifted to name a band the question's own verb could never reach.
+ * `highlightedQuestion` predated `renderFormattedText` deriving the emphasis.
+ */
+const RETIRED_PROMPT_FIELDS = [
+  'highlightedQuestion',
+  'estimatedTime',
+  'targetPerformanceBands',
+] as const;
+
+const dropRetiredPromptFields = <T extends object>(prompt: T): T => {
+  if (!RETIRED_PROMPT_FIELDS.some((field) => field in prompt)) return prompt;
+  const next = { ...prompt } as Record<string, unknown>;
+  for (const field of RETIRED_PROMPT_FIELDS) delete next[field];
+  return next as T;
+};
+
 const repairPromptFields = <T extends { verb?: PromptVerb; question: string; totalMarks?: number }>(
   prompt: T
 ): T & { verb: PromptVerb; totalMarks: number } => {
@@ -573,7 +600,6 @@ const PromptSchema = z
       .optional()
       .transform((val) => Number(val) || 0),
     verb: z.unknown().transform(normalizeVerb),
-    highlightedQuestion: z.string().optional(),
     scenario: z.string().optional().default(''),
     scenarioImage: z
       .object({
@@ -584,7 +610,6 @@ const PromptSchema = z
       })
       .optional(),
     linkedOutcomes: z.array(z.string()).default([]).transform(normaliseOutcomeLinks),
-    estimatedTime: z.string().optional(),
     relatedTopics: z.array(z.string()).default([]),
     prerequisiteKnowledge: z.array(z.string()).default([]),
     markerNotes: z.array(z.string()).default([]),
@@ -600,8 +625,9 @@ const PromptSchema = z
   })
   .passthrough()
   // Canonicalise verb + marks so imported questions colour consistently on
-  // every surface (see repairPromptFields).
-  .transform(repairPromptFields);
+  // every surface (see repairPromptFields), then drop the retired fields.
+  .transform(repairPromptFields)
+  .transform(dropRetiredPromptFields);
 
 const DotPointSchema = z
   .object({
@@ -1031,13 +1057,8 @@ const mergePromptContent = (existingPrompt: Prompt, importedPrompt: Prompt): Pro
   id: existingPrompt.id,
   question:
     mergeScalarText(existingPrompt.question, importedPrompt.question) || existingPrompt.question,
-  highlightedQuestion: mergeScalarText(
-    existingPrompt.highlightedQuestion,
-    importedPrompt.highlightedQuestion
-  ),
   scenario: mergeScalarText(existingPrompt.scenario, importedPrompt.scenario),
   scenarioImage: importedPrompt.scenarioImage ?? existingPrompt.scenarioImage,
-  estimatedTime: mergeScalarText(existingPrompt.estimatedTime, importedPrompt.estimatedTime),
   markingCriteria: mergeScalarText(existingPrompt.markingCriteria, importedPrompt.markingCriteria),
   hscQuestionNumber: mergeScalarText(
     existingPrompt.hscQuestionNumber,
@@ -1067,12 +1088,6 @@ const mergePromptContent = (existingPrompt: Prompt, importedPrompt: Prompt): Pro
     ...(existingPrompt.keywords || []),
     ...(importedPrompt.keywords || []),
   ]),
-  targetPerformanceBands: Array.from(
-    new Set([
-      ...(existingPrompt.targetPerformanceBands || []),
-      ...(importedPrompt.targetPerformanceBands || []),
-    ])
-  ),
   sampleAnswers: mergeSampleAnswerCollections(
     existingPrompt.sampleAnswers || [],
     importedPrompt.sampleAnswers || []

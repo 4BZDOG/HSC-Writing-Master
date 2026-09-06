@@ -23,13 +23,10 @@ describe('promptToRow (app Prompt -> DB insert row)', () => {
       question: 'Explain X',
       totalMarks: 6,
       verb: 'EXPLAIN',
-      highlightedQuestion: '<b>Explain</b> X',
       scenario: 'A scenario',
       markingCriteria: 'criteria',
       linkedOutcomes: ['O1'],
       keywords: ['x', 'y'],
-      targetPerformanceBands: [5, 6],
-      estimatedTime: '10 min',
       isPastHSC: true,
       hscYear: 2024,
       hscQuestionNumber: '7b',
@@ -44,7 +41,6 @@ describe('promptToRow (app Prompt -> DB insert row)', () => {
     expect(row.created_by).toBe('user-uuid');
     expect(row.status).toBe('pending');
     expect(row.legacy_id).toBe('prompt-123');
-    expect(row.highlighted_question).toBe('<b>Explain</b> X');
     expect(row.total_marks).toBe(6);
     expect(row.is_past_hsc).toBe(true);
     expect(row.hsc_year).toBe(2024);
@@ -64,12 +60,16 @@ describe('promptToRow (app Prompt -> DB insert row)', () => {
     const row = promptToRow(prompt, 'd', 'u', 'private');
 
     expect(row.status).toBe('private');
-    expect(row.highlighted_question).toBeNull();
     expect(row.scenario).toBeNull();
     expect(row.hsc_year).toBeNull();
     expect(row.is_past_hsc).toBe(false);
     expect(row.keywords).toEqual([]);
-    expect(row.target_performance_bands).toEqual([]);
+    // `highlighted_question`, `target_performance_bands` and `estimated_time`
+    // are no longer written: two were denormalised copies of values the app
+    // derives, the third was dead. Their columns remain, nullable or defaulted.
+    expect('highlighted_question' in row).toBe(false);
+    expect('target_performance_bands' in row).toBe(false);
+    expect('estimated_time' in row).toBe(false);
     // No quality screen passed → null (unscored).
     expect(row.quality_score).toBeNull();
     expect(row.quality_notes).toBeNull();

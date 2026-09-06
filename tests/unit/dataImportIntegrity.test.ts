@@ -627,3 +627,84 @@ describe('reconcileImportedTopicIds', () => {
     expect(editedTopic).toEqual(editedTopicSnapshot);
   });
 });
+
+/**
+ * Files written before three fields were removed.
+ *
+ * `estimatedTime` and `targetPerformanceBands` were denormalised copies of
+ * values the app derives — `getRecommendedTime` and `bandsForQuestion` — and
+ * a stored copy cannot track a question whose verb or marks later change: 188
+ * shipped bands named a band the question's own verb could never reach.
+ * `highlightedQuestion` predated `renderFormattedText` deriving the emphasis.
+ *
+ * A teacher's saved export still carries all three. It has to import cleanly,
+ * and it must not put them back.
+ */
+describe('an export written before three fields were removed', () => {
+  const legacyFile = [
+    {
+      id: 'course-legacy',
+      name: 'Legacy Course',
+      outcomes: [{ code: 'X-1', description: 'an outcome' }],
+      topics: [
+        {
+          id: 'topic-1',
+          name: 'Topic',
+          subTopics: [
+            {
+              id: 'sub-1',
+              name: 'Sub',
+              dotPoints: [
+                {
+                  id: 'dot-1',
+                  description: 'Dot point',
+                  prompts: [
+                    {
+                      id: 'prompt-1',
+                      question: 'Outline the process.',
+                      verb: 'OUTLINE',
+                      totalMarks: 3,
+                      // The three that are gone, including a band an OUTLINE
+                      // question could never reach — the exact shape that shipped.
+                      highlightedQuestion: '**Outline** the process.',
+                      estimatedTime: '8 minutes',
+                      targetPerformanceBands: [3, 4],
+                      keywords: ['process'],
+                      linkedOutcomes: ['X-1'],
+                      sampleAnswers: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ];
+
+  it('imports without complaint', () => {
+    const result = analyzeAndSanitizeImportData(legacyFile);
+    expect(result.type).toBe('courses');
+    expect(result.error).toBeUndefined();
+  });
+
+  it('keeps everything that is still a field', () => {
+    const { data } = analyzeAndSanitizeImportData(legacyFile);
+    const prompt = (data as Course[])[0].topics[0].subTopics[0].dotPoints[0].prompts[0];
+    expect(prompt.question).toBe('Outline the process.');
+    expect(prompt.verb).toBe('OUTLINE');
+    expect(prompt.totalMarks).toBe(3);
+    expect(prompt.keywords).toEqual(['process']);
+    expect(prompt.linkedOutcomes).toEqual(['X-1']);
+  });
+
+  it('drops the three that are not, rather than carrying them back in', () => {
+    const { data } = analyzeAndSanitizeImportData(legacyFile);
+    const prompt = (data as Course[])[0].topics[0].subTopics[0].dotPoints[0]
+      .prompts[0] as unknown as Record<string, unknown>;
+    expect('highlightedQuestion' in prompt).toBe(false);
+    expect('estimatedTime' in prompt).toBe(false);
+    expect('targetPerformanceBands' in prompt).toBe(false);
+  });
+});
