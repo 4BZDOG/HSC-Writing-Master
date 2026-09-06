@@ -1501,7 +1501,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             <div className="flex flex-wrap items-center justify-between w-full gap-4 md:gap-6 max-h-[34vh] overflow-y-auto custom-scrollbar py-1">
               <div className="flex flex-wrap items-center gap-3 md:gap-4">
                 <div className="p-3 rounded-xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-200 text-white light:text-slate-900 font-black text-2xl tracking-tighter italic">
-                  {selectedIds.size.toString().padStart(2, '0')}
+                  {selectedIds.size}
                 </div>
                 <span className="t-label text-white/50 light:text-slate-500">Selected</span>
 

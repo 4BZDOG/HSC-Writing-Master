@@ -431,9 +431,73 @@ Recorded so the next pass does not re-litigate them.
   `:focus-visible` outline, and `index.css:235` neutralises animation and
   transition under `prefers-reduced-motion` with a global `*` rule.
 
+## Findings 8-10, as built
+
+### 8 — the hero mark, and where it went wrong twice
+
+`Sparkles` was replaced with **six rungs rising left to right**, which is the
+signal-strength glyph. One stock mark for another, and it took a screenshot to
+see it — the reasoning that produced it ("a ladder, in the app's own band
+colours") was sound the whole way and still landed on a wifi icon.
+
+What shipped is the ladder `pdf/exportEvaluation.ts` already prints at the top
+of every marking report: **six equal segments, filled to the band reached**.
+Horizontal and equal is what makes it a scale rather than a bar chart. The
+segments are square and carry no radius at all, because `drawBandScale` prints
+them as `doc.rect` and the radius scale starts at `rounded-lg` — 8px on a 4px
+rung is a capsule, which is a different mark. `tests/unit/surfaceScale.test.ts`
+caught the arbitrary `rounded-[3px]` that the first attempt reached for, which
+is the gate from finding 5 doing exactly its job.
+
+The tile, its gradient and its hover all went with the glyph.
+
+**It also went into the app header**, which was not in the finding. Changing
+only the login page would have left the generic glyph on every in-app screen
+and given the app two brand marks that disagree, so `components/BandLadderMark.tsx`
+is shared and `AppHeader` renders it at `size="mark"`. That size is a judgement
+call worth flagging: at 40px the report's true proportion is about 1.6px tall,
+so the header rungs are thicker than the ladder really is. `HEADER_MARK_TILE`
+and its brand gradient are untouched.
+
+### 9 — numbered markers
+
+The NESA marking-guide criteria lost their `01`/`02`/`03`, and the
+`hover:translate-x-1` on each non-interactive `<li>` went with them; the
+band-coloured left border already marks each row. `ContentAuditModal`'s
+selection count no longer zero-pads to `07`. `TopicReorderList` and
+`QuickStartModal` keep their numbering — both are genuine sequences.
+
+### 10 — the trailing arrow
+
+Gone from "Request it". The prev/next pager keeps its pair.
+
+## Two asks that came with the fixes
+
+**The command verb ribbon now has room.** It always had hairlines top and
+bottom, but they sat flush against the header bar, where a hairline reads as
+that bar's own edge rather than as the boundary of a section. The two outer
+rules stopped sharing a class with the ribbon's internal seam — they do a
+different job — and now take `RIBBON_EDGE_RULE_GAP_TOP` / `_BOTTOM` off the
+content they bound, one opacity step up, with the transparent ends pulled
+inward so the rule is a line for most of its span instead of a smudge at the
+midpoint. `RIBBON_ROOT` carries vertical margin on top of `<main>`'s `gap-6`,
+because at the shared 24px rhythm the ribbon read as the next block down rather
+than as a change of register between the chooser above and the question below.
+
+**Syllabus Terms is now two groups with a rule between them.** The essential
+terms and the supporting ones were one wrapping row ordered syllabus-first: the
+boundary was real, but it had to be inferred from a change of chip colour
+partway along a row that wraps to a different place at every panel width. The
+label sits in the rule rather than above the group, so the boundary and its
+name are one device — the terms above it are already named by the lead sentence
+and by the legend under it, and a third heading there would be the accessory to
+take off. The rule is drawn only when both groups exist.
+`tests/unit/keywordGrouping.test.tsx` pins that, and pins that a screen reader
+gets the split from the two groups' `aria-label`s rather than from a decorative
+line it cannot see.
+
 ## What remains
 
-Everything the first pass left open still stands, plus findings 8-10 above.
-Finding 8 is the one with reach: it is on the first screen, it is a single
-element, and the headline beside it already proves the app can name its own
-subject.
+Everything the first pass left open still stands. Of this pass, finding 7 (the
+middle-dot meta strings, now 65) is still untouched, and the header mark's
+proportion is the one new open question — see finding 8 above.

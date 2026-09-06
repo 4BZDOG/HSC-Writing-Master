@@ -1,5 +1,6 @@
 import React from 'react';
-import { Sparkles, AlertTriangle, LifeBuoy, Sun, Moon } from 'lucide-react';
+import { AlertTriangle, LifeBuoy, Sun, Moon } from 'lucide-react';
+import BandLadderMark from './BandLadderMark';
 import { authService } from '../services/authService';
 import MeshOverlay from './MeshOverlay';
 import AppHeaderToolsMenu from './AppHeaderToolsMenu';
@@ -78,7 +79,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
       <div className={HEADER_INNER}>
         <div className="flex items-center gap-3 sm:gap-4 min-w-0">
           <div className={HEADER_MARK_TILE}>
-            <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+            <BandLadderMark size="mark" fillClass="bg-white" />
           </div>
           <div className="min-w-0">
             <h1 className={HEADER_WORDMARK}>Band 6</h1>

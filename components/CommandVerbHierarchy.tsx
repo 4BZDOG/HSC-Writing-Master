@@ -17,6 +17,8 @@ import {
   RIBBON_HEADER_TILE,
   RIBBON_HEADER_TITLE,
   RIBBON_ROOT,
+  RIBBON_EDGE_RULE_GAP_TOP,
+  RIBBON_EDGE_RULE_GAP_BOTTOM,
   RIBBON_SELECTED_CHIP,
   RIBBON_SELECTED_LABEL,
   RIBBON_STAT_CAPTION,
@@ -313,9 +315,17 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
     ? `${activeConfig.solidBg} ${activeConfig.solidText} border-white/20`
     : 'bg-slate-200 text-slate-500 border-slate-300 dark:bg-slate-700 dark:text-slate-300 dark:border-white/10';
 
-  // Hairline used above the header, above the footer, and below the ribbon —
-  // slightly stronger when a verb is selected so the ribbon reads as active.
+  // The ribbon's internal seam, above the footer. Slightly stronger when a verb
+  // is selected so the ribbon reads as active.
   const dividerClass = `h-px bg-gradient-to-r from-transparent ${activeConfig ? 'via-[rgb(var(--color-border-secondary))]/60' : 'via-[rgb(var(--color-border-secondary))]/40'} to-transparent`;
+
+  // The rules that bound the ribbon top and bottom do a different job from that
+  // seam, so they stopped sharing its class. They mark where the reference
+  // begins and ends — chooser above, question below — and a boundary has to be
+  // legible from across the page in a way an internal seam does not. One
+  // opacity step up, and the transparent ends pulled inward so the rule is a
+  // line for most of its span instead of a smudge at the midpoint.
+  const edgeRuleClass = `h-px bg-gradient-to-r from-transparent from-[6%] ${activeConfig ? 'via-[rgb(var(--color-border-secondary))]/75' : 'via-[rgb(var(--color-border-secondary))]/55'} to-transparent to-[94%]`;
 
   return (
     // Full page width, flush with everything else in the column — the
@@ -326,8 +336,8 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
     // the ribbon has no step on it: all the indent did was set the ribbon 48px
     // in from every other block on the page.
     <div className={RIBBON_ROOT}>
-      {/* Top divider */}
-      <div className={dividerClass} />
+      {/* The boundary with the syllabus navigator above. */}
+      <div className={`${edgeRuleClass} ${RIBBON_EDGE_RULE_GAP_TOP}`} aria-hidden="true" />
 
       {/* Header Button.
 
@@ -1044,8 +1054,8 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
         </div>
       </div>
 
-      {/* Bottom divider */}
-      <div className={dividerClass} />
+      {/* The boundary with the question card below. */}
+      <div className={`${edgeRuleClass} ${RIBBON_EDGE_RULE_GAP_BOTTOM}`} aria-hidden="true" />
     </div>
   );
 };

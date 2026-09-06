@@ -1127,7 +1127,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               onClick={() => onRequestCourse?.()}
               className="mt-2 block text-left text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline"
             >
-              Can’t find your course? Request it →
+              Can’t find your course? Request it
             </button>
           )}
         </div>

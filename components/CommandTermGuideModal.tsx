@@ -213,12 +213,9 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
                     flex items-start gap-3 p-3 rounded-lg
                     bg-[rgb(var(--color-bg-surface))]/80
                     border-l-4 ${bandConfig.border}
-                    transition-all duration-200 hover:translate-x-1 shadow-sm
+                    shadow-sm
                   `}
                 >
-                  <span className={`text-xs font-bold ${bandConfig.text} mt-0.5 min-w-[20px]`}>
-                    {(index + 1).toString().padStart(2, '0')}
-                  </span>
                   <span className="text-sm text-[rgb(var(--color-text-secondary))] leading-relaxed font-medium">
                     {criterion}
                   </span>

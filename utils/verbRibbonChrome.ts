@@ -24,9 +24,25 @@
 
 /** The ribbon's outermost box. Painted on the page background, full page width
  *  and flush with the column — see the comment at the call site for why it
- *  carries no rail gutter. */
+ *  carries no rail gutter.
+ *
+ *  The vertical margin is ON TOP of `<main>`'s `gap-6`, and it is the reason
+ *  the ribbon reads as its own band rather than as the next block down. The
+ *  page above it is a chooser (the syllabus navigator, or the breadcrumb it
+ *  folds into) and the page below it is the question; the reference between
+ *  them is a change of register, and at the shared 24px rhythm it did not look
+ *  like one. */
 export const RIBBON_ROOT =
-  'clip-stable relative overflow-hidden transition-all duration-700 ease-out animate-fade-in';
+  'clip-stable relative overflow-hidden transition-all duration-700 ease-out animate-fade-in ' +
+  'my-2 sm:my-3';
+
+/** The space an edge rule keeps from the content it bounds. Flush against the
+ *  header bar, a hairline reads as that bar's own top edge rather than as the
+ *  boundary of the section — the rule needs room on the content side before it
+ *  states anything. Applied as margin, not padding: the rules are `h-px` boxes
+ *  and padding would grow them into something with a height. */
+export const RIBBON_EDGE_RULE_GAP_TOP = 'mb-4 sm:mb-5';
+export const RIBBON_EDGE_RULE_GAP_BOTTOM = 'mt-4 sm:mt-5';
 
 /** The header bar, which is also the disclosure toggle. Painted on the page
  *  background and `AnimatedBackground` beneath it.

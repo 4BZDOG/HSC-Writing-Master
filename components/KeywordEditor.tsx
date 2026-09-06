@@ -105,13 +105,20 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
     [syllabusMap]
   );
 
-  // Show the syllabus-named terms first (stable within each group), so the
-  // authoritative must-use terms lead the list.
-  const orderedKeywords = useMemo(() => {
-    const fromSyllabus = keywords.filter((kw) => syllabusMap.get(kw));
-    const supporting = keywords.filter((kw) => !syllabusMap.get(kw));
-    return [...fromSyllabus, ...supporting];
-  }, [keywords, syllabusMap]);
+  // The two groups, kept apart rather than concatenated. They used to be one
+  // list ordered syllabus-first, which put the authoritative terms in front but
+  // left the boundary between "must use" and "could use" to be inferred from a
+  // change of chip colour partway along a wrapping row — and on a row that
+  // wraps, that boundary lands in a different place at every panel width.
+  // Splitting them lets a rule state it once, in the same place every time.
+  const syllabusKeywords = useMemo(
+    () => keywords.filter((kw) => syllabusMap.get(kw)),
+    [keywords, syllabusMap]
+  );
+  const supportingKeywords = useMemo(
+    () => keywords.filter((kw) => !syllabusMap.get(kw)),
+    [keywords, syllabusMap]
+  );
 
   const isLoading = isEnriching || isSuggesting || isRegenerating;
   const error = regenerateError || suggestError;
@@ -120,13 +127,69 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
   const total = keywords.length;
   const allUsed = total > 0 && usedCount === total;
 
+  // One chip, rendered into either group. It was inline in a single `.map`
+  // before the groups were split; nothing about the chip itself changed.
+  const renderKeyword = (kw: string) => {
+    const isUsed = usageMap.get(kw);
+    const fromSyllabus = syllabusMap.get(kw);
+
+    // Use tier-based coloring if used, or a neutral state if not.
+    // Syllabus-sourced (not-yet-used) terms carry a faint emerald ring —
+    // the same hue they highlight in — so they read as the authoritative
+    // must-use terms even before they appear in the answer.
+    const styleClass = isUsed
+      ? `${bandConfig.bg} ${bandConfig.text} ${bandConfig.border} shadow-sm`
+      : fromSyllabus
+        ? 'bg-emerald-50/60 dark:bg-emerald-500/[0.07] text-emerald-700 dark:text-emerald-300 border-emerald-300/70 dark:border-emerald-500/30 hover:border-emerald-400 dark:hover:border-emerald-500/50'
+        : 'bg-slate-100/50 dark:bg-white/[0.03] text-slate-600 dark:text-slate-400 border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 hover:bg-slate-100 dark:hover:bg-white/[0.06]';
+
+    return (
+      <button
+        key={kw}
+        onClick={() => onAddWord && onAddWord(kw)}
+        title={
+          fromSyllabus
+            ? 'Named in the syllabus dot point — a must-use term'
+            : 'Supporting term — click to add it to your answer'
+        }
+        className={`
+          group relative inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-[11px] font-semibold tracking-tight transition-all duration-300 border
+          ${styleClass}
+          hover:scale-[1.02] active:scale-[0.98]
+        `}
+      >
+        {isUsed ? (
+          <Check className="w-3 h-3" strokeWidth={3} />
+        ) : fromSyllabus ? (
+          <BookMarked className="w-3 h-3 shrink-0 opacity-70" />
+        ) : (
+          <div
+            className={`w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600 group-hover:bg-indigo-400 transition-colors`}
+          />
+        )}
+        <span>{kw}</span>
+        {canCurate && (
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              handleRemoveKeyword(kw);
+            }}
+            className="ml-1 p-0.5 rounded-full hover:bg-red-500/10 hover:text-red-500 transition-all opacity-0 group-hover:opacity-100"
+          >
+            <X className="w-2.5 h-2.5" strokeWidth={3} />
+          </div>
+        )}
+      </button>
+    );
+  };
+
   return (
     <div className="space-y-5">
       {total > 0 && (
         <div className="space-y-2">
           <div className="flex items-center justify-between gap-3">
             <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 leading-snug">
-              Weave these syllabus terms in for a{' '}
+              Weave these terms in for a{' '}
               <span className={`font-bold ${bandConfig.text}`}>Band {targetBand}</span> response.
             </p>
             <span
@@ -148,66 +211,49 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
           )}
         </div>
       )}
-      <div className="flex flex-wrap gap-2">
-        {orderedKeywords.map((kw) => {
-          const isUsed = usageMap.get(kw);
-          const fromSyllabus = syllabusMap.get(kw);
-
-          // Use tier-based coloring if used, or a neutral state if not.
-          // Syllabus-sourced (not-yet-used) terms carry a faint emerald ring —
-          // the same hue they highlight in — so they read as the authoritative
-          // must-use terms even before they appear in the answer.
-          const styleClass = isUsed
-            ? `${bandConfig.bg} ${bandConfig.text} ${bandConfig.border} shadow-sm`
-            : fromSyllabus
-              ? 'bg-emerald-50/60 dark:bg-emerald-500/[0.07] text-emerald-700 dark:text-emerald-300 border-emerald-300/70 dark:border-emerald-500/30 hover:border-emerald-400 dark:hover:border-emerald-500/50'
-              : 'bg-slate-100/50 dark:bg-white/[0.03] text-slate-600 dark:text-slate-400 border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 hover:bg-slate-100 dark:hover:bg-white/[0.06]';
-
-          return (
-            <button
-              key={kw}
-              onClick={() => onAddWord && onAddWord(kw)}
-              title={
-                fromSyllabus
-                  ? 'Named in the syllabus dot point — a must-use term'
-                  : 'Supporting term — click to add it to your answer'
-              }
-              className={`
-                          group relative inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-[11px] font-semibold tracking-tight transition-all duration-300 border
-                          ${styleClass}
-                          hover:scale-[1.02] active:scale-[0.98]
-                        `}
+      {keywords.length === 0 ? (
+        <div className="w-full py-4 text-center border-2 border-dashed border-slate-200 dark:border-white/5 rounded-2xl">
+          <span className="t-label font-medium text-slate-400">No syllabus terms defined</span>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {syllabusKeywords.length > 0 && (
+            <div
+              role="group"
+              aria-label="Named in the syllabus dot point"
+              className="flex flex-wrap gap-2"
             >
-              {isUsed ? (
-                <Check className="w-3 h-3" strokeWidth={3} />
-              ) : fromSyllabus ? (
-                <BookMarked className="w-3 h-3 shrink-0 opacity-70" />
-              ) : (
-                <div
-                  className={`w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600 group-hover:bg-indigo-400 transition-colors`}
-                />
-              )}
-              <span>{kw}</span>
-              {canCurate && (
-                <div
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleRemoveKeyword(kw);
-                  }}
-                  className="ml-1 p-0.5 rounded-full hover:bg-red-500/10 hover:text-red-500 transition-all opacity-0 group-hover:opacity-100"
-                >
-                  <X className="w-2.5 h-2.5" strokeWidth={3} />
-                </div>
-              )}
-            </button>
-          );
-        })}
-        {keywords.length === 0 && (
-          <div className="w-full py-4 text-center border-2 border-dashed border-slate-200 dark:border-white/5 rounded-2xl">
-            <span className="t-label font-medium text-slate-400">No syllabus terms defined</span>
-          </div>
-        )}
-      </div>
+              {syllabusKeywords.map(renderKeyword)}
+            </div>
+          )}
+
+          {/* The boundary between the terms a Band 6 answer has to contain and
+              the ones that would strengthen it. Rendered only when both groups
+              exist — with one of them empty there is nothing to delineate, and
+              a rule across a single group would claim a distinction the panel
+              is not making. The label sits IN the rule rather than above the
+              group, so the boundary and its name are one device: the terms
+              above it are already named twice, by the lead sentence and by the
+              legend under it, and a third heading there would be the accessory
+              to take off. Screen readers get the same split from the two
+              groups' `aria-label`s, so the rule itself is decoration to them. */}
+          {syllabusKeywords.length > 0 && supportingKeywords.length > 0 && (
+            <div className="flex items-center gap-3" aria-hidden="true">
+              <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
+              <span className="t-label shrink-0 text-slate-500 dark:text-slate-400">
+                Supporting terms
+              </span>
+              <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
+            </div>
+          )}
+
+          {supportingKeywords.length > 0 && (
+            <div role="group" aria-label="Supporting terms" className="flex flex-wrap gap-2">
+              {supportingKeywords.map(renderKeyword)}
+            </div>
+          )}
+        </div>
+      )}
 
       {canCurate && (
         <div className="flex gap-2">
