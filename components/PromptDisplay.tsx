@@ -240,7 +240,7 @@ const ProvenanceEditor: React.FC<{
             value={year}
             onChange={(e) => setYear(e.target.value)}
             placeholder="e.g. 2023"
-            className="w-28 px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-300 text-sm font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40 tabular-nums"
+            className="w-28 px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-300 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40 tabular-nums"
           />
         </label>
         <label className="flex flex-col gap-1.5">
@@ -250,7 +250,7 @@ const ProvenanceEditor: React.FC<{
             value={questionNumber}
             onChange={(e) => setQuestionNumber(e.target.value)}
             placeholder="e.g. 12(b)"
-            className="w-32 px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-300 text-sm font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+            className="w-32 px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-300 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
           />
         </label>
         <div className="flex items-center gap-2 ml-auto">
@@ -918,7 +918,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   {prompt.keywords?.map((keyword) => (
                     <span
                       key={keyword}
-                      className={`px-2.5 py-1 rounded-lg text-[11px] font-bold border ${bandConfig.bg} ${bandConfig.border} ${bandConfig.text}`}
+                      className={`px-2.5 py-1 rounded-lg text-[11px] font-medium border ${bandConfig.bg} ${bandConfig.border} ${bandConfig.text}`}
                     >
                       {keyword}
                     </span>
@@ -1020,7 +1020,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       <span className="t-label text-slate-500 dark:text-slate-400 leading-none mb-1">
                         Syllabus
                       </span>
-                      <span className={`text-xs font-bold ${bandConfig.text}`}>Outcome Link</span>
+                      <span className={`t-label ${bandConfig.text}`}>Outcome Link</span>
                     </div>
                   </div>
                 )}

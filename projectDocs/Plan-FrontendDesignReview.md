@@ -193,6 +193,27 @@ evaluations"). Named by the skill as template chrome. Low value, low risk.
    which is the half of the system specific to this subject. Changing the
    interface face is a bundle and legibility decision, not a styling one.
 
+## The bold slice, and what it found
+
+Finding 3's middle was worked through for the two screens students live in — the
+workspace and the marking report — reading each site rather than pattern-matching
+them. **50 `font-bold` regions in that scope, of which 46 were already correct**:
+buttons, headings, mark figures, keyboard shortcuts, and two genuine emphases
+inside the tier sentence ("'DESCRIBE' is a Tier 2 command … tops out at Band 2").
+
+Four were not, and moved:
+
+- The past-paper year and question-number inputs. What someone types into a
+  field is their input, not emphasis; the border and label already mark it out.
+- The syllabus-term chips, at `text-[11px] font-bold` — the small-and-bold habit,
+  where colour, border and fill were already doing the work.
+- "Outcome Link", a label, which now takes the label token.
+
+**The useful finding is the ratio.** 46 of 50 correct says the student-facing
+screens were already disciplined about weight, and that `font-bold`'s 560 total
+lives mostly in admin dashboards, import wizards and the content studio. If the
+middle of the ladder is worth more work, that is where it is — not here.
+
 ## Where this leaves the review
 
 Findings 1, 5 and 6 are fixed and gated. Findings 2 and 3 are partly fixed, with
