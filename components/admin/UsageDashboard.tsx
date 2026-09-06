@@ -710,7 +710,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
 
               {/* 7-day trend */}
               <section>
-                <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                   <TrendingUp className="w-3.5 h-3.5" /> Calls — last 7 days
                 </h3>
                 <div className="space-y-1.5">
@@ -741,7 +741,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   per-model usage (best-effort; absent on an un-migrated DB). */}
               {modelCost7d.rows.length > 0 && (
                 <section>
-                  <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                  <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                     <DollarSign className="w-3.5 h-3.5" /> Spend by engine — last 7 days
                   </h3>
                   <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
@@ -801,7 +801,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   table that would read as "nobody has accepted". */}
               {acceptance && acceptance.length > 0 && (
                 <section>
-                  <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                  <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                     <ScrollText className="w-3.5 h-3.5" /> Agreement v{AGREEMENT_VERSION} ·
                     acceptance
                   </h3>
@@ -839,7 +839,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
 
               {/* Per-user usage today, with inline override editing */}
               <section>
-                <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                   <Users className="w-3.5 h-3.5" /> Usage today · per user
                 </h3>
                 {todayRows.length === 0 ? (
@@ -962,7 +962,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
 
               {/* Group limits */}
               <section>
-                <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                   <Gauge className="w-3.5 h-3.5" /> Group daily limits
                 </h3>
                 <div className="flex flex-wrap items-end gap-3">
@@ -1003,7 +1003,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   predating §14) rather than offering to change a guess. */}
               {freeEvalLimit !== null && (
                 <section>
-                  <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                  <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                     <ScrollText className="w-3.5 h-3.5" /> Free plan · daily marked evaluations
                   </h3>
                   <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 mb-3 max-w-xl">
@@ -1046,7 +1046,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   pre-dates the schools migration (schema §12). */}
               {schools !== null && (
                 <section>
-                  <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                  <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                     <School className="w-3.5 h-3.5" /> Schools · shared daily pools
                   </h3>
                   <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 mb-3 max-w-xl">
@@ -1223,7 +1223,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
               {demand !== null && (
                 <section>
                   <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
-                    <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 flex items-center gap-2">
+                    <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 flex items-center gap-2">
                       <Compass className="w-3.5 h-3.5" /> Course demand
                       {demand.length > 0 && (
                         <span className="px-1.5 py-0.5 rounded-lg bg-indigo-500/15 text-indigo-400 text-[10px] font-black tabular-nums">

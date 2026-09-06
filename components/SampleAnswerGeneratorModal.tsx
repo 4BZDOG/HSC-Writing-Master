@@ -450,7 +450,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
           )}
           <div>
             <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-              <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 flex items-center gap-2">
+              <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 flex items-center gap-2">
                 <Target className="w-3.5 h-3.5" /> Select Target Marks
                 <span className="normal-case tracking-normal font-medium opacity-70">
                   — pick as many as you like

@@ -127,7 +127,9 @@ const BandGoalCard = ({ currentBand, maxBand }: { currentBand: number; maxBand: 
         >
           <Trophy className="w-4 h-4" />
         </div>
-        <h4 className="t-label text-slate-500 dark:text-slate-400 truncate">Band {maxBand} Goal</h4>
+        <h4 className="t-section text-slate-500 dark:text-slate-400 truncate">
+          Band {maxBand} Goal
+        </h4>
       </div>
       <div>
         <span className="block text-2xl font-black text-slate-900 dark:text-white tracking-tight leading-none mb-3">
@@ -200,7 +202,7 @@ const SectionHeading: React.FC<{
     <div className={`p-1.5 rounded-lg ${toneBg ?? 'bg-slate-100 dark:bg-white/10'} ${tone}`}>
       <Icon className="w-3.5 h-3.5" />
     </div>
-    <h3 className={`t-label ${tone}`}>{label}</h3>
+    <h3 className={`t-section ${tone}`}>{label}</h3>
     {children}
   </div>
 );
@@ -815,7 +817,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                   <div className="p-2 rounded-xl bg-slate-200/70 dark:bg-white/10 text-slate-600 dark:text-slate-300">
                     <PenLine className="w-4 h-4" />
                   </div>
-                  <h3 className="t-label text-slate-500 dark:text-slate-400">
+                  <h3 className="t-section text-slate-500 dark:text-slate-400">
                     {userName}'s Response
                   </h3>
                 </div>
@@ -848,7 +850,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 <Lightbulb className="w-5 h-5" />
               </div>
               <div className="min-w-0 pt-0.5">
-                <span className={`t-label block mb-1 ${bandConfig.text}`}>Coach's Tip</span>
+                <span className={`t-section block mb-1 ${bandConfig.text}`}>Coach&apos;s Tip</span>
                 {/* Run through the formatter like every other piece of marker prose
                 — it used to be the one place a syllabus term printed plain. */}
                 <p className="text-sm font-semibold leading-relaxed text-slate-700 dark:text-slate-200">

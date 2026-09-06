@@ -230,7 +230,7 @@ const ProvenanceEditor: React.FC<{
     <div className="animate-fade-in p-4 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 border border-amber-500/30 light:border-amber-300 space-y-3">
       <div className="flex items-center gap-2">
         <Landmark className="w-4 h-4 text-amber-400 light:text-amber-600" />
-        <h4 className="t-label text-amber-400 light:text-amber-700">Past HSC paper</h4>
+        <h4 className="t-section text-amber-400 light:text-amber-700">Past HSC paper</h4>
       </div>
       <div className="flex flex-wrap items-end gap-3">
         <label className="flex flex-col gap-1.5">
@@ -739,7 +739,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             {showScenarioSection && (
               <div className="relative group/scenario">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="t-label text-slate-500 light:text-slate-600 flex items-center gap-2">
+                  <h3 className="t-section text-slate-500 light:text-slate-600 flex items-center gap-2">
                     <BookOpen className="w-3.5 h-3.5" /> Context Scenario
                   </h3>
                   {canCurate && !isEditingScenario && (
@@ -911,7 +911,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               already full. Never in Exam Mode, where the terms are assistance. */}
             {showKeywordFiller && (
               <div className="animate-fade-in">
-                <h3 className="t-label text-slate-500 dark:text-slate-400 flex items-center gap-2 mb-3">
+                <h3 className="t-section text-slate-500 dark:text-slate-400 flex items-center gap-2 mb-3">
                   <Sparkles className="w-3.5 h-3.5" /> Syllabus terms to weave in
                 </h3>
                 <div className="flex flex-wrap gap-2">

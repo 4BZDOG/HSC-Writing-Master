@@ -283,7 +283,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
               <ListChecks className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="t-label text-slate-900 dark:text-white">Marking Criteria</h3>
+              <h3 className="t-section text-slate-900 dark:text-white">Marking Criteria</h3>
               <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium opacity-80">
                 Top Level: Band {maxPossibleBand}
               </p>

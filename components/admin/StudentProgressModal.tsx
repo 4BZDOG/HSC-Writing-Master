@@ -366,7 +366,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                 </div>
               ) : !data ? (
                 <section>
-                  <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                  <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                     <Users className="w-3.5 h-3.5" /> Students · pick one
                   </h3>
                   {isRosterLoading ? (
@@ -453,7 +453,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
 
                   {/* Cognitive tier profile */}
                   <section>
-                    <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
+                    <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
                       Command verb profile
                     </h3>
                     <div className="space-y-2.5">
@@ -472,7 +472,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                   {/* Band trend over time (from the per-attempt history) */}
                   {trendBands >= 2 && (
                     <section>
-                      <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
+                      <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
                         Band trend
                       </h3>
                       <BandTrend points={data.trend} />
@@ -486,7 +486,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                   {/* Per-verb detail */}
                   {verbRows.length > 0 && (
                     <section>
-                      <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
+                      <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
                         By command verb
                       </h3>
                       <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">

@@ -311,6 +311,40 @@ beneath: the error notice's heading, a course name above its topic count, a
 backup's date above its size. Those take 600, not 400 — a size-based rule cannot
 tell them apart from a sentence, and seven were restored by hand after it tried.
 
+### Headings, and what earns the display voice
+
+The interface has two type voices and one rule for choosing between them.
+
+**Caps mark a boundary. They never mark a caption, a value or a notice.**
+
+| Token        | Face  | Treatment                        | What wears it                                          |
+| ------------ | ----- | -------------------------------- | ------------------------------------------------------ |
+| `.t-display` | Inter | 900, italic, caps, `text-lg`+    | The product's name and the two workspace card headings |
+| `.t-section` | Inter | 900, italic, caps, 12px, tracked | A heading that divides a panel into named parts        |
+| `.t-label`   | Plex  | 500, sentence case, 12px         | Everything smaller: captions, stat names, chips        |
+
+One level of heading wears the voice; the caption inside it never does. That is
+the whole rule, and it decides the cases that used to need a judgement call each
+time:
+
+- "Cohort activity", "Band trend", "Context Scenario", "Select Content" —
+  each names a division of its panel. **Section.**
+- A stat tile's name sitting above its own figure is a caption for that value,
+  not a division of anything. **Label.**
+- A toast's title and an error state's title are transient notices. They are not
+  part of the page's structure and disappear from it. **Label.**
+
+**Why the rule and not a preference.** Before it, `.t-label` was carrying both
+jobs: **37 of the app's 139 headings** were set in the caption token, so a
+section's heading and the caption inside it were the same size, weight and case
+on most screens. The display voice reached three headings out of all of them.
+The problem was never which case looked better — it was that nothing said which
+a given heading was, so the answer was whatever the last author typed.
+
+This is also the boundary that keeps the caps from becoming the voice of the
+whole app again, which is the state §4's label rule was written to end. A
+section heading is a scarce thing on a screen; a label is not.
+
 ### Labels
 
 A small label — a section caption, a stat's name, the text in a chip — is set by
@@ -332,10 +366,10 @@ gives back the casing each label was already authored in, so no copy changed.
 
 **Two exceptions, both deliberate.**
 
-1. The house display treatment — `font-black … italic uppercase` at `text-lg`
-   and above — is the card and header title style (`CARD_HEADER_TITLE`,
-   `HEADER_WORDMARK`, `RIBBON_VERB_DISPLAY`). It was asked for, it reads as a
-   masthead rather than as chrome, and it is not the micro-label pattern above.
+1. The display voice — `.t-display` and `.t-section`, both Inter 900 italic
+   caps — is not this pattern and is governed by "Headings" above. It reads as a
+   masthead rather than as chrome, and it is bounded: a heading that divides a
+   panel, and nothing smaller.
 2. Telemetry keeps `font-mono` per §4. `.t-label` sets size, weight, tracking
    and case; it does not set the family, so the two compose.
 

@@ -214,7 +214,7 @@ const ActivityChart: React.FC<{ cohort: ClassCohort; days: number }> = ({ cohort
 
   return (
     <section>
-      <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+      <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
         <Activity className="w-3.5 h-3.5" />
         Cohort activity
       </h3>
@@ -274,7 +274,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
     <div className="space-y-6">
       {/* Tier heatmap */}
       <section>
-        <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+        <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
           <Grid3x3 className="w-3.5 h-3.5" />
           Marks achieved by student and verb group
         </h3>
@@ -347,7 +347,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
 
       {/* Per-student trajectories */}
       <section>
-        <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+        <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
           <TrendingUp className="w-3.5 h-3.5" />
           Weekly trajectories
         </h3>

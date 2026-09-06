@@ -302,7 +302,9 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                   <div className="flex items-center justify-between gap-3 px-0.5">
                     <div className="flex items-center gap-3">
                       <Sparkles className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
-                      <h4 className="t-label text-slate-500 dark:text-slate-400">Syllabus Terms</h4>
+                      <h4 className="t-section text-slate-500 dark:text-slate-400">
+                        Syllabus Terms
+                      </h4>
                     </div>
                     {(prompt.keywords?.length || 0) > 0 && (
                       <span
@@ -339,7 +341,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                 <div className="flex flex-col gap-2.5">
                   <div className="flex items-center gap-3 px-0.5">
                     <AlignLeft className="w-4 h-4 text-sky-500 dark:text-sky-400" />
-                    <h4 className="t-label text-slate-500 dark:text-slate-400">Structure</h4>
+                    <h4 className="t-section text-slate-500 dark:text-slate-400">Structure</h4>
                   </div>
                   <div className="grid grid-cols-3 gap-2">
                     <StructureTile

@@ -375,7 +375,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                   ) : (
                     /* Per-dimension weakness table */
                     <section>
-                      <h3 className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                      <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
                         <AlertTriangle className="w-3.5 h-3.5" />
                         {dimension === 'verb' ? 'Struggle by command verb' : 'Struggle by topic'}
                       </h3>
