@@ -77,12 +77,9 @@ export const preseededCourses: Course[] = [
                       'Explain how DNA replication ensures genetic continuity from one generation to the next.',
                     totalMarks: 7,
                     verb: 'EXPLAIN',
-                    highlightedQuestion:
-                      '**Explain** how DNA replication ensures *genetic continuity* from one generation to the next.',
                     scenario:
                       'A biology student is preparing a presentation on cell division and needs to explain why DNA replication is crucial for inheritance. They must articulate the mechanisms that ensure accuracy.',
                     linkedOutcomes: ['BIO12-12'],
-                    estimatedTime: '12 minutes',
                     relatedTopics: ['DNA structure', 'Semi-conservative replication', 'Cell cycle'],
                     prerequisiteKnowledge: ['DNA double helix structure', 'Nucleotide composition'],
                     markerNotes: [
@@ -127,14 +124,12 @@ export const preseededCourses: Course[] = [
                         source: 'AI',
                       },
                     ],
-                    targetPerformanceBands: [5, 6],
                   },
                   {
                     id: 'prompt-dna-replication-4',
                     question: 'Describe the key steps involved in DNA replication.',
                     totalMarks: 4,
                     verb: 'DESCRIBE',
-                    highlightedQuestion: '**Describe** the key steps involved in DNA replication.',
                     keywords: [
                       'unwinding',
                       'helicase',
@@ -153,7 +148,6 @@ export const preseededCourses: Course[] = [
                         source: 'AI',
                       },
                     ],
-                    targetPerformanceBands: [4, 5],
                   },
                 ],
               },
@@ -167,12 +161,9 @@ export const preseededCourses: Course[] = [
                       'Analyse the relationship between DNA, mRNA, and protein synthesis in expressing genetic information.',
                     totalMarks: 8,
                     verb: 'ANALYSE',
-                    highlightedQuestion:
-                      '**Analyse** the *relationship* between DNA, mRNA, and protein synthesis in expressing genetic information.',
                     scenario:
                       'A geneticist is investigating how a mutation in the CFTR gene leads to cystic fibrosis. They need to trace the flow of genetic information from DNA to functional protein to understand the disease mechanism.',
                     linkedOutcomes: ['BIO12-12', 'BIO12-13'],
-                    estimatedTime: '15 minutes',
                     relatedTopics: [
                       'Central dogma',
                       'Transcription',
@@ -213,7 +204,6 @@ export const preseededCourses: Course[] = [
                         source: 'AI',
                       },
                     ],
-                    targetPerformanceBands: [5, 6],
                   },
                 ],
               },
@@ -241,12 +231,9 @@ export const preseededCourses: Course[] = [
                       'Evaluate the significance of PCR as a tool in modern biotechnology, considering both its applications and limitations.',
                     totalMarks: 10,
                     verb: 'EVALUATE',
-                    highlightedQuestion:
-                      '**Evaluate** the *significance* of PCR as a tool in modern biotechnology, considering both its applications and limitations.',
                     scenario:
                       "A biotechnology company is deciding whether to invest in PCR equipment for their diagnostics lab. As a consultant, you must provide a balanced evaluation of this technology's value.",
                     linkedOutcomes: ['BIO12-13'],
-                    estimatedTime: '18 minutes',
                     relatedTopics: [
                       'DNA amplification',
                       'Forensics',
@@ -292,7 +279,6 @@ export const preseededCourses: Course[] = [
                         source: 'AI',
                       },
                     ],
-                    targetPerformanceBands: [5, 6],
                   },
                 ],
               },
@@ -376,12 +362,9 @@ export const preseededCourses: Course[] = [
                       'Explain how the Brønsted-Lowry theory defines conjugate acid-base pairs using a specific chemical example.',
                     totalMarks: 5,
                     verb: 'EXPLAIN',
-                    highlightedQuestion:
-                      '**Explain** how the Brønsted-Lowry theory defines *conjugate acid-base pairs* using a specific chemical example.',
                     scenario:
                       'A chemistry student is preparing a practical report on acid-base titrations and needs to explain the concept of conjugate pairs to demonstrate their understanding of the underlying theory.',
                     linkedOutcomes: ['CH12-13'],
-                    estimatedTime: '10 minutes',
                     relatedTopics: ['Acid-base equilibrium', 'pH', 'Equilibrium constants'],
                     prerequisiteKnowledge: [
                       'Brønsted-Lowry acid/base definition',
@@ -419,7 +402,6 @@ export const preseededCourses: Course[] = [
                         source: 'AI',
                       },
                     ],
-                    targetPerformanceBands: [5, 6],
                   },
                 ],
               },

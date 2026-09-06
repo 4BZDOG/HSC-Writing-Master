@@ -1,6 +1,7 @@
 import { Course, Topic, SubTopic, DotPoint, Prompt, StatePath } from '../../../types';
 import { outcomesForYear, yearOfTopic } from '../../../utils/syllabusYear';
 import { extractCommandVerb } from '../../../data/commandTerms';
+import { createKeywordRegex } from '../../../utils/renderUtils';
 import { promptHasExemplarMismatch } from '../../../utils/exemplarAudit';
 
 /**
@@ -27,6 +28,7 @@ export interface TreeNode {
     missingOutcomes: number;
     missingMarkingCriteria: number;
     rubricNotDescending: number;
+    verbNotInQuestion: number;
     totalDotPoints: number;
     coveredDotPoints: number;
   };
@@ -45,6 +47,7 @@ export type VisibilityFilter =
   | 'missingOutcomes'
   | 'missingRubrics'
   | 'rubricNotDescending'
+  | 'verbNotInQuestion'
   | 'hasSamples'
   | 'lowQuality'
   | 'flagged'
@@ -69,6 +72,22 @@ export const needsRubric = (n: TreeNode) =>
   n.type === 'prompt' && (n.stats.missingMarkingCriteria > 0 || n.stats.rubricNotDescending > 0);
 export const hasNonStandardRubric = (n: TreeNode) =>
   n.type === 'prompt' && n.stats.rubricNotDescending > 0;
+/**
+ * The recorded verb appears nowhere in the question it governs.
+ *
+ * Twelve shipped questions were tagged with a verb their own text never uses —
+ * five that open with the word "Analyse" were tagged CLARIFY, a tier 2 term, so
+ * a full-mark response could reach Band 2 and no further. Two things go wrong
+ * at once, and the colour is the lesser: `renderFormattedText` builds its
+ * highlighter from the recorded verb, so nothing is coloured, and the Verb Gate
+ * reads the same tag for the band ceiling.
+ *
+ * `extractCommandVerb` agreed with all twelve, so it is the natural detector —
+ * but it stays a FLAG rather than a fix. Which verb governs a two-part question
+ * ("Convert this length … and justify …") is a marker's call, not a codemod's.
+ */
+export const verbNotInQuestion = (n: TreeNode) =>
+  n.type === 'prompt' && n.stats.verbNotInQuestion > 0;
 export const needsOutcomes = (n: TreeNode) => n.type === 'prompt' && n.stats.missingOutcomes > 0;
 export const hasSamplesToRecalibrate = (n: TreeNode) => n.type === 'prompt' && n.stats.samples > 0;
 export const qualityOf = (n: TreeNode): number | null =>
@@ -130,6 +149,7 @@ export const buildAuditTree = (courses: Course[]): TreeNode[] => {
         missingOutcomes: acc.missingOutcomes + node.stats.missingOutcomes,
         missingMarkingCriteria: acc.missingMarkingCriteria + node.stats.missingMarkingCriteria,
         rubricNotDescending: acc.rubricNotDescending + node.stats.rubricNotDescending,
+        verbNotInQuestion: acc.verbNotInQuestion + node.stats.verbNotInQuestion,
         totalDotPoints: acc.totalDotPoints + node.stats.totalDotPoints,
         coveredDotPoints: acc.coveredDotPoints + node.stats.coveredDotPoints,
       }),
@@ -140,6 +160,7 @@ export const buildAuditTree = (courses: Course[]): TreeNode[] => {
         missingOutcomes: 0,
         missingMarkingCriteria: 0,
         rubricNotDescending: 0,
+        verbNotInQuestion: 0,
         totalDotPoints: 0,
         coveredDotPoints: 0,
       }
@@ -189,6 +210,16 @@ export const buildAuditTree = (courses: Course[]): TreeNode[] => {
                 )
               : [];
 
+            // 6. The verb the question actually asks for. Matched with the
+            //    SAME matcher that drives the highlighting, so the flag and the
+            //    colour can never disagree about what counts as present.
+            const verbRegex = p.verb ? createKeywordRegex([p.verb]) : null;
+            const promptVerbIsAbsent =
+              !!p.verb &&
+              typeof p.question === 'string' &&
+              p.question.trim().length > 0 &&
+              !(verbRegex && new RegExp(verbRegex.source, verbRegex.flags).test(p.question));
+
             const isEnriched = validKeywords.length > 0 && hasScenario;
 
             return {
@@ -203,6 +234,7 @@ export const buildAuditTree = (courses: Course[]): TreeNode[] => {
                 missingOutcomes: validOutcomes.length === 0 ? 1 : 0,
                 missingMarkingCriteria: !hasRubric ? 1 : 0,
                 rubricNotDescending: rubricNonStd ? 1 : 0,
+                verbNotInQuestion: promptVerbIsAbsent ? 1 : 0,
                 totalDotPoints: 0,
                 coveredDotPoints: 0,
               },
@@ -233,6 +265,7 @@ export const buildAuditTree = (courses: Course[]): TreeNode[] => {
                 0
               ),
               rubricNotDescending: prompts.reduce((sum, p) => sum + p.stats.rubricNotDescending, 0),
+              verbNotInQuestion: prompts.reduce((sum, p) => sum + p.stats.verbNotInQuestion, 0),
               totalDotPoints: 1,
               coveredDotPoints: prompts.length > 0 ? 1 : 0,
             },

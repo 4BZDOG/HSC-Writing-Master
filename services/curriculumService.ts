@@ -69,7 +69,6 @@ interface PromptRow {
   dot_point_id: string;
   legacy_id: string | null;
   question: string;
-  highlighted_question: string | null;
   total_marks: number;
   verb: string | null;
   scenario: string | null;
@@ -80,8 +79,6 @@ interface PromptRow {
   marker_notes: string[];
   common_student_errors: string[];
   keywords: string[];
-  target_performance_bands: number[];
-  estimated_time: string | null;
   is_past_hsc: boolean;
   hsc_year: number | null;
   hsc_question_number: string | null;
@@ -156,7 +153,6 @@ const mapPrompt = (row: PromptRow, answers: SampleAnswerRow[]): Prompt => ({
   // than emit an invalid empty value if a row somehow lacks it.
   verb: (row.verb || 'EXPLAIN') as PromptVerb,
   totalMarks: row.total_marks ?? 0,
-  highlightedQuestion: row.highlighted_question ?? undefined,
   scenario: row.scenario ?? undefined,
   markingCriteria: row.marking_criteria ?? undefined,
   linkedOutcomes: row.linked_outcomes ?? [],
@@ -165,8 +161,6 @@ const mapPrompt = (row: PromptRow, answers: SampleAnswerRow[]): Prompt => ({
   markerNotes: row.marker_notes ?? [],
   commonStudentErrors: row.common_student_errors ?? [],
   keywords: row.keywords ?? [],
-  targetPerformanceBands: row.target_performance_bands ?? [],
-  estimatedTime: row.estimated_time ?? undefined,
   isPastHSC: row.is_past_hsc ?? false,
   hscYear: row.hsc_year ?? undefined,
   hscQuestionNumber: row.hsc_question_number ?? undefined,

@@ -109,7 +109,6 @@ const toSampleAnswer = (row) => ({
 const toPrompt = (row, answers) => ({
   id: appId(row),
   question: row.question,
-  highlightedQuestion: row.highlighted_question ?? undefined,
   totalMarks: row.total_marks ?? 0,
   verb: row.verb ?? undefined,
   scenario: row.scenario ?? undefined,
@@ -120,8 +119,6 @@ const toPrompt = (row, answers) => ({
   markerNotes: arr(row.marker_notes),
   commonStudentErrors: arr(row.common_student_errors),
   keywords: arr(row.keywords),
-  targetPerformanceBands: arr(row.target_performance_bands),
-  estimatedTime: row.estimated_time ?? undefined,
   isPastHSC: row.is_past_hsc ?? false,
   hscYear: row.hsc_year ?? undefined,
   hscQuestionNumber: row.hsc_question_number ?? undefined,

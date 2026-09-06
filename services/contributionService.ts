@@ -40,7 +40,6 @@ export interface PromptInsertRow {
   dot_point_id: string;
   legacy_id: string;
   question: string;
-  highlighted_question: string | null;
   total_marks: number;
   verb: string | null;
   scenario: string | null;
@@ -51,8 +50,6 @@ export interface PromptInsertRow {
   marker_notes: string[];
   common_student_errors: string[];
   keywords: string[];
-  target_performance_bands: number[];
-  estimated_time: string | null;
   is_past_hsc: boolean;
   hsc_year: number | null;
   hsc_question_number: string | null;
@@ -94,7 +91,6 @@ export const promptToRow = (
   // the same in-app id (matching how seed.mjs round-trips content).
   legacy_id: prompt.id,
   question: prompt.question,
-  highlighted_question: prompt.highlightedQuestion ?? null,
   total_marks: prompt.totalMarks ?? 0,
   verb: prompt.verb ?? null,
   scenario: prompt.scenario ?? null,
@@ -105,8 +101,6 @@ export const promptToRow = (
   marker_notes: prompt.markerNotes ?? [],
   common_student_errors: prompt.commonStudentErrors ?? [],
   keywords: prompt.keywords ?? [],
-  target_performance_bands: prompt.targetPerformanceBands ?? [],
-  estimated_time: prompt.estimatedTime ?? null,
   is_past_hsc: prompt.isPastHSC ?? false,
   hsc_year: prompt.hscYear ?? null,
   hsc_question_number: prompt.hscQuestionNumber ?? null,

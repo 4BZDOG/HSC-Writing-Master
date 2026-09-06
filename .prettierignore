@@ -16,4 +16,4 @@ coverage
 # Curated curriculum content, not source. Prettier disagrees with the shipped
 # formatting by ~400 lines per course, so letting the commit hook reformat one
 # buries a two-line content fix under churn nobody can review.
-public/courseData/*.json
+public/courseData/**/*.json

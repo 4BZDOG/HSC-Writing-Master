@@ -63,7 +63,6 @@
                       "SE-12-04",
                       "SE-12-08"
                     ],
-                    "estimatedTime": "5 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -85,12 +84,6 @@
                       "Confidentiality"
                     ],
                     "markingCriteria": "Provides one mark for each distinct benefit of developing secure software that is correctly outlined with relevant features. Maximum of three marks. Benefits can include data protection, minimising cyber attacks, or reducing vulnerabilities.",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      3,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-1a2e3a02-17b1-4586-8e0d-58d75db5973f",
@@ -133,7 +126,6 @@
                       "SE-12-01",
                       "SE-12-05"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -157,11 +149,6 @@
                       "Customer trust"
                     ],
                     "markingCriteria": "- Provides a clear justification linking secure practices to mitigating long-term risks (1 mark). • Supports the justification by explaining the high cost of fixing post-release vulnerabilities (1 mark). • Supports the justification by discussing the impact of a security breach on a startup's reputation and customer trust (2 marks). • Presents a cohesive and logical argument (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-17810d3e-6118-4e53-aef7-7ce69c329c0b",
@@ -197,7 +184,6 @@
                       "SE-12-04",
                       "SE-12-01"
                     ],
-                    "estimatedTime": "12 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -220,11 +206,6 @@
                       "Security strategy"
                     ],
                     "markingCriteria": "- Makes a clear evaluative judgement that a balanced approach is most effective (1 mark). • Applies the criterion of 'data protection', explaining its importance but also its limitations if vulnerabilities exist (2 marks). • Applies the criterion of 'vulnerability management', explaining its importance but also its limitations if data is not protected at its core (2 marks). • Provides a comprehensive synthesis, arguing for a 'defense in depth' strategy (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-b45ad2a2-343b-4679-aa73-b957baadc449",
@@ -260,7 +241,6 @@
                       "SE-12-04",
                       "SE-12-07"
                     ],
-                    "estimatedTime": "20 minutes",
                     "relatedTopics": [
                       "Software Development Lifecycle (SDLC)",
                       "Cybersecurity principles",
@@ -304,7 +284,6 @@
                       "Critical evaluation"
                     ],
                     "markingCriteria": "1 0- 1\n2 Marks: Provides a comprehensive, insightful, and highly perceptive critical evaluation of the extent to which secure software development delivers benefits in data protection, minimising cyber attacks, and reducing vulnerabilities. Demonstrates a sophisticated understanding of the challenges inherent in a dynamic FinTech environment (e.g., rapid feature deployment, cloud infrastructure, regulatory compliance) and discusses how secure software practices address or are impacted by these. Justifies judgments with specific, well-articulated examples and a nuanced discussion of both successes and limitations. Arguments are well-structured, coherent, and demonstrate superior knowledge of secure software architecture principles.\n7-9 Marks: Provides a detailed and well-structured critical evaluation of the benefits of secure software development in data protection, minimising cyber attacks, and reducing vulnerabilities. Demonstrates a sound understanding of the FinTech context and how secure software practices contribute to these benefits. Arguments are supported with relevant examples, and a clear judgment is made regarding the effectiveness, though it may lack the depth or nuance of a top-range response. Discussion is mostly coherent with good application of relevant concepts.\n4-6 Marks: Describes the benefits of developing secure software (data protection, minimising cyber attacks, reducing vulnerabilities) with some attempt at evaluation. Identifies some relevant secure software practices and their impact within the FinTech scenario, but the evaluation may be more descriptive than critical, or lack depth regarding the 'extent' to which benefits are achieved. Arguments may be general or lack specific supporting examples. Understanding of the FinTech environment's unique challenges may be limited.\n2-3 Marks: Provides a basic description of one or two benefits of secure software development. Lacks significant evaluation or contextualisation within the FinTech scenario. Response is superficial, with limited detail or relevance to the question's demands.\n0-1 Mark: Provides an irrelevant or minimal response, demonstrating no understanding of the question or the syllabus content.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-bc059dc1-437f-4130-9801-24f7d834cc14",
@@ -332,7 +311,6 @@
                       "SE-12-02",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "9 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -359,14 +337,6 @@
                       "Code review"
                     ],
                     "markingCriteria": "- Provides a clear and detailed explanation of how the design phase contributes to secure code, supported by relevant examples (e.g., threat modelling, principle of least privilege). (2 marks) • Provides a clear and detailed explanation of how the testing phase contributes to secure code, supported by relevant examples (e.g., penetration testing, fuzz testing). (2 marks) • Demonstrates a logical and coherent structure, using appropriate terminology accurately throughout the response. (1 mark)",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      3,
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-3e574c04-91d7-4c56-8041-62d4d272e29e",
@@ -423,7 +393,6 @@
                       "SE-12-08",
                       "SE-12-01"
                     ],
-                    "estimatedTime": "6 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -448,11 +417,6 @@
                       "Security posture"
                     ],
                     "markingCriteria": "- Identifies the key purpose of the maintenance phase in relation to ongoing security (1 mark). • Analyses the importance of proactive maintenance activities, such as patching and monitoring (2 marks). • Supports the analysis with a relevant example, such as responding to a newly discovered vulnerability in a library (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-d65f6568-6150-4dc9-969c-956ab723612d",
@@ -488,7 +452,6 @@
                       "SE-12-01",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "5 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -510,11 +473,6 @@
                       "Threat modelling"
                     ],
                     "markingCriteria": "- Provides characteristics of security requirements gathering (1 mark). • Describes specific types of security requirements, such as data privacy or access control (1 mark). • Gives an example of a security requirement (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-0814b7c2-6df9-4d91-b1bc-6dfae2626fab",
@@ -556,7 +514,6 @@
                       "SE-12-03",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "4 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -578,12 +535,6 @@
                       "Authentication"
                     ],
                     "markingCriteria": "Provides clear characteristics and features of how end-user capabilities influence secure software design. -\n3 Marks: Clearly describes two or more influences with relevant examples and terminology. -\n2 Marks: Describes one influence with some detail or lists multiple influences. -\n1 Mark: Identifies a basic link between users and security.",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      3,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-57970f8b-d5cc-48ed-8498-49201d11ad34",
@@ -626,7 +577,6 @@
                       "SE-12-07",
                       "SE-12-05"
                     ],
-                    "estimatedTime": "7 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -650,11 +600,6 @@
                       "Secure design"
                     ],
                     "markingCriteria": "- Proposes a relevant first secure design feature (1 mark). • Justifies the first choice by linking it to the specific user group's needs (1 mark). • Proposes a relevant second secure design feature (1 mark). • Justifies the second choice by linking it to the specific user group's needs (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-6b16246c-8f32-4904-bdb6-e1fe21fafbe6",
@@ -690,7 +635,6 @@
                       "SE-12-05",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "12 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -713,11 +657,6 @@
                       "Human factor"
                     ],
                     "markingCriteria": "- Identifies the key issue: the inherent conflict between security controls and user experience (1 mark). • Develops points for one perspective, explaining how strong security measures can create 'friction' and make a system unusable (2 marks). • Develops points for the alternative perspective, explaining how unusable security leads to users bypassing it, making the system insecure (2 marks). • Provides a balanced, nuanced treatment showing that the most effective security is both strong and usable (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-6fa6df29-5b5b-4586-9889-9f2bed5c87e6",
@@ -744,169 +683,6 @@
                     "isPastHSC": false
                   }
                 ]
-              },
-              {
-                "id": "dp-1762984770472-i9mtydz",
-                "description": "Design, develop and implement secure code to minimise vulnerabilities in user action controls (broken authentication and session management, cross-site scripting (XSS) and cross-site request forgery (CSRF), invalid forwarding and redirecting, race conditions)",
-                "prompts": [
-                  {
-                    "id": "prompt-1763110000004-ddddd04",
-                    "question": "Define 'broken authentication'.",
-                    "totalMarks": 2,
-                    "verb": "DEFINE",
-                    "scenario": "A security audit report lists 'broken authentication' as a critical vulnerability in a web application. A manager asks the development team for a simple definition of what that means.",
-                    "linkedOutcomes": [
-                      "SE-12-07"
-                    ],
-                    "estimatedTime": "3 minutes",
-                    "relatedTopics": [],
-                    "prerequisiteKnowledge": [],
-                    "markerNotes": [
-                      "The definition must relate to a security failure, not a functional bug.",
-                      "Look for an understanding that it allows an attacker to act as another user."
-                    ],
-                    "commonStudentErrors": [
-                      "Defining it literally as a login form that is not functioning.",
-                      "Being too vague and not mentioning impersonation or identity compromise."
-                    ],
-                    "keywords": [
-                      "Broken authentication",
-                      "Vulnerability",
-                      "Credentials",
-                      "Session management"
-                    ],
-                    "markingCriteria": "- States that it is a vulnerability related to managing user identity (1 mark). • Elaborates with an example, such as credential stuffing or insecure session handling (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "sa-3719bd47-7751-4e03-83b9-52af7140b60c",
-                        "band": 2,
-                        "answer": "Broken authentication refers to a category of security vulnerabilities that allow an attacker to compromise a user's identity. These flaws in the authentication or session management functions can enable an attacker to impersonate legitimate users, for example, by stealing their session cookies, using stolen credentials (credential stuffing), or bypassing the login process altogether.",
-                        "mark": 2,
-                        "source": "AI"
-                      },
-                      {
-                        "id": "sa-23383e3b-a0aa-464b-8f84-7a9a57c1af5b",
-                        "band": 2,
-                        "answer": "It is when the login is broken and doesn't work.",
-                        "mark": 1,
-                        "source": "AI"
-                      }
-                    ],
-                    "isPastHSC": false
-                  },
-                  {
-                    "id": "prompt-1763110000005-eeeee05",
-                    "question": "Explain how a 'race condition' can occur in a web application and how it could be exploited.",
-                    "totalMarks": 4,
-                    "verb": "EXPLAIN",
-                    "scenario": "During a code review for a new online ticketing system, a senior developer points out a potential race condition vulnerability in the code that handles seat reservations. They ask a junior developer to explain the risk to the team.",
-                    "linkedOutcomes": [
-                      "SE-12-07",
-                      "SE-12-02"
-                    ],
-                    "estimatedTime": "6 minutes",
-                    "relatedTopics": [],
-                    "prerequisiteKnowledge": [],
-                    "markerNotes": [
-                      "A good explanation will use the concept of 'time-of-check to time-of-use' (TOCTOU).",
-                      "The example must involve two or more processes/threads that interfere with each other.",
-                      "Assess whether the student can explain how the timing gap is exploited."
-                    ],
-                    "commonStudentErrors": [
-                      "Describing it vaguely as 'two things happening at once'.",
-                      "Failing to explain the 'check-then-act' flaw.",
-                      "Providing an unclear or implausible example of exploitation.",
-                      "Confusing it with a denial-of-service attack."
-                    ],
-                    "keywords": [
-                      "Race condition",
-                      "Concurrency",
-                      "Time-of-check to time-of-use",
-                      "Vulnerability"
-                    ],
-                    "markingCriteria": "- Explains that a race condition relates to the sequence of events in a concurrent system (1 mark). • Describes a plausible scenario (e.g., financial transaction, redeeming a voucher) (1 mark). • Explains how an attacker can exploit the time gap between a check and an action (2 marks).",
-                    "targetPerformanceBands": [
-                      2,
-                      5
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "sa-84b90446-edf8-4a50-b9ae-309de53fe4fb",
-                        "band": 5,
-                        "answer": "A race condition is a vulnerability that can occur in a concurrent system when the outcome of an operation depends on the uncontrollable sequence or timing of multiple threads or processes. It is a 'time-of-check to time-of-use' (TOCTOU) flaw. For example, in an e-commerce application, a user might want to apply a single-use discount voucher. The system might first check if the voucher is valid and then, in a separate step, apply the discount and mark the voucher as used. An attacker could exploit this by sending two simultaneous requests to use the same voucher. If both requests pass the 'check' phase before either one completes the 'use' phase, the attacker could successfully redeem the single-use voucher twice, 'racing' the system's logic. This exploits the tiny time gap between the system checking the voucher's validity and it being invalidated in the database.",
-                        "mark": 4,
-                        "source": "AI"
-                      },
-                      {
-                        "id": "sa-5570115e-876b-4bb3-a7ce-ebd3c01d11e6",
-                        "band": 3,
-                        "answer": "A race condition is when two things happen at the same time and it breaks the program. A hacker can use this to cheat a system, like getting something for free by sending two requests very fast.",
-                        "mark": 2,
-                        "source": "AI"
-                      }
-                    ],
-                    "isPastHSC": false
-                  },
-                  {
-                    "id": "prompt-1763110000006-fffff06",
-                    "question": "Compare the mechanisms and potential impacts of Cross-Site Scripting (XSS) and Cross-Site Request Forgery (CSRF) vulnerabilities.",
-                    "totalMarks": 6,
-                    "verb": "COMPARE",
-                    "scenario": "A web security analyst is training a new group of developers. They present two scenarios: one where a user's session cookie was stolen, and another where a user was tricked into changing their email address without their knowledge. The analyst asks the trainees to identify which vulnerability (XSS or CSRF) was likely responsible for each and to compare how the attacks worked.",
-                    "linkedOutcomes": [
-                      "SE-12-04",
-                      "SE-12-07"
-                    ],
-                    "estimatedTime": "10 minutes",
-                    "relatedTopics": [],
-                    "prerequisiteKnowledge": [],
-                    "markerNotes": [
-                      "The comparison must clearly differentiate between the attack vectors.",
-                      "Look for an understanding of the different trust relationships being exploited.",
-                      "Strong answers will correctly identify the primary goal of each attack (XSS -> confidentiality, CSRF -> integrity)."
-                    ],
-                    "commonStudentErrors": [
-                      "Confusing the two vulnerabilities.",
-                      "Describing one but not the other.",
-                      "Failing to clearly explain the different mechanisms (code injection vs. forged request).",
-                      "Not contrasting the primary goals (stealing information vs. performing actions)."
-                    ],
-                    "keywords": [
-                      "Cross-Site Scripting (XSS)",
-                      "Cross-Site Request Forgery (CSRF)",
-                      "Vulnerability",
-                      "Web security",
-                      "Session hijacking",
-                      "User impersonation"
-                    ],
-                    "markingCriteria": "- Explains the mechanism of XSS (injecting malicious script into a trusted site) (1 mark). • Explains the mechanism of CSRF (tricking an authenticated user's browser into sending a forged request) (1 mark). • Contrasts their primary goals: XSS steals information from the user, while CSRF makes the user perform an unwanted action (2 marks). • Compares their potential impacts (e.g., both can lead to account compromise, but in different ways) (2 marks).",
-                    "targetPerformanceBands": [
-                      3,
-                      6
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "sa-14e695c0-33e9-45a9-9684-49725e1c048f",
-                        "band": 5,
-                        "answer": "XSS and CSRF are both major web application vulnerabilities, but they operate via different mechanisms and have distinct primary impacts. The core similarity is that they both exploit the trust a user has in a legitimate website.\n\nThe mechanism of XSS involves an attacker injecting malicious client-side script (usually JavaScript) into a web page that is then viewed by a victim. The victim's browser, trusting the script came from the legitimate site, executes it. The primary impact of XSS is the compromise of confidentiality; the script can be used to steal the victim's session cookies, capture keystrokes, or scrape sensitive information from the page. It effectively allows the attacker to impersonate the user or see what the user sees.\n\nThe mechanism of CSRF is different. It does not involve injecting code into the vulnerable site. Instead, it exploits the fact that a user is already authenticated. The attacker crafts a malicious link or form on a separate, attacker-controlled site. When the victim clicks this link, their browser is tricked into sending a forged, state-changing request to the legitimate site (e.g., a request to change their password or transfer money). The primary impact of CSRF is the compromise of integrity; the attacker forces the victim's browser to perform an action on their behalf without their consent.\n\nIn comparison, XSS is an attack against the user's client-side relationship with the site, aimed at stealing data. CSRF is an attack against the site's server-side trust in the user's browser, aimed at performing unauthorised actions.",
-                        "mark": 6,
-                        "source": "AI"
-                      },
-                      {
-                        "id": "sa-6a1fb53d-51ed-4003-b2cb-05d49be1dddf",
-                        "band": 3,
-                        "answer": "XSS is when a hacker puts bad code on a website. When you visit it, the code runs and can steal your password. CSRF is when a hacker tricks you into clicking a bad link that makes you do something you don't want to do, like sending money from your bank account. Both are bad for security.",
-                        "mark": 3,
-                        "source": "AI"
-                      }
-                    ],
-                    "isPastHSC": false
-                  }
-                ]
               }
             ]
           },
@@ -927,7 +703,6 @@
                     "linkedOutcomes": [
                       "SE-12-05"
                     ],
-                    "estimatedTime": "9 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -952,14 +727,6 @@
                       "Security mechanisms"
                     ],
                     "markingCriteria": "Provides a clear definition for authentication (1 mark) and authorisation (1 mark). Compares the concepts, explaining how they work together sequentially (1 mark). Contrasts the concepts, explaining their distinct purposes (1 mark). Provides a relevant and well-explained example illustrating both concepts in a software context (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      3,
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-03386d6e-f116-41b4-9271-077868e19d43",
@@ -1016,7 +783,6 @@
                       "SE-12-07",
                       "SE-12-04"
                     ],
-                    "estimatedTime": "9 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -1041,11 +807,6 @@
                       "Redundancy"
                     ],
                     "markingCriteria": "- Explains the application of Confidentiality in the context of a voting system, with an example (2 marks). • Explains the application of Integrity in the context of a voting system, with an example (2 marks). • Explains the application of Availability in the context of a voting system, with an example (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-726ea2d7-e5aa-4074-af92-d814ebd9bb16",
@@ -1081,7 +842,6 @@
                       "SE-12-04",
                       "SE-12-05"
                     ],
-                    "estimatedTime": "6 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -1103,11 +863,6 @@
                       "Security concepts"
                     ],
                     "markingCriteria": "- Explains the concept of accountability as the ability to trace actions to a specific entity (1 mark). • Relates this concept to security, explaining how it helps in forensic analysis and acts as a deterrent (2 marks). • Provides a relevant example, such as detailed audit logs (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-258e3eb4-7521-44b3-a02a-dce7eb6ccd32",
@@ -1143,7 +898,6 @@
                       "SE-12-04",
                       "SE-12-01"
                     ],
-                    "estimatedTime": "12 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -1166,11 +920,6 @@
                       "Trade-offs"
                     ],
                     "markingCriteria": "- Identifies the key issue: the potential conflict between availability and security (1 mark). • Develops points for one perspective (stronger security can negatively impact availability) with examples like strict firewalls or complex MFA (2 marks). • Develops points for the alternative perspective (poor security can lead to a total loss of availability) with examples like DDoS or ransomware attacks (2 marks). • Provides a balanced treatment, showing an understanding that a trade-off must be managed (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-c8b91a1e-467d-485f-876d-e6628b8b0cb6",
@@ -1205,7 +954,6 @@
                     "linkedOutcomes": [
                       "SE-12-04"
                     ],
-                    "estimatedTime": "3 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -1223,11 +971,6 @@
                       "Security concepts"
                     ],
                     "markingCriteria": "- Provides a complete definition for confidentiality (1 mark). • Provides a complete definition for integrity (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-66205fc3-b035-40f2-a08f-2ef31501fc25",
@@ -1269,7 +1012,6 @@
                       "SE-12-03",
                       "SE-12-02"
                     ],
-                    "estimatedTime": "15 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -1301,14 +1043,6 @@
                       "Threat landscape"
                     ],
                     "markingCriteria": "- 7-8 Marks: Makes a clear and well-supported judgment on the effectiveness of both models. Provides a detailed and accurate evaluation, linking specific architectural principles and features (e.g., micro-segmentation, MFA, least privilege) to data protection, privacy, and regulatory compliance within the FinTech context. Justifies the evaluation with logical reasoning and relevant examples. •\n5-6 Marks: Makes a sound judgment. Provides a good description and some evaluation of both models. Links some security features to the requirements but may lack depth or specific application to the scenario. Justification is present but may not be fully developed. •\n3-4 Marks: Describes one or both security models with a limited attempt at evaluation or comparison. May list some security features without clearly explaining their effectiveness or relevance. The response is more descriptive than evaluative. •\n1-2 Marks: Provides a very basic or confused description of security concepts. May identify a relevant term (e.g., firewall, password) with little or no correct explanation. Fails to address the core aspects of the question. •\n0 Marks: Provides an irrelevant or non-attempted response.",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      3,
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-851adadf-cd8e-4a9b-97e8-754cb86cc6e8",
@@ -1365,7 +1099,6 @@
                       "SE-12-04",
                       "SE-12-05"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -1387,11 +1120,6 @@
                       "Confidentiality"
                     ],
                     "markingCriteria": "- Identifies key components: encryption, data protection, and compliance (1 mark). • Examines the relationship between encryption and data protection, explaining how it ensures confidentiality (2 marks). • Examines the relationship between encryption and regulatory compliance, explaining how it helps meet legal requirements (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-94bca71e-edf6-42ac-882d-99324de91228",
@@ -1433,7 +1161,6 @@
                       "SE-12-07",
                       "SE-12-01"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -1459,13 +1186,6 @@
                       "Vulnerability management"
                     ],
                     "markingCriteria": "- Provides a clear explanation of cryptography's role in security by design, with a relevant example (2 marks). • Provides a clear explanation of sandboxing's role in security by design, with a relevant example (2 marks). • Effectively links both concepts to the proactive nature of the 'security by design' approach, using appropriate terminology (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      3,
-                      4,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-da3e2328-733a-4167-a74f-7fd82dd42c33",
@@ -1515,7 +1235,6 @@
                       "SE-12-07",
                       "SE-12-01"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -1538,11 +1257,6 @@
                       "Defense in depth"
                     ],
                     "markingCriteria": "- Makes a judgement on its effectiveness (e.g., 'highly effective but not foolproof') (1 mark). • Provides evidence of its benefits, focusing on containment and isolation of untrusted code (2 marks). • Discusses its limitations, such as the possibility of sandbox escape vulnerabilities (2 marks). • Draws a warranted conclusion about its role within a wider 'defense in depth' strategy (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-cb79fc93-a660-4062-8dc4-a257186eb528",
@@ -1584,7 +1298,6 @@
                       "SE-12-04",
                       "SE-12-08"
                     ],
-                    "estimatedTime": "7 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -1611,14 +1324,6 @@
                       "security principles"
                     ],
                     "markingCriteria": "- Clearly defines 'privacy by design' and its proactive nature, contrasting it with reactive approaches (2 marks). • Explains how specific principles of the approach (e.g., privacy embedded into design, data minimisation) respect user privacy (2 marks). • Provides a relevant and detailed example that illustrates the concept (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      3,
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-4e6c9e5a-fa2d-45dd-9934-9f10d09e7afe",
@@ -1681,7 +1386,6 @@
                       "SE-12-08",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "12 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -1712,14 +1416,6 @@
                       "System reliability"
                     ],
                     "markingCriteria": "Provides a detailed evaluation of both hot and cold sites, making a clear judgement based on criteria like RTO, RPO, and cost. Justifies the recommendation effectively within the context of a financial services company. Demonstrates a comprehensive understanding of disaster recovery and business continuity principles. Communicates using appropriate terminology in a well-structured response.",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      3,
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-c1ba145c-fb6c-4faa-9d8c-3cda8cef55ea",
@@ -1776,7 +1472,6 @@
                       "SE-12-01",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -1799,11 +1494,6 @@
                       "Risk assessment"
                     ],
                     "markingCriteria": "- States a clear recommendation for a cold site and regular off-site backups (2 marks). • Provides multiple reasons supporting the recommendation, focusing on risk mitigation for a critical system (2 marks). • Links the justification to the concepts of a high acceptable RTO and RPO for this specific scenario (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-fade8f6b-f831-44bf-8bb7-04510002b9d9",
@@ -1839,7 +1529,6 @@
                       "SE-12-09",
                       "SE-12-04"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -1862,11 +1551,6 @@
                       "Communication"
                     ],
                     "markingCriteria": "- Proposes a clear, specific plan with several distinct phases (2 marks). • The plan includes a 'Containment' step to stop further damage (1 mark). • The plan includes 'Eradication' and 'Recovery' steps (1 mark). • The plan includes a 'Communication' step for notifying affected users and authorities (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-801cc11a-da13-4a3b-bc4b-bcb46724914a",
@@ -1908,7 +1592,6 @@
                       "SE-12-05",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "12 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -1939,14 +1622,6 @@
                       "Quality Assurance"
                     ],
                     "markingCriteria": "Provides a sophisticated evaluation of the combined effectiveness of SAST, DAST, and penetration testing within the SDLC. Makes a well-supported judgement on the relative importance of each strategy, referencing the specific context of an e-commerce platform. Demonstrates a comprehensive understanding of the strengths and limitations of each approach. Uses relevant terminology accurately and effectively. (7-8 marks). Describes the strategies and provides some evaluation of their effectiveness, with a clear link to the SDLC. (5-6 marks). Outlines one or more strategies with limited evaluation. (3-4 marks). Identifies a security strategy with a basic description. (1-2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      3,
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-9f95d709-853f-4f7d-9fa9-6b9925a91ac1",
@@ -2003,7 +1678,6 @@
                       "SE-12-06",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -2025,11 +1699,6 @@
                       "Continuous integration"
                     ],
                     "markingCriteria": "- Proposes a clear, specific process (e.g., using pull requests with mandatory peer review) (2 marks). • Justifies the proposal by explaining how the process integrates into an Agile workflow without causing bottlenecks (2 marks). • Explains how the process improves security (e.g., knowledge sharing, catching vulnerabilities early) (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-5b741504-94db-4aae-86b9-3d959a2c9419",
@@ -2071,7 +1740,6 @@
                       "SE-12-04",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "7 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -2098,13 +1766,6 @@
                       "User input"
                     ],
                     "markingCriteria": "- 1 mark for a basic definition of either validation or sanitisation. • 2 marks for a basic comparison identifying a point of difference. • 3 marks for a clear comparison of both practices and one correct example. • 4 marks for a comprehensive comparison clearly distinguishing between the two practices, and providing a correct, relevant example for each.",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      3,
-                      4,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-e9f4ecbe-72a8-4a76-98c5-f2676be507f4",
@@ -2160,7 +1821,6 @@
                       "SE-12-03",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "7 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -2186,13 +1846,6 @@
                       "Secure coding practices"
                     ],
                     "markingCriteria": "Provides a clear and detailed explanation of how input validation prevents specific vulnerabilities like injection attacks (2 marks). Provides a clear and detailed explanation of how rate limiting prevents specific vulnerabilities like Denial of Service or brute-force attacks (2 marks). The response must explicitly link both security measures to the creation of a safe API using appropriate terminology.",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      3,
-                      4,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-604fddf0-3a27-41d2-be66-86480999623f",
@@ -2248,7 +1901,6 @@
                       "SE-12-06",
                       "SE-12-07"
                     ],
-                    "estimatedTime": "12 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -2275,13 +1927,6 @@
                       "Performance"
                     ],
                     "markingCriteria": "- 4 marks: Provides a clear and detailed comparison of both session and exception management, explicitly linking both to efficient execution for the user with relevant technical detail. •\n3 marks: Explains both concepts with some valid points of comparison related to efficiency. •\n2 marks: Provides a sound description of both concepts but with limited comparison or link to efficiency. •\n1 mark: Provides a limited description of one or both concepts.",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      3,
-                      4,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-be15eeaa-d0a3-4da3-b73e-0446ed2be671",
@@ -2331,7 +1976,6 @@
                       "SE-12-07",
                       "SE-12-03"
                     ],
-                    "estimatedTime": "12 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -2355,11 +1999,6 @@
                       "Statefulness"
                     ],
                     "markingCriteria": "- Identifies the key components: server-side and client-side session management (1 mark). • Examines server-side sessions, explaining their stateful nature and security benefits (e.g., server control) but also their scalability challenges (2 marks). • Examines client-side sessions (JWTs), explaining their stateless nature and scalability benefits but also their security challenges (e.g., token theft) (3 marks). • Draws a conclusion about the architectural trade-offs (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-320060d4-304b-45bf-9791-128f2aebb462",
@@ -2395,7 +2034,6 @@
                       "SE-12-07",
                       "SE-12-08"
                     ],
-                    "estimatedTime": "4 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -2414,11 +2052,6 @@
                       "try-catch"
                     ],
                     "markingCriteria": "- Outlines the main point that it prevents crashes (1 mark). • Outlines the point that it allows for graceful failure or recovery (1 mark). • Outlines the point that it helps with debugging via logging (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-aea52549-1ba4-4c2c-9c6f-1e65cfdb738e",
@@ -2460,7 +2093,6 @@
                       "SE-12-04",
                       "SE-12-05"
                     ],
-                    "estimatedTime": "7 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -2487,13 +2119,6 @@
                       "Threat mitigation"
                     ],
                     "markingCriteria": "Provides a clear explanation of Cross-Site Scripting (XSS) and its impact (1 mark). Identifies a correct mitigation strategy for XSS (1 mark). Provides a clear explanation of Cross-Site Request Forgery (CSRF) and its impact (1 mark). Identifies a correct mitigation strategy for CSRF (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      3,
-                      4,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-c811a639-655f-47ac-82d6-0b7da134118d",
@@ -2543,7 +2168,6 @@
                       "SE-12-07",
                       "SE-12-02"
                     ],
-                    "estimatedTime": "6 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -2564,10 +2188,6 @@
                       "Vulnerability"
                     ],
                     "markingCriteria": "- Explains that a race condition relates to the sequence of events in a concurrent system (1 mark). • Describes a plausible scenario (e.g., financial transaction, redeeming a voucher) (1 mark). • Explains how an attacker can exploit the time gap between a check and an action (2 marks).",
-                    "targetPerformanceBands": [
-                      2,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-84b90446-edf8-4a50-b9ae-309de53fe4fb",
@@ -2581,6 +2201,100 @@
                         "band": 3,
                         "answer": "A race condition is when two things happen at the same time and it breaks the program. A hacker can use this to cheat a system, like getting something for free by sending two requests very fast.",
                         "mark": 2,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-1763110000004-ddddd04",
+                    "question": "Define 'broken authentication'.",
+                    "totalMarks": 2,
+                    "verb": "DEFINE",
+                    "scenario": "A security audit report lists 'broken authentication' as a critical vulnerability in a web application. A manager asks the development team for a simple definition of what that means.",
+                    "linkedOutcomes": [
+                      "SE-12-07"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [
+                      "The definition must relate to a security failure, not a functional bug.",
+                      "Look for an understanding that it allows an attacker to act as another user."
+                    ],
+                    "commonStudentErrors": [
+                      "Defining it literally as a login form that is not functioning.",
+                      "Being too vague and not mentioning impersonation or identity compromise."
+                    ],
+                    "keywords": [
+                      "Broken authentication",
+                      "Vulnerability",
+                      "Credentials",
+                      "Session management"
+                    ],
+                    "markingCriteria": "- States that it is a vulnerability related to managing user identity (1 mark). • Elaborates with an example, such as credential stuffing or insecure session handling (1 mark).",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-3719bd47-7751-4e03-83b9-52af7140b60c",
+                        "band": 2,
+                        "answer": "Broken authentication refers to a category of security vulnerabilities that allow an attacker to compromise a user's identity. These flaws in the authentication or session management functions can enable an attacker to impersonate legitimate users, for example, by stealing their session cookies, using stolen credentials (credential stuffing), or bypassing the login process altogether.",
+                        "mark": 2,
+                        "source": "AI"
+                      },
+                      {
+                        "id": "sa-23383e3b-a0aa-464b-8f84-7a9a57c1af5b",
+                        "band": 2,
+                        "answer": "It is when the login is broken and doesn't work.",
+                        "mark": 1,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-1763110000006-fffff06",
+                    "question": "Compare the mechanisms and potential impacts of Cross-Site Scripting (XSS) and Cross-Site Request Forgery (CSRF) vulnerabilities.",
+                    "totalMarks": 6,
+                    "verb": "COMPARE",
+                    "scenario": "A web security analyst is training a new group of developers. They present two scenarios: one where a user's session cookie was stolen, and another where a user was tricked into changing their email address without their knowledge. The analyst asks the trainees to identify which vulnerability (XSS or CSRF) was likely responsible for each and to compare how the attacks worked.",
+                    "linkedOutcomes": [
+                      "SE-12-04",
+                      "SE-12-07"
+                    ],
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [
+                      "The comparison must clearly differentiate between the attack vectors.",
+                      "Look for an understanding of the different trust relationships being exploited.",
+                      "Strong answers will correctly identify the primary goal of each attack (XSS -> confidentiality, CSRF -> integrity)."
+                    ],
+                    "commonStudentErrors": [
+                      "Confusing the two vulnerabilities.",
+                      "Describing one but not the other.",
+                      "Failing to clearly explain the different mechanisms (code injection vs. forged request).",
+                      "Not contrasting the primary goals (stealing information vs. performing actions)."
+                    ],
+                    "keywords": [
+                      "Cross-Site Scripting (XSS)",
+                      "Cross-Site Request Forgery (CSRF)",
+                      "Vulnerability",
+                      "Web security",
+                      "Session hijacking",
+                      "User impersonation"
+                    ],
+                    "markingCriteria": "- Explains the mechanism of XSS (injecting malicious script into a trusted site) (1 mark). • Explains the mechanism of CSRF (tricking an authenticated user's browser into sending a forged request) (1 mark). • Contrasts their primary goals: XSS steals information from the user, while CSRF makes the user perform an unwanted action (2 marks). • Compares their potential impacts (e.g., both can lead to account compromise, but in different ways) (2 marks).",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-14e695c0-33e9-45a9-9684-49725e1c048f",
+                        "band": 5,
+                        "answer": "XSS and CSRF are both major web application vulnerabilities, but they operate via different mechanisms and have distinct primary impacts. The core similarity is that they both exploit the trust a user has in a legitimate website.\n\nThe mechanism of XSS involves an attacker injecting malicious client-side script (usually JavaScript) into a web page that is then viewed by a victim. The victim's browser, trusting the script came from the legitimate site, executes it. The primary impact of XSS is the compromise of confidentiality; the script can be used to steal the victim's session cookies, capture keystrokes, or scrape sensitive information from the page. It effectively allows the attacker to impersonate the user or see what the user sees.\n\nThe mechanism of CSRF is different. It does not involve injecting code into the vulnerable site. Instead, it exploits the fact that a user is already authenticated. The attacker crafts a malicious link or form on a separate, attacker-controlled site. When the victim clicks this link, their browser is tricked into sending a forged, state-changing request to the legitimate site (e.g., a request to change their password or transfer money). The primary impact of CSRF is the compromise of integrity; the attacker forces the victim's browser to perform an action on their behalf without their consent.\n\nIn comparison, XSS is an attack against the user's client-side relationship with the site, aimed at stealing data. CSRF is an attack against the site's server-side trust in the user's browser, aimed at performing unauthorised actions.",
+                        "mark": 6,
+                        "source": "AI"
+                      },
+                      {
+                        "id": "sa-6a1fb53d-51ed-4003-b2cb-05d49be1dddf",
+                        "band": 3,
+                        "answer": "XSS is when a hacker puts bad code on a website. When you visit it, the code runs and can steal your password. CSRF is when a hacker tricks you into clicking a bad link that makes you do something you don't want to do, like sending money from your bank account. Both are bad for security.",
+                        "mark": 3,
                         "source": "AI"
                       }
                     ],
@@ -2602,7 +2316,6 @@
                       "SE-12-04",
                       "SE-12-01"
                     ],
-                    "estimatedTime": "7 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -2629,13 +2342,6 @@
                       "Vulnerability mitigation"
                     ],
                     "markingCriteria": "- 1 mark: Sketches in general terms a relevant practice. •\n2 marks: Describes a secure coding practice for either a file attack OR a side-channel attack. •\n3 marks: Explains secure coding practices for both file and side-channel attacks, with some reference to examples. •\n4 marks: Provides a comprehensive explanation of secure coding practices for both file and side-channel attacks, supported by clear and specific examples for each.",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      3,
-                      4,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-70acc2e1-28d0-4173-a306-5a5a2f743ba2",
@@ -2685,7 +2391,6 @@
                       "SE-12-04",
                       "SE-12-07"
                     ],
-                    "estimatedTime": "4 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -2705,11 +2410,6 @@
                       "Constant-time"
                     ],
                     "markingCriteria": "- Provides characteristics of a timing attack, identifying it as a side-channel attack (1 mark). • Describes the mechanism: inferring information based on how long an operation takes (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-1d99e355-f75e-49a4-8dd4-caac82832d6f",
@@ -2774,13 +2474,6 @@
                       "software engineering practices"
                     ],
                     "markingCriteria": "- 4 marks: Provides a comprehensive explanation linking collaboration to BOTH safety/security AND quality, clearly referencing the role of delegating tasks based on expertise. •\n3 marks: Explains how collaboration improves software quality OR security, with some reference to task delegation. •\n2 marks: Describes a benefit of collaboration related to software development, with a limited link to security. •\n1 mark: Sketches in general terms some aspect of collaboration or software development.",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      3,
-                      4,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-a15023c2-4cd7-4e59-9bb3-bde9ea46726a",
@@ -2819,8 +2512,8 @@
                     "verb": "EXPLAIN",
                     "scenario": "A growing software development company, 'InnovateTech', is keen on establishing a strong reputation for reliability and trust in the market. They are analyzing how adopting robust safe and secure development practices across their product lifecycle can provide tangible benefits beyond just compliance, impacting their product offerings, internal efficiency, and external business relationships.",
                     "linkedOutcomes": [
-                      "SE-12-04: evaluates practices to safely and securely collect, use and store data",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions"
+                      "SE-12-04",
+                      "SE-12-07"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2836,14 +2529,6 @@
                       "software engineering"
                     ],
                     "markingCriteria": "- 5 marks: Provides a comprehensive and detailed explanation of how secure practices benefit an enterprise across products, productivity, and business interactivity, using relevant examples and terminology. •\n4 marks: Explains several benefits, making clear links to products, productivity, and/or business interactivity. •\n2-3 marks: Provides a basic explanation of one or more benefits to an enterprise. •\n1 mark: Identifies at least one benefit of secure practices.",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      3,
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-bd9605c5-ba3c-4427-a4af-dede5295ceb6",
@@ -2878,7 +2563,6 @@
                       "SE-12-05",
                       "SE-12-08"
                     ],
-                    "estimatedTime": "15 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -2912,14 +2596,6 @@
                       "Regulation and legislation"
                     ],
                     "markingCriteria": "Provides a clear and well-supported judgement on the extent of the ramifications. Sophisticated evaluation links digital disruption, secure software, and specific social/ethical issues (employment, data security) with relevant examples. Acknowledges both positive and negative impacts. Response is logical, cohesive, and uses precise industry terminology. At the lower end, the response may be descriptive, identifying some issues with limited links to the question's core concepts of evaluation and digital disruption.",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      3,
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-5aaaa509-3d5a-4e00-92c1-1535747559b4",
@@ -2945,10 +2621,10 @@
                     "verb": "OUTLINE",
                     "scenario": "A large technology enterprise is developing a new social networking application that will collect and store significant amounts of user data, including personal identifiable information (PII) and user-generated content. The development team is in the initial planning phase, focusing on the architectural design and security protocols.",
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-04: evaluates practices to safely and securely collect, use and store data",
-                      "SE-12-05: explains the social, ethical and legal implications of software engineering on the individual, society and the environment",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions"
+                      "SE-12-01",
+                      "SE-12-04",
+                      "SE-12-05",
+                      "SE-12-07"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2963,12 +2639,6 @@
                       "software engineering"
                     ],
                     "markingCriteria": "- Provides a clear outline of one relevant social issue (1 mark). • Provides a clear outline of one relevant ethical issue (1 mark). • Links the issues to data privacy in the context of an enterprise developing secure software (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      3,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-87e9b34c-3a20-4d32-9fd5-7b99ccbede8d",
@@ -2996,7 +2666,6 @@
                     "linkedOutcomes": [
                       "SE-12-05"
                     ],
-                    "estimatedTime": "15 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -3020,11 +2689,6 @@
                       "Secure software"
                     ],
                     "markingCriteria": "- Identifies the key issue: the conflict between data-driven business models and user privacy (2 marks). • Develops points for the business perspective, explaining why data collection is valuable (e.g., personalisation, targeted advertising) (2 marks). • Develops points for the user's perspective, referencing the right to privacy and the risks of surveillance (2 marks). • Provides a balanced treatment, showing an understanding of the tension and the role of secure software as both an enabler and a mitigator (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-2c469616-ab2c-4726-bbc3-75714af63664",
@@ -3078,7 +2742,6 @@
                       "SE-12-04",
                       "SE-12-03"
                     ],
-                    "estimatedTime": "6 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -3102,11 +2765,6 @@
                       "Security"
                     ],
                     "markingCriteria": "- Clearly explains the function of HTTP (1 mark). • Clearly explains the function of HTTPS, identifying encryption as the key difference (1 mark). • Compares the security implications of both, linking HTTPS to confidentiality and integrity (1 mark). • Contrasts the protocols effectively, mentioning aspects like port numbers (80 vs 443) or the role of SSL/TLS certificates (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-8c6e8597-5a4d-4a02-99eb-119da6b69aff",
@@ -3141,7 +2799,6 @@
                     "linkedOutcomes": [
                       "SE-12-03"
                     ],
-                    "estimatedTime": "4 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -3164,11 +2821,6 @@
                       "Web server"
                     ],
                     "markingCriteria": "- Provides key characteristics of DNS, identifying its primary function as a resolver of domain names to IP addresses (2 marks). • Describes the process of a user accessing a website to illustrate its role (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-d83370b6-de52-4fbf-a6c5-cc9672e2a489",
@@ -3203,7 +2855,6 @@
                     "linkedOutcomes": [
                       "SE-12-03"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -3223,11 +2874,6 @@
                       "Low latency"
                     ],
                     "markingCriteria": "- Describes TCP characteristics and typical use (2 marks) • Describes UDP characteristics and typical use (2 marks) • Explains why one might be chosen over the other in web contexts (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-new-tcpudp-6",
@@ -3248,7 +2894,6 @@
                     "linkedOutcomes": [
                       "SE-12-03"
                     ],
-                    "estimatedTime": "6 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -3269,11 +2914,6 @@
                       "Mail Server"
                     ],
                     "markingCriteria": "- Correctly identifies SMTP as the protocol for sending email (1 mark). • Correctly identifies POP3 and IMAP as protocols for receiving email (1 mark). • Clearly distinguishes between the 'download' model of POP3 and the 'synchronisation' model of IMAP (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-1-1",
@@ -3360,10 +3000,10 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-04: evaluates practices to safely and securely collect, use and store data",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions",
-                      "SE-12-05: explains the social, ethical and legal implications of software engineering on the individual, society and the environment"
+                      "SE-12-01",
+                      "SE-12-04",
+                      "SE-12-07",
+                      "SE-12-05"
                     ]
                   }
                 ]
@@ -3382,7 +3022,6 @@
                       "SE-12-04",
                       "SE-12-07"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -3408,11 +3047,6 @@
                       "Public key"
                     ],
                     "markingCriteria": "- Provides a clear explanation of hashing and its link to data integrity (2 marks). • Provides a clear explanation of digital signatures, mentioning the use of a private key for signing (2 marks). • Links digital signatures to authenticity and/or non-repudiation (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-84c0eac2-ac81-4fa6-aa75-4735c9b93abb",
@@ -3448,7 +3082,6 @@
                       "SE-12-04",
                       "SE-12-07"
                     ],
-                    "estimatedTime": "12 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -3466,11 +3099,6 @@
                       "CSP"
                     ],
                     "markingCriteria": "- Explains input sanitisation & prepared statements against injection (2 marks) • Explains escaping/output encoding against XSS (2 marks) • Explains CSP and its role (2 marks) • Overall judgement on layered defence (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-9279757b-f679-46b9-8a3a-755c617eecf6",
@@ -3509,8 +3137,8 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-04: evaluates practices to safely and securely collect, use and store data",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions"
+                      "SE-12-04",
+                      "SE-12-07"
                     ]
                   },
                   {
@@ -3560,7 +3188,6 @@
                       "SE-12-03",
                       "SE-12-05"
                     ],
-                    "estimatedTime": "15 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -3583,11 +3210,6 @@
                       "Ethical challenges"
                     ],
                     "markingCriteria": "- Makes a clear evaluative judgement on the significance of the challenges (1 mark). • Applies the criterion of 'architectural challenges', explaining issues like data volume, velocity, and the need for scalable processing (3 marks). • Applies the criterion of 'ethical challenges', explaining issues like filter bubbles, addiction, and data privacy (3 marks). • Synthesises the evaluation into a nuanced conclusion (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-153c98cc-d407-4919-89f3-b8dea46e3bab",
@@ -3623,7 +3245,6 @@
                       "SE-12-03",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -3639,11 +3260,6 @@
                       "Analytics"
                     ],
                     "markingCriteria": "- Explains distributed storage (2 marks) • Explains columnar format advantages (2 marks) • Links to web-scale analytics (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-new-bigdata1",
@@ -3681,8 +3297,8 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-03: analyses how current hardware, software and emerging technologies influence the development of software engineering solutions",
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions"
+                      "SE-12-03",
+                      "SE-12-01"
                     ]
                   },
                   {
@@ -3730,7 +3346,6 @@
                     "linkedOutcomes": [
                       "SE-12-03"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -3758,11 +3373,6 @@
                       "Server"
                     ],
                     "markingCriteria": "- Describes the initial role of DNS in finding the IP address (1 mark). • Explains that data is broken into packets (1 mark). • Describes the basic structure of a packet, including header with source and destination IP addresses (2 marks). • Explains that packets are routed across the internet to the destination server (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-dp-1-1",
@@ -3835,7 +3445,6 @@
                       "SE-12-03",
                       "SE-12-04"
                     ],
-                    "estimatedTime": "6 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -3851,11 +3460,6 @@
                       "Personalisation"
                     ],
                     "markingCriteria": "- Describes data mining as finding patterns in large datasets (1 mark) • Explains a specific application like 'Customers who bought X also bought Y' (Association rules) (2 marks) • Links this to the benefit of personalised UX and increased conversion (1 mark).",
-                    "targetPerformanceBands": [
-                      2,
-                      4,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-datamining-4",
@@ -3893,11 +3497,11 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-03: analyses how current hardware, software and emerging technologies influence the development of software engineering solutions",
-                      "SE-12-04: evaluates practices to safely and securely collect, use and store data",
-                      "SE-12-06: justifies the selection and use of tools and resources to design, develop, manage and evaluate software",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions"
+                      "SE-12-01",
+                      "SE-12-03",
+                      "SE-12-04",
+                      "SE-12-06",
+                      "SE-12-07"
                     ]
                   },
                   {
@@ -3951,7 +3555,6 @@
                       "SE-12-02",
                       "SE-12-03"
                     ],
-                    "estimatedTime": "6 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -3975,11 +3578,6 @@
                       "User Interface (UI)"
                     ],
                     "markingCriteria": "- Provides key characteristics of client-side programming, mentioning its relation to the user's browser and UI (2 marks). • Provides key characteristics of server-side programming, mentioning its relation to business logic, databases, and security (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-4b12c47d-562b-463b-9473-f1ecb1f109da",
@@ -4015,7 +3613,6 @@
                       "SE-12-03",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "6 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -4038,11 +3635,6 @@
                       "Scalability"
                     ],
                     "markingCriteria": "- Indicates the difference in data models (SQL: structured tables vs. NoSQL: flexible documents/key-value) (2 marks). • Indicates the difference in scalability models (SQL: vertical scaling vs. NoSQL: horizontal scaling) (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-a9446be6-cb5e-4b8e-b8ad-3d84c6a33d4f",
@@ -4078,7 +3670,6 @@
                       "SE-12-03",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -4096,11 +3687,6 @@
                       "N+1 problem"
                     ],
                     "markingCriteria": "- Explains REST characteristics (2 marks) • Explains GraphQL characteristics (2 marks) • Compares efficiency, flexibility, versioning (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-new-graphql6",
@@ -4128,7 +3714,6 @@
                       "SE-12-06",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "6 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -4153,11 +3738,6 @@
                       "Code history"
                     ],
                     "markingCriteria": "- Provides a detailed justification by linking at least two distinct features of version control to specific benefits in a collaborative environment. (4 marks) • Provides a good justification by linking one feature of version control to a benefit. (3 marks) • Describes a reason for using version control with a limited link to collaboration. (2 marks) • Identifies a basic purpose of version control. (1 mark)",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-aa5e865c-7d75-4673-b54f-802f70efa682",
@@ -4193,7 +3773,6 @@
                       "SE-12-08",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -4216,11 +3795,6 @@
                       "Code provenance"
                     ],
                     "markingCriteria": "- Identifies the key components: the version history and the goals of quality/security (1 mark). • Examines the relationship for code quality, explaining how history aids in debugging and understanding code evolution (2 marks). • Examines the relationship for security, explaining how history helps in auditing and identifying when a vulnerability was introduced (2 marks). • Draws a conclusion about the importance of a well-maintained history (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-f87cf6b3-f573-43f6-81d4-c989551de4c2",
@@ -4256,7 +3830,6 @@
                       "SE-12-09",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -4272,11 +3845,6 @@
                       "Release management"
                     ],
                     "markingCriteria": "- Explains the structure of the chosen workflow (2 marks) • Links specific parts to stability, parallel work, safe releases (3 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-new-gitflow5",
@@ -4315,9 +3883,9 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-06: justifies the selection and use of tools and resources to design, develop, manage and evaluate software",
-                      "SE-12-09: applies methods to manage and document the development of a software project"
+                      "SE-12-01",
+                      "SE-12-06",
+                      "SE-12-09"
                     ]
                   }
                 ]
@@ -4336,7 +3904,6 @@
                       "SE-12-03",
                       "SE-12-05"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -4359,11 +3926,6 @@
                       "Cross-browser compatibility"
                     ],
                     "markingCriteria": "- Identifies the key components: the W3C and its role in creating standards (1 mark). • Examines the relationship between standards and interoperability, explaining how standards ensure websites work across different browsers (2 marks). • Examines the implications for developers, such as providing a stable target for development but also requiring adherence to standards (2 marks). • Draws a conclusion about the W3C's importance in preventing a fragmented web (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-1219aa7f-52f3-4feb-ac1d-f395f00a884e",
@@ -4398,7 +3960,6 @@
                     "linkedOutcomes": [
                       "SE-12-03"
                     ],
-                    "estimatedTime": "2 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -4416,11 +3977,6 @@
                       "Web standards"
                     ],
                     "markingCriteria": "- Correctly names one W3C initiative (1 mark). • Correctly names a second, distinct W3C initiative (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-0b492a2a-e853-44f1-9d65-6d26537d6cc1",
@@ -4495,7 +4051,6 @@
                       "SE-12-08",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -4518,11 +4073,6 @@
                       "Asset size"
                     ],
                     "markingCriteria": "- Explains the purpose of the Network tab (to monitor network requests) (1 mark). • Explains how it is used to diagnose issues, such as identifying large files or long-running requests, with reference to the waterfall chart (2 marks). • Explains how the diagnosis leads to specific optimisations, such as compressing images or minifying CSS/JS (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-683c8280-b303-4edb-9e77-168432f83673",
@@ -4558,7 +4108,6 @@
                       "SE-12-08",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "3 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -4579,11 +4128,6 @@
                       "JavaScript"
                     ],
                     "markingCriteria": "- Outlines one valid use of dev tools for debugging (1 mark). • Outlines a second, distinct valid use (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-5df82efa-78cc-43b8-95e1-1446cc682f27",
@@ -4619,7 +4163,6 @@
                       "SE-12-08",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -4635,11 +4178,6 @@
                       "Core Web Vitals"
                     ],
                     "markingCriteria": "- Describes what Lighthouse measures (2 marks) • Explains how diagnostics lead to concrete improvements (3 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-new-lighthouse5",
@@ -4679,8 +4217,8 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-08: tests and evaluates language structures to refine code",
-                      "SE-12-06: justifies the selection and use of tools and resources to design, develop, manage and evaluate software"
+                      "SE-12-08",
+                      "SE-12-06"
                     ]
                   }
                 ]
@@ -4699,7 +4237,6 @@
                       "SE-12-06",
                       "SE-12-01"
                     ],
-                    "estimatedTime": "15 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -4723,11 +4260,6 @@
                       "Maintainability"
                     ],
                     "markingCriteria": "- Makes a clear evaluative judgement, acknowledging that both are valid but have different trade-offs (1 mark). • Applies multiple criteria, such as developer onboarding, long-term maintenance, and flexibility (3 marks). • Provides comprehensive evidence for each criterion, contrasting the 'opinionated' nature of a framework with the flexibility of a library-based approach (3 marks). • Synthesises the evaluation into a nuanced conclusion about the trade-offs (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-a99f0906-5069-46a2-a5e0-5f042b41c264",
@@ -4763,7 +4295,6 @@
                       "SE-12-02",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "4 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -4785,11 +4316,6 @@
                       "Angular"
                     ],
                     "markingCriteria": "- Indicates the key difference based on 'Inversion of Control' (the framework calls your code, while you call the library's code) (3 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-205ccb8b-ea1c-4abf-a781-85cf2d23b412",
@@ -4864,7 +4390,6 @@
                       "SE-12-03",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -4887,11 +4412,6 @@
                       "Latency"
                     ],
                     "markingCriteria": "- Identifies the key component: a CDN as a distributed network of servers (1 mark). • Examines the relationship between the CDN and latency, explaining how it serves content from a location geographically closer to the user (2 marks). • Examines the relationship between the CDN and server load, explaining how caching static assets reduces requests to the origin server (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-df92bc18-0f86-4d17-9efd-694137c7abf0",
@@ -4927,7 +4447,6 @@
                       "SE-12-08",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -4943,11 +4462,6 @@
                       "CLS"
                     ],
                     "markingCriteria": "- Correctly defines each metric (3 marks) • Gives practical optimisation techniques for each (3 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-new-vitals6",
@@ -5007,7 +4521,6 @@
                       "SE-12-06",
                       "SE-12-01"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -5033,11 +4546,6 @@
                       "Nesting"
                     ],
                     "markingCriteria": "- Makes a clear judgement on the value of a preprocessor for a large project (1 mark). • Explains at least two features of a preprocessor (e.g., variables, nesting) (2 marks). • Links these features to specific benefits like consistency and code reusability (2 marks). • Acknowledges a trade-off, such as the need for a build/compile step (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-css-1-1",
@@ -5111,7 +4619,6 @@
                       "SE-12-06",
                       "SE-12-05"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -5136,11 +4643,6 @@
                       "Security"
                     ],
                     "markingCriteria": "- Provides a justification based on cost, mentioning zero licensing fees (1 mark). • Provides a justification based on flexibility and avoidance of vendor lock-in (2 marks). • Provides a justification based on the availability of strong community support and a large talent pool (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-os-1-1",
@@ -5192,10 +4694,10 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-03: analyses how current hardware, software and emerging technologies influence the development of software engineering solutions",
-                      "SE-12-05: explains the social, ethical and legal implications of software engineering on the individual, society and the environment",
-                      "SE-12-06: justifies the selection and use of tools and resources to design, develop, manage and evaluate software"
+                      "SE-12-01",
+                      "SE-12-03",
+                      "SE-12-05",
+                      "SE-12-06"
                     ]
                   }
                 ]
@@ -5214,7 +4716,6 @@
                       "SE-12-03",
                       "SE-12-05"
                     ],
-                    "estimatedTime": "6 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -5229,10 +4730,6 @@
                       "Bi-directional text"
                     ],
                     "markingCriteria": "- Describes the challenge of different character sets and the role of Unicode/UTF-8 (2 marks) • Describes the challenge of text direction (Left-to-Right vs Right-to-Left) and how W3C standards handle this (2 marks).",
-                    "targetPerformanceBands": [
-                      2,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-i18n-4",
@@ -5293,7 +4790,6 @@
                       "SE-12-06",
                       "SE-12-02"
                     ],
-                    "estimatedTime": "5 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -5308,10 +4804,6 @@
                       "Viewport"
                     ],
                     "markingCriteria": "- Explains that media queries detect device properties like width (1 mark) • Explains that they apply different CSS blocks based on these conditions (breakpoints) (1 mark) • Links this to adapting layout (e.g. multi-column to single-column) for usability (1 mark).",
-                    "targetPerformanceBands": [
-                      2,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-mediaquery-3",
@@ -5367,7 +4859,6 @@
                       "SE-12-06",
                       "SE-12-03"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -5384,11 +4875,6 @@
                       "Persistence"
                     ],
                     "markingCriteria": "- Describes Cookie characteristics (sent to server, small size) (2 marks) • Describes LocalStorage characteristics (client-only, larger size) (2 marks) • Recommends LocalStorage for UI preference because it doesn't need to be sent to the server on every request (1 mark).",
-                    "targetPerformanceBands": [
-                      2,
-                      4,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-storage-5",
@@ -5428,7 +4914,7 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-03: analyses how current hardware, software and emerging technologies influence the development of software engineering solutions"
+                      "SE-12-03"
                     ]
                   }
                 ]
@@ -5446,7 +4932,6 @@
                     "linkedOutcomes": [
                       "SE-12-02"
                     ],
-                    "estimatedTime": "5 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -5461,10 +4946,6 @@
                       "Placeholders"
                     ],
                     "markingCriteria": "- Identifies purpose: separating logic from presentation (1 mark) • Describes mechanism: combining a static HTML template with dynamic data from the server (1 mark) • Mentions rendering the final HTML sent to the client (1 mark).",
-                    "targetPerformanceBands": [
-                      2,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-template-3",
@@ -5504,10 +4985,10 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-02: applies structural elements to develop programming code",
-                      "SE-12-03: analyses how current hardware, software and emerging technologies influence the development of software engineering solutions",
-                      "SE-12-06: justifies the selection and use of tools and resources to design, develop, manage and evaluate software"
+                      "SE-12-01",
+                      "SE-12-02",
+                      "SE-12-03",
+                      "SE-12-06"
                     ]
                   }
                 ]
@@ -5532,7 +5013,6 @@
                       "SE-12-01",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -5558,11 +5038,6 @@
                       "Performance"
                     ],
                     "markingCriteria": "- Makes a clear judgement on the value and importance of back-end development (1 mark). • Provides detailed points for the judgement, linking back-end functions like data management, security, and business logic to the success of an e-commerce site (4 marks). • Uses appropriate terminology and presents a well-structured argument (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-2ee5e711-338f-4dc7-9a52-82dcf22d11af",
@@ -5615,9 +5090,9 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-04: evaluates practices to safely and securely collect, use and store data",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions"
+                      "SE-12-01",
+                      "SE-12-04",
+                      "SE-12-07"
                     ]
                   },
                   {
@@ -5650,9 +5125,9 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-04: evaluates practices to safely and securely collect, use and store data",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions"
+                      "SE-12-01",
+                      "SE-12-04",
+                      "SE-12-07"
                     ]
                   },
                   {
@@ -5702,7 +5177,6 @@
                       "SE-12-02",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -5727,11 +5201,6 @@
                       "Query optimisation"
                     ],
                     "markingCriteria": "- Clearly explains the nature of raw SQL queries (1 mark). • Clearly explains the function of an ORM as an abstraction layer (1 mark). • Provides at least one point of comparison regarding developer experience or productivity (1 mark). • Provides at least one point of comparison regarding performance or control (1 mark). • Uses appropriate terminology and structure (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-e38e4144-4a36-481e-93a9-1dec8b975b1d",
@@ -5767,7 +5236,6 @@
                       "SE-12-08",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -5791,11 +5259,6 @@
                       "Eager loading"
                     ],
                     "markingCriteria": "- Makes a judgement on the value of the risk, identifying it as significant but manageable (1 mark). • Provides evidence, explaining how an ORM can generate inefficient queries like the 'N+1 problem' (2 marks). • Discusses mitigation strategies such as 'eager loading' (2 marks). • Draws a warranted conclusion about the need for developers to understand the ORM's behaviour (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-bbeca05e-710a-4bb8-b8fa-60c4efce0542",
@@ -5847,11 +5310,11 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-04: evaluates practices to safely and securely collect, use and store data",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions",
-                      "SE-12-02: applies structural elements to develop programming code",
-                      "SE-12-06: justifies the selection and use of tools and resources to design, develop, manage and evaluate software"
+                      "SE-12-01",
+                      "SE-12-04",
+                      "SE-12-07",
+                      "SE-12-02",
+                      "SE-12-06"
                     ]
                   }
                 ]
@@ -5870,7 +5333,6 @@
                       "SE-12-07",
                       "SE-12-05"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -5893,11 +5355,6 @@
                       "Design principles"
                     ],
                     "markingCriteria": "- Proposes a first clear UI/UX choice related to accessibility (1 mark). • Justifies the choice by explaining how it helps a specific group of users (2 marks). • Proposes a second clear UI/UX choice related to accessibility (1 mark). • Justifies the second choice by explaining how it helps a specific group of users (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-201531a9-2625-4766-9680-de5f7e171dfd",
@@ -5933,7 +5390,6 @@
                       "SE-12-07",
                       "SE-12-03"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -5949,11 +5405,6 @@
                       "Install/Activate/Fetch lifecycle"
                     ],
                     "markingCriteria": "- Describes service worker lifecycle (2 marks) • Explains caching and fetch interception for offline use (3 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-new-sw5",
@@ -5991,9 +5442,9 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-03: analyses how current hardware, software and emerging technologies influence the development of software engineering solutions",
-                      "SE-12-02: applies structural elements to develop programming code",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions"
+                      "SE-12-03",
+                      "SE-12-02",
+                      "SE-12-07"
                     ]
                   },
                   {
@@ -6021,8 +5472,8 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-03: analyses how current hardware, software and emerging technologies influence the development of software engineering solutions",
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions"
+                      "SE-12-03",
+                      "SE-12-01"
                     ]
                   }
                 ]
@@ -6040,7 +5491,6 @@
                     "linkedOutcomes": [
                       "SE-12-02"
                     ],
-                    "estimatedTime": "6 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -6063,11 +5513,6 @@
                       "Query"
                     ],
                     "markingCriteria": "- Provides key characteristics of an INNER JOIN, explaining that it combines rows from two tables (1 mark). • Correctly states that the join is based on a matching value in a common column (1 mark). • Provides a syntactically correct SQL query example (1 mark). • The example correctly joins two plausible tables on their primary/foreign key relationship (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-97b76929-0491-4d46-907e-d89fb3144b20",
@@ -6103,7 +5548,6 @@
                       "SE-12-02",
                       "SE-12-08"
                     ],
-                    "estimatedTime": "6 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -6125,11 +5569,6 @@
                       "Aggregate function"
                     ],
                     "markingCriteria": "- Indicates the key difference: WHERE filters rows before aggregation, while HAVING filters groups after aggregation (3 marks). • Provides a simple example or notes that HAVING must be used with GROUP BY (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-93e8d182-f6a6-4a8b-90c5-dda290d273db",
@@ -6164,7 +5603,6 @@
                     "linkedOutcomes": [
                       "SE-12-02"
                     ],
-                    "estimatedTime": "2 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -6184,11 +5622,6 @@
                       "FULL OUTER JOIN"
                     ],
                     "markingCriteria": "- Correctly names one type of SQL join (1 mark). • Correctly names a second, distinct type of SQL join (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-0d6ef56f-0768-46ac-8d42-62b93ae25692",
@@ -6223,7 +5656,6 @@
                     "linkedOutcomes": [
                       "SE-12-02"
                     ],
-                    "estimatedTime": "5 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -6245,11 +5677,6 @@
                       "Database query"
                     ],
                     "markingCriteria": "- Correctly selects the required fields (CommentText, Username) (1 mark). • Correctly uses an INNER JOIN to link the Comments and Users tables on the correct keys (1 mark). • Correctly uses a WHERE clause to filter for the specific PostID (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-baa7f477-3628-48db-b5fa-1eace7b38cd5",
@@ -6284,7 +5711,6 @@
                       "SE-12-08",
                       "SE-12-03"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -6300,11 +5726,6 @@
                       "Read vs write trade-off"
                     ],
                     "markingCriteria": "- Explains what an index is and how it works (2 marks) • Evaluates performance improvement for reads (2 marks) • Mentions trade-offs (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-new-index5",
@@ -6332,7 +5753,6 @@
                       "SE-12-02",
                       "SE-12-03"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -6360,11 +5780,6 @@
                       "HTTP Response"
                     ],
                     "markingCriteria": "- Describes the initial handling by the web server and passing the request to the framework (1 mark). • Explains the role of the router in matching the URL to a specific controller/function (2 marks). • Describes the controller's role in processing the request and interacting with the model/database (2 marks). • Explains the final step of rendering a template or generating a response to be sent back to the client (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-bl-1-1",
@@ -6436,7 +5851,6 @@
                       "SE-12-09",
                       "SE-12-01"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -6462,11 +5876,6 @@
                       "Integration"
                     ],
                     "markingCriteria": "- Identifies the relationship between front-end/back-end teams and their reliance on an API (1 mark). • Examines an API contract as a formal agreement that defines the API's structure and data format (2 marks). • Analyses how this contract enables parallel development by allowing the front-end to work with a mock API (2 marks). • Draws a conclusion about how this reduces integration issues and improves efficiency (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-co-1-1",
@@ -6537,7 +5946,6 @@
                       "SE-12-02",
                       "SE-12-06"
                     ],
-                    "estimatedTime": "4 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -6554,10 +5962,6 @@
                       "Log analysis"
                     ],
                     "markingCriteria": "- Correct use of 'grep' command (1 mark) • Correct syntax for search term and source file (1 mark) • Correct use of redirection operator '>' to save to file (1 mark).",
-                    "targetPerformanceBands": [
-                      2,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-shell-grep-3",
@@ -6579,7 +5983,6 @@
                       "SE-12-06",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "6 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -6594,10 +5997,6 @@
                       "CI/CD"
                     ],
                     "markingCriteria": "- Explains the purpose of the script (grouping commands for automation) (1 mark) • Describes Task 1 (e.g. pulling code from git) (1 mark) • Describes Task 2 (e.g. restarting web server) (1 mark) • Links to benefit (efficiency/reliability) (1 mark).",
-                    "targetPerformanceBands": [
-                      2,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-shell-deploy-4",
@@ -6635,9 +6034,9 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-02: applies structural elements to develop programming code",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions"
+                      "SE-12-01",
+                      "SE-12-02",
+                      "SE-12-07"
                     ]
                   }
                 ]
@@ -6668,7 +6067,6 @@
                       "SE-12-01",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -6691,11 +6089,6 @@
                       "User needs"
                     ],
                     "markingCriteria": "- Clearly defines functional requirements (1 mark). • Clearly defines non-functional requirements (1 mark). • Provides a suitable example of a functional requirement for the given scenario (1 mark). • Provides a suitable example of a non-functional requirement for the given scenario (1 mark). • Analyses the importance of separating them, linking it to project success, scope, and testing (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-955b4c07-f5cd-44bd-a934-6ee88d030bc2",
@@ -6731,7 +6124,6 @@
                       "SE-12-09",
                       "SE-12-02"
                     ],
-                    "estimatedTime": "5 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -6754,11 +6146,6 @@
                       "System analysis"
                     ],
                     "markingCriteria": "- Provides key characteristics of a data dictionary, identifying it as a central repository for metadata (1 mark). • Describes how it is used to define elements like data types, validation rules, and relationships (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-c1c83c15-b35b-423f-9bf4-ac892035dcab",
@@ -6794,7 +6181,6 @@
                       "SE-12-01",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -6817,11 +6203,6 @@
                       "Data Dictionary"
                     ],
                     "markingCriteria": "- Defines the system boundaries clearly (1 mark). • Provides a clear and appropriate functional requirement (1 mark). • Provides a clear and appropriate non-functional requirement (1 mark). • Designs a suitable data structure for a book (2 marks). • Specifies appropriate data types for the fields in the structure (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-reqs-1-1",
@@ -6863,7 +6244,6 @@
                       "SE-12-01",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -6886,11 +6266,6 @@
                       "Go-live"
                     ],
                     "markingCriteria": "- Clearly describes parallel implementation (running both systems concurrently) (1 mark). • Clearly describes phased implementation (rolling out the new system in modules) (1 mark). • Provides a clear point of comparison (e.g., cost, risk, time) (1 mark). • Justifies the selection of the parallel method based on the critical nature of the accounting system (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-impl-1-1",
@@ -6932,7 +6307,6 @@
                       "SE-12-01",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "6 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -6953,11 +6327,6 @@
                       "Project Inception"
                     ],
                     "markingCriteria": "- Clearly describes the process of brainstorming (generating a list of ideas without judgment) (1 mark). • Clearly describes the process of mind-mapping (creating a visual diagram of related concepts) (1 mark). • Provides a clear point of comparison based on their structure (linear list vs. radial diagram) (1 mark). • Compares their primary goals (quantity of ideas vs. exploring relationships between ideas) (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-idea-tools-1-1",
@@ -7005,7 +6374,6 @@
                       "SE-12-01",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -7030,11 +6398,6 @@
                       "Sprint"
                     ],
                     "markingCriteria": "- Describes the rigid, sequential nature of the Waterfall model (1 mark). • Describes the flexible, iterative nature of the Agile approach (1 mark). • Explains how Agile's iterative cycles (sprints) accommodate change (1 mark). • Explains how Agile's emphasis on customer collaboration helps refine requirements over time (1 mark). • Provides a concluding statement summarising the suitability of Agile for uncertainty (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-15c330ec-8410-401e-a359-729c6b731f90",
@@ -7070,7 +6433,6 @@
                       "SE-12-01",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -7092,11 +6454,6 @@
                       "Stakeholder management"
                     ],
                     "markingCriteria": "- Makes a judgement on the significance of the challenges (e.g., 'significant and primarily cultural') (1 mark). • Provides evidence, discussing challenges related to mindset shifts (e.g., from 'big upfront design' to emergent design) (2 marks). • Provides evidence, discussing challenges related to stakeholder and client management (e.g., need for continuous engagement) (2 marks). • Draws a warranted conclusion about the nature of the transition (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-0bc68c6d-50fe-4a86-b632-e0ae3fbe43c7",
@@ -7132,7 +6489,6 @@
                       "SE-12-01",
                       "SE-12-05"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -7155,11 +6511,6 @@
                       "Verification"
                     ],
                     "markingCriteria": "- States a clear position that Waterfall is a justifiable choice for this context (1 mark). • Provides multiple lines of reasoning, explaining that requirements for such a system are fixed and known upfront (2 marks). • Provides further reasoning, highlighting the importance of rigorous documentation and formal verification at each stage, which are strengths of Waterfall (2 marks). • Addresses the unsuitability of Agile for a safety-critical context to strengthen the argument (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-1240ff86-0ee8-4523-9718-7da6ffc86ac3",
@@ -7195,7 +6546,6 @@
                       "SE-12-01",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "18 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -7218,11 +6568,6 @@
                       "Methodology"
                     ],
                     "markingCriteria": "- States a clear position, likely justifying Waterfall or a heavily Waterfall-leaning WAgile model (1 mark). • Provides multiple lines of reasoning for the chosen approach, based on the safety-critical nature of the project (3 marks). • Justifies the choice by systematically assessing the unsuitability of the other approaches (e.g., why pure Agile is too risky) (4 marks). • Builds a compelling, logical case linking project characteristics to methodological strengths (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-99fd7d11-acc4-4229-8ff1-06ebdd7c7e07",
@@ -7251,7 +6596,7 @@
                 ]
               },
               {
-                "id": "dp-1763034567890-ghij678",
+                "id": "dp-1763034567890-soceth1",
                 "description": "Explore social and ethical issues associated with project work, including working individually, collaboratively and responding to stakeholders",
                 "prompts": [
                   {
@@ -7263,7 +6608,6 @@
                     "linkedOutcomes": [
                       "SE-12-05"
                     ],
-                    "estimatedTime": "15 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -7286,11 +6630,6 @@
                       "Code of ethics"
                     ],
                     "markingCriteria": "- Identifies the key issue: the conflict between professional duty to the client and a broader ethical duty to society (2 marks). • Develops points for one perspective (the duty to fulfil the client's request), referencing contractual obligations (2 marks). • Develops points for the alternative perspective (the duty to refuse or raise concerns), referencing professional codes of ethics and potential societal harm (3 marks). • Provides a balanced, nuanced treatment showing an understanding of the complexity and a proposed course of action (e.g., raising concerns, seeking guidance) (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-506c4dfb-b300-45a1-bd0b-0a61358353ec",
@@ -7326,7 +6665,6 @@
                       "SE-12-09",
                       "SE-12-01"
                     ],
-                    "estimatedTime": "4 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -7347,11 +6685,6 @@
                       "Feedback"
                     ],
                     "markingCriteria": "- Describes a first valid strategy (e.g., regular demos) with some detail (1.5 marks). • Describes a second, distinct valid strategy (e.g., involving them in prioritisation) with some detail (1.5 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-bf007102-2b8d-4dd5-8ac5-784b5b5f995f",
@@ -7386,7 +6719,6 @@
                     "linkedOutcomes": [
                       "SE-12-05"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -7410,11 +6742,6 @@
                       "Stakeholder Management"
                     ],
                     "markingCriteria": "- Makes a clear judgement on the ethical unacceptability of the request (1 mark). • Identifies the violation of user privacy as a key ethical issue (1 mark). • Identifies the lack of transparency and consent as another key issue (1 mark). • Assesses the engineer's professional duty to raise these concerns, potentially citing a professional code of conduct (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-ethics-1-1",
@@ -7456,7 +6783,6 @@
                       "SE-12-08",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "4 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -7476,11 +6802,6 @@
                       "Continual checking"
                     ],
                     "markingCriteria": "- Outlines the main point that it involves frequent, automated checks (1 mark). • Outlines that it provides rapid feedback to developers (1 mark). • Outlines that its purpose is to catch defects early (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-11e1a31a-ffc3-4c96-ba1c-7aa0a9c89d12",
@@ -7522,7 +6843,6 @@
                       "SE-12-01",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -7547,11 +6867,6 @@
                       "Feedback"
                     ],
                     "markingCriteria": "- Describes the key characteristics of the Waterfall approach (sequential, upfront planning) (1 mark). • Describes the key characteristics of the Agile approach (iterative, flexible) (1 mark). • Assesses Waterfall as suitable for the fixed requirements project, with justification (2 marks). • Assesses Agile as suitable for the evolving requirements project, with justification (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-agile-waterfall-1-1",
@@ -7592,7 +6907,6 @@
                     "linkedOutcomes": [
                       "SE-12-09"
                     ],
-                    "estimatedTime": "6 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -7615,11 +6929,6 @@
                       "Timeline"
                     ],
                     "markingCriteria": "- Describes the chart's primary purpose (visualising a project schedule) (1 mark). • Identifies tasks and a timeline as key components (1 mark). • Explains that the bars on the chart represent the duration of tasks (1 mark). • Describes the concept of task dependencies (linking tasks that must be done in sequence) (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-gantt-1-1",
@@ -7661,7 +6970,6 @@
                       "SE-12-01",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -7682,11 +6990,6 @@
                       "SDLC"
                     ],
                     "markingCriteria": "- Correctly identifies WAgile as a hybrid model combining Waterfall and Agile (1 mark). • Explains how the two are combined (e.g., Waterfall for planning, Agile for execution) (2 marks). • Describes a suitable scenario with both fixed and evolving requirements (1 mark). • Justifies why the hybrid approach is superior in that scenario (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-wagile-1-1",
@@ -7734,7 +7037,6 @@
                       "SE-12-06",
                       "SE-12-07"
                     ],
-                    "estimatedTime": "6 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -7758,11 +7060,6 @@
                       "Authentication"
                     ],
                     "markingCriteria": "- Explains how appropriate technology choices (e.g., language, database) contribute to success (e.g., via performance, scalability) (2 marks). • Explains how back-end security engineering (e.g., authentication, data protection) contributes to success (e.g., via user trust, data integrity) (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-04c1f2ac-3223-4c4d-b2af-eaf9bddc9d55",
@@ -7804,7 +7101,6 @@
                       "SE-12-09",
                       "SE-12-04"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -7826,11 +7122,6 @@
                       "Data loss"
                     ],
                     "markingCriteria": "- Proposes a clear, multi-layered backup strategy (2 marks). • The proposal correctly applies the '3-2-1 rule' (3 copies, 2 media, 1 off-site) (3 marks). • Justifies the proposal by explaining how it protects against various data loss scenarios (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-cea47ece-6878-4f38-9069-5accb5a3bbb5",
@@ -7872,7 +7163,6 @@
                       "SE-12-06",
                       "SE-12-01"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -7894,11 +7184,6 @@
                       "User testing"
                     ],
                     "markingCriteria": "- Proposes a clear and innovative feature for a to-do list app (2 marks). • Describes the steps to create a low-fidelity prototype (e.g., paper sketch, wireframe) (2 marks). • Explains how this prototype would be used to test the UI design with users (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-baaa01cb-8e4d-4346-bf43-ee6bde609a11",
@@ -7940,7 +7225,6 @@
                       "SE-12-09",
                       "SE-12-02"
                     ],
-                    "estimatedTime": "4 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -7960,11 +7244,6 @@
                       "Collaboration"
                     ],
                     "markingCriteria": "- Describes a first valid reason (e.g., for maintainability) with some detail (1.5 marks). • Describes a second, distinct valid reason (e.g., for collaboration) with some detail (1.5 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-f04398ce-d642-41e0-9a56-59e387633963",
@@ -7999,7 +7278,6 @@
                       "SE-12-02",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -8022,11 +7300,6 @@
                       "Logic"
                     ],
                     "markingCriteria": "- Provides correct and clear pseudocode for a linear search (2 marks). • The pseudocode handles the case where the item is not found (1 mark). • Provides a correct flowchart with standard symbols that matches the pseudocode logic (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-algo-doc-1-1",
@@ -8067,7 +7340,6 @@
                     "linkedOutcomes": [
                       "SE-12-09"
                     ],
-                    "estimatedTime": "2 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -8086,11 +7358,6 @@
                       "Source control"
                     ],
                     "markingCriteria": "- States the meaning of version control as a system for managing changes (1 mark). • Elaborates by mentioning that it tracks changes to files over time, allowing for recall of previous versions (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-9eee4e7b-8319-4c91-8cf2-198db7fcdf34",
@@ -8132,7 +7399,6 @@
                       "SE-12-06",
                       "SE-12-08"
                     ],
-                    "estimatedTime": "10 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -8155,11 +7421,6 @@
                       "Stack Overflow"
                     ],
                     "markingCriteria": "- Provides a clear evaluation of searching online (fast, common, but may not have an answer) (2 marks). • Provides a clear evaluation of collaborating with peers (fresh perspective, but takes others' time) (2 marks). • Provides a clear evaluation of creating a workaround (unblocks progress, but can be risky and create technical debt) (1 mark). • Makes a concluding judgement on the best overall approach (e.g., a combination in a specific order) (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-difficulties-1-1",
@@ -8206,7 +7467,6 @@
                     "linkedOutcomes": [
                       "SE-12-08"
                     ],
-                    "estimatedTime": "6 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -8230,11 +7490,6 @@
                       "Error detection"
                     ],
                     "markingCriteria": "- Clearly defines boundary value analysis (1 mark). • Provides a clear and correct example of its application (1 mark). • Evaluates its effectiveness by explaining why it is an efficient way to find errors (1 mark). • Acknowledges a limitation or contrasts it with other methods to support the evaluation (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      3,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-fb0f5f5a-180d-4630-9d10-9356d3171bae",
@@ -8270,7 +7525,6 @@
                       "SE-12-08",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -8292,11 +7546,6 @@
                       "Test plan"
                     ],
                     "markingCriteria": "- Proposes a clear plan with specific, actionable steps (2 marks). • The plan includes methods to gather more specific feedback (e.g., user interviews, observation) (1 mark). • The plan includes defining specific criteria on which to judge the UI's effectiveness (e.g., task completion time, error rate) (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-463416d8-d837-4148-9ee6-9b3d9d1e94c0",
@@ -8331,7 +7580,6 @@
                       "SE-12-08",
                       "SE-12-09"
                     ],
-                    "estimatedTime": "12 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -8355,11 +7603,6 @@
                       "Quality Assurance"
                     ],
                     "markingCriteria": "- Develops a structured test plan format (1 mark). • Includes at least two distinct test cases for path testing (e.g., valid, invalid) (2 marks). • Includes at least three distinct test cases for boundary value analysis on an input field (e.g., password length) (3 marks). • Provides clear expected outputs for all test cases (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-test-plan-1-1",
@@ -8400,7 +7643,6 @@
                     "linkedOutcomes": [
                       "SE-12-08"
                     ],
-                    "estimatedTime": "4 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -8418,11 +7660,6 @@
                       "Testing methodology"
                     ],
                     "markingCriteria": "- Indicates the key difference: knowledge of the internal workings of the code (3 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      2,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-98c0722e-85ee-4247-87d2-44326429662e",
@@ -8463,7 +7700,6 @@
                       "SE-12-02",
                       "SE-12-08"
                     ],
-                    "estimatedTime": "8 minutes",
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
                     "markerNotes": [
@@ -8486,11 +7722,6 @@
                       "Cache"
                     ],
                     "markingCriteria": "- Clearly explains memoization as an optimisation technique that caches function results (2 marks). • Provides a correct, un-optimised recursive Fibonacci function (1 mark). • Provides a correct, memoized version of the function that uses a cache to store and retrieve results (2 marks).",
-                    "targetPerformanceBands": [
-                      1,
-                      4,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-optimise-1-1",
@@ -8556,11 +7787,6 @@
                       "Explicit programming"
                     ],
                     "markingCriteria": "3 marks: Distinguishes clearly between AI and ML, identifying ML as a specific subset of AI that learns from data rather than relying solely on explicit rules.\n2 marks: Describes both concepts with some distinction, noting that ML involves learning or data.\n1 mark: Defines one term or provides a basic description of both without a clear distinction.",
-                    "targetPerformanceBands": [
-                      2,
-                      3,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-ai-ml-band6",
@@ -8608,11 +7834,6 @@
                       "Pattern recognition"
                     ],
                     "markingCriteria": "4 marks: Distinguishes effectively between AI and ML using the chess example to contrast rule-based logic with data-driven learning.\n3 marks: Distinguishes between AI and ML with a clear reference to the chess example.\n2 marks: Describes AI and ML using the example but the distinction is somewhat blurred.\n1 mark: Defines AI or ML with minimal reference to the example.",
-                    "targetPerformanceBands": [
-                      3,
-                      4,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-chess-band6",
@@ -8656,10 +7877,6 @@
                       "Relationship"
                     ],
                     "markingCriteria": "2 marks: States correctly that Machine Learning is a subset or sub-field of Artificial Intelligence.\n1 mark: States they are related or that one uses the other without defining the hierarchy.",
-                    "targetPerformanceBands": [
-                      2,
-                      3
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-ai-rel-band3",
@@ -8704,10 +7921,6 @@
                       "Clustering"
                     ],
                     "markingCriteria": "2 marks: Defines unsupervised learning accurately as training on unlabelled data to discover hidden patterns or structures.\n1 mark: States it involves learning without a teacher or labels.",
-                    "targetPerformanceBands": [
-                      2,
-                      3
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-unsup-def-band6",
@@ -8756,11 +7969,6 @@
                       "Clustering"
                     ],
                     "markingCriteria": "4 marks: Compares effectively by highlighting the difference in data (labelled vs unlabelled) and goal (prediction vs discovery), supported by specific examples.\n3 marks: Compares the two models with relevant examples, identifying the key difference in data type.\n2 marks: Describes both models with some reference to examples.\n1 mark: Defines one model or provides a limited comparison.",
-                    "targetPerformanceBands": [
-                      3,
-                      4,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-sup-unsup-band6",
@@ -8810,11 +8018,6 @@
                       "Trial and error"
                     ],
                     "markingCriteria": "4 marks: Explains comprehensively the agent-environment loop, the role of rewards/penalties, and the goal of maximising cumulative reward, integrated with the game example.\n3 marks: Explains the core concepts of agent, environment, and reward using the example.\n2 marks: Describes reinforcement learning as learning through trial and error with some reference to games.\n1 mark: limited understanding of the concept.",
-                    "targetPerformanceBands": [
-                      3,
-                      4,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-rl-band6",
@@ -8862,11 +8065,6 @@
                       "Accuracy"
                     ],
                     "markingCriteria": "5 marks: Distinguishes effectively between the two models based on data requirements and justifies semi-supervised learning by explicitly linking the high volume of unlabelled data and the high cost of labelling in the scenario.\n4 marks: Distinguishes the models clearly and provides a sound justification based on the scenario.\n3 marks: Describes both models and attempts to justify the choice.\n2 marks: Identifies semi-supervised learning as using some labelled data but explanation is general.\n1 mark: Basic definitions only.",
-                    "targetPerformanceBands": [
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-semi-band6",
@@ -8919,11 +8117,6 @@
                       "Classification"
                     ],
                     "markingCriteria": "3 marks: Describes the process clearly, including training on labelled datasets, feature extraction (identifying patterns like edges/shapes), and classification of new inputs.\n2 marks: Outlines the use of training data and pattern finding.\n1 mark: States that it uses algorithms to see or identify images.",
-                    "targetPerformanceBands": [
-                      2,
-                      3,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-img-rec-band6",
@@ -8972,11 +8165,6 @@
                       "Nuance"
                     ],
                     "markingCriteria": "5 marks: Analyses effectively the role of ML/NLP in moving beyond keyword matching to understanding intent and context, citing specific mechanisms like speech-to-text and semantic analysis.\n4 marks: Explains clearly how NLP helps assistants understand human speech and context.\n3 marks: Describes the process of understanding commands using ML.\n2 marks: Identifies that ML helps understand voice commands.\n1 mark: Limited understanding.",
-                    "targetPerformanceBands": [
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-vpa-band6",
@@ -9023,11 +8211,6 @@
                       "Inventory management"
                     ],
                     "markingCriteria": "4 marks: Explains comprehensively how ML analyses historical patterns (seasonality, trends) to forecast future demand, linking this directly to inventory optimisation.\n3 marks: Explains the use of data to predict sales and manage stock.\n2 marks: Describes using computers to check sales numbers.\n1 mark: Vague reference to data.",
-                    "targetPerformanceBands": [
-                      3,
-                      4,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-forecast-band6",
@@ -9073,11 +8256,6 @@
                       "Trends"
                     ],
                     "markingCriteria": "3 marks: Outlines the process of ingesting historical data, identifying complex patterns (trends/seasonality), and projecting these into the future.\n2 marks: Mentions using past data to predict the future.\n1 mark: General statement about prediction.",
-                    "targetPerformanceBands": [
-                      2,
-                      3,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-forecast-outline-band6",
@@ -9122,10 +8300,6 @@
                       "Recommendations"
                     ],
                     "markingCriteria": "2 marks: Identifies two distinct applications (e.g., facial recognition, voice assistants, recommendation engines).\n1 mark: Identifies one application.",
-                    "targetPerformanceBands": [
-                      2,
-                      3
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-apps-band3",
@@ -9173,11 +8347,6 @@
                       "Root cause analysis"
                     ],
                     "markingCriteria": "6 marks: Analyses effectively how ML shifts DevOps from reactive to proactive, citing specific applications like anomaly detection in logs and predictive failure analysis to enhance system reliability.\n5 marks: Explains clearly the integration of ML in DevOps (AIOps) with relevant examples.\n3-4 marks: Describes how ML helps with monitoring or testing in DevOps.\n1-2 marks: Identifies that ML can automate tasks in DevOps.",
-                    "targetPerformanceBands": [
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-devops-band6",
@@ -9225,11 +8394,6 @@
                       "Regression testing"
                     ],
                     "markingCriteria": "4 marks: Explains comprehensively how CI/CD triggers automated tests upon code commit, ensuring immediate feedback on bugs and preventing regression.\n3 marks: Explains the process of running tests automatically when code is saved.\n2 marks: Describes testing code automatically.\n1 mark: General statement about testing.",
-                    "targetPerformanceBands": [
-                      3,
-                      4,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-cicd-band6",
@@ -9277,11 +8441,6 @@
                       "OCR"
                     ],
                     "markingCriteria": "3 marks: Defines RPA accurately as software automating rule-based UI tasks, and outlines how ML (e.g., OCR/NLP) allows handling of unstructured data.\n2 marks: Defines RPA and mentions ML makes it smarter without specific detail.\n1 mark: Defines RPA or ML interaction poorly.",
-                    "targetPerformanceBands": [
-                      2,
-                      3,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-rpa-band6",
@@ -9327,10 +8486,6 @@
                       "Bugs"
                     ],
                     "markingCriteria": "2 marks: Identifies a specific benefit such as immediate feedback on bugs, faster deployment, or consistent quality checks.\n1 mark: States it is faster or better.",
-                    "targetPerformanceBands": [
-                      2,
-                      3
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-devops-ben-band3",
@@ -9379,11 +8534,6 @@
                       "Interpretability"
                     ],
                     "markingCriteria": "4 marks: Describes the tree structure (nodes, branches, leaves) and the traversal process using the loan example to illustrate splitting criteria and final classification.\n3 marks: Describes the model using the example, covering the basic logic of questions and answers.\n2 marks: Outlines a decision tree as a flowchart-like model.\n1 mark: Limited description.",
-                    "targetPerformanceBands": [
-                      3,
-                      4,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-dtree-band6",
@@ -9432,11 +8582,6 @@
                       "Decision boundary"
                     ],
                     "markingCriteria": "6 marks: Compares insightfully by contrasting the 'white box' transparency of decision trees with the 'black box' opacity of neural networks, explicitly linking this to the scenario's requirement for trust.\n5 marks: Compares the two models focusing on interpretability vs accuracy.\n3-4 marks: Describes both models with some comparison of their features.\n1-2 marks: Identifies that one is easier to understand than the other.",
-                    "targetPerformanceBands": [
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-compare-models-band6",
@@ -9482,10 +8627,6 @@
                       "Connections"
                     ],
                     "markingCriteria": "2 marks: Identifies two distinct components, such as layers (input/hidden/output), neurons (nodes), or weights.\n1 mark: Identifies one component.",
-                    "targetPerformanceBands": [
-                      2,
-                      3
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-nn-comp-band6",
@@ -9536,10 +8677,6 @@
                       "Voting"
                     ],
                     "markingCriteria": "2 marks: States clearly that K represents the number of nearest neighbours to be compared or counted for the prediction/voting.\n1 mark: States it is related to neighbours.",
-                    "targetPerformanceBands": [
-                      2,
-                      3
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-knn-k-band6",
@@ -9587,11 +8724,6 @@
                       "Classification"
                     ],
                     "markingCriteria": "4 marks: Describes the algorithm clearly: plotting in feature space, calculating distance to 'K' neighbours, and using a majority vote for classification, supported by a clear example.\n3 marks: Describes the core concept of finding similar neighbours to make a decision.\n2 marks: Outlines the basic idea of looking at neighbours.\n1 mark: Vague description.",
-                    "targetPerformanceBands": [
-                      3,
-                      4,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-knn-band6",
@@ -9640,11 +8772,6 @@
                       "Sigmoid function"
                     ],
                     "markingCriteria": "4 marks: Justifies the selection by correctly identifying the problem as binary classification (Yes/No), which aligns with Logistic Regression's output (probability mapped via sigmoid), whereas Linear Regression outputs a continuous value.\n3 marks: Explains that Logistic Regression is for categories and Linear is for numbers.\n2 marks: Identifies Logistic Regression is better for Yes/No.\n1 mark: General statement.",
-                    "targetPerformanceBands": [
-                      3,
-                      4,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-logistic-just-band6",
@@ -9693,11 +8820,6 @@
                       "Sigmoid function"
                     ],
                     "markingCriteria": "3 marks: Distinguishes clearly based on output type (continuous vs categorical/probability) and aligns each with the correct use case in the scenario.\n2 marks: Distinguishes the two algorithms with some reference to their different goals.\n1 mark: Defines one or both but differentiation is weak.",
-                    "targetPerformanceBands": [
-                      2,
-                      3,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-lin-log-band6",
@@ -9757,11 +8879,6 @@
                       "Attributes"
                     ],
                     "markingCriteria": "5 marks: Designs a robust OOP structure with a base class containing shared attributes/methods (fit, predict), and a subclass that inherits and extends functionality for polynomial processing, correctly applying encapsulation (private attributes).\n4 marks: Designs a correct class structure with inheritance and appropriate methods.\n3 marks: Outlines the classes but OOP principles like encapsulation are weak.\n2 marks: Provides basic pseudocode for a class.\n1 mark: Limited attempt at code.",
-                    "targetPerformanceBands": [
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-oop-poly-band6",
@@ -9807,10 +8924,6 @@
                       "Coefficients"
                     ],
                     "markingCriteria": "2 marks: Outlines two valid attributes such as slope/gradient/weights and intercept/bias.\n1 mark: Identifies one valid attribute.",
-                    "targetPerformanceBands": [
-                      2,
-                      3
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-oop-attr-band6",
@@ -9864,11 +8977,6 @@
                       "Prediction"
                     ],
                     "markingCriteria": "3 marks: Outlines correctly the distinct roles: Input (receives raw features), Hidden (extracts patterns/transformations), Output (delivers final prediction/probability).\n2 marks: Outlines the general flow of data through the layers.\n1 mark: Identifies the layers exist.",
-                    "targetPerformanceBands": [
-                      2,
-                      3,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-nn-layers-band6",
@@ -9917,11 +9025,6 @@
                       "Parameters"
                     ],
                     "markingCriteria": "5 marks: Constructs syntactically logical pseudocode that correctly demonstrates object instantiation, method calls for adding layers (with parameters like node count/activation), and a method call for prediction on new data.\n4 marks: Demonstrates the process clearly with correct OOP structure.\n3 marks: Demonstrates basic instantiation and usage but misses details like layer parameters.\n2 marks: Pseudocode is fragmented but shows intent.\n1 mark: Minimal attempt.",
-                    "targetPerformanceBands": [
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-nn-code-band6",
@@ -9966,10 +9069,6 @@
                       "Class"
                     ],
                     "markingCriteria": "2 marks: Identifies the concept as instantiation (creating an instance/object).\n1 mark: Identifies using a class.",
-                    "targetPerformanceBands": [
-                      2,
-                      3
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-inst-band3",
@@ -10020,11 +9119,6 @@
                       "Complex problem solving"
                     ],
                     "markingCriteria": "3 marks: Outlines the decline in demand for routine/manual skills and the concurrent rise in demand for complex, creative, and interpersonal skills.\n2 marks: Mentions that robots are taking easy jobs so people need harder skills.\n1 mark: General statement about jobs changing.",
-                    "targetPerformanceBands": [
-                      2,
-                      3,
-                      4
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-skills-band6",
@@ -10073,11 +9167,6 @@
                       "Risk reduction"
                     ],
                     "markingCriteria": "5 marks: Assesses effectively the shift in safety dynamics, contrasting the isolation of traditional robots with the active safety features of cobots (sensors, force limiting), and judging the net benefit to worker health (ergonomics).\n4 marks: Explains clearly how cobots improve safety compared to old robots.\n3 marks: Describes features of cobots related to safety.\n2 marks: Identifies that robots can be dangerous or safe.\n1 mark: General statement about robots.",
-                    "targetPerformanceBands": [
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-safety-band6",
@@ -10126,11 +9215,6 @@
                       "Inclusivity"
                     ],
                     "markingCriteria": "6 marks: Evaluates insightfully the transformative impact of AI (e.g., Seeing AI, voice control) on independence and accessibility, acknowledging both the profound benefits and potential barriers (cost/bias).\n5 marks: Evaluates the positive impacts with clear examples of technology.\n3-4 marks: Describes how AI helps people with disabilities.\n1-2 marks: Identifies a helpful technology.",
-                    "targetPerformanceBands": [
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-disability-band6",
@@ -10179,11 +9263,6 @@
                       "Training costs"
                     ],
                     "markingCriteria": "6 marks: Evaluates the dual impact effectively, contrasting the high energy cost of training large models (negative) against the operational efficiencies AI enables in grids and logistics (positive), reaching a balanced conclusion.\n5 marks: Explains both positive and negative environmental impacts with examples.\n3-4 marks: Describes energy usage or environmental benefits.\n1-2 marks: States that computers use energy.",
-                    "targetPerformanceBands": [
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-env-band6",
@@ -10227,10 +9306,6 @@
                       "24/7 operation"
                     ],
                     "markingCriteria": "2 marks: States a specific improvement such as 24/7 operation without fatigue or increased precision reducing waste.\n1 mark: States it works faster.",
-                    "targetPerformanceBands": [
-                      2,
-                      3
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-eff-band3",
@@ -10275,10 +9350,6 @@
                       "Notifications"
                     ],
                     "markingCriteria": "2 marks: Identifies a specific influence mechanism (e.g., unpredictable rewards triggering dopamine or FOMO).\n1 mark: States that AI can make you addicted or stressed.",
-                    "targetPerformanceBands": [
-                      2,
-                      3
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-stress-band6",
@@ -10327,11 +9398,6 @@
                       "Acute stress response"
                     ],
                     "markingCriteria": "6 marks: Analyses insightfully how algorithms implement variable reinforcement (unpredictable rewards) to trigger dopamine responses, explicitly linking technical implementation (feed ranking) to psychological outcomes like habit formation and acute stress responses (e.g. FOMO/cortisol spikes).\n5 marks: Explains the link between algorithms and addictive behaviour using psychological terms.\n3-4 marks: Describes how apps keep you scrolling.\n1-2 marks: Identifies that apps are addictive.",
-                    "targetPerformanceBands": [
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-psych-band6",
@@ -10379,11 +9445,6 @@
                       "Respectful design"
                     ],
                     "markingCriteria": "4 marks: Explains effectively the need for adherence to protocols (e.g., secret/sacred knowledge restrictions, deceased persons) and the concept of Indigenous Data Sovereignty in AI training.\n3 marks: Explains that cultural rules affect what data can be used.\n2 marks: Describes the need to be respectful of culture.\n1 mark: General statement about culture.",
-                    "targetPerformanceBands": [
-                      3,
-                      4,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-culture-band6",
@@ -10435,10 +9496,6 @@
                       "Sampling"
                     ],
                     "markingCriteria": "2 marks: Defines dataset source bias accurately as the use of training data that is unrepresentative of the real-world population it models.\n1 mark: States it means the data is wrong or unfair.",
-                    "targetPerformanceBands": [
-                      2,
-                      3
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-source-bias-band6",
@@ -10486,11 +9543,6 @@
                       "Human error"
                     ],
                     "markingCriteria": "4 marks: Explains clearly that supervised learning relies on 'ground truth' labels provided by humans, and if these humans unconsciously label inconsistently or incorrectly based on their own biases (e.g., ignoring non-standard pedestrians), the model learns these errors as facts, reducing reliability.\n3 marks: Explains that if humans make mistakes in labelling, the computer learns those mistakes.\n2 marks: Describes how humans label data for computers.\n1 mark: Vague statement about bias.",
-                    "targetPerformanceBands": [
-                      3,
-                      4,
-                      5
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-human-label-band6",
@@ -10539,11 +9591,6 @@
                       "Garbage in, garbage out"
                     ],
                     "markingCriteria": "5 marks: Analyses the causal chain from unrepresentative training data (source bias) to the model's failure to learn diverse features, resulting in discriminatory performance (algorithmic bias).\n4 marks: Explains clearly how bad data leads to bad AI results for specific groups.\n3 marks: Describes the problem of bias in data.\n2 marks: Identifies that the system is unfair.\n1 mark: Vague mention of bias.",
-                    "targetPerformanceBands": [
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-bias-band6",
@@ -10591,11 +9638,6 @@
                       "Inclusive design"
                     ],
                     "markingCriteria": "6 marks: Recommends three distinct, actionable strategies (e.g., diverse hiring, algorithmic auditing, synthetic data) with clear justification for how each mitigates specific risks.\n5 marks: Recommends strategies with good justification.\n3-4 marks: Suggests general ideas like 'check the data'.\n1-2 marks: Limited suggestions.",
-                    "targetPerformanceBands": [
-                      4,
-                      5,
-                      6
-                    ],
                     "sampleAnswers": [
                       {
                         "id": "sa-mitigate-band6",

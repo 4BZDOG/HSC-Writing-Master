@@ -60,7 +60,6 @@
                       "storytelling"
                     ],
                     "markingCriteria": "- 1 mark: Identifies one correct purpose (e.g., to simplify complex data). -\n1 mark: Identifies a second correct purpose (e.g., to tell a story or highlight key results).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-01-2m",
@@ -92,7 +91,6 @@
                       "highlighting results"
                     ],
                     "markingCriteria": "- 2 marks: Explains that visual elements like colour, size, and position can be used to create visual contrast and draw attention to key points (e.g., using red for a sharp increase). -\n2 marks: Explains that the human brain processes visual information more quickly than text, allowing an audience to instantly grasp trends, outliers, or patterns in a chart that would be hidden in a table of numbers.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-01-4m",
@@ -129,7 +127,6 @@
                       "data visualisation"
                     ],
                     "markingCriteria": "- 1 mark: Identifies one correct feature (e.g., chart/graphing tools). -\n1 mark: Identifies a second correct feature (e.g., conditional formatting).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-02-2m",
@@ -161,7 +158,6 @@
                       "infographic"
                     ],
                     "markingCriteria": "- 2 marks: Describes the role of the spreadsheet application: to analyse the raw data, perform calculations, and generate initial charts or tables to identify key insights. -\n2 marks: Describes the role of the creative design application: to import the key insights and charts from the spreadsheet and arrange them with custom graphics, icons, and text to create a visually appealing and narrative-driven infographic.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-02-4m",
@@ -197,7 +193,6 @@
                       "data analytics"
                     ],
                     "markingCriteria": "- 1 mark: Defines a trend as a general direction of data over a long period (e.g., increasing/decreasing). -\n1 mark: Defines a pattern as a recurring, predictable regularity in the data (e.g., seasonality).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-03-2m",
@@ -229,7 +224,6 @@
                       "comparing datasets"
                     ],
                     "markingCriteria": "- 2 marks: Explains how the council could identify a trend or correlation, such as observing that as public transport usage increases, air pollution levels consistently decrease. -\n2 marks: Explains how this identified relationship can be used for prediction. For example, they could model and predict that a 10% increase in bus and train usage would lead to a measurable improvement in air quality, allowing them to justify investment in public transport.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-03-4m",
@@ -266,7 +260,6 @@
                       "data analytics"
                     ],
                     "markingCriteria": "- 2 marks: Provides a clear outline, stating that increased processing power allows for the analysis of much larger datasets and the use of more complex algorithms (like machine learning) in a shorter amount of time.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-04-2m",
@@ -298,7 +291,6 @@
                       "data analytics"
                     ],
                     "markingCriteria": "- 2 marks: Investigates the impact of storage/memory, explaining that the falling cost and increasing density of storage (SSDs, cloud storage) and RAM allows for vast datasets to be stored affordably and accessed quickly. -\n2 marks: Investigates the impact of communication media, explaining that high-speed fibre optic networks allow massive datasets to be transferred quickly to and from the cloud, making remote processing and analysis feasible.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-04-4m",
@@ -333,7 +325,6 @@
                       "data analysis"
                     ],
                     "markingCriteria": "- 2 marks: Describes the primary function as enabling fast, multi-dimensional analysis of large amounts of data, often from a data warehouse.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-05-2m",
@@ -364,7 +355,6 @@
                       "multi-dimensional analysis"
                     ],
                     "markingCriteria": "- 1 mark: Identifies that the OLAP cube pre-aggregates data along the dimensions. -\n3 marks: Describes how the manager can perform operations like 'slicing' (viewing sales for one product), 'dicing' (viewing sales for a specific product in a specific location), and 'drilling down' (moving from annual sales to quarterly sales) to explore the data interactively.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-05-4m",
@@ -400,7 +390,6 @@
                       "validation"
                     ],
                     "markingCriteria": "- 1 mark: Defines source as where the data originates from. -\n1 mark: Defines validation as the process of checking the accuracy and quality of the data.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-06-2m",
@@ -432,7 +421,6 @@
                       "validation"
                     ],
                     "markingCriteria": "- 1 mark: Identifies the primary risk as presenting inaccurate information. -\n3 marks: Assesses the consequences of this risk, such as damage to the company's reputation, loss of customer trust, making poor business decisions based on the flawed data, and potential legal issues if the data is copyrighted.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-06-4m",
@@ -468,7 +456,6 @@
                       "data visualisation"
                     ],
                     "markingCriteria": "- 2 marks: Outlines that a data warehouse provides a single, centralised, and cleaned source of truth by integrating data from many different operational systems.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-07-2m",
@@ -500,7 +487,6 @@
                       "trends"
                     ],
                     "markingCriteria": "- 2 marks: Explains that data warehouses are specifically designed to store and manage vast amounts of historical data, unlike operational databases which typically only hold current data. -\n2 marks: Explains that because the warehouse contains both historical and current data in a structured, integrated format, visualisation tools can easily query and combine both datasets to show trends over time and make direct comparisons.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-07-4m",
@@ -537,7 +523,6 @@
                       "design"
                     ],
                     "markingCriteria": "- 1 mark: Identifies one challenge (e.g., overplotting/visual clutter). -\n1 mark: Identifies a second challenge (e.g., performance/load times).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-08-2m",
@@ -569,7 +554,6 @@
                       "scope"
                     ],
                     "markingCriteria": "- 2 marks: Explains that big data allows for the identification of subtle, large-scale patterns and correlations that are statistically insignificant or invisible in small samples. -\n2 marks: Provides a relevant example, such as a small survey showing a general preference, while big data analysis reveals specific regional or demographic micro-trends.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-08-4m",
@@ -606,7 +590,6 @@
                       "audience"
                     ],
                     "markingCriteria": "- 1 mark: Defines data source bias as a systematic flaw in the data collection that over- or under-represents a group. -\n1 mark: Defines audience bias as the tendency of the viewer to interpret the visualisation based on their pre-existing beliefs.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-09-2m",
@@ -640,7 +623,6 @@
                       "evaluate"
                     ],
                     "markingCriteria": "- 2 marks: Evaluates the bias in the data source, identifying it as selection bias because it excludes people who were not hired and is opt-in, meaning unhappy employees may not respond. -\n2 marks: Evaluates the role of unconscious bias, suggesting the analysts creating the visualisation may unintentionally choose metrics or chart types that portray the company in a more positive light. -\n2 marks: Makes a clear judgement that these biases make the resulting visualisation highly inaccurate and misleading, as it is based on a fundamentally flawed and unrepresentative sample of the hiring process.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-09-6m",
@@ -687,7 +669,6 @@
                       "Data analysis"
                     ],
                     "markingCriteria": "- 1 mark: Identifies an advantage (e.g., widely available, low cost, easy for simple tasks). -\n1 mark: Identifies a disadvantage (e.g., limited interactivity, poor performance with large data, not easily shared).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-7509d9bb-e8a6-42dd-80a7-117f9de66e75",
@@ -733,7 +714,6 @@
                       "evaluate"
                     ],
                     "markingCriteria": "- 2 marks: Evaluates the business analytics service, noting its effectiveness in terms of rapid development, lower initial cost, and broad feature set, but a lack of perfect customisation. -\n2 marks: Evaluates the custom software solution, noting its high cost and long development time, but its effectiveness in meeting highly specific security, branding, and functional requirements. -\n1 mark: Provides a final judgement, concluding that for a large enterprise with very specific needs, a custom solution is likely more effective in the long run despite the higher cost.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-10-5m",
@@ -769,7 +749,6 @@
                       "interrogate data"
                     ],
                     "markingCriteria": "- 1 mark: Defines aggregation as summarising data (e.g., calculating a total or average). -\n1 mark: Defines filtering as removing data points that do not meet a certain criterion.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-11-2m",
@@ -800,7 +779,6 @@
                       "reasoning"
                     ],
                     "markingCriteria": "- 2 marks: Explains the effect on the visualisation: the outlier will make the bar for that month extremely tall, forcing the y-axis to rescale and making the variation between the other, 'normal' months difficult to see. -\n2 marks: Explains the effect on reasoning: it can mislead the viewer into thinking the average rainfall is higher than it typically is. A critical viewer should reason that this outlier is an unusual event and may need to be investigated or excluded to understand the normal pattern.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-11-4m",
@@ -842,7 +820,6 @@
                       "relevance"
                     ],
                     "markingCriteria": "- 2 marks: Explains that different audiences have different goals and levels of data literacy, so a visualisation must be tailored to their needs to be understandable and useful.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-12-2m",
@@ -873,7 +850,6 @@
                       "live analysis"
                     ],
                     "markingCriteria": "- 2 marks: Explains how customisation (e.g., allowing users to choose which metrics to display) makes the dashboard more relevant and personal, improving user satisfaction and adoption. -\n2 marks: Explains how live analysis (e.g., data updating in real-time) makes the dashboard more useful for decision-making by providing the most current information, enhancing the user's sense of control and confidence in the data.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-12-4m",
@@ -910,7 +886,6 @@
                       "criteria"
                     ],
                     "markingCriteria": "- 1 mark: Identifies one valid criterion (e.g., clarity, efficiency, accuracy). -\n1 mark: Identifies a second valid criterion (e.g., user satisfaction, accessibility).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-13-2m",
@@ -943,7 +918,6 @@
                       "audience interpretation"
                     ],
                     "markingCriteria": "- 2 marks: Describes how to evaluate 'efficiency', for example, by timing how long it takes a manager to find a critical piece of information (e.g., a production line stoppage) using the dashboard. -\n2 marks: Describes how to evaluate 'audience interpretation', for example, by showing a manager a chart and asking them to explain what it means, to check if their interpretation matches the intended message.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-13-4m",
@@ -980,7 +954,6 @@
                       "user interface (UI)"
                     ],
                     "markingCriteria": "- 1 mark: Identifies an emerging hardware technology (e.g., AR/VR headsets, large multi-touch surfaces). -\n1 mark: States a plausible impact on UI design (e.g., moving from 2D charts to 3D immersive environments).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-14-2m",
@@ -1011,7 +984,6 @@
                       "user experience (UX)"
                     ],
                     "markingCriteria": "- 2 marks: Investigates one impact, such as using Natural Language Query, allowing users to ask questions in plain English instead of writing code, making analysis more accessible and improving UX. -\n2 marks: Investigates a second impact, such as automated insights, where the AI automatically analyses the data and suggests interesting visualisations or points out significant trends, reducing the user's workload.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-14-4m",
@@ -1053,7 +1025,6 @@
                       "relationships"
                     ],
                     "markingCriteria": "- 2 marks: Correctly identifies a scatter plot as the most appropriate chart type.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-15-2m",
@@ -1086,7 +1057,6 @@
                       "big data"
                     ],
                     "markingCriteria": "- 2 marks: Designs a core visualisation to show patterns, such as a heat map of the city showing usage by area, combined with a line chart showing usage over a 24-hour cycle. -\n1 mark: Incorporates interactivity, such as filters for weather conditions or day of the week. -\n2 marks: Describes how predictive analysis would be illustrated, for example, by showing a dotted line on the chart that forecasts the expected energy demand for the next 24 hours based on the weather forecast.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-15-5m",
@@ -1123,7 +1093,6 @@
                       "data backup"
                     ],
                     "markingCriteria": "- 1 mark: Describes cybersecurity as proactive measures to prevent unauthorised access or attacks. -\n1 mark: Describes data backup as a reactive measure to recover data after a loss event.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-16-2m",
@@ -1154,7 +1123,6 @@
                       "data backup"
                     ],
                     "markingCriteria": "- 2 marks: Explains the need for cybersecurity, focusing on preventing data breaches of sensitive customer information through measures like encryption, access controls, and network security to maintain confidentiality and meet legal obligations. -\n2 marks: Explains the need for a backup strategy, focusing on ensuring business continuity by being able to restore the data warehouse after an event like a ransomware attack or hardware failure, so that the visualisations and analytics can continue to function.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-16-4m",
@@ -1203,7 +1171,6 @@
                       "data types"
                     ],
                     "markingCriteria": "- 1 mark: Correctly identifies quantitative and qualitative data. -\n1 mark: Correctly identifies a suitable data type for each (e.g., Integer for quantitative, String for qualitative).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-01-2m",
@@ -1236,7 +1203,6 @@
                       "data types"
                     ],
                     "markingCriteria": "- 1 mark: Defines quantitative data. -\n1 mark: Defines qualitative data. -\n1 mark: Correctly links 'hours watched' to quantitative and 'reviews' to qualitative. -\n1 mark: Identifies appropriate data types (e.g., Integer/Float for hours, String/Text for reviews).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-01-4m",
@@ -1273,7 +1239,6 @@
                       "levels of measurement"
                     ],
                     "markingCriteria": "- 1 mark: Provides a correct definition for nominal data (categories with no order). -\n1 mark: Provides a correct definition for ordinal data (categories with a meaningful order).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-02-2m",
@@ -1305,7 +1270,6 @@
                       "measurement"
                     ],
                     "markingCriteria": "- 1 mark: Correctly identifies and describes 'city of origin' as nominal. -\n1 mark: Correctly identifies and describes 'room number' as nominal (or interval with justification). -\n2 marks: Correctly identifies and provides a clear description of 'satisfaction rating' as ordinal.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-02-4m",
@@ -1342,7 +1306,6 @@
                       "data sampling"
                     ],
                     "markingCriteria": "- 1 mark: Describes active data collection as requiring direct user input. -\n1 mark: Describes passive data collection as collecting data in the background without direct user action.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-03-2m",
@@ -1374,7 +1337,6 @@
                       "computerised methods"
                     ],
                     "markingCriteria": "- 1 mark: Explains the purpose of active collection (user-specific, contextual data). -\n1 mark: Explains the purpose of passive collection (continuous, objective data). -\n2 marks: Describes a clear benefit of computerised collection, such as efficiency, accuracy, or scale.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-03-4m",
@@ -1410,7 +1372,6 @@
                       "secondary data"
                     ],
                     "markingCriteria": "- 1 mark: Defines primary data as data collected firsthand. -\n1 mark: Defines secondary data as data collected by someone else.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-04-2m",
@@ -1442,7 +1403,6 @@
                       "secondary data"
                     ],
                     "markingCriteria": "- 1 mark: Identifies relevance as a potential issue. -\n1 mark: Explains why a 5-year-old report may not be relevant (outdated). -\n1 mark: Identifies validity as a potential issue. -\n1 mark: Explains why the report's validity might be low (e.g., different market conditions, different purpose).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-04-4m",
@@ -1479,7 +1439,6 @@
                       "immutable"
                     ],
                     "markingCriteria": "- 1 mark: Identifies immutability (cannot be changed). -\n1 mark: Identifies decentralisation (distributed ledger).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-05-2m",
@@ -1512,7 +1471,6 @@
                       "verify"
                     ],
                     "markingCriteria": "- 1 mark: States that each step in the supply chain is a transaction. -\n1 mark: Explains that each transaction is added as a block to the chain. -\n1 mark: Links immutability to preventing fraudulent records. -\n1 mark: Links transparency/decentralisation to how different parties can verify the item's history.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-05-4m",
@@ -1549,7 +1507,6 @@
                       "velocity"
                     ],
                     "markingCriteria": "- 1 mark: Defines volume as the large amount of data. -\n1 mark: Defines velocity as the high speed at which data is generated and processed.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-06-2m",
@@ -1582,7 +1539,6 @@
                       "data warehouse"
                     ],
                     "markingCriteria": "- 1 mark: Links 'volume' to the need for large, optimised storage. -\n1 mark: Links 'variety' (structured sales data, unstructured social media) to the need for a system that can integrate different data types. -\n1 mark: Links 'velocity' (real-time logs) to the need for efficient processing. -\n1 mark: States that a data warehouse is a centralised repository designed for analysis of such data.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-06-4m",
@@ -1626,7 +1582,6 @@
                       "bias"
                     ],
                     "markingCriteria": "- 1 mark: Identifies a relevant ethical issue (e.g., fairness, bias, transparency). -\n1 mark: Identifies a relevant legal issue (e.g., privacy laws, copyright).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-07-2m",
@@ -1658,7 +1613,6 @@
                       "algorithm"
                     ],
                     "markingCriteria": "- 2 marks: Clearly explains how training an algorithm on biased historical data leads to discriminatory outcomes. -\n1 mark: Links the biased outcome to a lack of fairness and accuracy. -\n1 mark: Suggests a reasonable mitigation strategy (e.g., auditing the data, using a more balanced dataset, implementing fairness checks).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-07-4m",
@@ -1700,7 +1654,6 @@
                       "relational database"
                     ],
                     "markingCriteria": "- 1 mark: Defines a primary key as a unique identifier for a record in a table. -\n1 mark: Defines a foreign key as a field that links to the primary key of another table.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-08-2m",
@@ -1733,7 +1686,6 @@
                       "computational thinking"
                     ],
                     "markingCriteria": "- 1 mark: Identifies 'TeamID' as the primary key in Teams and foreign key in Players. -\n1 mark: Explains that this key links a player to their team. -\n2 marks: Provides a correct SQL query that joins the two tables and filters by 'TeamName'.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-08-4m",
@@ -1782,7 +1734,6 @@
                       "applications"
                     ],
                     "markingCriteria": "- 1 mark: Identifies one valid application (e.g., inventory management). -\n1 mark: Identifies a second valid application (e.g., financial planning, medical diagnosis).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-is-01-2m",
@@ -1814,7 +1765,6 @@
                       "logistics"
                     ],
                     "markingCriteria": "- 2 marks: Explains how the DSS would gather and model data from various sources (e.g., traffic data, delivery locations, vehicle capacity, weather). -\n2 marks: Explains how the DSS would present several optimised route options to the manager, allowing them to use their judgement to make the final, informed decision based on the system's analysis.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-is-01-4m",
@@ -1852,7 +1802,6 @@
                       "decision-making"
                     ],
                     "markingCriteria": "- 1 mark: Describes structured decisions as routine and having clear rules. -\n1 mark: Describes unstructured decisions as complex and requiring human judgement. -\n1 mark: Describes semi-structured as having elements of both.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-is-02-3m",
@@ -1886,7 +1835,6 @@
                       "automated"
                     ],
                     "markingCriteria": "- 2 marks: Provides a clear example of a structured decision (e.g., approving a loan application based on credit score) and explains that the DSS would make an automated decision. -\n2 marks: Provides a clear example of a semi-structured decision (e.g., setting a marketing budget) and explains how the DSS provides analysis to support the manager's final judgement. -\n2 marks: Provides a clear example of an unstructured decision (e.g., deciding whether to merge with another company) and explains the DSS's role is limited to providing data and models for exploration.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-is-02-6m",
@@ -1924,7 +1872,6 @@
                       "user interface"
                     ],
                     "markingCriteria": "- 1 mark: Describes the knowledge base as storing facts and rules. -\n1 mark: Describes the inference engine as the 'brain' that applies logic. -\n1 mark: Describes the user interface as the component for user interaction.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-is-03-3m",
@@ -1957,7 +1904,6 @@
                       "diagnosis"
                     ],
                     "markingCriteria": "- 1 mark: Explains the role of the knowledge base (stores rules like 'IF battery is flat THEN car won't start'). -\n1 mark: Explains the role of the inference engine (applies logic to the rules). -\n1 mark: Explains forward chaining as data-driven (starts with facts to reach a conclusion). -\n1 mark: Explains backward chaining as goal-driven (starts with a hypothesis and works backward). -\n1 mark: Correctly applies chaining to the scenario (backward chaining is best for diagnosis).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-is-03-5m",
@@ -1995,7 +1941,6 @@
                       "intelligent system"
                     ],
                     "markingCriteria": "- 1 mark: Identifies a valid social issue (e.g., job displacement due to automation). -\n1 mark: Identifies a valid ethical issue (e.g., algorithmic bias, lack of accountability).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-is-04-2m",
@@ -2027,7 +1972,6 @@
                       "intelligent system"
                     ],
                     "markingCriteria": "- 2 marks: Investigates the issue of bias, explaining how the AI could be biased if trained on historical data that reflects societal prejudices, leading to harsher predictions for certain demographics. -\n2 marks: Investigates the issue of accountability, questioning who is responsible if the AI makes a flawed prediction that leads to an unjust outcome—the developer, the court, or the data provider? -\n1 mark: Provides a concluding statement on the seriousness of using such systems for life-altering decisions.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-is-04-5m",
@@ -2070,7 +2014,6 @@
                       "network"
                     ],
                     "markingCriteria": "- 1 mark: Identifies one component (e.g., end-point devices/sensors). -\n1 mark: Identifies a second component (e.g., network connectivity, cloud storage/servers).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-is-05-2m",
@@ -2103,7 +2046,6 @@
                       "edge computing"
                     ],
                     "markingCriteria": "- 2 marks: Explains the role of local servers (edge computing) for real-time processing, making low-latency decisions on the factory floor without needing to send data to the cloud. -\n2 marks: Explains the role of cloud storage for long-term data aggregation, storage, and large-scale analysis to identify historical trends and train machine learning models.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-is-05-4m",
@@ -2140,7 +2082,6 @@
                       "CCTV"
                     ],
                     "markingCriteria": "- 1 mark: Identifies one way (e.g., facial recognition). -\n1 mark: Identifies a second way (e.g., anomaly detection).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-is-06-2m",
@@ -2172,7 +2113,6 @@
                       "surveillance"
                     ],
                     "markingCriteria": "- 2 marks: Explains that the intelligent system builds a profile of the customer's normal spending habits (patterns, locations, amounts). -\n2 marks: Explains that when a new transaction occurs, the system analyses it in real-time against this profile. If the transaction is an anomaly (e.g., different country, unusually high amount), it flags it as potentially fraudulent and triggers an automated action like blocking the card or sending an alert.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-is-06-4m",
@@ -2215,7 +2155,6 @@
                       "knowledge base"
                     ],
                     "markingCriteria": "- 1 mark: Provides a valid fact (e.g., 'A dog needs a backyard'). -\n1 mark: Provides a valid, related IF-THEN rule (e.g., 'IF user_lives_in = apartment THEN pet_recommendation != dog').",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-is-07-2m",
@@ -2247,7 +2186,6 @@
                       "IF-THEN"
                     ],
                     "markingCriteria": "- 1 mark: Provides one logical IF-THEN rule. -\n1 mark: Provides a second logical IF-THEN rule. -\n1 mark: Provides a third logical IF-THEN rule that builds on the others. -\n1 mark: The set of rules follows a coherent diagnostic process.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-is-07-4m",
@@ -2287,7 +2225,6 @@
                       "actuator"
                     ],
                     "markingCriteria": "- 1 mark: Identifies a suitable input sensor (e.g., motion sensor, light sensor). -\n1 mark: Identifies a suitable output actuator (e.g., a light/LED).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-is-08-2m",
@@ -2320,7 +2257,6 @@
                       "outputs"
                     ],
                     "markingCriteria": "- 2 marks: Describes at least two inputs (e.g., light sensor, time-of-day clock, temperature sensor). -\n1 mark: Describes the outputs (the motor to open/close the blinds). -\n2 marks: Describes the processing logic that connects the inputs to the outputs (e.g., IF it is after 9am AND the light sensor detects bright sun AND the internal temperature is rising, THEN close the blinds).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-is-08-5m",
@@ -2357,7 +2293,6 @@
                       "streaming services"
                     ],
                     "markingCriteria": "- 2 marks: Outlines that an expert system (in the form of a recommendation engine) uses rules based on user viewing history and content metadata to efficiently suggest relevant content, improving user engagement and retention.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-is-09-2m",
@@ -2389,7 +2324,6 @@
                       "intelligent system"
                     ],
                     "markingCriteria": "- 2 marks: Explains the role of a perception expert system that interprets sensor data (from LiDAR, cameras) to identify objects like pedestrians and traffic lights. -\n2 marks: Explains the role of a path planning expert system that uses rules about road laws and vehicle dynamics to decide on a safe and efficient path. -\n2 marks: Explains how these systems work together in real-time, with the perception system's output (facts) being fed into the planning system's inference engine to make continuous, efficient, and safe driving decisions.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-is-09-6m",
@@ -2439,7 +2373,6 @@
                       "processes"
                     ],
                     "markingCriteria": "- 1 mark: Identifies a valid time management tool (e.g., Gantt chart). -\n1 mark: Identifies a valid development process (e.g., iterative approach, agile methodology).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-01-2m",
@@ -2472,7 +2405,6 @@
                       "project management"
                     ],
                     "markingCriteria": "- 2 marks: Describes an iterative approach, explaining that the system is developed in small, repeated cycles (iterations) of planning, design, building, and testing, allowing for flexibility and feedback. -\n2 marks: Describes the purpose and features of a Gantt chart, including tasks, durations, dependencies, and milestones, to track progress against a schedule. -\n1 mark: Links the two, explaining that the Gantt chart would be used to plan and track the tasks within each iteration.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-01-5m",
@@ -2509,7 +2441,6 @@
                       "projects"
                     ],
                     "markingCriteria": "- 1 mark: Identifies a valid benefit (e.g., lower labour costs, access to a larger talent pool). -\n1 mark: Identifies a valid challenge (e.g., time zone differences, communication barriers).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-02-2m",
@@ -2541,7 +2472,6 @@
                       "project management"
                     ],
                     "markingCriteria": "- 2 marks: Explains the effect of working remotely, focusing on the need for strong online collaboration tools and changes to management style (e.g., focusing on outcomes rather than hours worked). -\n2 marks: Explains the effect of freelance work, focusing on how projects can be resourced with specialised skills on a flexible, as-needed basis, but this requires clear contracts and well-defined tasks.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-02-4m",
@@ -2584,7 +2514,6 @@
                       "design tools"
                     ],
                     "markingCriteria": "- 1 mark: Describes a system flowchart as showing the flow of control and processing steps in a system. -\n1 mark: Describes a DFD as showing how data moves through a system, but not the processing logic.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-03-2m",
@@ -2616,7 +2545,6 @@
                       "tools"
                     ],
                     "markingCriteria": "- 2 marks: Describes how an online collaboration tool (e.g., Microsoft Teams, Google Workspace) is used to facilitate communication, share documents (like planning documents and diagrams), and coordinate tasks among the team, especially if they are remote. -\n2 marks: Describes how a budget is a critical planning tool used to estimate and allocate financial resources for all aspects of the project, such as hardware, software licenses, and staff salaries, and to track spending against the plan.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-03-4m",
@@ -2653,7 +2581,6 @@
                       "systems thinking"
                     ],
                     "markingCriteria": "- 1 mark: Describes computational thinking (breaking down problems logically). -\n1 mark: Describes design thinking (focusing on human needs and empathy). -\n1 mark: Describes systems thinking (understanding the whole system and its interconnections).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-04-3m",
@@ -2686,7 +2613,6 @@
                       "enterprise system"
                     ],
                     "markingCriteria": "- 2 marks: Describes the application of design thinking, such as conducting user research to understand customer needs, and creating prototypes to design an intuitive and easy-to-use interface. -\n2 marks: Describes the application of computational thinking, such as developers using decomposition to break the app into modules (e.g., login, transfer funds) and writing algorithms for each function. -\n2 marks: Describes the application of systems thinking, such as understanding how the app (the front-end) must securely connect with the bank's core banking servers, fraud detection systems, and other financial networks (the back-end).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-04-6m",
@@ -2729,7 +2655,6 @@
                       "requirements"
                     ],
                     "markingCriteria": "- 1 mark: Describes interviews as a tool for gathering deep, qualitative insights from a small number of people. -\n1 mark: Describes surveys as a tool for gathering quantitative data from a large number of people.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-05-2m",
@@ -2761,7 +2686,6 @@
                       "limitations"
                     ],
                     "markingCriteria": "- 2 marks: Explains that a prototype (an early, interactive model of the system) is shown to users to get concrete feedback on the user interface and functionality, helping to clarify and refine requirements. -\n2 marks: Explains that an analytical report (e.g., a feasibility study) is used to research and define the system's technical and financial limitations, such as budget constraints, hardware capabilities, or integration challenges with existing systems.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-05-4m",
@@ -2798,7 +2722,6 @@
                       "development approach"
                     ],
                     "markingCriteria": "- 1 mark: Describes waterfall as a linear, sequential approach where each phase must be completed before the next begins. -\n1 mark: Describes agile as an iterative and incremental approach that focuses on flexibility and customer feedback.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-06-2m",
@@ -2831,7 +2754,6 @@
                       "evaluate"
                     ],
                     "markingCriteria": "- 2 marks: Evaluates the approaches for the start-up, making a clear judgement that agile is highly suitable due to its flexibility in handling changing requirements and its focus on user feedback. -\n2 marks: Evaluates the approaches for the government agency, making a clear judgement that waterfall is more suitable because the requirements are stable and well-defined, allowing for detailed upfront planning and documentation. -\n2 marks: Provides clear reasoning for both judgements, linking the characteristics of the methodology to the specific needs of each project.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-06-6m",
@@ -2874,7 +2796,6 @@
                       "testing"
                     ],
                     "markingCriteria": "- 1 mark: Defines verification as checking if the system was built correctly (to specifications). -\n1 mark: Defines validation as checking if the right system was built (if it meets user needs).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-07-2m",
@@ -2907,7 +2828,6 @@
                       "testing"
                     ],
                     "markingCriteria": "- 2 marks: Explains that evaluating test data (checking actual output against expected output for given inputs) is a primary method of verification, as it confirms the system's logic and calculations adhere to the technical specifications. -\n2 marks: Explains that trialling the documentation with end-users is a key part of validation, as it helps confirm that the system is usable and that users can successfully learn and operate it to meet their business needs.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-07-4m",
@@ -2944,7 +2864,6 @@
                       "testing"
                     ],
                     "markingCriteria": "- 1 mark: Identifies and describes one type (e.g., corrective maintenance). -\n1 mark: Identifies and describes a second type (e.g., adaptive or perfective maintenance).",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-08-2m",
@@ -2976,7 +2895,6 @@
                       "testing"
                     ],
                     "markingCriteria": "- 2 marks: Explains the need for ongoing evaluation, focusing on how business needs, user expectations, and technology change over time, requiring the system to be continually assessed to ensure it remains effective and relevant. -\n2 marks: Explains the need for ongoing maintenance, such as adaptive maintenance to ensure the system works with new operating systems or browsers, and corrective maintenance to fix security vulnerabilities and bugs that emerge over time.",
-                    "targetPerformanceBands": [],
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-08-4m",

@@ -110,18 +110,35 @@ export interface Prompt {
   question: string;
   totalMarks: number;
   verb: PromptVerb;
-  highlightedQuestion?: string;
   scenario?: string;
   scenarioImage?: ScenarioImageRef;
   linkedOutcomes?: string[];
-  estimatedTime?: string;
   relatedTopics?: string[];
   prerequisiteKnowledge?: string[];
   markerNotes?: string[];
   commonStudentErrors?: string[];
   keywords?: string[];
   markingCriteria?: string;
-  targetPerformanceBands?: number[];
+  /*
+   * THREE FIELDS WERE REMOVED HERE, and it is worth saying why so they are not
+   * reintroduced by the next importer that meets them in an old file.
+   *
+   * `estimatedTime` and `targetPerformanceBands` were denormalised copies of
+   * values the app already derives — `getRecommendedTime(totalMarks, verbInfo)`
+   * and `bandsForQuestion(totalMarks, tier)`, both already in use. A stored
+   * copy cannot track a question whose verb or marks later change, and it did
+   * not: 188 stored bands named a band the question's own verb could never
+   * reach, e.g. band 3 and 4 on an OUTLINE capped at 2.
+   *
+   * `highlightedQuestion` held a markdown-emphasised duplicate of `question`
+   * from before `renderFormattedText` derived the emphasis itself. Zero of the
+   * 419 shipped questions carried one.
+   *
+   * None of the three was ever rendered, sent to a model, or present in
+   * `services/aiSchemas.ts`. Their database columns are left in place — all
+   * three are nullable or defaulted, so nothing breaks by not writing them —
+   * and Zod strips them from any old file on import.
+   */
   sampleAnswers?: SampleAnswer[];
   isPastHSC?: boolean;
   hscYear?: number;
